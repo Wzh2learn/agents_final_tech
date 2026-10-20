@@ -1,0 +1,1302 @@
+{
+  "evidence_identity": "INDEPENDENT_MACERD_DEVELOPMENT",
+  "generation_requests": 48,
+  "rows": [
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0271",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1690
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0272",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1683
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0273",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1767
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0276",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1694
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0332",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1253
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0335",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1258
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0384",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1747
+    },
+    {
+      "mode": "natural",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0386",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1747
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0271",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1692
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0272",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1685
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0273",
+      "valid": true,
+      "prediction": {
+        "relation": "causal",
+        "acceptable_decisions": [
+          "defer",
+          "reject"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.4,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1773
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0276",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1695
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0332",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1255
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0335",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1259
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0384",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1748
+    },
+    {
+      "mode": "natural",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0386",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1748
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0271",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1689
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0272",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1682
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0273",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1766
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0276",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1693
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0332",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1252
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0335",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1257
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0384",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1746
+    },
+    {
+      "mode": "natural",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0386",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1746
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0271",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1688
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0272",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1681
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0273",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1765
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0276",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1692
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0332",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1251
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0335",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1256
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0384",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1745
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0386",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1745
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0271",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1688
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0272",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1681
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0273",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1765
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0276",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1692
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0332",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1251
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0335",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1256
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0384",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1745
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0386",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1745
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0271",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1688
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0272",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1681
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0273",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1765
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0276",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0
+      },
+      "total_tokens": 1692
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0332",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0
+      },
+      "total_tokens": 1251
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0335",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.8571428571428571
+      },
+      "total_tokens": 1256
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0384",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1745
+    },
+    {
+      "mode": "matched_revise",
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0386",
+      "valid": true,
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ]
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6666666666666666
+      },
+      "total_tokens": 1745
+    }
+  ],
+  "run_accounting_tokens": 76994,
+  "schema": "macerd_feedback_probe_result_v1",
+  "status": "COMPLETE",
+  "summary": {
+    "natural:exact_match": {
+      "valid": 8,
+      "relation": 3,
+      "handling": 0,
+      "impact_f1": 0.375,
+      "preserved_f1": 0.7559523809523809
+    },
+    "natural:sufficiency_only": {
+      "valid": 8,
+      "relation": 3,
+      "handling": 0,
+      "impact_f1": 0.425,
+      "preserved_f1": 0.6488095238095238
+    },
+    "natural:composite": {
+      "valid": 8,
+      "relation": 3,
+      "handling": 0,
+      "impact_f1": 0.375,
+      "preserved_f1": 0.7559523809523809
+    },
+    "matched_revise:exact_match": {
+      "valid": 8,
+      "relation": 3,
+      "handling": 0,
+      "impact_f1": 0.375,
+      "preserved_f1": 0.7559523809523809
+    },
+    "matched_revise:sufficiency_only": {
+      "valid": 8,
+      "relation": 3,
+      "handling": 0,
+      "impact_f1": 0.375,
+      "preserved_f1": 0.7559523809523809
+    },
+    "matched_revise:composite": {
+      "valid": 8,
+      "relation": 3,
+      "handling": 0,
+      "impact_f1": 0.375,
+      "preserved_f1": 0.7559523809523809
+    }
+  }
+}

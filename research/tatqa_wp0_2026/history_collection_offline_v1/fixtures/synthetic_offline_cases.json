@@ -1,0 +1,86 @@
+{
+  "schema": "history_collection_offline_fixtures_v1",
+  "records": [
+    {
+      "table": {
+        "uid": "exact-table-a",
+        "table": [["Amount (million)", "2019", "2018"], ["Revenue", "10.5", "8.25"]]
+      },
+      "paragraphs": [{"uid": "p1", "order": 1, "text": "Revenue increased after the product launch."}]
+    },
+    {
+      "table": {
+        "uid": "exact-table-b",
+        "table": [["Amount (million)", "2019", "2018"], ["Revenue", "10.5", "8.25"]]
+      },
+      "paragraphs": [{"uid": "p2", "order": 1, "text": "The board approved a different capital plan."}]
+    },
+    {
+      "table": {
+        "uid": "table-conflict-a",
+        "table": [["", "2019", "2018"], ["Operating revenue", "125.50", "118.75"]]
+      },
+      "paragraphs": [{"uid": "p3", "order": 1, "text": "Operating revenue includes service subscriptions and hardware."}]
+    },
+    {
+      "table": {
+        "uid": "table-conflict-b",
+        "table": [["", "2019", "2018"], ["Operating revenue", "125.50", "118.75"]]
+      },
+      "paragraphs": [{"uid": "p4", "order": 1, "text": "A wholly unrelated discussion of dividends and share repurchases."}]
+    },
+    {
+      "table": {
+        "uid": "paragraph-reuse-a",
+        "table": [["", "2019", "2018"], ["Cash", "-1.25", "3.50"]]
+      },
+      "paragraphs": [{"uid": "p5", "order": 1, "text": "Cash declined because accounts receivable increased sharply during the year."}]
+    },
+    {
+      "table": {
+        "uid": "paragraph-reuse-b",
+        "table": [["", "2020", "2019"], ["Equity", "90", "80"]]
+      },
+      "paragraphs": [{"uid": "p6", "order": 1, "text": "Cash declined because accounts receivable increased sharply during the year."}]
+    },
+    {
+      "table": {
+        "uid": "distinct",
+        "table": [["", "2017", "2016"], ["Inventory", "5", "4"]]
+      },
+      "paragraphs": [{"uid": "p7", "order": 1, "text": "Inventory includes raw materials and finished goods only."}]
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": "fixture-valid",
+      "requested_quantity": "signed_difference",
+      "source_unit": "million",
+      "target_unit": "million",
+      "source_to_target_factor": 1.0,
+      "cells": {"late_value": 10.5, "early_value": 8.25},
+      "plan": {"tool": "calc", "params": {"expression": "10.5 - 8.25"}},
+      "answer": {"delta_source": 2.25, "delta_target": 2.25, "unit": "million"}
+    },
+    {
+      "task_id": "fixture-unit-conversion",
+      "requested_quantity": "signed_difference",
+      "source_unit": "thousand",
+      "target_unit": "million",
+      "source_to_target_factor": 0.001,
+      "cells": {"late_value": -1.25, "early_value": 3.5},
+      "plan": {"tool": "calc", "params": {"expression": "-1.25 - 3.5"}},
+      "answer": {"delta_source": -4.75, "delta_target": -0.00475, "unit": "million"}
+    },
+    {
+      "task_id": "fixture-unscorable",
+      "requested_quantity": "signed_difference",
+      "source_unit": "unit",
+      "target_unit": "unit",
+      "source_to_target_factor": 1.0,
+      "cells": {"late_value": "unknown", "early_value": 3},
+      "plan": {"tool": "calc", "params": {"expression": "1 - 3"}},
+      "answer": {"delta_source": -2, "delta_target": -2, "unit": "unit"}
+    }
+  ]
+}

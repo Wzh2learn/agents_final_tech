@@ -1,0 +1,113 @@
+{
+  "schema": "finrank_c1_verification_v1",
+  "status": "PASS",
+  "passed": 11,
+  "total": 11,
+  "checks": [
+    {
+      "name": "bundle_current",
+      "pass": true,
+      "observed": {
+        "schema": "finrank_c1_b0_fix_bundle_v2",
+        "sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca"
+      }
+    },
+    {
+      "name": "fixtures",
+      "pass": true,
+      "observed": {
+        "passed": 15,
+        "total": 15
+      }
+    },
+    {
+      "name": "runtime_non_generative",
+      "pass": true,
+      "observed": {
+        "health_ok": true,
+        "model_id_present": true,
+        "model_path_matches": true,
+        "chat_template_matches": true,
+        "thinking_disabled_boolean": true,
+        "max_tokens_256": true,
+        "json_object_response": true,
+        "endpoint_is_local_override": true
+      }
+    },
+    {
+      "name": "actor_reference_separated",
+      "pass": true,
+      "observed": {
+        "actor_tasks": 7,
+        "references": 7,
+        "human_confirmed": false
+      }
+    },
+    {
+      "name": "v1_preserved_as_engineering_failure",
+      "pass": true,
+      "observed": {
+        "requests": 14,
+        "engineering": 7
+      }
+    },
+    {
+      "name": "v2_complete_and_engineering_clean",
+      "pass": true,
+      "observed": {
+        "requests": 14,
+        "engineering": 0,
+        "semantic": 6,
+        "results": 7
+      }
+    },
+    {
+      "name": "raw_all_immutable_complete",
+      "pass": true,
+      "observed": {
+        "v1_request_files": 14,
+        "v1_response_files": 14,
+        "v1_crash_files": 0,
+        "v2_request_files": 14,
+        "v2_response_files": 14,
+        "v2_crash_files": 0
+      }
+    },
+    {
+      "name": "plan_sufficiency_recomputed",
+      "pass": true,
+      "observed": {
+        "b0_v2_plan_sufficient": 3,
+        "strong_rule_plan_sufficient": 7,
+        "tasks": 7
+      }
+    },
+    {
+      "name": "shared_ledger_complete",
+      "pass": true,
+      "observed": {
+        "requests_used": 28,
+        "accounting_tokens_used": 65864,
+        "v1_requests": 14,
+        "v2_requests": 14
+      }
+    },
+    {
+      "name": "zero_forbidden_research_calls",
+      "pass": true,
+      "observed": {
+        "judge_calls": 0,
+        "training_calls": 0,
+        "production_memory_writes": 0
+      }
+    },
+    {
+      "name": "strong_rule_zero_generation",
+      "pass": true,
+      "observed": {
+        "generation_requests": 0,
+        "results": 7
+      }
+    }
+  ]
+}

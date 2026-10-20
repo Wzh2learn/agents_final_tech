@@ -1,0 +1,31 @@
+{
+  "schema": "task_reference_manifest_comparison_v1",
+  "status": "BYTE_IDENTICAL",
+  "baseline_bundle_sha256": "0d13f55609633dd3c9943cc95036c59187297d7542c8bdc01a1812c5e965e3b5",
+  "baseline_manifest_path": "baseline_0d13f556/artifacts/TASK_REFERENCE_MANIFEST.json",
+  "baseline_manifest_sha256": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6",
+  "current_manifest_path": "TASK_REFERENCE_MANIFEST.json",
+  "current_manifest_sha256": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6",
+  "byte_identical": true,
+  "unchanged": {
+    "task_ids_and_selection": true,
+    "references": true,
+    "model_identity": true,
+    "generation_parameters": true,
+    "max_tokens": 256,
+    "prompt_plan_sha256": "6cd6c884fadb37df4d4da87c347b2fd87501d959d84c0d44c007373e6e1116f9",
+    "prompt_consume_sha256": "341dae3853e89ba3e3b956aeaa36dcd1b7c5f27babadc1da460e4f8ac727b107",
+    "runtime_policy_sha256": "6188e5ccd4259effd2f568df4ae897604f9d33ffd64f81ea8ec9ef0db989ffdc",
+    "source_split_sha256": "287b6c6acda66b550b5f65c998e87b1fabcb766779897145ec3b7b4bae1c0e72",
+    "sample_counts": {
+      "history": 12,
+      "future_test": 16,
+      "development": 4,
+      "qualification_fixtures": 3
+    }
+  },
+  "allowed_delta": {
+    "execution_plan_sha256": "f48224fb6ccdac328ce12501fb90496d11054881edbc6843c1d515e6bf016482",
+    "change": "fixture six requests moved ahead of 48 history requests; no task/reference change"
+  }
+}

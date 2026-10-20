@@ -1,0 +1,491 @@
+{
+  "contract_definitions": {
+    "composite_trace": "set_valued_sufficiency_scope_precision and all V1 answer atoms match",
+    "composite_trace_c2_sensitivity": "same as composite_trace, with ESD_006 required atoms reduced to derived_gross_profit and derived_gross_margin per C2_ROOT_CAUSE",
+    "exact_match": "consume selection equals one minimal set and all V1 answer atoms match",
+    "fact_coverage": "all V1 answer atoms match; evidence precision ignored",
+    "minimal_sufficient_set": "consume selection contains one minimal set; answer correctness ignored",
+    "set_valued_sufficiency_scope_precision": "consume contains one minimal set and uses only minimal/optional IDs"
+  },
+  "evidence_identity": {
+    "ai_development_reference": "REFERENCES_V1.json; human_confirmed=false and not human gold.",
+    "posthoc_feedback_intervention": "C4 deterministic contract scoring applied after observing B0; not a feedback channel available to the actor.",
+    "real_model_trace": "B0_V2_ENGINEERING_FIX plan/consume outputs and frozen checker fields recorded in B0_RESULT.json."
+  },
+  "schema": "real_trace_feedback_fixture_v1",
+  "schema_version": "real_trace_feedback_posthoc_v1",
+  "source_sha256": {
+    "../../finrank_dev/C1_RETURN.md": "3ef7f64059c21142c3cf021849bad66b8c3a776564e91d7638a1ffac44ba614e",
+    "../../finrank_dev/C2_ROOT_CAUSE.md": "182913729a4b2f196b055d09e7e90525bc8065145162026b431b4660ee099a12",
+    "../../finrank_dev/REFERENCES_V1.json": "df799e92f672d04b6015b521a8f0dbb9a8a1ba0af1c9d6716c3f2d01d1f1d4e0",
+    "../../finrank_dev/results/B0_V2_ENGINEERING_FIX/B0_RESULT.json": "9414d6927a571dd00a85687c0a530a1363869d0350740784fb80753182673e27"
+  },
+  "status": "POSTHOC_DEVELOPMENT_INTERVENTION_FIXTURE",
+  "traces": [
+    {
+      "ai_development_reference": {
+        "adjudication_note": "\u6309\u671f\u672b\u73b0\u91d1\u53ca\u73b0\u91d1\u7b49\u4ef7\u7269\u6784\u6210\u6392\u5e8f\uff1b\u53d7\u9650\u73b0\u91d1\u4e0e\u73b0\u91d1\u8c03\u8282\u8868\u4e0d\u80fd\u66ff\u4ee3\u6784\u6210\u660e\u7ec6\u3002",
+        "allowed_candidate_ids": [
+          "cand_001"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_001"
+          ]
+        ],
+        "optional_redundant": [],
+        "required_answer_atoms_c2_sensitivity": [
+          "largest_component",
+          "second_component"
+        ],
+        "required_answer_atoms_v1": [
+          "largest_component",
+          "second_component"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": false,
+          "matched_atoms": [],
+          "missing_atoms": [
+            "largest_component",
+            "second_component"
+          ]
+        },
+        "answer_status": "ANSWER",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_001"
+        ],
+        "consume_contract_valid": true,
+        "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+        "facts": [
+          {
+            "label": "Largest share of cash and cash equivalents",
+            "period": "2024-12-31",
+            "unit": "USD millions",
+            "value": "Cash and time deposits"
+          },
+          {
+            "label": "Second largest share of cash and cash equivalents",
+            "period": "2024-12-31",
+            "unit": "USD millions",
+            "value": "Money market funds"
+          }
+        ],
+        "outcome": "NON_SUCCESS",
+        "plan_candidate_ids": [
+          "cand_001",
+          "cand_003",
+          "cand_004"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_001"
+    },
+    {
+      "ai_development_reference": {
+        "adjudication_note": "cand_004 \u867d\u88ab\u6807\u4e3a GM/2025/10-K\uff0c\u6b63\u6587\u5217\u671f\u662f2023/2022/2021\uff0c\u4e0d\u80fd\u4f5c\u4e3a2024\u66ff\u4ee3\u8bc1\u636e\u3002\u5355\u9760\u5143\u6570\u636e\u5e74\u4efd\u7b5b\u9009\u4f1a\u8bef\u5224\u3002",
+        "allowed_candidate_ids": [
+          "cand_001"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_001"
+          ]
+        ],
+        "optional_redundant": [],
+        "required_answer_atoms_c2_sensitivity": [
+          "net_cash_financing"
+        ],
+        "required_answer_atoms_v1": [
+          "net_cash_financing"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": false,
+          "matched_atoms": [],
+          "missing_atoms": [
+            "net_cash_financing"
+          ]
+        },
+        "answer_status": "UNKNOWN",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_005"
+        ],
+        "consume_contract_valid": true,
+        "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+        "facts": [],
+        "outcome": "NON_SUCCESS",
+        "plan_candidate_ids": [
+          "cand_005"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_002"
+    },
+    {
+      "ai_development_reference": {
+        "adjudication_note": "\u503a\u52a1\u4f7f\u7528 carrying amount\uff1b\u6295\u8d44\u73b0\u91d1\u6d41\u4f7f\u7528\u5408\u5e76\u53e3\u5f84\u3002\u8d1f\u6570\u4ee3\u8868\u51c0\u6d41\u51fa\uff1b\u4e0d\u628a\u503a\u52a1 fair value 15,204 \u6216 automotive-only investing \u5f53\u540c\u4e00\u6307\u6807\u3002",
+        "allowed_candidate_ids": [
+          "cand_006",
+          "cand_007"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_006",
+            "cand_007"
+          ]
+        ],
+        "optional_redundant": [],
+        "required_answer_atoms_c2_sensitivity": [
+          "automotive_debt",
+          "investing_cash_flow"
+        ],
+        "required_answer_atoms_v1": [
+          "automotive_debt",
+          "investing_cash_flow"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": false,
+          "matched_atoms": [],
+          "missing_atoms": [
+            "automotive_debt",
+            "investing_cash_flow"
+          ]
+        },
+        "answer_status": "UNKNOWN",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_001",
+          "cand_006"
+        ],
+        "consume_contract_valid": true,
+        "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+        "facts": [],
+        "outcome": "NON_SUCCESS",
+        "plan_candidate_ids": [
+          "cand_001",
+          "cand_006"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_003"
+    },
+    {
+      "ai_development_reference": {
+        "adjudication_note": "\u91c7\u7528\u516c\u53f8\u62ab\u9732\u7684\u4e24\u4e2a\u6307\u6807\u5b9a\u4e49\uff1b\u4e0d\u4e0e Ford \u540c\u540d\u6307\u6807\u4e92\u6362\u3002",
+        "allowed_candidate_ids": [
+          "cand_003",
+          "cand_005"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_003",
+            "cand_005"
+          ]
+        ],
+        "optional_redundant": [],
+        "required_answer_atoms_c2_sensitivity": [
+          "roe",
+          "roic_adjusted"
+        ],
+        "required_answer_atoms_v1": [
+          "roe",
+          "roic_adjusted"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": false,
+          "matched_atoms": [],
+          "missing_atoms": [
+            "roe",
+            "roic_adjusted"
+          ]
+        },
+        "answer_status": "UNKNOWN",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_003"
+        ],
+        "consume_contract_valid": true,
+        "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+        "facts": [],
+        "outcome": "NON_SUCCESS",
+        "plan_candidate_ids": [
+          "cand_001",
+          "cand_003"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_004"
+    },
+    {
+      "ai_development_reference": {
+        "adjudication_note": "\u53c2\u8003\u7b97\u672f\u6210\u7acb\u3002\u8bc4\u5206\u53ea\u627f\u8ba4\u4e0a\u8ff0\u4e24\u884c\u8ba1\u7b97\u53e3\u5f84\uff0c\u4e0d\u80fd\u628a automotive and other cost of sales \u4f2a\u88c5\u6210\u6ca1\u6709 other \u7684\u72ec\u7acb\u5206\u90e8\u62ab\u9732\u3002",
+        "allowed_candidate_ids": [
+          "cand_005"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_005"
+          ]
+        ],
+        "optional_redundant": [],
+        "required_answer_atoms_c2_sensitivity": [
+          "derived_gross_profit",
+          "derived_gross_margin"
+        ],
+        "required_answer_atoms_v1": [
+          "automotive_revenue",
+          "automotive_other_cost",
+          "derived_gross_profit",
+          "derived_gross_margin"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": false,
+          "matched_atoms": [
+            "derived_gross_profit",
+            "derived_gross_margin"
+          ],
+          "missing_atoms": [
+            "automotive_revenue",
+            "automotive_other_cost"
+          ]
+        },
+        "answer_status": "ANSWER",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_005"
+        ],
+        "consume_contract_valid": true,
+        "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+        "facts": [
+          {
+            "label": "GM Automotive Gross Profit (2024)",
+            "period": "2024",
+            "unit": "million USD",
+            "value": 20541
+          },
+          {
+            "label": "GM Automotive Gross Margin Percentage (2024)",
+            "period": "2024",
+            "unit": "percent",
+            "value": 11.97
+          }
+        ],
+        "outcome": "NON_SUCCESS",
+        "plan_candidate_ids": [
+          "cand_004",
+          "cand_005"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_006"
+    },
+    {
+      "ai_development_reference": {
+        "adjudication_note": "cand_003\u8d44\u4ea7\u8d1f\u503a\u8868\u5df2\u540c\u65f6\u5305\u542b\u4e24\u4e2a\u6570\uff1bcand_007\u662f\u6709\u6548\u660e\u7ec6\u4f46\u4e0d\u5fc5\u540c\u65f6\u9009\u62e9\u3002\u539fgold\u8981\u6c42\u4e24\u6bb5\u4f1a\u8bef\u5224\u5145\u5206\u5b50\u96c6\u3002",
+        "allowed_candidate_ids": [
+          "cand_003",
+          "cand_007"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_003"
+          ]
+        ],
+        "optional_redundant": [
+          "cand_007"
+        ],
+        "required_answer_atoms_c2_sensitivity": [
+          "total_liabilities",
+          "other_long_term_liabilities"
+        ],
+        "required_answer_atoms_v1": [
+          "total_liabilities",
+          "other_long_term_liabilities"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": true,
+          "matched_atoms": [
+            "total_liabilities",
+            "other_long_term_liabilities"
+          ],
+          "missing_atoms": []
+        },
+        "answer_status": "ANSWER",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_003",
+          "cand_007"
+        ],
+        "consume_contract_valid": true,
+        "error_class": null,
+        "facts": [
+          {
+            "label": "Total Liabilities",
+            "period": "2024",
+            "unit": "million",
+            "value": 48390
+          },
+          {
+            "label": "Total Other Long-Term Liabilities",
+            "period": "2024",
+            "unit": "million",
+            "value": 10495
+          }
+        ],
+        "outcome": "SUCCESS",
+        "plan_candidate_ids": [
+          "cand_003",
+          "cand_005",
+          "cand_007"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_010"
+    },
+    {
+      "ai_development_reference": {
+        "adjudication_note": "\u53ea\u88c1\u51b3PPE\u65b9\u6cd5\u4e0e\u8d39\u7528\u8d8b\u52bf\uff1b\u672a\u8981\u6c42\u7684\u8d44\u4ea7\u6269\u5f20\u56e0\u679c\u63a8\u8bba\u4e0d\u8fdb\u5165\u8bc4\u5206\uff0csolar lease\u7cfb\u7edf\u6298\u65e7\u4e0d\u53ef\u66ff\u4ee3PPE\u8d39\u7528\u3002",
+        "allowed_candidate_ids": [
+          "cand_001",
+          "cand_005"
+        ],
+        "human_confirmed": false,
+        "minimal_sufficient_sets": [
+          [
+            "cand_001",
+            "cand_005"
+          ]
+        ],
+        "optional_redundant": [],
+        "required_answer_atoms_c2_sensitivity": [
+          "depreciation_method",
+          "ppe_depreciation_2022",
+          "ppe_depreciation_2023",
+          "ppe_depreciation_2024"
+        ],
+        "required_answer_atoms_v1": [
+          "depreciation_method",
+          "ppe_depreciation_2022",
+          "ppe_depreciation_2023",
+          "ppe_depreciation_2024"
+        ]
+      },
+      "real_trace": {
+        "answer_reference_match_v1": {
+          "match": false,
+          "matched_atoms": [
+            "depreciation_method"
+          ],
+          "missing_atoms": [
+            "ppe_depreciation_2022",
+            "ppe_depreciation_2023",
+            "ppe_depreciation_2024"
+          ]
+        },
+        "answer_status": "ANSWER",
+        "answer_tool_consistency": {
+          "cited_absent_ids": [],
+          "consistent": true,
+          "unsupported_numeric_values": []
+        },
+        "bundle_sha256": "be910bc82200466c5218912943ff5b896da5c734ecefe5f8bdd9acc36e7d08ca",
+        "consume_candidate_ids": [
+          "cand_005"
+        ],
+        "consume_contract_valid": true,
+        "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+        "facts": [
+          {
+            "label": "Depreciation method for PPE",
+            "period": null,
+            "unit": null,
+            "value": "straight-line method"
+          },
+          {
+            "label": "Depreciation of PPE development 2022-2024",
+            "period": "2022-2024",
+            "unit": null,
+            "value": "No material impairments of long-lived assets were recognized for the years ended December 31, 2024, 2023, and 2022."
+          }
+        ],
+        "outcome": "NON_SUCCESS",
+        "plan_candidate_ids": [
+          "cand_003",
+          "cand_005"
+        ],
+        "plan_contract_valid": true,
+        "run_id": "FINRANK_C1_B0_V2_ENGINEERING_FIX_20261020T031024.100294Z",
+        "tool_execution_success": true
+      },
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_012"
+    }
+  ]
+}

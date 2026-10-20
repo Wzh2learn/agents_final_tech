@@ -1,0 +1,22 @@
+{
+  "schema": "same_number_role_arm_protocol_v1",
+  "status": "FROZEN_BEFORE_ARM",
+  "arm": "C_RESIDUAL",
+  "task_order": [
+    "NR_exploratory_future_1604_N2",
+    "NR_exploratory_future_1604_P1",
+    "NR_exploratory_future_1792_N2",
+    "NR_exploratory_future_1792_P1"
+  ],
+  "context": {
+    "guidance": "Financial tables often repeat identical values across rows, periods, entities and accounting roles. Evidence relevance depends on the requested role and source context, not numeric equality alone."
+  },
+  "budget": {
+    "request_cap": 8,
+    "token_cap": 300000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "per_request_reserve_tokens": 10240
+  },
+  "deadline": "2026-10-19T22:00:00+08:00"
+}

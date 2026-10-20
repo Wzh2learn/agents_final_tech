@@ -1,0 +1,5567 @@
+{
+  "aggregate": [
+    {
+      "budget": 1,
+      "discovery_regret_to_oracle": 0.5384615384615385,
+      "fact_coverage_regret_to_oracle": 0.6153846153846154,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.2619047619047619,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.22619047619047616,
+      "strategy": "direct",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.2692307692307692,
+      "task_macro_sufficient_set_discovery_rate": 0.23076923076923078
+    },
+    {
+      "budget": 1,
+      "discovery_regret_to_oracle": 0.5384615384615385,
+      "fact_coverage_regret_to_oracle": 0.6153846153846154,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.2619047619047619,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.22619047619047616,
+      "strategy": "fixed",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.2692307692307692,
+      "task_macro_sufficient_set_discovery_rate": 0.23076923076923078
+    },
+    {
+      "budget": 1,
+      "discovery_regret_to_oracle": 0.6346153846153847,
+      "fact_coverage_regret_to_oracle": 0.7307692307692307,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.1607142857142857,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.14285714285714285,
+      "strategy": "random",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.15384615384615385,
+      "task_macro_sufficient_set_discovery_rate": 0.1346153846153846
+    },
+    {
+      "budget": 1,
+      "discovery_regret_to_oracle": 0.3076923076923077,
+      "fact_coverage_regret_to_oracle": 0.423076923076923,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.47619047619047616,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.47619047619047616,
+      "strategy": "lexical",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.46153846153846156,
+      "task_macro_sufficient_set_discovery_rate": 0.46153846153846156
+    },
+    {
+      "budget": 1,
+      "discovery_regret_to_oracle": 0.5384615384615385,
+      "fact_coverage_regret_to_oracle": 0.6538461538461537,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.23809523809523808,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.23809523809523808,
+      "strategy": "score_disagreement",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.23076923076923078,
+      "task_macro_sufficient_set_discovery_rate": 0.23076923076923078
+    },
+    {
+      "budget": 1,
+      "discovery_regret_to_oracle": 0.0,
+      "fact_coverage_regret_to_oracle": 0.0,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.8928571428571428,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.7857142857142857,
+      "strategy": "oracle",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.8846153846153846,
+      "task_macro_sufficient_set_discovery_rate": 0.7692307692307693
+    },
+    {
+      "budget": 2,
+      "discovery_regret_to_oracle": 0.7692307692307692,
+      "fact_coverage_regret_to_oracle": 0.7307692307692308,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.2619047619047619,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.22619047619047616,
+      "strategy": "direct",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.2692307692307692,
+      "task_macro_sufficient_set_discovery_rate": 0.23076923076923078
+    },
+    {
+      "budget": 2,
+      "discovery_regret_to_oracle": 0.5384615384615384,
+      "fact_coverage_regret_to_oracle": 0.5,
+      "mean_lookup_cost": 2.0,
+      "source_cluster_macro_fact_coverage": 0.5119047619047619,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.47619047619047616,
+      "strategy": "fixed",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.5,
+      "task_macro_sufficient_set_discovery_rate": 0.46153846153846156
+    },
+    {
+      "budget": 2,
+      "discovery_regret_to_oracle": 0.7884615384615384,
+      "fact_coverage_regret_to_oracle": 0.7596153846153846,
+      "mean_lookup_cost": 2.0,
+      "source_cluster_macro_fact_coverage": 0.25297619047619047,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.2261904761904762,
+      "strategy": "random",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.2403846153846154,
+      "task_macro_sufficient_set_discovery_rate": 0.21153846153846154
+    },
+    {
+      "budget": 2,
+      "discovery_regret_to_oracle": 0.3846153846153846,
+      "fact_coverage_regret_to_oracle": 0.2692307692307693,
+      "mean_lookup_cost": 2.0,
+      "source_cluster_macro_fact_coverage": 0.7380952380952381,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.6309523809523809,
+      "strategy": "lexical",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.7307692307692307,
+      "task_macro_sufficient_set_discovery_rate": 0.6153846153846154
+    },
+    {
+      "budget": 2,
+      "discovery_regret_to_oracle": 0.6153846153846154,
+      "fact_coverage_regret_to_oracle": 0.5769230769230769,
+      "mean_lookup_cost": 2.0,
+      "source_cluster_macro_fact_coverage": 0.4285714285714286,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.39285714285714285,
+      "strategy": "score_disagreement",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.4230769230769231,
+      "task_macro_sufficient_set_discovery_rate": 0.38461538461538464
+    },
+    {
+      "budget": 2,
+      "discovery_regret_to_oracle": 0.0,
+      "fact_coverage_regret_to_oracle": 0.0,
+      "mean_lookup_cost": 2.0,
+      "source_cluster_macro_fact_coverage": 1.0,
+      "source_cluster_macro_sufficient_set_discovery_rate": 1.0,
+      "strategy": "oracle",
+      "task_count": 13,
+      "task_macro_fact_coverage": 1.0,
+      "task_macro_sufficient_set_discovery_rate": 1.0
+    },
+    {
+      "budget": 3,
+      "discovery_regret_to_oracle": 0.7692307692307692,
+      "fact_coverage_regret_to_oracle": 0.7307692307692308,
+      "mean_lookup_cost": 1.0,
+      "source_cluster_macro_fact_coverage": 0.2619047619047619,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.22619047619047616,
+      "strategy": "direct",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.2692307692307692,
+      "task_macro_sufficient_set_discovery_rate": 0.23076923076923078
+    },
+    {
+      "budget": 3,
+      "discovery_regret_to_oracle": 0.3846153846153846,
+      "fact_coverage_regret_to_oracle": 0.3076923076923077,
+      "mean_lookup_cost": 3.0,
+      "source_cluster_macro_fact_coverage": 0.7023809523809523,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.6309523809523809,
+      "strategy": "fixed",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.6923076923076923,
+      "task_macro_sufficient_set_discovery_rate": 0.6153846153846154
+    },
+    {
+      "budget": 3,
+      "discovery_regret_to_oracle": 0.6730769230769231,
+      "fact_coverage_regret_to_oracle": 0.625,
+      "mean_lookup_cost": 3.0,
+      "source_cluster_macro_fact_coverage": 0.38690476190476186,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.34226190476190477,
+      "strategy": "random",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.375,
+      "task_macro_sufficient_set_discovery_rate": 0.3269230769230769
+    },
+    {
+      "budget": 3,
+      "discovery_regret_to_oracle": 0.23076923076923073,
+      "fact_coverage_regret_to_oracle": 0.15384615384615385,
+      "mean_lookup_cost": 3.0,
+      "source_cluster_macro_fact_coverage": 0.8452380952380952,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.7738095238095238,
+      "strategy": "lexical",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.8461538461538461,
+      "task_macro_sufficient_set_discovery_rate": 0.7692307692307693
+    },
+    {
+      "budget": 3,
+      "discovery_regret_to_oracle": 0.46153846153846156,
+      "fact_coverage_regret_to_oracle": 0.3846153846153846,
+      "mean_lookup_cost": 3.0,
+      "source_cluster_macro_fact_coverage": 0.6071428571428572,
+      "source_cluster_macro_sufficient_set_discovery_rate": 0.5357142857142857,
+      "strategy": "score_disagreement",
+      "task_count": 13,
+      "task_macro_fact_coverage": 0.6153846153846154,
+      "task_macro_sufficient_set_discovery_rate": 0.5384615384615384
+    },
+    {
+      "budget": 3,
+      "discovery_regret_to_oracle": 0.0,
+      "fact_coverage_regret_to_oracle": 0.0,
+      "mean_lookup_cost": 3.0,
+      "source_cluster_macro_fact_coverage": 1.0,
+      "source_cluster_macro_sufficient_set_discovery_rate": 1.0,
+      "strategy": "oracle",
+      "task_count": 13,
+      "task_macro_fact_coverage": 1.0,
+      "task_macro_sufficient_set_discovery_rate": 1.0
+    }
+  ],
+  "best_non_oracle_by_budget": [
+    {
+      "budget": 1,
+      "strategy": "lexical",
+      "task_macro_fact_coverage": 0.46153846153846156,
+      "task_macro_sufficient_set_discovery_rate": 0.46153846153846156
+    },
+    {
+      "budget": 2,
+      "strategy": "lexical",
+      "task_macro_fact_coverage": 0.7307692307692307,
+      "task_macro_sufficient_set_discovery_rate": 0.6153846153846154
+    },
+    {
+      "budget": 3,
+      "strategy": "lexical",
+      "task_macro_fact_coverage": 0.8461538461538461,
+      "task_macro_sufficient_set_discovery_rate": 0.7692307692307693
+    }
+  ],
+  "budgets": [
+    1,
+    2,
+    3
+  ],
+  "by_task": [
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.125,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_007"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.125,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_007"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_001"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_007"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 0.25,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_007"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 1.0,
+      "lookup_ids": [
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 1,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_005"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_002"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_004"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_002",
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_005"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005",
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_005",
+        "cand_003"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005",
+            "cand_003"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_007",
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_006",
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_003",
+        "cand_001"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_001"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_002",
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.125,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_002"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_002"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_007",
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_001",
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_001",
+        "cand_003"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_003"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_005"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_007",
+            "cand_008"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_004"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_001"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 0.25,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_005"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_001"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_001"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_001"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_004"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_005",
+        "cand_007"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005",
+            "cand_007"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_007"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_005"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_007",
+            "cand_002"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 2.0,
+      "lookup_ids": [
+        "cand_006",
+        "cand_003"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_007"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_004",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_007",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_007",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_003",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_003",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_007",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_007",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_004",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_007",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_003",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_008"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_006",
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_003",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_003",
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_003",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_004",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 2,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 2,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 1,
+      "lookup_ids": [
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "direct",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "fixed",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_005",
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005",
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_002",
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_002",
+        "cand_006",
+        "cand_005"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006",
+            "cand_005"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_005",
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_005",
+            "cand_006",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_005",
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_005",
+        "cand_003",
+        "cand_002"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005",
+            "cand_003",
+            "cand_002"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005",
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_007",
+            "cand_002",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.125,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_006",
+        "cand_004",
+        "cand_001"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_004",
+            "cand_001"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_004",
+            "cand_001"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_001",
+            "cand_006",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.0,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 0.25,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_003",
+        "cand_001",
+        "cand_005"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_001",
+            "cand_005"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_002",
+            "cand_004"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_003",
+            "cand_001"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_002",
+        "cand_006",
+        "cand_007"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006",
+            "cand_007"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_004",
+            "cand_001"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_006",
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005",
+            "cand_006"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_002",
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_002",
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_007",
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.5,
+          "lookup_ids": [
+            "cand_003",
+            "cand_006",
+            "cand_005"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_003",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_03",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_001",
+        "cand_003",
+        "cand_006"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_003",
+            "cand_006"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_004",
+            "cand_005"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_005",
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_005",
+            "cand_004"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.75,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_006",
+        "cand_003"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_007",
+            "cand_008",
+            "cand_002"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_004",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_001",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.75,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 0.25,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_005",
+        "cand_003"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_005",
+            "cand_003"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_006",
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_001",
+            "cand_002"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_006",
+            "cand_005"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_004",
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_004",
+            "cand_001",
+            "cand_002"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_001",
+            "cand_004"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_004",
+            "cand_001"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_003",
+            "cand_001"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 1.0,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_005",
+        "cand_007",
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_005",
+            "cand_007",
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_007",
+            "cand_003"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_005",
+            "cand_006"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_007",
+            "cand_002",
+            "cand_003"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": true
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.5,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.25,
+      "lookup_cost": 3.0,
+      "lookup_ids": [
+        "cand_006",
+        "cand_003",
+        "cand_004"
+      ],
+      "seed": "SEEDED_MACRO_AVERAGE",
+      "seed_detail": [
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_006",
+            "cand_003",
+            "cand_004"
+          ],
+          "seed": 1729,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_003",
+            "cand_007",
+            "cand_005"
+          ],
+          "seed": 20261020,
+          "sufficient_set_discovered": false
+        },
+        {
+          "fact_coverage": 1.0,
+          "lookup_ids": [
+            "cand_002",
+            "cand_001",
+            "cand_005"
+          ],
+          "seed": 314159,
+          "sufficient_set_discovered": true
+        },
+        {
+          "fact_coverage": 0.0,
+          "lookup_ids": [
+            "cand_001",
+            "cand_005",
+            "cand_004"
+          ],
+          "seed": 271828,
+          "sufficient_set_discovered": false
+        }
+      ],
+      "source_cluster_id": "source_component_02",
+      "strategy": "random",
+      "sufficient_set_discovered": 0.25,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_004",
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_004",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_006",
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_005",
+        "cand_007"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_004",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_007",
+        "cand_003",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_007",
+        "cand_005",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_003",
+        "cand_006",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_005",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_004",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_006",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_006",
+        "cand_008"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "lexical",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_003",
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001",
+        "cand_004"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_005",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_007",
+        "cand_005",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_02"
+      ],
+      "fact_coverage": 0.5,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_007",
+        "cand_003",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_004",
+        "cand_002",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_007",
+        "cand_006",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_004",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [],
+      "fact_coverage": 0.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_003",
+        "cand_006",
+        "cand_005"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": false,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_004",
+        "cand_006"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_008",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "score_disagreement",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_002"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_006",
+        "cand_007",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_003"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_003",
+        "cand_005",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_004"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_005",
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_003",
+        "cand_007",
+        "cand_001"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_010"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_005",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_03",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESD_012"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_003",
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_001"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_005"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_004",
+        "cand_001",
+        "cand_002"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_006"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_001",
+        "cand_002",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_007"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_009"
+    },
+    {
+      "budget": 3,
+      "covered_fact_ids": [
+        "anchor_01",
+        "anchor_02"
+      ],
+      "fact_coverage": 1.0,
+      "lookup_cost": 3,
+      "lookup_ids": [
+        "cand_002",
+        "cand_001",
+        "cand_003"
+      ],
+      "seed": null,
+      "source_cluster_id": "source_component_02",
+      "strategy": "oracle",
+      "sufficient_set_discovered": true,
+      "task_id": "ESH_010"
+    }
+  ],
+  "evidence_class": "DETERMINISTIC_OFFLINE_MECHANISM_PROBE",
+  "interpretation_limits": [
+    "The 13 tasks have already been reviewed and are development-only.",
+    "The oracle is reference-informed and cannot be interpreted as a realizable policy.",
+    "Anchor coverage is not full semantic answer correctness.",
+    "The transparent scores are mechanism probes, not learned retrieval models.",
+    "Only two source clusters are represented; task-macro and cluster-macro values are both reported."
+  ],
+  "metric_definitions": {
+    "fact_coverage": "Fraction of frozen supporting adjudication anchors whose candidate was looked up. Contrast/distractor anchors are recorded separately and do not count as useful facts.",
+    "lookup_cost": "Mean number of candidate lookups actually made.",
+    "regret_to_oracle": "Oracle task-macro rate minus strategy task-macro rate, floored at zero. The oracle uses reference labels and is only an upper bound.",
+    "sufficient_set_discovery": "The looked-up set contains at least one frozen minimal sufficient set. For ESD_010, cand_003 alone is sufficient; cand_007 is optional redundant support."
+  },
+  "protocol_version": "open_research_probes_dev_v1",
+  "random_seeds": [
+    1729,
+    20261020,
+    314159,
+    271828
+  ],
+  "resource_accounting": {
+    "judge_requests": 0,
+    "model_requests": 0,
+    "network_calls": 0,
+    "training_runs": 0
+  },
+  "schema": "active_evidence_probe_result_v1",
+  "scientific_scope": "Frozen finite-panel simulation of evidence-check ordering. It is not a model effect, natural experiment, deployed-agent result, or independent-generalization claim.",
+  "source_cluster_count": 2,
+  "status": "DEV_ONLY_SIMULATION_COMPLETED",
+  "strategies": [
+    "direct",
+    "fixed",
+    "random",
+    "lexical",
+    "score_disagreement",
+    "oracle"
+  ],
+  "task_count": 13
+}

@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"relation\\\": \\\"change\\\",\\n  \\\"acceptable_decisions\\\": [\\n    \\\"execute\\\",\\n    \\\"repair\\\"\\n  ],\\n  \\\"impact_node_ids\\\": [\\n    \\\"command:CMD-0000\\\",\\n    \\\"effector:EFF-0013\\\",\\n    \\\"relay:RLY-0000\\\",\\n    \\\"sensor:SNS-0014\\\"\\n  ],\\n  \\\"preserved_node_ids\\\": []\\n}\"}}],\"created\":1792506750,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":103,\"prompt_tokens\":1591,\"total_tokens\":1694,\"prompt_tokens_details\":{\"cached_tokens\":0}},\"id\":\"chatcmpl-TnJFn7q9EZhJXkxJbQdf4QVMzOUXHuBy\",\"timings\":{\"cache_n\":0,\"prompt_n\":1591,\"prompt_ms\":892.744,\"prompt_per_token_ms\":0.5611213073538656,\"prompt_per_second\":1782.1458335200236,\"predicted_n\":103,\"predicted_ms\":1632.904,\"predicted_per_token_ms\":15.853436893203883,\"predicted_per_second\":63.077804941380506}}"
+}

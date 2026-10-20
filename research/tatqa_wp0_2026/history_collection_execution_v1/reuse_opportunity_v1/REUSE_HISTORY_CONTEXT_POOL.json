@@ -1,0 +1,983 @@
+{
+  "schema": "reuse_history_context_pool_v1",
+  "status": "HISTORY_CONTEXTS_WITHOUT_INVENTED_LESSONS",
+  "experience_count": 12,
+  "contains_hardcoded_lesson": false,
+  "contains_hidden_reference": false,
+  "contains_future_answer": false,
+  "contains_fabricated_correction": false,
+  "experiences": [
+    {
+      "experience_id": "H01",
+      "task": {
+        "item_id": "H01",
+        "task": {
+          "row_label": "Revenue losses – UK",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Revenue losses – UK",
+              "300.8",
+              "398.4"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            },
+            "returned_value": 97.59999999999997,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 97.59999999999997,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            },
+            "returned_value": 97.59999999999997,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 97.59999999999997,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H02",
+      "task": {
+        "item_id": "H02",
+        "task": {
+          "row_label": "Share of post-tax (loss)/profit of associates",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Share of post-tax (loss)/profit of associates",
+              "2.3",
+              "(0.3)"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            },
+            "returned_value": -2.5999999999999996,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -2.6,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            },
+            "returned_value": -2.5999999999999996,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -2.6,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H03",
+      "task": {
+        "item_id": "H03",
+        "task": {
+          "row_label": "Depreciation",
+          "period_late": "2018/19",
+          "period_early": "2017/18",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017/18",
+              "2018/19"
+            ],
+            [
+              "Depreciation",
+              "(16.6)",
+              "(17.0)"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            },
+            "returned_value": -0.3999999999999986,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -0.3999999999999986,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            },
+            "returned_value": -0.3999999999999986,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -0.3999999999999986,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H04",
+      "task": {
+        "item_id": "H04",
+        "task": {
+          "row_label": "ISG",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "ISG",
+              "317.1",
+              "275.4"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            },
+            "returned_value": -41.700000000000045,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -41.7,
+            "unit": "currency"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            },
+            "returned_value": -41.700000000000045,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -41.7,
+            "unit": "currency"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H05",
+      "task": {
+        "item_id": "H05",
+        "task": {
+          "row_label": "ISG",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "ISG",
+              "768.9",
+              "757.3"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            },
+            "returned_value": -11.600000000000023,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -11.6,
+            "unit": "currency"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            },
+            "returned_value": -11.600000000000023,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -11.600000000000023,
+            "unit": "currency"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H06",
+      "task": {
+        "item_id": "H06",
+        "task": {
+          "row_label": "Total vessel values including newbuildings (broker values)",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Total vessel values including newbuildings (broker values)",
+              "1,661.1",
+              "1,801.5"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            },
+            "returned_value": 140.4000000000001,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 140.4000000000001,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            },
+            "returned_value": 140.4000000000001,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 140.4000000000001,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H07",
+      "task": {
+        "item_id": "H07",
+        "task": {
+          "row_label": "Bell Wireless",
+          "period_late": "Q4 2019",
+          "period_early": "Q4 2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Q4 2018",
+              "Q4 2019"
+            ],
+            [
+              "Bell Wireless",
+              "2,407",
+              "2,493"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            },
+            "returned_value": 86.0,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 86.0,
+            "unit": "currency"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            },
+            "returned_value": 86.0,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 86.0,
+            "unit": "currency"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H08",
+      "task": {
+        "item_id": "H08",
+        "task": {
+          "row_label": "Net rental income",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Net rental income",
+              "450.5",
+              "401.6"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            },
+            "returned_value": -48.89999999999998,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -48.9,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            },
+            "returned_value": -48.89999999999998,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -48.9,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H09",
+      "task": {
+        "item_id": "H09",
+        "task": {
+          "row_label": "Repayable within one year",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Repayable within one year",
+              "46.7",
+              "65.8"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            },
+            "returned_value": 19.099999999999994,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 19.099999999999994,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            },
+            "returned_value": 19.099999999999994,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 19.099999999999994,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H10",
+      "task": {
+        "item_id": "H10",
+        "task": {
+          "row_label": "Three to six months",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Three to six months",
+              "3.7",
+              "10.0"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            },
+            "returned_value": 6.3,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 6.3,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            },
+            "returned_value": 6.3,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 6.3,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H11",
+      "task": {
+        "item_id": "H11",
+        "task": {
+          "row_label": "Grocery",
+          "period_late": "2018/19",
+          "period_early": "2017/18",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017/18",
+              "2018/19"
+            ],
+            [
+              "Grocery",
+              "130.0",
+              "138.3"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            },
+            "returned_value": 8.300000000000011,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 8.3,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            },
+            "returned_value": 8.300000000000011,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": 8.300000000000011,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    },
+    {
+      "experience_id": "H12",
+      "task": {
+        "item_id": "H12",
+        "task": {
+          "row_label": "Investment in associates",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Investment in associates",
+              "65.6",
+              "53.7"
+            ]
+          ]
+        }
+      },
+      "actual_attempts": [
+        {
+          "attempt": 1,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            },
+            "returned_value": -11.899999999999991,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -11.9,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        },
+        {
+          "attempt": 2,
+          "operation": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            }
+          },
+          "tool_return": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            },
+            "returned_value": -11.899999999999991,
+            "status": "OK",
+            "error": null
+          },
+          "actual_answer": {
+            "status": "ANSWER",
+            "delta_target": -11.9,
+            "unit": "currency_million"
+          },
+          "feedback": "SUCCESS"
+        }
+      ],
+      "post_feedback_action_change": "NO_CHANGE",
+      "raw_complete": true
+    }
+  ]
+}

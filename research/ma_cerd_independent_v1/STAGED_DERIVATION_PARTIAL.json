@@ -1,0 +1,547 @@
+{
+  "rows": [
+    {
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003",
+          "observer:BASE-012:05"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-012:06"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0000": "impact",
+        "effector:EFF-0022": "impact",
+        "relay:RLY-0010": "impact",
+        "sensor:SNS-0003": "impact",
+        "observer:BASE-012:05": "impact",
+        "observer:BASE-012:06": "preserved"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 0.3333333333333333,
+        "handling": false,
+        "impact_f1": 0.5,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 3667
+    },
+    {
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0000": "impact",
+        "effector:EFF-0023": "impact",
+        "relay:RLY-0006": "impact",
+        "sensor:SNS-0024": "impact"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.0,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 4629
+    },
+    {
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "observer:BASE-030:05",
+          "observer:BASE-030:09"
+        ],
+        "preserved_node_ids": [
+          "sensor:SNS-0024",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0001": "impact",
+        "effector:EFF-0012": "impact",
+        "relay:RLY-0002": "impact",
+        "sensor:SNS-0024": "preserved",
+        "observer:BASE-030:05": "impact",
+        "observer:BASE-030:06": "preserved",
+        "observer:BASE-030:07": "preserved",
+        "observer:BASE-030:08": "preserved",
+        "observer:BASE-030:09": "impact"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.4444444444444444,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.6153846153846153,
+        "exact": false
+      },
+      "tokens": 4080
+    },
+    {
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002",
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0001": "impact",
+        "effector:EFF-0002": "impact",
+        "relay:RLY-0015": "impact",
+        "sensor:SNS-0012": "impact",
+        "observer:BASE-032:05": "impact",
+        "observer:BASE-032:06": "impact",
+        "observer:BASE-032:07": "impact",
+        "observer:BASE-032:08": "impact",
+        "observer:BASE-032:09": "impact"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 0.2222222222222222,
+        "handling": false,
+        "impact_f1": 0.3636363636363636,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 5375
+    },
+    {
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0002": "impact",
+        "effector:EFF-0030": "impact",
+        "relay:RLY-0006": "impact",
+        "sensor:SNS-0020": "impact"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 0.25,
+        "handling": false,
+        "impact_f1": 0.4,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 3354
+    },
+    {
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0002": "impact",
+        "effector:EFF-0013": "impact",
+        "relay:RLY-0015": "impact",
+        "sensor:SNS-0022": "impact",
+        "observer:BASE-036:05": "preserved",
+        "observer:BASE-036:06": "preserved",
+        "observer:BASE-036:07": "preserved",
+        "observer:BASE-036:08": "preserved",
+        "observer:BASE-036:09": "preserved"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.5555555555555556,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.7142857142857143,
+        "exact": false
+      },
+      "tokens": 5357
+    },
+    {
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0000": "impact",
+        "effector:EFF-0013": "impact",
+        "relay:RLY-0000": "impact",
+        "sensor:SNS-0014": "impact"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 1.0,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "tokens": 4602
+    },
+    {
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0003": "impact",
+        "effector:EFF-0029": "impact",
+        "relay:RLY-0000": "impact",
+        "sensor:SNS-0013": "impact"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.0,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 4620
+    },
+    {
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0006": "impact",
+        "effector:EFF-0006": "impact",
+        "relay:RLY-0000": "impact",
+        "sensor:SNS-0006": "impact",
+        "observer:BASE-044:05": "preserved",
+        "observer:BASE-044:06": "preserved"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.3333333333333333,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.5,
+        "exact": false
+      },
+      "tokens": 4946
+    },
+    {
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0003": "impact",
+        "effector:EFF-0029": "impact",
+        "relay:RLY-0004": "impact",
+        "sensor:SNS-0025": "impact"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.0,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 4620
+    },
+    {
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0031",
+          "relay:RLY-0005",
+          "sensor:SNS-0025",
+          "observer:BASE-068:05",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-068:06"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0006": "impact",
+        "effector:EFF-0031": "impact",
+        "relay:RLY-0005": "impact",
+        "sensor:SNS-0025": "impact",
+        "observer:BASE-068:05": "impact",
+        "observer:BASE-068:06": "preserved",
+        "observer:BASE-068:07": "impact",
+        "observer:BASE-068:08": "impact",
+        "observer:BASE-068:09": "impact"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 0.5555555555555556,
+        "handling": false,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.33333333333333337,
+        "exact": false
+      },
+      "tokens": 4101
+    },
+    {
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017",
+          "relay:RLY-0003",
+          "sensor:SNS-0008"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0005": "impact",
+        "effector:EFF-0017": "impact",
+        "relay:RLY-0003": "impact",
+        "sensor:SNS-0008": "impact",
+        "observer:BASE-071:05": "preserved",
+        "observer:BASE-071:06": "preserved"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 0.6666666666666666,
+        "handling": false,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.6666666666666666,
+        "exact": false
+      },
+      "tokens": 5120
+    },
+    {
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0004",
+          "effector:EFF-0006",
+          "relay:RLY-0008",
+          "sensor:SNS-0006"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ]
+      },
+      "node_classes": {
+        "command:CMD-0004": "impact",
+        "effector:EFF-0006": "impact",
+        "relay:RLY-0008": "impact",
+        "sensor:SNS-0006": "impact",
+        "observer:BASE-080:05": "preserved",
+        "observer:BASE-080:06": "preserved"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 1.0,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "tokens": 3671
+    },
+    {
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0022",
+          "relay:RLY-0001",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0001": "impact",
+        "effector:EFF-0022": "impact",
+        "relay:RLY-0001": "impact",
+        "sensor:SNS-0020": "impact"
+      },
+      "scores": {
+        "relation": true,
+        "node_accuracy": 1.0,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "tokens": 3366
+    },
+    {
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ],
+        "preserved_node_ids": []
+      },
+      "node_classes": {
+        "command:CMD-0007": "impact",
+        "effector:EFF-0012": "impact",
+        "relay:RLY-0013": "impact",
+        "sensor:SNS-0015": "impact"
+      },
+      "scores": {
+        "relation": false,
+        "node_accuracy": 0.0,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "tokens": 4593
+    }
+  ]
+}

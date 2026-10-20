@@ -1,0 +1,540 @@
+{
+  "schema": "tq5_selection_log_v1",
+  "status": "FROZEN",
+  "frozen_utc": "2026-10-16T08:45:05Z",
+  "spec": "TQ5_PANEL_SPEC_v2.md",
+  "spec_revision_note": "v1 (star100 rule) was inoperable on corpus encoding; revised to v2 (shape+encoding) before any model output; see spec v2 and v1 shortage record.",
+  "seed": "20261016",
+  "freeze_note": "No TQ-5 model outputs exist at freeze time; selection is structural + recomputation gates only.",
+  "exclusions": {
+    "sources": {
+      "origin_manifest": {
+        "path": "source_refs/origin_manifest.json",
+        "sha256": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea",
+        "count": 182
+      },
+      "pool_inventory": {
+        "path": "coordinator/pool_inventory.json",
+        "sha256": "4d77128f675e36100724e5b7ce45c803f8832411ece9702aa06584969774e5c0",
+        "count": 50
+      },
+      "tq_case_provenance": {
+        "sha256": "a74182ae44f8849ec4306f994ab465982d99e221972cf2b917331c0e5d7a138a",
+        "count": 12
+      },
+      "tq4_natural_log": {
+        "sha256": "e22b714b4ffb2de5a5669a2f665c33aa47e9f30533c883f307eae63b3c68062e",
+        "count": 4
+      }
+    },
+    "union_count": 221
+  },
+  "eligible_records": 2258,
+  "skip_counts": {
+    "record_excluded": 221,
+    "skip_answer_from": 3212,
+    "skip_answer_not_numeric": 4749,
+    "qualified_percentage_change": 1329,
+    "qualified_difference": 2147,
+    "skip_layer_unclassified": 1560,
+    "qualified_ratio": 493,
+    "skip_eval_mismatch": 19,
+    "skip_pct_encoding_ambiguous": 36,
+    "skip_eval_none": 9,
+    "skip_operand_missing": 2
+  },
+  "skip_details_sample": [
+    {
+      "uid": "06094f3c-c622-4bfb-85f3-ea64c4af0cc2",
+      "q": "d9b0bdec-a7fe-4a48-9762-94cf0ab84a75",
+      "derivation": "7,572 - (6,919) ",
+      "answer": 14491,
+      "eval": 653.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "06094f3c-c622-4bfb-85f3-ea64c4af0cc2",
+      "q": "f4abf4ae-2015-4e76-bbfb-c157c005e96d",
+      "derivation": "49,361 - (39,145) ",
+      "answer": 88506,
+      "eval": 10216.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "1ec06dfa-bc1e-4af2-8054-f63fa0262012",
+      "q": "64acd3bf-7c44-49b9-af92-66bfe6b5bb00",
+      "derivation": "1,210/11 ",
+      "reason": "operand_missing",
+      "missing": [
+        "11"
+      ]
+    },
+    {
+      "uid": "8d57125b-27d5-4708-b1ac-857e15991610",
+      "q": "d4505f51-bae0-41fa-bd02-1880393db83d",
+      "derivation": "4,798,201-(3,308,826)",
+      "answer": 8107027,
+      "eval": 1489375.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "4642f53e-a374-4488-a1db-110250bc80ab",
+      "q": "fd368b88-e34e-41a9-90c7-1a93e4e5f8a5",
+      "derivation": "(1.37) - 0.47 ",
+      "answer": -1.84,
+      "eval": 0.9000000000000001,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "d5b3ccf5-ec0b-4d63-af92-a2cd92bf5dfc",
+      "q": "e298c756-a587-4663-a927-e1fcb7fa8e80",
+      "derivation": "(5.3)/246.8",
+      "answer": -2.15,
+      "eval": 0.021474878444084276,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "711112cf-ac50-407a-a10e-9eb4f9ad23e7",
+      "q": "5e6ddb9b-a17b-408c-94c6-b6bc2c16f8d3",
+      "derivation": "-532,747 - (1,096,306) ",
+      "answer": 563559,
+      "eval": -1629053.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "aec92951-efc3-4126-9737-59e94a86f1e3",
+      "q": "b53d9e9b-0eef-49da-bdd4-f34d18aa9eb4",
+      "derivation": "$(19,761) / $51,279 - 1",
+      "answer": -138.54,
+      "eval": -0.6146375709354707,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "5565dab7-79ba-4864-900f-1dfddf4b9a3d",
+      "q": "c98ce5b1-c198-4581-83a7-8b23c12f843c",
+      "derivation": "-10,427-(13,755)",
+      "answer": 3328,
+      "eval": -24182.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "b5face45-4902-4461-8bfc-ef9fe252aec4",
+      "q": "0e52cb68-3dab-4466-9609-76013eddb91c",
+      "derivation": "13,346-(13,383)",
+      "answer": 26729,
+      "eval": -37.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "1bd763c9-f086-4d16-bd7a-17469c873ab4",
+      "q": "2310b4ae-447a-4253-932b-a075431bdbca",
+      "derivation": "11,717-(70,109)",
+      "answer": 81826,
+      "eval": -58392.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "1bd763c9-f086-4d16-bd7a-17469c873ab4",
+      "q": "58a0ee15-e122-48de-b588-f6137bd8877f",
+      "derivation": "(70,109)-1,293",
+      "answer": -71402,
+      "eval": 68816.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "ee155edc-e536-4d3a-8bc5-ef6de21e853d",
+      "q": "dda99cf6-b219-40dc-a422-0b91fd252f54",
+      "derivation": "(-1,045-(992))/-992",
+      "answer": 5.34,
+      "eval": 2.0534274193548385,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "91115dbf-74cd-4392-9632-927f3f17d5a4",
+      "q": "aed645fc-c254-4a26-8db0-a2a9e7ca10be",
+      "derivation": "37-(15)",
+      "answer": 52,
+      "eval": 22.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "8d2e337a-52eb-4c0f-ae43-34f2c4f03812",
+      "q": "1d54a109-88ba-4770-a3c0-d29d85f20c80",
+      "derivation": "-66,352-(21,295)",
+      "answer": -45057,
+      "eval": -87647.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "507a3949-1e6a-44f9-8ed7-880c2a4e5f10",
+      "q": "ac364cfe-4153-4b87-82b4-0ad972646903",
+      "derivation": "(734.5)-(200.1)",
+      "answer": -534.4,
+      "eval": 534.4,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "66cde60d-0bc2-4dcd-9881-fb7c2c74ee14",
+      "q": "37bb017a-6bce-441d-9679-ebbc2ee89892",
+      "derivation": "1,707-507",
+      "reason": "operand_missing",
+      "missing": [
+        "507"
+      ]
+    },
+    {
+      "uid": "ae7f0a39-8d84-43aa-bcc3-43dbf04d0586",
+      "q": "4d774391-15d3-4b71-93e0-1d9be4f81b64",
+      "derivation": "(83)-(258)",
+      "answer": 175,
+      "eval": -175.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "ae7f0a39-8d84-43aa-bcc3-43dbf04d0586",
+      "q": "1ce45158-34b1-4e9b-979e-ca82f7235b20",
+      "derivation": "(996)-(865)",
+      "answer": -131,
+      "eval": 131.0,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "a1ddd902-cd41-44a6-841d-551ff5e5dddf",
+      "q": "c94fe6c7-a0b9-43f3-881a-ab901e08d342",
+      "derivation": "-8.2-(10.9)",
+      "answer": 2.7,
+      "eval": -19.1,
+      "reason": "eval_mismatch"
+    },
+    {
+      "uid": "15348b2f-52e0-498d-b0ea-b73ae40815b3",
+      "q": "c36e2211-e46a-43d1-a0a8-ae87af347ae8",
+      "derivation": "-114 - (71)",
+      "answer": -43,
+      "eval": -185.0,
+      "reason": "eval_mismatch"
+    }
+  ],
+  "layer_scan_traces": {
+    "difference": [
+      {
+        "uid": "1cccc413-362e-448a-b759-ec17ce9b7082",
+        "q": "6ffc75de-8fde-43b8-b73d-ef839f823f12",
+        "outcome": "selected",
+        "rank_key": "00332ff6f9946b76"
+      },
+      {
+        "uid": "fe1ea22e-46a1-4cee-ad55-a16b6e74739d",
+        "q": "f2dbce41-d7fe-4a9d-a676-e08a2207c5ed",
+        "outcome": "selected",
+        "rank_key": "0034e71a63b8b229"
+      },
+      {
+        "uid": "c13323c3-200f-4a86-8370-8877c47314d7",
+        "q": "376c787f-b495-4479-b4d2-112e84a47a59",
+        "outcome": "selected",
+        "rank_key": "005371ee5f8cfa7f"
+      },
+      {
+        "uid": "c66e5d6e-947b-4bc4-bfe2-d6015fc23bb7",
+        "q": "33ea44b6-3948-4a0a-be69-a2d9af4bb8c4",
+        "outcome": "selected",
+        "rank_key": "009191cf68833533"
+      }
+    ],
+    "ratio": [
+      {
+        "uid": "dd5eac5a-de74-4ed4-b959-e6ad134e646b",
+        "q": "f17c34b4-17e4-478a-b9a8-cc490bbfcf0e",
+        "outcome": "selected",
+        "rank_key": "011524903c47b4b2"
+      },
+      {
+        "uid": "cce45fed-279f-4889-ac57-6f8faae6d170",
+        "q": "6871ffbe-a101-4138-aa82-9771c57ae608",
+        "outcome": "selected",
+        "rank_key": "0182f3f69201effc"
+      },
+      {
+        "uid": "3661fba5-2876-41d7-9213-e86a6d5078dd",
+        "q": "a2cb9957-a66b-4d6f-971e-3451e6b8fb01",
+        "outcome": "selected",
+        "rank_key": "018c71c57585a51c"
+      },
+      {
+        "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+        "q": "2eb9d7bb-cc0c-456d-9a1c-c398b477c470",
+        "outcome": "selected",
+        "rank_key": "022f75d924e78fd1"
+      }
+    ],
+    "percentage_change": [
+      {
+        "uid": "7fa11b39-7af2-408b-9ee2-03479d6f6ffe",
+        "q": "0f59d1f7-562f-4f9a-a0ff-1abba61accbe",
+        "outcome": "selected",
+        "rank_key": "009503f412a07690"
+      },
+      {
+        "uid": "1f358d9f-f5e6-4fcd-b495-d4721c968324",
+        "q": "54b1d801-1a3e-4f3d-8c30-4cf9befa09d5",
+        "outcome": "selected",
+        "rank_key": "009a324438d425e1"
+      },
+      {
+        "uid": "36395829-b7fb-49d5-b2ff-f2c53ac45631",
+        "q": "6dfce587-451b-44e4-b5af-ec6c8ce0505e",
+        "outcome": "selected",
+        "rank_key": "00a9e1540557bc15"
+      },
+      {
+        "uid": "bd504c68-5a6d-4726-aa21-05a9587a9894",
+        "q": "112df606-44d6-4a4c-92ce-6b76bdcabb49",
+        "outcome": "selected",
+        "rank_key": "00bbbf4a32761bd6"
+      }
+    ]
+  },
+  "selected": [
+    {
+      "task_id": "T01",
+      "layer": "difference",
+      "uid": "1cccc413-362e-448a-b759-ec17ce9b7082",
+      "question_uid": "6ffc75de-8fde-43b8-b73d-ef839f823f12",
+      "question": "What is the increase/ (decrease) in Pre-tax margin from 2017 to 2018",
+      "answer": -2.4,
+      "derivation": "10.2-12.6 ",
+      "encoding": "direct",
+      "unit_kind": "plain",
+      "abs_tolerance": 0.05,
+      "split": "train",
+      "record_index": 2056,
+      "rank_key": "00332ff6f9946b76",
+      "files": {
+        "inputs/T01.json": "e5c1593019a8a120aedf05545f8e0629a2b482bb4300c3623d666713d0d4b545",
+        "reference/T01.json": "19ae01a22513296dc6a76a51a737f7d5741b4a69334518409f97820c714f64c7",
+        "scoring/T01.json": "390c69df8d2db4911bdb0f567034abbf1aabbed34fe023a61901583b308a3b04"
+      }
+    },
+    {
+      "task_id": "T02",
+      "layer": "difference",
+      "uid": "fe1ea22e-46a1-4cee-ad55-a16b6e74739d",
+      "question_uid": "f2dbce41-d7fe-4a9d-a676-e08a2207c5ed",
+      "question": "What was the change in the Gross increases for tax positions of prior years from 2018 to 2019?",
+      "answer": 394,
+      "derivation": "394 - 0",
+      "encoding": "direct",
+      "unit_kind": "plain",
+      "abs_tolerance": 0.5,
+      "split": "train",
+      "record_index": 1061,
+      "rank_key": "0034e71a63b8b229",
+      "files": {
+        "inputs/T02.json": "2195fb84f5d3757fbdc49785ebe55259efb5f1fe9012e85ccd7505b7f36c8b5a",
+        "reference/T02.json": "bfea5a62e56610d4940592d26dce073928b06c3a7aadd8a77795797f486d96bf",
+        "scoring/T02.json": "e1f78eeb79ee7f06d69e5887511c18cbeddc165b7a4f69d6192454230efec2b1"
+      }
+    },
+    {
+      "task_id": "T03",
+      "layer": "difference",
+      "uid": "c13323c3-200f-4a86-8370-8877c47314d7",
+      "question_uid": "376c787f-b495-4479-b4d2-112e84a47a59",
+      "question": "What is the change in the total accumulated depreciation in 2019?",
+      "answer": 540,
+      "derivation": "2,118-1,578",
+      "encoding": "direct",
+      "unit_kind": "plain",
+      "abs_tolerance": 0.5,
+      "split": "train",
+      "record_index": 2074,
+      "rank_key": "005371ee5f8cfa7f",
+      "files": {
+        "inputs/T03.json": "fc51941f76e5c18e154c4c0080bbfd49a9dad47d82531af669e48712d5f9b19f",
+        "reference/T03.json": "707f3ee535f72336fc5d8e1307fbcc192ae7678f33902826caf56fecabe972d2",
+        "scoring/T03.json": "5940017eeb396ea34fc0507799c0785bf340cd9f26bf76054b1855c86ad37f5d"
+      }
+    },
+    {
+      "task_id": "T04",
+      "layer": "difference",
+      "uid": "c66e5d6e-947b-4bc4-bfe2-d6015fc23bb7",
+      "question_uid": "33ea44b6-3948-4a0a-be69-a2d9af4bb8c4",
+      "question": "What was the increase / (decrease) in the net revenues from March 31, 2019 to December 31 2019?",
+      "answer": -7614,
+      "derivation": "331,035 - 338,649",
+      "encoding": "direct",
+      "unit_kind": "plain",
+      "abs_tolerance": 0.5,
+      "split": "train",
+      "record_index": 750,
+      "rank_key": "009191cf68833533",
+      "files": {
+        "inputs/T04.json": "8dc1e2f16f1404d83622df8d799a3f85950a3fb77f63c18197b84800cf40e290",
+        "reference/T04.json": "e47dc4ee6f31d45a3f5d1d9d2e47157af4cf8ac95dc5ade2bd33b0eeb188c060",
+        "scoring/T04.json": "95b7c0913b60c027f9848ae11ac10fc20f4b5387afa0669eb111373598de6e42"
+      }
+    },
+    {
+      "task_id": "T05",
+      "layer": "ratio",
+      "uid": "dd5eac5a-de74-4ed4-b959-e6ad134e646b",
+      "question_uid": "f17c34b4-17e4-478a-b9a8-cc490bbfcf0e",
+      "question": "What is the average fair value of Order backlog?",
+      "answer": 1400,
+      "derivation": "1,400 / 1",
+      "encoding": "direct",
+      "unit_kind": "ratio",
+      "abs_tolerance": 0.5,
+      "split": "dev",
+      "record_index": 194,
+      "rank_key": "011524903c47b4b2",
+      "files": {
+        "inputs/T05.json": "6f95cbf6a1d9b397e67d1bb96719f5c2772db6c5cdc7fc340a117eb2beefb135",
+        "reference/T05.json": "5b783d4b7e8887bbb98ce0d546de47ace6bfbc27b0db360b29b8ce7b8f4182e0",
+        "scoring/T05.json": "b6548a90a85c7f06066eabce95d0236cbb9201f2e29b92697b8d048816babbbc"
+      }
+    },
+    {
+      "task_id": "T06",
+      "layer": "ratio",
+      "uid": "cce45fed-279f-4889-ac57-6f8faae6d170",
+      "question_uid": "6871ffbe-a101-4138-aa82-9771c57ae608",
+      "question": "What is the percentage of shares repurchased in Quarter ended December 23, 2018 in the total repurchased shares?",
+      "answer": 7.87,
+      "derivation": "1,693/21,517",
+      "encoding": "x100",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "split": "train",
+      "record_index": 951,
+      "rank_key": "0182f3f69201effc",
+      "files": {
+        "inputs/T06.json": "1d55d7c9f1dedf0336041f594b7986b9ddda53a3af34c294e98fbec827567dab",
+        "reference/T06.json": "c27780e15b6ce60293d90923e4f60204890cc3086f4f737bcea65f2a1175ecd8",
+        "scoring/T06.json": "6802a26247671b95b68f2940a918cbfdf2a46485bcf7dc99cf89c85a1d913872"
+      }
+    },
+    {
+      "task_id": "T07",
+      "layer": "ratio",
+      "uid": "3661fba5-2876-41d7-9213-e86a6d5078dd",
+      "question_uid": "a2cb9957-a66b-4d6f-971e-3451e6b8fb01",
+      "question": "What is the value of Kyocera resale products as a percentage of AVX's total sales in 2019? ",
+      "answer": 181.59,
+      "derivation": "18,951/10,436 ",
+      "encoding": "x100",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "split": "dev",
+      "record_index": 226,
+      "rank_key": "018c71c57585a51c",
+      "files": {
+        "inputs/T07.json": "320c4b533f1ce083bcf8fedd40201c196e6b5f46bd3a59804358c0bbfe8acf90",
+        "reference/T07.json": "b5c40790f40a34f0d95236b87d9558e63dabfbb85f33c28f8700db7a68b018a6",
+        "scoring/T07.json": "50627a5069f2bb9f534504fd1a3ce1e36e1e3124563add0bb05c2a0d910a8e6a"
+      }
+    },
+    {
+      "task_id": "T08",
+      "layer": "ratio",
+      "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+      "question_uid": "2eb9d7bb-cc0c-456d-9a1c-c398b477c470",
+      "question": "About how many common shares were there in total for all years?",
+      "answer": 502.66,
+      "derivation": "321.7/0.64",
+      "encoding": "direct",
+      "unit_kind": "ratio",
+      "abs_tolerance": 0.005,
+      "split": "train",
+      "record_index": 1304,
+      "rank_key": "022f75d924e78fd1",
+      "files": {
+        "inputs/T08.json": "92a6acd0691300e93ef54250af187aab7097ebbaba76d74cc9f3e82f15c2facf",
+        "reference/T08.json": "d9c7a9268ad8a0728a2ba82e165f7e0f299a3bc0c9fd7838faa8591d42bb0026",
+        "scoring/T08.json": "97df90ba7e35423e9083ec7f3f22df0399dd7efe781d9128a7290bedcea1cd09"
+      }
+    },
+    {
+      "task_id": "T09",
+      "layer": "percentage_change",
+      "uid": "7fa11b39-7af2-408b-9ee2-03479d6f6ffe",
+      "question_uid": "0f59d1f7-562f-4f9a-a0ff-1abba61accbe",
+      "question": "What was the percentage change in the Total amount in 2019 from 2018?",
+      "answer": 8.54,
+      "derivation": "(44.5-41.0)/41.0",
+      "encoding": "x100",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "split": "dev",
+      "record_index": 134,
+      "rank_key": "009503f412a07690",
+      "files": {
+        "inputs/T09.json": "b217d70a93e9327471e6ddd73674a1626e7cd917608755d1c3dc584cace7bf0d",
+        "reference/T09.json": "3dd2518a032ee96660d9c5a0958278f8e588e8152f1954f4f1921f43b57e8069",
+        "scoring/T09.json": "17059e79d57361b6fec86912eabb522fbe2f8fb43bfb9fd618ca4049c51bb360"
+      }
+    },
+    {
+      "task_id": "T10",
+      "layer": "percentage_change",
+      "uid": "1f358d9f-f5e6-4fcd-b495-d4721c968324",
+      "question_uid": "54b1d801-1a3e-4f3d-8c30-4cf9befa09d5",
+      "question": "What was the percentage change in total revenue between 2017 and 2018?",
+      "answer": 2.81,
+      "derivation": "(36,709-35,705)/35,705",
+      "encoding": "x100",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "split": "train",
+      "record_index": 2199,
+      "rank_key": "009a324438d425e1",
+      "files": {
+        "inputs/T10.json": "630aeff092aeb970047e7e85a5256f9667f054a0d6beea7aa8eefbd20eb3ff07",
+        "reference/T10.json": "a20a6f3e68215d66e15e6a7deccb1bcb15f607fa1cc906ea32df3a7f1f0d7bc2",
+        "scoring/T10.json": "f93fdeedca5ac97ee4137ef489ab03b00c9c99a6414f6ae8eab73f0f6aa35dc6"
+      }
+    },
+    {
+      "task_id": "T11",
+      "layer": "percentage_change",
+      "uid": "36395829-b7fb-49d5-b2ff-f2c53ac45631",
+      "question_uid": "6dfce587-451b-44e4-b5af-ec6c8ce0505e",
+      "question": "What is the percentage change in the revenue from public works from 2018 to 2019?",
+      "answer": -32.57,
+      "derivation": "(12,128-17,986)/17,986",
+      "encoding": "x100",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "split": "train",
+      "record_index": 768,
+      "rank_key": "00a9e1540557bc15",
+      "files": {
+        "inputs/T11.json": "edaa52749375181ee6a3cc648b69bd473c8868c863d0127a4df7089f465af5a5",
+        "reference/T11.json": "04a2b0170940a1b04acd9510ce02c72274c8e2b8086be1ffaba337d9b1ae3e46",
+        "scoring/T11.json": "5db85b993124098bd0631fee21855f2cc22c9970722e8979d0372f093bcd1d5a"
+      }
+    },
+    {
+      "task_id": "T12",
+      "layer": "percentage_change",
+      "uid": "bd504c68-5a6d-4726-aa21-05a9587a9894",
+      "question_uid": "112df606-44d6-4a4c-92ce-6b76bdcabb49",
+      "question": "What was the percentage change in revenues between 2018 and 2019?",
+      "answer": 5.67,
+      "derivation": "(1,177.2-1,114.0)/1,114.0",
+      "encoding": "x100",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "split": "train",
+      "record_index": 1842,
+      "rank_key": "00bbbf4a32761bd6",
+      "files": {
+        "inputs/T12.json": "81ff2b93afc6d065e446f49877ca71cc00d14bd574285b892b257e33001cd7ba",
+        "reference/T12.json": "0c8c71360f9650d0eafd2319df0b378534ba43e7c368c05c49193590b41fadf1",
+        "scoring/T12.json": "f320585703df4f217ce828636ac7b7e1ddb86bf12dc381a268ebbb072007a535"
+      }
+    }
+  ]
+}

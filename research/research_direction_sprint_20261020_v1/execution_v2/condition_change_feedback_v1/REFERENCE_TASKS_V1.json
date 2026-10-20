@@ -1,0 +1,729 @@
+{
+  "builder_version": "reference_builder_v1",
+  "policy_id": "expense_policy_v1",
+  "references": [
+    {
+      "canonical_sufficient_set": [
+        "CC001:receipt"
+      ],
+      "case_id": "CC001",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MEAL_CAP_EXCEEDED",
+        "rule_id": "post_meal_cap"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC001:manager_approval",
+        "CC001:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC001:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC001:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC001:receipt"
+      ],
+      "case_id": "CC001",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC001:manager_approval",
+        "CC001:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC001:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC001:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC002:receipt"
+      ],
+      "case_id": "CC002",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MEAL_CAP_EXCEEDED",
+        "rule_id": "post_meal_cap"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC002:card_statement",
+        "CC002:merchant_invoice",
+        "CC002:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC002:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC002:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC002:receipt"
+      ],
+      "case_id": "CC002",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 2
+      },
+      "in_scope_evidence_ids": [
+        "CC002:card_statement",
+        "CC002:merchant_invoice",
+        "CC002:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC002:receipt"
+        ],
+        [
+          "CC002:card_statement",
+          "CC002:merchant_invoice"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC002:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC003:receipt"
+      ],
+      "case_id": "CC003",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MEAL_CAP_EXCEEDED",
+        "rule_id": "post_meal_cap"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC003:manager_approval",
+        "CC003:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC003:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [
+        "CC003:team_note"
+      ],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC003:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC003:receipt"
+      ],
+      "case_id": "CC003",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC003:manager_approval",
+        "CC003:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC003:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [
+        "CC003:team_note"
+      ],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC003:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC004:receipt"
+      ],
+      "case_id": "CC004",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "post_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC004:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC004:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC004:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC004:receipt"
+      ],
+      "case_id": "CC004",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC004:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC004:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC004:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC005:manager_approval",
+        "CC005:receipt"
+      ],
+      "case_id": "CC005",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "post_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC005:manager_approval",
+        "CC005:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC005:manager_approval",
+          "CC005:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC005:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC005:manager_approval",
+        "CC005:receipt"
+      ],
+      "case_id": "CC005",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC005:manager_approval",
+        "CC005:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC005:manager_approval",
+          "CC005:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC005:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC006:receipt"
+      ],
+      "case_id": "CC006",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "post_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 2
+      },
+      "in_scope_evidence_ids": [
+        "CC006:card_statement",
+        "CC006:merchant_invoice",
+        "CC006:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC006:receipt"
+        ],
+        [
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC006:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC006:receipt"
+      ],
+      "case_id": "CC006",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 2
+      },
+      "in_scope_evidence_ids": [
+        "CC006:card_statement",
+        "CC006:merchant_invoice",
+        "CC006:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC006:receipt"
+        ],
+        [
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC006:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC007:receipt"
+      ],
+      "case_id": "CC007",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MANAGER_APPROVAL_REQUIRED",
+        "rule_id": "post_missing_manager_approval"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC007:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC007:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC007:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC007:receipt"
+      ],
+      "case_id": "CC007",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MANAGER_APPROVAL_REQUIRED",
+        "rule_id": "pre_missing_manager_approval"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC007:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC007:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC007:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC008:receipt"
+      ],
+      "case_id": "CC008",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "post_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC008:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC008:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC008:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC008:receipt"
+      ],
+      "case_id": "CC008",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC008:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC008:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC008:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC009:manager_approval",
+        "CC009:receipt"
+      ],
+      "case_id": "CC009",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "post_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC009:manager_approval",
+        "CC009:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC009:manager_approval",
+          "CC009:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [
+        "CC009:legacy_quote"
+      ],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC009:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC009:manager_approval",
+        "CC009:receipt"
+      ],
+      "case_id": "CC009",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC009:manager_approval",
+        "CC009:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC009:manager_approval",
+          "CC009:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [
+        "CC009:legacy_quote"
+      ],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC009:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC010:receipt"
+      ],
+      "case_id": "CC010",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MANAGER_APPROVAL_REQUIRED",
+        "rule_id": "post_missing_manager_approval"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC010:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC010:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC010:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC010:receipt"
+      ],
+      "case_id": "CC010",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MANAGER_APPROVAL_REQUIRED",
+        "rule_id": "pre_missing_manager_approval"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC010:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC010:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC010:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC011:manager_approval",
+        "CC011:receipt"
+      ],
+      "case_id": "CC011",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "post_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC011:manager_approval",
+        "CC011:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC011:manager_approval",
+          "CC011:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC011:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC011:manager_approval",
+        "CC011:receipt"
+      ],
+      "case_id": "CC011",
+      "decision": {
+        "outcome": "approve",
+        "reason_code": "POLICY_SATISFIED",
+        "rule_id": "pre_reimbursable"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC011:manager_approval",
+        "CC011:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC011:manager_approval",
+          "CC011:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC011:pre"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC012:receipt"
+      ],
+      "case_id": "CC012",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MANAGER_APPROVAL_REQUIRED",
+        "rule_id": "post_missing_manager_approval"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC012:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC012:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_post_v1",
+      "stage": "post",
+      "task_id": "CC012:post"
+    },
+    {
+      "canonical_sufficient_set": [
+        "CC012:receipt"
+      ],
+      "case_id": "CC012",
+      "decision": {
+        "outcome": "reject",
+        "reason_code": "MANAGER_APPROVAL_REQUIRED",
+        "rule_id": "pre_missing_manager_approval"
+      },
+      "derivation": {
+        "builder": "reference_builder_v1",
+        "gold_source": "declarative_policy_and_evidence_facts",
+        "minimal_set_count": 1
+      },
+      "in_scope_evidence_ids": [
+        "CC012:receipt"
+      ],
+      "minimal_sufficient_sets": [
+        [
+          "CC012:receipt"
+        ]
+      ],
+      "out_of_scope_evidence_ids": [],
+      "policy_version_id": "expense_policy_pre_v1",
+      "stage": "pre",
+      "task_id": "CC012:pre"
+    }
+  ],
+  "schema_version": "condition_change_references_v1"
+}

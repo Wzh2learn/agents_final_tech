@@ -1,0 +1,638 @@
+{
+  "baseline": {
+    "by_stage": {
+      "post": {
+        "answer_coverage_rate": 0.5,
+        "answer_covered_count": 6,
+        "composite_acceptance_rate": 0.3333333333333333,
+        "composite_accepted_count": 4,
+        "plan_precision_mean": 0.9444444444444445,
+        "plan_sufficient_count": 10,
+        "plan_sufficient_rate": 0.8333333333333334,
+        "tasks": 12
+      },
+      "pre": {
+        "answer_coverage_rate": 0.75,
+        "answer_covered_count": 9,
+        "composite_acceptance_rate": 0.5,
+        "composite_accepted_count": 6,
+        "plan_precision_mean": 0.9444444444444445,
+        "plan_sufficient_count": 11,
+        "plan_sufficient_rate": 0.9166666666666666,
+        "tasks": 12
+      }
+    },
+    "description": "Frozen historical heuristic: submit approve and retain the prior plan evidence IDs without reading policy or references.",
+    "name": "frozen_historical_prior_plan_v1",
+    "overall": {
+      "answer_coverage_rate": 0.625,
+      "answer_covered_count": 15,
+      "composite_acceptance_rate": 0.4166666666666667,
+      "composite_accepted_count": 10,
+      "plan_precision_mean": 0.9444444444444445,
+      "plan_sufficient_count": 21,
+      "plan_sufficient_rate": 0.875,
+      "tasks": 24
+    },
+    "rows": [
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC001:manager_approval",
+            "CC001:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC001",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "meals",
+        "stage": "post",
+        "task_id": "CC001:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC001:manager_approval",
+            "CC001:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC001",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "meals",
+        "stage": "pre",
+        "task_id": "CC001:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC002:card_statement",
+            "CC002:merchant_invoice"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC002",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": false,
+        "reference_outcome": "reject",
+        "source_cluster": "meals",
+        "stage": "post",
+        "task_id": "CC002:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC002:card_statement",
+            "CC002:merchant_invoice"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC002",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "meals",
+        "stage": "pre",
+        "task_id": "CC002:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC003:manager_approval",
+            "CC003:receipt",
+            "CC003:team_note"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC003",
+        "composite_accepted": false,
+        "plan_precision": 0.6666666666666666,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "meals",
+        "stage": "post",
+        "task_id": "CC003:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC003:manager_approval",
+            "CC003:receipt",
+            "CC003:team_note"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC003",
+        "composite_accepted": false,
+        "plan_precision": 0.6666666666666666,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "meals",
+        "stage": "pre",
+        "task_id": "CC003:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC004:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC004",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "meals",
+        "stage": "post",
+        "task_id": "CC004:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC004:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC004",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "meals",
+        "stage": "pre",
+        "task_id": "CC004:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC005:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC005",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": false,
+        "reference_outcome": "approve",
+        "source_cluster": "travel",
+        "stage": "post",
+        "task_id": "CC005:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC005:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC005",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": false,
+        "reference_outcome": "approve",
+        "source_cluster": "travel",
+        "stage": "pre",
+        "task_id": "CC005:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC006:card_statement",
+            "CC006:merchant_invoice"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC006",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "travel",
+        "stage": "post",
+        "task_id": "CC006:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC006:card_statement",
+            "CC006:merchant_invoice"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC006",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "travel",
+        "stage": "pre",
+        "task_id": "CC006:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC007:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC007",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "travel",
+        "stage": "post",
+        "task_id": "CC007:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC007:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC007",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "travel",
+        "stage": "pre",
+        "task_id": "CC007:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC008:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC008",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "office",
+        "stage": "post",
+        "task_id": "CC008:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC008:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC008",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "office",
+        "stage": "pre",
+        "task_id": "CC008:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC009:legacy_quote",
+            "CC009:manager_approval",
+            "CC009:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC009",
+        "composite_accepted": false,
+        "plan_precision": 0.6666666666666666,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "office",
+        "stage": "post",
+        "task_id": "CC009:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC009:legacy_quote",
+            "CC009:manager_approval",
+            "CC009:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC009",
+        "composite_accepted": false,
+        "plan_precision": 0.6666666666666666,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "office",
+        "stage": "pre",
+        "task_id": "CC009:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC010:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC010",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "office",
+        "stage": "post",
+        "task_id": "CC010:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC010:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC010",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "office",
+        "stage": "pre",
+        "task_id": "CC010:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC011:manager_approval",
+            "CC011:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC011",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "lodging",
+        "stage": "post",
+        "task_id": "CC011:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC011:manager_approval",
+            "CC011:receipt"
+          ]
+        },
+        "answer_covered": true,
+        "case_id": "CC011",
+        "composite_accepted": true,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "approve",
+        "source_cluster": "lodging",
+        "stage": "pre",
+        "task_id": "CC011:pre"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC012:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC012",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "lodging",
+        "stage": "post",
+        "task_id": "CC012:post"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC012:receipt"
+          ]
+        },
+        "answer_covered": false,
+        "case_id": "CC012",
+        "composite_accepted": false,
+        "plan_precision": 1.0,
+        "plan_sufficient": true,
+        "reference_outcome": "reject",
+        "source_cluster": "lodging",
+        "stage": "pre",
+        "task_id": "CC012:pre"
+      }
+    ]
+  },
+  "contract_probe": {
+    "contracts": [
+      "exact_match",
+      "sufficiency_only",
+      "composite"
+    ],
+    "dispositions_by_case": {
+      "OUT_OF_SCOPE_ADDITION": {
+        "composite": "REVISE",
+        "exact_match": "REVISE",
+        "sufficiency_only": "RETAIN"
+      },
+      "VALID_ALTERNATE_SET": {
+        "composite": "RETAIN",
+        "exact_match": "REVISE",
+        "sufficiency_only": "RETAIN"
+      }
+    },
+    "reason_codes_by_case": {
+      "OUT_OF_SCOPE_ADDITION": {
+        "composite": "OUT_OF_SCOPE_ADDITION",
+        "exact_match": "CANONICAL_PLAN_OR_ANSWER_MISMATCH",
+        "sufficiency_only": "SUFFICIENT_SET_RETAINED"
+      },
+      "VALID_ALTERNATE_SET": {
+        "composite": "COMPOSITE_CONTRACT_SATISFIED",
+        "exact_match": "CANONICAL_PLAN_OR_ANSWER_MISMATCH",
+        "sufficiency_only": "SUFFICIENT_SET_RETAINED"
+      }
+    },
+    "rows": [
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC002:card_statement",
+            "CC002:merchant_invoice"
+          ],
+          "source_task_id": "CC002:pre"
+        },
+        "contracts": {
+          "composite": {
+            "accepted": true,
+            "answer_coverage": true,
+            "contract": "composite",
+            "plan_precision": 1.0,
+            "plan_sufficient": true,
+            "reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+          },
+          "exact_match": {
+            "accepted": false,
+            "answer_coverage": true,
+            "contract": "exact_match",
+            "plan_precision": 1.0,
+            "plan_sufficient": true,
+            "reason_code": "CANONICAL_PLAN_OR_ANSWER_MISMATCH"
+          },
+          "sufficiency_only": {
+            "accepted": true,
+            "answer_coverage": true,
+            "contract": "sufficiency_only",
+            "plan_precision": 1.0,
+            "plan_sufficient": true,
+            "reason_code": "SUFFICIENT_SET_RETAINED"
+          }
+        },
+        "derived_reference": {
+          "canonical_sufficient_set": [
+            "CC002:receipt"
+          ],
+          "decision": {
+            "outcome": "approve",
+            "reason_code": "POLICY_SATISFIED",
+            "rule_id": "pre_reimbursable"
+          },
+          "minimal_sufficient_sets": [
+            [
+              "CC002:receipt"
+            ],
+            [
+              "CC002:card_statement",
+              "CC002:merchant_invoice"
+            ]
+          ],
+          "out_of_scope_evidence_ids": []
+        },
+        "probe_case_id": "VALID_ALTERNATE_SET"
+      },
+      {
+        "actor_input_only": {
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC003:manager_approval",
+            "CC003:receipt",
+            "CC003:team_note"
+          ],
+          "source_task_id": "CC003:post"
+        },
+        "contracts": {
+          "composite": {
+            "accepted": false,
+            "answer_coverage": false,
+            "contract": "composite",
+            "plan_precision": 0.6666666666666666,
+            "plan_sufficient": true,
+            "reason_code": "OUT_OF_SCOPE_ADDITION"
+          },
+          "exact_match": {
+            "accepted": false,
+            "answer_coverage": false,
+            "contract": "exact_match",
+            "plan_precision": 0.6666666666666666,
+            "plan_sufficient": true,
+            "reason_code": "CANONICAL_PLAN_OR_ANSWER_MISMATCH"
+          },
+          "sufficiency_only": {
+            "accepted": true,
+            "answer_coverage": false,
+            "contract": "sufficiency_only",
+            "plan_precision": 0.6666666666666666,
+            "plan_sufficient": true,
+            "reason_code": "SUFFICIENT_SET_RETAINED"
+          }
+        },
+        "derived_reference": {
+          "canonical_sufficient_set": [
+            "CC003:receipt"
+          ],
+          "decision": {
+            "outcome": "reject",
+            "reason_code": "MEAL_CAP_EXCEEDED",
+            "rule_id": "post_meal_cap"
+          },
+          "minimal_sufficient_sets": [
+            [
+              "CC003:receipt"
+            ]
+          ],
+          "out_of_scope_evidence_ids": [
+            "CC003:team_note"
+          ]
+        },
+        "probe_case_id": "OUT_OF_SCOPE_ADDITION"
+      }
+    ]
+  },
+  "evidence_identity": "DEV_ONLY_CONTROLLED_MECHANISM",
+  "headroom": {
+    "baseline_composite_rejection_rate": 0.5833333333333333,
+    "baseline_composite_rejections": 14,
+    "deterministic_nonzero_headroom": true,
+    "real_model_phase_authorized": false,
+    "stop_recommendation": "STOP_BEFORE_REAL_MODEL"
+  },
+  "reference_counts": {
+    "actor_tasks": 24,
+    "decision_flips": 3,
+    "distinct_out_of_scope_fact_ids": 2,
+    "evidence_facts": 35,
+    "invariant_pairs": 9,
+    "paired_cases": 12,
+    "reference_tasks_with_alternative_sets": 3,
+    "source_clusters": 4
+  },
+  "request_accounting": {
+    "judge_calls": 0,
+    "model_requests": 0,
+    "network_requests": 0,
+    "production_memory_writes": 0,
+    "service_requests": 0,
+    "training_calls": 0
+  },
+  "result_schema": "condition_change_feedback_probe_result_v1",
+  "task_id": "gb10-condition-change-feedback-20261020-a2"
+}

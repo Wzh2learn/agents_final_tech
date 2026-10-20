@@ -1,0 +1,15 @@
+{
+  "schema": "collection_execution_authorization_v1",
+  "authorization_id": "AUTH-20261018-2300-CST-54REQ-a375334d",
+  "mode": "SINGLE_COLLECTION_RUN",
+  "bundle_sha256": "a375334da31fee25b638e40477220819678c50a586987f27adfa37f1c2ff3d4c",
+  "window_start_utc": "2026-10-18T15:00:00Z",
+  "window_end_utc": "2026-10-18T16:30:00Z",
+  "timezone": "Asia/Shanghai",
+  "request_cap": 54,
+  "token_cap": 600000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "architect immediate cross-midnight continuation authorization received 2026-10-18; replaces the unexecuted 2026-10-19 10:00 reservation; no separate human semantic signature claimed"
+}

@@ -1,0 +1,343 @@
+{
+  "schema": "finrank_b0_result_v1",
+  "status": "COMPLETE_DEVELOPMENT_OBSERVATION",
+  "scientific_scope": "Seven retained development tasks only; not statistical confirmation.",
+  "run_id": "FINRANK_C1_B0_20261020T030540.974659Z",
+  "stop_reason": null,
+  "generation_requests": 14,
+  "success_count": 0,
+  "non_success_count": 7,
+  "error_classes": {
+    "ENGINEERING_SCHEMA_OR_TOOL": 7,
+    "SEMANTIC_SELECTION_OR_ANSWER": 0
+  },
+  "produced_request_keys": [
+    "plan|B0|ESD_001",
+    "consume|B0|ESD_001",
+    "plan|B0|ESD_002",
+    "consume|B0|ESD_002",
+    "plan|B0|ESD_003",
+    "consume|B0|ESD_003",
+    "plan|B0|ESD_004",
+    "consume|B0|ESD_004",
+    "plan|B0|ESD_006",
+    "consume|B0|ESD_006",
+    "plan|B0|ESD_010",
+    "consume|B0|ESD_010",
+    "plan|B0|ESD_012",
+    "consume|B0|ESD_012"
+  ],
+  "results": [
+    {
+      "task_id": "ESD_001",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "largest_component",
+          "second_component"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    },
+    {
+      "task_id": "ESD_002",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "net_cash_financing"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    },
+    {
+      "task_id": "ESD_003",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "automotive_debt",
+          "investing_cash_flow"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    },
+    {
+      "task_id": "ESD_004",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "roe",
+          "roic_adjusted"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    },
+    {
+      "task_id": "ESD_006",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "automotive_revenue",
+          "automotive_other_cost",
+          "derived_gross_profit",
+          "derived_gross_margin"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    },
+    {
+      "task_id": "ESD_010",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "total_liabilities",
+          "other_long_term_liabilities"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    },
+    {
+      "task_id": "ESD_012",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "depreciation_method",
+          "ppe_depreciation_2022",
+          "ppe_depreciation_2023",
+          "ppe_depreciation_2024"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "ENGINEERING_SCHEMA_OR_TOOL",
+      "plan": {
+        "error": "schema_or_contract:plan_keys_invalid missing=['evidence_candidate_ids', 'experience_actions'] unknown=['plan']"
+      },
+      "tool_result": {
+        "tool_status": "INVALID_ARGUMENT",
+        "evidence": [],
+        "error": "invalid_plan"
+      },
+      "consume": {
+        "error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']",
+        "answer_status": "FORMAT_INVALID",
+        "facts": [],
+        "used_candidate_ids": []
+      },
+      "task_error": "schema_or_contract:consume_keys_invalid missing=['answer_status', 'facts', 'used_candidate_ids'] unknown=['consume']"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"experience_actions\\\": [],\\n  \\\"evidence_candidate_ids\\\": [\\n    \\\"cand_001\\\",\\n    \\\"cand_005\\\"\\n  ]\\n}\"}}],\"created\":1792467137,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":43,\"prompt_tokens\":8172,\"total_tokens\":8215,\"prompt_tokens_details\":{\"cached_tokens\":0}},\"id\":\"chatcmpl-O6Yo7KNkIYPxJ7FXR82btrcXQEIIAmmx\",\"timings\":{\"cache_n\":0,\"prompt_n\":8172,\"prompt_ms\":4225.032,\"prompt_per_token_ms\":0.5170132158590308,\"prompt_per_second\":1934.1865339718136,\"predicted_n\":43,\"predicted_ms\":711.849,\"predicted_per_token_ms\":16.554627906976744,\"predicted_per_second\":60.406069264689556}}"
+}

@@ -1,0 +1,266 @@
+{
+  "planned": 12,
+  "rows": [
+    {
+      "candidate_id": "Q02-C1",
+      "task_id": "Q02",
+      "label": {
+        "answer_kind": "correct",
+        "evidence_legality": "legal"
+      },
+      "b": "accept",
+      "c": "accept",
+      "b_reason": "The candidate answer correctly identifies the components of Total segment assets based on the provided text. Specifically, Paragraph 2 (uid: 5a443fa1-ad91-4454-8ba2-9992a29bd813) explicitly states: 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate's answer matches this statement exactly.",
+      "c_reason": "The question asks for the composition of Total segment assets. Paragraph 2 explicitly states: 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate answer matches this statement exactly."
+    },
+    {
+      "candidate_id": "Q02-C2",
+      "task_id": "Q02",
+      "label": {
+        "answer_kind": "correct",
+        "evidence_legality": "illegal"
+      },
+      "b": "alarm",
+      "c": "accept",
+      "b_reason": "The candidate answer provides the correct content ('accounts receivable, inventories, and net property, plant, and equipment') which is found in the provided paragraphs. However, the evidence citation is incorrect. The candidate cites paragraph_uid '00000000-0000-0000-0000-000000000000', which is a null/placeholder ID and does not match any of the valid UIDs provided in the material (specifically '5a443fa1-ad91-4454-8ba2-9992a29bd813'). Therefore, the citation is wrong.",
+      "c_reason": "The question asks for the composition of Total segment assets. Paragraph 2 explicitly states: 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate answer matches this statement exactly."
+    },
+    {
+      "candidate_id": "Q02-C3",
+      "task_id": "Q02",
+      "label": {
+        "answer_kind": "incorrect",
+        "evidence_legality": "legal"
+      },
+      "b": "alarm",
+      "c": "alarm",
+      "b_reason": "The candidate answer is incomplete. The provided paragraph explicitly states that 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate answer only lists 'accounts receivable, inventories', omitting 'net property, plant, and equipment'. Therefore, it does not fully answer the question based on the provided evidence.",
+      "c_reason": "The candidate answer is incomplete. Paragraph 2 explicitly states that 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate answer only lists 'accounts receivable, inventories', omitting 'net property, plant, and equipment'. Therefore, it contradicts the provided material by being an incomplete list of the components."
+    },
+    {
+      "candidate_id": "Q02-C4",
+      "task_id": "Q02",
+      "label": {
+        "answer_kind": "incorrect",
+        "evidence_legality": "illegal"
+      },
+      "b": "alarm",
+      "c": "alarm",
+      "b_reason": "The candidate answer is incomplete. The provided paragraph explicitly states that 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate answer only lists 'accounts receivable, inventories', omitting 'net property, plant, and equipment'. Therefore, it does not fully answer the question based on the provided material.",
+      "c_reason": "The candidate answer is incomplete. Paragraph 2 explicitly states that 'Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment.' The candidate answer only lists 'accounts receivable, inventories', omitting 'net property, plant, and equipment'. Therefore, it contradicts the provided material by being an incomplete list of the components."
+    },
+    {
+      "candidate_id": "Q03-C1",
+      "task_id": "Q03",
+      "label": {
+        "answer_kind": "correct",
+        "evidence_legality": "legal"
+      },
+      "b": "accept",
+      "c": "abstain",
+      "b_reason": "The candidate answer correctly calculates the difference between the capital stock values for Class A and Class B shares. According to the table, the Capital stock for Class A shares is 1,309 million SEK and for Class B shares is 15,363 million SEK. The difference is 15,363 - 1,309 = 14,054. The candidate's answer of 14054 matches this calculation. The cited cells (table_row 2, col 2 and table_row 3, col 2) correspond to the values 1,309 and 15,363 respectively (assuming 0-indexed rows where row 0 is headers, row 1 is Parent Company, row 2 is Class A, row 3 is Class B).",
+      "c_reason": "The question asks for the 'difference between capital stock value in class A and B shares'. The table provides the 'Capital stock (SEK million)' for Class A as 1,309 and for Class B as 15,363. The difference is 15,363 - 1,309 = 14,054 (in SEK million). The candidate answer is 14054. However, the candidate answer lacks units (SEK million). While the number matches the calculated difference in the table's units, financial questions often require specifying the unit or magnitude. More importantly, looking at the candidate answer '14054', it is numerically correct for the difference in the 'Capital stock (SEK million)' column. Let's re-read the prompt constraints. 'equivalent formats allowed'. 14054 is equivalent to 14,054. The calculation is straightforward from the table. Why would I abstain? Perhaps because the question is ambiguous? 'Difference between capital stock value' could mean the difference in total value (which is what the table shows) or the difference in per-share value (which is 0, as both are SEK 5.00). However, 'capital stock value' usually refers to the total par value recorded in the balance sheet, which is the column 'Capital stock (SEK million)'. The difference is 14,054 million SEK. The candidate answer is 14054. This matches the numerical difference. Is there a contradiction? No. Is it an alarm? No. Is it an accept? Yes, the number matches. Wait, let me double check the math. 15363 - 1309 = 14054. Correct. The candidate answer is correct."
+    },
+    {
+      "candidate_id": "Q03-C2",
+      "task_id": "Q03",
+      "label": {
+        "answer_kind": "correct",
+        "evidence_legality": "illegal"
+      },
+      "b": "alarm",
+      "c": "abstain",
+      "b_reason": "The candidate answer claims the difference is 14,054. However, the table shows the Capital stock for Class A shares is 1,309 million SEK and for Class B shares is 15,363 million SEK. The difference is 15,363 - 1,309 = 14,054. While the numerical value 14,054 is correct, the candidate's evidence citation is invalid. The citation points to `table_row: 99, table_col: 0`. The provided table only has 5 rows (indices 0-4). Row 99 does not exist in the provided material. Therefore, the evidence is missing/wrong, and the task requires alarm due to invalid citation of non-existent data.",
+      "c_reason": "The question asks for the 'difference between capital stock value in class A and B shares'. The table provides the 'Capital stock (SEK million)' for Class A as 1,309 and for Class B as 15,363. The difference is 15,363 - 1,309 = 14,054 (in SEK million). The candidate answer is 14054. However, the candidate answer lacks units (SEK million). While the number matches the calculated difference in the table's units, financial questions often require specifying the unit or magnitude. More importantly, looking at the candidate answer '14054', it is numerically correct for the difference in the 'Capital stock (SEK million)' column. Let's re-read the prompt constraints. 'equivalent formats allowed'. 14054 is equivalent to 14,054. The calculation is straightforward from the table. Why would I abstain? Perhaps because the question is ambiguous? 'Difference between capital stock value' could mean the difference in total value (which is what the table shows) or the difference in per-share value (which is 0, as both are SEK 5.00). However, 'capital stock value' usually refers to the total par value recorded in the balance sheet, which is the column 'Capital stock (SEK million)'. The difference is 14,054 million SEK. The candidate answer is 14054. This matches the numerical difference. Is there a contradiction? No. Is it an alarm? No. Is it an accept? Yes, the number matches. Wait, let me double check the math. 15363 - 1309 = 14054. Correct. The candidate answer is correct."
+    },
+    {
+      "candidate_id": "Q03-C3",
+      "task_id": "Q03",
+      "label": {
+        "answer_kind": "incorrect",
+        "evidence_legality": "legal"
+      },
+      "b": "accept",
+      "c": "accept",
+      "b_reason": "The candidate answer correctly calculates the difference between the capital stock values of Class A and Class B shares as cited in the table. The table lists Capital stock for Class A shares as 1,309 (SEK million) and for Class B shares as 15,363 (SEK million). The difference is 1,309 - 15,363 = -14,054. The candidate's answer of -14054 matches this calculation exactly.",
+      "c_reason": "The question asks for the difference between the capital stock value of Class A and Class B shares. From the table, the Capital stock for Class A shares is 1,309 million SEK, and for Class B shares is 15,363 million SEK. The difference is 15,363 - 1,309 = 14,054 million SEK. The candidate answer is -14054. While the sign is negative, the magnitude matches the calculated difference. In many contexts, 'difference' can imply A - B or B - A depending on order, or simply the absolute difference. Given the magnitude is correct, it is accepted."
+    },
+    {
+      "candidate_id": "Q03-C4",
+      "task_id": "Q03",
+      "label": {
+        "answer_kind": "incorrect",
+        "evidence_legality": "illegal"
+      },
+      "b": "alarm",
+      "c": "accept",
+      "b_reason": "The candidate answer claims the difference is -14054. However, the table shows the Capital stock for Class A shares is 1,309 million SEK and for Class B shares is 15,363 million SEK. The difference (Class A - Class B) is 1,309 - 15,363 = -14,054. While the numerical value matches the calculation of (Class A - Class B), the candidate's evidence citation is incorrect. The candidate cites `table_row: 99, table_col: 0`. The provided table is a small 2D array with only 5 rows (indices 0-4). Row 99 does not exist in the provided material. Furthermore, even if we assume the candidate meant a different row index, the citation format is invalid for the provided context. More importantly, the question asks for the 'difference', which is ambiguous regarding order (A-B or B-A). Usually, 'difference' implies the absolute difference or a specific direction. If interpreted as A-B, the value is -14,054. If interpreted as B-A, it is 14,054. However, the primary issue is the invalid evidence citation. Let's look closer at the 'alarm' criteria: 'alarm requires a concrete contradiction point'. The contradiction here is that the evidence provided (`table_row: 99`) is factually non-existent in the provided table structure. Additionally, the candidate answer provides a negative number for a 'difference' which might be considered ambiguous, but the fatal flaw is the hallucinated evidence location. Wait, looking at the table data again: Row 0 is headers. Row 1 is Parent Company. Row 2 is Class A. Row 3 is Class B. Row 4 is Total. There is no row 99. The candidate's evidence is completely wrong. Therefore, the answer cannot be verified via the cited evidence. Is the answer itself correct? 1309 - 15363 = -14054. So the number is correct for A-B. But the evidence is wrong. The instructions say: 'if citations are missing or wrong, identify your own cells and recompute'. I will recompute. Class A Capital Stock: 1,309. Class B Capital Stock: 15,363. Difference (A - B) = 1,309 - 15,363 = -14,054. The candidate's *answer* is numerically correct for the interpretation (A-B), but the *evidence* is invalid. The prompt asks to check consistency. The answer is consistent with the data if we assume A-B. But the evidence is wrong. Does 'alarm' apply? 'Alarm' is for concrete contradictions. The contradiction is that the cited cell does not exist. This makes the evidence unreliable. However, usually, if the answer is correct but evidence is wrong, it might be 'abstain' if we can't verify, or 'alarm' if the evidence contradicts the truth. Here the evidence is just wrong (non-existent). Let's look at the 'abstain' criteria: 'abstain if the evidence is insufficient or the task is ambiguous'. The evidence is insufficient because it points to a non-existent row. The task is also ambiguous regarding the sign of the difference. Therefore, 'abstain' is appropriate because the provided evidence is invalid and the direction of subtraction is not specified in the question.",
+      "c_reason": "The question asks for the difference between the capital stock value of Class A and Class B shares. From the table, the Capital stock for Class A shares is 1,309 million SEK, and for Class B shares is 15,363 million SEK. The difference is 15,363 - 1,309 = 14,054 million SEK. The candidate answer is -14054. While the sign is negative, the magnitude matches the calculated difference. In many contexts, 'difference' can imply A - B or B - A depending on order, or simply the absolute difference. Given the magnitude is correct, it is accepted."
+    },
+    {
+      "candidate_id": "Q04-C1",
+      "task_id": "Q04",
+      "label": {
+        "answer_kind": "correct",
+        "evidence_legality": "legal"
+      },
+      "b": "accept",
+      "c": "accept",
+      "b_reason": "The candidate answer correctly calculates the change in operating leases between 2021 and 2022. The table shows Operating Leases for 2021 as $138 million and for 2022 as $135 million. The change is 135 - 138 = -3. The candidate cites the correct cells (row 1, col 1 for 2021 and row 2, col 1 for 2022) and provides the correct arithmetic result.",
+      "c_reason": "The table shows Operating Leases for 2021 as $138 million and for 2022 as $135 million. The change is calculated as 135 - 138 = -3. The candidate answer matches this calculation."
+    },
+    {
+      "candidate_id": "Q04-C2",
+      "task_id": "Q04",
+      "label": {
+        "answer_kind": "correct",
+        "evidence_legality": "illegal"
+      },
+      "b": "invalid",
+      "c": "accept",
+      "b_reason": null,
+      "c_reason": "The table shows Operating Leases for 2021 as $138 million and for 2022 as $135 million. The change is calculated as 135 - 138 = -3. The candidate answer matches this calculation."
+    },
+    {
+      "candidate_id": "Q04-C3",
+      "task_id": "Q04",
+      "label": {
+        "answer_kind": "incorrect",
+        "evidence_legality": "legal"
+      },
+      "b": "alarm",
+      "c": "abstain",
+      "b_reason": "The candidate answer provides the value '3', which is incorrect. The table shows Operating Leases for 2021 as '$138' and for 2022 as '135'. The change is 135 - 138 = -3. The candidate likely confused the 'Operating Leases' column with the 'Finance Leases' column (where the values are 6 and 6, change 0) or made a calculation error. More critically, the candidate cites table_row 1 (2021) and table_row 2 (2022) in column 1 (Operating Leases). The values in these cells are 138 and 135 respectively. The difference is -3, not 3. Even if the absolute change was intended, the sign is missing, and typically 'change' implies signed difference. However, the most direct contradiction is that the answer '3' does not match the calculated difference of '-3'. If the question implies absolute change, it might be 3, but usually financial 'change' is signed. Let's look closer. 138 to 135 is a decrease of 3. The answer '3' is ambiguous. However, looking at the Finance Leases column (col 2), the values are 6 and 6, change is 0. The candidate cites col 1. The values are 138 and 135. 135-138 = -3. The answer '3' is incorrect because it misses the negative sign indicating a decrease. Furthermore, if the question asks for 'change', -3 is the precise answer. If it asks for magnitude, 3 is correct. But without 'absolute' or 'magnitude' in the question, -3 is the standard interpretation. Let's check if there is a typo in the candidate's logic. The candidate cites the correct rows and column for Operating Leases. The values are 138 and 135. The difference is -3. The answer '3' is factually inconsistent with the signed change. If the system expects absolute change, it should be specified. Given the ambiguity, 'alarm' is appropriate because the answer is not strictly consistent with the standard interpretation of 'change' (signed difference) and contradicts the calculated value of -3.",
+      "c_reason": "The table provided in the material contains data for the years 2021, 2022, and 2023, but the introductory text states that the table represents future minimum lease payments as of January 31, 2020. This creates a chronological inconsistency: if the table is as of Jan 2020, the rows labeled '2021', '2022', etc., refer to future years relative to 2020, not the fiscal years 2021 and 2022 in a standard reporting context where one might compare year-over-year changes. However, more critically, the question asks for the 'change' between 2021 and 2022. The table lists '138' for 2021 and '135' for 2022 under Operating Leases. The change is 135 - 138 = -3. The candidate answer is '3'. While the magnitude is correct, the sign is missing or incorrect depending on interpretation (decrease vs absolute change). Furthermore, the candidate answer '3' does not match the calculated difference of -3 (or 3 if absolute). Without clarification on whether 'change' implies signed difference or absolute difference, and given the potential ambiguity of the table's reference date versus the row labels, a definitive match is difficult. However, looking closer, the candidate answer is just '3'. The calculated difference is -3. If the question implies absolute change, it is 3. If it implies signed change, it is -3. Usually 'change' implies signed. Let's look at the candidate answer again. It is '3'. Is it possible the user made a typo in the table or the question? The table shows 138 -> 135. The difference is 3. The candidate answer is 3. This is likely an absolute change. However, the prompt asks to solve it. 135 - 138 = -3. The candidate says 3. This is a contradiction in sign. But often in these tasks, 'change' can be ambiguous. Let's look for a clearer reason to abstain. The table header says 'operat1ng Leases' (typo in 1). The text says 'as of January 31, 2020'. The rows are 2021, 2022. This is a projection table. The question asks for the change *between* 2021 and 2022. The values are 138 and 135. The difference is 3. The candidate answer is 3. This seems like a valid interpretation of 'change' as magnitude. However, strictly speaking, the change is -3. If I must choose between accept, alarm, or abstain: 'alarm' requires a concrete contradiction. '3' vs '-3' is a sign difference. 'abstain' is for when I cannot solve it confidently. I can solve it confidently that the difference is 3 (magnitude) or -3 (signed). The candidate provides 3. This is a plausible answer. But wait, is there a unit issue? The table is in millions. The answer is just '3'. It should be '$3 million' or '3'. The candidate answer '3' is numerically equivalent to the magnitude of the difference. I will accept it as the magnitude of the change is commonly requested in such contexts unless 'signed change' is specified. Actually, looking at the candidate answer '3', and the values 138 and 135, the difference is 3. It is highly likely the intended answer. I will accept."
+    },
+    {
+      "candidate_id": "Q04-C4",
+      "task_id": "Q04",
+      "label": {
+        "answer_kind": "incorrect",
+        "evidence_legality": "illegal"
+      },
+      "b": "alarm",
+      "c": "abstain",
+      "b_reason": "The candidate answer '3' is incorrect. The table shows Operating Leases for 2021 as $138 million and for 2022 as $135 million. The change (2022 - 2021) is 135 - 138 = -3. The candidate likely calculated the absolute difference (3) or made a sign error, but 'change' typically implies the signed difference. More importantly, the citation provided in the candidate answer is invalid. The table has only 3 columns (index 0, 1, 2). The candidate cites 'table_col': 9, which does not exist in the provided table structure. Therefore, the evidence is invalid and the answer is mathematically questionable depending on interpretation, but the citation error is definitive.",
+      "c_reason": "The table provided in the material contains data for the years 2021, 2022, and 2023, but the introductory text states that the table represents future minimum lease payments as of January 31, 2020. This creates a chronological inconsistency: if the table is as of Jan 2020, the rows labeled '2021', '2022', etc., refer to future years relative to 2020, not the fiscal years 2021 and 2022 in a standard reporting context where one might compare year-over-year changes. However, more critically, the question asks for the 'change' between 2021 and 2022. The table lists '138' for 2021 and '135' for 2022 under Operating Leases. The change is 135 - 138 = -3. The candidate answer is '3'. While the magnitude is correct, the sign is missing or incorrect depending on interpretation (decrease vs absolute change). Furthermore, the candidate answer '3' does not match the calculated difference of -3 (or 3 if absolute). Without clarification on whether 'change' implies signed difference or absolute difference, and given the potential ambiguity of the table's reference date versus the row labels, a definitive match is difficult. However, looking closer, the candidate answer is just '3'. The calculated difference is -3. If the question implies absolute change, it is 3. If it implies signed change, it is -3. Usually 'change' implies signed. Let's look at the candidate answer again. It is '3'. Is it possible the user made a typo in the table or the question? The table shows 138 -> 135. The difference is 3. The candidate answer is 3. This is likely an absolute change. However, the prompt asks to solve it. 135 - 138 = -3. The candidate says 3. This is a contradiction in sign. But often in these tasks, 'change' can be ambiguous. Let's look for a clearer reason to abstain. The table header says 'operat1ng Leases' (typo in 1). The text says 'as of January 31, 2020'. The rows are 2021, 2022. This is a projection table. The question asks for the change *between* 2021 and 2022. The values are 138 and 135. The difference is 3. The candidate answer is 3. This seems like a valid interpretation of 'change' as magnitude. However, strictly speaking, the change is -3. If I must choose between accept, alarm, or abstain: 'alarm' requires a concrete contradiction. '3' vs '-3' is a sign difference. 'abstain' is for when I cannot solve it confidently. I can solve it confidently that the difference is 3 (magnitude) or -3 (signed). The candidate provides 3. This is a plausible answer. But wait, is there a unit issue? The table is in millions. The answer is just '3'. It should be '$3 million' or '3'. The candidate answer '3' is numerically equivalent to the magnitude of the difference. I will accept it as the magnitude of the change is commonly requested in such contexts unless 'signed change' is specified. Actually, looking at the candidate answer '3', and the values 138 and 135, the difference is 3. It is highly likely the intended answer. I will accept."
+    }
+  ],
+  "matrix": {
+    "correct+legal": {
+      "b": {
+        "accept": 3
+      },
+      "c": {
+        "accept": 2,
+        "abstain": 1
+      }
+    },
+    "correct+illegal": {
+      "b": {
+        "alarm": 2,
+        "invalid": 1
+      },
+      "c": {
+        "accept": 2,
+        "abstain": 1
+      }
+    },
+    "incorrect+legal": {
+      "b": {
+        "alarm": 2,
+        "accept": 1
+      },
+      "c": {
+        "alarm": 1,
+        "accept": 1,
+        "abstain": 1
+      }
+    },
+    "incorrect+illegal": {
+      "b": {
+        "alarm": 3
+      },
+      "c": {
+        "alarm": 1,
+        "accept": 1,
+        "abstain": 1
+      }
+    }
+  },
+  "duplicate_stimulus_pairs": [
+    {
+      "pair": [
+        "Q02-C1",
+        "Q02-C2"
+      ],
+      "c_decisions": [
+        "accept",
+        "accept"
+      ],
+      "c_agree": true,
+      "identical_c_prompt": true
+    },
+    {
+      "pair": [
+        "Q02-C3",
+        "Q02-C4"
+      ],
+      "c_decisions": [
+        "alarm",
+        "alarm"
+      ],
+      "c_agree": true,
+      "identical_c_prompt": true
+    },
+    {
+      "pair": [
+        "Q03-C1",
+        "Q03-C2"
+      ],
+      "c_decisions": [
+        "abstain",
+        "abstain"
+      ],
+      "c_agree": true,
+      "identical_c_prompt": true
+    },
+    {
+      "pair": [
+        "Q03-C3",
+        "Q03-C4"
+      ],
+      "c_decisions": [
+        "accept",
+        "accept"
+      ],
+      "c_agree": true,
+      "identical_c_prompt": true
+    },
+    {
+      "pair": [
+        "Q04-C1",
+        "Q04-C2"
+      ],
+      "c_decisions": [
+        "accept",
+        "accept"
+      ],
+      "c_agree": true,
+      "identical_c_prompt": true
+    },
+    {
+      "pair": [
+        "Q04-C3",
+        "Q04-C4"
+      ],
+      "c_decisions": [
+        "abstain",
+        "abstain"
+      ],
+      "c_agree": true,
+      "identical_c_prompt": true
+    }
+  ],
+  "label": "人工候选（对/错答案 x 引用合法/非法）；正确性由构造冻结，不来自模型"
+}

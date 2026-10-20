@@ -1,0 +1,206 @@
+{
+  "evidence_identity": "ENGINEERING_FORM_CANARY",
+  "model_requests": 8,
+  "rows": [
+    {
+      "completion_tokens": 25,
+      "error": null,
+      "expected": {
+        "task_id": "FORM:DIRECT_OBJECT:1",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CANARY:fact"
+        ]
+      },
+      "observed": {
+        "evidence_ids": [
+          "CANARY:fact"
+        ],
+        "outcome": "approve",
+        "task_id": "FORM:DIRECT_OBJECT:1"
+      },
+      "representation": "DIRECT_OBJECT",
+      "task_id": "FORM:DIRECT_OBJECT:1",
+      "valid": true
+    },
+    {
+      "completion_tokens": 25,
+      "error": null,
+      "expected": {
+        "task_id": "FORM:DIRECT_OBJECT:2",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CANARY:fact"
+        ]
+      },
+      "observed": {
+        "evidence_ids": [
+          "CANARY:fact"
+        ],
+        "outcome": "approve",
+        "task_id": "FORM:DIRECT_OBJECT:2"
+      },
+      "representation": "DIRECT_OBJECT",
+      "task_id": "FORM:DIRECT_OBJECT:2",
+      "valid": true
+    },
+    {
+      "completion_tokens": 25,
+      "error": null,
+      "expected": {
+        "task_id": "FORM:DIRECT_OBJECT:3",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CANARY:fact"
+        ]
+      },
+      "observed": {
+        "evidence_ids": [
+          "CANARY:fact"
+        ],
+        "outcome": "approve",
+        "task_id": "FORM:DIRECT_OBJECT:3"
+      },
+      "representation": "DIRECT_OBJECT",
+      "task_id": "FORM:DIRECT_OBJECT:3",
+      "valid": true
+    },
+    {
+      "completion_tokens": 25,
+      "error": null,
+      "expected": {
+        "task_id": "FORM:DIRECT_OBJECT:4",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CANARY:fact"
+        ]
+      },
+      "observed": {
+        "evidence_ids": [
+          "CANARY:fact"
+        ],
+        "outcome": "approve",
+        "task_id": "FORM:DIRECT_OBJECT:4"
+      },
+      "representation": "DIRECT_OBJECT",
+      "task_id": "FORM:DIRECT_OBJECT:4",
+      "valid": true
+    },
+    {
+      "completion_tokens": 32,
+      "error": null,
+      "expected": {
+        "submit_reimbursement_decision": {
+          "task_id": "FORM:TOOL_WRAPPER:1",
+          "outcome": "approve",
+          "evidence_ids": [
+            "CANARY:fact"
+          ]
+        }
+      },
+      "observed": {
+        "submit_reimbursement_decision": {
+          "evidence_ids": [
+            "CANARY:fact"
+          ],
+          "outcome": "approve",
+          "task_id": "FORM:TOOL_WRAPPER:1"
+        }
+      },
+      "representation": "TOOL_WRAPPER",
+      "task_id": "FORM:TOOL_WRAPPER:1",
+      "valid": true
+    },
+    {
+      "completion_tokens": 32,
+      "error": null,
+      "expected": {
+        "submit_reimbursement_decision": {
+          "task_id": "FORM:TOOL_WRAPPER:2",
+          "outcome": "approve",
+          "evidence_ids": [
+            "CANARY:fact"
+          ]
+        }
+      },
+      "observed": {
+        "submit_reimbursement_decision": {
+          "evidence_ids": [
+            "CANARY:fact"
+          ],
+          "outcome": "approve",
+          "task_id": "FORM:TOOL_WRAPPER:2"
+        }
+      },
+      "representation": "TOOL_WRAPPER",
+      "task_id": "FORM:TOOL_WRAPPER:2",
+      "valid": true
+    },
+    {
+      "completion_tokens": 32,
+      "error": null,
+      "expected": {
+        "submit_reimbursement_decision": {
+          "task_id": "FORM:TOOL_WRAPPER:3",
+          "outcome": "approve",
+          "evidence_ids": [
+            "CANARY:fact"
+          ]
+        }
+      },
+      "observed": {
+        "submit_reimbursement_decision": {
+          "evidence_ids": [
+            "CANARY:fact"
+          ],
+          "outcome": "approve",
+          "task_id": "FORM:TOOL_WRAPPER:3"
+        }
+      },
+      "representation": "TOOL_WRAPPER",
+      "task_id": "FORM:TOOL_WRAPPER:3",
+      "valid": true
+    },
+    {
+      "completion_tokens": 32,
+      "error": null,
+      "expected": {
+        "submit_reimbursement_decision": {
+          "task_id": "FORM:TOOL_WRAPPER:4",
+          "outcome": "approve",
+          "evidence_ids": [
+            "CANARY:fact"
+          ]
+        }
+      },
+      "observed": {
+        "submit_reimbursement_decision": {
+          "evidence_ids": [
+            "CANARY:fact"
+          ],
+          "outcome": "approve",
+          "task_id": "FORM:TOOL_WRAPPER:4"
+        }
+      },
+      "representation": "TOOL_WRAPPER",
+      "task_id": "FORM:TOOL_WRAPPER:4",
+      "valid": true
+    }
+  ],
+  "run_accounting_tokens": 616,
+  "schema": "interface_form_canary_result_v1",
+  "selected_representation": "DIRECT_OBJECT",
+  "status": "COMPLETE",
+  "summary": {
+    "DIRECT_OBJECT": {
+      "completion_tokens": 100,
+      "valid": 4,
+      "total": 4
+    },
+    "TOOL_WRAPPER": {
+      "completion_tokens": 128,
+      "valid": 4,
+      "total": 4
+    }
+  }
+}

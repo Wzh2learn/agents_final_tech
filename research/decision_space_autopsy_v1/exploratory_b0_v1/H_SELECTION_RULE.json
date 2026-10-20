@@ -1,0 +1,21 @@
+{
+  "schema": "same_number_role_h_selection_rule_v1",
+  "status": "FROZEN_BEFORE_HISTORY_COLLECTION",
+  "rule": "Select two history trajectories from the six task-matched histories with the same case_type and expected_decision pattern as the evaluation task where available; otherwise use the first two corrected successful trajectories ordered by task_id. Never inspect H evaluation outputs.",
+  "history_task_ids": [
+    "NR_development_0402_N2",
+    "NR_development_0402_P1",
+    "NR_development_1582_N2",
+    "NR_development_1582_P1",
+    "NR_development_2174_N2",
+    "NR_development_2174_P1"
+  ],
+  "evaluation_task_ids": [
+    "NR_exploratory_future_1604_N2",
+    "NR_exploratory_future_1604_P1",
+    "NR_exploratory_future_1792_N2",
+    "NR_exploratory_future_1792_P1",
+    "NR_exploratory_future_2442_N2",
+    "NR_exploratory_future_2442_P1"
+  ]
+}

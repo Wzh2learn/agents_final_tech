@@ -1,0 +1,79 @@
+{
+  "schema": "collection_runtime_identity_snapshot_v1",
+  "status": "BOUND_NON_GENERATIVE_IDENTITY",
+  "generated_by": "file hashing and JSON parsing only; no service or model call",
+  "identity": {
+    "model": {
+      "model_id": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "path": "/home/testuser/.lmstudio/models/lmstudio-community/Qwen3.6-35B-A3B-GGUF/Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d",
+      "bytes": 21166757728
+    },
+    "tokenizer": {
+      "binding": "embedded_in_model_artifact",
+      "separate_tokenizer_file": null,
+      "bound_by_model_sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d"
+    },
+    "chat_template": {
+      "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "length": 7764,
+      "source": "service_props.body_text.chat_template"
+    },
+    "server_binary": {
+      "path": "/home/testuser/.lmstudio/llmster/0.0.14-2/.bundle/bin/extensions/backends/llama.cpp-linux-arm64-nvidia-cuda13-2.16.0/llama-server",
+      "sha256": "037e02419e78256ed4227af31fc0b2602ff04c670fb7ad4fa2429fafb03bd55d",
+      "bytes": 2037000
+    },
+    "generation": {
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 1,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "stream": false,
+      "seed": 20261018,
+      "max_tokens": 256,
+      "response_format": {
+        "type": "json_object"
+      }
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "limits": {
+      "input_tokens_max": 8192,
+      "output_tokens_max": 2048,
+      "request_timeout_seconds": 120,
+      "request_cap": 54,
+      "token_cap": 600000,
+      "per_request_reserve_tokens": 10240,
+      "retry_cap": 0,
+      "concurrency": 1,
+      "window_minutes_max": 90
+    },
+    "base_url": "http://127.0.0.1:8004",
+    "api_path": "/v1/chat/completions"
+  },
+  "artifact_hashes": {
+    "RUNTIME_POLICY.json": "14bcbc5bc7f65e0364cbd26c21276db99cc5df036f724f4178cb94a1c1c07d14",
+    "PROMPT_PLAN.json": "6ac740b2c0e5430f901be275b2690e4e017419843dc9ed71e5af73eb4f706eb5",
+    "PROMPT_CONSUME.json": "1b3f43e4391571d31adb0ab72064654cc197c2a6ec754688d9371bc8502e41cb",
+    "OUTPUT_SCHEMAS.json": "f61e045a53c3860ddb901421190098b6e02dd6adf86185d48820e0ae6fa8e353"
+  },
+  "source_identity": {
+    "MODEL_PIN.json": "388d2ea93b03724854bfcaaa8d6e76a67142872e75cec18ea91274a8c9c4e5f8",
+    "service_props.json": "9780af4d78095e6f8b0081fd8aa06d9f70a2edcb890748b7929dbd70264623dd"
+  },
+  "checks": {
+    "model_id_matches_policy": true,
+    "model_path_matches_service": true,
+    "model_sha_matches_pin": true,
+    "server_sha_matches_pin": true,
+    "chat_template_sha_matches_pin": true,
+    "chat_template_len_matches_pin": true,
+    "generation_within_output_cap": true,
+    "thinking_disabled_with_json_boolean": true,
+    "worst_case_budget_fits": true
+  },
+  "blockers": []
+}

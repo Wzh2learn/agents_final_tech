@@ -1,0 +1,53 @@
+{
+  "schema": "finrank_ai_adjudication_verification_v1",
+  "verification_environment": "LOCAL_WINDOWS_POWERSHELL; artifact checks only, not GB10 runtime or semantic proof",
+  "issues": [],
+  "cases": 24,
+  "counts": {
+    "total": 24,
+    "KEEP_DEVELOPMENT": 13,
+    "REPAIR_AND_REVIEW": 9,
+    "EXCLUDE_CURRENT": 2
+  },
+  "anchors_checked": 52,
+  "protected_input_files_unchanged": 9,
+  "development_tasks": 7,
+  "future_development_tasks": 6,
+  "arithmetic": {
+    "gm_gross_profit": 20541,
+    "gm_gross_margin_percent": 11.969861,
+    "roa_parent_income_percent": 2.173563,
+    "roa_consolidated_income_percent": 2.157283,
+    "tesla_cash_debt_ratio": 1.887315,
+    "tesla_cash_interest_ratio": 53.873646,
+    "ctra_days": 206.071429
+  },
+  "verification_limit": "Checks traceability, input preservation, IDs and arithmetic; does not independently prove semantic uniqueness, task difficulty, tool implementation, memory gain or publication readiness.",
+  "command": "& 'D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\research_direction_sprint_20261020_v1\\execution_v1\\ai_semantic_adjudication_v1\\VERIFY.ps1'",
+  "command_exit_code": 0,
+  "documentation_link_check": {
+    "links_checked": 325,
+    "broken": [],
+    "exit_code": 0
+  },
+  "scoped_git_diff_check": {
+    "exit_code": 0,
+    "scope": [
+      "memory/STATE.md",
+      "memory/THREADS.md",
+      "docs/INDEX.md",
+      "docs/research/README.md"
+    ],
+    "warnings": "Existing Git LF-to-CRLF normalization warnings for docs/research/README.md and memory/THREADS.md; no whitespace errors reported. Git diff statistics include changes that predated this review."
+  },
+  "adversarial_review": {
+    "passes_for_stated_deliverable": true,
+    "open_limits": [
+      "AI-assisted, open-reference development review only; no human/financial-professional gold or blind review.",
+      "Thirteen reference-eligible tasks do not establish difficulty or memory utility.",
+      "No tool runner implemented and no model experiment run in this review.",
+      "WMB source inconsistency remains quarantined; causes and other metric conventions unresolved.",
+      "Alternative support is not universally proven absent; counterexamples require versioned all-arm handling."
+    ]
+  }
+}

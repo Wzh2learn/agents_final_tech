@@ -1,0 +1,32 @@
+{
+  "schema": "collection_runtime_policy_v1",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "base_url": "http://127.0.0.1:8004",
+  "api_path": "/v1/chat/completions",
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 1,
+    "min_p": 0,
+    "repeat_penalty": 1,
+    "stream": false,
+    "seed": 20261018,
+    "max_tokens": 256,
+    "response_format": {"type": "json_object"}
+  },
+  "limits": {
+    "input_tokens_max": 8192,
+    "output_tokens_max": 2048,
+    "request_timeout_seconds": 120,
+    "request_cap": 54,
+    "token_cap": 600000,
+    "per_request_reserve_tokens": 10240,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "window_minutes_max": 90
+  },
+  "tokenizer": {
+    "binding": "embedded_in_model_artifact",
+    "separate_tokenizer_file": null
+  }
+}

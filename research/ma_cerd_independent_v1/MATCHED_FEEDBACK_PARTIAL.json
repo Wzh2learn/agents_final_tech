@@ -1,0 +1,3706 @@
+{
+  "rows": [
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1419
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1431
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1431
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1437
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1403
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1415
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1415
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0112",
+      "family_id": "scheduled-family:BASE-012",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0022",
+          "relay:RLY-0010",
+          "sensor:SNS-0003",
+          "observer:BASE-012:05",
+          "observer:BASE-012:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1421
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1692
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1704
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1704
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1710
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer",
+          "reject"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1687
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1694
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1694
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0272",
+      "family_id": "scheduled-family:BASE-028",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0023",
+          "relay:RLY-0006",
+          "sensor:SNS-0024"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1700
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1619
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1631
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1631
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1637
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1601
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1613
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1613
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0293",
+      "family_id": "scheduled-family:BASE-030",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0012",
+          "relay:RLY-0002",
+          "sensor:SNS-0024",
+          "observer:BASE-030:05",
+          "observer:BASE-030:06",
+          "observer:BASE-030:07",
+          "observer:BASE-030:08",
+          "observer:BASE-030:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1619
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2044
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2056
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2056
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2062
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002",
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.3636363636363636,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2036
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002",
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.3636363636363636,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2048
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002",
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.3636363636363636,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2048
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0312",
+      "family_id": "scheduled-family:BASE-032",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0002",
+          "relay:RLY-0015",
+          "sensor:SNS-0012",
+          "observer:BASE-032:05",
+          "observer:BASE-032:06",
+          "observer:BASE-032:07",
+          "observer:BASE-032:08",
+          "observer:BASE-032:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.3636363636363636,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2054
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1275
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1287
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1287
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "execute",
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002"
+        ],
+        "preserved_node_ids": [
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1293
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.4,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1259
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.4,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1271
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.4,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1271
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0335",
+      "family_id": "scheduled-family:BASE-034",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0030",
+          "relay:RLY-0006",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.4,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1277
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2036
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2048
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2048
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 2054
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2026
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2038
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2038
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0359",
+      "family_id": "scheduled-family:BASE-036",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0002",
+          "effector:EFF-0013",
+          "relay:RLY-0015",
+          "sensor:SNS-0022",
+          "observer:BASE-036:05",
+          "observer:BASE-036:06",
+          "observer:BASE-036:07",
+          "observer:BASE-036:08",
+          "observer:BASE-036:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 2044
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0014",
+          "relay:RLY-0000",
+          "command:CMD-0000",
+          "effector:EFF-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1681
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0014",
+          "relay:RLY-0000",
+          "command:CMD-0000",
+          "effector:EFF-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1693
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0014",
+          "relay:RLY-0000",
+          "command:CMD-0000",
+          "effector:EFF-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1693
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0014",
+          "relay:RLY-0000",
+          "command:CMD-0000",
+          "effector:EFF-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1699
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1675
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1687
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1687
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0387",
+      "family_id": "scheduled-family:BASE-039",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0000",
+          "effector:EFF-0013",
+          "relay:RLY-0000",
+          "sensor:SNS-0014"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1693
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1689
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1701
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1701
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1707
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer",
+          "reject"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1684
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1691
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1691
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0398",
+      "family_id": "scheduled-family:BASE-040",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0000",
+          "sensor:SNS-0013"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1697
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1837
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1849
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1849
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1855
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer",
+          "reject"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1832
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1839
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1839
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0440",
+      "family_id": "scheduled-family:BASE-044",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0006",
+          "relay:RLY-0000",
+          "sensor:SNS-0006",
+          "observer:BASE-044:05",
+          "observer:BASE-044:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1845
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1689
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1701
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1701
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1707
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer",
+          "reject"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1684
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1691
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1691
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0468",
+      "family_id": "scheduled-family:BASE-047",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0003",
+          "effector:EFF-0029",
+          "relay:RLY-0004",
+          "sensor:SNS-0025"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1697
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0025",
+          "relay:RLY-0005",
+          "command:CMD-0006",
+          "effector:EFF-0031"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1619
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0025",
+          "relay:RLY-0005",
+          "command:CMD-0006",
+          "effector:EFF-0031"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1631
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0025",
+          "relay:RLY-0005",
+          "command:CMD-0006",
+          "effector:EFF-0031"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1631
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0025",
+          "relay:RLY-0005",
+          "command:CMD-0006",
+          "effector:EFF-0031"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1637
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0031",
+          "relay:RLY-0005",
+          "sensor:SNS-0025",
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6153846153846153,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1611
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0031",
+          "relay:RLY-0005",
+          "sensor:SNS-0025",
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6153846153846153,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1623
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0031",
+          "relay:RLY-0005",
+          "sensor:SNS-0025",
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6153846153846153,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1623
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0680",
+      "family_id": "scheduled-family:BASE-068",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0006",
+          "effector:EFF-0031",
+          "relay:RLY-0005",
+          "sensor:SNS-0025",
+          "observer:BASE-068:05",
+          "observer:BASE-068:06",
+          "observer:BASE-068:07",
+          "observer:BASE-068:08",
+          "observer:BASE-068:09"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.6153846153846153,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1629
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1895
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1907
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1907
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017"
+        ],
+        "preserved_node_ids": [
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1913
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017",
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.5,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1887
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017",
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.5,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1899
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017",
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.5,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1899
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0703",
+      "family_id": "scheduled-family:BASE-071",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0005",
+          "effector:EFF-0017",
+          "relay:RLY-0003",
+          "sensor:SNS-0008",
+          "observer:BASE-071:05",
+          "observer:BASE-071:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.5,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1905
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0006",
+          "relay:RLY-0008",
+          "command:CMD-0004",
+          "effector:EFF-0006"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1412
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0006",
+          "relay:RLY-0008",
+          "command:CMD-0004",
+          "effector:EFF-0006"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1424
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0006",
+          "relay:RLY-0008",
+          "command:CMD-0004",
+          "effector:EFF-0006"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1424
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0006",
+          "relay:RLY-0008",
+          "command:CMD-0004",
+          "effector:EFF-0006"
+        ],
+        "preserved_node_ids": [
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1430
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0004",
+          "effector:EFF-0006",
+          "relay:RLY-0008",
+          "sensor:SNS-0006",
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.8,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1404
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0004",
+          "effector:EFF-0006",
+          "relay:RLY-0008",
+          "sensor:SNS-0006",
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.8,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1403
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0004",
+          "effector:EFF-0006",
+          "relay:RLY-0008",
+          "sensor:SNS-0006",
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.8,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1403
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0799",
+      "family_id": "scheduled-family:BASE-080",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0004",
+          "effector:EFF-0006",
+          "relay:RLY-0008",
+          "sensor:SNS-0006",
+          "observer:BASE-080:05",
+          "observer:BASE-080:06"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.8,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1422
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0020",
+          "relay:RLY-0001",
+          "command:CMD-0001",
+          "effector:EFF-0022"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1269
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0020",
+          "relay:RLY-0001",
+          "command:CMD-0001",
+          "effector:EFF-0022"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1281
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0020",
+          "relay:RLY-0001",
+          "command:CMD-0001",
+          "effector:EFF-0022"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1281
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [
+          "sensor:SNS-0020",
+          "relay:RLY-0001",
+          "command:CMD-0001",
+          "effector:EFF-0022"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1287
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0022",
+          "relay:RLY-0001",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1263
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0022",
+          "relay:RLY-0001",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1275
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0022",
+          "relay:RLY-0001",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1275
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0966",
+      "family_id": "scheduled-family:BASE-097",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0001",
+          "effector:EFF-0022",
+          "relay:RLY-0001",
+          "sensor:SNS-0020"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1281
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1680
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1692
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1692
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "correct",
+      "prediction": {
+        "relation": "invariant",
+        "acceptable_decisions": [
+          "repair",
+          "defer"
+        ],
+        "impact_node_ids": [],
+        "preserved_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ]
+      },
+      "scores": {
+        "relation": true,
+        "handling": true,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "exact": true
+      },
+      "valid": true,
+      "total_tokens": 1698
+    },
+    {
+      "arm": "no_feedback",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer",
+          "reject"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1675
+    },
+    {
+      "arm": "exact_match",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1682
+    },
+    {
+      "arm": "sufficiency_only",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1682
+    },
+    {
+      "arm": "composite",
+      "contract_id": "ma-cerd-pair-0977",
+      "family_id": "scheduled-family:BASE-098",
+      "prior_kind": "wrong",
+      "prediction": {
+        "relation": "change",
+        "acceptable_decisions": [
+          "defer"
+        ],
+        "impact_node_ids": [
+          "command:CMD-0007",
+          "effector:EFF-0012",
+          "relay:RLY-0013",
+          "sensor:SNS-0015"
+        ],
+        "preserved_node_ids": []
+      },
+      "scores": {
+        "relation": false,
+        "handling": false,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.0,
+        "exact": false
+      },
+      "valid": true,
+      "total_tokens": 1688
+    }
+  ],
+  "selected": [
+    "ma-cerd-pair-0112",
+    "ma-cerd-pair-0272",
+    "ma-cerd-pair-0293",
+    "ma-cerd-pair-0312",
+    "ma-cerd-pair-0335",
+    "ma-cerd-pair-0359",
+    "ma-cerd-pair-0387",
+    "ma-cerd-pair-0398",
+    "ma-cerd-pair-0440",
+    "ma-cerd-pair-0468",
+    "ma-cerd-pair-0680",
+    "ma-cerd-pair-0703",
+    "ma-cerd-pair-0799",
+    "ma-cerd-pair-0966",
+    "ma-cerd-pair-0977"
+  ]
+}

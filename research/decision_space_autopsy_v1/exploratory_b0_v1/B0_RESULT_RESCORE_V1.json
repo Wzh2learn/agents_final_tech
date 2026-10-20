@@ -1,0 +1,836 @@
+{
+  "schema": "same_number_role_b0_rescore_v1",
+  "status": "RESCORED_IMMUTABLE_RAW_AFTER_CONTRACT_REPAIR",
+  "scientific_label": "EXPLORATORY_POST_HOC_TECHNICAL_CORRECTION",
+  "decision": "CONTINUE_TO_ARM_DESIGN",
+  "success_count": 18,
+  "non_success_count": 6,
+  "non_success_clusters": [
+    "cluster_0402",
+    "cluster_1582",
+    "cluster_1981",
+    "cluster_2111",
+    "cluster_2174",
+    "cluster_2442"
+  ],
+  "original_runner_result_sha256": "00568bca4607f01080e5849c1d0561001cb0a8491e5e90cb437087f00076904f",
+  "correction_scope": "Only WRONG_ROLE was allowed to carry numeric calc_value/unit; no task, reference, prompt, raw response or request changed.",
+  "results": [
+    {
+      "task_id": "NR_development_0402_P1",
+      "source_cluster_id": "cluster_0402",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-223.0 - (-223.0)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-223.0 - (-223.0)"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "GBP"
+      }
+    },
+    {
+      "task_id": "NR_development_0402_N2",
+      "source_cluster_id": "cluster_0402",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": false,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "SUPPORTED",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-223.0 - (-223.0)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-223.0 - (-223.0)"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "GBP"
+      }
+    },
+    {
+      "task_id": "NR_development_0424_P1",
+      "source_cluster_id": "cluster_0424",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "20000 - 20000"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "20000 - 20000"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "USD"
+      }
+    },
+    {
+      "task_id": "NR_development_0424_N2",
+      "source_cluster_id": "cluster_0424",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "20000 - 20000"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "20000 - 20000"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "USD"
+      }
+    },
+    {
+      "task_id": "NR_development_0923_P1",
+      "source_cluster_id": "cluster_0923",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "63 - 0.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "63 - 0.0"
+        },
+        "returned_value": 63.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 63.0,
+        "decision": "SUPPORTED",
+        "unit": "million EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_0923_N2",
+      "source_cluster_id": "cluster_0923",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "7 - 0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "7 - 0"
+        },
+        "returned_value": 7.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 7.0,
+        "decision": "WRONG_ROLE",
+        "unit": "million EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_1498_P1",
+      "source_cluster_id": "cluster_1498",
+      "scope": "development",
+      "case_type": "same_delta",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "47 - 52"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "47 - 52"
+        },
+        "returned_value": -5.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": -5.0,
+        "decision": "SUPPORTED",
+        "unit": "million EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_1498_N2",
+      "source_cluster_id": "cluster_1498",
+      "scope": "development",
+      "case_type": "same_delta",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "47 - 52"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "47 - 52"
+        },
+        "returned_value": -5.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": -5.0,
+        "decision": "WRONG_ROLE",
+        "unit": "million EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_1582_P1",
+      "source_cluster_id": "cluster_1582",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.7 - 275.7"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.7 - 275.7"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "decision": "SUPPORTED",
+        "calc_value": 0.0,
+        "unit": "million USD"
+      }
+    },
+    {
+      "task_id": "NR_development_1582_N2",
+      "source_cluster_id": "cluster_1582",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": false,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "SUPPORTED",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.7 - 275.7"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.7 - 275.7"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "million USD"
+      }
+    },
+    {
+      "task_id": "NR_development_1981_P1",
+      "source_cluster_id": "cluster_1981",
+      "scope": "development",
+      "case_type": "same_delta",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": false,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "10 - 0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "10 - 0"
+        },
+        "returned_value": 10.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 10.0,
+        "decision": "WRONG_ROLE",
+        "unit": "million EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_1981_N2",
+      "source_cluster_id": "cluster_1981",
+      "scope": "development",
+      "case_type": "same_delta",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "10 - 0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "10 - 0"
+        },
+        "returned_value": 10.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 10.0,
+        "decision": "WRONG_ROLE",
+        "unit": "million EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_2111_P1",
+      "source_cluster_id": "cluster_2111",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "12 - 12.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "12 - 12.0"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_2111_N2",
+      "source_cluster_id": "cluster_2111",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": false,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "SUPPORTED",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "12.0 - 12"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "12.0 - 12"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "EUR"
+      }
+    },
+    {
+      "task_id": "NR_development_2174_P1",
+      "source_cluster_id": "cluster_2174",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "3.4 - 3.4"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "3.4 - 3.4"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "million GBP"
+      }
+    },
+    {
+      "task_id": "NR_development_2174_N2",
+      "source_cluster_id": "cluster_2174",
+      "scope": "development",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": false,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "SUPPORTED",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "3.4 - 3.4"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "3.4 - 3.4"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "million GBP"
+      }
+    },
+    {
+      "task_id": "NR_development_2196_P1",
+      "source_cluster_id": "cluster_2196",
+      "scope": "development",
+      "case_type": "same_delta",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "0.3 - 0.3"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "0.3 - 0.3"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "million GBP"
+      }
+    },
+    {
+      "task_id": "NR_development_2196_N2",
+      "source_cluster_id": "cluster_2196",
+      "scope": "development",
+      "case_type": "same_delta",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "0.3 - (-0.1)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "0.3 - (-0.1)"
+        },
+        "returned_value": 0.4,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "decision": "WRONG_ROLE",
+        "calc_value": 0.4,
+        "unit": "million GBP"
+      }
+    },
+    {
+      "task_id": "NR_exploratory_future_1604_P1",
+      "source_cluster_id": "cluster_1604",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4 - (-0.4)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4 - (-0.4)"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "GBP"
+      }
+    },
+    {
+      "task_id": "NR_exploratory_future_1604_N2",
+      "source_cluster_id": "cluster_1604",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4 - (-0.4)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4 - (-0.4)"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "million"
+      }
+    },
+    {
+      "task_id": "NR_exploratory_future_1792_P1",
+      "source_cluster_id": "cluster_1792",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "decision": "SUPPORTED",
+        "calc_value": 0.0,
+        "unit": "EUR"
+      }
+    },
+    {
+      "task_id": "NR_exploratory_future_1792_N2",
+      "source_cluster_id": "cluster_1792",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "EUR"
+      }
+    },
+    {
+      "task_id": "NR_exploratory_future_2442_P1",
+      "source_cluster_id": "cluster_2442",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774 - 150774"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774 - 150774"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "USD"
+      }
+    },
+    {
+      "task_id": "NR_exploratory_future_2442_N2",
+      "source_cluster_id": "cluster_2442",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": false,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "SUPPORTED",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774 - 150774"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774 - 150774"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "decision": "SUPPORTED",
+        "calc_value": 0.0,
+        "unit": "USD"
+      }
+    }
+  ]
+}

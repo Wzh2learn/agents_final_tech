@@ -1,0 +1,17 @@
+{
+  "task_id": "T08",
+  "scoring_version": "v21",
+  "compare_mode": "numeric",
+  "unit_kind": "ratio",
+  "expected": 502.66,
+  "expected_precise": 502.66,
+  "abs_tolerance": 0.005,
+  "tolerance_rule": "0.5 x 10^-d; d = decimal digits of recorded answer",
+  "unit_scale_status": "RESOLVED",
+  "status_labels": {
+    "reference_validity": "NOT_ESTABLISHED",
+    "system_outcome": "NOT_RUN",
+    "panel": "TQ5_SOURCE_SEPARATION_FROZEN"
+  },
+  "notes": "layer=ratio"
+}

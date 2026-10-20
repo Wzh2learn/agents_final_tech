@@ -1,0 +1,9 @@
+{
+  "schema": "finrank_c3_unit_red_green_v1",
+  "phase": "green",
+  "status": "PASS",
+  "expected_match": true,
+  "observed_match": true,
+  "missing_atoms": [],
+  "generation_requests": 0
+}

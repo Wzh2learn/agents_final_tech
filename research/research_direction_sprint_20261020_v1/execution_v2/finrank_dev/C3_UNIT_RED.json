@@ -1,0 +1,12 @@
+{
+  "schema": "finrank_c3_unit_red_green_v1",
+  "phase": "red",
+  "status": "PASS",
+  "expected_match": false,
+  "observed_match": false,
+  "missing_atoms": [
+    "roe",
+    "roic_adjusted"
+  ],
+  "generation_requests": 0
+}

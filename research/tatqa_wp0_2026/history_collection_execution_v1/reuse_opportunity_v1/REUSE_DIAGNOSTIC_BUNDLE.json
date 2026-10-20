@@ -1,0 +1,51 @@
+{
+  "schema": "reuse_diagnostic_bundle_v1",
+  "status": "READY_FOR_B0",
+  "artifacts": {
+    "PROMPT.md": "cc811a02a705feac78a61dc5c11b8b4c67f0c359beacea9c54c977737ca7d82d",
+    "IMPLEMENTATION_PLAN.md": "eba6992d6185395476b100385fc1fc62d5b855d9d709343d492497aa91d615bd",
+    "LOOP_C_REUSE_DEFINITION_REVIEW.md": "9b0cf8b4fb10013035d959f68ec83c46e49d1ed1779d5480a2bdc9a0490d090c",
+    "trajectory_classifier.py": "c8d8e6e2377314382606fe3c913187f5383df2c843f6e4a1284a1a1f6a792add",
+    "build_reuse_diagnostics.py": "112dba25f10d12994135d7206ddaec6942ef9110ee780073aa27fe3f959dcfc3",
+    "freeze_reuse_protocol.py": "36f56106c495c563b2ef735dfb640bd9b43deb0c7b3f8649ec1417eee2623215",
+    "diagnostic_runner.py": "a9c68ba674dd4aa9612b8b1e30a890f87819358b670f0c66b2638f8181a40d29",
+    "test_reuse_diagnostics.py": "e9e1a47e27215382c5f6899c24039d11ed60ac8fb015ea4308f1864dc8ad282e",
+    "test_diagnostic_runner.py": "83a9a07691af910dd1c21b36f50dc8aca51fe1819a06aeb0b71ef6b1479be602",
+    "build_reuse_bundle.py": "c0a6432523239941c736631f096f3f9ddbc67d4563de00977ff82e916e51c3c2",
+    "synthetic_trajectory_fixtures.json": "c187a998fc2bfb223105279a464c958786047d985ee6e6c606fc232c9341d3ee",
+    "TRAJECTORY_CLASSIFICATION.json": "c2fa349201b56d6291be9669ea207a0493af6f5aa70abddba4cbf41a30e1029a",
+    "REUSE_HISTORY_CONTEXT_POOL.json": "7b44504c484c98b1d1698cd0f14de17818b9536e69ef97204da848461abb505a",
+    "REUSE_DIAGNOSTIC_PROTOCOL.json": "e923cd00c03ce5732c5f408dc701e6ff1c4a1bb907331a3595139610b83bfd47",
+    "DIAGNOSTIC_PLAN_PROMPT.json": "bf951c85e9d72bb00f0c78aa0a7f3f8009927d72c29cee7a06aaee9599a14f4f",
+    "DIAGNOSTIC_CONSUME_PROMPT.json": "71220cfe9ec682bc41f8a579bbcbdd1268baeb3a8c5cd19001ba8fae0a91d366",
+    "PILOT_TASK_REFERENCE_MANIFEST_V2.json": "59fa794ef6b87a2f889f1e5f39d3f66bbb9fdf91b3c4070021c2ca68ecf12841",
+    "RUNTIME_IDENTITY_SNAPSHOT.json": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+    "OUTPUT_SCHEMAS.json": "f61e045a53c3860ddb901421190098b6e02dd6adf86185d48820e0ae6fa8e353"
+  },
+  "protocol_status": "FROZEN_BEFORE_B0",
+  "budget": {
+    "new_request_cap": 128,
+    "new_token_cap": 1700000,
+    "b0_request_cap": 32,
+    "stage3_request_cap": 96,
+    "retry_cap": 0,
+    "concurrency": 1
+  },
+  "branch_gates": {
+    "all_16_success": "CEILING_ON_THIS_PANEL",
+    "fewer_than_2_nonsuccess_or_single_cluster": "LIMITED_HEADROOM",
+    "at_least_2_clusters_with_nonsuccess": "CONTINUE_STAGE_THREE",
+    "technical_failure": "TECHNICAL_INVALID_STOP"
+  },
+  "definition_review": {
+    "report": "LOOP_C_REUSE_DEFINITION_REVIEW.md",
+    "verdict": "ACCEPTED",
+    "blocker_count": 0
+  },
+  "cost_at_freeze": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "collection_calls": 0,
+    "pilot_calls": 0
+  }
+}

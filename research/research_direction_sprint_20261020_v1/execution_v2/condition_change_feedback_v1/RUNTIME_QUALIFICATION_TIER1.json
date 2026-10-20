@@ -1,0 +1,29 @@
+{
+  "status": "QUALIFIED_LOCAL_FILES_AND_PROCESS_PORT",
+  "checked_at_utc": "2026-10-20T11:02:34.265048Z",
+  "model_id": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "model_sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d",
+  "server_sha256": "037e02419e78256ed4227af31fc0b2602ff04c670fb7ad4fa2429fafb03bd55d",
+  "chat_template_sha256_snapshot": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+  "chat_template_current_rehash": "NOT_PERFORMED_NO_PROPS_ENDPOINT_CALL",
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 1,
+    "min_p": 0,
+    "repeat_penalty": 1,
+    "stream": false,
+    "seed": 20261018,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    }
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "base_url": "http://127.0.0.1:8004",
+  "port_8004_listening": true,
+  "llama_server_process_count": 1,
+  "network_calls_during_qualification": 0
+}

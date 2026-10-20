@@ -1,0 +1,123 @@
+{
+  "planned": 4,
+  "rows": [
+    {
+      "task_id": "N1",
+      "variant": "perturbed",
+      "answer": "1.5%",
+      "scoring_v21": {
+        "task_id": "N1",
+        "status": "MATCH",
+        "score": 1.0,
+        "detail": {
+          "answer_value": 1.5,
+          "normalized": 1.5,
+          "expected": 1.5,
+          "tolerance": 0.05,
+          "percent_marker": true
+        }
+      },
+      "legality_v21": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "b": "alarm",
+      "c": "alarm",
+      "ledger_state": "done"
+    },
+    {
+      "task_id": "N2",
+      "variant": "perturbed",
+      "answer": "$22,448",
+      "scoring_v21": {
+        "task_id": "N2",
+        "status": "MATCH",
+        "score": 1.0,
+        "detail": {
+          "answer_value": 22448.0,
+          "normalized": 22448.0,
+          "expected": 22448.0,
+          "tolerance": 0.5,
+          "percent_marker": false
+        }
+      },
+      "legality_v21": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "b": "accept",
+      "c": "accept",
+      "ledger_state": "done"
+    },
+    {
+      "task_id": "N3",
+      "variant": "perturbed",
+      "answer": "0.68%",
+      "scoring_v21": {
+        "task_id": "N3",
+        "status": "MATCH",
+        "score": 1.0,
+        "detail": {
+          "answer_value": 0.68,
+          "normalized": 0.68,
+          "expected": 0.68,
+          "tolerance": 0.005,
+          "percent_marker": true
+        }
+      },
+      "legality_v21": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "b": "accept",
+      "c": "accept",
+      "ledger_state": "done"
+    },
+    {
+      "task_id": "N4",
+      "variant": "perturbed",
+      "answer": 63.4,
+      "scoring_v21": {
+        "task_id": "N4",
+        "status": "MATCH",
+        "score": 1.0,
+        "detail": {
+          "answer_value": 63.4,
+          "normalized": 63.4,
+          "expected": 63.4,
+          "tolerance": 0.05,
+          "percent_marker": false
+        }
+      },
+      "legality_v21": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "b": "accept",
+      "c": "accept",
+      "ledger_state": "done"
+    }
+  ],
+  "summary": {
+    "valid": 4,
+    "match_over_planned": 1.0,
+    "match_over_valid": 1.0,
+    "legality": {
+      "legal": 4,
+      "illegal": 0
+    },
+    "b_decisions": {
+      "alarm": 1,
+      "accept": 3
+    },
+    "c_decisions": {
+      "alarm": 1,
+      "accept": 3
+    },
+    "label": "旧池新增任务的受控扰动部分（非自然失败分布；无原始版对照）"
+  }
+}

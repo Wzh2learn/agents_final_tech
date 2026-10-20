@@ -1,0 +1,408 @@
+{
+  "schema": "tq_chain_results_v1",
+  "panel": "TQ-5",
+  "run_id": "20261017T072340Z_5d8942bd",
+  "generated_utc": "2026-10-17T07:27:23Z",
+  "run_status": "COMPLETED",
+  "stop_reason": null,
+  "system_outcome": "COMPLETED",
+  "scientific_gold_validity": "NOT_ESTABLISHED",
+  "part1": {
+    "planned": 12,
+    "rows": [
+      {
+        "task_id": "T01",
+        "variant": "original",
+        "answer": "(2.4)pts.",
+        "scoring_v21": {
+          "task_id": "T01",
+          "status": "NO_MATCH",
+          "score": 0.0,
+          "detail": {
+            "answer_value": 2.4,
+            "normalized": 2.4,
+            "expected": -2.4,
+            "tolerance": 0.05,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 1
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T02",
+        "variant": "original",
+        "answer": "394",
+        "scoring_v21": {
+          "task_id": "T02",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": 394.0,
+            "normalized": 394.0,
+            "expected": 394.0,
+            "tolerance": 0.5,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T03",
+        "variant": "original",
+        "answer": "540",
+        "scoring_v21": {
+          "task_id": "T03",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": 540.0,
+            "normalized": 540.0,
+            "expected": 540.0,
+            "tolerance": 0.5,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T04",
+        "variant": "original",
+        "answer": "-7,614",
+        "scoring_v21": {
+          "task_id": "T04",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": -7614.0,
+            "normalized": -7614.0,
+            "expected": -7614.0,
+            "tolerance": 0.5,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T05",
+        "variant": "original",
+        "answer": "1,400",
+        "scoring_v21": {
+          "task_id": "T05",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": 1400.0,
+            "normalized": 1400.0,
+            "expected": 1400.0,
+            "tolerance": 0.5,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 1
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T06",
+        "variant": "original",
+        "answer": "7.87%",
+        "scoring_v21": {
+          "task_id": "T06",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": 7.87,
+            "normalized": 7.87,
+            "expected": 7.87,
+            "tolerance": 0.005,
+            "percent_marker": true
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "invalid",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T07",
+        "variant": "original",
+        "answer": "0.002",
+        "scoring_v21": {
+          "task_id": "T07",
+          "status": "NO_MATCH",
+          "score": 0.0,
+          "detail": {
+            "answer_value": 0.002,
+            "normalized": 0.002,
+            "expected": 181.59,
+            "tolerance": 0.005,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": false,
+          "issues": [
+            {
+              "index": 1,
+              "issue": "cell_out_of_bounds",
+              "table_row": 2,
+              "table_col": 4
+            }
+          ],
+          "checked": 2
+        },
+        "b": "abstain",
+        "c": "invalid",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T08",
+        "variant": "original",
+        "answer": "154.7 million",
+        "scoring_v21": {
+          "task_id": "T08",
+          "status": "NO_MATCH",
+          "score": 0.0,
+          "detail": {
+            "answer_value": 154.7,
+            "normalized": 154.7,
+            "expected": 502.66,
+            "tolerance": 0.005,
+            "percent_marker": false
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 1
+        },
+        "b": "alarm",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T09",
+        "variant": "original",
+        "answer": "8.54%",
+        "scoring_v21": {
+          "task_id": "T09",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": 8.54,
+            "normalized": 8.54,
+            "expected": 8.54,
+            "tolerance": 0.005,
+            "percent_marker": true
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T10",
+        "variant": "original",
+        "answer": "3%",
+        "scoring_v21": {
+          "task_id": "T10",
+          "status": "NO_MATCH",
+          "score": 0.0,
+          "detail": {
+            "answer_value": 3.0,
+            "normalized": 3.0,
+            "expected": 2.81,
+            "tolerance": 0.005,
+            "percent_marker": true
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 3
+        },
+        "b": "accept",
+        "c": "invalid",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T11",
+        "variant": "original",
+        "answer": "-32.57%",
+        "scoring_v21": {
+          "task_id": "T11",
+          "status": "MATCH",
+          "score": 1.0,
+          "detail": {
+            "answer_value": -32.57,
+            "normalized": -32.57,
+            "expected": -32.57,
+            "tolerance": 0.005,
+            "percent_marker": true
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      },
+      {
+        "task_id": "T12",
+        "variant": "original",
+        "answer": "5.7%",
+        "scoring_v21": {
+          "task_id": "T12",
+          "status": "NO_MATCH",
+          "score": 0.0,
+          "detail": {
+            "answer_value": 5.7,
+            "normalized": 5.7,
+            "expected": 5.67,
+            "tolerance": 0.005,
+            "percent_marker": true
+          }
+        },
+        "legality_v21": {
+          "legal": true,
+          "issues": [],
+          "checked": 2
+        },
+        "b": "accept",
+        "c": "accept",
+        "ledger_state": "done"
+      }
+    ],
+    "groups": {
+      "difference": {
+        "tasks": 4,
+        "valid": 4,
+        "match": 3,
+        "b_decisions": {
+          "accept": 4
+        },
+        "c_decisions": {
+          "accept": 4
+        }
+      },
+      "ratio": {
+        "tasks": 4,
+        "valid": 4,
+        "match": 2,
+        "b_decisions": {
+          "accept": 2,
+          "abstain": 1,
+          "alarm": 1
+        },
+        "c_decisions": {
+          "accept": 2,
+          "invalid": 2
+        }
+      },
+      "percentage_change": {
+        "tasks": 4,
+        "valid": 4,
+        "match": 2,
+        "b_decisions": {
+          "accept": 4
+        },
+        "c_decisions": {
+          "accept": 3,
+          "invalid": 1
+        }
+      }
+    },
+    "summary": {
+      "valid": 12,
+      "match_over_planned": 0.5833333333333334,
+      "match_over_valid": 0.5833333333333334,
+      "legality": {
+        "legal": 11,
+        "illegal": 1
+      },
+      "b_decisions": {
+        "accept": 10,
+        "abstain": 1,
+        "alarm": 1
+      },
+      "c_decisions": {
+        "accept": 9,
+        "invalid": 3
+      },
+      "label": "TQ-5 table-disjoint developmental source-separation panel (original public tasks; not TQ-4 and not pooled with TQ-4)"
+    }
+  },
+  "part2": null,
+  "cost": {
+    "run_gen_attempts": 36,
+    "run_retries": 0,
+    "run_tokens_settled": 44867,
+    "run_aux_ops": 72,
+    "master_entries_for_run": 72,
+    "master_gen_attempts": 36,
+    "master_settled_tokens": 44867,
+    "first_request_utc": "2026-10-17T07:23:54Z"
+  },
+  "notes": [
+    "Part 1 与 Part 2 分开记账、分开评价；不得混算错误率。",
+    "C = 同模型、独立上下文核验（可见候选答案；看不到引用）。C 的 C1/C2、C3/C4 为相同刺激重复调用，不能当独立证据，也不能声称 C 对引用变化不敏感。",
+    "B 的总体 accept 不能自动当作候选引用支持性已验证；引用支持性在无可判定记录时为 NOT_ASSESSED。",
+    "机械合法性、参考匹配、模型核验决策三者分列；均不构成 confirmatory 结论。",
+    "scientific_gold_validity = NOT_ESTABLISHED；无 confirmatory claim。"
+  ],
+  "analysis_corrections": [
+    {
+      "field": "part1.summary.label",
+      "old": "旧池新增任务的受控扰动部分（非自然失败分布；无原始版对照）",
+      "new": "TQ-5 table-disjoint developmental source-separation panel (original public tasks; not TQ-4 and not pooled with TQ-4)",
+      "reason": "generic analyzer reused the TQ-4 Part 1 label",
+      "result_values_changed": false
+    }
+  ],
+  "source_results_sha256": "1e33db372b4d2b5b68eceed6e1fa838adc8822d7eb028b13977abb7c7b490b5e"
+}

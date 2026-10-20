@@ -1,0 +1,834 @@
+{
+  "actor_input_only": true,
+  "boundary": {
+    "contains_gold_answers": false,
+    "contains_minimal_sufficient_sets": false,
+    "contains_policy": false,
+    "contains_reference_labels": false
+  },
+  "schema_version": "condition_change_actor_tasks_v1",
+  "tasks": [
+    {
+      "actor_input_only": true,
+      "case_id": "CC001",
+      "observation": {
+        "claim": {
+          "amount_usd": 65,
+          "category": "meals",
+          "manager_approval": true,
+          "merchant": "North Star Cafe"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC001:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC001:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC001:manager_approval",
+            "CC001:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "meals",
+      "stage": "post",
+      "task_id": "CC001:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC001",
+      "observation": {
+        "claim": {
+          "amount_usd": 65,
+          "category": "meals",
+          "manager_approval": true,
+          "merchant": "North Star Cafe"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC001:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC001:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC001:manager_approval",
+            "CC001:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "meals",
+      "stage": "pre",
+      "task_id": "CC001:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC002",
+      "observation": {
+        "claim": {
+          "amount_usd": 62,
+          "category": "meals",
+          "manager_approval": false,
+          "merchant": "Harbor Bistro"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC002:card_statement",
+            "kind": "card_statement",
+            "valid": true
+          },
+          {
+            "fact_id": "CC002:merchant_invoice",
+            "kind": "merchant_invoice",
+            "valid": true
+          },
+          {
+            "fact_id": "CC002:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC002:card_statement",
+            "CC002:merchant_invoice"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "meals",
+      "stage": "post",
+      "task_id": "CC002:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC002",
+      "observation": {
+        "claim": {
+          "amount_usd": 62,
+          "category": "meals",
+          "manager_approval": false,
+          "merchant": "Harbor Bistro"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC002:card_statement",
+            "kind": "card_statement",
+            "valid": true
+          },
+          {
+            "fact_id": "CC002:merchant_invoice",
+            "kind": "merchant_invoice",
+            "valid": true
+          },
+          {
+            "fact_id": "CC002:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC002:card_statement",
+            "CC002:merchant_invoice"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "meals",
+      "stage": "pre",
+      "task_id": "CC002:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC003",
+      "observation": {
+        "claim": {
+          "amount_usd": 68,
+          "category": "meals",
+          "manager_approval": true,
+          "merchant": "Cedar Kitchen"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC003:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC003:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          },
+          {
+            "fact_id": "CC003:team_note",
+            "kind": "operational_note",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC003:manager_approval",
+            "CC003:receipt",
+            "CC003:team_note"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "meals",
+      "stage": "post",
+      "task_id": "CC003:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC003",
+      "observation": {
+        "claim": {
+          "amount_usd": 68,
+          "category": "meals",
+          "manager_approval": true,
+          "merchant": "Cedar Kitchen"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC003:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC003:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          },
+          {
+            "fact_id": "CC003:team_note",
+            "kind": "operational_note",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC003:manager_approval",
+            "CC003:receipt",
+            "CC003:team_note"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "meals",
+      "stage": "pre",
+      "task_id": "CC003:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC004",
+      "observation": {
+        "claim": {
+          "amount_usd": 45,
+          "category": "meals",
+          "manager_approval": false,
+          "merchant": "Market Deli"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC004:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC004:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "meals",
+      "stage": "post",
+      "task_id": "CC004:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC004",
+      "observation": {
+        "claim": {
+          "amount_usd": 45,
+          "category": "meals",
+          "manager_approval": false,
+          "merchant": "Market Deli"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC004:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC004:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "meals",
+      "stage": "pre",
+      "task_id": "CC004:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC005",
+      "observation": {
+        "claim": {
+          "amount_usd": 180,
+          "category": "travel",
+          "manager_approval": true,
+          "merchant": "Railway North"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC005:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC005:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC005:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "travel",
+      "stage": "post",
+      "task_id": "CC005:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC005",
+      "observation": {
+        "claim": {
+          "amount_usd": 180,
+          "category": "travel",
+          "manager_approval": true,
+          "merchant": "Railway North"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC005:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC005:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC005:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "travel",
+      "stage": "pre",
+      "task_id": "CC005:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC006",
+      "observation": {
+        "claim": {
+          "amount_usd": 90,
+          "category": "travel",
+          "manager_approval": false,
+          "merchant": "City Air"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC006:card_statement",
+            "kind": "card_statement",
+            "valid": true
+          },
+          {
+            "fact_id": "CC006:merchant_invoice",
+            "kind": "merchant_invoice",
+            "valid": true
+          },
+          {
+            "fact_id": "CC006:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC006:card_statement",
+            "CC006:merchant_invoice"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "travel",
+      "stage": "post",
+      "task_id": "CC006:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC006",
+      "observation": {
+        "claim": {
+          "amount_usd": 90,
+          "category": "travel",
+          "manager_approval": false,
+          "merchant": "City Air"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC006:card_statement",
+            "kind": "card_statement",
+            "valid": true
+          },
+          {
+            "fact_id": "CC006:merchant_invoice",
+            "kind": "merchant_invoice",
+            "valid": true
+          },
+          {
+            "fact_id": "CC006:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC006:card_statement",
+            "CC006:merchant_invoice"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "travel",
+      "stage": "pre",
+      "task_id": "CC006:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC007",
+      "observation": {
+        "claim": {
+          "amount_usd": 220,
+          "category": "travel",
+          "manager_approval": false,
+          "merchant": "Metro Hotel Booking"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC007:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC007:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "travel",
+      "stage": "post",
+      "task_id": "CC007:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC007",
+      "observation": {
+        "claim": {
+          "amount_usd": 220,
+          "category": "travel",
+          "manager_approval": false,
+          "merchant": "Metro Hotel Booking"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC007:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC007:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "travel",
+      "stage": "pre",
+      "task_id": "CC007:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC008",
+      "observation": {
+        "claim": {
+          "amount_usd": 80,
+          "category": "office",
+          "manager_approval": false,
+          "merchant": "Office Mart"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC008:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC008:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "office",
+      "stage": "post",
+      "task_id": "CC008:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC008",
+      "observation": {
+        "claim": {
+          "amount_usd": 80,
+          "category": "office",
+          "manager_approval": false,
+          "merchant": "Office Mart"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC008:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC008:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "office",
+      "stage": "pre",
+      "task_id": "CC008:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC009",
+      "observation": {
+        "claim": {
+          "amount_usd": 140,
+          "category": "office",
+          "manager_approval": true,
+          "merchant": "Ergo Supply"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC009:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC009:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          },
+          {
+            "fact_id": "CC009:legacy_quote",
+            "kind": "legacy_quote",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC009:legacy_quote",
+            "CC009:manager_approval",
+            "CC009:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "office",
+      "stage": "post",
+      "task_id": "CC009:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC009",
+      "observation": {
+        "claim": {
+          "amount_usd": 140,
+          "category": "office",
+          "manager_approval": true,
+          "merchant": "Ergo Supply"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC009:receipt",
+            "kind": "receipt",
+            "valid": true
+          },
+          {
+            "fact_id": "CC009:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          },
+          {
+            "fact_id": "CC009:legacy_quote",
+            "kind": "legacy_quote",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC009:legacy_quote",
+            "CC009:manager_approval",
+            "CC009:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "office",
+      "stage": "pre",
+      "task_id": "CC009:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC010",
+      "observation": {
+        "claim": {
+          "amount_usd": 160,
+          "category": "office",
+          "manager_approval": false,
+          "merchant": "Print Works"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC010:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC010:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "office",
+      "stage": "post",
+      "task_id": "CC010:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC010",
+      "observation": {
+        "claim": {
+          "amount_usd": 160,
+          "category": "office",
+          "manager_approval": false,
+          "merchant": "Print Works"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC010:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC010:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "office",
+      "stage": "pre",
+      "task_id": "CC010:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC011",
+      "observation": {
+        "claim": {
+          "amount_usd": 300,
+          "category": "lodging",
+          "manager_approval": true,
+          "merchant": "Riverside Inn"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC011:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          },
+          {
+            "fact_id": "CC011:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC011:manager_approval",
+            "CC011:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "lodging",
+      "stage": "post",
+      "task_id": "CC011:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC011",
+      "observation": {
+        "claim": {
+          "amount_usd": 300,
+          "category": "lodging",
+          "manager_approval": true,
+          "merchant": "Riverside Inn"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC011:manager_approval",
+            "kind": "manager_approval",
+            "valid": true
+          },
+          {
+            "fact_id": "CC011:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC011:manager_approval",
+            "CC011:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "lodging",
+      "stage": "pre",
+      "task_id": "CC011:pre"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC012",
+      "observation": {
+        "claim": {
+          "amount_usd": 250,
+          "category": "lodging",
+          "manager_approval": false,
+          "merchant": "Airport Lodge"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC012:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC012:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_post_v1",
+      "source_cluster": "lodging",
+      "stage": "post",
+      "task_id": "CC012:post"
+    },
+    {
+      "actor_input_only": true,
+      "case_id": "CC012",
+      "observation": {
+        "claim": {
+          "amount_usd": 250,
+          "category": "lodging",
+          "manager_approval": false,
+          "merchant": "Airport Lodge"
+        },
+        "evidence_inventory": [
+          {
+            "fact_id": "CC012:receipt",
+            "kind": "receipt",
+            "valid": true
+          }
+        ],
+        "prior_experience": {
+          "baseline_submitted_outcome": "approve",
+          "plan_evidence_ids": [
+            "CC012:receipt"
+          ]
+        }
+      },
+      "policy_version_id": "expense_policy_pre_v1",
+      "source_cluster": "lodging",
+      "stage": "pre",
+      "task_id": "CC012:pre"
+    }
+  ]
+}

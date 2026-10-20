@@ -1,0 +1,3981 @@
+{
+  "rows": [
+    {
+      "contract": "exact_match",
+      "task_id": "CC001:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC001:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC001:receipt",
+          "CC001:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1871
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC001:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC001:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC001:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1403
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC002:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC002:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC002:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1871
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC002:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC002:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC002:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1460
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC003:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC003:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC003:receipt",
+          "CC003:manager_approval",
+          "CC003:team_note"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "SCOPE_PRECISION_FAILED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1910
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC003:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC003:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC003:receipt",
+          "CC003:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1493
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC004:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC004:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC004:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1815
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC004:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC004:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC004:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1399
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC005:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC005:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC005:receipt",
+          "CC005:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1854
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC005:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC005:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC005:receipt",
+          "CC005:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1438
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC006:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC006:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC006:receipt",
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 3,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 3,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 3,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1899
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC006:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC006:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1480
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC007:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC007:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC007:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1815
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC007:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC007:pre",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC007:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1394
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC008:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC008:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC008:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1782
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC008:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC008:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC008:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1397
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC009:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC009:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC009:receipt",
+          "CC009:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1898
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC009:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC009:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC009:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        }
+      },
+      "total_tokens": 1437
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC010:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC010:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC010:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1783
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC010:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC010:pre",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC010:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1397
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC011:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC011:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC011:receipt",
+          "CC011:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1832
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC011:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC011:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC011:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        }
+      },
+      "total_tokens": 1405
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC012:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC012:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC012:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1816
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC012:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC012:pre",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC012:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1369
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC013:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC013:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC013:receipt",
+          "CC013:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1896
+    },
+    {
+      "contract": "exact_match",
+      "task_id": "CC013:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC013:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC013:receipt",
+          "CC013:manager_approval",
+          "CC013:card_statement",
+          "CC013:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1553
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC001:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC001:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC001:receipt",
+          "CC001:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1871
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC001:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC001:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC001:receipt",
+          "CC001:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1415
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC002:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC002:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC002:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1872
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC002:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC002:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC002:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1461
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC003:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC003:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC003:receipt",
+          "CC003:manager_approval",
+          "CC003:team_note"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "SCOPE_PRECISION_FAILED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1917
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC003:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC003:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC003:receipt",
+          "CC003:manager_approval",
+          "CC003:team_note"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "SCOPE_PRECISION_FAILED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1503
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC004:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC004:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC004:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1816
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC004:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC004:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC004:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1395
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC005:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC005:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC005:receipt",
+          "CC005:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1861
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC005:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC005:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC005:receipt",
+          "CC005:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1439
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC006:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC006:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1890
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC006:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC006:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1480
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC007:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC007:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC007:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1816
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC007:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC007:pre",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC007:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1400
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC008:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC008:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC008:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1783
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC008:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC008:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC008:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1393
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC009:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC009:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC009:receipt",
+          "CC009:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1905
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC009:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC009:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC009:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        }
+      },
+      "total_tokens": 1438
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC010:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC010:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC010:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1784
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC010:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC010:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC010:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1394
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC011:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC011:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC011:receipt",
+          "CC011:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1833
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC011:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC011:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC011:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        }
+      },
+      "total_tokens": 1406
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC012:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC012:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC012:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1817
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC012:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC012:pre",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC012:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1370
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC013:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC013:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC013:receipt",
+          "CC013:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1897
+    },
+    {
+      "contract": "sufficiency_only",
+      "task_id": "CC013:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC013:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC013:receipt",
+          "CC013:manager_approval",
+          "CC013:card_statement",
+          "CC013:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1553
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC001:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC001:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC001:receipt",
+          "CC001:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1867
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC001:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC001:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC001:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1402
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC002:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC002:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC002:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1879
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC002:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC002:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC002:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1463
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC003:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC003:post",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC003:receipt",
+          "CC003:manager_approval",
+          "CC003:team_note"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "SCOPE_PRECISION_FAILED",
+          "plan_precision": "0.666666666667",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "SCOPE_IMURITY",
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1919
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC003:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC003:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC003:receipt",
+          "CC003:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1497
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC004:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC004:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC004:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1818
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC004:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC004:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC004:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1397
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC005:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC005:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC005:receipt",
+          "CC005:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1863
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC005:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC005:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC005:receipt",
+          "CC005:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1447
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC006:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC006:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC006:receipt",
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 3,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 3,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 3,
+          "plan_precision_numerator": 3,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1901
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC006:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC006:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC006:card_statement",
+          "CC006:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1482
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC007:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC007:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC007:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1818
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC007:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC007:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC007:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1402
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC008:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC008:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC008:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1781
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC008:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC008:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC008:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1395
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC009:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC009:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC009:receipt",
+          "CC009:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1901
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC009:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC009:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC009:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        }
+      },
+      "total_tokens": 1436
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC010:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC010:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC010:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1782
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC010:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC010:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC010:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1396
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC011:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC011:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC011:receipt",
+          "CC011:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1831
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC011:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC011:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC011:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "INSUFFICIENT_PLAN",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": false,
+          "reason_codes": [
+            "INSUFFICIENT_PLAN"
+          ]
+        }
+      },
+      "total_tokens": 1404
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC012:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC012:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC012:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "exact_match",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": false,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        },
+        "composite": {
+          "accepted": false,
+          "answer_coverage": false,
+          "contract": "composite",
+          "contract_reason_code": "ANSWER_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "ANSWER_MISMATCH"
+          ]
+        }
+      },
+      "total_tokens": 1819
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC012:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC012:pre",
+        "outcome": "reject",
+        "evidence_ids": [
+          "CC012:receipt"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 1,
+          "plan_precision_numerator": 1,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1368
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC013:post",
+      "valid": true,
+      "submission": {
+        "task_id": "CC013:post",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC013:receipt",
+          "CC013:manager_approval"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "EXACT_MATCH_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 2,
+          "plan_precision_numerator": 2,
+          "plan_sufficient": true,
+          "reason_codes": []
+        }
+      },
+      "total_tokens": 1895
+    },
+    {
+      "contract": "composite",
+      "task_id": "CC013:pre",
+      "valid": true,
+      "submission": {
+        "task_id": "CC013:pre",
+        "outcome": "approve",
+        "evidence_ids": [
+          "CC013:receipt",
+          "CC013:manager_approval",
+          "CC013:card_statement",
+          "CC013:merchant_invoice"
+        ]
+      },
+      "scores": {
+        "exact_match": {
+          "accepted": false,
+          "answer_coverage": true,
+          "contract": "exact_match",
+          "contract_reason_code": "CANONICAL_SET_MISMATCH",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "sufficiency_only": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "sufficiency_only",
+          "contract_reason_code": "SUFFICIENT_SET_RETAINED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        },
+        "composite": {
+          "accepted": true,
+          "answer_coverage": true,
+          "contract": "composite",
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED",
+          "plan_precision": "1.000000000000",
+          "plan_precision_denominator": 4,
+          "plan_precision_numerator": 4,
+          "plan_sufficient": true,
+          "reason_codes": [
+            "IN_SCOPE_OVER_SELECTION"
+          ]
+        }
+      },
+      "total_tokens": 1563
+    }
+  ],
+  "tokens": 128102
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "collection_execution_test_receipt_v1",
+  "tests_run": 17,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "status": "PASS",
+  "host_label": "GB10",
+  "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+  "python_version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+  "implementation_hashes": {
+    "build_execution_bundle.py": "b8e19ebd60609ebb6fb967a5c0c688bd62b87001650a5e1e73201171efcfd555",
+    "build_runtime_identity.py": "d3736fc7e526b674809e911b2a69159d025e4407cb597eb65d6bf9c7198a5c18",
+    "build_task_manifest.py": "ea2c718dd8251ac252c6926c66339815f115e92a94bf20e884ebebb648d551bc",
+    "collection_runner.py": "767e926cb59003f4900739ff60581a85b074d6b03ded70e7fdbdf0e598d472aa",
+    "execution_core.py": "f6c1762d2daa3cf176aee5094546032a0653a66808def27104861ba1a2c9883d",
+    "run_execution_tests.py": "199028aac49c18812ecb95ed7dd3e511ece9934ca7c7b59a47e18e37824b2f50",
+    "test_execution_v1.py": "d07d2e0a5805eca179f5068808c4513229dcd64757b15ae2bbefc43bb46b2400"
+  },
+  "test_hashes": {
+    "test_execution_v1.py": "d07d2e0a5805eca179f5068808c4513229dcd64757b15ae2bbefc43bb46b2400"
+  },
+  "cost": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "fixture_adapter_calls": 54
+  }
+}

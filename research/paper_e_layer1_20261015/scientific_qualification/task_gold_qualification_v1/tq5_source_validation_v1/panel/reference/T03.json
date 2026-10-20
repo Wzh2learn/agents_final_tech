@@ -1,0 +1,18 @@
+{
+  "task_id": "T03",
+  "reference_version": "v1",
+  "source": "raw TAT-QA record (train#2074)",
+  "official_reference": {
+    "answer": 540,
+    "derivation": "2,118-1,578",
+    "answer_type": "arithmetic",
+    "answer_from": "table",
+    "scale": "",
+    "rel_paragraphs": [],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original"
+  ],
+  "provisional": "reference_validity NOT_ESTABLISHED; TQ-5 had not run at freeze time"
+}

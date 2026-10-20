@@ -1,0 +1,1312 @@
+{
+  "schema": "collection_execution_result_v1",
+  "status": "EXECUTED_WITHOUT_AUTOMATIC_RETRIES",
+  "authorization_id": "AUTH-20261018-2300-CST-54REQ-a375334d",
+  "budget": {
+    "requests": 54,
+    "reserved_tokens": 0,
+    "actual_tokens": 26384,
+    "request_cap": 54,
+    "token_cap": 600000,
+    "per_request_reserve": 10240,
+    "stop_reason": null
+  },
+  "fixture_qualified": true,
+  "history_request_count": 48,
+  "results": [
+    {
+      "task_id": "X01",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_X01_a1_091522ff68c9",
+        "request_key": "plan|X01|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "14 - 10"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "14 - 10"
+        },
+        "returned_value": 4.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_X01_a1_e3c793874098",
+        "request_key": "consume|X01|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 4.0,
+        "unit": "%"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 4.0,
+        "delta_target": 4.0,
+        "source_unit": "%",
+        "target_unit": "%",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "X02",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_X02_a1_cf6dfea84b27",
+        "request_key": "plan|X02|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "6.25 - 7.5"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "6.25 - 7.5"
+        },
+        "returned_value": -1.25,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_X02_a1_87a93aac786c",
+        "request_key": "consume|X02|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -1.25,
+        "unit": "million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -1.25,
+        "delta_target": -1.25,
+        "source_unit": "million",
+        "target_unit": "million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "X03",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_X03_a1_d9634e1bdf1a",
+        "request_key": "plan|X03|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-5 - (-3)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-5 - (-3)"
+        },
+        "returned_value": -2.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_X03_a1_20445689c601",
+        "request_key": "consume|X03|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -2.0,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -2.0,
+        "delta_target": -2.0,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H01",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H01_a1_88cf02e0b123",
+        "request_key": "plan|H01|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "398.4 - 300.8"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "398.4 - 300.8"
+        },
+        "returned_value": 97.59999999999997,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H01_a1_3ee2b4ea75a8",
+        "request_key": "consume|H01|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 97.59999999999997,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 97.59999999999997,
+        "delta_target": 97.59999999999997,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 97.6
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H01",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H01_a2_eb19ae570b52",
+        "request_key": "plan|H01|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "398.4 - 300.8"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "398.4 - 300.8"
+        },
+        "returned_value": 97.59999999999997,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H01_a2_45e99cd72350",
+        "request_key": "consume|H01|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 97.59999999999997,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 97.59999999999997,
+        "delta_target": 97.59999999999997,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 97.6
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H02",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H02_a1_6e5fdb1759b6",
+        "request_key": "plan|H02|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.3 - 2.3"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.3 - 2.3"
+        },
+        "returned_value": -2.5999999999999996,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H02_a1_cc1e5b050856",
+        "request_key": "consume|H02|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -2.6,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -2.5999999999999996,
+        "delta_target": -2.5999999999999996,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -2.6
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H02",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H02_a2_908998ed9ad1",
+        "request_key": "plan|H02|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.3 - 2.3"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.3 - 2.3"
+        },
+        "returned_value": -2.5999999999999996,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H02_a2_3e16995dfbb5",
+        "request_key": "consume|H02|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -2.6,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -2.5999999999999996,
+        "delta_target": -2.5999999999999996,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -2.6
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H03",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H03_a1_7bbd85d79ee2",
+        "request_key": "plan|H03|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-17.0 - (-16.6)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-17.0 - (-16.6)"
+        },
+        "returned_value": -0.3999999999999986,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H03_a1_d203234c4386",
+        "request_key": "consume|H03|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -0.3999999999999986,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -0.3999999999999986,
+        "delta_target": -0.3999999999999986,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -0.4
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H03",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H03_a2_158541892414",
+        "request_key": "plan|H03|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-17.0 - (-16.6)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-17.0 - (-16.6)"
+        },
+        "returned_value": -0.3999999999999986,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H03_a2_3414f683b0f1",
+        "request_key": "consume|H03|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -0.3999999999999986,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -0.3999999999999986,
+        "delta_target": -0.3999999999999986,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -0.4
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H04",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H04_a1_6165034b89a1",
+        "request_key": "plan|H04|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.4 - 317.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.4 - 317.1"
+        },
+        "returned_value": -41.700000000000045,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H04_a1_2bb5b67a2316",
+        "request_key": "consume|H04|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -41.7,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -41.700000000000045,
+        "delta_target": -41.700000000000045,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -41.7
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H04",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H04_a2_9122b93d62dd",
+        "request_key": "plan|H04|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.4 - 317.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "275.4 - 317.1"
+        },
+        "returned_value": -41.700000000000045,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H04_a2_1b0d70fe6ce5",
+        "request_key": "consume|H04|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -41.7,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -41.700000000000045,
+        "delta_target": -41.700000000000045,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -41.7
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H05",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H05_a1_ceb9e82a5825",
+        "request_key": "plan|H05|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "757.3 - 768.9"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "757.3 - 768.9"
+        },
+        "returned_value": -11.600000000000023,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H05_a1_3aabc1fe5567",
+        "request_key": "consume|H05|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -11.6,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -11.600000000000023,
+        "delta_target": -11.600000000000023,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -11.6
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H05",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H05_a2_b783f31beae2",
+        "request_key": "plan|H05|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "757.3 - 768.9"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "757.3 - 768.9"
+        },
+        "returned_value": -11.600000000000023,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H05_a2_4aa7e7f72cee",
+        "request_key": "consume|H05|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -11.600000000000023,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -11.600000000000023,
+        "delta_target": -11.600000000000023,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -11.6
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H06",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H06_a1_38d580b4d6df",
+        "request_key": "plan|H06|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "1801.5 - 1661.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "1801.5 - 1661.1"
+        },
+        "returned_value": 140.4000000000001,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H06_a1_2cb6ce3454a9",
+        "request_key": "consume|H06|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 140.4000000000001,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 140.4000000000001,
+        "delta_target": 140.4000000000001,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 140.4
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H06",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H06_a2_a2a72d3c6449",
+        "request_key": "plan|H06|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "1801.5 - 1661.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "1801.5 - 1661.1"
+        },
+        "returned_value": 140.4000000000001,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H06_a2_ee8a71b2348b",
+        "request_key": "consume|H06|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 140.4000000000001,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 140.4000000000001,
+        "delta_target": 140.4000000000001,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 140.4
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H07",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H07_a1_08300b28b45b",
+        "request_key": "plan|H07|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "2493 - 2407"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "2493 - 2407"
+        },
+        "returned_value": 86.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H07_a1_81725386ce17",
+        "request_key": "consume|H07|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 86.0,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 86.0,
+        "delta_target": 86.0,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 86
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H07",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H07_a2_09fc1ec5a94e",
+        "request_key": "plan|H07|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "2493 - 2407"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "2493 - 2407"
+        },
+        "returned_value": 86.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H07_a2_4bb14a1cf89d",
+        "request_key": "consume|H07|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 86.0,
+        "unit": "currency"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 86.0,
+        "delta_target": 86.0,
+        "source_unit": "currency",
+        "target_unit": "currency",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 86
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H08",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H08_a1_20687334c9d1",
+        "request_key": "plan|H08|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "401.6 - 450.5"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "401.6 - 450.5"
+        },
+        "returned_value": -48.89999999999998,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H08_a1_eb15d6f8a9ad",
+        "request_key": "consume|H08|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -48.9,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -48.89999999999998,
+        "delta_target": -48.89999999999998,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -48.9
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H08",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H08_a2_7aef63344c0e",
+        "request_key": "plan|H08|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "401.6 - 450.5"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "401.6 - 450.5"
+        },
+        "returned_value": -48.89999999999998,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H08_a2_7ce33d37c936",
+        "request_key": "consume|H08|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -48.9,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -48.89999999999998,
+        "delta_target": -48.89999999999998,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -48.9
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H09",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H09_a1_c29b6bbd1e4f",
+        "request_key": "plan|H09|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "65.8 - 46.7"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "65.8 - 46.7"
+        },
+        "returned_value": 19.099999999999994,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H09_a1_469b8bfa1506",
+        "request_key": "consume|H09|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 19.099999999999994,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 19.099999999999994,
+        "delta_target": 19.099999999999994,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 19.1
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H09",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H09_a2_34ddc427a130",
+        "request_key": "plan|H09|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "65.8 - 46.7"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "65.8 - 46.7"
+        },
+        "returned_value": 19.099999999999994,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H09_a2_f89c519b989b",
+        "request_key": "consume|H09|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 19.099999999999994,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 19.099999999999994,
+        "delta_target": 19.099999999999994,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 19.1
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H10",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H10_a1_c39a6e95e4c9",
+        "request_key": "plan|H10|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "10.0 - 3.7"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "10.0 - 3.7"
+        },
+        "returned_value": 6.3,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H10_a1_077ee00eba6d",
+        "request_key": "consume|H10|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 6.3,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 6.3,
+        "delta_target": 6.3,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 6.3
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H10",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H10_a2_32d8b49aa664",
+        "request_key": "plan|H10|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "10.0 - 3.7"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "10.0 - 3.7"
+        },
+        "returned_value": 6.3,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H10_a2_ae9cc0123c63",
+        "request_key": "consume|H10|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 6.3,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 6.3,
+        "delta_target": 6.3,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 6.3
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H11",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H11_a1_d70b5c330e83",
+        "request_key": "plan|H11|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "138.3 - 130.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "138.3 - 130.0"
+        },
+        "returned_value": 8.300000000000011,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H11_a1_9eb3af1db843",
+        "request_key": "consume|H11|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 8.3,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 8.300000000000011,
+        "delta_target": 8.300000000000011,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 8.3
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H11",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H11_a2_ef3cdb909898",
+        "request_key": "plan|H11|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "138.3 - 130.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "138.3 - 130.0"
+        },
+        "returned_value": 8.300000000000011,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H11_a2_94a2c4cde278",
+        "request_key": "consume|H11|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 8.300000000000011,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": 8.300000000000011,
+        "delta_target": 8.300000000000011,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": 8.3
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H12",
+      "attempt": 1,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H12_a1_986b3513fb1f",
+        "request_key": "plan|H12|a1"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "53.7 - 65.6"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "53.7 - 65.6"
+        },
+        "returned_value": -11.899999999999991,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H12_a1_5c162e44940e",
+        "request_key": "consume|H12|a1"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -11.9,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -11.899999999999991,
+        "delta_target": -11.899999999999991,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -11.9
+      },
+      "scientific_result": false
+    },
+    {
+      "task_id": "H12",
+      "attempt": 2,
+      "status": "COMPLETE",
+      "plan_request": {
+        "status": "OK",
+        "request_id": "plan_H12_a2_875e3de63ed8",
+        "request_key": "plan|H12|a2"
+      },
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "53.7 - 65.6"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "53.7 - 65.6"
+        },
+        "returned_value": -11.899999999999991,
+        "status": "OK",
+        "error": null
+      },
+      "consume_request": {
+        "status": "OK",
+        "request_id": "consume_H12_a2_2b0bb199c4ad",
+        "request_key": "consume|H12|a2"
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -11.9,
+        "unit": "currency_million"
+      },
+      "feedback_category": "SUCCESS",
+      "hidden_reference": {
+        "status": "REFERENCE_RECOMPUTED",
+        "delta_source": -11.899999999999991,
+        "delta_target": -11.899999999999991,
+        "source_unit": "currency_million",
+        "target_unit": "currency_million",
+        "scale_rule": "identity",
+        "source_to_target_factor": 1.0,
+        "candidate_gold_agreement": true,
+        "candidate_gold_value": -11.9
+      },
+      "scientific_result": false
+    }
+  ],
+  "scientific_result": false
+}

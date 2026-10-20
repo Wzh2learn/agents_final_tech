@@ -1,0 +1,17 @@
+{
+  "schema": "same_number_role_b0_bundle_v1",
+  "status": "FROZEN_BEFORE_B0",
+  "artifact_hashes": {
+    "same_number_role_b0_runner.py": "dda97840eac619d7e16c6f02bde030e37db4225470ba09206f7beb7d750702d0",
+    "build_same_number_role_b0_config.py": "bc3c0e4da810a89902ba68c5fd1a673d1c9c85c3c8b02d597f917d847c1f39d0",
+    "SAME_NUMBER_ROLE_B0_PROTOCOL.json": "0aad84c81300b724e896c8a7c4d069e94dfaf887261cda65752dad2c564a3cb8",
+    "SAME_NUMBER_ROLE_PLAN_PROMPT.json": "7410d32feb3efc4ac54f3085979841a8505eb3c6c5345c99e0e1b3bb603b2767",
+    "SAME_NUMBER_ROLE_CONSUME_PROMPT.json": "39b34333d1040e8b10d3133894066b544e839c1244882caede5cf4354ad74b1a",
+    "SAME_NUMBER_ROLE_OUTPUT_SCHEMAS.json": "e232d611f14b452f449cd82ca4b31edeb6dd40730ea5f8cdfc12c3276e742cbf",
+    "tasks/SAME_NUMBER_ROLE_TASKS_DRAFT.json": "dbc54841f3e1a662b254c0249aed9fe1a8353be0b6d3f281eb55756810a14d5e",
+    "runtime/RUNTIME_IDENTITY_SNAPSHOT.json": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+    "runtime/RUNTIME_POLICY.json": "14bcbc5bc7f65e0364cbd26c21276db99cc5df036f724f4178cb94a1c1c07d14"
+  },
+  "task_count": 24,
+  "planned_requests": 48
+}

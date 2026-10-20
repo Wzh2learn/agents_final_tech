@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"submit_reimbursement_decision\\\": {\\n    \\\"task_id\\\": \\\"CC001:pre\\\",\\n    \\\"outcome\\\": \\\"approve\\\",\\n    \\\"evidence_ids\\\": [\\n      \\\"CC001:receipt\\\",\\n      \\\"CC001:manager_approval\\\"\\n    ]\\n  }\\n}\"}}],\"created\":1792494177,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":71,\"prompt_tokens\":1505,\"total_tokens\":1576,\"prompt_tokens_details\":{\"cached_tokens\":0}},\"id\":\"chatcmpl-9t93ynbfTIC4Q1kXV50JqlFu7lKCnVnC\",\"timings\":{\"cache_n\":0,\"prompt_n\":1505,\"prompt_ms\":806.296,\"prompt_per_token_ms\":0.5357448504983389,\"prompt_per_second\":1866.560171450683,\"predicted_n\":71,\"predicted_ms\":1120.605,\"predicted_per_token_ms\":15.783169014084507,\"predicted_per_second\":63.358632167445265}}"
+}

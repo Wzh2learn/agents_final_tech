@@ -1,0 +1,241 @@
+{
+  "change_description": "Meal receipts remain eligible only when the claimed meal amount is at most 50.00 USD.",
+  "decision_semantics": "first_match_in_declared_order",
+  "evidence_identity": "DEV_ONLY_CONTROLLED_MECHANISM",
+  "in_scope_fact_kinds": [
+    "receipt",
+    "card_statement",
+    "merchant_invoice",
+    "manager_approval"
+  ],
+  "policy_id": "expense_policy_v1",
+  "policy_versions": {
+    "expense_policy_pre_v1": {
+      "decision_rules": [
+        {
+          "applies_when": {
+            "all": [
+              {"field": "category", "op": "eq", "value": "meals"},
+              {"field": "amount_usd", "op": "gt", "value": 75}
+            ]
+          },
+          "id": "pre_meal_cap",
+          "outcome": "reject",
+          "reason_code": "MEAL_CAP_EXCEEDED",
+          "requires": [
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "receipt"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "proof_of_purchase"
+            }
+          ]
+        },
+        {
+          "applies_when": {
+            "all": [
+              {"field": "category", "op": "neq", "value": "meals"},
+              {"field": "amount_usd", "op": "gt", "value": 100},
+              {
+                "not": {
+                  "all": [
+                    {"field": "manager_approval", "op": "eq", "value": true}
+                  ]
+                }
+              }
+            ]
+          },
+          "id": "pre_missing_manager_approval",
+          "outcome": "reject",
+          "reason_code": "MANAGER_APPROVAL_REQUIRED",
+          "requires": [
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "receipt"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "proof_of_purchase"
+            }
+          ]
+        },
+        {
+          "applies_when": {},
+          "id": "pre_reimbursable",
+          "outcome": "approve",
+          "reason_code": "POLICY_SATISFIED",
+          "requires": [
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "receipt"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "card_statement"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  },
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "merchant_invoice"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "proof_of_purchase"
+            },
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "manager_approval"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "manager_approval",
+              "when": {"field": "amount_usd", "op": "gt", "value": 100}
+            }
+          ]
+        }
+      ],
+      "policy_version_id": "expense_policy_pre_v1"
+    },
+    "expense_policy_post_v1": {
+      "decision_rules": [
+        {
+          "applies_when": {
+            "all": [
+              {"field": "category", "op": "eq", "value": "meals"},
+              {"field": "amount_usd", "op": "gt", "value": 50}
+            ]
+          },
+          "id": "post_meal_cap",
+          "outcome": "reject",
+          "reason_code": "MEAL_CAP_EXCEEDED",
+          "requires": [
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "receipt"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "proof_of_purchase"
+            }
+          ]
+        },
+        {
+          "applies_when": {
+            "all": [
+              {"field": "category", "op": "neq", "value": "meals"},
+              {"field": "amount_usd", "op": "gt", "value": 100},
+              {
+                "not": {
+                  "all": [
+                    {"field": "manager_approval", "op": "eq", "value": true}
+                  ]
+                }
+              }
+            ]
+          },
+          "id": "post_missing_manager_approval",
+          "outcome": "reject",
+          "reason_code": "MANAGER_APPROVAL_REQUIRED",
+          "requires": [
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "receipt"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "proof_of_purchase"
+            }
+          ]
+        },
+        {
+          "applies_when": {},
+          "id": "post_reimbursable",
+          "outcome": "approve",
+          "reason_code": "POLICY_SATISFIED",
+          "requires": [
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "receipt"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "card_statement"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  },
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "merchant_invoice"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "proof_of_purchase"
+            },
+            {
+              "alternatives": [
+                [
+                  {
+                    "all": [
+                      {"field": "kind", "op": "eq", "value": "manager_approval"},
+                      {"field": "valid", "op": "eq", "value": true}
+                    ]
+                  }
+                ]
+              ],
+              "id": "manager_approval",
+              "when": {"field": "amount_usd", "op": "gt", "value": 100}
+            }
+          ]
+        }
+      ],
+      "policy_version_id": "expense_policy_post_v1"
+    }
+  },
+  "schema_version": "condition_change_policy_v1"
+}

@@ -1,0 +1,232 @@
+{
+  "schema": "candidate_b_b0_protocol_v1",
+  "status": "FROZEN_BEFORE_B0",
+  "measurement_question": "Does the fixed model correctly bind row, periods, sign and unit before executing a signed-difference calculation on the Candidate B development panel?",
+  "partition": "development",
+  "task_order": [
+    "CB_DEV_01_FAC91A09_T1",
+    "CB_DEV_01_FAC91A09_T2",
+    "CB_DEV_02_E4362659_T1",
+    "CB_DEV_02_E4362659_T2",
+    "CB_DEV_03_7C4213D2_T1",
+    "CB_DEV_03_7C4213D2_T2",
+    "CB_DEV_04_DF37691D_T1",
+    "CB_DEV_04_DF37691D_T2",
+    "CB_DEV_05_67133A8A_T1",
+    "CB_DEV_05_67133A8A_T2",
+    "CB_DEV_06_B58BD86E_T1",
+    "CB_DEV_06_B58BD86E_T2",
+    "CB_DEV_07_CF81ADE9_T1",
+    "CB_DEV_07_CF81ADE9_T2",
+    "CB_DEV_08_2DF35AEA_T1",
+    "CB_DEV_08_2DF35AEA_T2"
+  ],
+  "request_slots": [
+    {
+      "request_key": "plan|B0|CB_DEV_01_FAC91A09_T1",
+      "task_id": "CB_DEV_01_FAC91A09_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_01_FAC91A09_T1",
+      "task_id": "CB_DEV_01_FAC91A09_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_01_FAC91A09_T2",
+      "task_id": "CB_DEV_01_FAC91A09_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_01_FAC91A09_T2",
+      "task_id": "CB_DEV_01_FAC91A09_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_02_E4362659_T1",
+      "task_id": "CB_DEV_02_E4362659_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_02_E4362659_T1",
+      "task_id": "CB_DEV_02_E4362659_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_02_E4362659_T2",
+      "task_id": "CB_DEV_02_E4362659_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_02_E4362659_T2",
+      "task_id": "CB_DEV_02_E4362659_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_03_7C4213D2_T1",
+      "task_id": "CB_DEV_03_7C4213D2_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_03_7C4213D2_T1",
+      "task_id": "CB_DEV_03_7C4213D2_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_03_7C4213D2_T2",
+      "task_id": "CB_DEV_03_7C4213D2_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_03_7C4213D2_T2",
+      "task_id": "CB_DEV_03_7C4213D2_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_04_DF37691D_T1",
+      "task_id": "CB_DEV_04_DF37691D_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_04_DF37691D_T1",
+      "task_id": "CB_DEV_04_DF37691D_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_04_DF37691D_T2",
+      "task_id": "CB_DEV_04_DF37691D_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_04_DF37691D_T2",
+      "task_id": "CB_DEV_04_DF37691D_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_05_67133A8A_T1",
+      "task_id": "CB_DEV_05_67133A8A_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_05_67133A8A_T1",
+      "task_id": "CB_DEV_05_67133A8A_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_05_67133A8A_T2",
+      "task_id": "CB_DEV_05_67133A8A_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_05_67133A8A_T2",
+      "task_id": "CB_DEV_05_67133A8A_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_06_B58BD86E_T1",
+      "task_id": "CB_DEV_06_B58BD86E_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_06_B58BD86E_T1",
+      "task_id": "CB_DEV_06_B58BD86E_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_06_B58BD86E_T2",
+      "task_id": "CB_DEV_06_B58BD86E_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_06_B58BD86E_T2",
+      "task_id": "CB_DEV_06_B58BD86E_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_07_CF81ADE9_T1",
+      "task_id": "CB_DEV_07_CF81ADE9_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_07_CF81ADE9_T1",
+      "task_id": "CB_DEV_07_CF81ADE9_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_07_CF81ADE9_T2",
+      "task_id": "CB_DEV_07_CF81ADE9_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_07_CF81ADE9_T2",
+      "task_id": "CB_DEV_07_CF81ADE9_T2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_08_2DF35AEA_T1",
+      "task_id": "CB_DEV_08_2DF35AEA_T1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_08_2DF35AEA_T1",
+      "task_id": "CB_DEV_08_2DF35AEA_T1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|CB_DEV_08_2DF35AEA_T2",
+      "task_id": "CB_DEV_08_2DF35AEA_T2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|CB_DEV_08_2DF35AEA_T2",
+      "task_id": "CB_DEV_08_2DF35AEA_T2",
+      "stage": "consume",
+      "arm": "B0"
+    }
+  ],
+  "budget": {
+    "request_cap": 32,
+    "token_cap": 600000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "per_request_reserve_tokens": 10240
+  },
+  "branch_gates": {
+    "all_16_success": "CEILING_ON_THIS_PANEL",
+    "fewer_than_2_nonsuccess_or_single_cluster": "LIMITED_HEADROOM",
+    "at_least_2_clusters_with_nonsuccess": "CONTINUE_TO_ARM_DESIGN",
+    "technical_or_window_failure": "TECHNICAL_OR_WINDOW_STOP"
+  },
+  "deadline": "2026-10-19T22:00:00+08:00"
+}

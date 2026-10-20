@@ -1,0 +1,29 @@
+{
+  "schema": "collection_execution_test_receipt_v1",
+  "tests_run": 13,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "status": "PASS",
+  "host_label": "LOCAL_WINDOWS",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python_version": "3.9.10 (tags/v3.9.10:f2f3f53, Jan 17 2022, 15:14:21) [MSC v.1929 64 bit (AMD64)]",
+  "implementation_hashes": {
+    "build_execution_bundle.py": "de0318ccd0dbf9e1e674e1e3cef09c4dc68ceb31a55d4f8cc87318f55ec49851",
+    "build_runtime_identity.py": "e566f05e860bd3afe0cbb2c43930b15a797b144ac9a2cfe135d849ac105d6c31",
+    "build_task_manifest.py": "918610e495ad537394553852586e971bb40d39422c6a23666c815af68bb5efa9",
+    "collection_runner.py": "a2d43259353943ece9245ec6f241a7dd0bfdc6af24a73111820476f32ba879e8",
+    "execution_core.py": "61accc04e59b432fab34f5cd886c5464a4ce2ae3f102091057901d4452afaa9f",
+    "run_execution_tests.py": "199028aac49c18812ecb95ed7dd3e511ece9934ca7c7b59a47e18e37824b2f50"
+  },
+  "test_hashes": {
+    "test_execution_v1.py": "bb7250ecc3e2499f4679434ea4e1c9c7f92cdf95d5842bcb107d19b67cdcedb0"
+  },
+  "cost": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "fixture_adapter_calls": 54
+  }
+}

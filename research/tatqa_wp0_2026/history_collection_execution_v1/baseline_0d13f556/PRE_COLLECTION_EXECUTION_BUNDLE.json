@@ -1,0 +1,83 @@
+{
+  "schema": "pre_collection_execution_bundle_v1",
+  "status": "READY_FOR_SINGLE_COLLECTION_AUTHORIZATION",
+  "owner_review_state": "READY_WITH_ZERO_BLOCKERS",
+  "review": {
+    "incremental_review_report": "LOOP_C_INCREMENTAL_REVIEW.md",
+    "targeted_reaudit_report": "LOOP_C_INCREMENTAL_REAUDIT.md",
+    "verdict": "ACCEPTED"
+  },
+  "task_reference_qualification": {
+    "status": "QUALIFIED_FOR_EXECUTION_READINESS",
+    "counts": {
+      "history": 12,
+      "future_test": 16,
+      "development": 4,
+      "qualification_fixtures": 3
+    },
+    "references_recomputed": true,
+    "candidate_gold_agreement": true
+  },
+  "budget": {
+    "request_cap": 54,
+    "token_cap": 600000,
+    "per_request_reserve_tokens": 10240,
+    "retry_cap": 0,
+    "concurrency": 1
+  },
+  "window_proposal": {
+    "schema": "collection_window_proposal_v1",
+    "status": "PROPOSED_NOT_AUTHORIZED",
+    "timezone": "Asia/Shanghai",
+    "date": "2026-10-19",
+    "local_start": "2026-10-19T20:00:00+08:00",
+    "local_end": "2026-10-19T21:30:00+08:00",
+    "utc_start": "2026-10-19T12:00:00Z",
+    "utc_end": "2026-10-19T13:30:00Z",
+    "duration_minutes": 90,
+    "request_cap": 54,
+    "token_cap": 600000,
+    "reason": "single bounded collection window; proposal only, no request authorization"
+  },
+  "runtime_identity": {
+    "status": "BOUND_NON_GENERATIVE_IDENTITY",
+    "blockers": []
+  },
+  "artifacts": {
+    "PROMPT.md": "216bb64c8077e9efdad318ed7b13ee634973dd8b22d9423d902fc92cab40cf05",
+    "IMPLEMENTATION_PLAN.md": "fd32e331bd8b04755883f673fa184b9d2c3fd8f27e6b32a5b1ce1c40713eeffb",
+    "IMPLEMENTATION_DELTA.md": "83f06fee59cb9e1e31e03e61b6d79823c0bfa6c6b8690bedbeb9e478933a8d7e",
+    "execution_core.py": "61accc04e59b432fab34f5cd886c5464a4ce2ae3f102091057901d4452afaa9f",
+    "build_task_manifest.py": "918610e495ad537394553852586e971bb40d39422c6a23666c815af68bb5efa9",
+    "build_runtime_identity.py": "e566f05e860bd3afe0cbb2c43930b15a797b144ac9a2cfe135d849ac105d6c31",
+    "collection_runner.py": "a2d43259353943ece9245ec6f241a7dd0bfdc6af24a73111820476f32ba879e8",
+    "run_execution_tests.py": "199028aac49c18812ecb95ed7dd3e511ece9934ca7c7b59a47e18e37824b2f50",
+    "build_execution_bundle.py": "de0318ccd0dbf9e1e674e1e3cef09c4dc68ceb31a55d4f8cc87318f55ec49851",
+    "TASK_REFERENCE_MANIFEST.json": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6",
+    "EXECUTION_PLAN.json": "076eb8fcf713827619418277532943e1048c42e810272d3543da0080b6006132",
+    "RUNTIME_IDENTITY_SNAPSHOT.json": "576afaf783cd21efa8015e6779a4c50b9e745e324166c52aeed13830a453a830",
+    "RUNTIME_POLICY.json": "6188e5ccd4259effd2f568df4ae897604f9d33ffd64f81ea8ec9ef0db989ffdc",
+    "PROMPT_PLAN.json": "6cd6c884fadb37df4d4da87c347b2fd87501d959d84c0d44c007373e6e1116f9",
+    "PROMPT_CONSUME.json": "341dae3853e89ba3e3b956aeaa36dcd1b7c5f27babadc1da460e4f8ac727b107",
+    "OUTPUT_SCHEMAS.json": "f61e045a53c3860ddb901421190098b6e02dd6adf86185d48820e0ae6fa8e353",
+    "COLLECTION_WINDOW_PROPOSAL.json": "7d52166119f7de2d0b413f2880d1d1518d9edb64e195422cb3b337afa6a132ad",
+    "EXECUTION_AUTHORIZATION_SCHEMA.json": "2fe1410d38957e3cd9359f230ad4b5ace59009b0052fdf60e3c410bd763e17a3",
+    "INCREMENTAL_REVIEW_PROMPT.md": "552a4f5c64e8e8b54a5f6b574fb2631050970291c48a8eac4069096526c37023",
+    "TARGETED_REAUDIT_PROMPT.md": "76355b1fef1de152ef69f41058526cc464a2bf6602c412ebc99ee965e89d0b56",
+    "LOOP_C_INCREMENTAL_REVIEW.md": "be2cf10ed1cc9c12f141f0b8c3c5695c33a341e962fa37e4c37a295a9aaa4d2e",
+    "tests/test_execution_v1.py": "bb7250ecc3e2499f4679434ea4e1c9c7f92cdf95d5842bcb107d19b67cdcedb0",
+    "tests/TEST_RECEIPT_LOCAL.json": "0de1c83d9194cf7b6e5eb9cb5b3fc88fc8cf245bee6f516a296a69ffcea9a247",
+    "tests/TEST_RECEIPT_GB10.json": "a7464323eecf2f48236f365cac7b5c8610a6cd9e211d9043f970938fd8d9016d",
+    "LOOP_C_INCREMENTAL_REAUDIT.md": "652c8d2e466c11b2bba4b71f9b42c1dff2b44c47cbcc9a8c4b33c9eed3c2d8d1"
+  },
+  "blockers": [],
+  "cost": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "collection_calls": 0,
+    "pilot_calls": 0,
+    "service_starts": 0
+  }
+}

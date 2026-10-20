@@ -1,0 +1,31 @@
+{
+  "schema": "history_collection_offline_test_receipt_v1",
+  "tests_run": 14,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "status": "PASS",
+  "fixture_sha256": "16c0dd7fd96de0ad2f652501c76ba18bd57ffcd37f1c734965939e110b41115e",
+  "implementation_hashes": {
+    "build_exposure_and_split_audit.py": "cfcd696b199c3b800d4127b688519c2a72bb3ab364cc5de10ec44d7a3a28625d",
+    "collection_chain.py": "1e766deeb16271d4308fda712fe6fc44adc655b51aa64a8eedda266e782f8aa4",
+    "exposure_classifier.py": "33420d14f3ad9b2fdac2f74af10ee675960890d956d7124a2182f0893a615770",
+    "offline_core.py": "79c7abdc6a916f8e99eb4374f0a074c66ecc3a8c8948f69898e23615bb37e377",
+    "prepare_collection_gate.py": "f0b5377f07139cda52cde45a0f75acbc9bddc89fa6b00906fafca3ce65bb7653",
+    "raw_capture.py": "976462d30a88c52a87ed6014dc7b64bf4dc5b08735bbb96e994f04824272539d",
+    "run_offline_tests.py": "6c7bd0d37a7f89bfbfc54f2d6121b575adb667554f96ad29047cde7005684e93",
+    "source_cluster_builder.py": "b4d26e6d58c42adf738606aef57ef6e7ed7b18e04570d167c7723565e4f816e6"
+  },
+  "test_hashes": {
+    "test_offline_v1.py": "e169f0592545488e43eee0ca313d697de3073273077de8b05ba09dc782f2518a"
+  },
+  "host_label": "GB10",
+  "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+  "python_version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+  "cost": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "training_calls": 0
+  }
+}

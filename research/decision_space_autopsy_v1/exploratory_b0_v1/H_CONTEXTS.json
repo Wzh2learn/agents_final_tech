@@ -1,0 +1,1551 @@
+{
+  "schema": "same_number_role_h_contexts_v1",
+  "status": "FROZEN_BEFORE_H",
+  "contexts": {
+    "NR_exploratory_future_1604_N2": {
+      "experiences": [
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "Group 2019",
+              "row_label": "Cash including Group’s share of joint ventures"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": -223.0
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m – including Group’s share of joint ventures",
+                "Group 2019",
+                "Group 2018"
+              ],
+              [
+                "Total borrowings",
+                "4,916.8",
+                "5,331.0"
+              ],
+              [
+                "Cash and cash equivalents",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net debt",
+                "4,693.8",
+                "5,056.7"
+              ],
+              [
+                "Less Metrocentre compound financial instrument",
+                "(195.4)",
+                "(189.5)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ],
+              [
+                "Analysed as:",
+                "",
+                ""
+              ],
+              [
+                "Debt including Group’s share of joint ventures",
+                "4,721.4",
+                "5,141.5"
+              ],
+              [
+                "Cash including Group’s share of joint ventures",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ]
+            ],
+            "task_id": "NR_development_0402_N2"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                },
+                "returned_value": -223.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": -223.0,
+                "decision": "WRONG_ROLE",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        },
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "2018",
+              "row_label": "Non-deductible and other items"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": 3.4
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "2019",
+              "row_label": "Non-deductible and other items"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m",
+                "2019",
+                "2018"
+              ],
+              [
+                "Loss before tax, joint ventures and associates",
+                "(1,856.8)",
+                "(1,139.6)"
+              ],
+              [
+                "Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%)",
+                "(352.8)",
+                "(216.6)"
+              ],
+              [
+                "Exempt property rental profits and revaluations",
+                "307.0",
+                "214.9"
+              ],
+              [
+                "",
+                "(45.8)",
+                "(1.7)"
+              ],
+              [
+                "Tax on shortfall of minimum PID",
+                "22.1",
+                "–"
+              ],
+              [
+                "Additions and disposals of property and investments",
+                "7.1",
+                "0.3"
+              ],
+              [
+                "Non-deductible and other items",
+                "3.4",
+                "3.4"
+              ],
+              [
+                "Overseas taxation",
+                "(3.4)",
+                "(0.4)"
+              ],
+              [
+                "Unprovided deferred tax1",
+                "22.4",
+                "(7.3)"
+              ],
+              [
+                "Total tax expense/(credit)",
+                "5.8",
+                "(5.7)"
+              ]
+            ],
+            "task_id": "NR_development_2174_N2"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                },
+                "returned_value": 0.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "decision": "WRONG_ROLE",
+                "calc_value": 0.0,
+                "unit": "GBP"
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                },
+                "returned_value": 0.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": 0.0,
+                "decision": "WRONG_ROLE",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "SUCCESS",
+            "message": "The first attempt was correct. Preserve the same evidence-role decision."
+          }
+        }
+      ],
+      "selection_reason": {
+        "case_type": "same_number",
+        "visible_role_match": false,
+        "rule": "same case type and visible role-match state; corrected successful histories first; task_id order; no future outputs"
+      }
+    },
+    "NR_exploratory_future_1604_P1": {
+      "experiences": [
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": -223.0
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m – including Group’s share of joint ventures",
+                "Group 2019",
+                "Group 2018"
+              ],
+              [
+                "Total borrowings",
+                "4,916.8",
+                "5,331.0"
+              ],
+              [
+                "Cash and cash equivalents",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net debt",
+                "4,693.8",
+                "5,056.7"
+              ],
+              [
+                "Less Metrocentre compound financial instrument",
+                "(195.4)",
+                "(189.5)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ],
+              [
+                "Analysed as:",
+                "",
+                ""
+              ],
+              [
+                "Debt including Group’s share of joint ventures",
+                "4,721.4",
+                "5,141.5"
+              ],
+              [
+                "Cash including Group’s share of joint ventures",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ]
+            ],
+            "task_id": "NR_development_0402_P1"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                },
+                "returned_value": -223.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": -223.0,
+                "decision": "SUPPORTED",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        },
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "2019",
+              "row_label": "Adjusted operating costs1"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "USD",
+              "value": 275.7
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "2019",
+              "row_label": "Adjusted operating costs1"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "$ million",
+                "2019",
+                "2018"
+              ],
+              [
+                "Product development",
+                "96.5",
+                "96.9"
+              ],
+              [
+                "Selling and marketing",
+                "129.2",
+                "123.9"
+              ],
+              [
+                "Administration1",
+                "50.0",
+                "46.6"
+              ],
+              [
+                "Adjusted operating costs1",
+                "275.7",
+                "267.4"
+              ],
+              [
+                "Networks & Security",
+                "158.4",
+                "148.9"
+              ],
+              [
+                "Lifecycle Service Assurance",
+                "70.5",
+                "70.5"
+              ],
+              [
+                "Connected Devices",
+                "38.2",
+                "40.8"
+              ],
+              [
+                "Corporate",
+                "8.6",
+                "7.2"
+              ],
+              [
+                "Adjusted operating costs1",
+                "275.7",
+                "267.4"
+              ]
+            ],
+            "task_id": "NR_development_1582_P1"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "275.7"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "275.7"
+                },
+                "returned_value": 275.7,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": 275.7,
+                "decision": "SUPPORTED",
+                "unit": "USD"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        }
+      ],
+      "selection_reason": {
+        "case_type": "same_number",
+        "visible_role_match": true,
+        "rule": "same case type and visible role-match state; corrected successful histories first; task_id order; no future outputs"
+      }
+    },
+    "NR_exploratory_future_1792_N2": {
+      "experiences": [
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "Group 2019",
+              "row_label": "Cash including Group’s share of joint ventures"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": -223.0
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m – including Group’s share of joint ventures",
+                "Group 2019",
+                "Group 2018"
+              ],
+              [
+                "Total borrowings",
+                "4,916.8",
+                "5,331.0"
+              ],
+              [
+                "Cash and cash equivalents",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net debt",
+                "4,693.8",
+                "5,056.7"
+              ],
+              [
+                "Less Metrocentre compound financial instrument",
+                "(195.4)",
+                "(189.5)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ],
+              [
+                "Analysed as:",
+                "",
+                ""
+              ],
+              [
+                "Debt including Group’s share of joint ventures",
+                "4,721.4",
+                "5,141.5"
+              ],
+              [
+                "Cash including Group’s share of joint ventures",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ]
+            ],
+            "task_id": "NR_development_0402_N2"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                },
+                "returned_value": -223.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": -223.0,
+                "decision": "WRONG_ROLE",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        },
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "2018",
+              "row_label": "Non-deductible and other items"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": 3.4
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "2019",
+              "row_label": "Non-deductible and other items"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m",
+                "2019",
+                "2018"
+              ],
+              [
+                "Loss before tax, joint ventures and associates",
+                "(1,856.8)",
+                "(1,139.6)"
+              ],
+              [
+                "Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%)",
+                "(352.8)",
+                "(216.6)"
+              ],
+              [
+                "Exempt property rental profits and revaluations",
+                "307.0",
+                "214.9"
+              ],
+              [
+                "",
+                "(45.8)",
+                "(1.7)"
+              ],
+              [
+                "Tax on shortfall of minimum PID",
+                "22.1",
+                "–"
+              ],
+              [
+                "Additions and disposals of property and investments",
+                "7.1",
+                "0.3"
+              ],
+              [
+                "Non-deductible and other items",
+                "3.4",
+                "3.4"
+              ],
+              [
+                "Overseas taxation",
+                "(3.4)",
+                "(0.4)"
+              ],
+              [
+                "Unprovided deferred tax1",
+                "22.4",
+                "(7.3)"
+              ],
+              [
+                "Total tax expense/(credit)",
+                "5.8",
+                "(5.7)"
+              ]
+            ],
+            "task_id": "NR_development_2174_N2"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                },
+                "returned_value": 0.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "decision": "WRONG_ROLE",
+                "calc_value": 0.0,
+                "unit": "GBP"
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                },
+                "returned_value": 0.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": 0.0,
+                "decision": "WRONG_ROLE",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "SUCCESS",
+            "message": "The first attempt was correct. Preserve the same evidence-role decision."
+          }
+        }
+      ],
+      "selection_reason": {
+        "case_type": "same_number",
+        "visible_role_match": false,
+        "rule": "same case type and visible role-match state; corrected successful histories first; task_id order; no future outputs"
+      }
+    },
+    "NR_exploratory_future_1792_P1": {
+      "experiences": [
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": -223.0
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m – including Group’s share of joint ventures",
+                "Group 2019",
+                "Group 2018"
+              ],
+              [
+                "Total borrowings",
+                "4,916.8",
+                "5,331.0"
+              ],
+              [
+                "Cash and cash equivalents",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net debt",
+                "4,693.8",
+                "5,056.7"
+              ],
+              [
+                "Less Metrocentre compound financial instrument",
+                "(195.4)",
+                "(189.5)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ],
+              [
+                "Analysed as:",
+                "",
+                ""
+              ],
+              [
+                "Debt including Group’s share of joint ventures",
+                "4,721.4",
+                "5,141.5"
+              ],
+              [
+                "Cash including Group’s share of joint ventures",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ]
+            ],
+            "task_id": "NR_development_0402_P1"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                },
+                "returned_value": -223.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": -223.0,
+                "decision": "SUPPORTED",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        },
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "2019",
+              "row_label": "Adjusted operating costs1"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "USD",
+              "value": 275.7
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "2019",
+              "row_label": "Adjusted operating costs1"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "$ million",
+                "2019",
+                "2018"
+              ],
+              [
+                "Product development",
+                "96.5",
+                "96.9"
+              ],
+              [
+                "Selling and marketing",
+                "129.2",
+                "123.9"
+              ],
+              [
+                "Administration1",
+                "50.0",
+                "46.6"
+              ],
+              [
+                "Adjusted operating costs1",
+                "275.7",
+                "267.4"
+              ],
+              [
+                "Networks & Security",
+                "158.4",
+                "148.9"
+              ],
+              [
+                "Lifecycle Service Assurance",
+                "70.5",
+                "70.5"
+              ],
+              [
+                "Connected Devices",
+                "38.2",
+                "40.8"
+              ],
+              [
+                "Corporate",
+                "8.6",
+                "7.2"
+              ],
+              [
+                "Adjusted operating costs1",
+                "275.7",
+                "267.4"
+              ]
+            ],
+            "task_id": "NR_development_1582_P1"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "275.7"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "275.7"
+                },
+                "returned_value": 275.7,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": 275.7,
+                "decision": "SUPPORTED",
+                "unit": "USD"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        }
+      ],
+      "selection_reason": {
+        "case_type": "same_number",
+        "visible_role_match": true,
+        "rule": "same case type and visible role-match state; corrected successful histories first; task_id order; no future outputs"
+      }
+    },
+    "NR_exploratory_future_2442_N2": {
+      "experiences": [
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "Group 2019",
+              "row_label": "Cash including Group’s share of joint ventures"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": -223.0
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m – including Group’s share of joint ventures",
+                "Group 2019",
+                "Group 2018"
+              ],
+              [
+                "Total borrowings",
+                "4,916.8",
+                "5,331.0"
+              ],
+              [
+                "Cash and cash equivalents",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net debt",
+                "4,693.8",
+                "5,056.7"
+              ],
+              [
+                "Less Metrocentre compound financial instrument",
+                "(195.4)",
+                "(189.5)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ],
+              [
+                "Analysed as:",
+                "",
+                ""
+              ],
+              [
+                "Debt including Group’s share of joint ventures",
+                "4,721.4",
+                "5,141.5"
+              ],
+              [
+                "Cash including Group’s share of joint ventures",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ]
+            ],
+            "task_id": "NR_development_0402_N2"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                },
+                "returned_value": -223.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": -223.0,
+                "decision": "WRONG_ROLE",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        },
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "2018",
+              "row_label": "Non-deductible and other items"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": 3.4
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "2019",
+              "row_label": "Non-deductible and other items"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m",
+                "2019",
+                "2018"
+              ],
+              [
+                "Loss before tax, joint ventures and associates",
+                "(1,856.8)",
+                "(1,139.6)"
+              ],
+              [
+                "Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%)",
+                "(352.8)",
+                "(216.6)"
+              ],
+              [
+                "Exempt property rental profits and revaluations",
+                "307.0",
+                "214.9"
+              ],
+              [
+                "",
+                "(45.8)",
+                "(1.7)"
+              ],
+              [
+                "Tax on shortfall of minimum PID",
+                "22.1",
+                "–"
+              ],
+              [
+                "Additions and disposals of property and investments",
+                "7.1",
+                "0.3"
+              ],
+              [
+                "Non-deductible and other items",
+                "3.4",
+                "3.4"
+              ],
+              [
+                "Overseas taxation",
+                "(3.4)",
+                "(0.4)"
+              ],
+              [
+                "Unprovided deferred tax1",
+                "22.4",
+                "(7.3)"
+              ],
+              [
+                "Total tax expense/(credit)",
+                "5.8",
+                "(5.7)"
+              ]
+            ],
+            "task_id": "NR_development_2174_N2"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                },
+                "returned_value": 0.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "decision": "WRONG_ROLE",
+                "calc_value": 0.0,
+                "unit": "GBP"
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "3.4 - 3.4"
+                },
+                "returned_value": 0.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": 0.0,
+                "decision": "WRONG_ROLE",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "SUCCESS",
+            "message": "The first attempt was correct. Preserve the same evidence-role decision."
+          }
+        }
+      ],
+      "selection_reason": {
+        "case_type": "same_number",
+        "visible_role_match": false,
+        "rule": "same case type and visible role-match state; corrected successful histories first; task_id order; no future outputs"
+      }
+    },
+    "NR_exploratory_future_2442_P1": {
+      "experiences": [
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "GBP",
+              "value": -223.0
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "Group 2019",
+              "row_label": "Cash and cash equivalents"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "£m – including Group’s share of joint ventures",
+                "Group 2019",
+                "Group 2018"
+              ],
+              [
+                "Total borrowings",
+                "4,916.8",
+                "5,331.0"
+              ],
+              [
+                "Cash and cash equivalents",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net debt",
+                "4,693.8",
+                "5,056.7"
+              ],
+              [
+                "Less Metrocentre compound financial instrument",
+                "(195.4)",
+                "(189.5)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ],
+              [
+                "Analysed as:",
+                "",
+                ""
+              ],
+              [
+                "Debt including Group’s share of joint ventures",
+                "4,721.4",
+                "5,141.5"
+              ],
+              [
+                "Cash including Group’s share of joint ventures",
+                "(223.0)",
+                "(274.3)"
+              ],
+              [
+                "Net external debt",
+                "4,498.4",
+                "4,867.2"
+              ]
+            ],
+            "task_id": "NR_development_0402_P1"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "-223.0"
+                },
+                "returned_value": -223.0,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": -223.0,
+                "decision": "SUPPORTED",
+                "unit": "GBP"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        },
+        {
+          "task": {
+            "candidate_citation": {
+              "period": "2019",
+              "row_label": "Adjusted operating costs1"
+            },
+            "claim": {
+              "kind": "cell_value",
+              "scale": "million",
+              "unit": "USD",
+              "value": 275.7
+            },
+            "instructions": "Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.",
+            "question": "Does the candidate evidence support the requested role and claimed cell value?",
+            "requested_role": {
+              "period": "2019",
+              "row_label": "Adjusted operating costs1"
+            },
+            "schema": "same_number_role_actor_task_v1",
+            "table": [
+              [
+                "$ million",
+                "2019",
+                "2018"
+              ],
+              [
+                "Product development",
+                "96.5",
+                "96.9"
+              ],
+              [
+                "Selling and marketing",
+                "129.2",
+                "123.9"
+              ],
+              [
+                "Administration1",
+                "50.0",
+                "46.6"
+              ],
+              [
+                "Adjusted operating costs1",
+                "275.7",
+                "267.4"
+              ],
+              [
+                "Networks & Security",
+                "158.4",
+                "148.9"
+              ],
+              [
+                "Lifecycle Service Assurance",
+                "70.5",
+                "70.5"
+              ],
+              [
+                "Connected Devices",
+                "38.2",
+                "40.8"
+              ],
+              [
+                "Corporate",
+                "8.6",
+                "7.2"
+              ],
+              [
+                "Adjusted operating costs1",
+                "275.7",
+                "267.4"
+              ]
+            ],
+            "task_id": "NR_development_1582_P1"
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "plan": {
+                "status": "INVALID_PLAN",
+                "error": "unsupported_expression_node"
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {},
+                "returned_value": null,
+                "status": "TOOL_ERROR",
+                "error": "INVALID_PLAN"
+              },
+              "consume": {
+                "calc_value": null,
+                "decision": "UNKNOWN",
+                "unit": null
+              }
+            },
+            {
+              "attempt": 2,
+              "plan": {
+                "tool": "calc",
+                "params": {
+                  "expression": "275.7"
+                }
+              },
+              "tool_result": {
+                "tool": "calc",
+                "params": {
+                  "expression": "275.7"
+                },
+                "returned_value": 275.7,
+                "status": "OK",
+                "error": null
+              },
+              "consume": {
+                "calc_value": 275.7,
+                "decision": "SUPPORTED",
+                "unit": "USD"
+              }
+            }
+          ],
+          "feedback": {
+            "category": "PLAN_OR_TOOL_ERROR",
+            "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+          }
+        }
+      ],
+      "selection_reason": {
+        "case_type": "same_number",
+        "visible_role_match": true,
+        "rule": "same case type and visible role-match state; corrected successful histories first; task_id order; no future outputs"
+      }
+    }
+  }
+}

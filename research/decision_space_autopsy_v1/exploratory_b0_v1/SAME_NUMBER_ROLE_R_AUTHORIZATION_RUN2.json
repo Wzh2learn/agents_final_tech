@@ -1,0 +1,15 @@
+{
+  "schema": "same_number_role_arm_authorization_v1",
+  "authorization_id": "SAME-NUMBER-R-20261019-1050-24REQ-R2",
+  "protocol_sha256": "8d205e8a276747a3eb53111b8cb3554812ba97ff16dbb984f448dd805a6ddc30",
+  "runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "window_start_utc": "2026-10-19T10:50:00Z",
+  "window_end_utc": "2026-10-19T12:00:00Z",
+  "request_cap": 24,
+  "token_cap": 300000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "User approved exploratory development; R2 replaces a zero-request pre-window start.",
+  "raw_root": "/home/testuser/wzh/candidate_b_runs/SAME-NUMBER-R-20261019-R2"
+}

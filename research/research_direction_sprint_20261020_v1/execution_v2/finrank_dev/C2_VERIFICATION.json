@@ -1,0 +1,61 @@
+{
+  "schema": "finrank_c2_historical_verification_v1",
+  "status": "HISTORICAL_EVIDENCE_VERIFIED_WITH_REPRODUCIBILITY_LIMITATION",
+  "passed": 5,
+  "total": 5,
+  "reproducibility_limitation": {
+    "source_snapshot": "MISSING",
+    "current_source_state": "DRIFTED_INTO_C3",
+    "available_frozen_identity": "BUNDLE_C2_B0_V3.json artifact hash manifest only",
+    "claim_boundary": "Historical fixture/result/raw/ledger evidence is verified; the C2 source tree is not reproducible from current files."
+  },
+  "known_blockers": [
+    "LITERAL_PERCENT_SCORER_BUG",
+    "ARBITRARY_PAIR_DERIVATION_SUPPORT_BUG",
+    "ESD_012_OUTPUT_TRUNCATION"
+  ],
+  "checks": [
+    {
+      "name": "c2_bundle_hash",
+      "pass": true,
+      "observed": {
+        "bundle_sha256": "6b861dcfdbb8efd847b40652ad7abc90fde1cdf17686cc159b27b98d08e02b6e",
+        "artifact_manifest_entries": 11
+      }
+    },
+    {
+      "name": "c2_fixture",
+      "pass": true,
+      "observed": {
+        "passed": 17,
+        "total": 17
+      }
+    },
+    {
+      "name": "c2_b0_v3_original_result",
+      "pass": true,
+      "observed": {
+        "success": 4,
+        "requests": 14,
+        "bundle_sha256": "6b861dcfdbb8efd847b40652ad7abc90fde1cdf17686cc159b27b98d08e02b6e"
+      }
+    },
+    {
+      "name": "c2_raw_preserved",
+      "pass": true,
+      "observed": {
+        "requests": 14,
+        "responses": 14,
+        "crashes": 0
+      }
+    },
+    {
+      "name": "c2_ledger_slice",
+      "pass": true,
+      "observed": {
+        "requests": 42,
+        "accounting_tokens": 261902
+      }
+    }
+  ]
+}

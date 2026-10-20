@@ -1,0 +1,14 @@
+{
+  "fixture_sha256": "e767319b00f398b941f435555db85c2362e662c9801121ca50c34e2bdc127c3e",
+  "new_generation_requests": 0,
+  "real_generation_requests_observed": 14,
+  "schema": "real_trace_feedback_freeze_receipt_v1",
+  "schema_version": "real_trace_feedback_posthoc_v1",
+  "source_sha256": {
+    "../../finrank_dev/C1_RETURN.md": "3ef7f64059c21142c3cf021849bad66b8c3a776564e91d7638a1ffac44ba614e",
+    "../../finrank_dev/C2_ROOT_CAUSE.md": "182913729a4b2f196b055d09e7e90525bc8065145162026b431b4660ee099a12",
+    "../../finrank_dev/REFERENCES_V1.json": "df799e92f672d04b6015b521a8f0dbb9a8a1ba0af1c9d6716c3f2d01d1f1d4e0",
+    "../../finrank_dev/results/B0_V2_ENGINEERING_FIX/B0_RESULT.json": "9414d6927a571dd00a85687c0a530a1363869d0350740784fb80753182673e27"
+  },
+  "trace_count": 7
+}

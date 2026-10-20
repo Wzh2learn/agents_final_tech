@@ -1,0 +1,563 @@
+{
+  "schema": "harness_rsi_t4_baseline_v1",
+  "task_id": "T4",
+  "run_id": "20261014T174628Z_2cc25c92",
+  "direction": "R",
+  "baseline_type": "engineering_capability_profile",
+  "scientific_conclusions": "NONE",
+  "model_identity": {
+    "model": "NONE",
+    "calls": 0
+  },
+  "environment_identity": {
+    "hostname": "promaxgb10-0b48",
+    "os": "Ubuntu 24.04.4 LTS",
+    "python3": "Python 3.12.3",
+    "repository_head": "ecfb0cfd2942543ee5bb58ee90586bf4486aaed7",
+    "scope": "Local GB10 execution identity only."
+  },
+  "case_set_identity": {
+    "task_id": "T1",
+    "run_id": "20261014T141004Z_2647a7e1",
+    "incident_file": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+    "incident_git_blob_id": "c666bb35bac784591b3fd11b6975be044ce599b7",
+    "case_count": 16,
+    "artifact_level_counts": {
+      "real_incident": 13,
+      "control_exemplar": 2,
+      "unverified_inference": 1
+    },
+    "sealed_set": "NOT_ENABLED",
+    "planned_stratified_set": "24/24/24 is a build plan only; T4 created no cases."
+  },
+  "evaluator_identity": {
+    "task_id": "T2",
+    "run_id": "20261014T145327Z_9a02a34a",
+    "evaluator_path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+    "evaluator_git_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+    "review_ref": "research/harness_rsi_v1/reviews/T2R-01/"
+  },
+  "cases": [
+    {
+      "case_id": "T1-INC-01",
+      "title": "桥 v1 首次失败：非 JSON 且未先持久化",
+      "failure_family": "真实调用边界",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于评价器检验'真实调用边界+persist-first'族缺陷。",
+      "legal_control_design": "同一真实接口：strict JSON 约束 + persist-first + schema 校验（bridge v2 方案）。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/S4S7_EXECUTION_REPORT.md", "sha256_canonical": "9a4c402cbf8f657293946cd9b7bdd5becad02d5f", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/S4_HISTORY_FAILED_ATTEMPT_RECEIPT.json", "sha256_canonical": "fcbfd4d3c38872d71ad09db54fbd3f4aace06f7b", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The source describes a missing persisted structured receipt. dispatch_precheck requires a parseable watcher execution receipt.",
+      "fixture": "fixtures/dispatch/missing_tick.json",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/dispatch_precheck.sh",
+          "adapter": "adapters/dispatch_precheck_adapter.sh",
+          "result": "detected",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "T4-local missing tick contract only; watcher execution and scheduling are out of scope.",
+          "exit_codes": [1, 1],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.150425189Z_3919348_21280_pass1_inc01_dispatch.log",
+            "scratch/tool_outputs/20261014T180741.107964176Z_3919943_27579_pass2_inc01_dispatch.log"
+          ]
+        }
+      ],
+      "case_result": "detected"
+    },
+    {
+      "case_id": "T1-INC-02",
+      "title": "桥 v1 二次失败：纯散文补全、三路线全败",
+      "failure_family": "真实调用边界",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'结构化输出强制层缺失'族缺陷。",
+      "legal_control_design": "chat 模板 + 恰 1 锁定示例 + 约束解码（机械保证 JSON）。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/S4B_EXECUTION_REPORT.md", "sha256_canonical": "d3d043d403cc4a27a40b71342f955e3948d1249b", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/S4_HISTORY_FAILURE_FINAL_RECEIPT.json", "sha256_canonical": "de665413ed98ec114fc50378426b5c6409f6afcc", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4_history-01-wp2_3ab739eb_r2_p0-plan-3/raw_response.txt", "sha256_canonical": "53a6300f33d72cd882678becac1b8d8e8468d817", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The source records prose where a structured persisted receipt was required. dispatch_precheck fail-closes invalid JSON.",
+      "fixture": "fixtures/dispatch/tick_prose.txt",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/dispatch_precheck.sh",
+          "adapter": "adapters/dispatch_precheck_adapter.sh",
+          "result": "detected",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "T4-local prose-versus-JSON input contract only; no model decoding is exercised.",
+          "exit_codes": [1, 1],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.332321179Z_3919404_20992_pass1_inc02_dispatch.log",
+            "scratch/tool_outputs/20261014T180741.319602035Z_3919999_12150_pass2_inc02_dispatch.log"
+          ]
+        }
+      ],
+      "case_result": "detected"
+    },
+    {
+      "case_id": "T1-INC-03",
+      "title": "探针预算超限：4 次请求 vs 上限 3",
+      "failure_family": "完整性与预算",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'预算/计数完整性'族缺陷。",
+      "legal_control_design": "预声明按阶段计数的请求预算 + 超限即停。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/S4B_STOP_RECEIPT.json", "sha256_canonical": "09084d4e5957b906dd53a46bec8ede7fbd63ab90", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "No selected old-workflow adapter implements request-budget accounting; extending T3 runner is prohibited.",
+      "fixture": null,
+      "applicable_checks": [],
+      "case_result": "unverified",
+      "unverified_reason": "缺少获准的旧流程离线预算检查入口；T3 runner 不得扩展，B0 禁止真实请求。"
+    },
+    {
+      "case_id": "T1-INC-04",
+      "title": "原始响应被覆盖：逻辑序列号复用",
+      "failure_family": "完整性与预算",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'原始记录完整性'族缺陷。",
+      "legal_control_design": "由全部既有 attempt 派生序列号 + persist-first 的唯一目录。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/S4B_STOP_RECEIPT.json", "sha256_canonical": "09084d4e5957b906dd53a46bec8ede7fbd63ab90", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/S4B_EXECUTION_REPORT.md", "sha256_canonical": "d3d043d403cc4a27a40b71342f955e3948d1249b", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "No selected old-workflow adapter checks attempt-directory uniqueness or overwrite refusal; extending T3 runner is prohibited.",
+      "fixture": null,
+      "applicable_checks": [],
+      "case_result": "unverified",
+      "unverified_reason": "缺少获准的旧流程离线覆盖检查入口；T3 runner 不得扩展。"
+    },
+    {
+      "case_id": "T1-INC-05",
+      "title": "运行器导入失败：动态模块未注册 sys.modules",
+      "failure_family": "真实调用边界",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'零传输工程故障 vs 科学结果'分类族。",
+      "legal_control_design": "加载器注册 sys.modules + 本地/GB10 双侧导入冒烟。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/INCIDENT_1_runner_import_failure.txt", "sha256_canonical": "c488421cfc7697eef1e0aad9112766ca83567048", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "No authorized selected adapter performs the specific dynamic-import smoke test.",
+      "fixture": null,
+      "applicable_checks": [],
+      "case_result": "unverified",
+      "unverified_reason": "缺少获准的旧流程导入冒烟入口；未以其他 runner 代替。"
+    },
+    {
+      "case_id": "T1-INC-06",
+      "title": "在线资格 400：logits processor 调用约定错配",
+      "failure_family": "真实调用边界",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'真实调用接口/参数顺序'族缺陷（三源互证，最强边界案例）。",
+      "legal_control_design": "同一真实接口按实际调用约定执行：在线资格探针（3 个）+ 零模型复现脚本。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json", "sha256_canonical": "829cbf9b10db3bf8cffd1e0ca28666e6c5e5a2d0", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/INCIDENT_2_online_processor_failure.txt", "sha256_canonical": "07271bbd87b9a9d31a638a50167a0995027526b3", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/processor_interface_diagnosis_output.json", "sha256_canonical": "7a414a012456f90b2eb00b26e749229c671f178d", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The source's control requires online probes; B0 forbids model/network calls and dispatch_precheck does not exercise model interfaces.",
+      "fixture": null,
+      "applicable_checks": [],
+      "case_result": "unverified",
+      "unverified_reason": "需要在线模型接口复盘，B0 明确禁止；不得以离线输入合同替代。"
+    },
+    {
+      "case_id": "T1-INC-07",
+      "title": "测量对象错位：离线全绿 ≠ 在线可跑",
+      "failure_family": "测量对象",
+      "expected_category": "REVIEW_REQUIRED",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'测量对象=代理而非真实对象'族缺陷。",
+      "legal_control_design": "资格必须覆盖真实调用路径：在线探针 + 真实调用约定复核。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/BRIDGE_V2_RECEIPT.json", "sha256_canonical": "6e165d6acd6adde02b7cbb5979cf22065086b1bf", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json", "sha256_canonical": "829cbf9b10db3bf8cffd1e0ca28666e6c5e5a2d0", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/bridge_v2/offline_qualification.py", "sha256_canonical": "8d91f684bc815cb4f5ab229e36d4301287f8c445", "hash_domain": "git_blob_id"},
+        {"path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/INCIDENT_2_online_processor_failure.txt", "sha256_canonical": "07271bbd87b9a9d31a638a50167a0995027526b3", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The selected summary guard checks claim-to-artifact consistency, so an internally consistent offline proxy should pass despite the upstream measurement-object mismatch.",
+      "fixture": "fixtures/summary/offline_proxy_match.md",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "missed",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Claim-to-stored-artifact consistency only; does not validate the real online measurement object.",
+          "exit_codes": [0, 0],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.436911163Z_3919430_4408_pass1_inc07_summary.log",
+            "scratch/tool_outputs/20261014T180741.400899537Z_3920025_8054_pass2_inc07_summary.log"
+          ]
+        }
+      ],
+      "case_result": "missed"
+    },
+    {
+      "case_id": "T1-INC-08",
+      "title": "原始证据被 .gitignore 静默排除（未入库）",
+      "failure_family": "完整性与预算",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'证据完整率'族缺陷。",
+      "legal_control_design": "证据清单显式声明 + force-add 入库。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/service/service.log", "sha256_canonical": "bde4015a3c5c7cc552bd175c9e07369c0cf44365", "hash_domain": "git_blob_id"},
+        {"path": "research/harness_rsi_v1/reviews/T1R-01/LOOP_C_RAW_STDOUT.log", "sha256_canonical": "62d8f5fd69655103295bcc56fa3a1484ff3d3796", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "index-guard inspects staged new scripts, not an evidence inventory; forcing this file into the index is forbidden.",
+      "fixture": null,
+      "applicable_checks": [],
+      "case_result": "unverified",
+      "unverified_reason": "现有 index-guard 不覆盖原始证据清单；T4 不得 git add 或改变 index。"
+    },
+    {
+      "case_id": "T1-INC-09",
+      "title": "清单钉定滞后：文件改了但 manifest 未回钉",
+      "failure_family": "证据身份",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'清单-磁盘等价'族缺陷。",
+      "legal_control_design": "编辑后回钉 + 清单-磁盘集合等价校验。",
+      "source_refs": [
+        {"path": "research/harness_rsi_v1/FILE_MANIFEST.json", "sha256_canonical": "11c43de6ea7ea5df834806032d8e6e60ff913712", "hash_domain": "git_blob_id"},
+        {"path": "research/harness_rsi_v1/runs/T-1/20261014T085638Z_ba9297ac/SUPERSEDED.md", "sha256_canonical": "9fdbd44ec98b7cf236ea72882b1d3ff888d3bf45", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "Both checks are in the evidence-pinning family. Summary guard verifies self-consistency only; MD5 manifest format detects a stale byte pin.",
+      "fixture": "fixtures/summary/stale_manifest_match.md and fixtures/frozen/stale.md5",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "missed",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Declared summary versus stored JSON only; cannot prove the stored JSON is the current artifact.",
+          "exit_codes": [0, 0],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.516046212Z_3919455_15703_pass1_inc09_summary.log",
+            "scratch/tool_outputs/20261014T180741.465787891Z_3920050_200_pass2_inc09_summary.log"
+          ]
+        },
+        {
+          "tool": "scripts/graph/frozen_hashes.txt",
+          "adapter": "adapters/frozen_hash_check_adapter.sh",
+          "result": "detected",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "MD5 manifest byte match in a T4-local fixture; does not alter or authorize repository freeze scope.",
+          "exit_codes": [1, 1],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.989647162Z_3919347_15623_pass1_inc09_frozen.log",
+            "scratch/tool_outputs/20261014T180741.954281195Z_3919942_3818_pass2_inc09_frozen.log"
+          ]
+        }
+      ],
+      "case_result": "detected"
+    },
+    {
+      "case_id": "T1-INC-10",
+      "title": "哈希域不一致：工作树字节 pin 跨机不可复现",
+      "failure_family": "证据身份",
+      "expected_category": "REVIEW_REQUIRED",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'哈希域/身份钉定'族缺陷（本包自身引用同族教训）。",
+      "legal_control_design": "canonical blob 域（rev-parse HEAD:path）+ 历史值留档。",
+      "source_refs": [
+        {"path": "research/harness_rsi_v1/runs/T0/20261014T101305Z_026e6533/authority_binding_proposal.json", "sha256_canonical": "d74911601cc585a97f64d09780c2b08c93a34862", "hash_domain": "git_blob_id"},
+        {"path": "research/harness_rsi_v1/contracts/authority_map.json", "sha256_canonical": "46acca7ec01b98a5008f2851f10a86af6fe34fed", "hash_domain": "git_blob_id"},
+        {"path": "research/harness_rsi_v1/reviews/T1R-02/REVIEW.md", "sha256_canonical": "cadcc0e7ea9f7b9b8a51fa27aebb608c79f4b0a8", "hash_domain": "git_blob_id"},
+        {"path": "research/harness_rsi_v1/reviews/T0R-01/REVIEW.md", "sha256_canonical": "259cbe269bc81242481256b5fb91246a237fb34a", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The selected old manifest check supports one MD5 byte domain and no dual-domain or cross-machine normalization review.",
+      "fixture": null,
+      "applicable_checks": [],
+      "case_result": "unverified",
+      "unverified_reason": "旧流程离线适配器缺少双哈希域/表示域裁决语义；未包装增强语义。"
+    },
+    {
+      "case_id": "T1-INC-11",
+      "title": "委派投递缺口：评审线程未收到任务原文",
+      "failure_family": "交付与权限",
+      "expected_category": "BLOCK",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'交付披露与审计来源'族缺陷。",
+      "legal_control_design": "派发时校验 brief 注入 + 任务书独立入档（REVIEW_PROMPT.md + 哈希绑定）。",
+      "source_refs": [
+        {"path": "research/tatqa_wp0_2026/wp2/LOOP_C_S4C_QUAL_AUDIT_v1.md", "sha256_canonical": "d5f855f1cc46919430393198281b967231c47c85", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The source describes absent dispatch evidence. dispatch_precheck fail-closes a missing qualified tick receipt.",
+      "fixture": "fixtures/dispatch/missing_tick.json",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/dispatch_precheck.sh",
+          "adapter": "adapters/dispatch_precheck_adapter.sh",
+          "result": "detected",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "T4-local watcher/tick contract only; does not verify review-thread content injection.",
+          "exit_codes": [1, 1],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.222826464Z_3919374_7869_pass1_inc11_dispatch.log",
+            "scratch/tool_outputs/20261014T180741.190423073Z_3919969_8659_pass2_inc11_dispatch.log"
+          ]
+        }
+      ],
+      "case_result": "detected"
+    },
+    {
+      "case_id": "T1-INC-12",
+      "title": "工程派发失败被混淆为科学结果的风险（a1/a2）",
+      "failure_family": "交付与权限",
+      "expected_category": "REVIEW_REQUIRED",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'状态词表分离'族缺陷。",
+      "legal_control_design": "状态词表分离（ENGINEERING_DISPATCH_FAILURE vs 科学结论）+ 完整披露。",
+      "source_refs": [
+        {"path": "research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json", "sha256_canonical": "bf0ec7b286042111c4ec657c78f15ac3b2458858", "hash_domain": "git_blob_id"},
+        {"path": "research/positive_repair_20261011/ROUND1_CLOSEOUT_v1.md", "sha256_canonical": "08377719df5146cfe5c3c2feea3e43c900e5907d", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The source's engineering failure is represented by a summary count mismatch; the old guard mechanically rejects the mismatch.",
+      "fixture": "fixtures/summary/effect_mismatch.md",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "detected",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Numeric summary-to-artifact mismatch only; it does not adjudicate scientific status wording.",
+          "exit_codes": [1, 1],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.589024000Z_3919480_2293_pass1_inc12_summary.log",
+            "scratch/tool_outputs/20261014T180741.546108366Z_3920075_4429_pass2_inc12_summary.log"
+          ]
+        }
+      ],
+      "case_result": "detected"
+    },
+    {
+      "case_id": "T1-INC-13",
+      "title": "正修补第一轮：未进入有效 effect measurement",
+      "failure_family": "完整性与预算",
+      "expected_category": "REVIEW_REQUIRED",
+      "artifact_level": "real_incident",
+      "applicability": "开发/校准案例：用于检验'不把工程失败当科学结果'族缺陷。",
+      "legal_control_design": "执行前 EXECUTION_READINESS_PREFLIGHT + 如实分级。",
+      "source_refs": [
+        {"path": "research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json", "sha256_canonical": "bf0ec7b286042111c4ec657c78f15ac3b2458858", "hash_domain": "git_blob_id"},
+        {"path": "research/positive_repair_20261011/ROUND1_CLOSEOUT_v1.md", "sha256_canonical": "08377719df5146cfe5c3c2feea3e43c900e5907d", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The no-effect fixture retains an ineligible measurement and an overstated request count; the old guard detects the summary mismatch.",
+      "fixture": "fixtures/summary/effect_mismatch.md",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "detected",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Numeric summary-to-artifact mismatch only; not a formal preflight or scientific-effect validator.",
+          "exit_codes": [1, 1],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.664732290Z_3919506_3043_pass1_inc13_summary.log",
+            "scratch/tool_outputs/20261014T180741.615386636Z_3920100_8109_pass2_inc13_summary.log"
+          ]
+        }
+      ],
+      "case_result": "detected"
+    },
+    {
+      "case_id": "T1-CTRL-01",
+      "title": "合法对照范例：匹配 FPR 不可识别时的正确负结果",
+      "failure_family": "数据与统计",
+      "expected_category": "ALLOW_WITHIN_SCOPE",
+      "artifact_level": "control_exemplar",
+      "applicability": "合法对照范例（预期允许）：供评价器学习'正确负结果'的合法形态。",
+      "legal_control_design": "冻结规则下给出校准/held-out 分离与 FPR 契约；未满足即 NOT_IDENTIFIABLE。",
+      "source_refs": [
+        {"path": "docs/research/stage_e_matched_fpr_reanalysis_v1.md", "sha256_canonical": "8e174ec36ebfcc7f80184d0f87a2d59514a26e3b", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The legal control is represented by a self-consistent declared negative result; observe whether the summary guard falsely intercepts it.",
+      "fixture": "fixtures/summary/negative_result_match.md",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "not_applicable",
+          "false_interception": false,
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Non-interception of a self-consistent legal-control summary only; no statistical validity claim.",
+          "exit_codes": [0, 0],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.861266839Z_3919560_3801_pass1_ctrl01_summary.log",
+            "scratch/tool_outputs/20261014T180741.801515481Z_3920150_27478_pass2_ctrl01_summary.log"
+          ]
+        }
+      ],
+      "case_result": "not_applicable"
+    },
+    {
+      "case_id": "T1-CTRL-02",
+      "title": "合法对照范例：测量对象错位的正确处置（FinQA failed transfer）",
+      "failure_family": "测量对象",
+      "expected_category": "ALLOW_WITHIN_SCOPE",
+      "artifact_level": "control_exemplar",
+      "applicability": "合法对照范例（预期允许）：供评价器学习'正确处置错位'的合法形态。",
+      "legal_control_design": "因果链明确且实际重算下游测量对象的对照设计。",
+      "source_refs": [
+        {"path": "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md", "sha256_canonical": "03079bbd02b3f5a6936bddda502e18a16963fece", "hash_domain": "git_blob_id"},
+        {"path": "memory/STATE.md", "sha256_canonical": "c5b4680b3698112f9891952a1f34ef532e39ae6e", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "The legal control records an explicit failed transfer without promotion; observe whether the summary guard falsely intercepts its self-consistent statement.",
+      "fixture": "fixtures/summary/measurement_object_match.md",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "not_applicable",
+          "false_interception": false,
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Non-interception of a self-consistent explicit failed-transfer control; does not grant FinQA formal qualification.",
+          "exit_codes": [0, 0],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.925668673Z_3919586_2312_pass1_ctrl02_summary.log",
+            "scratch/tool_outputs/20261014T180741.877927594Z_3920179_17297_pass2_ctrl02_summary.log"
+          ]
+        }
+      ],
+      "case_result": "not_applicable"
+    },
+    {
+      "case_id": "T1-INC-14",
+      "title": "执行对话计量缺口：token 用量不可得",
+      "failure_family": "完整性与预算",
+      "expected_category": "REVIEW_REQUIRED",
+      "artifact_level": "unverified_inference",
+      "applicability": "未核验推断项：仅登记为证据缺口，不作失败族对照使用。",
+      "legal_control_design": "计量通道建立前保持 UNRESOLVED（不得填 0）。",
+      "source_refs": [
+        {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json", "sha256_canonical": "f5e10fa9fdfbe0750b13c4c0dbffac06934e43f1", "hash_domain": "git_blob_id"}
+      ],
+      "mapping_basis": "A Markdown document without a receipt block skips silently; the old summary guard therefore does not enforce the UNRESOLVED usage requirement.",
+      "fixture": "fixtures/summary/usage_no_block.md",
+      "applicable_checks": [
+        {
+          "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+          "adapter": "adapters/summary_guard_check_adapter.sh",
+          "result": "missed",
+          "replay_status": "PASS",
+          "verification_level": "COMPONENT_PASS",
+          "scope": "Only existing receipt blocks are checked; no block means skip under the existing entrypoint.",
+          "exit_codes": [0, 0],
+          "deterministic": true,
+          "evidence": [
+            "scratch/tool_outputs/20261014T180705.764444760Z_3919531_9947_pass1_inc14_summary.log",
+            "scratch/tool_outputs/20261014T180741.700162708Z_3920125_11050_pass2_inc14_summary.log"
+          ]
+        }
+      ],
+      "case_result": "missed"
+    }
+  ],
+  "fixture_construction_policy": {
+    "source": "T1 v3 source_refs plus defect/legal-control wording",
+    "method": "Minimal local variants that exercise only the selected checker's declared input contract.",
+    "scientific_status": "NOT_FORMAL; fixtures are engineering probes, not scientific evidence or a defect-rate estimate.",
+    "sealed_data": "NONE"
+  },
+  "summary": {
+    "case_to_check_mapping_count": 16,
+    "applicable_case_check_combinations": 11,
+    "replay_passes_per_combination": 2,
+    "adapter_tool_invocations": 22,
+    "case_results": {
+      "detected": 6,
+      "missed": 2,
+      "not_applicable": 2,
+      "unverified": 6
+    },
+    "combination_results": {
+      "detected": 6,
+      "missed": 2,
+      "not_applicable": 2,
+      "unverified": 0
+    },
+    "false_interceptions": 0,
+    "deterministic_combinations": 11,
+    "nondeterministic_combinations": 0,
+    "tool_profiles": [
+      {
+        "tool": "scripts/graph/dispatch_precheck.sh",
+        "mapped_cases": 3,
+        "detected_cases": 3,
+        "missed_cases": 0,
+        "coverage": "3/16 case identities",
+        "scope": "Persisted JSON tick contract; no execution, cron scheduling or review-content semantics."
+      },
+      {
+        "tool": "scripts/graph/hooks/summary_recompute_guard.py",
+        "mapped_cases": 7,
+        "detected_cases": 2,
+        "missed_cases": 2,
+        "not_applicable_controls": 2,
+        "case_overlap": "T1-INC-09 also has a frozen-hash check result.",
+        "coverage": "7/16 case identities",
+        "scope": "Declared summary versus stored artifact; missing blocks skip and cannot adjudicate scientific validity."
+      },
+      {
+        "tool": "scripts/graph/frozen_hashes.txt",
+        "mapped_cases": 1,
+        "detected_cases": 1,
+        "coverage": "1/16 case identities",
+        "scope": "MD5 byte-manifest check only; no dual hash-domain policy."
+      }
+    ],
+    "failure_family_profiles": [
+      {"family": "真实调用边界", "mapped": 2, "unverified": 2, "detected": 2},
+      {"family": "完整性与预算", "mapped": 3, "unverified": 2, "detected": 2, "missed": 1},
+      {"family": "测量对象", "mapped": 2, "missed": 1, "not_applicable": 1},
+      {"family": "证据身份", "mapped": 2, "detected": 1, "missed": 1, "unverified": 1},
+      {"family": "交付与权限", "mapped": 2, "detected": 2},
+      {"family": "数据与统计", "mapped": 1, "not_applicable": 1}
+    ],
+    "unverified_faces": [
+      "Request-budget and overwrite-refusal old-flow checks.",
+      "Dynamic-import smoke qualification.",
+      "Online real-interface argument-order qualification.",
+      "Raw-evidence inventory/force-add completeness.",
+      "Dual hash-domain and representation-domain adjudication."
+    ]
+  },
+  "unverified": [
+    "No independent sealed challenge set was evaluated.",
+    "No formal FinQA preflight manifest was available or authorized.",
+    "No model, online interface, production, database, network or Loop B call was made.",
+    "Execution-chat token consumption is not measurable and remains UNRESOLVED, not zero.",
+    "This baseline does not estimate real-world defect rates or scientific validity."
+  ]
+}

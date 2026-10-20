@@ -1,0 +1,28 @@
+{
+  "schema": "task_reference_manifest_comparison_v1",
+  "status": "TASK_REFERENCES_BYTE_IDENTICAL_RUNTIME_CONFIG_UPDATED",
+  "baseline_manifest_sha256": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6",
+  "current_manifest_sha256": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6",
+  "byte_identical": true,
+  "unchanged": {
+    "task_ids_and_selection": true,
+    "references": true,
+    "model_identity": true,
+    "generation_parameters": true,
+    "max_tokens": 256,
+    "task_wording": true,
+    "source_split_sha256": "287b6c6acda66b550b5f65c998e87b1fabcb766779897145ec3b7b4bae1c0e72",
+    "sample_counts": {"history": 12, "future_test": 16, "development": 4, "qualification_fixtures": 3}
+  },
+  "runtime_delta": {
+    "runtime_policy_sha256": "14bcbc5bc7f65e0364cbd26c21276db99cc5df036f724f4178cb94a1c1c07d14",
+    "runtime_snapshot_sha256": "39e6cacf2f823adcd92b9d4191f929e87932af140a066222f29310416e951a75",
+    "chat_template_kwargs": {"enable_thinking": false},
+    "prompt_control_removed": "/no_think",
+    "fixture_early_stop": true,
+    "output_schema_rendered_in_messages": true,
+    "prompt_plan_sha256": "6ac740b2c0e5430f901be275b2690e4e017419843dc9ed71e5af73eb4f706eb5",
+    "prompt_consume_sha256": "1b3f43e4391571d31adb0ab72064654cc197c2a6ec754688d9371bc8502e41cb",
+    "output_schemas_sha256": "f61e045a53c3860ddb901421190098b6e02dd6adf86185d48820e0ae6fa8e353"
+  }
+}

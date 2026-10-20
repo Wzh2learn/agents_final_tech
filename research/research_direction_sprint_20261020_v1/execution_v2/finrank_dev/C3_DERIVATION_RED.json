@@ -1,0 +1,26 @@
+{
+  "schema": "finrank_c3_derivation_red_green_v1",
+  "phase": "red",
+  "status": "PASS",
+  "expected": {
+    "false_pair_consistent": true,
+    "explicit_derivation_consistent": "NOT_REQUIRED_RED"
+  },
+  "observed": {
+    "false_pair_consistent": true,
+    "explicit_derivation_consistent": false
+  },
+  "false_pair": {
+    "consistent": true,
+    "cited_absent_ids": [],
+    "unsupported_numeric_values": []
+  },
+  "explicit_derivation": {
+    "consistent": false,
+    "cited_absent_ids": [],
+    "unsupported_numeric_values": [
+      11.97
+    ]
+  },
+  "generation_requests": 0
+}

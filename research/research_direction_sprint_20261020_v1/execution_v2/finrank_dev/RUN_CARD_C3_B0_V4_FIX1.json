@@ -1,0 +1,73 @@
+{
+  "schema": "finrank_c3_run_card_b0_v4_fix1_v1",
+  "status": "FROZEN_BEFORE_C3_FIXTURES_FIX1",
+  "owner_authorization": "C3 targeted scorer and output-contract correction delegated by Loop D; one complete B0 V4 only.",
+  "root_causes": [
+    "C2_ROOT_CAUSE.md",
+    "C3_CORRECTION_SPEC.md"
+  ],
+  "plan_time_visibility": {
+    "policy": "FULL_VISIBLE_CANDIDATES_AT_PLAN",
+    "unchanged_from_c2": true
+  },
+  "reference_version": {
+    "path": "REFERENCES_V3.json",
+    "answer_scope_unchanged_from_v2": true,
+    "change_scope": "EXPLICIT_DERIVATION_CHECKS_ONLY"
+  },
+  "estimand": {
+    "name": "COMPLETE_CANDIDATE_SELECTION_AND_CONSUMPTION",
+    "plan_time_visibility": "FULL_VISIBLE_CANDIDATES_AT_PLAN",
+    "limit": "Measures selection and consumption from a complete visible candidate set; not active evidence acquisition and not a V2 experiment reproduction."
+  },
+  "scorer_change": {
+    "scope": "LITERAL_PERCENT_UNIT_ALIAS_ONLY",
+    "red_receipt": "C3_UNIT_RED.json",
+    "green_receipt": "C3_UNIT_GREEN.json",
+    "v3_posthoc_rescore": "results/B0_V3_EQUAL_VISIBILITY/B0_RESULT_POSTHOC_SCORER_V2.json",
+    "derivation_red_receipt": "C3_DERIVATION_RED.json",
+    "derivation_green_receipt": "C3_DERIVATION_GREEN.json",
+    "derivation_policy": "Literal evidence for ordinary facts; reference V3 explicit target/operand/operator/formula for derived facts."
+  },
+  "output_contract_change": {
+    "schema_changed": false,
+    "model_changed": false,
+    "generation_parameters_changed": false,
+    "max_tokens": 256,
+    "prompt_constraint": "Minified JSON only, no whitespace outside string values, no pretty-printing, indentation, Markdown fences, or commentary."
+  },
+  "b0": {
+    "run_name": "B0_V4_MINIFIED_JSON",
+    "tasks": [
+      "ESD_001",
+      "ESD_002",
+      "ESD_003",
+      "ESD_004",
+      "ESD_006",
+      "ESD_010",
+      "ESD_012"
+    ],
+    "task_order_unchanged": true,
+    "stages_per_task": [
+      "plan",
+      "consume"
+    ],
+    "planned_generation_requests": 14,
+    "generation_request_cap": 14,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "expected_prior_requests": 42,
+    "expected_total_requests_after": 56
+  },
+  "boundaries": {
+    "history_collection": 0,
+    "pilot": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "production_memory_writes": 0,
+    "ESD_006_UNKNOWN_must_remain_non_success": true,
+    "ESD_012_raw_repair": false
+  },
+  "supersedes_bundle_sha256": "dd782d68b968749a16a85ee2eb152f41bf9d5ff4cf3bb1671981fa47983f20d5",
+  "fix_scope": "Correct the C3 fixture bundle entry path only; scientific task, reference, visibility, scorer, model and generation policy unchanged."
+}

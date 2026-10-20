@@ -1,0 +1,29 @@
+{
+  "schema": "collection_execution_authorization_schema_v1",
+  "status": "SCHEMA_ONLY_NOT_AN_AUTHORIZATION",
+  "required_keys": [
+    "schema",
+    "authorization_id",
+    "mode",
+    "bundle_sha256",
+    "window_start_utc",
+    "window_end_utc",
+    "timezone",
+    "request_cap",
+    "token_cap",
+    "retry_cap",
+    "concurrency",
+    "allow_model_requests",
+    "owner_decision_reference"
+  ],
+  "constraints": {
+    "mode": "SINGLE_COLLECTION_RUN",
+    "timezone": "Asia/Shanghai",
+    "request_cap": 54,
+    "token_cap": 600000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "window_minutes_max": 90,
+    "allow_model_requests": true
+  }
+}

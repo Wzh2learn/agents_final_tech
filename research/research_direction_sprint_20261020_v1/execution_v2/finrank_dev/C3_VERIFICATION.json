@@ -1,0 +1,216 @@
+{
+  "schema": "finrank_c3_verification_v1",
+  "status": "PASS",
+  "passed": 13,
+  "total": 13,
+  "scores": {
+    "original_v3": 4,
+    "posthoc_unit_fix_v2": 5,
+    "posthoc_full_checker_v3": 5,
+    "b0_v4_formal": 5
+  },
+  "checks": [
+    {
+      "name": "bundle_and_fixtures",
+      "pass": true,
+      "observed": {
+        "bundle_sha256": "7bb3564cc8a30bac8d81f158232d68c8e3fbdf59247edbc5cd963c47deb893e7",
+        "fixture": "21/21"
+      }
+    },
+    {
+      "name": "unit_red_green",
+      "pass": true,
+      "observed": {
+        "red": {
+          "schema": "finrank_c3_unit_red_green_v1",
+          "phase": "red",
+          "status": "PASS",
+          "expected_match": false,
+          "observed_match": false,
+          "missing_atoms": [
+            "roe",
+            "roic_adjusted"
+          ],
+          "generation_requests": 0
+        },
+        "green": {
+          "schema": "finrank_c3_unit_red_green_v1",
+          "phase": "green",
+          "status": "PASS",
+          "expected_match": true,
+          "observed_match": true,
+          "missing_atoms": [],
+          "generation_requests": 0
+        }
+      }
+    },
+    {
+      "name": "derivation_red_green",
+      "pass": true,
+      "observed": {
+        "red": {
+          "false_pair_consistent": true,
+          "explicit_derivation_consistent": false
+        },
+        "green": {
+          "false_pair_consistent": false,
+          "explicit_derivation_consistent": true
+        }
+      }
+    },
+    {
+      "name": "reference_v3_explicit_derivation_only",
+      "pass": true,
+      "observed": {
+        "answer_scope_unchanged_from_v2": true,
+        "derivations": [
+          {
+            "target_atom": "derived_gross_profit",
+            "operand_atoms": [
+              "automotive_revenue",
+              "automotive_other_cost"
+            ],
+            "operand_values": {
+              "automotive_revenue": 171606,
+              "automotive_other_cost": 151065
+            },
+            "operator": "SUBTRACT",
+            "formula": "automotive_revenue - automotive_other_cost"
+          },
+          {
+            "target_atom": "derived_gross_margin",
+            "operand_atoms": [
+              "automotive_revenue",
+              "automotive_other_cost"
+            ],
+            "operand_values": {
+              "automotive_revenue": 171606,
+              "automotive_other_cost": 151065
+            },
+            "operator": "MARGIN_PERCENT_FROM_REVENUE_AND_COST",
+            "formula": "(automotive_revenue - automotive_other_cost) / automotive_revenue * 100"
+          }
+        ]
+      }
+    },
+    {
+      "name": "estimand_limited",
+      "pass": true,
+      "observed": {
+        "name": "COMPLETE_CANDIDATE_SELECTION_AND_CONSUMPTION",
+        "plan_time_visibility": "FULL_VISIBLE_CANDIDATES_AT_PLAN",
+        "limit": "Measures selection and consumption from a complete visible candidate set; not active evidence acquisition and not a V2 experiment reproduction."
+      }
+    },
+    {
+      "name": "v3_preserved_and_posthoc_split",
+      "pass": true,
+      "observed": {
+        "scores": {
+          "original_v3": 4,
+          "posthoc_unit_fix_v2": 5,
+          "posthoc_full_checker_v3": 5,
+          "b0_v4_formal": 5
+        },
+        "v3_consistency_changed_tasks": [
+          "ESD_001",
+          "ESD_002",
+          "ESD_003",
+          "ESD_004",
+          "ESD_006",
+          "ESD_010",
+          "ESD_012"
+        ],
+        "v3_outcome_changes_from_unit_fix_posthoc": []
+      }
+    },
+    {
+      "name": "b0_v4_complete_and_clean_execution_chain",
+      "pass": true,
+      "observed": {
+        "success": 5,
+        "non_success": 2,
+        "error_classes": {
+          "ENGINEERING_SCHEMA_OR_TOOL": 1,
+          "SEMANTIC_SELECTION_OR_ANSWER": 1
+        },
+        "raw_v4": {
+          "requests": 14,
+          "responses": 14,
+          "crashes": 0
+        }
+      }
+    },
+    {
+      "name": "known_failures_preserved",
+      "pass": true,
+      "observed": {
+        "esd006_sufficient_but_unknown": true,
+        "esd012_finish_reason": "length",
+        "esd012_completion_tokens": 256,
+        "esd012_json_parses": false
+      }
+    },
+    {
+      "name": "minified_constraint_was_sent_but_not_obeyed",
+      "pass": true,
+      "observed": {
+        "prompt_markers_seen": true,
+        "esd012_still_pretty_printed_or_truncated": true
+      }
+    },
+    {
+      "name": "historical_runs_preserved",
+      "pass": true,
+      "observed": {
+        "raw_v1": {
+          "requests": 14,
+          "responses": 14,
+          "crashes": 0
+        },
+        "raw_v2": {
+          "requests": 14,
+          "responses": 14,
+          "crashes": 0
+        },
+        "raw_v3": {
+          "requests": 14,
+          "responses": 14,
+          "crashes": 0
+        }
+      }
+    },
+    {
+      "name": "ledger_56_and_forbidden_calls_zero",
+      "pass": true,
+      "observed": {
+        "requests_used": 56,
+        "accounting_tokens_used": 458650,
+        "v4_requests": 14
+      }
+    },
+    {
+      "name": "strong_rule_zero_generation",
+      "pass": true,
+      "observed": {
+        "generation_requests": 0,
+        "policy": "FULL_VISIBLE_CANDIDATES_AT_PLAN"
+      }
+    },
+    {
+      "name": "runtime_unchanged",
+      "pass": true,
+      "observed": {
+        "health_ok": true,
+        "model_id_present": true,
+        "model_path_matches": true,
+        "chat_template_matches": true,
+        "thinking_disabled_boolean": true,
+        "max_tokens_256": true,
+        "json_object_response": true,
+        "endpoint_is_local_override": true
+      }
+    }
+  ]
+}

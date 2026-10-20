@@ -1,0 +1,1247 @@
+{
+  "schema": "real_history_experience_pool_v1",
+  "status": "QUALIFIED_HISTORY_POOL",
+  "source_result": "COLLECTION_EXECUTION_RESULT.json",
+  "experience_count": 12,
+  "u_eligible_count": 12,
+  "e_eligible_count": 12,
+  "all_u_e_eligible": true,
+  "experiences": [
+    {
+      "experience_id": "H01",
+      "source_cluster_id": "cluster_0943",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            },
+            "returned_value": 97.59999999999997,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 97.59999999999997,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 97.59999999999997,
+            "delta_target": 97.59999999999997,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 97.6
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "398.4 - 300.8"
+            },
+            "returned_value": 97.59999999999997,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 97.59999999999997,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 97.59999999999997,
+            "delta_target": 97.59999999999997,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 97.6
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H01",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          97.59999999999997,
+          97.59999999999997
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H02",
+      "source_cluster_id": "cluster_1052",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            },
+            "returned_value": -2.5999999999999996,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -2.6,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -2.5999999999999996,
+            "delta_target": -2.5999999999999996,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -2.6
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "-0.3 - 2.3"
+            },
+            "returned_value": -2.5999999999999996,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -2.6,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -2.5999999999999996,
+            "delta_target": -2.5999999999999996,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -2.6
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H02",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          -2.5999999999999996,
+          -2.5999999999999996
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H03",
+      "source_cluster_id": "cluster_0810",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            },
+            "returned_value": -0.3999999999999986,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -0.3999999999999986,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -0.3999999999999986,
+            "delta_target": -0.3999999999999986,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -0.4
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "-17.0 - (-16.6)"
+            },
+            "returned_value": -0.3999999999999986,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -0.3999999999999986,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -0.3999999999999986,
+            "delta_target": -0.3999999999999986,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -0.4
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H03",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          -0.3999999999999986,
+          -0.3999999999999986
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H04",
+      "source_cluster_id": "cluster_0482",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            },
+            "returned_value": -41.700000000000045,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -41.7,
+            "unit": "currency"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -41.700000000000045,
+            "delta_target": -41.700000000000045,
+            "source_unit": "currency",
+            "target_unit": "currency",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -41.7
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.4 - 317.1"
+            },
+            "returned_value": -41.700000000000045,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -41.7,
+            "unit": "currency"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -41.700000000000045,
+            "delta_target": -41.700000000000045,
+            "source_unit": "currency",
+            "target_unit": "currency",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -41.7
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H04",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          -41.700000000000045,
+          -41.700000000000045
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H05",
+      "source_cluster_id": "cluster_1443",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            },
+            "returned_value": -11.600000000000023,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -11.6,
+            "unit": "currency"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -11.600000000000023,
+            "delta_target": -11.600000000000023,
+            "source_unit": "currency",
+            "target_unit": "currency",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -11.6
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "757.3 - 768.9"
+            },
+            "returned_value": -11.600000000000023,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -11.600000000000023,
+            "unit": "currency"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -11.600000000000023,
+            "delta_target": -11.600000000000023,
+            "source_unit": "currency",
+            "target_unit": "currency",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -11.6
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H05",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          -11.600000000000023,
+          -11.600000000000023
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H06",
+      "source_cluster_id": "cluster_0548",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            },
+            "returned_value": 140.4000000000001,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 140.4000000000001,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 140.4000000000001,
+            "delta_target": 140.4000000000001,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 140.4
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "1801.5 - 1661.1"
+            },
+            "returned_value": 140.4000000000001,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 140.4000000000001,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 140.4000000000001,
+            "delta_target": 140.4000000000001,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 140.4
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H06",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          140.4000000000001,
+          140.4000000000001
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H07",
+      "source_cluster_id": "cluster_1816",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            },
+            "returned_value": 86.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 86.0,
+            "unit": "currency"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 86.0,
+            "delta_target": 86.0,
+            "source_unit": "currency",
+            "target_unit": "currency",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 86
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "2493 - 2407"
+            },
+            "returned_value": 86.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 86.0,
+            "unit": "currency"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 86.0,
+            "delta_target": 86.0,
+            "source_unit": "currency",
+            "target_unit": "currency",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 86
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H07",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          86.0,
+          86.0
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H08",
+      "source_cluster_id": "cluster_1978",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            },
+            "returned_value": -48.89999999999998,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -48.9,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -48.89999999999998,
+            "delta_target": -48.89999999999998,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -48.9
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "401.6 - 450.5"
+            },
+            "returned_value": -48.89999999999998,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -48.9,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -48.89999999999998,
+            "delta_target": -48.89999999999998,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -48.9
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H08",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          -48.89999999999998,
+          -48.89999999999998
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H09",
+      "source_cluster_id": "cluster_1744",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            },
+            "returned_value": 19.099999999999994,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 19.099999999999994,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 19.099999999999994,
+            "delta_target": 19.099999999999994,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 19.1
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "65.8 - 46.7"
+            },
+            "returned_value": 19.099999999999994,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 19.099999999999994,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 19.099999999999994,
+            "delta_target": 19.099999999999994,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 19.1
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H09",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          19.099999999999994,
+          19.099999999999994
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H10",
+      "source_cluster_id": "cluster_0893",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            },
+            "returned_value": 6.3,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 6.3,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 6.3,
+            "delta_target": 6.3,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 6.3
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "10.0 - 3.7"
+            },
+            "returned_value": 6.3,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 6.3,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 6.3,
+            "delta_target": 6.3,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 6.3
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H10",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          6.3,
+          6.3
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H11",
+      "source_cluster_id": "cluster_1737",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            },
+            "returned_value": 8.300000000000011,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 8.3,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 8.300000000000011,
+            "delta_target": 8.300000000000011,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 8.3
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "138.3 - 130.0"
+            },
+            "returned_value": 8.300000000000011,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": 8.300000000000011,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": 8.300000000000011,
+            "delta_target": 8.300000000000011,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": 8.3
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H11",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          8.300000000000011,
+          8.300000000000011
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    },
+    {
+      "experience_id": "H12",
+      "source_cluster_id": "cluster_2147",
+      "chain_complete": true,
+      "stable_followup": true,
+      "target_match": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            },
+            "returned_value": -11.899999999999991,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -11.9,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -11.899999999999991,
+            "delta_target": -11.899999999999991,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -11.9
+          }
+        },
+        {
+          "attempt": 2,
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "53.7 - 65.6"
+            },
+            "returned_value": -11.899999999999991,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "status": "ANSWER",
+            "delta_target": -11.9,
+            "unit": "currency_million"
+          },
+          "feedback_category": "SUCCESS",
+          "hidden_reference": {
+            "status": "REFERENCE_RECOMPUTED",
+            "delta_source": -11.899999999999991,
+            "delta_target": -11.899999999999991,
+            "source_unit": "currency_million",
+            "target_unit": "currency_million",
+            "scale_rule": "identity",
+            "source_to_target_factor": 1.0,
+            "candidate_gold_agreement": true,
+            "candidate_gold_value": -11.9
+          }
+        }
+      ],
+      "u_eligible": true,
+      "e_eligible": true,
+      "e_reasons": [
+        "complete_real_chain",
+        "actual_tool_trace",
+        "independent_reference_agreement",
+        "stable_followup",
+        "target_aligned_restricted_table_calculation"
+      ],
+      "context": {
+        "experience_id": "H12",
+        "lesson": "For a fixed table row and two periods, request the exact calculator operation late minus early, consume the actual returned value, and return that value with the stated unit.",
+        "actual_tool": "calc",
+        "observed_operation_pattern": "late minus early",
+        "actual_returned_values": [
+          -11.899999999999991,
+          -11.899999999999991
+        ],
+        "feedback_categories": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "applicability": "restricted table signed-difference task with explicit unit"
+      }
+    }
+  ]
+}

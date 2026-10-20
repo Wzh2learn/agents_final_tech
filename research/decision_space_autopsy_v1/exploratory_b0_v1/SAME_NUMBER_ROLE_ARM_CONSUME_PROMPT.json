@@ -1,0 +1,6 @@
+{
+  "schema": "same_number_role_arm_consume_prompt_v1",
+  "output_schema_key": "consume",
+  "system": "Consume the actual calculator return exactly. Decide whether the candidate evidence supports the requested role. Numeric agreement alone is insufficient. WRONG_ROLE must retain the numeric value and unit; UNKNOWN/REFUSE must use null fields. Return only the required JSON object.",
+  "user_template": "TASK_JSON={{ACTOR_TASK_JSON}}\nEXTRA_CONTEXT_JSON={{EXTRA_CONTEXT_JSON}}\nPLAN_JSON={{PLAN_JSON}}\nTOOL_RESULT_JSON={{TOOL_RESULT_JSON}}\nOUTPUT_SCHEMA_JSON={{OUTPUT_SCHEMA_JSON}}\nOUTPUT_RULES={{OUTPUT_RULES}}\n\nReturn only one JSON object matching OUTPUT_SCHEMA_JSON exactly."
+}

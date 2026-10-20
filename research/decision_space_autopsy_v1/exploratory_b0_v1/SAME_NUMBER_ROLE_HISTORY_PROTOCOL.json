@@ -1,0 +1,25 @@
+{
+  "schema": "same_number_role_history_protocol_v1",
+  "status": "FROZEN_BEFORE_COLLECTION",
+  "task_order": [
+    "NR_development_0402_N2",
+    "NR_development_0402_P1",
+    "NR_development_1582_N2",
+    "NR_development_1582_P1",
+    "NR_development_2174_N2",
+    "NR_development_2174_P1"
+  ],
+  "budget": {
+    "request_cap": 24,
+    "token_cap": 300000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "per_request_reserve_tokens": 10240
+  },
+  "history_clusters": [
+    "cluster_0402",
+    "cluster_1582",
+    "cluster_2174"
+  ],
+  "feedback_rule": "attempt 1 receives actual plan/tool/consume classification; attempt 2 receives the same task plus actual first attempt and deterministic feedback"
+}

@@ -1,0 +1,1521 @@
+{
+  "schema": "task_reference_manifest_pilot_v2",
+  "status": "QUALIFIED_FOR_PILOT_PREPARATION",
+  "task_select_seed": "history-collection-execution-v1-task-select-20261018",
+  "selection_rule": "filter contract/reference validity, then sha256(seed:bucket:cluster_id:item_id) ascending",
+  "source_identity": {
+    "candidate_items_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+    "split_proposal_sha256": "287b6c6acda66b550b5f65c998e87b1fabcb766779897145ec3b7b4bae1c0e72"
+  },
+  "counts": {
+    "history": 12,
+    "future_test": 16,
+    "development": 4,
+    "qualification_fixtures": 3
+  },
+  "selection_audit": [
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0943",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_637d5671_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1052",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_6ea63cce_r2_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0810",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_5628f806_r2_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0482",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_32cfcadb_r3_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1443",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_97176853_r3_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0548",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_3ab739eb_r2_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1816",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_bcbd7783_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1978",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_ce09caff_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1744",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_b5aae4e9_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0893",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_5e60c056_r2_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1737",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_b538d340_r2_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_2147",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_e0689072_r3_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1340",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_8cbf706f_r1_p0",
+        "wp2_8cbf706f_r5_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_0306",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_20a028a0_r2_p1",
+        "wp2_20a028a0_r1_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_0615",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_41b215e5_r1_p0",
+        "wp2_41b215e5_r2_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_0978",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_66b7c6dd_r2_p0",
+        "wp2_66b7c6dd_r3_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1724",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_b4129e1f_r3_p1",
+        "wp2_b4129e1f_r2_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1628",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_ab59379f_r3_p1",
+        "wp2_ab59379f_r2_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_2060",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_d7990183_r4_p1",
+        "wp2_d7990183_r2_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1642",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_ac6e77fe_r3_p1",
+        "wp2_ac6e77fe_r2_p0"
+      ]
+    },
+    {
+      "bucket": "development",
+      "cluster_id": "cluster_2010",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_d21abb01_r1_p0",
+        "wp2_d21abb01_r3_p1"
+      ]
+    },
+    {
+      "bucket": "development",
+      "cluster_id": "cluster_2096",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_daf81839_r3_p1",
+        "wp2_daf81839_r2_p0"
+      ]
+    }
+  ],
+  "rejected_candidates": [],
+  "tasks": [
+    {
+      "task_id": "F01",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F01",
+        "task": {
+          "row_label": "Effective portion of gains/losses from cash flow hedges",
+          "period_late": "30/9/2019",
+          "period_early": "30/9/2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "30/9/2018",
+              "30/9/2019"
+            ],
+            [
+              "Effective portion of gains/losses from cash flow hedges",
+              "0",
+              "2"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_8cbf706f_r1_p0",
+        "source_uid": "8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+        "source_cluster_id": "cluster_1340",
+        "selection_rank": "48e97ded897afeecf7ecc18654f18b77904034268263945ce050fecefb36c8a3",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 1,
+          "label": "30/9/2018"
+        },
+        "period_late": {
+          "col": 2,
+          "label": "30/9/2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 2.0,
+          "delta_target": 2.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": null,
+          "previous_candidate_gold_value": -2,
+          "reference_revision": "chronological_period_swap"
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": "NOT_APPLICABLE_AFTER_PERIOD_CORRECTION",
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "revision": {
+        "old_period_late": "30/9/2018",
+        "old_period_early": "30/9/2019",
+        "old_reference": -2.0,
+        "new_reference": 2.0
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F02",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F02",
+        "task": {
+          "row_label": "Income tax on components of other comprehensive income",
+          "period_late": "30/9/2019",
+          "period_early": "30/9/2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "30/9/2018",
+              "30/9/2019"
+            ],
+            [
+              "Income tax on components of other comprehensive income",
+              "91",
+              "106"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_8cbf706f_r5_p1",
+        "source_uid": "8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+        "source_cluster_id": "cluster_1340",
+        "selection_rank": "a7b7cf53d3e950c6696afeade4f5bef214d86ee04e62eecc3b98393f5a574621",
+        "selection_position": 2,
+        "row_index": 5,
+        "period_early": {
+          "col": 1,
+          "label": "30/9/2018"
+        },
+        "period_late": {
+          "col": 2,
+          "label": "30/9/2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 15.0,
+          "delta_target": 15.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": null,
+          "previous_candidate_gold_value": -15,
+          "reference_revision": "chronological_period_swap"
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": "NOT_APPLICABLE_AFTER_PERIOD_CORRECTION",
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "revision": {
+        "old_period_late": "30/9/2018",
+        "old_period_early": "30/9/2019",
+        "old_reference": -15.0,
+        "new_reference": 15.0
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F03",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F03",
+        "task": {
+          "row_label": "Lifecycle Service Assurance",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Lifecycle Service Assurance",
+              "17.4",
+              "18.1"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_20a028a0_r2_p1",
+        "source_uid": "20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+        "source_cluster_id": "cluster_0306",
+        "selection_rank": "407602c9db99e1a444ae252c075f3ec3135d183ba4f08eba0afae09060442812",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 0.7000000000000028,
+          "delta_target": 0.7000000000000028,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 0.7
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F04",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F04",
+        "task": {
+          "row_label": "Networks & Security",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Networks & Security",
+              "56.4",
+              "73.9"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_20a028a0_r1_p0",
+        "source_uid": "20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+        "source_cluster_id": "cluster_0306",
+        "selection_rank": "7e6880fc16bad10b909cebc39164d410522fa2cefb75662bc5118998a5032400",
+        "selection_position": 2,
+        "row_index": 1,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 17.500000000000007,
+          "delta_target": 17.500000000000007,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 17.5
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F05",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F05",
+        "task": {
+          "row_label": "Interest Expenses, net of capitalized interest",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Interest Expenses, net of capitalized interest",
+              "18,286",
+              "34,018"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_41b215e5_r1_p0",
+        "source_uid": "41b215e5-024b-478e-bc05-5804ad02169a",
+        "source_cluster_id": "cluster_0615",
+        "selection_rank": "7a79c8e4e56683e8b6b9510dec65597183209686ee93607ef1bb80b4d1657039",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 15732.0,
+          "delta_target": 15732.0,
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 15732
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F06",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F06",
+        "task": {
+          "row_label": "Commitment Fee",
+          "period_late": "2018",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2018"
+            ],
+            [
+              "Commitment Fee",
+              "760",
+              "3,325"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_41b215e5_r2_p1",
+        "source_uid": "41b215e5-024b-478e-bc05-5804ad02169a",
+        "source_cluster_id": "cluster_0615",
+        "selection_rank": "e2178ed728cbe03748fa3d8d7a8ad9bd24d7ec4fec0aeb2172cd3b5cd5c6ed87",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 2,
+          "label": "2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 2565.0,
+          "delta_target": 2565.0,
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 2565
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F07",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F07",
+        "task": {
+          "row_label": "Digital Experience",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Digital Experience",
+              "1,552.5",
+              "2,670.7"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_66b7c6dd_r2_p0",
+        "source_uid": "66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+        "source_cluster_id": "cluster_0978",
+        "selection_rank": "227f4fd64e6120756b898b0723a8476ba95311db8fac726f05e335048834c15b",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 1118.1999999999998,
+          "delta_target": 1118.1999999999998,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 1118.2
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F08",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F08",
+        "task": {
+          "row_label": "Publishing",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Publishing",
+              "100.6",
+              "115.5"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_66b7c6dd_r3_p1",
+        "source_uid": "66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+        "source_cluster_id": "cluster_0978",
+        "selection_rank": "ca63e57edea3e0767e61acc67ac616d5cae2af4910afa27fe520d30a882ab8ec",
+        "selection_position": 2,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 14.900000000000006,
+          "delta_target": 14.900000000000006,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 14.9
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F09",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F09",
+        "task": {
+          "row_label": "Dilutive effect of employee incentive plans",
+          "period_late": "Dec 28, 2019",
+          "period_early": "Dec 30, 2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Dec 30, 2017",
+              "Dec 28, 2019"
+            ],
+            [
+              "Dilutive effect of employee incentive plans",
+              "47",
+              "41"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_b4129e1f_r3_p1",
+        "source_uid": "b4129e1f-efcb-4157-9996-5389b83de63e",
+        "source_cluster_id": "cluster_1724",
+        "selection_rank": "65d7b6a389d35291e777fafa51f7136814415b47dc89cb9f81e36c26ef3a9e4a",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "Dec 30, 2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Dec 28, 2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -6.0,
+          "delta_target": -6.0,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -6
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F10",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F10",
+        "task": {
+          "row_label": "Weighted average shares of common stock outstanding—Basic",
+          "period_late": "Dec 28, 2019",
+          "period_early": "Dec 30, 2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Dec 30, 2017",
+              "Dec 28, 2019"
+            ],
+            [
+              "Weighted average shares of common stock outstanding—Basic",
+              "4,701",
+              "4,417"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_b4129e1f_r2_p0",
+        "source_uid": "b4129e1f-efcb-4157-9996-5389b83de63e",
+        "source_cluster_id": "cluster_1724",
+        "selection_rank": "8c161c83cf1eaf4b3ad74e603b19bb26fd3ce2647f1d28084df59d56ca105903",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "Dec 30, 2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Dec 28, 2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -284.0,
+          "delta_target": -284.0,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -284
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F11",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F11",
+        "task": {
+          "row_label": "Adjusted EBITDA",
+          "period_late": "Actual Fiscal 2019 (constant currency) (3) $",
+          "period_early": "Actual Fiscal 2018 (1) $",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Actual Fiscal 2018 (1) $",
+              "Actual Fiscal 2019 (constant currency) (3) $"
+            ],
+            [
+              "Adjusted EBITDA",
+              "1,007",
+              "1,092"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ab59379f_r3_p1",
+        "source_uid": "ab59379f-ccca-409d-bc39-a48df76f6117",
+        "source_cluster_id": "cluster_1628",
+        "selection_rank": "4e10e875858b7a42ac85ff9d5f0501132f844a8d7db6b9c8614cc6ddd1e05a46",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 1,
+          "label": "Actual Fiscal 2018 (1) $"
+        },
+        "period_late": {
+          "col": 3,
+          "label": "Actual Fiscal 2019 (constant currency) (3) $"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 85.0,
+          "delta_target": 85.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": null,
+          "previous_candidate_gold_value": 998.5,
+          "reference_revision": "same_unit_period_column_repair"
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": "NOT_APPLICABLE_AFTER_PERIOD_CORRECTION",
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "revision": {
+        "old_period_late": "Actual Fiscal 2018 (1) $",
+        "old_period_early": "Actual Fiscal 2019 (constant currency) (3) %",
+        "old_reference": 998.5,
+        "new_period_late": "Actual Fiscal 2019 (constant currency) (3) $",
+        "new_period_early": "Actual Fiscal 2018 (1) $",
+        "new_reference": 85.0,
+        "reason": "replace mismatched percent column with same-table 2019 dollar column"
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F12",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F12",
+        "task": {
+          "row_label": "Revenue",
+          "period_late": "Actual Fiscal 2019 (constant currency) (3) $",
+          "period_early": "Actual Fiscal 2018 (1) $",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Actual Fiscal 2018 (1) $",
+              "Actual Fiscal 2019 (constant currency) (3) $"
+            ],
+            [
+              "Revenue",
+              "2,147",
+              "2,294"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ab59379f_r2_p0",
+        "source_uid": "ab59379f-ccca-409d-bc39-a48df76f6117",
+        "source_cluster_id": "cluster_1628",
+        "selection_rank": "a17599515de7339d55fed7c440d8937a0d41a83609ab2a262d8495a07b11256a",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 1,
+          "label": "Actual Fiscal 2018 (1) $"
+        },
+        "period_late": {
+          "col": 3,
+          "label": "Actual Fiscal 2019 (constant currency) (3) $"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 147.0,
+          "delta_target": 147.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": null,
+          "previous_candidate_gold_value": 2140.2,
+          "reference_revision": "same_unit_period_column_repair"
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": "NOT_APPLICABLE_AFTER_PERIOD_CORRECTION",
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "revision": {
+        "old_period_late": "Actual Fiscal 2018 (1) $",
+        "old_period_early": "Actual Fiscal 2019 (constant currency) (3) %",
+        "old_reference": 2140.2,
+        "new_period_late": "Actual Fiscal 2019 (constant currency) (3) $",
+        "new_period_early": "Actual Fiscal 2018 (1) $",
+        "new_reference": 147.0,
+        "reason": "replace mismatched percent column with same-table 2019 dollar column"
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F13",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F13",
+        "task": {
+          "row_label": "Prepaid expenses and other current assets",
+          "period_late": "April 1, 2018",
+          "period_early": "March 31, 2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "March 31, 2018",
+              "April 1, 2018"
+            ],
+            [
+              "Prepaid expenses and other current assets",
+              "5,593",
+              "5,097"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_d7990183_r4_p1",
+        "source_uid": "d7990183-3079-4e28-975b-bd60cafdcd1d",
+        "source_cluster_id": "cluster_2060",
+        "selection_rank": "3ebce35f571a51d8f72dfdf3df23260c3f10f342f04d7393a21bd52b526d89b7",
+        "selection_position": 1,
+        "row_index": 4,
+        "period_early": {
+          "col": 1,
+          "label": "March 31, 2018"
+        },
+        "period_late": {
+          "col": 3,
+          "label": "April 1, 2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -496.0,
+          "delta_target": -496.0,
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": null,
+          "previous_candidate_gold_value": 496,
+          "reference_revision": "chronological_period_swap"
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": "NOT_APPLICABLE_AFTER_PERIOD_CORRECTION",
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "revision": {
+        "old_period_late": "March 31, 2018",
+        "old_period_early": "April 1, 2018",
+        "old_reference": 496.0,
+        "new_reference": -496.0
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F14",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F14",
+        "task": {
+          "row_label": "Accounts receivable, net",
+          "period_late": "April 1, 2018",
+          "period_early": "March 31, 2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "March 31, 2018",
+              "April 1, 2018"
+            ],
+            [
+              "Accounts receivable, net",
+              "16,389",
+              "19,513"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_d7990183_r2_p0",
+        "source_uid": "d7990183-3079-4e28-975b-bd60cafdcd1d",
+        "source_cluster_id": "cluster_2060",
+        "selection_rank": "fee37df44b4c9e0f33fbafce78bcd88efcb14af1f8163ad6abdd10c0b3f567da",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 1,
+          "label": "March 31, 2018"
+        },
+        "period_late": {
+          "col": 3,
+          "label": "April 1, 2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 3124.0,
+          "delta_target": 3124.0,
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": null,
+          "previous_candidate_gold_value": -3124,
+          "reference_revision": "chronological_period_swap"
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": "NOT_APPLICABLE_AFTER_PERIOD_CORRECTION",
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "revision": {
+        "old_period_late": "March 31, 2018",
+        "old_period_early": "April 1, 2018",
+        "old_reference": -3124.0,
+        "new_reference": 3124.0
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F15",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F15",
+        "task": {
+          "row_label": "APAC",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "APAC",
+              "186,914",
+              "180,241"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ac6e77fe_r3_p1",
+        "source_uid": "ac6e77fe-ba02-4764-9806-943cd8572e67",
+        "source_cluster_id": "cluster_1642",
+        "selection_rank": "6835d597f9b4efb0ecfb89ed0fcab9273fe99a1ae1ead36116d4b9387bc29114",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -6673.0,
+          "delta_target": -6673.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -6673
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    },
+    {
+      "task_id": "F16",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F16",
+        "task": {
+          "row_label": "EMEA",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "EMEA",
+              "1,530,241",
+              "1,526,644"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ac6e77fe_r2_p0",
+        "source_uid": "ac6e77fe-ba02-4764-9806-943cd8572e67",
+        "source_cluster_id": "cluster_1642",
+        "selection_rank": "a8101d1e0b2d1f5d4fcb80a11a172f54ddfcc10a5fce498ab8277230291577b3",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -3597.0,
+          "delta_target": -3597.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -3597
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      },
+      "pilot_status": "QUALIFIED"
+    }
+  ],
+  "qualification_fixtures": [
+    {
+      "task_id": "X01",
+      "bucket": "qualification_fixture",
+      "actor_task": {
+        "item_id": "X01",
+        "task": {
+          "row_label": "rate",
+          "period_late": "2022 %",
+          "period_early": "2020 %",
+          "requested_quantity": "signed_difference",
+          "source_unit": "%",
+          "target_unit": "%",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2020 %",
+              "2022 %"
+            ],
+            [
+              "rate",
+              "10",
+              "14"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "fixture_source": {
+          "item_id": "fixture-percent",
+          "table": [
+            [
+              "row",
+              "2020 %",
+              "2022 %"
+            ],
+            [
+              "rate",
+              "10",
+              "14"
+            ]
+          ],
+          "row_index": 1,
+          "period_early": {
+            "col": 1,
+            "label": "2020 %"
+          },
+          "period_late": {
+            "col": 2,
+            "label": "2022 %"
+          },
+          "source_unit": null,
+          "gold_delta_source_unit": 4,
+          "gold_recompute_rule": "value(late) - value(early) on row_index, both read from the table cells"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 4.0,
+          "delta_target": 4.0,
+          "source_unit": "%",
+          "target_unit": "%",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true
+        }
+      }
+    },
+    {
+      "task_id": "X02",
+      "bucket": "qualification_fixture",
+      "actor_task": {
+        "item_id": "X02",
+        "task": {
+          "row_label": "amount",
+          "period_late": "2021 million",
+          "period_early": "2018 million",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018 million",
+              "2021 million"
+            ],
+            [
+              "amount",
+              "7.5",
+              "6.25"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "fixture_source": {
+          "item_id": "fixture-million",
+          "table": [
+            [
+              "row",
+              "2018 million",
+              "2021 million"
+            ],
+            [
+              "amount",
+              "7.5",
+              "6.25"
+            ]
+          ],
+          "row_index": 1,
+          "period_early": {
+            "col": 1,
+            "label": "2018 million"
+          },
+          "period_late": {
+            "col": 2,
+            "label": "2021 million"
+          },
+          "source_unit": null,
+          "gold_delta_source_unit": -1.25,
+          "gold_recompute_rule": "value(late) - value(early) on row_index, both read from the table cells"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -1.25,
+          "delta_target": -1.25,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true
+        }
+      }
+    },
+    {
+      "task_id": "X03",
+      "bucket": "qualification_fixture",
+      "actor_task": {
+        "item_id": "X03",
+        "task": {
+          "row_label": "net",
+          "period_late": "2020 $",
+          "period_early": "2019 $",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2019 $",
+              "2020 $"
+            ],
+            [
+              "net",
+              "(3)",
+              "(5)"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "fixture_source": {
+          "item_id": "fixture-accounting",
+          "table": [
+            [
+              "row",
+              "2019 $",
+              "2020 $"
+            ],
+            [
+              "net",
+              "(3)",
+              "(5)"
+            ]
+          ],
+          "row_index": 1,
+          "period_early": {
+            "col": 1,
+            "label": "2019 $"
+          },
+          "period_late": {
+            "col": 2,
+            "label": "2020 $"
+          },
+          "source_unit": "currency",
+          "gold_delta_source_unit": -2,
+          "gold_recompute_rule": "value(late) - value(early) on row_index, both read from the table cells"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -2.0,
+          "delta_target": -2.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true
+        }
+      }
+    }
+  ],
+  "boundaries": {
+    "gold_not_used_for_selection_order": true,
+    "reference_is_contract_scoped_not_human_semantic_gold": true,
+    "future_reference_hidden_from_actor": true,
+    "designated_wp2_clusters_remain_isolated": true
+  },
+  "period_revision": {
+    "corrected_task_ids": [
+      "F01",
+      "F02",
+      "F13",
+      "F14"
+    ],
+    "unresolved_task_ids": [],
+    "reserve_substitution_allowed": false,
+    "source_candidate_items_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa"
+  }
+}

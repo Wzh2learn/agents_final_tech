@@ -1,0 +1,2051 @@
+{
+  "counts": {
+    "development_clusters": 8,
+    "development_tasks": 16,
+    "excluded": 0,
+    "future_validation_clusters": 8,
+    "future_validation_tasks": 16,
+    "reference_valid": 32,
+    "requires_human_semantic_adjudication": 0,
+    "unscorable_for_reference": 0
+  },
+  "references": [
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Germany"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "290",
+        "display": "290",
+        "late_minus_early": 290.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected_calculator_expression": "calc(late=3948, early=3658, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "61b874c7fd817ea5e00ee4ca318c7ca9ea3d52f8077aa0df46de0e1145789bc7",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0875",
+      "source_record_index": 1469,
+      "source_uid": "5c088a56-074d-49d0-af03-68c2d6a4c346",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 3658.0,
+        "early_display": "3,658",
+        "late": 3948.0,
+        "late_display": "3,948"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_01_FAC91A09_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Rest of EMEA"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "712",
+        "display": "712",
+        "late_minus_early": 712.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected_calculator_expression": "calc(late=8158, early=7446, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "61b874c7fd817ea5e00ee4ca318c7ca9ea3d52f8077aa0df46de0e1145789bc7",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0875",
+      "source_record_index": 1469,
+      "source_uid": "5c088a56-074d-49d0-af03-68c2d6a4c346",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 7446.0,
+        "early_display": "7,446",
+        "late": 8158.0,
+        "late_display": "8,158"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_01_FAC91A09_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "30/9/2018",
+        "early_year": 2018,
+        "late_period": "30/9/2019",
+        "late_year": 2019,
+        "row": "Contingent liabilities from guarantee and warranty contracts"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 1,
+        "late_period_index": 2,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-1",
+        "display": "-1",
+        "late_minus_early": -1.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          1,
+          2
+        ],
+        "row_indices": [
+          2,
+          3
+        ]
+      },
+      "expected_calculator_expression": "calc(late=17, early=18, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "8ab9b299f3af8151d06c233a2d35675c4d75a3572f1963ac9466c9492dd63542",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1699",
+      "source_record_index": 1152,
+      "source_uid": "b19757bf-8a8a-428b-9dcc-8179595064ae",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 18.0,
+        "early_display": "18",
+        "late": 17.0,
+        "late_display": "17"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_02_E4362659_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "30/9/2018",
+        "early_year": 2018,
+        "late_period": "30/9/2019",
+        "late_year": 2019,
+        "row": "Contingent liabilities from the provision of collateral for third-party liabilities"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 1,
+        "late_period_index": 2,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "3",
+        "display": "3",
+        "late_minus_early": 3.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          1,
+          2
+        ],
+        "row_indices": [
+          1,
+          3
+        ]
+      },
+      "expected_calculator_expression": "calc(late=12, early=9, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "8ab9b299f3af8151d06c233a2d35675c4d75a3572f1963ac9466c9492dd63542",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1699",
+      "source_record_index": 1152,
+      "source_uid": "b19757bf-8a8a-428b-9dcc-8179595064ae",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 9.0,
+        "early_display": "9",
+        "late": 12.0,
+        "late_display": "12"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_02_E4362659_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Product development"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-0.4",
+        "display": "-0.4",
+        "late_minus_early": -0.4,
+        "scale": "million",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected_calculator_expression": "calc(late=96.5, early=96.9, operation=late_minus_early, unit=USD, scale=million)",
+      "frozen_table_sha256": "5338636ec72065b27d1a241c5890ef725d7108cc003e5b2dff5551c1876647e6",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1582",
+      "source_record_index": 159,
+      "source_uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 96.9,
+        "early_display": "96.9",
+        "late": 96.5,
+        "late_display": "96.5"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "task_id": "CB_DEV_03_7C4213D2_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Selling and marketing"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "5.3",
+        "display": "5.3",
+        "late_minus_early": 5.3,
+        "scale": "million",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected_calculator_expression": "calc(late=129.2, early=123.9, operation=late_minus_early, unit=USD, scale=million)",
+      "frozen_table_sha256": "5338636ec72065b27d1a241c5890ef725d7108cc003e5b2dff5551c1876647e6",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1582",
+      "source_record_index": 159,
+      "source_uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 123.9,
+        "early_display": "123.9",
+        "late": 129.2,
+        "late_display": "129.2"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "task_id": "CB_DEV_03_7C4213D2_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Loss before tax, joint ventures and associates"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-717.2",
+        "display": "-717.2",
+        "late_minus_early": -717.2,
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected_calculator_expression": "calc(late=-1856.8, early=-1139.6, operation=late_minus_early, unit=GBP, scale=million)",
+      "frozen_table_sha256": "525eb36f5d56f1fa500c74317ba5fbc3b14655858467d3644c0103a348ce3921",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_2174",
+      "source_record_index": 343,
+      "source_uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "source_values": {
+        "early": -1139.6,
+        "early_display": "(1,139.6)",
+        "late": -1856.8,
+        "late_display": "(1,856.8)"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "task_id": "CB_DEV_04_DF37691D_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "-136.2",
+        "display": "-136.2",
+        "late_minus_early": -136.2,
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected_calculator_expression": "calc(late=-352.8, early=-216.6, operation=late_minus_early, unit=GBP, scale=million)",
+      "frozen_table_sha256": "525eb36f5d56f1fa500c74317ba5fbc3b14655858467d3644c0103a348ce3921",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_2174",
+      "source_record_index": 343,
+      "source_uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "source_values": {
+        "early": -216.6,
+        "early_display": "(216.6)",
+        "late": -352.8,
+        "late_display": "(352.8)"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "task_id": "CB_DEV_04_DF37691D_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Germany"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "302",
+        "display": "302",
+        "late_minus_early": 302.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "expected_calculator_expression": "calc(late=4486, early=4184, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "bac4a36869dcc9e963792594466c07f927b83d9f7e1c7384f3bd1fa41f085fda",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0840",
+      "source_record_index": 2078,
+      "source_uid": "58567520-c343-43fd-b803-bc078bb77c87",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 4184.0,
+        "early_display": "4,184",
+        "late": 4486.0,
+        "late_display": "4,486"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_05_67133A8A_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Rest of EMEA"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "644",
+        "display": "644",
+        "late_minus_early": 644.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "expected_calculator_expression": "calc(late=5386, early=4742, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "bac4a36869dcc9e963792594466c07f927b83d9f7e1c7384f3bd1fa41f085fda",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0840",
+      "source_record_index": 2078,
+      "source_uid": "58567520-c343-43fd-b803-bc078bb77c87",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 4742.0,
+        "early_display": "4,742",
+        "late": 5386.0,
+        "late_display": "5,386"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_05_67133A8A_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "Vested on 12/31/2018",
+        "early_year": 2018,
+        "late_period": "Vested on 12/31/2019",
+        "late_year": 2019,
+        "row": "Christian Klein (Co-CEO from 10/11/2019)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "4.1",
+        "display": "4.1",
+        "late_minus_early": 4.1,
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected_calculator_expression": "calc(late=8.2, early=4.1, operation=late_minus_early, unit=EUR, scale=thousand)",
+      "frozen_table_sha256": "e0fa4dfe3537fbaca70aa089e83e95456577cc35959f5878510430383888c41f",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0093",
+      "source_record_index": 784,
+      "source_uid": "09dfce79-6163-42a4-8fe6-a2eaf20c1435",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 4.1,
+        "early_display": "4.1",
+        "late": 8.2,
+        "late_display": "8.2"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_06_B58BD86E_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "Vested on 12/31/2018",
+        "early_year": 2018,
+        "late_period": "Vested on 12/31/2019",
+        "late_year": 2019,
+        "row": "Adaire Fox-Martin"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "4.5",
+        "display": "4.5",
+        "late_minus_early": 4.5,
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected_calculator_expression": "calc(late=11.8, early=7.3, operation=late_minus_early, unit=EUR, scale=thousand)",
+      "frozen_table_sha256": "e0fa4dfe3537fbaca70aa089e83e95456577cc35959f5878510430383888c41f",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0093",
+      "source_record_index": 784,
+      "source_uid": "09dfce79-6163-42a4-8fe6-a2eaf20c1435",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 7.3,
+        "early_display": "7.3",
+        "late": 11.8,
+        "late_display": "11.8"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_06_B58BD86E_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "Group 2018",
+        "early_year": 2018,
+        "late_period": "Group 2019",
+        "late_year": 2019,
+        "row": "Total borrowings"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-414.2",
+        "display": "-414.2",
+        "late_minus_early": -414.2,
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected_calculator_expression": "calc(late=4916.8, early=5331, operation=late_minus_early, unit=GBP, scale=million)",
+      "frozen_table_sha256": "7b07430164f441e787956fe4097ac69955358029291e5ba55b585e209399a523",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0402",
+      "source_record_index": 450,
+      "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "source_values": {
+        "early": 5331.0,
+        "early_display": "5,331.0",
+        "late": 4916.8,
+        "late_display": "4,916.8"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "task_id": "CB_DEV_07_CF81ADE9_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "Group 2018",
+        "early_year": 2018,
+        "late_period": "Group 2019",
+        "late_year": 2019,
+        "row": "Cash and cash equivalents"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "51.3",
+        "display": "51.3",
+        "late_minus_early": 51.3,
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected_calculator_expression": "calc(late=-223, early=-274.3, operation=late_minus_early, unit=GBP, scale=million)",
+      "frozen_table_sha256": "7b07430164f441e787956fe4097ac69955358029291e5ba55b585e209399a523",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0402",
+      "source_record_index": 450,
+      "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "source_values": {
+        "early": -274.3,
+        "early_display": "(274.3)",
+        "late": -223.0,
+        "late_display": "(223.0)"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "task_id": "CB_DEV_07_CF81ADE9_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Net income"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-472",
+        "display": "-472",
+        "late_minus_early": -472.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "expected_calculator_expression": "calc(late=5648, early=6120, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "4b9794722f72830c718685e3075ad21a82b33cb7d25472889b8d1cbfbf72e283",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0172",
+      "source_record_index": 563,
+      "source_uid": "10e46d24-413a-4fd1-9e96-56da277f6ba9",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 6120.0,
+        "early_display": "6,120",
+        "late": 5648.0,
+        "late_display": "5,648"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_08_2DF35AEA_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Less: Other interest expenses / income, net 1"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "-47",
+        "display": "-47",
+        "late_minus_early": -47.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "expected_calculator_expression": "calc(late=-529, early=-482, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "4b9794722f72830c718685e3075ad21a82b33cb7d25472889b8d1cbfbf72e283",
+      "partition": "development",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0172",
+      "source_record_index": 563,
+      "source_uid": "10e46d24-413a-4fd1-9e96-56da277f6ba9",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": -482.0,
+        "early_display": "(482)",
+        "late": -529.0,
+        "late_display": "(529)"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_DEV_08_2DF35AEA_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Management and administrative services revenue (i)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-164",
+        "display": "-164",
+        "late_minus_early": -164.0,
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "expected_calculator_expression": "calc(late=9645, early=9809, operation=late_minus_early, unit=USD, scale=thousand)",
+      "frozen_table_sha256": "ef680636646553a6ff2fe70b4cde103f35d995d02be01894b739f42c80ba19f1",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1569",
+      "source_record_index": 1559,
+      "source_uid": "a3c80b34-7e97-44e3-a07e-5b6999e5113b",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 9809.0,
+        "early_display": "9,809",
+        "late": 9645.0,
+        "late_display": "9,645"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_09_968CE7F5_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Ship management fees revenue (ii)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "-740",
+        "display": "-740",
+        "late_minus_early": -740.0,
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "expected_calculator_expression": "calc(late=4460, early=5200, operation=late_minus_early, unit=USD, scale=thousand)",
+      "frozen_table_sha256": "ef680636646553a6ff2fe70b4cde103f35d995d02be01894b739f42c80ba19f1",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1569",
+      "source_record_index": 1559,
+      "source_uid": "a3c80b34-7e97-44e3-a07e-5b6999e5113b",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 5200.0,
+        "early_display": "5,200",
+        "late": 4460.0,
+        "late_display": "4,460"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_09_968CE7F5_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Short-term employee benefits"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-1274",
+        "display": "-1274",
+        "late_minus_early": -1274.0,
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "expected_calculator_expression": "calc(late=17378, early=18652, operation=late_minus_early, unit=EUR, scale=thousand)",
+      "frozen_table_sha256": "6eda3c4cf3b66e30a28191d3823af45e9d6e3e71a5ec34714c3ba9a8bd2b16c8",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1020",
+      "source_record_index": 1514,
+      "source_uid": "6b250bb5-2435-4e4a-b799-5bd331232a20",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 18652.0,
+        "early_display": "18,652",
+        "late": 17378.0,
+        "late_display": "17,378"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "task_id": "CB_FVAL_10_D67FA662_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Share-based payment1)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "8747",
+        "display": "8747",
+        "late_minus_early": 8747.0,
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "expected_calculator_expression": "calc(late=32393, early=23646, operation=late_minus_early, unit=EUR, scale=thousand)",
+      "frozen_table_sha256": "6eda3c4cf3b66e30a28191d3823af45e9d6e3e71a5ec34714c3ba9a8bd2b16c8",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1020",
+      "source_record_index": 1514,
+      "source_uid": "6b250bb5-2435-4e4a-b799-5bd331232a20",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 23646.0,
+        "early_display": "23,646",
+        "late": 32393.0,
+        "late_display": "32,393"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "task_id": "CB_FVAL_10_D67FA662_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Christian Klein (Co-CEO from 10/10/2019)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "1482.8",
+        "display": "1482.8",
+        "late_minus_early": 1482.8,
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "expected_calculator_expression": "calc(late=1925, early=442.2, operation=late_minus_early, unit=EUR, scale=thousand)",
+      "frozen_table_sha256": "bff883bb03f7875ecbe3c3d9217347137e52fdc97a23f354e14b01cdb12827fc",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1792",
+      "source_record_index": 542,
+      "source_uid": "ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 442.2,
+        "early_display": "442.2",
+        "late": 1925.0,
+        "late_display": "1,925"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "task_id": "CB_FVAL_11_37C70803_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Jennifer Morgan (Co-CEO from 10/10/2019)"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "2097.9",
+        "display": "2097.9",
+        "late_minus_early": 2097.9,
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "expected_calculator_expression": "calc(late=2894, early=796.1, operation=late_minus_early, unit=EUR, scale=thousand)",
+      "frozen_table_sha256": "bff883bb03f7875ecbe3c3d9217347137e52fdc97a23f354e14b01cdb12827fc",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1792",
+      "source_record_index": 542,
+      "source_uid": "ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 796.1,
+        "early_display": "796.1",
+        "late": 2894.0,
+        "late_display": "2,894"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "EUR"
+      },
+      "task_id": "CB_FVAL_11_37C70803_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Liquefaction services revenue"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "90471",
+        "display": "90471",
+        "late_minus_early": 90471.0,
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "expected_calculator_expression": "calc(late=218096, early=127625, operation=late_minus_early, unit=USD, scale=thousand)",
+      "frozen_table_sha256": "bf1ab55a4bcbaa9a51689455ea547b54e5d4a6f439749eb2708368218548e93f",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1476",
+      "source_record_index": 219,
+      "source_uid": "99e73ea1-2dd6-478d-8fef-3a71122f6f83",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 127625.0,
+        "early_display": "127,625",
+        "late": 218096.0,
+        "late_display": "218,096"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_12_DBD4B6D3_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Realized and unrealized (losses)/gains on the oil derivative instrument"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 3
+      },
+      "deterministic_reference": {
+        "decimal": "-42768",
+        "display": "-42768",
+        "late_minus_early": -42768.0,
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          2,
+          4,
+          5,
+          6
+        ]
+      },
+      "expected_calculator_expression": "calc(late=-26001, early=16767, operation=late_minus_early, unit=USD, scale=thousand)",
+      "frozen_table_sha256": "bf1ab55a4bcbaa9a51689455ea547b54e5d4a6f439749eb2708368218548e93f",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1476",
+      "source_record_index": 219,
+      "source_uid": "99e73ea1-2dd6-478d-8fef-3a71122f6f83",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 16767.0,
+        "early_display": "16,767",
+        "late": -26001.0,
+        "late_display": "(26,001)"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_12_DBD4B6D3_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "30/9/2018",
+        "early_year": 2018,
+        "late_period": "30/9/2019",
+        "late_year": 2019,
+        "row": "Corporate tax losses"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 1,
+        "late_period_index": 2,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "563",
+        "display": "563",
+        "late_minus_early": 563.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          1,
+          2
+        ],
+        "row_indices": [
+          2,
+          3,
+          4
+        ]
+      },
+      "expected_calculator_expression": "calc(late=4883, early=4320, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "2569b0bdb40f97366e1038321ad69488a85d5689163b158a0fae2d4891a7e375",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0154",
+      "source_record_index": 2149,
+      "source_uid": "0f69ef4a-6d23-4e5e-9781-dbd44d5b99a0",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 4320.0,
+        "early_display": "4,320",
+        "late": 4883.0,
+        "late_display": "4,883"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_FVAL_13_F7A44918_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "30/9/2018",
+        "early_year": 2018,
+        "late_period": "30/9/2019",
+        "late_year": 2019,
+        "row": "Trade tax losses"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 1,
+        "late_period_index": 2,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "383",
+        "display": "383",
+        "late_minus_early": 383.0,
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "distractors": {
+        "period_indices": [
+          1,
+          2
+        ],
+        "row_indices": [
+          1,
+          3,
+          4
+        ]
+      },
+      "expected_calculator_expression": "calc(late=3679, early=3296, operation=late_minus_early, unit=EUR, scale=million)",
+      "frozen_table_sha256": "2569b0bdb40f97366e1038321ad69488a85d5689163b158a0fae2d4891a7e375",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_0154",
+      "source_record_index": 2149,
+      "source_uid": "0f69ef4a-6d23-4e5e-9781-dbd44d5b99a0",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "source_values": {
+        "early": 3296.0,
+        "early_display": "3,296",
+        "late": 3679.0,
+        "late_display": "3,679"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "EUR"
+      },
+      "task_id": "CB_FVAL_13_F7A44918_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "Year Ended December 31, 2018",
+        "early_year": 2018,
+        "late_period": "Year Ended December 31, 2019",
+        "late_year": 2019,
+        "row": "Net cash provided by operating activities"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "40475",
+        "display": "40475",
+        "late_minus_early": 40475.0,
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "expected_calculator_expression": "calc(late=96112, early=55637, operation=late_minus_early, unit=USD, scale=thousand)",
+      "frozen_table_sha256": "27e1f84cb75cae0f1a0ce19d3961caf2aa97603ae133b0aea12f3ecd6446e445",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_2442",
+      "source_record_index": 1007,
+      "source_uid": "ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 55637.0,
+        "early_display": "$55,637",
+        "late": 96112.0,
+        "late_display": "$96,112"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_14_08485C54_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "Year Ended December 31, 2018",
+        "early_year": 2018,
+        "late_period": "Year Ended December 31, 2019",
+        "late_year": 2019,
+        "row": "Net cash (used in)/ provided by investing activities"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "-84330",
+        "display": "-84330",
+        "late_minus_early": -84330.0,
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "expected_calculator_expression": "calc(late=-56467, early=27863, operation=late_minus_early, unit=USD, scale=thousand)",
+      "frozen_table_sha256": "27e1f84cb75cae0f1a0ce19d3961caf2aa97603ae133b0aea12f3ecd6446e445",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_2442",
+      "source_record_index": 1007,
+      "source_uid": "ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e",
+      "source_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 27863.0,
+        "early_display": "27,863",
+        "late": -56467.0,
+        "late_display": "(56,467)"
+      },
+      "target_unit": {
+        "multiplier": "1000",
+        "scale": "thousand",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_14_08485C54_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Networks & Security"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 3,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "27",
+        "display": "27",
+        "late_minus_early": 27.0,
+        "scale": "million",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          1
+        ],
+        "row_indices": [
+          2,
+          3
+        ]
+      },
+      "expected_calculator_expression": "calc(late=232.3, early=205.3, operation=late_minus_early, unit=USD, scale=million)",
+      "frozen_table_sha256": "4837d70fd0f7d95ae2ec5aa1da568fc18b8820acb5dba8194e136f10ccc1a243",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1448",
+      "source_record_index": 274,
+      "source_uid": "97a0d99a-feef-41ed-baaa-960b59d23b89",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 205.3,
+        "early_display": "205.3",
+        "late": 232.3,
+        "late_display": "232.3"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_15_8E50E9CF_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2018",
+        "early_year": 2018,
+        "late_period": "2019",
+        "late_year": 2019,
+        "row": "Lifecycle Service Assurance"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 3,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "0.7",
+        "display": "0.7",
+        "late_minus_early": 0.7,
+        "scale": "million",
+        "unit": "USD"
+      },
+      "distractors": {
+        "period_indices": [
+          3,
+          1
+        ],
+        "row_indices": [
+          1,
+          3
+        ]
+      },
+      "expected_calculator_expression": "calc(late=88.6, early=87.9, operation=late_minus_early, unit=USD, scale=million)",
+      "frozen_table_sha256": "4837d70fd0f7d95ae2ec5aa1da568fc18b8820acb5dba8194e136f10ccc1a243",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1448",
+      "source_record_index": 274,
+      "source_uid": "97a0d99a-feef-41ed-baaa-960b59d23b89",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "source_values": {
+        "early": 87.9,
+        "early_display": "87.9",
+        "late": 88.6,
+        "late_display": "88.6"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "USD"
+      },
+      "task_id": "CB_FVAL_15_8E50E9CF_T2"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2017/18",
+        "early_year": 2017,
+        "late_period": "2018/19",
+        "late_year": 2018,
+        "row": "Senior secured notes interest"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 1
+      },
+      "deterministic_reference": {
+        "decimal": "-0.5",
+        "display": "-0.5",
+        "late_minus_early": -0.5,
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "expected_calculator_expression": "calc(late=31.7, early=32.2, operation=late_minus_early, unit=GBP, scale=million)",
+      "frozen_table_sha256": "0d60d2b047a95bd9a636df8bfab17080d27d3b6f90eaa24069881df59206a566",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1604",
+      "source_record_index": 1660,
+      "source_uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "source_values": {
+        "early": 32.2,
+        "early_display": "32.2",
+        "late": 31.7,
+        "late_display": "31.7"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "task_id": "CB_FVAL_16_D7A317CD_T1"
+    },
+    {
+      "canonical_labels": {
+        "early_period": "2017/18",
+        "early_year": 2017,
+        "late_period": "2018/19",
+        "late_year": 2018,
+        "row": "Bank debt interest"
+      },
+      "classification": "REFERENCE_VALID_DETERMINISTIC",
+      "coordinates": {
+        "early_period_index": 2,
+        "late_period_index": 1,
+        "row_index": 2
+      },
+      "deterministic_reference": {
+        "decimal": "-2.1",
+        "display": "-2.1",
+        "late_minus_early": -2.1,
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "distractors": {
+        "period_indices": [
+          2,
+          1
+        ],
+        "row_indices": [
+          1,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "expected_calculator_expression": "calc(late=5.1, early=7.2, operation=late_minus_early, unit=GBP, scale=million)",
+      "frozen_table_sha256": "0d60d2b047a95bd9a636df8bfab17080d27d3b6f90eaa24069881df59206a566",
+      "partition": "future_validation",
+      "raw_split": "train",
+      "schema": "tatqa_candidate_b_hidden_reference_v1",
+      "sign_convention": "late_minus_early",
+      "source_cluster_id": "cluster_1604",
+      "source_record_index": 1660,
+      "source_uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+      "source_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "source_values": {
+        "early": 7.2,
+        "early_display": "7.2",
+        "late": 5.1,
+        "late_display": "5.1"
+      },
+      "target_unit": {
+        "multiplier": "1000000",
+        "scale": "million",
+        "unit": "GBP"
+      },
+      "task_id": "CB_FVAL_16_D7A317CD_T2"
+    }
+  ],
+  "rule": {
+    "allocation": "first eight development; next eight future validation",
+    "eligibility": [
+      "reserve role only; all old development/history/future-test roles are excluded",
+      "effective exposure is PROGRAMMATIC_ONLY",
+      "exactly one cluster member has a structurally eligible frozen table",
+      "same table supplies all candidate and distractor rows",
+      "latest two unambiguous year-labelled period columns are identifiable",
+      "at least two body rows have unique labels and numeric same-unit cells in both periods",
+      "tasks use the first two eligible row coordinates; no model output, expected error, or observed failure is read"
+    ],
+    "label_blind": true,
+    "order": "ascending sha256(seed:cluster_id)",
+    "sign_convention": "late - early",
+    "source_structure_only": true
+  },
+  "schema": "tatqa_candidate_b_qualification_v1",
+  "selection_rule_id": "candidate_b_source_structure_only_v1",
+  "selection_seed": "tatqa-candidate-b-qualification-a-20261019-reserve-order-v1",
+  "status": "PANEL_COUNTS_AVAILABLE",
+  "task_id": "tatqa-candidate-b-qualification-a-20261019"
+}

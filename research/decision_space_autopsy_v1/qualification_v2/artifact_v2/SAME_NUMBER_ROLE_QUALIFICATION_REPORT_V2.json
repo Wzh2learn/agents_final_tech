@@ -1,0 +1,371 @@
+{
+  "candidate_pair_qualifications": [
+    {
+      "candidate_visible_role": {
+        "period_label": "group 2019",
+        "row_label": "cash including group s share of joint ventures",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "group 2019",
+        "row_label": "cash and cash equivalents",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "task_id": "NR_development_0402_N2",
+      "visible_difference_fields": [
+        "row_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "2018",
+        "row_label": "transfer from vessels and equipment net note 16",
+        "scale": "thousand",
+        "unit": "usd"
+      },
+      "hidden_difference_fields": [
+        "row_index",
+        "period_index",
+        "year"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "2019",
+        "row_label": "as of january 1",
+        "scale": "thousand",
+        "unit": "usd"
+      },
+      "task_id": "NR_development_0424_N2",
+      "visible_difference_fields": [
+        "row_label",
+        "period_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "2018",
+        "row_label": "expiring in the following year",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "hidden_difference_fields": [
+        "period_index",
+        "year"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "2019",
+        "row_label": "expiring in the following year",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "task_id": "NR_development_0923_N2",
+      "visible_difference_fields": [
+        "period_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "early_period": "2018",
+        "late_period": "2017",
+        "row_label": "termination benefits outside of restructuring plans",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "hidden_difference_fields": [],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_label": "termination benefits outside of restructuring plans",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "task_id": "NR_development_1498_N2",
+      "visible_difference_fields": [
+        "early_period",
+        "late_period"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "2019",
+        "row_label": "adjusted operating costs1",
+        "scale": "million",
+        "unit": "usd"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "The roles differ only in hidden coordinates or values; actor-visible row_label/period/unit fields cannot establish WRONG_ROLE.",
+      "status": "UNSCORABLE_FOR_REFERENCE",
+      "target_visible_role": {
+        "period_label": "2019",
+        "row_label": "adjusted operating costs1",
+        "scale": "million",
+        "unit": "usd"
+      },
+      "task_id": "NR_development_1582_N2",
+      "visible_difference_fields": []
+    },
+    {
+      "candidate_visible_role": {
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_label": "non deductible expenses",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_label": "changes in tax laws and tax rates",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "task_id": "NR_development_1981_N2",
+      "visible_difference_fields": [
+        "row_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "30 9 2019",
+        "row_label": "deferred income",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "hidden_difference_fields": [
+        "period_index",
+        "year"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "30 9 2018",
+        "row_label": "deferred income",
+        "scale": "million",
+        "unit": "eur"
+      },
+      "task_id": "NR_development_2111_N2",
+      "visible_difference_fields": [
+        "period_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "2018",
+        "row_label": "non deductible and other items",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "hidden_difference_fields": [
+        "period_index",
+        "year"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "2019",
+        "row_label": "non deductible and other items",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "task_id": "NR_development_2174_N2",
+      "visible_difference_fields": [
+        "period_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_label": "amounts owed to members of peel",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_label": "amounts owed by members of peel",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "task_id": "NR_development_2196_N2",
+      "visible_difference_fields": [
+        "row_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "2017 18",
+        "row_label": "discount unwind",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "2017 18",
+        "row_label": "fair value movements on interest rate financial instruments",
+        "scale": "million",
+        "unit": "gbp"
+      },
+      "task_id": "NR_exploratory_future_1604_N2",
+      "visible_difference_fields": [
+        "row_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "2018",
+        "row_label": "adaire fox martin",
+        "scale": "thousand",
+        "unit": "eur"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "2018",
+        "row_label": "jennifer morgan co ceo from 10 10 2019",
+        "scale": "thousand",
+        "unit": "eur"
+      },
+      "task_id": "NR_exploratory_future_1792_N2",
+      "visible_difference_fields": [
+        "row_label"
+      ]
+    },
+    {
+      "candidate_visible_role": {
+        "period_label": "year ended december 31 2018",
+        "row_label": "cash and cash equivalents and restricted cash end of year",
+        "scale": "thousand",
+        "unit": "usd"
+      },
+      "hidden_difference_fields": [
+        "row_index",
+        "period_index",
+        "year"
+      ],
+      "reason": "WRONG_ROLE is decidable from visible row_label/period/unit role differences.",
+      "status": "QUALIFIED_VISIBLE_ROLE_DIFFERENCE",
+      "target_visible_role": {
+        "period_label": "year ended december 31 2019",
+        "row_label": "cash and cash equivalents and restricted cash beginning of year",
+        "scale": "thousand",
+        "unit": "usd"
+      },
+      "task_id": "NR_exploratory_future_2442_N2",
+      "visible_difference_fields": [
+        "row_label",
+        "period_label"
+      ]
+    }
+  ],
+  "counts": {
+    "development_clusters": 9,
+    "development_tasks": 16,
+    "excluded_pair_count": 1,
+    "future_clusters": 3,
+    "future_tasks": 6,
+    "human_semantic_review_pairs": 0,
+    "qualified_negative_pairs": 11,
+    "total_tasks": 22,
+    "unscorable_pairs": 1
+  },
+  "excluded_from_model_tasks": [
+    {
+      "candidate_visible_role": {
+        "period_label": "2019",
+        "row_label": "adjusted operating costs1",
+        "scale": "million",
+        "unit": "usd"
+      },
+      "hidden_difference_fields": [
+        "row_index"
+      ],
+      "reason": "The roles differ only in hidden coordinates or values; actor-visible row_label/period/unit fields cannot establish WRONG_ROLE.",
+      "status": "UNSCORABLE_FOR_REFERENCE",
+      "target_visible_role": {
+        "period_label": "2019",
+        "row_label": "adjusted operating costs1",
+        "scale": "million",
+        "unit": "usd"
+      },
+      "task_id": "NR_development_1582_N2",
+      "visible_difference_fields": []
+    }
+  ],
+  "negative_status_counts": {
+    "QUALIFIED_VISIBLE_ROLE_DIFFERENCE": 11,
+    "UNSCORABLE_FOR_REFERENCE": 1
+  },
+  "qualification_rule": {
+    "hidden_coordinates_are_not_sufficient": true,
+    "no_silent_reference_rewrite": true,
+    "row_index_only_status": "UNSCORABLE_FOR_REFERENCE",
+    "visible_fields": [
+      "row_label",
+      "period_label",
+      "early_period",
+      "late_period",
+      "unit",
+      "scale"
+    ]
+  },
+  "raw_regeneration_status": "RAW_INPUTS_NOT_PRESENT_IN_WORKSPACE",
+  "retained_task_ids": [
+    "NR_development_0402_P1",
+    "NR_development_0402_N2",
+    "NR_development_0424_P1",
+    "NR_development_0424_N2",
+    "NR_development_0923_P1",
+    "NR_development_0923_N2",
+    "NR_development_1498_P1",
+    "NR_development_1498_N2",
+    "NR_development_1981_P1",
+    "NR_development_1981_N2",
+    "NR_development_2111_P1",
+    "NR_development_2111_N2",
+    "NR_development_2174_P1",
+    "NR_development_2174_N2",
+    "NR_development_2196_P1",
+    "NR_development_2196_N2",
+    "NR_exploratory_future_1604_P1",
+    "NR_exploratory_future_1604_N2",
+    "NR_exploratory_future_1792_P1",
+    "NR_exploratory_future_1792_N2",
+    "NR_exploratory_future_2442_P1",
+    "NR_exploratory_future_2442_N2"
+  ],
+  "schema": "same_number_role_qualification_report_v2",
+  "source_package": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\decision_space_autopsy_v1\\SAME_NUMBER_ROLE_TASKS_DRAFT.json",
+  "status": "QUALIFICATION_FIXED_NO_MODEL_REQUEST"
+}

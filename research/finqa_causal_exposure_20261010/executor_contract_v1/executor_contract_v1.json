@@ -1,0 +1,127 @@
+{
+  "contract_version": "finqa-executor-contract-v1",
+  "official_revision": "0f16e2867befa6840783e58be38c9efb9229d742",
+  "status": "EXECUTOR_FEASIBILITY_CONDITIONAL",
+  "scientific_output": false,
+  "official_operator_families": [
+    "add",
+    "subtract",
+    "multiply",
+    "divide",
+    "exp",
+    "greater",
+    "table_sum",
+    "table_average",
+    "table_max",
+    "table_min"
+  ],
+  "verified_semantics": {
+    "program_shape": "four tokens per step plus EOF",
+    "numeric": "comma removal then float parsing",
+    "percent_input": "canonical numeric percent literal divided by 100",
+    "constant_input": "const_m1=-1 and canonical const_numeric",
+    "none": "ignored second argument of table operations only",
+    "free_text": "fail closed",
+    "binary_reference": "prior-step raw value via canonical #k",
+    "table_reference": "fail closed because official dependency is not deterministic",
+    "table_arg2": "ignored",
+    "greater_tie": "no",
+    "terminal_rounding": "Python round on final non-boolean value, digits=5",
+    "terminal_gold_field": "qa.exe_ans"
+  },
+  "unverified_semantics": [
+    {
+      "code": "STEP_RES_RENDERING_UNVERIFIED",
+      "reason": "pinned official source does not define qa.steps[].res output rendering"
+    },
+    {
+      "code": "DISPLAY_ANSWER_DERIVATION_UNVERIFIED",
+      "reason": "pinned official source does not derive formatted qa.answer"
+    },
+    {
+      "code": "NORMALIZED_OPERATOR_VARIANT_UNVERIFIED",
+      "reason": "pinned evaluator admits raw operation families only"
+    },
+    {
+      "code": "TABLE_REFERENCE_DEPENDENCY_UNVERIFIED",
+      "reason": "official table #k branch uses uninitialized or stale num_row"
+    },
+    {
+      "code": "NON_FINITE_SERIALIZATION_UNVERIFIED",
+      "reason": "pinned source does not define a safe non-finite contract"
+    },
+    {
+      "code": "COMPLEX_EXP_BEHAVIOR_UNVERIFIED",
+      "reason": "pinned exp branch can produce Python complex values without a terminal serialization rule"
+    }
+  ],
+  "legal_mutation": {
+    "P": {
+      "fields": ["op"],
+      "requirements": ["new operator is official", "change is non-noop"]
+    },
+    "N": {
+      "fields": ["arg1", "arg2"],
+      "requirements": [
+        "operator consumes the field",
+        "change is non-noop",
+        "table arg2 rejected because official code ignores it"
+      ]
+    },
+    "forbidden_fields": [
+      "res",
+      "answer",
+      "exe_ans",
+      "terminal_answer",
+      "terminal_execution_answer"
+    ]
+  },
+  "error_codes": [
+    "PROGRAM_NOT_STRING",
+    "PROGRAM_EOF_MISSING",
+    "PROGRAM_STRUCTURE_LENGTH",
+    "PROGRAM_STRUCTURE_CLOSE",
+    "PROGRAM_EMPTY",
+    "UNSUPPORTED_OPERATOR",
+    "ARGUMENT_NOT_STRING",
+    "ARGUMENT_NON_NUMERIC",
+    "ARGUMENT_PERCENT_AMBIGUOUS",
+    "ARGUMENT_CONSTANT_AMBIGUOUS",
+    "ARGUMENT_REFERENCE_MALFORMED",
+    "ARGUMENT_REFERENCE_UNRESOLVED",
+    "BOOLEAN_OR_NONNUMERIC_ARGUMENT",
+    "DIVISION_BY_ZERO",
+    "ARITHMETIC_OVERFLOW",
+    "ARITHMETIC_UNDEFINED",
+    "NON_FINITE_RESULT",
+    "NON_FINITE_OR_COMPLEX_RESULT",
+    "TABLE_NOT_LIST",
+    "TABLE_ROW_NOT_LIST",
+    "TABLE_CELL_NOT_STRING",
+    "TABLE_CELL_UNPARSEABLE",
+    "TABLE_ROW_INVALID",
+    "TABLE_LABEL_NOT_STRING",
+    "TABLE_ROW_UNRESOLVED",
+    "TABLE_REFERENCE_UNSUPPORTED",
+    "TABLE_EMPTY_AVERAGE",
+    "TABLE_EMPTY_EXTREMUM",
+    "MUTATION_FAMILY_ILLEGAL",
+    "MUTATION_FIELD_ILLEGAL",
+    "MUTATION_RESULT_FIELD_FORBIDDEN",
+    "MUTATION_STEP_INDEX_INVALID",
+    "MUTATION_VALUE_NOT_STRING",
+    "MUTATION_FIELD_FAMILY_MISMATCH",
+    "MUTATION_OPERATOR_UNSUPPORTED",
+    "MUTATION_TARGET_TABLE_ARG2_IGNORED",
+    "MUTATION_IS_NOOP",
+    "MUTATION_CHANGED_UNEXPECTED_FIELDS",
+    "FROZEN_INPUT_HASH_MISMATCH",
+    "FROZEN_INPUT_SIZE_MISMATCH",
+    "FROZEN_RECORD_COUNT_MISMATCH",
+    "RECORD_SCHEMA_INVALID",
+    "RECORD_ID_INVALID",
+    "GOLD_STEP_COUNT_MISMATCH",
+    "GOLD_STEP_RES_MISSING",
+    "REPLAY_DENOMINATOR_MISMATCH"
+  ]
+}

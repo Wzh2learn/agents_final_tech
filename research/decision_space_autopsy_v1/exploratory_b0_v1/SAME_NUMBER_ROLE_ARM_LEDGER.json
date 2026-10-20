@@ -1,0 +1,41 @@
+{
+  "schema": "same_number_role_arm_ledger_v1",
+  "status": "EXPLORATORY_ARMS_COMPLETE_REQUEST_BUDGET_EXHAUSTED",
+  "same_number_b0": {
+    "requests": 48,
+    "accounting_tokens": 29207,
+    "success": 18,
+    "non_success": 6
+  },
+  "r_arm": {
+    "requests": 24,
+    "accounting_tokens": 16385,
+    "success": 8,
+    "non_success": 4,
+    "decision_match": 9
+  },
+  "c_arm": {
+    "requests": 24,
+    "accounting_tokens": 15929,
+    "success": 7,
+    "non_success": 5,
+    "decision_match": 7
+  },
+  "h_arm": {
+    "requests": 0,
+    "status": "NOT_RUN_TASK_MATCHED_HISTORY_MISSING_AND_REQUEST_BUDGET_EXHAUSTED"
+  },
+  "prewindow_zero_request_incidents": 2,
+  "cumulative": {
+    "requests_used": 228,
+    "request_cap": 228,
+    "accounting_tokens_used": 243014,
+    "token_cap": 2450000
+  },
+  "remaining_global_budget": {
+    "requests": 0,
+    "accounting_tokens": 2206986
+  },
+  "model_or_judge_calls": 0,
+  "training_calls": 0
+}

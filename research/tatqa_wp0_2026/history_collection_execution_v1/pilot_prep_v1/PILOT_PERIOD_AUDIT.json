@@ -1,0 +1,294 @@
+{
+  "schema": "pilot_period_audit_v1",
+  "status": "PASS",
+  "source_identity": {
+    "candidate_items_v2_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+    "collection_manifest_sha256": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6"
+  },
+  "task_count": 16,
+  "qualified_count": 16,
+  "unresolved_count": 0,
+  "unresolved_task_ids": [],
+  "rows": [
+    {
+      "task_id": "F01",
+      "source_cluster_id": "cluster_1340",
+      "old_period_late": "30/9/2018",
+      "old_period_early": "30/9/2019",
+      "late_key": "2018-09-30T00:00:00",
+      "early_key": "2019-09-30T00:00:00",
+      "chronologically_inverted": true,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "CORRECTED_INVERSION"
+    },
+    {
+      "task_id": "F02",
+      "source_cluster_id": "cluster_1340",
+      "old_period_late": "30/9/2018",
+      "old_period_early": "30/9/2019",
+      "late_key": "2018-09-30T00:00:00",
+      "early_key": "2019-09-30T00:00:00",
+      "chronologically_inverted": true,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "CORRECTED_INVERSION"
+    },
+    {
+      "task_id": "F03",
+      "source_cluster_id": "cluster_0306",
+      "old_period_late": "2019",
+      "old_period_early": "2018",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2018-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F04",
+      "source_cluster_id": "cluster_0306",
+      "old_period_late": "2019",
+      "old_period_early": "2018",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2018-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F05",
+      "source_cluster_id": "cluster_0615",
+      "old_period_late": "2019",
+      "old_period_early": "2017",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2017-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F06",
+      "source_cluster_id": "cluster_0615",
+      "old_period_late": "2018",
+      "old_period_early": "2017",
+      "late_key": "2018-06-30T00:00:00",
+      "early_key": "2017-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F07",
+      "source_cluster_id": "cluster_0978",
+      "old_period_late": "2019",
+      "old_period_early": "2017",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2017-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F08",
+      "source_cluster_id": "cluster_0978",
+      "old_period_late": "2019",
+      "old_period_early": "2017",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2017-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F09",
+      "source_cluster_id": "cluster_1724",
+      "old_period_late": "Dec 28, 2019",
+      "old_period_early": "Dec 30, 2017",
+      "late_key": "2019-12-28T00:00:00",
+      "early_key": "2017-12-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F10",
+      "source_cluster_id": "cluster_1724",
+      "old_period_late": "Dec 28, 2019",
+      "old_period_early": "Dec 30, 2017",
+      "late_key": "2019-12-28T00:00:00",
+      "early_key": "2017-12-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F11",
+      "source_cluster_id": "cluster_1628",
+      "old_period_late": "Actual Fiscal 2018 (1) $",
+      "old_period_early": "Actual Fiscal 2019 (constant currency) (3) %",
+      "late_key": "2018-06-30T00:00:00",
+      "early_key": "2019-06-30T00:00:00",
+      "chronologically_inverted": true,
+      "units_compatible": true,
+      "unit_evidence": {
+        "repair": {
+          "early": {
+            "col": 1,
+            "label": "Actual Fiscal 2018 (1) $",
+            "value": "1,007"
+          },
+          "late": {
+            "col": 3,
+            "label": "Actual Fiscal 2019 (constant currency) (3) $",
+            "value": "1,092"
+          },
+          "reference": 85.0,
+          "reason": "replace mismatched percent column with same-table 2019 dollar column"
+        },
+        "source_item_id": "wp2_ab59379f_r3_p1"
+      },
+      "status": "CORRECTED_ALTERNATE_SAME_UNIT_PERIOD"
+    },
+    {
+      "task_id": "F12",
+      "source_cluster_id": "cluster_1628",
+      "old_period_late": "Actual Fiscal 2018 (1) $",
+      "old_period_early": "Actual Fiscal 2019 (constant currency) (3) %",
+      "late_key": "2018-06-30T00:00:00",
+      "early_key": "2019-06-30T00:00:00",
+      "chronologically_inverted": true,
+      "units_compatible": true,
+      "unit_evidence": {
+        "repair": {
+          "early": {
+            "col": 1,
+            "label": "Actual Fiscal 2018 (1) $",
+            "value": "2,147"
+          },
+          "late": {
+            "col": 3,
+            "label": "Actual Fiscal 2019 (constant currency) (3) $",
+            "value": "2,294"
+          },
+          "reference": 147.0,
+          "reason": "replace mismatched percent column with same-table 2019 dollar column"
+        },
+        "source_item_id": "wp2_ab59379f_r2_p0"
+      },
+      "status": "CORRECTED_ALTERNATE_SAME_UNIT_PERIOD"
+    },
+    {
+      "task_id": "F13",
+      "source_cluster_id": "cluster_2060",
+      "old_period_late": "March 31, 2018",
+      "old_period_early": "April 1, 2018",
+      "late_key": "2018-03-31T00:00:00",
+      "early_key": "2018-04-01T00:00:00",
+      "chronologically_inverted": true,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "CORRECTED_INVERSION"
+    },
+    {
+      "task_id": "F14",
+      "source_cluster_id": "cluster_2060",
+      "old_period_late": "March 31, 2018",
+      "old_period_early": "April 1, 2018",
+      "late_key": "2018-03-31T00:00:00",
+      "early_key": "2018-04-01T00:00:00",
+      "chronologically_inverted": true,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "CORRECTED_INVERSION"
+    },
+    {
+      "task_id": "F15",
+      "source_cluster_id": "cluster_1642",
+      "old_period_late": "2019",
+      "old_period_early": "2018",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2018-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    },
+    {
+      "task_id": "F16",
+      "source_cluster_id": "cluster_1642",
+      "old_period_late": "2019",
+      "old_period_early": "2018",
+      "late_key": "2019-06-30T00:00:00",
+      "early_key": "2018-06-30T00:00:00",
+      "chronologically_inverted": false,
+      "units_compatible": true,
+      "unit_evidence": {
+        "late_label_units": [],
+        "early_label_units": [],
+        "rule": "missing label units inherit explicit task unit"
+      },
+      "status": "PASS"
+    }
+  ]
+}

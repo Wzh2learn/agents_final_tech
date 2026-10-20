@@ -1,0 +1,495 @@
+{
+  "$defs": {
+    "actor_task": {
+      "additionalProperties": false,
+      "properties": {
+        "actor_input_only": {
+          "const": true,
+          "type": "boolean"
+        },
+        "case_id": {
+          "pattern": "^CC[0-9]{3}$",
+          "type": "string"
+        },
+        "observation": {
+          "additionalProperties": false,
+          "properties": {
+            "claim": {
+              "additionalProperties": false,
+              "properties": {
+                "amount_usd": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "category": {
+                  "enum": [
+                    "conference",
+                    "lodging",
+                    "meals",
+                    "office",
+                    "travel"
+                  ],
+                  "type": "string"
+                },
+                "manager_approval": {
+                  "type": "boolean"
+                },
+                "merchant": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "amount_usd",
+                "category",
+                "manager_approval",
+                "merchant"
+              ],
+              "type": "object"
+            },
+            "evidence_inventory": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "fact_id": {
+                    "pattern": "^CC[0-9]{3}:[a-z_]+$",
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "string"
+                  },
+                  "valid": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "fact_id",
+                  "kind",
+                  "valid"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "prior_experience": {
+              "additionalProperties": false,
+              "properties": {
+                "baseline_submitted_outcome": {
+                  "enum": [
+                    "approve",
+                    "reject"
+                  ],
+                  "type": "string"
+                },
+                "plan_evidence_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 0,
+                  "type": "array"
+                }
+              },
+              "required": [
+                "baseline_submitted_outcome",
+                "plan_evidence_ids"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "claim",
+            "evidence_inventory",
+            "prior_experience"
+          ],
+          "type": "object"
+        },
+        "policy_context": {
+          "additionalProperties": false,
+          "properties": {
+            "applicable_policy_text": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "explicit_policy_delta_text": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "policy_version_id": {
+              "enum": [
+                "expense_policy_pre_v1",
+                "expense_policy_post_v1"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "policy_version_id",
+            "applicable_policy_text",
+            "explicit_policy_delta_text"
+          ],
+          "type": "object"
+        },
+        "policy_version_id": {
+          "enum": [
+            "expense_policy_pre_v1",
+            "expense_policy_post_v1"
+          ],
+          "type": "string"
+        },
+        "source_cluster": {
+          "enum": [
+            "conference",
+            "lodging",
+            "meals",
+            "office",
+            "travel"
+          ],
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "post",
+            "pre"
+          ],
+          "type": "string"
+        },
+        "task_id": {
+          "pattern": "^CC[0-9]{3}:(pre|post)$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "case_id",
+        "stage",
+        "policy_version_id",
+        "source_cluster",
+        "actor_input_only",
+        "observation",
+        "policy_context"
+      ],
+      "type": "object"
+    },
+    "evidence_fact": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "pattern": "^CC[0-9]{3}$",
+          "type": "string"
+        },
+        "claim": {
+          "type": "object"
+        },
+        "details": {
+          "type": "object"
+        },
+        "fact_id": {
+          "pattern": "^CC[0-9]{3}:[a-z_]+$",
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "source_cluster": {
+          "enum": [
+            "conference",
+            "lodging",
+            "meals",
+            "office",
+            "travel"
+          ],
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "valid": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "case_id",
+        "fact_id",
+        "kind",
+        "source_id",
+        "source_cluster",
+        "valid",
+        "details"
+      ],
+      "type": "object"
+    },
+    "feedback_result": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "answer_coverage": {
+          "type": "boolean"
+        },
+        "contract": {
+          "enum": [
+            "composite",
+            "exact_match",
+            "sufficiency_only"
+          ],
+          "type": "string"
+        },
+        "contract_reason_code": {
+          "type": "string"
+        },
+        "plan_precision": {
+          "pattern": "^[0-9]+\\.[0-9]{12}$",
+          "type": "string"
+        },
+        "plan_precision_denominator": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "plan_precision_numerator": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "plan_sufficient": {
+          "type": "boolean"
+        },
+        "reason_codes": {
+          "items": {
+            "enum": [
+              "ANSWER_MISMATCH",
+              "IN_SCOPE_OVER_SELECTION",
+              "INSUFFICIENT_PLAN",
+              "SCOPE_IMURITY"
+            ],
+            "type": "string"
+          },
+          "maxItems": 4,
+          "type": "array"
+        }
+      },
+      "required": [
+        "contract",
+        "accepted",
+        "plan_sufficient",
+        "plan_precision",
+        "answer_coverage",
+        "contract_reason_code",
+        "reason_codes",
+        "plan_precision",
+        "plan_precision_numerator",
+        "plan_precision_denominator"
+      ],
+      "type": "object"
+    },
+    "minimal_evidence_set": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "reference_task": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_sufficient_set": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "case_id": {
+          "pattern": "^CC[0-9]{3}$",
+          "type": "string"
+        },
+        "decision": {
+          "additionalProperties": false,
+          "properties": {
+            "outcome": {
+              "enum": [
+                "approve",
+                "reject"
+              ],
+              "type": "string"
+            },
+            "reason_code": {
+              "type": "string"
+            },
+            "rule_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "outcome",
+            "reason_code",
+            "rule_id"
+          ],
+          "type": "object"
+        },
+        "derivation": {
+          "additionalProperties": false,
+          "properties": {
+            "builder": {
+              "const": "reference_builder_v2",
+              "type": "string"
+            },
+            "gold_source": {
+              "const": "declarative_policy_and_evidence_facts",
+              "type": "string"
+            },
+            "minimal_set_count": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "builder",
+            "gold_source",
+            "minimal_set_count"
+          ],
+          "type": "object"
+        },
+        "in_scope_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "minimal_sufficient_sets": {
+          "items": {
+            "$ref": "#/$defs/minimal_evidence_set"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "out_of_scope_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "policy_version_id": {
+          "enum": [
+            "expense_policy_pre_v1",
+            "expense_policy_post_v1"
+          ],
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "post",
+            "pre"
+          ],
+          "type": "string"
+        },
+        "task_id": {
+          "pattern": "^CC[0-9]{3}:(pre|post)$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "case_id",
+        "stage",
+        "policy_version_id",
+        "decision",
+        "minimal_sufficient_sets",
+        "canonical_sufficient_set",
+        "in_scope_evidence_ids",
+        "out_of_scope_evidence_ids",
+        "derivation"
+      ],
+      "type": "object"
+    },
+    "submission_tool": {
+      "additionalProperties": false,
+      "properties": {
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "additionalProperties": {
+              "const": false,
+              "type": "boolean"
+            },
+            "properties": {
+              "evidence_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "outcome": {
+                "enum": [
+                  "approve",
+                  "reject"
+                ],
+                "type": "string"
+              },
+              "task_id": {
+                "pattern": "^CC[0-9]{3}:(pre|post)$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "task_id",
+              "outcome",
+              "evidence_ids"
+            ],
+            "type": "object"
+          },
+          "type": "object"
+        },
+        "name": {
+          "const": "submit_reimbursement_decision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "input_schema"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "condition_change_task_tool_schema_v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actor_task_definition": {
+      "const": "#/$defs/actor_task",
+      "type": "string"
+    },
+    "evidence_fact_definition": {
+      "const": "#/$defs/evidence_fact",
+      "type": "string"
+    },
+    "feedback_result_definition": {
+      "const": "#/$defs/feedback_result",
+      "type": "string"
+    },
+    "reference_task_definition": {
+      "const": "#/$defs/reference_task",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "condition_change_task_tool_schema_v2",
+      "type": "string"
+    },
+    "submission_tool": {
+      "$ref": "#/$defs/submission_tool"
+    }
+  },
+  "required": [
+    "$schema",
+    "$id",
+    "schema_version",
+    "submission_tool",
+    "actor_task_definition",
+    "evidence_fact_definition",
+    "reference_task_definition",
+    "feedback_result_definition"
+  ],
+  "title": "Condition Change Feedback V2 Strict Task and Tool Schema",
+  "type": "object"
+}

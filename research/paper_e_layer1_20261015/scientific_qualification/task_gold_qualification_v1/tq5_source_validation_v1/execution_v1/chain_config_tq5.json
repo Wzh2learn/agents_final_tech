@@ -1,0 +1,363 @@
+{
+  "schema": "tq_chain_config_v1",
+  "panel_id": "TQ-5",
+  "root": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\tq5_source_validation_v1",
+  "templates_md": "../tq4_calibration_v1/run_card_v2/prompt_templates_v2.md",
+  "material_manifest": "MANIFEST.json",
+  "material_pins_lf": "execution_v1/tq5_material_pins_lf_v1.json",
+  "out_root": "runs",
+  "master_ledger": "../tq4_calibration_v1/runs/_chain/chain_master_ledger.jsonl",
+  "authorization_file": "../tq4_calibration_v1/run_card_v2/OWNER_DELEGATED_AUTHORIZATION_20261016_v1.md",
+  "scoring_dir": "panel/scoring",
+  "groups_file": "panel/GROUPS.json",
+  "budget": {
+    "gen_cap": 40,
+    "retry_cap": 4,
+    "token_cap": 400000,
+    "window_min": 90,
+    "allowed_dates": [
+      "2026-10-16",
+      "2026-10-17",
+      "2026-10-18",
+      "2026-10-19"
+    ]
+  },
+  "steps": [
+    {
+      "step": 1,
+      "kind": "actor",
+      "task_id": "T01",
+      "input": "panel/inputs/T01.json",
+      "variant": "original",
+      "key": "actor|T01"
+    },
+    {
+      "step": 2,
+      "kind": "actor",
+      "task_id": "T02",
+      "input": "panel/inputs/T02.json",
+      "variant": "original",
+      "key": "actor|T02"
+    },
+    {
+      "step": 3,
+      "kind": "actor",
+      "task_id": "T03",
+      "input": "panel/inputs/T03.json",
+      "variant": "original",
+      "key": "actor|T03"
+    },
+    {
+      "step": 4,
+      "kind": "actor",
+      "task_id": "T04",
+      "input": "panel/inputs/T04.json",
+      "variant": "original",
+      "key": "actor|T04"
+    },
+    {
+      "step": 5,
+      "kind": "actor",
+      "task_id": "T05",
+      "input": "panel/inputs/T05.json",
+      "variant": "original",
+      "key": "actor|T05"
+    },
+    {
+      "step": 6,
+      "kind": "actor",
+      "task_id": "T06",
+      "input": "panel/inputs/T06.json",
+      "variant": "original",
+      "key": "actor|T06"
+    },
+    {
+      "step": 7,
+      "kind": "actor",
+      "task_id": "T07",
+      "input": "panel/inputs/T07.json",
+      "variant": "original",
+      "key": "actor|T07"
+    },
+    {
+      "step": 8,
+      "kind": "actor",
+      "task_id": "T08",
+      "input": "panel/inputs/T08.json",
+      "variant": "original",
+      "key": "actor|T08"
+    },
+    {
+      "step": 9,
+      "kind": "actor",
+      "task_id": "T09",
+      "input": "panel/inputs/T09.json",
+      "variant": "original",
+      "key": "actor|T09"
+    },
+    {
+      "step": 10,
+      "kind": "actor",
+      "task_id": "T10",
+      "input": "panel/inputs/T10.json",
+      "variant": "original",
+      "key": "actor|T10"
+    },
+    {
+      "step": 11,
+      "kind": "actor",
+      "task_id": "T11",
+      "input": "panel/inputs/T11.json",
+      "variant": "original",
+      "key": "actor|T11"
+    },
+    {
+      "step": 12,
+      "kind": "actor",
+      "task_id": "T12",
+      "input": "panel/inputs/T12.json",
+      "variant": "original",
+      "key": "actor|T12"
+    },
+    {
+      "step": 13,
+      "kind": "b",
+      "task_id": "T01",
+      "source": "actor",
+      "source_key": "actor|T01",
+      "input": "panel/inputs/T01.json",
+      "variant": "original",
+      "key": "b|T01"
+    },
+    {
+      "step": 14,
+      "kind": "c",
+      "task_id": "T01",
+      "source": "actor",
+      "source_key": "actor|T01",
+      "input": "panel/inputs/T01.json",
+      "variant": "original",
+      "key": "c|T01"
+    },
+    {
+      "step": 15,
+      "kind": "c",
+      "task_id": "T02",
+      "source": "actor",
+      "source_key": "actor|T02",
+      "input": "panel/inputs/T02.json",
+      "variant": "original",
+      "key": "c|T02"
+    },
+    {
+      "step": 16,
+      "kind": "b",
+      "task_id": "T02",
+      "source": "actor",
+      "source_key": "actor|T02",
+      "input": "panel/inputs/T02.json",
+      "variant": "original",
+      "key": "b|T02"
+    },
+    {
+      "step": 17,
+      "kind": "b",
+      "task_id": "T03",
+      "source": "actor",
+      "source_key": "actor|T03",
+      "input": "panel/inputs/T03.json",
+      "variant": "original",
+      "key": "b|T03"
+    },
+    {
+      "step": 18,
+      "kind": "c",
+      "task_id": "T03",
+      "source": "actor",
+      "source_key": "actor|T03",
+      "input": "panel/inputs/T03.json",
+      "variant": "original",
+      "key": "c|T03"
+    },
+    {
+      "step": 19,
+      "kind": "c",
+      "task_id": "T04",
+      "source": "actor",
+      "source_key": "actor|T04",
+      "input": "panel/inputs/T04.json",
+      "variant": "original",
+      "key": "c|T04"
+    },
+    {
+      "step": 20,
+      "kind": "b",
+      "task_id": "T04",
+      "source": "actor",
+      "source_key": "actor|T04",
+      "input": "panel/inputs/T04.json",
+      "variant": "original",
+      "key": "b|T04"
+    },
+    {
+      "step": 21,
+      "kind": "b",
+      "task_id": "T05",
+      "source": "actor",
+      "source_key": "actor|T05",
+      "input": "panel/inputs/T05.json",
+      "variant": "original",
+      "key": "b|T05"
+    },
+    {
+      "step": 22,
+      "kind": "c",
+      "task_id": "T05",
+      "source": "actor",
+      "source_key": "actor|T05",
+      "input": "panel/inputs/T05.json",
+      "variant": "original",
+      "key": "c|T05"
+    },
+    {
+      "step": 23,
+      "kind": "c",
+      "task_id": "T06",
+      "source": "actor",
+      "source_key": "actor|T06",
+      "input": "panel/inputs/T06.json",
+      "variant": "original",
+      "key": "c|T06"
+    },
+    {
+      "step": 24,
+      "kind": "b",
+      "task_id": "T06",
+      "source": "actor",
+      "source_key": "actor|T06",
+      "input": "panel/inputs/T06.json",
+      "variant": "original",
+      "key": "b|T06"
+    },
+    {
+      "step": 25,
+      "kind": "b",
+      "task_id": "T07",
+      "source": "actor",
+      "source_key": "actor|T07",
+      "input": "panel/inputs/T07.json",
+      "variant": "original",
+      "key": "b|T07"
+    },
+    {
+      "step": 26,
+      "kind": "c",
+      "task_id": "T07",
+      "source": "actor",
+      "source_key": "actor|T07",
+      "input": "panel/inputs/T07.json",
+      "variant": "original",
+      "key": "c|T07"
+    },
+    {
+      "step": 27,
+      "kind": "c",
+      "task_id": "T08",
+      "source": "actor",
+      "source_key": "actor|T08",
+      "input": "panel/inputs/T08.json",
+      "variant": "original",
+      "key": "c|T08"
+    },
+    {
+      "step": 28,
+      "kind": "b",
+      "task_id": "T08",
+      "source": "actor",
+      "source_key": "actor|T08",
+      "input": "panel/inputs/T08.json",
+      "variant": "original",
+      "key": "b|T08"
+    },
+    {
+      "step": 29,
+      "kind": "b",
+      "task_id": "T09",
+      "source": "actor",
+      "source_key": "actor|T09",
+      "input": "panel/inputs/T09.json",
+      "variant": "original",
+      "key": "b|T09"
+    },
+    {
+      "step": 30,
+      "kind": "c",
+      "task_id": "T09",
+      "source": "actor",
+      "source_key": "actor|T09",
+      "input": "panel/inputs/T09.json",
+      "variant": "original",
+      "key": "c|T09"
+    },
+    {
+      "step": 31,
+      "kind": "c",
+      "task_id": "T10",
+      "source": "actor",
+      "source_key": "actor|T10",
+      "input": "panel/inputs/T10.json",
+      "variant": "original",
+      "key": "c|T10"
+    },
+    {
+      "step": 32,
+      "kind": "b",
+      "task_id": "T10",
+      "source": "actor",
+      "source_key": "actor|T10",
+      "input": "panel/inputs/T10.json",
+      "variant": "original",
+      "key": "b|T10"
+    },
+    {
+      "step": 33,
+      "kind": "b",
+      "task_id": "T11",
+      "source": "actor",
+      "source_key": "actor|T11",
+      "input": "panel/inputs/T11.json",
+      "variant": "original",
+      "key": "b|T11"
+    },
+    {
+      "step": 34,
+      "kind": "c",
+      "task_id": "T11",
+      "source": "actor",
+      "source_key": "actor|T11",
+      "input": "panel/inputs/T11.json",
+      "variant": "original",
+      "key": "c|T11"
+    },
+    {
+      "step": 35,
+      "kind": "c",
+      "task_id": "T12",
+      "source": "actor",
+      "source_key": "actor|T12",
+      "input": "panel/inputs/T12.json",
+      "variant": "original",
+      "key": "c|T12"
+    },
+    {
+      "step": 36,
+      "kind": "b",
+      "task_id": "T12",
+      "source": "actor",
+      "source_key": "actor|T12",
+      "input": "panel/inputs/T12.json",
+      "variant": "original",
+      "key": "b|T12"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "candidate_b_b0_ledger_v1",
+  "status": "B0_CEILING_RESCORE_ACCEPTED",
+  "authorization_id": "CANDIDATE-B-B0-20261019-0820-32REQ",
+  "run": {
+    "requests": 32,
+    "accounting_tokens": 18477,
+    "tasks": 16,
+    "source_clusters": 8,
+    "retry": 0,
+    "raw_request_directories": 32,
+    "raw_complete": 32,
+    "raw_crash": 0
+  },
+  "original_runner": {
+    "success": 0,
+    "non_success": 16,
+    "decision": "CONTINUE_TO_ARM_DESIGN",
+    "classification": "TECHNICAL_INVALID_UNIT_STRING_COMPARATOR",
+    "result_sha256": "ff558705fadc3490b95b78ad6eab4e92cd71468f158b58cce6d93b4875946e56"
+  },
+  "versioned_rescore": {
+    "success": 16,
+    "non_success": 0,
+    "decision": "CEILING_ON_THIS_PANEL",
+    "semantic_unit_matches": 16,
+    "scientific_label": "EXPLORATORY_POST_HOC_TECHNICAL_CORRECTION"
+  },
+  "stage3_r_c_h": {
+    "requests": 0,
+    "status": "NOT_RUN"
+  },
+  "cumulative": {
+    "requests_used": 132,
+    "request_cap": 228,
+    "accounting_tokens_used": 181493,
+    "token_cap": 2450000
+  },
+  "remaining_global_budget": {
+    "requests": 96,
+    "accounting_tokens": 2268507
+  },
+  "model_or_judge_calls": 0,
+  "online_requests_beyond_run": 0,
+  "training_calls": 0,
+  "independent_recheck": {
+    "verdict": "ACCEPTED",
+    "decision": "CEILING_ON_THIS_PANEL",
+    "scientific_label": "EXPLORATORY_POST_HOC_TECHNICAL_CORRECTION",
+    "r_c_h_authorized": false
+  }
+}

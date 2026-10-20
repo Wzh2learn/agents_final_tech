@@ -1,0 +1,161 @@
+{
+  "task_id": "finqa-executor-contract-a-20261019",
+  "contract_version": "finqa-executor-contract-v1",
+  "status": "EXECUTOR_FEASIBILITY_CONDITIONAL",
+  "official_revision": "0f16e2867befa6840783e58be38c9efb9229d742",
+  "zero_endpoint_assertion": {
+    "model_calls": 0,
+    "judge_calls": 0,
+    "api_calls_other_than_four_pinned_raw_urls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "production_service_calls": 0,
+    "loop_b_verify_calls": 0
+  },
+  "official_sources": [
+    {
+      "file": "finqa_utils.py",
+      "http_status": 200,
+      "bytes": 12684,
+      "sha256": "2f2534d954e800a9f8cd261d730aacd0b91dc8937bfca09b63b3b1766236cd19"
+    },
+    {
+      "file": "utils.py",
+      "http_status": 200,
+      "bytes": 25374,
+      "sha256": "eea970e59273d1694a7a2e547f8fb8889fcf6a10528fdd06966f605201168f8b"
+    },
+    {
+      "file": "operation_list.txt",
+      "http_status": 200,
+      "bytes": 84,
+      "sha256": "1999eb4f158595f2aa3830efae97696872057fed238665083f98be9fc7f9588c"
+    },
+    {
+      "file": "evaluate.py",
+      "http_status": 200,
+      "bytes": 14305,
+      "sha256": "845cd131cab843eceff256cf6d392978cc470a7da4a80107beb56027fdca5c13"
+    }
+  ],
+  "frozen_inputs": [
+    {
+      "file": "train.json",
+      "records": 6251,
+      "bytes": 78216616,
+      "sha256": "49f237eb9779b569473b26b08048867d04635a7cc39ad6a7a5664c55bb428db6"
+    },
+    {
+      "file": "dev.json",
+      "records": 883,
+      "bytes": 10954658,
+      "sha256": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51"
+    }
+  ],
+  "artifact_hashes": {
+    "EXECUTOR_CONTRACT_V1.md": "73cc98c81edfae08cb88fdfe9b6d01a44f8c0d4a0e725a799512de10ef9d52ae",
+    "executor_contract_v1.json": "e66bd155c52896b84f55a28a2c3f79295d5a781a3f865fa0e8e96c94fd244ee7",
+    "finqa_executor_contract_v1.py": "de831b963c75044e847054575cdd03f4de01507540734e3f52a9bfff73f0bd56",
+    "tests/test_finqa_executor_contract_v1.py": "5b007286d60646c7b98d06b84aaf30e73d154c562c1b1f777e52e41eb19c1986",
+    "clean_replay_summary.json": "993cd2328bc77739ed1f6e0ad14d6592695911801b526aabb16f825d77a8fbdb",
+    "synthetic_propagation_receipt.json": "50268a4685452d7df9e3e5d7c8c0e5ee8b09c147eee2bba9c4497cf0fe7d7456",
+    "source_code_manifest.json": "e57cb907ab32ba91b3b0bc66895c674cdfd64d22030a2fcaf4732ff06d34d9ac",
+    "official_sources/fetch_receipt.jsonl": "b98559e63f1d7f67a9d87827ed098a56ec8289e308453f15b948765d762595d9",
+    "LOOP_A_RETURN.md": "8b910fd539381e1d0e13f88d4d1f3b43955d2a455029000e5139def0320faf92"
+  },
+  "checks": [
+    {
+      "command": "pwd",
+      "result": "PASS",
+      "detail": "/home/testuser/wzh/projects/agents_final_tech"
+    },
+    {
+      "command": "input existence, size, record-count, and sha256 verification",
+      "result": "PASS",
+      "detail": "11/11 read-only inputs; 6251 train + 883 dev = 7134"
+    },
+    {
+      "command": "curl each of exactly four pinned raw GitHub URLs",
+      "result": "PASS",
+      "detail": "HTTP 200 for all four; recorded bytes and SHA-256"
+    },
+    {
+      "command": "python -m py_compile implementation tests",
+      "result": "COMMAND_NOT_FOUND",
+      "detail": "python executable absent; used python3 fallback"
+    },
+    {
+      "command": "python3 -m py_compile implementation tests",
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONPATH=src python3 -m pytest research/finqa_causal_exposure_20261010/executor_contract_v1/tests/test_finqa_executor_contract_v1.py -q",
+      "result": "FAILED_ENVIRONMENT",
+      "detail": "No module named pytest"
+    },
+    {
+      "command": "PYTHONPATH=src python3 -m unittest research/finqa_causal_exposure_20261010/executor_contract_v1/tests/test_finqa_executor_contract_v1.py -v",
+      "result": "PASS",
+      "detail": "15 tests passed"
+    },
+    {
+      "command": "python3 finqa_executor_contract_v1.py replay --train train.json --dev dev.json --output clean_replay_summary.json",
+      "result": "PASS",
+      "detail": {
+        "denominator": 7134,
+        "valid": 0,
+        "mismatch": 0,
+        "unsupported": 0,
+        "unresolved": 7134,
+        "nondeterministic": 0,
+        "terminal_execution_answer_exact_matches": 7134
+      }
+    },
+    {
+      "command": "two clean replay runs followed by cmp",
+      "result": "PASS_BYTE_IDENTICAL",
+      "detail": "both runs SHA-256 993cd2328bc77739ed1f6e0ad14d6592695911801b526aabb16f825d77a8fbdb"
+    },
+    {
+      "command": "source_code_manifest.json hash comparison",
+      "result": "PASS",
+      "detail": "23/23 entries matched"
+    },
+    {
+      "command": "unittest test_manual_result_and_answer_edits_are_rejected",
+      "result": "PASS"
+    },
+    {
+      "command": "unittest test_direct_mutation_api_rejects_result_field",
+      "result": "PASS"
+    },
+    {
+      "command": "unittest test_unsupported_operator_fails_closed",
+      "result": "PASS"
+    },
+    {
+      "command": "unittest test_table_dependency_fails_closed",
+      "result": "PASS"
+    }
+  ],
+  "clean_replay": {
+    "denominator": 7134,
+    "valid": 0,
+    "mismatch": 0,
+    "unsupported": 0,
+    "unresolved": 7134,
+    "nondeterministic": 0,
+    "terminal_execution_answer_exact_matches": 7134
+  },
+  "blockers": [
+    "STEP_RES_RENDERING_UNVERIFIED",
+    "DISPLAY_ANSWER_DERIVATION_UNVERIFIED",
+    "NORMALIZED_OPERATOR_VARIANT_UNVERIFIED",
+    "TABLE_REFERENCE_DEPENDENCY_UNVERIFIED",
+    "NON_FINITE_SERIALIZATION_UNVERIFIED",
+    "COMPLEX_EXP_BEHAVIOR_UNVERIFIED",
+    "FOCUSED_PYTEST_UNAVAILABLE"
+  ],
+  "scientific_outputs": 0,
+  "model_or_judge_calls": 0
+}

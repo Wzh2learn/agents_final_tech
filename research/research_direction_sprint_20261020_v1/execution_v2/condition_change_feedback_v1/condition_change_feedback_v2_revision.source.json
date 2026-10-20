@@ -1,0 +1,134 @@
+{
+  "appended_case": {
+    "case_id": "CC013",
+    "change_scope": "conference_evidence_standard",
+    "claim": {
+      "amount_usd": 120,
+      "category": "conference",
+      "manager_approval": true,
+      "merchant": "Forum Center"
+    },
+    "evidence": [
+      {
+        "details": {
+          "amount_usd": 120,
+          "merchant": "Forum Center"
+        },
+        "fact_id": "CC013:receipt",
+        "kind": "receipt",
+        "source_id": "conference_receipt_registry:1301",
+        "valid": true
+      },
+      {
+        "details": {
+          "approver": "L. Morgan"
+        },
+        "fact_id": "CC013:manager_approval",
+        "kind": "manager_approval",
+        "source_id": "approval_log:2113",
+        "valid": true
+      },
+      {
+        "details": {
+          "amount_usd": 120,
+          "merchant": "Forum Center"
+        },
+        "fact_id": "CC013:card_statement",
+        "kind": "card_statement",
+        "source_id": "card_feed:7713",
+        "valid": true
+      },
+      {
+        "details": {
+          "amount_usd": 120,
+          "merchant": "Forum Center"
+        },
+        "fact_id": "CC013:merchant_invoice",
+        "kind": "merchant_invoice",
+        "source_id": "merchant_portal:9313",
+        "valid": true
+      }
+    ],
+    "prior_plan_evidence_ids": [
+      "CC013:card_statement",
+      "CC013:manager_approval",
+      "CC013:merchant_invoice",
+      "CC013:receipt"
+    ],
+    "source_cluster": "conference"
+  },
+  "policy_delta": {
+    "change_text": "For conference claims over USD 100 with manager approval, the post-change policy requires a valid receipt and manager approval; the card-statement plus merchant-invoice proof alternative is not applicable.",
+    "insert_before_rule_id": "post_reimbursable",
+    "rule": {
+      "applies_when": {
+        "all": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "conference"
+          },
+          {
+            "field": "amount_usd",
+            "op": "gt",
+            "value": 100
+          },
+          {
+            "field": "manager_approval",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "id": "post_conference_evidence_standard",
+      "outcome": "approve",
+      "reason_code": "POLICY_SATISFIED",
+      "requires": [
+        {
+          "alternatives": [
+            [
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "op": "eq",
+                    "value": "receipt"
+                  },
+                  {
+                    "field": "valid",
+                    "op": "eq",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          ],
+          "id": "proof_of_purchase"
+        },
+        {
+          "alternatives": [
+            [
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "op": "eq",
+                    "value": "manager_approval"
+                  },
+                  {
+                    "field": "valid",
+                    "op": "eq",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          ],
+          "id": "manager_approval"
+        }
+      ]
+    }
+  },
+  "revision_id": "condition_change_feedback_v2_policy_context_and_scope_fixtures",
+  "revision_schema": "condition_change_feedback_v2_revision_v1"
+}

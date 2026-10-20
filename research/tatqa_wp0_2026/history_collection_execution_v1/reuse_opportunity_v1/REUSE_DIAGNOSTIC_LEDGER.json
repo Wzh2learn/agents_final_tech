@@ -1,0 +1,45 @@
+{
+  "schema": "reuse_diagnostic_ledger_v1",
+  "status": "B0_CEILING_STOP_COMPLETE",
+  "prior_ledger": {
+    "failed_qualification_requests": 14,
+    "failed_qualification_accounting_tokens": 123488,
+    "history_collection_requests": 54,
+    "history_collection_accounting_tokens": 26384
+  },
+  "reuse_b0": {
+    "requests": 32,
+    "accounting_tokens": 13144,
+    "tasks": 16,
+    "source_clusters": 8,
+    "success": 16,
+    "non_success": 0,
+    "retry": 0
+  },
+  "stage3_r_c_h": {
+    "requests": 0,
+    "accounting_tokens": 0,
+    "status": "NOT_RUN_CEILING_ON_THIS_PANEL"
+  },
+  "cumulative": {
+    "requests_used": 100,
+    "request_cap": 228,
+    "accounting_tokens_used": 163016,
+    "token_cap": 2450000
+  },
+  "unused_reuse_budget": {
+    "requests": 96,
+    "accounting_tokens": 1686856
+  },
+  "raw_integrity": {
+    "b0_request_directories": 32,
+    "b0_complete": 32,
+    "b0_crash": 0
+  },
+  "engineering_note": {
+    "pre_generation_start_failure": "launcher cwd omitted; Python could not open diagnostic_runner.py",
+    "requests_before_failure": 0,
+    "raw_before_failure": 0,
+    "same_bundle_and_authorization_reused": true
+  }
+}

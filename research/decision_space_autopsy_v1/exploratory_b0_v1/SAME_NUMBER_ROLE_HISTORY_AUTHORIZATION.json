@@ -1,0 +1,15 @@
+{
+  "schema": "same_number_role_history_authorization_v1",
+  "authorization_id": "SAME-NUMBER-HISTORY-20261019-24REQ",
+  "protocol_sha256": "2e05d88aeb7a82a36675d7ef6bead955a567dd1924c4dd7234b6d4cfe8e6993b",
+  "runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "window_start_utc": "2026-10-19T11:15:00Z",
+  "window_end_utc": "2026-10-19T13:30:00Z",
+  "request_cap": 24,
+  "token_cap": 300000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "User authorized one task-matched history collection and H arm on 2026-10-19.",
+  "raw_root": "/home/testuser/wzh/candidate_b_runs/SAME-NUMBER-HISTORY-20261019-24REQ"
+}

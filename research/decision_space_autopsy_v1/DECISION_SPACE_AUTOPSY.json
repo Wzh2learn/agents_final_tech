@@ -1,0 +1,1236 @@
+{
+  "candidate_b_development_collision_scan": {
+    "eligible_cluster_count": 8,
+    "eligible_record_count": 8,
+    "same_delta_role_case_count": 3,
+    "same_delta_role_cluster_count": 2,
+    "same_delta_role_examples": [
+      {
+        "cluster_id": "cluster_0402",
+        "normalized_delta": "-51.3",
+        "raw_index": 450,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "-51.3",
+            "early_period": "Group 2019",
+            "late_period": "Group 2018",
+            "row_index": 2,
+            "row_label": "Cash and cash equivalents"
+          },
+          {
+            "delta": "-51.3",
+            "early_period": "Group 2019",
+            "late_period": "Group 2018",
+            "row_index": 8,
+            "row_label": "Cash including Group’s share of joint ventures"
+          }
+        ],
+        "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2"
+      },
+      {
+        "cluster_id": "cluster_0402",
+        "normalized_delta": "368.8",
+        "raw_index": 450,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "368.8",
+            "early_period": "Group 2019",
+            "late_period": "Group 2018",
+            "row_index": 5,
+            "row_label": "Net external debt"
+          },
+          {
+            "delta": "368.8",
+            "early_period": "Group 2019",
+            "late_period": "Group 2018",
+            "row_index": 9,
+            "row_label": "Net external debt"
+          }
+        ],
+        "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2"
+      },
+      {
+        "cluster_id": "cluster_1582",
+        "normalized_delta": "-8.3",
+        "raw_index": 159,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "-8.3",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 4,
+            "row_label": "Adjusted operating costs1"
+          },
+          {
+            "delta": "-8.3",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 9,
+            "row_label": "Adjusted operating costs1"
+          }
+        ],
+        "source_uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4"
+      }
+    ],
+    "same_number_role_case_count": 8,
+    "same_number_role_cluster_count": 3,
+    "same_number_role_examples": [
+      {
+        "cluster_id": "cluster_0402",
+        "normalized_value": "-223.0",
+        "raw_index": 450,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "Group 2019",
+            "row_index": 2,
+            "row_label": "Cash and cash equivalents",
+            "value": "-223.0",
+            "year": 2019
+          },
+          {
+            "period_index": 1,
+            "period_label": "Group 2019",
+            "row_index": 8,
+            "row_label": "Cash including Group’s share of joint ventures",
+            "value": "-223.0",
+            "year": 2019
+          }
+        ],
+        "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2"
+      },
+      {
+        "cluster_id": "cluster_0402",
+        "normalized_value": "-274.3",
+        "raw_index": 450,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 2,
+            "period_label": "Group 2018",
+            "row_index": 2,
+            "row_label": "Cash and cash equivalents",
+            "value": "-274.3",
+            "year": 2018
+          },
+          {
+            "period_index": 2,
+            "period_label": "Group 2018",
+            "row_index": 8,
+            "row_label": "Cash including Group’s share of joint ventures",
+            "value": "-274.3",
+            "year": 2018
+          }
+        ],
+        "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2"
+      },
+      {
+        "cluster_id": "cluster_0402",
+        "normalized_value": "4498.4",
+        "raw_index": 450,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "Group 2019",
+            "row_index": 5,
+            "row_label": "Net external debt",
+            "value": "4498.4",
+            "year": 2019
+          },
+          {
+            "period_index": 1,
+            "period_label": "Group 2019",
+            "row_index": 9,
+            "row_label": "Net external debt",
+            "value": "4498.4",
+            "year": 2019
+          }
+        ],
+        "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2"
+      },
+      {
+        "cluster_id": "cluster_0402",
+        "normalized_value": "4867.2",
+        "raw_index": 450,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 2,
+            "period_label": "Group 2018",
+            "row_index": 5,
+            "row_label": "Net external debt",
+            "value": "4867.2",
+            "year": 2018
+          },
+          {
+            "period_index": 2,
+            "period_label": "Group 2018",
+            "row_index": 9,
+            "row_label": "Net external debt",
+            "value": "4867.2",
+            "year": 2018
+          }
+        ],
+        "source_uid": "2975881e-3e71-435b-8500-56d668a50eb2"
+      },
+      {
+        "cluster_id": "cluster_1582",
+        "normalized_value": "275.7",
+        "raw_index": 159,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 4,
+            "row_label": "Adjusted operating costs1",
+            "value": "275.7",
+            "year": 2019
+          },
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 9,
+            "row_label": "Adjusted operating costs1",
+            "value": "275.7",
+            "year": 2019
+          }
+        ],
+        "source_uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4"
+      },
+      {
+        "cluster_id": "cluster_1582",
+        "normalized_value": "267.4",
+        "raw_index": 159,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 4,
+            "row_label": "Adjusted operating costs1",
+            "value": "267.4",
+            "year": 2018
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 9,
+            "row_label": "Adjusted operating costs1",
+            "value": "267.4",
+            "year": 2018
+          }
+        ],
+        "source_uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4"
+      },
+      {
+        "cluster_id": "cluster_1582",
+        "normalized_value": "70.5",
+        "raw_index": 159,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 6,
+            "row_label": "Lifecycle Service Assurance",
+            "value": "70.5",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 6,
+            "row_label": "Lifecycle Service Assurance",
+            "value": "70.5",
+            "year": 2018
+          }
+        ],
+        "source_uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4"
+      },
+      {
+        "cluster_id": "cluster_2174",
+        "normalized_value": "3.4",
+        "raw_index": 343,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 7,
+            "row_label": "Non-deductible and other items",
+            "value": "3.4",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 7,
+            "row_label": "Non-deductible and other items",
+            "value": "3.4",
+            "year": 2018
+          }
+        ],
+        "source_uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4"
+      }
+    ]
+  },
+  "candidate_b_future_collision_scan": {
+    "eligible_cluster_count": 8,
+    "eligible_record_count": 8,
+    "same_delta_role_case_count": 1,
+    "same_delta_role_cluster_count": 1,
+    "same_delta_role_examples": [
+      {
+        "cluster_id": "cluster_2442",
+        "normalized_delta": "-16584",
+        "raw_index": 1007,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "-16584",
+            "early_period": "Year Ended December 31, 2019",
+            "late_period": "Year Ended December 31, 2018",
+            "row_index": 5,
+            "row_label": "Cash and cash equivalents and restricted cash, beginning of year"
+          },
+          {
+            "delta": "-16584",
+            "early_period": "Year Ended December 31, 2018",
+            "late_period": "Year Ended December 31, 2017",
+            "row_index": 6,
+            "row_label": "Cash and cash equivalents and restricted cash, end of year"
+          }
+        ],
+        "source_uid": "ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e"
+      }
+    ],
+    "same_number_role_case_count": 4,
+    "same_number_role_cluster_count": 3,
+    "same_number_role_examples": [
+      {
+        "cluster_id": "cluster_1604",
+        "normalized_value": "-0.4",
+        "raw_index": 1660,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 2,
+            "period_label": "2017/18",
+            "row_index": 6,
+            "row_label": "Fair value movements on interest rate financial instruments",
+            "value": "-0.4",
+            "year": 2017
+          },
+          {
+            "period_index": 2,
+            "period_label": "2017/18",
+            "row_index": 8,
+            "row_label": "Discount unwind",
+            "value": "-0.4",
+            "year": 2017
+          }
+        ],
+        "source_uid": "a824b7af-61e8-4800-83c6-72e56e64a36d"
+      },
+      {
+        "cluster_id": "cluster_1792",
+        "normalized_value": "796.1",
+        "raw_index": 542,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 2,
+            "row_label": "Jennifer Morgan (Co-CEO from 10/10/2019)",
+            "value": "796.1",
+            "year": 2018
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 4,
+            "row_label": "Adaire Fox-Martin",
+            "value": "796.1",
+            "year": 2018
+          }
+        ],
+        "source_uid": "ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325"
+      },
+      {
+        "cluster_id": "cluster_2442",
+        "normalized_value": "150774",
+        "raw_index": 1007,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "Year Ended December 31, 2019",
+            "row_index": 5,
+            "row_label": "Cash and cash equivalents and restricted cash, beginning of year",
+            "value": "150774",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "Year Ended December 31, 2018",
+            "row_index": 6,
+            "row_label": "Cash and cash equivalents and restricted cash, end of year",
+            "value": "150774",
+            "year": 2018
+          }
+        ],
+        "source_uid": "ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e"
+      },
+      {
+        "cluster_id": "cluster_2442",
+        "normalized_value": "134190",
+        "raw_index": 1007,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 2,
+            "period_label": "Year Ended December 31, 2018",
+            "row_index": 5,
+            "row_label": "Cash and cash equivalents and restricted cash, beginning of year",
+            "value": "134190",
+            "year": 2018
+          },
+          {
+            "period_index": 3,
+            "period_label": "Year Ended December 31, 2017",
+            "row_index": 6,
+            "row_label": "Cash and cash equivalents and restricted cash, end of year",
+            "value": "134190",
+            "year": 2017
+          }
+        ],
+        "source_uid": "ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e"
+      }
+    ]
+  },
+  "candidate_b_panel": {
+    "aggregate": {
+      "both_periods_supplied": 16,
+      "mean_post_prompt_choice_count": 1.0,
+      "mean_raw_row_period_column_choice_count": 19.0,
+      "mean_raw_row_period_pair_choice_count": 11.375,
+      "operation_supplied": 16,
+      "single_choice_after_prompt": 16,
+      "target_row_supplied": 16,
+      "tasks": 16,
+      "unit_and_scale_supplied": 16
+    },
+    "tasks": [
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 3,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 30,
+        "raw_row_period_pair_choice_count": 30,
+        "table_body_rows": 10,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_01_FAC91A09_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 3,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 30,
+        "raw_row_period_pair_choice_count": 30,
+        "table_body_rows": 10,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_01_FAC91A09_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 8,
+        "raw_row_period_pair_choice_count": 4,
+        "table_body_rows": 4,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_02_E4362659_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 8,
+        "raw_row_period_pair_choice_count": 4,
+        "table_body_rows": 4,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_02_E4362659_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 18,
+        "raw_row_period_pair_choice_count": 9,
+        "table_body_rows": 9,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_03_7C4213D2_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 18,
+        "raw_row_period_pair_choice_count": 9,
+        "table_body_rows": 9,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_03_7C4213D2_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 20,
+        "raw_row_period_pair_choice_count": 10,
+        "table_body_rows": 10,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_04_DF37691D_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 20,
+        "raw_row_period_pair_choice_count": 10,
+        "table_body_rows": 10,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_04_DF37691D_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 16,
+        "raw_row_period_pair_choice_count": 8,
+        "table_body_rows": 8,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_05_67133A8A_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 16,
+        "raw_row_period_pair_choice_count": 8,
+        "table_body_rows": 8,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_05_67133A8A_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 18,
+        "raw_row_period_pair_choice_count": 9,
+        "table_body_rows": 9,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_06_B58BD86E_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 18,
+        "raw_row_period_pair_choice_count": 9,
+        "table_body_rows": 9,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_06_B58BD86E_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 18,
+        "raw_row_period_pair_choice_count": 9,
+        "table_body_rows": 9,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_07_CF81ADE9_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 18,
+        "raw_row_period_pair_choice_count": 9,
+        "table_body_rows": 9,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_07_CF81ADE9_T2",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 24,
+        "raw_row_period_pair_choice_count": 12,
+        "table_body_rows": 12,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_08_2DF35AEA_T1",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "candidate_b_evidence_binding",
+        "partition": "development",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 24,
+        "raw_row_period_pair_choice_count": 12,
+        "table_body_rows": 12,
+        "target_row_exact_matches": 1,
+        "target_row_supplied": true,
+        "task_id": "CB_DEV_08_2DF35AEA_T2",
+        "unit_and_scale_supplied": true
+      }
+    ]
+  },
+  "input_hashes": {
+    "candidate_tasks_sha256": "aee23bdc350d37390d95a8714aa7a1a55c0a94116b12251e11ca6a3dfba0e8ec",
+    "hidden_references_sha256": "78260e0c3f51ef260f5045fcbf4ebca585986afbfc9faac3c0eee5751947a94b",
+    "old_manifest_sha256": "59fa794ef6b87a2f889f1e5f39d3f66bbb9fdf91b3c4070021c2ca68ecf12841",
+    "source_exposure_sha256": "39045142db73586504e0504b0f7e2ad73bbabd373075d57ae2d5aca9e94bdfaa"
+  },
+  "model_or_judge_calls": 0,
+  "old_panel": {
+    "aggregate": {
+      "both_periods_supplied": 16,
+      "mean_post_prompt_choice_count": 1.0,
+      "mean_raw_row_period_column_choice_count": 2.0,
+      "mean_raw_row_period_pair_choice_count": 1.0,
+      "operation_supplied": 16,
+      "single_choice_after_prompt": 16,
+      "target_row_supplied": 16,
+      "tasks": 16,
+      "unit_and_scale_supplied": 16
+    },
+    "tasks": [
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F01",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F02",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F03",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F04",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F05",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F06",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F07",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F08",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F09",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F10",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F11",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F12",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F13",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F14",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F15",
+        "unit_and_scale_supplied": true
+      },
+      {
+        "both_periods_supplied": true,
+        "operation_supplied": true,
+        "panel": "old_fixed_calculation",
+        "period_columns": 2,
+        "post_prompt_choice_bits": 0.0,
+        "post_prompt_choice_count": 1,
+        "raw_row_period_column_choice_count": 2,
+        "raw_row_period_pair_choice_count": 1,
+        "table_body_rows": 1,
+        "target_row_supplied": true,
+        "task_id": "F16",
+        "unit_and_scale_supplied": true
+      }
+    ]
+  },
+  "same_number_role_scan": {
+    "eligible_cluster_count": 26,
+    "eligible_record_count": 26,
+    "same_delta_role_case_count": 5,
+    "same_delta_role_cluster_count": 4,
+    "same_delta_role_examples": [
+      {
+        "cluster_id": "cluster_0923",
+        "normalized_delta": "2",
+        "raw_index": 1581,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "2",
+            "early_period": "2019",
+            "late_period": "2017",
+            "row_index": 9,
+            "row_label": "Expiring in the following year"
+          },
+          {
+            "delta": "2",
+            "early_period": "2018",
+            "late_period": "2017",
+            "row_index": 3,
+            "row_label": "Expiring in the following year"
+          },
+          {
+            "delta": "2",
+            "early_period": "2018",
+            "late_period": "2017",
+            "row_index": 9,
+            "row_label": "Expiring in the following year"
+          },
+          {
+            "delta": "2",
+            "early_period": "2018",
+            "late_period": "2017",
+            "row_index": 11,
+            "row_label": "Total unused tax credits"
+          }
+        ],
+        "source_uid": "610d99f0-250a-474a-b1bc-d791058d006c"
+      },
+      {
+        "cluster_id": "cluster_1498",
+        "normalized_delta": "5",
+        "raw_index": 1584,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "5",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 6,
+            "row_label": "Termination benefits outside of restructuring plans"
+          },
+          {
+            "delta": "5",
+            "early_period": "2018",
+            "late_period": "2017",
+            "row_index": 6,
+            "row_label": "Termination benefits outside of restructuring plans"
+          }
+        ],
+        "source_uid": "9c69cfbe-0c76-4cca-9eef-f41fee959c8a"
+      },
+      {
+        "cluster_id": "cluster_1981",
+        "normalized_delta": "-10",
+        "raw_index": 1398,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "-10",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 5,
+            "row_label": "Changes in tax laws and tax rates"
+          },
+          {
+            "delta": "-10",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 6,
+            "row_label": "Non-deductible expenses"
+          }
+        ],
+        "source_uid": "ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9"
+      },
+      {
+        "cluster_id": "cluster_1981",
+        "normalized_delta": "7",
+        "raw_index": 1398,
+        "raw_split": "train",
+        "roles": [
+          {
+            "delta": "7",
+            "early_period": "2019",
+            "late_period": "2017",
+            "row_index": 12,
+            "row_label": "Other"
+          },
+          {
+            "delta": "7",
+            "early_period": "2018",
+            "late_period": "2017",
+            "row_index": 12,
+            "row_label": "Other"
+          }
+        ],
+        "source_uid": "ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9"
+      },
+      {
+        "cluster_id": "cluster_2196",
+        "normalized_delta": "0.0",
+        "raw_index": 117,
+        "raw_split": "dev",
+        "roles": [
+          {
+            "delta": "0.0",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 2,
+            "row_label": "Amounts owed by members of Peel"
+          },
+          {
+            "delta": "0.0",
+            "early_period": "2019",
+            "late_period": "2018",
+            "row_index": 3,
+            "row_label": "Amounts owed to members of Peel"
+          }
+        ],
+        "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d"
+      }
+    ],
+    "same_number_role_case_count": 6,
+    "same_number_role_cluster_count": 5,
+    "same_number_role_examples": [
+      {
+        "cluster_id": "cluster_0424",
+        "normalized_value": "20000",
+        "raw_index": 719,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 1,
+            "row_label": "As of January 1",
+            "value": "20000",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 4,
+            "row_label": "Transfer from vessels and equipment, net (note 16)",
+            "value": "20000",
+            "year": 2018
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 7,
+            "row_label": "As of December 31",
+            "value": "20000",
+            "year": 2018
+          }
+        ],
+        "source_uid": "2bcc60e7-139f-43ee-9c91-dd58f868b113"
+      },
+      {
+        "cluster_id": "cluster_0923",
+        "normalized_value": "0",
+        "raw_index": 1581,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 9,
+            "row_label": "Expiring in the following year",
+            "value": "0",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 9,
+            "row_label": "Expiring in the following year",
+            "value": "0",
+            "year": 2018
+          }
+        ],
+        "source_uid": "610d99f0-250a-474a-b1bc-d791058d006c"
+      },
+      {
+        "cluster_id": "cluster_1981",
+        "normalized_value": "13",
+        "raw_index": 1398,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 12,
+            "row_label": "Other",
+            "value": "13",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 12,
+            "row_label": "Other",
+            "value": "13",
+            "year": 2018
+          }
+        ],
+        "source_uid": "ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9"
+      },
+      {
+        "cluster_id": "cluster_2111",
+        "normalized_value": "12",
+        "raw_index": 2161,
+        "raw_split": "train",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "30/9/2018",
+            "row_index": 10,
+            "row_label": "Deferred income",
+            "value": "12",
+            "year": 2018
+          },
+          {
+            "period_index": 2,
+            "period_label": "30/9/2019",
+            "row_index": 10,
+            "row_label": "Deferred income",
+            "value": "12",
+            "year": 2019
+          }
+        ],
+        "source_uid": "dc50b42b-1520-49c0-a9ae-49249bcc9221"
+      },
+      {
+        "cluster_id": "cluster_2196",
+        "normalized_value": "0.3",
+        "raw_index": 117,
+        "raw_split": "dev",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 2,
+            "row_label": "Amounts owed by members of Peel",
+            "value": "0.3",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 2,
+            "row_label": "Amounts owed by members of Peel",
+            "value": "0.3",
+            "year": 2018
+          }
+        ],
+        "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d"
+      },
+      {
+        "cluster_id": "cluster_2196",
+        "normalized_value": "-0.1",
+        "raw_index": 117,
+        "raw_split": "dev",
+        "roles": [
+          {
+            "period_index": 1,
+            "period_label": "2019",
+            "row_index": 3,
+            "row_label": "Amounts owed to members of Peel",
+            "value": "-0.1",
+            "year": 2019
+          },
+          {
+            "period_index": 2,
+            "period_label": "2018",
+            "row_index": 3,
+            "row_label": "Amounts owed to members of Peel",
+            "value": "-0.1",
+            "year": 2018
+          }
+        ],
+        "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d"
+      }
+    ]
+  },
+  "schema": "decision_space_autopsy_v1",
+  "status": "COMPLETE_NO_MODEL_REQUESTS"
+}

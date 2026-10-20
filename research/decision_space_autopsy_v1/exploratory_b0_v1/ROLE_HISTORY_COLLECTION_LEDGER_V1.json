@@ -1,0 +1,47 @@
+{
+  "schema": "role_history_collection_ledger_v1",
+  "status": "PARTIAL_COLLECTION_COMPLETE_NO_ROLE_CORRECTION",
+  "authorization_ids": [
+    "ROLE-HISTORY-V1-20261019-24REQ",
+    "ROLE-HISTORY-RECOVERY-V1-20261019-20REQ"
+  ],
+  "execution": {
+    "connection_refused_attempts": 1,
+    "connection_refused_model_tokens": 0,
+    "complete_model_requests": 20,
+    "complete_raw_request_response_pairs": 20,
+    "complete_experiences": 5,
+    "complete_source_clusters": [
+      "cluster_0923",
+      "cluster_1498",
+      "cluster_1981"
+    ],
+    "crashed_logical_request": "plan|HCOLLECT|NR_development_0424_N2|a1",
+    "crashed_request_replayed": false
+  },
+  "scientific_results": {
+    "first_attempt_success": 5,
+    "first_attempt_non_success": 0,
+    "second_attempt_success": 5,
+    "corrections_after_failure": 0,
+    "role_decision_changes": 0,
+    "complete_wrong_role_correction_histories": 0
+  },
+  "accounting": {
+    "before_requests_used": 292,
+    "before_accounting_tokens_used": 310144,
+    "new_requests_used": 21,
+    "new_accounting_tokens_used": 13942,
+    "requests_used": 313,
+    "request_cap": 316,
+    "accounting_tokens_used": 324086,
+    "token_cap": 2750000,
+    "remaining_requests": 3,
+    "remaining_accounting_tokens": 2425914
+  },
+  "request_formula": "requests = tasks * attempts_per_task * 2",
+  "decision": "STOP_H_NEGATIVE_NOT_IDENTIFIABLE_WITH_REAL_HISTORY",
+  "judge_calls": 0,
+  "training_calls": 0,
+  "production_memory_writes": 0
+}

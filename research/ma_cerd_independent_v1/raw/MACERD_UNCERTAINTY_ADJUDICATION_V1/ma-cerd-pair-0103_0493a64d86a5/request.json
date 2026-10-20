@@ -1,0 +1,23 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Adjudicate the uncertain case using only the public evidence layers and graph candidates. Return only JSON with relation,acceptable_decisions,impact_node_ids,preserved_node_ids. relation must be change or invariant; decisions must be a subset of execute,repair,defer. TASK={\"changed_signature_fields\": [\"blocking_requirements\"], \"counterfactual_evidence\": [{\"claim\": \"MA-AVD pilot sample associates REQ-HUM-01 with this proposal.\", \"conflicts_with\": [], \"created_at\": \"1970-01-01T00:00:00Z\", \"evidence_id\": \"MA-AVD-PILOT-014:REQ-HUM-01\", \"reliability\": \"fixture_only\", \"source_type\": \"simulator_derived_pilot_sample\", \"supports_requirements\": [\"REQ-HUM-01\"], \"valid_until\": \"9999-12-31T23:59:59Z\"}], \"counterfactual_requirements\": [{\"applicability_predicate\": \"High-authority or high-risk decision proposals shall require explicit human review or approval before execution.\", \"blocking\": false, \"priority\": \"critical\", \"requirement_id\": \"REQ-HUM-01\", \"type\": \"human_oversight\", \"verification_rule_ref\": \"REQ-HUM-01\", \"version_id\": \"requirements-v0.3\"}], \"evidence\": [{\"claim\": \"MA-AVD pilot sample associates REQ-HUM-01 with this proposal.\", \"conflicts_with\": [], \"created_at\": \"1970-01-01T00:00:00Z\", \"evidence_id\": \"MA-AVD-PILOT-014:REQ-HUM-01\", \"reliability\": \"fixture_only\", \"source_type\": \"simulator_derived_pilot_sample\", \"supports_requirements\": [\"REQ-HUM-01\"], \"valid_until\": \"9999-12-31T23:59:59Z\"}], \"graph_impact_candidates\": [\"command:CMD-0006\", \"effector:EFF-0008\", \"relay:RLY-0004\", \"sensor:SNS-0028\"], \"intervention\": {\"after\": false, \"before\": true, \"changed_paths\": [\"requirements[REQ-HUM-01].blocking\"], \"field_path\": \"requirements[REQ-HUM-01].blocking\", \"generator_version\": \"generate-ma-cerd-scheduled-drafts-v1\", \"intervention_id\": \"delta-pair-0103\", \"mutation_template_id\": \"requirement-blocking-toggle-v1\", \"semantic_change_count\": 1, \"target_id\": \"REQ-HUM-01\", \"target_kind\": \"requirement\"}, \"o1_relation\": \"change\", \"o3_relation\": \"invariant\", \"plan_nodes\": [{\"action\": \"shadow_mode_candidate_review\", \"agent_id\": \"CMD-0006\", \"node_id\": \"command:CMD-0006\", \"role\": \"command\"}, {\"action\": \"shadow_mode_candidate_review\", \"agent_id\": \"EFF-0008\", \"node_id\": \"effector:EFF-0008\", \"role\": \"effector\"}, {\"action\": \"shadow_mode_candidate_review\", \"agent_id\": \"RLY-0004\", \"node_id\": \"relay:RLY-0004\", \"role\": \"relay\"}, {\"action\": \"shadow_mode_candidate_review\", \"agent_id\": \"SNS-0028\", \"node_id\": \"sensor:SNS-0028\", \"role\": \"sensor\"}, {\"action\": \"shadow_observe\", \"agent_id\": \"observer:BASE-011:05\", \"node_id\": \"observer:BASE-011:05\", \"role\": \"observer\"}, {\"action\": \"shadow_observe\", \"agent_id\": \"observer:BASE-011:06\", \"node_id\": \"observer:BASE-011:06\", \"role\": \"observer\"}], \"requirements\": [{\"applicability_predicate\": \"High-authority or high-risk decision proposals shall require explicit human review or approval before execution.\", \"blocking\": true, \"priority\": \"critical\", \"requirement_id\": \"REQ-HUM-01\", \"type\": \"human_oversight\", \"verification_rule_ref\": \"REQ-HUM-01\", \"version_id\": \"requirements-v0.3\"}], \"team_state\": {\"candidate_features\": {\"authority_required\": 3, \"communication_reliability\": 0.928709, \"estimated_latency\": 3.100747, \"estimated_success_probability\": 0.836491, \"no_go_violation_risk\": 0.028249, \"resource_ids\": [\"SNS-0028\", \"RLY-0004\", \"CMD-0006\", \"EFF-0008\"], \"sector_id\": \"SEC-002\", \"sensor_confidence\": 0.866642, \"target_id\": \"TGT-0013\", \"target_priority\": 0.997907}, \"decision_context\": {\"authority_level\": 3, \"communication_reliability_threshold\": 0.58, \"max_latency\": 8.2, \"mission_priority_threshold\": 0.3, \"no_go_threshold\": 0.3, \"sensor_confidence_threshold\": 0.58}, \"scenario_id\": \"SCN-dev-seed-00\", \"simulator_only\": true, \"source_sample_id\": \"MA-AVD-PILOT-014\", \"template_id\": \"TPL-ISR-RELAY-RESPONSE-01\"}}"
+    }
+  ],
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "temperature": 0,
+  "top_p": 1,
+  "top_k": 1,
+  "min_p": 0,
+  "repeat_penalty": 1,
+  "stream": false,
+  "seed": 20261018,
+  "max_tokens": 256,
+  "response_format": {
+    "type": "json_object"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "schema": "synthetic_trajectory_fixtures_v1",
+  "scientific_sample": false,
+  "cases": [
+    {
+      "name": "success_complete",
+      "raw_complete": true,
+      "result": {
+        "task_id": "SYN_SUCCESS",
+        "attempt": 1,
+        "status": "COMPLETE",
+        "plan_request": {"request_key": "plan|SYN_SUCCESS|a1", "status": "OK"},
+        "consume_request": {"request_key": "consume|SYN_SUCCESS|a1", "status": "OK"},
+        "plan": {"tool": "calc", "params": {"expression": "2 - 1"}},
+        "tool_result": {"status": "OK", "returned_value": 1.0},
+        "consume": {"status": "ANSWER", "delta_target": 1.0, "unit": "%"},
+        "hidden_reference": {"delta_target": 1.0, "target_unit": "%"},
+        "feedback_category": "SUCCESS"
+      },
+      "expected": {
+        "trajectory_complete": true,
+        "outcome": "SUCCESS",
+        "tool_execution_success": true,
+        "answer_reference_match": true,
+        "answer_tool_consistency": true
+      }
+    },
+    {
+      "name": "failure_complete",
+      "raw_complete": true,
+      "result": {
+        "task_id": "SYN_FAILURE",
+        "attempt": 1,
+        "status": "COMPLETE",
+        "plan_request": {"request_key": "plan|SYN_FAILURE|a1", "status": "OK"},
+        "consume_request": {"request_key": "consume|SYN_FAILURE|a1", "status": "OK"},
+        "plan": {"tool": "calc", "params": {"expression": "2 - 1"}},
+        "tool_result": {"status": "TOOL_ERROR", "returned_value": null},
+        "consume": {"status": "UNKNOWN", "delta_target": null, "unit": null},
+        "hidden_reference": {"delta_target": 1.0, "target_unit": "%"},
+        "feedback_category": "TOOL_FAILURE"
+      },
+      "expected": {
+        "trajectory_complete": true,
+        "outcome": "TOOL_FAILURE",
+        "tool_execution_success": false,
+        "answer_reference_match": null,
+        "answer_tool_consistency": null
+      }
+    },
+    {
+      "name": "refusal_complete",
+      "raw_complete": true,
+      "result": {
+        "task_id": "SYN_REFUSE",
+        "attempt": 1,
+        "status": "COMPLETE",
+        "plan_request": {"request_key": "plan|SYN_REFUSE|a1", "status": "OK"},
+        "consume_request": {"request_key": "consume|SYN_REFUSE|a1", "status": "OK"},
+        "plan": {"tool": "calc", "params": {"expression": "2 - 1"}},
+        "tool_result": {"status": "OK", "returned_value": 1.0},
+        "consume": {"status": "REFUSE", "delta_target": null, "unit": null},
+        "hidden_reference": {"delta_target": 1.0, "target_unit": "%"},
+        "feedback_category": "REFUSED"
+      },
+      "expected": {
+        "trajectory_complete": true,
+        "outcome": "REFUSED",
+        "tool_execution_success": true,
+        "answer_reference_match": null,
+        "answer_tool_consistency": null
+      }
+    },
+    {
+      "name": "missing_record_incomplete",
+      "raw_complete": false,
+      "result": {
+        "task_id": "SYN_MISSING",
+        "attempt": 1,
+        "status": "INCOMPLETE_WINDOW_EXPIRED",
+        "plan_request": {"request_key": "plan|SYN_MISSING|a1", "status": "OK"},
+        "consume_request": {"status": "NOT_SENT_WINDOW_EXPIRED"},
+        "plan": {"tool": "calc", "params": {"expression": "2 - 1"}},
+        "tool_result": {"status": "OK", "returned_value": 1.0},
+        "consume": null,
+        "hidden_reference": {"delta_target": 1.0, "target_unit": "%"},
+        "feedback_category": "INCOMPLETE_WINDOW_EXPIRED"
+      },
+      "expected": {
+        "trajectory_complete": false,
+        "outcome": "INCOMPLETE_RECORD",
+        "tool_execution_success": true,
+        "answer_reference_match": null,
+        "answer_tool_consistency": null
+      }
+    },
+    {
+      "name": "wrong_answer_complete",
+      "raw_complete": true,
+      "result": {
+        "task_id": "SYN_WRONG",
+        "attempt": 1,
+        "status": "COMPLETE",
+        "plan_request": {"request_key": "plan|SYN_WRONG|a1", "status": "OK"},
+        "consume_request": {"request_key": "consume|SYN_WRONG|a1", "status": "OK"},
+        "plan": {"tool": "calc", "params": {"expression": "2 - 1"}},
+        "tool_result": {"status": "OK", "returned_value": 1.0},
+        "consume": {"status": "ANSWER", "delta_target": 2.0, "unit": "%"},
+        "hidden_reference": {"delta_target": 1.0, "target_unit": "%"},
+        "feedback_category": "ANSWER_REFERENCE_MISMATCH"
+      },
+      "expected": {
+        "trajectory_complete": true,
+        "outcome": "WRONG_ANSWER",
+        "tool_execution_success": true,
+        "answer_reference_match": false,
+        "answer_tool_consistency": false
+      }
+    },
+    {
+      "name": "unknown_complete",
+      "raw_complete": true,
+      "result": {
+        "task_id": "SYN_UNKNOWN",
+        "attempt": 1,
+        "status": "COMPLETE",
+        "plan_request": {"request_key": "plan|SYN_UNKNOWN|a1", "status": "OK"},
+        "consume_request": {"request_key": "consume|SYN_UNKNOWN|a1", "status": "OK"},
+        "plan": {"tool": "calc", "params": {"expression": "2 - 1"}},
+        "tool_result": {"status": "OK", "returned_value": 1.0},
+        "consume": {"status": "UNKNOWN", "delta_target": null, "unit": null},
+        "hidden_reference": {"delta_target": 1.0, "target_unit": "%"},
+        "feedback_category": "UNKNOWN"
+      },
+      "expected": {
+        "trajectory_complete": true,
+        "outcome": "UNKNOWN",
+        "tool_execution_success": true,
+        "answer_reference_match": null,
+        "answer_tool_consistency": null
+      }
+    }
+  ]
+}

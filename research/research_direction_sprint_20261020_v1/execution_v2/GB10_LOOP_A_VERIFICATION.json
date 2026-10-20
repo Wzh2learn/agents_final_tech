@@ -1,0 +1,393 @@
+{
+  "task_id": "gb10-finrank-c3-verify-20261020-a",
+  "loop": "GB10 Loop A",
+  "status": "PASS",
+  "verified_at": "2026-10-20T12:28:19+08:00",
+  "working_scope": "research/research_direction_sprint_20261020_v1/execution_v2",
+  "runtime": {
+    "python": "Python 3.12.3",
+    "python_executable": "/usr/bin/python3",
+    "platform": "Linux aarch64",
+    "model_requests": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "network_requests": 0,
+    "production_memory_writes": 0
+  },
+  "checks": {
+    "bundle_artifact_hashes": {
+      "pass": true,
+      "bundle_path": "finrank_dev/BUNDLE_C3_B0_V4_FIX1.json",
+      "bundle_sha256": "7bb3564cc8a30bac8d81f158232d68c8e3fbdf59247edbc5cd963c47deb893e7",
+      "schema": "finrank_c3_b0_v4_bundle_v2",
+      "status": "FROZEN_BEFORE_C3_FIXTURES_FIX1",
+      "artifacts_matched": 14,
+      "artifacts_total": 14,
+      "source_inputs_matched": 13,
+      "source_inputs_total": 13,
+      "artifacts": [
+        {
+          "name": "finrank_contract.py",
+          "expected_sha256": "a5f900c941798287940214ace5d82efe68e72b3ee89eca70e82b08929304b077",
+          "actual_sha256": "a5f900c941798287940214ace5d82efe68e72b3ee89eca70e82b08929304b077",
+          "match": true
+        },
+        {
+          "name": "freeze_c3_fix1_bundle.py",
+          "expected_sha256": "8f068ce23b71a9f82b2391b3b333030ac13c19fa5bfba382ca31220ccd7389ca",
+          "actual_sha256": "8f068ce23b71a9f82b2391b3b333030ac13c19fa5bfba382ca31220ccd7389ca",
+          "match": true
+        },
+        {
+          "name": "qualify_runtime.py",
+          "expected_sha256": "cf4098fb72753b575ffd537a8cf51d21d72864eadcfab996350ba0246e29d3f1",
+          "actual_sha256": "cf4098fb72753b575ffd537a8cf51d21d72864eadcfab996350ba0246e29d3f1",
+          "match": true
+        },
+        {
+          "name": "run_fixtures.py",
+          "expected_sha256": "9eb93a3ac37eecc2558de3578ad21fe4a842de1c7ece6f0a47beadbbd571c96b",
+          "actual_sha256": "9eb93a3ac37eecc2558de3578ad21fe4a842de1c7ece6f0a47beadbbd571c96b",
+          "match": true
+        },
+        {
+          "name": "run_b0.py",
+          "expected_sha256": "dd1c9621a3f1cbbd3572ba5207e08ea131cd638db708e14d4dcef6c3c2f8b77b",
+          "actual_sha256": "dd1c9621a3f1cbbd3572ba5207e08ea131cd638db708e14d4dcef6c3c2f8b77b",
+          "match": true
+        },
+        {
+          "name": "run_strong_rule.py",
+          "expected_sha256": "28d2f008f4b0d4950cf4779dff1fd372bf5b56e57bb954e7286c55ee7102f9c6",
+          "actual_sha256": "28d2f008f4b0d4950cf4779dff1fd372bf5b56e57bb954e7286c55ee7102f9c6",
+          "match": true
+        },
+        {
+          "name": "rescore_b0_v3_posthoc_v3.py",
+          "expected_sha256": "dd2f80cd3e22eead212a97069aaccc9f17cf2ee4c3d8f075a14a6068637afeda",
+          "actual_sha256": "dd2f80cd3e22eead212a97069aaccc9f17cf2ee4c3d8f075a14a6068637afeda",
+          "match": true
+        },
+        {
+          "name": "c3_red_green_unit_fixture.py",
+          "expected_sha256": "5e7a68f6ba7f8287f541d1b7454e59baa9a3f812f1c2696b00be47a675a57e34",
+          "actual_sha256": "5e7a68f6ba7f8287f541d1b7454e59baa9a3f812f1c2696b00be47a675a57e34",
+          "match": true
+        },
+        {
+          "name": "c3_red_green_derivation_fixture.py",
+          "expected_sha256": "e1a579004f7c96315fc594e620f9a5ff23ac9cd0790d43f497a862672b4c9d3f",
+          "actual_sha256": "e1a579004f7c96315fc594e620f9a5ff23ac9cd0790d43f497a862672b4c9d3f",
+          "match": true
+        },
+        {
+          "name": "TASKS_ACTOR_V3.json",
+          "expected_sha256": "66cb3b5497a8aaa94099e6cba546cf498e076a24128f76d482d6718fe93b9f9e",
+          "actual_sha256": "66cb3b5497a8aaa94099e6cba546cf498e076a24128f76d482d6718fe93b9f9e",
+          "match": true
+        },
+        {
+          "name": "REFERENCES_V3.json",
+          "expected_sha256": "a1d132819af198ca24847694bd7e23f0e23dbe0c076528f83ce52130cd6874f4",
+          "actual_sha256": "a1d132819af198ca24847694bd7e23f0e23dbe0c076528f83ce52130cd6874f4",
+          "match": true
+        },
+        {
+          "name": "TOOL_SCHEMAS_V1.json",
+          "expected_sha256": "19c1e5b8a4237140fd9056691fe0e7ee78da90e9195320400887191a15ac0fe7",
+          "actual_sha256": "19c1e5b8a4237140fd9056691fe0e7ee78da90e9195320400887191a15ac0fe7",
+          "match": true
+        },
+        {
+          "name": "RUNTIME_IDENTITY_OVERRIDE_V1.json",
+          "expected_sha256": "328f0e1e386fade83f09a037fffd030aa54bf4689524acf252096506cee4ae3c",
+          "actual_sha256": "328f0e1e386fade83f09a037fffd030aa54bf4689524acf252096506cee4ae3c",
+          "match": true
+        },
+        {
+          "name": "RUN_CARD_C3_B0_V4_FIX1.json",
+          "expected_sha256": "e155ccc453779bd113df1d01621994a27e8f3385bbc708b71e0b7e3eb65b1dc8",
+          "actual_sha256": "e155ccc453779bd113df1d01621994a27e8f3385bbc708b71e0b7e3eb65b1dc8",
+          "match": true
+        }
+      ]
+    },
+    "verify_c3": {
+      "pass": true,
+      "passed": 13,
+      "total": 13,
+      "status": "PASS",
+      "scores": {
+        "b0_v4_formal": 5,
+        "original_v3": 4,
+        "posthoc_full_checker_v3": 5,
+        "posthoc_unit_fix_v2": 5
+      }
+    },
+    "verify_c2_historical": {
+      "pass": true,
+      "passed": 5,
+      "total": 5,
+      "status": "HISTORICAL_EVIDENCE_VERIFIED_WITH_REPRODUCIBILITY_LIMITATION",
+      "source_snapshot_limitation": {
+        "source_snapshot": "MISSING",
+        "current_source_state": "DRIFTED_INTO_C3",
+        "available_frozen_identity": "BUNDLE_C2_B0_V3.json artifact hash manifest only",
+        "claim_boundary": "Historical fixture/result/raw/ledger evidence is verified; the C2 source tree is not reproducible from current files."
+      }
+    },
+    "open_probe_unit_tests": {
+      "pass": true,
+      "tests_run": 4,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_seconds": 0.002
+    },
+    "real_trace_feedback_unit_tests": {
+      "pass": true,
+      "tests_run": 5,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_seconds": 0.001
+    },
+    "direct_b0_v4_recomputation": {
+      "pass": true,
+      "checks_passed": 23,
+      "checks_total": 23,
+      "result_path": "finrank_dev/results/B0_V4_MINIFIED_JSON/B0_RESULT.json",
+      "result_sha256": "74ea8cd3e69096aee41d4b187b0956b40b6774a01fdd17d8699ec569abf5dd88",
+      "result_status": "COMPLETE_DEVELOPMENT_OBSERVATION",
+      "task_count": 7,
+      "counts": {
+        "strict_success": {
+          "value": 5,
+          "total": 7,
+          "field": "outcome == \"SUCCESS\""
+        },
+        "plan_sufficient": {
+          "value": 7,
+          "total": 7,
+          "field": "plan_contract_valid && tool_execution_success"
+        },
+        "consume_sufficient": {
+          "value": 6,
+          "total": 7,
+          "field": "consume_contract_valid && evidence_sufficiency.sufficient"
+        },
+        "successful_task_ids": [
+          "ESD_001",
+          "ESD_002",
+          "ESD_003",
+          "ESD_004",
+          "ESD_010"
+        ]
+      }
+    },
+    "raw_and_ledger": {
+      "pass": true,
+      "raw_runs": {
+        "B0_V1": {
+          "requests": 14,
+          "responses": 14,
+          "pairs": 14,
+          "crashes": 0,
+          "retries": 0
+        },
+        "B0_V2_ENGINEERING_FIX": {
+          "requests": 14,
+          "responses": 14,
+          "pairs": 14,
+          "crashes": 0,
+          "retries": 0
+        },
+        "B0_V3_EQUAL_VISIBILITY": {
+          "requests": 14,
+          "responses": 14,
+          "pairs": 14,
+          "crashes": 0,
+          "retries": 0
+        },
+        "B0_V4_MINIFIED_JSON": {
+          "requests": 14,
+          "responses": 14,
+          "pairs": 14,
+          "crashes": 0,
+          "retries": 0
+        }
+      },
+      "totals": {
+        "requests": 56,
+        "responses": 56,
+        "pairs": 56,
+        "crashes": 0,
+        "retries": 0,
+        "retry_like_raw_directories": 0,
+        "duplicate_ledger_request_keys": 0,
+        "duplicate_ledger_payload_hashes": 0
+      },
+      "ledger_path": "../execution_v1/RESEARCH_GENERATION_LEDGER.json",
+      "ledger_sha256": "5a4915bd9918e747de17bc5de4eea023146b7b234f97a985e6af02039029dc13",
+      "ledger": {
+        "requests_used": 56,
+        "request_cap": 192,
+        "request_records": 56,
+        "unique_record_ids": 56,
+        "unique_request_keys": 56,
+        "accounting_tokens_used": 458650,
+        "recorded_accounting_tokens_sum": 458650,
+        "token_cap": 2000000,
+        "record_statuses": [
+          "OK"
+        ],
+        "record_errors": 0,
+        "by_run": {
+          "B0_V1": {
+            "requests": 14,
+            "accounting_tokens": 19034
+          },
+          "B0_V2_ENGINEERING_FIX": {
+            "requests": 14,
+            "accounting_tokens": 46830
+          },
+          "B0_V3_EQUAL_VISIBILITY": {
+            "requests": 14,
+            "accounting_tokens": 196038
+          },
+          "B0_V4_MINIFIED_JSON": {
+            "requests": 14,
+            "accounting_tokens": 196748
+          }
+        }
+      }
+    },
+    "esd_006": {
+      "pass": true,
+      "evidence_sufficient": true,
+      "consume_answer_status": "UNKNOWN",
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "used_candidate_ids": [
+        "cand_005"
+      ]
+    },
+    "esd_012": {
+      "pass": true,
+      "finish_reason": "length",
+      "completion_tokens": 256,
+      "consume_answer_status": "FORMAT_INVALID",
+      "task_error": "schema_or_contract:model_json_invalid:Expecting ',' delimiter",
+      "content_length": 639,
+      "content_json_parses": false,
+      "content_ends_with_json_close_delimiter": false,
+      "raw_response_path": "finrank_dev/raw/B0_V4_MINIFIED_JSON/consume_B0_V4_MINIFIED_JSON_ESD_012_41c3063d2e3a/response.json",
+      "raw_response_sha256": "1baac28afdb9989a16ad9d78891f07393d1098a63f2dad4443d64fdeef9bb662",
+      "truncated_json": true
+    }
+  },
+  "commands": [
+    {
+      "command": "python3 --version",
+      "exit_code": 0,
+      "stdout": "Python 3.12.3"
+    },
+    {
+      "command": "bundle='research/research_direction_sprint_20261020_v1/execution_v2/finrank_dev/BUNDLE_C3_B0_V4_FIX1.json'; pkg=$(dirname \"$bundle\"); matched=0; total=0; while IFS=$'\\t' read -r name expected; do total=$((total+1)); actual=$(sha256sum \"$pkg/$name\" | cut -d' ' -f1); if [ \"$actual\" = \"$expected\" ]; then matched=$((matched+1)); else printf 'MISMATCH %s expected=%s actual=%s\\n' \"$name\" \"$expected\" \"$actual\"; fi; done < <(jq -r '.artifacts|to_entries[]|[.key,.value]|@tsv' \"$bundle\"); printf 'bundle_sha256=%s artifacts=%s/%s match\\n' \"$(sha256sum \"$bundle\" | cut -d' ' -f1)\" \"$matched\" \"$total\"; test \"$matched\" -eq \"$total\"",
+      "working_directory": "repository root",
+      "exit_code": 0,
+      "stdout": "bundle_sha256=7bb3564cc8a30bac8d81f158232d68c8e3fbdf59247edbc5cd963c47deb893e7 artifacts=14/14 match"
+    },
+    {
+      "command": "python3 -B finrank_dev/verify_c3.py",
+      "working_directory": "temporary byte-identical hard-link mirror of execution_v2",
+      "exit_code": 0,
+      "stdout": "{\"passed\": 13, \"scores\": {\"b0_v4_formal\": 5, \"original_v3\": 4, \"posthoc_full_checker_v3\": 5, \"posthoc_unit_fix_v2\": 5}, \"status\": \"PASS\", \"total\": 13}",
+      "write_isolation": "The script's report write was confined to the temporary mirror; original finrank_dev/C3_VERIFICATION.json remained byte-identical."
+    },
+    {
+      "command": "python3 -B finrank_dev/verify_c2_historical.py",
+      "working_directory": "temporary byte-identical hard-link mirror of execution_v2",
+      "exit_code": 0,
+      "stdout": "{\"passed\": 5, \"status\": \"HISTORICAL_EVIDENCE_VERIFIED_WITH_REPRODUCIBILITY_LIMITATION\", \"total\": 5}",
+      "write_isolation": "The script's report write was confined to the temporary mirror; original finrank_dev/C2_VERIFICATION.json remained byte-identical."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s open_research_probes -p 'test*.py' -v",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout_summary": "Ran 4 tests in 0.002s — OK"
+    },
+    {
+      "command": "python3 -B -m unittest discover -s open_research_probes/real_trace_feedback_v1 -p 'test*.py' -v",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout_summary": "Ran 5 tests in 0.001s — OK"
+    },
+    {
+      "command": "jq -c '{strict_success:([.results[]|select(.outcome==\"SUCCESS\")]|length),plan_sufficient:([.results[]|select(.plan_contract_valid==true and .tool_execution_success==true)]|length),consume_sufficient:([.results[]|select(.consume_contract_valid==true and .evidence_sufficiency.sufficient==true)]|length),total:(.results|length)}' finrank_dev/results/B0_V4_MINIFIED_JSON/B0_RESULT.json",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout": "{\"strict_success\":5,\"plan_sufficient\":7,\"consume_sufficient\":6,\"total\":7}"
+    },
+    {
+      "command": "root='finrank_dev/raw'; while IFS= read -r d; do name=$(basename \"$d\"); requests=$(find \"$d\" -mindepth 2 -maxdepth 2 -name request.json | wc -l); responses=$(find \"$d\" -mindepth 2 -maxdepth 2 -name response.json | wc -l); crashes=$(find \"$d\" -mindepth 2 -maxdepth 2 -name crash.json | wc -l); retries=$(find \"$d\" -mindepth 2 -maxdepth 2 -name retry.json | wc -l); printf '%s requests=%s responses=%s crashes=%s retries=%s\\n' \"$name\" \"$requests\" \"$responses\" \"$crashes\" \"$retries\"; test \"$requests\" -eq 14 -a \"$responses\" -eq 14 -a \"$crashes\" -eq 0 -a \"$retries\" -eq 0; done < <(find \"$root\" -mindepth 1 -maxdepth 1 -type d | sort)",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout": "B0_V1 requests=14 responses=14 crashes=0 retries=0\nB0_V2_ENGINEERING_FIX requests=14 responses=14 crashes=0 retries=0\nB0_V3_EQUAL_VISIBILITY requests=14 responses=14 crashes=0 retries=0\nB0_V4_MINIFIED_JSON requests=14 responses=14 crashes=0 retries=0"
+    },
+    {
+      "command": "ledger='../execution_v1/RESEARCH_GENERATION_LEDGER.json'; jq -c '.new_generation_budget|{requests_used,request_cap,accounting_tokens_used,token_cap,judge_calls,training_calls,production_memory_writes}' \"$ledger\"; jq -c '{records:(.request_records|length),recorded_tokens:([.request_records[].accounting_tokens]|add),unique_request_keys:([.request_records[].request_key]|unique|length),unique_payload_hashes:([.request_records[].payload_sha256]|unique|length)}' \"$ledger\"",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout": "{\"requests_used\":56,\"request_cap\":192,\"accounting_tokens_used\":458650,\"token_cap\":2000000,\"judge_calls\":0,\"training_calls\":0,\"production_memory_writes\":0}\n{\"records\":56,\"recorded_tokens\":458650,\"unique_request_keys\":56,\"unique_payload_hashes\":56}"
+    },
+    {
+      "command": "jq -c '.results[]|select(.task_id==\"ESD_006\")|{evidence_sufficient:.evidence_sufficiency.sufficient,consume_answer_status:.consume.answer_status,outcome}' finrank_dev/results/B0_V4_MINIFIED_JSON/B0_RESULT.json",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout": "{\"evidence_sufficient\":true,\"consume_answer_status\":\"UNKNOWN\",\"outcome\":\"NON_SUCCESS\"}"
+    },
+    {
+      "command": "response='finrank_dev/raw/B0_V4_MINIFIED_JSON/consume_B0_V4_MINIFIED_JSON_ESD_012_41c3063d2e3a/response.json'; body=$(jq -r '.body_text' \"$response\"); finish_reason=$(printf '%s' \"$body\" | jq -r '.choices[0].finish_reason'); completion_tokens=$(printf '%s' \"$body\" | jq -r '.usage.completion_tokens'); set +e; printf '%s' \"$body\" | jq -e '.choices[0].message.content | fromjson' >/dev/null 2>&1; parse_exit_code=$?; set -e; printf 'finish_reason=%s completion_tokens=%s content_json_parse_exit_code=%s\\n' \"$finish_reason\" \"$completion_tokens\" \"$parse_exit_code\"; test \"$finish_reason\" = length; test \"$completion_tokens\" -eq 256; test \"$parse_exit_code\" -eq 5",
+      "working_directory": "execution_v2",
+      "exit_code": 0,
+      "stdout": "finish_reason=length completion_tokens=256 content_json_parse_exit_code=5"
+    }
+  ],
+  "hashes": {
+    "finrank_dev/BUNDLE_C3_B0_V4_FIX1.json": "7bb3564cc8a30bac8d81f158232d68c8e3fbdf59247edbc5cd963c47deb893e7",
+    "finrank_dev/results/B0_V4_MINIFIED_JSON/B0_RESULT.json": "74ea8cd3e69096aee41d4b187b0956b40b6774a01fdd17d8699ec569abf5dd88",
+    "finrank_dev/verify_c3.py": "b9afc752df337d4fd6d2c7aa73d68d23c6d3d00d5fe0ee65e59e780ef658ade7",
+    "finrank_dev/verify_c2_historical.py": "9f81527e9d50fd81d9424f41abd72fe01171b5f18377034d96fc7f015b163a5a",
+    "finrank_dev/C3_VERIFICATION.json": "ec125f467c1ec0890892319b750877512950667b48f844ece76ebc1ce30998f7",
+    "finrank_dev/C2_VERIFICATION.json": "87fa886e22c0f1d85b97e5cf927c69d15e3a8a8494a63564b6ce2526b985b0a3",
+    "open_research_probes/test_probes.py": "d2ed7249e7b2e73a6e5cfc7d7c4b99f4766da53429b2c1dd3913e2b6dea533cc",
+    "open_research_probes/real_trace_feedback_v1/test_real_trace_feedback.py": "6754cc05bc6ba92cf388f930aa323a9b197dfeed740faf9c0a0bc085983983be",
+    "finrank_dev/raw/B0_V4_MINIFIED_JSON/consume_B0_V4_MINIFIED_JSON_ESD_012_41c3063d2e3a/response.json": "1baac28afdb9989a16ad9d78891f07393d1098a63f2dad4443d64fdeef9bb662",
+    "../execution_v1/RESEARCH_GENERATION_LEDGER.json": "5a4915bd9918e747de17bc5de4eea023146b7b234f97a985e6af02039029dc13"
+  },
+  "report_write_integrity": {
+    "C3_VERIFICATION.json_before_sha256": "ec125f467c1ec0890892319b750877512950667b48f844ece76ebc1ce30998f7",
+    "C3_VERIFICATION.json_after_sha256": "ec125f467c1ec0890892319b750877512950667b48f844ece76ebc1ce30998f7",
+    "C3_unchanged": true,
+    "C2_VERIFICATION.json_before_sha256": "87fa886e22c0f1d85b97e5cf927c69d15e3a8a8494a63564b6ce2526b985b0a3",
+    "C2_VERIFICATION.json_after_sha256": "87fa886e22c0f1d85b97e5cf927c69d15e3a8a8494a63564b6ce2526b985b0a3",
+    "C2_unchanged": true
+  },
+  "discrepancies": [],
+  "limitations": [
+    "C2 source snapshot is MISSING; only historical fixture, result, raw, ledger evidence and the frozen bundle artifact manifest are reproducible.",
+    "C2 current source state is DRIFTED_INTO_C3; the C2 source tree is not reproducible from current files.",
+    "B0 V4 is a seven-task development observation, not statistical confirmation."
+  ],
+  "scope_compliance": {
+    "raw_results_modified": false,
+    "frozen_references_modified": false,
+    "existing_reports_modified": false,
+    "model_or_endpoint_requests": 0,
+    "judge_or_training_runs": 0,
+    "only_written_files": [
+      "GB10_LOOP_A_VERIFICATION.json",
+      "GB10_LOOP_A_RETURN.md"
+    ]
+  }
+}

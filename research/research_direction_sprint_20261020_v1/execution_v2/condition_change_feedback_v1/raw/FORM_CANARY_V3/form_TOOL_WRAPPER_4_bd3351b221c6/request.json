@@ -1,0 +1,23 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Return exactly this JSON object and nothing else: {\"submit_reimbursement_decision\":{\"evidence_ids\":[\"CANARY:fact\"],\"outcome\":\"approve\",\"task_id\":\"FORM:TOOL_WRAPPER:4\"}}"
+    }
+  ],
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "temperature": 0,
+  "top_p": 1,
+  "top_k": 1,
+  "min_p": 0,
+  "repeat_penalty": 1,
+  "stream": false,
+  "seed": 20261018,
+  "max_tokens": 256,
+  "response_format": {
+    "type": "json_object"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "same_number_role_output_schemas_v1",
+  "plan": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "tool",
+      "params"
+    ],
+    "properties": {
+      "tool": {
+        "const": "calc"
+      },
+      "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expression"
+        ],
+        "properties": {
+          "expression": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      }
+    }
+  },
+  "consume": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "decision",
+      "calc_value",
+      "unit"
+    ],
+    "properties": {
+      "decision": {
+        "enum": [
+          "SUPPORTED",
+          "WRONG_ROLE",
+          "UNKNOWN",
+          "REFUSE"
+        ]
+      },
+      "calc_value": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "unit": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 64
+      }
+    }
+  }
+}

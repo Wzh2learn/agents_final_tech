@@ -1,0 +1,35 @@
+{
+  "schema": "finrank_runtime_qualification_v1",
+  "checked_at_utc": "2026-10-20T03:02:59.598893Z",
+  "probe_type": "NON_GENERATIVE_HEALTH_MODELS_PROPS",
+  "generation_requests": 0,
+  "endpoint_transport_override": {
+    "from": "http://127.0.0.1:8004",
+    "to": "http://127.0.0.1:18004",
+    "reason": "Windows reserved-port range prevents local 8004 binding; SSH forwarding maps 127.0.0.1:18004 to GB10 service 8004."
+  },
+  "source_runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "runtime_identity_override_sha256": "328f0e1e386fade83f09a037fffd030aa54bf4689524acf252096506cee4ae3c",
+  "observed": {
+    "health": {
+      "status": "ok"
+    },
+    "model_ids": [
+      "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+    ],
+    "model_path": "/home/testuser/.lmstudio/models/lmstudio-community/Qwen3.6-35B-A3B-GGUF/Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "chat_template_sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+    "build_info": "b1-5306f4b"
+  },
+  "checks": {
+    "health_ok": true,
+    "model_id_present": true,
+    "model_path_matches": true,
+    "chat_template_matches": true,
+    "thinking_disabled_boolean": true,
+    "max_tokens_256": true,
+    "json_object_response": true,
+    "endpoint_is_local_override": true
+  },
+  "status": "QUALIFIED_NON_GENERATIVE"
+}

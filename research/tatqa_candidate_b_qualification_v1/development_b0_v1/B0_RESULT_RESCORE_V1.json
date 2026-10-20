@@ -1,0 +1,622 @@
+{
+  "schema": "candidate_b_b0_rescore_v1",
+  "status": "RESCORED_IMMUTABLE_RAW_WITH_FROZEN_UNIT_SEMANTICS",
+  "scientific_status": "EXPLORATORY_POST_HOC_TECHNICAL_CORRECTION",
+  "decision": "CEILING_ON_THIS_PANEL",
+  "success_count": 16,
+  "non_success_count": 0,
+  "non_success_clusters": [],
+  "original_runner_result_sha256": "ff558705fadc3490b95b78ad6eab4e92cd71468f158b58cce6d93b4875946e56",
+  "root_cause": "candidate_b_b0_runner compared display unit strings exactly to canonical unit codes instead of using the frozen infer_unit_context unit/scale semantics",
+  "correction_scope": "offline rescoring of immutable raw responses only; no task, reference, model output or request changed",
+  "results": [
+    {
+      "task_id": "CB_DEV_01_FAC91A09_T1",
+      "source_cluster_id": "cluster_0875",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "3948 - 3658"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "3948 - 3658"
+        },
+        "returned_value": 290.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 290.0,
+        "unit": "€ millions"
+      }
+    },
+    {
+      "task_id": "CB_DEV_01_FAC91A09_T2",
+      "source_cluster_id": "cluster_0875",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "8158 - 7446"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "8158 - 7446"
+        },
+        "returned_value": 712.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 712.0,
+        "unit": "€ millions"
+      }
+    },
+    {
+      "task_id": "CB_DEV_02_E4362659_T1",
+      "source_cluster_id": "cluster_1699",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "17 - 18"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "17 - 18"
+        },
+        "returned_value": -1.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -1.0,
+        "unit": "€ million"
+      }
+    },
+    {
+      "task_id": "CB_DEV_02_E4362659_T2",
+      "source_cluster_id": "cluster_1699",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "12 - 9"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "12 - 9"
+        },
+        "returned_value": 3.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 3.0,
+        "unit": "€ million"
+      }
+    },
+    {
+      "task_id": "CB_DEV_03_7C4213D2_T1",
+      "source_cluster_id": "cluster_1582",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "USD",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "96.5 - 96.9"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "96.5 - 96.9"
+        },
+        "returned_value": -0.4000000000000057,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -0.4,
+        "unit": "$ million"
+      }
+    },
+    {
+      "task_id": "CB_DEV_03_7C4213D2_T2",
+      "source_cluster_id": "cluster_1582",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "USD",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "129.2 - 123.9"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "129.2 - 123.9"
+        },
+        "returned_value": 5.299999999999983,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 5.3,
+        "unit": "$ million"
+      }
+    },
+    {
+      "task_id": "CB_DEV_04_DF37691D_T1",
+      "source_cluster_id": "cluster_2174",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "GBP",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-1856.8 - (-1139.6)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-1856.8 - (-1139.6)"
+        },
+        "returned_value": -717.2,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -717.2,
+        "unit": "£m"
+      }
+    },
+    {
+      "task_id": "CB_DEV_04_DF37691D_T2",
+      "source_cluster_id": "cluster_2174",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "GBP",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-352.8 - (-216.6)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-352.8 - (-216.6)"
+        },
+        "returned_value": -136.20000000000002,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -136.2,
+        "unit": "£m"
+      }
+    },
+    {
+      "task_id": "CB_DEV_05_67133A8A_T1",
+      "source_cluster_id": "cluster_0840",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "(4486 - 4184)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "(4486 - 4184)"
+        },
+        "returned_value": 302.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 302.0,
+        "unit": "€ millions"
+      }
+    },
+    {
+      "task_id": "CB_DEV_05_67133A8A_T2",
+      "source_cluster_id": "cluster_0840",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "(5386 - 4742)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "(5386 - 4742)"
+        },
+        "returned_value": 644.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 644.0,
+        "unit": "€ millions"
+      }
+    },
+    {
+      "task_id": "CB_DEV_06_B58BD86E_T1",
+      "source_cluster_id": "cluster_0093",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "thousand",
+        "multiplier": "1000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "8.2 - 4.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "8.2 - 4.1"
+        },
+        "returned_value": 4.1,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 4.1,
+        "unit": "€ thousands"
+      }
+    },
+    {
+      "task_id": "CB_DEV_06_B58BD86E_T2",
+      "source_cluster_id": "cluster_0093",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "thousand",
+        "multiplier": "1000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "11.8 - 7.3"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "11.8 - 7.3"
+        },
+        "returned_value": 4.500000000000001,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 4.5,
+        "unit": "€ thousands"
+      }
+    },
+    {
+      "task_id": "CB_DEV_07_CF81ADE9_T1",
+      "source_cluster_id": "cluster_0402",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "GBP",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "4916.8 - 5331.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "4916.8 - 5331.0"
+        },
+        "returned_value": -414.1999999999998,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -414.2,
+        "unit": "£m"
+      }
+    },
+    {
+      "task_id": "CB_DEV_07_CF81ADE9_T2",
+      "source_cluster_id": "cluster_0402",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "GBP",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "(-223.0) - (-274.3)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "(-223.0) - (-274.3)"
+        },
+        "returned_value": 51.30000000000001,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": 51.3,
+        "unit": "£m"
+      }
+    },
+    {
+      "task_id": "CB_DEV_08_2DF35AEA_T1",
+      "source_cluster_id": "cluster_0172",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "5648 - 6120"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "5648 - 6120"
+        },
+        "returned_value": -472.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -472.0,
+        "unit": "millions of €"
+      }
+    },
+    {
+      "task_id": "CB_DEV_08_2DF35AEA_T2",
+      "source_cluster_id": "cluster_0172",
+      "arm": "B0",
+      "trajectory_complete": true,
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "reference_match": true,
+      "answer_tool_consistency": true,
+      "unit_semantic_match": true,
+      "mapped_unit": {
+        "unit": "EUR",
+        "scale": "million",
+        "multiplier": "1000000"
+      },
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "(-529) - (-482)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "(-529) - (-482)"
+        },
+        "returned_value": -47.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "status": "ANSWER",
+        "delta_target": -47.0,
+        "unit": "millions of €"
+      }
+    }
+  ]
+}

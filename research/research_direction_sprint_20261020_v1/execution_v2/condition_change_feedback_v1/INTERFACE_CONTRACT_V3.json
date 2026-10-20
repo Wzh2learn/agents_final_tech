@@ -1,0 +1,8 @@
+{
+  "contract_version": "interface_contract_v3",
+  "evidence_identity": "ENGINEERING_FORM_CANARY",
+  "representation": "DIRECT_OBJECT",
+  "selection_rule": "strict form-valid count; ties select DIRECT_OBJECT",
+  "source_result_sha256": "00e766f01f482b724fbac21f840da47f8b0ed9b370dd89a617fece17c95db496",
+  "status": "FROZEN_AFTER_FORM_CANARY"
+}

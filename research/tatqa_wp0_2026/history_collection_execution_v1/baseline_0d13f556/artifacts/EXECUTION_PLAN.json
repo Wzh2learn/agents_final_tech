@@ -1,0 +1,500 @@
+{
+  "schema": "collection_execution_plan_v1",
+  "status": "FROZEN_PENDING_AUTHORIZED_COLLECTION_WINDOW",
+  "request_cap": 54,
+  "token_cap": 600000,
+  "per_request_reserve_tokens": 10240,
+  "input_token_cap": 8192,
+  "output_token_cap": 2048,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "window_minutes_max": 90,
+  "request_slots": [
+    {
+      "request_key": "plan|H01|a1",
+      "task_id": "H01",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H01|a1",
+      "task_id": "H01",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H01|a2",
+      "task_id": "H01",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H01|a2",
+      "task_id": "H01",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H02|a1",
+      "task_id": "H02",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H02|a1",
+      "task_id": "H02",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H02|a2",
+      "task_id": "H02",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H02|a2",
+      "task_id": "H02",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H03|a1",
+      "task_id": "H03",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H03|a1",
+      "task_id": "H03",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H03|a2",
+      "task_id": "H03",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H03|a2",
+      "task_id": "H03",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H04|a1",
+      "task_id": "H04",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H04|a1",
+      "task_id": "H04",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H04|a2",
+      "task_id": "H04",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H04|a2",
+      "task_id": "H04",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H05|a1",
+      "task_id": "H05",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H05|a1",
+      "task_id": "H05",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H05|a2",
+      "task_id": "H05",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H05|a2",
+      "task_id": "H05",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H06|a1",
+      "task_id": "H06",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H06|a1",
+      "task_id": "H06",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H06|a2",
+      "task_id": "H06",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H06|a2",
+      "task_id": "H06",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H07|a1",
+      "task_id": "H07",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H07|a1",
+      "task_id": "H07",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H07|a2",
+      "task_id": "H07",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H07|a2",
+      "task_id": "H07",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H08|a1",
+      "task_id": "H08",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H08|a1",
+      "task_id": "H08",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H08|a2",
+      "task_id": "H08",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H08|a2",
+      "task_id": "H08",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H09|a1",
+      "task_id": "H09",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H09|a1",
+      "task_id": "H09",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H09|a2",
+      "task_id": "H09",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H09|a2",
+      "task_id": "H09",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H10|a1",
+      "task_id": "H10",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H10|a1",
+      "task_id": "H10",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H10|a2",
+      "task_id": "H10",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H10|a2",
+      "task_id": "H10",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H11|a1",
+      "task_id": "H11",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H11|a1",
+      "task_id": "H11",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H11|a2",
+      "task_id": "H11",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H11|a2",
+      "task_id": "H11",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H12|a1",
+      "task_id": "H12",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H12|a1",
+      "task_id": "H12",
+      "bucket": "history",
+      "attempt": 1,
+      "attempt_role": "initial",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|H12|a2",
+      "task_id": "H12",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "plan",
+      "fixture": false
+    },
+    {
+      "request_key": "consume|H12|a2",
+      "task_id": "H12",
+      "bucket": "history",
+      "attempt": 2,
+      "attempt_role": "feedback_followup",
+      "stage": "consume",
+      "fixture": false
+    },
+    {
+      "request_key": "plan|X01|a1",
+      "task_id": "X01",
+      "bucket": "qualification_fixture",
+      "attempt": 1,
+      "attempt_role": "qualification_fixture",
+      "stage": "plan",
+      "fixture": true
+    },
+    {
+      "request_key": "consume|X01|a1",
+      "task_id": "X01",
+      "bucket": "qualification_fixture",
+      "attempt": 1,
+      "attempt_role": "qualification_fixture",
+      "stage": "consume",
+      "fixture": true
+    },
+    {
+      "request_key": "plan|X02|a1",
+      "task_id": "X02",
+      "bucket": "qualification_fixture",
+      "attempt": 1,
+      "attempt_role": "qualification_fixture",
+      "stage": "plan",
+      "fixture": true
+    },
+    {
+      "request_key": "consume|X02|a1",
+      "task_id": "X02",
+      "bucket": "qualification_fixture",
+      "attempt": 1,
+      "attempt_role": "qualification_fixture",
+      "stage": "consume",
+      "fixture": true
+    },
+    {
+      "request_key": "plan|X03|a1",
+      "task_id": "X03",
+      "bucket": "qualification_fixture",
+      "attempt": 1,
+      "attempt_role": "qualification_fixture",
+      "stage": "plan",
+      "fixture": true
+    },
+    {
+      "request_key": "consume|X03|a1",
+      "task_id": "X03",
+      "bucket": "qualification_fixture",
+      "attempt": 1,
+      "attempt_role": "qualification_fixture",
+      "stage": "consume",
+      "fixture": true
+    }
+  ]
+}

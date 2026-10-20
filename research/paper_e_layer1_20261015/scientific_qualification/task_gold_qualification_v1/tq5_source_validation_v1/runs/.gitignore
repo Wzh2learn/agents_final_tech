@@ -1,0 +1,4 @@
+# TQ-5 run outputs stay local on both ends; never commit
+*
+!.gitignore
+

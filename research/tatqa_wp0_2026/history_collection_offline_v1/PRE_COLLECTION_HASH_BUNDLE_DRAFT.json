@@ -1,0 +1,68 @@
+{
+  "schema": "pre_collection_hash_bundle_draft_v1",
+  "status": "NOT_READY_FOR_COLLECTION",
+  "owner_review_state": "READY_WITH_UNRESOLVED_ONLINE_GATES",
+  "resolved": {
+    "source_and_split": {
+      "raw_train_sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "raw_dev_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+      "candidate_items_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+      "exposure_audit_sha256": "29a793ca092aa1b8a345ec20e5f208a37e161e3eb112e91e757565ae2ebed46f",
+      "source_clusters_sha256": "12bb9d0fcee6b7f3e5c2842a29404a8fc5262beb6a417255a2a5a777d7e4890e",
+      "split_proposal_sha256": "287b6c6acda66b550b5f65c998e87b1fabcb766779897145ec3b7b4bae1c0e72",
+      "program_exposure_review_sha256": "85ac9f3f82222b5acd92dbe4035c8e19d43c1d44962579b3e9d2f6b6251733ff",
+      "split_reaudit_sha256": "431bcaec4891025c011867505a8cc508a78fde8ccac49a9aa0f93de783bdfed3",
+      "split_delta_reaudit_sha256": "8cc2beeb15ef45f29e029f851efb7e0b7f47c79e33e0180a45a26c568bd94630",
+      "non_structural_exposure_register_uid_count": 233,
+      "non_structural_exposure_register_sha256": "d6c37842dd6ebb1f8d512ca0ad3f0f94a1a6ba5e39c8fbeefe4b16c710724070"
+    },
+    "implementation": {
+      "offline_core.py": "79c7abdc6a916f8e99eb4374f0a074c66ecc3a8c8948f69898e23615bb37e377",
+      "source_cluster_builder.py": "b4d26e6d58c42adf738606aef57ef6e7ed7b18e04570d167c7723565e4f816e6",
+      "exposure_classifier.py": "33420d14f3ad9b2fdac2f74af10ee675960890d956d7124a2182f0893a615770",
+      "collection_chain.py": "1e766deeb16271d4308fda712fe6fc44adc655b51aa64a8eedda266e782f8aa4",
+      "raw_capture.py": "976462d30a88c52a87ed6014dc7b64bf4dc5b08735bbb96e994f04824272539d",
+      "build_exposure_and_split_audit.py": "cfcd696b199c3b800d4127b688519c2a72bb3ab364cc5de10ec44d7a3a28625d",
+      "run_offline_tests.py": "6c7bd0d37a7f89bfbfc54f2d6121b575adb667554f96ad29047cde7005684e93",
+      "prepare_collection_gate.py": "f0b5377f07139cda52cde45a0f75acbc9bddc89fa6b00906fafca3ce65bb7653",
+      "fixtures/synthetic_offline_cases.json": "16c0dd7fd96de0ad2f652501c76ba18bd57ffcd37f1c734965939e110b41115e",
+      "tests/test_offline_v1.py": "e169f0592545488e43eee0ca313d697de3073273077de8b05ba09dc782f2518a"
+    },
+    "control": {
+      "local_test_receipt_sha256": "477de2410b7d79ab4a746fe2a83be9a82f7de6e30c1afdc7d5d20f33b440f047",
+      "gb10_test_receipt_sha256": "4b61867199a64e42d3ea98f8129cae512b8ca9b5290cb03e8d2619ac7b001997",
+      "collection_request_cap": 54,
+      "collection_token_cap": 600000,
+      "retry_cap": 0,
+      "concurrency": 1,
+      "judge_calls": 0,
+      "training_calls": 0,
+      "generated_json_newline": "LF"
+    },
+    "independent_review_reports": {
+      "LOOP_C_EXPOSURE_AND_SOFTWARE_AUDIT.md": "b9353de2504c85b87d176a1102e5feaaf96212b50b5c0232ea17abcb3018f30b",
+      "LOOP_C_REAUDIT.md": "4dbed320b9a6a1138514a956dc3eac606c76f16c1418e0346f36be1556510430",
+      "LOOP_C_REAUDIT3.md": "07acd6b7b1c826064265642248587948fe6f46e3cd3b1d5cafda2f8e36cc5fcd",
+      "LOOP_C_PROGRAM_EXPOSURE_REVIEW.md": "85ac9f3f82222b5acd92dbe4035c8e19d43c1d44962579b3e9d2f6b6251733ff",
+      "LOOP_C_SPLIT_REAUDIT.md": "431bcaec4891025c011867505a8cc508a78fde8ccac49a9aa0f93de783bdfed3",
+      "LOOP_C_SPLIT_DELTA_REAUDIT.md": "8cc2beeb15ef45f29e029f851efb7e0b7f47c79e33e0180a45a26c568bd94630"
+    },
+    "model_artifact": {
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d"
+    }
+  },
+  "unresolved": {
+    "loop_c_independent_review": "R3_ACCEPTED_N1_N2_CLOSED",
+    "program_generated_reference_review": "R1_CONDITIONAL_ADJUSTED_BY_R2_N1_141_CLEAN_19_UNKNOWN_5_EXPOSED",
+    "final_future_and_history_split": "V3_DELTA_REVIEW_ACCEPTED",
+    "focused_split_review_result": "R3_DELTA_ACCEPTED_N1_CLOSED",
+    "task_and_reference_manifest": "NOT_MATERIALIZED",
+    "parse_numeric_accounting_sign_convention": "RESOLVED_NEGATIVE_PARENS_NOT_DOUBLE_INVERTED",
+    "provenance_comment_citations": "RESOLVED_MODEL_EXPOSURE_PROVENANCE_MAP",
+    "tokenizer_chat_template_service_binary_generation_parameters": "NOT_BOUND",
+    "online_collection_runner_and_prompt_templates": "NOT_IMPLEMENTED_OR_NOT_BOUND",
+    "beijing_window": "NOT_AUTHORIZED",
+    "independent_software_review_result": "R3_ACCEPTED_N1_N2_CLOSED"
+  }
+}

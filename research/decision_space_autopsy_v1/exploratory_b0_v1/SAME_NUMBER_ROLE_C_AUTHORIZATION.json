@@ -1,0 +1,15 @@
+{
+  "schema": "same_number_role_arm_authorization_v1",
+  "authorization_id": "SAME-NUMBER-C-20261019-1050-24REQ",
+  "protocol_sha256": "e581ad04e843c4d5c080c625baf0e78c449e4a87733a1cc1dd0af477ab88b86f",
+  "runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "window_start_utc": "2026-10-19T10:50:00Z",
+  "window_end_utc": "2026-10-19T12:00:00Z",
+  "request_cap": 24,
+  "token_cap": 300000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "User approved exploratory development and self-directed supplementation; R/C sequential follow-up uses only the frozen B0 failure pairs.",
+  "raw_root": "/home/testuser/wzh/candidate_b_runs/SAME-NUMBER-C-20261019"
+}

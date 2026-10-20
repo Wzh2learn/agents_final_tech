@@ -1,0 +1,78 @@
+{
+  "task_id": "T04",
+  "variant": "original",
+  "question": "What was the increase / (decrease) in the net revenues from March 31, 2019 to December 31 2019?",
+  "table": [
+    [
+      "",
+      "",
+      "Quarter Ended",
+      "",
+      ""
+    ],
+    [
+      "2019",
+      "March 31,",
+      "June 30,",
+      "September 30,",
+      "December 31,"
+    ],
+    [
+      "",
+      "",
+      "(In thousands, except per share amounts)",
+      "",
+      ""
+    ],
+    [
+      "Net revenues",
+      "$338,649",
+      "$333,532",
+      "$333,326",
+      "$331,035"
+    ],
+    [
+      "Operating income",
+      "$16,720",
+      "$14,300",
+      "$23,542",
+      "$26,719"
+    ],
+    [
+      "Net income (loss) attributable to common stockholders",
+      "$(7,265)",
+      "$(7,387)",
+      "$257",
+      "$(5,988)"
+    ],
+    [
+      "Basic and diluted earnings (loss) per share",
+      "$(0.11)",
+      "$(0.10)",
+      "$—",
+      "$(0.08)"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "7288346e-ca9a-47e2-86b0-46cd8e325fd2",
+      "order": 1,
+      "text": "15. QUARTERLY FINANCIAL INFORMATION (UNAUDITED)"
+    },
+    {
+      "uid": "f49af039-813f-424d-8101-eee9ef15e95f",
+      "order": 2,
+      "text": "During the quarter ended December 31, 2019, we purchased a group annuity contract to transfer the pension benefit obligations and annuity administration for a select group of retirees or their beneficiaries to an annuity provider. As a result of the transfer of the pension liability to the annuity provider and other lump sum payments to participants of the Pension Plans, we recognized a non-cash pension settlement charge of $6.7 million during the quarter ended December 31, 2019."
+    },
+    {
+      "uid": "3a4ac4ce-1c4f-4231-9952-298cda2e6b27",
+      "order": 3,
+      "text": "In 2019, we recognized a gain on extinguishment of debt from the partial repurchase of our Senior Notes of $0.3 million, $1.1 million and $3.1 million during the quarters ended June 30, 2019, September 30, 2019, and December 31, 2019, respectively."
+    },
+    {
+      "uid": "abe5f24c-6c1c-4559-b33d-fd448ffaa3e8",
+      "order": 4,
+      "text": "As part of our integration efforts of FairPoint and continued cost saving initiatives, we incurred severance costs of $8.7 million during the quarter ended December 31, 2019."
+    }
+  ]
+}

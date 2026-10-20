@@ -1,0 +1,32 @@
+{
+  "schema": "same_number_role_history_h_k_ledger_v1",
+  "status": "EXPLORATORY_COMPARISON_COMPLETE_NO_UNIQUE_HISTORY_EFFECT",
+  "history_collection": {
+    "requests": 24,
+    "accounting_tokens": 16064,
+    "tasks": 6,
+    "source_clusters": 3,
+    "first_attempt_corrections": 4
+  },
+  "r_residual": {"requests": 8, "accounting_tokens": 5786, "success": 2, "non_success": 2},
+  "c_residual": {"requests": 8, "accounting_tokens": 5774, "success": 2, "non_success": 2},
+  "h_arm": {"requests": 12, "accounting_tokens": 20989, "success": 6, "non_success": 0},
+  "k_arm": {"requests": 12, "accounting_tokens": 18517, "success": 6, "non_success": 0},
+  "comparison": {
+    "b0_future_panel_success": 5,
+    "r_future_panel_success": 4,
+    "c_future_panel_success": 3,
+    "h_future_panel_success": 6,
+    "k_future_panel_success": 6,
+    "h_k_same_decisions": 6
+  },
+  "cumulative": {
+    "requests_used": 292,
+    "request_cap": 292,
+    "accounting_tokens_used": 310144,
+    "token_cap": 2450000
+  },
+  "model_or_judge_calls": 0,
+  "training_calls": 0,
+  "production_memory_writes": 0
+}

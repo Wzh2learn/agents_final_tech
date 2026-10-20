@@ -1,0 +1,33 @@
+{
+  "fixture_schema": "condition_change_feedback_probe_inputs_v2",
+  "note": "Actor proposals only. Dispositions are derived by the feedback scorer from the frozen policy, evidence facts, and references. The scope pair differs by exactly one out-of-scope fact.",
+  "probe_cases": [
+    {
+      "probe_case_id": "VALID_ALTERNATE_SET",
+      "selected_evidence_ids": [
+        "CC002:card_statement",
+        "CC002:merchant_invoice"
+      ],
+      "source_task_id": "CC002:pre",
+      "submitted_outcome": "approve"
+    },
+    {
+      "probe_case_id": "OUT_OF_SCOPE_ADDITION",
+      "selected_evidence_ids": [
+        "CC003:receipt",
+        "CC003:team_note"
+      ],
+      "source_task_id": "CC003:post",
+      "submitted_outcome": "reject"
+    },
+    {
+      "counterfactual_for": "OUT_OF_SCOPE_ADDITION",
+      "probe_case_id": "OUT_OF_SCOPE_COUNTERFACTUAL",
+      "selected_evidence_ids": [
+        "CC003:receipt"
+      ],
+      "source_task_id": "CC003:post",
+      "submitted_outcome": "reject"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"consume\\\": {\\n    \\\"answer_status\\\": \\\"UNKNOWN\\\",\\n    \\\"facts\\\": [],\\n    \\\"used_candidate_ids\\\": []\\n  }\\n}\"}}],\"created\":1792465557,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":36,\"prompt_tokens\":1319,\"total_tokens\":1355,\"prompt_tokens_details\":{\"cached_tokens\":769}},\"id\":\"chatcmpl-0CbgEJzLMSOA2p82bCVuJDERJ9Cye8qR\",\"timings\":{\"cache_n\":769,\"prompt_n\":550,\"prompt_ms\":359.244,\"prompt_per_token_ms\":0.6531709090909091,\"prompt_per_second\":1530.9928627896359,\"predicted_n\":36,\"predicted_ms\":562.433,\"predicted_per_token_ms\":15.623138888888889,\"predicted_per_second\":64.00762401921651}}"
+}

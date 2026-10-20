@@ -1,0 +1,178 @@
+{
+  "schema": "gb10_sync_receipt_v1",
+  "synced_at": "2026-10-17T15:54:58+08:00",
+  "transport": "scp plus read-only sha256 verification",
+  "git_payload_policy": "raw run outputs/data/logs excluded from Git and synchronized only as file mirrors",
+  "synced_files": [
+    {
+      "path": "tq4_calibration_v1/closeout/CHAIN_RETURN.md",
+      "local_sha256": "c9e1bd842ce1f919fc04386350dfe03b05a19a6158a0f0bd30f08a9cb31990b5",
+      "remote_sha256": "c9e1bd842ce1f919fc04386350dfe03b05a19a6158a0f0bd30f08a9cb31990b5",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/closeout/CONTRIBUTION_RULING.md",
+      "local_sha256": "a60061b2d252eb78ac11f5b85216b94e5a24da095568566eea1b4507d61a816e",
+      "remote_sha256": "a60061b2d252eb78ac11f5b85216b94e5a24da095568566eea1b4507d61a816e",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/closeout/PAPER_E_ADDENDUM_DRAFT.md",
+      "local_sha256": "590b87497c7aed1c21cceb07823e40bdaa3ddb5bd36ce81f20531c2152b3bc9b",
+      "remote_sha256": "590b87497c7aed1c21cceb07823e40bdaa3ddb5bd36ce81f20531c2152b3bc9b",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/closeout/LOOP_D_RESTART_HANDOFF_20261017.md",
+      "local_sha256": "799a15f721a87bca59b70d882fbdb45f8ab2c536358f63f53a074e34aeabdede",
+      "remote_sha256": "799a15f721a87bca59b70d882fbdb45f8ab2c536358f63f53a074e34aeabdede",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/reviews/POST_RUN_REVIEW_v1.md",
+      "local_sha256": "6071db9162b9f5b58d07d92bc5cb26598e6a3cf57b8af9313e97ca6495e02d5f",
+      "remote_sha256": "6071db9162b9f5b58d07d92bc5cb26598e6a3cf57b8af9313e97ca6495e02d5f",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/reviews/POST_RUN_RECOMPUTE_v1.py",
+      "local_sha256": "7a74362b6d0dc3951cd4a75c7819ea428c14776924ab948bc877028ed1acd41e",
+      "remote_sha256": "7a74362b6d0dc3951cd4a75c7819ea428c14776924ab948bc877028ed1acd41e",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/reviews/POST_RUN_RECOMPUTE_v1.json",
+      "local_sha256": "b7d0ffff3f8576ef1feb5c838473ccd542c6efc898685f80a8ee46bbbed6e2ff",
+      "remote_sha256": "b7d0ffff3f8576ef1feb5c838473ccd542c6efc898685f80a8ee46bbbed6e2ff",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/reviews/POST_RUN_REVIEW_DISPOSITION_v1.md",
+      "local_sha256": "9cf9789e786b294af6b551403a57b4f30aeb5bdc6c5912650753d6951c42e18f",
+      "remote_sha256": "9cf9789e786b294af6b551403a57b4f30aeb5bdc6c5912650753d6951c42e18f",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/execution_v1/TQ4_RUN_RETURN_ERRATA_v1.md",
+      "local_sha256": "c322031a9553c0ab906e48ded6a9bbd9de86ce9384eb0293c7b18afe9fd11a51",
+      "remote_sha256": "c322031a9553c0ab906e48ded6a9bbd9de86ce9384eb0293c7b18afe9fd11a51",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/execution_v1/recovery_v1/tq4_analysis_v22_20261017/ANALYSIS_MANIFEST.json",
+      "local_sha256": "0710f9a5f25901af2d5340232d7514830a51dfc9f22f8308c1dfdde8b952fa51",
+      "remote_sha256": "0710f9a5f25901af2d5340232d7514830a51dfc9f22f8308c1dfdde8b952fa51",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/execution_v1/recovery_v1/tq4_analysis_v22_20261017/part1_results.json",
+      "local_sha256": "05353154e05e55effcdf7ce6f88a6cba3c58f8e28a8ad761503059b5a116ae87",
+      "remote_sha256": "05353154e05e55effcdf7ce6f88a6cba3c58f8e28a8ad761503059b5a116ae87",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/execution_v1/recovery_v1/tq4_analysis_v22_20261017/part2_results.json",
+      "local_sha256": "27b28e3639b3caf525b22c39de5e9cc7dad8468b1d51e9831bbd14d4721d0b39",
+      "remote_sha256": "27b28e3639b3caf525b22c39de5e9cc7dad8468b1d51e9831bbd14d4721d0b39",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/execution_v1/recovery_v1/tq4_analysis_v22_20261017/RESULTS.json",
+      "local_sha256": "1f3172e44af353bf115fd9d694441bc717eabd29d757c05b039df1be4cbb998f",
+      "remote_sha256": "1f3172e44af353bf115fd9d694441bc717eabd29d757c05b039df1be4cbb998f",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/execution_v1/recovery_v1/tq4_analysis_v22_20261017/SUMMARY.md",
+      "local_sha256": "f33513f91c36ba2a5dc81220b5b13ef85a5ddd8004364f5271b543f72367c4da",
+      "remote_sha256": "f33513f91c36ba2a5dc81220b5b13ef85a5ddd8004364f5271b543f72367c4da",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/TQ5_RUN_RETURN.md",
+      "local_sha256": "bb23d18fa5187662b184eee65387ca5538d13b159c44a6fb9398f53ffea306e6",
+      "remote_sha256": "bb23d18fa5187662b184eee65387ca5538d13b159c44a6fb9398f53ffea306e6",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_PRE_RUN_REVIEW_v1.md",
+      "local_sha256": "ad32cec888032f747f0350e4aecd86f1559e14f3a6acb782b6b0142fe2f86876",
+      "remote_sha256": "ad32cec888032f747f0350e4aecd86f1559e14f3a6acb782b6b0142fe2f86876",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_PREREVIEW_RECOMPUTE_v1.py",
+      "local_sha256": "ee171292849369b3752e7addcfa8a0226adb76dc5405f8e227e743096366132e",
+      "remote_sha256": "ee171292849369b3752e7addcfa8a0226adb76dc5405f8e227e743096366132e",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_PREREVIEW_RECOMPUTE_v1.json",
+      "local_sha256": "30a1f0294095afe5ce23bec62f0a351f6fb5c8639f75845f22133e0dc59cbfe9",
+      "remote_sha256": "30a1f0294095afe5ce23bec62f0a351f6fb5c8639f75845f22133e0dc59cbfe9",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_POST_RUN_RECOMPUTE_v1.py",
+      "local_sha256": "03643501c267fee5a10395e38dfd7ee49b85ff98b61b1055699b4ca84b96ce66",
+      "remote_sha256": "03643501c267fee5a10395e38dfd7ee49b85ff98b61b1055699b4ca84b96ce66",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_POST_RUN_RECOMPUTE_v1.json",
+      "local_sha256": "5ec6a6aba3610340e158750b8c39d94fc4e617b26fb4674768ac4ff25070c625",
+      "remote_sha256": "5ec6a6aba3610340e158750b8c39d94fc4e617b26fb4674768ac4ff25070c625",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_MAKE_ANALYSIS_CORRECTION_v1.py",
+      "local_sha256": "a92458027f1c43e5f958ba4f7679522658428aa95152ed86b89ed5d4c17c0be4",
+      "remote_sha256": "a92458027f1c43e5f958ba4f7679522658428aa95152ed86b89ed5d4c17c0be4",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_RESULTS_CORRECTED_v1.json",
+      "local_sha256": "adb1ca339bb4ca4dee629990600e75b711935783afea36d05af71767bd7f99f5",
+      "remote_sha256": "adb1ca339bb4ca4dee629990600e75b711935783afea36d05af71767bd7f99f5",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/reviews/TQ5_POST_RUN_FOCUSED_REVIEW_v1.md",
+      "local_sha256": "7ef92b645d63a60beb8589bf984d71c1c138d16418310889e9cbd731b151fef7",
+      "remote_sha256": "7ef92b645d63a60beb8589bf984d71c1c138d16418310889e9cbd731b151fef7",
+      "match": true
+    }
+  ],
+  "verified_mirrors": [
+    {
+      "path": "tq4_calibration_v1/runs/20261016T082849Z_430d927a/RUN_MANIFEST.json",
+      "local_sha256": "26dd1b54dfac7f3bec31bd95adf384728cca2645f9acbe2301787e2536d30fe6",
+      "remote_sha256": "26dd1b54dfac7f3bec31bd95adf384728cca2645f9acbe2301787e2536d30fe6",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/runs/20261017T072340Z_5d8942bd/RUN_MANIFEST.json",
+      "local_sha256": "4a1f37ec76f431d07d4ac1eed2d862ec826dd33ff9ff6ca58259a6630b5d0171",
+      "remote_sha256": "4a1f37ec76f431d07d4ac1eed2d862ec826dd33ff9ff6ca58259a6630b5d0171",
+      "match": true
+    },
+    {
+      "path": "tq5_source_validation_v1/execution_v1/recovery_v1/SNAPSHOT_MANIFEST.json",
+      "local_sha256": "a9c1c79eb3666f7d15be115d2d84ccf760b7c7b7a96150a29051a251b3e49a38",
+      "remote_sha256": "a9c1c79eb3666f7d15be115d2d84ccf760b7c7b7a96150a29051a251b3e49a38",
+      "match": true
+    },
+    {
+      "path": "tq4_calibration_v1/runs/_chain/chain_master_ledger.jsonl",
+      "local_sha256": "119c941bdd4dec239cb9f88fa90b8d5b7ecc5b294f534eab074cbcb423d7c0ec",
+      "remote_sha256": "119c941bdd4dec239cb9f88fa90b8d5b7ecc5b294f534eab074cbcb423d7c0ec",
+      "match": true
+    }
+  ],
+  "all_match": true,
+  "excluded": [
+    "raw run outputs already originated on GB10 and mirrored locally",
+    "review __pycache__",
+    "unrelated research/harness_rsi_v1 run"
+  ]
+}

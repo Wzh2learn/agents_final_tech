@@ -1,0 +1,1061 @@
+{
+  "contract_summary": [
+    {
+      "accepted_count": 0,
+      "accepted_task_ids": [],
+      "contract": "exact_match",
+      "disposition_counts": {
+        "REJECT": 1,
+        "REVISE": 6
+      }
+    },
+    {
+      "accepted_count": 3,
+      "accepted_task_ids": [
+        "ESD_001",
+        "ESD_006",
+        "ESD_010"
+      ],
+      "contract": "minimal_sufficient_set",
+      "disposition_counts": {
+        "REJECT": 1,
+        "RETAIN": 3,
+        "REVISE": 3
+      }
+    },
+    {
+      "accepted_count": 1,
+      "accepted_task_ids": [
+        "ESD_010"
+      ],
+      "contract": "fact_coverage",
+      "disposition_counts": {
+        "REJECT": 1,
+        "RETAIN": 1,
+        "REVISE": 5
+      }
+    },
+    {
+      "accepted_count": 3,
+      "accepted_task_ids": [
+        "ESD_001",
+        "ESD_006",
+        "ESD_010"
+      ],
+      "contract": "set_valued_sufficiency_scope_precision",
+      "disposition_counts": {
+        "REJECT": 1,
+        "RETAIN": 3,
+        "REVISE": 3
+      }
+    },
+    {
+      "accepted_count": 1,
+      "accepted_task_ids": [
+        "ESD_010"
+      ],
+      "contract": "composite_trace",
+      "disposition_counts": {
+        "REJECT": 1,
+        "RETAIN": 1,
+        "REVISE": 5
+      }
+    },
+    {
+      "accepted_count": 2,
+      "accepted_task_ids": [
+        "ESD_006",
+        "ESD_010"
+      ],
+      "contract": "composite_trace_c2_sensitivity",
+      "disposition_counts": {
+        "REJECT": 1,
+        "RETAIN": 2,
+        "REVISE": 4
+      }
+    }
+  ],
+  "evidence_identity": {
+    "ai_development_reference": "REFERENCES_V1.json; human_confirmed=false and not human gold.",
+    "posthoc_feedback_intervention": "C4 deterministic contract scoring applied after observing B0; not a feedback channel available to the actor.",
+    "real_model_trace": "B0_V2_ENGINEERING_FIX plan/consume outputs and frozen checker fields recorded in B0_RESULT.json."
+  },
+  "interpretation_limits": [
+    "All seven tasks share source_component_03; no report-level independence is claimed.",
+    "B0 V2 plan-time visibility differs from the strong-rule comparison described in C2_ROOT_CAUSE.md.",
+    "ESD_006 C2 atom reduction is a labeled sensitivity analysis, not a rewrite of REFERENCES_V1.",
+    "Update dispositions are deterministic post-hoc interventions and were not shown to the actor.",
+    "No conclusion is drawn about training, memory updates, general experience learning or deployed-agent benefit."
+  ],
+  "judgment": {
+    "h_stop_condition": "Do not run H unless a corrected/equal-visibility baseline leaves at least two comparable evidence-selection failures and at least two complete task-matched real histories can change that same decision. If residual errors are mainly answer/reference defects, or eligible correction histories cannot be formed, stop this H candidate and preserve the boundary result.",
+    "most_explanatory_contract": "composite_trace_c2_sensitivity",
+    "reason": "It preserves ESD_010's valid redundant sufficient set, separates ESD_001's answer-fact defect from evidence acquisition, exposes ESD_006 as a reference-scope defect, and rejects only ESD_002's entirely unsupported current selection.",
+    "supports_real_history_h_now": false,
+    "why_not": "The six non-successes mix answer-fact omission, partial evidence selection, one unsupported selection and one reference defect. They do not yet provide a homogeneous residual decision space or real correction histories for a task-matched H comparison."
+  },
+  "non_success_actions_under_composite_c2_sensitivity": [
+    {
+      "qualification": "REVISE_TRACE",
+      "revision_target": "ANSWER_FACTS",
+      "status": "REVISE",
+      "task_id": "ESD_001"
+    },
+    {
+      "qualification": "REJECT_CURRENT_CLAIM",
+      "revision_target": null,
+      "status": "REJECT",
+      "task_id": "ESD_002"
+    },
+    {
+      "qualification": "REVISE_TRACE",
+      "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+      "status": "REVISE",
+      "task_id": "ESD_003"
+    },
+    {
+      "qualification": "REVISE_TRACE",
+      "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+      "status": "REVISE",
+      "task_id": "ESD_004"
+    },
+    {
+      "qualification": "RETAIN_AFTER_REFERENCE_REVISION",
+      "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+      "status": "RETAIN",
+      "task_id": "ESD_006"
+    },
+    {
+      "qualification": "REVISE_TRACE",
+      "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+      "status": "REVISE",
+      "task_id": "ESD_012"
+    }
+  ],
+  "non_success_count": 6,
+  "per_trace": [
+    {
+      "answer_atoms_matched_v1": [],
+      "answer_atoms_missing_v1": [
+        "largest_component",
+        "second_component"
+      ],
+      "answer_coverage_c2_sensitivity": 0.0,
+      "answer_coverage_v1": 0.0,
+      "consume_contains_sufficient_set": true,
+      "consume_scope_precision": true,
+      "consume_selection": [
+        "cand_001"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Evidence is sufficient and precise, but answer atoms are incomplete.",
+          "rejected_components": [
+            "incomplete_or_wrong_answer_facts"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "supported_evidence_selection"
+          ],
+          "revision_target": "ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Evidence is sufficient and precise, but answer atoms are incomplete.",
+          "rejected_components": [
+            "incomplete_or_wrong_answer_facts"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "supported_evidence_selection"
+          ],
+          "revision_target": "ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Evidence is sufficient and precise, but answer atoms are incomplete.",
+          "rejected_components": [
+            "incomplete_or_wrong_answer_facts"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "supported_evidence_selection"
+          ],
+          "revision_target": "ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "fact_coverage": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Evidence is sufficient and precise, but answer atoms are incomplete.",
+          "rejected_components": [
+            "incomplete_or_wrong_answer_facts"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "supported_evidence_selection"
+          ],
+          "revision_target": "ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "minimal_sufficient_set": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        }
+      },
+      "plan_contains_sufficient_set": true,
+      "plan_has_unchecked_extra_ids": [
+        "cand_003",
+        "cand_004"
+      ],
+      "plan_selection": [
+        "cand_001",
+        "cand_003",
+        "cand_004"
+      ],
+      "real_outcome": "NON_SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_001"
+    },
+    {
+      "answer_atoms_matched_v1": [],
+      "answer_atoms_missing_v1": [
+        "net_cash_financing"
+      ],
+      "answer_coverage_c2_sensitivity": 0.0,
+      "answer_coverage_v1": 0.0,
+      "consume_contains_sufficient_set": false,
+      "consume_scope_precision": false,
+      "consume_selection": [
+        "cand_005"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": false,
+          "qualification": "REJECT_CURRENT_CLAIM",
+          "reason": "No selected candidate is supported by the development reference; retain only the real failure record.",
+          "rejected_components": [
+            "current_selected_evidence_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "REJECT"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": false,
+          "qualification": "REJECT_CURRENT_CLAIM",
+          "reason": "No selected candidate is supported by the development reference; retain only the real failure record.",
+          "rejected_components": [
+            "current_selected_evidence_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "REJECT"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REJECT_CURRENT_CLAIM",
+          "reason": "No selected candidate is supported by the development reference; retain only the real failure record.",
+          "rejected_components": [
+            "current_selected_evidence_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "REJECT"
+        },
+        "fact_coverage": {
+          "accepted": false,
+          "qualification": "REJECT_CURRENT_CLAIM",
+          "reason": "No selected candidate is supported by the development reference; retain only the real failure record.",
+          "rejected_components": [
+            "current_selected_evidence_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "REJECT"
+        },
+        "minimal_sufficient_set": {
+          "accepted": false,
+          "qualification": "REJECT_CURRENT_CLAIM",
+          "reason": "No selected candidate is supported by the development reference; retain only the real failure record.",
+          "rejected_components": [
+            "current_selected_evidence_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "REJECT"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": false,
+          "qualification": "REJECT_CURRENT_CLAIM",
+          "reason": "No selected candidate is supported by the development reference; retain only the real failure record.",
+          "rejected_components": [
+            "current_selected_evidence_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "REJECT"
+        }
+      },
+      "plan_contains_sufficient_set": false,
+      "plan_has_unchecked_extra_ids": [
+        "cand_005"
+      ],
+      "plan_selection": [
+        "cand_005"
+      ],
+      "real_outcome": "NON_SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_002"
+    },
+    {
+      "answer_atoms_matched_v1": [],
+      "answer_atoms_missing_v1": [
+        "automotive_debt",
+        "investing_cash_flow"
+      ],
+      "answer_coverage_c2_sensitivity": 0.0,
+      "answer_coverage_v1": 0.0,
+      "consume_contains_sufficient_set": false,
+      "consume_scope_precision": false,
+      "consume_selection": [
+        "cand_001",
+        "cand_006"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "fact_coverage": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "minimal_sufficient_set": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        }
+      },
+      "plan_contains_sufficient_set": false,
+      "plan_has_unchecked_extra_ids": [
+        "cand_001"
+      ],
+      "plan_selection": [
+        "cand_001",
+        "cand_006"
+      ],
+      "real_outcome": "NON_SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_003"
+    },
+    {
+      "answer_atoms_matched_v1": [],
+      "answer_atoms_missing_v1": [
+        "roe",
+        "roic_adjusted"
+      ],
+      "answer_coverage_c2_sensitivity": 0.0,
+      "answer_coverage_v1": 0.0,
+      "consume_contains_sufficient_set": false,
+      "consume_scope_precision": true,
+      "consume_selection": [
+        "cand_003"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "fact_coverage": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "minimal_sufficient_set": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        }
+      },
+      "plan_contains_sufficient_set": false,
+      "plan_has_unchecked_extra_ids": [
+        "cand_001"
+      ],
+      "plan_selection": [
+        "cand_001",
+        "cand_003"
+      ],
+      "real_outcome": "NON_SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_004"
+    },
+    {
+      "answer_atoms_matched_v1": [
+        "derived_gross_margin",
+        "derived_gross_profit"
+      ],
+      "answer_atoms_missing_v1": [
+        "automotive_other_cost",
+        "automotive_revenue"
+      ],
+      "answer_coverage_c2_sensitivity": 1.0,
+      "answer_coverage_v1": 0.5,
+      "consume_contains_sufficient_set": true,
+      "consume_scope_precision": true,
+      "consume_selection": [
+        "cand_005"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": false,
+          "qualification": "REVISE_REFERENCE",
+          "reason": "The real output answers the requested derived values; C2 identifies the two V1 operand atoms as over-required.",
+          "rejected_components": [
+            "reference_v1_required_operand_atoms"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+          "status": "REVISE"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": true,
+          "qualification": "RETAIN_AFTER_REFERENCE_REVISION",
+          "reason": "Retain only under the labeled C2 answer-scope sensitivity; REFERENCES_V1 itself remains unchanged and needs revision before any scientific scoring rerun.",
+          "rejected_components": [
+            "reference_v1_required_operand_atoms"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+          "status": "RETAIN"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REVISE_REFERENCE",
+          "reason": "The real output answers the requested derived values; C2 identifies the two V1 operand atoms as over-required.",
+          "rejected_components": [
+            "reference_v1_required_operand_atoms"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+          "status": "REVISE"
+        },
+        "fact_coverage": {
+          "accepted": false,
+          "qualification": "REVISE_REFERENCE",
+          "reason": "The real output answers the requested derived values; C2 identifies the two V1 operand atoms as over-required.",
+          "rejected_components": [
+            "reference_v1_required_operand_atoms"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+          "status": "REVISE"
+        },
+        "minimal_sufficient_set": {
+          "accepted": true,
+          "qualification": "RETAIN_AFTER_REFERENCE_REVISION",
+          "reason": "Retain only under the labeled C2 answer-scope sensitivity; REFERENCES_V1 itself remains unchanged and needs revision before any scientific scoring rerun.",
+          "rejected_components": [
+            "reference_v1_required_operand_atoms"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+          "status": "RETAIN"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": true,
+          "qualification": "RETAIN_AFTER_REFERENCE_REVISION",
+          "reason": "Retain only under the labeled C2 answer-scope sensitivity; REFERENCES_V1 itself remains unchanged and needs revision before any scientific scoring rerun.",
+          "rejected_components": [
+            "reference_v1_required_operand_atoms"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": "REFERENCE_SCOPE_V1_TO_C2_SENSITIVITY",
+          "status": "RETAIN"
+        }
+      },
+      "plan_contains_sufficient_set": true,
+      "plan_has_unchecked_extra_ids": [
+        "cand_004"
+      ],
+      "plan_selection": [
+        "cand_004",
+        "cand_005"
+      ],
+      "real_outcome": "NON_SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_006"
+    },
+    {
+      "answer_atoms_matched_v1": [
+        "other_long_term_liabilities",
+        "total_liabilities"
+      ],
+      "answer_atoms_missing_v1": [],
+      "answer_coverage_c2_sensitivity": 1.0,
+      "answer_coverage_v1": 1.0,
+      "consume_contains_sufficient_set": true,
+      "consume_scope_precision": true,
+      "consume_selection": [
+        "cand_003",
+        "cand_007"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "fact_coverage": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        },
+        "minimal_sufficient_set": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": true,
+          "qualification": "RETAIN_AS_RECORDED",
+          "reason": "The post-hoc contract accepts the recorded trace.",
+          "rejected_components": [],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record"
+          ],
+          "revision_target": null,
+          "status": "RETAIN"
+        }
+      },
+      "plan_contains_sufficient_set": true,
+      "plan_has_unchecked_extra_ids": [
+        "cand_005"
+      ],
+      "plan_selection": [
+        "cand_003",
+        "cand_005",
+        "cand_007"
+      ],
+      "real_outcome": "SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_010"
+    },
+    {
+      "answer_atoms_matched_v1": [
+        "depreciation_method"
+      ],
+      "answer_atoms_missing_v1": [
+        "ppe_depreciation_2022",
+        "ppe_depreciation_2023",
+        "ppe_depreciation_2024"
+      ],
+      "answer_coverage_c2_sensitivity": 0.25,
+      "answer_coverage_v1": 0.25,
+      "consume_contains_sufficient_set": false,
+      "consume_scope_precision": true,
+      "consume_selection": [
+        "cand_005"
+      ],
+      "contracts": {
+        "composite_trace": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "composite_trace_c2_sensitivity": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "exact_match": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "fact_coverage": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "minimal_sufficient_set": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        },
+        "set_valued_sufficiency_scope_precision": {
+          "accepted": false,
+          "qualification": "REVISE_TRACE",
+          "reason": "Only part of the sufficient evidence was used and the answer is incomplete.",
+          "rejected_components": [
+            "current_complete_selection_claim",
+            "current_answer_claim"
+          ],
+          "retained_components": [
+            "real_plan_trace",
+            "real_tool_execution",
+            "real_consume_trace",
+            "real_outcome_record",
+            "partial_supported_evidence"
+          ],
+          "revision_target": "EVIDENCE_SELECTION_AND_ANSWER_FACTS",
+          "status": "REVISE"
+        }
+      },
+      "plan_contains_sufficient_set": false,
+      "plan_has_unchecked_extra_ids": [
+        "cand_003"
+      ],
+      "plan_selection": [
+        "cand_003",
+        "cand_005"
+      ],
+      "real_outcome": "NON_SUCCESS",
+      "source_cluster_id": "source_component_03",
+      "task_id": "ESD_012"
+    }
+  ],
+  "resource_accounting": {
+    "judge_requests": 0,
+    "network_calls": 0,
+    "new_model_requests": 0,
+    "real_requests_observed": 14,
+    "shared_ledger_modified": false,
+    "training_runs": 0
+  },
+  "schema": "real_trace_feedback_analysis_v1",
+  "schema_version": "real_trace_feedback_posthoc_v1",
+  "scientific_scope": "Deterministic post-hoc feedback intervention over seven real B0 V2 plan/consume traces. References are AI-assisted development labels, not human gold. This is not an experience-learning effect.",
+  "source_sha256": {
+    "../../finrank_dev/C1_RETURN.md": "3ef7f64059c21142c3cf021849bad66b8c3a776564e91d7638a1ffac44ba614e",
+    "../../finrank_dev/C2_ROOT_CAUSE.md": "182913729a4b2f196b055d09e7e90525bc8065145162026b431b4660ee099a12",
+    "../../finrank_dev/REFERENCES_V1.json": "df799e92f672d04b6015b521a8f0dbb9a8a1ba0af1c9d6716c3f2d01d1f1d4e0",
+    "../../finrank_dev/results/B0_V2_ENGINEERING_FIX/B0_RESULT.json": "9414d6927a571dd00a85687c0a530a1363869d0350740784fb80753182673e27"
+  },
+  "status": "POSTHOC_DEV_ONLY_ANALYSIS_COMPLETED",
+  "trace_count": 7
+}

@@ -1,0 +1,22 @@
+{
+  "frozen_files": [
+    {
+      "path": "FEEDBACK_PROBE_RESULTS_V2.json",
+      "sha256": "8d4b4293bef221a41bd1c0f35782de0080cf9163d1e14245d9f456c0ad2a5089"
+    },
+    {
+      "path": "FEEDBACK_PROBE_SUMMARY_V2.json",
+      "sha256": "9fe2f7c6fe52711ebf292458794b109b015d52e33907615679446c214c5a6197"
+    }
+  ],
+  "manifest_schema": "condition_change_probe_freeze_manifest_v2",
+  "request_accounting": {
+    "judge_calls": 0,
+    "model_requests": 0,
+    "network_requests": 0,
+    "production_memory_writes": 0,
+    "service_requests": 0,
+    "training_calls": 0
+  },
+  "status": "FROZEN"
+}

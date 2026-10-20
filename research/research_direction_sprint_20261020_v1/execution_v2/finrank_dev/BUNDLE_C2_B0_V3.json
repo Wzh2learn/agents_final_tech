@@ -1,0 +1,24 @@
+{
+  "schema": "finrank_c2_b0_v3_bundle_v1",
+  "status": "FROZEN_BEFORE_C2_FIXTURES",
+  "source_inputs": {
+    "SCOPE_TASK_DRAFT.json": "0d71408cb9f227442a37f176bd31ebdafbfe5c50da97be5e58905e476b9908ee",
+    "ADJUDICATION.json": "878a90b58d0ea541d1c5c7eb8205b0b284434de0e8a2a8bdd045ca0621bea98a",
+    "RUNTIME_IDENTITY_SNAPSHOT.json": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+    "REFERENCES_V1.json": "df799e92f672d04b6015b521a8f0dbb9a8a1ba0af1c9d6716c3f2d01d1f1d4e0",
+    "C2_ROOT_CAUSE.md": "182913729a4b2f196b055d09e7e90525bc8065145162026b431b4660ee099a12"
+  },
+  "artifacts": {
+    "finrank_contract.py": "9935db7cc015cb9bdcded02b1f082f912ef0280d92f50de226c934a10db7e883",
+    "freeze_finrank_inputs.py": "4d8c5d75894e39a21242f2729efbf1b44746704254be13b24c04aad9845f436e",
+    "qualify_runtime.py": "56120c81db7b5bac2da7de31f25f8a52bf64c0ce660476ed48f784bb5aa4d389",
+    "run_fixtures.py": "c761cf65897ebf726b270d5cda9ecb79f578c25681e58036fc66570885f805fa",
+    "run_b0.py": "ae427f199947f978219f74e36145f7f192a5dd957594cfcb7fc75154aea6d2ea",
+    "run_strong_rule.py": "ff2243872883797ae8b1e7767a877e49bee6c6d63b8ff33ba9a4c3a4e48776b4",
+    "TASKS_ACTOR_V2.json": "1049a8762571d78b638d984cab558de5cbb2fb9922a5229925b6b352534b2f55",
+    "REFERENCES_V2.json": "a72467bae544a1a82a7e74fe4d865157dae7abb7f6e0bd8e07faaf571d1c6a05",
+    "TOOL_SCHEMAS_V1.json": "19c1e5b8a4237140fd9056691fe0e7ee78da90e9195320400887191a15ac0fe7",
+    "RUNTIME_IDENTITY_OVERRIDE_V1.json": "328f0e1e386fade83f09a037fffd030aa54bf4689524acf252096506cee4ae3c",
+    "RUN_CARD_C2_B0_V3.json": "a07e25340179af277c60883fada00a579a30014273c497da0d6bdfd2476d2772"
+  }
+}

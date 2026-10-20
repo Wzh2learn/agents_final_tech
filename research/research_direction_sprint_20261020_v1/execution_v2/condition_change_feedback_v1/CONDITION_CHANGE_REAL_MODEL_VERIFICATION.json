@@ -1,0 +1,327 @@
+{
+  "checks": [
+    {
+      "name": "manifest",
+      "pass": true,
+      "observed": "FROZEN_BEFORE_REQUESTS"
+    },
+    {
+      "name": "hashes",
+      "pass": true,
+      "observed": {
+        "runtime": "d4c8f51c14d76b861625ea0d2b2a5cc59edb395ddfed833bea416346e8a0b01e",
+        "probe": "15d1900724f425f980cd40fe498208edbeecc8dbb8322ee37dc180594703739b"
+      }
+    },
+    {
+      "name": "cc013",
+      "pass": true,
+      "observed": [
+        {
+          "probe": "clean_canonical",
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC013:manager_approval",
+            "CC013:receipt"
+          ],
+          "expected": {
+            "pre": "sufficient",
+            "post": "sufficient"
+          },
+          "observed": {
+            "pre": "sufficient",
+            "post": "sufficient"
+          },
+          "stages": {
+            "pre": {
+              "decision_outcome": "approve",
+              "plan_sufficient": true,
+              "composite_accepted": true,
+              "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+            },
+            "post": {
+              "decision_outcome": "approve",
+              "plan_sufficient": true,
+              "composite_accepted": true,
+              "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+            }
+          }
+        },
+        {
+          "probe": "alternate_path",
+          "outcome": "approve",
+          "selected_evidence_ids": [
+            "CC013:card_statement",
+            "CC013:manager_approval",
+            "CC013:merchant_invoice"
+          ],
+          "expected": {
+            "pre": "sufficient",
+            "post": "insufficient"
+          },
+          "observed": {
+            "pre": "sufficient",
+            "post": "insufficient"
+          },
+          "stages": {
+            "pre": {
+              "decision_outcome": "approve",
+              "plan_sufficient": true,
+              "composite_accepted": true,
+              "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+            },
+            "post": {
+              "decision_outcome": "approve",
+              "plan_sufficient": false,
+              "composite_accepted": false,
+              "contract_reason_code": "INSUFFICIENT_PLAN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "raw",
+      "pass": true,
+      "observed": {
+        "requests": 26,
+        "responses": 26
+      }
+    },
+    {
+      "name": "ledger",
+      "pass": true,
+      "observed": 26
+    },
+    {
+      "name": "budget",
+      "pass": true,
+      "observed": {
+        "requests_used": 82,
+        "request_cap": 192,
+        "accounting_tokens_used": 504701,
+        "token_cap": 2000000,
+        "paid_research_api_usd": 0,
+        "judge_calls": 0,
+        "training_calls": 0,
+        "production_memory_writes": 0,
+        "retry_policy": "every fixture, canary, failure, connection failure and technical retry counts; no content retries or replacement sampling"
+      }
+    },
+    {
+      "name": "result",
+      "pass": true,
+      "observed": "COMPLETE_TIER1"
+    },
+    {
+      "name": "metrics",
+      "pass": true,
+      "observed": {
+        "answer_covered_count": 17,
+        "answer_coverage_rate": 0.6538461538461539,
+        "composite_accepted_count": 16,
+        "composite_acceptance_rate": 0.6153846153846154,
+        "exact_match_accepted_count": 11,
+        "exact_match_acceptance_rate": 0.4230769230769231,
+        "invalid_submission_count": 8,
+        "plan_precision_macro": {
+          "denominator": 78,
+          "mean": "0.679487179487",
+          "numerator": 53
+        },
+        "plan_precision_micro": {
+          "denominator": 38,
+          "mean": "0.763157894737",
+          "numerator": 29
+        },
+        "plan_sufficient_count": 18,
+        "plan_sufficient_rate": 0.6923076923076923,
+        "sufficiency_only_accepted_count": 18,
+        "sufficiency_only_acceptance_rate": 0.6923076923076923,
+        "tasks": 26
+      }
+    },
+    {
+      "name": "invalid_unrepaired",
+      "pass": true,
+      "observed": [
+        "CC001:pre",
+        "CC008:post",
+        "CC009:pre",
+        "CC010:post",
+        "CC011:post",
+        "CC011:pre",
+        "CC012:pre",
+        "CC013:post"
+      ]
+    },
+    {
+      "name": "valid_diagnostic",
+      "pass": true,
+      "observed": {
+        "metrics": {
+          "answer_covered_count": 17,
+          "answer_coverage_rate": 0.9444444444444444,
+          "composite_accepted_count": 16,
+          "composite_acceptance_rate": 0.8888888888888888,
+          "exact_match_accepted_count": 11,
+          "exact_match_acceptance_rate": 0.6111111111111112,
+          "invalid_submission_count": 0,
+          "plan_precision_macro": {
+            "denominator": 54,
+            "mean": "0.981481481481",
+            "numerator": 53
+          },
+          "plan_precision_micro": {
+            "denominator": 30,
+            "mean": "0.966666666667",
+            "numerator": 29
+          },
+          "plan_sufficient_count": 18,
+          "plan_sufficient_rate": 1.0,
+          "sufficiency_only_accepted_count": 18,
+          "sufficiency_only_acceptance_rate": 1.0,
+          "tasks": 18
+        },
+        "pairs": {
+          "decision_flip_count": 2,
+          "decision_flip_revision_count": 2,
+          "decision_flip_revision_rate": 1.0,
+          "invariant_count": 4,
+          "invariant_preserved_count": 4,
+          "invariant_preservation_rate": 1.0,
+          "pairs": [
+            {
+              "both_outcomes_correct": true,
+              "case_id": "CC002",
+              "changed": true,
+              "class": "decision_flip"
+            },
+            {
+              "both_outcomes_correct": true,
+              "case_id": "CC003",
+              "changed": true,
+              "class": "decision_flip"
+            },
+            {
+              "both_outcomes_correct": true,
+              "case_id": "CC004",
+              "changed": false,
+              "class": "invariant"
+            },
+            {
+              "both_outcomes_correct": true,
+              "case_id": "CC005",
+              "changed": false,
+              "class": "invariant"
+            },
+            {
+              "both_outcomes_correct": true,
+              "case_id": "CC006",
+              "changed": false,
+              "class": "invariant"
+            },
+            {
+              "both_outcomes_correct": true,
+              "case_id": "CC007",
+              "changed": false,
+              "class": "invariant"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "partial",
+      "pass": true,
+      "observed": 46051
+    }
+  ],
+  "file_hashes": {
+    "BOUNDED_REAL_MODEL_RESULT.json": "defa044d1d9585b12a6fe79c477f526581c5aa85f0ea6d9e7663325109c88352",
+    "BOUNDED_REAL_MODEL_RUN_MANIFEST.json": "c0fce31236a49ea8e5667566fe2911177bac28ad017f107337348abeaddb7072",
+    "CC013_ALTERNATE_PATH_PROBE.json": "15d1900724f425f980cd40fe498208edbeecc8dbb8322ee37dc180594703739b"
+  },
+  "passed": 11,
+  "runtime": {
+    "judge_calls": 0,
+    "model_requests": 26,
+    "production_memory_writes": 0,
+    "training_calls": 0
+  },
+  "schema": "condition_change_real_model_verification_v1",
+  "status": "PASS",
+  "total": 11,
+  "valid_only_diagnostic": {
+    "metrics": {
+      "answer_covered_count": 17,
+      "answer_coverage_rate": 0.9444444444444444,
+      "composite_accepted_count": 16,
+      "composite_acceptance_rate": 0.8888888888888888,
+      "exact_match_accepted_count": 11,
+      "exact_match_acceptance_rate": 0.6111111111111112,
+      "invalid_submission_count": 0,
+      "plan_precision_macro": {
+        "denominator": 54,
+        "mean": "0.981481481481",
+        "numerator": 53
+      },
+      "plan_precision_micro": {
+        "denominator": 30,
+        "mean": "0.966666666667",
+        "numerator": 29
+      },
+      "plan_sufficient_count": 18,
+      "plan_sufficient_rate": 1.0,
+      "sufficiency_only_accepted_count": 18,
+      "sufficiency_only_acceptance_rate": 1.0,
+      "tasks": 18
+    },
+    "pair_behavior": {
+      "decision_flip_count": 2,
+      "decision_flip_revision_count": 2,
+      "decision_flip_revision_rate": 1.0,
+      "invariant_count": 4,
+      "invariant_preserved_count": 4,
+      "invariant_preservation_rate": 1.0,
+      "pairs": [
+        {
+          "both_outcomes_correct": true,
+          "case_id": "CC002",
+          "changed": true,
+          "class": "decision_flip"
+        },
+        {
+          "both_outcomes_correct": true,
+          "case_id": "CC003",
+          "changed": true,
+          "class": "decision_flip"
+        },
+        {
+          "both_outcomes_correct": true,
+          "case_id": "CC004",
+          "changed": false,
+          "class": "invariant"
+        },
+        {
+          "both_outcomes_correct": true,
+          "case_id": "CC005",
+          "changed": false,
+          "class": "invariant"
+        },
+        {
+          "both_outcomes_correct": true,
+          "case_id": "CC006",
+          "changed": false,
+          "class": "invariant"
+        },
+        {
+          "both_outcomes_correct": true,
+          "case_id": "CC007",
+          "changed": false,
+          "class": "invariant"
+        }
+      ]
+    }
+  }
+}

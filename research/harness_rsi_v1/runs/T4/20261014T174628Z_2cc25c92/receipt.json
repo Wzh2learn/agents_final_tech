@@ -1,0 +1,286 @@
+{
+  "schema": "receipt",
+  "task_id": "T4",
+  "run_id": "20261014T174628Z_2cc25c92",
+  "direction": "R",
+  "card_version": 2,
+  "scope": "Bounded T4 read-only adapter routing and engineering baseline: inventory selected existing checks, construct minimal T4-local fixtures for 16 accepted T1 v3 case identities, replay applicable combinations twice, and package the capability profile. No scientific experiment, sealed-set construction, model, network, remote, production, database, training, daemon or Loop B call.",
+  "execution_status": "DELIVERED",
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "authorization_ref": "owner: 继续…你自己设定goal去执行吧; R线 U07=C",
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "task_prompt": {
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T174628Z_2cc25c92/TASK_PROMPT.md",
+    "sha256": "3b992f164075bbcda6fd9ed5b0f5e69ed5d5adcde45ef88fc64854e6c6e09bb6"
+  },
+  "input_bindings": [
+    {
+      "role": "task_card",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/cards/T4.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "21cf5af35a7915386677b2ace897e1c7b6294e92",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/cards/T4.md",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_protocol",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/protocol.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_authority_map",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/authority_map.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_execution_policy",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/execution_policy.md",
+      "exit_code": 0,
+      "note": "Dispatch prose names execution_policy.json; the T4 card and repository provide execution_policy.md, which is bound here."
+    },
+    {
+      "role": "card_input_budget_profiles",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/budget_profiles.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_schemas",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/schemas.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_reliability_spec",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "exit_code": 0
+    },
+    {
+      "role": "authority_preflight",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+      "verification_command": "git rev-parse HEAD:docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t1_incidents",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "c666bb35bac784591b3fd11b6975be044ce599b7",
+      "sha256_file": "2f53f2f36f05d6eac540ef48c82ba4cade957007b5674235588615d1a334ba9b",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t1_coverage",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/coverage_matrix.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "35b558c8f5888c56c52971cba11475e653fca0d4",
+      "sha256_file": "3fa1fb67f3587f50052cdf2272ef5f1e4bd9da5217f312daaf4854730c65d8bb",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/coverage_matrix.json",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t1_groups",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/source_groups.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "967a62cbf001fd883800af6f031ac4286d252913",
+      "sha256_file": "1dfc7ebb81cecc488f2c21e95b8958641b9fd8d2b31fc9cf6556320b3e77a6dd",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/source_groups.json",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t1_review",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T1I-03/review_receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "472dc1442dc449199857b81d40a0f7c5829dc55b",
+      "sha256_file": "d769ed169a1e5d3875a8e6eaf4810d76b4f85cad436dd29c95aa2f419fbe9c17",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T1I-03/review_receipt.json",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t2_receipt",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "891955a6c4765c8d28c9cc4578ccda0c7284b596",
+      "sha256_file": "87dd7e356a30b2f0791fd362f577e0112c792ddab8e32b826d98e2d7bcbb8437",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t2_evaluator",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+      "sha256_file": "06b077542cddecc71095d96e4d41f63f9f776208256dda1954f34ca61c5ffd5c",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t2_review",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T2R-01/review_receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "ec21e3ed78318da4880cf064fdc1f5f420a33f59",
+      "sha256_file": "df17441d1629914e0dfe56a7291f7c2533cb6adb38f86d1b9f1ea931cf30cccd",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T2R-01/review_receipt.json",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t3_receipt",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "a5f98d0d17546e303609021f80fdadbfb83269c2",
+      "sha256_file": "d3b976b2e5e25a477b6b51ffc87634d86ddd9a57d69d85cf057f9d577b96143f",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json",
+      "exit_code": 0
+    },
+    {
+      "role": "dependency_t3_review",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T3R-01/review_receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "4ef2c9af3bf1b372b0df30fc9980f33b9d746777",
+      "sha256_file": "7974807ec8da48c414b23f668c39947a4f0b37f559496e8f95f2545efe0c2125",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T3R-01/review_receipt.json",
+      "exit_code": 0
+    }
+  ],
+  "actions": [
+    "Inventoried ten candidate graph tools by static side-effect inspection.",
+    "Created four read-only routing adapters within the T4 run directory.",
+    "Constructed minimal local fixtures from T1 source references and defect/legal-control wording.",
+    "Replayed 11 applicable case-check combinations twice with no automatic retries.",
+    "Computed engineering capability counts without scientific conclusions."
+  ],
+  "output_manifest": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T174628Z_2cc25c92/artifacts_manifest.json",
+  "checks": [
+    {
+      "check_id": "A1_identity_completeness",
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS",
+      "scope": "Model NONE, local environment, T1 16-case identity, T2 evaluator and T3 dependency bindings are explicit in baseline and receipt.",
+      "evidence": ["baseline.json", "baseline_recipe.json", "receipt.json"]
+    },
+    {
+      "check_id": "A2_deterministic_replay",
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS",
+      "scope": "11/11 applicable combinations returned identical exit codes across two replays; all PASS records name a verification level and scope.",
+      "evidence": ["baseline.json", "scratch/tool_outputs/"]
+    },
+    {
+      "check_id": "A3_budget_boundary",
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS",
+      "scope": "B0 package accounting: zero model/network/remote/production/database/training/daemon/Loop B invocations; no scientific result files; only T4-local fixtures and read-only source inspection.",
+      "evidence": ["baseline_recipe.json", "events.jsonl", "git status --porcelain"]
+    },
+    {
+      "check_id": "A_common_package_integrity",
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS",
+      "scope": "Required JSON parses, case IDs and load-bearing T1 fields match, 22 evidence paths exist, declared exit codes match event outputs, and write boundary contains only this T4 run plus pre-existing dirty logs.",
+      "evidence": ["baseline.json", "events.jsonl", "artifacts_manifest.json"]
+    },
+    {
+      "check_id": "FINQA_SCOPE_PRESERVED",
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS",
+      "scope": "formal_experiment_preflight.py was not invoked; no formal manifest was fabricated and its FinQA/formal qualification semantics were not generalized.",
+      "evidence": ["adapters/README.md", "baseline_recipe.json"]
+    }
+  ],
+  "usage": {
+    "model_requests": 0,
+    "additional_cheap_requests": 0,
+    "additional_strong_requests": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_invocations": 0,
+    "automatic_retries": 0,
+    "adapter_tool_invocations": 22,
+    "adapter_replay_passes": 2,
+    "applicable_combinations": 11,
+    "recorded_local_tool_requests_at_preclose": 69,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "self_check": {
+    "A1": "PASS | CONTRACT_PASS | T4 package identity completeness only.",
+    "A2": "PASS | CONTRACT_PASS | Two replay exit-code consistency for the 11 T4-local applicable combinations.",
+    "A3": "PASS | CONTRACT_PASS | B0 accounting and package boundary; no scientific or online execution.",
+    "A-common": "PASS | CONTRACT_PASS | JSON, required fields, canonical bindings, evidence existence, write boundary and unknown declarations.",
+    "repairs": [
+      {
+        "before": "Self-check compared full T1 source-ref objects and failed because optional exists/tracked fields were omitted from the concise baseline representation.",
+        "after": "Self-check now compares load-bearing path, canonical hash and hash-domain fields; all 16 cases match.",
+        "artifact_changed": false
+      },
+      {
+        "before": "Initial baseline evidence paths were unrecorded guesses and failed existence verification.",
+        "after": "All 22 evidence paths were replaced with actual recorded output paths and then verified.",
+        "artifact_changed": true
+      }
+    ],
+    "fresh_verification": {
+      "case_count": 16,
+      "applicable_combinations": 11,
+      "tool_invocations": 22,
+      "evidence_paths_exist": 22,
+      "deterministic_combinations": 11,
+      "git_status_scope": "Only runs/T4/20261014T174628Z_2cc25c92 plus four pre-existing dirty logs."
+    }
+  },
+  "unresolved": [
+    {
+      "id": "U-T4-01",
+      "value": "execution_chat_usage",
+      "reason": "Conversation token consumption is not measurable in this environment; recorded as UNRESOLVED, not zero."
+    },
+    {
+      "id": "U-T4-02",
+      "value": "six_unverified_case_identities",
+      "reason": "No authorized old-flow offline checker covered request budget, overwrite refusal, import smoke, online argument order, raw-evidence inventory or dual hash-domain adjudication."
+    },
+    {
+      "id": "U-T4-03",
+      "value": "formal_preflight_unverified",
+      "reason": "No authorized FinQA/formal manifest exists in this B0 run; the special qualification semantics were preserved rather than generalized."
+    },
+    {
+      "id": "U-T4-04",
+      "value": "sealed_set_not_enabled",
+      "reason": "T1 v3 remains development/calibration only; the planned 24/24/24 population was not constructed."
+    },
+    {
+      "id": "U-T4-05",
+      "value": "independent_t4_acceptance",
+      "reason": "Loop A cannot self-fill ACCEPTED; this package is UNREVIEWED pending Loop C."
+    },
+    {
+      "id": "U-T4-06",
+      "value": "execution_policy_suffix_mismatch",
+      "reason": "Dispatch prose names execution_policy.json, while the T4 card and repository provide execution_policy.md; the canonical .md path is bound."
+    }
+  ]
+}

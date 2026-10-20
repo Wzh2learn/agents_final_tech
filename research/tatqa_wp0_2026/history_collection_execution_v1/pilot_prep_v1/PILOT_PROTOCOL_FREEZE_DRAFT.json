@@ -1,0 +1,1372 @@
+{
+  "schema": "pilot_protocol_freeze_draft_v1",
+  "status": "READY_FOR_PILOT_BUNDLE",
+  "measurement_scope": "restricted table calculation: whether real experience improves tool operation, result consumption, and final answer",
+  "arms": {
+    "B0": {
+      "extra_context": null
+    },
+    "R": {
+      "extra_context": "Use only the supplied row and two periods. Compute signed difference as late minus early. Preserve the stated unit. Use the exact calculator tool and consume its actual return. Return the frozen JSON contract."
+    },
+    "C": {
+      "extra_context": "Financial tables may use parentheses for negatives and may place units in headers or neighboring cells. A percentage-change column is not an absolute currency or quantity column. Keep source and target units explicit and do not substitute values from outside the supplied evidence."
+    },
+    "U": {
+      "extra_context_source": "two unfiltered qualifying real experiences",
+      "must_not_include": [
+        "future answers",
+        "test feedback",
+        "hidden references"
+      ]
+    },
+    "E": {
+      "extra_context_source": "two evidence-qualified experiences from the same pool",
+      "must_not_include": [
+        "future answers",
+        "test feedback",
+        "hidden references"
+      ]
+    }
+  },
+  "context_hashes": {
+    "R": "d5a77e89bd90fb652b5574ec85ab9a103c9fc7693d8e5d96201dca14ba97788a",
+    "C": "4e5f67b3543c9eba8cfb4f3bdae0c3346e38c1f1f068380a93103bd71e85e262"
+  },
+  "experience_contract": {
+    "minimum_chain": [
+      "frozen_task",
+      "actor_plan",
+      "actual_tool_execution",
+      "actor_consume",
+      "independent_feedback",
+      "recorded_followup_or_declared_no_followup",
+      "complete_raw"
+    ],
+    "u_eligibility": [
+      "source_and_permissions_valid",
+      "raw_request_response_correspondence_valid",
+      "actual_tool_trace_present",
+      "not_fixture"
+    ],
+    "e_additional_eligibility": [
+      "feedback_supports_the_lesson",
+      "lesson_target_matches_the_new_task",
+      "applicability_boundary_is_explicit",
+      "selection_does_not_use_final_success_or_future_answers"
+    ],
+    "context_format": {
+      "experiences_per_task": 2,
+      "same_schema_for_u_e": true,
+      "same_order_rule_for_u_e": true,
+      "length_match_tolerance_fraction": 0.05,
+      "extra_context_token_cap": 2048
+    },
+    "stop_if_all_filtered_experiences_make_u_e_identical": true
+  },
+  "pilot_budget": {
+    "request_cap": 160,
+    "token_cap": 1700000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "tasks": 16,
+    "arms": 5,
+    "requests_per_task_arm": 2
+  },
+  "cumulative_research_budget": {
+    "request_cap": 228,
+    "token_cap": 2450000,
+    "already_used_requests": 14,
+    "already_accounted_tokens": 123488,
+    "scheduled_collection_request_cap": 54,
+    "scheduled_collection_token_cap": 600000,
+    "pilot_request_cap": 160,
+    "pilot_token_cap": 1700000,
+    "failed_requests_remain_in_ledger": true,
+    "fixtures_are_not_scientific_samples": true
+  },
+  "order_seed": "history-pilot-five-arm-order-20261019",
+  "request_slots": [
+    {
+      "request_key": "plan|F01|B0",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 0
+    },
+    {
+      "request_key": "consume|F01|B0",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 0
+    },
+    {
+      "request_key": "plan|F01|R",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 0
+    },
+    {
+      "request_key": "consume|F01|R",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 0
+    },
+    {
+      "request_key": "plan|F01|C",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 0
+    },
+    {
+      "request_key": "consume|F01|C",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 0
+    },
+    {
+      "request_key": "plan|F01|U",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 0
+    },
+    {
+      "request_key": "consume|F01|U",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 0
+    },
+    {
+      "request_key": "plan|F01|E",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 0
+    },
+    {
+      "request_key": "consume|F01|E",
+      "task_id": "F01",
+      "cluster_id": "cluster_1340",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 0
+    },
+    {
+      "request_key": "plan|F02|R",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 1
+    },
+    {
+      "request_key": "consume|F02|R",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 1
+    },
+    {
+      "request_key": "plan|F02|C",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 1
+    },
+    {
+      "request_key": "consume|F02|C",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 1
+    },
+    {
+      "request_key": "plan|F02|U",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 1
+    },
+    {
+      "request_key": "consume|F02|U",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 1
+    },
+    {
+      "request_key": "plan|F02|E",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 1
+    },
+    {
+      "request_key": "consume|F02|E",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 1
+    },
+    {
+      "request_key": "plan|F02|B0",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 1
+    },
+    {
+      "request_key": "consume|F02|B0",
+      "task_id": "F02",
+      "cluster_id": "cluster_1340",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 1
+    },
+    {
+      "request_key": "plan|F03|C",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 2
+    },
+    {
+      "request_key": "consume|F03|C",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 2
+    },
+    {
+      "request_key": "plan|F03|U",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 2
+    },
+    {
+      "request_key": "consume|F03|U",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 2
+    },
+    {
+      "request_key": "plan|F03|E",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 2
+    },
+    {
+      "request_key": "consume|F03|E",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 2
+    },
+    {
+      "request_key": "plan|F03|B0",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 2
+    },
+    {
+      "request_key": "consume|F03|B0",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 2
+    },
+    {
+      "request_key": "plan|F03|R",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 2
+    },
+    {
+      "request_key": "consume|F03|R",
+      "task_id": "F03",
+      "cluster_id": "cluster_0306",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 2
+    },
+    {
+      "request_key": "plan|F04|U",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 3
+    },
+    {
+      "request_key": "consume|F04|U",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 3
+    },
+    {
+      "request_key": "plan|F04|E",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 3
+    },
+    {
+      "request_key": "consume|F04|E",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 3
+    },
+    {
+      "request_key": "plan|F04|B0",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 3
+    },
+    {
+      "request_key": "consume|F04|B0",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 3
+    },
+    {
+      "request_key": "plan|F04|R",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 3
+    },
+    {
+      "request_key": "consume|F04|R",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 3
+    },
+    {
+      "request_key": "plan|F04|C",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 3
+    },
+    {
+      "request_key": "consume|F04|C",
+      "task_id": "F04",
+      "cluster_id": "cluster_0306",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 3
+    },
+    {
+      "request_key": "plan|F05|E",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 4
+    },
+    {
+      "request_key": "consume|F05|E",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 4
+    },
+    {
+      "request_key": "plan|F05|B0",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 4
+    },
+    {
+      "request_key": "consume|F05|B0",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 4
+    },
+    {
+      "request_key": "plan|F05|R",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 4
+    },
+    {
+      "request_key": "consume|F05|R",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 4
+    },
+    {
+      "request_key": "plan|F05|C",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 4
+    },
+    {
+      "request_key": "consume|F05|C",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 4
+    },
+    {
+      "request_key": "plan|F05|U",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 4
+    },
+    {
+      "request_key": "consume|F05|U",
+      "task_id": "F05",
+      "cluster_id": "cluster_0615",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 4
+    },
+    {
+      "request_key": "plan|F06|B0",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 5
+    },
+    {
+      "request_key": "consume|F06|B0",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 5
+    },
+    {
+      "request_key": "plan|F06|R",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 5
+    },
+    {
+      "request_key": "consume|F06|R",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 5
+    },
+    {
+      "request_key": "plan|F06|C",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 5
+    },
+    {
+      "request_key": "consume|F06|C",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 5
+    },
+    {
+      "request_key": "plan|F06|U",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 5
+    },
+    {
+      "request_key": "consume|F06|U",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 5
+    },
+    {
+      "request_key": "plan|F06|E",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 5
+    },
+    {
+      "request_key": "consume|F06|E",
+      "task_id": "F06",
+      "cluster_id": "cluster_0615",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 5
+    },
+    {
+      "request_key": "plan|F07|R",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 6
+    },
+    {
+      "request_key": "consume|F07|R",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 6
+    },
+    {
+      "request_key": "plan|F07|C",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 6
+    },
+    {
+      "request_key": "consume|F07|C",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 6
+    },
+    {
+      "request_key": "plan|F07|U",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 6
+    },
+    {
+      "request_key": "consume|F07|U",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 6
+    },
+    {
+      "request_key": "plan|F07|E",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 6
+    },
+    {
+      "request_key": "consume|F07|E",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 6
+    },
+    {
+      "request_key": "plan|F07|B0",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 6
+    },
+    {
+      "request_key": "consume|F07|B0",
+      "task_id": "F07",
+      "cluster_id": "cluster_0978",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 6
+    },
+    {
+      "request_key": "plan|F08|C",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 7
+    },
+    {
+      "request_key": "consume|F08|C",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 7
+    },
+    {
+      "request_key": "plan|F08|U",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 7
+    },
+    {
+      "request_key": "consume|F08|U",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 7
+    },
+    {
+      "request_key": "plan|F08|E",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 7
+    },
+    {
+      "request_key": "consume|F08|E",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 7
+    },
+    {
+      "request_key": "plan|F08|B0",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 7
+    },
+    {
+      "request_key": "consume|F08|B0",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 7
+    },
+    {
+      "request_key": "plan|F08|R",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 7
+    },
+    {
+      "request_key": "consume|F08|R",
+      "task_id": "F08",
+      "cluster_id": "cluster_0978",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 7
+    },
+    {
+      "request_key": "plan|F09|U",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 8
+    },
+    {
+      "request_key": "consume|F09|U",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 8
+    },
+    {
+      "request_key": "plan|F09|E",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 8
+    },
+    {
+      "request_key": "consume|F09|E",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 8
+    },
+    {
+      "request_key": "plan|F09|B0",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 8
+    },
+    {
+      "request_key": "consume|F09|B0",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 8
+    },
+    {
+      "request_key": "plan|F09|R",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 8
+    },
+    {
+      "request_key": "consume|F09|R",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 8
+    },
+    {
+      "request_key": "plan|F09|C",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 8
+    },
+    {
+      "request_key": "consume|F09|C",
+      "task_id": "F09",
+      "cluster_id": "cluster_1724",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 8
+    },
+    {
+      "request_key": "plan|F10|E",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 9
+    },
+    {
+      "request_key": "consume|F10|E",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 9
+    },
+    {
+      "request_key": "plan|F10|B0",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 9
+    },
+    {
+      "request_key": "consume|F10|B0",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 9
+    },
+    {
+      "request_key": "plan|F10|R",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 9
+    },
+    {
+      "request_key": "consume|F10|R",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 9
+    },
+    {
+      "request_key": "plan|F10|C",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 9
+    },
+    {
+      "request_key": "consume|F10|C",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 9
+    },
+    {
+      "request_key": "plan|F10|U",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 9
+    },
+    {
+      "request_key": "consume|F10|U",
+      "task_id": "F10",
+      "cluster_id": "cluster_1724",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 9
+    },
+    {
+      "request_key": "plan|F11|B0",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 10
+    },
+    {
+      "request_key": "consume|F11|B0",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 10
+    },
+    {
+      "request_key": "plan|F11|R",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 10
+    },
+    {
+      "request_key": "consume|F11|R",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 10
+    },
+    {
+      "request_key": "plan|F11|C",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 10
+    },
+    {
+      "request_key": "consume|F11|C",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 10
+    },
+    {
+      "request_key": "plan|F11|U",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 10
+    },
+    {
+      "request_key": "consume|F11|U",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 10
+    },
+    {
+      "request_key": "plan|F11|E",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 10
+    },
+    {
+      "request_key": "consume|F11|E",
+      "task_id": "F11",
+      "cluster_id": "cluster_1628",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 10
+    },
+    {
+      "request_key": "plan|F12|R",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 11
+    },
+    {
+      "request_key": "consume|F12|R",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 11
+    },
+    {
+      "request_key": "plan|F12|C",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 11
+    },
+    {
+      "request_key": "consume|F12|C",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 11
+    },
+    {
+      "request_key": "plan|F12|U",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 11
+    },
+    {
+      "request_key": "consume|F12|U",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 11
+    },
+    {
+      "request_key": "plan|F12|E",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 11
+    },
+    {
+      "request_key": "consume|F12|E",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 11
+    },
+    {
+      "request_key": "plan|F12|B0",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 11
+    },
+    {
+      "request_key": "consume|F12|B0",
+      "task_id": "F12",
+      "cluster_id": "cluster_1628",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 11
+    },
+    {
+      "request_key": "plan|F13|C",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 12
+    },
+    {
+      "request_key": "consume|F13|C",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 12
+    },
+    {
+      "request_key": "plan|F13|U",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 12
+    },
+    {
+      "request_key": "consume|F13|U",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 12
+    },
+    {
+      "request_key": "plan|F13|E",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 12
+    },
+    {
+      "request_key": "consume|F13|E",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 12
+    },
+    {
+      "request_key": "plan|F13|B0",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 12
+    },
+    {
+      "request_key": "consume|F13|B0",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 12
+    },
+    {
+      "request_key": "plan|F13|R",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 12
+    },
+    {
+      "request_key": "consume|F13|R",
+      "task_id": "F13",
+      "cluster_id": "cluster_2060",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 12
+    },
+    {
+      "request_key": "plan|F14|U",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 13
+    },
+    {
+      "request_key": "consume|F14|U",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 13
+    },
+    {
+      "request_key": "plan|F14|E",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 13
+    },
+    {
+      "request_key": "consume|F14|E",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 13
+    },
+    {
+      "request_key": "plan|F14|B0",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 13
+    },
+    {
+      "request_key": "consume|F14|B0",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 13
+    },
+    {
+      "request_key": "plan|F14|R",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 13
+    },
+    {
+      "request_key": "consume|F14|R",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 13
+    },
+    {
+      "request_key": "plan|F14|C",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 13
+    },
+    {
+      "request_key": "consume|F14|C",
+      "task_id": "F14",
+      "cluster_id": "cluster_2060",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 13
+    },
+    {
+      "request_key": "plan|F15|E",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 14
+    },
+    {
+      "request_key": "consume|F15|E",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 14
+    },
+    {
+      "request_key": "plan|F15|B0",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 14
+    },
+    {
+      "request_key": "consume|F15|B0",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 14
+    },
+    {
+      "request_key": "plan|F15|R",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 14
+    },
+    {
+      "request_key": "consume|F15|R",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 14
+    },
+    {
+      "request_key": "plan|F15|C",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 14
+    },
+    {
+      "request_key": "consume|F15|C",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 14
+    },
+    {
+      "request_key": "plan|F15|U",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 14
+    },
+    {
+      "request_key": "consume|F15|U",
+      "task_id": "F15",
+      "cluster_id": "cluster_1642",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 14
+    },
+    {
+      "request_key": "plan|F16|B0",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "B0",
+      "stage": "plan",
+      "task_position": 15
+    },
+    {
+      "request_key": "consume|F16|B0",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "B0",
+      "stage": "consume",
+      "task_position": 15
+    },
+    {
+      "request_key": "plan|F16|R",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "R",
+      "stage": "plan",
+      "task_position": 15
+    },
+    {
+      "request_key": "consume|F16|R",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "R",
+      "stage": "consume",
+      "task_position": 15
+    },
+    {
+      "request_key": "plan|F16|C",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "C",
+      "stage": "plan",
+      "task_position": 15
+    },
+    {
+      "request_key": "consume|F16|C",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "C",
+      "stage": "consume",
+      "task_position": 15
+    },
+    {
+      "request_key": "plan|F16|U",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "U",
+      "stage": "plan",
+      "task_position": 15
+    },
+    {
+      "request_key": "consume|F16|U",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "U",
+      "stage": "consume",
+      "task_position": 15
+    },
+    {
+      "request_key": "plan|F16|E",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "E",
+      "stage": "plan",
+      "task_position": 15
+    },
+    {
+      "request_key": "consume|F16|E",
+      "task_id": "F16",
+      "cluster_id": "cluster_1642",
+      "arm": "E",
+      "stage": "consume",
+      "task_position": 15
+    }
+  ],
+  "unresolved_task_ids": []
+}

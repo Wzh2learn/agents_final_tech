@@ -1,0 +1,93 @@
+{
+  "authorization": "ONLINE_NOT_AUTHORIZED",
+  "blockers": [],
+  "boundaries": {
+    "b0_r_c_h_runs": 0,
+    "current_b0_failures_inspected": false,
+    "expected_errors_inspected": false,
+    "model_outputs_inspected": false,
+    "old_tasks_or_results_modified": false,
+    "report_disjointness_claimed": false
+  },
+  "checks": [
+    {
+      "detail": "Train and dev SHA-256 match EXPOSURE_AND_SPLIT_AUDIT.json and FETCH_RECEIPT.txt.",
+      "name": "raw_source_hash_verification",
+      "result": "PASS"
+    },
+    {
+      "detail": "2443 clusters; 42 reserve clusters satisfy frozen structure and exposure rules.",
+      "name": "cluster_exposure_count_reconciliation",
+      "result": "PASS"
+    },
+    {
+      "detail": "All actor tasks pass recursive forbidden-key and hidden-marker checks.",
+      "name": "actor_hidden_field_separation",
+      "result": "PASS"
+    },
+    {
+      "detail": "Focused tests cover wrong row, wrong period, reversed sign, wrong unit, missing cells, ambiguity, hidden leakage, and answer/tool inconsistency.",
+      "name": "negative_checker_tests",
+      "result": "PASS"
+    },
+    {
+      "detail": "Every stored reference recomputes from frozen source cells.",
+      "name": "deterministic_reference_recomputation",
+      "result": "PASS"
+    },
+    {
+      "detail": "Core source, task, and hidden payloads are byte-canonical identical.",
+      "name": "two_run_manifest_determinism",
+      "result": "PASS"
+    },
+    {
+      "detail": "9 focused unittest cases passed.",
+      "name": "focused_unittest",
+      "result": "PASS"
+    },
+    {
+      "detail": "0 items require AI-to-human semantic conversion; all selected items are deterministic by frozen structure.",
+      "name": "human_adjudication_count",
+      "result": "PASS"
+    }
+  ],
+  "classification_policy": {
+    "EXCLUDE_SOURCE_OR_EXPOSURE": 0,
+    "REFERENCE_VALID_DETERMINISTIC": 32,
+    "REQUIRES_HUMAN_SEMANTIC_ADJUDICATION": 0,
+    "UNSCORABLE_FOR_REFERENCE": 0,
+    "ai_can_convert_human_adjudication_to_gold": false
+  },
+  "cost": {
+    "actor_calls": 0,
+    "database_calls": 0,
+    "model_or_judge_calls": 0,
+    "online_requests": 0,
+    "pilot_calls": 0,
+    "service_calls": 0,
+    "training_calls": 0
+  },
+  "counts": {
+    "development_clusters": 8,
+    "development_tasks": 16,
+    "excluded": 0,
+    "future_clusters": 8,
+    "future_tasks": 16,
+    "human_adjudication_required": 0,
+    "reference_valid": 32,
+    "unscorable": 0
+  },
+  "focused_test_result": {
+    "command": "/usr/bin/python3 -m unittest discover -s /home/testuser/wzh/projects/agents_final_tech/research/tatqa_candidate_b_qualification_v1/tests -p test_candidate_b_reference_checker_v1.py -v",
+    "result": "PASS",
+    "returncode": 0,
+    "test_count": 9
+  },
+  "schema": "tatqa_candidate_b_qualification_v1",
+  "shortfall": {
+    "development": 0,
+    "future_validation": 0
+  },
+  "status": "CANDIDATE_B_QUALIFIED_OFFLINE",
+  "task_id": "tatqa-candidate-b-qualification-a-20261019"
+}

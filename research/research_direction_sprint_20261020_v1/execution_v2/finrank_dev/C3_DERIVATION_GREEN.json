@@ -1,0 +1,61 @@
+{
+  "schema": "finrank_c3_derivation_red_green_v1",
+  "phase": "green",
+  "status": "PASS",
+  "expected": {
+    "false_pair_consistent": false,
+    "explicit_derivation_consistent": true
+  },
+  "observed": {
+    "false_pair_consistent": false,
+    "explicit_derivation_consistent": true
+  },
+  "false_pair": {
+    "consistent": false,
+    "cited_absent_ids": [],
+    "unsupported_numeric_values": [
+      11.97
+    ],
+    "unsupported_facts": [
+      {
+        "label": "gross margin",
+        "value": 11.97,
+        "mode": "EXPLICIT_REFERENCE_DERIVATION",
+        "detail": {
+          "target_atom": "derived_gross_margin",
+          "reason": "operand_value_absent_from_returned_evidence",
+          "operand_atom": "automotive_revenue",
+          "operand_value": 171606
+        }
+      }
+    ],
+    "derivation_checks": [
+      {
+        "target_atom": "derived_gross_margin",
+        "reason": "operand_value_absent_from_returned_evidence",
+        "operand_atom": "automotive_revenue",
+        "operand_value": 171606
+      }
+    ]
+  },
+  "explicit_derivation": {
+    "consistent": true,
+    "cited_absent_ids": [],
+    "unsupported_numeric_values": [],
+    "unsupported_facts": [],
+    "derivation_checks": [
+      {
+        "target_atom": "derived_gross_margin",
+        "operator": "MARGIN_PERCENT_FROM_REVENUE_AND_COST",
+        "formula": "(automotive_revenue - automotive_other_cost) / automotive_revenue * 100",
+        "operand_values": {
+          "automotive_revenue": 171606.0,
+          "automotive_other_cost": 151065.0
+        },
+        "calculated": 11.969861193664558,
+        "target": 11.97
+      }
+    ]
+  },
+  "generation_requests": 0
+}

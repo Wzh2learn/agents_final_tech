@@ -1,0 +1,62 @@
+{
+  "schema": "finrank_runtime_identity_override_v1",
+  "status": "BOUND_TRANSPORT_OVERRIDE_MODEL_IDENTITY_UNCHANGED",
+  "source_runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "transport_override": {
+    "from": "http://127.0.0.1:8004",
+    "to": "http://127.0.0.1:18004",
+    "reason": "Windows reserved-port range prevents local 8004 binding; SSH forwarding maps 127.0.0.1:18004 to GB10 service 8004."
+  },
+  "identity": {
+    "model": {
+      "model_id": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "path": "/home/testuser/.lmstudio/models/lmstudio-community/Qwen3.6-35B-A3B-GGUF/Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d",
+      "bytes": 21166757728
+    },
+    "tokenizer": {
+      "binding": "embedded_in_model_artifact",
+      "separate_tokenizer_file": null,
+      "bound_by_model_sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d"
+    },
+    "chat_template": {
+      "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "length": 7764,
+      "source": "service_props.body_text.chat_template"
+    },
+    "server_binary": {
+      "path": "/home/testuser/.lmstudio/llmster/0.0.14-2/.bundle/bin/extensions/backends/llama.cpp-linux-arm64-nvidia-cuda13-2.16.0/llama-server",
+      "sha256": "037e02419e78256ed4227af31fc0b2602ff04c670fb7ad4fa2429fafb03bd55d",
+      "bytes": 2037000
+    },
+    "generation": {
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 1,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "stream": false,
+      "seed": 20261018,
+      "max_tokens": 256,
+      "response_format": {
+        "type": "json_object"
+      }
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "limits": {
+      "input_tokens_max": 8192,
+      "output_tokens_max": 2048,
+      "request_timeout_seconds": 120,
+      "request_cap": 54,
+      "token_cap": 600000,
+      "per_request_reserve_tokens": 10240,
+      "retry_cap": 0,
+      "concurrency": 1,
+      "window_minutes_max": 90
+    },
+    "base_url": "http://127.0.0.1:18004",
+    "api_path": "/v1/chat/completions"
+  }
+}

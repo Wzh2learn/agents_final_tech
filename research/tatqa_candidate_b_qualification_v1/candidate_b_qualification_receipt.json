@@ -1,0 +1,252 @@
+{
+  "authorization": "ONLINE_NOT_AUTHORIZED",
+  "blockers": [],
+  "checks": [
+    {
+      "detail": "Train and dev SHA-256 match EXPOSURE_AND_SPLIT_AUDIT.json and FETCH_RECEIPT.txt.",
+      "name": "raw_source_hash_verification",
+      "result": "PASS"
+    },
+    {
+      "detail": "2443 clusters; 42 reserve clusters satisfy frozen structure and exposure rules.",
+      "name": "cluster_exposure_count_reconciliation",
+      "result": "PASS"
+    },
+    {
+      "detail": "All actor tasks pass recursive forbidden-key and hidden-marker checks.",
+      "name": "actor_hidden_field_separation",
+      "result": "PASS"
+    },
+    {
+      "detail": "Focused tests cover wrong row, wrong period, reversed sign, wrong unit, missing cells, ambiguity, hidden leakage, and answer/tool inconsistency.",
+      "name": "negative_checker_tests",
+      "result": "PASS"
+    },
+    {
+      "detail": "Every stored reference recomputes from frozen source cells.",
+      "name": "deterministic_reference_recomputation",
+      "result": "PASS"
+    },
+    {
+      "detail": "Core source, task, and hidden payloads are byte-canonical identical.",
+      "name": "two_run_manifest_determinism",
+      "result": "PASS"
+    },
+    {
+      "detail": "9 focused unittest cases passed.",
+      "name": "focused_unittest",
+      "result": "PASS"
+    },
+    {
+      "detail": "0 items require AI-to-human semantic conversion; all selected items are deterministic by frozen structure.",
+      "name": "human_adjudication_count",
+      "result": "PASS"
+    }
+  ],
+  "cost": {
+    "actor_calls": 0,
+    "database_calls": 0,
+    "model_or_judge_calls": 0,
+    "online_requests": 0,
+    "pilot_calls": 0,
+    "service_calls": 0,
+    "training_calls": 0
+  },
+  "counts": {
+    "development_clusters": 8,
+    "development_tasks": 16,
+    "excluded": 0,
+    "future_clusters": 8,
+    "future_tasks": 16,
+    "human_adjudication_required": 0,
+    "reference_valid": 32,
+    "unscorable": 0
+  },
+  "package_artifacts": [
+    {
+      "bytes": 1086433,
+      "exists": true,
+      "path": "SOURCE_EXPOSURE_QUALIFICATION.json",
+      "sha256": "39045142db73586504e0504b0f7e2ad73bbabd373075d57ae2d5aca9e94bdfaa"
+    },
+    {
+      "bytes": 44309,
+      "exists": true,
+      "path": "CANDIDATE_B_TASKS_DRAFT.json",
+      "sha256": "aee23bdc350d37390d95a8714aa7a1a55c0a94116b12251e11ca6a3dfba0e8ec"
+    },
+    {
+      "bytes": 57526,
+      "exists": true,
+      "path": "HIDDEN_REFERENCE_MANIFEST.json",
+      "sha256": "78260e0c3f51ef260f5045fcbf4ebca585986afbfc9faac3c0eee5751947a94b"
+    },
+    {
+      "bytes": 52379,
+      "exists": true,
+      "path": "candidate_b_reference_checker_v1.py",
+      "sha256": "300224d150596a064b5bb3a9f284502c31a8646f4af5833d734053fb1fa3e24a"
+    },
+    {
+      "bytes": 5218,
+      "exists": true,
+      "path": "tests/test_candidate_b_reference_checker_v1.py",
+      "sha256": "5a7de870bb690dd9ac189da59418cd327048b71c2dbd3bf9bf5de813db4ba0dc"
+    },
+    {
+      "bytes": 2983,
+      "exists": true,
+      "path": "QUALIFICATION_SUMMARY.json",
+      "sha256": "ee1023040413a71442696dd24749c459f8512d1b99a5fe3af1a2a45833a8e810"
+    },
+    {
+      "bytes": 1089,
+      "exists": true,
+      "path": "LOOP_A_RETURN.md",
+      "sha256": "bededa1b737307e2ca565ee7aa00a4ae24edae637a95188657a1dbff336ea273"
+    }
+  ],
+  "raw_sources": [
+    {
+      "bytes": 12845647,
+      "exists": true,
+      "path": "data/research/tatqa_raw_2026/tatqa_dataset_train.json",
+      "sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69"
+    },
+    {
+      "bytes": 1637431,
+      "exists": true,
+      "path": "data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+      "sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+    }
+  ],
+  "reused_source_exposure_and_cluster_artifacts": [
+    {
+      "bytes": 431,
+      "exists": true,
+      "path": "data/research/tatqa_raw_2026/FETCH_RECEIPT.txt",
+      "sha256": "7921a6f02aef98709d4c69883319383e49809e930df179d3b510a81921552ad9"
+    },
+    {
+      "bytes": 180,
+      "exists": true,
+      "path": "data/research/tatqa_raw_2026/FETCH_RECEIPT.sha256",
+      "sha256": "7d7bb40980b3ca51c939108b412bc851c97696d20eb35179757120776eadea8c"
+    },
+    {
+      "bytes": 83218,
+      "exists": true,
+      "path": "data/research/tatqa_wp0_2026/origin_manifest.json",
+      "sha256": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea"
+    },
+    {
+      "bytes": 559342,
+      "exists": true,
+      "path": "data/research/tatqa_wp0_2026/candidate_items_v2.json",
+      "sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa"
+    },
+    {
+      "bytes": 1941,
+      "exists": true,
+      "path": "data/research/tatqa_wp0_2026/wp2_split_dryrun_receipt.json",
+      "sha256": "4a95fff77d77ea86a492736864149a6013a94b031115cbaf0539f3bb3457f356"
+    },
+    {
+      "bytes": 461948,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_offline_v1/SOURCE_CLUSTERS.json",
+      "sha256": "12bb9d0fcee6b7f3e5c2842a29404a8fc5262beb6a417255a2a5a777d7e4890e"
+    },
+    {
+      "bytes": 135937,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_offline_v1/SPLIT_PROPOSAL.json",
+      "sha256": "287b6c6acda66b550b5f65c998e87b1fabcb766779897145ec3b7b4bae1c0e72"
+    },
+    {
+      "bytes": 2872618,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_offline_v1/EXPOSURE_AND_SPLIT_AUDIT.json",
+      "sha256": "29a793ca092aa1b8a345ec20e5f208a37e161e3eb112e91e757565ae2ebed46f"
+    },
+    {
+      "bytes": 19088,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_offline_v1/LOOP_C_SPLIT_DELTA_REAUDIT.md",
+      "sha256": "8cc2beeb15ef45f29e029f851efb7e0b7f47c79e33e0180a45a26c568bd94630"
+    },
+    {
+      "bytes": 85871,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_offline_v1/LOOP_C_PROGRAM_EXPOSURE_REVIEW.md",
+      "sha256": "85ac9f3f82222b5acd92dbe4035c8e19d43c1d44962579b3e9d2f6b6251733ff"
+    },
+    {
+      "bytes": 1941,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/WP2_SPLIT_DRYRUN_RECEIPT.json",
+      "sha256": "4a95fff77d77ea86a492736864149a6013a94b031115cbaf0539f3bb3457f356"
+    },
+    {
+      "bytes": 73112,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_execution_v1/TASK_REFERENCE_MANIFEST.json",
+      "sha256": "5be130d7d6c3514862ad44149ec61b95ba68c8d83178e259aa7da90904633db6"
+    },
+    {
+      "bytes": 5736,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_execution_v1/PRE_COLLECTION_EXECUTION_BUNDLE.json",
+      "sha256": "a375334da31fee25b638e40477220819678c50a586987f27adfa37f1c2ff3d4c"
+    },
+    {
+      "bytes": 1426,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_execution_v1/MANIFEST_COMPARISON.json",
+      "sha256": "477105ff015b891d7565c37da5909eed19db99ba18345a814489e05f405a2acf"
+    },
+    {
+      "bytes": 1036,
+      "exists": true,
+      "path": "research/tatqa_wp0_2026/history_collection_execution_v1/RUN_DISPATCH_RECEIPT.json",
+      "sha256": "a4eacb2a14e1bb1fd256eb23d11f463d6d27b83850305bc20df08fad655b1751"
+    }
+  ],
+  "schema": "tatqa_candidate_b_qualification_v1",
+  "status": "CANDIDATE_B_QUALIFIED_OFFLINE",
+  "task_card_and_design_inputs": [
+    {
+      "bytes": 14418,
+      "exists": true,
+      "path": "research/paper_e_contribution_reassessment_v1/REUSE_TASK_REDESIGN.md",
+      "sha256": "4c6b1778ea50f4f39f2f4b4619c83f2a6100aaed13e68754eb92f9af875d24ff"
+    },
+    {
+      "bytes": 8612,
+      "exists": true,
+      "path": "research/paper_e_contribution_reassessment_v1/NEXT_DEVELOPMENT_RUN_CARD_DRAFT.md",
+      "sha256": "2f94897ab67821358bb818af6c0e0135fbc8ee7bec39cdea942778e4009ce277"
+    }
+  ],
+  "task_id": "tatqa-candidate-b-qualification-a-20261019",
+  "task_selection_rule": {
+    "payload": {
+      "allocation": "first eight development; next eight future validation",
+      "eligibility": [
+        "reserve role only; all old development/history/future-test roles are excluded",
+        "effective exposure is PROGRAMMATIC_ONLY",
+        "exactly one cluster member has a structurally eligible frozen table",
+        "same table supplies all candidate and distractor rows",
+        "latest two unambiguous year-labelled period columns are identifiable",
+        "at least two body rows have unique labels and numeric same-unit cells in both periods",
+        "tasks use the first two eligible row coordinates; no model output, expected error, or observed failure is read"
+      ],
+      "label_blind": true,
+      "order": "ascending sha256(seed:cluster_id)",
+      "sign_convention": "late - early",
+      "source_structure_only": true
+    },
+    "rule_id": "candidate_b_source_structure_only_v1",
+    "sha256": "6065435b6846d47d019fe883b3ee14bb617b5c82406553a39b2276d24a694b12"
+  }
+}

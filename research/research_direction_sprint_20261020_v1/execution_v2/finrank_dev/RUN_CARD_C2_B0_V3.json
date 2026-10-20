@@ -1,0 +1,87 @@
+{
+  "schema": "finrank_c2_run_card_b0_v3_v1",
+  "status": "FROZEN_BEFORE_C2_FIXTURES",
+  "owner_authorization": "C2 targeted correction delegated by Loop D; B0 V3 limited to 14 requests after fixtures.",
+  "root_cause": "C2_ROOT_CAUSE.md",
+  "plan_time_visibility": {
+    "policy": "FULL_VISIBLE_CANDIDATES_AT_PLAN",
+    "visible_fields": [
+      "candidate_id",
+      "text",
+      "page_number",
+      "visible_source_scope"
+    ],
+    "shared_by": [
+      "B0_ACTOR",
+      "DETERMINISTIC_STRONG_RULE"
+    ],
+    "evidence_lookup_role": "Return selected original records in request order; consume may cite only IDs from the actual return."
+  },
+  "reference_version": "REFERENCES_V2.json",
+  "reference_change_scope": "ESD_006_REQUIRED_ANSWER_ATOMS_ONLY",
+  "endpoint_transport_override": "http://127.0.0.1:18004",
+  "model_identity_unchanged": true,
+  "generation_policy": {
+    "model_id": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "model_sha256": "4ac6a06bce551257267f49ad2226f8671a22519ccc1a4dde9d5b433d1f2a410d",
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "generation": {
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 1,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "stream": false,
+      "seed": 20261018,
+      "max_tokens": 256,
+      "response_format": {
+        "type": "json_object"
+      }
+    },
+    "retry_cap": 0,
+    "concurrency": 1
+  },
+  "b0": {
+    "tasks": [
+      "ESD_001",
+      "ESD_002",
+      "ESD_003",
+      "ESD_004",
+      "ESD_006",
+      "ESD_010",
+      "ESD_012"
+    ],
+    "stages_per_task": [
+      "plan",
+      "consume"
+    ],
+    "planned_generation_requests": 14,
+    "generation_request_cap": 14,
+    "run_name": "B0_V3_EQUAL_VISIBILITY",
+    "expected_prior_requests": 28,
+    "expected_total_requests_after": 42,
+    "evidence_lookup_is_local_tool_not_model_request": true
+  },
+  "strong_rule": {
+    "generation_requests": 0,
+    "uses_visible_entity_period_header_metric_and_lexical_signals": true
+  },
+  "budget": {
+    "shared_request_cap": 192,
+    "shared_token_cap": 2000000,
+    "request_token_reserve": 10240,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "production_memory_writes": 0,
+    "history_collection_requests": 0
+  },
+  "stop_rules": [
+    "Stop generation on identity drift or unreadable response.",
+    "Stop generation on actor/reference leakage.",
+    "Stop generation on raw overwrite or request identity loss.",
+    "Do not retry, replace samples or change model parameters.",
+    "No history collection or pilot is part of C2."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "candidate_b_b0_bundle_v1",
+  "status": "FROZEN_BEFORE_B0",
+  "artifact_hashes": {
+    "candidate_b_b0_runner.py": "f49c0b07e1bdc25bb4775fd18546adfdd2d4b8951550e7f83896d86e6696bf9b",
+    "build_candidate_b_b0_config.py": "47475819146939073d215a27fa2b6ad9f61c7bd29d9cbd1ff23c2b954d2c199f",
+    "CANDIDATE_B_B0_PROTOCOL.json": "1864a7a224f171ae37b469bd2143dd68ecf0fe25c33181a3522a440f2453088b",
+    "qualification/CANDIDATE_B_TASKS_DRAFT.json": "aee23bdc350d37390d95a8714aa7a1a55c0a94116b12251e11ca6a3dfba0e8ec",
+    "qualification/HIDDEN_REFERENCE_MANIFEST.json": "78260e0c3f51ef260f5045fcbf4ebca585986afbfc9faac3c0eee5751947a94b",
+    "qualification/candidate_b_qualification_receipt.json": "2dddeca2ea19f8577365cc0ce57c4451529cdd9d90570cda130041ebdca840f3",
+    "execution/reuse_opportunity_v1/DIAGNOSTIC_PLAN_PROMPT.json": "bf951c85e9d72bb00f0c78aa0a7f3f8009927d72c29cee7a06aaee9599a14f4f",
+    "execution/reuse_opportunity_v1/DIAGNOSTIC_CONSUME_PROMPT.json": "71220cfe9ec682bc41f8a579bbcbdd1268baeb3a8c5cd19001ba8fae0a91d366",
+    "execution/OUTPUT_SCHEMAS.json": "f61e045a53c3860ddb901421190098b6e02dd6adf86185d48820e0ae6fa8e353",
+    "execution/RUNTIME_IDENTITY_SNAPSHOT.json": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+    "execution/RUNTIME_POLICY.json": "14bcbc5bc7f65e0364cbd26c21276db99cc5df036f724f4178cb94a1c1c07d14"
+  },
+  "task_count": 16,
+  "planned_requests": 32,
+  "authorization": "USER_AUTHORIZED_2026-10-19"
+}

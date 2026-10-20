@@ -1,0 +1,86 @@
+{
+  "schema": "tq5_execution_snapshot_manifest_v1",
+  "created_utc": "2026-10-17T07:21:22Z",
+  "panel_id": "TQ-5",
+  "execution_root": "/home/testuser/wzh/projects/agents_final_tech/research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq5_source_validation_v1",
+  "immutable_policy": "hash-enforced; formal run and analysis must enter through tq5_snapshot_entry.py",
+  "source_files": [
+    {
+      "role": "config",
+      "source_path": "research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq5_source_validation_v1/execution_v1/chain_config_tq5.json",
+      "source_sha256": "e7fb21e9177ef901f7408aedfe40f1b57982b7cb4c8b8cddc6936b30be3992a0",
+      "snapshot_path": "chain_config_tq5_frozen.json",
+      "snapshot_sha256": "216dbb845ee03ff207301829d814e719ba2aab6b813787a3ec46798b70681f95"
+    },
+    {
+      "role": "runner",
+      "source_path": "research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/execution_v1/chain_runner.py",
+      "source_sha256": "a7fb4ae289f1def570cdedd149d0f36180508a209beaf2fb9c495a67f4f1e94c",
+      "snapshot_path": "chain_runner.py",
+      "snapshot_sha256": "a7fb4ae289f1def570cdedd149d0f36180508a209beaf2fb9c495a67f4f1e94c"
+    },
+    {
+      "role": "scorer",
+      "source_path": "research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/execution_v1/tq4_scoring_entry_v21.py",
+      "source_sha256": "6068e1dcb51913de9f1ed5b228a2f73b6c9b3478a7c838d8d1d3067726e558ab",
+      "snapshot_path": "tq4_scoring_entry_v21.py",
+      "snapshot_sha256": "6068e1dcb51913de9f1ed5b228a2f73b6c9b3478a7c838d8d1d3067726e558ab"
+    },
+    {
+      "role": "templates",
+      "source_path": "research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/run_card_v2/prompt_templates_v2.md",
+      "source_sha256": "3bfd13d409eb5b95dbd1ef6f62bd1defb1272eb463fec39f32ed4f7b11f6a13b",
+      "snapshot_path": "prompt_templates_v2.md",
+      "snapshot_sha256": "3bfd13d409eb5b95dbd1ef6f62bd1defb1272eb463fec39f32ed4f7b11f6a13b"
+    },
+    {
+      "role": "analyzer",
+      "source_path": "research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/execution_v1/chain_analyze.py",
+      "source_sha256": "40d8faf66287c1f75dae7a8df680c639108c9648ed6ca7915b437c1b67b087c9",
+      "snapshot_path": "chain_analyze.py",
+      "snapshot_sha256": "184de9dfd82430f2070292937e95bf0d2ff6805b927e562b8c1f413a484d86c3"
+    }
+  ],
+  "files": [
+    {
+      "path": "chain_analyze.py",
+      "sha256": "184de9dfd82430f2070292937e95bf0d2ff6805b927e562b8c1f413a484d86c3",
+      "bytes": 15005
+    },
+    {
+      "path": "chain_config_tq5_frozen.json",
+      "sha256": "216dbb845ee03ff207301829d814e719ba2aab6b813787a3ec46798b70681f95",
+      "bytes": 8737
+    },
+    {
+      "path": "chain_runner.py",
+      "sha256": "a7fb4ae289f1def570cdedd149d0f36180508a209beaf2fb9c495a67f4f1e94c",
+      "bytes": 38069
+    },
+    {
+      "path": "prompt_templates_v2.md",
+      "sha256": "3bfd13d409eb5b95dbd1ef6f62bd1defb1272eb463fec39f32ed4f7b11f6a13b",
+      "bytes": 3618
+    },
+    {
+      "path": "SNAPSHOT_NOTES_v1.md",
+      "sha256": "971ea635cfc8063ac609b597cab6c1f15f9bd182a00943196f1b6153c7ff38ac",
+      "bytes": 1149
+    },
+    {
+      "path": "SNAPSHOT_TEST_v1.py",
+      "sha256": "2ab5bdb9fc3dcf8b004a6737f0415732e1f1a4c7248e425106031939538ff8ee",
+      "bytes": 2088
+    },
+    {
+      "path": "tq4_scoring_entry_v21.py",
+      "sha256": "6068e1dcb51913de9f1ed5b228a2f73b6c9b3478a7c838d8d1d3067726e558ab",
+      "bytes": 9319
+    },
+    {
+      "path": "tq5_snapshot_entry.py",
+      "sha256": "6281268b111d956a70c6f8d53bddf042f7099fdf3dadefacb6b66940f306d3e5",
+      "bytes": 3201
+    }
+  ]
+}

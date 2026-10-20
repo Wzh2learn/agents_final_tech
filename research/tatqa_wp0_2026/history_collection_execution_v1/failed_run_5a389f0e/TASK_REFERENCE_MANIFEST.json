@@ -1,0 +1,2470 @@
+{
+  "schema": "task_reference_manifest_v1",
+  "status": "QUALIFIED_FOR_EXECUTION_READINESS",
+  "task_select_seed": "history-collection-execution-v1-task-select-20261018",
+  "selection_rule": "filter contract/reference validity, then sha256(seed:bucket:cluster_id:item_id) ascending",
+  "source_identity": {
+    "candidate_items_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+    "split_proposal_sha256": "287b6c6acda66b550b5f65c998e87b1fabcb766779897145ec3b7b4bae1c0e72"
+  },
+  "counts": {
+    "history": 12,
+    "future_test": 16,
+    "development": 4,
+    "qualification_fixtures": 3
+  },
+  "selection_audit": [
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0943",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_637d5671_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1052",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_6ea63cce_r2_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0810",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_5628f806_r2_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0482",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_32cfcadb_r3_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1443",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_97176853_r3_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0548",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_3ab739eb_r2_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1816",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_bcbd7783_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1978",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_ce09caff_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1744",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_b5aae4e9_r1_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_0893",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_5e60c056_r2_p1"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_1737",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_b538d340_r2_p0"
+      ]
+    },
+    {
+      "bucket": "history",
+      "cluster_id": "cluster_2147",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_e0689072_r3_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1340",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_8cbf706f_r1_p0",
+        "wp2_8cbf706f_r5_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_0306",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_20a028a0_r2_p1",
+        "wp2_20a028a0_r1_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_0615",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_41b215e5_r1_p0",
+        "wp2_41b215e5_r2_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_0978",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_66b7c6dd_r2_p0",
+        "wp2_66b7c6dd_r3_p1"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1724",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_b4129e1f_r3_p1",
+        "wp2_b4129e1f_r2_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1628",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_ab59379f_r3_p1",
+        "wp2_ab59379f_r2_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_2060",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_d7990183_r4_p1",
+        "wp2_d7990183_r2_p0"
+      ]
+    },
+    {
+      "bucket": "future_test",
+      "cluster_id": "cluster_1642",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_ac6e77fe_r3_p1",
+        "wp2_ac6e77fe_r2_p0"
+      ]
+    },
+    {
+      "bucket": "development",
+      "cluster_id": "cluster_2010",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_d21abb01_r1_p0",
+        "wp2_d21abb01_r3_p1"
+      ]
+    },
+    {
+      "bucket": "development",
+      "cluster_id": "cluster_2096",
+      "qualified_candidates": 2,
+      "selected_item_ids": [
+        "wp2_daf81839_r3_p1",
+        "wp2_daf81839_r2_p0"
+      ]
+    }
+  ],
+  "rejected_candidates": [],
+  "tasks": [
+    {
+      "task_id": "H01",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H01",
+        "task": {
+          "row_label": "Revenue losses – UK",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Revenue losses – UK",
+              "300.8",
+              "398.4"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_637d5671_r1_p0",
+        "source_uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+        "source_cluster_id": "cluster_0943",
+        "selection_rank": "1b30b351f36b4d2ab742a87b988bbba7feef8a76934d0835f34b7f84bfd8c95d",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 97.59999999999997,
+          "delta_target": 97.59999999999997,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 97.6
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H02",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H02",
+        "task": {
+          "row_label": "Share of post-tax (loss)/profit of associates",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Share of post-tax (loss)/profit of associates",
+              "2.3",
+              "(0.3)"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_6ea63cce_r2_p1",
+        "source_uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+        "source_cluster_id": "cluster_1052",
+        "selection_rank": "13ea1cae2c24bb3bb1a811918809bdf4252987f9c2f099cbfc02d738f064b9c2",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -2.5999999999999996,
+          "delta_target": -2.5999999999999996,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -2.6
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H03",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H03",
+        "task": {
+          "row_label": "Depreciation",
+          "period_late": "2018/19",
+          "period_early": "2017/18",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017/18",
+              "2018/19"
+            ],
+            [
+              "Depreciation",
+              "(16.6)",
+              "(17.0)"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_5628f806_r2_p1",
+        "source_uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+        "source_cluster_id": "cluster_0810",
+        "selection_rank": "20541db59deea820bdb259f8f2ec24a840a04c2fe07a9a5d74d1e918f650ec94",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 2,
+          "label": "2017/18"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2018/19"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -0.3999999999999986,
+          "delta_target": -0.3999999999999986,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -0.4
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H04",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H04",
+        "task": {
+          "row_label": "ISG",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "ISG",
+              "317.1",
+              "275.4"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_32cfcadb_r3_p1",
+        "source_uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+        "source_cluster_id": "cluster_0482",
+        "selection_rank": "5b21304ef381f2fbbba15a9feec04910a9396b7e776c5c64098a282a479cd5fd",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -41.700000000000045,
+          "delta_target": -41.700000000000045,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -41.7
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H05",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H05",
+        "task": {
+          "row_label": "ISG",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "ISG",
+              "768.9",
+              "757.3"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_97176853_r3_p1",
+        "source_uid": "97176853-a81e-422a-a8c1-e0542348d051",
+        "source_cluster_id": "cluster_1443",
+        "selection_rank": "1bb4fea475a47edf50d0b13d3bda8f22327aa4c2e7b927efe4465ecce4fe8c34",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -11.600000000000023,
+          "delta_target": -11.600000000000023,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -11.6
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H06",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H06",
+        "task": {
+          "row_label": "Total vessel values including newbuildings (broker values)",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Total vessel values including newbuildings (broker values)",
+              "1,661.1",
+              "1,801.5"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_3ab739eb_r2_p0",
+        "source_uid": "3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+        "source_cluster_id": "cluster_0548",
+        "selection_rank": "61a62cb01d1f99f56244871f3044231f886cdf7ed4173edf8be916f6890ab519",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 140.4000000000001,
+          "delta_target": 140.4000000000001,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 140.4
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H07",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H07",
+        "task": {
+          "row_label": "Bell Wireless",
+          "period_late": "Q4 2019",
+          "period_early": "Q4 2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Q4 2018",
+              "Q4 2019"
+            ],
+            [
+              "Bell Wireless",
+              "2,407",
+              "2,493"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_bcbd7783_r1_p0",
+        "source_uid": "bcbd7783-86ad-430d-aa96-48808bb0426c",
+        "source_cluster_id": "cluster_1816",
+        "selection_rank": "78dfa40608aaa8b5b808f934d7ce91267e96a690bf413f03840ac725eb9b768f",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 2,
+          "label": "Q4 2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Q4 2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 86.0,
+          "delta_target": 86.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 86
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H08",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H08",
+        "task": {
+          "row_label": "Net rental income",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Net rental income",
+              "450.5",
+              "401.6"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ce09caff_r1_p0",
+        "source_uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+        "source_cluster_id": "cluster_1978",
+        "selection_rank": "944188dacb9474b5c4ae1d2cf00c82e624af7f53e48b8a68bb07423a321416c2",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 2,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -48.89999999999998,
+          "delta_target": -48.89999999999998,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -48.9
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H09",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H09",
+        "task": {
+          "row_label": "Repayable within one year",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Repayable within one year",
+              "46.7",
+              "65.8"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_b5aae4e9_r1_p0",
+        "source_uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+        "source_cluster_id": "cluster_1744",
+        "selection_rank": "1c5364353e0d56a44e2df52309e3930a882b36df3ad550da523ffd4b4bee0959",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 19.099999999999994,
+          "delta_target": 19.099999999999994,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 19.1
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H10",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H10",
+        "task": {
+          "row_label": "Three to six months",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Three to six months",
+              "3.7",
+              "10.0"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_5e60c056_r2_p1",
+        "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+        "source_cluster_id": "cluster_0893",
+        "selection_rank": "30ab87df9f4e10c4e9b324d084f3ff94922e3117c62a2950b8f7ea52ce6122c2",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 6.3,
+          "delta_target": 6.3,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 6.3
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H11",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H11",
+        "task": {
+          "row_label": "Grocery",
+          "period_late": "2018/19",
+          "period_early": "2017/18",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017/18",
+              "2018/19"
+            ],
+            [
+              "Grocery",
+              "130.0",
+              "138.3"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_b538d340_r2_p0",
+        "source_uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+        "source_cluster_id": "cluster_1737",
+        "selection_rank": "14dc8be00dc868959a37942b08953787109dfd4fe60956971b21fd70ee600601",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 2,
+          "label": "2017/18"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2018/19"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 8.300000000000011,
+          "delta_target": 8.300000000000011,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 8.3
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "H12",
+      "bucket": "history",
+      "actor_task": {
+        "item_id": "H12",
+        "task": {
+          "row_label": "Investment in associates",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Investment in associates",
+              "65.6",
+              "53.7"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_e0689072_r3_p1",
+        "source_uid": "e0689072-72ba-4979-962a-bb128539defb",
+        "source_cluster_id": "cluster_2147",
+        "selection_rank": "4a1673a6ed192a329567e826fa14dc98b1b1ee26528cc72944ccceee9a6e1418",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 2,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -11.899999999999991,
+          "delta_target": -11.899999999999991,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -11.9
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F01",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F01",
+        "task": {
+          "row_label": "Effective portion of gains/losses from cash flow hedges",
+          "period_late": "30/9/2018",
+          "period_early": "30/9/2019",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "30/9/2019",
+              "30/9/2018"
+            ],
+            [
+              "Effective portion of gains/losses from cash flow hedges",
+              "2",
+              "0"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_8cbf706f_r1_p0",
+        "source_uid": "8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+        "source_cluster_id": "cluster_1340",
+        "selection_rank": "48e97ded897afeecf7ecc18654f18b77904034268263945ce050fecefb36c8a3",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 2,
+          "label": "30/9/2019"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "30/9/2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -2.0,
+          "delta_target": -2.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -2
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F02",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F02",
+        "task": {
+          "row_label": "Income tax on components of other comprehensive income",
+          "period_late": "30/9/2018",
+          "period_early": "30/9/2019",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "30/9/2019",
+              "30/9/2018"
+            ],
+            [
+              "Income tax on components of other comprehensive income",
+              "106",
+              "91"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_8cbf706f_r5_p1",
+        "source_uid": "8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+        "source_cluster_id": "cluster_1340",
+        "selection_rank": "a7b7cf53d3e950c6696afeade4f5bef214d86ee04e62eecc3b98393f5a574621",
+        "selection_position": 2,
+        "row_index": 5,
+        "period_early": {
+          "col": 2,
+          "label": "30/9/2019"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "30/9/2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -15.0,
+          "delta_target": -15.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -15
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F03",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F03",
+        "task": {
+          "row_label": "Lifecycle Service Assurance",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Lifecycle Service Assurance",
+              "17.4",
+              "18.1"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_20a028a0_r2_p1",
+        "source_uid": "20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+        "source_cluster_id": "cluster_0306",
+        "selection_rank": "407602c9db99e1a444ae252c075f3ec3135d183ba4f08eba0afae09060442812",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 0.7000000000000028,
+          "delta_target": 0.7000000000000028,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 0.7
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F04",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F04",
+        "task": {
+          "row_label": "Networks & Security",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "Networks & Security",
+              "56.4",
+              "73.9"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_20a028a0_r1_p0",
+        "source_uid": "20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+        "source_cluster_id": "cluster_0306",
+        "selection_rank": "7e6880fc16bad10b909cebc39164d410522fa2cefb75662bc5118998a5032400",
+        "selection_position": 2,
+        "row_index": 1,
+        "period_early": {
+          "col": 3,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 17.500000000000007,
+          "delta_target": 17.500000000000007,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 17.5
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F05",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F05",
+        "task": {
+          "row_label": "Interest Expenses, net of capitalized interest",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Interest Expenses, net of capitalized interest",
+              "18,286",
+              "34,018"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_41b215e5_r1_p0",
+        "source_uid": "41b215e5-024b-478e-bc05-5804ad02169a",
+        "source_cluster_id": "cluster_0615",
+        "selection_rank": "7a79c8e4e56683e8b6b9510dec65597183209686ee93607ef1bb80b4d1657039",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 15732.0,
+          "delta_target": 15732.0,
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 15732
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F06",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F06",
+        "task": {
+          "row_label": "Commitment Fee",
+          "period_late": "2018",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2018"
+            ],
+            [
+              "Commitment Fee",
+              "760",
+              "3,325"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_41b215e5_r2_p1",
+        "source_uid": "41b215e5-024b-478e-bc05-5804ad02169a",
+        "source_cluster_id": "cluster_0615",
+        "selection_rank": "e2178ed728cbe03748fa3d8d7a8ad9bd24d7ec4fec0aeb2172cd3b5cd5c6ed87",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 2,
+          "label": "2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 2565.0,
+          "delta_target": 2565.0,
+          "source_unit": "USD",
+          "target_unit": "USD",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 2565
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F07",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F07",
+        "task": {
+          "row_label": "Digital Experience",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Digital Experience",
+              "1,552.5",
+              "2,670.7"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_66b7c6dd_r2_p0",
+        "source_uid": "66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+        "source_cluster_id": "cluster_0978",
+        "selection_rank": "227f4fd64e6120756b898b0723a8476ba95311db8fac726f05e335048834c15b",
+        "selection_position": 1,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 1118.1999999999998,
+          "delta_target": 1118.1999999999998,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 1118.2
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F08",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F08",
+        "task": {
+          "row_label": "Publishing",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Publishing",
+              "100.6",
+              "115.5"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_66b7c6dd_r3_p1",
+        "source_uid": "66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+        "source_cluster_id": "cluster_0978",
+        "selection_rank": "ca63e57edea3e0767e61acc67ac616d5cae2af4910afa27fe520d30a882ab8ec",
+        "selection_position": 2,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 14.900000000000006,
+          "delta_target": 14.900000000000006,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 14.9
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F09",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F09",
+        "task": {
+          "row_label": "Dilutive effect of employee incentive plans",
+          "period_late": "Dec 28, 2019",
+          "period_early": "Dec 30, 2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Dec 30, 2017",
+              "Dec 28, 2019"
+            ],
+            [
+              "Dilutive effect of employee incentive plans",
+              "47",
+              "41"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_b4129e1f_r3_p1",
+        "source_uid": "b4129e1f-efcb-4157-9996-5389b83de63e",
+        "source_cluster_id": "cluster_1724",
+        "selection_rank": "65d7b6a389d35291e777fafa51f7136814415b47dc89cb9f81e36c26ef3a9e4a",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "Dec 30, 2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Dec 28, 2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -6.0,
+          "delta_target": -6.0,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -6
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F10",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F10",
+        "task": {
+          "row_label": "Weighted average shares of common stock outstanding—Basic",
+          "period_late": "Dec 28, 2019",
+          "period_early": "Dec 30, 2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Dec 30, 2017",
+              "Dec 28, 2019"
+            ],
+            [
+              "Weighted average shares of common stock outstanding—Basic",
+              "4,701",
+              "4,417"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_b4129e1f_r2_p0",
+        "source_uid": "b4129e1f-efcb-4157-9996-5389b83de63e",
+        "source_cluster_id": "cluster_1724",
+        "selection_rank": "8c161c83cf1eaf4b3ad74e603b19bb26fd3ce2647f1d28084df59d56ca105903",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "Dec 30, 2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Dec 28, 2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -284.0,
+          "delta_target": -284.0,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -284
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F11",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F11",
+        "task": {
+          "row_label": "Adjusted EBITDA",
+          "period_late": "Actual Fiscal 2018 (1) $",
+          "period_early": "Actual Fiscal 2019 (constant currency) (3) %",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Actual Fiscal 2019 (constant currency) (3) %",
+              "Actual Fiscal 2018 (1) $"
+            ],
+            [
+              "Adjusted EBITDA",
+              "8.5",
+              "1,007"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ab59379f_r3_p1",
+        "source_uid": "ab59379f-ccca-409d-bc39-a48df76f6117",
+        "source_cluster_id": "cluster_1628",
+        "selection_rank": "4e10e875858b7a42ac85ff9d5f0501132f844a8d7db6b9c8614cc6ddd1e05a46",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 4,
+          "label": "Actual Fiscal 2019 (constant currency) (3) %"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Actual Fiscal 2018 (1) $"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 998.5,
+          "delta_target": 998.5,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 998.5
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F12",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F12",
+        "task": {
+          "row_label": "Revenue",
+          "period_late": "Actual Fiscal 2018 (1) $",
+          "period_early": "Actual Fiscal 2019 (constant currency) (3) %",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "Actual Fiscal 2019 (constant currency) (3) %",
+              "Actual Fiscal 2018 (1) $"
+            ],
+            [
+              "Revenue",
+              "6.8",
+              "2,147"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ab59379f_r2_p0",
+        "source_uid": "ab59379f-ccca-409d-bc39-a48df76f6117",
+        "source_cluster_id": "cluster_1628",
+        "selection_rank": "a17599515de7339d55fed7c440d8937a0d41a83609ab2a262d8495a07b11256a",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 4,
+          "label": "Actual Fiscal 2019 (constant currency) (3) %"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "Actual Fiscal 2018 (1) $"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 2140.2,
+          "delta_target": 2140.2,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 2140.2
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F13",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F13",
+        "task": {
+          "row_label": "Prepaid expenses and other current assets",
+          "period_late": "March 31, 2018",
+          "period_early": "April 1, 2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "April 1, 2018",
+              "March 31, 2018"
+            ],
+            [
+              "Prepaid expenses and other current assets",
+              "5,097",
+              "5,593"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_d7990183_r4_p1",
+        "source_uid": "d7990183-3079-4e28-975b-bd60cafdcd1d",
+        "source_cluster_id": "cluster_2060",
+        "selection_rank": "3ebce35f571a51d8f72dfdf3df23260c3f10f342f04d7393a21bd52b526d89b7",
+        "selection_position": 1,
+        "row_index": 4,
+        "period_early": {
+          "col": 3,
+          "label": "April 1, 2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "March 31, 2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 496.0,
+          "delta_target": 496.0,
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 496
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F14",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F14",
+        "task": {
+          "row_label": "Accounts receivable, net",
+          "period_late": "March 31, 2018",
+          "period_early": "April 1, 2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "April 1, 2018",
+              "March 31, 2018"
+            ],
+            [
+              "Accounts receivable, net",
+              "19,513",
+              "16,389"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_d7990183_r2_p0",
+        "source_uid": "d7990183-3079-4e28-975b-bd60cafdcd1d",
+        "source_cluster_id": "cluster_2060",
+        "selection_rank": "fee37df44b4c9e0f33fbafce78bcd88efcb14af1f8163ad6abdd10c0b3f567da",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "April 1, 2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "March 31, 2018"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -3124.0,
+          "delta_target": -3124.0,
+          "source_unit": "thousand",
+          "target_unit": "thousand",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -3124
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F15",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F15",
+        "task": {
+          "row_label": "APAC",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "APAC",
+              "186,914",
+              "180,241"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ac6e77fe_r3_p1",
+        "source_uid": "ac6e77fe-ba02-4764-9806-943cd8572e67",
+        "source_cluster_id": "cluster_1642",
+        "selection_rank": "6835d597f9b4efb0ecfb89ed0fcab9273fe99a1ae1ead36116d4b9387bc29114",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -6673.0,
+          "delta_target": -6673.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -6673
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "F16",
+      "bucket": "future_test",
+      "actor_task": {
+        "item_id": "F16",
+        "task": {
+          "row_label": "EMEA",
+          "period_late": "2019",
+          "period_early": "2018",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018",
+              "2019"
+            ],
+            [
+              "EMEA",
+              "1,530,241",
+              "1,526,644"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_ac6e77fe_r2_p0",
+        "source_uid": "ac6e77fe-ba02-4764-9806-943cd8572e67",
+        "source_cluster_id": "cluster_1642",
+        "selection_rank": "a8101d1e0b2d1f5d4fcb80a11a172f54ddfcc10a5fce498ab8277230291577b3",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 2,
+          "label": "2018"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -3597.0,
+          "delta_target": -3597.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": -3597
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "D01",
+      "bucket": "development",
+      "actor_task": {
+        "item_id": "D01",
+        "task": {
+          "row_label": "EBIT less Tax",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "EBIT less Tax",
+              "38.8",
+              "205.1"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_d21abb01_r1_p0",
+        "source_uid": "d21abb01-5bda-4a72-be49-e43a9d41c723",
+        "source_cluster_id": "cluster_2010",
+        "selection_rank": "15e73438195a64049d9d33f39055275ed40a1eaf2363d1caa95c06607bdab8d8",
+        "selection_position": 1,
+        "row_index": 1,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 166.3,
+          "delta_target": 166.3,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 166.3
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "D02",
+      "bucket": "development",
+      "actor_task": {
+        "item_id": "D02",
+        "task": {
+          "row_label": "EBIT less tax and impairment",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "EBIT less tax and impairment",
+              "38.8",
+              "85.1"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_d21abb01_r3_p1",
+        "source_uid": "d21abb01-5bda-4a72-be49-e43a9d41c723",
+        "source_cluster_id": "cluster_2010",
+        "selection_rank": "e821ed7df1b0976dbc67b644a867b037df69074a9d7644d05376ecc85fb2c42a",
+        "selection_position": 2,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 46.3,
+          "delta_target": 46.3,
+          "source_unit": "currency_million",
+          "target_unit": "currency_million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 46.3
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "D03",
+      "bucket": "development",
+      "actor_task": {
+        "item_id": "D03",
+        "task": {
+          "row_label": "Operating income",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Operating income",
+              "29,025",
+              "42,959"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_daf81839_r3_p1",
+        "source_uid": "daf81839-002f-40c2-8067-b4ad7eaf1517",
+        "source_cluster_id": "cluster_2096",
+        "selection_rank": "30c3c8c4419ad6789cf7bfe1754c0687794b76488445100b6aa110a16196c25d",
+        "selection_position": 1,
+        "row_index": 3,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 13934.0,
+          "delta_target": 13934.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 13934
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    },
+    {
+      "task_id": "D04",
+      "bucket": "development",
+      "actor_task": {
+        "item_id": "D04",
+        "task": {
+          "row_label": "Gross margin",
+          "period_late": "2019",
+          "period_early": "2017",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2017",
+              "2019"
+            ],
+            [
+              "Gross margin",
+              "62,310",
+              "82,933"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "source_item_id": "wp2_daf81839_r2_p0",
+        "source_uid": "daf81839-002f-40c2-8067-b4ad7eaf1517",
+        "source_cluster_id": "cluster_2096",
+        "selection_rank": "711a3eac52e9bf01a310b06ae56b3180f433a28f36c495192f0722279f47e27f",
+        "selection_position": 2,
+        "row_index": 2,
+        "period_early": {
+          "col": 3,
+          "label": "2017"
+        },
+        "period_late": {
+          "col": 1,
+          "label": "2019"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 20623.0,
+          "delta_target": 20623.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true,
+          "candidate_gold_value": 20623
+        }
+      },
+      "qualification": {
+        "contract": "two-period signed difference with explicit unit",
+        "reference_checker": "execution_core.independent_reference",
+        "candidate_gold_agreement": true,
+        "actor_visibility": "actor_task_only",
+        "future_content_excluded_from_experience_design": true
+      }
+    }
+  ],
+  "qualification_fixtures": [
+    {
+      "task_id": "X01",
+      "bucket": "qualification_fixture",
+      "actor_task": {
+        "item_id": "X01",
+        "task": {
+          "row_label": "rate",
+          "period_late": "2022 %",
+          "period_early": "2020 %",
+          "requested_quantity": "signed_difference",
+          "source_unit": "%",
+          "target_unit": "%",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2020 %",
+              "2022 %"
+            ],
+            [
+              "rate",
+              "10",
+              "14"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "fixture_source": {
+          "item_id": "fixture-percent",
+          "table": [
+            [
+              "row",
+              "2020 %",
+              "2022 %"
+            ],
+            [
+              "rate",
+              "10",
+              "14"
+            ]
+          ],
+          "row_index": 1,
+          "period_early": {
+            "col": 1,
+            "label": "2020 %"
+          },
+          "period_late": {
+            "col": 2,
+            "label": "2022 %"
+          },
+          "source_unit": null,
+          "gold_delta_source_unit": 4,
+          "gold_recompute_rule": "value(late) - value(early) on row_index, both read from the table cells"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": 4.0,
+          "delta_target": 4.0,
+          "source_unit": "%",
+          "target_unit": "%",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true
+        }
+      }
+    },
+    {
+      "task_id": "X02",
+      "bucket": "qualification_fixture",
+      "actor_task": {
+        "item_id": "X02",
+        "task": {
+          "row_label": "amount",
+          "period_late": "2021 million",
+          "period_early": "2018 million",
+          "requested_quantity": "signed_difference",
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2018 million",
+              "2021 million"
+            ],
+            [
+              "amount",
+              "7.5",
+              "6.25"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "fixture_source": {
+          "item_id": "fixture-million",
+          "table": [
+            [
+              "row",
+              "2018 million",
+              "2021 million"
+            ],
+            [
+              "amount",
+              "7.5",
+              "6.25"
+            ]
+          ],
+          "row_index": 1,
+          "period_early": {
+            "col": 1,
+            "label": "2018 million"
+          },
+          "period_late": {
+            "col": 2,
+            "label": "2021 million"
+          },
+          "source_unit": null,
+          "gold_delta_source_unit": -1.25,
+          "gold_recompute_rule": "value(late) - value(early) on row_index, both read from the table cells"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -1.25,
+          "delta_target": -1.25,
+          "source_unit": "million",
+          "target_unit": "million",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true
+        }
+      }
+    },
+    {
+      "task_id": "X03",
+      "bucket": "qualification_fixture",
+      "actor_task": {
+        "item_id": "X03",
+        "task": {
+          "row_label": "net",
+          "period_late": "2020 $",
+          "period_early": "2019 $",
+          "requested_quantity": "signed_difference",
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity"
+        },
+        "evidence": {
+          "table_projection": [
+            [
+              "row",
+              "2019 $",
+              "2020 $"
+            ],
+            [
+              "net",
+              "(3)",
+              "(5)"
+            ]
+          ]
+        }
+      },
+      "hidden": {
+        "fixture_source": {
+          "item_id": "fixture-accounting",
+          "table": [
+            [
+              "row",
+              "2019 $",
+              "2020 $"
+            ],
+            [
+              "net",
+              "(3)",
+              "(5)"
+            ]
+          ],
+          "row_index": 1,
+          "period_early": {
+            "col": 1,
+            "label": "2019 $"
+          },
+          "period_late": {
+            "col": 2,
+            "label": "2020 $"
+          },
+          "source_unit": "currency",
+          "gold_delta_source_unit": -2,
+          "gold_recompute_rule": "value(late) - value(early) on row_index, both read from the table cells"
+        },
+        "reference": {
+          "status": "REFERENCE_RECOMPUTED",
+          "delta_source": -2.0,
+          "delta_target": -2.0,
+          "source_unit": "currency",
+          "target_unit": "currency",
+          "scale_rule": "identity",
+          "source_to_target_factor": 1.0,
+          "candidate_gold_agreement": true
+        }
+      }
+    }
+  ],
+  "boundaries": {
+    "gold_not_used_for_selection_order": true,
+    "reference_is_contract_scoped_not_human_semantic_gold": true,
+    "future_reference_hidden_from_actor": true,
+    "designated_wp2_clusters_remain_isolated": true
+  }
+}

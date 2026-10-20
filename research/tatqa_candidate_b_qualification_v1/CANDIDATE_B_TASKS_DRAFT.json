@@ -1,0 +1,1851 @@
+{
+  "actor_facing": true,
+  "schema": "tatqa_candidate_b_qualification_v1",
+  "selection_rule_id": "candidate_b_source_structure_only_v1",
+  "status": "PANEL_COUNTS_AVAILABLE",
+  "task_id": "tatqa-candidate-b-qualification-a-20261019",
+  "task_ids": [
+    "CB_DEV_01_FAC91A09_T1",
+    "CB_DEV_01_FAC91A09_T2",
+    "CB_DEV_02_E4362659_T1",
+    "CB_DEV_02_E4362659_T2",
+    "CB_DEV_03_7C4213D2_T1",
+    "CB_DEV_03_7C4213D2_T2",
+    "CB_DEV_04_DF37691D_T1",
+    "CB_DEV_04_DF37691D_T2",
+    "CB_DEV_05_67133A8A_T1",
+    "CB_DEV_05_67133A8A_T2",
+    "CB_DEV_06_B58BD86E_T1",
+    "CB_DEV_06_B58BD86E_T2",
+    "CB_DEV_07_CF81ADE9_T1",
+    "CB_DEV_07_CF81ADE9_T2",
+    "CB_DEV_08_2DF35AEA_T1",
+    "CB_DEV_08_2DF35AEA_T2",
+    "CB_FVAL_09_968CE7F5_T1",
+    "CB_FVAL_09_968CE7F5_T2",
+    "CB_FVAL_10_D67FA662_T1",
+    "CB_FVAL_10_D67FA662_T2",
+    "CB_FVAL_11_37C70803_T1",
+    "CB_FVAL_11_37C70803_T2",
+    "CB_FVAL_12_DBD4B6D3_T1",
+    "CB_FVAL_12_DBD4B6D3_T2",
+    "CB_FVAL_13_F7A44918_T1",
+    "CB_FVAL_13_F7A44918_T2",
+    "CB_FVAL_14_08485C54_T1",
+    "CB_FVAL_14_08485C54_T2",
+    "CB_FVAL_15_8E50E9CF_T1",
+    "CB_FVAL_15_8E50E9CF_T2",
+    "CB_FVAL_16_D7A317CD_T1",
+    "CB_FVAL_16_D7A317CD_T2"
+  ],
+  "tasks": [
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Germany change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ millions",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        [
+          "Germany",
+          "3,948",
+          "3,658",
+          "3,352"
+        ],
+        [
+          "Rest of EMEA",
+          "8,158",
+          "7,446",
+          "7,063"
+        ],
+        [
+          "EMEA",
+          "12,105",
+          "11,104",
+          "10,415"
+        ],
+        [
+          "United States",
+          "9,085",
+          "7,880",
+          "7,436"
+        ],
+        [
+          "Rest of Americas",
+          "2,109",
+          "1,832",
+          "1,911"
+        ],
+        [
+          "Americas",
+          "11,194",
+          "9,713",
+          "9,347"
+        ],
+        [
+          "Japan",
+          "1,180",
+          "963",
+          "885"
+        ],
+        [
+          "Rest of APJ",
+          "3,074",
+          "2,928",
+          "2,814"
+        ],
+        [
+          "APJ",
+          "4,254",
+          "3,891",
+          "3,699"
+        ],
+        [
+          "SAP Group",
+          "27,553",
+          "24,708",
+          "23,461"
+        ]
+      ],
+      "task_id": "CB_DEV_01_FAC91A09_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Rest of EMEA change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ millions",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        [
+          "Germany",
+          "3,948",
+          "3,658",
+          "3,352"
+        ],
+        [
+          "Rest of EMEA",
+          "8,158",
+          "7,446",
+          "7,063"
+        ],
+        [
+          "EMEA",
+          "12,105",
+          "11,104",
+          "10,415"
+        ],
+        [
+          "United States",
+          "9,085",
+          "7,880",
+          "7,436"
+        ],
+        [
+          "Rest of Americas",
+          "2,109",
+          "1,832",
+          "1,911"
+        ],
+        [
+          "Americas",
+          "11,194",
+          "9,713",
+          "9,347"
+        ],
+        [
+          "Japan",
+          "1,180",
+          "963",
+          "885"
+        ],
+        [
+          "Rest of APJ",
+          "3,074",
+          "2,928",
+          "2,814"
+        ],
+        [
+          "APJ",
+          "4,254",
+          "3,891",
+          "3,699"
+        ],
+        [
+          "SAP Group",
+          "27,553",
+          "24,708",
+          "23,461"
+        ]
+      ],
+      "task_id": "CB_DEV_01_FAC91A09_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Contingent liabilities from guarantee and warranty contracts change from 30/9/2018 to 30/9/2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ million",
+          "30/9/2018",
+          "30/9/2019"
+        ],
+        [
+          "Contingent liabilities from guarantee and warranty contracts",
+          "18",
+          "17"
+        ],
+        [
+          "Contingent liabilities from the provision of collateral for third-party liabilities",
+          "9",
+          "12"
+        ],
+        [
+          "Other contingent liabilities",
+          "0",
+          "1"
+        ],
+        [
+          "",
+          "27",
+          "30"
+        ]
+      ],
+      "task_id": "CB_DEV_02_E4362659_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Contingent liabilities from the provision of collateral for third-party liabilities change from 30/9/2018 to 30/9/2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ million",
+          "30/9/2018",
+          "30/9/2019"
+        ],
+        [
+          "Contingent liabilities from guarantee and warranty contracts",
+          "18",
+          "17"
+        ],
+        [
+          "Contingent liabilities from the provision of collateral for third-party liabilities",
+          "9",
+          "12"
+        ],
+        [
+          "Other contingent liabilities",
+          "0",
+          "1"
+        ],
+        [
+          "",
+          "27",
+          "30"
+        ]
+      ],
+      "task_id": "CB_DEV_02_E4362659_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Product development change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "$ million",
+          "2019",
+          "2018"
+        ],
+        [
+          "Product development",
+          "96.5",
+          "96.9"
+        ],
+        [
+          "Selling and marketing",
+          "129.2",
+          "123.9"
+        ],
+        [
+          "Administration1",
+          "50.0",
+          "46.6"
+        ],
+        [
+          "Adjusted operating costs1",
+          "275.7",
+          "267.4"
+        ],
+        [
+          "Networks & Security",
+          "158.4",
+          "148.9"
+        ],
+        [
+          "Lifecycle Service Assurance",
+          "70.5",
+          "70.5"
+        ],
+        [
+          "Connected Devices",
+          "38.2",
+          "40.8"
+        ],
+        [
+          "Corporate",
+          "8.6",
+          "7.2"
+        ],
+        [
+          "Adjusted operating costs1",
+          "275.7",
+          "267.4"
+        ]
+      ],
+      "task_id": "CB_DEV_03_7C4213D2_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Selling and marketing change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "$ million",
+          "2019",
+          "2018"
+        ],
+        [
+          "Product development",
+          "96.5",
+          "96.9"
+        ],
+        [
+          "Selling and marketing",
+          "129.2",
+          "123.9"
+        ],
+        [
+          "Administration1",
+          "50.0",
+          "46.6"
+        ],
+        [
+          "Adjusted operating costs1",
+          "275.7",
+          "267.4"
+        ],
+        [
+          "Networks & Security",
+          "158.4",
+          "148.9"
+        ],
+        [
+          "Lifecycle Service Assurance",
+          "70.5",
+          "70.5"
+        ],
+        [
+          "Connected Devices",
+          "38.2",
+          "40.8"
+        ],
+        [
+          "Corporate",
+          "8.6",
+          "7.2"
+        ],
+        [
+          "Adjusted operating costs1",
+          "275.7",
+          "267.4"
+        ]
+      ],
+      "task_id": "CB_DEV_03_7C4213D2_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Loss before tax, joint ventures and associates change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "£m",
+          "2019",
+          "2018"
+        ],
+        [
+          "Loss before tax, joint ventures and associates",
+          "(1,856.8)",
+          "(1,139.6)"
+        ],
+        [
+          "Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%)",
+          "(352.8)",
+          "(216.6)"
+        ],
+        [
+          "Exempt property rental profits and revaluations",
+          "307.0",
+          "214.9"
+        ],
+        [
+          "",
+          "(45.8)",
+          "(1.7)"
+        ],
+        [
+          "Tax on shortfall of minimum PID",
+          "22.1",
+          "–"
+        ],
+        [
+          "Additions and disposals of property and investments",
+          "7.1",
+          "0.3"
+        ],
+        [
+          "Non-deductible and other items",
+          "3.4",
+          "3.4"
+        ],
+        [
+          "Overseas taxation",
+          "(3.4)",
+          "(0.4)"
+        ],
+        [
+          "Unprovided deferred tax1",
+          "22.4",
+          "(7.3)"
+        ],
+        [
+          "Total tax expense/(credit)",
+          "5.8",
+          "(5.7)"
+        ]
+      ],
+      "task_id": "CB_DEV_04_DF37691D_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%) change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "£m",
+          "2019",
+          "2018"
+        ],
+        [
+          "Loss before tax, joint ventures and associates",
+          "(1,856.8)",
+          "(1,139.6)"
+        ],
+        [
+          "Loss before tax multiplied by the standard rate of tax in the UK of 19% (2018: 19%)",
+          "(352.8)",
+          "(216.6)"
+        ],
+        [
+          "Exempt property rental profits and revaluations",
+          "307.0",
+          "214.9"
+        ],
+        [
+          "",
+          "(45.8)",
+          "(1.7)"
+        ],
+        [
+          "Tax on shortfall of minimum PID",
+          "22.1",
+          "–"
+        ],
+        [
+          "Additions and disposals of property and investments",
+          "7.1",
+          "0.3"
+        ],
+        [
+          "Non-deductible and other items",
+          "3.4",
+          "3.4"
+        ],
+        [
+          "Overseas taxation",
+          "(3.4)",
+          "(0.4)"
+        ],
+        [
+          "Unprovided deferred tax1",
+          "22.4",
+          "(7.3)"
+        ],
+        [
+          "Total tax expense/(credit)",
+          "5.8",
+          "(5.7)"
+        ]
+      ],
+      "task_id": "CB_DEV_04_DF37691D_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Germany change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ millions",
+          "2019",
+          "2018"
+        ],
+        [
+          "Germany",
+          "4,486",
+          "4,184"
+        ],
+        [
+          "Rest of EMEA",
+          "5,386",
+          "4,742"
+        ],
+        [
+          "EMEA",
+          "9,872",
+          "8,926"
+        ],
+        [
+          "United States",
+          "29,744",
+          "22,133"
+        ],
+        [
+          "Rest of Americas",
+          "411",
+          "258"
+        ],
+        [
+          "Americas",
+          "30,154",
+          "22,391"
+        ],
+        [
+          "APJ",
+          "1,276",
+          "922"
+        ],
+        [
+          "SAP Group",
+          "41,302",
+          "32,239"
+        ]
+      ],
+      "task_id": "CB_DEV_05_67133A8A_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Rest of EMEA change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ millions",
+          "2019",
+          "2018"
+        ],
+        [
+          "Germany",
+          "4,486",
+          "4,184"
+        ],
+        [
+          "Rest of EMEA",
+          "5,386",
+          "4,742"
+        ],
+        [
+          "EMEA",
+          "9,872",
+          "8,926"
+        ],
+        [
+          "United States",
+          "29,744",
+          "22,133"
+        ],
+        [
+          "Rest of Americas",
+          "411",
+          "258"
+        ],
+        [
+          "Americas",
+          "30,154",
+          "22,391"
+        ],
+        [
+          "APJ",
+          "1,276",
+          "922"
+        ],
+        [
+          "SAP Group",
+          "41,302",
+          "32,239"
+        ]
+      ],
+      "task_id": "CB_DEV_05_67133A8A_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Christian Klein (Co-CEO from 10/11/2019) change from Vested on 12/31/2018 to Vested on 12/31/2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ thousands",
+          "Vested on 12/31/2019",
+          "Vested on 12/31/2018"
+        ],
+        [
+          "Christian Klein (Co-CEO from 10/11/2019)",
+          "8.2",
+          "4.1"
+        ],
+        [
+          "Adaire Fox-Martin",
+          "11.8",
+          "7.3"
+        ],
+        [
+          "Michael Kleinemeier",
+          "20.0",
+          "14.8"
+        ],
+        [
+          "Bernd Leukert (until 3/31/2019)",
+          "34.7",
+          "24.6"
+        ],
+        [
+          "Bill McDermott (CEO until 10/10/2019, Executive Board Member until 11/15/2019)1)",
+          "90.8",
+          "105.1"
+        ],
+        [
+          "Luka Mucic",
+          "27.6",
+          "23.2"
+        ],
+        [
+          "Jürgen Müller (from 1/1/2019)",
+          "4.8",
+          "-"
+        ],
+        [
+          "Stefan Ries",
+          "16.8",
+          "12.6"
+        ],
+        [
+          "Thomas Saueressig (from 11/1/2019)",
+          "0.2",
+          "-"
+        ]
+      ],
+      "task_id": "CB_DEV_06_B58BD86E_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Adaire Fox-Martin change from Vested on 12/31/2018 to Vested on 12/31/2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ thousands",
+          "Vested on 12/31/2019",
+          "Vested on 12/31/2018"
+        ],
+        [
+          "Christian Klein (Co-CEO from 10/11/2019)",
+          "8.2",
+          "4.1"
+        ],
+        [
+          "Adaire Fox-Martin",
+          "11.8",
+          "7.3"
+        ],
+        [
+          "Michael Kleinemeier",
+          "20.0",
+          "14.8"
+        ],
+        [
+          "Bernd Leukert (until 3/31/2019)",
+          "34.7",
+          "24.6"
+        ],
+        [
+          "Bill McDermott (CEO until 10/10/2019, Executive Board Member until 11/15/2019)1)",
+          "90.8",
+          "105.1"
+        ],
+        [
+          "Luka Mucic",
+          "27.6",
+          "23.2"
+        ],
+        [
+          "Jürgen Müller (from 1/1/2019)",
+          "4.8",
+          "-"
+        ],
+        [
+          "Stefan Ries",
+          "16.8",
+          "12.6"
+        ],
+        [
+          "Thomas Saueressig (from 11/1/2019)",
+          "0.2",
+          "-"
+        ]
+      ],
+      "task_id": "CB_DEV_06_B58BD86E_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Total borrowings change from Group 2018 to Group 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "£m – including Group’s share of joint ventures",
+          "Group 2019",
+          "Group 2018"
+        ],
+        [
+          "Total borrowings",
+          "4,916.8",
+          "5,331.0"
+        ],
+        [
+          "Cash and cash equivalents",
+          "(223.0)",
+          "(274.3)"
+        ],
+        [
+          "Net debt",
+          "4,693.8",
+          "5,056.7"
+        ],
+        [
+          "Less Metrocentre compound financial instrument",
+          "(195.4)",
+          "(189.5)"
+        ],
+        [
+          "Net external debt",
+          "4,498.4",
+          "4,867.2"
+        ],
+        [
+          "Analysed as:",
+          "",
+          ""
+        ],
+        [
+          "Debt including Group’s share of joint ventures",
+          "4,721.4",
+          "5,141.5"
+        ],
+        [
+          "Cash including Group’s share of joint ventures",
+          "(223.0)",
+          "(274.3)"
+        ],
+        [
+          "Net external debt",
+          "4,498.4",
+          "4,867.2"
+        ]
+      ],
+      "task_id": "CB_DEV_07_CF81ADE9_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Cash and cash equivalents change from Group 2018 to Group 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "£m – including Group’s share of joint ventures",
+          "Group 2019",
+          "Group 2018"
+        ],
+        [
+          "Total borrowings",
+          "4,916.8",
+          "5,331.0"
+        ],
+        [
+          "Cash and cash equivalents",
+          "(223.0)",
+          "(274.3)"
+        ],
+        [
+          "Net debt",
+          "4,693.8",
+          "5,056.7"
+        ],
+        [
+          "Less Metrocentre compound financial instrument",
+          "(195.4)",
+          "(189.5)"
+        ],
+        [
+          "Net external debt",
+          "4,498.4",
+          "4,867.2"
+        ],
+        [
+          "Analysed as:",
+          "",
+          ""
+        ],
+        [
+          "Debt including Group’s share of joint ventures",
+          "4,721.4",
+          "5,141.5"
+        ],
+        [
+          "Cash including Group’s share of joint ventures",
+          "(223.0)",
+          "(274.3)"
+        ],
+        [
+          "Net external debt",
+          "4,498.4",
+          "4,867.2"
+        ]
+      ],
+      "task_id": "CB_DEV_07_CF81ADE9_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Net income change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in millions of €)",
+          "2019",
+          "2018"
+        ],
+        [
+          "Net income",
+          "5,648",
+          "6,120"
+        ],
+        [
+          "Less: Other interest expenses / income, net 1",
+          "(529)",
+          "(482)"
+        ],
+        [
+          "Plus: SFS Other interest expenses / income",
+          "763",
+          "721"
+        ],
+        [
+          "Plus: Net interest expenses related to provisions for pensions and similar",
+          "",
+          ""
+        ],
+        [
+          "obligations",
+          "148",
+          "164"
+        ],
+        [
+          "Less: Interest adjustments",
+          "",
+          ""
+        ],
+        [
+          "(discontinued operations)",
+          "–",
+          "–"
+        ],
+        [
+          "Less: Taxes on interest adjustments",
+          "",
+          ""
+        ],
+        [
+          "(tax rate (flat) 30%)",
+          "(115)",
+          "(121)"
+        ],
+        [
+          "(I) Income before interest after tax",
+          "5,916",
+          "6,401"
+        ],
+        [
+          "(II) Average capital employed",
+          "53,459",
+          "50,715"
+        ],
+        [
+          "(I) / (II) ROCE",
+          "11.1 %",
+          "12.6 %"
+        ]
+      ],
+      "task_id": "CB_DEV_08_2DF35AEA_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Less: Other interest expenses / income, net 1 change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in millions of €)",
+          "2019",
+          "2018"
+        ],
+        [
+          "Net income",
+          "5,648",
+          "6,120"
+        ],
+        [
+          "Less: Other interest expenses / income, net 1",
+          "(529)",
+          "(482)"
+        ],
+        [
+          "Plus: SFS Other interest expenses / income",
+          "763",
+          "721"
+        ],
+        [
+          "Plus: Net interest expenses related to provisions for pensions and similar",
+          "",
+          ""
+        ],
+        [
+          "obligations",
+          "148",
+          "164"
+        ],
+        [
+          "Less: Interest adjustments",
+          "",
+          ""
+        ],
+        [
+          "(discontinued operations)",
+          "–",
+          "–"
+        ],
+        [
+          "Less: Taxes on interest adjustments",
+          "",
+          ""
+        ],
+        [
+          "(tax rate (flat) 30%)",
+          "(115)",
+          "(121)"
+        ],
+        [
+          "(I) Income before interest after tax",
+          "5,916",
+          "6,401"
+        ],
+        [
+          "(II) Average capital employed",
+          "53,459",
+          "50,715"
+        ],
+        [
+          "(I) / (II) ROCE",
+          "11.1 %",
+          "12.6 %"
+        ]
+      ],
+      "task_id": "CB_DEV_08_2DF35AEA_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Management and administrative services revenue (i) change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in thousands of $)",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        [
+          "Management and administrative services revenue (i)",
+          "9,645",
+          "9,809",
+          "7,762"
+        ],
+        [
+          "Ship management fees revenue (ii)",
+          "4,460",
+          "5,200",
+          "5,903"
+        ],
+        [
+          "Interest income on short-term loan (iii)",
+          "(109)",
+          "—",
+          "—"
+        ],
+        [
+          "Charterhire expenses (iv)",
+          "—",
+          "—",
+          "(17,423)"
+        ],
+        [
+          "Share options expense recharge (v)",
+          "—",
+          "—",
+          "228"
+        ],
+        [
+          "Interest expense on deposits payable (vi)",
+          "—",
+          "(4,779)",
+          "(4,622)"
+        ],
+        [
+          "Total",
+          "13,996",
+          "10,230",
+          "(8,152)"
+        ]
+      ],
+      "task_id": "CB_FVAL_09_968CE7F5_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Ship management fees revenue (ii) change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in thousands of $)",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        [
+          "Management and administrative services revenue (i)",
+          "9,645",
+          "9,809",
+          "7,762"
+        ],
+        [
+          "Ship management fees revenue (ii)",
+          "4,460",
+          "5,200",
+          "5,903"
+        ],
+        [
+          "Interest income on short-term loan (iii)",
+          "(109)",
+          "—",
+          "—"
+        ],
+        [
+          "Charterhire expenses (iv)",
+          "—",
+          "—",
+          "(17,423)"
+        ],
+        [
+          "Share options expense recharge (v)",
+          "—",
+          "—",
+          "228"
+        ],
+        [
+          "Interest expense on deposits payable (vi)",
+          "—",
+          "(4,779)",
+          "(4,622)"
+        ],
+        [
+          "Total",
+          "13,996",
+          "10,230",
+          "(8,152)"
+        ]
+      ],
+      "task_id": "CB_FVAL_09_968CE7F5_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Short-term employee benefits change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ thousands",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        [
+          "Short-term employee benefits",
+          "17,378",
+          "18,652",
+          "16,634"
+        ],
+        [
+          "Share-based payment1)",
+          "32,393",
+          "23,646",
+          "25,723"
+        ],
+        [
+          "Subtotal1)",
+          "49,771",
+          "42,298",
+          "42,357"
+        ],
+        [
+          "Post-employment benefits",
+          "2,825",
+          "1,106",
+          "1,312"
+        ],
+        [
+          "Thereof defined-benefit",
+          "2,056",
+          "250",
+          "423"
+        ],
+        [
+          "Thereof defined-contribution",
+          "769",
+          "856",
+          "889"
+        ],
+        [
+          "Total1)",
+          "52,596",
+          "43,404",
+          "43,669"
+        ]
+      ],
+      "task_id": "CB_FVAL_10_D67FA662_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Share-based payment1) change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ thousands",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        [
+          "Short-term employee benefits",
+          "17,378",
+          "18,652",
+          "16,634"
+        ],
+        [
+          "Share-based payment1)",
+          "32,393",
+          "23,646",
+          "25,723"
+        ],
+        [
+          "Subtotal1)",
+          "49,771",
+          "42,298",
+          "42,357"
+        ],
+        [
+          "Post-employment benefits",
+          "2,825",
+          "1,106",
+          "1,312"
+        ],
+        [
+          "Thereof defined-benefit",
+          "2,056",
+          "250",
+          "423"
+        ],
+        [
+          "Thereof defined-contribution",
+          "769",
+          "856",
+          "889"
+        ],
+        [
+          "Total1)",
+          "52,596",
+          "43,404",
+          "43,669"
+        ]
+      ],
+      "task_id": "CB_FVAL_10_D67FA662_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Christian Klein (Co-CEO from 10/10/2019) change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ thousands",
+          "2019",
+          "2018"
+        ],
+        [
+          "Christian Klein (Co-CEO from 10/10/2019)",
+          "1,925",
+          "442.2"
+        ],
+        [
+          "Jennifer Morgan (Co-CEO from 10/10/2019)",
+          "2,894",
+          "796.1"
+        ],
+        [
+          "Robert Enslin (until 4/5/2019)",
+          "3,480",
+          "727.0"
+        ],
+        [
+          "Adaire Fox-Martin",
+          "2,667",
+          "796.1"
+        ],
+        [
+          "Michael Kleinemeier",
+          "3,253",
+          "914.2"
+        ],
+        [
+          "Bernd Leukert (until 3/31/2019)",
+          "8,606",
+          "775.2"
+        ],
+        [
+          "Bill McDermott (CEO until 10/10/2019, Executive Board member until 11/15/2019)",
+          "14,689",
+          "2,155.8"
+        ],
+        [
+          "Luka Mucic",
+          "3,391",
+          "675.8"
+        ],
+        [
+          "Jürgen Müller (from 1/1/2019)",
+          "768",
+          "-"
+        ],
+        [
+          "Stefan Ries",
+          "2,646",
+          "772.0"
+        ],
+        [
+          "Thomas Saueressig (from 11/1/2019)",
+          "128",
+          "-"
+        ],
+        [
+          "Total",
+          "44,446.5",
+          "8,054.4"
+        ]
+      ],
+      "task_id": "CB_FVAL_11_37C70803_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Jennifer Morgan (Co-CEO from 10/10/2019) change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ thousands",
+          "2019",
+          "2018"
+        ],
+        [
+          "Christian Klein (Co-CEO from 10/10/2019)",
+          "1,925",
+          "442.2"
+        ],
+        [
+          "Jennifer Morgan (Co-CEO from 10/10/2019)",
+          "2,894",
+          "796.1"
+        ],
+        [
+          "Robert Enslin (until 4/5/2019)",
+          "3,480",
+          "727.0"
+        ],
+        [
+          "Adaire Fox-Martin",
+          "2,667",
+          "796.1"
+        ],
+        [
+          "Michael Kleinemeier",
+          "3,253",
+          "914.2"
+        ],
+        [
+          "Bernd Leukert (until 3/31/2019)",
+          "8,606",
+          "775.2"
+        ],
+        [
+          "Bill McDermott (CEO until 10/10/2019, Executive Board member until 11/15/2019)",
+          "14,689",
+          "2,155.8"
+        ],
+        [
+          "Luka Mucic",
+          "3,391",
+          "675.8"
+        ],
+        [
+          "Jürgen Müller (from 1/1/2019)",
+          "768",
+          "-"
+        ],
+        [
+          "Stefan Ries",
+          "2,646",
+          "772.0"
+        ],
+        [
+          "Thomas Saueressig (from 11/1/2019)",
+          "128",
+          "-"
+        ],
+        [
+          "Total",
+          "44,446.5",
+          "8,054.4"
+        ]
+      ],
+      "task_id": "CB_FVAL_11_37C70803_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Liquefaction services revenue change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in thousands of $)",
+          "2019",
+          "2018"
+        ],
+        [
+          "Statement of income",
+          "",
+          ""
+        ],
+        [
+          "Liquefaction services revenue",
+          "218,096",
+          "127,625"
+        ],
+        [
+          "Realized and unrealized (losses)/gains on the oil derivative instrument",
+          "(26,001)",
+          "16,767"
+        ],
+        [
+          "Statement of cash flows",
+          "",
+          ""
+        ],
+        [
+          "Net debt repayments",
+          "(243,513)",
+          "(30,300)"
+        ],
+        [
+          "Net debt receipts",
+          "129,454",
+          "—"
+        ]
+      ],
+      "task_id": "CB_FVAL_12_DBD4B6D3_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Realized and unrealized (losses)/gains on the oil derivative instrument change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in thousands of $)",
+          "2019",
+          "2018"
+        ],
+        [
+          "Statement of income",
+          "",
+          ""
+        ],
+        [
+          "Liquefaction services revenue",
+          "218,096",
+          "127,625"
+        ],
+        [
+          "Realized and unrealized (losses)/gains on the oil derivative instrument",
+          "(26,001)",
+          "16,767"
+        ],
+        [
+          "Statement of cash flows",
+          "",
+          ""
+        ],
+        [
+          "Net debt repayments",
+          "(243,513)",
+          "(30,300)"
+        ],
+        [
+          "Net debt receipts",
+          "129,454",
+          "—"
+        ]
+      ],
+      "task_id": "CB_FVAL_12_DBD4B6D3_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Corporate tax losses change from 30/9/2018 to 30/9/2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ million",
+          "30/9/2018",
+          "30/9/2019"
+        ],
+        [
+          "Corporate tax losses",
+          "4,320",
+          "4,883"
+        ],
+        [
+          "Trade tax losses",
+          "3,296",
+          "3,679"
+        ],
+        [
+          "Interest carry-forwards",
+          "57",
+          "83"
+        ],
+        [
+          "Temporary differences",
+          "104",
+          "120"
+        ]
+      ],
+      "task_id": "CB_FVAL_13_F7A44918_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Trade tax losses change from 30/9/2018 to 30/9/2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "€ million",
+          "30/9/2018",
+          "30/9/2019"
+        ],
+        [
+          "Corporate tax losses",
+          "4,320",
+          "4,883"
+        ],
+        [
+          "Trade tax losses",
+          "3,296",
+          "3,679"
+        ],
+        [
+          "Interest carry-forwards",
+          "57",
+          "83"
+        ],
+        [
+          "Temporary differences",
+          "104",
+          "120"
+        ]
+      ],
+      "task_id": "CB_FVAL_13_F7A44918_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Net cash provided by operating activities change from Year Ended December 31, 2018 to Year Ended December 31, 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in thousands of U.S. dollars)",
+          "Year Ended December 31, 2019",
+          "Year Ended December 31, 2018",
+          "Year Ended December 31, 2017"
+        ],
+        [
+          "Net cash provided by operating activities",
+          "$96,112",
+          "$55,637",
+          "$48,117"
+        ],
+        [
+          "Net cash (used in)/ provided by investing activities",
+          "(56,467)",
+          "27,863",
+          "(42,365)"
+        ],
+        [
+          "Net cash used in financing activities",
+          "(111,692)",
+          "(66,916)",
+          "(12,940)"
+        ],
+        [
+          "(Decrease)/Increase in cash and cash equivalents and restricted cash",
+          "(72,047)",
+          "16,584",
+          "(7,188)"
+        ],
+        [
+          "Cash and cash equivalents and restricted cash, beginning of year",
+          "150,774",
+          "134,190",
+          "141,378"
+        ],
+        [
+          "Cash and cash equivalents and restricted cash, end of year",
+          "$78,727",
+          "150,774",
+          "$134,190"
+        ]
+      ],
+      "task_id": "CB_FVAL_14_08485C54_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Net cash (used in)/ provided by investing activities change from Year Ended December 31, 2018 to Year Ended December 31, 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "(in thousands of U.S. dollars)",
+          "Year Ended December 31, 2019",
+          "Year Ended December 31, 2018",
+          "Year Ended December 31, 2017"
+        ],
+        [
+          "Net cash provided by operating activities",
+          "$96,112",
+          "$55,637",
+          "$48,117"
+        ],
+        [
+          "Net cash (used in)/ provided by investing activities",
+          "(56,467)",
+          "27,863",
+          "(42,365)"
+        ],
+        [
+          "Net cash used in financing activities",
+          "(111,692)",
+          "(66,916)",
+          "(12,940)"
+        ],
+        [
+          "(Decrease)/Increase in cash and cash equivalents and restricted cash",
+          "(72,047)",
+          "16,584",
+          "(7,188)"
+        ],
+        [
+          "Cash and cash equivalents and restricted cash, beginning of year",
+          "150,774",
+          "134,190",
+          "141,378"
+        ],
+        [
+          "Cash and cash equivalents and restricted cash, end of year",
+          "$78,727",
+          "150,774",
+          "$134,190"
+        ]
+      ],
+      "task_id": "CB_FVAL_14_08485C54_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Networks & Security change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "$ million",
+          "2019",
+          "%",
+          "2018",
+          "%"
+        ],
+        [
+          "Networks & Security",
+          "232.3",
+          "72.6",
+          "205.3",
+          "72.0"
+        ],
+        [
+          "Lifecycle Service Assurance",
+          "88.6",
+          "79.7",
+          "87.9",
+          "77.9"
+        ],
+        [
+          "Connected Devices",
+          "47.7",
+          "65.8",
+          "51.3",
+          "64.9"
+        ],
+        [
+          "",
+          "368.6",
+          "73.2",
+          "344.5",
+          "72.2"
+        ]
+      ],
+      "task_id": "CB_FVAL_15_8E50E9CF_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Lifecycle Service Assurance change from 2018 to 2019?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "$ million",
+          "2019",
+          "%",
+          "2018",
+          "%"
+        ],
+        [
+          "Networks & Security",
+          "232.3",
+          "72.6",
+          "205.3",
+          "72.0"
+        ],
+        [
+          "Lifecycle Service Assurance",
+          "88.6",
+          "79.7",
+          "87.9",
+          "77.9"
+        ],
+        [
+          "Connected Devices",
+          "47.7",
+          "65.8",
+          "51.3",
+          "64.9"
+        ],
+        [
+          "",
+          "368.6",
+          "73.2",
+          "344.5",
+          "72.2"
+        ]
+      ],
+      "task_id": "CB_FVAL_15_8E50E9CF_T2"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Senior secured notes interest change from 2017/18 to 2018/19?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "£m",
+          "2018/19",
+          "2017/18",
+          "Change"
+        ],
+        [
+          "Senior secured notes interest",
+          "31.7",
+          "32.2",
+          "0.5"
+        ],
+        [
+          "Bank debt interest",
+          "5.1",
+          "7.2",
+          "2.1"
+        ],
+        [
+          "",
+          "36.8",
+          "39.4",
+          "2.6"
+        ],
+        [
+          "Amortisation of debt issuance costs",
+          "3.7",
+          "5.0",
+          "1.3"
+        ],
+        [
+          "Net regular interest5",
+          "40.5",
+          "44.4",
+          "3.9"
+        ],
+        [
+          "Fair value movements on interest rate financial instruments",
+          "–",
+          "(0.4)",
+          "(0.4)"
+        ],
+        [
+          "Write-off of financing costs and early redemption fees",
+          "11.3",
+          "4.0",
+          "(7.3)"
+        ],
+        [
+          "Discount unwind",
+          "3.0",
+          "(0.4)",
+          "(3.4)"
+        ],
+        [
+          "Other finance income",
+          "(7.6)",
+          "–",
+          "7.6"
+        ],
+        [
+          "Other interest cost",
+          "–",
+          "0.8",
+          "0.8"
+        ],
+        [
+          "Net finance cost",
+          "47.2",
+          "48.4",
+          "1.2"
+        ]
+      ],
+      "task_id": "CB_FVAL_16_D7A317CD_T1"
+    },
+    {
+      "instructions": "Select the correct row and the two named period cells, determine the applicable unit and scale, and calculate the change using the displayed table values.",
+      "question": "How did Bank debt interest change from 2017/18 to 2018/19?",
+      "schema": "tatqa_candidate_b_actor_task_v1",
+      "table": [
+        [
+          "£m",
+          "2018/19",
+          "2017/18",
+          "Change"
+        ],
+        [
+          "Senior secured notes interest",
+          "31.7",
+          "32.2",
+          "0.5"
+        ],
+        [
+          "Bank debt interest",
+          "5.1",
+          "7.2",
+          "2.1"
+        ],
+        [
+          "",
+          "36.8",
+          "39.4",
+          "2.6"
+        ],
+        [
+          "Amortisation of debt issuance costs",
+          "3.7",
+          "5.0",
+          "1.3"
+        ],
+        [
+          "Net regular interest5",
+          "40.5",
+          "44.4",
+          "3.9"
+        ],
+        [
+          "Fair value movements on interest rate financial instruments",
+          "–",
+          "(0.4)",
+          "(0.4)"
+        ],
+        [
+          "Write-off of financing costs and early redemption fees",
+          "11.3",
+          "4.0",
+          "(7.3)"
+        ],
+        [
+          "Discount unwind",
+          "3.0",
+          "(0.4)",
+          "(3.4)"
+        ],
+        [
+          "Other finance income",
+          "(7.6)",
+          "–",
+          "7.6"
+        ],
+        [
+          "Other interest cost",
+          "–",
+          "0.8",
+          "0.8"
+        ],
+        [
+          "Net finance cost",
+          "47.2",
+          "48.4",
+          "1.2"
+        ]
+      ],
+      "task_id": "CB_FVAL_16_D7A317CD_T2"
+    }
+  ]
+}

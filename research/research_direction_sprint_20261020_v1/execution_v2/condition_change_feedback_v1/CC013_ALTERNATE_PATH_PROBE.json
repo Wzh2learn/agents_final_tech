@@ -1,0 +1,68 @@
+{
+  "schema": "cc013_alternate_path_probe_v1",
+  "status": "PASS",
+  "generation_requests": 0,
+  "rows": [
+    {
+      "probe": "clean_canonical",
+      "outcome": "approve",
+      "selected_evidence_ids": [
+        "CC013:manager_approval",
+        "CC013:receipt"
+      ],
+      "expected": {
+        "pre": "sufficient",
+        "post": "sufficient"
+      },
+      "observed": {
+        "pre": "sufficient",
+        "post": "sufficient"
+      },
+      "stages": {
+        "pre": {
+          "decision_outcome": "approve",
+          "plan_sufficient": true,
+          "composite_accepted": true,
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+        },
+        "post": {
+          "decision_outcome": "approve",
+          "plan_sufficient": true,
+          "composite_accepted": true,
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+        }
+      }
+    },
+    {
+      "probe": "alternate_path",
+      "outcome": "approve",
+      "selected_evidence_ids": [
+        "CC013:card_statement",
+        "CC013:manager_approval",
+        "CC013:merchant_invoice"
+      ],
+      "expected": {
+        "pre": "sufficient",
+        "post": "insufficient"
+      },
+      "observed": {
+        "pre": "sufficient",
+        "post": "insufficient"
+      },
+      "stages": {
+        "pre": {
+          "decision_outcome": "approve",
+          "plan_sufficient": true,
+          "composite_accepted": true,
+          "contract_reason_code": "COMPOSITE_CONTRACT_SATISFIED"
+        },
+        "post": {
+          "decision_outcome": "approve",
+          "plan_sufficient": false,
+          "composite_accepted": false,
+          "contract_reason_code": "INSUFFICIENT_PLAN"
+        }
+      }
+    }
+  ]
+}

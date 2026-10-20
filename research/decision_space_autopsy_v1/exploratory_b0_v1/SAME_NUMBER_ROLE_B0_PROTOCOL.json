@@ -1,0 +1,335 @@
+{
+  "schema": "same_number_role_b0_protocol_v1",
+  "status": "FROZEN_BEFORE_B0",
+  "measurement_question": "Does the fixed model bind evidence roles and distinguish same-number wrong-role citations from supported citations?",
+  "task_order": [
+    "NR_development_0402_P1",
+    "NR_development_0402_N2",
+    "NR_development_0424_P1",
+    "NR_development_0424_N2",
+    "NR_development_0923_P1",
+    "NR_development_0923_N2",
+    "NR_development_1498_P1",
+    "NR_development_1498_N2",
+    "NR_development_1582_P1",
+    "NR_development_1582_N2",
+    "NR_development_1981_P1",
+    "NR_development_1981_N2",
+    "NR_development_2111_P1",
+    "NR_development_2111_N2",
+    "NR_development_2174_P1",
+    "NR_development_2174_N2",
+    "NR_development_2196_P1",
+    "NR_development_2196_N2",
+    "NR_exploratory_future_1604_P1",
+    "NR_exploratory_future_1604_N2",
+    "NR_exploratory_future_1792_P1",
+    "NR_exploratory_future_1792_N2",
+    "NR_exploratory_future_2442_P1",
+    "NR_exploratory_future_2442_N2"
+  ],
+  "request_slots": [
+    {
+      "request_key": "plan|B0|NR_development_0402_P1",
+      "task_id": "NR_development_0402_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_0402_P1",
+      "task_id": "NR_development_0402_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_0402_N2",
+      "task_id": "NR_development_0402_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_0402_N2",
+      "task_id": "NR_development_0402_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_0424_P1",
+      "task_id": "NR_development_0424_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_0424_P1",
+      "task_id": "NR_development_0424_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_0424_N2",
+      "task_id": "NR_development_0424_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_0424_N2",
+      "task_id": "NR_development_0424_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_0923_P1",
+      "task_id": "NR_development_0923_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_0923_P1",
+      "task_id": "NR_development_0923_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_0923_N2",
+      "task_id": "NR_development_0923_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_0923_N2",
+      "task_id": "NR_development_0923_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_1498_P1",
+      "task_id": "NR_development_1498_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_1498_P1",
+      "task_id": "NR_development_1498_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_1498_N2",
+      "task_id": "NR_development_1498_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_1498_N2",
+      "task_id": "NR_development_1498_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_1582_P1",
+      "task_id": "NR_development_1582_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_1582_P1",
+      "task_id": "NR_development_1582_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_1582_N2",
+      "task_id": "NR_development_1582_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_1582_N2",
+      "task_id": "NR_development_1582_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_1981_P1",
+      "task_id": "NR_development_1981_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_1981_P1",
+      "task_id": "NR_development_1981_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_1981_N2",
+      "task_id": "NR_development_1981_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_1981_N2",
+      "task_id": "NR_development_1981_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_2111_P1",
+      "task_id": "NR_development_2111_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_2111_P1",
+      "task_id": "NR_development_2111_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_2111_N2",
+      "task_id": "NR_development_2111_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_2111_N2",
+      "task_id": "NR_development_2111_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_2174_P1",
+      "task_id": "NR_development_2174_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_2174_P1",
+      "task_id": "NR_development_2174_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_2174_N2",
+      "task_id": "NR_development_2174_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_2174_N2",
+      "task_id": "NR_development_2174_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_2196_P1",
+      "task_id": "NR_development_2196_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_2196_P1",
+      "task_id": "NR_development_2196_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_development_2196_N2",
+      "task_id": "NR_development_2196_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_development_2196_N2",
+      "task_id": "NR_development_2196_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_exploratory_future_1604_P1",
+      "task_id": "NR_exploratory_future_1604_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_exploratory_future_1604_P1",
+      "task_id": "NR_exploratory_future_1604_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_exploratory_future_1604_N2",
+      "task_id": "NR_exploratory_future_1604_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_exploratory_future_1604_N2",
+      "task_id": "NR_exploratory_future_1604_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_exploratory_future_1792_P1",
+      "task_id": "NR_exploratory_future_1792_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_exploratory_future_1792_P1",
+      "task_id": "NR_exploratory_future_1792_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_exploratory_future_1792_N2",
+      "task_id": "NR_exploratory_future_1792_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_exploratory_future_1792_N2",
+      "task_id": "NR_exploratory_future_1792_N2",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_exploratory_future_2442_P1",
+      "task_id": "NR_exploratory_future_2442_P1",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_exploratory_future_2442_P1",
+      "task_id": "NR_exploratory_future_2442_P1",
+      "stage": "consume",
+      "arm": "B0"
+    },
+    {
+      "request_key": "plan|B0|NR_exploratory_future_2442_N2",
+      "task_id": "NR_exploratory_future_2442_N2",
+      "stage": "plan",
+      "arm": "B0"
+    },
+    {
+      "request_key": "consume|B0|NR_exploratory_future_2442_N2",
+      "task_id": "NR_exploratory_future_2442_N2",
+      "stage": "consume",
+      "arm": "B0"
+    }
+  ],
+  "budget": {
+    "request_cap": 48,
+    "token_cap": 600000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "per_request_reserve_tokens": 10240
+  },
+  "branch_gates": {
+    "all_24_success": "CEILING_ON_THIS_PANEL",
+    "fewer_than_2_nonsuccess_or_single_cluster": "LIMITED_HEADROOM",
+    "at_least_2_clusters_with_nonsuccess": "CONTINUE_TO_ARM_DESIGN",
+    "technical_or_window_failure": "TECHNICAL_OR_WINDOW_STOP"
+  },
+  "deadline": "2026-10-19T22:00:00+08:00"
+}

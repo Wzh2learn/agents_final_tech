@@ -1,0 +1,345 @@
+{
+  "schema": "failure_history_qualification_audit_v1",
+  "status": "COMPLETE_READ_ONLY_NO_MODEL_REQUESTS",
+  "audit_time": "2026-10-19T21:52:44+08:00",
+  "model_requests_sent": 0,
+  "scope": {
+    "original_experience_pool": "12 real history trajectories",
+    "same_number_role_history": "6 task-matched trajectories",
+    "b0_results_excluded_from_history": true
+  },
+  "definitions": {
+    "complete_failure": "A failed attempt is complete when plan status or payload, tool result, consume result, classification, and attempt identity are present. Correctness is not required.",
+    "missing_record": "A required attempt, plan status or payload, tool result, consume result, or attempt identity is absent.",
+    "visible_decidable_wrong_role": "Expected decision is WRONG_ROLE and actor-visible requested_role and candidate_citation differ in row or period labels without relying on hidden indices.",
+    "role_correction": "A completed role decision is wrong, role-specific feedback is issued, and a later completed attempt changes the role decision to the reference decision.",
+    "interface_recovery": "A plan/tool failure is followed by a valid plan/tool path. This is not role correction."
+  },
+  "source_files": [
+    {
+      "path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/tatqa_wp0_2026/history_collection_execution_v1/pilot_prep_v1/EXPERIENCE_POOL.json",
+      "sha256": "BFA1974FAF025A8AFDF8FF45447347B07B06C659421161F38E39351DF4CC8551"
+    },
+    {
+      "path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/decision_space_autopsy_v1/SAME_NUMBER_ROLE_TASKS_DRAFT.json",
+      "sha256": "DBC54841F3E1A662B254C0249AED9FE1A8353BE0B6D3F281EB55756810A14D5E"
+    },
+    {
+      "path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/decision_space_autopsy_v1/exploratory_b0_v1/HISTORY_COLLECTION_RESULT.json",
+      "sha256": "F01019233B5419B1320B09FB4D88A5259666D7BE18664F750B79FA029A45EE42"
+    },
+    {
+      "path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/decision_space_autopsy_v1/exploratory_b0_v1/same_number_role_history_runner.py",
+      "sha256": "351DEC90B3A59DDE4D2193FBD3232AEFD2FF07ECC2A8F737BB26EA6535847D91"
+    },
+    {
+      "path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/decision_space_autopsy_v1/exploratory_b0_v1/same_number_role_b0_runner.py",
+      "sha256": "2974520D88685DFFF505D7C7B99AAEFEC0434B245D52F50CF90479B02D1501DC"
+    }
+  ],
+  "concurrent_change_note": "The task generator changed repeatedly during this audit to add visible-role qualification and exclude row-index-only differences. This does not retroactively alter SAME_NUMBER_ROLE_TASKS_DRAFT.json or HISTORY_COLLECTION_RESULT.json; their recorded hashes remained stable and are the evidence basis for this audit. The generator is listed separately as mutable implementation context with observed hashes, not as a stable frozen source.",
+  "mutable_implementation_context": {
+    "path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/decision_space_autopsy_v1/build_same_number_role_tasks.py",
+    "hash_status": "CHANGED_DURING_AUDIT",
+    "observed_sha256_in_order": [
+      "2CCBD3728A116C0C3C0319C0F068B2AB6BF423309EF922FB13F8B214C9C1E748",
+      "04D63E1B2C1AFF4EE14A5832BFDFA14FA3EA4176EB484B73DEF0CFAA075A7118",
+      "4A594BA5C693430014FB08DC47100B648AB7D9155F879486FB8A002F1D510CA1"
+    ],
+    "used_as_frozen_evidence": false
+  },
+  "original_history_pool": {
+    "experience_ids": [
+      "H01",
+      "H02",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "H07",
+      "H08",
+      "H09",
+      "H10",
+      "H11",
+      "H12"
+    ],
+    "attempts_per_experience": 2,
+    "result_level_complete_attempts": 24,
+    "missing_record_count": 0,
+    "calc_ok_answer_success_signature_count": 24,
+    "negative_trajectory_count": 0,
+    "correction_trajectory_count": 0,
+    "hardcoded_lesson_count": 12,
+    "hardcoded_lesson_is_empirical_evidence": false,
+    "allowed_use": [
+      "positive_solved_examples",
+      "positive_real_execution_traces"
+    ],
+    "disallowed_use": [
+      "negative_only_history",
+      "role_correction_history",
+      "empirical_lesson_derived_from_feedback"
+    ]
+  },
+  "same_number_role_history": {
+    "authorization_id": "SAME-NUMBER-HISTORY-20261019-24REQ",
+    "history_clusters": [
+      "cluster_0402",
+      "cluster_1582",
+      "cluster_2174"
+    ],
+    "trajectory_count": 6,
+    "attempt_count": 12,
+    "result_level_missing_record_count": 0,
+    "first_attempt_non_success_count": 5,
+    "second_attempt_non_success_count": 1,
+    "first_attempt_plan_or_tool_error_feedback_count": 5,
+    "first_attempt_role_decision_error_feedback_count": 0,
+    "first_attempt_success_feedback_count": 1,
+    "second_attempt_feedback_recorded_count": 0,
+    "trajectories": [
+      {
+        "task_id": "NR_development_0402_N2",
+        "source_cluster_id": "cluster_0402",
+        "expected_decision": "WRONG_ROLE",
+        "requested_role": {
+          "period": "Group 2019",
+          "row_label": "Cash and cash equivalents"
+        },
+        "candidate_citation": {
+          "period": "Group 2019",
+          "row_label": "Cash including Group’s share of joint ventures"
+        },
+        "visible_role_relation": "DIFFERENT_ROW_SAME_PERIOD",
+        "actor_visible_decidable": true,
+        "hidden_target_row_period_indices": [
+          2,
+          1
+        ],
+        "hidden_candidate_row_period_indices": [
+          8,
+          1
+        ],
+        "attempt_1": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "INVALID_PLAN:unsupported_expression_node",
+          "tool_status": "TOOL_ERROR",
+          "consume_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "feedback_category": "PLAN_OR_TOOL_ERROR"
+        },
+        "attempt_2": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:-223.0",
+          "tool_status": "OK",
+          "consume_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "feedback_category": null,
+          "feedback_recorded": false
+        },
+        "true_role_correction": false,
+        "qualification": "VISIBLE_DECIDABLE_WRONG_ROLE_FAILURE_BUT_INTERFACE_RECOVERY_ONLY",
+        "eligible_for_h_negative_random": true,
+        "eligible_scope": "negative interface/tool recovery signature only",
+        "notes": "The failed first decision was UNKNOWN after plan/tool failure. The successful second decision is not a correction from a wrong role decision."
+      },
+      {
+        "task_id": "NR_development_0402_P1",
+        "source_cluster_id": "cluster_0402",
+        "expected_decision": "SUPPORTED",
+        "visible_role_relation": "SAME_ROW_SAME_PERIOD",
+        "actor_visible_decidable": true,
+        "attempt_1": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "INVALID_PLAN:unsupported_expression_node",
+          "tool_status": "TOOL_ERROR",
+          "consume_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "feedback_category": "PLAN_OR_TOOL_ERROR"
+        },
+        "attempt_2": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:-223.0",
+          "tool_status": "OK",
+          "consume_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "feedback_category": null,
+          "feedback_recorded": false
+        },
+        "true_role_correction": false,
+        "qualification": "POSITIVE_INTERFACE_RECOVERY",
+        "eligible_for_h_negative_random": false
+      },
+      {
+        "task_id": "NR_development_1582_N2",
+        "source_cluster_id": "cluster_1582",
+        "expected_decision": "WRONG_ROLE",
+        "requested_role": {
+          "period": "2019",
+          "row_label": "Adjusted operating costs1"
+        },
+        "candidate_citation": {
+          "period": "2019",
+          "row_label": "Adjusted operating costs1"
+        },
+        "visible_role_relation": "IDENTICAL_VISIBLE_ROLE",
+        "actor_visible_decidable": false,
+        "hidden_target_row_period_indices": [
+          4,
+          1
+        ],
+        "hidden_candidate_row_period_indices": [
+          9,
+          1
+        ],
+        "attempt_1": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "INVALID_PLAN:unsupported_expression_node",
+          "tool_status": "TOOL_ERROR",
+          "consume_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "feedback_category": "PLAN_OR_TOOL_ERROR"
+        },
+        "attempt_2": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:275.7",
+          "tool_status": "OK",
+          "consume_decision": "SUPPORTED",
+          "outcome": "NON_SUCCESS",
+          "feedback_category": null,
+          "feedback_recorded": false
+        },
+        "true_role_correction": false,
+        "qualification": "UNSCORABLE_FOR_REFERENCE_REQUIRES_HUMAN_SEMANTIC_ADJUDICATION",
+        "eligible_for_h_negative_random": false,
+        "notes": "The complete failure record is not a missing record, but the expected WRONG_ROLE relies on hidden row_index 4 versus 9 while all actor-visible role labels are identical."
+      },
+      {
+        "task_id": "NR_development_1582_P1",
+        "source_cluster_id": "cluster_1582",
+        "expected_decision": "SUPPORTED",
+        "visible_role_relation": "SAME_ROW_SAME_PERIOD",
+        "actor_visible_decidable": true,
+        "attempt_1": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "INVALID_PLAN:unsupported_expression_node",
+          "tool_status": "TOOL_ERROR",
+          "consume_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "feedback_category": "PLAN_OR_TOOL_ERROR"
+        },
+        "attempt_2": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:275.7",
+          "tool_status": "OK",
+          "consume_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "feedback_category": null,
+          "feedback_recorded": false
+        },
+        "true_role_correction": false,
+        "qualification": "POSITIVE_INTERFACE_RECOVERY",
+        "eligible_for_h_negative_random": false
+      },
+      {
+        "task_id": "NR_development_2174_N2",
+        "source_cluster_id": "cluster_2174",
+        "expected_decision": "WRONG_ROLE",
+        "requested_role": {
+          "period": "2019",
+          "row_label": "Non-deductible and other items"
+        },
+        "candidate_citation": {
+          "period": "2018",
+          "row_label": "Non-deductible and other items"
+        },
+        "visible_role_relation": "SAME_ROW_DIFFERENT_PERIOD",
+        "actor_visible_decidable": true,
+        "hidden_target_row_period_indices": [
+          7,
+          1
+        ],
+        "hidden_candidate_row_period_indices": [
+          7,
+          2
+        ],
+        "attempt_1": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:3.4 - 3.4",
+          "tool_status": "OK",
+          "consume_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "feedback_category": "SUCCESS"
+        },
+        "attempt_2": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:3.4 - 3.4",
+          "tool_status": "OK",
+          "consume_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "feedback_category": null,
+          "feedback_recorded": false
+        },
+        "true_role_correction": false,
+        "qualification": "VISIBLE_DECIDABLE_WRONG_ROLE_SOLVE_NOT_FAILURE",
+        "eligible_for_h_negative_random": false,
+        "eligible_use": "positive solved-role example or matched control"
+      },
+      {
+        "task_id": "NR_development_2174_P1",
+        "source_cluster_id": "cluster_2174",
+        "expected_decision": "SUPPORTED",
+        "visible_role_relation": "SAME_ROW_SAME_PERIOD",
+        "actor_visible_decidable": true,
+        "attempt_1": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "INVALID_PLAN:unsupported_expression_node",
+          "tool_status": "TOOL_ERROR",
+          "consume_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "feedback_category": "PLAN_OR_TOOL_ERROR"
+        },
+        "attempt_2": {
+          "record_completeness": "COMPLETE_RESULT_RECORD",
+          "plan": "calc:3.4",
+          "tool_status": "OK",
+          "consume_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "feedback_category": null,
+          "feedback_recorded": false
+        },
+        "true_role_correction": false,
+        "qualification": "POSITIVE_INTERFACE_RECOVERY",
+        "eligible_for_h_negative_random": false
+      }
+    ]
+  },
+  "qualification_counts": {
+    "original_pool_negative_or_correction_trajectories": 0,
+    "same_number_complete_failure_trajectories_with_non_success_attempt": 5,
+    "same_number_result_level_missing_records": 0,
+    "same_number_true_role_corrections": 0,
+    "same_number_visible_decidable_wrong_role_tasks": 2,
+    "same_number_visible_decidable_wrong_role_failed_tasks": 1,
+    "same_number_visible_decidable_wrong_role_decision_failures_with_feedback_and_followup": 0
+  },
+  "h_negative_random_decision": {
+    "status": "INSUFFICIENT_FOR_H_NEGATIVE_RANDOM",
+    "minimum_visible_decidable_wrong_role_failed_histories": 2,
+    "observed_visible_decidable_wrong_role_failed_histories": 1,
+    "observed_true_role_corrections": 0,
+    "eligible_ids_under_failed_wrong_role_task_definition": [
+      "NR_development_0402_N2"
+    ],
+    "eligible_ids_under_wrong_role_decision_correction_definition": [],
+    "decision": "Do not run H-negative/random from the current material under a two-history minimum. Do not count NR_development_1582_N2 or NR_development_2174_N2 toward the minimum."
+  },
+  "raw_chain_verification": {
+    "runner_writes_request_response_with_unique_identity": true,
+    "result_budget_requests": 24,
+    "result_budget_stop_reason": null,
+    "recorded_raw_root": "/home/testuser/wzh/candidate_b_runs/SAME-NUMBER-HISTORY-20261019-24REQ",
+    "raw_root_accessible_from_audit_environment": false,
+    "qualification": "RESULT_LEVEL_COMPLETE_RAW_CHAIN_NOT_INDEPENDENTLY_REAUDITED"
+  }
+}

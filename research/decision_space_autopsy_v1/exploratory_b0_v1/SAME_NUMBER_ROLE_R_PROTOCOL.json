@@ -1,0 +1,30 @@
+{
+  "schema": "same_number_role_arm_protocol_v1",
+  "status": "FROZEN_BEFORE_ARM",
+  "arm": "R",
+  "task_order": [
+    "NR_development_0402_N2",
+    "NR_development_0402_P1",
+    "NR_development_1582_N2",
+    "NR_development_1582_P1",
+    "NR_development_1981_N2",
+    "NR_development_1981_P1",
+    "NR_development_2111_N2",
+    "NR_development_2111_P1",
+    "NR_development_2174_N2",
+    "NR_development_2174_P1",
+    "NR_exploratory_future_2442_N2",
+    "NR_exploratory_future_2442_P1"
+  ],
+  "context": {
+    "guidance": "Before accepting a claim, compare the requested role tuple with the candidate citation row and periods. Numeric agreement is insufficient. If the roles differ, return WRONG_ROLE and include the executed numeric value and unit. If the requested role is ambiguous, return UNKNOWN with null fields."
+  },
+  "budget": {
+    "request_cap": 24,
+    "token_cap": 300000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "per_request_reserve_tokens": 10240
+  },
+  "deadline": "2026-10-19T22:00:00+08:00"
+}

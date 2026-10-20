@@ -1,0 +1,591 @@
+{
+  "schema": "finrank_strong_rule_result_v1",
+  "status": "COMPLETE_DETERMINISTIC_DEVELOPMENT_BASELINE",
+  "generation_requests": 0,
+  "rule_signals": [
+    "visible_target_entity",
+    "content_period_not_metadata_only",
+    "question_term_overlap",
+    "table_metric_presence"
+  ],
+  "success_count": 0,
+  "non_success_count": 7,
+  "results": [
+    {
+      "task_id": "ESD_001",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": true,
+        "matched_minimal_sets": [
+          [
+            "cand_001"
+          ]
+        ],
+        "scope_precision": false,
+        "unsupported_selected_ids": [
+          "cand_004"
+        ],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "largest_component",
+          "second_component"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_001",
+          "cand_004"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_001",
+            "text": "#### Note 4. Marketable and Other Securities The following table summarizes the fair value of cash equivalents and marketable debt securities, which approximates cost: | | | Fair Value Level | | | December 31, 2024 | | | December 31, 2023 | |:---------------------------------------------------------------------------------|:----|-----------------:|:----|:--|------------------:|:----|:--|------------------:| | Cash and cash equivalents | | | | | | | | | | Cash and time deposits | | | | $ | 12,471 | | $ | 8,977 | | Available-for-sale debt securities | | | | | | | | | | U.S. government and agencies | | 2 | | | 26 | | | 211 | | Corporate debt | | 2 | | | 1,541 | | | 1,439 | | Sovereign debt | | 2 | | | 785 | | | 734 | | Total available-for-sale debt securities – cash equivalents | | | | | 2,351 | | | 2,384 | | Money market funds | | 1 | | | 5,050 | | | 7,491 | | Total cash and cash equivalents | | | | $ | 19,872 | | $ | 18,853 | | Marketable debt securities | | | | | | | | | | U.S. government and agencies | | 2 | | $ | 3,082 | | $ | 3,495 | | Corporate debt and other | | 2 | | | 3,592 | | | 3,529 | | Mortgage and asset-backed | | 2 | | | 591 | | | 589 | | Total available-for-sale debt securities – marketable securities | | | | $ | 7,265 | | $ | 7,613 | | Restricted cash | | | | | | | | | | Cash and cash equivalents | | | | $ | 294 | | $ | 277 | | Money market funds | | 1 | | | 2,798 | | | 2,787 | | Total restricted cash | | | | $ | 3,092 | | $ | 3,064 | | Available-for-sale debt securities included above with contractual maturities(a) | | | | | | | | | | Due in one year or less | | | | $ | 3,590 | | | | | Due between one and five years | | | | | 5,386 | | | | | Total available-for-sale debt securities with contractual maturities | | | | $ | 8,976 | | | | __________ (a) Excludes mortgage and asset-backed securities of $ 591million at December 31, 2024 as these securities are not due at a single maturity date. Proceeds from the sale of available-for-sale debt securities sold prior to maturity were $ 2.5billion, $ 2.1billion and $ 1.8billion in the years ended December 31, 2024, 2023 and 2022. Available-for-sale debt securities had net unrealized gains of $ 86million and $ 196million in the years ended December 31, 2024 and 2023 and net unrealized losses of $ 319million in the year ended December 31, 2022. Cumulative unrealized losses on available-for-sale debt securities were $ 74million and $ 160million at December 31, 2024 and 2023. The following table provides a reconciliation of cash, cash equivalents and restricted cash reported within the consolidated balance sheets that sum to the total of the same amounts shown in the consolidated statements of cash flows: | | | | December 31, 2024 | | | December 31, 2023 | |:-------------------------------------------------|:----|:--|------------------:|:----|:--|------------------:| | Cash and cash equivalents | | $ | 19,872 | | $ | 18,853 | | Restricted cash included in Other current assets | | | 2,608 | | | 2,604 | | Restricted cash included in Other assets | | | 484 | | | 460 | | Total | | $ | 22,964 | | $ | 21,917 | <div align='center'>67</div> ### GENERAL MOTORS COMPANY AND SUBSIDIARIES ### NOTES TO CONSOLIDATED FINANCIAL STATEMENTS – (Continued) #### Note 5. GM Financial Receivables and Transactions | | | | December 31, 2024 | | | | | | | | | December 31, 2023 | | | | | | | |:----------------------------------------------------------------|:----|:--|------------------:|:----|:--|--------------:|:----|:--|-------:|:----|:--|------------------:|:----|:--|--------------:|:----|:--|-------:| | | | | Retail | | | Commercial(a) | | | Total | | | Retail | | | Commercial(a) | | | Total | | GM Financial receivables | | $ | 76,066 | | $ | 19,228 | | $ | 95,294 | | $ | 72,729 | | $ | 13,734 | | $ | 86,463 | | Less: allowance for loan losses | | | -2,400 | | | -58 | | | -2,458 | | | -2,308 | | | -36 | | | -2,344 | | GM Financial receivables, net | | $ | 73,667 | | $ | 19,169 | | $ | 92,836 | | $ | 70,421 | | $ | 13,698 | | $ | 84,119 | | Fair value of GM Financial receivables utilizing Level 2 inputs | | | | | | | | $ | 19,169 | | | | | | | | $ | 13,698 | | Fair value of GM Financial receivables utilizing Level 3 inputs | | | | | | | | $ | 74,729 | | | | | | | | $ | 70,911 | __________ (a) Commercial finance receivables include dealer financing of $ 18.6billion and $ 13.3billion, and other financing of $ 604million and $ 476million at December 31, 2024 and 2023. Commercial finance receivables are presented net of dealer cash management balances of $ 3.4billion and $ 2.6billion at December 31, 2024 and 2023. Under the cash management program, subject to certain conditions, a dealer may choose to reduce the amount of interest on its floorplan line by making principal payments to GM Financial in advance. | | | | Years Ended December 31, 2024 | | | 2023 | | | 2022 | |:-------------------------------------------------|:----|:--|-------------------------:|:----|:--|-------:|:----|:--|-------:| | Allowance for loan losses at beginning of period | | $ | 2,344 | | $ | 2,096 | | $ | 1,886 | | Provision for loan losses | | | 1,029 | | | 826 | | | 654 | | Charge-offs | | | -1,756 | | | -1,423 | | | -1,138 | | Recoveries | | | 903 | | | 768 | | | 686 | | Effect of foreign currency and other | | | -61 | | | 76 | | | 9 | | Allowance for loan losses at end of period | | $ | 2,458 | | $ | 2,344 | | $ | 2,096 | The allowance for loan losses as a percentage of finance receivables was 2.6% and 2.7% at December 31, 2024 and 2023. Retail Finance Receivables GM Financial's retail finance receivable portfolio includes loans made to consumers and businesses to finance the purchase of vehicles for personal and commercial use. The following tables are consolidated summaries of the retail finance receivables by FICO score or its equivalent, determined at origination, for each vintage of the retail finance receivables portfolio at December 31, 2024 and 2023: | | | | Year of Origination 2024 | | | 2023 | | | 2022 | | | 2021 | | | 2020 | | | Prior | | | December 31, 2024 Total | | Percent | | |:-------------------------------------|:----|:--|--------------------:|:----|:--|-------:|:----|:--|-------:|:----|:--|------:|:----|:--|------:|:----|:--|------:|:----|:--|------------------:|:----|--------:|:--| | Prime – FICO score 680 and greater | | $ | 24,155 | | $ | 15,814 | | $ | 9,749 | | $ | 5,424 | | $ | 2,559 | | $ | 366 | | $ | 58,067 | | 76.3 | % | | Near-prime – FICO score 620 to 679 | | | 3,547 | | | 2,227 | | | 1,507 | | | 1,077 | | | 473 | | | 159 | | | 8,990 | | 11.8 | % | | Sub-prime – FICO score less than 620 | | | 3,399 | | | 2,059 | | | 1,546 | | | 1,141 | | | 543 | | | 322 | | | 9,008 | | 11.8 | % | | Retail finance receivables | | $ | 31,101 | | $ | 20,100 | | $ | 12,802 | | $ | 7,642 | | $ | 3,575 | | $ | 847 | | $ | 76,066 | | 100.0 |",
+            "page_number": "67-68",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          },
+          {
+            "candidate_id": "cand_004",
+            "text": "The following table provides a reconciliation of cash, cash equivalents and restricted cash reported within the consolidated balance sheets that sum to the total of the same amounts shown in the consolidated statements of cash flows: | | | | December 31, 2024 | | | December 31, 2023 | |:-------------------------------------------------|:----|:--|------------------:|:----|:--|------------------:| | Cash and cash equivalents | | $ | 19,872 | | $ | 18,853 | | Restricted cash included in Other current assets | | | 2,608 | | | 2,604 | | Restricted cash included in Other assets | | | 484 | | | 460 | | Total | | $ | 22,964 | | $ | 21,917 | <div align='center'>67</div> ### GENERAL MOTORS COMPANY AND SUBSIDIARIES ### NOTES TO CONSOLIDATED FINANCIAL STATEMENTS – (Continued) #### Note 5. GM Financial Receivables and Transactions | | | | December 31, 2024 | | | | | | | | | December 31, 2023 | | | | | | | |:----------------------------------------------------------------|:----|:--|------------------:|:----|:--|--------------:|:----|:--|-------:|:----|:--|------------------:|:----|:--|--------------:|:----|:--|-------:| | | | | Retail | | | Commercial(a) | | | Total | | | Retail | | | Commercial(a) | | | Total | | GM Financial receivables | | $ | 76,066 | | $ | 19,228 | | $ | 95,294 | | $ | 72,729 | | $ | 13,734 | | $ | 86,463 | | Less: allowance for loan losses | | | -2,400 | | | -58 | | | -2,458 | | | -2,308 | | | -36 | | | -2,344 | | GM Financial receivables, net | | $ | 73,667 | | $ | 19,169 | | $ | 92,836 | | $ | 70,421 | | $ | 13,698 | | $ | 84,119 | | Fair value of GM Financial receivables utilizing Level 2 inputs | | | | | | | | $ | 19,169 | | | | | | | | $ | 13,698 | | Fair value of GM Financial receivables utilizing Level 3 inputs | | | | | | | | $ | 74,729 | | | | | | | | $ | 70,911 | __________ (a) Commercial finance receivables include dealer financing of $ 18.6billion and $ 13.3billion, and other financing of $ 604million and $ 476million at December 31, 2024 and 2023. Commercial finance receivables are presented net of dealer cash management balances of $ 3.4billion and $ 2.6billion at December 31, 2024 and 2023. Under the cash management program, subject to certain conditions, a dealer may choose to reduce the amount of interest on its floorplan line by making principal payments to GM Financial in advance. | | | | Years Ended December 31, 2024 | | | 2023 | | | 2022 | |:-------------------------------------------------|:----|:--|-------------------------:|:----|:--|-------:|:----|:--|-------:| | Allowance for loan losses at beginning of period | | $ | 2,344 | | $ | 2,096 | | $ | 1,886 | | Provision for loan losses | | | 1,029 | | | 826 | | | 654 | | Charge-offs | | | -1,756 | | | -1,423 | | | -1,138 | | Recoveries | | | 903 | | | 768 | | | 686 | | Effect of foreign currency and other | | | -61 | | | 76 | | | 9 | | Allowance for loan losses at end of period | | $ | 2,458 | | $ | 2,344 | | $ | 2,096 | The allowance for loan losses as a percentage of finance receivables was 2.6% and 2.7% at December 31, 2024 and 2023.",
+            "page_number": "67-68",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": "2025",
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "#### Note 4. Marketable and Other Securities The following table summarizes the fair value of cash equivalents and marketable debt securities, which approximates cost:",
+            "value": 100.0,
+            "unit": null,
+            "period": null
+          },
+          {
+            "label": "The following table provides a reconciliation of cash, cash equivalents and restricted cash reported within the consolidated balance sheets that sum to the total of the same amounts shown in the consolidated statements of cash flows:",
+            "value": 2096.0,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_001",
+          "cand_004"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_002",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": true,
+        "matched_minimal_sets": [
+          [
+            "cand_001"
+          ]
+        ],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "net_cash_financing"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_001"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_001",
+            "text": "### CONSOLIDATED STATEMENTS OF CASH FLOWS <div align='center'>(In millions)</div> | Cash flows from operating activities | | | Years Ended December 31, 2024 | | | 2023 | | | 2022 | |:-------------------------------------------------------------------------------|:----|:--|-------------------------:|:----|:--|--------:|:----|:--|--------:| | Net income (loss) | | $ | 5,963 | | $ | 9,840 | | $ | 9,708 | | Depreciation and impairment of Equipment on operating leases, net | | | 4,844 | | | 4,904 | | | 4,839 | | Depreciation, amortization and impairment charges on Property, net | | | 7,545 | | | 6,984 | | | 6,451 | | Foreign currency remeasurement and transaction (gains) losses | | | -321 | | | 349 | | | 172 | | Undistributed earnings and impairment of nonconsolidated affiliates, net | | | 4,118 | | | 245 | | | 193 | | Pension contributions and OPEB payments | | | -1,518 | | | -1,100 | | | -790 | | Pension and OPEB income, net | | | 89 | | | 90 | | | -1,189 | | Provision (benefit) for deferred taxes | | | 1,368 | | | -1,041 | | | 425 | | Change in other operating assets and liabilities (Note 24) | | | -1,529 | | | 1,822 | | | -2,977 | | Other operating activities | | | -433 | | | -1,163 | | | -790 | | Net cash provided by (used in) operating activities | | | 20,129 | | | 20,930 | | | 16,043 | | Cash flows from investing activities | | | | | | | | | | | Expenditures for property | | | -10,830 | | | -10,970 | | | -9,238 | | Available-for-sale marketable securities, acquisitions | | | -3,986 | | | -4,429 | | | -11,837 | | Available-for-sale marketable securities, liquidations | | | 4,331 | | | 9,345 | | | 8,057 | | Purchases of finance receivables | | | -36,348 | | | -35,379 | | | -33,974 | | Principal collections and recoveries on finance receivables | | | 31,784 | | | 28,346 | | | 26,887 | | Purchases of leased vehicles | | | -15,279 | | | -13,640 | | | -11,949 | | Proceeds from termination of leased vehicles | | | 10,892 | | | 13,033 | | | 14,234 | | Other investing activities | | | -1,081 | | | -969 | | | -62 | | Net cash provided by (used in) investing activities | | | -20,517 | | | -14,663 | | | -17,882 | | Cash flows from financing activities | | | | | | | | | | | Net increase (decrease) in short-term debt | | | 128 | | | -156 | | | 373 | | Proceeds from issuance of debt (original maturities greater than three months) | | | 53,435 | | | 50,963 | | | 45,813 | | Payments on debt (original maturities greater than three months) | | | -43,399 | | | -44,675 | | | -39,606 | | Payments to purchase common stock (Note 20) | | | -7,064 | | | -11,115 | | | -2,500 | | Issuance (redemption) of subsidiary stock (Note 20) | | | -101 | | | — | | | -2,121 | | Dividends paid | | | -653 | | | -597 | | | -397 | | Other financing activities | | | -407 | | | -774 | | | -1,178 | | Net cash provided by (used in) financing activities | | | 1,938 | | | -6,353 | | | 383 | | Effect of exchange rate changes on cash, cash equivalents and restricted cash | | | -503 | | | 54 | | | -138 | | Net increase (decrease) in cash, cash equivalents and restricted cash | | | 1,047 | | | -31 | | | -1,594 | | Cash, cash equivalents and restricted cash at beginning of period | | | 21,917 | | | 21,948 | | | 23,542 | | Cash, cash equivalents and restricted cash at end of period | | $ | 22,964 | | $ | 21,917 | | $ | 21,948 | | Significant Non-cash Investing and Financing Activity | | | | | | | | | | | Non-cash property additions | | $ | 3,864 | | $ | 6,013 | | $ | 5,376 | <div align='center'>Reference should be made to the notes to consolidated financial statements. Amounts may not add due to rounding. 56</div> ### GENERAL MOTORS COMPANY AND SUBSIDIARIES ### CONSOLIDATED STATEMENTS OF EQUITY <div align='center'>(In millions)</div> | Common Stock | | | Common Stockholders’ | | Additional Paid-in Capital | | | | | Retained Earnings | | | | | Accumulated Other Comprehensive Loss | | | | | | Noncontrolling Interests | | | Total Equity | | | Noncontrolling Interest Cruise Stock Incentive Awards (Temporary Equity) | |:----------------------------------------------------|:----|:--|---------------------:|:----|:---------------------------|:----|:--|-------:|:----|:------------------|:----|:--|-------:|:----|:-------------------------------------|:----|:--|--------:|:----|:--|-------------------------:|:----|:--|-------------:|:----|:--|------------------------------:| | Balance at January 1, 2022 | | $ | 15 | | | | $ | 27,061 | | | | $ | 41,937 | | | | $ | -9,269 | | $ | 6,071 | | $ | 65,815 | | $ | — | | Net income (loss) | | | — | | | | | — | | | | | 9,934 | | | | | — | | | -226 | | | 9,708 | | | — | | Other comprehensive income (loss) | | | — | | | | | — | | | | | — | | | | | 1,368 | | | -31 | | | 1,337 | | | — | | Issuance (redemption) of subsidiary stock (Note 20) | | | — | | | | | — | | | | | -909 | | | | | — | | | -1,212 | | | -2,121 | | | — | | Purchase of common stock (Note 20) | | | -1 | | | | | -1,153 | | | | | -1,347 | | | | | — | | | — | | | -2,500 | | | — | | Stock based compensation | | | — | | | | | 299 | | | | | -5 | | | | | — | | | — | | | 294 | | | 299 | | Cash dividends paid on common stock | | | — | | | | | — | | | | | -257 | | | | | — | | | — | | | -257 | | | — | | Dividends to noncontrolling interests | | | — | | | | | — | | | | | -12 | | | | | — | | | -127 | | | -140 | | | — | | Other | | | — | | | | | 221 | | | | | -90 | | | | | — | | | -340 | | | -208 | | | 59 | | Balance at December 31, 2022 | | | 14 | | | | | 26,428 | | | | | 49,251 | | | | | -7,901 | | | 4,135 | | | 71,927 | | | 357 | | Net income (loss) | | | — | | | | | — | | | | | 10,127 | | | | | — | | | -287 | | | 9,840 | | | — | | Other comprehensive income (loss) | | | — | | | | | — | | | | | — | | | | | -2,346 | | | -9 | | | -2,355 | | | — | | Purchase of common stock (Note 20) | | | -2 | | | | | -7,686 | | | | | -3,426 | | | | | — | | | — | | | -11,115 | | | — | | Stock based compensation | | | — | | | | | 259 | | | | | -6 | | | | | — | | | — | | | 253 | | | 24 | | Cash dividends paid on common stock | | | — | | | | | — | | | | | -477 | | | | | — | | | — | | | -477 | | | — | | Dividends to noncontrolling interests | | | — | | | | | — | | | | | — | | | | | — | | | -120 | | | -120 | | | — | | Other | | | — | | | | | 129 | | | | | -77 | | | | | — | | | 185 | | | 237 | | | -263 | | Balance at December 31, 2023 | | | 12 | | | | | 19,130 | | | | | 55,391 | | | | | -10,247 | | | 3,903 | | | 68,189 | | | 118 | | Net income (loss) | | | — | | | | | — | | | | | 6,008 | | | | | — | | | -45 | | | 5,963 | | | — | | Other comprehensive income (loss) | | | — | | | | | — | | | | | — | | | | | -1,006 | | | -131 | | | -1,137 | | | — | | Issuance (redemption) of subsidiary stock (Note 20) | | | — | | | | | 973 | | | | | — | | | | | — | | | -1,074 | | | -101 | | | — | | Purchase of common stock (Note 20) | | | -2 | | | | | 245 | | | | | -7,307 | | | | | — | | | — | | | -7,064 | | | — | | Stock based compensation | | | — | | | | | 552 | | | | | -9 | | | | | — | | | — | | | 543 | | | — | | Cash dividends paid on common stock | | | — | | | | | — | | | | | -530 | | | | | — | | | — | | | -530 | | | — | | Dividends to noncontrolling interests | | | — | | | | | — | | | | | — | | | | | — | | | -123 | | | -123 | | | — | | Other | | | — | | | | | -57 | | | | | -80 | | | | | — | | | -13 | | | -150 | | | -118 | | Balance at December 31, 2024 | | $ | 10 | | | | $ | 20,843 | | | | $ | 53,472 | | | | $ | -11,253 | | $ | 2,518 | | $ | 65,590 | | $ | — | <div align='center'>Reference should be made to the notes to consolidated financial statements. Amounts may not add due to rounding.",
+            "page_number": "56-57",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "### CONSOLIDATED STATEMENTS OF CASH FLOWS <div align='center'>(In millions)</div>",
+            "value": 65590.0,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_001"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_003",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": true,
+        "matched_minimal_sets": [
+          [
+            "cand_006",
+            "cand_007"
+          ]
+        ],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "automotive_debt",
+          "investing_cash_flow"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_007",
+          "cand_006"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_007",
+            "text": "### CONSOLIDATED STATEMENTS OF CASH FLOWS <div align='center'>(In millions)</div> | Cash flows from operating activities | | | Years Ended December 31, 2024 | | | 2023 | | | 2022 | |:-------------------------------------------------------------------------------|:----|:--|-------------------------:|:----|:--|--------:|:----|:--|--------:| | Net income (loss) | | $ | 5,963 | | $ | 9,840 | | $ | 9,708 | | Depreciation and impairment of Equipment on operating leases, net | | | 4,844 | | | 4,904 | | | 4,839 | | Depreciation, amortization and impairment charges on Property, net | | | 7,545 | | | 6,984 | | | 6,451 | | Foreign currency remeasurement and transaction (gains) losses | | | -321 | | | 349 | | | 172 | | Undistributed earnings and impairment of nonconsolidated affiliates, net | | | 4,118 | | | 245 | | | 193 | | Pension contributions and OPEB payments | | | -1,518 | | | -1,100 | | | -790 | | Pension and OPEB income, net | | | 89 | | | 90 | | | -1,189 | | Provision (benefit) for deferred taxes | | | 1,368 | | | -1,041 | | | 425 | | Change in other operating assets and liabilities (Note 24) | | | -1,529 | | | 1,822 | | | -2,977 | | Other operating activities | | | -433 | | | -1,163 | | | -790 | | Net cash provided by (used in) operating activities | | | 20,129 | | | 20,930 | | | 16,043 | | Cash flows from investing activities | | | | | | | | | | | Expenditures for property | | | -10,830 | | | -10,970 | | | -9,238 | | Available-for-sale marketable securities, acquisitions | | | -3,986 | | | -4,429 | | | -11,837 | | Available-for-sale marketable securities, liquidations | | | 4,331 | | | 9,345 | | | 8,057 | | Purchases of finance receivables | | | -36,348 | | | -35,379 | | | -33,974 | | Principal collections and recoveries on finance receivables | | | 31,784 | | | 28,346 | | | 26,887 | | Purchases of leased vehicles | | | -15,279 | | | -13,640 | | | -11,949 | | Proceeds from termination of leased vehicles | | | 10,892 | | | 13,033 | | | 14,234 | | Other investing activities | | | -1,081 | | | -969 | | | -62 | | Net cash provided by (used in) investing activities | | | -20,517 | | | -14,663 | | | -17,882 | | Cash flows from financing activities | | | | | | | | | | | Net increase (decrease) in short-term debt | | | 128 | | | -156 | | | 373 | | Proceeds from issuance of debt (original maturities greater than three months) | | | 53,435 | | | 50,963 | | | 45,813 | | Payments on debt (original maturities greater than three months) | | | -43,399 | | | -44,675 | | | -39,606 | | Payments to purchase common stock (Note 20) | | | -7,064 | | | -11,115 | | | -2,500 | | Issuance (redemption) of subsidiary stock (Note 20) | | | -101 | | | — | | | -2,121 | | Dividends paid | | | -653 | | | -597 | | | -397 | | Other financing activities | | | -407 | | | -774 | | | -1,178 | | Net cash provided by (used in) financing activities | | | 1,938 | | | -6,353 | | | 383 | | Effect of exchange rate changes on cash, cash equivalents and restricted cash | | | -503 | | | 54 | | | -138 | | Net increase (decrease) in cash, cash equivalents and restricted cash | | | 1,047 | | | -31 | | | -1,594 | | Cash, cash equivalents and restricted cash at beginning of period | | | 21,917 | | | 21,948 | | | 23,542 | | Cash, cash equivalents and restricted cash at end of period | | $ | 22,964 | | $ | 21,917 | | $ | 21,948 | | Significant Non-cash Investing and Financing Activity | | | | | | | | | | | Non-cash property additions | | $ | 3,864 | | $ | 6,013 | | $ | 5,376 | <div align='center'>Reference should be made to the notes to consolidated financial statements. Amounts may not add due to rounding. 56</div> ### GENERAL MOTORS COMPANY AND SUBSIDIARIES ### CONSOLIDATED STATEMENTS OF EQUITY <div align='center'>(In millions)</div> | Common Stock | | | Common Stockholders’ | | Additional Paid-in Capital | | | | | Retained Earnings | | | | | Accumulated Other Comprehensive Loss | | | | | | Noncontrolling Interests | | | Total Equity | | | Noncontrolling Interest Cruise Stock Incentive Awards (Temporary Equity) | |:----------------------------------------------------|:----|:--|---------------------:|:----|:---------------------------|:----|:--|-------:|:----|:------------------|:----|:--|-------:|:----|:-------------------------------------|:----|:--|--------:|:----|:--|-------------------------:|:----|:--|-------------:|:----|:--|------------------------------:| | Balance at January 1, 2022 | | $ | 15 | | | | $ | 27,061 | | | | $ | 41,937 | | | | $ | -9,269 | | $ | 6,071 | | $ | 65,815 | | $ | — | | Net income (loss) | | | — | | | | | — | | | | | 9,934 | | | | | — | | | -226 | | | 9,708 | | | — | | Other comprehensive income (loss) | | | — | | | | | — | | | | | — | | | | | 1,368 | | | -31 | | | 1,337 | | | — | | Issuance (redemption) of subsidiary stock (Note 20) | | | — | | | | | — | | | | | -909 | | | | | — | | | -1,212 | | | -2,121 | | | — | | Purchase of common stock (Note 20) | | | -1 | | | | | -1,153 | | | | | -1,347 | | | | | — | | | — | | | -2,500 | | | — | | Stock based compensation | | | — | | | | | 299 | | | | | -5 | | | | | — | | | — | | | 294 | | | 299 | | Cash dividends paid on common stock | | | — | | | | | — | | | | | -257 | | | | | — | | | — | | | -257 | | | — | | Dividends to noncontrolling interests | | | — | | | | | — | | | | | -12 | | | | | — | | | -127 | | | -140 | | | — | | Other | | | — | | | | | 221 | | | | | -90 | | | | | — | | | -340 | | | -208 | | | 59 | | Balance at December 31, 2022 | | | 14 | | | | | 26,428 | | | | | 49,251 | | | | | -7,901 | | | 4,135 | | | 71,927 | | | 357 | | Net income (loss) | | | — | | | | | — | | | | | 10,127 | | | | | — | | | -287 | | | 9,840 | | | — | | Other comprehensive income (loss) | | | — | | | | | — | | | | | — | | | | | -2,346 | | | -9 | | | -2,355 | | | — | | Purchase of common stock (Note 20) | | | -2 | | | | | -7,686 | | | | | -3,426 | | | | | — | | | — | | | -11,115 | | | — | | Stock based compensation | | | — | | | | | 259 | | | | | -6 | | | | | — | | | — | | | 253 | | | 24 | | Cash dividends paid on common stock | | | — | | | | | — | | | | | -477 | | | | | — | | | — | | | -477 | | | — | | Dividends to noncontrolling interests | | | — | | | | | — | | | | | — | | | | | — | | | -120 | | | -120 | | | — | | Other | | | — | | | | | 129 | | | | | -77 | | | | | — | | | 185 | | | 237 | | | -263 | | Balance at December 31, 2023 | | | 12 | | | | | 19,130 | | | | | 55,391 | | | | | -10,247 | | | 3,903 | | | 68,189 | | | 118 | | Net income (loss) | | | — | | | | | — | | | | | 6,008 | | | | | — | | | -45 | | | 5,963 | | | — | | Other comprehensive income (loss) | | | — | | | | | — | | | | | — | | | | | -1,006 | | | -131 | | | -1,137 | | | — | | Issuance (redemption) of subsidiary stock (Note 20) | | | — | | | | | 973 | | | | | — | | | | | — | | | -1,074 | | | -101 | | | — | | Purchase of common stock (Note 20) | | | -2 | | | | | 245 | | | | | -7,307 | | | | | — | | | — | | | -7,064 | | | — | | Stock based compensation | | | — | | | | | 552 | | | | | -9 | | | | | — | | | — | | | 543 | | | — | | Cash dividends paid on common stock | | | — | | | | | — | | | | | -530 | | | | | — | | | — | | | -530 | | | — | | Dividends to noncontrolling interests | | | — | | | | | — | | | | | — | | | | | — | | | -123 | | | -123 | | | — | | Other | | | — | | | | | -57 | | | | | -80 | | | | | — | | | -13 | | | -150 | | | -118 | | Balance at December 31, 2024 | | $ | 10 | | | | $ | 20,843 | | | | $ | 53,472 | | | | $ | -11,253 | | $ | 2,518 | | $ | 65,590 | | $ | — | <div align='center'>Reference should be made to the notes to consolidated financial statements. Amounts may not add due to rounding.",
+            "page_number": "56-57",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          },
+          {
+            "candidate_id": "cand_006",
+            "text": "#### Note 13. Debt Automotive The following table presents debt in our automotive operations: | | | | December 31, 2024 | | | | | | | December 31, 2023 | | | | | |:-----------------------------------------------------------------|:----|:--|------------------:|:----|:--|-----------:|:--|:----|:--|------------------:|:----|:--|-----------:|:--| | | | | Carrying Amount | | | Fair Value | | | | Carrying Amount | | | Fair Value | | | Secured debt | | $ | 105 | | $ | 105 | | | $ | 134 | | $ | 132 | | | Unsecured debt(a) | | | 14,980 | | | 14,709 | | | | 15,842 | | | 15,911 | | | Finance lease liabilities | | | 383 | | | 391 | | | | 437 | | | 447 | | | Total automotive debt(b) | | $ | 15,467 | | $ | 15,204 | | | $ | 16,413 | | $ | 16,490 | | | Fair value utilizing Level 1 inputs | | | | | $ | 14,366 | | | | | | $ | 15,457 | | | Fair value utilizing Level 2 inputs | | | | | $ | 838 | | | | | | $ | 1,033 | | | Available under credit facility agreements(c) | | | | | $ | 13,793 | | | | | | $ | 16,446 | | | Weighted-average interest rate on outstanding short-term debt(d) | | | | | | 7.3 | % | | | | | | 16.2 | % | | Weighted-average interest rate on outstanding long-term debt(d) | | | | | | 5.8 | % | | | | | | 5.8 | % | __________ (a) Primarily consist of senior notes. (b) Includes net discount and debt issuance costs of $ 439million and $ 527million at December 31, 2024 and 2023. (c) Excludes our 364-day, $ 2.0billion facility designated for exclusive use by GM Financial. (d) Inc ludes coupon rates on debt denominated in various foreign currencies and interest free loans. In March 2024, we renewed our 364-day, $ 2.0billion revolving credit facility allocated for the exclusive use of GM Financial, which now matures March 27, 2025. Interest rates on obligations under the renewed credit facility are based on Term SOFR. In March 2024, we terminated our unsecured 364-day delayed draw term loan credit agreement that permitted the Company to borrow up to $ 3.0billion executed in November 2023, resulting in an insignificant loss. In December 2024, we exercised the make-whole provision on a portion of our $ 2.0billion senior unsecured notes with a maturity date of October 2025, redeeming $ 750million in aggregate principal amount. Upon settlement in December 2024, we recorded an insignificant early extinguishment of debt loss. GM Financial The following table presents debt of GM Financial: | | | | December 31, 2024 | | | | | | December 31, 2023 | | | | |:------------------------------------|:----|:--|------------------:|:----|:--|-----------:|:----|:--|------------------:|:----|:--|-----------:| | | | | Carrying Amount | | | Fair Value | | | Carrying Amount | | | Fair Value | | Secured debt | | $ | 49,573 | | $ | 49,753 | | $ | 45,243 | | $ | 44,971 | | Unsecured debt | | | 64,691 | | | 65,258 | | | 60,084 | | | 59,651 | | Total GM Financial debt | | $ | 114,264 | | $ | 115,010 | | $ | 105,327 | | $ | 104,622 | | Fair value utilizing Level 2 inputs | | | | | $ | 112,941 | | | | | $ | 102,262 | | Fair value utilizing Level 3 inputs | | | | | $ | 2,070 | | | | | $ | 2,360 | Secured debt consists of revolving credit facilities and securitization notes payable. Most of the secured debt was issued by VIEs and is repayable only from proceeds related to the underlying pledged assets. Refer to Note 11 for additional information on GM Financial's involvement with VIEs. GM Financial is required to hold certain funds in restricted cash accounts to provide additional collateral for borrowings under certain secured credit facilities. The weighted-average interest rate on secured debt was 5.17% at December 31, 2024. The revolving credit facilities have maturity dates ranging from 2025 to 2028 and securitization notes payable have maturity dates ranging from 2025 to 2037. At the end of the revolving period, if not renewed, the debt of revolving credit facilities will amortize over a defined period. In the year ended December 31, 2024, GM Financial renewed revolving credit facilities with total borrowing capacity of $ 27.4billion and issued $ 24.8billion in aggregate principal <div align='center'>78</div> ### GENERAL MOTORS COMPANY AND SUBSIDIARIES ### NOTES TO CONSOLIDATED FINANCIAL STATEMENTS – (Continued) amount of securitization notes payable with an initial weighted-average interest rate of 5.30% and maturity dates ranging from 2024 to 2037. Unsecured debt consists of senior notes, credit facilities and other unsecured debt. Senior notes outstanding at December 31, 2024 have maturity dates ranging from 2025 to 2034 and have a weighted-average interest rate of 4.20%. In the year ended December 31, 2024, GM Financial issued $ 12.5billion in aggregate principal amount of senior notes with an initial weighted-average interest rate of 5.39% and maturity dates ranging from 2027 to 2034.",
+            "page_number": "78-79",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "### CONSOLIDATED STATEMENTS OF CASH FLOWS <div align='center'>(In millions)</div>",
+            "value": 65590.0,
+            "unit": null,
+            "period": null
+          },
+          {
+            "label": "#### Note 13. Debt Automotive The following table presents debt in our automotive operations:",
+            "value": 2360.0,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_007",
+          "cand_006"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_004",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": true,
+        "matched_minimal_sets": [
+          [
+            "cand_003",
+            "cand_005"
+          ]
+        ],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "roe",
+          "roic_adjusted"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_003",
+          "cand_005"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_003",
+            "text": "The following table summarizes the calculation of ROIC-adjusted (dollars in billions): | | | | Years Ended December 31, 2024 | | | | 2023 | | | | 2022 | | |:---------------------------------------------------------------------------------|:----|:--|-------------------------:|:--|:----|:--|------:|:--|:----|:--|------:|:--| | EBIT-adjusted(a) | | $ | 14.9 | | | $ | 12.4 | | | $ | 14.5 | | | Average equity(b) | | $ | 68.9 | | | $ | 72.0 | | | $ | 66.6 | | | Add: Average automotive debt and interest liabilities (excluding finance leases) | | | 16.1 | | | | 16.2 | | | | 17.6 | | | Add: Average automotive net pension and OPEB liability | | | 9.4 | | | | 8.1 | | | | 9.4 | | | Less: Average automotive net income tax asset | | | -22.7 | | | | -21.1 | | | | -21.2 | | | ROIC-adjusted average net assets | | $ | 71.8 | | | $ | 75.2 | | | $ | 72.3 | | | ROIC-adjusted | | | 20.8 | % | | | 16.4 | % | | | 20.0 | % | __________ (a) Refer to the reconciliation of Net income attributable to stockholders under U.S. GAAP to EBIT-adjusted within this section of the MD&A. (b) Includes equity of noncontrolling interests where the corresponding earnings (loss) are included in EBIT-adjusted. Forward-Looking Statements This report and the other reports filed by us with the SEC from time to time, as well as statements incorporated by reference herein and related comments by our management, may include \"forward-looking statements\" within the meaning of the U.S. federal securities laws. Forward-looking statements are any statements other than statements of historical fact. Forward-looking statements represent our current judgment about possible future events and are often identified by words like “aim,” “anticipate,” “appears,” “approximately,” “believe,” “continue,” “could,” “designed,” “effect,” “estimate,” “evaluate,” “expect,” “forecast,” “goal,” “initiative,” “intend,” “may,” “objective,” “outlook,” “plan,” “potential,” “priorities,” “project,” “pursue,” “seek,” “should,” “target,” “when,” “will,” “would,” or the negative of any of those words or similar expressions. In making these statements, we rely on assumptions and analysis based on our experience and perception of historical trends, current conditions and expected future developments as well as other factors we consider appropriate under the circumstances. We believe these judgments are reasonable, but these statements are not guarantees of any future events or financial results, and our actual results may differ materially due to a variety of important factors, many of which are beyond our control. These factors, which may be revised or supplemented in subsequent reports we file with the SEC, include, among others, the following: (1) our ability to deliver new products, services, technologies and customer experiences in response to increased competition and changing consumer needs and preferences; (2) our ability to attract and retain talented and highly skilled employees; (3) our ability to timely fund and introduce new and improved vehicle models, including EVs, that are able to attract a sufficient number of consumers; (4) our ability to profitably deliver a strategic portfolio of EVs; (5) our long-term strategy is dependent on consumer adoptions of EVs; (6) the success of our current line of ICE vehicles, particularly our full-size SUVs and full-size pickup trucks; (7) our highly competitive industry, which has been historically characterized by excess manufacturing capacity and the use of incentives, and the introduction of new and improved vehicle models by our competitors; (8) the unique technological, operational, regulatory and competitive risks related to our recently announced plans to refocus our AV strategy on personal vehicles; (9) risks associated with climate change, including increased regulation of GHG emissions, our transition to EVs and the potential increased impacts of severe weather events; (10) global automobile market sales volume, which can be volatile; (11) inflationary pressures and persistently high prices and uncertain availability of raw materials and commodities used by us and our suppliers, and instability in logistics and related costs; (12) our business in China, which is subject to unique operational, competitive, regulatory and economic risks; (13) the success of our ongoing strategic business relationships, particularly with respect to facilitating access to raw materials necessary for the production of EVs, and of our joint ventures, which we cannot operate solely for our benefit and over which we may have limited control; (14) the international scale and footprint of our operations, which expose us to a variety of unique political, economic, competitive and regulatory risks, including the risk of changes in government leadership and laws (including labor, trade, tax and other laws), political uncertainty or instability and economic tensions between governments and changes in international trade policies, new barriers to entry and changes to or withdrawals from free trade agreements, changes in foreign exchange rates and interest rates, economic downturns in the countries in which we operate, differing local product preferences and product requirements, changes to and compliance with U.S. and foreign countries' export controls and economic sanctions, differing labor regulations, requirements and union relationships, differing dealer and franchise regulations and relationships, difficulties in obtaining financing in foreign countries, and public health crises, including the occurrence of a contagious disease or illness; (15) any significant disruption, including any work stoppages, at any of our manufacturing facilities; (16) the ability of our suppliers to deliver parts, systems and components without disruption and at such times to allow us to meet production schedules; (17) pandemics, epidemics, disease outbreaks and other public health crises; (18) the possibility that competitors may independently develop products and services similar to ours, or that our intellectual property <div align='center'>46</div> #### GENERAL MOTORS COMPANY AND SUBSIDIARIES rights are not sufficient to prevent competitors from developing or selling those products or services; (19) our ability to manage risks related to security breaches, cyberattacks and other disruptions to our information technology systems and networked products, including connected vehicles; (20) our ability to manage security breaches and other disruptions to our in-vehicle systems; (21) our ability to comply with increasingly complex, restrictive and punitive regulations relating to our enterprise data practices, including the collection, use, sharing and security of the personal information of our customers, employees or suppliers; (22) our ability to comply with extensive laws, regulations and policies applicable to our operations and products, including those relating to fuel economy, emissions and AVs; (23) costs and risks associated with litigation and government investigations; (24) the costs and effect on our reputation of product safety recalls and alleged defects in products and services; (25) any additional tax expense or exposure or failure to fully realize available tax incentives; (26) our continued ability to develop captive financing capability through GM Financial; and (27) any significant increase in our pension funding requirements. For a further discussion of these and other risks and uncertainties, refer to Part I, Item 1A. Risk Factors. We caution readers not to place undue reliance on forward-looking statements. Forward-looking statements speak only as of the date they are made, and we undertake no obligation to update publicly or otherwise revise any forward-looking statements, whether as a result of new information, future events or other factors, except where we are expressly required to do so by law.",
+            "page_number": "46-47",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          },
+          {
+            "candidate_id": "cand_005",
+            "text": "The following table reconciles diluted earnings per common share under U.S. GAAP to EPS-diluted-adjusted: | | | | Years Ended December 31, 2024 Amount | | | Per Share | | | 2023 Amount | | | Per Share | | | 2022 Amount | | | Per Share | |:--------------------------------------------------|:----|:--|-------------------------:|:----|:--|----------:|:----|:--|-------:|:----|:--|----------:|:----|:--|-------:|:----|:--|----------:| | Diluted earnings per common share | | $ | 7,189 | | $ | 6.37 | | $ | 10,022 | | $ | 7.32 | | $ | 8,915 | | $ | 6.13 | | Adjustments(a) | | | 6,491 | | | 5.75 | | | 1,865 | | | 1.36 | | | 2,125 | | | 1.46 | | Tax effect on adjustments(b) | | | -477 | | | -0.42 | | | -504 | | | -0.37 | | | -423 | | | -0.29 | | Tax adjustments(c) | | | — | | | — | | | -870 | | | -0.64 | | | -482 | | | -0.33 | | Return to (return from) preferred shareholders(d) | | | -1,239 | | | -1.10 | | | — | | | — | | | 909 | | | 0.63 | | EPS-diluted-adjusted | | $ | 11,963 | | $ | 10.60 | | $ | 10,513 | | $ | 7.68 | | $ | 11,044 | | $ | 7.59 | __________ (a) Refer to the reconciliation of Net income attributable to stockholders under U.S. GAAP to EBIT-adjusted within this section of the MD&A for adjustment details. (b) The tax effect of each adjustment is determined based on the tax laws and valuation allowance status of the jurisdiction to which the adjustment relates. (c) In the year ended December 31, 2023, the adjustment consists of tax benefit related to the release of a valuation allowance against deferred tax assets considered realizable in Korea. In the year ended December 31, 2022, the adjustment consists of tax benefit related to the release of a valuation allowance against deferred tax assets considered realizable as a result of Cruise tax reconsolidation. These adjustments were excluded because significant impacts of valuation allowances are not considered part of our core operations. (d) This adjustment consists of a return to (return from) the preferred shareholders related to the redemption of Cruise preferred shares from noncontrolling interest holders in the years ended December 31, 2024 and 2022. The following table reconciles our effective tax rate under U.S. GAAP to ETR-adjusted: | | | | Years Ended December 31, 2024 Income before income taxes | | | Income tax expense | | Effective tax rate | | | | 2023 Income before income taxes | | | Income tax expense | | Effective tax rate | | | | 2022 Income before income taxes | | | Income tax expense | | Effective tax rate | | |:-------------------|:----|:--|---------------------------:|:----|:--|-------------------:|:----|-------------------:|:--|:----|:--|---------------------------:|:----|:--|-------------------:|:----|-------------------:|:--|:----|:--|---------------------------:|:----|:--|-------------------:|:----|-------------------:|:--| | Effective tax rate | | $ | 8,519 | | $ | 2,556 | | 30.0 | % | | $ | 10,403 | | $ | 563 | | 5.4 | % | | $ | 11,597 | | $ | 1,888 | | 16.3 | % | | Adjustments(a) | | | 6,564 | | | 477 | | | | | | 1,916 | | | 504 | | | | | | 2,221 | | | 423 | | | | | Tax adjustments(b) | | | | | | — | | | | | | | | | 870 | | | | | | | | | 482 | | | | | ETR-adjusted | | $ | 15,083 | | $ | 3,033 | | 20.1 | % | | $ | 12,319 | | $ | 1,937 | | 15.7 | % | | $ | 13,818 | | $ | 2,793 | | 20.2 | % | __________ (a) Refer to the reconciliation of Net income attributable to stockholders under U.S. GAAP to EBIT-adjusted within this section of the MD&A for adjustment details. Net income attributable to noncontrolling interests for these adjustments is included in the years ended December 31, 2024, 2023 and 2022. The tax effect of each adjustment is determined based on the tax laws and valuation allowance status of the jurisdiction to which the adjustment relates. (b) Refer to the reconciliation of diluted earnings per common share under U.S. GAAP to EPS-diluted-adjusted within this section of the MD&A for adjustment details. We define return on equity (ROE) as Net income attributable to stockholders for the trailing four quarters divided by average equity for the same period. Management uses average equity to provide comparable amounts in the calculation of ROE. The following table summarizes the calculation of ROE (dollars in billions): | | | | Years Ended December 31, 2024 | | | | 2023 | | | | 2022 | | |:----------------------------------------|:----|:--|-------------------------:|:--|:----|:--|-----:|:--|:----|:--|-----:|:--| | Net income attributable to stockholders | | $ | 6.0 | | | $ | 10.1 | | | $ | 9.9 | | | Average equity(a) | | $ | 68.9 | | | $ | 72.0 | | | $ | 66.6 | | | ROE | | | 8.7 | % | | | 14.1 | % | | | 14.9 | % | __________ (a) Includes equity of noncontrolling interests where the corresponding earnings (loss) are included in Net income attributable to stockholders.",
+            "page_number": "45",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "The following table summarizes the calculation of ROIC-adjusted (dollars in billions):",
+            "value": 20.0,
+            "unit": null,
+            "period": null
+          },
+          {
+            "label": "The following table reconciles diluted earnings per common share under U.S. GAAP to EPS-diluted-adjusted:",
+            "value": 14.9,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_003",
+          "cand_005"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_006",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": true,
+        "matched_minimal_sets": [
+          [
+            "cand_005"
+          ]
+        ],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "automotive_revenue",
+          "automotive_other_cost",
+          "derived_gross_profit",
+          "derived_gross_margin"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_005"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_005",
+            "text": "## Item 8. ## Financial Statements and Supplementary Data ### CONSOLIDATED INCOME STATEMENTS <div align='center'>(In millions, except per share amounts)</div> | Net sales and revenue | | | Years Ended December 31, 2024 | | | 2023 | | | 2022 | |:-----------------------------------------------------------------|:----|:--|-------------------------:|:----|:--|--------:|:----|:--|--------:| | Automotive | | $ | 171,606 | | $ | 157,658 | | $ | 143,975 | | GM Financial | | | 15,836 | | | 14,184 | | | 12,760 | | Total net sales and revenue (Note 3) | | | 187,442 | | | 171,842 | | | 156,735 | | Costs and expenses | | | | | | | | | | | Automotive and other cost of sales | | | 151,065 | | | 141,330 | | | 126,892 | | GM Financial interest, operating and other expenses | | | 12,972 | | | 11,374 | | | 8,862 | | Automotive and other selling, general and administrative expense | | | 10,621 | | | 9,840 | | | 10,667 | | Total costs and expenses | | | 174,658 | | | 162,544 | | | 146,421 | | Operating income (loss) | | | 12,784 | | | 9,298 | | | 10,315 | | Automotive interest expense | | | 846 | | | 911 | | | 987 | | Interest income and other non-operating income, net (Note 19) | | | 1,257 | | | 1,537 | | | 1,432 | | Equity income (loss) (Note 8) | | | -4,675 | | | 480 | | | 837 | | Income (loss) before income taxes | | | 8,519 | | | 10,403 | | | 11,597 | | Income tax expense (benefit) (Note 17) | | | 2,556 | | | 563 | | | 1,888 | | Net income (loss) | | | 5,963 | | | 9,840 | | | 9,708 | | Net loss (income) attributable to noncontrolling interests | | | 45 | | | 287 | | | 226 | | Net income (loss) attributable to stockholders | | $ | 6,008 | | $ | 10,127 | | $ | 9,934 | | Net income (loss) attributable to common stockholders | | $ | 7,189 | | $ | 10,022 | | $ | 8,915 | | Earnings per share (Note 21) | | | | | | | | | | | Basic earnings per common share | | $ | 6.45 | | $ | 7.35 | | $ | 6.17 | | Weighted-average common shares outstanding – basic | | | 1,115 | | | 1,364 | | | 1,445 | | Diluted earnings per common share | | $ | 6.37 | | $ | 7.32 | | $ | 6.13 | | Weighted-average common shares outstanding – diluted | | | 1,129 | | | 1,369 | | | 1,454 | ### CONSOLIDATED STATEMENTS OF COMPREHENSIVE INCOME <div align='center'>(In millions)</div> | | | | Years Ended December 31, 2024 | | | 2023 | | | 2022 | |:---------------------------------------------------------------------|:----|:--|-------------------------:|:----|:--|-------:|:----|:--|-------:| | Net income (loss) | | $ | 5,963 | | $ | 9,840 | | $ | 9,708 | | Other comprehensive income (loss), net of tax (Note 20) | | | | | | | | | | | Foreign currency translation adjustments and other | | | -1,133 | | | 458 | | | -340 | | Defined benefit plans | | | -4 | | | -2,814 | | | 1,677 | | Other comprehensive income (loss), net of tax | | | -1,137 | | | -2,355 | | | 1,337 | | Comprehensive income (loss) | | | 4,826 | | | 7,485 | | | 11,045 | | Comprehensive loss (income) attributable to noncontrolling interests | | | 176 | | | 297 | | | 257 | | Comprehensive income attributable to stockholders (loss) | | $ | 5,002 | | $ | 7,781 | | $ | 11,303 | <div align='center'>Reference should be made to the notes to consolidated financial statements. Amounts may not add due to rounding. 54</div> ### GENERAL MOTORS COMPANY AND SUBSIDIARIES ### CONSOLIDATED BALANCE SHEETS <div align='center'>(In millions, except per share amounts)</div> | | | | December 31, 2024 | | | December 31, 2023 | |:--------------------------------------------------------------------------------|:----|:--|------------------:|:----|:--|------------------:| | ASSETS | | | | | | | | Current Assets | | | | | | | | Cash and cash equivalents (Note 4) | | $ | 19,872 | | $ | 18,853 | | Marketable debt securities (Note 4) | | | 7,265 | | | 7,613 | | Accounts and notes receivable, net of allowance of $313and $298 | | | 12,827 | | | 12,378 | | GM Financial receivables, net of allowance of $991and $906(Note 5; Note 11) | | | 46,362 | | | 39,076 | | Inventories (Note 6) | | | 14,564 | | | 16,461 | | Other current assets (Note 4; Note 11) | | | 7,655 | | | 7,238 | | Total current assets | | | 108,545 | | | 101,618 | | Non-current Assets | | | | | | | | GM Financial receivables, net of allowance of $1,467and $1,438(Note 5; Note 11) | | | 46,474 | | | 45,043 | | Equity in net assets of nonconsolidated affiliates (Note 8) | | | 7,102 | | | 10,613 | | Property, net (Note 9) | | | 51,904 | | | 50,321 | | Goodwill and intangible assets, net (Note 10) | | | 4,551 | | | 4,862 | | Equipment on operating leases, net (Note 7; Note 11) | | | 31,586 | | | 30,582 | | Deferred income taxes (Note 17) | | | 21,254 | | | 22,339 | | Other assets (Note 4; Note 11) | | | 8,346 | | | 7,686 | | Total non-current assets | | | 171,216 | | | 171,446 | | Total Assets | | $ | 279,761 | | $ | 273,064 | | LIABILITIES AND EQUITY | | | | | | | | Current Liabilities | | | | | | | | Accounts payable (principally trade) | | $ | 25,680 | | $ | 28,114 | | Short-term debt and current portion of long-term debt (Note 13) | | | | | | | | Automotive | | | 2,141 | | | 428 | | GM Financial (Note 11) | | | 37,291 | | | 38,540 | | Accrued liabilities (Note 12) | | | 31,154 | | | 27,364 | | Total current liabilities | | | 96,265 | | | 94,445 | | Non-current Liabilities | | | | | | | | Long-term debt (Note 13) | | | | | | | | Automotive | | | 13,327 | | | 15,985 | | GM Financial (Note 11) | | | 76,973 | | | 66,788 | | Postretirement benefits other than pensions (Note 15) | | | 3,990 | | | 4,345 | | Pensions (Note 15) | | | 5,779 | | | 6,680 | | Other liabilities (Note 12) | | | 17,836 | | | 16,515 | | Total non-current liabilities | | | 117,906 | | | 110,312 | | Total Liabilities | | | 214,171 | | | 204,757 | | Commitments and contingencies (Note 16) | | | | | | | | Noncontrolling interest - Cruise stock incentive awards (Note 20) | | | — | | | 118 | | Equity (Note 20) | | | | | | | | Common stock, $0.01par value | | | 10 | | | 12 | | Additional paid-in capital | | | 20,843 | | | 19,130 | | Retained earnings | | | 53,472 | | | 55,391 | | Accumulated other comprehensive loss | | | -11,253 | | | -10,247 | | Total stockholders’ equity | | | 63,072 | | | 64,286 | | Noncontrolling interests | | | 2,518 | | | 3,903 | | Total Equity | | | 65,590 | | | 68,189 | | Total Liabilities and Equity | | $ | 279,761 | | $ | 273,064 | <div align='center'>Reference should be made to the notes to consolidated financial statements. Amounts may not add due to rounding. 55</div> ",
+            "page_number": "54-55",
+            "visible_source_scope": {
+              "ticker": "GM",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "## Item 8. ## Financial Statements and Supplementary Data ### CONSOLIDATED INCOME STATEMENTS <div align='center'>(In millions, except per share amounts)</div>",
+            "value": 273064.0,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_005"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_010",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": true,
+        "matched_minimal_sets": [
+          [
+            "cand_003"
+          ]
+        ],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": [
+          "cand_007"
+        ]
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "total_liabilities",
+          "other_long_term_liabilities"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_003",
+          "cand_007"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_003",
+            "text": "### Consolidated Balance Sheets <div align='center'>(in millions, except per share data)</div> | | | | December 31, 2024 | | | December 31, 2023 | |:------------------------------------------------------------------------------------------------------------------------------------------------------------|:----|:--|-------------:|:----|:--|-------------:| | Assets | | | | | | | | Current assets | | | | | | | | Cash and cash equivalents | | $ | 16,139 | | $ | 16,398 | | Short-term investments | | | 20,424 | | | 12,696 | | Accounts receivable, net | | | 4,418 | | | 3,508 | | Inventory | | | 12,017 | | | 13,626 | | Prepaid expenses and other current assets | | | 5,362 | | | 3,388 | | Total current assets | | | 58,360 | | | 49,616 | | Operating lease vehicles, net | | | 5,581 | | | 5,989 | | Solar energy systems, net | | | 4,924 | | | 5,229 | | Property, plant and equipment, net | | | 35,836 | | | 29,725 | | Operating lease right-of-use assets | | | 5,160 | | | 4,180 | | Digital assets, net | | | 1,076 | | | 184 | | Intangible assets, net | | | 150 | | | 178 | | Goodwill | | | 244 | | | 253 | | Deferred tax assets | | | 6,524 | | | 6,733 | | Other non-current assets | | | 4,215 | | | 4,531 | | Total assets | | $ | 122,070 | | $ | 106,618 | | Liabilities | | | | | | | | Current liabilities | | | | | | | | Accounts payable | | $ | 12,474 | | $ | 14,431 | | Accrued liabilities and other | | | 10,723 | | | 9,080 | | Deferred revenue | | | 3,168 | | | 2,864 | | Current portion of debt and finance leases | | | 2,456 | | | 2,373 | | Total current liabilities | | | 28,821 | | | 28,748 | | Debt and finance leases, net of current portion | | | 5,757 | | | 2,857 | | Deferred revenue, net of current portion | | | 3,317 | | | 3,251 | | Other long-term liabilities | | | 10,495 | | | 8,153 | | Total liabilities | | | 48,390 | | | 43,009 | | Commitments and contingencies (Note 14) | | | | | | | | Redeemable noncontrolling interests in subsidiaries | | | 63 | | | 242 | | Equity | | | | | | | | Stockholders’ equity | | | | | | | | Preferred stock; $0.001par value;100shares authorized;noshares issued and outstanding | | | — | | | — | | Common stock; $0.001par value;6,000shares authorized;3,216and3,185shares issued and outstanding as of December 31, 2024 and December 31, 2023, respectively | | | 3 | | | 3 | | Additional paid-in capital | | | 38,371 | | | 34,892 | | Accumulated other comprehensive loss | | | -670 | | | -143 | | Retained earnings | | | 35,209 | | | 27,882 | | Total stockholders’ equity | | | 72,913 | | | 62,634 | | Noncontrolling interests in subsidiaries | | | 704 | | | 733 | | Total liabilities and equity | | $ | 122,070 | | $ | 106,618 | <div align='center'>The accompanying notes are an integral part of these consolidated financial statements. 48</div> #### Tesla, Inc. ### Consolidated Statements of Operations <div align='center'>(in millions, except per share data)</div> | | | | Year Ended December 31, 2024 | | | | 2023 | | | | 2022 | | |:-------------------------------------------------------------------------------------------------------------------|:----|:--|------------------------:|------:|:----|:--|-------:|------:|:----|:--|-------:|------:| | Revenues | | | | | | | | | | | | | | Automotive sales | | $ | 72,480 | | | $ | 78,509 | | | $ | 67,210 | | | Automotive regulatory credits | | | 2,763 | | | | 1,790 | | | | 1,776 | | | Automotive leasing | | | 1,827 | | | | 2,120 | | | | 2,476 | | | Total automotive revenues | | | 77,070 | | | | 82,419 | | | | 71,462 | | | Energy generation and storage | | | 10,086 | | | | 6,035 | | | | 3,909 | | | Services and other | | | 10,534 | | | | 8,319 | | | | 6,091 | | | Total revenues | | | 97,690 | | | | 96,773 | | | | 81,462 | | | Cost of revenues | | | | | | | | | | | | | | Automotive sales | | | 61,870 | | | | 65,121 | | | | 49,599 | | | Automotive leasing | | | 1,003 | | | | 1,268 | | | | 1,509 | | | Total automotive cost of revenues | | | 62,873 | | | | 66,389 | | | | 51,108 | | | Energy generation and storage | | | 7,446 | | | | 4,894 | | | | 3,621 | | | Services and other | | | 9,921 | | | | 7,830 | | | | 5,880 | | | Total cost of revenues | | | 80,240 | | | | 79,113 | | | | 60,609 | | | Gross profit | | | 17,450 | | | | 17,660 | | | | 20,853 | | | Operating expenses | | | | | | | | | | | | | | Research and development | | | 4,540 | | | | 3,969 | | | | 3,075 | | | Selling, general and administrative | | | 5,150 | | | | 4,800 | | | | 3,946 | | | Restructuring and other | | | 684 | | | | — | | | | 176 | | | Total operating expenses | | | 10,374 | | | | 8,769 | | | | 7,197 | | | Income from operations | | | 7,076 | | | | 8,891 | | | | 13,656 | | | Interest income | | | 1,569 | | | | 1,066 | | | | 297 | | | Interest expense | | | -350 | | | | -156 | | | | -191 | | | Other income (expense), net | | | 695 | | | | 172 | | | | -43 | | | Income before income taxes | | | 8,990 | | | | 9,973 | | | | 13,719 | | | Provision for (benefit from) income taxes | | | 1,837 | | | | -5,001 | | | | 1,132 | | | Net income | | | 7,153 | | | | 14,974 | | | | 12,587 | | | Net income (loss) attributable to noncontrolling interests and redeemable noncontrolling interests in subsidiaries | | | 62 | | | | -23 | | | | 31 | | | Net income attributable to common stockholders | | $ | 7,091 | | | $ | 14,997 | | | $ | 12,556 | | | Net income per share of common stock attributable to common stockholders | | | | | | | | | | | | | | Basic | | $ | 2.23 | | | $ | 4.73 | | | $ | 4.02 | | | Diluted | | $ | 2.04 | | | $ | 4.30 | | | $ | 3.62 | | | Weighted average shares used in computing net income per share of common stock | | | | | | | | | | | | | | Basic | | | | 3,197 | | | | 3,174 | | | | 3,130 | | Diluted | | | | 3,498 | | | | 3,485 | | | | 3,475 | <div align='center'>The accompanying notes are an integral part of these consolidated financial statements. 49</div> #### Tesla, Inc. ### Consolidated Statements of Comprehensive Income <div align='center'>(in millions)</div> | | | | Year Ended December 31, 2024 | | | 2023 | | | 2022 | |:-----------------------------------------------------------------------------------------------------------------------------------|:----|:--|------------------------:|:----|:--|-------:|:----|:--|-------:| | Net income | | $ | 7,153 | | $ | 14,974 | | $ | 12,587 | | Other comprehensive income (loss): | | | | | | | | | | | Foreign currency translation adjustment | | | -539 | | | 198 | | | -392 | | Unrealized net gain (loss) on investments, net of tax | | | 12 | | | 16 | | | -23 | | Net loss realized and included in net income | | | — | | | 4 | | | — | | Comprehensive income | | | 6,626 | | | 15,192 | | | 12,172 | | Less: Comprehensive income (loss) attributable to noncontrolling interests and redeemable noncontrolling interests in subsidiaries | | | 62 | | | -23 | | | 31 | | Comprehensive income attributable to common stockholders | | $ | 6,564 | | $ | 15,215 | | $ | 12,141 | <div align='center'>The accompanying notes are an integral part of these consolidated financial statements. 50</div> #### Tesla, Inc. ### Consolidated Statements of Redeemable Noncontrolling Interests and Equity <div align='center'>(in millions)</div> | | | | Redeemable Noncontrolling Interests | | Shares | | Common Stock | | | Amount | | | | | | Additional Paid-In Capital | | | Accumulated Other Comprehensive Income (Loss) | | | Retained Earnings | | | Total Stockholders’ Equity | | | Noncontrolling Interests in Subsidiaries | | | Total Equity | |:--------------------------------------------------------------------|:----|:--|---------------:|:----|:-------|:----|:-------------|------:|:----|:-------|:----|:--|--:|:----|:--|-----------:|:----|:--|--------------:|:----|:--|---------:|:----|:--|--------------:|:----|:--|---------------:|:----|:--|-------:| | Balance as of December 31, 2021 | | $ | 568 | | | | | 3,100 | | | | $ | 3 | | $ | 29,803 | | $ | 54 | | $ | 329 | | $ | 30,189 | | $ | 826 | | $ | 31,015 | | Settlements of warrants | | | — | | | | | 37 | | | | | — | | | — | | | — | | | — | | | — | | | — | | | — | | Issuance of common stock for equity incentive awards | | | — | | | | | 27 | | | | | — | | | 541 | | | — | | | — | | | 541 | | | — | | | 541 | | Stock-based compensation | | | — | | | | | — | | | | | — | | | 1,806 | | | — | | | — | | | 1,806 | | | — | | | 1,806 | | Distributions to noncontrolling interests | | | -46 | | | | | — | | | | | — | | | — | | | — | | | — | | | — | | | -113 | | | -113 | | Buy-outs of noncontrolling interests | | | -11 | | | | | — | | | | | — | | | 27 | | | — | | | — | | | 27 | | | -61 | | | -34 | | Net (loss) income | | | -102 | | | | | — | | | | | — | | | — | | | — | | | 12,556 | | | 12,556 | | | 133 | | | 12,689 | | Other comprehensive loss | | | — | | | | | — | | | | | — | | | — | | | -415 | | | — | | | -415 | | | — | | | -415 | | Balance as of December 31, 2022 | | $ | 409 | | | | | 3,164 | | | | $ | 3 | | $ | 32,177 | | $ | -361 | | $ | 12,885 | | $ | 44,704 | | $ | 785 | | $ | 45,489 | | Issuance of common stock for equity incentive awards | | | — | | | | | 21 | | | | | — | | | 700 | | | — | | | — | | | 700 | | | — | | | 700 | | Stock-based compensation | | | — | | | | | — | | | | | — | | | 2,013 | | | — | | | — | | | 2,013 | | | — | | | 2,013 | | Distributions to noncontrolling interests | | | -32 | | | | | — | | | | | — | | | — | | | — | | | — | | | — | | | -108 | | | -108 | | Buy-outs of noncontrolling interests | | | -39 | | | | | — | | | | | — | | | 2 | | | — | | | — | | | 2 | | | -17 | | | -15 | | Net (loss) income | | | -96 | | | | | — | | | | | — | | | — | | | — | | | 14,997 | | | 14,997 | | | 73 | | | 15,070 | | Other comprehensive income | | | — | | | | | — | | | | | — | | | — | | | 218 | | | — | | | 218 | | | — | | | 218 | | Balance as of December 31, 2023 | | $ | 242 | | | | | 3,185 | | | | $ | 3 | | $ | 34,892 | | $ | -143 | | $ | 27,882 | | $ | 62,634 | | $ | 733 | | $ | 63,367 | | Adjustments for prior periods from adopting ASU 2023-08, net of tax | | | — | | | | | — | | | | | — | | | — | | | — | | | 236 | | | 236 | | | — | | | 236 | | Settlements of warrants | | | — | | | | | 11 | | | | | — | | | — | | | — | | | — | | | — | | | — | | | — | | Issuance of common stock for equity incentive awards | | | — | | | | | 20 | | | | | — | | | 1,241 | | | — | | | — | | | 1,241 | | | — | | | 1,241 | | Stock-based compensation | | | — | | | | | — | | | | | — | | | 2,199 | | | — | | | — | | | 2,199 | | | — | | | 2,199 | | Distributions to noncontrolling interests | | | -13 | | | | | — | | | | | — | | | — | | | — | | | — | | | — | | | -85 | | | -85 | | Buy-outs of noncontrolling interests | | | -172 | | | | | — | | | | | — | | | 39 | | | — | | | — | | | 39 | | | — | | | 39 | | Net income | | | 6 | | | | | — | | | | | — | | | — | | | — | | | 7,091 | | | 7,091 | | | 56 | | | 7,147 | | Other comprehensive loss | | | — | | | | | — | | | | | — | | | — | | | -527 | | | — | | | -527 | | | — | | | -527 | | Balance as of December 31, 2024 | | $ | 63 | | | | | 3,216 | | | | $ | 3 | | $ | 38,371 | | $ | -670 | | $ | 35,209 | | $ | 72,913 | | $ | 704 | | $ | 73,617 | <div align='center'>The accompanying notes are an integral part of these consolidated financial statements.",
+            "page_number": "48-51",
+            "visible_source_scope": {
+              "ticker": "TSLA",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          },
+          {
+            "candidate_id": "cand_007",
+            "text": "#### Note 9 – Other Long-Term Liabilities Our other long-term liabilities consisted of the following (in millions): | | | | December 31, 2024 | | | December 31, 2023 | |:----------------------------------|:----|:--|-------------:|:----|:--|-------------:| | Operating lease liabilities | | $ | 4,603 | | $ | 3,671 | | Accrued warranty reserve | | | 4,799 | | | 3,606 | | Other non-current liabilities | | | 1,093 | | | 876 | | Total other long-term liabilities | | $ | 10,495 | | $ | 8,153 | #### Note 10 – Debt The following is a summary of our debt and finance leases as of December 31, 2024 (in millions): | | | | Net Carrying Value | | | | | | Unpaid Principal Balance | | | Unused Committed Amount (1) | | Contractual Interest Rates | | | Contractual Maturity Date | | | | | Current | | | Long-Term | | | | | | | | | | | | | Recourse debt: | | | | | | | | | | | | | | | | | | | RCF Credit Agreement | | | — | | | — | | | — | | | 5,000 | | | Not applicable | | January 2028 | | Other | | | 4 | | | 3 | | | 7 | | | — | | 4.70-5.75% | | | March 2025-January 2031 | | Total recourse debt | | | 4 | | | 3 | | | 7 | | | 5,000 | | | | | | | Non-recourse debt: | | | | | | | | | | | | | | | | | | | Automotive Asset-backed Notes | | | 2,255 | | | 2,059 | | | 4,329 | | | — | | 3.45-6.57% | | | September 2025-June 2035 | | China Working Capital Facility | | | — | | | 2,740 | | | 2,740 | | | — | | 1.92 | % | | April 2025(2) | | Energy Asset-backed Notes | | | 54 | | | 434 | | | 493 | | | — | | 4.80-6.25% | | | December 2025-June 2050 | | Cash Equity Debt | | | 30 | | | 299 | | | 338 | | | — | | 5.25-5.81% | | | July 2033-January 2035 | | Total non-recourse debt | | | 2,339 | | | 5,532 | | | 7,900 | | | — | | | | | | | Total debt | | | 2,343 | | | 5,535 | | $ | 7,907 | | $ | 5,000 | | | | | | | Finance leases | | | 113 | | | 222 | | | | | | | | | | | | | Total debt and finance leases | | $ | 2,456 | | $ | 5,757 | | | | | | | | | | | | The following is a summary of our debt and finance leases as of December 31, 2023 (in millions): | Recourse debt: | | | Net Carrying Value Current | | | Long-Term | | | Unpaid Principal Balance | | | Unused Committed Amount (1) | | Contractual Interest Rates | | | Contractual Maturity Date | |:------------------------------|:----|:--|-------------------:|:----|:--|----------:|:----|:--|----------:|:----|:--|-----------:|:----|---------------:|:---------------|:----|:------------------------| | 2024 Notes | | $ | 37 | | $ | — | | $ | 37 | | $ | — | | 2.00 | % | | May 2024 | | RCF Credit Agreement | | | — | | | — | | | — | | | 5,000 | | | Not applicable | | January 2028 | | Other | | | — | | | 7 | | | 7 | | | 28 | | 4.70-5.75% | | | March 2025-January 2031 | | Total recourse debt | | | 37 | | | 7 | | | 44 | | | 5,028 | | | | | | | Non-recourse debt: | | | | | | | | | | | | | | | | | | | Automotive Asset-backed Notes | | | 1,906 | | | 2,337 | | | 4,259 | | | — | | 0.60-6.57% | | | July 2024-May 2031 | | Cash Equity Debt | | | 28 | | | 330 | | | 367 | | | — | | 5.25-5.81% | | | July 2033-January 2035 | | Energy Asset-backed Notes | | | 4 | | | 8 | | | 13 | | | — | | 4.80 | % | | December 2026 | | Total non-recourse debt | | | 1,938 | | | 2,675 | | | 4,639 | | | — | | | | | | | Total debt | | | 1,975 | | | 2,682 | | $ | 4,683 | | $ | 5,028 | | | | | | | Finance leases | | | 398 | | | 175 | | | | | | | | | | | | | Total debt and finance leases | | $ | 2,373 | | $ | 2,857 | | | | | | | | | | | | (1) There are no restrictions on draw-down or use for general corporate purposes with respect to any available committed funds under our RCF Credit Agreement, except certain specified conditions prior to draw-down. Refer to the section below for the terms of the facility. (2) The contractual maturity date of the China Working Capital Facility is April 2025, renewable until March 2026 at our discretion. As we have the intent and ability to refinance the loan on a long-term basis, we recorded it in Debt and finance leases, net of current portion in the consolidated balance sheets. Recourse debt refers to debt that is recourse to our general assets. Non-recourse debt refers to debt that is recourse to only assets of our subsidiaries. The differences between the unpaid principal balances and the net carrying values are due to debt discounts or deferred issuance costs. As of December 31, 2024, we were in material compliance with all financial debt covenants.",
+            "page_number": "73-74",
+            "visible_source_scope": {
+              "ticker": "TSLA",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "### Consolidated Balance Sheets <div align='center'>(in millions, except per share data)</div>",
+            "value": 73617.0,
+            "unit": null,
+            "period": null
+          },
+          {
+            "label": "#### Note 9 – Other Long-Term Liabilities Our other long-term liabilities consisted of the following (in millions):",
+            "value": 2857.0,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_003",
+          "cand_007"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_012",
+      "source_cluster_id": "source_component_03",
+      "plan_contract_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "evidence_sufficiency": {
+        "sufficient": false,
+        "matched_minimal_sets": [],
+        "scope_precision": true,
+        "unsupported_selected_ids": [],
+        "optional_redundant_used": []
+      },
+      "answer_reference_match": {
+        "match": false,
+        "matched_atoms": [],
+        "missing_atoms": [
+          "depreciation_method",
+          "ppe_depreciation_2022",
+          "ppe_depreciation_2023",
+          "ppe_depreciation_2024"
+        ]
+      },
+      "answer_tool_consistency": {
+        "consistent": true,
+        "cited_absent_ids": [],
+        "unsupported_numeric_values": []
+      },
+      "outcome": "NON_SUCCESS",
+      "error_class": "SEMANTIC_SELECTION_OR_ANSWER",
+      "plan": {
+        "experience_actions": [],
+        "evidence_candidate_ids": [
+          "cand_005",
+          "cand_001"
+        ]
+      },
+      "tool_result": {
+        "tool_status": "OK",
+        "evidence": [
+          {
+            "candidate_id": "cand_005",
+            "text": "For periods prior to January 1, 2024, impairment losses were recognized within Restructuring and otherin the consolidated statements of operations in the period in which the impairment was identified. Also for periods prior to January 1, 2024, gains were not recorded until realized upon sale(s), at which point they were presented net of any impairment losses for the same digital assets held within Restructuring and other. In determining the gain to be recognized upon sale, we calculate the difference between the sales price and carrying value of the digital assets sold immediately prior to sale. See Note 3, Digital Assets, Net , for further information regarding digital assets. Solar Energy Systems, Net We are the lessor of solar energy systems, which are stated at cost less accumulated depreciation. Depreciation of solar energy systems is calculated using the straight-line method over the estimated useful lives of 30to 35years.The gross cost of solar energy systems as of December 31, 2024 and 2023 was $ 6.79billion and $ 6.87billion, respectively. Solar energy systems on the consolidated balance sheets are presented net of accumulated depreciation of $ 1.86billion and $ 1.64billion as of December 31, 2024 and 2023, respectively. Property, Plant and Equipment, Net Property, plant and equipment, net, including leasehold improvements, are recognized at cost less accumulated depreciation. Depreciation is generally computed using the straight-line method over the estimated useful lives of the respective assets, as follows: | Machinery, equipment, vehicles and office furniture | | 3to15years | | Tooling | | 4to7years | | Building and building improvements | | 15to30years | | Computer equipment and software | | 3to6years | | AI infrastructure | | 5to30years | Leasehold improvements are depreciated on a straight-line basis over their estimated useful lives. AI infrastructure includes our owned data centers. Upon the retirement or sale of our property, plant and equipment, the cost and associated accumulated depreciation are removed from the consolidated balance sheet, and the resulting gain or loss is reflected on the consolidated statement of operations. Maintenance and repair expenditures are expensed as incurred while major improvements that increase the functionality, output or expected life of an asset are capitalized and depreciated ratably over the identified useful life. Long-Lived Assets Including Acquired Intangible Assets We review our property, plant and equipment, solar energy systems, long-term prepayments and intangible assets for impairment whenever events or changes in circumstances indicate that the carrying amount of an asset (or asset group) may not be recoverable. We measure recoverability by comparing the carrying amount to the future undiscounted cash flows that the asset is expected to generate. If the asset is not recoverable, its carrying amount would be adjusted down to its fair value. For the years ended December 31, 2024, 2023 and 2022, we have recognized no material impairments of our long-lived assets. Intangible assets with definite lives are amortized on a straight-line basis over their estimated useful lives, which range from sevento thirty years. Goodwill We assess goodwill for impairment annually in the fourth quarter, or more frequently if events or changes in circumstances indicate that it might be impaired, by comparing its carrying value to the reporting unit’s fair value.For the years ended December 31, 2024, 2023, and 2022, we did not recognize any impairment of goodwill.",
+            "page_number": "64",
+            "visible_source_scope": {
+              "ticker": "TSLA",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          },
+          {
+            "candidate_id": "cand_001",
+            "text": "#### Note 7 – Property, Plant and Equipment, Net Our property, plant and equipment, net, consisted of the following (in millions): | | | | December 31, 2024 | | | December 31, 2023 | |:----------------------------------------------------|:----|:--|-------------:|:----|:--|-------------:| | Machinery, equipment, vehicles and office furniture | | $ | 18,339 | | $ | 16,309 | | Land and buildings | | | 10,677 | | | 9,498 | | AI infrastructure | | | 5,152 | | | 1,510 | | Tooling | | | 3,883 | | | 3,129 | | Leasehold improvements | | | 3,688 | | | 3,136 | | Computer equipment, hardware and software | | | 2,902 | | | 2,409 | | Construction in progress | | | 6,783 | | | 5,791 | | | | | 51,424 | | | 41,782 | | Less: Accumulated depreciation | | | -15,588 | | | -12,057 | | Total | | $ | 35,836 | | $ | 29,725 | Construction in progress is primarily comprised of ongoing construction and expansion of our facilities, equipment and tooling related to the manufacturing of our products as well as AI-related assets which have not yet been placed in service. Completed assets are transferred to their respective asset classes and depreciation begins when an asset is ready for its intended use. Depreciation expense during the years ended December 31, 2024, 2023 and 2022 was $ 4.12billion, $ 3.33billion and $ 2.42billion, respectively. #### Note 8 – Accrued Liabilities and Other Our accrued liabilities and other current liabilities consisted of the following (in millions): | | | | December 31, 2024 | | | December 31, 2023 | |:---------------------------------------------|:----|:--|-------------:|:----|:--|-------------:| | Accrued purchases (1) | | $ | 2,253 | | $ | 2,721 | | Accrued warranty reserve, current portion | | | 1,917 | | | 1,546 | | Payroll and related costs | | | 1,532 | | | 1,325 | | Taxes payable (2) | | | 1,367 | | | 1,204 | | Customer deposits | | | 993 | | | 876 | | Operating lease liabilities, current portion | | | 807 | | | 672 | | Sales return reserve, current portion | | | 305 | | | 219 | | Other current liabilities | | | 1,549 | | | 517 | | Total | | $ | 10,723 | | $ | 9,080 | (1) Accrued purchases primarily reflects receipts of goods and services for which we had not yet been invoiced. As we are invoiced for these goods and services, this balance will reduce and accounts payable will increase. (2) Taxes payable primarily includes value added tax, income tax, sales tax, property tax and use tax payables. <div align='center'>72</div> #### Note 9 – Other Long-Term Liabilities Our other long-term liabilities consisted of the following (in millions): | | | | December 31, 2024 | | | December 31, 2023 | |:----------------------------------|:----|:--|-------------:|:----|:--|-------------:| | Operating lease liabilities | | $ | 4,603 | | $ | 3,671 | | Accrued warranty reserve | | | 4,799 | | | 3,606 | | Other non-current liabilities | | | 1,093 | | | 876 | | Total other long-term liabilities | | $ | 10,495 | | $ | 8,153 | #### Note 10 – Debt The following is a summary of our debt and finance leases as of December 31, 2024 (in millions): | | | | Net Carrying Value | | | | | | Unpaid Principal Balance | | | Unused Committed Amount (1) | | Contractual Interest Rates | | | Contractual Maturity Date | | | | | Current | | | Long-Term | | | | | | | | | | | | | Recourse debt: | | | | | | | | | | | | | | | | | | | RCF Credit Agreement | | | — | | | — | | | — | | | 5,000 | | | Not applicable | | January 2028 | | Other | | | 4 | | | 3 | | | 7 | | | — | | 4.70-5.75% | | | March 2025-January 2031 | | Total recourse debt | | | 4 | | | 3 | | | 7 | | | 5,000 | | | | | | | Non-recourse debt: | | | | | | | | | | | | | | | | | | | Automotive Asset-backed Notes | | | 2,255 | | | 2,059 | | | 4,329 | | | — | | 3.45-6.57% | | | September 2025-June 2035 | | China Working Capital Facility | | | — | | | 2,740 | | | 2,740 | | | — | | 1.92 | % | | April 2025(2) | | Energy Asset-backed Notes | | | 54 | | | 434 | | | 493 | | | — | | 4.80-6.25% | | | December 2025-June 2050 | | Cash Equity Debt | | | 30 | | | 299 | | | 338 | | | — | | 5.25-5.81% | | | July 2033-January 2035 | | Total non-recourse debt | | | 2,339 | | | 5,532 | | | 7,900 | | | — | | | | | | | Total debt | | | 2,343 | | | 5,535 | | $ | 7,907 | | $ | 5,000 | | | | | | | Finance leases | | | 113 | | | 222 | | | | | | | | | | | | | Total debt and finance leases | | $ | 2,456 | | $ | 5,757 | | | | | | | | | | | | The following is a summary of our debt and finance leases as of December 31, 2023 (in millions): | Recourse debt: | | | Net Carrying Value Current | | | Long-Term | | | Unpaid Principal Balance | | | Unused Committed Amount (1) | | Contractual Interest Rates | | | Contractual Maturity Date | |:------------------------------|:----|:--|-------------------:|:----|:--|----------:|:----|:--|----------:|:----|:--|-----------:|:----|---------------:|:---------------|:----|:------------------------| | 2024 Notes | | $ | 37 | | $ | — | | $ | 37 | | $ | — | | 2.00 | % | | May 2024 | | RCF Credit Agreement | | | — | | | — | | | — | | | 5,000 | | | Not applicable | | January 2028 | | Other | | | — | | | 7 | | | 7 | | | 28 | | 4.70-5.75% | | | March 2025-January 2031 | | Total recourse debt | | | 37 | | | 7 | | | 44 | | | 5,028 | | | | | | | Non-recourse debt: | | | | | | | | | | | | | | | | | | | Automotive Asset-backed Notes | | | 1,906 | | | 2,337 | | | 4,259 | | | — | | 0.60-6.57% | | | July 2024-May 2031 | | Cash Equity Debt | | | 28 | | | 330 | | | 367 | | | — | | 5.25-5.81% | | | July 2033-January 2035 | | Energy Asset-backed Notes | | | 4 | | | 8 | | | 13 | | | — | | 4.80 | % | | December 2026 | | Total non-recourse debt | | | 1,938 | | | 2,675 | | | 4,639 | | | — | | | | | | | Total debt | | | 1,975 | | | 2,682 | | $ | 4,683 | | $ | 5,028 | | | | | | | Finance leases | | | 398 | | | 175 | | | | | | | | | | | | | Total debt and finance leases | | $ | 2,373 | | $ | 2,857 | | | | | | | | | | | | (1) There are no restrictions on draw-down or use for general corporate purposes with respect to any available committed funds under our RCF Credit Agreement, except certain specified conditions prior to draw-down. Refer to the section below for the terms of the facility. (2) The contractual maturity date of the China Working Capital Facility is April 2025, renewable until March 2026 at our discretion. As we have the intent and ability to refinance the loan on a long-term basis, we recorded it in Debt and finance leases, net of current portion in the consolidated balance sheets.",
+            "page_number": "72-73",
+            "visible_source_scope": {
+              "ticker": "TSLA",
+              "year": 2025,
+              "doc_type": "10-K",
+              "status": "RESOLVED"
+            }
+          }
+        ]
+      },
+      "consume": {
+        "answer_status": "ANSWER",
+        "facts": [
+          {
+            "label": "#### Note 7 – Property, Plant and Equipment, Net Our property, plant and equipment, net, consisted of the following (in millions):",
+            "value": 2857.0,
+            "unit": null,
+            "period": null
+          }
+        ],
+        "used_candidate_ids": [
+          "cand_001"
+        ]
+      }
+    }
+  ]
+}

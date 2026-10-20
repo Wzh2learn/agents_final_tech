@@ -1,0 +1,35 @@
+{
+  "schema": "finrank_c3_b0_v4_bundle_v2",
+  "status": "FROZEN_BEFORE_C3_FIXTURES_FIX1",
+  "source_inputs": {
+    "C2_ROOT_CAUSE.md": "182913729a4b2f196b055d09e7e90525bc8065145162026b431b4660ee099a12",
+    "C3_CORRECTION_SPEC.md": "8a811c35dbe609b242d26d709e7b7d73a9b0b6fe84d0bb51f141d47b649f72ea",
+    "BUNDLE_C2_B0_V3.json": "6b861dcfdbb8efd847b40652ad7abc90fde1cdf17686cc159b27b98d08e02b6e",
+    "B0_V3_RESULT.json": "89403536d803464d8e9c59f6262fe93ebfc3c24fa34cad0efe5acd39f19c0113",
+    "B0_V3_POSTHOC_SCORER_V2.json": "02bc71e66e6709c12d129176a921b2d39baee80aacaeebcad22613325f5f6aaf",
+    "C3_UNIT_RED.json": "3b2acb77280d41d18d99a4a17b7cf3fc0ec0590a2c2fbbae504977a080f5e8e3",
+    "C3_UNIT_GREEN.json": "d7691ba53eff52a740c002e49ac5d5ee327f26ddc70876815af8a0b14a80cb75",
+    "C3_DERIVATION_RED.json": "3b9a58480c63cf3decdda22d8502efb1d47fb1497dcfe7e20b5e6d1f694fa6c7",
+    "C3_DERIVATION_GREEN.json": "c519eda620f9ebc442e8070058c68eb14297b25ee9cb30afe53b87592d28f8f8",
+    "REFERENCES_V1.json": "df799e92f672d04b6015b521a8f0dbb9a8a1ba0af1c9d6716c3f2d01d1f1d4e0",
+    "REFERENCES_V2.json": "a72467bae544a1a82a7e74fe4d865157dae7abb7f6e0bd8e07faaf571d1c6a05",
+    "BUNDLE_C3_B0_V4.json": "dd782d68b968749a16a85ee2eb152f41bf9d5ff4cf3bb1671981fa47983f20d5",
+    "B0_V3_POSTHOC_SCORER_V3.json": "e82f89584a2224d7f48b41bca2ef88fbac019e1eee227049c350fa7698795991"
+  },
+  "artifacts": {
+    "finrank_contract.py": "a5f900c941798287940214ace5d82efe68e72b3ee89eca70e82b08929304b077",
+    "freeze_c3_fix1_bundle.py": "8f068ce23b71a9f82b2391b3b333030ac13c19fa5bfba382ca31220ccd7389ca",
+    "qualify_runtime.py": "cf4098fb72753b575ffd537a8cf51d21d72864eadcfab996350ba0246e29d3f1",
+    "run_fixtures.py": "9eb93a3ac37eecc2558de3578ad21fe4a842de1c7ece6f0a47beadbbd571c96b",
+    "run_b0.py": "dd1c9621a3f1cbbd3572ba5207e08ea131cd638db708e14d4dcef6c3c2f8b77b",
+    "run_strong_rule.py": "28d2f008f4b0d4950cf4779dff1fd372bf5b56e57bb954e7286c55ee7102f9c6",
+    "rescore_b0_v3_posthoc_v3.py": "dd2f80cd3e22eead212a97069aaccc9f17cf2ee4c3d8f075a14a6068637afeda",
+    "c3_red_green_unit_fixture.py": "5e7a68f6ba7f8287f541d1b7454e59baa9a3f812f1c2696b00be47a675a57e34",
+    "c3_red_green_derivation_fixture.py": "e1a579004f7c96315fc594e620f9a5ff23ac9cd0790d43f497a862672b4c9d3f",
+    "TASKS_ACTOR_V3.json": "66cb3b5497a8aaa94099e6cba546cf498e076a24128f76d482d6718fe93b9f9e",
+    "REFERENCES_V3.json": "a1d132819af198ca24847694bd7e23f0e23dbe0c076528f83ce52130cd6874f4",
+    "TOOL_SCHEMAS_V1.json": "19c1e5b8a4237140fd9056691fe0e7ee78da90e9195320400887191a15ac0fe7",
+    "RUNTIME_IDENTITY_OVERRIDE_V1.json": "328f0e1e386fade83f09a037fffd030aa54bf4689524acf252096506cee4ae3c",
+    "RUN_CARD_C3_B0_V4_FIX1.json": "e155ccc453779bd113df1d01621994a27e8f3385bbc708b71e0b7e3eb65b1dc8"
+  }
+}

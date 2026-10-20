@@ -1,0 +1,572 @@
+{
+  "schema": "finrank_evaluation_references_v2",
+  "status": "AI_ASSISTED_DEVELOPMENT_REFERENCE_NOT_HUMAN_GOLD",
+  "human_confirmed": false,
+  "source_reference_v1_sha256": "df799e92f672d04b6015b521a8f0dbb9a8a1ba0af1c9d6716c3f2d01d1f1d4e0",
+  "change_scope": "ESD_006_REQUIRED_ANSWER_ATOMS_ONLY",
+  "tasks": [
+    {
+      "task_id": "ESD_001",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "largest": {
+          "category": "cash and time deposits",
+          "value": 12471
+        },
+        "second": {
+          "category": "money market funds",
+          "value": 5050
+        },
+        "unit": "USD million",
+        "as_of": "2024-12-31"
+      },
+      "answer_atoms": [
+        {
+          "name": "largest_component",
+          "label_patterns": [
+            "cash and time deposits"
+          ],
+          "value": 12471,
+          "unit": "USD million",
+          "period": "2024-12-31"
+        },
+        {
+          "name": "second_component",
+          "label_patterns": [
+            "money market funds"
+          ],
+          "value": 5050,
+          "unit": "USD million",
+          "period": "2024-12-31"
+        }
+      ],
+      "adjudication_note": "按期末现金及现金等价物构成排序；受限现金与现金调节表不能替代构成明细。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "c2855dba9edeb6afc7b28d19c0c6557afd1cb226ccac19d78d104a130f79caca"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "536525a3935d6e985d1534a62cad60c7ec32ada55529c224742edeebe2329dab"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "7bf328ebf78d14c8df7b05af9020d1ff0f068311e875587de1c9d1bf0ed99ffc"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "388c97cfb7e0a29beca266bc13ec96cf7e9c9e241db2818e2cbf109227f67756"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "59f86b114e47136293302f6e8e116285ecce8436ad88bf36100eb0d05fe3c183"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "29bef719cc0ac72ff7f972157d460462eb2ded261e715c8c74bffa592b023924"
+        }
+      ],
+      "operand_facts": [],
+      "reference_change": {
+        "version": "UNCHANGED_FROM_V1"
+      }
+    },
+    {
+      "task_id": "ESD_002",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "net_cash_from_financing": 1938,
+        "unit": "USD million",
+        "period": "FY2024"
+      },
+      "answer_atoms": [
+        {
+          "name": "net_cash_financing",
+          "label_patterns": [
+            "cash flows from financing activities",
+            "net cash from financing",
+            "financing activities"
+          ],
+          "value": 1938,
+          "unit": "USD million",
+          "period": "FY2024"
+        }
+      ],
+      "adjudication_note": "cand_004 虽被标为 GM/2025/10-K，正文列期是2023/2022/2021，不能作为2024替代证据。单靠元数据年份筛选会误判。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "5264d806c58aa2d1deda3f6b17f96a2315b9272e3aaac8aa9ccf0a72b70f56b7"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "1dcb30888d5a3316a0ccbc0c46d58e64f7fe2484efd029cf2363b004fc1c37e7"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "dbbe4a23e2a922e837567d381827980aa425adf08bc56c50e32409f81e7e49e4"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "5aab053ea6c53a6bc9c2d223cb0b3bd2a7608664925c45cde5773b8e69d6b0c7"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "94fb5b7cdc20ef940dc71bdb879edcace874208ce7442c27439e79e462d1f61f"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "5439834094cb333d1657281d80d62ceeb38a885fe9fbc4750a277f8d40a3067d"
+        }
+      ],
+      "operand_facts": [],
+      "reference_change": {
+        "version": "UNCHANGED_FROM_V1"
+      }
+    },
+    {
+      "task_id": "ESD_003",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_006",
+          "cand_007"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "automotive_debt_carrying_amount": 15467,
+        "consolidated_net_cash_from_investing": -20517,
+        "unit": "USD million",
+        "period": "FY2024"
+      },
+      "answer_atoms": [
+        {
+          "name": "automotive_debt",
+          "label_patterns": [
+            "automotive debt",
+            "debt carrying amount"
+          ],
+          "value": 15467,
+          "unit": "USD million",
+          "period": "FY2024"
+        },
+        {
+          "name": "investing_cash_flow",
+          "label_patterns": [
+            "cash flows from investing activities",
+            "net cash from investing",
+            "investing activities"
+          ],
+          "value": -20517,
+          "unit": "USD million",
+          "period": "FY2024"
+        }
+      ],
+      "adjudication_note": "债务使用 carrying amount；投资现金流使用合并口径。负数代表净流出；不把债务 fair value 15,204 或 automotive-only investing 当同一指标。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "4bcaf78876dccdab41891ffd31dde961e9676331fa234e59e32eaf3f0285fc36"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "e6099774e8aa8387e2cf4c799a13913717077977bbdab1850b64e6f59d1ee4b5"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "1dcb30888d5a3316a0ccbc0c46d58e64f7fe2484efd029cf2363b004fc1c37e7"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "dbbe4a23e2a922e837567d381827980aa425adf08bc56c50e32409f81e7e49e4"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "21c38da5850477321dce0245f7eaec56ec5d007b1c77e86d93029278dded7fa6"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "b8a0a0c2e3ea6945b839b5b4f581ee889a82f080b5a62c700c05fe98bdb74b7c"
+        },
+        {
+          "candidate_id": "cand_007",
+          "text_sha256": "5264d806c58aa2d1deda3f6b17f96a2315b9272e3aaac8aa9ccf0a72b70f56b7"
+        }
+      ],
+      "operand_facts": [],
+      "reference_change": {
+        "version": "UNCHANGED_FROM_V1"
+      }
+    },
+    {
+      "task_id": "ESD_004",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_003",
+          "cand_005"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "ROE_percent": 8.7,
+        "ROIC_adjusted_percent": 20.8,
+        "period": "FY2024"
+      },
+      "answer_atoms": [
+        {
+          "name": "roe",
+          "label_patterns": [
+            "return on equity",
+            "roe"
+          ],
+          "value": 8.7,
+          "unit": "percent",
+          "period": "FY2024",
+          "tolerance": 0.01
+        },
+        {
+          "name": "roic_adjusted",
+          "label_patterns": [
+            "roic adjusted",
+            "adjusted roic",
+            "roic-adjusted"
+          ],
+          "value": 20.8,
+          "unit": "percent",
+          "period": "FY2024",
+          "tolerance": 0.01
+        }
+      ],
+      "adjudication_note": "采用公司披露的两个指标定义；不与 Ford 同名指标互换。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "bdcf3554e32b3ba0c6713ef4fe876c7f77c12ecb3511a8bf63c8b246b396e162"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "ab15738dbe50ff659c701f1af81d65468592f9e827bd0273542d908aa0ba1040"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "fd98ed3293ca4c08d41e26232c8262677bb013c071d1674b35200488f98a6ba3"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "9531f1308da48e333b32b7336c63b4686eec401b812de1cc714fdef992c388e7"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "9fffabc7b9dcb74627e0ff2bac379234d65ca0496df30202c847c1b6882c9b92"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "1289958b6c2e95f62e6c88f686893e7547efb9b9636878c8ab2b2dc458bb73fb"
+        },
+        {
+          "candidate_id": "cand_007",
+          "text_sha256": "625e1da8e14f4623bbd379e0898adc827c9e31e511e23b80e0885c4d9ea7288c"
+        }
+      ],
+      "operand_facts": [],
+      "reference_change": {
+        "version": "UNCHANGED_FROM_V1"
+      }
+    },
+    {
+      "task_id": "ESD_006",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_005"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "automotive_revenue": 171606,
+        "automotive_and_other_cost_of_sales": 151065,
+        "derived_gross_profit": 20541,
+        "derived_gross_margin_percent": 11.97,
+        "unit": "USD million except percent",
+        "formula": "(171606-151065)/171606*100",
+        "interpretation_limit": "Derived from reported Automotive revenue and Automotive and other cost of sales; not a separately disclosed pure-segment GAAP subtotal."
+      },
+      "answer_atoms": [
+        {
+          "name": "derived_gross_profit",
+          "label_patterns": [
+            "gross profit"
+          ],
+          "value": 20541,
+          "unit": "USD million",
+          "period": "FY2024"
+        },
+        {
+          "name": "derived_gross_margin",
+          "label_patterns": [
+            "gross margin percentage",
+            "gross margin"
+          ],
+          "value": 11.97,
+          "unit": "percent",
+          "period": "FY2024",
+          "tolerance": 0.01
+        }
+      ],
+      "adjudication_note": "参考算术成立。评分只承认上述两行计算口径，不能把 automotive and other cost of sales 伪装成没有 other 的独立分部披露。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "cf6998d66550635a3643dbefcfa24a3ed26fd984e00db7fdb730cf847fd78ba8"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "dbbe4a23e2a922e837567d381827980aa425adf08bc56c50e32409f81e7e49e4"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "1dcb30888d5a3316a0ccbc0c46d58e64f7fe2484efd029cf2363b004fc1c37e7"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "94fb5b7cdc20ef940dc71bdb879edcace874208ce7442c27439e79e462d1f61f"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "d44f06ce74248512e91bf2945ed7cd36005c97d723e9debc432b673877e971b0"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "ad51ea380962426d375e9a4d2d5a5879522a8f19d3e8164a053969120694e2f4"
+        }
+      ],
+      "operand_facts": [
+        {
+          "name": "automotive_revenue",
+          "label_patterns": [
+            "automotive revenue",
+            "revenue"
+          ],
+          "value": 171606,
+          "unit": "USD million",
+          "period": "FY2024"
+        },
+        {
+          "name": "automotive_other_cost",
+          "label_patterns": [
+            "automotive and other cost of sales",
+            "cost of sales"
+          ],
+          "value": 151065,
+          "unit": "USD million",
+          "period": "FY2024"
+        }
+      ],
+      "reference_change": {
+        "version": "V2",
+        "reason": "Question requires gross profit and gross margin; revenue and Automotive and other cost of sales are verification operands, not additional required answer atoms.",
+        "required_answer_atom_names": [
+          "derived_gross_profit",
+          "derived_gross_margin"
+        ],
+        "verification_operand_names": [
+          "automotive_revenue",
+          "automotive_other_cost"
+        ]
+      }
+    },
+    {
+      "task_id": "ESD_010",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_003"
+        ]
+      ],
+      "optional_redundant": [
+        "cand_007"
+      ],
+      "canonical_answer": {
+        "total_liabilities": 48390,
+        "other_long_term_liabilities": 10495,
+        "unit": "USD million",
+        "as_of": "2024-12-31"
+      },
+      "answer_atoms": [
+        {
+          "name": "total_liabilities",
+          "label_patterns": [
+            "total liabilities"
+          ],
+          "value": 48390,
+          "unit": "USD million",
+          "period": "2024-12-31"
+        },
+        {
+          "name": "other_long_term_liabilities",
+          "label_patterns": [
+            "other long-term liabilities",
+            "other long term liabilities"
+          ],
+          "value": 10495,
+          "unit": "USD million",
+          "period": "2024-12-31"
+        }
+      ],
+      "adjudication_note": "cand_003资产负债表已同时包含两个数；cand_007是有效明细但不必同时选择。原gold要求两段会误判充分子集。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "f74f600d5f4326fed09c431aac835db671d45df597bc7d169435e6dc8a7096af"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "0418bdbaf85a5eca1db09963d2955c38ac9f067b8282f94eeb4469fe8e5c6fe7"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "76d61678de875f543702a5409c1ee794ffc95777c366bc37ca49a093dfe24af6"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "fa4bd0a2e9fdafcc24550d501f7f36c55c4f56ffffa82610d6c40581df73e9d8"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "ced025d66b7880766327330616a2698ba3acaa310c68997bc6ccb754f6fc23c0"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "ba6e549362a9087e6667ea02684290370421c571a0afc7e7b522da3914ae5ba9"
+        },
+        {
+          "candidate_id": "cand_007",
+          "text_sha256": "0b3de84eaa3da014651bf096177457c62975b5410b67010b0f213a46c1b45046"
+        }
+      ],
+      "operand_facts": [],
+      "reference_change": {
+        "version": "UNCHANGED_FROM_V1"
+      }
+    },
+    {
+      "task_id": "ESD_012",
+      "source_cluster_id": "source_component_03",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001",
+          "cand_005"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "depreciation_method": "generally straight-line",
+        "PPE_depreciation_billion_USD": {
+          "2022": 2.42,
+          "2023": 3.33,
+          "2024": 4.12
+        },
+        "trend": "increased in each successive year"
+      },
+      "answer_atoms": [
+        {
+          "name": "depreciation_method",
+          "label_patterns": [
+            "depreciation method",
+            "ppe depreciation method"
+          ],
+          "value": "generally straight-line",
+          "value_synonyms": [
+            "straight-line",
+            "straight line"
+          ],
+          "unit": "NONE",
+          "period": "NONE"
+        },
+        {
+          "name": "ppe_depreciation_2022",
+          "label_patterns": [
+            "ppe depreciation",
+            "depreciation"
+          ],
+          "value": 2.42,
+          "unit": "USD billion",
+          "period": "2022",
+          "tolerance": 0.01
+        },
+        {
+          "name": "ppe_depreciation_2023",
+          "label_patterns": [
+            "ppe depreciation",
+            "depreciation"
+          ],
+          "value": 3.33,
+          "unit": "USD billion",
+          "period": "2023",
+          "tolerance": 0.01
+        },
+        {
+          "name": "ppe_depreciation_2024",
+          "label_patterns": [
+            "ppe depreciation",
+            "depreciation"
+          ],
+          "value": 4.12,
+          "unit": "USD billion",
+          "period": "2024",
+          "tolerance": 0.01
+        }
+      ],
+      "adjudication_note": "只裁决PPE方法与费用趋势；未要求的资产扩张因果推论不进入评分，solar lease系统折旧不可替代PPE费用。",
+      "evidence_identity": [
+        {
+          "candidate_id": "cand_001",
+          "text_sha256": "a157a08e983ae8b8e78b07082e9ae192aa82482f78b2193405f42a1a79d0cc2d"
+        },
+        {
+          "candidate_id": "cand_002",
+          "text_sha256": "69a031f00a414e4f8f63171e529ddf9b29f0aad37aad7add129b10c36b5cca9a"
+        },
+        {
+          "candidate_id": "cand_003",
+          "text_sha256": "2dc6941a7f8c92a5da894d126311f5c3d875bb5a527c0108ce8030a43daf85f4"
+        },
+        {
+          "candidate_id": "cand_004",
+          "text_sha256": "d6fb156005c9964075d233ccac302f31f7a8f5d288ef429e83064164308d4861"
+        },
+        {
+          "candidate_id": "cand_005",
+          "text_sha256": "904924a4f49c5841fadd442479e314cd12a0c01564c897d07dfb416a52acdcd2"
+        },
+        {
+          "candidate_id": "cand_006",
+          "text_sha256": "6a0f910f07a8a45f520b857ebfce771bc31e2827ef84c6c0977eb165b5f76913"
+        },
+        {
+          "candidate_id": "cand_007",
+          "text_sha256": "38282ab2e2ace7cb51a39092b8ebc4c9f5a118cdc0c8ed295a829fb52e89c637"
+        }
+      ],
+      "operand_facts": [],
+      "reference_change": {
+        "version": "UNCHANGED_FROM_V1"
+      }
+    }
+  ]
+}

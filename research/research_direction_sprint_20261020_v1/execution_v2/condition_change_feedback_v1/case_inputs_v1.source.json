@@ -1,0 +1,136 @@
+{
+  "cases": [
+    {
+      "case_id": "CC001",
+      "change_scope": "meal_cap",
+      "claim": {"amount_usd": 65, "category": "meals", "manager_approval": true, "merchant": "North Star Cafe"},
+      "evidence": [
+        {"details": {"merchant": "North Star Cafe", "amount_usd": 65}, "fact_id": "CC001:receipt", "kind": "receipt", "source_id": "meal_receipt_registry:8801", "valid": true},
+        {"details": {"approver": "M. Chen"}, "fact_id": "CC001:manager_approval", "kind": "manager_approval", "source_id": "approval_log:2101", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC001:manager_approval", "CC001:receipt"],
+      "source_cluster": "meals"
+    },
+    {
+      "case_id": "CC002",
+      "change_scope": "meal_cap",
+      "claim": {"amount_usd": 62, "category": "meals", "manager_approval": false, "merchant": "Harbor Bistro"},
+      "evidence": [
+        {"details": {"statement_line": "HB-620"}, "fact_id": "CC002:card_statement", "kind": "card_statement", "source_id": "card_feed:4402", "valid": true},
+        {"details": {"merchant": "Harbor Bistro", "amount_usd": 62}, "fact_id": "CC002:merchant_invoice", "kind": "merchant_invoice", "source_id": "invoice_archive:7202", "valid": true},
+        {"details": {"merchant": "Harbor Bistro", "amount_usd": 62}, "fact_id": "CC002:receipt", "kind": "receipt", "source_id": "meal_receipt_registry:8802", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC002:card_statement", "CC002:merchant_invoice"],
+      "source_cluster": "meals"
+    },
+    {
+      "case_id": "CC003",
+      "change_scope": "meal_cap",
+      "claim": {"amount_usd": 68, "category": "meals", "manager_approval": true, "merchant": "Cedar Kitchen"},
+      "evidence": [
+        {"details": {"merchant": "Cedar Kitchen", "amount_usd": 68}, "fact_id": "CC003:receipt", "kind": "receipt", "source_id": "meal_receipt_registry:8803", "valid": true},
+        {"details": {"approver": "R. Singh"}, "fact_id": "CC003:manager_approval", "kind": "manager_approval", "source_id": "approval_log:2103", "valid": true},
+        {"details": {"text": "Team birthday context; not a reimbursement criterion."}, "fact_id": "CC003:team_note", "kind": "operational_note", "source_id": "team_notes:903", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC003:manager_approval", "CC003:receipt", "CC003:team_note"],
+      "source_cluster": "meals"
+    },
+    {
+      "case_id": "CC004",
+      "change_scope": "meal_cap",
+      "claim": {"amount_usd": 45, "category": "meals", "manager_approval": false, "merchant": "Market Deli"},
+      "evidence": [
+        {"details": {"merchant": "Market Deli", "amount_usd": 45}, "fact_id": "CC004:receipt", "kind": "receipt", "source_id": "meal_receipt_registry:8804", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC004:receipt"],
+      "source_cluster": "meals"
+    },
+    {
+      "case_id": "CC005",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 180, "category": "travel", "manager_approval": true, "merchant": "Railway North"},
+      "evidence": [
+        {"details": {"merchant": "Railway North", "amount_usd": 180}, "fact_id": "CC005:receipt", "kind": "receipt", "source_id": "travel_receipts:3305", "valid": true},
+        {"details": {"approver": "L. Wang"}, "fact_id": "CC005:manager_approval", "kind": "manager_approval", "source_id": "approval_log:2105", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC005:receipt"],
+      "source_cluster": "travel"
+    },
+    {
+      "case_id": "CC006",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 90, "category": "travel", "manager_approval": false, "merchant": "City Air"},
+      "evidence": [
+        {"details": {"statement_line": "CA-900"}, "fact_id": "CC006:card_statement", "kind": "card_statement", "source_id": "card_feed:4406", "valid": true},
+        {"details": {"merchant": "City Air", "amount_usd": 90}, "fact_id": "CC006:merchant_invoice", "kind": "merchant_invoice", "source_id": "invoice_archive:7206", "valid": true},
+        {"details": {"merchant": "City Air", "amount_usd": 90}, "fact_id": "CC006:receipt", "kind": "receipt", "source_id": "travel_receipts:3306", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC006:card_statement", "CC006:merchant_invoice"],
+      "source_cluster": "travel"
+    },
+    {
+      "case_id": "CC007",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 220, "category": "travel", "manager_approval": false, "merchant": "Metro Hotel Booking"},
+      "evidence": [
+        {"details": {"merchant": "Metro Hotel Booking", "amount_usd": 220}, "fact_id": "CC007:receipt", "kind": "receipt", "source_id": "travel_receipts:3307", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC007:receipt"],
+      "source_cluster": "travel"
+    },
+    {
+      "case_id": "CC008",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 80, "category": "office", "manager_approval": false, "merchant": "Office Mart"},
+      "evidence": [
+        {"details": {"merchant": "Office Mart", "amount_usd": 80}, "fact_id": "CC008:receipt", "kind": "receipt", "source_id": "office_receipts:5108", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC008:receipt"],
+      "source_cluster": "office"
+    },
+    {
+      "case_id": "CC009",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 140, "category": "office", "manager_approval": true, "merchant": "Ergo Supply"},
+      "evidence": [
+        {"details": {"merchant": "Ergo Supply", "amount_usd": 140}, "fact_id": "CC009:receipt", "kind": "receipt", "source_id": "office_receipts:5109", "valid": true},
+        {"details": {"approver": "S. Patel"}, "fact_id": "CC009:manager_approval", "kind": "manager_approval", "source_id": "approval_log:2109", "valid": true},
+        {"details": {"text": "Historic quote predates this purchase."}, "fact_id": "CC009:legacy_quote", "kind": "legacy_quote", "source_id": "vendor_quotes:409", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC009:legacy_quote", "CC009:manager_approval", "CC009:receipt"],
+      "source_cluster": "office"
+    },
+    {
+      "case_id": "CC010",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 160, "category": "office", "manager_approval": false, "merchant": "Print Works"},
+      "evidence": [
+        {"details": {"merchant": "Print Works", "amount_usd": 160}, "fact_id": "CC010:receipt", "kind": "receipt", "source_id": "office_receipts:5110", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC010:receipt"],
+      "source_cluster": "office"
+    },
+    {
+      "case_id": "CC011",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 300, "category": "lodging", "manager_approval": true, "merchant": "Riverside Inn"},
+      "evidence": [
+        {"details": {"approver": "A. Rivera"}, "fact_id": "CC011:manager_approval", "kind": "manager_approval", "source_id": "approval_log:2111", "valid": true},
+        {"details": {"merchant": "Riverside Inn", "amount_usd": 300}, "fact_id": "CC011:receipt", "kind": "receipt", "source_id": "lodging_folios:6411", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC011:manager_approval", "CC011:receipt"],
+      "source_cluster": "lodging"
+    },
+    {
+      "case_id": "CC012",
+      "change_scope": "unrelated_meal_cap",
+      "claim": {"amount_usd": 250, "category": "lodging", "manager_approval": false, "merchant": "Airport Lodge"},
+      "evidence": [
+        {"details": {"merchant": "Airport Lodge", "amount_usd": 250}, "fact_id": "CC012:receipt", "kind": "receipt", "source_id": "lodging_folios:6412", "valid": true}
+      ],
+      "prior_plan_evidence_ids": ["CC012:receipt"],
+      "source_cluster": "lodging"
+    }
+  ],
+  "schema_version": "condition_change_cases_v1"
+}

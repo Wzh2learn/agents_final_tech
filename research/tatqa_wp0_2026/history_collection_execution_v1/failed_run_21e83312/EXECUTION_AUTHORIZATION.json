@@ -1,0 +1,15 @@
+{
+  "schema": "collection_execution_authorization_v1",
+  "authorization_id": "AUTH-20261018-1925-CST-54REQ-21e83312",
+  "mode": "SINGLE_COLLECTION_RUN",
+  "bundle_sha256": "21e83312bbb82e1a11ad3b7f3aef5e2a30574e30977e62d6ad0e61cb2fe71a3b",
+  "window_start_utc": "2026-10-18T11:25:00Z",
+  "window_end_utc": "2026-10-18T11:55:00Z",
+  "timezone": "Asia/Shanghai",
+  "request_cap": 54,
+  "token_cap": 600000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "wzh signed replacement window 2026-10-18 19:25-19:55 Asia/Shanghai and approved retry fix continuation; no separate human semantic signature claimed"
+}

@@ -1,0 +1,27 @@
+{
+  "budgets": [
+    1,
+    2,
+    3
+  ],
+  "feedback_case_count": 7,
+  "fixture_sha256": {
+    "fixtures/feedback_cases_frozen.json": "e239e766a591519e476edab49f8fe9d9c6cdae6ae818a00460e9bb40adbe4c20",
+    "fixtures/probe_inputs_frozen.json": "dfd48a04268c5b1055e104b2b25b9dc5b0ba05e38bf4e5433f5fab2a681e5216"
+  },
+  "protocol_version": "open_research_probes_dev_v1",
+  "random_seeds": [
+    1729,
+    20261020,
+    314159,
+    271828
+  ],
+  "schema": "open_research_probe_freeze_receipt_v1",
+  "task_count": 13,
+  "upstream_sha256": {
+    "../../OPEN_RESEARCH_CHARTER.md": "14a307fd438f886af9a107acd54a165d84884ffed599f508a093e59b062f2106",
+    "../../execution_v1/ai_semantic_adjudication_v1/ADJUDICATION.json": "878a90b58d0ea541d1c5c7eb8205b0b284434de0e8a2a8bdd045ca0621bea98a",
+    "../../execution_v1/experience_scope/SCOPE_TASK_DRAFT.json": "0d71408cb9f227442a37f176bd31ebdafbfe5c50da97be5e58905e476b9908ee",
+    "../SPRINT_CONTRACTS.md": "a1a2052bd11fc52b4ef2aac2cfe917cb989220637a85995d84388906dfd82de9"
+  }
+}

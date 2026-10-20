@@ -1,0 +1,106 @@
+{
+  "cases": [
+    {
+      "case_id": "canonical_exact_multi_fact",
+      "description": "Exact frozen minimal set covering both required facts.",
+      "ground_truth_class": "VALID_CANONICAL",
+      "revision_selection": [
+        "cand_003",
+        "cand_005"
+      ],
+      "selection": [
+        "cand_003",
+        "cand_005"
+      ],
+      "task_id": "ESD_004"
+    },
+    {
+      "case_id": "valid_alternative_with_redundant_support",
+      "description": "Contains the sufficient subset cand_003 and adds explicitly optional redundant support cand_007.",
+      "ground_truth_class": "VALID_ALTERNATIVE",
+      "revision_selection": [
+        "cand_003"
+      ],
+      "selection": [
+        "cand_003",
+        "cand_007"
+      ],
+      "task_id": "ESD_010"
+    },
+    {
+      "case_id": "partial_supported_multi_fact",
+      "description": "Supported first fact but omits the second required fact.",
+      "ground_truth_class": "PARTIAL_SUPPORTED",
+      "revision_selection": [
+        "cand_006",
+        "cand_007"
+      ],
+      "selection": [
+        "cand_006"
+      ],
+      "task_id": "ESD_003"
+    },
+    {
+      "case_id": "unsupported_extra_with_complete_facts",
+      "description": "Covers all anchors through cand_001 but adds out-of-scope cand_002.",
+      "ground_truth_class": "UNSUPPORTED_EXTRA",
+      "revision_selection": [
+        "cand_001"
+      ],
+      "selection": [
+        "cand_001",
+        "cand_002"
+      ],
+      "task_id": "ESD_001"
+    },
+    {
+      "case_id": "unsupported_cross_period_extra",
+      "description": "Covers the requested period through cand_002 but adds a March-period distractor cand_005.",
+      "ground_truth_class": "UNSUPPORTED_EXTRA",
+      "revision_selection": [
+        "cand_002"
+      ],
+      "selection": [
+        "cand_002",
+        "cand_005"
+      ],
+      "task_id": "ESH_010"
+    },
+    {
+      "case_id": "unsupported_only",
+      "description": "Selects a same-company prior-period distractor and no supported evidence.",
+      "ground_truth_class": "UNSUPPORTED_ONLY",
+      "revision_selection": [
+        "cand_001"
+      ],
+      "selection": [
+        "cand_004"
+      ],
+      "task_id": "ESD_002"
+    },
+    {
+      "case_id": "empty_selection",
+      "description": "No evidence selected.",
+      "ground_truth_class": "EMPTY",
+      "revision_selection": [
+        "cand_001"
+      ],
+      "selection": [],
+      "task_id": "ESD_001"
+    }
+  ],
+  "feedback_contracts": [
+    "exact_match",
+    "minimal_sufficient_set",
+    "fact_coverage"
+  ],
+  "ground_truth_scope_rule": "A selection is scope-valid when it contains a frozen minimal sufficient set and every selected ID is within minimal sets plus optional_redundant.",
+  "protocol_version": "open_research_probes_dev_v1",
+  "schema": "open_research_feedback_cases_v1",
+  "status": "DEV_ONLY_CONTROLLED_MECHANISM_FIXTURES",
+  "update_rule": {
+    "accepted": "RETAIN unchanged selection",
+    "otherwise": "REJECT",
+    "rejected_scope_valid_or_partial_supported": "REVISE to the first frozen minimal sufficient set"
+  }
+}

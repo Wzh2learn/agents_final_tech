@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"task_id\\\": \\\"CC010:pre\\\",\\n  \\\"outcome\\\": \\\"approve\\\",\\n  \\\"evidence_ids\\\": [\\n    \\\"CC010:receipt\\\"\\n  ]\\n}\"}}],\"created\":1792500404,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":47,\"prompt_tokens\":1349,\"total_tokens\":1396,\"prompt_tokens_details\":{\"cached_tokens\":834}},\"id\":\"chatcmpl-gqlJzXUErEY2Y9cORmNIePY4atIPPjYU\",\"timings\":{\"cache_n\":834,\"prompt_n\":515,\"prompt_ms\":294.556,\"prompt_per_token_ms\":0.5719533980582524,\"prompt_per_second\":1748.3941932943144,\"predicted_n\":47,\"predicted_ms\":738.047,\"predicted_per_token_ms\":15.703127659574468,\"predicted_per_second\":63.68158125431036}}"
+}
