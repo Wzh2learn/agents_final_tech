@@ -1,0 +1,38 @@
+{
+  "alignment_counts": {
+    "all_agree": 253,
+    "o1_only_disagrees": 94,
+    "o2_only_disagrees": 75,
+    "o3_only_disagrees": 578
+  },
+  "base_case_count": 100,
+  "claim_boundary": "Anonymized Gold benchmark records for scientific evaluation. O3 is deterministic simulator-only shadow evidence; no physical, live-command, certified-autonomy, deployment-readiness, weapon-control, or real-world safety claim.",
+  "family_count": 100,
+  "handling_counts": {
+    "execute;defer": 9,
+    "execute;repair;defer": 178,
+    "repair;defer": 813
+  },
+  "o3_outcome_counts": {
+    "failed": 248,
+    "succeeded": 752
+  },
+  "partition_counts": {
+    "development": 200,
+    "test": 200,
+    "train": 600
+  },
+  "raw_review_provenance_public": false,
+  "record_count": 1000,
+  "relation_counts": {
+    "change": 685,
+    "invariant": 315
+  },
+  "reviewer_count_per_record": 2,
+  "reviewer_identity_public": false,
+  "schema_version": "ma-cerd-public-summary-v1",
+  "split_counts": {
+    "compositional_ood": 400,
+    "id": 600
+  }
+}

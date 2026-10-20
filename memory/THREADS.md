@@ -1,22 +1,22 @@
 # memory/THREADS.md — 未决线索
 
-[10-20] #MERGED-FINRANK-OPEN-RESEARCH-RETURN: Completed
-`FINRANK_DEV_HEADROOM_AND_SCOPE_TRANSFER_V1` and
-`OPEN_RESEARCH_DISCOVERY_AND_MECHANISM_PROBES_V1`. Paper E remains
-`NARROW_AND_CONTINUE`. FinRank H stops on the current panel: B0 V4 is 5/7 with
-derived plan minimal-sufficiency 7/7, plan precision 5/7, and consume 6/7.
-The outcome residuals are one sufficient-evidence abstention (`ESD_006`) and
-one fixed-budget serialization failure (`ESD_012`); plan-level over-selection
-remains, but no executed task-matched correction histories exist. Open probes stop
-score-disagreement and exact-match-only feedback; continue composite feedback
-semantics using set-valued sufficiency plus scope precision. New ledger:
-56/192 requests and 458,650/2,000,000 tokens; retries/judge/training/history/
-pilot/Memory writes are zero. Return:
-`research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md`;
-independent review:
-`research/research_direction_sprint_20261020_v1/execution_v2/INDEPENDENT_SCIENCE_REVIEW.md`;
-GB10 authoritative review:
-`research/research_direction_sprint_20261020_v1/execution_v2/GB10_LOOP_C_REVIEW.md`.
+[10-20] #MA-CERD-TOOL-FIRST-CLOSEOUT: The independent MA-CERD probes support
+`TOOL_FIRST_WITH_SELECTIVE_ESCALATION`, not a winning feedback contract.
+Transparent signature rules plus resource-graph propagation and calibrated
+handling reached relation `0.881`, handling `0.839`, impact F1 `0.676` and
+preserved F1 `0.648`. The 750-record high-confidence subset reached relation
+`0.967` and handling `0.935`. A full 250-record uncertainty-queue model probe
+matched relation `0.624`, collapsed handling to `0.012`, and did not decisively
+improve set F1. Stop generic feedback-ranking claims and model adjudication on
+this queue; require explicit dependency/simulator traces before another model
+study. The shared ledger is `747/747` requests and `1,564,176/2,000,000`
+accounting tokens: 746 `OK` records plus one retained
+`FAILED/request_already_exists` event with conservative 10,240-token
+accounting. Judge, training, paid API and production Memory writes are zero.
+The older `313/316` ledger remains isolated. Autopsy:
+`research/ma_cerd_independent_v1/EXPERIMENT_AUTOPSY.md`. Research routing:
+`docs/research/README.md`; per-experiment receipts remain in
+`research/ma_cerd_independent_v1/`.
 
 [10-20] #OPEN-RESEARCH-DISCOVERY: Owner explicitly requested broader research and Loop D autonomy. New Goal `OPEN_RESEARCH_DISCOVERY_AND_MECHANISM_PROBES_V1` keeps bounded implementation/observation work while allowing independent question/task selection, thin prototypes, low-cost probes and reprioritization within the existing shared budget. Seven-task FinRank completion and the former 70/30 split are not universal discovery gates. Suggested priorities: active experience acquisition and targeted evidence acquisition, with alternative/self-proposed directions allowed. No new model run or scientific result in this planning step. Charter: `research/research_direction_sprint_20261020_v1/OPEN_RESEARCH_CHARTER.md`.
 

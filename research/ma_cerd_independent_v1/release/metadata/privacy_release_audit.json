@@ -1,0 +1,23 @@
+{
+  "identity_assurance": "Human identity is withheld and was not independently authenticated by software.",
+  "passed": true,
+  "pattern_hit_counts": {
+    "email": 0,
+    "private_name": 0,
+    "windows_path": 0
+  },
+  "record_count": 1000,
+  "reissued_fields": [
+    "oracle_bundle.independent_judgment.adjudication_record_id"
+  ],
+  "removed_fields": [
+    "source_response_audit_sha256"
+  ],
+  "schema_version": "ma-cerd-public-privacy-audit-v1",
+  "withheld_fields": [
+    "reviewer identity",
+    "signatures",
+    "email",
+    "raw correspondence"
+  ]
+}

@@ -14,11 +14,18 @@ evidence, not competing entry points.
   sufficient-evidence abstention and one serialization failure at outcome
   level. Plan recall is derived at `7/7`, but plan precision is `5/7`; no
   executed task-matched correction histories exist.
-- Open research: continue composite feedback-contract semantics using
-  set-valued sufficiency plus scope precision; stop tested score-disagreement
-  and exact-match-only candidates.
-- New research ledger: `56/192` requests and `458,650/2,000,000` accounting
-  tokens. The old ledger remains unchanged.
+- MA-CERD open research: `TOOL_FIRST_WITH_SELECTIVE_ESCALATION`. Stop feedback
+  ranking claims and generic model adjudication on the uncertainty queue.
+  Transparent signature rules, resource-graph propagation and calibrated
+  handling are the current default; `blocking_requirements` and
+  `o1_only_disagrees` require explicit dependency/simulator evidence before
+  another model study.
+- Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
+  accounting tokens, recomputed from all 747 request records. The ledger has
+  746 `OK` records and one retained `FAILED/request_already_exists` event with
+  conservative 10,240-token accounting. Judge, training, paid research API and
+  production Memory writes are zero. The old ledger remains unchanged at
+  `313/316` requests and `324,086/2,750,000` tokens.
 - Current merged return:
   [`MERGED_GOAL_RETURN.md`](../../research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md).
 - Independent review:
@@ -47,6 +54,27 @@ evidence, not competing entry points.
   Loop D may select, prototype, probe and change exploratory directions within
   the existing shared budget; seven-task baseline completion is not a gate for
   all discovery. Proposed mechanisms and new literature are not results.
+
+## MA-CERD Independent Probe
+
+- Source and offline baselines:
+  [`RESEARCH_RETURN.md`](../../research/ma_cerd_independent_v1/RESEARCH_RETURN.md)
+- Transparent adjudicator and resource graph:
+  [`ADJUDICATOR_RETURN.md`](../../research/ma_cerd_independent_v1/ADJUDICATOR_RETURN.md)
+- Selective routing and error strata:
+  [`SELECTIVE_ROUTING_RETURN.md`](../../research/ma_cerd_independent_v1/SELECTIVE_ROUTING_RETURN.md)
+- Full uncertainty-queue model probe:
+  [`UNCERTAINTY_ADJUDICATION_RETURN.md`](../../research/ma_cerd_independent_v1/UNCERTAINTY_ADJUDICATION_RETURN.md)
+- Experiment autopsy and next-action ruling:
+  [`EXPERIMENT_AUTOPSY.md`](../../research/ma_cerd_independent_v1/EXPERIMENT_AUTOPSY.md)
+
+The calibrated transparent path reached relation `0.881`, handling `0.839`,
+impact F1 `0.676` and preserved F1 `0.648`. Its 750-record high-confidence
+subset reached relation `0.967` and handling `0.935`. On the 250-record
+uncertainty queue, model adjudication matched relation at `0.624`, collapsed
+handling to `0.012`, and did not decisively improve set F1. This is evidence
+for a tool-first selective-escalation architecture, not evidence that
+experience learning generally works or fails.
 
 ## Paper E
 
@@ -79,6 +107,11 @@ evidence, not competing entry points.
 
 - Frozen raw responses, ledgers, manifests and independent checks remain in
   their research artifact directories.
+- Per-experiment return files are point-in-time receipts. Aggregate request
+  and token accounting comes from
+  [`RESEARCH_GENERATION_LEDGER.json`](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json),
+  recomputed from its 747 request records; its original top-level status string
+  is historical and is not the current research disposition.
 - Archived handoffs and superseded reports remain under `docs/archive/`.
 - A result document may state its evidence boundary, but it must link here for
   current routing instead of claiming a second project entry.
@@ -86,10 +119,10 @@ evidence, not competing entry points.
 
 ## Next Execution Step
 
-Freeze a small natural condition-change task population and development
-protocol for comparing composite feedback with exact-match and
-sufficient-set-only feedback. Score sufficiency and scope precision separately
-at plan and consume time. The gate is independent reference feasibility,
-natural alternate sufficient sets, and a predeclared stop rule. Do not collect
-FinRank history, reopen stopped panels, or strengthen Paper E beyond its
-bounded two-case measurement-audit claim.
+Freeze `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` as the current MA-CERD
+development architecture. Do not spend more generic LLM feedback or
+monolithic-prediction requests on the existing queue. A new model study is
+justified only after adding explicit dependency edges or simulator traces for
+the 250-record uncertainty queue, with family-cluster uncertainty estimates.
+Do not collect FinRank history, reopen stopped panels, or strengthen Paper E
+beyond its bounded two-case measurement-audit claim.
