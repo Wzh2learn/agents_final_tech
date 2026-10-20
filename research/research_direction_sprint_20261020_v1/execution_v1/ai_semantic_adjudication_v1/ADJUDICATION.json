@@ -1,0 +1,758 @@
+{
+  "schema": "finrank_ai_semantic_adjudication_v1",
+  "created_local_date": "2026-10-20",
+  "timezone": "Asia/Shanghai",
+  "reviewer": {
+    "type": "AI_ASSISTANT",
+    "human_confirmed": false,
+    "financial_professional_certification": false,
+    "blind_review": false,
+    "reference_answers_seen": true,
+    "source_basis": "Local FinRank draft question/candidates/reference; targeted SEC WMB Q2 2025 and XOM FY2024 disclosures, plus EPD issuer FY2025 report's FY2024 comparative reserve disclosure. Not a complete original-filing audit.",
+    "review_coverage": "All 24 questions and references; gold passages and relevant same-entity candidate sections, table headings and explicit conflicts inspected. Other-company negatives screened by visible source scope and entity context, not exhaustively certified against original filings. No universal uniqueness claim."
+  },
+  "purpose": "AI-assisted development reference proposal; never human gold, independent validation or submission approval.",
+  "source_inputs": [
+    {
+      "path": "experience_scope\\SCOPE_TASK_DRAFT.json",
+      "sha256": "0d71408cb9f227442a37f176bd31ebdafbfe5c50da97be5e58905e476b9908ee",
+      "bytes": 824350
+    },
+    {
+      "path": "experience_scope\\SCOPE_TASK_QUALIFICATION.json",
+      "sha256": "7adadd43280a15e4b3718663a8321422ff7cbf61668567763c89fedd0d2c9e53",
+      "bytes": 7616
+    },
+    {
+      "path": "experience_scope\\qualify_finrank_scope_tasks.py",
+      "sha256": "df7b783e41e2c88cc6c9b796344f1c13987e8fb1ee03842ae23ff1659eb8d232",
+      "bytes": 39462
+    },
+    {
+      "path": "PAPER_E_EXTERNAL_AUDIT.md",
+      "sha256": "81ca8aafc45ab0e0a818083fda2f8f63e3f6516e662c0848aa813a29c9410ce5",
+      "bytes": 14300
+    },
+    {
+      "path": "PAPER_E_REVISION_DRAFT.md",
+      "sha256": "ffa91b1ed76b249961e7ffaeb33a7b2211caa3e4908d0fcabdb977c8dc4f81b5",
+      "bytes": 52346
+    },
+    {
+      "path": "EXPERIENCE_SCOPE_STUDY.md",
+      "sha256": "534bdd3f20c9fbcefb7afaa9d9ca24b60e2f1697d25cdb1602e197345222b7b9",
+      "bytes": 20407
+    },
+    {
+      "path": "INDEPENDENT_REVIEW.md",
+      "sha256": "7dd0c5b8c772ede19bad14a95f2bc981e9c9c11f7218764ce73b521ee2defcf5",
+      "bytes": 14106
+    },
+    {
+      "path": "GOAL_RETURN.md",
+      "sha256": "9f8a4b849c4ba85dc324fea42caef1b97caf08bad519fffac765096f3c11782c",
+      "bytes": 7050
+    },
+    {
+      "path": "paper_e_audit\\vendor\\FinRank\\FinRank.jsonl",
+      "sha256": "b763ef4d58706370bd32f828b94852d2aa19f5227cb603481dd230d8121360ac",
+      "bytes": 34130413
+    }
+  ],
+  "counts": {
+    "total": 24,
+    "KEEP_DEVELOPMENT": 13,
+    "REPAIR_AND_REVIEW": 9,
+    "EXCLUDE_CURRENT": 2
+  },
+  "qualified_development_ids": [
+    "ESD_001",
+    "ESD_002",
+    "ESD_003",
+    "ESD_004",
+    "ESD_006",
+    "ESD_010",
+    "ESD_012"
+  ],
+  "qualified_future_development_ids": [
+    "ESH_001",
+    "ESH_005",
+    "ESH_006",
+    "ESH_007",
+    "ESH_009",
+    "ESH_010"
+  ],
+  "execution": {
+    "generation_requests_started": 0,
+    "judge_requests_started": 0,
+    "training_started": false,
+    "production_memory_writes": 0,
+    "online_gate": "NOT_OPENED_BY_THIS_FILE; implement and verify tool contract, freeze new task view, use existing owner-adopted authorization.",
+    "independent_validation_authorized": false,
+    "automatic_repair_or_replacement": false
+  },
+  "scoring_contract": {
+    "version": "DEVELOPMENT_REFERENCE_PROPOSAL_V1",
+    "instruction_change": "Select a sufficient set of candidate passages to answer all requested facts. A single passage need not cover every subquestion. Use only visible evidence.",
+    "answers": "Required fact atoms, units, periods and entity must agree; no fixed prose, unsupported causal claims or investment-risk judgments required.",
+    "evidence_sufficiency": "At least one listed minimal_sufficient_set must be contained in selected candidates. This is a provisional finite-panel reference, not proof of global uniqueness.",
+    "scope_precision": "For KEEP tasks, selected IDs must stay within the union of listed minimal sets and optional_redundant; redundant support gets no benefit. Other IDs are unsupported under this reviewed panel. A counterexample pauses scoring of that task for every arm, logged separately; never adapt references arm-by-arm.",
+    "legacy_exact_match": "May be retained as labeled historical diagnostic; cannot remain the sole primary after the instruction/reference change.",
+    "abstention": "An excluded/repair task is not automatically a verified negative task. To study appropriate abstention, create a separately frozen insufficient-evidence version and review it.",
+    "rounding": "Integers are exact reported values; derived gross margin tolerance is 0.01 percentage points. Billion/million conversion is allowed if equivalent.",
+    "scope_provenance": "Record filing label/year is source metadata, not requested content period. Source text can conflict with labels (ESD_002/ESD_009); source labels are not trusted answers.",
+    "exposure": "All 24 reviewed by this AI. Energy stays future DEVELOPMENT transfer only; no claim of blind independent confirmation. Actor never receives reference, adjudication, rationale, hashes or gold-derived fields."
+  },
+  "primary_source_checks": [
+    {
+      "task_id": "ESH_008",
+      "publisher": "Enterprise Products Partners L.P.",
+      "url": "https://enterpriseproductspartnerslp.gcs-web.com/static-files/e67d1879-0903-4a9c-99de-837e44fb65e6",
+      "document": "FY2025 Form 10-K, PDF page204/F-68",
+      "scope": "2024 comparative reserve 39 million; reserves paragraph covers open claims and IBNR. Does not independently disclose IBNR-only. Not the task's original 2024 filing.",
+      "checked_on": "2026-10-20"
+    },
+    {
+      "task_id": "ESH_011",
+      "publisher": "SEC EDGAR / The Williams Companies",
+      "url": "https://www.sec.gov/Archives/edgar/data/107263/000010726325000123/wmb-20250630.htm",
+      "document": "Q2 2025 Form10-Q, Note5 Revenue Recognition, printed page32",
+      "scope": "Original revenue table contains Gas & NGL product sales 1213 and adjustments; local cand_003 inserts rows absent from that original table. Cause and any -14 metric from other statements unresolved.",
+      "checked_on": "2026-10-20"
+    },
+    {
+      "task_id": "ESH_012",
+      "publisher": "SEC EDGAR / Exxon Mobil",
+      "url": "https://www.sec.gov/Archives/edgar/data/34088/000003408825000010/R24.htm",
+      "document": "FY2024 long-term-debt disclosure",
+      "scope": "Corroborates total 36755 vs37483 and 2025 note rows; this table alone does not establish payment vs current reclassification or DER/risk direction.",
+      "checked_on": "2026-10-20"
+    }
+  ],
+  "cases": [
+    {
+      "task_id": "ESD_001",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "largest": {
+          "category": "cash and time deposits",
+          "value": 12471
+        },
+        "second": {
+          "category": "money market funds",
+          "value": 5050
+        },
+        "unit": "USD million",
+        "as_of": "2024-12-31"
+      },
+      "note": "按期末现金及现金等价物构成排序；受限现金与现金调节表不能替代构成明细。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "12,471"
+        },
+        {
+          "candidate_id": "cand_001",
+          "quote": "5,050"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_002",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "net_cash_from_financing": 1938,
+        "unit": "USD million",
+        "period": "FY2024"
+      },
+      "note": "cand_004 虽被标为 GM/2025/10-K，正文列期是2023/2022/2021，不能作为2024替代证据。单靠元数据年份筛选会误判。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "1,938"
+        },
+        {
+          "candidate_id": "cand_004",
+          "quote": "Years Ended December 31, 2023"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_003",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_006",
+          "cand_007"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "automotive_debt_carrying_amount": 15467,
+        "consolidated_net_cash_from_investing": -20517,
+        "unit": "USD million",
+        "period": "FY2024"
+      },
+      "note": "债务使用 carrying amount；投资现金流使用合并口径。负数代表净流出；不把债务 fair value 15,204 或 automotive-only investing 当同一指标。",
+      "anchors": [
+        {
+          "candidate_id": "cand_006",
+          "quote": "15,467"
+        },
+        {
+          "candidate_id": "cand_007",
+          "quote": "-20,517"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_004",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_003",
+          "cand_005"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "ROE_percent": 8.7,
+        "ROIC_adjusted_percent": 20.8,
+        "period": "FY2024"
+      },
+      "note": "采用公司披露的两个指标定义；不与 Ford 同名指标互换。",
+      "anchors": [
+        {
+          "candidate_id": "cand_003",
+          "quote": "20.8"
+        },
+        {
+          "candidate_id": "cand_005",
+          "quote": "8.7"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_005",
+      "ruling": "EXCLUDE_CURRENT",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "WACC等参数不足以唯一确定基期FCF口径、是否为企业无杠杆现金流和估值时点。14.0 billion的 adjusted automotive FCF 可以复现约220.246 billion的特定计算，但不能据此判唯一 Enterprise Value 正确。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "Adjusted automotive free cash flow"
+        },
+        {
+          "candidate_id": "cand_004",
+          "quote": "$23.9 billion"
+        }
+      ],
+      "repair": "另建显式指定基期现金流口径、第一年增长与折现时点的计算题；原题不进入本轮。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_006",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_005"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "automotive_revenue": 171606,
+        "automotive_and_other_cost_of_sales": 151065,
+        "derived_gross_profit": 20541,
+        "derived_gross_margin_percent": 11.97,
+        "unit": "USD million except percent",
+        "formula": "(171606-151065)/171606*100",
+        "interpretation_limit": "Derived from reported Automotive revenue and Automotive and other cost of sales; not a separately disclosed pure-segment GAAP subtotal."
+      },
+      "note": "参考算术成立。评分只承认上述两行计算口径，不能把 automotive and other cost of sales 伪装成没有 other 的独立分部披露。",
+      "anchors": [
+        {
+          "candidate_id": "cand_005",
+          "quote": "171,606"
+        },
+        {
+          "candidate_id": "cand_005",
+          "quote": "151,065"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_007",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "问题泛称GM FCF，参考实际是 adjusted automotive FCF。采用该明示口径后，cand_001给定义/用途，cand_006给23.9、20.8、10.7和0.8，可形成充分集合；原三段gold并非都不可缺。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "Adjusted automotive free cash flow"
+        },
+        {
+          "candidate_id": "cand_006",
+          "quote": "$23.9 billion"
+        },
+        {
+          "candidate_id": "cand_006",
+          "quote": "$0.8 billion"
+        }
+      ],
+      "repair": "新版本把FCF改成 Adjusted Automotive FCF；答案14.0 billion=23.9-10.7+0.8，OCF增加3.1 billion；最小充分集合拟为[cand_001,cand_006]，cand_002作为可选补充。冻结前不得纳入。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_008",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "2.17%可由6,008/平均总资产得到；合并净利润5,963/平均总资产则约2.16%。分子与资产分母未明确，且“效率低”缺比较基准。不能用唯一参考打错另一合理口径。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "6,008"
+        },
+        {
+          "candidate_id": "cand_003",
+          "quote": "279,761"
+        },
+        {
+          "candidate_id": "cand_003",
+          "quote": "273,064"
+        }
+      ],
+      "repair": "新题显式给出分子口径与平均资产公式；仅评价每美元平均资产对应利润，不要求无基准的好坏评价。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_009",
+      "ruling": "EXCLUDE_CURRENT",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "问题同时出现General Motors与Ford；参考回答GM，候选标签为F，但正文含GM Financial。存在实体问题与来源标签冲突；不能从隐藏reference推断目标是GM。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "two largest suppliers were approximately 11%"
+        },
+        {
+          "candidate_id": "cand_001",
+          "quote": "Automotive Financing - GM Financial"
+        }
+      ],
+      "repair": "原题隔离。追溯原始报告核实实体与文档来源后另建版本，不静默把Ford替换为GM。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_010",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_003"
+        ]
+      ],
+      "optional_redundant": [
+        "cand_007"
+      ],
+      "canonical_answer": {
+        "total_liabilities": 48390,
+        "other_long_term_liabilities": 10495,
+        "unit": "USD million",
+        "as_of": "2024-12-31"
+      },
+      "note": "cand_003资产负债表已同时包含两个数；cand_007是有效明细但不必同时选择。原gold要求两段会误判充分子集。",
+      "anchors": [
+        {
+          "candidate_id": "cand_003",
+          "quote": "48,390"
+        },
+        {
+          "candidate_id": "cand_003",
+          "quote": "10,495"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_011",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "14,923/7,907约1.89，14,923/277约53.87；7,907来自债务本金到期表。问题未规定本金还是账面债务、是否含融资租赁。“非常低违约风险”也超出两个比率可直接支持的结论。cand_007已含OCF及利息，cand_006冗余。",
+      "anchors": [
+        {
+          "candidate_id": "cand_003",
+          "quote": "7,907"
+        },
+        {
+          "candidate_id": "cand_007",
+          "quote": "14,923"
+        },
+        {
+          "candidate_id": "cand_007",
+          "quote": "277"
+        }
+      ],
+      "repair": "新题明示总债务=7,907本金且排除融资租赁，并限定覆盖倍数解释；拟最小充分集合[cand_003,cand_007]，不把笼统偿付能力断言作为gold。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESD_012",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001",
+          "cand_005"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "depreciation_method": "generally straight-line",
+        "PPE_depreciation_billion_USD": {
+          "2022": 2.42,
+          "2023": 3.33,
+          "2024": 4.12
+        },
+        "trend": "increased in each successive year"
+      },
+      "note": "只裁决PPE方法与费用趋势；未要求的资产扩张因果推论不进入评分，solar lease系统折旧不可替代PPE费用。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "$ 4.12billion"
+        },
+        {
+          "candidate_id": "cand_005",
+          "quote": "Depreciation is generally computed using the straight-line method"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_001",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_003"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "DD_and_A": 361,
+        "unit": "USD million",
+        "segment": "Alaska",
+        "period": "three months ended 2025-06-30"
+      },
+      "note": "同公司同年同10-Q仍有其他分部；cand_002为143、cand_006为118，不支持Alaska。三个月361与六个月716也要区分。",
+      "anchors": [
+        {
+          "candidate_id": "cand_003",
+          "quote": "Results of Operations Alaska"
+        },
+        {
+          "candidate_id": "cand_003",
+          "quote": "361 321 716 645"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_002",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "Q4→Q2可指六个月端点变化，也可要求两次QoQ；原参考采用后者。两段财务表足够算术，却不能把Level3变化归因于估值假设而排除结算/交易变化。",
+      "anchors": [
+        {
+          "candidate_id": "cand_005",
+          "quote": "June 30, 2025"
+        },
+        {
+          "candidate_id": "cand_007",
+          "quote": "March 31, 2025"
+        }
+      ],
+      "repair": "新题明确Q4→Q1及Q1→Q2两个转换；商品衍生负债变化分别[129,8,41,178]和[-71,5,-34,-100]（L1/L2/L3/合计）；或有对价L3分别-35/-11。敏感性只作条件性解释，不做原因裁决。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_003",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "577 Bcf和2024平均日产2,800 MMcf可推出约206.07天。原题未指定用2024日产作分母，实体CTRA亦由record scope补入；属于构造任务上下文，不能声称全从原问题显式提取。",
+      "anchors": [
+        {
+          "candidate_id": "cand_007",
+          "quote": "577"
+        },
+        {
+          "candidate_id": "cand_003",
+          "quote": "2,800"
+        }
+      ],
+      "repair": "新题显式写Coterra与以2024平均日产率估计；单位转换577/(2800/1000)天，不能把美元运输义务当交付体积。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_004",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "原问题问additional retirement plan contribution；44 million是包括matching与additional的这些计划总缴款，段落未单列additional部分。",
+      "anchors": [
+        {
+          "candidate_id": "cand_005",
+          "quote": "matching contributions and additional retirement contributions"
+        },
+        {
+          "candidate_id": "cand_005",
+          "quote": "Devon contributed $ 44 million"
+        }
+      ],
+      "repair": "改问2024向defined contribution plans的总缴款，答案44 million。若保留additional-only问法，正确处置为可见证据不足，不能标44。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_005",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_002"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "shares_outstanding": 553926330,
+        "as_of": "2025-02-13",
+        "unit": "shares"
+      },
+      "note": "流通在外股数与财报期内加权平均股数不是同一指标。cand_003只有加权平均/每股等数据。",
+      "anchors": [
+        {
+          "candidate_id": "cand_002",
+          "quote": "553,926,330shares outstanding as of February 13, 2025"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_006",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_004"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "net_income": 1345,
+        "unit": "USD million",
+        "period": "three months ended 2025-06-30"
+      },
+      "note": "1,345对应当期三个月；2,808是当期六个月，1,690是2024比较期，不能仅按年度或10-Q元数据裁决。",
+      "anchors": [
+        {
+          "candidate_id": "cand_004",
+          "quote": "Three Months Ended June 30, 2025"
+        },
+        {
+          "candidate_id": "cand_004",
+          "quote": "1,345"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_007",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_001"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "common_units_outstanding": 2165699962,
+        "as_of": "2025-01-31",
+        "unit": "common units"
+      },
+      "note": "是指定日common units总数；不是preferred/PIK units，也不是三季度回购数量。",
+      "anchors": [
+        {
+          "candidate_id": "cand_001",
+          "quote": "2,165,699,962common units outstanding at January 31, 2025"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_008",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "段落先说储备覆盖已提出open claims及IBNR，后说our reserve balance为39 million；不能将总储备39强解释为单列IBNR金额。发行方2025年10-K的2024比较披露同样报告总储备39，没有在该段单列IBNR；它不是本任务原始2024文本的替换版本。",
+      "anchors": [
+        {
+          "candidate_id": "cand_006",
+          "quote": "reserves for both open claims asserted"
+        },
+        {
+          "candidate_id": "cand_006",
+          "quote": "Our reserve balance"
+        },
+        {
+          "candidate_id": "cand_006",
+          "quote": "$ 39million"
+        }
+      ],
+      "repair": "改问该保险项目报告的总储备余额，答案39 million；若原题保留IBNR-only，标证据不足并允许ABSTAIN。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_009",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_002"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "fair_value_asset": 5,
+        "unit": "USD million",
+        "as_of": "2024-12-31",
+        "category": "Mark-to-Market Derivatives (Trading), Natural Gas Fixed Swaps/Futures"
+      },
+      "note": "选fair-value列的正5；不是notional 6,630，也不是10%敏感性3。2023版同类别4与比较列16不等价于2024。",
+      "anchors": [
+        {
+          "candidate_id": "cand_002",
+          "quote": "December 31, 2024"
+        },
+        {
+          "candidate_id": "cand_002",
+          "quote": "| Fixed Swaps/Futures |  | 6,630 |  | $ | 5 |"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_010",
+      "ruling": "KEEP_DEVELOPMENT",
+      "minimal_sufficient_sets": [
+        [
+          "cand_002"
+        ]
+      ],
+      "optional_redundant": [],
+      "canonical_answer": {
+        "crude_oil_revenues": 1419,
+        "unit": "USD million",
+        "period": "three months ended 2025-06-30"
+      },
+      "note": "cand_005同属2025 10-Q但正文是March31、值1,565，不是替代证据；cand_006是2024三个月2,099。",
+      "anchors": [
+        {
+          "candidate_id": "cand_002",
+          "quote": "Three Months Ended June 30, 2025"
+        },
+        {
+          "candidate_id": "cand_002",
+          "quote": "1,419"
+        },
+        {
+          "candidate_id": "cand_005",
+          "quote": "Three Months Ended March 31"
+        }
+      ],
+      "repair": null,
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_011",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "本地cand_003标Q2，却插入Gas & NGL衍生净损益-28，参考说Q2=-14。SEC原Q2收入表确有产品销售1,213，但没有本地候选插入的Internal/Realized/Unrealized等明细行，表名也并非reportable-segment revenues。已确认候选与原收入表不一致；尚未裁决-14的另一报表口径及错误形成原因。不得静默补外部数给actor。",
+      "anchors": [
+        {
+          "candidate_id": "cand_003",
+          "quote": "Three Months Ended June 30, 2025"
+        },
+        {
+          "candidate_id": "cand_003",
+          "quote": "| -28 |"
+        },
+        {
+          "candidate_id": "cand_005",
+          "quote": "Three Months Ended March 31, 2025"
+        }
+      ],
+      "repair": "先逐行回原始Q2 10-Q核实抽取与参考差异，保存新来源版本；仅评可见的具体收入构成，不从数据自动推断风险管理/投机目的。",
+      "model_outcomes_seen": false
+    },
+    {
+      "task_id": "ESH_012",
+      "ruling": "REPAIR_AND_REVIEW",
+      "minimal_sufficient_sets": [],
+      "optional_redundant": [],
+      "canonical_answer": null,
+      "note": "37,483→36,755下降728及表内2025债务行消失可核对；单看long-term表不能区分清偿与转为current，亦无DER所需完整债务/权益，不能推出再融资风险下降。",
+      "anchors": [
+        {
+          "candidate_id": "cand_004",
+          "quote": "Total long-term debt 36,755 37,483"
+        },
+        {
+          "candidate_id": "cand_004",
+          "quote": "2.709% notes due 2025 — 1,750"
+        }
+      ],
+      "repair": "另建只问长期债务变动与表中到期结构的事实题，或补齐可见短期债务/重分类、现金与权益后重新冻结；保留原题则允许证据不足。",
+      "model_outcomes_seen": false
+    }
+  ]
+}

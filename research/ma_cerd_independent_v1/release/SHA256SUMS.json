@@ -1,0 +1,27 @@
+{
+  "schema_version": "ma-cerd-public-release-manifest-v1",
+  "release_id": "MA-CERD-GOLD-PUBLIC-V1",
+  "record_count": 1000,
+  "source_gold_sha256": "1f6e874ee89bcd629695e61f474583d3b484f8527b7e966015fca0ef974f69cf",
+  "license_status": "approved_for_public_deposit",
+  "dataset_documentation_license": "CC-BY-4.0",
+  "software_license": "Apache-2.0",
+  "zenodo_concept_doi": "10.5281/zenodo.21946187",
+  "files": {
+    "LICENSE.md": "db2b7c02643bf6b2dc93583bb2760de74799993f5a6e841486baccc124e79396",
+    "LICENSE_CODE_APACHE-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "README.md": "a1b6d56fc660bf54f6d6a4f8bc1085ef7ce8e06a024ad21030c9fa48d6b51234",
+    "data/ma_cerd_gold_public_v1.json": "1971fa2884c8e8b366090d9f659599fcf819e784b82615bb9332ace92a3d47f1",
+    "data/ma_cerd_gold_public_v1.jsonl": "da3a5791af0f308dd6335974d7423e8a9ac2326377852573b900f42bca1a6bf9",
+    "docs/DATASET_CARD.md": "3b58f27a77c0f8f77ab40628563700c658f3b02e70b8eb88dec9367fe8563fb0",
+    "docs/DATA_AVAILABILITY_STATEMENT.md": "613c050f1bb870a1c5f141784c06a3641055b9286a8f8acbef102e5fbeb91132",
+    "docs/DATA_DICTIONARY.md": "26f4c39cadca7394506c14154a6f1e30ef58c3cbdd36c85504ef6580e7752016",
+    "docs/INTENDED_USE.md": "5ccab185bd49a194599e7b4086fefef35739c5495e279f1c6c2531e775eb9950",
+    "metadata/dataset_summary.json": "ab126b120caf096dc5a20f5687f5ab270849b326deb402b400a9c2c2f9ebf8b4",
+    "metadata/family_split_manifest.csv": "427b655c9fa38a9a518f08a3f8dbd889c3c9d978cc4685cfdab64064776b64dd",
+    "metadata/privacy_release_audit.json": "4c05aab9f2bc9ab344beebd7307ac6fc140487f2e5bb94e751929d2fbc70c33c",
+    "schema/ma_cerd_contract_v1.schema.json": "86e19c901d399ad598085330ea1d1c774f2b3d927df195468c18905511896054",
+    "scripts/evaluate_predictions.py": "9c7c63396193073261a7ab73ce42b30866ba80fa6386526a68b63f5e6bf8ad11",
+    "scripts/validate_release.py": "82b069506ca6ea04b4011b98e83ee493af3664ac7063a5b2091eefaaa9ef1168"
+  }
+}

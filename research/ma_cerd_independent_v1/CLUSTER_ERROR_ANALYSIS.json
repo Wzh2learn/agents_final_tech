@@ -1,0 +1,324 @@
+{
+  "bootstrap": {
+    "handling": {
+      "ci95_high": 0.879,
+      "ci95_low": 0.798,
+      "mean": 0.8386325000000002
+    },
+    "impact_f1": {
+      "ci95_high": 0.7149809523809514,
+      "ci95_low": 0.6395238095238088,
+      "mean": 0.6765991761904745
+    },
+    "preserved_f1": {
+      "ci95_high": 0.7008717948717955,
+      "ci95_low": 0.5955128205128206,
+      "mean": 0.6483294322344308
+    },
+    "relation": {
+      "ci95_high": 0.914,
+      "ci95_low": 0.847,
+      "mean": 0.8811584999999961
+    }
+  },
+  "family_count": 100,
+  "groups": {
+    "alignment": {
+      "all_agree": {
+        "handling": 0.8260869565217391,
+        "impact_f1": 0.9776021080368903,
+        "preserved_f1": 0.9617918313570486,
+        "records": 253,
+        "relation": 1.0
+      },
+      "o1_only_disagrees": {
+        "handling": 0.2127659574468085,
+        "impact_f1": 0.0,
+        "preserved_f1": 0.32750759878419455,
+        "records": 94,
+        "relation": 0.0
+      },
+      "o2_only_disagrees": {
+        "handling": 0.9333333333333333,
+        "impact_f1": 0.6666666666666666,
+        "preserved_f1": 0.7828571428571429,
+        "records": 75,
+        "relation": 0.6666666666666666
+      },
+      "o3_only_disagrees": {
+        "handling": 0.9342560553633218,
+        "impact_f1": 0.6559400230680497,
+        "preserved_f1": 0.5448876383132442,
+        "records": 578,
+        "relation": 1.0
+      }
+    },
+    "partition": {
+      "development": {
+        "handling": 0.825,
+        "impact_f1": 0.6939047619047622,
+        "preserved_f1": 0.6608608058608059,
+        "records": 200,
+        "relation": 0.865
+      },
+      "test": {
+        "handling": 0.835,
+        "impact_f1": 0.5856190476190486,
+        "preserved_f1": 0.5279761904761905,
+        "records": 200,
+        "relation": 0.83
+      },
+      "train": {
+        "handling": 0.845,
+        "impact_f1": 0.7009365079365082,
+        "preserved_f1": 0.6833516483516484,
+        "records": 600,
+        "relation": 0.9033333333333333
+      }
+    },
+    "signature": {
+      "('blocking_requirements',)": {
+        "handling": 0.552,
+        "impact_f1": 0.3685714285714292,
+        "preserved_f1": 0.3982344322344324,
+        "records": 250,
+        "relation": 0.624
+      },
+      "('expired_evidence',)": {
+        "handling": 1.0,
+        "impact_f1": 0.5633015873015881,
+        "preserved_f1": 0.43779609279609305,
+        "records": 300,
+        "relation": 1.0
+      },
+      "('plan_decision',)": {
+        "handling": 0.9,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "records": 50,
+        "relation": 1.0
+      },
+      "('threshold_violations',)": {
+        "handling": 0.9558823529411765,
+        "impact_f1": 0.9526143790849667,
+        "preserved_f1": 0.9174836601307186,
+        "records": 204,
+        "relation": 1.0
+      },
+      "()": {
+        "handling": 0.8214285714285714,
+        "impact_f1": 0.8724489795918368,
+        "preserved_f1": 0.9169096209912537,
+        "records": 196,
+        "relation": 0.8724489795918368
+      }
+    },
+    "target_kind": {
+      "authority": {
+        "handling": 0.78,
+        "impact_f1": 0.9516666666666659,
+        "preserved_f1": 0.9158333333333332,
+        "records": 200,
+        "relation": 1.0
+      },
+      "evidence": {
+        "handling": 1.0,
+        "impact_f1": 0.5633015873015881,
+        "preserved_f1": 0.43779609279609305,
+        "records": 300,
+        "relation": 1.0
+      },
+      "expression": {
+        "handling": 0.9,
+        "impact_f1": 1.0,
+        "preserved_f1": 1.0,
+        "records": 50,
+        "relation": 1.0
+      },
+      "requirement": {
+        "handling": 0.552,
+        "impact_f1": 0.3685714285714292,
+        "preserved_f1": 0.3982344322344324,
+        "records": 250,
+        "relation": 0.624
+      },
+      "state": {
+        "handling": 1.0,
+        "impact_f1": 0.875,
+        "preserved_f1": 0.9185714285714286,
+        "records": 200,
+        "relation": 0.875
+      }
+    }
+  },
+  "hard_families": [
+    {
+      "family_id": "scheduled-family:BASE-039",
+      "handling": 0.7,
+      "impact_f1": 0.13333333333333333,
+      "preserved_f1": 0.0,
+      "records": 10,
+      "relation": 0.2
+    },
+    {
+      "family_id": "scheduled-family:BASE-016",
+      "handling": 0.7,
+      "impact_f1": 0.26666666666666666,
+      "preserved_f1": 0.7619047619047619,
+      "records": 10,
+      "relation": 0.4
+    },
+    {
+      "family_id": "scheduled-family:BASE-008",
+      "handling": 0.8,
+      "impact_f1": 0.2571428571428571,
+      "preserved_f1": 0.5,
+      "records": 10,
+      "relation": 0.4
+    },
+    {
+      "family_id": "scheduled-family:BASE-004",
+      "handling": 0.5,
+      "impact_f1": 0.44000000000000006,
+      "preserved_f1": 0.7071428571428571,
+      "records": 10,
+      "relation": 0.5
+    },
+    {
+      "family_id": "scheduled-family:BASE-040",
+      "handling": 0.6,
+      "impact_f1": 0.31999999999999995,
+      "preserved_f1": 0.2,
+      "records": 10,
+      "relation": 0.5
+    },
+    {
+      "family_id": "scheduled-family:BASE-088",
+      "handling": 0.7,
+      "impact_f1": 0.3666666666666666,
+      "preserved_f1": 0.1,
+      "records": 10,
+      "relation": 0.5
+    },
+    {
+      "family_id": "scheduled-family:BASE-083",
+      "handling": 1.0,
+      "impact_f1": 0.5,
+      "preserved_f1": 0.5,
+      "records": 10,
+      "relation": 0.5
+    },
+    {
+      "family_id": "scheduled-family:BASE-018",
+      "handling": 0.6,
+      "impact_f1": 0.48,
+      "preserved_f1": 0.4,
+      "records": 10,
+      "relation": 0.6
+    },
+    {
+      "family_id": "scheduled-family:BASE-036",
+      "handling": 0.6,
+      "impact_f1": 0.6,
+      "preserved_f1": 0.8857142857142856,
+      "records": 10,
+      "relation": 0.6
+    },
+    {
+      "family_id": "scheduled-family:BASE-044",
+      "handling": 0.6,
+      "impact_f1": 0.36,
+      "preserved_f1": 0.6285714285714287,
+      "records": 10,
+      "relation": 0.6
+    },
+    {
+      "family_id": "scheduled-family:BASE-015",
+      "handling": 0.6,
+      "impact_f1": 0.54,
+      "preserved_f1": 0.8626373626373628,
+      "records": 10,
+      "relation": 0.6
+    },
+    {
+      "family_id": "scheduled-family:BASE-053",
+      "handling": 0.6,
+      "impact_f1": 0.4800000000000001,
+      "preserved_f1": 0.8395604395604396,
+      "records": 10,
+      "relation": 0.6
+    },
+    {
+      "family_id": "scheduled-family:BASE-054",
+      "handling": 1.0,
+      "impact_f1": 0.6,
+      "preserved_f1": 0.6,
+      "records": 10,
+      "relation": 0.6
+    },
+    {
+      "family_id": "scheduled-family:BASE-005",
+      "handling": 0.7,
+      "impact_f1": 0.45999999999999996,
+      "preserved_f1": 0.3,
+      "records": 10,
+      "relation": 0.7
+    },
+    {
+      "family_id": "scheduled-family:BASE-009",
+      "handling": 0.7,
+      "impact_f1": 0.5666666666666667,
+      "preserved_f1": 0.7166666666666667,
+      "records": 10,
+      "relation": 0.7
+    },
+    {
+      "family_id": "scheduled-family:BASE-028",
+      "handling": 0.7,
+      "impact_f1": 0.45999999999999996,
+      "preserved_f1": 0.3,
+      "records": 10,
+      "relation": 0.7
+    },
+    {
+      "family_id": "scheduled-family:BASE-095",
+      "handling": 0.7,
+      "impact_f1": 0.4,
+      "preserved_f1": 0.2,
+      "records": 10,
+      "relation": 0.7
+    },
+    {
+      "family_id": "scheduled-family:BASE-047",
+      "handling": 0.8,
+      "impact_f1": 0.58,
+      "preserved_f1": 0.5,
+      "records": 10,
+      "relation": 0.7
+    },
+    {
+      "family_id": "scheduled-family:BASE-010",
+      "handling": 1.0,
+      "impact_f1": 0.7,
+      "preserved_f1": 0.7,
+      "records": 10,
+      "relation": 0.7
+    },
+    {
+      "family_id": "scheduled-family:BASE-037",
+      "handling": 1.0,
+      "impact_f1": 0.7,
+      "preserved_f1": 0.9142857142857143,
+      "records": 10,
+      "relation": 0.7
+    }
+  ],
+  "overall": {
+    "handling": 0.839,
+    "impact_f1": 0.6764666666666659,
+    "preserved_f1": 0.6477783882783882,
+    "records": 1000,
+    "relation": 0.881
+  },
+  "schema": "macerd_cluster_error_analysis_v1"
+}
