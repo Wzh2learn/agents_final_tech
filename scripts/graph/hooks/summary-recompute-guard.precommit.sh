@@ -33,6 +33,14 @@ if [ -n "$deleted" ]; then
 fi
 
 for f in $staged; do
+  # T4's *_mismatch.md files are intentional negative fixtures. The checker
+  # must still reject them when invoked directly, but pre-commit must not treat
+  # a correctly detected mismatch as a real summary defect.
+  case "$f" in
+    research/harness_rsi_v1/runs/*/fixtures/summary/*_mismatch.md)
+      echo "[summary-guard] NOTE skip intentional mismatch fixture: $f"
+      continue ;;
+  esac
   if ! git cat-file -e ":$f" 2>/dev/null; then
     echo "[summary-guard] WARN 无法读取 $f 的 staged blob, 本项未复核 (跳过不等于通过)"
     continue
