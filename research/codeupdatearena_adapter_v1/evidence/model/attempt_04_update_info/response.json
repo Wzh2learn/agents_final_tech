@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import itertools\\n\\n# Save the original chain function\\nold_chain = itertools.chain\\nsetattr(itertools, 'old_chain', old_chain)\\n\\ndef merge_product_data(*categories, limit=None):\\n    \\\"\\\"\\\"\\n    Merge different iterable object datasets together.\\n    \\n    Args:\\n        *categories: Variable number of iterable objects to merge.\\n        limit (int, optional): The maximum number of elements to yield from the combined chain.\\n                               If None, all elements are yielded.\\n    \\n    Returns:\\n        itertools.chain: A chain object that merges all input iterables.\\n                         If limit is provided, it returns a custom chain-like object\\n                         that respects the limit.\\n    \\\"\\\"\\\"\\n    if limit is not None:\\n        # Create a custom chain that respects the limiter\\n        class LimitedChain:\\n            def __init__(self, iterables, limiter):\\n                self._chain = itertools.chain(*iterables)\\n                self._limiter = limiter\\n                self._count = 0\\n            \\n            def __iter__(self):\\n                return self\\n            \\n            def __next__(self):\\n                if self._count >= self._limiter:\\n                    raise StopIteration\\n                try:\\n                    item = next(self._chain)\\n                    self._count += 1\\n                    return item\\n                except StopIteration:\\n                    raise StopIteration\\n        \\n        return LimitedChain(categories, limit)\\n    else:\\n        return itertools.chain(*categories)\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561863,
+  "id": "chatcmpl-5AmY9ragH0aK3SNrLgJHvuI2nSstcvQ6",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 5245.555,
+    "predicted_n": 331,
+    "predicted_per_second": 63.10104459871262,
+    "predicted_per_token_ms": 15.84759818731118,
+    "prompt_ms": 287.644,
+    "prompt_n": 506,
+    "prompt_per_second": 1759.118910875944,
+    "prompt_per_token_ms": 0.5684664031620553
+  },
+  "usage": {
+    "completion_tokens": 331,
+    "prompt_tokens": 506,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 837
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_filter_higher_digit_multiples"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "2503df6de71c463d7ddf15f3603d5bcdfcdd885fee26c312d04d0063f0e8420e",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "88170620575573e80a00bdfd4ab135ebd72e18793b6aae2a251b70d5a433b2d4",
+  "test_name": "test_filter_higher_digit_multiples",
+  "timed_out": false,
+  "wall_seconds": 0.1362623069435358
+}

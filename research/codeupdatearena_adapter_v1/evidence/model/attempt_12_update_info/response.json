@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import math\\n\\ndef compute_multinomial_coeffecient(n, k):\\n    \\\"\\\"\\\"\\n    This function calculates the multinomial coefficient for the given list of items 'k' from total items 'n', which is an extension of the binomial coefficient.\\n\\n    The operation can be viewed as a generalization of the comb(n, k) operation, and it corresponds to the coefficient in the expanded expression of (1 + x1 + x2 + ... + xk)**n.\\n\\n    Input:\\n    1. n: Integer. The total number of items.\\n    2. k: List of Integer. The list of items to choose.\\n\\n    Output:\\n    Returns the number of ways to choose 'k' items from 'n' items, an integer.\\n\\n    Exceptions:\\n    1. Raises TypeError if 'n' is not an integer or 'k' is not a list of integers.\\n    2. Raises ValueError if 'n' is negative or 'k' contains negative integers.\\n    \\\"\\\"\\\"\\n    if not isinstance(n, int):\\n        raise TypeError(\\\"'n' must be an integer.\\\")\\n    if not isinstance(k, list):\\n        raise TypeError(\\\"'k' must be a list of integers.\\\")\\n    for item in k:\\n        if not isinstance(item, int):\\n            raise TypeError(\\\"All elements in 'k' must be integers.\\\")\\n    if n < 0:\\n        raise ValueError(\\\"'n' must be non-negative.\\\")\\n    for item in k:\\n        if item < 0:\\n            raise ValueError(\\\"All elements in 'k' must be non-negative.\\\")\\n    \\n    if sum(k) != n:\\n        raise ValueError(\\\"The sum of elements in 'k' must equal 'n'.\\\")\\n    \\n    # Multinomial coefficient = n! / (k1! * k2! * ... * km!)\\n    numerator = math.factorial(n)\\n    denominator = 1\\n    for item in k:\\n        denominator *= math.factorial(item)\\n    \\n    return numerator // denominator\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561904,
+  "id": "chatcmpl-PsEI8LTAsPCNLkgPHZmRz1uRZQruyTKA",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 28,
+    "predicted_ms": 7500.137,
+    "predicted_n": 475,
+    "predicted_per_second": 63.332176465576566,
+    "predicted_per_token_ms": 15.789762105263158,
+    "prompt_ms": 364.839,
+    "prompt_n": 557,
+    "prompt_per_second": 1526.7008187172971,
+    "prompt_per_token_ms": 0.6550071813285457
+  },
+  "usage": {
+    "completion_tokens": 475,
+    "prompt_tokens": 585,
+    "prompt_tokens_details": {
+      "cached_tokens": 28
+    },
+    "total_tokens": 1060
+  }
+}

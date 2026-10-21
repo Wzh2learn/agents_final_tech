@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_inclusion_with_empty_patient_records"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+  "program_sha256": "a0a9e7a939812809c82ebc3482bb9332024ea58fcb10756e8a3f9b098343454b",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "9595fdff8bcf23606892972879922f18c1d5b373ca1d6e79c176fc627353e620",
+  "test_name": "test_inclusion_with_empty_patient_records",
+  "timed_out": false,
+  "wall_seconds": 0.12978989630937576
+}

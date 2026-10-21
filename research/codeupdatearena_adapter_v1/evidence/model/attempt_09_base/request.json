@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_compress = itertools.compress\\nsetattr(itertools, 'old_compress', old_compress)\",\n  \"problem\": \"Bob needs to extract data from a large dataset which meet a certain condition. The condition might not be a boolean but a complex numerical condition i.e., the data that are multiples of a certain number (e.g., 3, 5, 7, etc.). Help him develop a function that will take a large dataset as a parameter, creates a selectors list based on a condition which is multiple of a number and returns a new list containing elements that meet this condition.\",\n  \"scenario\": \"Bob is a statistician who often processes large sets of data. He needs to create subsets from a large dataset based on numeric conditions.\",\n  \"solution_signature\": \"def filter_multiple_data(dataset: List[int]) -> List[int]:\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

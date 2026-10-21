@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_compute_sin_pi"
+  },
+  "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "69083ebac7b024e8178fc4edc552a16be839005de1e2445a5221560a1e08b79a",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "499dc853f8fb03290130d634e8d14346fcb910a17a50bbaa8deb445219ba34e4",
+  "test_name": "test_compute_sin_pi",
+  "timed_out": false,
+  "wall_seconds": 0.14368704706430435
+}

@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_zero_stocks"
+  },
+  "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "791cce9e4624a46dd251cec285dbf01aafddbbccfd3bc937df5881a9e02c30be",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "02295c595de1e57b34e6ec41971be427843db857e69dc093e7c5d9a4a88fd31f",
+  "test_name": "test_zero_stocks",
+  "timed_out": false,
+  "wall_seconds": 0.13854830898344517
+}

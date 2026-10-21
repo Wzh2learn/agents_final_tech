@@ -1,0 +1,149 @@
+{
+  "all_tests_pass": true,
+  "failure_kind": null,
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_full_selector_list"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "0a1f5198b3eb1c143aad041ceb21366ed1221cdeb306f3e71ce05fdd39cc0b04",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d0a8aad23f7dac01e4532cdd86f3cc6952b05c2ccead11e62c7b8ceee7e3b6de",
+      "test_name": "test_inclusion_with_full_selector_list",
+      "timed_out": false,
+      "wall_seconds": 0.11568953469395638
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_partial_selector_list"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "fd026de079e85de5a55ede7ba15b55566e202c213ca94ff3872b9e8ec4d51a04",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0b3c837ec4c592bae83ebcb96f4f88bd3f2aec27f13f0d994d9ad870197e2d0a",
+      "test_name": "test_inclusion_with_partial_selector_list",
+      "timed_out": false,
+      "wall_seconds": 0.11756879277527332
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_empty_selectors"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "3430b545fd447bcd44cecfa573a06994af532bd56b74030f0feabe9964bbb594",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2f67465da5885c7ebb94fbc5bd914149302ba768a992a2bbc1c395a88d75f359",
+      "test_name": "test_inclusion_with_empty_selectors",
+      "timed_out": false,
+      "wall_seconds": 0.11070394888520241
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_empty_patient_records"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "a0a9e7a939812809c82ebc3482bb9332024ea58fcb10756e8a3f9b098343454b",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "9595fdff8bcf23606892972879922f18c1d5b373ca1d6e79c176fc627353e620",
+      "test_name": "test_inclusion_with_empty_patient_records",
+      "timed_out": false,
+      "wall_seconds": 0.12978989630937576
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_all_true_selectors"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "91d589b2524843a8e4d8027e552bb909fe299a9a1466d04793ac2f056154cd7b",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6484184db7bb2c020506d650e9556d98edf819e2f8e088ade6dc180b9dc4cc30",
+      "test_name": "test_inclusion_with_all_true_selectors",
+      "timed_out": false,
+      "wall_seconds": 0.11837240122258663
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_duplicated_patient_records"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "17515b722b15b4c3030fe17ef32833568be6d31d39ac9254cc9aaaacd68f6be6",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "62b123a98c5a75da89f8f577e096c43e344198a870b26f6fbbcd9c3d46e5d74e",
+      "test_name": "test_inclusion_with_duplicated_patient_records",
+      "timed_out": false,
+      "wall_seconds": 0.127595953643322
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_duplicated_false_selectors"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "15cb47e512f7889c601dee58480c966072378f4ed68058f3d68bfa5dc1da502c",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "f9b25d42527752cb27a8ee2654621f76250ac605ae224fc966e672ac3ba2fee4",
+      "test_name": "test_inclusion_with_duplicated_false_selectors",
+      "timed_out": false,
+      "wall_seconds": 0.11108600720763206
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_inclusion_with_selector_list_longer_than_patient_records"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+      "program_sha256": "7852ad2656fcdf8e78d1c2714ccc24da5aad8a8cff2832558d1c2aed72ff8f71",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d6f6706ba63044f7de0b1302fa21335451e0ea5a12f591e59e94653024f253c5",
+      "test_name": "test_inclusion_with_selector_list_longer_than_patient_records",
+      "timed_out": false,
+      "wall_seconds": 0.1129961609840393
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 8,
+  "test_total": 8,
+  "tests_passed": 8,
+  "wall_seconds": 0.9438026957213879
+}

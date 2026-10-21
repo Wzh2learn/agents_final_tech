@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 80, in <module>
+    test_empty_sequence_sets()
+  File "/task/program.py", line 76, in test_empty_sequence_sets
+    result = generate_sequence_combinations(sequence_set_1, sequence_set_2)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 70, in generate_sequence_combinations
+    return list(itertools.product(sequence_set_1, sequence_set_2))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in product
+    regular_product = list(old_product(*iterables, repeat=repeat))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in product
+    regular_product = list(old_product(*iterables, repeat=repeat))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in product
+    regular_product = list(old_product(*iterables, repeat=repeat))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 994 more times]
+RecursionError: maximum recursion depth exceeded

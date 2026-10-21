@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_merge_two_datasets_without_limit"
+  },
+  "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "d9f98432632070719b06c5b4a9b41ec970dd3888cf35a18e427ebc96b6720c4c",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "c40163ca5d7d7712dfa76d80841287c7cbd1589eeedc4dacf0602521b48b0126",
+  "test_name": "test_merge_two_datasets_without_limit",
+  "timed_out": false,
+  "wall_seconds": 0.1257733553647995
+}

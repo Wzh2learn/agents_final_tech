@@ -1,0 +1,13 @@
+{
+  "frozen_at": "2026-10-21T13:50:31.477022+08:00",
+  "model_calls_at_freeze": 0,
+  "oracle_status": "PASS",
+  "planned_attempts": 16,
+  "schema": "codeupdatearena_adapter_freeze_receipt_v1",
+  "sha256": {
+    "adapter_spec": "75850fce4c69ab5baaa272df92626b0c1753f7f08242fc40b6707b6e90900da8",
+    "pre_model_report": "b2dee352ada0dec6319dd5d584d7a96e31fa989bb1f751669bee1e4ffc61b13c",
+    "runner": "1972fa124082fdfa14f25666dce02f037c2bf78554ef1dd976bf5cdbfed52911",
+    "task_snapshot": "a05e545d7ff6f1a21c559dd1ccea22f4ccc28762ca6a1ea831eff3c479aad3f4"
+  }
+}

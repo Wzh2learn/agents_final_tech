@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_inclusion_with_partial_selector_list"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+  "program_sha256": "02e864fe60d2b2d11437335207b2af4a39d61b483bb4caaea53a8797773d7b29",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e26a9b6c2d66c3b562a19c36b0588188c4b8cb6e7cd2360ee9ca251d650c71fe",
+  "test_name": "test_inclusion_with_partial_selector_list",
+  "timed_out": false,
+  "wall_seconds": 0.13975114189088345
+}

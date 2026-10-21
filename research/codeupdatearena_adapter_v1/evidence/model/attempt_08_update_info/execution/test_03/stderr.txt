@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 48, in <module>
+    test_fetch_stock_prices_empty_list()
+  File "/task/program.py", line 46, in test_fetch_stock_prices_empty_list
+    assert result == expected_result, f"Expected {expected_result}, but got {result}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected [], but got <itertools.chain object at 0xe2bd7643d4e0>

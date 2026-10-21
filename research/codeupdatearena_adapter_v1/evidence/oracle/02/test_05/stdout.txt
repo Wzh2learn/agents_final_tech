@@ -1,0 +1,1 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"prog_syn_id":"[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]","role":"reference_solution","test_name":"test_large_even_number_of_stocks"}

@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_compress = itertools.compress\\nsetattr(itertools, 'old_compress', old_compress)\",\n  \"problem\": \"Bob needs to extract data from a large dataset which meet a certain condition. The condition might not be a boolean but a complex numerical condition i.e., the data that are multiples of a certain number (e.g., 3, 5, 7, etc.). Help him develop a function that will take a large dataset as a parameter, creates a selectors list based on a condition which is multiple of a number and returns a new list containing elements that meet this condition.\",\n  \"scenario\": \"Bob is a statistician who often processes large sets of data. He needs to create subsets from a large dataset based on numeric conditions.\",\n  \"solution_signature\": \"def filter_multiple_data(dataset: List[int]) -> List[int]:\",\n  \"update_description\": \"Adding support for non-boolean values in the 'selectors' argument of the 'compress' function.\",\n  \"update_docstring\": \"The update adds a new optional argument 'mapping' to the 'compress' function, which specifies a function to map the 'selectors' to Boolean values. Default is None, which implies the identity function (i.e., no change). If this argument is specified, each value in the 'selectors' gets mapped through this function to determine whether it is True or False, before being used to filter the 'data'. This allows for non-Boolean values in the 'selectors'. For example, if 'mapping' is specified as 'lambda x: x > 0', positive numbers in 'selectors' are treated as True and zero/negative numbers as False. The 'mapping' argument must be a function of one variable, and it must return a Boolean.\\nThis change allows the 'compress' function to support non-boolean values in the 'selectors', significantly increasing its practical flexibility and utility. The old behavior is maintained when 'mapping' is not specified or is None.\",\n  \"update_rationale\": \"To increase the functionality and usage scope of the 'compress' function by supporting non-boolean values in the 'selectors'. This allows for complex data filtering with multi-value selectors.\",\n  \"update_signature\": \"itertools.compress(data, selectors, mapping=None)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

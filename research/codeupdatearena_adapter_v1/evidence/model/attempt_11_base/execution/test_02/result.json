@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "marker": null,
+  "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+  "program_sha256": "f29b8020406196e6ae6150351fb78aaae9e952d018686e17b7bf9bd4ac912656",
+  "role": "generated_solution",
+  "status": "runtime_failure",
+  "stderr_sha256": "f817924ae797952842da9647be65b90a2f813cede0d62ea0b25e655efc5d0d51",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_name": "test_k_elements_sum_not_equal_n",
+  "timed_out": false,
+  "wall_seconds": 0.12359326891601086
+}

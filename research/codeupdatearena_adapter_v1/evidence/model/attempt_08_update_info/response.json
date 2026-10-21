@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import itertools\\n\\ndef fetch_stock_prices(*lists, reverse=False):\\n    \\\"\\\"\\\"\\n    Fetch stock prices from multiple lists in either original or reverse order.\\n    \\n    Args:\\n        *lists: Variable number of lists containing stock prices.\\n        reverse (bool): If True, traverse the lists in reverse order.\\n                        Defaults to False.\\n    \\n    Returns:\\n        A generator yielding stock prices in the specified order.\\n    \\\"\\\"\\\"\\n    if reverse:\\n        # Reverse the order of the lists, then chain them\\n        reversed_lists = reversed(lists)\\n        return itertools.chain(*reversed_lists)\\n    else:\\n        # Original order\\n        return itertools.chain(*lists)\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561877,
+  "id": "chatcmpl-szTOxcexfUYQ8j5NFtyaCc4Ms0mWXz4w",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 2562.054,
+    "predicted_n": 164,
+    "predicted_per_second": 64.01114106103931,
+    "predicted_per_token_ms": 15.622280487804879,
+    "prompt_ms": 351.747,
+    "prompt_n": 544,
+    "prompt_per_second": 1546.5661398675752,
+    "prompt_per_token_ms": 0.6465937500000001
+  },
+  "usage": {
+    "completion_tokens": 164,
+    "prompt_tokens": 544,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 708
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import itertools\\n\\ndef include_patient_records(patient_records, selectors):\\n    \\\"\\\"\\\"\\n    Returns a new list consisting of patient records where the corresponding selector is True.\\n    If the selector list is exhausted, remaining patient records are included if padding is True.\\n    \\\"\\\"\\\"\\n    # Use the updated itertools.compress with padding=True to handle exhausted selectors\\n    result = list(itertools.compress(patient_records, selectors, padding=True))\\n    return result\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561853,
+  "id": "chatcmpl-TK2j75N2wX2nGYdtZfEuLOZUQ3R5KZau",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 1648.664,
+    "predicted_n": 106,
+    "predicted_per_second": 64.29448329071298,
+    "predicted_per_token_ms": 15.553433962264151,
+    "prompt_ms": 254.12,
+    "prompt_n": 424,
+    "prompt_per_second": 1668.503069416024,
+    "prompt_per_token_ms": 0.5993396226415094
+  },
+  "usage": {
+    "completion_tokens": 106,
+    "prompt_tokens": 424,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 530
+  }
+}

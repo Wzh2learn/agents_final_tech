@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_merge_multiple_identical_datasets"
+  },
+  "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "6496accf2875586a407b38f72962c3fdfe83647fb2ca63352f46841807d32b6e",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "f078784313d5aa273fca21bd1f503624982ec23b207ce5bb7121297ab3130f68",
+  "test_name": "test_merge_multiple_identical_datasets",
+  "timed_out": false,
+  "wall_seconds": 0.11578183062374592
+}

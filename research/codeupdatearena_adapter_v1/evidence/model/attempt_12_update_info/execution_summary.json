@@ -1,0 +1,77 @@
+{
+  "all_tests_pass": false,
+  "failure_kind": "runtime_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_all_items_one_type"
+      },
+      "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "0a92c3ff640b1a412c9a392e8f5b34fd2457620e68425a3437c359a6a580bf46",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d69c4bd3986ae04a45a88ed6f59e748040fffe79b55e7b49ffb0a8e0ec9adaca",
+      "test_name": "test_all_items_one_type",
+      "timed_out": false,
+      "wall_seconds": 0.11945420131087303
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_n_zero"
+      },
+      "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "37cd3fbd02edc4dce77f41bea3905e94b3d8c797aa074637a9b73bed081d48d6",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c8f8881ab7c2fd6ba4686fcbd240ef371bfa940dc5fc2939f4dce235f086c42a",
+      "test_name": "test_n_zero",
+      "timed_out": false,
+      "wall_seconds": 0.11769990064203739
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "dc6bfbb664888c75f76c09b778c21365c24a124c0429cbf9415db6fa650402f7",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "b59ec654f4a761c67692366d95e9ef0ee0b550b28de7a426237a70ce6934c571",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_k_elements_sum_not_equal_n",
+      "timed_out": false,
+      "wall_seconds": 0.11859109252691269
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_all_items_different_types"
+      },
+      "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "2f83f193b62bd463c62f49403756b794a70233adaf1418b1e96c6af0c8958ca6",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8bd2331f1a63140bb0833ef5d3f06fed1f5d631b00fbe53e78be6e83dc7c4254",
+      "test_name": "test_all_items_different_types",
+      "timed_out": false,
+      "wall_seconds": 0.13078213296830654
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 4,
+  "test_total": 4,
+  "tests_passed": 3,
+  "wall_seconds": 0.48652732744812965
+}

@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import itertools\\n\\ndef include_patient_records(patient_records, selectors):\\n    \\\"\\\"\\\"\\n    Takes in two lists: patient_records and selectors.\\n    Returns a new list consisting of patient records where the corresponding selector is True.\\n    If the selector list is exhausted, remaining patient records should also be included in the output list.\\n    \\\"\\\"\\\"\\n    result = []\\n    for i, record in enumerate(patient_records):\\n        if i < len(selectors):\\n            if selectors[i]:\\n                result.append(record)\\n        else:\\n            # If selectors list is exhausted, include remaining patient records\\n            result.append(record)\\n    return result\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561850,
+  "id": "chatcmpl-vqWOvlMN5dCjs4zNfcSQ684TFEgX1tVG",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 2347.519,
+    "predicted_n": 150,
+    "predicted_per_second": 63.897246412063126,
+    "predicted_per_token_ms": 15.650126666666665,
+    "prompt_ms": 241.685,
+    "prompt_n": 259,
+    "prompt_per_second": 1071.6428408879326,
+    "prompt_per_token_ms": 0.9331467181467181
+  },
+  "usage": {
+    "completion_tokens": 150,
+    "prompt_tokens": 259,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 409
+  }
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 67, in <module>
+    test_sequence_set_with_one_sequence_empty()
+  File "/task/program.py", line 65, in test_sequence_set_with_one_sequence_empty
+    assert result == expected_result, f'Expected {expected_result}, but got {result}'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected [], but got [((['Hello', 'Hi'], []), 0, 0)]

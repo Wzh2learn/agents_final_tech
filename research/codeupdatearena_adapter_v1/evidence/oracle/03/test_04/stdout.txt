@@ -1,0 +1,1 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"prog_syn_id":"[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]","role":"reference_solution","test_name":"test_fetch_stock_prices_empty_lists"}

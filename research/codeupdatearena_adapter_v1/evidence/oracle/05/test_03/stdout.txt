@@ -1,0 +1,1 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"prog_syn_id":"[math.comb]:[add-function]:[update-0]:[prog_syn-0]","role":"reference_solution","test_name":"test_all_items_different_types"}

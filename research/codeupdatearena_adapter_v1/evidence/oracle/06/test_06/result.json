@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_compute_sin_large_angle_without_error"
+  },
+  "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "f3e0fd21f0db1539daeb70eb46afce4e298fbc4e88972f88aa4d0cef4c906c26",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "639e135b603527cee2df81d2b3bf223b067ef650f2f7ff681a2622f90301e2ba",
+  "test_name": "test_compute_sin_large_angle_without_error",
+  "timed_out": false,
+  "wall_seconds": 0.140320161357522
+}

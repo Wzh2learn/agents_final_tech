@@ -1,0 +1,115 @@
+{
+  "all_tests_pass": true,
+  "failure_kind": null,
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_merge_three_datasets_with_limit"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "28e8b76d49769bc8dd25fcca8aa30f723769ae16e6c0674d49d49f92c9ad4e8f",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "30f98bbd66236c5a94730b3100d19fc79632497faf93b1717d1b11a94a84cc8b",
+      "test_name": "test_merge_three_datasets_with_limit",
+      "timed_out": false,
+      "wall_seconds": 0.1345850434154272
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_merge_two_datasets_without_limit"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "d9f98432632070719b06c5b4a9b41ec970dd3888cf35a18e427ebc96b6720c4c",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c40163ca5d7d7712dfa76d80841287c7cbd1589eeedc4dacf0602521b48b0126",
+      "test_name": "test_merge_two_datasets_without_limit",
+      "timed_out": false,
+      "wall_seconds": 0.1257733553647995
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_merge_empty_datasets"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "8b5916b91298e2ab8eb6105a5fe118997b512ccc3e7dda8f50b8ef39224b7908",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "53637dddd01bee9d331b8d81801aa535a98729d799ab0c820e8c5366b33536ae",
+      "test_name": "test_merge_empty_datasets",
+      "timed_out": false,
+      "wall_seconds": 0.12425260618329048
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_merge_datasets_with_zero_limit"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "fa4b56db7f25c9ff5a0180a6810fa57c40262d036543fed4223d8d6a86a4a0cd",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cd91aef8539ed766c728eb46bb8011fb9a4f6e050ecdb3305ad1f03c866140a8",
+      "test_name": "test_merge_datasets_with_zero_limit",
+      "timed_out": false,
+      "wall_seconds": 0.12149236537516117
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_merge_multiple_identical_datasets"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "4b272599c1c747b7effaf892e2ae90ebfd464344fc885cd34b63da0ff3d0abb7",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "5e3b387c9d099f5b5edbde77fb03d19f45bba12260de5c7e6dff616652304cb8",
+      "test_name": "test_merge_multiple_identical_datasets",
+      "timed_out": false,
+      "wall_seconds": 0.1255707312375307
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_merge_datasets_with_none_in_between"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "25d0dc2524fb3dfe467dff97e4d104bc556585f9b6c0184991b854df33364152",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "64b7a39c46d446e4339caf10df55ac200f995d1bb193d4b3b550905afc3a8042",
+      "test_name": "test_merge_datasets_with_none_in_between",
+      "timed_out": false,
+      "wall_seconds": 0.12310308404266834
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 6,
+  "wall_seconds": 0.7547771856188774
+}

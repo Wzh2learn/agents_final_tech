@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_n_zero"
+  },
+  "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]",
+  "program_sha256": "5e9432b75155405985e5c05675e92b1ca5c2e89bee0332e04cf72e1bdcb59214",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "c8f8881ab7c2fd6ba4686fcbd240ef371bfa940dc5fc2939f4dce235f086c42a",
+  "test_name": "test_n_zero",
+  "timed_out": false,
+  "wall_seconds": 0.12827113457024097
+}

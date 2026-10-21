@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 90, in <module>
+    test_merge_empty_datasets()
+  File "/task/program.py", line 86, in test_merge_empty_datasets
+    result = merge_product_data(automobiles, trains)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 78, in merge_product_data
+    return itertools.chain(*categories)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 994 more times]
+RecursionError: maximum recursion depth exceeded

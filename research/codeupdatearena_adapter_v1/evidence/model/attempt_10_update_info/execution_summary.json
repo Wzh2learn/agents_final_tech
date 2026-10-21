@@ -1,0 +1,107 @@
+{
+  "all_tests_pass": false,
+  "failure_kind": "runtime_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "5cf5085890d6cf9a93aff1b3acb126e5ee841582e987cc34a5aefb3d56920fa9",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "b968b4c8d0b9ae879611fcb5ae7b9ff59911fe803e28da0b4cb47ca3d11f2868",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_filter_higher_digit_multiples",
+      "timed_out": false,
+      "wall_seconds": 0.20236240327358246
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "6fba4fd05aa6be10c0de7608dbf4155905715f8afe67c70720fd7a7be90bef04",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "e5d8fcb6d8bbd66cd946f4a8853f95d0e488bc00147a34e582af7ae074f1a07e",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_filter_data_with_large_multiclpes",
+      "timed_out": false,
+      "wall_seconds": 0.14169301837682724
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_filter_empty_dataset"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "6fc9e80156fa9fe24574747d2ed00d8290ed9b6b0ec0912f75993b8a06e10c9c",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "dfd8899e6cca41ce1ea28ddd37f86ef5e4246a273176f4b98f4ae242567bebb6",
+      "test_name": "test_filter_empty_dataset",
+      "timed_out": false,
+      "wall_seconds": 0.14672076888382435
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_filter_dataset_with_same_elements"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "6f3851ee0a2b73ae2c5c003ab288f06e5f5246190491e1068798934c4a0230d8",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2516469cce6043485531b52777e49a01450048fe06654e92f192c9baedff3b47",
+      "test_name": "test_filter_dataset_with_same_elements",
+      "timed_out": false,
+      "wall_seconds": 0.13004378229379654
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_filter_dataset_with_negative_integers"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "655c61150355dce968fc13c9f96173e20df764c31032adb50e339c207ccb7db9",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "73a8e44732c433f8da7b2aca8ef613dfb257d88172a594150cbdd93a17f4eb50",
+      "test_name": "test_filter_dataset_with_negative_integers",
+      "timed_out": false,
+      "wall_seconds": 0.14085853472352028
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_filter_dataset_with_negative_and_positive_integers"
+      },
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "8a733ab65b76cee37c02f7ec49bf7567cce46adc4aebed0b7f403ae0d994736c",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2b9c6d646e5f031391bba908105f0e8d277b022ac609ceae22f905c7e885ce27",
+      "test_name": "test_filter_dataset_with_negative_and_positive_integers",
+      "timed_out": false,
+      "wall_seconds": 0.14106685481965542
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 4,
+  "wall_seconds": 0.9027453623712063
+}

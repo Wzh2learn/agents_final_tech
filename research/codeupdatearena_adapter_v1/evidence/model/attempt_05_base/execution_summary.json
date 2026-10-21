@@ -1,0 +1,115 @@
+{
+  "all_tests_pass": true,
+  "failure_kind": null,
+  "infrastructure_failure": false,
+  "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_large_number_of_stocks"
+      },
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "42b31985d720f84a09016caa37b7063afbc6ccc6689a9d5cff01aeba8013a640",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "9c6690396c5fe500dd80efe15d7d5057b9c3a69415ac3ec938b0ef6226ea578a",
+      "test_name": "test_large_number_of_stocks",
+      "timed_out": false,
+      "wall_seconds": 0.14109368808567524
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_one_stock_only"
+      },
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "3a943c787a4390ffa5a594549ade47ad5ea2a56900e55a58f7d07192150c82b7",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c63575ad8ea50ad6ac196f2b0dbbdfc831b39510967e19e88913d1d9e5c32d2d",
+      "test_name": "test_one_stock_only",
+      "timed_out": false,
+      "wall_seconds": 0.13691301830112934
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_zero_stocks"
+      },
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "a18d2408b2c475be572ad0b6debb841008fd648b93356a837bf0c517776d1262",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "85cc24798f1e3df66fd9781bab3a0ccac6ae1b3c92b943cfc53764af3926d3e1",
+      "test_name": "test_zero_stocks",
+      "timed_out": false,
+      "wall_seconds": 0.12163948826491833
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_maximum_integer_number_of_stocks"
+      },
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "763ee5600e3470f2c575300b5463eb5a8f3b0d10f595c522d732ef85b09d0fc3",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "f8b9949d789f95332c9055fb14a1d01f344b02314fb9e5cb64ab9f2ebd8ec15a",
+      "test_name": "test_maximum_integer_number_of_stocks",
+      "timed_out": false,
+      "wall_seconds": 0.1347721479833126
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_large_odd_number_of_stocks"
+      },
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "dbd13a9b165a13749a9dbbfa631877d9eb05028e24d591a2978cd5ca23423c19",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "953e398892a3a6257e0fb0ea86d99fbb6c7b9cffe2687d37450eaf473e04cece",
+      "test_name": "test_large_odd_number_of_stocks",
+      "timed_out": false,
+      "wall_seconds": 0.11307254806160927
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_large_even_number_of_stocks"
+      },
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "program_sha256": "f5ecd784c9ca4de2286691f08813893a7815a6c610d80526b824b65451c5edcb",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d2f7ca251ec2bd615db6a57eacda403a6af2e88351084525523da6086f735682",
+      "test_name": "test_large_even_number_of_stocks",
+      "timed_out": false,
+      "wall_seconds": 0.1277223601937294
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 6,
+  "wall_seconds": 0.7752132508903742
+}

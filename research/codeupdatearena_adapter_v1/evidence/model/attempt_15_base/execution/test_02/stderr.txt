@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 66, in <module>
+    test_multiple_items_single_sequence()
+  File "/task/program.py", line 64, in test_multiple_items_single_sequence
+    assert sorted(result) == sorted(expected_results), "Expected different sequence combinations"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected different sequence combinations

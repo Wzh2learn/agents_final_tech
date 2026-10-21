@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_chain = itertools.chain\\nsetattr(itertools, 'old_chain', old_chain)\",\n  \"problem\": \"Jake needs a function that would merge different iterable object datasets together, and he should be able to specify the number of combined elements he wants to work with at once. He should be able to specify that number as a parameter to the function.\",\n  \"scenario\": \"Jake works as a data analyst in a product-based company. He has to constantly sift through large volumes of product data. To compare product trends across different product categories, he often has to combine iterator objects of different product categories. However, loading all the product data at once can be exhaustive to the system. Therefore, he only needs a specific number of elements at a time.\",\n  \"solution_signature\": \"def merge_product_data(*categories, limit=None):\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

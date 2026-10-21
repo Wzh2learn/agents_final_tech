@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "marker": null,
+  "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "0b0f3a60f919510d9fe5a2b86344c54d25279d6cc5ff363c57fc1ea1976561c8",
+  "role": "generated_solution",
+  "status": "runtime_failure",
+  "stderr_sha256": "a60450cfe4d36c44b86d0a7617a5cb4e1611cf30fa986692690d58256e525213",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_name": "test_fetch_stock_prices_single_list",
+  "timed_out": false,
+  "wall_seconds": 0.12126274406909943
+}

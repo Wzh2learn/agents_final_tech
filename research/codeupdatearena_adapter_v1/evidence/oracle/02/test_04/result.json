@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_large_odd_number_of_stocks"
+  },
+  "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "084c84d76df631e645bfb1a3e16263efbc280d968a5327957271bbd5449f7b7d",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "739b99dedddad078030027c5b3bad1405fa836604947ab1c7d804123289352eb",
+  "test_name": "test_large_odd_number_of_stocks",
+  "timed_out": false,
+  "wall_seconds": 0.12717007845640182
+}

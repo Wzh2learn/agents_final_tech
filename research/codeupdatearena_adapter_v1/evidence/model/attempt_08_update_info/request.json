@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_chain = itertools.chain\\nsetattr(itertools, 'old_chain', old_chain)\",\n  \"problem\": \"Given a list of lists where each list contains stock prices for one day. Charlie needs a way to traverse through all these prices, either in original log chronology or in a reverse order depending on his requirements for that day. Can you help Charlie to fetch the stock prices in desired order?\",\n  \"scenario\": \"Charlie is a data scientist and maintains a collection of lists where each list stores daily stock prices of a particular company. At the end of each year, Charlie has to prepare a year-end report where he aggregates the data from all the lists. However, sometimes he wants to check the data in reverse order, starting from the most recent prices and progressing backwards to the older ones.\",\n  \"solution_signature\": \"def fetch_stock_prices(*lists, reverse=False)\",\n  \"update_description\": \"Add an optional argument 'reverse' to the itertools.chain function to control the order of traversal across iterables.\",\n  \"update_docstring\": \"An additional optional argument 'reverse' has been added. This argument takes a boolean value and is set to 'False' by default. If set to 'True', the chain function will start chaining from the last iterable in the list of given iterables and travel backwards towards the first iterable.\\n\\nWhen the reverse argument is set to 'True', and the next() function is called, the elements from the last iterable are returned first. After the last iterable is exhausted, it moves to the second last iterable and so on, continuing in this manner until it reaches the first iterable. If the reverse argument is 'False', the function works as described in the original documentation.\\n\\nIn summary, this update allows the chain function to respect the 'reverse' argument, thus providing more control over the order of chaining the input iterables.\",\n  \"update_rationale\": \"This will provide more flexibility to the user by allowing the chaining of the iterables in reverse order. This reverse chaining can be useful in many applications where the user would want to chain the iterables from the last one to the first.\",\n  \"update_signature\": \"itertools.chain(*iterables, reverse=False)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

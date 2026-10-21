@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 66, in <module>
+    test_compute_sin_pi()
+  File "/task/program.py", line 62, in test_compute_sin_pi
+    result = compute_sin_with_estimate(x, get_estimate)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 46, in compute_sin_with_estimate
+    sin_value = math.sin(x)
+                ^^^^^^^^^^^
+  File "/task/program.py", line 9, in sin
+    old_result = old_sin(x)
+                 ^^^^^^^^^^
+  File "/task/program.py", line 9, in sin
+    old_result = old_sin(x)
+                 ^^^^^^^^^^
+  File "/task/program.py", line 9, in sin
+    old_result = old_sin(x)
+                 ^^^^^^^^^^
+  [Previous line repeated 994 more times]
+RecursionError: maximum recursion depth exceeded

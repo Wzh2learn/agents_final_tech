@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import math\\nfrom functools import reduce\\nold_comb = math.comb\\nsetattr(math, 'old_comb', old_comb)\",\n  \"problem\": \"John provides the total number of stocks as an integer. Write a function that quickly computes the total number of individual stocks by choosing only one stock at a time, so that he can better manage his portfolio.\",\n  \"scenario\": \"John is a seasoned stock trader who has a large set of stocks in his portfolio. He uses a variety of statistical methods to perform risk assessments on his investments. One such method involves the calculation of the total number of individual items in a set. For this, he checks each stock manually which can be time-consuming and prone to error. He is looking for a way to quickly compute the total number of individual stocks in his portfolio.\",\n  \"solution_signature\": \"def compute_total_stocks(n: int) -> int:\",\n  \"update_description\": \"Add a default value to the second argument 'k' in math.comb function.\",\n  \"update_docstring\": \"This atomic update adds a default value of 1 to the 'k' parameter. If 'k' is not provided by the user, the function will calculate the number of ways to choose 1 item from 'n' items without repetition and order. This change can help when users want to perform a quick check on the total number of items in a set when only one item is chosen each time. The rest of the functionality including input types, return value and exceptions remains unchanged.\",\n  \"update_rationale\": \"To allow users to quickly calculate the total number of items in a set when only one item is chosen each time, by defaulting 'k' to 1.\",\n  \"update_signature\": \"math.comb(n, k=1, /)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

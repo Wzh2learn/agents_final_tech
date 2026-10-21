@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_fetch_stock_prices_single_list_reverse"
+  },
+  "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "9bf6807a3973ccd9e180d007cf30bcaf1d996029a33a901753601d92cb7b4c12",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "ebdf9aad1cb3aa7a5009370a06134bd273f3725f6f55b3720753e6219e8e36c8",
+  "test_name": "test_fetch_stock_prices_single_list_reverse",
+  "timed_out": false,
+  "wall_seconds": 0.12932494655251503
+}

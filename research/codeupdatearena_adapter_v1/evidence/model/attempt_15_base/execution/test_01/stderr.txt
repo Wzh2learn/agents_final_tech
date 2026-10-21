@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 68, in <module>
+    test_single_item_sequences()
+  File "/task/program.py", line 65, in test_single_item_sequences
+    result_unwrapped = [(tuple(item[0]), tuple(item[1])) for item in result]
+                                         ^^^^^^^^^^^^^^
+TypeError: 'int' object is not iterable

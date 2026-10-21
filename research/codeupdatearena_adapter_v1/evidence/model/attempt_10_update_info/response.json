@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"from typing import List\\nimport itertools\\n\\ndef filter_multiple_data(dataset: List[int]) -> List[int]:\\n    \\\"\\\"\\\"\\n    Extracts elements from the dataset that are multiples of 3.\\n    \\n    Args:\\n        dataset: A list of integers.\\n        \\n    Returns:\\n        A list containing only the elements from dataset that are multiples of 3.\\n    \\\"\\\"\\\"\\n    # Create selectors: True if the index corresponds to a multiple of 3 in the original sequence\\n    # But the problem says \\\"multiples of a certain number\\\". Let's assume it means\\n    # the value itself is a multiple of 3, as is common in such problems.\\n    # However, the problem mentions \\\"selectors list based on a condition which is multiple of a number\\\".\\n    # Let's re-read: \\\"creates a selectors list based on a condition which is multiple of a number\\\"\\n    # This is ambiguous. It could mean:\\n    # 1. Filter values that are multiples of 3.\\n    # 2. Use compress with a selector that picks every 3rd element.\\n    # Given the context of \\\"multiples of a certain number (e.g., 3, 5, 7, etc.)\\\", \\n    # it most likely refers to the values themselves being multiples.\\n    # But the solution signature doesn't take the number as a parameter.\\n    # Let's assume the default is 3.\\n    \\n    # If we use itertools.compress, we need a selector for each element.\\n    # If the condition is \\\"value is a multiple of 3\\\", we can create a selector list.\\n    \\n    # However, the update description mentions supporting non-boolean values in selectors.\\n    # This suggests we might use the values themselves as selectors with a mapping.\\n    # For example, if we want multiples of 3, we could use the values modulo 3.\\n    # But compress expects selectors to be boolean-like.\\n    \\n    # Let's stick to the simplest interpretation: filter values that are multiples of 3.\\n    # We can use a list comprehension or filter.\\n    # But the problem mentions using compress.\\n    \\n    # Let's create a selector list where True means the element is a multiple of 3.\\n    selectors = [x % 3 == 0 for x in dataset]\\n    \\n    # Use itertools.compress to filter the dataset\\n    result = list(itertools.compress(dataset, selectors))\\n    \\n    return result\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561890,
+  "id": "chatcmpl-EWkfnBRgtewNXdLXdp0UBegKXaEauo6X",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 28,
+    "predicted_ms": 8835.869,
+    "predicted_n": 560,
+    "predicted_per_second": 63.37803333209217,
+    "predicted_per_token_ms": 15.778337500000001,
+    "prompt_ms": 334.4,
+    "prompt_n": 523,
+    "prompt_per_second": 1563.9952153110048,
+    "prompt_per_token_ms": 0.6393881453154875
+  },
+  "usage": {
+    "completion_tokens": 560,
+    "prompt_tokens": 551,
+    "prompt_tokens_details": {
+      "cached_tokens": 28
+    },
+    "total_tokens": 1111
+  }
+}

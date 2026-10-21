@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_product = itertools.product\\nsetattr(itertools, 'old_product', old_product)\",\n  \"problem\": \"John's task is to generate all possible pair combinations of two given sets of sequences. He needs not only to generate these combinations, but also to keep track of the indices of the source items in each combination. This will later help him in identifying the source question and answer sequence locations that contributed to the most optimized chat combination.\",\n  \"scenario\": \"John, a software developer, is working on a chatbot optimization feature. The chatbot needs to generate and analyze all possible pairs of question-answer sequences to train its machine learning model.\",\n  \"solution_signature\": \"def generate_sequence_combinations(sequence_set_1, sequence_set_2)\",\n  \"update_description\": \"Update the product function to return indices along with the product tuples.\",\n  \"update_docstring\": \"The updated function now takes an additional optional boolean parameter 'return_indices'. When 'return_indices' is True, the returned tuples will include not just the combination from input iterables, but also the indices of the input elements contributing to the combination. The output tuples will have a structure like ((a, b, c, ...), (i1, i2, i3, ...)), where (a, b, c, ...) is the combination, and (i1, i2, i3, ...) are the indices of the input elements a, b, c, ... respectively. If 'return_indices' is not supplied, behaves identically to the old version of the function. The default value for 'return_indices' is False. This allows this version to be backward compatible with the old one if the 'return_indices' parameter is not specified.\",\n  \"update_rationale\": \"By returning the indices of input elements contributing to each combination, developers can easily track the source of each component of the combination which would help in debugging and better tracking of the generation of combinations.\",\n  \"update_signature\": \"itertools.product(*iterables, repeat=1, return_indices=False)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

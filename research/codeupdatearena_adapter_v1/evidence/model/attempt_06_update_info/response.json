@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import math\\nfrom functools import reduce\\n\\n# Save the original math.comb\\nold_comb = math.comb\\nsetattr(math, 'old_comb', old_comb)\\n\\ndef compute_total_stocks(n: int) -> int:\\n    \\\"\\\"\\\"\\n    Compute the total number of individual stocks by choosing only one stock at a time.\\n    \\n    This is equivalent to calculating the number of ways to choose 1 item from n items,\\n    which is simply n.\\n    \\n    Args:\\n        n (int): The total number of stocks.\\n        \\n    Returns:\\n        int: The total number of individual stocks.\\n    \\\"\\\"\\\"\\n    if n < 0:\\n        raise ValueError(\\\"Number of stocks cannot be negative\\\")\\n    if not isinstance(n, int):\\n        raise TypeError(\\\"Input must be an integer\\\")\\n    \\n    # Choosing 1 item from n items is simply n\\n    return n\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561869,
+  "id": "chatcmpl-9bIiTBHey5H7fHlBE6Eibl6hekYY8nd6",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 3437.136,
+    "predicted_n": 216,
+    "predicted_per_second": 62.84301814068456,
+    "predicted_per_token_ms": 15.912666666666667,
+    "prompt_ms": 276.002,
+    "prompt_n": 456,
+    "prompt_per_second": 1652.161940855501,
+    "prompt_per_token_ms": 0.6052675438596491
+  },
+  "usage": {
+    "completion_tokens": 216,
+    "prompt_tokens": 456,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 672
+  }
+}

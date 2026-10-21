@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 86, in <module>
+    test_filter_higher_digit_multiples()
+  File "/task/program.py", line 84, in test_filter_higher_digit_multiples
+    assert result == expected_result, "Expected output does not match the obtained result"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected output does not match the obtained result

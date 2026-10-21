@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import math\\nold_sin = math.sin\\nsetattr(math, 'old_sin', old_sin)\",\n  \"problem\": \"Given an angle 'x', compute the sin value using Python's 'math' library, providing the output alongside the error estimate. Now Bob needs to modify his wrapper function such that it allows a flag to be set which can control whether or not to fetch the error estimate, defaulting to not fetch if no flag is set.\",\n  \"scenario\": \"Bob is a data scientist who's been working on a complex machine learning project. He requires a higher-level wrapper function that accurately calculates sin value, captures the error estimate along with the resulting output, for his ongoing computations in the project.\",\n  \"solution_signature\": \"def compute_sin_with_estimate(x: float, get_estimate: bool=False) -> Union[float, Tuple[float, float]]:\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

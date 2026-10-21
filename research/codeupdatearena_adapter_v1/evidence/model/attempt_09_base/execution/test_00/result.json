@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "marker": null,
+  "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "17aac59836fcf8f2f247115a2d488a885c9f9dbc36320b3db853874e5559c577",
+  "role": "generated_solution",
+  "status": "runtime_failure",
+  "stderr_sha256": "4f05e76f6be17cdbac09f01ca63f57aee10295e2aa00e0f1230b41a659781ea2",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_name": "test_filter_higher_digit_multiples",
+  "timed_out": false,
+  "wall_seconds": 0.16949803195893764
+}

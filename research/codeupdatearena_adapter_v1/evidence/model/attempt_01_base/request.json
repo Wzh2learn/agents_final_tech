@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_compress = itertools.compress\\nsetattr(itertools, 'old_compress', old_compress)\",\n  \"problem\": \"Write a function that takes in two lists of patient records and selectors. The function should return a new list consisting of patient records where the corresponding selector is True. If the selector list is exhausted, remaining patient records should also be included in the output list.\",\n  \"scenario\": \"You are a data analyst in a health informatics department. You are working with a large dataset of anonymized patient records and trying to select a subset of these records based on some criteria. You have two lists: one with patient records (data) and one with a sequence of boolean selectors. However, sometimes your selection criteria list is shorter than the patient record list.\",\n  \"solution_signature\": \"def include_patient_records(patient_records, selectors):\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

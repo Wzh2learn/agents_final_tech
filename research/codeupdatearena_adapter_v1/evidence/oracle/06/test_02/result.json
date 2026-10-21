@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_compute_sin_zero_without_error"
+  },
+  "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "a66bebc925a799322f6d765e088037ba3ecdc4ac8731dd483a68af7f9887351d",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "f59601263ac142516197b7ab2e6ba4ece5580eebcff271a606f6f9f8fa3f0836",
+  "test_name": "test_compute_sin_zero_without_error",
+  "timed_out": false,
+  "wall_seconds": 0.14525669254362583
+}

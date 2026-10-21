@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_filter_dataset_with_negative_and_positive_integers"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "8a733ab65b76cee37c02f7ec49bf7567cce46adc4aebed0b7f403ae0d994736c",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "2b9c6d646e5f031391bba908105f0e8d277b022ac609ceae22f905c7e885ce27",
+  "test_name": "test_filter_dataset_with_negative_and_positive_integers",
+  "timed_out": false,
+  "wall_seconds": 0.14106685481965542
+}

@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import math\\nfrom typing import Union, Tuple\\n\\nold_sin = math.sin\\nsetattr(math, 'old_sin', old_sin)\\n\\ndef compute_sin_with_estimate(x: float, get_estimate: bool = False) -> Union[float, Tuple[float, float]]:\\n    \\\"\\\"\\\"\\n    Compute the sine of x using Python's math library.\\n    \\n    Args:\\n        x: The angle in radians.\\n        get_estimate: If True, return a tuple of (sin_value, error_estimate).\\n                      If False, return only the sin_value.\\n    \\n    Returns:\\n        The sine value if get_estimate is False.\\n        A tuple of (sine_value, error_estimate) if get_estimate is True.\\n    \\\"\\\"\\\"\\n    sin_value = math.sin(x)\\n    \\n    if get_estimate:\\n        # Error estimate based on machine epsilon for float64\\n        # The error in sin(x) is approximately |cos(x)| * eps\\n        eps = 2.220446049250313e-16  # Machine epsilon for float64\\n        error_estimate = abs(math.cos(x)) * eps\\n        return (sin_value, error_estimate)\\n    else:\\n        return sin_value\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561909,
+  "id": "chatcmpl-ZGobkNF8jlibjbFkgocGD3uPcyKoFw79",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 28,
+    "predicted_ms": 4500.691,
+    "predicted_n": 285,
+    "predicted_per_second": 63.32360964127509,
+    "predicted_per_token_ms": 15.791898245614034,
+    "prompt_ms": 199.581,
+    "prompt_n": 233,
+    "prompt_per_second": 1167.4457989487978,
+    "prompt_per_token_ms": 0.8565708154506437
+  },
+  "usage": {
+    "completion_tokens": 285,
+    "prompt_tokens": 261,
+    "prompt_tokens_details": {
+      "cached_tokens": 28
+    },
+    "total_tokens": 546
+  }
+}

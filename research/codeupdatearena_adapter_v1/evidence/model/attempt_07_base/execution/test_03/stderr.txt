@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 48, in <module>
+    test_fetch_stock_prices_empty_list()
+  File "/task/program.py", line 44, in test_fetch_stock_prices_empty_list
+    result = fetch_stock_prices(*prices)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 32, in fetch_stock_prices
+    all_prices = list(itertools.chain.from_iterable(lists))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'function' object has no attribute 'from_iterable'

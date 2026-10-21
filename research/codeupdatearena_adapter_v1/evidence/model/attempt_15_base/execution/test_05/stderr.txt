@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 71, in <module>
+    test_case_sensitive_behavior()
+  File "/task/program.py", line 69, in test_case_sensitive_behavior
+    assert result_list == expected_result_list, f"Expected {expected_result_list}, but got {result_list}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected [('Hello', 'world'), (0, 0), ('Hello', 'Universe'), (0, 1), ('hi', 'world'), (1, 0), ('hi', 'Universe'), (1, 1)], but got [(['Hello', 'hi'], ['world', 'Universe']), 0, 0]

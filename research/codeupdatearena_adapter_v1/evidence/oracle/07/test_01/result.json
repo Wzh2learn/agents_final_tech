@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_single_item_sequences"
+  },
+  "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "8f6d8950278c752e1d7cce3f4abb68954af784f77539538489373b45c2644a86",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "d82e34451311c4213a14198bab63253a18274584e80f9ee191f7219e71ff8dd4",
+  "test_name": "test_single_item_sequences",
+  "timed_out": false,
+  "wall_seconds": 0.13577543199062347
+}

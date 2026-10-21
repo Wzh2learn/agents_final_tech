@@ -1,132 +1,24 @@
 {
-  "schema": "research_portfolio_cost_and_candidates_v2",
-  "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
-  "date": "2026-10-21",
-  "new_budget": {
-    "attempt_cap": 2048,
-    "accounting_tokens_cap": 10000000,
-    "attempts_used": 34,
-    "physical_http_calls": 34,
-    "accounting_tokens_used": 7712,
-    "judge_calls": 0,
-    "training_calls": 0,
-    "paid_api_usd": 0,
-    "production_memory_writes": 0
-  },
-  "reservations": [
-    {
-      "id": "MODEL_QUALIFICATION_V1_20261021",
-      "attempts": 24,
-      "accounting_tokens": 120000,
-      "status": "SETTLED_FAILED_CANARY",
-      "spec": "research/research_portfolio_v2/model_qualification_v1/QUALIFICATION_SPEC.json"
-    },
-    {
-      "id": "MODEL_QUALIFICATION_V2_20261021",
-      "attempts": 24,
-      "accounting_tokens": 120000,
-      "status": "SETTLED_PASS",
-      "spec": "research/research_portfolio_v2/model_qualification_v2/QUALIFICATION_SPEC.json"
-    },
-    {
-      "id": "MODEL_QUERY_SCOUT_V1_20261021",
-      "attempts": 27,
-      "accounting_tokens": 40000,
-      "status": "SETTLED_STOPPED_DUPLICATE_QUERY",
-      "spec": "research/research_portfolio_v2/model_query_scout_v1/SCOUT_SPEC.json"
-    },
-    {
-      "id": "MODEL_QUERY_SCOUT_V2_20261021",
-      "attempts": 27,
-      "accounting_tokens": 40000,
-      "status": "SETTLED_STOPPED_ILLEGAL_QUERY",
-      "spec": "research/research_portfolio_v2/model_query_scout_v2/SCOUT_SPEC.json"
-    },
-    {
-      "id": "CODEUPDATEARENA_ADAPTER_V1_20261021",
-      "attempts": 16,
-      "accounting_tokens": 50000,
-      "status": "RESERVED_NOT_RUN",
-      "spec": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_TASK.md"
-    }
-  ],
-  "events": [
-    {
-      "id": "MODEL_QUALIFICATION_V1_CANARY_001",
-      "attempts": 1,
-      "physical_http_calls": 1,
-      "accounting_tokens": 0,
-      "status": "FAILED_STOPPED",
-      "reason": "plan_keys: the model returned valid JSON with tool rather than the requested action/arguments/reason_code contract",
-      "raw_result": "research/research_portfolio_v2/model_qualification_v1/QUALIFICATION_RESULT.json"
-    },
-    {
-      "id": "MODEL_QUALIFICATION_V2_001_024",
-      "attempts": 24,
-      "physical_http_calls": 24,
-      "accounting_tokens": 2514,
-      "status": "PASS",
-      "reason": "Both frozen service identities matched; 24/24 plan and consume outputs satisfied the explicit JSON/tool contract with zero retries.",
-      "raw_result": "research/research_portfolio_v2/model_qualification_v2/QUALIFICATION_RESULT.json"
-    },
-    {
-      "id": "MODEL_QUERY_SCOUT_V1_001_003",
-      "attempts": 3,
-      "physical_http_calls": 3,
-      "accounting_tokens": 1955,
-      "status": "STOPPED_DUPLICATE_QUERY",
-      "reason": "The third query repeated inspect_dependency(total) and failed the fixed EvidenceBundle duplicate guard.",
-      "raw_result": "research/research_portfolio_v2/model_query_scout_v1/MODEL_QUERY_SCOUT_LEDGER.json"
-    },
-    {
-      "id": "MODEL_QUERY_SCOUT_V2_001_006",
-      "attempts": 6,
-      "physical_http_calls": 6,
-      "accounting_tokens": 3243,
-      "status": "STOPPED_ILLEGAL_QUERY",
-      "reason": "After explicit no-repeat wording and filtered legal queries, the model repeated a used inspect_dependency(total) query and was rejected as illegal.",
-      "raw_result": "research/research_portfolio_v2/model_query_scout_v2/MODEL_QUERY_SCOUT_RESULT.json"
-    }
-  ],
-  "historical_ledgers": [
-    {
-      "name": "MA_CERD_AND_DIRECTION_SPRINT",
-      "accounting_attempts": 747,
-      "accounting_tokens": 1564176,
-      "status": "FROZEN_SEPARATE"
-    },
-    {
-      "name": "OLDER_TATQA_CHAIN",
-      "accounting_attempts": 313,
-      "accounting_tokens": 324086,
-      "status": "FROZEN_SEPARATE"
-    }
-  ],
   "candidates": [
     {
+      "evidence_identity": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES",
       "id": "A_ACTION_LOSS_ACTIVE_CHECKING",
-      "status": "QUALIFYING",
-      "evidence_identity": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES",
-      "main_risk": "extra checks or compute may explain gains instead of query policy"
+      "main_risk": "extra checks or compute may explain gains instead of query policy",
+      "status": "STOP_GREEDY_SUFFICIENT_ON_AUTHORED_FIXTURES"
     },
     {
+      "evidence_identity": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES",
       "id": "B_LOCAL_REVALIDATION_AFTER_CHANGE",
-      "status": "QUALIFYING",
-      "evidence_identity": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES",
-      "main_risk": "oracle dependency graphs may make the method non-operational"
+      "main_risk": "oracle dependency graphs may make the method non-operational",
+      "status": "BOUNDED_NEGATIVE_V2_ZERO_REQUEST_REVALIDATION"
     },
     {
-      "id": "C_CONDITIONED_EXPERIENCE_GUARDS",
-      "status": "HELD",
       "evidence_identity": "NO_NEW_RUN",
-      "main_risk": "given guards or action rewrites do not demonstrate experience learning"
+      "id": "C_CONDITIONED_EXPERIENCE_GUARDS",
+      "main_risk": "given guards or action rewrites do not demonstrate experience learning",
+      "status": "HELD"
     }
   ],
-  "rulings": {
-    "MODEL_QUERY_POLICY_CURRENT_INTERFACE": "STOP",
-    "ADAPTIVE_REVALIDATION_V2_COMPARISON": "BLOCKED_BY_CRITICAL_LEAKAGE",
-    "NEXT_GATE": "capability isolation plus opaque IDs before any new comparison"
-  },
   "cost_dimensions": [
     "model_attempts",
     "physical_http_calls",
@@ -136,5 +28,133 @@
     "historical_records_read",
     "condition_induction_calls",
     "wall_time"
-  ]
+  ],
+  "date": "2026-10-21",
+  "events": [
+    {
+      "accounting_tokens": 0,
+      "attempts": 1,
+      "id": "MODEL_QUALIFICATION_V1_CANARY_001",
+      "physical_http_calls": 1,
+      "raw_result": "research/research_portfolio_v2/model_qualification_v1/QUALIFICATION_RESULT.json",
+      "reason": "plan_keys: the model returned valid JSON with tool rather than the requested action/arguments/reason_code contract",
+      "status": "FAILED_STOPPED"
+    },
+    {
+      "accounting_tokens": 2514,
+      "attempts": 24,
+      "id": "MODEL_QUALIFICATION_V2_001_024",
+      "physical_http_calls": 24,
+      "raw_result": "research/research_portfolio_v2/model_qualification_v2/QUALIFICATION_RESULT.json",
+      "reason": "Both frozen service identities matched; 24/24 plan and consume outputs satisfied the explicit JSON/tool contract with zero retries.",
+      "status": "PASS"
+    },
+    {
+      "accounting_tokens": 1955,
+      "attempts": 3,
+      "id": "MODEL_QUERY_SCOUT_V1_001_003",
+      "physical_http_calls": 3,
+      "raw_result": "research/research_portfolio_v2/model_query_scout_v1/MODEL_QUERY_SCOUT_LEDGER.json",
+      "reason": "The third query repeated inspect_dependency(total) and failed the fixed EvidenceBundle duplicate guard.",
+      "status": "STOPPED_DUPLICATE_QUERY"
+    },
+    {
+      "accounting_tokens": 3243,
+      "attempts": 6,
+      "id": "MODEL_QUERY_SCOUT_V2_001_006",
+      "physical_http_calls": 6,
+      "raw_result": "research/research_portfolio_v2/model_query_scout_v2/MODEL_QUERY_SCOUT_RESULT.json",
+      "reason": "After explicit no-repeat wording and filtered legal queries, the model repeated a used inspect_dependency(total) query and was rejected as illegal.",
+      "status": "STOPPED_ILLEGAL_QUERY"
+    },
+    {
+      "accounting_tokens": 9986,
+      "attempts": 16,
+      "id": "CODEUPDATEARENA_ADAPTER_001_016",
+      "physical_http_calls": 16,
+      "raw_result": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_RESULT.json",
+      "reason": "Completed all 16 frozen attempts; paired all-tests-pass difference was -1 families.",
+      "status": "SETTLED_BOUNDED_NEGATIVE"
+    },
+    {
+      "accounting_tokens": 0,
+      "attempts": 0,
+      "id": "CODEUPDATEARENA_ADAPTER_V2_ZERO_REQUEST_REVALIDATION",
+      "physical_http_calls": 0,
+      "raw_result": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_RESULT_V2.json",
+      "reason": "Replayed the 16 frozen V1 generations with strict AST, nonce marker, failure-taxonomy and image-ID checks; paired difference remained -1.",
+      "status": "VALIDATED_ZERO_REQUEST_REPLAY"
+    }
+  ],
+  "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
+  "historical_ledgers": [
+    {
+      "accounting_attempts": 747,
+      "accounting_tokens": 1564176,
+      "name": "MA_CERD_AND_DIRECTION_SPRINT",
+      "status": "FROZEN_SEPARATE"
+    },
+    {
+      "accounting_attempts": 313,
+      "accounting_tokens": 324086,
+      "name": "OLDER_TATQA_CHAIN",
+      "status": "FROZEN_SEPARATE"
+    }
+  ],
+  "new_budget": {
+    "accounting_tokens_cap": 10000000,
+    "accounting_tokens_used": 17698,
+    "attempt_cap": 2048,
+    "attempts_used": 50,
+    "judge_calls": 0,
+    "paid_api_usd": 0,
+    "physical_http_calls": 50,
+    "production_memory_writes": 0,
+    "training_calls": 0
+  },
+  "reservations": [
+    {
+      "accounting_tokens": 120000,
+      "attempts": 24,
+      "id": "MODEL_QUALIFICATION_V1_20261021",
+      "spec": "research/research_portfolio_v2/model_qualification_v1/QUALIFICATION_SPEC.json",
+      "status": "SETTLED_FAILED_CANARY"
+    },
+    {
+      "accounting_tokens": 120000,
+      "attempts": 24,
+      "id": "MODEL_QUALIFICATION_V2_20261021",
+      "spec": "research/research_portfolio_v2/model_qualification_v2/QUALIFICATION_SPEC.json",
+      "status": "SETTLED_PASS"
+    },
+    {
+      "accounting_tokens": 40000,
+      "attempts": 27,
+      "id": "MODEL_QUERY_SCOUT_V1_20261021",
+      "spec": "research/research_portfolio_v2/model_query_scout_v1/SCOUT_SPEC.json",
+      "status": "SETTLED_STOPPED_DUPLICATE_QUERY"
+    },
+    {
+      "accounting_tokens": 40000,
+      "attempts": 27,
+      "id": "MODEL_QUERY_SCOUT_V2_20261021",
+      "spec": "research/research_portfolio_v2/model_query_scout_v2/SCOUT_SPEC.json",
+      "status": "SETTLED_STOPPED_ILLEGAL_QUERY"
+    },
+    {
+      "accounting_tokens": 50000,
+      "attempts": 16,
+      "id": "CODEUPDATEARENA_ADAPTER_V1_20261021",
+      "spec": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_TASK.md",
+      "status": "SETTLED_BOUNDED_NEGATIVE"
+    }
+  ],
+  "rulings": {
+    "ADAPTIVE_REVALIDATION_V2_COMPARISON": "BLOCKED_BY_CRITICAL_LEAKAGE",
+    "MODEL_QUERY_POLICY_CURRENT_INTERFACE": "STOP",
+    "ADAPTIVE_REVALIDATION_V3_COMPARISON": "GREEDY_SUFFICIENT_TWO_STEP_NO_PAIRED_BENEFIT",
+    "CODEUPDATEARENA_UPDATE_INFO": "BOUNDED_NEGATIVE_STOP_V2_VALIDATED",
+    "NEXT_GATE": "independent new families or a different externally grounded change task; do not rerun the same eight families"
+  },
+  "schema": "research_portfolio_cost_and_candidates_v2"
 }

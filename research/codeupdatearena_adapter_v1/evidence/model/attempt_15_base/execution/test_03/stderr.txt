@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 66, in <module>
+    test_single_item_multiple_sequences()
+  File "/task/program.py", line 64, in test_single_item_multiple_sequences
+    assert set(result) == set(expected_results)
+           ^^^^^^^^^^^
+TypeError: unhashable type: 'list'

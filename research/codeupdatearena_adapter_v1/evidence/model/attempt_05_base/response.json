@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"def compute_total_stocks(n: int) -> int:\\n    return n\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561865,
+  "id": "chatcmpl-eRsrFZ60GEgStkxTEuwpBGMlNjTOtSgB",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 414.146,
+    "predicted_n": 27,
+    "predicted_per_second": 65.1944000424971,
+    "predicted_per_token_ms": 15.338740740740741,
+    "prompt_ms": 213.539,
+    "prompt_n": 268,
+    "prompt_per_second": 1255.0400629393225,
+    "prompt_per_token_ms": 0.7967873134328358
+  },
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 268,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 295
+  }
+}

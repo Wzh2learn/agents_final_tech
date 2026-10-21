@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_case_sensitive_behavior"
+  },
+  "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "def051cdd22a4247f8e3f4e1d95f743c1eaad6b21e55c3108b713baedbd70041",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "9326d6d081242c537ffec21ce400d6af221088564b710d9a7780feb3c23870b6",
+  "test_name": "test_case_sensitive_behavior",
+  "timed_out": false,
+  "wall_seconds": 0.1298600770533085
+}

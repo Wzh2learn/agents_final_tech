@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 75, in <module>
+    test_k_elements_sum_not_equal_n()
+  File "/task/program.py", line 71, in test_k_elements_sum_not_equal_n
+    result = compute_multinomial_coeffecient(n, k)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 54, in compute_multinomial_coeffecient
+    raise ValueError("The sum of k must equal n.")
+ValueError: The sum of k must equal n.

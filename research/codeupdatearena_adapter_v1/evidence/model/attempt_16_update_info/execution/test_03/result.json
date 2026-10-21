@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "marker": null,
+  "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "707818ec6f3312b50ee21bd9cf5f3231985b7bcdd192ff61e6e2d0d4e2627dcc",
+  "role": "generated_solution",
+  "status": "runtime_failure",
+  "stderr_sha256": "ca39fc4fb1ab4dc43365ec723026412c0c2b00a7493ac7a38c3189264c1ebdab",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_name": "test_single_item_multiple_sequences",
+  "timed_out": false,
+  "wall_seconds": 0.12856506183743477
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 60, in <module>
+    test_filter_data_with_large_multiclpes()
+  File "/task/program.py", line 58, in test_filter_data_with_large_multiclpes
+    assert result == expected_result, "The result does not match the expected result."
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: The result does not match the expected result.

@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_maximum_integer_number_of_stocks"
+  },
+  "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "b625dfcc160a79c3bef479e5a324072df23d200db8a67171b58406f5b6e9a58e",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "6a0f5d597c369e377fcf2bfe3e7959400ea17f6014800ae7bc2d964dd24b59f9",
+  "test_name": "test_maximum_integer_number_of_stocks",
+  "timed_out": false,
+  "wall_seconds": 0.1389589123427868
+}

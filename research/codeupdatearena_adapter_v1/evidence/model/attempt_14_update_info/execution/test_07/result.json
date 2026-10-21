@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "marker": null,
+  "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "b27aeaf1bb0ec8d557c2e805ee5cbe8c8f752ea8fe457d191a6c67156460482b",
+  "role": "generated_solution",
+  "status": "runtime_failure",
+  "stderr_sha256": "5b8602fe57e53644c497e24606a4a3044f598a85b75bc40a399247c065c7ae4c",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_name": "test_compute_sin_pi",
+  "timed_out": false,
+  "wall_seconds": 0.1441368442028761
+}

@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import math\\nold_comb = math.comb\\nsetattr(math, 'old_comb', old_comb)\",\n  \"problem\": \"Given a total number of data items and a list of different possible values these items can take, you are required to calculate the total number of unique combinations possible. For instance, if you have 10 data items and they can either take 4 of one type, 3 of another type and remain 3 of yet another unique type, you need to compute the multinomial coefficient i.e. the number of unique ways to pick this set.\",\n  \"scenario\": \"You are a researcher and you have to analyse a set of data items and perform some combinatorial calculations. This is crucial to understanding the behaviour of various variables in your data set.\",\n  \"solution_signature\": \"def compute_multinomial_coeffecient(n, k):\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

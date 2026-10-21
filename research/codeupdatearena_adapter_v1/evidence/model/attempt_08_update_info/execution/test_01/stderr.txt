@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 49, in <module>
+    test_fetch_stock_prices_single_list()
+  File "/task/program.py", line 47, in test_fetch_stock_prices_single_list
+    assert result == expected_result, f"Expected {expected_result} but got {result}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected [120, 130, 140] but got <itertools.chain object at 0xf6566481d600>

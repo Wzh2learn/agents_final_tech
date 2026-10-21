@@ -1,0 +1,91 @@
+{
+  "all_tests_pass": false,
+  "failure_kind": "runtime_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "e45a687125211677ebe17550161378231a3078c3bc3e8cc8acb3bb58eb7f6c94",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "f82c9ef9b39d0d7bdf68e520af4a83d0715d21f8ae035af047d96030d6cc45bb",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_empty_sequence_sets",
+      "timed_out": false,
+      "wall_seconds": 0.13444089516997337
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "1045c9cebc0f4a13e41628654fe9d84684c2117914e59f12f17a1378e288efd8",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "912838c2fd9db69d6bb14d04cb8c077c5f962249fa6d70f097bdbb9e34336d81",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_single_item_sequences",
+      "timed_out": false,
+      "wall_seconds": 0.118673050776124
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "26cd2824721ca8d3a0bb77527e8a0ec65a06616a689a33f180b75e9f075d40a9",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "2be0107b4485e8b43081c4a2e92a088f593f7bfcbb7dd0de774eb9a74a04858f",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_multiple_items_single_sequence",
+      "timed_out": false,
+      "wall_seconds": 0.1260512676090002
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "707818ec6f3312b50ee21bd9cf5f3231985b7bcdd192ff61e6e2d0d4e2627dcc",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "ca39fc4fb1ab4dc43365ec723026412c0c2b00a7493ac7a38c3189264c1ebdab",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_single_item_multiple_sequences",
+      "timed_out": false,
+      "wall_seconds": 0.12856506183743477
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "bf0a158bfa194d2dcbfa084c244cd642a46bd3b993030a200eee33ce792adb6a",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "5a4b9ad4f1c9601a49e176250263cceb99556f20223da23d86c2dbf1410456a8",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_sequence_set_with_one_sequence_empty",
+      "timed_out": false,
+      "wall_seconds": 0.11485805176198483
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "06a83614058a5341946b7be1fb047fa8670c83a2a5cbba988730748ebdc3451c",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "28d9e1c40ea2dd6135a161515951e4b64d78595b03613fa27ed7153f8a4494f0",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_case_sensitive_behavior",
+      "timed_out": false,
+      "wall_seconds": 0.11174071580171585
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 0,
+  "wall_seconds": 0.734329042956233
+}

@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_filter_empty_dataset"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "4407d72d6e308c9c130de0eeb6e4f218c8dc0aecb0a1e8ea67de393fe703e5a5",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "dfd8899e6cca41ce1ea28ddd37f86ef5e4246a273176f4b98f4ae242567bebb6",
+  "test_name": "test_filter_empty_dataset",
+  "timed_out": false,
+  "wall_seconds": 0.12461113929748535
+}

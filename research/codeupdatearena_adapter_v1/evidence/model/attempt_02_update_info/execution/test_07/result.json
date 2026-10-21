@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_inclusion_with_selector_list_longer_than_patient_records"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+  "program_sha256": "69a8ce9ddb477936718914acf62ca7c54d174af0053a6f04785550d274ee6c5b",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "d6f6706ba63044f7de0b1302fa21335451e0ea5a12f591e59e94653024f253c5",
+  "test_name": "test_inclusion_with_selector_list_longer_than_patient_records",
+  "timed_out": false,
+  "wall_seconds": 0.12359675578773022
+}

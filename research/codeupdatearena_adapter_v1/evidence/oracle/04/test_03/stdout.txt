@@ -1,0 +1,1 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"prog_syn_id":"[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]","role":"reference_solution","test_name":"test_filter_dataset_with_same_elements"}

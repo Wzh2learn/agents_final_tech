@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_one_stock_only"
+  },
+  "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "71e3e756806ab3abb520cc4c9483a730f1047c38ad90a3315315dc7e2bbb0211",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "c63575ad8ea50ad6ac196f2b0dbbdfc831b39510967e19e88913d1d9e5c32d2d",
+  "test_name": "test_one_stock_only",
+  "timed_out": false,
+  "wall_seconds": 0.12495621852576733
+}

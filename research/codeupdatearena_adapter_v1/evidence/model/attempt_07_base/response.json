@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import itertools\\n\\ndef fetch_stock_prices(*lists, reverse=False):\\n    \\\"\\\"\\\"\\n    Fetch stock prices from multiple lists in either original or reverse order.\\n    \\n    Args:\\n        *lists: Variable number of lists containing stock prices\\n        reverse: Boolean flag to determine traversal order (default False)\\n    \\n    Returns:\\n        A list of all stock prices in the desired order\\n    \\\"\\\"\\\"\\n    # Flatten all lists into a single sequence\\n    all_prices = list(itertools.chain.from_iterable(lists))\\n    \\n    # Return in reverse order if requested\\n    if reverse:\\n        return all_prices[::-1]\\n    else:\\n        return all_prices\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561873,
+  "id": "chatcmpl-59JD6ncOzWX96mPx2uCyn1EYdhZOse27",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 2537.789,
+    "predicted_n": 162,
+    "predicted_per_second": 63.8350942493643,
+    "predicted_per_token_ms": 15.665364197530865,
+    "prompt_ms": 201.23,
+    "prompt_n": 267,
+    "prompt_per_second": 1326.8399344034192,
+    "prompt_per_token_ms": 0.7536704119850187
+  },
+  "usage": {
+    "completion_tokens": 162,
+    "prompt_tokens": 267,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 429
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "all_tests_pass": false,
+  "failure_kind": "runtime_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "a19939749a56b039b605ebf0c076afdcd9d41be62147a5afd50d199e28eceea4",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "21c4f95beca34c218125aca7006adf69796581d2b722ef857af178952cd29de3",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_normal",
+      "timed_out": false,
+      "wall_seconds": 0.12800522707402706
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "5052d3af3898474f98524b2dc0d43ab8060ea7d83ae0c0186ee846721ecc5236",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "4254c9c73c37ae69f90cb664219e228466bac44fe0b0ef2721e9af907f92f911",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_single_list",
+      "timed_out": false,
+      "wall_seconds": 0.13638627901673317
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "5a3053995af7b406c777a2999f4560b0303c033a2a2c9157b640b0c2e6ec83d8",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "f66ddda0320e33cf12bff33b70c52aad1ffec729eb98c40879867a5809cc5bcc",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_single_list_reverse",
+      "timed_out": false,
+      "wall_seconds": 0.12208487652242184
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "b660d3ba032d4dbdc3f2fb9f03113b734f00031e53318cd8b28be9b447f92073",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "b3e7bc1f3c39054ad74c135065b6bf40cdd5af2f240072b6c67029a486ccd923",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_empty_list",
+      "timed_out": false,
+      "wall_seconds": 0.10985787212848663
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "481a2b7ed0dca6ca98a8fe8a6d42b825307f3e18c4902d16c07cd15ff56f0a04",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "3805d3a9ba8d5dc61f09c0d03663cdb8bda881ec1d35d9b6d5ad40f70147a4e8",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_empty_lists",
+      "timed_out": false,
+      "wall_seconds": 0.12129069492220879
+    },
+    {
+      "exit_code": 0,
+      "marker": {
+        "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+        "role": "generated_solution",
+        "test_name": "test_fetch_stock_prices_empty_and_nonempty_lists"
+      },
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "e812ca834bcbf41ed9a4d5ddd5a28667ef51900124c5463bcf0b6aa097891d84",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "014c584d8ab87d526efaec2705974d3c4c2e1b9ab9eed7a7112f285719a366af",
+      "test_name": "test_fetch_stock_prices_empty_and_nonempty_lists",
+      "timed_out": false,
+      "wall_seconds": 0.12633806094527245
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 1,
+  "wall_seconds": 0.7439630106091499
+}

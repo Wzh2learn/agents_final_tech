@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "marker": null,
+  "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "cff8fb7b32d876c7c6d8c50d2e1f902b8ac999e60cadc711a5f7dd2537610bb3",
+  "role": "generated_solution",
+  "status": "runtime_failure",
+  "stderr_sha256": "9bad40b1f9d453e2e673e23c0f221768e7ff19b6c662ae66fd68e195bc56656a",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_name": "test_case_sensitive_behavior",
+  "timed_out": false,
+  "wall_seconds": 0.12332678399980068
+}

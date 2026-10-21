@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_chain = itertools.chain\\nsetattr(itertools, 'old_chain', old_chain)\",\n  \"problem\": \"Jake needs a function that would merge different iterable object datasets together, and he should be able to specify the number of combined elements he wants to work with at once. He should be able to specify that number as a parameter to the function.\",\n  \"scenario\": \"Jake works as a data analyst in a product-based company. He has to constantly sift through large volumes of product data. To compare product trends across different product categories, he often has to combine iterator objects of different product categories. However, loading all the product data at once can be exhaustive to the system. Therefore, he only needs a specific number of elements at a time.\",\n  \"solution_signature\": \"def merge_product_data(*categories, limit=None):\",\n  \"update_description\": \"The itertools.chain now accepts an additional optional argument of type int called 'limiter', which restricts the number of elements to be returned from the chain.\",\n  \"update_docstring\": \"This function now includes an additional optional 'limiter' argument which is an integer to restrict the number of elements yielded from the chain. If 'limiter' is provided, the method .__next__() will stop once the specified number of elements is reached. For example, if 'limiter' is set to 5, .__next__() will yield only the first 5 elements from the combined iterables, regardless of the total number of elements in the iterables. If not provided or set to None, .__next__() will continue to yield until all given iterables are exhausted, which is the previous behavior.\",\n  \"update_rationale\": \"The new 'limiter' option makes it possible to limit the yield of the chain, providing more flexibility to users. This is particularly useful when working with large iterables or when only a specific number of elements from the chain are required for data processing.\",\n  \"update_signature\": \"itertools.chain(*iterables, limiter=None)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

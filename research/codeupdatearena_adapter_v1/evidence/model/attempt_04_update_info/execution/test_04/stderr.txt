@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 89, in <module>
+    test_merge_multiple_identical_datasets()
+  File "/task/program.py", line 85, in test_merge_multiple_identical_datasets
+    result = merge_product_data(movie_genres, movie_genres)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 78, in merge_product_data
+    return itertools.chain(*categories)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 994 more times]
+RecursionError: maximum recursion depth exceeded

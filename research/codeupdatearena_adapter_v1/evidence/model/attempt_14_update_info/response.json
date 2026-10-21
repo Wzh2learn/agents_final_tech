@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import math\\nfrom typing import Union, Tuple\\n\\n# Save the original sin function\\nold_sin = math.sin\\nsetattr(math, 'old_sin', old_sin)\\n\\ndef compute_sin_with_estimate(x: float, get_estimate: bool = False) -> Union[float, Tuple[float, float]]:\\n    \\\"\\\"\\\"\\n    Compute the sine of x using Python's math library.\\n    \\n    If get_estimate is True, returns a tuple of (sine_value, error_estimate).\\n    If get_estimate is False or omitted, returns only the sine value.\\n    \\n    The error estimate represents the maximum difference between the actual \\n    and computed sine value due to numerical precision limitations.\\n    \\\"\\\"\\\"\\n    result = math.sin(x)\\n    \\n    if get_estimate:\\n        # Error estimate based on machine epsilon for float64\\n        # The error in sin(x) is approximately |cos(x)| * eps where eps is machine epsilon\\n        # We use a conservative estimate based on the precision of float64\\n        eps = 2.220446049250313e-16  # machine epsilon for float64\\n        error_estimate = abs(math.cos(x)) * eps + eps\\n        return (result, error_estimate)\\n    else:\\n        return result\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561915,
+  "id": "chatcmpl-ezcqhL0w7ObWCAyNXcr7qjof6lJ9NeUM",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 28,
+    "predicted_ms": 4635.785,
+    "predicted_n": 296,
+    "predicted_per_second": 63.851106123342646,
+    "predicted_per_token_ms": 15.66143581081081,
+    "prompt_ms": 254.705,
+    "prompt_n": 420,
+    "prompt_per_second": 1648.9664513849355,
+    "prompt_per_token_ms": 0.6064404761904763
+  },
+  "usage": {
+    "completion_tokens": 296,
+    "prompt_tokens": 448,
+    "prompt_tokens_details": {
+      "cached_tokens": 28
+    },
+    "total_tokens": 744
+  }
+}

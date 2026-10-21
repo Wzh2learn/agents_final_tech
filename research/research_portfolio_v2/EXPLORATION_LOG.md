@@ -92,6 +92,36 @@ This is the concise execution log for the current Goal. It does not replace
   public adapter comparing `base` versus `update_info` under real generated
   code and hidden unit-test execution.
 
+## External Adapter Result
+
+- CodeUpdateArena source and eight-family selection were frozen at commit
+  `836e2d157739fd53f9cde421913eb5949d4eeeb8`. Oracle execution passed all
+  8 families and 50 hidden tests before model calls.
+- The single bounded run used 16 generation requests and 9,986 accounting
+  tokens with zero retries and zero infrastructure failures.
+- `base` passed 3/8 families and 28/50 hidden tests. `update_info` passed 2/8
+  and 22/50. The paired all-tests-pass difference is `-1`.
+- Ruling: `BOUNDED_NEGATIVE_STOP`. In this model/configuration and public
+  synthetic task set, adding update information did not improve code
+  adaptation and reduced one passing family. This does not establish that
+  update information is universally harmful.
+- Cumulative new-goal accounting is 50 attempts and 17,698 tokens. No further
+  requests are warranted on the same eight families.
+- Independent review invalidated the first execution interpretation: generated
+  code could fake the result marker or exit before hidden tests, and assertion
+  failures were mislabeled as runtime failures. Preserve V1 raw generations but
+  treat its executor metrics as `INVALID_HARNESS_REPLAY`. A zero-request V2
+  re-execution is required before using the paired result scientifically.
+- V2 blocks marker forging/early exits with candidate AST rules and trusted
+  nonce-bound test lifecycle markers, pins the Docker image ID, and separates
+  assertion failures from runtime/marker failures. The zero-request replay
+  confirms `3/8` versus `2/8`, paired difference `-1`; base failures are 5
+  `test_failure`, update-info failures are 6 `test_failure`.
+- Valid ruling: `BOUNDED_NEGATIVE_STOP_V2_VALIDATED`. Update information did
+  not improve this frozen model/configuration on the eight development
+  families. This remains a bounded synthetic result, not a universal harm
+  claim.
+
 ## Next Actions
 
 1. Complete three-way governance comparison and safe local integration.

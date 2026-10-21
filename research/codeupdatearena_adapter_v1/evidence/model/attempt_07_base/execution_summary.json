@@ -1,0 +1,91 @@
+{
+  "all_tests_pass": false,
+  "failure_kind": "runtime_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "23f0893019d62becd9cff7ffed0f480ebe9e5a326c9619c0e08555dd310153f2",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "302e20bff3d9a12f5f3329f9e1052bf9474609d0b3f32026b27505b7b513f4e0",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_normal",
+      "timed_out": false,
+      "wall_seconds": 0.1479521542787552
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "0b0f3a60f919510d9fe5a2b86344c54d25279d6cc5ff363c57fc1ea1976561c8",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "a60450cfe4d36c44b86d0a7617a5cb4e1611cf30fa986692690d58256e525213",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_single_list",
+      "timed_out": false,
+      "wall_seconds": 0.12126274406909943
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "360dd8dca09e657e22bc6c3cf565463eca0151b70109948abafbf8dd6e2ff2c5",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "eacff9fcad3dbdb8819b7e52104dfa9c2feda451d98b8d17b513b7575882d9a8",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_single_list_reverse",
+      "timed_out": false,
+      "wall_seconds": 0.1290295459330082
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "fba7bd9235a1032b77d2be220e4f6eb27b1acd695f278996f817a5956b176af4",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "39e880dfe5d90f42f4f869e0f56daa0b947f3deadcf1a5c8beffbe2173d150c5",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_empty_list",
+      "timed_out": false,
+      "wall_seconds": 0.12608753331005573
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "c35f12d52515d8893c99f0ec37f5bca8fa52ea1923c08819094b5366065d895c",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "884bc097e27fbdf80081f5fede72e8c483a5e2d6cbbca66c99b2908f6f2d05fb",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_empty_lists",
+      "timed_out": false,
+      "wall_seconds": 0.14092401415109634
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "c93023e386eb7a1bd29c75a0922b5b9d0a28abf63470637ee3eee3ef4db0b728",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "a45568892523169d0411ad92fc3c7aff237d0fdb29458cd5de69235287c54273",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_fetch_stock_prices_empty_and_nonempty_lists",
+      "timed_out": false,
+      "wall_seconds": 0.11672350205481052
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 0,
+  "wall_seconds": 0.7819794937968254
+}

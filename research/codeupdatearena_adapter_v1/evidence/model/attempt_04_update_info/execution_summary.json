@@ -1,0 +1,91 @@
+{
+  "all_tests_pass": false,
+  "failure_kind": "runtime_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "84f9ac248cdb9f833a88bc8f033c88dfa669cb7346a66a2f80e5d4bb8360e7ef",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "413a807daead73b111241c9e2dea1f7325bdcaf2bad711cb241243742c828370",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_merge_three_datasets_with_limit",
+      "timed_out": false,
+      "wall_seconds": 0.12269476987421513
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "e9829e434b6f731cf80f32c4bf959db5c9b8ae1b10cae5c4fa6311f97ec482cf",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "3b837e25eab8b99100193c20f87478c577aece17077153755d61a3031f0e1852",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_merge_two_datasets_without_limit",
+      "timed_out": false,
+      "wall_seconds": 0.1317956242710352
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "071f548307b20203d768f64e020eb9edcb7174baa981f2128dc960f9f7317719",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "8e10b65769c69a44197434f0496bfaba46411c4877e5df6ca38c5230efe82a81",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_merge_empty_datasets",
+      "timed_out": false,
+      "wall_seconds": 0.1354382336139679
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "a378fd0cf2f3db1195c211392bacaac85f96eac68ba9356264c7188e41f40946",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "dc345e99f1a062fa60c134b60389d6eb586ee823cb096452f65cac6329f8abc0",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_merge_datasets_with_zero_limit",
+      "timed_out": false,
+      "wall_seconds": 0.13189330138266087
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "af3d58283502387aedcd98a41123fd25e47e71a1a941c8eb6c41cb6a07c19c15",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "91f1cd9311c329c7a78ff4342a3f00db3cd06be2541f1c91938c201a30968760",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_merge_multiple_identical_datasets",
+      "timed_out": false,
+      "wall_seconds": 0.12232975102961063
+    },
+    {
+      "exit_code": 1,
+      "marker": null,
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "e4159ef423c06cc0f2ba7700d9304b0c2cededc6ea58f9a2da0192b8d709e282",
+      "role": "generated_solution",
+      "status": "runtime_failure",
+      "stderr_sha256": "c8948effd1b85998e106f79e6ca59685b781375b5e4b2ecc1ce472b2a59e43bf",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_name": "test_merge_datasets_with_none_in_between",
+      "timed_out": false,
+      "wall_seconds": 0.12670361809432507
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 6,
+  "test_total": 6,
+  "tests_passed": 0,
+  "wall_seconds": 0.7708552982658148
+}

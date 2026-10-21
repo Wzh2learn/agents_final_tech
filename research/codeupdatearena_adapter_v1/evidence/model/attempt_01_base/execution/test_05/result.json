@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_inclusion_with_duplicated_patient_records"
+  },
+  "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]",
+  "program_sha256": "17515b722b15b4c3030fe17ef32833568be6d31d39ac9254cc9aaaacd68f6be6",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "62b123a98c5a75da89f8f577e096c43e344198a870b26f6fbbcd9c3d46e5d74e",
+  "test_name": "test_inclusion_with_duplicated_patient_records",
+  "timed_out": false,
+  "wall_seconds": 0.127595953643322
+}

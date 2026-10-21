@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 93, in <module>
+    test_merge_datasets_with_zero_limit()
+  File "/task/program.py", line 88, in test_merge_datasets_with_zero_limit
+    result = merge_product_data(planets, moons, limit=limit)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 76, in merge_product_data
+    return LimitedChain(categories, limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 59, in __init__
+    self._chain = itertools.chain(*iterables)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 9, in chain
+    chained_iterable = old_chain(*iterables)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 993 more times]
+RecursionError: maximum recursion depth exceeded

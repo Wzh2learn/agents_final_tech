@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import itertools\\n\\n# Save the original product function\\nold_product = itertools.product\\nsetattr(itertools, 'old_product', old_product)\\n\\ndef generate_sequence_combinations(sequence_set_1, sequence_set_2, return_indices=False):\\n    \\\"\\\"\\\"\\n    Generate all possible pair combinations of two given sets of sequences.\\n    \\n    Parameters:\\n    sequence_set_1 (iterable): The first set of sequences.\\n    sequence_set_2 (iterable): The second set of sequences.\\n    return_indices (bool): If True, return indices along with the combinations.\\n                           Default is False.\\n    \\n    Returns:\\n    list: A list of tuples representing the combinations. If return_indices is True,\\n          each tuple contains ((item1, item2), (index1, index2)).\\n    \\\"\\\"\\\"\\n    if return_indices:\\n        # Get indices for sequence_set_1\\n        indexed_set_1 = list(enumerate(sequence_set_1))\\n        # Get indices for sequence_set_2\\n        indexed_set_2 = list(enumerate(sequence_set_2))\\n        \\n        # Generate product with indices\\n        result = []\\n        for (idx1, item1), (idx2, item2) in itertools.product(indexed_set_1, indexed_set_2):\\n            result.append(((item1, item2), (idx1, idx2)))\\n        return result\\n    else:\\n        # Use the original product function\\n        return list(itertools.product(sequence_set_1, sequence_set_2))\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792561926,
+  "id": "chatcmpl-Vk5ht6AickYtTqDD6hROXDMVNEDOY741",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 28,
+    "predicted_ms": 5505.499,
+    "predicted_n": 348,
+    "predicted_per_second": 63.20952923613282,
+    "predicted_per_token_ms": 15.820399425287356,
+    "prompt_ms": 285.265,
+    "prompt_n": 482,
+    "prompt_per_second": 1689.6569856098715,
+    "prompt_per_token_ms": 0.5918360995850622
+  },
+  "usage": {
+    "completion_tokens": 348,
+    "prompt_tokens": 510,
+    "prompt_tokens_details": {
+      "cached_tokens": 28
+    },
+    "total_tokens": 858
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+    "role": "generated_solution",
+    "test_name": "test_merge_datasets_with_zero_limit"
+  },
+  "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "fa4b56db7f25c9ff5a0180a6810fa57c40262d036543fed4223d8d6a86a4a0cd",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "cd91aef8539ed766c728eb46bb8011fb9a4f6e050ecdb3305ad1f03c866140a8",
+  "test_name": "test_merge_datasets_with_zero_limit",
+  "timed_out": false,
+  "wall_seconds": 0.12149236537516117
+}

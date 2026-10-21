@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "marker": {
+    "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+    "role": "reference_solution",
+    "test_name": "test_empty_sequence_sets"
+  },
+  "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "b18229c78fc3135ef0a7e0f760609f601c3d4d27a6eadf01c3c9c8b411eccad2",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "10275d9095115112468de677bf3666e31bc89f2a4c1aa9981a70137a5228bf21",
+  "test_name": "test_empty_sequence_sets",
+  "timed_out": false,
+  "wall_seconds": 0.13530508615076542
+}

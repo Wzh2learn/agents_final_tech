@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_product = itertools.product\\nsetattr(itertools, 'old_product', old_product)\",\n  \"problem\": \"John's task is to generate all possible pair combinations of two given sets of sequences. He needs not only to generate these combinations, but also to keep track of the indices of the source items in each combination. This will later help him in identifying the source question and answer sequence locations that contributed to the most optimized chat combination.\",\n  \"scenario\": \"John, a software developer, is working on a chatbot optimization feature. The chatbot needs to generate and analyze all possible pairs of question-answer sequences to train its machine learning model.\",\n  \"solution_signature\": \"def generate_sequence_combinations(sequence_set_1, sequence_set_2)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}
