@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "1399ec0f2ff740fd883f6d8c396235b2",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+    },
+    {
+      "nonce": "1399ec0f2ff740fd883f6d8c396235b2",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+    },
+    {
+      "nonce": "1399ec0f2ff740fd883f6d8c396235b2",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+    }
+  ],
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "411ee3454f8daa0901df5e67efcb2f922f4eb3172e19e59c8ac64a48cdfc07f3",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "f862a1d0de84573a19745b610f017bd991117eae1c3401700c61417e244d5191",
+  "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns",
+  "timed_out": false,
+  "wall_seconds": 0.1290557198226452
+}

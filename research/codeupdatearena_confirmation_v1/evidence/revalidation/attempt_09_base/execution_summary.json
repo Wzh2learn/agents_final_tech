@@ -1,0 +1,233 @@
+{
+  "all_tests_pass": true,
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "failure_kind": null,
+  "infrastructure_failure": false,
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "bbf5678d285d498296308c880f63008d",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_multiple_genes_separated_by_single_Ns"
+        },
+        {
+          "nonce": "bbf5678d285d498296308c880f63008d",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_case_with_multiple_genes_separated_by_single_Ns"
+        },
+        {
+          "nonce": "bbf5678d285d498296308c880f63008d",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_case_with_multiple_genes_separated_by_single_Ns"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "1abf005a636b04c531bdfafe453167a4d6fa5139bcab39bc1451d638233b80fc",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b4a4ea9000131375bb2d7eef0880ffae17b2042208d8f3688622525e9dd8f56c",
+      "test_name": "test_case_with_multiple_genes_separated_by_single_Ns",
+      "timed_out": false,
+      "wall_seconds": 0.1326645165681839
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "ef1e564ddca547a899d5e82e3b4169e0",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+        },
+        {
+          "nonce": "ef1e564ddca547a899d5e82e3b4169e0",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+        },
+        {
+          "nonce": "ef1e564ddca547a899d5e82e3b4169e0",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "b8fe006549c8dc8cee19683abeaa1e376fc2af833c2f0d697349f31779316294",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d24015f33db0204a1285b85c5d42c8662648a06bd791c85d09a3dfd66b25dc4e",
+      "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns",
+      "timed_out": false,
+      "wall_seconds": 0.1227823831140995
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "bd86c14696554b62af3116cee802d697",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_multiple_varying_N_separators"
+        },
+        {
+          "nonce": "bd86c14696554b62af3116cee802d697",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_case_with_multiple_varying_N_separators"
+        },
+        {
+          "nonce": "bd86c14696554b62af3116cee802d697",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_case_with_multiple_varying_N_separators"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "f6eaa8558c2737d9b884fcf504b9d150d14b7c072623a32c3f58304c18c6860f",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b3aca719e9619ccd309500fae8b50fb9edd1a47ab9697afac1f70d4ab90600ca",
+      "test_name": "test_case_with_multiple_varying_N_separators",
+      "timed_out": false,
+      "wall_seconds": 0.15315565466880798
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "cfcb1063e0264f6395e6b81caa554790",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_no_gene_sequence"
+        },
+        {
+          "nonce": "cfcb1063e0264f6395e6b81caa554790",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_case_with_no_gene_sequence"
+        },
+        {
+          "nonce": "cfcb1063e0264f6395e6b81caa554790",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_case_with_no_gene_sequence"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "c91d77256e6cfb40b6c21788df7cc1a2f446e933fea3075111ddfe880d8ee325",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "aae81deeca1d6c7ab4891c11a2a2b25ff0a89353714d7cbb3227bad7474f8edb",
+      "test_name": "test_case_with_no_gene_sequence",
+      "timed_out": false,
+      "wall_seconds": 0.12959537468850613
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "69467cd90d9b4750abd28f7058ea7a3f",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_long_string"
+        },
+        {
+          "nonce": "69467cd90d9b4750abd28f7058ea7a3f",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_long_string"
+        },
+        {
+          "nonce": "69467cd90d9b4750abd28f7058ea7a3f",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_long_string"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "01d2c08efdda6b44eac84adf149e8f8ff21f37775989ebbc6e9f35d7582b2a51",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "63e46a6e85e14ead06aaf52e255301bcbf4c79a78752008d1aa1efe06001768c",
+      "test_name": "test_long_string",
+      "timed_out": false,
+      "wall_seconds": 0.14867663569748402
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 5,
+  "test_total": 5,
+  "tests_passed": 5,
+  "wall_seconds": 0.6868745647370815
+}

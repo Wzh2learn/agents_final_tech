@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import re\\n\\ndef search_pattern_in_byte_sequence(pattern: str, data: bytes) -> re.Match or None:\\n    \\\"\\\"\\\"\\n    Takes a regular expression pattern and a byte sequence.\\n    Returns a Match object if the pattern matches the entire byte sequence, or None otherwise.\\n    \\\"\\\"\\\"\\n    return re.fullmatch(pattern, data)\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792566624,
+  "id": "chatcmpl-y6geUoaLyEtOsb9eTGdDq3cIpCnXtnEh",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 35,
+    "predicted_ms": 1325.521,
+    "predicted_n": 85,
+    "predicted_per_second": 64.12572867574335,
+    "predicted_per_token_ms": 15.594364705882352,
+    "prompt_ms": 259.039,
+    "prompt_n": 414,
+    "prompt_per_second": 1598.214940607399,
+    "prompt_per_token_ms": 0.6256980676328502
+  },
+  "usage": {
+    "completion_tokens": 85,
+    "prompt_tokens": 449,
+    "prompt_tokens_details": {
+      "cached_tokens": 35
+    },
+    "total_tokens": 534
+  }
+}

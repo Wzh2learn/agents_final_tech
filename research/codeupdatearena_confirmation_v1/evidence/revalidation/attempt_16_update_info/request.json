@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_sub = re.sub\\nsetattr(re, 'old_sub', old_sub)\",\n  \"problem\": \"Given a large string, containing written patient records, update the string by changing all instances of 'date of birth' to 'DOB', 'social security number' to 'SSN', and of dates from 'dd-mm-yyyy' format to 'yyyy-mm-dd'. The solution should be a function that accepts a text data and returns the edited version of the text. It needs to handle cases where one or more patterns may not be present in the string.\",\n  \"scenario\": \"Alice is a nurse who is working with a large set of patient records from a hospital. Recently, she realized she needs to correct several recurring patterns in the patient data she had collected over the year. Some patients have 'DOB' recorded as 'date of birth', she also has several instances where 'SSN' has been expanded to 'social security number'. Additionally, all dates recorded in dd-mm-yyyy format need to be changed to yyyy-mm-dd. She needs an efficient way to make all these changes across the data.\",\n  \"solution_signature\": \"def update_patient_records(records_string)\",\n  \"update_description\": \"Add a new function `re.sub_multi` that accepts multiple patterns and their corresponding replacements. These should be provided as dictionaries, with the key being the pattern and the value being the replacement.\",\n  \"update_docstring\": \"This function replaces the leftmost non-overlapping occurrences of multiple prescribed patterns within a given string with specified replacements in a single pass. Each pattern and its corresponding replacement are provided as a dictionary, `patterns_dict`.\\n\\nInput Parameters:\\n1. `string`: A string in which the patterns will be searched for and replaced.\\n2. `patterns_dict`: The dictionary where the key is the pattern that needs to be replaced, and the value is the replacement for that pattern within the `string`. It can be either a string or a callable function.\\n    - If the value in `patterns_dict` is a string, any backslash escapes in it will be processed, i.e., special sequences starting with `\\\\` will be interpreted accordingly.\\n    - If the value in `patterns_dict` is a callable function, it will be passed the match object (the found `pattern`). This function should return a replacement string to be used.\\n3. `count` and `flags`: These parameters behave in the same way as in the original `re.sub` function. \\n\\nThe patterns in `patterns_dict` are applied in the order they are defined in the dictionary. The order of application of patterns could thus have an effect on the final output.\\nThe function returns a string obtained by replacing the leftmost non-overlapping `pattern` instances with the `repl`.\",\n  \"update_rationale\": \"This update would allow replacement of multiple patterns within a string in a single function call, thereby making it more convenient and easy to handle multiple replacements at once.\",\n  \"update_signature\": \"re.sub_multi(patterns_dict, string, count=0, flags=0)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

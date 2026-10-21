@@ -1,0 +1,3 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"d0f3b08877a04595a2553cd12881214c","prog_syn_id":"[re.match]:[modify-function-name]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"test_start","test_name":"test_ids_empty_list"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"d0f3b08877a04595a2553cd12881214c","prog_syn_id":"[re.match]:[modify-function-name]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"test_pass","test_name":"test_ids_empty_list"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"d0f3b08877a04595a2553cd12881214c","prog_syn_id":"[re.match]:[modify-function-name]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"all_tests_complete","test_name":"test_ids_empty_list"}

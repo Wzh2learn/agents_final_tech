@@ -1,0 +1,3 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"f70b32d9b72a4757aad19f5b52782997","prog_syn_id":"[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]","role":"generated_solution","stage":"test_start","test_name":"test_ip_at_the_end"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"f70b32d9b72a4757aad19f5b52782997","prog_syn_id":"[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]","role":"generated_solution","stage":"test_pass","test_name":"test_ip_at_the_end"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"f70b32d9b72a4757aad19f5b52782997","prog_syn_id":"[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]","role":"generated_solution","stage":"all_tests_complete","test_name":"test_ip_at_the_end"}

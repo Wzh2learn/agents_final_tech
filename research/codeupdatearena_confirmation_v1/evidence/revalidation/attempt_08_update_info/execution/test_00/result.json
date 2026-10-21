@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "d4545501b31d4f05bd388eeefcbc9709",
+      "prog_syn_id": "[re.fullmatch]:[modify-argument-data_type]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_search_all_zeros_in_byte_sequence"
+    },
+    {
+      "nonce": "d4545501b31d4f05bd388eeefcbc9709",
+      "prog_syn_id": "[re.fullmatch]:[modify-argument-data_type]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_pass",
+      "test_name": "test_search_all_zeros_in_byte_sequence"
+    },
+    {
+      "nonce": "d4545501b31d4f05bd388eeefcbc9709",
+      "prog_syn_id": "[re.fullmatch]:[modify-argument-data_type]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_search_all_zeros_in_byte_sequence"
+    }
+  ],
+  "prog_syn_id": "[re.fullmatch]:[modify-argument-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "375f73e8ce8591559f3622a8679515b77e55a2efa41cb07ebc4f4617f14b32e8",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "9da59ad8c1da91fcc854a8e16c3d10fd409194bb5ee4b13caf2469ddd558b005",
+  "test_name": "test_search_all_zeros_in_byte_sequence",
+  "timed_out": false,
+  "wall_seconds": 0.1221215445548296
+}

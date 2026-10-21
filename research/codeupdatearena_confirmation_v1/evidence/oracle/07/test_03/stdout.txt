@@ -1,0 +1,3 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"41d5ae04d1534a5d86c87db9f4317ff8","prog_syn_id":"[re.sub]:[add-function]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"test_start","test_name":"test_NoDOBorSSN_but_has_date"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"41d5ae04d1534a5d86c87db9f4317ff8","prog_syn_id":"[re.sub]:[add-function]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"test_pass","test_name":"test_NoDOBorSSN_but_has_date"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"41d5ae04d1534a5d86c87db9f4317ff8","prog_syn_id":"[re.sub]:[add-function]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"all_tests_complete","test_name":"test_NoDOBorSSN_but_has_date"}

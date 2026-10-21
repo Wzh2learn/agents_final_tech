@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_subn = re.subn\\nsetattr(re, 'old_subn', old_subn)\",\n  \"problem\": \"Given a log as a string and a mask string, your task is to create a function that replaces the first occurrence of any IP address in the log with the mask string. An IP address is a sequence of 4 groups separated by dots (.) where each group consists of 1 to 3 digits.\",\n  \"scenario\": \"You are a cybersecurity analyst and get logs of server interactions as strings. You need to mask IPs that appear in the logs for privacy reasons. However, you want to mask only the first occurrence of any IP to keep some context but you don't want to manually set the count each time.\",\n  \"solution_signature\": \"def mask_first_ip(log_string: str, mask: str) -> str:\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

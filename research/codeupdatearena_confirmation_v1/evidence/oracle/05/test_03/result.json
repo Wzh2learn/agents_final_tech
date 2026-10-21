@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "149db6f08a014a258e0a4a02c621ce44",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_contains_phrase_empty_emails"
+    },
+    {
+      "nonce": "149db6f08a014a258e0a4a02c621ce44",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_contains_phrase_empty_emails"
+    },
+    {
+      "nonce": "149db6f08a014a258e0a4a02c621ce44",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_contains_phrase_empty_emails"
+    }
+  ],
+  "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "19b137b8991b39ecbf4e3ccd1f40bd8c3ebe9d0864c694003c035e14c40956b7",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "7ef4a2de726826d3fc44fc4db17113d8d96fe63fc09a1d35d2822be63eb773bb",
+  "test_name": "test_contains_phrase_empty_emails",
+  "timed_out": false,
+  "wall_seconds": 0.13861390389502048
+}

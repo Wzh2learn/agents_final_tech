@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import re\\nimport typing\\n\\ndef check_patent_in_range(pattern: str, text: str, cutoff_point: int) -> typing.Optional[re.Match]:\\n    if cutoff_point < 0 or cutoff_point > len(text):\\n        raise ValueError(\\\"Cutoff point must be between 0 and the length of the text\\\")\\n    \\n    # Slice the text up to the cutoff point\\n    sliced_text = text[:cutoff_point]\\n    \\n    # Use fullmatch to ensure the pattern matches the entire sliced text\\n    match = re.fullmatch(pattern, sliced_text)\\n    \\n    return match\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792566607,
+  "id": "chatcmpl-F1NICpCtBGJXua2KGj7LBBV1ZGD9JCvT",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 2224.093,
+    "predicted_n": 143,
+    "predicted_per_second": 64.29587251971928,
+    "predicted_per_token_ms": 15.553097902097901,
+    "prompt_ms": 234.924,
+    "prompt_n": 302,
+    "prompt_per_second": 1285.5221263046774,
+    "prompt_per_token_ms": 0.7778940397350994
+  },
+  "usage": {
+    "completion_tokens": 143,
+    "prompt_tokens": 302,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 445
+  }
+}

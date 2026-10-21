@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "b4fe2d35daf847ac99a9eb9d450aeeb1",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_contains_phrase_all_lower_case"
+    }
+  ],
+  "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "2f9dee77dcead4e053ef9350d47be7c9ee7df70b80e31d803c95bd7877a37ae9",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "d4b8b067c34ec55cbaf9178816b870922e62c0c834b61370c30a51798367a5c4",
+  "stdout_sha256": "1bb6dca16401b4500da01b99e86c8cd337a85a936687c64e5092e1e198cefe24",
+  "test_name": "test_contains_phrase_all_lower_case",
+  "timed_out": false,
+  "wall_seconds": 0.13250570558011532
+}

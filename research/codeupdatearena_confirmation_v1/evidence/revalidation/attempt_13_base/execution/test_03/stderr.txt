@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 76, in <module>
+    test_extract_gensequence_for_start_equal_end()
+  File "/task/program.py", line 62, in test_extract_gensequence_for_start_equal_end
+    result = extract_gensequence(dna_sequence, sequence_range, step)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: extract_gensequence() takes 1 positional argument but 3 were given

@@ -1,0 +1,2 @@
+/task/program.py:31: SyntaxWarning: invalid escape sequence '\`'
+  - If the value in `patterns_dict` is a string, any backslash escapes in it will be processed, i.e., special sequences starting with `\` will be interpreted accordingly.

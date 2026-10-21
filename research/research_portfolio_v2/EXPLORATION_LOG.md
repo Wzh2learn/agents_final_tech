@@ -122,6 +122,22 @@ This is the concise execution log for the current Goal. It does not replace
   families. This remains a bounded synthetic result, not a universal harm
   claim.
 
+## Independent-New-Family Confirmation
+
+- Eight further CodeUpdateArena families were frozen before model output,
+  disjoint by update ID and covering seven remaining change types plus
+  `re.sub:add-function`.
+- Oracle execution passed 8/8 families and 48 hidden tests before generation.
+- The strict confirmation used 16 requests and 10,995 tokens with zero retries
+  and zero infrastructure failures.
+- Base passed `7/8` families and `44/48` hidden tests; update-info passed `4/8`
+  and `33/48`. The paired difference is `-3`, with 1 versus 4 `test_failure`.
+- Ruling: `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`. This strengthens the
+  bounded negative but remains same-source synthetic evidence.
+- Cumulative new accounting is `66/2048` attempts and `28,693/10,000,000`
+  tokens. The next comparison should use structured preconditions or
+  executable checks, not another prose-only update arm.
+
 ## Next Actions
 
 1. Complete three-way governance comparison and safe local integration.

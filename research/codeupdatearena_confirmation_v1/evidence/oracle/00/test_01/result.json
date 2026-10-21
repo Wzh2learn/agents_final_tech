@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "d8c3314a7d9c4cd9af6ab0e5f048852c",
+      "prog_syn_id": "[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_multiple_ips_single_replacement"
+    },
+    {
+      "nonce": "d8c3314a7d9c4cd9af6ab0e5f048852c",
+      "prog_syn_id": "[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_multiple_ips_single_replacement"
+    },
+    {
+      "nonce": "d8c3314a7d9c4cd9af6ab0e5f048852c",
+      "prog_syn_id": "[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_multiple_ips_single_replacement"
+    }
+  ],
+  "prog_syn_id": "[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "ebcf00169ce81029683c7d9df20a9b570cba9d199f41c4842055020ce4c2c927",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "854a4f92f90af957ca3eb2ad6648d2120587fcbed88a57537577f913f2cf9bc8",
+  "test_name": "test_multiple_ips_single_replacement",
+  "timed_out": false,
+  "wall_seconds": 0.1421403679996729
+}

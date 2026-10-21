@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "1f9135f5f2a340a9ac549d287eb3aeeb",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+    }
+  ],
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "88889ba37aaad2b6d40f1d220fab9c5113303767cf8a6c77fa043529024ba4b5",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "3a505990dcccdae697a83d2fd3b1dda63bfb74bb07502b737e25257d8e140772",
+  "stdout_sha256": "c22d95c79a566e6bb5763d53b1f2ae8084c1629757e9c6fdc99f5f28813d36c0",
+  "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns",
+  "timed_out": false,
+  "wall_seconds": 0.12603840045630932
+}

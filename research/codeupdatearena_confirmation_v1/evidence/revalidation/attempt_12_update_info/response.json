@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import re\\nfrom typing import List\\n\\n# Patch re.match to use re.IGNORECASE by default\\nold_match = re.match\\nsetattr(re, 'old_match', old_match)\\n\\ndef match(pattern, string, flags=re.IGNORECASE):\\n    return old_match(pattern, string, flags)\\n\\nre.match = match\\n\\ndef contains_phrase(email_list: List[str], phrase: str) -> List[bool]:\\n    \\\"\\\"\\\"\\n    Check if each email in the list contains the specific phrase (case-insensitive).\\n    \\n    Args:\\n        email_list: A list of email text strings.\\n        phrase: The specific phrase to search for.\\n        \\n    Returns:\\n        A list of boolean values indicating whether each email contains the phrase.\\n    \\\"\\\"\\\"\\n    results = []\\n    for email in email_list:\\n        # Use re.match with case-insensitive flag\\n        if re.match(phrase, email, flags=re.IGNORECASE):\\n            results.append(True)\\n        else:\\n            results.append(False)\\n    return results\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792566652,
+  "id": "chatcmpl-clY1fLuqqXVYFZixr76XUyYsELkQBFT7",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 35,
+    "predicted_ms": 3749.993,
+    "predicted_n": 239,
+    "predicted_per_second": 63.7334523024443,
+    "predicted_per_token_ms": 15.690347280334727,
+    "prompt_ms": 281.407,
+    "prompt_n": 459,
+    "prompt_per_second": 1631.089489600472,
+    "prompt_per_token_ms": 0.6130871459694989
+  },
+  "usage": {
+    "completion_tokens": 239,
+    "prompt_tokens": 494,
+    "prompt_tokens_details": {
+      "cached_tokens": 35
+    },
+    "total_tokens": 733
+  }
+}

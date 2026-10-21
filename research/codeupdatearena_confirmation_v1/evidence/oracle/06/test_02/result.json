@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "ff18321e167949dbb6b20ce2622d9e74",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_extract_gensequence_for_single_character_sequence"
+    },
+    {
+      "nonce": "ff18321e167949dbb6b20ce2622d9e74",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_extract_gensequence_for_single_character_sequence"
+    },
+    {
+      "nonce": "ff18321e167949dbb6b20ce2622d9e74",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_extract_gensequence_for_single_character_sequence"
+    }
+  ],
+  "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "0881516a5e51f58d1f8dcf9569ebbe3dfac8e5226f792cfa1304a4f464548f64",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "303c55f26e7796a3ad3ccb3610adb4f3d55cc31ed052e1e3fb1e0b8a13658ec4",
+  "test_name": "test_extract_gensequence_for_single_character_sequence",
+  "timed_out": false,
+  "wall_seconds": 0.13064639829099178
+}

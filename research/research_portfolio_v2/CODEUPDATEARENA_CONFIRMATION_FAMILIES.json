@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-21",
+  "families": [
+    {
+      "api_path": "re.subn",
+      "package": "re",
+      "prog_syn_id": "[re.subn]:[modify-argument-supported_value(s)]:[update-0]:[prog_syn-0]",
+      "update_id": "[re.subn]:[modify-argument-supported_value(s)]:[update-0]",
+      "update_type": "modify-argument-supported_value(s)"
+    },
+    {
+      "api_path": "re.fullmatch",
+      "package": "re",
+      "prog_syn_id": "[re.fullmatch]:[modify-output-semantics]:[update-1]:[prog_syn-0]",
+      "update_id": "[re.fullmatch]:[modify-output-semantics]:[update-1]",
+      "update_type": "modify-output-semantics"
+    },
+    {
+      "api_path": "re.match",
+      "package": "re",
+      "prog_syn_id": "[re.match]:[modify-function-name]:[update-0]:[prog_syn-0]",
+      "update_id": "[re.match]:[modify-function-name]:[update-0]",
+      "update_type": "modify-function-name"
+    },
+    {
+      "api_path": "re.fullmatch",
+      "package": "re",
+      "prog_syn_id": "[re.fullmatch]:[modify-argument-data_type]:[update-0]:[prog_syn-0]",
+      "update_id": "[re.fullmatch]:[modify-argument-data_type]:[update-0]",
+      "update_type": "modify-argument-data_type"
+    },
+    {
+      "api_path": "re.split",
+      "package": "re",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "update_id": "[re.split]:[modify-argument-semantics]:[update-0]",
+      "update_type": "modify-argument-semantics"
+    },
+    {
+      "api_path": "re.match",
+      "package": "re",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "update_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]",
+      "update_type": "modify-argument-default_value(s)"
+    },
+    {
+      "api_path": "itertools.islice",
+      "package": "itertools",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "update_id": "[itertools.islice]:[modify-output-data_type]:[update-0]",
+      "update_type": "modify-output-data_type"
+    },
+    {
+      "api_path": "re.sub",
+      "package": "re",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "update_id": "[re.sub]:[add-function]:[update-0]",
+      "update_type": "add-function"
+    }
+  ],
+  "schema": "external_adapter_dev_families_v1",
+  "selection_rule": "Select one candidate for each frozen remaining update_type using package preference re,itertools,math then api_path and update_id; exclude all previously selected update_ids. Frozen before model output.",
+  "source_commit": "836e2d157739fd53f9cde421913eb5949d4eeeb8"
+}

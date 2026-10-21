@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "25e7c1275e1445829e0baf8d09232798",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_extract_gensequence_for_start_equal_end"
+    }
+  ],
+  "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "e7cd4ea682254ea8d40b266e364e9c6dac757b7791781280fa07d6f22f4cc4b5",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "52898b61cc9bae3e901fc15ef77e26a659a20d9cb726f6a9ded7ec644b041ab9",
+  "stdout_sha256": "dcfc7ab36abf487474500f88a207c77b12ed91e96617f877929b73760f2f157e",
+  "test_name": "test_extract_gensequence_for_start_equal_end",
+  "timed_out": false,
+  "wall_seconds": 0.12473956309258938
+}

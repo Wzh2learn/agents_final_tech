@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_split = re.split\\nsetattr(re, 'old_split', old_split)\",\n  \"problem\": \"Develop a function that takes as input a large string representing the genomic sequence data and returns a list of separated gene sequences. Each gene sequence should be found between 'N', 'NN', or 'NNN' separators in the given string. Assume that the data string has an 'N' at both its start and end, to indicate the start and end of gene sequences.\",\n  \"scenario\": \"Emma is a bioinformatics researcher and she frequently needs to parse genomic sequence data where the sequences are represented as long strings of alphabets 'A', 'T', 'C', and 'G'. In her datasets, sequences from different genes are separated by varying number of special sequences 'N'. Sometimes the separator is a single 'N', sometimes 'NN', and at times even 'NNN'. She wants to break down her long string data into separate gene sequences for her analysis.\",\n  \"solution_signature\": \"def parse_genomic_data(data_string):\",\n  \"update_description\": \"The semantics of the 'pattern' argument in re.split function is changed to become an iterable of strings, making it possible to split the source string by multiple patterns.\",\n  \"update_docstring\": \"The 'patterns' argument now expects an iterable of string patterns instead of a single pattern. Each pattern in the 'patterns' iterable is used independently to split the string. The order in which the patterns appear in the iterable does not determine the order of their application. Patterns are applied in a sequence to the string, meaning that if a match is found with the first pattern, the next match will be sought from the remaining substring with the second pattern, and so on. This updated behavior allows for multiple patterns to be used in splitting the string. Previous behavior allowed for only a single pattern to be used. The rest of the function's behavior remains the same.\",\n  \"update_rationale\": \"This update would provide an option to split a string along multiple delimiters, increasing the flexibility of how strings can be separated. The expanded functionality would be beneficial in parsing complex data sources with varying delimiters.\",\n  \"update_signature\": \"re.split(patterns, string, maxsplit=0, flags=0)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

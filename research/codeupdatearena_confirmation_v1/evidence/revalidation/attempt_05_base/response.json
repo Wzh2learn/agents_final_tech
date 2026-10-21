@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import re\\nfrom typing import List\\n\\nold_match = re.match\\nsetattr(re, 'old_match', old_match)\\n\\ndef validate_employee_id(employee_ids: List[str]) -> List[str]:\\n    invalid_ids = []\\n    for emp_id in employee_ids:\\n        if not re.match(r'^EMP', emp_id):\\n            invalid_ids.append(emp_id)\\n    return invalid_ids\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792566612,
+  "id": "chatcmpl-dObLxfSJXj6VS8GUsKWQmeEqa08LtnaF",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 35,
+    "predicted_ms": 1484.199,
+    "predicted_n": 95,
+    "predicted_per_second": 64.00758927879617,
+    "predicted_per_token_ms": 15.623147368421053,
+    "prompt_ms": 201.94,
+    "prompt_n": 244,
+    "prompt_per_second": 1208.279687035753,
+    "prompt_per_token_ms": 0.8276229508196721
+  },
+  "usage": {
+    "completion_tokens": 95,
+    "prompt_tokens": 279,
+    "prompt_tokens_details": {
+      "cached_tokens": 35
+    },
+    "total_tokens": 374
+  }
+}

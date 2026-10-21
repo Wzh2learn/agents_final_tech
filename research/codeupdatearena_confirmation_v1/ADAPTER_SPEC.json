@@ -1,0 +1,66 @@
+{
+  "schema": "codeupdatearena_external_adapter_spec_v1",
+  "date": "2026-10-21",
+  "evidence_identity": "PUBLIC_SYNTHETIC_EXTERNAL_EXECUTION_INDEPENDENT_NEW_FAMILY_CONFIRMATION",
+  "source": {
+    "repository": "https://github.com/leo-liuzy/CodeUpdateArena",
+    "commit": "836e2d157739fd53f9cde421913eb5949d4eeeb8",
+    "root": "D:/AIRcommend/JinRongAgents/_protected_research_20261021_v1/external_sources/CodeUpdateArena",
+    "dataset_relative_path": "data/arena-ungrouped.jsonl",
+    "dataset_sha256": "99fa09f3c371efc107b086fb2ae221ecae815a08bc26116b72cf2c2c4a81eafc",
+    "families_manifest": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_FAMILIES.json"
+  },
+  "model": {
+    "id": "llama_cpp_qwen36_35b_a3b_q4",
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "models_endpoint": "http://127.0.0.1:8004/v1/models",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  },
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 2048,
+    "response_format": "json_object",
+    "enable_thinking": false,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "timeout_seconds": 240
+  },
+  "execution": {
+    "image": "python-sandbox:latest",
+    "network": "none",
+    "cpus": "1.0",
+    "memory": "256m",
+    "memory_swap": "256m",
+    "pids_limit": 64,
+    "read_only_root": true,
+    "task_input_mount": "/task:ro",
+    "output_mount": "/output:rw",
+    "tmpfs": "/tmp:rw,noexec,nosuid,size=64m",
+    "cap_drop": "ALL",
+    "no_new_privileges": true,
+    "wall_clock_timeout_seconds": 10
+  },
+  "arms": [
+    "base",
+    "update_info"
+  ],
+  "families": 8,
+  "reserved_attempts": 16,
+  "reserved_accounting_tokens": 50000,
+  "reservation_id": "CODEUPDATEARENA_CONFIRMATION_V1_20261021",
+  "output_contract": {
+    "type": "json_object",
+    "keys": [
+      "code"
+    ],
+    "code_type": "string"
+  },
+  "decision_rule": "Proceed to cross-model replication only when update_info minus base is at least +2 all-tests-pass families and update_info has no higher infrastructure failure rate; otherwise stop with a bounded negative result.",
+  "nonclaims": [
+    "CodeUpdateArena updates are public synthetic API updates, not natural production drift.",
+    "The eight families are independent new-family confirmation observations on the same synthetic source and do not establish general model capability.",
+    "The official paid GPT-4 scripts and finetuning workflows are excluded.",
+    "No judge, training, external network, or production-memory write is used."
+  ]
+}

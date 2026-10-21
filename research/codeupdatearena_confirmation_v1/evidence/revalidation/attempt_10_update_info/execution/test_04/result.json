@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "9a93dff951fa492e975f91a96f21e933",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_long_string"
+    }
+  ],
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "6dcdf99a0e15ddc8138d936f55cfbc88d95f17d04d90309ec3035753026e9d6f",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "beab22d4562630de972d52649012a15822a33767fdca7e1bf60d193cf39da3b5",
+  "stdout_sha256": "b4ac716541da03a893ed1cc0017c2502e08b75a8e1e47fe11e280296600f41a9",
+  "test_name": "test_long_string",
+  "timed_out": false,
+  "wall_seconds": 0.13610591553151608
+}

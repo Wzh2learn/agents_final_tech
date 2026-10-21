@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "3c65369b94834e64878ef7fb1ba0927a",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_case_with_no_gene_sequence"
+    }
+  ],
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "d461749640aea99f1abf337f521e8942088fe2e60112018da4118f1fe5e39e0b",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "3841429bf840c5c13bbd22a4b5eaf4e71ecfaf374f05c74c06b85a491f3aaf50",
+  "stdout_sha256": "f4afcc4cbaeb06f256a561804f39333c6c95828f510a566d0ef1b882c4bec354",
+  "test_name": "test_case_with_no_gene_sequence",
+  "timed_out": false,
+  "wall_seconds": 0.1320111509412527
+}

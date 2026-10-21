@@ -27,8 +27,11 @@
   test lifecycles, pins the Docker image ID and classifies assertion failures.
   Valid result: base `3/8`, update-info `2/8`, paired difference `-1`; ruling
   `BOUNDED_NEGATIVE_STOP_V2_VALIDATED`.
-- New Goal accounting: `50/2048` attempts and `17,698/10,000,000` tokens.
-  Physical HTTP calls are 50; judge, training, paid API and production Memory
+- Independent new-family confirmation: base `7/8`, update-info `4/8`, paired
+  difference `-3`, with 1 versus 4 `test_failure`;
+  `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`.
+- New Goal accounting: `66/2048` attempts and `28,693/10,000,000` tokens.
+  Physical HTTP calls are 66; judge, training, paid API and production Memory
   writes are zero.
 - Final FinRank development observation: B0 V4 `5/7`; derived plan
   minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
@@ -55,10 +58,10 @@ GB10 authoritative review is
 ## Next Execution Step
 
 Use `research/portfolio-integration-v2` as the reviewable integration branch.
-Do not rerun the same CodeUpdateArena families or authored mechanism fixtures.
-A new experiment is justified only for independent families or a different
-externally grounded change task. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank
-at `STOP_ON_CURRENT_PANEL`, and do not convert synthetic findings into general
+Do not rerun the same authored fixtures or prose-update arm. A new experiment
+requires structured preconditions/executable checks on a different external
+source. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank at
+`STOP_ON_CURRENT_PANEL`, and do not convert synthetic findings into general
 method claims.
 
 Historical state before the 2026-10-19 closeout is preserved in

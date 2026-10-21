@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "6147719317ca4853bc60e766212883fa",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_dates_with_different_format"
+    },
+    {
+      "nonce": "6147719317ca4853bc60e766212883fa",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_dates_with_different_format"
+    },
+    {
+      "nonce": "6147719317ca4853bc60e766212883fa",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_dates_with_different_format"
+    }
+  ],
+  "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+  "program_sha256": "d34b28afbf850a11b8877a9985bf8f516be9f8f657eb9a38d2a6eef2fc4eec37",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "62fda0443ce713290bed863dfdedcec9c461773eabd63e20d500cc174f9c04de",
+  "test_name": "test_dates_with_different_format",
+  "timed_out": false,
+  "wall_seconds": 0.15219032391905785
+}

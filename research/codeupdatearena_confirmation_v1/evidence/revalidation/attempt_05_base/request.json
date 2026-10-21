@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_match = re.match\\nsetattr(re, 'old_match', old_match)\",\n  \"problem\": \"Your task is to automate the process of validating Employee IDs in the dataset. This function should take a list of Employee IDs as an input and return the list of those Employee IDs which are invalid because they do not start with 'EMP'. Do so by checking for a match at the start of the given strings. Make sure to handle this operation efficiently with updated available tools.\",\n  \"scenario\": \"You are working as a software developer in a big corporation. You have a large dataset which consists of numerous individually identified employee records, and you're given a task to validate these records. The Employee ID is supposed to start with a specific pattern, i.e., 'EMP'. Any ID not starting with 'EMP' is considered invalid.\",\n  \"solution_signature\": \"def validate_employee_id(employee_ids: List[str]) -> List[str]:\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import re\\n\\ndef search_pattern_in_byte_sequence(pattern: str, data: bytes) -> re.Match or None:\\n    \\\"\\\"\\\"\\n    Takes a regular expression pattern and network telemetry data in bytes sequence format.\\n    If the pattern matches the entire byte sequence, return a Match object; otherwise return None.\\n    \\\"\\\"\\\"\\n    # Compile the pattern to handle bytes\\n    compiled_pattern = re.compile(pattern.encode('utf-8'))\\n    \\n    # Use fullmatch to ensure the pattern matches the entire byte sequence\\n    match = compiled_pattern.fullmatch(data)\\n    \\n    return match\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792566622,
+  "id": "chatcmpl-2eKA9uS1g4LaXjLhzr98atwnBpS9OPGk",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 35,
+    "predicted_ms": 2187.014,
+    "predicted_n": 140,
+    "predicted_per_second": 64.01422213117976,
+    "predicted_per_token_ms": 15.621528571428572,
+    "prompt_ms": 166.539,
+    "prompt_n": 194,
+    "prompt_per_second": 1164.8923075075509,
+    "prompt_per_token_ms": 0.8584484536082474
+  },
+  "usage": {
+    "completion_tokens": 140,
+    "prompt_tokens": 229,
+    "prompt_tokens_details": {
+      "cached_tokens": 35
+    },
+    "total_tokens": 369
+  }
+}

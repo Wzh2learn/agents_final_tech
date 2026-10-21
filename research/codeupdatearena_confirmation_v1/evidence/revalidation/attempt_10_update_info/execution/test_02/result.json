@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "d7380d5cca6c4ed79c4d1d2af87ae492",
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_case_with_multiple_varying_N_separators"
+    }
+  ],
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "program_sha256": "a9414830c3ac4e10f3ecedc5d64351c77065366d81eb3506039fd5221d3fc120",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "faffa1c681abb4ec3839107bc362c6246887d3ed1329f54c9e9537b79800504e",
+  "stdout_sha256": "9226793721d285e4458af1f8c6044272f40510f1b0516dd935c47f2941ef4dcc",
+  "test_name": "test_case_with_multiple_varying_N_separators",
+  "timed_out": false,
+  "wall_seconds": 0.12128286249935627
+}

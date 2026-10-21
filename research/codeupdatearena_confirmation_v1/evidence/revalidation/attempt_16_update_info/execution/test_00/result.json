@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "165c2a8174704e61bb1a424c53c61934",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_normal_case"
+    }
+  ],
+  "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+  "program_sha256": "7fe49cf870785791cb5f701c7f513fd82bcc70e039b49cca00356d40a49b3073",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "85c5e14c1279fa30bfa4b11b49b92d071b4c49d17aa310f219d76a395bed4941",
+  "stdout_sha256": "24a6d36804f90f6fbd31d5e5875af6907546a4e9a6c4e42926bdba29ef4310f0",
+  "test_name": "test_normal_case",
+  "timed_out": false,
+  "wall_seconds": 0.1450391709804535
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 81, in <module>
+    test_extract_gensequence_for_large_step()
+  File "/task/program.py", line 68, in test_extract_gensequence_for_large_step
+    result = extract_gensequence(dna_sequence, sequence_range, step)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: extract_gensequence() takes 1 positional argument but 3 were given

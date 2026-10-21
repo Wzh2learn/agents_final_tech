@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_fullmatch = re.fullmatch\\nsetattr(re, 'old_fullmatch', old_fullmatch)\",\n  \"problem\": \"Write a Python function that takes an input of regular expression pattern and the network telemetry data in bytes sequence format. If the pattern matches for the entire byte sequence, return a Match object; or return None.\",\n  \"scenario\": \"Jane works as a network engineer in an software firm. She frequently receives network telemetry data in byte sequence format. She is interested in finding whether a certain pattern exists in the whole byte sequence of network telemetry.\",\n  \"solution_signature\": \"def search_pattern_in_byte_sequence(pattern: str, data: bytes) -> re.match or None:\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import itertools\\nold_islice = itertools.islice\\nsetattr(itertools, 'old_islice', old_islice)\",\n  \"problem\": \"Given a long genetic sequence (a string composed of character 'A', 'T', 'C' and 'G'), and a tuple containing two integers representing the range of the sequence segment Anna wants to inspect. Design a Python function that extracts the sequence segments from the long genetic sequence. Anna might also change the step parameter to specify a different pattern of gene sequences she wants to extract.\",\n  \"scenario\": \"Anna is a Biology teacher preparing a lesson on genetic sequences. She is using Python to analyse various DNA sequences which are represented as long strings of characters 'A', 'T', 'C' and 'G'. Anna wants to inspect, manipulate and extract particular segments from these sequences. \",\n  \"solution_signature\": \"def extract_gensequence(dna_seq_range: Tuple[str, Tuple[int, int], Optional[int]]) -> list:\",\n  \"update_description\": \"The islice() function is updated to return a list instead of an iterator.\",\n  \"update_docstring\": \"The updated islice() function now yields a list that contains selected elements from the input iterable. As with the original islice() function, the elements in the list are the ones between the indices specified by the start and stop parameters (inclusive of the start and exclusive of the stop), with the step parameter dictating the number of indices to skip between successive elements. The start and step parameters are optional. If start is not provided, its default value is 0. If step is not provided, its default value is 1. The primary difference with the old behavior is that this function now returns a list, as opposed to an iterator.\",\n  \"update_rationale\": \"While the original functionality of returning an iterator works well in most cases, in some scenarios it might be more convenient and straightforward to manipulate the sliced sequence as a list directly, which can avoid the need of type conversion from iterator to list.\",\n  \"update_signature\": \"itertools.islice(iterable,start,stop[,step]) -> list\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

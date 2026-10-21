@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "ad3725a2019d4d4c89a698bf404c3136",
+      "prog_syn_id": "[re.fullmatch]:[modify-output-semantics]:[update-1]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_check_patent_with_text_equals_cutoff_point"
+    },
+    {
+      "nonce": "ad3725a2019d4d4c89a698bf404c3136",
+      "prog_syn_id": "[re.fullmatch]:[modify-output-semantics]:[update-1]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_check_patent_with_text_equals_cutoff_point"
+    },
+    {
+      "nonce": "ad3725a2019d4d4c89a698bf404c3136",
+      "prog_syn_id": "[re.fullmatch]:[modify-output-semantics]:[update-1]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_check_patent_with_text_equals_cutoff_point"
+    }
+  ],
+  "prog_syn_id": "[re.fullmatch]:[modify-output-semantics]:[update-1]:[prog_syn-0]",
+  "program_sha256": "e65428b6530b821b72416066c19f665ff0923a1c1ff08c681360778fb7c8b270",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "43c26acb35e047ccc4caf34be82b6e6564228b41e6402534d4adc5509c268652",
+  "test_name": "test_check_patent_with_text_equals_cutoff_point",
+  "timed_out": false,
+  "wall_seconds": 0.14520852826535702
+}

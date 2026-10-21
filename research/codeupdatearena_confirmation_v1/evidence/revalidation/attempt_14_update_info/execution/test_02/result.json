@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "1b3842ab606d4f5ebfcb6e14b76dc800",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_extract_gensequence_for_single_character_sequence"
+    }
+  ],
+  "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "bcd1b16d9b5454235d5d26af1b8b5e3193c3a7ec3e7369036886e715514eed9d",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "a8ff5120637bd69dfd4cd8f1d3432126ff16ff60ba702959cd5ddf955565def2",
+  "stdout_sha256": "58dfe8492c4f7a3c924f1afeb36d2dae13b77e470389f4f4571497d2611cb394",
+  "test_name": "test_extract_gensequence_for_single_character_sequence",
+  "timed_out": false,
+  "wall_seconds": 0.12212550081312656
+}

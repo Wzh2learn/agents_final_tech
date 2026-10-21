@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "b255faf12765400aaef3f5275b3e5f90",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_contains_phrase_empty_phrase"
+    }
+  ],
+  "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "f09465bc87e9d01e3da9bb300012d9cb57c05ff98b848f6340b5b86242637569",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "cf397a7c72f5fed9be36b3abb5951328f3d60fce0f2f4181a7a97e51509381d7",
+  "stdout_sha256": "fa691d0c0da8c0912a54c431c58acfe1691c7a9e9e38cfb2c7aa2a479a662d86",
+  "test_name": "test_contains_phrase_empty_phrase",
+  "timed_out": false,
+  "wall_seconds": 0.13054909370839596
+}

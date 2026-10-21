@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 120, in <module>
+    test_case_with_single_gene_enclosed_by_triple_Ns()
+  File "/task/program.py", line 106, in test_case_with_single_gene_enclosed_by_triple_Ns
+    result = parse_genomic_data(data_string)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 95, in parse_genomic_data
+    result = re.split(r'(N|NN|NNN)', data_string)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 10, in split
+    return old_split(patterns, string, maxsplit, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 10, in split
+    return old_split(patterns, string, maxsplit, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 10, in split
+    return old_split(patterns, string, maxsplit, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 994 more times]
+RecursionError: maximum recursion depth exceeded

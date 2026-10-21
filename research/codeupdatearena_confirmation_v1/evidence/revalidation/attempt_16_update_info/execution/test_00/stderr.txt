@@ -1,0 +1,9 @@
+/task/program.py:31: SyntaxWarning: invalid escape sequence '\`'
+  - If the value in `patterns_dict` is a string, any backslash escapes in it will be processed, i.e., special sequences starting with `\` will be interpreted accordingly.
+Traceback (most recent call last):
+  File "/task/program.py", line 108, in <module>
+    test_normal_case()
+  File "/task/program.py", line 97, in test_normal_case
+    assert result == expected_result, f"Expected {expected_result}, but got {result}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected Patient John Doe, DOB: 1996-03-01, SSN: 16789-45-23, but got Patient John Doe, DOB: 1996-03-01, SSN: 123-45-6789

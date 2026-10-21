@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_subn = re.subn\\nsetattr(re, 'old_subn', old_subn)\",\n  \"problem\": \"Given a log as a string and a mask string, your task is to create a function that replaces the first occurrence of any IP address in the log with the mask string. An IP address is a sequence of 4 groups separated by dots (.) where each group consists of 1 to 3 digits.\",\n  \"scenario\": \"You are a cybersecurity analyst and get logs of server interactions as strings. You need to mask IPs that appear in the logs for privacy reasons. However, you want to mask only the first occurrence of any IP to keep some context but you don't want to manually set the count each time.\",\n  \"solution_signature\": \"def mask_first_ip(log_string: str, mask: str) -> str:\",\n  \"update_description\": \"Change the 'count' argument's default value from 0 to 1 in re.subn function.\",\n  \"update_docstring\": \"Updates the optional 'count' argument's default value to 1, which indicates that by default only the first occurrence of the pattern will be replaced in the string. If 'count' is set to 0, all occurrences of the pattern will be replaced, similar to the old behavior. The change in this 'count' default value will adjust the output of the new API that by default only one substitution will be made if 'count' is not specified.\",\n  \"update_rationale\": \"This change will make the function safer and less error-prone for inexperienced users who may inadvertently replace more instances of the pattern than intended by default.\",\n  \"update_signature\": \"re.subn(pattern, repl, string, count=1, flags=0)\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/task/program.py", line 68, in <module>
+    test_contains_phrase_mix_case()
+  File "/task/program.py", line 54, in test_contains_phrase_mix_case
+    result = contains_phrase(emails, phrase)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 44, in contains_phrase
+    if re.match(phrase, email, flags=re.IGNORECASE):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 26, in match
+    return old_match(pattern, string, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 12, in match
+    return old_match(pattern, string, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 12, in match
+    return old_match(pattern, string, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/task/program.py", line 12, in match
+    return old_match(pattern, string, flags)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 993 more times]
+RecursionError: maximum recursion depth exceeded

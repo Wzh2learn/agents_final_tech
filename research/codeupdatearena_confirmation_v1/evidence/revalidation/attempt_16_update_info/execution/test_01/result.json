@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "9d211988714b4465b187a29db2d9e7de",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_NoDOBorSSN"
+    },
+    {
+      "nonce": "9d211988714b4465b187a29db2d9e7de",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_pass",
+      "test_name": "test_NoDOBorSSN"
+    },
+    {
+      "nonce": "9d211988714b4465b187a29db2d9e7de",
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_NoDOBorSSN"
+    }
+  ],
+  "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+  "program_sha256": "7b62248939459c0cc62f2a5171d85b348facaebc6abd94fdb811b63c89b411e0",
+  "role": "generated_solution",
+  "status": "passed",
+  "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+  "stdout_sha256": "4c09d42005a37f96c5360de48a5e98e39fcc7a02277349ca293afa7ecf0c6e3e",
+  "test_name": "test_NoDOBorSSN",
+  "timed_out": false,
+  "wall_seconds": 0.11990470625460148
+}

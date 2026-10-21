@@ -1,0 +1,72 @@
+# Trusted import block
+import re
+old_fullmatch = re.fullmatch
+setattr(re, 'old_fullmatch', old_fullmatch)
+
+# Trusted update implementation
+def fullmatch(pattern, string, flags=0, endpos=None):
+    # Check if 'endpos' is provided and if it's an instance of int
+    # If not, the function will behave as the old re.fullmatch
+    if endpos is not None:
+        # Check if 'endpos' is outside the length of the string or negative
+        # If so, raise ValueError
+        if endpos < 0 or endpos > len(string):
+            raise ValueError("'endpos' must be within the bounds of the string")
+        else:
+            # If 'endpos' is valid, match the pattern within the
+            # substring of the string ending at 'endpos' using the old API
+            # The substring is obtained using slicing 'string[:endpos]'
+            return old_fullmatch(pattern, string[:endpos], flags)
+    else:
+        # If 'endpos' is not provided, behave like the old re.fullmatch
+        return old_fullmatch(pattern, string, flags)
+
+# Trusted update enforcement
+re.fullmatch = fullmatch
+
+# Candidate solution
+import re
+import typing
+
+def check_patent_in_range(pattern: str, text: str, cutoff_point: int) -> typing.Optional[re.Match]:
+    # Check if the cutoff_point is valid
+    if cutoff_point < 0 or cutoff_point > len(text):
+        raise ValueError("Invalid cutoff point.")
+    
+    # Use the updated re.fullmatch API with the endpos parameter
+    return re.fullmatch(pattern, text, endpos=cutoff_point)
+
+# Hidden unit test
+def test_check_patent_with_empty_pattern():
+    # test when pattern is empty
+    pattern = ''
+    text = 'PN12345 is a valid patent number.'
+    cutoff_point = 10
+    result = check_patent_in_range(pattern, text, cutoff_point)
+    expected_result = None
+    # check if both results are None
+    if result is None and expected_result is None:
+        print("Test passed!")
+    else:
+        # check if both results are not None
+        if result is not None and expected_result is not None:
+            # check if both results are of the same type and if they match
+            if isinstance(result, type(expected_result)) and result.group() == expected_result.group():
+                print("Test passed!")
+            else:
+                print("Test failed!")
+        else:
+            print("Test failed!")
+
+# Trusted marker harness
+import json as __v2_json
+__v2_nonce = 'bd9cac3701cb40b29e10a61dc41509f6'
+__v2_role = 'reference_solution'
+__v2_prog_syn_id = '[re.fullmatch]:[modify-output-semantics]:[update-1]:[prog_syn-0]'
+__v2_test_name = 'test_check_patent_with_empty_pattern'
+def __v2_emit(stage):
+    print('__CODEUPDATEARENA_EXEC_RESULT__' + __v2_json.dumps({'stage': stage, 'nonce': __v2_nonce, 'role': __v2_role, 'prog_syn_id': __v2_prog_syn_id, 'test_name': __v2_test_name}, sort_keys=True, separators=(',', ':')))
+__v2_emit('test_start')
+test_check_patent_with_empty_pattern()
+__v2_emit('test_pass')
+__v2_emit('all_tests_complete')

@@ -10,7 +10,7 @@
       "evidence_identity": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES",
       "id": "B_LOCAL_REVALIDATION_AFTER_CHANGE",
       "main_risk": "oracle dependency graphs may make the method non-operational",
-      "status": "BOUNDED_NEGATIVE_V2_ZERO_REQUEST_REVALIDATION"
+      "status": "BOUNDED_NEGATIVE_REPLICATED_ON_INDEPENDENT_NEW_FAMILIES"
     },
     {
       "evidence_identity": "NO_NEW_RUN",
@@ -84,6 +84,15 @@
       "raw_result": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_RESULT_V2.json",
       "reason": "Replayed the 16 frozen V1 generations with strict AST, nonce marker, failure-taxonomy and image-ID checks; paired difference remained -1.",
       "status": "VALIDATED_ZERO_REQUEST_REPLAY"
+    },
+    {
+      "accounting_tokens": 10995,
+      "attempts": 16,
+      "id": "CODEUPDATEARENA_CONFIRMATION_001_016",
+      "physical_http_calls": 16,
+      "raw_result": "research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_RESULT.json",
+      "reason": "Completed all 16 frozen attempts; paired all-tests-pass difference was -3 families.",
+      "status": "SETTLED_BOUNDED_NEGATIVE"
     }
   ],
   "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
@@ -103,12 +112,12 @@
   ],
   "new_budget": {
     "accounting_tokens_cap": 10000000,
-    "accounting_tokens_used": 17698,
+    "accounting_tokens_used": 28693,
     "attempt_cap": 2048,
-    "attempts_used": 50,
+    "attempts_used": 66,
     "judge_calls": 0,
     "paid_api_usd": 0,
-    "physical_http_calls": 50,
+    "physical_http_calls": 66,
     "production_memory_writes": 0,
     "training_calls": 0
   },
@@ -147,14 +156,21 @@
       "id": "CODEUPDATEARENA_ADAPTER_V1_20261021",
       "spec": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_TASK.md",
       "status": "SETTLED_BOUNDED_NEGATIVE"
+    },
+    {
+      "accounting_tokens": 50000,
+      "attempts": 16,
+      "id": "CODEUPDATEARENA_CONFIRMATION_V1_20261021",
+      "spec": "research/codeupdatearena_confirmation_v1/ADAPTER_SPEC.json",
+      "status": "SETTLED_BOUNDED_NEGATIVE"
     }
   ],
   "rulings": {
     "ADAPTIVE_REVALIDATION_V2_COMPARISON": "BLOCKED_BY_CRITICAL_LEAKAGE",
-    "MODEL_QUERY_POLICY_CURRENT_INTERFACE": "STOP",
     "ADAPTIVE_REVALIDATION_V3_COMPARISON": "GREEDY_SUFFICIENT_TWO_STEP_NO_PAIRED_BENEFIT",
-    "CODEUPDATEARENA_UPDATE_INFO": "BOUNDED_NEGATIVE_STOP_V2_VALIDATED",
-    "NEXT_GATE": "independent new families or a different externally grounded change task; do not rerun the same eight families"
+    "CODEUPDATEARENA_UPDATE_INFO": "BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES",
+    "MODEL_QUERY_POLICY_CURRENT_INTERFACE": "STOP",
+    "NEXT_GATE": "test structured preconditions or executable checks on a different source; do not rerun the same prose update arm"
   },
   "schema": "research_portfolio_cost_and_candidates_v2"
 }

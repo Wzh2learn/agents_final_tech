@@ -1,0 +1,1 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"a877ab8278664f349c2b64a2860dc9d5","prog_syn_id":"[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]","role":"generated_solution","stage":"test_start","test_name":"test_contains_phrase_upper_case"}

@@ -1,0 +1,305 @@
+{
+  "all_tests_pass": false,
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "failure_kind": "test_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "165c2a8174704e61bb1a424c53c61934",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_normal_case"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "7fe49cf870785791cb5f701c7f513fd82bcc70e039b49cca00356d40a49b3073",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "85c5e14c1279fa30bfa4b11b49b92d071b4c49d17aa310f219d76a395bed4941",
+      "stdout_sha256": "24a6d36804f90f6fbd31d5e5875af6907546a4e9a6c4e42926bdba29ef4310f0",
+      "test_name": "test_normal_case",
+      "timed_out": false,
+      "wall_seconds": 0.1450391709804535
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "9d211988714b4465b187a29db2d9e7de",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_NoDOBorSSN"
+        },
+        {
+          "nonce": "9d211988714b4465b187a29db2d9e7de",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_NoDOBorSSN"
+        },
+        {
+          "nonce": "9d211988714b4465b187a29db2d9e7de",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_NoDOBorSSN"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "7b62248939459c0cc62f2a5171d85b348facaebc6abd94fdb811b63c89b411e0",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+      "stdout_sha256": "4c09d42005a37f96c5360de48a5e98e39fcc7a02277349ca293afa7ecf0c6e3e",
+      "test_name": "test_NoDOBorSSN",
+      "timed_out": false,
+      "wall_seconds": 0.11990470625460148
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "65c207cd3ed44c33bcbf5c9f66e00d6e",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_blank_input"
+        },
+        {
+          "nonce": "65c207cd3ed44c33bcbf5c9f66e00d6e",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_blank_input"
+        },
+        {
+          "nonce": "65c207cd3ed44c33bcbf5c9f66e00d6e",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_blank_input"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "87f219e767bd967f609535fe6a4ba6f950bf8d2844ccc870a793e733ce0575bd",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+      "stdout_sha256": "302f51a0470bbff79b4166a646614b7af393155a90f00fed99fb0cb5bb8d721f",
+      "test_name": "test_blank_input",
+      "timed_out": false,
+      "wall_seconds": 0.12440033629536629
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "42e62e90f72c46d08f4b1549d99f6a23",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_NoDOBorSSN_but_has_date"
+        },
+        {
+          "nonce": "42e62e90f72c46d08f4b1549d99f6a23",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_NoDOBorSSN_but_has_date"
+        },
+        {
+          "nonce": "42e62e90f72c46d08f4b1549d99f6a23",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_NoDOBorSSN_but_has_date"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "6d469f704aff895250f5e1bea1b12fcb24987b5435072d770c2cef618772aa9c",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+      "stdout_sha256": "01d2448592204ac446e56f1fdbdee0003d05f44e69f12e0c9417771888f36c1b",
+      "test_name": "test_NoDOBorSSN_but_has_date",
+      "timed_out": false,
+      "wall_seconds": 0.1426310744136572
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "7cf649ee4be441c3bda448eaf994973e",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_only_DOB"
+        },
+        {
+          "nonce": "7cf649ee4be441c3bda448eaf994973e",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_only_DOB"
+        },
+        {
+          "nonce": "7cf649ee4be441c3bda448eaf994973e",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_only_DOB"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "f206c1fc5ef6692d76dae8d2f002fc4c0d6515a59762e6cb368ef4e9d40cc83e",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+      "stdout_sha256": "eca885c8dafc030f3c3cca01b894023db409f2145384d73a33344110988d09c8",
+      "test_name": "test_only_DOB",
+      "timed_out": false,
+      "wall_seconds": 0.13006164319813251
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "6356ad7fb0734209b76709b31847fb8c",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_only_SSN"
+        },
+        {
+          "nonce": "6356ad7fb0734209b76709b31847fb8c",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_only_SSN"
+        },
+        {
+          "nonce": "6356ad7fb0734209b76709b31847fb8c",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_only_SSN"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "594557d66a045072e5a9f364ba1e13da0c9470265251c5b252b396cb6e3e668d",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+      "stdout_sha256": "c516f3faecb9ecab958cafe077bf964aa0cf48737480748bd02a172b5826ad86",
+      "test_name": "test_only_SSN",
+      "timed_out": false,
+      "wall_seconds": 0.13406956940889359
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 0,
+      "failure_kind": null,
+      "marker_error": "ok",
+      "marker_valid": true,
+      "markers": [
+        {
+          "nonce": "e2f0ef4d29bc4a91a8c0bc7ec130797c",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_dates_with_different_format"
+        },
+        {
+          "nonce": "e2f0ef4d29bc4a91a8c0bc7ec130797c",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_pass",
+          "test_name": "test_dates_with_different_format"
+        },
+        {
+          "nonce": "e2f0ef4d29bc4a91a8c0bc7ec130797c",
+          "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "all_tests_complete",
+          "test_name": "test_dates_with_different_format"
+        }
+      ],
+      "prog_syn_id": "[re.sub]:[add-function]:[update-0]:[prog_syn-0]",
+      "program_sha256": "ff4a4a7be30679b334c885fa878852448d2536f55ca6a4d0d35b59c70cb02bbd",
+      "role": "generated_solution",
+      "status": "passed",
+      "stderr_sha256": "ef2925ef5f8b8630175af28a54df4b37de2d7c76a6e1ccadb04166b976b40f7a",
+      "stdout_sha256": "f3fef2d64dc9ed1a9c9c0cc16694c3e3d57a9beaf90b93a05336d0444e411aed",
+      "test_name": "test_dates_with_different_format",
+      "timed_out": false,
+      "wall_seconds": 0.14086037315428257
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 7,
+  "test_total": 7,
+  "tests_passed": 6,
+  "wall_seconds": 0.9369668737053871
+}

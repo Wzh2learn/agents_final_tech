@@ -1,0 +1,43 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 0,
+  "failure_kind": null,
+  "marker_error": "ok",
+  "marker_valid": true,
+  "markers": [
+    {
+      "nonce": "7954c67011544e52ac5130a41ee48320",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_start",
+      "test_name": "test_contains_phrase_emails_with_whitespace"
+    },
+    {
+      "nonce": "7954c67011544e52ac5130a41ee48320",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "test_pass",
+      "test_name": "test_contains_phrase_emails_with_whitespace"
+    },
+    {
+      "nonce": "7954c67011544e52ac5130a41ee48320",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "reference_solution",
+      "stage": "all_tests_complete",
+      "test_name": "test_contains_phrase_emails_with_whitespace"
+    }
+  ],
+  "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "15d1c98add2ea9a45c86c32b55597302eb8353929c3f583f1ae9180835f3c097",
+  "role": "reference_solution",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "ec30d0fee8e72715d921c59383fa86f5c292abefefd953aa811def71fc8dbdfa",
+  "test_name": "test_contains_phrase_emails_with_whitespace",
+  "timed_out": false,
+  "wall_seconds": 0.11767787672579288
+}

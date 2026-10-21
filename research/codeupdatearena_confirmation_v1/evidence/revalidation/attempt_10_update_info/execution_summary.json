@@ -1,0 +1,163 @@
+{
+  "all_tests_pass": false,
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "failure_kind": "test_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "7831f39509e54ba8a95c582079688025",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_multiple_genes_separated_by_single_Ns"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "c076c41d8fbdd9e788323ab8f24b7dba6caf8d165eaa74a441612ec35be5b585",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "70955684f6a72b172b6872f003cf3eebca02cdc5ab6c0fa80a1a109d9ffa7cb9",
+      "stdout_sha256": "3eb992c3efde6739dcf3e098f16de13a65db1ff4f2d75cf50df7ed5487c87ac2",
+      "test_name": "test_case_with_multiple_genes_separated_by_single_Ns",
+      "timed_out": false,
+      "wall_seconds": 0.12295326963067055
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "1f9135f5f2a340a9ac549d287eb3aeeb",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "88889ba37aaad2b6d40f1d220fab9c5113303767cf8a6c77fa043529024ba4b5",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "3a505990dcccdae697a83d2fd3b1dda63bfb74bb07502b737e25257d8e140772",
+      "stdout_sha256": "c22d95c79a566e6bb5763d53b1f2ae8084c1629757e9c6fdc99f5f28813d36c0",
+      "test_name": "test_case_with_single_gene_enclosed_by_triple_Ns",
+      "timed_out": false,
+      "wall_seconds": 0.12603840045630932
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "d7380d5cca6c4ed79c4d1d2af87ae492",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_multiple_varying_N_separators"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "a9414830c3ac4e10f3ecedc5d64351c77065366d81eb3506039fd5221d3fc120",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "faffa1c681abb4ec3839107bc362c6246887d3ed1329f54c9e9537b79800504e",
+      "stdout_sha256": "9226793721d285e4458af1f8c6044272f40510f1b0516dd935c47f2941ef4dcc",
+      "test_name": "test_case_with_multiple_varying_N_separators",
+      "timed_out": false,
+      "wall_seconds": 0.12128286249935627
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "3c65369b94834e64878ef7fb1ba0927a",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_case_with_no_gene_sequence"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "d461749640aea99f1abf337f521e8942088fe2e60112018da4118f1fe5e39e0b",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "3841429bf840c5c13bbd22a4b5eaf4e71ecfaf374f05c74c06b85a491f3aaf50",
+      "stdout_sha256": "f4afcc4cbaeb06f256a561804f39333c6c95828f510a566d0ef1b882c4bec354",
+      "test_name": "test_case_with_no_gene_sequence",
+      "timed_out": false,
+      "wall_seconds": 0.1320111509412527
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "9a93dff951fa492e975f91a96f21e933",
+          "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_long_string"
+        }
+      ],
+      "prog_syn_id": "[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]",
+      "program_sha256": "6dcdf99a0e15ddc8138d936f55cfbc88d95f17d04d90309ec3035753026e9d6f",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "beab22d4562630de972d52649012a15822a33767fdca7e1bf60d193cf39da3b5",
+      "stdout_sha256": "b4ac716541da03a893ed1cc0017c2502e08b75a8e1e47fe11e280296600f41a9",
+      "test_name": "test_long_string",
+      "timed_out": false,
+      "wall_seconds": 0.13610591553151608
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 5,
+  "test_total": 5,
+  "tests_passed": 0,
+  "wall_seconds": 0.6383915990591049
+}

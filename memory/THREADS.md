@@ -1,31 +1,19 @@
 # memory/THREADS.md — 未决线索
 
-[10-21] #RESEARCH_PORTFOLIO_V2_CORE_COMPLETE:
+[10-21] #RESEARCH_PORTFOLIO_V2_COMPLETE:
 `RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` completed its bounded
 exploration. Protected evidence is in
 `D:/AIRcommend/JinRongAgents/_protected_research_20261021_v1`; integration
 branch is `research/portfolio-integration-v2`. Paper E remains
 `NARROW_AND_CONTINUE` with `WIDE_EVIDENCE_CHECK=PASS`. Adaptive V3 found greedy
 sufficient and no two-step paired benefit on authored fixtures. CodeUpdateArena
-V1 executor is invalid; strict zero-request V2 revalidation preserved the
-bounded negative `3/8` versus `2/8` (`-1`). New accounting is 50 attempts and
-17,698 tokens. Do not rerun the same families; next research requires new
-families or a different externally grounded change task. Residual limitation:
-the RPC is a capability/object boundary, not an OS security sandbox.
-
-[10-21] #RESEARCH_PORTFOLIO_V2_S0_ACTIVE:
-`RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` is active. Protected
-evidence is stored outside the repository at
-`D:/AIRcommend/JinRongAgents/_protected_research_20261021_v1`, including refs,
-tracked diffs, real untracked content, hashes, GB10 VGMC deltas and the
-temporary verification worktree patch. MA-CERD current interpretation is
-corrected in `research/ma_cerd_independent_v1/CORRECTIONS_20261021.md`:
-resource membership is not graph propagation; handling `0.012` is complete-set
-exact matching; `0.881/0.839` is a full-release summary; `o3_relation` is
-oracle-assisted; simulator/trace replay remains unverified. Current work is
-three-way governance integration, one canonical Paper E manuscript, and
-bounded A/B adaptive-revalidation qualification. New attempts/tokens start at
-zero and remain separate from frozen ledgers.
+V1 is `INVALID_HARNESS_REPLAY`; strict V2 revalidation gave `3/8` versus `2/8`.
+An independent eight-family confirmation gave base `7/8` and `44/48` tests
+versus update-info `4/8` and `33/48`, paired difference `-3`. Cumulative new
+accounting is `66/2048` attempts and `28,693/10,000,000` tokens. Stop the
+prose-update arm; next work requires structured preconditions or executable
+checks on a different source. Residual limitation: the RPC is a
+capability/object boundary, not an OS security sandbox.
 
 [10-20] #MA-CERD-TOOL-FIRST-CLOSEOUT: The independent MA-CERD probes support
 `TOOL_FIRST_WITH_SELECTIVE_ESCALATION`, not a winning feedback contract.

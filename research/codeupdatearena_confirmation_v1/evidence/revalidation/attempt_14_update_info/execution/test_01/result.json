@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "917cd45ba36f44d0a3edbc11c8b9339d",
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_extract_gensequence_for_large_step"
+    }
+  ],
+  "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+  "program_sha256": "3cea6de7e912a9685dea6ab3bdd7179957efe6a215576187222f98f0de855b3e",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "40b013ac31f4b5f55b12ab5ae0f87892d18338a6ac1f840af8fe2588091457e3",
+  "stdout_sha256": "240cddc919ec1829dbacdb3b605ebdee3491b36de18811a3c28faf15843881cb",
+  "test_name": "test_extract_gensequence_for_large_step",
+  "timed_out": false,
+  "wall_seconds": 0.12720671109855175
+}

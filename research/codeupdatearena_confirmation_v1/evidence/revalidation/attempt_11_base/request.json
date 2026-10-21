@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_match = re.match\\nsetattr(re, 'old_match', old_match)\",\n  \"problem\": \"John needs to evaluate a list of email texts to check if each email contains a specific phrase or not. The checking shall be case-insensitive, so 'Hello' and 'hello' should be treated as same. You need to assist him by writing a function that takes a list of email texts and a specific phrase as input and returns a list with boolean values, indicating whether each email contains the specific phrase (True) or not (False).\",\n  \"scenario\": \"John is working in a company that requires frequent analysis and reports based on text data. His current assignment involves analyzing statements from various customer's emails and checking if they contain specific phrases, regardless of case differences. However, his pattern matching operations often overlook case differences in emails, leading to inaccurate results.\",\n  \"solution_signature\": \"def contains_phrase(email_list: List[str], phrase: str) -> List[bool]\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

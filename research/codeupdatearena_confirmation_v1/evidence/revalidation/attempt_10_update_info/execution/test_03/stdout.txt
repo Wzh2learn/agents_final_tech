@@ -1,0 +1,1 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"3c65369b94834e64878ef7fb1ba0927a","prog_syn_id":"[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]","role":"generated_solution","stage":"test_start","test_name":"test_case_with_no_gene_sequence"}

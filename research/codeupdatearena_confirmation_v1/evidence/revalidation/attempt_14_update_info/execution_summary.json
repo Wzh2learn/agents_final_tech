@@ -1,0 +1,134 @@
+{
+  "all_tests_pass": false,
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "failure_kind": "test_failure",
+  "infrastructure_failure": false,
+  "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+  "records": [
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "c1602a6d83d244db97c00dc8c98f07bd",
+          "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_extract_gensequence_for_entire_sequence"
+        }
+      ],
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "be76bc119908c03ef2fbf88738d5cfd4818f7ed52b7839a8c7bf448a97c810da",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "ccb3266f67620a0e50d29a91a071263f18817d2aadad17b21151635da9da9328",
+      "stdout_sha256": "81d537d6cbe2d57e1a32f6b4c89cb2d96cbe0a309791d1eb3097849783370248",
+      "test_name": "test_extract_gensequence_for_entire_sequence",
+      "timed_out": false,
+      "wall_seconds": 0.1496168151497841
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "917cd45ba36f44d0a3edbc11c8b9339d",
+          "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_extract_gensequence_for_large_step"
+        }
+      ],
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "3cea6de7e912a9685dea6ab3bdd7179957efe6a215576187222f98f0de855b3e",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "40b013ac31f4b5f55b12ab5ae0f87892d18338a6ac1f840af8fe2588091457e3",
+      "stdout_sha256": "240cddc919ec1829dbacdb3b605ebdee3491b36de18811a3c28faf15843881cb",
+      "test_name": "test_extract_gensequence_for_large_step",
+      "timed_out": false,
+      "wall_seconds": 0.12720671109855175
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "1b3842ab606d4f5ebfcb6e14b76dc800",
+          "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_extract_gensequence_for_single_character_sequence"
+        }
+      ],
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "bcd1b16d9b5454235d5d26af1b8b5e3193c3a7ec3e7369036886e715514eed9d",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "a8ff5120637bd69dfd4cd8f1d3432126ff16ff60ba702959cd5ddf955565def2",
+      "stdout_sha256": "58dfe8492c4f7a3c924f1afeb36d2dae13b77e470389f4f4571497d2611cb394",
+      "test_name": "test_extract_gensequence_for_single_character_sequence",
+      "timed_out": false,
+      "wall_seconds": 0.12212550081312656
+    },
+    {
+      "candidate_validation": {
+        "allowed": true,
+        "detail": "",
+        "reason": "trusted_reference"
+      },
+      "exit_code": 1,
+      "failure_kind": "test_failure",
+      "marker_error": "marker_sequence_mismatch",
+      "marker_valid": false,
+      "markers": [
+        {
+          "nonce": "25e7c1275e1445829e0baf8d09232798",
+          "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+          "role": "generated_solution",
+          "stage": "test_start",
+          "test_name": "test_extract_gensequence_for_start_equal_end"
+        }
+      ],
+      "prog_syn_id": "[itertools.islice]:[modify-output-data_type]:[update-0]:[prog_syn-0]",
+      "program_sha256": "e7cd4ea682254ea8d40b266e364e9c6dac757b7791781280fa07d6f22f4cc4b5",
+      "role": "generated_solution",
+      "status": "test_failure",
+      "stderr_sha256": "52898b61cc9bae3e901fc15ef77e26a659a20d9cb726f6a9ded7ec644b041ab9",
+      "stdout_sha256": "dcfc7ab36abf487474500f88a207c77b12ed91e96617f877929b73760f2f157e",
+      "test_name": "test_extract_gensequence_for_start_equal_end",
+      "timed_out": false,
+      "wall_seconds": 0.12473956309258938
+    }
+  ],
+  "role": "generated_solution",
+  "test_executed": 4,
+  "test_total": 4,
+  "tests_passed": 0,
+  "wall_seconds": 0.5236885901540518
+}

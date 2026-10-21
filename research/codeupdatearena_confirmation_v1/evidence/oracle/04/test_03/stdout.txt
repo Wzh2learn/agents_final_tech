@@ -1,0 +1,3 @@
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"15ad758468f846f6a19d2d021f293ba3","prog_syn_id":"[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"test_start","test_name":"test_case_with_no_gene_sequence"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"15ad758468f846f6a19d2d021f293ba3","prog_syn_id":"[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"test_pass","test_name":"test_case_with_no_gene_sequence"}
+__CODEUPDATEARENA_EXEC_RESULT__{"nonce":"15ad758468f846f6a19d2d021f293ba3","prog_syn_id":"[re.split]:[modify-argument-semantics]:[update-0]:[prog_syn-0]","role":"reference_solution","stage":"all_tests_complete","test_name":"test_case_with_no_gene_sequence"}

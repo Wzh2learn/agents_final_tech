@@ -38,6 +38,12 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
   versus 6 `test_failure`. Ruling: `BOUNDED_NEGATIVE_STOP_V2_VALIDATED`.
   This is a public synthetic development result, not natural production drift
   or a universal claim that update information is harmful.
+- Independent-new-family confirmation: a disjoint set of eight further
+  CodeUpdateArena families was frozen before model output. Base passed `7/8`
+  families and `44/48` tests; update-info passed `4/8` and `33/48`; paired
+  difference `-3`, with 1 versus 4 `test_failure`. Ruling:
+  `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`. This strengthens the bounded
+  negative but remains same-source synthetic evidence.
 
 ## 3. Evidence Identity
 
@@ -60,6 +66,9 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
   evidence deltas, `8b6203f` adaptive V3, `37ef6b5` CodeUpdateArena V1/V2.
 - The same branch name is pushed to `origin` and `gb10`; the exact integration
   tip is the branch head in Git rather than a second status authority.
+- Confirmation run-time spec/runner bytes are preserved under
+  `research/codeupdatearena_confirmation_v1/run_frozen/`; metadata links were
+  corrected after execution without rewriting the frozen receipt.
 - Runtime, caches and external source archives were not dumped into Git as
   research truth. CodeUpdateArena source is pinned at
   `836e2d157739fd53f9cde421913eb5949d4eeeb8` with license/data hashes.
@@ -71,22 +80,23 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
 
 | Category | Attempts / calls | Accounting tokens |
 |---|---:|---:|
-| New generation POST | 50 | 17,698 |
+| New generation POST | 66 | 28,693 |
 | Model identity GET | 4 | not token-billed |
 | CodeUpdateArena V1 hidden-test Docker programs | 100 | offline |
 | CodeUpdateArena V2 revalidation iterations | 300 | offline |
+| CodeUpdateArena independent confirmation | 96 | offline |
 | Final V3 bound replay | 450 policy episodes / 1,215 policy-tool calls | offline |
 | Judge / training / paid API / production Memory | 0 | 0 |
 
 Historical ledgers remain separate: 747 attempts / 1,564,176 tokens and 313
-attempts / 324,086 tokens. New generation budget usage is `50/2048` attempts
-and `17,698/10,000,000` tokens.
+attempts / 324,086 tokens. New generation budget usage is `66/2048` attempts
+and `28,693/10,000,000` tokens.
 
 ## 6. Next Experiment
 
-Do not rerun the same authored fixtures or the same eight CodeUpdateArena
-families. The next information-bearing experiment requires independent new
-families or a different externally grounded change task, with the same strict
+Do not rerun the same authored fixtures or the same prose-update comparison.
+The next information-bearing experiment should test structured preconditions
+or executable checks on a different external source, with the same strict
 execution validity gate. If no such source or reference is available, retain
-the bounded negative and stop this candidate rather than spending the remaining
-budget on repeated prompts.
+the replicated bounded negative and stop this candidate rather than spending
+the remaining budget on repeated prompts.

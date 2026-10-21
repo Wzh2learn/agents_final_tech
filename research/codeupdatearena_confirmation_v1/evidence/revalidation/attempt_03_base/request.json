@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 2048,
+  "messages": [
+    {
+      "content": "Implement the requested Python function from the supplied public task data. Return exactly one JSON object with exactly one key named \"code\" whose value is a Python source string. The source must define the requested function and may include necessary imports and helpers. Do not return Markdown or any other JSON keys.\n\nPublic task data:\n{\n  \"imports\": \"import re\\nold_fullmatch = re.fullmatch\\nsetattr(re, 'old_fullmatch', old_fullmatch)\",\n  \"problem\": \"Given a regular expression pattern that signifies a patent ID, a text block, and a cut-off point, write a python function that will determine if a patent is present within the range set from the start of the string till the cut-off point. The function must return the match object if a match is found or None otherwise. If the cut-off point is either lesser than 0 or greater than the length of the string, the function should raise ValueError.\",\n  \"scenario\": \"Oscar is a software engineer working on a text processing tool that extracts patent numbers from various legal documents. The tool should match the pattern of patent numbers at the beginning of the text, but should not continue scanning after a certain point in order to save computational time and avoid irrelevant matches.\",\n  \"solution_signature\": \"def check_patent_in_range(pattern: str, text: str, cutoff_point: int) -> typing.Optional[re.Match]:\"\n}",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

@@ -1,0 +1,29 @@
+{
+  "candidate_validation": {
+    "allowed": true,
+    "detail": "",
+    "reason": "trusted_reference"
+  },
+  "exit_code": 1,
+  "failure_kind": "test_failure",
+  "marker_error": "marker_sequence_mismatch",
+  "marker_valid": false,
+  "markers": [
+    {
+      "nonce": "e387e294cff34009a7e04223d047cc94",
+      "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+      "role": "generated_solution",
+      "stage": "test_start",
+      "test_name": "test_contains_phrase_mix_case"
+    }
+  ],
+  "prog_syn_id": "[re.match]:[modify-argument-default_value(s)]:[update-0]:[prog_syn-0]",
+  "program_sha256": "d4fc15ef688f656b9ce087ce43039d9a48188ac8858939368e309eb982ed25f2",
+  "role": "generated_solution",
+  "status": "test_failure",
+  "stderr_sha256": "310c15ba785b81ebfffb3525d54bad0f7ad174af8219f576fb7a5f9b123b54ef",
+  "stdout_sha256": "97b0e3a5d26b393a3f19f5b1fdbaa115ed1068b9e7436ee3a5ef451f682dd4e5",
+  "test_name": "test_contains_phrase_mix_case",
+  "timed_out": false,
+  "wall_seconds": 0.1437714844942093
+}

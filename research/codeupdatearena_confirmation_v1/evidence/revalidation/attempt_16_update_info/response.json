@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"code\": \"import re\\n\\nold_sub = re.sub\\nsetattr(re, 'old_sub', old_sub)\\n\\ndef re_sub_multi(patterns_dict, string, count=0, flags=0):\\n    \\\"\\\"\\\"This function replaces the leftmost non-overlapping occurrences of multiple prescribed patterns within a given string with specified replacements in a single pass. Each pattern and its corresponding replacement are provided as a dictionary, `patterns_dict`.\\n\\n    Input Parameters:\\n    1. `string`: A string in which the patterns will be searched for and replaced.\\n    2. `patterns_dict`: The dictionary where the key is the pattern that needs to be replaced, and the value is the replacement for that pattern within the `string`. It can be either a string or a callable function.\\n        - If the value in `patterns_dict` is a string, any backslash escapes in it will be processed, i.e., special sequences starting with `\\\\` will be interpreted accordingly.\\n        - If the value in `patterns_dict` is a callable function, it will be passed the match object (the found `pattern`). This function should return a replacement string to be used.\\n    3. `count` and `flags`: These parameters behave in the same way as in the original `re.sub` function. \\n\\n    The patterns in `patterns_dict` are applied in the order they are defined in the dictionary. The order of application of patterns could thus have an effect on the final output.\\n    The function returns a string obtained by replacing the leftmost non-overlapping `pattern` instances with the `repl`.\\n    \\\"\\\"\\\"\\n    result = string\\n    for pattern, repl in patterns_dict.items():\\n        result = re.sub(pattern, repl, result, count=count, flags=flags)\\n    return result\\n\\ndef update_patient_records(records_string):\\n    # Define the patterns and their replacements\\n    # 1. Replace 'date of birth' with 'DOB'\\n    # 2. Replace 'social security number' with 'SSN'\\n    # 3. Replace dates in dd-mm-yyyy format with yyyy-mm-dd\\n    \\n    # Pattern for dd-mm-yyyy\\n    date_pattern = r'\\\\b(\\\\d{2})-(\\\\d{2})-(\\\\d{4})\\\\b'\\n    \\n    def convert_date(match):\\n        day = match.group(1)\\n        month = match.group(2)\\n        year = match.group(3)\\n        return f\\\"{year}-{month}-{day}\\\"\\n    \\n    # We need to handle the order carefully.\\n    # First, replace text patterns.\\n    # Then, replace date patterns.\\n    # However, the problem states that patterns are applied in the order defined.\\n    # Let's define the dictionary. Note: In Python 3.7+, dict order is preserved.\\n    \\n    # We'll do text replacements first, then date replacement.\\n    # But wait, the date pattern might overlap with text if not careful? \\n    # No, 'date of birth' and 'social security number' are text, dates are numeric.\\n    # So order between text and date doesn't matter for overlap, but let's be safe.\\n    \\n    # Let's create the patterns_dict\\n    # Since we need to apply date conversion which requires a function,\\n    # and text replacements which are strings.\\n    \\n    # We must be careful: if we replace 'date of birth' first, it's fine.\\n    # If we replace dates first, it's also fine.\\n    # Let's do text first, then date.\\n    \\n    patterns = {\\n        'date of birth': 'DOB',\\n        'social security number': 'SSN'\\n    }\\n    \\n    # Apply text replacements\\n    result = re_sub_multi(patterns, records_string)\\n    \\n    # Apply date replacement\\n    result = re.sub(date_pattern, convert_date, result, count=0, flags=0)\\n    \\n    return result\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792566683,
+  "id": "chatcmpl-YRPdYH2H07Yy6o5XoFMNsmUysCGpvijG",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 35,
+    "predicted_ms": 13982.593,
+    "predicted_n": 885,
+    "predicted_per_second": 63.29298149492015,
+    "predicted_per_token_ms": 15.799540112994352,
+    "prompt_ms": 430.52,
+    "prompt_n": 690,
+    "prompt_per_second": 1602.7129982346928,
+    "prompt_per_token_ms": 0.6239420289855072
+  },
+  "usage": {
+    "completion_tokens": 885,
+    "prompt_tokens": 725,
+    "prompt_tokens_details": {
+      "cached_tokens": 35
+    },
+    "total_tokens": 1610
+  }
+}
