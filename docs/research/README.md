@@ -11,6 +11,7 @@ Portfolio V2 的有界探索及工作区治理已收口。Owner 已确认：Pape
 | 用途 | 权威记录 |
 |---|---|
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)：G1 Paper E 发表；G2 正确性验证；G3 验证决策/适应；G4 学硕写作与认定倒排 |
+| 当前可审阅回执 | [publication_thesis_goals_v1/GOAL_RETURN.md](../../research/publication_thesis_goals_v1/GOAL_RETURN.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 最新科研回执 | [Portfolio V2 GOAL_RETURN](../../research/research_portfolio_v2/GOAL_RETURN.md)；其中成本为当时快照 |
 | 当前聚合记账 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -24,6 +25,7 @@ Portfolio V2 的有界探索及工作区治理已收口。Owner 已确认：Pape
 
 | 研究线 | 当前判断与证据 |
 |---|---|
+| 发表/学位阶段 | Paper E 为 `CONDITIONAL_GO_FOR_ICAART`；G2 目标结果消费验证与 G3 风险触发选择性重验证均为候选方法线，不是已成立创新。见[本轮总回执](../../research/publication_thesis_goals_v1/GOAL_RETURN.md) |
 | Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)与[整合报告](../../research/research_portfolio_v2/PAPER_E_INTEGRATION_REPORT.md) |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |

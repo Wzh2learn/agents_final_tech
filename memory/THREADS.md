@@ -1,6 +1,6 @@
 # Open Decisions And Blockers
 
-Updated: 2026-10-21
+Updated: 2026-10-22
 
 当前短状态见 [STATE.md](STATE.md)，科研证据路由见 [Research Entry](../docs/research/README.md)。本表保留真实未决事项；完成或被后续证据更正的历史条目保留原文归档。
 
@@ -8,10 +8,11 @@ Updated: 2026-10-21
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `READY_FOR_LOOP_D_HANDOFF` | Owner 已确认发表优先、学硕三贡献及送审前倒排；[四项 Goals](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)已备好，待 Owner 转发 Loop D 执行；本次交接未运行新实验 |
-| MIGRATION-ORACLE-DESIGN | `G2_CANDIDATE_METHOD_UNCONFIRMED` | G2 获准复用并扩展真实变化研究；分报 behavior/contract/hybrid，以独立参考审查误接受/误拒绝；[既有复核](../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/INDEPENDENT_PROBE_REVIEW.md)仍只支持单案例，方法创新未定 |
-| PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)与[scope lock](../paper/saner_rene_manuscript_scope_lock_v1.md)的两案例，不等待新迁移结果；新增 pooled CI 分析单位复核，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `PREPARATION_AUTHORIZED_EXTERNAL_ACTIONS_PENDING` | SANER RENE 摘要未注册；G1 选择主备渠道并完成可审阅包，Owner 最终确认署名/单位、渠道、费用及正式投稿。会议须送审前已召开并展示；期刊认定凭证仍需结合具体路径核实 |
+| NEXT-RESEARCH-GOAL | `REVIEWABLE_STAGE_COMPLETE` | 四项 Goals 已形成可审阅结果、独立评审及总回执；见[GOAL_RETURN](../research/publication_thesis_goals_v1/GOAL_RETURN.md)。下一步是一个或多个带完整环境合同的新真实迁移 family |
+| MIGRATION-ORACLE-DESIGN | `G2_CANDIDATE_METHOD_UNCONFIRMED` | G2 在10个自然/合成控制上得到 behavior `6/10`、static `8/10`、runtime-consumption/hybrid `10/10`；支持目标结果消费候选，不支持通用语义等价或已成立创新 |
+| REVALIDATION-POLICY-DESIGN | `G3_CANDIDATE_METHOD_UNCONFIRMED` | G3 在11个受控状态上得到 risk-greedy 与 full-revalidation 同决策、规划成本 `62` 对 `99`；需至少8个未见真实 families 与实测成本后才能升级 |
+| PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
+| PAPER-E-SUBMISSION | `CONDITIONAL_GO_FOR_ICAART_EXTERNAL_ACTIONS_PENDING` | ICAART/SCITEPRESS 12页审阅包已完成；独立评审阻断已关闭。Owner 仍需确认署名/单位、AI 披露、artifact、会议展示、费用和正式投稿 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。新阶段范围见四项 Goals |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |
 
