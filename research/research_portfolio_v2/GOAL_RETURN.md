@@ -97,6 +97,10 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
   `8a53b9938707deb4c8398152e9ebc923580783a3` and
   `d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b`. Source qualification and
   license caveats are in `EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md`.
+- GB10 holds the full external-source copies and artifact hashes under
+  `~/wzh/protected_research_20261021_v1/external_sources/`. Local duplicate
+  source caches remain only because recursive deletion was blocked by the
+  execution policy; they are not a second source authority.
 - Remaining recoverable differences are the local dirty main worktree, the
   protected GB10 VGMC branch material, and the temporary verification worktree.
   No `reset --hard`, forced main update or full-tree clean was used.

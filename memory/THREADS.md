@@ -12,6 +12,8 @@ because tzdata, timezone semantics and historical transitive versions are not
 frozen. Next gate: freeze one complete PyMigBench environment and require gold
 all-tests-pass before any behavioral model call. New accounting is `98/2048`
 attempts and `44,610/10,000,000` tokens.
+GB10 carries the full external-source cache and hashes; local duplicate source
+caches remain pending because policy blocked recursive deletion.
 
 [10-21] #RESEARCH_PORTFOLIO_V2_COMPLETE:
 `RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` completed its bounded
