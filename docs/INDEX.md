@@ -65,6 +65,8 @@
 
 历史 C 科研审计：[接回与解释边界](archive/2026-10-21_loop_c_reports/README.md)。历史日期、纠错与旧预算保留；不产生现役任务授权。
 
+历史 C 治理纠错链：[审查身份说明](../reports/LC-GOV-002_CONTEXT.md)；[未完成 lead 原型归档](archive/2026-10-21_loop_c_lead_prototype/README.md)。
+
 1. 顶层、`architecture/`、`datasets/` 和 `governance/` 的现役文件逐项登记。
 2. `experiments/`、`governance/audit/`、`governance/reference/`、`superpowers/` 按目录登记，不维护逐文件流水账。
 3. 新文档或归档操作必须与本索引同一提交；归档使用 `git mv`，禁止直接删除。
