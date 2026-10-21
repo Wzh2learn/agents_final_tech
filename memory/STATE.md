@@ -1,7 +1,7 @@
 # Current State
 
 > Updated: 2026-10-21 | Scope: research portfolio, Paper E, adaptive
-> revalidation, and CodeUpdateArena adapter | Runtime: core probes completed
+> revalidation, and external-change sources | Runtime: bounded probes complete
 
 ## Current Rulings
 
@@ -30,8 +30,19 @@
 - Independent new-family confirmation: base `7/8`, update-info `4/8`, paired
   difference `-3`, with 1 versus 4 `test_failure`;
   `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`.
-- New Goal accounting: `66/2048` attempts and `28,693/10,000,000` tokens.
-  Physical HTTP calls are 66; judge, training, paid API and production Memory
+- External-source review: PyMigBench is the stronger real-commit behavioral
+  source; VersiCode is limited to version-change observability because its
+  editing rows are highly duplicated and have no behavioral oracle.
+- VersiCode observability pilot: BASE `0/8`, prose mapping `8/8`, the same
+  mapping as structured fields `7/8`, and target-package probes `5/8` at
+  roughly `4x` BASE tokens. This is syntax/name evidence only; one
+  prose/structured discordance does not establish representation superiority.
+- PyMigBench curation attempted 36 commits and a single dependency-aware
+  `thombashi/datetimerange` revival with zero model calls and zero retries.
+  No gold behavioral oracle passed: the revival reached `160 passed / 8 failed`
+  and exposed missing tzdata/timezone and transitive-version contracts.
+- New Goal accounting: `98/2048` attempts and `44,610/10,000,000` tokens.
+  Physical HTTP calls are 98; judge, training, paid API and production Memory
   writes are zero.
 - Final FinRank development observation: B0 V4 `5/7`; derived plan
   minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
@@ -58,11 +69,12 @@ GB10 authoritative review is
 ## Next Execution Step
 
 Use `research/portfolio-integration-v2` as the reviewable integration branch.
-Do not rerun the same authored fixtures or prose-update arm. A new experiment
-requires structured preconditions/executable checks on a different external
-source. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank at
-`STOP_ON_CURRENT_PANEL`, and do not convert synthetic findings into general
-method claims.
+Do not rerun VersiCode, CodeUpdateArena or the same authored fixtures. A
+behavioral external-change run requires one PyMigBench task with frozen Python,
+package locks, tzdata, timezone and tests, plus a gold all-tests-pass result
+before model calls. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank at
+`STOP_ON_CURRENT_PANEL`, and do not convert bounded observability findings
+into general method claims.
 
 Historical state before the 2026-10-19 closeout is preserved in
 [`docs/archive/2026-10-19_memory_state_history.md`](../docs/archive/2026-10-19_memory_state_history.md).

@@ -1,7 +1,7 @@
 # Research Entry
 
 Status: `CURRENT_SINGLE_ENTRY`
-Updated: 2026-10-20
+Updated: 2026-10-21
 
 This file is the only current research entry. `docs/INDEX.md` navigates to it;
 `memory/STATE.md` carries the short current-state summary; detailed reports are
@@ -23,6 +23,11 @@ evidence, not competing entry points.
 - Research portfolio V2 integration: see
   [`research/research_portfolio_v2/GOAL_RETURN.md`](../../research/research_portfolio_v2/GOAL_RETURN.md)
   for the combined Paper E, adaptive-revalidation and CodeUpdateArena decision.
+- External-change source qualification and bounded probes:
+  [`EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md`](../../research/research_portfolio_v2/EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md),
+  [`versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md`](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md),
+  and
+  [`pymigbench_external_change_v1/CURATION_REPORT.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/CURATION_REPORT.md).
 - Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
   accounting tokens, recomputed from all 747 request records. The ledger has
   746 `OK` records and one retained `FAILED/request_already_exists` event with
@@ -127,8 +132,9 @@ selective escalation.
 ## Next Execution Step
 
 Use the `research/portfolio-integration-v2` branch as the recoverable research
-state. Do not rerun the same CodeUpdateArena families or authored mechanism
-fixtures. Continue only with independent new families or a different
-externally grounded change task. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank
-at `STOP_ON_CURRENT_PANEL`, and MA-CERD selective escalation as an unverified
-development hypothesis.
+state. Do not rerun CodeUpdateArena, VersiCode or the authored mechanism
+fixtures. A behavioral external-change experiment requires one PyMigBench
+revision with frozen Python, package locks, tzdata, timezone and tests, and a
+gold all-tests-pass result before model calls. Keep Paper E at
+`NARROW_AND_CONTINUE`, FinRank at `STOP_ON_CURRENT_PANEL`, and MA-CERD
+selective escalation as an unverified development hypothesis.

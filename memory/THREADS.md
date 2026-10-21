@@ -1,5 +1,18 @@
 # memory/THREADS.md — 未决线索
 
+[10-21] #EXTERNAL_CHANGE_SOURCE_QUALIFIED_AND_PROBED:
+External-change research advanced in `research/research_portfolio_v2/`.
+VersiCode is a bounded nonbehavioral observability source: BASE `0/8`, prose
+mapping `8/8`, structured mapping `7/8`, package probes `5/8`; probes cost
+about `4x` BASE and direct mapping dominates. The single prose/structured
+discordance is not a general representation claim. PyMigBench is the stronger
+real-commit source, but bounded curation retained zero behavioral tasks. A
+one-task `thombashi/datetimerange` revival reached gold `160 passed / 8 failed`
+because tzdata, timezone semantics and historical transitive versions are not
+frozen. Next gate: freeze one complete PyMigBench environment and require gold
+all-tests-pass before any behavioral model call. New accounting is `98/2048`
+attempts and `44,610/10,000,000` tokens.
+
 [10-21] #RESEARCH_PORTFOLIO_V2_COMPLETE:
 `RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` completed its bounded
 exploration. Protected evidence is in
@@ -9,10 +22,10 @@ branch is `research/portfolio-integration-v2`. Paper E remains
 sufficient and no two-step paired benefit on authored fixtures. CodeUpdateArena
 V1 is `INVALID_HARNESS_REPLAY`; strict V2 revalidation gave `3/8` versus `2/8`.
 An independent eight-family confirmation gave base `7/8` and `44/48` tests
-versus update-info `4/8` and `33/48`, paired difference `-3`. Cumulative new
-accounting is `66/2048` attempts and `28,693/10,000,000` tokens. Stop the
-prose-update arm; next work requires structured preconditions or executable
-checks on a different source. Residual limitation: the RPC is a
+versus update-info `4/8` and `33/48`, paired difference `-3`. At this initial
+closeout checkpoint accounting was `66/2048` attempts and
+`28,693/10,000,000` tokens; the current cumulative figure is in the top
+external-change entry. Stop the prose-update arm. Residual limitation: the RPC is a
 capability/object boundary, not an OS security sandbox.
 
 [10-20] #MA-CERD-TOOL-FIRST-CLOSEOUT: The independent MA-CERD probes support
