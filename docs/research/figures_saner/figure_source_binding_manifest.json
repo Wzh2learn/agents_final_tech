@@ -21,7 +21,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen figure definition and caption boundary",
-          "sha256": "dadf4020d33a955c5d91474976cc119fe7dcb0ddcf1a2917648ad3cec4e68128",
+          "sha256": "21673b543e8d92872d3f7d58a21bbc0e521e1171085911c3748ba0bc0bca9d00",
           "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
@@ -658,7 +658,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "dadf4020d33a955c5d91474976cc119fe7dcb0ddcf1a2917648ad3cec4e68128",
+          "sha256": "21673b543e8d92872d3f7d58a21bbc0e521e1171085911c3748ba0bc0bca9d00",
           "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
@@ -794,7 +794,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "dadf4020d33a955c5d91474976cc119fe7dcb0ddcf1a2917648ad3cec4e68128",
+          "sha256": "21673b543e8d92872d3f7d58a21bbc0e521e1171085911c3748ba0bc0bca9d00",
           "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {

@@ -1,0 +1,81 @@
+{
+  "schema": "publication_thesis_goals_resource_ledger_v1",
+  "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
+  "date": "2026-10-21",
+  "status": "REVIEWABLE_STAGE_COMPLETE",
+  "new_budget": {
+    "planning_attempt_cap": 4096,
+    "planning_token_cap": 20000000,
+    "attempts_used": 0,
+    "physical_http_calls": 0,
+    "accounting_tokens_used": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "training_gpu_seconds": 0,
+    "training_tokens": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  },
+  "historical_separate": [
+    {
+      "name": "PORTFOLIO_V2_AND_SUCCESSORS",
+      "attempts": 101,
+      "accounting_tokens": 57987
+    },
+    {
+      "name": "MA_CERD_AND_DIRECTION_SPRINT",
+      "attempts": 747,
+      "accounting_tokens": 1564176
+    },
+    {
+      "name": "OLDER_TATQA_CHAIN",
+      "attempts": 313,
+      "accounting_tokens": 324086
+    }
+  ],
+  "events": [],
+  "training_events": [],
+  "offline_checks": [
+    {
+      "id": "G1_INJECTION_SEED_REANALYSIS_20261021",
+      "host": "GB10",
+      "status": "PASS",
+      "evidence_identity": "POST_HOC_DETERMINISTIC_REANALYSIS_NOT_NEW_MODEL_EXPERIMENT",
+      "table_runs": 282,
+      "unique_source_table_uids": 119,
+      "raw_result": "research/publication_thesis_goals_v1/G1_SEED_REANALYSIS.json"
+    },
+    {
+      "id": "G1_VENUE_CHECK_20261021",
+      "host": "local",
+      "status": "PASS",
+      "evidence_identity": "OFFICIAL_PUBLIC_PAGE_CHECK",
+      "result": "ICAART, IEEE Access and SN Computer Science official public pages verified directly; live submission-system recheck remains before upload.",
+      "raw_result": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/VENUE_AUDIT.md"
+    },
+    {
+      "id": "G3_REVALIDATION_HEADROOM_PROBE_20261021",
+      "host": "local",
+      "status": "PASS_DEV_ONLY",
+      "evidence_identity": "DEV_ONLY_MIXED_NATURAL_STATE_AND_SYNTHETIC_CONTROL_PROBE",
+      "result": "Risk-greedy matched full-revalidation decisions with planning cost 62 versus 99 on 11 controlled states; most mechanism coverage is synthetic.",
+      "raw_result": "research/publication_thesis_goals_v1/G3_PROBE_RESULTS.json"
+    },
+    {
+      "id": "G2_TARGET_CONSUMPTION_VERIFIER_20261022",
+      "host": "local",
+      "status": "PASS_DEV_ONLY",
+      "evidence_identity": "NATURAL_CANDIDATES_PLUS_SYNTHETIC_MECHANISM_CONTROLS",
+      "result": "Basic behavior was 6/10, static contract 8/10, runtime consumption and hybrid 10/10; general semantic equivalence is not established.",
+      "raw_result": "research/publication_thesis_goals_v1/G2_CONTROL_RESULTS.json"
+    },
+    {
+      "id": "FINAL_INDEPENDENT_REVIEW_20261022",
+      "host": "local",
+      "status": "PASS_WITH_RESOLVED_BLOCKERS",
+      "evidence_identity": "INDEPENDENT_AI_REVIEW_NOT_HUMAN_GOLD",
+      "result": "Paper E conditional go for ICAART after B1-B3 fixes; G2 and G3 remain candidate method lines only.",
+      "raw_result": "research/publication_thesis_goals_v1/INDEPENDENT_REVIEW.md"
+    }
+  ]
+}

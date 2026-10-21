@@ -119,13 +119,16 @@
     "docs/experiments/2026-08-18_drift_injection_v0.md": "a9a9fea11854cef68f6b90a8786948de694a9412e6d2e5214dc61b71084a2bc8",
     "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION.json": "16c328bd17609f6045cf0fb311aa221d9aef0bb60369d5e1256d4421a3ad4034",
     "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION_PROVENANCE.md": "32d4159edbaa510f683f186a7501ba310ac118284f55b24cbf20b5ea80d74753",
-    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS_v1_raw_text_overlap.json": "586148d55116b092e5764ea07c13c522060b20323a969a84ae7bb8d6d5a8fd4f",
-    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS.json": "fb4a4cf0066c2482867752bb9b6e92cbf02783bd333635f9a99244b4924a81bd",
-    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/SOURCE_MANIFEST.json": "95a6396188cc0ee8f045c239e18fb83728370aa1dc6ccb4bad2a0cff395aa3fa",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS_v1_raw_text_overlap.json": "5c58d172d2eb94ea3a320865053beeb18c7f68cb371720d626caace2be3984d1",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS.json": "5c2e57558faac620c518bd9339e8338a4b5e243ca7278b067bb52bcd8f9f66e9",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/SOURCE_MANIFEST.json": "f82ec14661cb5fe3ce46d9fb696e20af55f45da3b9867c621707ffccd1250b52",
     "research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md": "81ca8aafc45ab0e0a818083fda2f8f63e3f6516e662c0848aa813a29c9410ce5",
-    "research/research_direction_sprint_20261020_v1/execution_v1/INDEPENDENT_REVIEW.md": "7dd0c5b8c772ede19bad14a95f2bc981e9c9c11f7218764ce73b521ee2defcf5"
+    "research/research_direction_sprint_20261020_v1/execution_v1/INDEPENDENT_REVIEW.md": "7dd0c5b8c772ede19bad14a95f2bc981e9c9c11f7218764ce73b521ee2defcf5",
+    "research/publication_thesis_goals_v1/G1_STATISTICAL_AUDIT.md": "b5b09d5a2ab3539a063299a67d5bb1b1ee4e782dc9da381c15d471f23e177a43",
+    "research/publication_thesis_goals_v1/G1_SEED_REANALYSIS.json": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d",
+    "research/publication_thesis_goals_v1/g1_recompute_seeds.py": "61a2282180f3bdcd86dc1697e892293f04482736b6757fc3a288340b1f086579"
   },
-  "hash_binding_note": "Historical sha256 values are bound to GB10 raw bytes (the authoritative host) and were recomputed/verified on 2026-10-11. The preserved FinRank v1/v2 evidence hashes added on 2026-10-21 are bound to the unmodified local raw bytes and independently match the provenance record. Every cited evidence path has an entry; no cited path is unbound.",
+  "hash_binding_note": "Historical sha256 values were preserved in the 2026-10-21 G1_HASH_REBIND.md record after the current workspace/GB10-integrated bytes diverged from the earlier bindings. The three FinRank JSON files were not edited in this Goal; their current HEAD bytes are re-bound here. The scope-lock hash is separately re-pinned after the dated statistical evidence amendment. Every cited evidence path has an entry; no cited path is unbound.",
   "corpus_note": "Frozen evaluation corpus: normalized public TAT-QA table base (no client data); the drift-v0 injector (seed 42, ratio 0.3, deterministic) marks the injection-carrier tables; the frozen surface uses the 95 such tables and their 118 injections (docs/experiments/2026-08-18_drift_injection_v0.md).",
   "internal_manifest_note": "paper/claim_manifest_v1.json is the finer-grained Stage-E internal claim ledger; this matrix is the SANER Route A authority. Residual: a clause-level mapping between the two is not yet enumerated; cite this matrix.",
   "case_accounting": {
@@ -179,7 +182,8 @@
       "FinRank v1/v2 provenance, 442/305 and 33/2 post-hoc labels, and unresolved reproduction gap are explicit.",
       "The compact feedback/gain-collateral result is removed from the submission body.",
       "AI-assisted 24-task and deferred model-free/scoring material is internal-only.",
-      "The six-step sequence is proposed and unvalidated."
+      "The six-step sequence is proposed and unvalidated.",
+      "The 219/282 point estimate is descriptive table-run evidence; repeated source-table UIDs are clustered for cross-seed uncertainty, with UID-equal and leave-one-seed-out sensitivity retained."
     ]
   },
   "route_b_qualification": {

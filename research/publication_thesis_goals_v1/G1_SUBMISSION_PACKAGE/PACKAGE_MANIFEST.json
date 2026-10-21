@@ -1,0 +1,19 @@
+{
+  "schema": "paper_e_icaart_submission_manifest_v1",
+  "date": "2026-10-22",
+  "route": "ICAART 2027 Regular Paper",
+  "review_pdf": "PAPER_E_ICAART_REVIEW.pdf",
+  "review_pdf_pages": 12,
+  "review_pdf_sha256": "db1f4f015ddf52227ce772bce55592a1427bcf096fe5810c3c47970406c37b0c",
+  "canonical_markdown": "../../paper/saner_rene_manuscript_v1.md",
+  "canonical_markdown_sha256": "424e832b3ec8cf7f654f3de8ec1fd779af267af2c851935b8bff0cbd5a14f15e",
+  "icaart_tex_sha256": "b479fccc489d2a1957a5e52d90665c5aa14bf0ce96291202cebf6b610aad2089",
+  "scitepress_template_zip_sha256": "5385a752f5da2f970236f21404405a2f5c78856c30abc96e02752f06aac20ab8",
+  "checks": {
+    "wide_evidence_check": "PASS",
+    "pre_submission_audit": "PASS",
+    "citations": "21/21",
+    "new_goal_model_judge_training_calls": 0
+  },
+  "owner_actions_required": true
+}

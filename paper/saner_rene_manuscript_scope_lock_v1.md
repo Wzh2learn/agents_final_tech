@@ -68,6 +68,7 @@ used as the current contribution statement.
 | Claim | Evidence | Status |
 |---|---|---|
 | 95 tables / 118 injections; 96 visible | `docs/research/stage_e_118_quantification_v1.md` | frozen |
+| Three-seed `219/282` descriptive estimate; 119 source-table UIDs; UID-cluster interval `[0.7117, 0.8364]` | `research/publication_thesis_goals_v1/G1_STATISTICAL_AUDIT.md`, `G1_SEED_REANALYSIS.json` | post-hoc deterministic reanalysis |
 | OCR-like `0/13` across 11 clusters | `docs/research/stage_e_zero_event_uncertainty_note_v1.md` | frozen |
 | Family visibility profile | `logs/graph/eval/checkpoint_discrimination_tables_v2.json`, `t2_visibility_sensitivity.json` | frozen |
 | Affine/rank equivalence and unresolved matched-FPR operating point | `docs/research/stage_e_matched_fpr_reanalysis_v1.md` | frozen |

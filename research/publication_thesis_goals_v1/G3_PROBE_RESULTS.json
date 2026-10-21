@@ -1,0 +1,1622 @@
+{
+  "schema": "g3_decision_probe_results_v1",
+  "evidence_identity": "DEV_ONLY_MIXED_NATURAL_STATE_AND_SYNTHETIC_CONTROL_PROBE",
+  "case_counts": {
+    "natural_model_output": 3,
+    "natural_environment_failure": 1,
+    "synthetic_control": 7
+  },
+  "action_costs": {
+    "preflight": 1,
+    "simple_contract": 1,
+    "behavior": 3,
+    "enhanced_consumption": 4
+  },
+  "strategies": {
+    "no_revalidation": {
+      "strategy": "no_revalidation",
+      "cases": 11,
+      "correct": 5,
+      "false_accept": 4,
+      "false_reject": 0,
+      "unresolved": 0,
+      "coverage": 1.0,
+      "total_cost": 0,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "ACCEPT",
+          "actions": [],
+          "cost": 0,
+          "observed": {},
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        }
+      ]
+    },
+    "behavior_only": {
+      "strategy": "behavior_only",
+      "cases": 11,
+      "correct": 6,
+      "false_accept": 3,
+      "false_reject": 0,
+      "unresolved": 0,
+      "coverage": 1.0,
+      "total_cost": 33,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior"
+          ],
+          "cost": 3,
+          "observed": {
+            "behavior": true
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        }
+      ]
+    },
+    "contract_only": {
+      "strategy": "contract_only",
+      "cases": 11,
+      "correct": 5,
+      "false_accept": 2,
+      "false_reject": 2,
+      "unresolved": 0,
+      "coverage": 1.0,
+      "total_cost": 11,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "REJECT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "REJECT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": true,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "REJECT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": true,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "REJECT",
+          "actions": [
+            "simple_contract"
+          ],
+          "cost": 1,
+          "observed": {
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        }
+      ]
+    },
+    "hybrid_fixed": {
+      "strategy": "hybrid_fixed",
+      "cases": 11,
+      "correct": 6,
+      "false_accept": 1,
+      "false_reject": 2,
+      "unresolved": 0,
+      "coverage": 1.0,
+      "total_cost": 44,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": false,
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": true,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": true,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": false,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "REJECT",
+          "actions": [
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 4,
+          "observed": {
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": false,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        }
+      ]
+    },
+    "full_revalidation": {
+      "strategy": "full_revalidation",
+      "cases": 11,
+      "correct": 11,
+      "false_accept": 0,
+      "false_reject": 0,
+      "unresolved": 2,
+      "coverage": 0.8182,
+      "total_cost": 99,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": false,
+            "behavior": true,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": true,
+            "behavior": true,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": true,
+            "behavior": true,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "DEFER_ENVIRONMENT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": false,
+            "simple_contract": false,
+            "behavior": false,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": true
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": false,
+            "behavior": true,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": false,
+            "behavior": true,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": false,
+            "behavior": true,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": true,
+            "behavior": true,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": true,
+            "behavior": false,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": true,
+            "behavior": true,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "DEFER",
+          "actions": [
+            "preflight",
+            "simple_contract",
+            "behavior",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "simple_contract": false,
+            "behavior": true,
+            "enhanced_consumption": null
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": true
+        }
+      ]
+    },
+    "fixed_order": {
+      "strategy": "fixed_order",
+      "cases": 11,
+      "correct": 10,
+      "false_accept": 1,
+      "false_reject": 0,
+      "unresolved": 2,
+      "coverage": 0.8182,
+      "total_cost": 63,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "DEFER_ENVIRONMENT",
+          "actions": [
+            "preflight"
+          ],
+          "cost": 1,
+          "observed": {
+            "preflight": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": true
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": false,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": false,
+            "enhanced_consumption": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": false,
+          "false_accept": true,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": false,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "DEFER",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract",
+            "enhanced_consumption"
+          ],
+          "cost": 9,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": false,
+            "enhanced_consumption": null
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": true
+        }
+      ]
+    },
+    "risk_greedy": {
+      "strategy": "risk_greedy",
+      "cases": 11,
+      "correct": 11,
+      "false_accept": 0,
+      "false_reject": 0,
+      "unresolved": 2,
+      "coverage": 0.8182,
+      "total_cost": 62,
+      "rows": [
+        {
+          "case_id": "ntrip_base_fallback",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_prose_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption",
+            "behavior"
+          ],
+          "cost": 8,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": true,
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "ntrip_structured_valid",
+          "identity": "NATURAL_MODEL_OUTPUT",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption",
+            "behavior"
+          ],
+          "cost": 8,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": true,
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "datetimerange_environment",
+          "identity": "NATURAL_ENVIRONMENT_FAILURE",
+          "truth": "ENVIRONMENT_INVALID",
+          "expected": "DEFER_ENVIRONMENT",
+          "decision": "DEFER_ENVIRONMENT",
+          "actions": [
+            "preflight"
+          ],
+          "cost": 1,
+          "observed": {
+            "preflight": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": true
+        },
+        {
+          "case_id": "control_valid_alias",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption",
+            "behavior"
+          ],
+          "cost": 8,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": true,
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_valid_wrapper",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption",
+            "behavior"
+          ],
+          "cost": 8,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": true,
+            "behavior": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_fallback_masked",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dead_target_call",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "enhanced_consumption"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_behavior_regression",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "INVALID",
+          "expected": "REJECT",
+          "decision": "REJECT",
+          "actions": [
+            "preflight",
+            "behavior"
+          ],
+          "cost": 4,
+          "observed": {
+            "preflight": true,
+            "behavior": false
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_clean_valid",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "VALID",
+          "expected": "ACCEPT",
+          "decision": "ACCEPT",
+          "actions": [
+            "preflight",
+            "behavior",
+            "simple_contract"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "behavior": true,
+            "simple_contract": true
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": false
+        },
+        {
+          "case_id": "control_dynamic_unresolved",
+          "identity": "SYNTHETIC_CONTROL",
+          "truth": "UNRESOLVED",
+          "expected": "DEFER",
+          "decision": "DEFER",
+          "actions": [
+            "preflight",
+            "enhanced_consumption"
+          ],
+          "cost": 5,
+          "observed": {
+            "preflight": true,
+            "enhanced_consumption": null
+          },
+          "correct": true,
+          "false_accept": false,
+          "false_reject": false,
+          "unresolved": true
+        }
+      ]
+    }
+  },
+  "headroom": {
+    "greedy_same_errors_as_hybrid": false,
+    "greedy_cost_delta_vs_hybrid": 18,
+    "greedy_same_decisions_as_full": true,
+    "greedy_cost_delta_vs_full": -37,
+    "behavior_only_false_accepts": 3,
+    "contract_only_false_accepts": 2,
+    "risk_greedy_has_cost_or_risk_space": true
+  },
+  "nonclaims": [
+    "Synthetic controls test mechanism coverage, not natural error prevalence.",
+    "Three natural model outputs are one task, not independent tasks.",
+    "The probe does not validate a learned policy or a general adaptive method.",
+    "No LoRA/SFT or Memory learning target is established."
+  ]
+}

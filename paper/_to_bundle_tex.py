@@ -11,6 +11,7 @@ Output: paper/overleaf_bundle/saner_rene_manuscript_v1.tex
 """
 import io
 import re
+import shutil
 
 SRC = "paper/saner_rene_manuscript_v1.tex"
 OUT = "paper/overleaf_bundle/saner_rene_manuscript_v1.tex"
@@ -42,4 +43,5 @@ assert "../docs/" not in s, "repo-relative figure path left in the bundle tex"
 assert "\\includesvg" not in s and "\\usepackage{svg}" not in s
 
 io.open(OUT, "w", encoding="utf-8", newline="\n").write(s)
+shutil.copy2("paper/saner_rene_references.bib", "paper/overleaf_bundle/saner_rene_references.bib")
 print("wrote", OUT, "| bytes", before, "->", len(s))
