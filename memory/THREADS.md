@@ -1,5 +1,18 @@
 # memory/THREADS.md — 未决线索
 
+[10-21] #RESEARCH_PORTFOLIO_V2_CORE_COMPLETE:
+`RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` completed its bounded
+exploration. Protected evidence is in
+`D:/AIRcommend/JinRongAgents/_protected_research_20261021_v1`; integration
+branch is `research/portfolio-integration-v2`. Paper E remains
+`NARROW_AND_CONTINUE` with `WIDE_EVIDENCE_CHECK=PASS`. Adaptive V3 found greedy
+sufficient and no two-step paired benefit on authored fixtures. CodeUpdateArena
+V1 executor is invalid; strict zero-request V2 revalidation preserved the
+bounded negative `3/8` versus `2/8` (`-1`). New accounting is 50 attempts and
+17,698 tokens. Do not rerun the same families; next research requires new
+families or a different externally grounded change task. Residual limitation:
+the RPC is a capability/object boundary, not an OS security sandbox.
+
 [10-21] #RESEARCH_PORTFOLIO_V2_S0_ACTIVE:
 `RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` is active. Protected
 evidence is stored outside the repository at

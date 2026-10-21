@@ -20,6 +20,9 @@ evidence, not competing entry points.
   hypothesis. Handling `0.012` is complete-set exact matching; admissibility
   and actual action selection are separate targets. See
   [`CORRECTIONS_20261021.md`](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
+- Research portfolio V2 integration: see
+  [`research/research_portfolio_v2/GOAL_RETURN.md`](../../research/research_portfolio_v2/GOAL_RETURN.md)
+  for the combined Paper E, adaptive-revalidation and CodeUpdateArena decision.
 - Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
   accounting tokens, recomputed from all 747 request records. The ledger has
   746 `OK` records and one retained `FAILED/request_already_exists` event with
@@ -123,9 +126,9 @@ selective escalation.
 
 ## Next Execution Step
 
-Integrate unique evidence across local and GB10, select one canonical Paper E
-manuscript, and run bounded adaptive-revalidation probes for action-loss
-active checking and local revalidation. Distinguish authored DEV_ONLY
-fixtures from model observations and new-family confirmation. Do not collect
-FinRank history, reopen stopped panels, or strengthen Paper E beyond its
-bounded two-case measurement-audit claim.
+Use the `research/portfolio-integration-v2` branch as the recoverable research
+state. Do not rerun the same CodeUpdateArena families or authored mechanism
+fixtures. Continue only with independent new families or a different
+externally grounded change task. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank
+at `STOP_ON_CURRENT_PANEL`, and MA-CERD selective escalation as an unverified
+development hypothesis.

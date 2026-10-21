@@ -1,7 +1,7 @@
 # Current State
 
-> Updated: 2026-10-21 | Scope: research portfolio governance, Paper E, and
-> adaptive revalidation | Runtime: S0 protection and corrections active
+> Updated: 2026-10-21 | Scope: research portfolio, Paper E, adaptive
+> revalidation, and CodeUpdateArena adapter | Runtime: core probes completed
 
 ## Current Rulings
 
@@ -17,6 +17,19 @@
   `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` remains a development hypothesis,
   not a verified unique-bottleneck result. See
   [`CORRECTIONS_20261021.md`](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
+- Adaptive revalidation V3: spawned-process RPC plus opaque IDs passed 24 tests
+  on Python 3.9/3.11 and a 450-episode receipt replay. Unit-cost greedy is
+  sufficient at three queries per fixture; two-step lookahead has zero positive
+  matched pairs and mean benefit `-0.02037`. Stop further complexity on these
+  authored fixtures.
+- CodeUpdateArena: the V1 executor is preserved as `INVALID_HARNESS_REPLAY`.
+  The zero-request V2 revalidation blocks marker/exit aliases, validates trusted
+  test lifecycles, pins the Docker image ID and classifies assertion failures.
+  Valid result: base `3/8`, update-info `2/8`, paired difference `-1`; ruling
+  `BOUNDED_NEGATIVE_STOP_V2_VALIDATED`.
+- New Goal accounting: `50/2048` attempts and `17,698/10,000,000` tokens.
+  Physical HTTP calls are 50; judge, training, paid API and production Memory
+  writes are zero.
 - Final FinRank development observation: B0 V4 `5/7`; derived plan
   minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
   `ESD_006` is a real sufficient-evidence abstention; `ESD_012` is a
@@ -41,11 +54,12 @@ GB10 authoritative review is
 
 ## Next Execution Step
 
-Protect and reconcile unique local/GB10 evidence, integrate one canonical
-Paper E manuscript, and qualify a thin adaptive-revalidation environment for
-action-loss active checking and local revalidation. Keep the new budget
-separate from frozen historical ledgers. Do not reopen the stopped FinRank
-panel or widen Paper E's bounded claim.
+Use `research/portfolio-integration-v2` as the reviewable integration branch.
+Do not rerun the same CodeUpdateArena families or authored mechanism fixtures.
+A new experiment is justified only for independent families or a different
+externally grounded change task. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank
+at `STOP_ON_CURRENT_PANEL`, and do not convert synthetic findings into general
+method claims.
 
 Historical state before the 2026-10-19 closeout is preserved in
 [`docs/archive/2026-10-19_memory_state_history.md`](../docs/archive/2026-10-19_memory_state_history.md).
