@@ -1,0 +1,92 @@
+{
+  "all_checks_pass": true,
+  "checks": {
+    "all_tie_inrecord_is_perfect_under_gold_first": true,
+    "global_permutation_can_change_tied_ranking": true,
+    "negative_pair": true,
+    "positive_pair": true,
+    "source_identity_collapses_to_first_metadata": true,
+    "tie_half_policy": true,
+    "tie_positive_policy": true,
+    "tie_strict_policy": true
+  },
+  "global_candidate_permutation": {
+    "forward": {
+      "mrr": 0.3333333333333333,
+      "ndcg@10": 0.5,
+      "recall@1": 0.0,
+      "recall@10": 1.0,
+      "recall@20": 1.0,
+      "recall@5": 1.0
+    },
+    "reversed": {
+      "mrr": 1.0,
+      "ndcg@10": 1.0,
+      "recall@1": 1.0,
+      "recall@10": 1.0,
+      "recall@20": 1.0,
+      "recall@5": 1.0
+    },
+    "same_metrics": false
+  },
+  "inrecord_all_ties": {
+    "mrr_gold_first_ties": 1.0,
+    "mrr_negative_first_ties": 0.3333333333333333,
+    "mrr_tie_sensitivity": 0.6666666666666667,
+    "ndcg_gold_first_ties": 1.0,
+    "ndcg_negative_first_ties": 0.5,
+    "ndcg_tie_sensitivity": 0.5
+  },
+  "pairwise": {
+    "equal_zero_scores": {
+      "accuracy_strict": 0.0,
+      "accuracy_ties_excluded": null,
+      "accuracy_ties_half": 0.5,
+      "accuracy_ties_positive": 1.0,
+      "losses": 0,
+      "pairs": 1,
+      "ties": 1,
+      "wins": 0
+    },
+    "expectations": {
+      "negative_ties_positive": 0.0,
+      "positive_ties_positive": 1.0,
+      "zero_tie_half": 0.5,
+      "zero_tie_strict": 0.0,
+      "zero_tie_ties_positive": 1.0
+    },
+    "negative_gold_below_negative": {
+      "accuracy_strict": 0.0,
+      "accuracy_ties_excluded": 0.0,
+      "accuracy_ties_half": 0.0,
+      "accuracy_ties_positive": 0.0,
+      "losses": 1,
+      "pairs": 1,
+      "ties": 0,
+      "wins": 0
+    },
+    "positive_gold_above_negative": {
+      "accuracy_strict": 1.0,
+      "accuracy_ties_excluded": 1.0,
+      "accuracy_ties_half": 1.0,
+      "accuracy_ties_positive": 1.0,
+      "losses": 0,
+      "pairs": 1,
+      "ties": 0,
+      "wins": 1
+    }
+  },
+  "schema": "finrank-audit-fixtures-v1",
+  "source_first_occurrence": {
+    "both_records_map_to_first_metadata": true,
+    "metadata": [
+      [
+        "AAA",
+        "2025",
+        "10-K"
+      ]
+    ],
+    "shared_text_index": 0,
+    "unique_texts": 1
+  }
+}

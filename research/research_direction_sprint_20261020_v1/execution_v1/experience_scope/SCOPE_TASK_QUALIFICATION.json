@@ -1,0 +1,181 @@
+{
+  "schema": "finrank_experience_scope_qualification_v2",
+  "status": "QUALIFICATION_REVISION_COMPLETE_BLOCKED",
+  "scientific_scope": "Development-only feasibility and headroom qualification; no model request, no learning-effect result and no independent confirmation.",
+  "generation_gate": {
+    "status": "BLOCKED_REFERENCE_AND_TOOL_CONTRACT_PENDING",
+    "reason": "All 24 draft tasks require conservative human semantic adjudication and the plan->evidence_lookup->consume contract is draft-only. No generation request is authorized."
+  },
+  "inputs": {
+    "finrank_jsonl": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\research_direction_sprint_20261020_v1\\execution_v1\\paper_e_audit\\vendor\\FinRank\\FinRank.jsonl",
+    "finrank_jsonl_sha256": "b763ef4d58706370bd32f828b94852d2aa19f5227cb603481dd230d8121360ac",
+    "finrank_readme": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\research_direction_sprint_20261020_v1\\execution_v1\\paper_e_audit\\vendor\\FinRank\\README.md",
+    "finrank_readme_sha256": "6ca6c79d18ab5f67e71bcc1d488c56ac0f4c91fa72cd2c52eaafbb509579ffe5",
+    "finrank_license": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\research_direction_sprint_20261020_v1\\execution_v1\\paper_e_audit\\vendor\\FinRank\\LICENSE",
+    "finrank_license_sha256": "e71c2199fcea6e083a48f7a51d850bc163712459713cb6bc00f46e6159b1f8be",
+    "license": "CC BY-NC 4.0"
+  },
+  "eligibility_rule": {
+    "task_need": "Question contains an explicit 20xx period and the record has at least one same-company hard negative from a different filing year or document form.",
+    "reference_rule": "At least one human-curated supporting passage and no exact text_sha1 overlap between supporting passages and hard negatives.",
+    "not_selected_by_model_error": true
+  },
+  "counts": {
+    "records_read": 1185,
+    "eligible_records": 181,
+    "excluded_records": {
+      "NO_EXPLICIT_QUESTION_YEAR": 752,
+      "NO_SAME_COMPANY_CROSS_PERIOD_OR_FORM_NEGATIVE": 252
+    },
+    "eligible_by_sector_split": {
+      "DEVELOPMENT_AUTO": 18,
+      "FUTURE_HOLDOUT_ENERGY": 29,
+      "HISTORY_PHARMA": 134
+    },
+    "selected_development_tasks": 12,
+    "selected_future_development_holdout_tasks": 12,
+    "selected_history_collection_candidates": 24,
+    "reference_ambiguity": {
+      "tasks_checked": 24,
+      "requires_human_semantic_adjudication": 24,
+      "potential_visible_alternative_support": 5,
+      "visible_alternative_support_unresolved": 19,
+      "period_unique": 22,
+      "period_unresolved_or_non_unique": 2,
+      "unit_explicit_unique_set": 6,
+      "unit_not_explicit": 17,
+      "unit_unresolved": 1
+    }
+  },
+  "source_isolation": {
+    "method": "Ticker-level baseline plus conservative union across any exact text_sha1 shared by passages or hard negatives.",
+    "components": [
+      {
+        "source_cluster_id": "source_component_01",
+        "tickers": [
+          "ABBV",
+          "AMGN",
+          "JNJ",
+          "LLY",
+          "MRK",
+          "MRNA",
+          "PFE"
+        ],
+        "cross_ticker_exact_text_hash_links": 107
+      },
+      {
+        "source_cluster_id": "source_component_02",
+        "tickers": [
+          "COP",
+          "CTRA",
+          "CVX",
+          "DVN",
+          "EOG",
+          "EPD",
+          "ET",
+          "KMI",
+          "LNG",
+          "MPC",
+          "WMB",
+          "XOM"
+        ],
+        "cross_ticker_exact_text_hash_links": 147
+      },
+      {
+        "source_cluster_id": "source_component_03",
+        "tickers": [
+          "F",
+          "GM",
+          "TSLA"
+        ],
+        "cross_ticker_exact_text_hash_links": 43
+      }
+    ],
+    "report_identity_limit": "The release does not expose a stable filing report ID; ticker|year|form is a conservative report key and can merge multiple quarterly filings. Cross-report independence is UNRESOLVED and must not be claimed.",
+    "split_rule": {
+      "version": "finrank_scope_split_v1",
+      "HISTORY_PHARMA": [
+        "ABBV",
+        "AMGN",
+        "JNJ",
+        "LLY",
+        "MRK",
+        "MRNA",
+        "PFE"
+      ],
+      "DEVELOPMENT_AUTO": [
+        "F",
+        "GM",
+        "TSLA"
+      ],
+      "FUTURE_HOLDOUT_ENERGY": [
+        "COP",
+        "CTRA",
+        "CVX",
+        "DVN",
+        "EOG",
+        "EPD",
+        "ET",
+        "KMI",
+        "LNG",
+        "MPC",
+        "WMB",
+        "XOM"
+      ]
+    }
+  },
+  "decision_space_probes": {
+    "lexical_top_k": {
+      "method": "stopword-filtered question/passage token Jaccard; top-k with k=gold_count",
+      "scientific_status": "OFFLINE_HEADROOM_PROBE_NOT_A_MODEL_BASELINE",
+      "records_evaluated": 181,
+      "exact_gold_sets": 72,
+      "exact_gold_set_rate": 0.39779,
+      "by_gold_count": {
+        "1_gold:false": 41,
+        "1_gold:true": 38,
+        "2_gold:false": 40,
+        "2_gold:true": 21,
+        "3_gold:false": 27,
+        "3_gold:true": 11,
+        "4_gold:true": 2,
+        "5_gold:false": 1
+      }
+    },
+    "visible_year_and_form_rule": {
+      "method": "candidate filing year equals last question year and candidate form equals record form",
+      "scientific_status": "LEAKAGE_AND_SIMPLE_RULE_PROBE",
+      "correct_if_any_gold_match": 98,
+      "wrong_if_only_hard_match": 19,
+      "abstain": 64
+    }
+  },
+  "reference_quality": {
+    "status": "HUMAN_CURATED_WITH_LIMITED_INTER_ANNOTATOR_EVIDENCE",
+    "per_task_ambiguity_status": "All 24 tasks are marked REQUIRES_HUMAN_SEMANTIC_ADJUDICATION; this script does not create or certify a new human gold label.",
+    "facts": [
+      "FinRank README states that questions, answers, passages and hard negatives were manually authored.",
+      "FinRank README reports single annotator per record and no formal inter-annotator agreement.",
+      "No eligible record has exact text_sha1 overlap between a supporting passage and a hard negative.",
+      "The per-task check can identify potential visible alternatives but cannot rule out semantic alternative support without human adjudication."
+    ],
+    "human_semantic_adjudication_required_for": [
+      "Any future case where multiple candidate passages can answer the question despite one recorded supporting-passage label.",
+      "Any task whose requested period or unit cannot be uniquely resolved from the question and visible passage text."
+    ]
+  },
+  "exposure": {
+    "researcher_material_exposure": "CONFIRMED",
+    "model_training_or_prompt_exposure": "EXPOSURE_UNKNOWN",
+    "use_status": "DEVELOPMENT_ONLY; not an unseen or pretraining-unseen confirmation set."
+  },
+  "known_blockers_for_generation": [
+    "All 24 task references are BLOCKED_PENDING_HUMAN_SEMANTIC_ADJUDICATION.",
+    "No task-matched FinRank historical experience has been collected.",
+    "The plan->evidence_lookup->consume contract is a draft and has not been instantiated as a runner or fixture-tested.",
+    "The proposed experience gate and strong-rule/solved-example controls have not received independent scientific review.",
+    "No fixed runtime, prompt or raw-response contract has been frozen for this candidate.",
+    "Exact source-cluster independence beyond the conservative connected components is unresolved."
+  ],
+  "next_gate": "Independent review of this qualification and the task draft; if unblocked, design a small task-matched history collection and B0. Do not issue a generation request from this artifact alone."
+}

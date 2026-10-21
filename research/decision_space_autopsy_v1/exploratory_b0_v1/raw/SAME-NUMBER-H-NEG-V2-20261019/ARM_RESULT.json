@@ -1,0 +1,21 @@
+{
+  "schema": "same_number_role_arm_result_v1",
+  "authorization_id": "SAME-NUMBER-H_NEG-V2-20261019-12REQ",
+  "arm": "H_NEG",
+  "decision": "TECHNICAL_OR_WINDOW_STOP",
+  "stop_reason": "WINDOW_EXPIRED_BEFORE_PLAN",
+  "success_count": 0,
+  "non_success_count": 0,
+  "non_success_clusters": [],
+  "budget": {
+    "requests": 0,
+    "reserved_tokens": 0,
+    "actual_tokens": 0,
+    "request_cap": 12,
+    "token_cap": 150000,
+    "per_request_reserve": 10240,
+    "stop_reason": null
+  },
+  "produced_request_keys": [],
+  "results": []
+}

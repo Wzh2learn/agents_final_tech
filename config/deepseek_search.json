@@ -1,0 +1,7 @@
+{
+  "api_key_env": "DEEPSEEK_API_KEY",
+  "api_base": "https://api.deepseek.com",
+  "search_path": "/v1/tools/search",
+  "fetch_path": "/v1/tools/fetch",
+  "timeout_seconds": 60
+}

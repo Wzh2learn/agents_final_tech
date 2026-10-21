@@ -1,0 +1,110 @@
+{
+  "checks": {
+    "direct": true,
+    "raw": true,
+    "records": true,
+    "statuses": true,
+    "tie": true,
+    "tokens": true
+  },
+  "ledger_slice": [
+    {
+      "accounting_tokens": 70,
+      "error": null,
+      "payload_sha256": "d465bfd2dcc0731335c42802afd4f763007571c970a91dc3e61326a7ec78afda",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|DIRECT_OBJECT|1:7d4f43deed",
+      "request_key": "form|DIRECT_OBJECT|1",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:24.361041Z",
+      "started_at_utc": "2026-10-20T12:08:23.637619Z",
+      "status": "OK",
+      "usage_total_tokens": 70
+    },
+    {
+      "accounting_tokens": 70,
+      "error": null,
+      "payload_sha256": "5ad853b4d4288503861962d81bd506e063bb7a3446ad24d991cf567880c6dad6",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|DIRECT_OBJECT|2:77c9f59b6c",
+      "request_key": "form|DIRECT_OBJECT|2",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:24.872306Z",
+      "started_at_utc": "2026-10-20T12:08:24.361832Z",
+      "status": "OK",
+      "usage_total_tokens": 70
+    },
+    {
+      "accounting_tokens": 70,
+      "error": null,
+      "payload_sha256": "8b531652a09f307a8c33a03347625b4f20bdb03b1953d5d56bb3a83421874944",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|DIRECT_OBJECT|3:d7c0b24f54",
+      "request_key": "form|DIRECT_OBJECT|3",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:25.379144Z",
+      "started_at_utc": "2026-10-20T12:08:24.872967Z",
+      "status": "OK",
+      "usage_total_tokens": 70
+    },
+    {
+      "accounting_tokens": 70,
+      "error": null,
+      "payload_sha256": "b6961de703dfb5094454ad1b30064a21c9e35b8714dae679130ddadadc6c7659",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|DIRECT_OBJECT|4:aafcec1618",
+      "request_key": "form|DIRECT_OBJECT|4",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:25.891980Z",
+      "started_at_utc": "2026-10-20T12:08:25.379798Z",
+      "status": "OK",
+      "usage_total_tokens": 70
+    },
+    {
+      "accounting_tokens": 84,
+      "error": null,
+      "payload_sha256": "51ab85ae5e7963d4085ebcbb94b59f5c86e8a7c6a4f377b1ae2a6cace9b0d1ab",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|TOOL_WRAPPER|1:5672e222b4",
+      "request_key": "form|TOOL_WRAPPER|1",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:26.506772Z",
+      "started_at_utc": "2026-10-20T12:08:25.892632Z",
+      "status": "OK",
+      "usage_total_tokens": 84
+    },
+    {
+      "accounting_tokens": 84,
+      "error": null,
+      "payload_sha256": "c03246a9a8dd3ab70c829579815bcddd4054119f8958de81873a912aedb8d0f5",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|TOOL_WRAPPER|2:639cc1eadb",
+      "request_key": "form|TOOL_WRAPPER|2",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:27.125523Z",
+      "started_at_utc": "2026-10-20T12:08:26.507429Z",
+      "status": "OK",
+      "usage_total_tokens": 84
+    },
+    {
+      "accounting_tokens": 84,
+      "error": null,
+      "payload_sha256": "8560c45e8bf43168f04e35263130f4cedc8f3aa3a0bbdccf12a78470f4afad90",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|TOOL_WRAPPER|3:af1df9e9b6",
+      "request_key": "form|TOOL_WRAPPER|3",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:27.750259Z",
+      "started_at_utc": "2026-10-20T12:08:27.126227Z",
+      "status": "OK",
+      "usage_total_tokens": 84
+    },
+    {
+      "accounting_tokens": 84,
+      "error": null,
+      "payload_sha256": "bd3351b221c6a8a1a67f34328f07d8547b1339930673477e3980193c4cb06eb5",
+      "record_id": "INTERFACE_FORM_CANARY_V3_20261020:form|TOOL_WRAPPER|4:02662a4b83",
+      "request_key": "form|TOOL_WRAPPER|4",
+      "run_id": "INTERFACE_FORM_CANARY_V3_20261020",
+      "settled_at_utc": "2026-10-20T12:08:28.371220Z",
+      "started_at_utc": "2026-10-20T12:08:27.750931Z",
+      "status": "OK",
+      "usage_total_tokens": 84
+    }
+  ],
+  "ledger_slice_tokens": 616,
+  "status": "PASS"
+}

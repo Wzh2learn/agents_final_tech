@@ -1,0 +1,577 @@
+{
+  "schema": "same_number_role_history_result_v1",
+  "authorization_id": "SAME-NUMBER-HISTORY-20261019-24REQ",
+  "experiences": [
+    {
+      "task_id": "NR_development_0402_N2",
+      "source_cluster_id": "cluster_0402",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "Group 2019",
+        "row_index": 2,
+        "row_label": "Cash and cash equivalents",
+        "value": "-223.0",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 1,
+        "period_label": "Group 2019",
+        "row_index": 8,
+        "row_label": "Cash including Group’s share of joint ventures",
+        "value": "-223.0",
+        "year": 2019
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_0402_N2",
+          "source_cluster_id": "cluster_0402",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": false,
+          "tool_execution_success": false,
+          "consume_contract_valid": true,
+          "numeric_match": false,
+          "decision_match": false,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "plan": {
+            "status": "INVALID_PLAN",
+            "error": "unsupported_expression_node"
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {},
+            "returned_value": null,
+            "status": "TOOL_ERROR",
+            "error": "INVALID_PLAN"
+          },
+          "consume": {
+            "calc_value": null,
+            "decision": "UNKNOWN",
+            "unit": null
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_0402_N2",
+          "source_cluster_id": "cluster_0402",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "-223.0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "-223.0"
+            },
+            "returned_value": -223.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": -223.0,
+            "decision": "WRONG_ROLE",
+            "unit": "GBP"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "PLAN_OR_TOOL_ERROR",
+        "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+      }
+    },
+    {
+      "task_id": "NR_development_0402_P1",
+      "source_cluster_id": "cluster_0402",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "Group 2019",
+        "row_index": 2,
+        "row_label": "Cash and cash equivalents",
+        "value": "-223.0",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 1,
+        "period_label": "Group 2019",
+        "row_index": 2,
+        "row_label": "Cash and cash equivalents",
+        "value": "-223.0",
+        "year": 2019
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_0402_P1",
+          "source_cluster_id": "cluster_0402",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": false,
+          "tool_execution_success": false,
+          "consume_contract_valid": true,
+          "numeric_match": false,
+          "decision_match": false,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "plan": {
+            "status": "INVALID_PLAN",
+            "error": "unsupported_expression_node"
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {},
+            "returned_value": null,
+            "status": "TOOL_ERROR",
+            "error": "INVALID_PLAN"
+          },
+          "consume": {
+            "calc_value": null,
+            "decision": "UNKNOWN",
+            "unit": null
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_0402_P1",
+          "source_cluster_id": "cluster_0402",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "-223.0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "-223.0"
+            },
+            "returned_value": -223.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": -223.0,
+            "decision": "SUPPORTED",
+            "unit": "GBP"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "PLAN_OR_TOOL_ERROR",
+        "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+      }
+    },
+    {
+      "task_id": "NR_development_1582_N2",
+      "source_cluster_id": "cluster_1582",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 4,
+        "row_label": "Adjusted operating costs1",
+        "value": "275.7",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 9,
+        "row_label": "Adjusted operating costs1",
+        "value": "275.7",
+        "year": 2019
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_1582_N2",
+          "source_cluster_id": "cluster_1582",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": false,
+          "tool_execution_success": false,
+          "consume_contract_valid": true,
+          "numeric_match": false,
+          "decision_match": false,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "plan": {
+            "status": "INVALID_PLAN",
+            "error": "unsupported_expression_node"
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {},
+            "returned_value": null,
+            "status": "TOOL_ERROR",
+            "error": "INVALID_PLAN"
+          },
+          "consume": {
+            "calc_value": null,
+            "decision": "UNKNOWN",
+            "unit": null
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_1582_N2",
+          "source_cluster_id": "cluster_1582",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": false,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "SUPPORTED",
+          "outcome": "NON_SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.7"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.7"
+            },
+            "returned_value": 275.7,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 275.7,
+            "decision": "SUPPORTED",
+            "unit": "USD"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "PLAN_OR_TOOL_ERROR",
+        "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+      }
+    },
+    {
+      "task_id": "NR_development_1582_P1",
+      "source_cluster_id": "cluster_1582",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 4,
+        "row_label": "Adjusted operating costs1",
+        "value": "275.7",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 4,
+        "row_label": "Adjusted operating costs1",
+        "value": "275.7",
+        "year": 2019
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_1582_P1",
+          "source_cluster_id": "cluster_1582",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": false,
+          "tool_execution_success": false,
+          "consume_contract_valid": true,
+          "numeric_match": false,
+          "decision_match": false,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "plan": {
+            "status": "INVALID_PLAN",
+            "error": "unsupported_expression_node"
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {},
+            "returned_value": null,
+            "status": "TOOL_ERROR",
+            "error": "INVALID_PLAN"
+          },
+          "consume": {
+            "calc_value": null,
+            "decision": "UNKNOWN",
+            "unit": null
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_1582_P1",
+          "source_cluster_id": "cluster_1582",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.7"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "275.7"
+            },
+            "returned_value": 275.7,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 275.7,
+            "decision": "SUPPORTED",
+            "unit": "USD"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "PLAN_OR_TOOL_ERROR",
+        "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+      }
+    },
+    {
+      "task_id": "NR_development_2174_N2",
+      "source_cluster_id": "cluster_2174",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 7,
+        "row_label": "Non-deductible and other items",
+        "value": "3.4",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 2,
+        "period_label": "2018",
+        "row_index": 7,
+        "row_label": "Non-deductible and other items",
+        "value": "3.4",
+        "year": 2018
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_2174_N2",
+          "source_cluster_id": "cluster_2174",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "3.4 - 3.4"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "3.4 - 3.4"
+            },
+            "returned_value": 0.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "decision": "WRONG_ROLE",
+            "calc_value": 0.0,
+            "unit": "GBP"
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_2174_N2",
+          "source_cluster_id": "cluster_2174",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "3.4 - 3.4"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "3.4 - 3.4"
+            },
+            "returned_value": 0.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 0.0,
+            "decision": "WRONG_ROLE",
+            "unit": "GBP"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "SUCCESS",
+        "message": "The first attempt was correct. Preserve the same evidence-role decision."
+      }
+    },
+    {
+      "task_id": "NR_development_2174_P1",
+      "source_cluster_id": "cluster_2174",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 7,
+        "row_label": "Non-deductible and other items",
+        "value": "3.4",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 7,
+        "row_label": "Non-deductible and other items",
+        "value": "3.4",
+        "year": 2019
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_2174_P1",
+          "source_cluster_id": "cluster_2174",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": false,
+          "tool_execution_success": false,
+          "consume_contract_valid": true,
+          "numeric_match": false,
+          "decision_match": false,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "UNKNOWN",
+          "outcome": "NON_SUCCESS",
+          "plan": {
+            "status": "INVALID_PLAN",
+            "error": "unsupported_expression_node"
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {},
+            "returned_value": null,
+            "status": "TOOL_ERROR",
+            "error": "INVALID_PLAN"
+          },
+          "consume": {
+            "calc_value": null,
+            "decision": "UNKNOWN",
+            "unit": null
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_2174_P1",
+          "source_cluster_id": "cluster_2174",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "3.4"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "3.4"
+            },
+            "returned_value": 3.4,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 3.4,
+            "decision": "SUPPORTED",
+            "unit": "GBP"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "PLAN_OR_TOOL_ERROR",
+        "message": "The calculator plan or tool execution failed. Emit one valid calc expression."
+      }
+    }
+  ],
+  "budget": {
+    "requests": 24,
+    "reserved_tokens": 0,
+    "actual_tokens": 16064,
+    "request_cap": 24,
+    "token_cap": 300000,
+    "per_request_reserve": 10240,
+    "stop_reason": null
+  }
+}

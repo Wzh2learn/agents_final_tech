@@ -1,0 +1,166 @@
+{
+  "schema": "same_number_role_arm_result_v1",
+  "authorization_id": "SAME-NUMBER-C_RESIDUAL-20261019",
+  "arm": "C_RESIDUAL",
+  "decision": "C_RESIDUAL_LIMITED_RESIDUAL",
+  "stop_reason": null,
+  "success_count": 2,
+  "non_success_count": 2,
+  "non_success_clusters": [
+    "cluster_1604"
+  ],
+  "budget": {
+    "requests": 8,
+    "reserved_tokens": 0,
+    "actual_tokens": 5774,
+    "request_cap": 8,
+    "token_cap": 300000,
+    "per_request_reserve": 10240,
+    "stop_reason": null
+  },
+  "produced_request_keys": [
+    "plan|C_RESIDUAL|NR_exploratory_future_1604_N2",
+    "consume|C_RESIDUAL|NR_exploratory_future_1604_N2",
+    "plan|C_RESIDUAL|NR_exploratory_future_1604_P1",
+    "consume|C_RESIDUAL|NR_exploratory_future_1604_P1",
+    "plan|C_RESIDUAL|NR_exploratory_future_1792_N2",
+    "consume|C_RESIDUAL|NR_exploratory_future_1792_N2",
+    "plan|C_RESIDUAL|NR_exploratory_future_1792_P1",
+    "consume|C_RESIDUAL|NR_exploratory_future_1792_P1"
+  ],
+  "results": [
+    {
+      "task_id": "NR_exploratory_future_1604_N2",
+      "source_cluster_id": "cluster_1604",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": false,
+      "numeric_match": false,
+      "decision_match": false,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "FORMAT_INVALID",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "status": "INVALID_PLAN",
+        "error": "unsupported_expression_node"
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {},
+        "returned_value": null,
+        "status": "TOOL_ERROR",
+        "error": "INVALID_PLAN"
+      },
+      "consume": {
+        "decision": "FORMAT_INVALID",
+        "calc_value": null,
+        "unit": null,
+        "error": "role_decision_requires_numeric_calc_value"
+      },
+      "arm": "C_RESIDUAL"
+    },
+    {
+      "task_id": "NR_exploratory_future_1604_P1",
+      "source_cluster_id": "cluster_1604",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": false,
+      "tool_execution_success": false,
+      "consume_contract_valid": true,
+      "numeric_match": false,
+      "decision_match": false,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "UNKNOWN",
+      "outcome": "NON_SUCCESS",
+      "plan": {
+        "status": "INVALID_PLAN",
+        "error": "unsupported_expression_node"
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {},
+        "returned_value": null,
+        "status": "TOOL_ERROR",
+        "error": "INVALID_PLAN"
+      },
+      "consume": {
+        "calc_value": null,
+        "decision": "UNKNOWN",
+        "unit": null
+      },
+      "arm": "C_RESIDUAL"
+    },
+    {
+      "task_id": "NR_exploratory_future_1792_N2",
+      "source_cluster_id": "cluster_1792",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "EUR"
+      },
+      "arm": "C_RESIDUAL"
+    },
+    {
+      "task_id": "NR_exploratory_future_1792_P1",
+      "source_cluster_id": "cluster_1792",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "SUPPORTED",
+        "unit": "EUR"
+      },
+      "arm": "C_RESIDUAL"
+    }
+  ]
+}

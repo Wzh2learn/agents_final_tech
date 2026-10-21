@@ -1,0 +1,15 @@
+{
+  "schema": "collection_execution_authorization_v1",
+  "authorization_id": "AUTH-20261019-1000-CST-54REQ-a375334d",
+  "mode": "SINGLE_COLLECTION_RUN",
+  "bundle_sha256": "a375334da31fee25b638e40477220819678c50a586987f27adfa37f1c2ff3d4c",
+  "window_start_utc": "2026-10-19T02:00:00Z",
+  "window_end_utc": "2026-10-19T03:30:00Z",
+  "timezone": "Asia/Shanghai",
+  "request_cap": 54,
+  "token_cap": 600000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "wzh approved output-contract consistency repair and conditional collection-to-pilot continuation; Loop D selected 2026-10-19 10:00-11:30 Asia/Shanghai within authorized validity; no separate human semantic signature claimed"
+}

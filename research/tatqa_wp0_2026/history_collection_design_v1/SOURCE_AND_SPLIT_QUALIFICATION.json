@@ -1,0 +1,325 @@
+{
+  "schema": "history_collection_source_split_qualification_v1",
+  "generated_at": "2026-10-17T21:46:40+08:00",
+  "status": "QUALIFICATION_PACKAGE_PARTIAL",
+  "scientific_status": "NOT_A_SCIENTIFIC_PASS",
+  "source_identity": {
+    "dataset": "TAT-QA",
+    "upstream": "https://github.com/NExTplusplus/TAT-QA",
+    "revision": "870accc41953dcde885aabeb963d94aabdc0fbc3",
+    "licence": {
+      "name": "CC BY 4.0",
+      "status": "VERIFIED_AT_PINNED_REVISION",
+      "release_note_required": true,
+      "public_data_release_authorized": false
+    },
+    "raw_files": [
+      {
+        "path": "data/research/tatqa_raw_2026/tatqa_dataset_train.json",
+        "split": "train",
+        "records": 2201,
+        "bytes": 12845647,
+        "sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+        "gb10_presence": "VERIFIED",
+        "local_workspace_presence": false
+      },
+      {
+        "path": "data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+        "split": "dev",
+        "records": 278,
+        "bytes": 1637431,
+        "sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+        "gb10_presence": "VERIFIED",
+        "local_workspace_presence": false
+      }
+    ],
+    "raw_record_schema": {
+      "records_total": 2479,
+      "top_level_keys": [
+        "paragraphs",
+        "questions",
+        "table"
+      ],
+      "report_id_field_present": false
+    },
+    "path_note": "The earlier dataset_raw/ path is not present; the verified GB10 raw files are directly under data/research/tatqa_raw_2026/."
+  },
+  "derived_artifacts": {
+    "origin_manifest": {
+      "path": "data/research/tatqa_wp0_2026/origin_manifest.json",
+      "sha256": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea",
+      "definition": "one raw record with unique table and paragraph context",
+      "record_origins": 182,
+      "record_origins_with_ge2_usable_rows": 176,
+      "split_counts": {
+        "train": 157,
+        "dev": 25
+      },
+      "status": "RECORD_LEVEL_ONLY"
+    },
+    "candidate_items_v1": {
+      "path": "data/research/tatqa_wp0_2026/candidate_items_v1.json",
+      "sha256": "bc55fe7a53381f32e5d84ff6c17ced18ec72fd322f98a9f80c4eccb714caac12",
+      "items": 60,
+      "distinct_origins": 60,
+      "status": "DRAFT_NOT_FROZEN"
+    },
+    "candidate_items_v2": {
+      "path": "data/research/tatqa_wp0_2026/candidate_items_v2.json",
+      "sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+      "items": 352,
+      "distinct_origins": 176,
+      "eligible_items_after_currency_filter": 316,
+      "excluded_generic_currency_items": 36,
+      "status": "DRAFT_NOT_FROZEN"
+    },
+    "split_receipt": {
+      "path": "research/tatqa_wp0_2026/WP2_SPLIT_DRYRUN_RECEIPT.json",
+      "sha256": "4a95fff77d77ea86a492736864149a6013a94b031115cbaf0539f3bb3457f356",
+      "status": "DRAFT_NOT_FROZEN"
+    }
+  },
+  "source_cluster_rule": {
+    "unit": "connected source cluster",
+    "report_id_rule": "all records with the same verified report ID are one cluster",
+    "exact_edges": [
+      "identical normalized table",
+      "identical normalized paragraph-set",
+      "verified cross-report copied content"
+    ],
+    "proposed_near_duplicate_rule": {
+      "normalization": "Unicode NFKC, lowercase, whitespace collapse, punctuation removal",
+      "table_representation": "multiset of normalized cell 5-grams",
+      "paragraph_representation": "multiset of normalized paragraph 5-grams",
+      "table_jaccard_threshold": 0.9,
+      "paragraph_jaccard_threshold": 0.8,
+      "edge_condition": "table_jaccard >= 0.90 and paragraph_jaccard >= 0.80",
+      "component_rule": "undirected connected components",
+      "freeze_before_model_results": true
+    },
+    "implementation_status": "READ_ONLY_RECOMPUTED_FOR_DESIGN",
+    "candidate_manifest_components": 182,
+    "candidate_manifest_component_size_counts": {
+      "1": 182
+    },
+    "clean_components_after_wp2_role_exclusions": 160,
+    "clean_components_with_ge2_rows": 154,
+    "clean_component_size_counts": {
+      "1": 154
+    },
+    "recomputation_scope": "182-record history-candidate manifest only; not a persistent builder, report-level audit, or unseen-test pool",
+    "future_test_use": "PROHIBITED_FOR_THE_182_RECORD_MANIFEST_BECAUSE_IT_WAS_A_TQ5_EXCLUSION_SOURCE",
+    "report_level_cluster_count": "UNRESOLVED",
+    "near_duplicate_component_count": 182,
+    "same_company_cross_period_resolution": "UNRESOLVED"
+  },
+  "known_exposure": {
+    "policy": "Exposed materials may support development/history but cannot enter a new unseen confirmation set. Old raw/plan/consume traces cannot enter U/E experience contexts.",
+    "wp2_role_origins_record_level": {
+      "count": 22,
+      "pilot": [
+        "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560",
+        "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+        "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef",
+        "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38",
+        "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde",
+        "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16",
+        "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d",
+        "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151"
+      ],
+      "pilot_reserve": [
+        "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+        "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+        "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7",
+        "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+        "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184",
+        "tatqa_8df5c241-c68c-427a-99af-30c44214199b",
+        "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987",
+        "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94"
+      ],
+      "development": [
+        "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396",
+        "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c"
+      ],
+      "history": [
+        "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+        "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+        "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+        "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934"
+      ]
+    },
+    "tq4_natural_uids": [
+      "195174fe-dd0a-40b1-9139-21fb207f382a",
+      "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+      "9bce514f-3eb3-433c-85e5-2d40d116497c",
+      "70cf5260-2124-4a26-a148-5cf3c6028813"
+    ],
+    "tq5_uids": [
+      "1cccc413-362e-448a-b759-ec17ce9b7082",
+      "fe1ea22e-46a1-4cee-ad55-a16b6e74739d",
+      "c13323c3-200f-4a86-8370-8877c47314d7",
+      "c66e5d6e-947b-4bc4-bfe2-d6015fc23bb7",
+      "dd5eac5a-de74-4ed4-b959-e6ad134e646b",
+      "cce45fed-279f-4889-ac57-6f8faae6d170",
+      "3661fba5-2876-41d7-9213-e86a6d5078dd",
+      "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+      "7fa11b39-7af2-408b-9ee2-03479d6f6ffe",
+      "1f358d9f-f5e6-4fcd-b495-d4721c968324",
+      "36395829-b7fb-49d5-b2ff-f2c53ac45631",
+      "bd504c68-5a6d-4726-aa21-05a9587a9894"
+    ],
+    "tq4_manual_candidate_source_uids": {
+      "Q02": {
+        "uid": "329e3ff5-0cff-4849-8fd0-9b1e5606f6ca",
+        "mapping_basis": "exact normalized table and paragraph identity",
+        "status": "MAPPED"
+      },
+      "Q03": {
+        "uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+        "mapping_basis": "unique near match: table Jaccard 0.945054945054945 and paragraph Jaccard 1.0",
+        "status": "MAPPED"
+      },
+      "Q04": {
+        "uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+        "mapping_basis": "exact normalized paragraph identity; table Jaccard 0.8924731182795699",
+        "status": "MAPPED"
+      }
+    },
+    "wp2_prompt_opaque_origin_refs": [
+      "origin_fbb782143f9a",
+      "origin_5c4e334806b6"
+    ],
+    "wp2_opaque_ref_to_raw_uid_mapping": {
+      "origin_fbb782143f9a": "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+      "origin_5c4e334806b6": "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+      "method": "exact replay of opaque_id('origin', origin_id) from run_wp2_episode_collection_v2.py against candidate_items_v2.json",
+      "status": "MAPPED"
+    },
+    "tq_exclusion_union": {
+      "status": "REPRODUCED_READ_ONLY_FROM_PINNED_SOURCES",
+      "uid_count": 221,
+      "canonical_sorted_uids_sha256": "416bdf247a242ded47b7edc32e5a39554547f9715bdf683685bf2df3d8d674f3",
+      "source_counts": {
+        "origin_manifest": 182,
+        "pool_inventory": 50,
+        "case_provenance": 12,
+        "tq4_natural_log": 4
+      },
+      "uid_list_materialized_in_run_manifest": false
+    },
+    "old_wp2_experience_eligibility": "PROHIBITED",
+    "old_wp2_allowed_uses": [
+      "engineering regression fixture",
+      "parse/tool/raw failure diagnosis",
+      "research failure record"
+    ]
+  },
+  "record_level_availability": {
+    "current_origin_manifest": 182,
+    "with_ge2_usable_rows": 176,
+    "excluded_wp2_role_origins": 22,
+    "conservative_remaining_after_wp2_roles": 160,
+    "conservative_remaining_ge2_after_wp2_roles": 154,
+    "tq_uid_overlap_with_current_origin_manifest": 0,
+    "record_level_note": "The proposed near-duplicate rule produced singleton components on this history-candidate manifest. The manifest is exposed and cannot serve as future unseen test data. Report grouping and the unmaterialized 221-UID exclusion union may still reduce final independent-cluster counts.",
+    "collection_requirement_source_clusters": 12,
+    "record_level_candidate_sufficient_for_history_collection": true,
+    "source_cluster_sufficient_for_collection": "PASS_UNDER_PROPOSED_RULE_FOR_HISTORY_COLLECTION_ONLY",
+    "future_pilot_unexposed_clusters_required": 8,
+    "future_pilot_unexposed_clusters_available": 0,
+    "unexposed_raw_records_after_221_union_and_12_tq5_selected": 2246,
+    "task_eligible_unexposed_records_under_current_contract": 0,
+    "future_test_pool_status": "NOT_AVAILABLE_UNDER_CURRENT_TAT_QA_TASK_CONTRACT",
+    "future_test_pool_note": "The remaining 2246 raw records contain zero records satisfying the WP-0 two-period/unit/usable-row contract. All records with that task shape are already in the 221-UID exposure union. A different future-task source or a precisely revised task scope is required."
+  },
+  "split_requirements": {
+    "analysis_unit": "source_cluster",
+    "history_collection_target": {
+      "source_clusters": 12,
+      "tasks_per_cluster": 1,
+      "max_two_stage_attempts_per_task": 2,
+      "request_cap_including_fixtures": 54
+    },
+    "future_pilot_target": {
+      "source_clusters": 8,
+      "tasks_per_cluster": 2,
+      "arms": [
+        "B0",
+        "R",
+        "C",
+        "U",
+        "E"
+      ],
+      "requests_per_task": 2,
+      "request_cap": 160
+    },
+    "cluster_disjoint_history_dev_test": "REQUIRED_NOT_MATERIALIZED",
+    "previous_exposure_exclusion": "REQUIRED_PARTIAL_MAPPING_ONLY",
+    "split_freeze_before_model_results": true
+  },
+  "qualification": {
+    "source_revision_and_hashes": "PASS",
+    "licence": "PASS",
+    "record_level_pool_size": "PASS",
+    "report_level_independence": "UNRESOLVED",
+    "near_duplicate_isolation": "PASS_FOR_PROPOSED_RULE_ON_CANDIDATE_MANIFEST",
+    "complete_exposure_mapping": "PASS_FOR_RECORDED_TQ_AND_WP2_MATERIALS",
+    "source_cluster_sufficiency": "PASS_UNDER_PROPOSED_RULE_FOR_HISTORY_COLLECTION_ONLY",
+    "future_pilot_source_availability": "NOT_SATISFIED",
+    "feedback_policy": "DESIGN_READY",
+    "experience_pool": "NOT_ESTABLISHED",
+    "tool_chain": "DESIGN_ONLY",
+    "collection_approval_recommendation": "CONDITIONAL_GO_FOR_ONE_BOUNDED_HISTORY_COLLECTION_ONLY_IF_OWNER_BINDS_A_FUTURE_TASK_SOURCE_OR_ACCEPTS_CROSS_SOURCE_EVALUATION"
+  },
+  "unresolved": [
+    {
+      "id": "U1",
+      "item": "report ID and source-cluster closure",
+      "reason": "raw top-level schema has no report identifier",
+      "required_before": "freeze future test split"
+    },
+    {
+      "id": "U2",
+      "item": "near-duplicate component count",
+      "reason": "read-only design recomputation exists, but no persistent replay builder or frozen component manifest is materialized",
+      "required_before": "freeze source clusters"
+    },
+    {
+      "id": "U3",
+      "item": "persist the 221-UID exposure register and derive future unseen-test clusters",
+      "reason": "the 221-UID union is reproducible and hashed, but its UID list is not materialized in a run manifest and record counts do not identify independent future-test clusters",
+      "required_before": "freeze any future pilot or unseen-test split"
+    },
+    {
+      "id": "U4",
+      "item": "new plan-tool-consume chain hash bundle",
+      "reason": "model artifact is pinned but new chain software is not implemented or qualified",
+      "required_before": "first collection request"
+    },
+    {
+      "id": "U5",
+      "item": "future collection date/window",
+      "reason": "no collection authorization or window exists",
+      "required_before": "collection run"
+    },
+    {
+      "id": "U6",
+      "item": "human semantic adjudicator",
+      "reason": "required only for natural semantic claims; owner has not named a real reviewer",
+      "required_before": "major natural-task semantic claim"
+    },
+    {
+      "id": "U7",
+      "item": "future independent task source and task scope",
+      "reason": "current TAT-QA/WP-0 contract has zero unexposed eligible records outside the 221-UID exposure union",
+      "required_before": "any pilot or before spending a history collection whose value depends on immediate evaluation"
+    }
+  ],
+  "cost": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "external_paid_api_calls": 0
+  }
+}

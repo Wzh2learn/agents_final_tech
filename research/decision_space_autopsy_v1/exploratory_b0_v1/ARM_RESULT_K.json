@@ -1,0 +1,245 @@
+{
+  "schema": "same_number_role_arm_result_v1",
+  "authorization_id": "SAME-NUMBER-K-20261019-12REQ",
+  "arm": "K",
+  "decision": "K_EXPLAINS_HEADROOM_STOP",
+  "stop_reason": null,
+  "success_count": 6,
+  "non_success_count": 0,
+  "non_success_clusters": [],
+  "budget": {
+    "requests": 12,
+    "reserved_tokens": 0,
+    "actual_tokens": 18517,
+    "request_cap": 12,
+    "token_cap": 300000,
+    "per_request_reserve": 10240,
+    "stop_reason": null
+  },
+  "produced_request_keys": [
+    "plan|K|NR_exploratory_future_1604_N2",
+    "consume|K|NR_exploratory_future_1604_N2",
+    "plan|K|NR_exploratory_future_1604_P1",
+    "consume|K|NR_exploratory_future_1604_P1",
+    "plan|K|NR_exploratory_future_1792_N2",
+    "consume|K|NR_exploratory_future_1792_N2",
+    "plan|K|NR_exploratory_future_1792_P1",
+    "consume|K|NR_exploratory_future_1792_P1",
+    "plan|K|NR_exploratory_future_2442_N2",
+    "consume|K|NR_exploratory_future_2442_N2",
+    "plan|K|NR_exploratory_future_2442_P1",
+    "consume|K|NR_exploratory_future_2442_P1"
+  ],
+  "results": [
+    {
+      "task_id": "NR_exploratory_future_1604_N2",
+      "source_cluster_id": "cluster_1604",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4 - (-0.4)"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4 - (-0.4)"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "GBP"
+      },
+      "arm": "K"
+    },
+    {
+      "task_id": "NR_exploratory_future_1604_P1",
+      "source_cluster_id": "cluster_1604",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "-0.4"
+        },
+        "returned_value": -0.4,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": -0.4,
+        "decision": "SUPPORTED",
+        "unit": "GBP"
+      },
+      "arm": "K"
+    },
+    {
+      "task_id": "NR_exploratory_future_1792_N2",
+      "source_cluster_id": "cluster_1792",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1 - 796.1"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "EUR"
+      },
+      "arm": "K"
+    },
+    {
+      "task_id": "NR_exploratory_future_1792_P1",
+      "source_cluster_id": "cluster_1792",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "796.1"
+        },
+        "returned_value": 796.1,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 796.1,
+        "decision": "SUPPORTED",
+        "unit": "EUR"
+      },
+      "arm": "K"
+    },
+    {
+      "task_id": "NR_exploratory_future_2442_N2",
+      "source_cluster_id": "cluster_2442",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "WRONG_ROLE",
+      "actual_decision": "WRONG_ROLE",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774.0 - 150774.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774.0 - 150774.0"
+        },
+        "returned_value": 0.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 0.0,
+        "decision": "WRONG_ROLE",
+        "unit": "USD"
+      },
+      "arm": "K"
+    },
+    {
+      "task_id": "NR_exploratory_future_2442_P1",
+      "source_cluster_id": "cluster_2442",
+      "scope": "exploratory_future",
+      "case_type": "same_number",
+      "plan_valid": true,
+      "tool_execution_success": true,
+      "consume_contract_valid": true,
+      "numeric_match": true,
+      "decision_match": true,
+      "expected_decision": "SUPPORTED",
+      "actual_decision": "SUPPORTED",
+      "outcome": "SUCCESS",
+      "plan": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774.0"
+        }
+      },
+      "tool_result": {
+        "tool": "calc",
+        "params": {
+          "expression": "150774.0"
+        },
+        "returned_value": 150774.0,
+        "status": "OK",
+        "error": null
+      },
+      "consume": {
+        "calc_value": 150774.0,
+        "decision": "SUPPORTED",
+        "unit": "USD"
+      },
+      "arm": "K"
+    }
+  ]
+}

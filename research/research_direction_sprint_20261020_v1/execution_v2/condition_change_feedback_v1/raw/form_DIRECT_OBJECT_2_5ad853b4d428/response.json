@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"evidence_ids\\\":[\\\"CANARY:fact\\\"],\\\"outcome\\\":\\\"approve\\\",\\\"task_id\\\":\\\"FORM:DIRECT_OBJECT:2\\\"}\"}}],\"created\":1792498104,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":25,\"prompt_tokens\":45,\"total_tokens\":70,\"prompt_tokens_details\":{\"cached_tokens\":0}},\"id\":\"chatcmpl-4Rkg5tPrKfMEZHqgJlB7tePVO4BT5OxZ\",\"timings\":{\"cache_n\":0,\"prompt_n\":45,\"prompt_ms\":87.74,\"prompt_per_token_ms\":1.9497777777777776,\"prompt_per_second\":512.8789605653066,\"predicted_n\":25,\"predicted_ms\":380.841,\"predicted_per_token_ms\":15.233640000000001,\"predicted_per_second\":65.64419272084676}}"
+}

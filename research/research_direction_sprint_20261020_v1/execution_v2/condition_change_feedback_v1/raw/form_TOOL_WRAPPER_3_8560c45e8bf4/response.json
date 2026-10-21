@@ -1,0 +1,5 @@
+{
+  "status_code": 200,
+  "content_type": "application/json; charset=utf-8",
+  "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"submit_reimbursement_decision\\\":{\\\"evidence_ids\\\":[\\\"CANARY:fact\\\"],\\\"outcome\\\":\\\"approve\\\",\\\"task_id\\\":\\\"FORM:TOOL_WRAPPER:3\\\"}}\"}}],\"created\":1792498107,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":32,\"prompt_tokens\":52,\"total_tokens\":84,\"prompt_tokens_details\":{\"cached_tokens\":0}},\"id\":\"chatcmpl-Ge9sWW7fp0DszR5owydnuxgnASNENFyc\",\"timings\":{\"cache_n\":0,\"prompt_n\":52,\"prompt_ms\":92.075,\"prompt_per_token_ms\":1.770673076923077,\"prompt_per_second\":564.7569915829487,\"predicted_n\":32,\"predicted_ms\":491.224,\"predicted_per_token_ms\":15.35075,\"predicted_per_second\":65.14339690243148}}"
+}

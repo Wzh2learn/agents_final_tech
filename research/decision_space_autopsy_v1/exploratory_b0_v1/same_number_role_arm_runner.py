@@ -217,7 +217,7 @@ def main() -> int:
         raise PermissionError("runtime_identity_hash_mismatch")
     tasks_doc = load_object(PARENT / "SAME_NUMBER_ROLE_TASKS_DRAFT.json")
     if args.command == "preflight":
-        if protocol["arm"] not in {"R", "C", "H", "K", "R_RESIDUAL", "C_RESIDUAL"} or len(protocol["task_order"]) < 2:
+        if protocol["arm"] not in {"R", "C", "H", "K", "H_NEG", "RANDOM", "R_RESIDUAL", "C_RESIDUAL"} or len(protocol["task_order"]) < 2:
             raise RuntimeError("arm_protocol_invalid")
         print(json.dumps({"status": "PREFLIGHT_PASS_NO_REQUESTS", "arm": protocol["arm"], "tasks": len(protocol["task_order"]), "planned_requests": 2 * len(protocol["task_order"]), "model_calls": 0}, sort_keys=True))
         return 0

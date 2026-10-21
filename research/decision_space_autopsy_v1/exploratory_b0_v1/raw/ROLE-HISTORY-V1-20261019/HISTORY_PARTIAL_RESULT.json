@@ -1,0 +1,493 @@
+{
+  "schema": "same_number_role_history_partial_v1",
+  "experiences": [
+    {
+      "task_id": "NR_development_0923_N2",
+      "source_cluster_id": "cluster_0923",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 9,
+        "row_label": "Expiring in the following year",
+        "value": "0",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 2,
+        "period_label": "2018",
+        "row_index": 9,
+        "row_label": "Expiring in the following year",
+        "value": "0",
+        "year": 2018
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_0923_N2",
+          "source_cluster_id": "cluster_0923",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "7 - 0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "7 - 0"
+            },
+            "returned_value": 7.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "decision": "WRONG_ROLE",
+            "calc_value": 7.0,
+            "unit": "million EUR"
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_0923_N2",
+          "source_cluster_id": "cluster_0923",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "7 - 0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "7 - 0"
+            },
+            "returned_value": 7.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 7.0,
+            "decision": "WRONG_ROLE",
+            "unit": "million EUR"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "SUCCESS",
+        "message": "The first attempt was correct. Preserve the same evidence-role decision."
+      }
+    },
+    {
+      "task_id": "NR_development_0923_P1",
+      "source_cluster_id": "cluster_0923",
+      "case_type": "same_number",
+      "target_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 9,
+        "row_label": "Expiring in the following year",
+        "value": "0",
+        "year": 2019
+      },
+      "candidate_role": {
+        "period_index": 1,
+        "period_label": "2019",
+        "row_index": 9,
+        "row_label": "Expiring in the following year",
+        "value": "0",
+        "year": 2019
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_0923_P1",
+          "source_cluster_id": "cluster_0923",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "63 - 0.0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "63 - 0.0"
+            },
+            "returned_value": 63.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 63.0,
+            "decision": "SUPPORTED",
+            "unit": "EUR"
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_0923_P1",
+          "source_cluster_id": "cluster_0923",
+          "scope": "development",
+          "case_type": "same_number",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "63 - 0.0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "63 - 0.0"
+            },
+            "returned_value": 63.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 63.0,
+            "decision": "SUPPORTED",
+            "unit": "EUR"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "SUCCESS",
+        "message": "The first attempt was correct. Preserve the same evidence-role decision."
+      }
+    },
+    {
+      "task_id": "NR_development_1498_N2",
+      "source_cluster_id": "cluster_1498",
+      "case_type": "same_delta",
+      "target_role": {
+        "delta": "5",
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_index": 6,
+        "row_label": "Termination benefits outside of restructuring plans"
+      },
+      "candidate_role": {
+        "delta": "5",
+        "early_period": "2018",
+        "late_period": "2017",
+        "row_index": 6,
+        "row_label": "Termination benefits outside of restructuring plans"
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_1498_N2",
+          "source_cluster_id": "cluster_1498",
+          "scope": "development",
+          "case_type": "same_delta",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            },
+            "returned_value": -5.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": -5.0,
+            "decision": "WRONG_ROLE",
+            "unit": "EUR"
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_1498_N2",
+          "source_cluster_id": "cluster_1498",
+          "scope": "development",
+          "case_type": "same_delta",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            },
+            "returned_value": -5.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": -5.0,
+            "decision": "WRONG_ROLE",
+            "unit": "EUR"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "SUCCESS",
+        "message": "The first attempt was correct. Preserve the same evidence-role decision."
+      }
+    },
+    {
+      "task_id": "NR_development_1498_P1",
+      "source_cluster_id": "cluster_1498",
+      "case_type": "same_delta",
+      "target_role": {
+        "delta": "5",
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_index": 6,
+        "row_label": "Termination benefits outside of restructuring plans"
+      },
+      "candidate_role": {
+        "delta": "5",
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_index": 6,
+        "row_label": "Termination benefits outside of restructuring plans"
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_1498_P1",
+          "source_cluster_id": "cluster_1498",
+          "scope": "development",
+          "case_type": "same_delta",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            },
+            "returned_value": -5.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": -5.0,
+            "decision": "SUPPORTED",
+            "unit": "EUR"
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_1498_P1",
+          "source_cluster_id": "cluster_1498",
+          "scope": "development",
+          "case_type": "same_delta",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "SUPPORTED",
+          "actual_decision": "SUPPORTED",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "47 - 52"
+            },
+            "returned_value": -5.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": -5.0,
+            "decision": "SUPPORTED",
+            "unit": "EUR"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "SUCCESS",
+        "message": "The first attempt was correct. Preserve the same evidence-role decision."
+      }
+    },
+    {
+      "task_id": "NR_development_1981_N2",
+      "source_cluster_id": "cluster_1981",
+      "case_type": "same_delta",
+      "target_role": {
+        "delta": "-10",
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_index": 5,
+        "row_label": "Changes in tax laws and tax rates"
+      },
+      "candidate_role": {
+        "delta": "-10",
+        "early_period": "2019",
+        "late_period": "2018",
+        "row_index": 6,
+        "row_label": "Non-deductible expenses"
+      },
+      "attempts": [
+        {
+          "task_id": "NR_development_1981_N2",
+          "source_cluster_id": "cluster_1981",
+          "scope": "development",
+          "case_type": "same_delta",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "10 - 0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "10 - 0"
+            },
+            "returned_value": 10.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "decision": "WRONG_ROLE",
+            "calc_value": 10.0,
+            "unit": "million EUR"
+          },
+          "attempt": 1
+        },
+        {
+          "task_id": "NR_development_1981_N2",
+          "source_cluster_id": "cluster_1981",
+          "scope": "development",
+          "case_type": "same_delta",
+          "plan_valid": true,
+          "tool_execution_success": true,
+          "consume_contract_valid": true,
+          "numeric_match": true,
+          "decision_match": true,
+          "expected_decision": "WRONG_ROLE",
+          "actual_decision": "WRONG_ROLE",
+          "outcome": "SUCCESS",
+          "plan": {
+            "tool": "calc",
+            "params": {
+              "expression": "10 - 0"
+            }
+          },
+          "tool_result": {
+            "tool": "calc",
+            "params": {
+              "expression": "10 - 0"
+            },
+            "returned_value": 10.0,
+            "status": "OK",
+            "error": null
+          },
+          "consume": {
+            "calc_value": 10.0,
+            "decision": "WRONG_ROLE",
+            "unit": "million EUR"
+          },
+          "attempt": 2
+        }
+      ],
+      "feedback": {
+        "category": "SUCCESS",
+        "message": "The first attempt was correct. Preserve the same evidence-role decision."
+      }
+    }
+  ],
+  "budget": {
+    "requests": 20,
+    "reserved_tokens": 0,
+    "actual_tokens": 13942,
+    "request_cap": 20,
+    "token_cap": 220000,
+    "per_request_reserve": 10240,
+    "stop_reason": null
+  }
+}

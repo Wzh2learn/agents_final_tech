@@ -1,0 +1,31 @@
+{
+  "request_id": "consume_HCOLLECT_NR_development_0923_N2_a2_7cf4ee44411c",
+  "logical_id": "consume|HCOLLECT|NR_development_0923_N2|a2",
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Consume the actual calculator return exactly. Decide whether the candidate evidence supports the requested role. Numeric agreement alone is insufficient. WRONG_ROLE must retain the numeric value and unit; UNKNOWN/REFUSE must use null fields. Return only the required JSON object."
+      },
+      {
+        "role": "user",
+        "content": "TASK_JSON={\"candidate_citation\":{\"period\":\"2018\",\"row_label\":\"Expiring in the following year\"},\"claim\":{\"kind\":\"cell_value\",\"scale\":\"million\",\"unit\":\"EUR\",\"value\":0.0},\"instructions\":\"Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.\",\"question\":\"Does the candidate evidence support the requested role and claimed cell value?\",\"requested_role\":{\"period\":\"2019\",\"row_label\":\"Expiring in the following year\"},\"schema\":\"same_number_role_actor_task_v1\",\"table\":[[\"€ millions\",\"2019\",\"2018\",\"2017\"],[\"Unused tax losses\",\"\",\"\",\"\"],[\"Not expiring\",\"688\",\"575\",\"375\"],[\"Expiring in the following year\",\"63\",\"7\",\"9\"],[\"Expiring after the following year\",\"373\",\"476\",\"535\"],[\"Total unused tax losses\",\"1,124\",\"1,058\",\"919\"],[\"Deductible temporary differences\",\"538\",\"509\",\"524\"],[\"Unused research and development and foreign tax credits\",\"\",\"\",\"\"],[\"Not expiring\",\"28\",\"54\",\"38\"],[\"Expiring in the following year\",\"0\",\"0\",\"2\"],[\"Expiring after the following year\",\"17\",\"18\",\"34\"],[\"Total unused tax credits\",\"45\",\"72\",\"74\"]],\"task_id\":\"NR_development_0923_N2\"}\nEXTRA_CONTEXT_JSON={\"actual_first_attempt\":{\"actual_decision\":\"WRONG_ROLE\",\"attempt\":1,\"case_type\":\"same_number\",\"consume\":{\"calc_value\":7.0,\"decision\":\"WRONG_ROLE\",\"unit\":\"million EUR\"},\"consume_contract_valid\":true,\"decision_match\":true,\"expected_decision\":\"WRONG_ROLE\",\"numeric_match\":true,\"outcome\":\"SUCCESS\",\"plan\":{\"params\":{\"expression\":\"7 - 0\"},\"tool\":\"calc\"},\"plan_valid\":true,\"scope\":\"development\",\"source_cluster_id\":\"cluster_0923\",\"task_id\":\"NR_development_0923_N2\",\"tool_execution_success\":true,\"tool_result\":{\"error\":null,\"params\":{\"expression\":\"7 - 0\"},\"returned_value\":7.0,\"status\":\"OK\",\"tool\":\"calc\"}},\"feedback\":{\"category\":\"SUCCESS\",\"message\":\"The first attempt was correct. Preserve the same evidence-role decision.\"}}\nPLAN_JSON={\"params\":{\"expression\":\"7 - 0\"},\"tool\":\"calc\"}\nTOOL_RESULT_JSON={\"error\":null,\"params\":{\"expression\":\"7 - 0\"},\"returned_value\":7.0,\"status\":\"OK\",\"tool\":\"calc\"}\nOUTPUT_SCHEMA_JSON={\"additionalProperties\":false,\"properties\":{\"calc_value\":{\"type\":[\"number\",\"null\"]},\"decision\":{\"enum\":[\"SUPPORTED\",\"WRONG_ROLE\",\"UNKNOWN\",\"REFUSE\"]},\"unit\":{\"maxLength\":64,\"type\":[\"string\",\"null\"]}},\"required\":[\"decision\",\"calc_value\",\"unit\"],\"type\":\"object\"}\nOUTPUT_RULES=Use exactly these required keys: decision, calc_value, unit. decision must be one of: \"SUPPORTED\", \"WRONG_ROLE\", \"UNKNOWN\", \"REFUSE\". calc_value type must be one of: number, null. unit type must be one of: string, null.\n\nReturn only one JSON object matching OUTPUT_SCHEMA_JSON exactly."
+      }
+    ],
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 1,
+    "min_p": 0,
+    "repeat_penalty": 1,
+    "stream": false,
+    "seed": 20261018,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    }
+  }
+}

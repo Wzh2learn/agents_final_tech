@@ -1,0 +1,37 @@
+{
+  "schema": "same_number_role_history_protocol_v1",
+  "status": "FROZEN_BEFORE_FIRST_REQUEST",
+  "selection_rule": "Six development clusters not used by the earlier same-number history collection; two visible-reference-valid tasks per cluster; fixed lexical order.",
+  "source_cluster_ids": [
+    "cluster_0424",
+    "cluster_0923",
+    "cluster_1498",
+    "cluster_1981",
+    "cluster_2111",
+    "cluster_2196"
+  ],
+  "task_order": [
+    "NR_development_0424_N2",
+    "NR_development_0424_P1",
+    "NR_development_0923_N2",
+    "NR_development_0923_P1",
+    "NR_development_1498_N2",
+    "NR_development_1498_P1",
+    "NR_development_1981_N2",
+    "NR_development_1981_P1",
+    "NR_development_2111_N2",
+    "NR_development_2111_P1",
+    "NR_development_2196_N2",
+    "NR_development_2196_P1"
+  ],
+  "budget": {
+    "request_cap": 24,
+    "token_cap": 250000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "attempts_per_task": 2
+  },
+  "window_start_utc": "2026-10-19T14:07:23Z",
+  "window_end_utc": "2026-10-19T14:37:23Z",
+  "scientific_gate": "At least two wrong-role first decisions with successful plan/tool traces, role-specific deterministic feedback and changed real follow-up actions across at least two source clusters."
+}

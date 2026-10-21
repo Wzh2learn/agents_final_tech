@@ -1,0 +1,157 @@
+{
+  "identity": "OWNER_REVIEW_POST_HOC_RECOMPUTATION_NOT_NEW_EXPERIMENT",
+  "review_date": "2026-10-21",
+  "model_requests_made_by_this_script": 0,
+  "source_sha256": {
+    "gold": "da3a5791af0f308dd6335974d7423e8a9ac2326377852573b900f42bca1a6bf9",
+    "adjudicator": "273e7634f29e2e9dae484e8bd6ab2e035de1aa5c71bbb771c9b4cc9cb978e84b",
+    "uncertainty": "df0493d894e1262ea96c3ae1ac22b6f5e75588e8c7b16b02bd4f58f61d1eccce",
+    "ledger": "8e408de91553c8823cc856a3f2b773a471c6f59a78b1adbd54dfd5c9072a071c"
+  },
+  "adjudicator_by_partition": {
+    "all": {
+      "all": {
+        "records": 1000,
+        "families": 100,
+        "relation": 0.881,
+        "handling_exact": 0.839,
+        "impact_f1": 0.6764666666666659,
+        "preserved_f1": 0.6477783882783882
+      },
+      "queue": {
+        "records": 250,
+        "families": 94,
+        "relation": 0.624,
+        "handling_exact": 0.552,
+        "impact_f1": 0.3685714285714292,
+        "preserved_f1": 0.3982344322344324
+      },
+      "non_queue": {
+        "records": 750,
+        "families": 100,
+        "relation": 0.9666666666666667,
+        "handling_exact": 0.9346666666666666,
+        "impact_f1": 0.7790984126984123,
+        "preserved_f1": 0.7309597069597077
+      }
+    },
+    "train": {
+      "all": {
+        "records": 600,
+        "families": 60,
+        "relation": 0.9033333333333333,
+        "handling_exact": 0.845,
+        "impact_f1": 0.7009365079365082,
+        "preserved_f1": 0.6833516483516484
+      },
+      "queue": {
+        "records": 148,
+        "families": 55,
+        "relation": 0.7297297297297297,
+        "handling_exact": 0.6013513513513513,
+        "impact_f1": 0.4574002574002574,
+        "preserved_f1": 0.47755172755172737
+      },
+      "non_queue": {
+        "records": 452,
+        "families": 60,
+        "relation": 0.9601769911504425,
+        "handling_exact": 0.9247787610619469,
+        "impact_f1": 0.7806784660766956,
+        "preserved_f1": 0.7507374631268436
+      }
+    },
+    "development": {
+      "all": {
+        "records": 200,
+        "families": 20,
+        "relation": 0.865,
+        "handling_exact": 0.825,
+        "impact_f1": 0.6939047619047622,
+        "preserved_f1": 0.6608608058608059
+      },
+      "queue": {
+        "records": 51,
+        "families": 19,
+        "relation": 0.47058823529411764,
+        "handling_exact": 0.5294117647058824,
+        "impact_f1": 0.2677871148459384,
+        "preserved_f1": 0.33193277310924374
+      },
+      "non_queue": {
+        "records": 149,
+        "families": 20,
+        "relation": 1.0,
+        "handling_exact": 0.9261744966442953,
+        "impact_f1": 0.839757110898051,
+        "preserved_f1": 0.7734469110308037
+      }
+    },
+    "test": {
+      "all": {
+        "records": 200,
+        "families": 20,
+        "relation": 0.83,
+        "handling_exact": 0.835,
+        "impact_f1": 0.5856190476190486,
+        "preserved_f1": 0.5279761904761905
+      },
+      "queue": {
+        "records": 51,
+        "families": 20,
+        "relation": 0.47058823529411764,
+        "handling_exact": 0.43137254901960786,
+        "impact_f1": 0.21157796451914104,
+        "preserved_f1": 0.23436041083099904
+      },
+      "non_queue": {
+        "records": 149,
+        "families": 20,
+        "relation": 0.9530201342281879,
+        "handling_exact": 0.9731543624161074,
+        "impact_f1": 0.7136465324384795,
+        "preserved_f1": 0.6284755512943431
+      }
+    }
+  },
+  "queue_equivalent_to_public_blocking_signature_in_this_release": true,
+  "model_queue_original_metrics": {
+    "records": 250,
+    "families": 94,
+    "relation": 0.624,
+    "handling_exact": 0.012,
+    "impact_f1": 0.3744761904761912,
+    "preserved_f1": 0.44188046398046416
+  },
+  "handling_post_hoc_diagnostics": {
+    "records": 250,
+    "prediction_sets": {
+      "defer": 241,
+      "execute,repair": 6,
+      "defer,execute,repair": 3
+    },
+    "gold_sets": {
+      "defer,repair": 112,
+      "defer,execute,repair": 138
+    },
+    "exact_sets": 3,
+    "nonempty_gold_subset": 245,
+    "nonempty_gold_intersection": 250,
+    "defer_only": 241,
+    "defer_only_admissible": 241,
+    "macro_set_precision": 0.99,
+    "macro_set_recall": 0.4173333333333325,
+    "warning": "Admissibility and set overlap do not establish task completion or utility; no action-selection policy is evaluated here."
+  },
+  "ledger": {
+    "accounting_events": 747,
+    "statuses": {
+      "OK": 746,
+      "FAILED": 1
+    },
+    "accounting_tokens": 1564176,
+    "requests_remaining": 0,
+    "tokens_remaining": 435824,
+    "warning": "Budget events do not necessarily equal physical HTTP requests; authorization provenance needs separate review."
+  }
+}

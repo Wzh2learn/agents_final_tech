@@ -1,0 +1,124 @@
+{
+  "schema": "prospective_qualification_fixtures_v1",
+  "evidence_identity": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES",
+  "date": "2026-10-21",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "resource_membership_is_not_edge_propagation",
+      "status": "PASS",
+      "observation": {
+        "resource_selected": [
+          "side"
+        ],
+        "edge_reachable": [
+          "converted",
+          "gross",
+          "report"
+        ]
+      }
+    },
+    {
+      "name": "local_repair_equals_fresh_execution",
+      "status": "PASS",
+      "observation": {
+        "recomputed_nodes": [
+          "converted",
+          "gross",
+          "report"
+        ],
+        "fixture_full_compute_nodes": 4
+      }
+    },
+    {
+      "name": "missing_edge_negative_control_detects_stale_output",
+      "status": "PASS",
+      "observation": {
+        "missing_edge_result": 10,
+        "fresh_execution_result": 16
+      }
+    },
+    {
+      "name": "potential_dependency_is_not_value_change",
+      "status": "PASS",
+      "observation": {
+        "potentially_dirty": [
+          "converted",
+          "report"
+        ],
+        "changed_computed_values": []
+      }
+    },
+    {
+      "name": "output_invariance_does_not_prove_source_invariance",
+      "status": "PASS",
+      "observation": {
+        "output_before": 10,
+        "output_after": 10,
+        "changed_source_fields": [
+          "a",
+          "b"
+        ],
+        "note": "Value correctness and provenance validity require separate contracts."
+      }
+    },
+    {
+      "name": "three_state_guard_does_not_treat_missing_as_valid",
+      "status": "PASS",
+      "observation": {
+        "all_matched": "valid",
+        "missing_period": "unknown",
+        "known_contradiction": "invalid"
+      }
+    },
+    {
+      "name": "complementary_checks_can_be_expressed",
+      "status": "PASS",
+      "observation": {
+        "zero_checks": "unknown",
+        "one_check": "unknown",
+        "two_checks": "valid",
+        "warning": "Constructed fixture only; not evidence of natural query complementarity or superiority over greedy."
+      }
+    },
+    {
+      "name": "identical_visible_inputs_can_require_a_query",
+      "status": "PASS",
+      "observation": {
+        "actor_view_equal": true,
+        "independent_execution_targets_equal": false,
+        "warning": "This proves a property of the authored fixture, not of MA-CERD or real-world tasks."
+      }
+    },
+    {
+      "name": "actor_serialization_noninterference",
+      "status": "PASS",
+      "observation": {
+        "label_mutation_changes_actor_payload": false,
+        "hidden_trace_exposed": false
+      }
+    },
+    {
+      "name": "proposed_budget_is_an_increment_not_old_balance",
+      "status": "PASS",
+      "observation": {
+        "new_attempt_cap": 2048,
+        "new_token_cap": 10000000,
+        "historical_747_plus_new_attempt_cap": 2795,
+        "historical_tokens_plus_new_cap": 11564176,
+        "execution_authorized_by_script": false
+      }
+    }
+  ],
+  "check_groups": 10,
+  "source_sha256": "2844a5f8d2c439ca4a0717d1a1538576a5668d75c486ca89fbcf2f6bdcbd0e58",
+  "model_calls": 0,
+  "network_calls": 0,
+  "nonclaims": [
+    "No model or learned guard was evaluated.",
+    "No external benchmark or natural task distribution was validated.",
+    "Hand-authored graph and guard are fixtures, not novel methods.",
+    "Fixture repair savings are not scientific performance evidence.",
+    "No governance merge, cleanup, model service change or budget activation occurred."
+  ]
+}

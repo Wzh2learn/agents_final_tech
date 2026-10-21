@@ -1,0 +1,25 @@
+{
+  "schema": "exploratory_budget_expansion_v1",
+  "status": "AUTHORIZED_BY_USER_BUDGET_INCREASE",
+  "owner_instruction": "提高预算，继续探索",
+  "baseline_cumulative": {
+    "requests_used": 292,
+    "request_cap": 292,
+    "accounting_tokens_used": 310144,
+    "token_cap": 2450000
+  },
+  "increase": {
+    "requests": 24,
+    "accounting_tokens_reserved": 300000
+  },
+  "new_cumulative_cap": {
+    "requests": 316,
+    "accounting_tokens": 2750000
+  },
+  "planned_use": {
+    "H_NEG": 12,
+    "RANDOM": 12,
+    "fixtures_or_retries": 0
+  },
+  "scientific_scope": "One exploratory H-negative versus random-failure comparison. No independent validation, training, judge or production-memory write."
+}

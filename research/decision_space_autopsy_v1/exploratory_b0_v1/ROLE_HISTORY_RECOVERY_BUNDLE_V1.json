@@ -1,0 +1,21 @@
+{
+  "schema": "role_history_recovery_bundle_v1",
+  "status": "FROZEN_BEFORE_RECOVERY_REQUESTS",
+  "source_protocol_sha256": "dccc2e1d53c6b23a9f59a55621873aa66a949d6fe55c426590f89bfcd0efbb81",
+  "source_authorization_sha256": "34b4789bf3317e244fee5f73c78b2faa843d79173364da37a89c35df33b92a24",
+  "recovery_protocol_sha256": "b7b7c77ef601708ebaa2756192afdbb091d3a4b99aa60b3447d6e20324f0bcaa",
+  "recovery_authorization_sha256": "53a763b1b3ca06bedb902553111191907046896ea4bef8a537e4b442fe365c54",
+  "recovery_runner_sha256": "f4526ce3ffe4dbde771d7fc1b223e9373de4beb9362510865ba90e4e90651909",
+  "runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "qualified_package_sha256": "87557bfb2e6c14a9f93c3057e5882cfc0527d86a23e267dff9128b6ad28a44a3",
+  "raw_root": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\decision_space_autopsy_v1\\exploratory_b0_v1\\raw\\ROLE-HISTORY-V1-20261019",
+  "accounting": {
+    "before_recovery_requests_used": 293,
+    "before_recovery_actual_tokens": 310144,
+    "crashed_attempt_requests": 1,
+    "crashed_attempt_actual_tokens": 0,
+    "recovery_planned_requests": 20,
+    "cumulative_request_cap": 316,
+    "cumulative_token_cap": 2750000
+  }
+}

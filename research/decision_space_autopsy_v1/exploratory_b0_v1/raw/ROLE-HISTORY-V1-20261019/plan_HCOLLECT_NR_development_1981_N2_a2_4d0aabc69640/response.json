@@ -1,0 +1,9 @@
+{
+  "request_id": "plan_HCOLLECT_NR_development_1981_N2_a2_4d0aabc69640",
+  "response": {
+    "status_code": 200,
+    "content_type": "application/json; charset=utf-8",
+    "body_text": "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"tool\\\": \\\"calc\\\",\\n  \\\"params\\\": {\\n    \\\"expression\\\": \\\"10 - 0\\\"\\n  }\\n}\"}}],\"created\":1792419228,\"model\":\"Qwen3.6-35B-A3B-Q4_K_M.gguf\",\"system_fingerprint\":\"b1-5306f4b\",\"object\":\"chat.completion\",\"usage\":{\"completion_tokens\":33,\"prompt_tokens\":831,\"total_tokens\":864,\"prompt_tokens_details\":{\"cached_tokens\":134}},\"id\":\"chatcmpl-BZok2jRanXeEHQ5JiK7mnAPg3nzFj8Zv\",\"timings\":{\"cache_n\":134,\"prompt_n\":697,\"prompt_ms\":425.251,\"prompt_per_token_ms\":0.6101162123385939,\"prompt_per_second\":1639.0320069794075,\"predicted_n\":33,\"predicted_ms\":511.498,\"predicted_per_token_ms\":15.499939393939394,\"predicted_per_second\":64.51638129572353}}",
+    "elapsed_s": 1.125
+  }
+}

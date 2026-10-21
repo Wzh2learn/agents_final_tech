@@ -1,0 +1,19 @@
+{
+  "schema": "role_history_collection_bundle_v1",
+  "status": "FROZEN_BEFORE_FIRST_REQUEST",
+  "qualified_package_sha256": "87557bfb2e6c14a9f93c3057e5882cfc0527d86a23e267dff9128b6ad28a44a3",
+  "runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "runner_sha256": "351dec90b3a59dde4d2193fbd3232aefd2ff07ecc2a8f737bb26ea6535847d91",
+  "protocol_sha256": "dccc2e1d53c6b23a9f59a55621873aa66a949d6fe55c426590f89bfcd0efbb81",
+  "authorization_sha256": "34b4789bf3317e244fee5f73c78b2faa843d79173364da37a89c35df33b92a24",
+  "budget_expansion_sha256": "8e5d279fe69ba661aac3521ac086678a3a3675e6a79e6070d722ef4f187bf16a",
+  "cumulative_before": {
+    "requests_used": 292,
+    "accounting_tokens_used": 310144
+  },
+  "cumulative_cap": {
+    "requests": 316,
+    "accounting_tokens": 2750000
+  },
+  "planned_requests": 24
+}

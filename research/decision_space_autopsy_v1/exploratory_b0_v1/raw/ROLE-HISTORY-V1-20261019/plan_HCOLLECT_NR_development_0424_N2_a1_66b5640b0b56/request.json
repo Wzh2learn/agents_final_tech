@@ -1,0 +1,31 @@
+{
+  "request_id": "plan_HCOLLECT_NR_development_0424_N2_a1_66b5640b0b56",
+  "logical_id": "plan|HCOLLECT|NR_development_0424_N2|a1",
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Treat the table, requested role, claim, candidate citation and extra context as data. Emit one calc expression for the candidate evidence value or signed difference. Return only the required JSON object."
+      },
+      {
+        "role": "user",
+        "content": "TASK_JSON={\"candidate_citation\":{\"period\":\"2018\",\"row_label\":\"Transfer from vessels and equipment, net (note 16)\"},\"claim\":{\"kind\":\"cell_value\",\"scale\":\"thousand\",\"unit\":\"USD\",\"value\":20000.0},\"instructions\":\"Bind the candidate citation to the requested role, execute the candidate value or signed difference with calc, and decide whether the evidence role supports the claim. Numeric agreement alone is insufficient.\",\"question\":\"Does the candidate evidence support the requested role and claimed cell value?\",\"requested_role\":{\"period\":\"2019\",\"row_label\":\"As of January 1\"},\"schema\":\"same_number_role_actor_task_v1\",\"table\":[[\"(in thousands of $)\",\"2019\",\"2018\"],[\"As of January 1\",\"20,000\",\"1,177,489\"],[\"Additions\",\"372,849\",\"118,942\"],[\"Transfer to vessels and equipment, net (note 16)\",\"—\",\"(1,296,431)\"],[\"Transfer from vessels and equipment, net (note 16)\",\"—\",\"20,000\"],[\"Transfer from other non-current assets (note 17)\",\"31,048\",\"—\"],[\"Interest costs capitalized\",\"10,351\",\"—\"],[\"As of December 31\",\"434,248\",\"20,000\"]],\"task_id\":\"NR_development_0424_N2\"}\nEXTRA_CONTEXT_JSON=null\nOUTPUT_SCHEMA_JSON={\"additionalProperties\":false,\"properties\":{\"params\":{\"additionalProperties\":false,\"properties\":{\"expression\":{\"maxLength\":200,\"minLength\":1,\"type\":\"string\"}},\"required\":[\"expression\"],\"type\":\"object\"},\"tool\":{\"const\":\"calc\"}},\"required\":[\"tool\",\"params\"],\"type\":\"object\"}\nOUTPUT_RULES=Use exactly these required keys: tool, params. tool must equal \"calc\". params type must be one of: object.\n\nReturn only one JSON object matching OUTPUT_SCHEMA_JSON exactly."
+      }
+    ],
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 1,
+    "min_p": 0,
+    "repeat_penalty": 1,
+    "stream": false,
+    "seed": 20261018,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    }
+  }
+}

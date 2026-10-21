@@ -1,0 +1,40 @@
+{
+  "schema": "same_number_role_history_protocol_v1",
+  "status": "FROZEN_BEFORE_RECOVERY_REQUESTS",
+  "recovery_of": {
+    "authorization_id": "ROLE-HISTORY-V1-20261019-24REQ",
+    "protocol_sha256": "dccc2e1d53c6b23a9f59a55621873aa66a949d6fe55c426590f89bfcd0efbb81",
+    "crashed_logical_id": "plan|HCOLLECT|NR_development_0424_N2|a1",
+    "excluded_cluster": "cluster_0424",
+    "reason": "CONNECTION_REFUSED_BEFORE_MODEL_RESPONSE"
+  },
+  "selection_rule": "Remove the complete source cluster containing the crashed request; retain the other five preselected matched pairs in frozen order. Do not replay the crashed logical request.",
+  "source_cluster_ids": [
+    "cluster_0923",
+    "cluster_1498",
+    "cluster_1981",
+    "cluster_2111",
+    "cluster_2196"
+  ],
+  "task_order": [
+    "NR_development_0923_N2",
+    "NR_development_0923_P1",
+    "NR_development_1498_N2",
+    "NR_development_1498_P1",
+    "NR_development_1981_N2",
+    "NR_development_1981_P1",
+    "NR_development_2111_N2",
+    "NR_development_2111_P1",
+    "NR_development_2196_N2",
+    "NR_development_2196_P1"
+  ],
+  "budget": {
+    "request_cap": 20,
+    "token_cap": 220000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "attempts_per_task": 2
+  },
+  "window_start_utc": "2026-10-19T14:13:09Z",
+  "window_end_utc": "2026-10-19T14:43:09Z"
+}

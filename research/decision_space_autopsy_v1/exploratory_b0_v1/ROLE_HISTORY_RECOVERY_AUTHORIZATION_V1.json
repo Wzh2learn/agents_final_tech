@@ -1,0 +1,15 @@
+{
+  "schema": "same_number_role_history_authorization_v1",
+  "authorization_id": "ROLE-HISTORY-RECOVERY-V1-20261019-20REQ",
+  "protocol_sha256": "b7b7c77ef601708ebaa2756192afdbb091d3a4b99aa60b3447d6e20324f0bcaa",
+  "runtime_identity_sha256": "83087e8bb548d9e58579f7e932d9c7c8124621d52cfaa08bb09c891ae80ee209",
+  "window_start_utc": "2026-10-19T14:13:09Z",
+  "window_end_utc": "2026-10-19T14:43:09Z",
+  "request_cap": 20,
+  "token_cap": 220000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "allow_model_requests": true,
+  "owner_decision_reference": "User authorized execution now. This recovery preserves the crashed request record, excludes its complete source pair and does not replay it.",
+  "raw_root": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\decision_space_autopsy_v1\\exploratory_b0_v1\\raw\\ROLE-HISTORY-V1-20261019"
+}
