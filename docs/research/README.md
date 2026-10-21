@@ -6,10 +6,11 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-21
 
 ## 当前任务与证据
 
-Portfolio V2 的有界探索已完成。Owner 当前要求先完成工作区、架构内容与 Git 治理，再基于清理后的证据决定下一轮科研 Goal。本轮不自动续跑模型实验；剩余预算不等于新的任务。
+Portfolio V2 的有界探索及工作区治理已收口。Owner 已确认：Paper E 尽快正规发表，学硕论文按约 2027 年 4 月送审前完成成果认定倒排，合理复用 GB10 与本机素材，并允许新研究中的推理、工具、研究 Memory 和小规模 LoRA/SFT。完整执行方向见[四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)，供 Owner 转发 Loop D；本次文档交接尚未运行新实验或投稿。
 
 | 用途 | 权威记录 |
 |---|---|
+| 新一轮发表与学位研究方向 | [Loop D 四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)：G1 Paper E 发表；G2 正确性验证；G3 验证决策/适应；G4 学硕写作与认定倒排 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 最新科研回执 | [Portfolio V2 GOAL_RETURN](../../research/research_portfolio_v2/GOAL_RETURN.md)；其中成本为当时快照 |
 | 当前聚合记账 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -40,7 +41,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产供下一轮设计选择。扩充真实 commit、主指标选择、是否形成独立论文或 Paper E 后续案例，仍是治理完成后的科研决策，见[当前未决事项](../../memory/THREADS.md)。
+这些资产优先供新四项 Goals 复用。G2/G3 的具体方法与最终创新点仍需科研验证；当前 Paper E 首投保持两案例，不等待新迁移研究。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 
@@ -48,10 +49,10 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [claim/evidence matrix](../../paper/saner_rene_claim_matrix_v1.json)与[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)
 - [整合独立复核](../../research/research_portfolio_v2/PAPER_E_INDEPENDENT_REVIEW.md)与[投稿门禁](PAPER_E_SUBMISSION_READINESS_GATE_v1.md)
 
-当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。源绑定更正已收口；派生 PDF 的非致命警告继续披露。作者、venue、artifact URL/DOI、注册与正式投稿尚待外部决定。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
+当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。源绑定更正已收口；新增 pooled CI 分析单位复核与渠道适配列入 G1。SANER RENE 摘要未注册，改选发表渠道；作者最终确认、artifact 公开、正式投稿和费用尚有外部事项。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
 
 ## 学位范围与历史
 
-- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)保留既有范围和门禁，不能据此重开已停止面板或训练。
+- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)保留历史依据；新阶段的执行与训练授权按[四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)衔接。旧数据 NO_GO、已停止面板及冻结证据不随新授权解除；现役架构和旧稿件骨架的统一更新属于 G4。
 - [旧 THREADS 全文快照](../../memory/archive/THREADS_2026-10-21_pre_workspace_governance.md)保存历史原文；现役未决事项只在 [THREADS](../../memory/THREADS.md) 维护。
 - Raw、failed/partial 响应、冻结结果、独立审查与历史账本保留来源身份。AI 语义评审不是人工 Gold、盲审或导师签字。

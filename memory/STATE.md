@@ -1,14 +1,15 @@
 # Current State
 
-> Updated: 2026-10-21 | Scope: workspace/Git governance and research handoff
+> Updated: 2026-10-21 | Scope: publication/thesis planning after verified workspace governance
 > Governance verification: `VERIFIED`；三端 main 对齐、两端主工作区 clean，备份与验收范围见治理报告。
 
 ## 当前任务
 
-Portfolio V2 的有界科研探索已完成。本机与 GB10 内容保全、分支合并和结构治理已收口，各保留一个 main 工作树；下一步由 owner 审阅资产，决定新的科研与论文 Goal。本轮新增模型请求为零。
+Portfolio V2 和工作区治理已收口。Owner 已确认 Paper E 尽快正规发表、学硕三个研究贡献及约 2027 年 4 月送审前认定倒排，并授权新研究中的推理、工具、研究 Memory 和小规模训练。已整理[Loop D 四项 Goals](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)，由 Owner 转发执行；优先复用两端素材。本次规划交接新增模型请求、训练、投稿均为零。
 
 | 用途 | 当前权威入口 |
 |---|---|
+| 新阶段方向与授权衔接 | [发表与学硕论文四项 Goals](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)；G2/G3 尚为待实证的创新候选 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
 | 最新科研回执 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)；成本为当时快照 |
@@ -17,7 +18,7 @@ Portfolio V2 的有界科研探索已完成。本机与 GB10 内容保全、分�
 
 ## 科学边界
 
-- Paper E：`NARROW_AND_CONTINUE`，唯一主稿为 [saner_rene_manuscript_v1.md](../paper/saner_rene_manuscript_v1.md)，维持两案例测量审计；投稿外部事项尚未完成。
+- Paper E：`NARROW_AND_CONTINUE`，唯一主稿为 [saner_rene_manuscript_v1.md](../paper/saner_rene_manuscript_v1.md)，维持两案例测量审计；SANER 摘要未注册，改选渠道并复核 pooled CI 的分析单位；投稿外部事项尚未完成。
 - FinRank：`STOP_ON_CURRENT_PANEL`，不重开 H/K；当前负结果不否定经验复用的一般可能性。
 - MA-CERD：资源 membership 基线不等于依赖边传播；selective escalation 未验证，完整动作集合 exact match 与动作可接受性须区分，见[更正](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md)。
 - Adaptive V3：当前 authored fixtures 上 greedy 已足够，two-step 无正向配对收益；RPC capability 边界不等于操作系统沙箱。

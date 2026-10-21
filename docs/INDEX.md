@@ -10,15 +10,16 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
+| 新一轮 Loop D Goals | [发表与学硕论文四项 Goals](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)；复用本机/GB10 素材，Paper E 尽快发表，约 2027 年 4 月送审前完成认定倒排 |
 | 本轮工作区与 Git 治理 | [治理报告](governance/2026-10-21_workspace_git_closeout.md)；记录资产分类、分支与跨主机最终核验，当前状态仍由 STATE 维护 |
-| 最新科研回执与记账 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)、[当前聚合账本](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；已执行 Goal 的成本快照与 post-hoc 更正分开保留，新科研 Goal 待治理后裁决 |
+| 最新科研回执与记账 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)、[当前聚合账本](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；已执行 Goal 的成本快照与 post-hoc 更正分开保留，新阶段按四项 Goals 单独记账 |
 | 10月21日复核与已执行 Goal 来源 | [`进展复核`](../research/research_review_20261021_v1/REVIEW_AND_PHASED_GOAL_DRAFT.md)、[`前瞻研究与资格检查`](../research/prospective_research_20261021_v1/RESEARCH_BRIEF.md)、[`完整 Loop D Prompt`](../research/prospective_research_20261021_v1/LOOP_D_PROMPT.md)；保留设计来源，现役路由见科研入口 |
 | 导航 | [`INDEX.md`](INDEX.md) |
 | Agent 规则 | [`../AGENTS.md`](../AGENTS.md) |
 | 未决事项 | [`../memory/THREADS.md`](../memory/THREADS.md)；[原文快照](../memory/archive/THREADS_2026-10-21_pre_workspace_governance.md)保留历史，未复验事项不自动关闭 |
 | 基础资料 | [`../README.md`](../README.md)、[`../memory/CORE.md`](../memory/CORE.md)、[`../memory/DECISIONS.md`](../memory/DECISIONS.md)、[`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
 
-## SANER 投稿（Route A，submission-completion）
+## Paper E 发表（渠道重选，SANER 材料保留）
 
 | 需要 | 权威入口 | 当前口径 |
 |---|---|---|
