@@ -4,6 +4,8 @@ import json
 import os
 import sys
 
+from vgmc_test_support import overlay_base_corpus, simple_corpus
+
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(REPO, "scripts"))
 
@@ -18,7 +20,7 @@ def _load():
 
 def test_overlay_merge_adds_columns_and_entries():
     m = _load()
-    corpus = m.load_corpus()
+    corpus = simple_corpus()
     uid = next(iter(corpus))
     rec0 = corpus[uid]
     n_hdr, n_rows = len(rec0["inj_header"]), len(rec0["rows"])
@@ -39,7 +41,7 @@ def test_overlay_merge_adds_columns_and_entries():
 
 def test_overlay_none_is_identity():
     m = _load()
-    corpus = m.load_corpus()
+    corpus = simple_corpus()
     assert m.merge_overlay(corpus, None) is corpus
 
 
@@ -47,7 +49,7 @@ def test_real_overlay_artifact_loads():
     m = _load()
     path = os.path.join(REPO, "logs", "graph", "eval", "vgmc_collision_overlay.json")
     overlay = json.loads(open(path, encoding="utf-8").read())
-    corpus = m.load_corpus(overlay)
+    corpus = m.merge_overlay(overlay_base_corpus(overlay), overlay)
     n_col = sum(1 for u, t in overlay["tables"].items()
                 for e in corpus[u]["entries"] if e.get("type") == "collision")
     assert n_col == overlay["meta"]["n_cols"]

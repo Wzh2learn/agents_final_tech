@@ -16,6 +16,63 @@ import pytest
 import shutil
 
 
+FORBIDDEN_ENDPOINT_NODE_IDS = frozenset({
+    "tests/test_vgmc_adversarial.py::test_adv_map_deterministic_nested_wrong_target",
+    "tests/test_vgmc_collision_overlay.py::test_overlay_merge_adds_columns_and_entries",
+    "tests/test_vgmc_collision_overlay.py::test_overlay_none_is_identity",
+    "tests/test_vgmc_collision_overlay.py::test_real_overlay_artifact_loads",
+})
+FORBIDDEN_ENDPOINT_PORTS = frozenset({8004, 8006, 8007, 8008, 4096})
+
+
+class ForbiddenEndpointConnection(RuntimeError):
+    """Raised before a targeted test can attempt a forbidden endpoint connection."""
+
+
+def _forbidden_port(address):
+    if isinstance(address, tuple) and len(address) >= 2:
+        try:
+            return int(address[1])
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
+def _reject_forbidden_port(address):
+    port = _forbidden_port(address)
+    if port in FORBIDDEN_ENDPOINT_PORTS:
+        raise ForbiddenEndpointConnection(
+            f"forbidden endpoint connection rejected by test isolation: port {port}"
+        )
+
+
+@pytest.fixture(autouse=True)
+def hard_reject_forbidden_endpoints(request, monkeypatch):
+    """Reject all five forbidden ports for only the four targeted acceptance tests."""
+    if request.node.nodeid not in FORBIDDEN_ENDPOINT_NODE_IDS:
+        return
+
+    original_connect = socket.socket.connect
+    original_connect_ex = socket.socket.connect_ex
+    original_create_connection = socket.create_connection
+
+    def guarded_connect(sock, address):
+        _reject_forbidden_port(address)
+        return original_connect(sock, address)
+
+    def guarded_connect_ex(sock, address):
+        _reject_forbidden_port(address)
+        return original_connect_ex(sock, address)
+
+    def guarded_create_connection(address, *args, **kwargs):
+        _reject_forbidden_port(address)
+        return original_create_connection(address, *args, **kwargs)
+
+    monkeypatch.setattr(socket.socket, "connect", guarded_connect)
+    monkeypatch.setattr(socket.socket, "connect_ex", guarded_connect_ex)
+    monkeypatch.setattr(socket, "create_connection", guarded_create_connection)
+
+
 def _has_playwright():
     try:
         importlib.import_module("playwright")

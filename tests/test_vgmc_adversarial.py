@@ -4,6 +4,8 @@ import json
 import os
 import sys
 
+from vgmc_test_support import overlay_base_corpus
+
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(REPO, "scripts"))
 EVAL = os.path.join(REPO, "logs", "graph", "eval")
@@ -20,7 +22,7 @@ def _load():
 def test_adv_map_deterministic_nested_wrong_target():
     m = _load()
     overlay = json.load(open(os.path.join(EVAL, "vgmc_collision_overlay.json"), encoding="utf-8"))
-    corpus = m.load_corpus(overlay)
+    corpus = m.merge_overlay(overlay_base_corpus(overlay), overlay)
     fix, meas = m.split_uids(list(corpus.keys()))
     adv10, k10 = m.build_adv_map(corpus, overlay, fix, 1.0)
     adv10b, _ = m.build_adv_map(corpus, overlay, fix, 1.0)
