@@ -28,6 +28,10 @@ evidence, not competing entry points.
   [`versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md`](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md),
   and
   [`pymigbench_external_change_v1/CURATION_REPORT.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/CURATION_REPORT.md).
+- Qualified real-commit behavioral case:
+  [`ntripbrowser_qualification_v2/QUALIFICATION_RETURN.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/QUALIFICATION_RETURN.md)
+  and
+  [`PROBE_REPORT.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/PROBE_REPORT.md).
 - Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
   accounting tokens, recomputed from all 747 request records. The ledger has
   746 `OK` records and one retained `FAILED/request_already_exists` event with
@@ -133,8 +137,7 @@ selective escalation.
 
 Use the `research/portfolio-integration-v2` branch as the recoverable research
 state. Do not rerun CodeUpdateArena, VersiCode or the authored mechanism
-fixtures. A behavioral external-change experiment requires one PyMigBench
-revision with frozen Python, package locks, tzdata, timezone and tests, and a
-gold all-tests-pass result before model calls. Keep Paper E at
-`NARROW_AND_CONTINUE`, FinRank at `STOP_ON_CURRENT_PANEL`, and MA-CERD
-selective escalation as an unverified development hypothesis.
+fixtures. Replicate the hybrid behavioral-plus-structural oracle on additional
+PyMigBench real commits with explicit dependency-manifest contracts. Keep
+Paper E at `NARROW_AND_CONTINUE`, FinRank at `STOP_ON_CURRENT_PANEL`, and
+MA-CERD selective escalation as an unverified development hypothesis.

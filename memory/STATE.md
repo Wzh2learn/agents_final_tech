@@ -41,8 +41,13 @@
   `thombashi/datetimerange` revival with zero model calls and zero retries.
   No gold behavioral oracle passed: the revival reached `160 passed / 8 failed`
   and exposed missing tzdata/timezone and transitive-version contracts.
-- New Goal accounting: `98/2048` attempts and `44,610/10,000,000` tokens.
-  Physical HTTP calls are 98; judge, training, paid API and production Memory
+- A qualified `emlid/ntripbrowser` `chardet -> cchardet` task passes 7/7
+  hidden tests for parent/gold environments. The model probe shows BASE can
+  pass tests while violating the dependency change via a UTF-8 fallback; prose
+  and structured facts both pass behavior and structure. The supported claim
+  is that migration tasks need a hybrid behavioral and structural oracle.
+- New Goal accounting: `101/2048` attempts and `57,222/10,000,000` tokens.
+  Physical HTTP calls are 101; judge, training, paid API and production Memory
   writes are zero.
 - Final FinRank development observation: B0 V4 `5/7`; derived plan
   minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
@@ -69,12 +74,11 @@ GB10 authoritative review is
 ## Next Execution Step
 
 Use `research/portfolio-integration-v2` as the reviewable integration branch.
-Do not rerun VersiCode, CodeUpdateArena or the same authored fixtures. A
-behavioral external-change run requires one PyMigBench task with frozen Python,
-package locks, tzdata, timezone and tests, plus a gold all-tests-pass result
-before model calls. Keep Paper E at `NARROW_AND_CONTINUE`, FinRank at
-`STOP_ON_CURRENT_PANEL`, and do not convert bounded observability findings
-into general method claims.
+Do not rerun VersiCode, CodeUpdateArena or the same authored fixtures. Replicate
+the hybrid behavioral-plus-structural oracle on additional PyMigBench commits
+with explicit dependency-manifest contracts. Keep Paper E at
+`NARROW_AND_CONTINUE`, FinRank at `STOP_ON_CURRENT_PANEL`, and do not convert
+bounded case findings into general method claims.
 
 Historical state before the 2026-10-19 closeout is preserved in
 [`docs/archive/2026-10-19_memory_state_history.md`](../docs/archive/2026-10-19_memory_state_history.md).

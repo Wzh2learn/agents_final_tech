@@ -10,10 +10,22 @@ real-commit source, but bounded curation retained zero behavioral tasks. A
 one-task `thombashi/datetimerange` revival reached gold `160 passed / 8 failed`
 because tzdata, timezone semantics and historical transitive versions are not
 frozen. Next gate: freeze one complete PyMigBench environment and require gold
-all-tests-pass before any behavioral model call. New accounting is `98/2048`
-attempts and `44,610/10,000,000` tokens.
+all-tests-pass before any behavioral model call. At this checkpoint accounting
+was `98/2048` attempts and `44,610/10,000,000` tokens; the current cumulative
+figure is in the NtripBrowser entry below.
 GB10 carries the full external-source cache and hashes; local duplicate source
 caches remain pending because policy blocked recursive deletion.
+
+[10-21] #NTRIPBROWSER_HYBRID_ORACLE_CASE:
+The qualified PyMigBench `emlid/ntripbrowser` `chardet -> cchardet` task passes
+7/7 deterministic tests in parent/gold environments. In a 3-request behavioral
+probe, BASE also passed 7/7 but failed the migration structure because an
+unimported `chardet.detect` raised and a UTF-8 fallback masked it. PROSE and
+STRUCTURED passed both behavior and structure. The supported conclusion is
+that dependency-migration tasks need a hybrid behavioral plus structural
+oracle; no prose/structured superiority claim is supported. A 33-commit audit
+found 13 code-only records without manifest contracts. New accounting is
+`101/2048` attempts and `57,222/10,000,000` tokens.
 
 [10-21] #RESEARCH_PORTFOLIO_V2_COMPLETE:
 `RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2` completed its bounded
