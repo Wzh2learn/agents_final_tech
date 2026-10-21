@@ -41,6 +41,13 @@
       "accounting_tokens": 40000,
       "status": "SETTLED_STOPPED_ILLEGAL_QUERY",
       "spec": "research/research_portfolio_v2/model_query_scout_v2/SCOUT_SPEC.json"
+    },
+    {
+      "id": "CODEUPDATEARENA_ADAPTER_V1_20261021",
+      "attempts": 16,
+      "accounting_tokens": 50000,
+      "status": "RESERVED_NOT_RUN",
+      "spec": "research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_TASK.md"
     }
   ],
   "events": [

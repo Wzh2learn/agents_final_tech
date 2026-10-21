@@ -1,0 +1,581 @@
+{
+  "environment_contract": {
+    "executable_node_ids": [
+      "price",
+      "rate",
+      "fee",
+      "branch_flag",
+      "bonus",
+      "unused",
+      "base",
+      "scaled",
+      "taxed",
+      "total",
+      "margin",
+      "audit"
+    ],
+    "output_ids": [
+      "total",
+      "margin",
+      "audit"
+    ],
+    "public_tools": [
+      "inspect_dependency",
+      "inspect_change",
+      "run_target_test"
+    ]
+  },
+  "schema_version": "adaptive-revalidation-fixtures-v1",
+  "scenarios": [
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "A large price change propagates to all three outputs.",
+      "family": "breaking",
+      "post_source_values": {
+        "price": 110.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "breaking_change",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "An unused source changes without affecting any output.",
+      "family": "benign",
+      "post_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 7.0
+      },
+      "query_budget": 9,
+      "scenario_id": "benign_change",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "Bonus changes inside a branch that remains inactive.",
+      "family": "inactive_branch",
+      "post_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 30.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "inactive_branch_change",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "A fee change is supportable by dependency evidence or failing target tests.",
+      "family": "multiple_evidence",
+      "post_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 7.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "multiple_supporting_evidence",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "Price and fee changes cancel exactly inside their shared sum.",
+      "family": "value_cancellation",
+      "post_source_values": {
+        "price": 110.0,
+        "rate": 2.0,
+        "fee": -5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "value_cancellation_exact",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "Opposing source changes nearly cancel, leaving a small residual.",
+      "family": "near_additive",
+      "post_source_values": {
+        "price": 110.0,
+        "rate": 2.0,
+        "fee": -3.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "near_additive_residual",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 1.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 20,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "An active bonus change affects only the audit output.",
+      "family": "partial_breaking",
+      "post_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 1.0,
+        "bonus": 30.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "partial_breaking_bonus",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "The visible graph omits price-to-base although the hidden change is breaking.",
+      "family": "missing_edge",
+      "post_source_values": {
+        "price": 110.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "query_budget": 9,
+      "scenario_id": "missing_edge_breaking",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": []
+      }
+    },
+    {
+      "before_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 0.0
+      },
+      "before_success_snapshot": {
+        "audit": 210,
+        "margin": 105,
+        "total": 315
+      },
+      "description": "The visible graph contains a noisy unused-to-total edge.",
+      "family": "noisy_edge",
+      "post_source_values": {
+        "price": 100.0,
+        "rate": 2.0,
+        "fee": 5.0,
+        "branch_flag": 0.0,
+        "bonus": 20.0,
+        "unused": 7.0
+      },
+      "query_budget": 9,
+      "scenario_id": "noisy_edge_benign",
+      "visible_dependencies": {
+        "audit": [],
+        "base": [
+          "scaled",
+          "taxed"
+        ],
+        "bonus": [
+          "audit"
+        ],
+        "branch_flag": [
+          "audit"
+        ],
+        "fee": [
+          "base"
+        ],
+        "margin": [],
+        "price": [
+          "base"
+        ],
+        "rate": [
+          "scaled"
+        ],
+        "scaled": [
+          "audit",
+          "margin",
+          "total"
+        ],
+        "taxed": [
+          "margin",
+          "total"
+        ],
+        "total": [],
+        "unused": [
+          "total"
+        ]
+      }
+    }
+  ],
+  "status": "DEV_ONLY_AUTHORED_MECHANISM_FIXTURES"
+}

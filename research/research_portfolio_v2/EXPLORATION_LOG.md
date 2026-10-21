@@ -76,6 +76,22 @@ This is the concise execution log for the current Goal. It does not replace
 - The PDF remains 10 pages with non-fatal underfull warnings. Submission,
   author order, venue and artifact DOI remain owner actions.
 
+## V3 Corrected Mechanism Result
+
+- V3 moves policy execution behind spawned-process canonical JSON RPC and uses
+  stable opaque actor identifiers. Independent tests cover capability
+  isolation, semantic-label mutation, result tampering and receipt replay.
+- Python 3.9 and 3.11 each pass 22 tests. The deterministic replay contains
+  450 policy episodes over nine families and budgets 0-9; receipt verification
+  passes with 19 source hashes.
+- Across 90 matched-budget/scenario pairs, two-step lookahead has zero positive
+  pairs, seven negative pairs and mean `greedy_loss - two_step_loss = -0.02037`.
+  `greedy_sufficient=true`, `two_step_adds_paired_benefit=false`.
+- Ruling: stop further complexity on the authored mechanism environment. The
+  next information-bearing step is the preregistered CodeUpdateArena synthetic
+  public adapter comparing `base` versus `update_info` under real generated
+  code and hidden unit-test execution.
+
 ## Next Actions
 
 1. Complete three-way governance comparison and safe local integration.
