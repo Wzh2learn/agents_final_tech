@@ -12,6 +12,7 @@ set -euo pipefail
 #                                               # 只检查 repo 与两端安装一致性
 #       sync_skills.sh --sync-one NAME DEST    # 受控单项同步（也用于测试）
 CHECK_MODE=0
+CHECK_PYTHON="${SKILL_SYNC_CHECK_PYTHON:-}"
 CHECK_CODEX_ROOT="${2:-}"
 CHECK_CLAUDE_ROOT="${3:-}"
 case "${1:-}" in
@@ -104,8 +105,15 @@ check_one() {
   if [ ! -d "$dest" ]; then
     echo "DRIFT: not installed: $name -> $dest_root"; return 1
   fi
-  if ! diff -rq "$src" "$dest" >/dev/null 2>&1; then
-    echo "DRIFT: content differs: $name vs $dest"; return 1
+  # Checkout and installation may travel through different Git EOL settings.
+  # Ignore only CRLF/LF in valid UTF-8, non-NUL regular files. The helper still
+  # checks the complete entry set/types, literal symlinks, and binary bytes.
+  # sync_one's staged-copy validation above intentionally stays byte-exact.
+  local comparison
+  if ! comparison=$("$CHECK_PYTHON" "$PROJECT_ROOT/scripts/graph/skill_tree_compare.py" "$src" "$dest" 2>&1); then
+    echo "DRIFT: content differs: $name vs $dest"
+    printf '  %s\n' "$comparison"
+    return 1
   fi
   return 0
 }
@@ -120,12 +128,28 @@ if [ "${1:-}" = "--sync-one" ]; then
 fi
 
 if [ "$CHECK_MODE" = "1" ]; then
+  if [ -z "$CHECK_PYTHON" ]; then
+    for candidate in python3 python; do
+      if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys; raise SystemExit(sys.version_info < (3, 9))' >/dev/null 2>&1; then
+        CHECK_PYTHON="$candidate"
+        break
+      fi
+    done
+  fi
+  if [ -z "$CHECK_PYTHON" ] || ! "$CHECK_PYTHON" -c 'import sys; raise SystemExit(sys.version_info < (3, 9))' >/dev/null 2>&1; then
+    echo "ERROR: --check requires Python >= 3.9 (override: SKILL_SYNC_CHECK_PYTHON)" >&2
+    exit 2
+  fi
+  if [ ! -f "$PROJECT_ROOT/scripts/graph/skill_tree_compare.py" ]; then
+    echo "ERROR: skill_tree_compare.py is missing" >&2
+    exit 2
+  fi
   DRIFT=0; TOTAL=0
   echo "== --check: repo skills/ vs 两端安装 =="
   for s in "${A_SKILLS[@]}"; do TOTAL=$((TOTAL+1)); check_one "$s" "$CODEX_SKILLS_ROOT" || DRIFT=$((DRIFT+1)); done
   for s in "${C_SKILLS[@]}"; do TOTAL=$((TOTAL+1)); check_one "$s" "$CLAUDE_SKILLS_ROOT" || DRIFT=$((DRIFT+1)); done
   if [ "$DRIFT" = "0" ]; then
-    echo "[sync_skills --check] PASS: $TOTAL skill 安装项与 repo 一致"
+    echo "[sync_skills --check] PASS: $TOTAL skill 安装项与 repo 一致 (UTF-8 文本允许 CRLF/LF 运输差异)"
   else
     echo "[sync_skills --check] FAIL: $DRIFT/$TOTAL 项漂移 (上方 DRIFT 行)"
     exit 1

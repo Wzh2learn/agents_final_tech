@@ -91,3 +91,5 @@ Supporting validation: [`../research/stage_e_method_revision_20261009/stage_e_me
 
 Route A scope: [scope lock](../paper/saner_rene_manuscript_scope_lock_v1.md) and [claim matrix](../paper/saner_rene_claim_matrix_v1.json). Route B is [NO / STOP_BRANCH](research/route_b_read_only_qualification_2026-10-11.md). FinQA interpretation is recorded in [measurement-object autopsy](research/finqa_v2_measurement_object_mismatch_autopsy_v1.md). Governance inventory, lineage and [commit manifest](handoff/repository_governance_commit_manifest_2026-10-11.json) are in [handoff](handoff/repository_governance_and_sync_2026-10-11.md) and [FinQA lineage](research/finqa_v2_asset_lineage_v1.md) and [final C audit](experiments/2026-10-11_loop_c_repository_governance_final_audit.md) and [cross-host PASS receipt](experiments/2026-10-11_cross_host_receipt_verification.json).
 Formal-v3 authorization/task-ID reconciliation is recorded in [activation record](research/finqa_v2_formal_v3_activation_record_v1.md).
+
+技能安装只读比对：[`skill_tree_compare.py`](../scripts/graph/skill_tree_compare.py) 只允许 UTF-8 文本 CRLF/LF 运输差异；同步激活仍严格比对字节。
