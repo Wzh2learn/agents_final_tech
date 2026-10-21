@@ -1,0 +1,14 @@
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_reassign_parameters
+
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_invalid_data
+
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_valid_net_data
+
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_valid_str_data
+
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_valid_cas_data
+
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_valid_data
+
+ERROR: found no collectors for /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v3/gold/tests/test_ntripbrowser.py::test_add_coordinates
+

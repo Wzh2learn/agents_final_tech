@@ -1,0 +1,51 @@
+{
+  "schema": "pymigbench_behavioral_migration_task_v1",
+  "task_id": "PYMIG_NTRIPBROWSER_CHARDET_TO_CCHARDET_9161C194",
+  "status": "QUALIFIED",
+  "source": {
+    "repository": "https://github.com/emlid/ntripbrowser.git",
+    "parent_commit": "ed5f52b2b9c2ddbc09b46848fae616e2f23247ad",
+    "gold_commit": "9161c1943a8623892b174c98cdf686a4a0ce8673"
+  },
+  "actor_visible": {
+    "module_path": "ntripbrowser/ntripbrowser.py",
+    "parent_code": "loaded from parent commit at runtime",
+    "instruction": "Migrate the character-encoding detector dependency while preserving observable behavior. Return the complete module."
+  },
+  "conditions": {
+    "BASE": {
+      "change_facts": null
+    },
+    "PROSE_CHANGE_FACTS": {
+      "change_facts": "Use cchardet instead of chardet to speed up data processing."
+    },
+    "STRUCTURED_CHANGE_FACTS": {
+      "change_facts": {
+        "remove_import": "chardet",
+        "add_import": "cchardet",
+        "replace_call": "chardet.detect",
+        "with_call": "cchardet.detect",
+        "preserve_behavior": true
+      }
+    }
+  },
+  "oracle_only": {
+    "gold_module_path": "ntripbrowser/ntripbrowser.py",
+    "hidden_tests": [
+      "test_reassign_parameters",
+      "test_invalid_data",
+      "test_valid_net_data",
+      "test_valid_str_data",
+      "test_valid_cas_data",
+      "test_valid_data",
+      "test_add_coordinates"
+    ],
+    "evaluation_environment": "QUALIFICATION_SPEC_V4.json",
+    "structural_requirement": "candidate must use cchardet and must not use chardet"
+  },
+  "nonclaims": [
+    "One real commit is a case study, not a population estimate.",
+    "Hidden tests cover deterministic local behavior, not live NTRIP services.",
+    "The task measures one migration with a known target dependency."
+  ]
+}

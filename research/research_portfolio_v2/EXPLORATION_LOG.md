@@ -181,13 +181,22 @@ This is the concise execution log for the current Goal. It does not replace
 - Ruling: `ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT`. Do not repair the
   environment after observing failures. The next task must freeze Python,
   package locks, tzdata, timezone and tests before model calls.
-- Cumulative new accounting is `98/2048` attempts and
-  `44,610/10,000,000` tokens.
+- A second source task, `emlid/ntripbrowser` `chardet -> cchardet`, was
+  qualified on revision V4 after preserving three failed environment revisions.
+  Parent/parent and gold/gold pass 7/7 deterministic local tests.
+- The behavioral probe used BASE, prose change facts and structured change
+  facts. All three passed 7/7 tests, but BASE failed the structural migration
+  contract by masking an unimported `chardet.detect` with a UTF-8 fallback.
+  PROSE and STRUCTURED passed both gates. This supports a hybrid oracle, not a
+  representation claim.
+- A source audit found 13/33 auditable commits code-only with no dependency
+  manifest contract. Cumulative new accounting is `101/2048` attempts and
+  `57,222/10,000,000` tokens.
 
 ## Next Actions
 
-1. Freeze one PyMigBench task environment end to end and require gold
-   all-tests-pass before any behavioral model request.
+1. Replicate the hybrid behavioral-plus-structural oracle on additional
+   PyMigBench real commits with explicit dependency-manifest contracts.
 2. Keep VersiCode as a bounded nonbehavioral observability pilot; do not rerun
    its four arms.
 3. Preserve Paper E, FinRank and MA-CERD rulings unchanged.

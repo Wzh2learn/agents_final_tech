@@ -1,0 +1,42 @@
+{
+  "schema": "pymigbench_behavioral_probe_receipt_v1",
+  "date": "2026-10-21",
+  "status": "BOUNDED_BEHAVIORAL_CASE_COMPLETE",
+  "task_id": "PYMIG_NTRIPBROWSER_CHARDET_TO_CCHARDET_9161C194",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "arms": {
+    "BASE": {
+      "behavioral_tests_passed": 7,
+      "behavioral_tests_total": 7,
+      "structural_pass": false,
+      "hybrid_pass": false,
+      "failure": "undefined chardet import was masked by a UTF-8 fallback",
+      "accounting_tokens": 4224
+    },
+    "PROSE_CHANGE_FACTS": {
+      "behavioral_tests_passed": 7,
+      "behavioral_tests_total": 7,
+      "structural_pass": true,
+      "hybrid_pass": true,
+      "accounting_tokens": 4176
+    },
+    "STRUCTURED_CHANGE_FACTS": {
+      "behavioral_tests_passed": 7,
+      "behavioral_tests_total": 7,
+      "structural_pass": true,
+      "hybrid_pass": true,
+      "accounting_tokens": 4212
+    }
+  },
+  "attempts": 3,
+  "physical_http_calls": 3,
+  "accounting_tokens": 12612,
+  "retries": 0,
+  "hidden_test_regressions": 0,
+  "claim": "A behavioral oracle alone can accept code that preserves fixture outputs while violating the requested dependency migration; this case requires a hybrid behavioral and structural oracle.",
+  "nonclaims": [
+    "No general representation superiority is established.",
+    "No population-level migration estimate is established.",
+    "No live NTRIP behavior is claimed."
+  ]
+}

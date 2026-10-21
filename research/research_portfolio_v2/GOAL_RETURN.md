@@ -61,6 +61,19 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
   both declared environments. Ruling:
   `ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT`, not a source or hypothesis
   rejection.
+- A second PyMigBench task, `emlid/ntripbrowser` `chardet -> cchardet`, was
+  qualified after freezing Python, package locks, pycurl/libcurl/SSL tools and
+  seven deterministic local tests. Parent/parent and gold/gold both pass `7/7`.
+- The behavioral probe found a decisive oracle issue: BASE passed `7/7` hidden
+  tests while failing the requested migration because an unimported
+  `chardet.detect` raised `NameError` and a UTF-8 fallback masked it. PROSE and
+  STRUCTURED both passed tests and the `cchardet` structural gate. Supported
+  claim: dependency-migration evaluation needs behavioral plus structural
+  checks. No representation superiority is established.
+- A zero-model audit of 33 auditable PyMigBench commits found 13 code-only
+  changes with no dependency-manifest contract and 19 with target dependencies
+  named in manifest diffs. This is task-construction evidence, not model
+  capability evidence.
 
 ## 3. Evidence Identity
 
@@ -76,6 +89,8 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
   syntax/name migration and information-representation observations only.
 - `PUBLIC_REAL_COMMIT_METADATA_AND_LOCAL_TEST_CURATION`: PyMigBench metadata,
   repository checkout and JUnit evidence; no model calls.
+- `PUBLIC_REAL_COMMIT_BEHAVIORAL_CASE_PROBE`: one qualified real-commit
+  migration with hidden tests and structural dependency checks.
 - Oracle-assisted material is labelled separately and is not actor input.
 
 ## 4. Governance And Recovery
@@ -109,7 +124,7 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
 
 | Category | Attempts / calls | Accounting tokens |
 |---|---:|---:|
-| New generation POST | 98 | 44,610 |
+| New generation POST | 101 | 57,222 |
 | Model identity GET | 4 | not token-billed |
 | CodeUpdateArena V1 hidden-test Docker programs | 100 | offline |
 | CodeUpdateArena V2 revalidation iterations | 300 | offline |
@@ -118,17 +133,18 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
 | of which VersiCode observability generation | 32 | 15,917 |
 | PyMigBench commit curation | 36 candidate commits | offline |
 | PyMigBench single-task revival | 3 test runs | offline |
+| NtripBrowser behavioral probe | 3 | 12,612 |
+| PyMigBench dependency-contract audit | 33 commits | offline |
 | Judge / training / paid API / production Memory | 0 | 0 |
 
 Historical ledgers remain separate: 747 attempts / 1,564,176 tokens and 313
-attempts / 324,086 tokens. New generation budget usage is `98/2048` attempts
-and `44,610/10,000,000` tokens.
+attempts / 324,086 tokens. New generation budget usage is `101/2048` attempts
+and `57,222/10,000,000` tokens.
 
 ## 6. Next Experiment
 
 Do not rerun VersiCode, CodeUpdateArena or the same prose-update comparison.
-The next information-bearing experiment is a PyMigBench behavioral task only
-after one source revision has an exact Python, package-lock, tzdata, timezone
-and test-command contract and its gold commit passes all tests before model
-calls. If that minimal environment freeze cannot be established, stop the
-behavioral external-change candidate and keep the current bounded conclusions.
+The next information-bearing experiment should replicate the hybrid behavioral
+plus structural oracle on additional PyMigBench real commits, with target
+dependency manifests frozen explicitly. Do not infer prose/structured
+superiority from the current single case.

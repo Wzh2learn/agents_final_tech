@@ -1,0 +1,42 @@
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [27 lines of output]
+      /tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py:789: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+        if LooseVersion(distutils.__version__) > LooseVersion("1.0.1"):
+      /tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py:791: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+        if LooseVersion(distutils.__version__) < LooseVersion("1.0.3"):
+      Traceback (most recent call last):
+        File "/tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py", line 103, in configure_unix
+          p = subprocess.Popen((CURL_CONFIG, '--version'),
+        File "/home/testuser/miniconda3/envs/hyperfm/lib/python3.9/subprocess.py", line 951, in __init__
+          self._execute_child(args, executable, preexec_fn, close_fds,
+        File "/home/testuser/miniconda3/envs/hyperfm/lib/python3.9/subprocess.py", line 1837, in _execute_child
+          raise child_exception_type(errno_num, err_msg, err_filename)
+      FileNotFoundError: [Errno 2] No such file or directory: 'curl-config'
+      
+      During handling of the above exception, another exception occurred:
+      
+      Traceback (most recent call last):
+        File "<string>", line 2, in <module>
+        File "<pip-setuptools-caller>", line 34, in <module>
+        File "/tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py", line 841, in <module>
+          ext = get_extension(sys.argv, split_extension_source=split_extension_source)
+        File "/tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py", line 508, in get_extension
+          ext_config = ExtensionConfiguration(argv)
+        File "/tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py", line 72, in __init__
+          self.configure()
+        File "/tmp/pip-install-qev_g6zp/pycurl_2d80a79724184141bc8be39745ae6018/setup.py", line 108, in configure_unix
+          raise ConfigurationError(msg)
+      __main__.ConfigurationError: Could not run curl-config: [Errno 2] No such file or directory: 'curl-config'
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.

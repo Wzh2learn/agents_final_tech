@@ -1,0 +1,795 @@
+{
+  "schema": "pymigbench_dependency_contract_audit_v1",
+  "status": "COMPLETE",
+  "summary": {
+    "attempted_rows": 36,
+    "audited_rows": 33,
+    "manifest_changed": 20,
+    "code_only_no_manifest_contract": 13,
+    "target_declared": 19
+  },
+  "rows": [
+    {
+      "repo": "sk-415/harukabot",
+      "commit": "0611d16a4cdc3f472b2c5fb265b8728e9a505d74",
+      "status": "NOT_AUDITED_FETCH_UNAVAILABLE"
+    },
+    {
+      "repo": "openstack/ironic",
+      "commit": "cbf214b5130e362f57dbe5da99f4cef1918d882d",
+      "source": "cheetah3",
+      "target": "jinja2",
+      "status": "AUDITED",
+      "changed_paths": [
+        "ironic/drivers/modules/pxe.py",
+        "ironic/drivers/modules/pxe_config.template",
+        "ironic/nova/tilera.py",
+        "ironic/tests/drivers/pxe_config.template",
+        "requirements.txt"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "rapid-design-of-systems-laboratory/beluga",
+      "commit": "078e3e56fe5b86d9c188aaf249a72296bd6fa753",
+      "source": "dill",
+      "target": "cloudpickle",
+      "status": "AUDITED",
+      "changed_paths": [
+        "beluga/beluga.py",
+        "beluga/visualization/datasources.py",
+        "requirements.txt"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "romanz/trezor-agent",
+      "commit": "e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b",
+      "source": "ed25519",
+      "target": "pynacl",
+      "status": "AUDITED",
+      "changed_paths": [
+        "libagent/formats.py",
+        "libagent/gpg/decode.py",
+        "libagent/gpg/protocol.py",
+        "libagent/gpg/tests/test_protocol.py",
+        "setup.py"
+      ],
+      "manifest_paths": [
+        "setup.py"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "princetonuniversity/psyneulink",
+      "commit": "5253a55c46d529b69397fc1d54d3f8e7262c337b",
+      "source": "enum",
+      "target": "aenum",
+      "status": "AUDITED",
+      "changed_paths": [
+        "psyneulink/globals/context.py",
+        "psyneulink/globals/log.py",
+        "requirements.txt"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "testdrivenio/flask-react-aws",
+      "commit": "d4119a0f609b151df99b2250e419c168e688a0c6",
+      "source": "flask-restful",
+      "target": "flask-restplus",
+      "status": "AUDITED",
+      "changed_paths": [
+        ".gitlab-ci.yml",
+        "Dockerfile.deploy",
+        "README.md",
+        "docker-compose.yml",
+        "release.sh",
+        "services/client/Dockerfile",
+        "services/client/Dockerfile.ci",
+        "services/client/README.md",
+        "services/client/package-lock.json",
+        "services/client/package.json",
+        "services/client/public/index.html",
+        "services/client/public/logo192.png",
+        "services/client/public/logo512.png",
+        "services/client/public/manifest.json",
+        "services/client/public/robots.txt",
+        "services/client/src/App.jsx",
+        "services/client/src/components/About.jsx",
+        "services/client/src/components/AddUser.jsx",
+        "services/client/src/components/LoginForm.jsx",
+        "services/client/src/components/Message.jsx",
+        "services/client/src/components/NavBar.css",
+        "services/client/src/components/NavBar.jsx",
+        "services/client/src/components/RegisterForm.jsx",
+        "services/client/src/components/UserStatus.jsx",
+        "services/client/src/components/UsersList.jsx",
+        "services/client/src/components/__tests__/About.test.jsx",
+        "services/client/src/components/__tests__/AddUser.test.jsx",
+        "services/client/src/components/__tests__/App.test.jsx",
+        "services/client/src/components/__tests__/LoginForm.test.jsx",
+        "services/client/src/components/__tests__/Message.test.jsx",
+        "services/client/src/components/__tests__/NavBar.test.jsx",
+        "services/client/src/components/__tests__/RegisterForm.test.jsx",
+        "services/client/src/components/__tests__/UserStatus.test.jsx",
+        "services/client/src/components/__tests__/UsersList.test.jsx",
+        "services/client/src/components/__tests__/__snapshots__/About.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/AddUser.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/App.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/LoginForm.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/Message.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/NavBar.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/RegisterForm.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/UserStatus.test.jsx.snap",
+        "services/client/src/components/__tests__/__snapshots__/UsersList.test.jsx.snap",
+        "services/client/src/components/form.css",
+        "services/client/src/index.js",
+        "services/client/src/setupTests.js",
+        "services/nginx/default.conf",
+        "services/users/.coveragerc",
+        "services/users/.dockerignore",
+        "services/users/Dockerfile",
+        "services/users/Dockerfile.prod",
+        "services/users/manage.py",
+        "services/users/project/__init__.py",
+        "services/users/project/api/__init__.py",
+        "services/users/project/api/auth.py",
+        "services/users/project/api/ping.py",
+        "services/users/project/api/users/__init__.py",
+        "services/users/project/api/users/admin.py",
+        "services/users/project/api/users/models.py",
+        "services/users/project/api/users/services.py",
+        "services/users/project/api/users/views.py",
+        "services/users/project/config.py",
+        "services/users/project/db/Dockerfile",
+        "services/users/project/db/create.sql",
+        "services/users/project/tests/__init__.py",
+        "services/users/project/tests/conftest.py",
+        "services/users/project/tests/pytest.ini",
+        "services/users/project/tests/test_admin.py",
+        "services/users/project/tests/test_auth.py",
+        "services/users/project/tests/test_config.py",
+        "services/users/project/tests/test_ping.py",
+        "services/users/project/tests/test_user_model.py",
+        "services/users/project/tests/test_users.py",
+        "services/users/project/tests/test_users_unit.py",
+        "services/users/project/tests/utils.py",
+        "services/users/requirements.txt",
+        "services/users/setup.cfg"
+      ],
+      "manifest_paths": [
+        "services/users/requirements.txt",
+        "services/users/setup.cfg"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "openshot/openshot-qt",
+      "commit": "4349753e0eecae60c96768def773fa48189f06bf",
+      "source": "httplib2",
+      "target": "requests",
+      "status": "AUDITED",
+      "changed_paths": [
+        "freeze.py",
+        "src/classes/metrics.py",
+        "src/classes/version.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "hxlstandard/libhxl-python",
+      "commit": "0babff28e04c7da97cae91de78e86295bc42b118",
+      "source": "jsonpath-rw",
+      "target": "jsonpath-rw-ext",
+      "status": "AUDITED",
+      "changed_paths": [
+        "CHANGELOG",
+        "hxl/filters.py",
+        "hxl/io.py",
+        "requirements.txt",
+        "setup.py"
+      ],
+      "manifest_paths": [
+        "requirements.txt",
+        "setup.py"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "obsidianforensics/hindsight",
+      "commit": "973b3d3278609c144f11542bd24164243ee165af",
+      "source": "leveldb",
+      "target": "plyvel",
+      "status": "AUDITED",
+      "changed_paths": [
+        "pyhindsight/__init__.py",
+        "pyhindsight/browsers/chrome.py",
+        "pyhindsight/utils.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "paratoolsinc/taucmdr",
+      "commit": "2a2c28aeee469c514196ec5ca68592c9bf354146",
+      "source": "lockfile",
+      "target": "fasteners",
+      "status": "AUDITED",
+      "changed_paths": [
+        "packages/fasteners/LICENSE",
+        "packages/fasteners/__init__.py",
+        "packages/fasteners/_utils.py",
+        "packages/fasteners/lock.py",
+        "packages/fasteners/monotonic.py",
+        "packages/fasteners/process_lock.py",
+        "packages/fasteners/test.py",
+        "packages/fasteners/tests/__init__.py",
+        "packages/fasteners/tests/test_decorators.py",
+        "packages/fasteners/tests/test_helpers.py",
+        "packages/fasteners/tests/test_lock.py",
+        "packages/fasteners/tests/test_process_lock.py",
+        "packages/fasteners/version.py",
+        "packages/lockfile/LICENSE",
+        "packages/lockfile/__init__.py",
+        "packages/lockfile/linklockfile.py",
+        "packages/lockfile/mkdirlockfile.py",
+        "packages/lockfile/pidlockfile.py",
+        "packages/lockfile/sqlitelockfile.py",
+        "packages/lockfile/symlinklockfile.py",
+        "packages/tau/cf/software/installation.py",
+        "packages/tau/cf/software/papi_installation.py",
+        "packages/tau/cf/software/tau_installation.py",
+        "packages/tau/model/experiment.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "camptocamp/c2cgeoportal",
+      "commit": "14388c3d85ab164d7b36b1331534913a1c9d6c9a",
+      "source": "pycrypto",
+      "target": "pycryptodome",
+      "status": "AUDITED",
+      "changed_paths": [
+        "docker/build/requirements.txt",
+        "geoportal/c2cgeoportal_geoportal/__init__.py",
+        "geoportal/c2cgeoportal_geoportal/scripts/urllogin.py",
+        "geoportal/requirements.txt"
+      ],
+      "manifest_paths": [
+        "docker/build/requirements.txt",
+        "geoportal/requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "milvus-io/bootcamp",
+      "commit": "e5073e4c0c3e799822e939268d80c8f0601ea4cf",
+      "source": "pymilvus-orm",
+      "target": "pymilvus",
+      "status": "AUDITED",
+      "changed_paths": [
+        "solutions/video_similarity_search/object_detection/README.md",
+        "solutions/video_similarity_search/object_detection/server/requirements.txt",
+        "solutions/video_similarity_search/object_detection/server/src/milvus_helpers.py",
+        "solutions/video_similarity_search/quick_deploy/README.md",
+        "solutions/video_similarity_search/quick_deploy/server/requirements.txt",
+        "solutions/video_similarity_search/quick_deploy/server/src/milvus_helpers.py",
+        "solutions/video_similarity_search/requirements.txt",
+        "solutions/video_similarity_search/video_similarity_search.ipynb"
+      ],
+      "manifest_paths": [
+        "solutions/video_similarity_search/object_detection/server/requirements.txt",
+        "solutions/video_similarity_search/quick_deploy/server/requirements.txt",
+        "solutions/video_similarity_search/requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "celery/celery",
+      "commit": "9b39fc41998c708c6612f0c7bf4393bf48f72e9b",
+      "source": "pyopenssl",
+      "target": "cryptography",
+      "status": "AUDITED",
+      "changed_paths": [
+        "celery/app/base.py",
+        "celery/app/defaults.py",
+        "celery/security/__init__.py",
+        "celery/security/certificate.py",
+        "celery/security/key.py",
+        "celery/security/serialization.py",
+        "celery/security/utils.py",
+        "celery/worker/consumer/consumer.py",
+        "celery/worker/consumer/gossip.py",
+        "docs/userguide/configuration.rst",
+        "docs/userguide/security.rst",
+        "examples/security/mysecureapp.py",
+        "examples/security/ssl/worker.key",
+        "examples/security/ssl/worker.pem",
+        "requirements/docs.txt",
+        "requirements/extras/auth.txt",
+        "requirements/test-ci-base.txt",
+        "requirements/test-ci-default.txt",
+        "requirements/test-integration.txt",
+        "t/integration/test_security.py",
+        "t/unit/security/case.py",
+        "t/unit/security/test_certificate.py",
+        "t/unit/security/test_key.py",
+        "t/unit/security/test_security.py",
+        "t/unit/security/test_serialization.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "haoxizhong/pytorch-worker",
+      "commit": "fa8de771a86df6130d7ff456319240bc1387804d",
+      "source": "pytorch-pretrained-bert",
+      "target": "pytorch-transformers",
+      "status": "AUDITED",
+      "changed_paths": [
+        "formatter/nlp/BasicBertFormatter.py",
+        "model/nlp/BasicBert.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "oddluck/limnoria-plugins",
+      "commit": "33c7a3fc0878d87ee803db91c17523a9e61af3ed",
+      "status": "NOT_AUDITED_FETCH_UNAVAILABLE"
+    },
+    {
+      "repo": "city-of-helsinki/respa",
+      "commit": "4fecb977083666abb353b203f661cdb0952a0764",
+      "source": "raven",
+      "target": "sentry-sdk",
+      "status": "AUDITED",
+      "changed_paths": [
+        "requirements.in",
+        "requirements.txt",
+        "resources/importer/kirjastot.py",
+        "resources/importer/kirjastot_v2.py",
+        "respa/settings.py",
+        "respa_exchange/management/base.py"
+      ],
+      "manifest_paths": [
+        "requirements.in",
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "openstack/aodh",
+      "commit": "7587ab9bf362f3ed26c392e89aa4626429d95e7a",
+      "source": "retrying",
+      "target": "tenacity",
+      "status": "AUDITED",
+      "changed_paths": [
+        "aodh/coordination.py",
+        "aodh/storage/__init__.py",
+        "aodh/tests/functional/storage/test_get_connection.py",
+        "requirements.txt"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "slackapi/python-slack-sdk",
+      "commit": "5f4d92a8048814fc4938753594e74d7cfc74c27a",
+      "source": "slackclient",
+      "target": "slack-sdk",
+      "status": "AUDITED",
+      "changed_paths": [
+        "tutorial/03-responding-to-slack-events.md",
+        "tutorial/PythOnBoardingBot/app.py",
+        "tutorial/PythOnBoardingBot/async_app.py",
+        "tutorial/PythOnBoardingBot/onboarding_tutorial.py",
+        "tutorial/PythOnBoardingBot/requirements.txt",
+        "tutorial/README.md"
+      ],
+      "manifest_paths": [
+        "tutorial/PythOnBoardingBot/requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": false,
+      "classification": "MANIFEST_CHANGED_TARGET_NAME_NOT_FOUND"
+    },
+    {
+      "repo": "pimoroni/inky",
+      "commit": "cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb",
+      "source": "smbus-cffi",
+      "target": "smbus2",
+      "status": "AUDITED",
+      "changed_paths": [
+        "library/inky/eeprom.py",
+        "library/inky/inky.py",
+        "library/setup.py",
+        "library/tests/test_init.py"
+      ],
+      "manifest_paths": [
+        "library/setup.py"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "whynothugo/django-afip",
+      "commit": "827dd9f05a0ab517c7f4833754c0d60ddee48f56",
+      "source": "suds-py3",
+      "target": "zeep",
+      "status": "AUDITED",
+      "changed_paths": [
+        "CHANGELOG.rst",
+        "django_afip/clients.py",
+        "django_afip/exceptions.py",
+        "django_afip/models.py",
+        "django_afip/serializers.py",
+        "docs/usage.rst",
+        "requirements.txt",
+        "testapp/testapp/testmain/tests.py"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "nlesc/xtas",
+      "commit": "0dbf3884e1a63065efc1523505348a343a1c2764",
+      "source": "toolz",
+      "target": "cytoolz",
+      "status": "AUDITED",
+      "changed_paths": [
+        "requirements.txt",
+        "xtas/tasks/cluster.py",
+        "xtas/tasks/single.py"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "adithyabsk/keep2roam",
+      "commit": "d340eea2fdedde8908334eda34325d058fc88282",
+      "source": "argparse",
+      "target": "click",
+      "status": "AUDITED",
+      "changed_paths": [
+        "convert.py",
+        "requirements.txt"
+      ],
+      "manifest_paths": [
+        "requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "ceph/teuthology",
+      "commit": "fb3210538573bfe67d1f3faf0edb566a2c9877a6",
+      "source": "argparse",
+      "target": "docopt",
+      "status": "AUDITED",
+      "changed_paths": [
+        "scripts/results.py",
+        "teuthology/results.py",
+        "teuthology/test/test_results.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "augerai/a2ml",
+      "commit": "13ea499e413b86256345fbf39f26628b68a7fe83",
+      "source": "asyncio-redis",
+      "target": "aioredis",
+      "status": "AUDITED",
+      "changed_paths": [
+        "a2ml/api/utils/remote_runner.py",
+        "a2ml/server/notification.py",
+        "a2ml/server/server.py",
+        "a2ml/tasks_queue/tasks_api.py",
+        "setup.py"
+      ],
+      "manifest_paths": [
+        "setup.py"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "twiliodeved/sms2fa-flask",
+      "commit": "22eedfcd1ef701a4283505762660146b57b26304",
+      "source": "bcrypt",
+      "target": "passlib",
+      "status": "AUDITED",
+      "changed_paths": [
+        "sms2fa_flask/forms.py",
+        "sms2fa_flask/models.py",
+        "sms2fa_flask/views.py",
+        "tests/base.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "cfpb/cfgov-refresh",
+      "commit": "3262610155669294fa5b79c108b6a244d9d03cbc",
+      "source": "beautifulsoup",
+      "target": "bs4",
+      "status": "AUDITED",
+      "changed_paths": [
+        "cfgov/cfgov/settings/base.py",
+        "cfgov/processors/django_calendar_event.py",
+        "cfgov/processors/django_career.py",
+        "cfgov/processors/wordpress_cfpb_report.py",
+        "cfgov/processors/wordpress_contact.py",
+        "cfgov/processors/wordpress_event.py",
+        "cfgov/processors/wordpress_faq.py",
+        "cfgov/processors/wordpress_featured_topic.py",
+        "cfgov/processors/wordpress_history.py",
+        "cfgov/processors/wordpress_newsroom.py",
+        "cfgov/processors/wordpress_office.py",
+        "cfgov/processors/wordpress_orgmember.py",
+        "cfgov/processors/wordpress_page.py",
+        "cfgov/processors/wordpress_post.py",
+        "cfgov/processors/wordpress_sub_page.py",
+        "cfgov/processors/wordpress_view.py",
+        "cfgov/sheerlike/external_links.py",
+        "cfgov/v1/__init__.py",
+        "requirements/base.txt"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "whoopinc/mkwheelhouse",
+      "commit": "54806ffc8eddb19cb4b603a380a2f1126eaae84e",
+      "source": "botocore",
+      "target": "boto",
+      "status": "AUDITED",
+      "changed_paths": [
+        "CHANGELOG.rst",
+        "mkwheelhouse.py",
+        "setup.py"
+      ],
+      "manifest_paths": [
+        "setup.py"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "cqmoe/python-cqhttp",
+      "commit": "f9f083ec6b1de67e4e128e2fdc85cb7bacadcf6b",
+      "source": "bottle",
+      "target": "flask",
+      "status": "AUDITED",
+      "changed_paths": [
+        ".gitignore",
+        "cqhttp/__init__.py",
+        "setup.py"
+      ],
+      "manifest_paths": [
+        "setup.py"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "emlid/ntripbrowser",
+      "commit": "9161c1943a8623892b174c98cdf686a4a0ce8673",
+      "source": "chardet",
+      "target": "cchardet",
+      "status": "AUDITED",
+      "changed_paths": [
+        "ntripbrowser/ntripbrowser.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "kittenparry/meituri-downloader",
+      "commit": "422d73beace31a95a817d9befa860ca932df4596",
+      "status": "NOT_AUDITED_FETCH_UNAVAILABLE"
+    },
+    {
+      "repo": "danielyule/hearthbreaker",
+      "commit": "d018edff306bf88c8be56d2c8252a44b374f9293",
+      "source": "cloud-sptheme",
+      "target": "sphinx-rtd-theme",
+      "status": "AUDITED",
+      "changed_paths": [
+        "docs/conf.py",
+        "docs/hearthbreaker.rst",
+        "hearthbreaker/game_objects.py",
+        "tests/agents/__init__.py",
+        "tests/card_tests/__init__.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "ctlearn-project/ctlearn",
+      "commit": "2375af87fa36b7c93c5a3be5cab81784d4a2f64e",
+      "source": "configparser",
+      "target": "configobj",
+      "status": "AUDITED",
+      "changed_paths": [
+        "ctalearn/config/config_spec.ini",
+        "ctalearn/scripts/run_model.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "ckan/ckanext-datapackager",
+      "commit": "a6a3fb3aaa48790365430740686de2019ff0076a",
+      "source": "csv",
+      "target": "unicodecsv",
+      "status": "AUDITED",
+      "changed_paths": [
+        "ckanext/datapackager/lib/helpers.py",
+        "ckanext/datapackager/tests/controllers/test_package.py"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    },
+    {
+      "repo": "thombashi/datetimerange",
+      "commit": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+      "source": "dataproperty",
+      "target": "typepy",
+      "status": "AUDITED",
+      "changed_paths": [
+        "datetimerange/__init__.py",
+        "requirements/requirements.txt",
+        "test/test_datetimerange.py"
+      ],
+      "manifest_paths": [
+        "requirements/requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": true,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "bcgov/theorgbook",
+      "commit": "728f86e941dfb6bdbee27628d28425757af5f22d",
+      "source": "django-rest-swagger",
+      "target": "drf-yasg",
+      "status": "AUDITED",
+      "changed_paths": [
+        "APISpec/gen/urls.py",
+        "tob-api/api/urls.py",
+        "tob-api/api_v2/swagger.py",
+        "tob-api/api_v2/urls.py",
+        "tob-api/requirements.txt",
+        "tob-api/tob_api/settings.py"
+      ],
+      "manifest_paths": [
+        "tob-api/requirements.txt"
+      ],
+      "manifest_changed": true,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": true,
+      "classification": "TARGET_DECLARED"
+    },
+    {
+      "repo": "aio-libs/aioftp",
+      "commit": "ba6ef08fb7ebb9d5db4034e65622f4d80288fa6a",
+      "source": "docopt",
+      "target": "argparse",
+      "status": "AUDITED",
+      "changed_paths": [
+        "aioftp/__main__.py",
+        "readme.rst"
+      ],
+      "manifest_paths": [],
+      "manifest_changed": false,
+      "source_name_in_manifest_diff": false,
+      "target_name_in_manifest_diff": false,
+      "classification": "CODE_ONLY_NO_MANIFEST_CONTRACT"
+    }
+  ],
+  "interpretation": "A code-only migration can preserve tests while leaving installation contract stale; behavioral task builders must freeze and expose the target dependency contract separately."
+}

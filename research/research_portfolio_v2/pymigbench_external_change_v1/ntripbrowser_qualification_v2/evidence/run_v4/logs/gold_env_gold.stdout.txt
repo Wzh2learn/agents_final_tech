@@ -1,0 +1,3 @@
+.......                                                                  [100%]
+- generated xml file: /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v4/logs/gold_env_gold.xml -
+7 passed in 0.03s

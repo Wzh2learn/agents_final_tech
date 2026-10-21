@@ -28,7 +28,7 @@
       "evidence_identity": "PUBLIC_REAL_COMMIT_METADATA_AND_LOCAL_TEST_CURATION",
       "id": "E_PYMIGBENCH_BEHAVIORAL_EXTERNAL_CHANGE",
       "main_risk": "historical project dependencies and timezone contracts prevent deterministic replay",
-      "status": "ZERO_READY_TASKS_ENVIRONMENT_CONTRACT_INSUFFICIENT"
+      "status": "ONE_QUALIFIED_BEHAVIORAL_TASK_HYBRID_ORACLE_REQUIRED"
     }
   ],
   "cost_dimensions": [
@@ -114,6 +114,15 @@
       "raw_result": "research/research_portfolio_v2/versicode_observability_v1/PROBE_RESULT.json",
       "status": "SETTLED_COMPLETE",
       "reason": "completed_all_planned_attempts"
+    },
+    {
+      "id": "PYMIG_NTRIPBROWSER_BEHAVIORAL_PROBE_20261021_001_003",
+      "attempts": 3,
+      "physical_http_calls": 3,
+      "accounting_tokens": 12612,
+      "raw_result": "research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/PROBE_RESULT.json",
+      "status": "SETTLED_COMPLETE",
+      "reason": "completed_all_planned_attempts"
     }
   ],
   "offline_events": [
@@ -135,6 +144,16 @@
       "raw_result": "research/research_portfolio_v2/pymigbench_external_change_v1/revival_datetimerange_936761f7/REVIVAL_RECEIPT.json",
       "status": "ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT",
       "reason": "Gold reached 160 passed and 8 failed; declared requirements do not freeze tzdata or timezone semantics."
+    },
+    {
+      "id": "PYMIGBENCH_DEPENDENCY_CONTRACT_AUDIT_20261021",
+      "model_calls": 0,
+      "candidate_commits_audited": 33,
+      "code_only_no_manifest_contract": 13,
+      "target_declared_in_manifest_diff": 19,
+      "raw_result": "research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json",
+      "status": "COMPLETE",
+      "reason": "Real migration commits often leave installation contracts stale; hybrid task qualification must bind target dependencies explicitly."
     }
   ],
   "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
@@ -154,12 +173,12 @@
   ],
   "new_budget": {
     "accounting_tokens_cap": 10000000,
-    "accounting_tokens_used": 44610,
+    "accounting_tokens_used": 57222,
     "attempt_cap": 2048,
-    "attempts_used": 98,
+    "attempts_used": 101,
     "judge_calls": 0,
     "paid_api_usd": 0,
-    "physical_http_calls": 98,
+    "physical_http_calls": 101,
     "production_memory_writes": 0,
     "training_calls": 0
   },
@@ -212,6 +231,13 @@
       "accounting_tokens": 80000,
       "spec": "research/research_portfolio_v2/versicode_observability_v1/EXPERIMENT_SPEC.json",
       "status": "SETTLED_COMPLETE"
+    },
+    {
+      "id": "PYMIG_NTRIPBROWSER_BEHAVIORAL_PROBE_20261021",
+      "attempts": 3,
+      "accounting_tokens": 30000,
+      "spec": "research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/BEHAVIORAL_PROBE_SPEC.json",
+      "status": "SETTLED_COMPLETE"
     }
   ],
   "rulings": {
@@ -220,8 +246,8 @@
     "CODEUPDATEARENA_UPDATE_INFO": "BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES",
     "MODEL_QUERY_POLICY_CURRENT_INTERFACE": "STOP",
     "VERSICODE_CHANGE_OBSERVABILITY": "BOUNDED_NONBEHAVIORAL_PILOT_DIRECT_MAPPING_DOMINATES_CHEAPLY",
-    "PYMIGBENCH_BEHAVIORAL_SOURCE": "PROMISING_SOURCE_BUT_ZERO_READY_TASKS_UNDER_BOUNDED_CURATION",
-    "NEXT_GATE": "freeze a complete Python/package/tzdata/timezone/test contract for one PyMigBench task and require gold all-tests-pass before any behavioral model run"
+    "PYMIGBENCH_BEHAVIORAL_SOURCE": "ONE_QUALIFIED_TASK_HYBRID_BEHAVIORAL_AND_STRUCTURAL_ORACLE_REQUIRED",
+    "NEXT_GATE": "replicate the hybrid oracle on additional real commits before making any migration-method claim"
   },
   "schema": "research_portfolio_cost_and_candidates_v2"
 }

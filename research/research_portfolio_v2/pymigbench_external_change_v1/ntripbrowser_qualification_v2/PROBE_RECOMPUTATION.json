@@ -1,0 +1,28 @@
+{
+  "schema": "pymigbench_behavioral_probe_recomputation_v1",
+  "status": "PASS",
+  "arms": {
+    "BASE": {
+      "structural_pass": false,
+      "behavioral_pass": true,
+      "tokens": 4224
+    },
+    "PROSE_CHANGE_FACTS": {
+      "structural_pass": true,
+      "behavioral_pass": true,
+      "tokens": 4176
+    },
+    "STRUCTURED_CHANGE_FACTS": {
+      "structural_pass": true,
+      "behavioral_pass": true,
+      "tokens": 4212
+    }
+  },
+  "request_pairs_verified": 3,
+  "junit_files_verified": 3,
+  "source_hashes": {
+    "REQUEST_SNAPSHOT.json": "ce71445b3f56e302173e057063b994174238112e83b6fcb306675817c7e0e6cf",
+    "PROBE_RESULT.json": "75778e6655ea497f4383a5e5d9352584f24074563989ba2b15cfa2f9227b3d7e",
+    "MODEL_LEDGER.json": "75778e6655ea497f4383a5e5d9352584f24074563989ba2b15cfa2f9227b3d7e"
+  }
+}

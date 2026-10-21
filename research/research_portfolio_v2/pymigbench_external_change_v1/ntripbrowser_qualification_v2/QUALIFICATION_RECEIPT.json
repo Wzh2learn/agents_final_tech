@@ -1,0 +1,56 @@
+{
+  "schema": "pymigbench_behavioral_task_qualification_receipt_v1",
+  "date": "2026-10-21",
+  "status": "QUALIFIED_BEHAVIORAL_TASK_V4",
+  "task_id": "PYMIG_NTRIPBROWSER_CHARDET_TO_CCHARDET_9161C194",
+  "source": {
+    "benchmark_commit": "d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b",
+    "repository": "https://github.com/emlid/ntripbrowser.git",
+    "parent_commit": "ed5f52b2b9c2ddbc09b46848fae616e2f23247ad",
+    "gold_commit": "9161c1943a8623892b174c98cdf686a4a0ce8673"
+  },
+  "qualification_revisions": [
+    {
+      "revision": 1,
+      "status": "INSTALL_FAILED_MISSING_CURL_CONFIG",
+      "tests_run": 0
+    },
+    {
+      "revision": 2,
+      "status": "COLLECTION_FAILED_LIBCURL_VERSION_MISMATCH",
+      "tests_run": 0
+    },
+    {
+      "revision": 3,
+      "status": "COLLECTION_FAILED_SSL_BACKEND_MISMATCH",
+      "tests_run": 0
+    },
+    {
+      "revision": 4,
+      "status": "PASS",
+      "parent_parent": {
+        "tests": 7,
+        "passed": 7,
+        "exit_code": 0
+      },
+      "gold_gold": {
+        "tests": 7,
+        "passed": 7,
+        "exit_code": 0
+      },
+      "parent_gold": {
+        "status": "COLLECTION_BLOCKED_MISSING_SOURCE_DEPENDENCY",
+        "exit_code": 4
+      },
+      "gold_parent": {
+        "status": "COLLECTION_BLOCKED_MISSING_TARGET_DEPENDENCY",
+        "exit_code": 4
+      }
+    }
+  ],
+  "selected_tests": 7,
+  "excluded_network_tests": 7,
+  "failed_environment_retries_within_revision": 0,
+  "model_calls": 0,
+  "evidence_identity": "PUBLIC_REAL_COMMIT_ENVIRONMENT_QUALIFICATION"
+}

@@ -1,0 +1,90 @@
+{
+  "schema": "pymigbench_behavioral_task_qualification_spec_v2",
+  "qualification_revision": 3,
+  "supersedes": "QUALIFICATION_SPEC_V2.json after four preserved collection failures caused by pycurl loading system libcurl 8.5 instead of the compile-time conda libcurl 8.16",
+  "date": "2026-10-21",
+  "status": "PREREGISTERED_NOT_RUN",
+  "source": {
+    "benchmark": "PyMigBench",
+    "benchmark_commit": "d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b",
+    "record": "data/migration/chardet__cchardet__emlid@ntripbrowser__9161c1943a86.yaml",
+    "repository": "https://github.com/emlid/ntripbrowser.git",
+    "parent_commit": "ed5f52b2b9c2ddbc09b46848fae616e2f23247ad",
+    "gold_commit": "9161c1943a8623892b174c98cdf686a4a0ce8673"
+  },
+  "environment": {
+    "python": "3.9.25",
+    "base_interpreter": "/home/testuser/miniconda3/envs/hyperfm/bin/python3.9",
+    "os": "GB10 Linux aarch64",
+    "build_tools": {
+      "PYCURL_CURL_CONFIG": "/home/testuser/miniconda3/bin/curl-config",
+      "curl_config_sha256": "a50b60c4126d114d3a1451fb8b21ee6f9e90950ead7015a391d21d2b1d163abe",
+      "libcurl_version": "8.16.0",
+      "LD_LIBRARY_PATH_PREFIX": "/home/testuser/miniconda3/lib",
+      "libcurl_so_sha256": "cdbf4cec8fa37f9520caf7e136bbff966149e47a81574546fbfeba69a2657889"
+    },
+    "network_during_tests": "tests do not request network; network-dependent tests are excluded",
+    "parent_direct_packages": [
+      "chardet==3.0.4",
+      "geopy==1.14.0",
+      "pager==3.3",
+      "pycurl==7.43.0.1",
+      "texttable==1.2.1",
+      "cachecontrol==0.14.3",
+      "pytest==8.3.5",
+      "mock==5.2.0"
+    ],
+    "gold_direct_packages": [
+      "cchardet==2.1.7",
+      "geopy==1.14.0",
+      "pager==3.3",
+      "pycurl==7.43.0.1",
+      "texttable==1.2.1",
+      "cachecontrol==0.14.3",
+      "pytest==8.3.5",
+      "mock==5.2.0"
+    ]
+  },
+  "test_selection": {
+    "file": "tests/test_ntripbrowser.py",
+    "included": [
+      "test_reassign_parameters",
+      "test_invalid_data",
+      "test_valid_net_data",
+      "test_valid_str_data",
+      "test_valid_cas_data",
+      "test_valid_data",
+      "test_add_coordinates"
+    ],
+    "excluded_network_dependent": [
+      "test_http_caster",
+      "test_https_caster",
+      "test_win1252_caster",
+      "test_html_page_caster",
+      "test_headerless_caster",
+      "test_incomplete_data_caster",
+      "test_nonexistent_caster"
+    ],
+    "exclusion_reason": "These tests contact live NTRIP servers and are not deterministic behavioral oracles."
+  },
+  "planned_runs": [
+    "parent_snapshot_parent_environment",
+    "gold_snapshot_gold_environment",
+    "parent_snapshot_gold_environment",
+    "gold_snapshot_parent_environment"
+  ],
+  "hybrid_oracle": {
+    "behavioral": "All seven selected tests must pass at gold in the frozen gold environment.",
+    "structural": "Candidate source must use target library cchardet and must not use source library chardet.",
+    "actor_boundary": "Target APIs, gold diff and hidden tests are not actor-visible."
+  },
+  "stop_rules": [
+    "Any direct dependency install fails once.",
+    "Gold does not pass all seven selected tests.",
+    "Python version or package lock differs from this spec.",
+    "Any selected test requires live network."
+  ],
+  "retry_cap": 0,
+  "model_calls": 0,
+  "evidence_identity": "PUBLIC_REAL_COMMIT_ENVIRONMENT_QUALIFICATION"
+}

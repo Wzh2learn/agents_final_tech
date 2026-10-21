@@ -1,0 +1,19 @@
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/test_ntripbrowser.py __________________
+ImportError while importing test module '/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v4/parent/tests/test_ntripbrowser.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/home/testuser/miniconda3/envs/hyperfm/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_ntripbrowser.py:5: in <module>
+    from ntripbrowser import (NtripBrowser, UnableToConnect, ExceededTimeoutError,
+ntripbrowser/__init__.py:1: in <module>
+    from .ntripbrowser import NtripBrowser
+ntripbrowser/ntripbrowser.py:35: in <module>
+    import chardet
+E   ModuleNotFoundError: No module named 'chardet'
+- generated xml file: /home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/ntripbrowser_qualification_v2/run_v4/logs/parent_env_gold.xml -
+=========================== short test summary info ============================
+ERROR tests/test_ntripbrowser.py
+1 error in 0.03s
