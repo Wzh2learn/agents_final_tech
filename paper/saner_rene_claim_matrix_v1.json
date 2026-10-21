@@ -1,12 +1,12 @@
 {
   "schema_version": 2,
-  "status": "FROZEN_SCOPE_NOT_PAPER_BODY",
+  "status": "AMENDED_2026_10_21_NARROW_AND_CONTINUE",
   "primary_route": "A",
   "optional_route": "B - STOPPED (STOP_BRANCH as of 2026-10-11; retained as history only, not an active option)",
   "hard_freeze": "2026-10-20T18:00:00+08:00",
-  "title": "Visibility Is Not Detection: Auditing Observation Boundaries in Staged Document-Intelligence Evaluation",
-  "title_note": "Single active title (2026-10-11 fix). Earlier working variants used 'Blind Spots'/'Quantifying Observation Boundaries'; both are retired.",
-  "thesis": "Evaluation validity depends on auditing the observation surface itself: in a staged document-intelligence evaluator, controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and a second dataflow's transfer requires causally aligned measurement objects (a design requirement, not a validated law).",
+  "title": "Visibility Is Not Detection: Auditing Measurement Boundaries in Staged and Evidence-Ranking Evaluation",
+  "title_note": "Current title adopted by the 2026-10-21 canonical integration. The 2026-10-11 title and earlier working variants remain historical records and are not active submission wording.",
+  "thesis": "A bounded two-case measurement audit separates visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap: Case 1 audits a staged document evaluator with FinQA as a nested boundary probe, and Case 2 audits FinRank with preregistered v1 tie metrics and thresholds plus a post-hoc v2 identity correction. The six-step review sequence is a proposed checklist, not a validated universal method.",
   "claims": [
     {
       "id": "C1",
@@ -31,13 +31,37 @@
     },
     {
       "id": "C3",
-      "claim": "Cross-dataflow transfer requires causal alignment of measurement objects (stated as a design requirement, not a validated law). The frozen FinQA v2 second-dataflow result (formal class SECOND_FLOW_MIXED) is consistent with a failed-transfer / measurement-object mismatch: the detection predicate is defined and the V/D/O counts are reproducible, but the downstream result fields it consumes are not regenerated from the perturbed program, so the counts do not estimate detection ability. It is not evidence of protocol blindness (both terms are defined in `definitions`).",
+      "claim": "As a nested boundary probe inside Case 1, the frozen FinQA v2 result (formal class SECOND_FLOW_MIXED) is consistent with a measurement-object mismatch: the detection predicate is defined and the V/D/O counts are reproducible, but the downstream result fields it consumes are not regenerated from the perturbed program, so the counts do not estimate detection ability. Cross-dataflow causal alignment is a design requirement, not a validated law. FinQA is not a third Paper E case and is not evidence of protocol blindness (both terms are defined in `definitions`).",
       "evidence": [
         "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
         "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
         "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md",
         "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
         "docs/research/finqa_v2_formal_v3_activation_record_v1.md"
+      ],
+      "allowed": true
+    },
+    {
+      "id": "C4",
+      "case": 2,
+      "claim": "The FinRank v1 tie metrics and materiality thresholds are preregistered and unchanged. Under ties-positive, strict-win and half-credit pairwise scoring, absolute random-negative accuracy is score-sensitive, while the qualitative hard-versus-random decision is stable under the tested tie alternatives: TF-IDF gap 14.179/13.821/14.000 and BM25 gap 13.009/12.666/12.838 percentage points for ties-positive/strict/half-credit. Score sensitivity and decision stability are separate constructs.",
+      "evidence": [
+        "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION.json",
+        "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS_v1_raw_text_overlap.json",
+        "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS.json",
+        "research/research_direction_sprint_20261020_v1/execution_v1/INDEPENDENT_REVIEW.md"
+      ],
+      "allowed": true
+    },
+    {
+      "id": "C5",
+      "case": 2,
+      "claim": "The canonical trimmed/`text_sha1` identity counts are post-hoc v2 corrections after the wrong-identity v1 application: 442 cross-record overlapping hard negatives across 305 records, with first-occurrence metadata gold loss in 33 records and all-gold loss in 2. V1's raw-exact 293/220 result is preserved as superseded wrong-identity evidence. Residual global and metadata metric drift is exposed (up to 0.19 and 0.16 points in the declared deterministic environment), while in-record and pairwise metrics reproduce exactly; the drift cause remains unresolved.",
+      "evidence": [
+        "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION_PROVENANCE.md",
+        "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS_v1_raw_text_overlap.json",
+        "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS.json",
+        "research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md"
       ],
       "allowed": true
     }
@@ -48,7 +72,10 @@
     "SECOND_FLOW_MIXED": "The frozen formal result class of the FinQA v2 second-dataflow run: a mixed observation/detection pattern produced under a construction that was not causally aligned. A classification only; it is not a performance or transfer claim.",
     "M aliasing (Route B)": "Two M-stage leaf slots written from the same predicate, so the source-local / downstream partition is not separable (MVP design audit, filed HIGH).",
     "R/N downstream non-estimability (Route B)": "For stages R and N no downstream checkpoint responded on the frozen carriers, so the downstream causal term could not be estimated.",
-    "harmfulness equivalence-dependence": "Harmfulness is defined relative to a stated equivalence contract; changing the contract can change the label (hence the boundary framing)."
+    "harmfulness equivalence-dependence": "Harmfulness is defined relative to a stated equivalence contract; changing the contract can change the label (hence the boundary framing).",
+    "score sensitivity": "The movement of an absolute metric under a changed score or tie contract; it does not by itself imply a changed benchmark decision.",
+    "decision stability": "Preservation of the qualitative decision or ordering supported by the benchmark under tested contract alternatives; it does not imply exact score reproduction.",
+    "reproduction gap": "A mismatch between independently executed and released metric values under a stated environment and tolerance; its cause is not assigned without sufficient evidence."
   },
   "forbidden_claims": [
     "universal blind spots across AI systems",
@@ -61,6 +88,13 @@
     "complete causal discovery",
     "semantic process correctness or harmfulness beyond the stated equivalence contract",
     "Stage D/C4 or PRM performance"
+    ,"Paper E has more than two counted cases"
+    ,"FinQA is a third Paper E case"
+    ,"MA-CERD or adaptive revalidation is a Paper E case"
+    ,"the six-step review sequence is a validated universal method"
+    ,"the post-hoc v2 identity correction is wholly preregistered"
+    ,"the v1 tie metrics or materiality thresholds changed in v2"
+    ,"the cause of residual global or metadata metric drift is identified"
   ],
   "figures": {
     "figure_1": "NIST/long-horizon motivation -> failure -> checkpoint visibility -> protocol detection -> outcome/harm",
@@ -82,11 +116,72 @@
     "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md": "340794d244aa29f1846c02f04237cb6d757d6f0e73dcfc229f7f2431fafedf67",
     "docs/research/finqa_v2_formal_v3_activation_record_v1.md": "a74aed656f63f560b274c9a465e47766d8931c7ee60d33a6e009f8311bfa105f",
     "docs/research/nist_measurement_validity_ledger_v2.md": "84cb4621b1bde099a9a4c76b04c033eb91cd2af1fe25bbf1b63e3a404a145cec",
-    "docs/experiments/2026-08-18_drift_injection_v0.md": "a9a9fea11854cef68f6b90a8786948de694a9412e6d2e5214dc61b71084a2bc8"
+    "docs/experiments/2026-08-18_drift_injection_v0.md": "a9a9fea11854cef68f6b90a8786948de694a9412e6d2e5214dc61b71084a2bc8",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION.json": "16c328bd17609f6045cf0fb311aa221d9aef0bb60369d5e1256d4421a3ad4034",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION_PROVENANCE.md": "32d4159edbaa510f683f186a7501ba310ac118284f55b24cbf20b5ea80d74753",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS_v1_raw_text_overlap.json": "586148d55116b092e5764ea07c13c522060b20323a969a84ae7bb8d6d5a8fd4f",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS.json": "fb4a4cf0066c2482867752bb9b6e92cbf02783bd333635f9a99244b4924a81bd",
+    "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/SOURCE_MANIFEST.json": "95a6396188cc0ee8f045c239e18fb83728370aa1dc6ccb4bad2a0cff395aa3fa",
+    "research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md": "81ca8aafc45ab0e0a818083fda2f8f63e3f6516e662c0848aa813a29c9410ce5",
+    "research/research_direction_sprint_20261020_v1/execution_v1/INDEPENDENT_REVIEW.md": "7dd0c5b8c772ede19bad14a95f2bc981e9c9c11f7218764ce73b521ee2defcf5"
   },
-  "hash_binding_note": "sha256 values are bound to GB10 raw bytes (the authoritative host) and were all recomputed/verified on 2026-10-11. Every cited evidence path has an entry; no cited path is unbound.",
+  "hash_binding_note": "Historical sha256 values are bound to GB10 raw bytes (the authoritative host) and were recomputed/verified on 2026-10-11. The preserved FinRank v1/v2 evidence hashes added on 2026-10-21 are bound to the unmodified local raw bytes and independently match the provenance record. Every cited evidence path has an entry; no cited path is unbound.",
   "corpus_note": "Frozen evaluation corpus: normalized public TAT-QA table base (no client data); the drift-v0 injector (seed 42, ratio 0.3, deterministic) marks the injection-carrier tables; the frozen surface uses the 95 such tables and their 118 injections (docs/experiments/2026-08-18_drift_injection_v0.md).",
   "internal_manifest_note": "paper/claim_manifest_v1.json is the finer-grained Stage-E internal claim ledger; this matrix is the SANER Route A authority. Residual: a clause-level mapping between the two is not yet enumerated; cite this matrix.",
+  "case_accounting": {
+    "disposition": "NARROW_AND_CONTINUE",
+    "counted_cases": 2,
+    "case_1": "staged document evaluator, including FinQA as a nested boundary probe",
+    "case_2": "FinRank evidence-ranking audit",
+    "nested_probe": "FinQA is inside Case 1 and is not counted as a third case",
+    "excluded": [
+      "MA-CERD",
+      "adaptive revalidation"
+    ]
+  },
+  "construct_separation": [
+    "visibility",
+    "detection",
+    "harmfulness",
+    "score sensitivity",
+    "decision stability",
+    "reproduction gap"
+  ],
+  "finrank_provenance": {
+    "disposition": "NARROWER_CONTRACT_STABLE_WITH_REPRODUCIBILITY_CAVEAT",
+    "v1": "Preregistered question, tie metrics and materiality thresholds; wrong raw-exact identity application preserved as 293/220.",
+    "v2": "Post-hoc deterministic trimmed/`text_sha1` identity correction and reanalysis; 442/305 cross-record overlap and 33/2 metadata gold loss. Tie values and thresholds are unchanged but the implementation is not wholly frozen.",
+    "residual_reproduction_gap": "Global and metadata-filtered metrics drift by up to 0.19 and 0.16 points in the declared deterministic environment; in-record and pairwise metrics reproduce exactly; cause unresolved."
+  },
+  "internal_only_exclusions": {
+    "ai_assisted_24_task_review": "Historical/internal-only development evidence; excluded from Paper E submission results and counted cases.",
+    "deferred_model_free_or_scoring_routes": "Historical/internal-only boundary records; excluded from Paper E submission results and counted cases."
+  },
+  "historical_freeze_records": [
+    {
+      "date": "2026-10-11",
+      "record": "Route A/B scope lock and one-case staged-evaluator claim matrix."
+    },
+    {
+      "date": "2026-10-13",
+      "record": "A1-A7 adjudication application and revision gate."
+    },
+    {
+      "date": "2026-10-20T18:00:00+08:00",
+      "record": "Manuscript hard freeze before the Paper E canonical integration."
+    }
+  ],
+  "amendment_2026_10_21": {
+    "action": "Dated amendment only; historical freeze records and raw evidence are preserved.",
+    "requirements": [
+      "Canonical title and abstract now describe exactly two counted cases.",
+      "FinQA is explicitly nested inside Case 1.",
+      "FinRank v1/v2 provenance, 442/305 and 33/2 post-hoc labels, and unresolved reproduction gap are explicit.",
+      "The compact feedback/gain-collateral result is removed from the submission body.",
+      "AI-assisted 24-task and deferred model-free/scoring material is internal-only.",
+      "The six-step sequence is proposed and unvalidated."
+    ]
+  },
   "route_b_qualification": {
     "status": "NO",
     "decision": "STOP_BRANCH",

@@ -1,0 +1,72 @@
+{
+  "arxiv_record": "2608.07400v1",
+  "files": [
+    {
+      "bytes": 34130413,
+      "path": "vendor\\FinRank\\FinRank.jsonl",
+      "sha256": "b763ef4d58706370bd32f828b94852d2aa19f5227cb603481dd230d8121360ac"
+    },
+    {
+      "bytes": 5235,
+      "path": "vendor\\FinRank\\README.md",
+      "sha256": "6ca6c79d18ab5f67e71bcc1d488c56ac0f4c91fa72cd2c52eaafbb509579ffe5"
+    },
+    {
+      "bytes": 848,
+      "path": "vendor\\FinRank\\LICENSE",
+      "sha256": "e71c2199fcea6e083a48f7a51d850bc163712459713cb6bc00f46e6159b1f8be"
+    },
+    {
+      "bytes": 13514,
+      "path": "vendor\\FinRank\\baselines\\run_baselines.py",
+      "sha256": "6de63bc784d68906d832653aa1dd1398b7da627660a8f7fa095a56dd6e4f9ee4"
+    },
+    {
+      "bytes": 6170,
+      "path": "vendor\\FinRank\\baselines\\run_extra_retrievers.py",
+      "sha256": "9305ff1732dfa8089a22c7cf73abf3a29e0a1ba8b8a3e4a3e3051336d910b0a5"
+    },
+    {
+      "bytes": 7031,
+      "path": "vendor\\FinRank\\baselines\\validate_release.py",
+      "sha256": "8a33db90fcd5476886665ee686b6692d781f314332e3fa005bca525e3ca96eeb"
+    },
+    {
+      "bytes": 58729,
+      "path": "vendor\\FinRank\\baselines\\results\\results.json",
+      "sha256": "60517716d3f8dbd5d6d435991764e39988ef7df90facf92b9185aacc0bc1f411"
+    },
+    {
+      "bytes": 2602,
+      "path": "vendor\\FinRank\\baselines\\results\\extra_retrievers.json",
+      "sha256": "daff7aff782dc4b6a93f0d1c9b003984a588577dcb48a101c75b8d0ae3c9ced4"
+    },
+    {
+      "bytes": 1267676,
+      "path": "vendor\\FinRank\\hn_taxonomy.json",
+      "sha256": "cb9d260574f062edd43c7f2af68791e3bac73792fd95c1676224593bcd2758f5"
+    },
+    {
+      "bytes": 442154,
+      "path": "vendor\\FinRank\\repair_log.json",
+      "sha256": "d1c21a491e4c0dc4224aca3a9a285b66cb4e4e37006d5ec2091dd74031c99a73"
+    },
+    {
+      "bytes": 2669,
+      "path": "vendor\\FinRank\\summary.json",
+      "sha256": "98bbb2e751af613d1d2cbb29fef962114f86db600154a077c71dd944f53a43c6"
+    },
+    {
+      "bytes": 604615,
+      "path": "evidence\\finrank_2608.07400v1.pdf",
+      "sha256": "f46702cc129be95fce096a5a2d0ea8b97c7e0ebc59c36940b65d5016ebab10f5"
+    },
+    {
+      "bytes": 3454,
+      "path": "evidence\\finrank_arxiv_record.xml",
+      "sha256": "eea86b7e5a0798a13d7455d62c72458d679991a60858c48100993b20c42a66cd"
+    }
+  ],
+  "revision": "916dc27e77b90e294ea1b3a2cc5b0abcf07392d1",
+  "upstream": "https://github.com/datanxt/FinRank"
+}

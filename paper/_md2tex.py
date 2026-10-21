@@ -15,6 +15,8 @@ CITE = {
  "Wang et al., 2026":"wang2026gta2","NIST, 2023":"nist2023airmf","NIST AI 100-1, 2023":"nist2023airmf","NIST, 2024":"nist2024genai",
  "Gerhold et al., 2024":"gerhold2024limits","Hoess et al., 2025":"hoess2025does",
  "Berndt et al., 2026":"berndt2026flaky","Kummita et al., 2026":"kummita2026static",
+ "Bean et al., 2025":"bean2025construct","Caban, 2026":"caban2026validity",
+ "Mansouri et al., 2026":"mansouri2026finrank",
 }
 
 def esc(s):

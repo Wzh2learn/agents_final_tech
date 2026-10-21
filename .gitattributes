@@ -7,3 +7,5 @@ docs/experiments/2026-08-18_drift_injection_v0.md -text
 logs/graph/eval/checkpoint_discrimination_tables_v2.json -text
 logs/graph/eval/t2_visibility_sensitivity.json -text
 paper/figure_plan_v1.md -text
+research/positive_repair_20261011/preregs/PR-EXP-03_prereg_v3.md -text
+research/positive_repair_20261011/runs_local_mirror/PR-EXP-03-v3/** -text

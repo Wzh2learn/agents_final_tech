@@ -1,8 +1,13 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "paper": "paper/teacher_review_draft_v1.md",
-  "status": "evaluation_track_internal_draft",
-  "release_gate": "patent_status_confirmation_required",
+  "status": "historical_internal_only_not_submission_authority",
+  "historical_status": "evaluation_track_internal_draft",
+  "release_gate": "not_applicable_historical_internal_only",
+  "historical_release_gate": "patent_status_confirmation_required",
+  "submission_authority": false,
+  "submission_authority_note": "This file is a historical/internal-only Stage-E claim ledger for paper/teacher_review_draft_v1.md. It is not Paper E submission authority and cannot authorize registration, submission or publication. Paper E authority is paper/saner_rene_claim_matrix_v1.json together with docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md.",
+  "paper_e_disposition": "All claims and delivery files in this manifest are retained as historical/internal-only evidence. SP-C4 compact feedback/gain-collateral results are excluded from the Paper E submission body. SP-C5 deferred model-free/scoring routes are internal-only and excluded from Paper E counted cases and submission results.",
   "delivery_files": [
     "paper/teacher_review_draft_v1.md",
     "paper/teacher_review_draft_v1.docx",

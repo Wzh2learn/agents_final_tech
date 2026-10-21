@@ -84,3 +84,65 @@ RENE 适配性仍须作者判断：FinQA 的失配诊断不是有效执行实验
 **更新（2026-10-13）：独立 Loop C 复核已交付**（设计 launcher 通道）：v2 = CONDITIONAL（9 项残留）→ 全部修复（commit 6655201）→ v3 = item application PASS / claim boundary PASS；package 残余仅一项由审计方裁定的单字图注修复（删除 "also"），已落实并由双端机器校验复验（`PRE_SUBMISSION_AUDIT = PASS`、`WIDE_EVIDENCE_CHECK = PASS`）。完整记录：`LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`。**仍未完成：** A7 的匿名 URL 未建立；标题最终措辞仍属作者决定（本记录采用候选 T1）。native 语言终审已完成（2026-10-13 模型执行：14 处纯表达修正 + 重编译 + 审计 PASS；human native 通读可选）。
 
 **本记录不使稿件变成 ready，也不授权任何外发动作。**
+
+---
+
+## 13. Dated Amendment — 2026-10-21 Canonical Integration
+
+> 本节追加，不改写 §1–§12 历史冻结记录。
+
+**Disposition:** `NARROW_AND_CONTINUE`
+
+**Integration status:** `DONE_WITH_CONCERNS`
+
+**Submission status:** `NOT_READY / OWNER_ACTION_REQUIRED`
+**External action:** 未注册、未提交、未发布，也未授权外发。
+
+| 资格面 | 当前状态 | 证据 / 剩余项 |
+|---|---|---|
+| 科学边界 | `PASS` | exactly two cases；FinQA nested in Case 1；FinRank Case 2；MA-CERD/adaptive revalidation excluded |
+| FinRank provenance | `PASS_WITH_POST_HOC_LABEL` | v1 tie metrics/thresholds preregistered and unchanged；wrong-identity v1 preserved；`text_sha1` `442/305` and `33/2` are post-hoc v2 corrections |
+| 构念分离 | `PASS` | visibility / detection / harmfulness / score sensitivity / decision stability / reproduction gap 保持分离 |
+| 复现边界 | `PASS_WITH_OPEN_CAUSE` | in-record and pairwise exact；global up to 0.19 point and metadata-filtered up to 0.16 point drift；cause unresolved |
+| submission body | `PASS` | compact feedback/gain-collateral removed；AI-assisted 24-task and deferred model-free/scoring routes marked internal-only and excluded |
+| checklist claim | `PASS` | six-step sequence explicitly proposed and not a validated universal method |
+| citation binding | `PASS` | Caban / Bean / Mansouri added to source and bundle BibTeX；24 cited / 24 bib / 0 missing / 0 unused |
+| derivative package | `PASS_WITH_WARNINGS` | `_md2tex.py` and `_to_bundle_tex.py` PASS；cached Tectonic build exit 0；10 pages；0 overfull；7 underfull |
+| wide evidence gate | `FAIL_BLOCKING_RECONCILIATION` | claim hashes 22/22 PASS and citations PASS，but figure binding pins the pre-amendment `saner_rene_manuscript_scope_lock_v1.md` hash；3 duplicate mismatches |
+| docs lint | `PASS` | 0 fail / 0 warn |
+| external process | `PENDING_OWNER` | author order, venue, anonymized artifact URL/DOI, registration and submission remain owner decisions |
+
+**Blocking reconciliation:** `docs/research/figures_saner/figure_source_binding_manifest.json`
+still binds the historical scope-lock SHA-256
+`4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213`;
+the amended file hashes to
+`c9fe8d3ebf99ff7ab0be8d11d94e363d74c16f15ed2f67ad1ad05ea5c1e428a8`.
+The manifest was outside this integration's edit boundary and was not changed.
+Until an owner-authorized versioned binding update is made, `WIDE_EVIDENCE_CHECK`
+remains `FAIL`.
+
+**本节不授权投稿，也不把 warning-bearing derivative build 表述为 clean PASS。**
+
+## 14. 2026-10-21 Wide-Evidence Reconciliation
+
+状态：`PASS_RECONCILED`。
+
+本节取代第 13 节的 wide-evidence 状态。`figure_source_binding_manifest.json`
+的三个 `fig1/fig2/fig3` scope-lock source pin 已从旧 hash
+`4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213`
+更新为当前 amendment hash
+`c9fe8d3ebf99ff7ab0be8d11d94e363d74c16f15ed2f67ad1ad05ea5c1e428a8`，
+随后因补充 `Historical, Non-Operative` 标记再次更新为最终 hash
+`dadf4020d33a955c5d91474976cc119fe7dcb0ddcf1a2917648ad3cec4e68128`，
+并在 `repin_note` 中记录原因。Figure Definitions 与 figure outputs 未改变。
+
+`python scripts/verify_claim_evidence.py --report-eol` 现为：
+
+- claim matrix `22/22 PASS`
+- figure binding `23/23 PASS`
+- citations `24/24 PASS`
+- prereg pins `PASS`
+- `WIDE_EVIDENCE_CHECK = PASS`
+
+这解除 figure binding reconciliation blocker，但不改变 `NOT_READY /
+OWNER_ACTION_REQUIRED` 的投稿状态。

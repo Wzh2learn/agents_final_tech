@@ -5,6 +5,21 @@
 > Optional route: `B — STOPPED (STOP_BRANCH 2026-10-11; retained as history only)`
 > Manuscript hard freeze: `2026-10-20 18:00 Asia/Shanghai`
 
+## Dated Amendment — 2026-10-21 Canonical Integration
+
+> Current disposition: `NARROW_AND_CONTINUE`.
+> This amendment supersedes active title, case accounting and submission wording only. The freeze record below is preserved unchanged as history.
+
+- Canonical title: **Visibility Is Not Detection: Auditing Measurement Boundaries in Staged and Evidence-Ranking Evaluation**.
+- Exactly two counted cases: (1) the staged document evaluator, with FinQA as a nested boundary probe inside Case 1; (2) the FinRank evidence-ranking audit.
+- MA-CERD and adaptive revalidation are not Paper E cases.
+- FinRank v1 tie metrics and materiality thresholds are preregistered and unchanged. The canonical trimmed/`text_sha1` branch and the `442/305` and `33/2` counts are post-hoc v2 corrections after the wrong-identity v1 application; v1's raw-exact `293/220` result remains preserved.
+- Visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap are separate constructs.
+- Residual global and metadata metric drift is exposed; its cause is unresolved.
+- The six-step review sequence is a proposed checklist, not a validated universal method.
+- The AI-assisted 24-task review and deferred model-free/scoring routes are historical/internal-only and excluded from the submission body.
+- The compact feedback/gain-collateral result is removed from the submission body.
+
 ## Tentative Title
 
 **Visibility Is Not Detection: Auditing Observation Boundaries in Staged Document-Intelligence Evaluation**
@@ -12,6 +27,12 @@
 ## One-Sentence Thesis
 
 Evaluation validity depends on auditing the observation surface itself: in a staged document-intelligence evaluator, controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and a second dataflow's transfer requires causally aligned measurement objects (a design requirement, not a validated law).
+
+## Historical, Non-Operative
+
+The retained material below records the earlier single-case freeze. It does
+not override the 2026-10-21 two-case/provenance amendment above and must not be
+used as the current contribution statement.
 
 ## Frozen Contributions
 
