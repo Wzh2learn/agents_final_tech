@@ -83,7 +83,7 @@ flowchart LR
 - `graph_orchestrator.sh` 有 B 启动逻辑，A/C 分支主要给派发说明；不是完整 A→B→C 自动流水线。
 - `loop_b_verify.sh` 的判分逻辑是确定性的，但默认 canary、API、QA/PG 检查会访问真实服务，不能当零调用单测执行。
 - `dispatch_precheck.sh` 校验 watcher 与运行收据合同，不执行 watcher；合成收据只用于测试，不能作为真实开窗凭证。
-- hooks、skills 分发、daemon 与调度都是机器安装状态；Git 中存在脚本不代表已接线或生效。本轮不修改全局安装。
+- hooks、skills 分发、daemon 与调度都是机器安装状态；Git 中存在脚本不代表已接线或生效。本轮仅对 GB10 一个既有技能分发副本备份后补齐缺项，没有新装技能或改动 daemon/调度。
 
 ## 定点验证地图
 

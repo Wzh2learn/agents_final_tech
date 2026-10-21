@@ -1,11 +1,11 @@
 # Current State
 
 > Updated: 2026-10-21 | Scope: workspace/Git governance and research handoff
-> Governance verification: `IN_PROGRESS`；最终跨主机、分支与资产核验以治理报告为准。
+> Governance verification: `VERIFIED`；三端 main 对齐、两端主工作区 clean，备份与验收范围见治理报告。
 
 ## 当前任务
 
-Portfolio V2 的有界科研探索已完成。Owner 当前要求先收口本机与 GB10 的内容、分支和结构，再决定新的科研 Goal。本轮不因剩余预算自动延续模型实验。
+Portfolio V2 的有界科研探索已完成。本机与 GB10 内容保全、分支合并和结构治理已收口，各保留一个 main 工作树；下一步由 owner 审阅资产，决定新的科研与论文 Goal。本轮新增模型请求为零。
 
 | 用途 | 当前权威入口 |
 |---|---|
