@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_dependency\",\n  \"arguments\": {\n    \"node_id\": \"total\"\n  },\n  \"reason_code\": \"Need to verify the direct dependency of the primary output 'total' on the changed node 'price' to confirm the propagation path.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554618,
+  "id": "chatcmpl-6mP8cQtzej3jX6HKtNAAo5UX88s21fcZ",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 1101.994,
+    "predicted_n": 71,
+    "predicted_per_second": 64.42866295097797,
+    "predicted_per_token_ms": 15.521042253521125,
+    "prompt_ms": 370.427,
+    "prompt_n": 582,
+    "prompt_per_second": 1571.1597696712172,
+    "prompt_per_token_ms": 0.6364725085910653
+  },
+  "usage": {
+    "completion_tokens": 71,
+    "prompt_tokens": 582,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 653
+  }
+}

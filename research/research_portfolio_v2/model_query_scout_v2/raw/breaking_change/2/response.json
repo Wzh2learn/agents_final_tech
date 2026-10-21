@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_dependency\",\n  \"arguments\": {\n    \"node_id\": \"price\"\n  },\n  \"reason_code\": \"The price node is the source of the breaking change. Inspecting its dependencies is necessary to determine if it depends on other nodes, which would indicate a wider impact or a specific propagation path for the change.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554712,
+  "id": "chatcmpl-KCS6VqnHztMNcHylza4bPYnWZBumH8Lm",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 59,
+    "predicted_ms": 1340.448,
+    "predicted_n": 86,
+    "predicted_per_second": 64.15765475423142,
+    "predicted_per_token_ms": 15.586604651162792,
+    "prompt_ms": 331.649,
+    "prompt_n": 544,
+    "prompt_per_second": 1640.2883771698391,
+    "prompt_per_token_ms": 0.6096488970588235
+  },
+  "usage": {
+    "completion_tokens": 86,
+    "prompt_tokens": 603,
+    "prompt_tokens_details": {
+      "cached_tokens": 59
+    },
+    "total_tokens": 689
+  }
+}

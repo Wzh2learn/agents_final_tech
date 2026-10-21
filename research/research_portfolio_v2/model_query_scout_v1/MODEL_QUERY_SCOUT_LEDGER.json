@@ -1,0 +1,61 @@
+{
+  "accounting_tokens_used": 1955,
+  "attempts_used": 3,
+  "physical_http_calls": 3,
+  "records": [
+    {
+      "decision": {
+        "action": "inspect_change",
+        "arguments": {
+          "change_id": "chg_breaking_change_price"
+        },
+        "reason_code": "Identify the nature of the source value change to determine affected downstream nodes.",
+        "stop": false
+      },
+      "raw_request": "raw/breaking_change/0/request.json",
+      "raw_response": "raw/breaking_change/0/response.json",
+      "request_sha256": "569778ec09ec2c5ef78d6f15c3b0a9784a183c2ce7a577f1df79b74d68914e64",
+      "scenario_id": "breaking_change",
+      "status": "OK",
+      "step": 0,
+      "usage_total_tokens": 562
+    },
+    {
+      "decision": {
+        "action": "inspect_dependency",
+        "arguments": {
+          "node_id": "total"
+        },
+        "reason_code": "Need to verify the direct dependency of the primary output 'total' on the changed node 'price' to confirm the propagation path.",
+        "stop": false
+      },
+      "raw_request": "raw/breaking_change/1/request.json",
+      "raw_response": "raw/breaking_change/1/response.json",
+      "request_sha256": "57861d89fc514167a2c0cf12f1be93afb7853a164434ec4b8a2f7022c59d882d",
+      "scenario_id": "breaking_change",
+      "status": "OK",
+      "step": 1,
+      "usage_total_tokens": 653
+    },
+    {
+      "decision": {
+        "action": "inspect_dependency",
+        "arguments": {
+          "node_id": "total"
+        },
+        "reason_code": "The 'total' output is a primary target. Although its reachability was queried, its specific dependency graph (which nodes feed into it) is unknown. Inspecting its dependencies is crucial to determine if the changed 'price' node is a direct or indirect cause of any output changes, helping to isolate the impact of the breaking change.",
+        "stop": false
+      },
+      "raw_request": "raw/breaking_change/2/request.json",
+      "raw_response": "raw/breaking_change/2/response.json",
+      "request_sha256": "6024b87fe289fac524bfaa694d3a11b77db72d3b1094d1f568414d7ce4f37bc0",
+      "scenario_id": "breaking_change",
+      "status": "OK",
+      "step": 2,
+      "usage_total_tokens": 740
+    }
+  ],
+  "reserved_accounting_tokens": 40000,
+  "reserved_attempts": 27,
+  "schema": "model_query_policy_scout_ledger_v1"
+}

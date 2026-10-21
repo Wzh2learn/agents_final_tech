@@ -1,7 +1,7 @@
 # Current State
 
-> Updated: 2026-10-20 | Scope: Paper E, FinRank development baseline, and
-> MA-CERD independent probes | Runtime: exploration probes completed
+> Updated: 2026-10-21 | Scope: research portfolio governance, Paper E, and
+> adaptive revalidation | Runtime: S0 protection and corrections active
 
 ## Current Rulings
 
@@ -9,11 +9,14 @@
 - FinRank history/H: `STOP_ON_CURRENT_PANEL`; the corrected full-visibility
   baseline has no comparable residual evidence-selection population and no
   task-matched correction histories.
-- MA-CERD open research: `TOOL_FIRST_WITH_SELECTIVE_ESCALATION`. Transparent
-  signature rules plus resource-graph propagation and calibrated handling are
-  the default. Stop feedback ranking claims and generic model adjudication on
-  `blocking_requirements` / `o1_only_disagrees`; those cases require explicit
-  dependency or simulator evidence.
+- MA-CERD correction dated 2026-10-21: the reported resource baseline uses
+  `resource_ids` membership, not dependency-edge propagation. The full-release
+  transparent summary is `0.881/0.839/0.676/0.648`; the original test summary
+  is `0.830/0.835/0.5856/0.5280`. Handling `0.012` is complete allowed-set
+  exact matching, while 241/250 predictions are admissible `{defer}` subsets.
+  `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` remains a development hypothesis,
+  not a verified unique-bottleneck result. See
+  [`CORRECTIONS_20261021.md`](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
 - Final FinRank development observation: B0 V4 `5/7`; derived plan
   minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
   `ESD_006` is a real sufficient-evidence abstention; `ESD_012` is a
@@ -38,12 +41,11 @@ GB10 authoritative review is
 
 ## Next Execution Step
 
-Freeze `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` as the MA-CERD development
-architecture. Do not spend more generic model calls on the current queue. The
-next model study is justified only after adding explicit dependency edges or
-simulator traces for the 250-record uncertainty queue and planning
-family-cluster uncertainty estimates. Do not change Paper E's bounded claim
-or reuse stopped panels.
+Protect and reconcile unique local/GB10 evidence, integrate one canonical
+Paper E manuscript, and qualify a thin adaptive-revalidation environment for
+action-loss active checking and local revalidation. Keep the new budget
+separate from frozen historical ledgers. Do not reopen the stopped FinRank
+panel or widen Paper E's bounded claim.
 
 Historical state before the 2026-10-19 closeout is preserved in
 [`docs/archive/2026-10-19_memory_state_history.md`](../docs/archive/2026-10-19_memory_state_history.md).

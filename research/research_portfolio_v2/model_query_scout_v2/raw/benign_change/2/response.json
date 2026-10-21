@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_dependency\",\n  \"arguments\": {\n    \"node_id\": \"total\"\n  },\n  \"reason_code\": \"The 'total' output is a primary target. Inspecting its dependencies will reveal which inputs directly influence it, helping to determine if the change to 'unused' affects it.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554718,
+  "id": "chatcmpl-x5a672SZCx3t4cUThvkpRmXMUHSkpT0Y",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 59,
+    "predicted_ms": 1245.709,
+    "predicted_n": 80,
+    "predicted_per_second": 64.22045598129257,
+    "predicted_per_token_ms": 15.571362500000001,
+    "prompt_ms": 330.849,
+    "prompt_n": 542,
+    "prompt_per_second": 1638.2095759697022,
+    "prompt_per_token_ms": 0.6104225092250922
+  },
+  "usage": {
+    "completion_tokens": 80,
+    "prompt_tokens": 601,
+    "prompt_tokens_details": {
+      "cached_tokens": 59
+    },
+    "total_tokens": 681
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 512,
+  "messages": [
+    {
+      "content": "You select public checks for a bounded revalidation task. Use only the actor-visible input and returned evidence. Do not infer a hidden graph or Gold. Return exactly one JSON object. To query, use keys stop=false, action, arguments, reason_code; the action and arguments must exactly match one legal query and must not repeat a previous query. The legal list already excludes used queries. To stop early, use exactly keys stop=true and reason_code. ACTOR_INPUT={\"changes\": [{\"change_id\": \"chg_breaking_change_price\", \"change_kind\": \"source_value\", \"node_id\": \"price\"}], \"node_ids\": [\"price\", \"rate\", \"fee\", \"branch_flag\", \"bonus\", \"unused\", \"base\", \"scaled\", \"taxed\", \"total\", \"margin\", \"audit\"], \"output_ids\": [\"total\", \"margin\", \"audit\"], \"query_budget\": 9, \"scenario_id\": \"breaking_change\"} CURRENT_EVIDENCE=[] LEGAL_QUERIES=[{\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"price\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"rate\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"fee\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"branch_flag\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"bonus\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"unused\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"base\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"scaled\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"taxed\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"total\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"margin\"}}, {\"action\": \"inspect_dependency\", \"arguments\": {\"node_id\": \"audit\"}}, {\"action\": \"inspect_change\", \"arguments\": {\"change_id\": \"chg_breaking_change_price\"}}, {\"action\": \"run_target_test\", \"arguments\": {\"output_id\": \"total\"}}, {\"action\": \"run_target_test\", \"arguments\": {\"output_id\": \"margin\"}}, {\"action\": \"run_target_test\", \"arguments\": {\"output_id\": \"audit\"}}]",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": "json_object",
+  "temperature": 0,
+  "top_p": 1
+}

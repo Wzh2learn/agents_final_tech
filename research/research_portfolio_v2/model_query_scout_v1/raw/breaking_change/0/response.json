@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_change\",\n  \"arguments\": {\n    \"change_id\": \"chg_breaking_change_price\"\n  },\n  \"reason_code\": \"Identify the nature of the source value change to determine affected downstream nodes.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554617,
+  "id": "chatcmpl-jOVdedwiilGUGbjR3FEJvBqAXBomGME1",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 1015.728,
+    "predicted_n": 64,
+    "predicted_per_second": 63.00899453396973,
+    "predicted_per_token_ms": 15.87075,
+    "prompt_ms": 328.151,
+    "prompt_n": 498,
+    "prompt_per_second": 1517.5940344536507,
+    "prompt_per_token_ms": 0.6589377510040161
+  },
+  "usage": {
+    "completion_tokens": 64,
+    "prompt_tokens": 498,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 562
+  }
+}

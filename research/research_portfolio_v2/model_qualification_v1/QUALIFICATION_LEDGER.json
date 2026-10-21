@@ -1,0 +1,24 @@
+{
+  "accounting_tokens_used": 0,
+  "attempts_used": 1,
+  "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
+  "physical_http_calls": 1,
+  "records": [
+    {
+      "error": {
+        "detail": "plan_keys",
+        "type": "ValueError"
+      },
+      "model": "llama_cpp_qwen36_35b_a3b_q4",
+      "phase": "plan",
+      "raw_request": "raw/llama_cpp_qwen36_35b_a3b_q4/dependency_plan/plan/request.json",
+      "raw_response": "raw/llama_cpp_qwen36_35b_a3b_q4/dependency_plan/plan/response.json",
+      "request_sha256": "bfed795106693a11f936080b20eecfa0060f50b261ade4320d9fd0dac685b30d",
+      "status": "FAILED",
+      "task": "dependency_plan"
+    }
+  ],
+  "reserved_accounting_tokens": 120000,
+  "reserved_attempts": 24,
+  "schema": "research_model_interface_qualification_ledger_v1"
+}

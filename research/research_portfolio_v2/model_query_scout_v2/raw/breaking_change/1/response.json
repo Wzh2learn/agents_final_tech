@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_dependency\",\n  \"arguments\": {\n    \"node_id\": \"total\"\n  },\n  \"reason_code\": \"The price change is a source value. To determine if this change propagates to the output 'total', I need to inspect the dependency graph of 'total' to see if it depends on 'price'. This is the most direct way to verify the impact of the source change on the primary output.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554711,
+  "id": "chatcmpl-E1J06lJIeborDgd0sYJAZwPhtPdtLdj0",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 1631.748,
+    "predicted_n": 105,
+    "predicted_per_second": 64.34817140882048,
+    "predicted_per_token_ms": 15.540457142857143,
+    "prompt_ms": 364.782,
+    "prompt_n": 575,
+    "prompt_per_second": 1576.28391751786,
+    "prompt_per_token_ms": 0.6344034782608695
+  },
+  "usage": {
+    "completion_tokens": 105,
+    "prompt_tokens": 575,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 680
+  }
+}

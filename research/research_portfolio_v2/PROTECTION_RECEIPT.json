@@ -1,0 +1,139 @@
+{
+  "schema": "research_portfolio_protection_receipt_v2",
+  "date": "2026-10-21",
+  "protected_root": "D:\\AIRcommend\\JinRongAgents\\_protected_research_20261021_v1",
+  "local_head": "6fc48f35dc8c244a178933de6f3050a94d0dd3ce",
+  "gb10_main": "af89c30a8ec911402ddcba1299380c7820c325ef",
+  "origin_main": "af89c30a8ec911402ddcba1299380c7820c325ef",
+  "credential_paths_excluded": true,
+  "sample_restore_pass": true,
+  "sample_paths": [
+    {
+      "path": "config/deepseek_search.env.example",
+      "restore_verified": true
+    },
+    {
+      "path": "research/prospective_research_20261021_v1/RESEARCH_BRIEF.md",
+      "restore_verified": true
+    },
+    {
+      "path": "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/reproduced_official/skip_neural/score_cache.npz",
+      "restore_verified": true
+    },
+    {
+      "path": "research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_REVISION_DRAFT.md",
+      "restore_verified": true
+    },
+    {
+      "path": "scripts/deepseek_search_tools.py",
+      "restore_verified": true
+    }
+  ],
+  "files": [
+    {
+      "name": "CREATED_AT.txt",
+      "bytes": 28,
+      "sha256": "6f85faa4268af688d94d8068a582f97d01dc805f9d9627431f81db1faa8a6aa7"
+    },
+    {
+      "name": "gb10_accept_d351_head.bundle",
+      "bytes": 26537558,
+      "sha256": "cbffef478fee92723e16f746644a1c620b1331e3abc611de69f1e136f0accfdd"
+    },
+    {
+      "name": "gb10_accept_d351_HEAD.txt",
+      "bytes": 41,
+      "sha256": "5e980de3223536520aba91efc0282aeb20d7ba89ddcc3b123eab084f553909eb"
+    },
+    {
+      "name": "gb10_accept_d351_staged.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gb10_accept_d351_status.txt",
+      "bytes": 125,
+      "sha256": "ea1023f575f11d9398e95c809fae82d1ff64a45e76bd67dc2db9d5e0521d431f"
+    },
+    {
+      "name": "gb10_accept_d351_unstaged.patch",
+      "bytes": 5105,
+      "sha256": "0e0cae3898c16d9e7fe73f69cebd29cc1e063c686ca16df8ae3a165390b37d59"
+    },
+    {
+      "name": "gb10_vgmc_test_support.py",
+      "bytes": 2256,
+      "sha256": "f14d8425a8e0e75f889eb54d50e27da1b0bcb22ef6200027e62d2bf25fbb5df7"
+    },
+    {
+      "name": "jr_verify_head.bundle",
+      "bytes": 32020042,
+      "sha256": "026b3cafe435ce80263bae089508e3e6cb4a0e49483b94977d4846bcbc858e00"
+    },
+    {
+      "name": "jr_verify_HEAD.txt",
+      "bytes": 42,
+      "sha256": "ac8d16e838a1b3e2c93ea865918f32cbdf8aa07f3efa354c1a85d8e9d9e97425"
+    },
+    {
+      "name": "jr_verify_staged.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "jr_verify_status.txt",
+      "bytes": 192901,
+      "sha256": "5e6df54c3ffa2b3054a8bb04ee0d6c26b43932fb870debb3a864c07c35d355ff"
+    },
+    {
+      "name": "jr_verify_unstaged.patch",
+      "bytes": 59767793,
+      "sha256": "af102a1e55e6dbdd7891f0948d91a7220b0930cdeb0a29f7345c30b84aeb8fa1"
+    },
+    {
+      "name": "local_all_refs.bundle",
+      "bytes": 39183352,
+      "sha256": "e756f7a19f31615975cdccdbe6efa2f5bc4a8dbb640e61add7fd7babc1423c72"
+    },
+    {
+      "name": "local_HEAD.txt",
+      "bytes": 42,
+      "sha256": "731779cd0625c7fad5a4b50d4fdf84f3160d8e188735a24574bac265feb56e03"
+    },
+    {
+      "name": "local_staged_tracked.patch",
+      "bytes": 65729,
+      "sha256": "6dce44c7695b3c7732191b7fb80cb17836b44b3b380c2d33002b4f5fb4fec346"
+    },
+    {
+      "name": "local_status_porcelain.txt",
+      "bytes": 15280,
+      "sha256": "cbc1c33b2d3a796b8e7fe4cd96b92a1d308dc794e8848ae4be7056f33c351540"
+    },
+    {
+      "name": "local_unstaged_tracked.patch",
+      "bytes": 204611,
+      "sha256": "9f8c4d7952b3d1fe174b5081a34424c93e8591c6e1530d2e492aa00a24ecfc95"
+    },
+    {
+      "name": "local_untracked_safe_paths.txt",
+      "bytes": 614517,
+      "sha256": "5e9a77a0c0c985a4d0111ff4602cfddc9078c47e8f423eafc9bdafb29ddbb08d"
+    },
+    {
+      "name": "local_untracked_sha256.csv",
+      "bytes": 955322,
+      "sha256": "ed888cf84dd73c685ddef6b665b676989fd1039c7bf8be868ecfd50ed9184915"
+    },
+    {
+      "name": "local_untracked.tar.gz",
+      "bytes": 256361550,
+      "sha256": "326340a2e08d8dfff4ea29247215f059c3c645faeb327cb7b5f4d561baa6a7ee"
+    },
+    {
+      "name": "restore_sample_paths.txt",
+      "bytes": 341,
+      "sha256": "18c6dc4aee307e1d80259dcdccd0c58da74ee98e052c4c35e743e89561a909a2"
+    }
+  ]
+}

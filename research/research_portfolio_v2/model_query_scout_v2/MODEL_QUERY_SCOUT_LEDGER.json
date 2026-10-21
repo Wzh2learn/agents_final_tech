@@ -1,0 +1,107 @@
+{
+  "accounting_tokens_used": 3243,
+  "attempts_used": 6,
+  "physical_http_calls": 6,
+  "records": [
+    {
+      "decision": {
+        "action": "inspect_change",
+        "arguments": {
+          "change_id": "chg_breaking_change_price"
+        },
+        "reason_code": "The input indicates a 'source_value' change on the 'price' node. Inspecting the change details is the most direct way to understand the nature of the modification (e.g., value shift, type change) before determining which downstream nodes require revalidation.",
+        "stop": false
+      },
+      "raw_request": "raw/breaking_change/0/request.json",
+      "raw_response": "raw/breaking_change/0/response.json",
+      "request_sha256": "5f63697c9a59ccd1c8107f976a7f5b83047ddf38c830b8312bc7b67cb743d29c",
+      "scenario_id": "breaking_change",
+      "status": "OK",
+      "step": 0,
+      "usage_total_tokens": 614
+    },
+    {
+      "decision": {
+        "action": "inspect_dependency",
+        "arguments": {
+          "node_id": "total"
+        },
+        "reason_code": "The price change is a source value. To determine if this change propagates to the output 'total', I need to inspect the dependency graph of 'total' to see if it depends on 'price'. This is the most direct way to verify the impact of the source change on the primary output.",
+        "stop": false
+      },
+      "raw_request": "raw/breaking_change/1/request.json",
+      "raw_response": "raw/breaking_change/1/response.json",
+      "request_sha256": "7babf66c09f432f16cb10090712ee19c00dfa635dba7857e19ee5b4d47bfe9ca",
+      "scenario_id": "breaking_change",
+      "status": "OK",
+      "step": 1,
+      "usage_total_tokens": 680
+    },
+    {
+      "decision": {
+        "action": "inspect_dependency",
+        "arguments": {
+          "node_id": "price"
+        },
+        "reason_code": "The price node is the source of the breaking change. Inspecting its dependencies is necessary to determine if it depends on other nodes, which would indicate a wider impact or a specific propagation path for the change.",
+        "stop": false
+      },
+      "raw_request": "raw/breaking_change/2/request.json",
+      "raw_response": "raw/breaking_change/2/response.json",
+      "request_sha256": "ed42e7791ed1991472df01d3502a22e8f1af75ba9b85330bd917b5b4b38fc357",
+      "scenario_id": "breaking_change",
+      "status": "OK",
+      "step": 2,
+      "usage_total_tokens": 689
+    },
+    {
+      "decision": {
+        "action": "inspect_change",
+        "arguments": {
+          "change_id": "chg_benign_change_unused"
+        },
+        "reason_code": "The change affects the 'unused' node. Inspecting the change details is the most direct way to understand the nature of the modification before determining if it impacts any outputs.",
+        "stop": false
+      },
+      "raw_request": "raw/benign_change/0/request.json",
+      "raw_response": "raw/benign_change/0/response.json",
+      "request_sha256": "a5927d5cdadf5c2afa5b1ba6b9b0bbebecdb96bcbad9b03713407632845f47db",
+      "scenario_id": "benign_change",
+      "status": "OK",
+      "step": 0,
+      "usage_total_tokens": 600
+    },
+    {
+      "decision": {
+        "action": "inspect_dependency",
+        "arguments": {
+          "node_id": "total"
+        },
+        "reason_code": "The change occurred in the 'unused' node. To determine if this change affects the output 'total', I need to inspect the dependency graph of 'total' to see if 'unused' is an ancestor.",
+        "stop": false
+      },
+      "raw_request": "raw/benign_change/1/request.json",
+      "raw_response": "raw/benign_change/1/response.json",
+      "request_sha256": "3b745e94b372f306613a9ff0d6e6f557172608add2b802e3fc67ad1c5441350e",
+      "scenario_id": "benign_change",
+      "status": "OK",
+      "step": 1,
+      "usage_total_tokens": 660
+    },
+    {
+      "error": {
+        "detail": "illegal_query",
+        "type": "ValueError"
+      },
+      "raw_request": "raw/benign_change/2/request.json",
+      "raw_response": "raw/benign_change/2/response.json",
+      "request_sha256": "0b7ce688df621e61fe91293fd4730bb1181594e2775e2679b53929f8028b7e63",
+      "scenario_id": "benign_change",
+      "status": "FAILED",
+      "step": 2
+    }
+  ],
+  "reserved_accounting_tokens": 40000,
+  "reserved_attempts": 27,
+  "schema": "model_query_policy_scout_ledger_v1"
+}

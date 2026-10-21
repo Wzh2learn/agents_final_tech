@@ -14,12 +14,12 @@ evidence, not competing entry points.
   sufficient-evidence abstention and one serialization failure at outcome
   level. Plan recall is derived at `7/7`, but plan precision is `5/7`; no
   executed task-matched correction histories exist.
-- MA-CERD open research: `TOOL_FIRST_WITH_SELECTIVE_ESCALATION`. Stop feedback
-  ranking claims and generic model adjudication on the uncertainty queue.
-  Transparent signature rules, resource-graph propagation and calibrated
-  handling are the current default; `blocking_requirements` and
-  `o1_only_disagrees` require explicit dependency/simulator evidence before
-  another model study.
+- MA-CERD current interpretation, corrected 2026-10-21: the existing resource
+  baseline is `resource_ids` membership localization, not dependency-edge
+  propagation. `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` is a development
+  hypothesis. Handling `0.012` is complete-set exact matching; admissibility
+  and actual action selection are separate targets. See
+  [`CORRECTIONS_20261021.md`](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
 - Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
   accounting tokens, recomputed from all 747 request records. The ledger has
   746 `OK` records and one retained `FAILED/request_already_exists` event with
@@ -59,7 +59,7 @@ evidence, not competing entry points.
 
 - Source and offline baselines:
   [`RESEARCH_RETURN.md`](../../research/ma_cerd_independent_v1/RESEARCH_RETURN.md)
-- Transparent adjudicator and resource graph:
+- Transparent adjudicator and resource-membership baseline:
   [`ADJUDICATOR_RETURN.md`](../../research/ma_cerd_independent_v1/ADJUDICATOR_RETURN.md)
 - Selective routing and error strata:
   [`SELECTIVE_ROUTING_RETURN.md`](../../research/ma_cerd_independent_v1/SELECTIVE_ROUTING_RETURN.md)
@@ -68,13 +68,14 @@ evidence, not competing entry points.
 - Experiment autopsy and next-action ruling:
   [`EXPERIMENT_AUTOPSY.md`](../../research/ma_cerd_independent_v1/EXPERIMENT_AUTOPSY.md)
 
-The calibrated transparent path reached relation `0.881`, handling `0.839`,
-impact F1 `0.676` and preserved F1 `0.648`. Its 750-record high-confidence
-subset reached relation `0.967` and handling `0.935`. On the 250-record
-uncertainty queue, model adjudication matched relation at `0.624`, collapsed
-handling to `0.012`, and did not decisively improve set F1. This is evidence
-for a tool-first selective-escalation architecture, not evidence that
-experience learning generally works or fails.
+The full-release transparent summary is relation `0.881`, handling `0.839`,
+impact F1 `0.676` and preserved F1 `0.648`; it is not a pure held-out result.
+The original test summary is relation `0.830`, handling `0.835`, impact F1
+`0.5856` and preserved F1 `0.5280`. On the 250-record uncertainty queue,
+handling `0.012` is complete-set exact matching, while 241 admissible
+`{defer}` subsets show that the original prompt did not make enumeration
+requirements explicit. These observations motivate, but do not verify,
+selective escalation.
 
 ## Paper E
 
@@ -112,6 +113,9 @@ experience learning generally works or fails.
   [`RESEARCH_GENERATION_LEDGER.json`](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json),
   recomputed from its 747 request records; its original top-level status string
   is historical and is not the current research disposition.
+- Dated corrections supersede current explanatory wording but do not rewrite
+  original reports or scores:
+  [`CORRECTIONS_20261021.md`](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
 - Archived handoffs and superseded reports remain under `docs/archive/`.
 - A result document may state its evidence boundary, but it must link here for
   current routing instead of claiming a second project entry.
@@ -119,10 +123,9 @@ experience learning generally works or fails.
 
 ## Next Execution Step
 
-Freeze `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` as the current MA-CERD
-development architecture. Do not spend more generic LLM feedback or
-monolithic-prediction requests on the existing queue. A new model study is
-justified only after adding explicit dependency edges or simulator traces for
-the 250-record uncertainty queue, with family-cluster uncertainty estimates.
-Do not collect FinRank history, reopen stopped panels, or strengthen Paper E
-beyond its bounded two-case measurement-audit claim.
+Integrate unique evidence across local and GB10, select one canonical Paper E
+manuscript, and run bounded adaptive-revalidation probes for action-loss
+active checking and local revalidation. Distinguish authored DEV_ONLY
+fixtures from model observations and new-family confirmation. Do not collect
+FinRank history, reopen stopped panels, or strengthen Paper E beyond its
+bounded two-case measurement-audit claim.

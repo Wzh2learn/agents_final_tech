@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_dependency\",\n  \"arguments\": {\n    \"node_id\": \"total\"\n  },\n  \"reason_code\": \"The 'total' output is a primary target. Although its reachability was queried, its specific dependency graph (which nodes feed into it) is unknown. Inspecting its dependencies is crucial to determine if the changed 'price' node is a direct or indirect cause of any output changes, helping to isolate the impact of the breaking change.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554621,
+  "id": "chatcmpl-uydbqBce5Mt3QEAhp74LmXfGqvXlM88X",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 66,
+    "predicted_ms": 1755.969,
+    "predicted_n": 112,
+    "predicted_per_second": 63.78244718443207,
+    "predicted_per_token_ms": 15.678294642857143,
+    "prompt_ms": 346.315,
+    "prompt_n": 562,
+    "prompt_per_second": 1622.8000519758025,
+    "prompt_per_token_ms": 0.6162188612099644
+  },
+  "usage": {
+    "completion_tokens": 112,
+    "prompt_tokens": 628,
+    "prompt_tokens_details": {
+      "cached_tokens": 66
+    },
+    "total_tokens": 740
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "external_adapter_dev_families_v1",
+  "date": "2026-10-21",
+  "source_commit": "836e2d157739fd53f9cde421913eb5949d4eeeb8",
+  "selection_rule": "For each update_type, sort candidate updates by update_type, api_path, update_id and retain the first unseen type; take the first eight resulting type representatives. Selection was frozen before model output.",
+  "evidence_identity": "PUBLIC_SYNTHETIC_EXTERNAL_ADAPTER_DEV_ONLY",
+  "families": [
+    {
+      "update_id": "[itertools.compress]:[add-argument]:[update-0]",
+      "api_path": "itertools.compress",
+      "update_type": "add-argument",
+      "prog_syn_id": "[itertools.compress]:[add-argument]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[itertools.chain]:[add-argument-data_type]:[update-0]",
+      "api_path": "itertools.chain",
+      "update_type": "add-argument-data_type",
+      "prog_syn_id": "[itertools.chain]:[add-argument-data_type]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]",
+      "api_path": "math.comb",
+      "update_type": "add-argument-default_value(s)",
+      "prog_syn_id": "[math.comb]:[add-argument-default_value(s)]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[itertools.chain]:[add-argument-semantics]:[update-0]",
+      "api_path": "itertools.chain",
+      "update_type": "add-argument-semantics",
+      "prog_syn_id": "[itertools.chain]:[add-argument-semantics]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]",
+      "api_path": "itertools.compress",
+      "update_type": "add-argument-supported_value(s)",
+      "prog_syn_id": "[itertools.compress]:[add-argument-supported_value(s)]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[math.comb]:[add-function]:[update-0]",
+      "api_path": "math.comb",
+      "update_type": "add-function",
+      "prog_syn_id": "[math.comb]:[add-function]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[math.sin]:[add-output-data_type]:[update-0]",
+      "api_path": "math.sin",
+      "update_type": "add-output-data_type",
+      "prog_syn_id": "[math.sin]:[add-output-data_type]:[update-0]:[prog_syn-0]"
+    },
+    {
+      "update_id": "[itertools.product]:[add-output-semantics]:[update-0]",
+      "api_path": "itertools.product",
+      "update_type": "add-output-semantics",
+      "prog_syn_id": "[itertools.product]:[add-output-semantics]:[update-0]:[prog_syn-0]"
+    }
+  ],
+  "nonclaims": [
+    "These are synthetic API updates, not natural production changes.",
+    "The families are development observations and cannot serve as new-family confirmation.",
+    "No model or adaptation result has been generated."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 512,
+  "messages": [
+    {
+      "content": "Visible state: cached report output exists and its dependency is unknown. Available tools: inspect_dependency(node_id), inspect_change(key), run_target_test(target). Return one JSON object choosing the first check.",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

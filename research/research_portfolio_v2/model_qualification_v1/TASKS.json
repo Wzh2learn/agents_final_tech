@@ -1,0 +1,77 @@
+{
+  "schema": "model_interface_qualification_tasks_v1",
+  "tasks": [
+    {
+      "id": "dependency_plan",
+      "plan": {
+        "prompt": "Visible state: cached report output exists and its dependency is unknown. Available tools: inspect_dependency(node_id), inspect_change(key), run_target_test(target). Return one JSON object choosing the first check.",
+        "expected": {"action": "inspect_dependency", "arguments": {"node_id": "report"}, "reason_code": "DEPENDENCY_UNKNOWN"}
+      },
+      "consume": {
+        "prompt": "Evidence dep:report says report depends on converted and gross. Return JSON status=ANSWER with the dependency facts and evidence_ids exactly citing dep:report.",
+        "evidence_ids": ["dep:report"],
+        "expected": {"status": "ANSWER", "facts": {"depends_on": ["converted", "gross"]}, "evidence_ids": ["dep:report"]}
+      }
+    },
+    {
+      "id": "change_plan",
+      "plan": {
+        "prompt": "Visible state: change notice says configuration key rate changed. Available tools: inspect_dependency(node_id), inspect_change(key), run_target_test(target). Return one JSON object selecting the change inspection.",
+        "expected": {"action": "inspect_change", "arguments": {"key": "rate"}, "reason_code": "CHANGE_TARGET"}
+      },
+      "consume": {
+        "prompt": "Evidence change:rate says old=2 and new=3. Return JSON status=ANSWER with facts containing old and new values and evidence_ids exactly citing change:rate.",
+        "evidence_ids": ["change:rate"],
+        "expected": {"status": "ANSWER", "facts": {"old": 2, "new": 3}, "evidence_ids": ["change:rate"]}
+      }
+    },
+    {
+      "id": "test_plan",
+      "plan": {
+        "prompt": "Visible state: a local repair changed report. Available tools: inspect_dependency(node_id), inspect_change(key), run_target_test(target). Return one JSON object selecting the target test.",
+        "expected": {"action": "run_target_test", "arguments": {"target": "report"}, "reason_code": "VALIDATE_REPAIR"}
+      },
+      "consume": {
+        "prompt": "Evidence test:report says passed with observed=16. Return JSON status=ANSWER with facts containing observed value and evidence_ids exactly citing test:report.",
+        "evidence_ids": ["test:report"],
+        "expected": {"status": "ANSWER", "facts": {"observed": 16}, "evidence_ids": ["test:report"]}
+      }
+    },
+    {
+      "id": "unknown_null",
+      "plan": {
+        "prompt": "Visible state: two checks are available but the evidence budget allows only one and neither check is known decisive. Return one JSON object with action=inspect_change, arguments key=rate, and reason_code=UNKNOWN_NEEDS_ONE_CHECK.",
+        "expected": {"action": "inspect_change", "arguments": {"key": "rate"}, "reason_code": "UNKNOWN_NEEDS_ONE_CHECK"}
+      },
+      "consume": {
+        "prompt": "Evidence change:rate is missing the old value. Return JSON status=UNKNOWN, facts=null, and evidence_ids exactly citing change:rate.",
+        "evidence_ids": ["change:rate"],
+        "expected": {"status": "UNKNOWN", "facts": null, "evidence_ids": ["change:rate"]}
+      }
+    },
+    {
+      "id": "refuse_null",
+      "plan": {
+        "prompt": "Visible state: the requested action is outside the allowed tool contract. Return one JSON object with action=run_target_test, arguments target=report, and reason_code=CONTRACT_FALLBACK.",
+        "expected": {"action": "run_target_test", "arguments": {"target": "report"}, "reason_code": "CONTRACT_FALLBACK"}
+      },
+      "consume": {
+        "prompt": "Evidence test:report is not permitted for this query. Return JSON status=REFUSE, facts=null, and evidence_ids exactly citing test:report.",
+        "evidence_ids": ["test:report"],
+        "expected": {"status": "REFUSE", "facts": null, "evidence_ids": ["test:report"]}
+      }
+    },
+    {
+      "id": "subset_evidence",
+      "plan": {
+        "prompt": "Visible state: report may depend on converted, gross, or side. Return one JSON object with action=inspect_dependency, arguments node_id=report, and reason_code=ENUMERATE_SUPPORT.",
+        "expected": {"action": "inspect_dependency", "arguments": {"node_id": "report"}, "reason_code": "ENUMERATE_SUPPORT"}
+      },
+      "consume": {
+        "prompt": "Evidence dep:report lists depends_on=[converted,gross]. Return JSON status=ANSWER with exactly those dependencies and evidence_ids exactly citing dep:report.",
+        "evidence_ids": ["dep:report"],
+        "expected": {"status": "ANSWER", "facts": {"depends_on": ["converted", "gross"]}, "evidence_ids": ["dep:report"]}
+      }
+    }
+  ]
+}

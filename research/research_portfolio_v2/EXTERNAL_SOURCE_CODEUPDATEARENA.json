@@ -1,0 +1,30 @@
+{
+  "schema": "external_source_manifest_v1",
+  "date": "2026-10-21",
+  "source": {
+    "name": "CodeUpdateArena",
+    "repository": "https://github.com/leo-liuzy/CodeUpdateArena",
+    "commit": "836e2d157739fd53f9cde421913eb5949d4eeeb8",
+    "license": "MIT",
+    "license_sha256": "7b78c5338ba14dbf6b3f00a5d94c2524520a49a5327682b1300d26f76bff1cdf",
+    "raw_path": "D:/AIRcommend/JinRongAgents/_protected_research_20261021_v1/external_sources/CodeUpdateArena",
+    "files": 130,
+    "bytes": 24558703
+  },
+  "dataset": {
+    "path": "data/arena-ungrouped.jsonl",
+    "sha256": "99fa09f3c371efc107b086fb2ae221ecae815a08bc26116b72cf2c2c4a81eafc",
+    "rows": 670,
+    "paper_description": "54 fictitious executable API updates across 7 packages, each paired with at least 3 program synthesis examples"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_BOUNDED_ADAPTER_DEVELOPMENT",
+    "checker": "src/utils/eval.py plus src/test_beds/test_bed.py and src/execution/safe_execution_util.py",
+    "execution_note": "The repository states that safe_execution_util is not a security sandbox. Generated or external code must run in the existing isolated python-sandbox container with no network, read-only source, bounded CPU/memory/time, and disposable writable output.",
+    "nonclaims": [
+      "Synthetic API updates are not natural production drift.",
+      "The official GPT-4 and finetuning scripts were not run.",
+      "No benchmark score or model adaptation result has been produced."
+    ]
+  }
+}

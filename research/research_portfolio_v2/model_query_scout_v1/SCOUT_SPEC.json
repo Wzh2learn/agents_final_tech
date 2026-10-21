@@ -1,0 +1,31 @@
+{
+  "schema": "model_query_policy_scout_v1",
+  "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
+  "date": "2026-10-21",
+  "evidence_identity": "DEV_AUTHORED_ENVIRONMENT_REAL_MODEL_OBSERVATION",
+  "model": {
+    "id": "llama_cpp_qwen36_35b_a3b_q4",
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  },
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": "json_object",
+    "enable_thinking": false
+  },
+  "scenarios": 9,
+  "query_budget_per_scenario": 3,
+  "reserved_attempts": 27,
+  "reserved_accounting_tokens": 40000,
+  "retry_cap": 0,
+  "concurrency": 1,
+  "primary_baseline": "unit_cost_greedy at query_budget=3",
+  "development_stop_rule": "Stop this model-policy candidate on these fixtures if final action loss exceeds greedy by more than 0.10, query cost exceeds 27, or any interface failure occurs.",
+  "nonclaims": [
+    "The environment is authored DEV_ONLY mechanism evidence.",
+    "This is not external-task performance or a general query-policy comparison.",
+    "The fixed repairer separates query selection from repair decisions."
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "baseline": {
+    "abstention": 0.0,
+    "completion": 1.0,
+    "final_action_loss": 0.0,
+    "missed_invalidation": 0,
+    "over_invalidation": 0,
+    "policy": "unit_cost_greedy",
+    "query_budget": 3,
+    "query_cost": 27,
+    "recomputation_cost": 96,
+    "regression_rate": 0.0,
+    "repair_loss": 0.0
+  },
+  "development_decision": "STOP_MODEL_QUERY_POLICY",
+  "evidence_identity": "DEV_AUTHORED_ENVIRONMENT_REAL_MODEL_OBSERVATION",
+  "model_id": "llama_cpp_qwen36_35b_a3b_q4",
+  "model_summary": {
+    "abstention": 0.5,
+    "completion": 0.5,
+    "final_action_loss": 0.25,
+    "missed_invalidation": 0.0,
+    "over_invalidation": 0.0,
+    "query_cost": 2.5,
+    "recomputation_cost": 11.0,
+    "regression_rate": 0.0,
+    "repair_loss": 0.0
+  },
+  "rows": [
+    {
+      "action": {
+        "audit": "recompute",
+        "margin": "recompute",
+        "total": "recompute"
+      },
+      "decisions": [
+        {
+          "action": "inspect_change",
+          "arguments": {
+            "change_id": "chg_breaking_change_price"
+          },
+          "reason_code": "The input indicates a 'source_value' change on the 'price' node. Inspecting the change details is the most direct way to understand the nature of the modification (e.g., value shift, type change) before determining which downstream nodes require revalidation.",
+          "stop": false
+        },
+        {
+          "action": "inspect_dependency",
+          "arguments": {
+            "node_id": "total"
+          },
+          "reason_code": "The price change is a source value. To determine if this change propagates to the output 'total', I need to inspect the dependency graph of 'total' to see if it depends on 'price'. This is the most direct way to verify the impact of the source change on the primary output.",
+          "stop": false
+        },
+        {
+          "action": "inspect_dependency",
+          "arguments": {
+            "node_id": "price"
+          },
+          "reason_code": "The price node is the source of the breaking change. Inspecting its dependencies is necessary to determine if it depends on other nodes, which would indicate a wider impact or a specific propagation path for the change.",
+          "stop": false
+        }
+      ],
+      "family": "breaking",
+      "metrics": {
+        "abstention": 0.0,
+        "completion": 1.0,
+        "final_action_loss": 0.0,
+        "missed_invalidation": 0,
+        "over_invalidation": 0,
+        "query_cost": 3,
+        "recomputation_cost": 22,
+        "regression_rate": 0.0,
+        "repair_loss": 0.0
+      },
+      "model_queries": 3,
+      "model_stopped_early": false,
+      "scenario_id": "breaking_change"
+    },
+    {
+      "action": {
+        "audit": "abstain",
+        "margin": "abstain",
+        "total": "abstain"
+      },
+      "decisions": [
+        {
+          "action": "inspect_change",
+          "arguments": {
+            "change_id": "chg_benign_change_unused"
+          },
+          "reason_code": "The change affects the 'unused' node. Inspecting the change details is the most direct way to understand the nature of the modification before determining if it impacts any outputs.",
+          "stop": false
+        },
+        {
+          "action": "inspect_dependency",
+          "arguments": {
+            "node_id": "total"
+          },
+          "reason_code": "The change occurred in the 'unused' node. To determine if this change affects the output 'total', I need to inspect the dependency graph of 'total' to see if 'unused' is an ancestor.",
+          "stop": false
+        }
+      ],
+      "family": "benign",
+      "metrics": {
+        "abstention": 1.0,
+        "completion": 0.0,
+        "final_action_loss": 0.5,
+        "missed_invalidation": 0,
+        "over_invalidation": 0,
+        "query_cost": 2,
+        "recomputation_cost": 0,
+        "regression_rate": 0.0,
+        "repair_loss": 0.0
+      },
+      "model_queries": 2,
+      "model_stopped_early": false,
+      "scenario_id": "benign_change"
+    }
+  ],
+  "schema": "model_query_policy_scout_result_v1",
+  "status": "STOPPED",
+  "stop_reason": "INTERFACE_FAILURE"
+}

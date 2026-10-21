@@ -1,0 +1,77 @@
+{
+  "schema": "model_interface_qualification_tasks_v1",
+  "tasks": [
+    {
+      "id": "dependency_plan",
+      "plan": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action must be inspect_dependency and arguments must be exactly {\"node_id\":\"report\"}. Use reason_code=DEPENDENCY_UNKNOWN. Do not use a key named tool. Visible state: cached output node_id=report has unknown dependencies.",
+        "expected": {"action": "inspect_dependency", "arguments": {"node_id": "report"}, "reason_code": "DEPENDENCY_UNKNOWN"}
+      },
+      "consume": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys status, facts, evidence_ids. status=ANSWER. facts must be exactly {\"depends_on\":[\"converted\",\"gross\"]}. evidence_ids must be exactly [\"dep:report\"].",
+        "evidence_ids": ["dep:report"],
+        "expected": {"status": "ANSWER", "facts": {"depends_on": ["converted", "gross"]}, "evidence_ids": ["dep:report"]}
+      }
+    },
+    {
+      "id": "change_plan",
+      "plan": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action must be inspect_change and arguments must be exactly {\"key\":\"rate\"}. Use reason_code=CHANGE_TARGET. Do not use a key named tool.",
+        "expected": {"action": "inspect_change", "arguments": {"key": "rate"}, "reason_code": "CHANGE_TARGET"}
+      },
+      "consume": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys status, facts, evidence_ids. status=ANSWER. facts must be exactly {\"old\":2,\"new\":3}. evidence_ids must be exactly [\"change:rate\"].",
+        "evidence_ids": ["change:rate"],
+        "expected": {"status": "ANSWER", "facts": {"old": 2, "new": 3}, "evidence_ids": ["change:rate"]}
+      }
+    },
+    {
+      "id": "test_plan",
+      "plan": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action must be run_target_test and arguments must be exactly {\"target\":\"report\"}. Use reason_code=VALIDATE_REPAIR. Do not use a key named tool.",
+        "expected": {"action": "run_target_test", "arguments": {"target": "report"}, "reason_code": "VALIDATE_REPAIR"}
+      },
+      "consume": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys status, facts, evidence_ids. status=ANSWER. facts must be exactly {\"observed\":16}. evidence_ids must be exactly [\"test:report\"].",
+        "evidence_ids": ["test:report"],
+        "expected": {"status": "ANSWER", "facts": {"observed": 16}, "evidence_ids": ["test:report"]}
+      }
+    },
+    {
+      "id": "unknown_null",
+      "plan": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action=inspect_change. arguments must be exactly {\"key\":\"rate\"}. reason_code=UNKNOWN_NEEDS_ONE_CHECK. Do not use a key named tool.",
+        "expected": {"action": "inspect_change", "arguments": {"key": "rate"}, "reason_code": "UNKNOWN_NEEDS_ONE_CHECK"}
+      },
+      "consume": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys status, facts, evidence_ids. status=UNKNOWN. facts must be null. evidence_ids must be exactly [\"change:rate\"].",
+        "evidence_ids": ["change:rate"],
+        "expected": {"status": "UNKNOWN", "facts": null, "evidence_ids": ["change:rate"]}
+      }
+    },
+    {
+      "id": "refuse_null",
+      "plan": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action=run_target_test. arguments must be exactly {\"target\":\"report\"}. reason_code=CONTRACT_FALLBACK. Do not use a key named tool.",
+        "expected": {"action": "run_target_test", "arguments": {"target": "report"}, "reason_code": "CONTRACT_FALLBACK"}
+      },
+      "consume": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys status, facts, evidence_ids. status=REFUSE. facts must be null. evidence_ids must be exactly [\"test:report\"].",
+        "evidence_ids": ["test:report"],
+        "expected": {"status": "REFUSE", "facts": null, "evidence_ids": ["test:report"]}
+      }
+    },
+    {
+      "id": "subset_evidence",
+      "plan": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action=inspect_dependency. arguments must be exactly {\"node_id\":\"report\"}. reason_code=ENUMERATE_SUPPORT. Do not use a key named tool.",
+        "expected": {"action": "inspect_dependency", "arguments": {"node_id": "report"}, "reason_code": "ENUMERATE_SUPPORT"}
+      },
+      "consume": {
+        "prompt": "Interface qualification. Return exactly one JSON object with keys status, facts, evidence_ids. status=ANSWER. facts must be exactly {\"depends_on\":[\"converted\",\"gross\"]}. evidence_ids must be exactly [\"dep:report\"].",
+        "evidence_ids": ["dep:report"],
+        "expected": {"status": "ANSWER", "facts": {"depends_on": ["converted", "gross"]}, "evidence_ids": ["dep:report"]}
+      }
+    }
+  ]
+}

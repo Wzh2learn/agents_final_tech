@@ -1,0 +1,36 @@
+{
+  "evidence_identity": "MODEL_INTERFACE_QUALIFICATION_NOT_SCIENTIFIC_RESULT",
+  "finished_at": "2026-10-21T11:32:47.248291+08:00",
+  "models": {
+    "llama_cpp_qwen36_35b_a3b_q4": {
+      "attempts": 0,
+      "identity": {
+        "expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "observed": [
+          "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+        ],
+        "pass": true
+      },
+      "rows": [
+        {
+          "error": {
+            "detail": "plan_keys",
+            "type": "ValueError"
+          },
+          "model": "llama_cpp_qwen36_35b_a3b_q4",
+          "phase": "plan",
+          "raw_request": "raw/llama_cpp_qwen36_35b_a3b_q4/dependency_plan/plan/request.json",
+          "raw_response": "raw/llama_cpp_qwen36_35b_a3b_q4/dependency_plan/plan/response.json",
+          "request_sha256": "bfed795106693a11f936080b20eecfa0060f50b261ade4320d9fd0dac685b30d",
+          "status": "FAILED",
+          "task": "dependency_plan"
+        }
+      ],
+      "stop_reason": "CANARY_FAILED",
+      "valid": 0
+    }
+  },
+  "schema": "research_model_interface_qualification_result_v1",
+  "started_at": "2026-10-21T11:32:46.445521+08:00",
+  "status": "QUALIFICATION_INCOMPLETE"
+}

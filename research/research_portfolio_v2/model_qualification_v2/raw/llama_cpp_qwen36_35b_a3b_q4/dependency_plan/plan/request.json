@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 512,
+  "messages": [
+    {
+      "content": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action must be inspect_dependency and arguments must be exactly {\"node_id\":\"report\"}. Use reason_code=DEPENDENCY_UNKNOWN. Do not use a key named tool. Visible state: cached output node_id=report has unknown dependencies.",
+      "role": "user"
+    }
+  ],
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

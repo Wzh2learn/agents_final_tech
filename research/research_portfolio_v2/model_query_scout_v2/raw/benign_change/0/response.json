@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_change\",\n  \"arguments\": {\n    \"change_id\": \"chg_benign_change_unused\"\n  },\n  \"reason_code\": \"The change affects the 'unused' node. Inspecting the change details is the most direct way to understand the nature of the modification before determining if it impacts any outputs.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554714,
+  "id": "chatcmpl-15NNdpR1VUtUjjyJE5Y6gKOOlKUeAuzx",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 59,
+    "predicted_ms": 1307.937,
+    "predicted_n": 84,
+    "predicted_per_second": 64.22327680920412,
+    "predicted_per_token_ms": 15.57067857142857,
+    "prompt_ms": 281.231,
+    "prompt_n": 457,
+    "prompt_per_second": 1624.9986665765866,
+    "prompt_per_token_ms": 0.6153851203501094
+  },
+  "usage": {
+    "completion_tokens": 84,
+    "prompt_tokens": 516,
+    "prompt_tokens_details": {
+      "cached_tokens": 59
+    },
+    "total_tokens": 600
+  }
+}

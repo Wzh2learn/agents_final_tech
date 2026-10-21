@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "{\n  \"stop\": false,\n  \"action\": \"inspect_change\",\n  \"arguments\": {\n    \"change_id\": \"chg_breaking_change_price\"\n  },\n  \"reason_code\": \"The input indicates a 'source_value' change on the 'price' node. Inspecting the change details is the most direct way to understand the nature of the modification (e.g., value shift, type change) before determining which downstream nodes require revalidation.\"\n}",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1792554709,
+  "id": "chatcmpl-imGm0bUA27Rsi2sIbaoo0PAu81rsXbYp",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "object": "chat.completion",
+  "system_fingerprint": "b1-5306f4b",
+  "timings": {
+    "cache_n": 0,
+    "predicted_ms": 1569.224,
+    "predicted_n": 101,
+    "predicted_per_second": 64.36302274245105,
+    "predicted_per_token_ms": 15.536871287128712,
+    "prompt_ms": 296.434,
+    "prompt_n": 513,
+    "prompt_per_second": 1730.5707172591538,
+    "prompt_per_token_ms": 0.5778440545808967
+  },
+  "usage": {
+    "completion_tokens": 101,
+    "prompt_tokens": 513,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 614
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "max_tokens": 512,
+  "messages": [
+    {
+      "content": "Interface qualification. Return exactly one JSON object with keys action, arguments, reason_code. action must be inspect_change and arguments must be exactly {\"key\":\"rate\"}. Use reason_code=CHANGE_TARGET. Do not use a key named tool.",
+      "role": "user"
+    }
+  ],
+  "model": "qwen38-27b-fp8",
+  "response_format": {
+    "type": "json_object"
+  },
+  "temperature": 0,
+  "top_p": 1
+}

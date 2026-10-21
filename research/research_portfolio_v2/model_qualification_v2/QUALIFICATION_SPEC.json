@@ -1,0 +1,82 @@
+{
+  "schema": "research_model_interface_qualification_v2",
+  "qualification_version": 2,
+  "supersedes": "model_qualification_v1 after one preserved canary failure caused by an underspecified output contract",
+  "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
+  "date": "2026-10-21",
+  "window": {
+    "start": "2026-10-21T11:40:00+08:00",
+    "end": "2026-10-21T12:30:00+08:00",
+    "timezone": "Asia/Shanghai",
+    "single_instance": true
+  },
+  "global_limits": {
+    "reserved_attempts": 24,
+    "reserved_accounting_tokens": 120000,
+    "retry_cap": 0,
+    "concurrency": 1,
+    "physical_http_cap": 24
+  },
+  "models": [
+    {
+      "id": "llama_cpp_qwen36_35b_a3b_q4",
+      "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "attempts": 12
+    },
+    {
+      "id": "vllm_qwen38_27b_fp8",
+      "endpoint": "http://127.0.0.1:8006/v1/chat/completions",
+      "model": "qwen38-27b-fp8",
+      "attempts": 12
+    }
+  ],
+  "generation": {
+    "temperature": 0,
+    "max_tokens": 512,
+    "response_format": "json_object",
+    "enable_thinking": false,
+    "top_p": 1
+  },
+  "phases": [
+    {
+      "id": "plan",
+      "schema": {
+        "action": ["inspect_dependency", "inspect_change", "run_target_test"],
+        "arguments": "object",
+        "reason_code": "nonempty_string"
+      }
+    },
+    {
+      "id": "consume",
+      "schema": {
+        "status": ["ANSWER", "UNKNOWN", "REFUSE"],
+        "facts": "object_or_null",
+        "evidence_ids": "array_of_strings"
+      },
+      "constraints": "UNKNOWN and REFUSE require facts=null; evidence_ids must cite only supplied evidence."
+    }
+  ],
+  "task_count": 6,
+  "calls_per_task": 2,
+  "canary": {
+    "index": 0,
+    "rules": [
+      "must parse as one JSON object",
+      "must finish before window end",
+      "must report usage tokens",
+      "any schema, timeout, or identity anomaly stops the batch"
+    ]
+  },
+  "stop_rules": [
+    "window exit before request",
+    "model identity differs from the frozen endpoint response",
+    "HTTP or JSON parse failure",
+    "output truncation",
+    "response format rejection",
+    "usage accounting missing",
+    "two consecutive empty or non-object bodies",
+    "attempt or token reservation exhausted"
+  ],
+  "evidence_identity": "MODEL_INTERFACE_QUALIFICATION_NOT_SCIENTIFIC_RESULT"
+}
