@@ -125,6 +125,38 @@
       "reason": "completed_all_planned_attempts"
     }
   ],
+  "post_hoc_adjustments": [
+    {
+      "id": "GOVERNANCE_20261021_CANARY_USAGE_84",
+      "date": "2026-10-21",
+      "event_id": "MODEL_QUALIFICATION_V1_CANARY_001",
+      "accounting_tokens_delta": 84,
+      "attempts_delta": 0,
+      "physical_http_calls_delta": 0,
+      "raw_response": "research/research_portfolio_v2/model_qualification_v1/raw/llama_cpp_qwen36_35b_a3b_q4/dependency_plan/plan/response.json",
+      "raw_response_sha256": "87d20066574f0e180742949b563f223c4f0a1e092f1e5e83b1eda2d90e84a5fa",
+      "reason": "The failed canary returned 51 prompt and 33 completion tokens. Output-contract validation ran before usage settlement and preserved a zero-token frozen event.",
+      "scope": "CURRENT_AGGREGATE_ONLY_FROZEN_RUN_UNCHANGED"
+    },
+    {
+      "id": "GOVERNANCE_20261021_SCOUT_V2_FAILED_USAGE_681",
+      "date": "2026-10-21",
+      "event_id": "MODEL_QUERY_SCOUT_V2_001_006",
+      "accounting_tokens_delta": 681,
+      "attempts_delta": 0,
+      "physical_http_calls_delta": 0,
+      "raw_response": "research/research_portfolio_v2/model_query_scout_v2/raw/benign_change/2/response.json",
+      "raw_response_sha256": "84887b2bb5322842629dc46f30c70a6c9644a5f8086f20e806f0f3ceb5d08493",
+      "reason": "The sixth scout response returned 601 prompt and 80 completion tokens. Illegal-query validation raised before usage settlement; the frozen 3243-token event omitted this failed response.",
+      "scope": "CURRENT_AGGREGATE_ONLY_FROZEN_RUN_UNCHANGED"
+    }
+  ],
+  "accounting_interpretation": {
+    "current_token_formula": "sum(events.accounting_tokens) + sum(post_hoc_adjustments.accounting_tokens_delta)",
+    "physical_http_calls_definition": "Recorded generation POST calls; separately reported model-identity GETs are excluded.",
+    "frozen_event_values_preserved": true,
+    "reconciliation": "research/research_portfolio_v2/governance_20261021/LEDGER_RECONCILIATION.json"
+  },
   "offline_events": [
     {
       "id": "PYMIGBENCH_BOUNDED_CURATION_20261021",
@@ -173,7 +205,7 @@
   ],
   "new_budget": {
     "accounting_tokens_cap": 10000000,
-    "accounting_tokens_used": 57222,
+    "accounting_tokens_used": 57987,
     "attempt_cap": 2048,
     "attempts_used": 101,
     "judge_calls": 0,
