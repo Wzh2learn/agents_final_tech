@@ -1,5 +1,12 @@
 # Paper E 最终投稿门禁 v1
 
+> 当前口径（2026-10-21）：`NARROW_AND_CONTINUE / NOT_READY_FOR_SUBMISSION`。
+> 唯一稿件与两案例范围已完成整合，wide-evidence 源绑定已收口；详见本文 §13–§14、
+> [整合报告](../../research/research_portfolio_v2/PAPER_E_INTEGRATION_REPORT.md) 与
+> [当前科研入口](README.md)。作者、venue、匿名 artifact URL/DOI、注册和正式投稿
+> 仍待外部决定，派生 PDF 的非致命警告继续披露。下方 2026-10-12 起的原文是历史
+> 审查轨迹，不再以其 `REVISIONS_NOT_APPLIED` 或旧阻塞覆盖后续更正。
+
 > 2026-10-12｜`SUBMISSION_BLOCKED_SCIENCE / REVISIONS_NOT_APPLIED`
 > 本文判定当前投稿资格，不修改稿件，不新增实验或自动投稿。科学依据为 [作者级裁决](SANER_SCIENTIFIC_ADJUDICATION_v1.md)；现稿为 [canonical manuscript](../../paper/saner_rene_manuscript_v1.md)，当前机器记录为 [claim matrix](../../paper/saner_rene_claim_matrix_v1.json)。后二者尚未落实裁决，不能以旧 PASS 覆盖新发现的科学问题。
 

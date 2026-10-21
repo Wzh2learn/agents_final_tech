@@ -1,16 +1,17 @@
 # 代码资产与执行边界地图
 
-> 状态: 活跃 | 更新: 2026-09-23 | 取代/被取代: 取代本文件旧规模统计与服务健康快照；历史见 Git
+> 状态: 活跃 | 更新: 2026-10-21 | 取代/被取代: 取代本文件旧规模统计与服务健康快照；历史见 Git
 
-本文件说明仓内代码在哪里、怎样关联、验证需要什么，不是服务器存活报告。科研证据成熟度见 `paper/research_asset_map_v2.md`；当前状态见 `memory/STATE.md`；运行基线见 `memory/CORE.md`。
+本文件说明仓内代码在哪里、怎样关联、验证需要什么。结构图是静态源码路由，不代表运行部署、进程存活或模型已加载。文档从 [INDEX](../INDEX.md) 进入；当前状态见 [STATE](../../memory/STATE.md)，科研路由见 [唯一科研入口](../research/README.md)，运行基线见 [CORE](../../memory/CORE.md)。旧科研资产成熟度记录 `paper/research_asset_map_v2.md` 保留其历史边界；本轮内容、分支和仓外备份的实况以[治理报告](../governance/2026-10-21_workspace_git_closeout.md)为准。
 
-## 三个不同的系统
+## 四类职责与资产
 
 | 系统 | 入口与职责 | 不应混淆的边界 |
 |---|---|---|
 | 业务产品 | `serve.sh` → `src/main.py` → `src/web/` → `src/biz/` | M1 解析与 M2 问答，不等于研究实验 |
 | 业务内 Agent | `src/agents/agent.py`、`src/biz/agent_service.py`：LangGraph ReAct、工具调用与会话记忆 | 面向用户请求，不是研发 Loop A/B/C/D |
 | 研发治理 harness | `scripts/graph/`：派发、验证、审计、记录 | 面向代码/实验交付，不自动证明业务或研究成功 |
+| 独立科研包 | 根 `research/`：任务合同、runner、开发 fixture、结果与复核 | 不由业务服务默认加载；包内命令可能调用模型或 Docker，须逐项查合同 |
 
 ## 产品代码与依赖
 
@@ -25,6 +26,20 @@
 | MCP | `src/mcp_server/`、`src/vision_mcp_server/`、`src/tabular_mcp_server/` | 默认只读；进程是否安装、运行需执行面另行核验 |
 | 表格推理子进程 | `src/tabular_mcp_server/service.py` → `scripts/run_tabular_inference.py` | 生产运行时依赖，不是可随意归档的孤立实验 |
 | 兼容 CLI | `scripts/m1_statement_parser.py`、`scripts/m1_rag_ingest.py` | 委托 `src/biz/`，不能反向成为业务实现入口 |
+
+```mermaid
+flowchart LR
+    S["serve.sh / src/main.py"] --> W["src/web: routers / middleware / UI"]
+    W --> M1["src/biz: M1 parsing / review / ingest"]
+    W --> M2["src/biz: M2 / RAG"]
+    W --> A["src/biz/agent_service → src/agents"]
+    M1 --> T["src/tools / src/storage"]
+    M2 --> T
+    A --> T
+    MCP["src/*mcp_server: independent entry points"] --> T
+```
+
+图中箭头只概括调用分层；MCP 各服务、数据库、检索/生成模型和表格推理子进程的实际部署需按执行面另行验证。研发 Graph Loop 与根科研包不在该业务请求链中。
 
 `scripts/catalog.toml` 只分类 `scripts/`；其中 research 分类包含 `scripts/research/`，不覆盖仓库根 `research/`。根科研脚本以以下分组和资产账本为入口，不把整个目录当作执行白名单。
 
@@ -45,13 +60,26 @@
 | `research/validate_paper_claims.py` | 主张 manifest、正文、工件路径 → 静态验收 | 本地离线；路径/标记通过不等于复算数字或证明贡献 |
 | `research/build_teacher_review_docx.py` | Markdown + 图表模板 → DOCX | 本地离线派生；结构测试不等于 Office 视觉验收 |
 
-已有 JSON 位于 `logs/graph/eval/`，是对应已记录实验的数字依据；不能从聚合文件反推所有原始语料已在本机。GB10 已核验为唯一权威运行/验收环境，D-C 最小公开数据范围已在 GB10 仓外暂存并有 hash 取证；本批不下载、不搬运、不重建数据。Q3 原始 staging 的扩展件不满足新 allowlist，未来重建必须使用过滤输入根。
+当前独立科研包还包括 [Adaptive V3](../../research/adaptive_revalidation_v3/README.md)、[MA-CERD](../../research/ma_cerd_independent_v1/RESEARCH_RETURN.md)、CodeUpdateArena V2/confirmation 以及 Portfolio V2 下的 VersiCode/PyMigBench 资格材料；统一从 [Research Entry](../research/README.md) 查解释边界、最新回执和当前账本。不同包的冻结 runner 不因目录相近而合并，也不并入生产 `src/`。
+
+已有 JSON 位于 `logs/graph/eval/`，是对应已记录实验的数字依据；不能从聚合文件反推所有原始语料已在本机。GB10 是既有正式实验的权威运行/验收环境。旧 D-C 最小公开数据批次在 GB10 仓外暂存并有 hash 取证；Q3 原始 staging 的扩展件不满足其 allowlist，未来重建须查对应合同并使用过滤输入根。
+
+## Git 与仓外证据的存储边界
+
+| 位置与内容 | 边界与查验方式 |
+|---|---|
+| Git 内源码、协议、manifest、账本与冻结快照 | 保存可审阅版本与 provenance；既有已跟踪 raw、failed/partial 和原始结果仍保留其身份，不因收尾改写冻结内容 |
+| 仓外 raw/source 证据及历史环境备份 | 大体积来源包和备份按治理清单保存路径、版本、hash、许可证与保全记录；本机未持有副本不等于远端证据缺失，hash 本身也不保证内容可访问 |
+| runtime、二进制、环境与可重建 cache | 与研究结果分开管理，不把虚拟环境或下载缓存当科研结论；删除/重建必须先确认独有证据已保全 |
+| 文档、论文与派生产物 | [唯一科研入口](../research/README.md)路由证据；[Paper E 主稿](../../paper/saner_rene_manuscript_v1.md)负责当前写作，旧修订稿与 TeX/PDF 派生件不形成第二主稿 |
+
+具体资产路径、分类决定、备份核验和跨主机 Git 状态只在[本轮治理报告](../governance/2026-10-21_workspace_git_closeout.md)登记；本图不另建平行账本或部署状态源。
 
 ## 研发协作与自动化程度
 
 - 设计依据：`docs/17_Graph_Engineering_多层Loop设计.md`；工程路线：`docs/archive/2026-10-19_29_graph_engineering_roadmap.md`。
 - 执行面权威：`docs/governance/2026-09-07_execution_plane_boundary.md`。本地做控制、分析和审计；GB10 承载获批正式实验事实。
-- D 给有界任务和授权；A 执行；B 独立验证；C 独立审计；D 验收。科研阶段顺序只来自 `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md`。
+- D 给有界任务和授权；A 执行；B 独立验证；C 独立审计；D 验收。当前科研阶段与停止边界见 [Research Entry](../research/README.md) 和 [THREADS](../../memory/THREADS.md)；已归档的阶段计划只保留历史，不自行续授权。
 - `graph_orchestrator.sh` 有 B 启动逻辑，A/C 分支主要给派发说明；不是完整 A→B→C 自动流水线。
 - `loop_b_verify.sh` 的判分逻辑是确定性的，但默认 canary、API、QA/PG 检查会访问真实服务，不能当零调用单测执行。
 - `dispatch_precheck.sh` 校验 watcher 与运行收据合同，不执行 watcher；合成收据只用于测试，不能作为真实开窗凭证。

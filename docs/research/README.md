@@ -1,143 +1,57 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY`
-Updated: 2026-10-21
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-21
 
-This file is the only current research entry. `docs/INDEX.md` navigates to it;
-`memory/STATE.md` carries the short current-state summary; detailed reports are
-evidence, not competing entry points.
+本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
-## Current Rulings
+## 当前任务与证据
 
-- Paper E: `NARROW_AND_CONTINUE` as a bounded two-case measurement audit.
-- FinRank history/H: `STOP_ON_CURRENT_PANEL`. The corrected baseline leaves one
-  sufficient-evidence abstention and one serialization failure at outcome
-  level. Plan recall is derived at `7/7`, but plan precision is `5/7`; no
-  executed task-matched correction histories exist.
-- MA-CERD current interpretation, corrected 2026-10-21: the existing resource
-  baseline is `resource_ids` membership localization, not dependency-edge
-  propagation. `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` is a development
-  hypothesis. Handling `0.012` is complete-set exact matching; admissibility
-  and actual action selection are separate targets. See
-  [`CORRECTIONS_20261021.md`](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
-- Research portfolio V2 integration: see
-  [`research/research_portfolio_v2/GOAL_RETURN.md`](../../research/research_portfolio_v2/GOAL_RETURN.md)
-  for the combined Paper E, adaptive-revalidation and CodeUpdateArena decision.
-- External-change source qualification and bounded probes:
-  [`EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md`](../../research/research_portfolio_v2/EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md),
-  [`versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md`](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md),
-  and
-  [`pymigbench_external_change_v1/CURATION_REPORT.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/CURATION_REPORT.md).
-- Qualified real-commit behavioral case:
-  [`ntripbrowser_qualification_v2/QUALIFICATION_RETURN.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/QUALIFICATION_RETURN.md)
-  and
-  [`PROBE_REPORT.md`](../../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/PROBE_REPORT.md).
-- Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
-  accounting tokens, recomputed from all 747 request records. The ledger has
-  746 `OK` records and one retained `FAILED/request_already_exists` event with
-  conservative 10,240-token accounting. Judge, training, paid research API and
-  production Memory writes are zero. The old ledger remains unchanged at
-  `313/316` requests and `324,086/2,750,000` tokens.
-- Current merged return:
-  [`MERGED_GOAL_RETURN.md`](../../research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md).
-- Independent review:
-  [`INDEPENDENT_SCIENCE_REVIEW.md`](../../research/research_direction_sprint_20261020_v1/execution_v2/INDEPENDENT_SCIENCE_REVIEW.md).
-- GB10 authoritative Loop A/C evidence:
-  [`GB10_LOOP_A_RETURN.md`](../../research/research_direction_sprint_20261020_v1/execution_v2/GB10_LOOP_A_RETURN.md),
-  [`GB10_LOOP_A_VERIFICATION.json`](../../research/research_direction_sprint_20261020_v1/execution_v2/GB10_LOOP_A_VERIFICATION.json),
-  and
-  [`GB10_LOOP_C_REVIEW.md`](../../research/research_direction_sprint_20261020_v1/execution_v2/GB10_LOOP_C_REVIEW.md).
-- Research calls follow the owner-adopted Goal and its shared budget; this
-  navigation page does not create additional funds or execution claims.
-- `PAPER_E_EXTERNAL_AUDIT_AND_EXPERIENCE_SCOPE_V1` completed with two
-  conditional rulings: Paper E continues as a bounded two-case audit after the
-  FinRank provenance correction. The subsequent owner-requested AI semantic
-  review retains 13 development references, requires revision/review for 9,
-  and excludes 2; human confirmation remains false. The next engineering step
-  is tool-contract implementation, not blanket human adjudication of all 24.
-  This update does not open online execution or independent validation. See
-  [`GOAL_RETURN.md`](../../research/research_direction_sprint_20261020_v1/execution_v1/GOAL_RETURN.md).
-- Latest reference review and continuation Goal:
-  [`ADJUDICATION_AND_NEXT_GOAL.md`](../../research/research_direction_sprint_20261020_v1/execution_v1/ai_semantic_adjudication_v1/ADJUDICATION_AND_NEXT_GOAL.md),
-  with machine-readable per-task evidence in
-  [`ADJUDICATION.json`](../../research/research_direction_sprint_20261020_v1/execution_v1/ai_semantic_adjudication_v1/ADJUDICATION.json).
-- Latest owner instruction expands exploratory autonomy beyond that candidate:
-  [`OPEN_RESEARCH_CHARTER.md`](../../research/research_direction_sprint_20261020_v1/OPEN_RESEARCH_CHARTER.md).
-  Loop D may select, prototype, probe and change exploratory directions within
-  the existing shared budget; seven-task baseline completion is not a gate for
-  all discovery. Proposed mechanisms and new literature are not results.
+Portfolio V2 的有界探索已完成。Owner 当前要求先完成工作区、架构内容与 Git 治理，再基于清理后的证据决定下一轮科研 Goal。本轮不自动续跑模型实验；剩余预算不等于新的任务。
 
-## MA-CERD Independent Probe
+| 用途 | 权威记录 |
+|---|---|
+| 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
+| 最新科研回执 | [Portfolio V2 GOAL_RETURN](../../research/research_portfolio_v2/GOAL_RETURN.md)；其中成本为当时快照 |
+| 当前聚合记账 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
+| 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 
-- Source and offline baselines:
-  [`RESEARCH_RETURN.md`](../../research/ma_cerd_independent_v1/RESEARCH_RETURN.md)
-- Transparent adjudicator and resource-membership baseline:
-  [`ADJUDICATOR_RETURN.md`](../../research/ma_cerd_independent_v1/ADJUDICATOR_RETURN.md)
-- Selective routing and error strata:
-  [`SELECTIVE_ROUTING_RETURN.md`](../../research/ma_cerd_independent_v1/SELECTIVE_ROUTING_RETURN.md)
-- Full uncertainty-queue model probe:
-  [`UNCERTAINTY_ADJUDICATION_RETURN.md`](../../research/ma_cerd_independent_v1/UNCERTAINTY_ADJUDICATION_RETURN.md)
-- Experiment autopsy and next-action ruling:
-  [`EXPERIMENT_AUTOPSY.md`](../../research/ma_cerd_independent_v1/EXPERIMENT_AUTOPSY.md)
+当前账本的失败调用补记及 101 条 raw pair 复核见[对账说明](../../research/research_portfolio_v2/governance_20261021/LEDGER_RECONCILIATION.md)；其可重放脚本保留负例校验。
 
-The full-release transparent summary is relation `0.881`, handling `0.839`,
-impact F1 `0.676` and preserved F1 `0.648`; it is not a pure held-out result.
-The original test summary is relation `0.830`, handling `0.835`, impact F1
-`0.5856` and preserved F1 `0.5280`. On the 250-record uncertainty queue,
-handling `0.012` is complete-set exact matching, while 241 admissible
-`{defer}` subsets show that the original prompt did not make enumeration
-requirements explicit. These observations motivate, but do not verify,
-selective escalation.
+`execution_v2/MERGED_GOAL_RETURN.md` 和既有 feature 分支是历史证据及恢复线索，不承担当前 Git 状态的权威角色。
 
-## Paper E
+## 科学判断与解释边界
 
-- Claim/evidence matrix: `research/paper_e_contribution_reassessment_v1/PAPER_E_CLAIM_EVIDENCE.md`
-- Preferred positioning: `research/paper_e_contribution_reassessment_v1/PAPER_E_POSITIONING_DRAFT.md`
-- Nearest-work check: `research/paper_e_contribution_reassessment_v1/NEAREST_WORK_COMPARISON.md`
-- Independent review: `research/paper_e_contribution_reassessment_v1/INDEPENDENT_REVIEW.md`
-- Final reassessment record: `research/paper_e_contribution_reassessment_v1/GOAL_RETURN.md`
-- Submission gate: `PAPER_E_SUBMISSION_READINESS_GATE_v1.md`
+| 研究线 | 当前判断与证据 |
+|---|---|
+| Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)与[整合报告](../../research/research_portfolio_v2/PAPER_E_INTEGRATION_REPORT.md) |
+| FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
+| MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
+| Adaptive V3 | 当前 authored fixtures 上简单 greedy 已足够，two-step 无正向配对收益；[实现报告](../../research/research_portfolio_v2/ADAPTIVE_V3_IMPLEMENTATION_REPORT.md)。RPC capability 边界不等于操作系统沙箱 |
+| CodeUpdateArena | 修正执行器后的开发集与新 families 都是有界负结果；[V2 报告](../../research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_REPORT_V2.md)与[新 families 确认](../../research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_REPORT.md)。不重复同一 prose-update 臂；合成变化不等于真实自然漂移 |
+| VersiCode | 八个 name-change families 只支持语法/API 名称可观测性结论；[独立复核](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md)。不证明行为正确或 prose/structured 孰优 |
+| PyMigBench | 一个真实 NtripBrowser 迁移中，BASE 通过测试却以异常回退掩盖未完成迁移；[资格回执](../../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/QUALIFICATION_RETURN.md)与[独立模型探针复核](../../research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/INDEPENDENT_PROBE_REVIEW.md) |
 
-## Experience Reuse
+NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。行为与结构合同需要分别观察；现有证据不证明 hybrid oracle 普遍充分，也不支持比较两种信息表示的优劣。新迁移案例尚未纳入 Paper E 的两案例主张。
 
-- Decision-space diagnosis: `research/decision_space_autopsy_v1/DECISION_SPACE_AUTOPSY.md`
-- Consolidated exploratory result: `research/decision_space_autopsy_v1/exploratory_b0_v1/SAME_NUMBER_ROLE_EXPLORATION_SUMMARY.md`
-- Final history collection receipt: `research/decision_space_autopsy_v1/exploratory_b0_v1/ROLE_HISTORY_COLLECTION_RETURN.md`
-- Failure-history qualification: `research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md`
-- Task-reference qualification: `research/decision_space_autopsy_v1/qualification_v2/QUALIFICATION_RETURN.md`
-- Design rationale: `research/paper_e_contribution_reassessment_v1/REUSE_TASK_REDESIGN.md`
+## 可继续利用的研究资产
 
-## Thesis Boundaries
+- [外部变化来源独立审查](../../research/research_portfolio_v2/EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md)：保留来源版本、重复结构、许可证与可观测性限制。
+- [PyMigBench 资格筛选](../../research/research_portfolio_v2/pymigbench_external_change_v1/CURATION_REPORT.md)：历史环境复活暴露时区、tzdata 和传递版本合同缺口；资格失败不等于研究假设被否定。
+- [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
+- [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-- Governance baseline: `THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md`
-- Current scope: `THESIS_RESEARCH_ARCHITECTURE_v3.md`
-- Work-package blueprint: `THESIS_EXECUTION_BLUEPRINT_v1.md`
-- TAT-QA source/contract evidence: `WP0_TATQA_PACKAGE_v1.md`,
-  `WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`,
-  `WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_v1.md`
+这些资产供下一轮设计选择。扩充真实 commit、主指标选择、是否形成独立论文或 Paper E 后续案例，仍是治理完成后的科研决策，见[当前未决事项](../../memory/THREADS.md)。
 
-## Evidence Policy
+## Paper E 唯一写作线
 
-- Frozen raw responses, ledgers, manifests and independent checks remain in
-  their research artifact directories.
-- Per-experiment return files are point-in-time receipts. Aggregate request
-  and token accounting comes from
-  [`RESEARCH_GENERATION_LEDGER.json`](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json),
-  recomputed from its 747 request records; its original top-level status string
-  is historical and is not the current research disposition.
-- Dated corrections supersede current explanatory wording but do not rewrite
-  original reports or scores:
-  [`CORRECTIONS_20261021.md`](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
-- Archived handoffs and superseded reports remain under `docs/archive/`.
-- A result document may state its evidence boundary, but it must link here for
-  current routing instead of claiming a second project entry.
-- AI review is not human gold, blind review or advisor signature.
+- [canonical manuscript](../../paper/saner_rene_manuscript_v1.md)
+- [claim/evidence matrix](../../paper/saner_rene_claim_matrix_v1.json)与[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)
+- [整合独立复核](../../research/research_portfolio_v2/PAPER_E_INDEPENDENT_REVIEW.md)与[投稿门禁](PAPER_E_SUBMISSION_READINESS_GATE_v1.md)
 
-## Next Execution Step
+当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。源绑定更正已收口；派生 PDF 的非致命警告继续披露。作者、venue、artifact URL/DOI、注册与正式投稿尚待外部决定。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
 
-Use the `research/portfolio-integration-v2` branch as the recoverable research
-state. Do not rerun CodeUpdateArena, VersiCode or the authored mechanism
-fixtures. Replicate the hybrid behavioral-plus-structural oracle on additional
-PyMigBench real commits with explicit dependency-manifest contracts. Keep
-Paper E at `NARROW_AND_CONTINUE`, FinRank at `STOP_ON_CURRENT_PANEL`, and
-MA-CERD selective escalation as an unverified development hypothesis.
+## 学位范围与历史
+
+- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)保留既有范围和门禁，不能据此重开已停止面板或训练。
+- [旧 THREADS 全文快照](../../memory/archive/THREADS_2026-10-21_pre_workspace_governance.md)保存历史原文；现役未决事项只在 [THREADS](../../memory/THREADS.md) 维护。
+- Raw、failed/partial 响应、冻结结果、独立审查与历史账本保留来源身份。AI 语义评审不是人工 Gold、盲审或导师签字。

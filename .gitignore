@@ -93,3 +93,20 @@ research/stage_e_stage_d_20261009/sources/
 research/stage_e_method_revision_20261009/agent_distillation_derived_ids.jsonl
 research/stage_e_method_revision_20261009/agent_distillation_tcv_execution_smoke.json
 research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_bootstrap_replicates.jsonl
+
+# Workspace governance 2026-10-21: rebuildable environments/caches and unpacked
+# external sources live outside Git; source pins, licenses and reports stay tracked.
+research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/runtime_exact/
+research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/reproduced_official/*/score_cache.npz
+research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/vendor/FinRank/
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/*.tar.gz
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/expel_2308.10144/
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/ace_2510.04618/
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/memrl_2601.03192/
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/awm_2409.07429/
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/amem_2502.12110/
+research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sources/reflexion_2303.11366/
+# Preserved GB10 execution intermediates: retrieval and hashes in the closeout.
+# Existing tracked raw evidence and frozen eval/receipts retain their identities.
+research/codeupdatearena_adapter_v1/evidence/v2_oracle/
+research/codeupdatearena_adapter_v1/evidence/v2_revalidation/

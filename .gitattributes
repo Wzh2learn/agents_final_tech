@@ -9,3 +9,14 @@ logs/graph/eval/t2_visibility_sensitivity.json -text
 paper/figure_plan_v1.md -text
 research/positive_repair_20261011/preregs/PR-EXP-03_prereg_v3.md -text
 research/positive_repair_20261011/runs_local_mirror/PR-EXP-03-v3/** -text
+# Frozen migration experiments and usage reconciliation bind raw bytes on both hosts.
+research/research_portfolio_v2/** -text
+research/codeupdatearena_adapter_v1/** -text
+research/codeupdatearena_confirmation_v1/** -text
+# The cross-platform skill check is executed directly by Bash.
+scripts/graph/sync_skills.sh text eol=lf
+# Historical governance snapshots retain the explicitly recorded original bytes.
+memory/archive/THREADS_2026-10-21_pre_workspace_governance.md -text whitespace=cr-at-eol
+reports/LC-GOV-002*.md -text
+docs/archive/2026-10-21_loop_c_reports/** -text
+docs/archive/2026-10-21_loop_c_lead_prototype/** -text

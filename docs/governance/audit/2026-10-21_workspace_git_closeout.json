@@ -1,0 +1,18 @@
+{
+  "schema": "workspace_git_governance_v1",
+  "date": "2026-10-21",
+  "status": "IN_PROGRESS",
+  "integration_base": "dd275a64e806c67f1e5af14a76b10d0616ba2245",
+  "local_main_before": "6fc48f35dc8c244a178933de6f3050a94d0dd3ce",
+  "github_and_gb10_main_before": "af89c30a8ec911402ddcba1299380c7820c325ef",
+  "local_untracked": {"total": 6223, "integrated_exact": 2407, "integrated_eol_only": 58, "older_same_path": 3, "not_in_target": 3755},
+  "gb10_untracked": {"total": 2351, "integrated_exact": 1594, "integrated_eol_only": 1, "older_same_path": 6, "unique_intermediates": 750, "unique_intermediate_bytes": 1037213},
+  "protected_roots": {"local": "D:/AIRcommend/JinRongAgents/_protected_governance_20261021_v3", "gb10": "/home/testuser/wzh/protected_governance_20261021_v3"},
+  "verified_snapshot_regular_files": {"local_main": 7454, "local_nested_finrank": 1, "gb10_main": 2941, "gb10_vgmc": 4},
+  "local_index_blobs_preserved": 24,
+  "original_threads_sha256": "63246e3e23aaa7445c30bdaefee672d34f57e2cf3770edb64f87e3f84d9f516d",
+  "generation_usage": {"attempts": 101, "tokens": 57987, "frozen_event_tokens": 57222, "explicit_post_hoc_delta": 765, "new_calls_this_governance": 0},
+  "checks": {},
+  "lifecycle": {"active_main": "PENDING", "historical_worktrees": "PENDING_OCCUPANCY_CHECK", "remote_refs": "PENDING_FINAL_RECEIPT"},
+  "nonclaims": ["No production-health validation", "No new model experiment", "No scientific scope expansion", "No public-history rewrite", "Protected backups are not public paper artifacts"]
+}

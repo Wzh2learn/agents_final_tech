@@ -1,86 +1,32 @@
 # Current State
 
-> Updated: 2026-10-21 | Scope: research portfolio, Paper E, adaptive
-> revalidation, and external-change sources | Runtime: bounded probes complete
+> Updated: 2026-10-21 | Scope: workspace/Git governance and research handoff
+> Governance verification: `IN_PROGRESS`；最终跨主机、分支与资产核验以治理报告为准。
 
-## Current Rulings
+## 当前任务
 
-- Paper E: `NARROW_AND_CONTINUE` as a bounded two-case measurement audit.
-- FinRank history/H: `STOP_ON_CURRENT_PANEL`; the corrected full-visibility
-  baseline has no comparable residual evidence-selection population and no
-  task-matched correction histories.
-- MA-CERD correction dated 2026-10-21: the reported resource baseline uses
-  `resource_ids` membership, not dependency-edge propagation. The full-release
-  transparent summary is `0.881/0.839/0.676/0.648`; the original test summary
-  is `0.830/0.835/0.5856/0.5280`. Handling `0.012` is complete allowed-set
-  exact matching, while 241/250 predictions are admissible `{defer}` subsets.
-  `TOOL_FIRST_WITH_SELECTIVE_ESCALATION` remains a development hypothesis,
-  not a verified unique-bottleneck result. See
-  [`CORRECTIONS_20261021.md`](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md).
-- Adaptive revalidation V3: spawned-process RPC plus opaque IDs passed 24 tests
-  on Python 3.9/3.11 and a 450-episode receipt replay. Unit-cost greedy is
-  sufficient at three queries per fixture; two-step lookahead has zero positive
-  matched pairs and mean benefit `-0.02037`. Stop further complexity on these
-  authored fixtures.
-- CodeUpdateArena: the V1 executor is preserved as `INVALID_HARNESS_REPLAY`.
-  The zero-request V2 revalidation blocks marker/exit aliases, validates trusted
-  test lifecycles, pins the Docker image ID and classifies assertion failures.
-  Valid result: base `3/8`, update-info `2/8`, paired difference `-1`; ruling
-  `BOUNDED_NEGATIVE_STOP_V2_VALIDATED`.
-- Independent new-family confirmation: base `7/8`, update-info `4/8`, paired
-  difference `-3`, with 1 versus 4 `test_failure`;
-  `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`.
-- External-source review: PyMigBench is the stronger real-commit behavioral
-  source; VersiCode is limited to version-change observability because its
-  editing rows are highly duplicated and have no behavioral oracle.
-- VersiCode observability pilot: BASE `0/8`, prose mapping `8/8`, the same
-  mapping as structured fields `7/8`, and target-package probes `5/8` at
-  roughly `4x` BASE tokens. This is syntax/name evidence only; one
-  prose/structured discordance does not establish representation superiority.
-- PyMigBench curation attempted 36 commits and a single dependency-aware
-  `thombashi/datetimerange` revival with zero model calls and zero retries.
-  No gold behavioral oracle passed: the revival reached `160 passed / 8 failed`
-  and exposed missing tzdata/timezone and transitive-version contracts.
-- A qualified `emlid/ntripbrowser` `chardet -> cchardet` task passes 7/7
-  hidden tests for parent/gold environments. The model probe shows BASE can
-  pass tests while violating the dependency change via a UTF-8 fallback; prose
-  and structured facts both pass behavior and structure. The supported claim
-  is that migration tasks need a hybrid behavioral and structural oracle.
-- New Goal accounting: `101/2048` attempts and `57,222/10,000,000` tokens.
-  Physical HTTP calls are 101; judge, training, paid API and production Memory
-  writes are zero.
-- Final FinRank development observation: B0 V4 `5/7`; derived plan
-  minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
-  `ESD_006` is a real sufficient-evidence abstention; `ESD_012` is a
-  fixed-budget serialization failure.
-- Shared ledger: `747/747` requests and `1,564,176/2,000,000` accounting
-  tokens, recomputed from 747 request records. There are 746 `OK` records and
-  one retained `FAILED/request_already_exists` event with conservative
-  10,240-token accounting. Judge, training, paid API and production Memory
-  writes are zero.
-- Old ledger remains isolated at `313/316` requests and
-  `324,086/2,750,000` tokens.
+Portfolio V2 的有界科研探索已完成。Owner 当前要求先收口本机与 GB10 的内容、分支和结构，再决定新的科研 Goal。本轮不因剩余预算自动延续模型实验。
 
-## Authority
+| 用途 | 当前权威入口 |
+|---|---|
+| 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
+| 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
+| 最新科研回执 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)；成本为当时快照 |
+| 当前聚合记账 | [COST_AND_CANDIDATES.json](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；含失败调用补记，历史独立账本不混算 |
+| 未决事项 | [THREADS.md](THREADS.md) |
 
-Current research routing is
-[`docs/research/README.md`](../docs/research/README.md). The merged return is
-[`research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md`](../research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md).
-Independent scientific review is
-[`INDEPENDENT_SCIENCE_REVIEW.md`](../research/research_direction_sprint_20261020_v1/execution_v2/INDEPENDENT_SCIENCE_REVIEW.md).
-GB10 authoritative review is
-[`GB10_LOOP_C_REVIEW.md`](../research/research_direction_sprint_20261020_v1/execution_v2/GB10_LOOP_C_REVIEW.md).
+## 科学边界
 
-## Next Execution Step
+- Paper E：`NARROW_AND_CONTINUE`，唯一主稿为 [saner_rene_manuscript_v1.md](../paper/saner_rene_manuscript_v1.md)，维持两案例测量审计；投稿外部事项尚未完成。
+- FinRank：`STOP_ON_CURRENT_PANEL`，不重开 H/K；当前负结果不否定经验复用的一般可能性。
+- MA-CERD：资源 membership 基线不等于依赖边传播；selective escalation 未验证，完整动作集合 exact match 与动作可接受性须区分，见[更正](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md)。
+- Adaptive V3：当前 authored fixtures 上 greedy 已足够，two-step 无正向配对收益；RPC capability 边界不等于操作系统沙箱。
+- CodeUpdateArena：修正执行器后开发集与新 families 均为有界负结果，不重复同一 prose-update 实验。
+- VersiCode：结果只涉及语法与 API 名称，不证明行为正确或信息表示优劣。
+- PyMigBench：NtripBrowser 单个真实迁移揭示行为测试可被异常回退掩盖；行为与结构应分别报告，尚未证明 hybrid oracle 普遍充分。新迁移案例未纳入 Paper E。
 
-Use `research/portfolio-integration-v2` as the reviewable integration branch.
-Do not rerun VersiCode, CodeUpdateArena or the same authored fixtures. Replicate
-the hybrid behavioral-plus-structural oracle on additional PyMigBench commits
-with explicit dependency-manifest contracts. Keep Paper E at
-`NARROW_AND_CONTINUE`, FinRank at `STOP_ON_CURRENT_PANEL`, and do not convert
-bounded case findings into general method claims.
+## 运行与历史
 
-Historical state before the 2026-10-19 closeout is preserved in
-[`docs/archive/2026-10-19_memory_state_history.md`](../docs/archive/2026-10-19_memory_state_history.md).
-The earlier pre-governance snapshot remains at
-`memory/archive/STATE_2026-09-22_pre_governance.md`.
+本轮 Git 和离线治理不是生产运行检查；运行约束仍见 [CORE.md](CORE.md)。未核实的生产问题、外部发送和审批事项保留在 [THREADS.md](THREADS.md)，不随文档归档自动关闭。
+
+原 THREADS 完整快照保留在 [memory/archive/THREADS_2026-10-21_pre_workspace_governance.md](archive/THREADS_2026-10-21_pre_workspace_governance.md)。2026-10-19 收口前状态见 [历史状态](../docs/archive/2026-10-19_memory_state_history.md)；更早快照仍为 `memory/archive/STATE_2026-09-22_pre_governance.md`。
