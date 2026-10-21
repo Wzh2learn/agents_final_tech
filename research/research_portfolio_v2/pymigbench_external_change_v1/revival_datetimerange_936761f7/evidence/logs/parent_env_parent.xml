@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.081" timestamp="2026-10-21T16:59:57.411960+08:00" hostname="promaxgb10-0b48"><testcase classname="" name="test.test_datetimerange" time="0.000"><error message="collection failure">test/test_datetimerange.py:201: in &lt;module&gt;
+    class Test_DateTimeRange_eq:
+test/test_datetimerange.py:205: in Test_DateTimeRange_eq
+    DateTimeRange(None, None),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+datetimerange/__init__.py:56: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:511: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:458: in set_start_datetime
+    value, strict_type_mapping=dp.NOT_STRICT_TYPE_MAPPING)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'dataproperty' has no attribute 'NOT_STRICT_TYPE_MAPPING'</error></testcase></testsuite></testsuites>

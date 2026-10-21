@@ -17,6 +17,18 @@
       "id": "C_CONDITIONED_EXPERIENCE_GUARDS",
       "main_risk": "given guards or action rewrites do not demonstrate experience learning",
       "status": "HELD"
+    },
+    {
+      "evidence_identity": "DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION",
+      "id": "D_VERSICODE_CHANGE_OBSERVABILITY",
+      "main_risk": "reference-code symbol matching is not behavioral correctness",
+      "status": "BOUNDED_OBSERVABILITY_PILOT_COMPLETE"
+    },
+    {
+      "evidence_identity": "PUBLIC_REAL_COMMIT_METADATA_AND_LOCAL_TEST_CURATION",
+      "id": "E_PYMIGBENCH_BEHAVIORAL_EXTERNAL_CHANGE",
+      "main_risk": "historical project dependencies and timezone contracts prevent deterministic replay",
+      "status": "ZERO_READY_TASKS_ENVIRONMENT_CONTRACT_INSUFFICIENT"
     }
   ],
   "cost_dimensions": [
@@ -93,6 +105,36 @@
       "raw_result": "research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_RESULT.json",
       "reason": "Completed all 16 frozen attempts; paired all-tests-pass difference was -3 families.",
       "status": "SETTLED_BOUNDED_NEGATIVE"
+    },
+    {
+      "id": "VERSICODE_OBSERVABILITY_V1_20261021_001_032",
+      "attempts": 32,
+      "physical_http_calls": 32,
+      "accounting_tokens": 15917,
+      "raw_result": "research/research_portfolio_v2/versicode_observability_v1/PROBE_RESULT.json",
+      "status": "SETTLED_COMPLETE",
+      "reason": "completed_all_planned_attempts"
+    }
+  ],
+  "offline_events": [
+    {
+      "id": "PYMIGBENCH_BOUNDED_CURATION_20261021",
+      "candidate_commits_attempted": 36,
+      "model_calls": 0,
+      "failed_environment_retries": 0,
+      "ready_tasks": 0,
+      "raw_result": "research/research_portfolio_v2/pymigbench_external_change_v1/TEST_RECEIPT.json",
+      "status": "BOUNDED_ZERO_TASK_CURATION",
+      "reason": "No candidate produced a deterministic passing gold behavioral oracle in the bounded batches."
+    },
+    {
+      "id": "PYMIGBENCH_DATETIMERANGE_REVIVAL_936761F7_20261021",
+      "model_calls": 0,
+      "failed_environment_retries": 0,
+      "ready_tasks": 0,
+      "raw_result": "research/research_portfolio_v2/pymigbench_external_change_v1/revival_datetimerange_936761f7/REVIVAL_RECEIPT.json",
+      "status": "ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT",
+      "reason": "Gold reached 160 passed and 8 failed; declared requirements do not freeze tzdata or timezone semantics."
     }
   ],
   "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
@@ -112,12 +154,12 @@
   ],
   "new_budget": {
     "accounting_tokens_cap": 10000000,
-    "accounting_tokens_used": 28693,
+    "accounting_tokens_used": 44610,
     "attempt_cap": 2048,
-    "attempts_used": 66,
+    "attempts_used": 98,
     "judge_calls": 0,
     "paid_api_usd": 0,
-    "physical_http_calls": 66,
+    "physical_http_calls": 98,
     "production_memory_writes": 0,
     "training_calls": 0
   },
@@ -163,6 +205,13 @@
       "id": "CODEUPDATEARENA_CONFIRMATION_V1_20261021",
       "spec": "research/codeupdatearena_confirmation_v1/ADAPTER_SPEC.json",
       "status": "SETTLED_BOUNDED_NEGATIVE"
+    },
+    {
+      "id": "VERSICODE_OBSERVABILITY_V1_20261021",
+      "attempts": 32,
+      "accounting_tokens": 80000,
+      "spec": "research/research_portfolio_v2/versicode_observability_v1/EXPERIMENT_SPEC.json",
+      "status": "SETTLED_COMPLETE"
     }
   ],
   "rulings": {
@@ -170,7 +219,9 @@
     "ADAPTIVE_REVALIDATION_V3_COMPARISON": "GREEDY_SUFFICIENT_TWO_STEP_NO_PAIRED_BENEFIT",
     "CODEUPDATEARENA_UPDATE_INFO": "BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES",
     "MODEL_QUERY_POLICY_CURRENT_INTERFACE": "STOP",
-    "NEXT_GATE": "test structured preconditions or executable checks on a different source; do not rerun the same prose update arm"
+    "VERSICODE_CHANGE_OBSERVABILITY": "BOUNDED_NONBEHAVIORAL_PILOT_DIRECT_MAPPING_DOMINATES_CHEAPLY",
+    "PYMIGBENCH_BEHAVIORAL_SOURCE": "PROMISING_SOURCE_BUT_ZERO_READY_TASKS_UNDER_BOUNDED_CURATION",
+    "NEXT_GATE": "freeze a complete Python/package/tzdata/timezone/test contract for one PyMigBench task and require gold all-tests-pass before any behavioral model run"
   },
   "schema": "research_portfolio_cost_and_candidates_v2"
 }

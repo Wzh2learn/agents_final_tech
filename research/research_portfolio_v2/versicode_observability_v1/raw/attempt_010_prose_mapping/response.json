@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"code\": \"data = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\\nprint(unpack_rgb(data, '<B', (5, 6, 5), False))\\nprint(unpack_rgb(data, '<B', (5, 6, 5)))\\nprint(unpack_rgb(data, '<B', (5, 5, 5)))\"}"
+      }
+    }
+  ],
+  "created": 1792571635,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 94,
+    "prompt_tokens": 242,
+    "total_tokens": 336,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-gy7MifjUxtrCKuZqDfbjDS2XyoXbes4e",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 242,
+    "prompt_ms": 199.033,
+    "prompt_per_token_ms": 0.8224504132231405,
+    "prompt_per_second": 1215.8787738716694,
+    "predicted_n": 94,
+    "predicted_ms": 1468.311,
+    "predicted_per_token_ms": 15.620329787234041,
+    "predicted_per_second": 64.01913491079206
+  }
+}

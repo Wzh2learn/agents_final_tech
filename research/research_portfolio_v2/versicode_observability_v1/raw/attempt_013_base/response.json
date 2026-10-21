@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"def _strip_rest_role(text):\\n    if text.startswith(':') and '`' in text:\\n        return text.split('`')[1]\\n    return text\\n\\n_strip_rest_role(':class:`ClassName`')\\n_strip_rest_role(':py:obj:`module.Object`')\\n_strip_rest_role('ClassName')\"\n}"
+      }
+    }
+  ],
+  "created": 1792571641,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 77,
+    "prompt_tokens": 157,
+    "total_tokens": 234,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-t41EXjV73LJsGMFtITLTY6byYHazAjSO",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 157,
+    "prompt_ms": 169.916,
+    "prompt_per_token_ms": 1.0822675159235668,
+    "prompt_per_second": 923.9859695378893,
+    "predicted_n": 77,
+    "predicted_ms": 1204.47,
+    "predicted_per_token_ms": 15.642467532467533,
+    "predicted_per_second": 63.9285328816824
+  }
+}

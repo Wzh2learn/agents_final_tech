@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In datasets ==2.14.0, `resolve_patterns_locally_or_by_urls` is replaced by `resolve_pattern`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

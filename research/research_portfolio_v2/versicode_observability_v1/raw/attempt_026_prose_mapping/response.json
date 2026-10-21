@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"from pyrsistent import immutable\\n\\nPoint = immutable('x, y', name='Point')\\n\\np = Point(1, 2)\\n\\np2 = p.set(x=3)\\n\\nPoint = immutable('x, y, id_', name='Point')\\n\\np = Point(1, 2, id_=17)\\n\\np.set(x=3)\\n\\np.set(id_=18)\"\n}"
+      }
+    }
+  ],
+  "created": 1792571658,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 103,
+    "prompt_tokens": 304,
+    "total_tokens": 407,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-GfboUpica5aRzJKC0af8VRkMs1dreepv",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 304,
+    "prompt_ms": 215.287,
+    "prompt_per_token_ms": 0.7081809210526316,
+    "prompt_per_second": 1412.0685410637893,
+    "predicted_n": 103,
+    "predicted_ms": 1603.062,
+    "predicted_per_token_ms": 15.563708737864077,
+    "predicted_per_second": 64.25203766292259
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

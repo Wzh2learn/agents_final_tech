@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"from pyrsistent import PClass\\n\\nclass Point(PClass):\\n    x = field()\\n    y = field()\\n\\np = Point(x=1, y=2)\\n\\np2 = p.set(x=3)\\n\\nclass Point(PClass):\\n    x = field()\\n    y = field()\\n    id_ = field()\\n\\np = Point(x=1, y=2, id_=17)\\n\\np.set(x=3)\\n\\np.set(id_=18)\"\n}"
+      }
+    }
+  ],
+  "created": 1792571662,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 123,
+    "prompt_tokens": 1158,
+    "total_tokens": 1281,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-4QQStEFrHaBYoInEXw296BtIE6lMUsc2",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 1158,
+    "prompt_ms": 671.571,
+    "prompt_per_token_ms": 0.579940414507772,
+    "prompt_per_second": 1724.3150761423585,
+    "predicted_n": 123,
+    "predicted_ms": 1925.778,
+    "predicted_per_token_ms": 15.656731707317073,
+    "predicted_per_second": 63.87029034499304
+  }
+}

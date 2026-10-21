@@ -1,0 +1,67 @@
+{
+  "schema": "versicode_observability_recomputation_v1",
+  "created_at": "2026-10-21T16:37:17.423236+08:00",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "raw_requests_match_frozen_snapshot",
+      "status": "PASS",
+      "count": 32
+    },
+    {
+      "name": "raw_responses_reparse_and_reevaluate",
+      "status": "PASS",
+      "count": 32
+    },
+    {
+      "name": "arm_summaries_match_raw_rows",
+      "status": "PASS",
+      "count": 4
+    },
+    {
+      "name": "token_total_matches_model_ledger",
+      "status": "PASS",
+      "count": 15917
+    }
+  ],
+  "arms": {
+    "base": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 0,
+      "old_api_used": 6,
+      "symbol_migration_correct": 0,
+      "accounting_tokens": 2170
+    },
+    "prose_mapping": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 8,
+      "old_api_used": 0,
+      "symbol_migration_correct": 8,
+      "accounting_tokens": 2316
+    },
+    "structured_mapping": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 7,
+      "old_api_used": 1,
+      "symbol_migration_correct": 7,
+      "accounting_tokens": 2305
+    },
+    "probe_evidence": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 5,
+      "old_api_used": 2,
+      "symbol_migration_correct": 5,
+      "accounting_tokens": 9126
+    }
+  },
+  "source_hashes": {
+    "tasks_sha256": "69317d469136fb029287254e06a6d761fc583cae70a4af70db6c4a0ebd021c75",
+    "snapshot_sha256": "3d6e3ac4a15c0a49125ac1e5bdb16c146736d3a7d48912137b9b7dc86d855608",
+    "model_ledger_sha256": "bc3d4710d901cdbbb7cca416f32a5107317b1ec5d34441e61776de1b0da778b5",
+    "reported_result_sha256": "cdd37cde7d5d3a4a074acc12ba9d0de74334ea33e426322edf7866a2caa76f35"
+  }
+}

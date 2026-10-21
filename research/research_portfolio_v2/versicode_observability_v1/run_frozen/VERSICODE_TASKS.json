@@ -1,0 +1,1112 @@
+{
+  "schema": "versicode_observability_tasks_v1",
+  "created_at": "2026-10-21T16:30:15.219060+08:00",
+  "evidence_identity": "DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION",
+  "source": {
+    "repository": "https://github.com/wutong8023/VersiCode",
+    "commit": "8a53b9938707deb4c8398152e9ebc923580783a3",
+    "dataset_path": "D:\\AIRcommend\\JinRongAgents\\_protected_research_20261021_v1\\external_sources\\VersiCode\\_extracted_versicode\\VersiCode_Benchmark\\code_editing\\code_editing_old_to_new.json",
+    "dataset_sha256": "b50bccda7de3d37efaaabc7ba2d91de9495bc57757777003acd281678e73c522"
+  },
+  "arms": [
+    "base",
+    "prose_mapping",
+    "structured_mapping",
+    "probe_evidence"
+  ],
+  "task_count": 8,
+  "tasks": [
+    {
+      "index": 1,
+      "id": "old_to_new_1",
+      "source_record_sha256": "f765370883f8a470c345f811730c49bd855786a3c6d996979ccb169955677c49",
+      "public": {
+        "description": "This Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.",
+        "dependency": "click",
+        "old_version": "==3.0",
+        "new_version": "==8.0.0",
+        "old_code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In click ==8.0.0, `resultcallback` is replaced by `result_callback`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "resultcallback",
+          "target_api": "result_callback"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "resultcallback",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 510,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "click.core.MultiCommand.result_callback",
+                "module": "click.core",
+                "name": "result_callback",
+                "kind": "method",
+                "signature": "(self, replace: bool=False)",
+                "qualified_names": [
+                  "click.core.MultiCommand.result_callback"
+                ]
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "click.core.MultiCommand.resultcallback",
+                "module": "click.core",
+                "name": "resultcallback",
+                "kind": "method",
+                "signature": "(self, replace: bool=False)",
+                "qualified_names": [
+                  "click.core.MultiCommand.resultcallback"
+                ]
+              },
+              {
+                "score": 0.432,
+                "qualified_name": "click.testing.Result",
+                "module": "click.testing",
+                "name": "Result",
+                "kind": "class",
+                "signature": "",
+                "qualified_names": [
+                  "click.testing.Result"
+                ]
+              },
+              {
+                "score": 0.387692,
+                "qualified_name": "click.termui._ansi_reset_all",
+                "module": "click.termui",
+                "name": "_ansi_reset_all",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "click.termui._ansi_reset_all"
+                ]
+              },
+              {
+                "score": 0.375652,
+                "qualified_name": "click.core.ExitStack",
+                "module": "click.core",
+                "name": "ExitStack",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "click.core.ExitStack"
+                ]
+              },
+              {
+                "score": 0.347586,
+                "qualified_name": "click.types.File.resolve_lazy_flag",
+                "module": "click.types",
+                "name": "resolve_lazy_flag",
+                "kind": "method",
+                "signature": "(self, value: t.Any)",
+                "qualified_names": [
+                  "click.types.File.resolve_lazy_flag"
+                ]
+              },
+              {
+                "score": 0.327273,
+                "qualified_name": "click.types.safecall",
+                "module": "click.types",
+                "name": "safecall",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "click.types.safecall",
+                  "click.utils.safecall"
+                ]
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "click.testing.TracebackType",
+                "module": "click.testing",
+                "name": "TracebackType",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "click.testing.TracebackType"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "resultcallback",
+        "new_name": "result_callback",
+        "new_code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.result_callback()\ndef process_result(result, input):\n    return result + input",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "click-8.0.0.tar.gz",
+        "sha256": "7d8c289ee437bcb0316820ccee14aefcb056e58d31830ecab8e47eda6540e136",
+        "symbol_count": 916
+      }
+    },
+    {
+      "index": 2,
+      "id": "old_to_new_261",
+      "source_record_sha256": "12bd1c46a23b60bbe7a89c9b083157965d7b53724789253dbddb3177c51f461e",
+      "public": {
+        "description": "This code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.",
+        "dependency": "datasets",
+        "old_version": "==1.13.0",
+        "new_version": "==2.14.0",
+        "old_code": "from datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In datasets ==2.14.0, `resolve_patterns_locally_or_by_urls` is replaced by `resolve_pattern`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "resolve_patterns_locally_or_by_urls",
+          "target_api": "resolve_pattern"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "resolve_patterns_locally_or_by_urls",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": false,
+            "candidate_count": 1374,
+            "candidates": [
+              {
+                "score": 0.498182,
+                "qualified_name": "datasets.data_files.resolve_pattern",
+                "module": "datasets.data_files",
+                "name": "resolve_pattern",
+                "kind": "function",
+                "signature": "(pattern: str, base_path: str, allowed_extensions: Optional[List[str]]=None, download_config: Optional[DownloadConfig]=None)",
+                "qualified_names": [
+                  "datasets.data_files.resolve_pattern"
+                ]
+              },
+              {
+                "score": 0.425,
+                "qualified_name": "datasets.load.DEFAULT_PATTERNS_ALL",
+                "module": "datasets.load",
+                "name": "DEFAULT_PATTERNS_ALL",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "datasets.load.DEFAULT_PATTERNS_ALL",
+                  "datasets.data_files.DEFAULT_PATTERNS_ALL"
+                ]
+              },
+              {
+                "score": 0.424,
+                "qualified_name": "datasets.iterable_dataset.IterableDataset._resolve_features",
+                "module": "datasets.iterable_dataset",
+                "name": "_resolve_features",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "datasets.iterable_dataset.IterableDataset._resolve_features"
+                ]
+              },
+              {
+                "score": 0.382857,
+                "qualified_name": "datasets.data_files.DataFilesDict.from_patterns",
+                "module": "datasets.data_files",
+                "name": "from_patterns",
+                "kind": "method",
+                "signature": "(cls, patterns: Dict[str, Union[List[str], DataFilesList]], base_path: Optional[str]=None, allowed_extensions: Optional[List[str]]=None, download_config: Optional[DownloadConfig]=None)",
+                "qualified_names": [
+                  "datasets.data_files.DataFilesDict.from_patterns",
+                  "datasets.data_files.DataFilesList.from_patterns"
+                ]
+              },
+              {
+                "score": 0.374884,
+                "qualified_name": "datasets.metric.MetricInfoMixin.reference_urls",
+                "module": "datasets.metric",
+                "name": "reference_urls",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "datasets.metric.MetricInfoMixin.reference_urls"
+                ]
+              },
+              {
+                "score": 0.353043,
+                "qualified_name": "datasets.load.sanitize_patterns",
+                "module": "datasets.load",
+                "name": "sanitize_patterns",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "datasets.load.sanitize_patterns",
+                  "datasets.builder.sanitize_patterns",
+                  "datasets.data_files.sanitize_patterns",
+                  "datasets.arrow_dataset.sanitize_patterns"
+                ]
+              },
+              {
+                "score": 0.352653,
+                "qualified_name": "datasets.data_files.SPLIT_PATTERN_SHARDED",
+                "module": "datasets.data_files",
+                "name": "SPLIT_PATTERN_SHARDED",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "datasets.data_files.SPLIT_PATTERN_SHARDED"
+                ]
+              },
+              {
+                "score": 0.348043,
+                "qualified_name": "datasets.data_files.ALL_SPLIT_PATTERNS",
+                "module": "datasets.data_files",
+                "name": "ALL_SPLIT_PATTERNS",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "datasets.data_files.ALL_SPLIT_PATTERNS"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "resolve_patterns_locally_or_by_urls",
+        "new_name": "resolve_pattern",
+        "new_code": "from datasets.data_files import resolve_pattern\nbase_path = \".\"\nresolve_pattern(\"docs/**/*.py\", base_path)",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "datasets-2.14.0.tar.gz",
+        "sha256": "1bb3d1c992a593949a8d3e445b358ac1db4ead00e6619ea2e5e7b6dfc222dde1",
+        "symbol_count": 3289
+      }
+    },
+    {
+      "index": 3,
+      "id": "old_to_new_748",
+      "source_record_sha256": "b08bc900f57f49cd6a0a6d986ec77c916dd9e8e45805e488560f1ac4aaddb6ff",
+      "public": {
+        "description": "The code generates RGB values from the given data using different bit lengths for each color channel.",
+        "dependency": "imageio",
+        "old_version": "==1.4",
+        "new_version": "==1.6",
+        "old_code": "data = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In imageio ==1.6, `unpackrgb` is replaced by `unpack_rgb`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "unpackrgb",
+          "target_api": "unpack_rgb"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "unpackrgb",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 607,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "imageio.plugins._tifffile.unpack_rgb",
+                "module": "imageio.plugins._tifffile",
+                "name": "unpack_rgb",
+                "kind": "function",
+                "signature": "(data, dtype='<B', bitspersample=(5, 6, 5), rescale=True)",
+                "qualified_names": [
+                  "imageio.plugins._tifffile.unpack_rgb"
+                ]
+              },
+              {
+                "score": 0.576,
+                "qualified_name": "imageio.plugins._dicom.SimpleDicomReader._unpack",
+                "module": "imageio.plugins._dicom",
+                "name": "_unpack",
+                "kind": "method",
+                "signature": "(self, fmt, value)",
+                "qualified_names": [
+                  "imageio.plugins._dicom.SimpleDicomReader._unpack"
+                ]
+              },
+              {
+                "score": 0.454737,
+                "qualified_name": "imageio.plugins._tifffile.unpack_ints",
+                "module": "imageio.plugins._tifffile",
+                "name": "unpack_ints",
+                "kind": "function",
+                "signature": "(data, dtype, itemsize, runlen=0)",
+                "qualified_names": [
+                  "imageio.plugins._tifffile.unpack_ints"
+                ]
+              },
+              {
+                "score": 0.36,
+                "qualified_name": "imageio.plugins.avbin.AVbinPacket",
+                "module": "imageio.plugins.avbin",
+                "name": "AVbinPacket",
+                "kind": "class",
+                "signature": "",
+                "qualified_names": [
+                  "imageio.plugins.avbin.AVbinPacket"
+                ]
+              },
+              {
+                "score": 0.36,
+                "qualified_name": "setup.package_data",
+                "module": "setup",
+                "name": "package_data",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "setup.package_data"
+                ]
+              },
+              {
+                "score": 0.338824,
+                "qualified_name": "docs.conf.man_pages",
+                "module": "docs.conf",
+                "name": "man_pages",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "docs.conf.man_pages"
+                ]
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "imageio.core.fetching._chunk_read",
+                "module": "imageio.core.fetching",
+                "name": "_chunk_read",
+                "kind": "function",
+                "signature": "(response, local_file, chunk_size=8192, initial_size=0)",
+                "qualified_names": [
+                  "imageio.core.fetching._chunk_read"
+                ]
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "imageio.plugins._tifffile._replace_by",
+                "module": "imageio.plugins._tifffile",
+                "name": "_replace_by",
+                "kind": "function",
+                "signature": "(module_function, package=__package__, warn=False)",
+                "qualified_names": [
+                  "imageio.plugins._tifffile._replace_by"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "unpackrgb",
+        "new_name": "unpack_rgb",
+        "new_code": "data = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpack_rgb(data, '<B', (5, 6, 5), False))\nprint(unpack_rgb(data, '<B', (5, 6, 5)))\nprint(unpack_rgb(data, '<B', (5, 5, 5)))",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "imageio-1.6.zip",
+        "sha256": "8e7b46118f49fad8e8e14a6d8ef87de50d22e7437e25f6bfeb32d65a646cdca9",
+        "symbol_count": 1006
+      }
+    },
+    {
+      "index": 4,
+      "id": "old_to_new_3276",
+      "source_record_sha256": "1350102260f98002702f7bc4b9e5c7354638e01682598426ec87f39449c21f8c",
+      "public": {
+        "description": "This code snippet removes the role prefix and backticks from the input string.",
+        "dependency": "jedi",
+        "old_version": "==0.6.0",
+        "new_version": "==0.8.1",
+        "old_code": "_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In jedi ==0.8.1, `_strip_rest_role` is replaced by `_strip_rst_role`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "_strip_rest_role",
+          "target_api": "_strip_rst_role"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "_strip_rest_role",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": false,
+            "candidate_count": 658,
+            "candidates": [
+              {
+                "score": 0.8312,
+                "qualified_name": "jedi.evaluate.docstrings._strip_rst_role",
+                "module": "jedi.evaluate.docstrings",
+                "name": "_strip_rst_role",
+                "kind": "function",
+                "signature": "(type_str)",
+                "qualified_names": [
+                  "jedi.evaluate.docstrings._strip_rst_role"
+                ]
+              },
+              {
+                "score": 0.551429,
+                "qualified_name": "jedi.evaluate.docstrings.REST_ROLE_PATTERN",
+                "module": "jedi.evaluate.docstrings",
+                "name": "REST_ROLE_PATTERN",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "jedi.evaluate.docstrings.REST_ROLE_PATTERN"
+                ]
+              },
+              {
+                "score": 0.496552,
+                "qualified_name": "jedi.evaluate.imports.StarImportModule",
+                "module": "jedi.evaluate.imports",
+                "name": "StarImportModule",
+                "kind": "class",
+                "signature": "",
+                "qualified_names": [
+                  "jedi.evaluate.imports.StarImportModule"
+                ]
+              },
+              {
+                "score": 0.454737,
+                "qualified_name": "jedi.parser.tokenize.triple",
+                "module": "jedi.parser.tokenize",
+                "name": "triple",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "jedi.parser.tokenize.triple"
+                ]
+              },
+              {
+                "score": 0.42,
+                "qualified_name": "jedi.Interpreter",
+                "module": "jedi",
+                "name": "Interpreter",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "jedi.Interpreter",
+                  "jedi.api.Interpreter",
+                  "jedi.utils.Interpreter"
+                ]
+              },
+              {
+                "score": 0.42,
+                "qualified_name": "jedi.api.interpreter",
+                "module": "jedi.api",
+                "name": "interpreter",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "jedi.api.interpreter"
+                ]
+              },
+              {
+                "score": 0.387692,
+                "qualified_name": "jedi.evaluate.imports._Importer.str_import_path",
+                "module": "jedi.evaluate.imports",
+                "name": "str_import_path",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "jedi.evaluate.imports._Importer.str_import_path"
+                ]
+              },
+              {
+                "score": 0.387692,
+                "qualified_name": "jedi.utils.setup_readline",
+                "module": "jedi.utils",
+                "name": "setup_readline",
+                "kind": "function",
+                "signature": "(namespace_module=__main__)",
+                "qualified_names": [
+                  "jedi.utils.setup_readline"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "_strip_rest_role",
+        "new_name": "_strip_rst_role",
+        "new_code": "_strip_rst_role(':class:`ClassName`')\n_strip_rst_role(':py:obj:`module.Object`')\n_strip_rst_role('ClassName')",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "jedi-0.8.1.tar.gz",
+        "sha256": "4d23ae457cec14cedb71fb56f0ed51d75798f2fd74e91f6e5134b09a4a78eba8",
+        "symbol_count": 1199
+      }
+    },
+    {
+      "index": 5,
+      "id": "old_to_new_3517",
+      "source_record_sha256": "500ead3b1020c83b14a474dadf7ccae5dc216079ef631a11dff23a010b9d436e",
+      "public": {
+        "description": "The code is escaping special characters in a given string to their corresponding HTML entities.",
+        "dependency": "MarkupSafe",
+        "old_version": "==0.9",
+        "new_version": "==2.0.0",
+        "old_code": "value = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In MarkupSafe ==2.0.0, `soft_unicode` is replaced by `soft_str`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "soft_unicode",
+          "target_api": "soft_str"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "soft_unicode",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 67,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "markupsafe._native.soft_unicode",
+                "module": "markupsafe._native",
+                "name": "soft_unicode",
+                "kind": "function",
+                "signature": "(s: t.Any)",
+                "qualified_names": [
+                  "markupsafe._native.soft_unicode"
+                ]
+              },
+              {
+                "score": 0.413333,
+                "qualified_name": "markupsafe._native.soft_str",
+                "module": "markupsafe._native",
+                "name": "soft_str",
+                "kind": "function",
+                "signature": "(s: t.Any)",
+                "qualified_names": [
+                  "markupsafe._native.soft_str"
+                ]
+              },
+              {
+                "score": 0.303158,
+                "qualified_name": "markupsafe.Markup.unescape",
+                "module": "markupsafe",
+                "name": "unescape",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "markupsafe.Markup.unescape"
+                ]
+              },
+              {
+                "score": 0.303158,
+                "qualified_name": "setup.build_ext",
+                "module": "setup",
+                "name": "build_ext",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "setup.build_ext"
+                ]
+              },
+              {
+                "score": 0.297931,
+                "qualified_name": "setup.DistutilsExecError",
+                "module": "setup",
+                "name": "DistutilsExecError",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "setup.DistutilsExecError"
+                ]
+              },
+              {
+                "score": 0.274286,
+                "qualified_name": "markupsafe.Markup.splitlines",
+                "module": "markupsafe",
+                "name": "splitlines",
+                "kind": "method",
+                "signature": "(self, keepends: bool=False)",
+                "qualified_names": [
+                  "markupsafe.Markup.splitlines"
+                ]
+              },
+              {
+                "score": 0.274286,
+                "qualified_name": "markupsafe._ListOrDict",
+                "module": "markupsafe",
+                "name": "_ListOrDict",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "markupsafe._ListOrDict"
+                ]
+              },
+              {
+                "score": 0.274286,
+                "qualified_name": "setup.ext_modules",
+                "module": "setup",
+                "name": "ext_modules",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "setup.ext_modules"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "soft_unicode",
+        "new_name": "soft_str",
+        "new_code": "value = escape(\"<User 1>\")\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_str(value))\nMarkup('&lt;User 1&gt;')",
+        "gold_probe_rank": 2
+      },
+      "artifact": {
+        "filename": "MarkupSafe-2.0.0.tar.gz",
+        "sha256": "4fae0677f712ee090721d8b17f412f1cbceefbf0dc180fe91bab3232f38b4527",
+        "symbol_count": 71
+      }
+    },
+    {
+      "index": 6,
+      "id": "old_to_new_15048",
+      "source_record_sha256": "71450f02e04236161a43cebb536b1a0d935e8488f32b2b9719616b6dbb241ff9",
+      "public": {
+        "description": "The code calculates the [TARGET_API] between two index objects.",
+        "dependency": "pandas",
+        "old_version": "==0.4.0",
+        "new_version": "==0.15.0",
+        "old_code": "index - index2\nindex.diff(index2)"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In pandas ==0.15.0, `diff` is replaced by `difference`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "diff",
+          "target_api": "difference"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "diff",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 3722,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "pandas.core.common.diff",
+                "module": "pandas.core.common",
+                "name": "diff",
+                "kind": "function",
+                "signature": "(arr, n, axis=0)",
+                "qualified_names": [
+                  "pandas.core.common.diff",
+                  "pandas.core.series.Series.diff",
+                  "pandas.core.frame.DataFrame.diff",
+                  "pandas.core.internals.Block.diff",
+                  "pandas.core.internals.BlockManager.diff"
+                ]
+              },
+              {
+                "score": 0.663636,
+                "qualified_name": "pandas.core.index.Index.sym_diff",
+                "module": "pandas.core.index",
+                "name": "sym_diff",
+                "kind": "method",
+                "signature": "(self, other, result_name=None)",
+                "qualified_names": [
+                  "pandas.core.index.Index.sym_diff"
+                ]
+              },
+              {
+                "score": 0.576,
+                "qualified_name": "pandas.tseries.frequencies._FrequencyInferer.mdiffs",
+                "module": "pandas.tseries.frequencies",
+                "name": "mdiffs",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "pandas.tseries.frequencies._FrequencyInferer.mdiffs"
+                ]
+              },
+              {
+                "score": 0.576,
+                "qualified_name": "pandas.tseries.frequencies._FrequencyInferer.ydiffs",
+                "module": "pandas.tseries.frequencies",
+                "name": "ydiffs",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "pandas.tseries.frequencies._FrequencyInferer.ydiffs"
+                ]
+              },
+              {
+                "score": 0.524,
+                "qualified_name": "pandas.core.common._diff_special",
+                "module": "pandas.core.common",
+                "name": "_diff_special",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "pandas.core.common._diff_special"
+                ]
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "doc.sphinxext.numpydoc.compiler_unparse.UnparseCompilerAst._If",
+                "module": "doc.sphinxext.numpydoc.compiler_unparse",
+                "name": "_If",
+                "kind": "method",
+                "signature": "(self, t)",
+                "qualified_names": [
+                  "doc.sphinxext.numpydoc.compiler_unparse.UnparseCompilerAst._If"
+                ]
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "pandas.stats.ols.OLS.df",
+                "module": "pandas.stats.ols",
+                "name": "df",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "pandas.stats.ols.OLS.df",
+                  "pandas.stats.ols.MovingOLS.df"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "doc.sphinxext.numpydoc.compiler_unparse.UnparseCompilerAst._Div",
+                "module": "doc.sphinxext.numpydoc.compiler_unparse",
+                "name": "_Div",
+                "kind": "method",
+                "signature": "(self, t)",
+                "qualified_names": [
+                  "doc.sphinxext.numpydoc.compiler_unparse.UnparseCompilerAst._Div"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "diff",
+        "new_name": "difference",
+        "new_code": "index.difference(index2)",
+        "gold_probe_rank": null
+      },
+      "artifact": {
+        "filename": "pandas-0.15.0.tar.gz",
+        "sha256": "53be655079f978831dbb10c69a7656d3df6de673948896e170f08c3dac957cf0",
+        "symbol_count": 6775
+      }
+    },
+    {
+      "index": 7,
+      "id": "old_to_new_20283",
+      "source_record_sha256": "cf5215a55cef5875893523e9809176b6fda5617fed697700e5dd9d1ac32bfbbd",
+      "public": {
+        "description": "The code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.",
+        "dependency": "pyrsistent",
+        "old_version": "==0.6.1",
+        "new_version": "==0.10.0",
+        "old_code": "Point = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In pyrsistent ==0.10.0, `pclass` is replaced by `immutable`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "pclass",
+          "target_api": "immutable"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "pclass",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 210,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "pyrsistent.PClass",
+                "module": "pyrsistent",
+                "name": "PClass",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "pyrsistent.PClass",
+                  "pyrsistent._pclass.PClass"
+                ]
+              },
+              {
+                "score": 0.54,
+                "qualified_name": "pyrsistent._pclass._PClassMeta",
+                "module": "pyrsistent._pclass",
+                "name": "_PClassMeta",
+                "kind": "class",
+                "signature": "",
+                "qualified_names": [
+                  "pyrsistent._pclass._PClassMeta"
+                ]
+              },
+              {
+                "score": 0.454737,
+                "qualified_name": "pyrsistent._pclass._PClassEvolver",
+                "module": "pyrsistent._pclass",
+                "name": "_PClassEvolver",
+                "kind": "class",
+                "signature": "",
+                "qualified_names": [
+                  "pyrsistent._pclass._PClassEvolver"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "pyrsistent._pdeque.PDeque._pop_lists",
+                "module": "pyrsistent._pdeque",
+                "name": "_pop_lists",
+                "kind": "method",
+                "signature": "(primary_list, secondary_list, count)",
+                "qualified_names": [
+                  "pyrsistent._pdeque.PDeque._pop_lists"
+                ]
+              },
+              {
+                "score": 0.392727,
+                "qualified_name": "pyrsistent.PList",
+                "module": "pyrsistent",
+                "name": "PList",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "pyrsistent.PList",
+                  "pyrsistent._plist.PList"
+                ]
+              },
+              {
+                "score": 0.392727,
+                "qualified_name": "pyrsistent.plist",
+                "module": "pyrsistent",
+                "name": "plist",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "pyrsistent.plist",
+                  "pyrsistent._plist.plist",
+                  "pyrsistent._pdeque.plist"
+                ]
+              },
+              {
+                "score": 0.384,
+                "qualified_name": "pyrsistent._plist._PListBase",
+                "module": "pyrsistent._plist",
+                "name": "_PListBase",
+                "kind": "class",
+                "signature": "",
+                "qualified_names": [
+                  "pyrsistent._plist._PListBase"
+                ]
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "pyrsistent._pdeque.PDeque._tip_from_lists",
+                "module": "pyrsistent._pdeque",
+                "name": "_tip_from_lists",
+                "kind": "method",
+                "signature": "(primary_list, secondary_list)",
+                "qualified_names": [
+                  "pyrsistent._pdeque.PDeque._tip_from_lists"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "pclass",
+        "new_name": "immutable",
+        "new_code": "Point = immutable('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = immutable('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)",
+        "gold_probe_rank": null
+      },
+      "artifact": {
+        "filename": "pyrsistent-0.10.0.tar.gz",
+        "sha256": "9a1c1e62131b80f1f6683ff3d0694be0f60fd9d88f27df5a86bbd877ae9591f0",
+        "symbol_count": 439
+      }
+    },
+    {
+      "index": 8,
+      "id": "old_to_new_20751",
+      "source_record_sha256": "810ecb19f49cf6a805b4b00dd29f3f476caab5c464b992bd048c4955646a14c8",
+      "public": {
+        "description": "Calculate the mean absolute error (MAE) between two tensors x and y.",
+        "dependency": "pytorch-lightning",
+        "old_version": "==0.10.0",
+        "new_version": "==1.0.4",
+        "old_code": "mae = nn.L1Loss(reduction='mean')\nx = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmae_value = mae(x, y)\nprint(mae_value)"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In pytorch-lightning ==1.0.4, `mae` is replaced by `mean_absolute_error`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "mae",
+          "target_api": "mean_absolute_error"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "mae",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": false,
+            "candidate_count": 939,
+            "candidates": [
+              {
+                "score": 0.54,
+                "qualified_name": "domain_templates.semantic_segmentation.Image",
+                "module": "domain_templates.semantic_segmentation",
+                "name": "Image",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "domain_templates.semantic_segmentation.Image"
+                ]
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "trainer.supporters.TensorRunningAccum.max",
+                "module": "trainer.supporters",
+                "name": "max",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "trainer.supporters.TensorRunningAccum.max"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "domain_templates.imagenet.main",
+                "module": "domain_templates.imagenet",
+                "name": "main",
+                "kind": "function",
+                "signature": "(args: Namespace)",
+                "qualified_names": [
+                  "domain_templates.imagenet.main",
+                  "domain_templates.reinforce_learn_Qnet.main",
+                  "domain_templates.semantic_segmentation.main",
+                  "domain_templates.generative_adversarial_net.main",
+                  "domain_templates.computer_vision_fine_tuning.main"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "loggers.base.DummyLogger.name",
+                "module": "loggers.base",
+                "name": "name",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "loggers.base.DummyLogger.name",
+                  "loggers.comet.CometLogger.name",
+                  "loggers.wandb.WandbLogger.name",
+                  "loggers.csv_logs.CSVLogger.name",
+                  "loggers.mlflow.MLFlowLogger.name"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "loggers.csv_logs.CSVLogger.save",
+                "module": "loggers.csv_logs",
+                "name": "save",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "loggers.csv_logs.CSVLogger.save",
+                  "loggers.base.LoggerCollection.save",
+                  "loggers.base.LightningLoggerBase.save",
+                  "loggers.csv_logs.ExperimentWriter.save",
+                  "loggers.tensorboard.TensorBoardLogger.save"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "loggers.mlflow.time",
+                "module": "loggers.mlflow",
+                "name": "time",
+                "kind": "imported_symbol",
+                "signature": "",
+                "qualified_names": [
+                  "loggers.mlflow.time"
+                ]
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "trainer.supporters.Accumulator.mean",
+                "module": "trainer.supporters",
+                "name": "mean",
+                "kind": "method",
+                "signature": "(self)",
+                "qualified_names": [
+                  "trainer.supporters.Accumulator.mean",
+                  "trainer.supporters.TensorRunningAccum.mean"
+                ]
+              },
+              {
+                "score": 0.392727,
+                "qualified_name": "__homepage__",
+                "module": "",
+                "name": "__homepage__",
+                "kind": "value",
+                "signature": "",
+                "qualified_names": [
+                  "__homepage__"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "mae",
+        "new_name": "mean_absolute_error",
+        "new_code": "x = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmean_absolute_error(x, y)\ntensor(0.2500)",
+        "gold_probe_rank": null
+      },
+      "artifact": {
+        "filename": "pytorch_lightning-1.0.4-py3-none-any.whl",
+        "sha256": "59ad7a3f00227d56e218152c034ac7286e19abca7ae2e91a4acccd5dba272cd2",
+        "symbol_count": 2530
+      }
+    }
+  ],
+  "nonclaims": [
+    "The probe is a deterministic target-package symbol search, not active model tool use.",
+    "VersiCode reference code is not an independent behavioral test oracle.",
+    "Rows are sampled unique dependency/name-change families, not independent production migrations.",
+    "The experiment measures this model/configuration and information representation only."
+  ]
+}

@@ -1,0 +1,18 @@
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting test/test_datetimerange.py __________________
+ImportError while importing test module '/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/revive_datetimerange_936761f7/parent/test/test_datetimerange.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test/test_datetimerange.py:14: in <module>
+    from datetimerange import DateTimeRange
+datetimerange/__init__.py:11: in <module>
+    import dataproperty as dp
+E   ModuleNotFoundError: No module named 'dataproperty'
+=========================== short test summary info ============================
+ERROR test/test_datetimerange.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.05s

@@ -1,0 +1,151 @@
+{
+  "schema": "versicode_observability_result_v1",
+  "created_at": "2026-10-21T16:34:28.885607+08:00",
+  "evidence_identity": "DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION",
+  "status": "SETTLED_COMPLETE",
+  "stop_reason": null,
+  "stop_detail": null,
+  "task_count": 8,
+  "arms": {
+    "base": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 0,
+      "old_api_used": 6,
+      "symbol_migration_correct": 0,
+      "accounting_tokens": 2170
+    },
+    "prose_mapping": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 8,
+      "old_api_used": 0,
+      "symbol_migration_correct": 8,
+      "accounting_tokens": 2316
+    },
+    "structured_mapping": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 7,
+      "old_api_used": 1,
+      "symbol_migration_correct": 7,
+      "accounting_tokens": 2305
+    },
+    "probe_evidence": {
+      "attempts": 8,
+      "syntax_valid": 8,
+      "target_api_used": 5,
+      "old_api_used": 2,
+      "symbol_migration_correct": 5,
+      "accounting_tokens": 9126
+    }
+  },
+  "strong_name_rule": {
+    "attempts": 8,
+    "symbol_migration_correct": 4,
+    "rows": [
+      {
+        "task_id": "old_to_new_1",
+        "selected_name": "result_callback",
+        "gold_probe_rank": 1,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": true,
+          "old_api_used": false,
+          "symbol_migration_correct": true
+        }
+      },
+      {
+        "task_id": "old_to_new_261",
+        "selected_name": "resolve_pattern",
+        "gold_probe_rank": 1,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": true,
+          "old_api_used": false,
+          "symbol_migration_correct": true
+        }
+      },
+      {
+        "task_id": "old_to_new_748",
+        "selected_name": "unpack_rgb",
+        "gold_probe_rank": 1,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": true,
+          "old_api_used": false,
+          "symbol_migration_correct": true
+        }
+      },
+      {
+        "task_id": "old_to_new_3276",
+        "selected_name": "_strip_rst_role",
+        "gold_probe_rank": 1,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": true,
+          "old_api_used": false,
+          "symbol_migration_correct": true
+        }
+      },
+      {
+        "task_id": "old_to_new_3517",
+        "selected_name": "soft_unicode",
+        "gold_probe_rank": 2,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": false,
+          "old_api_used": true,
+          "symbol_migration_correct": false
+        }
+      },
+      {
+        "task_id": "old_to_new_15048",
+        "selected_name": "diff",
+        "gold_probe_rank": null,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": false,
+          "old_api_used": true,
+          "symbol_migration_correct": false
+        }
+      },
+      {
+        "task_id": "old_to_new_20283",
+        "selected_name": "PClass",
+        "gold_probe_rank": null,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": false,
+          "old_api_used": false,
+          "symbol_migration_correct": false
+        }
+      },
+      {
+        "task_id": "old_to_new_20751",
+        "selected_name": "Image",
+        "gold_probe_rank": null,
+        "evaluation": {
+          "syntax_valid": true,
+          "syntax_error": null,
+          "target_api_used": false,
+          "old_api_used": false,
+          "symbol_migration_correct": false
+        }
+      }
+    ]
+  },
+  "interpretation_scope": [
+    "Primary metric is exact hidden target-symbol replacement with old-symbol removal and syntactic validity.",
+    "No behavioral execution oracle is claimed for VersiCode.",
+    "PROSE_MAPPING and STRUCTURED_MAPPING receive the same mapping facts in different representations.",
+    "PROBE_EVIDENCE receives lower-answer target symbol candidates computed without the hidden target name."
+  ]
+}

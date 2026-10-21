@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"soft_unicode\",\n  \"target_api\": \"soft_str\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

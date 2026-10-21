@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"from datasets.data_files import resolve_pattern\\n\\nbase_path = \\\".\\\"\\nresolve_pattern(\\\"src/**/*.yaml\\\", base_path)\"\n}"
+      }
+    }
+  ],
+  "created": 1792571632,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 36,
+    "prompt_tokens": 1114,
+    "total_tokens": 1150,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-H1tDKRzFuBgwGlwx6iVvbC5NvWyj6hgF",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 1114,
+    "prompt_ms": 672.883,
+    "prompt_per_token_ms": 0.604024236983842,
+    "prompt_per_second": 1655.5627055520795,
+    "predicted_n": 36,
+    "predicted_ms": 558.983,
+    "predicted_per_token_ms": 15.527305555555554,
+    "predicted_per_second": 64.40267414214745
+  }
+}

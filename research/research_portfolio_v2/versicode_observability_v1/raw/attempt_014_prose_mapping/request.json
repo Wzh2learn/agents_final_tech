@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In jedi ==0.8.1, `_strip_rest_role` is replaced by `_strip_rst_role`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

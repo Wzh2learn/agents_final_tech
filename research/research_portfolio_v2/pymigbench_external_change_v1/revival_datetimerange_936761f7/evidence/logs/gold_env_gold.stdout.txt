@@ -1,0 +1,630 @@
+.........FF...................................................FF........ [ 42%]
+.....................................................FF.....FF.......... [ 85%]
+........................                                                 [100%]
+=================================== FAILURES ===================================
+_ Test_DateTimeRange_repr.test_daylight_saving_time[2015-03-08T00:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-03-08T12:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300] _
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+>           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+>       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = <test_datetimerange.Test_DateTimeRange_repr object at 0xf148ff34d550>
+start = '2015-03-08T00:00:00-0400', start_format = '%Y-%m-%dT%H:%M:%S%z'
+end = '2015-03-08T12:00:00-0400', end_format = '%Y-%m-%dT%H:%M:%S%z'
+expected = '2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300'
+
+    @pytest.mark.parametrize(
+        [
+            "start", "start_format",
+            "end", "end_format",
+            "expected"
+        ],
+        [
+            [
+                "2015-03-08T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300"
+            ],
+            [
+                "2015-11-01T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400"
+            ],
+        ])
+    def test_daylight_saving_time(
+            self, start, start_format, end, end_format, expected):
+>       dtr = DateTimeRange(start, end, start_format, end_format)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+>           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError
+_ Test_DateTimeRange_repr.test_daylight_saving_time[2015-11-01T00:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-11-01T12:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400] _
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+>           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+>       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = <test_datetimerange.Test_DateTimeRange_repr object at 0xf148ff34d670>
+start = '2015-11-01T00:00:00-0400', start_format = '%Y-%m-%dT%H:%M:%S%z'
+end = '2015-11-01T12:00:00-0400', end_format = '%Y-%m-%dT%H:%M:%S%z'
+expected = '2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400'
+
+    @pytest.mark.parametrize(
+        [
+            "start", "start_format",
+            "end", "end_format",
+            "expected"
+        ],
+        [
+            [
+                "2015-03-08T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300"
+            ],
+            [
+                "2015-11-01T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400"
+            ],
+        ])
+    def test_daylight_saving_time(
+            self, start, start_format, end, end_format, expected):
+>       dtr = DateTimeRange(start, end, start_format, end_format)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+>           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError
+_ Test_DateTimeRange_timedelta.test_daylight_saving_time[2015-03-08T00:00:00-0400-2015-03-08T12:00:00-0400-expected0] _
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+>           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+>       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = <test_datetimerange.Test_DateTimeRange_timedelta object at 0xf148ff34ee70>
+start = '2015-03-08T00:00:00-0400', end = '2015-03-08T12:00:00-0400'
+expected = datetime.timedelta(seconds=39600)
+
+    @pytest.mark.parametrize(["start", "end", "expected"], [
+        [
+            "2015-03-08T00:00:00-0400",
+            "2015-03-08T12:00:00-0400",
+            datetime.timedelta(0, 39600)  # 11 hours
+        ],
+        [
+            "2015-11-01T00:00:00-0400",
+            "2015-11-01T12:00:00-0400",
+            datetime.timedelta(0, 46800)  # 13 hours
+        ],
+    ])
+    def test_daylight_saving_time(self, start, end, expected):
+>       dtr = DateTimeRange(start, end)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+>           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError
+_ Test_DateTimeRange_timedelta.test_daylight_saving_time[2015-11-01T00:00:00-0400-2015-11-01T12:00:00-0400-expected1] _
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+>           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+>       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = <test_datetimerange.Test_DateTimeRange_timedelta object at 0xf148ff34ede0>
+start = '2015-11-01T00:00:00-0400', end = '2015-11-01T12:00:00-0400'
+expected = datetime.timedelta(seconds=46800)
+
+    @pytest.mark.parametrize(["start", "end", "expected"], [
+        [
+            "2015-03-08T00:00:00-0400",
+            "2015-03-08T12:00:00-0400",
+            datetime.timedelta(0, 39600)  # 11 hours
+        ],
+        [
+            "2015-11-01T00:00:00-0400",
+            "2015-11-01T12:00:00-0400",
+            datetime.timedelta(0, 46800)  # 13 hours
+        ],
+    ])
+    def test_daylight_saving_time(self, start, end, expected):
+>       dtr = DateTimeRange(start, end)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+>           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError
+___ Test_DateTimeRange_set_start_datetime.test_normal[1485685623-expected2] ____
+
+self = <test_datetimerange.Test_DateTimeRange_set_start_datetime object at 0xf148ff4182c0>
+value = 1485685623, expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_start_datetime(value)
+>       assert dtr.start_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2017-01-29T18:27:03 - 2015-03-22T10:10:00+0900.start_datetime
+
+test/test_datetimerange.py:842: AssertionError
+___ Test_DateTimeRange_set_start_datetime.test_normal[1485685623-expected3] ____
+
+self = <test_datetimerange.Test_DateTimeRange_set_start_datetime object at 0xf148ff418380>
+value = '1485685623', expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_start_datetime(value)
+>       assert dtr.start_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2017-01-29T18:27:03 - 2015-03-22T10:10:00+0900.start_datetime
+
+test/test_datetimerange.py:842: AssertionError
+____ Test_DateTimeRange_set_end_datetime.test_normal[1485685623-expected2] _____
+
+self = <test_datetimerange.Test_DateTimeRange_set_end_datetime object at 0xf148ff4029c0>
+value = 1485685623, expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_end_datetime(value)
+>       assert dtr.end_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2015-03-22T10:10:00+0900 - 2017-01-29T18:27:03.end_datetime
+
+test/test_datetimerange.py:865: AssertionError
+____ Test_DateTimeRange_set_end_datetime.test_normal[1485685623-expected3] _____
+
+self = <test_datetimerange.Test_DateTimeRange_set_end_datetime object at 0xf148ff402570>
+value = '1485685623', expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_end_datetime(value)
+>       assert dtr.end_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2015-03-22T10:10:00+0900 - 2017-01-29T18:27:03.end_datetime
+
+test/test_datetimerange.py:865: AssertionError
+=========================== short test summary info ============================
+FAILED test/test_datetimerange.py::Test_DateTimeRange_repr::test_daylight_saving_time[2015-03-08T00:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-03-08T12:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_repr::test_daylight_saving_time[2015-11-01T00:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-11-01T12:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_timedelta::test_daylight_saving_time[2015-03-08T00:00:00-0400-2015-03-08T12:00:00-0400-expected0]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_timedelta::test_daylight_saving_time[2015-11-01T00:00:00-0400-2015-11-01T12:00:00-0400-expected1]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_set_start_datetime::test_normal[1485685623-expected2]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_set_start_datetime::test_normal[1485685623-expected3]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_set_end_datetime::test_normal[1485685623-expected2]
+FAILED test/test_datetimerange.py::Test_DateTimeRange_set_end_datetime::test_normal[1485685623-expected3]
+8 failed, 160 passed, 1 warning in 0.21s

@@ -1,0 +1,29 @@
+{
+  "schema": "versicode_observability_spec_v1",
+  "experiment_id": "VERSICODE_OBSERVABILITY_V1_20261021",
+  "pre_model_revision": 2,
+  "goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
+  "date": "2026-10-21",
+  "model": {
+    "id": "llama_cpp_qwen36_35b_a3b_q4",
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "models_endpoint": "http://127.0.0.1:8004/v1/models",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  },
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "timeout_seconds": 120,
+    "response_format": "json_object",
+    "enable_thinking": false
+  },
+  "global_limits": {
+    "reserved_attempts": 32,
+    "reserved_accounting_tokens": 80000,
+    "retry_cap": 0,
+    "concurrency": 1
+  },
+  "reservation_id": "VERSICODE_OBSERVABILITY_V1_20261021",
+  "evidence_identity": "DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION"
+}

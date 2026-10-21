@@ -44,6 +44,23 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
   difference `-3`, with 1 versus 4 `test_failure`. Ruling:
   `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`. This strengthens the bounded
   negative but remains same-source synthetic evidence.
+- External-source qualification selects PyMigBench as the stronger real-change
+  source because it binds actual repositories and full commit SHAs. VersiCode
+  is useful for version-change observability, but its 49,346 editing rows
+  collapse to 85 code pairs and contain no behavioral oracle.
+- VersiCode observability pilot: eight real name-change families, four
+  information conditions and 32 frozen requests. BASE `0/8`, direct prose
+  mapping `8/8`, the same mapping as structured fields `7/8`, and target
+  package symbol probes `5/8`. The probe used about `4x` BASE tokens and was
+  dominated by direct mapping. The one prose/structured discordance is a
+  case-level observation, not representation superiority.
+- PyMigBench bounded curation attempted 36 real commits with zero model calls
+  and zero environment retries. No task produced a passing gold behavioral
+  oracle. A dependency-aware single-task revival of `thombashi/datetimerange`
+  reached `160 passed / 8 failed` at gold and failed parent collection under
+  both declared environments. Ruling:
+  `ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT`, not a source or hypothesis
+  rejection.
 
 ## 3. Evidence Identity
 
@@ -55,6 +72,10 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
 - `INVALID_HARNESS_REPLAY`: CodeUpdateArena V1 execution interpretation.
 - `POST_HOC_EXECUTION_REVALIDATION_PUBLIC_SYNTHETIC`: CodeUpdateArena V2
   execution of the 16 frozen V1 generations, with zero new model calls.
+- `DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION`: VersiCode
+  syntax/name migration and information-representation observations only.
+- `PUBLIC_REAL_COMMIT_METADATA_AND_LOCAL_TEST_CURATION`: PyMigBench metadata,
+  repository checkout and JUnit evidence; no model calls.
 - Oracle-assisted material is labelled separately and is not actor input.
 
 ## 4. Governance And Recovery
@@ -72,6 +93,10 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
 - Runtime, caches and external source archives were not dumped into Git as
   research truth. CodeUpdateArena source is pinned at
   `836e2d157739fd53f9cde421913eb5949d4eeeb8` with license/data hashes.
+- VersiCode and PyMigBench are pinned at
+  `8a53b9938707deb4c8398152e9ebc923580783a3` and
+  `d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b`. Source qualification and
+  license caveats are in `EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md`.
 - Remaining recoverable differences are the local dirty main worktree, the
   protected GB10 VGMC branch material, and the temporary verification worktree.
   No `reset --hard`, forced main update or full-tree clean was used.
@@ -80,23 +105,26 @@ Status: `COMPLETED_WITH_BOUNDED_NEGATIVE_AND_CONTINUE_RECOMMENDATION`
 
 | Category | Attempts / calls | Accounting tokens |
 |---|---:|---:|
-| New generation POST | 66 | 28,693 |
+| New generation POST | 98 | 44,610 |
 | Model identity GET | 4 | not token-billed |
 | CodeUpdateArena V1 hidden-test Docker programs | 100 | offline |
 | CodeUpdateArena V2 revalidation iterations | 300 | offline |
 | CodeUpdateArena independent confirmation | 96 | offline |
 | Final V3 bound replay | 450 policy episodes / 1,215 policy-tool calls | offline |
+| of which VersiCode observability generation | 32 | 15,917 |
+| PyMigBench commit curation | 36 candidate commits | offline |
+| PyMigBench single-task revival | 3 test runs | offline |
 | Judge / training / paid API / production Memory | 0 | 0 |
 
 Historical ledgers remain separate: 747 attempts / 1,564,176 tokens and 313
-attempts / 324,086 tokens. New generation budget usage is `66/2048` attempts
-and `28,693/10,000,000` tokens.
+attempts / 324,086 tokens. New generation budget usage is `98/2048` attempts
+and `44,610/10,000,000` tokens.
 
 ## 6. Next Experiment
 
-Do not rerun the same authored fixtures or the same prose-update comparison.
-The next information-bearing experiment should test structured preconditions
-or executable checks on a different external source, with the same strict
-execution validity gate. If no such source or reference is available, retain
-the replicated bounded negative and stop this candidate rather than spending
-the remaining budget on repeated prompts.
+Do not rerun VersiCode, CodeUpdateArena or the same prose-update comparison.
+The next information-bearing experiment is a PyMigBench behavioral task only
+after one source revision has an exact Python, package-lock, tzdata, timezone
+and test-command contract and its gold commit passes all tests before model
+calls. If that minimal environment freeze cannot be established, stop the
+behavioral external-change candidate and keep the current bounded conclusions.

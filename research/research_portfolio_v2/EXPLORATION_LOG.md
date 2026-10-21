@@ -2,7 +2,7 @@
 
 Goal: `RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2`
 Started: 2026-10-21, Asia/Shanghai
-Status: `S0_ACTIVE`
+Status: `S3_EXTERNAL_CHANGE_ACTIVE`
 
 This is the concise execution log for the current Goal. It does not replace
 `memory/STATE.md`, `memory/THREADS.md`, or `docs/research/README.md`.
@@ -134,13 +134,60 @@ This is the concise execution log for the current Goal. It does not replace
   and `33/48`. The paired difference is `-3`, with 1 versus 4 `test_failure`.
 - Ruling: `BOUNDED_NEGATIVE_REPLICATED_NEW_FAMILIES`. This strengthens the
   bounded negative but remains same-source synthetic evidence.
-- Cumulative new accounting is `66/2048` attempts and `28,693/10,000,000`
+- At this checkpoint, cumulative new accounting was `66/2048` attempts and `28,693/10,000,000`
   tokens. The next comparison should use structured preconditions or
   executable checks, not another prose-only update arm.
 
+## External Change Source Qualification
+
+- VersiCode is pinned at `8a53b9938707deb4c8398152e9ebc923580783a3`.
+  Its editing payload has 49,346 rows per direction but only 85 unique code
+  pairs and only `name_change` records. It is qualified for observability
+  ablation, not behavioral correctness.
+- PyMigBench is pinned at `d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b`.
+  It has real repository/full-commit migration records and structured change
+  metadata, making it the preferred behavioral source after executable task
+  qualification.
+- Independent source review and license/provenance limits are in
+  `EXTERNAL_CHANGE_SOURCE_INDEPENDENT_REVIEW.md`.
+
+## VersiCode Observability Pilot
+
+- A pre-model review found exact gold-code substring leakage in one task. That
+  task was removed, the validator was strengthened, and revision 3 passed the
+  targeted re-review before any model request.
+- The frozen run used eight unique dependency/name-change families and four
+  arms: BASE, prose mapping, structured mapping and target-package probe
+  evidence. There were 32 requests, zero retries and 15,917 accounting tokens.
+- Correct symbol migrations were BASE `0/8`, prose `8/8`, structured `7/8`
+  and probe `5/8`. The deterministic nearest-name rule was `4/8`.
+- Probe evidence succeeded exactly when the target symbol appeared in the top
+  candidates and cost about `4x` BASE tokens. Direct mapping dominated it in
+  both accuracy and cost.
+- The single prose/structured discordance is not evidence that prose is
+  generally superior. VersiCode has no behavioral execution oracle; the result
+  is limited to syntax and hidden target/old symbol use.
+- Independent post-run review reproduced all 32 raw outcomes and token totals.
+
+## PyMigBench Behavioral Curation
+
+- A bounded 36-commit curation used zero model calls and zero failed-environment
+  retries. It retained zero tasks because no gold revision reached a valid
+  all-tests-pass behavioral oracle.
+- A one-task dependency-aware revival of `thombashi/datetimerange` ran parent
+  and gold exactly once. Parent collection failed on a historical
+  `DataProperty` API mismatch; gold produced `160 passed / 8 failed` because
+  tzdata and timezone semantics were not fixed by the declared environment.
+- Ruling: `ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT`. Do not repair the
+  environment after observing failures. The next task must freeze Python,
+  package locks, tzdata, timezone and tests before model calls.
+- Cumulative new accounting is `98/2048` attempts and
+  `44,610/10,000,000` tokens.
+
 ## Next Actions
 
-1. Complete three-way governance comparison and safe local integration.
-2. Produce one canonical Paper E manuscript and author-level disposition.
-3. Qualify and run the adaptive-revalidation thin environment, beginning
-   with action-loss-focused active checking and local revalidation.
+1. Freeze one PyMigBench task environment end to end and require gold
+   all-tests-pass before any behavioral model request.
+2. Keep VersiCode as a bounded nonbehavioral observability pilot; do not rerun
+   its four arms.
+3. Preserve Paper E, FinRank and MA-CERD rulings unchanged.

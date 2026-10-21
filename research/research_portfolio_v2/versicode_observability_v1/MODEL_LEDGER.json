@@ -1,0 +1,756 @@
+{
+  "schema": "versicode_observability_model_ledger_v1",
+  "started_at": "2026-10-21T16:33:43.088872+08:00",
+  "finished_at": "2026-10-21T16:34:28.885589+08:00",
+  "identity": {
+    "expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "observed": [
+      "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+    ],
+    "status": "MATCH"
+  },
+  "status": "SETTLED_COMPLETE",
+  "stop_reason": null,
+  "stop_detail": null,
+  "attempts_used": 32,
+  "physical_http_calls": 32,
+  "accounting_tokens_used": 15917,
+  "rows": [
+    {
+      "attempt_index": 1,
+      "task_id": "old_to_new_1",
+      "arm": "base",
+      "request_sha256": "759627a31597749eb62e61a5e2ba41581bcd238a5e10cd818163932f2e1ca2a0",
+      "raw_request": "raw/attempt_001_base/request.json",
+      "raw_response": "raw/attempt_001_base/response.json",
+      "usage": {
+        "prompt_tokens": 221,
+        "completion_tokens": 58,
+        "total_tokens": 279
+      },
+      "latency_seconds": 1.2237603794783354,
+      "code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 2,
+      "task_id": "old_to_new_1",
+      "arm": "prose_mapping",
+      "request_sha256": "db6d1cd2b4cd7b5da6f2ff1bb23842a8637f63227e79b7aae16fb64656c53d25",
+      "raw_request": "raw/attempt_002_prose_mapping/request.json",
+      "raw_response": "raw/attempt_002_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 251,
+        "completion_tokens": 53,
+        "total_tokens": 304
+      },
+      "latency_seconds": 1.0423210877925158,
+      "code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.result_callback()\ndef process_result(result, input):\n    return result + input",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 3,
+      "task_id": "old_to_new_1",
+      "arm": "structured_mapping",
+      "request_sha256": "d22963ec323ce4ff53e6d15fe07cc1974c75a1fed4e813d9bef35cf57d1dbddc",
+      "raw_request": "raw/attempt_003_structured_mapping/request.json",
+      "raw_response": "raw/attempt_003_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 253,
+        "completion_tokens": 59,
+        "total_tokens": 312
+      },
+      "latency_seconds": 1.1307812929153442,
+      "code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.result_callback()\ndef process_result(result, input):\n    return result + input\n",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 4,
+      "task_id": "old_to_new_1",
+      "arm": "probe_evidence",
+      "request_sha256": "369b52f725e7beb7f155b4187c7b4ba35d643e9978c5411f36cf13ce474fe536",
+      "raw_request": "raw/attempt_004_probe_evidence/request.json",
+      "raw_response": "raw/attempt_004_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 1009,
+        "completion_tokens": 59,
+        "total_tokens": 1068
+      },
+      "latency_seconds": 1.506762707605958,
+      "code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.result_callback()\ndef process_result(result, input):\n    return result + input\n",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 5,
+      "task_id": "old_to_new_261",
+      "arm": "base",
+      "request_sha256": "29b1da24399e8508180da919e6a22c174d6bfb45ea0e4bb1c846ea726d16d95b",
+      "raw_request": "raw/attempt_005_base/request.json",
+      "raw_response": "raw/attempt_005_base/response.json",
+      "usage": {
+        "prompt_tokens": 169,
+        "completion_tokens": 63,
+        "total_tokens": 232
+      },
+      "latency_seconds": 1.2623062916100025,
+      "code": "from datasets import DataFilesPatternsResolver\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls = DataFilesPatternsResolver.resolve_patterns_locally_or_by_urls\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 6,
+      "task_id": "old_to_new_261",
+      "arm": "prose_mapping",
+      "request_sha256": "f3640ca1eb6957b7b1610da67fd90703e5071871cc068af0bf2f8ae035411621",
+      "raw_request": "raw/attempt_006_prose_mapping/request.json",
+      "raw_response": "raw/attempt_006_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 205,
+        "completion_tokens": 35,
+        "total_tokens": 240
+      },
+      "latency_seconds": 0.7310417350381613,
+      "code": "from datasets.data_files import resolve_pattern\n\nbase_path = \".\"\nresolve_pattern(base_path, [\"src/**/*.yaml\"])\n",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 7,
+      "task_id": "old_to_new_261",
+      "arm": "structured_mapping",
+      "request_sha256": "cc11df5eeff00a1e48375b1865228889360ae58e1b6ac3c7e519062e926d7c8e",
+      "raw_request": "raw/attempt_007_structured_mapping/request.json",
+      "raw_response": "raw/attempt_007_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 206,
+        "completion_tokens": 38,
+        "total_tokens": 244
+      },
+      "latency_seconds": 0.7793816905468702,
+      "code": "from datasets.data_files import resolve_pattern\n\nbase_path = \".\"\nresolve_pattern(base_path, [\"src/**/*.yaml\"])",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 8,
+      "task_id": "old_to_new_261",
+      "arm": "probe_evidence",
+      "request_sha256": "f9a8831361ed5ed4ab18e415f4e65462c7610e6862b1bf772281775ec7f9fa50",
+      "raw_request": "raw/attempt_008_probe_evidence/request.json",
+      "raw_response": "raw/attempt_008_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 1114,
+        "completion_tokens": 36,
+        "total_tokens": 1150
+      },
+      "latency_seconds": 1.3257939256727695,
+      "code": "from datasets.data_files import resolve_pattern\n\nbase_path = \".\"\nresolve_pattern(\"src/**/*.yaml\", base_path)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 9,
+      "task_id": "old_to_new_748",
+      "arm": "base",
+      "request_sha256": "714928a3575c201980757c5951a99573f09ca2f94fb07838565db28d6a639de1",
+      "raw_request": "raw/attempt_009_base/request.json",
+      "raw_response": "raw/attempt_009_base/response.json",
+      "usage": {
+        "prompt_tokens": 213,
+        "completion_tokens": 116,
+        "total_tokens": 329
+      },
+      "latency_seconds": 2.138504683971405,
+      "code": "import imageio\nimport struct\n\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(imageio.core.util.unpackrgb(data, '<B', (5, 6, 5), False))\nprint(imageio.core.util.unpackrgb(data, '<B', (5, 6, 5)))\nprint(imageio.core.util.unpackrgb(data, '<B', (5, 5, 5)))",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 10,
+      "task_id": "old_to_new_748",
+      "arm": "prose_mapping",
+      "request_sha256": "5ef0498aaa2fe4778211532d47d09dafbc3adde2c396caaaa0f04534b3b4d071",
+      "raw_request": "raw/attempt_010_prose_mapping/request.json",
+      "raw_response": "raw/attempt_010_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 242,
+        "completion_tokens": 94,
+        "total_tokens": 336
+      },
+      "latency_seconds": 1.737758019939065,
+      "code": "data = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpack_rgb(data, '<B', (5, 6, 5), False))\nprint(unpack_rgb(data, '<B', (5, 6, 5)))\nprint(unpack_rgb(data, '<B', (5, 5, 5)))",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 11,
+      "task_id": "old_to_new_748",
+      "arm": "structured_mapping",
+      "request_sha256": "d9b50f3814a1a4ec37822df0b71ff0c6dccaab57b0b99d0c098a9a0da3335080",
+      "raw_request": "raw/attempt_011_structured_mapping/request.json",
+      "raw_response": "raw/attempt_011_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 245,
+        "completion_tokens": 105,
+        "total_tokens": 350
+      },
+      "latency_seconds": 1.906262507662177,
+      "code": "import imageio\nimport struct\n\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(imageio.unpack_rgb(data, '<B', (5, 6, 5), False))\nprint(imageio.unpack_rgb(data, '<B', (5, 6, 5)))\nprint(imageio.unpack_rgb(data, '<B', (5, 5, 5)))",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 12,
+      "task_id": "old_to_new_748",
+      "arm": "probe_evidence",
+      "request_sha256": "614a55d2951bd2e6b2047c4d639c3a27b17e84b90f166cd56d8094d44212df29",
+      "raw_request": "raw/attempt_012_probe_evidence/request.json",
+      "raw_response": "raw/attempt_012_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 1090,
+        "completion_tokens": 115,
+        "total_tokens": 1205
+      },
+      "latency_seconds": 2.5881221015006304,
+      "code": "import struct\nfrom imageio.plugins._tifffile import unpack_rgb\n\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpack_rgb(data, '<B', (5, 6, 5), False))\nprint(unpack_rgb(data, '<B', (5, 6, 5)))\nprint(unpack_rgb(data, '<B', (5, 5, 5)))",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 13,
+      "task_id": "old_to_new_3276",
+      "arm": "base",
+      "request_sha256": "4a4f3ca4cef26b1075fee7fa80d091cb15a06af0e1ffa08dd055a62a1b0b6fa4",
+      "raw_request": "raw/attempt_013_base/request.json",
+      "raw_response": "raw/attempt_013_base/response.json",
+      "usage": {
+        "prompt_tokens": 157,
+        "completion_tokens": 77,
+        "total_tokens": 234
+      },
+      "latency_seconds": 1.496746014803648,
+      "code": "def _strip_rest_role(text):\n    if text.startswith(':') and '`' in text:\n        return text.split('`')[1]\n    return text\n\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 14,
+      "task_id": "old_to_new_3276",
+      "arm": "prose_mapping",
+      "request_sha256": "421df6cd3e78d56551d72879705a6030e80cb2e5954deb0f4beb38d5f198f162",
+      "raw_request": "raw/attempt_014_prose_mapping/request.json",
+      "raw_response": "raw/attempt_014_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 191,
+        "completion_tokens": 40,
+        "total_tokens": 231
+      },
+      "latency_seconds": 0.8421701658517122,
+      "code": "_strip_rst_role(':class:`ClassName`')\n_strip_rst_role(':py:obj:`module.Object`')\n_strip_rst_role('ClassName')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 15,
+      "task_id": "old_to_new_3276",
+      "arm": "structured_mapping",
+      "request_sha256": "9e6e95a4644357196e20406462fb627a59c33c60d160d5f48dfd0c3fba967d0c",
+      "raw_request": "raw/attempt_015_structured_mapping/request.json",
+      "raw_response": "raw/attempt_015_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 192,
+        "completion_tokens": 40,
+        "total_tokens": 232
+      },
+      "latency_seconds": 0.8802471347153187,
+      "code": "_strip_rst_role(':class:`ClassName`')\n_strip_rst_role(':py:obj:`module.Object`')\n_strip_rst_role('ClassName')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 16,
+      "task_id": "old_to_new_3276",
+      "arm": "probe_evidence",
+      "request_sha256": "cbd7a0e8a5157da7d1ac8a144c6a39f218946236bd75012b704d96c699284188",
+      "raw_request": "raw/attempt_016_probe_evidence/request.json",
+      "raw_response": "raw/attempt_016_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 997,
+        "completion_tokens": 53,
+        "total_tokens": 1050
+      },
+      "latency_seconds": 1.4398692231625319,
+      "code": "from jedi.evaluate.docstrings import _strip_rst_role\n_strip_rst_role(':class:`ClassName`')\n_strip_rst_role(':py:obj:`module.Object`')\n_strip_rst_role('ClassName')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 17,
+      "task_id": "old_to_new_3517",
+      "arm": "base",
+      "request_sha256": "a786e7a3e8c983ff7f09e0191fe3e1545bb627bd13da98e357de7f235a55120d",
+      "raw_request": "raw/attempt_017_base/request.json",
+      "raw_response": "raw/attempt_017_base/response.json",
+      "usage": {
+        "prompt_tokens": 186,
+        "completion_tokens": 82,
+        "total_tokens": 268
+      },
+      "latency_seconds": 1.5943364575505257,
+      "code": "from markupsafe import escape, Markup\n\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(str(value))\nMarkup('&lt;User 1&gt;')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": false,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 18,
+      "task_id": "old_to_new_3517",
+      "arm": "prose_mapping",
+      "request_sha256": "e06cde4fcbaea6d1c28acee76cabf6318cb43c83ca8c7e12d1196303b117ae1d",
+      "raw_request": "raw/attempt_018_prose_mapping/request.json",
+      "raw_response": "raw/attempt_018_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 217,
+        "completion_tokens": 87,
+        "total_tokens": 304
+      },
+      "latency_seconds": 1.6144644524902105,
+      "code": "from markupsafe import escape, Markup, soft_str\n\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_str(value))\nMarkup('&lt;User 1&gt;')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 19,
+      "task_id": "old_to_new_3517",
+      "arm": "structured_mapping",
+      "request_sha256": "70ce38f38af2ddfd6a3e9ece11bdc555056293d3ecd9aa9e6d16a358004d5d98",
+      "raw_request": "raw/attempt_019_structured_mapping/request.json",
+      "raw_response": "raw/attempt_019_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 218,
+        "completion_tokens": 74,
+        "total_tokens": 292
+      },
+      "latency_seconds": 1.4187290165573359,
+      "code": "value = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_str(value))\nMarkup('&lt;User 1&gt;')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 20,
+      "task_id": "old_to_new_3517",
+      "arm": "probe_evidence",
+      "request_sha256": "6726442d918c9f24c53d2425ec8a0f842a06765951a7280197d996572e495e1f",
+      "raw_request": "raw/attempt_020_probe_evidence/request.json",
+      "raw_response": "raw/attempt_020_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 985,
+        "completion_tokens": 74,
+        "total_tokens": 1059
+      },
+      "latency_seconds": 1.7800744138658047,
+      "code": "value = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_str(value))\nMarkup('&lt;User 1&gt;')",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 21,
+      "task_id": "old_to_new_15048",
+      "arm": "base",
+      "request_sha256": "50e25e6d0069fea31aee7001d637d88b2d2b09d83b4c044b6c64fcccf307cef0",
+      "raw_request": "raw/attempt_021_base/request.json",
+      "raw_response": "raw/attempt_021_base/response.json",
+      "usage": {
+        "prompt_tokens": 136,
+        "completion_tokens": 16,
+        "total_tokens": 152
+      },
+      "latency_seconds": 0.5187984276562929,
+      "code": "index - index2\nindex.diff(index2)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 22,
+      "task_id": "old_to_new_15048",
+      "arm": "prose_mapping",
+      "request_sha256": "52e41bbd628eed5a84fd4f709b9cf757990d50d9ac24ec90f5fb2d246ae40f22",
+      "raw_request": "raw/attempt_022_prose_mapping/request.json",
+      "raw_response": "raw/attempt_022_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 165,
+        "completion_tokens": 17,
+        "total_tokens": 182
+      },
+      "latency_seconds": 0.42935689724981785,
+      "code": "index - index2\nindex.difference(index2)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 23,
+      "task_id": "old_to_new_15048",
+      "arm": "structured_mapping",
+      "request_sha256": "4938a45615c7d915013d79dcf8ba012fef5cb821d4b4811c0dbb3d6440163c82",
+      "raw_request": "raw/attempt_023_structured_mapping/request.json",
+      "raw_response": "raw/attempt_023_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 166,
+        "completion_tokens": 17,
+        "total_tokens": 183
+      },
+      "latency_seconds": 0.5034722816199064,
+      "code": "index - index2\nindex.difference(index2)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 24,
+      "task_id": "old_to_new_15048",
+      "arm": "probe_evidence",
+      "request_sha256": "bdab2e9b2ebe4ad7f0b7ffb7af97c323ed495c7d3f91bde46d94e3770c8408d4",
+      "raw_request": "raw/attempt_024_probe_evidence/request.json",
+      "raw_response": "raw/attempt_024_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 1076,
+        "completion_tokens": 11,
+        "total_tokens": 1087
+      },
+      "latency_seconds": 0.909769743680954,
+      "code": "index.diff(index2)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 25,
+      "task_id": "old_to_new_20283",
+      "arm": "base",
+      "request_sha256": "f3956e498ecdb4baef7523f138d47f4a24b2470feada7125495ae626cdf9fba7",
+      "raw_request": "raw/attempt_025_base/request.json",
+      "raw_response": "raw/attempt_025_base/response.json",
+      "usage": {
+        "prompt_tokens": 272,
+        "completion_tokens": 129,
+        "total_tokens": 401
+      },
+      "latency_seconds": 2.333637535572052,
+      "code": "from pyrsistent import PClass, field\n\nclass Point(PClass):\n    x = field()\n    y = field()\n\np = Point(x=1, y=2)\n\np2 = p.set(x=3)\n\nclass Point(PClass):\n    x = field()\n    y = field()\n    id_ = field()\n\np = Point(x=1, y=2, id_=17)\n\np = p.set(x=3)\n\np = p.set(id_=18)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": false,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 26,
+      "task_id": "old_to_new_20283",
+      "arm": "prose_mapping",
+      "request_sha256": "231a95fb11f2fcccc2d2fc31ea84585eccb7e57c8c9ff9def0206b577859f98f",
+      "raw_request": "raw/attempt_026_prose_mapping/request.json",
+      "raw_response": "raw/attempt_026_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 304,
+        "completion_tokens": 103,
+        "total_tokens": 407
+      },
+      "latency_seconds": 1.8279629293829203,
+      "code": "from pyrsistent import immutable\n\nPoint = immutable('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = immutable('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 27,
+      "task_id": "old_to_new_20283",
+      "arm": "structured_mapping",
+      "request_sha256": "a360f76c2ba15e1b8c285e0f0ec8173ab52225796d6422b6908bf964a3ea7527",
+      "raw_request": "raw/attempt_027_structured_mapping/request.json",
+      "raw_response": "raw/attempt_027_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 303,
+        "completion_tokens": 91,
+        "total_tokens": 394
+      },
+      "latency_seconds": 1.649342680349946,
+      "code": "Point = immutable('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = immutable('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 28,
+      "task_id": "old_to_new_20283",
+      "arm": "probe_evidence",
+      "request_sha256": "a04f5f413e06cf82b0127f01b688fd5f01ef641de6e8e18e240354a6dfb8fe11",
+      "raw_request": "raw/attempt_028_probe_evidence/request.json",
+      "raw_response": "raw/attempt_028_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 1158,
+        "completion_tokens": 123,
+        "total_tokens": 1281
+      },
+      "latency_seconds": 2.6088135838508606,
+      "code": "from pyrsistent import PClass\n\nclass Point(PClass):\n    x = field()\n    y = field()\n\np = Point(x=1, y=2)\n\np2 = p.set(x=3)\n\nclass Point(PClass):\n    x = field()\n    y = field()\n    id_ = field()\n\np = Point(x=1, y=2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": false,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 29,
+      "task_id": "old_to_new_20751",
+      "arm": "base",
+      "request_sha256": "f2e365ea1342aa88dfaac616cd043f1acdf574aa26f2e4233b5b800e7339fe7b",
+      "raw_request": "raw/attempt_029_base/request.json",
+      "raw_response": "raw/attempt_029_base/response.json",
+      "usage": {
+        "prompt_tokens": 195,
+        "completion_tokens": 80,
+        "total_tokens": 275
+      },
+      "latency_seconds": 1.5315004345029593,
+      "code": "import torch\nimport torch.nn as nn\n\nmae = nn.L1Loss(reduction='mean')\nx = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmae_value = mae(x, y)\nprint(mae_value)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 30,
+      "task_id": "old_to_new_20751",
+      "arm": "prose_mapping",
+      "request_sha256": "76e17c0bc14161d87d15d79353e7b34712994898a9fff0295ea518103f2e7857",
+      "raw_request": "raw/attempt_030_prose_mapping/request.json",
+      "raw_response": "raw/attempt_030_prose_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 229,
+        "completion_tokens": 83,
+        "total_tokens": 312
+      },
+      "latency_seconds": 1.517185626551509,
+      "code": "import torch\nimport torch.nn as nn\nfrom pytorch_lightning.metrics import mean_absolute_error\n\nx = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmae_value = mean_absolute_error(x, y)\nprint(mae_value)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": true,
+        "old_api_used": false,
+        "symbol_migration_correct": true
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 31,
+      "task_id": "old_to_new_20751",
+      "arm": "structured_mapping",
+      "request_sha256": "91d082a40578a9ffd5bb3178ca113077fe2f6e757cd9e0a487e6b222f8e322f5",
+      "raw_request": "raw/attempt_031_structured_mapping/request.json",
+      "raw_response": "raw/attempt_031_structured_mapping/response.json",
+      "usage": {
+        "prompt_tokens": 228,
+        "completion_tokens": 70,
+        "total_tokens": 298
+      },
+      "latency_seconds": 1.3689391799271107,
+      "code": "mae = nn.L1Loss(reduction='mean')\nx = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmae_value = mae(x, y)\nprint(mae_value)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    },
+    {
+      "attempt_index": 32,
+      "task_id": "old_to_new_20751",
+      "arm": "probe_evidence",
+      "request_sha256": "ffd11e657ceff89748b0547adc9ca67797fd18749272b72b3080e0f010f1403a",
+      "raw_request": "raw/attempt_032_probe_evidence/request.json",
+      "raw_response": "raw/attempt_032_probe_evidence/response.json",
+      "usage": {
+        "prompt_tokens": 1142,
+        "completion_tokens": 84,
+        "total_tokens": 1226
+      },
+      "latency_seconds": 2.089964587241411,
+      "code": "import torch\nimport torch.nn as nn\n\nmae = nn.L1Loss(reduction='mean')\nx = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmae_value = mae(x, y)\nprint(mae_value)",
+      "evaluation": {
+        "syntax_valid": true,
+        "syntax_error": null,
+        "target_api_used": false,
+        "old_api_used": true,
+        "symbol_migration_correct": false
+      },
+      "status": "OK"
+    }
+  ]
+}

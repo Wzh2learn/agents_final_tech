@@ -1,0 +1,3602 @@
+{
+  "batches": [
+    {
+      "attempted": 12,
+      "batch_id": "batch_01",
+      "finding": "Non-Python fixtures under tests/ were passed to pytest; the failed environments were not retried.",
+      "retained": 0,
+      "status": "SUPERSEDED_HARNESS_TEST_SELECTION_DEFECT"
+    },
+    {
+      "attempted": 12,
+      "batch_id": "batch_02",
+      "finding": "GB10 /usr/bin/python3 lacked pytest, so no candidate reached collection; these environments were not retried.",
+      "retained": 0,
+      "status": "SUPERSEDED_MISSING_PYTEST"
+    },
+    {
+      "attempted": 12,
+      "batch_id": "batch_03",
+      "finding": "Fresh records only; prior record paths and pairs excluded.",
+      "retained": 0,
+      "status": "COMPLETE"
+    }
+  ],
+  "candidate_attempts": [
+    {
+      "commit": "0611d16a4cdc3f472b2c5fb265b8728e9a505d74",
+      "fetch": {
+        "commit": "0611d16a4cdc3f472b2c5fb265b8728e9a505d74",
+        "fetch_attempts": 1,
+        "repo": "sk-415/harukabot",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/sk-415_harukabot__0611d16a4cdc3f472b2c5fb265b8728e9a505d74",
+        "status": "FETCH_FAILED",
+        "stderr": "fatal: 无法访问 'https://github.com/sk-415/harukabot.git/'：gnutls_handshake() failed: The TLS connection was non-properly terminated.\n"
+      },
+      "reason": "FETCH_FAILED",
+      "record_path": "data/migration/aiohttp__httpx__sk-415@harukabot__0611d16a.yaml",
+      "repo": "sk-415/harukabot",
+      "source": "aiohttp",
+      "static_metrics": {
+        "change_count": 8,
+        "file_count": 2,
+        "paths": [
+          "src/plugins/haruka_bot/login.py",
+          "src/plugins/haruka_bot/utils.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "httpx"
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "cbf214b5130e362f57dbe5da99f4cef1918d882d",
+      "fetch": {
+        "commit": "cbf214b5130e362f57dbe5da99f4cef1918d882d",
+        "fetch_attempts": 1,
+        "gold_commit": "cbf214b5130e362f57dbe5da99f4cef1918d882d",
+        "parent_commit": "85e237361fa7988b2364e39e1ba57ab5da35f492",
+        "remote": "https://github.com/openstack/ironic.git",
+        "repo": "openstack/ironic",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "ironic/tests/drivers/pxe_config.template",
+          "ironic/tests/drivers/test_pxe.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/gold/junit.xml",
+        "label": "gold",
+        "revision": "cbf214b5130e362f57dbe5da99f4cef1918d882d",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "ironic/tests/drivers/pxe_config.template",
+          "ironic/tests/drivers/test_pxe.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/parent/junit.xml",
+        "label": "parent",
+        "revision": "85e237361fa7988b2364e39e1ba57ab5da35f492",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_ironic__cbf214b5130e362f57dbe5da99f4cef1918d882d/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/cheetah3__jinja2__openstack@ironic__cbf214b5.yaml",
+      "repo": "openstack/ironic",
+      "source": "cheetah3",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 2,
+        "paths": [
+          "ironic/drivers/modules/pxe.py",
+          "ironic/nova/tilera.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "jinja2",
+      "test_command": {
+        "all_discovered_test_paths_count": 52,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "ironic/tests/drivers/pxe_config.template",
+          "ironic/tests/drivers/test_pxe.py"
+        ],
+        "config_paths": [
+          "tox.ini",
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "ironic/tests/drivers/pxe_config.template",
+          "ironic/tests/drivers/test_pxe.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "078e3e56fe5b86d9c188aaf249a72296bd6fa753",
+      "fetch": {
+        "commit": "078e3e56fe5b86d9c188aaf249a72296bd6fa753",
+        "fetch_attempts": 1,
+        "gold_commit": "078e3e56fe5b86d9c188aaf249a72296bd6fa753",
+        "parent_commit": "7c7f945646dd34c3cfb3f5852db9fd063cd637f0",
+        "remote": "https://github.com/rapid-design-of-systems-laboratory/beluga.git",
+        "repo": "rapid-design-of-systems-laboratory/beluga",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "beluga/bvpsol/tests/test_Collocation.py",
+          "beluga/bvpsol/tests/test_Shooting.py",
+          "beluga/ivpsol/integrators/tests/test_mcpi.py",
+          "beluga/ivpsol/tests/test_ivpsol.py",
+          "beluga/ivpsol/tests/test_ivpsol_full.py",
+          "beluga/liepack/domain/liealgebras/tests/test_liealgebras.py",
+          "beluga/liepack/domain/liegroups/tests/test_liegroups.py",
+          "beluga/liepack/tests/test_liepack.py",
+          "beluga/optimlib/tests/test_optimlib.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/gold/junit.xml",
+        "label": "gold",
+        "revision": "078e3e56fe5b86d9c188aaf249a72296bd6fa753",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "beluga/bvpsol/tests/test_Collocation.py",
+          "beluga/bvpsol/tests/test_Shooting.py",
+          "beluga/ivpsol/integrators/tests/test_mcpi.py",
+          "beluga/ivpsol/tests/test_ivpsol.py",
+          "beluga/ivpsol/tests/test_ivpsol_full.py",
+          "beluga/liepack/domain/liealgebras/tests/test_liealgebras.py",
+          "beluga/liepack/domain/liegroups/tests/test_liegroups.py",
+          "beluga/liepack/tests/test_liepack.py",
+          "beluga/optimlib/tests/test_optimlib.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/parent/junit.xml",
+        "label": "parent",
+        "revision": "7c7f945646dd34c3cfb3f5852db9fd063cd637f0",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/rapid-design-of-systems-laboratory_beluga__078e3e56fe5b86d9c188aaf249a72296bd6fa753/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/dill__cloudpickle__rapid-design-of-systems-laboratory@beluga__078e3e56.yaml",
+      "repo": "rapid-design-of-systems-laboratory/beluga",
+      "source": "dill",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 2,
+        "paths": [
+          "beluga/beluga.py",
+          "beluga/visualization/datasources.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "cloudpickle",
+      "test_command": {
+        "all_discovered_test_paths_count": 10,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "beluga/bvpsol/tests/test_Collocation.py",
+          "beluga/bvpsol/tests/test_Shooting.py",
+          "beluga/ivpsol/integrators/tests/test_mcpi.py",
+          "beluga/ivpsol/tests/test_ivpsol.py",
+          "beluga/ivpsol/tests/test_ivpsol_full.py",
+          "beluga/liepack/domain/liealgebras/tests/test_liealgebras.py",
+          "beluga/liepack/domain/liegroups/tests/test_liegroups.py",
+          "beluga/liepack/tests/test_liepack.py",
+          "beluga/optimlib/tests/test_optimlib.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "beluga/bvpsol/tests/test_Collocation.py",
+          "beluga/bvpsol/tests/test_Shooting.py",
+          "beluga/ivpsol/integrators/tests/test_mcpi.py",
+          "beluga/ivpsol/tests/test_ivpsol.py",
+          "beluga/ivpsol/tests/test_ivpsol_full.py",
+          "beluga/liepack/domain/liealgebras/tests/test_liealgebras.py",
+          "beluga/liepack/domain/liegroups/tests/test_liegroups.py",
+          "beluga/liepack/tests/test_liepack.py",
+          "beluga/optimlib/tests/test_optimlib.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b",
+      "fetch": {
+        "commit": "e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b",
+        "fetch_attempts": 1,
+        "gold_commit": "e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b",
+        "parent_commit": "4d9d6c0741470fa1da346def411cae935d86aca5",
+        "remote": "https://github.com/romanz/trezor-agent.git",
+        "repo": "romanz/trezor-agent",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "libagent/gpg/tests/test_decode.py",
+          "libagent/tests/test_formats.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/gold/junit.xml",
+        "label": "gold",
+        "revision": "e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "libagent/gpg/tests/test_decode.py",
+          "libagent/tests/test_formats.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/parent/junit.xml",
+        "label": "parent",
+        "revision": "4d9d6c0741470fa1da346def411cae935d86aca5",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/romanz_trezor-agent__e1bbdb4bccb9c81a34123cc89fbb6ef2750ab33b/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/ed25519__pynacl__romanz@trezor-agent__e1bbdb4b.yaml",
+      "repo": "romanz/trezor-agent",
+      "source": "ed25519",
+      "static_metrics": {
+        "change_count": 8,
+        "file_count": 2,
+        "paths": [
+          "libagent/formats.py",
+          "libagent/gpg/decode.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "pynacl",
+      "test_command": {
+        "all_discovered_test_paths_count": 22,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "libagent/gpg/tests/test_decode.py",
+          "libagent/tests/test_formats.py"
+        ],
+        "config_paths": [
+          "tox.ini"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "libagent/gpg/tests/test_decode.py",
+          "libagent/tests/test_formats.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "5253a55c46d529b69397fc1d54d3f8e7262c337b",
+      "fetch": {
+        "commit": "5253a55c46d529b69397fc1d54d3f8e7262c337b",
+        "fetch_attempts": 1,
+        "gold_commit": "5253a55c46d529b69397fc1d54d3f8e7262c337b",
+        "parent_commit": "49c37c81d85ec778d2086767954b4a5a37477891",
+        "remote": "https://github.com/princetonuniversity/psyneulink.git",
+        "repo": "princetonuniversity/psyneulink",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/documentation/global/test_log_docs.py",
+          "tests/log/log_test_SYS.pdf",
+          "tests/log/test_log.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/gold/junit.xml",
+        "label": "gold",
+        "revision": "5253a55c46d529b69397fc1d54d3f8e7262c337b",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/documentation/global/test_log_docs.py",
+          "tests/log/log_test_SYS.pdf",
+          "tests/log/test_log.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/parent/junit.xml",
+        "label": "parent",
+        "revision": "49c37c81d85ec778d2086767954b4a5a37477891",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/princetonuniversity_psyneulink__5253a55c46d529b69397fc1d54d3f8e7262c337b/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/enum__aenum__princetonuniversity@psyneulink__5253a55c.yaml",
+      "repo": "princetonuniversity/psyneulink",
+      "source": "enum",
+      "static_metrics": {
+        "change_count": 6,
+        "file_count": 2,
+        "paths": [
+          "psyneulink/globals/context.py",
+          "psyneulink/globals/log.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "aenum",
+      "test_command": {
+        "all_discovered_test_paths_count": 70,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/documentation/global/test_log_docs.py",
+          "tests/log/log_test_SYS.pdf",
+          "tests/log/test_log.py"
+        ],
+        "config_paths": [
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "tests/documentation/global/test_log_docs.py",
+          "tests/log/log_test_SYS.pdf",
+          "tests/log/test_log.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "d4119a0f609b151df99b2250e419c168e688a0c6",
+      "fetch": {
+        "commit": "d4119a0f609b151df99b2250e419c168e688a0c6",
+        "fetch_attempts": 1,
+        "gold_commit": "d4119a0f609b151df99b2250e419c168e688a0c6",
+        "parent_commit": "e1a19f2f7896acaa0aa00d85f6370aa40c77bb6f",
+        "remote": "https://github.com/testdrivenio/flask-react-aws.git",
+        "repo": "testdrivenio/flask-react-aws",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "services/users/project/tests/test_ping.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/gold/junit.xml",
+        "label": "gold",
+        "revision": "d4119a0f609b151df99b2250e419c168e688a0c6",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "services/users/project/tests/test_ping.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/parent/junit.xml",
+        "label": "parent",
+        "revision": "e1a19f2f7896acaa0aa00d85f6370aa40c77bb6f",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/testdrivenio_flask-react-aws__d4119a0f609b151df99b2250e419c168e688a0c6/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/flask-restful__flask-restplus__testdrivenio@flask-react-aws__d4119a0f.yaml",
+      "repo": "testdrivenio/flask-react-aws",
+      "source": "flask-restful",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 2,
+        "paths": [
+          "services/users/project/api/ping.py",
+          "services/users/project/api/users/views.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "flask-restplus",
+      "test_command": {
+        "all_discovered_test_paths_count": 8,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "services/users/project/tests/test_ping.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "services/users/project/tests/test_ping.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "4349753e0eecae60c96768def773fa48189f06bf",
+      "fetch": {
+        "commit": "4349753e0eecae60c96768def773fa48189f06bf",
+        "fetch_attempts": 1,
+        "gold_commit": "4349753e0eecae60c96768def773fa48189f06bf",
+        "parent_commit": "9cfe47ad19c247e578426b745e3ea230febdbaac",
+        "remote": "https://github.com/openshot/openshot-qt.git",
+        "repo": "openshot/openshot-qt",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "src/locale/test_translations.py",
+          "src/tests/query_tests.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/gold/junit.xml",
+        "label": "gold",
+        "revision": "4349753e0eecae60c96768def773fa48189f06bf",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "src/locale/test_translations.py",
+          "src/tests/query_tests.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/parent/junit.xml",
+        "label": "parent",
+        "revision": "9cfe47ad19c247e578426b745e3ea230febdbaac",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openshot_openshot-qt__4349753e0eecae60c96768def773fa48189f06bf/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/httplib2__requests__openshot@openshot-qt__4349753e.yaml",
+      "repo": "openshot/openshot-qt",
+      "source": "httplib2",
+      "static_metrics": {
+        "change_count": 5,
+        "file_count": 2,
+        "paths": [
+          "src/classes/metrics.py",
+          "src/classes/version.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "requests",
+      "test_command": {
+        "all_discovered_test_paths_count": 2,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "src/locale/test_translations.py",
+          "src/tests/query_tests.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "src/locale/test_translations.py",
+          "src/tests/query_tests.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "0babff28e04c7da97cae91de78e86295bc42b118",
+      "fetch": {
+        "commit": "0babff28e04c7da97cae91de78e86295bc42b118",
+        "fetch_attempts": 1,
+        "gold_commit": "0babff28e04c7da97cae91de78e86295bc42b118",
+        "parent_commit": "aaa1ce7d32bbcd713b8d0c79f19ede5ce4d35601",
+        "remote": "https://github.com/hxlstandard/libhxl-python.git",
+        "repo": "hxlstandard/libhxl-python",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/files/test_io/input-broken.xlsx",
+          "tests/files/test_io/input-fuzzy.csv",
+          "tests/files/test_io/input-invalid.csv",
+          "tests/files/test_io/input-multiline.csv",
+          "tests/files/test_io/input-multiple-headers.csv",
+          "tests/files/test_io/input-untagged-csv.zip",
+          "tests/files/test_io/input-untagged-objects.json",
+          "tests/files/test_io/input-untagged.json",
+          "tests/files/test_io/input-valid-csv.zip",
+          "tests/files/test_io/input-valid-json-selector.json",
+          "tests/files/test_io/input-valid-json.txt",
+          "tests/files/test_io/input-valid-latin1.csv",
+          "tests/files/test_io/input-valid-nested.json",
+          "tests/files/test_io/input-valid-objects.json",
+          "tests/files/test_io/input-valid-xlsx.NOEXT",
+          "tests/files/test_io/input-valid.csv",
+          "tests/files/test_io/input-valid.json",
+          "tests/files/test_io/input-valid.ssv",
+          "tests/files/test_io/input-valid.tsv",
+          "tests/files/test_io/input-valid.xls",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/gold/junit.xml",
+        "label": "gold",
+        "revision": "0babff28e04c7da97cae91de78e86295bc42b118",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/files/test_io/input-broken.xlsx",
+          "tests/files/test_io/input-fuzzy.csv",
+          "tests/files/test_io/input-invalid.csv",
+          "tests/files/test_io/input-multiline.csv",
+          "tests/files/test_io/input-multiple-headers.csv",
+          "tests/files/test_io/input-untagged-csv.zip",
+          "tests/files/test_io/input-untagged-objects.json",
+          "tests/files/test_io/input-untagged.json",
+          "tests/files/test_io/input-valid-csv.zip",
+          "tests/files/test_io/input-valid-json-selector.json",
+          "tests/files/test_io/input-valid-json.txt",
+          "tests/files/test_io/input-valid-latin1.csv",
+          "tests/files/test_io/input-valid-nested.json",
+          "tests/files/test_io/input-valid-objects.json",
+          "tests/files/test_io/input-valid-xlsx.NOEXT",
+          "tests/files/test_io/input-valid.csv",
+          "tests/files/test_io/input-valid.json",
+          "tests/files/test_io/input-valid.ssv",
+          "tests/files/test_io/input-valid.tsv",
+          "tests/files/test_io/input-valid.xls",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/parent/junit.xml",
+        "label": "parent",
+        "revision": "aaa1ce7d32bbcd713b8d0c79f19ede5ce4d35601",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/hxlstandard_libhxl-python__0babff28e04c7da97cae91de78e86295bc42b118/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/jsonpath-rw__jsonpath-rw-ext__hxlstandard@libhxl-python__0babff28.yaml",
+      "repo": "hxlstandard/libhxl-python",
+      "source": "jsonpath-rw",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 2,
+        "paths": [
+          "hxl/filters.py",
+          "hxl/io.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "jsonpath-rw-ext",
+      "test_command": {
+        "all_discovered_test_paths_count": 89,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/files/test_io/input-broken.xlsx",
+          "tests/files/test_io/input-fuzzy.csv",
+          "tests/files/test_io/input-invalid.csv",
+          "tests/files/test_io/input-multiline.csv",
+          "tests/files/test_io/input-multiple-headers.csv",
+          "tests/files/test_io/input-untagged-csv.zip",
+          "tests/files/test_io/input-untagged-objects.json",
+          "tests/files/test_io/input-untagged.json",
+          "tests/files/test_io/input-valid-csv.zip",
+          "tests/files/test_io/input-valid-json-selector.json",
+          "tests/files/test_io/input-valid-json.txt",
+          "tests/files/test_io/input-valid-latin1.csv",
+          "tests/files/test_io/input-valid-nested.json",
+          "tests/files/test_io/input-valid-objects.json",
+          "tests/files/test_io/input-valid-xlsx.NOEXT",
+          "tests/files/test_io/input-valid.csv",
+          "tests/files/test_io/input-valid.json",
+          "tests/files/test_io/input-valid.ssv",
+          "tests/files/test_io/input-valid.tsv",
+          "tests/files/test_io/input-valid.xls"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "tests/files/test_io/input-broken.xlsx",
+          "tests/files/test_io/input-fuzzy.csv",
+          "tests/files/test_io/input-invalid.csv",
+          "tests/files/test_io/input-multiline.csv",
+          "tests/files/test_io/input-multiple-headers.csv",
+          "tests/files/test_io/input-untagged-csv.zip",
+          "tests/files/test_io/input-untagged-objects.json",
+          "tests/files/test_io/input-untagged.json",
+          "tests/files/test_io/input-valid-csv.zip",
+          "tests/files/test_io/input-valid-json-selector.json",
+          "tests/files/test_io/input-valid-json.txt",
+          "tests/files/test_io/input-valid-latin1.csv",
+          "tests/files/test_io/input-valid-nested.json",
+          "tests/files/test_io/input-valid-objects.json",
+          "tests/files/test_io/input-valid-xlsx.NOEXT",
+          "tests/files/test_io/input-valid.csv",
+          "tests/files/test_io/input-valid.json",
+          "tests/files/test_io/input-valid.ssv",
+          "tests/files/test_io/input-valid.tsv",
+          "tests/files/test_io/input-valid.xls"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "973b3d3278609c144f11542bd24164243ee165af",
+      "fetch": {
+        "commit": "973b3d3278609c144f11542bd24164243ee165af",
+        "fetch_attempts": 1,
+        "gold_commit": "973b3d3278609c144f11542bd24164243ee165af",
+        "parent_commit": "a8935526e5294cac19ecd44dec1bd50589f6e429",
+        "remote": "https://github.com/obsidianforensics/hindsight.git",
+        "repo": "obsidianforensics/hindsight",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/fixtures/profiles/01/History",
+          "tests/fixtures/profiles/10/History",
+          "tests/fixtures/profiles/20/History",
+          "tests/fixtures/profiles/30/History",
+          "tests/fixtures/profiles/60/History",
+          "tests/test_downloads.py",
+          "tests/test_history.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/gold/junit.xml",
+        "label": "gold",
+        "revision": "973b3d3278609c144f11542bd24164243ee165af",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/fixtures/profiles/01/History",
+          "tests/fixtures/profiles/10/History",
+          "tests/fixtures/profiles/20/History",
+          "tests/fixtures/profiles/30/History",
+          "tests/fixtures/profiles/60/History",
+          "tests/test_downloads.py",
+          "tests/test_history.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/parent/junit.xml",
+        "label": "parent",
+        "revision": "a8935526e5294cac19ecd44dec1bd50589f6e429",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/obsidianforensics_hindsight__973b3d3278609c144f11542bd24164243ee165af/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/leveldb__plyvel__obsidianforensics@hindsight__973b3d32.yaml",
+      "repo": "obsidianforensics/hindsight",
+      "source": "leveldb",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 2,
+        "paths": [
+          "pyhindsight/browsers/chrome.py",
+          "pyhindsight/utils.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "plyvel",
+      "test_command": {
+        "all_discovered_test_paths_count": 7,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/fixtures/profiles/01/History",
+          "tests/fixtures/profiles/10/History",
+          "tests/fixtures/profiles/20/History",
+          "tests/fixtures/profiles/30/History",
+          "tests/fixtures/profiles/60/History",
+          "tests/test_downloads.py",
+          "tests/test_history.py"
+        ],
+        "config_paths": [
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "tests/fixtures/profiles/01/History",
+          "tests/fixtures/profiles/10/History",
+          "tests/fixtures/profiles/20/History",
+          "tests/fixtures/profiles/30/History",
+          "tests/fixtures/profiles/60/History",
+          "tests/test_downloads.py",
+          "tests/test_history.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "2a2c28aeee469c514196ec5ca68592c9bf354146",
+      "fetch": {
+        "commit": "2a2c28aeee469c514196ec5ca68592c9bf354146",
+        "fetch_attempts": 1,
+        "gold_commit": "2a2c28aeee469c514196ec5ca68592c9bf354146",
+        "parent_commit": "a1666402f9699cb334a29ab68d490e3b0868c044",
+        "remote": "https://github.com/paratoolsinc/taucmdr.git",
+        "repo": "paratoolsinc/taucmdr",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "packages/tau/cf/software/tests/test_binutils_installation.py",
+          "packages/tau/cf/software/tests/test_installation.py",
+          "packages/tau/cf/software/tests/test_libunwind_installation.py",
+          "packages/tau/cf/software/tests/test_papi_installation.py",
+          "packages/tau/cf/software/tests/test_pdt_installation.py",
+          "packages/tau/cf/software/tests/test_scorep_installation.py",
+          "packages/tau/cf/software/tests/test_tau_installation.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/gold/junit.xml",
+        "label": "gold",
+        "revision": "2a2c28aeee469c514196ec5ca68592c9bf354146",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "packages/tau/cf/software/tests/test_binutils_installation.py",
+          "packages/tau/cf/software/tests/test_installation.py",
+          "packages/tau/cf/software/tests/test_libunwind_installation.py",
+          "packages/tau/cf/software/tests/test_papi_installation.py",
+          "packages/tau/cf/software/tests/test_pdt_installation.py",
+          "packages/tau/cf/software/tests/test_scorep_installation.py",
+          "packages/tau/cf/software/tests/test_tau_installation.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/parent/junit.xml",
+        "label": "parent",
+        "revision": "a1666402f9699cb334a29ab68d490e3b0868c044",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/paratoolsinc_taucmdr__2a2c28aeee469c514196ec5ca68592c9bf354146/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/lockfile__fasteners__paratoolsinc@taucmdr__2a2c28ae.yaml",
+      "repo": "paratoolsinc/taucmdr",
+      "source": "lockfile",
+      "static_metrics": {
+        "change_count": 6,
+        "file_count": 2,
+        "paths": [
+          "packages/tau/cf/software/installation.py",
+          "packages/tau/cf/software/tau_installation.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "fasteners",
+      "test_command": {
+        "all_discovered_test_paths_count": 78,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "packages/tau/cf/software/tests/test_binutils_installation.py",
+          "packages/tau/cf/software/tests/test_installation.py",
+          "packages/tau/cf/software/tests/test_libunwind_installation.py",
+          "packages/tau/cf/software/tests/test_papi_installation.py",
+          "packages/tau/cf/software/tests/test_pdt_installation.py",
+          "packages/tau/cf/software/tests/test_scorep_installation.py",
+          "packages/tau/cf/software/tests/test_tau_installation.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "packages/tau/cf/software/tests/test_binutils_installation.py",
+          "packages/tau/cf/software/tests/test_installation.py",
+          "packages/tau/cf/software/tests/test_libunwind_installation.py",
+          "packages/tau/cf/software/tests/test_papi_installation.py",
+          "packages/tau/cf/software/tests/test_pdt_installation.py",
+          "packages/tau/cf/software/tests/test_scorep_installation.py",
+          "packages/tau/cf/software/tests/test_tau_installation.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "14388c3d85ab164d7b36b1331534913a1c9d6c9a",
+      "fetch": {
+        "commit": "14388c3d85ab164d7b36b1331534913a1c9d6c9a",
+        "fetch_attempts": 1,
+        "gold_commit": "14388c3d85ab164d7b36b1331534913a1c9d6c9a",
+        "parent_commit": "290aac93ed6e3874bb3789b0f5a0852b68cc47fe",
+        "remote": "https://github.com/camptocamp/c2cgeoportal.git",
+        "repo": "camptocamp/c2cgeoportal",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "geoportal/tests/__init__.py",
+          "geoportal/tests/functional/__init__.py",
+          "geoportal/tests/functional/test_urllogin.py",
+          "geoportal/tests/testegg/testegg/CONST_migration/__init__.py",
+          "geoportal/tests/testegg/testegg/__init__.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/gold/junit.xml",
+        "label": "gold",
+        "revision": "14388c3d85ab164d7b36b1331534913a1c9d6c9a",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "geoportal/tests/__init__.py",
+          "geoportal/tests/functional/__init__.py",
+          "geoportal/tests/functional/test_urllogin.py",
+          "geoportal/tests/testegg/testegg/CONST_migration/__init__.py",
+          "geoportal/tests/testegg/testegg/__init__.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/parent/junit.xml",
+        "label": "parent",
+        "revision": "290aac93ed6e3874bb3789b0f5a0852b68cc47fe",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/camptocamp_c2cgeoportal__14388c3d85ab164d7b36b1331534913a1c9d6c9a/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/pycrypto__pycryptodome__camptocamp@c2cgeoportal__14388c3d.yaml",
+      "repo": "camptocamp/c2cgeoportal",
+      "source": "pycrypto",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 2,
+        "paths": [
+          "geoportal/c2cgeoportal_geoportal/__init__.py",
+          "geoportal/c2cgeoportal_geoportal/scripts/urllogin.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "pycryptodome",
+      "test_command": {
+        "all_discovered_test_paths_count": 108,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "geoportal/tests/__init__.py",
+          "geoportal/tests/functional/__init__.py",
+          "geoportal/tests/functional/test_urllogin.py",
+          "geoportal/tests/testegg/testegg/CONST_migration/__init__.py",
+          "geoportal/tests/testegg/testegg/__init__.py"
+        ],
+        "config_paths": [
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "geoportal/tests/__init__.py",
+          "geoportal/tests/functional/__init__.py",
+          "geoportal/tests/functional/test_urllogin.py",
+          "geoportal/tests/testegg/testegg/CONST_migration/__init__.py",
+          "geoportal/tests/testegg/testegg/__init__.py"
+        ]
+      }
+    },
+    {
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "e5073e4c0c3e799822e939268d80c8f0601ea4cf",
+      "fetch": {
+        "commit": "e5073e4c0c3e799822e939268d80c8f0601ea4cf",
+        "fetch_attempts": 1,
+        "gold_commit": "e5073e4c0c3e799822e939268d80c8f0601ea4cf",
+        "parent_commit": "e033ec5f1ec0c44da782e82c8f9624bca63a299a",
+        "remote": "https://github.com/milvus-io/bootcamp.git",
+        "repo": "milvus-io/bootcamp",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "benchmark_test/scripts/performance_test.py",
+          "benchmark_test/scripts/recall_test.py",
+          "solutions/recommendation_system/quick_deploy/movie_recommender/test_client.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/gold/junit.xml",
+        "label": "gold",
+        "revision": "e5073e4c0c3e799822e939268d80c8f0601ea4cf",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "benchmark_test/scripts/performance_test.py",
+          "benchmark_test/scripts/recall_test.py",
+          "solutions/recommendation_system/quick_deploy/movie_recommender/test_client.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/parent/junit.xml",
+        "label": "parent",
+        "revision": "e033ec5f1ec0c44da782e82c8f9624bca63a299a",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/milvus-io_bootcamp__e5073e4c0c3e799822e939268d80c8f0601ea4cf/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/pymilvus-orm__pymilvus__milvus-io@bootcamp__e5073e4c.yaml",
+      "repo": "milvus-io/bootcamp",
+      "source": "pymilvus-orm",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 2,
+        "paths": [
+          "solutions/video_similarity_search/object_detection/server/src/milvus_helpers.py",
+          "solutions/video_similarity_search/quick_deploy/server/src/milvus_helpers.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "pymilvus",
+      "test_command": {
+        "all_discovered_test_paths_count": 3,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "benchmark_test/scripts/performance_test.py",
+          "benchmark_test/scripts/recall_test.py",
+          "solutions/recommendation_system/quick_deploy/movie_recommender/test_client.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "benchmark_test/scripts/performance_test.py",
+          "benchmark_test/scripts/recall_test.py",
+          "solutions/recommendation_system/quick_deploy/movie_recommender/test_client.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "9b39fc41998c708c6612f0c7bf4393bf48f72e9b",
+      "fetch": {
+        "commit": "9b39fc41998c708c6612f0c7bf4393bf48f72e9b",
+        "fetch_attempts": 1,
+        "gold_commit": "9b39fc41998c708c6612f0c7bf4393bf48f72e9b",
+        "parent_commit": "d2dfef89fed516e597fa15a895fb2a46b09deb09",
+        "remote": "https://github.com/celery/celery.git",
+        "repo": "celery/celery",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "t/unit/app/test_utils.py",
+          "t/unit/compat_modules/test_compat_utils.py",
+          "t/unit/utils/test_collections.py",
+          "t/unit/utils/test_debug.py",
+          "t/unit/utils/test_deprecated.py",
+          "t/unit/utils/test_dispatcher.py",
+          "t/unit/utils/test_encoding.py",
+          "t/unit/utils/test_functional.py",
+          "t/unit/utils/test_graph.py",
+          "t/unit/utils/test_imports.py",
+          "t/unit/utils/test_local.py",
+          "t/unit/utils/test_nodenames.py",
+          "t/unit/utils/test_objects.py",
+          "t/unit/utils/test_pickle.py",
+          "t/unit/utils/test_platforms.py",
+          "t/unit/utils/test_saferepr.py",
+          "t/unit/utils/test_serialization.py",
+          "t/unit/utils/test_sysinfo.py",
+          "t/unit/utils/test_term.py",
+          "t/unit/utils/test_text.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/gold/junit.xml",
+        "label": "gold",
+        "revision": "9b39fc41998c708c6612f0c7bf4393bf48f72e9b",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "t/unit/app/test_utils.py",
+          "t/unit/compat_modules/test_compat_utils.py",
+          "t/unit/utils/test_collections.py",
+          "t/unit/utils/test_debug.py",
+          "t/unit/utils/test_deprecated.py",
+          "t/unit/utils/test_dispatcher.py",
+          "t/unit/utils/test_encoding.py",
+          "t/unit/utils/test_functional.py",
+          "t/unit/utils/test_graph.py",
+          "t/unit/utils/test_imports.py",
+          "t/unit/utils/test_local.py",
+          "t/unit/utils/test_nodenames.py",
+          "t/unit/utils/test_objects.py",
+          "t/unit/utils/test_pickle.py",
+          "t/unit/utils/test_platforms.py",
+          "t/unit/utils/test_saferepr.py",
+          "t/unit/utils/test_serialization.py",
+          "t/unit/utils/test_sysinfo.py",
+          "t/unit/utils/test_term.py",
+          "t/unit/utils/test_text.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/parent/junit.xml",
+        "label": "parent",
+        "revision": "d2dfef89fed516e597fa15a895fb2a46b09deb09",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/celery_celery__9b39fc41998c708c6612f0c7bf4393bf48f72e9b/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/pyopenssl__cryptography__celery@celery__9b39fc41.yaml",
+      "repo": "celery/celery",
+      "source": "pyopenssl",
+      "static_metrics": {
+        "change_count": 3,
+        "file_count": 2,
+        "paths": [
+          "celery/security/__init__.py",
+          "celery/security/utils.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "cryptography",
+      "test_command": {
+        "all_discovered_test_paths_count": 121,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "t/unit/app/test_utils.py",
+          "t/unit/compat_modules/test_compat_utils.py",
+          "t/unit/utils/test_collections.py",
+          "t/unit/utils/test_debug.py",
+          "t/unit/utils/test_deprecated.py",
+          "t/unit/utils/test_dispatcher.py",
+          "t/unit/utils/test_encoding.py",
+          "t/unit/utils/test_functional.py",
+          "t/unit/utils/test_graph.py",
+          "t/unit/utils/test_imports.py",
+          "t/unit/utils/test_local.py",
+          "t/unit/utils/test_nodenames.py",
+          "t/unit/utils/test_objects.py",
+          "t/unit/utils/test_pickle.py",
+          "t/unit/utils/test_platforms.py",
+          "t/unit/utils/test_saferepr.py",
+          "t/unit/utils/test_serialization.py",
+          "t/unit/utils/test_sysinfo.py",
+          "t/unit/utils/test_term.py",
+          "t/unit/utils/test_text.py"
+        ],
+        "config_paths": [
+          "tox.ini",
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "t/unit/app/test_utils.py",
+          "t/unit/compat_modules/test_compat_utils.py",
+          "t/unit/utils/test_collections.py",
+          "t/unit/utils/test_debug.py",
+          "t/unit/utils/test_deprecated.py",
+          "t/unit/utils/test_dispatcher.py",
+          "t/unit/utils/test_encoding.py",
+          "t/unit/utils/test_functional.py",
+          "t/unit/utils/test_graph.py",
+          "t/unit/utils/test_imports.py",
+          "t/unit/utils/test_local.py",
+          "t/unit/utils/test_nodenames.py",
+          "t/unit/utils/test_objects.py",
+          "t/unit/utils/test_pickle.py",
+          "t/unit/utils/test_platforms.py",
+          "t/unit/utils/test_saferepr.py",
+          "t/unit/utils/test_serialization.py",
+          "t/unit/utils/test_sysinfo.py",
+          "t/unit/utils/test_term.py",
+          "t/unit/utils/test_text.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "fa8de771a86df6130d7ff456319240bc1387804d",
+      "fetch": {
+        "commit": "fa8de771a86df6130d7ff456319240bc1387804d",
+        "fetch_attempts": 1,
+        "gold_commit": "fa8de771a86df6130d7ff456319240bc1387804d",
+        "parent_commit": "0f9eed1961cd7077c1801acfeb566564053e030d",
+        "remote": "https://github.com/haoxizhong/pytorch-worker.git",
+        "repo": "haoxizhong/pytorch-worker",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tools/test_tool.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/gold/junit.xml",
+        "label": "gold",
+        "revision": "fa8de771a86df6130d7ff456319240bc1387804d",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tools/test_tool.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/parent/junit.xml",
+        "label": "parent",
+        "revision": "0f9eed1961cd7077c1801acfeb566564053e030d",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/haoxizhong_pytorch-worker__fa8de771a86df6130d7ff456319240bc1387804d/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/pytorch-pretrained-bert__pytorch-transformers__haoxizhong@pytorch-worker__fa8de771.yaml",
+      "repo": "haoxizhong/pytorch-worker",
+      "source": "pytorch-pretrained-bert",
+      "static_metrics": {
+        "change_count": 3,
+        "file_count": 2,
+        "paths": [
+          "formatter/nlp/BasicBertFormatter.py",
+          "model/nlp/BasicBert.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "pytorch-transformers",
+      "test_command": {
+        "all_discovered_test_paths_count": 1,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tools/test_tool.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "tools/test_tool.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "commit": "33c7a3fc0878d87ee803db91c17523a9e61af3ed",
+      "fetch": {
+        "commit": "33c7a3fc0878d87ee803db91c17523a9e61af3ed",
+        "fetch_attempts": 1,
+        "repo": "oddluck/limnoria-plugins",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/oddluck_limnoria-plugins__33c7a3fc0878d87ee803db91c17523a9e61af3ed",
+        "status": "FETCH_FAILED",
+        "stderr": "fatal: could not read Username for 'https://github.com': 没有那个设备或地址\n"
+      },
+      "reason": "FETCH_FAILED",
+      "record_path": "data/migration/pytz__pendulum__oddluck@limnoria-plugins__33c7a3fc.yaml",
+      "repo": "oddluck/limnoria-plugins",
+      "source": "pytz",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 2,
+        "paths": [
+          "NBA/plugin.py",
+          "NHL/plugin.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "pendulum"
+    },
+    {
+      "batch_id": "batch_02",
+      "commit": "4fecb977083666abb353b203f661cdb0952a0764",
+      "fetch": {
+        "commit": "4fecb977083666abb353b203f661cdb0952a0764",
+        "fetch_attempts": 1,
+        "gold_commit": "4fecb977083666abb353b203f661cdb0952a0764",
+        "parent_commit": "d509424d79dc29954b9a717f124c5224227af02f",
+        "remote": "https://github.com/city-of-helsinki/respa.git",
+        "repo": "city-of-helsinki/respa",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/city-of-helsinki_respa__4fecb977083666abb353b203f661cdb0952a0764",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/raven__sentry-sdk__city-of-helsinki@respa__4fecb977.yaml",
+      "repo": "city-of-helsinki/respa",
+      "source": "raven",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 2,
+        "paths": [
+          "resources/importer/kirjastot.py",
+          "resources/importer/kirjastot_v2.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "sentry-sdk",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "7587ab9bf362f3ed26c392e89aa4626429d95e7a",
+      "fetch": {
+        "commit": "7587ab9bf362f3ed26c392e89aa4626429d95e7a",
+        "fetch_attempts": 1,
+        "gold_commit": "7587ab9bf362f3ed26c392e89aa4626429d95e7a",
+        "parent_commit": "ba56a0fadf2c3be988b8d882de4d010e287f4f7e",
+        "remote": "https://github.com/openstack/aodh.git",
+        "repo": "openstack/aodh",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "aodh/tests/unit/test_coordination.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/gold/junit.xml",
+        "label": "gold",
+        "revision": "7587ab9bf362f3ed26c392e89aa4626429d95e7a",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "aodh/tests/unit/test_coordination.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/parent/junit.xml",
+        "label": "parent",
+        "revision": "ba56a0fadf2c3be988b8d882de4d010e287f4f7e",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/openstack_aodh__7587ab9bf362f3ed26c392e89aa4626429d95e7a/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/retrying__tenacity__openstack@aodh__7587ab9b.yaml",
+      "repo": "openstack/aodh",
+      "source": "retrying",
+      "static_metrics": {
+        "change_count": 5,
+        "file_count": 2,
+        "paths": [
+          "aodh/coordination.py",
+          "aodh/storage/__init__.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "tenacity",
+      "test_command": {
+        "all_discovered_test_paths_count": 32,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "aodh/tests/unit/test_coordination.py"
+        ],
+        "config_paths": [
+          "tox.ini",
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "aodh/tests/unit/test_coordination.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "commit": "5f4d92a8048814fc4938753594e74d7cfc74c27a",
+      "fetch": {
+        "commit": "5f4d92a8048814fc4938753594e74d7cfc74c27a",
+        "fetch_attempts": 1,
+        "gold_commit": "5f4d92a8048814fc4938753594e74d7cfc74c27a",
+        "parent_commit": "2defee516b105112af592dc545a376a893345002",
+        "remote": "https://github.com/slackapi/python-slack-sdk.git",
+        "repo": "slackapi/python-slack-sdk",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/slackapi_python-slack-sdk__5f4d92a8048814fc4938753594e74d7cfc74c27a",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/slackclient__slack-sdk__slackapi@python-slack-sdk__5f4d92a8.yaml",
+      "repo": "slackapi/python-slack-sdk",
+      "source": "slackclient",
+      "static_metrics": {
+        "change_count": 7,
+        "file_count": 2,
+        "paths": [
+          "tutorial/PythOnBoardingBot/app.py",
+          "tutorial/PythOnBoardingBot/async_app.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "slack-sdk",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb",
+      "fetch": {
+        "commit": "cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb",
+        "fetch_attempts": 1,
+        "gold_commit": "cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb",
+        "parent_commit": "5f70ca8db69d8bcea79cb5faf1f0d59f358d555e",
+        "remote": "https://github.com/pimoroni/inky.git",
+        "repo": "pimoroni/inky",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "library/tests/test_init.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/gold/junit.xml",
+        "label": "gold",
+        "revision": "cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "library/tests/test_init.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/parent/junit.xml",
+        "label": "parent",
+        "revision": "5f70ca8db69d8bcea79cb5faf1f0d59f358d555e",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/pimoroni_inky__cba36514eb8c881f8bd1d92b0b6a5bf12b4b72fb/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/smbus-cffi__smbus2__pimoroni@inky__cba36514.yaml",
+      "repo": "pimoroni/inky",
+      "source": "smbus-cffi",
+      "static_metrics": {
+        "change_count": 3,
+        "file_count": 2,
+        "paths": [
+          "library/inky/eeprom.py",
+          "library/inky/inky.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "smbus2",
+      "test_command": {
+        "all_discovered_test_paths_count": 1,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "library/tests/test_init.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "library/tests/test_init.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "827dd9f05a0ab517c7f4833754c0d60ddee48f56",
+      "fetch": {
+        "commit": "827dd9f05a0ab517c7f4833754c0d60ddee48f56",
+        "fetch_attempts": 1,
+        "gold_commit": "827dd9f05a0ab517c7f4833754c0d60ddee48f56",
+        "parent_commit": "5a3175515e73c5eb26f90836f4f963d0fa146c21",
+        "remote": "https://github.com/whynothugo/django-afip.git",
+        "repo": "whynothugo/django-afip",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "testapp/testapp/testmain/test_admin.py",
+          "testapp/testapp/testmain/test_tags.py",
+          "testapp/testapp/testmain/tests.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/gold/junit.xml",
+        "label": "gold",
+        "revision": "827dd9f05a0ab517c7f4833754c0d60ddee48f56",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "testapp/testapp/testmain/test_admin.py",
+          "testapp/testapp/testmain/test_tags.py",
+          "testapp/testapp/testmain/tests.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/parent/junit.xml",
+        "label": "parent",
+        "revision": "5a3175515e73c5eb26f90836f4f963d0fa146c21",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/whynothugo_django-afip__827dd9f05a0ab517c7f4833754c0d60ddee48f56/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/suds-py3__zeep__whynothugo@django-afip__827dd9f0.yaml",
+      "repo": "whynothugo/django-afip",
+      "source": "suds-py3",
+      "static_metrics": {
+        "change_count": 3,
+        "file_count": 2,
+        "paths": [
+          "django_afip/clients.py",
+          "django_afip/models.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "zeep",
+      "test_command": {
+        "all_discovered_test_paths_count": 3,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "testapp/testapp/testmain/test_admin.py",
+          "testapp/testapp/testmain/test_tags.py",
+          "testapp/testapp/testmain/tests.py"
+        ],
+        "config_paths": [
+          "tox.ini",
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "testapp/testapp/testmain/test_admin.py",
+          "testapp/testapp/testmain/test_tags.py",
+          "testapp/testapp/testmain/tests.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "0dbf3884e1a63065efc1523505348a343a1c2764",
+      "fetch": {
+        "commit": "0dbf3884e1a63065efc1523505348a343a1c2764",
+        "fetch_attempts": 1,
+        "gold_commit": "0dbf3884e1a63065efc1523505348a343a1c2764",
+        "parent_commit": "6616cb5da53624a352639e4f28d8d0c7acef4ede",
+        "remote": "https://github.com/nlesc/xtas.git",
+        "repo": "nlesc/xtas",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "xtas/tests/test_single.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/gold/junit.xml",
+        "label": "gold",
+        "revision": "0dbf3884e1a63065efc1523505348a343a1c2764",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "xtas/tests/test_single.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/parent/junit.xml",
+        "label": "parent",
+        "revision": "6616cb5da53624a352639e4f28d8d0c7acef4ede",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/nlesc_xtas__0dbf3884e1a63065efc1523505348a343a1c2764/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/toolz__cytoolz__nlesc@xtas__0dbf3884.yaml",
+      "repo": "nlesc/xtas",
+      "source": "toolz",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 2,
+        "paths": [
+          "xtas/tasks/cluster.py",
+          "xtas/tasks/single.py"
+        ],
+        "py_path_count": 2,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "cytoolz",
+      "test_command": {
+        "all_discovered_test_paths_count": 9,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "xtas/tests/test_single.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "xtas/tests/test_single.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "commit": "d340eea2fdedde8908334eda34325d058fc88282",
+      "fetch": {
+        "commit": "d340eea2fdedde8908334eda34325d058fc88282",
+        "fetch_attempts": 1,
+        "gold_commit": "d340eea2fdedde8908334eda34325d058fc88282",
+        "parent_commit": "083f060d36bc2b3904186a3ad335e201ac8821bc",
+        "remote": "https://github.com/adithyabsk/keep2roam.git",
+        "repo": "adithyabsk/keep2roam",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/adithyabsk_keep2roam__d340eea2fdedde8908334eda34325d058fc88282",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/argparse__click__adithyabsk@keep2roam__d340eea2.yaml",
+      "repo": "adithyabsk/keep2roam",
+      "source": "argparse",
+      "static_metrics": {
+        "change_count": 6,
+        "file_count": 1,
+        "paths": [
+          "convert.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "click",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "fb3210538573bfe67d1f3faf0edb566a2c9877a6",
+      "fetch": {
+        "commit": "fb3210538573bfe67d1f3faf0edb566a2c9877a6",
+        "fetch_attempts": 1,
+        "gold_commit": "fb3210538573bfe67d1f3faf0edb566a2c9877a6",
+        "parent_commit": "70d2aab4fb53182c62f4bcdc1ab56654c339efe7",
+        "remote": "https://github.com/ceph/teuthology.git",
+        "repo": "ceph/teuthology",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "scripts/test/test_results.py",
+          "teuthology/test/test_results.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/gold/junit.xml",
+        "label": "gold",
+        "revision": "fb3210538573bfe67d1f3faf0edb566a2c9877a6",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "scripts/test/test_results.py",
+          "teuthology/test/test_results.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/parent/junit.xml",
+        "label": "parent",
+        "revision": "70d2aab4fb53182c62f4bcdc1ab56654c339efe7",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ceph_teuthology__fb3210538573bfe67d1f3faf0edb566a2c9877a6/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/argparse__docopt__ceph@teuthology__fb321053.yaml",
+      "repo": "ceph/teuthology",
+      "source": "argparse",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "scripts/results.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "docopt",
+      "test_command": {
+        "all_discovered_test_paths_count": 32,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "scripts/test/test_results.py",
+          "teuthology/test/test_results.py"
+        ],
+        "config_paths": [
+          "pytest.ini",
+          "tox.ini"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "scripts/test/test_results.py",
+          "teuthology/test/test_results.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_02",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [],
+        "pass_to_pass": []
+      },
+      "commit": "13ea499e413b86256345fbf39f26628b68a7fe83",
+      "fetch": {
+        "commit": "13ea499e413b86256345fbf39f26628b68a7fe83",
+        "fetch_attempts": 1,
+        "gold_commit": "13ea499e413b86256345fbf39f26628b68a7fe83",
+        "parent_commit": "aab471ae4b5e097a0b96ae8da93799f5a9177a9b",
+        "remote": "https://github.com/augerai/a2ml.git",
+        "repo": "augerai/a2ml",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "a2ml/cmdl/utils/test_task.py",
+          "tests/auger/test_configs.py",
+          "tests/integration/test_auger.py",
+          "tests/integration/test_project.py",
+          "tests/server/test_server.py",
+          "tests/test_azure_a2ml.py",
+          "tests/test_celery_tasks/test_tasks.py",
+          "tests/test_cmdl.py",
+          "tests/test_facade.py",
+          "tests/test_google_a2ml.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/gold/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/gold/junit.xml",
+        "label": "gold",
+        "revision": "13ea499e413b86256345fbf39f26628b68a7fe83",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/gold/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/gold/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "a2ml/cmdl/utils/test_task.py",
+          "tests/auger/test_configs.py",
+          "tests/integration/test_auger.py",
+          "tests/integration/test_project.py",
+          "tests/server/test_server.py",
+          "tests/test_azure_a2ml.py",
+          "tests/test_celery_tasks/test_tasks.py",
+          "tests/test_cmdl.py",
+          "tests/test_facade.py",
+          "tests/test_google_a2ml.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/parent/junit.xml"
+        ],
+        "exit_code": 1,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/parent/junit.xml",
+        "label": "parent",
+        "revision": "aab471ae4b5e097a0b96ae8da93799f5a9177a9b",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/parent/stderr.txt",
+        "stderr_sha256": "b72695fcb3e2889d64484497e2ea8079822f1532c2505f226cde970957bedf7d",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/augerai_a2ml__13ea499e413b86256345fbf39f26628b68a7fe83/parent/stdout.txt",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests": {
+          "cases": {},
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 0
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/asyncio-redis__aioredis__augerai@a2ml__13ea499e.yaml",
+      "repo": "augerai/a2ml",
+      "source": "asyncio-redis",
+      "static_metrics": {
+        "change_count": 3,
+        "file_count": 1,
+        "paths": [
+          "a2ml/server/notification.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "aioredis",
+      "test_command": {
+        "all_discovered_test_paths_count": 10,
+        "command": [
+          "python3",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "a2ml/cmdl/utils/test_task.py",
+          "tests/auger/test_configs.py",
+          "tests/integration/test_auger.py",
+          "tests/integration/test_project.py",
+          "tests/server/test_server.py",
+          "tests/test_azure_a2ml.py",
+          "tests/test_celery_tasks/test_tasks.py",
+          "tests/test_cmdl.py",
+          "tests/test_facade.py",
+          "tests/test_google_a2ml.py"
+        ],
+        "config_paths": [
+          "tox.ini",
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "a2ml/cmdl/utils/test_task.py",
+          "tests/auger/test_configs.py",
+          "tests/integration/test_auger.py",
+          "tests/integration/test_project.py",
+          "tests/server/test_server.py",
+          "tests/test_azure_a2ml.py",
+          "tests/test_celery_tasks/test_tasks.py",
+          "tests/test_cmdl.py",
+          "tests/test_facade.py",
+          "tests/test_google_a2ml.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "commit": "22eedfcd1ef701a4283505762660146b57b26304",
+      "fetch": {
+        "commit": "22eedfcd1ef701a4283505762660146b57b26304",
+        "fetch_attempts": 1,
+        "gold_commit": "22eedfcd1ef701a4283505762660146b57b26304",
+        "parent_commit": "5dc69afd0b33e1855582346489d6f48fbe661df1",
+        "remote": "https://github.com/twiliodeved/sms2fa-flask.git",
+        "repo": "twiliodeved/sms2fa-flask",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/twiliodeved_sms2fa-flask__22eedfcd1ef701a4283505762660146b57b26304",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/bcrypt__passlib__twiliodeved@sms2fa-flask__22eedfcd.yaml",
+      "repo": "twiliodeved/sms2fa-flask",
+      "source": "bcrypt",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "sms2fa_flask/models.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "passlib",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_03",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [
+          "cfgov.core.tests.test_imports",
+          "cfgov.core.tests.test_services",
+          "cfgov.core.tests.test_views",
+          "cfgov.flags.tests",
+          "cfgov.sheerlike.test_feeds",
+          "cfgov.sheerlike.test_filters",
+          "cfgov.sheerlike.test_templates",
+          "cfgov.transition_utilities.test_middleware",
+          "cfgov.v1.tests",
+          "test.macro_tests.test_macros"
+        ],
+        "pass_to_pass": []
+      },
+      "commit": "3262610155669294fa5b79c108b6a244d9d03cbc",
+      "fetch": {
+        "commit": "3262610155669294fa5b79c108b6a244d9d03cbc",
+        "fetch_attempts": 1,
+        "gold_commit": "3262610155669294fa5b79c108b6a244d9d03cbc",
+        "parent_commit": "36c96327a92b49c77e163ff298a30f5303970d60",
+        "remote": "https://github.com/cfpb/cfgov-refresh.git",
+        "repo": "cfpb/cfgov-refresh",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "cfgov/core/tests/test_imports.py",
+          "cfgov/core/tests/test_services.py",
+          "cfgov/core/tests/test_utils.py",
+          "cfgov/core/tests/test_views.py",
+          "cfgov/flags/tests.py",
+          "cfgov/sheerlike/test_feeds.py",
+          "cfgov/sheerlike/test_filters.py",
+          "cfgov/sheerlike/test_templates.py",
+          "cfgov/transition_utilities/test_middleware.py",
+          "cfgov/v1/tests.py",
+          "test/macro_tests/test_macros.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/gold/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/gold/junit.xml",
+        "label": "gold",
+        "revision": "3262610155669294fa5b79c108b6a244d9d03cbc",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/gold/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/gold/stdout.txt",
+        "stdout_sha256": "934cf3d4d86a28940a429c0562ba60ff3987c350eb6ec9642a20cd30461e628f",
+        "tests": {
+          "cases": {
+            "cfgov.core.tests.test_imports": "error",
+            "cfgov.core.tests.test_services": "error",
+            "cfgov.core.tests.test_views": "error",
+            "cfgov.flags.tests": "error",
+            "cfgov.sheerlike.test_feeds": "error",
+            "cfgov.sheerlike.test_filters": "error",
+            "cfgov.sheerlike.test_templates": "error",
+            "cfgov.transition_utilities.test_middleware": "error",
+            "cfgov.v1.tests": "error",
+            "test.macro_tests.test_macros": "error"
+          },
+          "errors": 10,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 10
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "cfgov/core/tests/test_imports.py",
+          "cfgov/core/tests/test_services.py",
+          "cfgov/core/tests/test_utils.py",
+          "cfgov/core/tests/test_views.py",
+          "cfgov/flags/tests.py",
+          "cfgov/sheerlike/test_feeds.py",
+          "cfgov/sheerlike/test_filters.py",
+          "cfgov/sheerlike/test_templates.py",
+          "cfgov/transition_utilities/test_middleware.py",
+          "cfgov/v1/tests.py",
+          "test/macro_tests/test_macros.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/parent/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/parent/junit.xml",
+        "label": "parent",
+        "revision": "36c96327a92b49c77e163ff298a30f5303970d60",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/parent/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/cfpb_cfgov-refresh__3262610155669294fa5b79c108b6a244d9d03cbc/parent/stdout.txt",
+        "stdout_sha256": "29aa26d6c398980c17b9983fd7ef19e9673ff188b1f1f42903bfc201d9d8d289",
+        "tests": {
+          "cases": {
+            "cfgov.core.tests.test_imports": "error",
+            "cfgov.core.tests.test_services": "error",
+            "cfgov.core.tests.test_views": "error",
+            "cfgov.flags.tests": "error",
+            "cfgov.sheerlike.test_feeds": "error",
+            "cfgov.sheerlike.test_filters": "error",
+            "cfgov.sheerlike.test_templates": "error",
+            "cfgov.transition_utilities.test_middleware": "error",
+            "cfgov.v1.tests": "error",
+            "test.macro_tests.test_macros": "error"
+          },
+          "errors": 10,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 10
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/beautifulsoup__bs4__cfpb@cfgov-refresh__32626101.yaml",
+      "repo": "cfpb/cfgov-refresh",
+      "source": "beautifulsoup",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "cfgov/v1/__init__.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "bs4",
+      "test_command": {
+        "all_discovered_test_paths_count": 11,
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "cfgov/core/tests/test_imports.py",
+          "cfgov/core/tests/test_services.py",
+          "cfgov/core/tests/test_utils.py",
+          "cfgov/core/tests/test_views.py",
+          "cfgov/flags/tests.py",
+          "cfgov/sheerlike/test_feeds.py",
+          "cfgov/sheerlike/test_filters.py",
+          "cfgov/sheerlike/test_templates.py",
+          "cfgov/transition_utilities/test_middleware.py",
+          "cfgov/v1/tests.py",
+          "test/macro_tests/test_macros.py"
+        ],
+        "config_paths": [
+          "tox.ini"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "cfgov/core/tests/test_imports.py",
+          "cfgov/core/tests/test_services.py",
+          "cfgov/core/tests/test_utils.py",
+          "cfgov/core/tests/test_views.py",
+          "cfgov/flags/tests.py",
+          "cfgov/sheerlike/test_feeds.py",
+          "cfgov/sheerlike/test_filters.py",
+          "cfgov/sheerlike/test_templates.py",
+          "cfgov/transition_utilities/test_middleware.py",
+          "cfgov/v1/tests.py",
+          "test/macro_tests/test_macros.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "commit": "54806ffc8eddb19cb4b603a380a2f1126eaae84e",
+      "fetch": {
+        "commit": "54806ffc8eddb19cb4b603a380a2f1126eaae84e",
+        "fetch_attempts": 1,
+        "gold_commit": "54806ffc8eddb19cb4b603a380a2f1126eaae84e",
+        "parent_commit": "9a52f0618232f30e6f5c151ea177fe5dfb10b5ec",
+        "remote": "https://github.com/whoopinc/mkwheelhouse.git",
+        "repo": "whoopinc/mkwheelhouse",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/whoopinc_mkwheelhouse__54806ffc8eddb19cb4b603a380a2f1126eaae84e",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/botocore__boto__whoopinc@mkwheelhouse__54806ffc.yaml",
+      "repo": "whoopinc/mkwheelhouse",
+      "source": "botocore",
+      "static_metrics": {
+        "change_count": 1,
+        "file_count": 1,
+        "paths": [
+          "mkwheelhouse.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "boto",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_03",
+      "commit": "f9f083ec6b1de67e4e128e2fdc85cb7bacadcf6b",
+      "fetch": {
+        "commit": "f9f083ec6b1de67e4e128e2fdc85cb7bacadcf6b",
+        "fetch_attempts": 1,
+        "gold_commit": "f9f083ec6b1de67e4e128e2fdc85cb7bacadcf6b",
+        "parent_commit": "27d9b045c2b1c379f80ae8169e5d5b3978d35fa6",
+        "remote": "https://github.com/cqmoe/python-cqhttp.git",
+        "repo": "cqmoe/python-cqhttp",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/cqmoe_python-cqhttp__f9f083ec6b1de67e4e128e2fdc85cb7bacadcf6b",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/bottle__flask__cqmoe@python-cqhttp__f9f083ec.yaml",
+      "repo": "cqmoe/python-cqhttp",
+      "source": "bottle",
+      "static_metrics": {
+        "change_count": 6,
+        "file_count": 1,
+        "paths": [
+          "cqhttp/__init__.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "flask",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_03",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [
+          "tests.test_ntripbrowser"
+        ],
+        "pass_to_pass": []
+      },
+      "commit": "9161c1943a8623892b174c98cdf686a4a0ce8673",
+      "fetch": {
+        "commit": "9161c1943a8623892b174c98cdf686a4a0ce8673",
+        "fetch_attempts": 1,
+        "gold_commit": "9161c1943a8623892b174c98cdf686a4a0ce8673",
+        "parent_commit": "ed5f52b2b9c2ddbc09b46848fae616e2f23247ad",
+        "remote": "https://github.com/emlid/ntripbrowser.git",
+        "repo": "emlid/ntripbrowser",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/test_ntripbrowser.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/gold/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/gold/junit.xml",
+        "label": "gold",
+        "revision": "9161c1943a8623892b174c98cdf686a4a0ce8673",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/gold/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/gold/stdout.txt",
+        "stdout_sha256": "3cb73225375602a7a272c9c1cd3b813f6d6f7e2f3948bbce1f8cf3f80777bf87",
+        "tests": {
+          "cases": {
+            "tests.test_ntripbrowser": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/test_ntripbrowser.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/parent/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/parent/junit.xml",
+        "label": "parent",
+        "revision": "ed5f52b2b9c2ddbc09b46848fae616e2f23247ad",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/parent/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/emlid_ntripbrowser__9161c1943a8623892b174c98cdf686a4a0ce8673/parent/stdout.txt",
+        "stdout_sha256": "8157f882f238989d3c0eede852e0ed79576ff3c9f6f3628a92ea12739281bb9b",
+        "tests": {
+          "cases": {
+            "tests.test_ntripbrowser": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/chardet__cchardet__emlid@ntripbrowser__9161c194.yaml",
+      "repo": "emlid/ntripbrowser",
+      "source": "chardet",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "ntripbrowser/ntripbrowser.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "cchardet",
+      "test_command": {
+        "all_discovered_test_paths_count": 1,
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/test_ntripbrowser.py"
+        ],
+        "config_paths": [
+          "tox.ini"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "tests/test_ntripbrowser.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "commit": "422d73beace31a95a817d9befa860ca932df4596",
+      "fetch": {
+        "commit": "422d73beace31a95a817d9befa860ca932df4596",
+        "fetch_attempts": 1,
+        "repo": "kittenparry/meituri-downloader",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/kittenparry_meituri-downloader__422d73beace31a95a817d9befa860ca932df4596",
+        "status": "FETCH_FAILED",
+        "stderr": "fatal: could not read Username for 'https://github.com': 没有那个设备或地址\n"
+      },
+      "reason": "FETCH_FAILED",
+      "record_path": "data/migration/click__argparse__kittenparry@meituri-downloader__422d73be.yaml",
+      "repo": "kittenparry/meituri-downloader",
+      "source": "click",
+      "static_metrics": {
+        "change_count": 7,
+        "file_count": 1,
+        "paths": [
+          "meituri.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "argparse"
+    },
+    {
+      "batch_id": "batch_03",
+      "commit": "d018edff306bf88c8be56d2c8252a44b374f9293",
+      "fetch": {
+        "commit": "d018edff306bf88c8be56d2c8252a44b374f9293",
+        "fetch_attempts": 1,
+        "gold_commit": "d018edff306bf88c8be56d2c8252a44b374f9293",
+        "parent_commit": "778e4d17adbbed389762cbc00ea83d7b446d9be4",
+        "remote": "https://github.com/danielyule/hearthbreaker.git",
+        "repo": "danielyule/hearthbreaker",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/danielyule_hearthbreaker__d018edff306bf88c8be56d2c8252a44b374f9293",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/cloud-sptheme__sphinx-rtd-theme__danielyule@hearthbreaker__d018edff.yaml",
+      "repo": "danielyule/hearthbreaker",
+      "source": "cloud-sptheme",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "docs/conf.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "sphinx-rtd-theme",
+      "test_command": null
+    },
+    {
+      "batch_id": "batch_03",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [
+          "tests.test_data"
+        ],
+        "pass_to_pass": []
+      },
+      "commit": "2375af87fa36b7c93c5a3be5cab81784d4a2f64e",
+      "fetch": {
+        "commit": "2375af87fa36b7c93c5a3be5cab81784d4a2f64e",
+        "fetch_attempts": 1,
+        "gold_commit": "2375af87fa36b7c93c5a3be5cab81784d4a2f64e",
+        "parent_commit": "0635dcfb7ba0d3867e929c2c0590918e3e62d4d7",
+        "remote": "https://github.com/ctlearn-project/ctlearn.git",
+        "repo": "ctlearn-project/ctlearn",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/test_data.py",
+          "tests/test_models.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/gold/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/gold/junit.xml",
+        "label": "gold",
+        "revision": "2375af87fa36b7c93c5a3be5cab81784d4a2f64e",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/gold/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/gold/stdout.txt",
+        "stdout_sha256": "1a72a449ebdd4b716df76f38c9684507b76d9a5afb6eb190dd199256393bef58",
+        "tests": {
+          "cases": {
+            "tests.test_data": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/test_data.py",
+          "tests/test_models.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/parent/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/parent/junit.xml",
+        "label": "parent",
+        "revision": "0635dcfb7ba0d3867e929c2c0590918e3e62d4d7",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/parent/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ctlearn-project_ctlearn__2375af87fa36b7c93c5a3be5cab81784d4a2f64e/parent/stdout.txt",
+        "stdout_sha256": "96406317160317e10db9c8aeac36257d286da7c0d82130ce8ea4cd7e01118e82",
+        "tests": {
+          "cases": {
+            "tests.test_data": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/configparser__configobj__ctlearn-project@ctlearn__2375af87.yaml",
+      "repo": "ctlearn-project/ctlearn",
+      "source": "configparser",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "ctalearn/scripts/run_model.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "configobj",
+      "test_command": {
+        "all_discovered_test_paths_count": 2,
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "tests/test_data.py",
+          "tests/test_models.py"
+        ],
+        "config_paths": [
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "tests/test_data.py",
+          "tests/test_models.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [
+          "ckanext.datapackager.tests.lib.test_helpers"
+        ],
+        "pass_to_pass": []
+      },
+      "commit": "a6a3fb3aaa48790365430740686de2019ff0076a",
+      "fetch": {
+        "commit": "a6a3fb3aaa48790365430740686de2019ff0076a",
+        "fetch_attempts": 1,
+        "gold_commit": "a6a3fb3aaa48790365430740686de2019ff0076a",
+        "parent_commit": "1a1b5d18d67d09ee62a0c463ee0c34401a6cdd3c",
+        "remote": "https://github.com/ckan/ckanext-datapackager.git",
+        "repo": "ckan/ckanext-datapackager",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "ckanext/datapackager/tests/lib/test_helpers.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/gold/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/gold/junit.xml",
+        "label": "gold",
+        "revision": "a6a3fb3aaa48790365430740686de2019ff0076a",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/gold/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/gold/stdout.txt",
+        "stdout_sha256": "31e48356d6b65f8958bbf9fd78c813eb6203d93572a5b03b7d227c9c4f5956ea",
+        "tests": {
+          "cases": {
+            "ckanext.datapackager.tests.lib.test_helpers": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "ckanext/datapackager/tests/lib/test_helpers.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/parent/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/parent/junit.xml",
+        "label": "parent",
+        "revision": "1a1b5d18d67d09ee62a0c463ee0c34401a6cdd3c",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/parent/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/ckan_ckanext-datapackager__a6a3fb3aaa48790365430740686de2019ff0076a/parent/stdout.txt",
+        "stdout_sha256": "81240d8e323ce71effd496920f2ee47524f4b6c83246a787839152f2106c613e",
+        "tests": {
+          "cases": {
+            "ckanext.datapackager.tests.lib.test_helpers": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/csv__unicodecsv__ckan@ckanext-datapackager__a6a3fb3a.yaml",
+      "repo": "ckan/ckanext-datapackager",
+      "source": "csv",
+      "static_metrics": {
+        "change_count": 4,
+        "file_count": 1,
+        "paths": [
+          "ckanext/datapackager/lib/helpers.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "unicodecsv",
+      "test_command": {
+        "all_discovered_test_paths_count": 12,
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "ckanext/datapackager/tests/lib/test_helpers.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "ckanext/datapackager/tests/lib/test_helpers.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [
+          "test.test_datetimerange"
+        ],
+        "pass_to_pass": []
+      },
+      "commit": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+      "fetch": {
+        "commit": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+        "fetch_attempts": 1,
+        "gold_commit": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+        "parent_commit": "10659da2b1812cbec4d218b71582f73029c62fb7",
+        "remote": "https://github.com/thombashi/datetimerange.git",
+        "repo": "thombashi/datetimerange",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "test/test_datetimerange.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/gold/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/gold/junit.xml",
+        "label": "gold",
+        "revision": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/gold/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/gold/stdout.txt",
+        "stdout_sha256": "b3f2386fa802570279dc5b3b2bfc8a1da5f116ebe5b080da358a757b3bfe7ce2",
+        "tests": {
+          "cases": {
+            "test.test_datetimerange": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "test/test_datetimerange.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/parent/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/parent/junit.xml",
+        "label": "parent",
+        "revision": "10659da2b1812cbec4d218b71582f73029c62fb7",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/parent/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/thombashi_datetimerange__936761f779c4f7dc8c2d4c03c47b6e7b6e978a89/parent/stdout.txt",
+        "stdout_sha256": "1a051ffa1a98db156ca15fbeb33402dab7bf27e5ce6ab245bd9fe50c3c28f960",
+        "tests": {
+          "cases": {
+            "test.test_datetimerange": "error"
+          },
+          "errors": 1,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/dataproperty__typepy__thombashi@datetimerange__936761f7.yaml",
+      "repo": "thombashi/datetimerange",
+      "source": "dataproperty",
+      "static_metrics": {
+        "change_count": 3,
+        "file_count": 1,
+        "paths": [
+          "datetimerange/__init__.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "typepy",
+      "test_command": {
+        "all_discovered_test_paths_count": 1,
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "test/test_datetimerange.py"
+        ],
+        "config_paths": [
+          "tox.ini",
+          "setup.cfg"
+        ],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "test/test_datetimerange.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "classification": {
+        "fail_to_pass": [],
+        "gold_all_tests_pass": false,
+        "parent_all_tests_pass": false,
+        "parent_failed_not_recovered": [
+          "APISpec.gen.test_api_complex",
+          "APISpec.gen.test_api_custom",
+          "APISpec.gen.test_api_simple",
+          "tob-api.api.test_api_complex",
+          "tob-api.api.test_api_custom",
+          "tob-api.api.test_api_search",
+          "tob-api.api.test_api_simple",
+          "tob-api.api.tests",
+          "tob-api.auditable.tests"
+        ],
+        "pass_to_pass": []
+      },
+      "commit": "728f86e941dfb6bdbee27628d28425757af5f22d",
+      "fetch": {
+        "commit": "728f86e941dfb6bdbee27628d28425757af5f22d",
+        "fetch_attempts": 1,
+        "gold_commit": "728f86e941dfb6bdbee27628d28425757af5f22d",
+        "parent_commit": "a3f37eac4a652844bc47e834970854349f1d4399",
+        "remote": "https://github.com/bcgov/theorgbook.git",
+        "repo": "bcgov/theorgbook",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d",
+        "status": "FETCHED"
+      },
+      "gold_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "APISpec/gen/test_api_complex.py",
+          "APISpec/gen/test_api_custom.py",
+          "APISpec/gen/test_api_simple.py",
+          "tob-api/api/test_api_complex.py",
+          "tob-api/api/test_api_custom.py",
+          "tob-api/api/test_api_search.py",
+          "tob-api/api/test_api_simple.py",
+          "tob-api/api/tests.py",
+          "tob-api/auditable/tests.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/gold/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/gold/junit.xml",
+        "label": "gold",
+        "revision": "728f86e941dfb6bdbee27628d28425757af5f22d",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/gold/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/gold/stdout.txt",
+        "stdout_sha256": "62999f3a9a9e6d2c6fc7b7f363f101abb0d74b0eb3baf8b7bbdbccf3a7fbdec0",
+        "tests": {
+          "cases": {
+            "APISpec.gen.test_api_complex": "error",
+            "APISpec.gen.test_api_custom": "error",
+            "APISpec.gen.test_api_simple": "error",
+            "tob-api.api.test_api_complex": "error",
+            "tob-api.api.test_api_custom": "error",
+            "tob-api.api.test_api_search": "error",
+            "tob-api.api.test_api_simple": "error",
+            "tob-api.api.tests": "error",
+            "tob-api.auditable.tests": "error"
+          },
+          "errors": 9,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 9
+        },
+        "timed_out": false
+      },
+      "parent_result": {
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "APISpec/gen/test_api_complex.py",
+          "APISpec/gen/test_api_custom.py",
+          "APISpec/gen/test_api_simple.py",
+          "tob-api/api/test_api_complex.py",
+          "tob-api/api/test_api_custom.py",
+          "tob-api/api/test_api_search.py",
+          "tob-api/api/test_api_simple.py",
+          "tob-api/api/tests.py",
+          "tob-api/auditable/tests.py",
+          "--junitxml=/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/parent/junit.xml"
+        ],
+        "exit_code": 2,
+        "junit_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/parent/junit.xml",
+        "label": "parent",
+        "revision": "a3f37eac4a652844bc47e834970854349f1d4399",
+        "status": "FAIL",
+        "stderr_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/parent/stderr.txt",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_logs/bcgov_theorgbook__728f86e941dfb6bdbee27628d28425757af5f22d/parent/stdout.txt",
+        "stdout_sha256": "26aa322c8648aedc329d071bb89c248762e1da871e5ad9c9fe657a786d75fce1",
+        "tests": {
+          "cases": {
+            "APISpec.gen.test_api_complex": "error",
+            "APISpec.gen.test_api_custom": "error",
+            "APISpec.gen.test_api_simple": "error",
+            "tob-api.api.test_api_complex": "error",
+            "tob-api.api.test_api_custom": "error",
+            "tob-api.api.test_api_search": "error",
+            "tob-api.api.test_api_simple": "error",
+            "tob-api.api.tests": "error",
+            "tob-api.auditable.tests": "error"
+          },
+          "errors": 9,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 9
+        },
+        "timed_out": false
+      },
+      "reason": "GOLD_NOT_REPRODUCIBLE_OR_NO_BEHAVIORAL_LABEL",
+      "record_path": "data/migration/django-rest-swagger__drf-yasg__bcgov@theorgbook__728f86e9.yaml",
+      "repo": "bcgov/theorgbook",
+      "source": "django-rest-swagger",
+      "static_metrics": {
+        "change_count": 1,
+        "file_count": 1,
+        "paths": [
+          "tob-api/api_v2/swagger.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "drf-yasg",
+      "test_command": {
+        "all_discovered_test_paths_count": 9,
+        "command": [
+          "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+          "-m",
+          "pytest",
+          "-q",
+          "--disable-warnings",
+          "APISpec/gen/test_api_complex.py",
+          "APISpec/gen/test_api_custom.py",
+          "APISpec/gen/test_api_simple.py",
+          "tob-api/api/test_api_complex.py",
+          "tob-api/api/test_api_custom.py",
+          "tob-api/api/test_api_search.py",
+          "tob-api/api/test_api_simple.py",
+          "tob-api/api/tests.py",
+          "tob-api/auditable/tests.py"
+        ],
+        "config_paths": [],
+        "selection_rule": "migration-relevant Python tests, capped at 20 files; full discovered suite only when it has at most 20 files",
+        "test_paths": [
+          "APISpec/gen/test_api_complex.py",
+          "APISpec/gen/test_api_custom.py",
+          "APISpec/gen/test_api_simple.py",
+          "tob-api/api/test_api_complex.py",
+          "tob-api/api/test_api_custom.py",
+          "tob-api/api/test_api_search.py",
+          "tob-api/api/test_api_simple.py",
+          "tob-api/api/tests.py",
+          "tob-api/auditable/tests.py"
+        ]
+      }
+    },
+    {
+      "batch_id": "batch_03",
+      "commit": "ba6ef08fb7ebb9d5db4034e65622f4d80288fa6a",
+      "fetch": {
+        "commit": "ba6ef08fb7ebb9d5db4034e65622f4d80288fa6a",
+        "fetch_attempts": 1,
+        "gold_commit": "ba6ef08fb7ebb9d5db4034e65622f4d80288fa6a",
+        "parent_commit": "f83046e527905e0e6b4b07eee7c619769888b427",
+        "remote": "https://github.com/aio-libs/aioftp.git",
+        "repo": "aio-libs/aioftp",
+        "repo_dir": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/repos/aio-libs_aioftp__ba6ef08fb7ebb9d5db4034e65622f4d80288fa6a",
+        "status": "FETCHED"
+      },
+      "reason": "NO_DISCOVERED_TESTS",
+      "record_path": "data/migration/docopt__argparse__aio-libs@aioftp__ba6ef08f.yaml",
+      "repo": "aio-libs/aioftp",
+      "source": "docopt",
+      "static_metrics": {
+        "change_count": 2,
+        "file_count": 1,
+        "paths": [
+          "aioftp/__main__.py"
+        ],
+        "py_path_count": 1,
+        "template_path_count": 0
+      },
+      "status": "REJECTED",
+      "target": "argparse",
+      "test_command": null
+    }
+  ],
+  "environment": {
+    "pytest_available": true,
+    "pytest_probe_exit_code": 0,
+    "pytest_version_output": "pytest 8.3.5",
+    "python_executable": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/pymigbench_task_repos/test_env/bin/python",
+    "python_implementation": "CPython",
+    "python_version": "3.12.3",
+    "pythondontwritebytecode": "1",
+    "pythonhashseed": "0",
+    "resolved_python3": "/usr/bin/python3"
+  },
+  "failed_environment_retries": 0,
+  "model_calls": 0,
+  "observed_behavioral_labels": {
+    "fail_to_pass": [],
+    "pass_to_pass": [],
+    "rule": "Actual parent/gold JUnit outcomes only."
+  },
+  "ready_task_ids": [],
+  "retained_task_ids": [],
+  "schema": "pymigbench_external_change_test_receipt_v1",
+  "source_commit": "d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b",
+  "status": "BOUNDED_ZERO_TASK_CURATION"
+}

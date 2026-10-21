@@ -1,0 +1,73 @@
+{
+  "condition_contract": {
+    "BASE": {
+      "actor_visible": [
+        "pre_migration_context"
+      ],
+      "change_facts": null
+    },
+    "PROSE_CHANGE_FACTS": {
+      "actor_visible": [
+        "pre_migration_context",
+        "facts",
+        "facts_text"
+      ],
+      "facts_fields": [
+        "affected_file_count",
+        "cardinality",
+        "code_change_count",
+        "domain",
+        "properties",
+        "source_library",
+        "source_program_elements",
+        "target_library"
+      ],
+      "facts_source": "condition_facts"
+    },
+    "STRUCTURED_CHANGE_FACTS": {
+      "actor_visible": [
+        "pre_migration_context",
+        "facts"
+      ],
+      "facts_fields": [
+        "affected_file_count",
+        "cardinality",
+        "code_change_count",
+        "domain",
+        "properties",
+        "source_library",
+        "source_program_elements",
+        "target_library"
+      ],
+      "facts_source": "condition_facts"
+    },
+    "equal_information_rule": "PROSE_CHANGE_FACTS.facts and STRUCTURED_CHANGE_FACTS.facts must be identical; prose adds only a deterministic rendering.",
+    "forbidden_actor_visible": [
+      "target_apis",
+      "line_maps",
+      "gold_diff",
+      "tests",
+      "target_code"
+    ]
+  },
+  "conditions": [
+    "BASE",
+    "PROSE_CHANGE_FACTS",
+    "STRUCTURED_CHANGE_FACTS"
+  ],
+  "oracle_boundary": [
+    "target_apis",
+    "line_maps",
+    "gold_diff",
+    "tests"
+  ],
+  "schema": "pymigbench_external_change_tasks_v1",
+  "source": {
+    "commit": "d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b",
+    "name": "PyMigBench",
+    "repository": "https://github.com/ualberta-smr/PyMigBench.git"
+  },
+  "status": "FROZEN_ZERO_TASKS",
+  "task_count": 0,
+  "tasks": []
+}

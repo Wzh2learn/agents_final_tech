@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"import struct\\nfrom imageio.plugins._tifffile import unpack_rgb\\n\\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\\nprint(unpack_rgb(data, '<B', (5, 6, 5), False))\\nprint(unpack_rgb(data, '<B', (5, 6, 5)))\\nprint(unpack_rgb(data, '<B', (5, 5, 5)))\"\n}"
+      }
+    }
+  ],
+  "created": 1792571640,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 115,
+    "prompt_tokens": 1090,
+    "total_tokens": 1205,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-3UkRIPsYVrCzjWK3yDwK4I1kUPLJwVhw",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 1090,
+    "prompt_ms": 664.549,
+    "prompt_per_token_ms": 0.6096779816513761,
+    "prompt_per_second": 1640.2101274699082,
+    "predicted_n": 115,
+    "predicted_ms": 1801.673,
+    "predicted_per_token_ms": 15.666721739130434,
+    "predicted_per_second": 63.82956285630079
+  }
+}

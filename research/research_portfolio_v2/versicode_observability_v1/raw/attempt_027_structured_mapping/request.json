@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"pclass\",\n  \"target_api\": \"immutable\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

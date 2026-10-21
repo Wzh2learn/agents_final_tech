@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"from markupsafe import escape, Markup\\n\\nvalue = escape('<User 1>')\\nvalue\\nMarkup('&lt;User 1&gt;')\\nescape(str(value))\\nMarkup('&amp;lt;User 1&amp;gt;')\\nescape(str(value))\\nMarkup('&lt;User 1&gt;')\"\n}"
+      }
+    }
+  ],
+  "created": 1792571646,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 82,
+    "prompt_tokens": 186,
+    "total_tokens": 268,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-BAsLLTeXnge4Y2s68PsC76ArQaTJquYh",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 186,
+    "prompt_ms": 196.119,
+    "prompt_per_token_ms": 1.0544032258064515,
+    "prompt_per_second": 948.403775258899,
+    "predicted_n": 82,
+    "predicted_ms": 1285.628,
+    "predicted_per_token_ms": 15.678390243902438,
+    "predicted_per_second": 63.78205826257673
+  }
+}

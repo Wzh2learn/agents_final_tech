@@ -1,0 +1,890 @@
+{
+  "schema": "versicode_observability_tasks_v1",
+  "created_at": "2026-10-21T16:18:42.782727+08:00",
+  "evidence_identity": "DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION",
+  "source": {
+    "repository": "https://github.com/wutong8023/VersiCode",
+    "commit": "8a53b9938707deb4c8398152e9ebc923580783a3",
+    "dataset_path": "D:\\AIRcommend\\JinRongAgents\\_protected_research_20261021_v1\\external_sources\\VersiCode\\_extracted_versicode\\VersiCode_Benchmark\\code_editing\\code_editing_old_to_new.json",
+    "dataset_sha256": "b50bccda7de3d37efaaabc7ba2d91de9495bc57757777003acd281678e73c522"
+  },
+  "arms": [
+    "base",
+    "prose_mapping",
+    "structured_mapping",
+    "probe_evidence"
+  ],
+  "task_count": 8,
+  "tasks": [
+    {
+      "index": 1,
+      "id": "old_to_new_1",
+      "source_record_sha256": "f765370883f8a470c345f811730c49bd855786a3c6d996979ccb169955677c49",
+      "public": {
+        "description": "This Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.",
+        "dependency": "click",
+        "old_version": "==3.0",
+        "new_version": "==8.0.0",
+        "old_code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In click ==8.0.0, `resultcallback` is replaced by `result_callback`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "resultcallback",
+          "target_api": "result_callback"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "resultcallback",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 981,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "click.core.MultiCommand.result_callback",
+                "module": "click.core",
+                "name": "result_callback",
+                "kind": "method",
+                "signature": "(self, replace: bool=False)"
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "click.core.MultiCommand.resultcallback",
+                "module": "click.core",
+                "name": "resultcallback",
+                "kind": "method",
+                "signature": "(self, replace: bool=False)"
+              },
+              {
+                "score": 0.491707,
+                "qualified_name": "tests.test_chain.test_no_command_result_callback",
+                "module": "tests.test_chain",
+                "name": "test_no_command_result_callback",
+                "kind": "function",
+                "signature": "(runner, chain, expect)"
+              },
+              {
+                "score": 0.432,
+                "qualified_name": "click.testing.Result",
+                "module": "click.testing",
+                "name": "Result",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.387692,
+                "qualified_name": "click.termui._ansi_reset_all",
+                "module": "click.termui",
+                "name": "_ansi_reset_all",
+                "kind": "value",
+                "signature": ""
+              },
+              {
+                "score": 0.386341,
+                "qualified_name": "tests.test_options.test_callback_validates_prompt",
+                "module": "tests.test_options",
+                "name": "test_callback_validates_prompt",
+                "kind": "function",
+                "signature": "(runner, monkeypatch)"
+              },
+              {
+                "score": 0.347586,
+                "qualified_name": "click.types.File.resolve_lazy_flag",
+                "module": "click.types",
+                "name": "resolve_lazy_flag",
+                "kind": "method",
+                "signature": "(self, value: t.Any)"
+              },
+              {
+                "score": 0.327273,
+                "qualified_name": "click.utils.safecall",
+                "module": "click.utils",
+                "name": "safecall",
+                "kind": "function",
+                "signature": "(func: F)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "resultcallback",
+        "new_name": "result_callback",
+        "new_code": "@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.result_callback()\ndef process_result(result, input):\n    return result + input",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "click-8.0.0.tar.gz",
+        "sha256": "7d8c289ee437bcb0316820ccee14aefcb056e58d31830ecab8e47eda6540e136",
+        "symbol_count": 981
+      }
+    },
+    {
+      "index": 2,
+      "id": "old_to_new_261",
+      "source_record_sha256": "12bd1c46a23b60bbe7a89c9b083157965d7b53724789253dbddb3177c51f461e",
+      "public": {
+        "description": "This code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.",
+        "dependency": "datasets",
+        "old_version": "==1.13.0",
+        "new_version": "==2.14.0",
+        "old_code": "from datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In datasets ==2.14.0, `resolve_patterns_locally_or_by_urls` is replaced by `resolve_pattern`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "resolve_patterns_locally_or_by_urls",
+          "target_api": "resolve_pattern"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "resolve_patterns_locally_or_by_urls",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": false,
+            "candidate_count": 3253,
+            "candidates": [
+              {
+                "score": 0.619818,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally",
+                "kind": "function",
+                "signature": "(complex_data_dir, pattern, pattern_results)"
+              },
+              {
+                "score": 0.601455,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally_sorted_files",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally_sorted_files",
+                "kind": "function",
+                "signature": "(tmp_path_factory)"
+              },
+              {
+                "score": 0.574765,
+                "qualified_name": "tests.test_data_files.test_fail_resolve_pattern_locally",
+                "module": "tests.test_data_files",
+                "name": "test_fail_resolve_pattern_locally",
+                "kind": "function",
+                "signature": "(complex_data_dir)"
+              },
+              {
+                "score": 0.572648,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally_with_double_dots",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally_with_double_dots",
+                "kind": "function",
+                "signature": "(tmp_path, complex_data_dir)"
+              },
+              {
+                "score": 0.536,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally_with_extensions",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally_with_extensions",
+                "kind": "function",
+                "signature": "(complex_data_dir, pattern, size, extensions)"
+              },
+              {
+                "score": 0.530909,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally_hidden_base_path",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally_hidden_base_path",
+                "kind": "function",
+                "signature": "(tmp_path)"
+              },
+              {
+                "score": 0.524052,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally_special_base_path",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally_special_base_path",
+                "kind": "function",
+                "signature": "(tmp_path)"
+              },
+              {
+                "score": 0.523077,
+                "qualified_name": "tests.test_data_files.test_resolve_pattern_locally_with_dot_in_base_path",
+                "module": "tests.test_data_files",
+                "name": "test_resolve_pattern_locally_with_dot_in_base_path",
+                "kind": "function",
+                "signature": "(complex_data_dir)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "resolve_patterns_locally_or_by_urls",
+        "new_name": "resolve_pattern",
+        "new_code": "from datasets.data_files import resolve_pattern\nbase_path = \".\"\nresolve_pattern(\"docs/**/*.py\", base_path)",
+        "gold_probe_rank": null
+      },
+      "artifact": {
+        "filename": "datasets-2.14.0.tar.gz",
+        "sha256": "1bb3d1c992a593949a8d3e445b358ac1db4ead00e6619ea2e5e7b6dfc222dde1",
+        "symbol_count": 3253
+      }
+    },
+    {
+      "index": 3,
+      "id": "old_to_new_748",
+      "source_record_sha256": "b08bc900f57f49cd6a0a6d986ec77c916dd9e8e45805e488560f1ac4aaddb6ff",
+      "public": {
+        "description": "The code generates RGB values from the given data using different bit lengths for each color channel.",
+        "dependency": "imageio",
+        "old_version": "==1.4",
+        "new_version": "==1.6",
+        "old_code": "data = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In imageio ==1.6, `unpackrgb` is replaced by `unpack_rgb`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "unpackrgb",
+          "target_api": "unpack_rgb"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "unpackrgb",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 895,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "imageio.plugins._tifffile.unpack_rgb",
+                "module": "imageio.plugins._tifffile",
+                "name": "unpack_rgb",
+                "kind": "function",
+                "signature": "(data, dtype='<B', bitspersample=(5, 6, 5), rescale=True)"
+              },
+              {
+                "score": 0.576,
+                "qualified_name": "imageio.plugins._dicom.SimpleDicomReader._unpack",
+                "module": "imageio.plugins._dicom",
+                "name": "_unpack",
+                "kind": "method",
+                "signature": "(self, fmt, value)"
+              },
+              {
+                "score": 0.454737,
+                "qualified_name": "imageio.plugins._tifffile.unpack_ints",
+                "module": "imageio.plugins._tifffile",
+                "name": "unpack_ints",
+                "kind": "function",
+                "signature": "(data, dtype, itemsize, runlen=0)"
+              },
+              {
+                "score": 0.36,
+                "qualified_name": "imageio.plugins.avbin.AVbinPacket",
+                "module": "imageio.plugins.avbin",
+                "name": "AVbinPacket",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.36,
+                "qualified_name": "setup.package_data",
+                "module": "setup",
+                "name": "package_data",
+                "kind": "value",
+                "signature": ""
+              },
+              {
+                "score": 0.338824,
+                "qualified_name": "docs.conf.man_pages",
+                "module": "docs.conf",
+                "name": "man_pages",
+                "kind": "value",
+                "signature": ""
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "imageio.core.fetching._chunk_read",
+                "module": "imageio.core.fetching",
+                "name": "_chunk_read",
+                "kind": "function",
+                "signature": "(response, local_file, chunk_size=8192, initial_size=0)"
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "imageio.plugins._tifffile._replace_by",
+                "module": "imageio.plugins._tifffile",
+                "name": "_replace_by",
+                "kind": "function",
+                "signature": "(module_function, package=__package__, warn=False)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "unpackrgb",
+        "new_name": "unpack_rgb",
+        "new_code": "data = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpack_rgb(data, '<B', (5, 6, 5), False))\nprint(unpack_rgb(data, '<B', (5, 6, 5)))\nprint(unpack_rgb(data, '<B', (5, 5, 5)))",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "imageio-1.6.zip",
+        "sha256": "8e7b46118f49fad8e8e14a6d8ef87de50d22e7437e25f6bfeb32d65a646cdca9",
+        "symbol_count": 895
+      }
+    },
+    {
+      "index": 4,
+      "id": "old_to_new_3276",
+      "source_record_sha256": "1350102260f98002702f7bc4b9e5c7354638e01682598426ec87f39449c21f8c",
+      "public": {
+        "description": "This code snippet removes the role prefix and backticks from the input string.",
+        "dependency": "jedi",
+        "old_version": "==0.6.0",
+        "new_version": "==0.8.1",
+        "old_code": "_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In jedi ==0.8.1, `_strip_rest_role` is replaced by `_strip_rst_role`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "_strip_rest_role",
+          "target_api": "_strip_rst_role"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "_strip_rest_role",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": false,
+            "candidate_count": 1354,
+            "candidates": [
+              {
+                "score": 0.8312,
+                "qualified_name": "jedi.evaluate.docstrings._strip_rst_role",
+                "module": "jedi.evaluate.docstrings",
+                "name": "_strip_rst_role",
+                "kind": "function",
+                "signature": "(type_str)"
+              },
+              {
+                "score": 0.551429,
+                "qualified_name": "jedi.evaluate.docstrings.REST_ROLE_PATTERN",
+                "module": "jedi.evaluate.docstrings",
+                "name": "REST_ROLE_PATTERN",
+                "kind": "value",
+                "signature": ""
+              },
+              {
+                "score": 0.496552,
+                "qualified_name": "jedi.evaluate.imports.StarImportModule",
+                "module": "jedi.evaluate.imports",
+                "name": "StarImportModule",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.454737,
+                "qualified_name": "jedi.parser.tokenize.triple",
+                "module": "jedi.parser.tokenize",
+                "name": "triple",
+                "kind": "value",
+                "signature": ""
+              },
+              {
+                "score": 0.438261,
+                "qualified_name": "test.test_parser.test_parser.test_module",
+                "module": "test.test_parser.test_parser",
+                "name": "test_module",
+                "kind": "function",
+                "signature": "()"
+              },
+              {
+                "score": 0.42,
+                "qualified_name": "jedi.api.Interpreter",
+                "module": "jedi.api",
+                "name": "Interpreter",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.42,
+                "qualified_name": "test.test_api.test_call_signatures.TestCallSignatures.test_complex",
+                "module": "test.test_api.test_call_signatures",
+                "name": "test_complex",
+                "kind": "method",
+                "signature": "(self)"
+              },
+              {
+                "score": 0.42,
+                "qualified_name": "test.test_utils.TestSetupReadline.test_modules",
+                "module": "test.test_utils",
+                "name": "test_modules",
+                "kind": "method",
+                "signature": "(self)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "_strip_rest_role",
+        "new_name": "_strip_rst_role",
+        "new_code": "_strip_rst_role(':class:`ClassName`')\n_strip_rst_role(':py:obj:`module.Object`')\n_strip_rst_role('ClassName')",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "jedi-0.8.1.tar.gz",
+        "sha256": "4d23ae457cec14cedb71fb56f0ed51d75798f2fd74e91f6e5134b09a4a78eba8",
+        "symbol_count": 1354
+      }
+    },
+    {
+      "index": 5,
+      "id": "old_to_new_3330",
+      "source_record_sha256": "ceec89d3a5f75753a243447df75739302fb879c69b25869406313c9da797ea15",
+      "public": {
+        "description": "This code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.",
+        "dependency": "keras",
+        "old_version": "==2.0.3",
+        "new_version": "==3.0.0",
+        "old_code": "_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In keras ==3.0.0, `_hash_file` is replaced by `hash_file`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "_hash_file",
+          "target_api": "hash_file"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "_hash_file",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 4979,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "keras.src.utils.file_utils.hash_file",
+                "module": "keras.src.utils.file_utils",
+                "name": "hash_file",
+                "kind": "function",
+                "signature": "(fpath, algorithm='sha256', chunk_size=65535)"
+              },
+              {
+                "score": 0.62,
+                "qualified_name": "keras.src.utils.file_utils.File",
+                "module": "keras.src.utils.file_utils",
+                "name": "File",
+                "kind": "function",
+                "signature": "(path, mode='r')"
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "keras.src.backend.jax.random.shuffle",
+                "module": "keras.src.backend.jax.random",
+                "name": "shuffle",
+                "kind": "function",
+                "signature": "(x, axis=0, seed=None)"
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "keras.src.backend.numpy.random.shuffle",
+                "module": "keras.src.backend.numpy.random",
+                "name": "shuffle",
+                "kind": "function",
+                "signature": "(x, axis=0, seed=None)"
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "keras.src.backend.tensorflow.random.shuffle",
+                "module": "keras.src.backend.tensorflow.random",
+                "name": "shuffle",
+                "kind": "function",
+                "signature": "(x, axis=0, seed=None)"
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "keras.src.backend.torch.random.shuffle",
+                "module": "keras.src.backend.torch.random",
+                "name": "shuffle",
+                "kind": "function",
+                "signature": "(x, axis=0, seed=None)"
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "keras.src.layers.preprocessing.hashing.Hashing",
+                "module": "keras.src.layers.preprocessing.hashing",
+                "name": "Hashing",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.48,
+                "qualified_name": "keras.src.random.random.shuffle",
+                "module": "keras.src.random.random",
+                "name": "shuffle",
+                "kind": "function",
+                "signature": "(x, axis=0, seed=None)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "_hash_file",
+        "new_name": "hash_file",
+        "new_code": "hash_file('/path/to/file.zip')",
+        "gold_probe_rank": 1
+      },
+      "artifact": {
+        "filename": "keras-3.0.0.tar.gz",
+        "sha256": "82a9fa4b32a049b38151d11188ed15d74f21f853f163e78da0950dce1f244ccc",
+        "symbol_count": 4979
+      }
+    },
+    {
+      "index": 6,
+      "id": "old_to_new_3517",
+      "source_record_sha256": "500ead3b1020c83b14a474dadf7ccae5dc216079ef631a11dff23a010b9d436e",
+      "public": {
+        "description": "The code is escaping special characters in a given string to their corresponding HTML entities.",
+        "dependency": "MarkupSafe",
+        "old_version": "==0.9",
+        "new_version": "==2.0.0",
+        "old_code": "value = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In MarkupSafe ==2.0.0, `soft_unicode` is replaced by `soft_str`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "soft_unicode",
+          "target_api": "soft_str"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "soft_unicode",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 91,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "markupsafe._native.soft_unicode",
+                "module": "markupsafe._native",
+                "name": "soft_unicode",
+                "kind": "function",
+                "signature": "(s: t.Any)"
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "tests.conftest.soft_unicode",
+                "module": "tests.conftest",
+                "name": "soft_unicode",
+                "kind": "function",
+                "signature": "(_mod)"
+              },
+              {
+                "score": 0.58,
+                "qualified_name": "tests.test_markupsafe.test_soft_unicode_deprecated",
+                "module": "tests.test_markupsafe",
+                "name": "test_soft_unicode_deprecated",
+                "kind": "function",
+                "signature": "(soft_unicode)"
+              },
+              {
+                "score": 0.413333,
+                "qualified_name": "markupsafe._native.soft_str",
+                "module": "markupsafe._native",
+                "name": "soft_str",
+                "kind": "function",
+                "signature": "(s: t.Any)"
+              },
+              {
+                "score": 0.413333,
+                "qualified_name": "tests.conftest.soft_str",
+                "module": "tests.conftest",
+                "name": "soft_str",
+                "kind": "function",
+                "signature": "(_mod)"
+              },
+              {
+                "score": 0.375652,
+                "qualified_name": "tests.test_markupsafe.test_unescape",
+                "module": "tests.test_markupsafe",
+                "name": "test_unescape",
+                "kind": "function",
+                "signature": "()"
+              },
+              {
+                "score": 0.331818,
+                "qualified_name": "tests.test_markupsafe.test_soft_str",
+                "module": "tests.test_markupsafe",
+                "name": "test_soft_str",
+                "kind": "function",
+                "signature": "(soft_str)"
+              },
+              {
+                "score": 0.303158,
+                "qualified_name": "markupsafe.Markup.unescape",
+                "module": "markupsafe",
+                "name": "unescape",
+                "kind": "method",
+                "signature": "(self)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "soft_unicode",
+        "new_name": "soft_str",
+        "new_code": "value = escape(\"<User 1>\")\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_str(value))\nMarkup('&lt;User 1&gt;')",
+        "gold_probe_rank": 4
+      },
+      "artifact": {
+        "filename": "MarkupSafe-2.0.0.tar.gz",
+        "sha256": "4fae0677f712ee090721d8b17f412f1cbceefbf0dc180fe91bab3232f38b4527",
+        "symbol_count": 91
+      }
+    },
+    {
+      "index": 7,
+      "id": "old_to_new_15048",
+      "source_record_sha256": "71450f02e04236161a43cebb536b1a0d935e8488f32b2b9719616b6dbb241ff9",
+      "public": {
+        "description": "The code calculates the [TARGET_API] between two index objects.",
+        "dependency": "pandas",
+        "old_version": "==0.4.0",
+        "new_version": "==0.15.0",
+        "old_code": "index - index2\nindex.diff(index2)"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In pandas ==0.15.0, `diff` is replaced by `difference`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "diff",
+          "target_api": "difference"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "diff",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 11759,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "pandas.core.common.diff",
+                "module": "pandas.core.common",
+                "name": "diff",
+                "kind": "function",
+                "signature": "(arr, n, axis=0)"
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "pandas.core.frame.DataFrame.diff",
+                "module": "pandas.core.frame",
+                "name": "diff",
+                "kind": "method",
+                "signature": "(self, periods=1)"
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "pandas.core.internals.Block.diff",
+                "module": "pandas.core.internals",
+                "name": "diff",
+                "kind": "method",
+                "signature": "(self, n)"
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "pandas.core.internals.BlockManager.diff",
+                "module": "pandas.core.internals",
+                "name": "diff",
+                "kind": "method",
+                "signature": "(self, **kwargs)"
+              },
+              {
+                "score": 1.0,
+                "qualified_name": "pandas.core.series.Series.diff",
+                "module": "pandas.core.series",
+                "name": "diff",
+                "kind": "method",
+                "signature": "(self, periods=1)"
+              },
+              {
+                "score": 0.663636,
+                "qualified_name": "pandas.core.index.Index.sym_diff",
+                "module": "pandas.core.index",
+                "name": "sym_diff",
+                "kind": "method",
+                "signature": "(self, other, result_name=None)"
+              },
+              {
+                "score": 0.62,
+                "qualified_name": "pandas.tests.test_frame.TestDataFrame.test_diff",
+                "module": "pandas.tests.test_frame",
+                "name": "test_diff",
+                "kind": "method",
+                "signature": "(self)"
+              },
+              {
+                "score": 0.62,
+                "qualified_name": "pandas.tests.test_series.TestSeries.test_diff",
+                "module": "pandas.tests.test_series",
+                "name": "test_diff",
+                "kind": "method",
+                "signature": "(self)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "diff",
+        "new_name": "difference",
+        "new_code": "index.difference(index2)",
+        "gold_probe_rank": null
+      },
+      "artifact": {
+        "filename": "pandas-0.15.0.tar.gz",
+        "sha256": "53be655079f978831dbb10c69a7656d3df6de673948896e170f08c3dac957cf0",
+        "symbol_count": 11759
+      }
+    },
+    {
+      "index": 8,
+      "id": "old_to_new_20283",
+      "source_record_sha256": "cf5215a55cef5875893523e9809176b6fda5617fed697700e5dd9d1ac32bfbbd",
+      "public": {
+        "description": "The code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.",
+        "dependency": "pyrsistent",
+        "old_version": "==0.6.1",
+        "new_version": "==0.10.0",
+        "old_code": "Point = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)"
+      },
+      "arms": {
+        "base": {},
+        "prose_mapping": {
+          "change_fact": "In pyrsistent ==0.10.0, `pclass` is replaced by `immutable`."
+        },
+        "structured_mapping": {
+          "change_type": "name_change",
+          "source_api": "pclass",
+          "target_api": "immutable"
+        },
+        "probe_evidence": {
+          "api_probe": {
+            "query_name": "pclass",
+            "method": "deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology",
+            "old_name_present_exactly": true,
+            "candidate_count": 319,
+            "candidates": [
+              {
+                "score": 1.0,
+                "qualified_name": "pyrsistent._pclass.PClass",
+                "module": "pyrsistent._pclass",
+                "name": "PClass",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.54,
+                "qualified_name": "pyrsistent._pclass._PClassMeta",
+                "module": "pyrsistent._pclass",
+                "name": "_PClassMeta",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.454737,
+                "qualified_name": "pyrsistent._pclass._PClassEvolver",
+                "module": "pyrsistent._pclass",
+                "name": "_PClassEvolver",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.411429,
+                "qualified_name": "pyrsistent._pdeque.PDeque._pop_lists",
+                "module": "pyrsistent._pdeque",
+                "name": "_pop_lists",
+                "kind": "method",
+                "signature": "(primary_list, secondary_list, count)"
+              },
+              {
+                "score": 0.392727,
+                "qualified_name": "pyrsistent._plist.PList",
+                "module": "pyrsistent._plist",
+                "name": "PList",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.392727,
+                "qualified_name": "pyrsistent._plist.plist",
+                "module": "pyrsistent._plist",
+                "name": "plist",
+                "kind": "function",
+                "signature": "(iterable=(), reverse=False)"
+              },
+              {
+                "score": 0.384,
+                "qualified_name": "pyrsistent._plist._PListBase",
+                "module": "pyrsistent._plist",
+                "name": "_PListBase",
+                "kind": "class",
+                "signature": ""
+              },
+              {
+                "score": 0.32,
+                "qualified_name": "pyrsistent._pdeque.PDeque._tip_from_lists",
+                "module": "pyrsistent._pdeque",
+                "name": "_tip_from_lists",
+                "kind": "method",
+                "signature": "(primary_list, secondary_list)"
+              }
+            ]
+          }
+        }
+      },
+      "oracle": {
+        "old_name": "pclass",
+        "new_name": "immutable",
+        "new_code": "Point = immutable('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = immutable('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)",
+        "gold_probe_rank": null
+      },
+      "artifact": {
+        "filename": "pyrsistent-0.10.0.tar.gz",
+        "sha256": "9a1c1e62131b80f1f6683ff3d0694be0f60fd9d88f27df5a86bbd877ae9591f0",
+        "symbol_count": 319
+      }
+    }
+  ],
+  "nonclaims": [
+    "The probe is a deterministic target-package symbol search, not active model tool use.",
+    "VersiCode reference code is not an independent behavioral test oracle.",
+    "Rows are sampled unique dependency/name-change families, not independent production migrations.",
+    "The experiment measures this model/configuration and information representation only."
+  ]
+}

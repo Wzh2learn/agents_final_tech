@@ -1,0 +1,30 @@
+{
+  "schema": "pymigbench_behavioral_task_candidate_v1",
+  "status": "NOT_READY_ENVIRONMENT_CONTRACT_INSUFFICIENT",
+  "task_id": "PYMIG_DATETIME_RANGE_DATAPROPERTY_TO_TYPEPY_936761F7",
+  "actor_visible_candidate": {
+    "repository": "thombashi/datetimerange",
+    "parent_commit": "10659da2b1812cbec4d218b71582f73029c62fb7",
+    "source_library": "dataproperty",
+    "target_library": "typepy",
+    "request": "Migrate the project from dataproperty to typepy while preserving behavior."
+  },
+  "oracle_only": {
+    "gold_commit": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89",
+    "target_apis": "PyMigBench structured change fields",
+    "gold_diff": "exact commit diff",
+    "tests": "test/test_datetimerange.py"
+  },
+  "hybrid_oracle_design": {
+    "behavioral": "gold test suite must pass in the frozen target environment",
+    "structural": "candidate must use the target library and satisfy hidden target API/change-map constraints",
+    "separation": "structural fields remain hidden from actor and cannot substitute for behavioral tests"
+  },
+  "blocking_conditions": [
+    "Gold has 8 failures under declared dependencies and Python 3.12/UTC.",
+    "Historical dependency floors do not lock DataProperty API compatibility.",
+    "Timezone data and timezone semantics are not declared by the project."
+  ],
+  "next_qualification": "Freeze Python, OS timezone data, transitive lock and target test command; require gold all-tests-pass before any model call.",
+  "model_calls": 0
+}

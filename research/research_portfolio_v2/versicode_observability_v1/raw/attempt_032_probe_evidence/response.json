@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"code\": \"import torch\\nimport torch.nn as nn\\n\\nmae = nn.L1Loss(reduction='mean')\\nx = torch.tensor([0., 1, 2, 3])\\ny = torch.tensor([0., 1, 2, 2])\\nmae_value = mae(x, y)\\nprint(mae_value)\"\n}"
+      }
+    }
+  ],
+  "created": 1792571668,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 84,
+    "prompt_tokens": 1142,
+    "total_tokens": 1226,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-pnRdtwBnGqoEqgv2NfLKcVNL3sPgvY1L",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 1142,
+    "prompt_ms": 693.815,
+    "prompt_per_token_ms": 0.6075437828371278,
+    "prompt_per_second": 1645.9719089382615,
+    "predicted_n": 84,
+    "predicted_ms": 1315.71,
+    "predicted_per_token_ms": 15.663214285714286,
+    "predicted_per_second": 63.8438561689126
+  }
+}

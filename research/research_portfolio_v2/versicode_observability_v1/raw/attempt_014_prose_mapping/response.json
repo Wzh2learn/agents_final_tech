@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"code\": \"_strip_rst_role(':class:`ClassName`')\\n_strip_rst_role(':py:obj:`module.Object`')\\n_strip_rst_role('ClassName')\"}"
+      }
+    }
+  ],
+  "created": 1792571642,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 40,
+    "prompt_tokens": 191,
+    "total_tokens": 231,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-mZRo3CWdOIMQt77o1V8ln6XdKUDcm0p0",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 191,
+    "prompt_ms": 171.871,
+    "prompt_per_token_ms": 0.8998481675392671,
+    "prompt_per_second": 1111.298590221736,
+    "predicted_n": 40,
+    "predicted_ms": 615.245,
+    "predicted_per_token_ms": 15.381125,
+    "predicted_per_second": 65.0147502214565
+  }
+}

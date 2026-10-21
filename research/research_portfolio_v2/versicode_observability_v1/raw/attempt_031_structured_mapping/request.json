@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pytorch-lightning\nOld version: ==0.10.0\nTarget version: ==1.0.4\n\nFunctional description:\nCalculate the mean absolute error (MAE) between two tensors x and y.\n\nOld code:\n```python\nmae = nn.L1Loss(reduction='mean')\nx = torch.tensor([0., 1, 2, 3])\ny = torch.tensor([0., 1, 2, 2])\nmae_value = mae(x, y)\nprint(mae_value)\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"mae\",\n  \"target_api\": \"mean_absolute_error\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

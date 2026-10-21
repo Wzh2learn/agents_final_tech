@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"code\": \"Point = immutable('x, y', name='Point')\\n\\np = Point(1, 2)\\n\\np2 = p.set(x=3)\\n\\nPoint = immutable('x, y, id_', name='Point')\\n\\np = Point(1, 2, id_=17)\\n\\np.set(x=3)\\n\\np.set(id_=18)\"}"
+      }
+    }
+  ],
+  "created": 1792571659,
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "system_fingerprint": "b1-5306f4b",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 91,
+    "prompt_tokens": 303,
+    "total_tokens": 394,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "id": "chatcmpl-FRjCaYuuQluDobDZhtUotn5VfeAW5tbu",
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 303,
+    "prompt_ms": 217.57,
+    "prompt_per_token_ms": 0.7180528052805281,
+    "prompt_per_second": 1392.6552373948614,
+    "predicted_n": 91,
+    "predicted_ms": 1416.433,
+    "predicted_per_token_ms": 15.565197802197803,
+    "predicted_per_second": 64.24589091047724
+  }
+}

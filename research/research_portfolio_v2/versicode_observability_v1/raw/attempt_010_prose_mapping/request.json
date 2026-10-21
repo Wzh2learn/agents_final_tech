@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In imageio ==1.6, `unpackrgb` is replaced by `unpack_rgb`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+    }
+  ],
+  "temperature": 0,
+  "top_p": 1,
+  "max_tokens": 512,
+  "response_format": {
+    "type": "json_object"
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

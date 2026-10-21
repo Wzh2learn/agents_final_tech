@@ -1,0 +1,62 @@
+{
+  "schema": "pymigbench_task_revival_receipt_v1",
+  "date": "2026-10-21",
+  "status": "ZERO_TASK_ENVIRONMENT_CONTRACT_INSUFFICIENT",
+  "source": {
+    "name": "PyMigBench",
+    "commit": "d8ffb982d23e1bda2a844bd4a6f7b451e192bd5b",
+    "record": "data/migration/dataproperty__typepy__thombashi@datetimerange__936761f7.yaml",
+    "repository": "https://github.com/thombashi/DateTimeRange",
+    "parent_commit": "10659da2b1812cbec4d218b71582f73029c62fb7",
+    "gold_commit": "936761f779c4f7dc8c2d4c03c47b6e7b6e978a89"
+  },
+  "runs": [
+    {
+      "id": "parent_env_parent",
+      "snapshot": "parent",
+      "environment": "parent_declared_requirements",
+      "exit_code": 2,
+      "status": "COLLECTION_ERROR",
+      "summary": "DataProperty==1.1.1 has no NOT_STRICT_TYPE_MAPPING",
+      "junit": "evidence/logs/parent_env_parent.xml",
+      "stdout": "evidence/logs/parent_env_parent.stdout.txt",
+      "stderr": "evidence/logs/parent_env_parent.stderr.txt"
+    },
+    {
+      "id": "gold_env_gold",
+      "snapshot": "gold",
+      "environment": "gold_declared_requirements",
+      "exit_code": 1,
+      "status": "GOLD_NOT_ALL_TESTS_PASS",
+      "passed": 160,
+      "failed": 8,
+      "summary": "4 tzdata-dependent failures and 4 timezone-sensitive epoch-conversion failures",
+      "junit": "evidence/logs/gold_env_gold.xml",
+      "stdout": "evidence/logs/gold_env_gold.stdout.txt",
+      "stderr": "evidence/logs/gold_env_gold.stderr.txt"
+    },
+    {
+      "id": "parent_env_gold",
+      "snapshot": "parent",
+      "environment": "gold_declared_requirements",
+      "exit_code": 2,
+      "status": "COLLECTION_ERROR",
+      "summary": "parent source imports missing dataproperty dependency",
+      "junit": "evidence/logs/parent_env_gold.xml",
+      "stdout": "evidence/logs/parent_env_gold.stdout.txt",
+      "stderr": "evidence/logs/parent_env_gold.stderr.txt"
+    }
+  ],
+  "classification": {
+    "fail_to_pass": [],
+    "pass_to_pass": [],
+    "gold_all_tests_pass": false,
+    "rule": "No behavioral label is valid unless gold passes in the frozen evaluation environment."
+  },
+  "model_calls": 0,
+  "failed_environment_retries": 0,
+  "package_locks": {
+    "parent": "evidence/logs/parent_packages.txt",
+    "gold": "evidence/logs/gold_packages.txt"
+  }
+}

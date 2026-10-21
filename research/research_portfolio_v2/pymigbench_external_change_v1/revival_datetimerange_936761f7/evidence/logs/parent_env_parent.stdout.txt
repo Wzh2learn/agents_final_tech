@@ -1,0 +1,20 @@
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting test/test_datetimerange.py __________________
+test/test_datetimerange.py:201: in <module>
+    class Test_DateTimeRange_eq:
+test/test_datetimerange.py:205: in Test_DateTimeRange_eq
+    DateTimeRange(None, None),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+datetimerange/__init__.py:56: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:511: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:458: in set_start_datetime
+    value, strict_type_mapping=dp.NOT_STRICT_TYPE_MAPPING)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'dataproperty' has no attribute 'NOT_STRICT_TYPE_MAPPING'
+=========================== short test summary info ============================
+ERROR test/test_datetimerange.py - AttributeError: module 'dataproperty' has ...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.08s

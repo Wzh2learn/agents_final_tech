@@ -1,0 +1,886 @@
+{
+  "schema": "versicode_observability_snapshot_v1",
+  "created_at": "2026-10-21T16:18:42.897899+08:00",
+  "evidence_identity": "DEV_ONLY_EXTERNAL_VERSION_CHANGE_OBSERVABILITY_ABLATION",
+  "tasks_sha256": "76c4233927f89c7dafec893d021ddfeedd5d48a37bd6f4d6d4755a5b3f4c3369",
+  "model": {
+    "id": "llama_cpp_qwen36_35b_a3b_q4",
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "models_endpoint": "http://127.0.0.1:8004/v1/models",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  },
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "timeout_seconds": 120,
+    "response_format": "json_object",
+    "enable_thinking": false
+  },
+  "planned_requests": [
+    {
+      "attempt_index": 1,
+      "task_index": 1,
+      "task_id": "old_to_new_1",
+      "arm": "base",
+      "prompt_sha256": "104497dd54a59d3c5aac84375626c3af54a040e4767f66d9efc578a79b72929c",
+      "request_sha256": "759627a31597749eb62e61a5e2ba41581bcd238a5e10cd818163932f2e1ca2a0",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 2,
+      "task_index": 1,
+      "task_id": "old_to_new_1",
+      "arm": "prose_mapping",
+      "prompt_sha256": "b88a9e85f79a88be6acc03c00efcb9d37a6c2844e0fbc1a2cad056dbeb1f8482",
+      "request_sha256": "db6d1cd2b4cd7b5da6f2ff1bb23842a8637f63227e79b7aae16fb64656c53d25",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In click ==8.0.0, `resultcallback` is replaced by `result_callback`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In click ==8.0.0, `resultcallback` is replaced by `result_callback`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 3,
+      "task_index": 1,
+      "task_id": "old_to_new_1",
+      "arm": "structured_mapping",
+      "prompt_sha256": "902c4d9d7a5a8a66b496730a803825782be0068efae19a59e1db0ddaaebbe5ec",
+      "request_sha256": "d22963ec323ce4ff53e6d15fe07cc1974c75a1fed4e813d9bef35cf57d1dbddc",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"resultcallback\",\n  \"target_api\": \"result_callback\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"resultcallback\",\n  \"target_api\": \"result_callback\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 4,
+      "task_index": 1,
+      "task_id": "old_to_new_1",
+      "arm": "probe_evidence",
+      "prompt_sha256": "0f9e4cba0f2e46f699928c29f0b6c1b07a0f1b5b727c73a80b0bf0485e8a57f3",
+      "request_sha256": "2d81d7ef2f53d34065f5df2e9d85f0c4fbabc3d2d88fca76dd8c0a46e91dc11e",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"resultcallback\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 981,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"click.core.MultiCommand.result_callback\",\n        \"module\": \"click.core\",\n        \"name\": \"result_callback\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, replace: bool=False)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"click.core.MultiCommand.resultcallback\",\n        \"module\": \"click.core\",\n        \"name\": \"resultcallback\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, replace: bool=False)\"\n      },\n      {\n        \"score\": 0.491707,\n        \"qualified_name\": \"tests.test_chain.test_no_command_result_callback\",\n        \"module\": \"tests.test_chain\",\n        \"name\": \"test_no_command_result_callback\",\n        \"kind\": \"function\",\n        \"signature\": \"(runner, chain, expect)\"\n      },\n      {\n        \"score\": 0.432,\n        \"qualified_name\": \"click.testing.Result\",\n        \"module\": \"click.testing\",\n        \"name\": \"Result\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.387692,\n        \"qualified_name\": \"click.termui._ansi_reset_all\",\n        \"module\": \"click.termui\",\n        \"name\": \"_ansi_reset_all\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.386341,\n        \"qualified_name\": \"tests.test_options.test_callback_validates_prompt\",\n        \"module\": \"tests.test_options\",\n        \"name\": \"test_callback_validates_prompt\",\n        \"kind\": \"function\",\n        \"signature\": \"(runner, monkeypatch)\"\n      },\n      {\n        \"score\": 0.347586,\n        \"qualified_name\": \"click.types.File.resolve_lazy_flag\",\n        \"module\": \"click.types\",\n        \"name\": \"resolve_lazy_flag\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, value: t.Any)\"\n      },\n      {\n        \"score\": 0.327273,\n        \"qualified_name\": \"click.utils.safecall\",\n        \"module\": \"click.utils\",\n        \"name\": \"safecall\",\n        \"kind\": \"function\",\n        \"signature\": \"(func: F)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: click\nOld version: ==3.0\nTarget version: ==8.0.0\n\nFunctional description:\nThis Python code defines a command line interface (CLI) using the Click library. It includes a group command with an option for input, which defaults to 23. The CLI returns the value 42. There is also a result callback function that adds the input value to the result and returns the sum.\n\nOld code:\n```python\n@click.group()\n@click.option('-i', '--input', default=23)\ndef cli(input):\n    return 42\n\n@cli.resultcallback()\ndef process_result(result, input):\n    return result + input\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"resultcallback\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 981,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"click.core.MultiCommand.result_callback\",\n        \"module\": \"click.core\",\n        \"name\": \"result_callback\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, replace: bool=False)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"click.core.MultiCommand.resultcallback\",\n        \"module\": \"click.core\",\n        \"name\": \"resultcallback\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, replace: bool=False)\"\n      },\n      {\n        \"score\": 0.491707,\n        \"qualified_name\": \"tests.test_chain.test_no_command_result_callback\",\n        \"module\": \"tests.test_chain\",\n        \"name\": \"test_no_command_result_callback\",\n        \"kind\": \"function\",\n        \"signature\": \"(runner, chain, expect)\"\n      },\n      {\n        \"score\": 0.432,\n        \"qualified_name\": \"click.testing.Result\",\n        \"module\": \"click.testing\",\n        \"name\": \"Result\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.387692,\n        \"qualified_name\": \"click.termui._ansi_reset_all\",\n        \"module\": \"click.termui\",\n        \"name\": \"_ansi_reset_all\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.386341,\n        \"qualified_name\": \"tests.test_options.test_callback_validates_prompt\",\n        \"module\": \"tests.test_options\",\n        \"name\": \"test_callback_validates_prompt\",\n        \"kind\": \"function\",\n        \"signature\": \"(runner, monkeypatch)\"\n      },\n      {\n        \"score\": 0.347586,\n        \"qualified_name\": \"click.types.File.resolve_lazy_flag\",\n        \"module\": \"click.types\",\n        \"name\": \"resolve_lazy_flag\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, value: t.Any)\"\n      },\n      {\n        \"score\": 0.327273,\n        \"qualified_name\": \"click.utils.safecall\",\n        \"module\": \"click.utils\",\n        \"name\": \"safecall\",\n        \"kind\": \"function\",\n        \"signature\": \"(func: F)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 5,
+      "task_index": 2,
+      "task_id": "old_to_new_261",
+      "arm": "base",
+      "prompt_sha256": "bab11e31687f79962be26cc235f7ee1d37dd754513705a3950f53333c4c7b538",
+      "request_sha256": "29b1da24399e8508180da919e6a22c174d6bfb45ea0e4bb1c846ea726d16d95b",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 6,
+      "task_index": 2,
+      "task_id": "old_to_new_261",
+      "arm": "prose_mapping",
+      "prompt_sha256": "0b9eeb6f7204c32a90055beb633e68d56fdf5235440fad97f94c647a2735fc28",
+      "request_sha256": "f3640ca1eb6957b7b1610da67fd90703e5071871cc068af0bf2f8ae035411621",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In datasets ==2.14.0, `resolve_patterns_locally_or_by_urls` is replaced by `resolve_pattern`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In datasets ==2.14.0, `resolve_patterns_locally_or_by_urls` is replaced by `resolve_pattern`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 7,
+      "task_index": 2,
+      "task_id": "old_to_new_261",
+      "arm": "structured_mapping",
+      "prompt_sha256": "a2923ea7e1286963f329ef618496fe1518e89984ebf2f5548d0239be5e6e88b6",
+      "request_sha256": "cc11df5eeff00a1e48375b1865228889360ae58e1b6ac3c7e519062e926d7c8e",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"resolve_patterns_locally_or_by_urls\",\n  \"target_api\": \"resolve_pattern\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"resolve_patterns_locally_or_by_urls\",\n  \"target_api\": \"resolve_pattern\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 8,
+      "task_index": 2,
+      "task_id": "old_to_new_261",
+      "arm": "probe_evidence",
+      "prompt_sha256": "4b30f7d30570f3ccb94c40c53e6cd9ba2f599f2e2c603f392a462a4db234b47b",
+      "request_sha256": "28ea94ba51e8a18125f20e048f4475c5b7c6a97a7bbe37612bc4769d6cfc2b7c",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"resolve_patterns_locally_or_by_urls\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": false,\n    \"candidate_count\": 3253,\n    \"candidates\": [\n      {\n        \"score\": 0.619818,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir, pattern, pattern_results)\"\n      },\n      {\n        \"score\": 0.601455,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_sorted_files\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_sorted_files\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path_factory)\"\n      },\n      {\n        \"score\": 0.574765,\n        \"qualified_name\": \"tests.test_data_files.test_fail_resolve_pattern_locally\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_fail_resolve_pattern_locally\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir)\"\n      },\n      {\n        \"score\": 0.572648,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_with_double_dots\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_with_double_dots\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path, complex_data_dir)\"\n      },\n      {\n        \"score\": 0.536,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_with_extensions\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_with_extensions\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir, pattern, size, extensions)\"\n      },\n      {\n        \"score\": 0.530909,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_hidden_base_path\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_hidden_base_path\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path)\"\n      },\n      {\n        \"score\": 0.524052,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_special_base_path\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_special_base_path\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path)\"\n      },\n      {\n        \"score\": 0.523077,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_with_dot_in_base_path\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_with_dot_in_base_path\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: datasets\nOld version: ==1.13.0\nTarget version: ==2.14.0\n\nFunctional description:\nThis code resolves patterns locally or by URLs for YAML files in the \"src\" directory and its subdirectories.\n\nOld code:\n```python\nfrom datasets.data_files import resolve_patterns_locally_or_by_urls\n\nbase_path = \".\"\nresolve_patterns_locally_or_by_urls(base_path, [\"src/**/*.yaml\"])\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"resolve_patterns_locally_or_by_urls\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": false,\n    \"candidate_count\": 3253,\n    \"candidates\": [\n      {\n        \"score\": 0.619818,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir, pattern, pattern_results)\"\n      },\n      {\n        \"score\": 0.601455,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_sorted_files\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_sorted_files\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path_factory)\"\n      },\n      {\n        \"score\": 0.574765,\n        \"qualified_name\": \"tests.test_data_files.test_fail_resolve_pattern_locally\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_fail_resolve_pattern_locally\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir)\"\n      },\n      {\n        \"score\": 0.572648,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_with_double_dots\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_with_double_dots\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path, complex_data_dir)\"\n      },\n      {\n        \"score\": 0.536,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_with_extensions\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_with_extensions\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir, pattern, size, extensions)\"\n      },\n      {\n        \"score\": 0.530909,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_hidden_base_path\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_hidden_base_path\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path)\"\n      },\n      {\n        \"score\": 0.524052,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_special_base_path\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_special_base_path\",\n        \"kind\": \"function\",\n        \"signature\": \"(tmp_path)\"\n      },\n      {\n        \"score\": 0.523077,\n        \"qualified_name\": \"tests.test_data_files.test_resolve_pattern_locally_with_dot_in_base_path\",\n        \"module\": \"tests.test_data_files\",\n        \"name\": \"test_resolve_pattern_locally_with_dot_in_base_path\",\n        \"kind\": \"function\",\n        \"signature\": \"(complex_data_dir)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 9,
+      "task_index": 3,
+      "task_id": "old_to_new_748",
+      "arm": "base",
+      "prompt_sha256": "6547c1d570d5bbf8b3accac8f92fc3dde252a251b7c47f4252aacde53141cdd9",
+      "request_sha256": "714928a3575c201980757c5951a99573f09ca2f94fb07838565db28d6a639de1",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 10,
+      "task_index": 3,
+      "task_id": "old_to_new_748",
+      "arm": "prose_mapping",
+      "prompt_sha256": "ac3c2c8528ae02bacc84a020b7a0c684b22102c1c2e90ca3420bd4bd8b484402",
+      "request_sha256": "5ef0498aaa2fe4778211532d47d09dafbc3adde2c396caaaa0f04534b3b4d071",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In imageio ==1.6, `unpackrgb` is replaced by `unpack_rgb`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In imageio ==1.6, `unpackrgb` is replaced by `unpack_rgb`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 11,
+      "task_index": 3,
+      "task_id": "old_to_new_748",
+      "arm": "structured_mapping",
+      "prompt_sha256": "411f4e5e02b57794eac67cbd4ab1444af9bbda51a92cda07ae67a4f5759c74e3",
+      "request_sha256": "d9b50f3814a1a4ec37822df0b71ff0c6dccaab57b0b99d0c098a9a0da3335080",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"unpackrgb\",\n  \"target_api\": \"unpack_rgb\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"unpackrgb\",\n  \"target_api\": \"unpack_rgb\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 12,
+      "task_index": 3,
+      "task_id": "old_to_new_748",
+      "arm": "probe_evidence",
+      "prompt_sha256": "6b6a00ecdc572586576f12574350b1416501660e41d365fa90e58d663e64ec51",
+      "request_sha256": "188ba534c9a1f0fc1ba659fa07b6dd3d2d7c27a937e879713c3162ab097fbd07",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"unpackrgb\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 895,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"imageio.plugins._tifffile.unpack_rgb\",\n        \"module\": \"imageio.plugins._tifffile\",\n        \"name\": \"unpack_rgb\",\n        \"kind\": \"function\",\n        \"signature\": \"(data, dtype='<B', bitspersample=(5, 6, 5), rescale=True)\"\n      },\n      {\n        \"score\": 0.576,\n        \"qualified_name\": \"imageio.plugins._dicom.SimpleDicomReader._unpack\",\n        \"module\": \"imageio.plugins._dicom\",\n        \"name\": \"_unpack\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, fmt, value)\"\n      },\n      {\n        \"score\": 0.454737,\n        \"qualified_name\": \"imageio.plugins._tifffile.unpack_ints\",\n        \"module\": \"imageio.plugins._tifffile\",\n        \"name\": \"unpack_ints\",\n        \"kind\": \"function\",\n        \"signature\": \"(data, dtype, itemsize, runlen=0)\"\n      },\n      {\n        \"score\": 0.36,\n        \"qualified_name\": \"imageio.plugins.avbin.AVbinPacket\",\n        \"module\": \"imageio.plugins.avbin\",\n        \"name\": \"AVbinPacket\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.36,\n        \"qualified_name\": \"setup.package_data\",\n        \"module\": \"setup\",\n        \"name\": \"package_data\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.338824,\n        \"qualified_name\": \"docs.conf.man_pages\",\n        \"module\": \"docs.conf\",\n        \"name\": \"man_pages\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.32,\n        \"qualified_name\": \"imageio.core.fetching._chunk_read\",\n        \"module\": \"imageio.core.fetching\",\n        \"name\": \"_chunk_read\",\n        \"kind\": \"function\",\n        \"signature\": \"(response, local_file, chunk_size=8192, initial_size=0)\"\n      },\n      {\n        \"score\": 0.32,\n        \"qualified_name\": \"imageio.plugins._tifffile._replace_by\",\n        \"module\": \"imageio.plugins._tifffile\",\n        \"name\": \"_replace_by\",\n        \"kind\": \"function\",\n        \"signature\": \"(module_function, package=__package__, warn=False)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: imageio\nOld version: ==1.4\nTarget version: ==1.6\n\nFunctional description:\nThe code generates RGB values from the given data using different bit lengths for each color channel.\n\nOld code:\n```python\ndata = struct.pack('BBBB', 0x21, 0x08, 0xff, 0xff)\nprint(unpackrgb(data, '<B', (5, 6, 5), False))\nprint(unpackrgb(data, '<B', (5, 6, 5)))\nprint(unpackrgb(data, '<B', (5, 5, 5)))\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"unpackrgb\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 895,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"imageio.plugins._tifffile.unpack_rgb\",\n        \"module\": \"imageio.plugins._tifffile\",\n        \"name\": \"unpack_rgb\",\n        \"kind\": \"function\",\n        \"signature\": \"(data, dtype='<B', bitspersample=(5, 6, 5), rescale=True)\"\n      },\n      {\n        \"score\": 0.576,\n        \"qualified_name\": \"imageio.plugins._dicom.SimpleDicomReader._unpack\",\n        \"module\": \"imageio.plugins._dicom\",\n        \"name\": \"_unpack\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, fmt, value)\"\n      },\n      {\n        \"score\": 0.454737,\n        \"qualified_name\": \"imageio.plugins._tifffile.unpack_ints\",\n        \"module\": \"imageio.plugins._tifffile\",\n        \"name\": \"unpack_ints\",\n        \"kind\": \"function\",\n        \"signature\": \"(data, dtype, itemsize, runlen=0)\"\n      },\n      {\n        \"score\": 0.36,\n        \"qualified_name\": \"imageio.plugins.avbin.AVbinPacket\",\n        \"module\": \"imageio.plugins.avbin\",\n        \"name\": \"AVbinPacket\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.36,\n        \"qualified_name\": \"setup.package_data\",\n        \"module\": \"setup\",\n        \"name\": \"package_data\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.338824,\n        \"qualified_name\": \"docs.conf.man_pages\",\n        \"module\": \"docs.conf\",\n        \"name\": \"man_pages\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.32,\n        \"qualified_name\": \"imageio.core.fetching._chunk_read\",\n        \"module\": \"imageio.core.fetching\",\n        \"name\": \"_chunk_read\",\n        \"kind\": \"function\",\n        \"signature\": \"(response, local_file, chunk_size=8192, initial_size=0)\"\n      },\n      {\n        \"score\": 0.32,\n        \"qualified_name\": \"imageio.plugins._tifffile._replace_by\",\n        \"module\": \"imageio.plugins._tifffile\",\n        \"name\": \"_replace_by\",\n        \"kind\": \"function\",\n        \"signature\": \"(module_function, package=__package__, warn=False)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 13,
+      "task_index": 4,
+      "task_id": "old_to_new_3276",
+      "arm": "base",
+      "prompt_sha256": "d79ff89b5357ed77c50bf3033d3811fd8dd16cc691f297d677134d9fdbbbbfca",
+      "request_sha256": "4a4f3ca4cef26b1075fee7fa80d091cb15a06af0e1ffa08dd055a62a1b0b6fa4",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 14,
+      "task_index": 4,
+      "task_id": "old_to_new_3276",
+      "arm": "prose_mapping",
+      "prompt_sha256": "c07335b5994385dfb6072896792bcc4a4d2b729af93085ba9f4b27e8237340b6",
+      "request_sha256": "421df6cd3e78d56551d72879705a6030e80cb2e5954deb0f4beb38d5f198f162",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In jedi ==0.8.1, `_strip_rest_role` is replaced by `_strip_rst_role`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In jedi ==0.8.1, `_strip_rest_role` is replaced by `_strip_rst_role`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 15,
+      "task_index": 4,
+      "task_id": "old_to_new_3276",
+      "arm": "structured_mapping",
+      "prompt_sha256": "54265a9919134ad007d3c84494b756dc6167a380b9e056aeea2640cd091745a5",
+      "request_sha256": "9e6e95a4644357196e20406462fb627a59c33c60d160d5f48dfd0c3fba967d0c",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"_strip_rest_role\",\n  \"target_api\": \"_strip_rst_role\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"_strip_rest_role\",\n  \"target_api\": \"_strip_rst_role\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 16,
+      "task_index": 4,
+      "task_id": "old_to_new_3276",
+      "arm": "probe_evidence",
+      "prompt_sha256": "b66c896c3d8f39b872742a48a53078248d9159e7eaab97bb50f52d20a95ef5d4",
+      "request_sha256": "383e5395a611b10488749f03c57d1932d464eba77d49e22caf08dc3de9801838",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"_strip_rest_role\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": false,\n    \"candidate_count\": 1354,\n    \"candidates\": [\n      {\n        \"score\": 0.8312,\n        \"qualified_name\": \"jedi.evaluate.docstrings._strip_rst_role\",\n        \"module\": \"jedi.evaluate.docstrings\",\n        \"name\": \"_strip_rst_role\",\n        \"kind\": \"function\",\n        \"signature\": \"(type_str)\"\n      },\n      {\n        \"score\": 0.551429,\n        \"qualified_name\": \"jedi.evaluate.docstrings.REST_ROLE_PATTERN\",\n        \"module\": \"jedi.evaluate.docstrings\",\n        \"name\": \"REST_ROLE_PATTERN\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.496552,\n        \"qualified_name\": \"jedi.evaluate.imports.StarImportModule\",\n        \"module\": \"jedi.evaluate.imports\",\n        \"name\": \"StarImportModule\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.454737,\n        \"qualified_name\": \"jedi.parser.tokenize.triple\",\n        \"module\": \"jedi.parser.tokenize\",\n        \"name\": \"triple\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.438261,\n        \"qualified_name\": \"test.test_parser.test_parser.test_module\",\n        \"module\": \"test.test_parser.test_parser\",\n        \"name\": \"test_module\",\n        \"kind\": \"function\",\n        \"signature\": \"()\"\n      },\n      {\n        \"score\": 0.42,\n        \"qualified_name\": \"jedi.api.Interpreter\",\n        \"module\": \"jedi.api\",\n        \"name\": \"Interpreter\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.42,\n        \"qualified_name\": \"test.test_api.test_call_signatures.TestCallSignatures.test_complex\",\n        \"module\": \"test.test_api.test_call_signatures\",\n        \"name\": \"test_complex\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      },\n      {\n        \"score\": 0.42,\n        \"qualified_name\": \"test.test_utils.TestSetupReadline.test_modules\",\n        \"module\": \"test.test_utils\",\n        \"name\": \"test_modules\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: jedi\nOld version: ==0.6.0\nTarget version: ==0.8.1\n\nFunctional description:\nThis code snippet removes the role prefix and backticks from the input string.\n\nOld code:\n```python\n_strip_rest_role(':class:`ClassName`')\n_strip_rest_role(':py:obj:`module.Object`')\n_strip_rest_role('ClassName')\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"_strip_rest_role\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": false,\n    \"candidate_count\": 1354,\n    \"candidates\": [\n      {\n        \"score\": 0.8312,\n        \"qualified_name\": \"jedi.evaluate.docstrings._strip_rst_role\",\n        \"module\": \"jedi.evaluate.docstrings\",\n        \"name\": \"_strip_rst_role\",\n        \"kind\": \"function\",\n        \"signature\": \"(type_str)\"\n      },\n      {\n        \"score\": 0.551429,\n        \"qualified_name\": \"jedi.evaluate.docstrings.REST_ROLE_PATTERN\",\n        \"module\": \"jedi.evaluate.docstrings\",\n        \"name\": \"REST_ROLE_PATTERN\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.496552,\n        \"qualified_name\": \"jedi.evaluate.imports.StarImportModule\",\n        \"module\": \"jedi.evaluate.imports\",\n        \"name\": \"StarImportModule\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.454737,\n        \"qualified_name\": \"jedi.parser.tokenize.triple\",\n        \"module\": \"jedi.parser.tokenize\",\n        \"name\": \"triple\",\n        \"kind\": \"value\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.438261,\n        \"qualified_name\": \"test.test_parser.test_parser.test_module\",\n        \"module\": \"test.test_parser.test_parser\",\n        \"name\": \"test_module\",\n        \"kind\": \"function\",\n        \"signature\": \"()\"\n      },\n      {\n        \"score\": 0.42,\n        \"qualified_name\": \"jedi.api.Interpreter\",\n        \"module\": \"jedi.api\",\n        \"name\": \"Interpreter\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.42,\n        \"qualified_name\": \"test.test_api.test_call_signatures.TestCallSignatures.test_complex\",\n        \"module\": \"test.test_api.test_call_signatures\",\n        \"name\": \"test_complex\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      },\n      {\n        \"score\": 0.42,\n        \"qualified_name\": \"test.test_utils.TestSetupReadline.test_modules\",\n        \"module\": \"test.test_utils\",\n        \"name\": \"test_modules\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 17,
+      "task_index": 5,
+      "task_id": "old_to_new_3330",
+      "arm": "base",
+      "prompt_sha256": "ccdc22adc6a81b1d108d7d06713d61f8ad40a67bc16035ee5865ec7d3458481c",
+      "request_sha256": "449b89539bbabee1809e48b09e9f2f3c8e953d0be7182929ba7c5ab66dbb0967",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 18,
+      "task_index": 5,
+      "task_id": "old_to_new_3330",
+      "arm": "prose_mapping",
+      "prompt_sha256": "ae76166fc14ed1da21b4a6276d4bd46abe363cd3fd9af47f41b8d0f8af99d3be",
+      "request_sha256": "7d692672de00a9081b9853b7f8a3a1d6e70db6430c2145ff8bd0048e55c5be7a",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In keras ==3.0.0, `_hash_file` is replaced by `hash_file`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In keras ==3.0.0, `_hash_file` is replaced by `hash_file`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 19,
+      "task_index": 5,
+      "task_id": "old_to_new_3330",
+      "arm": "structured_mapping",
+      "prompt_sha256": "da213572c34ff0c7693684167c84e167a397490f779b029c6aa1fa33e2dbaa23",
+      "request_sha256": "ed335bcff40a46dccb17932b67edfdee2236237501cdcb8e1e343345fa582a67",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"_hash_file\",\n  \"target_api\": \"hash_file\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"_hash_file\",\n  \"target_api\": \"hash_file\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 20,
+      "task_index": 5,
+      "task_id": "old_to_new_3330",
+      "arm": "probe_evidence",
+      "prompt_sha256": "b803f180eea8db9e1eaf4fb33f05dfc0d5efa87044e7e424db93669d23b13d0e",
+      "request_sha256": "0d020414e757ff57636ca367e6265dc6efec07eea2b427f0a03e72c91edcef51",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"_hash_file\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 4979,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"keras.src.utils.file_utils.hash_file\",\n        \"module\": \"keras.src.utils.file_utils\",\n        \"name\": \"hash_file\",\n        \"kind\": \"function\",\n        \"signature\": \"(fpath, algorithm='sha256', chunk_size=65535)\"\n      },\n      {\n        \"score\": 0.62,\n        \"qualified_name\": \"keras.src.utils.file_utils.File\",\n        \"module\": \"keras.src.utils.file_utils\",\n        \"name\": \"File\",\n        \"kind\": \"function\",\n        \"signature\": \"(path, mode='r')\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.jax.random.shuffle\",\n        \"module\": \"keras.src.backend.jax.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.numpy.random.shuffle\",\n        \"module\": \"keras.src.backend.numpy.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.tensorflow.random.shuffle\",\n        \"module\": \"keras.src.backend.tensorflow.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.torch.random.shuffle\",\n        \"module\": \"keras.src.backend.torch.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.layers.preprocessing.hashing.Hashing\",\n        \"module\": \"keras.src.layers.preprocessing.hashing\",\n        \"name\": \"Hashing\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.random.random.shuffle\",\n        \"module\": \"keras.src.random.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: keras\nOld version: ==2.0.3\nTarget version: ==3.0.0\n\nFunctional description:\nThis code calculates the hash value of a file located at '/path/to/file.zip' using the SHA-256 algorithm.\n\nOld code:\n```python\n_hash_file('/path/to/file.zip')\n'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"_hash_file\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 4979,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"keras.src.utils.file_utils.hash_file\",\n        \"module\": \"keras.src.utils.file_utils\",\n        \"name\": \"hash_file\",\n        \"kind\": \"function\",\n        \"signature\": \"(fpath, algorithm='sha256', chunk_size=65535)\"\n      },\n      {\n        \"score\": 0.62,\n        \"qualified_name\": \"keras.src.utils.file_utils.File\",\n        \"module\": \"keras.src.utils.file_utils\",\n        \"name\": \"File\",\n        \"kind\": \"function\",\n        \"signature\": \"(path, mode='r')\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.jax.random.shuffle\",\n        \"module\": \"keras.src.backend.jax.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.numpy.random.shuffle\",\n        \"module\": \"keras.src.backend.numpy.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.tensorflow.random.shuffle\",\n        \"module\": \"keras.src.backend.tensorflow.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.backend.torch.random.shuffle\",\n        \"module\": \"keras.src.backend.torch.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.layers.preprocessing.hashing.Hashing\",\n        \"module\": \"keras.src.layers.preprocessing.hashing\",\n        \"name\": \"Hashing\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.48,\n        \"qualified_name\": \"keras.src.random.random.shuffle\",\n        \"module\": \"keras.src.random.random\",\n        \"name\": \"shuffle\",\n        \"kind\": \"function\",\n        \"signature\": \"(x, axis=0, seed=None)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 21,
+      "task_index": 6,
+      "task_id": "old_to_new_3517",
+      "arm": "base",
+      "prompt_sha256": "2ac8672e6a3a4c71115d091995055247f773a677e0b83dc3980773d46e292ec0",
+      "request_sha256": "a786e7a3e8c983ff7f09e0191fe3e1545bb627bd13da98e357de7f235a55120d",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 22,
+      "task_index": 6,
+      "task_id": "old_to_new_3517",
+      "arm": "prose_mapping",
+      "prompt_sha256": "5615299ea305015329d9d513ca9557c874e9f657ebf69e1d3c32691f6eeee16d",
+      "request_sha256": "e06cde4fcbaea6d1c28acee76cabf6318cb43c83ca8c7e12d1196303b117ae1d",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In MarkupSafe ==2.0.0, `soft_unicode` is replaced by `soft_str`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In MarkupSafe ==2.0.0, `soft_unicode` is replaced by `soft_str`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 23,
+      "task_index": 6,
+      "task_id": "old_to_new_3517",
+      "arm": "structured_mapping",
+      "prompt_sha256": "20a583a22a00b440986ee8aad6cf25be3c7f5eb53f498edff233a6a310cace1d",
+      "request_sha256": "70ce38f38af2ddfd6a3e9ece11bdc555056293d3ecd9aa9e6d16a358004d5d98",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"soft_unicode\",\n  \"target_api\": \"soft_str\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"soft_unicode\",\n  \"target_api\": \"soft_str\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 24,
+      "task_index": 6,
+      "task_id": "old_to_new_3517",
+      "arm": "probe_evidence",
+      "prompt_sha256": "ba2a01bba7f8691d2b7df2ef8def4a83c92abb0c337e2d59e38483a3097e50f3",
+      "request_sha256": "7d076c83639cdf9790cf227a66944010165253f29e1e6fc78f5c6adf7f258abf",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"soft_unicode\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 91,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"markupsafe._native.soft_unicode\",\n        \"module\": \"markupsafe._native\",\n        \"name\": \"soft_unicode\",\n        \"kind\": \"function\",\n        \"signature\": \"(s: t.Any)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"tests.conftest.soft_unicode\",\n        \"module\": \"tests.conftest\",\n        \"name\": \"soft_unicode\",\n        \"kind\": \"function\",\n        \"signature\": \"(_mod)\"\n      },\n      {\n        \"score\": 0.58,\n        \"qualified_name\": \"tests.test_markupsafe.test_soft_unicode_deprecated\",\n        \"module\": \"tests.test_markupsafe\",\n        \"name\": \"test_soft_unicode_deprecated\",\n        \"kind\": \"function\",\n        \"signature\": \"(soft_unicode)\"\n      },\n      {\n        \"score\": 0.413333,\n        \"qualified_name\": \"markupsafe._native.soft_str\",\n        \"module\": \"markupsafe._native\",\n        \"name\": \"soft_str\",\n        \"kind\": \"function\",\n        \"signature\": \"(s: t.Any)\"\n      },\n      {\n        \"score\": 0.413333,\n        \"qualified_name\": \"tests.conftest.soft_str\",\n        \"module\": \"tests.conftest\",\n        \"name\": \"soft_str\",\n        \"kind\": \"function\",\n        \"signature\": \"(_mod)\"\n      },\n      {\n        \"score\": 0.375652,\n        \"qualified_name\": \"tests.test_markupsafe.test_unescape\",\n        \"module\": \"tests.test_markupsafe\",\n        \"name\": \"test_unescape\",\n        \"kind\": \"function\",\n        \"signature\": \"()\"\n      },\n      {\n        \"score\": 0.331818,\n        \"qualified_name\": \"tests.test_markupsafe.test_soft_str\",\n        \"module\": \"tests.test_markupsafe\",\n        \"name\": \"test_soft_str\",\n        \"kind\": \"function\",\n        \"signature\": \"(soft_str)\"\n      },\n      {\n        \"score\": 0.303158,\n        \"qualified_name\": \"markupsafe.Markup.unescape\",\n        \"module\": \"markupsafe\",\n        \"name\": \"unescape\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: MarkupSafe\nOld version: ==0.9\nTarget version: ==2.0.0\n\nFunctional description:\nThe code is escaping special characters in a given string to their corresponding HTML entities.\n\nOld code:\n```python\nvalue = escape('<User 1>')\nvalue\nMarkup('&lt;User 1&gt;')\nescape(str(value))\nMarkup('&amp;lt;User 1&amp;gt;')\nescape(soft_unicode(value))\nMarkup('&lt;User 1&gt;')\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"soft_unicode\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 91,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"markupsafe._native.soft_unicode\",\n        \"module\": \"markupsafe._native\",\n        \"name\": \"soft_unicode\",\n        \"kind\": \"function\",\n        \"signature\": \"(s: t.Any)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"tests.conftest.soft_unicode\",\n        \"module\": \"tests.conftest\",\n        \"name\": \"soft_unicode\",\n        \"kind\": \"function\",\n        \"signature\": \"(_mod)\"\n      },\n      {\n        \"score\": 0.58,\n        \"qualified_name\": \"tests.test_markupsafe.test_soft_unicode_deprecated\",\n        \"module\": \"tests.test_markupsafe\",\n        \"name\": \"test_soft_unicode_deprecated\",\n        \"kind\": \"function\",\n        \"signature\": \"(soft_unicode)\"\n      },\n      {\n        \"score\": 0.413333,\n        \"qualified_name\": \"markupsafe._native.soft_str\",\n        \"module\": \"markupsafe._native\",\n        \"name\": \"soft_str\",\n        \"kind\": \"function\",\n        \"signature\": \"(s: t.Any)\"\n      },\n      {\n        \"score\": 0.413333,\n        \"qualified_name\": \"tests.conftest.soft_str\",\n        \"module\": \"tests.conftest\",\n        \"name\": \"soft_str\",\n        \"kind\": \"function\",\n        \"signature\": \"(_mod)\"\n      },\n      {\n        \"score\": 0.375652,\n        \"qualified_name\": \"tests.test_markupsafe.test_unescape\",\n        \"module\": \"tests.test_markupsafe\",\n        \"name\": \"test_unescape\",\n        \"kind\": \"function\",\n        \"signature\": \"()\"\n      },\n      {\n        \"score\": 0.331818,\n        \"qualified_name\": \"tests.test_markupsafe.test_soft_str\",\n        \"module\": \"tests.test_markupsafe\",\n        \"name\": \"test_soft_str\",\n        \"kind\": \"function\",\n        \"signature\": \"(soft_str)\"\n      },\n      {\n        \"score\": 0.303158,\n        \"qualified_name\": \"markupsafe.Markup.unescape\",\n        \"module\": \"markupsafe\",\n        \"name\": \"unescape\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 25,
+      "task_index": 7,
+      "task_id": "old_to_new_15048",
+      "arm": "base",
+      "prompt_sha256": "15d0f5a3a2ddfcf5d331e8fb39fcf5f872cd828bb14ca093e1c1f97ab598ea22",
+      "request_sha256": "50e25e6d0069fea31aee7001d637d88b2d2b09d83b4c044b6c64fcccf307cef0",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 26,
+      "task_index": 7,
+      "task_id": "old_to_new_15048",
+      "arm": "prose_mapping",
+      "prompt_sha256": "9c7fa87c4b49429b7eee400179da2d42e19c611c68b151b882dfbc07a5532e29",
+      "request_sha256": "52e41bbd628eed5a84fd4f709b9cf757990d50d9ac24ec90f5fb2d246ae40f22",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In pandas ==0.15.0, `diff` is replaced by `difference`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In pandas ==0.15.0, `diff` is replaced by `difference`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 27,
+      "task_index": 7,
+      "task_id": "old_to_new_15048",
+      "arm": "structured_mapping",
+      "prompt_sha256": "34a7190a68b79b2191ce946aad8a9f104121cffe2a097c86b9c70dcabc30a418",
+      "request_sha256": "4938a45615c7d915013d79dcf8ba012fef5cb821d4b4811c0dbb3d6440163c82",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"diff\",\n  \"target_api\": \"difference\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"diff\",\n  \"target_api\": \"difference\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 28,
+      "task_index": 7,
+      "task_id": "old_to_new_15048",
+      "arm": "probe_evidence",
+      "prompt_sha256": "66de0b6d68316f2baaab9a262919db109188df0a81520b73c19e91e79e11377a",
+      "request_sha256": "a856762f7ece135484a81618128e962d8ad666c205ca316a1564d0f238b7669c",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"diff\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 11759,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.common.diff\",\n        \"module\": \"pandas.core.common\",\n        \"name\": \"diff\",\n        \"kind\": \"function\",\n        \"signature\": \"(arr, n, axis=0)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.frame.DataFrame.diff\",\n        \"module\": \"pandas.core.frame\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, periods=1)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.internals.Block.diff\",\n        \"module\": \"pandas.core.internals\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, n)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.internals.BlockManager.diff\",\n        \"module\": \"pandas.core.internals\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, **kwargs)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.series.Series.diff\",\n        \"module\": \"pandas.core.series\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, periods=1)\"\n      },\n      {\n        \"score\": 0.663636,\n        \"qualified_name\": \"pandas.core.index.Index.sym_diff\",\n        \"module\": \"pandas.core.index\",\n        \"name\": \"sym_diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, other, result_name=None)\"\n      },\n      {\n        \"score\": 0.62,\n        \"qualified_name\": \"pandas.tests.test_frame.TestDataFrame.test_diff\",\n        \"module\": \"pandas.tests.test_frame\",\n        \"name\": \"test_diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      },\n      {\n        \"score\": 0.62,\n        \"qualified_name\": \"pandas.tests.test_series.TestSeries.test_diff\",\n        \"module\": \"pandas.tests.test_series\",\n        \"name\": \"test_diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pandas\nOld version: ==0.4.0\nTarget version: ==0.15.0\n\nFunctional description:\nThe code calculates the [TARGET_API] between two index objects.\n\nOld code:\n```python\nindex - index2\nindex.diff(index2)\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"diff\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 11759,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.common.diff\",\n        \"module\": \"pandas.core.common\",\n        \"name\": \"diff\",\n        \"kind\": \"function\",\n        \"signature\": \"(arr, n, axis=0)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.frame.DataFrame.diff\",\n        \"module\": \"pandas.core.frame\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, periods=1)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.internals.Block.diff\",\n        \"module\": \"pandas.core.internals\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, n)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.internals.BlockManager.diff\",\n        \"module\": \"pandas.core.internals\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, **kwargs)\"\n      },\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pandas.core.series.Series.diff\",\n        \"module\": \"pandas.core.series\",\n        \"name\": \"diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, periods=1)\"\n      },\n      {\n        \"score\": 0.663636,\n        \"qualified_name\": \"pandas.core.index.Index.sym_diff\",\n        \"module\": \"pandas.core.index\",\n        \"name\": \"sym_diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self, other, result_name=None)\"\n      },\n      {\n        \"score\": 0.62,\n        \"qualified_name\": \"pandas.tests.test_frame.TestDataFrame.test_diff\",\n        \"module\": \"pandas.tests.test_frame\",\n        \"name\": \"test_diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      },\n      {\n        \"score\": 0.62,\n        \"qualified_name\": \"pandas.tests.test_series.TestSeries.test_diff\",\n        \"module\": \"pandas.tests.test_series\",\n        \"name\": \"test_diff\",\n        \"kind\": \"method\",\n        \"signature\": \"(self)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 29,
+      "task_index": 8,
+      "task_id": "old_to_new_20283",
+      "arm": "base",
+      "prompt_sha256": "b4379b20d3e8bba080f9a7b60ae0ad844c804bca27107312147101f14cba7f0e",
+      "request_sha256": "f3956e498ecdb4baef7523f138d47f4a24b2470feada7125495ae626cdf9fba7",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\nNone\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 30,
+      "task_index": 8,
+      "task_id": "old_to_new_20283",
+      "arm": "prose_mapping",
+      "prompt_sha256": "f521d64c32000b549854db3dea26f08e7539dc2bd41f0f4430f6331f3e67325c",
+      "request_sha256": "231a95fb11f2fcccc2d2fc31ea84585eccb7e57c8c9ff9def0206b577859f98f",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In pyrsistent ==0.10.0, `pclass` is replaced by `immutable`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"change_fact\": \"In pyrsistent ==0.10.0, `pclass` is replaced by `immutable`.\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 31,
+      "task_index": 8,
+      "task_id": "old_to_new_20283",
+      "arm": "structured_mapping",
+      "prompt_sha256": "4c2b83d8d462626cb0da958046404b22c520133f04d3d29d6094ecea9337c84e",
+      "request_sha256": "a360f76c2ba15e1b8c285e0f0ec8173ab52225796d6422b6908bf964a3ea7527",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"pclass\",\n  \"target_api\": \"immutable\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"change_type\": \"name_change\",\n  \"source_api\": \"pclass\",\n  \"target_api\": \"immutable\"\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    {
+      "attempt_index": 32,
+      "task_index": 8,
+      "task_id": "old_to_new_20283",
+      "arm": "probe_evidence",
+      "prompt_sha256": "332454f66badbbc186374b5c6c1a3f7045122c06ad2c244f21dd293dbb6a2b50",
+      "request_sha256": "4630be7bda4856b19e428d3e13c241560556ed86d6cd1f2159dcfc3fe4f61f84",
+      "prompt": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"pclass\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 319,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pyrsistent._pclass.PClass\",\n        \"module\": \"pyrsistent._pclass\",\n        \"name\": \"PClass\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.54,\n        \"qualified_name\": \"pyrsistent._pclass._PClassMeta\",\n        \"module\": \"pyrsistent._pclass\",\n        \"name\": \"_PClassMeta\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.454737,\n        \"qualified_name\": \"pyrsistent._pclass._PClassEvolver\",\n        \"module\": \"pyrsistent._pclass\",\n        \"name\": \"_PClassEvolver\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.411429,\n        \"qualified_name\": \"pyrsistent._pdeque.PDeque._pop_lists\",\n        \"module\": \"pyrsistent._pdeque\",\n        \"name\": \"_pop_lists\",\n        \"kind\": \"method\",\n        \"signature\": \"(primary_list, secondary_list, count)\"\n      },\n      {\n        \"score\": 0.392727,\n        \"qualified_name\": \"pyrsistent._plist.PList\",\n        \"module\": \"pyrsistent._plist\",\n        \"name\": \"PList\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.392727,\n        \"qualified_name\": \"pyrsistent._plist.plist\",\n        \"module\": \"pyrsistent._plist\",\n        \"name\": \"plist\",\n        \"kind\": \"function\",\n        \"signature\": \"(iterable=(), reverse=False)\"\n      },\n      {\n        \"score\": 0.384,\n        \"qualified_name\": \"pyrsistent._plist._PListBase\",\n        \"module\": \"pyrsistent._plist\",\n        \"name\": \"_PListBase\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.32,\n        \"qualified_name\": \"pyrsistent._pdeque.PDeque._tip_from_lists\",\n        \"module\": \"pyrsistent._pdeque\",\n        \"name\": \"_tip_from_lists\",\n        \"kind\": \"method\",\n        \"signature\": \"(primary_list, secondary_list)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n",
+      "request": {
+        "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+        "messages": [
+          {
+            "role": "user",
+            "content": "You are migrating a Python code snippet across real library versions.\n\nDependency: pyrsistent\nOld version: ==0.6.1\nTarget version: ==0.10.0\n\nFunctional description:\nThe code defines a class named Point with attributes x, y, and id_. It creates an instance p of Point with x=1, y=2. It then updates the x attribute of p to 3. Another instance p is created with x=1, y=2, and id_=17. The id_ attribute of p is then updated to 18.\n\nOld code:\n```python\nPoint = pclass('x, y', name='Point')\n\np = Point(1, 2)\n\np2 = p.set(x=3)\n\nPoint = pclass('x, y, id_', name='Point')\n\np = Point(1, 2, id_=17)\n\np.set(x=3)\n\np.set(id_=18)\n```\n\nAdditional evidence:\n{\n  \"api_probe\": {\n    \"query_name\": \"pclass\",\n    \"method\": \"deterministic AST symbol enumeration over the exact target distribution artifact; ranked only by name morphology\",\n    \"old_name_present_exactly\": true,\n    \"candidate_count\": 319,\n    \"candidates\": [\n      {\n        \"score\": 1.0,\n        \"qualified_name\": \"pyrsistent._pclass.PClass\",\n        \"module\": \"pyrsistent._pclass\",\n        \"name\": \"PClass\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.54,\n        \"qualified_name\": \"pyrsistent._pclass._PClassMeta\",\n        \"module\": \"pyrsistent._pclass\",\n        \"name\": \"_PClassMeta\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.454737,\n        \"qualified_name\": \"pyrsistent._pclass._PClassEvolver\",\n        \"module\": \"pyrsistent._pclass\",\n        \"name\": \"_PClassEvolver\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.411429,\n        \"qualified_name\": \"pyrsistent._pdeque.PDeque._pop_lists\",\n        \"module\": \"pyrsistent._pdeque\",\n        \"name\": \"_pop_lists\",\n        \"kind\": \"method\",\n        \"signature\": \"(primary_list, secondary_list, count)\"\n      },\n      {\n        \"score\": 0.392727,\n        \"qualified_name\": \"pyrsistent._plist.PList\",\n        \"module\": \"pyrsistent._plist\",\n        \"name\": \"PList\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.392727,\n        \"qualified_name\": \"pyrsistent._plist.plist\",\n        \"module\": \"pyrsistent._plist\",\n        \"name\": \"plist\",\n        \"kind\": \"function\",\n        \"signature\": \"(iterable=(), reverse=False)\"\n      },\n      {\n        \"score\": 0.384,\n        \"qualified_name\": \"pyrsistent._plist._PListBase\",\n        \"module\": \"pyrsistent._plist\",\n        \"name\": \"_PListBase\",\n        \"kind\": \"class\",\n        \"signature\": \"\"\n      },\n      {\n        \"score\": 0.32,\n        \"qualified_name\": \"pyrsistent._pdeque.PDeque._tip_from_lists\",\n        \"module\": \"pyrsistent._pdeque\",\n        \"name\": \"_tip_from_lists\",\n        \"kind\": \"method\",\n        \"signature\": \"(primary_list, secondary_list)\"\n      }\n    ]\n  }\n}\n\nReturn exactly one JSON object with this schema:\n{\"code\": string}\n\nThe code field must contain only the complete migrated Python snippet.\nDo not include markdown fences, explanations, or target reference text.\n"
+          }
+        ],
+        "temperature": 0,
+        "top_p": 1,
+        "max_tokens": 512,
+        "response_format": {
+          "type": "json_object"
+        },
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    }
+  ]
+}

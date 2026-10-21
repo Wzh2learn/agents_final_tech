@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="168" time="0.206" timestamp="2026-10-21T16:59:57.583233+08:00" hostname="promaxgb10-0b48"><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[start0-%Y-%m-%dT%H:%M:%S%z-end0-%Y-%m-%dT%H:%M:%S%z- - -False-2015-03-22T10:00:00+0900 - 2015-03-22T10:10:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[2015-03-22T09:00:00+0900-%Y-%m-%dT%H:%M:%S%z-2015-03-22T10:10:00+0900-%Y-%m-%dT%H:%M:%S%z- - -False-2015-03-22T09:00:00+0900 - 2015-03-22T10:10:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[2015-03-22T09:00:00-%Y-%m-%dT%H:%M:%S%z-2015-03-22T10:10:00-%Y-%m-%dT%H:%M:%S%z- - -False-2015-03-22T09:00:00 - 2015-03-22T10:10:00]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[start3-%Y-%m-%dT%H:%M:%S%z-end3-%Y-%m-%dT%H:%M:%S%z- - -True-2015-03-22T10:00:00+0900 - 2015-03-22T10:10:00+0900 (0:10:00)]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[start4-%Y-%m-%dT%H:%M:%S%z-end4-%Y-%m-%dT%H:%M:%S%z- - -True-2015-03-22T10:10:00+0900 - 2015-03-22T10:00:00+0900 (-1 day, 23:50:00)]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[start5-%Y%m%d%H%M%S-end5-%Y/%m/%d %H:%M:%S%z- to -False-20150322100000 to 2015/03/22 10:10:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[None-%Y-%m-%dT%H:%M:%S%z-end6-%Y-%m-%dT%H:%M:%S%z- - -False-NaT - 2015-03-22T10:10:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[start7-%Y-%m-%dT%H:%M:%S%z-None-%Y-%m-%dT%H:%M:%S%z- - -False-2015-03-22T10:00:00+0900 - NaT]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_normal[None-%Y-%m-%dT%H:%M:%S%z-None-%Y-%m-%dT%H:%M:%S%z- - -False-NaT - NaT]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_daylight_saving_time[2015-03-08T00:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-03-08T12:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300]" time="0.003"><failure message="zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'">key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+&gt;           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+&gt;       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test_datetimerange.Test_DateTimeRange_repr object at 0xf148ff34d550&gt;
+start = '2015-03-08T00:00:00-0400', start_format = '%Y-%m-%dT%H:%M:%S%z'
+end = '2015-03-08T12:00:00-0400', end_format = '%Y-%m-%dT%H:%M:%S%z'
+expected = '2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300'
+
+    @pytest.mark.parametrize(
+        [
+            "start", "start_format",
+            "end", "end_format",
+            "expected"
+        ],
+        [
+            [
+                "2015-03-08T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300"
+            ],
+            [
+                "2015-11-01T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400"
+            ],
+        ])
+    def test_daylight_saving_time(
+            self, start, start_format, end, end_format, expected):
+&gt;       dtr = DateTimeRange(start, end, start_format, end_format)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+&gt;           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_daylight_saving_time[2015-11-01T00:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-11-01T12:00:00-0400-%Y-%m-%dT%H:%M:%S%z-2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400]" time="0.001"><failure message="zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'">key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+&gt;           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+&gt;       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test_datetimerange.Test_DateTimeRange_repr object at 0xf148ff34d670&gt;
+start = '2015-11-01T00:00:00-0400', start_format = '%Y-%m-%dT%H:%M:%S%z'
+end = '2015-11-01T12:00:00-0400', end_format = '%Y-%m-%dT%H:%M:%S%z'
+expected = '2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400'
+
+    @pytest.mark.parametrize(
+        [
+            "start", "start_format",
+            "end", "end_format",
+            "expected"
+        ],
+        [
+            [
+                "2015-03-08T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-03-08T00:00:00-0400 - 2015-03-08T12:00:00-0300"
+            ],
+            [
+                "2015-11-01T00:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T12:00:00-0400", ISO_TIME_FORMAT,
+                "2015-11-01T00:00:00-0300 - 2015-11-01T12:00:00-0400"
+            ],
+        ])
+    def test_daylight_saving_time(
+            self, start, start_format, end, end_format, expected):
+&gt;       dtr = DateTimeRange(start, end, start_format, end_format)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+&gt;           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_exception[start0-None-end0-%Y-%m-%dT%H:%M:%S%z- - -False-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_exception[start1-%Y-%m-%dT%H:%M:%S%z-end1-None- - -False-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_repr" name="test_exception[start2-%Y-%m-%dT%H:%M:%S%z-end2-%Y-%m-%dT%H:%M:%S%z-None-False-AttributeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_eq" name="test_normal[lhs0-rhs0-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_eq" name="test_normal[lhs1-rhs1-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_eq" name="test_normal[lhs2-rhs2-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_eq" name="test_normal[lhs3-rhs3-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_eq" name="test_normal[lhs4-rhs4-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_eq" name="test_normal[lhs5-rhs5-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_neq" name="test_normal[lhs0-rhs0-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_neq" name="test_normal[lhs1-rhs1-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_neq" name="test_normal[lhs2-rhs2-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_neq" name="test_normal[lhs3-rhs3-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_neq" name="test_normal[lhs4-rhs4-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_neq" name="test_normal[lhs5-rhs5-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_add" name="test_normal[value0-add_value0-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_add" name="test_normal[value1-add_value1-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_add" name="test_exception[2015-03-22T10:10:00+0900-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_add" name="test_exception[1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_add" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_add" name="test_null" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_iadd" name="test_normal" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_iadd" name="test_exception[2015-03-22T10:10:00+0900-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_iadd" name="test_exception[1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_iadd" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_iadd" name="test_null" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_sub" name="test_normal" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_sub" name="test_exception[2015-03-22T10:10:00+0900-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_sub" name="test_exception[1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_sub" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_sub" name="test_null" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_isub" name="test_normal" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_isub" name="test_exception[2015-03-22T10:10:00+0900-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_isub" name="test_exception[1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_isub" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_isub" name="test_null" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[2015-03-22T10:00:00+0900-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[2015-03-22T10:10:00+0900-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[value2-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[value3-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[value4-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[value5-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[2015-03-22 09:59:59+0900-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_normal[2015-03-22 10:10:01+0900-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_exception[False-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_exception[20140513221937-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_null_start[value0-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_null_start[aaa-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_contains" name="test_null_start[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_timedelta" name="test_normal" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_timedelta" name="test_daylight_saving_time[2015-03-08T00:00:00-0400-2015-03-08T12:00:00-0400-expected0]" time="0.000"><failure message="zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'">key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+&gt;           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+&gt;       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test_datetimerange.Test_DateTimeRange_timedelta object at 0xf148ff34ee70&gt;
+start = '2015-03-08T00:00:00-0400', end = '2015-03-08T12:00:00-0400'
+expected = datetime.timedelta(seconds=39600)
+
+    @pytest.mark.parametrize(["start", "end", "expected"], [
+        [
+            "2015-03-08T00:00:00-0400",
+            "2015-03-08T12:00:00-0400",
+            datetime.timedelta(0, 39600)  # 11 hours
+        ],
+        [
+            "2015-11-01T00:00:00-0400",
+            "2015-11-01T12:00:00-0400",
+            datetime.timedelta(0, 46800)  # 13 hours
+        ],
+    ])
+    def test_daylight_saving_time(self, start, end, expected):
+&gt;       dtr = DateTimeRange(start, end)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+&gt;           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_timedelta" name="test_daylight_saving_time[2015-11-01T00:00:00-0400-2015-11-01T12:00:00-0400-expected1]" time="0.000"><failure message="zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'">key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+&gt;           return resources.files(package_name).joinpath(resource_name).open("rb")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/lib/python3.12/zoneinfo/_common.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/resources/_common.py:46: in wrapper
+    return func(anchor)
+           ^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:56: in files
+    return from_package(resolve(anchor))
+                        ^^^^^^^^^^^^^^^
+/usr/lib/python3.12/functools.py:909: in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/resources/_common.py:82: in _
+    return importlib.import_module(cand)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'tzdata.zoneinfo.Canada', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+&gt;       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'tzdata'
+
+/usr/lib/python3.12/importlib/__init__.py:90: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test_datetimerange.Test_DateTimeRange_timedelta object at 0xf148ff34ede0&gt;
+start = '2015-11-01T00:00:00-0400', end = '2015-11-01T12:00:00-0400'
+expected = datetime.timedelta(seconds=46800)
+
+    @pytest.mark.parametrize(["start", "end", "expected"], [
+        [
+            "2015-03-08T00:00:00-0400",
+            "2015-03-08T12:00:00-0400",
+            datetime.timedelta(0, 39600)  # 11 hours
+        ],
+        [
+            "2015-11-01T00:00:00-0400",
+            "2015-11-01T12:00:00-0400",
+            datetime.timedelta(0, 46800)  # 13 hours
+        ],
+    ])
+    def test_daylight_saving_time(self, start, end, expected):
+&gt;       dtr = DateTimeRange(start, end)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/test_datetimerange.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+datetimerange/__init__.py:58: in __init__
+    self.set_time_range(start_datetime, end_datetime)
+datetimerange/__init__.py:525: in set_time_range
+    self.set_start_datetime(start)
+datetimerange/__init__.py:466: in set_start_datetime
+    value, strict_level=typepy.StrictLevel.MIN).convert()
+                                                ^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:113: in convert
+    if self.is_type():
+       ^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:71: in is_type
+    self.__is_type_result = self.__is_type()
+                            ^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/type/_base.py:83: in __is_type
+    self._converted_value = self.__converter.force_convert()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:42: in force_convert
+    return self.__from_datetime_string()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../env_gold/lib/python3.12/site-packages/typepy/converter/_datetime.py:110: in __from_datetime_string
+    tz = ZoneInfo(dst_timezone_name)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'Canada/Atlantic'
+
+    def load_tzdata(key):
+        from importlib import resources
+    
+        components = key.split("/")
+        package_name = ".".join(["tzdata.zoneinfo"] + components[:-1])
+        resource_name = components[-1]
+    
+        try:
+            return resources.files(package_name).joinpath(resource_name).open("rb")
+        except (ImportError, FileNotFoundError, UnicodeEncodeError):
+            # There are three types of exception that can be raised that all amount
+            # to "we cannot find this key":
+            #
+            # ImportError: If package_name doesn't exist (e.g. if tzdata is not
+            #   installed, or if there's an error in the folder name like
+            #   Amrica/New_York)
+            # FileNotFoundError: If resource_name doesn't exist in the package
+            #   (e.g. Europe/Krasnoy)
+            # UnicodeEncodeError: If package_name or resource_name are not UTF-8,
+            #   such as keys containing a surrogate character.
+&gt;           raise ZoneInfoNotFoundError(f"No time zone found with key {key}")
+E           zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key Canada/Atlantic'
+
+/usr/lib/python3.12/zoneinfo/_common.py:24: ZoneInfoNotFoundError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_timedelta" name="test_inversion" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_timedelta" name="test_null" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_timedelta" name="test_exception" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_set" name="test_normal[value0-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_set" name="test_normal[value1-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_set" name="test_normal[value2-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_set" name="test_normal[value3-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_set" name="test_normal[value4-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_validate_time_inversion" name="test_normal[value0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_validate_time_inversion" name="test_normal[value1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_validate_time_inversion" name="test_inversion" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_validate_time_inversion" name="test_exception[value0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_validate_time_inversion" name="test_exception[value1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_validate_time_inversion" name="test_exception[value2]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_valid_timerange" name="test_normal[value0-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_valid_timerange" name="test_normal[value1-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_valid_timerange" name="test_normal[value2-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_valid_timerange" name="test_normal[value3-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_valid_timerange" name="test_normal[value4-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_normal[value0-step0-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_normal[value1-step1-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_normal[value2-step2-expected2]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_normal[value3-step3-expected3]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_normal[value4-step4-expected4]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[value0-step0-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[value1-step1-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[value2-None-AttributeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[value3-1-AttributeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[value4-step4-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[value5-step5-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[None-step6-AttributeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_range" name="test_exception[10-step7-AttributeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs0-rhs0-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs1-rhs1-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs2-rhs2-False]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs3-rhs3-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs4-rhs4-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs5-rhs5-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs6-rhs6-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_normal[lhs7-rhs7-True]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_exception[lhs0-rhs0-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_exception[lhs1-rhs1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_exception[lhs2-rhs2-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_exception[lhs3-rhs3-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_is_intersection" name="test_exception[lhs4-rhs4-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_start_time_str" name="test_normal[%Y-%m-%dT%H:%M:%S%z-2015-03-22T10:00:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_start_time_str" name="test_normal[%Y/%m/%d %H:%M:%S%z-2015/03/22 10:00:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_start_time_str" name="test_abnormal_1" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_start_time_str" name="test_abnormal_2" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_start_time_str" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_end_time_str" name="test_normal[%Y-%m-%dT%H:%M:%S%z-2015-03-22T10:10:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_end_time_str" name="test_normal[%Y/%m/%d %H:%M:%S%z-2015/03/22 10:10:00+0900]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_end_time_str" name="test_abnormal_1" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_end_time_str" name="test_abnormal_2" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_end_time_str" name="test_exception[None-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_timedelta_second" name="test_normal" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_timedelta_second" name="test_inversion" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_timedelta_second" name="test_null" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_get_timedelta_second" name="test_exception" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_normal[2015-03-22T10:00:00+0900-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_normal[value1-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_normal[1485685623-expected2]" time="0.000"><failure message="assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)&#10; +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2017-01-29T18:27:03 - 2015-03-22T10:10:00+0900.start_datetime">self = &lt;test_datetimerange.Test_DateTimeRange_set_start_datetime object at 0xf148ff4182c0&gt;
+value = 1485685623, expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_start_datetime(value)
+&gt;       assert dtr.start_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2017-01-29T18:27:03 - 2015-03-22T10:10:00+0900.start_datetime
+
+test/test_datetimerange.py:842: AssertionError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_normal[1485685623-expected3]" time="0.000"><failure message="assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)&#10; +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2017-01-29T18:27:03 - 2015-03-22T10:10:00+0900.start_datetime">self = &lt;test_datetimerange.Test_DateTimeRange_set_start_datetime object at 0xf148ff418380&gt;
+value = '1485685623', expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_start_datetime(value)
+&gt;       assert dtr.start_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2017-01-29T18:27:03 - 2015-03-22T10:10:00+0900.start_datetime
+
+test/test_datetimerange.py:842: AssertionError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_normal[None-None]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_null_start[invalid time string-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_start_datetime" name="test_null_start[3.3.5-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_normal[2015-03-22T10:00:00+0900-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_normal[value1-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_normal[1485685623-expected2]" time="0.000"><failure message="assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)&#10; +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2015-03-22T10:10:00+0900 - 2017-01-29T18:27:03.end_datetime">self = &lt;test_datetimerange.Test_DateTimeRange_set_end_datetime object at 0xf148ff4029c0&gt;
+value = 1485685623, expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_end_datetime(value)
+&gt;       assert dtr.end_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2015-03-22T10:10:00+0900 - 2017-01-29T18:27:03.end_datetime
+
+test/test_datetimerange.py:865: AssertionError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_normal[1485685623-expected3]" time="0.000"><failure message="assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)&#10; +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2015-03-22T10:10:00+0900 - 2017-01-29T18:27:03.end_datetime">self = &lt;test_datetimerange.Test_DateTimeRange_set_end_datetime object at 0xf148ff402570&gt;
+value = '1485685623', expected = datetime.datetime(2017, 1, 29, 19, 27, 3)
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        [START_DATETIME_TEXT, TEST_START_DATETIME],
+        [TEST_START_DATETIME, TEST_START_DATETIME],
+        [1485685623, parse("2017-01-29 19:27:03")],
+        ["1485685623", parse("2017-01-29 19:27:03")],
+        [None, None],
+    ])
+    def test_normal(self, value, expected):
+        dtr = DateTimeRange(TEST_END_DATETIME, TEST_END_DATETIME)
+        dtr.set_end_datetime(value)
+&gt;       assert dtr.end_datetime == expected
+E       assert datetime.datetime(2017, 1, 29, 18, 27, 3) == datetime.datetime(2017, 1, 29, 19, 27, 3)
+E        +  where datetime.datetime(2017, 1, 29, 18, 27, 3) = 2015-03-22T10:10:00+0900 - 2017-01-29T18:27:03.end_datetime
+
+test/test_datetimerange.py:865: AssertionError</failure></testcase><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_normal[None-None]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_null_start[invalid time string-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_end_datetime" name="test_null_start[3.3.5-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_time_range" name="test_normal[2015-03-22T10:00:00+0900-2015-03-22T10:10:00+0900-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_time_range" name="test_normal[None-None-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_time_range" name="test_exception[invalid time string-2015-03-22T10:10:00+0900-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_time_range" name="test_exception[2015-03-22T10:00:00+0900-invalid time string-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_set_time_range" name="test_exception[invalid time string-invalid time string-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs0-rhs0-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs1-rhs1-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs2-rhs2-expected2]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs3-rhs3-expected3]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs4-rhs4-expected4]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs5-rhs5-expected5]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_normal[lhs6-rhs6-expected6]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_exception[lhs0-rhs0-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_exception[lhs1-rhs1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_exception[lhs2-rhs2-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_exception[lhs3-rhs3-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_intersection" name="test_exception[lhs4-rhs4-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_normal[lhs0-rhs0-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_normal[lhs1-rhs1-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_normal[lhs2-rhs2-expected2]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_normal[lhs3-rhs3-expected3]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_normal[lhs4-rhs4-expected4]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_exception[lhs0-rhs0-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_exception[lhs1-rhs1-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_exception[lhs2-rhs2-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_exception[lhs3-rhs3-TypeError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_encompass" name="test_exception[lhs4-rhs4-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_truncate" name="test_normal[0-expected0]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_truncate" name="test_normal[10-expected1]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_truncate" name="test_exception[-10-ValueError]" time="0.000" /><testcase classname="test.test_datetimerange.Test_DateTimeRange_truncate" name="test_null[10]" time="0.000" /></testsuite></testsuites>
