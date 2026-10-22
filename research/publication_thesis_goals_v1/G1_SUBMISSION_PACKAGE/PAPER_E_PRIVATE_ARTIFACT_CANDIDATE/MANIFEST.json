@@ -1,0 +1,41 @@
+{
+  "schema": "paper_e_private_artifact_manifest_v1",
+  "date": "2026-10-22",
+  "hash_algorithm": "sha256",
+  "excludes": [
+    "MANIFEST.json",
+    "REPRODUCTION_RECEIPT.json"
+  ],
+  "files": [
+    {
+      "path": "data/G1_SEED_REANALYSIS.json",
+      "bytes": 81211,
+      "sha256": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d"
+    },
+    {
+      "path": "FINRANK_COMPACT_ROWS.json",
+      "bytes": 845,
+      "sha256": "d798845dec123a32aa063d8f2da9709b0f9ef33a8bbaba9224bcf2ade7d8307e"
+    },
+    {
+      "path": "LICENSES.md",
+      "bytes": 846,
+      "sha256": "1625dbc1d659b7cbb4d7072decdf022ffb1486a163d7489623beb17831d8318b"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1264,
+      "sha256": "83681515599d50aa4b044fdeaf7a5bce7b66cffe9b7ac2cc3cb34064fe175b87"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 5541,
+      "sha256": "c7c62030d87099e78b1c50d5d905daeac39911d731765b3c2548e754540cb080"
+    },
+    {
+      "path": "REPRODUCE.sh",
+      "bytes": 90,
+      "sha256": "ae10578d3146c5102996f30bd7c508adf74697aee899b21acc63587689377693"
+    }
+  ]
+}

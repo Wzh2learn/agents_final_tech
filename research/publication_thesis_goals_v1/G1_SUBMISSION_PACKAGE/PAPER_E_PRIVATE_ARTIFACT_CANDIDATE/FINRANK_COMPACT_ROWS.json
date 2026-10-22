@@ -1,0 +1,14 @@
+{
+  "schema": "paper_e_finrank_compact_rows_v1",
+  "source_revision": "916dc27e77b90e294ea1b3a2cc5b0abcf07392d1",
+  "identity_note": "442/305 and 33/2 are post-hoc v2 corrected identity counts; raw v1 scores are preserved elsewhere.",
+  "rows": [
+    {"model": "TF-IDF", "tie_policy": "ties-positive", "hard": 77.756, "random": 91.935},
+    {"model": "TF-IDF", "tie_policy": "strict-win", "hard": 77.030, "random": 90.850},
+    {"model": "TF-IDF", "tie_policy": "half-credit", "hard": 77.393, "random": 91.393},
+    {"model": "BM25", "tie_policy": "ties-positive", "hard": 74.780, "random": 87.789},
+    {"model": "BM25", "tie_policy": "strict-win", "hard": 74.094, "random": 86.760},
+    {"model": "BM25", "tie_policy": "half-credit", "hard": 74.437, "random": 87.275}
+  ],
+  "expected_gaps": [14.179, 13.820, 14.000, 13.009, 12.666, 12.838]
+}

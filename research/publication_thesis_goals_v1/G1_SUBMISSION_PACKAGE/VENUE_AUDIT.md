@@ -1,6 +1,6 @@
 # Paper E Venue Audit
 
-Checked: 2026-10-21, Asia/Shanghai
+Checked: 2026-10-22, Asia/Shanghai
 
 Evidence identity: direct reads of official public venue pages. Acceptance,
 publication time and school recognition are not guaranteed.
@@ -17,7 +17,9 @@ Official sources checked directly:
 
 Verified facts:
 
-- Second-stage Position/Regular submission: 2026-10-29 AoE.
+- Second-stage Position/Regular submission: 2026-10-29 AoE. The December 3
+  dates on the same page belong to workshops, special sessions and abstracts,
+  not the Regular Paper track.
 - Notification: 2026-12-04.
 - Camera-ready and registration: 2026-12-18.
 - Conference dates displayed by the official site: 2027-02-23 to 2027-02-26,
@@ -41,8 +43,9 @@ Verified facts:
 
 Current manuscript fit:
 
-- Non-whitespace manuscript characters: 45,616 in the current Markdown source.
-- Current ICAART review PDF: 12 A4 pages.
+- Non-whitespace manuscript characters: 39,604 in the current Markdown source.
+- Current ICAART review PDF: 11 A4 pages after restoring official 9pt table and
+  reference typography.
 - The source contains no author names or affiliations and no private endpoint
   or repository identity.
 
@@ -119,9 +122,9 @@ guarantee completion before the April review horizon.
 
 | Date | Action |
 |---|---|
-| 2026-10-22 | Complete independent Paper E review and resolve any blocking wording |
-| 2026-10-23 to 10-26 | Finalize route-specific source/PDF and complete author package |
-| 2026-10-27 | Freeze reviewable ICAART submission package |
+| 2026-10-22 | Resolve the Owner independent-audit blockers and complete target-package checks |
+| 2026-10-23 to 10-26 | Author review and any final non-scientific corrections |
+| 2026-10-27 | Freeze the ICAART submission package unless a real blocker is found |
 | 2026-10-28 | Owner decides authors, affiliation, AI disclosure, artifact, presentation and submission |
 | 2026-10-29 AoE | Submit only if ICAART remains approved and the live system recheck passes |
 

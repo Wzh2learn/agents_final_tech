@@ -1,0 +1,121 @@
+{
+  "schema": "icaart_package_pre_submission_audit_v2",
+  "target": {
+    "package_dir": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE",
+    "source_dir": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\paper\\icaart_2027_submission_v1",
+    "tex": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\paper\\icaart_2027_submission_v1\\manuscript.tex",
+    "pdf": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE\\PAPER_E_ICAART_REVIEW.pdf"
+  },
+  "checks": {
+    "evidence_integrity": {
+      "status": "PASS",
+      "detail": {
+        "command": [
+          "C:\\Program Files\\Python39\\python.exe",
+          "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\scripts\\verify_claim_evidence.py",
+          "--report-eol"
+        ],
+        "returncode": 0,
+        "summary": [
+          "WIDE_EVIDENCE_CHECK = PASS"
+        ]
+      }
+    },
+    "anonymisation": {
+      "status": "PASS",
+      "detail": {
+        "source_hits": [],
+        "pdf_author": "",
+        "pdf_error": null
+      }
+    },
+    "source_format": {
+      "status": "PASS",
+      "detail": {
+        "table_count": 4,
+        "tables": [
+          {
+            "table": 1,
+            "caption": true,
+            "nine_point_small": true,
+            "forbidden_scriptsize": false
+          },
+          {
+            "table": 2,
+            "caption": true,
+            "nine_point_small": true,
+            "forbidden_scriptsize": false
+          },
+          {
+            "table": 3,
+            "caption": true,
+            "nine_point_small": true,
+            "forbidden_scriptsize": false
+          },
+          {
+            "table": 4,
+            "caption": true,
+            "nine_point_small": true,
+            "forbidden_scriptsize": false
+          }
+        ],
+        "forbidden_reference_compression": false,
+        "unnumbered_acknowledgments": true,
+        "small_bibliography": true
+      }
+    },
+    "compiled_pdf": {
+      "status": "PASS",
+      "detail": {
+        "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE\\PAPER_E_ICAART_REVIEW.pdf",
+        "sha256": "cd40b292e165ea82f8215efb410c31c91248b2b8b4602b89487a6c5cd6cec56e",
+        "pages": 11,
+        "unresolved_references": 0,
+        "forbidden_phrases": []
+      }
+    },
+    "cross_version_consistency": {
+      "status": "PASS",
+      "detail": {
+        "stale_values": {
+          "canonical_markdown": [],
+          "icaart_tex": [],
+          "compiled_pdf": []
+        },
+        "missing_values": {
+          "canonical_markdown": [],
+          "icaart_tex": [],
+          "compiled_pdf": []
+        },
+        "nonwhite_counts": {
+          "canonical_markdown": 39604,
+          "icaart_tex": 39011
+        }
+      }
+    },
+    "manifest_paths": {
+      "status": "PASS",
+      "detail": {
+        "checked": [
+          "review_pdf",
+          "canonical_markdown",
+          "icaart_tex"
+        ],
+        "missing": []
+      }
+    },
+    "manifest_hashes": {
+      "status": "PASS",
+      "detail": {}
+    },
+    "private_artifact_candidate": {
+      "status": "PASS",
+      "detail": {
+        "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE\\PAPER_E_PRIVATE_ARTIFACT_CANDIDATE",
+        "missing": [],
+        "public_release": false
+      }
+    }
+  },
+  "status": "PASS"
+}

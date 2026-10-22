@@ -1,30 +1,29 @@
 # AI-Use Disclosure Draft
 
-Status: `PENDING_OWNER_APPROVAL_AND_VENUE_CONFIRMATION`
+Status: `VENUE_RULE_CHECKED_OWNER_APPROVAL_REQUIRED`
 
 ## Proposed Acknowledgments Text
 
-Generative AI disclosure: OpenAI Codex was used to organize the manuscript
-structure, edit English wording and perform consistency checks, especially in
-the abstract, interpretation table, discussion and submission preparation
-text. The authors verified all reported numbers, claims and references against
-the cited artifacts and remain fully responsible for the manuscript. AI
-assistance did not create independent semantic gold, human review or
-experimental evidence. The internal AI-assisted 24-task review mentioned in
-Section 6.1 remains a reported development record, not human gold, blind
-review or submission evidence.
+Generative AI disclosure: OpenAI Codex assisted manuscript organization,
+English editing and consistency checks in the abstract, related-work framing,
+interpretation table, discussion, conclusion, acknowledgments and submission
+materials. The authors verified all reported numbers, claims and references
+against the cited artifacts and remain fully responsible for the manuscript.
+Experimental evidence includes outputs from evaluated systems and automated
+judges under frozen protocols; deterministic statistics were recomputed with
+the supplied analysis scripts. AI assistance did not create human semantic gold
+or human blind review.
 
 ## Required Venue Action
 
-ICAART's guidelines state that AI-generated text should be disclosed in
-Acknowledgments and that affected sections should cite the AI system used.
-Before submission, confirm whether the sentence above is sufficient or whether
-the final PDF must add a formal reference/citation to OpenAI Codex in each
-affected section.
+ICAART's 2027 guidelines require the tool name, affected parts and a short
+explanation in Acknowledgments. The current manuscript text does that. The
+Owner should approve the wording and confirm whether a separate software
+citation is also desired.
 
 ## Evidence Boundary
 
 - AI-assisted review is not human blind review.
 - AI-assisted semantic adjudication is not human gold.
-- All quantitative claims in Paper E are bound to frozen artifacts or the
-  dated post-hoc statistical reanalysis.
+- Quantitative claims are bound to frozen artifacts or the dated post-hoc
+  statistical reanalysis.

@@ -1,6 +1,6 @@
 # Manuscript Audit
 
-Date: 2026-10-21
+Date: 2026-10-22
 
 Status: `PASS_FOR_INTERNAL_REVIEW_OWNER_ITEMS_PENDING`
 
@@ -28,21 +28,25 @@ Status: `PASS_FOR_INTERNAL_REVIEW_OWNER_ITEMS_PENDING`
 
 ## Compilation And Format
 
-- ICAART/SCITEPRESS PDF is 12 A4 pages with no overfull boxes; the alternate
+- ICAART/SCITEPRESS PDF is 11 A4 pages with no overfull boxes; the alternate
   Overleaf PDF is 10 pages.
-- `PRE_SUBMISSION_AUDIT = PASS`.
+- Actual-package `PRE_SUBMISSION_AUDIT = PASS`; the old 10-page Overleaf audit
+  is retained only as a historical result.
+- Official 9pt table/reference typography is restored.
+- The deterministic artifact candidate reproduces the 219/282, 119-UID and
+  clustered interval results on GB10 with Python 3.12.3.
 - No overfull boxes; non-fatal underfull warnings remain.
 - No unresolved `??` references.
-- AI-use acknowledgment is a complete proposed disclosure naming Codex and the
-  affected writing/revision work. Final tool history and venue citation form
-  remain subject to Owner confirmation.
+- AI-use acknowledgment names Codex and the affected writing/revision work and
+  distinguishes system/judge evidence from deterministic scripts and human
+  references. Owner approval remains required.
 
 ## Reviewer Risks Remaining
 
 - The scientific scope is deliberately narrow; a reviewer may want a third
   natural case. The manuscript should not respond by silently expanding its
   claim.
-- ICAART's official public rules were checked directly on 2026-10-21; the live
+- ICAART's official public rules were checked directly on 2026-10-22; the live
   submission system must still be rechecked immediately before upload.
 - Authors, BUPT affiliation order, patent status, artifact DOI and payment
   approval remain external actions.

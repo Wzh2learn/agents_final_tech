@@ -1,6 +1,6 @@
 # Paper E Manuscript Revision Report
 
-Date: 2026-10-21
+Date: 2026-10-22
 
 Status: `REVIEWABLE_DRAFT_WITH_OWNER_ITEMS_PENDING`
 
@@ -51,9 +51,11 @@ evidence row. Old and new values are recorded in `G1_HASH_REBIND.md`.
   `WIDE_EVIDENCE_CHECK = PASS`.
 - `python scripts/pre_submission_audit.py`:
   `PRE_SUBMISSION_AUDIT = PASS`.
-- ICAART/SCITEPRESS PDF: 12 A4 pages, no overfull boxes, 21 citations and 21
-  bibliography entries, no unresolved references. Alternate Overleaf PDF: 10
-  pages.
+- ICAART/SCITEPRESS PDF: 11 A4 pages, no overfull boxes, 21 citations and 21
+  bibliography entries, no unresolved references. Alternate Overleaf PDF is a
+  historical 10-page build.
+- Official 9pt table/reference typography is restored. The deterministic
+  FinRank strict-win gap is corrected to 13.820 and its movement to 0.359.
 - Focused G1 reanalysis tests: `3 passed`.
 
 ## Author-Approval Package

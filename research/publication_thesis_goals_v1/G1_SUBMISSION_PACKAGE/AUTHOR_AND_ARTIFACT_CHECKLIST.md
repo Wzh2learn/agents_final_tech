@@ -22,6 +22,8 @@
 ## Artifact And Data
 
 - [ ] Owner approves an anonymized repository or artifact URL/DOI.
+- [x] Private candidate contains scripts, manifests, compact frozen results and
+      a GB10 clean-environment reproduction receipt.
 - [ ] Public release package contains scripts, manifests, frozen results and
       licenses but excludes credentials, private data and internal-only AI
       review records.
@@ -34,7 +36,7 @@
 
 - [x] Primary ICAART and backup IEEE Access are selected; SN Computer Science
       is tertiary.
-- [x] Current PDF is double-blind and checked for 12-page ICAART layout; final upload
+- [x] Current PDF is double-blind and checked for an 11-page ICAART layout; final upload
       must recheck the live ICAART system/template.
 - [ ] AI-use disclosure matches venue requirements.
 - [ ] Registration and travel budget approved.

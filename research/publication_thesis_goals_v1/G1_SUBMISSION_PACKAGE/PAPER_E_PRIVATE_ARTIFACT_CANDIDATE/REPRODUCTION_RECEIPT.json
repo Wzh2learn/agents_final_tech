@@ -1,0 +1,49 @@
+{
+  "schema": "paper_e_private_artifact_reproduction_receipt_v1",
+  "status": "PASS",
+  "environment": {
+    "python": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39"
+  },
+  "inputs": {
+    "data/G1_SEED_REANALYSIS.json": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d",
+    "FINRANK_COMPACT_ROWS.json": "d798845dec123a32aa063d8f2da9709b0f9ef33a8bbaba9224bcf2ade7d8307e"
+  },
+  "stage_uid_cluster": {
+    "table_runs": 282,
+    "detected_table_runs": 219,
+    "unique_source_table_uids": 119,
+    "run_weighted_rate": 0.776596,
+    "uid_equal_rate": 0.753501,
+    "run_weighted_rate_ci95": [
+      0.711744,
+      0.836364
+    ],
+    "uid_equal_rate_ci95": [
+      0.683473,
+      0.820728
+    ],
+    "uid_seed_overlap_counts": {
+      "seen_in_1_seed(s)": 29,
+      "seen_in_2_seed(s)": 17,
+      "seen_in_3_seed(s)": 73
+    }
+  },
+  "finrank_compact_table": {
+    "rows": 6,
+    "gaps": [
+      14.179,
+      13.82,
+      14.0,
+      13.009,
+      12.666,
+      12.838
+    ],
+    "hard_vs_random_direction": "positive_for_all_tested_tie_policies"
+  },
+  "nonclaims": [
+    "The row-level staged analysis is a post-hoc reanalysis of frozen results.",
+    "The compact FinRank table verifies arithmetic and direction, not the full historical application.",
+    "No model or judge call is made by this reproduction."
+  ]
+}

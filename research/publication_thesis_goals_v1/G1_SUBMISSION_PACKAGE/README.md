@@ -1,8 +1,8 @@
 # Paper E Submission Package Status
 
-Date: 2026-10-21, Asia/Shanghai
+Date: 2026-10-22, Asia/Shanghai
 
-Status: `AUTHOR_REVIEW_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
+Status: `INTERNAL_PACKAGE_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
 
 ## Recommended Route
 
@@ -30,13 +30,18 @@ after acceptance.
 - Author/artifact checklist: `AUTHOR_AND_ARTIFACT_CHECKLIST.md`
 - Statistical correction: `../G1_STATISTICAL_AUDIT.md` and
   `../G1_SEED_REANALYSIS.json`
+- Private artifact candidate and clean reproduction receipt:
+  `PAPER_E_PRIVATE_ARTIFACT_CANDIDATE.zip`
 
 ## Current Mechanical State
 
 - Non-whitespace Markdown characters are below the ICAART 50,000 limit.
-- ICAART/SCITEPRESS review PDF: 12 A4 pages, no overfull boxes.
+- ICAART/SCITEPRESS review PDF: 11 A4 pages, no overfull boxes.
 - Alternate Overleaf PDF: 10 pages.
 - ICAART Regular submission range: 10,000–50,000 non-whitespace characters.
+- Official 9pt table and reference typography is restored.
+- The actual ICAART source/PDF audit and private artifact reproduction both
+  pass.
 - The current paper is a bounded two-case measurement audit.
 - The pooled `219/282` value is descriptive; UID-cluster and UID-equal
   sensitivity results replace the naive pooled interval.

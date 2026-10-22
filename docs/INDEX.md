@@ -11,7 +11,7 @@
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 新一轮 Loop D Goals | [四项 Goals v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；修正验收、推进真实研究冲刺与投稿；[上一版任务来源](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留历史 |
-| 四项 Goals 独立审计 | [Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；统计修复成立，最终投稿包、消费验证、真实成本与现役文档仍需推进 |
+| 四项 Goals 当前回执与独立审计 | [V2 SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)、[Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；审计阻断已修复或形成 G2/G3 有界判断 |
 | 本轮工作区与 Git 治理 | [治理报告](governance/2026-10-21_workspace_git_closeout.md)；记录资产分类、分支与跨主机最终核验，当前状态仍由 STATE 维护 |
 | 最新科研回执与记账 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)、[当前聚合账本](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；已执行 Goal 的成本快照与 post-hoc 更正分开保留，新阶段按四项 Goals 单独记账 |
 | 10月21日复核与已执行 Goal 来源 | [`进展复核`](../research/research_review_20261021_v1/REVIEW_AND_PHASED_GOAL_DRAFT.md)、[`前瞻研究与资格检查`](../research/prospective_research_20261021_v1/RESEARCH_BRIEF.md)、[`完整 Loop D Prompt`](../research/prospective_research_20261021_v1/LOOP_D_PROMPT.md)；保留设计来源，现役路由见科研入口 |
@@ -19,6 +19,7 @@
 | Agent 规则 | [`../AGENTS.md`](../AGENTS.md) |
 | 未决事项 | [`../memory/THREADS.md`](../memory/THREADS.md)；[原文快照](../memory/archive/THREADS_2026-10-21_pre_workspace_governance.md)保留历史，未复验事项不自动关闭 |
 | 基础资料 | [`../README.md`](../README.md)、[`../memory/CORE.md`](../memory/CORE.md)、[`../memory/DECISIONS.md`](../memory/DECISIONS.md)、[`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
+| 目标包审计脚本 | [`scripts/pre_submission_audit_v2.py`](../scripts/pre_submission_audit_v2.py) |
 
 ## Paper E 发表（渠道重选，SANER 材料保留）
 
