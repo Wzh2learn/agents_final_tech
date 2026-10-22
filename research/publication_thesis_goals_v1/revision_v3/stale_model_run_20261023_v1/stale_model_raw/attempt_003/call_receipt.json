@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "a32b27d80eb050e8b8fa5f3a642c4b4ec0099bbfafad37ba05c724d758fc7bf6",
+  "response_body_sha256": "e0b2b7a5ae3a5b2cac369f96676e51aab616ef0e355b768fcca2ba13fe8412b6",
+  "response_bytes": 992,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user states in the second session that they wrapped up their master's program last month and are now focusing on settling into a full-time job.\"\n}",
+  "usage": {
+    "completion_tokens": 90,
+    "prompt_tokens": 5028,
+    "total_tokens": 5118,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 4.011267,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 5118,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user states in the second session that they wrapped up their master's program last month and are now focusing on settling into a full-time job."
+  }
+}

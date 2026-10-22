@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "f3de977812c9a4ad6f0008b5c58ad859238cc69cca3e3edad350b07c76fd63c6",
+  "response_body_sha256": "723fc88e826f6884211ccee45c73f5c82f274f2c2ad707fe264f9f264ec93999",
+  "response_bytes": 858,
+  "content": "{\n  \"old_state\": \"Undergraduate student who has not finished their education yet\",\n  \"new_state\": \"Recent master's graduate who has just started a full-time job\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 53,
+    "prompt_tokens": 4861,
+    "total_tokens": 4914,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.479315,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 4914,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "Undergraduate student who has not finished their education yet",
+    "new_state": "Recent master's graduate who has just started a full-time job",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

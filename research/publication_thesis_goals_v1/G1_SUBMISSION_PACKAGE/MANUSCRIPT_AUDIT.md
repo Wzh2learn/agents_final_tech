@@ -1,6 +1,6 @@
 # Manuscript Audit
 
-Date: 2026-10-22
+Date: 2026-10-23
 
 Status: `PASS_FOR_INTERNAL_REVIEW_OWNER_ITEMS_PENDING`
 
@@ -37,16 +37,17 @@ Status: `PASS_FOR_INTERNAL_REVIEW_OWNER_ITEMS_PENDING`
   clustered interval results on GB10 with Python 3.12.3.
 - No overfull boxes; non-fatal underfull warnings remain.
 - No unresolved `??` references.
-- AI-use acknowledgment names Codex and the affected writing/revision work and
-  distinguishes system/judge evidence from deterministic scripts and human
-  references. Owner approval remains required.
+- AI-use acknowledgment names Codex, the affected manuscript sections and the
+  offline analysis/reproduction code; it distinguishes system/judge outputs,
+  deterministic scripts and independent human/executable evidence. Owner
+  approval remains required.
 
 ## Reviewer Risks Remaining
 
 - The scientific scope is deliberately narrow; a reviewer may want a third
   natural case. The manuscript should not respond by silently expanding its
   claim.
-- ICAART's official public rules were checked directly on 2026-10-22; the live
+- ICAART's official public rules were checked directly on 2026-10-23; the live
   submission system must still be rechecked immediately before upload.
 - Authors, BUPT affiliation order, patent status, artifact DOI and payment
   approval remain external actions.

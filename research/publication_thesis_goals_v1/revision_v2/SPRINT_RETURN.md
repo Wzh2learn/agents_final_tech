@@ -52,6 +52,14 @@ adds no new error mechanism.
 - Simple short-circuit rules classify all six objects.
 - One-run timings cannot identify a stable cost winner and are reported only as
   development diagnostics.
+- `revision_v3/REUSE_POLICY_RESULTS_V1.json` adds a transparent reuse-policy
+  development probe over 5 candidate modules × 4 scenarios = 20 transitions.
+  `scope_policy` and `always_full_check` both produce 15 CORRECT, 0 false
+  accepts, 0 false rejects and 5 abstentions; scope uses 30 probes versus 35.
+  The 20 transitions are not 20 natural families.
+- The per-input evidence rule is now explicit: exact-input `REUSE` requires
+  `per_input` old evidence. Aggregate evidence cannot be silently promoted to
+  exact-input reuse; missing fingerprint and aggregate-only exact matches defer.
 
 No learned or complex adaptive planner is active.
 
@@ -65,9 +73,13 @@ invalidation each make `2/5` false transfers. The dependency-plus-input-regime
 scope fingerprint is `5/5` with zero false transfers, although it performs three
 unnecessary revalidations among five cases.
 
-The third-contribution seed is therefore qualified for bounded development as
-transparent scope-aware evidence invalidation. It is not yet a thesis
-contribution or a learned policy.
+The newer policy probe refines this boundary into four auditable actions:
+`REUSE`, `PARTIAL_CHECK`, `FULL_CHECK` and `DEFER`. On the 20 development
+transitions, scope and always-full have identical outcome counts, while scope
+uses 30 rather than 35 probes. This supports transparent evidence-reuse
+decisions as bounded development material, not a learned policy or thesis
+contribution. The 20 transitions remain development scenarios over five
+candidate modules, not natural families.
 
 ## 5. G4 Thesis Integration
 
@@ -95,6 +107,8 @@ contribution or a learned policy.
 
 - Owner submission and public-release actions.
 - A second natural evidence-reuse case with dependency identity fixed.
+- A second natural module with per-input evidence and a real downstream repair
+  or outcome benefit for the reuse policy.
 - A new G2 migration mechanism only if a strong simple baseline first shows a
   concrete blind spot.
 - Formal Chinese thesis chapter integration beyond the current bounded prose.

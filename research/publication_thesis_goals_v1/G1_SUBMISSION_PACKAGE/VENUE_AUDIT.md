@@ -1,6 +1,13 @@
 # Paper E Venue Audit
 
-Checked: 2026-10-22, Asia/Shanghai
+Checked: 2026-10-23, Asia/Shanghai
+
+Live-source refresh: the official ICAART 2027 pages and the venue's
+`Submit Paper` direct link were retrieved on 2026-10-23 (UTC+8). The direct
+link currently resolves to the PRIMORIS login page for ICAART 2027, while the
+Call for Papers body still displays `PAPER SUBMISSION WILL BE AVAILABLE SOON`.
+This is an entry-state observation, not authorization to upload; recheck the
+live system immediately before submission.
 
 Evidence identity: direct reads of official public venue pages. Acceptance,
 publication time and school recognition are not guaranteed.
@@ -34,16 +41,26 @@ Verified facts:
   appendices.
 - Full Paper proceedings limit: 12 pages; Short Paper: 8 pages. Up to four
   extra pages are possible for an additional fee.
-- Accepted papers must be presented by an author to be published in the
-  proceedings and SCITEPRESS Digital Library.
+- Full Papers receive a 25-minute oral presentation slot; Short Papers receive
+  a 20-minute oral slot or a poster assignment. Authors assigned an oral
+  presentation may elect a poster instead. Presentation is mandatory for
+  publication in the proceedings and SCITEPRESS Digital Library.
 - Any generative-AI-assisted text or code must be disclosed in the
-  acknowledgments, naming the tool and identifying the affected parts.
-- The official direct submission link is exposed by the venue pages and must
-  be opened once more immediately before upload.
+  acknowledgments, naming the tool, identifying the affected parts and giving
+  a short explanation of the use. The venue also prohibits AI fabrication or
+  manipulation of research data, code, figures or results, and prohibits
+  processing a manuscript under review through public AI platforms to generate
+  peer-review text.
+- The official direct submission link is
+  `http://www.insticc.org/primoris/DirectLink.aspx?idEvent=MOiphTICpFo=&roleName=AKC6/t1R9Gs=&type=FNiX60z6Am0=`.
+  It must be opened once more immediately before upload; the live route and
+  paper-type fields take precedence over this audit.
 
 Current manuscript fit:
 
-- Non-whitespace manuscript characters: 39,604 in the current Markdown source.
+- Non-whitespace manuscript characters: 40,017 in the current Markdown source
+  and 39,431 in the ICAART TeX source; both are within the 10,000-50,000
+  Regular Paper range.
 - Current ICAART review PDF: 11 A4 pages after restoring official 9pt table and
   reference typography.
 - The source contains no author names or affiliations and no private endpoint
@@ -122,7 +139,7 @@ guarantee completion before the April review horizon.
 
 | Date | Action |
 |---|---|
-| 2026-10-22 | Resolve the Owner independent-audit blockers and complete target-package checks |
+| 2026-10-22 to 10-23 | Resolve the limited independent-audit blockers, complete target-package checks and refresh venue evidence |
 | 2026-10-23 to 10-26 | Author review and any final non-scientific corrections |
 | 2026-10-27 | Freeze the ICAART submission package unless a real blocker is found |
 | 2026-10-28 | Owner decides authors, affiliation, AI disclosure, artifact, presentation and submission |

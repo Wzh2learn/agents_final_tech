@@ -259,10 +259,14 @@ Final correctness cannot show whether a staged evaluation observed, consumed or 
 Generative AI disclosure: OpenAI Codex assisted manuscript organization,
 English editing and consistency checks in the abstract, related-work framing,
 interpretation table, discussion, conclusion, acknowledgments and submission
-materials. The authors verified claims against cited artifacts. Experimental
-evidence includes evaluated-system and automated-judge outputs under frozen
-protocols; deterministic statistics came from supplied scripts. AI did not
-create human semantic gold or blind review.
+materials, and assisted development and revision of offline analysis and
+reproduction code used for deterministic checks. The authors verified all
+reported numbers, claims and references against cited artifacts and remain
+fully responsible for the manuscript. Experimental evidence includes
+evaluated-system and automated-judge outputs under frozen protocols;
+deterministic statistics were recomputed with the analysis scripts. These roles
+are distinct: no AI-assisted review is presented as human blind review, and no
+AI-assisted adjudication is presented as human semantic gold.
 
 ## Data Availability
 

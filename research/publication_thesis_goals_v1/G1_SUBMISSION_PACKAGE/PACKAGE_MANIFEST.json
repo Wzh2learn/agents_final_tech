@@ -1,14 +1,14 @@
 {
   "schema": "paper_e_icaart_submission_manifest_v2",
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "route": "ICAART 2027 Regular Paper",
   "review_pdf": "PAPER_E_ICAART_REVIEW.pdf",
   "review_pdf_pages": 11,
-  "review_pdf_sha256": "03b07c7ecd1cec44f8f57e4592e0930b7ebee28a9285552fb79c91144dd2c109",
+  "review_pdf_sha256": "2041aaca97ff1b8a0cd843070c7ab4cfd9de088824e17c6d33eb1d1c11651b3a",
   "canonical_markdown": "../../../paper/saner_rene_manuscript_v1.md",
-  "canonical_markdown_sha256": "7f17cd66995c45dbdc2830d2cdd0bd323ffceb9287b246456004090f9572b60e",
+  "canonical_markdown_sha256": "3a914d049aca7a1e3ecb0fb1999f5a0398c3b1b44a5e4815df31d1a104c77af5",
   "icaart_tex": "../../../paper/icaart_2027_submission_v1/manuscript.tex",
-  "icaart_tex_sha256": "38616680f63b6701f25450c900f2415a5a1d55e78005d15c6972c6d5503df6b5",
+  "icaart_tex_sha256": "b3aab99153473952707bfc7e6dacac857be18de253838b43f7ca45e9dec8653a",
   "scitepress_template_zip_sha256": "5385a752f5da2f970236f21404405a2f5c78856c30abc96e02752f06aac20ab8",
   "private_artifact_candidate": "PAPER_E_PRIVATE_ARTIFACT_CANDIDATE.zip",
   "private_artifact_candidate_sha256": "e70d17eaf95382bd00a24c7d39d68773659d61dba6883775913d7c4a810b05da",
@@ -22,7 +22,7 @@
     "citations": "21/21",
     "official_font_policy": "tables_and_references_9pt",
     "clean_artifact_reproduction": "PASS_GB10_PYTHON_3_12_3",
-    "new_goal_model_judge_training_calls": 0
+    "paper_e_submission_package_model_judge_training_calls": 0
   },
   "owner_actions_required": true
 }

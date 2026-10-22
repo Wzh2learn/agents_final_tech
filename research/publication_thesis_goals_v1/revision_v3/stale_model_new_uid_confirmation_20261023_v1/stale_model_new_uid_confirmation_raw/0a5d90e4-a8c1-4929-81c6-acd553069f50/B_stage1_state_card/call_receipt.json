@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "f73ef0022fb37ff9c9e53652b560cb6832188f0c3f78b59aac3f895bd5c338f3",
+  "response_body_sha256": "83dd9a09f706dc428a1f991ba638e55a00717975b9c5d783295b22d1c663b4b2",
+  "response_bytes": 891,
+  "content": "{\n  \"old_state\": \"The user keeps weeknights completely open and schedules recurring engagements only for Saturday or Sunday.\",\n  \"new_state\": \"The user works late at night as a baker and sleeps during the day.\",\n  \"change_type\": \"UNKNOWN\"\n}",
+  "usage": {
+    "completion_tokens": 60,
+    "prompt_tokens": 2196,
+    "total_tokens": 2256,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 6.420336,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2256,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "The user keeps weeknights completely open and schedules recurring engagements only for Saturday or Sunday.",
+    "new_state": "The user works late at night as a baker and sleeps during the day.",
+    "change_type": "UNKNOWN"
+  }
+}

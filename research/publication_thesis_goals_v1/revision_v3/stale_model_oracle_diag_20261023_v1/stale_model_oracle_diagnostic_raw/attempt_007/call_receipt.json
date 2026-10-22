@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "29d41dd6bd0fc00ce4c0cc69d666ddc7be75cb28f4853f1cb13d4bb9bb158eed",
+  "response_body_sha256": "8a1f4b79813224b765d0566bd32dd4a3468b95e7c93de4e7efb039f48802bb45",
+  "response_bytes": 1061,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"STALE_STATE_ALIGNED\",\n  \"answer\": \"No, the user's situation has changed; they are now focused on securing liquid funds for a real estate closing, implying their assets are accessible or being made accessible, rather than being completely tied up.\"\n}",
+  "usage": {
+    "completion_tokens": 102,
+    "prompt_tokens": 3226,
+    "total_tokens": 3328,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.430602,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3328,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "STALE_STATE_ALIGNED",
+    "answer": "No, the user's situation has changed; they are now focused on securing liquid funds for a real estate closing, implying their assets are accessible or being made accessible, rather than being completely tied up."
+  }
+}

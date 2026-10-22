@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "0d015ae04f19e8e848ded97f94177fbc12283a3a436984ab2516d40ce9a731ba",
+  "response_body_sha256": "bc4b517ce4bd818d1ee016893a4ad53800c93f557930598e026bf4ac48ce77bb",
+  "response_bytes": 1004,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user is actively moving funds from their brokerage account to checking to meet a liquidity deadline, indicating the portfolio is accessible.\"\n}",
+  "usage": {
+    "completion_tokens": 87,
+    "prompt_tokens": 3306,
+    "total_tokens": 3393,
+    "prompt_tokens_details": {
+      "cached_tokens": 2710
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.840997,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3393,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user is actively moving funds from their brokerage account to checking to meet a liquidity deadline, indicating the portfolio is accessible."
+  }
+}

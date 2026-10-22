@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "37c3a971f3ddf351f65a87713aa4e283611e721b2d8bbea985b9bba8ebe04364",
+  "response_body_sha256": "504a7fd640869e15ce993c19187796e4f37b6bfd743b0615a8714d0901301c05",
+  "response_bytes": 962,
+  "content": "{\n  \"old_state\": \"The user generally avoids streaming subscriptions because they prefer owning physical copies of movies and music.\",\n  \"new_state\": \"The user generally avoids streaming subscriptions because they prefer owning physical copies of movies and music.\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 63,
+    "prompt_tokens": 2659,
+    "total_tokens": 2722,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.036722,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2722,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "The user generally avoids streaming subscriptions because they prefer owning physical copies of movies and music.",
+    "new_state": "The user generally avoids streaming subscriptions because they prefer owning physical copies of movies and music.",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

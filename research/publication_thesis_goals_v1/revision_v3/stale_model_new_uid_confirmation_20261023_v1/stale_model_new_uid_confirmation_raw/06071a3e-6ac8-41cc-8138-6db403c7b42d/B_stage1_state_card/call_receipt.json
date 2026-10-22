@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "94b1a54ec62b85e6543b0f9de8971782c6802e7ed7c6582e2ea6afa2649ec640",
+  "response_body_sha256": "6306a68705409ff3c8c68d64dd59391e9b39ce6dc0c6b8d848b4175b35525257",
+  "response_bytes": 830,
+  "content": "{\n  \"old_state\": \"Living with parents and brother in a shared home\",\n  \"new_state\": \"Moving to Copenhagen for a year-long fellowship\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 48,
+    "prompt_tokens": 2727,
+    "total_tokens": 2775,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 6.273936,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2775,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "Living with parents and brother in a shared home",
+    "new_state": "Moving to Copenhagen for a year-long fellowship",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

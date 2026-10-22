@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "generation_call": 6,
+    "uid": "0781e96e-853c-46af-b787-4a64fc248e62",
+    "type": "T1",
+    "arm": "B_two_stage",
+    "stage": "stage2",
+    "visibility": "DEV_ONLY_TWO_STAGE_MECHANISM_PROBE_ORACLE_RETRIEVAL",
+    "retry_count": 0
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the user question using only the state card below.\nDo not assume facts beyond the state card. If it is insufficient, return UNKNOWN.\n\nState card:\n{\"old_state\": \"The user wears a smartwatch daily for the past year, syncing well with their routine on an iPhone.\", \"new_state\": \"The user is considering switching to a Garmin smartwatch to improve battery life and health tracking while remaining on an iPhone.\", \"change_type\": \"CO_REFERENTIAL\"}\n\nUser question:\nBased on the conversation history, does the user still wear a smartwatch every day?\n\nReturn only one JSON object with exactly these five fields:\n{\n  \"decision\": \"ANSWER | UNKNOWN | REFUSE\",\n  \"state_resolution\": \"STALE_DETECTED | STALE_NOT_DETECTED | UNKNOWN | NOT_APPLICABLE\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED | FALSE_PREMISE_ACCEPTED | UNKNOWN | NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED | STALE_STATE_ALIGNED | UNKNOWN | NOT_APPLICABLE\",\n  \"answer\": \"brief answer in the question language, or null\"\n}\n\nUse STALE_DETECTED when new_state invalidates the queried old_state. If decision\nis not ANSWER, answer must be null. If decision is ANSWER, answer must be a\nnon-empty string. Do not add fields, code fences, or prose outside the JSON object."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

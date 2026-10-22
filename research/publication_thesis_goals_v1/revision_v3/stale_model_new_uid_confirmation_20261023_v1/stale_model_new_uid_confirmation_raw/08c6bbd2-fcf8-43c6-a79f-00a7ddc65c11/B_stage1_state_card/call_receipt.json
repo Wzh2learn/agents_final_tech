@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "d200bd54d225753971fdc86545a74f982bd6bd74b5c87c5399b083cf4f1041ff",
+  "response_body_sha256": "147ef8adcdcda3d84bc9a6b468b41d660dbab1afb3898756ad50e9f47392a95c",
+  "response_bytes": 865,
+  "content": "{\n  \"old_state\": \"User usually takes the light rail each morning for their commute.\",\n  \"new_state\": \"User usually takes the light rail each morning for their commute.\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 53,
+    "prompt_tokens": 2507,
+    "total_tokens": 2560,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 5.966941,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2560,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "User usually takes the light rail each morning for their commute.",
+    "new_state": "User usually takes the light rail each morning for their commute.",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "b0a006534eb92e35e32d5ae1f93e95743447c640a297399f2d182758ce522e3b",
+  "response_body_sha256": "ff914a3dc05156c63005032f11f63e53869683e03f865d7b7c135112e1f36315",
+  "response_bytes": 1399,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"The evidence provides two concrete 4-year semester-by-semester plans (Policy/Econ-Leaning and Tech/Data-Leaning) with a shared core of math, programming, statistics, writing, and lab science. To keep the workload manageable, the plan suggests starting with foundational courses in Year 1, adding exploratory classes in Year 2, and shifting to upper-level and practical courses in Years 3 and 4. It also recommends prioritizing low-stakes exploration in Summer 1 and more serious internships in Summer 2 to test fit without overwhelming pressure.\"\n}",
+  "usage": {
+    "completion_tokens": 174,
+    "prompt_tokens": 5039,
+    "total_tokens": 5213,
+    "prompt_tokens_details": {
+      "cached_tokens": 4512
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.462228,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 5213,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "The evidence provides two concrete 4-year semester-by-semester plans (Policy/Econ-Leaning and Tech/Data-Leaning) with a shared core of math, programming, statistics, writing, and lab science. To keep the workload manageable, the plan suggests starting with foundational courses in Year 1, adding exploratory classes in Year 2, and shifting to upper-level and practical courses in Years 3 and 4. It also recommends prioritizing low-stakes exploration in Summer 1 and more serious internships in Summer 2 to test fit without overwhelming pressure."
+  }
+}

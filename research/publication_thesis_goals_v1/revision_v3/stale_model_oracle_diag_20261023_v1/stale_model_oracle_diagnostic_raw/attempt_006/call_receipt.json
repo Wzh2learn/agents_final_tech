@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "c3867a2c8c76e34051307b97b74cd7847bcac7756819f2038ada122f24a915ee",
+  "response_body_sha256": "975ed66b18dc75d56cef257592a6331efb0d91acaab33565bc3154a9218443da",
+  "response_bytes": 964,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user is currently wearing a walking boot due to an orthopedic injury, which makes cycling infeasible.\"\n}",
+  "usage": {
+    "completion_tokens": 86,
+    "prompt_tokens": 4344,
+    "total_tokens": 4430,
+    "prompt_tokens_details": {
+      "cached_tokens": 3767
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.831255,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 4430,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user is currently wearing a walking boot due to an orthopedic injury, which makes cycling infeasible."
+  }
+}

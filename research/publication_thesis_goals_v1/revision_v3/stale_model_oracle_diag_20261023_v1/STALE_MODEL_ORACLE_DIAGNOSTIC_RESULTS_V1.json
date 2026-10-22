@@ -1,0 +1,604 @@
+{
+  "schema": "stale_model_oracle_diagnostic_v1",
+  "date": "2026-10-23",
+  "evidence_identity": "ORACLE_DIAGNOSTIC_NOT_DEPLOYABLE",
+  "purpose": "Distinguish whether explicit M_old/M_new state values are sufficient for stale-state detection, or whether the explanation of causal propagation changes the answer.",
+  "main_arm_exclusion": "These calls intentionally expose hidden development fields and are not part of the deployable/main STALE arms.",
+  "data": {
+    "path": "T1_T2_400_FULL.json",
+    "sha256": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+    "bytes": 305908212,
+    "total_items": 400
+  },
+  "selection": {
+    "item_count": 4,
+    "uids": [
+      {
+        "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+        "type": "T1"
+      },
+      {
+        "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+        "type": "T1"
+      },
+      {
+        "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+        "type": "T2"
+      },
+      {
+        "uid": "012f090e-6e02-4751-955d-574745069df3",
+        "type": "T2"
+      }
+    ],
+    "arms": [
+      "state_values_only",
+      "state_values_plus_explanation"
+    ],
+    "query_field": "dim1_query",
+    "planned_generation_calls": 8
+  },
+  "model_request_contract": {
+    "model_expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "enable_thinking": false,
+    "concurrency": 1,
+    "retry_cap": 0,
+    "timeout_seconds": 240
+  },
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "preflight_http_calls": 0,
+  "preflight_response_sha256": null,
+  "recovered_from_existing_raw": true,
+  "generation_calls_reexecuted": false,
+  "recovery_reason": "Result assembly raised NameError after all eight preserved calls; recovery reads raw evidence and performs zero generation requests.",
+  "official_llm_judge": {
+    "used": false,
+    "role": "AUXILIARY_ONLY_NOT_RUN"
+  },
+  "summary": {
+    "overall": {
+      "planned": 8,
+      "observed": 8,
+      "physical_http_calls": 8,
+      "http_ok": 8,
+      "valid_json": 8,
+      "accounting_attempts": 8,
+      "accounting_tokens": 29785,
+      "latency_seconds_sum": 20.338324,
+      "state_resolution_counts": {
+        "STALE_DETECTED": 8
+      },
+      "answer_polarity_counts": {
+        "NEGATIVE_OLD_STATE": 8
+      }
+    },
+    "by_arm": {
+      "state_values_only": {
+        "planned": 4,
+        "observed": 4,
+        "state_resolution_counts": {
+          "STALE_DETECTED": 4
+        },
+        "stale_detected_rate": 1.0,
+        "answer_polarity_counts": {
+          "NEGATIVE_OLD_STATE": 4
+        },
+        "negative_old_state_rate": 1.0,
+        "accounting_tokens": 14794,
+        "latency_seconds_sum": 13.382947,
+        "mean_context_chars": 16388.75
+      },
+      "state_values_plus_explanation": {
+        "planned": 4,
+        "observed": 4,
+        "state_resolution_counts": {
+          "STALE_DETECTED": 4
+        },
+        "stale_detected_rate": 1.0,
+        "answer_polarity_counts": {
+          "NEGATIVE_OLD_STATE": 4
+        },
+        "negative_old_state_rate": 1.0,
+        "accounting_tokens": 14991,
+        "latency_seconds_sum": 6.955377,
+        "mean_context_chars": 16662.25
+      }
+    }
+  },
+  "rows": [
+    {
+      "attempt": 1,
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "dimension": "dim1",
+      "arm": "state_values_only",
+      "query": "Based on the conversation history, does the user still identify as an undergraduate who hasn’t finished their education yet?",
+      "context_chars": 23265,
+      "hidden_reference": {
+        "relevant_indices": [
+          11,
+          34
+        ],
+        "selected_indices": [
+          11,
+          34
+        ],
+        "relevant_hits": [
+          11,
+          34
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": true,
+        "new_reference_text_present": true
+      },
+      "call": {
+        "request_body_sha256": "9ddc5c4b0205581be0023018d7839a16ccc1662d5e63e0098437c6114401fd02",
+        "response_body_sha256": "1db4daf687e255c22d35b5c6ae98eb683611110bc45435f9f16cfb3e80ae8a55",
+        "response_bytes": 940,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has recently completed their master's program and is now working full-time.\"\n}",
+        "usage": {
+          "completion_tokens": 79,
+          "prompt_tokens": 4968,
+          "total_tokens": 5047,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 3.966877,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 5047,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user has recently completed their master's program and is now working full-time."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 2,
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "dimension": "dim1",
+      "arm": "state_values_plus_explanation",
+      "query": "Based on the conversation history, does the user still identify as an undergraduate who hasn’t finished their education yet?",
+      "context_chars": 23402,
+      "hidden_reference": {
+        "relevant_indices": [
+          11,
+          34
+        ],
+        "selected_indices": [
+          11,
+          34
+        ],
+        "relevant_hits": [
+          11,
+          34
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": true,
+        "new_reference_text_present": true
+      },
+      "call": {
+        "request_body_sha256": "1e786edbdcca3bfb1db7aa234bfc5c79c69b93d37f5156aecc9ec97dd4936f57",
+        "response_body_sha256": "2b2a42e406557be53e52f3114949af4ed370d2a6c65082c837d64df7884b8e67",
+        "response_bytes": 933,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has completed their master's program and is now working full-time.\"\n}",
+        "usage": {
+          "completion_tokens": 78,
+          "prompt_tokens": 4992,
+          "total_tokens": 5070,
+          "prompt_tokens_details": {
+            "cached_tokens": 4452
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 1.691771,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 5070,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user has completed their master's program and is now working full-time."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 3,
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "dimension": "dim1",
+      "arm": "state_values_only",
+      "query": "Based on the conversation history, does the user still have Mike’s pressure washer and need to return it to him?",
+      "context_chars": 8283,
+      "hidden_reference": {
+        "relevant_indices": [
+          2,
+          38
+        ],
+        "selected_indices": [
+          2,
+          38
+        ],
+        "relevant_hits": [
+          2,
+          38
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": true,
+        "new_reference_text_present": true
+      },
+      "call": {
+        "request_body_sha256": "6e2f049ef2608961c594e0c8ba5576fb5015433fd30508365d81a5342175edab",
+        "response_body_sha256": "af3f5676baf29cf950d833943a9845d41ef534916c8dc1b66565a8e5608bf859",
+        "response_bytes": 906,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has already returned the pressure washer.\"\n}",
+        "usage": {
+          "completion_tokens": 72,
+          "prompt_tokens": 1979,
+          "total_tokens": 2051,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 2.311441,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 2051,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user has already returned the pressure washer."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 4,
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "dimension": "dim1",
+      "arm": "state_values_plus_explanation",
+      "query": "Based on the conversation history, does the user still have Mike’s pressure washer and need to return it to him?",
+      "context_chars": 8520,
+      "hidden_reference": {
+        "relevant_indices": [
+          2,
+          38
+        ],
+        "selected_indices": [
+          2,
+          38
+        ],
+        "relevant_hits": [
+          2,
+          38
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": true,
+        "new_reference_text_present": true
+      },
+      "call": {
+        "request_body_sha256": "4ba7c9852a42bbf873b5e0cd676055365edce573e17aef499d1efcc28e8ed0e4",
+        "response_body_sha256": "0cc9fb65a0a914276e672898373deedeaf3a029a404dae51e0c825a605a9d71b",
+        "response_bytes": 934,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has already returned the pressure washer and cleared their garage.\"\n}",
+        "usage": {
+          "completion_tokens": 76,
+          "prompt_tokens": 2022,
+          "total_tokens": 2098,
+          "prompt_tokens_details": {
+            "cached_tokens": 1463
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 1.591354,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 2098,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user has already returned the pressure washer and cleared their garage."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 5,
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "dimension": "dim1",
+      "arm": "state_values_only",
+      "query": "Based on the conversation history, does the user still commute to work by cycling?",
+      "context_chars": 18751,
+      "hidden_reference": {
+        "relevant_indices": [
+          14,
+          34
+        ],
+        "selected_indices": [
+          14,
+          34
+        ],
+        "relevant_hits": [
+          14,
+          34
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": false,
+        "new_reference_text_present": false
+      },
+      "call": {
+        "request_body_sha256": "b339455dfe3a10c74353e1a39b3b453c6acb8c7845335a23b36a16357fc2bda4",
+        "response_body_sha256": "b87cf75c3b7f6e8b76a2e497a48ad18733cfba6a7c9267554aaefcfcb7cc6986",
+        "response_bytes": 967,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user is currently wearing a walking boot due to an orthopedic issue, which has disrupted their usual cycling commute.\"\n}",
+        "usage": {
+          "completion_tokens": 85,
+          "prompt_tokens": 4283,
+          "total_tokens": 4368,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 3.674027,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 4368,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "NOT_APPLICABLE",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user is currently wearing a walking boot due to an orthopedic issue, which has disrupted their usual cycling commute."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 6,
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "dimension": "dim1",
+      "arm": "state_values_plus_explanation",
+      "query": "Based on the conversation history, does the user still commute to work by cycling?",
+      "context_chars": 19065,
+      "hidden_reference": {
+        "relevant_indices": [
+          14,
+          34
+        ],
+        "selected_indices": [
+          14,
+          34
+        ],
+        "relevant_hits": [
+          14,
+          34
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": false,
+        "new_reference_text_present": false
+      },
+      "call": {
+        "request_body_sha256": "c3867a2c8c76e34051307b97b74cd7847bcac7756819f2038ada122f24a915ee",
+        "response_body_sha256": "975ed66b18dc75d56cef257592a6331efb0d91acaab33565bc3154a9218443da",
+        "response_bytes": 964,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user is currently wearing a walking boot due to an orthopedic injury, which makes cycling infeasible.\"\n}",
+        "usage": {
+          "completion_tokens": 86,
+          "prompt_tokens": 4344,
+          "total_tokens": 4430,
+          "prompt_tokens_details": {
+            "cached_tokens": 3767
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 1.831255,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 4430,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user is currently wearing a walking boot due to an orthopedic injury, which makes cycling infeasible."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 7,
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "dimension": "dim1",
+      "arm": "state_values_only",
+      "query": "Based on the conversation history, does the user still have an investment portfolio that is completely tied up and unavailable for withdrawals right now?",
+      "context_chars": 15256,
+      "hidden_reference": {
+        "relevant_indices": [
+          5,
+          33
+        ],
+        "selected_indices": [
+          5,
+          33
+        ],
+        "relevant_hits": [
+          5,
+          33
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": true,
+        "new_reference_text_present": true
+      },
+      "call": {
+        "request_body_sha256": "29d41dd6bd0fc00ce4c0cc69d666ddc7be75cb28f4853f1cb13d4bb9bb158eed",
+        "response_body_sha256": "8a1f4b79813224b765d0566bd32dd4a3468b95e7c93de4e7efb039f48802bb45",
+        "response_bytes": 1061,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"STALE_STATE_ALIGNED\",\n  \"answer\": \"No, the user's situation has changed; they are now focused on securing liquid funds for a real estate closing, implying their assets are accessible or being made accessible, rather than being completely tied up.\"\n}",
+        "usage": {
+          "completion_tokens": 102,
+          "prompt_tokens": 3226,
+          "total_tokens": 3328,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 3.430602,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 3328,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "STALE_STATE_ALIGNED",
+          "answer": "No, the user's situation has changed; they are now focused on securing liquid funds for a real estate closing, implying their assets are accessible or being made accessible, rather than being completely tied up."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    },
+    {
+      "attempt": 8,
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "dimension": "dim1",
+      "arm": "state_values_plus_explanation",
+      "query": "Based on the conversation history, does the user still have an investment portfolio that is completely tied up and unavailable for withdrawals right now?",
+      "context_chars": 15662,
+      "hidden_reference": {
+        "relevant_indices": [
+          5,
+          33
+        ],
+        "selected_indices": [
+          5,
+          33
+        ],
+        "relevant_hits": [
+          5,
+          33
+        ],
+        "relevant_recall": 1.0,
+        "old_reference_text_present": true,
+        "new_reference_text_present": true
+      },
+      "call": {
+        "request_body_sha256": "0d015ae04f19e8e848ded97f94177fbc12283a3a436984ab2516d40ce9a731ba",
+        "response_body_sha256": "bc4b517ce4bd818d1ee016893a4ad53800c93f557930598e026bf4ac48ce77bb",
+        "response_bytes": 1004,
+        "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user is actively moving funds from their brokerage account to checking to meet a liquidity deadline, indicating the portfolio is accessible.\"\n}",
+        "usage": {
+          "completion_tokens": 87,
+          "prompt_tokens": 3306,
+          "total_tokens": 3393,
+          "prompt_tokens_details": {
+            "cached_tokens": 2710
+          }
+        },
+        "http_status": 200,
+        "transport_status": "HTTP_OK",
+        "error_type": null,
+        "error_message": null,
+        "latency_seconds": 1.840997,
+        "accounting_attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 3393,
+        "accounting_tokens_source": "reported_total_tokens",
+        "retry_count": 0,
+        "parse_status": "VALID",
+        "parse_errors": [],
+        "parsed": {
+          "decision": "ANSWER",
+          "state_resolution": "STALE_DETECTED",
+          "premise_resistance": "FALSE_PREMISE_REJECTED",
+          "action_adaptation": "CURRENT_STATE_ALIGNED",
+          "answer": "No, the user is actively moving funds from their brokerage account to checking to meet a liquidity deadline, indicating the portfolio is accessible."
+        }
+      },
+      "answer_polarity": "NEGATIVE_OLD_STATE"
+    }
+  ],
+  "stopped_early": false,
+  "limitations": [
+    "This is an oracle diagnostic and cannot be compared as a deployable arm.",
+    "The answer polarity is a lexical proxy, not an official STALE judge.",
+    "The four instances are development observations, not an accuracy estimate."
+  ]
+}

@@ -68,7 +68,7 @@
       "status": "PASS",
       "detail": {
         "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE\\PAPER_E_ICAART_REVIEW.pdf",
-        "sha256": "03b07c7ecd1cec44f8f57e4592e0930b7ebee28a9285552fb79c91144dd2c109",
+        "sha256": "2041aaca97ff1b8a0cd843070c7ab4cfd9de088824e17c6d33eb1d1c11651b3a",
         "pages": 11,
         "unresolved_references": 0,
         "forbidden_phrases": []
@@ -90,8 +90,8 @@
           "source_gap_field": 13.820514366083984
         },
         "nonwhite_counts": {
-          "canonical_markdown": 40017,
-          "icaart_tex": 39431
+          "canonical_markdown": 40284,
+          "icaart_tex": 39811
         }
       }
     },

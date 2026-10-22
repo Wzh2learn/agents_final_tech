@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "5817811c3a356fc0a56a818dc33f2f900adf59d5cac77dcd7fb0995e258dfc7f",
+  "response_body_sha256": "9c1f1dbaab0108d9fb2a8d222a6ae5f0d869c6d0e7229cea69396e5aabcc3177",
+  "response_bytes": 1097,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Send Mike a text offering to drop off the pressure washer this weekend, specifically mentioning you will be in his area Saturday afternoon. Suggest leaving it on his porch or driveway if he is not home, and ask where he would prefer you leave it.\"\n}",
+  "usage": {
+    "completion_tokens": 110,
+    "prompt_tokens": 4264,
+    "total_tokens": 4374,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 4.176574,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 4374,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Send Mike a text offering to drop off the pressure washer this weekend, specifically mentioning you will be in his area Saturday afternoon. Suggest leaving it on his porch or driveway if he is not home, and ask where he would prefer you leave it."
+  }
+}

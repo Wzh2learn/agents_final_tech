@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "6c7f1371fc269fc68c72fd009feb83d393495cc5e3fdbc5a01693fc95efe0689",
+  "response_body_sha256": "5532d539b66f740210d7465196e29a74442aee42855c3a239ade0570c05ff1b5",
+  "response_bytes": 1197,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Send Mike a text saying: “Hey Mike! I’ve got your pressure washer ready to return. I’ll be in your area Saturday afternoon and can swing by. If you’re not home, just tell me where you’d like me to leave it on the porch or driveway. No rush.” If he is busy, suggest a neutral meetup spot like a grocery store parking lot or gas station.\"\n}",
+  "usage": {
+    "completion_tokens": 139,
+    "prompt_tokens": 2043,
+    "total_tokens": 2182,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.407906,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2182,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Send Mike a text saying: “Hey Mike! I’ve got your pressure washer ready to return. I’ll be in your area Saturday afternoon and can swing by. If you’re not home, just tell me where you’d like me to leave it on the porch or driveway. No rush.” If he is busy, suggest a neutral meetup spot like a grocery store parking lot or gas station."
+  }
+}

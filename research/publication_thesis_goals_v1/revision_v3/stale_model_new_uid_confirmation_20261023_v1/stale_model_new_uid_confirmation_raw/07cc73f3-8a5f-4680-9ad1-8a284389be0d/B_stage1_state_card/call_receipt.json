@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "fa5138d25462ccaf9ef8dbfef20c2545fdf9d2021ee661b800c18cf91c562abd",
+  "response_body_sha256": "6ead992d95c6644e2cf9265d185e5b9f616a8e6617a0969ffe0904c9fecd246f",
+  "response_bytes": 960,
+  "content": "{\n  \"old_state\": \"Motivated by quick, visible wins and execution-heavy tasks; prefers being close to execution and day-to-day outcomes.\",\n  \"new_state\": \"Motivated by shaping strategy and broader influence; prefers roles with longer-term impact and cross-team coordination.\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 72,
+    "prompt_tokens": 2765,
+    "total_tokens": 2837,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 7.574559,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2837,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "Motivated by quick, visible wins and execution-heavy tasks; prefers being close to execution and day-to-day outcomes.",
+    "new_state": "Motivated by shaping strategy and broader influence; prefers roles with longer-term impact and cross-team coordination.",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

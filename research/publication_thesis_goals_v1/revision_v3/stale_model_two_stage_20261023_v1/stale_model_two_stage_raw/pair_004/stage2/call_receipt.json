@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "6e4c180ce0d9ccc1745e1651267e82abd5e3b905d17e5207c8ea55bcfd1274af",
+  "response_body_sha256": "358d9f298f0884bed30977565bd061b64fb4696362a5ca56c439aaff31356026",
+  "response_bytes": 964,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user is currently moving money from their brokerage account to checking, indicating the funds are accessible.\"\n}",
+  "usage": {
+    "completion_tokens": 82,
+    "prompt_tokens": 313,
+    "total_tokens": 395,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.670316,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 395,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user is currently moving money from their brokerage account to checking, indicating the funds are accessible."
+  }
+}

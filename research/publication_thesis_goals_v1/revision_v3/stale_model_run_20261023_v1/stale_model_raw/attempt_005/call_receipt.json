@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "1d907e380bd3d39cfa90903a1e0391f0dfe43f2efb7a0a1bec91ff7f7eb616ea",
+  "response_body_sha256": "9beed6f5fae9ca660817e83d5ee026aff6f37ec077bd0b7a6ee3ff69a03c7350",
+  "response_bytes": 1167,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, a concrete 4-year semester-by-semester plan is provided in the evidence, including a shared core of non-negotiable courses (Math, Intro Programming, Statistics, Writing/Communication, Lab Science) and specific course recommendations for Year 1 and Year 2 to keep the workload manageable while building foundational skills.\"\n}",
+  "usage": {
+    "completion_tokens": 125,
+    "prompt_tokens": 5865,
+    "total_tokens": 5990,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 5.151033,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 5990,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, a concrete 4-year semester-by-semester plan is provided in the evidence, including a shared core of non-negotiable courses (Math, Intro Programming, Statistics, Writing/Communication, Lab Science) and specific course recommendations for Year 1 and Year 2 to keep the workload manageable while building foundational skills."
+  }
+}

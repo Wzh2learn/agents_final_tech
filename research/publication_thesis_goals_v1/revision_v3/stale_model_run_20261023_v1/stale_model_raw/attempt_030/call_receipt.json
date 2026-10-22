@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "981f45c2732b69deefb6a5d38c43d53f61c53e1f4c135864bca256c16c3022cb",
+  "response_body_sha256": "7c539360ed08e45d6f84e6b4dbe1b6833790962c606a452086f27a6d368dd659",
+  "response_bytes": 977,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user states that everything in their investment portfolio is tied up and they cannot make withdrawals for the time being.\"\n}",
+  "usage": {
+    "completion_tokens": 84,
+    "prompt_tokens": 3263,
+    "total_tokens": 3347,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.173132,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3347,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user states that everything in their investment portfolio is tied up and they cannot make withdrawals for the time being."
+  }
+}

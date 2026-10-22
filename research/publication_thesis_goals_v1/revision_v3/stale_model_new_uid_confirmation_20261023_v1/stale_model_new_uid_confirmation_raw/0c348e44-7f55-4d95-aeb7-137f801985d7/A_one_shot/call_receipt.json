@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "76c54f02e14535e0eebc5b1835ed99e683f26a1e8a3f977225306ba6959f26e2",
+  "response_body_sha256": "4ff63d57d1e674d43fdcca2dedc618aa3718fac87c1db3d66bc58c09312eb60e",
+  "response_bytes": 962,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user generally avoids streaming subscriptions because they prefer owning physical copies of their movies and music.\"\n}",
+  "usage": {
+    "completion_tokens": 80,
+    "prompt_tokens": 2826,
+    "total_tokens": 2906,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.522971,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2906,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user generally avoids streaming subscriptions because they prefer owning physical copies of their movies and music."
+  }
+}

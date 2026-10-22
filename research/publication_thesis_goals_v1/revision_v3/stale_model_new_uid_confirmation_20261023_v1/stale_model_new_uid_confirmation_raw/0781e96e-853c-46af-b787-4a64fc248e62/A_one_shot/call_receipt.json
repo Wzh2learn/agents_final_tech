@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "252d7b340798b92e11de01cc3bbdbd62ac5cd187ea529907d2708e5effffe596",
+  "response_body_sha256": "18632e89e39ef2a89077c2223d055df11cad607c30261417fa1373064dc8a95b",
+  "response_bytes": 913,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user mentions wearing a smartwatch daily for the past year.\"\n}",
+  "usage": {
+    "completion_tokens": 75,
+    "prompt_tokens": 3296,
+    "total_tokens": 3371,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 8.302499,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3371,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user mentions wearing a smartwatch daily for the past year."
+  }
+}

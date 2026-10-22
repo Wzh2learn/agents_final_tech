@@ -1,20 +1,20 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-22
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-23
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据
 
-V2 复核后的当前状态是部分完成：Paper E 全精度修补后形成可投包；G2 的 actual-module/配对因果/三态判据已修复，但 simple strong baseline 无增量差异，当前机制停止扩展；G3 复杂 planner 暂停；第三贡献取得同依赖输入范围变化的正交资格，透明 scope-aware invalidation 进入有界开发。当前结论与成本见 [V2 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
+V3 阶段性证据出口已经形成：Paper E 的 ICAART AI 披露一致性修复后重新通过目标包验收；G2 保持机制停止；G3 透明复用规则显示有限 probe 节省但复杂 planner 仍暂停；Valentine LoRA 在资格门停止；STALE 状态卡在 oracle 检索下取得开发和同源新 UID 配对信号。当前结论与成本见 [V3 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v3/SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
 
 | 用途 | 权威记录 |
 |---|---|
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
-| 当前回执与后续审计 | [V2 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)、[Owner 独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；[首轮 GOAL_RETURN](../../research/publication_thesis_goals_v1/GOAL_RETURN.md) 保留历史 |
+| 当前回执 | [V3 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v3/SPRINT_RETURN.md)；[V2 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md) 与 [Owner 独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md) 为前序证据 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
-| 最新科研回执 | [Portfolio V2 GOAL_RETURN](../../research/research_portfolio_v2/GOAL_RETURN.md)；其中成本为当时快照 |
-| 当前聚合记账 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
+| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 77 attempts / 218,945 tokens |
+| 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
 | 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 
 当前账本的失败调用补记及 101 条 raw pair 复核见[对账说明](../../research/research_portfolio_v2/governance_20261021/LEDGER_RECONCILIATION.md)；其可重放脚本保留负例校验。
@@ -25,7 +25,7 @@ V2 复核后的当前状态是部分完成：Paper E 全精度修补后形成可
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_DECISION`；G2 `STOP_CURRENT_MECHANISM`；G3 `COMPLEX_PLANNER_PAUSED`；第三贡献 `QUALIFIED_FOR_BOUNDED_DEVELOPMENT`。见 [V2 回执](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md) |
+| 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_ACTION`；G2 `STOP_CURRENT_MECHANISM`；G3 `COMPLEX_PLANNER_PAUSED`；透明复用规则 `QUALIFIED`；STALE 状态卡 `BOUNDED_REPRESENTATION_SIGNAL`。见 [V3 回执](../../research/publication_thesis_goals_v1/revision_v3/SPRINT_RETURN.md) |
 | Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json) |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
@@ -33,7 +33,7 @@ V2 复核后的当前状态是部分完成：Paper E 全精度修补后形成可
 | CodeUpdateArena | 修正执行器后的开发集与新 families 都是有界负结果；[V2 报告](../../research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_REPORT_V2.md)与[新 families 确认](../../research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_REPORT.md)。不重复同一 prose-update 臂；合成变化不等于真实自然漂移 |
 | VersiCode | 八个 name-change families 只支持语法/API 名称可观测性结论；[独立复核](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md)。不证明行为正确或 prose/structured 孰优 |
 | PyMigBench/真实迁移 | NtripBrowser 与 Partridge 显示行为/合同边界；v3 actual-module 与 paired intervention 已拒绝审计反例，但 alias-aware static + tests/behavior 同样 6/6。一个自然 Qwen 候选为等价正确实现。见 [G2 V2](../../research/publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md) 与 [G3 V2](../../research/publication_thesis_goals_v1/revision_v2/G3_V2_REPORT.md) |
-| 第三贡献资格 | 同一候选/依赖下 fixture→short 输入范围变化时，全局和 dependency-only 均 2/5 误迁移；scope fingerprint 5/5。见 [资格报告](../../research/publication_thesis_goals_v1/revision_v2/THIRD_CONTRIBUTION_SCOPE_REUSE.md) |
+| 证据复用/状态表示 | 透明 `REUSE/PARTIAL_CHECK/FULL_CHECK/DEFER` 在 20 个开发 transition 上与 always-full 同正确率但少 5 个 probe；STALE 状态卡在 oracle 检索下同源新 UID 配对 0/8 对 4/8。两者都不是完整方法贡献。见 [G3 报告](../../research/publication_thesis_goals_v1/revision_v3/REUSE_POLICY_REPORT_V1.md)与 [STALE 报告](../../research/publication_thesis_goals_v1/revision_v3/STALE_MODEL_TWO_STAGE_REPORT.md) |
 
 NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。行为与结构合同需要分别观察；现有证据不证明 hybrid oracle 普遍充分，也不支持比较两种信息表示的优劣。新迁移案例尚未纳入 Paper E 的两案例主张。
 
@@ -44,7 +44,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2 复用。G2 当前机制停止扩展；G3 只保留分析层；第三贡献进入透明 scope-aware invalidation 的有界开发。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2/V3 复用。G2 当前机制停止扩展；G3 复杂 planner 暂停；状态表示方向只保留有界信号。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

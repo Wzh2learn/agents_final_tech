@@ -231,11 +231,17 @@ Case 1 rejects three over-readings: score gaps are not automatically performance
 \section{\uppercase{Conclusion}}
 Final correctness cannot show whether a staged evaluation observed, consumed or preserved the relevant evidence. Across two cases we separate visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap. Case 1 removes score-equivalence, non-response and hierarchy over-readings; Case 2 separates metric sensitivity from decision stability. The result is a bounded audit and proposed checklist, not a universal theory or validated method.
 \section*{\uppercase{Acknowledgments}}
-Generative AI disclosure: OpenAI Codex assisted manuscript organization, English
-editing and consistency checks. The authors verified claims against cited
-artifacts. Experimental evidence includes evaluated-system and automated-judge
-outputs under frozen protocols; deterministic statistics came from supplied
-scripts. AI did not create human semantic gold or blind review.
+Generative AI disclosure: OpenAI Codex assisted manuscript organization,
+English editing and consistency checks in the abstract, related-work framing,
+interpretation table, discussion, conclusion, acknowledgments and submission
+materials, and assisted development and revision of offline analysis and
+reproduction code used for deterministic checks. The authors verified all
+reported numbers, claims and references against cited artifacts and remain
+fully responsible for the manuscript. Experimental evidence includes
+evaluated-system and automated-judge outputs under frozen protocols;
+deterministic statistics were recomputed with the analysis scripts. These roles
+are distinct: no AI-assisted review is presented as human blind review, and no
+AI-assisted adjudication is presented as human semantic gold.
 \section{\uppercase{Data Availability}}
 Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation and analysis artifacts are prepared for anonymized release. FinQA is nested in Case 1. Case 2 uses FinRank revision \texttt{916dc27e77b90e294ea1b3a2cc5b0abcf07392d1}, arXiv \texttt{2608.07400v1}, \texttt{FinRank.jsonl}, baseline code and results under CC BY-NC 4.0. The wrong-identity v1 application and post-hoc v2 corrections are preserved; raw scores are unchanged. The current private candidate includes the row-level reanalysis input, full-precision and compact FinRank extracts, reproduction scripts and manifests. Historical preregistration, fixtures, application rows and raw score matrices remain in the project evidence store for author-approved release and are not included in this candidate.
 {\small

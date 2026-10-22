@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "f32a6c4de4bce3a9065e394a526765e6838c8a2a071cb5a4ea1b83e4256a94d7",
+  "response_body_sha256": "836a70de4ccc015416831ea142abcb352af0f38bc469b001b35a8c87617a37d8",
+  "response_bytes": 918,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user still has Mike's pressure washer and needs to return it.\"\n}",
+  "usage": {
+    "completion_tokens": 76,
+    "prompt_tokens": 2029,
+    "total_tokens": 2105,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.407212,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2105,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user still has Mike's pressure washer and needs to return it."
+  }
+}

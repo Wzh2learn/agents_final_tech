@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "e494998a3994ab34c73d860751f3c8d9a54e59a81be0012df238874365fe4686",
+  "response_body_sha256": "ec44bb8b2a4f911fc656392f03727be58c11e1f3b791759b3a05e81494427611",
+  "response_bytes": 837,
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"state_resolution\": \"NOT_APPLICABLE\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"NOT_APPLICABLE\",\n  \"answer\": null\n}",
+  "usage": {
+    "completion_tokens": 58,
+    "prompt_tokens": 8174,
+    "total_tokens": 8232,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 5.286308,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 8232,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "UNKNOWN",
+    "state_resolution": "NOT_APPLICABLE",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "NOT_APPLICABLE",
+    "answer": null
+  }
+}

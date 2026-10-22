@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "49c137d825b278d584883dfd61c83f57490f0c4f55085ddf2bab2f261684f597",
+  "response_body_sha256": "8179fe5809f47be7a72747676e34b3dcc8320a8d9bda7ae075530d33318f1363",
+  "response_bytes": 965,
+  "content": "{\n  \"old_state\": \"The user wears a smartwatch daily for the past year, syncing well with their routine on an iPhone.\",\n  \"new_state\": \"The user is considering switching to a Garmin smartwatch to improve battery life and health tracking while remaining on an iPhone.\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 73,
+    "prompt_tokens": 3129,
+    "total_tokens": 3202,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 4.598733,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3202,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "The user wears a smartwatch daily for the past year, syncing well with their routine on an iPhone.",
+    "new_state": "The user is considering switching to a Garmin smartwatch to improve battery life and health tracking while remaining on an iPhone.",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

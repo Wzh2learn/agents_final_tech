@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "9f5c64bc5a60d296eaf8e7e5837f13ad314621e9d34bbf3a1c68b26b286462e6",
+  "response_body_sha256": "632a8b101921576fc6d96036711d8d4fdc12f30f7a206800e96ba37d8bfec1a4",
+  "response_bytes": 967,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user states they have been cycling to work for years and uses their bike commute as a baseline for comparison.\"\n}",
+  "usage": {
+    "completion_tokens": 84,
+    "prompt_tokens": 4343,
+    "total_tokens": 4427,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.7883,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 4427,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user states they have been cycling to work for years and uses their bike commute as a baseline for comparison."
+  }
+}

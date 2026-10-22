@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "4c8a546826f86bb94de1d1a5a40ad3b65d57bbdb9a71577b10280806f71a9351",
+  "response_body_sha256": "b09f04040b8f113f484e5734232774aa89fc72467e4e36e5924f9e38bcd6514f",
+  "response_bytes": 938,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user states they save the first hour of their shift for safety compliance checks.\"\n}",
+  "usage": {
+    "completion_tokens": 78,
+    "prompt_tokens": 2975,
+    "total_tokens": 3053,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 4.917555,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3053,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user states they save the first hour of their shift for safety compliance checks."
+  }
+}

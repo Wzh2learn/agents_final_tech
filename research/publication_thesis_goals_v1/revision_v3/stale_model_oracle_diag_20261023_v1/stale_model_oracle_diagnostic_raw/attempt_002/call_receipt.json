@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "1e786edbdcca3bfb1db7aa234bfc5c79c69b93d37f5156aecc9ec97dd4936f57",
+  "response_body_sha256": "2b2a42e406557be53e52f3114949af4ed370d2a6c65082c837d64df7884b8e67",
+  "response_bytes": 933,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has completed their master's program and is now working full-time.\"\n}",
+  "usage": {
+    "completion_tokens": 78,
+    "prompt_tokens": 4992,
+    "total_tokens": 5070,
+    "prompt_tokens_details": {
+      "cached_tokens": 4452
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.691771,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 5070,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user has completed their master's program and is now working full-time."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "1431d3d3dcb89b6d897f8abd4aa63150ce7267bfbac287cb27f45a13f5cbfe7b",
+  "response_body_sha256": "f61512d2a223b76342ee8fd6234923221a9272079395a1af7112fac740e000f7",
+  "response_bytes": 968,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has proposed a 5-10 minute settle-in window instead of reserving the first hour for safety compliance checks.\"\n}",
+  "usage": {
+    "completion_tokens": 89,
+    "prompt_tokens": 329,
+    "total_tokens": 418,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 5.543166,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 418,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user has proposed a 5-10 minute settle-in window instead of reserving the first hour for safety compliance checks."
+  }
+}

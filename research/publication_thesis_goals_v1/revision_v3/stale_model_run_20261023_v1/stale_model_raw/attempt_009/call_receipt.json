@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "6da78924dd4b6facc279b8e824b7c71cd46ce91e8e1f3b6d1554c28816ee2b1f",
+  "response_body_sha256": "6f069f7f93322eeed21a52a69b7c25cc517144278327895b914e8b9fdbfb9018",
+  "response_bytes": 1503,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"NOT_APPLICABLE\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"NOT_APPLICABLE\",\n  \"answer\": \"To prioritize your next year, focus on building flexible thinking and practical skills through a mix of foundational courses (math, programming, writing, lab science) and exploratory electives. Prioritize real-world practice like internships or projects early on to test fit. A realistic plan involves a steady narrowing of focus: Year 1 and 2 should establish a common core and explore fields, while Years 3 and 4 should deepen specialization in a chosen major or track (e.g., policy/econ or data/tech) with advanced electives and capstone work. Use checkpoints by the end of Year 2 to decide on a major based on engagement, job path clarity, and real-world experience.\"\n}",
+  "usage": {
+    "completion_tokens": 200,
+    "prompt_tokens": 5040,
+    "total_tokens": 5240,
+    "prompt_tokens_details": {
+      "cached_tokens": 4512
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.88285,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 5240,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "NOT_APPLICABLE",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "NOT_APPLICABLE",
+    "answer": "To prioritize your next year, focus on building flexible thinking and practical skills through a mix of foundational courses (math, programming, writing, lab science) and exploratory electives. Prioritize real-world practice like internships or projects early on to test fit. A realistic plan involves a steady narrowing of focus: Year 1 and 2 should establish a common core and explore fields, while Years 3 and 4 should deepen specialization in a chosen major or track (e.g., policy/econ or data/tech) with advanced electives and capstone work. Use checkpoints by the end of Year 2 to decide on a major based on engagement, job path clarity, and real-world experience."
+  }
+}

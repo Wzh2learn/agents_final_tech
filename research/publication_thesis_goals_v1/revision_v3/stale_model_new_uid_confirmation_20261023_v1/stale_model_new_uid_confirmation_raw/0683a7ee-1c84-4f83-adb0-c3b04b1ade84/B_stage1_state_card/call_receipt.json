@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "0b132bbb5b75d18a0de1a524702fc8cb39efa68ca6eb3244b3b1e2d1c799ef20",
+  "response_body_sha256": "ece82aa072d406c72d97d2a1f3b58a2ee68bcc38357f0bbe4cc4a86cb5f53464",
+  "response_bytes": 803,
+  "content": "{\n  \"old_state\": \"driving a blue sedan bought a few years back\",\n  \"new_state\": \"driving a silver hatchback\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 47,
+    "prompt_tokens": 3217,
+    "total_tokens": 3264,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 6.660372,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3264,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "driving a blue sedan bought a few years back",
+    "new_state": "driving a silver hatchback",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

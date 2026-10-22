@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "f07664ceb38e9944f0270d732af89e2af3cbc3544523c4bb6f6b8b84f8673a27",
+  "response_body_sha256": "e334fa645433c61f16a084ce7eeebbafd09f0a5017763a976b6b222382e17783",
+  "response_bytes": 848,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_ACCEPTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes\"\n}",
+  "usage": {
+    "completion_tokens": 64,
+    "prompt_tokens": 316,
+    "total_tokens": 380,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.769695,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 380,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_ACCEPTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "41a8c0df80fd64bb25c135468de05ed13c38e95d04e362b94e1bef0e60fa444c",
+  "response_body_sha256": "4a7ed50de91c64a49671c7523c0c2e99f2658f8b0296d065f2e5d2f71abd8234",
+  "response_bytes": 910,
+  "content": "{\n  \"old_state\": \"User has an investment portfolio that is tied up and inaccessible for withdrawals.\",\n  \"new_state\": \"User is moving money from their brokerage account into checking to meet a closing requirement.\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 59,
+    "prompt_tokens": 3096,
+    "total_tokens": 3155,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.61678,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3155,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "User has an investment portfolio that is tied up and inaccessible for withdrawals.",
+    "new_state": "User is moving money from their brokerage account into checking to meet a closing requirement.",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

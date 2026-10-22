@@ -1,14 +1,14 @@
 {
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
-  "date": "2026-10-22",
-  "status": "REVISION_V2_PARTIAL_COMPLETE",
+  "date": "2026-10-23",
+  "status": "REVISION_V3_CONTINUING_WITH_BOUNDED_STATE_CARD_SIGNAL",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 1,
-    "physical_http_calls": 1,
-    "accounting_tokens_used": 1849,
+    "attempts_used": 77,
+    "physical_http_calls": 77,
+    "accounting_tokens_used": 218945,
     "judge_calls": 0,
     "training_runs": 0,
     "training_gpu_seconds": 0,
@@ -43,6 +43,51 @@
       "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
       "retry_count": 0,
       "raw_result": "research/publication_thesis_goals_v1/revision_v2/raw/partridge_model_probe_001/receipt.json"
+    },
+    {
+      "id": "STALE_MODEL_PROBE_20261023_V1",
+      "attempts": 36,
+      "physical_http_calls": 36,
+      "accounting_tokens": 122090,
+      "status": "COMPLETE_DEV_PROBE",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "retry_count": 0,
+      "judge_calls": 0,
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/stale_model_run_20261023_v1/STALE_MODEL_RECEIPT_V1.json"
+    },
+    {
+      "id": "STALE_MODEL_ORACLE_DIAGNOSTIC_20261023_V1",
+      "attempts": 8,
+      "physical_http_calls": 8,
+      "accounting_tokens": 29785,
+      "status": "COMPLETE_ORACLE_DIAGNOSTIC_RECOVERED_FROM_RAW",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "retry_count": 0,
+      "generation_calls_reexecuted": false,
+      "judge_calls": 0,
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/stale_model_oracle_diag_20261023_v1/STALE_MODEL_ORACLE_DIAGNOSTIC_RECEIPT_V1.json"
+    },
+    {
+      "id": "STALE_MODEL_TWO_STAGE_20261023_V1",
+      "attempts": 8,
+      "physical_http_calls": 8,
+      "accounting_tokens": 15708,
+      "status": "COMPLETE_DEV_MECHANISM_PROBE",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "retry_count": 0,
+      "judge_calls": 0,
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/stale_model_two_stage_20261023_v1/STALE_MODEL_TWO_STAGE_RECEIPT_V1.json"
+    },
+    {
+      "id": "STALE_MODEL_NEW_UID_CONFIRMATION_20261023_V1",
+      "attempts": 24,
+      "physical_http_calls": 24,
+      "accounting_tokens": 49513,
+      "status": "COMPLETE_BOUNDED_NEW_UID_CONFIRMATION",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "retry_count": 0,
+      "judge_calls": 0,
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/stale_model_new_uid_confirmation_20261023_v1/STALE_MODEL_NEW_UID_CONFIRMATION_RECEIPT_V1.json"
     }
   ],
   "training_events": [],
@@ -87,6 +132,30 @@
       "evidence_identity": "INDEPENDENT_AI_REVIEW_NOT_HUMAN_GOLD",
       "result": "Paper E conditional go for ICAART after B1-B3 fixes; G2 and G3 remain candidate method lines only.",
       "raw_result": "research/publication_thesis_goals_v1/INDEPENDENT_REVIEW.md"
+    },
+    {
+      "id": "G3_REUSE_POLICY_DEVELOPMENT_20261023",
+      "host": "local_replay_of_GB10_real_modules",
+      "status": "PASS_DEV_ONLY",
+      "evidence_identity": "DEV_ONLY_REAL_MODULE_OBSERVATIONS_WITH_HIDDEN_OUTCOME_EVALUATION",
+      "result": "Scope policy and always-full both produced 15 CORRECT and 5 ABSTAIN over 20 development transitions; scope used 30 probes versus 35.",
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/REUSE_POLICY_RESULTS_V1.json"
+    },
+    {
+      "id": "VALENTINE_SELECTIVE_MAPPING_PROBES_20261023",
+      "host": "local",
+      "status": "BOUNDED_NEGATIVE_NO_LORA",
+      "evidence_identity": "DEV_ONLY_OOF_SELECTIVE_MAPPING_AND_NESTED_PAIR_OOF_SELECTOR",
+      "result": "Simple thresholds and a lightweight selector could not jointly satisfy the fixed risk and target-exact constraints; no LoRA run was started.",
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/VALENTINE_LEARNED_SELECTOR_RESULTS_V1.json"
+    },
+    {
+      "id": "STALE_RETRIEVAL_QUALIFICATION_20261023",
+      "host": "GB10",
+      "status": "QUALIFIED_WITH_RETRIEVAL_HEADROOM",
+      "evidence_identity": "DEV_ONLY_DETERMINISTIC_RETRIEVAL_ON_PUBLIC_STALE_DATA",
+      "result": "Query-only and recent top-2 had zero relevant recall; lexical top-2 mean recall was 0.347; oracle relevant top-2 was 1.0.",
+      "raw_result": "research/publication_thesis_goals_v1/revision_v3/STALE_RETRIEVAL_RESULTS_V1.json"
     }
   ],
   "revision_v2": {
@@ -173,6 +242,49 @@
       "pdf_builds": 5,
       "pdf_page_renders": 11,
       "artifact_clean_reproductions": 1
+    }
+  },
+  "revision_v3": {
+    "date": "2026-10-23",
+    "status": "THREE_BOUNDED_MECHANISM_RESULTS_AND_ONE_NEW_UID_CHECK",
+    "new_budget_capacity": {
+      "planning_attempt_cap": 4096,
+      "planning_token_cap": 20000000,
+      "attempts_used_total": 77,
+      "physical_model_http_calls_total": 77,
+      "accounting_tokens_used_total": 218945,
+      "revision_v3_attempts": 76,
+      "revision_v3_accounting_tokens": 217096,
+      "judge_calls": 0,
+      "training_runs": 0,
+      "paid_api_usd": 0,
+      "production_memory_writes": 0
+    },
+    "scientific_results": [
+      {
+        "id": "G3_TRANSPARENT_REUSE_POLICY",
+        "evidence_identity": "DEV_ONLY_REAL_MODULE_OBSERVATIONS",
+        "judgment": "Transparent REUSE/PARTIAL_CHECK/FULL_CHECK/DEFER has bounded probe-saving headroom, but no natural-family or downstream outcome claim."
+      },
+      {
+        "id": "VALENTINE_RISK_CONSTRAINED_MAPPING",
+        "evidence_identity": "DEV_ONLY_SEALED_REFERENCE_REANALYSIS",
+        "judgment": "The tested thresholds and lightweight selector do not meet the fixed risk/target constraints; LoRA is stopped on this qualification."
+      },
+      {
+        "id": "STALE_STATE_CARD_MECHANISM",
+        "evidence_identity": "DEV_AND_BOUNDED_NEW_UID_WITHIN_PUBLIC_STALE",
+        "judgment": "Under oracle retrieval, two-stage state cards improved paired stale-state success from 0/8 to 4/8 on eight unused UIDs after a 1/4 versus 3/4 development signal. This is a bounded representation result, not a full method contribution."
+      }
+    ],
+    "tool_costs": {
+      "stale_dataset_download_bytes": 305908212,
+      "stale_dataset_sha256": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+      "stale_retrieval_queries": 36,
+      "natural_model_generations": 76,
+      "natural_model_accounting_tokens": 217096,
+      "official_llm_judge_calls": 0,
+      "retries": 0
     }
   }
 }

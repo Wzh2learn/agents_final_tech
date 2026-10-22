@@ -1,0 +1,31 @@
+{
+  "request_body_sha256": "51cefd2ff4c2c28312e54e98d8a35e1322ab8015894c47ad588c47ab87961ac8",
+  "response_body_sha256": "34ad8aa71da35627a01ee675466975df924442dce241ba01b742736bdf6747e0",
+  "response_bytes": 843,
+  "content": "{\n  \"old_state\": \"User has Mike's pressure washer and needs to return it\",\n  \"new_state\": \"User has Mike's pressure washer and needs to return it\",\n  \"change_type\": \"CO_REFERENTIAL\"\n}",
+  "usage": {
+    "completion_tokens": 53,
+    "prompt_tokens": 1862,
+    "total_tokens": 1915,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.879932,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 1915,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "old_state": "User has Mike's pressure washer and needs to return it",
+    "new_state": "User has Mike's pressure washer and needs to return it",
+    "change_type": "CO_REFERENTIAL"
+  }
+}

@@ -1,6 +1,6 @@
 # Open Decisions And Blockers
 
-Updated: 2026-10-22
+Updated: 2026-10-23
 
 当前短状态见 [STATE.md](STATE.md)，科研证据路由见 [Research Entry](../docs/research/README.md)。本表保留真实未决事项；完成或被后续证据更正的历史条目保留原文归档。
 
@@ -8,10 +8,11 @@ Updated: 2026-10-22
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `V2_PARTIAL_COMPLETE` | [V2 回执](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)明确 G1 就绪、G2 停止、G3 暂停、第三贡献进入有界开发；不把局部结果写成四 Goal 全部完成 |
+| NEXT-RESEARCH-GOAL | `V3_EVIDENCE_EXIT_WITH_BOUNDED_SIGNAL` | [V3 回执](../research/publication_thesis_goals_v1/revision_v3/SPRINT_RETURN.md)明确 Paper E 可交 Owner 投稿、G2 保持停止、G3 复杂 planner 暂停、Valentine LoRA 资格停止、STALE 状态卡取得同源新 UID 配对信号 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
-| THIRD-CONTRIBUTION-SCOPE | `QUALIFIED_FOR_BOUNDED_DEVELOPMENT` | 同一候选/依赖下 input regime 变化时，全局和 dependency-only 均2/5误迁移；scope 5/5。下一步需第二个自然案例和真实修复/结果收益 |
+| THIRD-CONTRIBUTION-SCOPE | `TRANSPARENT_REUSE_RULE_QUALIFIED_PLANNER_PAUSED` | scope policy 与 always-full 在 20 个 development transition 上同为 15 CORRECT、5 ABSTAIN，probe 30 对 35；仍缺自然 family 和真实下游收益 |
+| STALE-STATE-CARD | `BOUNDED_REPRESENTATION_SIGNAL` | oracle 检索下开发 1/4 对 3/4，同源未用 UID 配对 0/8 对 4/8；下一步只在非 oracle 检索和独立来源下升级判断 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `INTERNAL_PACKAGE_READY_OWNER_EXTERNAL_ACTIONS` | 9pt、11页、目标包审计、artifact clean reproduction 均通过；只待 Owner 身份、投稿、付款、展示和公开许可 |
 | THESIS-DOC-CONTINUITY | `G4_PARTIAL_COMPLETE_CONTINUING` | 中文 Paper E 引用正文、导师一页稿、素材地图和现役骨架已更新；正式章节整合仍继续 |

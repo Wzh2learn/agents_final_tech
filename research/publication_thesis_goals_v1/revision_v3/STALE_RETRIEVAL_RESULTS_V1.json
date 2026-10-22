@@ -1,0 +1,2673 @@
+{
+  "schema": "stale_retrieval_probe_v1",
+  "date": "2026-10-23",
+  "question": "Do simple query-retrieval policies find the sessions needed for implicit state invalidation, or is a stronger memory mechanism necessary?",
+  "evidence_identity": "DEV_ONLY_DETERMINISTIC_RETRIEVAL_ON_PUBLIC_STALE_DATA",
+  "data": {
+    "path": "T1_T2_400_FULL.json",
+    "sha256": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+    "bytes": 305908212,
+    "total_items": 400
+  },
+  "selection": {
+    "item_count": 12,
+    "per_type": 6,
+    "uids": [
+      "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "0781e96e-853c-46af-b787-4a64fc248e62",
+      "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "012f090e-6e02-4751-955d-574745069df3",
+      "05fc9783-f06c-453f-8899-15253d63533a",
+      "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "0c348e44-7f55-4d95-aeb7-137f801985d7"
+    ],
+    "top_k": 2
+  },
+  "summary": {
+    "query_only": {
+      "query_count": 36,
+      "mean_recall": 0.0,
+      "perfect_recall_rate": 0.0,
+      "mean_context_chars": 0.0,
+      "mean_context_unique_tokens": 0.0
+    },
+    "lexical_top_k": {
+      "query_count": 36,
+      "mean_recall": 0.3472222222222222,
+      "perfect_recall_rate": 0.027777777777777776,
+      "mean_context_chars": 23804.527777777777,
+      "mean_context_unique_tokens": 1149.888888888889
+    },
+    "recent_top_k": {
+      "query_count": 36,
+      "mean_recall": 0.0,
+      "perfect_recall_rate": 0.0,
+      "mean_context_chars": 29530.666666666668,
+      "mean_context_unique_tokens": 1268.0
+    },
+    "oracle_relevant_top_k": {
+      "query_count": 36,
+      "mean_recall": 1.0,
+      "perfect_recall_rate": 1.0,
+      "mean_context_chars": 12515.0,
+      "mean_context_unique_tokens": 795.4166666666666
+    }
+  },
+  "rows": [
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            11,
+            20
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [
+            11
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 25561,
+          "context_unique_tokens": 1239
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 35428,
+          "context_unique_tokens": 1546
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            11,
+            34
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [
+            11,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 21668,
+          "context_unique_tokens": 1089
+        }
+      }
+    },
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            11,
+            1
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [
+            11
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 25497,
+          "context_unique_tokens": 1202
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 35428,
+          "context_unique_tokens": 1546
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            11,
+            34
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [
+            11,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 21668,
+          "context_unique_tokens": 1089
+        }
+      }
+    },
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            23,
+            30
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 22357,
+          "context_unique_tokens": 1110
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 35428,
+          "context_unique_tokens": 1546
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            11,
+            34
+          ],
+          "relevant_indices": [
+            11,
+            34
+          ],
+          "hit_indices": [
+            11,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 21668,
+          "context_unique_tokens": 1089
+        }
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            2,
+            27
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [
+            2
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 16198,
+          "context_unique_tokens": 880
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 32350,
+          "context_unique_tokens": 1288
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            2,
+            38
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [
+            2,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 6699,
+          "context_unique_tokens": 493
+        }
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            27,
+            2
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [
+            2
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 16198,
+          "context_unique_tokens": 880
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 32350,
+          "context_unique_tokens": 1288
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            2,
+            38
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [
+            2,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 6699,
+          "context_unique_tokens": 493
+        }
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            29,
+            27
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 29491,
+          "context_unique_tokens": 1404
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 32350,
+          "context_unique_tokens": 1288
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            2,
+            38
+          ],
+          "relevant_indices": [
+            2,
+            38
+          ],
+          "hit_indices": [
+            2,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 6699,
+          "context_unique_tokens": 493
+        }
+      }
+    },
+    {
+      "uid": "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "type": "T1",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            5,
+            22
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [
+            5
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 18888,
+          "context_unique_tokens": 913
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 30552,
+          "context_unique_tokens": 1306
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            5,
+            32
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [
+            5,
+            32
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13633,
+          "context_unique_tokens": 888
+        }
+      }
+    },
+    {
+      "uid": "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "type": "T1",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            5,
+            3
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [
+            5
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 17037,
+          "context_unique_tokens": 1044
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 30552,
+          "context_unique_tokens": 1306
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            5,
+            32
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [
+            5,
+            32
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13633,
+          "context_unique_tokens": 888
+        }
+      }
+    },
+    {
+      "uid": "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "type": "T1",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            6,
+            31
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 26629,
+          "context_unique_tokens": 1396
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 30552,
+          "context_unique_tokens": 1306
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            5,
+            32
+          ],
+          "relevant_indices": [
+            5,
+            32
+          ],
+          "hit_indices": [
+            5,
+            32
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13633,
+          "context_unique_tokens": 888
+        }
+      }
+    },
+    {
+      "uid": "0781e96e-853c-46af-b787-4a64fc248e62",
+      "type": "T1",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            42,
+            6
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [
+            6
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 24634,
+          "context_unique_tokens": 1020
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 27047,
+          "context_unique_tokens": 1262
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            6,
+            34
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [
+            6,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13158,
+          "context_unique_tokens": 801
+        }
+      }
+    },
+    {
+      "uid": "0781e96e-853c-46af-b787-4a64fc248e62",
+      "type": "T1",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            13,
+            6
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [
+            6
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 25022,
+          "context_unique_tokens": 996
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 27047,
+          "context_unique_tokens": 1262
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            6,
+            34
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [
+            6,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13158,
+          "context_unique_tokens": 801
+        }
+      }
+    },
+    {
+      "uid": "0781e96e-853c-46af-b787-4a64fc248e62",
+      "type": "T1",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            0,
+            40
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 30128,
+          "context_unique_tokens": 1352
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 27047,
+          "context_unique_tokens": 1262
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            6,
+            34
+          ],
+          "relevant_indices": [
+            6,
+            34
+          ],
+          "hit_indices": [
+            6,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13158,
+          "context_unique_tokens": 801
+        }
+      }
+    },
+    {
+      "uid": "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "type": "T1",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            6,
+            21
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [
+            6
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 21458,
+          "context_unique_tokens": 1125
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 28592,
+          "context_unique_tokens": 1230
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            6,
+            38
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [
+            6,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 12020,
+          "context_unique_tokens": 826
+        }
+      }
+    },
+    {
+      "uid": "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "type": "T1",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            6,
+            38
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [
+            6,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 12020,
+          "context_unique_tokens": 826
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 28592,
+          "context_unique_tokens": 1230
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            6,
+            38
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [
+            6,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 12020,
+          "context_unique_tokens": 826
+        }
+      }
+    },
+    {
+      "uid": "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "type": "T1",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            16,
+            7
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 34087,
+          "context_unique_tokens": 1417
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 28592,
+          "context_unique_tokens": 1230
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            6,
+            38
+          ],
+          "relevant_indices": [
+            6,
+            38
+          ],
+          "hit_indices": [
+            6,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 12020,
+          "context_unique_tokens": 826
+        }
+      }
+    },
+    {
+      "uid": "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "type": "T1",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            10,
+            13
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [
+            13
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 24466,
+          "context_unique_tokens": 1147
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 26825,
+          "context_unique_tokens": 1154
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            13,
+            38
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [
+            13,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 10113,
+          "context_unique_tokens": 712
+        }
+      }
+    },
+    {
+      "uid": "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "type": "T1",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            10,
+            13
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [
+            13
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 24466,
+          "context_unique_tokens": 1147
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 26825,
+          "context_unique_tokens": 1154
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            13,
+            38
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [
+            13,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 10113,
+          "context_unique_tokens": 712
+        }
+      }
+    },
+    {
+      "uid": "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "type": "T1",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            8,
+            29
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 30225,
+          "context_unique_tokens": 1286
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 26825,
+          "context_unique_tokens": 1154
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            13,
+            38
+          ],
+          "relevant_indices": [
+            13,
+            38
+          ],
+          "hit_indices": [
+            13,
+            38
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 10113,
+          "context_unique_tokens": 712
+        }
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            5,
+            8
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 30925,
+          "context_unique_tokens": 1360
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 28449,
+          "context_unique_tokens": 1210
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            14,
+            34
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [
+            14,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 17202,
+          "context_unique_tokens": 955
+        }
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            14,
+            9
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [
+            14
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 22274,
+          "context_unique_tokens": 1169
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 28449,
+          "context_unique_tokens": 1210
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            14,
+            34
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [
+            14,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 17202,
+          "context_unique_tokens": 955
+        }
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            27,
+            13
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 33260,
+          "context_unique_tokens": 1563
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 28449,
+          "context_unique_tokens": 1210
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            14,
+            34
+          ],
+          "relevant_indices": [
+            14,
+            34
+          ],
+          "hit_indices": [
+            14,
+            34
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 17202,
+          "context_unique_tokens": 955
+        }
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            5,
+            2
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [
+            5
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 23395,
+          "context_unique_tokens": 1063
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 34342,
+          "context_unique_tokens": 1445
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            5,
+            33
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [
+            5,
+            33
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13522,
+          "context_unique_tokens": 795
+        }
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            5,
+            32
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [
+            5
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 22261,
+          "context_unique_tokens": 1109
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 34342,
+          "context_unique_tokens": 1445
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            5,
+            33
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [
+            5,
+            33
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13522,
+          "context_unique_tokens": 795
+        }
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            33,
+            0
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [
+            33
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 23566,
+          "context_unique_tokens": 1070
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 34342,
+          "context_unique_tokens": 1445
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            5,
+            33
+          ],
+          "relevant_indices": [
+            5,
+            33
+          ],
+          "hit_indices": [
+            5,
+            33
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 13522,
+          "context_unique_tokens": 795
+        }
+      }
+    },
+    {
+      "uid": "05fc9783-f06c-453f-8899-15253d63533a",
+      "type": "T2",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            9,
+            8
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [
+            9
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 19443,
+          "context_unique_tokens": 899
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 32973,
+          "context_unique_tokens": 1238
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            9,
+            39
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [
+            9,
+            39
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11187,
+          "context_unique_tokens": 773
+        }
+      }
+    },
+    {
+      "uid": "05fc9783-f06c-453f-8899-15253d63533a",
+      "type": "T2",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            9,
+            12
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [
+            9
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 15463,
+          "context_unique_tokens": 863
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 32973,
+          "context_unique_tokens": 1238
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            9,
+            39
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [
+            9,
+            39
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11187,
+          "context_unique_tokens": 773
+        }
+      }
+    },
+    {
+      "uid": "05fc9783-f06c-453f-8899-15253d63533a",
+      "type": "T2",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            41,
+            28
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 29366,
+          "context_unique_tokens": 1255
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 32973,
+          "context_unique_tokens": 1238
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            9,
+            39
+          ],
+          "relevant_indices": [
+            9,
+            39
+          ],
+          "hit_indices": [
+            9,
+            39
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11187,
+          "context_unique_tokens": 773
+        }
+      }
+    },
+    {
+      "uid": "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "type": "T2",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            1,
+            34
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [
+            1
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 21981,
+          "context_unique_tokens": 1050
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 29882,
+          "context_unique_tokens": 1301
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            1,
+            37
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [
+            1,
+            37
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11177,
+          "context_unique_tokens": 797
+        }
+      }
+    },
+    {
+      "uid": "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "type": "T2",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            1,
+            47
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [
+            1
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 23418,
+          "context_unique_tokens": 1129
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 29882,
+          "context_unique_tokens": 1301
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            1,
+            37
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [
+            1,
+            37
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11177,
+          "context_unique_tokens": 797
+        }
+      }
+    },
+    {
+      "uid": "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "type": "T2",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            0,
+            25
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 23227,
+          "context_unique_tokens": 1090
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 29882,
+          "context_unique_tokens": 1301
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            1,
+            37
+          ],
+          "relevant_indices": [
+            1,
+            37
+          ],
+          "hit_indices": [
+            1,
+            37
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11177,
+          "context_unique_tokens": 797
+        }
+      }
+    },
+    {
+      "uid": "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "type": "T2",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            13,
+            9
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [
+            13
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 24365,
+          "context_unique_tokens": 1111
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 20704,
+          "context_unique_tokens": 993
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            13,
+            33
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [
+            13,
+            33
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 8722,
+          "context_unique_tokens": 627
+        }
+      }
+    },
+    {
+      "uid": "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "type": "T2",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            13,
+            32
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [
+            13
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 19031,
+          "context_unique_tokens": 1022
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 20704,
+          "context_unique_tokens": 993
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            13,
+            33
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [
+            13,
+            33
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 8722,
+          "context_unique_tokens": 627
+        }
+      }
+    },
+    {
+      "uid": "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "type": "T2",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            12,
+            1
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 31486,
+          "context_unique_tokens": 1581
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 20704,
+          "context_unique_tokens": 993
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            13,
+            33
+          ],
+          "relevant_indices": [
+            13,
+            33
+          ],
+          "hit_indices": [
+            13,
+            33
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 8722,
+          "context_unique_tokens": 627
+        }
+      }
+    },
+    {
+      "uid": "0c348e44-7f55-4d95-aeb7-137f801985d7",
+      "type": "T2",
+      "query_label": "dim1_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            4,
+            33
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [
+            4
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 22392,
+          "context_unique_tokens": 1222
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 27224,
+          "context_unique_tokens": 1243
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            4,
+            35
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [
+            4,
+            35
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11079,
+          "context_unique_tokens": 789
+        }
+      }
+    },
+    {
+      "uid": "0c348e44-7f55-4d95-aeb7-137f801985d7",
+      "type": "T2",
+      "query_label": "dim2_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            4,
+            33
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [
+            4
+          ],
+          "recall": 0.5,
+          "precision": 0.5,
+          "context_chars": 22392,
+          "context_unique_tokens": 1222
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 27224,
+          "context_unique_tokens": 1243
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            4,
+            35
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [
+            4,
+            35
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11079,
+          "context_unique_tokens": 789
+        }
+      }
+    },
+    {
+      "uid": "0c348e44-7f55-4d95-aeb7-137f801985d7",
+      "type": "T2",
+      "query_label": "dim3_query",
+      "arms": {
+        "query_only": {
+          "arm": "query_only",
+          "selected_indices": [],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 0,
+          "context_unique_tokens": 0
+        },
+        "lexical_top_k": {
+          "arm": "lexical_top_k",
+          "selected_indices": [
+            6,
+            39
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 24356,
+          "context_unique_tokens": 1234
+        },
+        "recent_top_k": {
+          "arm": "recent_top_k",
+          "selected_indices": [
+            48,
+            49
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [],
+          "recall": 0.0,
+          "precision": 0.0,
+          "context_chars": 27224,
+          "context_unique_tokens": 1243
+        },
+        "oracle_relevant_top_k": {
+          "arm": "oracle_relevant_top_k",
+          "selected_indices": [
+            4,
+            35
+          ],
+          "relevant_indices": [
+            4,
+            35
+          ],
+          "hit_indices": [
+            4,
+            35
+          ],
+          "recall": 1.0,
+          "precision": 1.0,
+          "context_chars": 11079,
+          "context_unique_tokens": 789
+        }
+      }
+    }
+  ],
+  "nonclaims": [
+    "Relevant session indices are independent structured references but not semantic answer gold.",
+    "This is a retrieval qualification probe, not a model or CUPMem performance result.",
+    "Oracle relevant selection is a development upper bound and is not deployable."
+  ]
+}

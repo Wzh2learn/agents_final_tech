@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "c671c3daad1580e5115b775da3eda122c2273c37891c83ded5377d4939c51273",
+  "response_body_sha256": "fcbfbb33d3d8b95a27737d83fad2d8c93a053c3edde6fb949e2ad2e1e659cf21",
+  "response_bytes": 812,
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"state_resolution\": \"UNKNOWN\",\n  \"premise_resistance\": \"UNKNOWN\",\n  \"action_adaptation\": \"UNKNOWN\",\n  \"answer\": null\n}",
+  "usage": {
+    "completion_tokens": 49,
+    "prompt_tokens": 314,
+    "total_tokens": 363,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.952509,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 363,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "UNKNOWN",
+    "state_resolution": "UNKNOWN",
+    "premise_resistance": "UNKNOWN",
+    "action_adaptation": "UNKNOWN",
+    "answer": null
+  }
+}

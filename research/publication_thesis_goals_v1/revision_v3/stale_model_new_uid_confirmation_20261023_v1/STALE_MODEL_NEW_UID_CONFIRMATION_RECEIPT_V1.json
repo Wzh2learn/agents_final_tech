@@ -1,0 +1,14 @@
+{
+  "schema": "stale_model_new_uid_confirmation_receipt_v1",
+  "status": "COMPLETE",
+  "evidence_identity": "BOUNDED_NEW_UID_CONFIRMATION_WITHIN_PUBLIC_STALE",
+  "results_path": "/home/testuser/wzh/protected_research_20261021_v1/stale_probe_20261023/stale_model_new_uid_confirmation_20261023_v1/STALE_MODEL_NEW_UID_CONFIRMATION_RESULTS_V1.json",
+  "results_sha256": "b213d524534f0b8e1d5008344a4edf2fe4df8e53403bcc7fef06a73ab12ed83c",
+  "planned_generation_calls": 24,
+  "executed_generation_attempts": 24,
+  "physical_http_calls": 24,
+  "accounting_tokens": 49513,
+  "retry_count": 0,
+  "official_llm_judge_used": false,
+  "stopped_early": false
+}

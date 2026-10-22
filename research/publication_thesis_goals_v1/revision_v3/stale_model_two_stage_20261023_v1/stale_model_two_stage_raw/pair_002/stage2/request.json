@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "pair": 2,
+    "generation_call": 4,
+    "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+    "type": "T1",
+    "stage": "stage2",
+    "visibility": "DEV_ONLY_TWO_STAGE_MECHANISM_PROBE_ORACLE_RETRIEVAL",
+    "retry_count": 0
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the user question using only the state card below.\nDo not assume facts beyond the state card. If it is insufficient, return UNKNOWN.\n\nState card:\n{\"old_state\": \"User has Mike's pressure washer and needs to return it\", \"new_state\": \"User has Mike's pressure washer and needs to return it\", \"change_type\": \"CO_REFERENTIAL\"}\n\nUser question:\nBased on the conversation history, does the user still have Mike’s pressure washer and need to return it to him?\n\nReturn only one JSON object with exactly these five fields:\n{\n  \"decision\": \"ANSWER | UNKNOWN | REFUSE\",\n  \"state_resolution\": \"STALE_DETECTED | STALE_NOT_DETECTED | UNKNOWN | NOT_APPLICABLE\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED | FALSE_PREMISE_ACCEPTED | UNKNOWN | NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED | STALE_STATE_ALIGNED | UNKNOWN | NOT_APPLICABLE\",\n  \"answer\": \"brief answer in the question language, or null\"\n}\n\nUse STALE_DETECTED when new_state invalidates the queried old_state. If decision\nis not ANSWER, answer must be null. If decision is ANSWER, answer must be a\nnon-empty string. Do not add fields, code fences, or prose outside the JSON object."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

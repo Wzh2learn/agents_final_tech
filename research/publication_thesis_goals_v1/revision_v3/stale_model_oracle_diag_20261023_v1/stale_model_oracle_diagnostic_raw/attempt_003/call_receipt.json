@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "6e2f049ef2608961c594e0c8ba5576fb5015433fd30508365d81a5342175edab",
+  "response_body_sha256": "af3f5676baf29cf950d833943a9845d41ef534916c8dc1b66565a8e5608bf859",
+  "response_bytes": 906,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user has already returned the pressure washer.\"\n}",
+  "usage": {
+    "completion_tokens": 72,
+    "prompt_tokens": 1979,
+    "total_tokens": 2051,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.311441,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2051,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user has already returned the pressure washer."
+  }
+}

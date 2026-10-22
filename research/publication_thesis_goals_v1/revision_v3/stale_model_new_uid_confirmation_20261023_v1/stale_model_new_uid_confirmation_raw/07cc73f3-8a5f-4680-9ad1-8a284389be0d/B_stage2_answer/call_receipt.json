@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "cfea099474804afed61690e1a431f1bdfe139df0c24fd503d1664bbcb39008d2",
+  "response_body_sha256": "abde9fca97e853ebb59116a2085ac1d27ad547499e425ad8ebaf14c1d7eb45bb",
+  "response_bytes": 984,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, the user now prefers roles with longer-term impact and cross-team coordination rather than quick, visible wins and day-to-day outcomes.\"\n}",
+  "usage": {
+    "completion_tokens": 88,
+    "prompt_tokens": 335,
+    "total_tokens": 423,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 5.49578,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 423,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, the user now prefers roles with longer-term impact and cross-team coordination rather than quick, visible wins and day-to-day outcomes."
+  }
+}

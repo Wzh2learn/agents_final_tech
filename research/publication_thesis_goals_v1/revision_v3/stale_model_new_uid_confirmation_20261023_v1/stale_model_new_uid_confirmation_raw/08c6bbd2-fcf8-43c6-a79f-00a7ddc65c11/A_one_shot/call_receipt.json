@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "858777e3db0e97151cecf6d5b716db47c947f8fb94cf9e835a39849b3e902d6e",
+  "response_body_sha256": "7562a1ce819a8148f65104d6a05f9b5eca9354609a0d858b5878526f93443ab7",
+  "response_bytes": 913,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user stated they usually take the light rail each morning.\"\n}",
+  "usage": {
+    "completion_tokens": 74,
+    "prompt_tokens": 2674,
+    "total_tokens": 2748,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 7.710398,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 2748,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user stated they usually take the light rail each morning."
+  }
+}

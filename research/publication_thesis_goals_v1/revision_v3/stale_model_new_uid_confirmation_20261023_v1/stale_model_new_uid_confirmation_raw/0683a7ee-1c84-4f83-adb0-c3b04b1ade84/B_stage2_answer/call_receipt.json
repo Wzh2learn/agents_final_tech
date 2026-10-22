@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "c9a5580eeb6e34b44ac29a62100e0853e1521793187a89b5fe2131d3a9b0d314",
+  "response_body_sha256": "7866547fcf9450e31a7716f56b070a2e2a7cbe02010f2d4a366849b5c425b16a",
+  "response_bytes": 891,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"FALSE_PREMISE_REJECTED\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"No, Riley is now driving a silver hatchback.\"\n}",
+  "usage": {
+    "completion_tokens": 72,
+    "prompt_tokens": 296,
+    "total_tokens": 368,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 4.461508,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 368,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "FALSE_PREMISE_REJECTED",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "No, Riley is now driving a silver hatchback."
+  }
+}

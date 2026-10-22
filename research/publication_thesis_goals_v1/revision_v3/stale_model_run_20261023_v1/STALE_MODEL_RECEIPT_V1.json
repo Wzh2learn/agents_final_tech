@@ -1,0 +1,15 @@
+{
+  "schema": "stale_model_probe_receipt_v1",
+  "status": "COMPLETE",
+  "results_path": "/home/testuser/wzh/protected_research_20261021_v1/stale_probe_20261023/stale_model_run_20261023_v1/STALE_MODEL_RESULTS_V1.json",
+  "results_sha256": "120327279aac1df0709fbd95c3c7ef3a49202f002b451405c2dfeec6ea51933d",
+  "data_sha256": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "planned_generation_calls": 36,
+  "executed_generation_attempts": 36,
+  "physical_http_calls": 36,
+  "accounting_tokens": 122090,
+  "retry_count": 0,
+  "official_llm_judge_used": false,
+  "stopped_early": false
+}

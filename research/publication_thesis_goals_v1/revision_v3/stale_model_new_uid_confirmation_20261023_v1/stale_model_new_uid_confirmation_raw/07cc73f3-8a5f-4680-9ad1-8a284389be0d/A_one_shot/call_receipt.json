@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "e376b458b6fd88bffb1742c7c0d6fe2c94494febec78401d7739844d0983630e",
+  "response_body_sha256": "1b8bc9950acfac44a124abb73a3431fe4a67c4b908cc75fcd95254172785ab80",
+  "response_bytes": 985,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user explicitly stated they are turning down the regional role because they prefer seeing the direct results of their work each day.\"\n}",
+  "usage": {
+    "completion_tokens": 85,
+    "prompt_tokens": 2932,
+    "total_tokens": 3017,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 8.356462,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 3017,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user explicitly stated they are turning down the regional role because they prefer seeing the direct results of their work each day."
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "schema": "valentine_selective_mapping_probe_v1",
+  "date": "2026-10-23",
+  "question": "Can visible process confidence gate B4 map_to decisions to improve correct-map coverage under a harmful-map risk limit without training?",
+  "evidence_identity": "DEV_ONLY_OOF_SELECTIVE_MAPPING_WITH_SEALED_Q3_REFERENCE",
+  "risk_limit": 0.1,
+  "target_exact_floor": 0.7250980392156863,
+  "inputs": {
+    "primary_predictions": {
+      "path": "/home/testuser/wzh/q3_raw_seal_20261004/derived/b0_b4/quarantine_primary_loo_v2/predictions.jsonl",
+      "sha256": "1a435c9e5a486ec25891f8a7cc00fecf80a5b2c8bd6b5c8dd26551f01342788d"
+    },
+    "salted_predictions": {
+      "path": "/home/testuser/wzh/q3_raw_seal_20261004/derived/b0_b4/quarantine_primary_salted_v2/predictions.jsonl",
+      "sha256": "eb462fc0c23d09cfcc5012ccb2e4b83f6bb3402843bf4fd2d7d5684b679566d4"
+    },
+    "checkpoint_events": {
+      "path": "/home/testuser/wzh/track_b_adapter_20261005_seal/quarantine_primary/checkpoint_events.jsonl",
+      "sha256": "0605a7c62f2cc2d107535d3bf9efabb08b0d4c0127f6a7913985030f89ec4d77"
+    }
+  },
+  "unfiltered_b4": {
+    "row_count": 146,
+    "scored_row_count": 146,
+    "abstained_row_count": 0,
+    "accepted_map_count": 47,
+    "correct_map_count": 38,
+    "harmful_map_count": 9,
+    "map_to_risk": 0.19148936170212766,
+    "harmful_map_rate_all_scored": 0.06164383561643835,
+    "correct_map_coverage_all_rows": 0.2602739726027397,
+    "target_exact_gold_map_to": 0.7450980392156863,
+    "target_exact_accepted_map_to": 0.8085106382978723
+  },
+  "oof_confidence_gated_b4": {
+    "metrics": {
+      "row_count": 146,
+      "scored_row_count": 99,
+      "abstained_row_count": 47,
+      "accepted_map_count": 0,
+      "correct_map_count": 0,
+      "harmful_map_count": 0,
+      "map_to_risk": null,
+      "harmful_map_rate_all_scored": 0.0,
+      "correct_map_coverage_all_rows": 0.0,
+      "target_exact_gold_map_to": 0.0,
+      "target_exact_accepted_map_to": null
+    },
+    "selected_thresholds": [
+      1.01,
+      1.01,
+      1.01,
+      1.01,
+      1.01,
+      1.01,
+      1.01,
+      1.01,
+      1.01,
+      1.01
+    ],
+    "inner_train_metrics": [
+      {
+        "held_out": "City_Government__Capital_Projects",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 135,
+          "scored_row_count": 93,
+          "abstained_row_count": 42,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "City_Government__DCM_StreetCenterLine",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 133,
+          "scored_row_count": 92,
+          "abstained_row_count": 41,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "City_Government__DPR_AthleticFacilities_001",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 116,
+          "scored_row_count": 76,
+          "abstained_row_count": 40,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 130,
+          "scored_row_count": 88,
+          "abstained_row_count": 42,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "City_Government__NYC_Municipal_Building_Energy_Benchmarking_Results",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 137,
+          "scored_row_count": 94,
+          "abstained_row_count": 43,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "Education__COVID-19_Free_Meals_Locations",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 139,
+          "scored_row_count": 94,
+          "abstained_row_count": 45,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "Housing_&_Development__Housing_Maintenance_Code_Complaints_and_Problems",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 125,
+          "scored_row_count": 86,
+          "abstained_row_count": 39,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "Housing_&_Development__Public_Design_Commission_Outdoor_Public_Art_Invent",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 122,
+          "scored_row_count": 79,
+          "abstained_row_count": 43,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "Recreation__Swim_for_Life__2016_to_2020",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 138,
+          "scored_row_count": 95,
+          "abstained_row_count": 43,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      },
+      {
+        "held_out": "Transportation__DOT_In-house_Street_Resurfacing_Projects",
+        "threshold": 1.01,
+        "metrics": {
+          "row_count": 139,
+          "scored_row_count": 94,
+          "abstained_row_count": 45,
+          "accepted_map_count": 0,
+          "correct_map_count": 0,
+          "harmful_map_count": 0,
+          "map_to_risk": null,
+          "harmful_map_rate_all_scored": 0.0,
+          "correct_map_coverage_all_rows": 0.0,
+          "target_exact_gold_map_to": 0.0,
+          "target_exact_accepted_map_to": null
+        }
+      }
+    ]
+  },
+  "salted_sensitivity": {
+    "median_threshold_from_primary_oof": 1.01,
+    "metrics": {
+      "row_count": 19,
+      "scored_row_count": 11,
+      "abstained_row_count": 8,
+      "accepted_map_count": 0,
+      "correct_map_count": 0,
+      "harmful_map_count": 0,
+      "map_to_risk": null,
+      "harmful_map_rate_all_scored": 0.0,
+      "correct_map_coverage_all_rows": 0.0,
+      "target_exact_gold_map_to": 0.0,
+      "target_exact_accepted_map_to": null
+    }
+  },
+  "primary_risk_coverage_curve": [
+    {
+      "threshold": 0.0,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 146,
+        "abstained_row_count": 0,
+        "accepted_map_count": 47,
+        "correct_map_count": 38,
+        "harmful_map_count": 9,
+        "map_to_risk": 0.19148936170212766,
+        "harmful_map_rate_all_scored": 0.06164383561643835,
+        "correct_map_coverage_all_rows": 0.2602739726027397,
+        "target_exact_gold_map_to": 0.7450980392156863,
+        "target_exact_accepted_map_to": 0.8085106382978723
+      }
+    },
+    {
+      "threshold": 0.6,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 146,
+        "abstained_row_count": 0,
+        "accepted_map_count": 47,
+        "correct_map_count": 38,
+        "harmful_map_count": 9,
+        "map_to_risk": 0.19148936170212766,
+        "harmful_map_rate_all_scored": 0.06164383561643835,
+        "correct_map_coverage_all_rows": 0.2602739726027397,
+        "target_exact_gold_map_to": 0.7450980392156863,
+        "target_exact_accepted_map_to": 0.8085106382978723
+      }
+    },
+    {
+      "threshold": 0.7,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 146,
+        "abstained_row_count": 0,
+        "accepted_map_count": 47,
+        "correct_map_count": 38,
+        "harmful_map_count": 9,
+        "map_to_risk": 0.19148936170212766,
+        "harmful_map_rate_all_scored": 0.06164383561643835,
+        "correct_map_coverage_all_rows": 0.2602739726027397,
+        "target_exact_gold_map_to": 0.7450980392156863,
+        "target_exact_accepted_map_to": 0.8085106382978723
+      }
+    },
+    {
+      "threshold": 0.8,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 145,
+        "abstained_row_count": 1,
+        "accepted_map_count": 46,
+        "correct_map_count": 37,
+        "harmful_map_count": 9,
+        "map_to_risk": 0.1956521739130435,
+        "harmful_map_rate_all_scored": 0.06206896551724138,
+        "correct_map_coverage_all_rows": 0.2534246575342466,
+        "target_exact_gold_map_to": 0.7254901960784313,
+        "target_exact_accepted_map_to": 0.8043478260869565
+      }
+    },
+    {
+      "threshold": 0.9,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 139,
+        "abstained_row_count": 7,
+        "accepted_map_count": 40,
+        "correct_map_count": 34,
+        "harmful_map_count": 6,
+        "map_to_risk": 0.15,
+        "harmful_map_rate_all_scored": 0.04316546762589928,
+        "correct_map_coverage_all_rows": 0.2328767123287671,
+        "target_exact_gold_map_to": 0.6666666666666666,
+        "target_exact_accepted_map_to": 0.85
+      }
+    },
+    {
+      "threshold": 0.95,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 130,
+        "abstained_row_count": 16,
+        "accepted_map_count": 31,
+        "correct_map_count": 27,
+        "harmful_map_count": 4,
+        "map_to_risk": 0.12903225806451613,
+        "harmful_map_rate_all_scored": 0.03076923076923077,
+        "correct_map_coverage_all_rows": 0.18493150684931506,
+        "target_exact_gold_map_to": 0.5294117647058824,
+        "target_exact_accepted_map_to": 0.8709677419354839
+      }
+    },
+    {
+      "threshold": 1.0,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 129,
+        "abstained_row_count": 17,
+        "accepted_map_count": 30,
+        "correct_map_count": 26,
+        "harmful_map_count": 4,
+        "map_to_risk": 0.13333333333333333,
+        "harmful_map_rate_all_scored": 0.031007751937984496,
+        "correct_map_coverage_all_rows": 0.1780821917808219,
+        "target_exact_gold_map_to": 0.5098039215686274,
+        "target_exact_accepted_map_to": 0.8666666666666667
+      }
+    },
+    {
+      "threshold": 1.01,
+      "metrics": {
+        "row_count": 146,
+        "scored_row_count": 99,
+        "abstained_row_count": 47,
+        "accepted_map_count": 0,
+        "correct_map_count": 0,
+        "harmful_map_count": 0,
+        "map_to_risk": null,
+        "harmful_map_rate_all_scored": 0.0,
+        "correct_map_coverage_all_rows": 0.0,
+        "target_exact_gold_map_to": 0.0,
+        "target_exact_accepted_map_to": null
+      }
+    }
+  ],
+  "decision_rule": "For each held-out pair, select the threshold on all other pairs that maximizes correct-map coverage subject to empirical map_to_risk <= limit and target_exact_gold_map_to >= unfiltered B4 minus 0.02; ties use the higher threshold. Missing confidence forces abstention for map_to.",
+  "nonclaims": [
+    "This is a development risk-coverage probe over 10 pairs, not a confirmatory estimate.",
+    "The Q3 labels are sealed expert-adjudicated development references, not human gold or blind review.",
+    "Confidence gating tests a transparent selective rule; it does not train or justify a student model.",
+    "The salted slice contains only two test pairs and is a sensitivity check."
+  ]
+}

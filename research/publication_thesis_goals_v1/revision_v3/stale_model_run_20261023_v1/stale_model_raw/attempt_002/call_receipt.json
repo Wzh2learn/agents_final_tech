@@ -1,0 +1,33 @@
+{
+  "request_body_sha256": "a4ad9f1f40cc9509ca6103fdfd090be136f71e2eddd31407632e9d5664d1cc87",
+  "response_body_sha256": "d699b137d2afa4946ef58c1943cf2a95b785c7374e1353dfdbbb060c9a129fd9",
+  "response_bytes": 942,
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"state_resolution\": \"STALE_NOT_DETECTED\",\n  \"premise_resistance\": \"NOT_APPLICABLE\",\n  \"action_adaptation\": \"CURRENT_STATE_ALIGNED\",\n  \"answer\": \"Yes, the user identifies as an undergraduate student who has not finished their education yet.\"\n}",
+  "usage": {
+    "completion_tokens": 77,
+    "prompt_tokens": 5966,
+    "total_tokens": 6043,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 4.504301,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 6043,
+  "accounting_tokens_source": "reported_total_tokens",
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parse_errors": [],
+  "parsed": {
+    "decision": "ANSWER",
+    "state_resolution": "STALE_NOT_DETECTED",
+    "premise_resistance": "NOT_APPLICABLE",
+    "action_adaptation": "CURRENT_STATE_ALIGNED",
+    "answer": "Yes, the user identifies as an undergraduate student who has not finished their education yet."
+  }
+}
