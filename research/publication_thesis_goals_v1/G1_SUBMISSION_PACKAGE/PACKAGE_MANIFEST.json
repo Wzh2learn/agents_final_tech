@@ -11,9 +11,9 @@
   "icaart_tex_sha256": "fff38bad4dc66632b3f6b91963a41862dad33f354d4c59a37442f5f66b040d33",
   "scitepress_template_zip_sha256": "5385a752f5da2f970236f21404405a2f5c78856c30abc96e02752f06aac20ab8",
   "private_artifact_candidate": "PAPER_E_PRIVATE_ARTIFACT_CANDIDATE.zip",
-  "private_artifact_candidate_sha256": "a1e9aea5c20e8593e338297081a6388456257b9fcbfa7d5b1a54ffbd5aef7e10",
+  "private_artifact_candidate_sha256": "492166dd5d887a91a14b6c76d6aae5bb03721a31021e337355f79b72acf344a8",
   "private_artifact_reproduction_receipt": "PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/REPRODUCTION_RECEIPT.json",
-  "private_artifact_reproduction_receipt_sha256": "9cf9f2ee5286d4484b3e07affb6db971479c4735aa6d5d5cef799991e33177fc",
+  "private_artifact_reproduction_receipt_sha256": "a73ab3c144882d8cc1c9932452e61443fc5ff03064727e4ab1ac96b4bb4db0ae",
   "checks": {
     "wide_evidence_check": "PASS",
     "pre_submission_audit": "PASS",

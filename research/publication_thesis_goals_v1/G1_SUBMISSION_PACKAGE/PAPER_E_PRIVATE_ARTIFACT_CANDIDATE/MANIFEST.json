@@ -8,14 +8,19 @@
   ],
   "files": [
     {
-      "path": "data/G1_SEED_REANALYSIS.json",
-      "bytes": 81211,
-      "sha256": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d"
+      "path": "__pycache__/reproduce.cpython-39.pyc",
+      "bytes": 6424,
+      "sha256": "ca2f0fa94d96f42b400cd3dfb6dea1fa741ca0a6d1475f70407e7f026fb21567"
     },
     {
       "path": "FINRANK_COMPACT_ROWS.json",
       "bytes": 845,
       "sha256": "d798845dec123a32aa063d8f2da9709b0f9ef33a8bbaba9224bcf2ade7d8307e"
+    },
+    {
+      "path": "inputs/G1_SEED_REANALYSIS.json",
+      "bytes": 81211,
+      "sha256": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d"
     },
     {
       "path": "LICENSES.md",
@@ -29,8 +34,8 @@
     },
     {
       "path": "reproduce.py",
-      "bytes": 5541,
-      "sha256": "c7c62030d87099e78b1c50d5d905daeac39911d731765b3c2548e754540cb080"
+      "bytes": 5543,
+      "sha256": "3bf35ae20f98bbcc7f2d2b3da990d5cfc86c2b80f141da919ed97b9f7368e6bc"
     },
     {
       "path": "REPRODUCE.sh",

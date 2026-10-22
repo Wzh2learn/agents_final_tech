@@ -105,7 +105,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--write-receipt", type=Path)
     args = parser.parse_args()
-    stage_path = ROOT / "data/G1_SEED_REANALYSIS.json"
+    stage_path = ROOT / "inputs/G1_SEED_REANALYSIS.json"
     finrank_path = ROOT / "FINRANK_COMPACT_ROWS.json"
     result = {
         "schema": "paper_e_private_artifact_reproduction_receipt_v1",

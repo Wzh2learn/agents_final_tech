@@ -6,7 +6,7 @@
     "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39"
   },
   "inputs": {
-    "data/G1_SEED_REANALYSIS.json": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d",
+    "inputs/G1_SEED_REANALYSIS.json": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d",
     "FINRANK_COMPACT_ROWS.json": "d798845dec123a32aa063d8f2da9709b0f9ef33a8bbaba9224bcf2ade7d8307e"
   },
   "stage_uid_cluster": {
