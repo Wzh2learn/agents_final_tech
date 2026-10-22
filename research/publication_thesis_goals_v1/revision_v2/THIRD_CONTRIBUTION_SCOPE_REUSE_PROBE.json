@@ -1,0 +1,149 @@
+{
+  "schema": "third_contribution_scope_reuse_probe_v1",
+  "date": "2026-10-22",
+  "question": "When conditions change, when can prior behavioral evidence be reused, and when does a transparent scope fingerprint need to trigger revalidation?",
+  "evidence_identity": "DEV_ONLY_TWO_REGIME_MECHANISM_PROBE_WITH_REAL_MODULE_EXECUTION",
+  "rows": [
+    {
+      "id": "partridge_alias",
+      "kind": "manual_control_real_repository",
+      "reference": "VALID",
+      "fixture_observation": "PASS",
+      "short_observation": "FAIL",
+      "fixture_behavior_wall_clock_seconds": 0.194288,
+      "short_behavior_wall_clock_seconds": 0.183632,
+      "dependency_changed_from_parent": true,
+      "input_regime_changed": true
+    },
+    {
+      "id": "partridge_audit_counterexample",
+      "kind": "audit_counterexample_real_repository",
+      "reference": "INVALID",
+      "fixture_observation": "FAIL",
+      "short_observation": "FAIL",
+      "fixture_behavior_wall_clock_seconds": 0.199602,
+      "short_behavior_wall_clock_seconds": 0.155799,
+      "dependency_changed_from_parent": true,
+      "input_regime_changed": true
+    },
+    {
+      "id": "partridge_gold",
+      "kind": "natural_gold_commit",
+      "reference": "VALID",
+      "fixture_observation": "PASS",
+      "short_observation": "FAIL",
+      "fixture_behavior_wall_clock_seconds": 0.181104,
+      "short_behavior_wall_clock_seconds": 0.150332,
+      "dependency_changed_from_parent": true,
+      "input_regime_changed": true
+    },
+    {
+      "id": "partridge_parent",
+      "kind": "natural_parent_commit",
+      "reference": "INVALID",
+      "fixture_observation": "PASS",
+      "short_observation": "PASS",
+      "fixture_behavior_wall_clock_seconds": 0.176867,
+      "short_behavior_wall_clock_seconds": 0.191681,
+      "dependency_changed_from_parent": false,
+      "input_regime_changed": true
+    },
+    {
+      "id": "partridge_source_fallback",
+      "kind": "manual_control_real_repository",
+      "reference": "INVALID",
+      "fixture_observation": "PASS",
+      "short_observation": "PASS",
+      "fixture_behavior_wall_clock_seconds": 0.206638,
+      "short_behavior_wall_clock_seconds": 0.158772,
+      "dependency_changed_from_parent": true,
+      "input_regime_changed": true
+    }
+  ],
+  "policies": [
+    {
+      "policy": "never_revalidate",
+      "correct": 3,
+      "false_transfer_or_error": 2,
+      "abstain": 0,
+      "unnecessary_revalidation_in_observed_equal_cases": 0,
+      "n": 5,
+      "decisions": {
+        "partridge_alias": "PASS",
+        "partridge_audit_counterexample": "FAIL",
+        "partridge_gold": "PASS",
+        "partridge_parent": "PASS",
+        "partridge_source_fallback": "PASS"
+      }
+    },
+    {
+      "policy": "dependency_change_only",
+      "correct": 5,
+      "false_transfer_or_error": 0,
+      "abstain": 0,
+      "unnecessary_revalidation_in_observed_equal_cases": 2,
+      "n": 5,
+      "decisions": {
+        "partridge_alias": "FAIL",
+        "partridge_audit_counterexample": "FAIL",
+        "partridge_gold": "FAIL",
+        "partridge_parent": "PASS",
+        "partridge_source_fallback": "PASS"
+      }
+    },
+    {
+      "policy": "exact_input_reuse_only",
+      "correct": 0,
+      "false_transfer_or_error": 0,
+      "abstain": 5,
+      "unnecessary_revalidation_in_observed_equal_cases": 0,
+      "n": 5,
+      "decisions": {
+        "partridge_alias": "ABSTAIN",
+        "partridge_audit_counterexample": "ABSTAIN",
+        "partridge_gold": "ABSTAIN",
+        "partridge_parent": "ABSTAIN",
+        "partridge_source_fallback": "ABSTAIN"
+      }
+    },
+    {
+      "policy": "scope_fingerprint_dependency_and_input_regime",
+      "correct": 5,
+      "false_transfer_or_error": 0,
+      "abstain": 0,
+      "unnecessary_revalidation_in_observed_equal_cases": 3,
+      "n": 5,
+      "decisions": {
+        "partridge_alias": "FAIL",
+        "partridge_audit_counterexample": "FAIL",
+        "partridge_gold": "FAIL",
+        "partridge_parent": "PASS",
+        "partridge_source_fallback": "PASS"
+      }
+    },
+    {
+      "policy": "always_revalidate",
+      "correct": 5,
+      "false_transfer_or_error": 0,
+      "abstain": 0,
+      "unnecessary_revalidation_in_observed_equal_cases": 3,
+      "n": 5,
+      "decisions": {
+        "partridge_alias": "FAIL",
+        "partridge_audit_counterexample": "FAIL",
+        "partridge_gold": "FAIL",
+        "partridge_parent": "PASS",
+        "partridge_source_fallback": "PASS"
+      }
+    }
+  ],
+  "qualification": "TRANSPARENT_INVALIDATION_CANDIDATE_CONTINUE_SCOPE_METHOD_PAUSED",
+  "scope_increment_identified": false,
+  "interpretation": "Global evidence reuse can transfer a PASS from real repository fixtures to a short-input regime where the same module no longer matches the parent. Dependency-change invalidation already avoids that false transfer on this probe; the broader input-regime fingerprint adds no identified benefit. The next qualification case must change the input regime while keeping the dependency identity fixed.",
+  "nonclaims": [
+    "This is a two-regime mechanism probe, not a natural distribution estimate.",
+    "The probe does not establish a learned evidence-expiry policy or a third thesis contribution.",
+    "The short-input diagnostics depend on current chardet/cchardet behavior and must be versioned.",
+    "Scope-aware invalidation is paused because the simple dependency-change rule is sufficient on the current cases."
+  ]
+}

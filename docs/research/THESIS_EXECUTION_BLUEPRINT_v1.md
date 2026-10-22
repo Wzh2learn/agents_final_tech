@@ -2,7 +2,7 @@
 
 > 2026-10-22｜`CURRENT_EXECUTION_BASELINE / V2_RESEARCH_AUTHORIZED`
 > 本文件已接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)。2026-10-12 的 `DESIGN_ONLY_NOT_AUTHORIZED`、WP-0 只读和 300 次旧预算均为历史，不再覆盖当前授权；旧实验冻结和旧账本仍不恢复。
-> 依据：[THESIS_RESEARCH_ARCHITECTURE_v3.md](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md)。本文把既定路线转成十二个月执行顺序，不新增研究方向，不授权任何实验、训练、下载、服务访问、改稿或外发。
+> 依据：[THESIS_RESEARCH_ARCHITECTURE_v3.md](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md)。本文接续 V2 授权并记录当前工作流；历史工作包不自动恢复。
 > 2026-10-12 治理更新：[研究治理基线 v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 冻结科学边界与 G-RQ/G-M 推进裁决，优先于蓝图中的未来方法出口；本蓝图只维护工作包、原有首验参数与探索性资源门。更新前全文见 [原始历史快照](history/2026-10-12_pre_governance/README.md)。
 > For agentic workers：后续获准后使用仓库 `skills/executing-plans/SKILL.md` 按工作包推进；确有独立责任时再使用 `subagent-driven-development`，不自动派发全部工作包。
 > Skill 装载：本蓝图使用 writing-plans（工作包和验收）、jinrong-docs-sync（入口一致性）；graph-loop-rules 为红线背景。未来任务按卡片加载，单任务不超过五项技能，不安装或同步技能。
@@ -16,9 +16,10 @@
 | 工作流 | 实际动作 | 当前出口 | 下一步 |
 |---|---|---|---|
 | **G1 Paper E** | 恢复 SCITEPRESS 9pt、修 manifest/披露、组装私有 artifact、GB10 clean reproduction、实际包审计 | **内部包就绪**；11 页、wide evidence 与 package audit PASS | Owner 完成作者/投稿/付款/公开决策；内部只做真实失败触发的修订 |
-| **G2 完成验证** | 修复旧假接受判据；加入缓存未决和调用后丢弃反例；固定 Partridge 父/gold 与两个真实仓库控制 | **有独立新对象证据**：行为-only 会误放行旧依赖回退，静态-only 会误拒 alias | 扩展新真实迁移或收窄为任务范围 verifier；不得把合成控制写成自然错误率 |
-| **G3 决策成本** | 在 GB10 实际执行 preflight、pytest、static、runtime；按短路后的实际动作计成本 | **固定 runtime+行为 4/4 且约 7.26s；复杂自适应必要性未成立** | 增加新任务/成本分布再判断学习型策略；简单规则足够则停止复杂机制 |
-| **G4 论文综合** | 中文章、贡献边界、素材身份和五份现役文件同步 | **可继续写作**；G2/G3 明确为候选 | 将新真实证据写入问题—方法—实验—边界正文 |
+| **G2 完成验证** | v3 actual-module + paired intervention + true tri-state；六对象与一个自然模型候选 | **判据修复，但方法增量未识别；当前机制停止扩展** | 仅当 simple strong baseline 出现真实盲点时换机制 |
+| **G3 决策成本** | 六对象真实 preflight/test/fixture/static/consumption 动作 | **simple baseline 6/6；复杂 planner 暂停** | 只保留成本/风险分析层 |
+| **第三贡献资格** | fixture/短输入证据复用探针 | **dependency invalidation 有作用；scope 增量未识别** | 等待 dependency 不变、input regime 改变的正交案例 |
+| **G4 论文综合** | 中文 Paper E 引用正文、G2/G3/第三点摘要、导师一页稿和素材地图 | **部分完成，持续写作** | 将已停止/暂停边界写入正式章节 |
 
 **统一实验规则：** 正式新数字在 GB10 执行并保存 raw/命令/hash；开发 fixture、真实公开任务、旧证据重分析和模型输出分别标注；单批先小后大，失败/重试/canary/judge/训练均记账。新实验上限由当前 Goal 账本控制，不能把旧 300 次建议恢复为现役 cap。
 

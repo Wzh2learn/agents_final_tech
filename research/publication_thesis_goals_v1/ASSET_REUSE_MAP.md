@@ -1,26 +1,32 @@
 # Research Asset Reuse Map
 
-Date: 2026-10-21
+Date: 2026-10-22
 
-This map records how existing local and GB10 material is used without copying
-the whole historical research tree.
+Status: `CURRENT_REVISION_V2_REUSE_INDEX`
 
-| Material | Reuse | Evidence identity | Missing or boundary | Goal |
-|---|---|---|---|---|
-| `paper/saner_rene_manuscript_v1.md`, claim matrix, scope lock, TeX/PDF | Canonical Paper E revision and thesis audit chapter | Frozen two-case evidence plus dated post-hoc corrections | Injection-seed pooled analysis unit needs recheck | G1/G4 |
-| `research/paper_w2_e16_injector_seeds.py` and GB10 `_w2_e16_section.json` | Deterministic seed sensitivity reanalysis | Existing zero-model injection/evaluation run | Current summary pools repeated table UIDs; raw per-seed flags may need reconstruction | G1 |
-| FinRank v1/v2 audit outputs | Preserve tie sensitivity, identity correction and reproduction gap | Preregistered v1 plus post-hoc v2 correction | Do not upgrade `442/305`, `33/2` to preregistered discovery | G1/G4 |
-| PyMigBench/NtripBrowser raw, JUnit and environment contracts | G2 starting counterexample and control design | Real commit, deterministic local tests and model case probe | BASE lacked a common explicit target requirement; AST presence is not sufficient | G2 |
-| `DEPENDENCY_CONTRACT_AUDIT.json` | Source-level motivation and sampling frame | Zero-model commit/manifest audit | `13/33` is not a population estimate | G2 |
-| VersiCode/CodeUpdateArena results | Cheap development controls for information and error taxonomy | Public synthetic/versioned source | Do not rerun the same prose comparison or claim semantic success | G2/G3 |
-| Adaptive V3 runner and replay | Reuse isolation, paired analysis and budget sweep | DEV_ONLY authored fixtures | Greedy saturation is a boundary, not a positive contribution | G3 |
-| MA-CERD corrections and action outputs | Candidate evidence-selection/revalidation material | Post-hoc corrected interpretation | No dependency graph propagation or independent simulator trace | G3 |
-| Qwen3-4B/8B artifacts and training readiness receipts | Verify a small LoRA/SFT smoke path only if G2/G3 has a learning hypothesis | Artifact validation and dry-run readiness | No training result or Stage D promotion exists | G3 |
-| Protected local/GB10 roots | Recover unique manifests and raw evidence on demand | Recoverable snapshots | Do not turn backups into a second current authority | All |
+This map distinguishes actual use, deterministic reanalysis, natural model
+output, manual control and historical boundary. Listing a path is not evidence
+that it entered a result.
+
+| Material | Evidence identity | Actual use | Current boundary |
+|---|---|---|---|
+| `paper/saner_rene_manuscript_v1.md`, ICAART TeX/PDF, claim matrix | Frozen two-case Paper E evidence plus dated corrections | Full-precision repair, source/PDF sync, target package audit | No third case; submission remains external |
+| `G1_SEED_REANALYSIS.json` | Post-hoc row-level deterministic reanalysis | 219/282, 119 UIDs and clustered intervals reproduced | Not a new model experiment |
+| `inputs/FINRANK_FULL_PRECISION_ROWS.json` | Extract from hashed `APPLICATION_RESULTS.json` | Raw gap and display rounding reproduced | Full historical pipeline not in private artifact |
+| Partridge parent/gold commits | Natural public migration pair | Actual module tests, fixture behavior, static and paired consumption | One repository/mechanism |
+| Source-fallback, alias and audit-counterexample worktrees | Manual real-repository controls | Separated from natural commits in G2/G3 | Not natural error rates |
+| `raw/partridge_model_probe_001/` | One natural Qwen3.6 output | Complete module/setup generation and independent evaluation | One attempt; valid equivalent candidate |
+| `G3_REAL_ACTION_RESULTS_V2_COMPACT.json` | GB10 actual actions and hashes | Strong-baseline comparison and development timing | Full raw remains on GB10; timing is single-observation diagnostic |
+| `THIRD_CONTRIBUTION_SCOPE_REUSE_PROBE.json` | Two-regime deterministic replay | Evidence-reuse qualification | Scope method paused; orthogonal case missing |
+| NtripBrowser, VersiCode, CodeUpdateArena, Adaptive V3, MA-CERD | Historical development/boundary evidence | Motivation and prior controls only | Not new confirmation in this revision |
+| Qwen3-4B/8B artifacts and training receipts | Historical readiness evidence | Not used | No training claim or learning target established |
 
 ## Current Authority
 
-- Local and GB10 main are aligned at `0b5798fe7ed32159b3f125b4433f8ee98ed97042`.
-- The current work tree for this Goal is `D:/AIRcommend/JinRongAgents/agents_final_tech`.
-- New experiments and paper-number-producing calculations run on GB10.
-- This directory is the single current package for the four Goals.
+- Local and GB10 must match the final verified commit recorded in
+  `memory/STATE.md` after this revision is pushed.
+- New formal calculations and model outputs execute on GB10.
+- `revision_v2/SPRINT_RETURN.md` is the current Goal return; older returns remain
+  historical.
+- Raw model requests/responses remain in `revision_v2/raw/`; no public release
+  is authorized.

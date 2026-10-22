@@ -8,12 +8,13 @@ Updated: 2026-10-22
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `V2_SPRINT_EVIDENCE_EXIT_REACHED` | [V2 回执](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)已给出 Paper E/G2/G3/G4 证据出口；下一 Goal 需决定是否扩展独立迁移 families 或转项 |
-| MIGRATION-ORACLE-DESIGN | `G2_CONTINUE_NARROWED_CANDIDATE` | Partridge 父/gold/旧依赖回退/alias 均通过42/42；结果消费+行为当前4/4。下一关键是另一独立迁移 family，不能把两任务写成通用 verifier |
-| REVALIDATION-POLICY-DESIGN | `G3_SIMPLE_RULE_SUFFICIENT_COMPLEX_STOP` | 四对象真实 wall-clock 中 runtime+行为4/4、约7.26秒，behavior-only误放行2、static-only误拒1；不继续复杂 planner，除非新 family 产生互补空间 |
+| NEXT-RESEARCH-GOAL | `V2_PARTIAL_COMPLETE` | [V2 回执](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)明确 G1 就绪、G2 停止、G3 暂停、第三贡献待正交资格；不把局部结果写成四 Goal 全部完成 |
+| MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
+| REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
+| THIRD-CONTRIBUTION-SCOPE | `TRANSPARENT_INVALIDATION_CONTINUE_SCOPE_PAUSED` | 全局证据复用2/5误迁移；dependency-change invalidation 5/5，scope 无增量。需 dependency 不变、input regime 改变的正交案例 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `INTERNAL_PACKAGE_READY_OWNER_EXTERNAL_ACTIONS` | 9pt、11页、目标包审计、artifact clean reproduction 均通过；只待 Owner 身份、投稿、付款、展示和公开许可 |
-| THESIS-DOC-CONTINUITY | `G4_FIVE_CURRENT_FILES_UPDATED` | 架构、蓝图、治理基线、资产地图、稿件骨架已接 V2 问题、权限和贡献边界；后续只随真实结果增量更新 |
+| THESIS-DOC-CONTINUITY | `G4_PARTIAL_COMPLETE_CONTINUING` | 中文 Paper E 引用正文、导师一页稿、素材地图和现役骨架已更新；正式章节整合仍继续 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。新阶段范围见四项 Goals |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |

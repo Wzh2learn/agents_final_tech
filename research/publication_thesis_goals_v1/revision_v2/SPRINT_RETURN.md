@@ -1,81 +1,102 @@
-# Publication And Thesis Goals V2 Sprint Return
+# Loop D V2 Continuation Return
 
 Date: 2026-10-22, Asia/Shanghai
 
-Status: `SPRINT_EVIDENCE_EXIT_REACHED`
+Status: `PARTIAL_COMPLETE_G1_READY_G2_STOPPED_G3_PAUSED_G4_CONTINUING`
 
-## Scientific Decisions
+## 1. Paper E
 
-1. **Paper E: CONTINUE_TO_SUBMISSION_PREPARATION.** The two-case measurement
-   audit remains a coherent independent contribution after the statistical
-   correction. The ICAART source is now format-compliant, the actual package
-   audit passes, and a private artifact reproduces the key deterministic
-   surfaces. Submission and public release remain Owner actions.
-2. **G2: CONTINUE_NARROWED_CANDIDATE.** A new real Partridge migration shows
-   behavior-only false acceptance and literal-static false rejection. Target
-   result consumption plus behavior is a plausible task-scoped method. It is
-   not yet a general verifier contribution.
-3. **G3: STOP_COMPLEX_POLICY_FOR_NOW.** On four real repository objects, a
-   fixed runtime-consumption plus behavior rule is sufficient and cheaper than
-   behavior-only/full sequences. No evidence currently justifies a learned or
-   complex adaptive selector.
-4. **G4: CURRENT_DOCUMENTS_CONNECTED.** Five current architecture/execution/
-   governance/asset/scaffold files now point to the same question and clearly
-   separate established Paper E evidence from G2/G3 candidates.
+`READY_FOR_OWNER_SUBMISSION_DECISION`
 
-## Paper E Changes
+- The full-precision FinRank source is restored: raw strict gap
+  `13.820514366083984` reports as `13.821`; gap movement remains `0.359`.
+- The manuscript explicitly explains why subtracting independently rounded
+  display cells yields `13.820`.
+- Data Availability now matches the actual private artifact.
+- The inner manifest validates every included file and rejects extras.
+- The 11-page PDF, target package audit and GB10 clean reproduction pass.
+- The remaining actions are author identity, route/payment, public artifact and
+  presentation/recognition decisions.
 
-- Restored official 9pt tables and references; removed reference line-spacing
-  compression and standardized captions/Acknowledgments.
-- Reduced the compiled review paper to 11 A4 pages without shrinking fonts.
-- Removed visible hyperlink borders and fixed the overfull table.
-- Corrected the deterministic FinRank strict-win gap from 13.821 to 13.820 and
-  its movement from 0.358 to 0.359 in the canonical/current materials.
-- Reworked AI disclosure to distinguish writing assistance, system/judge
-  outputs, deterministic analysis scripts and human references.
-- Fixed package relative paths and added a target-specific pre-submission audit.
-- Prepared a private anonymous artifact candidate and obtained a clean GB10
-  Python 3.12.3 reproduction receipt.
+Paper E remains a bounded two-case measurement audit. No third case or new
+experiment was added.
 
-## New Evidence
+## 2. G2 Migration Completion
 
-- Natural parent and gold Partridge commits each pass 42/42 tests.
-- A target-call/source-fallback invalid variant also passes 42/42.
-- A valid alias variant passes 42/42 but is rejected by literal static syntax.
-- Behavior-only costs 13.71 seconds and makes two false accepts.
-- Runtime consumption plus behavior costs 7.26 seconds and classifies 4/4.
+`METHOD_INCREMENT_NOT_IDENTIFIED_STOP_CURRENT_MECHANISM`
 
-Evidence identities are kept separate: natural commits, real-repository
-synthetic controls, deterministic reanalysis, infrastructure failures and
-private artifact reproduction. No result is described as human gold or blind
-review.
+The actual-module binding and paired causal consumption criterion are repaired:
 
-## Resources
+- the verifier executes the complete worktree module and binds module/manifest
+  hashes;
+- same-input paired target-result interventions reject the audit counterexample;
+- cache/no-call cases return `UNRESOLVED`;
+- reference labels and predictions are separate.
 
-- New experiment/model attempts: 0.
-- Physical model HTTP calls and accounting tokens: 0.
-- Judge calls, training runs and production Memory writes: 0.
-- Paid API spend: 0.
-- GB10 created one protected public-source clone, an isolated Python 3.11
-  environment and four tested worktrees.
-- Failure records are retained for the stalled Tectonic download, relative
-  paths, venv symlink resolution and one incomplete patch application.
-- Targeted secret scans for the new V2 code, ICAART source and private artifact
-  are clean. The repository-wide scanner reports five historical `[shape]`
-  false positives: one `question_missing` diagnostic key and four numeric
-  FinQA `token` fields. Frozen result files were not renamed to silence them.
+Six actual objects were compared: natural parent, natural migration commit,
+source-fallback and alias controls, the audit counterexample and one natural
+model output. Alias-aware static + repository tests, alias-aware static +
+independent behavior, and paired consumption + behavior are all `6/6`.
 
-## Owner Items
+Therefore the consumption method has no identified increment on this panel.
+The old method expansion is stopped. The natural Qwen3.6 candidate is valid and
+adds no new error mechanism.
 
-Only the following require Owner action: author order/affiliation/contacts,
-patent status, AI disclosure approval, artifact/DOI public release, registration
-or travel, actual submission/copyright/payment, and school recognition.
+## 3. G3 Validation Decision
 
-## Next Most Valuable Work
+`COMPLEX_PLANNER_PAUSED`
 
-Run the same preregistered G2 verifier on one or two additional independent
-migration families with real tests and independent `VALID/INVALID/UNRESOLVED`
-references. The decision is whether target-result consumption continues to
-reduce both false acceptance and false rejection relative to stronger behavior
-and simpler static rules. If not, stop the method candidate and retain the
-measurement-boundary finding.
+- The earlier 62/99 planning result remains a historical simulation.
+- The new actual action probe records module hashes, environment fingerprint,
+  repository tests, independent behavior, static and causal channels.
+- Simple short-circuit rules classify all six objects.
+- One-run timings cannot identify a stable cost winner and are reported only as
+  development diagnostics.
+
+No learned or complex adaptive planner is active.
+
+## 4. Third Contribution Qualification
+
+`TRANSPARENT_INVALIDATION_CONTINUE / SCOPE_METHOD_PAUSED`
+
+A two-regime evidence-reuse probe found that globally reusing fixture behavior
+creates `2/5` false transfers when the input regime changes. Dependency-change
+invalidation is `5/5`; adding an input-regime scope fingerprint has no
+identified increment and creates one more unnecessary revalidation.
+
+The next qualifying case must change the input regime while dependency identity
+stays fixed. Until then, the defensible third-contribution seed is a transparent
+evidence-invalidation boundary, not a learned scope method.
+
+## 5. G4 Thesis Integration
+
+`PARTIAL_COMPLETE_CONTINUING`
+
+- Paper E Chinese prose and full-precision values are synchronized.
+- Current architecture, governance and research-entry files distinguish
+  established evidence from stopped/paused candidates.
+- The advisor one-page and asset map are updated to the new judgments.
+- G2/G3/third-contribution prose is present as bounded research material, not
+  promoted thesis contributions.
+
+## 6. Resources
+
+- New model attempts: `1`.
+- Physical HTTP calls: `1`.
+- Accounting tokens: `1,849`.
+- Retries, judge calls, training runs and production Memory writes: `0`.
+- Paid API spend: `0`.
+- Model: `Qwen3.6-35B-A3B-Q4_K_M.gguf` on GB10.
+- Raw request, response, candidate and receipt:
+  `raw/partridge_model_probe_001/`.
+
+## 7. Unfinished Items
+
+- Owner submission and public-release actions.
+- An orthogonal evidence-reuse case with dependency identity fixed.
+- A new G2 migration mechanism only if a strong simple baseline first shows a
+  concrete blind spot.
+- Formal Chinese thesis chapter integration beyond the current bounded prose.
+
+These are explicit partial items; they do not invalidate the completed Paper E
+technical package or the G2/G3 stop decisions.

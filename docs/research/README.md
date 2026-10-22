@@ -6,7 +6,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-22
 
 ## 当前任务与证据
 
-四项 Goals v2 已推进到研究冲刺证据出口。[Owner 独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)的 G1-G4 阻断已分别修复或形成有界判断：Paper E 实际包内部就绪；G2/G3 取得新真实 Partridge 证据；G4 五份现役文件衔接。当前结论与成本见 [V2 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
+V2 复核后的当前状态是部分完成：Paper E 全精度修补后形成可投包；G2 的 actual-module/配对因果/三态判据已修复，但 simple strong baseline 无增量差异，当前机制停止扩展；G3 复杂 planner 暂停；第三贡献只保留透明证据失效候选。当前结论与成本见 [V2 SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
 
 | 用途 | 权威记录 |
 |---|---|
@@ -25,14 +25,15 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-22
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| 发表/学位阶段 | Paper E `INTERNAL_PACKAGE_READY`；G2 `CONTINUE_NARROWED_CANDIDATE`；G3 `SIMPLE_RULE_SUFFICIENT / COMPLEX_STOP`。见 [V2 回执](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md) |
+| 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_DECISION`；G2 `STOP_CURRENT_MECHANISM`；G3 `COMPLEX_PLANNER_PAUSED`；第三贡献 `TRANSPARENT_INVALIDATION_CONTINUE / SCOPE_PAUSED`。见 [V2 回执](../../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md) |
 | Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json) |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
 | Adaptive V3 | 当前 authored fixtures 上简单 greedy 已足够，two-step 无正向配对收益；[实现报告](../../research/research_portfolio_v2/ADAPTIVE_V3_IMPLEMENTATION_REPORT.md)。RPC capability 边界不等于操作系统沙箱 |
 | CodeUpdateArena | 修正执行器后的开发集与新 families 都是有界负结果；[V2 报告](../../research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_REPORT_V2.md)与[新 families 确认](../../research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_REPORT.md)。不重复同一 prose-update 臂；合成变化不等于真实自然漂移 |
 | VersiCode | 八个 name-change families 只支持语法/API 名称可观测性结论；[独立复核](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md)。不证明行为正确或 prose/structured 孰优 |
-| PyMigBench/真实迁移 | NtripBrowser 与新 Partridge commit 均显示行为测试边界；Partridge parent/gold/旧依赖回退/alias 均通过42/42。见 [G2 V2](../../research/publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md) 与 [G3 V2](../../research/publication_thesis_goals_v1/revision_v2/G3_V2_REPORT.md) |
+| PyMigBench/真实迁移 | NtripBrowser 与 Partridge 显示行为/合同边界；v3 actual-module 与 paired intervention 已拒绝审计反例，但 alias-aware static + tests/behavior 同样 6/6。一个自然 Qwen 候选为等价正确实现。见 [G2 V2](../../research/publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md) 与 [G3 V2](../../research/publication_thesis_goals_v1/revision_v2/G3_V2_REPORT.md) |
+| 第三贡献资格 | fixture/短输入两范围显示全局证据复用 2/5 误迁移；dependency-change invalidation 已 5/5，scope fingerprint 无增量。见 [资格报告](../../research/publication_thesis_goals_v1/revision_v2/THIRD_CONTRIBUTION_SCOPE_REUSE.md) |
 
 NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。行为与结构合同需要分别观察；现有证据不证明 hybrid oracle 普遍充分，也不支持比较两种信息表示的优劣。新迁移案例尚未纳入 Paper E 的两案例主张。
 
@@ -43,7 +44,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2 复用。G2/G3 的最终创新点仍需新任务 family 独立验证；Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2 复用。G2 当前机制停止扩展；G3 只保留分析层；第三贡献等待 dependency 不变、input regime 改变的正交案例。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

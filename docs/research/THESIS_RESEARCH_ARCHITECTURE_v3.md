@@ -3,7 +3,7 @@
 > 2026-10-22｜`CURRENT_RESEARCH_ARCHITECTURE / V2_GOALS_ACTIVE`
 > 本版接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md) 和 [Owner 独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)。旧经验学习架构保留在下文作为历史边界，不再控制现役权限、题目或贡献排序。
 > 2026-10-12 治理更新：科学边界与推进裁决以 [研究治理基线 v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 为准；本文件维护研究范围，[执行蓝图 v1](THESIS_EXECUTION_BLUEPRINT_v1.md) 维护工作包、首验参数与探索性资源门，不另建平行排期。更新前原始版本见 [历史快照](history/2026-10-12_pre_governance/README.md)。
-> 标记：**[E]** 项目现有证据；**[H]** 待验证假设；**[P]** 规划选择；**[X]** 博士延展。本文没有新增实验结果。
+> 标记：**[E]** 项目现有证据；**[H]** 待验证假设；**[P]** 规划选择；**[X]** 博士延展。本文件汇总现役证据，不替代 raw、账本或实验回执。
 
 ## 0. 2026-10-22 现役架构与贡献边界
 
@@ -12,8 +12,9 @@
 | 候选贡献 | 现有证据 | 当前判断 | 不得外推 |
 |---|---|---|---|
 | **G1 测量审计** | Paper E 两案例、UID 聚类修正、FinRank 合同敏感性与复现缺口 | **可作为独立受限论文继续投稿准备** | 通用 Agent 评测理论、经验学习有效、两个 benchmark 普遍失败 |
-| **G2 变化任务完成验证** | NtripBrowser 旧反例；Partridge 独立真实迁移；父/gold 均通过 42/42 行为测试 | **候选方法线继续**：目标结果消费证据可补行为测试盲区 | 已证通用 verifier、行为加结构即新颖、自然错误率 |
-| **G3 验证决策与真实成本** | 四个 Partridge 真实仓库对象、真实 pytest 与动作 wall-clock | **候选问题线**：固定 runtime 消费 + 行为短路已优于单一强基线；复杂自适应必要性尚未成立 | 学习型 planner 有效、成本结论可跨任务泛化 |
+| **G2 变化任务完成验证** | 实际模块绑定、配对因果干预、六个对象、一个自然模型候选 | **当前机制停止扩展**：判据已修复，但 simple strong baseline 与消费方法均 6/6 | 已证通用 verifier、消费方法独特增量、自然错误率 |
+| **G3 验证决策与真实成本** | 六个 Partridge 对象、真实 pytest/fixture/static/consumption 动作 | **复杂 planner 暂停**：透明短路规则足够，单次计时不能排成本 | 学习型 planner 有效、稳定成本优势 |
+| **第三贡献：证据失效与复用** | 真实 fixture/短输入两范围探针 | **透明失效候选继续；scope 方法暂停** | 学习型 evidence expiry、第三贡献已成立 |
 | **G4 学位综合** | 中文测量审计章、导师一页稿、现役五文件衔接 | **持续写作与证据组织** | 未成立方法写成学位创新点 |
 
 Paper E、G2、G3 是三条证据线，分别裁决。B0 面板天花板、旧 U/E 停止和 TQ 结果不否定 Paper E，也不证明历史经验无效。AI 分析不得登记为人工 gold、盲审或财务专业认证。
