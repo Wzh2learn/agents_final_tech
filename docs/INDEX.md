@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-21 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-22 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -10,7 +10,8 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
-| 新一轮 Loop D Goals | [发表与学硕论文四项 Goals](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)；复用本机/GB10 素材，Paper E 尽快发表，约 2027 年 4 月送审前完成认定倒排 |
+| 新一轮 Loop D Goals | [四项 Goals v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；修正验收、推进真实研究冲刺与投稿；[上一版任务来源](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留历史 |
+| 四项 Goals 独立审计 | [Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；统计修复成立，最终投稿包、消费验证、真实成本与现役文档仍需推进 |
 | 本轮工作区与 Git 治理 | [治理报告](governance/2026-10-21_workspace_git_closeout.md)；记录资产分类、分支与跨主机最终核验，当前状态仍由 STATE 维护 |
 | 最新科研回执与记账 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)、[当前聚合账本](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；已执行 Goal 的成本快照与 post-hoc 更正分开保留，新阶段按四项 Goals 单独记账 |
 | 10月21日复核与已执行 Goal 来源 | [`进展复核`](../research/research_review_20261021_v1/REVIEW_AND_PHASED_GOAL_DRAFT.md)、[`前瞻研究与资格检查`](../research/prospective_research_20261021_v1/RESEARCH_BRIEF.md)、[`完整 Loop D Prompt`](../research/prospective_research_20261021_v1/LOOP_D_PROMPT.md)；保留设计来源，现役路由见科研入口 |

@@ -1,17 +1,17 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-21
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-22
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据
 
-Portfolio V2 的有界探索及工作区治理已收口。Owner 已确认：Paper E 尽快正规发表，学硕论文按约 2027 年 4 月送审前完成成果认定倒排，合理复用 GB10 与本机素材，并允许新研究中的推理、工具、研究 Memory 和小规模 LoRA/SFT。完整执行方向见[四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)，供 Owner 转发 Loop D；本次文档交接尚未运行新实验或投稿。
+Portfolio V2 的有界探索及工作区治理已收口。四项 Goals 首轮已形成可审阅材料；[独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)确认 Paper E 统计修复成立，同时指出最终投稿包、G2 判据、G3 真实成本及现役文档衔接问题。Owner 要求据此继续，现役执行契约为[四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：Paper E 尽快发表，G2/G3 推进真实研究，按约 2027 年 4 月学硕送审倒排。推理、工具、研究 Memory 与小规模 LoRA/SFT 的既有授权继续；本次修订本身未执行新实验或投稿。
 
 | 用途 | 权威记录 |
 |---|---|
-| 新一轮发表与学位研究方向 | [Loop D 四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)：G1 Paper E 发表；G2 正确性验证；G3 验证决策/适应；G4 学硕写作与认定倒排 |
-| 当前可审阅回执 | [publication_thesis_goals_v1/GOAL_RETURN.md](../../research/publication_thesis_goals_v1/GOAL_RETURN.md) |
+| 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
+| 首轮回执与后续审计 | [首轮 GOAL_RETURN](../../research/publication_thesis_goals_v1/GOAL_RETURN.md)、[Owner 独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；旧回执的就绪判断以审计和后续证据衔接 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 最新科研回执 | [Portfolio V2 GOAL_RETURN](../../research/research_portfolio_v2/GOAL_RETURN.md)；其中成本为当时快照 |
 | 当前聚合记账 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -51,10 +51,10 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [claim/evidence matrix](../../paper/saner_rene_claim_matrix_v1.json)与[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)
 - [整合独立复核](../../research/research_portfolio_v2/PAPER_E_INDEPENDENT_REVIEW.md)与[投稿门禁](PAPER_E_SUBMISSION_READINESS_GATE_v1.md)
 
-当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。源绑定更正已收口；新增 pooled CI 分析单位复核与渠道适配列入 G1。SANER RENE 摘要未注册，改选发表渠道；作者最终确认、artifact 公开、正式投稿和费用尚有外部事项。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
+当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。源绑定更正和 UID 聚类统计已复核；G1 接续实际 ICAART 字号修复、最终包验收和私有 artifact 复现。SANER RENE 摘要未注册；当前渠道及外部事项见 THREADS，内部修复不等待正式投稿授权。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
 
 ## 学位范围与历史
 
-- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)保留历史依据；新阶段的执行与训练授权按[四项 Goals](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)衔接。旧数据 NO_GO、已停止面板及冻结证据不随新授权解除；现役架构和旧稿件骨架的统一更新属于 G4。
+- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)保留历史依据；新阶段的执行与训练授权按[四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)衔接。旧数据 NO_GO、已停止面板及冻结证据不随新授权解除；五份旧现役文件的统一更新为 G4 本次明确验收项。
 - [旧 THREADS 全文快照](../../memory/archive/THREADS_2026-10-21_pre_workspace_governance.md)保存历史原文；现役未决事项只在 [THREADS](../../memory/THREADS.md) 维护。
 - Raw、failed/partial 响应、冻结结果、独立审查与历史账本保留来源身份。AI 语义评审不是人工 Gold、盲审或导师签字。

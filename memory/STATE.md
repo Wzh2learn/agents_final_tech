@@ -1,16 +1,16 @@
 # Current State
 
-> Updated: 2026-10-21 | Scope: publication/thesis planning after verified workspace governance
-> Governance verification: `VERIFIED`；三端 main 对齐、两端主工作区 clean，备份与验收范围见治理报告。
+> Updated: 2026-10-22 | Scope: four-goal continuation after owner audit
+> 上一轮治理核验：`VERIFIED`；备份、三端对齐与工作区核验范围见治理报告，不替代本轮科研方法或投稿包验收。
 
 ## 当前任务
 
-Portfolio V2 和工作区治理已收口。Owner 已确认 Paper E 尽快正规发表、学硕三个研究贡献及约 2027 年 4 月送审前认定倒排，并授权新研究中的推理、工具、研究 Memory 和小规模训练。已整理[Loop D 四项 Goals](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)，由 Owner 转发执行；优先复用两端素材。本次规划交接新增模型请求、训练、投稿均为零。
+四项 Goals 首轮产物经 Owner 独立审计后，按[四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)继续：优先完成 Paper E 真实可提交包，修正 G2 判据、让 G3 接入真实动作和成本，补齐 G4 五份现役文件。Owner 允许自主调整范围内的任务、方法、模型和小规模训练；投稿等待仅暂停相应外部动作。本次为执行契约与导航修订，尚未执行 v2 实验、改稿或投稿。
 
 | 用途 | 当前权威入口 |
 |---|---|
-| 新阶段方向与授权衔接 | [发表与学硕论文四项 Goals](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)；G2/G3 尚为待实证的创新候选 |
-| 本轮可审阅总回执 | [publication_thesis_goals_v1/GOAL_RETURN.md](../research/publication_thesis_goals_v1/GOAL_RETURN.md) |
+| 新阶段方向与授权衔接 | [四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；以有限真实研究冲刺验收，G2/G3 尚为候选 |
+| 首轮回执与审计 | [GOAL_RETURN.md](../research/publication_thesis_goals_v1/GOAL_RETURN.md)、[Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；旧就绪判断须按后续证据衔接 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
 | 最新科研回执 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)；成本为当时快照 |
@@ -19,8 +19,9 @@ Portfolio V2 和工作区治理已收口。Owner 已确认 Paper E 尽快正规�
 
 ## 科学边界
 
-- 发表/学位阶段：Paper E 为 `CONDITIONAL_GO_FOR_ICAART`，已关闭独立评审的 FinQA 单位、包元数据和中文显著性措辞问题。G2 目标结果消费验证、G3 风险触发选择性重验证均为候选方法线，不是已成立创新。
-- Paper E：`NARROW_AND_CONTINUE`，唯一主稿为 [saner_rene_manuscript_v1.md](../paper/saner_rene_manuscript_v1.md)，维持两案例测量审计；SANER 摘要未注册，改选渠道并复核 pooled CI 的分析单位；投稿外部事项尚未完成。
+- Paper E：`NARROW_AND_CONTINUE / FINAL_PACKAGE_REPAIR_PENDING`。UID 聚类统计与 FinQA 89行/30报告单位已复得；实际 ICAART 字号、最终包验收和私有 artifact 仍需推进，见 THREADS。唯一主稿为 [saner_rene_manuscript_v1.md](../paper/saner_rene_manuscript_v1.md)，维持两案例，不等 G2/G3 支持首投。
+- G2：`VERIFIER_COUNTEREXAMPLE_REPRODUCED / INCREMENT_UNCONFIRMED`。丢弃目标返回值仍被旧判据接受；现十例 enhanced behavior 同样10/10，旧“消费证据”主张须修正。
+- G3：`SIMULATION_ONLY / REAL_HEADROOM_UNMEASURED`。62/99为手设成本下的模拟；需真实动作、可观察信号和公平强对照。G2/G3均未成立学位创新。
 - FinRank：`STOP_ON_CURRENT_PANEL`，不重开 H/K；当前负结果不否定经验复用的一般可能性。
 - MA-CERD：资源 membership 基线不等于依赖边传播；selective escalation 未验证，完整动作集合 exact match 与动作可接受性须区分，见[更正](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md)。
 - Adaptive V3：当前 authored fixtures 上 greedy 已足够，two-step 无正向配对收益；RPC capability 边界不等于操作系统沙箱。

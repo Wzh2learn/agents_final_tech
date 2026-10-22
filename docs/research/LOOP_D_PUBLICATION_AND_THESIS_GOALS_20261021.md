@@ -1,6 +1,8 @@
 # Loop D：Paper E 发表与学硕论文四项 Goals
 
-状态：`OWNER_CONFIRMED_DIRECTION / READY_FOR_HANDOFF`
+状态：`SUPERSEDED_EXECUTION_CONTRACT / HISTORICAL_SOURCE_RETAINED`
+
+2026-10-22 衔接：现役执行要求见[四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)。以下保留上一轮任务原文；其首轮可审阅出口不再作为当前冲刺的结束条件，科学事实与旧执行记录不回改。
 
 制定日期：2026-10-21（Asia/Shanghai）
 

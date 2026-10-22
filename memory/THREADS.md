@@ -8,11 +8,12 @@ Updated: 2026-10-22
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `REVIEWABLE_STAGE_COMPLETE` | 四项 Goals 已形成可审阅结果、独立评审及总回执；见[GOAL_RETURN](../research/publication_thesis_goals_v1/GOAL_RETURN.md)。下一步是一个或多个带完整环境合同的新真实迁移 family |
-| MIGRATION-ORACLE-DESIGN | `G2_CANDIDATE_METHOD_UNCONFIRMED` | G2 在10个自然/合成控制上得到 behavior `6/10`、static `8/10`、runtime-consumption/hybrid `10/10`；支持目标结果消费候选，不支持通用语义等价或已成立创新 |
-| REVALIDATION-POLICY-DESIGN | `G3_CANDIDATE_METHOD_UNCONFIRMED` | G3 在11个受控状态上得到 risk-greedy 与 full-revalidation 同决策、规划成本 `62` 对 `99`；需至少8个未见真实 families 与实测成本后才能升级 |
+| NEXT-RESEARCH-GOAL | `V2_CONTINUATION_CONTRACT_READY` | [四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)接续有限真实研究冲刺；首轮可审阅不等于冲刺/总 Goal 完成。原回执保留，[Owner 审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)记录继续依据 |
+| MIGRATION-ORACLE-DESIGN | `G2_VERIFIER_REPAIR_AND_REAL_TASK_PENDING` | GB10已复现“丢弃目标返回值仍被接受”；旧十例enhanced behavior同样10/10。需修判据、补强基线与独立新真实对象，旧结果保留开发身份 |
+| REVALIDATION-POLICY-DESIGN | `G3_SIMULATION_ONLY_REAL_HEADROOM_PENDING` | 11状态和62/99为手写观测/成本模拟；需接真实动作、信号取证与实测成本，修正静态对照和full短路。八个families不再解释为继续研究硬门 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `CONDITIONAL_GO_FOR_ICAART_EXTERNAL_ACTIONS_PENDING` | ICAART/SCITEPRESS 12页审阅包已完成；独立评审阻断已关闭。Owner 仍需确认署名/单位、AI 披露、artifact、会议展示、费用和正式投稿 |
+| PAPER-E-SUBMISSION | `FINAL_PACKAGE_REPAIR_AND_EXTERNAL_ACTIONS_PENDING` | 实际ICAART包需修7pt表格/参考文献、目标包验收错位及私有artifact复现；旧PASS检查10页Overleaf包。Owner身份、正式投稿/费用/展示与公开许可不阻塞内部修复 |
+| THESIS-DOC-CONTINUITY | `G4_FIVE_CURRENT_FILES_PENDING` | 架构、蓝图、治理基线、资产地图、稿件骨架未与最新授权/方向衔接；按G4更新现役说明或明确历史身份，保留旧数据和停止事实 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。新阶段范围见四项 Goals |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |
 
