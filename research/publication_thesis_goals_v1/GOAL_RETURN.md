@@ -4,6 +4,11 @@ Date: 2026-10-22, Asia/Shanghai
 
 Status: `COMPLETED_REVIEWABLE_STAGE_WITH_CONDITIONAL_CONTINUE`
 
+> V2 continuation note: current status and later evidence are in
+> [`revision_v2/SPRINT_RETURN.md`](revision_v2/SPRINT_RETURN.md). This file is
+> preserved as the earlier reviewable-stage return and does not overwrite its
+> historical rulings.
+
 ## Independent Rulings
 
 ### Paper E

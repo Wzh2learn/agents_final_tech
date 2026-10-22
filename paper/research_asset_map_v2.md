@@ -1,6 +1,24 @@
-# 三阶段科研资产地图 v2
+# 三阶段科研资产地图 v2：发表、验证方法与学位综合现役索引
 
-> 状态：当前索引 | 更新：2026-10-05 | 范围：论文相关仓内资产与已知仓外证据
+> 状态：`CURRENT_ASSET_INDEX` | 更新：2026-10-22 | 范围：Paper E、G2/G3 候选方法线、G4 学位综合
+
+## 0. V2 现役素材身份与实际使用
+
+本表严格区分 **实际读入/重分析、真实执行、计划使用、仅历史边界**。列名不等于已复用。
+
+| 素材 | 证据身份 | 本轮实际操作 | 当前用途/边界 |
+|---|---|---|---|
+| `paper/saner_rene_manuscript_v1.md`、`paper/icaart_2027_submission_v1/` | 唯一现役 Paper E 主稿与目标投稿源 | 读入、修订、编译、渲染、claim/citation 核对 | G1 可提交主稿；两案例范围不变 |
+| `research/publication_thesis_goals_v1/G1_SEED_REANALYSIS.json` | 旧冻结结果的 post-hoc 行级重分析 | 重新计算 219/282、119 UID、cluster/UID-equal 区间 | 只支持统计单位修正，不追认预注册 |
+| `paper/saner_rene_claim_matrix_v1.json` | 主张—证据绑定 | 核对并修正 FinRank strict gap 算术 | 当前 claims 必须与主稿/图表一致 |
+| `research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/` | 一个真实 commit + 三个自然模型输出 | 读取候选代码与旧行为日志；进入 G2 v2 对照 | 单任务案例，不估计自然错误率 |
+| Partridge commit `09e89d9...` 及 parent `daefcbe...` | 新独立真实公开迁移，MIT | GB10 固定源、测试环境、父/gold 42/42、真实控制变体 | G2/G3 新证据；两个 revision 不是总体样本 |
+| `research/publication_thesis_goals_v1/revision_v2/` | 本轮 verifier、真实动作 probe、raw results 与失败记录 | GB10 执行；保留路径/venv/patch 失败 | G2/G3 候选方法与成本证据 |
+| `research/publication_thesis_goals_v1/G4_MEASUREMENT_AUDIT_CHAPTER_CN.md` | 中文正文草稿 | 同步统计修正、候选方法边界 | G4 实际写作文本，不是完成学位稿 |
+| Adaptive V3、MA-CERD、VersiCode、旧 FinRank 面板 | 历史/边界材料 | 仅核对现役解释和来源，不运行、不改 raw | 不作为 G2/G3 新确认结果 |
+| Memory、SFT/LoRA、检索或经验学习资产 | 计划或历史设计 | 本轮未形成训练或学习效果结论 | 只有新任务资格、强基线和独立验证成立后才进入贡献 |
+
+以下 Stage E/D/R 章节保留 2026-10-05 之前的项目资产账本与历史停止条件，不覆盖上表现役身份。`DATA_NO_GO`、`PILOT_ONLY`、`READY_FOR_INDEPENDENT_ACCEPTANCE` 等旧状态不能由本轮材料存在自动解除。
 
 ## 1. 账本职责与阅读顺序
 
