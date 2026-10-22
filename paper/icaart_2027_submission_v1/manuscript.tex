@@ -198,7 +198,7 @@ The compact FinRank result separates score sensitivity from decision stability. 
 Model & Tie policy & Hard & Random & Gap \\
 \hline
 TF-IDF & ties-positive & 77.756 & 91.935 & 14.179 \\
-TF-IDF & strict-win & 77.030 & 90.850 & 13.820 \\
+TF-IDF & strict-win & 77.030 & 90.850 & 13.821 \\
 TF-IDF & half-credit & 77.393 & 91.393 & 14.000 \\
 BM25 & ties-positive & 74.780 & 87.789 & 13.009 \\
 BM25 & strict-win & 74.094 & 86.760 & 12.666 \\
@@ -207,6 +207,7 @@ BM25 & half-credit & 74.437 & 87.275 & 12.838 \\
 \end{tabular}
 \end{table}
 Exact ties occur in both deterministic score matrices. TF-IDF has 91 hard-pair and 135 random-pair ties; BM25 has 83 and 125. Changing ties-positive to strict-win moves random-negative accuracy by 1.084 points for TF-IDF and 1.029 for BM25, crossing the preregistered 1.0-point materiality threshold. This is score sensitivity. By contrast, the hard-versus-random gap moves by only 0.359 and 0.343 points and retains its direction under strict-win and half-credit scoring. This is decision stability for the narrow qualitative hardness claim. Five of 11,790 seed-42 random draws equal a curated hard negative, too few to explain the gap.
+Table values are independently rounded to three decimals from full-precision results. Consequently, subtracting the displayed TF-IDF strict-win cells gives 13.820, while the full-precision gap \texttt{13.820514366083984} rounds to the reported 13.821.
 Tie order is a separate sensitivity probe. Inside each record, concatenating gold before negatives makes exact ties gold-first. Reversing tie priority lowers MRR by 0.101-0.108 points and nDCG@5 by 0.572-0.573 points. Forward-versus-reverse corpus order changes top-level global ranking metrics by at most 0.287 point, below the preregistered 0.5-point threshold. Absolute scores and small ranking differences are therefore contract-sensitive, while the qualitative ordering remains stable under the tested alternatives.
 The identity audit is explicitly post-hoc v2 after the wrong-identity v1 application. These are corrections to this audit's identity implementation, not corrections to FinRank itself. The canonical \texttt{text\_sha1} branch reproduces the source-informed, author-disclosed target quantities of 442 hard-negative occurrences across 305 records sharing a canonical text identity with another record's gold. Raw exact matching's 293/220 result is the superseded v1 identity rule. First-occurrence metadata filtering reproduces the known source-informed counts of gold loss in 33 records and all-gold loss in 2. The counts are deterministic post-hoc reproductions, not preregistered observations from a wholly frozen application.
 Reproduction remains a separate construct. In-record MRR/nDCG and all pairwise metrics reproduce exactly. Top-level global ranking metrics differ from the bundled result JSON by up to 0.19 point and metadata-filtered metrics by up to 0.16 point in the declared deterministic environment; a second available environment changes some global values by as much as 0.47 point, while slice aggregates drift by as much as 0.51 point. Without the original score matrices or complete execution environment, the residual global and metadata metric drift cannot be attributed uniquely to tie order or dependency drift. Its cause is unresolved, and the result is a reproducibility boundary rather than a benchmark failure.
@@ -236,7 +237,7 @@ artifacts. Experimental evidence includes evaluated-system and automated-judge
 outputs under frozen protocols; deterministic statistics came from supplied
 scripts. AI did not create human semantic gold or blind review.
 \section{\uppercase{Data Availability}}
-Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation and analysis artifacts are prepared for anonymized release. FinQA is nested in Case 1. Case 2 uses FinRank revision \texttt{916dc27e77b90e294ea1b3a2cc5b0abcf07392d1}, arXiv \texttt{2608.07400v1}, \texttt{FinRank.jsonl}, baseline code and results under CC BY-NC 4.0. The wrong-identity v1 application and post-hoc v2 corrections are preserved; raw scores are unchanged. The package includes scripts, preregistration, fixtures, rows and manifests, but no private data or paid API.
+Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation and analysis artifacts are prepared for anonymized release. FinQA is nested in Case 1. Case 2 uses FinRank revision \texttt{916dc27e77b90e294ea1b3a2cc5b0abcf07392d1}, arXiv \texttt{2608.07400v1}, \texttt{FinRank.jsonl}, baseline code and results under CC BY-NC 4.0. The wrong-identity v1 application and post-hoc v2 corrections are preserved; raw scores are unchanged. The current private candidate includes the row-level reanalysis input, full-precision and compact FinRank extracts, reproduction scripts and manifests. Historical preregistration, fixtures, application rows and raw score matrices remain in the project evidence store for author-approved release and are not included in this candidate.
 {\small
 \bibliographystyle{apalike}
 \bibliography{saner_rene_references}

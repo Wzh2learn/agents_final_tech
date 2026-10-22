@@ -207,13 +207,15 @@ The compact FinRank result separates score sensitivity from decision stability. 
 | Model | Tie policy | Hard | Random | Gap |
 |---|---|---:|---:|---:|
 | TF-IDF | ties-positive | 77.756 | 91.935 | 14.179 |
-| TF-IDF | strict-win | 77.030 | 90.850 | 13.820 |
+| TF-IDF | strict-win | 77.030 | 90.850 | 13.821 |
 | TF-IDF | half-credit | 77.393 | 91.393 | 14.000 |
 | BM25 | ties-positive | 74.780 | 87.789 | 13.009 |
 | BM25 | strict-win | 74.094 | 86.760 | 12.666 |
 | BM25 | half-credit | 74.437 | 87.275 | 12.838 |
 
 Exact ties occur in both deterministic score matrices. TF-IDF has 91 hard-pair and 135 random-pair ties; BM25 has 83 and 125. Changing ties-positive to strict-win moves random-negative accuracy by 1.084 points for TF-IDF and 1.029 for BM25, crossing the preregistered 1.0-point materiality threshold. This is score sensitivity. By contrast, the hard-versus-random gap moves by only 0.359 and 0.343 points and retains its direction under strict-win and half-credit scoring. This is decision stability for the narrow qualitative hardness claim. Five of 11,790 seed-42 random draws equal a curated hard negative, too few to explain the gap.
+
+Table values are independently rounded to three decimals from full-precision results. Consequently, subtracting the displayed TF-IDF strict-win cells gives 13.820, while the full-precision gap `13.820514366083984` rounds to the reported 13.821.
 
 Tie order is a separate sensitivity probe. Inside each record, concatenating gold before negatives makes exact ties gold-first. Reversing tie priority lowers MRR by 0.101-0.108 points and nDCG@5 by 0.572-0.573 points. Forward-versus-reverse corpus order changes top-level global ranking metrics by at most 0.287 point, below the preregistered 0.5-point threshold. Absolute scores and small ranking differences are therefore contract-sensitive, while the qualitative ordering remains stable under the tested alternatives.
 
@@ -264,7 +266,7 @@ create human semantic gold or blind review.
 
 ## Data Availability
 
-Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation and analysis artifacts are prepared for anonymized release. FinQA is nested in Case 1. Case 2 uses FinRank revision `916dc27e77b90e294ea1b3a2cc5b0abcf07392d1`, arXiv `2608.07400v1`, `FinRank.jsonl`, baseline code and results under CC BY-NC 4.0. The wrong-identity v1 application and post-hoc v2 corrections are preserved; raw scores are unchanged. The package includes scripts, preregistration, fixtures, rows and manifests, but no private data or paid API.
+Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation and analysis artifacts are prepared for anonymized release. FinQA is nested in Case 1. Case 2 uses FinRank revision `916dc27e77b90e294ea1b3a2cc5b0abcf07392d1`, arXiv `2608.07400v1`, `FinRank.jsonl`, baseline code and results under CC BY-NC 4.0. The wrong-identity v1 application and post-hoc v2 corrections are preserved; raw scores are unchanged. The current private candidate includes the row-level reanalysis input, full-precision and compact FinRank extracts, reproduction scripts and manifests. Historical preregistration, fixtures, application rows and raw score matrices remain in the project evidence store for author-approved release and are not included in this candidate.
 
 ## References
 

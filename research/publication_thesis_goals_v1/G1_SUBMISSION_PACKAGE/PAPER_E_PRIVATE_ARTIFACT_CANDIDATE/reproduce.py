@@ -26,6 +26,31 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def verify_manifest(root: Path) -> dict[str, Any]:
+    manifest_path = root / "MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    expected = {entry["path"] for entry in manifest["files"]}
+    actual = {
+        str(path.relative_to(root)).replace("\\", "/")
+        for path in root.rglob("*")
+        if path.is_file() and path.name not in {"MANIFEST.json", "REPRODUCTION_RECEIPT.json"}
+    }
+    assert actual == expected, {
+        "missing": sorted(expected - actual),
+        "extra": sorted(actual - expected),
+    }
+    for entry in manifest["files"]:
+        path = root / entry["path"]
+        assert path.is_file(), entry["path"]
+        assert path.stat().st_size == entry["bytes"], entry["path"]
+        assert sha256_file(path) == entry["sha256"], entry["path"]
+    return {
+        "entries": len(expected),
+        "all_entries_exist_size_and_hash_match": True,
+        "extra_files": [],
+    }
+
+
 def percentile(values: list[float], probability: float) -> float:
     ordered = sorted(values)
     position = probability * (len(ordered) - 1)
@@ -86,19 +111,71 @@ def recompute_stage(path: Path) -> dict[str, Any]:
     return result
 
 
-def recompute_finrank(path: Path) -> dict[str, Any]:
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    rows = payload["rows"]
-    gaps = [round(row["random"] - row["hard"], 3) for row in rows]
-    assert gaps == payload["expected_gaps"]
+def recompute_finrank(full_path: Path, compact_path: Path) -> dict[str, Any]:
+    full_payload = json.loads(full_path.read_text(encoding="utf-8"))
+    compact_payload = json.loads(compact_path.read_text(encoding="utf-8"))
+    rows = full_payload["rows"]
+    compact = {
+        (row["model"], row["tie_policy"]): row
+        for row in compact_payload["rows"]
+    }
+    raw_gaps = []
+    display_gaps = []
+    display_rows = []
+    for row in rows:
+        raw_gap = row["random"] - row["hard"]
+        source_gap = full_payload["source_gap_fields"][row["model"]][row["tie_policy"]]
+        assert math.isclose(raw_gap, source_gap, rel_tol=0.0, abs_tol=1e-12)
+        raw_gaps.append(raw_gap)
+        display_gaps.append(round(raw_gap, 3))
+        displayed = compact[(row["model"], row["tie_policy"])]
+        assert displayed["hard"] == round(row["hard"], 3)
+        assert displayed["random"] == round(row["random"], 3)
+        display_rows.append(
+            {
+                "model": row["model"],
+                "tie_policy": row["tie_policy"],
+                "hard": round(row["hard"], 3),
+                "random": round(row["random"], 3),
+                "gap": round(raw_gap, 3),
+            }
+        )
+    assert display_gaps == compact_payload["expected_gaps"]
     for model in ("TF-IDF", "BM25"):
         model_rows = [row for row in rows if row["model"] == model]
         by_policy = {row["tie_policy"]: row for row in model_rows}
-        positive = by_policy["ties-positive"]["random"] - by_policy["ties-positive"]["hard"]
-        strict = by_policy["strict-win"]["random"] - by_policy["strict-win"]["hard"]
+        positive = (
+            by_policy["ties-positive"]["random"]
+            - by_policy["ties-positive"]["hard"]
+        )
+        strict = (
+            by_policy["strict-win"]["random"]
+            - by_policy["strict-win"]["hard"]
+        )
         assert positive > 0 and strict > 0
-        assert abs((positive - strict) - (0.359 if model == "TF-IDF" else 0.343)) < 0.0001
-    return {"rows": len(rows), "gaps": gaps, "hard_vs_random_direction": "positive_for_all_tested_tie_policies"}
+        assert round(positive - strict, 3) == (0.359 if model == "TF-IDF" else 0.343)
+    tfidf_strict = next(
+        row for row in rows
+        if row["model"] == "TF-IDF" and row["tie_policy"] == "strict-win"
+    )
+    raw_strict_gap = tfidf_strict["random"] - tfidf_strict["hard"]
+    rounded_cell_gap = round(tfidf_strict["random"], 3) - round(tfidf_strict["hard"], 3)
+    assert f"{raw_strict_gap:.3f}" == "13.821"
+    assert f"{rounded_cell_gap:.3f}" == "13.820"
+    return {
+        "rows": len(rows),
+        "raw_gaps": raw_gaps,
+        "display_gaps": display_gaps,
+        "display_rows": display_rows,
+        "tfidf_strict_precision_check": {
+            "raw_gap": raw_strict_gap,
+            "raw_gap_display": f"{raw_strict_gap:.3f}",
+            "rounded_cell_gap": rounded_cell_gap,
+            "rounded_cell_gap_display": f"{rounded_cell_gap:.3f}",
+            "rule": "compute at full precision and format only at the end",
+        },
+        "hard_vs_random_direction": "positive_for_all_tested_tie_policies",
+    }
 
 
 def main() -> int:
@@ -106,6 +183,7 @@ def main() -> int:
     parser.add_argument("--write-receipt", type=Path)
     args = parser.parse_args()
     stage_path = ROOT / "inputs/G1_SEED_REANALYSIS.json"
+    finrank_full_path = ROOT / "inputs/FINRANK_FULL_PRECISION_ROWS.json"
     finrank_path = ROOT / "FINRANK_COMPACT_ROWS.json"
     result = {
         "schema": "paper_e_private_artifact_reproduction_receipt_v1",
@@ -116,13 +194,15 @@ def main() -> int:
         },
         "inputs": {
             str(stage_path.relative_to(ROOT)): sha256_file(stage_path),
+            str(finrank_full_path.relative_to(ROOT)): sha256_file(finrank_full_path),
             str(finrank_path.relative_to(ROOT)): sha256_file(finrank_path),
         },
+        "manifest": verify_manifest(ROOT),
         "stage_uid_cluster": recompute_stage(stage_path),
-        "finrank_compact_table": recompute_finrank(finrank_path),
+        "finrank_compact_table": recompute_finrank(finrank_full_path, finrank_path),
         "nonclaims": [
             "The row-level staged analysis is a post-hoc reanalysis of frozen results.",
-            "The compact FinRank table verifies arithmetic and direction, not the full historical application.",
+            "The FinRank extract verifies full-precision arithmetic, display rounding and direction, not the full historical application.",
             "No model or judge call is made by this reproduction.",
         ],
     }

@@ -44,7 +44,7 @@
     {
       "id": "C4",
       "case": 2,
-      "claim": "The FinRank v1 tie metrics and materiality thresholds are preregistered and unchanged. Under ties-positive, strict-win and half-credit pairwise scoring, absolute random-negative accuracy is score-sensitive, while the qualitative hard-versus-random decision is stable under the tested tie alternatives: TF-IDF gap 14.179/13.820/14.000 and BM25 gap 13.009/12.666/12.838 percentage points for ties-positive/strict/half-credit. Score sensitivity and decision stability are separate constructs.",
+      "claim": "The FinRank v1 tie metrics and materiality thresholds are preregistered and unchanged. Under ties-positive, strict-win and half-credit pairwise scoring, absolute random-negative accuracy is score-sensitive, while the qualitative hard-versus-random decision is stable under the tested tie alternatives: TF-IDF gap 14.179/13.821/14.000 and BM25 gap 13.009/12.666/12.838 percentage points for ties-positive/strict/half-credit. Displayed values are independently rounded from full precision. Score sensitivity and decision stability are separate constructs.",
       "evidence": [
         "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/PRE_REGISTRATION.json",
         "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS_v1_raw_text_overlap.json",

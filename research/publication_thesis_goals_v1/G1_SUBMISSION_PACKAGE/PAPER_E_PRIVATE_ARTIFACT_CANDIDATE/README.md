@@ -2,15 +2,18 @@
 
 Status: `PRIVATE_REPRODUCTION_CANDIDATE_NOT_PUBLICLY_RELEASED`
 
-This package reproduces two paper-facing deterministic surfaces from compact,
+This package reproduces two paper-facing deterministic surfaces from
 versioned inputs:
 
 1. the source-table UID clustered sensitivity analysis for the staged evaluator;
-2. the arithmetic and direction checks for the compact FinRank tie-policy table.
+2. the full-precision arithmetic, three-decimal display rounding and direction
+   checks for the FinRank tie-policy table.
 
-It does not contain credentials, private data, internal AI review records, or a
-claim that the package is a public archive. The parent submission package
-records the exact source artifact hashes for the larger historical application.
+It does not contain credentials, private data, internal AI review records, the
+historical preregistration/fixtures/application rows, or a claim that the
+package is a public archive. Those historical materials remain in the project
+evidence store for author-approved release. The full-precision extract records
+the exact source artifact hash for the historical application.
 
 ## Run
 

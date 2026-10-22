@@ -7,7 +7,13 @@
   },
   "inputs": {
     "inputs/G1_SEED_REANALYSIS.json": "819dc092c8e13139029ea891f3a3abf469d7bb41851c8f36682308f1a1ed163d",
-    "FINRANK_COMPACT_ROWS.json": "d798845dec123a32aa063d8f2da9709b0f9ef33a8bbaba9224bcf2ade7d8307e"
+    "inputs/FINRANK_FULL_PRECISION_ROWS.json": "2baf7d1a838ecd9a97984d6dada62af0fc6e676b738d7e9a481586fab4e7066c",
+    "FINRANK_COMPACT_ROWS.json": "13f1c7de9f01eb672d674fa109532d325eb76b940a22b1d8c01939e2c709c647"
+  },
+  "manifest": {
+    "entries": 7,
+    "all_entries_exist_size_and_hash_match": true,
+    "extra_files": []
   },
   "stage_uid_cluster": {
     "table_runs": 282,
@@ -31,19 +37,78 @@
   },
   "finrank_compact_table": {
     "rows": 6,
-    "gaps": [
+    "raw_gaps": [
+      14.179164155113511,
+      13.820514366083984,
+      13.99983926059879,
+      13.009175540821104,
+      12.665996919161458,
+      12.837586229991288
+    ],
+    "display_gaps": [
       14.179,
-      13.82,
+      13.821,
       14.0,
       13.009,
       12.666,
       12.838
     ],
+    "display_rows": [
+      {
+        "model": "TF-IDF",
+        "tie_policy": "ties-positive",
+        "hard": 77.756,
+        "random": 91.935,
+        "gap": 14.179
+      },
+      {
+        "model": "TF-IDF",
+        "tie_policy": "strict-win",
+        "hard": 77.03,
+        "random": 90.85,
+        "gap": 13.821
+      },
+      {
+        "model": "TF-IDF",
+        "tie_policy": "half-credit",
+        "hard": 77.393,
+        "random": 91.393,
+        "gap": 14.0
+      },
+      {
+        "model": "BM25",
+        "tie_policy": "ties-positive",
+        "hard": 74.78,
+        "random": 87.789,
+        "gap": 13.009
+      },
+      {
+        "model": "BM25",
+        "tie_policy": "strict-win",
+        "hard": 74.094,
+        "random": 86.76,
+        "gap": 12.666
+      },
+      {
+        "model": "BM25",
+        "tie_policy": "half-credit",
+        "hard": 74.437,
+        "random": 87.275,
+        "gap": 12.838
+      }
+    ],
+    "tfidf_strict_precision_check": {
+      "raw_gap": 13.820514366083984,
+      "raw_gap_display": "13.821",
+      "rounded_cell_gap": 13.819999999999993,
+      "rounded_cell_gap_display": "13.820",
+      "rule": "compute at full precision and format only at the end"
+    },
     "hard_vs_random_direction": "positive_for_all_tested_tie_policies"
   },
   "nonclaims": [
     "The row-level staged analysis is a post-hoc reanalysis of frozen results.",
-    "The compact FinRank table verifies arithmetic and direction, not the full historical application.",
+    "The FinRank extract verifies full-precision arithmetic, display rounding and direction, not the full historical application.",
     "No model or judge call is made by this reproduction."
   ]
 }

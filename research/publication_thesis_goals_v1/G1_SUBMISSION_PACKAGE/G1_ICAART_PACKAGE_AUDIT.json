@@ -68,7 +68,7 @@
       "status": "PASS",
       "detail": {
         "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE\\PAPER_E_ICAART_REVIEW.pdf",
-        "sha256": "cd40b292e165ea82f8215efb410c31c91248b2b8b4602b89487a6c5cd6cec56e",
+        "sha256": "03b07c7ecd1cec44f8f57e4592e0930b7ebee28a9285552fb79c91144dd2c109",
         "pages": 11,
         "unresolved_references": 0,
         "forbidden_phrases": []
@@ -77,19 +77,21 @@
     "cross_version_consistency": {
       "status": "PASS",
       "detail": {
-        "stale_values": {
-          "canonical_markdown": [],
-          "icaart_tex": [],
-          "compiled_pdf": []
-        },
         "missing_values": {
           "canonical_markdown": [],
           "icaart_tex": [],
           "compiled_pdf": []
         },
+        "precision_check": {
+          "raw_gap": 13.820514366083984,
+          "raw_gap_display": "13.821",
+          "rounded_cell_gap": 13.819999999999993,
+          "rounded_cell_gap_display": "13.820",
+          "source_gap_field": 13.820514366083984
+        },
         "nonwhite_counts": {
-          "canonical_markdown": 39604,
-          "icaart_tex": 39011
+          "canonical_markdown": 40017,
+          "icaart_tex": 39431
         }
       }
     },
@@ -112,7 +114,13 @@
       "status": "PASS",
       "detail": {
         "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\publication_thesis_goals_v1\\G1_SUBMISSION_PACKAGE\\PAPER_E_PRIVATE_ARTIFACT_CANDIDATE",
-        "missing": [],
+        "integrity": {
+          "missing_required": [],
+          "missing_manifest_entries": [],
+          "extra_files": [],
+          "entry_errors": [],
+          "receipt_status": "PASS"
+        },
         "public_release": false
       }
     }

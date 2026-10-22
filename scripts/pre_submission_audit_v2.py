@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 import subprocess
 import sys
@@ -181,27 +182,53 @@ def main() -> int:
         "icaart_tex": tex,
         "compiled_pdf": text,
     }
-    stale_values = {
-        name: [value for value in ("13.821", "0.358") if value in content]
-        for name, content in active_texts.items()
-    }
-    required_values = ("13.820", "0.359", "442/305", "33/2", "0/13")
+    required_values = (
+        "13.821",
+        "13.820514366083984",
+        "0.359",
+        "442/305",
+        "33/2",
+        "0/13",
+    )
     missing_values = {
         name: [value for value in required_values if value not in content]
         for name, content in active_texts.items()
     }
+    full_precision_path = artifact_dir / "inputs/FINRANK_FULL_PRECISION_ROWS.json"
+    full_precision = json.loads(full_precision_path.read_text(encoding="utf-8"))
+    tfidf_strict = next(
+        row
+        for row in full_precision["rows"]
+        if row["model"] == "TF-IDF" and row["tie_policy"] == "strict-win"
+    )
+    raw_gap = tfidf_strict["random"] - tfidf_strict["hard"]
+    rounded_cell_gap = round(tfidf_strict["random"], 3) - round(tfidf_strict["hard"], 3)
+    precision_check = {
+        "raw_gap": raw_gap,
+        "raw_gap_display": f"{raw_gap:.3f}",
+        "rounded_cell_gap": rounded_cell_gap,
+        "rounded_cell_gap_display": f"{rounded_cell_gap:.3f}",
+        "source_gap_field": full_precision["source_gap_fields"]["TF-IDF"]["strict-win"],
+    }
+    precision_ok = (
+        math.isclose(raw_gap, precision_check["source_gap_field"], rel_tol=0.0, abs_tol=1e-12)
+        and precision_check["raw_gap_display"] == "13.821"
+        and precision_check["rounded_cell_gap_display"] == "13.820"
+        and "| TF-IDF | strict-win | 77.030 | 90.850 | 13.821 |" in canonical
+        and "TF-IDF & strict-win & 77.030 & 90.850 & 13.821 \\\\" in tex
+    )
     nonwhite_counts = {
         name: len(re.sub(r"\s+", "", content))
         for name, content in (("canonical_markdown", canonical), ("icaart_tex", tex))
     }
     record(
         "cross_version_consistency",
-        not any(stale_values.values())
-        and not any(missing_values.values())
+        not any(missing_values.values())
+        and precision_ok
         and all(10_000 <= count <= 50_000 for count in nonwhite_counts.values()),
         {
-            "stale_values": stale_values,
             "missing_values": missing_values,
+            "precision_check": precision_check,
             "nonwhite_counts": nonwhite_counts,
         },
     )
@@ -248,14 +275,55 @@ def main() -> int:
         "LICENSES.md",
         "MANIFEST.json",
         "REPRODUCTION_RECEIPT.json",
+        "FINRANK_COMPACT_ROWS.json",
+        "reproduce.py",
+        "inputs/G1_SEED_REANALYSIS.json",
+        "inputs/FINRANK_FULL_PRECISION_ROWS.json",
     )
     missing_artifact = [
         name for name in required_artifact_files if not (artifact_dir / name).is_file()
     ]
+    artifact_manifest = json.loads((artifact_dir / "MANIFEST.json").read_text(encoding="utf-8"))
+    expected_artifact_files = {entry["path"] for entry in artifact_manifest["files"]}
+    actual_artifact_files = {
+        str(path.relative_to(artifact_dir)).replace("\\", "/")
+        for path in artifact_dir.rglob("*")
+        if path.is_file() and path.name not in {"MANIFEST.json", "REPRODUCTION_RECEIPT.json"}
+    }
+    artifact_entry_errors = []
+    for entry in artifact_manifest["files"]:
+        path = artifact_dir / entry["path"]
+        if not path.is_file():
+            artifact_entry_errors.append({"path": entry["path"], "error": "missing"})
+            continue
+        actual_hash = sha256_file(path)
+        if path.stat().st_size != entry["bytes"] or actual_hash != entry["sha256"]:
+            artifact_entry_errors.append(
+                {
+                    "path": entry["path"],
+                    "error": "size_or_hash_mismatch",
+                    "actual_bytes": path.stat().st_size,
+                    "expected_bytes": entry["bytes"],
+                    "actual_sha256": actual_hash,
+                    "expected_sha256": entry["sha256"],
+                }
+            )
+    receipt = json.loads((artifact_dir / "REPRODUCTION_RECEIPT.json").read_text(encoding="utf-8"))
+    artifact_integrity = {
+        "missing_required": missing_artifact,
+        "missing_manifest_entries": sorted(expected_artifact_files - actual_artifact_files),
+        "extra_files": sorted(actual_artifact_files - expected_artifact_files),
+        "entry_errors": artifact_entry_errors,
+        "receipt_status": receipt.get("status"),
+    }
     record(
         "private_artifact_candidate",
-        not missing_artifact,
-        {"path": str(artifact_dir), "missing": missing_artifact, "public_release": False},
+        not missing_artifact
+        and not artifact_integrity["missing_manifest_entries"]
+        and not artifact_integrity["extra_files"]
+        and not artifact_entry_errors
+        and receipt.get("status") == "PASS",
+        {"path": str(artifact_dir), "integrity": artifact_integrity, "public_release": False},
     )
 
     report = {

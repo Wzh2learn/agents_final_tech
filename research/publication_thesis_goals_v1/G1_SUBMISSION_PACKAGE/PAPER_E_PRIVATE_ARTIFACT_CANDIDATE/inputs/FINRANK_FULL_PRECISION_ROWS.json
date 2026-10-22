@@ -1,0 +1,56 @@
+{
+  "schema": "paper_e_finrank_full_precision_rows_v1",
+  "source_artifact": "research/research_direction_sprint_20261020_v1/execution_v1/paper_e_audit/outputs/APPLICATION_RESULTS.json",
+  "source_sha256": "5c2e57558faac620c518bd9339e8338a4b5e243ca7278b067bb52bcd8f9f66e9",
+  "source_revision": "916dc27e77b90e294ea1b3a2cc5b0abcf07392d1",
+  "rows": [
+    {
+      "model": "TF-IDF",
+      "tie_policy": "ties-positive",
+      "hard": 77.75555555555556,
+      "random": 91.93471971066907
+    },
+    {
+      "model": "TF-IDF",
+      "tie_policy": "strict-win",
+      "hard": 77.02981715893108,
+      "random": 90.85033152501506
+    },
+    {
+      "model": "TF-IDF",
+      "tie_policy": "half-credit",
+      "hard": 77.3926863572433,
+      "random": 91.3925256178421
+    },
+    {
+      "model": "BM25",
+      "tie_policy": "ties-positive",
+      "hard": 74.78013528899605,
+      "random": 87.78931082981715
+    },
+    {
+      "model": "BM25",
+      "tie_policy": "strict-win",
+      "hard": 74.09377804567679,
+      "random": 86.75977496483824
+    },
+    {
+      "model": "BM25",
+      "tie_policy": "half-credit",
+      "hard": 74.43695666733642,
+      "random": 87.2745428973277
+    }
+  ],
+  "source_gap_fields": {
+    "TF-IDF": {
+      "ties-positive": 14.179164155113511,
+      "strict-win": 13.820514366083984,
+      "half-credit": 13.99983926059879
+    },
+    "BM25": {
+      "ties-positive": 13.009175540821104,
+      "strict-win": 12.665996919161458,
+      "half-credit": 12.837586229991288
+    }
+  }
+}

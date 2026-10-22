@@ -55,7 +55,10 @@ evidence row. Old and new values are recorded in `G1_HASH_REBIND.md`.
   bibliography entries, no unresolved references. Alternate Overleaf PDF is a
   historical 10-page build.
 - Official 9pt table/reference typography is restored. The deterministic
-  FinRank strict-win gap is corrected to 13.820 and its movement to 0.359.
+  FinRank strict-win gap is 13.821 from full precision and its movement is
+  0.359. The independently rounded display cells subtract to 13.820; this
+  formatting difference is explained in the manuscript and reproduction
+  receipt.
 - Focused G1 reanalysis tests: `3 passed`.
 
 ## Author-Approval Package
