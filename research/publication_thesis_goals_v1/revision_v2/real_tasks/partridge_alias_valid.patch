@@ -1,0 +1,20 @@
+diff --git a/partridge/utilities.py b/partridge/utilities.py
+--- a/partridge/utilities.py
++++ b/partridge/utilities.py
+@@ -1,6 +1,6 @@
+ import weakref
+ 
+-from cchardet import UniversalDetector
++from cchardet import UniversalDetector as Detector
+ import numpy as np
+ import pandas as pd
+ from pandas.core.common import flatten
+@@ -32,7 +32,7 @@ def remove_node_attributes(G, attributes):
+ 
+ 
+ def detect_encoding(f, limit=100):
+-    u = UniversalDetector()
++    u = Detector()
+     for line in f:
+         u.feed(line)
+ 

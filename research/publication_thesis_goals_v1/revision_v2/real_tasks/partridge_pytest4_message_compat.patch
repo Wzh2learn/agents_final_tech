@@ -1,0 +1,48 @@
+diff --git a/tests/test_parsers.py b/tests/test_parsers.py
+--- a/tests/test_parsers.py
++++ b/tests/test_parsers.py
+@@ -10,12 +10,12 @@ def test_parse_date():
+ 
+ 
+ def test_parse_date_with_invalid_month():
+-    with pytest.raises(ValueError, message="unconverted data remains: 01"):
++    with pytest.raises(ValueError):
+         parse_date("20991401")
+ 
+ 
+ def test_parse_date_with_invalid_day():
+-    with pytest.raises(ValueError, message="unconverted data remains: 3"):
++    with pytest.raises(ValueError):
+         parse_date("20990133")
+ 
+ 
+@@ -38,7 +38,7 @@ def test_parse_time():
+ 
+ 
+ def test_parse_time_with_invalid_input():
+-    with pytest.raises(ValueError, message="invalid literal for int()"):
++    with pytest.raises(ValueError):
+         parse_time("10:15:00am")
+ 
+ 
+diff --git a/tests/test_readers.py b/tests/test_readers.py
+--- a/tests/test_readers.py
++++ b/tests/test_readers.py
+@@ -7,7 +7,7 @@ from .helpers import fixture, zip_file
+ 
+ 
+ def test_missing_dir():
+-    with pytest.raises(AssertionError, message="File or path not found"):
++    with pytest.raises(AssertionError):
+         ptg.load_feed(fixture("missing"))
+ 
+ 
+@@ -20,7 +20,7 @@ def test_config_must_be_dag():
+     config.add_edge("trips.txt", "routes.txt")
+ 
+     path = fixture("amazon-2017-08-06")
+-    with pytest.raises(AssertionError, message="Config must be a DAG"):
++    with pytest.raises(AssertionError):
+         ptg.load_feed(path, config=config)
+ 
+ 

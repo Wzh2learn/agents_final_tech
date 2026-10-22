@@ -1,0 +1,39 @@
+diff --git a/partridge/utilities.py b/partridge/utilities.py
+--- a/partridge/utilities.py
++++ b/partridge/utilities.py
+@@ -1,6 +1,7 @@
+ import weakref
+ 
+ from cchardet import UniversalDetector
++from chardet import UniversalDetector as SourceDetector
+ import numpy as np
+ import pandas as pd
+ from pandas.core.common import flatten
+@@ -32,14 +33,16 @@ def remove_node_attributes(G, attributes):
+ 
+ 
+ def detect_encoding(f, limit=100):
+-    u = UniversalDetector()
+-    for line in f:
+-        u.feed(line)
+-
++    lines = list(f)
++    target = UniversalDetector()
++    source = SourceDetector()
++    for line in lines[:limit]:
++        target.feed(line)
++        source.feed(line)
+         limit -= 1
+-        if u.done or limit < 1:
++        if target.done or limit < 1:
+             break
+-
+-    u.close()
+-    if u.result["encoding"] == "ascii":
++    target.close()
++    source.close()
++    if source.result["encoding"] == "ascii":
+         return "utf-8"
+     else:
+-        return u.result["encoding"]
++        return source.result["encoding"]

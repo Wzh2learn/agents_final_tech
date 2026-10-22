@@ -1,0 +1,265 @@
+{
+  "schema": "g3_real_action_policy_probe_v2",
+  "date": "2026-10-22",
+  "evidence_identity": "REAL_GB10_EXECUTION_FOR_TWO_PINNED_PARTRIDGE_COMMITS",
+  "task": {
+    "repository": "https://github.com/remix/partridge",
+    "parent_commit": "daefcbe6a03e92a0bfc0c2433279b9fd3d179f6c",
+    "gold_commit": "09e89d98b5a00db44394204d2f3e70c220b51764",
+    "license": "MIT",
+    "test_command": [
+      "env_gold311/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--disable-warnings",
+      "tests"
+    ],
+    "environment": "GB10 Python 3.11.16, NumPy 1.23.5, Pandas 1.5.3, pytest 7.4.4"
+  },
+  "rows": [
+    {
+      "id": "partridge_parent",
+      "reference": "INVALID",
+      "cwd": "partridge_parent",
+      "actions": {
+        "preflight": {
+          "command": [
+            "env_gold311/bin/python",
+            "-c",
+            "import chardet, cchardet, numpy, pandas; print('imports_ok')"
+          ],
+          "cwd": "partridge_parent",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000225,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior": {
+          "command": [
+            "env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "partridge_parent",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000199,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "env_gold311/bin/python",
+            "g2_contract_verifier_v2.py",
+            "--case",
+            "partridge_real_parent",
+            "--action",
+            "static_contract"
+          ],
+          "cwd": "partridge_parent",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000157,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "runtime_consumption": {
+          "command": [
+            "env_gold311/bin/python",
+            "g2_contract_verifier_v2.py",
+            "--case",
+            "partridge_real_parent",
+            "--action",
+            "runtime_consumption"
+          ],
+          "cwd": "partridge_parent",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000148,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "derived": {
+          "static_contract": false,
+          "runtime_consumption": false,
+          "enhanced_behavior": false,
+          "hybrid": false
+        }
+      }
+    },
+    {
+      "id": "partridge_gold",
+      "reference": "VALID",
+      "cwd": "partridge_gold",
+      "actions": {
+        "preflight": {
+          "command": [
+            "env_gold311/bin/python",
+            "-c",
+            "import chardet, cchardet, numpy, pandas; print('imports_ok')"
+          ],
+          "cwd": "partridge_gold",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000142,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior": {
+          "command": [
+            "env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "partridge_gold",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000158,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "env_gold311/bin/python",
+            "g2_contract_verifier_v2.py",
+            "--case",
+            "partridge_real_gold",
+            "--action",
+            "static_contract"
+          ],
+          "cwd": "partridge_gold",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.000133,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "runtime_consumption": {
+          "command": [
+            "env_gold311/bin/python",
+            "g2_contract_verifier_v2.py",
+            "--case",
+            "partridge_real_gold",
+            "--action",
+            "runtime_consumption"
+          ],
+          "cwd": "partridge_gold",
+          "exit_code": null,
+          "stdout_tail": "",
+          "stderr_tail": "FileNotFoundError: [Errno 2] No such file or directory: 'env_gold311/bin/python'",
+          "parsed": null,
+          "wall_clock_seconds": 0.00015,
+          "status": "ERROR",
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "derived": {
+          "static_contract": false,
+          "runtime_consumption": false,
+          "enhanced_behavior": false,
+          "hybrid": false
+        }
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": "no_revalidation",
+      "actions": [],
+      "action_count": 0,
+      "wall_clock_seconds": 0.0,
+      "decisions": {
+        "partridge_parent": "ACCEPT",
+        "partridge_gold": "ACCEPT"
+      }
+    },
+    {
+      "policy": "always_defer",
+      "actions": [
+        "preflight"
+      ],
+      "action_count": 2,
+      "wall_clock_seconds": 0.000367,
+      "decisions": {
+        "partridge_parent": "DEFER",
+        "partridge_gold": "DEFER"
+      }
+    },
+    {
+      "policy": "behavior_only",
+      "actions": [
+        "preflight",
+        "behavior"
+      ],
+      "action_count": 4,
+      "wall_clock_seconds": 0.000724,
+      "decisions": {
+        "partridge_parent": "REJECT",
+        "partridge_gold": "REJECT"
+      }
+    },
+    {
+      "policy": "static_short_circuit_full",
+      "actions": [
+        "preflight",
+        "static_contract",
+        "runtime_consumption",
+        "behavior"
+      ],
+      "action_count": 8,
+      "wall_clock_seconds": 0.001312,
+      "decisions": {
+        "partridge_parent": "REJECT",
+        "partridge_gold": "REJECT"
+      }
+    },
+    {
+      "policy": "result_consumption_plus_behavior",
+      "actions": [
+        "preflight",
+        "runtime_consumption",
+        "behavior"
+      ],
+      "action_count": 6,
+      "wall_clock_seconds": 0.001022,
+      "decisions": {
+        "partridge_parent": "REJECT",
+        "partridge_gold": "REJECT"
+      }
+    }
+  ],
+  "nonclaims": [
+    "This is a two-revision real task probe, not a population estimate.",
+    "Wall-clock time includes process startup and test execution and is not a model-token cost.",
+    "The comparison tests whether adaptive ordering adds value over a short-circuit static/runtime/behavior contract; it does not validate a learned policy."
+  ]
+}

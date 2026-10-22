@@ -77,5 +77,65 @@
       "result": "Paper E conditional go for ICAART after B1-B3 fixes; G2 and G3 remain candidate method lines only.",
       "raw_result": "research/publication_thesis_goals_v1/INDEPENDENT_REVIEW.md"
     }
-  ]
+  ],
+  "revision_v2": {
+    "date": "2026-10-22",
+    "status": "SPRINT_EVIDENCE_EXIT_REACHED",
+    "new_budget_capacity": {
+      "planning_attempt_cap": 4096,
+      "planning_token_cap": 20000000,
+      "attempts_used": 0,
+      "physical_model_http_calls": 0,
+      "accounting_tokens_used": 0,
+      "judge_calls": 0,
+      "training_runs": 0,
+      "training_gpu_seconds": 0,
+      "paid_api_usd": 0,
+      "production_memory_writes": 0
+    },
+    "offline_and_execution_work": [
+      {
+        "id": "G1_ICAART_V2_PACKAGE",
+        "host": "local_compile_and_GB10_artifact_reproduction",
+        "status": "PASS",
+        "evidence_identity": "TARGET_PACKAGE_AUDIT_PLUS_CLEAN_DETERMINISTIC_REPRODUCTION",
+        "result": "Official 9pt typography restored; 11-page PDF, 4 tables, 21/21 citations, no overfull boxes; package audit and artifact reproduction pass.",
+        "raw_result": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json"
+      },
+      {
+        "id": "G2_V2_REAL_PARTRIDGE",
+        "host": "GB10",
+        "status": "PASS_BOUNDED",
+        "evidence_identity": "REAL_PUBLIC_COMMIT_PLUS_SYNTHETIC_REAL_REPOSITORY_CONTROLS",
+        "result": "Partridge parent and gold both pass 42/42; target-call/source-fallback also passes 42/42 while violating the dependency contract; alias passes 42/42 but literal static contract rejects it. Runtime-consumption plus behavior is the simple sufficient rule on this bounded set.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v2/G2_CONTROL_RESULTS_V2_GB10.json"
+      },
+      {
+        "id": "G3_V2_REAL_ACTION_COST",
+        "host": "GB10",
+        "status": "PASS_BOUNDED",
+        "evidence_identity": "REAL_PYTEST_AND_WALL_CLOCK_ACTIONS_ON_FOUR_REPOSITORY_OBJECTS",
+        "result": "Behavior-only 2 false accepts in 13.71s; static-only 1 false reject in 0.78s; result-consumption plus behavior 4/4 in 7.26s. No evidence for a learned or complex adaptive policy.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v2/G3_REAL_ACTION_RESULTS.json"
+      },
+      {
+        "id": "OPERATION_FAILURES_PRESERVED",
+        "host": "GB10",
+        "status": "PRESERVED_NOT_COUNTED_AS_SCIENTIFIC_FAILURES",
+        "evidence_identity": "INFRASTRUCTURE_AND_PATCH_EXECUTION_FAILURES",
+        "result": "Tectonic download stalled; G3 relative paths and venv symlink resolution failed; one source-fallback patch application left an old variable. All were preserved and corrected without hiding them.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v2/"
+      }
+    ],
+    "tool_costs": {
+      "public_git_clones": 1,
+      "github_commit_searches": 3,
+      "partridge_pytest_runs_recorded": 8,
+      "g2_verifier_runs": 2,
+      "g3_policy_probe_runs": 5,
+      "pdf_builds": 4,
+      "pdf_page_renders": 11,
+      "artifact_clean_reproductions": 1
+    }
+  }
 }

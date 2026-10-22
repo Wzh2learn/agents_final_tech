@@ -1,0 +1,11 @@
+diff --git a/partridge/utilities.py b/partridge/utilities.py
+--- a/partridge/utilities.py
++++ b/partridge/utilities.py
+@@ -39,6 +39,3 @@ def detect_encoding(f, limit=100):
+ 
+     u.close()
+-    if u.result["encoding"] == "ascii":
+-        return "utf-8"
+-    else:
+-        return u.result["encoding"]
++    return "latin-1"
