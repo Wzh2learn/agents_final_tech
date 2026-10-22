@@ -17,7 +17,7 @@ that it entered a result.
 | Source-fallback, alias and audit-counterexample worktrees | Manual real-repository controls | Separated from natural commits in G2/G3 | Not natural error rates |
 | `raw/partridge_model_probe_001/` | One natural Qwen3.6 output | Complete module/setup generation and independent evaluation | One attempt; valid equivalent candidate |
 | `G3_REAL_ACTION_RESULTS_V2_COMPACT.json` | GB10 actual actions and hashes | Strong-baseline comparison and development timing | Full raw remains on GB10; timing is single-observation diagnostic |
-| `THIRD_CONTRIBUTION_SCOPE_REUSE_PROBE.json` | Two-regime deterministic replay | Evidence-reuse qualification | Scope method paused; orthogonal case missing |
+| `THIRD_CONTRIBUTION_SCOPE_REUSE_PROBE.json` | Same candidate/dependency across two input regimes | Transparent scope-aware invalidation qualification | Bounded development only; second natural case and real outcome benefit missing |
 | NtripBrowser, VersiCode, CodeUpdateArena, Adaptive V3, MA-CERD | Historical development/boundary evidence | Motivation and prior controls only | Not new confirmation in this revision |
 | Qwen3-4B/8B artifacts and training receipts | Historical readiness evidence | Not used | No training claim or learning target established |
 

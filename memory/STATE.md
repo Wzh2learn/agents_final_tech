@@ -5,11 +5,11 @@
 
 ## 当前任务
 
-V2 复核后的有限修补和科研判断已完成：Paper E 恢复全精度计算并形成可投包；G2 完成 actual-module/配对因果/三态修复，但 simple strong baseline 与消费方法均 6/6，当前机制停止扩展；G3 复杂 planner 暂停；第三贡献仅透明证据失效候选继续，scope 方法暂停。G4 已同步中文正文、导师一页稿和现役入口。详见 [V2 SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)。
+V2 复核后的有限修补和科研判断已完成：Paper E 恢复全精度计算并形成可投包；G2 完成 actual-module/配对因果/三态修复，但 simple strong baseline 与消费方法均 6/6，当前机制停止扩展；G3 复杂 planner 暂停；第三贡献已取得 dependency 不变、input regime 改变的正交资格，透明 scope-aware invalidation 进入有界开发。详见 [V2 SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)。
 
 | 用途 | 当前权威入口 |
 |---|---|
-| 新阶段方向与授权衔接 | [四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；当前为部分完成，G2 停止、G3 暂停、第三贡献待正交资格 |
+| 新阶段方向与授权衔接 | [四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；当前为部分完成，G2 停止、G3 暂停、第三贡献进入有界开发 |
 | 当前回执与独立审计 | [V2 SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)、[Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；[首轮 GOAL_RETURN](../research/publication_thesis_goals_v1/GOAL_RETURN.md) 为历史 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
@@ -22,7 +22,7 @@ V2 复核后的有限修补和科研判断已完成：Paper E 恢复全精度计
 - Paper E：`NARROW_AND_CONTINUE / INTERNAL_PACKAGE_READY`。唯一主稿维持两案例；9pt、11页 PDF、目标包审计、私有 artifact 与 GB10 clean reproduction 均完成，外部投稿动作待 Owner。
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。
-- 第三贡献：`TRANSPARENT_INVALIDATION_CONTINUE / SCOPE_METHOD_PAUSED`。全局证据复用有 2/5 误迁移，但 dependency-change invalidation 已 5/5；等待 dependency 不变、input regime 改变的正交案例。
+- 第三贡献：`QUALIFIED_FOR_BOUNDED_DEVELOPMENT`。同一候选/依赖下只改变输入范围时，全局复用和 dependency-only 均 2/5 误迁移；dependency + input-regime scope 为 5/5。尚不是已成立论文贡献或学习策略。
 - FinRank：`STOP_ON_CURRENT_PANEL`，不重开 H/K；当前负结果不否定经验复用的一般可能性。
 - MA-CERD：资源 membership 基线不等于依赖边传播；selective escalation 未验证，完整动作集合 exact match 与动作可接受性须区分，见[更正](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md)。
 - Adaptive V3：当前 authored fixtures 上 greedy 已足够，two-step 无正向配对收益；RPC capability 边界不等于操作系统沙箱。

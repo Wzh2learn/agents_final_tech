@@ -8,10 +8,10 @@ Updated: 2026-10-22
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `V2_PARTIAL_COMPLETE` | [V2 回执](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)明确 G1 就绪、G2 停止、G3 暂停、第三贡献待正交资格；不把局部结果写成四 Goal 全部完成 |
+| NEXT-RESEARCH-GOAL | `V2_PARTIAL_COMPLETE` | [V2 回执](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)明确 G1 就绪、G2 停止、G3 暂停、第三贡献进入有界开发；不把局部结果写成四 Goal 全部完成 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
-| THIRD-CONTRIBUTION-SCOPE | `TRANSPARENT_INVALIDATION_CONTINUE_SCOPE_PAUSED` | 全局证据复用2/5误迁移；dependency-change invalidation 5/5，scope 无增量。需 dependency 不变、input regime 改变的正交案例 |
+| THIRD-CONTRIBUTION-SCOPE | `QUALIFIED_FOR_BOUNDED_DEVELOPMENT` | 同一候选/依赖下 input regime 变化时，全局和 dependency-only 均2/5误迁移；scope 5/5。下一步需第二个自然案例和真实修复/结果收益 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `INTERNAL_PACKAGE_READY_OWNER_EXTERNAL_ACTIONS` | 9pt、11页、目标包审计、artifact clean reproduction 均通过；只待 Owner 身份、投稿、付款、展示和公开许可 |
 | THESIS-DOC-CONTINUITY | `G4_PARTIAL_COMPLETE_CONTINUING` | 中文 Paper E 引用正文、导师一页稿、素材地图和现役骨架已更新；正式章节整合仍继续 |

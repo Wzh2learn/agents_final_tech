@@ -2,45 +2,54 @@
 
 Date: 2026-10-22, Asia/Shanghai
 
-Status: `TRANSPARENT_INVALIDATION_CONTINUE / SCOPE_METHOD_PAUSED`
+Status: `QUALIFIED_FOR_BOUNDED_DEVELOPMENT`
 
 ## Question
 
-When prior behavioral evidence was produced under one dependency and input
-regime, when may it be reused after conditions change, and when must it be
-revalidated?
+When prior behavioral evidence is collected for one input regime, can it be
+reused after the input regime changes while the candidate and dependency remain
+fixed? When must transparent scope metadata trigger revalidation?
 
-## Low-Cost Probe
+## Corrected Temporal Comparison
 
-The probe reuses real module executions already collected on GB10:
+The earlier probe incorrectly treated “candidate differs from parent” as
+“dependency changed since evidence collection.” The corrected probe preserves
+the actual temporal condition:
 
-- 24 repository fixtures provide the original behavior regime;
-- three short byte inputs provide a second observable regime;
-- five overlapping candidates include natural parent/migration commits and
-  manual controls.
+- candidate code and dependency are unchanged between observations;
+- evidence first covers 24 real repository fixtures;
+- the new observation uses three short byte inputs;
+- only the input regime changes.
 
-Global reuse of the real-fixture result makes two false transfers: the natural
-migration commit and alias control pass the fixture regime but differ from the
-parent under the short-input regime.
+The same gold and alias candidates pass the fixture comparison but differ from
+the parent on the short-input regime. Thus their earlier PASS is not valid for
+the new regime.
 
 | Policy | Correct | False transfer | Abstain | Unnecessary revalidation |
 |---|---:|---:|---:|---:|
 | Never revalidate | 3/5 | 2 | 0 | 0 |
-| Dependency change only | 5/5 | 0 | 0 | 2 |
+| Dependency-change only | 3/5 | 2 | 0 | 0 |
 | Exact input reuse only | 0/5 | 0 | 5 | 0 |
 | Dependency + input-regime scope | 5/5 | 0 | 0 | 3 |
 | Always revalidate | 5/5 | 0 | 0 | 3 |
 
+Dependency-only invalidation misses both transfers because dependency identity
+has not changed. Adding the input-regime component makes the scope fingerprint
+identify the changed evidence condition and trigger revalidation.
+
 ## Qualification Judgment
 
-The broader problem is qualified for bounded development: evidence can fail to
-transfer across observable regimes, and transparent invalidation prevents the
-false transfer. However, the **scope fingerprint adds no identified increment**
-over dependency-change invalidation on the current cases. It creates one extra
-unnecessary revalidation.
+The candidate is qualified for bounded development as a **transparent
+scope-aware evidence invalidation** problem. The current probe supports the
+mechanism and provides a falsifiable comparison, but it does not yet establish
+a thesis contribution or a learned policy.
 
-The next qualifying case must change the input regime while keeping dependency
-identity fixed. Without such an orthogonal case, do not develop a learned
-evidence-expiry or scope-prediction method. The current defensible contribution
-is a measurement boundary plus a simple dependency-invalidation rule, not a
-third validated method.
+Next evidence needed:
+
+1. a second natural module with the same dependency fixed and another input
+   distribution change;
+2. comparison against cost, coverage and abstention baselines;
+3. a clear rule for scope granularity so broad fingerprints do not degenerate
+   into always-revalidate;
+4. independent outcome or repair decisions showing that avoiding false transfer
+   improves a real task, not only an evidence-status label.

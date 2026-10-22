@@ -73,7 +73,10 @@ def main() -> int:
                 "short_behavior_wall_clock_seconds": short["actions"]["behavior_contract"][
                     "wall_clock_seconds"
                 ],
-                "dependency_changed_from_parent": candidate_id != "partridge_parent",
+                "candidate_dependency_differs_from_parent": (
+                    candidate_id != "partridge_parent"
+                ),
+                "dependency_changed_since_fixture_evidence": False,
                 "input_regime_changed": True,
             }
         )
@@ -87,8 +90,10 @@ def main() -> int:
             "dependency_change_only",
             rows,
             lambda row: (
-                row["short_observation"] if row["dependency_changed_from_parent"] else row["fixture_observation"],
-                row["dependency_changed_from_parent"],
+                row["short_observation"]
+                if row["dependency_changed_since_fixture_evidence"]
+                else row["fixture_observation"],
+                row["dependency_changed_since_fixture_evidence"],
             ),
         ),
         policy_metrics(
@@ -101,7 +106,8 @@ def main() -> int:
             rows,
             lambda row: (
                 row["short_observation"],
-                row["dependency_changed_from_parent"] or row["input_regime_changed"],
+                row["dependency_changed_since_fixture_evidence"]
+                or row["input_regime_changed"],
             ),
         ),
         policy_metrics(
@@ -124,10 +130,13 @@ def main() -> int:
         or scope["unnecessary_revalidation_in_observed_equal_cases"]
         < dependency_only["unnecessary_revalidation_in_observed_equal_cases"]
     )
-    if never["false_transfer_or_error"] > 0 and dependency_only["false_transfer_or_error"] == 0:
-        qualification = (
-            "TRANSPARENT_INVALIDATION_CANDIDATE_CONTINUE_SCOPE_METHOD_PAUSED"
-        )
+    if (
+        never["false_transfer_or_error"] > 0
+        and dependency_only["false_transfer_or_error"] > 0
+        and scope["false_transfer_or_error"] == 0
+        and scope_increment_identified
+    ):
+        qualification = "QUALIFIED_FOR_BOUNDED_DEVELOPMENT"
     else:
         qualification = "NOT_QUALIFIED_ON_CURRENT_PROBE"
     payload = {
@@ -145,16 +154,16 @@ def main() -> int:
         "interpretation": (
             "Global evidence reuse can transfer a PASS from real repository fixtures "
             "to a short-input regime where the same module no longer matches the parent. "
-            "Dependency-change invalidation already avoids that false transfer on this "
-            "probe; the broader input-regime fingerprint adds no identified benefit. "
-            "The next qualification case must change the input regime while keeping the "
-            "dependency identity fixed."
+            "The same candidate and dependency remain fixed while the input regime "
+            "changes, so dependency-only invalidation reuses stale evidence and misses "
+            "the transfer. Adding the input-regime component to the transparent scope "
+            "fingerprint triggers revalidation and avoids the false transfer."
         ),
         "nonclaims": [
             "This is a two-regime mechanism probe, not a natural distribution estimate.",
             "The probe does not establish a learned evidence-expiry policy or a third thesis contribution.",
             "The short-input diagnostics depend on current chardet/cchardet behavior and must be versioned.",
-            "Scope-aware invalidation is paused because the simple dependency-change rule is sufficient on the current cases.",
+            "The qualified result supports bounded development of transparent scope-aware invalidation, not a learned policy.",
         ],
     }
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

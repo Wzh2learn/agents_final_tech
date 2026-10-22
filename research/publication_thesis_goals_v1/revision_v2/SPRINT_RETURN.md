@@ -57,16 +57,17 @@ No learned or complex adaptive planner is active.
 
 ## 4. Third Contribution Qualification
 
-`TRANSPARENT_INVALIDATION_CONTINUE / SCOPE_METHOD_PAUSED`
+`QUALIFIED_FOR_BOUNDED_DEVELOPMENT`
 
-A two-regime evidence-reuse probe found that globally reusing fixture behavior
-creates `2/5` false transfers when the input regime changes. Dependency-change
-invalidation is `5/5`; adding an input-regime scope fingerprint has no
-identified increment and creates one more unnecessary revalidation.
+A corrected two-regime evidence-reuse probe holds candidate code and dependency
+fixed while changing only the input regime. Global reuse and dependency-only
+invalidation each make `2/5` false transfers. The dependency-plus-input-regime
+scope fingerprint is `5/5` with zero false transfers, although it performs three
+unnecessary revalidations among five cases.
 
-The next qualifying case must change the input regime while dependency identity
-stays fixed. Until then, the defensible third-contribution seed is a transparent
-evidence-invalidation boundary, not a learned scope method.
+The third-contribution seed is therefore qualified for bounded development as
+transparent scope-aware evidence invalidation. It is not yet a thesis
+contribution or a learned policy.
 
 ## 5. G4 Thesis Integration
 
@@ -93,7 +94,7 @@ evidence-invalidation boundary, not a learned scope method.
 ## 7. Unfinished Items
 
 - Owner submission and public-release actions.
-- An orthogonal evidence-reuse case with dependency identity fixed.
+- A second natural evidence-reuse case with dependency identity fixed.
 - A new G2 migration mechanism only if a strong simple baseline first shows a
   concrete blind spot.
 - Formal Chinese thesis chapter integration beyond the current bounded prose.

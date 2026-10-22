@@ -156,9 +156,9 @@
       {
         "id": "THIRD_CONTRIBUTION_EVIDENCE_SCOPE_PROBE",
         "host": "local_replay_of_GB10_execution",
-        "status": "TRANSPARENT_INVALIDATION_CONTINUE_SCOPE_METHOD_PAUSED",
+        "status": "QUALIFIED_FOR_BOUNDED_DEVELOPMENT",
         "evidence_identity": "DEV_ONLY_TWO_REGIME_MECHANISM_PROBE",
-        "result": "Global evidence reuse makes 2/5 false transfers; dependency-change invalidation is 5/5. The broader input-regime scope adds no increment and is paused pending an orthogonal case.",
+        "result": "With candidate and dependency fixed across an input-regime change, global reuse and dependency-only invalidation each make 2/5 false transfers; dependency plus input-regime scope is 5/5. Qualified for bounded transparent development, not a learned policy.",
         "raw_result": "research/publication_thesis_goals_v1/revision_v2/THIRD_CONTRIBUTION_SCOPE_REUSE_PROBE.json"
       }
     ],

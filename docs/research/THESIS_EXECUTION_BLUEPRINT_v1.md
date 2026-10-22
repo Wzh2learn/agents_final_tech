@@ -18,7 +18,7 @@
 | **G1 Paper E** | 恢复 SCITEPRESS 9pt、修 manifest/披露、组装私有 artifact、GB10 clean reproduction、实际包审计 | **内部包就绪**；11 页、wide evidence 与 package audit PASS | Owner 完成作者/投稿/付款/公开决策；内部只做真实失败触发的修订 |
 | **G2 完成验证** | v3 actual-module + paired intervention + true tri-state；六对象与一个自然模型候选 | **判据修复，但方法增量未识别；当前机制停止扩展** | 仅当 simple strong baseline 出现真实盲点时换机制 |
 | **G3 决策成本** | 六对象真实 preflight/test/fixture/static/consumption 动作 | **simple baseline 6/6；复杂 planner 暂停** | 只保留成本/风险分析层 |
-| **第三贡献资格** | fixture/短输入证据复用探针 | **dependency invalidation 有作用；scope 增量未识别** | 等待 dependency 不变、input regime 改变的正交案例 |
+| **第三贡献资格** | 同一候选/依赖下 fixture→short 输入范围变化 | **scope-aware invalidation 5/5，dependency-only 3/5** | 增加第二个自然案例并测真实修复/结果收益 |
 | **G4 论文综合** | 中文 Paper E 引用正文、G2/G3/第三点摘要、导师一页稿和素材地图 | **部分完成，持续写作** | 将已停止/暂停边界写入正式章节 |
 
 **统一实验规则：** 正式新数字在 GB10 执行并保存 raw/命令/hash；开发 fixture、真实公开任务、旧证据重分析和模型输出分别标注；单批先小后大，失败/重试/canary/judge/训练均记账。新实验上限由当前 Goal 账本控制，不能把旧 300 次建议恢复为现役 cap。
