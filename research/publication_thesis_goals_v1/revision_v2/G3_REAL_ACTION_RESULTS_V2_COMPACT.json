@@ -1,0 +1,1151 @@
+{
+  "schema": "g3_real_action_policy_probe_v2_actual_module_compact",
+  "date": "2026-10-22",
+  "evidence_identity": "GB10_ACTUAL_MODULE_BEHAVIOR_STATIC_AND_PAIRED_CONSUMPTION_ACTIONS",
+  "full_raw": {
+    "gb10_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/G3_REAL_ACTION_RESULTS_V2.json",
+    "sha256": "d4cf60f30fd3d998b554efac0d88a9cec71f10545836d48409dce4b5d7ab7dbf",
+    "bytes": 5741889
+  },
+  "environment": {
+    "command": [
+      "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+      "-c",
+      "import json,platform,sys,numpy,pandas,cchardet,chardet,pytest;print(json.dumps({'python':sys.version,'platform':platform.platform(),'numpy':numpy.__version__,'pandas':pandas.__version__,'cchardet':getattr(cchardet,'__version__','unknown'),'chardet':getattr(chardet,'__version__','unknown'),'pytest':pytest.__version__}))"
+    ],
+    "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2",
+    "exit_code": 0,
+    "status": "PASS",
+    "stdout_tail": "{\"python\": \"3.11.16 (main, Sep 29 2026, 14:58:32) [Clang 22.1.3 ]\", \"platform\": \"Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39\", \"numpy\": \"1.23.5\", \"pandas\": \"1.5.3\", \"cchardet\": \"2.4.0\", \"chardet\": \"3.0.4\", \"pytest\": \"7.4.4\"}\n",
+    "stderr_tail": "",
+    "parsed": {
+      "python": "3.11.16 (main, Sep 29 2026, 14:58:32) [Clang 22.1.3 ]",
+      "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+      "numpy": "1.23.5",
+      "pandas": "1.5.3",
+      "cchardet": "2.4.0",
+      "chardet": "3.0.4",
+      "pytest": "7.4.4"
+    },
+    "wall_clock_seconds": 0.175274,
+    "accounting_attempts": 0,
+    "accounting_tokens": 0
+  },
+  "binding_contract": {
+    "module": "actual worktree partridge/utilities.py",
+    "manifest": "same worktree setup.py",
+    "function": "detect_encoding",
+    "paired_intervention": "same b'AB' input with legal target results latin-1 and utf-16-le",
+    "reference_prediction_separation": true
+  },
+  "rows": [
+    {
+      "id": "partridge_parent",
+      "kind": "natural_parent_commit",
+      "reference": "INVALID",
+      "reference_provenance": "parent_commit_role_reference",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+      "module_sha256": "1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/setup.py",
+      "manifest_sha256": "d8d1a61fb35bf3ae5552efd7af9449a24e26774d90ca1c7c0f2a6989d7df09da",
+      "derived": {
+        "static_prediction": "INVALID",
+        "consumption_prediction": "INVALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_evidence_contains_invalid_result"
+      },
+      "actions": {
+        "preflight": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.190512,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "parsed": null
+        },
+        "repository_tests": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 3.120725,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "parsed": null
+        },
+        "behavior_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.176867,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--reference-module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--fixture-root",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/tests/fixtures"
+          ],
+          "parsed": {
+            "status": "PASS",
+            "fixture_count": 24,
+            "mismatch_count": 0,
+            "mismatches": []
+          }
+        },
+        "static_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.026011,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_parent",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "source_dependency_present",
+            "target_imported": false,
+            "target_call": false,
+            "source_imported": true,
+            "source_call": true,
+            "target_declared": false,
+            "source_declared": true
+          }
+        },
+        "consumption": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.038875,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_parent",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "source_dependency_used_without_target_calls",
+            "execution_status": "OK",
+            "target_calls": 0,
+            "source_calls": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "partridge_gold",
+      "kind": "natural_gold_commit",
+      "reference": "VALID",
+      "reference_provenance": "upstream_migration_commit_reference",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+      "module_sha256": "780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "VALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "VALID",
+        "prediction_reason": "static_consumption_and_behavior_contract_agree"
+      },
+      "actions": {
+        "preflight": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.158096,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "parsed": null
+        },
+        "repository_tests": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 3.244322,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "parsed": null
+        },
+        "behavior_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.181104,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "--reference-module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--fixture-root",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/tests/fixtures"
+          ],
+          "parsed": {
+            "status": "PASS",
+            "fixture_count": 24,
+            "mismatch_count": 0,
+            "mismatches": []
+          }
+        },
+        "static_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.037177,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_gold",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false
+          }
+        },
+        "consumption": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.025433,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_gold",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "downstream_output_tracks_paired_target_result_intervention",
+            "execution_status": "OK",
+            "target_calls": 2,
+            "source_calls": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "partridge_source_fallback",
+      "kind": "manual_control_real_repository",
+      "reference": "INVALID",
+      "reference_provenance": "manual_contract_adjudication",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+      "module_sha256": "1226e2df776580e6a48cbd5a3a6aaabdea6c2f9ad54ed5816b3d093c872ae31a",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "derived": {
+        "static_prediction": "INVALID",
+        "consumption_prediction": "INVALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_evidence_contains_invalid_result"
+      },
+      "actions": {
+        "preflight": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.204242,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "parsed": null
+        },
+        "repository_tests": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 3.412787,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "parsed": null
+        },
+        "behavior_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.206638,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "--reference-module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--fixture-root",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/tests/fixtures"
+          ],
+          "parsed": {
+            "status": "PASS",
+            "fixture_count": 24,
+            "mismatch_count": 0,
+            "mismatches": []
+          }
+        },
+        "static_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.03936,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_source_fallback",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "source_dependency_present",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": true,
+            "source_call": true,
+            "target_declared": true,
+            "source_declared": false
+          }
+        },
+        "consumption": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.025234,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_source_fallback",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "target_called_but_downstream_output_does_not_track_target_result",
+            "execution_status": "OK",
+            "target_calls": 2,
+            "source_calls": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "partridge_alias",
+      "kind": "manual_control_real_repository",
+      "reference": "VALID",
+      "reference_provenance": "manual_contract_adjudication",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+      "module_sha256": "4eb13f782b1e639ec24c516525134e2ede7a245fc72ed4ba07ff8cb378dd6f23",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "VALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "VALID",
+        "prediction_reason": "static_consumption_and_behavior_contract_agree"
+      },
+      "actions": {
+        "preflight": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.204255,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "parsed": null
+        },
+        "repository_tests": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 3.277028,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "parsed": null
+        },
+        "behavior_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.194288,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "--reference-module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--fixture-root",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/tests/fixtures"
+          ],
+          "parsed": {
+            "status": "PASS",
+            "fixture_count": 24,
+            "mismatch_count": 0,
+            "mismatches": []
+          }
+        },
+        "static_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.03978,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_alias",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false
+          }
+        },
+        "consumption": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.03815,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_alias",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "downstream_output_tracks_paired_target_result_intervention",
+            "execution_status": "OK",
+            "target_calls": 2,
+            "source_calls": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "partridge_audit_counterexample",
+      "kind": "audit_counterexample_real_repository",
+      "reference": "INVALID",
+      "reference_provenance": "manual_contract_adjudication",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+      "module_sha256": "aaeb4bdeee4d2abb222f9b59fd950fbeb00b0026551f87cc8ebfa31e09fa062b",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "INVALID",
+        "behavior_status": "FAIL",
+        "repository_tests_status": "FAIL",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_evidence_contains_invalid_result"
+      },
+      "actions": {
+        "preflight": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.174631,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "parsed": null
+        },
+        "repository_tests": {
+          "status": "FAIL",
+          "exit_code": 1,
+          "wall_clock_seconds": 3.281064,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "parsed": null
+        },
+        "behavior_contract": {
+          "status": "FAIL",
+          "exit_code": 1,
+          "wall_clock_seconds": 0.199602,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "--reference-module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--fixture-root",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/tests/fixtures"
+          ],
+          "parsed": {
+            "status": "FAIL",
+            "fixture_count": 24,
+            "mismatch_count": 3,
+            "mismatches": [
+              "israel-public-transportation-route-2126/routes.txt",
+              "israel-public-transportation-route-2126/stops.txt",
+              "region-nord-v2/routes.txt"
+            ]
+          }
+        },
+        "static_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.038755,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_audit_counterexample",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false
+          }
+        },
+        "consumption": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.039049,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_audit_counterexample",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "target_called_but_downstream_output_does_not_track_target_result",
+            "execution_status": "OK",
+            "target_calls": 2,
+            "source_calls": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "partridge_model_candidate_001",
+      "kind": "natural_model_output",
+      "reference": "VALID",
+      "reference_provenance": "gold_diff_neutral_bytearray_change_plus_independent_execution",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/partridge/utilities.py",
+      "module_sha256": "6d110bf856e650e6b00aedc08162bbd41906856b04282f2acc2cc846c83aec27",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "VALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "VALID",
+        "prediction_reason": "static_consumption_and_behavior_contract_agree"
+      },
+      "actions": {
+        "preflight": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.17586,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "parsed": null
+        },
+        "repository_tests": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 3.200279,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "parsed": null
+        },
+        "behavior_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.209492,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/partridge/utilities.py",
+            "--reference-module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--fixture-root",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/tests/fixtures"
+          ],
+          "parsed": {
+            "status": "PASS",
+            "fixture_count": 24,
+            "mismatch_count": 0,
+            "mismatches": []
+          }
+        },
+        "static_contract": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.024477,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_model_candidate_001",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false
+          }
+        },
+        "consumption": {
+          "status": "PASS",
+          "exit_code": 0,
+          "wall_clock_seconds": 0.025182,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0,
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_model_candidate_001",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_model_candidate_001/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "downstream_output_tracks_paired_target_result_intervention",
+            "execution_status": "OK",
+            "target_calls": 2,
+            "source_calls": 0
+          }
+        }
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": "no_revalidation",
+      "executed_actions": {
+        "partridge_parent": [],
+        "partridge_gold": [],
+        "partridge_source_fallback": [],
+        "partridge_alias": [],
+        "partridge_audit_counterexample": [],
+        "partridge_model_candidate_001": []
+      },
+      "action_count": 0,
+      "wall_clock_seconds": 0.0,
+      "decisions": {
+        "partridge_parent": "VALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "VALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "VALID",
+        "partridge_model_candidate_001": "VALID"
+      },
+      "metrics": {
+        "correct": 3,
+        "false_accept": 3,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 6
+      }
+    },
+    {
+      "policy": "repository_tests_only",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_model_candidate_001": [
+          "preflight",
+          "repository_tests"
+        ]
+      },
+      "action_count": 12,
+      "wall_clock_seconds": 20.643801,
+      "decisions": {
+        "partridge_parent": "VALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "VALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "INVALID",
+        "partridge_model_candidate_001": "VALID"
+      },
+      "metrics": {
+        "correct": 4,
+        "false_accept": 2,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 6
+      }
+    },
+    {
+      "policy": "strong_static_plus_behavior",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ],
+        "partridge_model_candidate_001": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ]
+      },
+      "action_count": 16,
+      "wall_clock_seconds": 2.097642,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "INVALID",
+        "partridge_model_candidate_001": "VALID"
+      },
+      "metrics": {
+        "correct": 6,
+        "false_accept": 0,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 6
+      }
+    },
+    {
+      "policy": "strong_static_plus_repository_tests",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "static_contract",
+          "repository_tests"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "static_contract",
+          "repository_tests"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "static_contract",
+          "repository_tests"
+        ],
+        "partridge_model_candidate_001": [
+          "preflight",
+          "static_contract",
+          "repository_tests"
+        ]
+      },
+      "action_count": 16,
+      "wall_clock_seconds": 14.315849,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "INVALID",
+        "partridge_model_candidate_001": "VALID"
+      },
+      "metrics": {
+        "correct": 6,
+        "false_accept": 0,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 6
+      }
+    },
+    {
+      "policy": "consumption_plus_behavior",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "consumption"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "consumption"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "consumption"
+        ],
+        "partridge_model_candidate_001": [
+          "preflight",
+          "consumption",
+          "behavior_contract"
+        ]
+      },
+      "action_count": 15,
+      "wall_clock_seconds": 1.884403,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "INVALID",
+        "partridge_model_candidate_001": "VALID"
+      },
+      "metrics": {
+        "correct": 6,
+        "false_accept": 0,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 6
+      }
+    },
+    {
+      "policy": "combined_short_circuit",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "static_contract",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "static_contract",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "static_contract",
+          "consumption"
+        ],
+        "partridge_model_candidate_001": [
+          "preflight",
+          "static_contract",
+          "consumption",
+          "behavior_contract"
+        ]
+      },
+      "action_count": 19,
+      "wall_clock_seconds": 2.025854,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "INVALID",
+        "partridge_model_candidate_001": "VALID"
+      },
+      "metrics": {
+        "correct": 6,
+        "false_accept": 0,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 6
+      }
+    }
+  ],
+  "timing_scope": {
+    "kind": "one_observation_per_action_shared_receipt_policy_replay",
+    "supports_stable_cost_ranking": false,
+    "planner_status": "PAUSED"
+  },
+  "nonclaims": [
+    "Manual controls and the audit counterexample are separated from natural parent/gold commits.",
+    "Repository tests and the independent behavior contract are separate channels.",
+    "Wall-clock timings include process startup and are not stable population cost estimates."
+  ]
+}

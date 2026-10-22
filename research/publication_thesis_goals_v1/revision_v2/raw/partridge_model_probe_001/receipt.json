@@ -1,0 +1,24 @@
+{
+  "schema": "partridge_natural_model_probe_v1",
+  "status": "COMPLETE",
+  "evidence_identity": "ONE_NATURAL_MODEL_OUTPUT_NOT_HUMAN_GOLD",
+  "model_observed": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "model_expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "latency_seconds": 15.213816,
+  "usage": {
+    "completion_tokens": 897,
+    "prompt_tokens": 952,
+    "total_tokens": 1849,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "request_sha256": "51b952984654cee89b65c570cc1609ab9ff4e6461631101fad0a9fae64027d8b",
+  "response_sha256": "6334ebeb9ca8742bf3e61f7a82207334021e20b61186c6dfa6f05a009c1bc4c5",
+  "candidate_module_sha256": "6d110bf856e650e6b00aedc08162bbd41906856b04282f2acc2cc846c83aec27",
+  "candidate_setup_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 1849,
+  "retry_count": 0
+}

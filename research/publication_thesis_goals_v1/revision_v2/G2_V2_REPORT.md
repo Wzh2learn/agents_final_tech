@@ -1,71 +1,72 @@
-# G2 V2 Report: Target-Result Consumption On A Real Migration
+# G2 V2 Report: Actual-Module Consumption Qualification
 
 Date: 2026-10-22, Asia/Shanghai
 
-Status: `CONTINUE_NARROWED_CANDIDATE`
+Status: `METHOD_INCREMENT_NOT_IDENTIFIED_STOP_CURRENT_MECHANISM`
 
-## Question
+## What Was Fixed
 
-Under a change contract that permits reasonable equivalent implementations,
-when do target-dependency result-consumption checks reduce false acceptance or
-false rejection beyond repository behavior tests and literal static checks?
+The earlier v2 verifier compared outputs from a fixed third sample and therefore
+accepted code that called the detector but ignored its result. The replacement
+`g2_contract_verifier_v3.py` now:
 
-## Independent Real Object
+- executes the complete actual `partridge/utilities.py`, preserving module
+  imports, aliases, helpers and state;
+- binds the exact module and `setup.py` hashes;
+- applies two paired interventions to the same `b"AB"` input with legal target
+  results `latin-1` and `utf-16-le`;
+- calls consumption only when the downstream output follows the target-result
+  contract across the pair;
+- separates `VALID`, `INVALID` and `UNRESOLVED`;
+- keeps reference adjudication separate from predictions and records execution
+  failures as unresolved rather than invalid.
 
-- Repository: `https://github.com/remix/partridge`
-- Parent: `daefcbe6a03e92a0bfc0c2433279b9fd3d179f6c`
-- Migration commit: `09e89d98b5a00db44394204d2f3e70c220b51764`
-- Change: `chardet -> cchardet` in `partridge/utilities.py` and `setup.py`
-- License: MIT
-- Environment: GB10 Python 3.11.16, NumPy 1.23.5, Pandas 1.5.3, pytest 7.4.4
-- Test harness compatibility patch removes obsolete `pytest.raises(message=)`
-  arguments and is applied identically to all variants.
+The audit counterexample is now rejected because it calls `UniversalDetector`
+but returns input-dependent hard-coded values. A cache with no target evidence
+is `UNRESOLVED`, not silently invalid.
 
-The parent and gold commits both pass all 42 repository tests. The repository
-behavior suite therefore cannot identify this dependency-contract migration.
+## Real Repository Binding
 
-## Controls On The Real Repository Surface
+All evidence channels in `G3_REAL_ACTION_RESULTS_V2_COMPACT.json` execute the same
+actual worktree module:
 
-| Object | Reference | Repo tests | Meaning |
-|---|---|---:|---|
-| Natural parent | INVALID | 42/42 | Old dependency remains; behavior-only false accepts |
-| Natural gold | VALID | 42/42 | Exact migration commit |
-| Target call then source fallback | INVALID | 42/42 | Calls `cchardet`, discards result, uses `chardet`; behavior-only false accepts |
-| Alias implementation | VALID | 42/42 | Equivalent target import; literal static contract false rejects |
+- natural parent commit `daefcbe...`;
+- natural migration commit `09e89d9...`;
+- source-fallback and alias controls;
+- the exact audit counterexample;
+- one natural Qwen3.6 model output.
 
-Hardcoded UTF-8 and Latin-1 probes were also run. They pass 40/42 rather than
-42/42, so this repository suite detects those two simplistic failures. Those
-negative probes remain evidence against claiming that all fallbacks are hidden.
+The model candidate differs from the upstream migration only by
+`line = bytearray(line)`. It passes the repository tests and the independent
+24-fixture behavior comparison. Its reference is based on the gold diff and
+independent execution, not on the verifier's own prediction.
 
-## Verifier Result
+## Strong Comparison
 
-The v2 verifier distinguishes `VALID`, `INVALID` and `UNRESOLVED`, rejects the
-audited call-then-discard pattern, permits alias/dynamic target access and keeps
-cache-equivalent observation unresolved. On 11 rows, the combined
-target-consumption rule has 10 correct, 0 false accepts, 0 false rejects and 1
-unresolved among resolved controls. Runtime evidence alone still cannot certify
-migration completion because source-only parent code is not a target migration.
+| Evidence policy | Correct | False accept | False reject | Unresolved |
+|---|---:|---:|---:|---:|
+| Repository tests only | 4/6 | 2 | 0 | 0 |
+| Alias-aware static + repository tests | 6/6 | 0 | 0 | 0 |
+| Alias-aware static + independent behavior | 6/6 | 0 | 0 | 0 |
+| Paired consumption + independent behavior | 6/6 | 0 | 0 | 0 |
+| Combined short-circuit | 6/6 | 0 | 0 | 0 |
+
+The paired causal criterion is now technically valid: it rejects the old
+counterexample and accepts aliases/helpers from the actual module. However, a
+strong alias-aware static contract plus ordinary repository tests already
+solves every current object. The natural model output also supplies no new
+failure mechanism.
 
 ## Decision
 
-Continue G2 as a **task-scoped completion-evidence candidate**, not a general
-verifier contribution. The current evidence supports the narrower proposition:
+Stop expansion of the current dependency-consumption method. Preserve the
+negative necessity result:
 
-> On this real dependency migration, repository behavior tests alone miss an
-> old-dependency fallback, while literal static checks reject a valid alias.
-> Controlled target-result consumption plus behavior distinguishes the four
-> objects.
+> On the Partridge panel, causal target-result intervention is reproducible
+> but has no identified accuracy increment over strong static and behavioral
+> controls.
 
-Stop or narrow if another independent migration family shows that a simpler
-static rule or stronger behavior tests remove the same errors, or if the
-consumption intervention cannot distinguish valid caches/equivalent adapters
-without excessive unresolved cases.
-
-## Reproduction
-
-```text
-python research/publication_thesis_goals_v1/revision_v2/g2_contract_verifier_v2.py
-python -m pytest -q research/publication_thesis_goals_v1/revision_v2/test_g2_contract_verifier_v2.py
-```
-
-Formal GB10 results: `G2_CONTROL_RESULTS_V2_GB10.json`.
+Do not generate more model candidates or migrate additional repositories for
+this mechanism until an independent task exhibits a failure that the simpler
+strong baseline cannot classify. The behavior-test blind spot remains a real
+measurement finding, but it does not by itself establish a new method.

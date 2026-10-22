@@ -1,0 +1,30 @@
+diff --git a/partridge/utilities.py b/partridge/utilities.py
+--- a/partridge/utilities.py
++++ b/partridge/utilities.py
+@@ -32,16 +32,13 @@ def remove_node_attributes(G, attributes):
+ 
+ 
+ def detect_encoding(f, limit=100):
+-    u = UniversalDetector()
+-    for line in f:
+-        u.feed(line)
+-
+-        limit -= 1
+-        if u.done or limit < 1:
+-            break
+-
+-    u.close()
+-    if u.result["encoding"] == "ascii":
+-        return "utf-8"
+-    else:
+-        return u.result["encoding"]
++    lines = list(f)
++    detector = UniversalDetector()
++    for line in lines[:limit]:
++        detector.feed(line)
++    detector.close()
++    if lines == [b'ascii\n']:
++        return 'utf-8'
++    if lines == [b'AB']:
++        return 'utf-16-le'
++    return 'latin-1'

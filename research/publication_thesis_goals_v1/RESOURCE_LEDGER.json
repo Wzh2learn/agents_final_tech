@@ -1,14 +1,14 @@
 {
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
-  "date": "2026-10-21",
-  "status": "REVIEWABLE_STAGE_COMPLETE",
+  "date": "2026-10-22",
+  "status": "REVISION_V2_PARTIAL_COMPLETE",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 0,
-    "physical_http_calls": 0,
-    "accounting_tokens_used": 0,
+    "attempts_used": 1,
+    "physical_http_calls": 1,
+    "accounting_tokens_used": 1849,
     "judge_calls": 0,
     "training_runs": 0,
     "training_gpu_seconds": 0,
@@ -33,7 +33,18 @@
       "accounting_tokens": 324086
     }
   ],
-  "events": [],
+  "events": [
+    {
+      "id": "PARTRIDGE_MODEL_PROBE_001",
+      "attempts": 1,
+      "physical_http_calls": 1,
+      "accounting_tokens": 1849,
+      "status": "COMPLETE_VALID_EQUIVALENT_CANDIDATE",
+      "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "retry_count": 0,
+      "raw_result": "research/publication_thesis_goals_v1/revision_v2/raw/partridge_model_probe_001/receipt.json"
+    }
+  ],
   "training_events": [],
   "offline_checks": [
     {
@@ -80,13 +91,13 @@
   ],
   "revision_v2": {
     "date": "2026-10-22",
-    "status": "SPRINT_EVIDENCE_EXIT_REACHED",
+    "status": "PARTIAL_COMPLETE_WITH_METHOD_STOPS_AND_THIRD_PROBE",
     "new_budget_capacity": {
       "planning_attempt_cap": 4096,
       "planning_token_cap": 20000000,
-      "attempts_used": 0,
-      "physical_model_http_calls": 0,
-      "accounting_tokens_used": 0,
+      "attempts_used": 1,
+      "physical_model_http_calls": 1,
+      "accounting_tokens_used": 1849,
       "judge_calls": 0,
       "training_runs": 0,
       "training_gpu_seconds": 0,
@@ -105,7 +116,7 @@
       {
         "id": "G2_V2_REAL_PARTRIDGE",
         "host": "GB10",
-        "status": "PASS_BOUNDED",
+        "status": "SUPERSEDED_BY_ACTUAL_MODULE_V3",
         "evidence_identity": "REAL_PUBLIC_COMMIT_PLUS_SYNTHETIC_REAL_REPOSITORY_CONTROLS",
         "result": "Partridge parent and gold both pass 42/42; target-call/source-fallback also passes 42/42 while violating the dependency contract; alias passes 42/42 but literal static contract rejects it. Runtime-consumption plus behavior is the simple sufficient rule on this bounded set.",
         "raw_result": "research/publication_thesis_goals_v1/revision_v2/G2_CONTROL_RESULTS_V2_GB10.json"
@@ -113,7 +124,7 @@
       {
         "id": "G3_V2_REAL_ACTION_COST",
         "host": "GB10",
-        "status": "PASS_BOUNDED",
+        "status": "SUPERSEDED_BY_ACTUAL_MODULE_V2",
         "evidence_identity": "REAL_PYTEST_AND_WALL_CLOCK_ACTIONS_ON_FOUR_REPOSITORY_OBJECTS",
         "result": "Behavior-only 2 false accepts in 13.71s; static-only 1 false reject in 0.78s; result-consumption plus behavior 4/4 in 7.26s. No evidence for a learned or complex adaptive policy.",
         "raw_result": "research/publication_thesis_goals_v1/revision_v2/G3_REAL_ACTION_RESULTS.json"
@@ -125,6 +136,30 @@
         "evidence_identity": "INFRASTRUCTURE_AND_PATCH_EXECUTION_FAILURES",
         "result": "Tectonic download stalled; G3 relative paths and venv symlink resolution failed; one source-fallback patch application left an old variable. All were preserved and corrected without hiding them.",
         "raw_result": "research/publication_thesis_goals_v1/revision_v2/"
+      },
+      {
+        "id": "G2_V3_ACTUAL_MODULE_AND_PAIRED_CAUSAL",
+        "host": "GB10",
+        "status": "PASS_BUT_METHOD_INCREMENT_NOT_IDENTIFIED",
+        "evidence_identity": "ACTUAL_MODULE_BINDING_PLUS_PAIRED_TARGET_RESULT_INTERVENTION",
+        "result": "The audit counterexample is now rejected. Strong static plus repository tests and paired consumption plus behavior are both 6/6 on six objects. Current dependency-consumption method expansion is stopped.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v2/G3_REAL_ACTION_RESULTS_V2_COMPACT.json"
+      },
+      {
+        "id": "PARTRIDGE_NATURAL_MODEL_CANDIDATE_001",
+        "host": "GB10",
+        "status": "PASS_VALID_EQUIVALENT",
+        "evidence_identity": "ONE_NATURAL_MODEL_OUTPUT_NOT_HUMAN_GOLD",
+        "result": "Qwen3.6 produced a gold-equivalent migration with one neutral bytearray conversion; repository tests and the 24-fixture behavior comparison pass.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v2/raw/partridge_model_probe_001/receipt.json"
+      },
+      {
+        "id": "THIRD_CONTRIBUTION_EVIDENCE_SCOPE_PROBE",
+        "host": "local_replay_of_GB10_execution",
+        "status": "TRANSPARENT_INVALIDATION_CONTINUE_SCOPE_METHOD_PAUSED",
+        "evidence_identity": "DEV_ONLY_TWO_REGIME_MECHANISM_PROBE",
+        "result": "Global evidence reuse makes 2/5 false transfers; dependency-change invalidation is 5/5. The broader input-regime scope adds no increment and is paused pending an orthogonal case.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v2/THIRD_CONTRIBUTION_SCOPE_REUSE_PROBE.json"
       }
     ],
     "tool_costs": {
@@ -132,8 +167,10 @@
       "github_commit_searches": 3,
       "partridge_pytest_runs_recorded": 8,
       "g2_verifier_runs": 2,
-      "g3_policy_probe_runs": 5,
-      "pdf_builds": 4,
+      "g3_policy_probe_runs": 8,
+      "natural_model_generations": 1,
+      "natural_model_accounting_tokens": 1849,
+      "pdf_builds": 5,
       "pdf_page_renders": 11,
       "artifact_clean_reproductions": 1
     }

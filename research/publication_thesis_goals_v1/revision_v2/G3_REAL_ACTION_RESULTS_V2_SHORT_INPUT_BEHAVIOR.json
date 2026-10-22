@@ -1,0 +1,1352 @@
+{
+  "schema": "g3_real_action_policy_probe_v2_actual_module",
+  "date": "2026-10-22",
+  "evidence_identity": "GB10_ACTUAL_MODULE_BEHAVIOR_STATIC_AND_PAIRED_CONSUMPTION_ACTIONS",
+  "environment": {
+    "command": [
+      "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+      "-c",
+      "import json,platform,sys,numpy,pandas,cchardet,chardet,pytest;print(json.dumps({'python':sys.version,'platform':platform.platform(),'numpy':numpy.__version__,'pandas':pandas.__version__,'cchardet':getattr(cchardet,'__version__','unknown'),'chardet':getattr(chardet,'__version__','unknown'),'pytest':pytest.__version__}))"
+    ],
+    "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2",
+    "exit_code": 0,
+    "status": "PASS",
+    "stdout_tail": "{\"python\": \"3.11.16 (main, Sep 29 2026, 14:58:32) [Clang 22.1.3 ]\", \"platform\": \"Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39\", \"numpy\": \"1.23.5\", \"pandas\": \"1.5.3\", \"cchardet\": \"2.4.0\", \"chardet\": \"3.0.4\", \"pytest\": \"7.4.4\"}\n",
+    "stderr_tail": "",
+    "parsed": {
+      "python": "3.11.16 (main, Sep 29 2026, 14:58:32) [Clang 22.1.3 ]",
+      "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+      "numpy": "1.23.5",
+      "pandas": "1.5.3",
+      "cchardet": "2.4.0",
+      "chardet": "3.0.4",
+      "pytest": "7.4.4"
+    },
+    "wall_clock_seconds": 0.234358,
+    "accounting_attempts": 0,
+    "accounting_tokens": 0
+  },
+  "binding_contract": {
+    "module": "actual worktree partridge/utilities.py",
+    "manifest": "same worktree setup.py",
+    "function": "detect_encoding",
+    "paired_intervention": "same b'AB' input with legal target results latin-1 and utf-16-le",
+    "reference_prediction_separation": true
+  },
+  "rows": [
+    {
+      "id": "partridge_parent",
+      "verifier_id": "partridge_parent",
+      "reference": "INVALID",
+      "worktree": "partridge_parent",
+      "kind": "natural_parent_commit",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+      "module_sha256": "1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/setup.py",
+      "manifest_sha256": "d8d1a61fb35bf3ae5552efd7af9449a24e26774d90ca1c7c0f2a6989d7df09da",
+      "actions": {
+        "preflight": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "imports_ok\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 0.178101,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "repository_tests": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "..........................................                               [100%]\n42 passed, 626 warnings in 3.17s\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 3.299766,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"schema\": \"partridge_independent_behavior_contract_v1\",\n  \"status\": \"PASS\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py\",\n  \"cases\": [\n    {\n      \"case_id\": \"ascii_normalized\",\n      \"expected_text\": \"abc\\n\",\n      \"returned_encoding\": \"utf-8\",\n      \"decoded_text\": \"abc\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"latin1_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"ISO-8859-1\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"utf8_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"utf-8\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    }\n  ],\n  \"nonclaims\": [\n    \"This contract checks observable encoding behavior and is independent of the paired consumption intervention.\",\n    \"It does not establish general semantic equivalence or package installation correctness.\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "schema": "partridge_independent_behavior_contract_v1",
+            "status": "PASS",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "cases": [
+              {
+                "case_id": "ascii_normalized",
+                "expected_text": "abc\n",
+                "returned_encoding": "utf-8",
+                "decoded_text": "abc\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "latin1_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "ISO-8859-1",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "utf8_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "utf-8",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              }
+            ],
+            "nonclaims": [
+              "This contract checks observable encoding behavior and is independent of the paired consumption intervention.",
+              "It does not establish general semantic equivalence or package installation correctness."
+            ]
+          },
+          "wall_clock_seconds": 0.191681,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_parent",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"INVALID\",\n  \"reason\": \"source_dependency_present\",\n  \"target_imported\": false,\n  \"target_call\": false,\n  \"source_imported\": true,\n  \"source_call\": true,\n  \"target_declared\": false,\n  \"source_declared\": true,\n  \"dynamic_target\": false,\n  \"dynamic_source\": false,\n  \"dynamic_unknown\": false,\n  \"target_aliases\": [],\n  \"source_aliases\": [\n    \"UniversalDetector\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "source_dependency_present",
+            "target_imported": false,
+            "target_call": false,
+            "source_imported": true,
+            "source_call": true,
+            "target_declared": false,
+            "source_declared": true,
+            "dynamic_target": false,
+            "dynamic_source": false,
+            "dynamic_unknown": false,
+            "target_aliases": [],
+            "source_aliases": [
+              "UniversalDetector"
+            ]
+          },
+          "wall_clock_seconds": 0.037704,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "consumption": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_parent",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"INVALID\",\n  \"reason\": \"source_dependency_used_without_target_calls\",\n  \"execution_status\": \"OK\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py\",\n  \"module_sha256\": \"1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31\",\n  \"function_name\": \"detect_encoding\",\n  \"target_calls\": 0,\n  \"source_calls\": 2,\n  \"outputs\": [\n    \"cp1252\",\n    \"cp1252\"\n  ],\n  \"expected_outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"errors\": [\n    null,\n    null\n  ],\n  \"intervention_results\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"injection_boundary\": {\n    \"module_sha256\": \"1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31\",\n    \"source_bytes\": 1266,\n    \"stubbed_imports\": [\n      \"cchardet\",\n      \"chardet\",\n      \"importlib\",\n      \"numpy\",\n      \"pandas\",\n      \"pandas.core\",\n      \"pandas.core.common\"\n    ],\n    \"controlled_detector_results\": {\n      \"target\": \"utf-16-le\",\n      \"source\": \"cp1252\"\n    }\n  }\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "source_dependency_used_without_target_calls",
+            "execution_status": "OK",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_parent/partridge/utilities.py",
+            "module_sha256": "1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31",
+            "function_name": "detect_encoding",
+            "target_calls": 0,
+            "source_calls": 2,
+            "outputs": [
+              "cp1252",
+              "cp1252"
+            ],
+            "expected_outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "errors": [
+              null,
+              null
+            ],
+            "intervention_results": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "injection_boundary": {
+              "module_sha256": "1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31",
+              "source_bytes": 1266,
+              "stubbed_imports": [
+                "cchardet",
+                "chardet",
+                "importlib",
+                "numpy",
+                "pandas",
+                "pandas.core",
+                "pandas.core.common"
+              ],
+              "controlled_detector_results": {
+                "target": "utf-16-le",
+                "source": "cp1252"
+              }
+            }
+          },
+          "wall_clock_seconds": 0.040205,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        }
+      },
+      "derived": {
+        "static_prediction": "INVALID",
+        "consumption_prediction": "INVALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_evidence_contains_invalid_result"
+      }
+    },
+    {
+      "id": "partridge_gold",
+      "verifier_id": "partridge_gold",
+      "reference": "VALID",
+      "worktree": "partridge_gold",
+      "kind": "natural_gold_commit",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+      "module_sha256": "780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "actions": {
+        "preflight": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "imports_ok\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 0.157003,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "repository_tests": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "..........................................                               [100%]\n42 passed, 626 warnings in 3.06s\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 3.179596,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold",
+          "exit_code": 1,
+          "status": "FAIL",
+          "stdout_tail": "{\n  \"schema\": \"partridge_independent_behavior_contract_v1\",\n  \"status\": \"FAIL\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py\",\n  \"cases\": [\n    {\n      \"case_id\": \"ascii_normalized\",\n      \"expected_text\": \"abc\\n\",\n      \"returned_encoding\": \"ASCII\",\n      \"decoded_text\": \"abc\\n\",\n      \"error\": null,\n      \"pass_\": false\n    },\n    {\n      \"case_id\": \"latin1_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"ISO-8859-2\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"utf8_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"BIG5\",\n      \"decoded_text\": \"caf矇\\n\",\n      \"error\": null,\n      \"pass_\": false\n    }\n  ],\n  \"nonclaims\": [\n    \"This contract checks observable encoding behavior and is independent of the paired consumption intervention.\",\n    \"It does not establish general semantic equivalence or package installation correctness.\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "schema": "partridge_independent_behavior_contract_v1",
+            "status": "FAIL",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "cases": [
+              {
+                "case_id": "ascii_normalized",
+                "expected_text": "abc\n",
+                "returned_encoding": "ASCII",
+                "decoded_text": "abc\n",
+                "error": null,
+                "pass_": false
+              },
+              {
+                "case_id": "latin1_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "ISO-8859-2",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "utf8_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "BIG5",
+                "decoded_text": "caf矇\n",
+                "error": null,
+                "pass_": false
+              }
+            ],
+            "nonclaims": [
+              "This contract checks observable encoding behavior and is independent of the paired consumption intervention.",
+              "It does not establish general semantic equivalence or package installation correctness."
+            ]
+          },
+          "wall_clock_seconds": 0.150332,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_gold",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"VALID\",\n  \"reason\": \"alias_aware_target_import_call_and_manifest_agree\",\n  \"target_imported\": true,\n  \"target_call\": true,\n  \"source_imported\": false,\n  \"source_call\": false,\n  \"target_declared\": true,\n  \"source_declared\": false,\n  \"dynamic_target\": false,\n  \"dynamic_source\": false,\n  \"dynamic_unknown\": false,\n  \"target_aliases\": [\n    \"UniversalDetector\"\n  ],\n  \"source_aliases\": []\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false,
+            "dynamic_target": false,
+            "dynamic_source": false,
+            "dynamic_unknown": false,
+            "target_aliases": [
+              "UniversalDetector"
+            ],
+            "source_aliases": []
+          },
+          "wall_clock_seconds": 0.02675,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "consumption": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_gold",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"VALID\",\n  \"reason\": \"downstream_output_tracks_paired_target_result_intervention\",\n  \"execution_status\": \"OK\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py\",\n  \"module_sha256\": \"780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b\",\n  \"function_name\": \"detect_encoding\",\n  \"target_calls\": 2,\n  \"source_calls\": 0,\n  \"outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"expected_outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"errors\": [\n    null,\n    null\n  ],\n  \"intervention_results\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"injection_boundary\": {\n    \"module_sha256\": \"780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b\",\n    \"source_bytes\": 1236,\n    \"stubbed_imports\": [\n      \"cchardet\",\n      \"chardet\",\n      \"importlib\",\n      \"numpy\",\n      \"pandas\",\n      \"pandas.core\",\n      \"pandas.core.common\"\n    ],\n    \"controlled_detector_results\": {\n      \"target\": \"utf-16-le\",\n      \"source\": \"cp1252\"\n    }\n  }\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "downstream_output_tracks_paired_target_result_intervention",
+            "execution_status": "OK",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_gold/partridge/utilities.py",
+            "module_sha256": "780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b",
+            "function_name": "detect_encoding",
+            "target_calls": 2,
+            "source_calls": 0,
+            "outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "expected_outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "errors": [
+              null,
+              null
+            ],
+            "intervention_results": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "injection_boundary": {
+              "module_sha256": "780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b",
+              "source_bytes": 1236,
+              "stubbed_imports": [
+                "cchardet",
+                "chardet",
+                "importlib",
+                "numpy",
+                "pandas",
+                "pandas.core",
+                "pandas.core.common"
+              ],
+              "controlled_detector_results": {
+                "target": "utf-16-le",
+                "source": "cp1252"
+              }
+            }
+          },
+          "wall_clock_seconds": 0.02583,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        }
+      },
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "VALID",
+        "behavior_status": "FAIL",
+        "repository_tests_status": "PASS",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_behavior_contract_fails"
+      }
+    },
+    {
+      "id": "partridge_source_fallback",
+      "verifier_id": "partridge_source_fallback",
+      "reference": "INVALID",
+      "worktree": "partridge_source_fallback",
+      "kind": "manual_control_real_repository",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+      "module_sha256": "1226e2df776580e6a48cbd5a3a6aaabdea6c2f9ad54ed5816b3d093c872ae31a",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "actions": {
+        "preflight": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "imports_ok\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 0.158415,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "repository_tests": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "..........................................                               [100%]\n42 passed, 626 warnings in 3.07s\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 3.20369,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"schema\": \"partridge_independent_behavior_contract_v1\",\n  \"status\": \"PASS\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py\",\n  \"cases\": [\n    {\n      \"case_id\": \"ascii_normalized\",\n      \"expected_text\": \"abc\\n\",\n      \"returned_encoding\": \"utf-8\",\n      \"decoded_text\": \"abc\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"latin1_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"ISO-8859-1\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"utf8_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"utf-8\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    }\n  ],\n  \"nonclaims\": [\n    \"This contract checks observable encoding behavior and is independent of the paired consumption intervention.\",\n    \"It does not establish general semantic equivalence or package installation correctness.\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "schema": "partridge_independent_behavior_contract_v1",
+            "status": "PASS",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "cases": [
+              {
+                "case_id": "ascii_normalized",
+                "expected_text": "abc\n",
+                "returned_encoding": "utf-8",
+                "decoded_text": "abc\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "latin1_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "ISO-8859-1",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "utf8_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "utf-8",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              }
+            ],
+            "nonclaims": [
+              "This contract checks observable encoding behavior and is independent of the paired consumption intervention.",
+              "It does not establish general semantic equivalence or package installation correctness."
+            ]
+          },
+          "wall_clock_seconds": 0.158772,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_source_fallback",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"INVALID\",\n  \"reason\": \"source_dependency_present\",\n  \"target_imported\": true,\n  \"target_call\": true,\n  \"source_imported\": true,\n  \"source_call\": true,\n  \"target_declared\": true,\n  \"source_declared\": false,\n  \"dynamic_target\": false,\n  \"dynamic_source\": false,\n  \"dynamic_unknown\": false,\n  \"target_aliases\": [\n    \"UniversalDetector\"\n  ],\n  \"source_aliases\": [\n    \"SourceDetector\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "source_dependency_present",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": true,
+            "source_call": true,
+            "target_declared": true,
+            "source_declared": false,
+            "dynamic_target": false,
+            "dynamic_source": false,
+            "dynamic_unknown": false,
+            "target_aliases": [
+              "UniversalDetector"
+            ],
+            "source_aliases": [
+              "SourceDetector"
+            ]
+          },
+          "wall_clock_seconds": 0.040709,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "consumption": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_source_fallback",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"INVALID\",\n  \"reason\": \"target_called_but_downstream_output_does_not_track_target_result\",\n  \"execution_status\": \"OK\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py\",\n  \"module_sha256\": \"1226e2df776580e6a48cbd5a3a6aaabdea6c2f9ad54ed5816b3d093c872ae31a\",\n  \"function_name\": \"detect_encoding\",\n  \"target_calls\": 2,\n  \"source_calls\": 2,\n  \"outputs\": [\n    \"cp1252\",\n    \"cp1252\"\n  ],\n  \"expected_outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"errors\": [\n    null,\n    null\n  ],\n  \"intervention_results\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"injection_boundary\": {\n    \"module_sha256\": \"1226e2df776580e6a48cbd5a3a6aaabdea6c2f9ad54ed5816b3d093c872ae31a\",\n    \"source_bytes\": 1427,\n    \"stubbed_imports\": [\n      \"cchardet\",\n      \"chardet\",\n      \"importlib\",\n      \"numpy\",\n      \"pandas\",\n      \"pandas.core\",\n      \"pandas.core.common\"\n    ],\n    \"controlled_detector_results\": {\n      \"target\": \"utf-16-le\",\n      \"source\": \"cp1252\"\n    }\n  }\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "target_called_but_downstream_output_does_not_track_target_result",
+            "execution_status": "OK",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_source_fallback/partridge/utilities.py",
+            "module_sha256": "1226e2df776580e6a48cbd5a3a6aaabdea6c2f9ad54ed5816b3d093c872ae31a",
+            "function_name": "detect_encoding",
+            "target_calls": 2,
+            "source_calls": 2,
+            "outputs": [
+              "cp1252",
+              "cp1252"
+            ],
+            "expected_outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "errors": [
+              null,
+              null
+            ],
+            "intervention_results": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "injection_boundary": {
+              "module_sha256": "1226e2df776580e6a48cbd5a3a6aaabdea6c2f9ad54ed5816b3d093c872ae31a",
+              "source_bytes": 1427,
+              "stubbed_imports": [
+                "cchardet",
+                "chardet",
+                "importlib",
+                "numpy",
+                "pandas",
+                "pandas.core",
+                "pandas.core.common"
+              ],
+              "controlled_detector_results": {
+                "target": "utf-16-le",
+                "source": "cp1252"
+              }
+            }
+          },
+          "wall_clock_seconds": 0.026211,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        }
+      },
+      "derived": {
+        "static_prediction": "INVALID",
+        "consumption_prediction": "INVALID",
+        "behavior_status": "PASS",
+        "repository_tests_status": "PASS",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_evidence_contains_invalid_result"
+      }
+    },
+    {
+      "id": "partridge_alias",
+      "verifier_id": "partridge_alias",
+      "reference": "VALID",
+      "worktree": "partridge_alias",
+      "kind": "manual_control_real_repository",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+      "module_sha256": "4eb13f782b1e639ec24c516525134e2ede7a245fc72ed4ba07ff8cb378dd6f23",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "actions": {
+        "preflight": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "imports_ok\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 0.207685,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "repository_tests": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "..........................................                               [100%]\n42 passed, 626 warnings in 3.11s\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 3.250451,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias",
+          "exit_code": 1,
+          "status": "FAIL",
+          "stdout_tail": "{\n  \"schema\": \"partridge_independent_behavior_contract_v1\",\n  \"status\": \"FAIL\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py\",\n  \"cases\": [\n    {\n      \"case_id\": \"ascii_normalized\",\n      \"expected_text\": \"abc\\n\",\n      \"returned_encoding\": \"ASCII\",\n      \"decoded_text\": \"abc\\n\",\n      \"error\": null,\n      \"pass_\": false\n    },\n    {\n      \"case_id\": \"latin1_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"ISO-8859-2\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"utf8_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"BIG5\",\n      \"decoded_text\": \"caf矇\\n\",\n      \"error\": null,\n      \"pass_\": false\n    }\n  ],\n  \"nonclaims\": [\n    \"This contract checks observable encoding behavior and is independent of the paired consumption intervention.\",\n    \"It does not establish general semantic equivalence or package installation correctness.\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "schema": "partridge_independent_behavior_contract_v1",
+            "status": "FAIL",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "cases": [
+              {
+                "case_id": "ascii_normalized",
+                "expected_text": "abc\n",
+                "returned_encoding": "ASCII",
+                "decoded_text": "abc\n",
+                "error": null,
+                "pass_": false
+              },
+              {
+                "case_id": "latin1_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "ISO-8859-2",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "utf8_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "BIG5",
+                "decoded_text": "caf矇\n",
+                "error": null,
+                "pass_": false
+              }
+            ],
+            "nonclaims": [
+              "This contract checks observable encoding behavior and is independent of the paired consumption intervention.",
+              "It does not establish general semantic equivalence or package installation correctness."
+            ]
+          },
+          "wall_clock_seconds": 0.183632,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_alias",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"VALID\",\n  \"reason\": \"alias_aware_target_import_call_and_manifest_agree\",\n  \"target_imported\": true,\n  \"target_call\": true,\n  \"source_imported\": false,\n  \"source_call\": false,\n  \"target_declared\": true,\n  \"source_declared\": false,\n  \"dynamic_target\": false,\n  \"dynamic_source\": false,\n  \"dynamic_unknown\": false,\n  \"target_aliases\": [\n    \"Detector\"\n  ],\n  \"source_aliases\": []\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false,
+            "dynamic_target": false,
+            "dynamic_source": false,
+            "dynamic_unknown": false,
+            "target_aliases": [
+              "Detector"
+            ],
+            "source_aliases": []
+          },
+          "wall_clock_seconds": 0.037819,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "consumption": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_alias",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/setup.py",
+            "--reference",
+            "VALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"VALID\",\n  \"reason\": \"downstream_output_tracks_paired_target_result_intervention\",\n  \"execution_status\": \"OK\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py\",\n  \"module_sha256\": \"4eb13f782b1e639ec24c516525134e2ede7a245fc72ed4ba07ff8cb378dd6f23\",\n  \"function_name\": \"detect_encoding\",\n  \"target_calls\": 2,\n  \"source_calls\": 0,\n  \"outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"expected_outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"errors\": [\n    null,\n    null\n  ],\n  \"intervention_results\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"injection_boundary\": {\n    \"module_sha256\": \"4eb13f782b1e639ec24c516525134e2ede7a245fc72ed4ba07ff8cb378dd6f23\",\n    \"source_bytes\": 1239,\n    \"stubbed_imports\": [\n      \"cchardet\",\n      \"chardet\",\n      \"importlib\",\n      \"numpy\",\n      \"pandas\",\n      \"pandas.core\",\n      \"pandas.core.common\"\n    ],\n    \"controlled_detector_results\": {\n      \"target\": \"utf-16-le\",\n      \"source\": \"cp1252\"\n    }\n  }\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "downstream_output_tracks_paired_target_result_intervention",
+            "execution_status": "OK",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_alias/partridge/utilities.py",
+            "module_sha256": "4eb13f782b1e639ec24c516525134e2ede7a245fc72ed4ba07ff8cb378dd6f23",
+            "function_name": "detect_encoding",
+            "target_calls": 2,
+            "source_calls": 0,
+            "outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "expected_outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "errors": [
+              null,
+              null
+            ],
+            "intervention_results": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "injection_boundary": {
+              "module_sha256": "4eb13f782b1e639ec24c516525134e2ede7a245fc72ed4ba07ff8cb378dd6f23",
+              "source_bytes": 1239,
+              "stubbed_imports": [
+                "cchardet",
+                "chardet",
+                "importlib",
+                "numpy",
+                "pandas",
+                "pandas.core",
+                "pandas.core.common"
+              ],
+              "controlled_detector_results": {
+                "target": "utf-16-le",
+                "source": "cp1252"
+              }
+            }
+          },
+          "wall_clock_seconds": 0.026136,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        }
+      },
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "VALID",
+        "behavior_status": "FAIL",
+        "repository_tests_status": "PASS",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_behavior_contract_fails"
+      }
+    },
+    {
+      "id": "partridge_audit_counterexample",
+      "verifier_id": "partridge_audit_counterexample",
+      "reference": "INVALID",
+      "worktree": "partridge_audit_counterexample",
+      "kind": "audit_counterexample_real_repository",
+      "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+      "module_sha256": "aaeb4bdeee4d2abb222f9b59fd950fbeb00b0026551f87cc8ebfa31e09fa062b",
+      "manifest_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/setup.py",
+      "manifest_sha256": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f",
+      "actions": {
+        "preflight": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-c",
+            "import chardet,cchardet,numpy,pandas; print('imports_ok')"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "imports_ok\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 0.14309,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "repository_tests": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "--disable-warnings",
+            "tests"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample",
+          "exit_code": 1,
+          "status": "FAIL",
+          "stdout_tail": "                 \"agency.txt\": (1, 6),\n                    \"calendar.txt\": (1, 10),\n                    \"calendar_dates.txt\": (6, 3),\n                    \"fare_attributes.txt\": (4, 6),\n                    \"fare_rules.txt\": (48, 4),\n                    \"routes.txt\": (3, 7),\n                    \"shapes.txt\": (1094, 5),\n                    \"stops.txt\": (50, 12),\n                },\n            ),\n            (\n                fixture(\"nested\"),\n                [datetime.date(2017, 8, 6)],\n                {\n                    \"agency.txt\": (1, 6),\n                    \"calendar.txt\": (1, 10),\n                    \"calendar_dates.txt\": (6, 3),\n                    \"fare_attributes.txt\": (4, 6),\n                    \"fare_rules.txt\": (48, 4),\n                    \"routes.txt\": (3, 7),\n                    \"shapes.txt\": (1094, 5),\n                    \"stops.txt\": (50, 12),\n                },\n            ),\n            (\n                fixture(\"amazon-2017-08-06\"),\n                [],\n                {\n                    \"agency.txt\": (1, 7),\n                    \"calendar.txt\": (2, 10),\n                    \"calendar_dates.txt\": (2, 3),\n                    \"fare_attributes.txt\": (0, 5),\n                    \"fare_rules.txt\": (0, 1),\n                    \"routes.txt\": (50, 9),\n                    \"shapes.txt\": (12032, 5),\n                    \"stops.txt\": (35, 12),\n                },\n            ),\n            (\n                fixture(\"amazon-2017-08-06\"),\n                [datetime.date(2017, 8, 5)],\n                {\n                    \"agency.txt\": (1, 7),\n                    \"calendar.txt\": (1, 10),\n                    \"calendar_dates.txt\": (2, 3),\n                    \"fare_attributes.txt\": (0, 5),\n                    \"fare_rules.txt\": (0, 1),\n                    \"routes.txt\": (1, 9),\n                    \"shapes.txt\": (3, 5),\n                    \"stops.txt\": (2, 12),\n                },\n            ),\n            (\n                fixture(\"region-nord-v2\"),\n                [],\n                {\n                    \"agency.txt\": (1, 7),\n                    \"calendar.txt\": (0, 10),\n                    \"calendar_dates.txt\": (333, 3),\n                    \"fare_attributes.txt\": (0, 5),\n                    \"fare_rules.txt\": (0, 1),\n                    \"routes.txt\": (181, 12),\n                    \"shapes.txt\": (0, 4),\n                    \"stops.txt\": (3693, 15),\n                },\n            ),\n        ],\n    )\n    def test_read_file(path, dates, shapes):\n        service_ids_by_date = ptg.read_service_ids_by_date(path)\n    \n        service_ids = {\n            service_id\n            for date in dates\n            if date in service_ids_by_date\n            for service_id in service_ids_by_date[date]\n        }\n    \n        if service_ids:\n            feed = Feed(path, view={\"trips.txt\": {\"service_id\": service_ids}})\n        else:\n            feed = Feed(path)\n    \n        for filename, shape in shapes.items():\n>           assert (\n                feed.get(filename).shape == shape\n            ), \"{}/{} dataframe shape was incorrect\".format(path, filename)\nE           AssertionError: /home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/tests/fixtures/nested/shapes.txt dataframe shape was incorrect\nE           assert (3008, 5) == (1094, 5)\nE             At index 0 diff: 3008 != 1094\nE             Use -v to get more diff\n\ntests/test_feed.py:142: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_feed.py::test_read_file[/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/tests/fixtures/caltrain-2017-07-24-dates3-shapes3]\nFAILED tests/test_feed.py::test_read_file[/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/tests/fixtures/nested-dates4-shapes4]\n2 failed, 40 passed, 626 warnings in 3.13s\n",
+          "stderr_tail": "",
+          "parsed": null,
+          "wall_clock_seconds": 3.260806,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "behavior_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_behavior_contract.py",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample",
+          "exit_code": 1,
+          "status": "FAIL",
+          "stdout_tail": "{\n  \"schema\": \"partridge_independent_behavior_contract_v1\",\n  \"status\": \"FAIL\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py\",\n  \"cases\": [\n    {\n      \"case_id\": \"ascii_normalized\",\n      \"expected_text\": \"abc\\n\",\n      \"returned_encoding\": \"latin-1\",\n      \"decoded_text\": \"abc\\n\",\n      \"error\": null,\n      \"pass_\": false\n    },\n    {\n      \"case_id\": \"latin1_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"latin-1\",\n      \"decoded_text\": \"café\\n\",\n      \"error\": null,\n      \"pass_\": true\n    },\n    {\n      \"case_id\": \"utf8_referent\",\n      \"expected_text\": \"café\\n\",\n      \"returned_encoding\": \"latin-1\",\n      \"decoded_text\": \"cafÃ©\\n\",\n      \"error\": null,\n      \"pass_\": false\n    }\n  ],\n  \"nonclaims\": [\n    \"This contract checks observable encoding behavior and is independent of the paired consumption intervention.\",\n    \"It does not establish general semantic equivalence or package installation correctness.\"\n  ]\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "schema": "partridge_independent_behavior_contract_v1",
+            "status": "FAIL",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "cases": [
+              {
+                "case_id": "ascii_normalized",
+                "expected_text": "abc\n",
+                "returned_encoding": "latin-1",
+                "decoded_text": "abc\n",
+                "error": null,
+                "pass_": false
+              },
+              {
+                "case_id": "latin1_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "latin-1",
+                "decoded_text": "café\n",
+                "error": null,
+                "pass_": true
+              },
+              {
+                "case_id": "utf8_referent",
+                "expected_text": "café\n",
+                "returned_encoding": "latin-1",
+                "decoded_text": "cafÃ©\n",
+                "error": null,
+                "pass_": false
+              }
+            ],
+            "nonclaims": [
+              "This contract checks observable encoding behavior and is independent of the paired consumption intervention.",
+              "It does not establish general semantic equivalence or package installation correctness."
+            ]
+          },
+          "wall_clock_seconds": 0.155799,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "static_contract": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_audit_counterexample",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "static_contract"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"VALID\",\n  \"reason\": \"alias_aware_target_import_call_and_manifest_agree\",\n  \"target_imported\": true,\n  \"target_call\": true,\n  \"source_imported\": false,\n  \"source_call\": false,\n  \"target_declared\": true,\n  \"source_declared\": false,\n  \"dynamic_target\": false,\n  \"dynamic_source\": false,\n  \"dynamic_unknown\": false,\n  \"target_aliases\": [\n    \"UniversalDetector\"\n  ],\n  \"source_aliases\": []\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "VALID",
+            "reason": "alias_aware_target_import_call_and_manifest_agree",
+            "target_imported": true,
+            "target_call": true,
+            "source_imported": false,
+            "source_call": false,
+            "target_declared": true,
+            "source_declared": false,
+            "dynamic_target": false,
+            "dynamic_source": false,
+            "dynamic_unknown": false,
+            "target_aliases": [
+              "UniversalDetector"
+            ],
+            "source_aliases": []
+          },
+          "wall_clock_seconds": 0.045467,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        },
+        "consumption": {
+          "command": [
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/env_gold311/bin/python",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/g2_contract_verifier_v3.py",
+            "--candidate-id",
+            "partridge_audit_counterexample",
+            "--module",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "--manifest",
+            "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/setup.py",
+            "--reference",
+            "INVALID",
+            "--behavior-status",
+            "NOT_RUN",
+            "--evidence-channel",
+            "consumption"
+          ],
+          "cwd": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample",
+          "exit_code": 0,
+          "status": "PASS",
+          "stdout_tail": "{\n  \"prediction\": \"INVALID\",\n  \"reason\": \"target_called_but_downstream_output_does_not_track_target_result\",\n  \"execution_status\": \"OK\",\n  \"module_path\": \"/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py\",\n  \"module_sha256\": \"aaeb4bdeee4d2abb222f9b59fd950fbeb00b0026551f87cc8ebfa31e09fa062b\",\n  \"function_name\": \"detect_encoding\",\n  \"target_calls\": 2,\n  \"source_calls\": 0,\n  \"outputs\": [\n    \"utf-16-le\",\n    \"utf-16-le\"\n  ],\n  \"expected_outputs\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"errors\": [\n    null,\n    null\n  ],\n  \"intervention_results\": [\n    \"latin-1\",\n    \"utf-16-le\"\n  ],\n  \"injection_boundary\": {\n    \"module_sha256\": \"aaeb4bdeee4d2abb222f9b59fd950fbeb00b0026551f87cc8ebfa31e09fa062b\",\n    \"source_bytes\": 1235,\n    \"stubbed_imports\": [\n      \"cchardet\",\n      \"chardet\",\n      \"importlib\",\n      \"numpy\",\n      \"pandas\",\n      \"pandas.core\",\n      \"pandas.core.common\"\n    ],\n    \"controlled_detector_results\": {\n      \"target\": \"utf-16-le\",\n      \"source\": \"cp1252\"\n    }\n  }\n}\n",
+          "stderr_tail": "",
+          "parsed": {
+            "prediction": "INVALID",
+            "reason": "target_called_but_downstream_output_does_not_track_target_result",
+            "execution_status": "OK",
+            "module_path": "/home/testuser/wzh/protected_research_20261021_v1/external_sources/g2_real_migrations_v2/partridge_audit_counterexample/partridge/utilities.py",
+            "module_sha256": "aaeb4bdeee4d2abb222f9b59fd950fbeb00b0026551f87cc8ebfa31e09fa062b",
+            "function_name": "detect_encoding",
+            "target_calls": 2,
+            "source_calls": 0,
+            "outputs": [
+              "utf-16-le",
+              "utf-16-le"
+            ],
+            "expected_outputs": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "errors": [
+              null,
+              null
+            ],
+            "intervention_results": [
+              "latin-1",
+              "utf-16-le"
+            ],
+            "injection_boundary": {
+              "module_sha256": "aaeb4bdeee4d2abb222f9b59fd950fbeb00b0026551f87cc8ebfa31e09fa062b",
+              "source_bytes": 1235,
+              "stubbed_imports": [
+                "cchardet",
+                "chardet",
+                "importlib",
+                "numpy",
+                "pandas",
+                "pandas.core",
+                "pandas.core.common"
+              ],
+              "controlled_detector_results": {
+                "target": "utf-16-le",
+                "source": "cp1252"
+              }
+            }
+          },
+          "wall_clock_seconds": 0.038613,
+          "accounting_attempts": 0,
+          "accounting_tokens": 0
+        }
+      },
+      "derived": {
+        "static_prediction": "VALID",
+        "consumption_prediction": "INVALID",
+        "behavior_status": "FAIL",
+        "repository_tests_status": "FAIL",
+        "prediction": "INVALID",
+        "prediction_reason": "independent_evidence_contains_invalid_result"
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": "no_revalidation",
+      "executed_actions": {
+        "partridge_parent": [],
+        "partridge_gold": [],
+        "partridge_source_fallback": [],
+        "partridge_alias": [],
+        "partridge_audit_counterexample": []
+      },
+      "action_count": 0,
+      "wall_clock_seconds": 0.0,
+      "decisions": {
+        "partridge_parent": "VALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "VALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "VALID"
+      },
+      "metrics": {
+        "correct": 2,
+        "false_accept": 3,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 5
+      }
+    },
+    {
+      "policy": "repository_tests_only",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "repository_tests"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "repository_tests"
+        ]
+      },
+      "action_count": 10,
+      "wall_clock_seconds": 17.038603,
+      "decisions": {
+        "partridge_parent": "VALID",
+        "partridge_gold": "VALID",
+        "partridge_source_fallback": "VALID",
+        "partridge_alias": "VALID",
+        "partridge_audit_counterexample": "INVALID"
+      },
+      "metrics": {
+        "correct": 3,
+        "false_accept": 2,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 5
+      }
+    },
+    {
+      "policy": "strong_static_plus_behavior",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "static_contract",
+          "behavior_contract"
+        ]
+      },
+      "action_count": 13,
+      "wall_clock_seconds": 1.522506,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "UNRESOLVED",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "UNRESOLVED",
+        "partridge_audit_counterexample": "UNRESOLVED"
+      },
+      "metrics": {
+        "correct": 2,
+        "false_accept": 0,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 3,
+        "n": 5
+      }
+    },
+    {
+      "policy": "consumption_plus_behavior",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "consumption"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "consumption"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "consumption"
+        ]
+      },
+      "action_count": 12,
+      "wall_clock_seconds": 1.335253,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "UNRESOLVED",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "UNRESOLVED",
+        "partridge_audit_counterexample": "INVALID"
+      },
+      "metrics": {
+        "correct": 3,
+        "false_accept": 0,
+        "false_reject": 0,
+        "deferred": 0,
+        "unresolved": 2,
+        "n": 5
+      }
+    },
+    {
+      "policy": "combined_short_circuit",
+      "executed_actions": {
+        "partridge_parent": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_gold": [
+          "preflight",
+          "static_contract",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_source_fallback": [
+          "preflight",
+          "static_contract"
+        ],
+        "partridge_alias": [
+          "preflight",
+          "static_contract",
+          "consumption",
+          "behavior_contract"
+        ],
+        "partridge_audit_counterexample": [
+          "preflight",
+          "static_contract",
+          "consumption"
+        ]
+      },
+      "action_count": 15,
+      "wall_clock_seconds": 1.457286,
+      "decisions": {
+        "partridge_parent": "INVALID",
+        "partridge_gold": "INVALID",
+        "partridge_source_fallback": "INVALID",
+        "partridge_alias": "INVALID",
+        "partridge_audit_counterexample": "INVALID"
+      },
+      "metrics": {
+        "correct": 3,
+        "false_accept": 0,
+        "false_reject": 2,
+        "deferred": 0,
+        "unresolved": 0,
+        "n": 5
+      }
+    }
+  ],
+  "timing_scope": {
+    "kind": "one_observation_per_action_shared_receipt_policy_replay",
+    "supports_stable_cost_ranking": false,
+    "planner_status": "PAUSED"
+  },
+  "nonclaims": [
+    "Manual controls and the audit counterexample are separated from natural parent/gold commits.",
+    "Repository tests and the independent behavior contract are separate channels.",
+    "Wall-clock timings include process startup and are not stable population cost estimates."
+  ]
+}
