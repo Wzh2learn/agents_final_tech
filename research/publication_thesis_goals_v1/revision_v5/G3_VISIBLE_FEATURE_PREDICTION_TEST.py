@@ -11,10 +11,16 @@ try:
     from G3_VISIBLE_FEATURE_PREDICTION_V5 import cost_matched_threshold, prediction_metrics
 except ModuleNotFoundError as error:
     if error.name == "sklearn":
-        raise unittest.SkipTest("scikit-learn is unavailable in this interpreter")
-    raise
+        cost_matched_threshold = None
+        prediction_metrics = None
+    else:
+        raise
 
 
+@unittest.skipIf(
+    cost_matched_threshold is None,
+    "scikit-learn is unavailable in this interpreter",
+)
 class G3VisibleFeaturePredictionTests(unittest.TestCase):
     """Validate cost matching and target metrics."""
 
