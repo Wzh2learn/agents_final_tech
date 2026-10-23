@@ -43,6 +43,32 @@ def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def resolve_protocol(path: Path) -> dict[str, Any]:
+    """Load either a base protocol or a bounded amendment over the base."""
+    payload = load_json(path)
+    if payload.get("schema") != "financial_feedback_learning_protocol_amendment_v1":
+        return payload
+    base = load_json(DEFAULT_PROTOCOL)
+    require(
+        sha256_file(DEFAULT_PROTOCOL) == payload["base_protocol_sha256"],
+        "base_protocol_hash_mismatch",
+    )
+    resolved = dict(base)
+    for section, values in payload["changes"].items():
+        if isinstance(values, dict) and isinstance(resolved.get(section), dict):
+            merged = dict(resolved[section])
+            merged.update(values)
+            resolved[section] = merged
+        else:
+            resolved[section] = values
+    resolved["status"] = payload["status"]
+    resolved["protocol_amendment"] = {
+        "path": str(path),
+        "sha256": sha256_file(path),
+    }
+    return resolved
+
+
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
     """Load JSONL rows from disk."""
     return [
@@ -157,8 +183,10 @@ def training_examples(
     """Create matched SFT rows for one feedback-filter arm."""
     config = {
         "exec_orig": ("answer_execution", False),
+        "cheap_orig": ("cheap_consistency", False),
         "evidence_orig": ("evidence_dependency", False),
         "exec_cf": ("answer_execution", True),
+        "cheap_cf": ("cheap_consistency", True),
         "evidence_cf": ("evidence_dependency", True),
     }
     require(arm in config, f"unknown_training_arm:{arm}")
@@ -868,9 +896,13 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     """Run the requested experiment stage."""
     args = parse_args()
-    protocol = load_json(args.protocol)
+    protocol = resolve_protocol(args.protocol)
     require(
-        protocol.get("status") == "FROZEN_BEFORE_MODEL_GENERATION_AND_TRAINING",
+        protocol.get("status")
+        in {
+            "FROZEN_BEFORE_MODEL_GENERATION_AND_TRAINING",
+            "FROZEN_BEFORE_CHEAP_TRAINING_AND_ALL_EVALUATION",
+        },
         "protocol_not_frozen",
     )
     if args.stage in {"build", "all"}:

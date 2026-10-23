@@ -1,0 +1,38 @@
+{
+  "schema": "financial_feedback_learning_protocol_amendment_v1",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_CHEAP_TRAINING_AND_ALL_EVALUATION",
+  "base_protocol": "EXPERIMENT_PROTOCOL.json",
+  "base_protocol_sha256": "29e58e04f45d6efdc71fdca539b1f7f2139cb0b000f7990abd1e4de1839377c0",
+  "reason": "The first four arms trained successfully before evaluation, but the core comparison requires a separate cheap-consistency SFT baseline. No model evaluation or test/external generation had started.",
+  "changes": {
+    "training_arms": [
+      {"arm": "exec_orig", "filter": "answer_execution", "counterfactual_samples": false},
+      {"arm": "cheap_orig", "filter": "cheap_consistency", "counterfactual_samples": false},
+      {"arm": "evidence_orig", "filter": "evidence_dependency", "counterfactual_samples": false},
+      {"arm": "exec_cf", "filter": "answer_execution", "counterfactual_samples": true},
+      {"arm": "cheap_cf", "filter": "cheap_consistency", "counterfactual_samples": true},
+      {"arm": "evidence_cf", "filter": "evidence_dependency", "counterfactual_samples": true}
+    ],
+    "evaluation": {
+      "planned_tasks_per_slice": {
+        "dev": 32,
+        "test": 16,
+        "external": 16
+      }
+    },
+    "resource_budget": {
+      "accounting_attempt_cap_for_this_experiment": 960,
+      "accounting_token_cap_for_this_experiment": 900000,
+      "training_arms": 6,
+      "planned_model_generation_equivalents": 896
+    }
+  },
+  "interpretation_boundary": [
+    "Cheap consistency is a required baseline, not a proposed novelty.",
+    "Filter comparisons within original-only or CF-mixed data remain paired on the same task IDs.",
+    "The CF main effect remains confounded with added samples and updates and is not claimed as sample-count-free.",
+    "Test and external slices remain untouched before this amendment."
+  ]
+}
