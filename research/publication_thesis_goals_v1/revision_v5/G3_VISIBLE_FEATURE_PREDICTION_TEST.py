@@ -7,7 +7,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from G3_VISIBLE_FEATURE_PREDICTION_V5 import cost_matched_threshold, prediction_metrics
+try:
+    from G3_VISIBLE_FEATURE_PREDICTION_V5 import cost_matched_threshold, prediction_metrics
+except ModuleNotFoundError as error:
+    if error.name == "sklearn":
+        raise unittest.SkipTest("scikit-learn is unavailable in this interpreter")
+    raise
 
 
 class G3VisibleFeaturePredictionTests(unittest.TestCase):

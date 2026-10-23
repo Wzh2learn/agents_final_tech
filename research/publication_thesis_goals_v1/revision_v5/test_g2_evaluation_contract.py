@@ -31,6 +31,15 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def sha256_variants(path: Path) -> set[str]:
+    """Return raw and LF-normalized hashes for cross-platform source binding."""
+    raw = path.read_bytes()
+    return {
+        hashlib.sha256(raw).hexdigest(),
+        hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest(),
+    }
+
+
 class G2EvaluationContractTests(unittest.TestCase):
     """Assert the measurement object, not a particular model or judge."""
 
@@ -58,7 +67,7 @@ class G2EvaluationContractTests(unittest.TestCase):
         for source in self.review["source_refs"].values():
             path = PROJECT_ROOT / source["path"]
             self.assertTrue(path.is_file(), source["path"])
-            self.assertEqual(sha256(path), source["sha256"], source["path"])
+            self.assertIn(source["sha256"], sha256_variants(path), source["path"])
 
     def test_three_uid_reviews_preserve_hidden_reference_and_raw_answers(self) -> None:
         expected_uids = {
