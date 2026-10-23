@@ -1,0 +1,181 @@
+{
+  "schema": "financial_feedback_learning_protocol_v1",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_MODEL_GENERATION_AND_TRAINING",
+  "research_lines": {
+    "C1": "Paper E remains a separate two-case submission track.",
+    "C2": "Evidence-constrained feedback learning on derived financial-table calculations.",
+    "C3": "Delivery decisions under incomplete verification, replayed over frozen C2 answers."
+  },
+  "source": {
+    "dataset": "TAT-QA",
+    "data_license": "CC BY 4.0 per docs/datasets/tatqa_licence_record_v1.md",
+    "repository_code_license": "MIT",
+    "train_path_gb10": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_train.json",
+    "train_sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+    "external_path_gb10": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+    "external_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "source_identity": "Real financial tables and text from TAT-QA. Generated tasks are deterministic derivatives and must state project changes."
+  },
+  "task": {
+    "name": "period_scope_unit_numeric_change",
+    "task_types": ["difference", "percent_change"],
+    "visible_input": [
+      "table excerpt with stable R row IDs and C column IDs",
+      "question with row scope, prior/current periods and visible unit",
+      "strict JSON output contract"
+    ],
+    "hidden_reference": [
+      "source table UID",
+      "source record index",
+      "expected numeric answer",
+      "expected formula",
+      "expected evidence refs",
+      "controlled variant mutations"
+    ],
+    "output_contract": {
+      "answer": "finite JSON number",
+      "unit": "visible source-derived unit label",
+      "formula": "restricted numeric arithmetic expression",
+      "evidence_refs": ["R{row}:C{column}"]
+    },
+    "identity_boundary": "Controlled corruptions are mechanism probes, not estimates of natural error frequency. Natural TAT-QA content and controlled derivatives are reported separately."
+  },
+  "split": {
+    "unit": "TAT-QA table UID / source record",
+    "within_train_file": {
+      "train": "SHA256(table_uid) bucket < 0.75",
+      "dev": "0.75 <= bucket < 0.875",
+      "test": "bucket >= 0.875"
+    },
+    "external": "All generated tasks from the separate TAT-QA dev file.",
+    "rule": "No table UID may cross train/dev/test/external. Original and intervention variants stay in the same split.",
+    "exposure": "Prior project work used some TAT-QA tables. These are independent training/evaluation groups for this experiment, not a claim that the entire source is globally unseen to all researchers."
+  },
+  "candidate_feedback_pool": {
+    "correct": "Exact expected answer, unit, formula and evidence refs.",
+    "answer_correct_evidence_wrong": "Correct numeric result but one evidence ref is replaced by another visible cell with the same value.",
+    "unit_error": "Correct calculation and refs but wrong visible unit.",
+    "wrong_period": "One operand is taken from a non-requested period and the answer is recomputed.",
+    "wrong_scope": "One operand is taken from another row and the answer is recomputed.",
+    "identity": "Deterministic controlled candidates over real tables; not teacher generations and not natural model errors."
+  },
+  "feedback_filters": {
+    "answer_execution": "Accept when formula evaluates to the candidate answer; evidence refs and unit are ignored.",
+    "cheap_consistency": "Accept when calculation, unit, period and evidence-value checks pass; exact row binding is ignored.",
+    "evidence_dependency": "Accept only exact evidence binding plus valid calculation/unit; paired irrelevant/relevant mutations must preserve or change the target as specified."
+  },
+  "training_arms": [
+    {
+      "arm": "exec_orig",
+      "filter": "answer_execution",
+      "counterfactual_samples": false
+    },
+    {
+      "arm": "evidence_orig",
+      "filter": "evidence_dependency",
+      "counterfactual_samples": false
+    },
+    {
+      "arm": "exec_cf",
+      "filter": "answer_execution",
+      "counterfactual_samples": true
+    },
+    {
+      "arm": "evidence_cf",
+      "filter": "evidence_dependency",
+      "counterfactual_samples": true
+    }
+  ],
+  "training": {
+    "model_path_gb10": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "method": "LoRA SFT",
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "v_proj"],
+    "max_length": 1024,
+    "samples_per_original_pool": 160,
+    "counterfactual_samples_per_cf_arm": 160,
+    "max_steps_original_arms": 160,
+    "max_steps_counterfactual_arms": 320,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 0.0001,
+    "lr_scheduler": "cosine",
+    "warmup_ratio": 0.03,
+    "seed": 20261024,
+    "first_round_seeds": 1,
+    "matching": "Exec-versus-evidence comparisons share the same original task IDs and, within CF arms, the same counterfactual IDs. CF arms add 160 paired samples and 160 updates; therefore the CF main effect is not interpreted as a pure sample-count-free effect. Actual prompt/completion tokens are reported."
+  },
+  "evaluation": {
+    "slices": ["dev", "test", "external"],
+    "variants": ["original", "relevant_change", "irrelevant_change"],
+    "variants_by_slice": {
+      "dev": ["original"],
+      "test": ["original", "relevant_change", "irrelevant_change"],
+      "external": ["original", "relevant_change", "irrelevant_change"]
+    },
+    "planned_tasks_per_slice": {
+      "dev": 48,
+      "test": 20,
+      "external": 20
+    },
+    "primary_metric": "paired correct completion: original plus relevant-change adaptation and original plus irrelevant-change invariance",
+    "secondary_metrics": [
+      "original answer correctness",
+      "evidence binding exactness",
+      "unit correctness",
+      "formula validity",
+      "irrelevant-change invariance",
+      "relevant-change adaptation",
+      "interface validity",
+      "reasonable UNKNOWN/refusal",
+      "input/output tokens and latency"
+    ],
+    "statistical_unit": "TAT-QA table UID",
+    "interval": "paired source-cluster bootstrap over table UIDs",
+    "success_threshold": "Continue C2 mechanism only if evidence-dependency SFT improves paired correct completion by at least 5 percentage points over the strongest same-budget SFT baseline and the source-cluster 95% interval excludes zero.",
+    "stop_threshold": "Stop the feedback-filter mechanism if all differences are within paired uncertainty, if gains are explained by more valid training tokens, or if only answer accuracy improves while evidence binding/invariance do not."
+  },
+  "C3_delivery": {
+    "answer_models": ["base_qwen3_4b", "exec_orig", "evidence_orig", "exec_cf", "evidence_cf"],
+    "checks": ["calculation", "unit", "period", "scope", "evidence_values", "exact_evidence"],
+    "strong_rule": "Accept only when all applicable checks pass; unknown or conflict is retained/clarified.",
+    "candidate_policy": "Source-cluster-calibrated logistic risk policy over the same frozen check vector.",
+    "degenerate_controls": ["any_pass", "majority_pass", "always_unknown"],
+    "primary_metrics": [
+      "wrong-delivery rate among accepted answers",
+      "correct-delivery coverage over all tasks",
+      "retention/clarification rate",
+      "total cost"
+    ],
+    "cost_accounting": {
+      "model": "actual prompt/completion tokens and generation latency",
+      "checks": "actual measured checker latency for all executed checks",
+      "policy": "actual replay/fit/predict latency",
+      "cost_units": "input_tokens + 2*completion_tokens + total_check_ms/10 + policy_ms/10"
+    },
+    "success_threshold": "Candidate policy must Pareto-improve coverage or cost at no more than +1 percentage point wrong-delivery versus the equally calibrated strong rule on held-out test/external slices.",
+    "stop_threshold": "If the strong rule or a shallow calibrated baseline is already Pareto-optimal, stop complex delivery policies and retain complementarity logs only."
+  },
+  "resource_budget": {
+    "accounting_attempt_cap_for_this_experiment": 960,
+    "accounting_token_cap_for_this_experiment": 900000,
+    "training_arms": 4,
+    "planned_model_generation_equivalents": 840,
+    "training_gpu_runs": 4,
+    "judge_calls": 0,
+    "paid_api_calls": 0,
+    "production_memory_writes": 0
+  },
+  "stop_rules": [
+    "Do not overwrite frozen historical raw/results.",
+    "Interface/schema failures are recorded separately and are not model answer errors.",
+    "Do not tune on test or external slices.",
+    "Do not use hidden gold/refs in actor prompts or model inputs.",
+    "If dataset generation fails source-cluster isolation or formula determinism, stop before training.",
+    "If GPU/OOM occurs twice after reducing only batch/sequence limits within protocol, record an execution failure and stop rather than changing the research task."
+  ]
+}
