@@ -303,20 +303,24 @@ def _candidate_targets(
         replacement = alternate_cells[0]
         changed = target_cells.copy()
         changed[0] = replacement
-        wrong_answer, wrong_formula = _recompute_target(changed, task_type)
-        wrong_refs = [cell.ref.to_json() for cell in changed]
-        candidates.append(
-            {
-                "candidate_id": "wrong_period",
-                "target": {
-                    "answer": json_number(wrong_answer),
-                    "unit": unit,
-                    "formula": wrong_formula,
-                    "evidence_refs": wrong_refs,
-                },
-                "error_type": "wrong_period",
-            }
-        )
+        try:
+            wrong_answer, wrong_formula = _recompute_target(changed, task_type)
+        except ZeroDivisionError:
+            pass
+        else:
+            wrong_refs = [cell.ref.to_json() for cell in changed]
+            candidates.append(
+                {
+                    "candidate_id": "wrong_period",
+                    "target": {
+                        "answer": json_number(wrong_answer),
+                        "unit": unit,
+                        "formula": wrong_formula,
+                        "evidence_refs": wrong_refs,
+                    },
+                    "error_type": "wrong_period",
+                }
+            )
 
     nearby = [
         cell
@@ -327,20 +331,24 @@ def _candidate_targets(
     if nearby and len(target_cells) >= 2:
         changed = target_cells.copy()
         changed[0] = nearby[0]
-        wrong_answer, wrong_formula = _recompute_target(changed, task_type)
-        wrong_refs = [cell.ref.to_json() for cell in changed]
-        candidates.append(
-            {
-                "candidate_id": "wrong_scope",
-                "target": {
-                    "answer": json_number(wrong_answer),
-                    "unit": unit,
-                    "formula": wrong_formula,
-                    "evidence_refs": wrong_refs,
-                },
-                "error_type": "wrong_scope",
-            }
-        )
+        try:
+            wrong_answer, wrong_formula = _recompute_target(changed, task_type)
+        except ZeroDivisionError:
+            pass
+        else:
+            wrong_refs = [cell.ref.to_json() for cell in changed]
+            candidates.append(
+                {
+                    "candidate_id": "wrong_scope",
+                    "target": {
+                        "answer": json_number(wrong_answer),
+                        "unit": unit,
+                        "formula": wrong_formula,
+                        "evidence_refs": wrong_refs,
+                    },
+                    "error_type": "wrong_scope",
+                }
+            )
 
     for candidate in candidates:
         target = candidate["target"]

@@ -97,6 +97,24 @@ def test_prediction_contract_accepts_correct_target_and_rejects_wrong_answer() -
     assert wrong_scored["answer_correct"] is False
 
 
+def test_zero_prior_corrupt_candidate_is_skipped() -> None:
+    records = synthetic_records()
+    records[0]["table"]["table"] = [
+        ["", "2020", "2019"],
+        ["Revenue", "110", "100"],
+        ["Zero prior", "50", "0"],
+    ]
+    tasks = build_tasks_from_records(records, "train")
+    percent_tasks = [task for task in tasks if task["task_type"] == "percent_change"]
+    assert percent_tasks
+    assert all(
+        candidate["candidate_id"] != "wrong_period"
+        or float(candidate["target"]["answer"]) == float(candidate["target"]["answer"])
+        for task in percent_tasks
+        for candidate in task["candidates"]
+    )
+
+
 def test_protocol_freeze_and_budget_are_machine_readable() -> None:
     protocol_path = Path(__file__).with_name("EXPERIMENT_PROTOCOL.json")
     protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
