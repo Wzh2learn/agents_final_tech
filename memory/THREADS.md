@@ -8,7 +8,9 @@ Updated: 2026-10-23
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `V5_TWO_CANDIDATES_WITH_DISTINCT_MEASUREMENTS` | [V5 回执](../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)明确 Paper E handoff、G2 fixed-state 独立评审、G3 selective evidence headroom 及各自停止条件 |
+| NEXT-RESEARCH-GOAL | `TOOL_EXECUTION_AND_STRICT_INTERFACE_NEXT` | [首轮方法回执](../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)显示公式/证据选择可迁移，但直接答案和接口失败；下一实验应固定计算器与约束 JSON |
+| C2-FEEDBACK-LEARNING | `CURRENT_FILTER_NOT_CONFIRMED` | evidence-dependency 同源 paired +11.5pp 但区间下界为 0，外部 direct paired 全为 0；停止继续堆同类筛选变体 |
+| C3-DELIVERY-POLICY | `STRICT_BLOCKED_BY_INTERFACE` | 严格 JSON 全零导致强规则和风险策略均无可交付答案；post-hoc 覆盖空间只作诊断 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
 | G2-STATE-ACTION | `CONTINUE_RQ_U_DEVELOPMENT_ONLY` | fact 2/8→3/8、action 均 1/8，但实际 bundle 丢失充分新事实；先做 sufficient-facts 对 extracted-facts 的信息等量比较 |

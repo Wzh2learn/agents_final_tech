@@ -1,6 +1,6 @@
 # 三阶段科研资产地图 v2：发表、验证方法与学位综合现役索引
 
-> 状态：`CURRENT_ASSET_INDEX` | 更新：2026-10-23 | 范围：Paper E、RQ-U/RQ-A 候选、ALT-L 学习备选、G4 学位综合
+> 状态：`CURRENT_ASSET_INDEX` | 更新：2026-10-24 | 范围：Paper E、C2 反馈学习、C3 可靠交付、G4 学位综合
 
 > 2026-10-23 接续：可执行资产身份、环境、污染边界、复用成本与三张实验卡集中见 [Research Baseline And Reuse Map](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。本文件保留项目历史资产索引；冲突时以该基线的日期化更正为准。
 
@@ -17,6 +17,7 @@
 | Partridge commit `09e89d9...` 及 parent `daefcbe...` | 新独立真实公开迁移，MIT | GB10 固定源、测试环境、父/gold 42/42、真实控制变体 | G2/G3 新证据；两个 revision 不是总体样本 |
 | `research/publication_thesis_goals_v1/revision_v5/` | STALE fixed-state、语义合同、增量补查、raw 与失败记录 | 离线复算，原始结果不改 | RQ-U/RQ-A 开发证据；深度树和 oracle 过强解释已更正 |
 | `research/stage_e_method_revision_20261009/run_prm_reference_training_smoke.py` 与 `research/prm_reference_training_smoke_20261010/` | Qwen3-4B LoRA 训练链、adapter 与 smoke receipts | 核对配置、metrics 和审计补充 | ALT-L 工程入口；8 样本/2 step 不是学习结果 |
+| `research/feedback_learning_finance_20261023_v1/` | TAT-QA 派生任务、六臂 LoRA SFT、冻结生成、严格/后处理评分和交付回放 | C2/C3 当前方法结果与成本 | evidence-filter 未确认；严格接口阻断，raw 在 GB10 run root |
 | `research/publication_thesis_goals_v1/G4_MEASUREMENT_AUDIT_CHAPTER_CN.md` | 中文正文草稿 | 同步统计修正、候选方法边界 | G4 实际写作文本，不是完成学位稿 |
 | Adaptive V3、MA-CERD、VersiCode、旧 FinRank 面板 | 历史/边界材料 | 仅核对现役解释和来源，不运行、不改 raw | 不作为 G2/G3 新确认结果 |
 | Memory、SFT/LoRA、检索或经验学习资产 | 工程链路可用；旧 VGMC/Q3/DPO 标签资格失败 | 当前未训练、未形成学习效果 | 新任务、可执行监督、干净 split 和非训练基线成立后才进入 Card 3 |

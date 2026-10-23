@@ -2,13 +2,14 @@
 
 > 2026-10-23｜`CURRENT_EXECUTION_BASELINE / THREE_CARDS_PREPARED`
 > 当前执行起点以 [Research Baseline](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 的三张实验卡为准。
+> 2026-10-24 更新：长期路线固定为可信测量—反馈学习—可靠交付。首轮真实训练和交付回放见 [FIRST_METHOD_RETURN](../../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)；下一轮只做约束 JSON + 固定计算器实验，不再恢复旧 WP 经验学习链。
 > 本文件已接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)。2026-10-12 的 `DESIGN_ONLY_NOT_AUTHORIZED`、WP-0 只读和 300 次旧预算均为历史，不再覆盖当前授权；旧实验冻结和旧账本仍不恢复。
 > 依据：[THESIS_RESEARCH_ARCHITECTURE_v3.md](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md)。本文接续 V2 授权并记录当前工作流；历史工作包不自动恢复。
 > 2026-10-12 治理更新：[研究治理基线 v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 冻结科学边界与 G-RQ/G-M 推进裁决，优先于蓝图中的未来方法出口；本蓝图只维护工作包、原有首验参数与探索性资源门。更新前全文见 [原始历史快照](history/2026-10-12_pre_governance/README.md)。
 > For agentic workers：后续获准后使用仓库 `skills/executing-plans/SKILL.md` 按工作包推进；确有独立责任时再使用 `subagent-driven-development`，不自动派发全部工作包。
 > Skill 装载：本蓝图使用 writing-plans（工作包和验收）、jinrong-docs-sync（入口一致性）；graph-loop-rules 为红线背景。未来任务按卡片加载，单任务不超过五项技能，不安装或同步技能。
 
-**Goal：** 先裁决受限研究问题与验证必要性；若获准，用一个真实任务验证经验复用机会，按证据决定是否进入学习机制研究及有限适应边界。不预设方法创新或正向结果。
+**Goal：** C1 完成 Paper E 投稿衔接；C2 在真实金融文档任务上比较反馈筛选与训练迁移；C3 在不完美核验下比较交付风险、覆盖和成本。允许负结果，不预设三个创新点成立。
 
 **历史 Architecture 口径（2026-10-12）：** Paper E 只提供测量反例与约束，经验复用、Memory、参数更新和持续适应均是研究对象，不是预设贡献。该段保留原语义，不继续控制当前权限。
 

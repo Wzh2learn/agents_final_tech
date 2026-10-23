@@ -1,0 +1,75 @@
+{
+  "dataset_sha256": "e507c6dc22410558add07748a19fc6b18acf9270966d72c19c9f330bd7d72ab0",
+  "identity": "Real TAT-QA financial tables with deterministic derived questions and controlled candidate corruptions. Not a natural error-frequency sample.",
+  "protocol_sha256": "29e58e04f45d6efdc71fdca539b1f7f2139cb0b000f7990abd1e4de1839377c0",
+  "schema": "financial_feedback_dataset_receipt_v1",
+  "source_cluster_isolation": "PASS",
+  "source_hashes": {
+    "external": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "train": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69"
+  },
+  "split_summary": {
+    "dev": {
+      "generated": 548,
+      "selected": 96,
+      "table_uids": 64,
+      "task_types": {
+        "difference": 51,
+        "percent_change": 45
+      },
+      "units": {
+        "$": 4,
+        "percent": 1,
+        "reported": 91
+      }
+    },
+    "external": {
+      "generated": 482,
+      "selected": 96,
+      "table_uids": 64,
+      "task_types": {
+        "difference": 46,
+        "percent_change": 50
+      },
+      "units": {
+        "$": 2,
+        "eur": 1,
+        "percent": 4,
+        "reported": 88,
+        "£": 1
+      }
+    },
+    "test": {
+      "generated": 480,
+      "selected": 96,
+      "table_uids": 65,
+      "task_types": {
+        "difference": 57,
+        "percent_change": 39
+      },
+      "units": {
+        "$": 1,
+        "percent": 2,
+        "reported": 93
+      }
+    },
+    "train": {
+      "generated": 3048,
+      "selected": 640,
+      "table_uids": 384,
+      "task_types": {
+        "difference": 321,
+        "percent_change": 319
+      },
+      "units": {
+        "$": 6,
+        "million": 2,
+        "percent": 14,
+        "reported": 608,
+        "£": 3,
+        "€": 7
+      }
+    }
+  },
+  "task_count": 928
+}

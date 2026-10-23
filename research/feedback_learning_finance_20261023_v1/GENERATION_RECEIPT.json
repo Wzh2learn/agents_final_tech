@@ -1,0 +1,73 @@
+{
+  "generation_results_sha256": "9e9ba35f2f76de718f2485099e0088abbe342d87054c7564cf414a1a17abea9e",
+  "judge_calls": 0,
+  "models": {
+    "base_qwen3_4b": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 22272,
+      "generation_wall_seconds": 197.0855119228363,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    },
+    "cheap_cf": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 7972,
+      "generation_wall_seconds": 75.02228379249573,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    },
+    "cheap_orig": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 8208,
+      "generation_wall_seconds": 77.29536628723145,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    },
+    "evidence_cf": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 8008,
+      "generation_wall_seconds": 74.86376142501831,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    },
+    "evidence_orig": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 16416,
+      "generation_wall_seconds": 153.6958827972412,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    },
+    "exec_cf": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 8092,
+      "generation_wall_seconds": 75.7198007106781,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    },
+    "exec_orig": {
+      "accounting_attempts": 116,
+      "answer_correct": 0,
+      "completion_tokens": 8208,
+      "generation_wall_seconds": 130.96300983428955,
+      "instances": 116,
+      "interface_valid": 0,
+      "prompt_tokens": 30971
+    }
+  },
+  "schema": "financial_feedback_generation_receipt_v1",
+  "total_accounting_attempts": 812,
+  "total_completion_tokens": 79176,
+  "total_prompt_tokens": 216797
+}

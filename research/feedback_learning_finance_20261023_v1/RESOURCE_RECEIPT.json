@@ -1,0 +1,55 @@
+{
+  "schema": "financial_feedback_learning_resource_receipt_v1",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "run_root_gb10": "/home/testuser/wzh/research_runs/feedback_learning_finance_20261023_v1",
+  "source_data": {
+    "tasks_sha256": "e507c6dc22410558add07748a19fc6b18acf9270966d72c19c9f330bd7d72ab0",
+    "dataset_receipt_sha256": "aca9fc4b7128319c6f1f114fa16b3989046ea8ed027aaeb461f48d2fc3fee710",
+    "task_count": 928
+  },
+  "training": {
+    "arms": 6,
+    "rows": 1440,
+    "prompt_tokens": 455125,
+    "completion_tokens": 70819,
+    "accounting_tokens": 525944,
+    "gpu_seconds": 506.6289339065552,
+    "training_summary_sha256": "4752c4392bc49c8340ddeebf1a82f2ab1b58d0ae1aba88e1fb97e6da599efd3e",
+    "judge_calls": 0
+  },
+  "generation": {
+    "successful_accounting_attempts": 812,
+    "successful_physical_batched_generate_calls": 105,
+    "successful_prompt_tokens": 216797,
+    "successful_completion_tokens": 79176,
+    "successful_accounting_tokens": 295973,
+    "successful_wall_seconds": 784.6456167697906,
+    "generation_results_sha256": "9e9ba35f2f76de718f2485099e0088abbe342d87054c7564cf414a1a17abea9e",
+    "result_summary_sha256": "7a897097da4ab257a17fef214b6d24b8549a7a56221773cc995286294c3a4cf6"
+  },
+  "interrupted_sequential_evaluation": {
+    "status": "INTERRUPTED_NO_RAW_RESULT_FILE",
+    "accounting_attempts_upper_bound": 128,
+    "accounting_tokens_upper_bound": 58743,
+    "physical_individual_generate_calls_upper_bound": 128,
+    "raw_preserved": false,
+    "scientific_use": "execution failure only"
+  },
+  "combined_generation_upper_bound": {
+    "accounting_attempts": 940,
+    "accounting_tokens": 354716
+  },
+  "combined_new_research_accounting_upper_bound": {
+    "accounting_attempts": 940,
+    "accounting_tokens_including_training": 880660,
+    "judge_calls": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  },
+  "nonclaims": [
+    "Training rows are not independent validation samples.",
+    "Interrupted generation is not accuracy evidence.",
+    "Post-hoc embedded-JSON and tool-formula scores are diagnostics, not strict task success."
+  ]
+}

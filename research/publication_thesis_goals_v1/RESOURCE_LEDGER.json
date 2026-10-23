@@ -1,18 +1,20 @@
 {
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
-  "date": "2026-10-23",
-  "status": "REVISION_V4_EVIDENCE_EXIT_STATE_CARD_ACTION_GAIN_ABSENT",
+  "date": "2026-10-24",
+  "status": "FINANCIAL_FEEDBACK_FIRST_METHOD_RETURN_C2_NOT_CONFIRMED_C3_STRICT_BLOCKED",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 536,
+    "attempts_used": 1476,
     "physical_http_calls": 536,
-    "accounting_tokens_used": 3713363,
+    "local_batched_generate_calls": 105,
+    "interrupted_individual_generate_calls_upper_bound": 128,
+    "accounting_tokens_used": 4594023,
     "judge_calls": 113,
-    "training_runs": 0,
-    "training_gpu_seconds": 0,
-    "training_tokens": 0,
+    "training_runs": 6,
+    "training_gpu_seconds": 506.6289339065552,
+    "training_tokens": 525944,
     "paid_api_usd": 0,
     "production_memory_writes": 0
   },
@@ -88,9 +90,41 @@
       "retry_count": 0,
       "judge_calls": 0,
       "raw_result": "research/publication_thesis_goals_v1/revision_v3/stale_model_new_uid_confirmation_20261023_v1/STALE_MODEL_NEW_UID_CONFIRMATION_RECEIPT_V1.json"
+    },
+    {
+      "id": "FINANCIAL_FEEDBACK_GENERATION_V1",
+      "accounting_attempts": 940,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 105,
+      "interrupted_individual_generate_calls_upper_bound": 128,
+      "accounting_tokens": 354716,
+      "status": "COMPLETE_WITH_TRANSPARENT_INTERRUPTED_EVALUATION_BOUND",
+      "model": "Qwen3-4B base plus six LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/feedback_learning_finance_20261023_v1/GENERATION_RECEIPT.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/feedback_learning_finance_20261023_v1/generation_results.jsonl"
     }
   ],
-  "training_events": [],
+  "training_events": [
+    {
+      "id": "FINANCIAL_FEEDBACK_LORA_SFT_V1",
+      "arms": [
+        "exec_orig",
+        "cheap_orig",
+        "evidence_orig",
+        "exec_cf",
+        "cheap_cf",
+        "evidence_cf"
+      ],
+      "training_runs": 6,
+      "training_rows": 1440,
+      "training_tokens": 525944,
+      "training_gpu_seconds": 506.6289339065552,
+      "status": "COMPLETE_DEVELOPMENT_TRAINING_COMPARISON",
+      "result": "evidence-dependency filter not confirmed beyond strong simple baselines; external direct paired completion remains zero",
+      "receipt": "research/feedback_learning_finance_20261023_v1/TRAINING_SUMMARY.json"
+    }
+  ],
   "offline_checks": [
     {
       "id": "G1_INJECTION_SEED_REANALYSIS_20261021",

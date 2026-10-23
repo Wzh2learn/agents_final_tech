@@ -1,0 +1,63 @@
+{
+  "cheap_cf": {
+    "adapter_path": "/home/testuser/wzh/research_runs/feedback_learning_finance_20261023_v1/training/cheap_cf/final_adapter",
+    "arm": "cheap_cf",
+    "candidate_counts": {
+      "answer_correct_evidence_wrong": 16,
+      "controlled_counterfactual_reference": 160,
+      "correct": 144
+    },
+    "completion_tokens": 15854,
+    "counterfactual_mix": true,
+    "cuda_available": true,
+    "filter": "cheap_consistency",
+    "gpu_name": "NVIDIA GB10",
+    "max_sequence_tokens_observed": 488,
+    "max_steps": 320,
+    "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "prompt_tokens": 101287,
+    "rows": 320,
+    "schema": "financial_feedback_training_receipt_v1",
+    "torch_version": "2.13.0+cu130",
+    "train_metrics": {
+      "epoch": 1.0,
+      "total_flos": 2218737298516992.0,
+      "train_loss": 0.6721356272697449,
+      "train_runtime": 152.228,
+      "train_samples_per_second": 2.102,
+      "train_steps_per_second": 2.102
+    },
+    "train_runtime_seconds": 153.47252798080444,
+    "unique_source_tasks": 160
+  },
+  "cheap_orig": {
+    "adapter_path": "/home/testuser/wzh/research_runs/feedback_learning_finance_20261023_v1/training/cheap_orig/final_adapter",
+    "arm": "cheap_orig",
+    "candidate_counts": {
+      "answer_correct_evidence_wrong": 16,
+      "correct": 144
+    },
+    "completion_tokens": 7753,
+    "counterfactual_mix": false,
+    "cuda_available": true,
+    "filter": "cheap_consistency",
+    "gpu_name": "NVIDIA GB10",
+    "max_sequence_tokens_observed": 485,
+    "max_steps": 160,
+    "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "prompt_tokens": 50422,
+    "rows": 160,
+    "schema": "financial_feedback_training_receipt_v1",
+    "torch_version": "2.13.0+cu130",
+    "train_metrics": {
+      "epoch": 1.0,
+      "total_flos": 1104531873134592.0,
+      "train_loss": 0.8402151942253113,
+      "train_runtime": 49.8375,
+      "train_samples_per_second": 3.21,
+      "train_steps_per_second": 3.21
+    },
+    "train_runtime_seconds": 49.958635330200195,
+    "unique_source_tasks": 160
+  }
+}

@@ -6,10 +6,11 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-23
 
 ## 当前任务与证据
 
-V5 组合证据出口已经形成，但 2026-10-23 前置治理发现并纠正了其中会影响后续实验的派生解释。Paper E 仍是唯一成熟贡献；RQ-U 证据充分性/可靠使用与 RQ-A 证据获取效用/成本是两个未认证候选。当前科学结论、复用资产和三张实验卡以 [Research Baseline](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 为准；V5 原报告保留历史原文。外部投稿、署名、付款和公开仍由 Owner 决定。
+2026-10-24 已完成首轮真实 LoRA SFT 与交付回放。Paper E 仍是唯一成熟贡献；C2 的 evidence-dependency 筛选未超过强简单基线，C3 严格交付被 JSON/输出预算接口阻断。工具执行诊断显示训练后的公式/证据选择可迁移，但直接数值答案和接口没有同步迁移。当前方法结果见 [First Method Return](../../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)，长期资产基线见 [Research Baseline](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。
 
 | 用途 | 权威记录 |
 |---|---|
+| 当前方法实验与成本 | [FIRST_METHOD_RETURN](../../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)、[RESULT_SUMMARY](../../research/feedback_learning_finance_20261023_v1/RESULT_SUMMARY.json)、[RESOURCE_RECEIPT](../../research/feedback_learning_finance_20261023_v1/RESOURCE_RECEIPT.json) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
 | 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
@@ -27,6 +28,8 @@ V5 组合证据出口已经形成，但 2026-10-23 前置治理发现并纠正�
 | 研究线 | 当前判断与证据 |
 |---|---|
 | 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_HANDOFF`；G2 `CONTINUE_NARROWED_DEVELOPMENT_ONLY`；G3 `KEEP_WITH_HEADROOM_MODEL_POLICY_UNEVALUATED`；scope `CLOSED_EXACT_CACHE_EXPLAINS_SAVING`。见 [V5 回执](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md) |
+| C2 反馈学习 | `CURRENT_FILTER_NOT_CONFIRMED`。`evidence_cf` 同源 held-out paired direct 比 `exec_cf/cheap_cf` 高 11.5pp，但区间下界为 0；外部 source paired direct 全为 0，且 tool-paired 不优于 `exec_cf/cheap_orig` |
+| C3 可靠交付 | `STRICT_BLOCKED_BY_INTERFACE`。严格 JSON 成功率为 0，强规则与严格风险策略均无可交付答案；post-hoc 风险回放有覆盖空间，但不能作为部署结果 |
 | Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json) |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
@@ -46,7 +49,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2/V3 复用。旧 G2 消费/迁移方法、G3 复杂 planner 和 scope 面板继续停止；RQ-U 只保留信息等量的开发实验，RQ-A 只保留带随机/强廉价基线的开发实验。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2/V3 和首轮 C2/C3 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner 和 scope 面板继续停止。下一方法实验应使用约束 JSON、固定计算器和新 source family，不再堆 evidence-filter 变体。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

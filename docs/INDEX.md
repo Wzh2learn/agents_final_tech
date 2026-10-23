@@ -11,6 +11,7 @@
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 当前科研基线与复用资产 | [`research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md`](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[`RECONCILIATION.json`](../research/research_baseline_governance_20261023/RECONCILIATION.json) |
+| 当前方法实验回执 | [`FIRST_METHOD_RETURN`](../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)、[`RESULT_SUMMARY.json`](../research/feedback_learning_finance_20261023_v1/RESULT_SUMMARY.json) |
 | 新一轮 Loop D Goals | [四项 Goals v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；修正验收、推进真实研究冲刺与投稿；[上一版任务来源](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留历史 |
 | 四项 Goals 当前回执与独立审计 | [V2 SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)、[Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；审计阻断已修复或形成 G2/G3 有界判断 |
 | 本轮工作区与 Git 治理 | [治理报告](governance/2026-10-21_workspace_git_closeout.md)；记录资产分类、分支与跨主机最终核验，当前状态仍由 STATE 维护 |
