@@ -699,7 +699,10 @@ def cluster_bootstrap_difference(
     }
 
 
-def paired_score_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
+def paired_score_rows(
+    rows: list[dict[str, Any]],
+    correct_key: str = "answer_correct",
+) -> dict[str, float]:
     """Return per-source-task paired correctness scores."""
     grouped: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
     for row in rows:
@@ -721,8 +724,12 @@ def paired_score_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
                 abs_tol=1e-6,
             )
         )
-        invariance = bool(original["answer_correct"] and irrelevant["answer_correct"] and same_answer)
-        adaptation = bool(original["answer_correct"] and relevant["answer_correct"])
+        invariance = bool(
+            original[correct_key]
+            and irrelevant[correct_key]
+            and same_answer
+        )
+        adaptation = bool(original[correct_key] and relevant[correct_key])
         scores[task_id] = float(invariance and adaptation)
     return scores
 
@@ -730,11 +737,12 @@ def paired_score_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
 def paired_cluster_difference(
     left_rows: list[dict[str, Any]],
     right_rows: list[dict[str, Any]],
+    correct_key: str = "answer_correct",
     repetitions: int = 2000,
 ) -> dict[str, Any]:
     """Bootstrap paired-correctness differences over source table UIDs."""
-    left = paired_score_rows(left_rows)
-    right = paired_score_rows(right_rows)
+    left = paired_score_rows(left_rows, correct_key)
+    right = paired_score_rows(right_rows, correct_key)
     common = sorted(set(left) & set(right))
     require(bool(common), "no_common_pairs_for_bootstrap")
     row_by_task = {
@@ -754,7 +762,7 @@ def paired_cluster_difference(
         samples.append(mean_safe([mean_safe(by_cluster[cluster]) for cluster in selected]))
     samples.sort()
     return {
-        "metric": "paired_correct_completion",
+        "metric": f"paired_correct_completion:{correct_key}",
         "clusters": len(clusters),
         "paired_tasks": len(common),
         "difference": observed,
@@ -886,6 +894,16 @@ def analyze_results(
                     baseline_external,
                     "answer_correct",
                 ),
+                "test_tool_answer_correct": cluster_bootstrap_difference(
+                    evidence_test,
+                    baseline_test,
+                    "tool_answer_correct",
+                ),
+                "external_tool_answer_correct": cluster_bootstrap_difference(
+                    evidence_external,
+                    baseline_external,
+                    "tool_answer_correct",
+                ),
                 "test_paired_correct_completion": paired_cluster_difference(
                     evidence_test,
                     baseline_test,
@@ -893,6 +911,16 @@ def analyze_results(
                 "external_paired_correct_completion": paired_cluster_difference(
                     evidence_external,
                     baseline_external,
+                ),
+                "test_paired_tool": paired_cluster_difference(
+                    evidence_test,
+                    baseline_test,
+                    "tool_answer_correct",
+                ),
+                "external_paired_tool": paired_cluster_difference(
+                    evidence_external,
+                    baseline_external,
+                    "tool_answer_correct",
                 ),
             }
 
