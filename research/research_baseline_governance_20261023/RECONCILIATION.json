@@ -224,7 +224,17 @@
     "docs_link_checks": "PASS: scripts/docs_lint.py 0 fail / 0 warn",
     "focused_tests": "PASS: 24 passed, 2 skipped",
     "paper_claim_check": "PASS: claim_matrix, figure_binding, citations, prereg_pins and WIDE_EVIDENCE_CHECK",
-    "frozen_hash_check": "PASS: frozen source hashes in source_hashes; no frozen node modified",
+    "frozen_hash_check": "PASS for repository source hashes and no modified frozen node; pre-commit hook could not verify absent external runtime /home/testuser/wzh/m1_samples/m1_table_schema.json locally",
     "git_diff_check": "PASS with line-ending warnings only"
+  },
+  "post_sync_contract": {
+    "pre_task_snapshot": "9e43b0380588adc5b4b5b6c14481ae636349cb96",
+    "invariant": "local, origin/main and GB10 resolve to the commit containing this file",
+    "commands": [
+      "git rev-parse HEAD",
+      "git ls-remote origin refs/heads/main",
+      "ssh jinrong-dev \"cd wzh/projects/agents_final_tech && git rev-parse HEAD && git status --porcelain=v2 --branch\""
+    ],
+    "exact_final_hash_location": "task return and Git refs; deliberately not self-hashed inside this file"
   }
 }

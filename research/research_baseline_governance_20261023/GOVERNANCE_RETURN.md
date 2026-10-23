@@ -150,14 +150,19 @@ pipeline into two thesis contributions.
   the A asset audit and C scientific reconciliation are AI advisory analysis,
   not human gold or blind review. Frozen raws, protocols, reports and old
   scores were not rewritten.
-- **Git:** local, `origin/main` and GB10 were all `9e43b0380588adc5b4b5b6c14481ae636349cb96`
-  at check time. This task changed only current governance/summary files and
-  worknotes; no `git add .`, reset, clean, push or production operation was
-  performed.
+- **Git:** the pre-task local, `origin/main` and GB10 snapshot was
+  `9e43b0380588adc5b4b5b6c14481ae636349cb96`. This task used explicit-path
+  staging and reviewable commits only; no `git add .`, reset, clean or production
+  operation was used. Post-sync invariant: local, `origin/main` and GB10 must all
+  resolve to the commit containing this document; the exact final hash is
+  verified in the task return.
 - **Checks:** focused G2/G3 tests `24 passed, 2 skipped`; Paper E
   `verify_claim_evidence.py` PASS; `scripts/docs_lint.py` `0 fail / 0 warn`;
-  JSON parsing PASS; `git diff --check` reported line-ending warnings only.
-  Full repository tests were not run because no executable source changed.
+  JSON/hash/path checks PASS; `git diff --check` passed after the final edit.
+  The pre-commit hook noted that external runtime path
+  `/home/testuser/wzh/m1_samples/m1_table_schema.json` is absent locally; this is
+  not a modified frozen file. Full repository tests were not run because no
+  executable source changed.
 - **Local gaps:** STALE license/unseen split, G2 source path/hash declaration,
   G3 call-1 raw/durable usage receipt, MA-CERD ZIP-versus-extracted-tree
   integrity choice, VersiCode license/oracle, PyMigBench zero retained tasks and
