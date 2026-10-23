@@ -466,6 +466,77 @@ def generate_with_model(
     }
 
 
+def generate_batch_with_model(
+    model: Any,
+    tokenizer: Any,
+    instances: list[dict[str, Any]],
+    max_new_tokens: int,
+) -> list[dict[str, Any]]:
+    """Generate a fixed batch with the same greedy contract as single generation."""
+    import torch
+
+    tokenizer.padding_side = "left"
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    prompts = [instance["prompt"] for instance in instances]
+    inputs = tokenizer(
+        prompts,
+        return_tensors="pt",
+        padding=True,
+        add_special_tokens=True,
+    ).to(model.device)
+    input_width = int(inputs["input_ids"].shape[1])
+    started = time.time()
+    with torch.no_grad():
+        output = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+    batch_latency_ms = (time.time() - started) * 1000.0
+    per_item_latency_ms = batch_latency_ms / len(instances)
+    rows: list[dict[str, Any]] = []
+    for index, instance in enumerate(instances):
+        generated = tokenizer.decode(
+            output[index][input_width:],
+            skip_special_tokens=True,
+        )
+        check_started = time.time()
+        scored = evaluate_prediction(
+            generated,
+            {
+                "table_text": instance["table_text"],
+                "expected": instance["expected"],
+                "current_period": instance["current_period"],
+                "prior_period": instance["prior_period"],
+            },
+            instance["expected"],
+        )
+        check_latency_ms = (time.time() - check_started) * 1000.0
+        prompt_tokens = int(inputs["attention_mask"][index].sum().item())
+        completion_tokens = int(output.shape[1] - input_width)
+        rows.append(
+            {
+                "model_arm": instance["model_arm"],
+                "instance_id": instance["instance_id"],
+                "source_task_id": instance["source_task_id"],
+                "table_uid": instance["table_uid"],
+                "slice": instance["slice"],
+                "variant": instance["variant"],
+                "generated_text": generated,
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "latency_ms": per_item_latency_ms,
+                "batch_latency_ms": batch_latency_ms,
+                "batch_size": len(instances),
+                "check_latency_ms": check_latency_ms,
+                **scored,
+            }
+        )
+    return rows
+
+
 def evaluate_models(
     protocol: dict[str, Any],
     run_root: Path,
@@ -499,15 +570,24 @@ def evaluate_models(
         model.eval()
         arm_rows: list[dict[str, Any]] = []
         started = time.time()
-        for instance in instances:
-            row = generate_with_model(
+        batch_size = 8
+        for batch_start in range(0, len(instances), batch_size):
+            batch_instances = [
+                {**instance, "model_arm": model_arm}
+                for instance in instances[batch_start : batch_start + batch_size]
+            ]
+            batch_rows = generate_batch_with_model(
                 model,
                 tokenizer,
-                {**instance, "model_arm": model_arm},
+                batch_instances,
                 max_new_tokens=192,
             )
-            arm_rows.append(row)
-            rows.append(row)
+            arm_rows.extend(batch_rows)
+            rows.extend(batch_rows)
+            print(
+                f"{model_arm}: generated {len(arm_rows)}/{len(instances)}",
+                flush=True,
+            )
         receipts[model_arm] = {
             "instances": len(arm_rows),
             "accounting_attempts": len(arm_rows),
@@ -924,6 +1004,7 @@ def main() -> int:
         in {
             "FROZEN_BEFORE_MODEL_GENERATION_AND_TRAINING",
             "FROZEN_BEFORE_CHEAP_TRAINING_AND_ALL_EVALUATION",
+            "FROZEN_BEFORE_BATCHED_EVALUATION_AFTER_INTERRUPTED_RUN",
         },
         "protocol_not_frozen",
     )

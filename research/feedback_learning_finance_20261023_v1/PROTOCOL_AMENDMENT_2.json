@@ -1,0 +1,44 @@
+{
+  "schema": "financial_feedback_learning_protocol_amendment_v1",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_BATCHED_EVALUATION_AFTER_INTERRUPTED_RUN",
+  "base_protocol": "EXPERIMENT_PROTOCOL.json",
+  "base_protocol_sha256": "29e58e04f45d6efdc71fdca539b1f7f2139cb0b000f7990abd1e4de1839377c0",
+  "reason": "Sequential generation was interrupted for throughput before any result file was written. The failure is conservatively accounted and the rerun uses batched greedy generation with fewer tasks to remain under the fixed attempt/token caps.",
+  "interrupted_run": {
+    "status": "INTERRUPTED_NO_RESULT_FILE",
+    "model_scope": "base_qwen3_4b first evaluation batch",
+    "accounting_attempts_upper_bound": 128,
+    "accounting_tokens_upper_bound": 58743,
+    "prompt_tokens_if_all_128_executed": 34167,
+    "completion_token_upper_bound": 24576,
+    "raw_outputs_preserved": false,
+    "reason_raw_missing": "rows were buffered until the model arm completed; process was interrupted before write"
+  },
+  "changes": {
+    "evaluation": {
+      "planned_tasks_per_slice": {
+        "dev": 32,
+        "test": 14,
+        "external": 14
+      },
+      "generation": "batched greedy decoding, batch size 8, max_new_tokens 192"
+    },
+    "resource_budget": {
+      "accounting_attempt_cap_for_this_experiment": 960,
+      "accounting_token_cap_for_this_experiment": 900000,
+      "training_arms": 6,
+      "planned_model_generation_equivalents": 812,
+      "interrupted_upper_bound_attempts": 128,
+      "total_planned_plus_interrupted_upper_bound_attempts": 940,
+      "interrupted_upper_bound_tokens": 58743
+    }
+  },
+  "interpretation_boundary": [
+    "The interrupted outputs are a transparent execution failure, not model accuracy evidence.",
+    "Batched greedy generation preserves the same prompts, model settings and max_new_tokens.",
+    "Test and external task IDs remain untouched; the reduction changes precision, not the research question.",
+    "Source-cluster intervals will be reported and may be wide at 14 paired tasks per held-out slice."
+  ]
+}
