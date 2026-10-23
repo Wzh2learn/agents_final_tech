@@ -1,27 +1,29 @@
 # 大论文研究架构 v3：智能体任务评测有效性与证据驱动验证方法研究
 
-> 2026-10-22｜`CURRENT_RESEARCH_ARCHITECTURE / V2_GOALS_ACTIVE`
+> 2026-10-23｜`CURRENT_RESEARCH_ARCHITECTURE / BASELINE_RECONCILED`
+> 当前科学基线、复用资产与实验卡见 [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。本文件继续维护研究范围，不覆盖原始结果。
 > 本版接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md) 和 [Owner 独立审计](../../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)。旧经验学习架构保留在下文作为历史边界，不再控制现役权限、题目或贡献排序。
 > 2026-10-12 治理更新：科学边界与推进裁决以 [研究治理基线 v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 为准；本文件维护研究范围，[执行蓝图 v1](THESIS_EXECUTION_BLUEPRINT_v1.md) 维护工作包、首验参数与探索性资源门，不另建平行排期。更新前原始版本见 [历史快照](history/2026-10-12_pre_governance/README.md)。
 > 标记：**[E]** 项目现有证据；**[H]** 待验证假设；**[P]** 规划选择；**[X]** 博士延展。本文件汇总现役证据，不替代 raw、账本或实验回执。
 
-## 0. 2026-10-22 现役架构与贡献边界
+## 0. 2026-10-23 现役架构与贡献边界
 
 现役总问题收敛为：**当任务完成不能由单一最终答案或单一测试套件充分识别时，如何区分可见性、行为正确性、依赖/结果消费、决策稳定性和复现边界，并在真实成本下选择足够可靠的验证证据？**
 
 | 候选贡献 | 现有证据 | 当前判断 | 不得外推 |
 |---|---|---|---|
-| **G1 测量审计** | Paper E 两案例、UID 聚类修正、FinRank 合同敏感性与复现缺口 | **可作为独立受限论文继续投稿准备** | 通用 Agent 评测理论、经验学习有效、两个 benchmark 普遍失败 |
-| **G2 变化任务完成验证** | 实际模块绑定、配对因果干预、六个对象、一个自然模型候选 | **当前机制停止扩展**：判据已修复，但 simple strong baseline 与消费方法均 6/6 | 已证通用 verifier、消费方法独特增量、自然错误率 |
-| **G3 验证决策与真实成本** | 六个 Partridge 对象、真实 pytest/fixture/static/consumption 动作 | **复杂 planner 暂停**：透明短路规则足够，单次计时不能排成本 | 学习型 planner 有效、稳定成本优势 |
-| **第三贡献：证据失效与复用** | 同一候选/依赖下 fixture→short 输入范围变化 | **透明 scope-aware invalidation 有界开发** | 学习型 evidence expiry、第三贡献已成立、真实收益已证明 |
-| **G4 学位综合** | 中文测量审计章、导师一页稿、现役五文件衔接 | **持续写作与证据组织** | 未成立方法写成学位创新点 |
+| **RQ-M / Paper E** | 两案例、UID 聚类修正、FinRank 合同敏感性与复现缺口 | **独立受限论文继续投稿准备** | 通用 Agent 评测理论、经验学习有效、两个 benchmark 普遍失败 |
+| **旧 G2 边界** | actual-module、配对干预、六个对象、一个自然模型候选 | **当前机制停止扩展**：simple strong baseline 与消费方法均 6/6 | 通用 verifier、独特增量、自然错误率 |
+| **RQ-U 证据充分性与可靠使用** | 固定证据下的状态恢复、事实/行动分离和 E2E 安全覆盖权衡 | **只做信息等量开发实验；方法增益未建立** | 正确状态自动迁移、state card 是新 Memory 架构 |
+| **旧 G3 planner/scope 边界** | 六对象真实动作；20 个 fixture transition | **planner 与 scope panel 停止**；exact cache 完全解释 30 对 35 | 学习型 planner、scope 推断独特收益 |
+| **RQ-A 证据获取效用与成本** | 43/400 目标 useful expansion 与 oracle 覆盖/成本空间 | **保留独立候选；无策略主张** | `5/43` 证明学习、oracle 等于总成本、下游收益已建立 |
+| **ALT-L 学习备选** | PRM/LoRA 链路工程可用，旧 VGMC/Q3/DPO 标签不可直接复用 | **仅做新任务资格；未进入科学训练** | 训练 smoke 是学习效果或第四贡献 |
 
-Paper E、G2、G3 是三条证据线，分别裁决。B0 面板天花板、旧 U/E 停止和 TQ 结果不否定 Paper E，也不证明历史经验无效。AI 分析不得登记为人工 gold、盲审或财务专业认证。
+Paper E、RQ-U、RQ-A 是三条测量对象不同的证据线，分别裁决。旧 G2/G3/scope/MA-CERD 结果归入边界、动机或对照，不拆成新增创新章节。B0 天花板不否定 Paper E 或一般经验复用。AI 分析不得登记为人工 gold、盲审或财务专业认证。
 
 **现役权限：** 允许真实公开任务、离线确定性检查、隔离研究工具/环境、GB10 新实验、必要的小规模 LoRA/SFT、作者级稿件修订与私有 artifact 准备。**Owner 保留：** 作者身份、正式投稿/付款/签署、公开发布、学校成果认定。新实验须独立记账，不重置旧账。
 
-以下 `TH3-RQ`、经验学习、Memory/SFT/持续适应内容为 2026-10-12 历史研究架构。它们提供边界与替代路线，不作为当前首要题目；恢复相关工作也必须建立新的独立任务资格、强基线和实际 headroom。
+以下 `TH3-RQ`、经验学习、Memory/SFT/持续适应内容为 2026-10-12 历史研究架构。第 1 节起只保留历史来源；它们不控制当前贡献排序，也不自动恢复工作包。
 
 ## 1. 最终题目与范围
 

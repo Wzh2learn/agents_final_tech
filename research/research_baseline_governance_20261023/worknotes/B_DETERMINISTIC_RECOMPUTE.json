@@ -1,0 +1,217 @@
+{
+  "schema": "baseline_governance_deterministic_recompute_v1",
+  "date": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "generated_at": "2026-10-23T21:14:59.7655705+08:00",
+  "scope": {
+    "offline_only": true,
+    "model_calls": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "paid_api_calls": 0,
+    "production_memory_writes": 0,
+    "frozen_files_modified": 0
+  },
+  "repository": {
+    "local_head": "9e43b0380588adc5b4b5b6c14481ae636349cb96",
+    "gb10_head": "9e43b0380588adc5b4b5b6c14481ae636349cb96",
+    "gb10_host_alias": "jinrong-dev",
+    "local_status_before_worknote": "clean"
+  },
+  "g3_depth2_random_recompute": {
+    "population": 400,
+    "useful_population": 43,
+    "selected": 40,
+    "observed_useful": 5,
+    "same_budget_random_expectation": 4.3,
+    "hypergeometric": {
+      "p_exact_5": 0.18608975164669334,
+      "p_at_least_5": 0.4347520938059236,
+      "p_at_most_4": 0.5652479061940764,
+      "equal_tail_quantile_2_5_percent": 1,
+      "equal_tail_quantile_97_5_percent": 8,
+      "p_1_through_8": 0.9740350985387284
+    },
+    "ruling": "COMPATIBLE_WITH_SAME_BUDGET_RANDOM_NO_LEARNABLE_SIGNAL_ESTABLISHED"
+  },
+  "g3_predictor_protocol_reconciliation": {
+    "protocol_description": "repeated five-fold outer validation with three-fold inner cost-matched threshold selection",
+    "implementation": "inner thresholds recorded per outer fold; final labels use five-run averaged OOF scores and one global top-10-percent threshold over all 400 rows",
+    "operating_point_actual": "40 action-count-matched rows",
+    "cost_matched_claim": false,
+    "evidence_identity": "DEVELOPMENT_RANKING_DIAGNOSTIC_NOT_NESTED_FROZEN_THRESHOLD_EXECUTION",
+    "model_costs": {
+      "logistic_regression_selected": 40,
+      "logistic_regression_predicted_context_chars": 1203502.0,
+      "decision_tree_depth2_selected": 40,
+      "decision_tree_depth2_predicted_context_chars": 1194603.0,
+      "always_expand_selected": 400,
+      "always_expand_predicted_context_chars": 11850080.0
+    }
+  },
+  "g3_oracle_recompute": {
+    "keep_top3": {
+      "both": 144,
+      "mean_context_chars": 34712.865
+    },
+    "always_expand_top5": {
+      "both": 187,
+      "mean_context_chars": 64338.065,
+      "useful_expand_count": 43,
+      "no_target_gain_expand_count": 357
+    },
+    "oracle_gain_rule": {
+      "both": 187,
+      "mean_context_chars": 37292.0075,
+      "useful_expand_count": 43,
+      "no_target_gain_expand_count": 0
+    },
+    "nonclaim": "Target-defined headroom and context cost only; no downstream action gain and no claim that no-target-gain rows contain no useful information."
+  },
+  "g2_fixed_state_recompute": {
+    "plain_fact_bundle": {
+      "fact": {
+        "grounded": 2,
+        "reasonable_unknown_or_clarification": 5,
+        "unnecessary_refusal": 0,
+        "stale_or_unsafe": 1
+      },
+      "action": {
+        "grounded": 1,
+        "reasonable_unknown_or_clarification": 6,
+        "unnecessary_refusal": 1,
+        "stale_or_unsafe": 0
+      }
+    },
+    "evidence_decision_bundle": {
+      "fact": {
+        "grounded": 3,
+        "reasonable_unknown_or_clarification": 3,
+        "unnecessary_refusal": 0,
+        "stale_or_unsafe": 2
+      },
+      "action": {
+        "grounded": 1,
+        "reasonable_unknown_or_clarification": 5,
+        "unnecessary_refusal": 2,
+        "stale_or_unsafe": 0
+      }
+    },
+    "evidence_identity": "AUXILIARY_AI_SEMANTIC_JUDGE_PLUS_CONTRACT_LEVEL_POST_VALIDATION_NOT_HUMAN_GOLD"
+  },
+  "g2_independent_review_conflict": {
+    "review_declared_validated_sha256": "f275b1b02e22fdb61a348421d7644feb0d32b75dd08cd8d116f97ba33ab89322",
+    "current_validated_sha256": "d3779c28877d087d2103e57c715ec14b047d48616d3dd8d893bb9bc643eff241",
+    "review_action_claim": "1 grounded and 7 reasonable in each arm",
+    "current_action_counts": {
+      "plain_fact_bundle": {
+        "grounded": 1,
+        "reasonable": 6,
+        "unnecessary_refusal": 1
+      },
+      "evidence_decision_bundle": {
+        "grounded": 1,
+        "reasonable": 5,
+        "unnecessary_refusal": 2
+      }
+    },
+    "uid_09949c3c_current": "BOTH_ACTION_ROWS_REMAIN_UNNECESSARY_REFUSAL_IN_RAW_AND_VALIDATED",
+    "ruling": "RETAIN_REVIEW_AS_HISTORICAL_AUXILIARY_USE_CURRENT_ROW_COUNTS_FOR_SYNTHESIS"
+  },
+  "bm25_difference": {
+    "g2": {
+      "removes_stopwords": true,
+      "removes_short_tokens": true,
+      "indexes_session_time_prefix": false,
+      "indexes_role_labels": false,
+      "dim1_original_top5_both_rate": 0.43
+    },
+    "g3": {
+      "removes_stopwords": false,
+      "removes_short_tokens": false,
+      "indexes_session_time_prefix": true,
+      "indexes_role_labels": true,
+      "dim1_always_expand_top5_both_rate": 0.4675
+    },
+    "ruling": "COVERAGE_DIFFERENCE_CONFOUNDED_BY_RETRIEVAL_IMPLEMENTATION_NOT_A_METHOD_EFFECT",
+    "source_identity_limit": "G2 result does not declare its source-data path or hash."
+  },
+  "g3_provenance": {
+    "source_data": {
+      "path_gb10": "/home/testuser/wzh/protected_research_20261021_v1/stale_probe_20261023/T1_T2_400_FULL.json",
+      "bytes": 305908212,
+      "sha256_declared": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+      "sha256_recomputed_gb10": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+      "match": true
+    },
+    "call_1": {
+      "uid": "18866d40-4641-4c2b-a8d5-fa6f2fa4913d",
+      "raw_request_preserved": false,
+      "raw_response_preserved": false,
+      "prompt_tokens": 15109,
+      "completion_tokens": 512,
+      "accounting_tokens": 15621,
+      "usage_support": "GB10 /tmp/llama-8004-vision.log task 2810516",
+      "durable_usage_source": false
+    },
+    "call_2": {
+      "uid": "18ef1a92-4489-477c-8ad7-257bc4795ee8",
+      "raw_request_preserved": true,
+      "raw_response_preserved": true,
+      "request_sha256": "643aacdbcbed6e9f35e8156324101548aef4cfb3f9b6fa89a30e84476427b600",
+      "response_sha256": "346b2ed481a93ff16f317378a88d85c7944f70494e6a9199775c8c616e4848d4",
+      "hashes_declared_in_aggregate_results": true,
+      "hashes_declared_in_raw_call_receipt": false
+    },
+    "ruling": "ENGINEERING_PROVENANCE_GAP_NOT_MODEL_POLICY_SCIENTIFIC_FAILURE"
+  },
+  "ledger_recompute": {
+    "increments": [
+      {
+        "revision": "v2",
+        "attempts": 1,
+        "accounting_tokens": 1849,
+        "judge_calls": 0
+      },
+      {
+        "revision": "v3",
+        "attempts": 76,
+        "accounting_tokens": 217096,
+        "judge_calls": 0
+      },
+      {
+        "revision": "v4",
+        "attempts": 349,
+        "accounting_tokens": 2831240,
+        "judge_calls": 67
+      },
+      {
+        "revision": "v5",
+        "attempts": 110,
+        "accounting_tokens": 663178,
+        "judge_calls": 46
+      }
+    ],
+    "totals": {
+      "attempts": 536,
+      "physical_http_calls": 536,
+      "accounting_tokens": 3713363,
+      "judge_calls": 113,
+      "training_runs": 0,
+      "paid_api_usd": 0,
+      "production_memory_writes": 0
+    },
+    "match_declared_new_budget": true
+  },
+  "hashes": {
+    "RESOURCE_LEDGER.json": "26b24521cb530e4f263c1fe1a5b71d4663594342df8ce364d50e7af540605567",
+    "G2_SEMANTIC_JUDGE_VALIDATED_V5.json": "d3779c28877d087d2103e57c715ec14b047d48616d3dd8d893bb9bc643eff241",
+    "G2_FIXED_STATE_INDEPENDENT_REVIEW.json": "533d372f1ab66e1d908525b58ab3eec3ac3f35adf96748ac914ffb3c91fdb4f5",
+    "G3_OFFLINE_RESULTS_V1.json": "07486af674c774841e3bd62a7bb588087d1ab02310fadc3a2b95dcb0100a18c5",
+    "G3_VISIBLE_FEATURE_PREDICTION_PROTOCOL_V5.json": "a601992202ee32b663927255b018a66c31a000408899e4445d5366cb8ac41b6b",
+    "G3_VISIBLE_FEATURE_PREDICTION_RESULTS_V5.json": "56f6a59a4ce8ba2ff597579bbf0cafb1e951af839258332f5138f469a6f11a34",
+    "G3_VISIBLE_FEATURE_PREDICTION_V5.py": "5bb1e72f79a51d092911e9b9444919cd78fd3aa9b6fd3ecace6239288c2c9359",
+    "G3_incremental_evidence_probe.py": "b2c6cb84eddd8c8a1a8d06adc5fd513fc640e39deec4f440eb6c2395819e60d1",
+    "g2_retrieval_policy_probe_v5.py": "e9e0265ef275aa92b69b61241461417f10cee446b5aceb05b81b2f354af80474"
+  }
+}

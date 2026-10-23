@@ -1,6 +1,7 @@
 # 硕士研究执行蓝图 v1：V2 发表、验证方法与学位综合
 
-> 2026-10-22｜`CURRENT_EXECUTION_BASELINE / V2_RESEARCH_AUTHORIZED`
+> 2026-10-23｜`CURRENT_EXECUTION_BASELINE / THREE_CARDS_PREPARED`
+> 当前执行起点以 [Research Baseline](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 的三张实验卡为准。
 > 本文件已接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)。2026-10-12 的 `DESIGN_ONLY_NOT_AUTHORIZED`、WP-0 只读和 300 次旧预算均为历史，不再覆盖当前授权；旧实验冻结和旧账本仍不恢复。
 > 依据：[THESIS_RESEARCH_ARCHITECTURE_v3.md](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md)。本文接续 V2 授权并记录当前工作流；历史工作包不自动恢复。
 > 2026-10-12 治理更新：[研究治理基线 v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 冻结科学边界与 G-RQ/G-M 推进裁决，优先于蓝图中的未来方法出口；本蓝图只维护工作包、原有首验参数与探索性资源门。更新前全文见 [原始历史快照](history/2026-10-12_pre_governance/README.md)。
@@ -16,14 +17,14 @@
 | 工作流 | 实际动作 | 当前出口 | 下一步 |
 |---|---|---|---|
 | **G1 Paper E** | 恢复 SCITEPRESS 9pt、修 manifest/披露、组装私有 artifact、GB10 clean reproduction、实际包审计 | **内部包就绪**；11 页、wide evidence 与 package audit PASS | Owner 完成作者/投稿/付款/公开决策；内部只做真实失败触发的修订 |
-| **G2 完成验证** | v3 actual-module + paired intervention + true tri-state；六对象与一个自然模型候选 | **判据修复，但方法增量未识别；当前机制停止扩展** | 仅当 simple strong baseline 出现真实盲点时换机制 |
-| **G3 决策成本** | 六对象真实 preflight/test/fixture/static/consumption 动作 | **simple baseline 6/6；复杂 planner 暂停** | 只保留成本/风险分析层 |
-| **第三贡献资格** | 同一候选/依赖下 fixture→short 输入范围变化 | **scope-aware invalidation 5/5，dependency-only 3/5** | 增加第二个自然案例并测真实修复/结果收益 |
-| **G4 论文综合** | 中文 Paper E 引用正文、G2/G3/第三点摘要、导师一页稿和素材地图 | **部分完成，持续写作** | 将已停止/暂停边界写入正式章节 |
+| **RQ-U 状态信息损失定位** | 同一证据、同一 actor 下比较充分事实、实际抽取事实和行动使用 | **Card 1 开发可启动；确认输入局部缺口** | 先做 8-16 UID 信息等量开发比较 |
+| **RQ-A 有效补查与总成本** | 同一检索下 KEEP/EXPAND，固定 reader，全成本 | **Card 2 离线可启动；模型腿先修接口** | 先加入 same-budget random 与强廉价基线 |
+| **ALT-L 小模型学习备选** | 新任务资格、可执行监督、LoRA 链路 | **Card 3 仅资格/dry-run；训练未启动** | 先形成 source-qualified task annex 与干净 split |
+| **G4 论文综合** | Paper E 正文、RQ-U/RQ-A 中文材料和贡献矩阵 | **部分完成，持续写作** | 将停止边界和真实不确定性写入正文 |
 
 **统一实验规则：** 正式新数字在 GB10 执行并保存 raw/命令/hash；开发 fixture、真实公开任务、旧证据重分析和模型输出分别标注；单批先小后大，失败/重试/canary/judge/训练均记账。新实验上限由当前 Goal 账本控制，不能把旧 300 次建议恢复为现役 cap。
 
-以下第 1-7 节保留 2026-10-12 的经验学习路线和工作包原文，作为历史设计与停止条件。它不再表示 `NOT_AUTHORIZED`，也不自动授权旧 WP-2/3/4/5；若要恢复经验学习/持续适应，必须在现役问题下重新建立任务、强基线、独立验证和成本出口。
+以下第 1-7 节保留 2026-10-12 的经验学习路线和工作包原文，作为历史设计与停止条件。它不控制当前三张卡，也不自动授权旧 WP-2/3/4/5。
 
 **Tech stack：** 复用现有研究 Python 入口和可审计工具执行模式；不接生产 FastAPI/PG，不建设新服务。actor 的模型 revision、运行方式和依赖以未来获准任务卡为准，已有权重校验不等于加载许可。
 

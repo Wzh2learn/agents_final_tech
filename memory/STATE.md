@@ -5,10 +5,11 @@
 
 ## 当前任务
 
-V5 已形成组合证据出口：Paper E 投稿衔接包完成；G2 的三类 judge 反例、固定证据/固定状态与端到端独立评审完成；G3 的选择性增量补查取得真实成本 headroom，但模型 KEEP/EXPAND 接口未形成有效决策。两个后继候选暂不认证为创新点。详见 [V5 RESEARCH_SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)。
+2026-10-23 前置治理已把旧结论、失败经验和复用资产收敛为可执行基线。Paper E 投稿衔接包不变；G2 状态到行动和 G3 增量证据是两个未认证候选，V5 中影响下一轮的过强解释已由 [RESEARCH_BASELINE](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 更正。
 
 | 用途 | 当前权威入口 |
 |---|---|
+| 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
 | 新阶段方向与授权衔接 | [四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；当前为部分完成，G2 停止、G3 暂停、第三贡献进入有界开发 |
 | 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
@@ -23,8 +24,8 @@ V5 已形成组合证据出口：Paper E 投稿衔接包完成；G2 的三类 ju
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。
 - 第三研究点：`NARROW_TO_STAGE_SEPARATED_EVIDENCE_RELIABILITY`。scope 的 30 对 35 probe 节省已由 exact cache + miss revalidation 完全解释；scope 面板停止扩样。
-- G2 状态到行动：`CONTINUE_NARROWED_DEVELOPMENT_ONLY`。固定证据/固定状态下 plain/decision bundle 的事实完成为 2/8 对 3/8，行动完成均为 1/8；端到端独立评审显示 two-stage 减少 stale/unsafe 但增加合理弃答和不必要拒绝。
-- G3 增量补查：`KEEP_WITH_HEADROOM / MODEL_POLICY_UNEVALUATED`。43 个 useful expansion、oracle 成本差和 depth-2 弱信号保留为独立候选，visible rule 已停止。
+- G2 状态到行动：`CONTINUE_RQ_U_DEVELOPMENT_ONLY / NO_METHOD_GAIN`。plain/decision fact 为 2/8 对 3/8、action 均 1/8；当前 action 分布是 `1/6/1` 对 `1/5/2`。现有 bundle 会丢新事实，不能据此证明正确状态无法迁移到行动。
+- G3 增量补查：`KEEP_RQ_A_WITH_HEADROOM / NO_POLICY_CLAIM`。oracle 只证明目标定义下的覆盖/成本空间；depth-2 `5/43` 与同预算随机相容，不能称弱可学习信号；模型接口仍是 `UNEVALUATED_NO_VALID_DECISION`。
 - FinRank：`STOP_ON_CURRENT_PANEL`，不重开 H/K；当前负结果不否定经验复用的一般可能性。
 - MA-CERD：资源 membership 基线不等于依赖边传播；selective escalation 未验证，完整动作集合 exact match 与动作可接受性须区分，见[更正](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md)。
 - Adaptive V3：当前 authored fixtures 上 greedy 已足够，two-step 无正向配对收益；RPC capability 边界不等于操作系统沙箱。

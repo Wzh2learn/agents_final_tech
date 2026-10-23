@@ -1,0 +1,230 @@
+{
+  "schema": "research_baseline_reconciliation_v1",
+  "date": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "goal_id": "PRE_RESEARCH_GOVERNANCE_AND_ASSET_CONTINUATION_20261023",
+  "status": "RESEARCH_BASELINE_READY_WITH_LOCAL_GAPS",
+  "evidence_identity": "OFFLINE_DERIVED_RECONCILIATION_NOT_AN_EXPERIMENT",
+  "execution_scope": {
+    "model_calls": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "paid_api_calls": 0,
+    "production_memory_writes": 0,
+    "new_scientific_experiment_requests": 0,
+    "frozen_files_modified": 0
+  },
+  "repository_snapshot": {
+    "checked_at": "2026-10-23T21:18:52+08:00",
+    "git_root": "D:/AIRcommend/JinRongAgents/agents_final_tech",
+    "local": {
+      "branch": "main",
+      "head": "9e43b0380588adc5b4b5b6c14481ae636349cb96",
+      "upstream": "origin/main",
+      "status_before_governance_writes": "clean",
+      "status_before_worknote_writes": "only research/research_baseline_governance_20261023 untracked"
+    },
+    "remote": {
+      "name": "origin",
+      "url": "git@github.com:Wzh2learn/agents_final_tech.git",
+      "method": "git ls-remote origin refs/heads/main after local git fetch --prune",
+      "checked_at": "2026-10-23T21:09:48+08:00",
+      "refs_heads_main": "9e43b0380588adc5b4b5b6c14481ae636349cb96"
+    },
+    "gb10": {
+      "remote_name": "gb10",
+      "ssh_host_alias": "jinrong-dev",
+      "path": "/home/testuser/wzh/projects/agents_final_tech",
+      "branch": "main",
+      "head": "9e43b0380588adc5b4b5b6c14481ae636349cb96",
+      "status": "clean",
+      "worktree": "/home/testuser/wzh/projects/agents_final_tech",
+      "checked_at": "2026-10-23T21:18:52+08:00"
+    }
+  },
+  "source_hashes": {
+    "paper/saner_rene_manuscript_v1.md": "3a914d049aca7a1e3ecb0fb1999f5a0398c3b1b44a5e4815df31d1a104c77af5",
+    "paper/saner_rene_claim_matrix_v1.json": "5d2ba487cece32d0c8bf55dda5c00f94917b0e9861cf1f005114e278b80131ca",
+    "research/publication_thesis_goals_v1/RESOURCE_LEDGER.json": "26b24521cb530e4f263c1fe1a5b71d4663594342df8ce364d50e7af540605567",
+    "research/publication_thesis_goals_v1/revision_v5/G2_EVALUATION_CONTRACT.md": "43c2daebd548d10975c77f531a7f32a593c7175cc1b2c5c276ac61d535553712",
+    "research/publication_thesis_goals_v1/revision_v5/G2_SEMANTIC_JUDGE_VALIDATED_V5.json": "d3779c28877d087d2103e57c715ec14b047d48616d3dd8d893bb9bc643eff241",
+    "research/publication_thesis_goals_v1/revision_v5/G2_FIXED_STATE_INDEPENDENT_REVIEW.json": "533d372f1ab66e1d908525b58ab3eec3ac3f35adf96748ac914ffb3c91fdb4f5",
+    "research/publication_thesis_goals_v1/revision_v5/G3_OFFLINE_RESULTS_V1.json": "07486af674c774841e3bd62a7bb588087d1ab02310fadc3a2b95dcb0100a18c5",
+    "research/publication_thesis_goals_v1/revision_v5/G3_VISIBLE_FEATURE_PREDICTION_PROTOCOL_V5.json": "a601992202ee32b663927255b018a66c31a000408899e4445d5366cb8ac41b6b",
+    "research/publication_thesis_goals_v1/revision_v5/G3_VISIBLE_FEATURE_PREDICTION_RESULTS_V5.json": "56f6a59a4ce8ba2ff597579bbf0cafb1e951af839258332f5138f469a6f11a34",
+    "research/publication_thesis_goals_v1/revision_v5/G3_VISIBLE_FEATURE_PREDICTION_V5.py": "5bb1e72f79a51d092911e9b9444919cd78fd3aa9b6fd3ecace6239288c2c9359",
+    "research/publication_thesis_goals_v1/revision_v5/G3_incremental_evidence_probe.py": "b2c6cb84eddd8c8a1a8d06adc5fd513fc640e39deec4f440eb6c2395819e60d1",
+    "research/publication_thesis_goals_v1/revision_v5/g2_retrieval_policy_probe_v5.py": "e9e0265ef275aa92b69b61241461417f10cee446b5aceb05b81b2f354af80474",
+    "research/research_baseline_governance_20261023/worknotes/A_ASSET_REUSE_AUDIT.md": "d8e3782585b83cec2f3ae637997213691d408debf9038011e13088307c1d38fa",
+    "research/research_baseline_governance_20261023/worknotes/C_SCIENTIFIC_RECONCILIATION.md": "3f50586c13342a362b54924802bcd5453eb8afb7be968f6b213cac3c6ae34dcd"
+  },
+  "source_to_derived_lineage": [
+    {
+      "derived": "RESEARCH_BASELINE_AND_REUSE_MAP.md",
+      "sources": [
+        "D:/Documents/Loop_D_前置科研治理与资产接续Prompt_20261023.md",
+        "research/research_baseline_governance_20261023/worknotes/A_ASSET_REUSE_AUDIT.md",
+        "research/research_baseline_governance_20261023/worknotes/B_DETERMINISTIC_RECOMPUTE.md",
+        "research/research_baseline_governance_20261023/worknotes/C_SCIENTIFIC_RECONCILIATION.md",
+        "research/publication_thesis_goals_v1/revision_v5/* frozen reports/raw"
+      ],
+      "identity": "derived synthesis; old reports and raw remain unchanged"
+    },
+    {
+      "derived": "current memory/docs/paper summaries",
+      "sources": [
+        "G2_SEMANTIC_JUDGE_VALIDATED_V5.json",
+        "G3_OFFLINE_RESULTS_V1.json",
+        "G3_VISIBLE_FEATURE_PREDICTION_V5.py",
+        "RESOURCE_LEDGER.json",
+        "A/B/C worknotes"
+      ],
+      "identity": "dated current interpretation; not a rescore of frozen outputs"
+    }
+  ],
+  "corrected_claims": [
+    {
+      "id": "G3_DEPTH2_RANDOM_COMPATIBILITY",
+      "old_claim": "depth-2 5/43 is a weak learnability signal",
+      "audited_fact": {
+        "population": 400,
+        "useful": 43,
+        "selected": 40,
+        "observed_useful": 5,
+        "random_expectation": 4.3,
+        "hypergeometric_p_at_least_5": 0.4347520938059236,
+        "central_95_percent_range": [1, 8]
+      },
+      "current_claim": "5/43 is compatible with same-budget random; no learnable policy is established and the task is not proved unlearnable"
+    },
+    {
+      "id": "G3_PREDICTOR_PROTOCOL",
+      "old_claim": "nested cost-matched thresholds execute the final decisions",
+      "audited_fact": "inner thresholds are recorded; final labels use averaged OOF scores and a global top-10% cutoff over 400 rows",
+      "current_claim": "development ranking diagnostic, not frozen nested threshold execution; action count is not cost matching"
+    },
+    {
+      "id": "G3_ORACLE_SCOPE",
+      "old_claim": "oracle context saving establishes useful selective expansion",
+      "audited_fact": {
+        "always_expand": {"both": 187, "mean_context_chars": 64338.065},
+        "oracle_selective": {"both": 187, "mean_context_chars": 37292.0075},
+        "target_useful_expansions": 43
+      },
+      "current_claim": "target-defined coverage/cost headroom only; downstream gain and total cost are not established; 357 rows have unmeasured rather than zero information"
+    },
+    {
+      "id": "G2_STATE_INFORMATION_LOSS",
+      "old_claim": "correct recovered state fails to transfer to action",
+      "audited_fact": "plain fact/action 2/8 and 1/8; decision fact/action 3/8 and 1/8; generated bundles sometimes omit positive current facts",
+      "current_claim": "old-state invalidation, sufficient current-state recovery and downstream use are not yet isolated; automatic transfer is not established"
+    },
+    {
+      "id": "G2_INDEPENDENT_REVIEW_COUNTS",
+      "old_claim": "both action arms have 1 grounded and 7 reasonable outcomes",
+      "audited_fact": "plain 1 grounded/6 reasonable/1 unnecessary refusal; decision 1/5/2; both 09949c3c action rows remain unnecessary refusals",
+      "current_claim": "retain the review as historical auxiliary AI advice; use case-level JSON counts for current synthesis"
+    },
+    {
+      "id": "BM25_COMPARABILITY",
+      "old_claim": "G2 and G3 coverage difference reflects method",
+      "audited_fact": "G2 removes stopwords/short tokens; G3 retains them and indexes session/time and role prefixes; dim1 BOTH 0.430 versus 0.4675",
+      "current_claim": "coverage difference is confounded by retrieval implementation"
+    },
+    {
+      "id": "G3_MODEL_PROVENANCE",
+      "old_claim": "two failed calls are model-policy accuracy evidence",
+      "audited_fact": "zero valid decisions; call 1 raw lost with usage only supported by mutable GB10 /tmp log; call 2 hashes match aggregate but raw receipt is not self-describing",
+      "current_claim": "engineering/provenance gap and unevaluated policy, not scientific accuracy failure"
+    }
+  ],
+  "asset_verification": {
+    "reusable_now": [
+      "Paper E private reproducibility package",
+      "STALE development replay",
+      "G2 measurement contract and fixed-state runner",
+      "G3 offline evidence runner",
+      "Partridge and NtripBrowser mechanism workspaces",
+      "MA-CERD authoritative ZIP",
+      "Qwen3-4B/8B and PEFT/TRL training infrastructure",
+      "CodeUpdateArena sandboxed runner"
+    ],
+    "evidence_only": [
+      "all existing STALE UID panels",
+      "scope 20-transition panel",
+      "Q3/VGMC/DPO labels and PRM smoke comparison",
+      "CodeUpdateArena and VersiCode existing panels",
+      "FinQA/FinRank Paper E cases"
+    ],
+    "repair_or_qualify_first": [
+      "STALE data license and genuinely unseen split",
+      "MA-CERD extracted release tree: four documentation hashes drift and validator fails",
+      "VersiCode license inconsistency and behavioral oracle; eval() scripts are not a safe oracle",
+      "PyMigBench task qualification: 36 candidates attempted and 0 retained",
+      "new task-specific learning supervision and source-family isolation",
+      "local VGMC source corpus data/research/drift_v0/output/ is missing"
+    ],
+    "specific_integrity_findings": [
+      "MA-CERD ZIP SHA-256 f0373675fc879306f91a4b1a6016a2cc8fc764d76ace04a468b6b91ae07ab62c is internally manifest-consistent",
+      "MA-CERD extracted README.md and three documentation files drift from SHA256SUMS.json",
+      "Partridge worktrees include a disclosed pytest compatibility patch to test files; module and patch hashes must remain run-bound",
+      "NtripBrowser checkout is clean BSD-3-Clause but its natural outputs and controls are already exposed"
+    ]
+  },
+  "unresolved_unknowns": [
+    "STALE benchmark data license is not recorded locally",
+    "genuinely unseen STALE UID/source blocks or a new release are not yet materialized",
+    "G2 source-data identity is not declared in its retrieval output",
+    "G3 call-1 raw request/response and durable usage receipt are missing",
+    "MA-CERD simulator/trace replay is unavailable, so graph propagation remains untested",
+    "PyMigBench currently has zero retained executable tasks",
+    "VersiCode license declarations conflict and no independent behavioral oracle is qualified",
+    "old VGMC corpus is missing locally"
+  ],
+  "experiment_card_readiness": {
+    "card_1_state_information_loss": {
+      "status": "READY_FOR_DEVELOPMENT_START",
+      "confirmation": "LOCAL_GAP_UNSEEN_UID_OR_NEW_RELEASE_REQUIRED",
+      "first_command": "venv\\Scripts\\python.exe -m pytest -q research/publication_thesis_goals_v1/revision_v5/test_g2_fixed_state_transfer_probe_v5.py research/publication_thesis_goals_v1/revision_v5/test_g2_evaluation_contract.py"
+    },
+    "card_2_effective_expansion": {
+      "status": "OFFLINE_READY_MODEL_LEG_REQUIRES_INTERFACE_REPAIR",
+      "confirmation": "LOCAL_GAP_UNSEEN_UID_OR_NEW_RELEASE_REQUIRED",
+      "first_command": "ssh jinrong-dev \"cd wzh/projects/agents_final_tech && ./venv/bin/python research/publication_thesis_goals_v1/revision_v5/G3_incremental_evidence_probe.py offline --data /home/testuser/wzh/protected_research_20261021_v1/stale_probe_20261023/T1_T2_400_FULL.json --protocol research/publication_thesis_goals_v1/revision_v5/G3_PROTOCOL_V1.json --output research/research_baseline_governance_20261023/dev_check_g3_offline.json\""
+    },
+    "card_3_small_model_learning": {
+      "status": "DATA_QUALIFICATION_AND_DRY_RUN_ONLY",
+      "training": "NOT_STARTABLE",
+      "first_command": "venv\\Scripts\\python.exe research/validate_stage_d_training_readiness.py --help",
+      "next_command_after_task_config": "venv\\Scripts\\python.exe research/validate_stage_d_training_readiness.py --config <new-versioned-task-config>",
+      "missing_before_training": "new executable task, independent checker-backed supervision, source-family split and license verification"
+    }
+  },
+  "resource_accounting": {
+    "current_goal_ledger": {
+      "accounting_attempts": 536,
+      "physical_http_calls": 536,
+      "accounting_tokens": 3713363,
+      "judge_calls": 113,
+      "training_runs": 0,
+      "paid_api_usd": 0,
+      "production_memory_writes": 0
+    },
+    "this_governance_task": {
+      "model_calls": 0,
+      "judge_calls": 0,
+      "training_runs": 0,
+      "offline_recompute": "completed",
+      "subagent_review_calls": "AI analysis only; separately disclosed, not model experiment requests"
+    }
+  },
+  "verification": {
+    "json_parse": "PASS",
+    "local_path_checks": "PASS for referenced local files; GB10 data paths checked by A/B audits",
+    "docs_link_checks": "PASS: scripts/docs_lint.py 0 fail / 0 warn",
+    "focused_tests": "PASS: 24 passed, 2 skipped",
+    "paper_claim_check": "PASS: claim_matrix, figure_binding, citations, prereg_pins and WIDE_EVIDENCE_CHECK",
+    "frozen_hash_check": "PASS: frozen source hashes in source_hashes; no frozen node modified",
+    "git_diff_check": "PASS with line-ending warnings only"
+  }
+}

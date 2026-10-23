@@ -6,10 +6,11 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-23
 
 ## 当前任务与证据
 
-V5 组合证据出口已经形成：Paper E 实时投稿 handoff 完成；G2 的 judge 反例、固定证据/固定状态和端到端独立评审完成；G3 的选择性增量补查有真实成本 headroom，但模型 KEEP/EXPAND 未形成有效决策。两个后继候选暂不认证为创新点。当前结论与成本见 [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
+V5 组合证据出口已经形成，但 2026-10-23 前置治理发现并纠正了其中会影响后续实验的派生解释。Paper E 仍是唯一成熟贡献；RQ-U 证据充分性/可靠使用与 RQ-A 证据获取效用/成本是两个未认证候选。当前科学结论、复用资产和三张实验卡以 [Research Baseline](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 为准；V5 原报告保留历史原文。外部投稿、署名、付款和公开仍由 Owner 决定。
 
 | 用途 | 权威记录 |
 |---|---|
+| 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
 | 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
@@ -33,8 +34,8 @@ V5 组合证据出口已经形成：Paper E 实时投稿 handoff 完成；G2 的
 | CodeUpdateArena | 修正执行器后的开发集与新 families 都是有界负结果；[V2 报告](../../research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_REPORT_V2.md)与[新 families 确认](../../research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_REPORT.md)。不重复同一 prose-update 臂；合成变化不等于真实自然漂移 |
 | VersiCode | 八个 name-change families 只支持语法/API 名称可观测性结论；[独立复核](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md)。不证明行为正确或 prose/structured 孰优 |
 | PyMigBench/真实迁移 | NtripBrowser 与 Partridge 显示行为/合同边界；v3 actual-module 与 paired intervention 已拒绝审计反例，但 alias-aware static + tests/behavior 同样 6/6。一个自然 Qwen 候选为等价正确实现。见 [G2 V2](../../research/publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md) 与 [G3 V2](../../research/publication_thesis_goals_v1/revision_v2/G3_V2_REPORT.md) |
-| G2 状态到行动 | 固定证据/固定状态下 plain/decision fact 完成为 2/8 对 3/8，action 均为 1/8；端到端独立评审显示 two-stage 减少 stale/unsafe 但增加合理弃答和不必要拒绝。见 [G2 独立评审](../../research/publication_thesis_goals_v1/revision_v5/G2_FIXED_STATE_INDEPENDENT_REVIEW.md) |
-| G3 增量证据补查 | 43/400 useful expansions；oracle-selective 187/400 BOTH、37,292 mean chars 对 always-expand 64,338；visible rule 仅 1/43，depth-2 弱信号 5/43，模型策略未有效评估。见 [G3 报告](../../research/publication_thesis_goals_v1/revision_v5/G3_REPORT_V1.md) |
+| G2 状态到行动 | plain/decision fact 完成为 2/8 对 3/8，action 均为 1/8；当前 action 分类为 plain `1 grounded / 6 reasonable / 1 unnecessary refusal`、decision `1/5/2`。现有 bundle 会丢失充分的新事实，因此尚未隔离“正确状态到行动”的迁移失败。见 [基线更正](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) |
+| G3 增量证据补查 | 43/400 useful expansions；oracle-selective 187/400 BOTH、37,292 mean chars 对 always-expand 64,338，只证明目标定义下的覆盖/成本 headroom。depth-2 的 5/43 与同预算随机相容（`P(X>=5)=0.434752`），不是可学习信号；模型策略未有效评估 |
 
 NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。行为与结构合同需要分别观察；现有证据不证明 hybrid oracle 普遍充分，也不支持比较两种信息表示的优劣。新迁移案例尚未纳入 Paper E 的两案例主张。
 
@@ -45,7 +46,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2/V3 复用。G2 当前机制停止扩展；G3 复杂 planner 暂停；状态表示方向只保留有界信号。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2/V3 复用。旧 G2 消费/迁移方法、G3 复杂 planner 和 scope 面板继续停止；RQ-U 只保留信息等量的开发实验，RQ-A 只保留带随机/强廉价基线的开发实验。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

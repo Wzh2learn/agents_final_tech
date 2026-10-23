@@ -1,6 +1,7 @@
 # 大论文研究治理与决策基线 v1：V2 当前授权接续
 
-> 2026-10-22｜`CURRENT_AUTHORIZATION_BASELINE / V2_RESEARCH_AUTHORIZED`
+> 2026-10-23｜`CURRENT_AUTHORIZATION_BASELINE / RESEARCH_BASELINE_RECONCILED`
+> 当前事实、资产和实验卡以 [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 为准；本文件保留授权与推进边界。
 > 本版接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)。旧 `EXECUTION_NOT_AUTHORIZED` 与“只读核验”限制已由后续 Owner Goal 取代；冻结实验、停止面板和旧账本仍不恢复。
 > 来源：本会话对架构 v3 的导师/顶会审稿压力测试，以及用户本轮明确要求的边界冻结。冻结的是研究范围、证据归属与推进约束；不是认证方法创新、学位达标或实验许可。
 > 当前架构：[THESIS_RESEARCH_ARCHITECTURE_v3.md](THESIS_RESEARCH_ARCHITECTURE_v3.md)；执行方案：[THESIS_EXECUTION_BLUEPRINT_v1.md](THESIS_EXECUTION_BLUEPRINT_v1.md)。本基线管科学裁决与推进门，架构管研究范围，蓝图管既有工作包和具体实验参数；冲突时先遵守用户最新明确指令，再遵守本基线的边界。历史运行许可、受保护政策和原始证据不被覆盖。
@@ -19,22 +20,22 @@
 
 ## 1. 决策、理由与当前事实
 
-**决定：有条件采用三个 TH3-RQ 和 Evaluation → Evidence → Learning → Adaptation；不认证当前已有新方法。**
+**决定：采用 `RQ-M` 测量有效性、`RQ-U` 证据充分性与可靠使用、`RQ-A` 证据获取效用与成本三个稳定问题；`ALT-L` 只是学习备选。当前方法贡献 `NOT_ESTABLISHED`。**
 
 选择这条受限研究路线，放弃两种默认：不恢复强制 EDR，不把已有环节的组合认作创新。核心科学问题仍是：对过去执行有事实支持的信息，何种条件下能产生对未来任务有净收益的行为更新？反馈真实与反馈有用不是同一结论。
 
 | 项目 | 当前可签署的状态 |
 |---|---|
 | Paper E | 已有受限测量审计证据；作者级科学纠偏未执行。只提供反例与测量约束，不认证新任务反馈资格或学习效用。 |
-| TH3-RQ1 | 检验候选反馈的事实支持、测量对象与使用条件；资格成立不推出未来学习有效。 |
-| TH3-RQ2 | **待验证科学假设；具体方法差异与 exact novelty 尚待识别。** 新任务 `QUALIFICATION_PENDING / NOT_RUN`。 |
-| TH3-RQ3 | 对存活学习机制的有限适应边界检验；不是预设独立创新或持续改进贡献。 |
+| RQ-U | 固定证据后分离旧状态失效、充分事实恢复和下游行动使用；Card 1 仅开发可启动。 |
+| RQ-A | 在全成本下选择补查证据；Card 2 必须击败同预算随机与强廉价基线。 |
+| ALT-L | 新任务、可执行监督和干净 split 成立后才训练；Card 3 当前只做资格/dry-run。 |
 | Memory / SFT / Adaptation | 分别是候选主要载体、有界参数对照与边界研究对象；实现它们不等于形成贡献。 |
 | 推进门 | `G-RQ=PENDING`；`G-M=PENDING`；`METHOD_NOVELTY=NOT_IDENTIFIED`。本轮未签发任何运行许可。 |
 
-硕士目标仍是纠偏后的 Paper E、一项完整经验学习研究及有条件的有限适应检验。核心方法论文是争取的出口，不是已确定成果；第二篇扩展不是毕业前置。若新方法无必要，是否完成有解释力的经验比较及是否满足学位要求，由导师决定，不能由执行 Agent 自动降级认证。
+硕士目标当前按 Paper E 加两个有实质区分、仍待验证的研究问题管理。三者不预先认证为三个创新点；若 RQ-U/RQ-A 只是同一端到端流水线的两个接口，应合并并另寻候选。
 
-## 2. 已有工作风险与创新边界
+## 2. 历史近邻风险与创新边界
 
 以下为本轮压力测试已核对的一手研究；包括预印本。它们支持主题/通用机制已有覆盖，不证明所有结论普遍成立，也不证明尚未定义的具体方法已被完全覆盖。后续只按候选机制精读，不追加泛热点路线。
 

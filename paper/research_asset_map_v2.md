@@ -1,6 +1,8 @@
 # 三阶段科研资产地图 v2：发表、验证方法与学位综合现役索引
 
-> 状态：`CURRENT_ASSET_INDEX` | 更新：2026-10-22 | 范围：Paper E、G2/G3 候选方法线、G4 学位综合
+> 状态：`CURRENT_ASSET_INDEX` | 更新：2026-10-23 | 范围：Paper E、RQ-U/RQ-A 候选、ALT-L 学习备选、G4 学位综合
+
+> 2026-10-23 接续：可执行资产身份、环境、污染边界、复用成本与三张实验卡集中见 [Research Baseline And Reuse Map](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。本文件保留项目历史资产索引；冲突时以该基线的日期化更正为准。
 
 ## 0. V2 现役素材身份与实际使用
 
@@ -13,16 +15,17 @@
 | `paper/saner_rene_claim_matrix_v1.json` | 主张—证据绑定 | 核对并修正 FinRank strict gap 算术 | 当前 claims 必须与主稿/图表一致 |
 | `research/research_portfolio_v2/pymigbench_external_change_v1/ntripbrowser_qualification_v2/` | 一个真实 commit + 三个自然模型输出 | 读取候选代码与旧行为日志；进入 G2 v2 对照 | 单任务案例，不估计自然错误率 |
 | Partridge commit `09e89d9...` 及 parent `daefcbe...` | 新独立真实公开迁移，MIT | GB10 固定源、测试环境、父/gold 42/42、真实控制变体 | G2/G3 新证据；两个 revision 不是总体样本 |
-| `research/publication_thesis_goals_v1/revision_v2/` | 本轮 verifier、真实动作 probe、raw results 与失败记录 | GB10 执行；保留路径/venv/patch 失败 | G2/G3 候选方法与成本证据 |
+| `research/publication_thesis_goals_v1/revision_v5/` | STALE fixed-state、语义合同、增量补查、raw 与失败记录 | 离线复算，原始结果不改 | RQ-U/RQ-A 开发证据；深度树和 oracle 过强解释已更正 |
+| `research/stage_e_method_revision_20261009/run_prm_reference_training_smoke.py` 与 `research/prm_reference_training_smoke_20261010/` | Qwen3-4B LoRA 训练链、adapter 与 smoke receipts | 核对配置、metrics 和审计补充 | ALT-L 工程入口；8 样本/2 step 不是学习结果 |
 | `research/publication_thesis_goals_v1/G4_MEASUREMENT_AUDIT_CHAPTER_CN.md` | 中文正文草稿 | 同步统计修正、候选方法边界 | G4 实际写作文本，不是完成学位稿 |
 | Adaptive V3、MA-CERD、VersiCode、旧 FinRank 面板 | 历史/边界材料 | 仅核对现役解释和来源，不运行、不改 raw | 不作为 G2/G3 新确认结果 |
-| Memory、SFT/LoRA、检索或经验学习资产 | 计划或历史设计 | 本轮未形成训练或学习效果结论 | 只有新任务资格、强基线和独立验证成立后才进入贡献 |
+| Memory、SFT/LoRA、检索或经验学习资产 | 工程链路可用；旧 VGMC/Q3/DPO 标签资格失败 | 当前未训练、未形成学习效果 | 新任务、可执行监督、干净 split 和非训练基线成立后才进入 Card 3 |
 
 以下 Stage E/D/R 章节保留 2026-10-05 之前的项目资产账本与历史停止条件，不覆盖上表现役身份。`DATA_NO_GO`、`PILOT_ONLY`、`READY_FOR_INDEPENDENT_ACCEPTANCE` 等旧状态不能由本轮材料存在自动解除。
 
 ## 1. 账本职责与阅读顺序
 
-先完成 `AGENTS.md` 的规则/记忆必读，再按 `docs/research/README.md` → `paper/research_story_v2.md` → 本账本 → `docs/handoff/2026-09-22-paper-research-next-phase.md` 阅读。入口 §1 管权威冲突，叙事管故事，本账本管证据与缺口，执行计划管下一张任务卡；数字以原始工件为准，不按文档新旧投票。
+先完成 `AGENTS.md` 的规则/记忆必读，再按 `docs/research/README.md` → `research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md` → 本账本阅读。基线管当前事实/实验卡，本账本管历史证据与缺口；数字以原始工件为准，不按文档新旧投票。
 
 `paper/teacher_review_note_v2.md` 是当前导师说明；`paper/research_story_v2.docx` 已由当前 Markdown 和同步后的三阶段表离线重生成，结构/口径测试通过，Office 视觉验收已于 2026-10-03 PASS；它不覆盖 Markdown。方向包使用成熟评估稿 + 当前故事，不等待统一论文实验完成。
 
