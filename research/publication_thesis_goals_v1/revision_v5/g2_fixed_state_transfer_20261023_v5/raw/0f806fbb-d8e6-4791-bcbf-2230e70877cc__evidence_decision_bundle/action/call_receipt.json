@@ -1,0 +1,56 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_current_facts\": [\n    \"User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth (Session 14/turn 7).\"\n  ],\n  \"invalidated_assumptions\": [\n    \"The user's interest in learning about derivatives and options (Session 34) does not invalidate their stated preference for steady growth; rather, it indicates a desire to learn within defined-risk structures (e.g., debit spreads) that align with their risk tolerance (Session 34/turn 7, 8).\"\n  ],\n  \"uncertain_impacts\": [\n    \"Whether the user's current engagement with options trading will lead to a shift in their core investment philosophy toward higher risk, or if they will strictly maintain their 'steady growth' preference by limiting options to small, educational positions.\"\n  ],\n  \"action_constraints\": [\n    \"Any future investment actions must respect the user's explicit constraint against gambling significant funds on high-risk opportunities, favoring steady growth strategies (Session 14/turn 7).\"\n  ],\n  \"unknowns\": [\n    \"The user's current financial capacity and specific allocation percentages for the 'test buckets' mentioned in Session 14 versus their current options trading activities in Session 34.\"\n  ]\n}\n\nQuestion: My broker prompted me to switch to their “Essential” tier to remove the $15 monthly maintenance fee. It would limit the account to standard stock and ETF purchases and turn off advanced trading features. Does it make sense for me to confirm that change right now?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "1447c13a49365090f21924476c05cdce045846733ade48bc2921bbd9db913a02",
+  "response_body_sha256": "5b60f245798e647c14633e7f8a2619c6d4b5db4d8fc550a0d044cb70d57a33e0",
+  "content": "{\n  \"decision\": \"CLARIFY\",\n  \"answer\": \"Do you currently use advanced trading features (such as options) for educational purposes or defined-risk strategies, or are you strictly focused on standard stock/ETF purchases?\",\n  \"basis_refs\": [\n    \"invalidated_assumptions\",\n    \"uncertain_impacts\"\n  ],\n  \"constraints_considered\": [\n    \"User's preference for steady growth and constraint against gambling significant funds on high-risk opportunities\",\n    \"User's interest in learning about derivatives/options within defined-risk structures\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 127,
+    "prompt_tokens": 476,
+    "total_tokens": 603,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.312613,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 603,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "CLARIFY",
+    "answer": "Do you currently use advanced trading features (such as options) for educational purposes or defined-risk strategies, or are you strictly focused on standard stock/ETF purchases?",
+    "basis_refs": [
+      "invalidated_assumptions",
+      "uncertain_impacts"
+    ],
+    "constraints_considered": [
+      "User's preference for steady growth and constraint against gambling significant funds on high-risk opportunities",
+      "User's interest in learning about derivatives/options within defined-risk structures"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

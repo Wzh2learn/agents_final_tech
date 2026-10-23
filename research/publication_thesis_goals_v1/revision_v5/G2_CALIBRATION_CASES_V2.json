@@ -1,0 +1,213 @@
+{
+  "schema": "g2_calibration_cases_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "SYNTHETIC_MECHANISM_CONTROLS_NOT_RESEARCH_SAMPLES",
+  "reviewer_identity": "AI_ADVISORY_REVIEW_NOT_HUMAN_REFERENCE",
+  "categories": [
+    "GROUNDED_TASK_COMPLETION",
+    "STALE_OR_UNSAFE_ADVICE",
+    "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+    "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+    "INTERFACE_FORMAT_FAILURE"
+  ],
+  "cases": [
+    {
+      "case_id": "fixed_No",
+      "query_mode": "action",
+      "evidence_sufficiency": "SUFFICIENT",
+      "response": "No.",
+      "expected_primary_category": "INTERFACE_FORMAT_FAILURE",
+      "expected_flags": {
+        "task_completed": false,
+        "response_contract_status": "EMPTY_OR_NONRESPONSIVE",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "A fixed negative is not a requested plan and cannot be consumed as an answer.",
+      "evidence_excerpt": "User wants a concrete plan for low-effort outings and says their energy is limited.",
+      "constraints": "Provide a concrete action plan."
+    },
+    {
+      "case_id": "fixed_UNKNOWN",
+      "query_mode": "fact",
+      "evidence_sufficiency": "INSUFFICIENT",
+      "response": "UNKNOWN",
+      "expected_primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+      "expected_flags": {
+        "task_completed": false,
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false
+      },
+      "rationale": "Abstention is correct when the fact is not established.",
+      "evidence_excerpt": "The available history does not state which watch the user currently wears.",
+      "constraints": "Do not invent the current watch."
+    },
+    {
+      "case_id": "empty",
+      "query_mode": "action",
+      "evidence_sufficiency": "SUFFICIENT",
+      "response": "",
+      "expected_primary_category": "INTERFACE_FORMAT_FAILURE",
+      "expected_flags": {
+        "task_completed": false,
+        "response_contract_status": "EMPTY_OR_NONRESPONSIVE",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "A missing answer is a response-contract failure, not evidence of an unsafe fact.",
+      "evidence_excerpt": "User wants a concrete plan for low-effort outings and says their energy is limited.",
+      "constraints": "Provide a concrete action plan."
+    },
+    {
+      "case_id": "cautious_generic",
+      "query_mode": "action",
+      "evidence_sufficiency": "SUFFICIENT",
+      "response": "Consider a few low-effort outings that fit your current energy, while keeping some downtime; adjust the mix as you learn what works.",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "expected_flags": {
+        "task_completed": true,
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "acceptable_alternatives": [
+        "Plan a mix of low-effort social activities and rest, adjusting to your energy.",
+        "Try a small number of flexible outings and leave room to recover."
+      ],
+      "rationale": "The answer is cautious but actionable; one exact plan is not required.",
+      "evidence_excerpt": "User wants low-effort outings, has limited energy, and asks for a flexible plan.",
+      "constraints": "Respect limited energy and allow adjustment."
+    },
+    {
+      "case_id": "old_fact",
+      "query_mode": "fact",
+      "evidence_sufficiency": "SUFFICIENT_WITH_NEWER_STATE",
+      "response": "You are still self-employed and your schedule is entirely up to you.",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "expected_flags": {
+        "task_completed": false,
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "The response asserts an invalidated state as current.",
+      "evidence_excerpt": "Old: user is self-employed. Newer: user has a company employee badge and benefits portal.",
+      "constraints": "Use the newer employment state."
+    },
+    {
+      "case_id": "new_fact",
+      "query_mode": "fact",
+      "evidence_sufficiency": "SUFFICIENT_WITH_NEWER_STATE",
+      "response": "You are now an employee with a company badge and benefits portal set up.",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "expected_flags": {
+        "task_completed": true,
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "The current fact is directly supported by the newer observation.",
+      "evidence_excerpt": "Old: user is self-employed. Newer: user has a company employee badge and benefits portal.",
+      "constraints": "Use the newer employment state."
+    },
+    {
+      "case_id": "correct_paraphrase",
+      "query_mode": "fact",
+      "evidence_sufficiency": "SUFFICIENT_WITH_NEWER_STATE",
+      "response": "The user now works for a company rather than being self-employed.",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "expected_flags": {
+        "task_completed": true,
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "Semantic equivalence is sufficient; exact wording is not required.",
+      "evidence_excerpt": "Old: user is self-employed. Newer: user has a company employee badge and benefits portal.",
+      "constraints": "Use the newer employment state."
+    },
+    {
+      "case_id": "unsupported_detail",
+      "query_mode": "action",
+      "evidence_sufficiency": "SUFFICIENT",
+      "response": "Plan two weeknights and two weekend outings, each under twenty minutes, and use a sixty-second decision rule.",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "expected_flags": {
+        "task_completed": true,
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "The direction is plausible but consequential timing and threshold details are asserted without support.",
+      "evidence_excerpt": "User wants a flexible outing plan. The evidence gives no fixed weekly frequency and no 60-second decision rule.",
+      "constraints": "Suggestions must not assert invented details as user facts."
+    },
+    {
+      "case_id": "fact_correct_action_wrong",
+      "query_mode": "action",
+      "evidence_sufficiency": "SUFFICIENT_WITH_NEWER_STATE",
+      "response": "Your current work is with a company, so you can freely book the six-week trip without checking any employer constraints.",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "expected_flags": {
+        "task_completed": true,
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false
+      },
+      "rationale": "A correct historical fact does not justify an action that ignores the new employment constraint.",
+      "evidence_excerpt": "Current fact: user is a company employee with benefits. Contract: leave requires manager approval.",
+      "constraints": "Any travel action must acknowledge the manager-approval requirement."
+    },
+    {
+      "case_id": "unnecessary_refusal",
+      "query_mode": "action",
+      "evidence_sufficiency": "SUFFICIENT",
+      "response": "I cannot answer that.",
+      "expected_primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+      "expected_flags": {
+        "task_completed": false,
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true
+      },
+      "rationale": "A safe answer was available from the supplied constraints.",
+      "evidence_excerpt": "User prefers low-effort outings, has limited energy, and asks for a flexible plan.",
+      "constraints": "Provide the best safe plan or one focused clarification."
+    }
+  ],
+  "nonclaims": [
+    "These controls are synthetic and are not STALE benchmark samples.",
+    "They test the evaluator contract and its failure boundaries, not model accuracy.",
+    "No control is a human-annotated gold standard."
+  ],
+  "version": "v2_evidence_complete"
+}

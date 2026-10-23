@@ -1,0 +1,11 @@
+{
+  "schema": "g2_fixed_state_receipt_v5",
+  "status": "COMPLETE_WITH_STOP",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "planned_calls": 48,
+  "executed_calls": 7,
+  "accounting_tokens": 48854,
+  "retry_count": 0,
+  "results_sha256": "49771711aa95fe73cef446fb76b44a857d4a72b7ccdeeda5c77feb3ca2f76e1d",
+  "stopped_early": "parse_failure:INVALID_JSON"
+}

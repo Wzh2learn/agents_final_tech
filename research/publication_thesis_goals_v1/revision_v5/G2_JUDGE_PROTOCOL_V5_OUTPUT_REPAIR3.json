@@ -1,0 +1,19 @@
+{
+  "schema": "g2_semantic_judge_protocol_v5_output_repair3",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_JUDGE_GENERATION",
+  "identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "repair": "Quote is plain text without embedded JSON punctuation; dynamic response codes and all semantic categories are unchanged.",
+  "resume_uid_count": 13,
+  "preserved_valid_uids": [
+    "09949c3c-0abe-42fb-9012-efb34b298947",
+    "0af76ce2-d242-4deb-bd5c-a853338150bc",
+    "0bd9381a-6163-41bd-b500-74d147a98f19"
+  ],
+  "preserved_failed_batches": [
+    "g2_e2e_top5_judge_20261023_v5",
+    "g2_e2e_top5_judge_repair2_20261023_v5"
+  ],
+  "calibration_gate_from_output_repair": "FLAG_AND_CONTINUE_9_OF_10"
+}

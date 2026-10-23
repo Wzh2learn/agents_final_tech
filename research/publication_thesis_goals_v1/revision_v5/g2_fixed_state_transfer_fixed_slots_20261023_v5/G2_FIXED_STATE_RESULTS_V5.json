@@ -1,0 +1,1254 @@
+{
+  "schema": "g2_fixed_state_transfer_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "DEV_FIXED_EVIDENCE_FIXED_STATE_FACT_ACTION_TRANSFER",
+  "protocol_sha256": "aa23f66de2095e361dfee33a8e546b5550b6b600e9bcdc9b73673e5922252e55",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary": {
+    "overall": {
+      "planned_calls": 48,
+      "observed_calls": 48,
+      "accounting_tokens": 258112,
+      "retry_count": 0
+    },
+    "by_representation": {
+      "plain_fact_bundle": {
+        "calls": 24,
+        "accounting_tokens": 129926,
+        "fact_answered": 3,
+        "action_answered": 1,
+        "fact_clarify": 2,
+        "action_clarify": 5,
+        "fact_unknown": 3,
+        "action_unknown": 2
+      },
+      "evidence_decision_bundle": {
+        "calls": 24,
+        "accounting_tokens": 128186,
+        "fact_answered": 5,
+        "action_answered": 1,
+        "fact_clarify": 0,
+        "action_clarify": 2,
+        "fact_unknown": 3,
+        "action_unknown": 5
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "current_fact_1": "User prefers steady growth and avoids gambling significant funds on high-risk opportunities (Session 14, turn 7)",
+        "current_fact_2": "User is interested in learning about trading, specifically derivatives and options, using a small account (Session 34, turn 1, 3)",
+        "current_fact_3": "User is practicing debit spreads to keep risk contained while learning options (Session 34, turn 7)",
+        "conflict_1": "User's stated preference for steady growth and avoiding high-risk gambling may conflict with the active practice of trading derivatives/options, which inherently carry higher risk and complexity (Session 14 vs Session 34)",
+        "conflict_2": null,
+        "uncertainty_1": "It is unclear if the user's current engagement with options trading represents a shift away from their previously stated aversion to high-risk opportunities, or if they view options learning as a low-stakes educational exercise distinct from their core investment philosophy",
+        "uncertainty_2": "Missing evidence on whether the user has updated their investment style preference since Session 14, given the significant time gap and topic shift to art and social justice in intervening sessions",
+        "refs": [
+          "Session 14/turn 7",
+          "Session 34/turn 1",
+          "Session 34/turn 3",
+          "Session 34/turn 7"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "uncertainty_1",
+          "uncertainty_2"
+        ],
+        "constraints_considered": [
+          "Insufficient evidence to confirm if the user's preference has changed or if the current activity contradicts the stated preference."
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "current_fact_1": "User prefers steady growth and avoids gambling significant funds on high-risk opportunities (Session 14, turn 7)",
+        "current_fact_2": "User is interested in learning about trading, specifically derivatives and options, using a small account (Session 34, turn 1, 3)",
+        "current_fact_3": "User is practicing debit spreads to keep risk contained while learning options (Session 34, turn 7)",
+        "conflict_1": "User's stated preference for steady growth and avoiding high-risk gambling may conflict with the active practice of trading derivatives/options, which inherently carry higher risk and complexity (Session 14 vs Session 34)",
+        "conflict_2": null,
+        "uncertainty_1": "It is unclear if the user's current engagement with options trading represents a shift away from their previously stated aversion to high-risk opportunities, or if they view options learning as a low-stakes educational exercise distinct from their core investment philosophy",
+        "uncertainty_2": "Missing evidence on whether the user has updated their investment style preference since Session 14, given the significant time gap and topic shift to art and social justice in intervening sessions",
+        "refs": [
+          "Session 14/turn 7",
+          "Session 34/turn 1",
+          "Session 34/turn 3",
+          "Session 34/turn 7"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Do you want to continue learning and practicing options trading, or do you prefer to stick to standard stocks and ETFs?",
+        "basis_refs": [
+          "Session 34/turn 1",
+          "Session 34/turn 3",
+          "Session 34/turn 7"
+        ],
+        "constraints_considered": [
+          "User's current interest in learning derivatives and options",
+          "User's practice of debit spreads"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "confirmed_fact_1": "User has never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead (Session 14, turn 7).",
+        "confirmed_fact_2": "User is currently learning about options trading, specifically debit spreads, using a small account to keep risk contained (Session 34, turns 7-12).",
+        "invalidated_1": null,
+        "invalidated_2": null,
+        "uncertain_impact_1": "Whether the user's preference for steady growth conflicts with the inherent volatility and leverage of options trading, potentially causing stress or deviation from their core preference.",
+        "uncertain_impact_2": "Whether the user's current learning phase with options will lead to a shift in their investment style from steady growth to more active trading.",
+        "constraint_1": "When testing options strategies, position sizes must remain tiny and defined-risk structures (like debit spreads) should be prioritized to align with the user's aversion to high-risk gambling (Session 34, turns 4, 6, 8).",
+        "constraint_2": null,
+        "unknown_1": "Whether the user intends to continue options trading long-term or if this is strictly a temporary learning exercise.",
+        "refs": [
+          "Session 14/turn 7",
+          "Session 34/turn 7",
+          "Session 34/turn 8"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Yes, the user has never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead.",
+        "basis_refs": [
+          "confirmed_fact_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "confirmed_fact_1": "User has never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead (Session 14, turn 7).",
+        "confirmed_fact_2": "User is currently learning about options trading, specifically debit spreads, using a small account to keep risk contained (Session 34, turns 7-12).",
+        "invalidated_1": null,
+        "invalidated_2": null,
+        "uncertain_impact_1": "Whether the user's preference for steady growth conflicts with the inherent volatility and leverage of options trading, potentially causing stress or deviation from their core preference.",
+        "uncertain_impact_2": "Whether the user's current learning phase with options will lead to a shift in their investment style from steady growth to more active trading.",
+        "constraint_1": "When testing options strategies, position sizes must remain tiny and defined-risk structures (like debit spreads) should be prioritized to align with the user's aversion to high-risk gambling (Session 34, turns 4, 6, 8).",
+        "constraint_2": null,
+        "unknown_1": "Whether the user intends to continue options trading long-term or if this is strictly a temporary learning exercise.",
+        "refs": [
+          "Session 14/turn 7",
+          "Session 34/turn 7",
+          "Session 34/turn 8"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Does the user intend to learn and trade options long-term, or is this strictly a temporary learning exercise?",
+        "basis_refs": [
+          "uncertain_impact_2",
+          "unknown_1"
+        ],
+        "constraints_considered": [
+          "constraint_1"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        2,
+        38,
+        13,
+        30,
+        47
+      ],
+      "bundle": {
+        "current_fact_1": "User prefers spending free time at home and tends to decline most evening invitations (Session 3, turn 5)",
+        "current_fact_2": "User is currently trying to plan their next couple of months to keep energy up by being out in the middle of things, checking out new spots, and keeping their calendar full (Session 39, turn 1)",
+        "current_fact_3": "User has established a rule to lock exactly two weeknights and two weekend blocks by Sunday night, trading out plans rather than adding on top (Session 39, turn 10)",
+        "conflict_1": "Session 3 indicates a preference for staying in and declining evening invites, whereas Session 39 indicates a desire to be out more and keep the calendar full",
+        "conflict_2": "Session 39 shows the user actively seeking to avoid defaulting to staying in, contrasting with the previous pattern described in Session 3",
+        "uncertainty_1": "It is unclear if the user has fully abandoned the 'declining evening invitations' habit or if they are still managing that preference while trying to go out more",
+        "uncertainty_2": "The extent to which the user's preference for home time has changed since Session 3 is not explicitly defined in Session 39",
+        "refs": [
+          "Session 3, turn 5",
+          "Session 39, turn 1",
+          "Session 39, turn 10"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Has the user fully abandoned the habit of declining most evening invitations, or are they still managing that preference while trying to go out more?",
+        "basis_refs": [
+          "uncertainty_1",
+          "uncertainty_2"
+        ],
+        "constraints_considered": [
+          "insufficient information to determine current status of the habit"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        2,
+        38,
+        13,
+        30,
+        47
+      ],
+      "bundle": {
+        "current_fact_1": "User prefers spending free time at home and tends to decline most evening invitations (Session 3, turn 5)",
+        "current_fact_2": "User is currently trying to plan their next couple of months to keep energy up by being out in the middle of things, checking out new spots, and keeping their calendar full (Session 39, turn 1)",
+        "current_fact_3": "User has established a rule to lock exactly two weeknights and two weekend blocks by Sunday night, trading out plans rather than adding on top (Session 39, turn 10)",
+        "conflict_1": "Session 3 indicates a preference for staying in and declining evening invites, whereas Session 39 indicates a desire to be out more and keep the calendar full",
+        "conflict_2": "Session 39 shows the user actively seeking to avoid defaulting to staying in, contrasting with the previous pattern described in Session 3",
+        "uncertainty_1": "It is unclear if the user has fully abandoned the 'declining evening invitations' habit or if they are still managing that preference while trying to go out more",
+        "uncertainty_2": "The extent to which the user's preference for home time has changed since Session 3 is not explicitly defined in Session 39",
+        "refs": [
+          "Session 3, turn 5",
+          "Session 39, turn 1",
+          "Session 39, turn 10"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Do you want to continue declining most evening invitations as in the past, or are you actively trying to go out more and keep your calendar full?",
+        "basis_refs": [
+          "current_fact_1",
+          "current_fact_2",
+          "uncertainty_1"
+        ],
+        "constraints_considered": [
+          "conflicting user preferences regarding evening activities"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        2,
+        38,
+        13,
+        30,
+        47
+      ],
+      "bundle": {
+        "confirmed_fact_1": "null",
+        "confirmed_fact_2": "null",
+        "invalidated_1": "The user's preference for staying in and declining evening invitations was established in Session 3 (2022) but is contradicted by their current stated goal in Session 39 (2024) to keep their calendar full and feel recharged by being out in the middle of things.",
+        "invalidated_2": "null",
+        "uncertain_impact_1": "null",
+        "uncertain_impact_2": "null",
+        "constraint_1": "null",
+        "constraint_2": "null",
+        "unknown_1": "null",
+        "refs": [
+          "Session 3/turn 5",
+          "Session 39/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "No, the user's current goal is to keep their calendar full and feel recharged by being out in the middle of things, which contradicts the previous preference for staying in.",
+        "basis_refs": [
+          "invalidated_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        2,
+        38,
+        13,
+        30,
+        47
+      ],
+      "bundle": {
+        "confirmed_fact_1": "null",
+        "confirmed_fact_2": "null",
+        "invalidated_1": "The user's preference for staying in and declining evening invitations was established in Session 3 (2022) but is contradicted by their current stated goal in Session 39 (2024) to keep their calendar full and feel recharged by being out in the middle of things.",
+        "invalidated_2": "null",
+        "uncertain_impact_1": "null",
+        "uncertain_impact_2": "null",
+        "constraint_1": "null",
+        "constraint_2": "null",
+        "unknown_1": "null",
+        "refs": [
+          "Session 3/turn 5",
+          "Session 39/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "You should plan your evenings by keeping your calendar full and engaging in activities that keep you 'in the middle of things,' as your current goal is to feel recharged by being out, which contradicts your previous preference for staying in.",
+        "basis_refs": [
+          "invalidated_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        15,
+        2,
+        14,
+        19
+      ],
+      "bundle": {
+        "current_fact_1": "null",
+        "current_fact_2": "null",
+        "current_fact_3": "null",
+        "conflict_1": "Session 14 [Time: 2024-06-15 10:00] User turn 3: \"I should add that I’m currently self-employed, so my work schedule is entirely up to me.\"",
+        "conflict_2": "Session 3 [Time: 2024-03-24 09:43] User turn 1: \"I've recently taken on a new role as a senior account manager...\"",
+        "uncertainty_1": "The user's current employment status is ambiguous due to conflicting information across different sessions (Session 14 vs. Session 3).",
+        "uncertainty_2": "It is unclear if the user in Session 14 is the same entity as the user in Session 3, or if the user has changed jobs since Session 3.",
+        "refs": [
+          "Session 14 [Time: 2024-06-15 10:00] User turn 3",
+          "Session 3 [Time: 2024-03-24 09:43] User turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "uncertainty_1",
+          "uncertainty_2"
+        ],
+        "constraints_considered": [
+          "insufficient information to resolve conflicting employment status"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        15,
+        2,
+        14,
+        19
+      ],
+      "bundle": {
+        "current_fact_1": "null",
+        "current_fact_2": "null",
+        "current_fact_3": "null",
+        "conflict_1": "Session 14 [Time: 2024-06-15 10:00] User turn 3: \"I should add that I’m currently self-employed, so my work schedule is entirely up to me.\"",
+        "conflict_2": "Session 3 [Time: 2024-03-24 09:43] User turn 1: \"I've recently taken on a new role as a senior account manager...\"",
+        "uncertainty_1": "The user's current employment status is ambiguous due to conflicting information across different sessions (Session 14 vs. Session 3).",
+        "uncertainty_2": "It is unclear if the user in Session 14 is the same entity as the user in Session 3, or if the user has changed jobs since Session 3.",
+        "refs": [
+          "Session 14 [Time: 2024-06-15 10:00] User turn 3",
+          "Session 3 [Time: 2024-03-24 09:43] User turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Please clarify your current employment status, as the provided information contains conflicting details regarding whether you are self-employed or a senior account manager.",
+        "basis_refs": [
+          "Session 14 [Time: 2024-06-15 10:00] User turn 3",
+          "Session 3 [Time: 2024-03-24 09:43] User turn 1"
+        ],
+        "constraints_considered": [
+          "conflicting employment status information"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        15,
+        2,
+        14,
+        19
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "The user is currently a senior account manager mentoring a junior colleague named Alex (Session 3).",
+        "invalidated_2": "The user is planning a superhero movie marathon with friends (Session 16).",
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "The user's current employment status and schedule flexibility are unknown as the self-employed context is from a previous, unrelated session.",
+        "refs": [
+          "Session 3/turn 1",
+          "Session 16/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "unknown_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        15,
+        2,
+        14,
+        19
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "The user is currently a senior account manager mentoring a junior colleague named Alex (Session 3).",
+        "invalidated_2": "The user is planning a superhero movie marathon with friends (Session 16).",
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "The user's current employment status and schedule flexibility are unknown as the self-employed context is from a previous, unrelated session.",
+        "refs": [
+          "Session 3/turn 1",
+          "Session 16/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "unknown_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        7,
+        10,
+        15,
+        30,
+        11
+      ],
+      "bundle": {
+        "current_fact_1": "null",
+        "current_fact_2": "null",
+        "current_fact_3": "null",
+        "conflict_1": "Session 8 [Time: 2024-06-15 10:00] User turn 3: 'I'm only in town for a while, so I'm planning to stay here for about five months'",
+        "conflict_2": "Session 31 [Time: 2024-12-13 10:00] User turn 5: 'I just signed the paperwork for an 18-month assignment with my new team, and my start date is next Monday.'",
+        "uncertainty_1": "null",
+        "uncertainty_2": "null",
+        "refs": [
+          "Session 8 [Time: 2024-06-15 10:00]",
+          "Session 31 [Time: 2024-12-13 10:00]"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "No",
+        "basis_refs": [
+          "conflict_2"
+        ],
+        "constraints_considered": [
+          "Temporal consistency of user plans"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        7,
+        10,
+        15,
+        30,
+        11
+      ],
+      "bundle": {
+        "current_fact_1": "null",
+        "current_fact_2": "null",
+        "current_fact_3": "null",
+        "conflict_1": "Session 8 [Time: 2024-06-15 10:00] User turn 3: 'I'm only in town for a while, so I'm planning to stay here for about five months'",
+        "conflict_2": "Session 31 [Time: 2024-12-13 10:00] User turn 5: 'I just signed the paperwork for an 18-month assignment with my new team, and my start date is next Monday.'",
+        "uncertainty_1": "null",
+        "uncertainty_2": "null",
+        "refs": [
+          "Session 8 [Time: 2024-06-15 10:00]",
+          "Session 31 [Time: 2024-12-13 10:00]"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        7,
+        10,
+        15,
+        30,
+        11
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "The user's housing timeline (5 months) is from Session 8 (2024-06-15) and is not confirmed in the current context (Session 31, 2024-12-13).",
+        "invalidated_2": null,
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "Current housing status or timeline for the user in Session 31.",
+        "refs": [
+          "Session 8/turn 3",
+          "Session 31/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "invalidated_1",
+          "unknown_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        7,
+        10,
+        15,
+        30,
+        11
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "The user's housing timeline (5 months) is from Session 8 (2024-06-15) and is not confirmed in the current context (Session 31, 2024-12-13).",
+        "invalidated_2": null,
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "Current housing status or timeline for the user in Session 31.",
+        "refs": [
+          "Session 8/turn 3",
+          "Session 31/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "Session 8/turn 3",
+          "Session 31/turn 1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        5,
+        31,
+        40,
+        24,
+        30
+      ],
+      "bundle": {
+        "current_fact_1": "User runs for thirty minutes every single morning (Session 6, turn 1)",
+        "current_fact_2": "User is considering switching to a stationary bike due to knee issues (Session 32, turn 3)",
+        "current_fact_3": "User is currently focusing on establishing a consistent sleep schedule (Session 41, turn 11)",
+        "conflict_1": "Session 6 establishes a running routine, while Session 32 introduces a knee issue leading to bike use, creating potential conflict on the primary morning exercise modality",
+        "conflict_2": "Session 32 details a specific morning routine structure, while Session 41 shifts focus entirely to sleep habits, leaving the current status of the morning exercise routine ambiguous",
+        "uncertainty_1": "It is unclear if the user abandoned the running routine entirely or modified it due to the knee issue mentioned in Session 32",
+        "uncertainty_2": "It is unclear if the user is still performing the specific warm-up/cool-down routines detailed in Session 6 or Session 32",
+        "refs": [
+          "Session 6, turn 1",
+          "Session 32, turn 3",
+          "Session 41, turn 11"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "uncertainty_1",
+          "uncertainty_2",
+          "conflict_2"
+        ],
+        "constraints_considered": [
+          "Insufficient information to determine current status of running routine due to knee issues and shift in focus to sleep."
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        5,
+        31,
+        40,
+        24,
+        30
+      ],
+      "bundle": {
+        "current_fact_1": "User runs for thirty minutes every single morning (Session 6, turn 1)",
+        "current_fact_2": "User is considering switching to a stationary bike due to knee issues (Session 32, turn 3)",
+        "current_fact_3": "User is currently focusing on establishing a consistent sleep schedule (Session 41, turn 11)",
+        "conflict_1": "Session 6 establishes a running routine, while Session 32 introduces a knee issue leading to bike use, creating potential conflict on the primary morning exercise modality",
+        "conflict_2": "Session 32 details a specific morning routine structure, while Session 41 shifts focus entirely to sleep habits, leaving the current status of the morning exercise routine ambiguous",
+        "uncertainty_1": "It is unclear if the user abandoned the running routine entirely or modified it due to the knee issue mentioned in Session 32",
+        "uncertainty_2": "It is unclear if the user is still performing the specific warm-up/cool-down routines detailed in Session 6 or Session 32",
+        "refs": [
+          "Session 6, turn 1",
+          "Session 32, turn 3",
+          "Session 41, turn 11"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Please specify the current status of your morning exercise routine (e.g., are you still running, or have you switched to a stationary bike due to knee issues?) and the specific duration and intensity of that current activity.",
+        "basis_refs": [
+          "current_fact_1",
+          "current_fact_2",
+          "current_fact_3",
+          "uncertainty_1",
+          "uncertainty_2"
+        ],
+        "constraints_considered": [
+          "Ambiguity regarding the user's current exercise modality due to knee issues",
+          "Uncertainty about the current duration and intensity of the user's morning routine"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        5,
+        31,
+        40,
+        24,
+        30
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "User has switched from running to stationary biking due to knee issues (Session 32, User turn 3)",
+        "invalidated_2": "User's current primary focus is sleep quality and language learning, not morning running routines (Session 25, User turn 1; Session 31, User turn 1)",
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "Whether the user still runs at all, given the knee issues and subsequent topic shifts",
+        "refs": [
+          "Session 32/turn 3",
+          "Session 25/turn 1",
+          "Session 31/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "No, the user has switched from running to stationary biking due to knee issues, and their current primary focus is sleep quality and language learning, not morning running routines.",
+        "basis_refs": [
+          "Session 32/turn 3",
+          "Session 25/turn 1",
+          "Session 31/turn 1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        5,
+        31,
+        40,
+        24,
+        30
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "User has switched from running to stationary biking due to knee issues (Session 32, User turn 3)",
+        "invalidated_2": "User's current primary focus is sleep quality and language learning, not morning running routines (Session 25, User turn 1; Session 31, User turn 1)",
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "Whether the user still runs at all, given the knee issues and subsequent topic shifts",
+        "refs": [
+          "Session 32/turn 3",
+          "Session 25/turn 1",
+          "Session 31/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "Session 32/turn 3",
+          "Session 25/turn 1",
+          "Session 31/turn 1"
+        ],
+        "constraints_considered": [
+          "User has switched from running to stationary biking due to knee issues",
+          "User's current primary focus is sleep quality and language learning, not morning running routines",
+          "Whether the user still runs at all, given the knee issues and subsequent topic shifts"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        2,
+        34,
+        4,
+        28
+      ],
+      "bundle": {
+        "current_fact_1": "User is currently on a big nonfiction kick, mostly biographies and history (Session 35, turn 1)",
+        "current_fact_2": "User previously kept their reading list strictly to science fiction novels (Session 14, turn 1)",
+        "current_fact_3": "User is looking for absorbing nonfiction that reads like a story (Session 35, turn 1)",
+        "conflict_1": "User's current reading preference (nonfiction) conflicts with their previous strict adherence to science fiction (Session 14 vs Session 35)",
+        "conflict_2": null,
+        "uncertainty_1": "Whether the user has completely abandoned science fiction or is just taking a break from it",
+        "uncertainty_2": "Whether the user's previous statement about strictly reading sci-fi was a temporary phase or a long-term habit",
+        "refs": [
+          "Session 14/turn 1",
+          "Session 35/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "No, the user is currently on a big nonfiction kick, mostly biographies and history, which conflicts with their previous strict adherence to science fiction novels.",
+        "basis_refs": [
+          "current_fact_1",
+          "current_fact_2",
+          "conflict_1"
+        ],
+        "constraints_considered": [
+          "Do not add facts",
+          "Use only recovered bundle"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        2,
+        34,
+        4,
+        28
+      ],
+      "bundle": {
+        "current_fact_1": "User is currently on a big nonfiction kick, mostly biographies and history (Session 35, turn 1)",
+        "current_fact_2": "User previously kept their reading list strictly to science fiction novels (Session 14, turn 1)",
+        "current_fact_3": "User is looking for absorbing nonfiction that reads like a story (Session 35, turn 1)",
+        "conflict_1": "User's current reading preference (nonfiction) conflicts with their previous strict adherence to science fiction (Session 14 vs Session 35)",
+        "conflict_2": null,
+        "uncertainty_1": "Whether the user has completely abandoned science fiction or is just taking a break from it",
+        "uncertainty_2": "Whether the user's previous statement about strictly reading sci-fi was a temporary phase or a long-term habit",
+        "refs": [
+          "Session 14/turn 1",
+          "Session 35/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Based on your current nonfiction kick, you should look for absorbing nonfiction that reads like a story, particularly biographies and history.",
+        "basis_refs": [
+          "Session 35/turn 1"
+        ],
+        "constraints_considered": [
+          "current reading preference",
+          "user's specific request for nonfiction style"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        2,
+        34,
+        4,
+        28
+      ],
+      "bundle": {
+        "confirmed_fact_1": "null",
+        "confirmed_fact_2": "null",
+        "invalidated_1": "The user's reading list is strictly limited to science fiction novels",
+        "invalidated_2": "null",
+        "uncertain_impact_1": "null",
+        "uncertain_impact_2": "null",
+        "constraint_1": "null",
+        "constraint_2": "null",
+        "unknown_1": "null",
+        "refs": [
+          "Session 14/turn 1",
+          "Session 35/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "No, the user's reading list is not strictly limited to science fiction novels.",
+        "basis_refs": [
+          "Session 14/turn 1",
+          "Session 35/turn 1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        2,
+        34,
+        4,
+        28
+      ],
+      "bundle": {
+        "confirmed_fact_1": "null",
+        "confirmed_fact_2": "null",
+        "invalidated_1": "The user's reading list is strictly limited to science fiction novels",
+        "invalidated_2": "null",
+        "uncertain_impact_1": "null",
+        "uncertain_impact_2": "null",
+        "constraint_1": "null",
+        "constraint_2": "null",
+        "unknown_1": "null",
+        "refs": [
+          "Session 14/turn 1",
+          "Session 35/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "What is your preferred genre or specific topic of interest?",
+        "basis_refs": [
+          "Session 14/turn 1",
+          "Session 35/turn 1"
+        ],
+        "constraints_considered": [
+          "The user's reading list is strictly limited to science fiction novels"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        6,
+        0,
+        38,
+        37,
+        30
+      ],
+      "bundle": {
+        "current_fact_1": "User is usually asleep by 10:30 PM (Session 7, turn 3)",
+        "current_fact_2": "User is considering a later-running schedule/evening shift (Session 31, turn 1)",
+        "current_fact_3": "User works closing duties at a bookstore, getting home around 12:30–1:00 a.m. (Session 31, turn 5)",
+        "conflict_1": "Session 7 establishes a 10:30 PM sleep time, while Session 31 describes a routine with a 1:45–2:00 AM bedtime due to late work shifts",
+        "conflict_2": "Session 7 implies a standard evening wind-down, while Session 31 describes a shifted schedule with a 9:00–9:30 AM wake-up",
+        "uncertainty_1": "Whether the user has actually transitioned to the late shift described in Session 31 or is still in the planning phase",
+        "uncertainty_2": "Whether the 10:30 PM sleep habit from Session 7 is still active or has been abandoned for the late-shift routine",
+        "refs": [
+          "Session 7, turn 3",
+          "Session 31, turn 1",
+          "Session 31, turn 5",
+          "Session 31, turn 10"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Has the user transitioned to the late-shift routine described in Session 31, or is the 10:30 PM sleep time from Session 7 still active?",
+        "basis_refs": [
+          "Session 7, turn 3",
+          "Session 31, turn 1",
+          "Session 31, turn 5",
+          "Session 31, turn 10"
+        ],
+        "constraints_considered": [
+          "conflict_1",
+          "uncertainty_1",
+          "uncertainty_2"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        6,
+        0,
+        38,
+        37,
+        30
+      ],
+      "bundle": {
+        "current_fact_1": "User is usually asleep by 10:30 PM (Session 7, turn 3)",
+        "current_fact_2": "User is considering a later-running schedule/evening shift (Session 31, turn 1)",
+        "current_fact_3": "User works closing duties at a bookstore, getting home around 12:30–1:00 a.m. (Session 31, turn 5)",
+        "conflict_1": "Session 7 establishes a 10:30 PM sleep time, while Session 31 describes a routine with a 1:45–2:00 AM bedtime due to late work shifts",
+        "conflict_2": "Session 7 implies a standard evening wind-down, while Session 31 describes a shifted schedule with a 9:00–9:30 AM wake-up",
+        "uncertainty_1": "Whether the user has actually transitioned to the late shift described in Session 31 or is still in the planning phase",
+        "uncertainty_2": "Whether the 10:30 PM sleep habit from Session 7 is still active or has been abandoned for the late-shift routine",
+        "refs": [
+          "Session 7, turn 3",
+          "Session 31, turn 1",
+          "Session 31, turn 5",
+          "Session 31, turn 10"
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Do you currently have a fixed sleep schedule of 10:30 PM, or are you currently working a late shift with a bedtime after 1:00 AM?",
+        "basis_refs": [
+          "current_fact_1",
+          "current_fact_2",
+          "current_fact_3",
+          "uncertainty_1",
+          "uncertainty_2"
+        ],
+        "constraints_considered": [
+          "User's sleep time consistency",
+          "User's current work schedule status"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        6,
+        0,
+        38,
+        37,
+        30
+      ],
+      "bundle": {
+        "confirmed_fact_1": "null",
+        "confirmed_fact_2": "null",
+        "invalidated_1": "The user's sleep schedule has shifted to a late-shift routine with a wake-up time around 9:00–9:30 AM and a bedtime around 1:45–2:00 AM on work nights (Session 31, turns 6, 10).",
+        "invalidated_2": "The previous 10:30 PM bedtime is no longer applicable due to the new job at the bookstore with closing duties (Session 31, turn 3).",
+        "uncertain_impact_1": "null",
+        "uncertain_impact_2": "null",
+        "constraint_1": "null",
+        "constraint_2": "null",
+        "unknown_1": "null",
+        "refs": [
+          "Session 31/turn 3",
+          "Session 31/turn 6",
+          "Session 31/turn 10"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "No, the user's bedtime has shifted to around 1:45–2:00 AM on work nights.",
+        "basis_refs": [
+          "invalidated_1",
+          "invalidated_2"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        6,
+        0,
+        38,
+        37,
+        30
+      ],
+      "bundle": {
+        "confirmed_fact_1": "null",
+        "confirmed_fact_2": "null",
+        "invalidated_1": "The user's sleep schedule has shifted to a late-shift routine with a wake-up time around 9:00–9:30 AM and a bedtime around 1:45–2:00 AM on work nights (Session 31, turns 6, 10).",
+        "invalidated_2": "The previous 10:30 PM bedtime is no longer applicable due to the new job at the bookstore with closing duties (Session 31, turn 3).",
+        "uncertain_impact_1": "null",
+        "uncertain_impact_2": "null",
+        "constraint_1": "null",
+        "constraint_2": "null",
+        "unknown_1": "null",
+        "refs": [
+          "Session 31/turn 3",
+          "Session 31/turn 6",
+          "Session 31/turn 10"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        7,
+        35,
+        27,
+        14,
+        16
+      ],
+      "bundle": {
+        "current_fact_1": "User is self-employed rather than holding a standard staff position (Session 8/turn 1)",
+        "current_fact_2": "User has been self-employed for the past few years (Session 8/turn 1)",
+        "current_fact_3": null,
+        "conflict_1": null,
+        "conflict_2": null,
+        "uncertainty_1": "No recent confirmation of employment status in Sessions 36, 28, 15, or 17",
+        "uncertainty_2": null,
+        "refs": [
+          "Session 8/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Yes, the user describes themselves as self-employed rather than holding a standard staff position.",
+        "basis_refs": [
+          "Session 8/turn 1"
+        ],
+        "constraints_considered": [
+          "Use only recovered bundle",
+          "No external facts"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        7,
+        35,
+        27,
+        14,
+        16
+      ],
+      "bundle": {
+        "current_fact_1": "User is self-employed rather than holding a standard staff position (Session 8/turn 1)",
+        "current_fact_2": "User has been self-employed for the past few years (Session 8/turn 1)",
+        "current_fact_3": null,
+        "conflict_1": null,
+        "conflict_2": null,
+        "uncertainty_1": "No recent confirmation of employment status in Sessions 36, 28, 15, or 17",
+        "uncertainty_2": null,
+        "refs": [
+          "Session 8/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        7,
+        35,
+        27,
+        14,
+        16
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "The user's self-employment status was established in Session 8 (2024-06-15) but is not referenced in the most recent Session 17 (2024-08-24), which focuses on home lighting.",
+        "invalidated_2": null,
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "Whether the user's employment status has changed since the last mention in Session 8.",
+        "refs": [
+          "Session 8/turn 1",
+          "Session 17/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [
+          "unknown_1",
+          "invalidated_1"
+        ],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        7,
+        35,
+        27,
+        14,
+        16
+      ],
+      "bundle": {
+        "confirmed_fact_1": null,
+        "confirmed_fact_2": null,
+        "invalidated_1": "The user's self-employment status was established in Session 8 (2024-06-15) but is not referenced in the most recent Session 17 (2024-08-24), which focuses on home lighting.",
+        "invalidated_2": null,
+        "uncertain_impact_1": null,
+        "uncertain_impact_2": null,
+        "constraint_1": null,
+        "constraint_2": null,
+        "unknown_1": "Whether the user's employment status has changed since the last mention in Session 8.",
+        "refs": [
+          "Session 8/turn 1",
+          "Session 17/turn 1"
+        ]
+      },
+      "answer_record": {
+        "decision": "UNKNOWN",
+        "answer": null,
+        "basis_refs": [],
+        "constraints_considered": []
+      },
+      "answer_parse_status": "VALID"
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "These eight UIDs are development cases and several were selected after judge review.",
+    "Retrieval is held fixed within each representation but remains BM25 top-5, not oracle evidence.",
+    "The two representations are diagnostic variants and are not new memory architectures.",
+    "Answer correctness still requires the separate calibrated evaluation contract."
+  ]
+}

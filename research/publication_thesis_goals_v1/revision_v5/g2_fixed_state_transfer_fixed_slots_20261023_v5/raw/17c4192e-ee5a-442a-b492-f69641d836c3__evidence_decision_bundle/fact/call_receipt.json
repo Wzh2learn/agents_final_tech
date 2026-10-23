@@ -1,0 +1,52 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"The user is currently a senior account manager mentoring a junior colleague named Alex (Session 3).\",\n  \"invalidated_2\": \"The user is planning a superhero movie marathon with friends (Session 16).\",\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"The user's current employment status and schedule flexibility are unknown as the self-employed context is from a previous, unrelated session.\",\n  \"refs\": [\n    \"Session 3/turn 1\",\n    \"Session 16/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "4325253aedec1788b0333f29dc5264918b8bc8d62ff25165bc6e745ec914726a",
+  "response_body_sha256": "4daf46e4e3870793abd8fe9a048460b24afbea5e44f7aa75eb393c33acdafd7e",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"basis_refs\": [\n    \"unknown_1\"\n  ],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 45,
+    "prompt_tokens": 340,
+    "total_tokens": 385,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.168475,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 385,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "basis_refs": [
+      "unknown_1"
+    ],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

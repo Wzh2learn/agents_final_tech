@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"The user's housing timeline (5 months) is from Session 8 (2024-06-15) and is not confirmed in the current context (Session 31, 2024-12-13).\",\n  \"invalidated_2\": null,\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"Current housing status or timeline for the user in Session 31.\",\n  \"refs\": [\n    \"Session 8/turn 3\",\n    \"Session 31/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still plan to stay in town for about five months?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "c2e04dd34c141c3b80cb636e62315145713368984d237fc4971216e7e105a043",
+  "response_body_sha256": "62c672111ef91133b2522398341ba06e7eda9f1c8f7c43645ef75f24aaaab5da",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"basis_refs\": [\n    \"invalidated_1\",\n    \"unknown_1\"\n  ],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 53,
+    "prompt_tokens": 347,
+    "total_tokens": 400,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.366624,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 400,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "basis_refs": [
+      "invalidated_1",
+      "unknown_1"
+    ],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

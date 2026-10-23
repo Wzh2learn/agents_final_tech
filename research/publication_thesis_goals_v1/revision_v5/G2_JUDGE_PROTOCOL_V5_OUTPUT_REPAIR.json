@@ -1,0 +1,17 @@
+{
+  "schema": "g2_semantic_judge_protocol_v5_output_repair",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_JUDGE_GENERATION",
+  "identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "repair": "Reason is limited to one sentence of at most 30 words and one short quote. Categories, vectors and calibration gate are unchanged.",
+  "preserved_failed_batches": [
+    "g2_judge_calibration_20261023_v5",
+    "g2_semantic_judge_research_20261023_v5"
+  ],
+  "calibration_gate": {
+    "expand": "10/10 primary categories correct",
+    "flag_and_continue": "8-9/10 with every error reviewed and recorded",
+    "stop": "7/10 or fewer"
+  }
+}

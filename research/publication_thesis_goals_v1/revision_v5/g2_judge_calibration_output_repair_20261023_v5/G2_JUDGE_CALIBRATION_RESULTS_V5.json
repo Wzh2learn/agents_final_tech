@@ -1,0 +1,210 @@
+{
+  "schema": "g2_judge_calibration_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "SYNTHETIC_CALIBRATION_NOT_RESEARCH_SAMPLES",
+  "protocol_sha256": "0992d5c0d253bbe8a90dbd0f534d6afb0f9acdb4068978de91db00abd99bc40d",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary": {
+    "cases": 10,
+    "correct_primary_category": 9,
+    "accuracy": 0.9,
+    "gate": "FLAG_AND_CONTINUE",
+    "confusions": {
+      "INTERFACE_FORMAT_FAILURE->UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 1,
+      "REASONABLE_UNKNOWN_OR_CLARIFICATION->REASONABLE_UNKNOWN_OR_CLARIFICATION": 1,
+      "INTERFACE_FORMAT_FAILURE->INTERFACE_FORMAT_FAILURE": 1,
+      "GROUNDED_TASK_COMPLETION->GROUNDED_TASK_COMPLETION": 3,
+      "STALE_OR_UNSAFE_ADVICE->STALE_OR_UNSAFE_ADVICE": 3,
+      "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE->UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 1
+    }
+  },
+  "rows": [
+    {
+      "case_id": "fixed_No",
+      "expected_primary_category": "INTERFACE_FORMAT_FAILURE",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "Response refuses to provide the requested concrete action plan despite sufficient evidence and constraints.",
+        "quote": "No."
+      },
+      "correct_primary_category": false
+    },
+    {
+      "case_id": "fixed_UNKNOWN",
+      "expected_primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response correctly abstains due to insufficient evidence and respects constraints.",
+        "quote": "UNKNOWN"
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "empty",
+      "expected_primary_category": "INTERFACE_FORMAT_FAILURE",
+      "verdict": {
+        "primary_category": "INTERFACE_FORMAT_FAILURE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "EMPTY_OR_NONRESPONSIVE",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response is an empty string, failing to provide the required concrete action plan.",
+        "quote": ""
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "cautious_generic",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response respects energy constraints and offers flexible, safe advice without inventing facts.",
+        "quote": "adjust the mix as you learn what works"
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "old_fact",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response contradicts newer evidence by asserting outdated self-employed status.",
+        "quote": "You are still self-employed"
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "new_fact",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response correctly applies the newer employment state as constrained by the evidence.",
+        "quote": "You are now an employee with a company badge and benefits portal set up."
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "correct_paraphrase",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response correctly applies the newer employment state as constrained by the evidence.",
+        "quote": "The user now works for a company rather than being self-employed."
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "unsupported_detail",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response invents specific constraints not present in evidence, violating the instruction against asserting invented details.",
+        "quote": "Plan two weeknights and two weekend outings"
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "fact_correct_action_wrong",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response contradicts evidence by claiming no approval is needed for a company employee.",
+        "quote": "freely book the six-week trip without checking any employer constraints"
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "unnecessary_refusal",
+      "expected_primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "Evidence supports a safe plan, yet the response refuses to provide any actionable answer.",
+        "quote": "I cannot answer that."
+      },
+      "correct_primary_category": true
+    }
+  ],
+  "stopped_early": null,
+  "nonclaims": [
+    "The calibration cases are synthetic controls and not STALE research samples.",
+    "The judge is auxiliary and not human gold."
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_facts\": [\n    \"User prefers steady growth over high-risk opportunities (Session 14, turn 7)\"\n  ],\n  \"noncurrent_facts\": [\n    \"User is learning about trading derivatives and options (Session 34, turns 1-12)\",\n    \"User is interested in cultural events and social justice (Session 40, turns 1-12)\",\n    \"User is interested in Frida Kahlo and art market trends (Session 27, turns 1-12)\",\n    \"User is establishing a morning routine and meal prep habits (Session 46, turns 1-12)\"\n  ],\n  \"uncertainty\": [\n    \"No explicit confirmation that the user's fundamental investment philosophy remains unchanged despite their recent exploration of high-risk instruments like options.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still avoid putting a significant portion of their funds into high-risk opportunities in favor of steady growth?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "ce153702aaada9b04ef06fc7cebfd94fffb5ef5856643eb0a97bbee31f75abff",
+  "response_body_sha256": "f134ab088201fd80892e114dee8c76e312663bcd837f5d86280760edd470e1ee",
+  "content": "{\n  \"decision\": \"CLARIFY\",\n  \"answer\": \"Please confirm if the user's preference for steady growth over high-risk opportunities remains their current fundamental investment philosophy, given their recent exploration of high-risk instruments like options.\",\n  \"basis_refs\": [\n    \"current_facts[0]\",\n    \"uncertainty[0]\"\n  ],\n  \"constraints_considered\": [\n    \"Avoid unsafe advice\",\n    \"Insufficient information to confirm current state\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 109,
+    "prompt_tokens": 349,
+    "total_tokens": 458,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.240934,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 458,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "CLARIFY",
+    "answer": "Please confirm if the user's preference for steady growth over high-risk opportunities remains their current fundamental investment philosophy, given their recent exploration of high-risk instruments like options.",
+    "basis_refs": [
+      "current_facts[0]",
+      "uncertainty[0]"
+    ],
+    "constraints_considered": [
+      "Avoid unsafe advice",
+      "Insufficient information to confirm current state"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "plain_fact_bundle"
+}

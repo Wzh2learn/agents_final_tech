@@ -1,0 +1,83 @@
+{
+  "schema": "g2_semantic_judge_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "protocol_sha256": "d1b697dbc122ed52cac7f40a83e82ba7ce86091c2864c64089fb38cdabb2ea8b",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary_by_representation": {
+    "plain_fact_bundle": {
+      "rows": 0,
+      "primary_counts": {},
+      "fact_primary_counts": {},
+      "action_primary_counts": {}
+    },
+    "evidence_decision_bundle": {
+      "rows": 0,
+      "primary_counts": {},
+      "fact_primary_counts": {},
+      "action_primary_counts": {}
+    }
+  },
+  "rows": [
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response A correctly applies the user's current constraint to provide a valid schedule.",
+        "quote": "Protect 8–11 AM for deep work"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "Response B refuses to answer despite sufficient evidence and constraints being available.",
+        "quote": "[null]"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": null
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": null
+    }
+  ],
+  "stopped_early": "HTTP_OK:SCHEMA_INVALID",
+  "limitations": [
+    "The judge uses the same model family as the actor and remains auxiliary.",
+    "The benchmark explanation is not independent human gold.",
+    "Eight development UIDs include cases selected after prior review."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"User is self-employed rather than holding a standard staff position (Session 8/turn 1)\",\n  \"current_fact_2\": \"User has been self-employed for the past few years (Session 8/turn 1)\",\n  \"current_fact_3\": null,\n  \"conflict_1\": null,\n  \"conflict_2\": null,\n  \"uncertainty_1\": \"No recent confirmation of employment status in Sessions 36, 28, 15, or 17\",\n  \"uncertainty_2\": null,\n  \"refs\": [\n    \"Session 8/turn 1\"\n  ]\n}\n\nQuestion: I’m thinking about signing up for a recurring volunteer shift every Tuesday from 2–4pm across town for the next three months—do you see any red flags with committing to that, and what would you suggest I check or line up first so it doesn’t mess up my work week?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "0dddf4735dd285cab2ec6fdfe1f81ffdbb9a897d4fbeeb9138683ad77b3693ed",
+  "response_body_sha256": "a6d42c82a76359e5ac73443d5bfa4fc9357f8cba5d0fcfb8072501fde36cd219",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"basis_refs\": [],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 35,
+    "prompt_tokens": 348,
+    "total_tokens": 383,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.808819,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 383,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "basis_refs": [],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "plain_fact_bundle"
+}

@@ -1,0 +1,410 @@
+{
+  "schema": "g2_counterexample_review_v5",
+  "date": "2026-10-23",
+  "reviewer_identity": "AI_ADVISORY_REVIEW_NOT_HUMAN_REFERENCE",
+  "evidence_identity": "THREE_V4_ACTION_COUNTEREXAMPLES_REVIEWED_AGAINST_RAW_EVIDENCE",
+  "nonclaims": [
+    "This is an AI-assisted semantic review, not a human-annotated gold standard.",
+    "The V4 auxiliary judge and deterministic gate are preserved as historical measurement evidence.",
+    "Hidden benchmark references are review inputs, not actor-visible evidence or executable truth."
+  ],
+  "source_refs": {
+    "reference": {
+      "path": "revision_v4/STALE_RETRIEVAL_CONFIRMATION_REFERENCE_V3.json",
+      "sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2"
+    },
+    "action_generation": {
+      "path": "revision_v4/stale_action_top5_repair_20261023_v3/STALE_RETRIEVAL_STATE_CONFIRMATION_RESULTS_V3.json",
+      "sha256": "215456067c04679ecb34266fb6666dfea7883bd718d74032a4e6f61c7b9de98a"
+    },
+    "v4_validated_judge_gate": {
+      "path": "revision_v4/STALE_ACTION_JUDGE_VALIDATED_V3.json",
+      "sha256": "82c52674cb09557be71dcc7f9044225d291eb97dbb4bacbe0937ab60dc615439"
+    },
+    "v4_judge_protocol": {
+      "path": "revision_v4/STALE_ACTION_JUDGE_PROTOCOL_STRICT_V3.json",
+      "sha256": "cb20a25ddb5930c4b40fec848fd0e087032bf39e0cb9aa179b38839940c5cdf4",
+      "identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD"
+    }
+  },
+  "review_vector": {
+    "primary_categories": [
+      "GROUNDED_TASK_COMPLETION",
+      "STALE_OR_UNSAFE_ADVICE",
+      "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+      "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+      "INTERFACE_FORMAT_FAILURE"
+    ],
+    "historical_fact_status": [
+      "SUPPORTED",
+      "CONTRADICTED",
+      "UNSUPPORTED",
+      "MIXED",
+      "NOT_APPLICABLE"
+    ],
+    "response_contract_status": [
+      "VALID",
+      "EMPTY_OR_NONRESPONSIVE",
+      "INVALID_JSON",
+      "SCHEMA_INVALID"
+    ],
+    "unsupported_detail_status": [
+      "NONE",
+      "SUGGESTED_NOT_ASSERTED",
+      "CONSEQUENTIAL_INVENTION"
+    ]
+  },
+  "cases": [
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "question": "My broker prompted me to switch to their Essential tier to remove the $15 monthly maintenance fee. It would limit the account to standard stock and ETF purchases and turn off advanced trading features. Does it make sense for me to confirm that change right now?",
+      "hidden_reference": {
+        "M_old": "I've never been willing to gamble a significant portion of my funds on high-risk opportunities, preferring steady growth instead.",
+        "M_new": "I’ve been spending my evenings getting the hang of options—starting with a small account, but I like how you can structure trades so a quick move actually matters.",
+        "explanation": "Attribute A (financial behavior/experience: actively learning and trading options) updates -> dependency A -> B (engaging in leveraged derivatives typically requires/reflects a higher tolerance for volatility and potential loss) -> this makes the earlier low risk tolerance implied by M_old no longer feasible."
+      },
+      "selected_evidence": {
+        "selected_indices": [33, 13, 11, 31, 32],
+        "retrieval_category": "BOTH_OLD_AND_NEW",
+        "old_session_index": 13,
+        "new_session_index": 33,
+        "old_statement_visible": true,
+        "new_statement_visible": true,
+        "old_source_excerpt": "I’ve never been willing to gamble a significant portion of my funds on high-risk opportunities, preferring steady growth instead.",
+        "new_source_excerpt": "I’ve been spending my evenings getting the hang of options—starting with a small account, but I like how you can structure trades so a quick move actually matters.",
+        "raw_generation_path": "revision_v4/stale_action_top5_repair_20261023_v3/STALE_RETRIEVAL_STATE_CONFIRMATION_RESULTS_V3.json",
+        "raw_judge_request_path": "revision_v4/stale_action_judge_strict_20261023_v3/raw/0f806fbb-d8e6-4791-bcbf-2230e70877cc/judge/request.json",
+        "raw_judge_request_sha256": "0374dd488b008fec42aaa0ad9095228ddf66ca1f317d961322f6d3c86445767a",
+        "raw_judge_response_path": "revision_v4/stale_action_judge_strict_20261023_v3/raw/0f806fbb-d8e6-4791-bcbf-2230e70877cc/judge/response.bin",
+        "raw_judge_response_sha256": "bc7b51410b4493993c9beb9e67beb1f8e22024fbd67de70790c8528f8dda48c9"
+      },
+      "responses": [
+        {
+          "arm": "one_call_facts",
+          "response_code": "A",
+          "raw_answer": "Yes, confirming the change makes sense. You are currently learning with a small account and focusing on standard stocks/ETFs, while advanced features (derivatives) are not yet part of your active practice. Removing the $15 monthly fee reduces costs for a learning account, and the tier's limitations align with your current goal of avoiding complex instruments.",
+          "v4_judge": {
+            "action_state_aligned": true,
+            "stale_action_rejected": true,
+            "evidence_consistent": true,
+            "non_generic": true,
+            "safe_unknown": false,
+            "pass": true,
+            "error_type": "CORRECT_ACTION"
+          },
+          "v4_gate": {
+            "raw_judge_pass": true,
+            "validated_action_pass": true,
+            "validation_reasons": []
+          },
+          "ai_review": {
+            "primary_category": "STALE_OR_UNSAFE_ADVICE",
+            "historical_fact_status": "MIXED",
+            "action_constraints_respected": false,
+            "action_reasoning_valid": false,
+            "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+            "response_contract_status": "VALID",
+            "reasonable_abstention": false,
+            "unnecessary_refusal": false,
+            "fact_correct_action_wrong": true,
+            "reason": "The answer correctly notices a small learning account but contradicts M_new by asserting stock/ETF-only practice and inactive derivatives. The resulting downgrade advice can disable the advanced features needed for the stated options-learning activity.",
+            "v4_judge_disposition": "FALSE_ACCEPT",
+            "v4_gate_disposition": "FALSE_ACCEPT",
+            "inconsistencies": [
+              "evidence_consistent=true conflicts with the explicit options-learning state",
+              "action_state_aligned=true ignores the tier's disabled advanced-trading constraint"
+            ]
+          }
+        },
+        {
+          "arm": "two_stage_state_card",
+          "response_code": "B",
+          "raw_answer": null,
+          "v4_judge": {
+            "action_state_aligned": false,
+            "stale_action_rejected": false,
+            "evidence_consistent": false,
+            "non_generic": false,
+            "safe_unknown": false,
+            "pass": false,
+            "error_type": "UNSUPPORTED_ACTION"
+          },
+          "v4_gate": {
+            "raw_judge_pass": false,
+            "validated_action_pass": false,
+            "validation_reasons": [
+              "EMPTY_ANSWER_CANNOT_BE_ACTION_SUCCESS",
+              "JUDGE_CONDITION_FALSE:action_state_aligned",
+              "JUDGE_CONDITION_FALSE:stale_action_rejected",
+              "JUDGE_CONDITION_FALSE:evidence_consistent",
+              "JUDGE_CONDITION_FALSE:non_generic"
+            ]
+          },
+          "ai_review": {
+            "primary_category": "INTERFACE_FORMAT_FAILURE",
+            "historical_fact_status": "NOT_APPLICABLE",
+            "action_constraints_respected": false,
+            "action_reasoning_valid": false,
+            "unsupported_detail_status": "NONE",
+            "response_contract_status": "EMPTY_OR_NONRESPONSIVE",
+            "reasonable_abstention": false,
+            "unnecessary_refusal": false,
+            "fact_correct_action_wrong": false,
+            "reason": "The required answer is null; no historical or action claim can be evaluated.",
+            "v4_judge_disposition": "CORRECT_REJECT",
+            "v4_gate_disposition": "CORRECT_REJECT",
+            "inconsistencies": []
+          }
+        }
+      ]
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "question": "I want to make the most of my evenings over the next couple of weeks—how should I plan them differently given how I’ve been spending my free time lately?",
+      "hidden_reference": {
+        "M_old": "I tend to decline most evening invitations because I really prefer spending my free time at home.",
+        "M_new": "Lately I feel most recharged when I’m out in the middle of things—checking out new spots, meeting people, and keeping my calendar full with plans.",
+        "explanation": "Now prefers an outgoing, socially active, plan-filled leisure lifestyle rather than a home-centric, low-social one."
+      },
+      "selected_evidence": {
+        "selected_indices": [2, 38, 47, 9, 33],
+        "retrieval_category": "BOTH_OLD_AND_NEW",
+        "old_session_index": 2,
+        "new_session_index": 38,
+        "old_statement_visible": true,
+        "new_statement_visible": true,
+        "old_source_excerpt": "I tend to decline most evening invitations because I really prefer spending my free time at home.",
+        "new_source_excerpt": "I’m trying to plan the next couple months in a way that actually keeps my energy up—lately I feel most recharged when I’m out in the middle of things—checking out new spots, meeting people, and keeping my calendar full with plans.",
+        "raw_generation_path": "revision_v4/stale_action_top5_repair_20261023_v3/STALE_RETRIEVAL_STATE_CONFIRMATION_RESULTS_V3.json",
+        "raw_judge_request_path": "revision_v4/stale_action_judge_strict_20261023_v3/raw/0af76ce2-d242-4deb-bd5c-a853338150bc/judge/request.json",
+        "raw_judge_request_sha256": "42cac5f3fba75d8c1585b609452ead45b607bb6389b37415c5d63ad63a4ef428",
+        "raw_judge_response_path": "revision_v4/stale_action_judge_strict_20261023_v3/raw/0af76ce2-d242-4deb-bd5c-a853338150bc/judge/response.bin",
+        "raw_judge_response_sha256": "0ce7bed7934249ae52678397210040ee4927159cbfbcfa3b54c0c32563106ac8"
+      },
+      "responses": [
+        {
+          "arm": "one_call_facts",
+          "response_code": "A",
+          "raw_answer": "Shift from your previous home-bound habit to a 'deck of cards' system. Pre-fill 2 weeknights and 2 weekend slots with low-effort, <20-minute outings (e.g., new cafes, walks, markets). Use a 60-second decision rule: if tired, pick the easiest solo-around-people card. Swap plans only if a new invite is better, never add on top, to prevent overload while maintaining an active social calendar.",
+          "v4_judge": {
+            "action_state_aligned": true,
+            "stale_action_rejected": true,
+            "evidence_consistent": true,
+            "non_generic": true,
+            "safe_unknown": true,
+            "pass": true,
+            "error_type": "CORRECT_ACTION"
+          },
+          "v4_gate": {
+            "raw_judge_pass": true,
+            "validated_action_pass": false,
+            "validation_reasons": [
+              "SAFE_UNKNOWN_IS_NOT_A_CONCRETE_ACTION_SUCCESS"
+            ]
+          },
+          "ai_review": {
+            "primary_category": "GROUNDED_TASK_COMPLETION",
+            "historical_fact_status": "SUPPORTED",
+            "action_constraints_respected": true,
+            "action_reasoning_valid": true,
+            "unsupported_detail_status": "SUGGESTED_NOT_ASSERTED",
+            "response_contract_status": "VALID",
+            "reasonable_abstention": false,
+            "unnecessary_refusal": false,
+            "fact_correct_action_wrong": false,
+            "reason": "The response recognizes the old home-centric preference, changes toward the newer outgoing state, and gives a usable plan. Numeric planning details are recommendations, not historical facts.",
+            "v4_judge_disposition": "CORRECT_ACCEPT_WITH_INCONSISTENT_FIELD",
+            "v4_gate_disposition": "FALSE_REJECT_WRONG_REASON",
+            "inconsistencies": [
+              "safe_unknown=true is inconsistent with a concrete plan that contains no uncertainty marker"
+            ]
+          }
+        },
+        {
+          "arm": "two_stage_state_card",
+          "response_code": "B",
+          "raw_answer": "You should keep your calendar full with plans and seek low-effort ideas for weeknights and weekends to avoid defaulting to staying in.",
+          "v4_judge": {
+            "action_state_aligned": true,
+            "stale_action_rejected": true,
+            "evidence_consistent": true,
+            "non_generic": false,
+            "safe_unknown": true,
+            "pass": false,
+            "error_type": "GENERIC_ACTION"
+          },
+          "v4_gate": {
+            "raw_judge_pass": false,
+            "validated_action_pass": false,
+            "validation_reasons": [
+              "SAFE_UNKNOWN_IS_NOT_A_CONCRETE_ACTION_SUCCESS",
+              "JUDGE_CONDITION_FALSE:non_generic"
+            ]
+          },
+          "ai_review": {
+            "primary_category": "GROUNDED_TASK_COMPLETION",
+            "historical_fact_status": "SUPPORTED",
+            "action_constraints_respected": true,
+            "action_reasoning_valid": true,
+            "unsupported_detail_status": "NONE",
+            "response_contract_status": "VALID",
+            "reasonable_abstention": false,
+            "unnecessary_refusal": false,
+            "fact_correct_action_wrong": false,
+            "reason": "The high-level plan is valid for an open-ended request and matches the newer preference without inventing facts. One exact action plan is not required.",
+            "v4_judge_disposition": "FALSE_REJECT",
+            "v4_gate_disposition": "FALSE_REJECT_WRONG_REASON",
+            "inconsistencies": [
+              "safe_unknown=true is inconsistent with a definite recommendation",
+              "non_generic=false treats permissible high-level planning as failure"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "question": "I’ve been thinking about booking a flight to Thailand next Monday to spend the next six weeks exploring the islands, just keeping up with my usual daily tasks from my laptop at local beach cafes. Are there any major structural roadblocks stopping me from just packing up and doing this?",
+      "hidden_reference": {
+        "M_old": "I'm currently self-employed, so my work schedule is entirely up to me.",
+        "M_new": "After orientation today, I finally got my employee badge and benefits portal set up at the company.",
+        "explanation": "Now employed by a company (salaried/employee) rather than self-employed."
+      },
+      "selected_evidence": {
+        "selected_indices": [6, 38, 7, 3, 13],
+        "retrieval_category": "OLD_ONLY",
+        "old_session_index": 13,
+        "new_session_index": 37,
+        "old_statement_visible": true,
+        "new_statement_visible": false,
+        "old_source_excerpt": "I’m currently self-employed, so my work schedule is entirely up to me.",
+        "new_source_excerpt": "The selected evidence does not contain the later employee-badge observation.",
+        "raw_generation_path": "revision_v4/stale_action_top5_repair_20261023_v3/STALE_RETRIEVAL_STATE_CONFIRMATION_RESULTS_V3.json",
+        "raw_judge_request_path": "revision_v4/stale_action_judge_strict_20261023_v3/raw/17c4192e-ee5a-442a-b492-f69641d836c3/judge/request.json",
+        "raw_judge_request_sha256": "997ca1be8cbe7138043c2e3f0b5fdfa7a3f0ed3adf429d8cb9adb29a45a97bd1",
+        "raw_judge_response_path": "revision_v4/stale_action_judge_strict_20261023_v3/raw/17c4192e-ee5a-442a-b492-f69641d836c3/judge/response.bin",
+        "raw_judge_response_sha256": "58fad9fa52d685668d0c00f643c715a29f7fb00d1f6a4b89745b67f8cd798017"
+      },
+      "responses": [
+        {
+          "arm": "two_stage_state_card",
+          "response_code": "A",
+          "raw_answer": null,
+          "v4_judge": {
+            "action_state_aligned": false,
+            "stale_action_rejected": false,
+            "evidence_consistent": false,
+            "non_generic": false,
+            "safe_unknown": false,
+            "pass": false,
+            "error_type": "UNSUPPORTED_ACTION"
+          },
+          "v4_gate": {
+            "raw_judge_pass": false,
+            "validated_action_pass": false,
+            "validation_reasons": [
+              "EMPTY_ANSWER_CANNOT_BE_ACTION_SUCCESS",
+              "JUDGE_CONDITION_FALSE:action_state_aligned",
+              "JUDGE_CONDITION_FALSE:stale_action_rejected",
+              "JUDGE_CONDITION_FALSE:evidence_consistent",
+              "JUDGE_CONDITION_FALSE:non_generic"
+            ]
+          },
+          "ai_review": {
+            "primary_category": "INTERFACE_FORMAT_FAILURE",
+            "historical_fact_status": "NOT_APPLICABLE",
+            "action_constraints_respected": false,
+            "action_reasoning_valid": false,
+            "unsupported_detail_status": "NONE",
+            "response_contract_status": "EMPTY_OR_NONRESPONSIVE",
+            "reasonable_abstention": false,
+            "unnecessary_refusal": false,
+            "fact_correct_action_wrong": false,
+            "reason": "The required answer is null; this is a response-contract failure rather than a semantic state judgment.",
+            "v4_judge_disposition": "CORRECT_REJECT",
+            "v4_gate_disposition": "CORRECT_REJECT",
+            "inconsistencies": []
+          }
+        },
+        {
+          "arm": "one_call_facts",
+          "response_code": "B",
+          "raw_answer": "No major structural roadblocks exist because you are self-employed with full schedule control. You can maintain your routine by working from beach cafes, provided you ensure reliable internet access and manage time zone differences for any synchronous work.",
+          "v4_judge": {
+            "action_state_aligned": true,
+            "stale_action_rejected": true,
+            "evidence_consistent": true,
+            "non_generic": true,
+            "safe_unknown": true,
+            "pass": true,
+            "error_type": "CORRECT_ACTION"
+          },
+          "v4_gate": {
+            "raw_judge_pass": true,
+            "validated_action_pass": false,
+            "validation_reasons": [
+              "SAFE_UNKNOWN_IS_NOT_A_CONCRETE_ACTION_SUCCESS"
+            ]
+          },
+          "ai_review": {
+            "primary_category": "STALE_OR_UNSAFE_ADVICE",
+            "historical_fact_status": "CONTRADICTED",
+            "action_constraints_respected": false,
+            "action_reasoning_valid": false,
+            "unsupported_detail_status": "NONE",
+            "response_contract_status": "VALID",
+            "reasonable_abstention": false,
+            "unnecessary_refusal": false,
+            "fact_correct_action_wrong": true,
+            "reason": "The response treats the old self-employment state as current and recommends a six-week trip without checking the new employer constraints. The hidden reference and the selected OLD_ONLY evidence make the stale basis clear.",
+            "v4_judge_disposition": "FALSE_ACCEPT",
+            "v4_gate_disposition": "CORRECT_REJECT_WRONG_REASON",
+            "inconsistencies": [
+              "action_state_aligned=true and stale_action_rejected=true contradict the explicit old-state premise",
+              "safe_unknown=true is inconsistent with an assertive no-roadblocks answer"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "rows_reviewed": 6,
+    "new_primary_category_counts": {
+      "GROUNDED_TASK_COMPLETION": 2,
+      "STALE_OR_UNSAFE_ADVICE": 2,
+      "REASONABLE_UNKNOWN_OR_CLARIFICATION": 0,
+      "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 0,
+      "INTERFACE_FORMAT_FAILURE": 2
+    },
+    "v4_judge_disposition_counts": {
+      "FALSE_ACCEPT": 2,
+      "FALSE_REJECT": 1,
+      "CORRECT_ACCEPT_WITH_INCONSISTENT_FIELD": 1,
+      "CORRECT_REJECT": 2
+    },
+    "v4_gate_disposition_counts": {
+      "FALSE_ACCEPT": 1,
+      "FALSE_REJECT_WRONG_REASON": 2,
+      "CORRECT_REJECT": 2,
+      "CORRECT_REJECT_WRONG_REASON": 1
+    },
+    "inconsistent_nonempty_rows": 4,
+    "judge_false_accept_uids": [
+      "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "17c4192e-ee5a-442a-b492-f69641d836c3"
+    ],
+    "judge_false_reject_uids": [
+      "0af76ce2-d242-4deb-bd5c-a853338150bc"
+    ],
+    "gate_false_accept_uids": [
+      "0f806fbb-d8e6-4791-bcbf-2230e70877cc"
+    ],
+    "gate_false_reject_uids": [
+      "0af76ce2-d242-4deb-bd5c-a853338150bc"
+    ]
+  }
+}

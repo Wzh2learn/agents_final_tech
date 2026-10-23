@@ -1,0 +1,72 @@
+{
+  "schema": "g3_incremental_evidence_execution_receipt_v1",
+  "date": "2026-10-23",
+  "status": "COMPLETE_WITH_NEGATIVE_RULE_AND_MODEL_INTERFACE_FAILURE",
+  "ownership_scope": "research/publication_thesis_goals_v1/revision_v5/G3_*",
+  "evidence_identity": {
+    "offline": "ZERO_MODEL_ALL_400_DETERMINISTIC_DEVELOPMENT_REPLAY",
+    "model": "DEV_ONLY_8_CALL_SELECTIVE_EVIDENCE_ACQUISITION_POLICY",
+    "learning_claim": "NOT_ESTABLISHED"
+  },
+  "offline_cost": {
+    "items": 400,
+    "model_calls": 0,
+    "double_run_elapsed_seconds": 31.53,
+    "double_run_user_seconds": 24.85,
+    "double_run_sys_seconds": 6.65,
+    "double_run_maxrss_kb": 2708604,
+    "double_run_byte_identical": true
+  },
+  "model_cost": {
+    "planned_generation_calls": 8,
+    "executed_generation_calls": 2,
+    "physical_http_calls": 2,
+    "accounting_tokens_exact": 24239,
+    "prompt_tokens_exact": 23599,
+    "completion_tokens_exact": 640,
+    "retry_count": 0,
+    "valid_model_decisions": 0,
+    "invalid_model_decisions": 2,
+    "unused_generation_calls": 6,
+    "call_1_accounting_tokens_exact": 15621,
+    "call_2_accounting_tokens_exact": 8618
+  },
+  "other_cost": {
+    "judge_calls": 0,
+    "training_runs": 0,
+    "paid_api_calls": 0,
+    "production_memory_writes": 0
+  },
+  "primary_result": {
+    "keep_top3_both": 144,
+    "always_expand_top5_both": 187,
+    "visible_gap_rule_both": 145,
+    "oracle_gain_rule_both": 187,
+    "useful_expansions": 43,
+    "visible_gap_rule_useful_expansions": 1
+  },
+  "decision": {
+    "problem": "KEEP_WITH_HEADROOM",
+    "visible_gap_rule": "STOP_CURRENT_RULE",
+    "model_policy": "UNEVALUATED_NO_VALID_DECISION",
+    "merge_with_g2": "NO"
+  },
+  "hashes": {
+    "protocol_sha256": "41cc670db422a5dc345301a54fdb6cab7939dbbf78eb7daf0a8d4da88f0ce84d",
+    "offline_results_sha256": "07486af674c774841e3bd62a7bb588087d1ab02310fadc3a2b95dcb0100a18c5",
+    "offline_double_run_sha256": "07486af674c774841e3bd62a7bb588087d1ab02310fadc3a2b95dcb0100a18c5",
+    "model_results_sha256": "f694d3b4a2df7e4635cde8c2d280a62c20c8275878c39ecac8e666146edc3b0c",
+    "model_receipt_sha256": "0450203b131455aa71d746be93e03bc18e4b1619529ca960433a28398f5fffae",
+    "failure_receipt_sha256": "011457710bc3f003a7890829ecb528f9a2de8f1faea8a65e7d9860daf7715408",
+    "runner_sha256": "b2c6cb84eddd8c8a1a8d06adc5fd513fc640e39deec4f440eb6c2395819e60d1",
+    "test_sha256": "80724e585658dbc9a08ef584e10c7f8cd04ca1e3cdd8410151056cb984b718d1"
+  },
+  "verification": {
+    "local_tests": "5 passed",
+    "gb10_tests": "5 passed",
+    "offline_double_run": "byte-identical",
+    "model_receipt_exact_tokens": true,
+    "first_failure_raw_preserved": false,
+    "second_failure_raw_preserved": true
+  }
+}

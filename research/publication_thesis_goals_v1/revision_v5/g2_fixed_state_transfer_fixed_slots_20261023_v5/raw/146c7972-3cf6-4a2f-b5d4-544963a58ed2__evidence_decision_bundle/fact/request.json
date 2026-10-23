@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+    "representation": "evidence_decision_bundle",
+    "selected_indices": [
+      7,
+      35,
+      27,
+      14,
+      16
+    ],
+    "stage": "fact",
+    "max_tokens": 512
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"The user's self-employment status was established in Session 8 (2024-06-15) but is not referenced in the most recent Session 17 (2024-08-24), which focuses on home lighting.\",\n  \"invalidated_2\": null,\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"Whether the user's employment status has changed since the last mention in Session 8.\",\n  \"refs\": [\n    \"Session 8/turn 1\",\n    \"Session 17/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

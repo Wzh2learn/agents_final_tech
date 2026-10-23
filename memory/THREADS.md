@@ -8,15 +8,15 @@ Updated: 2026-10-23
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `V4_EVIDENCE_EXIT_WITH_METHOD_STOP` | [V4 回执](../research/publication_thesis_goals_v1/revision_v4/RESEARCH_SPRINT_RETURN.md)明确 Paper E 可交 Owner 投稿、G2/scope 当前方法停止、state card 无行动收益、检索 top-5 保留为独立瓶颈 |
+| NEXT-RESEARCH-GOAL | `V5_TWO_CANDIDATES_WITH_DISTINCT_MEASUREMENTS` | [V5 回执](../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)明确 Paper E handoff、G2 fixed-state 独立评审、G3 selective evidence headroom 及各自停止条件 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
-| THIRD-CONTRIBUTION-SCOPE | `NARROW_STAGE_SEPARATED_EVIDENCE_RELIABILITY` | exact cache + miss revalidation 与 scope 同为 15/5、30 probes；scope 不再扩样，统一进入检索—状态—行动研究点 |
-| STALE-STATE-CARD | `STOP_CURRENT_ACTION_METHOD_KEEP_DIM1_CANDIDATE` | top-5 dim1 state card 5/16 对 one-call 4/16，但配对仅 +1 净成功；去退化 dim3 为 2/16 对 3/16，无行动收益 |
-| NEXT-STATE-ACTION-EXPERIMENT | `NEEDS_INDEPENDENT_ACTION_REFERENCE` | 下一步需多合法行动、safe UNKNOWN 和新 natural families；不能再用当前 STALE 面板堆 state-card 臂 |
+| G2-STATE-ACTION | `CONTINUE_NARROWED_DEVELOPMENT_ONLY` | 固定证据/固定状态下 fact 2/8→3/8、action 均 1/8；独立评审要求 information-matched held-out 验证，否则停止 |
+| G3-INCREMENTAL-EVIDENCE | `KEEP_WITH_HEADROOM_MODEL_POLICY_UNEVALUATED` | 43 useful expansions、oracle 成本差、depth-2 弱信号；visible rule 停止，模型接口无有效决策 |
+| NEXT-STATE-ACTION-EXPERIMENT | `NEEDS_INDEPENDENT_ACTION_REFERENCE` | 下一步需多合法行动、safe UNKNOWN、合理拒绝和新 natural families；不能把 CLARIFY/UNKNOWN 一律计成功 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `INTERNAL_PACKAGE_READY_OWNER_EXTERNAL_ACTIONS` | 9pt、11页、目标包审计、artifact clean reproduction 均通过；只待 Owner 身份、投稿、付款、展示和公开许可 |
-| THESIS-DOC-CONTINUITY | `G4_PARTIAL_COMPLETE_CONTINUING` | 中文 Paper E 引用正文、导师一页稿、素材地图和现役骨架已更新；正式章节整合仍继续 |
+| PAPER-E-SUBMISSION | `LIVE_HANDOFF_READY_OWNER_EXTERNAL_ACTIONS` | [V5 handoff](../research/publication_thesis_goals_v1/revision_v5/PAPER_E_SUBMISSION_HANDOFF.md)已含实时 ICAART 截止、PRIMORIS 入口冲突、费用/展示和 Owner 字段；未投稿/付款/公开 |
+| THESIS-DOC-CONTINUITY | `G4_V5_TWO_CANDIDATES_DOCUMENTED` | 导师一页稿与骨架已区分 G2 状态到行动边界、G3 增量补查；正式章节和 held-out 结果仍待整合 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。新阶段范围见四项 Goals |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |

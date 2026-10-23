@@ -1,0 +1,23 @@
+{
+  "schema": "g2_fixed_state_transfer_protocol_v5_repair2",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_MODEL_GENERATION",
+  "evidence_identity": "DEV_FIXED_EVIDENCE_FIXED_STATE_FIXED_SLOT_RECOVERY",
+  "inherits": "G2_FIXED_STATE_PROTOCOL_V5.json",
+  "uids": [
+    "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+    "0af76ce2-d242-4deb-bd5c-a853338150bc",
+    "17c4192e-ee5a-442a-b492-f69641d836c3",
+    "09949c3c-0abe-42fb-9012-efb34b298947",
+    "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+    "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+    "0fcd704e-7b09-4580-87ad-07604828cd40",
+    "146c7972-3cf6-4a2f-b5d4-544963a58ed2"
+  ],
+  "architectural_repair": "Free-form arrays replaced by bounded string slots after two reproducible truncations. Retrieval, questions, answer schema and total 512-token budget remain unchanged.",
+  "preserved_failed_batches": [
+    "g2_fixed_state_transfer_20261023_v5",
+    "g2_fixed_state_transfer_repair_20261023_v5"
+  ],
+  "planned_calls": 48
+}

@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+    "representation": "evidence_decision_bundle",
+    "selected_indices": [
+      5,
+      31,
+      40,
+      24,
+      30
+    ],
+    "stage": "fact",
+    "max_tokens": 512
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"User has switched from running to stationary biking due to knee issues (Session 32, User turn 3)\",\n  \"invalidated_2\": \"User's current primary focus is sleep quality and language learning, not morning running routines (Session 25, User turn 1; Session 31, User turn 1)\",\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"Whether the user still runs at all, given the knee issues and subsequent topic shifts\",\n  \"refs\": [\n    \"Session 32/turn 3\",\n    \"Session 25/turn 1\",\n    \"Session 31/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still run for thirty minutes every single morning?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

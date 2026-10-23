@@ -1,0 +1,191 @@
+{
+  "schema": "g2_fixed_state_independent_review_v1",
+  "date": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "reviewer_identity": "AI_ADVISORY_SCIENTIFIC_REVIEW_NOT_HUMAN_GOLD",
+  "model_calls_made_by_review": 0,
+  "evidence_identity": {
+    "fixed_state_outputs": "DEV_FIXED_EVIDENCE_FIXED_STATE_FACT_ACTION_TRANSFER",
+    "semantic_judgments": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+    "contract_validation": "CONTRACT_LEVEL_VALIDATION_OVER_AUXILIARY_LLM_JUDGE",
+    "calibration_cases": "SYNTHETIC_MECHANISM_CONTROLS_NOT_RESEARCH_SAMPLES",
+    "review": "AI_ADVISORY_SCIENTIFIC_REVIEW_NOT_HUMAN_GOLD"
+  },
+  "reviewed_files": [
+    {
+      "path": "revision_v5/G2_EVALUATION_CONTRACT.md",
+      "sha256": "43c2daebd548d10975c77f531a7f32a593c7175cc1b2c5c276ac61d535553712"
+    },
+    {
+      "path": "revision_v5/G2_CALIBRATION_CASES_V2.json",
+      "sha256": "e67049ec744460cc88508ed761a7970d27540bc9981916bd60ccf224c3348b5f"
+    },
+    {
+      "path": "revision_v5/G2_COUNTEREXAMPLE_REVIEW.json",
+      "sha256": "e63d8e13ecfc824cf47da38fb0570d6412af94c45606379a2eaa21d32b31cba7"
+    },
+    {
+      "path": "revision_v5/g2_fixed_state_transfer_fixed_slots_20261023_v5/G2_FIXED_STATE_RESULTS_V5.json",
+      "sha256": "2a78d16fedb26e798550f34d75ba08ecfbea3e145324643194ac93b57f4e1b4b"
+    },
+    {
+      "path": "revision_v5/g2_semantic_judge_research_output_repair_20261023_v5/G2_SEMANTIC_JUDGE_RESULTS_V5.json",
+      "sha256": "998cb007e82352b261d438d73278796438eb14ee1a7644e3746ca01beff7ab9f"
+    },
+    {
+      "path": "revision_v5/G2_SEMANTIC_JUDGE_VALIDATED_V5.json",
+      "sha256": "f275b1b02e22fdb61a348421d7644feb0d32b75dd08cd8d116f97ba33ab89322"
+    }
+  ],
+  "counterexample_review": {
+    "status": "CORRECTED_FAILURE_MODES_WITHOUT_PAIRED_RERUN",
+    "cases": [
+      {
+        "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+        "original_defect": "Stale tier-downgrade advice ignored active options learning; V4 judge and gate false-accepted it.",
+        "v5_observation": "Both fixed-state action arms return focused clarification about long-term versus temporary options activity.",
+        "judgment": "Failure mode avoided; not a same-arm repair."
+      },
+      {
+        "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+        "original_defect": "A safe high-level plan was falsely rejected by specificity and safe_unknown fields.",
+        "v5_observation": "Calibration permits cautious actionable plans; decision action is grounded and plain action asks one focused clarification.",
+        "judgment": "Evaluator false-reject pattern corrected at contract level; not an actor mechanism gain."
+      },
+      {
+        "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+        "original_defect": "OLD_ONLY evidence caused stale self-employment advice; another arm returned an empty answer.",
+        "v5_observation": "Fixed-state action outputs clarify or abstain on conflicting employment status.",
+        "judgment": "Stale/empty failure modes avoided; empty output remains an interface failure."
+      }
+    ],
+    "nonclaim": "Do not report 3/3 repaired as paired accuracy."
+  },
+  "contract_review": {
+    "calibration_anchor_coverage": "PASS",
+    "noncompletion_rule": "PASS",
+    "per_case_reasonableness": "PARTIAL",
+    "primary_derived_from_vector": "FAIL_ON_SOME_POST_VALIDATED_ROWS",
+    "findings": [
+      {
+        "id": "UNKNOWN_POSTERIOR_09949",
+        "rows": [
+          "09949c3c-0abe-42fb-9012-efb34b298947/plain_fact_bundle/action",
+          "09949c3c-0abe-42fb-9012-efb34b298947/evidence_decision_bundle/action"
+        ],
+        "raw_primary": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "validated_primary": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "issue": "A safe consideration list or one minimum clarification exists from the old five-month/new 18-month assignment and unresolved location. Blanket UNKNOWN validation supplies no case-level sufficiency argument.",
+        "disposition": "REQUIRES_CASE_LEVEL_READJUDICATION"
+      },
+      {
+        "id": "CLARIFY_ACTOR_VIEW_12F3",
+        "rows": [
+          "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b/evidence_decision_bundle/action"
+        ],
+        "raw_primary": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "validated_primary": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "issue": "The validated category is defensible because the actor-visible decision bundle only invalidates old science-fiction scope and omits the positive nonfiction fact. The raw judge used non-visible evidence. Retained vector fields remain inconsistent with reasonable clarification.",
+        "disposition": "PRIMARY_ACCEPTABLE_VECTOR_NEEDS_REPAIR"
+      },
+      {
+        "id": "VECTOR_DERIVATION_DRIFT",
+        "rows": "multiple post-validated CLARIFY/UNKNOWN rows",
+        "issue": "Primary category and reasonable_abstention are changed while action_constraints_respected, action_reasoning_valid or unsupported_detail_status are retained from the raw judgment, so the primary is not fully derived from the vector.",
+        "disposition": "COUNTS_PROVISIONAL"
+      }
+    ]
+  },
+  "result_comparison": {
+    "plain_fact_bundle": {
+      "fact_completion": "2/8",
+      "action_completion": "1/8",
+      "fact_primary_counts": {
+        "GROUNDED_TASK_COMPLETION": 2,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 5,
+        "STALE_OR_UNSAFE_ADVICE": 1
+      },
+      "action_primary_counts": {
+        "GROUNDED_TASK_COMPLETION": 1,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 7
+      },
+      "fact_success_uids": [
+        "09949c3c-0abe-42fb-9012-efb34b298947",
+        "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b"
+      ],
+      "action_success_uids": [
+        "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b"
+      ]
+    },
+    "evidence_decision_bundle": {
+      "fact_completion": "3/8",
+      "action_completion": "1/8",
+      "fact_primary_counts": {
+        "GROUNDED_TASK_COMPLETION": 3,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 3,
+        "STALE_OR_UNSAFE_ADVICE": 2
+      },
+      "action_primary_counts": {
+        "GROUNDED_TASK_COMPLETION": 1,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 7
+      },
+      "fact_success_uids": [
+        "0af76ce2-d242-4deb-bd5c-a853338150bc",
+        "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+        "0fcd704e-7b09-4580-87ad-07604828cd40"
+      ],
+      "action_success_uids": [
+        "0af76ce2-d242-4deb-bd5c-a853338150bc"
+      ]
+    },
+    "paired_interpretation": {
+      "fact_net_delta": "+1/8 evidence-decision",
+      "fact_wins": [
+        "0af76ce2-d242-4deb-bd5c-a853338150bc",
+        "0fcd704e-7b09-4580-87ad-07604828cd40"
+      ],
+      "fact_losses": [
+        "09949c3c-0abe-42fb-9012-efb34b298947"
+      ],
+      "action_delta": "0/8",
+      "action_successes_are_different_uids": true,
+      "action_abstention_or_clarification": "7/8 in both representations"
+    }
+  },
+  "state_to_action_transfer": {
+    "actual_results": [
+      "Fact completion can improve while action completion remains flat.",
+      "Two representation-UID cells show fact-to-action transfer, but on different UIDs.",
+      "Other fact-success cells do not complete the action."
+    ],
+    "auxiliary_adjudication": [
+      "The semantic judge shares the actor model family.",
+      "Raw judgments include false accepts, false rejects and actor-view leakage.",
+      "Contract-level post-validation is not human gold and leaves some vector inconsistencies."
+    ],
+    "supported": [
+      "Strong automatic transfer from fact correctness to action correctness is not supported.",
+      "Action scoring must consume constraints and current-state consequences rather than infer success from a correct fact."
+    ],
+    "not_supported": [
+      "Evidence-decision improves action completion.",
+      "The +1/8 fact result is a generalizable mechanism effect.",
+      "Reasonable abstention is task success or cost-free.",
+      "Population, cross-domain or held-out generalization."
+    ],
+    "sufficiency": "ENOUGH_TO_REJECT_STRONG_AUTOMATIC_TRANSFER_NOT_ENOUGH_TO_ESTIMATE_MECHANISM_GAIN"
+  },
+  "decision": {
+    "status": "CONTINUE_NARROWED_DEVELOPMENT_ONLY",
+    "continue_reason": "The paired results expose a real fact-to-action gap with both transfer and non-transfer cells, supporting one controlled development test.",
+    "do_not_promote_reason": "Action completion is unchanged, the fact gain is one case, information sets differ and judge correction is incomplete.",
+    "next_test": [
+      "Recompute primary categories from complete field vectors.",
+      "Use information-matched plain and decision bundles.",
+      "Use held-out UIDs not selected after judge review.",
+      "Keep model, prompt budget, retrieval and action slots fixed.",
+      "Use safe action completion as primary endpoint and report unsafe advice, unnecessary refusal, reasonable abstention and cost separately."
+    ],
+    "stop_condition": "Stop if the corrected decision representation does not improve safe action completion at equal or lower unsafe/refusal cost on held-out cases."
+  }
+}

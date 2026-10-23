@@ -1,0 +1,59 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"User runs for thirty minutes every single morning (Session 6, turn 1)\",\n  \"current_fact_2\": \"User is considering switching to a stationary bike due to knee issues (Session 32, turn 3)\",\n  \"current_fact_3\": \"User is currently focusing on establishing a consistent sleep schedule (Session 41, turn 11)\",\n  \"conflict_1\": \"Session 6 establishes a running routine, while Session 32 introduces a knee issue leading to bike use, creating potential conflict on the primary morning exercise modality\",\n  \"conflict_2\": \"Session 32 details a specific morning routine structure, while Session 41 shifts focus entirely to sleep habits, leaving the current status of the morning exercise routine ambiguous\",\n  \"uncertainty_1\": \"It is unclear if the user abandoned the running routine entirely or modified it due to the knee issue mentioned in Session 32\",\n  \"uncertainty_2\": \"It is unclear if the user is still performing the specific warm-up/cool-down routines detailed in Session 6 or Session 32\",\n  \"refs\": [\n    \"Session 6, turn 1\",\n    \"Session 32, turn 3\",\n    \"Session 41, turn 11\"\n  ]\n}\n\nQuestion: I'm considering fostering a young, extremely high-energy Husky that absolutely requires a fast-paced, 3-mile continuous trot around the neighborhood streets first thing every single morning to prevent it from destroying the house. Will my current daily morning habit seamlessly cover this dog's strict exercise needs?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "e0fc3d93bdaf9907b53a80f38f1f587a1c15626278186dffde9857552d465ab2",
+  "response_body_sha256": "2407a9f93210185ee2be4daa4443018d0ff05d8bc798db8e0465527c4c572b27",
+  "content": "{\n  \"decision\": \"CLARIFY\",\n  \"answer\": \"Please specify the current status of your morning exercise routine (e.g., are you still running, or have you switched to a stationary bike due to knee issues?) and the specific duration and intensity of that current activity.\",\n  \"basis_refs\": [\n    \"current_fact_1\",\n    \"current_fact_2\",\n    \"current_fact_3\",\n    \"uncertainty_1\",\n    \"uncertainty_2\"\n  ],\n  \"constraints_considered\": [\n    \"Ambiguity regarding the user's current exercise modality due to knee issues\",\n    \"Uncertainty about the current duration and intensity of the user's morning routine\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 162,
+    "prompt_tokens": 483,
+    "total_tokens": 645,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.899944,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 645,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "CLARIFY",
+    "answer": "Please specify the current status of your morning exercise routine (e.g., are you still running, or have you switched to a stationary bike due to knee issues?) and the specific duration and intensity of that current activity.",
+    "basis_refs": [
+      "current_fact_1",
+      "current_fact_2",
+      "current_fact_3",
+      "uncertainty_1",
+      "uncertainty_2"
+    ],
+    "constraints_considered": [
+      "Ambiguity regarding the user's current exercise modality due to knee issues",
+      "Uncertainty about the current duration and intensity of the user's morning routine"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "plain_fact_bundle"
+}

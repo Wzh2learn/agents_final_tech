@@ -1,0 +1,206 @@
+{
+  "schema": "g2_fixed_state_transfer_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "DEV_FIXED_EVIDENCE_FIXED_STATE_FACT_ACTION_TRANSFER",
+  "protocol_sha256": "6ac6ae134a2ea16f3fac1fbd6ed39b469125776b52979fd3669ff0afa49b5217",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary": {
+    "overall": {
+      "planned_calls": 48,
+      "observed_calls": 7,
+      "accounting_tokens": 48753,
+      "retry_count": 0
+    },
+    "by_representation": {
+      "plain_fact_bundle": {
+        "calls": 4,
+        "accounting_tokens": 32222,
+        "fact_answered": 1,
+        "action_answered": 1,
+        "fact_clarify": 0,
+        "action_clarify": 0,
+        "fact_unknown": 0,
+        "action_unknown": 0
+      },
+      "evidence_decision_bundle": {
+        "calls": 3,
+        "accounting_tokens": 16531,
+        "fact_answered": 1,
+        "action_answered": 0,
+        "fact_clarify": 0,
+        "action_clarify": 1,
+        "fact_unknown": 0,
+        "action_unknown": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "current_facts": [
+          "User prefers steady growth and avoids gambling significant funds on high-risk opportunities (Session 14, Turn 7)"
+        ],
+        "noncurrent_facts": [
+          "Assistant suggested using small test buckets to evaluate volatility tolerance (Session 14, Turn 8)",
+          "User is currently practicing options trading with defined-risk spreads like debit spreads (Session 34, Turn 7-8)",
+          "User is interested in learning about cultural events and social justice movements (Session 40, Turn 1-12)",
+          "User is exploring Frida Kahlo's art and the digital art/NFT market (Session 27, Turn 1-12)",
+          "User is organizing a morning routine and meal prep schedule (Session 46, Turn 1-12)"
+        ],
+        "uncertainty": [
+          "No explicit confirmation that the user's fundamental preference for steady growth over high-risk gambling has changed since Session 14."
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Yes, the user still avoids putting a significant portion of their funds into high-risk opportunities in favor of steady growth.",
+        "basis_refs": [
+          "current_facts[0]",
+          "uncertainty[0]"
+        ],
+        "constraints_considered": [
+          "Do not add facts",
+          "Use only recovered bundle"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "current_facts": [
+          "User prefers steady growth and avoids gambling significant funds on high-risk opportunities (Session 14, Turn 7)"
+        ],
+        "noncurrent_facts": [
+          "Assistant suggested using small test buckets to evaluate volatility tolerance (Session 14, Turn 8)",
+          "User is currently practicing options trading with defined-risk spreads like debit spreads (Session 34, Turn 7-8)",
+          "User is interested in learning about cultural events and social justice movements (Session 40, Turn 1-12)",
+          "User is exploring Frida Kahlo's art and the digital art/NFT market (Session 27, Turn 1-12)",
+          "User is organizing a morning routine and meal prep schedule (Session 46, Turn 1-12)"
+        ],
+        "uncertainty": [
+          "No explicit confirmation that the user's fundamental preference for steady growth over high-risk gambling has changed since Session 14."
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Yes, it makes sense to confirm the change. Your preference for steady growth and avoidance of high-risk opportunities aligns with limiting the account to standard stock and ETF purchases, and you are already practicing defined-risk options strategies that do not require advanced trading features.",
+        "basis_refs": [
+          "User prefers steady growth and avoids gambling significant funds on high-risk opportunities (Session 14, Turn 7)",
+          "User is currently practicing options trading with defined-risk spreads like debit spreads (Session 34, Turn 7-8)"
+        ],
+        "constraints_considered": [
+          "User's risk tolerance and current trading practices"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "confirmed_current_facts": [
+          "User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth (Session 14/turn 7)."
+        ],
+        "invalidated_assumptions": [],
+        "uncertain_impacts": [
+          "User's current risk tolerance regarding derivatives may differ from their historical preference for steady growth, but no explicit update to this preference has been recorded."
+        ],
+        "action_constraints": [
+          "Any proposed investment or trading strategy must respect the user's stated preference to avoid gambling significant funds on high-risk opportunities."
+        ],
+        "unknowns": [
+          "Whether the user's interest in options trading (Session 34) represents a shift away from their stated preference for steady growth or is merely an educational exercise within their comfort zone."
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Yes, the user explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth.",
+        "basis_refs": [
+          "confirmed_current_facts"
+        ],
+        "constraints_considered": [
+          "Any proposed investment or trading strategy must respect the user's stated preference to avoid gambling significant funds on high-risk opportunities."
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "confirmed_current_facts": [
+          "User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth (Session 14/turn 7)."
+        ],
+        "invalidated_assumptions": [],
+        "uncertain_impacts": [
+          "User's current risk tolerance regarding derivatives may differ from their historical preference for steady growth, but no explicit update to this preference has been recorded."
+        ],
+        "action_constraints": [
+          "Any proposed investment or trading strategy must respect the user's stated preference to avoid gambling significant funds on high-risk opportunities."
+        ],
+        "unknowns": [
+          "Whether the user's interest in options trading (Session 34) represents a shift away from their stated preference for steady growth or is merely an educational exercise within their comfort zone."
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Do you intend to use advanced trading features (such as options or derivatives) in the future, or is your goal strictly to maintain a portfolio of standard stocks and ETFs for steady growth?",
+        "basis_refs": [
+          "uncertain_impacts",
+          "unknowns",
+          "action_constraints"
+        ],
+        "constraints_considered": [
+          "User's preference to avoid gambling significant funds on high-risk opportunities",
+          "Uncertainty regarding user's current risk tolerance for derivatives"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    }
+  ],
+  "stopped_early": "parse_failure:INVALID_JSON",
+  "limitations": [
+    "These eight UIDs are development cases and several were selected after judge review.",
+    "Retrieval is held fixed within each representation but remains BM25 top-5, not oracle evidence.",
+    "The two representations are diagnostic variants and are not new memory architectures.",
+    "Answer correctness still requires the separate calibrated evaluation contract."
+  ]
+}

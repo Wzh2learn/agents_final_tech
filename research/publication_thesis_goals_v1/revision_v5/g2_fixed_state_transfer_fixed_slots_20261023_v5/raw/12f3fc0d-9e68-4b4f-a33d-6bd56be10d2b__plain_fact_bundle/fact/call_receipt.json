@@ -1,0 +1,57 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"User is currently on a big nonfiction kick, mostly biographies and history (Session 35, turn 1)\",\n  \"current_fact_2\": \"User previously kept their reading list strictly to science fiction novels (Session 14, turn 1)\",\n  \"current_fact_3\": \"User is looking for absorbing nonfiction that reads like a story (Session 35, turn 1)\",\n  \"conflict_1\": \"User's current reading preference (nonfiction) conflicts with their previous strict adherence to science fiction (Session 14 vs Session 35)\",\n  \"conflict_2\": null,\n  \"uncertainty_1\": \"Whether the user has completely abandoned science fiction or is just taking a break from it\",\n  \"uncertainty_2\": \"Whether the user's previous statement about strictly reading sci-fi was a temporary phase or a long-term habit\",\n  \"refs\": [\n    \"Session 14/turn 1\",\n    \"Session 35/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "1ee750c1211a11f10f86a2776ace88426929a2fb284756d8d9431f567a2f75a3",
+  "response_body_sha256": "b9469afc0a562ec9b8cb1f81b22d95cb10b4cba6a776307b0508e2b7aa8f8c98",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user is currently on a big nonfiction kick, mostly biographies and history, which conflicts with their previous strict adherence to science fiction novels.\",\n  \"basis_refs\": [\n    \"current_fact_1\",\n    \"current_fact_2\",\n    \"conflict_1\"\n  ],\n  \"constraints_considered\": [\n    \"Do not add facts\",\n    \"Use only recovered bundle\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 112,
+    "prompt_tokens": 391,
+    "total_tokens": 503,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.341618,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 503,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user is currently on a big nonfiction kick, mostly biographies and history, which conflicts with their previous strict adherence to science fiction novels.",
+    "basis_refs": [
+      "current_fact_1",
+      "current_fact_2",
+      "conflict_1"
+    ],
+    "constraints_considered": [
+      "Do not add facts",
+      "Use only recovered bundle"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "plain_fact_bundle"
+}

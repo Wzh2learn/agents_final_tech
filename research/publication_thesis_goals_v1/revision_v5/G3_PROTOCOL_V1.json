@@ -1,0 +1,104 @@
+{
+  "schema": "g3_incremental_evidence_protocol_v1",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_MODEL_GENERATION",
+  "question": "After top-3 retrieval, should the agent retain the current evidence or selectively inspect the next two ranked sessions?",
+  "g2_distinction": "The model never answers the task or maps a recovered state to action; it only chooses KEEP or EXPAND for evidence acquisition.",
+  "data": {
+    "path": "/home/testuser/wzh/protected_research_20261021_v1/stale_probe_20261023/T1_T2_400_FULL.json",
+    "sha256": "5f3ec375179e20e2e94469e018189188f34e2e7e5f21cbecbd99fcfa648c1876",
+    "bytes": 305908212,
+    "total_items": 400
+  },
+  "selection": {
+    "rule": "Exclude every UID named in the supplied prior-UID files; sort remaining T1 and T2 by UID ascending; select four of each.",
+    "prior_uid_count": 28,
+    "selected": [
+      {
+        "uid": "18866d40-4641-4c2b-a8d5-fa6f2fa4913d",
+        "type": "T1"
+      },
+      {
+        "uid": "18ef1a92-4489-477c-8ad7-257bc4795ee8",
+        "type": "T1"
+      },
+      {
+        "uid": "19415246-7b29-45f8-b601-caa2aa94de9f",
+        "type": "T1"
+      },
+      {
+        "uid": "197e3756-2107-4dff-a58c-3fbd95ac4f6b",
+        "type": "T1"
+      },
+      {
+        "uid": "14ed299f-bf3b-45b3-bf7f-8265adebbd87",
+        "type": "T2"
+      },
+      {
+        "uid": "1503dba8-2831-40b9-8628-15c81655250d",
+        "type": "T2"
+      },
+      {
+        "uid": "16763588-459c-4dca-95ec-f7ff02c5a940",
+        "type": "T2"
+      },
+      {
+        "uid": "19bb9fc3-a962-4055-bf8f-e3b194fcf7d3",
+        "type": "T2"
+      }
+    ]
+  },
+  "retrieval_contract": {
+    "query_field": "dim1_query",
+    "initial": "BM25 top-3",
+    "increment": "BM25 ranks 4-5",
+    "hidden_post_input_fields": [
+      "relevant_session_index"
+    ],
+    "forbidden_actor_fields": [
+      "M_old",
+      "M_new",
+      "explanation",
+      "relevant_session_index"
+    ]
+  },
+  "model_contract": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": "json_object",
+    "enable_thinking": false,
+    "concurrency": 1,
+    "retry_cap": 0,
+    "max_generation_calls": 8
+  },
+  "strong_baselines": [
+    "keep_top3",
+    "always_expand_top5",
+    "visible_gap_rule"
+  ],
+  "oracle_diagnostics": [
+    "oracle_gain_rule",
+    "oracle_pair_rule"
+  ],
+  "primary_metrics": [
+    "final BOTH_OLD_AND_NEW coverage",
+    "useful-expansion precision and recall",
+    "pair-completion count",
+    "mean selected context chars",
+    "exact accounting tokens"
+  ],
+  "stop_conditions": [
+    "Any generation call fails: stop without retry and preserve raw evidence.",
+    "The model is not the expected Qwen3.6 identity: stop before further calls.",
+    "Strict JSON/action validation fails: record INVALID and do not repair by retry.",
+    "More than 8 generation calls are impossible by protocol."
+  ],
+  "nonclaims": [
+    "This is a development acquisition-policy probe, not learned-policy training.",
+    "The 8 UIDs are unused relative to the supplied prior-UID registry but remain within public STALE.",
+    "Oracle policies are hidden-reference diagnostics and are not deployable baselines."
+  ]
+}

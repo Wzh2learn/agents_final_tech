@@ -1,0 +1,170 @@
+{
+  "schema": "g3_incremental_evidence_model_results_v1",
+  "date": "2026-10-23",
+  "evidence_identity": "DEV_ONLY_8_CALL_SELECTIVE_EVIDENCE_ACQUISITION_POLICY",
+  "question": "Can a model decide from top-3 evidence whether the next two ranked sessions add missing state/invalidation evidence, without answering the task?",
+  "g2_distinction": "G2 holds recovered state fixed and measures state-to-action transfer. This G3 probe stops before task answering and measures KEEP versus EXPAND.",
+  "protocol_sha256": "41cc670db422a5dc345301a54fdb6cab7939dbbf78eb7daf0a8d4da88f0ce84d",
+  "selected_uids": [
+    "18866d40-4641-4c2b-a8d5-fa6f2fa4913d",
+    "18ef1a92-4489-477c-8ad7-257bc4795ee8",
+    "19415246-7b29-45f8-b601-caa2aa94de9f",
+    "197e3756-2107-4dff-a58c-3fbd95ac4f6b",
+    "14ed299f-bf3b-45b3-bf7f-8265adebbd87",
+    "1503dba8-2831-40b9-8628-15c81655250d",
+    "16763588-459c-4dca-95ec-f7ff02c5a940",
+    "19bb9fc3-a962-4055-bf8f-e3b194fcf7d3"
+  ],
+  "summary": {
+    "items": 2,
+    "expand_count": 0,
+    "keep_count": 0,
+    "invalid_count": 2,
+    "final_both_count": 0,
+    "final_both_rate": 0.0,
+    "useful_expand_count": 0,
+    "no_gain_expand_count": 0,
+    "missed_gain_count": 0,
+    "pair_completion_count": 0,
+    "mean_context_chars": 0.0,
+    "calls": 2,
+    "accounting_tokens": 24239,
+    "prompt_tokens": 23599,
+    "completion_tokens": 640,
+    "latency_seconds_sum": 31.080566,
+    "retry_count": 0
+  },
+  "rows": [
+    {
+      "uid": "18866d40-4641-4c2b-a8d5-fa6f2fa4913d",
+      "type": "T1",
+      "policy": "model_selective_expansion",
+      "action": "INVALID",
+      "top3_indices": [
+        9,
+        47,
+        22
+      ],
+      "top5_indices": [
+        9,
+        47,
+        22,
+        39,
+        18
+      ],
+      "top3_category": "OLD_ONLY",
+      "top5_category": "BOTH_OLD_AND_NEW",
+      "final_category": "UNRESOLVED",
+      "action_quality": "INVALID_ACTION",
+      "selected_indices": [],
+      "context_chars": 0,
+      "expansion_value": {
+        "top3_relevant_count": 1,
+        "top5_relevant_count": 2,
+        "added_relevant_count": 1,
+        "useful_expansion": true,
+        "completes_pair": true
+      },
+      "diagnostics": {
+        "failure_receipt": "G3_MODEL_FAILURE_RECEIPT_V1.json"
+      }
+    },
+    {
+      "uid": "18ef1a92-4489-477c-8ad7-257bc4795ee8",
+      "type": "T1",
+      "policy": "model_selective_expansion",
+      "action": "INVALID",
+      "top3_indices": [
+        37,
+        30,
+        49
+      ],
+      "top5_indices": [
+        37,
+        30,
+        49,
+        9,
+        34
+      ],
+      "top3_category": "NEW_ONLY",
+      "top5_category": "BOTH_OLD_AND_NEW",
+      "final_category": "UNRESOLVED",
+      "action_quality": "INVALID_ACTION",
+      "selected_indices": [],
+      "context_chars": 0,
+      "expansion_value": {
+        "top3_relevant_count": 1,
+        "top5_relevant_count": 2,
+        "added_relevant_count": 1,
+        "useful_expansion": true,
+        "completes_pair": true
+      },
+      "diagnostics": {
+        "confidence": null,
+        "evidence_anchors": [],
+        "missing_information": [],
+        "reason": "Unterminated string starting at: line 6 column 13 (char 479)",
+        "prompt_chars": 39286
+      }
+    }
+  ],
+  "calls": [
+    {
+      "schema": "g3_incremental_evidence_failure_receipt_v1",
+      "status": "HTTP_OK_PARSE_FAILURE_RAW_NOT_PRESERVED",
+      "date": "2026-10-23",
+      "generation_call": 1,
+      "uid": "18866d40-4641-4c2b-a8d5-fa6f2fa4913d",
+      "model_expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "http_status": 200,
+      "accounting_attempts": 1,
+      "physical_http_calls": 1,
+      "prompt_tokens": 15109,
+      "completion_tokens": 512,
+      "accounting_tokens": 15621,
+      "accounting_tokens_source": "exact llama-server timing for task 2810516",
+      "server_prompt_eval_seconds": 7.82833,
+      "server_eval_seconds": 8.95948,
+      "server_total_seconds": 16.78781,
+      "retry_count": 0,
+      "request_raw_preserved": false,
+      "response_raw_preserved": false,
+      "failure": "The response body parsed, but message.content was empty/non-JSON and the first runner raised before persisting raw bytes.",
+      "root_cause": "The request used top-level enable_thinking instead of chat_template_kwargs.enable_thinking; all 512 completion tokens went to reasoning content and the strict JSON content parser failed.",
+      "recovery": "No request was reissued. Exact prompt/completion/total token counts were recovered from /tmp/llama-8004-vision.log task 2810516. The call remains a failed engineering attempt and is included in accounting.",
+      "nonclaims": [
+        "This receipt does not turn the failed call into a valid model decision.",
+        "The response hash cannot be reconstructed after raw-byte loss.",
+        "The remaining calls use the corrected chat_template_kwargs contract and no retry."
+      ]
+    },
+    {
+      "uid": "18ef1a92-4489-477c-8ad7-257bc4795ee8",
+      "generation_call": 2,
+      "http_status": 200,
+      "transport_status": "HTTP_OK",
+      "model_observed": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+      "finish_reason": "length",
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 8490,
+        "total_tokens": 8618,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "accounting_tokens": 8618,
+      "latency_seconds": 14.292756,
+      "retry_count": 0,
+      "request_sha256": "643aacdbcbed6e9f35e8156324101548aef4cfb3f9b6fa89a30e84476427b600",
+      "response_sha256": "346b2ed481a93ff16f317378a88d85c7944f70494e6a9199775c8c616e4848d4"
+    }
+  ],
+  "stopped_early": true,
+  "nonclaims": [
+    "The 8 calls are development policy observations, not learned-policy training.",
+    "Hidden relevant_session_index values are used only for post-hoc evaluation.",
+    "The model decides evidence acquisition and never answers the STALE question.",
+    "This is not independent external confirmation or a full benchmark estimate."
+  ]
+}

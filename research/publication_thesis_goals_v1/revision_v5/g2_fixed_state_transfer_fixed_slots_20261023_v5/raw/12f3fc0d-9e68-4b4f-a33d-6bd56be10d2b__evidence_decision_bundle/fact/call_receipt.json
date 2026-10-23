@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": \"null\",\n  \"confirmed_fact_2\": \"null\",\n  \"invalidated_1\": \"The user's reading list is strictly limited to science fiction novels\",\n  \"invalidated_2\": \"null\",\n  \"uncertain_impact_1\": \"null\",\n  \"uncertain_impact_2\": \"null\",\n  \"constraint_1\": \"null\",\n  \"constraint_2\": \"null\",\n  \"unknown_1\": \"null\",\n  \"refs\": [\n    \"Session 14/turn 1\",\n    \"Session 35/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "6c9ee15d3ba0b203b4741ef51e7fae2f33e4d6965685f579163226eddb875715",
+  "response_body_sha256": "a9b185e0cfa645020a820a6cbe190323e95f524cdab3d7b5180dd7d9e07a25ba",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user's reading list is not strictly limited to science fiction novels.\",\n  \"basis_refs\": [\n    \"Session 14/turn 1\",\n    \"Session 35/turn 1\"\n  ],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 78,
+    "prompt_tokens": 304,
+    "total_tokens": 382,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.746472,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 382,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user's reading list is not strictly limited to science fiction novels.",
+    "basis_refs": [
+      "Session 14/turn 1",
+      "Session 35/turn 1"
+    ],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

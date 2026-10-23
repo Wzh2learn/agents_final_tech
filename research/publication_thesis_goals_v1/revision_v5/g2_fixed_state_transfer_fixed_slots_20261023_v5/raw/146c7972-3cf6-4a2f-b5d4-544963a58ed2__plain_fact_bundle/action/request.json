@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+    "representation": "plain_fact_bundle",
+    "selected_indices": [
+      7,
+      35,
+      27,
+      14,
+      16
+    ],
+    "stage": "action",
+    "max_tokens": 512
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"User is self-employed rather than holding a standard staff position (Session 8/turn 1)\",\n  \"current_fact_2\": \"User has been self-employed for the past few years (Session 8/turn 1)\",\n  \"current_fact_3\": null,\n  \"conflict_1\": null,\n  \"conflict_2\": null,\n  \"uncertainty_1\": \"No recent confirmation of employment status in Sessions 36, 28, 15, or 17\",\n  \"uncertainty_2\": null,\n  \"refs\": [\n    \"Session 8/turn 1\"\n  ]\n}\n\nQuestion: I’m thinking about signing up for a recurring volunteer shift every Tuesday from 2–4pm across town for the next three months—do you see any red flags with committing to that, and what would you suggest I check or line up first so it doesn’t mess up my work week?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

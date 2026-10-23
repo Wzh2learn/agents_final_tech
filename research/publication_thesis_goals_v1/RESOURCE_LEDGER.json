@@ -6,10 +6,10 @@
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 426,
-    "physical_http_calls": 426,
-    "accounting_tokens_used": 3050185,
-    "judge_calls": 67,
+    "attempts_used": 536,
+    "physical_http_calls": 536,
+    "accounting_tokens_used": 3713363,
+    "judge_calls": 113,
     "training_runs": 0,
     "training_gpu_seconds": 0,
     "training_tokens": 0,
@@ -383,7 +383,8 @@
       {
         "id": "STALE_RETRIEVAL_POLICY",
         "result": "BM25 top-5 raises both-evidence coverage from 0.360 to 0.468 over 400 dim1 items.",
-        "raw_result": "research/publication_thesis_goals_v1/revision_v4/STALE_RETRIEVAL_POLICY_RESULTS_V3.json"
+        "raw_result": "research/publication_thesis_goals_v1/revision_v4/STALE_RETRIEVAL_POLICY_RESULTS_V3.json",
+        "raw_result_sha256": "8fe5d07eaa9c80cfa6ae8c7313f5354d394b925ee4e88e08d130160a7383ed4f"
       },
       {
         "id": "STALE_DIM1_TOP5_JUDGE",
@@ -401,6 +402,133 @@
       "retrieval": "CONTINUE_AS_SEPARATE_BOTTLENECK",
       "scope_panel": "CLOSED_EXACT_CACHE_EXPLAINS_SAVING",
       "paper_e": "NARROW_AND_CONTINUE_READY_FOR_OWNER_SUBMISSION_ACTION"
+    }
+  },
+  "revision_v5": {
+    "date": "2026-10-23",
+    "status": "MEASUREMENT_REPAIRED_FIXED_STATE_AND_INDEPENDENT_CANDIDATE_TESTED",
+    "new_budget_capacity": {
+      "planning_attempt_cap": 4096,
+      "planning_token_cap": 20000000,
+      "attempts_used_total": 536,
+      "physical_model_http_calls_total": 536,
+      "accounting_tokens_used_total": 3713363,
+      "revision_v5_attempts": 110,
+      "revision_v5_actor_calls": 64,
+      "revision_v5_judge_calls": 46,
+      "revision_v5_accounting_tokens": 663178,
+      "training_runs": 0,
+      "paid_api_usd": 0,
+      "production_memory_writes": 0
+    },
+    "execution_events": [
+      {
+        "id": "G2_FIXED_STATE_INITIAL",
+        "attempts": 7,
+        "accounting_tokens": 48854,
+        "status": "PRESERVED_TRUNCATION_FAILURE"
+      },
+      {
+        "id": "G2_FIXED_STATE_COMPACT_REPAIR",
+        "attempts": 7,
+        "accounting_tokens": 48753,
+        "status": "PRESERVED_TRUNCATION_FAILURE"
+      },
+      {
+        "id": "G2_FIXED_STATE_FIXED_SLOTS",
+        "attempts": 48,
+        "accounting_tokens": 258112,
+        "status": "COMPLETE"
+      },
+      {
+        "id": "G2_JUDGE_CALIBRATION_V1",
+        "attempts": 10,
+        "accounting_tokens": 6338,
+        "status": "STOP_GATE_6_OF_10"
+      },
+      {
+        "id": "G2_JUDGE_RESEARCH_INITIAL",
+        "attempts": 1,
+        "accounting_tokens": 18636,
+        "status": "PRESERVED_OUTPUT_TRUNCATION"
+      },
+      {
+        "id": "G2_JUDGE_CALIBRATION_V2_EVIDENCE_COMPLETE",
+        "attempts": 10,
+        "accounting_tokens": 6569,
+        "status": "FLAG_AND_CONTINUE_9_OF_10"
+      },
+      {
+        "id": "G2_JUDGE_CALIBRATION_OUTPUT_REPAIR",
+        "attempts": 10,
+        "accounting_tokens": 6401,
+        "status": "FLAG_AND_CONTINUE_9_OF_10"
+      },
+      {
+        "id": "G2_FIXED_STATE_SEMANTIC_JUDGE",
+        "attempts": 8,
+        "accounting_tokens": 138645,
+        "status": "COMPLETE"
+      },
+      {
+        "id": "G2_E2E_TOP5_JUDGE_INITIAL",
+        "attempts": 1,
+        "accounting_tokens": 16271,
+        "status": "PRESERVED_MISSING_WRAPPER"
+      },
+      {
+        "id": "G2_E2E_TOP5_JUDGE_REPAIR2",
+        "attempts": 4,
+        "accounting_tokens": 62039,
+        "status": "PARTIAL_THREE_VALID_ONE_SCHEMA_FAILURE"
+      },
+      {
+        "id": "G2_E2E_TOP5_JUDGE_RESUME13",
+        "attempts": 2,
+        "accounting_tokens": 28321,
+        "status": "PARTIAL_ONE_VALID_ONE_SCHEMA_FAILURE"
+      },
+      {
+        "id": "G3_INCREMENTAL_EVIDENCE_MODEL",
+        "attempts": 2,
+        "accounting_tokens": 24239,
+        "status": "UNEVALUATED_NO_VALID_DECISION",
+        "raw_provenance": "call 2 preserved; call 1 raw lost after parse failure and exact usage recovered from llama-server task 2810516"
+      }
+    ],
+    "offline_results": [
+      {
+        "id": "G2_RETRIEVAL_POLICY_NEGATIVE",
+        "result": "Original BM25 top-5 remains strongest; user/change expansion and recency variants reduce BOTH coverage.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v5/G2_RETRIEVAL_POLICY_RESULTS_V5.json",
+        "raw_result_sha256": "e812f678ca18e034336e0cadbd25b0a0b622388c9fd6b81082ddc2a5793f1f55"
+      },
+      {
+        "id": "G2_FIXED_STATE_TRANSFER",
+        "result": "Plain fact bundle fact/action completion is 2/8 and 1/8; evidence-decision bundle is 3/8 and 1/8 after contract validation.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v5/G2_SEMANTIC_JUDGE_VALIDATED_V5.json"
+      },
+      {
+        "id": "G3_INCREMENTAL_EVIDENCE_HEADROOM",
+        "result": "43 useful expansions exist; oracle-selective reaches 187/400 BOTH at 37,292 mean chars versus always-expand 64,338.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v5/G3_OFFLINE_RESULTS_V1.json"
+      },
+      {
+        "id": "G3_VISIBLE_FEATURE_LEARNABILITY",
+        "result": "Depth-2 tree finds 5/43 useful expansions at 40 expansions and 1.19M context chars; weak signal, no learning claim.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v5/G3_VISIBLE_FEATURE_PREDICTION_RESULTS_V5.json"
+      },
+      {
+        "id": "PAPER_E_LIVE_SUBMISSION_HANDOFF",
+        "result": "ICAART Regular route, live dates, fees, presentation and Owner fields are prepared; no external action executed.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v5/PAPER_E_SUBMISSION_HANDOFF.md"
+      }
+    ],
+    "scientific_judgment": {
+      "g2_measurement": "FIXED_STATE_TRANSFER_NOT_ESTABLISHED",
+      "g2_retrieval": "ORIGINAL_BM25_STRONG_BASELINE_SIMPLE_EXPANSIONS_NEGATIVE",
+      "g3_candidate": "KEEP_WITH_HEADROOM_VISIBLE_RULE_STOP_MODEL_POLICY_UNEVALUATED",
+      "paper_e": "READY_FOR_OWNER_SUBMISSION_HANDOFF"
     }
   }
 }

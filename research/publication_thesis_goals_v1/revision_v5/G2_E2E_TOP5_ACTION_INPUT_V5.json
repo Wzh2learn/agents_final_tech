@@ -1,0 +1,846 @@
+{
+  "schema": "g2_e2e_top5_action_input_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "FROZEN_V4_TOP5_DIM3_OUTPUTS_FOR_SEMANTIC_REVIEW",
+  "source": "research/publication_thesis_goals_v1/revision_v4/stale_action_top5_repair_20261023_v3/STALE_RETRIEVAL_STATE_CONFIRMATION_RESULTS_V3.json",
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        48,
+        34,
+        1,
+        38,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "fact": "The user is planning to stay in the new city for about five months.",
+        "source_ref": "Session 8/turn 3",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Given your five-month stay, avoid long-term commitments. Prioritize flexibility over savings; short-term leases and furnished rentals are typically better for this duration to avoid the hassle and cost of buying/reselling furniture or breaking long-term contracts."
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        48,
+        34,
+        1,
+        38,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User is shifting consideration to the viability of establishing longer-term services and commitments in the new city."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        2,
+        38,
+        47,
+        9,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": [
+        {
+          "fact": "User prefers spending free time at home and declines most evening invitations.",
+          "source_ref": "Session 3/turn 5",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "User feels recharged when out in the middle of things, checking out new spots, and keeping their calendar full.",
+          "source_ref": "Session 39/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        }
+      ],
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Shift from your previous home-bound habit to a 'deck of cards' system. Pre-fill 2 weeknights and 2 weekend slots with low-effort, <20-minute outings (e.g., new cafes, walks, markets). Use a 60-second decision rule: if tired, pick the easiest solo-around-people card. Swap plans only if a new invite is better, never add on top, to prevent overload while maintaining an active social calendar."
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        2,
+        38,
+        47,
+        9,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "state_card": "User feels recharged by being out, wants to keep their calendar full with plans, and seeks low-effort ideas for weeknights and weekends to avoid defaulting to staying in."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "You should keep your calendar full with plans and seek low-effort ideas for weeknights and weekends to avoid defaulting to staying in."
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        30,
+        9,
+        31,
+        47,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "bundle": {
+        "fact": "The user is considering booking a non-refundable, six-month VIP package for a downtown comedy club.",
+        "source_ref": "Session 48/turn 1",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        30,
+        9,
+        31,
+        47,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "bundle": {
+        "state_card": "User is considering booking a non-refundable, six-month VIP package for a downtown comedy club."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        26,
+        38,
+        9,
+        0
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "fact": "User reserves 8–11 AM for deep focus work.",
+        "source_ref": "Session 27/turn 3",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Protect 8–11 AM for deep work. Check email at 11 AM. Cluster meetings between 11:30 AM and 1:30 PM. Take lunch at noon. Do lighter solo work from 3–4:30 PM. Perform a final email/message sweep at 4:30 PM. This structure minimizes interruptions during your critical morning block while keeping you responsive."
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        26,
+        38,
+        9,
+        0
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "state_card": "User requested variations for 'meeting-heavy' and 'maker' days, specifically asking how to handle urgent pings during the 8-11 focus block."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        31,
+        9,
+        5,
+        4,
+        11
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "fact": "The user runs for thirty minutes every single morning.",
+        "source_ref": "Session 6/turn 1",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        31,
+        9,
+        5,
+        4,
+        11
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "state_card": "User is considering fostering a high-energy Husky that requires a 3-mile continuous trot every morning, creating a potential conflict with the user's existing 30-minute run routine."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        9,
+        17,
+        24,
+        38,
+        23
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": [
+        {
+          "fact": "User leans towards candidates focusing on community support rather than corporate interests.",
+          "source_ref": "Session 10/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "User is preparing for a local election and wants to compare candidates.",
+          "source_ref": "Session 10/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        }
+      ],
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Ask candidates how they gathered community input for their priorities, what local partners they rely on, and what safeguards prevent single donors from having undue influence. Request specific examples of past projects where they adjusted plans based on resident feedback. These questions reveal if they prioritize community needs over corporate interests and distinguish concrete plans from vague promises."
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        9,
+        17,
+        24,
+        38,
+        23
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User possesses a printable, one-page comparison worksheet containing 12 specific questions with a 0-2 scoring system and red-flag indicators, designed to compare up to three candidates side-by-side at the forum."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "The user possesses a printable, one-page comparison worksheet containing 12 specific questions with a 0-2 scoring system and red-flag indicators, designed to compare up to three candidates side-by-side at the forum."
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        34,
+        4,
+        0,
+        2,
+        48
+      ],
+      "retrieval_category": "NEW_ONLY",
+      "bundle": [
+        {
+          "fact": "User is on a big nonfiction kick, mostly biographies and history, and wants absorbing picks that read like a story, preferably good on audiobook.",
+          "source_ref": "Session 35/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "User loved The Splendid and the Vile and wants microhistory or tightly focused biography/disaster/expedition books with a 'can't put it down' feel, specifically recommending Five Days at Memorial and The River of Doubt.",
+          "source_ref": "Session 35/turn 8",
+          "source_role": "assistant",
+          "temporal_status": "current"
+        }
+      ],
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Start with Five Days at Memorial (disaster/trial) and The River of Doubt (expedition). Both offer the immersive, novel-like momentum you liked in The Splendid and the Vile, with strong audiobook productions."
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        34,
+        4,
+        0,
+        2,
+        48
+      ],
+      "retrieval_category": "NEW_ONLY",
+      "bundle": {
+        "state_card": "User is at the library to pick out books, implying an intent to borrow or purchase based on previous recommendations."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Five Days at Memorial and The River of Doubt"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        6,
+        38,
+        7,
+        3,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "fact": "The user is currently self-employed with a flexible work schedule entirely up to them.",
+        "source_ref": "Session 14/turn 3",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "No major structural roadblocks exist because you are self-employed with full schedule control. You can maintain your routine by working from beach cafes, provided you ensure reliable internet access and manage time zone differences for any synchronous work."
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        6,
+        38,
+        7,
+        3,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User intends to book a flight to Thailand next Monday for a six-week trip, working remotely from beach cafes."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        33,
+        13,
+        11,
+        31,
+        32
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": [
+        {
+          "fact": "The user's broker has prompted a switch to an 'Essential' tier to remove a $15 monthly maintenance fee.",
+          "source_ref": "Session 34/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "The 'Essential' tier limits the account to standard stock and ETF purchases and turns off advanced trading features.",
+          "source_ref": "Session 34/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "The user is currently learning about trading, specifically the difference between stocks and derivatives, and is using a small account for practice.",
+          "source_ref": "Session 34/turn 1",
+          "source_role": "user",
+          "temporal_status": "current"
+        }
+      ],
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Yes, confirming the change makes sense. You are currently learning with a small account and focusing on standard stocks/ETFs, while advanced features (derivatives) are not yet part of your active practice. Removing the $15 monthly fee reduces costs for a learning account, and the tier's limitations align with your current goal of avoiding complex instruments."
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        33,
+        13,
+        11,
+        31,
+        32
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "state_card": "User is considering switching to an 'Essential' tier to remove the fee, which would limit the account to standard stock/ETF purchases and disable advanced trading features."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        9,
+        30,
+        39,
+        6,
+        24
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "fact": "The user is considering signing an addendum to lock the complex's main courtyard gate at 10:15 PM nightly in exchange for a $100 rent reduction.",
+        "source_ref": "Session 10 [Time: 2025-06-25 04:21] User turn 1",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        9,
+        30,
+        39,
+        6,
+        24
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "state_card": "User is leaning towards accepting the offer to save money, despite the late-night commitment."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        5,
+        45,
+        4,
+        30,
+        25
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "fact": "The user has a senior Labrador that is a permanent part of their life.",
+        "source_ref": "Session 6, turn 1",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Yes, keep the dog in mind. You have a senior Labrador who is a permanent part of your life. Prioritize ground-floor access, easy terrain, and shaded areas in your layout to accommodate his mobility and comfort needs."
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        5,
+        45,
+        4,
+        30,
+        25
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User is setting up their living space and questioning whether to prioritize accommodating their dog in the layout."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        47,
+        3,
+        35,
+        29,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": [
+        {
+          "fact": "The user is close with neighbors and checks in on them regularly.",
+          "source_ref": "Session 4/turn 5",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "The user has a habit of using habit tracker apps to monitor progress.",
+          "source_ref": "Session 48/turn 11",
+          "source_role": "user",
+          "temporal_status": "current"
+        }
+      ],
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Stick to your neighbors. You previously stated you are 'quite close' with them and already check in regularly, making them a trusted, low-friction option for pet care. Hiring a professional adds cost and logistical complexity for a task you already have a reliable, personal solution for."
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        47,
+        3,
+        35,
+        29,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User is considering having neighbors water plants and feed the cat during a 10-day vacation, but is weighing this against hiring a professional sitter."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        15,
+        38,
+        16,
+        2,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "bundle": {
+        "fact": "The user is considering adopting a senior rescue cat that requires thyroid medication twice daily at 7 AM and 7 PM.",
+        "source_ref": "Session 43/turn 11",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        15,
+        38,
+        16,
+        2,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "bundle": {
+        "state_card": "User is considering the feasibility of adopting a senior rescue cat with a strict medication schedule (7 AM and 7 PM)."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        21,
+        1,
+        9,
+        43,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "fact": "The user is preparing for a Master's program in Data Science and has completed courses on Python programming and Machine Learning.",
+        "source_ref": "Session 8/turn 7",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        21,
+        1,
+        9,
+        43,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User is considering enrolling their main work machine in an early-access program for unreleased AI tools, which conflicts with their established strategy of keeping beta software off mission-critical devices."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "It is not a sensible setup because enrolling the main work machine in an early-access program conflicts with the user's established strategy of keeping beta software off mission-critical devices to maintain functionality and data safety."
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        34,
+        17,
+        13,
+        36,
+        7
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": [
+        {
+          "fact": "User's typical commute is Mon–Fri, leaving around 8:00 and getting home about 18:00–18:30.",
+          "source_ref": "Session 35/turn 3",
+          "source_role": "user",
+          "temporal_status": "current"
+        },
+        {
+          "fact": "User's weekly template designates Tuesday as a default social night, aiming to head out after 19:00 to dodge the rush.",
+          "source_ref": "Session 35/turn 8",
+          "source_role": "assistant",
+          "temporal_status": "current"
+        }
+      ],
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Tuesday 2–4pm conflicts with your established 'social night' slot. Since you typically leave home after 19:00 to avoid rush hour, this shift requires an afternoon departure, increasing peak-hour stress. Check if the volunteer role allows flexibility or if you can swap Tuesday for a lighter day like Friday, which is already designated as a catch-up slot."
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        34,
+        17,
+        13,
+        36,
+        7
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "bundle": {
+        "state_card": "User is proposing a new recurring commitment (Tuesday 2-4pm volunteer shift) that conflicts with the established post-commute gym/social schedule and requires verification against the previously defined fallback rules for mid-afternoon travel."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "selected_indices": [
+        9,
+        45,
+        31,
+        4,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "fact": "User is a U.S. citizen.",
+        "source_ref": "Session 10/turn 1",
+        "source_role": "user",
+        "temporal_status": "current"
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "ANSWER",
+        "answer": "Submit the proof immediately. As a U.S. citizen, you can upload a U.S. passport, birth certificate, or naturalization certificate. If you lack these, a government-issued ID showing U.S. citizenship or a Consular Report of Birth Abroad are valid alternatives. Do not delay, as the 48-hour deadline is strict."
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "selected_indices": [
+        9,
+        45,
+        31,
+        4,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "bundle": {
+        "state_card": "User has decided to use the neutral phrase 'Authorized to work in the United States' in the resume header, placed as a standalone line beneath contact details, and will omit 'no sponsorship required' unless explicitly asked by the employer."
+      },
+      "answer_record": {
+        "constraints_considered": [],
+        "basis_refs": [],
+        "decision": "UNKNOWN",
+        "answer": null
+      }
+    }
+  ]
+}

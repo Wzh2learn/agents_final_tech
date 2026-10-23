@@ -1,0 +1,10 @@
+{
+  "schema": "g2_judge_calibration_receipt_v5",
+  "status": "COMPLETE",
+  "planned_calls": 10,
+  "executed_calls": 10,
+  "accounting_tokens": 6401,
+  "retry_count": 0,
+  "gate": "FLAG_AND_CONTINUE",
+  "results_sha256": "87ab37060785913159d06cc33e5cfd87a7894de81a627354e123d0678f3f4c84"
+}

@@ -1,0 +1,54 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"User has switched from running to stationary biking due to knee issues (Session 32, User turn 3)\",\n  \"invalidated_2\": \"User's current primary focus is sleep quality and language learning, not morning running routines (Session 25, User turn 1; Session 31, User turn 1)\",\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"Whether the user still runs at all, given the knee issues and subsequent topic shifts\",\n  \"refs\": [\n    \"Session 32/turn 3\",\n    \"Session 25/turn 1\",\n    \"Session 31/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still run for thirty minutes every single morning?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "fc6c4ca19e4141ac7f5b479a3fff5c8b5786213ccc57283b0ed44e5f5a3005aa",
+  "response_body_sha256": "c343ab7cda515984bc8f425bfceba998c507e42e0b0408fb260b5ba2294fff79",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user has switched from running to stationary biking due to knee issues, and their current primary focus is sleep quality and language learning, not morning running routines.\",\n  \"basis_refs\": [\n    \"Session 32/turn 3\",\n    \"Session 25/turn 1\",\n    \"Session 31/turn 1\"\n  ],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 107,
+    "prompt_tokens": 367,
+    "total_tokens": 474,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.255275,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 474,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user has switched from running to stationary biking due to knee issues, and their current primary focus is sleep quality and language learning, not morning running routines.",
+    "basis_refs": [
+      "Session 32/turn 3",
+      "Session 25/turn 1",
+      "Session 31/turn 1"
+    ],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

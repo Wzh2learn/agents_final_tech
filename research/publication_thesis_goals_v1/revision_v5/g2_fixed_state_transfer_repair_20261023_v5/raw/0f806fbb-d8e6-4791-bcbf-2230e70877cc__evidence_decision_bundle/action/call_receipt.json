@@ -1,0 +1,57 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_current_facts\": [\n    \"User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth (Session 14/turn 7).\"\n  ],\n  \"invalidated_assumptions\": [],\n  \"uncertain_impacts\": [\n    \"User's current risk tolerance regarding derivatives may differ from their historical preference for steady growth, but no explicit update to this preference has been recorded.\"\n  ],\n  \"action_constraints\": [\n    \"Any proposed investment or trading strategy must respect the user's stated preference to avoid gambling significant funds on high-risk opportunities.\"\n  ],\n  \"unknowns\": [\n    \"Whether the user's interest in options trading (Session 34) represents a shift away from their stated preference for steady growth or is merely an educational exercise within their comfort zone.\"\n  ]\n}\n\nQuestion: My broker prompted me to switch to their “Essential” tier to remove the $15 monthly maintenance fee. It would limit the account to standard stock and ETF purchases and turn off advanced trading features. Does it make sense for me to confirm that change right now?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "e545e750f991236207456408fc9c9deb5c7ba7880f492003271b00be9e2102a5",
+  "response_body_sha256": "d808151f8f19bcf9c2b45e236cad619d3eaee9e11fd65b0bc5ba55270bf7f76d",
+  "content": "{\n  \"decision\": \"CLARIFY\",\n  \"answer\": \"Do you intend to use advanced trading features (such as options or derivatives) in the future, or is your goal strictly to maintain a portfolio of standard stocks and ETFs for steady growth?\",\n  \"basis_refs\": [\n    \"uncertain_impacts\",\n    \"unknowns\",\n    \"action_constraints\"\n  ],\n  \"constraints_considered\": [\n    \"User's preference to avoid gambling significant funds on high-risk opportunities\",\n    \"Uncertainty regarding user's current risk tolerance for derivatives\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 130,
+    "prompt_tokens": 380,
+    "total_tokens": 510,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.322674,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 510,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "CLARIFY",
+    "answer": "Do you intend to use advanced trading features (such as options or derivatives) in the future, or is your goal strictly to maintain a portfolio of standard stocks and ETFs for steady growth?",
+    "basis_refs": [
+      "uncertain_impacts",
+      "unknowns",
+      "action_constraints"
+    ],
+    "constraints_considered": [
+      "User's preference to avoid gambling significant funds on high-risk opportunities",
+      "Uncertainty regarding user's current risk tolerance for derivatives"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

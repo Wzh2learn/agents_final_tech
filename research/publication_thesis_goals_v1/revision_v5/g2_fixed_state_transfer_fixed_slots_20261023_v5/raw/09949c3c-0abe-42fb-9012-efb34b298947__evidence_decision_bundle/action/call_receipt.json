@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"The user's housing timeline (5 months) is from Session 8 (2024-06-15) and is not confirmed in the current context (Session 31, 2024-12-13).\",\n  \"invalidated_2\": null,\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"Current housing status or timeline for the user in Session 31.\",\n  \"refs\": [\n    \"Session 8/turn 3\",\n    \"Session 31/turn 1\"\n  ]\n}\n\nQuestion: I’m trying to decide whether it’s worth setting up longer-term services and commitments where I’m living. What should I consider before I lock anything in?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "fcfe7f229c2bf061b3dddd3e85365651a8d3d9e70b9fa2b87f0edc9d3da2fb6e",
+  "response_body_sha256": "9e892f9e08dd02b5827fd818666355b95f3d5919fb0a11afc2f1dfe565acf8ee",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"basis_refs\": [\n    \"Session 8/turn 3\",\n    \"Session 31/turn 1\"\n  ],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 61,
+    "prompt_tokens": 358,
+    "total_tokens": 419,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.225788,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 419,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "basis_refs": [
+      "Session 8/turn 3",
+      "Session 31/turn 1"
+    ],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

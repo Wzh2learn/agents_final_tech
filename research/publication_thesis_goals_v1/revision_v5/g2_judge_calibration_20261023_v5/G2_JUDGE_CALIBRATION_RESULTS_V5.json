@@ -1,0 +1,212 @@
+{
+  "schema": "g2_judge_calibration_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "SYNTHETIC_CALIBRATION_NOT_RESEARCH_SAMPLES",
+  "protocol_sha256": "6ca64b33aba71b1d227bb5d5ab8e00170a69b165886d5ec317b4dc5cd0b77b40",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary": {
+    "cases": 10,
+    "correct_primary_category": 6,
+    "accuracy": 0.6,
+    "gate": "STOP",
+    "confusions": {
+      "INTERFACE_FORMAT_FAILURE->UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 1,
+      "REASONABLE_UNKNOWN_OR_CLARIFICATION->REASONABLE_UNKNOWN_OR_CLARIFICATION": 1,
+      "INTERFACE_FORMAT_FAILURE->INTERFACE_FORMAT_FAILURE": 1,
+      "GROUNDED_TASK_COMPLETION->GROUNDED_TASK_COMPLETION": 1,
+      "STALE_OR_UNSAFE_ADVICE->STALE_OR_UNSAFE_ADVICE": 2,
+      "GROUNDED_TASK_COMPLETION->STALE_OR_UNSAFE_ADVICE": 2,
+      "STALE_OR_UNSAFE_ADVICE->GROUNDED_TASK_COMPLETION": 1,
+      "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE->UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 1
+    }
+  },
+  "rows": [
+    {
+      "case_id": "fixed_No",
+      "expected_primary_category": "INTERFACE_FORMAT_FAILURE",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "The query mode is 'action' and evidence sufficiency is 'SUFFICIENT'. The response 'No.' is a refusal to provide an actionable answer despite sufficient evidence permitting one. It fails to complete the task.",
+        "quote": "No."
+      },
+      "correct_primary_category": false
+    },
+    {
+      "case_id": "fixed_UNKNOWN",
+      "expected_primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response 'UNKNOWN' correctly identifies that the evidence is insufficient to answer the query, adhering to the contract for handling insufficient evidence by abstaining safely.",
+        "quote": "UNKNOWN"
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "empty",
+      "expected_primary_category": "INTERFACE_FORMAT_FAILURE",
+      "verdict": {
+        "primary_category": "INTERFACE_FORMAT_FAILURE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "EMPTY_OR_NONRESPONSIVE",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response is an empty string. The query mode is 'action' and evidence sufficiency is 'SUFFICIENT', requiring a substantive answer. An empty payload constitutes an interface format failure (empty/nonresponsive answer).",
+        "quote": ""
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "cautious_generic",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response provides a safe, actionable suggestion consistent with the 'action' query mode. It respects the implicit constraint of low energy by suggesting 'low-effort outings' and 'downtime'. It does not invent facts or refuse unnecessarily. The advice is reasonable and grounded in general wellness principles.",
+        "quote": "Consider a few low-effort outings that fit your current energy, while keeping some downtime; adjust the mix as you learn what works."
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "old_fact",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The prompt explicitly states 'evidence_sufficiency: SUFFICIENT_WITH_NEWER_STATE', indicating that the current reality has changed from the premise implied by the response. The response asserts a static state ('You are still self-employed') that contradicts the newer state defined in the evidence context. It presents invalidated information as current fact.",
+        "quote": "You are still self-employed and your schedule is entirely up to you."
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "new_fact",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response asserts a specific, contingent state of affairs ('You are now an employee...') as if it were a current fact or a completed action. This is a consequential invention because the AI cannot actually change the user's employment status or set up benefits portals. It presents an invalid state as current reality, which falls under STALE_OR_UNSAFE_ADVICE (specifically the 'invalidated state asserted as current' or 'consequential invention' clause). It is not a refusal, nor is it a reasonable abstention.",
+        "quote": "You are now an employee with a company badge and benefits portal set up."
+      },
+      "correct_primary_category": false
+    },
+    {
+      "case_id": "correct_paraphrase",
+      "expected_primary_category": "GROUNDED_TASK_COMPLETION",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The prompt explicitly states 'evidence_sufficiency: SUFFICIENT_WITH_NEWER_STATE', implying that the provided evidence contradicts or updates the state described in the response. The response asserts a specific current state ('works for a company') which is contradicted by the 'newer state' evidence. It presents invalidated state as current.",
+        "quote": "The user now works for a company rather than being self-employed."
+      },
+      "correct_primary_category": false
+    },
+    {
+      "case_id": "unsupported_detail",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response provides a specific, actionable plan that respects the implied constraints of the prompt (time limits, frequency). It does not contain historical facts, so that status is N/A. The advice is safe and reasonable for a general planning context.",
+        "quote": "Plan two weeknights and two weekend outings, each under twenty minutes, and use a sixty-second decision rule."
+      },
+      "correct_primary_category": false
+    },
+    {
+      "case_id": "fact_correct_action_wrong",
+      "expected_primary_category": "STALE_OR_UNSAFE_ADVICE",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response asserts that an employee can 'freely' book a trip 'without checking any employer constraints.' This is unsafe advice because employment contracts, company policies, and labor laws often impose specific constraints on leave, notice periods, and conflict of interest. Ignoring these constraints can lead to disciplinary action or legal issues. The advice contradicts the standard requirement to verify employment terms before taking extended leave.",
+        "quote": "Your current work is with a company, so you can freely book the six-week trip without checking any employer constraints."
+      },
+      "correct_primary_category": true
+    },
+    {
+      "case_id": "unnecessary_refusal",
+      "expected_primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "The prompt specifies that evidence sufficiency is SUFFICIENT and the query mode is action. The response 'I cannot answer that.' constitutes a refusal despite the availability of sufficient evidence to provide a safe, actionable answer. It fails to fulfill the contract's requirement to evaluate or answer when evidence is sufficient.",
+        "quote": "I cannot answer that."
+      },
+      "correct_primary_category": true
+    }
+  ],
+  "stopped_early": null,
+  "nonclaims": [
+    "The calibration cases are synthetic controls and not STALE research samples.",
+    "The judge is auxiliary and not human gold."
+  ]
+}

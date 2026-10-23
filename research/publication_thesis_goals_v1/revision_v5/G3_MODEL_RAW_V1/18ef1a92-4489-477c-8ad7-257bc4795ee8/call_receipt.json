@@ -1,0 +1,22 @@
+{
+  "transport_status": "HTTP_OK",
+  "http_status": 200,
+  "latency_seconds": 14.292756,
+  "model_observed": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "finish_reason": "length",
+  "usage": {
+    "completion_tokens": 128,
+    "prompt_tokens": 8490,
+    "total_tokens": 8618,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "accounting_tokens": 8618,
+  "content": "{\n  \"action\": \"EXPAND\",\n  \"confidence\": \"HIGH\",\n  \"evidence_anchors\": [\"I’ve been meaning to organize my vintage video game cartridges\", \"I could use some advice on getting to know my neighbors without it feeling awkward or forced\"],\n  \"missing_information\": \"Current status of the neighbor relationship (whether the user followed through with the advice and if a friendly relationship was established) and current status of the video game collection organization.\",\n  \"reason\": \"The visible sessions contain past queries about organizing vintage games and advice on meeting neighbors, but lack any follow-up or current state",
+  "parsed": null,
+  "parse_status": "INVALID",
+  "parse_errors": [
+    "Unterminated string starting at: line 6 column 13 (char 479)"
+  ]
+}

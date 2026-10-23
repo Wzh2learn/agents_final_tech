@@ -1,0 +1,50 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": null,\n  \"confirmed_fact_2\": null,\n  \"invalidated_1\": \"The user's self-employment status was established in Session 8 (2024-06-15) but is not referenced in the most recent Session 17 (2024-08-24), which focuses on home lighting.\",\n  \"invalidated_2\": null,\n  \"uncertain_impact_1\": null,\n  \"uncertain_impact_2\": null,\n  \"constraint_1\": null,\n  \"constraint_2\": null,\n  \"unknown_1\": \"Whether the user's employment status has changed since the last mention in Session 8.\",\n  \"refs\": [\n    \"Session 8/turn 1\",\n    \"Session 17/turn 1\"\n  ]\n}\n\nQuestion: I’m thinking about signing up for a recurring volunteer shift every Tuesday from 2–4pm across town for the next three months—do you see any red flags with committing to that, and what would you suggest I check or line up first so it doesn’t mess up my work week?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "cfb79d0ba55793fd146161f4ed732b41394e03428aa78e57168493659ec2469c",
+  "response_body_sha256": "e575ded68411c78075db8d0f8dbac011ee485739c5665fd56c8be4ffc116427a",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"basis_refs\": [],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 35,
+    "prompt_tokens": 391,
+    "total_tokens": 426,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.816045,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 426,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "basis_refs": [],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

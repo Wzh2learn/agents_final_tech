@@ -1,0 +1,55 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"User is self-employed rather than holding a standard staff position (Session 8/turn 1)\",\n  \"current_fact_2\": \"User has been self-employed for the past few years (Session 8/turn 1)\",\n  \"current_fact_3\": null,\n  \"conflict_1\": null,\n  \"conflict_2\": null,\n  \"uncertainty_1\": \"No recent confirmation of employment status in Sessions 36, 28, 15, or 17\",\n  \"uncertainty_2\": null,\n  \"refs\": [\n    \"Session 8/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "8ec0aab767156504834436ccd414d7f3b2536c313aab53e8fd28082f434982e9",
+  "response_body_sha256": "0924b357f47d58fbe8b67d87815e5e2a74efb911aabe882d0e4efadd9c540190",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"Yes, the user describes themselves as self-employed rather than holding a standard staff position.\",\n  \"basis_refs\": [\n    \"Session 8/turn 1\"\n  ],\n  \"constraints_considered\": [\n    \"Use only recovered bundle\",\n    \"No external facts\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 84,
+    "prompt_tokens": 317,
+    "total_tokens": 401,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.826437,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 401,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "Yes, the user describes themselves as self-employed rather than holding a standard staff position.",
+    "basis_refs": [
+      "Session 8/turn 1"
+    ],
+    "constraints_considered": [
+      "Use only recovered bundle",
+      "No external facts"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "plain_fact_bundle"
+}

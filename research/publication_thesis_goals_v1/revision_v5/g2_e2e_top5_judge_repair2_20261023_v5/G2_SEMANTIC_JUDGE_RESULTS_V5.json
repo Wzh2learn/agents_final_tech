@@ -1,0 +1,159 @@
+{
+  "schema": "g2_semantic_judge_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "protocol_sha256": "4f64a11e309b4b44831618719292928be3278f3a866b7108f6bf17c8d45a0240",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary_by_representation": {
+    "plain_fact_bundle": {
+      "rows": 0,
+      "primary_counts": {},
+      "fact_primary_counts": {},
+      "action_primary_counts": {}
+    },
+    "evidence_decision_bundle": {
+      "rows": 0,
+      "primary_counts": {},
+      "fact_primary_counts": {},
+      "action_primary_counts": {}
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response correctly uses the five-month constraint to advise against long-term commitments.",
+        "quote": "Given your five-month stay, avoid long-term commitments."
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response appropriately abstains due to insufficient evidence for a specific recommendation.",
+        "quote": "null"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "It ignores the user's new preference for being out and repeats the outdated home-centric advice.",
+        "quote": "You should keep your calendar full with plans and seek low-effort ideas for weeknights and weekends to avoid defaulting to staying in."
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "It correctly identifies the user's current preference for being out and provides actionable, constraint-respecting advice.",
+        "quote": "Shift from your previous home-bound habit to a 'deck of cards' system."
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response correctly identifies insufficient evidence regarding the user's current social availability to make a safe recommendation.",
+        "quote": "decision\": \"UNKNOWN\""
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response correctly identifies insufficient evidence regarding the user's current social availability to make a safe recommendation.",
+        "quote": "decision\": \"UNKNOWN\""
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "representation": "one_call_facts",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": null
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "representation": "two_stage_state_card",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": null
+    }
+  ],
+  "stopped_early": "HTTP_OK:INVALID_JSON",
+  "limitations": [
+    "The judge uses the same model family as the actor and remains auxiliary.",
+    "The benchmark explanation is not independent human gold.",
+    "Eight development UIDs include cases selected after prior review."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "g3_incremental_evidence_model_receipt_v1",
+  "status": "STOPPED_EARLY",
+  "evidence_identity": "DEV_ONLY_8_CALL_SELECTIVE_EVIDENCE_ACQUISITION_POLICY",
+  "model_expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "model_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "planned_generation_calls": 8,
+  "executed_generation_calls": 2,
+  "physical_http_calls": 2,
+  "accounting_tokens": 24239,
+  "prompt_tokens": 23599,
+  "completion_tokens": 640,
+  "retry_count": 0,
+  "stopped_early": true,
+  "results_path": "/home/testuser/wzh/projects/agents_final_tech/research/publication_thesis_goals_v1/revision_v5/G3_INCREMENTAL_EVIDENCE_RESULTS_V1.json",
+  "results_sha256": "f694d3b4a2df7e4635cde8c2d280a62c20c8275878c39ecac8e666146edc3b0c"
+}

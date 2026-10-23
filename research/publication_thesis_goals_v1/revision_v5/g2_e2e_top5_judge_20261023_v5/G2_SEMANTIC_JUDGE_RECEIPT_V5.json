@@ -1,0 +1,9 @@
+{
+  "schema": "g2_semantic_judge_receipt_v5",
+  "status": "COMPLETE_WITH_STOP",
+  "planned_calls": 8,
+  "executed_calls": 1,
+  "accounting_tokens": 16271,
+  "retry_count": 0,
+  "results_sha256": "04d6370c5e513c9a6dcef470b962caabc741e56bb4a161bf51987574657822ed"
+}

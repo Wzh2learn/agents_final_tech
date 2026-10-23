@@ -1,0 +1,29 @@
+{
+  "schema": "g3_incremental_evidence_failure_receipt_v1",
+  "status": "HTTP_OK_PARSE_FAILURE_RAW_NOT_PRESERVED",
+  "date": "2026-10-23",
+  "generation_call": 1,
+  "uid": "18866d40-4641-4c2b-a8d5-fa6f2fa4913d",
+  "model_expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "http_status": 200,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "prompt_tokens": 15109,
+  "completion_tokens": 512,
+  "accounting_tokens": 15621,
+  "accounting_tokens_source": "exact llama-server timing for task 2810516",
+  "server_prompt_eval_seconds": 7.82833,
+  "server_eval_seconds": 8.95948,
+  "server_total_seconds": 16.78781,
+  "retry_count": 0,
+  "request_raw_preserved": false,
+  "response_raw_preserved": false,
+  "failure": "The response body parsed, but message.content was empty/non-JSON and the first runner raised before persisting raw bytes.",
+  "root_cause": "The request used top-level enable_thinking instead of chat_template_kwargs.enable_thinking; all 512 completion tokens went to reasoning content and the strict JSON content parser failed.",
+  "recovery": "No request was reissued. Exact prompt/completion/total token counts were recovered from /tmp/llama-8004-vision.log task 2810516. The call remains a failed engineering attempt and is included in accounting.",
+  "nonclaims": [
+    "This receipt does not turn the failed call into a valid model decision.",
+    "The response hash cannot be reconstructed after raw-byte loss.",
+    "The remaining calls use the corrected chat_template_kwargs contract and no retry."
+  ]
+}

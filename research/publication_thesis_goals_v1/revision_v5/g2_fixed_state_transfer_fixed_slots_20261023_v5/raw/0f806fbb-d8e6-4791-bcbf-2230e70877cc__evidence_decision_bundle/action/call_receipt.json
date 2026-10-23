@@ -1,0 +1,55 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": \"User has never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead (Session 14, turn 7).\",\n  \"confirmed_fact_2\": \"User is currently learning about options trading, specifically debit spreads, using a small account to keep risk contained (Session 34, turns 7-12).\",\n  \"invalidated_1\": null,\n  \"invalidated_2\": null,\n  \"uncertain_impact_1\": \"Whether the user's preference for steady growth conflicts with the inherent volatility and leverage of options trading, potentially causing stress or deviation from their core preference.\",\n  \"uncertain_impact_2\": \"Whether the user's current learning phase with options will lead to a shift in their investment style from steady growth to more active trading.\",\n  \"constraint_1\": \"When testing options strategies, position sizes must remain tiny and defined-risk structures (like debit spreads) should be prioritized to align with the user's aversion to high-risk gambling (Session 34, turns 4, 6, 8).\",\n  \"constraint_2\": null,\n  \"unknown_1\": \"Whether the user intends to continue options trading long-term or if this is strictly a temporary learning exercise.\",\n  \"refs\": [\n    \"Session 14/turn 7\",\n    \"Session 34/turn 7\",\n    \"Session 34/turn 8\"\n  ]\n}\n\nQuestion: My broker prompted me to switch to their “Essential” tier to remove the $15 monthly maintenance fee. It would limit the account to standard stock and ETF purchases and turn off advanced trading features. Does it make sense for me to confirm that change right now?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "27794994a030e7d6b5761420603fc7954259e3ba50328e48021edda76fadb454",
+  "response_body_sha256": "10bf932f314e75ef3fea95019873e1fe95902ff097a4f93fe37c569ac7df17fb",
+  "content": "{\n  \"decision\": \"CLARIFY\",\n  \"answer\": \"Does the user intend to learn and trade options long-term, or is this strictly a temporary learning exercise?\",\n  \"basis_refs\": [\n    \"uncertain_impact_2\",\n    \"unknown_1\"\n  ],\n  \"constraints_considered\": [\n    \"constraint_1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 87,
+    "prompt_tokens": 517,
+    "total_tokens": 604,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.724214,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 604,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "CLARIFY",
+    "answer": "Does the user intend to learn and trade options long-term, or is this strictly a temporary learning exercise?",
+    "basis_refs": [
+      "uncertain_impact_2",
+      "unknown_1"
+    ],
+    "constraints_considered": [
+      "constraint_1"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

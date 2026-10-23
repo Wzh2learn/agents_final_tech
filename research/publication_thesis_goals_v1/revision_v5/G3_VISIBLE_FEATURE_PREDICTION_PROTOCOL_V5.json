@@ -1,0 +1,28 @@
+{
+  "schema": "g3_visible_feature_prediction_protocol_v5",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_OFFLINE_FITTING",
+  "evidence_identity": "ZERO_MODEL_UID_LEVEL_CROSS_VALIDATED_LEARNABILITY_DIAGNOSTIC",
+  "source": "G3_OFFLINE_RESULTS_V1.json",
+  "target": "useful_expansion when ranks 4-5 add a relevant session and complete the old/new pair",
+  "visible_features": [
+    "query_token_coverage",
+    "rank3_to_rank1_score_ratio",
+    "has_past_cue",
+    "has_update_cue",
+    "score_tail",
+    "temporal_gap"
+  ],
+  "models": [
+    "standard-scaled class-balanced logistic regression",
+    "depth-2 class-balanced decision tree"
+  ],
+  "validation": "5 outer stratified folds with three-fold inner cost-matched threshold selection, repeated over 5 fixed seeds",
+  "operating_point": "at most 10% EXPAND decisions per training fold",
+  "baselines": ["never_expand", "always_expand_top5", "visible_gap_rule"],
+  "nonclaims": [
+    "This is not model-policy performance.",
+    "The target uses hidden expansion outcomes and is diagnostic only.",
+    "No learned selector is deployable until a later frozen model-interface test."
+  ]
+}

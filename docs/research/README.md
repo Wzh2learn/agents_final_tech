@@ -6,14 +6,14 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-23
 
 ## 当前任务与证据
 
-V4 科研证据出口已经形成：Paper E 投稿包保持可交 Owner 状态；旧 state-card 代理被证明退化；BM25 top-5 有真实检索收益；state card 只保留 dim1 表示候选，未改善去退化后的 dim3 行动；scope 的 probe 节省由精确缓存解释。当前结论与成本见 [V4 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v4/RESEARCH_SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
+V5 组合证据出口已经形成：Paper E 实时投稿 handoff 完成；G2 的 judge 反例、固定证据/固定状态和端到端独立评审完成；G3 的选择性增量补查有真实成本 headroom，但模型 KEEP/EXPAND 未形成有效决策。两个后继候选暂不认证为创新点。当前结论与成本见 [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)。外部投稿、署名、付款和公开仍由 Owner 决定。
 
 | 用途 | 权威记录 |
 |---|---|
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
-| 当前回执 | [V4 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v4/RESEARCH_SPRINT_RETURN.md)；V3/V2 回执与 Owner 独立审计为前序证据 |
+| 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
-| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 426 attempts / 3,050,185 tokens |
+| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 536 attempts / 3,713,363 tokens |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
 | 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 
@@ -25,7 +25,7 @@ V4 科研证据出口已经形成：Paper E 投稿包保持可交 Owner 状态�
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_ACTION`；G2 `STOP_CURRENT_MECHANISM`；scope `CLOSED_EXACT_CACHE_EXPLAINS_SAVING`；state card `STOP_CURRENT_ACTION_METHOD_KEEP_DIM1_CANDIDATE`；检索 `CONTINUE_AS_SEPARATE_BOTTLENECK`。见 [V4 回执](../../research/publication_thesis_goals_v1/revision_v4/RESEARCH_SPRINT_RETURN.md) |
+| 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_HANDOFF`；G2 `CONTINUE_NARROWED_DEVELOPMENT_ONLY`；G3 `KEEP_WITH_HEADROOM_MODEL_POLICY_UNEVALUATED`；scope `CLOSED_EXACT_CACHE_EXPLAINS_SAVING`。见 [V5 回执](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md) |
 | Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json) |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
@@ -33,7 +33,8 @@ V4 科研证据出口已经形成：Paper E 投稿包保持可交 Owner 状态�
 | CodeUpdateArena | 修正执行器后的开发集与新 families 都是有界负结果；[V2 报告](../../research/research_portfolio_v2/CODEUPDATEARENA_ADAPTER_REPORT_V2.md)与[新 families 确认](../../research/research_portfolio_v2/CODEUPDATEARENA_CONFIRMATION_REPORT.md)。不重复同一 prose-update 臂；合成变化不等于真实自然漂移 |
 | VersiCode | 八个 name-change families 只支持语法/API 名称可观测性结论；[独立复核](../../research/research_portfolio_v2/versicode_observability_v1/POSTRUN_INDEPENDENT_REVIEW.md)。不证明行为正确或 prose/structured 孰优 |
 | PyMigBench/真实迁移 | NtripBrowser 与 Partridge 显示行为/合同边界；v3 actual-module 与 paired intervention 已拒绝审计反例，但 alias-aware static + tests/behavior 同样 6/6。一个自然 Qwen 候选为等价正确实现。见 [G2 V2](../../research/publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md) 与 [G3 V2](../../research/publication_thesis_goals_v1/revision_v2/G3_V2_REPORT.md) |
-| 证据复用/状态传播 | exact cache + miss revalidation 与 scope 同为 15/5、30 probes，故 scope 节省不是独特推理收益；BM25 top-5 将 frozen-16 both-evidence 覆盖从 3/16 提到 8/16；state card dim1 仅 +1 净配对成功，dim3 行动不领先 one-call。统一为一个研究点。见 [V4 回执](../../research/publication_thesis_goals_v1/revision_v4/RESEARCH_SPRINT_RETURN.md) |
+| G2 状态到行动 | 固定证据/固定状态下 plain/decision fact 完成为 2/8 对 3/8，action 均为 1/8；端到端独立评审显示 two-stage 减少 stale/unsafe 但增加合理弃答和不必要拒绝。见 [G2 独立评审](../../research/publication_thesis_goals_v1/revision_v5/G2_FIXED_STATE_INDEPENDENT_REVIEW.md) |
+| G3 增量证据补查 | 43/400 useful expansions；oracle-selective 187/400 BOTH、37,292 mean chars 对 always-expand 64,338；visible rule 仅 1/43，depth-2 弱信号 5/43，模型策略未有效评估。见 [G3 报告](../../research/publication_thesis_goals_v1/revision_v5/G3_REPORT_V1.md) |
 
 NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。行为与结构合同需要分别观察；现有证据不证明 hybrid oracle 普遍充分，也不支持比较两种信息表示的优劣。新迁移案例尚未纳入 Paper E 的两案例主张。
 

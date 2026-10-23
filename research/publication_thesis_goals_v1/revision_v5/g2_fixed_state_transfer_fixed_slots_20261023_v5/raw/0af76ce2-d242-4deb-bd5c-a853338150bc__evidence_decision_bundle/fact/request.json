@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+    "representation": "evidence_decision_bundle",
+    "selected_indices": [
+      2,
+      38,
+      13,
+      30,
+      47
+    ],
+    "stage": "fact",
+    "max_tokens": 512
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": \"null\",\n  \"confirmed_fact_2\": \"null\",\n  \"invalidated_1\": \"The user's preference for staying in and declining evening invitations was established in Session 3 (2022) but is contradicted by their current stated goal in Session 39 (2024) to keep their calendar full and feel recharged by being out in the middle of things.\",\n  \"invalidated_2\": \"null\",\n  \"uncertain_impact_1\": \"null\",\n  \"uncertain_impact_2\": \"null\",\n  \"constraint_1\": \"null\",\n  \"constraint_2\": \"null\",\n  \"unknown_1\": \"null\",\n  \"refs\": [\n    \"Session 3/turn 5\",\n    \"Session 39/turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

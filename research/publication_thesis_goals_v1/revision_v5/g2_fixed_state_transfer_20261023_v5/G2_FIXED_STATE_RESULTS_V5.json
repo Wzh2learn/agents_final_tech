@@ -1,0 +1,210 @@
+{
+  "schema": "g2_fixed_state_transfer_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "DEV_FIXED_EVIDENCE_FIXED_STATE_FACT_ACTION_TRANSFER",
+  "protocol_sha256": "4f008a7b1d1d5094a6f0b571fdbe3af4288f60190ed3dd744ff5da6a4947a1f9",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary": {
+    "overall": {
+      "planned_calls": 48,
+      "observed_calls": 7,
+      "accounting_tokens": 48854,
+      "retry_count": 0
+    },
+    "by_representation": {
+      "plain_fact_bundle": {
+        "calls": 4,
+        "accounting_tokens": 32055,
+        "fact_answered": 0,
+        "action_answered": 0,
+        "fact_clarify": 1,
+        "action_clarify": 1,
+        "fact_unknown": 0,
+        "action_unknown": 0
+      },
+      "evidence_decision_bundle": {
+        "calls": 3,
+        "accounting_tokens": 16799,
+        "fact_answered": 1,
+        "action_answered": 0,
+        "fact_clarify": 0,
+        "action_clarify": 1,
+        "fact_unknown": 0,
+        "action_unknown": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "current_facts": [
+          "User prefers steady growth over high-risk opportunities (Session 14, turn 7)"
+        ],
+        "noncurrent_facts": [
+          "User is learning about trading derivatives and options (Session 34, turns 1-12)",
+          "User is interested in cultural events and social justice (Session 40, turns 1-12)",
+          "User is interested in Frida Kahlo and art market trends (Session 27, turns 1-12)",
+          "User is establishing a morning routine and meal prep habits (Session 46, turns 1-12)"
+        ],
+        "uncertainty": [
+          "No explicit confirmation that the user's fundamental investment philosophy remains unchanged despite their recent exploration of high-risk instruments like options."
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Please confirm if the user's preference for steady growth over high-risk opportunities remains their current fundamental investment philosophy, given their recent exploration of high-risk instruments like options.",
+        "basis_refs": [
+          "current_facts[0]",
+          "uncertainty[0]"
+        ],
+        "constraints_considered": [
+          "Avoid unsafe advice",
+          "Insufficient information to confirm current state"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "current_facts": [
+          "User prefers steady growth over high-risk opportunities (Session 14, turn 7)"
+        ],
+        "noncurrent_facts": [
+          "User is learning about trading derivatives and options (Session 34, turns 1-12)",
+          "User is interested in cultural events and social justice (Session 40, turns 1-12)",
+          "User is interested in Frida Kahlo and art market trends (Session 27, turns 1-12)",
+          "User is establishing a morning routine and meal prep habits (Session 46, turns 1-12)"
+        ],
+        "uncertainty": [
+          "No explicit confirmation that the user's fundamental investment philosophy remains unchanged despite their recent exploration of high-risk instruments like options."
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Do you have any pending or planned trades involving options or other advanced instruments that require the current tier?",
+        "basis_refs": [
+          "User prefers steady growth over high-risk opportunities (Session 14, turn 7)",
+          "User is learning about trading derivatives and options (Session 34, turns 1-12)",
+          "No explicit confirmation that the user's fundamental investment philosophy remains unchanged despite their recent exploration of high-risk instruments like options."
+        ],
+        "constraints_considered": [
+          "Risk profile alignment",
+          "Feature dependency for active strategies"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "confirmed_current_facts": [
+          "User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth (Session 14/turn 7)."
+        ],
+        "invalidated_assumptions": [
+          "The user's interest in learning about derivatives and options (Session 34) does not invalidate their stated preference for steady growth; rather, it indicates a desire to learn within defined-risk structures (e.g., debit spreads) that align with their risk tolerance (Session 34/turn 7, 8)."
+        ],
+        "uncertain_impacts": [
+          "Whether the user's current engagement with options trading will lead to a shift in their core investment philosophy toward higher risk, or if they will strictly maintain their 'steady growth' preference by limiting options to small, educational positions."
+        ],
+        "action_constraints": [
+          "Any future investment actions must respect the user's explicit constraint against gambling significant funds on high-risk opportunities, favoring steady growth strategies (Session 14/turn 7)."
+        ],
+        "unknowns": [
+          "The user's current financial capacity and specific allocation percentages for the 'test buckets' mentioned in Session 14 versus their current options trading activities in Session 34."
+        ]
+      },
+      "answer_record": {
+        "decision": "ANSWER",
+        "answer": "Yes, the user explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth.",
+        "basis_refs": [
+          "confirmed_current_facts",
+          "action_constraints"
+        ],
+        "constraints_considered": [
+          "User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "selected_indices": [
+        13,
+        33,
+        39,
+        26,
+        45
+      ],
+      "bundle": {
+        "confirmed_current_facts": [
+          "User explicitly stated a constraint of never being willing to gamble a significant portion of funds on high-risk opportunities, preferring steady growth (Session 14/turn 7)."
+        ],
+        "invalidated_assumptions": [
+          "The user's interest in learning about derivatives and options (Session 34) does not invalidate their stated preference for steady growth; rather, it indicates a desire to learn within defined-risk structures (e.g., debit spreads) that align with their risk tolerance (Session 34/turn 7, 8)."
+        ],
+        "uncertain_impacts": [
+          "Whether the user's current engagement with options trading will lead to a shift in their core investment philosophy toward higher risk, or if they will strictly maintain their 'steady growth' preference by limiting options to small, educational positions."
+        ],
+        "action_constraints": [
+          "Any future investment actions must respect the user's explicit constraint against gambling significant funds on high-risk opportunities, favoring steady growth strategies (Session 14/turn 7)."
+        ],
+        "unknowns": [
+          "The user's current financial capacity and specific allocation percentages for the 'test buckets' mentioned in Session 14 versus their current options trading activities in Session 34."
+        ]
+      },
+      "answer_record": {
+        "decision": "CLARIFY",
+        "answer": "Do you currently use advanced trading features (such as options) for educational purposes or defined-risk strategies, or are you strictly focused on standard stock/ETF purchases?",
+        "basis_refs": [
+          "invalidated_assumptions",
+          "uncertain_impacts"
+        ],
+        "constraints_considered": [
+          "User's preference for steady growth and constraint against gambling significant funds on high-risk opportunities",
+          "User's interest in learning about derivatives/options within defined-risk structures"
+        ]
+      },
+      "answer_parse_status": "VALID"
+    }
+  ],
+  "stopped_early": "parse_failure:INVALID_JSON",
+  "limitations": [
+    "These eight UIDs are development cases and several were selected after judge review.",
+    "Retrieval is held fixed within each representation but remains BM25 top-5, not oracle evidence.",
+    "The two representations are diagnostic variants and are not new memory architectures.",
+    "Answer correctness still requires the separate calibrated evaluation contract."
+  ]
+}

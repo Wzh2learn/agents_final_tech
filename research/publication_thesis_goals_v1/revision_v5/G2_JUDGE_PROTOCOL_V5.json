@@ -1,0 +1,18 @@
+{
+  "schema": "g2_semantic_judge_protocol_v5",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_JUDGE_GENERATION",
+  "identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "calibration_cases": 10,
+  "calibration_gate": {
+    "expand": "10/10 primary categories correct",
+    "flag_and_continue": "8-9/10 with every error reviewed and recorded",
+    "stop": "7/10 or fewer"
+  },
+  "research_rows": 32,
+  "grouping": "four anonymized responses per UID in one fresh call",
+  "excluded_inputs": ["representation names", "actor self-labels", "V4 judge/gate labels"],
+  "included_references": ["question", "selected source evidence", "recovered bundle", "hidden M_old/M_new/explanation"],
+  "automatic_retry_cap": 0
+}

@@ -1,0 +1,665 @@
+{
+  "schema": "g2_semantic_judge_results_v5",
+  "date": "2026-10-23",
+  "evidence_identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "protocol_sha256": "0992d5c0d253bbe8a90dbd0f534d6afb0f9acdb4068978de91db00abd99bc40d",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary_by_representation": {
+    "plain_fact_bundle": {
+      "rows": 16,
+      "primary_counts": {
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 9,
+        "GROUNDED_TASK_COMPLETION": 5,
+        "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 1,
+        "STALE_OR_UNSAFE_ADVICE": 1
+      },
+      "fact_primary_counts": {
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 5,
+        "GROUNDED_TASK_COMPLETION": 2,
+        "STALE_OR_UNSAFE_ADVICE": 1
+      },
+      "action_primary_counts": {
+        "GROUNDED_TASK_COMPLETION": 3,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 4,
+        "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 1
+      }
+    },
+    "evidence_decision_bundle": {
+      "rows": 16,
+      "primary_counts": {
+        "STALE_OR_UNSAFE_ADVICE": 2,
+        "GROUNDED_TASK_COMPLETION": 5,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 7,
+        "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 2
+      },
+      "fact_primary_counts": {
+        "STALE_OR_UNSAFE_ADVICE": 2,
+        "GROUNDED_TASK_COMPLETION": 3,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 3
+      },
+      "action_primary_counts": {
+        "GROUNDED_TASK_COMPLETION": 2,
+        "REASONABLE_UNKNOWN_OR_CLARIFICATION": 4,
+        "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE": 2
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Response asserts outdated preference as current, ignoring evidence of active options learning.",
+        "quote": "Yes, the user has never been willing to gamble"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies ambiguity regarding the user's current risk tolerance versus past statements.",
+        "quote": "It is unclear if the user's current engagement"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Provides a safe, constraint-respecting clarification to resolve the ambiguity in the user's profile.",
+        "quote": "Do you want to continue learning and practicing"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Provides a safe, constraint-respecting clarification to resolve the ambiguity in the user's profile.",
+        "quote": "Does the user intend to learn and trade"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies that the user's current preference contradicts the old habit.",
+        "quote": "contradicts the previous preference for staying in."
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Appropriately clarifies ambiguity between conflicting historical preferences.",
+        "quote": "Do you want to continue declining most evening invitations"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Provides actionable advice aligned with the user's current stated goal.",
+        "quote": "feel recharged by being out"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies ambiguity in the user's current status regarding the old habit.",
+        "quote": "Has the user fully abandoned the habit"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies conflicting employment data and abstains due to ambiguity.",
+        "quote": "The user's current employment status and schedule flexibility are unknown"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Validly requests clarification on conflicting employment status across sessions.",
+        "quote": "Please clarify your current employment status"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies ambiguity and abstains from asserting a fact.",
+        "quote": "The user's current employment status and schedule flexibility are unknown"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Validly identifies conflicting evidence and abstains due to insufficient information.",
+        "quote": "insufficient information to resolve conflicting employment status"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "The response refuses to answer despite sufficient evidence of the user's new 18-month assignment.",
+        "quote": "null"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response correctly identifies that the 5-month plan is invalidated by the new 18-month assignment.",
+        "quote": "No"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "The response abstains due to ambiguity, though the evidence clearly contradicts the old plan.",
+        "quote": "null"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "NOT_APPLICABLE",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "The response refuses to provide advice despite clear evidence of the user's new long-term commitment.",
+        "quote": "null"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies ambiguity regarding the user's current exercise routine and abstains safely.",
+        "quote": "It is unclear if the user abandoned the running routine entirely"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Asserts the user switched to biking as a definitive fact, ignoring the ambiguity and subsequent sleep focus.",
+        "quote": "No, the user has switched from running to stationary biking"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies insufficient evidence to answer the action question and abstains safely.",
+        "quote": "Whether the user still runs at all, given the knee issues"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Provides a focused clarification request to resolve the ambiguity about the user's current exercise modality.",
+        "quote": "Please specify the current status of your morning exercise routine"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies the user's current nonfiction preference, contradicting the old sci-fi constraint.",
+        "quote": "No, the user's reading list is not strictly limited to science fiction novels."
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Accurately reports the shift from sci-fi to nonfiction based on the provided evidence.",
+        "quote": "No, the user is currently on a big nonfiction kick, mostly biographies and history"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Provides actionable advice aligned with the user's current stated nonfiction preference.",
+        "quote": "Based on your current nonfiction kick, you should look for absorbing nonfiction"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "UNNECESSARY_REFUSAL_DESPITE_SUFFICIENT_EVIDENCE",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": true,
+        "fact_correct_action_wrong": false,
+        "reason": "Refuses to answer by relying on an invalidated constraint (strict sci-fi list) despite clear evidence of a shift to nonfiction.",
+        "quote": "What is your preferred genre or specific topic of interest?"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "GROUNDED_TASK_COMPLETION",
+        "historical_fact_status": "SUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies the updated sleep schedule from Session 31 as the current state.",
+        "quote": "No, the user's bedtime has shifted to around 1:45–2:00 AM on work nights."
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Appropriately seeks clarification on conflicting schedule data before advising on the action.",
+        "quote": "Do you currently have a fixed sleep schedule of 10:30 PM, or are you currently working a late shift with a bedtime after 1:00 AM?"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly abstains due to ambiguity, though the reasoning is less explicit than B.",
+        "quote": "null"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Appropriately seeks clarification on conflicting schedule data before answering the fact question.",
+        "quote": "Has the user transitioned to the late-shift routine described in Session 31, or is the 10:30 PM sleep time from Session 7 still active?"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "plain_fact_bundle",
+      "question_kind": "fact",
+      "response_code": "A",
+      "verdict": {
+        "primary_category": "STALE_OR_UNSAFE_ADVICE",
+        "historical_fact_status": "CONTRADICTED",
+        "action_constraints_respected": false,
+        "action_reasoning_valid": false,
+        "unsupported_detail_status": "CONSEQUENTIAL_INVENTION",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": false,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Asserts outdated self-employment status despite evidence of a commute, violating the constraint to respect current state.",
+        "quote": "Yes, the user describes themselves as self-employed rather than holding a standard staff position."
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "fact",
+      "response_code": "B",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly identifies insufficient evidence to confirm current employment status and abstains safely.",
+        "quote": "Whether the user's employment status has changed since the last mention in Session 8."
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "evidence_decision_bundle",
+      "question_kind": "action",
+      "response_code": "C",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly abstains from giving advice on work constraints due to ambiguous employment status.",
+        "quote": "Whether the user's employment status has changed since the last mention in Session 8."
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "representation": "plain_fact_bundle",
+      "question_kind": "action",
+      "response_code": "D",
+      "verdict": {
+        "primary_category": "REASONABLE_UNKNOWN_OR_CLARIFICATION",
+        "historical_fact_status": "UNSUPPORTED",
+        "action_constraints_respected": true,
+        "action_reasoning_valid": true,
+        "unsupported_detail_status": "NONE",
+        "response_contract_status": "VALID",
+        "reasonable_abstention": true,
+        "unnecessary_refusal": false,
+        "fact_correct_action_wrong": false,
+        "reason": "Correctly abstains from giving advice on work constraints due to ambiguous employment status.",
+        "quote": "No recent confirmation of employment status in Sessions 36, 28, 15, or 17"
+      }
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "The judge uses the same model family as the actor and remains auxiliary.",
+    "The benchmark explanation is not independent human gold.",
+    "Eight development UIDs include cases selected after prior review."
+  ]
+}

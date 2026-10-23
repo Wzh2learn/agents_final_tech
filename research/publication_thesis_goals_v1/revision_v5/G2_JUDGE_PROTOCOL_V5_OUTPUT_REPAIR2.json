@@ -1,0 +1,10 @@
+{
+  "schema": "g2_semantic_judge_protocol_v5_output_repair2",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_JUDGE_GENERATION",
+  "identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "repair": "Exact outer evaluations wrapper added after two-response output omitted it. Categories, verdict fields, calibration and actor outputs are unchanged.",
+  "preserved_failed_batch": "g2_e2e_top5_judge_20261023_v5",
+  "calibration_gate_from_output_repair": "FLAG_AND_CONTINUE_9_OF_10"
+}

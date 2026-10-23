@@ -1,0 +1,245 @@
+{
+  "schema": "paper_e_live_venue_receipt_v1",
+  "checked_at": "2026-10-23T18:05:34+08:00",
+  "timezone": "Asia/Shanghai",
+  "starting_git_head": "df58512a7a84251446d7377eee5f71a405aa6544",
+  "status": "LIVE_OFFICIAL_PAGES_READ_EXTERNAL_ACTIONS_NOT_EXECUTED",
+  "venue": {
+    "name": "ICAART 2027",
+    "full_name": "19th International Conference on Agents and Artificial Intelligence",
+    "dates": "2027-02-23/2027-02-26",
+    "location": "Valletta, Malta",
+    "areas_observed": ["AGENTS", "ARTIFICIAL INTELLIGENCE"],
+    "selected_track": "Regular Paper",
+    "selected_track_reason": "The official Call for Papers describes Regular Papers as completed and validated research; the existing Paper E is a completed bounded audit.",
+    "paper_type_alternative": "Position Paper is reserved by the live page for work-in-progress or arguable opinion and is not selected."
+  },
+  "live_sources": [
+    {
+      "id": "important_dates",
+      "url": "https://icaart.scitevents.org/ImportantDates.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:24+08:00",
+      "body_sha256": "8b56fae9649a8292fbc029f04461eb7ec0feb6abb320a4639c0282928df83576",
+      "evidence_status": "BODY_OBSERVED",
+      "observed": "Second-stage Position/Regular paper submission 2026-10-29 (extended); notification 2026-12-04; camera-ready and registration 2026-12-18. First-stage Regular Paper dates are expired."
+    },
+    {
+      "id": "call_for_papers",
+      "url": "https://icaart.scitevents.org/CallForPapers.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:25+08:00",
+      "body_sha256": "cbf3b32e97d123534892de1048292217714b17bf5c4ef3c1404baca6695fcee5",
+      "evidence_status": "BODY_OBSERVED_WITH_ENTRY_TEXT_CONFLICT",
+      "observed": "Regular and Position tracks, Areas 1/2, English double-blind submission, 10000-50000 non-whitespace characters for Regular Papers, 12-page Full/8-page Short proceedings limits and up to four paid extra pages. Body displays PAPER SUBMISSION WILL BE AVAILABLE SOON."
+    },
+    {
+      "id": "guidelines",
+      "url": "https://icaart.scitevents.org/Guidelines.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:23+08:00",
+      "body_sha256": "a2a64ebbc20d7a41e7addfee8a7b7407a2a644020cbc2e03416a68cc51bf5164",
+      "evidence_status": "BODY_OBSERVED",
+      "observed": "Double-blind PDF with no author identity or identifying acknowledgments; no simultaneous submission; paper author count should not exceed nine; Regular Paper character and page limits; Full 25-minute oral or Short 20-minute oral/poster presentation; online publication requires presentation."
+    },
+    {
+      "id": "ai_tools",
+      "url": "https://icaart.scitevents.org/AiTools.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:23+08:00",
+      "body_sha256": "77f5b7280287dfef4b2270c2e849cc363182cc3c67d9ce59554e72e02dde7c4d",
+      "evidence_status": "BODY_OBSERVED",
+      "observed": "Any AI-generated text, image, figure or code must be disclosed in Acknowledgments with tool name, affected parts and a short explanation. AI must not fabricate or manipulate research data, code, figures or results; public AI must not generate peer-review text for a manuscript under review."
+    },
+    {
+      "id": "registration_fees",
+      "url": "https://icaart.scitevents.org/RegistrationFees.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:50+08:00",
+      "body_sha256": "a1eda7d63b26ba96e09f3032f36346a7f47f8cff32322dd1d4780c394fb59c10",
+      "evidence_status": "HTML_TABLE_PARSED",
+      "observed": {
+        "currency": "EUR",
+        "speaker_member_sponsor": {"early": 620, "late": 725},
+        "speaker_regular_non_member": {"early": 680, "late": 795},
+        "each_additional_paper": {"early": 290, "late": 290},
+        "each_additional_page": {"early": 50, "late": 50},
+        "speaker_on_site_price": "NOT_LISTED",
+        "cancellation": "Before 2026-12-22 refund less EUR 100 administrative fee; no refund after that date."
+      }
+    },
+    {
+      "id": "deadlines_and_policies",
+      "url": "https://icaart.scitevents.org/ImportantInformation.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:50+08:00",
+      "body_sha256": "5b5f8d6e76590dc6ec81fbf5b891ca01d6063489e753807759d912fbb7c29ad4",
+      "evidence_status": "BODY_OBSERVED",
+      "observed": "AOE means Anywhere on Earth. Camera-ready, copyright, registration and payment must reach the conference by the early-registration deadline. Each accepted paper must be presented; authors register as Speaker. Stage 2 early registration deadline is 2026-12-18 AoE."
+    },
+    {
+      "id": "presentation_details",
+      "url": "https://icaart.scitevents.org/presentationdetails.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:49+08:00",
+      "body_sha256": "7073b884c862bff3b5bf73e4327d649a54defaff4b3448d7e4d25b21a844d62c",
+      "evidence_status": "BODY_OBSERVED_MODE_ASSIGNMENT_NOT_OBSERVED",
+      "observed": "Onsite poster A0 portrait and onsite oral procedures; online poster/oral procedures with live presence and backup-video limits. Exact oral/poster and onsite/online assignment is not known before acceptance."
+    },
+    {
+      "id": "templates",
+      "url": "https://icaart.scitevents.org/Templates.aspx?y=2027",
+      "http_status": 200,
+      "retrieved_at": "2026-10-23T18:04:50+08:00",
+      "body_sha256": "3d8d2e3a829800d41b2836c06fed50393aff9215d394bbc7d6ed4cb8d5d0d57b",
+      "evidence_status": "BODY_OBSERVED",
+      "observed": "SCITEPRESS MS Word and LaTeX templates are linked; templates are strongly advised for review and mandatory for camera-ready.",
+      "template_zip": {
+        "url": "https://www.scitepress.org/documents/SCITEPRESS_Conference_Latex.zip",
+        "sha256": "5385a752f5da2f970236f21404405a2f5c78856c30abc96e02752f06aac20ab8",
+        "bytes": 650277,
+        "matches_package_manifest": true
+      }
+    },
+    {
+      "id": "submission_entry",
+      "url": "http://www.insticc.org/primoris/DirectLink.aspx?idEvent=MOiphTICpFo=&roleName=AKC6/t1R9Gs=&type=FNiX60z6Am0=",
+      "http_status": 200,
+      "redirected_to_https": true,
+      "retrieved_at": "2026-10-23T18:05:34+08:00",
+      "body_sha256": "c069a99273a249370f1b333f8b4af753e96b74d46f32e5260bc23f4d18e768d7",
+      "evidence_status": "AUTH_GATE_OBSERVED",
+      "observed": "The official Submit Paper link resolves to a PRIMORIS login page for ICAART 2027. Authenticated form fields and upload acceptance remain NOT_OBSERVED."
+    }
+  ],
+  "final_pdf_identity": {
+    "path": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_ICAART_REVIEW.pdf",
+    "sha256": "2041aaca97ff1b8a0cd843070c7ab4cfd9de088824e17c6d33eb1d1c11651b3a",
+    "bytes": 287919,
+    "pages": 11,
+    "pdf_author_metadata": "",
+    "anonymisation_audit": "PASS",
+    "package_audit": "PASS",
+    "citations": "21/21",
+    "canonical_markdown_sha256": "3a914d049aca7a1e3ecb0fb1999f5a0398c3b1b44a5e4815df31d1a104c77af5",
+    "icaart_tex_sha256": "b3aab99153473952707bfc7e6dacac857be18de253838b43f7ca45e9dec8653a",
+    "nonwhite_characters": {
+      "canonical_markdown": 40284,
+      "icaart_tex": 39811
+    }
+  },
+  "submission_fields_draft": {
+    "title": "Visibility Is Not Detection: Auditing Measurement Boundaries in Staged and Evidence-Ranking Evaluation",
+    "paper_type": "Regular Paper",
+    "primary_area": "ARTIFICIAL INTELLIGENCE",
+    "topic_selection": "Select live PRIMORIS labels closest to Explainable/Interpretable Artificial Intelligence, Transparency, Uncertainty in AI and evaluation/reliability; do not invent a track.",
+    "language": "English",
+    "keywords": "Measurement Validity, Agent Evaluation, Benchmark Auditing, Reproducibility.",
+    "upload_file": "PAPER_E_ICAART_REVIEW.pdf",
+    "review_copy_anonymous": true,
+    "maximum_authors": 9,
+    "simultaneous_submission_allowed": false
+  },
+  "author_fields": {
+    "first_author": "OWNER_REQUIRED",
+    "author_order": "OWNER_REQUIRED",
+    "first_affiliation": "BUPT; official English name and order OWNER_REQUIRED",
+    "remaining_affiliations": "OWNER_REQUIRED",
+    "corresponding_author": "OWNER_REQUIRED",
+    "corresponding_email": "OWNER_REQUIRED",
+    "orcid": "OWNER_REQUIRED",
+    "contact_details": "OWNER_REQUIRED",
+    "patent_status": "OWNER_REQUIRED"
+  },
+  "ai_disclosure_candidate": {
+    "status": "OWNER_APPROVAL_REQUIRED",
+    "tool": "OpenAI Codex",
+    "affected_parts": [
+      "abstract",
+      "related-work framing",
+      "interpretation table",
+      "discussion",
+      "conclusion",
+      "acknowledgments",
+      "submission materials",
+      "offline analysis and reproduction code used for deterministic checks"
+    ],
+    "text": "Generative AI disclosure: OpenAI Codex assisted manuscript organization, English editing and consistency checks in the abstract, related-work framing, interpretation table, discussion, conclusion, acknowledgments and submission materials, and assisted development and revision of offline analysis and reproduction code used for deterministic checks. The authors verified all reported numbers, claims and references against cited artifacts and remain fully responsible for the manuscript. Experimental evidence includes evaluated-system and automated-judge outputs under frozen protocols; deterministic statistics were recomputed with the analysis scripts. These roles are distinct: no AI-assisted review is presented as human blind review, and no AI-assisted adjudication is presented as human semantic gold.",
+    "separate_software_citation_decision": "OWNER_REQUIRED"
+  },
+  "artifact_release_plan": {
+    "candidate_zip": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE.zip",
+    "candidate_sha256": "e70d17eaf95382bd00a24c7d39d68773659d61dba6883775913d7c4a810b05da",
+    "candidate_bytes": 15267,
+    "reproduction_receipt_status": "PASS_GB10_PYTHON_3_12_3",
+    "public_release_now": false,
+    "review_policy": "Keep private and anonymous during double-blind review.",
+    "post_acceptance_options": [
+      "anonymous supplementary upload if the authenticated venue form permits it",
+      "public repository or DOI after patent, license and third-party source checks"
+    ],
+    "excluded_from_candidate": [
+      "historical preregistration",
+      "fixtures",
+      "application rows",
+      "raw score matrices",
+      "credentials and private data"
+    ],
+    "owner_decisions": [
+      "release timing",
+      "anonymous supplementary versus post-review repository/DOI",
+      "code license after third-party terms review",
+      "FinRank CC BY-NC 4.0 and TAT-QA source-term handling"
+    ]
+  },
+  "fees_and_presentation": {
+    "currency": "EUR",
+    "speaker_member_sponsor": {"early": 620, "late": 725},
+    "speaker_regular_non_member": {"early": 680, "late": 795},
+    "each_additional_paper": {"early": 290, "late": 290},
+    "each_additional_page": {"early": 50, "late": 50},
+    "speaker_on_site_price": "NOT_LISTED",
+    "stage_2_early_registration_deadline": "2026-12-18 AoE",
+    "current_pdf_page_fee_scenario": {
+      "current_pages": 11,
+      "full_paper_limit": 12,
+      "short_paper_limit": 8,
+      "extra_pages_if_short": 3,
+      "estimated_extra_page_cost_eur": 150,
+      "condition": "Only if accepted as a Short Paper and the 11-page camera-ready is retained; subject to final layout and venue approval."
+    },
+    "presentation_rules": {
+      "full_paper": "25-minute oral slot",
+      "short_paper": "20-minute oral slot or poster assignment",
+      "oral_author_can_choose_poster": true,
+      "publication_requires_author_presentation": true,
+      "poster_onsite": "A0 portrait, author present for the full session",
+      "oral_onsite": "slides fit slot with at least 5 minutes questions",
+      "online_mode": "live presence required; backup video limits apply",
+      "exact_mode_assignment": "NOT_OBSERVED_BEFORE_ACCEPTANCE"
+    },
+    "cancellation_policy": "Before 2026-12-22 refund less EUR 100; no refund after that date."
+  },
+  "owner_actions_required": [
+    "Confirm ICAART Regular Paper as the sole active submission and no simultaneous submission.",
+    "Fill author order, applicant first-author status, BUPT-first affiliation, corresponding author, email, ORCID and contact fields.",
+    "Confirm patent and restricted-technology status.",
+    "Approve the exact AI disclosure and decide on a separate OpenAI Codex software citation.",
+    "Choose artifact release timing, venue supplementary versus post-review repository/DOI and a license subject to third-party terms.",
+    "Approve registration and travel/remote presentation costs and confirm school recognition evidence.",
+    "Authorize submission, copyright/permission and payment only when ready."
+  ],
+  "external_actions_performed": {
+    "submission": false,
+    "payment": false,
+    "copyright_or_license_signature": false,
+    "public_release": false,
+    "author_email": false
+  },
+  "evidence_gaps": [
+    "Authenticated PRIMORIS form fields, upload acceptance and supplementary-material handling are NOT_OBSERVED until Owner login.",
+    "Call for Papers body says submission will be available soon while the official Submit Paper link reaches the PRIMORIS login page; recheck immediately before upload.",
+    "Exact Full/Short and oral/poster or onsite/online assignment is not known before acceptance.",
+    "School recognition requirements are not specified by the venue and remain OWNER_REQUIRED."
+  ]
+}

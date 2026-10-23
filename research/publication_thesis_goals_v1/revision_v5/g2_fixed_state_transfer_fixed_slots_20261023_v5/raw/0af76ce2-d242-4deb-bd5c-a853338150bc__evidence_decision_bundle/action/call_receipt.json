@@ -1,0 +1,52 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": \"null\",\n  \"confirmed_fact_2\": \"null\",\n  \"invalidated_1\": \"The user's preference for staying in and declining evening invitations was established in Session 3 (2022) but is contradicted by their current stated goal in Session 39 (2024) to keep their calendar full and feel recharged by being out in the middle of things.\",\n  \"invalidated_2\": \"null\",\n  \"uncertain_impact_1\": \"null\",\n  \"uncertain_impact_2\": \"null\",\n  \"constraint_1\": \"null\",\n  \"constraint_2\": \"null\",\n  \"unknown_1\": \"null\",\n  \"refs\": [\n    \"Session 3/turn 5\",\n    \"Session 39/turn 1\"\n  ]\n}\n\nQuestion: I want to make the most of my evenings over the next couple of weeks—how should I plan them differently given how I’ve been spending my free time lately?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "0128afa873d995320f6f507e6ffeb8865708e799830f8dd5fee2341c90e83d25",
+  "response_body_sha256": "feb3f9aab66c4d17eb901a59e2f02da8ab7baa483ad0ba756e0cee97596b8f8d",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"You should plan your evenings by keeping your calendar full and engaging in activities that keep you 'in the middle of things,' as your current goal is to feel recharged by being out, which contradicts your previous preference for staying in.\",\n  \"basis_refs\": [\n    \"invalidated_1\"\n  ],\n  \"constraints_considered\": []\n}",
+  "usage": {
+    "completion_tokens": 93,
+    "prompt_tokens": 363,
+    "total_tokens": 456,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.738942,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 456,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "You should plan your evenings by keeping your calendar full and engaging in activities that keep you 'in the middle of things,' as your current goal is to feel recharged by being out, which contradicts your previous preference for staying in.",
+    "basis_refs": [
+      "invalidated_1"
+    ],
+    "constraints_considered": []
+  },
+  "parse_errors": [],
+  "representation": "evidence_decision_bundle"
+}

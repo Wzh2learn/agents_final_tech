@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+    "representation": "evidence_decision_bundle",
+    "selected_indices": [
+      6,
+      0,
+      38,
+      37,
+      30
+    ],
+    "stage": "action",
+    "max_tokens": 512
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (evidence_decision_bundle):\n{\n  \"confirmed_fact_1\": \"null\",\n  \"confirmed_fact_2\": \"null\",\n  \"invalidated_1\": \"The user's sleep schedule has shifted to a late-shift routine with a wake-up time around 9:00–9:30 AM and a bedtime around 1:45–2:00 AM on work nights (Session 31, turns 6, 10).\",\n  \"invalidated_2\": \"The previous 10:30 PM bedtime is no longer applicable due to the new job at the bookstore with closing duties (Session 31, turn 3).\",\n  \"uncertain_impact_1\": \"null\",\n  \"uncertain_impact_2\": \"null\",\n  \"constraint_1\": \"null\",\n  \"constraint_2\": \"null\",\n  \"unknown_1\": \"null\",\n  \"refs\": [\n    \"Session 31/turn 3\",\n    \"Session 31/turn 6\",\n    \"Session 31/turn 10\"\n  ]\n}\n\nQuestion: My landlord just offered to knock $100 off my rent if I take on the responsibility of manually locking the complex's main courtyard gate at exactly 10:15 PM every night. It just takes two minutes to step out of my apartment and turn the key. I'm always looking to save money, so I'm thinking of signing the addendum today. Should I go for it?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

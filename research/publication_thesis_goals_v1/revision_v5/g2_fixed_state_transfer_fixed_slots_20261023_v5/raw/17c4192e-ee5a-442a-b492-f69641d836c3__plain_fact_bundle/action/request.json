@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+    "representation": "plain_fact_bundle",
+    "selected_indices": [
+      13,
+      15,
+      2,
+      14,
+      19
+    ],
+    "stage": "action",
+    "max_tokens": 512
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"null\",\n  \"current_fact_2\": \"null\",\n  \"current_fact_3\": \"null\",\n  \"conflict_1\": \"Session 14 [Time: 2024-06-15 10:00] User turn 3: \\\"I should add that I’m currently self-employed, so my work schedule is entirely up to me.\\\"\",\n  \"conflict_2\": \"Session 3 [Time: 2024-03-24 09:43] User turn 1: \\\"I've recently taken on a new role as a senior account manager...\\\"\",\n  \"uncertainty_1\": \"The user's current employment status is ambiguous due to conflicting information across different sessions (Session 14 vs. Session 3).\",\n  \"uncertainty_2\": \"It is unclear if the user in Session 14 is the same entity as the user in Session 3, or if the user has changed jobs since Session 3.\",\n  \"refs\": [\n    \"Session 14 [Time: 2024-06-15 10:00] User turn 3\",\n    \"Session 3 [Time: 2024-03-24 09:43] User turn 1\"\n  ]\n}\n\nQuestion: I’ve been thinking about booking a flight to Thailand next Monday to spend the next six weeks exploring the islands, just keeping up with my usual daily tasks from my laptop at local beach cafes. Are there any major structural roadblocks stopping me from just packing up and doing this?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

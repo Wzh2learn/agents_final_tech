@@ -1,0 +1,55 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer the question using only this recovered bundle. Do not add facts.\nIf the bundle is insufficient, return UNKNOWN. If a short clarification is\nrequired to avoid unsafe advice, return CLARIFY and state the minimum question.\n\nRecovered bundle (plain_fact_bundle):\n{\n  \"current_fact_1\": \"User is currently on a big nonfiction kick, mostly biographies and history (Session 35, turn 1)\",\n  \"current_fact_2\": \"User previously kept their reading list strictly to science fiction novels (Session 14, turn 1)\",\n  \"current_fact_3\": \"User is looking for absorbing nonfiction that reads like a story (Session 35, turn 1)\",\n  \"conflict_1\": \"User's current reading preference (nonfiction) conflicts with their previous strict adherence to science fiction (Session 14 vs Session 35)\",\n  \"conflict_2\": null,\n  \"uncertainty_1\": \"Whether the user has completely abandoned science fiction or is just taking a break from it\",\n  \"uncertainty_2\": \"Whether the user's previous statement about strictly reading sci-fi was a temporary phase or a long-term habit\",\n  \"refs\": [\n    \"Session 14/turn 1\",\n    \"Session 35/turn 1\"\n  ]\n}\n\nQuestion: I’m picking out a couple of books at the library this week—what kind of books make the most sense for me to come home with right now?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | CLARIFY | UNKNOWN\",\n  \"answer\": \"specific answer, clarification, or null\",\n  \"basis_refs\": [\"bundle item references\"],\n  \"constraints_considered\": [\"constraint names or descriptions\"]\n}"
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "82ac31b7a0f7b11c31979910f7c8384347cb3d355c079e76eab78c2019cd2a98",
+  "response_body_sha256": "4eeb76406cdd918e9a7c3b4634e2912063dd90bf621a6c429e183568d932b507",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"Based on your current nonfiction kick, you should look for absorbing nonfiction that reads like a story, particularly biographies and history.\",\n  \"basis_refs\": [\n    \"Session 35/turn 1\"\n  ],\n  \"constraints_considered\": [\n    \"current reading preference\",\n    \"user's specific request for nonfiction style\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 99,
+    "prompt_tokens": 401,
+    "total_tokens": 500,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.843113,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 500,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "Based on your current nonfiction kick, you should look for absorbing nonfiction that reads like a story, particularly biographies and history.",
+    "basis_refs": [
+      "Session 35/turn 1"
+    ],
+    "constraints_considered": [
+      "current reading preference",
+      "user's specific request for nonfiction style"
+    ]
+  },
+  "parse_errors": [],
+  "representation": "plain_fact_bundle"
+}
