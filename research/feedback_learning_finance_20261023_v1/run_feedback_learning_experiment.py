@@ -829,6 +829,9 @@ def analyze_results(
                 "semantic_answer_correct": mean_safe(
                     [float(row["answer_correct"]) for row in subset]
                 ),
+                "tool_answer_correct": mean_safe(
+                    [float(row["tool_answer_correct"]) for row in subset]
+                ),
                 "strict_answer_correct": mean_safe(
                     [float(row["strict_answer_correct"]) for row in subset]
                 ),
@@ -840,6 +843,7 @@ def analyze_results(
                     [float(row["checks"]["calculation"]) for row in subset]
                 ),
                 "paired_semantic": paired_metrics(subset, "answer_correct"),
+                "paired_tool": paired_metrics(subset, "tool_answer_correct"),
                 "paired_strict": paired_metrics(subset, "strict_answer_correct"),
             }
         model_metrics[model_arm] = slice_metrics

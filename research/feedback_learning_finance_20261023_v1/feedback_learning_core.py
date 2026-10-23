@@ -740,6 +740,7 @@ def evaluate_prediction(
             "postprocess_recovered": False,
             "answer_correct": False,
             "strict_answer_correct": False,
+            "tool_answer_correct": False,
             "target": None,
             "checks": {
                 "calculation": False,
@@ -773,6 +774,7 @@ def evaluate_prediction(
             "postprocess_recovered": False,
             "answer_correct": False,
             "strict_answer_correct": False,
+            "tool_answer_correct": False,
             "target": None,
             "checks": {
                 "calculation": False,
@@ -796,12 +798,23 @@ def evaluate_prediction(
         rel_tol=1e-6,
         abs_tol=1e-6,
     )
+    try:
+        tool_answer = formula_result(str(target["formula"]), ref_values)
+        tool_answer_correct = math.isclose(
+            tool_answer,
+            float(expected["answer"]),
+            rel_tol=1e-6,
+            abs_tol=1e-6,
+        )
+    except (ValueError, SyntaxError, ZeroDivisionError):
+        tool_answer_correct = False
     return {
         "interface_valid": strict_parsed,
         "embedded_valid": True,
         "postprocess_recovered": not strict_parsed,
         "answer_correct": answer_correct,
         "strict_answer_correct": strict_parsed and answer_correct,
+        "tool_answer_correct": tool_answer_correct,
         "target": target,
         "checks": checks,
     }

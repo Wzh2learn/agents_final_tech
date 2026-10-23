@@ -87,6 +87,7 @@ def test_prediction_contract_accepts_correct_target_and_rejects_wrong_answer() -
     )
     assert scored["interface_valid"] is True
     assert scored["answer_correct"] is True
+    assert scored["tool_answer_correct"] is True
     assert scored["checks"]["exact_evidence"] is True
 
     wrong = dict(task["expected"])
@@ -99,6 +100,7 @@ def test_prediction_contract_accepts_correct_target_and_rejects_wrong_answer() -
     )
     assert wrong_scored["interface_valid"] is True
     assert wrong_scored["answer_correct"] is False
+    assert wrong_scored["tool_answer_correct"] is True
 
 
     prose_wrapped = "Reasoning first.\n" + correct_text + "\nTrailing explanation"
