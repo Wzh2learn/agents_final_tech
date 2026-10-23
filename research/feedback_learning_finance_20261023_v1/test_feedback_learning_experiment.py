@@ -46,6 +46,10 @@ def test_parse_numeric_supports_financial_forms() -> None:
 
 def test_formula_result_is_restricted_and_deterministic() -> None:
     assert formula_result("(110 - 100) / 100 * 100") == pytest.approx(10.0)
+    assert formula_result(
+        "R2:C1 - R2:C2",
+        {"R2:C1": 110.0, "R2:C2": 100.0},
+    ) == pytest.approx(10.0)
     with pytest.raises(ValueError):
         formula_result("__import__('os')")
 
@@ -108,6 +112,23 @@ def test_prediction_contract_accepts_correct_target_and_rejects_wrong_answer() -
     assert diagnostic["postprocess_recovered"] is True
     assert diagnostic["answer_correct"] is True
     assert diagnostic["strict_answer_correct"] is False
+
+    symbolic = json.loads(correct_text)
+    symbolic_formula = (
+        f"{task['expected']['evidence_refs'][1]} - "
+        f"{task['expected']['evidence_refs'][0]}"
+    )
+    symbolic["formula"] = symbolic_formula
+    symbolic["answer"] = symbolic_formula
+    symbolic_scored = evaluate_prediction(
+        json.dumps(symbolic, separators=(",", ":")),
+        task,
+        task["expected"],
+    )
+    assert symbolic_scored["embedded_valid"] is True
+    assert symbolic_scored["answer_correct"] is True
+    assert symbolic_scored["checks"]["calculation"] is True
+    assert symbolic_scored["interface_valid"] is False
 
 
 def test_zero_prior_corrupt_candidate_is_skipped() -> None:

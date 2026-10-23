@@ -103,8 +103,22 @@ def infer_unit(row_label: str, column_label: str) -> str:
     return match.group(1).lower() if match else "reported"
 
 
-def formula_result(formula: str) -> float:
+def formula_result(
+    formula: str,
+    cell_values: dict[str, float] | None = None,
+) -> float:
     """Evaluate a restricted arithmetic formula used by generated tasks."""
+    if cell_values:
+        formula = re.sub(
+            r"R(\d+):C(\d+)",
+            lambda match: str(
+                cell_values.get(
+                    f"R{match.group(1)}:C{match.group(2)}",
+                    float("nan"),
+                )
+            ),
+            formula,
+        )
     tree = ast.parse(formula, mode="eval")
 
     def visit(node: ast.AST) -> float:
@@ -406,7 +420,9 @@ def evaluate_target_checks(
 ) -> dict[str, bool]:
     """Evaluate the check vector for a candidate or model output."""
     try:
-        calculated = formula_result(str(target["formula"]))
+        ref_to_cell = {cell.ref.to_json(): cell for cell in cells.values()}
+        cell_values = {ref: cell.value for ref, cell in ref_to_cell.items()}
+        calculated = formula_result(str(target["formula"]), cell_values)
         calculation = math.isclose(
             calculated,
             float(target["answer"]),
@@ -714,7 +730,7 @@ def evaluate_prediction(
         candidate = json.loads(text)
         if isinstance(candidate, dict):
             parsed = candidate
-            strict_parsed = True
+            strict_parsed = isinstance(candidate.get("answer"), (int, float))
     except json.JSONDecodeError:
         parsed = extract_contract_object(text)
     if parsed is None:
@@ -734,8 +750,16 @@ def evaluate_prediction(
                 "exact_evidence": False,
             },
         }
+    cells = _source_cells_from_task(task)
+    ref_values = {
+        cell.ref.to_json(): cell.value for cell in cells.values()
+    }
     try:
-        answer = float(parsed["answer"])
+        raw_answer = parsed["answer"]
+        if isinstance(raw_answer, (int, float)):
+            answer = float(raw_answer)
+        else:
+            answer = formula_result(str(raw_answer), ref_values)
         target = {
             "answer": answer,
             "unit": str(parsed["unit"]),
@@ -762,7 +786,7 @@ def evaluate_prediction(
     checks = evaluate_target_checks(
         target,
         expected,
-        _source_cells_from_task(task),
+        cells,
         task["current_period"],
         task["prior_period"],
     )
