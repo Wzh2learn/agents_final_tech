@@ -78,6 +78,17 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
     ]
 
 
+def collect_training_receipts(run_root: Path) -> dict[str, Any]:
+    """Load every arm receipt so separate training batches remain one ledger."""
+    receipts: dict[str, Any] = {}
+    training_root = run_root / "training"
+    if training_root.exists():
+        for receipt_path in sorted(training_root.glob("*/training_receipt.json")):
+            receipt = load_json(receipt_path)
+            receipts[str(receipt["arm"])] = receipt
+    return receipts
+
+
 def require(condition: bool, message: str) -> None:
     """Raise a deterministic experiment error when a gate fails."""
     if not condition:
@@ -357,8 +368,10 @@ def train_arms(
         del trainer
         del model
         torch.cuda.empty_cache()
-    write_json(run_root / "training_summary.json", train_config)
-    return train_config
+    all_receipts = collect_training_receipts(run_root)
+    all_receipts.update(train_config)
+    write_json(run_root / "training_summary.json", all_receipts)
+    return all_receipts
 
 
 def evaluation_instances(tasks: list[dict[str, Any]], protocol: dict[str, Any]) -> list[dict[str, Any]]:
@@ -723,9 +736,18 @@ def analyze_results(
 
     comparisons: dict[str, Any] = {}
     evidence_candidates = ["evidence_cf", "evidence_orig"]
-    baseline_candidates = ["exec_cf", "exec_orig", "base_qwen3_4b"]
+    baseline_candidates = [
+        "exec_cf",
+        "cheap_cf",
+        "evidence_orig",
+        "exec_orig",
+        "cheap_orig",
+        "base_qwen3_4b",
+    ]
     for evidence_arm in evidence_candidates:
         for baseline_arm in baseline_candidates:
+            if evidence_arm == baseline_arm:
+                continue
             key = f"{evidence_arm}_minus_{baseline_arm}"
             evidence_test = [
                 row for row in by_model[evidence_arm] if row["slice"] == "test"
@@ -853,7 +875,7 @@ def analyze_results(
             "held_out": slice_delivery,
         }
 
-    training_summary = load_json(run_root / "training_summary.json")
+    training_summary = collect_training_receipts(run_root)
     generation_receipt = load_json(run_root / "generation_receipt.json")
     summary = {
         "schema": "financial_feedback_learning_result_summary_v1",
