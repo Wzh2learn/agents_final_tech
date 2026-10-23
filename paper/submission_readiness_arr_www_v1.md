@@ -15,18 +15,18 @@
 
 | 材料 | 角色 | 当前状态 | sha256 |
 |---|---|---|---|
-| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；已收敛为 evaluation-protocol measurement validity | `cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9` |
-| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随身份收敛稿重建；GB10 PDF 9 页，概念矩阵同页，抽查无溢出 | `363ce4876f52b6c25b1e34c483c73ce033a51f8be94c956569e8387457fe2750` |
+| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；已收敛为 evaluation-protocol measurement validity | `b93aad1ebc24bfbf37c65cdf4ac04e6dc656ef760a741fae1cb07920830e2dad` |
+| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随当前主稿离线重建；Office/PDF 视觉验收仍按旧版记录，不冒充本次新视觉验收 | `7d8e0bdebe4178d952ad8d1af64a453be18ec8c719d4cbadbc4ba99bf337f9a8` |
 | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
 | `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a` / `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30` |
-| `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `dacb9850ef4e35fe4ba1dadb17ac32fbc0cddac95942a9970a282a0d23dd85e1` |
+| `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `559911465c00fde0c65533ae6273946b8e40b8b18441062f3313c00a6822e3ec` |
 | `paper/acceptance_report_v1.json` | 机械验收 | PASS / 5 claims / 74 checks | `cf6123638a042b9027db0f1a8a500571a75cc512c1866d04142b4b4a4a7b9d05` |
 | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb` |
 | `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82` |
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462` |
-| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随身份收敛稿再生 | `b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc` |
-| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386` |
-| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `1fb9e5b6413a0e6fb08cb64d59dad1280f5bbe70744356eb840dae0a2757066f` |
+| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随当前主稿再生 | `1aeed0a3df1f59945f6f94e639f37db842e59b512a012e9d2b53752cc53cbd91` |
+| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `e4ef42c46a49c410d87de180635c8b439b3a15d0324643ae471a1a9fbf55e9e5` |
+| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `cb3ff4b8a4ac120796eb056ccdd2ee80f13e19564c499be455c5dcbdfe5a1d7c` |
 | `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补身份收敛后的五点 skeptical review | `878ea15c640b531a290a99d511c5fd24c839f93b0a77d65ce58ecd86e16cb69e` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
 | `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补身份收敛与降级边界审计 | `cbe1bb82aaa6316e8ddf845646cf4d2e88dfa413ea297885629e03fa90b0751e` |
@@ -79,17 +79,17 @@ Future independent evidence is tracked in `paper/teacher_review_readiness_v2.md`
 
 > SUPERSEDED STATUS NOTE 2026-10-11: Route A owns the SANER RENE manuscript; Route B is `NO / STOP_BRANCH`. FinQA formal-v3 is `SECOND_FLOW_MIXED` with accepted `MEASUREMENT_OBJECT_MISMATCH` interpretation. Historical future-work language below is retained as a dated record.
 
-## 2026-10-11 package hash refresh
+## 2026-10-24 package hash refresh
 
 The following hashes bind the current package files after the Route A scope-lock and governance synchronization:
 
 ```
-cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9  paper/teacher_review_draft_v1.md
-363ce4876f52b6c25b1e34c483c73ce033a51f8be94c956569e8387457fe2750  paper/teacher_review_draft_v1.docx
+b93aad1ebc24bfbf37c65cdf4ac04e6dc656ef760a741fae1cb07920830e2dad  paper/teacher_review_draft_v1.md
+7d8e0bdebe4178d952ad8d1af64a453be18ec8c719d4cbadbc4ba99bf337f9a8  paper/teacher_review_draft_v1.docx
 3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a  paper/teacher_review_note_v2.md
 48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a  paper/research_story_v2.md
 5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30  paper/research_story_v2.docx
-dacb9850ef4e35fe4ba1dadb17ac32fbc0cddac95942a9970a282a0d23dd85e1  paper/claim_manifest_v1.json
+559911465c00fde0c65533ae6273946b8e40b8b18441062f3313c00a6822e3ec  paper/claim_manifest_v1.json
 cf6123638a042b9027db0f1a8a500571a75cc512c1866d04142b4b4a4a7b9d05  paper/acceptance_report_v1.json
 8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb  paper/references_v0.md
 983f4f4657e83ff8d8996e9add265bee9bab4f69dca20be810899f3330911e7e  docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg
@@ -97,9 +97,9 @@ d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226  docs/experimen
 3e8500b773f92291042fb0503df0e9b646f7ed5a07599465c8fea8f66ae15240  paper/figures/fig_evaluate_distill_evolve_v1.svg
 1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82  paper/submission_references_arr_www_v1.md
 4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462  paper/reproducibility_statement_arr_www_v1.md
-b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc  paper/submission_draft_arr_www_anonymous_v0.md
-9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386  paper/submission_redaction_map_v1.json
-1fb9e5b6413a0e6fb08cb64d59dad1280f5bbe70744356eb840dae0a2757066f  paper/submission_package_audit_v1.json
+1aeed0a3df1f59945f6f94e639f37db842e59b512a012e9d2b53752cc53cbd91  paper/submission_draft_arr_www_anonymous_v0.md
+e4ef42c46a49c410d87de180635c8b439b3a15d0324643ae471a1a9fbf55e9e5  paper/submission_redaction_map_v1.json
+cb3ff4b8a4ac120796eb056ccdd2ee80f13e19564c499be455c5dcbdfe5a1d7c  paper/submission_package_audit_v1.json
 878ea15c640b531a290a99d511c5fd24c839f93b0a77d65ce58ecd86e16cb69e  paper/submission_review_risk_register_v1.md
 602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0  paper/related_work_contribution_matrix_v1.md
 cbe1bb82aaa6316e8ddf845646cf4d2e88dfa413ea297885629e03fa90b0751e  paper/submission_language_audit_v1.md
