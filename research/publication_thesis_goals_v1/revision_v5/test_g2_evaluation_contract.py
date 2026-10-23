@@ -34,9 +34,11 @@ def sha256(path: Path) -> str:
 def sha256_variants(path: Path) -> set[str]:
     """Return raw and LF-normalized hashes for cross-platform source binding."""
     raw = path.read_bytes()
+    lf = raw.replace(b"\r\n", b"\n")
     return {
         hashlib.sha256(raw).hexdigest(),
-        hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest(),
+        hashlib.sha256(lf).hexdigest(),
+        hashlib.sha256(lf.replace(b"\n", b"\r\n")).hexdigest(),
     }
 
 
