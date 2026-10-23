@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is usually asleep by 10:30 PM.\",\n      \"source_ref\": \"Session 7, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning to take a later-running evening shift job.\",\n      \"source_ref\": \"Session 31, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    },\n    {\n      \"fact\": \"User is trying to get a better grip on finances and gift-giving expenses.\",\n      \"source_ref\": \"Session 18, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is usually asleep by 10:30 PM.\"\n  ],\n  \"unresolved\": [\n    \"The user has not explicitly confirmed whether the 10:30 PM sleep time remains their current habit after discussing the upcoming evening shift in Session 31. The Session 7 evidence is from June 2025, while the evening shift discussion is from August 2025, creating a potential conflict or change in status that is not explicitly resolved.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still typically fall asleep by 10:30 PM?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "69a4987175d5c9340c3292ec4d72d6289c262bd2e1f5765b121f9b2a87e6b2ec",
+  "response_body_sha256": "39751a995d86f674306fb9ca8144b427acc97e56af1f4797b43024a918f01d2c",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 465,
+    "total_tokens": 492,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.898198,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 492,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

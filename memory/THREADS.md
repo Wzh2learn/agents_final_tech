@@ -8,11 +8,12 @@ Updated: 2026-10-23
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `V3_EVIDENCE_EXIT_WITH_BOUNDED_SIGNAL` | [V3 回执](../research/publication_thesis_goals_v1/revision_v3/SPRINT_RETURN.md)明确 Paper E 可交 Owner 投稿、G2 保持停止、G3 复杂 planner 暂停、Valentine LoRA 资格停止、STALE 状态卡取得同源新 UID 配对信号 |
+| NEXT-RESEARCH-GOAL | `V4_EVIDENCE_EXIT_WITH_METHOD_STOP` | [V4 回执](../research/publication_thesis_goals_v1/revision_v4/RESEARCH_SPRINT_RETURN.md)明确 Paper E 可交 Owner 投稿、G2/scope 当前方法停止、state card 无行动收益、检索 top-5 保留为独立瓶颈 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
-| THIRD-CONTRIBUTION-SCOPE | `TRANSPARENT_REUSE_RULE_QUALIFIED_PLANNER_PAUSED` | scope policy 与 always-full 在 20 个 development transition 上同为 15 CORRECT、5 ABSTAIN，probe 30 对 35；仍缺自然 family 和真实下游收益 |
-| STALE-STATE-CARD | `BOUNDED_REPRESENTATION_SIGNAL` | oracle 检索下开发 1/4 对 3/4，同源未用 UID 配对 0/8 对 4/8；下一步只在非 oracle 检索和独立来源下升级判断 |
+| THIRD-CONTRIBUTION-SCOPE | `NARROW_STAGE_SEPARATED_EVIDENCE_RELIABILITY` | exact cache + miss revalidation 与 scope 同为 15/5、30 probes；scope 不再扩样，统一进入检索—状态—行动研究点 |
+| STALE-STATE-CARD | `STOP_CURRENT_ACTION_METHOD_KEEP_DIM1_CANDIDATE` | top-5 dim1 state card 5/16 对 one-call 4/16，但配对仅 +1 净成功；去退化 dim3 为 2/16 对 3/16，无行动收益 |
+| NEXT-STATE-ACTION-EXPERIMENT | `NEEDS_INDEPENDENT_ACTION_REFERENCE` | 下一步需多合法行动、safe UNKNOWN 和新 natural families；不能再用当前 STALE 面板堆 state-card 臂 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `INTERNAL_PACKAGE_READY_OWNER_EXTERNAL_ACTIONS` | 9pt、11页、目标包审计、artifact clean reproduction 均通过；只待 Owner 身份、投稿、付款、展示和公开许可 |
 | THESIS-DOC-CONTINUITY | `G4_PARTIAL_COMPLETE_CONTINUING` | 中文 Paper E 引用正文、导师一页稿、素材地图和现役骨架已更新；正式章节整合仍继续 |

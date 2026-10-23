@@ -1,0 +1,11 @@
+{
+  "schema": "stale_action_judge_receipt_v3",
+  "status": "COMPLETE",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "planned_calls": 16,
+  "executed_calls": 16,
+  "accounting_tokens": 241890,
+  "retry_count": 0,
+  "results_sha256": "65338afcceedcb5c7198772e71ac6ff0263224977d48ddecdf6c5c64a23a94a9",
+  "stopped_early": null
+}

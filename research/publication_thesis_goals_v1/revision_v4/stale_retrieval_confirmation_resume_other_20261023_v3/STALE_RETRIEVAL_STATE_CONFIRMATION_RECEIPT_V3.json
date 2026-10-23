@@ -1,0 +1,11 @@
+{
+  "schema": "stale_retrieval_state_confirmation_receipt_v3",
+  "status": "COMPLETE",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "planned_calls": 28,
+  "executed_calls": 28,
+  "accounting_tokens": 193592,
+  "retry_count": 0,
+  "results_sha256": "99dfff879926639ac7b42e85a029f2c7a66627d94a7899fd169e4b62b7d2d814",
+  "stopped_early": null
+}

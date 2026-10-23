@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+    "arm": "two_stage_state_card",
+    "selected_indices": [
+      30,
+      9,
+      31,
+      47,
+      42
+    ],
+    "retrieval_category": "NEITHER",
+    "max_tokens": 256
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is planning a trip to Cancun, has selected Hyatt Zilara Cancun, and is booking specific excursions (snorkeling, Tulum Ruins).\",\n  \"new_state\": \"User is considering booking a non-refundable, six-month VIP package for a downtown comedy club.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 31, User turn 9\",\n    \"Session 31, Assistant turn 10\",\n    \"Session 31, User turn 11\"\n  ]\n}\n\nQuestion: I'm looking at booking a non-refundable, six-month VIP package for me and the old friends at the downtown comedy club. It guarantees us a prime booth for the headline show on the first Friday of every month. Should I go ahead and lock this in?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      14,
+      34
+    ],
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has been cycling to work for years.\",\n      \"source_ref\": \"Session 15, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is currently dealing with a temporary mobility limitation and is wearing a walking boot.\",\n      \"source_ref\": \"Session 35, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is rethinking their morning flow and commute due to the boot.\",\n      \"source_ref\": \"Session 35, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is currently dealing with a temporary mobility limitation and is wearing a walking boot.\",\n    \"User is rethinking their morning flow and commute due to the boot.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user has actually switched their commute mode or is still cycling despite the boot.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still commute to work by cycling?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

@@ -2,14 +2,14 @@
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
   "date": "2026-10-23",
-  "status": "REVISION_V3_CONTINUING_WITH_BOUNDED_STATE_CARD_SIGNAL",
+  "status": "REVISION_V4_EVIDENCE_EXIT_STATE_CARD_ACTION_GAIN_ABSENT",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 77,
-    "physical_http_calls": 77,
-    "accounting_tokens_used": 218945,
-    "judge_calls": 0,
+    "attempts_used": 426,
+    "physical_http_calls": 426,
+    "accounting_tokens_used": 3050185,
+    "judge_calls": 67,
     "training_runs": 0,
     "training_gpu_seconds": 0,
     "training_tokens": 0,
@@ -285,6 +285,122 @@
       "natural_model_accounting_tokens": 217096,
       "official_llm_judge_calls": 0,
       "retries": 0
+    }
+  },
+  "revision_v4": {
+    "date": "2026-10-23",
+    "status": "MEASUREMENT_REPAIRED_AND_STAGE_COMPARISON_COMPLETE",
+    "new_budget_capacity": {
+      "planning_attempt_cap": 4096,
+      "planning_token_cap": 20000000,
+      "attempts_used_total": 426,
+      "physical_model_http_calls_total": 426,
+      "accounting_tokens_used_total": 3050185,
+      "revision_v4_attempts": 349,
+      "revision_v4_actor_calls": 282,
+      "revision_v4_judge_calls": 67,
+      "revision_v4_accounting_tokens": 2831240,
+      "training_runs": 0,
+      "paid_api_usd": 0,
+      "production_memory_writes": 0
+    },
+    "execution_events": [
+      {
+        "id": "STATE_PROCESSING_DEV_V2",
+        "attempts": 37,
+        "physical_http_calls": 37,
+        "accounting_tokens": 92381,
+        "status": "COMPLETE_WITH_PRESERVED_ENGINEERING_OVERHEAD"
+      },
+      {
+        "id": "STALE_TOP3_CONFIRMATION_EXECUTION",
+        "attempts": 113,
+        "physical_http_calls": 113,
+        "accounting_tokens": 648647,
+        "status": "COMPLETE_WITH_ENGINEERING_REPAIR"
+      },
+      {
+        "id": "STALE_TOP3_SEMANTIC_JUDGE",
+        "attempts": 33,
+        "physical_http_calls": 33,
+        "accounting_tokens": 298996,
+        "status": "COMPLETE_AFTER_STRICT_CONTRACT_REPAIR"
+      },
+      {
+        "id": "STALE_TOP5_MODEL_COMPARISON",
+        "attempts": 80,
+        "physical_http_calls": 80,
+        "accounting_tokens": 742597,
+        "status": "COMPLETE"
+      },
+      {
+        "id": "STALE_TOP5_SEMANTIC_JUDGE",
+        "attempts": 17,
+        "physical_http_calls": 17,
+        "accounting_tokens": 263061,
+        "status": "COMPLETE_AFTER_KEY_CONTRACT_REPAIR"
+      },
+      {
+        "id": "STALE_DIM3_ACTION_INITIAL",
+        "attempts": 4,
+        "physical_http_calls": 4,
+        "accounting_tokens": 46151,
+        "status": "PRESERVED_TRUNCATION_FAILURE"
+      },
+      {
+        "id": "STALE_DIM3_ACTION_REPAIR",
+        "attempts": 48,
+        "physical_http_calls": 48,
+        "accounting_tokens": 482006,
+        "status": "COMPLETE"
+      },
+      {
+        "id": "STALE_ACTION_JUDGE_INITIAL",
+        "attempts": 1,
+        "physical_http_calls": 1,
+        "accounting_tokens": 15511,
+        "status": "PRESERVED_SCHEMA_FAILURE"
+      },
+      {
+        "id": "STALE_ACTION_JUDGE_STRICT",
+        "attempts": 16,
+        "physical_http_calls": 16,
+        "accounting_tokens": 241890,
+        "status": "COMPLETE"
+      }
+    ],
+    "offline_results": [
+      {
+        "id": "STALE_SEMANTIC_REANALYSIS",
+        "result": "The old pair proxy is degenerate; frozen proxy counts are retained but not used as semantic accuracy.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v4/STALE_SEMANTIC_REANALYSIS_V2.json"
+      },
+      {
+        "id": "REUSE_EXACT_CACHE_BASELINE",
+        "result": "Exact cache plus miss revalidation matches scope with 15 CORRECT, 5 ABSTAIN and 30 probes.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v4/REUSE_EXACT_CACHE_BASELINE_V2.json"
+      },
+      {
+        "id": "STALE_RETRIEVAL_POLICY",
+        "result": "BM25 top-5 raises both-evidence coverage from 0.360 to 0.468 over 400 dim1 items.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v4/STALE_RETRIEVAL_POLICY_RESULTS_V3.json"
+      },
+      {
+        "id": "STALE_DIM1_TOP5_JUDGE",
+        "result": "One-call facts 4/16, timeline 3/16 and state card 5/16; paired state-card advantage is one net case.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v4/stale_semantic_judge_top5_strict_20261023_v3/STALE_SEMANTIC_JUDGE_RESULTS_V3.json"
+      },
+      {
+        "id": "STALE_DIM3_VALIDATED_ACTION",
+        "result": "After non-degeneracy gating, one-call facts is 3/16 and state card 2/16; no action gain.",
+        "raw_result": "research/publication_thesis_goals_v1/revision_v4/STALE_ACTION_JUDGE_VALIDATED_V3.json"
+      }
+    ],
+    "scientific_judgment": {
+      "state_card": "STOP_CURRENT_ACTION_METHOD_KEEP_DIM1_REPRESENTATION_CANDIDATE",
+      "retrieval": "CONTINUE_AS_SEPARATE_BOTTLENECK",
+      "scope_panel": "CLOSED_EXACT_CACHE_EXPLAINS_SAVING",
+      "paper_e": "NARROW_AND_CONTINUE_READY_FOR_OWNER_SUBMISSION_ACTION"
     }
   }
 }

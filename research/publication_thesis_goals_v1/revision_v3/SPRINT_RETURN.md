@@ -4,6 +4,11 @@ Date: 2026-10-23, Asia/Shanghai
 
 Status: `EVIDENCE_EXIT_WITH_BOUNDED_STATE_CARD_SIGNAL`
 
+> 2026-10-23 measurement correction: the `0/8 -> 4/8` statement below is a frozen
+> answer-prefix/self-label proxy count, not semantic accuracy. A constant strategy
+> passes that proxy. Use
+> `revision_v4/RESEARCH_SPRINT_RETURN.md` for the strict semantic and action judgment.
+
 ## 1. Decisions
 
 ### Paper E

@@ -1,0 +1,11 @@
+{
+  "schema": "state_processing_comparison_receipt_v2",
+  "status": "COMPLETE_WITH_STOP",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "planned_calls": 4,
+  "executed_calls": 3,
+  "accounting_tokens": 8014,
+  "retry_count": 0,
+  "results_sha256": "597143ebad734a6e106b2f9e356358ae0dc766946198ce470d87ded767aa8b4b",
+  "stopped_early": "parse_failure:INVALID_JSON"
+}

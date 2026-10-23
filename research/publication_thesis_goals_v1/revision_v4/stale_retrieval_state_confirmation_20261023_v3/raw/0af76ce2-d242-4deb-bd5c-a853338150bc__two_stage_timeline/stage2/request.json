@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      2,
+      38,
+      13
+    ],
+    "retrieval_category": "BOTH_OLD_AND_NEW",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User prefers spending free time at home and tends to decline most evening invitations.\",\n      \"source_ref\": \"Session 3, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User feels recharged when out in the middle of things and wants to keep their calendar full with plans.\",\n      \"source_ref\": \"Session 39, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is trying to get weekend routines back on track with a schedule allowing sleep in, brunch, exercise, and relaxation.\",\n      \"source_ref\": \"Session 14, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    }\n  ],\n  \"current_facts\": [\n    \"User feels recharged when out in the middle of things and wants to keep their calendar full with plans.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user's preference for staying home has completely shifted or if they still occasionally decline evening invites despite the new goal of being more social.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

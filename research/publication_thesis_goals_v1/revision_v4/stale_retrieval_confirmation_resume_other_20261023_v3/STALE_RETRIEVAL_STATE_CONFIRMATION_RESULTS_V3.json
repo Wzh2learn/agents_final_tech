@@ -1,0 +1,863 @@
+{
+  "schema": "stale_retrieval_state_confirmation_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "FROZEN_METRIC_NON_ORACLE_RETRIEVAL_WITH_ENGINEERING_REPAIR_RESUME",
+  "active_uids": [
+    "0fcd704e-7b09-4580-87ad-07604828cd40",
+    "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+    "11e0c473-dbd3-4645-964a-86affc5f998d",
+    "12067a86-6627-437f-8435-57d566c17aa0",
+    "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+    "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+    "14897e47-7d90-4cb0-a991-3da0564052e6"
+  ],
+  "active_arms": [
+    "direct_answer",
+    "one_call_facts",
+    "two_stage_timeline"
+  ],
+  "engineering_repair": "State-card evidence_refs restricted to at most three compact session/turn identifiers after long quotes truncated JSON. No retrieval, semantic threshold or answer requirement changed.",
+  "protocol_sha256": "8ae231ff9682e635d62cac18ea81df254b53892715ce7fda529d2e6e4ef626b2",
+  "reference_sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "model_request_contract": {
+    "temperature": 0,
+    "top_p": 1,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "retry_cap": 0
+  },
+  "summary": {
+    "overall": {
+      "planned_calls": 28,
+      "observed_calls": 28,
+      "accounting_tokens": 193592,
+      "retry_count": 0
+    },
+    "by_arm": {
+      "direct_answer": {
+        "observed_rows": 7,
+        "semantic_success_all": 0,
+        "semantic_rate_all": 0.0,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 7,
+        "accounting_tokens": 62402,
+        "completion_tokens": 435
+      },
+      "one_call_facts": {
+        "observed_rows": 7,
+        "semantic_success_all": 4,
+        "semantic_rate_all": 0.5714,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 6,
+        "calls": 7,
+        "accounting_tokens": 63233,
+        "completion_tokens": 1140
+      },
+      "two_stage_timeline": {
+        "observed_rows": 7,
+        "semantic_success_all": 4,
+        "semantic_rate_all": 0.5714,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 5,
+        "calls": 14,
+        "accounting_tokens": 67957,
+        "completion_tokens": 2537
+      },
+      "two_stage_state_card": {
+        "observed_rows": 0,
+        "semantic_success_all": 0,
+        "semantic_rate_all": null,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    "retrieval_category_counts": {
+      "BOTH_OLD_AND_NEW": 0,
+      "OLD_ONLY": 7,
+      "NEW_ONLY": 0,
+      "NEITHER": 0
+    }
+  },
+  "rows": [
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still typically fall asleep by 10:30 PM?",
+      "selected_indices": [
+        6,
+        44,
+        9
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still typically fall asleep by 10:30 PM?",
+      "selected_indices": [
+        6,
+        44,
+        9
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, the user is pretty much always asleep by 10:30 PM.",
+      "current_intermediate_text": "[{\"fact\": \"The user is pretty much always asleep by 10:30 PM.\", \"source_ref\": \"Session 7, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [
+          "always",
+          "asleep",
+          "much",
+          "pretty"
+        ],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still typically fall asleep by 10:30 PM?",
+      "selected_indices": [
+        6,
+        44,
+        9
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [\"User is usually asleep by 10:30 PM.\", \"User is not available on Tuesdays and Thursdays from 7:00 pm to 8:00 pm.\"], \"timeline_current\": [{\"fact\": \"User is usually asleep by 10:30 PM.\", \"source_ref\": \"Session 7, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is not available on Tuesdays and Thursdays from 7:00 pm to 8:00 pm.\", \"source_ref\": \"Session 10, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?",
+      "selected_indices": [
+        5,
+        47,
+        11
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?",
+      "selected_indices": [
+        5,
+        47,
+        11
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user states that their senior Labrador is a permanent part of their life.",
+      "current_intermediate_text": "[{\"fact\": \"I’ve had my senior Labrador for nearly nine years, so he’s a permanent part of my life\", \"source_ref\": \"Session 6, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "had",
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ],
+        "old_reference_overlap": [
+          "labrador",
+          "life",
+          "part",
+          "permanent",
+          "senior"
+        ],
+        "grounded_current_tokens": [
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?",
+      "selected_indices": [
+        5,
+        47,
+        11
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User has a senior Labrador that is a permanent part of their life.",
+      "current_intermediate_text": "{\"current_facts\": [\"User has a senior Labrador that is a permanent part of their life.\", \"User is organizing their daily commute routine and interested in starting a YouTube channel.\"], \"timeline_current\": [{\"fact\": \"User has a senior Labrador that is a permanent part of their life.\", \"source_ref\": \"Session 6, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is organizing their daily commute routine and interested in starting a YouTube channel.\", \"source_ref\": \"Session 48, User turn 1 and User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ],
+        "old_reference_overlap": [
+          "labrador",
+          "life",
+          "part",
+          "permanent",
+          "senior"
+        ],
+        "grounded_current_tokens": [
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still have close, high-frequency check-ins with their neighbors?",
+      "selected_indices": [
+        3,
+        8,
+        19
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still have close, high-frequency check-ins with their neighbors?",
+      "selected_indices": [
+        3,
+        8,
+        19
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user is quite close with their neighbors and always makes sure to check in on one another.",
+      "current_intermediate_text": "[{\"fact\": \"The user is quite close with their neighbors and always makes sure to check in on one another.\", \"source_ref\": \"Session 4, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "check",
+          "neighbors"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "check",
+          "neighbors"
+        ],
+        "old_reference_overlap": [
+          "always",
+          "another",
+          "check",
+          "close",
+          "neighbors",
+          "one",
+          "quite",
+          "sure"
+        ],
+        "grounded_current_tokens": [
+          "check",
+          "neighbors"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still have close, high-frequency check-ins with their neighbors?",
+      "selected_indices": [
+        3,
+        8,
+        19
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [\"User is quite close with neighbors and always checks in on one another.\"], \"timeline_current\": [{\"fact\": \"User is quite close with neighbors and always checks in on one another.\", \"source_ref\": \"Session 4, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "neighbors"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?",
+      "selected_indices": [
+        11,
+        26,
+        14
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?",
+      "selected_indices": [
+        11,
+        26,
+        14
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user is focusing on maintaining a slower pace to manage elevated stress levels.",
+      "current_intermediate_text": "[{\"fact\": \"The user's stress levels have been pretty elevated for the past few months, so they are focusing on maintaining a slower pace.\", \"source_ref\": \"Session 12, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "pace",
+          "slower",
+          "stress"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "pace",
+          "slower",
+          "stress"
+        ],
+        "old_reference_overlap": [
+          "elevated",
+          "focusing",
+          "levels",
+          "maintaining",
+          "pace",
+          "slower",
+          "stress"
+        ],
+        "grounded_current_tokens": [
+          "pace",
+          "slower",
+          "stress"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?",
+      "selected_indices": [
+        11,
+        26,
+        14
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [\"User is focusing on maintaining a slower pace to manage elevated stress levels.\", \"User is exploring indie rock recommendations and Spotify features.\"], \"timeline_current\": [{\"fact\": \"User is focusing on maintaining a slower pace to manage elevated stress levels.\", \"source_ref\": \"Session 12, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is exploring indie rock recommendations and Spotify features.\", \"source_ref\": \"Session 15, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "pace",
+          "slower",
+          "stress"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?",
+      "selected_indices": [
+        1,
+        40,
+        31
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?",
+      "selected_indices": [
+        1,
+        40,
+        31
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, the user usually opts into beta versions because they would rather deal with glitches than wait for the stable release.",
+      "current_intermediate_text": "[{\"fact\": \"The user usually opts into beta versions because they would rather deal with glitches than wait for the stable release.\", \"source_ref\": \"Session 2, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "beta",
+          "stable"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "beta",
+          "stable"
+        ],
+        "old_reference_overlap": [
+          "because",
+          "beta",
+          "deal",
+          "glitches",
+          "into",
+          "rather",
+          "release",
+          "stable",
+          "than",
+          "usually",
+          "versions",
+          "wait"
+        ],
+        "grounded_current_tokens": [
+          "beta",
+          "stable"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?",
+      "selected_indices": [
+        1,
+        40,
+        31
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User usually opts into beta versions because they'd rather deal with glitches than wait for the stable release.",
+      "current_intermediate_text": "{\"current_facts\": [\"User usually opts into beta versions because they'd rather deal with glitches than wait for the stable release.\"], \"timeline_current\": [{\"fact\": \"User usually opts into beta versions because they'd rather deal with glitches than wait for the stable release.\", \"source_ref\": \"Session 2, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "beta",
+          "stable"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "beta",
+          "stable"
+        ],
+        "old_reference_overlap": [
+          "because",
+          "beta",
+          "deal",
+          "glitches",
+          "into",
+          "rather",
+          "release",
+          "stable",
+          "than",
+          "usually",
+          "versions",
+          "wait"
+        ],
+        "grounded_current_tokens": [
+          "beta",
+          "stable"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?",
+      "selected_indices": [
+        7,
+        35,
+        27
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?",
+      "selected_indices": [
+        7,
+        35,
+        27
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user is currently working on a science fiction novel and has been writing regularly for the past three months.\", \"source_ref\": \"Session 28, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user is working on a fantasy novel set in a world where magic is forbidden, following a young woman who discovers she has magical powers.\", \"source_ref\": \"Session 36, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "past",
+          "status"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?",
+      "selected_indices": [
+        7,
+        35,
+        27
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User has been self-employed rather than holding a standard staff position with a single company for the past few years.",
+      "current_intermediate_text": "{\"current_facts\": [\"User has been self-employed rather than holding a standard staff position with a single company for the past few years.\", \"User is working on a science fiction novel and has written about 15,000 words.\"], \"timeline_current\": [{\"fact\": \"User has been self-employed rather than holding a standard staff position with a single company for the past few years.\", \"source_ref\": \"Session 8, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is working on a science fiction novel and has written about 15,000 words.\", \"source_ref\": \"Session 28, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is struggling to create a believable alien species for their novel.\", \"source_ref\": \"Session 28, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "about",
+          "employed",
+          "few",
+          "past",
+          "self",
+          "status",
+          "than",
+          "years"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "employed",
+          "few",
+          "past",
+          "self",
+          "than",
+          "years"
+        ],
+        "old_reference_overlap": [
+          "company",
+          "employed",
+          "few",
+          "holding",
+          "past",
+          "position",
+          "rather",
+          "self",
+          "single",
+          "staff",
+          "standard",
+          "than",
+          "years"
+        ],
+        "grounded_current_tokens": [
+          "employed",
+          "few",
+          "past",
+          "self",
+          "than",
+          "years"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still meet the eligibility criteria specifically because they are a citizen?",
+      "selected_indices": [
+        9,
+        43,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still meet the eligibility criteria specifically because they are a citizen?",
+      "selected_indices": [
+        9,
+        43,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user's profile lists their status as U.S. citizen.",
+      "current_intermediate_text": "[{\"fact\": \"My profile lists my status as U.S. citizen\", \"source_ref\": \"Session 10 [Time: 2023-06-15 10:30] User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "citizen",
+          "current",
+          "status"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "citizen",
+          "status"
+        ],
+        "old_reference_overlap": [
+          "citizen",
+          "lists",
+          "profile",
+          "status"
+        ],
+        "grounded_current_tokens": [
+          "citizen",
+          "status"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still meet the eligibility criteria specifically because they are a citizen?",
+      "selected_indices": [
+        9,
+        43,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User profile lists status as U.S. citizen, meeting eligibility criteria for U.S. work.",
+      "current_intermediate_text": "{\"current_facts\": [\"User profile lists status as U.S. citizen, meeting eligibility criteria for U.S. work.\", \"User is getting ready to apply for internships requiring U.S. work eligibility.\"], \"timeline_current\": [{\"fact\": \"User profile lists status as U.S. citizen, meeting eligibility criteria for U.S. work.\", \"source_ref\": \"Session 10, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is getting ready to apply for internships requiring U.S. work eligibility.\", \"source_ref\": \"Session 10, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is looking for board game recommendations, specifically interested in Azul.\", \"source_ref\": \"Session 44, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "citizen",
+          "current",
+          "status"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "citizen",
+          "status"
+        ],
+        "old_reference_overlap": [
+          "citizen",
+          "criteria",
+          "eligibility",
+          "lists",
+          "profile",
+          "status"
+        ],
+        "grounded_current_tokens": [
+          "citizen",
+          "status"
+        ],
+        "safe_unknown": false
+      }
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "Only dim1 is used in this confirmation batch.",
+    "The semantic reference is hidden benchmark text plus deterministic overlap, not human gold.",
+    "BM25 top-3 is one fixed non-oracle retriever, not the best possible retrieval system.",
+    "Primary state-processing comparisons condition on retrieval category BOTH_OLD_AND_NEW."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "state_processing_comparison_receipt_v2",
+  "status": "COMPLETE",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "planned_calls": 8,
+  "executed_calls": 8,
+  "accounting_tokens": 17065,
+  "retry_count": 0,
+  "results_sha256": "44a46e6e521725cf48b50c00c8077ef929da972a2d830234bb79871de69123a0",
+  "stopped_early": null
+}

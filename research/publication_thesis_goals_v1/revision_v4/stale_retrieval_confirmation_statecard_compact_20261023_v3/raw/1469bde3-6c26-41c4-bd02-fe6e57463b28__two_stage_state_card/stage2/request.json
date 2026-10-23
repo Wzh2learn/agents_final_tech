@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+    "arm": "two_stage_state_card",
+    "selected_indices": [
+      1,
+      40,
+      31
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 256
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User usually opts into beta versions to get new features early, accepting glitches as a trade-off.\",\n  \"new_state\": \"User is planning a beach vacation and purchasing furniture for a housewarming party; no current activity regarding beta software updates is mentioned.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 2, User turn 7\",\n    \"Session 41, User turn 1\",\n    \"Session 32, User turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

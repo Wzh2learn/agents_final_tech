@@ -1,0 +1,207 @@
+{
+  "schema": "stale_retrieval_confirmation_reference_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "HIDDEN_POST_INPUT_SCORING_REFERENCE_NOT_ACTOR_VISIBLE_NOT_HUMAN_GOLD",
+  "selection": {
+    "sort": "uid_ascending",
+    "excluded_uids": [
+      "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "012f090e-6e02-4751-955d-574745069df3",
+      "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "0781e96e-853c-46af-b787-4a64fc248e62",
+      "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "05fc9783-f06c-453f-8899-15253d63533a",
+      "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "0c348e44-7f55-4d95-aeb7-137f801985d7"
+    ],
+    "per_type": 8,
+    "selected_uids": [
+      "09949c3c-0abe-42fb-9012-efb34b298947",
+      "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "12067a86-6627-437f-8435-57d566c17aa0",
+      "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "14897e47-7d90-4cb0-a991-3da0564052e6"
+    ]
+  },
+  "items": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "old_session_index": 7,
+      "new_session_index": 30,
+      "M_old": "I'm only in town for a while, so I'm planning to stay here for about five months.",
+      "M_new": "I just signed the paperwork for an 18-month assignment with my new team, and my start date is next Monday.",
+      "explanation": "planned stay duration has shifted from about 5 months to about 18 months",
+      "dim1_query": "Based on the conversation history, does the user still plan to stay in town for about five months?"
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "old_session_index": 2,
+      "new_session_index": 38,
+      "M_old": "I tend to decline most evening invitations because I really prefer spending my free time at home.",
+      "M_new": "Lately I feel most recharged when I’m out in the middle of things—checking out new spots, meeting people, and keeping my calendar full with plans.",
+      "explanation": "Now prefers an outgoing, socially active, plan-filled leisure lifestyle rather than a home-centric, low-social one.",
+      "dim1_query": "Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?"
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "old_session_index": 4,
+      "new_session_index": 35,
+      "M_old": "Honestly, I've kept the same circle of friends for over ten years now, and we still make sure to hang out at least once a month.",
+      "M_new": "Since the residency match, my weeks have turned into a string of 28-hour calls and crash-sleep in the on-call room; I keep a spare toothbrush in my locker and my social life is mostly whoever’s on the same service grabbing a ten-minute coffee between pages.",
+      "explanation": "User’s social availability changed from regularly maintaining long-term monthly friendships to having an intense residency schedule where socializing is limited to brief interactions with coworkers.",
+      "dim1_query": "Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?"
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "old_session_index": 13,
+      "new_session_index": 38,
+      "M_old": "I generally keep the hours between eight and eleven in the morning reserved for deep focus work.",
+      "M_new": "Lately I’ve been doing my concentrated work in the late afternoon, usually from about 2 to 5, so I tend to be hard to reach then.",
+      "explanation": "Deep focus window has shifted to a late-afternoon block (approximately 2:00–5:00) instead of the morning.",
+      "dim1_query": "Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?"
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "old_session_index": 5,
+      "new_session_index": 31,
+      "M_old": "I make it a point to run for thirty minutes every single morning.",
+      "M_new": "Ever since my knee started acting up, I’ve been starting my day with a half-hour on the stationary bike instead, and I’m usually out of pocket until I cool down and shower.",
+      "explanation": "Routine/exercise_regimen has changed from a daily 30-minute morning run to a daily 30-minute morning stationary-bike session (running no longer fits the routine).",
+      "dim1_query": "Based on the conversation history, does the user still run for thirty minutes every single morning?"
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "old_session_index": 9,
+      "new_session_index": 30,
+      "M_old": "I've always leaned towards candidates who focus on community support rather than corporate interests, it's just how I've viewed things for years.",
+      "M_new": "After sitting through a few local business association meetings this year, I’ve started backing the folks who prioritize cutting regulations and keeping taxes low so companies can grow and hire more people.",
+      "explanation": "Political leaning has shifted toward a more pro-business, small-government (conservative/libertarian-leaning) preference emphasizing deregulation and lower taxes.",
+      "dim1_query": "Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?"
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "old_session_index": 13,
+      "new_session_index": 34,
+      "M_old": "I'm keeping my reading list pretty strictly to science fiction novels these days.",
+      "M_new": "I’ve been on a big nonfiction kick lately—mostly biographies and history—so that’s what I’ve been checking out from the library.",
+      "explanation": "Current reading list focus has shifted to nonfiction, especially biographies and history.",
+      "dim1_query": "Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?"
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "old_session_index": 13,
+      "new_session_index": 37,
+      "M_old": "I'm currently self-employed, so my work schedule is entirely up to me.",
+      "M_new": "After orientation today, I finally got my employee badge and benefits portal set up at the company.",
+      "explanation": "Now employed by a company (salaried/employee) rather than self-employed.",
+      "dim1_query": "Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?"
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "old_session_index": 13,
+      "new_session_index": 33,
+      "M_old": "I've never been willing to gamble a significant portion of my funds on high-risk opportunities, preferring steady growth instead.",
+      "M_new": "I’ve been spending my evenings getting the hang of options—starting with a small account, but I like how you can structure trades so a quick move actually matters.",
+      "explanation": "Attribute A (financial behavior/experience: actively learning and trading options) updates → dependency A → B (engaging in leveraged derivatives typically requires/reflects a higher tolerance for volatility and potential loss) → this makes the earlier low risk tolerance implied by M_old no longer feasible.",
+      "dim1_query": "Based on the conversation history, does the user still avoid putting a significant portion of their funds into high-risk opportunities in favor of steady growth?"
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "old_session_index": 6,
+      "new_session_index": 30,
+      "M_old": "I'm pretty much always asleep by 10:30 PM.",
+      "M_new": "I finally took that evening shift at the bookstore—closing duties run late, and by the time I lock up and catch the last bus home, the streets are basically empty.",
+      "explanation": "Attribute A update: Employment/work schedule changes to a late/closing shift → dependency A → Routine.bedtime (work end time and commute constrain when someone can realistically go to sleep) → the earlier nightly 10:30 PM sleep target from M_old becomes infeasible without mentioning bedtime directly.",
+      "dim1_query": "Based on the conversation history, does the user still typically fall asleep by 10:30 PM?"
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "old_session_index": 5,
+      "new_session_index": 37,
+      "M_old": "I've had my senior Labrador for nearly nine years, so he's a permanent part of my life.",
+      "M_new": "The lease on my new place is strict—before they handed me the keys, I had to sign a notarized addendum agreeing the apartment would remain animal-free the entire term, with surprise inspections if anyone complained.",
+      "explanation": "Attribute A update: Housing/lease terms changed to a strictly animal-free apartment with enforcement. Dependency A → B: If your residence contract forbids animals, you cannot keep a dog in your home. Therefore the earlier value of B (owning/keeping a 9-year-old Labrador as a permanent part of life) is no longer feasible without violating the lease, implying the prior pet-ownership situation can’t still hold.",
+      "dim1_query": "Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?"
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "old_session_index": 3,
+      "new_session_index": 31,
+      "M_old": "We're quite close with the neighbors and always make sure to check in on one another.",
+      "M_new": "I spent most of Saturday labeling boxes and signing the lease paperwork—next week the movers are coming, so I’m finally getting around to forwarding my mail and updating my address everywhere.",
+      "explanation": "Attribute A update: Residence/location changes (moving to a new place). Dependency A → B: Moving disrupts established local routines and relationships, so the prior high-frequency mutual check-ins with nearby neighbors become infeasible after relocating, indirectly undermining the earlier reliance on neighbor check-ins without mentioning them.",
+      "dim1_query": "Based on the conversation history, does the user still have close, high-frequency check-ins with their neighbors?"
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "old_session_index": 11,
+      "new_session_index": 34,
+      "M_old": "My stress levels have been pretty elevated for the past few months, so I'm focusing on maintaining a slower pace.",
+      "M_new": "I’ve been living out of a carry-on since January—three cities a week, back-to-back client dinners, and those 5 a.m. airport runs that keep blurring together.",
+      "explanation": "Attribute A update: Workload/Travel intensity has increased sharply (frequent business travel, early flights, constant engagements). Dependency A → B: Increased workload and constant travel typically drive up stress level and make a deliberately slower pace impractical. Therefore, the slower-pace focus implied by M_old becomes no longer feasible given the new high-intensity routine, without M_new directly mentioning stress.",
+      "dim1_query": "Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?"
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "old_session_index": 1,
+      "new_session_index": 37,
+      "M_old": "I usually opt into the beta versions because I'd rather deal with glitches than wait for the stable release.",
+      "M_new": "Ever since that deadline crunch, I’ve started turning off automatic updates and silencing those “try the new experience” pop‑ups—I can’t afford to have anything change on me mid‑week anymore.",
+      "explanation": "Attribute A (work schedule/need for reliability due to high-stakes deadlines) updates → dependency A → B (when reliability becomes critical, people avoid unpredictable changes) → the earlier attitude of preferring beta access despite instability is no longer feasible, even though M_new never mentions beta/stable channels directly.",
+      "dim1_query": "Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?"
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "old_session_index": 7,
+      "new_session_index": 34,
+      "M_old": "For the past few years, I've been self-employed rather than holding a standard staff position with a single company.",
+      "M_new": "I’m still getting used to planning my weeks around the train timetable again—turns out the monthly commuter pass is a lot cheaper than constantly topping up my card, but it feels strange not being able to duck out mid‑afternoon without thinking about rush hour.",
+      "explanation": "Attribute A (work location/routine) updated from flexible, self-directed schedule to a regular commute with peak-hour constraints → dependency: work routine/location strongly influences employment arrangement (self-employed work is typically more flexible and less tied to daily commuting patterns) → this makes the earlier implication of being self-employed for the past few years no longer feasible without a major change in employment status, even though employment is never mentioned.",
+      "dim1_query": "Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?"
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "old_session_index": 9,
+      "new_session_index": 37,
+      "M_old": "My profile lists my status as U.S. citizen, so I meet the eligibility criteria.",
+      "M_new": "At the bank this morning, the teller asked me to sign the W‑8BEN again and reminded me they can’t keep my savings account open unless I bring in a current foreign passport.",
+      "explanation": "Attribute A update: Legal residency/tax classification has changed (being treated as a foreign person for U.S. tax/banking purposes). Dependency A → B: If someone is required to use a W‑8BEN and present a foreign passport to maintain accounts, they are not being recognized as a U.S. citizen. This indirectly makes the earlier implied citizenship status in M_old no longer feasible.",
+      "dim1_query": "Based on the conversation history, does the user still meet the eligibility criteria specifically because they are a citizen?"
+    }
+  ],
+  "nonclaims": [
+    "M_old/M_new/explanation are scoring references and are never actor inputs.",
+    "The explanation is benchmark-authored logic, not independent human gold."
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is seeking book recommendations, specifically nonfiction (biographies, history) that reads like a story and has good audiobooks. User has read 'The Splendid and the Vile' and is interested in microhistory, disasters, trials, and expeditions. Assistant recommended 'Five Days at Memorial' and 'The River of Doubt' as top picks for momentum and audiobook quality.\",\n  \"new_state\": \"User is at the library to pick out books, implying an intent to borrow or purchase based on previous recommendations.\",\n  \"change_type\": \"PROPAGATED\",\n  \"status\": \"INFERRED\",\n  \"evidence_refs\": [\n    \"Session 35, User turn 1\",\n    \"Session 35, Assistant turn 8\",\n    \"Session 35, Assistant turn 10\"\n  ]\n}\n\nQuestion: I’m picking out a couple of books at the library this week—what kind of books make the most sense for me to come home with right now?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "e789bb1c78cba2ed0914286da9cc37ebcb00fd626a7e6c036e9aad7176e0bed5",
+  "response_body_sha256": "9afaf59d253e18240ede4bf0e61fdb071888558c65927913c497adb1374413b5",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"Five Days at Memorial and The River of Doubt\",\n  \"evidence_refs\": [\n    \"Session 35, User turn 1\",\n    \"Session 35, Assistant turn 8\",\n    \"Session 35, Assistant turn 10\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 81,
+    "prompt_tokens": 354,
+    "total_tokens": 435,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.824811,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 435,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "Five Days at Memorial and The River of Doubt",
+    "evidence_refs": [
+      "Session 35, User turn 1",
+      "Session 35, Assistant turn 8",
+      "Session 35, Assistant turn 10"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

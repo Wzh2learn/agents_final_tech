@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is self-employed/freelance\",\n  \"new_state\": \"User is writing a science fiction novel (career status not explicitly updated)\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 8, User turn 1\",\n    \"Session 36, User turn 1\",\n    \"Session 28, User turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "8faecbfdcbd1a41942479a8ff6eb92e95517b7c82275a19621a59065e26f8383",
+  "response_body_sha256": "1baed7c529dc6979a1e5f702f50a9f86667769e654962de12c9f6095cdd130ba",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 8, User turn 1\",\n    \"Session 36, User turn 1\",\n    \"Session 28, User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 68,
+    "prompt_tokens": 269,
+    "total_tokens": 337,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.481935,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 337,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 8, User turn 1",
+      "Session 36, User turn 1",
+      "Session 28, User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

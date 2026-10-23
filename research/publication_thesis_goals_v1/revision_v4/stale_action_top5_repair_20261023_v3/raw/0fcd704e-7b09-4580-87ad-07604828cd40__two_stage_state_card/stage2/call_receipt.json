@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is considering a rent reduction offer in exchange for manually locking a complex gate at 10:15 PM nightly.\",\n  \"new_state\": \"User is leaning towards accepting the offer to save money, despite the late-night commitment.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 10, User turn 1\",\n    \"Session 31, User turn 1\",\n    \"Session 40, User turn 1\"\n  ]\n}\n\nQuestion: My landlord just offered to knock $100 off my rent if I take on the responsibility of manually locking the complex's main courtyard gate at exactly 10:15 PM every night. It just takes two minutes to step out of my apartment and turn the key. I'm always looking to save money, so I'm thinking of signing the addendum today. Should I go for it?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "8deaaffc7bece4fb861aed1f57d889160c5d05be2b8e9285684d9155caed10b8",
+  "response_body_sha256": "25ff3bba9d038261d56f42421dce876bdaf79b02ce01d8ffbaae4a2a964598d3",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 342,
+    "total_tokens": 369,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.875019,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 369,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

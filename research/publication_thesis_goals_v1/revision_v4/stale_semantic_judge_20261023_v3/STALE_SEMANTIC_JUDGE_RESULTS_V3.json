@@ -1,0 +1,1106 @@
+{
+  "schema": "stale_semantic_judge_results_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "protocol_sha256": "d21e19c7050f3b31ff4469728de238819adef5e1f5bd5f46c02f523e2c552a08",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "summary_by_arm": {
+    "direct_answer": {
+      "rows": 16,
+      "judge_pass": 2,
+      "judge_pass_rate": 0.125,
+      "primary_rows": 3,
+      "judge_pass_primary": 0,
+      "judge_pass_rate_primary": 0.0,
+      "safe_unknown": 12,
+      "error_counts": {
+        "UNSPECIFIED": 8,
+        "CORRECT_SPECIFIC": 3,
+        "STALE_ACCEPT": 1,
+        "RETRIEVAL_MISS_SAFE_UNKNOWN": 3,
+        "null": 1
+      }
+    },
+    "one_call_facts": {
+      "rows": 16,
+      "judge_pass": 2,
+      "judge_pass_rate": 0.125,
+      "primary_rows": 3,
+      "judge_pass_primary": 2,
+      "judge_pass_rate_primary": 0.6667,
+      "safe_unknown": 10,
+      "error_counts": {
+        "UNSPECIFIED": 3,
+        "null": 2,
+        "STALE_ACCEPT": 10,
+        "CORRECT_SPECIFIC": 1
+      }
+    },
+    "two_stage_state_card": {
+      "rows": 16,
+      "judge_pass": 5,
+      "judge_pass_rate": 0.3125,
+      "primary_rows": 3,
+      "judge_pass_primary": 3,
+      "judge_pass_rate_primary": 1.0,
+      "safe_unknown": 11,
+      "error_counts": {
+        "CORRECT_SPECIFIC": 4,
+        "null": 3,
+        "STALE_ACCEPT": 3,
+        "RETRIEVAL_MISS_SAFE_UNKNOWN": 2,
+        "UNSPECIFIED": 4
+      }
+    },
+    "two_stage_timeline": {
+      "rows": 16,
+      "judge_pass": 2,
+      "judge_pass_rate": 0.125,
+      "primary_rows": 3,
+      "judge_pass_primary": 1,
+      "judge_pass_rate_primary": 0.3333,
+      "safe_unknown": 10,
+      "error_counts": {
+        "STALE_ACCEPT": 8,
+        "UNSPECIFIED": 4,
+        "null": 2,
+        "RETRIEVAL_MISS_SAFE_UNKNOWN": 1,
+        "CORRECT_SPECIFIC": 1
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "C",
+      "answer": "User is planning to stay in the new city for about five months.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": "No, the user is planning a romantic getaway to Napa Valley for their anniversary.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "No, the user currently prefers being out in the middle of things, checking out new spots, and keeping their calendar full with plans, which contrasts with their past preference for staying home.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "C",
+      "answer": "No, the user no longer tends to decline most evening invitations because they prefer spending their free time at home; instead, they feel recharged when out and want to keep their calendar full with plans.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "A",
+      "answer": "User has kept the same circle of friends for over ten years and hangs out at least once a month.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Yes, the user has kept the same circle of friends for over ten years and hangs out with them at least once a month.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "C",
+      "answer": "The user has kept the same circle of friends for over ten years and hangs out with them at least once a month.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": true,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Yes, the user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "B",
+      "answer": "Yes, the user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "C",
+      "answer": "User generally keeps the hours between eight and eleven in the morning reserved for deep focus work.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": "Yes, the user still reserves 8–11 a.m. for deep focus work.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "RETRIEVAL_MISS_SAFE_UNKNOWN"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "B",
+      "answer": "User is currently using a stationary bike for morning exercise instead of running.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "C",
+      "answer": "No, the user has switched to a half-hour stationary bike ride due to knee issues.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "D",
+      "answer": "No, the user has stopped running for thirty minutes every morning and now starts their day with a half-hour on the stationary bike due to knee issues.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "RETRIEVAL_MISS_SAFE_UNKNOWN"
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "RETRIEVAL_MISS_SAFE_UNKNOWN"
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "C",
+      "answer": "The user leans towards candidates who focus on community support rather than corporate interests.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "RETRIEVAL_MISS_SAFE_UNKNOWN"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "A",
+      "answer": "User is keeping their reading list pretty strictly to science fiction novels.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "C",
+      "answer": "Yes, the user stated they are keeping their reading list pretty strictly to science fiction novels.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "response_code": "C",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "direct_answer",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "A",
+      "answer": "User prefers steady growth and avoids gambling significant funds on high-risk opportunities.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "C",
+      "answer": "Yes, the user has stated they have never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": "No, the user is now actively learning about and practicing options trading using defined-risk strategies like debit spreads to manage risk while engaging with high-risk instruments.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "current_fact_supported": true,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Yes, the user is pretty much always asleep by 10:30 PM.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "C",
+      "answer": "The user is typically asleep by 10:30 PM",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "B",
+      "answer": "User has a senior Labrador that is a permanent part of their life.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "C",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "D",
+      "answer": "The user states that their senior Labrador is a permanent part of their life.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "The user is quite close with their neighbors and always makes sure to check in on one another.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "C",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": true,
+        "error_type": null
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "The user is focusing on maintaining a slower pace to manage elevated stress levels.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "C",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "A",
+      "answer": "User usually opts into beta versions because they'd rather deal with glitches than wait for the stable release.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "RETRIEVAL_MISS_SAFE_UNKNOWN"
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "C",
+      "answer": "Yes, the user usually opts into beta versions because they would rather deal with glitches than wait for the stable release.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": false,
+        "evidence_consistent": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": false,
+        "old_state_rejected": true,
+        "evidence_consistent": true,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "RETRIEVAL_MISS_SAFE_UNKNOWN"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "B",
+      "answer": "User has been self-employed rather than holding a standard staff position with a single company for the past few years.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "No",
+        "evidence_consistent": "No",
+        "safe_unknown": "No",
+        "pass": false,
+        "error_type": "STALE_ACCEPT"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "C",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "D",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "UNSPECIFIED"
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "direct_answer",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "The user's profile lists their status as U.S. citizen.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "C",
+      "answer": "User is a U.S. citizen and eligible to work in the U.S.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "response_code": "D",
+      "answer": "User profile lists status as U.S. citizen, meeting eligibility criteria for U.S. work.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "current_fact_supported": "No",
+        "old_state_rejected": "Yes",
+        "evidence_consistent": "Yes",
+        "safe_unknown": "Yes",
+        "pass": false,
+        "error_type": "CORRECT_SPECIFIC"
+      }
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "The judge uses the same local model family as the actor and is auxiliary only.",
+    "Hidden benchmark explanations are not independent human gold.",
+    "Method blindness prevents direct self-label leakage but does not remove model bias."
+  ]
+}

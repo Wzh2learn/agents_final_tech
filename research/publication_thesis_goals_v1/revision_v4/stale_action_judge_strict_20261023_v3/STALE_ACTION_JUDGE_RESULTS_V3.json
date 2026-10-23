@@ -1,0 +1,595 @@
+{
+  "schema": "stale_action_judge_results_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "AUXILIARY_METHOD_BLIND_ACTION_JUDGE_NOT_HUMAN_GOLD",
+  "protocol_sha256": "cb20a25ddb5930c4b40fec848fd0e087032bf39e0cb9aa179b38839940c5cdf4",
+  "summary_by_arm": {
+    "one_call_facts": {
+      "rows": 16,
+      "valid_judgments": 16,
+      "invalid_judgments": 0,
+      "action_pass": 5,
+      "action_pass_rate": 0.3125,
+      "primary_rows": 6,
+      "action_pass_primary": 3,
+      "action_pass_rate_primary": 0.5,
+      "safe_unknown": 3,
+      "error_counts": {
+        "STALE_ACTION": 4,
+        "CORRECT_ACTION": 5,
+        "UNSUPPORTED_ACTION": 5,
+        "INVENTED_DETAIL": 2
+      }
+    },
+    "two_stage_state_card": {
+      "rows": 16,
+      "valid_judgments": 16,
+      "invalid_judgments": 0,
+      "action_pass": 3,
+      "action_pass_rate": 0.1875,
+      "primary_rows": 6,
+      "action_pass_primary": 0,
+      "action_pass_rate_primary": 0.0,
+      "safe_unknown": 6,
+      "error_counts": {
+        "UNSUPPORTED_ACTION": 10,
+        "GENERIC_ACTION": 1,
+        "STALE_ACTION": 1,
+        "CORRECT_ACTION": 3,
+        "INVENTED_DETAIL": 1
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Given your five-month stay, avoid long-term commitments. Prioritize flexibility over savings; short-term leases and furnished rentals are typically better for this duration to avoid the hassle and cost of buying/reselling furniture or breaking long-term contracts.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": true,
+        "evidence_consistent": false,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACTION"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Shift from your previous home-bound habit to a 'deck of cards' system. Pre-fill 2 weeknights and 2 weekend slots with low-effort, <20-minute outings (e.g., new cafes, walks, markets). Use a 60-second decision rule: if tired, pick the easiest solo-around-people card. Swap plans only if a new invite is better, never add on top, to prevent overload while maintaining an active social calendar.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": true,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": "You should keep your calendar full with plans and seek low-effort ideas for weeknights and weekends to avoid defaulting to staying in.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": false,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "GENERIC_ACTION"
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "NEITHER",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "NEITHER",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": false,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Protect 8–11 AM for deep work. Check email at 11 AM. Cluster meetings between 11:30 AM and 1:30 PM. Take lunch at noon. Do lighter solo work from 3–4:30 PM. Perform a final email/message sweep at 4:30 PM. This structure minimizes interruptions during your critical morning block while keeping you responsive.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACTION"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Ask candidates how they gathered community input for their priorities, what local partners they rely on, and what safeguards prevent single donors from having undue influence. Request specific examples of past projects where they adjusted plans based on resident feedback. These questions reveal if they prioritize community needs over corporate interests and distinguish concrete plans from vague promises.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACTION"
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": "The user possesses a printable, one-page comparison worksheet containing 12 specific questions with a 0-2 scoring system and red-flag indicators, designed to compare up to three candidates side-by-side at the forum.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACTION"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": "Five Days at Memorial and The River of Doubt",
+      "retrieval_category": "NEW_ONLY",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Start with Five Days at Memorial (disaster/trial) and The River of Doubt (expedition). Both offer the immersive, novel-like momentum you liked in The Splendid and the Vile, with strong audiobook productions.",
+      "retrieval_category": "NEW_ONLY",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "No major structural roadblocks exist because you are self-employed with full schedule control. You can maintain your routine by working from beach cafes, provided you ensure reliable internet access and manage time zone differences for any synchronous work.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": true,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Yes, confirming the change makes sense. You are currently learning with a small account and focusing on standard stocks/ETFs, while advanced features (derivatives) are not yet part of your active practice. Removing the $15 monthly fee reduces costs for a learning account, and the tier's limitations align with your current goal of avoiding complex instruments.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Yes, keep the dog in mind. You have a senior Labrador who is a permanent part of your life. Prioritize ground-floor access, easy terrain, and shaded areas in your layout to accommodate his mobility and comfort needs.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": true,
+        "evidence_consistent": false,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "STALE_ACTION"
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": true,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Stick to your neighbors. You previously stated you are 'quite close' with them and already check in regularly, making them a trusted, low-friction option for pet care. Hiring a professional adds cost and logistical complexity for a task you already have a reliable, personal solution for.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": true,
+        "evidence_consistent": false,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "INVENTED_DETAIL"
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": true,
+        "non_generic": false,
+        "safe_unknown": true,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "NEITHER",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "NEITHER",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": "It is not a sensible setup because enrolling the main work machine in an early-access program conflicts with the user's established strategy of keeping beta software off mission-critical devices to maintain functionality and data safety.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "A",
+      "answer": "Tuesday 2–4pm conflicts with your established 'social night' slot. Since you typically leave home after 19:00 to avoid rush hour, this shift requires an afternoon departure, increasing peak-hour stress. Check if the volunteer role allows flexibility or if you can swap Tuesday for a lighter day like Friday, which is already designated as a catch-up slot.",
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": true,
+        "stale_action_rejected": true,
+        "evidence_consistent": true,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": true,
+        "error_type": "CORRECT_ACTION"
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "B",
+      "answer": null,
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": false,
+        "evidence_consistent": false,
+        "non_generic": false,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "UNSUPPORTED_ACTION"
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": true,
+        "evidence_consistent": false,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "INVENTED_DETAIL"
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Submit the proof immediately. As a U.S. citizen, you can upload a U.S. passport, birth certificate, or naturalization certificate. If you lack these, a government-issued ID showing U.S. citizenship or a Consular Report of Birth Abroad are valid alternatives. Do not delay, as the 48-hour deadline is strict.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": {
+        "action_state_aligned": false,
+        "stale_action_rejected": true,
+        "evidence_consistent": false,
+        "non_generic": true,
+        "safe_unknown": false,
+        "pass": false,
+        "error_type": "INVENTED_DETAIL"
+      }
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "The judge uses the same local model family as the actor and is auxiliary only.",
+    "Hidden benchmark explanations are not human gold.",
+    "Only dim3 is evaluated in this action probe."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has a senior Labrador that is a permanent part of their life.\",\n      \"source_ref\": \"Session 6, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning a weeklong road trip for this summer with their senior Labrador.\",\n      \"source_ref\": \"Session 6, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    },\n    {\n      \"fact\": \"User is organizing their daily commute routine and interested in starting a YouTube channel.\",\n      \"source_ref\": \"Session 48, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User has a senior Labrador that is a permanent part of their life.\"\n  ],\n  \"unresolved\": [\n    \"The user's current living situation or whether they are still actively planning the road trip in Session 6, as the conversation history shifts to unrelated topics (commute, YouTube, writing, health) in later sessions.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "3f0f796c13e6c2f72a3f40a5b90aa0da0c51792870a42a24cc8b118d40cce141",
+  "response_body_sha256": "404ff5033b8279554881773cf3cf6d7ca6c2537715ca0fd9937590ede4d79f2f",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"User has a senior Labrador that is a permanent part of their life.\",\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 56,
+    "prompt_tokens": 439,
+    "total_tokens": 495,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.488729,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 495,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "User has a senior Labrador that is a permanent part of their life.",
+    "evidence_refs": [
+      "Session 6, User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

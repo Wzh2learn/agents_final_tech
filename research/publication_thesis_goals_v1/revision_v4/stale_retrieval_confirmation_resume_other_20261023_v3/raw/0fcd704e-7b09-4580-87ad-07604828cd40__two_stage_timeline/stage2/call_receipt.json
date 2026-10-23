@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is usually asleep by 10:30 PM.\",\n      \"source_ref\": \"Session 7, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is not available on Tuesdays and Thursdays from 7:00 pm to 8:00 pm.\",\n      \"source_ref\": \"Session 10, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User plans to have a weekly review and meal planning session every Sunday evening from 8:30 pm to 9:30 pm.\",\n      \"source_ref\": \"Session 10, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is usually asleep by 10:30 PM.\",\n    \"User is not available on Tuesdays and Thursdays from 7:00 pm to 8:00 pm.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user's sleep schedule has changed between Session 7 (June 2025) and Session 45 (September 2025), as Session 45 does not mention sleep habits.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still typically fall asleep by 10:30 PM?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "fd4995a0e92b70198c78b90a6918a4b846a7449d0154fee031842a45b57a9686",
+  "response_body_sha256": "bb06facd9429032962933eed08942fd691e53355fddb6ec1cb47b44eb65d4316",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 488,
+    "total_tokens": 515,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.907283,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 515,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

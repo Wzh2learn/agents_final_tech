@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is focusing on maintaining a slower pace to manage elevated stress levels.\",\n      \"source_ref\": \"Session 12, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User recently took a 10-day break from social media from February 15th to 25th.\",\n      \"source_ref\": \"Session 19, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is interested in tracking social media usage to see how habits have changed since the break.\",\n      \"source_ref\": \"Session 19, User turn 11\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is interested in tracking social media usage to see how habits have changed since the break.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user is currently maintaining a slower pace for stress management, as the last evidence of this focus was in Session 12 (July 2024) and subsequent sessions do not confirm its continuation.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "7f3f801daf434611b924038ee845204ac24f897f63211ead273e39a3296dca69",
+  "response_body_sha256": "0eb9bef95ef1209e40c288cff204ea2077388b6f608f0286d05f5b2847777a5d",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 457,
+    "total_tokens": 484,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.008501,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 484,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

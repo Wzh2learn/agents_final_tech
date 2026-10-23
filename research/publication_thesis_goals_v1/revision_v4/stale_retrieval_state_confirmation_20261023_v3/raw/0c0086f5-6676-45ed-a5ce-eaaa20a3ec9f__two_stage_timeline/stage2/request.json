@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      36,
+      26,
+      13
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\",\n      \"source_ref\": \"Session 14, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is trying to redesign their daily routine to get more meaningful work done without burning out.\",\n      \"source_ref\": \"Session 14, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User asks for two variations of the schedule (meeting-heavy and maker day) and how to handle urgent pings during the 8-11 block.\",\n      \"source_ref\": \"Session 14, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\"\n  ],\n  \"unresolved\": [\n    \"User requested specific schedule variations and urgent ping handling strategies in the latest turn, which were provided by the assistant but not yet confirmed or acted upon by the user.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

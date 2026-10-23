@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is staying in a new city for about five months.\",\n      \"source_ref\": \"Session 8, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User signed paperwork for an 18-month assignment with a start date of next Monday (relative to Dec 13, 2024).\",\n      \"source_ref\": \"Session 31, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning a board game night for a Friday.\",\n      \"source_ref\": \"Session 46, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    }\n  ],\n  \"current_facts\": [\n    \"User has an 18-month assignment starting next Monday (relative to Dec 13, 2024).\"\n  ],\n  \"unresolved\": [\n    \"The user's original plan for a five-month stay in the previous city is no longer the active context, as they have moved to a new 18-month assignment.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still plan to stay in town for about five months?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "1edabe90876ce6081a776db198ba80df57d9ba3b2586d144f4f5785ff19c4815",
+  "response_body_sha256": "3e07e89a8650da76a126efb45838c50662a05d6acd4784b08978b8b9abe5e86d",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user has signed paperwork for an 18-month assignment starting next Monday.\",\n  \"evidence_refs\": [\n    \"Session 31, User turn 5\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 61,
+    "prompt_tokens": 448,
+    "total_tokens": 509,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.592768,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 509,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user has signed paperwork for an 18-month assignment starting next Monday.",
+    "evidence_refs": [
+      "Session 31, User turn 5"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

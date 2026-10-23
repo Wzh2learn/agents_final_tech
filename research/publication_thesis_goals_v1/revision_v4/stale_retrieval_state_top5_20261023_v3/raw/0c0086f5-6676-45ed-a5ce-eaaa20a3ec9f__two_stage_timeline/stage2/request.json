@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      36,
+      26,
+      13,
+      29,
+      10
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"The user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\",\n      \"source_ref\": \"Session 14, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"The user is using language learning apps like Duolingo and Babbel for about 20 minutes every day.\",\n      \"source_ref\": \"Session 30, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"The user is interested in exploring the Duolingo dataset to analyze learner habits and exercise completion rates.\",\n      \"source_ref\": \"Session 30, User turn 11\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"The user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\",\n    \"The user is using language learning apps like Duolingo and Babbel for about 20 minutes every day.\"\n  ],\n  \"unresolved\": [\n    \"The user's belief that Emma Thompson wrote a novel called 'The Lost City' is contradicted by the assistant's knowledge, but the user remains convinced based on a personal event memory.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

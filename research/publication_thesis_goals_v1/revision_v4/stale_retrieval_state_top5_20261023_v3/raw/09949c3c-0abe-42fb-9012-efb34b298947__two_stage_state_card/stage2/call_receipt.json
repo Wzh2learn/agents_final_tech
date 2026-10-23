@@ -1,0 +1,52 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User planned to stay in town for about five months (Session 8, User turn 3)\",\n  \"new_state\": \"User signed an 18-month assignment with a start date next Monday (Session 31, User turn 5)\",\n  \"change_type\": \"PROPAGATED\",\n  \"status\": \"OBSERVED\",\n  \"evidence_refs\": [\n    \"Session 8, User turn 3\",\n    \"Session 31, User turn 5\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still plan to stay in town for about five months?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "0fa5791b89dc53c10431ba768c27eefbb47b672a21352dc3e90dd99e80b259c1",
+  "response_body_sha256": "9a02af7d38908490cb12e6253d47adc71e0039b19edc074c2ae93f6e8f289446",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user signed an 18-month assignment with a start date next Monday.\",\n  \"evidence_refs\": [\n    \"Session 8, User turn 3\",\n    \"Session 31, User turn 5\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 73,
+    "prompt_tokens": 271,
+    "total_tokens": 344,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.629541,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 344,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user signed an 18-month assignment with a start date next Monday.",
+    "evidence_refs": [
+      "Session 8, User turn 3",
+      "Session 31, User turn 5"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

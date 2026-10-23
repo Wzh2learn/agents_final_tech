@@ -1,0 +1,19 @@
+{
+  "schema": "stale_semantic_judge_protocol_v3",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_JUDGE_GENERATION",
+  "judge_model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "prompt_sha256": "251d8ed1b8a768d7ea943f9f92f89562636f5bab4ad4f9b9c065a097033984e8",
+  "input_contract": [
+    "hidden M_old/M_new/explanation",
+    "retrieved source sessions with role and time",
+    "one question and four method-blind responses"
+  ],
+  "excluded_inputs": [
+    "actor self-labels",
+    "generated state cards",
+    "method names",
+    "automatic overlap scores"
+  ],
+  "identity": "AUXILIARY_LLM_JUDGE_NOT_HUMAN_GOLD"
+}

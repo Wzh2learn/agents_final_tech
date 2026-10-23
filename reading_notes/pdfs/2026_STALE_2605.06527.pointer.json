@@ -1,0 +1,10 @@
+{
+  "schema": "external_pdf_pointer_v1",
+  "title": "STALE: Can LLM Agents Know When Their Memories Are No Longer Valid?",
+  "source_url": "https://arxiv.org/pdf/2605.06527",
+  "sha256": "388f71f1eb952e7d7e7b19c2f25bfc744c47efa8ee00a548093b949432495109",
+  "local_archive_path": "D:/Documents/Loop_D_assets/2026_STALE_2605.06527.pdf",
+  "gb10_protected_path": "/home/testuser/wzh/protected_research_20261021_v1/literature/stale_2605.06527/stale_2605.06527.pdf",
+  "git_fulltext_path": "reading_notes/fulltext/2026_STALE_2605.06527.md",
+  "reason": "The PDF is 5 MB and the repository large-file guard blocks committing it. The exact binary is preserved outside Git and on GB10."
+}

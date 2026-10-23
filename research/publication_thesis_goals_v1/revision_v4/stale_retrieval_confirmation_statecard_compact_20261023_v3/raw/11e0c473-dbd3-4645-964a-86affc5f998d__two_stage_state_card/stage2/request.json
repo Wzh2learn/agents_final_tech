@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+    "arm": "two_stage_state_card",
+    "selected_indices": [
+      3,
+      8,
+      19
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 256
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User has close relationships with neighbors and maintains regular check-ins (Session 4, User turn 5)\",\n  \"new_state\": \"User is planning a road trip to Yosemite and has not mentioned neighbor interactions in recent sessions (Session 20, User turn 1)\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 4, User turn 5\",\n    \"Session 20, User turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still have close, high-frequency check-ins with their neighbors?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

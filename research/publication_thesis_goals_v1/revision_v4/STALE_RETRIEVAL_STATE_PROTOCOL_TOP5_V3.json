@@ -1,0 +1,37 @@
+{
+  "schema": "stale_retrieval_state_confirmation_protocol_top5_v3",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_MODEL_GENERATION",
+  "retrieval": {
+    "method": "BM25 over official role/time/session text",
+    "top_k": 5,
+    "same_selected_sessions_for_all_arms": true,
+    "reason": "Zero-model probe improved frozen-16 BOTH coverage from 3/16 to 8/16."
+  },
+  "query_dimension": "dim1",
+  "uids": "the same frozen 16 UIDs as STALE_RETRIEVAL_CONFIRMATION_REFERENCE_V3",
+  "reference_sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2",
+  "arms": {
+    "one_call_facts": {
+      "calls": 1,
+      "max_tokens": [512]
+    },
+    "two_stage_timeline": {
+      "calls": 2,
+      "max_tokens": [384, 128]
+    },
+    "two_stage_state_card": {
+      "calls": 2,
+      "max_tokens": [256, 256],
+      "engineering_revision": "evidence_refs at most three compact session/turn identifiers"
+    }
+  },
+  "primary_state_processing_population": "retrieval_category == BOTH_OLD_AND_NEW",
+  "secondary_population": "all 16 frozen UIDs",
+  "semantic_evaluation": "strict method-blind auxiliary judge plus deterministic diagnostics",
+  "stop_rules": [
+    "zero retries and single concurrency",
+    "preserve schema failures",
+    "stop on transport or model identity failure"
+  ]
+}

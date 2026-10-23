@@ -1,0 +1,261 @@
+{
+  "schema": "state_processing_comparison_v2",
+  "date": "2026-10-23",
+  "evidence_identity": "DEV_ONLY_FOUR_ARM_FAIR_BUDGET_WITH_ORACLE_RETRIEVAL",
+  "question": "Do specific current-fact answers improve from source-preserving direct reasoning, one-call task decomposition, generic two-stage timeline, or the state-card representation at comparable generation budgets?",
+  "visibility_contract": {
+    "same_evidence": "oracle relevant top-2 raw sessions",
+    "source_format": "official-style session index, timestamp, role and turn order",
+    "hidden_from_actor": [
+      "M_old",
+      "M_new",
+      "explanation",
+      "relevant_session_index"
+    ],
+    "semantic_scoring": "answer text plus selected evidence plus fixed semantic reference"
+  },
+  "budget_contract": {
+    "direct_answer": {
+      "calls": 1,
+      "max_tokens": [
+        512
+      ]
+    },
+    "one_call_facts": {
+      "calls": 1,
+      "max_tokens": [
+        512
+      ]
+    },
+    "two_stage_timeline": {
+      "calls": 2,
+      "max_tokens": [
+        384,
+        128
+      ]
+    },
+    "two_stage_state_card": {
+      "calls": 2,
+      "max_tokens": [
+        256,
+        256
+      ]
+    }
+  },
+  "development_uids": [
+    "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+    "04fea765-0b32-4e8f-b4e9-225901f627b0",
+    "009b7c99-b777-465a-bc3a-77f2d88c1318",
+    "012f090e-6e02-4751-955d-574745069df3"
+  ],
+  "summary": {
+    "overall": {
+      "planned_calls": 8,
+      "observed_calls": 8,
+      "accounting_tokens": 17065,
+      "retry_count": 0
+    },
+    "by_arm": {
+      "direct_answer": {
+        "planned_calls": 0,
+        "observed_calls": 0,
+        "http_ok": 0,
+        "valid_json": 0,
+        "semantic_success": 0,
+        "semantic_count": 0,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0,
+        "latency_seconds_sum": 0
+      },
+      "one_call_facts": {
+        "planned_calls": 0,
+        "observed_calls": 0,
+        "http_ok": 0,
+        "valid_json": 0,
+        "semantic_success": 0,
+        "semantic_count": 0,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0,
+        "latency_seconds_sum": 0
+      },
+      "two_stage_timeline": {
+        "planned_calls": 8,
+        "observed_calls": 8,
+        "http_ok": 8,
+        "valid_json": 8,
+        "semantic_success": 1,
+        "semantic_count": 4,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 17065,
+        "completion_tokens": 1265,
+        "latency_seconds_sum": 29.662282
+      },
+      "two_stage_state_card": {
+        "planned_calls": 0,
+        "observed_calls": 0,
+        "http_ok": 0,
+        "valid_json": 0,
+        "semantic_success": 0,
+        "semantic_count": 0,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0,
+        "latency_seconds_sum": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "answer": "No, the user has completed their master's program and is employed in a full-time job.",
+      "intermediate_text": "{\"timeline\": [{\"fact\": \"User is currently an undergraduate student who has not finished their education yet.\", \"source_ref\": \"Session 12, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"past\"}, {\"fact\": \"User just wrapped up their master’s program last month.\", \"source_ref\": \"Session 35, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is focusing on settling into their full-time job.\", \"source_ref\": \"Session 35, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}], \"current_facts\": [\"User has completed their master's program.\", \"User is employed in a full-time job.\"], \"unresolved\": [\"The user's status as an undergraduate is outdated; they have now graduated and are working.\"]}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "affirms_old_state": true
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 8,
+          "grounded_token_count": 6,
+          "grounded_token_ratio": 0.75,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "answer": "User has returned Mike's pressure washer.",
+      "intermediate_text": "{\"timeline\": [{\"fact\": \"User realized they still had Mike's pressure washer and needed to return it.\", \"source_ref\": \"Session 3, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"past\"}, {\"fact\": \"User completed a drop-off run this morning, confirming no one else's gear is in their garage.\", \"source_ref\": \"Session 39, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is organizing their garage and setting up a landing zone.\", \"source_ref\": \"Session 39, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}], \"current_facts\": [\"User has returned Mike's pressure washer.\", \"User is currently organizing their garage.\"], \"unresolved\": []}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "affirms_old_state": true
+      },
+      "semantic": {
+        "relation": "CONTRADICTORY",
+        "matched_required_groups": [
+          0
+        ],
+        "grounding": {
+          "answer_token_count": 5,
+          "grounded_token_count": 4,
+          "grounded_token_ratio": 0.8,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "answer": null,
+      "intermediate_text": "{\"timeline\": [{\"fact\": \"User has been cycling to work for years.\", \"source_ref\": \"Session 15, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"past\"}, {\"fact\": \"User is currently dealing with a temporary mobility limitation and is wearing a walking boot.\", \"source_ref\": \"Session 35, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is rethinking their morning flow and commute due to the boot.\", \"source_ref\": \"Session 35, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}], \"current_facts\": [\"User is currently dealing with a temporary mobility limitation and is wearing a walking boot.\", \"User is rethinking their morning flow and commute due to the boot.\"], \"unresolved\": [\"Whether the user has actually switched their commute mode or is still cycling despite the boot.\"]}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [
+          0
+        ],
+        "affirms_old_state": true
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "answer": "User has an investment portfolio that is tied up and cannot be withdrawn from at this time.",
+      "intermediate_text": "{\"timeline\": [{\"fact\": \"User has an investment portfolio that is tied up and cannot be withdrawn from at this time.\", \"source_ref\": \"Session 6, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is in the process of buying a place and needs to show liquid funds by Friday.\", \"source_ref\": \"Session 34, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is moving money from a brokerage account into checking to meet the Friday requirement.\", \"source_ref\": \"Session 34, User turn 8\", \"source_role\": \"user\", \"temporal_status\": \"current\"}], \"current_facts\": [\"User has an investment portfolio that is tied up and cannot be withdrawn from at this time.\", \"User is in the process of buying a place and needs to show liquid funds by Friday.\"], \"unresolved\": [\"Whether the user's investment portfolio remains tied up after the current home-buying process concludes.\"]}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "affirms_old_state": true
+      },
+      "semantic": {
+        "relation": "OLD_STATE_VALID",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 8,
+          "grounded_token_count": 6,
+          "grounded_token_ratio": 0.75,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "These four UIDs are development objects and cannot estimate benchmark accuracy.",
+    "Oracle retrieval isolates state processing but is not deployable retrieval.",
+    "The semantic reference is AI-assisted development material, not human gold.",
+    "Actual token and latency costs are reported; equal max generation cap is not equal realized compute."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is keeping their reading list pretty strictly to science fiction novels.\",\n      \"source_ref\": \"Session 14, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User has been on a big nonfiction kick lately, mostly biographies and history.\",\n      \"source_ref\": \"Session 35, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is currently reading nonfiction (biographies and history) rather than strictly science fiction.\"\n  ],\n  \"unresolved\": [\n    \"The user's previous constraint of sticking strictly to science fiction has been superseded by their current interest in nonfiction.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "e0ed2a547be552edf99146ff7e5fed53868b7831df65f74f69d31136e8c4acc4",
+  "response_body_sha256": "305f3e686d4b22813dcb45bec198f2c1cc982ed0600546d684b64d06ffdf1195",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"User is currently reading nonfiction (biographies and history) rather than strictly science fiction.\",\n  \"evidence_refs\": [\n    \"Session 35, User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 61,
+    "prompt_tokens": 359,
+    "total_tokens": 420,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.467326,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 420,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "User is currently reading nonfiction (biographies and history) rather than strictly science fiction.",
+    "evidence_refs": [
+      "Session 35, User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

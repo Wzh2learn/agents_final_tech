@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User runs for thirty minutes every single morning\",\n  \"new_state\": \"User is unsure if they still run for thirty minutes every single morning\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\",\n    \"Session 32, User turn 3\",\n    \"Session 25, User turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still run for thirty minutes every single morning?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "981d64c8a924c5ea8fc2b6c9c7016b1ba21d6a8cf357290dafeb4a619011e768",
+  "response_body_sha256": "19aecd641750005c2d44399be2ef7136059f417618d7f13c47f45800338edbbd",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\",\n    \"Session 32, User turn 3\",\n    \"Session 25, User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 68,
+    "prompt_tokens": 259,
+    "total_tokens": 327,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.580485,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 327,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 6, User turn 1",
+      "Session 32, User turn 3",
+      "Session 25, User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

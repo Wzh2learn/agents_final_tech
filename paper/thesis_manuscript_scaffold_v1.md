@@ -1,6 +1,6 @@
 # 大论文稿件骨架与小论文继承表（v1）：V2 现役章节接续
 
-> 状态：`CURRENT_WRITING_SCAFFOLD / NOT_FINAL_THESIS` | 更新：2026-10-22
+> 状态：`CURRENT_WRITING_SCAFFOLD / NOT_FINAL_THESIS` | 更新：2026-10-23
 
 ## V2 现役题目、问题与章节
 
@@ -15,11 +15,11 @@
 | 第 3 章 分阶段文档评测的测量审计 | Paper E 两案例、六构念、FinQA 边界、FinRank 合同敏感性 | **已形成独立受限论文证据** | 高；以 G1 主稿为来源 |
 | 第 4 章 变化任务完成与目标结果消费验证 | 实际模块绑定、配对因果干预、三态输出、强 static/behavior 对照 | **G2 边界证据；方法增量未识别** | 中；当前机制停止扩展 |
 | 第 5 章 真实成本下的验证决策 | 六对象真实动作、短路策略、误放行/误拒/未决 | **G3 开发诊断** | 中；复杂 planner 暂停 |
-| 第 6 章 证据失效、复用与状态传播（条件性） | 输入粒度、`REUSE/PARTIAL_CHECK/FULL_CHECK/DEFER` 合同、STALE raw-session/state-card 表示对照 | **第三贡献有界开发候选** | 中；已有开发机制证据，尚缺非 oracle retrieval、第二自然模块和真实收益 |
+| 第 6 章 证据复用、检索与状态传播（条件性） | 输入粒度、缓存/重验合同、BM25 检索覆盖、state card 与行动迁移 | **统一第三研究点候选** | 中；已有阶段分解证据，尚缺独立行动参考和真实下游收益 |
 | 第 7 章 系统实现与复现 | GB10 provenance、artifact、账本、真实任务环境与失败记录 | 实际工程证据 | 中 |
 | 第 8 章 总结与限制 | 分别回答三条证据线；未定/停止保持原样 | 后写 | 待主要实验收口 |
 
-**贡献口径：** 第 3 章是当前最成熟贡献。第 4 章保留“行为测试可以漏掉合同未完成”的测量边界，但 simple strong baseline 已 6/6，不能写成新 verifier 优越性。第 5 章只支持透明短路规则和成本报告，不支持复杂 planner。第 6 章可写成输入级证据粒度、复用动作合同和状态表示的机制边界：`REUSE` 只允许 `per_input` 旧证据，`PARTIAL_CHECK` 处理同 regime 新输入，`FULL_CHECK` 处理条件改变，`DEFER` 处理 fingerprint 缺失。scope 与 always-full 在 20 个开发 transition 上同为 15 CORRECT、5 ABSTAIN，scope 少 5 个 probe；STALE 探针又显示 raw-session one-shot 难以传播新状态，而 state-card 表示在小规模配对检查中提高成功数。但这些 transition 不是自然 family，STALE 新 UID 也仍是同发行版内部确认，且缺非 oracle retrieval、第二自然模块和真实修复/结果收益，不能写成已成立贡献。旧的评估引导蒸馏、规则自学习、Memory/SFT 章节映射保留在下文作为历史骨架。
+**贡献口径：** 第 3 章是当前最成熟贡献。第 4 章保留“行为测试可以漏掉合同未完成”的测量边界，但 simple strong baseline 已 6/6，不能写成新 verifier 优越性。第 5 章只支持透明短路规则和成本报告，不支持复杂 planner。第 6 章统一组织证据粒度、精确缓存/miss 重验、检索覆盖、状态表示和行动迁移。scope 的 5 次 probe 节省已被精确缓存完全解释；STALE 上 state card 只在部分 dim1 样本中领先 one-call，严格配对差异很小，去退化 dim3 行动结果反而不领先。CUPMem 已覆盖结构化状态裁决和传播搜索，因此当前主张应是阶段分解与测量边界，不能把 scope 和 state card 拆成两个创新点，也不能写成已成立方法贡献。旧的评估引导蒸馏、规则自学习、Memory/SFT 章节映射保留在下文作为历史骨架。
 
 ## V2 当前中文正文摘要
 
@@ -33,15 +33,15 @@
 
 ### 证据失效与复用
 
-真实 fixture 上的 PASS 不能无条件迁移到短输入范围：natural migration 和 alias 控制在两个范围间发生行为差异。后续策略探针把证据粒度纳入合同，只有逐输入绑定的旧证据才能 exact-input `REUSE`；同 regime 新输入使用 `PARTIAL_CHECK`，依赖或输入 regime 改变使用 `FULL_CHECK`，缺 fingerprint 使用 `DEFER`。在 5 个候选模块 × 4 个开发场景组成的 20 个 development transition 上，`scope_policy` 与 `always_full_check` 都得到 15 CORRECT、0 误放行、0 误拒、5 ABSTAIN，但 probe 数为 30 对 35。这个结果说明透明规则可以在相同开发正确率下减少检查量，但 20 个 transition 不是自然 family，parent-derived decoded text 也不是人工 gold。学习型 evidence expiry 仍未成立；下一阶段必须使用第二个自然模块，并证明真实修复决策或结果收益。
+真实 fixture 上的 PASS 不能无条件迁移到短输入范围：natural migration 和 alias 控制在两个范围间发生行为差异。策略探针把证据粒度纳入合同，只有逐输入绑定的旧证据才能 exact-input `REUSE`；同 regime 新输入使用 `PARTIAL_CHECK`，依赖或输入 regime 改变使用 `FULL_CHECK`，缺 fingerprint 使用 `DEFER`。在 20 个 development transition 上，scope 与 always-full 均为 15 CORRECT、5 ABSTAIN，probe 为 30 对 35。但零模型 post-hoc replay 表明，精确缓存＋miss 重验同样为 15/5 和 30 probes，且 20 个最终决策与 scope 完全相同。因此 5 次节省是 exact-input cache 效应，不是 scope 推断的独特收益；这些 transition 也不是自然 family。
 
 ### 状态表示与失效传播（开放探索）
 
-STALE 公开数据探针进一步区分“检索到相关历史”与“把新状态传播到当前回答”。在 36 个 retrieval query 上，query-only recall 为 `0`，lexical top-k 平均 recall 为 `0.347`，oracle relevant top-k 为 `1.0`。这里的 oracle retrieval 是隐藏相关索引驱动的开发上界，不是可部署检索结果。
+STALE/CUPMem 公开材料进一步区分检索、状态传播和行动适配。CUPMem 已覆盖 user-only 状态抽取、显式/推断更新、write-time stale/unknown-current 裁决、propagation-aware search 和 constrained readout；本项目不把 state card 本身写成新机制。零模型检索比较显示，BM25 top-3 到 top-5 使全 400 个 dim1 的新证据召回从 `0.370` 提高到 `0.473`，新旧证据同时命中率从 `0.360` 提高到 `0.468`，冻结 16 UID 从 `3/16` 提高到 `8/16`。
 
-在固定 Qwen3.6 提示下，主 4 UID 的 `dim1` 查询使用 oracle raw sessions 时，one-shot 只有 `1/4` 得到 stale-state 处理；显式提供隐藏的 `M_old/M_new` 后达到 `4/4`，再加 `explanation` 仍为 `4/4`。将 raw sessions 先转换为 `raw session -> state card -> answer` 的 two-stage 表示，在相同 4 UID 上为 `3/4`。这说明显式状态值对该模型很有帮助，但它们是 oracle diagnostic；模型生成的 state card 是中间表示，不是语义 gold。`explanation` 在这 4 个案例中没有额外提高上限，也不能推广为解释普遍无用。
+固定 Qwen3.6 的 oracle 诊断中，显式 `M_old/M_new` 在 4 个开发 UID 上为 `4/4`，再加 `explanation` 仍为 `4/4`；这只能说明显式状态表示有诊断价值，不能作为可部署成绩。旧的首词极性代理可被固定 `No + STALE_DETECTED` 通过，故不作为语义准确率。严格、方法盲的辅助 judge 在 top-5 dim1 上得到 one-call facts `4/16`、通用 timeline `3/16`、state card `5/16`；在 8 个检索覆盖子集上为 `4/8、3/8、5/8`。
 
-在运行前冻结的同 STALE 发行版新 UID 检查中，T1/T2 各 4 个，one-shot 为 `0/8`，two-stage 为 `4/8`，两类均为 `2/4`，配对差为 `+0.50`。两臂共使用 24 calls、49,513 accounting tokens、0 retry。该检查仍使用 oracle relevant sessions，state card 由模型生成，答案极性由首词 lexical proxy 判定，且没有运行 official STALE judge；因此它是同一 STALE 内部的冻结确认，不是外部确认。当前证据只支持“状态表示和状态抽取是候选机制”，不能写成完整方法贡献或一般 Memory 机制。下一门必须在非 oracle retrieval、独立语义评价和真实下游结果上检验这一表示假设。
+逐 UID 配对中，state card 相对 one-call 为 2 个独有成功、1 个独有失败、3 个共同成功、10 个共同失败，3 个不一致样本不足以支持稳定优势。dim3 行动检查在去除空答案、safe-unknown 和 judge 自相矛盾后，one-call 为 `3/16`，state card 为 `2/16`；检索覆盖子集为 `2/6` 对 `0/6`。因此 state card 仅保留为 dim1 表示候选，当前没有行动收益。下一门必须使用独立行动参考和真实下游结果；若简单事实抽取继续追平，则第三研究点收窄为测量与边界材料。
 
 ## 历史骨架（2026-09-22）
 > 原则：小论文先交；大论文复用其证据，但不得阻塞小论文送审。

@@ -4,6 +4,10 @@ Date: 2026-10-23, Asia/Shanghai
 
 Status: `COMPLETE_DEV_MECHANISM_PROBE`
 
+> 2026-10-23 correction: the proxy comparison in this report is preserved as an
+> engineering observation. It is not a semantic-accuracy result; see
+> `revision_v4/RESEARCH_SPRINT_RETURN.md`.
+
 Evidence identity: `DEV_ONLY_TWO_STAGE_MECHANISM_PROBE`
 
 Visibility: `DEV_ONLY_TWO_STAGE_MECHANISM_PROBE_ORACLE_RETRIEVAL`

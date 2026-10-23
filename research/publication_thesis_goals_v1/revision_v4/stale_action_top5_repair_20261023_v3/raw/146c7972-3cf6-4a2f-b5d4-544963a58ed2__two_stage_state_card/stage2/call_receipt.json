@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is planning a weekly routine anchored by a Mon-Fri commute (8:00-18:30) and has established a concrete template with specific fallback rules for train delays or late workdays to avoid peak-hour stress.\",\n  \"new_state\": \"User is proposing a new recurring commitment (Tuesday 2-4pm volunteer shift) that conflicts with the established post-commute gym/social schedule and requires verification against the previously defined fallback rules for mid-afternoon travel.\",\n  \"change_type\": \"PROPAGATED\",\n  \"status\": \"INFERRED\",\n  \"evidence_refs\": [\n    \"Session 35, User turn 7\",\n    \"Session 35, Assistant turn 8\",\n    \"Session 35, User turn 1\"\n  ]\n}\n\nQuestion: I’m thinking about signing up for a recurring volunteer shift every Tuesday from 2–4pm across town for the next three months—do you see any red flags with committing to that, and what would you suggest I check or line up first so it doesn’t mess up my work week?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "8334fde095b46a47e07a1a1af46a4e3adb3a60137bef9010b103f1f435dc1d80",
+  "response_body_sha256": "58a15541e1becbf1497bc67844fb315ba7c78f2bdfbe9acfddd1469758b02bca",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 35, User turn 7\",\n    \"Session 35, Assistant turn 8\",\n    \"Session 35, User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 69,
+    "prompt_tokens": 370,
+    "total_tokens": 439,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.629788,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 439,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 35, User turn 7",
+      "Session 35, Assistant turn 8",
+      "Session 35, User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

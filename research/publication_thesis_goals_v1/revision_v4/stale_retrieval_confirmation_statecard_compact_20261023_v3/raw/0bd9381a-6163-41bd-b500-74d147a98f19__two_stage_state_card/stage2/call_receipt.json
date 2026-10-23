@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User has kept the same circle of friends for over ten years and hangs out with them at least once a month.\",\n  \"new_state\": \"User has kept the same circle of friends for over ten years and hangs out with them at least once a month.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"OBSERVED\",\n  \"evidence_refs\": [\n    \"Session 5, User turn 7\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "fee3a8b53291c6b076e4d753b173ff12f52f3df4088925ff95af9f734995f674",
+  "response_body_sha256": "7f2a7a43c061081462dccd4cf556b1bedb161eaea30e96c4924add8323a0d277",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"The user has kept the same circle of friends for over ten years and hangs out with them at least once a month.\",\n  \"evidence_refs\": [\n    \"Session 5, User turn 7\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 66,
+    "prompt_tokens": 271,
+    "total_tokens": 337,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.441837,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 337,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "The user has kept the same circle of friends for over ten years and hangs out with them at least once a month.",
+    "evidence_refs": [
+      "Session 5, User turn 7"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

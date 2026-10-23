@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User has a consistent morning habit of running for 30 minutes daily, supplemented by a 10-minute warm-up and 5-minute cool-down, with specific cues for effort and mobility.\",\n  \"new_state\": \"User is considering fostering a high-energy Husky that requires a 3-mile continuous trot every morning, creating a potential conflict with the user's existing 30-minute run routine.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\",\n    \"Session 6, Assistant turn 4\",\n    \"Session 6, User turn 7\"\n  ]\n}\n\nQuestion: I'm considering fostering a young, extremely high-energy Husky that absolutely requires a fast-paced, 3-mile continuous trot around the neighborhood streets first thing every single morning to prevent it from destroying the house. Will my current daily morning habit seamlessly cover this dog's strict exercise needs?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "90606187c1f52418320095d74d3772d79707410ecf9b7d6d0f84f6743b5d1d32",
+  "response_body_sha256": "89a50ae7c930043b79898604e48af7a01b8ecb66921a6edd8ab28f25ffdc872d",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\",\n    \"Session 6, Assistant turn 4\",\n    \"Session 6, User turn 7\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 66,
+    "prompt_tokens": 347,
+    "total_tokens": 413,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.573651,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 413,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 6, User turn 1",
+      "Session 6, Assistant turn 4",
+      "Session 6, User turn 7"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

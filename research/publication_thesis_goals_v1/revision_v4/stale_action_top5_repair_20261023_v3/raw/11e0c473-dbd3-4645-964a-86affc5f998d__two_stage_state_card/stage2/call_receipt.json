@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User has neighbors they are close with and who check in on each other; they have previously discussed low-key check-in scripts for neighbors.\",\n  \"new_state\": \"User is considering having neighbors water plants and feed the cat during a 10-day vacation, but is weighing this against hiring a professional sitter.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 4, User turn 5\",\n    \"Session 4, Assistant turn 6\",\n    \"Session 4, User turn 7\"\n  ]\n}\n\nQuestion: I'm finalizing a 10-day vacation for the middle of next month and need someone to water my indoor plants and feed the cat. Should I just stick to my usual routine of having the people next door pop over, or is it better to hire a professional sitter through an app?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "e03727a5ba21360b9a5e8a7e4d0ae2949e533a86ac740c3fdd9e8d083951b5c7",
+  "response_body_sha256": "54b67cb98ba0b23018edb660b43e3ca3816e9efd0323505e2bdde63a12e248b2",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 4, User turn 5\",\n    \"Session 4, Assistant turn 6\",\n    \"Session 4, User turn 7\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 66,
+    "prompt_tokens": 331,
+    "total_tokens": 397,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.569394,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 397,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 4, User turn 5",
+      "Session 4, Assistant turn 6",
+      "Session 4, User turn 7"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

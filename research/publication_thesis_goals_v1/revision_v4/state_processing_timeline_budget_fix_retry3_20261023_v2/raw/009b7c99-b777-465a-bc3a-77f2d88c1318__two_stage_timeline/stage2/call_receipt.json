@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has been cycling to work for years.\",\n      \"source_ref\": \"Session 15, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is currently dealing with a temporary mobility limitation and is wearing a walking boot.\",\n      \"source_ref\": \"Session 35, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is rethinking their morning flow and commute due to the boot.\",\n      \"source_ref\": \"Session 35, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is currently dealing with a temporary mobility limitation and is wearing a walking boot.\",\n    \"User is rethinking their morning flow and commute due to the boot.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user has actually switched their commute mode or is still cycling despite the boot.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still commute to work by cycling?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "6ed9d87755d8be45c51db3b1c51a34d59b3c175fb820ab15e9f9e6cebf03fa4d",
+  "response_body_sha256": "071bdd6a352097b0a5d1571575543813245feaf2c2ea51831f6517c3414f539a",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 420,
+    "total_tokens": 447,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.851436,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 447,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

@@ -1,0 +1,179 @@
+{
+  "schema": "reuse_exact_cache_baseline_v2",
+  "date": "2026-10-23",
+  "evidence_identity": "POST_HOC_RECOMBINATION_OF_FROZEN_ACTION_RECEIPTS_NOT_FRESH_MODULE_EXECUTION",
+  "policy": "Defer when fingerprint is missing; reuse only exact-input per-input evidence with unchanged dependency; otherwise full-check the miss.",
+  "counts": {
+    "CORRECT": 15,
+    "ABSTAIN": 5
+  },
+  "probe_count": 30,
+  "same_decisions_as_scope_policy": true,
+  "rows": [
+    {
+      "candidate_id": "partridge_parent",
+      "scenario_id": "unchanged_exact_fixture",
+      "action": "REUSE",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_parent",
+      "scenario_id": "same_regime_new_fixtures",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_parent",
+      "scenario_id": "short_input_regime",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_parent",
+      "scenario_id": "missing_scope_fingerprint",
+      "action": "DEFER",
+      "decision": "UNRESOLVED",
+      "outcome": "ABSTAIN",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_gold",
+      "scenario_id": "unchanged_exact_fixture",
+      "action": "REUSE",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_gold",
+      "scenario_id": "same_regime_new_fixtures",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_gold",
+      "scenario_id": "short_input_regime",
+      "action": "FULL_CHECK",
+      "decision": "FAIL",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_gold",
+      "scenario_id": "missing_scope_fingerprint",
+      "action": "DEFER",
+      "decision": "UNRESOLVED",
+      "outcome": "ABSTAIN",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_source_fallback",
+      "scenario_id": "unchanged_exact_fixture",
+      "action": "REUSE",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_source_fallback",
+      "scenario_id": "same_regime_new_fixtures",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_source_fallback",
+      "scenario_id": "short_input_regime",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_source_fallback",
+      "scenario_id": "missing_scope_fingerprint",
+      "action": "DEFER",
+      "decision": "UNRESOLVED",
+      "outcome": "ABSTAIN",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_alias",
+      "scenario_id": "unchanged_exact_fixture",
+      "action": "REUSE",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_alias",
+      "scenario_id": "same_regime_new_fixtures",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_alias",
+      "scenario_id": "short_input_regime",
+      "action": "FULL_CHECK",
+      "decision": "FAIL",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_alias",
+      "scenario_id": "missing_scope_fingerprint",
+      "action": "DEFER",
+      "decision": "UNRESOLVED",
+      "outcome": "ABSTAIN",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_audit_counterexample",
+      "scenario_id": "unchanged_exact_fixture",
+      "action": "REUSE",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 0
+    },
+    {
+      "candidate_id": "partridge_audit_counterexample",
+      "scenario_id": "same_regime_new_fixtures",
+      "action": "FULL_CHECK",
+      "decision": "PASS",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_audit_counterexample",
+      "scenario_id": "short_input_regime",
+      "action": "FULL_CHECK",
+      "decision": "FAIL",
+      "outcome": "CORRECT",
+      "probe_count": 3
+    },
+    {
+      "candidate_id": "partridge_audit_counterexample",
+      "scenario_id": "missing_scope_fingerprint",
+      "action": "DEFER",
+      "decision": "UNRESOLVED",
+      "outcome": "ABSTAIN",
+      "probe_count": 0
+    }
+  ],
+  "nonclaims": [
+    "This is not a new real-module run or natural-family estimate.",
+    "It does not establish a general cache method contribution.",
+    "It explains the five-probe saving through exact-input reuse only."
+  ]
+}

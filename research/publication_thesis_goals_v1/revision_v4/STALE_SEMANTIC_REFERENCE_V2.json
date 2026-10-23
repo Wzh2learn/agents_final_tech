@@ -1,0 +1,193 @@
+{
+  "schema": "stale_semantic_reference_v2",
+  "date": "2026-10-23",
+  "evidence_identity": "AI_ASSISTED_DEVELOPMENT_REFERENCE_FROM_HIDDEN_STATE_AND_SOURCE_NOT_HUMAN_GOLD",
+  "visibility_contract": {
+    "actor_visible": false,
+    "allowed_use": "post-hoc semantic and evidence evaluation only",
+    "derived_from": [
+      "M_old",
+      "M_new",
+      "explanation",
+      "probing_queries",
+      "haystack_session"
+    ],
+    "nonclaims": [
+      "This is not human gold, a blind annotation, or an official STALE judge result.",
+      "The reference does not certify every commonsense propagation in Type II as logically necessary."
+    ]
+  },
+  "items": {
+    "01f694b2-c555-4b6e-8ca0-5f11210e2227": {
+      "type": "T1",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "DIRECT",
+      "required_concept_groups": [
+        ["master", "master's", "graduate", "graduated"],
+        ["full-time", "full time", "working", "job"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["undergraduate", "not finished", "education"],
+      "ambiguity": false
+    },
+    "04fea765-0b32-4e8f-b4e9-225901f627b0": {
+      "type": "T1",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "DIRECT",
+      "required_concept_groups": [
+        ["returned", "drop-off", "dropped off", "gave back"],
+        ["garage", "cleared", "no longer has", "doesn't have"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["still have", "pressure washer", "return it"],
+      "ambiguity": false
+    },
+    "009b7c99-b777-465a-bc3a-77f2d88c1318": {
+      "type": "T2",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "PROPAGATED",
+      "required_concept_groups": [
+        ["walking boot", "orthopedist", "injury", "injured", "mobility"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["still commute", "cycling to work", "normal cycling"],
+      "ambiguity": false
+    },
+    "012f090e-6e02-4751-955d-574745069df3": {
+      "type": "T2",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "PROPAGATED",
+      "required_concept_groups": [
+        ["liquid", "cash", "funds", "liquidity", "friday"],
+        ["brokerage", "moving money", "accessible", "withdrawals available"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["tied up", "can't make withdrawals", "unavailable for withdrawals"],
+      "ambiguity": false
+    },
+    "0683a7ee-1c84-4f83-adb0-c3b04b1ade84": {
+      "type": "T1",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "DIRECT",
+      "required_concept_groups": [
+        ["silver hatchback", "hatchback"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["blue sedan", "same blue sedan"],
+      "ambiguity": false
+    },
+    "0781e96e-853c-46af-b787-4a64fc248e62": {
+      "type": "T1",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "DIRECT",
+      "required_concept_groups": [
+        ["analog", "analogue", "simple wristwatch", "simple watch", "non-smart"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["smartwatch", "wear a smartwatch", "daily smartwatch"],
+      "ambiguity": false
+    },
+    "07cc73f3-8a5f-4680-9ad1-8a284389be0d": {
+      "type": "T1",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "DIRECT",
+      "required_concept_groups": [
+        ["strategy", "strategic", "broader influence", "leadership"],
+        ["advancement", "moving up", "regional role", "broader role"],
+        ["longer-term impact", "cross-team coordination", "quick visible wins", "day-to-day outcomes"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["direct results", "turning down the regional role", "prefer roles"],
+      "ambiguity": false
+    },
+    "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11": {
+      "type": "T1",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "DIRECT",
+      "required_concept_groups": [
+        ["driving", "drives", "car"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["light rail", "take the light rail"],
+      "ambiguity": false
+    },
+    "05fc9783-f06c-453f-8899-15253d63533a": {
+      "type": "T2",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "PROPAGATED",
+      "required_concept_groups": [
+        ["on-call", "on call", "rotating", "incident", "triage", "phone"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["reserve the first hour", "safety compliance checks", "reliably reserve"],
+      "ambiguity": false
+    },
+    "06071a3e-6ac8-41cc-8138-6db403c7b42d": {
+      "type": "T2",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "PROPAGATED",
+      "required_concept_groups": [
+        ["copenhagen", "fellowship", "relocating", "abroad", "sublet"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["live day-to-day", "same home", "parents and brother"],
+      "ambiguity": false
+    },
+    "0a5d90e4-a8c1-4929-81c6-acd553069f50": {
+      "type": "T2",
+      "expected_relation": "OLD_STATE_INVALID",
+      "invalidation_kind": "PROPAGATED",
+      "required_concept_groups": [
+        ["night shift", "overnight", "bakery", "sleeping", "morning"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["weeknights completely open", "only schedule", "saturday or sunday"],
+      "ambiguity": false
+    },
+    "0c348e44-7f55-4d95-aeb7-137f801985d7": {
+      "type": "T2",
+      "expected_relation": "QUALIFIED_INVALIDATION",
+      "invalidation_kind": "AMBIGUOUS_PROPAGATED",
+      "required_concept_groups": [
+        ["tiny apartment", "small apartment", "storage", "downsizing", "clutter"]
+      ],
+      "min_required_groups": 1,
+      "old_state_concepts": ["avoid streaming", "prefer owning physical", "physical copies"],
+      "ambiguity": true
+    }
+  },
+  "derived_controls": [
+    {
+      "id": "UNRELATED_NEW_EVENT_PRESERVES_OLD_STATE",
+      "expected_relation": "OLD_STATE_VALID",
+      "evidence": "[user] I bought a new coffee grinder today.",
+      "query": "Do I still drive the blue sedan?",
+      "accepted_answers": ["Yes, the blue sedan remains the current car."],
+      "rejected_answers": ["No, the coffee grinder changed the car."]
+    },
+    {
+      "id": "FUTURE_PLAN_NOT_CURRENT_STATE",
+      "expected_relation": "UNKNOWN_CURRENT",
+      "evidence": "[user] I might move to Austin next year.",
+      "query": "Do I currently live in Austin?",
+      "accepted_answers": ["The evidence describes a future plan, so the current location is unknown."],
+      "rejected_answers": ["Yes, the user currently lives in Austin."]
+    },
+    {
+      "id": "ASSISTANT_SUGGESTION_NOT_USER_STATE",
+      "expected_relation": "OLD_STATE_VALID",
+      "evidence": "[user] I still take the light rail. [assistant] You could try driving instead.",
+      "query": "Does the user still take the light rail?",
+      "accepted_answers": ["Yes, the user still takes the light rail; driving was only an assistant suggestion."],
+      "rejected_answers": ["No, the user now drives because the assistant recommended it."]
+    },
+    {
+      "id": "INSUFFICIENT_EVIDENCE",
+      "expected_relation": "UNKNOWN_CURRENT",
+      "evidence": "[user] The weather has been rainy.",
+      "query": "Does the user still wear a smartwatch?",
+      "accepted_answers": ["There is not enough evidence to determine the current watch."],
+      "rejected_answers": ["Yes, the user still wears a smartwatch."]
+    }
+  ]
+}

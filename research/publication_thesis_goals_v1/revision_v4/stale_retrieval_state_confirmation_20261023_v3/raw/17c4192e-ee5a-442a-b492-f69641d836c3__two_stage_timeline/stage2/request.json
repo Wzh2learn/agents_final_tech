@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      13,
+      15,
+      2
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is currently self-employed with a fully self-directed work schedule.\",\n      \"source_ref\": \"Session 16, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User recently took on a new role as a senior account manager.\",\n      \"source_ref\": \"Session 3, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is mentoring a junior colleague named Alex.\",\n      \"source_ref\": \"Session 3, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is currently self-employed with a fully self-directed work schedule.\",\n    \"User is mentoring a junior colleague named Alex.\"\n  ],\n  \"unresolved\": [\n    \"The user's current employment status is ambiguous due to conflicting evidence: Session 16 (2024-06-29) explicitly states the user is self-employed, while Session 3 (2024-03-24) describes the user as a senior account manager with a team. It is unclear if the user changed jobs between these dates or if the sessions represent different contexts.\"\n  ]\n}\n\nQuestion: Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

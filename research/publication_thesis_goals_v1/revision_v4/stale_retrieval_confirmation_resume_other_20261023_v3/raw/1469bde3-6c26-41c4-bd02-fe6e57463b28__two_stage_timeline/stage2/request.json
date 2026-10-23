@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      1,
+      40,
+      31
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User usually opts into beta versions because they'd rather deal with glitches than wait for the stable release.\",\n      \"source_ref\": \"Session 2, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning a summer vacation to Gulf Shores for a laid-back trip with friends.\",\n      \"source_ref\": \"Session 41, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    },\n    {\n      \"fact\": \"User is planning to move into a new home on the 20th of next month and host a housewarming party.\",\n      \"source_ref\": \"Session 32, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    }\n  ],\n  \"current_facts\": [\n    \"User usually opts into beta versions because they'd rather deal with glitches than wait for the stable release.\"\n  ],\n  \"unresolved\": [\n    \"The user's beta preference is established in Session 2 (2024-06-15). Subsequent sessions (2025-01-08 and 2025-03-05) discuss furniture and vacation planning but do not explicitly confirm or deny the ongoing beta preference. However, no contradictory evidence exists, so the fact remains current.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

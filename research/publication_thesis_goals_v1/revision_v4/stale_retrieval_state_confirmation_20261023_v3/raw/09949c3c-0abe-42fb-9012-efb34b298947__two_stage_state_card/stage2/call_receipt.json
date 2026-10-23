@@ -1,0 +1,52 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User plans to stay in town for about five months (Session 8)\",\n  \"new_state\": \"User is planning a romantic getaway to Napa Valley (Session 11)\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 8 [Time: 2024-06-15 10:00] User turn 3\",\n    \"Session 11 [Time: 2024-07-12 17:16] User turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still plan to stay in town for about five months?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "7748c85228a4320cd28939e8d2577eb96439c38a8ab64f82c4bfef8b94b666bc",
+  "response_body_sha256": "ecff4ffa845fb4bec695df3b3bd6f497e0d56b25bec86f362fb4759df859004e",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user is planning a romantic getaway to Napa Valley.\",\n  \"evidence_refs\": [\n    \"Session 8 [Time: 2024-06-15 10:00] User turn 3\",\n    \"Session 11 [Time: 2024-07-12 17:16] User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 109,
+    "prompt_tokens": 296,
+    "total_tokens": 405,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.164229,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 405,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user is planning a romantic getaway to Napa Valley.",
+    "evidence_refs": [
+      "Session 8 [Time: 2024-06-15 10:00] User turn 3",
+      "Session 11 [Time: 2024-07-12 17:16] User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

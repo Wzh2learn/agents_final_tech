@@ -1,0 +1,11 @@
+{
+  "schema": "stale_action_judge_protocol_v3",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_JUDGE_GENERATION",
+  "identity": "AUXILIARY_METHOD_BLIND_LLM_JUDGE_NOT_HUMAN_GOLD",
+  "prompt_sha256": "a189296bb5a046d62df16e8c56323d95d47c5626b6c80c1bf612ac933aaccbea",
+  "response_codes": [
+    "A",
+    "B"
+  ]
+}

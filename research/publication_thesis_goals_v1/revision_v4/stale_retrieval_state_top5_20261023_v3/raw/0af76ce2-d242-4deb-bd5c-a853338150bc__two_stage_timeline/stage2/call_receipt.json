@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User prefers spending free time at home and tends to decline most evening invitations.\",\n      \"source_ref\": \"Session 3, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User feels recharged when out in the middle of things, checking out new spots, and keeping calendar full.\",\n      \"source_ref\": \"Session 39, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning to use a 'deck of cards' system to rotate low-effort ideas and avoid defaulting to staying in.\",\n      \"source_ref\": \"Session 39, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    }\n  ],\n  \"current_facts\": [\n    \"User feels recharged when out in the middle of things, checking out new spots, and keeping calendar full.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user's preference for staying home has completely shifted or if they still occasionally decline evening invites despite the new goal to go out more.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "f2906d9e904fe612701898f5d30dcb91117a32194b7cd1a9ba4ea12bd08e1f62",
+  "response_body_sha256": "715713f1c9af3744932b6dcadb93a544c9cc9e0a0b24ae545262d816dec4ca3b",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 453,
+    "total_tokens": 480,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.090943,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 480,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

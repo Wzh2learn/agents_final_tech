@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User has a senior Labrador that is a permanent part of their life and was planning a road trip for him in Session 6.\",\n  \"new_state\": \"User is planning a YouTube channel focused on video essays about TV shows and movies, with no mention of the dog or the road trip in Session 48.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\",\n    \"Session 48, User turn 7\",\n    \"Session 48, User turn 9\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "73879611178492bd88a6fccbbef58303fc806bff72fc0338262e1bb511f67dd7",
+  "response_body_sha256": "71ad283fd694f0f3742cb889984b7fe27c034941ac9e2df4dd915d06e084724c",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 6, User turn 1\",\n    \"Session 48, User turn 7\",\n    \"Session 48, User turn 9\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 68,
+    "prompt_tokens": 300,
+    "total_tokens": 368,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.549924,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 368,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 6, User turn 1",
+      "Session 48, User turn 7",
+      "Session 48, User turn 9"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

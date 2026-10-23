@@ -1,0 +1,1303 @@
+{
+  "schema": "stale_retrieval_state_confirmation_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "FROZEN_METRIC_NON_ORACLE_RETRIEVAL_WITH_ENGINEERING_REPAIR_RESUME",
+  "active_uids": [
+    "09949c3c-0abe-42fb-9012-efb34b298947",
+    "0af76ce2-d242-4deb-bd5c-a853338150bc",
+    "0bd9381a-6163-41bd-b500-74d147a98f19",
+    "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+    "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+    "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+    "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+    "17c4192e-ee5a-442a-b492-f69641d836c3",
+    "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+    "0fcd704e-7b09-4580-87ad-07604828cd40",
+    "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+    "11e0c473-dbd3-4645-964a-86affc5f998d",
+    "12067a86-6627-437f-8435-57d566c17aa0",
+    "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+    "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+    "14897e47-7d90-4cb0-a991-3da0564052e6"
+  ],
+  "active_arms": [
+    "one_call_facts",
+    "two_stage_state_card"
+  ],
+  "retrieval_top_k": 5,
+  "query_dimension": "dim3",
+  "engineering_repair": "State-card evidence_refs restricted to at most three compact session/turn identifiers after long quotes truncated JSON. No retrieval, semantic threshold or answer requirement changed.",
+  "protocol_sha256": "8e11a8c80cacb3ec8f691e9e454c68e9bc6d6a09a741ebdc17541fccd8063f6d",
+  "reference_sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "model_request_contract": {
+    "temperature": 0,
+    "top_p": 1,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "retry_cap": 0
+  },
+  "summary": {
+    "overall": {
+      "planned_calls": 48,
+      "observed_calls": 48,
+      "accounting_tokens": 482006,
+      "retry_count": 0
+    },
+    "by_arm": {
+      "direct_answer": {
+        "observed_rows": 0,
+        "semantic_success_all": 0,
+        "semantic_rate_all": null,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0
+      },
+      "one_call_facts": {
+        "observed_rows": 16,
+        "semantic_success_all": 9,
+        "semantic_rate_all": 0.5625,
+        "primary_rows": 6,
+        "semantic_success_primary": 4,
+        "semantic_rate_primary": 0.6667,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 11,
+        "calls": 16,
+        "accounting_tokens": 238871,
+        "completion_tokens": 4016
+      },
+      "two_stage_timeline": {
+        "observed_rows": 0,
+        "semantic_success_all": 0,
+        "semantic_rate_all": null,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0
+      },
+      "two_stage_state_card": {
+        "observed_rows": 16,
+        "semantic_success_all": 2,
+        "semantic_rate_all": 0.125,
+        "primary_rows": 6,
+        "semantic_success_primary": 1,
+        "semantic_rate_primary": 0.1667,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 8,
+        "calls": 32,
+        "accounting_tokens": 243135,
+        "completion_tokens": 3477
+      }
+    },
+    "retrieval_category_counts": {
+      "BOTH_OLD_AND_NEW": 6,
+      "OLD_ONLY": 7,
+      "NEW_ONLY": 1,
+      "NEITHER": 2
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I’m trying to decide whether it’s worth setting up longer-term services and commitments where I’m living. What should I consider before I lock anything in?",
+      "selected_indices": [
+        48,
+        34,
+        1,
+        38,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Given your five-month stay, avoid long-term commitments. Prioritize flexibility over savings; short-term leases and furnished rentals are typically better for this duration to avoid the hassle and cost of buying/reselling furniture or breaking long-term contracts.",
+      "current_intermediate_text": "[{\"fact\": \"The user is planning to stay in the new city for about five months.\", \"source_ref\": \"Session 8/turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "about",
+          "months",
+          "new",
+          "stay"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "duration",
+          "month",
+          "stay"
+        ],
+        "old_reference_overlap": [
+          "five",
+          "stay"
+        ],
+        "grounded_current_tokens": [
+          "duration",
+          "month",
+          "stay"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I’m trying to decide whether it’s worth setting up longer-term services and commitments where I’m living. What should I consider before I lock anything in?",
+      "selected_indices": [
+        48,
+        34,
+        1,
+        38,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is shifting consideration to the viability of establishing longer-term services and commitments in the new city.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "new"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I want to make the most of my evenings over the next couple of weeks—how should I plan them differently given how I’ve been spending my free time lately?",
+      "selected_indices": [
+        2,
+        38,
+        47,
+        9,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "Shift from your previous home-bound habit to a 'deck of cards' system. Pre-fill 2 weeknights and 2 weekend slots with low-effort, <20-minute outings (e.g., new cafes, walks, markets). Use a 60-second decision rule: if tired, pick the easiest solo-around-people card. Swap plans only if a new invite is better, never add on top, to prevent overload while maintaining an active social calendar.",
+      "current_intermediate_text": "[{\"fact\": \"User prefers spending free time at home and declines most evening invitations.\", \"source_ref\": \"Session 3/turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User feels recharged when out in the middle of things, checking out new spots, and keeping their calendar full.\", \"source_ref\": \"Session 39/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "calendar",
+          "checking",
+          "full",
+          "home",
+          "keeping",
+          "middle",
+          "most",
+          "new",
+          "out",
+          "prefers",
+          "recharged",
+          "spots",
+          "things",
+          "when"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "active",
+          "calendar",
+          "home",
+          "low",
+          "new",
+          "people",
+          "plans",
+          "social"
+        ],
+        "old_reference_overlap": [
+          "home"
+        ],
+        "grounded_current_tokens": [
+          "active",
+          "calendar",
+          "home",
+          "low",
+          "new",
+          "people",
+          "plans",
+          "social"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I want to make the most of my evenings over the next couple of weeks—how should I plan them differently given how I’ve been spending my free time lately?",
+      "selected_indices": [
+        2,
+        38,
+        47,
+        9,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "You should keep your calendar full with plans and seek low-effort ideas for weeknights and weekends to avoid defaulting to staying in.",
+      "current_intermediate_text": "User feels recharged by being out, wants to keep their calendar full with plans, and seeks low-effort ideas for weeknights and weekends to avoid defaulting to staying in.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "calendar",
+          "full",
+          "low",
+          "out",
+          "plans",
+          "recharged"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "calendar",
+          "full",
+          "low",
+          "plans"
+        ],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [
+          "calendar",
+          "full",
+          "low",
+          "plans"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I'm looking at booking a non-refundable, six-month VIP package for me and the old friends at the downtown comedy club. It guarantees us a prime booth for the headline show on the first Friday of every month. Should I go ahead and lock this in?",
+      "selected_indices": [
+        30,
+        9,
+        31,
+        47,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user is considering booking a non-refundable, six-month VIP package for a downtown comedy club.\", \"source_ref\": \"Session 48/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "user"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I'm looking at booking a non-refundable, six-month VIP package for me and the old friends at the downtown comedy club. It guarantees us a prime booth for the headline show on the first Friday of every month. Should I go ahead and lock this in?",
+      "selected_indices": [
+        30,
+        9,
+        31,
+        47,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "answer": null,
+      "current_intermediate_text": "User is considering booking a non-refundable, six-month VIP package for a downtown comedy club.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "user"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I’m trying to set up my day so I can stay productive and not get interrupted during my most mentally demanding block. Can you help me plan when to do meetings, messages, and breaks?",
+      "selected_indices": [
+        13,
+        26,
+        38,
+        9,
+        0
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "Protect 8–11 AM for deep work. Check email at 11 AM. Cluster meetings between 11:30 AM and 1:30 PM. Take lunch at noon. Do lighter solo work from 3–4:30 PM. Perform a final email/message sweep at 4:30 PM. This structure minimizes interruptions during your critical morning block while keeping you responsive.",
+      "current_intermediate_text": "[{\"fact\": \"User reserves 8–11 AM for deep focus work.\", \"source_ref\": \"Session 27/turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "deep",
+          "focus",
+          "work"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "block",
+          "deep",
+          "morning",
+          "work"
+        ],
+        "old_reference_overlap": [
+          "between",
+          "deep",
+          "morning",
+          "work"
+        ],
+        "grounded_current_tokens": [
+          "block",
+          "deep",
+          "morning",
+          "work"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I’m trying to set up my day so I can stay productive and not get interrupted during my most mentally demanding block. Can you help me plan when to do meetings, messages, and breaks?",
+      "selected_indices": [
+        13,
+        26,
+        38,
+        9,
+        0
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "User requested variations for 'meeting-heavy' and 'maker' days, specifically asking how to handle urgent pings during the 8-11 focus block.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "block",
+          "focus"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I'm considering fostering a young, extremely high-energy Husky that absolutely requires a fast-paced, 3-mile continuous trot around the neighborhood streets first thing every single morning to prevent it from destroying the house. Will my current daily morning habit seamlessly cover this dog's strict exercise needs?",
+      "selected_indices": [
+        31,
+        9,
+        5,
+        4,
+        11
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user runs for thirty minutes every single morning.\", \"source_ref\": \"Session 6/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "morning",
+          "session"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I'm considering fostering a young, extremely high-energy Husky that absolutely requires a fast-paced, 3-mile continuous trot around the neighborhood streets first thing every single morning to prevent it from destroying the house. Will my current daily morning habit seamlessly cover this dog's strict exercise needs?",
+      "selected_indices": [
+        31,
+        9,
+        5,
+        4,
+        11
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "User is considering fostering a high-energy Husky that requires a 3-mile continuous trot every morning, creating a potential conflict with the user's existing 30-minute run routine.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "minute",
+          "morning",
+          "routine",
+          "run"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I’m planning to attend a local candidate forum soon—can you help me come up with a few questions to ask so I can figure out who best aligns with what I want going forward?",
+      "selected_indices": [
+        9,
+        17,
+        24,
+        38,
+        23
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Ask candidates how they gathered community input for their priorities, what local partners they rely on, and what safeguards prevent single donors from having undue influence. Request specific examples of past projects where they adjusted plans based on resident feedback. These questions reveal if they prioritize community needs over corporate interests and distinguish concrete plans from vague promises.",
+      "current_intermediate_text": "[{\"fact\": \"User leans towards candidates focusing on community support rather than corporate interests.\", \"source_ref\": \"Session 10/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is preparing for a local election and wants to compare candidates.\", \"source_ref\": \"Session 10/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "local"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "local",
+          "prioritize"
+        ],
+        "old_reference_overlap": [
+          "candidates",
+          "community",
+          "corporate",
+          "how",
+          "interests"
+        ],
+        "grounded_current_tokens": [
+          "local",
+          "prioritize"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I’m planning to attend a local candidate forum soon—can you help me come up with a few questions to ask so I can figure out who best aligns with what I want going forward?",
+      "selected_indices": [
+        9,
+        17,
+        24,
+        38,
+        23
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user possesses a printable, one-page comparison worksheet containing 12 specific questions with a 0-2 scoring system and red-flag indicators, designed to compare up to three candidates side-by-side at the forum.",
+      "current_intermediate_text": "User possesses a printable, one-page comparison worksheet containing 12 specific questions with a 0-2 scoring system and red-flag indicators, designed to compare up to three candidates side-by-side at the forum.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [
+          "candidates"
+        ],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I’m picking out a couple of books at the library this week—what kind of books make the most sense for me to come home with right now?",
+      "selected_indices": [
+        34,
+        4,
+        0,
+        2,
+        48
+      ],
+      "retrieval_category": "NEW_ONLY",
+      "answer": "Start with Five Days at Memorial (disaster/trial) and The River of Doubt (expedition). Both offer the immersive, novel-like momentum you liked in The Splendid and the Vile, with strong audiobook productions.",
+      "current_intermediate_text": "[{\"fact\": \"User is on a big nonfiction kick, mostly biographies and history, and wants absorbing picks that read like a story, preferably good on audiobook.\", \"source_ref\": \"Session 35/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User loved The Splendid and the Vile and wants microhistory or tightly focused biography/disaster/expedition books with a 'can't put it down' feel, specifically recommending Five Days at Memorial and The River of Doubt.\", \"source_ref\": \"Session 35/turn 8\", \"source_role\": \"assistant\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "big",
+          "biographies",
+          "current",
+          "history",
+          "kick",
+          "mostly",
+          "nonfiction",
+          "that"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [
+          "days"
+        ],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I’m picking out a couple of books at the library this week—what kind of books make the most sense for me to come home with right now?",
+      "selected_indices": [
+        34,
+        4,
+        0,
+        2,
+        48
+      ],
+      "retrieval_category": "NEW_ONLY",
+      "answer": "Five Days at Memorial and The River of Doubt",
+      "current_intermediate_text": "User is at the library to pick out books, implying an intent to borrow or purchase based on previous recommendations.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "library",
+          "out"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [
+          "days"
+        ],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I’ve been thinking about booking a flight to Thailand next Monday to spend the next six weeks exploring the islands, just keeping up with my usual daily tasks from my laptop at local beach cafes. Are there any major structural roadblocks stopping me from just packing up and doing this?",
+      "selected_indices": [
+        6,
+        38,
+        7,
+        3,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "No major structural roadblocks exist because you are self-employed with full schedule control. You can maintain your routine by working from beach cafes, provided you ensure reliable internet access and manage time zone differences for any synchronous work.",
+      "current_intermediate_text": "[{\"fact\": \"The user is currently self-employed with a flexible work schedule entirely up to them.\", \"source_ref\": \"Session 14/turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "employed",
+          "self"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "employed",
+          "self"
+        ],
+        "old_reference_overlap": [
+          "employed",
+          "schedule",
+          "self",
+          "work"
+        ],
+        "grounded_current_tokens": [
+          "employed",
+          "self"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I’ve been thinking about booking a flight to Thailand next Monday to spend the next six weeks exploring the islands, just keeping up with my usual daily tasks from my laptop at local beach cafes. Are there any major structural roadblocks stopping me from just packing up and doing this?",
+      "selected_indices": [
+        6,
+        38,
+        7,
+        3,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User intends to book a flight to Thailand next Monday for a six-week trip, working remotely from beach cafes.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "My broker prompted me to switch to their “Essential” tier to remove the $15 monthly maintenance fee. It would limit the account to standard stock and ETF purchases and turn off advanced trading features. Does it make sense for me to confirm that change right now?",
+      "selected_indices": [
+        33,
+        13,
+        11,
+        31,
+        32
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "Yes, confirming the change makes sense. You are currently learning with a small account and focusing on standard stocks/ETFs, while advanced features (derivatives) are not yet part of your active practice. Removing the $15 monthly fee reduces costs for a learning account, and the tier's limitations align with your current goal of avoiding complex instruments.",
+      "current_intermediate_text": "[{\"fact\": \"The user's broker has prompted a switch to an 'Essential' tier to remove a $15 monthly maintenance fee.\", \"source_ref\": \"Session 34/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The 'Essential' tier limits the account to standard stock and ETF purchases and turns off advanced trading features.\", \"source_ref\": \"Session 34/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user is currently learning about trading, specifically the difference between stocks and derivatives, and is using a small account for practice.\", \"source_ref\": \"Session 34/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "account",
+          "derivatives",
+          "learning",
+          "small",
+          "trading"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "account",
+          "derivatives",
+          "learning",
+          "makes",
+          "small"
+        ],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [
+          "account",
+          "derivatives",
+          "learning",
+          "makes",
+          "small"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "My broker prompted me to switch to their “Essential” tier to remove the $15 monthly maintenance fee. It would limit the account to standard stock and ETF purchases and turn off advanced trading features. Does it make sense for me to confirm that change right now?",
+      "selected_indices": [
+        33,
+        13,
+        11,
+        31,
+        32
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "User is considering switching to an 'Essential' tier to remove the fee, which would limit the account to standard stock/ETF purchases and disable advanced trading features.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "account",
+          "trading"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "My landlord just offered to knock $100 off my rent if I take on the responsibility of manually locking the complex's main courtyard gate at exactly 10:15 PM every night. It just takes two minutes to step out of my apartment and turn the key. I'm always looking to save money, so I'm thinking of signing the addendum today. Should I go for it?",
+      "selected_indices": [
+        9,
+        30,
+        39,
+        6,
+        24
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user is considering signing an addendum to lock the complex's main courtyard gate at 10:15 PM nightly in exchange for a $100 rent reduction.\", \"source_ref\": \"Session 10 [Time: 2025-06-25 04:21] User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "lock",
+          "nightly",
+          "time"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0fcd704e-7b09-4580-87ad-07604828cd40",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "My landlord just offered to knock $100 off my rent if I take on the responsibility of manually locking the complex's main courtyard gate at exactly 10:15 PM every night. It just takes two minutes to step out of my apartment and turn the key. I'm always looking to save money, so I'm thinking of signing the addendum today. Should I go for it?",
+      "selected_indices": [
+        9,
+        30,
+        39,
+        6,
+        24
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "User is leaning towards accepting the offer to save money, despite the late-night commitment.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "late"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "I’m setting up my living space right now and trying to decide what to keep—does it still make sense for me to plan the layout around accommodating my dog at home, or should I rethink that?",
+      "selected_indices": [
+        5,
+        45,
+        4,
+        30,
+        25
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, keep the dog in mind. You have a senior Labrador who is a permanent part of your life. Prioritize ground-floor access, easy terrain, and shaded areas in your layout to accommodate his mobility and comfort needs.",
+      "current_intermediate_text": "[{\"fact\": \"The user has a senior Labrador that is a permanent part of their life.\", \"source_ref\": \"Session 6, turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "dog",
+          "keep",
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ],
+        "old_reference_overlap": [
+          "labrador",
+          "life",
+          "part",
+          "permanent",
+          "senior"
+        ],
+        "grounded_current_tokens": [
+          "dog",
+          "keep",
+          "labrador",
+          "life",
+          "part",
+          "permanent"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "I’m setting up my living space right now and trying to decide what to keep—does it still make sense for me to plan the layout around accommodating my dog at home, or should I rethink that?",
+      "selected_indices": [
+        5,
+        45,
+        4,
+        30,
+        25
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is setting up their living space and questioning whether to prioritize accommodating their dog in the layout.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "dog"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "I'm finalizing a 10-day vacation for the middle of next month and need someone to water my indoor plants and feed the cat. Should I just stick to my usual routine of having the people next door pop over, or is it better to hire a professional sitter through an app?",
+      "selected_indices": [
+        47,
+        3,
+        35,
+        29,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Stick to your neighbors. You previously stated you are 'quite close' with them and already check in regularly, making them a trusted, low-friction option for pet care. Hiring a professional adds cost and logistical complexity for a task you already have a reliable, personal solution for.",
+      "current_intermediate_text": "[{\"fact\": \"The user is close with neighbors and checks in on them regularly.\", \"source_ref\": \"Session 4/turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user has a habit of using habit tracker apps to monitor progress.\", \"source_ref\": \"Session 48/turn 11\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "neighbors"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "check",
+          "neighbors"
+        ],
+        "old_reference_overlap": [
+          "check",
+          "close",
+          "neighbors",
+          "quite"
+        ],
+        "grounded_current_tokens": [
+          "check",
+          "neighbors"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "11e0c473-dbd3-4645-964a-86affc5f998d",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "I'm finalizing a 10-day vacation for the middle of next month and need someone to water my indoor plants and feed the cat. Should I just stick to my usual routine of having the people next door pop over, or is it better to hire a professional sitter through an app?",
+      "selected_indices": [
+        47,
+        3,
+        35,
+        29,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is considering having neighbors water plants and feed the cat during a 10-day vacation, but is weighing this against hiring a professional sitter.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "neighbors"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "I’m thinking about adopting a senior rescue cat, but she needs thyroid medication at 7 AM and 7 PM every day. Does taking on something that time-sensitive make sense for me right now?",
+      "selected_indices": [
+        15,
+        38,
+        16,
+        2,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user is considering adopting a senior rescue cat that requires thyroid medication twice daily at 7 AM and 7 PM.\", \"source_ref\": \"Session 43/turn 11\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "that"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "I’m thinking about adopting a senior rescue cat, but she needs thyroid medication at 7 AM and 7 PM every day. Does taking on something that time-sensitive make sense for me right now?",
+      "selected_indices": [
+        15,
+        38,
+        16,
+        2,
+        42
+      ],
+      "retrieval_category": "NEITHER",
+      "answer": null,
+      "current_intermediate_text": "User is considering the feasibility of adopting a senior rescue cat with a strict medication schedule (7 AM and 7 PM).",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "I got an invite to enroll my main work machine in an early-access program for unreleased AI tools in my video editing suite. Would that be a sensible setup for me right now?",
+      "selected_indices": [
+        21,
+        1,
+        9,
+        43,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user is preparing for a Master's program in Data Science and has completed courses on Python programming and Machine Learning.\", \"source_ref\": \"Session 8/turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "I got an invite to enroll my main work machine in an early-access program for unreleased AI tools in my video editing suite. Would that be a sensible setup for me right now?",
+      "selected_indices": [
+        21,
+        1,
+        9,
+        43,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "It is not a sensible setup because enrolling the main work machine in an early-access program conflicts with the user's established strategy of keeping beta software off mission-critical devices to maintain functionality and data safety.",
+      "current_intermediate_text": "User is considering enrolling their main work machine in an early-access program for unreleased AI tools, which conflicts with their established strategy of keeping beta software off mission-critical devices.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "access",
+          "beta",
+          "critical",
+          "off",
+          "work"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "access",
+          "beta",
+          "critical",
+          "off",
+          "work"
+        ],
+        "old_reference_overlap": [
+          "because",
+          "beta"
+        ],
+        "grounded_current_tokens": [
+          "access",
+          "beta",
+          "critical",
+          "off",
+          "work"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "I’m thinking about signing up for a recurring volunteer shift every Tuesday from 2–4pm across town for the next three months—do you see any red flags with committing to that, and what would you suggest I check or line up first so it doesn’t mess up my work week?",
+      "selected_indices": [
+        34,
+        17,
+        13,
+        36,
+        7
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "Tuesday 2–4pm conflicts with your established 'social night' slot. Since you typically leave home after 19:00 to avoid rush hour, this shift requires an afternoon departure, increasing peak-hour stress. Check if the volunteer role allows flexibility or if you can swap Tuesday for a lighter day like Friday, which is already designated as a catch-up slot.",
+      "current_intermediate_text": "[{\"fact\": \"User's typical commute is Mon–Fri, leaving around 8:00 and getting home about 18:00–18:30.\", \"source_ref\": \"Session 35/turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User's weekly template designates Tuesday as a default social night, aiming to head out after 19:00 to dodge the rush.\", \"source_ref\": \"Session 35/turn 8\", \"source_role\": \"assistant\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "about",
+          "around",
+          "commute",
+          "getting",
+          "out",
+          "rush",
+          "status"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "afternoon",
+          "hour",
+          "peak",
+          "rush",
+          "typically"
+        ],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [
+          "afternoon",
+          "hour",
+          "peak",
+          "rush",
+          "typically"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "I’m thinking about signing up for a recurring volunteer shift every Tuesday from 2–4pm across town for the next three months—do you see any red flags with committing to that, and what would you suggest I check or line up first so it doesn’t mess up my work week?",
+      "selected_indices": [
+        34,
+        17,
+        13,
+        36,
+        7
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "User is proposing a new recurring commitment (Tuesday 2-4pm volunteer shift) that conflicts with the established post-commute gym/social schedule and requires verification against the previously defined fallback rules for mid-afternoon travel.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "afternoon",
+          "commute",
+          "mid",
+          "schedule"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "I’m filling out an online application for a program that requires me to certify under penalty of perjury that I’m a U.S. citizen or U.S. national, and it wants me to upload proof within 48 hours—should I go ahead and submit it, and if not, what’s the safest alternative path to take?",
+      "selected_indices": [
+        9,
+        45,
+        31,
+        4,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Submit the proof immediately. As a U.S. citizen, you can upload a U.S. passport, birth certificate, or naturalization certificate. If you lack these, a government-issued ID showing U.S. citizenship or a Consular Report of Birth Abroad are valid alternatives. Do not delay, as the 48-hour deadline is strict.",
+      "current_intermediate_text": "[{\"fact\": \"User is a U.S. citizen.\", \"source_ref\": \"Session 10/turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "citizen",
+          "current",
+          "status"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "can",
+          "citizen",
+          "citizenship",
+          "not",
+          "passport"
+        ],
+        "old_reference_overlap": [
+          "citizen"
+        ],
+        "grounded_current_tokens": [
+          "can",
+          "citizen",
+          "not"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "14897e47-7d90-4cb0-a991-3da0564052e6",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "I’m filling out an online application for a program that requires me to certify under penalty of perjury that I’m a U.S. citizen or U.S. national, and it wants me to upload proof within 48 hours—should I go ahead and submit it, and if not, what’s the safest alternative path to take?",
+      "selected_indices": [
+        9,
+        45,
+        31,
+        4,
+        3
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User has decided to use the neutral phrase 'Authorized to work in the United States' in the resume header, placed as a standalone line beneath contact details, and will omit 'no sponsorship required' unless explicitly asked by the employer.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "asked",
+          "required",
+          "unless",
+          "use"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    }
+  ],
+  "stopped_early": null,
+  "limitations": [
+    "Only dim1 is used in this confirmation batch.",
+    "The semantic reference is hidden benchmark text plus deterministic overlap, not human gold.",
+    "BM25 top-3 is one fixed non-oracle retriever, not the best possible retrieval system.",
+    "Primary state-processing comparisons condition on retrieval category BOTH_OLD_AND_NEW."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User realized they still had Mike's pressure washer and needed to return it.\",\n      \"source_ref\": \"Session 3, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User completed a drop-off run this morning, confirming no one else's gear is in their garage.\",\n      \"source_ref\": \"Session 39, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is organizing their garage and setting up a landing zone.\",\n      \"source_ref\": \"Session 39, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User has returned Mike's pressure washer.\",\n    \"User is currently organizing their garage.\"\n  ],\n  \"unresolved\": []\n}\n\nQuestion: Based on the conversation history, does the user still have Mike’s pressure washer and need to return it to him?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "1295093df95e676ca7649ccdebae1cbdcc5e3167570f20a38337c204c4af9fb9",
+  "response_body_sha256": "1d2536cb3fceb7bb2544926112e3da41cae83e07ffda0612c2e141b079ce1edf",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"User has returned Mike's pressure washer.\",\n  \"evidence_refs\": [\n    \"Session 39, User turn 5\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 51,
+    "prompt_tokens": 396,
+    "total_tokens": 447,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.194064,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 447,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "User has returned Mike's pressure washer.",
+    "evidence_refs": [
+      "Session 39, User turn 5"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

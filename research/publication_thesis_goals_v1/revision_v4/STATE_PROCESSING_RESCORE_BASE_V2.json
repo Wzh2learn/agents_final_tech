@@ -1,0 +1,600 @@
+{
+  "schema": "state_processing_comparison_rescored_v2",
+  "date": "2026-10-23",
+  "evidence_identity": "POST_HOC_CORRECTED_TEXT_AND_EVIDENCE_RESCORE_OF_FROZEN_GENERATIONS",
+  "source_results": "state_processing_comparison_20261023_v2/STATE_PROCESSING_COMPARISON_RESULTS_V2.json",
+  "changes_from_original_scoring": [
+    "Intermediate specificity uses current facts/new state only, not preserved past facts.",
+    "Completed-return wording is treated as replacement evidence rather than old-state affirmation.",
+    "Final semantic success remains answer-text and evidence-grounded and ignores self-labels/cards."
+  ],
+  "summary_by_arm": {
+    "direct_answer": {
+      "count": 4,
+      "semantic_success": 2,
+      "semantic_rate": 0.5,
+      "intermediate_specificity_success": 0,
+      "relation_counts": {
+        "OLD_STATE_INVALID": 2,
+        "UNSPECIFIED": 2
+      }
+    },
+    "one_call_facts": {
+      "count": 4,
+      "semantic_success": 3,
+      "semantic_rate": 0.75,
+      "intermediate_specificity_success": 0,
+      "relation_counts": {
+        "OLD_STATE_INVALID": 3,
+        "OLD_STATE_VALID": 1
+      }
+    },
+    "two_stage_state_card": {
+      "count": 4,
+      "semantic_success": 4,
+      "semantic_rate": 1.0,
+      "intermediate_specificity_success": 4,
+      "relation_counts": {
+        "OLD_STATE_INVALID": 4
+      }
+    },
+    "two_stage_timeline": {
+      "count": 4,
+      "semantic_success": 0,
+      "semantic_rate": 0.0,
+      "intermediate_specificity_success": 0,
+      "relation_counts": {
+        "UNSPECIFIED": 4
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "arm": "direct_answer",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "answer": "No, the user states they wrapped up their master’s program last month and are now focusing on settling into their full-time job.",
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 15,
+          "grounded_token_count": 14,
+          "grounded_token_ratio": 0.9333,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "answer": "No, the user has wrapped up their master’s program and is currently settling into a full-time job.",
+      "current_intermediate_text": "[]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 10,
+          "grounded_token_count": 10,
+          "grounded_token_ratio": 1.0,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [], \"timeline_current\": []}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "answer": "No, the user has completed their master's program and is focusing on settling into a full-time job.",
+      "current_intermediate_text": "User has completed their master's program and is focusing on settling into a full-time job.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 10,
+          "grounded_token_count": 9,
+          "grounded_token_ratio": 0.9,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "arm": "direct_answer",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "answer": "No, the user no longer has Mike's pressure washer because they completed a drop-off run that morning.",
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 13,
+          "grounded_token_count": 11,
+          "grounded_token_ratio": 0.8462,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "answer": "No, the user no longer has Mike's pressure washer; they completed a drop-off run this morning to clear their garage of other people's gear.",
+      "current_intermediate_text": "[]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 16,
+          "grounded_token_count": 14,
+          "grounded_token_ratio": 0.875,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [], \"timeline_current\": []}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "answer": "The user has returned Mike's pressure washer.",
+      "current_intermediate_text": "User has returned Mike's pressure washer.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_required_groups": [
+          0
+        ],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0
+        ],
+        "grounding": {
+          "answer_token_count": 5,
+          "grounded_token_count": 4,
+          "grounded_token_ratio": 0.8,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "arm": "direct_answer",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "answer": "The user is currently unable to cycle to work due to a temporary mobility limitation requiring a walking boot, and is in the process of evaluating public transit as an alternative.",
+      "current_intermediate_text": "[]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0
+        ],
+        "grounding": {
+          "answer_token_count": 17,
+          "grounded_token_count": 10,
+          "grounded_token_ratio": 0.5882,
+          "required_groups_grounded": [
+            0
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [], \"timeline_current\": []}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "answer": "No, the user is currently dealing with a temporary mobility limitation requiring a walking boot.",
+      "current_intermediate_text": "User is currently dealing with a temporary mobility limitation requiring a walking boot (established in Session 35, Time: 2025-09-15 08:12)",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_required_groups": [
+          0
+        ],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0
+        ],
+        "grounding": {
+          "answer_token_count": 9,
+          "grounded_token_count": 7,
+          "grounded_token_ratio": 0.7778,
+          "required_groups_grounded": [
+            0
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "arm": "direct_answer",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "answer": "Yes, the user stated that their investment portfolio is tied up and they cannot make withdrawals for the time being.",
+      "current_intermediate_text": "[]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_VALID",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 13,
+          "grounded_token_count": 10,
+          "grounded_token_ratio": 0.7692,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [], \"timeline_current\": []}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    },
+    {
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "answer": "The user is moving funds from their brokerage account into checking to meet a closing requirement, implying that the portfolio is no longer completely tied up and unavailable for withdrawals.",
+      "current_intermediate_text": "User is moving funds from their brokerage account into checking to meet a closing requirement.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 18,
+          "grounded_token_count": 15,
+          "grounded_token_ratio": 0.8333,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    }
+  ],
+  "nonclaims": [
+    "No model request was made by this rescore.",
+    "The reference remains AI-assisted development material, not human gold.",
+    "The corrected scorer was developed after inspecting failures and is not a frozen confirmatory metric."
+  ]
+}

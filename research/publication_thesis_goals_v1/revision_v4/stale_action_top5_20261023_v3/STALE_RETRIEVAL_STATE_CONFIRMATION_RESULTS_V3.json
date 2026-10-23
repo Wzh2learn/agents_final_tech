@@ -1,0 +1,223 @@
+{
+  "schema": "stale_retrieval_state_confirmation_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "FROZEN_METRIC_NON_ORACLE_RETRIEVAL_WITH_ENGINEERING_REPAIR_RESUME",
+  "active_uids": [
+    "09949c3c-0abe-42fb-9012-efb34b298947",
+    "0af76ce2-d242-4deb-bd5c-a853338150bc",
+    "0bd9381a-6163-41bd-b500-74d147a98f19",
+    "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+    "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+    "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+    "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+    "17c4192e-ee5a-442a-b492-f69641d836c3",
+    "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+    "0fcd704e-7b09-4580-87ad-07604828cd40",
+    "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+    "11e0c473-dbd3-4645-964a-86affc5f998d",
+    "12067a86-6627-437f-8435-57d566c17aa0",
+    "1469bde3-6c26-41c4-bd02-fe6e57463b28",
+    "146c7972-3cf6-4a2f-b5d4-544963a58ed2",
+    "14897e47-7d90-4cb0-a991-3da0564052e6"
+  ],
+  "active_arms": [
+    "one_call_facts",
+    "two_stage_state_card"
+  ],
+  "retrieval_top_k": 5,
+  "query_dimension": "dim3",
+  "engineering_repair": "State-card evidence_refs restricted to at most three compact session/turn identifiers after long quotes truncated JSON. No retrieval, semantic threshold or answer requirement changed.",
+  "protocol_sha256": "9d2a3f9a2da95d9320152c0e4494598101ce58713febf0fecca1b8145dc9b264",
+  "reference_sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "model_request_contract": {
+    "temperature": 0,
+    "top_p": 1,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "retry_cap": 0
+  },
+  "summary": {
+    "overall": {
+      "planned_calls": 48,
+      "observed_calls": 4,
+      "accounting_tokens": 46151,
+      "retry_count": 0
+    },
+    "by_arm": {
+      "direct_answer": {
+        "observed_rows": 0,
+        "semantic_success_all": 0,
+        "semantic_rate_all": null,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0
+      },
+      "one_call_facts": {
+        "observed_rows": 2,
+        "semantic_success_all": 1,
+        "semantic_rate_all": 0.5,
+        "primary_rows": 1,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": 0.0,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 2,
+        "accounting_tokens": 30572,
+        "completion_tokens": 716
+      },
+      "two_stage_timeline": {
+        "observed_rows": 0,
+        "semantic_success_all": 0,
+        "semantic_rate_all": null,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0
+      },
+      "two_stage_state_card": {
+        "observed_rows": 1,
+        "semantic_success_all": 0,
+        "semantic_rate_all": 0.0,
+        "primary_rows": 0,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": null,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 2,
+        "accounting_tokens": 15579,
+        "completion_tokens": 162
+      }
+    },
+    "retrieval_category_counts": {
+      "BOTH_OLD_AND_NEW": 1,
+      "OLD_ONLY": 1,
+      "NEW_ONLY": 0,
+      "NEITHER": 0
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I’m trying to decide whether it’s worth setting up longer-term services and commitments where I’m living. What should I consider before I lock anything in?",
+      "selected_indices": [
+        48,
+        34,
+        1,
+        38,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user is planning to stay in the new city for about five months.",
+      "current_intermediate_text": "[{\"fact\": \"The user is comparing a furnished rental at $2,300/month versus an unfurnished one at $1,900/month.\", \"source_ref\": \"Session 8, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "month"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "about",
+          "months",
+          "new",
+          "stay"
+        ],
+        "old_reference_overlap": [
+          "about",
+          "five",
+          "months",
+          "planning",
+          "stay"
+        ],
+        "grounded_current_tokens": [
+          "about",
+          "months",
+          "new",
+          "stay"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "I’m trying to decide whether it’s worth setting up longer-term services and commitments where I’m living. What should I consider before I lock anything in?",
+      "selected_indices": [
+        48,
+        34,
+        1,
+        38,
+        7
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is shifting consideration to the viability of establishing longer-term services and commitments in the new city.",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "new"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "I want to make the most of my evenings over the next couple of weeks—how should I plan them differently given how I’ve been spending my free time lately?",
+      "selected_indices": [
+        2,
+        38,
+        47,
+        9,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "[]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    }
+  ],
+  "stopped_early": "parse_failure:INVALID_JSON",
+  "limitations": [
+    "Only dim1 is used in this confirmation batch.",
+    "The semantic reference is hidden benchmark text plus deterministic overlap, not human gold.",
+    "BM25 top-3 is one fixed non-oracle retriever, not the best possible retrieval system.",
+    "Primary state-processing comparisons condition on retrieval category BOTH_OLD_AND_NEW."
+  ]
+}

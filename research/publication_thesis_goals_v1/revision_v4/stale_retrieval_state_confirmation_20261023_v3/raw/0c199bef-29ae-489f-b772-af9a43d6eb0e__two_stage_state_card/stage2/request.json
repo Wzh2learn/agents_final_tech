@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+    "arm": "two_stage_state_card",
+    "selected_indices": [
+      5,
+      31,
+      40
+    ],
+    "retrieval_category": "BOTH_OLD_AND_NEW",
+    "max_tokens": 256
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User runs for thirty minutes every single morning.\",\n  \"new_state\": \"User has switched to using a stationary bike for thirty minutes in the morning due to knee issues.\",\n  \"change_type\": \"DIRECT\",\n  \"status\": \"OBSERVED\",\n  \"evidence_refs\": [\n    \"Session 6 [Time: 2024-06-11 06:30] User turn 1: I make it a point to run for thirty minutes every single morning\",\n    \"Session 32 [Time: 2024-12-12 06:30] User turn 3: Ever since my knee started acting up, I’ve been starting my day with a half-hour on the stationary bike instead\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still run for thirty minutes every single morning?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

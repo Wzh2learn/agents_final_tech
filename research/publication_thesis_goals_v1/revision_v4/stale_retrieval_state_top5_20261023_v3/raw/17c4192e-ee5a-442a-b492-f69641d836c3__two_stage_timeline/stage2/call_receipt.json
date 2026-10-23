@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is self-employed with a fully self-directed work schedule.\",\n      \"source_ref\": \"Session 14, User turn 3\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User recently took on a new role as a senior account manager.\",\n      \"source_ref\": \"Session 3, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is an Indian American born in New York City whose parents immigrated in the 1980s.\",\n      \"source_ref\": \"Session 20, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is self-employed with a fully self-directed work schedule.\",\n    \"User is an Indian American born in New York City whose parents immigrated in the 1980s.\"\n  ],\n  \"unresolved\": [\n    \"The user's current employment status is ambiguous. Session 14 (June 2024) explicitly states the user is self-employed. Session 3 (March 2024) states the user recently became a senior account manager. Session 20 (July 2024) discusses personal heritage but does not clarify employment. It is unclear if the user left the senior account manager role to return to self-employment, or if these sessions represent conflicting or parallel contexts.\"\n  ]\n}\n\nQuestion: Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "df2323b3b9aa9d68f3db7fa7d3b796c34356a15c16d1db3f3bbc4a45fb5e71c5",
+  "response_body_sha256": "0ca8f1d673a4a78807e0c8db887f87696844d4bbae9d0cc8762f2fd25a9129a7",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 520,
+    "total_tokens": 547,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.018987,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 547,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has kept the same circle of friends for over ten years and hangs out at least once a month.\",\n      \"source_ref\": \"Session 5, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User's social life is mostly limited to colleagues on the same service grabbing ten-minute coffee between pages due to residency match.\",\n      \"source_ref\": \"Session 36, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is advising someone about to start intern year to set up habits for sleep and relationships.\",\n      \"source_ref\": \"Session 36, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"suggestion\"\n    }\n  ],\n  \"current_facts\": [\n    \"User's social life is mostly limited to colleagues on the same service grabbing ten-minute coffee between pages due to residency match.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user still maintains the specific ten-year friend group mentioned in Session 5, given the drastic change in social context described in Session 36.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "22bed81e4f0a12ff866c61eddb4aafa1aed70edc4dc89e2d4dd04ab2b8e6fbd2",
+  "response_body_sha256": "4de6a7d18cb5c5e87a80f3f36087a7fa9ddae998ce4cbfdbd78be53e5dde4532",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 467,
+    "total_tokens": 494,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 3.06997,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 494,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

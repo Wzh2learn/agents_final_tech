@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User usually opts into beta versions because they prefer dealing with glitches over waiting for stable releases.\",\n      \"source_ref\": \"Session 2, User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning a summer vacation to Gulf Shores.\",\n      \"source_ref\": \"Session 41, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    },\n    {\n      \"fact\": \"User is planning to move into a new home on the 20th of next month.\",\n      \"source_ref\": \"Session 32, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    }\n  ],\n  \"current_facts\": [\n    \"User usually opts into beta versions because they prefer dealing with glitches over waiting for stable releases.\"\n  ],\n  \"unresolved\": []\n}\n\nQuestion: Based on the conversation history, does the user still usually opt into beta versions even if they might be glitchy?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "60815879ae291e8e19005e706c91698cb3924491219475dbf9662385139a4e19",
+  "response_body_sha256": "ff701c812ffd0a9b589c2c1fce9618b63929cb9329f24d1f0f76def52ce83f8b",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"User usually opts into beta versions because they prefer dealing with glitches over waiting for stable releases.\",\n  \"evidence_refs\": [\n    \"Session 2, User turn 7\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 60,
+    "prompt_tokens": 397,
+    "total_tokens": 457,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.511699,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 457,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "User usually opts into beta versions because they prefer dealing with glitches over waiting for stable releases.",
+    "evidence_refs": [
+      "Session 2, User turn 7"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

@@ -1,0 +1,51 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User possesses Mike's pressure washer and needs to return it.\",\n  \"new_state\": \"User has returned Mike's pressure washer.\",\n  \"change_type\": \"DIRECT\",\n  \"status\": \"OBSERVED\",\n  \"evidence_refs\": [\n    \"Session 39 [Time: 2025-06-05 14:00] User turn 5: I’m relieved my garage is finally cleared out again after I did that quick drop-off run this morning—no one else’s gear is sitting around here anymore.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still have Mike’s pressure washer and need to return it to him?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "181214773636afc3b314a66bf1706ad41f1b3c403ca2eb42bdda7b8d5a581c4b",
+  "response_body_sha256": "e419e4ddeb4c052ad5c1adb899dae5b21af033d5da089e2d85d53ef7b3a821b5",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"The user has returned Mike's pressure washer.\",\n  \"evidence_refs\": [\n    \"Session 39 [Time: 2025-06-05 14:00] User turn 5: I’m relieved my garage is finally cleared out again after I did that quick drop-off run this morning—no one else’s gear is sitting around here anymore.\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 104,
+    "prompt_tokens": 287,
+    "total_tokens": 391,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.949032,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 391,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "The user has returned Mike's pressure washer.",
+    "evidence_refs": [
+      "Session 39 [Time: 2025-06-05 14:00] User turn 5: I’m relieved my garage is finally cleared out again after I did that quick drop-off run this morning—no one else’s gear is sitting around here anymore."
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

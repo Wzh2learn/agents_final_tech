@@ -1,0 +1,58 @@
+{
+  "schema": "stale_action_judge_results_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "AUXILIARY_METHOD_BLIND_ACTION_JUDGE_NOT_HUMAN_GOLD",
+  "protocol_sha256": "8105c9a5905c49dc81b4277c24fd997f046d40c93ad10e72f2e2a5da1a54e603",
+  "summary_by_arm": {
+    "one_call_facts": {
+      "rows": 1,
+      "valid_judgments": 0,
+      "invalid_judgments": 1,
+      "action_pass": 0,
+      "action_pass_rate": null,
+      "primary_rows": 0,
+      "action_pass_primary": 0,
+      "action_pass_rate_primary": null,
+      "safe_unknown": 0,
+      "error_counts": {}
+    },
+    "two_stage_state_card": {
+      "rows": 1,
+      "valid_judgments": 0,
+      "invalid_judgments": 1,
+      "action_pass": 0,
+      "action_pass_rate": null,
+      "primary_rows": 0,
+      "action_pass_primary": 0,
+      "action_pass_rate_primary": null,
+      "safe_unknown": 0,
+      "error_counts": {}
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "response_code": "A",
+      "answer": null,
+      "retrieval_category": "OLD_ONLY",
+      "judge": null
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "response_code": "B",
+      "answer": "Given your five-month stay, avoid long-term commitments. Prioritize flexibility over savings; short-term leases and furnished rentals are typically better for this duration to avoid the hassle and cost of buying/reselling furniture or breaking long-term contracts.",
+      "retrieval_category": "OLD_ONLY",
+      "judge": null
+    }
+  ],
+  "stopped_early": "parse_failure:SCHEMA_INVALID",
+  "limitations": [
+    "The judge uses the same local model family as the actor and is auxiliary only.",
+    "Hidden benchmark explanations are not human gold.",
+    "Only dim3 is evaluated in this action probe."
+  ]
+}

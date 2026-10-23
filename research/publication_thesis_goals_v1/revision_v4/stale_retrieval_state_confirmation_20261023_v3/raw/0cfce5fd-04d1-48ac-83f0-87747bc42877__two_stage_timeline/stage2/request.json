@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      9,
+      24,
+      36
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has always leaned towards candidates who focus on community support rather than corporate interests.\",\n      \"source_ref\": \"Session 10, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is trying to get thoughts together before a local election and needs a checklist to compare candidates.\",\n      \"source_ref\": \"Session 10, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User recently registered with UNHCR in early March and is settling in the US.\",\n      \"source_ref\": \"Session 25, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is trying to get thoughts together before a local election and needs a checklist to compare candidates.\",\n    \"User recently registered with UNHCR in early March and is settling in the US.\"\n  ],\n  \"unresolved\": [\n    \"The user's current political stance regarding community vs. corporate interests is not explicitly confirmed in the later sessions (Session 25 and 37), which focus on refugee resettlement and film recommendations. The original statement from Session 10 is the only evidence of this preference.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

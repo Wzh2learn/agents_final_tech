@@ -1,0 +1,702 @@
+{
+  "schema": "stale_semantic_reanalysis_v2",
+  "date": "2026-10-23",
+  "evidence_identity": "POST_HOC_TEXT_AND_EVIDENCE_SCORING_NOT_OFFICIAL_STALE_JUDGE",
+  "independence_contract": {
+    "ignored_fields": [
+      "model state_resolution",
+      "model premise_resistance",
+      "model action_adaptation",
+      "answer prefix",
+      "generated state card"
+    ],
+    "read_fields": [
+      "answer text",
+      "selected source sessions",
+      "semantic reference"
+    ]
+  },
+  "reference_identity": "AI_ASSISTED_DEVELOPMENT_REFERENCE_FROM_HIDDEN_STATE_AND_SOURCE_NOT_HUMAN_GOLD",
+  "summary_by_arm": {
+    "v3_dev_one_shot": {
+      "count": 4,
+      "semantic_success": 2,
+      "semantic_rate": 0.5,
+      "relation_counts": {
+        "OLD_STATE_INVALID": 2,
+        "OLD_STATE_VALID": 1,
+        "CONTRADICTORY": 1
+      },
+      "specificity_failure": 1,
+      "grounding_failure": 0
+    },
+    "v3_dev_two_stage": {
+      "count": 4,
+      "semantic_success": 1,
+      "semantic_rate": 0.25,
+      "relation_counts": {
+        "UNSPECIFIED": 2,
+        "OLD_STATE_VALID": 1,
+        "OLD_STATE_INVALID": 1
+      },
+      "specificity_failure": 3,
+      "grounding_failure": 2
+    },
+    "v3_new_uid_one_shot": {
+      "count": 8,
+      "semantic_success": 0,
+      "semantic_rate": 0.0,
+      "relation_counts": {
+        "OLD_STATE_VALID": 4,
+        "CONTRADICTORY": 3,
+        "UNSPECIFIED": 1
+      },
+      "specificity_failure": 5,
+      "grounding_failure": 1
+    },
+    "v3_new_uid_two_stage": {
+      "count": 8,
+      "semantic_success": 2,
+      "semantic_rate": 0.25,
+      "relation_counts": {
+        "OLD_STATE_INVALID": 2,
+        "UNSPECIFIED": 6
+      },
+      "specificity_failure": 6,
+      "grounding_failure": 5
+    }
+  },
+  "rows": [
+    {
+      "arm": "v3_dev_one_shot",
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "answer": "No, the user states in the second session that they wrapped up their master's program last month and are now focusing on settling into a full-time job.",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "relation": "OLD_STATE_INVALID",
+      "matched_required_groups": [
+        0,
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 18,
+        "grounded_token_count": 16,
+        "grounded_token_ratio": 0.8889,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": true,
+      "failure_reason": null
+    },
+    {
+      "arm": "v3_dev_one_shot",
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "answer": "Yes, the user still has Mike's pressure washer and needs to return it.",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "relation": "OLD_STATE_VALID",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 8,
+        "grounded_token_count": 7,
+        "grounded_token_ratio": 0.875,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_dev_one_shot",
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "answer": "Yes, the user states they have been cycling to work for years and uses their bike commute as a baseline for comparison.",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "relation": "CONTRADICTORY",
+      "matched_required_groups": [
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 12,
+        "grounded_token_count": 8,
+        "grounded_token_ratio": 0.6667,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_dev_one_shot",
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "answer": "Yes, the user states that everything in their investment portfolio is tied up and they cannot make withdrawals for the time being.",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "relation": "OLD_STATE_INVALID",
+      "matched_required_groups": [
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 14,
+        "grounded_token_count": 11,
+        "grounded_token_ratio": 0.7857,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": true,
+      "failure_reason": null
+    },
+    {
+      "arm": "v3_dev_two_stage",
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "answer": "No",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 0,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_dev_two_stage",
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "answer": "Yes, the user still has Mike's pressure washer and needs to return it.",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "relation": "OLD_STATE_VALID",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 8,
+        "grounded_token_count": 7,
+        "grounded_token_ratio": 0.875,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_dev_two_stage",
+      "uid": "009b7c99-b777-465a-bc3a-77f2d88c1318",
+      "type": "T2",
+      "answer": "No",
+      "selected_indices": [
+        14,
+        34
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 0,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_dev_two_stage",
+      "uid": "012f090e-6e02-4751-955d-574745069df3",
+      "type": "T2",
+      "answer": "No, the user is currently moving money from their brokerage account to checking, indicating the funds are accessible.",
+      "selected_indices": [
+        5,
+        33
+      ],
+      "relation": "OLD_STATE_INVALID",
+      "matched_required_groups": [
+        0,
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 10,
+        "grounded_token_count": 8,
+        "grounded_token_ratio": 0.8,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": true,
+      "failure_reason": null
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "type": "T1",
+      "answer": "Yes, the user is still driving the same blue sedan they bought a few years back.",
+      "selected_indices": [
+        5,
+        32
+      ],
+      "relation": "OLD_STATE_VALID",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 12,
+        "grounded_token_count": 11,
+        "grounded_token_ratio": 0.9167,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "0781e96e-853c-46af-b787-4a64fc248e62",
+      "type": "T1",
+      "answer": "Yes, the user mentions wearing a smartwatch daily for the past year.",
+      "selected_indices": [
+        6,
+        34
+      ],
+      "relation": "OLD_STATE_VALID",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 8,
+        "grounded_token_count": 6,
+        "grounded_token_ratio": 0.75,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "type": "T1",
+      "answer": "Yes, the user explicitly stated they are turning down the regional role because they prefer seeing the direct results of their work each day.",
+      "selected_indices": [
+        6,
+        38
+      ],
+      "relation": "CONTRADICTORY",
+      "matched_required_groups": [
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 17,
+        "grounded_token_count": 14,
+        "grounded_token_ratio": 0.8235,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "type": "T1",
+      "answer": "Yes, the user stated they usually take the light rail each morning.",
+      "selected_indices": [
+        13,
+        38
+      ],
+      "relation": "OLD_STATE_VALID",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 10,
+        "grounded_token_count": 7,
+        "grounded_token_ratio": 0.7,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "05fc9783-f06c-453f-8899-15253d63533a",
+      "type": "T2",
+      "answer": "Yes, the user states they save the first hour of their shift for safety compliance checks.",
+      "selected_indices": [
+        9,
+        39
+      ],
+      "relation": "CONTRADICTORY",
+      "matched_required_groups": [
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 11,
+        "grounded_token_count": 9,
+        "grounded_token_ratio": 0.8182,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "type": "T2",
+      "answer": null,
+      "selected_indices": [
+        1,
+        37
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 0,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "type": "T2",
+      "answer": "Yes, the user stated that they keep their weeknights completely open and only schedule recurring engagements for Saturday or Sunday.",
+      "selected_indices": [
+        13,
+        33
+      ],
+      "relation": "CONTRADICTORY",
+      "matched_required_groups": [
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 15,
+        "grounded_token_count": 14,
+        "grounded_token_ratio": 0.9333,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_one_shot",
+      "uid": "0c348e44-7f55-4d95-aeb7-137f801985d7",
+      "type": "T2",
+      "answer": "Yes, the user generally avoids streaming subscriptions because they prefer owning physical copies of their movies and music.",
+      "selected_indices": [
+        4,
+        35
+      ],
+      "relation": "OLD_STATE_VALID",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 14,
+        "grounded_token_count": 12,
+        "grounded_token_ratio": 0.8571,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "0683a7ee-1c84-4f83-adb0-c3b04b1ade84",
+      "type": "T1",
+      "answer": "No, Riley is now driving a silver hatchback.",
+      "selected_indices": [
+        5,
+        32
+      ],
+      "relation": "OLD_STATE_INVALID",
+      "matched_required_groups": [
+        0
+      ],
+      "grounding": {
+        "answer_token_count": 5,
+        "grounded_token_count": 4,
+        "grounded_token_ratio": 0.8,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": true,
+      "failure_reason": null
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "0781e96e-853c-46af-b787-4a64fc248e62",
+      "type": "T1",
+      "answer": "Yes",
+      "selected_indices": [
+        6,
+        34
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 1,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "07cc73f3-8a5f-4680-9ad1-8a284389be0d",
+      "type": "T1",
+      "answer": "No, the user now prefers roles with longer-term impact and cross-team coordination rather than quick, visible wins and day-to-day outcomes.",
+      "selected_indices": [
+        6,
+        38
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 17,
+        "grounded_token_count": 16,
+        "grounded_token_ratio": 0.9412,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "08c6bbd2-fcf8-43c6-a79f-00a7ddc65c11",
+      "type": "T1",
+      "answer": "Yes",
+      "selected_indices": [
+        13,
+        38
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 1,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "05fc9783-f06c-453f-8899-15253d63533a",
+      "type": "T2",
+      "answer": "No, the user has proposed a 5-10 minute settle-in window instead of reserving the first hour for safety compliance checks.",
+      "selected_indices": [
+        9,
+        39
+      ],
+      "relation": "OLD_STATE_INVALID",
+      "matched_required_groups": [
+        1
+      ],
+      "grounding": {
+        "answer_token_count": 12,
+        "grounded_token_count": 10,
+        "grounded_token_ratio": 0.8333,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": true,
+      "failure_reason": null
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "06071a3e-6ac8-41cc-8138-6db403c7b42d",
+      "type": "T2",
+      "answer": "No",
+      "selected_indices": [
+        1,
+        37
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 0,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "0a5d90e4-a8c1-4929-81c6-acd553069f50",
+      "type": "T2",
+      "answer": null,
+      "selected_indices": [
+        13,
+        33
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 0,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0,
+          1
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    },
+    {
+      "arm": "v3_new_uid_two_stage",
+      "uid": "0c348e44-7f55-4d95-aeb7-137f801985d7",
+      "type": "T2",
+      "answer": "Yes",
+      "selected_indices": [
+        4,
+        35
+      ],
+      "relation": "UNSPECIFIED",
+      "matched_required_groups": [],
+      "grounding": {
+        "answer_token_count": 1,
+        "grounded_token_count": 0,
+        "grounded_token_ratio": 0.0,
+        "required_groups_grounded": [
+          0
+        ]
+      },
+      "qualified_uncertainty": false,
+      "semantic_success": false,
+      "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+    }
+  ],
+  "derived_control_sanity": [
+    {
+      "id": "UNRELATED_NEW_EVENT_PRESERVES_OLD_STATE",
+      "accepted": [
+        "OLD_STATE_VALID"
+      ],
+      "rejected": [
+        "UNSPECIFIED"
+      ]
+    },
+    {
+      "id": "FUTURE_PLAN_NOT_CURRENT_STATE",
+      "accepted": [
+        "UNKNOWN_CURRENT"
+      ],
+      "rejected": [
+        "UNSPECIFIED"
+      ]
+    },
+    {
+      "id": "ASSISTANT_SUGGESTION_NOT_USER_STATE",
+      "accepted": [
+        "OLD_STATE_VALID"
+      ],
+      "rejected": [
+        "UNSPECIFIED"
+      ]
+    },
+    {
+      "id": "INSUFFICIENT_EVIDENCE",
+      "accepted": [
+        "UNKNOWN_CURRENT"
+      ],
+      "rejected": [
+        "OLD_STATE_VALID"
+      ]
+    }
+  ],
+  "nonclaims": [
+    "The semantic reference is AI-assisted development material, not human gold.",
+    "This reanalysis does not overwrite frozen proxy counts.",
+    "Evidence grounding is a deterministic text check, not a full entailment proof."
+  ]
+}

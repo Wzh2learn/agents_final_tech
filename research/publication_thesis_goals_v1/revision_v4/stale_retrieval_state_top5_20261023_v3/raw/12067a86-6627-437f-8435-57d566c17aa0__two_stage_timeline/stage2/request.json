@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "uid": "12067a86-6627-437f-8435-57d566c17aa0",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      11,
+      26,
+      14,
+      18,
+      24
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User is focusing on maintaining a slower pace to manage elevated stress levels.\",\n      \"source_ref\": \"Session 12, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User recently took a 10-day break from social media from February 15th to 25th.\",\n      \"source_ref\": \"Session 19, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is interested in tracking social media usage to see how habits have changed since the break.\",\n      \"source_ref\": \"Session 19, User turn 11\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is interested in tracking social media usage to see how habits have changed since the break.\"\n  ],\n  \"unresolved\": [\n    \"Whether the user is currently maintaining a slower pace for stress management, as the last evidence of this focus was in Session 12 (July 2024) and subsequent sessions do not confirm its continuation.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

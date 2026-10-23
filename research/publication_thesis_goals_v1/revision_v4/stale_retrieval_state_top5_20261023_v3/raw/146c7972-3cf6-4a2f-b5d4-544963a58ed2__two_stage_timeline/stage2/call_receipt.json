@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has been self-employed for the past few years rather than holding a standard staff position.\",\n      \"source_ref\": \"Session 8, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is updating their resume/LinkedIn to frame their self-employment history.\",\n      \"source_ref\": \"Session 8, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is working on a science fiction novel and has written about 15,000 words.\",\n      \"source_ref\": \"Session 28, User turn 5\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is updating their resume/LinkedIn to frame their self-employment history.\",\n    \"User is working on a science fiction novel and has written about 15,000 words.\"\n  ],\n  \"unresolved\": [\n    \"The user's current employment status is not explicitly confirmed as still self-employed in the most recent sessions (which focus on writing and photography), but the resume update context implies the self-employment period is recent or ongoing.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still describe themselves as self-employed rather than working in a standard staff position for a single company?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "86f5e66b5e56fd0d6b9f939997ecf0335ef7a973426b782231357d5f9a237bda",
+  "response_body_sha256": "1435ab770caed68226bec4842fdcb6c67cc353c4c49c62e4a46e7ff4f03fba9e",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 477,
+    "total_tokens": 504,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.027479,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 504,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

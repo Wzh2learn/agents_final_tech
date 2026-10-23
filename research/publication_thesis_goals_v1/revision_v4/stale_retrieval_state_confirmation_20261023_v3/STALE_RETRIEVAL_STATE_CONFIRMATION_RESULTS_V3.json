@@ -1,0 +1,1498 @@
+{
+  "schema": "stale_retrieval_state_confirmation_v3",
+  "date": "2026-10-23",
+  "evidence_identity": "FROZEN_NON_ORACLE_RETRIEVAL_STATE_CONFIRMATION_WITHIN_PUBLIC_STALE",
+  "protocol_sha256": "8ae231ff9682e635d62cac18ea81df254b53892715ce7fda529d2e6e4ef626b2",
+  "reference_sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2",
+  "model_identity_observed": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+  ],
+  "model_request_contract": {
+    "temperature": 0,
+    "top_p": 1,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "retry_cap": 0
+  },
+  "summary": {
+    "overall": {
+      "planned_calls": 96,
+      "observed_calls": 53,
+      "accounting_tokens": 311250,
+      "retry_count": 0
+    },
+    "by_arm": {
+      "direct_answer": {
+        "observed_rows": 9,
+        "semantic_success_all": 0,
+        "semantic_rate_all": 0.0,
+        "primary_rows": 3,
+        "semantic_success_primary": 0,
+        "semantic_rate_primary": 0.0,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 0,
+        "calls": 9,
+        "accounting_tokens": 74426,
+        "completion_tokens": 423
+      },
+      "one_call_facts": {
+        "observed_rows": 9,
+        "semantic_success_all": 2,
+        "semantic_rate_all": 0.2222,
+        "primary_rows": 3,
+        "semantic_success_primary": 2,
+        "semantic_rate_primary": 0.6667,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 6,
+        "calls": 9,
+        "accounting_tokens": 76399,
+        "completion_tokens": 2234
+      },
+      "two_stage_timeline": {
+        "observed_rows": 9,
+        "semantic_success_all": 4,
+        "semantic_rate_all": 0.4444,
+        "primary_rows": 3,
+        "semantic_success_primary": 1,
+        "semantic_rate_primary": 0.3333,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 8,
+        "calls": 18,
+        "accounting_tokens": 81416,
+        "completion_tokens": 3123
+      },
+      "two_stage_state_card": {
+        "observed_rows": 9,
+        "semantic_success_all": 3,
+        "semantic_rate_all": 0.3333,
+        "primary_rows": 3,
+        "semantic_success_primary": 2,
+        "semantic_rate_primary": 0.6667,
+        "safe_unknown_all": 0,
+        "intermediate_specificity_success": 4,
+        "calls": 17,
+        "accounting_tokens": 79009,
+        "completion_tokens": 2533
+      }
+    },
+    "retrieval_category_counts": {
+      "BOTH_OLD_AND_NEW": 3,
+      "OLD_ONLY": 6,
+      "NEW_ONLY": 0,
+      "NEITHER": 0
+    }
+  },
+  "rows": [
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still plan to stay in town for about five months?",
+      "selected_indices": [
+        7,
+        10,
+        15
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still plan to stay in town for about five months?",
+      "selected_indices": [
+        7,
+        10,
+        15
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "[]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still plan to stay in town for about five months?",
+      "selected_indices": [
+        7,
+        10,
+        15
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User is planning to stay in the new city for about five months.",
+      "current_intermediate_text": "{\"current_facts\": [\"User is planning to stay in the new city for about five months.\", \"User is looking to plan their day tomorrow and schedule tasks.\"], \"timeline_current\": [{\"fact\": \"User is planning to stay in the new city for about five months.\", \"source_ref\": \"Session 8, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is looking to plan their day tomorrow and schedule tasks.\", \"source_ref\": \"Session 16, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "about",
+          "months",
+          "new",
+          "stay"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "about",
+          "months",
+          "new",
+          "stay"
+        ],
+        "old_reference_overlap": [
+          "about",
+          "five",
+          "months",
+          "planning",
+          "stay"
+        ],
+        "grounded_current_tokens": [
+          "about",
+          "months",
+          "new",
+          "stay"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "09949c3c-0abe-42fb-9012-efb34b298947",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still plan to stay in town for about five months?",
+      "selected_indices": [
+        7,
+        10,
+        15
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "No, the user is planning a romantic getaway to Napa Valley.",
+      "current_intermediate_text": "User is planning a romantic getaway to Napa Valley (Session 11)",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [
+          "planning"
+        ],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?",
+      "selected_indices": [
+        2,
+        38,
+        13
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?",
+      "selected_indices": [
+        2,
+        38,
+        13
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "No, the user currently prefers being out in the middle of things, checking out new spots, and keeping their calendar full with plans, which contrasts with their past preference for staying home.",
+      "current_intermediate_text": "[{\"fact\": \"The user is trying to plan the next couple months to keep their energy up by being out in the middle of things, checking out new spots, meeting people, and keeping their calendar full with plans.\", \"source_ref\": \"Session 39, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "calendar",
+          "checking",
+          "full",
+          "keeping",
+          "meeting",
+          "middle",
+          "new",
+          "out",
+          "people",
+          "plan",
+          "plans",
+          "spots",
+          "things"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "calendar",
+          "checking",
+          "full",
+          "home",
+          "keeping",
+          "middle",
+          "new",
+          "out",
+          "plans",
+          "prefers",
+          "spots",
+          "things"
+        ],
+        "old_reference_overlap": [
+          "home"
+        ],
+        "grounded_current_tokens": [
+          "calendar",
+          "checking",
+          "full",
+          "home",
+          "keeping",
+          "middle",
+          "new",
+          "out",
+          "plans",
+          "prefers",
+          "spots",
+          "things"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?",
+      "selected_indices": [
+        2,
+        38,
+        13
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [\"User feels recharged when out in the middle of things and wants to keep their calendar full with plans.\"], \"timeline_current\": [{\"fact\": \"User feels recharged when out in the middle of things and wants to keep their calendar full with plans.\", \"source_ref\": \"Session 39, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "calendar",
+          "full",
+          "middle",
+          "out",
+          "plans",
+          "recharged",
+          "things",
+          "when"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0af76ce2-d242-4deb-bd5c-a853338150bc",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?",
+      "selected_indices": [
+        2,
+        38,
+        13
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "No, the user no longer tends to decline most evening invitations because they prefer spending their free time at home; instead, they feel most recharged when out and are actively planning to keep their calendar full with plans.",
+      "current_intermediate_text": "User feels most recharged when out in the middle of things and is actively planning to keep their calendar full with plans, moving away from defaulting to staying in.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "calendar",
+          "full",
+          "middle",
+          "most",
+          "out",
+          "plans",
+          "recharged",
+          "things",
+          "when"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "calendar",
+          "feel",
+          "full",
+          "home",
+          "most",
+          "out",
+          "plans",
+          "recharged",
+          "when"
+        ],
+        "old_reference_overlap": [
+          "because",
+          "decline",
+          "evening",
+          "free",
+          "home",
+          "invitations",
+          "most",
+          "prefer",
+          "spending",
+          "time"
+        ],
+        "grounded_current_tokens": [
+          "calendar",
+          "feel",
+          "full",
+          "home",
+          "most",
+          "out",
+          "plans",
+          "recharged",
+          "when"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?",
+      "selected_indices": [
+        4,
+        42,
+        21
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?",
+      "selected_indices": [
+        4,
+        42,
+        21
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, the user has kept the same circle of friends for over ten years and hangs out with them at least once a month.",
+      "current_intermediate_text": "[{\"fact\": \"The user has kept the same circle of friends for over ten years.\", \"source_ref\": \"Session 5 [Time: 2022-07-10 19:30] User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user hangs out with this circle of friends at least once a month.\", \"source_ref\": \"Session 5 [Time: 2022-07-10 19:30] User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "same",
+          "ten",
+          "user"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "same",
+          "ten",
+          "user"
+        ],
+        "old_reference_overlap": [
+          "circle",
+          "friends",
+          "kept",
+          "least",
+          "month",
+          "once",
+          "out",
+          "over",
+          "same",
+          "ten",
+          "years"
+        ],
+        "grounded_current_tokens": [
+          "same",
+          "ten",
+          "user"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?",
+      "selected_indices": [
+        4,
+        42,
+        21
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User has kept the same circle of friends for over ten years and hangs out at least once a month.",
+      "current_intermediate_text": "{\"current_facts\": [\"User has kept the same circle of friends for over ten years and hangs out at least once a month.\"], \"timeline_current\": []}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "same",
+          "ten",
+          "user"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "same",
+          "ten",
+          "user"
+        ],
+        "old_reference_overlap": [
+          "circle",
+          "friends",
+          "kept",
+          "least",
+          "month",
+          "once",
+          "out",
+          "over",
+          "same",
+          "ten",
+          "years"
+        ],
+        "grounded_current_tokens": [
+          "same",
+          "ten",
+          "user"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0bd9381a-6163-41bd-b500-74d147a98f19",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still keep the same circle of friends they’ve had for over ten years and hang out with them at least once a month?",
+      "selected_indices": [
+        4,
+        42,
+        21
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user has kept the same circle of friends for over ten years and hangs out with them at least once a month.",
+      "current_intermediate_text": "User has kept the same circle of friends for over ten years and hangs out with them at least once a month.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "same",
+          "ten",
+          "user"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "same",
+          "ten",
+          "user"
+        ],
+        "old_reference_overlap": [
+          "circle",
+          "friends",
+          "kept",
+          "least",
+          "month",
+          "once",
+          "out",
+          "over",
+          "same",
+          "ten",
+          "years"
+        ],
+        "grounded_current_tokens": [
+          "same",
+          "ten",
+          "user"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?",
+      "selected_indices": [
+        36,
+        26,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, the user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.",
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "old_reference_overlap": [
+          "between",
+          "deep",
+          "eight",
+          "eleven",
+          "focus",
+          "generally",
+          "hours",
+          "morning",
+          "reserved",
+          "work"
+        ],
+        "grounded_current_tokens": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?",
+      "selected_indices": [
+        36,
+        26,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, the user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.",
+      "current_intermediate_text": "[{\"fact\": \"The user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\", \"source_ref\": \"Session 27 [Time: 2024-09-09 13:40] User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\", \"source_ref\": \"Session 14 [Time: 2024-06-09 09:30] User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "old_reference_overlap": [
+          "between",
+          "deep",
+          "eight",
+          "eleven",
+          "focus",
+          "generally",
+          "hours",
+          "morning",
+          "reserved",
+          "work"
+        ],
+        "grounded_current_tokens": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?",
+      "selected_indices": [
+        36,
+        26,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User generally keeps the hours between eight and eleven in the morning reserved for deep focus work.",
+      "current_intermediate_text": "{\"current_facts\": [\"User generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\"], \"timeline_current\": [{\"fact\": \"User generally keeps the hours between eight and eleven in the morning reserved for deep focus work.\", \"source_ref\": \"Session 14, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is trying to redesign their daily routine to get more meaningful work done without burning out.\", \"source_ref\": \"Session 14, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User asks for two variations of the schedule (meeting-heavy and maker day) and how to handle urgent pings during the 8-11 block.\", \"source_ref\": \"Session 14, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "block",
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "old_reference_overlap": [
+          "between",
+          "deep",
+          "eight",
+          "eleven",
+          "focus",
+          "generally",
+          "hours",
+          "morning",
+          "reserved",
+          "work"
+        ],
+        "grounded_current_tokens": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c0086f5-6676-45ed-a5ce-eaaa20a3ec9f",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still reserve 8–11 a.m. for deep focus work?",
+      "selected_indices": [
+        36,
+        26,
+        13
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user still reserves the hours between eight and eleven in the morning for deep focus work.",
+      "current_intermediate_text": "User still reserves the hours between eight and eleven in the morning for deep focus work.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "old_reference_overlap": [
+          "between",
+          "deep",
+          "eight",
+          "eleven",
+          "focus",
+          "hours",
+          "morning",
+          "work"
+        ],
+        "grounded_current_tokens": [
+          "deep",
+          "focus",
+          "morning",
+          "work"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still run for thirty minutes every single morning?",
+      "selected_indices": [
+        5,
+        31,
+        40
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still run for thirty minutes every single morning?",
+      "selected_indices": [
+        5,
+        31,
+        40
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "No, the user has stopped running for thirty minutes every morning and now starts their day with a half-hour on the stationary bike due to knee issues.",
+      "current_intermediate_text": "[{\"fact\": \"The user's knee started acting up, leading them to start their day with a half-hour on the stationary bike instead of running.\", \"source_ref\": \"Session 32 [Time: 2024-12-12 06:30] User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "acting",
+          "bike",
+          "day",
+          "half",
+          "hour",
+          "instead",
+          "knee",
+          "running",
+          "session",
+          "started",
+          "stationary"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "bike",
+          "day",
+          "half",
+          "hour",
+          "knee",
+          "morning",
+          "running",
+          "stationary"
+        ],
+        "old_reference_overlap": [
+          "every",
+          "minutes",
+          "morning",
+          "thirty"
+        ],
+        "grounded_current_tokens": [
+          "bike",
+          "day",
+          "half",
+          "hour",
+          "knee",
+          "morning",
+          "running",
+          "stationary"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still run for thirty minutes every single morning?",
+      "selected_indices": [
+        5,
+        31,
+        40
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "User is currently using a stationary bike for morning exercise instead of running.",
+      "current_intermediate_text": "{\"current_facts\": [\"User is currently using a stationary bike for morning exercise instead of running.\", \"User is focusing on establishing a consistent sleep schedule.\"], \"timeline_current\": [{\"fact\": \"User is currently using a stationary bike for morning exercise instead of running.\", \"source_ref\": \"Session 32, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is focusing on establishing a consistent sleep schedule.\", \"source_ref\": \"Session 41, User turn 11\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "bike",
+          "exercise",
+          "instead",
+          "morning",
+          "running",
+          "session",
+          "stationary"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "bike",
+          "exercise",
+          "instead",
+          "morning",
+          "running",
+          "stationary"
+        ],
+        "old_reference_overlap": [
+          "morning"
+        ],
+        "grounded_current_tokens": [
+          "bike",
+          "exercise",
+          "instead",
+          "morning",
+          "running",
+          "stationary"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0c199bef-29ae-489f-b772-af9a43d6eb0e",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still run for thirty minutes every single morning?",
+      "selected_indices": [
+        5,
+        31,
+        40
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "No, the user has switched to using a stationary bike for thirty minutes in the morning due to knee issues.",
+      "current_intermediate_text": "User has switched to using a stationary bike for thirty minutes in the morning due to knee issues.",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "bike",
+          "knee",
+          "morning",
+          "stationary"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "bike",
+          "knee",
+          "morning",
+          "stationary"
+        ],
+        "old_reference_overlap": [
+          "minutes",
+          "morning",
+          "thirty"
+        ],
+        "grounded_current_tokens": [
+          "bike",
+          "knee",
+          "morning",
+          "stationary"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?",
+      "selected_indices": [
+        9,
+        24,
+        36
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?",
+      "selected_indices": [
+        9,
+        24,
+        36
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "The user leans towards candidates who focus on community support rather than corporate interests.",
+      "current_intermediate_text": "[{\"fact\": \"The user has always leaned towards candidates who focus on community support rather than corporate interests.\", \"source_ref\": \"Session 10, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "who"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "who"
+        ],
+        "old_reference_overlap": [
+          "candidates",
+          "community",
+          "corporate",
+          "focus",
+          "interests",
+          "rather",
+          "support",
+          "than",
+          "towards",
+          "who"
+        ],
+        "grounded_current_tokens": [
+          "who"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?",
+      "selected_indices": [
+        9,
+        24,
+        36
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [\"User is trying to get thoughts together before a local election and needs a checklist to compare candidates.\", \"User recently registered with UNHCR in early March and is settling in the US.\"], \"timeline_current\": [{\"fact\": \"User is trying to get thoughts together before a local election and needs a checklist to compare candidates.\", \"source_ref\": \"Session 10, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User recently registered with UNHCR in early March and is settling in the US.\", \"source_ref\": \"Session 25, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "local"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0cfce5fd-04d1-48ac-83f0-87747bc42877",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?",
+      "selected_indices": [
+        9,
+        24,
+        36
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is interested in film recommendations, specifically Canadian dramas and films about filmmaking/film criticism (Session 37, 2023-03-24)",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?",
+      "selected_indices": [
+        13,
+        2,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?",
+      "selected_indices": [
+        13,
+        2,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "Yes, the user stated they are keeping their reading list pretty strictly to science fiction novels.",
+      "current_intermediate_text": "[{\"fact\": \"The user stated they are keeping their reading list pretty strictly to science fiction novels.\", \"source_ref\": \"Session 14 [Time: 2024-06-15 14:30] User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user is planning to start reading 'Children of Time' and considers 'The Long Way to a Small, Angry Planet' as a potential palate cleanser.\", \"source_ref\": \"Session 14 [Time: 2024-06-15 14:30] User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "current",
+          "list",
+          "reading"
+        ]
+      },
+      "semantic": {
+        "relation": "STALE_ACCEPT",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "list",
+          "reading"
+        ],
+        "old_reference_overlap": [
+          "fiction",
+          "keeping",
+          "list",
+          "novels",
+          "pretty",
+          "reading",
+          "science",
+          "strictly"
+        ],
+        "grounded_current_tokens": [
+          "list",
+          "reading"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?",
+      "selected_indices": [
+        13,
+        2,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": "User is keeping their reading list pretty strictly to science fiction novels.",
+      "current_intermediate_text": "{\"current_facts\": [\"User is keeping their reading list pretty strictly to science fiction novels.\", \"User is trying to increase online presence on Facebook.\"], \"timeline_current\": [{\"fact\": \"User is keeping their reading list pretty strictly to science fiction novels.\", \"source_ref\": \"Session 14, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is trying to increase online presence on Facebook.\", \"source_ref\": \"Session 5, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "current",
+          "list",
+          "reading"
+        ]
+      },
+      "semantic": {
+        "relation": "CURRENT_FACT_SUPPORTED",
+        "semantic_success": true,
+        "current_reference_overlap": [
+          "list",
+          "reading"
+        ],
+        "old_reference_overlap": [
+          "fiction",
+          "keeping",
+          "list",
+          "novels",
+          "pretty",
+          "reading",
+          "science",
+          "strictly"
+        ],
+        "grounded_current_tokens": [
+          "list",
+          "reading"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "12f3fc0d-9e68-4b4f-a33d-6bd56be10d2b",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still keep their reading list pretty strictly to science fiction novels?",
+      "selected_indices": [
+        13,
+        2,
+        4
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is starting a 'Book of the Month' series on Facebook and sharing favorite books, with no explicit restriction to science fiction mentioned in the later session",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?",
+      "selected_indices": [
+        13,
+        15,
+        2
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?",
+      "selected_indices": [
+        13,
+        15,
+        2
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "[{\"fact\": \"The user is currently self-employed, so their work schedule is entirely up to them.\", \"source_ref\": \"Session 14, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user has recently taken on a new role as a senior account manager.\", \"source_ref\": \"Session 3, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "employed",
+          "self"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?",
+      "selected_indices": [
+        13,
+        15,
+        2
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "{\"current_facts\": [\"User is currently self-employed with a fully self-directed work schedule.\", \"User is mentoring a junior colleague named Alex.\"], \"timeline_current\": [{\"fact\": \"User is currently self-employed with a fully self-directed work schedule.\", \"source_ref\": \"Session 16, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is mentoring a junior colleague named Alex.\", \"source_ref\": \"Session 3, User turn 1\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "employed",
+          "self"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "17c4192e-ee5a-442a-b492-f69641d836c3",
+      "type": "T1",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, is the user still self-employed with a fully self-directed work schedule?",
+      "selected_indices": [
+        13,
+        15,
+        2
+      ],
+      "retrieval_category": "OLD_ONLY",
+      "answer": null,
+      "current_intermediate_text": "User is a senior account manager with a team and a junior colleague named Alex (Session 3, Time: 2024-03-24 09:43)",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "direct_answer",
+      "query": "Based on the conversation history, does the user still avoid putting a significant portion of their funds into high-risk opportunities in favor of steady growth?",
+      "selected_indices": [
+        13,
+        39,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "one_call_facts",
+      "query": "Based on the conversation history, does the user still avoid putting a significant portion of their funds into high-risk opportunities in favor of steady growth?",
+      "selected_indices": [
+        13,
+        39,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "Yes, the user has stated they have never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead.",
+      "current_intermediate_text": "[{\"fact\": \"I’ve never been willing to gamble a significant portion of my funds on high-risk opportunities, preferring steady growth instead.\", \"source_ref\": \"Session 14, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": [
+          "risk"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "risk"
+        ],
+        "old_reference_overlap": [
+          "funds",
+          "gamble",
+          "growth",
+          "high",
+          "instead",
+          "never",
+          "opportunities",
+          "portion",
+          "preferring",
+          "risk",
+          "significant",
+          "steady",
+          "willing"
+        ],
+        "grounded_current_tokens": [
+          "risk"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "two_stage_timeline",
+      "query": "Based on the conversation history, does the user still avoid putting a significant portion of their funds into high-risk opportunities in favor of steady growth?",
+      "selected_indices": [
+        13,
+        39,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": "User prefers steady growth and avoids gambling significant funds on high-risk opportunities.",
+      "current_intermediate_text": "{\"current_facts\": [\"User prefers steady growth and avoids gambling significant funds on high-risk opportunities.\", \"User is actively learning options trading (debit spreads) with small amounts of money to manage risk.\"], \"timeline_current\": [{\"fact\": \"User has never been willing to gamble a significant portion of their funds on high-risk opportunities, preferring steady growth instead.\", \"source_ref\": \"Session 14, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is currently spending evenings learning about options trading, specifically practicing with debit spreads in a small account to keep risk contained.\", \"source_ref\": \"Session 34, User turn 7\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"User is interested in attending cultural events that celebrate diversity and inclusivity, specifically focusing on social justice and racial equality.\", \"source_ref\": \"Session 40, User turn 3\", \"source_role\": \"user\", \"temporal_status\": \"current\"}]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_current_tokens": [
+          "account",
+          "actively",
+          "evenings",
+          "learning",
+          "options",
+          "risk",
+          "small",
+          "spending",
+          "trading"
+        ]
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [
+          "risk"
+        ],
+        "old_reference_overlap": [
+          "funds",
+          "growth",
+          "high",
+          "opportunities",
+          "risk",
+          "significant",
+          "steady"
+        ],
+        "grounded_current_tokens": [
+          "risk"
+        ],
+        "safe_unknown": false
+      }
+    },
+    {
+      "uid": "0f806fbb-d8e6-4791-bcbf-2230e70877cc",
+      "type": "T2",
+      "arm": "two_stage_state_card",
+      "query": "Based on the conversation history, does the user still avoid putting a significant portion of their funds into high-risk opportunities in favor of steady growth?",
+      "selected_indices": [
+        13,
+        39,
+        33
+      ],
+      "retrieval_category": "BOTH_OLD_AND_NEW",
+      "answer": null,
+      "current_intermediate_text": "",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_current_tokens": []
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "semantic_success": false,
+        "current_reference_overlap": [],
+        "old_reference_overlap": [],
+        "grounded_current_tokens": [],
+        "safe_unknown": false
+      }
+    }
+  ],
+  "stopped_early": "parse_failure:INVALID_JSON",
+  "limitations": [
+    "Only dim1 is used in this confirmation batch.",
+    "The semantic reference is hidden benchmark text plus deterministic overlap, not human gold.",
+    "BM25 top-3 is one fixed non-oracle retriever, not the best possible retrieval system.",
+    "Primary state-processing comparisons condition on retrieval category BOTH_OLD_AND_NEW."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has always leaned towards candidates who focus on community support rather than corporate interests.\",\n      \"source_ref\": \"Session 10, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"past\"\n    },\n    {\n      \"fact\": \"User is trying to get thoughts together before a local election and needs a checklist to compare candidates.\",\n      \"source_ref\": \"Session 10, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User recently registered with UNHCR in early March and is settling in the US.\",\n      \"source_ref\": \"Session 25, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User is trying to get thoughts together before a local election and needs a checklist to compare candidates.\",\n    \"User recently registered with UNHCR in early March and is settling in the US.\"\n  ],\n  \"unresolved\": [\n    \"The user's current political stance regarding community vs. corporate interests is not explicitly confirmed in the later sessions (Session 25 and 37), which focus on refugee resettlement and film recommendations. The original statement from Session 10 is the only evidence of this preference.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still lean toward candidates who emphasize community support over corporate interests?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "88f5cd4c220f7a62c5c658e7cbb74f1b270f5c9a75f45ccf1a03b18212327196",
+  "response_body_sha256": "5a8c6ae5c42e4f49ea6e2631a2be9e6472ff6892818afd0943832ae846b005a3",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 483,
+    "total_tokens": 510,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.921084,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 510,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_timeline"
+}

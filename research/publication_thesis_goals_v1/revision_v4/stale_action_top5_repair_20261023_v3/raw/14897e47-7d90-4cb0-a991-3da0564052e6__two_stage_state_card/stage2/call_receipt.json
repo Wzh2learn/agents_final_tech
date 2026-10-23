@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is a U.S. citizen eligible to work in the U.S., seeking advice on how to clearly state work authorization on resume/cover letter without being awkward or redundant.\",\n  \"new_state\": \"User has decided to use the neutral phrase 'Authorized to work in the United States' in the resume header, placed as a standalone line beneath contact details, and will omit 'no sponsorship required' unless explicitly asked by the employer.\",\n  \"change_type\": \"DIRECT\",\n  \"status\": \"OBSERVED\",\n  \"evidence_refs\": [\n    \"Session 10, User turn 7\",\n    \"Session 10, Assistant turn 8\",\n    \"Session 10, Assistant turn 6\"\n  ]\n}\n\nQuestion: I’m filling out an online application for a program that requires me to certify under penalty of perjury that I’m a U.S. citizen or U.S. national, and it wants me to upload proof within 48 hours—should I go ahead and submit it, and if not, what’s the safest alternative path to take?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "b657368e9e6663fbd6845aca6c69fdcd031ae5015ce075d8f0640687928c78fa",
+  "response_body_sha256": "44dfb90dd5c222d33037e6aa4ad325099b058ceb48cd95f9fa52f168258999f6",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 367,
+    "total_tokens": 394,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.955517,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 394,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

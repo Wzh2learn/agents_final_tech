@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User was seeking a simple weekly routine to balance work, chores, and exercise to manage elevated stress levels and maintain a slower pace.\",\n  \"new_state\": \"User is planning a gift budget and organizing a gift list, with no current mention of stress management or routine maintenance.\",\n  \"change_type\": \"UNKNOWN\",\n  \"status\": \"UNRESOLVED\",\n  \"evidence_refs\": [\n    \"Session 12, User turn 1\",\n    \"Session 27, User turn 1\",\n    \"Session 15, User turn 1\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still have the ability to maintain a slower pace to manage their stress levels?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "beeacc14196422eba670be7b1ffdb48f4ddf55f6a7dc08c090f1f609906fcb9c",
+  "response_body_sha256": "1853408e7d659aaf52a8c7fd7a1770c00b5f46db6829fd8b34e9340983499db1",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": [\n    \"Session 12, User turn 1\",\n    \"Session 27, User turn 1\",\n    \"Session 15, User turn 1\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 69,
+    "prompt_tokens": 292,
+    "total_tokens": 361,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 1.539702,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 361,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": [
+      "Session 12, User turn 1",
+      "Session 27, User turn 1",
+      "Session 15, User turn 1"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

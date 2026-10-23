@@ -1,0 +1,25 @@
+{
+  "schema": "stale_action_protocol_top5_repair_v3",
+  "date": "2026-10-23",
+  "status": "FROZEN_BEFORE_MODEL_GENERATION",
+  "query_dimension": "dim3",
+  "retrieval": {
+    "method": "BM25 over official role/time/session text",
+    "top_k": 5,
+    "same_selected_sessions_for_all_arms": true
+  },
+  "reference_sha256": "952fb89d210a31103740c019ebc7be3be00e90edb7ce9fc56a33453ddf4d73f2",
+  "arms": {
+    "one_call_facts": {
+      "calls": 1,
+      "max_tokens": [512],
+      "engineering_revision": "at most three facts and an answer of at most 80 words"
+    },
+    "two_stage_state_card": {
+      "calls": 2,
+      "max_tokens": [256, 256]
+    }
+  },
+  "primary_metric": "method-blind action-alignment judge",
+  "engineering_note": "The first dim3 attempt is preserved; one-call JSON truncation motivated only compact output limits."
+}

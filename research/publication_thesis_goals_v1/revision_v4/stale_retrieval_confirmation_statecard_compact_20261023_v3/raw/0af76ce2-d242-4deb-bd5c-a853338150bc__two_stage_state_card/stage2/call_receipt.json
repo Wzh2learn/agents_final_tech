@@ -1,0 +1,53 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User prefers spending free time at home and tends to decline most evening invitations.\",\n  \"new_state\": \"User feels recharged when out in the middle of things and wants to keep their calendar full with plans, actively seeking systems to avoid defaulting to staying in.\",\n  \"change_type\": \"DIRECT\",\n  \"status\": \"OBSERVED\",\n  \"evidence_refs\": [\n    \"Session 3, User turn 5\",\n    \"Session 39, User turn 1\",\n    \"Session 39, Assistant turn 2\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still tend to decline most evening invitations because they prefer spending their free time at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "1408ae0a41e9c4355b99c1d6d2a03e65bd27a993f609e39bc705d8422aef7c46",
+  "response_body_sha256": "18413700804cf1a7838e661c50d32010504201295e09b686d768bc5cd6d5976c",
+  "content": "{\n  \"decision\": \"ANSWER\",\n  \"answer\": \"No, the user no longer tends to decline most evening invitations because they prefer spending their free time at home; instead, they feel recharged when out and want to keep their calendar full with plans.\",\n  \"evidence_refs\": [\n    \"Session 3, User turn 5\",\n    \"Session 39, User turn 1\",\n    \"Session 39, Assistant turn 2\"\n  ]\n}",
+  "usage": {
+    "completion_tokens": 108,
+    "prompt_tokens": 290,
+    "total_tokens": 398,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 2.130685,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 398,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "ANSWER",
+    "answer": "No, the user no longer tends to decline most evening invitations because they prefer spending their free time at home; instead, they feel recharged when out and want to keep their calendar full with plans.",
+    "evidence_refs": [
+      "Session 3, User turn 5",
+      "Session 39, User turn 1",
+      "Session 39, Assistant turn 2"
+    ]
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

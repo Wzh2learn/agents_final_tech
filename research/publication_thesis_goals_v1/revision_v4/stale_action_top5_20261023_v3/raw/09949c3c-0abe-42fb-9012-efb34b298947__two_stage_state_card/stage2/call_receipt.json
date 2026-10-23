@@ -1,0 +1,49 @@
+{
+  "request_payload": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"old_state\": \"User is evaluating a short-term (5-month) housing stay in a new city, comparing furnished vs. unfurnished options based on cost and convenience.\",\n  \"new_state\": \"User is shifting consideration to the viability of establishing longer-term services and commitments in the new city.\",\n  \"change_type\": \"PROPAGATED\",\n  \"status\": \"INFERRED\",\n  \"evidence_refs\": [\n    \"Session 8, User turn 3\",\n    \"Session 8, User turn 5\",\n    \"Session 8, User turn 7\"\n  ]\n}\n\nQuestion: I’m trying to decide whether it’s worth setting up longer-term services and commitments where I’m living. What should I consider before I lock anything in?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 256,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  },
+  "request_body_sha256": "d8d29e731a3d0c2acb4ff1ae577869b00691484ac3931bf83c88cfa866fcd9a0",
+  "response_body_sha256": "4937ed1bc3ced6e2972883406c434b33a066b6fc79a663aa2e483d8c8c4df353",
+  "content": "{\n  \"decision\": \"UNKNOWN\",\n  \"answer\": null,\n  \"evidence_refs\": []\n}",
+  "usage": {
+    "completion_tokens": 27,
+    "prompt_tokens": 297,
+    "total_tokens": 324,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "http_status": 200,
+  "transport_status": "HTTP_OK",
+  "error_type": null,
+  "error_message": null,
+  "latency_seconds": 0.94759,
+  "accounting_attempts": 1,
+  "physical_http_calls": 1,
+  "accounting_tokens": 324,
+  "retry_count": 0,
+  "parse_status": "VALID",
+  "parsed": {
+    "decision": "UNKNOWN",
+    "answer": null,
+    "evidence_refs": []
+  },
+  "parse_errors": [],
+  "arm": "two_stage_state_card"
+}

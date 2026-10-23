@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "uid": "10fdfd0c-9ccd-478f-b0d0-2a1977cdc705",
+    "arm": "two_stage_timeline",
+    "selected_indices": [
+      5,
+      47,
+      11
+    ],
+    "retrieval_category": "OLD_ONLY",
+    "max_tokens": 128
+  },
+  "request": {
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Answer using only the extracted intermediate representation and the question.\nDo not add events. If the representation is insufficient, return UNKNOWN.\n\nIntermediate representation:\n{\n  \"timeline\": [\n    {\n      \"fact\": \"User has a senior Labrador that is a permanent part of their life.\",\n      \"source_ref\": \"Session 6, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    },\n    {\n      \"fact\": \"User is planning a weeklong road trip for this summer.\",\n      \"source_ref\": \"Session 6, User turn 1\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"future\"\n    },\n    {\n      \"fact\": \"User is organizing their daily commute routine and interested in starting a YouTube channel.\",\n      \"source_ref\": \"Session 48, User turn 1 and User turn 7\",\n      \"source_role\": \"user\",\n      \"temporal_status\": \"current\"\n    }\n  ],\n  \"current_facts\": [\n    \"User has a senior Labrador that is a permanent part of their life.\",\n    \"User is organizing their daily commute routine and interested in starting a YouTube channel.\"\n  ],\n  \"unresolved\": [\n    \"The user's current location or specific status regarding the road trip plan is not explicitly confirmed as completed or abandoned, but the immediate context has shifted to content creation and commuting.\"\n  ]\n}\n\nQuestion: Based on the conversation history, does the user still keep their senior Labrador as a permanent part of their life at home?\n\nReturn exactly one JSON object:\n{\n  \"decision\": \"ANSWER | UNKNOWN\",\n  \"answer\": \"specific current-fact answer or null\",\n  \"evidence_refs\": [\"session/turn references\"]\n}\nIf ANSWER, the answer must state the specific current fact, not only Yes or No.\nIf evidence is insufficient, use UNKNOWN and answer null. Do not invent events."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 128,
+    "response_format": {
+      "type": "json_object"
+    },
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "stream": false
+  }
+}

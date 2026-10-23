@@ -1,0 +1,188 @@
+{
+  "schema": "state_processing_comparison_v2",
+  "date": "2026-10-23",
+  "evidence_identity": "DEV_ONLY_FOUR_ARM_FAIR_BUDGET_WITH_ORACLE_RETRIEVAL",
+  "question": "Do specific current-fact answers improve from source-preserving direct reasoning, one-call task decomposition, generic two-stage timeline, or the state-card representation at comparable generation budgets?",
+  "visibility_contract": {
+    "same_evidence": "oracle relevant top-2 raw sessions",
+    "source_format": "official-style session index, timestamp, role and turn order",
+    "hidden_from_actor": [
+      "M_old",
+      "M_new",
+      "explanation",
+      "relevant_session_index"
+    ],
+    "semantic_scoring": "answer text plus selected evidence plus fixed semantic reference"
+  },
+  "budget_contract": {
+    "direct_answer": {
+      "calls": 1,
+      "max_tokens": [
+        512
+      ]
+    },
+    "one_call_facts": {
+      "calls": 1,
+      "max_tokens": [
+        512
+      ]
+    },
+    "two_stage_timeline": {
+      "calls": 2,
+      "max_tokens": [
+        384,
+        128
+      ]
+    },
+    "two_stage_state_card": {
+      "calls": 2,
+      "max_tokens": [
+        256,
+        256
+      ]
+    }
+  },
+  "development_uids": [
+    "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+    "04fea765-0b32-4e8f-b4e9-225901f627b0",
+    "009b7c99-b777-465a-bc3a-77f2d88c1318",
+    "012f090e-6e02-4751-955d-574745069df3"
+  ],
+  "summary": {
+    "overall": {
+      "planned_calls": 4,
+      "observed_calls": 3,
+      "accounting_tokens": 8014,
+      "retry_count": 0
+    },
+    "by_arm": {
+      "direct_answer": {
+        "planned_calls": 0,
+        "observed_calls": 0,
+        "http_ok": 0,
+        "valid_json": 0,
+        "semantic_success": 0,
+        "semantic_count": 0,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0,
+        "latency_seconds_sum": 0
+      },
+      "one_call_facts": {
+        "planned_calls": 0,
+        "observed_calls": 0,
+        "http_ok": 0,
+        "valid_json": 0,
+        "semantic_success": 0,
+        "semantic_count": 0,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0,
+        "latency_seconds_sum": 0
+      },
+      "two_stage_timeline": {
+        "planned_calls": 4,
+        "observed_calls": 3,
+        "http_ok": 3,
+        "valid_json": 2,
+        "semantic_success": 1,
+        "semantic_count": 2,
+        "intermediate_specificity_success": 1,
+        "accounting_tokens": 8014,
+        "completion_tokens": 795,
+        "latency_seconds_sum": 13.55784
+      },
+      "two_stage_state_card": {
+        "planned_calls": 0,
+        "observed_calls": 0,
+        "http_ok": 0,
+        "valid_json": 0,
+        "semantic_success": 0,
+        "semantic_count": 0,
+        "intermediate_specificity_success": 0,
+        "accounting_tokens": 0,
+        "completion_tokens": 0,
+        "latency_seconds_sum": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "uid": "01f694b2-c555-4b6e-8ca0-5f11210e2227",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        11,
+        34
+      ],
+      "answer": "The user has completed their master's program and is employed in a full-time job with a standard 9–5 schedule.",
+      "intermediate_text": "{\"timeline\": [{\"fact\": \"The user is currently an undergraduate student who has not finished their education yet.\", \"source_ref\": \"Session 12, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"past\"}, {\"fact\": \"The user just wrapped up their master’s program last month.\", \"source_ref\": \"Session 35, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user is focusing on settling into their full-time job.\", \"source_ref\": \"Session 35, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}, {\"fact\": \"The user is working a standard 9–5 job with a commute.\", \"source_ref\": \"Session 35, User turn 5\", \"source_role\": \"user\", \"temporal_status\": \"current\"}], \"current_facts\": [\"The user has completed their master's program.\", \"The user is employed in a full-time job with a standard 9–5 schedule.\"], \"unresolved\": [\"The user's previous identity as an undergraduate is no longer applicable due to the completion of their master's degree and entry into the workforce.\"]}",
+      "intermediate_specificity": {
+        "success": true,
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "OLD_STATE_INVALID",
+        "matched_required_groups": [
+          0,
+          1
+        ],
+        "grounding": {
+          "answer_token_count": 10,
+          "grounded_token_count": 8,
+          "grounded_token_ratio": 0.8,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": true,
+        "failure_reason": null
+      }
+    },
+    {
+      "uid": "04fea765-0b32-4e8f-b4e9-225901f627b0",
+      "type": "T1",
+      "arm": "two_stage_timeline",
+      "selected_indices": [
+        2,
+        38
+      ],
+      "answer": null,
+      "intermediate_text": "{}",
+      "intermediate_specificity": {
+        "success": false,
+        "matched_required_groups": [],
+        "affirms_old_state": false
+      },
+      "semantic": {
+        "relation": "UNSPECIFIED",
+        "matched_required_groups": [],
+        "grounding": {
+          "answer_token_count": 0,
+          "grounded_token_count": 0,
+          "grounded_token_ratio": 0.0,
+          "required_groups_grounded": [
+            0,
+            1
+          ]
+        },
+        "qualified_uncertainty": false,
+        "semantic_success": false,
+        "failure_reason": "relation_or_specificity_or_grounding_mismatch"
+      }
+    }
+  ],
+  "stopped_early": "parse_failure:INVALID_JSON",
+  "limitations": [
+    "These four UIDs are development objects and cannot estimate benchmark accuracy.",
+    "Oracle retrieval isolates state processing but is not deployable retrieval.",
+    "The semantic reference is AI-assisted development material, not human gold.",
+    "Actual token and latency costs are reported; equal max generation cap is not equal realized compute."
+  ]
+}
