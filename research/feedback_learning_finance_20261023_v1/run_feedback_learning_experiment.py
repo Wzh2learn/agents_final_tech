@@ -959,7 +959,10 @@ def analyze_results(
                     and all(row["checks"][name] for name in feature_names)
                     for row in subset
                 ],
-                "risk_logistic": [float(value) >= threshold for value in probability],
+                "risk_logistic": [
+                    row["interface_valid"] and float(value) >= threshold
+                    for row, value in zip(subset, probability)
+                ],
                 "postprocessed_all_applicable_pass": [
                     row["embedded_valid"]
                     and all(row["checks"][name] for name in feature_names)
