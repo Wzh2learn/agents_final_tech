@@ -97,6 +97,19 @@ def test_prediction_contract_accepts_correct_target_and_rejects_wrong_answer() -
     assert wrong_scored["answer_correct"] is False
 
 
+    prose_wrapped = "Reasoning first.\n" + correct_text + "\nTrailing explanation"
+    diagnostic = evaluate_prediction(
+        prose_wrapped,
+        task,
+        task["expected"],
+    )
+    assert diagnostic["interface_valid"] is False
+    assert diagnostic["embedded_valid"] is True
+    assert diagnostic["postprocess_recovered"] is True
+    assert diagnostic["answer_correct"] is True
+    assert diagnostic["strict_answer_correct"] is False
+
+
 def test_zero_prior_corrupt_candidate_is_skipped() -> None:
     records = synthetic_records()
     records[0]["table"]["table"] = [

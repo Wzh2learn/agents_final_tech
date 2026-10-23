@@ -619,7 +619,10 @@ def mean_safe(values: list[float]) -> float:
     return statistics.fmean(values) if values else 0.0
 
 
-def paired_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+def paired_metrics(
+    rows: list[dict[str, Any]],
+    correct_key: str = "answer_correct",
+) -> dict[str, Any]:
     """Compute paired invariance/adaptation metrics by source task."""
     grouped: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
     for row in rows:
@@ -635,8 +638,8 @@ def paired_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
             continue
         invariance.append(
             float(
-                original["answer_correct"]
-                and irrelevant["answer_correct"]
+                original[correct_key]
+                and irrelevant[correct_key]
                 and math.isclose(
                     float(original["target"]["answer"]) if original["target"] else float("nan"),
                     float(irrelevant["target"]["answer"]) if irrelevant["target"] else float("nan"),
@@ -645,7 +648,7 @@ def paired_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 )
             )
         )
-        adaptation.append(float(original["answer_correct"] and relevant["answer_correct"]))
+        adaptation.append(float(original[correct_key] and relevant[correct_key]))
         paired_complete.append(float(invariance[-1] and adaptation[-1]))
     return {
         "pairs": len(paired_complete),
@@ -789,6 +792,23 @@ def analyze_results(
 ) -> dict[str, Any]:
     """Summarize C2 training effects and C3 delivery-policy tradeoffs."""
     rows = load_jsonl(run_root / "generation_results.jsonl")
+    instances = {
+        instance["instance_id"]: instance
+        for instance in load_jsonl(run_root / "evaluation_instances.jsonl")
+    }
+    for row in rows:
+        instance = instances[row["instance_id"]]
+        rescored = evaluate_prediction(
+            row["generated_text"],
+            {
+                "table_text": instance["table_text"],
+                "expected": instance["expected"],
+                "current_period": instance["current_period"],
+                "prior_period": instance["prior_period"],
+            },
+            instance["expected"],
+        )
+        row.update(rescored)
     by_model_slice: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     by_model: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
@@ -802,7 +822,16 @@ def analyze_results(
             slice_metrics[slice_name] = {
                 "items": len(subset),
                 "interface_valid": mean_safe([float(row["interface_valid"]) for row in subset]),
-                "answer_correct": mean_safe([float(row["answer_correct"]) for row in subset]),
+                "embedded_valid": mean_safe([float(row["embedded_valid"]) for row in subset]),
+                "postprocess_recovered": mean_safe(
+                    [float(row["postprocess_recovered"]) for row in subset]
+                ),
+                "semantic_answer_correct": mean_safe(
+                    [float(row["answer_correct"]) for row in subset]
+                ),
+                "strict_answer_correct": mean_safe(
+                    [float(row["strict_answer_correct"]) for row in subset]
+                ),
                 "exact_evidence": mean_safe(
                     [float(row["checks"]["exact_evidence"]) for row in subset]
                 ),
@@ -810,7 +839,8 @@ def analyze_results(
                 "calculation_valid": mean_safe(
                     [float(row["checks"]["calculation"]) for row in subset]
                 ),
-                "paired": paired_metrics(subset),
+                "paired_semantic": paired_metrics(subset, "answer_correct"),
+                "paired_strict": paired_metrics(subset, "strict_answer_correct"),
             }
         model_metrics[model_arm] = slice_metrics
 
@@ -875,7 +905,7 @@ def analyze_results(
         dev_rows = [row for row in model_rows if row["slice"] == "dev"]
         x_dev = [
             [float(row["checks"][name]) for name in feature_names]
-            + [float(row["interface_valid"])]
+            + [float(row["interface_valid"]), float(row["embedded_valid"])]
             for row in dev_rows
         ]
         y_dev = [bool(row["answer_correct"]) for row in dev_rows]
@@ -915,7 +945,7 @@ def analyze_results(
             subset = [row for row in model_rows if row["slice"] == slice_name]
             x_subset = [
                 [float(row["checks"][name]) for name in feature_names]
-                + [float(row["interface_valid"])]
+                + [float(row["interface_valid"]), float(row["embedded_valid"])]
                 for row in subset
             ]
             probability = (
@@ -930,6 +960,15 @@ def analyze_results(
                     for row in subset
                 ],
                 "risk_logistic": [float(value) >= threshold for value in probability],
+                "postprocessed_all_applicable_pass": [
+                    row["embedded_valid"]
+                    and all(row["checks"][name] for name in feature_names)
+                    for row in subset
+                ],
+                "postprocessed_risk_logistic": [
+                    row["embedded_valid"] and float(value) >= threshold
+                    for row, value in zip(subset, probability)
+                ],
                 "any_pass": [
                     row["interface_valid"]
                     and any(row["checks"][name] for name in feature_names)

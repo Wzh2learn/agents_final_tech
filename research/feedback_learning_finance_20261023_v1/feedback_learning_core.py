@@ -148,6 +148,19 @@ def canonical_target(target: dict[str, Any]) -> str:
     )
 
 
+def extract_contract_object(text: str) -> dict[str, Any] | None:
+    """Extract the first complete contract-like JSON object for diagnostics."""
+    decoder = json.JSONDecoder()
+    for match in re.finditer(r"\{", text):
+        try:
+            value, _ = decoder.raw_decode(text[match.start() :])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict) and {"answer", "unit", "formula", "evidence_refs"} <= set(value):
+            return value
+    return None
+
+
 def build_prompt(question: str, table_text: str) -> str:
     """Build a deterministic actor prompt with a strict output contract."""
     return (
@@ -695,8 +708,33 @@ def evaluate_prediction(
     if text.startswith("```"):
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
+    strict_parsed = False
+    parsed: dict[str, Any] | None = None
     try:
-        parsed = json.loads(text)
+        candidate = json.loads(text)
+        if isinstance(candidate, dict):
+            parsed = candidate
+            strict_parsed = True
+    except json.JSONDecodeError:
+        parsed = extract_contract_object(text)
+    if parsed is None:
+        return {
+            "interface_valid": False,
+            "embedded_valid": False,
+            "postprocess_recovered": False,
+            "answer_correct": False,
+            "strict_answer_correct": False,
+            "target": None,
+            "checks": {
+                "calculation": False,
+                "unit": False,
+                "period": False,
+                "scope": False,
+                "evidence_values": False,
+                "exact_evidence": False,
+            },
+        }
+    try:
         answer = float(parsed["answer"])
         target = {
             "answer": answer,
@@ -704,10 +742,13 @@ def evaluate_prediction(
             "formula": str(parsed["formula"]),
             "evidence_refs": [str(value) for value in parsed["evidence_refs"]],
         }
-    except (ValueError, TypeError, KeyError, json.JSONDecodeError):
+    except (ValueError, TypeError, KeyError):
         return {
             "interface_valid": False,
+            "embedded_valid": False,
+            "postprocess_recovered": False,
             "answer_correct": False,
+            "strict_answer_correct": False,
             "target": None,
             "checks": {
                 "calculation": False,
@@ -732,8 +773,11 @@ def evaluate_prediction(
         abs_tol=1e-6,
     )
     return {
-        "interface_valid": True,
+        "interface_valid": strict_parsed,
+        "embedded_valid": True,
+        "postprocess_recovered": not strict_parsed,
         "answer_correct": answer_correct,
+        "strict_answer_correct": strict_parsed and answer_correct,
         "target": target,
         "checks": checks,
     }
