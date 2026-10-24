@@ -1,0 +1,29 @@
+{
+  "schema": "natural_tatqa_program_learning_amendment_v1",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_NATURAL_EVALUATION",
+  "base_protocol": "NATURAL_METHOD_PROTOCOL_V2.json",
+  "reason": "Clarify that 288 is the instance count per model. Three models require 864 generation equivalents in total. No task, split, metric or method changes.",
+  "changes": {
+    "resource_budget": {
+      "new_accounting_attempt_cap": 1024,
+      "new_accounting_token_cap": 1200000,
+      "planned_instances_per_model": 288,
+      "planned_models": 3,
+      "planned_generation_equivalents_total": 864
+    }
+  },
+  "training_completed_before_amendment": {
+    "ordinary_answer_execution_sft": {
+      "rows": 512,
+      "training_tokens": 485462,
+      "gpu_seconds": 423.42282152175903
+    },
+    "visible_program_filter_sft": {
+      "rows": 512,
+      "training_tokens": 485410,
+      "gpu_seconds": 420.3259069919586
+    }
+  }
+}

@@ -551,6 +551,58 @@ def generate_and_score(
     }
 
 
+def generate_and_score_batch(
+    model: Any,
+    tokenizer: Any,
+    instances: list[dict[str, Any]],
+    max_new_tokens: int,
+) -> list[dict[str, Any]]:
+    """Generate and score one fixed batch without changing the task contract."""
+    import torch
+
+    tokenizer.padding_side = "left"
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    inputs = tokenizer(
+        [instance["prompt"] for instance in instances],
+        return_tensors="pt",
+        padding=True,
+        add_special_tokens=True,
+    ).to(model.device)
+    input_width = int(inputs["input_ids"].shape[1])
+    started = time.time()
+    with torch.no_grad():
+        output = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+    batch_latency = (time.time() - started) * 1000.0
+    rows = []
+    for index, instance in enumerate(instances):
+        generated = tokenizer.decode(
+            output[index][input_width:],
+            skip_special_tokens=True,
+        )
+        scored = evaluate_target(generated, instance)
+        rows.append({
+            "instance_id": instance["instance_id"],
+            "source_task_id": instance["source_task_id"],
+            "table_uid": instance["table_uid"],
+            "slice": instance["slice"],
+            "variant": instance["variant"],
+            "generated_text": generated,
+            "prompt_tokens": int(inputs["attention_mask"][index].sum().item()),
+            "completion_tokens": int(output.shape[1] - input_width),
+            "latency_ms": batch_latency / len(instances),
+            "batch_latency_ms": batch_latency,
+            "batch_size": len(instances),
+            **scored,
+        })
+    return rows
+
+
 def evaluate_models(
     tasks: list[dict[str, Any]],
     run_root: Path,
@@ -600,11 +652,13 @@ def evaluate_models(
         model.eval()
         arm_rows = []
         started = time.time()
-        for instance in selected:
-            row = generate_and_score(model, tokenizer, instance, max_new_tokens=512)
-            row["model_arm"] = arm
-            arm_rows.append(row)
-            rows.append(row)
+        for start in range(0, len(selected), 8):
+            batch = selected[start : start + 8]
+            batch_rows = generate_and_score_batch(model, tokenizer, batch, 512)
+            for row in batch_rows:
+                row["model_arm"] = arm
+                arm_rows.append(row)
+                rows.append(row)
         receipts[arm] = {
             "instances": len(arm_rows),
             "accounting_attempts": len(arm_rows),
