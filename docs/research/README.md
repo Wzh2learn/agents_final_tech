@@ -6,16 +6,16 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-24
 
 ## 当前任务与证据
 
-2026-10-24 已完成首轮审计更正和自然 TAT-QA 真实方法比较。旧工具配对、隐藏参考特征、任务单位和聚合收据均已版本化修正。普通 answer/execution SFT 是自然任务强基线，visible-program filter 更差；所有模型的相关变化适配均为 0，当前最强残余解释是等值别名造成的证据绑定错误。Paper E 仍是唯一成熟贡献。当前方法结果见 [Correction Return](../../research/feedback_learning_finance_20261024_v2/CORRECTION_RETURN.md) 与 [Natural Method Return](../../research/natural_program_learning_20261024_v2/NATURAL_METHOD_RETURN.md)。
+2026-10-24 已完成审计更正、变体评分修复、两组同来源新 table-family 确认和成本匹配稳定性训练。旧“相关变化适配 0”由 stale-table 评分缺陷造成并已撤回；普通 answer/execution SFT 是强基线，visible filter 与 paired stability 候选均停止。Paper E 仍是唯一成熟贡献。当前权威结果见 [Method Research Return V3](../../research/natural_program_learning_20261024_v2/METHOD_RESEARCH_RETURN_V3.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [CORRECTION_RETURN](../../research/feedback_learning_finance_20261024_v2/CORRECTION_RETURN.md)、[NATURAL_METHOD_RETURN](../../research/natural_program_learning_20261024_v2/NATURAL_METHOD_RETURN.md)、[RESOURCE_RECEIPT](../../research/natural_program_learning_20261024_v2/RESOURCE_RECEIPT_V2.json) |
+| 当前方法实验与成本 | [METHOD_RESEARCH_RETURN_V3](../../research/natural_program_learning_20261024_v2/METHOD_RESEARCH_RETURN_V3.md)、[V3_RESOURCE_RECEIPT](../../research/natural_program_learning_20261024_v2/V3_RESOURCE_RECEIPT.json)、[CORRECTION_RETURN](../../research/feedback_learning_finance_20261024_v2/CORRECTION_RETURN.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
 | 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
-| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 2,412 attempts / 6,204,757 tokens；训练 token 1,496,816 单列 |
+| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 2,772 attempts / 7,366,885 tokens；训练 token 2,468,752 单列 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
 | 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 
@@ -28,8 +28,8 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-24
 | 研究线 | 当前判断与证据 |
 |---|---|
 | 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_HANDOFF`；G2 `CONTINUE_NARROWED_DEVELOPMENT_ONLY`；G3 `KEEP_WITH_HEADROOM_MODEL_POLICY_UNEVALUATED`；scope `CLOSED_EXACT_CACHE_EXPLAINS_SAVING`。见 [V5 回执](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md) |
-| C2 反馈学习 | `ORDINARY_SFT_STRONG_BASELINE / VISIBLE_FILTER_STOPPED`。自然 TAT-QA 上普通 answer/execution SFT 原题正确率 test 75.0%、external 79.2%，visible filter 为 54.2%/54.2%；相关变化适配均为 0。旧同源 evidence-filter 结果保留为前序负结果 |
-| C3 可靠交付 | `SIMPLE_DEPLOYMENT_RULE_SUFFICIENT_ON_CURRENT_OUTPUTS`。固定计算器和部署可见检查已运行；普通 SFT 错误交付条件率 test 50.0%、external 46.5%，logistic policy 与强规则相同，停止复杂策略扩展 |
+| C2 反馈学习 | `ORDINARY_BASELINE_CONFIRMED_TWO_CANDIDATES_STOPPED`。重评分后普通 SFT 相关变化适配 test 75.0%、external 79.2%；24 个新 table families 上 paired completion 87.5%，visible filter 50.0%；paired stability 83.3% 且不优于普通/重复控制 |
+| C3 可靠交付 | `NO_POLICY_INCREMENT_ON_FROZEN_CONFIRMATION`。普通 SFT 新 family 强规则 68/72 正确、4/72 错误；强规则等于 always-accept，无确认集 dev 阈值，停止复杂策略扩展 |
 | Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json) |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |

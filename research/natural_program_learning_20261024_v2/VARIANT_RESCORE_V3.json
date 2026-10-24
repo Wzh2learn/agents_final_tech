@@ -1,0 +1,437 @@
+{
+  "corrections": {
+    "NONE": 553,
+    "V2_SCORED_ON_STALE_TASK_TABLE": 95
+  },
+  "date": "2026-10-24",
+  "identity": "POST_HOC_RESCORE_OF_FROZEN_GENERATIONS_ON_PROMPT_VISIBLE_VARIANT_TABLES",
+  "inputs": {
+    "instances_sha256": "b28fefc2b8cda943faefa8c5fd1087752e1fbdce2a1b529c7544d2803f8b1e08",
+    "results_sha256": "b71c9bdfbd522d53b05c6d733e3d3ae7afd3f99c2c8e4646ad418fe676eb1210"
+  },
+  "instances": 648,
+  "interpretation_boundary": "This repairs variant-table scoring only; it does not create new generations or prospective evidence.",
+  "measurement_flips": 95,
+  "missing_instances": [],
+  "new_model_calls": 0,
+  "rescored": 648,
+  "schema": "natural_program_variant_rescore_v3",
+  "summary": {
+    "base_qwen3_4b": {
+      "dev": {
+        "irrelevant_change": {
+          "failures": {
+            "program_parse": 24
+          },
+          "failures_v2": {
+            "program_parse": 24
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        },
+        "original": {
+          "failures": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        },
+        "relevant_change": {
+          "failures": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        }
+      },
+      "external": {
+        "irrelevant_change": {
+          "failures": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        },
+        "original": {
+          "failures": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        },
+        "relevant_change": {
+          "failures": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        }
+      },
+      "test": {
+        "irrelevant_change": {
+          "failures": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "program_parse": 23
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        },
+        "original": {
+          "failures": {
+            "program_parse": 24
+          },
+          "failures_v2": {
+            "program_parse": 24
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        },
+        "relevant_change": {
+          "failures": {
+            "program_parse": 24
+          },
+          "failures_v2": {
+            "program_parse": 24
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 0,
+          "program_correct_v2": 0
+        }
+      }
+    },
+    "ordinary_answer_execution_sft": {
+      "dev": {
+        "irrelevant_change": {
+          "failures": {
+            "none": 12,
+            "program_execution": 2,
+            "tool_execution": 10
+          },
+          "failures_v2": {
+            "none": 12,
+            "program_execution": 2,
+            "tool_execution": 10
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 12,
+          "program_correct_v2": 12
+        },
+        "original": {
+          "failures": {
+            "none": 17,
+            "program_execution": 1,
+            "program_parse": 1,
+            "tool_execution": 5
+          },
+          "failures_v2": {
+            "none": 17,
+            "program_execution": 1,
+            "program_parse": 1,
+            "tool_execution": 5
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 17,
+          "program_correct_v2": 17
+        },
+        "relevant_change": {
+          "failures": {
+            "none": 16,
+            "program_parse": 1,
+            "tool_execution": 7
+          },
+          "failures_v2": {
+            "program_parse": 1,
+            "tool_execution": 23
+          },
+          "instances": 24,
+          "measurement_flips": 16,
+          "program_correct": 16,
+          "program_correct_v2": 0
+        }
+      },
+      "external": {
+        "irrelevant_change": {
+          "failures": {
+            "none": 19,
+            "tool_execution": 5
+          },
+          "failures_v2": {
+            "none": 19,
+            "tool_execution": 5
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 19,
+          "program_correct_v2": 19
+        },
+        "original": {
+          "failures": {
+            "none": 19,
+            "tool_execution": 5
+          },
+          "failures_v2": {
+            "none": 19,
+            "tool_execution": 5
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 19,
+          "program_correct_v2": 19
+        },
+        "relevant_change": {
+          "failures": {
+            "none": 19,
+            "program_execution": 1,
+            "tool_execution": 4
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "tool_execution": 23
+          },
+          "instances": 24,
+          "measurement_flips": 19,
+          "program_correct": 19,
+          "program_correct_v2": 0
+        }
+      },
+      "test": {
+        "irrelevant_change": {
+          "failures": {
+            "none": 18,
+            "tool_execution": 6
+          },
+          "failures_v2": {
+            "none": 18,
+            "tool_execution": 6
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 18,
+          "program_correct_v2": 18
+        },
+        "original": {
+          "failures": {
+            "none": 18,
+            "tool_execution": 6
+          },
+          "failures_v2": {
+            "none": 18,
+            "tool_execution": 6
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 18,
+          "program_correct_v2": 18
+        },
+        "relevant_change": {
+          "failures": {
+            "none": 20,
+            "tool_execution": 4
+          },
+          "failures_v2": {
+            "tool_execution": 24
+          },
+          "instances": 24,
+          "measurement_flips": 20,
+          "program_correct": 20,
+          "program_correct_v2": 0
+        }
+      }
+    },
+    "visible_program_filter_sft": {
+      "dev": {
+        "irrelevant_change": {
+          "failures": {
+            "none": 8,
+            "program_execution": 2,
+            "tool_execution": 14
+          },
+          "failures_v2": {
+            "none": 8,
+            "program_execution": 2,
+            "tool_execution": 14
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 8,
+          "program_correct_v2": 8
+        },
+        "original": {
+          "failures": {
+            "none": 8,
+            "program_execution": 2,
+            "tool_execution": 14
+          },
+          "failures_v2": {
+            "none": 8,
+            "program_execution": 2,
+            "tool_execution": 14
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 8,
+          "program_correct_v2": 8
+        },
+        "relevant_change": {
+          "failures": {
+            "none": 11,
+            "program_execution": 2,
+            "tool_execution": 11
+          },
+          "failures_v2": {
+            "program_execution": 2,
+            "tool_execution": 22
+          },
+          "instances": 24,
+          "measurement_flips": 11,
+          "program_correct": 11,
+          "program_correct_v2": 0
+        }
+      },
+      "external": {
+        "irrelevant_change": {
+          "failures": {
+            "none": 12,
+            "program_execution": 1,
+            "tool_execution": 11
+          },
+          "failures_v2": {
+            "none": 12,
+            "program_execution": 1,
+            "tool_execution": 11
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 12,
+          "program_correct_v2": 12
+        },
+        "original": {
+          "failures": {
+            "none": 13,
+            "program_execution": 1,
+            "tool_execution": 10
+          },
+          "failures_v2": {
+            "none": 13,
+            "program_execution": 1,
+            "tool_execution": 10
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 13,
+          "program_correct_v2": 13
+        },
+        "relevant_change": {
+          "failures": {
+            "none": 15,
+            "tool_execution": 9
+          },
+          "failures_v2": {
+            "tool_execution": 24
+          },
+          "instances": 24,
+          "measurement_flips": 15,
+          "program_correct": 15,
+          "program_correct_v2": 0
+        }
+      },
+      "test": {
+        "irrelevant_change": {
+          "failures": {
+            "none": 11,
+            "program_execution": 1,
+            "tool_execution": 12
+          },
+          "failures_v2": {
+            "none": 11,
+            "program_execution": 1,
+            "tool_execution": 12
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 11,
+          "program_correct_v2": 11
+        },
+        "original": {
+          "failures": {
+            "none": 13,
+            "program_execution": 1,
+            "tool_execution": 10
+          },
+          "failures_v2": {
+            "none": 13,
+            "program_execution": 1,
+            "tool_execution": 10
+          },
+          "instances": 24,
+          "measurement_flips": 0,
+          "program_correct": 13,
+          "program_correct_v2": 13
+        },
+        "relevant_change": {
+          "failures": {
+            "none": 14,
+            "program_execution": 1,
+            "tool_execution": 9
+          },
+          "failures_v2": {
+            "program_execution": 1,
+            "tool_execution": 23
+          },
+          "instances": 24,
+          "measurement_flips": 14,
+          "program_correct": 14,
+          "program_correct_v2": 0
+        }
+      }
+    }
+  }
+}

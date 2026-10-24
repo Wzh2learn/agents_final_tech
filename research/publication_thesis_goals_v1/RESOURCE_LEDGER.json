@@ -2,21 +2,21 @@
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
   "date": "2026-10-24",
-  "status": "AUDIT_CORRECTED_NATURAL_ORDINARY_BASELINE_VISIBLE_FILTER_STOPPED",
+  "status": "V3_MEASUREMENT_CORRECTED_ORDINARY_BASELINE_CONFIRMED_PAIRED_STABILITY_STOPPED",
   "active_goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
-  "accounting_identity_note": "NATURAL_PROGRAM_GENERATION_V2.accounting_tokens is generation-only; NATURAL_PROGRAM_LORA_SFT_V2.training_tokens is included in new_budget.accounting_tokens_used and reported separately below.",
+  "accounting_identity_note": "Generation events record generation-only tokens; training_events record training tokens separately. Both are included in new_budget.accounting_tokens_used. V3 post-hoc rescore and delivery replay add zero model calls.",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 2412,
+    "attempts_used": 2772,
     "physical_http_calls": 536,
-    "local_batched_generate_calls": 183,
+    "local_batched_generate_calls": 208,
     "interrupted_individual_generate_calls_upper_bound": 128,
-    "accounting_tokens_used": 6204757,
+    "accounting_tokens_used": 7366885,
     "judge_calls": 113,
-    "training_runs": 8,
-    "training_gpu_seconds": 1350.3776285137177,
-    "training_tokens": 1496816,
+    "training_runs": 10,
+    "training_gpu_seconds": 2191.1090335845947,
+    "training_tokens": 2468752,
     "paid_api_usd": 0,
     "production_memory_writes": 0
   },
@@ -118,6 +118,30 @@
       "judge_calls": 0,
       "raw_result": "research/natural_program_learning_20261024_v2/RESOURCE_RECEIPT_V2.json",
       "remote_raw": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/generation_results_v2.jsonl"
+    },
+    {
+      "id": "NATURAL_CONFIRMATION_V3",
+      "accounting_attempts": 144,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 10,
+      "accounting_tokens": 73346,
+      "status": "COMPLETE_FROZEN_SAME_SOURCE_NEW_TABLE_FAMILY_CONFIRMATION",
+      "model": "Qwen3-4B ordinary and visible-program LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/natural_program_learning_20261024_v2/CONFIRMATION_SUMMARY_V3.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/confirmation_v3/confirmation_results_v3.jsonl"
+    },
+    {
+      "id": "PAIRED_STABILITY_GENERATION_V3",
+      "accounting_attempts": 216,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 15,
+      "accounting_tokens": 116846,
+      "status": "COMPLETE_FROZEN_SAME_SOURCE_NEW_TABLE_FAMILY_CONFIRMATION_NEGATIVE",
+      "model": "Qwen3-4B ordinary, duplicate-control and paired-stability LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/natural_program_learning_20261024_v2/PAIRED_STABILITY_CONFIRMATION_V3.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/paired_stability_v3/stability_confirmation_results_v3.jsonl"
     }
   ],
   "training_events": [
@@ -150,8 +174,22 @@
       "training_tokens": 970872,
       "training_gpu_seconds": 843.7487285137177,
       "status": "COMPLETE_NATURAL_METHOD_COMPARISON",
-      "result": "ordinary answer/execution SFT is the strong baseline; visible program filter is inferior and relevant-change adaptation is zero",
+      "result": "v2 visible-program filter is inferior; v2 zero relevant-change interpretation is superseded by prompt-table rescore V3",
       "receipt": "research/natural_program_learning_20261024_v2/RESOURCE_RECEIPT_V2.json"
+    },
+    {
+      "id": "PAIRED_STABILITY_LORA_SFT_V3",
+      "arms": [
+        "duplicate_original_control_sft",
+        "paired_variant_stability_sft"
+      ],
+      "training_runs": 2,
+      "training_rows": 2048,
+      "training_tokens": 971936,
+      "training_gpu_seconds": 840.731371164322,
+      "status": "COMPLETE_COST_MATCHED_NEGATIVE_COMPARISON",
+      "result": "paired variant supervision has zero paired-completion gain and slightly lower reference stability; candidate stopped",
+      "receipt": "research/natural_program_learning_20261024_v2/V3_RESOURCE_RECEIPT.json"
     }
   ],
   "offline_checks": [

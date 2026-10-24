@@ -1,0 +1,42 @@
+{
+  "duplicate_original_control_sft": {
+    "adapter_path": "/home/testuser/wzh/research_runs/paired_stability_v3/training/duplicate_original_control_sft/final_adapter",
+    "arm": "duplicate_original_control_sft",
+    "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "rows": 1024,
+    "schema": "natural_program_training_receipt_v2",
+    "train_metrics": {
+      "entropy": 0.5010248720645905,
+      "epoch": 1.0,
+      "mean_token_accuracy": 0.8459791243076324,
+      "num_tokens": 485462.0,
+      "total_flos": 1.0600772057167872e+16,
+      "train_loss": 0.5935642058029771,
+      "train_runtime": 418.8029,
+      "train_samples_per_second": 2.445,
+      "train_steps_per_second": 1.223
+    },
+    "training_runtime_seconds": 418.93449544906616,
+    "unique_tasks": 512
+  },
+  "paired_variant_stability_sft": {
+    "adapter_path": "/home/testuser/wzh/research_runs/paired_stability_v3/training/paired_variant_stability_sft/final_adapter",
+    "arm": "paired_variant_stability_sft",
+    "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "rows": 1024,
+    "schema": "natural_program_training_receipt_v2",
+    "train_metrics": {
+      "entropy": 0.5101189017295837,
+      "epoch": 1.0,
+      "mean_token_accuracy": 0.8466330468654633,
+      "num_tokens": 486474.0,
+      "total_flos": 1.0622870555756544e+16,
+      "train_loss": 0.616905146278441,
+      "train_runtime": 421.6611,
+      "train_samples_per_second": 2.428,
+      "train_steps_per_second": 1.214
+    },
+    "training_runtime_seconds": 421.79687571525574,
+    "unique_tasks": 512
+  }
+}

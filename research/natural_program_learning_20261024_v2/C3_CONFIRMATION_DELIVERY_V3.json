@@ -1,0 +1,85 @@
+{
+  "identity": "FROZEN_CONFIRMATION_DEPLOYMENT_CHECK_REPLAY_NO_POLICY_FIT",
+  "learned_policy": "NOT_APPLICABLE_NO_CONFIRMATION_DEV_CALIBRATION",
+  "models": {
+    "ordinary_answer_execution_sft": {
+      "items": 72,
+      "policies": {
+        "all_applicable_pass": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.05555555555555555,
+          "correct_delivery_count": 68,
+          "correct_delivery_coverage": 0.9444444444444444,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.05555555555555555,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 4
+        },
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.05555555555555555,
+          "correct_delivery_count": 68,
+          "correct_delivery_coverage": 0.9444444444444444,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.05555555555555555,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 4
+        },
+        "always_unknown": {
+          "acceptance_rate": 0.0,
+          "accepted": 0,
+          "conditional_wrong_delivery_rate": null,
+          "correct_delivery_count": 0,
+          "correct_delivery_coverage": 0.0,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.0,
+          "retention_or_clarification_rate": 1.0,
+          "wrong_delivery_count": 0
+        }
+      }
+    },
+    "visible_program_filter_sft": {
+      "items": 72,
+      "policies": {
+        "all_applicable_pass": {
+          "acceptance_rate": 0.9861111111111112,
+          "accepted": 71,
+          "conditional_wrong_delivery_rate": 0.4084507042253521,
+          "correct_delivery_count": 42,
+          "correct_delivery_coverage": 0.5833333333333334,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.4027777777777778,
+          "retention_or_clarification_rate": 0.013888888888888888,
+          "wrong_delivery_count": 29
+        },
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.4166666666666667,
+          "correct_delivery_count": 42,
+          "correct_delivery_coverage": 0.5833333333333334,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.4166666666666667,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 30
+        },
+        "always_unknown": {
+          "acceptance_rate": 0.0,
+          "accepted": 0,
+          "conditional_wrong_delivery_rate": null,
+          "correct_delivery_count": 0,
+          "correct_delivery_coverage": 0.0,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.0,
+          "retention_or_clarification_rate": 1.0,
+          "wrong_delivery_count": 0
+        }
+      }
+    }
+  },
+  "new_model_calls": 0,
+  "new_training_runs": 0,
+  "schema": "natural_tatqa_confirmation_delivery_v3"
+}

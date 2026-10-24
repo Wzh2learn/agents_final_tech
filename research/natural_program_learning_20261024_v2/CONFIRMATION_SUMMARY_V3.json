@@ -1,0 +1,84 @@
+{
+  "accounting_attempts": 144,
+  "completion_tokens": 6960,
+  "identity": "FROZEN_SAME_SOURCE_NEW_TABLE_FAMILY_CONFIRMATION",
+  "instances": 72,
+  "metrics": {
+    "ordinary_answer_execution_sft": {
+      "irrelevant_invariance_rate": 0.9166666666666666,
+      "original_correct_rate": 0.9583333333333334,
+      "paired_all_three_rate": 0.875,
+      "relevant_adaptation_rate": 0.9166666666666666,
+      "tasks": 24
+    },
+    "visible_program_filter_sft": {
+      "irrelevant_invariance_rate": 0.5,
+      "original_correct_rate": 0.5833333333333334,
+      "paired_all_three_rate": 0.5,
+      "relevant_adaptation_rate": 0.5833333333333334,
+      "tasks": 24
+    }
+  },
+  "models": {
+    "ordinary_answer_execution_sft": {
+      "attempts": 72,
+      "completion_tokens": 3480,
+      "prompt_tokens": 33193,
+      "wall_seconds": 45.38339018821716
+    },
+    "visible_program_filter_sft": {
+      "attempts": 72,
+      "completion_tokens": 3480,
+      "prompt_tokens": 33193,
+      "wall_seconds": 44.173611879348755
+    }
+  },
+  "new_judge_calls": 0,
+  "new_training_runs": 0,
+  "ordinary_minus_visible": {
+    "irrelevant_invariance": {
+      "ci95": [
+        0.16666666666666666,
+        0.625
+      ],
+      "metric": "irrelevant_invariance",
+      "ordinary_minus_visible": 0.4166666666666667,
+      "table_clusters": 24
+    },
+    "original_correct": {
+      "ci95": [
+        0.16666666666666666,
+        0.5833333333333334
+      ],
+      "metric": "original_correct",
+      "ordinary_minus_visible": 0.375,
+      "table_clusters": 24
+    },
+    "paired_all_three": {
+      "ci95": [
+        0.16666666666666666,
+        0.5833333333333334
+      ],
+      "metric": "paired_all_three",
+      "ordinary_minus_visible": 0.375,
+      "table_clusters": 24
+    },
+    "relevant_adaptation": {
+      "ci95": [
+        0.125,
+        0.5416666666666666
+      ],
+      "metric": "relevant_adaptation",
+      "ordinary_minus_visible": 0.3333333333333333,
+      "table_clusters": 24
+    }
+  },
+  "prompt_tokens": 66386,
+  "protocol_sha256": "cdb97707fdb95ae90feef0193bd1119558b93e1e328101c825315b87146ceb65",
+  "schema": "natural_tatqa_confirmation_summary_v3",
+  "transparent_baseline": {
+    "accuracy": 0.4166666666666667,
+    "solved": 10,
+    "tasks": 24
+  }
+}

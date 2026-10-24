@@ -1,0 +1,56 @@
+{
+  "schema": "natural_program_learning_resource_receipt_v3",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "identity": "MEASUREMENT_CORRECTION_AND_TWO_FROZEN_CONFIRMATIONS",
+  "new_stage": {
+    "accounting_attempts": 360,
+    "physical_http_calls": 0,
+    "local_batched_generate_calls": 25,
+    "generation_tokens": 190192,
+    "training_runs": 2,
+    "training_rows": 2048,
+    "training_tokens": 971936,
+    "training_gpu_seconds": 840.731371164322,
+    "total_tokens_including_training": 1162128,
+    "judge_calls": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  },
+  "confirmation_v3": {
+    "accounting_attempts": 144,
+    "prompt_tokens": 66386,
+    "completion_tokens": 6960,
+    "accounting_tokens": 73346,
+    "instances_sha256": "4ceaf91f8b2e05b69f01cbc4c5d572f1086134d12bf639f12be04769d5c892c9",
+    "results_sha256": "639d5802b69cd6926e2269adedb39a1db2bdc7485ff7313cc42d27e021fc1a21",
+    "summary_sha256": "ae72ef873bb020d324cd7fc8e7d8435360579b36736d655fe8197f0f987c8074"
+  },
+  "paired_stability_v3": {
+    "accounting_attempts": 216,
+    "prompt_tokens": 104502,
+    "completion_tokens": 12344,
+    "accounting_tokens": 116846,
+    "training_tokens": 971936,
+    "training_gpu_seconds": 840.731371164322,
+    "instances_sha256": "94ffd966960a2deebaae6263d801db8ff0e901a60e3f946a83fa39bda77922a0",
+    "results_sha256": "8064a6d43e7ef19a3ffad362772974d45eb9c6395bc8105c3631e28f1cad431a",
+    "summary_sha256": "82770be790cca8eda3bda8d1682f003609c50feb55926e47c3901c2e6e7f464d",
+    "training_receipt_sha256": "3c452769c279947905e55c8ac7713a88a981b7ca0a5f209ba159bbc9aa33626a"
+  },
+  "posthoc_rescore": {
+    "rescored_rows": 648,
+    "measurement_flips": 95,
+    "rescore_summary_sha256": "40a87396b69ab2eb014bfeecaca1e178415e62583f86314a6836fc373a4518b4",
+    "corrected_results_sha256": "7d9963b11b9a7ac227c48cf027c9eee971a567cda475461af96d768f81390692"
+  },
+  "raw_storage": {
+    "confirmation_raw_gb10": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/confirmation_v3",
+    "paired_stability_raw_gb10": "/home/testuser/wzh/research_runs/paired_stability_v3",
+    "raw_jsonl_in_git": false
+  },
+  "protocol_hashes": {
+    "natural_confirmation_v3": "cdb97707fdb95ae90feef0193bd1119558b93e1e328101c825315b87146ceb65",
+    "paired_stability_v3": "dbcf29b9542463f580f76acadeccceba8bf95dce7d4e8be9c95e63c3743c2545"
+  }
+}

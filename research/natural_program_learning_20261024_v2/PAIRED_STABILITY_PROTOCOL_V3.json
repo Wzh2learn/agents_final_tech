@@ -1,0 +1,61 @@
+{
+  "schema": "natural_tatqa_paired_stability_protocol_v3",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_PAIRED_STABILITY_TRAINING",
+  "research_question": "Can cost-matched counterfactual variant supervision reduce evidence-reference instability under relevant and irrelevant visible changes?",
+  "development_observation": "ordinary SFT confirmation errors include programs that switch references across variants after prompt-visible scoring correction",
+  "training": {
+    "base_tasks": "the same exact 512 task_ids used by the v2 ordinary/visible LoRA SFT arms",
+    "control_arm": "duplicate_original_control_sft: each original prompt/target row appears twice",
+    "candidate_arm": "paired_variant_stability_sft: each task contributes one original row and one deterministic relevant or irrelevant variant row with the same target program",
+    "rows_per_arm": 1024,
+    "max_steps_per_arm": 512,
+    "model": "Qwen3-4B",
+    "method": "LoRA SFT",
+    "fairness": "same tasks, targets, steps, optimizer, sequence cap and batch schedule; candidate sees more prompt surface variation and the control matches row count/exposure"
+  },
+  "confirmation": {
+    "source_boundary": "same-source TAT-QA new table families, not a new benchmark family",
+    "exclude": [
+      "all v2 training task_ids",
+      "all table_uid values in evaluation_instances_v2.jsonl",
+      "all table_uid values in confirmation_v3/confirmation_instances_v3.jsonl"
+    ],
+    "selection": "stable SHA-256 task-id order, first 24 remaining train-split tasks with unique table_uid",
+    "models": [
+      "ordinary_answer_execution_sft",
+      "duplicate_original_control_sft",
+      "paired_variant_stability_sft"
+    ],
+    "variants": [
+      "original",
+      "relevant_change",
+      "irrelevant_change"
+    ]
+  },
+  "metrics": {
+    "primary": "paired program correctness across all three variants",
+    "secondary": [
+      "relevant-change adaptation",
+      "irrelevant-change invariance",
+      "cross-variant evidence-reference stability",
+      "original correctness",
+      "deployment cost"
+    ]
+  },
+  "decision_rule": {
+    "continue_candidate": "paired arm improves paired completion by >=10 percentage points over both cost-matched control and ordinary SFT, with table-cluster bootstrap interval lower bound >0 against the stronger comparator",
+    "stop_candidate": "otherwise stop this stability-supervision candidate and retain the residual as a bounded reference-selection problem",
+    "no_claim": "small-sample non-significance is not equivalence"
+  },
+  "resource_budget": {
+    "new_accounting_attempt_cap": 216,
+    "new_accounting_token_cap": 1200000,
+    "training_runs": 2,
+    "generation_attempts": 216,
+    "judge_calls": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  }
+}

@@ -8,9 +8,9 @@ Updated: 2026-10-24
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `COUNTERFACTUAL_BINDING_FEEDBACK_NEXT` | [自然方法回执](../research/natural_program_learning_20261024_v2/NATURAL_METHOD_RETURN.md)显示普通 SFT 已能输出可执行程序，但相关变化适配为 0；下一实验只区分等值别名/操作数绑定，不再堆通用 visible filter |
-| C2-FEEDBACK-LEARNING | `ORDINARY_SFT_STRONG_BASELINE_VISIBLE_FILTER_STOPPED` | 自然 TAT-QA 上普通 answer/execution SFT 优于 visible-program filter，原题差异 test +20.8pp、external +25.0pp；当前残余是错误引用在原值等价、变化后失效 |
-| C3-DELIVERY-POLICY | `SIMPLE_RULE_SUFFICIENT_STOP_COMPLEX_POLICY` | 部署可见强规则已可运行；普通 SFT test/external 错误交付条件率为 50.0%/46.5%，logistic policy 与强规则相同，复杂策略停止 |
+| NEXT-RESEARCH-GOAL | `NEW_SOURCE_OR_VISIBLE_BINDING_CHECKER` | [V3 回执](../research/natural_program_learning_20261024_v2/METHOD_RESEARCH_RETURN_V3.md)已否定 visible filter 与 paired stability；下一步应先用部署可见行/列角色检查剩余引用不稳定，或取得真正独立自然来源，不再扩 TAT-QA 同机制 |
+| C2-FEEDBACK-LEARNING | `ORDINARY_BASELINE_CONFIRMED_TWO_CANDIDATES_STOPPED` | stale-table 评分更正后，普通 SFT 在 24 个新 table families 上 paired completion 87.5%，visible filter 50.0%；paired stability 83.3% 且不优于普通/重复控制 |
+| C3-DELIVERY-POLICY | `NO_POLICY_INCREMENT_STOP_COMPLEX_POLICY` | 普通 SFT 新 family 强规则 68/72 正确、4/72 错误；强规则等于 always-accept，确认集无独立 dev 阈值，不拟合策略 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
 | G2-STATE-ACTION | `CONTINUE_RQ_U_DEVELOPMENT_ONLY` | fact 2/8→3/8、action 均 1/8，但实际 bundle 丢失充分新事实；先做 sufficient-facts 对 extracted-facts 的信息等量比较 |

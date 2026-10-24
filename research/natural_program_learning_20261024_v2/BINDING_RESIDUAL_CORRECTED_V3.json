@@ -1,0 +1,138 @@
+{
+  "alias_failure_samples": [],
+  "binding_coverage": {
+    "gold_refs": 3615,
+    "gold_refs_with_unique_visible_row_column_binding": 2479,
+    "same_row_value_alias_refs": 0,
+    "tasks": 1752,
+    "tasks_with_same_row_value_alias": 0,
+    "unique_binding_rate": 0.6857538035961273
+  },
+  "failure_attribution": {
+    "base_qwen3_4b|dev|irrelevant_change": {
+      "format_or_parse": 24
+    },
+    "base_qwen3_4b|dev|original": {
+      "format_or_parse": 23,
+      "program_execution": 1
+    },
+    "base_qwen3_4b|dev|relevant_change": {
+      "format_or_parse": 23,
+      "program_execution": 1
+    },
+    "base_qwen3_4b|external|irrelevant_change": {
+      "format_or_parse": 23,
+      "program_execution": 1
+    },
+    "base_qwen3_4b|external|original": {
+      "format_or_parse": 23,
+      "program_execution": 1
+    },
+    "base_qwen3_4b|external|relevant_change": {
+      "format_or_parse": 23,
+      "program_execution": 1
+    },
+    "base_qwen3_4b|test|irrelevant_change": {
+      "format_or_parse": 23,
+      "program_execution": 1
+    },
+    "base_qwen3_4b|test|original": {
+      "format_or_parse": 24
+    },
+    "base_qwen3_4b|test|relevant_change": {
+      "format_or_parse": 24
+    },
+    "ordinary_answer_execution_sft|dev|irrelevant_change": {
+      "correct": 12,
+      "other_wrong": 10,
+      "program_execution": 2
+    },
+    "ordinary_answer_execution_sft|dev|original": {
+      "correct": 17,
+      "format_or_parse": 1,
+      "other_wrong": 5,
+      "program_execution": 1
+    },
+    "ordinary_answer_execution_sft|dev|relevant_change": {
+      "correct": 16,
+      "format_or_parse": 1,
+      "operand_or_operator_error": 7
+    },
+    "ordinary_answer_execution_sft|external|irrelevant_change": {
+      "correct": 19,
+      "other_wrong": 5
+    },
+    "ordinary_answer_execution_sft|external|original": {
+      "correct": 19,
+      "other_wrong": 5
+    },
+    "ordinary_answer_execution_sft|external|relevant_change": {
+      "correct": 19,
+      "operand_or_operator_error": 4,
+      "program_execution": 1
+    },
+    "ordinary_answer_execution_sft|test|irrelevant_change": {
+      "correct": 18,
+      "other_wrong": 6
+    },
+    "ordinary_answer_execution_sft|test|original": {
+      "correct": 18,
+      "other_wrong": 6
+    },
+    "ordinary_answer_execution_sft|test|relevant_change": {
+      "correct": 20,
+      "operand_or_operator_error": 4
+    },
+    "visible_program_filter_sft|dev|irrelevant_change": {
+      "correct": 8,
+      "other_wrong": 14,
+      "program_execution": 2
+    },
+    "visible_program_filter_sft|dev|original": {
+      "correct": 8,
+      "other_wrong": 14,
+      "program_execution": 2
+    },
+    "visible_program_filter_sft|dev|relevant_change": {
+      "correct": 11,
+      "operand_or_operator_error": 11,
+      "program_execution": 2
+    },
+    "visible_program_filter_sft|external|irrelevant_change": {
+      "correct": 12,
+      "other_wrong": 11,
+      "program_execution": 1
+    },
+    "visible_program_filter_sft|external|original": {
+      "correct": 13,
+      "other_wrong": 10,
+      "program_execution": 1
+    },
+    "visible_program_filter_sft|external|relevant_change": {
+      "correct": 15,
+      "operand_or_operator_error": 9
+    },
+    "visible_program_filter_sft|test|irrelevant_change": {
+      "correct": 11,
+      "other_wrong": 12,
+      "program_execution": 1
+    },
+    "visible_program_filter_sft|test|original": {
+      "correct": 13,
+      "other_wrong": 10,
+      "program_execution": 1
+    },
+    "visible_program_filter_sft|test|relevant_change": {
+      "correct": 14,
+      "operand_or_operator_error": 9,
+      "program_execution": 1
+    }
+  },
+  "identity": "POST_HOC_FAILURE_ATTRIBUTION_OF_FROZEN_GENERATIONS",
+  "inputs": {
+    "results_sha256": "7d9963b11b9a7ac227c48cf027c9eee971a567cda475461af96d768f81390692",
+    "tasks_sha256": "f979d86a6920cc4c2827117180082e9b6ac1fca6795dca0d3ccd1d45dff646b6"
+  },
+  "interpretation_boundary": "same_value_alias_or_reference is a post-hoc diagnosis, not a new score or proof that role binding will improve models",
+  "schema": "natural_program_binding_residual_v3"
+}

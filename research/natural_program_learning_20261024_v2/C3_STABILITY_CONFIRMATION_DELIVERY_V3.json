@@ -1,0 +1,123 @@
+{
+  "identity": "FROZEN_CONFIRMATION_DEPLOYMENT_CHECK_REPLAY_NO_POLICY_FIT",
+  "learned_policy": "NOT_APPLICABLE_NO_CONFIRMATION_DEV_CALIBRATION",
+  "models": {
+    "duplicate_original_control_sft": {
+      "items": 72,
+      "policies": {
+        "all_applicable_pass": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.1527777777777778,
+          "correct_delivery_count": 61,
+          "correct_delivery_coverage": 0.8472222222222222,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.1527777777777778,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 11
+        },
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.1527777777777778,
+          "correct_delivery_count": 61,
+          "correct_delivery_coverage": 0.8472222222222222,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.1527777777777778,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 11
+        },
+        "always_unknown": {
+          "acceptance_rate": 0.0,
+          "accepted": 0,
+          "conditional_wrong_delivery_rate": null,
+          "correct_delivery_count": 0,
+          "correct_delivery_coverage": 0.0,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.0,
+          "retention_or_clarification_rate": 1.0,
+          "wrong_delivery_count": 0
+        }
+      }
+    },
+    "ordinary_answer_execution_sft": {
+      "items": 72,
+      "policies": {
+        "all_applicable_pass": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.1388888888888889,
+          "correct_delivery_count": 62,
+          "correct_delivery_coverage": 0.8611111111111112,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.1388888888888889,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 10
+        },
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.1388888888888889,
+          "correct_delivery_count": 62,
+          "correct_delivery_coverage": 0.8611111111111112,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.1388888888888889,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 10
+        },
+        "always_unknown": {
+          "acceptance_rate": 0.0,
+          "accepted": 0,
+          "conditional_wrong_delivery_rate": null,
+          "correct_delivery_count": 0,
+          "correct_delivery_coverage": 0.0,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.0,
+          "retention_or_clarification_rate": 1.0,
+          "wrong_delivery_count": 0
+        }
+      }
+    },
+    "paired_variant_stability_sft": {
+      "items": 72,
+      "policies": {
+        "all_applicable_pass": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.125,
+          "correct_delivery_count": 63,
+          "correct_delivery_coverage": 0.875,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.125,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 9
+        },
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.125,
+          "correct_delivery_count": 63,
+          "correct_delivery_coverage": 0.875,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.125,
+          "retention_or_clarification_rate": 0.0,
+          "wrong_delivery_count": 9
+        },
+        "always_unknown": {
+          "acceptance_rate": 0.0,
+          "accepted": 0,
+          "conditional_wrong_delivery_rate": null,
+          "correct_delivery_count": 0,
+          "correct_delivery_coverage": 0.0,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.0,
+          "retention_or_clarification_rate": 1.0,
+          "wrong_delivery_count": 0
+        }
+      }
+    }
+  },
+  "new_model_calls": 0,
+  "new_training_runs": 0,
+  "schema": "natural_tatqa_confirmation_delivery_v3"
+}

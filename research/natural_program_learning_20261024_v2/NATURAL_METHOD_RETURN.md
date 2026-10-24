@@ -1,5 +1,12 @@
 # Natural Program Method Return
 
+> **V3 measurement correction:** the relevant-change rows below were scored on
+> stale task tables and the `0%` adaptation interpretation is superseded. The
+> authoritative corrected results and two frozen confirmations are in
+> [METHOD_RESEARCH_RETURN_V3](METHOD_RESEARCH_RETURN_V3.md) and
+> [VARIANT_RESCORE_V3](VARIANT_RESCORE_V3.json). The original v2 numbers remain
+> preserved as historical output.
+
 Date: 2026-10-24, Asia/Shanghai
 
 Status: `ORDINARY_SFT_STRONG_BASELINE / VISIBLE_FILTER_NOT_CONFIRMED / RELEVANT_ADAPTATION_FAILED`

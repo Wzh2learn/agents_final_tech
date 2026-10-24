@@ -1,0 +1,53 @@
+{
+  "schema": "natural_tatqa_confirmation_protocol_v3",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_CONFIRMATION",
+  "research_question": "Does ordinary answer/execution SFT remain superior to visible-program filtering on TAT-QA table families excluded from both training and prior method selection?",
+  "source_boundary": "new table families within TAT-QA train source, not a new dataset family or independent benchmark",
+  "selection": {
+    "dataset": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_v2.jsonl",
+    "dataset_sha256": "f979d86a6920cc4c2827117180082e9b6ac1fca6795dca0d3ccd1d45dff646b6",
+    "exclude_training_tasks": "the exact 512 task_ids reconstructed by run_natural_program_experiment_v2.training_rows",
+    "exclude_prior_evaluation_tables": "all table_uid values in evaluation_instances_v2.jsonl",
+    "candidate_pool": "remaining TAT-QA train-split tasks",
+    "selection_order": "stable SHA-256 task-id order, first 24 tasks with unique table_uid",
+    "tasks": 24
+  },
+  "models": [
+    "ordinary_answer_execution_sft",
+    "visible_program_filter_sft"
+  ],
+  "variants": [
+    "original",
+    "relevant_change",
+    "irrelevant_change"
+  ],
+  "measurement": {
+    "execution_table": "the exact variant table rendered in each prompt, stored in instance.table_text",
+    "primary_metric": "paired program correctness across original, relevant-change and irrelevant-change variants",
+    "secondary_metrics": [
+      "original correctness",
+      "relevant-change adaptation",
+      "irrelevant-change invariance",
+      "interface validity",
+      "tool cost"
+    ],
+    "transparent_baseline": "visible question-row/year rule from build_natural_tasks_v2.natural_rule_candidate"
+  },
+  "decision_rule": {
+    "continue_candidate": "ordinary SFT exceeds visible filter by >=15 percentage points on paired completion and the table-cluster bootstrap interval lower bound is >0",
+    "stop_candidate": "otherwise stop visible-filter comparison as a method claim and retain ordinary SFT only as a bounded strong baseline",
+    "no_claim": "failure to distinguish is not equivalence"
+  },
+  "resource_budget": {
+    "new_accounting_attempt_cap": 144,
+    "new_accounting_token_cap": 120000,
+    "models": 2,
+    "tasks_per_model": 72,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  }
+}
