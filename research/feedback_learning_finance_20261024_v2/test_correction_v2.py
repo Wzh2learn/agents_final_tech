@@ -18,7 +18,7 @@ QUESTION = (
     "Report the answer in reported units."
 )
 TABLE = (
-    "columns: C0= | C1=2020 | C2=2019\n"
+    "columns: C0= | C1=2020(1) | C2=2019(2)\n"
     "R1 [Revenue] C1=110 | C2=100\n"
     "R2 [Cost] C1=50 | C2=40"
 )

@@ -40,6 +40,20 @@ def normalize_label(value: str) -> str:
     return re.sub(r"\s+", " ", str(value).strip()).casefold()
 
 
+def period_label_matches(requested: str, actual: str) -> bool:
+    """Match a public period to a visible header with optional footnote suffix."""
+    requested_norm = normalize_label(requested)
+    actual_norm = normalize_label(actual)
+    if requested_norm == actual_norm:
+        return True
+    requested_years = re.findall(r"(?:19|20)\d{2}", requested_norm)
+    actual_years = re.findall(r"(?:19|20)\d{2}", actual_norm)
+    if requested_years and actual_years and requested_years == actual_years:
+        return True
+    without_footnote = re.sub(r"\(\s*\d+\s*\)", "", actual_norm).strip()
+    return requested_norm == without_footnote
+
+
 def parse_number(value: str) -> float | None:
     """Parse one visible numeric table cell."""
     text = value.strip().replace(",", "")
@@ -156,12 +170,20 @@ def deployable_features(
             normalize_label(cell.row_label) == normalize_label(contract.scope)
             for cell in referenced
         )
-        period_labels = {normalize_label(cell.column_label) for cell in referenced}
-        expected_periods = {
-            normalize_label(contract.prior_period),
-            normalize_label(contract.current_period),
-        }
-        period_match = bool(referenced) and period_labels == expected_periods
+        prior_matches = [
+            cell for cell in referenced
+            if period_label_matches(contract.prior_period, cell.column_label)
+        ]
+        current_matches = [
+            cell for cell in referenced
+            if period_label_matches(contract.current_period, cell.column_label)
+        ]
+        period_match = (
+            len(referenced) == 2
+            and len(prior_matches) == 1
+            and len(current_matches) == 1
+            and prior_matches[0].ref != current_matches[0].ref
+        )
         operator_match = parsed["operator"] == contract.operator
         unit_match = normalize_label(parsed["requested_unit"]) == normalize_label(
             contract.requested_unit
@@ -208,14 +230,19 @@ def execute_program(
     refs = parsed["evidence_refs"]
     if len(refs) != 2 or any(ref not in cells for ref in refs):
         raise ValueError("invalid_evidence_refs")
-    by_period = {
-        normalize_label(cells[ref].column_label): cells[ref].value
-        for ref in refs
-    }
-    prior = by_period.get(normalize_label(contract.prior_period))
-    current = by_period.get(normalize_label(contract.current_period))
-    if prior is None or current is None:
+    referenced = [cells[ref] for ref in refs]
+    prior_matches = [
+        cell.value for cell in referenced
+        if period_label_matches(contract.prior_period, cell.column_label)
+    ]
+    current_matches = [
+        cell.value for cell in referenced
+        if period_label_matches(contract.current_period, cell.column_label)
+    ]
+    if len(prior_matches) != 1 or len(current_matches) != 1:
         raise ValueError("period_operands_missing")
+    prior = prior_matches[0]
+    current = current_matches[0]
     if parsed["operator"] == "difference":
         result = current - prior
     elif parsed["operator"] == "percent_change":
