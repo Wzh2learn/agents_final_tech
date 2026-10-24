@@ -1,0 +1,56 @@
+{
+  "schema": "financial_feedback_correction_protocol_v2",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_CORRECTED_RECOMPUTE",
+  "supersedes_for_derived_interpretation": [
+    "research/feedback_learning_finance_20261023_v1/RESULT_SUMMARY.json",
+    "research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md"
+  ],
+  "preserved_unchanged": [
+    "generation_results.jsonl",
+    "evaluation_instances.jsonl",
+    "all training_receipt.json files",
+    "old RESULT_SUMMARY.json",
+    "old protocol and amendments"
+  ],
+  "identity_boundaries": {
+    "model_direct_answer": "Model-written numeric answer or expression, scored without tool substitution.",
+    "formula_tool_result": "A visible-cell program executed against the current variant table, independent of the model-written answer.",
+    "deployable_program_binding": "Only question, visible table, candidate refs/operator and public output contract.",
+    "hidden_reference": "Expected answer/unit/refs used only for offline scoring, qualified supervision and explicitly labeled oracle diagnostics.",
+    "strict_delivery": "Requires the frozen deployment parser and all deployable checks; recovered legacy JSON is diagnostic only."
+  },
+  "metrics_v2": {
+    "direct_answer_correct": "Model answer equals the current variant reference.",
+    "visible_program_correct": "Candidate row/period refs and requested operator are valid in the current visible table.",
+    "tool_result_correct": "Executing candidate refs and requested operator on current visible values equals the current variant reference.",
+    "direct_pair_all_three": "Direct answer correct and invariant across original/irrelevant, and correct on relevant.",
+    "tool_pair_all_three": "Visible program correct and tool result correct for original/relevant/irrelevant, with irrelevant tool value invariant.",
+    "legacy_mixed_tool_pair": "Historical diagnostic that also compared model-written answers; retained only for lineage."
+  },
+  "aggregation": {
+    "task_equal": "Each source task counts once.",
+    "table_cluster_equal": "Compute task rate within each table UID, then average table UIDs.",
+    "required_labeling": "Never mix task-equal and cluster-equal estimates."
+  },
+  "task_semantics_v2": {
+    "operators": [
+      "difference",
+      "percent_change",
+      "percentage_point_change"
+    ],
+    "unit_rules": {
+      "difference": "inherit source unit",
+      "percent_change": "percent with explicit percent denominator",
+      "percentage_point_change": "percentage points when both operands are percent metrics"
+    },
+    "source_claim": "TAT-QA train/dev are same-benchmark holdouts, not independent source families; table UID is not full report/company identity."
+  },
+  "regression_requirements": [
+    "Changing hidden expected must not alter deployable features or policy decisions.",
+    "A correct tool result must not be rejected because the legacy model answer is wrong.",
+    "Risk-model fitting failure must fail closed and never synthesize probabilities from answer_correct.",
+    "Acceptance rate and retention/clarification rate must be separate metrics."
+  ]
+}
