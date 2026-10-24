@@ -1,0 +1,36 @@
+{
+  "schema": "natural_tatqa_program_learning_amendment_v1",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_NATURAL_EVALUATION_RETRY",
+  "base_protocol": "NATURAL_METHOD_PROTOCOL_V2.json",
+  "reason": "The first evaluation was interrupted for excessive sequential-equivalent generation cost before any result file was persisted. Retry uses larger batches, shorter fixed output and fewer tasks to remain under the accounting cap.",
+  "interrupted_evaluation": {
+    "status": "INTERRUPTED_NO_RAW_RESULTS",
+    "accounting_attempts_upper_bound": 288,
+    "accounting_tokens_upper_bound": 275581,
+    "prompt_tokens_if_all_288_executed": 128125,
+    "completion_token_upper_bound": 147456,
+    "raw_preserved": false
+  },
+  "changes": {
+    "evaluation": {
+      "tasks_per_slice": {
+        "dev": 24,
+        "test": 24,
+        "external": 24
+      },
+      "generation_batch_size": 16,
+      "max_new_tokens": 256
+    },
+    "resource_budget": {
+      "new_accounting_attempt_cap": 1024,
+      "new_accounting_token_cap": 1200000,
+      "planned_instances_per_model": 216,
+      "planned_models": 3,
+      "planned_generation_equivalents_total": 648,
+      "interrupted_upper_bound_attempts": 288,
+      "total_planned_plus_interrupted_upper_bound_attempts": 936
+    }
+  }
+}

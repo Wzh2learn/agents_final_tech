@@ -60,6 +60,29 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
             handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
 
+def resolve_protocol(path: Path) -> dict[str, Any]:
+    """Load the base protocol or merge a bounded amendment."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema") != "natural_tatqa_program_learning_amendment_v1":
+        return payload
+    base_path = path.parent / payload["base_protocol"]
+    base = json.loads(base_path.read_text(encoding="utf-8"))
+    for section, values in payload.get("changes", {}).items():
+        if isinstance(values, dict) and isinstance(base.get(section), dict):
+            merged = dict(base[section])
+            merged.update(values)
+            base[section] = merged
+        else:
+            base[section] = values
+    base["status"] = payload["status"]
+    base["protocol_amendment"] = {
+        "path": str(path),
+        "sha256": sha256_file(path),
+        "base_sha256": sha256_file(base_path),
+    }
+    return base
+
+
 def stable_hash(value: str) -> str:
     """Return a stable hash."""
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
@@ -652,13 +675,25 @@ def evaluate_models(
         model.eval()
         arm_rows = []
         started = time.time()
-        for start in range(0, len(selected), 8):
-            batch = selected[start : start + 8]
-            batch_rows = generate_and_score_batch(model, tokenizer, batch, 512)
+        batch_size = int(config.get("generation_batch_size", 8))
+        max_new_tokens = int(config.get("max_new_tokens", 512))
+        partial_path = run_root / "generation_results_v2.partial.jsonl"
+        for start in range(0, len(selected), batch_size):
+            batch = selected[start : start + batch_size]
+            batch_rows = generate_and_score_batch(
+                model,
+                tokenizer,
+                batch,
+                max_new_tokens,
+            )
             for row in batch_rows:
                 row["model_arm"] = arm
                 arm_rows.append(row)
                 rows.append(row)
+            with partial_path.open("a", encoding="utf-8", newline="\n") as handle:
+                for row in batch_rows:
+                    handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+            print(f"{arm}: {len(arm_rows)}/{len(selected)}", flush=True)
         receipts[arm] = {
             "instances": len(arm_rows),
             "accounting_attempts": len(arm_rows),
@@ -722,8 +757,11 @@ def main() -> int:
     parser.add_argument("--train-source", type=Path, required=True)
     parser.add_argument("--external-source", type=Path, required=True)
     args = parser.parse_args()
-    protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
-    if protocol.get("status") != "FROZEN_BEFORE_NATURAL_TRAINING":
+    protocol = resolve_protocol(args.protocol)
+    if protocol.get("status") not in {
+        "FROZEN_BEFORE_NATURAL_TRAINING",
+        "FROZEN_BEFORE_NATURAL_EVALUATION_RETRY",
+    }:
         raise ValueError("protocol_not_frozen")
     run_root = args.run_root
     run_root.mkdir(parents=True, exist_ok=True)
