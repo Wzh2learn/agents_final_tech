@@ -1,0 +1,32 @@
+{
+  "accounting_attempts": 648,
+  "completion_tokens": 77792,
+  "instances": 216,
+  "models": {
+    "base_qwen3_4b": {
+      "accounting_attempts": 216,
+      "completion_tokens": 55296,
+      "instances": 216,
+      "prompt_tokens": 95383,
+      "wall_seconds": 540.3574652671814
+    },
+    "ordinary_answer_execution_sft": {
+      "accounting_attempts": 216,
+      "completion_tokens": 11464,
+      "instances": 216,
+      "prompt_tokens": 95383,
+      "wall_seconds": 139.69256925582886
+    },
+    "visible_program_filter_sft": {
+      "accounting_attempts": 216,
+      "completion_tokens": 11032,
+      "instances": 216,
+      "prompt_tokens": 95383,
+      "wall_seconds": 133.63126158714294
+    }
+  },
+  "new_judge_calls": 0,
+  "prompt_tokens": 286149,
+  "results_sha256": "b71c9bdfbd522d53b05c6d733e3d3ae7afd3f99c2c8e4646ad418fe676eb1210",
+  "schema": "natural_program_generation_receipt_v2"
+}

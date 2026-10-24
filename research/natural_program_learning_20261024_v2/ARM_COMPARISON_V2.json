@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-24",
+  "identity": "POST_HOC_SOURCE_CLUSTER_COMPARISON_OF_FROZEN_GENERATIONS",
+  "metrics": {
+    "base_qwen3_4b": {
+      "dev": {
+        "irrelevant_invariance_rate": 0.0,
+        "original_correct_rate": 0.0,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      },
+      "external": {
+        "irrelevant_invariance_rate": 0.0,
+        "original_correct_rate": 0.0,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      },
+      "test": {
+        "irrelevant_invariance_rate": 0.0,
+        "original_correct_rate": 0.0,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      }
+    },
+    "ordinary_answer_execution_sft": {
+      "dev": {
+        "irrelevant_invariance_rate": 0.5,
+        "original_correct_rate": 0.7083333333333334,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      },
+      "external": {
+        "irrelevant_invariance_rate": 0.7916666666666666,
+        "original_correct_rate": 0.7916666666666666,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      },
+      "test": {
+        "irrelevant_invariance_rate": 0.7083333333333334,
+        "original_correct_rate": 0.75,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      }
+    },
+    "visible_program_filter_sft": {
+      "dev": {
+        "irrelevant_invariance_rate": 0.2916666666666667,
+        "original_correct_rate": 0.3333333333333333,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      },
+      "external": {
+        "irrelevant_invariance_rate": 0.5,
+        "original_correct_rate": 0.5416666666666666,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      },
+      "test": {
+        "irrelevant_invariance_rate": 0.4583333333333333,
+        "original_correct_rate": 0.5416666666666666,
+        "paired_all_three_rate": 0.0,
+        "relevant_adaptation_rate": 0.0,
+        "tasks": 24
+      }
+    }
+  },
+  "new_model_calls": 0,
+  "ordinary_minus_visible": {
+    "external": {
+      "irrelevant_invariance": {
+        "ci95": [
+          0.125,
+          0.5
+        ],
+        "left_minus_right": 0.2916666666666667,
+        "metric": "irrelevant_invariance",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      },
+      "original_correct": {
+        "ci95": [
+          0.08333333333333333,
+          0.4166666666666667
+        ],
+        "left_minus_right": 0.25,
+        "metric": "original_correct",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      },
+      "paired_all_three": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "left_minus_right": 0.0,
+        "metric": "paired_all_three",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      },
+      "relevant_adaptation": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "left_minus_right": 0.0,
+        "metric": "relevant_adaptation",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      }
+    },
+    "test": {
+      "irrelevant_invariance": {
+        "ci95": [
+          0.041666666666666664,
+          0.4583333333333333
+        ],
+        "left_minus_right": 0.25,
+        "metric": "irrelevant_invariance",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      },
+      "original_correct": {
+        "ci95": [
+          0.0,
+          0.4166666666666667
+        ],
+        "left_minus_right": 0.20833333333333334,
+        "metric": "original_correct",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      },
+      "paired_all_three": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "left_minus_right": 0.0,
+        "metric": "paired_all_three",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      },
+      "relevant_adaptation": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "left_minus_right": 0.0,
+        "metric": "relevant_adaptation",
+        "paired_tasks": 24,
+        "table_clusters": 24
+      }
+    }
+  },
+  "schema": "natural_program_arm_comparison_v2"
+}

@@ -1,0 +1,131 @@
+{
+  "base_qwen3_4b": {
+    "dev": {
+      "failures": {
+        "program_execution": 2,
+        "program_parse": 70
+      },
+      "instances": 72,
+      "interface_valid": 2,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 0,
+      "refs_valid": 0
+    },
+    "external": {
+      "failures": {
+        "program_execution": 3,
+        "program_parse": 69
+      },
+      "instances": 72,
+      "interface_valid": 3,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 0,
+      "refs_valid": 0
+    },
+    "test": {
+      "failures": {
+        "program_execution": 1,
+        "program_parse": 71
+      },
+      "instances": 72,
+      "interface_valid": 1,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 0,
+      "refs_valid": 0
+    }
+  },
+  "ordinary_answer_execution_sft": {
+    "dev": {
+      "failures": {
+        "none": 29,
+        "program_execution": 3,
+        "program_parse": 2,
+        "tool_execution": 38
+      },
+      "instances": 72,
+      "interface_valid": 70,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 29,
+      "refs_valid": 67
+    },
+    "external": {
+      "failures": {
+        "none": 38,
+        "program_execution": 1,
+        "tool_execution": 33
+      },
+      "instances": 72,
+      "interface_valid": 72,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 38,
+      "refs_valid": 72
+    },
+    "test": {
+      "failures": {
+        "none": 36,
+        "tool_execution": 36
+      },
+      "instances": 72,
+      "interface_valid": 72,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 36,
+      "refs_valid": 72
+    }
+  },
+  "visible_program_filter_sft": {
+    "dev": {
+      "failures": {
+        "none": 16,
+        "program_execution": 6,
+        "tool_execution": 50
+      },
+      "instances": 72,
+      "interface_valid": 72,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 16,
+      "refs_valid": 66
+    },
+    "external": {
+      "failures": {
+        "none": 25,
+        "program_execution": 2,
+        "tool_execution": 45
+      },
+      "instances": 72,
+      "interface_valid": 72,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 25,
+      "refs_valid": 70
+    },
+    "test": {
+      "failures": {
+        "none": 24,
+        "program_execution": 3,
+        "tool_execution": 45
+      },
+      "instances": 72,
+      "interface_valid": 72,
+      "paired_program_correct": 0,
+      "paired_rate": 0.0,
+      "paired_tasks": 24,
+      "program_correct": 24,
+      "refs_valid": 69
+    }
+  }
+}

@@ -2,19 +2,21 @@
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
   "date": "2026-10-24",
-  "status": "FINANCIAL_FEEDBACK_FIRST_METHOD_RETURN_C2_NOT_CONFIRMED_C3_STRICT_BLOCKED",
+  "status": "AUDIT_CORRECTED_NATURAL_ORDINARY_BASELINE_VISIBLE_FILTER_STOPPED",
+  "active_goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
+  "accounting_identity_note": "NATURAL_PROGRAM_GENERATION_V2.accounting_tokens is generation-only; NATURAL_PROGRAM_LORA_SFT_V2.training_tokens is included in new_budget.accounting_tokens_used and reported separately below.",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 1476,
+    "attempts_used": 2412,
     "physical_http_calls": 536,
-    "local_batched_generate_calls": 105,
+    "local_batched_generate_calls": 183,
     "interrupted_individual_generate_calls_upper_bound": 128,
-    "accounting_tokens_used": 4594023,
+    "accounting_tokens_used": 6204757,
     "judge_calls": 113,
-    "training_runs": 6,
-    "training_gpu_seconds": 506.6289339065552,
-    "training_tokens": 525944,
+    "training_runs": 8,
+    "training_gpu_seconds": 1350.3776285137177,
+    "training_tokens": 1496816,
     "paid_api_usd": 0,
     "production_memory_writes": 0
   },
@@ -103,6 +105,19 @@
       "judge_calls": 0,
       "raw_result": "research/feedback_learning_finance_20261023_v1/GENERATION_RECEIPT.json",
       "remote_raw": "/home/testuser/wzh/research_runs/feedback_learning_finance_20261023_v1/generation_results.jsonl"
+    },
+    {
+      "id": "NATURAL_PROGRAM_GENERATION_V2",
+      "accounting_attempts": 936,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 78,
+      "interrupted_batched_generate_calls_upper_bound": 36,
+      "accounting_tokens": 639522,
+      "status": "COMPLETE_WITH_TRANSPARENT_INTERRUPTED_EVALUATION_BOUND",
+      "model": "Qwen3-4B base plus two natural-program LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/natural_program_learning_20261024_v2/RESOURCE_RECEIPT_V2.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/generation_results_v2.jsonl"
     }
   ],
   "training_events": [
@@ -123,6 +138,20 @@
       "status": "COMPLETE_DEVELOPMENT_TRAINING_COMPARISON",
       "result": "evidence-dependency filter not confirmed beyond strong simple baselines; external direct paired completion remains zero",
       "receipt": "research/feedback_learning_finance_20261023_v1/TRAINING_SUMMARY.json"
+    },
+    {
+      "id": "NATURAL_PROGRAM_LORA_SFT_V2",
+      "arms": [
+        "ordinary_answer_execution_sft",
+        "visible_program_filter_sft"
+      ],
+      "training_runs": 2,
+      "training_rows": 1024,
+      "training_tokens": 970872,
+      "training_gpu_seconds": 843.7487285137177,
+      "status": "COMPLETE_NATURAL_METHOD_COMPARISON",
+      "result": "ordinary answer/execution SFT is the strong baseline; visible program filter is inferior and relevant-change adaptation is zero",
+      "receipt": "research/natural_program_learning_20261024_v2/RESOURCE_RECEIPT_V2.json"
     }
   ],
   "offline_checks": [

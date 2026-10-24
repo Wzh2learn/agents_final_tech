@@ -1,0 +1,42 @@
+{
+  "ordinary_answer_execution_sft": {
+    "adapter_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+    "arm": "ordinary_answer_execution_sft",
+    "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "rows": 512,
+    "schema": "natural_program_training_receipt_v2",
+    "train_metrics": {
+      "entropy": 0.4948411360383034,
+      "epoch": 2.0,
+      "mean_token_accuracy": 0.8548425137996674,
+      "num_tokens": 485462.0,
+      "total_flos": 1.0600772057167872e+16,
+      "train_loss": 0.5978315030224621,
+      "train_runtime": 422.7568,
+      "train_samples_per_second": 2.422,
+      "train_steps_per_second": 1.211
+    },
+    "training_runtime_seconds": 423.42282152175903,
+    "unique_tasks": 512
+  },
+  "visible_program_filter_sft": {
+    "adapter_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/visible_program_filter_sft/final_adapter",
+    "arm": "visible_program_filter_sft",
+    "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "rows": 512,
+    "schema": "natural_program_training_receipt_v2",
+    "train_metrics": {
+      "entropy": 0.49465151876211166,
+      "epoch": 2.0,
+      "mean_token_accuracy": 0.8559969812631607,
+      "num_tokens": 485410.0,
+      "total_flos": 1.059963656119296e+16,
+      "train_loss": 0.6032361788675189,
+      "train_runtime": 420.1876,
+      "train_samples_per_second": 2.437,
+      "train_steps_per_second": 1.219
+    },
+    "training_runtime_seconds": 420.3259069919586,
+    "unique_tasks": 512
+  }
+}

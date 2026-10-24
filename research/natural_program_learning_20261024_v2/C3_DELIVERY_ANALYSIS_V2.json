@@ -1,0 +1,254 @@
+{
+  "date": "2026-10-24",
+  "identity": "FROZEN_ANSWER_DEPLOYMENT_POLICY_REPLAY_WITH_HIDDEN_REFERENCE_FINAL_SCORING_ONLY",
+  "models": {
+    "base_qwen3_4b": {
+      "dev": {
+        "risk_fit_error": "single_class_outcome",
+        "risk_threshold": null,
+        "strong_rule": {
+          "acceptance_rate": 0.0,
+          "accepted": 0,
+          "conditional_wrong_delivery_rate": null,
+          "correct_delivery_count": 0,
+          "correct_delivery_coverage": 0.0,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.0,
+          "retention_or_clarification_rate": 1.0,
+          "wrong_delivery_count": 0
+        }
+      },
+      "held_out": {
+        "external": {
+          "all_applicable_pass": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          },
+          "always_unknown": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          }
+        },
+        "test": {
+          "all_applicable_pass": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          },
+          "always_unknown": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          }
+        }
+      }
+    },
+    "ordinary_answer_execution_sft": {
+      "dev": {
+        "risk_fit_error": null,
+        "risk_threshold": 0.5,
+        "strong_rule": {
+          "acceptance_rate": 0.9305555555555556,
+          "accepted": 67,
+          "conditional_wrong_delivery_rate": 0.5671641791044776,
+          "correct_delivery_count": 29,
+          "correct_delivery_coverage": 0.4027777777777778,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.5277777777777778,
+          "retention_or_clarification_rate": 0.06944444444444445,
+          "wrong_delivery_count": 38
+        }
+      },
+      "held_out": {
+        "external": {
+          "all_applicable_pass": {
+            "acceptance_rate": 0.9861111111111112,
+            "accepted": 71,
+            "conditional_wrong_delivery_rate": 0.4647887323943662,
+            "correct_delivery_count": 38,
+            "correct_delivery_coverage": 0.5277777777777778,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.4583333333333333,
+            "retention_or_clarification_rate": 0.013888888888888888,
+            "wrong_delivery_count": 33
+          },
+          "always_unknown": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          },
+          "risk_logistic": {
+            "acceptance_rate": 0.9861111111111112,
+            "accepted": 71,
+            "conditional_wrong_delivery_rate": 0.4647887323943662,
+            "correct_delivery_count": 38,
+            "correct_delivery_coverage": 0.5277777777777778,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.4583333333333333,
+            "retention_or_clarification_rate": 0.013888888888888888,
+            "wrong_delivery_count": 33
+          }
+        },
+        "test": {
+          "all_applicable_pass": {
+            "acceptance_rate": 1.0,
+            "accepted": 72,
+            "conditional_wrong_delivery_rate": 0.5,
+            "correct_delivery_count": 36,
+            "correct_delivery_coverage": 0.5,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.5,
+            "retention_or_clarification_rate": 0.0,
+            "wrong_delivery_count": 36
+          },
+          "always_unknown": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          },
+          "risk_logistic": {
+            "acceptance_rate": 1.0,
+            "accepted": 72,
+            "conditional_wrong_delivery_rate": 0.5,
+            "correct_delivery_count": 36,
+            "correct_delivery_coverage": 0.5,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.5,
+            "retention_or_clarification_rate": 0.0,
+            "wrong_delivery_count": 36
+          }
+        }
+      }
+    },
+    "visible_program_filter_sft": {
+      "dev": {
+        "risk_fit_error": null,
+        "risk_threshold": 0.5,
+        "strong_rule": {
+          "acceptance_rate": 0.9166666666666666,
+          "accepted": 66,
+          "conditional_wrong_delivery_rate": 0.7575757575757576,
+          "correct_delivery_count": 16,
+          "correct_delivery_coverage": 0.2222222222222222,
+          "items": 72,
+          "overall_wrong_delivery_rate": 0.6944444444444444,
+          "retention_or_clarification_rate": 0.08333333333333333,
+          "wrong_delivery_count": 50
+        }
+      },
+      "held_out": {
+        "external": {
+          "all_applicable_pass": {
+            "acceptance_rate": 0.9722222222222222,
+            "accepted": 70,
+            "conditional_wrong_delivery_rate": 0.6428571428571429,
+            "correct_delivery_count": 25,
+            "correct_delivery_coverage": 0.3472222222222222,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.625,
+            "retention_or_clarification_rate": 0.027777777777777776,
+            "wrong_delivery_count": 45
+          },
+          "always_unknown": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          },
+          "risk_logistic": {
+            "acceptance_rate": 0.9722222222222222,
+            "accepted": 70,
+            "conditional_wrong_delivery_rate": 0.6428571428571429,
+            "correct_delivery_count": 25,
+            "correct_delivery_coverage": 0.3472222222222222,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.625,
+            "retention_or_clarification_rate": 0.027777777777777776,
+            "wrong_delivery_count": 45
+          }
+        },
+        "test": {
+          "all_applicable_pass": {
+            "acceptance_rate": 0.9583333333333334,
+            "accepted": 69,
+            "conditional_wrong_delivery_rate": 0.6521739130434783,
+            "correct_delivery_count": 24,
+            "correct_delivery_coverage": 0.3333333333333333,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.625,
+            "retention_or_clarification_rate": 0.041666666666666664,
+            "wrong_delivery_count": 45
+          },
+          "always_unknown": {
+            "acceptance_rate": 0.0,
+            "accepted": 0,
+            "conditional_wrong_delivery_rate": null,
+            "correct_delivery_count": 0,
+            "correct_delivery_coverage": 0.0,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.0,
+            "retention_or_clarification_rate": 1.0,
+            "wrong_delivery_count": 0
+          },
+          "risk_logistic": {
+            "acceptance_rate": 0.9583333333333334,
+            "accepted": 69,
+            "conditional_wrong_delivery_rate": 0.6521739130434783,
+            "correct_delivery_count": 24,
+            "correct_delivery_coverage": 0.3333333333333333,
+            "items": 72,
+            "overall_wrong_delivery_rate": 0.625,
+            "retention_or_clarification_rate": 0.041666666666666664,
+            "wrong_delivery_count": 45
+          }
+        }
+      }
+    }
+  },
+  "new_model_calls": 0,
+  "new_training_runs": 0,
+  "schema": "natural_program_delivery_analysis_v2"
+}

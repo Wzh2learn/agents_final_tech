@@ -1,0 +1,2852 @@
+{
+  "date": "2026-10-24",
+  "evaluation_instances_sha256": "ca86ad49a2eb9dbdb012b0a02ca75678ca0b5228c87fad1a0f7767ee9a6fe9f6",
+  "evidence_identity": "POST_HOC_CORRECTED_RECOMPUTE_NOT_PREREGISTERED_DEPLOYMENT_SUCCESS",
+  "lineage": {
+    "new_scores": "derived from raw generated_text and each prompt-visible variant table",
+    "old_cached_scores": "preserved in generation_results.jsonl and old RESULT_SUMMARY.json",
+    "variant_table_cache_correction": "evaluation_instances.jsonl cached original table_text for all variants; v2 extracts the exact table block from each prompt"
+  },
+  "metrics": {
+    "base_qwen3_4b": {
+      "dev": {
+        "direct_correct_instances": 6,
+        "items": 32,
+        "legacy_formula_correct_instances": 9,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 12,
+        "visible_program_correct_instances": 12
+      },
+      "external": {
+        "direct_correct_instances": 2,
+        "items": 42,
+        "legacy_formula_correct_instances": 3,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 0,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.0,
+          "current_table_tool_pair_rate_task_equal": 0.0,
+          "deployment_contract_pair_count": 0,
+          "deployment_contract_pair_rate_task_equal": 0.0,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 0,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.0,
+          "legacy_formula_only_pair_rate_task_equal": 0.0,
+          "legacy_mixed_pair_count": 0,
+          "legacy_mixed_pair_rate_task_equal": 0.0,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": false
+            }
+          ],
+          "visible_program_pair_count": 0,
+          "visible_program_pair_rate_task_equal": 0.0
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 3,
+        "visible_program_correct_instances": 3
+      },
+      "test": {
+        "direct_correct_instances": 9,
+        "items": 42,
+        "legacy_formula_correct_instances": 3,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 4,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.2692307692307692,
+          "current_table_tool_pair_rate_task_equal": 0.2857142857142857,
+          "deployment_contract_pair_count": 4,
+          "deployment_contract_pair_rate_task_equal": 0.2857142857142857,
+          "direct_pair_count": 1,
+          "direct_pair_rate_table_cluster_equal": 0.07692307692307693,
+          "direct_pair_rate_task_equal": 0.07142857142857142,
+          "legacy_formula_only_pair_count": 0,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.0,
+          "legacy_formula_only_pair_rate_task_equal": 0.0,
+          "legacy_mixed_pair_count": 0,
+          "legacy_mixed_pair_rate_task_equal": 0.0,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 4,
+          "visible_program_pair_rate_task_equal": 0.2857142857142857
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 19,
+        "visible_program_correct_instances": 20
+      }
+    },
+    "cheap_cf": {
+      "dev": {
+        "direct_correct_instances": 19,
+        "items": 32,
+        "legacy_formula_correct_instances": 30,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 30,
+        "visible_program_correct_instances": 29
+      },
+      "external": {
+        "direct_correct_instances": 5,
+        "items": 42,
+        "legacy_formula_correct_instances": 40,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 10,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.7142857142857143,
+          "current_table_tool_pair_rate_task_equal": 0.7142857142857143,
+          "deployment_contract_pair_count": 10,
+          "deployment_contract_pair_rate_task_equal": 0.7142857142857143,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 12,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.8571428571428571,
+          "legacy_formula_only_pair_rate_task_equal": 0.8571428571428571,
+          "legacy_mixed_pair_count": 3,
+          "legacy_mixed_pair_rate_task_equal": 0.21428571428571427,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 10,
+          "visible_program_pair_rate_task_equal": 0.7142857142857143
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 34,
+        "visible_program_correct_instances": 34
+      },
+      "test": {
+        "direct_correct_instances": 26,
+        "items": 42,
+        "legacy_formula_correct_instances": 38,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 12,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.8846153846153846,
+          "current_table_tool_pair_rate_task_equal": 0.8571428571428571,
+          "deployment_contract_pair_count": 12,
+          "deployment_contract_pair_rate_task_equal": 0.8571428571428571,
+          "direct_pair_count": 8,
+          "direct_pair_rate_table_cluster_equal": 0.5769230769230769,
+          "direct_pair_rate_task_equal": 0.5714285714285714,
+          "legacy_formula_only_pair_count": 12,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.8846153846153846,
+          "legacy_formula_only_pair_rate_task_equal": 0.8571428571428571,
+          "legacy_mixed_pair_count": 9,
+          "legacy_mixed_pair_rate_task_equal": 0.6428571428571429,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 12,
+          "visible_program_pair_rate_task_equal": 0.8571428571428571
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 38,
+        "visible_program_correct_instances": 38
+      }
+    },
+    "cheap_orig": {
+      "dev": {
+        "direct_correct_instances": 14,
+        "items": 32,
+        "legacy_formula_correct_instances": 29,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 29,
+        "visible_program_correct_instances": 27
+      },
+      "external": {
+        "direct_correct_instances": 5,
+        "items": 42,
+        "legacy_formula_correct_instances": 39,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 9,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.6428571428571429,
+          "current_table_tool_pair_rate_task_equal": 0.6428571428571429,
+          "deployment_contract_pair_count": 9,
+          "deployment_contract_pair_rate_task_equal": 0.6428571428571429,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 11,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.7857142857142857,
+          "legacy_formula_only_pair_rate_task_equal": 0.7857142857142857,
+          "legacy_mixed_pair_count": 5,
+          "legacy_mixed_pair_rate_task_equal": 0.35714285714285715,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": false
+            }
+          ],
+          "visible_program_pair_count": 9,
+          "visible_program_pair_rate_task_equal": 0.6428571428571429
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 33,
+        "visible_program_correct_instances": 33
+      },
+      "test": {
+        "direct_correct_instances": 20,
+        "items": 42,
+        "legacy_formula_correct_instances": 36,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 12,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.8461538461538461,
+          "current_table_tool_pair_rate_task_equal": 0.8571428571428571,
+          "deployment_contract_pair_count": 12,
+          "deployment_contract_pair_rate_task_equal": 0.8571428571428571,
+          "direct_pair_count": 6,
+          "direct_pair_rate_table_cluster_equal": 0.4230769230769231,
+          "direct_pair_rate_task_equal": 0.42857142857142855,
+          "legacy_formula_only_pair_count": 10,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.6923076923076923,
+          "legacy_formula_only_pair_rate_task_equal": 0.7142857142857143,
+          "legacy_mixed_pair_count": 8,
+          "legacy_mixed_pair_rate_task_equal": 0.5714285714285714,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 12,
+          "visible_program_pair_rate_task_equal": 0.8571428571428571
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 37,
+        "visible_program_correct_instances": 37
+      }
+    },
+    "evidence_cf": {
+      "dev": {
+        "direct_correct_instances": 19,
+        "items": 32,
+        "legacy_formula_correct_instances": 29,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 29,
+        "visible_program_correct_instances": 28
+      },
+      "external": {
+        "direct_correct_instances": 6,
+        "items": 42,
+        "legacy_formula_correct_instances": 41,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 11,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.7857142857142857,
+          "current_table_tool_pair_rate_task_equal": 0.7857142857142857,
+          "deployment_contract_pair_count": 11,
+          "deployment_contract_pair_rate_task_equal": 0.7857142857142857,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 13,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.9285714285714286,
+          "legacy_formula_only_pair_rate_task_equal": 0.9285714285714286,
+          "legacy_mixed_pair_count": 4,
+          "legacy_mixed_pair_rate_task_equal": 0.2857142857142857,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 11,
+          "visible_program_pair_rate_task_equal": 0.7857142857142857
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 35,
+        "visible_program_correct_instances": 35
+      },
+      "test": {
+        "direct_correct_instances": 30,
+        "items": 42,
+        "legacy_formula_correct_instances": 39,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 13,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.9230769230769231,
+          "current_table_tool_pair_rate_task_equal": 0.9285714285714286,
+          "deployment_contract_pair_count": 13,
+          "deployment_contract_pair_rate_task_equal": 0.9285714285714286,
+          "direct_pair_count": 10,
+          "direct_pair_rate_table_cluster_equal": 0.6923076923076923,
+          "direct_pair_rate_task_equal": 0.7142857142857143,
+          "legacy_formula_only_pair_count": 13,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.9230769230769231,
+          "legacy_formula_only_pair_rate_task_equal": 0.9285714285714286,
+          "legacy_mixed_pair_count": 11,
+          "legacy_mixed_pair_rate_task_equal": 0.7857142857142857,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 13,
+          "visible_program_pair_rate_task_equal": 0.9285714285714286
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 39,
+        "visible_program_correct_instances": 40
+      }
+    },
+    "evidence_orig": {
+      "dev": {
+        "direct_correct_instances": 13,
+        "items": 32,
+        "legacy_formula_correct_instances": 25,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 25,
+        "visible_program_correct_instances": 24
+      },
+      "external": {
+        "direct_correct_instances": 3,
+        "items": 42,
+        "legacy_formula_correct_instances": 34,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 8,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.5714285714285714,
+          "current_table_tool_pair_rate_task_equal": 0.5714285714285714,
+          "deployment_contract_pair_count": 8,
+          "deployment_contract_pair_rate_task_equal": 0.5714285714285714,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 10,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.7142857142857143,
+          "legacy_formula_only_pair_rate_task_equal": 0.7142857142857143,
+          "legacy_mixed_pair_count": 3,
+          "legacy_mixed_pair_rate_task_equal": 0.21428571428571427,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 8,
+          "visible_program_pair_rate_task_equal": 0.5714285714285714
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 28,
+        "visible_program_correct_instances": 28
+      },
+      "test": {
+        "direct_correct_instances": 21,
+        "items": 42,
+        "legacy_formula_correct_instances": 36,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 10,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.6923076923076923,
+          "current_table_tool_pair_rate_task_equal": 0.7142857142857143,
+          "deployment_contract_pair_count": 10,
+          "deployment_contract_pair_rate_task_equal": 0.7142857142857143,
+          "direct_pair_count": 5,
+          "direct_pair_rate_table_cluster_equal": 0.34615384615384615,
+          "direct_pair_rate_task_equal": 0.35714285714285715,
+          "legacy_formula_only_pair_count": 10,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.6923076923076923,
+          "legacy_formula_only_pair_rate_task_equal": 0.7142857142857143,
+          "legacy_mixed_pair_count": 8,
+          "legacy_mixed_pair_rate_task_equal": 0.5714285714285714,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 10,
+          "visible_program_pair_rate_task_equal": 0.7142857142857143
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 36,
+        "visible_program_correct_instances": 36
+      }
+    },
+    "exec_cf": {
+      "dev": {
+        "direct_correct_instances": 20,
+        "items": 32,
+        "legacy_formula_correct_instances": 31,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 29,
+        "visible_program_correct_instances": 29
+      },
+      "external": {
+        "direct_correct_instances": 7,
+        "items": 42,
+        "legacy_formula_correct_instances": 41,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 11,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.7857142857142857,
+          "current_table_tool_pair_rate_task_equal": 0.7857142857142857,
+          "deployment_contract_pair_count": 11,
+          "deployment_contract_pair_rate_task_equal": 0.7857142857142857,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 13,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.9285714285714286,
+          "legacy_formula_only_pair_rate_task_equal": 0.9285714285714286,
+          "legacy_mixed_pair_count": 5,
+          "legacy_mixed_pair_rate_task_equal": 0.35714285714285715,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 11,
+          "visible_program_pair_rate_task_equal": 0.7857142857142857
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 35,
+        "visible_program_correct_instances": 35
+      },
+      "test": {
+        "direct_correct_instances": 27,
+        "items": 42,
+        "legacy_formula_correct_instances": 39,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 13,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.9230769230769231,
+          "current_table_tool_pair_rate_task_equal": 0.9285714285714286,
+          "deployment_contract_pair_count": 13,
+          "deployment_contract_pair_rate_task_equal": 0.9285714285714286,
+          "direct_pair_count": 8,
+          "direct_pair_rate_table_cluster_equal": 0.5769230769230769,
+          "direct_pair_rate_task_equal": 0.5714285714285714,
+          "legacy_formula_only_pair_count": 13,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.9230769230769231,
+          "legacy_formula_only_pair_rate_task_equal": 0.9285714285714286,
+          "legacy_mixed_pair_count": 9,
+          "legacy_mixed_pair_rate_task_equal": 0.6428571428571429,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 13,
+          "visible_program_pair_rate_task_equal": 0.9285714285714286
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 39,
+        "visible_program_correct_instances": 41
+      }
+    },
+    "exec_orig": {
+      "dev": {
+        "direct_correct_instances": 13,
+        "items": 32,
+        "legacy_formula_correct_instances": 27,
+        "operators": {
+          "difference": 21,
+          "percent_change": 11
+        },
+        "reference_units": {
+          "$": 1,
+          "reported": 31
+        },
+        "tool_result_correct_instances": 28,
+        "visible_program_correct_instances": 27
+      },
+      "external": {
+        "direct_correct_instances": 3,
+        "items": 42,
+        "legacy_formula_correct_instances": 40,
+        "operators": {
+          "difference": 12,
+          "percent_change": 30
+        },
+        "paired": {
+          "current_table_tool_pair_count": 10,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.7142857142857143,
+          "current_table_tool_pair_rate_task_equal": 0.7142857142857143,
+          "deployment_contract_pair_count": 10,
+          "deployment_contract_pair_rate_task_equal": 0.7142857142857143,
+          "direct_pair_count": 0,
+          "direct_pair_rate_table_cluster_equal": 0.0,
+          "direct_pair_rate_task_equal": 0.0,
+          "legacy_formula_only_pair_count": 12,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.8571428571428571,
+          "legacy_formula_only_pair_rate_task_equal": 0.8571428571428571,
+          "legacy_mixed_pair_count": 3,
+          "legacy_mixed_pair_rate_task_equal": 0.21428571428571427,
+          "paired_tasks": 14,
+          "table_clusters": 14,
+          "task_rows": [
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_external_0027cf6e_R1_2019_2019_difference",
+              "table_uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_13bb283b_R3_2018_2019_percent_change",
+              "table_uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1b2ca134_R2_2018_2019_difference",
+              "table_uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_1ca5293d_R2_2018_2019_difference",
+              "table_uid": "1ca5293d-2ea9-4a14-88a1-641795d7e142",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_47fb3538_R2_2018_2019_percent_change",
+              "table_uid": "47fb3538-2c0a-4a82-97b2-90a1543b871d",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_65cde743_R9_2018_2019_percent_change",
+              "table_uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_6aa15859_R4_2017_2018_percent_change",
+              "table_uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_external_6cff0af2_R2_2018_2019_difference",
+              "table_uid": "6cff0af2-41c0-4b29-b41f-e5637648defa",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_9b0abd12_R3_2018_2019_percent_change",
+              "table_uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_a7a7ede0_R2_2018_2019_percent_change",
+              "table_uid": "a7a7ede0-4575-4ace-8d5b-371db74ef3c1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_aea0cfae_R3_2018_2019_percent_change",
+              "table_uid": "aea0cfae-19e9-4aec-a577-de0230696ce0",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_d476a981_R5_2018_2019_percent_change",
+              "table_uid": "d476a981-e201-4b5f-9e39-a7b941bfac18",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_e614befa_R2_2017_2018_percent_change",
+              "table_uid": "e614befa-40ae-43c0-93b1-385899b6b181",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_external_f84f55c4_R1_2018_2019_percent_change",
+              "table_uid": "f84f55c4-6ede-4bb6-9c24-49956f6e232a",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 10,
+          "visible_program_pair_rate_task_equal": 0.7142857142857143
+        },
+        "reference_units": {
+          "reported": 42
+        },
+        "tool_result_correct_instances": 34,
+        "visible_program_correct_instances": 34
+      },
+      "test": {
+        "direct_correct_instances": 19,
+        "items": 42,
+        "legacy_formula_correct_instances": 37,
+        "operators": {
+          "difference": 36,
+          "percent_change": 6
+        },
+        "paired": {
+          "current_table_tool_pair_count": 12,
+          "current_table_tool_pair_rate_table_cluster_equal": 0.8461538461538461,
+          "current_table_tool_pair_rate_task_equal": 0.8571428571428571,
+          "deployment_contract_pair_count": 12,
+          "deployment_contract_pair_rate_task_equal": 0.8571428571428571,
+          "direct_pair_count": 4,
+          "direct_pair_rate_table_cluster_equal": 0.2692307692307692,
+          "direct_pair_rate_task_equal": 0.2857142857142857,
+          "legacy_formula_only_pair_count": 10,
+          "legacy_formula_only_pair_rate_table_cluster_equal": 0.6923076923076923,
+          "legacy_formula_only_pair_rate_task_equal": 0.7142857142857143,
+          "legacy_mixed_pair_count": 6,
+          "legacy_mixed_pair_rate_task_equal": 0.42857142857142855,
+          "paired_tasks": 14,
+          "table_clusters": 13,
+          "task_rows": [
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_09ea040c_R1_2017_2018_difference",
+              "table_uid": "09ea040c-e548-48f9-ba67-bae8cafa8e83",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_1b2cae74_R4_2018_2019_difference",
+              "table_uid": "1b2cae74-b655-4f51-a080-6424534ed1ea",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_55ecddc5_R3_2018_2019_difference",
+              "table_uid": "55ecddc5-f42c-4218-b738-e403d3f8443b",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5c8944fd_R2_2018_2019_percent_change",
+              "table_uid": "5c8944fd-4e98-4192-97eb-65415bfd012f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "percent_change",
+              "source_task_id": "FL_train_5f2ac6bb_R4_2018_2019_percent_change",
+              "table_uid": "5f2ac6bb-e408-411f-b20a-21962a708d7f",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_610d99f0_R2_2017_2018_difference",
+              "table_uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_789a37d0_R5_2018_2019_difference",
+              "table_uid": "789a37d0-5d7f-422b-9bd4-46293cea01ca",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_9660d82d_R2_2018_2019_difference",
+              "table_uid": "9660d82d-c76a-4afd-b56a-cfb62b051f56",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_97dfc73a_R3_2018_2019_difference",
+              "table_uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": false,
+              "deployment_contract_pair": false,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_98a25102_R4_2018_2019_difference",
+              "table_uid": "98a25102-b735-4d7b-ab43-98dde0c1ae22",
+              "visible_program_pair": false
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": false,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_aa54cfa3_R3_2017_2018_difference",
+              "table_uid": "aa54cfa3-baf6-4f0b-873a-24fa0417daf9",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": false,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": false,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R3_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f1a476ac_R6_2018_2019_difference",
+              "table_uid": "f1a476ac-c77e-4e2d-98f4-9e6d384984b3",
+              "visible_program_pair": true
+            },
+            {
+              "current_table_tool_pair": true,
+              "deployment_contract_pair": true,
+              "direct_pair": true,
+              "legacy_formula_only_pair": true,
+              "legacy_mixed_pair": true,
+              "operator": "difference",
+              "source_task_id": "FL_train_f5ebd580_R4_2018_2019_difference",
+              "table_uid": "f5ebd580-178e-40e9-bb18-cc288e931654",
+              "visible_program_pair": true
+            }
+          ],
+          "visible_program_pair_count": 12,
+          "visible_program_pair_rate_task_equal": 0.8571428571428571
+        },
+        "reference_units": {
+          "percent": 3,
+          "reported": 39
+        },
+        "tool_result_correct_instances": 38,
+        "visible_program_correct_instances": 39
+      }
+    }
+  },
+  "new_judge_calls": 0,
+  "new_model_calls": 0,
+  "new_training_runs": 0,
+  "percent_change_reference_unit_mismatch_tasks": 22,
+  "raw_sha256": "9e9ba35f2f76de718f2485099e0088abbe342d87054c7564cf414a1a17abea9e",
+  "schema": "financial_feedback_corrected_metrics_v2",
+  "scorer_version": "financial_feedback_corrected_scorer_v2",
+  "strict_delivery_note": "No legacy output satisfies the strict v2 deployment contract; recovered legacy targets remain diagnostics.",
+  "task_composition": {
+    "dev": {
+      "numeric_scale": {
+        "1-100": 16,
+        "100-10000": 7,
+        "<1": 1,
+        ">=10000": 5,
+        "zero": 3
+      },
+      "operators": {
+        "difference": 21,
+        "percent_change": 11
+      },
+      "reference_units": {
+        "$": 1,
+        "reported": 31
+      },
+      "tasks": 32
+    },
+    "external": {
+      "numeric_scale": {
+        "1-100": 10,
+        ">=10000": 2,
+        "zero": 2
+      },
+      "operators": {
+        "difference": 4,
+        "percent_change": 10
+      },
+      "reference_units": {
+        "reported": 14
+      },
+      "tasks": 14
+    },
+    "test": {
+      "numeric_scale": {
+        "1-100": 6,
+        "100-10000": 5,
+        ">=10000": 3
+      },
+      "operators": {
+        "difference": 12,
+        "percent_change": 2
+      },
+      "reference_units": {
+        "percent": 1,
+        "reported": 13
+      },
+      "tasks": 14
+    }
+  },
+  "training_totals": {
+    "accounting_tokens": 525944,
+    "arms": 6,
+    "completion_tokens": 70819,
+    "gpu_seconds": 506.6289339065552,
+    "prompt_tokens": 455125,
+    "rows": 1440
+  },
+  "variant_table_cache_mismatch_instances": 392
+}

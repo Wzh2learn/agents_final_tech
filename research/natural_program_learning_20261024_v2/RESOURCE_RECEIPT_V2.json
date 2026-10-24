@@ -1,0 +1,53 @@
+{
+  "schema": "natural_program_learning_resource_receipt_v2",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "run_root_gb10": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2",
+  "dataset": {
+    "tasks": 1752,
+    "splits": {
+      "train": 1142,
+      "dev": 217,
+      "test": 198,
+      "external": 195
+    },
+    "dataset_sha256": "f979d86a6920cc4c2827117180082e9b6ac1fca6795dca0d3ccd1d45dff646b6"
+  },
+  "training": {
+    "arms": 2,
+    "rows": 1024,
+    "training_tokens": 970872,
+    "gpu_seconds": 843.7487285137177,
+    "training_summary_sha256": "ad7ddb15b94986188412f602e03c0e615b95e8f59655717aa84fc6adf3547a71"
+  },
+  "successful_generation": {
+    "accounting_attempts": 648,
+    "batched_generate_calls": 42,
+    "prompt_tokens": 286149,
+    "completion_tokens": 77792,
+    "accounting_tokens": 363941,
+    "wall_seconds": 813.6812934875489,
+    "results_sha256": "b71c9bdfbd522d53b05c6d733e3d3ae7afd3f99c2c8e4646ad418fe676eb1210"
+  },
+  "interrupted_generation": {
+    "status": "INTERRUPTED_NO_RAW_RESULTS",
+    "accounting_attempts_upper_bound": 288,
+    "batched_generate_calls_upper_bound": 36,
+    "accounting_tokens_upper_bound": 275581
+  },
+  "combined_new_stage_upper_bound": {
+    "accounting_attempts": 936,
+    "accounting_tokens_including_training": 1610394,
+    "training_runs": 2,
+    "judge_calls": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  },
+  "planning_deviation": {
+    "local_protocol_token_cap": 1200000,
+    "actual_upper_bound_tokens": 1610394,
+    "cause": "The local estimate omitted training tokens and the interrupted evaluation upper bound.",
+    "global_authorization_breach": false,
+    "action": "Reported explicitly; no further generation before the next budgeted confirmation design."
+  }
+}
