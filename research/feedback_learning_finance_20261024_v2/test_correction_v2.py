@@ -57,7 +57,8 @@ def test_tool_pair_does_not_require_direct_answer_invariance() -> None:
             }
         )
     metrics = pair_metrics(rows)
-    assert metrics["tool_pair_count"] == 1
+    assert metrics["current_table_tool_pair_count"] == 1
+    assert metrics["deployment_contract_pair_count"] == 1
     assert metrics["direct_pair_count"] == 0
 
 

@@ -132,7 +132,10 @@ def pair_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     for row in rows:
         grouped[row["source_task_id"]][row["variant"]] = row
     direct_pairs = 0
-    tool_pairs = 0
+    legacy_formula_pairs = 0
+    current_table_tool_pairs = 0
+    visible_program_pairs = 0
+    deployment_contract_pairs = 0
     legacy_mixed_pairs = 0
     task_rows: list[dict[str, Any]] = []
     for task_id, variants in sorted(grouped.items()):
@@ -157,22 +160,32 @@ def pair_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
             and irrelevant["tool_value"] is not None
             and close(original["tool_value"], irrelevant["tool_value"])
         )
-        tool_pair = (
+        legacy_formula_pair = all(
+            variants[name]["legacy_formula_correct"]
+            for name in ("original", "relevant_change", "irrelevant_change")
+        )
+        current_table_tool_pair = (
             tool_invariant
-            and original["visible_program_correct"]
-            and relevant["visible_program_correct"]
-            and irrelevant["visible_program_correct"]
             and original["tool_result_correct"]
             and relevant["tool_result_correct"]
             and irrelevant["tool_result_correct"]
         )
-        legacy_formula_all = all(
-            variants[name]["legacy_formula_correct"]
+        visible_program_pair = all(
+            variants[name]["visible_program_correct"]
             for name in ("original", "relevant_change", "irrelevant_change")
         )
-        legacy_mixed_pair = legacy_formula_all and direct_invariant
+        deployment_contract_pair = (
+            current_table_tool_pair
+            and original["visible_program_correct"]
+            and relevant["visible_program_correct"]
+            and irrelevant["visible_program_correct"]
+        )
+        legacy_mixed_pair = legacy_formula_pair and direct_invariant
         direct_pairs += int(direct_pair)
-        tool_pairs += int(tool_pair)
+        legacy_formula_pairs += int(legacy_formula_pair)
+        current_table_tool_pairs += int(current_table_tool_pair)
+        visible_program_pairs += int(visible_program_pair)
+        deployment_contract_pairs += int(deployment_contract_pair)
         legacy_mixed_pairs += int(legacy_mixed_pair)
         task_rows.append(
             {
@@ -180,7 +193,10 @@ def pair_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 "table_uid": original["table_uid"],
                 "operator": original["operator"],
                 "direct_pair": direct_pair,
-                "tool_pair": tool_pair,
+                "legacy_formula_only_pair": legacy_formula_pair,
+                "current_table_tool_pair": current_table_tool_pair,
+                "visible_program_pair": visible_program_pair,
+                "deployment_contract_pair": deployment_contract_pair,
                 "legacy_mixed_pair": legacy_mixed_pair,
             }
         )
@@ -202,16 +218,43 @@ def pair_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
             if by_cluster
             else None
         ),
-        "tool_pair_count": tool_pairs,
-        "tool_pair_rate_task_equal": tool_pairs / count if count else None,
-        "tool_pair_rate_table_cluster_equal": (
+        "legacy_formula_only_pair_count": legacy_formula_pairs,
+        "legacy_formula_only_pair_rate_task_equal": (
+            legacy_formula_pairs / count if count else None
+        ),
+        "legacy_formula_only_pair_rate_table_cluster_equal": (
             sum(
-                statistics_mean([float(row["tool_pair"]) for row in cluster_rows])
+                statistics_mean(
+                    [float(row["legacy_formula_only_pair"]) for row in cluster_rows]
+                )
                 for cluster_rows in by_cluster.values()
             )
             / len(by_cluster)
             if by_cluster
             else None
+        ),
+        "current_table_tool_pair_count": current_table_tool_pairs,
+        "current_table_tool_pair_rate_task_equal": (
+            current_table_tool_pairs / count if count else None
+        ),
+        "current_table_tool_pair_rate_table_cluster_equal": (
+            sum(
+                statistics_mean(
+                    [float(row["current_table_tool_pair"]) for row in cluster_rows]
+                )
+                for cluster_rows in by_cluster.values()
+            )
+            / len(by_cluster)
+            if by_cluster
+            else None
+        ),
+        "visible_program_pair_count": visible_program_pairs,
+        "visible_program_pair_rate_task_equal": (
+            visible_program_pairs / count if count else None
+        ),
+        "deployment_contract_pair_count": deployment_contract_pairs,
+        "deployment_contract_pair_rate_task_equal": (
+            deployment_contract_pairs / count if count else None
         ),
         "legacy_mixed_pair_count": legacy_mixed_pairs,
         "legacy_mixed_pair_rate_task_equal": legacy_mixed_pairs / count if count else None,
