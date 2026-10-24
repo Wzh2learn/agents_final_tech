@@ -5,9 +5,15 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(
+    0,
+    str(Path(__file__).resolve().parents[1] / "feedback_learning_finance_20261024_v2"),
+)
 
 from delivery_policy_v2 import acceptance_metrics, fit_logistic_risk_policy
 
