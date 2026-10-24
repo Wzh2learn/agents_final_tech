@@ -94,6 +94,7 @@ def classify_failure(features: dict[str, Any]) -> str:
 def evaluate_candidate(
     instance: dict[str, Any],
     candidate: dict[str, Any],
+    failure_override: str | None = None,
 ) -> dict[str, Any]:
     """Score one candidate using visible contract and hidden reference only at the end."""
     question = instance["question"]
@@ -118,7 +119,7 @@ def evaluate_candidate(
         "expected": expected,
         "tool_correct": tool_correct,
         "deployment_correct": deployment_correct,
-        "failure": classify_failure(features),
+        "failure": failure_override or classify_failure(features),
         "features": features,
     }
 
@@ -179,13 +180,20 @@ def main() -> int:
         for row in load_jsonl(args.run_root / "evaluation_instances.jsonl")
     }
     generations = load_jsonl(args.run_root / "generation_results.jsonl")
-    baseline_rows = [
-        evaluate_candidate(instance, transparent_candidate(
-            instance["question"],
-            extract_visible_table_from_prompt(instance["prompt"]),
-        ))
-        for instance in instances.values()
-    ]
+    baseline_rows = []
+    for instance in instances.values():
+        table_text = extract_visible_table_from_prompt(instance["prompt"])
+        try:
+            candidate = transparent_candidate(instance["question"], table_text)
+            baseline_rows.append(evaluate_candidate(instance, candidate))
+        except ValueError as exc:
+            baseline_rows.append(
+                evaluate_candidate(
+                    instance,
+                    {},
+                    failure_override=f"transparent_{exc}",
+                )
+            )
     model_rows: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for generation in generations:
         instance = instances[generation["instance_id"]]
