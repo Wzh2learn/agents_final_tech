@@ -1,0 +1,82 @@
+{
+  "schema": "natural_tatqa_program_learning_protocol_v2",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_NATURAL_TRAINING",
+  "research_question": "Can visible evidence and program verification teach a small model to execute natural financial-document arithmetic more reliably than ordinary candidate supervision?",
+  "source": {
+    "dataset": "TAT-QA natural arithmetic questions",
+    "data_license": "CC BY 4.0 per docs/datasets/tatqa_licence_record_v1.md",
+    "train_path_gb10": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_train.json",
+    "external_path_gb10": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+    "train_sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+    "external_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "source_boundary": "train/dev files are same-benchmark source splits; table UID is the independent cluster, not a new dataset family or full report/company identity"
+  },
+  "task_identity": {
+    "input": "original TAT-QA question plus visible table/paragraph evidence with R:C cell IDs",
+    "target": "structured arithmetic program over visible refs, evidence_refs, and unit; no numeric answer is requested from the model",
+    "reference": "TAT-QA derivation executed against raw visible table values",
+    "natural_primary": true,
+    "controlled_candidates": "candidate corruption is only for training-feedback comparison and is reported separately from natural question difficulty"
+  },
+  "candidate_feedback": {
+    "ordinary_answer_execution_filter": "uses hidden executed answer to accept candidates; may retain same-value wrong-reference programs",
+    "visible_program_filter": "uses only question cues, visible refs/rows/periods, program shape and execution; no expected answer or hidden refs",
+    "oracle_clean": "gold program only, diagnostic upper bound and not a deployable method"
+  },
+  "training_arms": [
+    {
+      "arm": "ordinary_answer_execution_sft",
+      "filter": "ordinary_answer_execution_filter",
+      "rows": 512
+    },
+    {
+      "arm": "visible_program_filter_sft",
+      "filter": "visible_program_filter",
+      "rows": 512
+    }
+  ],
+  "training": {
+    "model_path_gb10": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "method": "LoRA SFT",
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "target_modules": ["q_proj", "v_proj"],
+    "max_length": 1536,
+    "max_steps_per_arm": 512,
+    "learning_rate": 0.0001,
+    "seed": 20261024
+  },
+  "evaluation": {
+    "slices": ["dev", "test", "external"],
+    "tasks_per_slice": {
+      "dev": 32,
+      "test": 32,
+      "external": 32
+    },
+    "variants_per_task": ["original", "relevant_change", "irrelevant_change"],
+    "primary_metric": "program-executed paired completion across original, relevant and irrelevant variants",
+    "secondary_metrics": [
+      "program execution correctness",
+      "evidence ref binding",
+      "operator correctness",
+      "unit correctness",
+      "interface parse",
+      "cost tokens and latency"
+    ],
+    "transparent_baseline": "question row matching plus year/operator heuristic from build_natural_tasks_v2.py",
+    "statistical_unit": "table UID",
+    "success_threshold": "visible filter must improve paired program completion by >=5 percentage points over ordinary answer-execution SFT with source-cluster interval lower bound > 0",
+    "stop_threshold": "if ordinary SFT and visible filter are equivalent or transparent baseline explains the residual, stop this mechanism and move to a different natural source/mechanism"
+  },
+  "resource_budget": {
+    "new_accounting_attempt_cap": 1024,
+    "new_accounting_token_cap": 1200000,
+    "training_runs": 2,
+    "planned_generation_equivalents": 288,
+    "judge_calls": 0,
+    "paid_api_usd": 0,
+    "production_memory_writes": 0
+  }
+}

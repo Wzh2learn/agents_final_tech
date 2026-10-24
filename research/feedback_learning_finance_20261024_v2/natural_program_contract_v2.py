@@ -24,8 +24,9 @@ def parse_numeric(value: Any) -> float | None:
     text = str(value).strip().replace(",", "")
     if not text or text.casefold() in {"n/a", "na", "-", "—"}:
         return None
+    text = re.sub(r"%$", "", text).strip()
     negative = text.startswith("(") and text.endswith(")")
-    text = text.strip("()").replace("%", "").replace("$", "").replace("£", "")
+    text = text.strip("()").replace("$", "").replace("£", "")
     text = text.replace("€", "").replace("¥", "")
     if not re.fullmatch(r"-?\d+(?:\.\d+)?", text):
         return None
