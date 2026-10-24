@@ -17,4 +17,4 @@ two natural-error training comparisons and C3 fixed-output replays completed.
 5. Run independent C3 semantic-evidence and delivery experiments. Done;
    checker signal does not justify a policy.
 6. Update the 2027-10 thesis plan, verify, commit and synchronize GB10.
-   In progress.
+   Done; local, origin and GB10 are aligned at the verified continuation commit.
