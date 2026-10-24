@@ -84,7 +84,11 @@ def choose_threshold(
 
 def model_policy_analysis(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """Fit on dev and analyze held-out slices with no hidden policy features."""
-    dev = [row for row in rows if row["slice"] == "dev"]
+    normalized = [
+        {**row, "final_correct": bool(row["program_correct"])}
+        for row in rows
+    ]
+    dev = [row for row in normalized if row["slice"] == "dev"]
     strong_dev_flags = strong_flags(dev)
     strong_dev = acceptance_metrics(dev, strong_dev_flags)
     fit = fit_logistic_risk_policy(
@@ -125,7 +129,7 @@ def model_policy_analysis(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "held_out": {},
     }
     for slice_name in ("test", "external"):
-        subset = [row for row in rows if row["slice"] == slice_name]
+        subset = [row for row in normalized if row["slice"] == slice_name]
         policies = {
             "all_applicable_pass": strong_flags(subset),
             "always_unknown": [False for _ in subset],
