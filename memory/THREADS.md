@@ -8,7 +8,7 @@ Updated: 2026-10-24
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `NEW_SOURCE_OR_VISIBLE_BINDING_CHECKER` | [V3 回执](../research/natural_program_learning_20261024_v2/METHOD_RESEARCH_RETURN_V3.md)已否定 visible filter 与 paired stability；下一步应先用部署可见行/列角色检查剩余引用不稳定，或取得真正独立自然来源，不再扩 TAT-QA 同机制 |
+| NEXT-RESEARCH-GOAL | `VISIBLE_BINDING_CHECKER_CONFIRMATION` | [V3 回执](../research/natural_program_learning_20261024_v2/METHOD_RESEARCH_RETURN_V3.md)已否定 visible filter 与 paired stability；下一步唯一动作是冻结部署可见行/列角色绑定检查器，在与两组确认表族不相交的新 family 上验证，不再扩 TAT-QA 同机制 |
 | C2-FEEDBACK-LEARNING | `ORDINARY_BASELINE_CONFIRMED_TWO_CANDIDATES_STOPPED` | stale-table 评分更正后，普通 SFT 在 24 个新 table families 上 paired completion 87.5%，visible filter 50.0%；paired stability 83.3% 且不优于普通/重复控制 |
 | C3-DELIVERY-POLICY | `NO_POLICY_INCREMENT_STOP_COMPLEX_POLICY` | 普通 SFT 新 family 强规则 68/72 正确、4/72 错误；强规则等于 always-accept，确认集无独立 dev 阈值，不拟合策略 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |

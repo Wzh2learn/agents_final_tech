@@ -49,7 +49,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2/V3、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和 visible-program filter 继续停止。下一方法实验应只区分等值别名/操作数绑定反馈，并在未参与选择的新 table families 上确认；不再堆 evidence-filter 变体。Paper E 首投保持两案例。具体外部事项与未定研究选择见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2/V3、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板、visible-program filter 和 paired-stability 候选继续停止。下一步只做冻结的行/列角色绑定检查器，并在未参与选择的新 table families 上确认；不再堆 evidence-filter 或稳定性监督变体。Paper E 首投保持两案例。独立 AI 评审见 [INDEPENDENT_REVIEW_V3](../../research/natural_program_learning_20261024_v2/INDEPENDENT_REVIEW_V3.md)；具体外部事项见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

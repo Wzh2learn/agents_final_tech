@@ -17,8 +17,10 @@ executed the frozen programs against the exact table visible in each prompt:
 
 - 648 frozen generation rows rescored;
 - 95 rows flipped from false to true;
-- ordinary SFT relevant-change adaptation changed from 0 to dev 66.7%,
-  test 75.0%, external 79.2%;
+- ordinary SFT raw relevant-change program correctness changed from 0 to
+  dev 66.7%, test 83.3%, external 79.2%;
+- the paired relevant-adaptation intersection, requiring both original and
+  relevant-change correctness, is dev 66.7%, test 75.0%, external 79.2%;
 - ordinary SFT paired completion became dev 50.0%, test 70.8%,
   external 79.2%.
 
@@ -38,6 +40,11 @@ within TAT-QA, not cross-dataset generalization.
 |---|---:|---:|---:|---:|
 | Ordinary answer/execution SFT | 95.8% | 91.7% | 91.7% | 87.5% |
 | Visible-program filter SFT | 58.3% | 58.3% | 50.0% | 50.0% |
+
+`Relevant adaptation` is the task-level intersection
+`original_correct AND relevant_correct`; `Irrelevant invariance` is
+`original_correct AND irrelevant_correct`. These are not the raw per-variant
+correct counts used in the C3 delivery table.
 
 Ordinary minus visible paired completion is +37.5pp with table-cluster 95%
 interval `[16.7pp, 58.3pp]`. The transparent row/year calculator solves
@@ -63,6 +70,10 @@ arm.
 | Duplicate-original control | 83.3% | 95.8% | 83.3% |
 | Paired-variant stability SFT | 83.3% | 91.7% | 87.5% |
 
+Here `Relevant adaptation` is again the paired intersection, not raw
+per-instance correctness. The C3 table below reports raw correctness over all
+72 outputs per arm and therefore can have a different sum.
+
 The candidate has zero paired-completion gain over both comparators and a
 -4.2pp reference-stability difference with interval `[-12.5pp, 0]`. It is
 stopped under the frozen rule. This is a negative method result, not evidence
@@ -72,13 +83,16 @@ that stability supervision is universally ineffective.
 
 With deployment-visible checks only, the ordinary strong rule accepts all
 confirmation outputs and delivers 68/72 correct and 4/72 wrong (5.6%
-conditional wrong). On the stability confirmation, the corresponding numbers
-are 62/72 correct and 10/72 wrong (13.9%). The candidate stability arm has
-63/72 correct and 9/72 wrong, but no acceptance decision separates it from
-always-accept. No learned policy is fitted on confirmation data. The previous
-dev-calibrated logistic policy already equaled the strong rule. Complex
-delivery-policy expansion remains stopped; the visible rule is not a new
-method contribution.
+conditional wrong). On the stability confirmation, the raw all-output counts
+are ordinary 62/72 correct and 10/72 wrong, duplicate control 61/72 and 11/72,
+and paired-stability 63/72 and 9/72. These are raw output counts; they do not
+contradict the paired-intersection rates above. The candidate's 63/72 versus
+ordinary's 62/72 is an arm-output difference, not a delivery-policy gain.
+No learned policy is fitted on confirmation data. The prior dev-calibrated
+logistic policy equaled the strong rule in
+[C3_DELIVERY_ANALYSIS_CORRECTED_V3.json](C3_DELIVERY_ANALYSIS_CORRECTED_V3.json).
+Complex delivery-policy expansion remains stopped; the visible rule is not a
+new method contribution.
 
 ## 5. Evidence Boundary
 
@@ -86,7 +100,7 @@ method contribution.
   prospective experiment.
 - `CONFIRMATION_SUMMARY_V3.json` and `PAIRED_STABILITY_CONFIRMATION_V3.json`
   are same-source new-family confirmations, not independent benchmark results.
-- The natural method uses TAT-QA train/dev files and executable gold
+- The natural method uses TAT-QA train/dev files and executable reference
   derivations; DocMath remains gated and FinQA is exposed Paper E material.
 - No judge, paid API, production Memory write, or hidden-reference policy
   feature was used in the new deployment checks.
@@ -103,7 +117,7 @@ method contribution.
    not a validated method opportunity.
 4. C3 has no incremental policy signal after deployment-visible checks;
    stop complex delivery strategies on this panel.
-5. The next information-bearing step is a new natural source or a deterministic
-   row/period binding checker evaluated on the remaining reference-instability
-   cases. It must be tested before any further training and must not reuse
-   these confirmation families for method selection.
+5. The next information-bearing step is one frozen deterministic row/period
+   binding checker evaluated on a disjoint new-family panel before any further
+   training. A truly new natural source is a later transfer question, not an
+   alternative in this next step.

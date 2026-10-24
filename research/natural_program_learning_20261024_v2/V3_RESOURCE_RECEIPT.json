@@ -3,6 +3,11 @@
   "date": "2026-10-24",
   "timezone": "Asia/Shanghai",
   "identity": "MEASUREMENT_CORRECTION_AND_TWO_FROZEN_CONFIRMATIONS",
+  "metric_identity": {
+    "paired_rates": "task-level intersections requiring original correctness",
+    "delivery_counts": "raw correctness over every model output",
+    "raw_and_paired_counts_must_not_be_summed_interchangeably": true
+  },
   "new_stage": {
     "accounting_attempts": 360,
     "physical_http_calls": 0,
