@@ -1,0 +1,36 @@
+{
+  "schema": "natural_program_delivery_protocol_v2",
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "status": "FROZEN_BEFORE_DELIVERY_POLICY_ANALYSIS",
+  "answer_source": "frozen natural-program generation results",
+  "deployment_features": [
+    "interface_valid",
+    "program_executable",
+    "refs_valid",
+    "program_shape"
+  ],
+  "hidden_reference_use": "final offline correctness only; never a policy feature",
+  "policies": {
+    "all_applicable_pass": "accept only when interface, refs and executable program checks all pass",
+    "risk_logistic": "logistic model on deployment features fitted only on dev; threshold selected on dev",
+    "always_unknown": "degenerate zero-acceptance control"
+  },
+  "threshold_selection": {
+    "grid": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95],
+    "constraint": "conditional wrong-delivery rate no more than strong-rule dev rate plus 0.01",
+    "objective": "maximize dev correct-delivery coverage",
+    "minimum_accepted_for_fit": 5,
+    "failure_behavior": "fail closed; no answer_correct fallback"
+  },
+  "metrics": [
+    "conditional wrong-delivery rate",
+    "overall wrong-delivery rate",
+    "correct-delivery coverage",
+    "acceptance rate",
+    "retention or clarification rate",
+    "prompt/completion tokens and latency"
+  ],
+  "slices": ["test", "external"],
+  "decision_rule": "continue policy research only if risk_logistic Pareto-improves coverage or cost at no more than +1pp conditional wrong delivery versus all_applicable_pass; otherwise stop complex policy"
+}
