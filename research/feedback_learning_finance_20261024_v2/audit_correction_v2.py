@@ -15,6 +15,7 @@ from deployable_tool_contract_v2 import (
     all_deployable_checks_pass,
     deployable_features,
     execute_program,
+    extract_visible_table_from_prompt,
     extract_legacy_target,
     parse_task_contract,
 )
@@ -87,7 +88,7 @@ def score_instance(
     target = extract_legacy_target(generation["generated_text"])
     expected = instance["expected"]
     question = instance["question"]
-    table_text = instance["table_text"]
+    table_text = extract_visible_table_from_prompt(instance["prompt"])
     contract = parse_task_contract(question)
     direct_value = numeric_answer(target.get("answer")) if target else None
     direct_correct = direct_value is not None and close(direct_value, float(expected["answer"]))
@@ -115,6 +116,10 @@ def score_instance(
         "reference_unit": expected["unit"],
         "requested_unit": contract.requested_unit,
         "expected_answer": float(expected["answer"]),
+        "prompt_table_sha256": hashlib.sha256(table_text.encode("utf-8")).hexdigest(),
+        "cached_instance_table_sha256": hashlib.sha256(
+            instance["table_text"].encode("utf-8")
+        ).hexdigest(),
         "direct_value": direct_value,
         "direct_correct": direct_correct,
         "legacy_formula_value": legacy_formula,

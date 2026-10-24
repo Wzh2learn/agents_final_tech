@@ -100,6 +100,16 @@ def parse_visible_table(table_text: str) -> dict[str, VisibleCell]:
     return cells
 
 
+def extract_visible_table_from_prompt(prompt: str) -> str:
+    """Extract the exact table block that was visible in a generated prompt."""
+    if "\n\nQuestion:" not in prompt:
+        raise ValueError("question_boundary_not_found")
+    before_question = prompt.split("\n\nQuestion:", 1)[0]
+    if "\n\n" not in before_question:
+        raise ValueError("table_boundary_not_found")
+    return before_question.split("\n\n", 1)[1]
+
+
 def parse_task_contract(question: str) -> TaskContract:
     """Reconstruct the public task contract from the visible question."""
     scope_match = re.search(r"Scope:\s*(.*?)\.\s+From\s+(.*?)\s+to\s+(.*?),", question)

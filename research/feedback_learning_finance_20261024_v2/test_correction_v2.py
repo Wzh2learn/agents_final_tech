@@ -9,6 +9,7 @@ from deployable_tool_contract_v2 import (
     all_deployable_checks_pass,
     deployable_features,
     execute_program,
+    extract_visible_table_from_prompt,
 )
 from delivery_policy_v2 import acceptance_metrics, fit_logistic_risk_policy
 
@@ -72,6 +73,17 @@ def test_hidden_reference_cannot_change_deployable_features() -> None:
     assert features_a == features_b
     assert all_deployable_checks_pass(features_a)
     assert expected_a != expected_b
+
+
+def test_prompt_table_extraction_preserves_variant_values() -> None:
+    changed = TABLE.replace("C1=110", "C1=111")
+    prompt = (
+        "Use only the visible table excerpt.\n\n"
+        + changed
+        + "\n\nQuestion: "
+        + QUESTION
+    )
+    assert extract_visible_table_from_prompt(prompt) == changed
 
 
 def test_acceptance_and_retention_are_separate() -> None:
