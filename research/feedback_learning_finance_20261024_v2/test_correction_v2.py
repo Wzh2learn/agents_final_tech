@@ -114,7 +114,7 @@ def test_risk_fit_failure_is_not_gold_fallback() -> None:
 
 def test_transparent_row_year_calculator_and_failure_taxonomy() -> None:
     candidate = transparent_candidate(QUESTION, TABLE)
-    assert candidate["evidence_refs"] == ["R1:C1", "R1:C2"]
+    assert candidate["evidence_refs"] == ["R1:C2", "R1:C1"]
     instance = {
         "instance_id": "i1",
         "source_task_id": "t1",
