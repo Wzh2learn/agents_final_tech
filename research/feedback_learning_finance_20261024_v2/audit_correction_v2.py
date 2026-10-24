@@ -391,6 +391,15 @@ def main() -> int:
     output = {
         "schema": "financial_feedback_corrected_metrics_v2",
         "date": "2026-10-24",
+        "scorer_version": "financial_feedback_corrected_scorer_v2",
+        "lineage": {
+            "old_cached_scores": "preserved in generation_results.jsonl and old RESULT_SUMMARY.json",
+            "new_scores": "derived from raw generated_text and each prompt-visible variant table",
+            "variant_table_cache_correction": (
+                "evaluation_instances.jsonl cached original table_text for all variants; "
+                "v2 extracts the exact table block from each prompt"
+            ),
+        },
         "evidence_identity": "POST_HOC_CORRECTED_RECOMPUTE_NOT_PREREGISTERED_DEPLOYMENT_SUCCESS",
         "raw_sha256": file_hash(args.run_root / "generation_results.jsonl"),
         "evaluation_instances_sha256": file_hash(
@@ -398,6 +407,18 @@ def main() -> int:
         ),
         "strict_delivery_note": "No legacy output satisfies the strict v2 deployment contract; recovered legacy targets remain diagnostics.",
         "task_composition": task_composition(scored),
+        "variant_table_cache_mismatch_instances": sum(
+            row["prompt_table_sha256"] != row["cached_instance_table_sha256"]
+            for row in scored
+        ),
+        "percent_change_reference_unit_mismatch_tasks": len(
+            {
+                row["source_task_id"]
+                for row in scored
+                if row["operator"] == "percent_change"
+                and row["reference_unit"] != "percent"
+            }
+        ),
         "metrics": aggregate_metrics(scored),
         "training_totals": training_summary["totals"],
         "new_model_calls": 0,
