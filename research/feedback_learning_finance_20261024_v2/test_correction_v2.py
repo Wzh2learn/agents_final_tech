@@ -12,6 +12,11 @@ from deployable_tool_contract_v2 import (
     extract_visible_table_from_prompt,
 )
 from delivery_policy_v2 import acceptance_metrics, fit_logistic_risk_policy
+from common_contract_evaluation_v2 import (
+    classify_failure,
+    evaluate_candidate,
+    transparent_candidate,
+)
 
 
 QUESTION = (
@@ -105,4 +110,37 @@ def test_risk_fit_failure_is_not_gold_fallback() -> None:
     assert fit.available is False
     assert fit.threshold is None
     assert "single_class_outcome" in fit.error
+
+
+def test_transparent_row_year_calculator_and_failure_taxonomy() -> None:
+    candidate = transparent_candidate(QUESTION, TABLE)
+    assert candidate["evidence_refs"] == ["R1:C1", "R1:C2"]
+    instance = {
+        "instance_id": "i1",
+        "source_task_id": "t1",
+        "table_uid": "u1",
+        "slice": "dev",
+        "variant": "original",
+        "question": QUESTION,
+        "prompt": "Use only the visible table excerpt.\n\n" + TABLE + "\n\nQuestion: " + QUESTION,
+        "table_text": TABLE,
+        "expected": {"answer": 10, "unit": "reported"},
+    }
+    scored = evaluate_candidate(instance, candidate)
+    assert scored["tool_correct"] is True
+    assert scored["deployment_correct"] is True
+    assert scored["failure"] == "none"
+    assert classify_failure(
+        {
+            "contract_parseable": True,
+            "candidate_parseable": True,
+            "refs_unique": True,
+            "refs_valid": False,
+            "scope_match": False,
+            "period_match": False,
+            "operator_match": False,
+            "unit_match": False,
+            "tool_executable": False,
+        }
+    ) == "evidence_ref_binding"
 
