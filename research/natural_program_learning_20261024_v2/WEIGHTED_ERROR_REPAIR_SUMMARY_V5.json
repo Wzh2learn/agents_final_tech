@@ -1,0 +1,94 @@
+{
+  "confirmation_tasks": 24,
+  "error_pool_tasks": 48,
+  "generation": {
+    "ordinary_answer_execution_sft": {
+      "attempts": 72,
+      "completion_tokens": 3512,
+      "prompt_tokens": 28923,
+      "wall_seconds": 82.50245523452759
+    },
+    "uniform_mixed_control_sft": {
+      "attempts": 72,
+      "completion_tokens": 5272,
+      "prompt_tokens": 28923,
+      "wall_seconds": 57.136006116867065
+    },
+    "weighted_error_repair_sft": {
+      "attempts": 72,
+      "completion_tokens": 5600,
+      "prompt_tokens": 28923,
+      "wall_seconds": 61.26979184150696
+    }
+  },
+  "identity": "DIVERSITY_PRESERVING_NATURAL_ERROR_FEEDBACK_WITH_UNIFORM_CONTROL",
+  "metrics": {
+    "ordinary_answer_execution_sft": {
+      "irrelevant_rate": 0.75,
+      "original_rate": 0.7916666666666666,
+      "paired_rate": 0.7083333333333334,
+      "relevant_rate": 0.75,
+      "tasks": 24
+    },
+    "uniform_mixed_control_sft": {
+      "irrelevant_rate": 0.6666666666666666,
+      "original_rate": 0.7083333333333334,
+      "paired_rate": 0.5833333333333334,
+      "relevant_rate": 0.5833333333333334,
+      "tasks": 24
+    },
+    "weighted_error_repair_sft": {
+      "irrelevant_rate": 0.5833333333333334,
+      "original_rate": 0.75,
+      "paired_rate": 0.5,
+      "relevant_rate": 0.5416666666666666,
+      "tasks": 24
+    }
+  },
+  "natural_error_tasks": 9,
+  "new_judge_calls": 0,
+  "results_sha256": "456aa2a67a629260177642aabf0c4bf4d3ed3fd89ce7b61d67c7b3e62335e0f6",
+  "schema": "weighted_error_repair_summary_v5",
+  "training": {
+    "uniform_mixed_control_sft": {
+      "adapter_path": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/training/uniform_mixed_control_sft/final_adapter",
+      "arm": "uniform_mixed_control_sft",
+      "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+      "rows": 256,
+      "schema": "natural_program_training_receipt_v2",
+      "train_metrics": {
+        "entropy": 0.4008511155843735,
+        "epoch": 2.0,
+        "mean_token_accuracy": 0.8887773503859838,
+        "num_tokens": 266810.0,
+        "total_flos": 5826186174351360.0,
+        "train_loss": 0.6211271528154612,
+        "train_runtime": 235.6051,
+        "train_samples_per_second": 2.173,
+        "train_steps_per_second": 1.087
+      },
+      "training_runtime_seconds": 235.7402787208557,
+      "unique_tasks": 48
+    },
+    "weighted_error_repair_sft": {
+      "adapter_path": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/training/weighted_error_repair_sft/final_adapter",
+      "arm": "weighted_error_repair_sft",
+      "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+      "rows": 256,
+      "schema": "natural_program_training_receipt_v2",
+      "train_metrics": {
+        "entropy": 0.34234584495425224,
+        "epoch": 2.0,
+        "mean_token_accuracy": 0.8897742430369059,
+        "num_tokens": 263820.0,
+        "total_flos": 5760895155793920.0,
+        "train_loss": 0.5702214306220412,
+        "train_runtime": 231.3089,
+        "train_samples_per_second": 2.213,
+        "train_steps_per_second": 1.107
+      },
+      "training_runtime_seconds": 231.44478702545166,
+      "unique_tasks": 48
+    }
+  }
+}

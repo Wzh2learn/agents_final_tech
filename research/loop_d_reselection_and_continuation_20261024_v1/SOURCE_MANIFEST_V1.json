@@ -1,0 +1,81 @@
+{
+  "schema": "paper_e_route_source_manifest_v1",
+  "retrieved_at": "2026-10-24",
+  "raw_evidence_root": "D:/Documents/Loop_D_assets/paper_e_route_sources_20261024/external_sources",
+  "official_pages": [
+    {
+      "name": "icaart_dates_retry.html",
+      "url": "https://icaart.scitevents.org/ImportantDates.aspx?y=2027",
+      "sha256": "8b56fae9649a8292fbc029f04461eb7ec0feb6abb320a4639c0282928df83576"
+    },
+    {
+      "name": "icaart_guidelines_retry.html",
+      "url": "https://icaart.scitevents.org/Guidelines.aspx?y=2027",
+      "sha256": "a2a64ebbc20d7a41e7addfee8a7b7407a2a644020cbc2e03416a68cc51bf5164"
+    },
+    {
+      "name": "icaart_fees_retry.html",
+      "url": "https://icaart.scitevents.org/RegistrationFees.aspx?y=2027",
+      "sha256": "a1eda7d63b26ba96e09f3032f36346a7f47f8cff32322dd1d4780c394fb59c10"
+    },
+    {
+      "name": "ijcnn_cfp.html",
+      "url": "https://ijcnn.org/2027/authors/call-for-papers",
+      "sha256": "4f870a1d469bd0d0c3332ff2666d6452bf3f219f19dc23588347c31f33ec6960"
+    },
+    {
+      "name": "ijcnn_instructions.html",
+      "url": "https://ijcnn.org/2027/authors/initial-author-instructions",
+      "sha256": "38595953a8a430fda005c6a89b633c6d7349d916475d746ca3acf82a3b1f193e"
+    },
+    {
+      "name": "sncomputer_scope.html",
+      "url": "https://link.springer.com/journal/42979",
+      "sha256": "a852c587ebf6aef52d0bab63a3d8220ae5d73f47260692fd0027332d4ee23dce"
+    },
+    {
+      "name": "sncomputer_publish.html",
+      "url": "https://link.springer.com/journal/42979/how-to-publish-with-us",
+      "sha256": "9ee36551ba8ef8c86c3b5b54aa7c5036881b6c8bcd9ed300f02898da72b9077d"
+    },
+    {
+      "name": "information_home_retry.html",
+      "url": "https://www.mdpi.com/journal/information/about",
+      "sha256": "de7624220187c7c87ade44e3c4cddf9b8c0ee0071e843fc827930dc554677341",
+      "status": "HTTP_403_BODY_PRESERVED"
+    }
+  ],
+  "comparable_works": [
+    {
+      "name": "icaart_metric_2024.html",
+      "doi": "10.1007/978-3-031-87327-0_11",
+      "sha256": "857ff3dae7a8fec24bc4bca4f926fd014833064e8b97f78db5f0964d069a0e09"
+    },
+    {
+      "name": "icaart_bias_2025.html",
+      "doi": "10.1007/978-3-032-25032-2_14",
+      "sha256": "2edaadcde30317cc3a6755862aa56a6f85556d3e1c4095e03f6bbdc18dd477ee"
+    },
+    {
+      "name": "icaart_drift_2024.html",
+      "doi": "10.1007/978-3-031-87327-0_17",
+      "sha256": "6a6a2ca3e96135f6a29db079e80e8949f6997304f7aebf70a3f2f95718cb49dd"
+    },
+    {
+      "name": "sn_lmm_eval.html",
+      "doi": "10.1007/s42979-024-03533-6",
+      "sha256": "bd0ab31508763f70384c175ec49dedb469aa294093ba34a98d98238149d5ffe5"
+    },
+    {
+      "name": "sn_dialogue_eval.html",
+      "doi": "10.1007/s42979-026-04852-6",
+      "sha256": "e46da25631ff0b669aaddc4db85fa55e3dfc5fe0b1772373905c08593eb04420"
+    },
+    {
+      "name": "sn_agent_benchmark.html",
+      "doi": "10.1007/s42979-026-05242-8",
+      "sha256": "41f3a6022d84263906a03f86cd5baf7c61e90dc54ff31072ef243122e4c2ef80"
+    }
+  ],
+  "fulltext_access_note": "Springer citation_pdf_url requests returned HTML access pages rather than PDFs. The failed responses are preserved in the raw evidence root and were not treated as full-text reading."
+}

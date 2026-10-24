@@ -24,11 +24,11 @@
 
 ## Venue
 
-- [x] ICAART official scope, length, double-blind, AI and presentation rules
-      checked on 2026-10-22; live submission system recheck remains before
+- [x] ICAART official scope, length, double-blind, AI, fee and presentation
+      rules rechecked on 2026-10-24; live submission system recheck remains before
       upload.
-- [ ] IEEE Access template conversion completed if selected.
-- [x] One primary and one backup route frozen.
+- [x] ICAART primary and SN Computer Science subscription backup frozen after
+      comparing Information, SN Computer Science, ICAART and IJCNN.
 - [ ] No simultaneous submission.
 
 ## Authors And External Actions

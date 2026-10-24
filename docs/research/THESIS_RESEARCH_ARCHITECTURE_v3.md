@@ -13,8 +13,8 @@
 | 候选贡献 | 现有证据 | 当前判断 | 不得外推 |
 |---|---|---|---|
 | **C1 可信测量 / Paper E** | 两案例、UID 聚类修正、FinRank 合同敏感性与复现缺口 | **成熟，独立受限论文继续投稿** | 通用 Agent 评测理论、两个 benchmark 普遍失败 |
-| **C2 反馈学习** | 首轮六臂、审计更正、自然 TAT-QA 真实训练、prompt-table 重评分、24 个新 table families、成本匹配 paired-stability 训练 | **普通 answer/execution SFT 为强基线；visible filter 与 paired stability 停止** | 反馈监督已普遍改善证据绑定；TAT-QA 新 family 等于跨数据集泛化 |
-| **C3 可靠交付** | 固定计算器、部署可见 all-pass、always-accept/unknown、两组新 family 回放 | **强规则无策略增量；复杂策略停止** | 风险策略已可部署；always-accept 等于低风险；零错误等于零风险 |
+| **C2 反馈学习** | 首轮六臂、审计更正、严格 source-disjoint 确认、paired-stability、两轮自然错误反馈训练与成本匹配对照 | **普通 answer/execution SFT 为强基线；四个具体反馈候选停止** | 反馈监督已普遍改善证据绑定；TAT-QA 新 family 等于跨数据集泛化 |
+| **C3 可靠交付** | 固定计算器、可见语义检查、结构常数修复、两组新 family 回放 | **检查器有部分信号但无安全策略增量；复杂策略停止** | 语义检查已解决可靠交付；always-accept 等于低风险；零错误等于零风险 |
 | **旧 G2/G3/scope 边界** | migration verifier、planner、state card、KEEP/EXPAND、exact cache | **停止/暂停，作为动机、基线与限制** | 任一旧接口自动成为新创新点 |
 | **G4 学位综合** | 中文方法章、结果表、导师一页稿和引用链 | **同步写作** | 未成立方法写成学位创新点 |
 

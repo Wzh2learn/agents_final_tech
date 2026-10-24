@@ -1,0 +1,112 @@
+{
+  "hidden_reference_policy_features": 0,
+  "identity": "VISIBLE_EVIDENCE_ONLY_BOUNDED_STRUCTURAL_DENOMINATOR_REPAIR",
+  "models": {
+    "ordinary_answer_execution_sft": {
+      "policies": {
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.2222222222222222,
+          "correct_delivery_count": 56,
+          "correct_delivery_coverage": 0.7777777777777778,
+          "items": 72,
+          "retained_or_unresolved": 0,
+          "wrong_delivery_count": 16
+        },
+        "executable_rule": {
+          "acceptance_rate": 0.9583333333333334,
+          "accepted": 69,
+          "conditional_wrong_delivery_rate": 0.18840579710144928,
+          "correct_delivery_count": 56,
+          "correct_delivery_coverage": 0.7777777777777778,
+          "items": 72,
+          "retained_or_unresolved": 3,
+          "wrong_delivery_count": 13
+        },
+        "semantic_repair_rule": {
+          "acceptance_rate": 0.5416666666666666,
+          "accepted": 39,
+          "conditional_wrong_delivery_rate": 0.05128205128205128,
+          "correct_delivery_count": 37,
+          "correct_delivery_coverage": 0.5138888888888888,
+          "items": 72,
+          "retained_or_unresolved": 33,
+          "wrong_delivery_count": 2
+        },
+        "semantic_rule": {
+          "acceptance_rate": 0.5416666666666666,
+          "accepted": 39,
+          "conditional_wrong_delivery_rate": 0.05128205128205128,
+          "correct_delivery_count": 37,
+          "correct_delivery_coverage": 0.5138888888888888,
+          "items": 72,
+          "retained_or_unresolved": 33,
+          "wrong_delivery_count": 2
+        }
+      },
+      "repair_counts": {
+        "not_repaired": 72
+      },
+      "semantic_decisions": {
+        "INVALID": 6,
+        "UNRESOLVED": 27,
+        "VALID": 39
+      }
+    },
+    "visible_program_filter_sft": {
+      "policies": {
+        "always_accept": {
+          "acceptance_rate": 1.0,
+          "accepted": 72,
+          "conditional_wrong_delivery_rate": 0.4305555555555556,
+          "correct_delivery_count": 41,
+          "correct_delivery_coverage": 0.5694444444444444,
+          "items": 72,
+          "retained_or_unresolved": 0,
+          "wrong_delivery_count": 31
+        },
+        "executable_rule": {
+          "acceptance_rate": 0.9722222222222222,
+          "accepted": 70,
+          "conditional_wrong_delivery_rate": 0.4142857142857143,
+          "correct_delivery_count": 41,
+          "correct_delivery_coverage": 0.5694444444444444,
+          "items": 72,
+          "retained_or_unresolved": 2,
+          "wrong_delivery_count": 29
+        },
+        "semantic_repair_rule": {
+          "acceptance_rate": 0.5555555555555556,
+          "accepted": 40,
+          "conditional_wrong_delivery_rate": 0.325,
+          "correct_delivery_count": 27,
+          "correct_delivery_coverage": 0.375,
+          "items": 72,
+          "retained_or_unresolved": 32,
+          "wrong_delivery_count": 13
+        },
+        "semantic_rule": {
+          "acceptance_rate": 0.5555555555555556,
+          "accepted": 40,
+          "conditional_wrong_delivery_rate": 0.325,
+          "correct_delivery_count": 27,
+          "correct_delivery_coverage": 0.375,
+          "items": 72,
+          "retained_or_unresolved": 32,
+          "wrong_delivery_count": 13
+        }
+      },
+      "repair_counts": {
+        "not_repaired": 72
+      },
+      "semantic_decisions": {
+        "INVALID": 5,
+        "UNRESOLVED": 27,
+        "VALID": 40
+      }
+    }
+  },
+  "new_model_calls": 0,
+  "schema": "semantic_repair_delivery_v3"
+}

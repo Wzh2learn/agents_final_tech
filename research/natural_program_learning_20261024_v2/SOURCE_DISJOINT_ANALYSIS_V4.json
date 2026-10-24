@@ -1,0 +1,67 @@
+{
+  "identity": "POST_HOC_TASK_CLUSTER_ANALYSIS_OF_FROZEN_SOURCE_DISJOINT_RESULTS",
+  "metrics": {
+    "ordinary_answer_execution_sft": {
+      "irrelevant_invariance_rate": 0.7083333333333334,
+      "original_correct_rate": 0.7916666666666666,
+      "paired_all_three_rate": 0.7083333333333334,
+      "relevant_adaptation_rate": 0.7916666666666666,
+      "tasks": 24
+    },
+    "visible_program_filter_sft": {
+      "irrelevant_invariance_rate": 0.5,
+      "original_correct_rate": 0.5416666666666666,
+      "paired_all_three_rate": 0.5,
+      "relevant_adaptation_rate": 0.5416666666666666,
+      "tasks": 24
+    }
+  },
+  "new_model_calls": 0,
+  "ordinary_minus_visible": {
+    "irrelevant_invariance": {
+      "ci95": [
+        0.0,
+        0.4583333333333333
+      ],
+      "difference": 0.20833333333333334,
+      "left": "ordinary_answer_execution_sft",
+      "metric": "irrelevant_invariance",
+      "right": "visible_program_filter_sft",
+      "table_clusters": 24
+    },
+    "original_correct": {
+      "ci95": [
+        0.0,
+        0.5
+      ],
+      "difference": 0.25,
+      "left": "ordinary_answer_execution_sft",
+      "metric": "original_correct",
+      "right": "visible_program_filter_sft",
+      "table_clusters": 24
+    },
+    "paired_all_three": {
+      "ci95": [
+        0.0,
+        0.4583333333333333
+      ],
+      "difference": 0.20833333333333334,
+      "left": "ordinary_answer_execution_sft",
+      "metric": "paired_all_three",
+      "right": "visible_program_filter_sft",
+      "table_clusters": 24
+    },
+    "relevant_adaptation": {
+      "ci95": [
+        0.0,
+        0.5
+      ],
+      "difference": 0.25,
+      "left": "ordinary_answer_execution_sft",
+      "metric": "relevant_adaptation",
+      "right": "visible_program_filter_sft",
+      "table_clusters": 24
+    }
+  },
+  "schema": "source_disjoint_confirmation_analysis_v4"
+}

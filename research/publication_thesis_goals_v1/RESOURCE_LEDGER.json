@@ -2,21 +2,21 @@
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
   "date": "2026-10-24",
-  "status": "V3_MEASUREMENT_CORRECTED_ORDINARY_BASELINE_CONFIRMED_PAIRED_STABILITY_STOPPED",
+  "status": "V5_SOURCE_DISJOINT_CONFIRMED_NATURAL_ERROR_WEIGHTING_STOPPED_C3_NO_POLICY_GAIN",
   "active_goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
   "accounting_identity_note": "Generation events record generation-only tokens; training_events record training tokens separately. Both are included in new_budget.accounting_tokens_used. V3 post-hoc rescore and delivery replay add zero model calls.",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 2772,
+    "attempts_used": 3396,
     "physical_http_calls": 536,
-    "local_batched_generate_calls": 208,
+    "local_batched_generate_calls": 251,
     "interrupted_individual_generate_calls_upper_bound": 128,
-    "accounting_tokens_used": 7366885,
+    "accounting_tokens_used": 8707353,
     "judge_calls": 113,
-    "training_runs": 10,
-    "training_gpu_seconds": 2191.1090335845947,
-    "training_tokens": 2468752,
+    "training_runs": 14,
+    "training_gpu_seconds": 3117.7787792682647,
+    "training_tokens": 3495424,
     "paid_api_usd": 0,
     "production_memory_writes": 0
   },
@@ -142,6 +142,42 @@
       "judge_calls": 0,
       "raw_result": "research/natural_program_learning_20261024_v2/PAIRED_STABILITY_CONFIRMATION_V3.json",
       "remote_raw": "/home/testuser/wzh/research_runs/paired_stability_v3/stability_confirmation_results_v3.jsonl"
+    },
+    {
+      "id": "SOURCE_DISJOINT_CONFIRMATION_V4",
+      "accounting_attempts": 144,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 10,
+      "accounting_tokens": 67470,
+      "status": "COMPLETE_SOURCE_ROLE_DISJOINT_CONFIRMATION",
+      "model": "Qwen3-4B ordinary and visible-program LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/natural_program_learning_20261024_v2/SOURCE_DISJOINT_SUMMARY_V4.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/source_disjoint_confirmation_v4/source_disjoint_results_v4.jsonl"
+    },
+    {
+      "id": "NATURAL_ERROR_REPAIR_GENERATION_V4",
+      "accounting_attempts": 264,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 18,
+      "accounting_tokens": 145173,
+      "status": "COMPLETE_NATURAL_ERROR_COLLECTION_AND_CONFIRMATION_NEGATIVE",
+      "model": "Qwen3-4B ordinary plus narrow natural-error and random-control LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/natural_program_learning_20261024_v2/NATURAL_ERROR_REPAIR_SUMMARY_V4.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/natural_error_repair_v4/error_repair_confirmation_results_v4.jsonl"
+    },
+    {
+      "id": "WEIGHTED_ERROR_REPAIR_GENERATION_V5",
+      "accounting_attempts": 216,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 15,
+      "accounting_tokens": 101153,
+      "status": "COMPLETE_DIVERSITY_PRESERVING_CONFIRMATION_NEGATIVE",
+      "model": "Qwen3-4B ordinary, weighted-error and uniform-mixed LoRA adapters",
+      "judge_calls": 0,
+      "raw_result": "research/natural_program_learning_20261024_v2/WEIGHTED_ERROR_REPAIR_SUMMARY_V5.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/weighted_confirmation_results_v5.jsonl"
     }
   ],
   "training_events": [
@@ -190,6 +226,34 @@
       "status": "COMPLETE_COST_MATCHED_NEGATIVE_COMPARISON",
       "result": "paired variant supervision has zero paired-completion gain and slightly lower reference stability; candidate stopped",
       "receipt": "research/natural_program_learning_20261024_v2/V3_RESOURCE_RECEIPT.json"
+    },
+    {
+      "id": "NATURAL_ERROR_REPAIR_LORA_SFT_V4",
+      "arms": [
+        "natural_error_repair_sft",
+        "random_additional_sft"
+      ],
+      "training_runs": 2,
+      "training_rows": 512,
+      "training_tokens": 496042,
+      "training_gpu_seconds": 459.48467993736267,
+      "status": "COMPLETE_NEGATIVE_NARROW_TASK_OVERFIT",
+      "result": "both arms used only 9 unique tasks and fell far below the 512-task ordinary baseline; targeted error selection showed no deployable gain",
+      "receipt": "research/natural_program_learning_20261024_v2/NATURAL_ERROR_REPAIR_SUMMARY_V4.json"
+    },
+    {
+      "id": "WEIGHTED_ERROR_REPAIR_LORA_SFT_V5",
+      "arms": [
+        "weighted_error_repair_sft",
+        "uniform_mixed_control_sft"
+      ],
+      "training_runs": 2,
+      "training_rows": 512,
+      "training_tokens": 530630,
+      "training_gpu_seconds": 467.18506574630736,
+      "status": "COMPLETE_NEGATIVE_DIVERSITY_PRESERVING_COMPARISON",
+      "result": "weighted error feedback paired completion 50.0% versus uniform mixed 58.3% and ordinary 70.8%; specific candidate stopped",
+      "receipt": "research/natural_program_learning_20261024_v2/WEIGHTED_ERROR_REPAIR_SUMMARY_V5.json"
     }
   ],
   "offline_checks": [

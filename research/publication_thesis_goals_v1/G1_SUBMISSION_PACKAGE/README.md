@@ -1,20 +1,23 @@
 # Paper E Submission Package Status
 
-Date: 2026-10-22, Asia/Shanghai
+Date: 2026-10-24, Asia/Shanghai
 
 Status: `INTERNAL_PACKAGE_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
 
 ## Recommended Route
 
-Primary: ICAART 2027 Regular Paper, conditional on the owner approving the
-route and the actual submission system accepting the package before
-2026-10-29 AoE.
+Primary: ICAART 2027 Regular Paper, selected after a bounded comparison of
+Information, SN Computer Science, ICAART and IJCNN. The current second-stage
+deadline is 2026-10-29 AoE and must be rechecked in the live system before
+upload.
 
-Backup: IEEE Access, conditional on Owner approving the US$2,160 APC and
-accepting IEEE Early Access/DOI as the publication credential.
+Sequential backup: SN Computer Science subscription publishing after a
+terminal ICAART decision. The journal reports a 96-day median first decision,
+which is not an acceptance or publication guarantee.
 
-Cost-controlled tertiary route: SN Computer Science subscription publishing
-after acceptance.
+IJCNN 2027 and Information remain documented alternatives only. IJCNN needs
+IEEE compression or paid extra pages and pre-recorded remote presentation;
+Information has a reported CHF 1,800 APC plus possible taxes.
 
 ## Package Contents
 
@@ -48,7 +51,8 @@ after acceptance.
 
 ## Owner Actions Before Submission
 
-1. Confirm ICAART as the primary route or authorize the IEEE Access backup.
+1. Confirm ICAART as the primary route and SN Computer Science as the
+   sequential backup.
 2. Confirm author order and affiliations, with the applicant first and BUPT
    first in the affiliation list.
 3. Approve the AI-use disclosure text and confirm the selected venue's exact

@@ -8,9 +8,11 @@ Updated: 2026-10-24
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-RESEARCH-GOAL | `VISIBLE_BINDING_CHECKER_CONFIRMATION` | [V3 回执](../research/natural_program_learning_20261024_v2/METHOD_RESEARCH_RETURN_V3.md)已否定 visible filter 与 paired stability；下一步唯一动作是冻结部署可见行/列角色绑定检查器，在与两组确认表族不相交的新 family 上验证，不再扩 TAT-QA 同机制 |
-| C2-FEEDBACK-LEARNING | `ORDINARY_BASELINE_CONFIRMED_TWO_CANDIDATES_STOPPED` | stale-table 评分更正后，普通 SFT 在 24 个新 table families 上 paired completion 87.5%，visible filter 50.0%；paired stability 83.3% 且不优于普通/重复控制 |
-| C3-DELIVERY-POLICY | `NO_POLICY_INCREMENT_STOP_COMPLEX_POLICY` | 普通 SFT 新 family 强规则 68/72 正确、4/72 错误；强规则等于 always-accept，确认集无独立 dev 阈值，不拟合策略 |
+| NEXT-RESEARCH-GOAL | `ORDINARY_CONTINUATION_WITH_REHEARSAL` | [V5 回执](../research/loop_d_reselection_and_continuation_20261024_v1/RESEARCH_CONTINUATION_RETURN.md)显示纯错误加权会损伤通用能力；下一步从 ordinary checkpoint 继续，加入通用任务 rehearsal 和少量自然错误修复，在新 source-disjoint family 上确认 |
+| C2-FEEDBACK-LEARNING | `ORDINARY_BASELINE_CONFIRMED_FOUR_CANDIDATES_STOPPED` | source-disjoint ordinary paired 70.8%、visible 50.0%；第一轮 error repair 因 9 个唯一任务过拟合，第二轮 weighted 50.0% 仍低于 uniform 58.3% 与 ordinary 70.8% |
+| C3-DELIVERY-POLICY | `SEMANTIC_CHECK_SIGNAL_NO_POLICY_GAIN` | ordinary source-disjoint 为 56/72 正确、16/72 错误；语义规则降低部分错误但损失正确覆盖，结构除数修复无适用案例，复杂策略停止 |
+| PAPER-E-ROUTE | `ICAART_PRIMARY_SNCS_SEQUENTIAL_BACKUP` | [路线决策](../research/loop_d_reselection_and_continuation_20261024_v1/PAPER_E_ROUTE_DECISION.md)比较 Information、SN Computer Science、ICAART、IJCNN；外部提交仍待 Owner |
+| THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
 | REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
 | G2-STATE-ACTION | `CONTINUE_RQ_U_DEVELOPMENT_ONLY` | fact 2/8→3/8、action 均 1/8，但实际 bundle 丢失充分新事实；先做 sufficient-facts 对 extracted-facts 的信息等量比较 |

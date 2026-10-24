@@ -1,12 +1,14 @@
 # Paper E Owner Submission Decisions
 
-Date: 2026-10-23, Asia/Shanghai
+Date: 2026-10-24, Asia/Shanghai
 
 Status: `INTERNAL_PACKAGE_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
 
 ## Current Package
 
-- Primary route: ICAART 2027 Regular Paper.
+- Primary route: ICAART 2027 Regular Paper after bounded reselection.
+- Sequential backup: SN Computer Science subscription route after a terminal
+  ICAART decision.
 - Official second-stage Regular/Position deadline checked on 2026-10-23:
   2026-10-29 AoE (the official page marks this date as extended). Notification:
   2026-12-04. Camera-ready and registration: 2026-12-18. Recheck the official
@@ -32,8 +34,8 @@ Status: `INTERNAL_PACKAGE_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
 
 ## Required Owner Decisions
 
-1. Approve ICAART as the primary submission route and confirm no simultaneous
-   submission.
+1. Approve ICAART as the primary submission route, SN Computer Science as the
+   sequential backup, and confirm no simultaneous submission.
 2. Confirm author order, applicant first author, BUPT first affiliation,
    corresponding author, ORCID and contact details.
 3. Confirm patent status and whether the manuscript mentions any restricted

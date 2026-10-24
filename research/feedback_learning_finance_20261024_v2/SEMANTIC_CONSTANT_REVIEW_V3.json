@@ -1,0 +1,701 @@
+{
+  "audit_identity": "INDEPENDENT_READ_ONLY_POST_HOC_V3_AUDIT",
+  "cases": [
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R4:C3",
+          "row_id": "R4",
+          "row_label": "Risk-free interest rate",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average dividend yield in 2017 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_external_00a5764e_a3e21403"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R4:C3",
+          "row_id": "R4",
+          "row_label": "Risk-free interest rate",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average expected volatility in 2017 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_external_00a5764e_d3f04ae4"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "Year Ended December 31,",
+          "ref": "R8:C1",
+          "row_id": "R8",
+          "row_label": "Other, net",
+          "value": 3
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Research and development funding?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_external_2cf767c9_a3ea64bc"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "% Change",
+          "ref": "R4:C4",
+          "row_id": "R4",
+          "row_label": "therein: service business",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average orders for 2019 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_external_5f71e969_ce61f92d"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C6",
+          "column_label": "",
+          "ref": "R5:C6",
+          "row_id": "R5",
+          "row_label": "",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the company's average revenue from software license between 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_external_9b0abd12_55a6f613"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C6",
+          "column_label": "",
+          "ref": "R5:C6",
+          "row_id": "R5",
+          "row_label": "",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the company's average revenue from cloud between 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_external_9b0abd12_d3dc2462"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "% Change",
+          "ref": "R6:C4",
+          "row_id": "R6",
+          "row_label": "Asia, Australia",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average orders in the Americas region in 2019 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_0463ccd0_915e3756"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R3:C3",
+          "row_id": "R3",
+          "row_label": "General and administrative (1)",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average general and administrative expenses for 2019 and 2018? ",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_0aece1bd_c7f0d6e8"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R4:C3",
+          "row_id": "R4",
+          "row_label": "Other costs",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average Total administrative expenses in 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_34f8f8ac_359d7af2"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Year Ended",
+          "ref": "R6:C2",
+          "row_id": "R6",
+          "row_label": "Dividend yield",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average Expected volatility in 2018 and 2017?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_488ce255_6887fe10"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Fair Value of",
+          "ref": "R9:C2",
+          "row_id": "R9",
+          "row_label": "",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average gross national amount of non-designated currency hedges from 2018 to 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_4909b9d3_85943802"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "2018 €m",
+          "ref": "R2:C2",
+          "row_id": "R2",
+          "row_label": "Past service costs1",
+          "value": 2
+        }
+      ],
+      "impact": "EXCLUDE_OR_MANUAL_REVIEW_SUPERVISION",
+      "in_training": true,
+      "label": "UNRESOLVED_REFERENCE_QUESTION_MISMATCH",
+      "question": "What is the 2018 average actuarial losses recognised in the SOCI ?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_6082d8ef_0406a1e3"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "2018 €m",
+          "ref": "R2:C2",
+          "row_id": "R2",
+          "row_label": "Past service costs1",
+          "value": 2
+        }
+      ],
+      "impact": "EXCLUDE_OR_MANUAL_REVIEW_SUPERVISION",
+      "in_training": true,
+      "label": "UNRESOLVED_REFERENCE_QUESTION_MISMATCH",
+      "question": "What is the 2019 average actuarial losses recognised in the SOCI ?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_6082d8ef_c9439fef"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "2019",
+          "ref": "R4:C1",
+          "row_id": "R4",
+          "row_label": "Russia",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average revenue from Singapore in 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_7ad3efb4_2a5ae7fc"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R3:C3",
+          "row_id": "R3",
+          "row_label": "Software",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Sales Mix of Hardware for 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_81ce4fa5_e578e705"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "Year ended December 31, 2019",
+          "ref": "R6:C1",
+          "row_id": "R6",
+          "row_label": "Other, net",
+          "value": 3
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Research and development funding?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_895688b5_b2936c2e"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C5",
+          "column_label": "Foreign exchange impact (3)",
+          "ref": "R4:C5",
+          "row_id": "R4",
+          "row_label": "Inter-segment eliminations and other",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average American broadband services from 2018 to 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_91d5f3d0_00ccc4fb"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C5",
+          "column_label": "Foreign exchange impact (3)",
+          "ref": "R4:C5",
+          "row_id": "R4",
+          "row_label": "Inter-segment eliminations and other",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average Canadian broadband services?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_91d5f3d0_fea84f71"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "",
+          "ref": "R5:C4",
+          "row_id": "R5",
+          "row_label": "Adjusteda operating costs",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average Adjusted EBITDA for 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_9dc0bd9b_6a612e23"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "",
+          "ref": "R5:C4",
+          "row_id": "R5",
+          "row_label": "Adjusteda operating costs",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Adjusteda operating costs for 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_9dc0bd9b_fba4ae47"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Estimated",
+          "ref": "R7:C2",
+          "row_id": "R7",
+          "row_label": "Customer relationships",
+          "value": 5
+        }
+      ],
+      "impact": "NO_REFERENCE_CHANGE",
+      "in_training": true,
+      "label": "LEGAL_FINANCIAL_DENOMINATOR",
+      "question": "What is the average estimated fair value of Customer relationships?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_b071f972_be999ad3"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C5",
+          "column_label": "",
+          "ref": "R3:C5",
+          "row_id": "R3",
+          "row_label": "Gross profit",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Gross margin (as percentage of net revenues) for the period December 31, 2019 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_b0a0c69e_a9ad3e13"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R16:C3",
+          "row_id": "R16",
+          "row_label": "Corporate",
+          "value": 3
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average EBITDA Margin for years 2017-2019 for the whole company?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_b313dadb_2b691cd3"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Estimated Useful Life",
+          "ref": "R4:C2",
+          "row_id": "R4",
+          "row_label": "Core/developed technology",
+          "value": 3
+        }
+      ],
+      "impact": "NO_REFERENCE_CHANGE",
+      "in_training": false,
+      "label": "LEGAL_FINANCIAL_DENOMINATOR",
+      "question": "What is the average estimated fair value of Core/developed technology?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_b3b0041d_e8a759be"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "% Change",
+          "ref": "R4:C4",
+          "row_id": "R4",
+          "row_label": "therein: product business",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average orders for 2019 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_c4151bbb_c1b952b2"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "",
+          "ref": "R9:C1",
+          "row_id": "R9",
+          "row_label": "Liabilities associated with assets classified as held for disposal",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What were the average trade payables in 2019 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_cf60adbb_dec3be29"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "December 31,",
+          "ref": "R6:C1",
+          "row_id": "R6",
+          "row_label": "Other-net",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Net deferred tax liabilities for December 31, 2018 to 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_d278c08b_b57b93ac"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Fiscal 2018",
+          "ref": "R6:C2",
+          "row_id": "R6",
+          "row_label": "All Other Fees",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average total auditor service fees for 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_d4e4d06c_30e88b50"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Fiscal 2018",
+          "ref": "R6:C2",
+          "row_id": "R6",
+          "row_label": "All Other Fees",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average audit fees for 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_d4e4d06c_644af49d"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "",
+          "ref": "R6:C3",
+          "row_id": "R6",
+          "row_label": "Dividends paid and proposed and share buybacks (see notes 26 and 27 to the consolidated financial statements)",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average operating profit in 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_e12596e7_233ec8b6"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Unrealized Gain (Loss) On Available- For-Sale Securities",
+          "ref": "R5:C2",
+          "row_id": "R5",
+          "row_label": "Other comprehensive income (loss) before reclassifications",
+          "value": 3
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average balance as of the end of fiscal years 2017, 2018 and 2019 for Total AOCI?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_e3794815_62d3489a"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "",
+          "ref": "R14:C4",
+          "row_id": "R14",
+          "row_label": "Recoveries",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Recorded investment of Loan receivables for Americas and EMEA for December 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_eb161ea7_6b008a72"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C2",
+          "column_label": "Estimated Useful Life",
+          "ref": "R4:C2",
+          "row_id": "R4",
+          "row_label": "Customer relationships",
+          "value": 7
+        }
+      ],
+      "impact": "NO_REFERENCE_CHANGE",
+      "in_training": false,
+      "label": "LEGAL_FINANCIAL_DENOMINATOR",
+      "question": "What is the average estimated fair value of Customer relationships?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_f0f7e36a_b4256ee9"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C4",
+          "column_label": "",
+          "ref": "R9:C4",
+          "row_id": "R9",
+          "row_label": "Capital expenditure",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Adjusted a operating costs for 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_f1317910_df504200"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "2019",
+          "ref": "R5:C1",
+          "row_id": "R5",
+          "row_label": "Officer life insurance",
+          "value": 3
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average indefinite life assets for 2017-2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_f3bb2fbf_989ad72b"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "2019",
+          "ref": "R5:C1",
+          "row_id": "R5",
+          "row_label": "Officer life insurance",
+          "value": 3
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average Change in valuation allowance for 2017-2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_f3bb2fbf_c3a2de3e"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C1",
+          "column_label": "",
+          "ref": "R10:C1",
+          "row_id": "R10",
+          "row_label": "As percentage of net revenues",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_ONLY",
+      "in_training": false,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What is the average Other income and expenses, net for the period December 31, 2019 and 2018?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_f6ed3a85_1e19b554"
+    },
+    {
+      "denominator_cells": [
+        {
+          "column_id": "C3",
+          "column_label": "Variance",
+          "ref": "R4:C3",
+          "row_id": "R4",
+          "row_label": "Corporate and Other (1)",
+          "value": 2
+        }
+      ],
+      "impact": "CORRECT_REFERENCE_AND_REVIEW_TRAINING_SUPERVISION",
+      "in_training": true,
+      "label": "STRUCTURAL_CONSTANT_MISBOUND",
+      "question": "What was the average total revenue between 2018 and 2019?",
+      "review_identity": "DETERMINISTIC_RULE_PLUS_MANUAL_REVIEW_REQUIRED_FOR_UNRESOLVED",
+      "task_id": "NAT_train_f8d64804_1d1dc5a8"
+    }
+  ],
+  "counts": {
+    "LEGAL_FINANCIAL_DENOMINATOR": 3,
+    "STRUCTURAL_CONSTANT_MISBOUND": 33,
+    "UNRESOLVED_REFERENCE_QUESTION_MISMATCH": 2
+  },
+  "in_training_counts": {
+    "LEGAL_FINANCIAL_DENOMINATOR": 1,
+    "STRUCTURAL_CONSTANT_MISBOUND": 8,
+    "UNRESOLVED_REFERENCE_QUESTION_MISMATCH": 2
+  },
+  "rule_boundary": "explicit average counts and semantic label overlap are evidence; numeric equality alone is not",
+  "schema": "semantic_constant_review_v3"
+}
