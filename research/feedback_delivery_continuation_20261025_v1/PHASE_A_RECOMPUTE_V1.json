@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-26",
+  "diagnostic": {
+    "controls": {
+      "attempts": 4,
+      "safe_adapter_applied": 2,
+      "semantic_changed_by_old_vs_recompute": 0,
+      "strict_raw_valid": 2,
+      "target_exact": 4
+    },
+    "mechanism": {
+      "category_feedback": {
+        "all_target_exact_historical": 0,
+        "attempts": 2,
+        "eligible_target_exact": 0,
+        "eligible_visible_repair_cases": 1,
+        "embedded_format_valid": 2,
+        "ineligible_scale_unobservable_cases": 1,
+        "strict_format_valid": 2
+      },
+      "localization_feedback": {
+        "all_target_exact_historical": 0,
+        "attempts": 2,
+        "eligible_target_exact": 0,
+        "eligible_visible_repair_cases": 1,
+        "embedded_format_valid": 2,
+        "ineligible_scale_unobservable_cases": 1,
+        "strict_format_valid": 2
+      },
+      "neutral_revision": {
+        "all_target_exact_historical": 0,
+        "attempts": 2,
+        "eligible_target_exact": 0,
+        "eligible_visible_repair_cases": 1,
+        "embedded_format_valid": 2,
+        "ineligible_scale_unobservable_cases": 1,
+        "strict_format_valid": 0
+      }
+    },
+    "target_exact_by_condition": {
+      "category_feedback:False": 2,
+      "localization_feedback:False": 2,
+      "neutral_revision:False": 2
+    }
+  },
+  "generation_attempts": 0,
+  "ledger": {
+    "action": "PRESERVE_STATED_CONSERVATIVE_TOTAL_AND_DO_NOT_RELEASE_340_TOKENS",
+    "attempts": 4064,
+    "cause_status": "UNRESOLVED_NO_UNIQUE_MISSING_EVENT_IDENTIFIED",
+    "difference": 340,
+    "event_count": 35,
+    "generation_tokens": 5673908,
+    "recomputed_total": 9169332,
+    "stated_total": 9169672,
+    "training_tokens": 3495424
+  },
+  "raw_and_old_scores_preserved": true,
+  "safe_adapter_counterexample": {
+    "actions": [],
+    "after": "{\"program\":{\"const\":1)0},\"evidence_refs\":[],\"unit\":\"million\"}",
+    "applied": false,
+    "before": "{\"program\":{\"const\":1)0},\"evidence_refs\":[],\"unit\":\"million\"}",
+    "semantic_corruption_prevented": true
+  },
+  "schema": "loop_d_phase_a_recompute_v1",
+  "training_runs": 0
+}

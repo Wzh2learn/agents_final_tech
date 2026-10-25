@@ -2,6 +2,8 @@
   "schema": "next_phase_budget_request_v1",
   "date": "2026-10-25",
   "status": "REQUESTED_NOT_AUTHORIZED",
+  "allocation_identity": "UNIFIED_PHASE_A_RECOMMENDATION_SUPERSEDES_PRIOR_ALLOCATION_VARIANTS",
+  "allocation_note": "The 96+108+288+144+36 allocation below is the single recommendation. The earlier 144+216+216+96 split and the unpublished draft are not additive.",
   "old_balance_policy": {
     "remaining_attempts_after_revision_diagnostic": 32,
     "remaining_accounting_tokens_after_revision_diagnostic": 10830328,
@@ -17,35 +19,43 @@
   "blocks": [
     {
       "id": "CORRECTION_SUPERVISION_QUALIFICATION",
-      "generation_attempts": 144,
-      "generation_tokens": 600000,
+      "generation_attempts": 96,
+      "generation_tokens": 360000,
       "training_runs": 0,
       "training_tokens": 0,
       "solves": "Whether strong teacher, deterministic editor, or training-source references can produce feedback-derived, verified, training-qualified correction trajectories and select the direct-solver or repairer deployment contract."
     },
     {
-      "id": "MATCHED_O_R_E_PRIMARY",
-      "generation_attempts": 216,
-      "generation_tokens": 900000,
+      "id": "DEVELOPMENT_O_N_R_E_COMPARISON",
+      "generation_attempts": 108,
+      "generation_tokens": 420000,
       "training_runs": 2,
       "training_tokens": 2000000,
-      "solves": "Whether E beats matched R from the same ordinary checkpoint after controlling task coverage, label source, update count and training tokens. O remains frozen."
+      "solves": "Whether local-edit E beats matched full-program R and neutral N from the same ordinary checkpoint under equal task coverage, visible information, label quality and rehearsal. O remains frozen and reused only when its input contract is unchanged."
     },
     {
       "id": "EXPOSURE_CLEAN_NEW_SOURCE_CONFIRMATION",
-      "generation_attempts": 216,
-      "generation_tokens": 900000,
+      "generation_attempts": 288,
+      "generation_tokens": 1220000,
       "training_runs": 0,
       "training_tokens": 0,
-      "solves": "Whether the surviving method transfers to sources rejected by the pre-generation exposure-union guard as previously unseen. No generation is allowed if overlap is found."
+      "solves": "Whether O/N/R/E retain their ordering on 24 exposure-clean families with three task variants after the pre-generation exposure-union guard returns no overlap. No generation is allowed if overlap is found."
     },
     {
-      "id": "SEED_AND_FAILURE_RESERVE",
-      "generation_attempts": 96,
-      "generation_tokens": 400000,
+      "id": "SECOND_MATCHED_SEED",
+      "generation_attempts": 144,
+      "generation_tokens": 620000,
       "training_runs": 2,
       "training_tokens": 2000000,
-      "solves": "One matched repeat for the winning R/E pair plus bounded interface, teacher or training failures. Unused reserve remains unused."
+      "solves": "One matched repeat for the winning R/E pair on the same frozen protocol and source split. It is reserved before confirmation results are inspected."
+    },
+    {
+      "id": "FAILURE_RESERVE",
+      "generation_attempts": 36,
+      "generation_tokens": 180000,
+      "training_runs": 0,
+      "training_tokens": 0,
+      "solves": "Bounded interface, teacher, source-qualification or accounting failures. Unused reserve remains unused."
     }
   ],
   "decision_after_request": {

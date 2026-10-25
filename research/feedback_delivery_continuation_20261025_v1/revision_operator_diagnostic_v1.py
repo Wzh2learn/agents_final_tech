@@ -65,19 +65,25 @@ def target_from_row(row: dict[str, Any]) -> dict[str, Any] | None:
     return extract_target(str(row.get("generated_text", "")))
 
 
+def strict_target(text: str) -> dict[str, Any] | None:
+    try:
+        value = json.loads(str(text).strip())
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(value, dict):
+        return None
+    if set(value) != {"program", "evidence_refs", "unit"}:
+        return None
+    return value
+
+
 def normalize_generated_text(text: str) -> tuple[str, bool, list[str]]:
     raw = str(text)
-    if extract_target(raw) is not None:
+    if strict_target(raw) is not None:
         return raw, False, []
-    start = raw.find("{")
-    if start < 0:
-        return raw, False, []
-    for index in range(len(raw) - 1, start, -1):
-        if raw[index] != ")":
-            continue
-        candidate = raw[:index] + raw[index + 1:]
-        if extract_target(candidate) is not None:
-            return candidate, True, ["remove_one_close_paren_before_final_json"]
+    candidate = re.sub(r'"\)\}\s*$', '"}', raw)
+    if candidate != raw and strict_target(candidate) is not None:
+        return candidate, True, ["replace_quote_close_paren_brace_tail"]
     return raw, False, []
 
 
@@ -251,7 +257,8 @@ def actual_generation_row(
         "generated_text": generated,
         "raw_generated_text": raw_generated,
         "prompt_tokens": int(inputs["input_ids"].shape[1]),
-        "raw_format_valid": extract_target(raw_generated) is not None,
+        "strict_format_valid": strict_target(generated) is not None,
+        "embedded_format_valid": extract_target(generated) is not None,
         "syntax_adapter_applied": syntax_adapter_applied,
         "syntax_adapter_actions": syntax_actions,
         "actual_completion_tokens": int(actual_end),
@@ -290,7 +297,8 @@ def summarize(rows: list[dict[str, Any]], exposure: dict[str, Any]) -> dict[str,
         metrics[condition] = {
             "attempts": len(subset),
             "format_valid": sum(row["format_valid"] for row in subset),
-            "raw_format_valid": sum(bool(row.get("raw_format_valid")) for row in subset),
+            "strict_format_valid": sum(bool(row.get("strict_format_valid")) for row in subset),
+            "embedded_format_valid": sum(bool(row.get("embedded_format_valid")) for row in subset),
             "syntax_adapter_applied": sum(bool(row.get("syntax_adapter_applied")) for row in subset),
             "numeric_correct": sum(bool(row["program_correct"]) for row in subset),
             "target_exact": sum(bool(row["target_exact"]) for row in subset),

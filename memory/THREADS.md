@@ -1,6 +1,6 @@
 # Open Decisions And Blockers
 
-Updated: 2026-10-25
+Updated: 2026-10-26
 
 当前短状态见 [STATE.md](STATE.md)，科研证据路由见 [Research Entry](../docs/research/README.md)。本表保留真实未决事项；完成或被后续证据更正的历史条目保留原文归档。
 
@@ -8,12 +8,12 @@ Updated: 2026-10-25
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| LOOP-D-REBASELINE-CONFIRMATION | `PREPARED_NOT_DISPATCHED_OR_CONFIRMED` | [唯一现役指令](../docs/research/LOOP_D_RESEARCH_PROMPT.md)只执行A增量治理；等待Owner转发与Loop D回报，再审方案/预算，B不自动启动 |
+| LOOP-D-REBASELINE-CONFIRMATION | `GOVERNANCE_RETURNED_AWAITING_REVIEW` | [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已完成；科研负责人/Owner审阅后再原地切换阶段，B不自动启动 |
 | LEDGER-340 | `UNRECONCILED_KEEP_CONSERVATIVE_TOTAL` | [自审证据](../docs/governance/audit/loop_d_control_review/RECONCILIATION.json)：35个生成/评审事件加5个训练事件复算9,169,332，比聚合9,169,672少340；attempts均4,064；不释放差额、不改旧账 |
 | UNIT-OBSERVABILITY | `MISSING_VISIBLE_SCALE_CONFIRMED_IMPACT_PENDING` | 最新诊断单位题可见prompt没有million/thousand尺度；不能计为可诊断单位纠错失败；核对影响、保留原评分版本 |
 | ADAPTER-SEMANTICS | `COUNTEREXAMPLE_REPRODUCED_FIX_AND_SCOPE_PENDING` | 实际适配函数可将1)0改成10；AST离线反例已复现。须收窄修复合同、raw/适配分报；本轮未改runner或重评分 |
-| NEXT-C2-SUPERVISION | `TEACHER_OR_TOOL_CORRECTIONS_REQUIRED` | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)显示模型能执行 2/2 明确最小编辑，但 neutral/category/localization 均 0/2 目标精确。候选可用教师/工具合格纠正，但先核单位可观测性及适配器；本阶段仅治理，后续实验另审 |
-| NEXT-PHASE-BUDGET | `REQUESTED_NOT_AUTHORIZED_672_ATTEMPTS` | [独立预算](../research/feedback_delivery_continuation_20261025_v1/NEXT_PHASE_BUDGET_REQUEST_V1.json)请求 672 generation attempts、2.8M generation tokens、4 training runs、4.0M training tokens；旧余额仅留核对，不重置或冒充新阶段 |
+| NEXT-C2-SUPERVISION | `TEACHER_OR_TOOL_CORRECTIONS_REQUIRED` | [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)确认单位题不可见、唯一可修引用题仍0/1；教师/工具合格纠正和同起点比较属于阶段 B |
+| NEXT-PHASE-BUDGET | `UNIFIED_REQUEST_NOT_AUTHORIZED_672_ATTEMPTS` | [统一预算](../research/feedback_delivery_continuation_20261025_v1/NEXT_PHASE_BUDGET_REQUEST_V1.json)采用 96+108+288+144+36 唯一分配，总 672 generation attempts、2.8M generation tokens、4 training runs、4.0M training tokens；旧分配不叠加 |
 | C2-FEEDBACK-REPAIR | `SMALL_CONTROLS_WITH_OBSERVABILITY_AND_ADAPTER_CONFOUNDS` | 共同语法适配后 copy 2/2、known edit 2/2；两个开发错误上 neutral/category/localization 均 0/2 目标精确。仅是受限开发观察，不能定位为统一诊断利用机制；未来合格监督研究仍开放 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)是日期化建议，尚非Owner最终批准；动作前核验窗口、展示/认定和合理总费用，路线变化须明确确认，不自动转投 |

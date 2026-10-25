@@ -1,14 +1,14 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据
 
-当前交接为 [唯一现役科研指令](LOOP_D_RESEARCH_PROMPT.md) 的阶段 A：增量确认与后续方案回报。科研负责人已整理入口，**待Owner转发，Loop D尚未确认**；阶段B和672次/4次训练预算未批准。旧Goals已归档，原路径只作跳转。
+当前交接为 [唯一现役科研指令](LOOP_D_RESEARCH_PROMPT.md) 的阶段 A：Owner 已转发，Loop D 已完成治理确认，状态为 `GOVERNANCE_RETURNED_AWAITING_REVIEW`；阶段B和672次/4次训练预算未批准。旧Goals已归档，原路径只作跳转。
 
-此前P0、A、C及20次修订诊断已执行，无需重做全仓盘点。最新单位题缺可见尺度，适配器有把1)0改成10的反例，“诊断信息未转化为编辑”的统一归因尚未分离。raw、旧评分、runner、账本保留；见[自审复核](../governance/audit/loop_d_control_review/RECONCILIATION.json)。C的24/24任务与旧error pool重合，只作开发回放；新同起点O/R/E未训练。
+此前P0、A、C及20次修订诊断已执行，无需重做全仓盘点。Phase A 复算确认单位题缺可见尺度；旧适配器会把`1)0`改成`10`，安全版本只修终端 `\"...)}` 且区分 strict/embedded JSON。唯一可修引用题的三种文本条件仍0/1，不能建立统一因果归因。raw、旧评分、runner、账本保留；见[Phase A 回执](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。C的24/24任务与旧error pool重合，只作开发回放；新同起点O/R/E未训练。
 
 | 用途 | 权威记录 |
 |---|---|
@@ -17,7 +17,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
 | 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：A治理确认，B未启动；旧v1/v2路径仅跳转 |
-| 最新科研回执 | [修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)；[自审复核](../governance/audit/loop_d_control_review/RECONCILIATION.json)限定其解释 |
+| 最新科研回执 | [PHASE_A_RETURN](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)、[修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -32,7 +32,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 | 研究线 | 当前判断与证据 |
 |---|---|
 | C1 测量 / Paper E | `NARROW_AND_CONTINUE_PACKAGE_AUDIT_PASS`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json) |
-| C2 学习 / 证据反馈 | `DIAGNOSIS_CONFOUNDED_NEW_ORE_NOT_TRAINED`。普通SFT是有限面板强基线；具体配方已停止。单位/适配器混淆尚待核清，新方法及跨源优势未成立；本轮先治理 |
+| C2 学习 / 证据反馈 | `PHASE_A_CORRECTED_NEW_ORE_NOT_TRAINED`。单位题不可见、唯一可修引用题0/1；普通SFT仍是有限面板强基线，新方法及跨源优势未成立，阶段B待审 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `CONDITIONAL_ICAART_PRIMARY_SNCS_BACKUP`，12 页包审计、24/24 引用和私有 artifact 完整性通过；未投稿/付款/公开 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |

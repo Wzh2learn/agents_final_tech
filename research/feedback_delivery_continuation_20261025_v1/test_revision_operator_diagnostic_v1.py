@@ -11,6 +11,7 @@ from revision_operator_diagnostic_v1 import (
     diff_target,
     minimal_edit_instruction,
     normalize_generated_text,
+    strict_target,
     standardized_prompt,
 )
 
@@ -47,11 +48,23 @@ class RevisionOperatorDiagnosticTests(unittest.TestCase):
         raw = '{"program":{"const":1},"evidence_refs":[],"unit":"thousand")}'
         normalized, applied, actions = normalize_generated_text(raw)
         self.assertTrue(applied)
-        self.assertEqual(actions, ["remove_one_close_paren_before_final_json"])
+        self.assertEqual(actions, ["replace_quote_close_paren_brace_tail"])
         self.assertEqual(
             normalized,
             '{"program":{"const":1},"evidence_refs":[],"unit":"thousand"}',
         )
+
+    def test_syntax_adapter_does_not_repair_internal_numeric_corruption(self) -> None:
+        raw = '{"program":{"const":1)0},"evidence_refs":[],"unit":"million"}'
+        normalized, applied, actions = normalize_generated_text(raw)
+        self.assertFalse(applied)
+        self.assertEqual(actions, [])
+        self.assertEqual(normalized, raw)
+        self.assertIsNone(strict_target(normalized))
+
+    def test_strict_target_rejects_embedded_json(self) -> None:
+        embedded = 'prefix\n{"program":{"const":1},"evidence_refs":[],"unit":"million"}'
+        self.assertIsNone(strict_target(embedded))
 
 
 if __name__ == "__main__":
