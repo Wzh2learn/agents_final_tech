@@ -1,0 +1,49 @@
+{
+  "schema": "delivery_confirmation_protocol_v1",
+  "identity": "FROZEN_NEW_FAMILIES_FIXED_ORDINARY_MODEL_DELIVERY_CONFIRMATION",
+  "date": "2026-10-25",
+  "source_file": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_source_disjoint_v4.jsonl",
+  "source_file_sha256": "2d53ed2e0733ef90f9860c3d9e613f5b76e8de43360d36e064da6db4d4ba0ace",
+  "upstream_manifest_input_sha256": "f979d86a6920cc4c2827117180082e9b6ac1fca6795dca0d3ccd1d45dff646b6",
+  "selection": {
+    "method": "zero_based_task_order_24_through_47",
+    "families": 24,
+    "variants_per_family": 3,
+    "role": "UNTOUCHED_BY_THIS_FEEDBACK_METHOD_DEVELOPMENT_AT_SELECTION_TIME"
+  },
+  "model": {
+    "base": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "adapter": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+    "decoding": "greedy",
+    "max_new_tokens": 256
+  },
+  "generation_conditions": [
+    "original_frozen",
+    "ordinary_retry",
+    "localization_feedback"
+  ],
+  "delivery_policies": [
+    "always_accept_original",
+    "semantic_gate_original",
+    "always_accept_ordinary_retry",
+    "always_accept_localization_revision",
+    "semantic_gate_localization_revision",
+    "bounded_repair_original_if_valid_else_verified_revision"
+  ],
+  "primary_comparison": "localization_feedback versus ordinary_retry on wrong_to_correct and correct_to_wrong",
+  "delivery_metrics": [
+    "correct_delivery",
+    "wrong_delivery",
+    "abstention",
+    "coverage",
+    "conditional_wrong_rate",
+    "prompt_and_completion_tokens",
+    "family_paired_differences"
+  ],
+  "decision_rule": {
+    "continue_feedback_repair": "Localization must repair at least one initial error without more correct-to-wrong transitions than ordinary retry and must improve the frozen delivery risk-coverage tradeoff.",
+    "stop_current_repair_representation": "No wrong-to-correct gain, or more correct-to-wrong than repaired, or no risk-coverage improvement after accounting for cost.",
+    "boundary": "Twenty-four families support only a bounded confirmation. No significance or general cross-report claim is pre-registered."
+  },
+  "hidden_reference_use": "Evaluation and variant expected values only; no hidden answer, program, or reference set is placed in prompts or policy features."
+}

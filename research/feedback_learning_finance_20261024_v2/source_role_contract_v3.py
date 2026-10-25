@@ -129,15 +129,25 @@ def role_manifest(
 def expected_average_count(question: str, numerator: Any) -> int | None:
     """Infer a structural divisor only from explicit count evidence."""
     text = question.casefold()
-    range_match = re.search(r"\b((?:19|20)\d{2})\s*-\s*((?:19|20)\d{2})\b", text)
+    if not re.search(r"\baverage\b|\bmean\b", text):
+        return None
+    range_match = re.search(
+        r"\bfrom\s+((?:19|20)\d{2})\s+to\s+((?:19|20)\d{2})\b",
+        text,
+    )
     if range_match:
         start, end = map(int, range_match.groups())
+        return end - start + 1 if end >= start else None
+    hyphen_range = re.search(
+        r"\b((?:19|20)\d{2})\s*-\s*((?:19|20)\d{2})\b",
+        text,
+    )
+    if hyphen_range:
+        start, end = map(int, hyphen_range.groups())
         return end - start + 1 if end >= start else None
     years = [int(year) for year in re.findall(r"\b(?:19|20)\d{2}\b", text)]
     if len(years) >= 2:
         return len(set(years))
-    if re.search(r"\bfrom\s+(?:19|20)\d{2}\s+to\s+(?:19|20)\d{2}\b", text):
-        return None
     if re.search(r"\b(?:and|&)\b", text) and re.search(r"\baverage\b|\bmean\b", text):
         return 2
     return None
@@ -161,7 +171,16 @@ def classify_average_denominator(
     numerator: Any = None,
 ) -> str:
     """Classify a small denominator without treating every integer as evidence."""
+    if not re.search(r"\baverage\b|\bmean\b", question, re.I):
+        return "NON_AVERAGE_DENOMINATOR"
     value = denominator.get("const") if "const" in denominator else None
+    if value is not None and denominator_cell is None:
+        expected = expected_average_count(question, denominator)
+        operand_count = additive_leaf_count(numerator)
+        if expected is not None and abs(float(value) - expected) < 1e-9:
+            return "STRUCTURAL_CONSTANT_ALREADY"
+        if operand_count >= 2 and abs(float(value) - operand_count) < 1e-9:
+            return "STRUCTURAL_CONSTANT_ALREADY"
     if value is None and denominator_cell is not None:
         value = denominator_cell.get("value")
     try:

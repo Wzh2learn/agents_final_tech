@@ -46,24 +46,74 @@ def parse_cells(table_text: str) -> dict[str, dict[str, Any]]:
         match.group(1): match.group(2).strip()
         for match in CELL_RE.finditer(lines[0] if lines else "")
     }
-    cells: dict[str, dict[str, Any]] = {}
+    header_rows: list[dict[str, Any]] = []
+    data_lines: list[tuple[str, str, str]] = []
     for line in lines[1:]:
         row_match = ROW_RE.match(line)
         if not row_match:
             continue
         row_id, row_label, body = row_match.groups()
+        raw_values = {
+            match.group(1): match.group(2).strip()
+            for match in CELL_RE.finditer(body)
+        }
+        nonempty = [value for value in raw_values.values() if value]
+        header_like = (
+            not row_label.strip()
+            and nonempty
+            and all(
+                not parse_number(value) is None
+                and re.fullmatch(r"(?:19|20)\d{2}", value.strip()) is not None
+                or re.search(
+                    r"(?i)(?:year|ended|december|note|reported|constant|currency|"
+                    r"million|thousand|usd|€m|£m|in years|%\)|^%$|^n/?a$|fy\d{2})",
+                    value,
+                )
+                for value in nonempty
+            )
+        )
+        if header_like:
+            header_rows.append({"row_id": row_id, "values": raw_values})
+        else:
+            data_lines.append((row_id, row_label, body))
+    header_values: dict[str, list[str]] = defaultdict(list)
+    for column_id, value in columns.items():
+        if value:
+            header_values[column_id].append(value)
+    for header in header_rows:
+        for column_id, value in header["values"].items():
+            if value:
+                header_values[column_id].append(value)
+    cells: dict[str, dict[str, Any]] = {}
+    for row_id, row_label, body in data_lines:
         for match in CELL_RE.finditer(body):
             column_id, raw_value = match.groups()
             value = parse_number(raw_value)
             if value is None:
                 continue
             ref = f"{row_id}:{column_id}"
+            context = " | ".join(header_values.get(column_id, []))
+            periods = set(re.findall(r"\b(?:19|20)\d{2}\b", context))
+            periods.update(
+                f"20{year}"
+                for year in re.findall(r"\bFY(\d{2})\b", context, flags=re.I)
+            )
+            units = {
+                token for token in re.findall(
+                    r"(?i)(?:million|thousand|usd|€m|£m|in years|n/?a|%)",
+                    context,
+                )
+            }
             cells[ref] = {
                 "ref": ref,
                 "row_id": row_id,
                 "column_id": column_id,
                 "row_label": row_label.strip(),
-                "column_label": columns.get(column_id, "").strip(),
+                "column_label": context,
+                "column_labels": list(header_values.get(column_id, [])),
+                "period_labels": sorted(periods),
+                "unit_labels": sorted(units),
+                "header_rows": list(header_rows),
                 "value": value,
             }
     return cells

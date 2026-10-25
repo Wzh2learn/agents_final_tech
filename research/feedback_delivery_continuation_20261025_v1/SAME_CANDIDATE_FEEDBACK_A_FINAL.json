@@ -1,0 +1,306 @@
+{
+  "conditions": [
+    "original_frozen",
+    "deterministic_rerun_control",
+    "neutral_revision_interface_failure_v2",
+    "ordinary_retry",
+    "execution_feedback",
+    "localization_feedback",
+    "oracle_localization_diagnostic_a_v3"
+  ],
+  "execution_feedback_assessment": {
+    "diagnostic_sufficiency_claimed": false,
+    "items": 72,
+    "trace_visibility_error_count": 0
+  },
+  "generation_receipts": {
+    "deterministic_rerun_control": {
+      "attempts": 72,
+      "completion_tokens": 3512,
+      "max_new_tokens": 256,
+      "prompt_tokens": 28923,
+      "wall_seconds_from_per_item_latency": 43.41045641899109
+    },
+    "execution_feedback": {
+      "attempts": 72,
+      "completion_tokens": 14208,
+      "max_new_tokens": 256,
+      "prompt_tokens": 51561,
+      "wall_seconds_from_per_item_latency": 184.16373085975647
+    },
+    "localization_feedback": {
+      "attempts": 72,
+      "completion_tokens": 9064,
+      "max_new_tokens": 256,
+      "prompt_tokens": 49153,
+      "wall_seconds_from_per_item_latency": 123.34703350067139
+    },
+    "neutral_revision_interface_failure_v2": {
+      "attempts": 72,
+      "completion_tokens": 808,
+      "max_new_tokens": 256,
+      "prompt_tokens": 35095,
+      "wall_seconds_from_per_item_latency": 22.931132316589355
+    },
+    "oracle_localization_diagnostic_a_v3": {
+      "attempts": 72,
+      "completion_tokens": 18432,
+      "max_new_tokens": 256,
+      "prompt_tokens": 40966,
+      "wall_seconds_from_per_item_latency": 209.5945954322815
+    },
+    "ordinary_retry": {
+      "attempts": 72,
+      "completion_tokens": 7440,
+      "max_new_tokens": 256,
+      "prompt_tokens": 35599,
+      "wall_seconds_from_per_item_latency": 78.99476599693298
+    }
+  },
+  "hidden_reference_in_prompts": 0,
+  "identity": "FROZEN_ORDINARY_CANDIDATES_ONE_ADDITIONAL_GENERATION_VISIBLE_FEEDBACK_ONLY",
+  "input_sha256": {
+    "failed_neutral_results": "2df56f87ed7caed2a13f8de061dd6fc866ef7e8ce898f5d74770904339c68ced",
+    "frozen_results": "456aa2a67a629260177642aabf0c4bf4d3ed3fd89ce7b61d67c7b3e62335e0f6",
+    "instances": "02cb67fb1bdd324dc59f757f5f69a9f3defec77466af97d71203be01a70003c1",
+    "neutral_results": "e40f38f30ddd5e1fa59c01dc3836c02a7013f60fa4b8531a8c143d8755dc498e",
+    "oracle_results": "7ce92a3f1b5e21836fa8c932cbba621fab3a8c6231ff06a4088492edffac3821",
+    "raw_results": "f05b0dbc73de14270f8385b4861fdd5897422ec60adfee552a8de9550b3c336d"
+  },
+  "localization_feedback_assessment": {
+    "boundary": "Post-hoc expected-program discrepancy mapping; algebraically equivalent programs can be mislabeled and are not hidden-reference prompt features.",
+    "feedback_error_count": 3,
+    "feedback_error_rate": 0.041666666666666664,
+    "feedback_insufficient_count": 12,
+    "feedback_insufficient_rate": 0.16666666666666666,
+    "items": 72
+  },
+  "max_additional_generations_per_candidate": 1,
+  "metrics": {
+    "deterministic_rerun_control": {
+      "completion_rate": 1.0,
+      "completion_tokens": 3512,
+      "correct_delivery_coverage": 0.7777777777777778,
+      "exact_reference_set": 64,
+      "expected_refs_included": 64,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 56,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.7777777777777778,
+      "program_executable": 72,
+      "prompt_tokens": 28923,
+      "semantic_invalid": 5,
+      "semantic_unresolved": 19,
+      "semantic_valid": 48,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 43.41045641899109,
+      "wrong_delivery_count": 16
+    },
+    "execution_feedback": {
+      "completion_rate": 0.8333333333333334,
+      "completion_tokens": 14208,
+      "correct_delivery_coverage": 0.5555555555555556,
+      "exact_reference_set": 54,
+      "expected_refs_included": 54,
+      "interface_valid": 60,
+      "items": 72,
+      "numeric_correct": 40,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.5555555555555556,
+      "program_executable": 60,
+      "prompt_tokens": 51561,
+      "semantic_invalid": 15,
+      "semantic_unresolved": 18,
+      "semantic_valid": 39,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 184.16373085975647,
+      "wrong_delivery_count": 32
+    },
+    "localization_feedback": {
+      "completion_rate": 1.0,
+      "completion_tokens": 9064,
+      "correct_delivery_coverage": 0.6805555555555556,
+      "exact_reference_set": 60,
+      "expected_refs_included": 60,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 49,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.6805555555555556,
+      "program_executable": 72,
+      "prompt_tokens": 49153,
+      "semantic_invalid": 3,
+      "semantic_unresolved": 19,
+      "semantic_valid": 50,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 123.34703350067139,
+      "wrong_delivery_count": 23
+    },
+    "neutral_revision_interface_failure_v2": {
+      "completion_rate": 0.013888888888888888,
+      "completion_tokens": 808,
+      "correct_delivery_coverage": 0.0,
+      "exact_reference_set": 1,
+      "expected_refs_included": 1,
+      "interface_valid": 1,
+      "items": 72,
+      "numeric_correct": 0,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.0,
+      "program_executable": 1,
+      "prompt_tokens": 35095,
+      "semantic_invalid": 71,
+      "semantic_unresolved": 0,
+      "semantic_valid": 1,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 22.931132316589355,
+      "wrong_delivery_count": 72
+    },
+    "oracle_localization_diagnostic_a_v3": {
+      "completion_rate": 0.18055555555555555,
+      "completion_tokens": 18432,
+      "correct_delivery_coverage": 0.06944444444444445,
+      "exact_reference_set": 9,
+      "expected_refs_included": 9,
+      "interface_valid": 13,
+      "items": 72,
+      "numeric_correct": 5,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.06944444444444445,
+      "program_executable": 13,
+      "prompt_tokens": 40966,
+      "semantic_invalid": 59,
+      "semantic_unresolved": 3,
+      "semantic_valid": 10,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 209.5945954322815,
+      "wrong_delivery_count": 67
+    },
+    "ordinary_retry": {
+      "completion_rate": 1.0,
+      "completion_tokens": 7440,
+      "correct_delivery_coverage": 0.7777777777777778,
+      "exact_reference_set": 66,
+      "expected_refs_included": 66,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 56,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.7777777777777778,
+      "program_executable": 72,
+      "prompt_tokens": 35599,
+      "semantic_invalid": 3,
+      "semantic_unresolved": 19,
+      "semantic_valid": 50,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 78.99476599693298,
+      "wrong_delivery_count": 16
+    },
+    "original_frozen": {
+      "completion_rate": 1.0,
+      "completion_tokens": 3512,
+      "correct_delivery_coverage": 0.7777777777777778,
+      "exact_reference_set": 64,
+      "expected_refs_included": 64,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 56,
+      "numeric_correct_alternate_binding": 0,
+      "numeric_correct_rate": 0.7777777777777778,
+      "program_executable": 72,
+      "prompt_tokens": 28923,
+      "semantic_invalid": 5,
+      "semantic_unresolved": 19,
+      "semantic_valid": 48,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 82.35821175575256,
+      "wrong_delivery_count": 16
+    }
+  },
+  "new_accounting_attempts": 432,
+  "new_accounting_tokens": 294761,
+  "output_sha256": "16ae72605fb7a405ed9d7663f8deeba4696a7a9b7e9a4719308a145cff987ccc",
+  "schema": "same_candidate_feedback_intervention_a_v1",
+  "task_level_paired": {
+    "deterministic_rerun_control": {
+      "all_three_correct": 17,
+      "irrelevant_change_correct_given_original": 18,
+      "original_correct": 19,
+      "relevant_change_correct_given_original": 18,
+      "tasks": 24
+    },
+    "execution_feedback": {
+      "all_three_correct": 7,
+      "irrelevant_change_correct_given_original": 11,
+      "original_correct": 14,
+      "relevant_change_correct_given_original": 9,
+      "tasks": 24
+    },
+    "localization_feedback": {
+      "all_three_correct": 13,
+      "irrelevant_change_correct_given_original": 13,
+      "original_correct": 18,
+      "relevant_change_correct_given_original": 17,
+      "tasks": 24
+    },
+    "neutral_revision_interface_failure_v2": {
+      "all_three_correct": 0,
+      "irrelevant_change_correct_given_original": 0,
+      "original_correct": 0,
+      "relevant_change_correct_given_original": 0,
+      "tasks": 24
+    },
+    "oracle_localization_diagnostic_a_v3": {
+      "all_three_correct": 0,
+      "irrelevant_change_correct_given_original": 0,
+      "original_correct": 0,
+      "relevant_change_correct_given_original": 0,
+      "tasks": 24
+    },
+    "ordinary_retry": {
+      "all_three_correct": 17,
+      "irrelevant_change_correct_given_original": 18,
+      "original_correct": 19,
+      "relevant_change_correct_given_original": 18,
+      "tasks": 24
+    },
+    "original_frozen": {
+      "all_three_correct": 17,
+      "irrelevant_change_correct_given_original": 18,
+      "original_correct": 19,
+      "relevant_change_correct_given_original": 18,
+      "tasks": 24
+    }
+  },
+  "transitions_from_frozen_original": {
+    "deterministic_rerun_control": {
+      "correct_to_correct": 56,
+      "wrong_to_wrong": 16
+    },
+    "execution_feedback": {
+      "correct_to_correct": 40,
+      "correct_to_wrong": 16,
+      "wrong_to_wrong": 16
+    },
+    "localization_feedback": {
+      "correct_to_correct": 49,
+      "correct_to_wrong": 7,
+      "wrong_to_wrong": 16
+    },
+    "neutral_revision_interface_failure_v2": {
+      "correct_to_wrong": 56,
+      "wrong_to_wrong": 16
+    },
+    "oracle_localization_diagnostic_a_v3": {
+      "correct_to_correct": 2,
+      "correct_to_wrong": 54,
+      "wrong_to_correct": 3,
+      "wrong_to_wrong": 13
+    },
+    "ordinary_retry": {
+      "correct_to_correct": 56,
+      "wrong_to_wrong": 16
+    }
+  }
+}

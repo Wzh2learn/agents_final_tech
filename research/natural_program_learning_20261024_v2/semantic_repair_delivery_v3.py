@@ -60,18 +60,14 @@ def repair_structural_denominator(
 
 def evaluate(rows: list[dict[str, Any]], policy: str) -> dict[str, Any]:
     accepted = []
+    repair_actions = 0
     for row in rows:
-        if policy == "always_accept":
-            accept = True
-        elif policy == "executable_rule":
-            accept = bool(row["interface_valid"] and row["program_executable"] and row["refs_valid"])
-        elif policy == "semantic_rule":
-            accept = row["semantic_decision"] == "VALID"
-        elif policy == "semantic_repair_rule":
-            accept = bool(row["semantic_decision"] == "VALID" or row["repair_valid"])
-        else:
+        outcomes = row.get("policy_outcomes")
+        if outcomes is None or policy not in outcomes:
             raise ValueError(policy)
-        accepted.append((accept, bool(row["correct_after_repair"])))
+        outcome = outcomes[policy]
+        accepted.append((bool(outcome["accepted"]), bool(outcome["correct"])))
+        repair_actions += int(outcome.get("repair_actions", 0))
     accepted_count = sum(accept for accept, _ in accepted)
     correct = sum(accept and ok for accept, ok in accepted)
     wrong = sum(accept and not ok for accept, ok in accepted)
@@ -84,6 +80,7 @@ def evaluate(rows: list[dict[str, Any]], policy: str) -> dict[str, Any]:
         "wrong_delivery_count": wrong,
         "conditional_wrong_delivery_rate": wrong / accepted_count if accepted_count else None,
         "retained_or_unresolved": len(rows) - accepted_count,
+        "repair_actions": repair_actions,
     }
 
 
@@ -104,12 +101,16 @@ def main() -> int:
         decision, reasons = semantic_check(question, program, cells)
         repaired, repairs = repair_structural_denominator(program or {}, question, cells)
         repair_valid = False
+        repair_decision = "NOT_APPLICABLE"
         correct_after_repair = bool(result["program_correct"])
         if repairs:
+            repair_decision, _ = semantic_check(question, repaired, cells)
             try:
                 repaired_value = program_value(repaired, cells)
-                repair_valid = math.isfinite(repaired_value) and all(
-                    ref in cells for ref in refs_in_program(repaired)
+                repair_valid = (
+                    repair_decision == "VALID"
+                    and math.isfinite(repaired_value)
+                    and all(ref in cells for ref in refs_in_program(repaired))
                 )
                 correct_after_repair = math.isclose(
                     repaired_value,
@@ -119,13 +120,58 @@ def main() -> int:
                 )
             except (KeyError, ValueError, TypeError, ZeroDivisionError):
                 repair_valid = False
+        original_outcome = {
+            "accepted": True,
+            "correct": bool(result["program_correct"]),
+            "repair_actions": 0,
+            "selected_program": program,
+            "selected_action": "original",
+        }
+        executable_outcome = {
+            **original_outcome,
+            "accepted": bool(result["interface_valid"] and result["program_executable"] and result["refs_valid"]),
+            "selected_action": "original_if_executable",
+        }
+        semantic_outcome = {
+            **original_outcome,
+            "accepted": decision == "VALID",
+            "selected_action": "original_if_semantic_valid",
+        }
+        if decision == "VALID":
+            repair_outcome = {
+                **original_outcome,
+                "selected_action": "original_if_semantic_valid",
+            }
+        elif repair_valid:
+            repair_outcome = {
+                "accepted": True,
+                "correct": correct_after_repair,
+                "repair_actions": 1,
+                "selected_program": repaired,
+                "selected_action": "one_shot_structural_repair",
+            }
+        else:
+            repair_outcome = {
+                "accepted": False,
+                "correct": False,
+                "repair_actions": 1 if repairs else 0,
+                "selected_program": None,
+                "selected_action": "retain_unresolved",
+            }
         enriched.append({
             **result,
             "semantic_decision": decision,
             "semantic_reasons": reasons,
             "repair_valid": repair_valid,
+            "repair_decision": repair_decision,
             "repairs": repairs,
             "correct_after_repair": correct_after_repair,
+            "policy_outcomes": {
+                "always_accept": original_outcome,
+                "executable_rule": executable_outcome,
+                "semantic_rule": semantic_outcome,
+                "semantic_repair_rule": repair_outcome,
+            },
         })
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in enriched:

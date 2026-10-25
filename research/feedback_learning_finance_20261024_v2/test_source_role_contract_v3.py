@@ -64,3 +64,33 @@ def test_single_year_average_over_two_operands_is_unresolved() -> None:
         {"op": "add", "left": {"ref": "R5:C2"}, "right": {"ref": "R5:C3"}},
     )
     assert label == "UNRESOLVED_REFERENCE_QUESTION_MISMATCH"
+
+
+def test_non_average_ratio_does_not_convert_denominator() -> None:
+    label = classify_average_denominator(
+        "What is the ratio of revenue in 2020 to revenue in 2021?",
+        {"ref": "R1:C2"},
+        {"value": 2, "row_label": "Revenue", "column_label": "2021"},
+        {"ref": "R1:C1"},
+    )
+    assert label == "NON_AVERAGE_DENOMINATOR"
+
+
+def test_from_to_average_counts_inclusive_years() -> None:
+    label = classify_average_denominator(
+        "What is the average revenue from 2018 to 2020?",
+        {"ref": "R9:C1"},
+        {"value": 3, "row_label": "Other", "column_label": ""},
+        {"op": "add", "left": {"ref": "R1:C1"}, "right": {"ref": "R1:C2"}},
+    )
+    assert label == "STRUCTURAL_CONSTANT_MISBOUND"
+
+
+def test_existing_structural_constant_is_idempotent() -> None:
+    label = classify_average_denominator(
+        "What is the average revenue in 2018 and 2019?",
+        {"const": 2},
+        None,
+        {"op": "add", "left": {"ref": "R1:C1"}, "right": {"ref": "R1:C2"}},
+    )
+    assert label == "STRUCTURAL_CONSTANT_ALREADY"

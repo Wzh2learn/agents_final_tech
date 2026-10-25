@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from analyze_binding_residual_v3 import parse_cells
 from natural_variant_measurement_v3 import extract_prompt_table, rescore_generation
+from semantic_delivery_check_v3 import semantic_check
 
 
 def test_rescore_uses_prompt_variant_table_not_stale_task_table() -> None:
@@ -47,3 +49,21 @@ def test_parse_failure_remains_fail_closed() -> None:
     )
     assert corrected["program_correct"] is False
     assert corrected["failure"] == "program_parse"
+
+
+def test_multiline_headers_restore_visible_period_bindings() -> None:
+    table = (
+        "columns: C0=At December 31, | C1= | C2=\n"
+        "R1 [] C0= | C1=2019 | C2=2018\n"
+        "R2 [Cash] C0=Cash | C1=437 | C2=268"
+    )
+    cells = parse_cells(table)
+    assert cells["R2:C1"]["period_labels"] == ["2019"]
+    assert cells["R2:C2"]["period_labels"] == ["2018"]
+    decision, reasons = semantic_check(
+        "What was the change in cash between 2018 and 2019?",
+        {"op": "sub", "left": {"ref": "R2:C1"}, "right": {"ref": "R2:C2"}},
+        cells,
+    )
+    assert decision == "VALID"
+    assert reasons == []

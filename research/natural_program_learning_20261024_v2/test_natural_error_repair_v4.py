@@ -39,3 +39,19 @@ def test_structural_denominator_is_corrected_for_training_target() -> None:
 
 def test_reference_question_mismatch_is_excluded() -> None:
     assert corrected_target(task(unresolved=True)) is None
+
+
+def test_non_average_ratio_reference_is_unchanged() -> None:
+    source = task()
+    source["question"] = "What is the ratio of revenue in 2020 to revenue in 2021?"
+    target = corrected_target(source)
+    assert target is not None
+    assert target["program"]["right"] == {"ref": "R9:C1"}
+
+
+def test_existing_constant_denominator_is_idempotent() -> None:
+    source = task()
+    source["target"]["program"]["right"] = {"const": 2}
+    target = corrected_target(source)
+    assert target is not None
+    assert target["program"]["right"] == {"const": 2}

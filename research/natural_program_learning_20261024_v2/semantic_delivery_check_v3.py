@@ -77,11 +77,20 @@ def semantic_check(
     if question_words and not any(word in row_text for word in question_words):
         reasons.append("question_row_role_not_visible_in_program")
     years = set(re.findall(r"\b(?:19|20)\d{2}\b", question))
+    years.update(
+        f"20{year}"
+        for year in re.findall(r"\bFY(\d{2})\b", question, flags=re.I)
+    )
+    period_labels = {
+        period
+        for cell in ref_cells
+        for period in cell.get("period_labels", [])
+    }
     label_text = " ".join(
         f"{cell.get('row_label', '')} {cell.get('column_label', '')}"
         for cell in ref_cells
     )
-    if years and not any(year in label_text for year in years):
+    if years and not years.issubset(period_labels):
         reasons.append("question_period_not_visible_in_program")
     for parent, right in denominator_nodes(program):
         ref = right.get("ref")

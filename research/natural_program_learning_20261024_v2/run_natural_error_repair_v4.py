@@ -69,7 +69,7 @@ def corrected_target(task: dict[str, Any]) -> dict[str, Any] | None:
             ref = right.get("ref")
             cell = cells.get(str(ref))
             label = classify_average_denominator(question, right, cell, node.get("left"))
-            if label == "STRUCTURAL_CONSTANT_MISBOUND":
+            if label == "STRUCTURAL_CONSTANT_MISBOUND" and cell is not None:
                 node["right"] = {"const": float(cell["value"])}
             elif label == "UNRESOLVED_REFERENCE_QUESTION_MISMATCH":
                 unresolved = True

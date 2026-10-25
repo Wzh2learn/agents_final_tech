@@ -1,0 +1,231 @@
+{
+  "accounting": {
+    "attempts": 216,
+    "completion_tokens": 16488,
+    "prompt_tokens": 142058
+  },
+  "conditions": {
+    "localization_feedback": {
+      "completion_tokens": 5872,
+      "exact_reference_set": 67,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 59,
+      "program_executable": 72,
+      "prompt_tokens": 58454,
+      "semantic_invalid": 3,
+      "semantic_unresolved": 31,
+      "semantic_valid": 38,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 173.90898895263672,
+      "wrong": 13
+    },
+    "ordinary_retry": {
+      "completion_tokens": 7064,
+      "exact_reference_set": 68,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 62,
+      "program_executable": 72,
+      "prompt_tokens": 45159,
+      "semantic_invalid": 3,
+      "semantic_unresolved": 31,
+      "semantic_valid": 38,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 94.4187560081482,
+      "wrong": 10
+    },
+    "original": {
+      "completion_tokens": 3552,
+      "exact_reference_set": 66,
+      "interface_valid": 72,
+      "items": 72,
+      "numeric_correct": 60,
+      "program_executable": 72,
+      "prompt_tokens": 38445,
+      "semantic_invalid": 3,
+      "semantic_unresolved": 31,
+      "semantic_valid": 38,
+      "unknown_or_clarify": 0,
+      "wall_seconds": 51.98566293716431,
+      "wrong": 12
+    }
+  },
+  "development_or_confirmation": "BOUNDED_CONFIRMATION_24_NEW_FAMILIES",
+  "hidden_reference_policy_features": 0,
+  "identity": "FROZEN_NEW_FAMILIES_FIXED_ORDINARY_MODEL_DELIVERY_CONFIRMATION",
+  "input_sha256": {
+    "instances": "028446c3084026bcb273fd49c2144b81cdf6c1e260b06f1f6f7a022c111f6e6b",
+    "localization": "a41780e432b5ebb98423ec76e842bd529b418896ce5c5d2b7c3a1558ca73ba62",
+    "ordinary_retry": "6bf948e90a826f7a858204ca377deac8c1cf22caaaba27d54c022e7fae9409a8",
+    "original": "9295ee270d682e5cda5c482ab3e5c59d52a3c4b41dad55fcf48d73b565d6c9f4"
+  },
+  "output_sha256": "d6211959b4bdaf179664928fefa0df0775e60c79ece0a084fdce0fed32579c88",
+  "paired_family_differences": {
+    "localization_feedback": {
+      "degraded_families": 2,
+      "families": 24,
+      "family_score_differences": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -2,
+        0
+      ],
+      "improved_families": 2,
+      "mean_difference": -0.041666666666666664,
+      "unchanged_families": 20
+    },
+    "ordinary_retry": {
+      "degraded_families": 0,
+      "families": 24,
+      "family_score_differences": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "improved_families": 1,
+      "mean_difference": 0.08333333333333333,
+      "unchanged_families": 23
+    }
+  },
+  "policies": {
+    "always_accept_localization_revision": {
+      "abstention": 0,
+      "conditional_wrong_rate": 0.18055555555555555,
+      "correct_coverage": 0.8194444444444444,
+      "correct_delivery": 59,
+      "delivered": 72,
+      "delivery_coverage": 1.0,
+      "items": 72,
+      "wrong_delivery": 13
+    },
+    "always_accept_ordinary_retry": {
+      "abstention": 0,
+      "conditional_wrong_rate": 0.1388888888888889,
+      "correct_coverage": 0.8611111111111112,
+      "correct_delivery": 62,
+      "delivered": 72,
+      "delivery_coverage": 1.0,
+      "items": 72,
+      "wrong_delivery": 10
+    },
+    "always_accept_original": {
+      "abstention": 0,
+      "conditional_wrong_rate": 0.16666666666666666,
+      "correct_coverage": 0.8333333333333334,
+      "correct_delivery": 60,
+      "delivered": 72,
+      "delivery_coverage": 1.0,
+      "items": 72,
+      "wrong_delivery": 12
+    },
+    "bounded_repair_original_if_valid_else_verified_revision": {
+      "abstention": 33,
+      "conditional_wrong_rate": 0.15384615384615385,
+      "correct_coverage": 0.4583333333333333,
+      "correct_delivery": 33,
+      "delivered": 39,
+      "delivery_coverage": 0.5416666666666666,
+      "items": 72,
+      "wrong_delivery": 6
+    },
+    "semantic_gate_localization_revision": {
+      "abstention": 34,
+      "conditional_wrong_rate": 0.18421052631578946,
+      "correct_coverage": 0.4305555555555556,
+      "correct_delivery": 31,
+      "delivered": 38,
+      "delivery_coverage": 0.5277777777777778,
+      "items": 72,
+      "wrong_delivery": 7
+    },
+    "semantic_gate_original": {
+      "abstention": 34,
+      "conditional_wrong_rate": 0.15789473684210525,
+      "correct_coverage": 0.4444444444444444,
+      "correct_delivery": 32,
+      "delivered": 38,
+      "delivery_coverage": 0.5277777777777778,
+      "items": 72,
+      "wrong_delivery": 6
+    }
+  },
+  "schema": "delivery_confirmation_c_v1",
+  "task_level": {
+    "localization_feedback": {
+      "all_three_correct": 17,
+      "irrelevant_change_correct_given_original": 18,
+      "original_correct": 21,
+      "relevant_change_correct_given_original": 19,
+      "tasks": 24
+    },
+    "ordinary_retry": {
+      "all_three_correct": 20,
+      "irrelevant_change_correct_given_original": 20,
+      "original_correct": 20,
+      "relevant_change_correct_given_original": 20,
+      "tasks": 24
+    },
+    "original_frozen": {
+      "all_three_correct": 19,
+      "irrelevant_change_correct_given_original": 19,
+      "original_correct": 19,
+      "relevant_change_correct_given_original": 19,
+      "tasks": 24
+    }
+  },
+  "transitions": {
+    "localization_feedback": {
+      "correct_to_correct": 56,
+      "correct_to_wrong": 4,
+      "wrong_to_correct": 3,
+      "wrong_to_wrong": 9
+    },
+    "ordinary_retry": {
+      "correct_to_correct": 60,
+      "wrong_to_correct": 2,
+      "wrong_to_wrong": 10
+    }
+  }
+}
