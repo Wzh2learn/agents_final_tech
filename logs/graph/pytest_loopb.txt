@@ -26,4 +26,4 @@ tests/test_m1_service.py::TestEdgeCases::test_single_rule PASSED         [ 88%]
 tests/test_m1_service.py::TestEdgeCases::test_english_rule_heading PASSED [ 94%]
 tests/test_m1_service.py::TestEdgeCases::test_stages_all_have_duration PASSED [100%]
 
-============================== 18 passed in 0.03s ==============================
+============================== 18 passed in 0.04s ==============================
