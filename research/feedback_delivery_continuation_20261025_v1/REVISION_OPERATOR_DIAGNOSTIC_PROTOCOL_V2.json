@@ -1,0 +1,18 @@
+{
+  "schema": "revision_operator_diagnostic_protocol_v2",
+  "identity": "SMALL_DEVELOPMENT_REVISION_OPERATOR_CONTROL_FORMAT_GUARDED",
+  "date": "2026-10-25",
+  "evidence_identity": "EXPOSED_DEVELOPMENT_DATA_ONLY_NOT_CONFIRMATION",
+  "base_protocol": "REVISION_OPERATOR_DIAGNOSTIC_PROTOCOL_V1.json",
+  "attempt_ids": [
+    "copy_correct_f440",
+    "copy_correct_f234",
+    "known_edit_unit_f1f2",
+    "known_edit_ref_dac4"
+  ],
+  "change_from_v1": "Only the common terminal output boundary is changed after v1 copy/neutral controls ended with a right parenthesis. Task selection, candidates, payloads, decoding and token budget are unchanged.",
+  "terminal_instruction": "Return exactly one JSON object matching {\"program\": <object>, \"evidence_refs\": <array>, \"unit\": <string>}. The final character must be } and no other text is allowed.",
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "batch_size": 1
+}

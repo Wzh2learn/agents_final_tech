@@ -1,0 +1,58 @@
+from __future__ import annotations
+
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from revision_operator_diagnostic_v1 import (
+    TERMINAL_INSTRUCTION,
+    diff_target,
+    minimal_edit_instruction,
+    normalize_generated_text,
+    standardized_prompt,
+)
+
+
+class RevisionOperatorDiagnosticTests(unittest.TestCase):
+    def test_minimal_edit_only_reports_one_reference_change(self) -> None:
+        candidate = {"program": {"ref": "R1:C1"}, "evidence_refs": ["R1:C1"], "unit": "million"}
+        expected = {"program": {"ref": "R2:C1"}, "evidence_refs": ["R2:C1"], "unit": "million"}
+        differences = diff_target(candidate, expected)
+        self.assertEqual(len(differences), 2)
+        edit = minimal_edit_instruction(differences)
+        self.assertIsNotNone(edit)
+        self.assertIn("replace evidence reference", edit)
+
+    def test_standardized_prompt_has_one_terminal_instruction(self) -> None:
+        instance = {
+            "prompt": "Question: What was the change?",
+            "expected": {"answer": 1, "program": {}, "evidence_refs": [], "unit": "million"},
+        }
+        prompt = standardized_prompt(
+            instance,
+            '{"program":{"const":1},"evidence_refs":[],"unit":"million"}',
+            {
+                "status": "control",
+                "finding": "No targeted finding.",
+                "edit": "Return the candidate unchanged.",
+            },
+        )
+        self.assertEqual(prompt.count(TERMINAL_INSTRUCTION), 1)
+        self.assertGreater(prompt.index(TERMINAL_INSTRUCTION), prompt.index("Previous candidate:"))
+        self.assertNotIn("oracle-assisted", prompt.casefold())
+
+    def test_syntax_adapter_only_removes_unmatched_tail_parenthesis(self) -> None:
+        raw = '{"program":{"const":1},"evidence_refs":[],"unit":"thousand")}'
+        normalized, applied, actions = normalize_generated_text(raw)
+        self.assertTrue(applied)
+        self.assertEqual(actions, ["remove_one_close_paren_before_final_json"])
+        self.assertEqual(
+            normalized,
+            '{"program":{"const":1},"evidence_refs":[],"unit":"thousand"}',
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,120 @@
+{
+  "schema": "revision_operator_diagnostic_protocol_v1",
+  "identity": "SMALL_DEVELOPMENT_REVISION_OPERATOR_CONTROL",
+  "date": "2026-10-25",
+  "evidence_identity": "EXPOSED_DEVELOPMENT_DATA_ONLY_NOT_CONFIRMATION",
+  "selected_independent_tasks": 4,
+  "planned_attempts": 10,
+  "reserved_attempts": 22,
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "batch_size": 1,
+  "output_contract": "Compact previous candidate plus three fixed revision-information fields and one terminal JSON instruction",
+  "hidden_reference_use": {
+    "copy_controls": "NONE",
+    "known_edit_controls": "DEVELOPMENT_REFERENCE_ASSISTED_NON_DEPLOYABLE",
+    "neutral_category_localization": "NO_HIDDEN_ANSWER_OR_PROGRAM"
+  },
+  "attempts": [
+    {
+      "attempt_id": "copy_correct_f440",
+      "instance_id": "NAT_train_f440390f_74e6e596::original",
+      "condition": "copy_control",
+      "payload": {
+        "status": "Stability control.",
+        "finding": "The previous candidate is already the requested structured target.",
+        "edit": "Return the previous candidate unchanged."
+      }
+    },
+    {
+      "attempt_id": "copy_correct_f234",
+      "instance_id": "NAT_train_f2340090_92e72397::original",
+      "condition": "copy_control",
+      "payload": {
+        "status": "Stability control.",
+        "finding": "The previous candidate is already the requested structured target.",
+        "edit": "Return the previous candidate unchanged."
+      }
+    },
+    {
+      "attempt_id": "known_edit_unit_f1f2",
+      "instance_id": "NAT_train_f1f2c2cb_27cb53a0::original",
+      "condition": "known_edit_control",
+      "payload": {
+        "status": "Development edit control.",
+        "finding": "A verified minimal field edit is available.",
+        "edit": "Change only the unit field from 'thousand' to 'million'."
+      }
+    },
+    {
+      "attempt_id": "known_edit_ref_dac4",
+      "instance_id": "NAT_train_dac4e923_dccd9dbf::original",
+      "condition": "known_edit_control",
+      "payload": {
+        "status": "Development edit control.",
+        "finding": "A verified coordinated reference edit is available.",
+        "edit": "At program.left, replace evidence reference 'R4:C1' with 'R2:C2', and update evidence_refs from ['R4:C1', 'R4:C2'] to ['R2:C2', 'R4:C2']."
+      }
+    },
+    {
+      "attempt_id": "neutral_unit_f1f2",
+      "instance_id": "NAT_train_f1f2c2cb_27cb53a0::original",
+      "condition": "neutral_revision",
+      "payload": {
+        "status": "Candidate available for revision.",
+        "finding": "No targeted diagnostic is provided.",
+        "edit": "Review the previous candidate and return the best structured target."
+      }
+    },
+    {
+      "attempt_id": "neutral_ref_dac4",
+      "instance_id": "NAT_train_dac4e923_dccd9dbf::original",
+      "condition": "neutral_revision",
+      "payload": {
+        "status": "Candidate available for revision.",
+        "finding": "No targeted diagnostic is provided.",
+        "edit": "Review the previous candidate and return the best structured target."
+      }
+    },
+    {
+      "attempt_id": "category_unit_f1f2",
+      "instance_id": "NAT_train_f1f2c2cb_27cb53a0::original",
+      "condition": "category_feedback",
+      "payload": {
+        "status": "Visible discrepancy class.",
+        "finding": "The candidate has a unit-role discrepancy with the monetary table context.",
+        "edit": "Re-evaluate only the unit field and return the corrected structured target."
+      }
+    },
+    {
+      "attempt_id": "category_ref_dac4",
+      "instance_id": "NAT_train_dac4e923_dccd9dbf::original",
+      "condition": "category_feedback",
+      "payload": {
+        "status": "Visible discrepancy class.",
+        "finding": "The candidate has an evidence-role mismatch in the first subtraction operand.",
+        "edit": "Re-evaluate only the implicated evidence binding and return the corrected structured target."
+      }
+    },
+    {
+      "attempt_id": "localization_unit_f1f2",
+      "instance_id": "NAT_train_f1f2c2cb_27cb53a0::original",
+      "condition": "localization_feedback",
+      "payload": {
+        "status": "Visible binding finding.",
+        "finding": "R2:C1 is $437 at 2019 and R2:C2 is $268 at 2018; both are monetary cash cells. The candidate unit is 'thousand'.",
+        "edit": "Re-evaluate the unit binding against the visible monetary context."
+      }
+    },
+    {
+      "attempt_id": "localization_ref_dac4",
+      "instance_id": "NAT_train_dac4e923_dccd9dbf::original",
+      "condition": "localization_feedback",
+      "payload": {
+        "status": "Visible binding finding.",
+        "finding": "The question requests AMER and EMEA in 2018. The candidate uses R4:C1 and R4:C2, whose visible row role is EMEA/EMEA and periods are 2019/2018.",
+        "edit": "Re-evaluate the first operand's row-role and period binding."
+      }
+    }
+  ]
+}

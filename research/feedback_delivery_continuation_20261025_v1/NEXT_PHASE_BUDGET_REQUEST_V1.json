@@ -1,0 +1,56 @@
+{
+  "schema": "next_phase_budget_request_v1",
+  "date": "2026-10-25",
+  "status": "REQUESTED_NOT_AUTHORIZED",
+  "old_balance_policy": {
+    "remaining_attempts_after_revision_diagnostic": 32,
+    "remaining_accounting_tokens_after_revision_diagnostic": 10830328,
+    "use": "independent verification and failures only; not a complete new research stage",
+    "must_not_reset_or_reuse_as_new_stage": true
+  },
+  "requested_increment": {
+    "generation_attempts": 672,
+    "generation_tokens": 2800000,
+    "training_runs": 4,
+    "training_tokens": 4000000
+  },
+  "blocks": [
+    {
+      "id": "CORRECTION_SUPERVISION_QUALIFICATION",
+      "generation_attempts": 144,
+      "generation_tokens": 600000,
+      "training_runs": 0,
+      "training_tokens": 0,
+      "solves": "Whether strong teacher, deterministic editor, or training-source references can produce feedback-derived, verified, training-qualified correction trajectories and select the direct-solver or repairer deployment contract."
+    },
+    {
+      "id": "MATCHED_O_R_E_PRIMARY",
+      "generation_attempts": 216,
+      "generation_tokens": 900000,
+      "training_runs": 2,
+      "training_tokens": 2000000,
+      "solves": "Whether E beats matched R from the same ordinary checkpoint after controlling task coverage, label source, update count and training tokens. O remains frozen."
+    },
+    {
+      "id": "EXPOSURE_CLEAN_NEW_SOURCE_CONFIRMATION",
+      "generation_attempts": 216,
+      "generation_tokens": 900000,
+      "training_runs": 0,
+      "training_tokens": 0,
+      "solves": "Whether the surviving method transfers to sources rejected by the pre-generation exposure-union guard as previously unseen. No generation is allowed if overlap is found."
+    },
+    {
+      "id": "SEED_AND_FAILURE_RESERVE",
+      "generation_attempts": 96,
+      "generation_tokens": 400000,
+      "training_runs": 2,
+      "training_tokens": 2000000,
+      "solves": "One matched repeat for the winning R/E pair plus bounded interface, teacher or training failures. Unused reserve remains unused."
+    }
+  ],
+  "decision_after_request": {
+    "continue": "E must exceed R on qualified correction and retain an exposure-clean confirmation advantage without relying on excess abstention.",
+    "stop": "If E does not exceed R, or the gain disappears after matched teacher and training cost, stop the feedback-learning method candidate and retain it as a negative result.",
+    "c3_stop_rule": "Delivery repair remains stopped unless a candidate improves correct delivery over neutral retry without an offsetting increase in wrong delivery or abstention."
+  }
+}

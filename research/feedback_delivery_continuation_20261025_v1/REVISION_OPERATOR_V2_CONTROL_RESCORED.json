@@ -1,0 +1,253 @@
+{
+  "confirmation_claim": false,
+  "development_only": true,
+  "exposure_receipt": {
+    "allow_development_exposure": true,
+    "exposure_identity_count": 4967,
+    "manifest_path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/EXPOSURE_UNION_SOURCES_V1.json",
+    "overlap": [
+      "NAT_train_dac4e923_dccd9dbf",
+      "NAT_train_f1f2c2cb_27cb53a0",
+      "NAT_train_f2340090_92e72397",
+      "NAT_train_f440390f_74e6e596",
+      "dac4e923-5543-407c-9661-7e49e496b537",
+      "f1f2c2cb-04d7-495b-a09e-8c919aff33ed",
+      "f2340090-c6a9-41c2-a78b-64baaad9f3d5",
+      "f440390f-d988-4765-b573-273d5e351be2"
+    ],
+    "overlap_count": 8,
+    "schema": "exposure_union_guard_v1",
+    "selected_identity_count": 8,
+    "sources": [
+      {
+        "identity_count": 4895,
+        "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_v2.jsonl",
+        "role": "training_and_earlier_task_derivation"
+      },
+      {
+        "identity_count": 192,
+        "path": "/home/testuser/wzh/projects/agents_final_tech/research/feedback_learning_finance_20261024_v2/SOURCE_DISJOINT_TASK_MANIFEST_V4.json",
+        "role": "source_disjoint_selection_and_prior_input_manifest"
+      },
+      {
+        "identity_count": 144,
+        "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/evaluation_instances_v2.jsonl",
+        "role": "development_evaluation"
+      },
+      {
+        "identity_count": 48,
+        "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/confirmation_v3/confirmation_instances_v3.jsonl",
+        "role": "historical_confirmation"
+      },
+      {
+        "identity_count": 288,
+        "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_source_disjoint_v4.jsonl",
+        "role": "source_disjoint_pool"
+      },
+      {
+        "identity_count": 96,
+        "path": "/home/testuser/wzh/research_runs/natural_error_repair_v4/error_pool_instances_v4.jsonl",
+        "role": "natural_error_collection"
+      },
+      {
+        "identity_count": 48,
+        "path": "/home/testuser/wzh/research_runs/natural_error_repair_v4/error_repair_confirmation_instances_v4.jsonl",
+        "role": "historical_error_repair_confirmation"
+      },
+      {
+        "identity_count": 48,
+        "path": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/weighted_confirmation_instances_v5.jsonl",
+        "role": "method_development_and_prior_error_pool_replay"
+      },
+      {
+        "identity_count": 120,
+        "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a/intervention_instances_a_v1.jsonl",
+        "role": "feedback_intervention_development"
+      },
+      {
+        "identity_count": 120,
+        "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a_neutral_v2/neutral_revision_instances_a_v2.jsonl",
+        "role": "interface_failure_replay"
+      },
+      {
+        "identity_count": 120,
+        "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a_neutral_v3/neutral_revision_instances_a_v2.jsonl",
+        "role": "neutral_revision_development"
+      },
+      {
+        "identity_count": 120,
+        "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a_oracle_v3/oracle_localization_instances_a_v3.jsonl",
+        "role": "oracle_assisted_development"
+      },
+      {
+        "identity_count": 48,
+        "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/delivery_confirmation_c_v1/delivery_confirmation_instances_c_v1.jsonl",
+        "role": "prior_error_pool_delivery_replay"
+      }
+    ]
+  },
+  "hidden_reference_use": {
+    "known_edit_control": "DEVELOPMENT_REFERENCE_ASSISTED_NON_DEPLOYABLE",
+    "neutral_and_visible_feedback": "NO_HIDDEN_ANSWER_OR_PROGRAM"
+  },
+  "identity": "RESCORED_WITH_COMMON_SYNTAX_ADAPTER",
+  "metrics": {
+    "copy_control": {
+      "actual_completion_tokens": 96,
+      "attempts": 2,
+      "format_valid": 2,
+      "numeric_correct": 2,
+      "raw_format_valid": 0,
+      "semantic_valid": 1,
+      "stop_reasons": {
+        "eos": 2
+      },
+      "syntax_adapter_applied": 2,
+      "target_exact": 2,
+      "terminal_instruction_repeats": {
+        "0": 2
+      }
+    },
+    "known_edit_control": {
+      "actual_completion_tokens": 92,
+      "attempts": 2,
+      "format_valid": 2,
+      "numeric_correct": 2,
+      "raw_format_valid": 2,
+      "semantic_valid": 2,
+      "stop_reasons": {
+        "eos": 2
+      },
+      "syntax_adapter_applied": 0,
+      "target_exact": 2,
+      "terminal_instruction_repeats": {
+        "0": 2
+      }
+    }
+  },
+  "rows": [
+    {
+      "actual_completion_tokens": 48,
+      "attempt_id": "copy_correct_f440",
+      "condition": "copy_control",
+      "failure": "none",
+      "format_valid": true,
+      "generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R3:C1\"},\"op\":\"sub\",\"right\":{\"ref\":\"R3:C2\"}},\"evidence_refs\":[\"R3:C1\",\"R3:C2\"],\"unit\":\"thousand\"}",
+      "instance_id": "NAT_train_f440390f_74e6e596::original",
+      "interface_valid": true,
+      "latency_ms": 7353.922367095947,
+      "left_brace_count": 4,
+      "max_new_tokens": 64,
+      "program_correct": true,
+      "program_executable": true,
+      "program_value": 3396.0,
+      "raw_format_valid": false,
+      "raw_generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R3:C1\"},\"op\":\"sub\",\"right\":{\"ref\":\"R3:C2\"}},\"evidence_refs\":[\"R3:C1\",\"R3:C2\"],\"unit\":\"thousand\")}",
+      "refs_valid": true,
+      "semantic_decision": "VALID",
+      "semantic_reasons": [],
+      "source_task_id": "NAT_train_f440390f_74e6e596",
+      "stop_reason": "eos",
+      "syntax_adapter_actions": [
+        "remove_one_close_paren_before_final_json"
+      ],
+      "syntax_adapter_applied": true,
+      "table_uid": "f440390f-d988-4765-b573-273d5e351be2",
+      "target_exact": true,
+      "terminal_instruction_repeats": 0,
+      "variant": "original"
+    },
+    {
+      "actual_completion_tokens": 48,
+      "attempt_id": "copy_correct_f234",
+      "condition": "copy_control",
+      "failure": "none",
+      "format_valid": true,
+      "generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R5:C1\"},\"op\":\"sub\",\"right\":{\"ref\":\"R1:C1\"}},\"evidence_refs\":[\"R5:C1\",\"R1:C1\"],\"unit\":\"thousand\"}",
+      "instance_id": "NAT_train_f2340090_92e72397::original",
+      "interface_valid": true,
+      "latency_ms": 5905.7722091674805,
+      "left_brace_count": 4,
+      "max_new_tokens": 64,
+      "program_correct": true,
+      "program_executable": true,
+      "program_value": 321.0,
+      "raw_format_valid": false,
+      "raw_generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R5:C1\"},\"op\":\"sub\",\"right\":{\"ref\":\"R1:C1\"}},\"evidence_refs\":[\"R5:C1\",\"R1:C1\"],\"unit\":\"thousand\")}",
+      "refs_valid": true,
+      "semantic_decision": "UNRESOLVED",
+      "semantic_reasons": [
+        "question_period_not_visible_in_program"
+      ],
+      "source_task_id": "NAT_train_f2340090_92e72397",
+      "stop_reason": "eos",
+      "syntax_adapter_actions": [
+        "remove_one_close_paren_before_final_json"
+      ],
+      "syntax_adapter_applied": true,
+      "table_uid": "f2340090-c6a9-41c2-a78b-64baaad9f3d5",
+      "target_exact": true,
+      "terminal_instruction_repeats": 0,
+      "variant": "original"
+    },
+    {
+      "actual_completion_tokens": 46,
+      "attempt_id": "known_edit_unit_f1f2",
+      "condition": "known_edit_control",
+      "failure": "none",
+      "format_valid": true,
+      "generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R2:C1\"},\"op\":\"sub\",\"right\":{\"ref\":\"R2:C2\"}},\"evidence_refs\":[\"R2:C1\",\"R2:C2\"],\"unit\":\"million\"}",
+      "instance_id": "NAT_train_f1f2c2cb_27cb53a0::original",
+      "interface_valid": true,
+      "latency_ms": 5616.743803024292,
+      "left_brace_count": 4,
+      "max_new_tokens": 64,
+      "program_correct": true,
+      "program_executable": true,
+      "program_value": 169.0,
+      "raw_format_valid": true,
+      "raw_generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R2:C1\"},\"op\":\"sub\",\"right\":{\"ref\":\"R2:C2\"}},\"evidence_refs\":[\"R2:C1\",\"R2:C2\"],\"unit\":\"million\"}",
+      "refs_valid": true,
+      "semantic_decision": "VALID",
+      "semantic_reasons": [],
+      "source_task_id": "NAT_train_f1f2c2cb_27cb53a0",
+      "stop_reason": "eos",
+      "syntax_adapter_actions": [],
+      "syntax_adapter_applied": false,
+      "table_uid": "f1f2c2cb-04d7-495b-a09e-8c919aff33ed",
+      "target_exact": true,
+      "terminal_instruction_repeats": 0,
+      "variant": "original"
+    },
+    {
+      "actual_completion_tokens": 46,
+      "attempt_id": "known_edit_ref_dac4",
+      "condition": "known_edit_control",
+      "failure": "none",
+      "format_valid": true,
+      "generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R2:C2\"},\"op\":\"sub\",\"right\":{\"ref\":\"R4:C2\"}},\"evidence_refs\":[\"R2:C2\",\"R4:C2\"],\"unit\":\"million\"}",
+      "instance_id": "NAT_train_dac4e923_dccd9dbf::original",
+      "interface_valid": true,
+      "latency_ms": 5706.166744232178,
+      "left_brace_count": 4,
+      "max_new_tokens": 64,
+      "program_correct": true,
+      "program_executable": true,
+      "program_value": 937.4000000000001,
+      "raw_format_valid": true,
+      "raw_generated_text": " \n{\"program\":{\"left\":{\"ref\":\"R2:C2\"},\"op\":\"sub\",\"right\":{\"ref\":\"R4:C2\"}},\"evidence_refs\":[\"R2:C2\",\"R4:C2\"],\"unit\":\"million\"}",
+      "refs_valid": true,
+      "semantic_decision": "VALID",
+      "semantic_reasons": [],
+      "source_task_id": "NAT_train_dac4e923_dccd9dbf",
+      "stop_reason": "eos",
+      "syntax_adapter_actions": [],
+      "syntax_adapter_applied": false,
+      "table_uid": "dac4e923-5543-407c-9661-7e49e496b537",
+      "target_exact": true,
+      "terminal_instruction_repeats": 0,
+      "variant": "original"
+    }
+  ],
+  "schema": "revision_operator_diagnostic_v1"
+}

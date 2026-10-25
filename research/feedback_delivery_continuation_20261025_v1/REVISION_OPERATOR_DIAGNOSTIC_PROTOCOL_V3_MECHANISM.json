@@ -1,0 +1,27 @@
+{
+  "schema": "revision_operator_diagnostic_protocol_v3",
+  "identity": "SMALL_DEVELOPMENT_REVISION_MECHANISM_COMPARISON_FORMAT_GUARDED",
+  "date": "2026-10-25",
+  "evidence_identity": "EXPOSED_DEVELOPMENT_DATA_ONLY_NOT_CONFIRMATION",
+  "base_protocol": "REVISION_OPERATOR_DIAGNOSTIC_PROTOCOL_V1.json",
+  "attempt_ids": [
+    "neutral_unit_f1f2",
+    "neutral_ref_dac4",
+    "category_unit_f1f2",
+    "category_ref_dac4",
+    "localization_unit_f1f2",
+    "localization_ref_dac4"
+  ],
+  "terminal_instruction": "Return exactly one JSON object matching {\"program\": <object>, \"evidence_refs\": <array>, \"unit\": <string>}. The final character must be } and no other text is allowed.",
+  "syntax_adapter": "If and only if strict JSON extraction fails, remove one close parenthesis before the final brace and retry; preserve raw text and report adapter use.",
+  "control_gate": {
+    "status": "PASS_WITH_COMMON_SYNTAX_ADAPTER",
+    "copy_exact": "2/2",
+    "known_edit_exact": "2/2",
+    "rescored_summary_sha256": "32f061a3a3fc3e0a5414d31767ba0ff44de064b08a7d5dd8ab26996c9404b8fb",
+    "rescored_rows_sha256": "265cf1a5204f9de42f8320814516bd8e9148d8bb1f3a9ced214de18f14c9942c"
+  },
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "batch_size": 1
+}

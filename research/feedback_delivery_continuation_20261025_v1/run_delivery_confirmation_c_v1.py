@@ -29,6 +29,7 @@ from same_candidate_feedback_a_v1 import (
     write_json,
     write_jsonl,
 )
+from exposure_union_guard_v1 import check_exposure
 from semantic_delivery_check_v3 import question_from_prompt, semantic_check
 
 
@@ -158,6 +159,8 @@ def main() -> int:
     parser.add_argument("--adapter-root", type=Path, required=True)
     parser.add_argument("--model-path", type=Path, required=True)
     parser.add_argument("--run-root", type=Path, required=True)
+    parser.add_argument("--exposure-manifest", type=Path, required=True)
+    parser.add_argument("--allow-development-exposure", action="store_true")
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--batch-size", type=int, default=16)
     args = parser.parse_args()
@@ -171,6 +174,13 @@ def main() -> int:
     if len(instances) != 72 or len({row["source_task_id"] for row in instances}) != 24:
         raise ValueError("unexpected_confirmation_shape")
     args.run_root.mkdir(parents=True, exist_ok=False)
+    exposure = check_exposure(
+        [row["source_task_id"] for row in instances],
+        [row["table_uid"] for row in instances],
+        args.exposure_manifest,
+        allow_development_exposure=args.allow_development_exposure,
+    )
+    write_json(args.run_root / "exposure_receipt_c_v1.json", exposure)
     write_jsonl(args.run_root / "delivery_confirmation_instances_c_v1.jsonl", instances)
 
     import torch

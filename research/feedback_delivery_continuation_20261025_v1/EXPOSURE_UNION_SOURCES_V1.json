@@ -1,0 +1,60 @@
+{
+  "schema": "exposure_union_sources_v1",
+  "date": "2026-10-25",
+  "identity": "PRE_GENERATION_CONFIRMATION_EXCLUSION_UNION",
+  "source_identity_boundary": "task_id/question_uid/table_uid only; report/company identity is unavailable and is not claimed",
+  "sources": [
+    {
+      "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_v2.jsonl",
+      "role": "training_and_earlier_task_derivation"
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/feedback_learning_finance_20261024_v2/SOURCE_DISJOINT_TASK_MANIFEST_V4.json",
+      "role": "source_disjoint_selection_and_prior_input_manifest"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/evaluation_instances_v2.jsonl",
+      "role": "development_evaluation"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/confirmation_v3/confirmation_instances_v3.jsonl",
+      "role": "historical_confirmation"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_source_disjoint_v4.jsonl",
+      "role": "source_disjoint_pool"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/natural_error_repair_v4/error_pool_instances_v4.jsonl",
+      "role": "natural_error_collection"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/natural_error_repair_v4/error_repair_confirmation_instances_v4.jsonl",
+      "role": "historical_error_repair_confirmation"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/weighted_confirmation_instances_v5.jsonl",
+      "role": "method_development_and_prior_error_pool_replay"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a/intervention_instances_a_v1.jsonl",
+      "role": "feedback_intervention_development"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a_neutral_v2/neutral_revision_instances_a_v2.jsonl",
+      "role": "interface_failure_replay"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a_neutral_v3/neutral_revision_instances_a_v2.jsonl",
+      "role": "neutral_revision_development"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a_oracle_v3/oracle_localization_instances_a_v3.jsonl",
+      "role": "oracle_assisted_development"
+    },
+    {
+      "path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/delivery_confirmation_c_v1/delivery_confirmation_instances_c_v1.jsonl",
+      "role": "prior_error_pool_delivery_replay"
+    }
+  ]
+}
