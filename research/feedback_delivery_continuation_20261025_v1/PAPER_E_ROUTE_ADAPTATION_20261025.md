@@ -129,12 +129,15 @@ not be used to widen the ICAART claim.
 | Publication event | Conference 2027-02-23 to 2027-02-26, Valletta; presentation is mandatory for online proceedings publication | Online-only hybrid journal; no mandatory conference presentation |
 | Known fee | Early non-member speaker registration EUR 680; extra page EUR 50/page; optional early social event EUR 80; travel unknown | Submission, page and color charges are free; subscription APC is zero; optional OA APC currently GBP 2,390 / USD 3,290 / EUR 2,690 plus tax |
 | Paper length | 10,000-50,000 non-whitespace characters; Full 12 pages, Short 8 pages, at most 4 paid extra pages | No fixed page count found in the checked author guidance; structured abstract 150-250 words and complete editable sources required |
-| Known risk | Acceptance may be Full or Short; if Short and 11 pages are retained, 3 extra pages cost EUR 150 or the paper must be compressed. Travel and presentation are real obligations. | First decision median is not a publication guarantee; final timing and school recognition remain unknown. Conversion effort is moderate. |
+| Known risk | Acceptance may be Full or Short; if Short and the current 12 pages are retained, four extra pages cost EUR 200 or the paper must be compressed to eight pages. Travel and presentation are real obligations. | First decision median is not a publication guarantee; final timing and school recognition remain unknown. Conversion effort is moderate. |
 
-Known ICAART subtotal is EUR 680-830 before travel, using early non-member
-speaker registration and either no extra pages or three extra pages if accepted
-as Short. The optional social event adds EUR 80. Do not present these figures
-as total cost.
+For the current 12-page manuscript, known ICAART subtotal is EUR 680 if
+accepted as Full and EUR 880 if accepted as Short but all 12 pages are
+retained. The optional social event adds EUR 80, making the known range
+EUR 680-960 before travel. Travel, visa and local transport remain unknown and
+must be added separately. The SN Computer Science subscription route has zero
+submission, page, color and APC charges; optional open access remains GBP
+2,390 / USD 3,290 / EUR 2,690 plus tax.
 
 ## Near-Neighbor Full-Text Status
 

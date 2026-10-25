@@ -7,16 +7,19 @@
 
 2026-10-25 完成 P0 合同修正、同一候选反馈干预、oracle-assisted 机制诊断、24-family 固定模型交付回放和 Paper E 路由适配。可见定位/执行反馈均未修复开发面板的 16 个原错；普通中性重答在先前 V4/V5 error-pool 回放上为 62/72，优于原始 60/72 和定位修订 59/72。独立复核确认这 24 个任务全部与旧 error pool 重合，故不是新 family 确认。当前 O/R/E 因缺少反馈衍生且训练合格的纠正监督未训练。Paper E 为 ICAART 条件主投、SN Computer Science 顺序备投，送审按 2027 年 10 月倒排。详见 [本轮研究回执](../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)。
 
+2026-10-25 小型修订算子诊断继续：共同语法适配后，正确复制 2/2、已知最小编辑 2/2；但 neutral/category/localization 对两个开发错误均为 0/2 目标精确。模型能执行明确编辑，当前可见诊断没有转化成正确编辑动作。新增 20 attempts / 9,012 tokens；完整训练与新来源确认已提出独立预算，未获增额前不执行。
+
 | 用途 | 当前权威入口 |
 |---|---|
 | 当前方法实验 | [RESEARCH_RETURN_20261025](../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)、[EXPERIMENT_A](../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json)、[REPLAY_C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) |
+| 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
 | Paper E 投稿路线 | [PAPER_E_ROUTE_ADAPTATION](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)：ICAART 条件主投、SN Computer Science 顺序备投 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
 | 新阶段方向与授权衔接 | [四项 Goals v2](../docs/research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；当前为部分完成，G2 停止、G3 暂停、第三贡献进入有界开发 |
 | 当前回执 | [RESEARCH_RETURN_20261025](../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)；V5/V4/V3 回执为前序证据 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
-| 当前聚合记账 | [RESOURCE_LEDGER](../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,044 attempts / 9,160,660 tokens；训练 token 单列 3,495,424 |
+| 当前聚合记账 | [RESOURCE_LEDGER](../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练 token 单列 3,495,424 |
 | 历史 Portfolio 账本 | [COST_AND_CANDIDATES.json](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；历史独立账本不混算 |
 | 未决事项 | [THREADS.md](THREADS.md) |
 
@@ -29,7 +32,7 @@
 - 第三研究点：`NARROW_TO_STAGE_SEPARATED_EVIDENCE_RELIABILITY`。scope 的 30 对 35 probe 节省已由 exact cache + miss revalidation 完全解释；scope 面板停止扩样。
 - G2 状态到行动：`CONTINUE_RQ_U_DEVELOPMENT_ONLY / NO_METHOD_GAIN`。plain/decision fact 为 2/8 对 3/8、action 均 1/8；当前 action 分布是 `1/6/1` 对 `1/5/2`。现有 bundle 会丢新事实，不能据此证明正确状态无法迁移到行动。
 - G3 增量补查：`KEEP_RQ_A_WITH_HEADROOM / NO_POLICY_CLAIM`。oracle 只证明目标定义下的覆盖/成本空间；depth-2 `5/43` 与同预算随机相容，不能称弱可学习信号；模型接口仍是 `UNEVALUATED_NO_VALID_DECISION`。
-- C2 反馈学习：`VISIBLE_REPAIR_STOPPED / OE_NOT_TRAINED`。开发面板中 ordinary/neutral 56/72，localization 49/72、execution 40/72，三者 `wrong_to_correct=0`；oracle 类别可修 3/16，但破坏 54 个原对且格式完成率仅 13/72。无反馈衍生且训练合格的纠正监督，不把答案重加权命名为反馈学习。
+- C2 反馈学习：`EXPLICIT_EDIT_EXECUTABLE / VISIBLE_DIAGNOSIS_NO_INCREMENT / OE_NOT_TRAINED`。共同语法适配后正确复制 2/2、已知最小编辑 2/2；neutral/category/localization 对两个开发错误均 0/2 目标精确。当前限制更像诊断到编辑的利用缺口，但不禁止用教师/工具监督教会修订；下一阶段预算独立申请。
 - C3 可靠交付：`NEUTRAL_RETRY_STRONG_BASELINE / LOCALIZATION_REPAIR_STOPPED`。先前 V4/V5 error-pool 回放上 original 60/72、neutral retry 62/72、localization 59/72；定位修订修对 3 个、破坏 4 个。该面板 24/24 与旧 error pool 重合，不能作新 family 确认；透明门控与有界修复仅以 33-34 次弃答换取较低条件错误率。
 - FinRank：`STOP_ON_CURRENT_PANEL`，不重开 H/K；当前负结果不否定经验复用的一般可能性。
 - MA-CERD：资源 membership 基线不等于依赖边传播；selective escalation 未验证，完整动作集合 exact match 与动作可接受性须区分，见[更正](../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md)。
@@ -42,6 +45,6 @@
 
 本轮 Git 和离线治理不是生产运行检查；运行约束仍见 [CORE.md](CORE.md)。未核实的生产问题、外部发送和审批事项保留在 [THREADS.md](THREADS.md)，不随文档归档自动关闭。
 
-当前 Goal 累计 3,396 个 accounting attempts、536 次 physical HTTP、251 次本地批量 generate、8,707,353 accounting tokens，其中 judge 113 次。累计 14 次 LoRA SFT、3,495,424 training tokens、3,117.78 GPU-seconds。V4/V5 新增 624 attempts、313,796 generation tokens、1,026,672 training tokens；语义检查与修复回放均为 0 模型请求。付费 API 和生产 Memory 写回仍为零。
+当前 Goal 累计 4,064 个 accounting attempts、536 次 physical HTTP、316 次本地批量 generate、9,169,672 accounting tokens，其中 judge 113 次。累计 14 次 LoRA SFT、3,495,424 training tokens、3,117.78 GPU-seconds。本轮修订诊断新增 20 attempts、8,060 prompt tokens、952 actual non-padding completion tokens；一次 runner 故障发生在生成前，计 0 attempts。付费 API 和生产 Memory 写回仍为零。
 
 原 THREADS 完整快照保留在 [memory/archive/THREADS_2026-10-21_pre_workspace_governance.md](archive/THREADS_2026-10-21_pre_workspace_governance.md)。2026-10-19 收口前状态见 [历史状态](../docs/archive/2026-10-19_memory_state_history.md)；更早快照仍为 `memory/archive/STATE_2026-09-22_pre_governance.md`。

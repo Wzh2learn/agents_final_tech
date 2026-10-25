@@ -2,17 +2,17 @@
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
   "date": "2026-10-25",
-  "status": "P0_REPAIRED_A_NEGATIVE_B_NOT_TRAINED_C_PRIOR_POOL_REPLAY_PAPER_E_ROUTE_READY",
+  "status": "REVISION_OPERATOR_CONTROL_PASS_FEEDBACK_NO_INCREMENT_NEXT_BUDGET_REQUESTED",
   "active_goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
   "accounting_identity_note": "Generation events record generation-only tokens; training_events record training tokens separately. Both are included in new_budget.accounting_tokens_used. V3 post-hoc rescore and delivery replay add zero model calls.",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 4044,
+    "attempts_used": 4064,
     "physical_http_calls": 536,
-    "local_batched_generate_calls": 296,
+    "local_batched_generate_calls": 316,
     "interrupted_individual_generate_calls_upper_bound": 128,
-    "accounting_tokens_used": 9160660,
+    "accounting_tokens_used": 9169672,
     "judge_calls": 113,
     "training_runs": 14,
     "training_gpu_seconds": 3117.7787792682647,
@@ -191,6 +191,19 @@
       "training_runs": 0,
       "raw_result": "research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json",
       "remote_raw": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/"
+    },
+    {
+      "id": "REVISION_OPERATOR_DIAGNOSTIC_20261025",
+      "accounting_attempts": 20,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 20,
+      "accounting_tokens": 9012,
+      "status": "COMPLETE_CONTROL_PASS_WITH_SYNTAX_ADAPTER_FEEDBACK_NO_INCREMENT",
+      "model": "Qwen3-4B ordinary_answer_execution_sft frozen checkpoint",
+      "judge_calls": 0,
+      "training_runs": 0,
+      "raw_result": "research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/revision_operator_diagnostic_v1/"
     }
   ],
   "training_events": [

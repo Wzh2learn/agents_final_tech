@@ -22,7 +22,7 @@ Status: `INTERNAL_PACKAGE_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
   accepted paper must be presented by an author to appear in the proceedings
   and SCITEPRESS Digital Library. Presentation format and school recognition
   remain Owner decisions.
-- Review PDF: 11 A4 pages, 9pt tables/references, 21/21 citations, anonymous.
+- Review PDF: 12 A4 pages, 9pt tables/references, 24/24 citations, anonymous.
 - Target package audit: PASS.
 - Private artifact candidate: complete and reproducible on GB10; not public.
 - Scientific scope remains exactly two cases. G2/G3 do not block submission.
@@ -31,6 +31,22 @@ Status: `INTERNAL_PACKAGE_READY / OWNER_EXTERNAL_ACTIONS_REQUIRED`
   submission will be available soon. Treat this as a live-entry check only;
   do not upload without the final Owner authorization and a fresh system
   check.
+
+## Current 12-Page Cost Decision
+
+- Recommended primary: ICAART 2027 Regular. Known venue subtotal is EUR 680
+  if accepted as Full. If accepted as Short and all 12 pages are retained,
+  four extra pages cost EUR 200, for EUR 880. The optional early social event
+  adds EUR 80. Travel, visa and local transport are not included and remain
+  unknown.
+- Sequential backup: SN Computer Science subscription publishing. Submission,
+  page and color charges and subscription APC are zero. Optional open access
+  is GBP 2,390 / USD 3,290 / EUR 2,690 plus tax; it is not required for the
+  subscription route.
+- Do not choose ICAART because of the near deadline. Choose it only if Owner
+  accepts author presentation/travel and confirms that SCITEPRESS proceedings
+  satisfy school recognition. Otherwise switch to SNCS without simultaneous
+  submission.
 
 ## Required Owner Decisions
 

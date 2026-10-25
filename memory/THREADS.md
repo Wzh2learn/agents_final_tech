@@ -8,8 +8,9 @@ Updated: 2026-10-25
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-C2-SUPERVISION | `FEEDBACK_DERIVED_TRAINING_QUALIFIED_CORRECTIONS_REQUIRED` | 当前 visible feedback 未修对任何开发错误，oracle 纠正不能作为部署监督。下一步先稳定 one-shot revision operator，再在取得反馈衍生、独立核验、source-isolated 且训练合格的纠正轨迹后做同起点 O/R/E；否则停止该学习候选 |
-| C2-FEEDBACK-REPAIR | `STOP_CURRENT_ONE_SHOT_REPAIR_REPRESENTATION` | [实验 A](../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json) 中 neutral 56/72、localization 49/72、execution 40/72，`wrong_to_correct=0`；这不是反馈学习一般无效 |
+| NEXT-C2-SUPERVISION | `TEACHER_OR_TOOL_CORRECTIONS_REQUIRED` | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)显示模型能执行 2/2 明确最小编辑，但 neutral/category/localization 均 0/2 目标精确。下一步允许教师、确定性编辑器或训练来源参考生成合格纠正，不把学生先自行修对作为前提 |
+| NEXT-PHASE-BUDGET | `REQUESTED_NOT_AUTHORIZED_672_ATTEMPTS` | [独立预算](../research/feedback_delivery_continuation_20261025_v1/NEXT_PHASE_BUDGET_REQUEST_V1.json)请求 672 generation attempts、2.8M generation tokens、4 training runs、4.0M training tokens；旧余额仅留核对，不重置或冒充新阶段 |
+| C2-FEEDBACK-REPAIR | `EXPLICIT_EDIT_EXECUTABLE_VISIBLE_DIAGNOSIS_NO_INCREMENT` | 共同语法适配后 copy 2/2、known edit 2/2；两个开发错误上 neutral/category/localization 均 0/2 目标精确。当前停止文本定位直接修订配方，但训练教会修订仍开放 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)要求 Owner 在 2026-10-29 AoE 前授权并确认宣读/差旅和学校认可；任一不成立则转 SNCS，禁止同时投稿 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
