@@ -1,0 +1,430 @@
+{
+  "schema": "phase_b_task_result_c_reaudit3b_v1",
+  "task_id": "phaseb-b1-reaudit3b-c-20261026",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "role": "C_INDEPENDENT_REAUDIT3B",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "project_dir": "/home/testuser/wzh/phase_b_worktree_20261026",
+  "verdict": "CONDITIONAL",
+  "verdict_scope": "H1 materialized-target sign-reversal disclosure, the sole SET_BINDING_SET_ACCURACY estimand and claim limits, and the H2 order-only OPERAND_ORDER_SIGN_REVERSAL rule, against A remediation3 outputs",
+  "interface_evidence": {
+    "prior_task_id": "phaseb-b1-reaudit3-c-20261026",
+    "prior_verdict": "REJECTED",
+    "prior_reason_code": "AUDIT_NOT_EXECUTABLE_INPUTS_INACCESSIBLE",
+    "prior_archive": "archive/B1_C_REAUDIT3_INACCESSIBLE_20261026.log",
+    "prior_was_substantive_h1_h2_finding": false,
+    "retained_as": "INTERFACE_EVIDENCE_ONLY",
+    "superseded_as_h1_h2_judgement_by": "phaseb-b1-reaudit3b-c-20261026",
+    "this_run_read_access": "GRANTED",
+    "this_run_write_access": "GRANTED",
+    "corpus_committed_to_git": false,
+    "corpus_branch": "phase-b-feedback-learning-20261026",
+    "corpus_tip_equals_main": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca"
+  },
+  "conditions": [
+    {
+      "id": "H1-a",
+      "requirement": "disclosed sign-reversal counts match the trajectories",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "independently recomputed 3 sign-reversed eligible rows in 2 of 3 eligible source families from e_patch applied to o_output.parsed_candidate"
+    },
+    {
+      "id": "H1-b",
+      "requirement": "per-family disclosed frozen and materialized target forms match the trajectories",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "bdeeb701 R3:C1-R2:C1 vs frozen R2:C1-R3:C1; b74eaf04 R11:C1-R11:C2 vs frozen R11:C2-R11:C1; units preserved; set equal on 5/5"
+    },
+    {
+      "id": "H1-c",
+      "requirement": "sole qualified estimand is SET_BINDING_SET_ACCURACY",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "byte-identical estimand block in manifest, result and receipt; no second estimand anywhere in the package"
+    },
+    {
+      "id": "H1-d",
+      "requirement": "operator, order and unit preserved as deployment contract fields",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "arms R/E outputs, reference_program_input false, strict_json_requirement, patch_failure_action REJECT_AND_RECORD; direction/unit training_target false; 0 /unit and 0 /op patch operations"
+    },
+    {
+      "id": "H1-e",
+      "requirement": "not answer correctness and never scored against the reference answer",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "eligible_set_binding_target_answer_claim false on 5/5; frozen_reference_target_qualification AUDIT_ONLY_NOT_A_TRAINING_TARGET on 72/72; target_exact_is_not_semantic_gold true"
+    },
+    {
+      "id": "H1-f",
+      "requirement": "no feedback-derived learning claim",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "feedback_learning_claim NOT_QUALIFIED on 72/72; feedback_derived_fields empty; deployment minimal_edit_instruction null on 72/72; R/E differences empty on 72/72"
+    },
+    {
+      "id": "H1-g",
+      "requirement": "no new-source confirmation claim",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "exposure.confirmation_claim NONE; eligible_for_current_confirmation false on 72/72; future pool RESERVED_CANDIDATE_NOT_CURRENTLY_EXPOSURE_CLEAN; panel confirmation_claim NONE"
+    },
+    {
+      "id": "H2",
+      "requirement": "order-only OPERAND_ORDER_SIGN_REVERSAL remains UNRESOLVED with no training target",
+      "status": "CLOSED",
+      "verdict": "ACCEPTED",
+      "verified": "rule block identical in manifest/result/receipt with order_only_difference UNRESOLVED_NO_TRAINING_TARGET; 6/6 order-only rows UNRESOLVED with null e_patch and training_target false"
+    },
+    {
+      "id": "R-1",
+      "requirement": "report and receipt agree on the focused-suite subcase count",
+      "status": "OPEN",
+      "verdict": "CONDITION",
+      "verified": "B1_REPORT.md says 26; REGISTERED_SUBCASES and both receipts say 27"
+    }
+  ],
+  "closed_conditions": [
+    "H1-a",
+    "H1-b",
+    "H1-c",
+    "H1-d",
+    "H1-e",
+    "H1-f",
+    "H1-g",
+    "H2"
+  ],
+  "blocking_open_conditions": [
+    "R-1"
+  ],
+  "findings": [
+    {
+      "id": "R-1",
+      "label": "FACT",
+      "severity": "low",
+      "condition": "report-and-receipt-consistency",
+      "blocking_for_acceptance": true,
+      "summary": "B1_REPORT.md section Tests reports 26 deterministic subcases while the ground truth and both receipts report 27",
+      "evidence": "B1_TEST_LOCAL_EDIT_APPLIER.py REGISTERED_SUBCASES = 27 and a 27-entry case list asserted by len(cases) == REGISTERED_SUBCASES; B1_REMEDIATION3_RESULT_A.json tests.subcases = 27; B1_QUALIFICATION_RECEIPT.json tests.subcases = 27; B1_REPORT.md states '26 deterministic subcases'",
+      "not_a_substantive_h1_h2_defect": true,
+      "remediation": "correct the report to 27 and refresh its digest in the result and the receipt, or have D record the discrepancy explicitly at freeze; must not be frozen silently"
+    },
+    {
+      "id": "R-2",
+      "label": "ADVISORY",
+      "severity": "informational",
+      "condition": "disclosure-completeness",
+      "blocking_for_acceptance": false,
+      "summary": "the non-sign-reversed eligible source family is not named in the manifest disclosure block",
+      "evidence": "materialized_target_disclosure.families lists only bdeeb701 and b74eaf04; totals 3 of 5 rows and 2 of 3 families are stated, so NAT_train_dac4e923_dccd9dbf is derivable only by complement or by opening the trajectories",
+      "remediation": "optional; record the third family name in the D freeze note"
+    }
+  ],
+  "recomputed": {
+    "corpus": {
+      "trajectories": 72,
+      "source_families": 24,
+      "variants_per_family": 3
+    },
+    "eligibility": {
+      "CORRECT_NO_OP": 40,
+      "CORRECT_NO_OP_WITH_UNRESOLVED_UNIT_LABEL": 16,
+      "ELIGIBLE": 5,
+      "UNRESOLVED": 11
+    },
+    "eligible_family_decomposition": [
+      {
+        "family": "NAT_train_dac4e923_dccd9dbf",
+        "frozen_reference": "R2:C2-sub-R4:C2",
+        "materialized_target": "R2:C2-sub-R4:C2",
+        "set_equals_gold_set": true,
+        "order_equals_gold": true,
+        "sign_reversed_vs_gold": false,
+        "patched_after": 937.4,
+        "reference_answer": 937.4,
+        "eligible_variants": [
+          "original",
+          "irrelevant_change"
+        ]
+      },
+      {
+        "family": "NAT_train_bdeeb701_c6f0281e",
+        "frozen_reference": "R2:C1-sub-R3:C1",
+        "materialized_target": "R3:C1-sub-R2:C1",
+        "set_equals_gold_set": true,
+        "order_equals_gold": false,
+        "sign_reversed_vs_gold": true,
+        "patched_after": -1715.9,
+        "reference_answer": 1715.9,
+        "eligible_variants": [
+          "relevant_change"
+        ]
+      },
+      {
+        "family": "NAT_train_b74eaf04_caa15292",
+        "frozen_reference": "R11:C2-sub-R11:C1",
+        "materialized_target": "R11:C1-sub-R11:C2",
+        "set_equals_gold_set": true,
+        "order_equals_gold": false,
+        "sign_reversed_vs_gold": true,
+        "patched_after": -78.41,
+        "reference_answer": 78.41,
+        "eligible_variants": [
+          "original",
+          "irrelevant_change"
+        ]
+      }
+    ],
+    "sign_reversal_disclosure": {
+      "eligible_row_count": 5,
+      "eligible_source_family_count": 3,
+      "sign_reversed_eligible_row_count": 3,
+      "sign_reversed_eligible_source_family_count": 2,
+      "sign_reversed_rows": [
+        "NAT_train_bdeeb701_c6f0281e::relevant_change",
+        "NAT_train_b74eaf04_caa15292::original",
+        "NAT_train_b74eaf04_caa15292::irrelevant_change"
+      ],
+      "sign_reversed_families": [
+        "NAT_train_b74eaf04_caa15292",
+        "NAT_train_bdeeb701_c6f0281e"
+      ],
+      "non_sign_reversed_eligible_family": "NAT_train_dac4e923_dccd9dbf",
+      "materialized_target_executes_to_reference_answer": false,
+      "disclosure_matches_recomputation": true
+    },
+    "mechanism": {
+      "independent_mechanism_count": 1,
+      "mechanism": "VISIBLE_SET_BINDING_REBINDING",
+      "subtype_trajectory_counts": {
+        "ROW_ROLE_MISBINDING": 3,
+        "ROW_AND_PERIOD_ROLE_MISBINDING": 2
+      },
+      "subtype_source_family_counts": {
+        "ROW_ROLE_MISBINDING": 2,
+        "ROW_AND_PERIOD_ROLE_MISBINDING": 1
+      },
+      "trajectory_count": 5,
+      "source_family_count": 3
+    },
+    "operand_order_sign_reversal_rows": {
+      "count": 6,
+      "eligibility_status": "UNRESOLVED",
+      "direction_status": "UNRESOLVED",
+      "correction_target_status": "SET_PRESERVED_DIRECTION_UNRESOLVED",
+      "e_patch_null": 6,
+      "set_binding_training_target_false": 6
+    },
+    "set_binding_direction_separation": {
+      "direction_training_target_false": 72,
+      "direction_patch_paths_allowed_empty": 72,
+      "patch_direction_edited_false": 61,
+      "patch_operator_edited_false": 61,
+      "patch_unit_edited_false": 61,
+      "unit_patch_operations": 0,
+      "operator_patch_operations": 0
+    },
+    "units": {
+      "unit_mismatch_trajectories": 17,
+      "unit_only_mismatch_trajectories": 16,
+      "unit_corrections_unresolved": 17,
+      "unit_field_status_UNRESOLVED": 17
+    },
+    "information_parity": {
+      "deployment_minimal_edit_instruction_null": 72,
+      "training_reference_minimal_edit_instruction_non_null": 61,
+      "teacher_reference_minimal_edit_instruction_non_null": 61,
+      "r_e_feedback_differences_empty": 72,
+      "r_e_feedback_identical_true": 72
+    },
+    "claim_limits": {
+      "feedback_learning_claim_NOT_QUALIFIED": 72,
+      "confirmation_gold_null": 72,
+      "eligible_set_binding_target_answer_claim_false": 5,
+      "frozen_reference_target_qualification_AUDIT_ONLY": 72,
+      "exposure_role_EXPOSED_DEVELOPMENT_SUPERVISION": 72,
+      "eligible_for_current_confirmation_false": 72
+    },
+    "visible_evidence_tests": {
+      "pass": 5,
+      "total": 5,
+      "hidden_reference_used_for_direction_true": 0,
+      "derived_from_gold_true": 0
+    },
+    "allowed_answer_units": {
+      "non_empty_rows": 9,
+      "vocabulary": [
+        "percent",
+        "reported"
+      ],
+      "rule": "lexical unit-vocabulary strings literally present in the deployment prompt",
+      "contains_hidden_scale_claim_true": 0
+    },
+    "natural_operator_errors": 0,
+    "verification_overall": {
+      "PASS": 30,
+      "UNRESOLVED": 42
+    },
+    "rows_with_unresolved_period_semantics": 19
+  },
+  "hashes": {
+    "external_sources": {
+      "matched": 5,
+      "total": 5,
+      "weighted_confirmation_instances_v5.jsonl": "02cb67fb1bdd324dc59f757f5f69a9f3defec77466af97d71203be01a70003c1",
+      "weighted_confirmation_results_v5.jsonl": "456aa2a67a629260177642aabf0c4bf4d3ed3fd89ce7b61d67c7b3e62335e0f6",
+      "EXPOSURE_UNION_SOURCES_V1.json": "fb96936698638cb531eadaa0cffde6ff5479a14cea83500701b8a3c1323ac8f3",
+      "source_disjoint_results_v4.jsonl": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+      "natural_tasks_source_disjoint_v4.jsonl": "2d53ed2e0733ef90f9860c3d9e613f5b76e8de43360d36e064da6db4d4ba0ace"
+    },
+    "per_trajectory": {
+      "instance_sha256_bound": "72/72",
+      "table_sha256_recomputed": "72/72",
+      "e_patch_candidate_sha256_recomputed": "61/61",
+      "e_patch_target_sha256_recomputed": "61/61",
+      "set_binding_equals_r_target": "61/61"
+    },
+    "receipt_artifacts": {
+      "matched": 16,
+      "total": 16
+    },
+    "result_outputs": {
+      "matched": 10,
+      "total": 10
+    },
+    "cross_checked_shared_keys": 7,
+    "archive_preservation": {
+      "archive/B1_REMEDIATION1_RAW_TRAJECTORIES.jsonl": "540df692b04378f867e3d0b59435fbbc07e992dac8d77fadc6860978b4ef0cdb",
+      "archive/B1_REMEDIATION1_SCORE_RESULT_A.json": "eae35b9daf9047df3b8054b79afb489099d9d6ec6dcffaaa538017a52c73688a",
+      "B1_REMEDIATION_RESULT_A.json_identical_to_archive_score": true
+    }
+  },
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "commit_pin": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "byte_size": 21673,
+    "gb10_lf_sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "identity_match": true,
+    "independently_rederived": true,
+    "superseded_noncanonical_sha256": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922"
+  },
+  "qualified_estimand": {
+    "name": "SET_BINDING_SET_ACCURACY",
+    "definition": "correct visible cell set with operator, order and unit preserved",
+    "is_answer_correctness": false,
+    "score_against_reference_answer": "NEVER",
+    "identical_across_manifest_result_receipt": true,
+    "operator_order_unit_preserved_as_deployment_contract_fields": true,
+    "operator_order_unit_are_training_targets": false
+  },
+  "supervision_qualification": {
+    "mode": "REFERENCE_DERIVED_VISIBLE_SET_BINDING_REVISION_SUPERVISION",
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "feedback_derived_fields": [],
+    "answer_correctness": "NOT_QUALIFIED",
+    "confirmation": "NONE",
+    "confirmation_gold": null,
+    "human_gold": false,
+    "source_role": "EXPOSED_DEVELOPMENT_SUPERVISION",
+    "independence_boundary": "task_id/question_uid/table_uid only; report/company and cross-dataset independence unavailable and not claimed",
+    "not_qualified": [
+      "answer correctness of the materialized set-binding targets",
+      "unit-field corrections (17/17 UNRESOLVED)",
+      "comparison-direction / order-only corrections (OPERAND_ORDER_SIGN_REVERSAL, 6 rows UNRESOLVED)",
+      "direction component of eligible targets (frozen to O, not a target)",
+      "any feedback-derived learning claim",
+      "any new-source or independent confirmation claim",
+      "report/company or cross-dataset independence"
+    ],
+    "qualified": [
+      "visible set-binding reference-rebinding development supervision over 3 source families / 5 eligible trajectories, qualified for SET_BINDING_SET_ACCURACY only",
+      "40 correct/no-op, 16 unresolved-unit-label and 11 unresolved controls in a 72-row corpus",
+      "fail-closed deterministic applier with empty R/E feedback-content diff"
+    ],
+    "promotion_by_this_audit": "NONE"
+  },
+  "panel": {
+    "artifact": "B2_DEVELOPMENT_PANEL_DRAFT.json",
+    "family_count": 12,
+    "trajectory_count": 36,
+    "originally_correct_family_denominator": {
+      "count": 7,
+      "denominator": 12,
+      "fraction": "7/12"
+    },
+    "originally_wrong_family_count": 5,
+    "status": "PROPOSED_NOT_FROZEN",
+    "development_only": true,
+    "training_authorized": false,
+    "confirmation_claim": "NONE",
+    "source_role": "EXPOSED_DEVELOPMENT_SUPERVISION",
+    "frozen_by_this_audit": false
+  },
+  "tests": {
+    "focused_suite": {
+      "command": "python3 research/feedback_learning_phase_b_20261026_v1/B1_TEST_LOCAL_EDIT_APPLIER.py -v",
+      "status": "PASS",
+      "exit_code": 0,
+      "registered_tests": 1,
+      "subcases": 27,
+      "wall_seconds": 0.034,
+      "executed_by_c": true
+    },
+    "report_claims_subcases": 26,
+    "ground_truth_subcases": 27,
+    "subcase_count_inconsistency": true,
+    "full_repository_suite": {
+      "status": "NOT_RUN_BY_C",
+      "preserved_a_record": "967 passed, 1 failed on missing FinQA fixture, 14 skipped, 1 deselected",
+      "output_sha256": "076cf2111e57062d65c093fc88e16069f1e22a79fa27af12248c593bf0669f89"
+    },
+    "gb10_runtime": "NOT_RUN"
+  },
+  "budget": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "model_or_judge_calls": 0,
+    "canary_calls": 0,
+    "judge_calls": 0,
+    "health_probes": 0,
+    "production_probes": 0,
+    "endpoint_probes": 0,
+    "db_probes": 0,
+    "new_runs": 0,
+    "budget_ledger_modified": false
+  },
+  "excluded": [
+    {
+      "item": "full repository test suite",
+      "status": "NOT_RUN_BY_C",
+      "reason": "smallest relevant suite only; A's preserved remediation2 record cited and not rerun"
+    },
+    {
+      "item": "GB10 runtime",
+      "status": "NOT_RUN",
+      "reason": "local audit only; GB10 remains authoritative and local results are labelled local"
+    },
+    {
+      "item": "model, judge, canary, training, endpoint, DB and production probes",
+      "status": "NOT_RUN",
+      "reason": "zero-endpoint discipline for this C task"
+    },
+    {
+      "item": "frozen run artifacts under /home/testuser/wzh/research_runs/",
+      "status": "HASH_VERIFIED_ONLY",
+      "reason": "content used only as hash inputs; source identity taken from the frozen trajectory rows"
+    }
+  ],
+  "files_written": [
+    "research/feedback_learning_phase_b_20261026_v1/audits/B1_C_REAUDIT3B.md",
+    "research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_REAUDIT3B.json"
+  ],
+  "next_gate": "A resolves R-1 (correct the report subcase count to 27 and refresh the report/result/receipt digests, or D records the discrepancy explicitly); then D freezes the exact 12-family panel, the sole SET_BINDING_SET_ACCURACY estimand and the 7/12 originally-correct denominator before any B2 dispatch. B2 training must not start while the package is conditional.",
+  "ai_review_is_not_human_gold": true
+}

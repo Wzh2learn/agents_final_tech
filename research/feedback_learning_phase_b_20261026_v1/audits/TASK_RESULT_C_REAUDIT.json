@@ -1,0 +1,326 @@
+{
+  "schema": "phase_b_task_result_c_reaudit_v1",
+  "task_id": "phaseb-b1-reaudit-c-20261026",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "role": "C_INDEPENDENT_REAUDIT",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "verdict": "CONDITIONAL",
+  "verdict_scope": "A remediation of B1 supervision qualification against B1_D_REMEDIATION_GATE.md C-1..C-6",
+  "blocking_open_conditions": [
+    "C-1"
+  ],
+  "closed_conditions": [
+    "C-2",
+    "C-3",
+    "C-4",
+    "C-5",
+    "C-6"
+  ],
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "commit_pin": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "bytes": 21673,
+    "sha256_gb10_lf": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "sha256_superseded_windows": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922",
+    "independently_rederived": true,
+    "carriage_returns_in_blob": 0,
+    "digest_matches": true
+  },
+  "conditions": [
+    {
+      "id": "C-1",
+      "status": "OPEN",
+      "verdict": "CONDITIONAL",
+      "requirement": "Define visible-evidence sufficiency and a frozen correction operator for each natural error type; demonstrate at least two types pass.",
+      "met": [
+        "two types registered with per-type sufficiency tests and named correction operators",
+        "5/5 eligible trajectory-level visible-evidence tests PASS",
+        "WRONG_OPERATOR explicitly absent with natural_occurrence_count 0",
+        "five further types narrowed to UNRESOLVED with reasons; no fabricated errors",
+        "zero e_patch on every UNRESOLVED row"
+      ],
+      "open_findings": [
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "note": "Letter of D gate satisfied; substance of B1_D_FREEZE_GATE.md Supervision Gate item 1 not yet evidenced."
+    },
+    {
+      "id": "C-2",
+      "status": "CLOSED",
+      "verdict": "CLOSED",
+      "requirement": "Mark every unit-field correction UNRESOLVED; exclude unit targets from R/E supervision and from the patch schema legal edit targets.",
+      "evidence": [
+        "17/17 unit mismatches UNRESOLVED",
+        "16/16 unit-only mismatches also UNRESOLVED",
+        "zero /unit operations among the 16 patch operations",
+        "/unit absent from applier ALLOWED_PATHS and listed in contract forbidden_paths",
+        "candidate_unit_mutated fail-closed check present",
+        "tested by _all_unit_mismatches_are_unresolved_and_no_patch_edits_unit and _unit_path_is_forbidden_even_when_lexically_visible"
+      ]
+    },
+    {
+      "id": "C-3",
+      "status": "CLOSED",
+      "verdict": "CLOSED",
+      "requirement": "allowed_answer_units empty unless literally visible in deployment input; minimal_edit_instruction in training/teacher reference fields only; record the R-versus-E feedback-content diff.",
+      "evidence": [
+        "allowed_answer_units empty in 63/72 rows",
+        "the 9 non-empty rows carry only reported or percent, each verified literally present in that row prompt",
+        "rule is lexical-only on 72/72; contains_hidden_scale_claim False on 72/72",
+        "minimal_edit_instruction non-null only in training_reference and teacher_reference; null in deployment_feedback on 72/72",
+        "r_e_feedback_content_diff present on 72/72 with differences empty, identical true, minimal_edit_instruction_in_deployment_feedback false",
+        "R and E instruction strings byte-identical"
+      ]
+    },
+    {
+      "id": "C-4",
+      "status": "CLOSED",
+      "verdict": "CLOSED_WITH_RESIDUAL",
+      "requirement": "target_exact is structural identity, not semantic gold; semantic acceptance separately allows executable legal equivalence with valid evidence/unit/role/period semantics.",
+      "evidence": [
+        "target_exact is canonical equality to the legal structural target; semantic_gold_equated_by_target_sha256 false on 72/72",
+        "evaluate_semantic_acceptance is a separate function with an ACCEPTED_LEGAL_EQUIVALENCE branch",
+        "tested by _semantic_acceptance_allows_executable_legal_equivalence on a structurally different valid candidate"
+      ],
+      "residual": "G4"
+    },
+    {
+      "id": "C-5",
+      "status": "CLOSED",
+      "verdict": "CLOSED_WITH_RESIDUAL",
+      "requirement": "Canonical identity is commit caa18102, blob c7053b, GB10 LF sha256 3ed5e1fc; the earlier Windows-byte hash is noncanonical for remote execution.",
+      "evidence": [
+        "git rev-parse HEAD equals the pin",
+        "blob at pin equals c7053b678ce4c67f38656f73932991632107b4fe at 21673 bytes",
+        "raw and CR-stripped sha256 both equal 3ed5e1fc; zero carriage returns",
+        "worktree file hashes identically",
+        "PHASE_B_BUDGET_LEDGER.json carries gb10_lf_sha256 3ed5e1fc and windows_raw_sha256_noncanonical c23ec144",
+        "B1_AUTHORITY_BINDING_CORRECTION.json records the canonical identity and marks the earlier digest noncanonical"
+      ],
+      "residual": "G5,G6"
+    },
+    {
+      "id": "C-6",
+      "status": "CLOSED_ON_A_SIDE",
+      "verdict": "CLOSED_PENDING_D_FREEZE",
+      "requirement": "Freeze exact development family IDs, source cluster identity and the originally-correct family denominator before B2; variants remain repeated measures.",
+      "evidence": [
+        "B2_DEVELOPMENT_PANEL_DRAFT.json names 12 exact families and 36 trajectories",
+        "selection rule independently reproduced exactly: all 5 originally-wrong families plus the 7 lowest SHA-256(PANEL_SEED + source_task_id) of the 19 originally-correct",
+        "originally-correct family denominator 7/12 independently recomputed",
+        "source_cluster_id equals table_uid on all 12 families",
+        "variant_independence is REPEATED_MEASURES_WITHIN_SOURCE_FAMILY",
+        "all 36 trajectory_sha256 values reproduce from canonical JSON of the trajectory rows"
+      ],
+      "note": "Content is fixed and reproducible; status is PROPOSED_NOT_FROZEN and D has not yet frozen it. Not an A-side defect."
+    }
+  ],
+  "findings": [
+    {
+      "id": "G1",
+      "severity": "blocking",
+      "label": "FACT+INFERENCE",
+      "condition": "C-1",
+      "summary": "The two registered types are subtypes of one program.*.ref set-rebinding signature; ROW_AND_PERIOD_ROLE_MISBINDING rests on a single source family (dac4e923), so under the frozen repeated-measures rule the second type has n = 1 independent unit."
+    },
+    {
+      "id": "G2",
+      "severity": "blocking",
+      "label": "FACT",
+      "condition": "C-1",
+      "summary": "The pre-registered per-type correct-preservation direction (first audit F1 VALUE item ii) is absent; recursive key search for preserv/direction/damage returns 0 hits across taxonomy, manifest and panel."
+    },
+    {
+      "id": "G3",
+      "severity": "blocking",
+      "label": "FACT+INFERENCE",
+      "condition": "C-1",
+      "summary": "The visible-evidence sufficiency test checks role/period token presence but not subtraction-direction derivability. In b74eaf04 and bdeeb701 the frozen correction target reverses the question mention order, so E must reproduce a reference-derived direction to hit target_exact - the same undecidability used to narrow OPERAND_ORDER_SIGN_REVERSAL to UNRESOLVED."
+    },
+    {
+      "id": "G4",
+      "severity": "medium",
+      "label": "FACT",
+      "condition": "C-4",
+      "summary": "evaluate_semantic_acceptance is called as (legal_target, legal_target) and the emitted legal_equivalence_accepted is hardcoded False on 72/72; ACCEPTED_LEGAL_EQUIVALENCE is unrepresentable in the emitted supervision."
+    },
+    {
+      "id": "G5",
+      "severity": "low",
+      "label": "FACT",
+      "condition": "C-5",
+      "summary": "B1_A_SUPERVISION_QUALIFICATION_TASK.md, B1_A_PAPER_AND_THESIS_TASK.md, B1_C_PREAUDIT_TASK.md and TASK_RESULT_A_PAPER.json still declare c23ec144 as SHA-256 with no correction pointer."
+    },
+    {
+      "id": "G6",
+      "severity": "low",
+      "label": "FACT",
+      "condition": "C-5",
+      "summary": "Receipt field budget_ledger_modified false conflicts with the corrected authority block now present in PHASE_B_BUDGET_LEDGER.json."
+    },
+    {
+      "id": "G7",
+      "severity": "low",
+      "label": "FACT",
+      "condition": "C-1",
+      "summary": "Eligible error evidence is 5 trajectories over 3 source families; per-type counts must state both numbers to avoid inflating the independent sample."
+    }
+  ],
+  "recomputed": {
+    "trajectory_rows": 72,
+    "source_families": 24,
+    "variants_per_family": 3,
+    "eligibility": {
+      "CORRECT_NO_OP": 40,
+      "CORRECT_NO_OP_WITH_UNRESOLVED_UNIT_LABEL": 16,
+      "ELIGIBLE": 5,
+      "UNRESOLVED": 11
+    },
+    "natural_error_status": {
+      "CORRECT_NO_OP": 40,
+      "LABEL_UNRESOLVED": 16,
+      "NATURAL_ERROR_ELIGIBLE": 5,
+      "NATURAL_ERROR_UNRESOLVED": 11
+    },
+    "eligible_error_types": {
+      "ROW_ROLE_MISBINDING": 3,
+      "ROW_AND_PERIOD_ROLE_MISBINDING": 2
+    },
+    "eligible_source_families": 3,
+    "eligible_source_family_detail": {
+      "NAT_train_dac4e923_dccd9dbf": [
+        "original",
+        "irrelevant_change"
+      ],
+      "NAT_train_b74eaf04_caa15292": [
+        "original",
+        "irrelevant_change"
+      ],
+      "NAT_train_bdeeb701_c6f0281e": [
+        "relevant_change"
+      ]
+    },
+    "unit_field_status": {
+      "UNRESOLVED": 17,
+      "NOT_DIFFERENT_FROM_CANDIDATE": 55
+    },
+    "unit_mismatch_trajectories": 17,
+    "unit_only_mismatch_trajectories": 16,
+    "unit_patch_operations": 0,
+    "total_patch_operations": 16,
+    "patch_operation_paths": {
+      "/program/left/ref": 5,
+      "/evidence_refs/0": 5,
+      "/program/right/ref": 3,
+      "/evidence_refs/1": 3
+    },
+    "program_op_diffs_anywhere": 0,
+    "allowed_answer_units_empty_rows": 63,
+    "allowed_answer_units_nonempty_rows": 9,
+    "minimal_edit_instruction_null_in_deployment_feedback": 72,
+    "r_e_feedback_differences_empty_rows": 72,
+    "verification_overall": {
+      "PASS": 30,
+      "UNRESOLVED": 42
+    },
+    "semantic_legal_equivalence_accepted_false_rows": 72,
+    "semantic_decision": {
+      "ACCEPTED_STRUCTURAL_EXACT": 30,
+      "UNRESOLVED": 42
+    },
+    "patch_verification_pass": 61,
+    "panel_family_count": 12,
+    "panel_trajectory_count": 36,
+    "panel_originally_correct_denominator": "7/12",
+    "panel_selection_rule_reproduced": true,
+    "panel_trajectory_sha256_reproduced": "36/36",
+    "receipt_artifact_hashes_match": "13/13",
+    "remediation_output_hashes_match": "14/14"
+  },
+  "supervision_qualification": {
+    "mode": "REFERENCE_DERIVED_LEGAL_STRUCTURAL_REVISION_SUPERVISION",
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "promoted_to_feedback_derived_learning": false,
+    "qualified_scope": "exposed same-dataset table-disjoint development supervision for row/role/period set rebinding over 3 source families / 5 eligible trajectories within a 72-row corpus",
+    "not_qualified": [
+      "unit-field corrections",
+      "comparison-direction corrections",
+      "report/company or cross-dataset independence",
+      "any confirmation claim",
+      "any feedback-derived learning claim"
+    ],
+    "source_role": "EXPOSED_DEVELOPMENT_SUPERVISION",
+    "confirmation_claim": "NONE",
+    "independence_boundary": "task_id/question_uid/table_uid only",
+    "human_gold": false,
+    "confirmation_gold": null,
+    "feedback_derived_fields": [],
+    "endorsed_a_labelling": true
+  },
+  "deterministic_checks": {
+    "test_command": "python3 unittest run of B1_TEST_LOCAL_EDIT_APPLIER.py via importlib",
+    "registered_tests": 1,
+    "subcases": 23,
+    "result": "OK",
+    "tests_run": 1,
+    "failures": 0,
+    "errors": 0,
+    "wall_seconds": 0.029,
+    "reproduces_B1_TEST_OUTPUT": true,
+    "receipt_artifact_hashes_checked": 13,
+    "receipt_artifact_hash_mismatches": 0,
+    "remediation_output_hashes_checked": 14,
+    "remediation_output_hash_mismatches": 0,
+    "authority_identity_rederived": true,
+    "panel_selection_rule_reexecuted": true,
+    "gb10_runtime": "NOT_RUN",
+    "full_repository_suite": "NOT_RUN",
+    "local_label": "LOCAL"
+  },
+  "excluded": [
+    {
+      "item": "frozen run artifacts under /home/testuser/wzh/research_runs/ and TAT-QA raw",
+      "status": "UNVERIFIED",
+      "reason": "outside the session allowed working directory"
+    },
+    {
+      "item": "full repository pytest suite and GB10 runtime",
+      "status": "EXCLUDED",
+      "reason": "not run; this audit is local and labelled local; GB10 remains authoritative"
+    },
+    {
+      "item": "model / judge / training / canary / production / service / health probes",
+      "status": "EXCLUDED",
+      "reason": "zero-endpoint contract; C performed 0 such calls"
+    },
+    {
+      "item": "A-owned files, code, labels, manifests, trajectories, task cards, ledger",
+      "status": "EXCLUDED",
+      "reason": "read-only audit boundary; nothing modified"
+    }
+  ],
+  "budget": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "judge_calls": 0,
+    "canary_calls": 0,
+    "production_probes": 0,
+    "health_probes": 0,
+    "collaboration_dispatch_attempts_consumed_this_task": 1,
+    "collaboration_dispatch_attempts_consumed_cumulative": 2,
+    "collaboration_dispatch_attempts_authorized": 16,
+    "harness_tokens": "UNKNOWN",
+    "harness_fees": "UNKNOWN"
+  },
+  "next_gate": "A closes C-1 (G1/G2/G3) -> C verifies the narrowed taxonomy -> D freezes the exact 12-family panel, estimands and the 7/12 originally-correct denominator -> B2 dispatch may be considered. B2 training must not start while C-1 is open.",
+  "files_written": [
+    "research/feedback_learning_phase_b_20261026_v1/audits/B1_C_REAUDIT.md",
+    "research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_REAUDIT.json"
+  ]
+}

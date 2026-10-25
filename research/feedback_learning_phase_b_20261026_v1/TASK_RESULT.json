@@ -1,0 +1,232 @@
+{
+  "budget": {
+    "budget_ledger_modified": false,
+    "deterministic_test_wall_seconds": 0.034,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "model_or_judge_calls": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "conditions": {
+    "C_1_taxonomy": {
+      "evidence": [
+        "B1_ERROR_TYPE_TAXONOMY.json",
+        "one VISIBLE_SET_BINDING_REBINDING mechanism; subtype counts reported separately as 3/2 trajectories and 2/1 source families",
+        "5/5 set-binding evidence tests; six direction cases UNRESOLVED",
+        "correct-preservation direction PRE_REGISTERED"
+      ],
+      "status": "CLOSED_A_SIDE"
+    },
+    "C_2_units": {
+      "evidence": [
+        "17/17 unit mismatches UNRESOLVED",
+        "16 unit-only mismatches UNRESOLVED",
+        "zero /unit legal-patch operations"
+      ],
+      "status": "CLOSED_A_SIDE"
+    },
+    "C_3_information_parity": {
+      "evidence": [
+        "lexical visible-only allowed units",
+        "reference-only minimal edit instructions",
+        "72/72 identical neutral R/E feedback diffs"
+      ],
+      "status": "CLOSED_A_SIDE"
+    },
+    "C_4_equivalence": {
+      "evidence": [
+        "set-binding target_exact separated from semantic acceptance",
+        "operator, order and unit excluded from R/E targets",
+        "applier rejects operator, const, unit and direction paths"
+      ],
+      "status": "CLOSED_A_SIDE"
+    },
+    "C_5_authority_binding": {
+      "evidence": [
+        {
+          "byte_size": 21673,
+          "gb10_lf_sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+          "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+          "git_commit": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+          "identity_match": true,
+          "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md"
+        },
+        "B1_AUTHORITY_BINDING_CORRECTION.json"
+      ],
+      "status": "CLOSED_A_SIDE"
+    },
+    "C_6_damage_panel": {
+      "evidence": [
+        "B2_DEVELOPMENT_PANEL_DRAFT.json",
+        "12 families; 36 repeated measures; originally-correct denominator 7/12"
+      ],
+      "status": "CLOSED_A_SIDE"
+    }
+  },
+  "next_gate": "C_REAUDIT2_THEN_D_FREEZE_EXACT_PANEL",
+  "outputs": {
+    "B1_AUTHORITY_BINDING_CORRECTION.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_AUTHORITY_BINDING_CORRECTION.json",
+      "sha256": "1f5b7ffb864ffe8cd9f435a7cde37c6258ca72e904140ddd132c7b1230590e78",
+      "status": "WRITTEN"
+    },
+    "B1_BUILD_SUPERVISION.py": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_BUILD_SUPERVISION.py",
+      "sha256": "d7638473b70f9cfc2d03b635ca49449b699c06769ae36163e3911ead2cee24ee",
+      "status": "WRITTEN"
+    },
+    "B1_CORRECTION_TRAJECTORIES.jsonl": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_CORRECTION_TRAJECTORIES.jsonl",
+      "sha256": "bccae1cb9eba0b352d359e4c105ad0714845758dc30205f8b5515483ef677595",
+      "status": "WRITTEN"
+    },
+    "B1_ERROR_TYPE_TAXONOMY.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_ERROR_TYPE_TAXONOMY.json",
+      "sha256": "3f65053c5ef360e18f53024a06fee0b7309d961cfc4df61738fcf16a925ca1e5",
+      "status": "WRITTEN"
+    },
+    "B1_FINALIZE_RECEIPTS.py": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_FINALIZE_RECEIPTS.py",
+      "sha256": "cd9bcad56c58678e9f4229a7f718d30b3754ef5834ff60aa5a5265e34b16e77b",
+      "status": "WRITTEN"
+    },
+    "B1_FULL_TEST_OUTPUT.txt": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_FULL_TEST_OUTPUT.txt",
+      "sha256": "076cf2111e57062d65c093fc88e16069f1e22a79fa27af12248c593bf0669f89",
+      "status": "WRITTEN"
+    },
+    "B1_LOCAL_EDIT_APPLIER.py": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py",
+      "sha256": "fdd7cb3652f1e785f752e1d510b3588e13791c3e2756e291213d66121d0fb7a0",
+      "status": "WRITTEN"
+    },
+    "B1_LOCAL_PATCH_CONTRACT.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_PATCH_CONTRACT.json",
+      "sha256": "c72993fe8b7c3a5deed22a7146b2a507e95c4fe77029337e89010c3bbc197867",
+      "status": "WRITTEN"
+    },
+    "B1_PREFLIGHT_DRAFT.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_PREFLIGHT_DRAFT.json",
+      "sha256": "60bb8c158875e2af275f2618eaaa3d8bc05e62ebe1afa34806ff542dc022b345",
+      "status": "WRITTEN"
+    },
+    "B1_QUALIFICATION_RECEIPT.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_QUALIFICATION_RECEIPT.json",
+      "sha256": "5281975295c4db46447c3732bbeba2a7c5f351c27c92fba47584169b7365ef22",
+      "status": "WRITTEN"
+    },
+    "B1_REMEDIATION2_RESULT_A.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_REMEDIATION2_RESULT_A.json",
+      "sha256": "11cc080797f7c4fdaaf63dd32b556cd86bc311905cc81d7b8815ca4d7a0e94d2",
+      "status": "WRITTEN"
+    },
+    "B1_REMEDIATION_RESULT_A.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_REMEDIATION_RESULT_A.json",
+      "sha256": "eae35b9daf9047df3b8054b79afb489099d9d6ec6dcffaaa538017a52c73688a",
+      "status": "PRESERVED_UNCHANGED"
+    },
+    "B1_REPORT.md": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_REPORT.md",
+      "sha256": "ed877ea3bb6aff2846be78b3b1cc7d6fb50bc90c607ba76a18bb50fc789828be",
+      "status": "WRITTEN"
+    },
+    "B1_SUPERVISION_MANIFEST.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_SUPERVISION_MANIFEST.json",
+      "sha256": "85eb6ea04016315498141aa17341ea881c198ec49b8c78c46a5c9877694b17f9",
+      "status": "WRITTEN"
+    },
+    "B1_TEST_LOCAL_EDIT_APPLIER.py": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_LOCAL_EDIT_APPLIER.py",
+      "sha256": "d91d4f4aab1b09c7b85d7d6a6356cd6df9e431aba9abd7e34613dc07d9890c46",
+      "status": "WRITTEN"
+    },
+    "B1_TEST_OUTPUT.txt": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_OUTPUT.txt",
+      "sha256": "67e8e8db83860f9868918462c5e7c343423389c31622ecfad4ecc59f851502e2",
+      "status": "WRITTEN"
+    },
+    "B2_DEVELOPMENT_PANEL_DRAFT.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2_DEVELOPMENT_PANEL_DRAFT.json",
+      "sha256": "56e3c270a379fab39ed59da5b9b4f1f2f90a03abc41efff86263c2e6259708f0",
+      "status": "WRITTEN"
+    },
+    "archive/B1_REMEDIATION1_RAW_TRAJECTORIES.jsonl": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/archive/B1_REMEDIATION1_RAW_TRAJECTORIES.jsonl",
+      "sha256": "540df692b04378f867e3d0b59435fbbc07e992dac8d77fadc6860978b4ef0cdb",
+      "status": "WRITTEN"
+    },
+    "archive/B1_REMEDIATION1_SCORE_RESULT_A.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/archive/B1_REMEDIATION1_SCORE_RESULT_A.json",
+      "sha256": "eae35b9daf9047df3b8054b79afb489099d9d6ec6dcffaaa538017a52c73688a",
+      "status": "WRITTEN"
+    }
+  },
+  "panel": {
+    "artifact": "B2_DEVELOPMENT_PANEL_DRAFT.json",
+    "family_count": 12,
+    "originally_correct_family_denominator": {
+      "count": 7,
+      "criterion": "o_output.frozen_scoring_fields.program_correct on the original variant",
+      "denominator": 12,
+      "fraction": "7/12"
+    },
+    "status": "PROPOSED_NOT_FROZEN",
+    "trajectory_count": 36
+  },
+  "risks": [
+    {
+      "detail": "A-side closure is not independent C acceptance",
+      "risk": "loop_c_reaudit_pending",
+      "severity": "BLOCKING_FOR_B2"
+    },
+    {
+      "detail": "D must freeze the exact proposed 12-family panel",
+      "risk": "panel_not_frozen",
+      "severity": "BLOCKING_FOR_B2"
+    },
+    {
+      "detail": "the panel is exposed development supervision only",
+      "risk": "all_sources_exposed",
+      "severity": "BLOCKING_FOR_CONFIRMATION"
+    },
+    {
+      "detail": "only reference-derived visible set-binding revision supervision is qualified",
+      "risk": "feedback_learning_claim_not_qualified",
+      "severity": "CLAIM_LIMIT"
+    },
+    {
+      "detail": "focused local deterministic tests pass; local full suite has one unrelated missing-fixture failure; GB10 remains authoritative",
+      "risk": "full_suite_unrelated_failure_and_gb10_not_run",
+      "severity": "VERIFICATION_SCOPE"
+    }
+  ],
+  "schema": "b1_remediation2_task_result_v1",
+  "status": "A_REMEDIATION2_COMPLETE_PENDING_C_REAUDIT",
+  "tests": {
+    "executed_command": "PYTHONPATH=src python3 -m unittest discover -s research/feedback_learning_phase_b_20261026_v1 -p 'B1_TEST_LOCAL_EDIT_APPLIER.py' -v",
+    "exit_code": 0,
+    "full_repository_suite": {
+      "deselected": 1,
+      "exit_code": 1,
+      "failed": 1,
+      "failure": "tests/test_finqa_v2_scorer_runtime_binding_v2.py::test_old_invalid_run_hashes_remain_unchanged",
+      "failure_detail": "missing repository fixture research/finqa_v2_20261010/results/finqa_v2_focused_preflight.log",
+      "health_or_model_probe_reported_by_log": false,
+      "output_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_FULL_TEST_OUTPUT.txt",
+      "output_sha256": "076cf2111e57062d65c093fc88e16069f1e22a79fa27af12248c593bf0669f89",
+      "passed": 967,
+      "skipped": 14,
+      "status": "FAIL",
+      "wall_seconds": 68.62,
+      "warnings": 10
+    },
+    "gb10_runtime": "NOT_RUN",
+    "output": "command=PYTHONPATH=src python3 -m unittest discover -s research/feedback_learning_phase_b_20261026_v1 -p B1_TEST_LOCAL_EDIT_APPLIER.py -v\ntest_all_registered_cases (B1_TEST_LOCAL_EDIT_APPLIER.TestB1LocalEditApplier.test_all_registered_cases) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.034s\n\nOK\nexit_code=0\n",
+    "output_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_OUTPUT.txt",
+    "output_sha256": "67e8e8db83860f9868918462c5e7c343423389c31622ecfad4ecc59f851502e2",
+    "registered_tests": 1,
+    "status": "PASS",
+    "subcases": 26
+  }
+}

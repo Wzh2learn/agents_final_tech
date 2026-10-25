@@ -1,0 +1,367 @@
+{
+  "authority": {
+    "byte_size": 21673,
+    "commit_pin": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "gb10_lf_sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "identity_match": true,
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "source_artifact": "B1_AUTHORITY_BINDING_CORRECTION.json",
+    "superseded_noncanonical_sha256": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922"
+  },
+  "blocking_open_conditions": [
+    "H1-disclosure-and-estimand"
+  ],
+  "budget": {
+    "canary_calls": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "health_probes": 0,
+    "judge_calls": 0,
+    "model_or_judge_calls": 0,
+    "production_probes": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "closed_conditions": [
+    "C-1-G1",
+    "C-1-G2",
+    "C-1-G3",
+    "C-2-units",
+    "C-3-information-parity",
+    "C-6-panel"
+  ],
+  "conditions": [
+    {
+      "id": "C-1-G1",
+      "requirement": "one mechanism with two observed subtypes; source-family counts reported separately from trajectory counts",
+      "status": "CLOSED",
+      "verified": "independent_mechanism_count 1; independent_subtype_mechanism_claim false; 3/2 trajectories and 2/1 source families reproduce"
+    },
+    {
+      "id": "C-1-G2",
+      "requirement": "pre-registered correct-preservation direction present and implemented",
+      "status": "CLOSED",
+      "verified": "PRE_REGISTERED block in taxonomy, manifest and panel; 56/56 no-op preservation rows with 0 violations"
+    },
+    {
+      "id": "C-1-G3",
+      "requirement": "split set-binding and direction; direction frozen to O or UNRESOLVED; never inferred from gold",
+      "status": "CLOSED",
+      "verified": "target_sha256 binds to materialized set-binding program; sign-reversed vs gold in 2 of 3 eligible families; materializer consumes reference set only; direction not a training target on 72/72"
+    },
+    {
+      "id": "C-2-units",
+      "requirement": "every unit-field correction UNRESOLVED and excluded from targets and legal patch paths",
+      "status": "CLOSED",
+      "verified": "17/17 UNRESOLVED; 0 unit operations; /unit rejected on independent probe"
+    },
+    {
+      "id": "C-3-information-parity",
+      "requirement": "visible-only allowed units; minimal edit instruction reference-only; R/E diff recorded",
+      "status": "CLOSED",
+      "verified": "9/72 non-empty allowed units all lexical-visible; 72/72 deployment minimal_edit_instruction null; 72/72 R/E diffs identical"
+    },
+    {
+      "id": "C-4-equivalence",
+      "requirement": "target_exact is structural identity to set-binding target, not semantic gold",
+      "status": "CLOSED_WITH_RESIDUAL",
+      "verified": "full_reference_target_is_training_target false on 72/72; semantic_gold_equated_by_target_sha256 false on 72/72; residual H3"
+    },
+    {
+      "id": "C-5-authority",
+      "requirement": "canonical Git identity and GB10 LF hash",
+      "status": "CLOSED_WITH_RESIDUAL",
+      "verified": "all declared values correct; residual H4 on frozen historical cards and H5 on ledger flag"
+    },
+    {
+      "id": "C-6-panel",
+      "requirement": "exact development family IDs, source cluster identity, originally-correct denominator",
+      "status": "CLOSED_A_SIDE",
+      "verified": "selection rule reproduces exactly; 12 families; 36/36 trajectory hashes; 7/12 denominator; D freeze still outstanding"
+    }
+  ],
+  "date": "2026-10-26",
+  "deterministic_checks": {
+    "applier_fail_closed_probes": 8,
+    "applier_probe_results": {
+      "duplicate_path": "operation_duplicate_path",
+      "edit_program_left_const": "operation_path_not_allowed",
+      "edit_program_op": "operation_path_not_allowed",
+      "edit_unit": "operation_path_not_allowed",
+      "legitimate_set_binding_ops": "applied",
+      "mixed_direction_flip_ops": "patched_program_evidence_refs_mismatch",
+      "non_replace_op": "operation_op_must_be_replace",
+      "non_visible_reference_value": "operation_value_reference_not_visible"
+    },
+    "archive_preserved_and_hashed": true,
+    "errors": 0,
+    "failures": 0,
+    "hashes_receipt_artifacts": "16/16",
+    "hashes_remediation2_outputs": "18/18",
+    "registered_tests": 1,
+    "reproduces_B1_TEST_OUTPUT_txt": true,
+    "result": "OK",
+    "semantic_acceptance_is_separate_function": true,
+    "subcases": 26,
+    "test_command": "python3 -m unittest B1_TEST_LOCAL_EDIT_APPLIER -v"
+  },
+  "excluded": [
+    {
+      "item": "full repository test suite",
+      "reason": "A reports 967 passed / 1 unrelated missing-fixture failure; C reran only the focused B1 suite",
+      "status": "NOT_RUN_BY_C"
+    },
+    {
+      "item": "GB10 runtime",
+      "reason": "local audit only; GB10 remains authoritative and local results are labelled local",
+      "status": "NOT_RUN"
+    },
+    {
+      "item": "model, judge, training, canary, production and service probes",
+      "reason": "zero-endpoint discipline for this C task",
+      "status": "NOT_RUN"
+    },
+    {
+      "item": "frozen run artifacts under /home/testuser/wzh/research_runs/",
+      "reason": "outside this execution surface; source identity taken from the frozen trajectory rows",
+      "status": "UNVERIFIED"
+    }
+  ],
+  "files_written": [
+    "research/feedback_learning_phase_b_20261026_v1/audits/B1_C_REAUDIT2.md",
+    "research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_REAUDIT2.json"
+  ],
+  "findings": [
+    {
+      "blocking_for_acceptance": true,
+      "condition": "disclosure-and-estimand",
+      "evidence": "bdeeb701 patched_after -1715.9 vs expected 1715.9; b74eaf04 patched_after -78.41 vs 78.41; eligible_set_binding_target_answer_claim false on 5/5; 0 substantive hits for sign/revers/negat/answer_claim in B1_SUPERVISION_MANIFEST.json",
+      "id": "H1",
+      "label": "FACT+INFERENCE+VALUE",
+      "severity": "medium",
+      "summary": "Materialized set-binding target executes to the negative of the frozen reference answer in 2 of 3 eligible source families and this is not disclosed at report or manifest level"
+    },
+    {
+      "blocking_for_acceptance": false,
+      "condition": "C-1-G3",
+      "evidence": "dac4e923 \"between AMER and EMEA\" and b74eaf04 \"difference between ... CEO and COO\" are eligible; 04e7f446 and 819641fb with the same wording are UNRESOLVED",
+      "id": "H2",
+      "label": "FACT",
+      "severity": "low",
+      "summary": "OPERAND_ORDER_SIGN_REVERSAL narrowing reason still names between-A-and-B wording, which also occurs in two eligible families; the operative discriminator is not stated"
+    },
+    {
+      "blocking_for_acceptance": false,
+      "condition": "C-4",
+      "evidence": "B1_BUILD_SUPERVISION.py emits literal legal_equivalence_accepted False; call site is no longer self-referential",
+      "id": "H3",
+      "label": "FACT",
+      "severity": "low",
+      "summary": "emitted semantic.legal_equivalence_accepted is still hardcoded False although the real result is recorded under dataset_reference_acceptance"
+    },
+    {
+      "blocking_for_acceptance": false,
+      "condition": "C-5",
+      "evidence": "grep for c23ec144 matches B1_A_SUPERVISION_QUALIFICATION_TASK.md, B1_A_PAPER_AND_THESIS_TASK.md, B1_C_PREAUDIT_TASK.md, TASK_RESULT_A_PAPER.json",
+      "id": "H4",
+      "label": "FACT",
+      "severity": "low",
+      "summary": "three frozen task cards and TASK_RESULT_A_PAPER.json still declare the superseded c23ec144 digest with no correction pointer"
+    },
+    {
+      "blocking_for_acceptance": false,
+      "condition": "C-5",
+      "evidence": "B1_QUALIFICATION_RECEIPT.json budget_ledger_modified false; ledger authority block carries gb10_lf_sha256 3ed5e1fc",
+      "id": "H5",
+      "label": "FACT",
+      "severity": "low",
+      "summary": "receipt field budget_ledger_modified false conflicts with the corrected authority block in PHASE_B_BUDGET_LEDGER.json"
+    },
+    {
+      "blocking_for_acceptance": false,
+      "condition": "naming",
+      "evidence": "B1_SUPERVISION_MANIFEST.json scientific_qualification.supervision_mode",
+      "id": "H6",
+      "label": "FACT",
+      "severity": "low",
+      "summary": "supervision_mode renamed to REFERENCE_DERIVED_VISIBLE_SET_BINDING_REVISION_SUPERVISION; downstream must use the new string consistently"
+    }
+  ],
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "next_gate": "A discloses H1 and restates H2 -> C verifies the disclosure against the per-family numbers recomputed here -> D freezes the exact 12-family panel, the set-binding estimands and the 7/12 originally-correct denominator -> B2 dispatch may be considered. B2 training must not start while H1 is open.",
+  "panel": {
+    "artifact": "B2_DEVELOPMENT_PANEL_DRAFT.json",
+    "confirmation_claim": "NONE",
+    "family_count": 12,
+    "hash_selected_families": [
+      "NAT_train_0417ded2_2868860b",
+      "NAT_train_223d66c3_832d3e3e",
+      "NAT_train_2c20edd3_50641f02",
+      "NAT_train_abc6297d_0b1780b0",
+      "NAT_train_bdeeb701_c6f0281e",
+      "NAT_train_f1f2c2cb_27cb53a0",
+      "NAT_train_f440390f_74e6e596"
+    ],
+    "originally_correct_family_denominator": {
+      "count": 7,
+      "denominator": 12,
+      "fraction": "7/12"
+    },
+    "originally_wrong_families": [
+      "NAT_train_04e7f446_538c6915",
+      "NAT_train_2e038152_274875b0",
+      "NAT_train_819641fb_108cfcb0",
+      "NAT_train_b74eaf04_caa15292",
+      "NAT_train_dac4e923_dccd9dbf"
+    ],
+    "panel_seed": "phaseb-b2-development-panel-v1:20261026:",
+    "selection_rule_reproduced_exactly": true,
+    "source_cluster_id_equals_table_uid": "12/12",
+    "source_role": "EXPOSED_DEVELOPMENT_SUPERVISION",
+    "status": "PROPOSED_NOT_FROZEN",
+    "training_authorized": false,
+    "trajectory_count": 36,
+    "trajectory_sha256_reproduced": "36/36",
+    "variant_independence": "REPEATED_MEASURES_WITHIN_SOURCE_FAMILY"
+  },
+  "recomputed": {
+    "allowed_answer_units_non_empty": 9,
+    "contains_hidden_scale_claim_true": 0,
+    "correct_preservation": {
+      "noop_preservation_rows": 56,
+      "noop_preservation_violations": 0,
+      "preserve": [
+        "unchanged_references",
+        "operator",
+        "order",
+        "unit"
+      ],
+      "status": "PRE_REGISTERED"
+    },
+    "eligibility": {
+      "CORRECT_NO_OP": 40,
+      "CORRECT_NO_OP_WITH_UNRESOLVED_UNIT_LABEL": 16,
+      "ELIGIBLE": 5,
+      "UNRESOLVED": 11
+    },
+    "eligible_direction_gold_claim_true": 0,
+    "eligible_family_decomposition": [
+      {
+        "family": "NAT_train_dac4e923_dccd9dbf",
+        "frozen_reference": "R2:C2-sub-R4:C2",
+        "o_candidate": "R4:C1-sub-R4:C2",
+        "order_equals_gold": true,
+        "set_binding_target": "R2:C2-sub-R4:C2",
+        "set_equals_gold_set": true,
+        "sign_reversed_vs_gold": false
+      },
+      {
+        "family": "NAT_train_bdeeb701_c6f0281e",
+        "frozen_reference": "R2:C1-sub-R3:C1",
+        "o_candidate": "R4:C1-sub-R2:C1",
+        "order_equals_gold": false,
+        "set_binding_target": "R3:C1-sub-R2:C1",
+        "set_equals_gold_set": true,
+        "sign_reversed_vs_gold": true
+      },
+      {
+        "family": "NAT_train_b74eaf04_caa15292",
+        "frozen_reference": "R11:C2-sub-R11:C1",
+        "o_candidate": "R9:C1-sub-R9:C2",
+        "order_equals_gold": false,
+        "set_binding_target": "R11:C1-sub-R11:C2",
+        "set_equals_gold_set": true,
+        "sign_reversed_vs_gold": true
+      }
+    ],
+    "materializer_consumes_from_reference": "refs_in_program(reference_target.program) as an unordered set only",
+    "mechanism": {
+      "independent_mechanism_count": 1,
+      "independent_subtype_mechanism_claim": false,
+      "name": "VISIBLE_SET_BINDING_REBINDING",
+      "source_family_count": 3,
+      "subtype_source_family_counts": {
+        "ROW_AND_PERIOD_ROLE_MISBINDING": 1,
+        "ROW_ROLE_MISBINDING": 2
+      },
+      "subtype_trajectory_counts": {
+        "ROW_AND_PERIOD_ROLE_MISBINDING": 2,
+        "ROW_ROLE_MISBINDING": 3
+      },
+      "trajectory_count": 5
+    },
+    "minimal_edit_instruction_null_in_deployment_feedback": 72,
+    "operand_order_sign_reversal_rows": {
+      "correction_target_status": "SET_PRESERVED_DIRECTION_UNRESOLVED",
+      "count": 6,
+      "e_patch_null": 6,
+      "set_binding_training_target_false": 6
+    },
+    "r_e_feedback_diff_identical": 72,
+    "schema": "b1_correction_trajectory_v3",
+    "semantic_decisions": {
+      "ACCEPTED_STRUCTURAL_EXACT": 25,
+      "SET_BINDING_ACCEPTED_DIRECTION_UNRESOLVED": 5,
+      "UNRESOLVED": 42
+    },
+    "set_binding_direction_separation": {
+      "direction_patch_paths_allowed_empty": 72,
+      "direction_training_target_false": 72,
+      "patch_direction_edited_false": 72,
+      "patch_hidden_reference_fallback_false": 72,
+      "patch_operation_paths": {
+        "/evidence_refs/0": 5,
+        "/evidence_refs/1": 2,
+        "/program/left/ref": 5,
+        "/program/right/ref": 2
+      },
+      "patch_operation_total": 14,
+      "patch_operator_edited_false": 72,
+      "patch_unit_edited_false": 72,
+      "reference_direction_inference_false": 72,
+      "unit_or_operator_or_const_operations": 0
+    },
+    "source_families": 24,
+    "target_sha256_binds_to": "materialized_set_binding_program_not_gold",
+    "trajectory_rows": 72,
+    "unit_mismatch_trajectories": 17,
+    "unit_only_mismatch_trajectories": 16,
+    "variants_per_family": 3,
+    "verification_overall": {
+      "PASS": 30,
+      "UNRESOLVED": 42
+    }
+  },
+  "role": "C_INDEPENDENT_REAUDIT2",
+  "schema": "phase_b_task_result_c_reaudit2_v1",
+  "supervision_qualification": {
+    "confirmation": "NONE",
+    "confirmation_gold": null,
+    "feedback_derived_fields": [],
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "human_gold": false,
+    "independence_boundary": "task_id/question_uid/table_uid only; report/company and cross-dataset independence unavailable and not claimed",
+    "mode": "REFERENCE_DERIVED_VISIBLE_SET_BINDING_REVISION_SUPERVISION",
+    "not_qualified": [
+      "unit-field corrections (17/17 UNRESOLVED)",
+      "comparison-direction corrections (OPERAND_ORDER_SIGN_REVERSAL, 6 rows UNRESOLVED)",
+      "direction component of eligible targets (frozen to O, not a target)",
+      "answer correctness of the materialized set-binding target (sign-reversed in 2 of 3 eligible families)",
+      "report/company or cross-dataset independence",
+      "any confirmation claim",
+      "any feedback-derived learning claim"
+    ],
+    "promotion_by_this_audit": "NONE",
+    "qualified": [
+      "visible set-binding reference-rebinding development supervision over 3 source families / 5 eligible trajectories",
+      "56 correct/no-op preservation controls and 11 unresolved controls in a 72-row corpus",
+      "fail-closed deterministic applier with empty R/E feedback-content diff"
+    ],
+    "source_role": "EXPOSED_DEVELOPMENT_SUPERVISION"
+  },
+  "task_id": "phaseb-b1-reaudit2-c-20261026",
+  "timezone": "Asia/Shanghai",
+  "verdict": "CONDITIONAL",
+  "verdict_scope": "narrowed VISIBLE_SET_BINDING_REBINDING contract and A remediation2 outputs against prior C-1 findings G1/G2/G3"
+}

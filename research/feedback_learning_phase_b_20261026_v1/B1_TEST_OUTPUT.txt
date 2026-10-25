@@ -1,0 +1,8 @@
+command=PYTHONPATH=src python3 -m unittest discover -s research/feedback_learning_phase_b_20261026_v1 -p B1_TEST_LOCAL_EDIT_APPLIER.py -v
+test_all_registered_cases (B1_TEST_LOCAL_EDIT_APPLIER.TestB1LocalEditApplier.test_all_registered_cases) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.034s
+
+OK
+exit_code=0

@@ -1,0 +1,341 @@
+{
+  "schema": "phase_b_task_result_c_v1",
+  "task_id": "phaseb-b1-preaudit-c-20261026",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "role": "C_INDEPENDENT_PREAUDIT",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "commit_pin": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "bytes": 21673,
+    "sha256_actual": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "sha256_declared_in_task_cards": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922",
+    "digest_matches": false
+  },
+  "verdict": "CONDITIONAL",
+  "verdict_scope": "B1 supervision-qualification contract and frozen premise set only; no A-EXP implementation was on disk at snapshot",
+  "conditions": [
+    {
+      "id": "C-1",
+      "finding": "F1",
+      "severity": "blocking",
+      "owner": "A-EXP",
+      "requirement": "Pre-register a labelled natural-error taxonomy with per-type visible-evidence sufficiency test and frozen correction operator; demonstrate at least 2 eligible types. If only one passes, report QUALIFICATION_FAILED and do not launch B2."
+    },
+    {
+      "id": "C-2",
+      "finding": "F2",
+      "severity": "blocking",
+      "owner": "A-EXP",
+      "requirement": "Mark every unit-field correction UNRESOLVED; exclude unit targets from R/E supervision and from the patch schema legal edit targets."
+    },
+    {
+      "id": "C-3",
+      "finding": "F3",
+      "severity": "blocking",
+      "owner": "A-EXP",
+      "requirement": "Build allowed_answer_units only from units literally visible in the deployment input (or empty); confine minimal_edit_instruction to training/teacher reference fields; record per-trajectory R-vs-E feedback-content diff."
+    },
+    {
+      "id": "C-4",
+      "finding": "F4",
+      "severity": "medium",
+      "owner": "A-EXP",
+      "requirement": "Attach a legal-equivalence acceptance rule per correction target, or state that target_exact is structural and re-derive correct-preservation accordingly."
+    },
+    {
+      "id": "C-5",
+      "finding": "F5",
+      "severity": "medium",
+      "owner": "D",
+      "requirement": "Correct the authority SHA-256 in the four task cards and PHASE_B_BUDGET_LEDGER.json, or record why the alternate digest is authoritative."
+    },
+    {
+      "id": "C-6",
+      "finding": "F8",
+      "severity": "low",
+      "owner": "D",
+      "requirement": "Freeze the damage-tolerance panel identity and exact denominator before B2."
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "blocking",
+      "label": "FACT+INFERENCE",
+      "scope_item": 2,
+      "summary": "Only one eligible natural error type (row/role/period binding) is evidenced with visible repair information; the at-least-two-type supervision gate is not yet met.",
+      "evidence": [
+        "REVISION_OPERATOR_INSPECTION_V1.json recompute: 5 of 24 families wrong on original variant, all program.*.ref only",
+        "PHASE_A_RETURN.md section 1: only eligible visible repair case is the row/period/reference error",
+        "PHASE_A_RECOMPUTE_V1.json eligible_visible_repair_cases=1"
+      ]
+    },
+    {
+      "id": "F2",
+      "severity": "blocking",
+      "label": "FACT",
+      "scope_item": 1,
+      "summary": "Unit labels derive from the gold TAT-QA scale field which is never rendered into the prompt; all 16 unit differences across 6 families are UNRESOLVED by visibility, 13 of 16 target the empty-scale default reported.",
+      "evidence": [
+        "build_natural_tasks_v2.py lines 77-80, 153, 160 unit_from_scale(question.get(scale))",
+        "build_natural_tasks_v2.py lines 84-92 build_prompt omits scale",
+        "semantic_delivery_check_v3.py semantic_check performs no unit check",
+        "recompute: 16 unit-only rows, all initial_program_correct=true"
+      ]
+    },
+    {
+      "id": "F3",
+      "severity": "blocking",
+      "label": "FACT+INFERENCE",
+      "scope_item": 4,
+      "summary": "allowed_answer_units is caller-supplied; if built from expected.unit the gold scale re-enters E as a legal edit target. minimal_edit_instruction already leaks path plus correct value.",
+      "evidence": [
+        "B1_LOCAL_EDIT_APPLIER.py _validate_allowed_value and apply_patch allowed_answer_units parameter",
+        "revision_operator_diagnostic_v1.py minimal_edit_instruction says verified development value"
+      ]
+    },
+    {
+      "id": "F4",
+      "severity": "medium",
+      "label": "FACT",
+      "scope_item": 1,
+      "summary": "No legal-equivalence rule in canonical / target_exact / diff_target; algebraically equivalent programs can be mislabeled and will be counted as correct-preservation damage.",
+      "evidence": [
+        "rescore_revision_operator_v1.py line 23 canonical",
+        "revision_operator_diagnostic_v1.py lines 60 and 95-112 diff_target",
+        "same_candidate_feedback_a_v1.py line 501 boundary note",
+        "analyze_binding_residual_v3.py line 218 same_value_alias_or_reference is post-hoc only"
+      ]
+    },
+    {
+      "id": "F5",
+      "severity": "medium",
+      "label": "FACT",
+      "scope_item": 0,
+      "summary": "Declared authority SHA-256 in all Phase B task cards and the budget ledger does not match the pinned file; commit pin is correct.",
+      "evidence": [
+        "sha256sum of pinned file",
+        "git cat-file blob at caa18102"
+      ]
+    },
+    {
+      "id": "F6",
+      "severity": "medium",
+      "label": "INFERENCE",
+      "scope_item": 4,
+      "summary": "R/E feedback-content asymmetry is a live confound; four-way reference split and per-trajectory R-vs-E feedback diff are mandatory before any E-R claim.",
+      "evidence": [
+        "B1_D_FREEZE_GATE.md deployment contracts",
+        "REVISION_OPERATOR_DIAGNOSTIC_PROTOCOL_V1.json payload set"
+      ]
+    },
+    {
+      "id": "F7",
+      "severity": "low",
+      "label": "FACT",
+      "scope_item": 3,
+      "summary": "Independence is task_id/question_uid/table_uid only; the panel is exposed development data at same-dataset table-disjoint level.",
+      "evidence": [
+        "EXPOSURE_UNION_SOURCES_V1.json source_identity_boundary",
+        "NATURAL_METHOD_PROTOCOL_V2.json source_boundary",
+        "SOURCE_DISJOINT_TASK_MANIFEST_V4.json selected_split_counts train=96",
+        "recompute: panel 24 of 24 inside selected_task_ids and selected_table_uids"
+      ]
+    },
+    {
+      "id": "F8",
+      "severity": "low",
+      "label": "FACT",
+      "scope_item": 6,
+      "summary": "Freeze-gate damage tolerance names a 24-family panel without panel identity; development-panel originally-correct denominator is 19 of 24.",
+      "evidence": [
+        "B1_D_FREEZE_GATE.md Minimum Useful Effect",
+        "recompute: 5 of 24 families wrong on original variant"
+      ]
+    },
+    {
+      "id": "F9",
+      "severity": "low",
+      "label": "INFERENCE",
+      "scope_item": 5,
+      "summary": "target_sha256 proves patch self-consistency not model provenance; ALLOWED_PATHS reaches depth-1 operands only, an expressiveness bound to record.",
+      "evidence": [
+        "B",
+        "1",
+        "_",
+        "L",
+        "O",
+        "C",
+        "A",
+        "L",
+        "_",
+        "E",
+        "D",
+        "I",
+        "T",
+        "_",
+        "A",
+        "P",
+        "P",
+        "L",
+        "I",
+        "E",
+        "R",
+        ".",
+        "p",
+        "y",
+        " ",
+        "a",
+        "p",
+        "p",
+        "l",
+        "y",
+        "_",
+        "p",
+        "a",
+        "t",
+        "c",
+        "h",
+        ",",
+        " ",
+        "A",
+        "L",
+        "L",
+        "O",
+        "W",
+        "E",
+        "D",
+        "_",
+        "P",
+        "A",
+        "T",
+        "H",
+        "S",
+        ",",
+        " ",
+        "M",
+        "A",
+        "X",
+        "_",
+        "O",
+        "P",
+        "E",
+        "R",
+        "A",
+        "T",
+        "I",
+        "O",
+        "N",
+        "S",
+        "=",
+        "8"
+      ]
+    }
+  ],
+  "recomputed": {
+    "panel_rows": 72,
+    "panel_source_families": 24,
+    "panel_variants_per_family": 3,
+    "distinct_table_uids": 24,
+    "original_variant_wrong_families": 5,
+    "original_variant_correct_families": 19,
+    "unit_only_diff_rows": 16,
+    "unit_only_diff_families": 6,
+    "unit_only_rows_with_program_correct": 16,
+    "program_op_diffs_anywhere": 0,
+    "diff_path_signatures_all_variants": {
+      "unit": 16,
+      "evidence_refs_plus_both_program_refs": 13,
+      "evidence_refs_plus_left_program_ref": 2,
+      "evidence_refs_plus_both_program_refs_plus_unit": 1
+    },
+    "unit_pairs_candidate_to_expected": {
+      "thousand_to_reported": 8,
+      "thousand_to_million": 2,
+      "percent_to_reported": 2,
+      "million_to_thousand": 2,
+      "million_to_reported": 2,
+      "crore_to_reported": 1
+    },
+    "panel_families_inside_source_disjoint_selection": "24/24 tasks and 24/24 table_uids"
+  },
+  "evidence": {
+    "hashes": {
+      "docs/research/LOOP_D_RESEARCH_PROMPT.md": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+      "research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_INSPECTION_V1.json": "d1abd77b41c0e30745264a087f5595f51e1e4d831db02a80be8803b4c9531249",
+      "research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_PROTOCOL_V1.json": "dc40a8c132010e8ba54851977a0f1718c6a2fbdf666763805821e070b581a338",
+      "research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json": "4ab8cf7961a6d11a77943f8be7860771e46134e5e83fd3210063bb35b0f468f2",
+      "research/feedback_delivery_continuation_20261025_v1/EXPOSURE_UNION_SOURCES_V1.json": "fb96936698638cb531eadaa0cffde6ff5479a14cea83500701b8a3c1323ac8f3",
+      "research/feedback_learning_finance_20261024_v2/build_natural_tasks_v2.py": "23e4b913bca2ac7aa3c6905287021d29c367fec88b4df1704f2741a0fa42e489",
+      "research/feedback_learning_finance_20261024_v2/SOURCE_DISJOINT_TASK_MANIFEST_V4.json": "557272d3462d5f44c7028349ca119f87821bfc94c8ca8fa24c2702d88e69a9a6",
+      "research/feedback_learning_phase_b_20261026_v1/B1_D_FREEZE_GATE.md": "04301e4093416d2a8b4d2f9b137e438f6b7da3f09bfd0f7e17d3333ee7fefcdc",
+      "research/feedback_learning_phase_b_20261026_v1/B1_A_SUPERVISION_QUALIFICATION_TASK.md": "1c9c15b28da3a4d09f9ea6765fcd86d50ba4ef8243bff8908e2c7c22f0895352",
+      "research/feedback_learning_phase_b_20261026_v1/B1_C_PREAUDIT_TASK.md": "6a35af4e7872dc7b03f2ce26d33264e41e0191ff8da750d06d291a669fda487a",
+      "research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py": "7dbbbe863a05bb9a2ff5d6a962af2d2f20db2e9efffa6d07ca2f5f2fc27216de"
+    },
+    "commands": [
+      "git rev-parse HEAD",
+      "git show <pin>:docs/research/LOOP_D_RESEARCH_PROMPT.md | sha256sum",
+      "git cat-file blob <pin>:docs/research/LOOP_D_RESEARCH_PROMPT.md | sha256sum",
+      "git cat-file -s <pin>:docs/research/LOOP_D_RESEARCH_PROMPT.md",
+      "sha256sum <evidence files>",
+      "python3 -c <REVISION_OPERATOR_INSPECTION_V1.json independent recompute>",
+      "python3 -c <24-family panel vs SOURCE_DISJOINT_TASK_MANIFEST_V4.json>",
+      "python3 -c <PHASE_A_RECOMPUTE_V1.json / EXPOSURE_UNION_SOURCES_V1.json dump>"
+    ]
+  },
+  "excluded": [
+    {
+      "item": "frozen run artifacts under /home/testuser/wzh/research_runs/ and TAT-QA raw at data/research/tatqa_raw_2026/",
+      "status": "UNVERIFIED",
+      "reason": "outside the session allowed working directory; could not be opened"
+    },
+    {
+      "item": "per-task visible prompts for the 24 families (subtraction-direction wording, per-case scale tokens)",
+      "status": "UNVERIFIED",
+      "reason": "task inputs not present in-repo"
+    },
+    {
+      "item": "existing pytest suites (test_exposure_union_guard_v1.py, test_task_semantics_v2.py, test_source_role_contract_v3.py, test_correction_v2.py, test_natural_tasks_v2.py)",
+      "status": "EXCLUDED",
+      "reason": "no pytest module for local python3 3.12.3; recomputation done with plain deterministic python3"
+    },
+    {
+      "item": "model / judge / training / canary / production / service probes",
+      "status": "EXCLUDED",
+      "reason": "zero-endpoint contract; C performed 0 such calls"
+    },
+    {
+      "item": "A-owned files, code, labels, manifests, raw data, frozen outputs, task cards, ledger",
+      "status": "EXCLUDED",
+      "reason": "read-only audit boundary; nothing modified"
+    },
+    {
+      "item": "A-EXP B1 deliverables (trajectories, manifest, patch contract, receipt, report, preflight)",
+      "status": "NOT_PRESENT_AT_SNAPSHOT",
+      "reason": "pre-audit ran before A-EXP produced them"
+    }
+  ],
+  "next_gate": "D -> freeze B1 conditions C-1..C-6 -> A completes B1 deliverables against them -> C re-audits B1_CORRECTION_TRAJECTORIES.jsonl / B1_SUPERVISION_MANIFEST.json / B1_LOCAL_PATCH_CONTRACT.json / B1_QUALIFICATION_RECEIPT.json on GB10 -> D decides B2 launch or narrowing. B2 training must not start while C-1 is open.",
+  "budget": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "judge_calls": 0,
+    "canary_calls": 0,
+    "production_probes": 0,
+    "health_probes": 0,
+    "collaboration_dispatch_attempts_consumed": 1,
+    "collaboration_dispatch_attempts_authorized": 16,
+    "harness_tokens": "UNKNOWN",
+    "harness_fees": "UNKNOWN"
+  },
+  "files_written": [
+    "research/feedback_learning_phase_b_20261026_v1/audits/B1_C_PREAUDIT.md",
+    "research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C.json"
+  ]
+}

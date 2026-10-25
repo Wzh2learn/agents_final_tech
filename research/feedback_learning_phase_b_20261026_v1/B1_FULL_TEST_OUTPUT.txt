@@ -1,0 +1,105 @@
+...........ss........................................................... [  7%]
+........................................................................ [ 14%]
+.........................s.ss........................................... [ 21%]
+........................................................................ [ 29%]
+...............F..................................s..................... [ 36%]
+........................................................................ [ 43%]
+........................................................................ [ 51%]
+........................................................................ [ 58%]
+........................................................................ [ 65%]
+........................................................................ [ 73%]
+........................................................................ [ 80%]
+........................................................................ [ 87%]
+........................................................................ [ 95%]
+.................................ssssssss.....                           [100%]
+=================================== FAILURES ===================================
+_________________ test_old_invalid_run_hashes_remain_unchanged _________________
+
+    def test_old_invalid_run_hashes_remain_unchanged() -> None:
+        audit = read_json(AUDIT_PATH)
+        immutable = audit["old_invalid_run"]["immutable_output_sha256"]
+        results = read_json(RESULTS_DIR / "finqa_v2_formal_results.json")
+        receipt = read_json(RESULTS_DIR / "finqa_v2_formal_execution_receipt.json")
+    
+        for name, expected in immutable.items():
+>           observed = hashlib.sha256((RESULTS_DIR / name).read_bytes()).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_finqa_v2_scorer_runtime_binding_v2.py:310: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/pathlib.py:1021: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('research/finqa_v2_20261010/results/finqa_v2_focused_preflight.log')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'research/finqa_v2_20261010/results/finqa_v2_focused_preflight.log'
+
+/usr/lib/python3.12/pathlib.py:1015: FileNotFoundError
+=============================== warnings summary ===============================
+<frozen abc>:106
+  <frozen abc>:106: LangGraphDeprecatedSinceV10: AgentStatePydantic has been moved to `langchain.agents`. Please update your import to `from langchain.agents import AgentStatePydantic`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+
+src/tools/document_loader.py:47
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/tools/document_loader.py:47: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator('file_path')
+
+src/tools/document_processor.py:74
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/tools/document_processor.py:74: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator('file_path')
+
+src/storage/provider.py:23
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/storage/provider.py:23: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator('source')
+
+../projects/agents_final_tech/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+src/auth/jwt_handler.py:15
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/auth/jwt_handler.py:15: RuntimeWarning: JWT_SECRET_KEY environment variable not set! Using a default key is insecure. Please set JWT_SECRET_KEY in production.
+    warnings.warn(
+
+src/auth/users.py:17
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/auth/users.py:17: RuntimeWarning: Using default admin password 'admin123' is insecure! Please set DEFAULT_ADMIN_PASSWORD environment variable in production.
+    warnings.warn(
+
+src/storage/collaboration/models.py:10
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/storage/collaboration/models.py:10: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+src/main.py:174
+  /home/testuser/wzh/phase_b_worktree_20261026/tests/../src/main.py:174: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+../projects/agents_final_tech/venv/lib/python3.12/site-packages/fastapi/applications.py:4575
+  /home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/fastapi/applications.py:4575: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_finqa_v2_scorer_runtime_binding_v2.py::test_old_invalid_run_hashes_remain_unchanged
+1 failed, 967 passed, 14 skipped, 1 deselected, 10 warnings in 68.62s (0:01:08)
+exit_code=1
