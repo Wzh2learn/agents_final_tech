@@ -76,7 +76,7 @@
   "local_summaries": {
     "experiment_a": {
       "path": "research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json",
-      "sha256": "1603b86072a3a33d7a8da1a41dcdf5910d2b47371a30b2892a206a60a69ca465",
+      "sha256": "240416b2048978084cfe998c15cdaafd53ba6de40a9f8ce1600d64569403fb0b",
       "remote_rows_sha256": "16ae72605fb7a405ed9d7663f8deeba4696a7a9b7e9a4719308a145cff987ccc"
     },
     "delivery_confirmation": {

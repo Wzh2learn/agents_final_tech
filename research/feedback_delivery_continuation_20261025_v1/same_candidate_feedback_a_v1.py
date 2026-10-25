@@ -467,12 +467,21 @@ def build_summary(rows: list[dict[str, Any]], receipts: dict[str, Any]) -> dict[
     ]
     return {
         "schema": "same_candidate_feedback_intervention_a_v1",
-        "identity": "FROZEN_ORDINARY_CANDIDATES_ONE_ADDITIONAL_GENERATION_VISIBLE_FEEDBACK_ONLY",
+        "identity": "FROZEN_ORDINARY_CANDIDATES_VISIBLE_MAIN_ARMS_PLUS_ORACLE_ASSISTED_DEVELOPMENT_DIAGNOSTIC",
         "conditions": [
             "original_frozen",
             *[condition for condition in CONDITIONS if any(row["condition"] == condition for row in rows)],
         ],
-        "hidden_reference_in_prompts": 0,
+        "hidden_reference_in_prompts": {
+            "main_visible_and_neutral_arms": "NONE",
+            "oracle_localization_diagnostic_a_v3": [
+                "initial_correctness_status",
+                "posthoc_discrepancy_classes"
+            ],
+            "hidden_answer_in_any_prompt": False,
+            "hidden_program_in_any_prompt": False,
+            "hidden_reference_ids_in_any_prompt": False
+        },
         "max_additional_generations_per_candidate": 1,
         "metrics": condition_metrics(rows),
         "transitions_from_frozen_original": transition_metrics(rows),

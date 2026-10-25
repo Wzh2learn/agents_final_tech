@@ -57,8 +57,17 @@
       "wall_seconds_from_per_item_latency": 78.99476599693298
     }
   },
-  "hidden_reference_in_prompts": 0,
-  "identity": "FROZEN_ORDINARY_CANDIDATES_ONE_ADDITIONAL_GENERATION_VISIBLE_FEEDBACK_ONLY",
+  "hidden_reference_in_prompts": {
+    "hidden_answer_in_any_prompt": false,
+    "hidden_program_in_any_prompt": false,
+    "hidden_reference_ids_in_any_prompt": false,
+    "main_visible_and_neutral_arms": "NONE",
+    "oracle_localization_diagnostic_a_v3": [
+      "initial_correctness_status",
+      "posthoc_discrepancy_classes"
+    ]
+  },
+  "identity": "FROZEN_ORDINARY_CANDIDATES_VISIBLE_MAIN_ARMS_PLUS_ORACLE_ASSISTED_DEVELOPMENT_DIAGNOSTIC",
   "input_sha256": {
     "failed_neutral_results": "2df56f87ed7caed2a13f8de061dd6fc866ef7e8ce898f5d74770904339c68ced",
     "frozen_results": "456aa2a67a629260177642aabf0c4bf4d3ed3fd89ce7b61d67c7b3e62335e0f6",
