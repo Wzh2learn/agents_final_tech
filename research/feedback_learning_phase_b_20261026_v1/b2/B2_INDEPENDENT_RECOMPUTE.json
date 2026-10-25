@@ -1,0 +1,242 @@
+{
+  "comparison_to_B2_DEVELOPMENT_ANALYSIS": {
+    "metrics_by_arm_match": true,
+    "point_estimates_match": true,
+    "raw_sha256_match": true
+  },
+  "family_scores": {
+    "DETERMINISTIC_REFERENCE_PATCH_CONTROL": {
+      "NAT_train_0417ded2_2868860b": true,
+      "NAT_train_04e7f446_538c6915": true,
+      "NAT_train_223d66c3_832d3e3e": true,
+      "NAT_train_2c20edd3_50641f02": true,
+      "NAT_train_2e038152_274875b0": false,
+      "NAT_train_819641fb_108cfcb0": true,
+      "NAT_train_abc6297d_0b1780b0": true,
+      "NAT_train_b74eaf04_caa15292": false,
+      "NAT_train_bdeeb701_c6f0281e": true,
+      "NAT_train_dac4e923_dccd9dbf": true,
+      "NAT_train_f1f2c2cb_27cb53a0": true,
+      "NAT_train_f440390f_74e6e596": true
+    },
+    "E_RESTRICTED_PATCH": {
+      "NAT_train_0417ded2_2868860b": false,
+      "NAT_train_04e7f446_538c6915": false,
+      "NAT_train_223d66c3_832d3e3e": false,
+      "NAT_train_2c20edd3_50641f02": false,
+      "NAT_train_2e038152_274875b0": false,
+      "NAT_train_819641fb_108cfcb0": false,
+      "NAT_train_abc6297d_0b1780b0": false,
+      "NAT_train_b74eaf04_caa15292": false,
+      "NAT_train_bdeeb701_c6f0281e": false,
+      "NAT_train_dac4e923_dccd9dbf": false,
+      "NAT_train_f1f2c2cb_27cb53a0": false,
+      "NAT_train_f440390f_74e6e596": false
+    },
+    "N_NEUTRAL_RETRY": {
+      "NAT_train_0417ded2_2868860b": true,
+      "NAT_train_04e7f446_538c6915": true,
+      "NAT_train_223d66c3_832d3e3e": true,
+      "NAT_train_2c20edd3_50641f02": true,
+      "NAT_train_2e038152_274875b0": false,
+      "NAT_train_819641fb_108cfcb0": true,
+      "NAT_train_abc6297d_0b1780b0": true,
+      "NAT_train_b74eaf04_caa15292": false,
+      "NAT_train_bdeeb701_c6f0281e": false,
+      "NAT_train_dac4e923_dccd9dbf": false,
+      "NAT_train_f1f2c2cb_27cb53a0": true,
+      "NAT_train_f440390f_74e6e596": true
+    },
+    "ORDINARY_SUPERVISION_CONTROL": {
+      "NAT_train_0417ded2_2868860b": true,
+      "NAT_train_04e7f446_538c6915": true,
+      "NAT_train_223d66c3_832d3e3e": true,
+      "NAT_train_2c20edd3_50641f02": true,
+      "NAT_train_2e038152_274875b0": false,
+      "NAT_train_819641fb_108cfcb0": true,
+      "NAT_train_abc6297d_0b1780b0": true,
+      "NAT_train_b74eaf04_caa15292": false,
+      "NAT_train_bdeeb701_c6f0281e": false,
+      "NAT_train_dac4e923_dccd9dbf": false,
+      "NAT_train_f1f2c2cb_27cb53a0": true,
+      "NAT_train_f440390f_74e6e596": true
+    },
+    "O_FROZEN_ORDINARY": {
+      "NAT_train_0417ded2_2868860b": true,
+      "NAT_train_04e7f446_538c6915": true,
+      "NAT_train_223d66c3_832d3e3e": true,
+      "NAT_train_2c20edd3_50641f02": true,
+      "NAT_train_2e038152_274875b0": false,
+      "NAT_train_819641fb_108cfcb0": true,
+      "NAT_train_abc6297d_0b1780b0": true,
+      "NAT_train_b74eaf04_caa15292": false,
+      "NAT_train_bdeeb701_c6f0281e": false,
+      "NAT_train_dac4e923_dccd9dbf": false,
+      "NAT_train_f1f2c2cb_27cb53a0": true,
+      "NAT_train_f440390f_74e6e596": true
+    },
+    "R_FULL_REVISION": {
+      "NAT_train_0417ded2_2868860b": false,
+      "NAT_train_04e7f446_538c6915": false,
+      "NAT_train_223d66c3_832d3e3e": false,
+      "NAT_train_2c20edd3_50641f02": false,
+      "NAT_train_2e038152_274875b0": false,
+      "NAT_train_819641fb_108cfcb0": false,
+      "NAT_train_abc6297d_0b1780b0": false,
+      "NAT_train_b74eaf04_caa15292": false,
+      "NAT_train_bdeeb701_c6f0281e": false,
+      "NAT_train_dac4e923_dccd9dbf": false,
+      "NAT_train_f1f2c2cb_27cb53a0": false,
+      "NAT_train_f440390f_74e6e596": false
+    }
+  },
+  "metrics_by_arm": {
+    "DETERMINISTIC_REFERENCE_PATCH_CONTROL": {
+      "O_correct_damage": 0,
+      "O_correct_preserved": 21,
+      "O_error_repair": 11,
+      "SET_BINDING_SET_ACCURACY": 0.8888888888888888,
+      "coverage": 0.8888888888888888,
+      "delivery": {
+        "CORRECT": 32,
+        "UNKNOWN": 4
+      },
+      "patch_legal": 36,
+      "program_executable": 36,
+      "rows": 36,
+      "semantic_other": {
+        "INVALID": 30
+      },
+      "semantic_valid": 6,
+      "structural_target_exact": 36,
+      "syntax": {
+        "DETERMINISTIC_CONTROL": 36
+      }
+    },
+    "E_RESTRICTED_PATCH": {
+      "O_correct_damage": 21,
+      "O_correct_preserved": 0,
+      "O_error_repair": 0,
+      "SET_BINDING_SET_ACCURACY": 0.0,
+      "coverage": 0.0,
+      "delivery": {
+        "UNKNOWN": 36
+      },
+      "patch_legal": 0,
+      "program_executable": 0,
+      "rows": 36,
+      "semantic_other": {
+        "NOT_APPLICABLE": 36
+      },
+      "semantic_valid": 0,
+      "structural_target_exact": 0,
+      "syntax": {
+        "EMBEDDED_JSON": 12,
+        "SYNTAX_ADAPTER_FAILURE": 24
+      }
+    },
+    "N_NEUTRAL_RETRY": {
+      "O_correct_damage": 2,
+      "O_correct_preserved": 19,
+      "O_error_repair": 7,
+      "SET_BINDING_SET_ACCURACY": 0.7222222222222222,
+      "coverage": 0.8888888888888888,
+      "delivery": {
+        "CORRECT": 26,
+        "UNKNOWN": 4,
+        "WRONG": 6
+      },
+      "patch_legal": 36,
+      "program_executable": 36,
+      "rows": 36,
+      "semantic_other": {
+        "INVALID": 32
+      },
+      "semantic_valid": 4,
+      "structural_target_exact": 23,
+      "syntax": {
+        "STRICT_WHOLE_JSON": 36
+      }
+    },
+    "ORDINARY_SUPERVISION_CONTROL": {
+      "O_correct_damage": 1,
+      "O_correct_preserved": 20,
+      "O_error_repair": 7,
+      "SET_BINDING_SET_ACCURACY": 0.75,
+      "coverage": 0.8888888888888888,
+      "delivery": {
+        "CORRECT": 27,
+        "UNKNOWN": 4,
+        "WRONG": 5
+      },
+      "patch_legal": 36,
+      "program_executable": 36,
+      "rows": 36,
+      "semantic_other": {
+        "INVALID": 32
+      },
+      "semantic_valid": 4,
+      "structural_target_exact": 31,
+      "syntax": {
+        "STRICT_WHOLE_JSON": 36
+      }
+    },
+    "O_FROZEN_ORDINARY": {
+      "O_correct_damage": 1,
+      "O_correct_preserved": 20,
+      "O_error_repair": 7,
+      "SET_BINDING_SET_ACCURACY": 0.75,
+      "coverage": 0.8888888888888888,
+      "delivery": {
+        "CORRECT": 27,
+        "UNKNOWN": 4,
+        "WRONG": 5
+      },
+      "patch_legal": 36,
+      "program_executable": 36,
+      "rows": 36,
+      "semantic_other": {
+        "INVALID": 32
+      },
+      "semantic_valid": 4,
+      "structural_target_exact": 31,
+      "syntax": {
+        "STRICT_WHOLE_JSON": 36
+      }
+    },
+    "R_FULL_REVISION": {
+      "O_correct_damage": 15,
+      "O_correct_preserved": 6,
+      "O_error_repair": 2,
+      "SET_BINDING_SET_ACCURACY": 0.2222222222222222,
+      "coverage": 0.25,
+      "delivery": {
+        "CORRECT": 8,
+        "UNKNOWN": 27,
+        "WRONG": 1
+      },
+      "patch_legal": 36,
+      "program_executable": 10,
+      "rows": 36,
+      "semantic_other": {
+        "INVALID": 6,
+        "NOT_APPLICABLE": 24,
+        "NOT_EVALUATED": 2
+      },
+      "semantic_valid": 4,
+      "structural_target_exact": 8,
+      "syntax": {
+        "EMBEDDED_JSON": 12,
+        "SYNTAX_ADAPTER_FAILURE": 24
+      }
+    }
+  },
+  "paired_source_family_point_estimates": {
+    "E-N": -0.6666666666666666,
+    "E-R": 0.0,
+    "R-N": -0.6666666666666666
+  },
+  "raw_sha256": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+  "schema": "b2_independent_recompute_v1",
+  "status": "PASS"
+}

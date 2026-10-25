@@ -1,0 +1,122 @@
+{
+  "artifacts": {
+    "B1_AUTHORITY_BINDING_CORRECTION.json": "1f5b7ffb864ffe8cd9f435a7cde37c6258ca72e904140ddd132c7b1230590e78",
+    "B1_BUILD_SUPERVISION.py": "d7638473b70f9cfc2d03b635ca49449b699c06769ae36163e3911ead2cee24ee",
+    "B1_CORRECTION_TRAJECTORIES.jsonl": "bccae1cb9eba0b352d359e4c105ad0714845758dc30205f8b5515483ef677595",
+    "B1_ERROR_TYPE_TAXONOMY.json": "3f65053c5ef360e18f53024a06fee0b7309d961cfc4df61738fcf16a925ca1e5",
+    "B1_FINALIZE_RECEIPTS.py": "cd9bcad56c58678e9f4229a7f718d30b3754ef5834ff60aa5a5265e34b16e77b",
+    "B1_FULL_TEST_OUTPUT.txt": "076cf2111e57062d65c093fc88e16069f1e22a79fa27af12248c593bf0669f89",
+    "B1_LOCAL_EDIT_APPLIER.py": "fdd7cb3652f1e785f752e1d510b3588e13791c3e2756e291213d66121d0fb7a0",
+    "B1_LOCAL_PATCH_CONTRACT.json": "c72993fe8b7c3a5deed22a7146b2a507e95c4fe77029337e89010c3bbc197867",
+    "B1_PREFLIGHT_DRAFT.json": "60bb8c158875e2af275f2618eaaa3d8bc05e62ebe1afa34806ff542dc022b345",
+    "B1_REPORT.md": "dd5110803534a7f1d5406f3082580fd3076d8fdc780d17cbbf378d1b31230d53",
+    "B1_SUPERVISION_MANIFEST.json": "cd9057642a16b530345e71c1d965cf4a2c8823165a047fce3046b27429b3914c",
+    "B1_TEST_LOCAL_EDIT_APPLIER.py": "d624514aa39b920fe80c494ee441290b56dea4ff83d23486aa81f5cb7253f59d",
+    "B1_TEST_OUTPUT.txt": "67e8e8db83860f9868918462c5e7c343423389c31622ecfad4ecc59f851502e2",
+    "B2_DEVELOPMENT_PANEL_DRAFT.json": "56e3c270a379fab39ed59da5b9b4f1f2f90a03abc41efff86263c2e6259708f0",
+    "archive/B1_REMEDIATION1_RAW_TRAJECTORIES.jsonl": "540df692b04378f867e3d0b59435fbbc07e992dac8d77fadc6860978b4ef0cdb",
+    "archive/B1_REMEDIATION1_SCORE_RESULT_A.json": "eae35b9daf9047df3b8054b79afb489099d9d6ec6dcffaaa538017a52c73688a"
+  },
+  "authority_identity_status": "PASS",
+  "budget_ledger_modified": false,
+  "conditions": {
+    "C_1_taxonomy": "CLOSED_A_SIDE",
+    "C_2_units": "CLOSED_A_SIDE",
+    "C_3_information_parity": "CLOSED_A_SIDE",
+    "C_4_equivalence": "CLOSED_A_SIDE",
+    "C_5_authority_binding": "CLOSED_A_SIDE",
+    "C_6_damage_panel": "CLOSED_A_SIDE",
+    "H1_disclosure_and_estimand": "CLOSED_A_SIDE",
+    "H2_operand_order_sign_reversal_rule": "CLOSED_A_SIDE"
+  },
+  "counts": {
+    "eligibility": {
+      "CORRECT_NO_OP": 40,
+      "CORRECT_NO_OP_WITH_UNRESOLVED_UNIT_LABEL": 16,
+      "ELIGIBLE": 5,
+      "UNRESOLVED": 11
+    },
+    "eligible_error_types": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": 2,
+      "ROW_ROLE_MISBINDING": 3
+    },
+    "eligible_natural_errors": 5,
+    "natural_status": {
+      "CORRECT_NO_OP": 40,
+      "LABEL_UNRESOLVED": 16,
+      "NATURAL_ERROR_ELIGIBLE": 5,
+      "NATURAL_ERROR_UNRESOLVED": 11
+    },
+    "patch_verification_pass": 61,
+    "trajectories": 72,
+    "unit_mismatch_trajectories": 17,
+    "unit_only_mismatch_trajectories": 16,
+    "verification_overall": {
+      "PASS": 30,
+      "UNRESOLVED": 42
+    },
+    "visible_evidence_test_pass": 5
+  },
+  "deterministic_cpu_wall_seconds_from_test_report": 0.034,
+  "immutable_inputs_modified": false,
+  "model_generation_attempts": 0,
+  "model_or_judge_calls": 0,
+  "next_action": "C re-audit3 independently verifies H1/H2, the sole qualified estimand and refreshed hashes; D freezes the exact panel and estimand; do not train B2",
+  "qualified_estimand": {
+    "definition": "correct visible cell set with operator, order and unit preserved",
+    "is_answer_correctness": false,
+    "name": "SET_BINDING_SET_ACCURACY",
+    "score_against_reference_answer": "NEVER"
+  },
+  "remediation3_disclosure": {
+    "eligible_row_count": 5,
+    "sign_reversed_eligible_row_count": 3,
+    "sign_reversed_eligible_source_family_count": 2,
+    "sign_reversed_source_families": [
+      "NAT_train_bdeeb701_c6f0281e",
+      "NAT_train_b74eaf04_caa15292"
+    ],
+    "status": "DISCLOSED_IN_B1_REPORT_AND_B1_SUPERVISION_MANIFEST"
+  },
+  "resolved_operating_rule": {
+    "OPERAND_ORDER_SIGN_REVERSAL": {
+      "between_A_and_B_phrase_alone_is_discriminator": false,
+      "order_only_difference": "UNRESOLVED_NO_TRAINING_TARGET",
+      "set_difference": "CAN_YIELD_ELIGIBLE_SET_BINDING_COMPONENT",
+      "status": "UNRESOLVED"
+    }
+  },
+  "schema": "b1_remediation3_receipt_a_v1",
+  "scientific_content_status": "REMEDIATED_WITH_LIMITATIONS",
+  "smallest_next_action": "C re-audits H1/H2; D freezes the panel and sole estimand; do not train B2",
+  "status": "A_REMEDIATION3_COMPLETE_PENDING_C_REAUDIT3",
+  "task_id": "phaseb-b1-remediation3-a-20261026",
+  "tests": {
+    "executed_command": "PYTHONPATH=src python3 -m unittest discover -s research/feedback_learning_phase_b_20261026_v1 -p 'B1_TEST_LOCAL_EDIT_APPLIER.py' -v",
+    "exit_code": 0,
+    "full_repository_suite": {
+      "deselected": 1,
+      "exit_code": 1,
+      "failed": 1,
+      "failure": "tests/test_finqa_v2_scorer_runtime_binding_v2.py::test_old_invalid_run_hashes_remain_unchanged",
+      "failure_detail": "missing repository fixture research/finqa_v2_20261010/results/finqa_v2_focused_preflight.log",
+      "health_or_model_probe_reported_by_log": false,
+      "scope": "preserved remediation2 evidence; not rerun in remediation3",
+      "output_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_FULL_TEST_OUTPUT.txt",
+      "output_sha256": "076cf2111e57062d65c093fc88e16069f1e22a79fa27af12248c593bf0669f89",
+      "passed": 967,
+      "skipped": 14,
+      "status": "FAIL",
+      "wall_seconds": 68.62,
+      "warnings": 10
+    },
+    "gb10_runtime": "NOT_RUN",
+    "output": "command=PYTHONPATH=src python3 -m unittest discover -s research/feedback_learning_phase_b_20261026_v1 -p B1_TEST_LOCAL_EDIT_APPLIER.py -v\ntest_all_registered_cases (B1_TEST_LOCAL_EDIT_APPLIER.TestB1LocalEditApplier.test_all_registered_cases) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.034s\n\nOK\nexit_code=0\n",
+    "output_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_OUTPUT.txt",
+    "output_sha256": "67e8e8db83860f9868918462c5e7c343423389c31622ecfad4ecc59f851502e2",
+    "registered_tests": 1,
+    "status": "PASS",
+    "subcases": 27
+  },
+  "training_runs": 0
+}

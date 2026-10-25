@@ -1,0 +1,208 @@
+{
+  "schema": "phase_b_budget_ledger_v1",
+  "phase_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "commit": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "git_blob_sha1": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "gb10_lf_sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "windows_raw_sha256_noncanonical": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922"
+  },
+  "authorized": {
+    "generation_attempts": 672,
+    "generation_tokens": 2800000,
+    "training_runs": 4,
+    "training_tokens": 4000000,
+    "collaboration_dispatch_attempts": 16
+  },
+  "used": {
+    "generation_attempts": 188,
+    "generation_tokens": 139306,
+    "generation_tokens_lower_bound": 137770,
+    "training_runs": 2,
+    "training_tokens": 319948,
+    "collaboration_dispatch_attempts": 13,
+    "harness_tokens": "PARTIAL_CODEX_USAGE_ONLY",
+    "harness_fees": "UNKNOWN"
+  },
+  "harness_usage_known": {
+    "codex_input_tokens": 93686809,
+    "codex_output_tokens": 363799,
+    "codex_reasoning_output_tokens": 111000,
+    "claude_usage": "UNKNOWN",
+    "fees": "UNKNOWN"
+  },
+  "allocations": {
+    "supervision_qualification": {"generation_attempts": 96, "generation_tokens": 360000},
+    "same_start_development": {"generation_attempts": 108, "generation_tokens": 420000, "training_runs": 2, "training_tokens": 2000000},
+    "output_budget_repair": {"generation_attempts": 72, "generation_tokens": 180000, "source": "36 attempts from failure reserve plus 36 attempts from unreleased confirmation"},
+    "exposure_clean_confirmation": {"generation_attempts": 252, "generation_tokens": 1220000},
+    "matched_second_seed": {"generation_attempts": 144, "generation_tokens": 620000, "training_runs": 2, "training_tokens": 2000000},
+    "failure_interface_reserve": {"generation_attempts": 0, "generation_tokens": 0}
+  },
+  "events": [
+    {
+      "id": "PHASEB_B1_SUPERVISION_A_DISPATCH",
+      "task_id": "phaseb-b1-supervision-a-20261026",
+      "role": "A",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_QUALIFICATION_FAILED",
+      "harness_usage": {
+        "input_tokens": 9622430,
+        "output_tokens": 50014,
+        "reasoning_output_tokens": 17320
+      }
+    },
+    {
+      "id": "PHASEB_B1_PREAUDIT_C_DISPATCH",
+      "task_id": "phaseb-b1-preaudit-c-20261026",
+      "role": "C",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_PASS",
+      "harness_usage": "UNKNOWN_CLAUDE_CLI"
+    },
+    {
+      "id": "PHASEB_PAPER_THESIS_A_DISPATCH",
+      "task_id": "phaseb-paper-thesis-a-20261026",
+      "role": "A-PAPER",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_PASS",
+      "harness_usage": {
+        "input_tokens": 8526226,
+        "output_tokens": 36430,
+        "reasoning_output_tokens": 7582
+      }
+    },
+    {
+      "id": "PHASEB_B1_REMEDIATION_A_DISPATCH",
+      "task_id": "phaseb-b1-remediation-a-20261026",
+      "role": "A",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_A_REMEDIATION_PENDING_C_REAUDIT",
+      "harness_usage": {
+        "input_tokens": 16031273,
+        "output_tokens": 67383,
+        "reasoning_output_tokens": 19643
+      }
+    },
+    {
+      "id": "PHASEB_B1_REAUDIT_C_DISPATCH",
+      "task_id": "phaseb-b1-reaudit-c-20261026",
+      "role": "C",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_CONDITIONAL_C1",
+      "harness_usage": "UNKNOWN_CLAUDE_CLI"
+    },
+    {
+      "id": "PHASEB_B1_REMEDIATION2_A_DISPATCH",
+      "task_id": "phaseb-b1-remediation2-a-20261026",
+      "role": "A",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_PENDING_C_REAUDIT2",
+      "harness_usage": {
+        "input_tokens": 16809935,
+        "output_tokens": 49846,
+        "reasoning_output_tokens": 19313
+      }
+    },
+    {
+      "id": "PHASEB_B1_REAUDIT2_C_DISPATCH",
+      "task_id": "phaseb-b1-reaudit2-c-20261026",
+      "role": "C",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_CONDITIONAL_H1",
+      "harness_usage": "UNKNOWN_CLAUDE_CLI"
+    },
+    {
+      "id": "PHASEB_B1_REMEDIATION3_A_DISPATCH",
+      "task_id": "phaseb-b1-remediation3-a-20261026",
+      "role": "A",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_PENDING_C_REAUDIT3",
+      "harness_usage": {
+        "input_tokens": 9290414,
+        "output_tokens": 31610,
+        "reasoning_output_tokens": 9916
+      }
+    },
+    {
+      "id": "PHASEB_B1_REAUDIT3_C_DISPATCH",
+      "task_id": "phaseb-b1-reaudit3-c-20261026",
+      "role": "C",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "REJECTED_INTERFACE_ONLY",
+      "harness_usage": "UNKNOWN_CLAUDE_CLI"
+    },
+    {
+      "id": "PHASEB_B1_REAUDIT3B_C_DISPATCH",
+      "task_id": "phaseb-b1-reaudit3b-c-20261026",
+      "role": "C",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_CONDITIONAL_R1_DISPOSED_BY_D",
+      "harness_usage": "UNKNOWN_CLAUDE_CLI"
+    },
+    {
+      "id": "PHASEB_B2_SAME_START_A_DISPATCH",
+      "task_id": "phaseb-b2-same-start-a-20261026",
+      "role": "A",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 116,
+      "scientific_generation_attempts_retained_logical": 108,
+      "scientific_tokens_conservative_upper": 72714,
+      "training_runs": 2,
+      "training_tokens": 319948,
+      "status": "DONE_DEVELOPMENT_GATE_FAIL",
+      "harness_usage": {
+        "input_tokens": 24155065,
+        "output_tokens": 89401,
+        "reasoning_output_tokens": 24371
+      }
+    },
+    {
+      "id": "PHASEB_B2B_OUTPUT_REPAIR_A_DISPATCH",
+      "task_id": "phaseb-b2b-output-repair-a-20261026",
+      "role": "A",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 72,
+      "scientific_tokens": 66592,
+      "training_runs": 0,
+      "training_tokens": 0,
+      "status": "DONE_INTERFACE_REPRESENTATION_FAILURE_STOP_R_E",
+      "harness_usage": {
+        "input_tokens": 9251466,
+        "output_tokens": 39115,
+        "reasoning_output_tokens": 12855
+      }
+    },
+    {
+      "id": "PHASEB_B2B_COMBINED_AUDIT_C_DISPATCH",
+      "task_id": "phaseb-b2b-combined-audit-c-20261026",
+      "role": "C",
+      "harness_attempts": 1,
+      "scientific_generation_attempts": 0,
+      "scientific_tokens": 0,
+      "status": "DONE_CONDITIONAL_STOP_ACCEPTED",
+      "harness_usage": "UNKNOWN_CLAUDE_CLI"
+    }
+  ]
+}

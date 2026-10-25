@@ -1,0 +1,116 @@
+{
+  "arm": "R_FULL_REVISION",
+  "child_adapter": {
+    "adapter_file_sha256": {
+      "adapter_config.json": "c276f0420ecbc19a0d4fde8a8c515451485151623931f6693366f3b4b1750faa",
+      "adapter_model.safetensors": "9cf9c306e7b23d3d26ce4209cc80d58271056fb3a79e25a2b4e9d567cb66eed5"
+    },
+    "adapter_name": "b2_child",
+    "adapter_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/training/R_FULL_REVISION/final_adapter/b2_child",
+    "configured_trainable_parameter_count": 5898240,
+    "initial_tensor_group_sha256": "NOT_RECORDED_BY_FIRST_RECEIPT_WRITE",
+    "mask": {
+      "frozen": "base model, ordinary_parent adapter, biases and all non-target modules",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "trainable": "b2_child LoRA A/B tensors on q_proj and v_proj"
+    },
+    "saved_trainable_parameter_count": 5898240,
+    "trainable_parameter_names_sha256": "645b2c671b59bfb15e97825aa278c15192d29d890757510ebf60b6d0bc662451",
+    "trainable_parameter_tensor_count": 144
+  },
+  "dataset": {
+    "eligible_correction_rows": 39,
+    "loss_normalization": "mean over all non-padding prompt-plus-target tokens; no sample weighting",
+    "no_op_and_unresolved_rows": 217,
+    "processed_text_tokens": {
+      "max": 1083,
+      "mean": 563.171875,
+      "sum": 144172
+    },
+    "rows": 256,
+    "target_token_length": {
+      "max": 49,
+      "mean": 44.8828125,
+      "min": 44,
+      "sum": 11490
+    },
+    "unique_source_tasks": 12,
+    "unique_trajectories": 36
+  },
+  "finished_at": "2026-10-25T19:59:52.662514+00:00",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "gpu_cost": {
+    "device_count": 1,
+    "gpu_seconds": 130.504,
+    "max_memory_allocated_bytes": "NOT_RECORDED_AFTER_POST_TRAIN_ASSERTION",
+    "max_memory_reserved_bytes": "NOT_RECORDED_AFTER_POST_TRAIN_ASSERTION",
+    "power_energy_measurement": "UNAVAILABLE_NOT_INFERRED",
+    "wall_seconds": 130.504
+  },
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 0.0001,
+    "optimizer_class": "AdamW via Hugging Face Trainer",
+    "optimizer_steps": 128,
+    "scheduler": "cosine",
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.0
+  },
+  "parent_checkpoint": {
+    "adapter_file_sha256": {
+      "README.md": "52b79bca4cc96410a7d8fdbe94854001c72f2947434777e98bea03a191c13c14",
+      "adapter_config.json": "bc2a50d79f8db225a7b3bd3dbbb2ce2927f5d20f04244216dcc358cd330a41c6",
+      "adapter_model.safetensors": "bc5f1052b69cf667fb52eb2c32b86d3b7a59d8f64c4756edffd1477050f1a1ff",
+      "chat_template.jinja": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+      "tokenizer.json": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506",
+      "tokenizer_config.json": "2e3bd3cb5055f7a903a54e7062b2fd14d21b70f4174c3ffcd9fc81ec50a25631",
+      "training_args.bin": "d8e252f4cee1f70e1cbe1c44e49f93b9fba20007e041b6220636ea7cca425f62"
+    },
+    "adapter_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+    "base_model": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "effective_identity": "BASE_PLUS_FROZEN_ORDINARY_ADAPTER",
+    "saved_adapter_model_sha256": "bc5f1052b69cf667fb52eb2c32b86d3b7a59d8f64c4756edffd1477050f1a1ff",
+    "tensor_group_sha256_after": "d30ca7506ac16d678e97a7c20668a766184834d3a1f5859b50a30f284773dfc4",
+    "tensor_group_sha256_before": "d30ca7506ac16d678e97a7c20668a766184834d3a1f5859b50a30f284773dfc4",
+    "unchanged": true
+  },
+  "receipt_recovery": {
+    "reason": "receipt write assertion rejected valid multi-adapter save layout",
+    "source_rows_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/training/R_FULL_REVISION/training_rows.jsonl",
+    "source_rows_sha256": "e8ce7fa865e85283783871d7978d81d3300d2581d02812e0ccf88c6f8826a0b4",
+    "source_state_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/training/R_FULL_REVISION/trainer_state.json",
+    "source_state_sha256": "b43a79dae0079fab1ba7bd962abe801ce387dc17993c34c6c60a00ba7f60ea50",
+    "training_rerun": false
+  },
+  "run_totals": {
+    "processed_text_tokens": 319948,
+    "training_runs": 2,
+    "wall_seconds": 200.32627201080322
+  },
+  "schema": "b2_training_receipt_v1",
+  "status": "PASS",
+  "steps": {
+    "epochs": 1.0,
+    "global_step": 128,
+    "max_steps": 128
+  },
+  "target_length_equality_claim": "NOT_CLAIMED",
+  "task_id": "phaseb-b2-same-start-a-20261026",
+  "train_metrics": {
+    "epoch": 1.0,
+    "step": 128,
+    "total_flos": 3158907623436288.0,
+    "train_loss": 0.7835675841197371,
+    "train_runtime": 130.504,
+    "train_samples_per_second": 1.962,
+    "train_steps_per_second": 0.981
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "artifact_hashes": {
+    "B2_DEVELOPMENT_ANALYSIS.json": "bb45239d2735d49826beb8a72a517416d4b7d42a0668763750922c51d92e04bc",
+    "B2_DEVELOPMENT_RAW.jsonl": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+    "B2_EVALUATION_PARTIAL_FAILURES.json": "1c3352d2793a53b31508f09a683608462771b40492f753c2b77a5cbf9f037942",
+    "B2_INDEPENDENT_RECOMPUTE.json": "986fa139dab00d9ab1256fc73e9052e06e245cc027353bc3b6e5c1ea8fa27736",
+    "B2_PREFLIGHT_RECEIPT.json": "25a758fa9563d384cb6601794e111a572928fbcefad098e82c5f11cd80b70b09",
+    "B2_PROTOCOL_FROZEN.json": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+    "B2_TRAINING_RECEIPT_E.json": "8cc13027a3e9de01057126ae55331cabae76c06ca3ec6c2fded9e4919c1b1286",
+    "B2_TRAINING_RECEIPT_R.json": "8f83562f9797a1f46c72b95dd6ca7f49ae2324056679a01a55b883df71b38828",
+    "B2_TRAIN_RUN.py": "9df9ec42129dd539d80b0b2b60d8e0e5dc2e08e67fe5bebe8def924d7bd64f81",
+    "train.py": "0a0cf6321834574a6fb578e4192f072b1250948ba42a0e659f6919616ee499f6"
+  },
+  "checks": {
+    "claim_boundary_enforced": true,
+    "development_gate_fail_recorded": true,
+    "distinct_child_adapters": true,
+    "generation_token_bound_within_authorized": true,
+    "independent_recompute_pass": true,
+    "logical_generation_budget_within_authorized": true,
+    "matched_optimizer_steps": true,
+    "matched_trainable_parameter_count": true,
+    "no_hidden_reference_fields_in_training_rows": true,
+    "partial_failures_disclosed": true,
+    "preflight_pass": true,
+    "primary_estimand_only": true,
+    "protocol_hash_matches_partial_failures": true,
+    "raw_hash_chain_matches": true,
+    "raw_rows_complete": true,
+    "required_json_parseable": true,
+    "required_outputs_exist": true,
+    "retained_generations_complete": true,
+    "same_parent_tensor_identity": true,
+    "shared_task_visible_evidence_o_and_feedback": true,
+    "training_receipts_pass": true,
+    "training_rows_matched": true,
+    "training_token_budget_within_authorized": true
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "limitations": [
+    "R initial child tensor hash and post-training peak memory were not retained after the first receipt assertion; saved parameter count, mask, optimizer, state and parent identity were recovered without rerunning R.",
+    "One seeded N batch was generated before serialization failed, was not retained or inspected, and was deterministically replayed; physical calls and bounded token cost are disclosed separately from the 108 logical planned generations.",
+    "Semantic diagnostics are deterministic visible checks; no semantic model or confirmation call was made."
+  ],
+  "protocol_sha256": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+  "raw_sha256": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+  "schema": "b2_verification_receipt_v1",
+  "status": "PASS_WITH_DISCLOSED_EXECUTION_RECOVERIES",
+  "task_id": "phaseb-b2-same-start-a-20261026"
+}

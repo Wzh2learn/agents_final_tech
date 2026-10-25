@@ -1,0 +1,51 @@
+{
+  "arms": {
+    "E_RESTRICTED_PATCH": {
+      "completion_tokens": 13824,
+      "finish_reason": {
+        "MAX_NEW_TOKENS": 36
+      },
+      "new_generation_attempts": 36,
+      "padded_prompt_positions": 28564.0,
+      "prompt_tokens": 19778,
+      "rows": 36,
+      "wall_seconds": 223.64486813545227
+    },
+    "R_FULL_REVISION": {
+      "completion_tokens": 13824,
+      "finish_reason": {
+        "MAX_NEW_TOKENS": 36
+      },
+      "new_generation_attempts": 36,
+      "padded_prompt_positions": 27952.0,
+      "prompt_tokens": 19166,
+      "rows": 36,
+      "wall_seconds": 211.9001500606537
+    }
+  },
+  "attempt_budget": 72,
+  "attempt_budget_remaining": 0,
+  "finished_at": "2026-10-25T20:41:00.832075+00:00",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "new_generation_attempts": 72,
+  "new_generation_padded_input_plus_completion_tokens": 84164.0,
+  "new_generation_tokens": 66592,
+  "post_generation_accounting_failures": 1,
+  "protocol_sha256": "b7d28b4c86fed98a9af40f4aa9ecc89f9086f4ce6ee6143b1f8b8a70409494c4",
+  "raw_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_GENERATION_RAW.jsonl",
+  "raw_sha256": "a50e527551f34165789bf9e7363cfe2d02bb2d8696a9d6348dc7f557697c824b",
+  "recovery": {
+    "raw_rows_modified": false,
+    "reason": "The first receipt attempt repeated each batch's padded prompt-position count once per row and tripped the post-generation assertion.",
+    "rerun_performed": false,
+    "source": "72 retained raw rows"
+  },
+  "schema": "b2b_generation_receipt_v1",
+  "scientific_generation_failures": 0,
+  "status": "PASS_WITH_POST_GENERATION_ACCOUNTING_RECOVERY",
+  "task_id": "phaseb-b2b-output-repair-a-20261026",
+  "token_budget": 180000,
+  "token_budget_remaining": 113408,
+  "training_runs": 0,
+  "training_tokens": 0
+}

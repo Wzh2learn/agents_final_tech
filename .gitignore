@@ -110,3 +110,7 @@ research/research_direction_sprint_20261020_v1/execution_v1/experience_scope/sou
 # Existing tracked raw evidence and frozen eval/receipts retain their identities.
 research/codeupdatearena_adapter_v1/evidence/v2_oracle/
 research/codeupdatearena_adapter_v1/evidence/v2_revalidation/
+
+# Phase B rebuildable training runtimes. Receipts and manifests stay tracked;
+# adapter tensors/tokenizers and replayable training rows remain on GB10.
+research/feedback_learning_phase_b_20261026_v1/b2/run/training/

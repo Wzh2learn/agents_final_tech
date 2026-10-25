@@ -1,0 +1,80 @@
+{
+  "schema": "b2_evaluation_partial_failures_v1",
+  "status": "RECOVERED_BY_EXACT_DETERMINISTIC_REPLAY",
+  "task_id": "phaseb-b2-same-start-a-20261026",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "protocol_sha256": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+  "generative_raw_sha256_before_zero_call_recovery": "a617afce80ed1ae26a504becac3620e07ad1a228e80de48520c70b75cbc00462",
+  "final_raw_sha256_after_zero_call_recovery": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+  "failures": [
+    {
+      "failure_id": "N_BATCH_0_RAW_ROW_ERROR",
+      "arm": "N_NEUTRAL_RETRY",
+      "stage": "POST_GENERATION_ROW_SERIALIZATION",
+      "occurred_at": "2026-10-25T20:03:39Z",
+      "batch_start": 0,
+      "batch_size": 8,
+      "sampling_seed": 2767414482,
+      "trajectory_ids": [
+        "NAT_train_04e7f446_538c6915::irrelevant_change",
+        "NAT_train_04e7f446_538c6915::original",
+        "NAT_train_04e7f446_538c6915::relevant_change",
+        "NAT_train_2e038152_274875b0::irrelevant_change",
+        "NAT_train_2e038152_274875b0::original",
+        "NAT_train_2e038152_274875b0::relevant_change",
+        "NAT_train_819641fb_108cfcb0::irrelevant_change",
+        "NAT_train_819641fb_108cfcb0::original"
+      ],
+      "cause": "trajectory_error_was_null_but_raw_row_assumed_a_mapping",
+      "generation_outputs_retained": false,
+      "generation_outputs_inspected": false,
+      "failure_log": "run/evaluation_console.log",
+      "repair": "raw_row now treats missing error evidence as an unavailable diagnostic rather than dereferencing null",
+      "recovery_identity": "EXACT_REPLAY_OF_THE_SAME_PLANNED_BATCH_WITH_THE_SAME_MODEL_PROMPTS_SEED_AND_SAMPLING_CONFIGURATION",
+      "additional_neutral_retry_claimed": false,
+      "new_development_selection_information_from_failed_batch": false,
+      "compute_disclosure": "One unretained batch was executed before serialization failed; exact token and wall cost were not captured. The replay necessarily incurred additional GPU cost.",
+      "generation_token_accounting": "Conservately include the failed batch plus the deterministic replay in total GPU/token cost, but count the logical planned generation identity once."
+    }
+  ],
+  "pre_generation_failures": [
+    {
+      "failure_id": "EVALUATION_RETRY_NULL_DESIRED_SET",
+      "stage": "O_FROZEN_ORDINARY_EVALUATION",
+      "new_generation_attempts": 0,
+      "cause": "UNRESOLVED trajectories have no set-binding target and the evaluator dereferenced the null target",
+      "repair": "set-binding accuracy remains false when no target is available, and such rows are delivered as UNKNOWN rather than WRONG",
+      "new_development_selection_information": false
+    }
+  ],
+  "post_generation_persistence_failures": [
+    {
+      "failure_id": "CONTROLS_NOT_PERSISTED_BEFORE_ANALYSIS",
+      "stage": "CONTROL_ROW_PERSISTENCE",
+      "new_generation_attempts": 0,
+      "cause": "control rows were computed in memory but only generative rows were appended to the raw JSONL",
+      "generative_raw_sha256_before_recovery": "a617afce80ed1ae26a504becac3620e07ad1a228e80de48520c70b75cbc00462",
+      "repair": "run_evaluation now appends each zero-generation control arm before analysis",
+      "recovery": "Recomputed only deterministic zero-generation O/control rows and appended them without model calls; all 108 retained generative rows remain byte-identical and are covered by the prior hash.",
+      "new_development_selection_information": false
+    },
+    {
+      "failure_id": "NEUTRAL_RETRY_ROUTED_TO_PATCH_EVALUATOR",
+      "stage": "GENERATED_CANDIDATE_EVALUATION",
+      "new_generation_attempts": 0,
+      "cause": "N candidate generations entered the E restricted-patch evaluator branch",
+      "repair": "N and R now share candidate evaluation; only E and the deterministic patch control use patch evaluation",
+      "recovery": "Recomputed all 36 retained N generations from their saved raw text without model calls and preserved their generation metadata byte-for-byte.",
+      "new_development_selection_information": false
+    },
+    {
+      "failure_id": "SEMANTIC_CELLS_EXPECTED_METADATA_RECEIVED_SCALARS",
+      "stage": "SEMANTIC_ROLE_PERIOD_DIAGNOSTIC",
+      "new_generation_attempts": 0,
+      "cause": "semantic_check expected row and period metadata but received the numeric-only execution cell map",
+      "repair": "evaluation now constructs a separate metadata cell map while retaining numeric cells for execution",
+      "recovery": "Recomputed semantic diagnostics deterministically for every parseable retained candidate or patch without model calls.",
+      "new_development_selection_information": false
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "phase_b_a_paper_task_result_v1",
+  "task_id": "phaseb-paper-thesis-a-20261026",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "role": "A-PAPER",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "status": "COMPLETED_WITH_OWNER_GATES",
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "commit": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "required_sha256": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922",
+    "verification_method": "git show commit:path, then normalize LF to CRLF before SHA-256",
+    "verified": true
+  },
+  "outputs": [
+    "research/feedback_learning_phase_b_20261026_v1/paper_e/PAPER_E_OWNER_ACTION_PACKET.md",
+    "research/feedback_learning_phase_b_20261026_v1/paper_e/PAPER_E_FIRST_REVIEW_CHECK.md",
+    "research/feedback_learning_phase_b_20261026_v1/thesis_draft/CHAPTER_METHOD_RESULTS_LIMITATIONS_ZH.md",
+    "research/feedback_learning_phase_b_20261026_v1/thesis_draft/EVIDENCE_TABLE.md",
+    "research/feedback_learning_phase_b_20261026_v1/TASK_RESULT_A_PAPER.json"
+  ],
+  "paper_e": {
+    "route": "ICAART_2027_REGULAR_CONDITIONAL_PRIMARY",
+    "backup": "SN_COMPUTER_SCIENCE_SUBSCRIPTION_SEQUENTIAL",
+    "switch_rule": "Use ICAART only if Owner authorization before 2026-10-29 AoE, presentation/travel acceptance, school recognition and identity-sensitive fields are all confirmed; otherwise do not submit ICAART and prepare the SNCS package under a separate Owner authorization. Never submit simultaneously.",
+    "claim_identity": "BOUNDED_TWO_CASE_MEASUREMENT_AUDIT_WITH_FINQA_NESTED_IN_CASE_1",
+    "current_pdf": {
+      "path": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_ICAART_REVIEW.pdf",
+      "pages": 12,
+      "sha256": "30aa05af73e05c5e64f324014f982547b46f7166448f256425b5de0ca990b013"
+    },
+    "package_audit": {
+      "path": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json",
+      "status": "PASS",
+      "citations": "24/24",
+      "markdown_non_whitespace_chars": 41515,
+      "tex_non_whitespace_chars": 41013
+    },
+    "first_review_scientific_verdict": "NARROW_BOUNDARY_DEFENSIBLE / STRONGER_NOVELTY_NOT_SUPPORTED",
+    "first_review_required_hardening": [
+      "retain exactly two counted cases",
+      "keep FinQA nested inside Case 1",
+      "label source-table units and clustering explicitly",
+      "label FinRank v2 identity results as post-hoc",
+      "retain synthetic-corpus, single-judge, neural-baseline and unresolved-reproduction limitations",
+      "do not claim universal methods, Agent-system coverage, benchmark failure or acceptance-rate advantage"
+    ]
+  },
+  "thesis": {
+    "timeline_target": "October 2027 review window",
+    "exact_review_date": "UNRESOLVED",
+    "c1": {
+      "identity": "Paper E measurement audit",
+      "status": "ACCEPTED_BOUNDARY_RESULTS_WITH_PROSPECTIVE_SECOND_APPLICATION_MISSING",
+      "next_missing_evidence": "A truly frozen, causally aligned second dataflow plus independent semantic/harmfulness labels and a natural-defect denominator."
+    },
+    "c2": {
+      "identity": "Feedback learning boundary",
+      "status": "BOUNDED_NEGATIVE_NOT_ESTABLISHED_INNOVATION",
+      "current_result": "On 72 frozen outputs, neutral retry has 56 correct with 0 wrong-to-correct and 0 correct-to-wrong; localization has 49 correct, 0 wrong-to-correct and 7 correct-to-wrong; execution has 40 correct, 0 wrong-to-correct and 16 correct-to-wrong.",
+      "evidence_identity": "Development evidence; later C replay is PRIOR_ERROR_POOL_DEVELOPMENT_REPLAY, not new-family confirmation.",
+      "next_missing_evidence": "A stable one-shot operator plus source-isolated, teacher/verifier-verified, training-qualified corrections before O/N/R/E."
+    },
+    "c3": {
+      "identity": "Fixed-model delivery risk/coverage/cost boundary",
+      "status": "DEVELOPMENT_BOUNDARY_NOT_ESTABLISHED_INNOVATION",
+      "current_result": "Original 60 correct/12 wrong; neutral retry 62/10; semantic gate 32/6 with 34 abstentions and 52.8% coverage; bounded repair 33/6 with 33 abstentions and 54.2% coverage.",
+      "cost_boundary": "One local run: original 41,997 tokens/51.99s, neutral retry 52,223/94.42s, localization 64,326/173.91s; total three-condition generation 216 attempts and 158,546 tokens. Stable throughput and policy-level marginal cost are unverified.",
+      "next_missing_evidence": "A preregistered disjoint new-family panel with matched risk-coverage, marginal token/GPU/tool/wall cost and non-abstention action utility."
+    }
+  },
+  "owner_actions": [
+    "Approve ICAART conditional primary and SNCS sequential backup, or explicitly switch to SNCS.",
+    "Confirm author order, applicant first-author status, BUPT-first affiliation, corresponding author, email and ORCID.",
+    "Confirm patent or restricted-technology status.",
+    "Approve the exact AI disclosure and separate OpenAI Codex citation decision.",
+    "Choose artifact release timing, anonymous supplement versus post-review repository/DOI, and license after third-party terms review.",
+    "Confirm school recognition of ICAART/SCITEPRESS and SNCS routes.",
+    "Approve registration, travel, visa, local transport, insurance and funding.",
+    "Provide the exact October 2027 thesis review date.",
+    "Authorize submission, copyright/permission and payment only after all preconditions pass."
+  ],
+  "external_actions_performed": {
+    "submission": false,
+    "payment": false,
+    "copyright_or_license_signature": false,
+    "public_release": false,
+    "author_email_or_external_contact": false,
+    "model_generation": false,
+    "judge_calls": false,
+    "training_runs": false,
+    "production_probes": false
+  },
+  "validation": {
+    "status": "PASS",
+    "method": "deterministic local CPU-only checks",
+    "checks": [
+      "authority commit and CRLF-normalized SHA-256",
+      "current PDF/Markdown/TeX hashes",
+      "12-page PDF and 41,515/41,013 non-whitespace counts",
+      "package PASS and citations 24/24",
+      "C2 transition and diagnostic counts",
+      "C3 policy counts, coverage inputs, per-condition tokens and wall times",
+      "internal repository source paths in all Markdown outputs",
+      "JSON parsing and whitespace diff checks",
+      "repository docs lint: 0 fail / 0 warn"
+    ],
+    "endpoint_calls": 0,
+    "paid_model_calls": 0
+  },
+  "skills_loaded": [
+    "agent-prompt-contracts",
+    "graph-loop-rules",
+    "paper-review-check",
+    "research-writing-skill",
+    "verify-before-done"
+  ],
+  "next_gate": "Owner route/identity decision plus first scientific review; C2 correction-qualification gate and C3 de-duplication must precede any Phase B training or third-contribution claim."
+}

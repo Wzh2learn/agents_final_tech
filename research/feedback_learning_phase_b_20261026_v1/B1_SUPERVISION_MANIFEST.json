@@ -1,0 +1,335 @@
+{
+  "authority": {
+    "byte_size": 21673,
+    "correction_artifact": "B1_AUTHORITY_BINDING_CORRECTION.json",
+    "gb10_lf_sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "git_commit": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "identity_match": true,
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "status": "PASS",
+    "superseded_windows_sha256": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922"
+  },
+  "b2_training_authorized": false,
+  "blocking_risks": [
+    "all current trajectories are exposed development supervision",
+    "no actual feedback-derived field exists; only reference-derived visible set-binding revision supervision is qualified",
+    "Loop C re-audit3 has not accepted the H1/H2 disclosure and estimand remediation",
+    "D has not frozen the proposed 12-family development panel"
+  ],
+  "deployment_input_contract": {
+    "arms": {
+      "E": {
+        "feedback_input": "neutral_visible_input_feedback",
+        "inputs": [
+          "question_prompt",
+          "visible_table",
+          "O_candidate_object",
+          "runtime_visible_ref_set",
+          "runtime_visible_unit_set",
+          "neutral_visible_input_feedback"
+        ],
+        "output": "restricted set-binding-only patch",
+        "postprocess": "deterministic B1_LOCAL_EDIT_APPLIER with no fallback"
+      },
+      "R": {
+        "feedback_input": "neutral_visible_input_feedback",
+        "inputs": [
+          "question_prompt",
+          "visible_table",
+          "O_candidate_object",
+          "runtime_visible_ref_set",
+          "runtime_visible_unit_set",
+          "neutral_visible_input_feedback"
+        ],
+        "output": "set-binding-only training target; operator, order and unit are not targets"
+      }
+    },
+    "embedded_json_fallback": false,
+    "information_parity": "R and E receive identical visible inputs and identical neutral feedback; per-trajectory diff is empty",
+    "minimal_edit_instruction_in_deployment_feedback": false,
+    "patch_failure_action": "REJECT_AND_RECORD; never substitute a reference program",
+    "per_trajectory_diff_field": "label_reference_identity.r_e_feedback_content_diff",
+    "reference_only_edit_instruction_fields": [
+      "label_reference_identity.training_reference.minimal_edit_instruction",
+      "label_reference_identity.teacher_reference.minimal_edit_instruction"
+    ],
+    "reference_program_input": false,
+    "strict_json_requirement": "O must parse as one strict whole JSON object before patch application"
+  },
+  "development_panel": {
+    "artifact": "B2_DEVELOPMENT_PANEL_DRAFT.json",
+    "family_count": 12,
+    "originally_correct_family_denominator": {
+      "count": 7,
+      "criterion": "o_output.frozen_scoring_fields.program_correct on the original variant",
+      "denominator": 12,
+      "fraction": "7/12"
+    },
+    "sha256": "56e3c270a379fab39ed59da5b9b4f1f2f90a03abc41efff86263c2e6259708f0",
+    "status": "PROPOSED_NOT_FROZEN"
+  },
+  "error_taxonomy": {
+    "artifact": "B1_ERROR_TYPE_TAXONOMY.json",
+    "correct_preservation_direction": {
+      "direction_component_training_target": false,
+      "originally_correct_family_rule": "E must not damage an originally correct family; preserve its complete reference set, operator, order and unit with a no-op set-binding target",
+      "preserve": [
+        "unchanged_references",
+        "operator",
+        "order",
+        "unit"
+      ],
+      "status": "PRE_REGISTERED",
+      "unit_component_training_target": false
+    },
+    "natural_wrong_operator_count": 0,
+    "registered_mechanism_count": 1,
+    "registered_observed_subtype_count": 2,
+    "registered_visible_error_type_count": 2,
+    "sha256": "3f65053c5ef360e18f53024a06fee0b7309d961cfc4df61738fcf16a925ca1e5"
+  },
+  "exposure": {
+    "confirmation_claim": "NONE",
+    "future_candidate": {
+      "blocking_condition": "the entire current source-disjoint pool is already named in the exposure-union manifest",
+      "boundary": "same-dataset source-isolated only; report/company independence is unavailable",
+      "historical_source_disjoint_results_path": "/home/testuser/wzh/research_runs/source_disjoint_confirmation_v4/source_disjoint_results_v4.jsonl",
+      "historical_source_disjoint_results_sha256": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+      "minimum_next_action": "D must freeze a reserved split and C must independently recompute a new pre-generation union before any confirmation generation",
+      "source_pool_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/natural_tasks_source_disjoint_v4.jsonl",
+      "source_pool_sha256": "2d53ed2e0733ef90f9860c3d9e613f5b76e8de43360d36e064da6db4d4ba0ace",
+      "status": "RESERVED_CANDIDATE_NOT_CURRENTLY_EXPOSURE_CLEAN",
+      "table_uids": [
+        "5ddc1a55-954c-40dd-84a3-f337edfb6a67",
+        "6cb2c048-463e-419d-a219-30ae5251bcaa",
+        "04727f49-10c0-4719-bf9f-3edc13042e97",
+        "8fe3ee6d-61da-4231-ab99-39f000863e3b",
+        "61f41f41-aea6-44ef-96cc-0fc960d24513",
+        "28b47e0c-0e42-46f9-a3e0-c8bf24d7b64d",
+        "b1f636b6-497b-46d7-b081-3351ab59d85b",
+        "93ea53f7-a049-4e35-b463-b1eee13d34a9",
+        "14f3bbae-ef8f-4545-ae4b-f043372d8c3c",
+        "89e868af-90b5-4fdf-8c1c-71f6db1f5526",
+        "bebf87cc-a626-4b5a-98f8-8c8dd176ee28",
+        "e7b9e4e8-dd80-493d-8332-2e114b57686b",
+        "1fa48138-18c3-4845-a9c1-d318ca36c2f2",
+        "902a57f6-d517-4634-aaec-fa51c9930356",
+        "87717744-bc5f-45f1-b3ac-1b44f134da3c",
+        "8aaee07a-46e6-4d50-a821-d625f998e1cf",
+        "0a2812e0-137f-4952-a865-88b0a16c76fd",
+        "f5511f3c-b02d-4142-aa16-0b87cd61690f",
+        "cf60adbb-1fc0-4917-8564-b227fd900886",
+        "8fe749ea-564d-4c9e-866c-00a78cf2865a",
+        "88670882-9e8e-452c-bffb-addb0ab646a7",
+        "435ff38e-82de-4b9d-9c1b-0d7ef2857e14",
+        "456ab4b6-98f9-4c62-954b-750210de57cf",
+        "81d1c8f5-0436-4c4a-ab1e-e309e69bad07"
+      ],
+      "task_count": 24,
+      "task_ids": [
+        "NAT_train_5ddc1a55_316f70ba",
+        "NAT_train_6cb2c048_551232e7",
+        "NAT_train_04727f49_4018ab27",
+        "NAT_train_8fe3ee6d_c57ada62",
+        "NAT_train_61f41f41_1e0575a4",
+        "NAT_train_28b47e0c_e7b428ad",
+        "NAT_train_b1f636b6_02a73b56",
+        "NAT_train_93ea53f7_9a0c6363",
+        "NAT_train_14f3bbae_50502918",
+        "NAT_train_89e868af_5a4e7cbc",
+        "NAT_train_bebf87cc_c1f52e88",
+        "NAT_train_e7b9e4e8_09bf999a",
+        "NAT_train_1fa48138_532ba7bd",
+        "NAT_train_902a57f6_9434dcbb",
+        "NAT_train_87717744_b5a97301",
+        "NAT_train_8aaee07a_ad171f7e",
+        "NAT_train_0a2812e0_11719580",
+        "NAT_train_f5511f3c_3442d6dc",
+        "NAT_train_cf60adbb_f9f5c275",
+        "NAT_train_8fe749ea_3ecd7b06",
+        "NAT_train_88670882_275cf4e2",
+        "NAT_train_435ff38e_7e26db7c",
+        "NAT_train_456ab4b6_d15bfdee",
+        "NAT_train_81d1c8f5_efe48874"
+      ]
+    },
+    "identity_boundary": "task_id/question_uid/table_uid only; report/company identity unavailable",
+    "manifest_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_delivery_continuation_20261025_v1/EXPOSURE_UNION_SOURCES_V1.json",
+    "manifest_sha256": "fb96936698638cb531eadaa0cffde6ff5479a14cea83500701b8a3c1323ac8f3",
+    "selected_overlap_count": 48,
+    "selected_source_role": "EXPOSED_DEVELOPMENT_SUPERVISION"
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "label_roles": {
+    "confirmation_gold": null,
+    "deployment_feedback": "neutral visible-input-only content identical for R and E",
+    "direction_training_target": false,
+    "feedback_derived_fields": [],
+    "human_gold": false,
+    "teacher_reference": "reference-only set-binding minimal edit instruction; operator, order and unit excluded",
+    "training_reference": "frozen set-binding-only target; operator, order and unit excluded",
+    "unit_training_target": false
+  },
+  "materialized_target_disclosure": {
+    "answer_correctness_qualified": false,
+    "eligible_row_count": 5,
+    "families": {
+      "NAT_train_b74eaf04_caa15292": {
+        "family_trajectory_count": 3,
+        "frozen_reference_target_form": {
+          "evidence_refs": [
+            "R11:C2",
+            "R11:C1"
+          ],
+          "program": "R11:C2 - R11:C1",
+          "unit": "reported"
+        },
+        "frozen_reference_target_executes_to_reference_answer": true,
+        "materialized_target_form": {
+          "evidence_refs": [
+            "R11:C1",
+            "R11:C2"
+          ],
+          "program": "R11:C1 - R11:C2",
+          "unit": "reported"
+        },
+        "materialized_target_executes_to_reference_answer": false,
+        "patched_after": -78.41,
+        "reference_answer": 78.41,
+        "sign_reversed_eligible_row_count": 2,
+        "sign_reversed_variants": [
+          "original",
+          "irrelevant_change"
+        ]
+      },
+      "NAT_train_bdeeb701_c6f0281e": {
+        "family_trajectory_count": 3,
+        "frozen_reference_target_form": {
+          "evidence_refs": [
+            "R2:C1",
+            "R3:C1"
+          ],
+          "program": "R2:C1 - R3:C1",
+          "unit": "million"
+        },
+        "frozen_reference_target_executes_to_reference_answer": true,
+        "materialized_target_form": {
+          "evidence_refs": [
+            "R3:C1",
+            "R2:C1"
+          ],
+          "program": "R3:C1 - R2:C1",
+          "unit": "million"
+        },
+        "materialized_target_executes_to_reference_answer": false,
+        "patched_after": -1715.9,
+        "reference_answer": 1715.9,
+        "sign_reversed_eligible_row_count": 1,
+        "sign_reversed_variants": [
+          "relevant_change"
+        ]
+      }
+    },
+    "sign_reversed_eligible_row_count": 3,
+    "sign_reversed_eligible_source_family_count": 2,
+    "statement": "The materialized set-binding targets for the two named source families preserve the correct visible cell set but use operand order opposite the frozen reference target; they execute to the negative reference answer, not the reference answer, and are qualified only for set-binding set accuracy."
+  },
+  "overall_gate_status": "REMEDIATION3_COMPLETE_PENDING_C_REAUDIT3",
+  "qualified_estimand": {
+    "definition": "correct visible cell set with operator, order and unit preserved",
+    "is_answer_correctness": false,
+    "name": "SET_BINDING_SET_ACCURACY",
+    "score_against_reference_answer": "NEVER"
+  },
+  "resolved_operating_rules": {
+    "OPERAND_ORDER_SIGN_REVERSAL": {
+      "between_A_and_B_phrase_alone_is_discriminator": false,
+      "order_only_difference": "UNRESOLVED_NO_TRAINING_TARGET",
+      "set_difference": "CAN_YIELD_ELIGIBLE_SET_BINDING_COMPONENT",
+      "status": "UNRESOLVED"
+    }
+  },
+  "schema": "b1_supervision_manifest_v4",
+  "scientific_qualification": {
+    "direction_component_training_target": false,
+    "eligibility_counts": {
+      "CORRECT_NO_OP": 40,
+      "CORRECT_NO_OP_WITH_UNRESOLVED_UNIT_LABEL": 16,
+      "ELIGIBLE": 5,
+      "UNRESOLVED": 11
+    },
+    "eligible_error_types": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": 2,
+      "ROW_ROLE_MISBINDING": 3
+    },
+    "eligible_natural_error_count": 5,
+    "embedded_json_valid": 72,
+    "feedback_learning_status": "NOT_QUALIFIED",
+    "natural_status_counts": {
+      "CORRECT_NO_OP": 40,
+      "LABEL_UNRESOLVED": 16,
+      "NATURAL_ERROR_ELIGIBLE": 5,
+      "NATURAL_ERROR_UNRESOLVED": 11
+    },
+    "patch_verification_pass": 61,
+    "registered_mechanism": {
+      "independent_mechanism_count": 1,
+      "mechanism": "VISIBLE_SET_BINDING_REBINDING",
+      "source_family_count": 3,
+      "subtype_source_family_counts": {
+        "ROW_AND_PERIOD_ROLE_MISBINDING": 1,
+        "ROW_ROLE_MISBINDING": 2
+      },
+      "subtype_trajectory_counts": {
+        "ROW_AND_PERIOD_ROLE_MISBINDING": 2,
+        "ROW_ROLE_MISBINDING": 3
+      },
+      "trajectory_count": 5
+    },
+    "set_binding_component_training_target": true,
+    "status": "REMEDIATED_WITH_LIMITATIONS",
+    "strict_json_valid": 72,
+    "supervision_mode": "REFERENCE_DERIVED_VISIBLE_SET_BINDING_REVISION_SUPERVISION",
+    "trajectory_count": 72,
+    "unit_component_training_target": false,
+    "unit_corrections_unresolved": 17,
+    "unit_mismatch_trajectory_count": 17,
+    "unit_only_mismatch_trajectory_count": 16,
+    "verification_overall": {
+      "PASS": 30,
+      "UNRESOLVED": 42
+    },
+    "visible_evidence_test_pass": 5
+  },
+  "sources": {
+    "instances": {
+      "path": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/weighted_confirmation_instances_v5.jsonl",
+      "role": "frozen_visible_inputs_and_reference_targets",
+      "sha256": "02cb67fb1bdd324dc59f757f5f69a9f3defec77466af97d71203be01a70003c1"
+    },
+    "ordinary_checkpoint": {
+      "exists": true,
+      "path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+      "role": "frozen ordinary checkpoint; not modified or loaded"
+    },
+    "results": {
+      "path": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/weighted_confirmation_results_v5.jsonl",
+      "role": "frozen_multi-arm outputs; only ordinary_answer_execution_sft is O",
+      "sha256": "456aa2a67a629260177642aabf0c4bf4d3ed3fd89ce7b61d67c7b3e62335e0f6"
+    },
+    "semantic_execution_helpers": {
+      "analyze_binding_residual_v3.py": "40f3d6e67ac5e72e9262abecd85d39f6a2693ca76c3e53390c50affbfcf9a226",
+      "natural_program_contract_v2.py": "27e438701befeecfad55cf621b65c4ef8243eac4b9594d845599a5c9ef26850a",
+      "semantic_delivery_check_v3.py": "5600bd30083839dd90f2769229844dd6b40c234dca0cf5b693f2d2197a28f08d"
+    }
+  },
+  "target_semantics": {
+    "full_reference_program_is_training_target": false,
+    "semantic_acceptance": "separate executable acceptance requiring valid visible evidence, unit, role, and period semantics; eligible direction remains unresolved and is never inferred from gold",
+    "semantic_acceptance_implementation": "B1_LOCAL_EDIT_APPLIER.evaluate_semantic_acceptance",
+    "target_exact": "canonical structural identity to the materialized unordered set-binding target only",
+    "target_exact_is_not_semantic_gold": true
+  },
+  "task_id": "phaseb-b1-remediation3-a-20261026"
+}

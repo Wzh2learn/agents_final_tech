@@ -17,6 +17,7 @@ research/codeupdatearena_confirmation_v1/** -text
 scripts/graph/sync_skills.sh text eol=lf
 # Historical governance snapshots retain the explicitly recorded original bytes.
 memory/archive/THREADS_2026-10-21_pre_workspace_governance.md -text whitespace=cr-at-eol
+logs/graph/dispatch_log.md -text whitespace=cr-at-eol
 reports/LC-GOV-002*.md -text
 docs/archive/2026-10-21_loop_c_reports/** -text
 docs/archive/2026-10-21_loop_c_lead_prototype/** -text

@@ -1,0 +1,282 @@
+{
+  "budget": {
+    "actual_generation_tokens_bounds": [
+      71178,
+      72714
+    ],
+    "deterministic_replay_expected_total_generation_tokens": 71554,
+    "generation_token_authorized": 420000,
+    "logical_generation_attempts_retained": 108,
+    "physical_generation_calls_executed": 116,
+    "retained_generation_tokens": 67696,
+    "target_length_equality_claim": "NOT_CLAIMED",
+    "training_processed_text_tokens": 319948,
+    "training_runs": 2,
+    "training_token_authorized": 2000000
+  },
+  "claim_boundary": {
+    "answer_correctness": "NOT_SCORED",
+    "confirmation_claim": "NONE",
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "new_source_generalization": "NOT_TESTED"
+  },
+  "date": "2026-10-26",
+  "decision": "STOP_B3_CONFIRMATION_AND_SECOND_SEED_BUDGETS_REMAIN_UNUSED",
+  "development_result": {
+    "answer_correctness_scored": false,
+    "delivery_and_coverage": {
+      "DETERMINISTIC_REFERENCE_PATCH_CONTROL": {
+        "coverage": 0.8888888888888888,
+        "delivery": {
+          "CORRECT": 32,
+          "UNKNOWN": 4
+        },
+        "embedded_json": 0,
+        "patch_legal": 36,
+        "program_executable": 36,
+        "semantic_other": {
+          "INVALID": 30
+        },
+        "semantic_valid": 6,
+        "strict_whole_json": 0,
+        "syntax_adapter_failure": 0
+      },
+      "E_RESTRICTED_PATCH": {
+        "coverage": 0.0,
+        "delivery": {
+          "UNKNOWN": 36
+        },
+        "embedded_json": 12,
+        "patch_legal": 0,
+        "program_executable": 0,
+        "semantic_other": {
+          "NOT_APPLICABLE": 36
+        },
+        "semantic_valid": 0,
+        "strict_whole_json": 0,
+        "syntax_adapter_failure": 24
+      },
+      "N_NEUTRAL_RETRY": {
+        "coverage": 0.8888888888888888,
+        "delivery": {
+          "CORRECT": 26,
+          "UNKNOWN": 4,
+          "WRONG": 6
+        },
+        "embedded_json": 0,
+        "patch_legal": 36,
+        "program_executable": 36,
+        "semantic_other": {
+          "INVALID": 32
+        },
+        "semantic_valid": 4,
+        "strict_whole_json": 36,
+        "syntax_adapter_failure": 0
+      },
+      "ORDINARY_SUPERVISION_CONTROL": {
+        "coverage": 0.8888888888888888,
+        "delivery": {
+          "CORRECT": 27,
+          "UNKNOWN": 4,
+          "WRONG": 5
+        },
+        "embedded_json": 0,
+        "patch_legal": 36,
+        "program_executable": 36,
+        "semantic_other": {
+          "INVALID": 32
+        },
+        "semantic_valid": 4,
+        "strict_whole_json": 36,
+        "syntax_adapter_failure": 0
+      },
+      "O_FROZEN_ORDINARY": {
+        "coverage": 0.8888888888888888,
+        "delivery": {
+          "CORRECT": 27,
+          "UNKNOWN": 4,
+          "WRONG": 5
+        },
+        "embedded_json": 0,
+        "patch_legal": 36,
+        "program_executable": 36,
+        "semantic_other": {
+          "INVALID": 32
+        },
+        "semantic_valid": 4,
+        "strict_whole_json": 36,
+        "syntax_adapter_failure": 0
+      },
+      "R_FULL_REVISION": {
+        "coverage": 0.25,
+        "delivery": {
+          "CORRECT": 8,
+          "UNKNOWN": 27,
+          "WRONG": 1
+        },
+        "embedded_json": 12,
+        "patch_legal": 36,
+        "program_executable": 10,
+        "semantic_other": {
+          "INVALID": 6,
+          "NOT_APPLICABLE": 24,
+          "NOT_EVALUATED": 2
+        },
+        "semantic_valid": 4,
+        "strict_whole_json": 0,
+        "syntax_adapter_failure": 24
+      }
+    },
+    "eligible_subtype_E_minus_R": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": {
+        "E_minus_R": -1.0,
+        "rows": 2
+      },
+      "ROW_ROLE_MISBINDING": {
+        "E_minus_R": -0.3333333333333333,
+        "rows": 3
+      }
+    },
+    "gate_status": "DEVELOPMENT_GATE_FAIL_INCONCLUSIVE_OR_BELOW_THRESHOLD",
+    "originally_correct_family_damage": {
+      "E_relative_to_R": 0,
+      "maximum_allowed": 0
+    },
+    "paired_source_family_intervals": {
+      "E-N": {
+        "lower": -0.9166666666666666,
+        "mean": -0.6666666666666666,
+        "samples": 20000,
+        "unit": "SOURCE_FAMILY",
+        "upper": -0.4166666666666667
+      },
+      "E-R": {
+        "lower": 0.0,
+        "mean": 0.0,
+        "samples": 20000,
+        "unit": "SOURCE_FAMILY",
+        "upper": 0.0
+      },
+      "R-N": {
+        "lower": -0.9166666666666666,
+        "mean": -0.6666666666666666,
+        "samples": 20000,
+        "unit": "SOURCE_FAMILY",
+        "upper": -0.4166666666666667
+      }
+    },
+    "paired_source_family_point_estimates": {
+      "E_minus_N": -0.6666666666666666,
+      "E_minus_R": 0.0,
+      "R_minus_N": -0.6666666666666666
+    },
+    "primary_estimand": "SET_BINDING_SET_ACCURACY",
+    "reason": "E delivered no legal patch and scored 0 on the row-level primary estimand; E-R and E-N fail both minimum effects, and both eligible subtypes reverse direction against R.",
+    "row_level_accuracy": {
+      "DETERMINISTIC_REFERENCE_PATCH_CONTROL": 0.8888888888888888,
+      "E_RESTRICTED_PATCH": 0.0,
+      "N_NEUTRAL_RETRY": 0.7222222222222222,
+      "ORDINARY_SUPERVISION_CONTROL": 0.75,
+      "O_FROZEN_ORDINARY": 0.75,
+      "R_FULL_REVISION": 0.2222222222222222
+    }
+  },
+  "execution_recoveries": {
+    "additional_neutral_retry_claimed": false,
+    "receipt": "research/feedback_learning_phase_b_20261026_v1/b2/B2_EVALUATION_PARTIAL_FAILURES.json",
+    "training_arms_rerun": false,
+    "unretained_batch_disclosed": true,
+    "zero_call_recovery": true
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "limitations": [
+    "Exposed development only; no new-source generalization or confirmation claim.",
+    "Supervision is reference-derived revision supervision, not feedback-derived learning.",
+    "Target and GPU token-length differences are recorded; compute equality is not claimed.",
+    "One unretained deterministic N batch consumed physical compute before serialization failed; its bounded cost is disclosed and it produced no inspected development information.",
+    "R receipt recovery retained saved adapter, parameter count, optimizer state, parent identity and training rows, but not the initial child tensor hash or post-training peak memory."
+  ],
+  "outputs": [
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json",
+      "sha256": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_R.json",
+      "sha256": "8f83562f9797a1f46c72b95dd6ca7f49ae2324056679a01a55b883df71b38828",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_E.json",
+      "sha256": "8cc13027a3e9de01057126ae55331cabae76c06ca3ec6c2fded9e4919c1b1286",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_DEVELOPMENT_RAW.jsonl",
+      "sha256": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_DEVELOPMENT_ANALYSIS.json",
+      "sha256": "bb45239d2735d49826beb8a72a517416d4b7d42a0668763750922c51d92e04bc",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_PREFLIGHT_RECEIPT.json",
+      "sha256": "25a758fa9563d384cb6601794e111a572928fbcefad098e82c5f11cd80b70b09",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_INDEPENDENT_RECOMPUTE.json",
+      "sha256": "986fa139dab00d9ab1256fc73e9052e06e245cc027353bc3b6e5c1ea8fa27736",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_EVALUATION_PARTIAL_FAILURES.json",
+      "sha256": "1c3352d2793a53b31508f09a683608462771b40492f753c2b77a5cbf9f037942",
+      "status": "PRESENT"
+    },
+    {
+      "path": "research/feedback_learning_phase_b_20261026_v1/b2/B2_VERIFICATION_RECEIPT.json",
+      "sha256": "dfeacad2696381fd5e377c012bae7bbc42cf2ea892f075357cb0d6087bffd99e",
+      "status": "PRESENT"
+    }
+  ],
+  "protocol": {
+    "confirmation_outputs_inspected": false,
+    "development_panel_families": 12,
+    "development_panel_trajectories": 36,
+    "sha256": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+    "status": "FROZEN_BEFORE_TRAINING",
+    "thresholds_unchanged": {
+      "E_minus_N_min": 0.03,
+      "E_minus_R_min": 0.05,
+      "additional_originally_correct_family_damage_vs_R_max": 0,
+      "eligible_subtype_direction_reversal_allowed": false
+    }
+  },
+  "role": "A-EXP",
+  "same_start_identity": {
+    "E_child_adapter_sha256": "69405c84e8df77a134e908db184c2fb254942f63e797f09595707cae3d801aba",
+    "R_E_same_parent": true,
+    "R_child_adapter_sha256": "9cf9c306e7b23d3d26ce4209cc80d58271056fb3a79e25a2b4e9d567cb66eed5",
+    "base_model": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "optimizer_steps_per_arm": 128,
+    "parent_adapter": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+    "parent_effective_identity": "BASE_PLUS_FROZEN_ORDINARY_ADAPTER",
+    "parent_tensor_group_sha256": "d30ca7506ac16d678e97a7c20668a766184834d3a1f5859b50a30f284773dfc4",
+    "target_length_equality_claim": "NOT_CLAIMED",
+    "trainable_parameters_per_arm": 5898240
+  },
+  "schema": "phase_b_a_b2_same_start_task_result_v1",
+  "status": "COMPLETED_DEVELOPMENT_GATE_FAIL",
+  "supervision_identity": "REFERENCE_DERIVED_VISIBLE_SET_BINDING_REVISION_SUPERVISION",
+  "task_id": "phaseb-b2-same-start-a-20261026",
+  "timezone": "Asia/Shanghai",
+  "verification": {
+    "independent_recompute_status": "PASS",
+    "receipt": "research/feedback_learning_phase_b_20261026_v1/b2/B2_VERIFICATION_RECEIPT.json",
+    "status": "PASS_WITH_DISCLOSED_EXECUTION_RECOVERIES"
+  }
+}

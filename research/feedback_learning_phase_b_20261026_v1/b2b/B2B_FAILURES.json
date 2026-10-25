@@ -1,0 +1,186 @@
+{
+  "candidate_semantics_not_classified_as_tool_failures": true,
+  "created_at": "2026-10-25T20:41:14.938602+00:00",
+  "failures_by_arm": {
+    "E_RESTRICTED_PATCH": {
+      "patch_legality_failures": [
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_04e7f446_538c6915::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_04e7f446_538c6915::original"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_04e7f446_538c6915::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties']",
+          "trajectory_id": "NAT_train_2e038152_274875b0::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties']",
+          "trajectory_id": "NAT_train_2e038152_274875b0::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_2e038152_274875b0::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_819641fb_108cfcb0::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_819641fb_108cfcb0::original"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_819641fb_108cfcb0::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha2456']",
+          "trajectory_id": "NAT_train_b74eaf04_caa15292::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha264']",
+          "trajectory_id": "NAT_train_b74eaf04_caa15292::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha24']",
+          "trajectory_id": "NAT_train_b74eaf04_caa15292::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_dac4e923_dccd9dbf::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_dac4e923_dccd9dbf::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['$schema', 'properties', 'title', 'type']",
+          "trajectory_id": "NAT_train_dac4e923_dccd9dbf::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha265']",
+          "trajectory_id": "NAT_train_abc6297d_0b1780b0::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_abc6297d_0b1780b0::original"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_abc6297d_0b1780b0::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_223d66c3_832d3e3e::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_223d66c3_832d3e3e::original"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_223d66c3_832d3e3e::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha264']",
+          "trajectory_id": "NAT_train_2c20edd3_50641f02::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_2c20edd3_50641f02::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties']",
+          "trajectory_id": "NAT_train_2c20edd3_50641f02::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_f440390f_74e6e596::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_f440390f_74e6e596::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_f440390f_74e6e596::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha264']",
+          "trajectory_id": "NAT_train_f1f2c2cb_27cb53a0::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'schema', 'target_sha256']:extra=['op', 'path', 'value']",
+          "trajectory_id": "NAT_train_f1f2c2cb_27cb53a0::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['candidate_sha256', 'operations', 'target_sha256']:extra=['properties', 'required']",
+          "trajectory_id": "NAT_train_f1f2c2cb_27cb53a0::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_0417ded2_2868860b::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_0417ded2_2868860b::original"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_0417ded2_2868860b::relevant_change"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha264']",
+          "trajectory_id": "NAT_train_bdeeb701_c6f0281e::irrelevant_change"
+        },
+        {
+          "failure": "PatchError:patch_schema_mismatch",
+          "trajectory_id": "NAT_train_bdeeb701_c6f0281e::original"
+        },
+        {
+          "failure": "PatchError:patch_keys_mismatch:missing=['target_sha256']:extra=['target_sha264']",
+          "trajectory_id": "NAT_train_bdeeb701_c6f0281e::relevant_change"
+        }
+      ],
+      "semantic_tool_failures": [],
+      "semantic_tool_failures_kept_separate_from_candidate_semantics": true,
+      "syntax_adapter_failures": []
+    },
+    "R_FULL_REVISION": {
+      "patch_legality_failures": [],
+      "semantic_tool_failures": [],
+      "semantic_tool_failures_kept_separate_from_candidate_semantics": true,
+      "syntax_adapter_failures": []
+    }
+  },
+  "first_run_unretained_generation_cost": {
+    "new_generation_attempts_in_b2b_from_first_run_failure": 0,
+    "preserved": true,
+    "source": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_EVALUATION_PARTIAL_FAILURES.json",
+    "tokens": "UNKNOWN_NOT_INFERRED"
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "post_generation_accounting_failures": [
+    {
+      "cause": "batch prompt positions were repeated per row before padded-token accounting and falsely exceeded the repair cap",
+      "failure_id": "PADDED_BATCH_PROMPT_ACCOUNTING_SCALED_BY_ROW",
+      "new_generation_attempts_after_failure": 0,
+      "raw_rows_modified": false,
+      "recovery": "receipt reconstructed from the 72 retained raw rows with batch prompt positions divided by batch size",
+      "rerun_performed": false,
+      "stage": "GENERATION_RECEIPT_FINALIZATION"
+    }
+  ],
+  "preflight_stop_conditions": "PASS_ALL",
+  "schema": "b2b_failures_v1",
+  "scientific_generation_call_failures": 0,
+  "status": "NO_SCIENCE_GENERATION_CALL_FAILURES",
+  "task_id": "phaseb-b2b-output-repair-a-20261026"
+}

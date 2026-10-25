@@ -1,0 +1,50 @@
+{
+  "arms": {
+    "DETERMINISTIC_REFERENCE_PATCH_CONTROL": {
+      "completion_tokens": 0,
+      "new_generation_attempts": 0,
+      "prompt_tokens": 0,
+      "rows": 36,
+      "wall_seconds": 0.002379179000854492
+    },
+    "E_RESTRICTED_PATCH": {
+      "completion_tokens": 6912,
+      "new_generation_attempts": 36,
+      "prompt_tokens": 19058,
+      "rows": 36,
+      "wall_seconds": 148.44874334335327
+    },
+    "N_NEUTRAL_RETRY": {
+      "completion_tokens": 1724,
+      "new_generation_attempts": 36,
+      "prompt_tokens": 14644,
+      "rows": 36,
+      "wall_seconds": 136.6740207672119
+    },
+    "ORDINARY_SUPERVISION_CONTROL": {
+      "completion_tokens": 0,
+      "new_generation_attempts": 0,
+      "prompt_tokens": 0,
+      "rows": 36,
+      "wall_seconds": 0.0010633468627929688
+    },
+    "O_FROZEN_ORDINARY": {
+      "completion_tokens": 0,
+      "new_generation_attempts": 0,
+      "prompt_tokens": 0,
+      "rows": 36,
+      "wall_seconds": 0.0011692047119140625
+    },
+    "R_FULL_REVISION": {
+      "completion_tokens": 6912,
+      "new_generation_attempts": 36,
+      "prompt_tokens": 18446,
+      "rows": 36,
+      "wall_seconds": 146.35808038711548
+    }
+  },
+  "new_generation_attempts": 108,
+  "new_generation_tokens": 67696,
+  "raw_sha256": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+  "schema": "b2_generation_receipt_v1"
+}

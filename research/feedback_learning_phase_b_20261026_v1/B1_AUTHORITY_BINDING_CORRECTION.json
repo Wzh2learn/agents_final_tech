@@ -1,0 +1,24 @@
+{
+  "canonical_identity": {
+    "byte_size": 21673,
+    "gb10_lf_sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "git_blob": "c7053b678ce4c67f38656f73932991632107b4fe",
+    "git_commit": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+    "identity_match": true,
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md"
+  },
+  "schema": "b1_authority_binding_correction_v1",
+  "status": "PASS",
+  "superseded_noncanonical_identity": {
+    "action": "reference only; never use as the Git authority digest",
+    "canonical_for_remote_execution": false,
+    "sha256": "c23ec144fe778d1ea8b36ab35def58a13b59d9682f1da4adf6005c2ea378e922",
+    "source": "earlier A task cards and budget-ledger Windows-byte value"
+  },
+  "verification": {
+    "blob_byte_size": 21673,
+    "blob_lf_sha256_matches_declared_gb10_sha256": true,
+    "carriage_returns_in_blob": 0,
+    "commit_path_blob_matches_declared_blob": true
+  }
+}

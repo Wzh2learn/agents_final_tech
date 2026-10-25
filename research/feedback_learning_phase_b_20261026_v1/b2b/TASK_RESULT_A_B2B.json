@@ -1,0 +1,61 @@
+{
+  "claim_boundaries": {
+    "answer_correctness": "NOT_SCORED",
+    "confirmation_claim": "NONE",
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "new_source_generalization": "NOT_TESTED"
+  },
+  "execution": {
+    "budget_enforced": true,
+    "new_generation_attempts": 72,
+    "new_generation_tokens": 66592,
+    "repair_attempt_budget": 72,
+    "repair_token_budget": 180000,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "file_ownership_respected": true,
+  "finished_at": "2026-10-25T20:41:47.275020+00:00",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "outputs": {
+    "B2B_DEVELOPMENT_ANALYSIS.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json",
+      "sha256": "c43e052792adf17dbe6c1bfd320021f89607fc3345b604723da0c3fb0e03ea73"
+    },
+    "B2B_FAILURES.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_FAILURES.json",
+      "sha256": "92e6d7603e97755c83f35792a48217721351aca3c412daffd097ed66940841d4"
+    },
+    "B2B_GENERATION_RAW.jsonl": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_GENERATION_RAW.jsonl",
+      "sha256": "a50e527551f34165789bf9e7363cfe2d02bb2d8696a9d6348dc7f557697c824b"
+    },
+    "B2B_GENERATION_RECEIPT.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_GENERATION_RECEIPT.json",
+      "sha256": "df0721690798cfc969f12eebdf2be39d78337d6dac01c9934ac052972cd30c84"
+    },
+    "B2B_PROTOCOL_FROZEN.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_PROTOCOL_FROZEN.json",
+      "sha256": "b7d28b4c86fed98a9af40f4aa9ecc89f9086f4ce6ee6143b1f8b8a70409494c4"
+    }
+  },
+  "paired_completion_status": "SEPARATE_DIAGNOSTIC_NOT_PRIMARY",
+  "primary_estimand": "SET_BINDING_SET_ACCURACY",
+  "role": "A-EXP",
+  "runner": {
+    "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2b/B2B_REPAIR_RUN.py",
+    "sha256": "7d3faa04633f2477754aaa1ac4baa2e3e6bb1b63aef4e6e8039ad16e670b12a6"
+  },
+  "schema": "task_result_a_b2b_v1",
+  "skill_loading": {
+    "loaded": [
+      "graph-loop-rules",
+      "agent-prompt-contracts",
+      "verify-before-done"
+    ],
+    "rationale": "Graph red lines were unconditional; prompt-contract and verification skills cover machine-readable output and final evidence gates."
+  },
+  "status": "INTERFACE_REPRESENTATION_FAILURE_STOP_R_E_CANDIDATE",
+  "stop_before_confirmation": true,
+  "task_id": "phaseb-b2b-output-repair-a-20261026"
+}

@@ -1,0 +1,160 @@
+{
+  "explicitly_absent_types": [
+    {
+      "error_type": "WRONG_OPERATOR",
+      "natural_occurrence_count": 0,
+      "reason": "no natural program.op difference occurs in the 72 B1 trajectories",
+      "status": "NOT_QUALIFIED"
+    }
+  ],
+  "registered_mechanism": {
+    "correct_preservation_direction": {
+      "direction_component_training_target": false,
+      "originally_correct_family_rule": "E must not damage an originally correct family; preserve its complete reference set, operator, order and unit with a no-op set-binding target",
+      "preserve": [
+        "unchanged_references",
+        "operator",
+        "order",
+        "unit"
+      ],
+      "status": "PRE_REGISTERED",
+      "unit_component_training_target": false
+    },
+    "correction_operator": {
+      "direction_edits_allowed": false,
+      "legal_paths": [
+        "/evidence_refs/<nonnegative-index>",
+        "/program/left/ref",
+        "/program/right/ref"
+      ],
+      "name": "VISIBLE_SET_BINDING_REF_REBIND",
+      "operator_edits_allowed": false,
+      "unit_edits_allowed": false
+    },
+    "direction_component": {
+      "eligible_status": "FROZEN_TO_O_CANDIDATE",
+      "gold_inference_allowed": false,
+      "sign_reversal_status": "UNRESOLVED",
+      "training_target": false
+    },
+    "independent_mechanism_count": 1,
+    "independent_subtype_mechanism_claim": false,
+    "mechanism": "VISIBLE_SET_BINDING_REBINDING",
+    "set_binding_component": {
+      "reference_role": "REFERENCE_DERIVED_UNORDERED_SET_LABEL",
+      "training_target": true
+    },
+    "source_families": [
+      "NAT_train_b74eaf04_caa15292",
+      "NAT_train_bdeeb701_c6f0281e",
+      "NAT_train_dac4e923_dccd9dbf"
+    ],
+    "source_family_count": 3,
+    "status": "ONE_MECHANISM_TWO_OBSERVED_SUBTYPES",
+    "subtype_counts": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": {
+        "source_families": [
+          "NAT_train_dac4e923_dccd9dbf"
+        ],
+        "source_family_count": 1,
+        "trajectory_count": 2
+      },
+      "ROW_ROLE_MISBINDING": {
+        "source_families": [
+          "NAT_train_b74eaf04_caa15292",
+          "NAT_train_bdeeb701_c6f0281e"
+        ],
+        "source_family_count": 2,
+        "trajectory_count": 3
+      }
+    },
+    "subtype_source_family_counts": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": 1,
+      "ROW_ROLE_MISBINDING": 2
+    },
+    "subtype_trajectory_counts": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": 2,
+      "ROW_ROLE_MISBINDING": 3
+    },
+    "trajectory_count": 5,
+    "unit_component": {
+      "all_unit_corrections": "UNRESOLVED",
+      "training_target": false
+    },
+    "visible_evidence_sufficiency_test": "required role/period tokens occur literally in question and deployment input; candidate and reference-derived set members are visible cells; unit is unchanged; direction derivability is explicitly excluded"
+  },
+  "registered_types": [
+    {
+      "correction_operator": "VISIBLE_SET_BINDING_REF_REBIND",
+      "direction_edits_allowed": false,
+      "eligible_trajectory_count": 3,
+      "error_type": "ROW_ROLE_MISBINDING",
+      "independent_mechanism": false,
+      "legal_paths": [
+        "/evidence_refs/<nonnegative-index>",
+        "/program/left/ref",
+        "/program/right/ref"
+      ],
+      "mechanism": "VISIBLE_SET_BINDING_REBINDING",
+      "operator_edits_allowed": false,
+      "source_families": [
+        "NAT_train_b74eaf04_caa15292",
+        "NAT_train_bdeeb701_c6f0281e"
+      ],
+      "source_family_count": 2,
+      "unit_edits_allowed": false,
+      "visible_evidence_sufficiency_test": "question and table literally contain the requested role tokens; reference-derived set members are visible; direction excluded"
+    },
+    {
+      "correction_operator": "VISIBLE_SET_BINDING_REF_REBIND",
+      "direction_edits_allowed": false,
+      "eligible_trajectory_count": 2,
+      "error_type": "ROW_AND_PERIOD_ROLE_MISBINDING",
+      "independent_mechanism": false,
+      "legal_paths": [
+        "/evidence_refs/<nonnegative-index>",
+        "/program/left/ref",
+        "/program/right/ref"
+      ],
+      "mechanism": "VISIBLE_SET_BINDING_REBINDING",
+      "operator_edits_allowed": false,
+      "source_families": [
+        "NAT_train_dac4e923_dccd9dbf"
+      ],
+      "source_family_count": 1,
+      "unit_edits_allowed": false,
+      "visible_evidence_sufficiency_test": "question and table literally contain the requested row roles and period; reference-derived set members are visible; direction excluded"
+    }
+  ],
+  "schema": "b1_error_type_taxonomy_v2",
+  "status": "ONE_VISIBLE_SET_BINDING_MECHANISM_TWO_OBSERVED_SUBTYPES",
+  "unresolved_types": [
+    {
+      "correction_operator": null,
+      "error_type": "OPERAND_ORDER_SIGN_REVERSAL",
+      "reason": "the visible phrase uses unordered 'between A and B' wording; the subtraction direction is not uniquely derivable without the reference; operator and order remain frozen to O and are not training targets",
+      "status": "UNRESOLVED"
+    },
+    {
+      "correction_operator": null,
+      "error_type": "UNIT_SCALE_NOT_VISIBLE",
+      "reason": "gold scale is not a deployment-visible answer-unit label",
+      "status": "UNRESOLVED"
+    },
+    {
+      "correction_operator": null,
+      "error_type": "TOTAL_ROW_LABEL_NOT_VISIBLE",
+      "status": "UNRESOLVED"
+    },
+    {
+      "correction_operator": null,
+      "error_type": "TOTAL_ROW_AND_PERIOD_LABELS_NOT_VISIBLE",
+      "status": "UNRESOLVED"
+    },
+    {
+      "correction_operator": null,
+      "error_type": "PERIOD_HEADER_NOT_VISIBLE",
+      "status": "UNRESOLVED"
+    }
+  ]
+}

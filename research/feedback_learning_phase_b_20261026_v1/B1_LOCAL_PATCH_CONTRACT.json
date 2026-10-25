@@ -1,0 +1,100 @@
+{
+  "allowed_paths": [
+    "/evidence_refs/<nonnegative-index>",
+    "/program/left/ref",
+    "/program/right/ref"
+  ],
+  "candidate_keys": [
+    "program",
+    "evidence_refs",
+    "unit"
+  ],
+  "canonicalization": {
+    "allow_nan": false,
+    "json": "UTF-8",
+    "separators": [
+      ",",
+      ":"
+    ],
+    "sort_keys": true
+  },
+  "correct_preservation_direction": {
+    "direction_component_training_target": false,
+    "originally_correct_family_rule": "E must not damage an originally correct family; preserve its complete reference set, operator, order and unit with a no-op set-binding target",
+    "preserve": [
+      "unchanged_references",
+      "operator",
+      "order",
+      "unit"
+    ],
+    "status": "PRE_REGISTERED",
+    "unit_component_training_target": false
+  },
+  "direction_policy": {
+    "direction_patch_paths_allowed": [],
+    "direction_training_target": false,
+    "gold_direction_inference": false,
+    "operand_order_source": "O_CANDIDATE_SLOT_SKELETON",
+    "operator_source": "O_CANDIDATE",
+    "sign_reversal_direction": "UNRESOLVED"
+  },
+  "expressiveness_bound": {
+    "deeper_operands_fail_closed": true,
+    "operand_depth": 1,
+    "out_of_scope_b1_trajectory_count": 0
+  },
+  "fail_closed_checks": [
+    "exact top-level and operation keys",
+    "canonical candidate SHA-256",
+    "exact expected current value",
+    "reference values must occur in the runtime-visible reference set",
+    "restricted binary arithmetic program shape",
+    "program refs equal evidence_refs",
+    "candidate unit remains byte-identical",
+    "operator and O slot skeleton remain byte-identical",
+    "final canonical set-binding-target SHA-256",
+    "operator, const and direction paths fail closed",
+    "no duplicate or disallowed paths",
+    "no silent reference fallback"
+  ],
+  "forbidden_paths": [
+    "/program/op",
+    "/program/left/const",
+    "/program/right/const",
+    "/unit"
+  ],
+  "implementation": "B1_LOCAL_EDIT_APPLIER.py",
+  "max_operations": 8,
+  "mechanism": "VISIBLE_SET_BINDING_REBINDING",
+  "operation": "replace only",
+  "operation_keys": [
+    "op",
+    "path",
+    "expected",
+    "value"
+  ],
+  "patch_keys": [
+    "schema",
+    "candidate_sha256",
+    "target_sha256",
+    "operations"
+  ],
+  "representation": "restricted set-binding replace operations, not JSON Patch RFC 6902",
+  "schema": "b1_local_patch_contract_v3",
+  "status": "IMPLEMENTED_AND_DETERMINISTICALLY_VERIFIED",
+  "target_semantics": {
+    "full_reference_program_is_training_target": false,
+    "semantic_acceptance": "separate executable acceptance requiring valid visible evidence, unit, role, and period semantics; eligible direction remains unresolved and is never inferred from gold",
+    "semantic_acceptance_implementation": "B1_LOCAL_EDIT_APPLIER.evaluate_semantic_acceptance",
+    "target_exact": "canonical structural identity to the materialized unordered set-binding target only",
+    "target_exact_is_not_semantic_gold": true
+  },
+  "tests": "B1_TEST_LOCAL_EDIT_APPLIER.py",
+  "unit_policy": {
+    "all_unit_field_corrections": "UNRESOLVED",
+    "allowed_answer_units_rule": "lexical unit-vocabulary strings literally present in the deployment prompt; never constructed from expected.unit or question.scale",
+    "candidate_unit_is_immutable": true,
+    "unit_mismatch_trajectory_count": 17,
+    "unit_only_mismatch_trajectory_count": 16
+  }
+}

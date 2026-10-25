@@ -1,0 +1,176 @@
+{
+  "authority": {
+    "b2_protocol_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json",
+    "b2_protocol_sha256": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+    "d_decision_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2B_D_OUTPUT_BUDGET_REPAIR_DECISION.md",
+    "d_decision_sha256": "3281eb80d8e7f9d3074a097cb1a83912fe4b6d65767a182685b94b3a1ff63a43"
+  },
+  "authority_read_receipt": {
+    "checked_paths": [
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2B_D_OUTPUT_BUDGET_REPAIR_DECISION.md",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2_DEVELOPMENT_PANEL_DRAFT.json",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_DEVELOPMENT_RAW.jsonl",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/generation_receipt.json",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_EVALUATION_PARTIAL_FAILURES.json",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_R.json",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_E.json",
+      "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_CORRECTION_TRAJECTORIES.jsonl"
+    ],
+    "confirmation_artifact_paths_accessed": [],
+    "confirmation_outputs_inspected": false
+  },
+  "claim_boundaries": {
+    "answer_correctness": "NOT_SCORED",
+    "confirmation_claim": "NONE",
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "new_source_generalization": "NOT_TESTED"
+  },
+  "development_panel": {
+    "confirmation_claim": "NONE",
+    "families": 12,
+    "role": "EXPOSED_DEVELOPMENT_SUPERVISION",
+    "trajectories": 36
+  },
+  "diagnostics_kept_separate": [
+    "syntax_source",
+    "contract_only_output",
+    "patch_legality",
+    "semantic_tool_failure",
+    "candidate_semantics",
+    "delivery",
+    "O_transitions",
+    "cost"
+  ],
+  "frozen_at": "2026-10-25T20:30:41.440282+00:00",
+  "generation": {
+    "arms": [
+      "R_FULL_REVISION",
+      "E_RESTRICTED_PATCH"
+    ],
+    "attempt_budget": 72,
+    "attempts": 72,
+    "batch_size": 8,
+    "budget_projection": {
+      "arms": {
+        "E_RESTRICTED_PATCH": {
+          "attempts": 36,
+          "max_possible_completion_tokens": 13824,
+          "max_possible_total_tokens": 33602,
+          "padded_prompt_positions": 28564,
+          "prompt_tokens": 19778
+        },
+        "R_FULL_REVISION": {
+          "attempts": 36,
+          "max_possible_completion_tokens": 13824,
+          "max_possible_total_tokens": 32990,
+          "padded_prompt_positions": 27952,
+          "prompt_tokens": 19166
+        }
+      },
+      "attempts": 72,
+      "enforced_before_generation": true,
+      "generation_token_budget": 180000,
+      "max_new_tokens_per_attempt": 384,
+      "max_possible_completion_tokens": 27648,
+      "max_possible_logical_generation_tokens": 66592,
+      "max_possible_padded_input_plus_completion_tokens": 84164,
+      "padded_prompt_positions": 56516,
+      "prompt_tokens": 38944,
+      "remaining_token_headroom": 113408
+    },
+    "contract_only_suffix": "\nFinal response must be exactly one JSON object and no prose, Markdown fences, bullets, or explanation.",
+    "decoding": "GREEDY_SAME_AS_FROZEN_B2_R_E",
+    "do_sample": false,
+    "max_new_tokens": 384,
+    "same_prompt_except_contract_only_suffix": true,
+    "token_budget": 180000,
+    "trajectories_per_arm": 36
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "parent_task_id": "phaseb-b2-same-start-a-20261026",
+  "primary_estimand": {
+    "answer_correctness_scored": false,
+    "bootstrap_samples": 20000,
+    "bootstrap_unit": "SOURCE_FAMILY",
+    "name": "SET_BINDING_SET_ACCURACY",
+    "paired_aggregation": "mean row-level paired difference within each source family, then mean across 12 source families",
+    "unit": "TRAJECTORY_VARIANT_ROW"
+  },
+  "same_artifacts": {
+    "comparators": {
+      "first_run_generation_receipt_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/generation_receipt.json",
+      "first_run_generation_receipt_sha256": "ca76711c5db15254fa6c9393928bd4e3f7dbebb925afff3fabb917022e517bdd",
+      "first_run_partial_failures_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_EVALUATION_PARTIAL_FAILURES.json",
+      "first_run_partial_failures_sha256": "1c3352d2793a53b31508f09a683608462771b40492f753c2b77a5cbf9f037942",
+      "first_run_raw_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_DEVELOPMENT_RAW.jsonl",
+      "first_run_raw_sha256": "a21456b3ffdf2381291b61c7b0eefea844cd470611a0673ff2413003be7690d1",
+      "new_generation_attempts_for_comparators": 0,
+      "reused_arms": [
+        "O_FROZEN_ORDINARY",
+        "N_NEUTRAL_RETRY"
+      ]
+    },
+    "development_panel": {
+      "family_count": 12,
+      "panel_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2_DEVELOPMENT_PANEL_DRAFT.json",
+      "panel_sha256": "56e3c270a379fab39ed59da5b9b4f1f2f90a03abc41efff86263c2e6259708f0",
+      "trajectory_count": 36,
+      "trajectory_hashes_match": true
+    },
+    "no_retraining": true,
+    "parent_and_child_adapters": {
+      "children": {
+        "E": {
+          "adapter_file_sha256": {
+            "adapter_config.json": "c276f0420ecbc19a0d4fde8a8c515451485151623931f6693366f3b4b1750faa",
+            "adapter_model.safetensors": "69405c84e8df77a134e908db184c2fb254942f63e797f09595707cae3d801aba"
+          },
+          "adapter_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/training/E_RESTRICTED_PATCH/final_adapter/b2_child",
+          "receipt_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_E.json",
+          "receipt_sha256": "8cc13027a3e9de01057126ae55331cabae76c06ca3ec6c2fded9e4919c1b1286"
+        },
+        "R": {
+          "adapter_file_sha256": {
+            "adapter_config.json": "c276f0420ecbc19a0d4fde8a8c515451485151623931f6693366f3b4b1750faa",
+            "adapter_model.safetensors": "9cf9c306e7b23d3d26ce4209cc80d58271056fb3a79e25a2b4e9d567cb66eed5"
+          },
+          "adapter_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/training/R_FULL_REVISION/final_adapter/b2_child",
+          "receipt_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_R.json",
+          "receipt_sha256": "8f83562f9797a1f46c72b95dd6ca7f49ae2324056679a01a55b883df71b38828"
+        }
+      },
+      "match_b2_receipts": true,
+      "parent": {
+        "adapter_file_sha256": {
+          "adapter_config.json": "bc2a50d79f8db225a7b3bd3dbbb2ce2927f5d20f04244216dcc358cd330a41c6",
+          "adapter_model.safetensors": "bc5f1052b69cf667fb52eb2c32b86d3b7a59d8f64c4756edffd1477050f1a1ff"
+        },
+        "adapter_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter"
+      }
+    },
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "schema": "b2b_protocol_frozen_v1",
+  "secondary_paired_completion": {
+    "bootstrap_unit": "SOURCE_FAMILY",
+    "name": "ALL_THREE_VARIANTS_CORRECT",
+    "status": "SEPARATE_DIAGNOSTIC_NOT_PRIMARY"
+  },
+  "status": "FROZEN_BEFORE_REPAIRED_GENERATION",
+  "stop_conditions": {
+    "confirmation_artifact_read": "STOP_BEFORE_GENERATION",
+    "method_gate": {
+      "E_minus_N_min": 0.03,
+      "E_minus_R_min": 0.05,
+      "additional_originally_correct_family_damage_vs_R_max": 0,
+      "eligible_subtype_direction_reversal_allowed": false
+    },
+    "panel_hash_change": "STOP_BEFORE_GENERATION",
+    "parent_child_adapter_hash_mismatch": "STOP_BEFORE_GENERATION",
+    "pervasive_interface_definition": "either R or E has more than 18 of 36 syntax-adapter failures or more than 18 of 36 interface-caused UNKNOWN deliveries",
+    "repair_budget_not_enforceable": "STOP_BEFORE_GENERATION"
+  },
+  "task_id": "phaseb-b2b-output-repair-a-20261026"
+}

@@ -1,0 +1,165 @@
+{
+  "schema": "b1_remediation3_result_a_v1",
+  "task_id": "phaseb-b1-remediation3-a-20261026",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "status": "A_REMEDIATION3_COMPLETE_PENDING_C_REAUDIT3",
+  "conditions": {
+    "H1_disclosure_and_estimand": "CLOSED_A_SIDE",
+    "H2_operand_order_sign_reversal_rule": "CLOSED_A_SIDE"
+  },
+  "disclosure": {
+    "eligible_row_count": 5,
+    "families": {
+      "NAT_train_b74eaf04_caa15292": {
+        "family_trajectory_count": 3,
+        "frozen_reference_target_form": {
+          "evidence_refs": [
+            "R11:C2",
+            "R11:C1"
+          ],
+          "program": "R11:C2 - R11:C1",
+          "unit": "reported"
+        },
+        "materialized_target_form": {
+          "evidence_refs": [
+            "R11:C1",
+            "R11:C2"
+          ],
+          "program": "R11:C1 - R11:C2",
+          "unit": "reported"
+        },
+        "materialized_target_executes_to_reference_answer": false,
+        "patched_after": -78.41,
+        "reference_answer": 78.41,
+        "sign_reversed_eligible_row_count": 2,
+        "sign_reversed_variants": [
+          "original",
+          "irrelevant_change"
+        ]
+      },
+      "NAT_train_bdeeb701_c6f0281e": {
+        "family_trajectory_count": 3,
+        "frozen_reference_target_form": {
+          "evidence_refs": [
+            "R2:C1",
+            "R3:C1"
+          ],
+          "program": "R2:C1 - R3:C1",
+          "unit": "million"
+        },
+        "materialized_target_form": {
+          "evidence_refs": [
+            "R3:C1",
+            "R2:C1"
+          ],
+          "program": "R3:C1 - R2:C1",
+          "unit": "million"
+        },
+        "materialized_target_executes_to_reference_answer": false,
+        "patched_after": -1715.9,
+        "reference_answer": 1715.9,
+        "sign_reversed_eligible_row_count": 1,
+        "sign_reversed_variants": [
+          "relevant_change"
+        ]
+      }
+    },
+    "sign_reversed_eligible_row_count": 3,
+    "sign_reversed_eligible_source_family_count": 2,
+    "statement": "The two named families preserve the correct visible cell set but materialize operand order opposite the frozen reference target; their eligible targets execute to the negative reference answer, not the reference answer."
+  },
+  "estimand": {
+    "name": "SET_BINDING_SET_ACCURACY",
+    "definition": "correct visible cell set with operator, order and unit preserved",
+    "is_answer_correctness": false,
+    "score_against_reference_answer": "NEVER"
+  },
+  "resolved_operating_rules": {
+    "OPERAND_ORDER_SIGN_REVERSAL": {
+      "between_A_and_B_phrase_alone_is_discriminator": false,
+      "order_only_difference": "UNRESOLVED_NO_TRAINING_TARGET",
+      "set_difference": "CAN_YIELD_ELIGIBLE_SET_BINDING_COMPONENT",
+      "status": "UNRESOLVED"
+    }
+  },
+  "outputs": {
+    "B1_REPORT.md": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_REPORT.md",
+      "sha256": "dd5110803534a7f1d5406f3082580fd3076d8fdc780d17cbbf378d1b31230d53",
+      "status": "WRITTEN"
+    },
+    "B1_SUPERVISION_MANIFEST.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_SUPERVISION_MANIFEST.json",
+      "sha256": "cd9057642a16b530345e71c1d965cf4a2c8823165a047fce3046b27429b3914c",
+      "status": "WRITTEN"
+    },
+    "B1_QUALIFICATION_RECEIPT.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_QUALIFICATION_RECEIPT.json",
+      "sha256": "e09502c41af7eaacc8336c2a31444b84e0cbc105e423a8d76d35066f861ead9d",
+      "status": "WRITTEN"
+    },
+    "B1_TEST_LOCAL_EDIT_APPLIER.py": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_LOCAL_EDIT_APPLIER.py",
+      "sha256": "d624514aa39b920fe80c494ee441290b56dea4ff83d23486aa81f5cb7253f59d",
+      "status": "WRITTEN"
+    },
+    "B1_TEST_OUTPUT.txt": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_OUTPUT.txt",
+      "sha256": "67e8e8db83860f9868918462c5e7c343423389c31622ecfad4ecc59f851502e2",
+      "status": "WRITTEN"
+    },
+    "B1_CORRECTION_TRAJECTORIES.jsonl": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_CORRECTION_TRAJECTORIES.jsonl",
+      "sha256": "bccae1cb9eba0b352d359e4c105ad0714845758dc30205f8b5515483ef677595",
+      "status": "PRESERVED_UNCHANGED"
+    },
+    "archive/B1_REMEDIATION1_RAW_TRAJECTORIES.jsonl": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/archive/B1_REMEDIATION1_RAW_TRAJECTORIES.jsonl",
+      "sha256": "540df692b04378f867e3d0b59435fbbc07e992dac8d77fadc6860978b4ef0cdb",
+      "status": "PRESERVED_UNCHANGED"
+    },
+    "archive/B1_REMEDIATION1_SCORE_RESULT_A.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/archive/B1_REMEDIATION1_SCORE_RESULT_A.json",
+      "sha256": "eae35b9daf9047df3b8054b79afb489099d9d6ec6dcffaaa538017a52c73688a",
+      "status": "PRESERVED_UNCHANGED"
+    },
+    "B1_REMEDIATION_RESULT_A.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_REMEDIATION_RESULT_A.json",
+      "sha256": "eae35b9daf9047df3b8054b79afb489099d9d6ec6dcffaaa538017a52c73688a",
+      "status": "PRESERVED_UNCHANGED"
+    },
+    "B1_REMEDIATION2_RESULT_A.json": {
+      "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_REMEDIATION2_RESULT_A.json",
+      "sha256": "11cc080797f7c4fdaaf63dd32b556cd86bc311905cc81d7b8815ca4d7a0e94d2",
+      "status": "PRESERVED_UNCHANGED"
+    }
+  },
+  "tests": {
+    "status": "PASS",
+    "executed_command": "PYTHONPATH=src python3 -m unittest discover -s research/feedback_learning_phase_b_20261026_v1 -p 'B1_TEST_LOCAL_EDIT_APPLIER.py' -v",
+    "exit_code": 0,
+    "registered_tests": 1,
+    "subcases": 27,
+    "fresh_remediation3_assertions": [
+      "H1 report/manifest disclosure and per-family counts",
+      "sole SET_BINDING_SET_ACCURACY estimand and reference-answer prohibition",
+      "H2 operative discriminator and UNRESOLVED order-only rule",
+      "zero training and zero model/judge calls"
+    ],
+    "output_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_TEST_OUTPUT.txt",
+    "output_sha256": "67e8e8db83860f9868918462c5e7c343423389c31622ecfad4ecc59f851502e2",
+    "full_repository_suite": "PRESERVED_REMEDIATION2_EVIDENCE_NOT_RERUN",
+    "full_repository_output_sha256": "076cf2111e57062d65c093fc88e16069f1e22a79fa27af12248c593bf0669f89",
+    "gb10_runtime": "NOT_RUN"
+  },
+  "budget": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "model_or_judge_calls": 0,
+    "health_or_model_probes": 0,
+    "budget_ledger_modified": false
+  },
+  "next_gate": "C_REAUDIT3_THEN_D_FREEZE_EXACT_PANEL_AND_SET_BINDING_SET_ACCURACY"
+}

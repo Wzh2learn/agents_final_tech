@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-10-25T19:55:15.738342+00:00",
+  "child_adapter_attachment": {
+    "active_adapter": "b2_child",
+    "adapters": [
+      "ordinary_parent",
+      "b2_child"
+    ],
+    "frozen_base_and_parent": true,
+    "passed": true,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "trainable_parameter_count": 5898240,
+    "trainable_parameter_names_sha256": "645b2c671b59bfb15e97825aa278c15192d29d890757510ebf60b6d0bc662451",
+    "trainable_parameter_tensor_count": 144
+  },
+  "gpu": {
+    "cuda_version": "13.0",
+    "max_memory_allocated_bytes": 8092190720,
+    "max_memory_reserved_bytes": 8097103872,
+    "name": "NVIDIA GB10",
+    "torch_version": "2.13.0+cu130"
+  },
+  "information_contract": {
+    "hidden_confirmation_reference": false,
+    "matched": true,
+    "shared_fields_hash": "135bea49e60413125a5400b2f477efc7ca75f7abc651ea147fc04743a84973c6"
+  },
+  "parent_adapter_load": {
+    "active_adapter": "b2_child",
+    "passed": true,
+    "tensor_count": 144,
+    "tensor_group_sha256": "d30ca7506ac16d678e97a7c20668a766184834d3a1f5859b50a30f284773dfc4",
+    "trainable": false
+  },
+  "protocol_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json",
+  "protocol_sha256": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+  "runtime": {
+    "gpu_lock_file": "/home/testuser/wzh/.gpu_lock",
+    "load_seconds": 42.84187078475952,
+    "lock_held_by_runner": true,
+    "python": "3.12.3"
+  },
+  "schema": "b2_preflight_receipt_v1",
+  "scientific_generation_attempts": 0,
+  "status": "PASS",
+  "stop_conditions": {
+    "R_E_information_contract": "PASS",
+    "critical_b1_defects": "NONE_OPEN_BY_D_GATE",
+    "gpu_and_lock": "PASS",
+    "parent_load": "PASS"
+  },
+  "task_id": "phaseb-b2-same-start-a-20261026",
+  "training_runs": 0
+}

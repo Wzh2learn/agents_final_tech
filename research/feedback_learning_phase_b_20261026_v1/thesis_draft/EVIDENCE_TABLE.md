@@ -1,0 +1,26 @@
+# C1—C3 Evidence Table
+
+日期：2026-10-26
+规则：`已验证 / 开发观察 / 未验证` 是证据身份标签，不是贡献等级。
+
+| 点 | 证据标签 | 当前事实 | 分母与单位 | 可支持结论 | 不能支持 | 主证据路径 | 2027-10 前下一缺失证据 |
+|---|---|---|---|---|---|---|---|
+| C1 | 已验证 | 96/118 visible；OCR-like 0/13，跨 11 source-table clusters，五个阈值均不可见 | injection 为观察单位；family/cluster 必须分开报告 | visibility 随 family 改变；aggregate 会掩盖边界 | 自然失败率、harmfulness、false-negative rate | `paper/saner_rene_manuscript_v1.md` | 自然缺陷分母和独立 harmfulness labels |
+| C1 | 已验证 | flat/hierarchical 在 single-responsive-leaf 下同秩；斜率约 0.375 | 当前冻结 score construction | 原始 protocol gap 不能当 ranking-quality gap | 层级与 flat 一般等价 | `paper/saner_rene_manuscript_v1.md` | 多 responsive leaves、不同权重/构造下的前瞻检验 |
+| C1 | 已验证 | 2,382 clean records 的 support 均为 `{0}` | usable `(table_uid,column)` rows | 当前 clean-only procedure 不能选唯一 operating point | matched-FPR 普遍不可用 | `paper/saner_rene_manuscript_v1.md` | 非退化 clean support 与冻结 operating-point 协议 |
+| C1 | 已验证 | 216 injections / 72 clusters 的 stage separation=1.000；direct-only codebook 也为 1.000，non-direct=0.3333 | cluster 为预测/重采样单位 | 结果来自显式 stage-aligned instrumentation | hierarchy 自动定位或自然泛化 | `paper/saner_rene_manuscript_v1.md` | 未 instrumented、因果对齐的第二数据流 |
+| C1 | 已验证 | FinQA V=89/89、D=0/89、O=0/89 | 89 rows / 30 clusters | measurement-object mismatch boundary | 协议盲、检测能力或迁移规律 | `paper/saner_rene_manuscript_v1.md` | 重算下游结果字段的对齐 FinQA 执行 |
+| C1 | 已验证 | FinRank absolute random accuracy 变化 1.084/1.029 点，但 hardness gap 只变约 0.359/0.343 点且方向稳定 | 1,185 records；TF-IDF/BM25 pairs | score sensitivity 与 decision stability 分离 | neural/generative 或其他 benchmark | `research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md` | neural baselines 与第二个真实 ranking implementation |
+| C1 | 开发观察 | post-hoc `text_sha1` 复现 442 occurrences / 305 records；33 gold loss、2 all-gold loss | canonical text identity；v2 post-hoc | author-disclosed identity 可确定性重现 | 完全冻结确认或 benchmark failure | `research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md` | 冻结 canonical identity 的前瞻独立应用 |
+| C1 | 已验证的负边界 | in-record/pair 精确复现；global 最多漂 0.19，metadata 最多漂 0.16，第二环境最多漂 0.47 | metric points；当前两个环境 | reproduction envelope 必须写明 | 唯一漂移原因、raw-precision exactness | `research/research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md` | 原始 score matrices + 完整锁定平台/依赖 |
+| C2 | 开发观察 | neutral retry 56/72 correct；localization 49/72（0 W2C、7 C2W）；execution 40/72（0 W2C、16 C2W） | 72 frozen outputs，24 families ×3 variants | 当前一跳反馈修订未超过 neutral | feedback learning 整体无效 | `research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json` | 稳定输出契约下的 source-isolated correction qualification |
+| C2 | 开发观察 | localization feedback 有 3/72 false alarms、12/72 insufficient | frozen initial candidate + actual visible feedback | feedback-quality diagnostic 的开发边界 | teacher/gold、训练监督 | `research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json` | 教师/确定性 verifier 独立验证的 corrections |
+| C2 | 开发观察 | oracle 有 3 W2C，但 54 C2W 且使用隐藏 correctness/discrepancy | 72 outputs；non-deployable diagnostic | 存在有限纠错能力，但反馈不可部署 | E 可训练或优于 R | `research/feedback_delivery_continuation_20261025_v1/FINAL_STAGE_INDEPENDENT_REVIEW.md` | 可见反馈、可执行 patch、source-isolated E 数据 |
+| C2 | 真实训练开发结果 | 同一 ordinary parent 上 R/E 各训练 128 steps；合计 319,948 training tokens、287.98 GPU 秒 | 12 families ×3 variants；2 training runs | 同起点 R/E 可训练，但当前表示无部署优势 | 所有反馈学习或局部编辑均无效 | `research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAINING_RECEIPT_R.json` | 新来源确认已被停止门阻断 |
+| C2 | 有界接口修复后开发结果 | row-level source-family paired accuracy：N 72.2%、R 69.4%、E 0%；E-R=-69.4pp、E-N=-72.2pp | 12 families；R/E 72 次新生成，复用首轮 N | 当前 restricted-patch E 未超过 R/neutral | 反馈学习普遍无效 | `research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json` | 按停止规则不进入确认 |
+| C2 | 失败机制 | E 36/36 patch 非法、36/36 interface-UNKNOWN、5 个 originally-correct family damage；R 25 correct/7 wrong/4 UNKNOWN | 72 B2B generations；全部达到 max-token | 当前失败包含 schema/hash/重复输出/截断混杂 | E 仅因模型能力弱而失败 | `research/feedback_learning_phase_b_20261026_v1/b2b/B2B_FAILURES.json` | 若重启需新监督与稳定合同，不复用旧确认 |
+| C3 | 开发观察 | original 60 correct/12 wrong；retry 62/10；localization 59/13 | 复用 24-family ×3 variants | retry 是当前最强简单交付基线 | 新 family 泛化 | `research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json` | 真正 disjoint new-family frozen panel |
+| C3 | 开发观察 | semantic gate 32/6/34 abstain，coverage 52.8%；bounded repair 33/6/33，coverage 54.2% | 72 outputs | gate 用 abstention 减少 accepted-wrong | 风险下降带来净行动效用 | `research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json` | matched risk-coverage + action utility |
+| C3 | 开发观察 | original 41,997 tokens/51.99s；retry 52,223/94.42s；localization 64,326/173.91s | 本地单次运行，每条件 72 attempts | 当前运行成本边界 | 稳定吞吐、生产成本或 policy 边际成本 | `research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json` | 重复运行、GPU/tool/wall cost 与边际 deployment cost |
+| C3 | 未验证 | 独立面板上的非 abstention 风险降低、跨来源覆盖和稳定成本优势 | 尚无 | 无 | 已建立交付创新或第三个独立贡献 | `docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md` | 预注册 disjoint panel、有限行动和独立审计 |
+| 全部 | 未验证 | 2027 年 10 月的确切评审日期 | Owner identity action | 目标窗口仅为 October 2027 | 具体日期或 10 月 31 日 | `research/feedback_learning_phase_b_20261026_v1/B1_A_PAPER_AND_THESIS_TASK.md` | Owner 提供准确日期 |

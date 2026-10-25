@@ -1,0 +1,287 @@
+{
+  "audited_at": "2026-10-26",
+  "audited_task_ids": [
+    "phaseb-b2-same-start-a-20261026",
+    "phaseb-b2b-output-repair-a-20261026"
+  ],
+  "b2b_accounting": {
+    "embedded_json": 72,
+    "new_generation_attempts": 72,
+    "new_generation_tokens": 66592,
+    "padded_input_plus_completion_tokens": 84164,
+    "physical_generation_calls": 72,
+    "strict_whole_json": 0,
+    "token_budget": 180000,
+    "token_budget_remaining": 113408,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "truncation": "72/72 rows finish_reason=MAX_NEW_TOKENS at max_new_tokens=384"
+  },
+  "call_audit": {
+    "confirmation_artifacts_read": 0,
+    "confirmation_outputs_generated": 0,
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0
+  },
+  "checklist": {
+    "b2b_72_new_R_E_attempts_no_new_training_N_O_reused_comparators": "PASS",
+    "confirmation_not_read_or_generated": "PASS",
+    "first_run_192_interface_truncation_108_logical_116_physical_conservative_bounds": "PASS_FAILURES_PRESERVED",
+    "information_parity_and_claim_boundaries": "PASS",
+    "panel_12_families_36_trajectories_unchanged": "PASS",
+    "primary_estimand_row_level_set_binding_set_accuracy_family_aggregated": "PASS",
+    "same_effective_ordinary_parent_two_training_runs_no_retraining_in_b2b": "PASS"
+  },
+  "claim_boundaries": {
+    "answer_correctness": "NOT_SCORED",
+    "confirmation_claim": "NONE",
+    "feedback_derived_learning": "NOT_QUALIFIED",
+    "local_edit_methods_generally_ineffective": "NOT_CLAIMED",
+    "new_source_generalization": "NOT_TESTED"
+  },
+  "conditions": [
+    "9.1 Correct or footnote the E delivery taxonomy (wrong_delivery 0 / UNKNOWN 36 understates harm; interface_caused_unknown_delivery over-counts by 4).",
+    "9.2 Disclose the B1 to B2 threshold substitution (semantic correctness on a 24-family panel became SET_BINDING_SET_ACCURACY on a 12-family panel with damage ceiling 0).",
+    "9.3 State that R is a method-level negative alongside the interface label (R 25/36 below N 26/36 and O 27/36); also carry comparator config mismatch and 188 physical calls.",
+    "9.4 Record that the direction gate is structurally unsatisfiable on this panel (2 of 3 eligible families sign-reversed by construction) and is not an E failure."
+  ],
+  "cumulative_physical_generation_calls": 188,
+  "delivery_target_availability_taxonomy": {
+    "E": {
+      "CORRECT": 0,
+      "UNKNOWN": 4,
+      "WRONG": 32
+    },
+    "N": {
+      "CORRECT": 26,
+      "UNKNOWN": 4,
+      "WRONG": 6
+    },
+    "O": {
+      "CORRECT": 27,
+      "UNKNOWN": 4,
+      "WRONG": 5
+    },
+    "R": {
+      "CORRECT": 25,
+      "UNKNOWN": 4,
+      "WRONG": 7
+    },
+    "note": "A reports E as delivery UNKNOWN=36 and wrong_delivery=0 because no legal patch was applied; see condition 9.1"
+  },
+  "e_patch_legality": {
+    "attempts_across_both_runs": 72,
+    "b2b_failures": {
+      "patch_keys_mismatch": 20,
+      "patch_schema_mismatch": 16
+    },
+    "first_run_failures": {
+      "PATCH_JSON_NOT_PARSEABLE": 24,
+      "patch_keys_mismatch": 12
+    },
+    "hallucinated_hash_fields": {
+      "target_sha24": 1,
+      "target_sha2456": 1,
+      "target_sha264": 5,
+      "target_sha265": 1
+    },
+    "json_schema_objects_instead_of_patch": 11,
+    "legal_across_both_runs": 0
+  },
+  "eligible_subtype_direction": {
+    "E_minus_R_by_subtype": {
+      "ROW_AND_PERIOD_ROLE_MISBINDING": [
+        -1.0
+      ],
+      "ROW_ROLE_MISBINDING": [
+        0.0,
+        0.0
+      ]
+    },
+    "direction_gate_structurally_unsatisfiable": true,
+    "eligible_families": 3,
+    "eligible_rows_per_arm": 5,
+    "note": "direction frozen to O_CANDIDATE_SLOT_SKELETON; reversal inherited from B1, not caused by E",
+    "sign_reversed_families": [
+      "NAT_train_b74eaf04_caa15292",
+      "NAT_train_bdeeb701_c6f0281e"
+    ],
+    "sign_reversed_of_eligible_families": "2/3",
+    "subtypes": [
+      "ROW_ROLE_MISBINDING",
+      "ROW_AND_PERIOD_ROLE_MISBINDING"
+    ]
+  },
+  "file_ownership_respected": true,
+  "first_run_accounting": {
+    "actual_generation_tokens": null,
+    "actual_generation_tokens_lower_bound": 71178,
+    "actual_generation_tokens_upper_bound": 72714,
+    "failures_erased": false,
+    "failures_preserved_in": "B2_EVALUATION_PARTIAL_FAILURES.json",
+    "physical_generation_calls_executed": 116,
+    "retained_generation_tokens": 67696,
+    "retained_logical_generation_attempts": 108,
+    "truncation": "72/72 R and E rows saturated max_new_tokens=192",
+    "unretained_failed_completion_tokens_bounds": [
+      0,
+      1536
+    ],
+    "unretained_failed_generation_calls": 8,
+    "unretained_failed_prompt_tokens": 3482
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "independent_recompute": {
+    "method": "parse + fail-closed restricted-patch apply + SET_BINDING_SET_ACCURACY reimplemented from B1_LOCAL_PATCH_CONTRACT.json; A analysis modules not imported",
+    "numerical_discrepancies_vs_A": 0,
+    "patch_legality_agreement": "72/72 E rows",
+    "rows_recomputed": 288,
+    "set_accuracy_agreement": "288/288",
+    "syntax_source_agreement": "288/288 generative rows plus 36/36 deterministic-control rows once scored as materialized reference patch applied to O"
+  },
+  "method_gate": {
+    "E_minus_N_min": 0.03,
+    "E_minus_N_pass": false,
+    "E_minus_R_min": 0.05,
+    "E_minus_R_pass": false,
+    "additional_originally_correct_family_damage_vs_R_max": 0,
+    "additional_originally_correct_family_damage_vs_R_observed": 5,
+    "damage_pass": false,
+    "eligible_subtype_direction_reversal_allowed": false,
+    "gate_overall": "FAIL_ALL_FOUR",
+    "subtype_direction_pass": false
+  },
+  "o_transitions": {
+    "E_RESTRICTED_PATCH": {
+      "O_correct_to_correct": 0,
+      "O_correct_to_lost": 27,
+      "O_unknown_to_unknown": 4,
+      "O_wrong_to_correct": 0,
+      "O_wrong_to_wrong": 5
+    },
+    "N_NEUTRAL_RETRY": {
+      "O_correct_to_correct": 25,
+      "O_correct_to_lost": 2,
+      "O_unknown_to_unknown": 4,
+      "O_wrong_to_correct": 1,
+      "O_wrong_to_wrong": 4
+    },
+    "R_FULL_REVISION": {
+      "O_correct_to_correct": 23,
+      "O_correct_to_lost": 4,
+      "O_unknown_to_unknown": 4,
+      "O_wrong_to_correct": 2,
+      "O_wrong_to_wrong": 3
+    }
+  },
+  "originally_correct_family_damage": {
+    "E_damaged_families": [
+      "NAT_train_0417ded2_2868860b",
+      "NAT_train_223d66c3_832d3e3e",
+      "NAT_train_2c20edd3_50641f02",
+      "NAT_train_abc6297d_0b1780b0",
+      "NAT_train_f1f2c2cb_27cb53a0",
+      "NAT_train_f440390f_74e6e596"
+    ],
+    "R_damaged_families": [
+      "NAT_train_f1f2c2cb_27cb53a0"
+    ],
+    "added_vs_R": 5,
+    "ceiling": 0,
+    "originally_correct_families": 7,
+    "pass": false
+  },
+  "outputs": {
+    "B2B_C_COMBINED_AUDIT.md": {
+      "path": "research/feedback_learning_phase_b_20261026_v1/audits/B2B_C_COMBINED_AUDIT.md"
+    }
+  },
+  "primary_estimand": {
+    "aggregation": "row-level mean within source family, then mean across 12 source families",
+    "answer_correctness_scored": false,
+    "bootstrap_samples": 20000,
+    "bootstrap_unit": "SOURCE_FAMILY",
+    "family_mean": {
+      "E_RESTRICTED_PATCH": 0.0,
+      "N_NEUTRAL_RETRY": 0.7222222222222222,
+      "O_FROZEN_ORDINARY": 0.75,
+      "R_FULL_REVISION": 0.6944444444444444
+    },
+    "name": "SET_BINDING_SET_ACCURACY",
+    "paired_differences": {
+      "E_minus_N": -0.7222222222222222,
+      "E_minus_R": -0.6944444444444445,
+      "R_minus_N": -0.027777777777777776
+    },
+    "row_level_correct_counts": {
+      "E_RESTRICTED_PATCH": 0,
+      "N_NEUTRAL_RETRY": 26,
+      "O_FROZEN_ORDINARY": 27,
+      "R_FULL_REVISION": 25
+    },
+    "source_family_intervals_95": {
+      "E_minus_N": [
+        -0.9444444444444445,
+        -0.47222222222222227
+      ],
+      "E_minus_R": [
+        -0.9166666666666666,
+        -0.4444444444444444
+      ],
+      "R_minus_N": [
+        -0.19444444444444445,
+        0.13888888888888892
+      ]
+    },
+    "unit": "TRAJECTORY_VARIANT_ROW"
+  },
+  "r_method_negative": {
+    "N_neutral_retry_reused": "26/36",
+    "O_frozen_ordinary_reused": "27/36",
+    "R_below_neutral_retry": true,
+    "R_full_revision_set_binding_correct": "25/36",
+    "R_minus_N": -0.027777777777777776,
+    "R_minus_N_interval_95": [
+      -0.19444444444444445,
+      0.13888888888888892
+    ],
+    "comparator_config_matched": false,
+    "comparator_note": "N reused from first run: do_sample true, temperature 0.7, top_p 0.95, max_new_tokens 192, no contract-only suffix; B2B R/E greedy, max_new_tokens 384, contract-only suffix"
+  },
+  "role": "C-COMBINED-AUDIT",
+  "schema": "task_result_c_b2b_v1",
+  "secondary_paired_completion": {
+    "families_all_three_correct": {
+      "E_RESTRICTED_PATCH": 0,
+      "N_NEUTRAL_RETRY": 8,
+      "O_FROZEN_ORDINARY": 8,
+      "R_FULL_REVISION": 8
+    },
+    "name": "ALL_THREE_VARIANTS_CORRECT",
+    "status": "SEPARATE_DIAGNOSTIC_NOT_PRIMARY"
+  },
+  "status": "INTERFACE_REPRESENTATION_FAILURE_STOP_R_E_CANDIDATE_ACCEPTED_WITH_SCOPE_CONDITIONAL",
+  "status_label_support": {
+    "clause_that_did_not_fire": "syntax_adapter_failure: R 0/36, E 0/36",
+    "clause_that_fired": "interface_caused_unknown_delivery: E 36/36 (32/36 after crediting the 4 target-unavailable rows) > 18",
+    "frozen_stop_condition_fired": true,
+    "label": "INTERFACE_REPRESENTATION_FAILURE_STOP_R_E_CANDIDATE",
+    "must_not_be_promoted_to": [
+      "feedback-derived learning",
+      "answer correctness",
+      "new-source confirmation",
+      "all local-edit/feedback methods ineffective",
+      "24-family-panel semantic-correctness gate result",
+      "E-specific failure of subtype_direction_pass"
+    ],
+    "scope": "this implementation only",
+    "supported": true
+  },
+  "task_id": "phaseb-b2b-combined-audit-c-20261026",
+  "verdict": "CONDITIONAL",
+  "verdict_basis": "Stop decision and all recomputed quantities accepted; status label accepted only under four disclosures."
+}

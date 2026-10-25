@@ -6,17 +6,17 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
 
 ## 当前任务与证据
 
-当前交接为 [唯一科研指令](LOOP_D_RESEARCH_PROMPT.md) 的阶段B执行方案：`APPROVED_FOR_OWNER_HANDOFF_NOT_DISPATCHED`。A已回报并经科研负责人审阅；Owner转发后，D可在明确资源帽内派发GB10 A/C并自主推进，不再等待另一份启动prompt。当前仅准备交接，未派发或训练。
+阶段B已按[唯一科研指令](LOOP_D_RESEARCH_PROMPT.md)在GB10执行。B1收窄出 exposed-development set-binding supervision；R/E 同起点真实训练完成。192-token首轮是接口截断，384-token有界修复后 N=72.2%、R=69.4%、E=0%，当前 R/E 候选停止；confirmation 与 second seed 按冻结门未运行。详见[Phase B 回执](../../research/feedback_learning_phase_b_20261026_v1/PHASE_B_RETURN.md)。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [RESEARCH_RETURN_20261025](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)、[RESOURCE_RECEIPT](../../research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json)、[EXPERIMENT_A](../../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json)、[REPLAY_C](../../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) |
+| 当前方法实验与成本 | [PHASE_B_RETURN](../../research/feedback_learning_phase_b_20261026_v1/PHASE_B_RETURN.md)、[B2B_ANALYSIS](../../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)、[C_AUDIT](../../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json) |
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：A已审阅，B待转发/未派发；旧v1/v2路径仅跳转 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：阶段B已执行；旧v1/v2路径仅跳转 |
 | 最新科研回执 | [PHASE_A_RETURN](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)、[修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
@@ -32,7 +32,7 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 研究线 | 当前判断与证据 |
 |---|---|
 | C1 测量 / Paper E | `NARROW_AND_CONTINUE_PACKAGE_AUDIT_PASS`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json) |
-| C2 学习 / 证据反馈 | `PHASE_A_CORRECTED_NEW_ORE_NOT_TRAINED`。单位题不可见、唯一可修引用题0/1；普通SFT仍是有限面板强基线，新方法及跨源优势未成立，阶段B待审 |
+| C2 学习 / 证据反馈 | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_CLAIM`。真实 R/E 训练完成；修复输出预算后 R 仍低于 N/O，E 为接口/表示失败。仅停止当前实现，不推论反馈学习普遍无效 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `CONDITIONAL_ICAART_PRIMARY_SNCS_BACKUP`，12 页包审计、24/24 引用和私有 artifact 完整性通过；未投稿/付款/公开 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |

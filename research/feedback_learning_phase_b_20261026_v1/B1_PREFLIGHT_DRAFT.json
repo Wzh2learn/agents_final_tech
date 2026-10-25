@@ -1,0 +1,22 @@
+{
+  "budget_release": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "checks": {
+    "C_1_taxonomy_visible_set_binding_mechanism": "CLOSED",
+    "C_2_unit_corrections_unresolved_and_unit_paths_forbidden": "CLOSED",
+    "C_3_visible_only_units_and_reference_only_edit_instructions": "CLOSED",
+    "C_4_structural_identity_separate_from_semantic_acceptance": "CLOSED",
+    "C_5_authority_binding_corrected": "CLOSED",
+    "C_6_exact_12_family_damage_panel_and_denominator": "CLOSED",
+    "d_panel_freeze": "PENDING",
+    "loop_c_reaudit": "PENDING"
+  },
+  "ready_for_b2_training": false,
+  "ready_for_c_preaudit": true,
+  "schema": "b1_remediation2_preflight_v1",
+  "status": "READY_FOR_C_REAUDIT2_NOT_READY_FOR_B2_TRAINING"
+}

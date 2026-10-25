@@ -1,0 +1,107 @@
+{
+  "arm": "E_RESTRICTED_PATCH",
+  "child_adapter": {
+    "adapter_file_sha256": {
+      "adapter_config.json": "c276f0420ecbc19a0d4fde8a8c515451485151623931f6693366f3b4b1750faa",
+      "adapter_model.safetensors": "69405c84e8df77a134e908db184c2fb254942f63e797f09595707cae3d801aba"
+    },
+    "adapter_name": "b2_child",
+    "adapter_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/b2/run/training/E_RESTRICTED_PATCH/final_adapter/b2_child",
+    "configured_trainable_parameter_count": 5898240,
+    "initial_tensor_group_sha256": "13e25315bbbf32f4ead1f8b485b05cc81ce25f7a19fa3dfd9ab997e8c89f15ea",
+    "mask": {
+      "frozen": "base model, ordinary_parent adapter, biases and all non-target modules",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "trainable": "b2_child LoRA A/B tensors on q_proj and v_proj"
+    },
+    "saved_trainable_parameter_count": 5898240,
+    "trainable_parameter_names_sha256": "645b2c671b59bfb15e97825aa278c15192d29d890757510ebf60b6d0bc662451",
+    "trainable_parameter_tensor_count": 144
+  },
+  "dataset": {
+    "eligible_correction_rows": 39,
+    "loss_normalization": "mean over all non-padding prompt-plus-target tokens; no sample weighting",
+    "no_op_and_unresolved_rows": 217,
+    "processed_text_tokens": {
+      "max": 1196,
+      "mean": 686.625,
+      "sum": 175776
+    },
+    "rows": 256,
+    "target_token_length": {
+      "max": 239,
+      "mean": 151.3359375,
+      "min": 131,
+      "sum": 38742
+    },
+    "unique_source_tasks": 12,
+    "unique_trajectories": 36
+  },
+  "finished_at": "2026-10-25T20:03:09.864129+00:00",
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "gpu_cost": {
+    "device_count": 1,
+    "gpu_seconds": 157.47347378730774,
+    "max_memory_allocated_bytes": 9114311168,
+    "max_memory_reserved_bytes": 9432989696,
+    "power_energy_measurement": "UNAVAILABLE_NOT_INFERRED",
+    "wall_seconds": 157.47347378730774
+  },
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 0.0001,
+    "optimizer_class": "AdamW via Hugging Face Trainer",
+    "optimizer_steps": 128,
+    "scheduler": "cosine",
+    "warmup_ratio": 0.03,
+    "weight_decay": 0.0
+  },
+  "parent_checkpoint": {
+    "adapter_file_sha256": {
+      "README.md": "52b79bca4cc96410a7d8fdbe94854001c72f2947434777e98bea03a191c13c14",
+      "adapter_config.json": "bc2a50d79f8db225a7b3bd3dbbb2ce2927f5d20f04244216dcc358cd330a41c6",
+      "adapter_model.safetensors": "bc5f1052b69cf667fb52eb2c32b86d3b7a59d8f64c4756edffd1477050f1a1ff",
+      "chat_template.jinja": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+      "tokenizer.json": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506",
+      "tokenizer_config.json": "2e3bd3cb5055f7a903a54e7062b2fd14d21b70f4174c3ffcd9fc81ec50a25631",
+      "training_args.bin": "d8e252f4cee1f70e1cbe1c44e49f93b9fba20007e041b6220636ea7cca425f62"
+    },
+    "adapter_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+    "base_model": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "effective_identity": "BASE_PLUS_FROZEN_ORDINARY_ADAPTER",
+    "tensor_group_sha256_after": "d30ca7506ac16d678e97a7c20668a766184834d3a1f5859b50a30f284773dfc4",
+    "tensor_group_sha256_before": "d30ca7506ac16d678e97a7c20668a766184834d3a1f5859b50a30f284773dfc4",
+    "unchanged": true
+  },
+  "parent_entries": 144,
+  "run_totals": {
+    "processed_text_tokens": 319948,
+    "training_runs": 2,
+    "wall_seconds": 200.32686758041382
+  },
+  "schema": "b2_training_receipt_v1",
+  "status": "PASS",
+  "steps": {
+    "epochs": 1.0,
+    "global_step": 128,
+    "max_steps": 128
+  },
+  "target_length_equality_claim": "NOT_CLAIMED",
+  "task_id": "phaseb-b2-same-start-a-20261026",
+  "train_metrics": {
+    "epoch": 1.0,
+    "total_flos": 3850145586511872.0,
+    "train_loss": 1.0118112219497561,
+    "train_runtime": 157.3382,
+    "train_samples_per_second": 1.627,
+    "train_steps_per_second": 0.814
+  }
+}

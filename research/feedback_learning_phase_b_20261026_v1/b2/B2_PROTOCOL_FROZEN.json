@@ -1,0 +1,157 @@
+{
+  "arms": {
+    "E": {
+      "applier": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py",
+      "applier_sha256": "fdd7cb3652f1e785f752e1d510b3588e13791c3e2756e291213d66121d0fb7a0",
+      "name": "E_RESTRICTED_PATCH",
+      "output": "restricted replace-only patch",
+      "patch_failure": "REJECT_AND_RECORD"
+    },
+    "N": {
+      "name": "N_NEUTRAL_RETRY",
+      "parent": "same effective ordinary checkpoint",
+      "sampling": {
+        "do_sample": true,
+        "seed": 20261026,
+        "temperature": 0.7,
+        "top_p": 0.95
+      }
+    },
+    "O": {
+      "name": "O_FROZEN_ORDINARY",
+      "new_generation_attempts": 0,
+      "source": "hash-pinned B1 ordinary candidate"
+    },
+    "R": {
+      "name": "R_FULL_REVISION",
+      "output": "complete corrected candidate",
+      "supervised_change": "set binding only; operator, order and unit fixed to O"
+    },
+    "controls": [
+      "DETERMINISTIC_REFERENCE_PATCH_CONTROL",
+      "ORDINARY_SUPERVISION_CONTROL"
+    ]
+  },
+  "authority": {
+    "b1_gate_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B1_D_FREEZE_GATE.md",
+    "b1_gate_sha256": "04301e4093416d2a8b4d2f9b137e438f6b7da3f09bfd0f7e17d3333ee7fefcdc",
+    "d_gate_path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2_D_FREEZE_DECISION.md",
+    "d_gate_sha256": "d90c5ff4d139cc7b31796e0d8c608af4baf3c0d8405ba934f1c24d49f675212a"
+  },
+  "authorized_budget": {
+    "generation_attempts": 108,
+    "generation_tokens": 420000,
+    "training_runs": 2,
+    "training_tokens": 2000000
+  },
+  "confirmation_outputs_inspected": false,
+  "development_panel": {
+    "confirmation_claim": "NONE",
+    "families": 12,
+    "path": "/home/testuser/wzh/phase_b_worktree_20261026/research/feedback_learning_phase_b_20261026_v1/B2_DEVELOPMENT_PANEL_DRAFT.json",
+    "role": "EXPOSED_DEVELOPMENT_SUPERVISION",
+    "sha256": "56e3c270a379fab39ed59da5b9b4f1f2f90a03abc41efff86263c2e6259708f0",
+    "trajectories": 36
+  },
+  "diagnostics_kept_separate": [
+    "strict_whole_json",
+    "embedded_json",
+    "syntax_adapter",
+    "patch_legality",
+    "structural_target_identity",
+    "program_execution",
+    "semantic_role_period",
+    "final_delivery"
+  ],
+  "frozen_at": "2026-10-25T19:54:30.366376+00:00",
+  "generation": {
+    "arms": [
+      "N_NEUTRAL_RETRY",
+      "R_FULL_REVISION",
+      "E_RESTRICTED_PATCH"
+    ],
+    "batch_size": 8,
+    "max_new_tokens": 192,
+    "new_attempts_budget": 108,
+    "new_attempts_planned": 108,
+    "token_budget": 420000,
+    "trajectories_per_arm": 36
+  },
+  "goal_id": "FEEDBACK_LEARNING_PHASE_B_20261026",
+  "information_parity": {
+    "allowed_difference": "output representation only: complete candidate versus restricted patch",
+    "hidden_confirmation_reference_in_inputs_feedback_or_selection": false,
+    "selection_source": "frozen exposed development panel only",
+    "shared": [
+      "visible_prompt",
+      "visible_evidence",
+      "O_candidate",
+      "Revise the candidate using only the visible question and table. Do not use hidden references, gold programs, or development edit instructions."
+    ]
+  },
+  "parent_checkpoint": {
+    "adapter_file_sha256": {
+      "README.md": "52b79bca4cc96410a7d8fdbe94854001c72f2947434777e98bea03a191c13c14",
+      "adapter_config.json": "bc2a50d79f8db225a7b3bd3dbbb2ce2927f5d20f04244216dcc358cd330a41c6",
+      "adapter_model.safetensors": "bc5f1052b69cf667fb52eb2c32b86d3b7a59d8f64c4756edffd1477050f1a1ff",
+      "chat_template.jinja": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+      "tokenizer.json": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506",
+      "tokenizer_config.json": "2e3bd3cb5055f7a903a54e7062b2fd14d21b70f4174c3ffcd9fc81ec50a25631",
+      "training_args.bin": "d8e252f4cee1f70e1cbe1c44e49f93b9fba20007e041b6220636ea7cca425f62"
+    },
+    "adapter_path": "/home/testuser/wzh/research_runs/natural_program_finance_20261024_v2/training/ordinary_answer_execution_sft/final_adapter",
+    "base_model": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "effective_identity": "BASE_PLUS_FROZEN_ORDINARY_ADAPTER"
+  },
+  "primary_estimand": {
+    "answer_correctness_scored": false,
+    "contract_fields": [
+      "operator",
+      "operand_order",
+      "unit"
+    ],
+    "definition": "predicted visible evidence-cell set equals the materialized set-binding target",
+    "name": "SET_BINDING_SET_ACCURACY"
+  },
+  "schema": "b2_same_start_protocol_frozen_v1",
+  "status": "FROZEN_BEFORE_TRAINING",
+  "task_id": "phaseb-b2-same-start-a-20261026",
+  "thresholds_from_B1_gate": {
+    "E_minus_N_min": 0.03,
+    "E_minus_R_min": 0.05,
+    "additional_originally_correct_family_damage_vs_R_max": 0,
+    "eligible_subtype_direction_reversal_allowed": false
+  },
+  "training": {
+    "eligible_correction_rows_per_base_cycle": 5,
+    "final_eligible_correction_rows_per_arm": 39,
+    "final_no_op_and_unresolved_rows_per_arm": 217,
+    "final_rows_per_arm": 256,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 0.0001,
+    "lora": {
+      "alpha": 32,
+      "bias": "none",
+      "dropout": 0.05,
+      "r": 16,
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ]
+    },
+    "loss_normalization": "mean over all non-padding prompt-plus-target tokens; no sample weighting",
+    "max_length": 1536,
+    "no_op_and_unresolved_rows_per_base_cycle": 31,
+    "optimizer_steps_per_arm": 128,
+    "parent_trainable": false,
+    "per_device_batch_size": 1,
+    "repeats": 7,
+    "rows_per_arm": 256,
+    "same_parent_for_R_and_E": true,
+    "scheduler": "cosine",
+    "seed": 20261026,
+    "unique_source_tasks_per_arm": 12,
+    "unique_trajectories_per_arm": 36,
+    "warmup_ratio": 0.03
+  }
+}
