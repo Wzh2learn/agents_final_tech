@@ -1,22 +1,22 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-24
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据
 
-2026-10-24 已完成 V3 审计修正、source-role 隔离、常数语义复核、严格 source-disjoint 确认和两轮自然错误反馈训练。普通 answer/execution SFT 是强基线；visible filter、paired stability、窄任务 repair、错误加权 repair 均停止。C3 语义检查有信号但无策略增量。Paper E 仍是唯一成熟贡献，主投重选为 ICAART、顺序备投 SN Computer Science。当前权威结果见 [Research Continuation Return](../../research/loop_d_reselection_and_continuation_20261024_v1/RESEARCH_CONTINUATION_RETURN.md)。
+2026-10-25 完成 P0 可见表头/常数合同修正、同一候选反馈干预、oracle 机制诊断、24-family 交付确认和 Paper E 路由适配。开发面板上 neutral 56/72，localization 49/72，execution 40/72，均无 `wrong_to_correct`；新 families 上 neutral 62/72、original 60/72、localization 59/72。O/R/E 因缺少合格自然纠正监督未训练。当前权威结果见 [Research Return 2026-10-25](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [RESEARCH_CONTINUATION_RETURN](../../research/loop_d_reselection_and_continuation_20261024_v1/RESEARCH_CONTINUATION_RETURN.md)、[SOURCE_DISJOINT_SUMMARY](../../research/natural_program_learning_20261024_v2/SOURCE_DISJOINT_SUMMARY_V4.json)、[WEIGHTED_ERROR_REPAIR_SUMMARY](../../research/natural_program_learning_20261024_v2/WEIGHTED_ERROR_REPAIR_SUMMARY_V5.json) |
-| Paper E 路由与办理 | [PAPER_E_ROUTE_DECISION](../../research/loop_d_reselection_and_continuation_20261024_v1/PAPER_E_ROUTE_DECISION.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
+| 当前方法实验与成本 | [RESEARCH_RETURN_20261025](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)、[RESOURCE_RECEIPT](../../research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json)、[EXPERIMENT_A](../../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json)、[CONFIRMATION_C](../../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) |
+| Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
 | 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
-| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 3,396 attempts / 8,707,353 tokens；训练 token 3,495,424 单列 |
+| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,044 attempts / 9,160,660 tokens；训练 token 3,495,424 单列 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
 | 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 
@@ -28,10 +28,10 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-24
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| 发表/学位阶段 | Paper E `READY_FOR_OWNER_SUBMISSION_HANDOFF`；G2 `CONTINUE_NARROWED_DEVELOPMENT_ONLY`；G3 `KEEP_WITH_HEADROOM_MODEL_POLICY_UNEVALUATED`；scope `CLOSED_EXACT_CACHE_EXPLAINS_SAVING`。见 [V5 回执](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md) |
-| C2 反馈学习 | `ORDINARY_BASELINE_CONFIRMED_FOUR_CANDIDATES_STOPPED`。source-disjoint ordinary paired 70.8%、visible 50.0%；窄任务 repair 过拟合，48-task weighted repair 50.0% 低于 uniform 58.3% 与 ordinary 70.8% |
-| C3 可靠交付 | `SEMANTIC_CHECK_SIGNAL_NO_POLICY_GAIN`。ordinary source-disjoint 为 56/72 正确、16/72 错误；语义规则使错误接受 16→10，但条件错误率 22.2%→32.3%、正确覆盖 56/72→21/72，结构修复无适用案例，复杂策略停止 |
-| Paper E | `NARROW_AND_CONTINUE`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT.json) |
+| C1 测量 / Paper E | `NARROW_AND_CONTINUE_PACKAGE_AUDIT_PASS`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json) |
+| C2 学习 / 证据反馈 | `VISIBLE_REPAIR_STOPPED_OE_NOT_TRAINED`。开发面板 `wrong_to_correct=0`，oracle-assisted 类别只修 3/16 并破坏 54 个原对；答案重加权不是合格反馈学习监督 |
+| C3 交付 / 核验与修复 | `NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。24 个新 families 上 neutral 62/72、original 60/72、localization 59/72；透明门控与有界修复主要通过弃答降低风险 |
+| Paper E | `CONDITIONAL_ICAART_PRIMARY_SNCS_BACKUP`，12 页包审计、24/24 引用和私有 artifact 完整性通过；未投稿/付款/公开 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
 | Adaptive V3 | 当前 authored fixtures 上简单 greedy 已足够，two-step 无正向配对收益；[实现报告](../../research/research_portfolio_v2/ADAPTIVE_V3_IMPLEMENTATION_REPORT.md)。RPC capability 边界不等于操作系统沙箱 |

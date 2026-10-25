@@ -1,18 +1,18 @@
 {
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
-  "date": "2026-10-24",
-  "status": "V5_SOURCE_DISJOINT_CONFIRMED_NATURAL_ERROR_WEIGHTING_STOPPED_C3_NO_POLICY_GAIN",
+  "date": "2026-10-25",
+  "status": "P0_REPAIRED_A_NEGATIVE_B_NOT_TRAINED_C_BOUNDED_CONFIRMED_PAPER_E_ROUTE_READY",
   "active_goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
   "accounting_identity_note": "Generation events record generation-only tokens; training_events record training tokens separately. Both are included in new_budget.accounting_tokens_used. V3 post-hoc rescore and delivery replay add zero model calls.",
   "new_budget": {
     "planning_attempt_cap": 4096,
     "planning_token_cap": 20000000,
-    "attempts_used": 3396,
+    "attempts_used": 4044,
     "physical_http_calls": 536,
-    "local_batched_generate_calls": 251,
+    "local_batched_generate_calls": 296,
     "interrupted_individual_generate_calls_upper_bound": 128,
-    "accounting_tokens_used": 8707353,
+    "accounting_tokens_used": 9160660,
     "judge_calls": 113,
     "training_runs": 14,
     "training_gpu_seconds": 3117.7787792682647,
@@ -178,6 +178,19 @@
       "judge_calls": 0,
       "raw_result": "research/natural_program_learning_20261024_v2/WEIGHTED_ERROR_REPAIR_SUMMARY_V5.json",
       "remote_raw": "/home/testuser/wzh/research_runs/weighted_error_repair_v5/weighted_confirmation_results_v5.jsonl"
+    },
+    {
+      "id": "FEEDBACK_DELIVERY_CONTINUATION_20261025",
+      "accounting_attempts": 648,
+      "physical_http_calls": 0,
+      "local_batched_generate_calls": 45,
+      "accounting_tokens": 453307,
+      "status": "COMPLETE_P0_REPLAY_A_NEGATIVE_OE_NOT_TRAINED_C_BOUNDED_CONFIRMATION",
+      "model": "Qwen3-4B ordinary_answer_execution_sft frozen checkpoint",
+      "judge_calls": 0,
+      "training_runs": 0,
+      "raw_result": "research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json",
+      "remote_raw": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/"
     }
   ],
   "training_events": [

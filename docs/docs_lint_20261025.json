@@ -1,0 +1,9 @@
+{
+ "date": "2026-10-25T18:07:19",
+ "fails": [],
+ "warns": [],
+ "info": [
+  "[5] 注册表标 DEPRECATED 且未分发（预期）: A verification-before-completion"
+ ],
+ "overall": "PASS"
+}
