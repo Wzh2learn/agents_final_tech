@@ -2,7 +2,7 @@
   "schema": "publication_thesis_goals_resource_ledger_v1",
   "goal_id": "LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021",
   "date": "2026-10-25",
-  "status": "P0_REPAIRED_A_NEGATIVE_B_NOT_TRAINED_C_BOUNDED_CONFIRMED_PAPER_E_ROUTE_READY",
+  "status": "P0_REPAIRED_A_NEGATIVE_B_NOT_TRAINED_C_PRIOR_POOL_REPLAY_PAPER_E_ROUTE_READY",
   "active_goal_id": "RESEARCH_PORTFOLIO_AND_ADAPTIVE_REVALIDATION_V2",
   "accounting_identity_note": "Generation events record generation-only tokens; training_events record training tokens separately. Both are included in new_budget.accounting_tokens_used. V3 post-hoc rescore and delivery replay add zero model calls.",
   "new_budget": {
@@ -185,7 +185,7 @@
       "physical_http_calls": 0,
       "local_batched_generate_calls": 45,
       "accounting_tokens": 453307,
-      "status": "COMPLETE_P0_REPLAY_A_NEGATIVE_OE_NOT_TRAINED_C_BOUNDED_CONFIRMATION",
+      "status": "COMPLETE_P0_REPLAY_A_NEGATIVE_OE_NOT_TRAINED_C_PRIOR_ERROR_POOL_REPLAY",
       "model": "Qwen3-4B ordinary_answer_execution_sft frozen checkpoint",
       "judge_calls": 0,
       "training_runs": 0,

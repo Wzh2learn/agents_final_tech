@@ -1,4 +1,4 @@
-"""Analyze preserved Experiment C raw results without model calls."""
+"""Analyze the prior-error-pool Experiment C replay without model calls."""
 
 from __future__ import annotations
 
@@ -91,8 +91,13 @@ def main() -> int:
     )
     summary = {
         "schema": "delivery_confirmation_c_v1",
-        "identity": "FROZEN_NEW_FAMILIES_FIXED_ORDINARY_MODEL_DELIVERY_CONFIRMATION",
-        "development_or_confirmation": "BOUNDED_CONFIRMATION_24_NEW_FAMILIES",
+        "identity": "PRIOR_V4_V5_ERROR_POOL_FIXED_ORDINARY_MODEL_DELIVERY_REPLAY",
+        "development_or_confirmation": "PRIOR_ERROR_POOL_DEVELOPMENT_REPLAY_24_FAMILIES",
+        "source_identity_correction": {
+            "task_id_overlap_with_v4_v5_error_pool": "24/24",
+            "prior_natural_error_tasks": 4,
+            "independent_new_family_confirmation": False
+        },
         "hidden_reference_policy_features": 0,
         "conditions": {
             condition: condition_metrics(paired, condition)

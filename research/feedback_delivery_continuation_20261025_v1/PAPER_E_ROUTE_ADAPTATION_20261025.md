@@ -61,10 +61,12 @@ Required scientific adaptation before upload is small but real:
    obtain an explicit venue interpretation before upload. Do not invent a
    version or bibliographic record.
 
-These changes do not require a third case or a new experiment. The current
-40,284 non-whitespace Markdown characters remain well below the 50,000 limit
-after these additions. The current 11-page review PDF fits the 12-page Full
-Paper limit if the paper is accepted as Full.
+These changes do not require a third case or a new experiment. At route-analysis
+time the manuscript had 40,284 non-whitespace characters and an 11-page review
+PDF. The implemented manuscript adaptation now has 41,515 non-whitespace
+Markdown characters and a 12-page PDF, still within the Full Paper limits. The
+package manifest and 2026-10-25 package audit are the current submission-state
+authority.
 
 ### SN Computer Science
 

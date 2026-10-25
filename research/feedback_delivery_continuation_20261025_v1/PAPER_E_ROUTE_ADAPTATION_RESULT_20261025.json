@@ -1,6 +1,15 @@
 {
   "schema": "paper_e_route_adaptation_result_v1",
   "date": "2026-10-25",
+  "record_identity": "PRE_MANUSCRIPT_ADAPTATION_ROUTE_SNAPSHOT",
+  "record_identity_note": "The route analysis and cost comparison below predate the final manuscript adaptation. Current submission state is authoritative in G1_SUBMISSION_PACKAGE/PACKAGE_MANIFEST.json and G1_ICAART_PACKAGE_AUDIT_20261025.json.",
+  "current_state_after_adaptation": {
+    "review_pdf_pages": 12,
+    "canonical_markdown_non_whitespace_chars": 41515,
+    "required_adaptations_implemented": true,
+    "package_audit": "research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json",
+    "package_status": "PASS"
+  },
   "status": "SCIENTIFIC_ADAPTATION_COMPLETE_OWNER_DECISION_REQUIRED",
   "recommendation": {
     "primary": "ICAART_2027_REGULAR",

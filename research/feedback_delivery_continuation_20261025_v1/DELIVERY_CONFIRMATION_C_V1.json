@@ -51,9 +51,9 @@
       "wrong": 12
     }
   },
-  "development_or_confirmation": "BOUNDED_CONFIRMATION_24_NEW_FAMILIES",
+  "development_or_confirmation": "PRIOR_ERROR_POOL_DEVELOPMENT_REPLAY_24_FAMILIES",
   "hidden_reference_policy_features": 0,
-  "identity": "FROZEN_NEW_FAMILIES_FIXED_ORDINARY_MODEL_DELIVERY_CONFIRMATION",
+  "identity": "PRIOR_V4_V5_ERROR_POOL_FIXED_ORDINARY_MODEL_DELIVERY_REPLAY",
   "input_sha256": {
     "instances": "028446c3084026bcb273fd49c2144b81cdf6c1e260b06f1f6f7a022c111f6e6b",
     "localization": "a41780e432b5ebb98423ec76e842bd529b418896ce5c5d2b7c3a1558ca73ba62",
@@ -192,6 +192,11 @@
     }
   },
   "schema": "delivery_confirmation_c_v1",
+  "source_identity_correction": {
+    "independent_new_family_confirmation": false,
+    "prior_natural_error_tasks": 4,
+    "task_id_overlap_with_v4_v5_error_pool": "24/24"
+  },
   "task_level": {
     "localization_feedback": {
       "all_three_correct": 17,

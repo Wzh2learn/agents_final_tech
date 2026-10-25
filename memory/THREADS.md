@@ -8,16 +8,11 @@ Updated: 2026-10-25
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-C2-SUPERVISION | `QUALIFIED_VISIBLE_CORRECTION_COLLECTION_REQUIRED` | 当前 visible feedback 未修对任何开发错误，oracle 纠正不能作为部署监督。下一步只在取得独立核验、非 hidden-answer 选择的自然纠正轨迹后做同起点 O/R/E；否则停止该学习候选 |
+| NEXT-C2-SUPERVISION | `FEEDBACK_DERIVED_TRAINING_QUALIFIED_CORRECTIONS_REQUIRED` | 当前 visible feedback 未修对任何开发错误，oracle 纠正不能作为部署监督。下一步先稳定 one-shot revision operator，再在取得反馈衍生、独立核验、source-isolated 且训练合格的纠正轨迹后做同起点 O/R/E；否则停止该学习候选 |
 | C2-FEEDBACK-REPAIR | `STOP_CURRENT_ONE_SHOT_REPAIR_REPRESENTATION` | [实验 A](../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json) 中 neutral 56/72、localization 49/72、execution 40/72，`wrong_to_correct=0`；这不是反馈学习一般无效 |
-| C3-DELIVERY-POLICY | `NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [确认 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4，透明门控只以大面积弃答降低条件错误率 |
+| C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)要求 Owner 在 2026-10-29 AoE 前授权并确认宣读/差旅和学校认可；任一不成立则转 SNCS，禁止同时投稿 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
-| MIGRATION-ORACLE-DESIGN | `G2_METHOD_INCREMENT_NOT_IDENTIFIED_STOP` | actual-module paired intervention 已修复审计反例，但 alias-aware static + repo/behavior 和 consumption + behavior 均6/6；自然模型候选也无新错误机制 |
-| REVALIDATION-POLICY-DESIGN | `G3_COMPLEX_PLANNER_PAUSED` | 六对象多个 simple baseline 均6/6；单次 wall-clock 不支持成本优胜，停止复杂 planner |
-| G2-STATE-ACTION | `CONTINUE_RQ_U_DEVELOPMENT_ONLY` | fact 2/8→3/8、action 均 1/8，但实际 bundle 丢失充分新事实；先做 sufficient-facts 对 extracted-facts 的信息等量比较 |
-| G3-INCREMENTAL-EVIDENCE | `KEEP_RQ_A_WITH_HEADROOM_NO_POLICY_CLAIM` | oracle 仅有覆盖/成本 headroom；depth-2 5/43 与随机相容。先修 KEEP/EXPAND 接口并加入同预算随机、固定 reader |
-| NEXT-STATE-ACTION-EXPERIMENT | `EQUAL_INFORMATION_DEVELOPMENT_THEN_NEW_FAMILIES` | 先在开发 UID 分离旧状态失效、充分事实恢复和下游使用；新 natural families 未取得前不作确认结论 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `PACKAGE_AUDIT_PASS_OWNER_EXTERNAL_ACTIONS` | [G1 package](../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)已更新 12 页 PDF、24/24 引用和可办理决策；未投稿/付款/公开 |
 | THESIS-DOC-CONTINUITY | `C1_C2_C3_BOUNDARIES_UPDATED` | C1 测量、C2 学习、C3 交付已写入现役入口；正式中文章节仍需把 A/C 负结果和停止条件整合成正文 |

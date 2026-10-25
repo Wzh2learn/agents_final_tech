@@ -70,7 +70,8 @@
       ],
       "raw_root": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/delivery_confirmation_c_v1/",
       "source_families": 24,
-      "status": "COMPLETE_BOUNDED_NEW_FAMILY_CONFIRMATION"
+      "source_identity": "24/24_TASK_IDS_OVERLAP_V4_V5_ERROR_POOL;_4_PRIOR_NATURAL_ERRORS",
+      "status": "COMPLETE_PRIOR_ERROR_POOL_DEVELOPMENT_REPLAY_NOT_CONFIRMATION"
     }
   ],
   "local_summaries": {
@@ -81,8 +82,9 @@
     },
     "delivery_confirmation": {
       "path": "research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json",
-      "sha256": "cd2113a295c000b934c07fa17f73cc7f344d72797b49ea0d84fbde29387f6b72",
-      "remote_rows_sha256": "d6211959b4bdaf179664928fefa0df0775e60c79ece0a084fdce0fed32579c88"
+      "sha256": "bd13fb28af21292e7fefd48dc161d7090376fbd3e5a3bea659cf9c0580565351",
+      "remote_rows_sha256": "d6211959b4bdaf179664928fefa0df0775e60c79ece0a084fdce0fed32579c88",
+      "evidence_identity": "PRIOR_ERROR_POOL_DEVELOPMENT_REPLAY"
     },
     "p0_semantic_delivery": {
       "path": "research/feedback_delivery_continuation_20261025_v1/SEMANTIC_DELIVERY_CHECK_V5_P0.json",
@@ -96,5 +98,9 @@
   "post_hoc_analysis_failures": [
     "Experiment A generation completed; initial summary used suffixed instance IDs and stopped before summary. Raw rows were preserved and analyzed without new calls.",
     "Experiment C generation completed; initial summary omitted generated base_instance_id and stopped before summary. Raw rows were preserved and analyzed without new calls."
+  ],
+  "post_hoc_identity_corrections": [
+    "Final independent review found 24/24 Experiment C task-ID overlap with the V4/V5 error pool. Counts remain unchanged; evidence identity is downgraded from new-family confirmation to prior-error-pool development replay.",
+    "Experiment A summary identity now discloses that the oracle diagnostic used hidden initial-correctness and discrepancy-class features; main visible arms did not."
   ]
 }

@@ -6,11 +6,11 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 
 ## 当前任务与证据
 
-2026-10-25 完成 P0 可见表头/常数合同修正、同一候选反馈干预、oracle 机制诊断、24-family 交付确认和 Paper E 路由适配。开发面板上 neutral 56/72，localization 49/72，execution 40/72，均无 `wrong_to_correct`；新 families 上 neutral 62/72、original 60/72、localization 59/72。O/R/E 因缺少合格自然纠正监督未训练。当前权威结果见 [Research Return 2026-10-25](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)。
+2026-10-25 完成 P0 可见表头/常数合同修正、同一候选反馈干预、oracle 机制诊断、24-family 交付回放和 Paper E 路由适配。开发面板上 neutral 56/72，localization 49/72，execution 40/72，均无 `wrong_to_correct`；先前 V4/V5 error-pool 回放上 neutral 62/72、original 60/72、localization 59/72。独立复核确认回放的 24/24 task IDs 与旧 error pool 重合，不能作为新 family 确认。O/R/E 因缺少反馈衍生且训练合格的纠正监督未训练。当前权威结果见 [Research Return 2026-10-25](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [RESEARCH_RETURN_20261025](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)、[RESOURCE_RECEIPT](../../research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json)、[EXPERIMENT_A](../../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json)、[CONFIRMATION_C](../../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) |
+| 当前方法实验与成本 | [RESEARCH_RETURN_20261025](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)、[RESOURCE_RECEIPT](../../research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json)、[EXPERIMENT_A](../../research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json)、[REPLAY_C](../../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) |
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
 | 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
@@ -29,8 +29,8 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 | 研究线 | 当前判断与证据 |
 |---|---|
 | C1 测量 / Paper E | `NARROW_AND_CONTINUE_PACKAGE_AUDIT_PASS`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json) |
-| C2 学习 / 证据反馈 | `VISIBLE_REPAIR_STOPPED_OE_NOT_TRAINED`。开发面板 `wrong_to_correct=0`，oracle-assisted 类别只修 3/16 并破坏 54 个原对；答案重加权不是合格反馈学习监督 |
-| C3 交付 / 核验与修复 | `NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。24 个新 families 上 neutral 62/72、original 60/72、localization 59/72；透明门控与有界修复主要通过弃答降低风险 |
+| C2 学习 / 证据反馈 | `VISIBLE_REPAIR_STOPPED_OE_NOT_TRAINED`。开发面板 `wrong_to_correct=0`，oracle-assisted 类别只修 3/16 并破坏 54 个原对；答案重加权不是反馈衍生且训练合格的学习监督 |
+| C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `CONDITIONAL_ICAART_PRIMARY_SNCS_BACKUP`，12 页包审计、24/24 引用和私有 artifact 完整性通过；未投稿/付款/公开 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
