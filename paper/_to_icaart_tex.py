@@ -12,6 +12,13 @@ SOURCE = ROOT / "paper" / "saner_rene_manuscript_v1.tex"
 MARKDOWN = ROOT / "paper" / "saner_rene_manuscript_v1.md"
 OUTPUT = ROOT / "paper" / "icaart_2027_submission_v1" / "manuscript.tex"
 
+TABLE_CAPTIONS = (
+    "Interpretation corrections exposed by the audit.",
+    "Visibility-by-detection measurement matrix.",
+    "Protocol-level detection under different decision predicates.",
+    "FinRank score sensitivity and narrow decision stability.",
+)
+
 
 def inline_tex(value: str) -> str:
     code: list[str] = []
@@ -47,6 +54,43 @@ def markdown_abstract() -> str:
     return inline_tex(abstract)
 
 
+def format_icaart_tables(body: str) -> str:
+    body = re.sub(r"^\\textbf\{Table \d+\..*?\}\s*\n", "", body, flags=re.MULTILINE)
+    pieces = re.split(r"(\\begin\{table\}.*?\\end\{table\})", body, flags=re.DOTALL)
+    table_index = 0
+    output = []
+    for piece in pieces:
+        if not piece.startswith(r"\begin{table}"):
+            output.append(piece)
+            continue
+        caption = TABLE_CAPTIONS[table_index]
+        table_index += 1
+        piece = piece.replace(r"\begin{table}[t]", r"\begin{table}[htbp]", 1)
+        piece = piece.replace(r"\setlength{\tabcolsep}{3pt}", r"\setlength{\tabcolsep}{0.5pt}", 1)
+        piece = re.sub(
+            r"p\{([0-9.]+)\\columnwidth\}",
+            lambda match: "p{" + f"{float(match.group(1)) * 0.98:.3f}" + r"\columnwidth}",
+            piece,
+        )
+        piece = piece.replace("Hierarchical expert", r"Hierarchical\\ expert")
+        piece = piece.replace(
+            r"\begin{tabular}",
+            r"\resizebox{\columnwidth}{!}{\begin{tabular}",
+            1,
+        )
+        piece = piece.replace(r"\end{tabular}", r"\end{tabular}}", 1)
+        piece = piece.replace(
+            "\\centering\n",
+            "\\centering\n" + "\\caption{" + caption + "}\n",
+            1,
+        )
+        piece = piece.replace("\\small\n", "\\small\n\\hfuzz=3pt\n", 1)
+        output.append(piece)
+    if table_index != len(TABLE_CAPTIONS):
+        raise RuntimeError(f"unexpected_table_count:{table_index}")
+    return "".join(output)
+
+
 def manuscript_body() -> str:
     source = SOURCE.read_text(encoding="utf-8")
     body = source.split(r"\maketitle", 1)[1].rsplit(r"\end{document}", 1)[0]
@@ -78,17 +122,25 @@ def manuscript_body() -> str:
     )
     body = body.replace(
         "\\bibliographystyle{IEEEtran}\n\\bibliography{saner_rene_references}",
-        "\\begingroup\\scriptsize\\linespread{0.8}\\selectfont\n"
+        "{\\small\n"
         "\\bibliographystyle{apalike}\n"
-        "\\bibliography{saner_rene_references}\n\\endgroup",
+        "\\bibliography{saner_rene_references}\n}",
     )
     body = body.replace(r"\begin{table}[t]", r"\begin{table}[htbp]")
-    body = body.replace(r"\setlength{\tabcolsep}{3pt}", r"\setlength{\tabcolsep}{1pt}")
-    body = body.replace("\\small\n\\setlength{\\tabcolsep}{1pt}", "\\scriptsize\n\\setlength{\\tabcolsep}{1pt}")
+    body = body.replace(r"\setlength{\tabcolsep}{3pt}", r"\setlength{\tabcolsep}{0.5pt}")
+    body = format_icaart_tables(body)
     body = re.sub(
         r"\\section\{([^{}]+)\}",
         lambda match: r"\section{\uppercase{" + match.group(1) + "}}",
         body,
+    )
+    body = body.replace(
+        r"\section*{Acknowledgments}",
+        r"\section*{\uppercase{Acknowledgments}}",
+    )
+    body = body.replace(
+        r"\section{\uppercase{Acknowledgments}}",
+        r"\section*{\uppercase{Acknowledgments}}",
     )
     if "../docs/" in body or r"\includesvg" in body:
         raise RuntimeError("unresolved repository figure path")
@@ -119,6 +171,7 @@ def main() -> int:
 \usepackage{{seqsplit}}
 \usepackage{{hyperref}}
 \usepackage{{SCITEPRESS}}
+\setlength{{\emergencystretch}}{{3em}}
 
 \begin{{document}}
 \title{{{inline_tex(title)}}}
@@ -126,7 +179,7 @@ def main() -> int:
 \affiliation{{Double-blind review copy}}
 \email{{}}
 }}
-\keywords{{Measurement Validity, Agent Evaluation, Benchmark Auditing, Reproducibility.}}
+\keywords{{Measurement Validity, AI Evaluation, Benchmark Auditing, Reproducibility.}}
 \abstract{{{markdown_abstract()}}}
 
 \onecolumn \maketitle \normalsize \setcounter{{footnote}}{{0}} \vfill

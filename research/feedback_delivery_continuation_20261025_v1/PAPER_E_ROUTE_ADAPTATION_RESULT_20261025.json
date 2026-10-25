@@ -1,0 +1,101 @@
+{
+  "schema": "paper_e_route_adaptation_result_v1",
+  "date": "2026-10-25",
+  "status": "SCIENTIFIC_ADAPTATION_COMPLETE_OWNER_DECISION_REQUIRED",
+  "recommendation": {
+    "primary": "ICAART_2027_REGULAR",
+    "sequential_backup": "SN_COMPUTER_SCIENCE_SUBSCRIPTION",
+    "switch_condition": [
+      "owner cannot authorize submission before 2026-10-29 AoE",
+      "school recognition of SCITEPRESS proceedings is not confirmed",
+      "author presentation or travel/registration exposure is unacceptable"
+    ]
+  },
+  "scientific_scope": {
+    "paper_identity": "BOUNDED_TWO_CASE_MEASUREMENT_AUDIT",
+    "cases": 2,
+    "nested_boundary_probe": "FinQA nested within Case 1",
+    "forbidden_expansion": [
+      "third Paper E case from C2/C3 experiments",
+      "general Agent method claim",
+      "universal validity theory",
+      "acceptance-rate prediction"
+    ]
+  },
+  "icaart": {
+    "official_deadline": "2026-10-29 AoE",
+    "notification": "2026-12-04",
+    "camera_ready_registration": "2026-12-18",
+    "conference_dates": "2027-02-23/2027-02-26",
+    "venue": "Valletta, Malta",
+    "review_contract": "double-blind; at least two reviewers, usually three or more",
+    "submission_chars": "10000-50000 non-whitespace including references, tables, graphs and appendices",
+    "full_page_limit": 12,
+    "short_page_limit": 8,
+    "extra_page_fee_eur": 50,
+    "early_non_member_speaker_registration_eur": 680,
+    "optional_early_social_event_eur": 80,
+    "current_review_pdf_pages": 11,
+    "current_markdown_non_whitespace_chars": 40284,
+    "required_adaptations": [
+      "add one ICAART-neighbor Related Work paragraph",
+      "add bounded agent-evaluator relevance without claiming agent-system coverage",
+      "repair Agent Evaluation keyword unless bounded motivation is added",
+      "resolve verified OpenAI Codex software citation requirement"
+    ],
+    "known_cost_subtotal_eur_excluding_travel": {
+      "minimum_if_full_acceptance": 680,
+      "maximum_if_short_accepts_three_extra_pages": 830,
+      "optional_social_event_extra": 80
+    }
+  },
+  "sn_computer_science": {
+    "publishing_model": "hybrid",
+    "subscription_route_apc": 0,
+    "current_optional_oa_apc": {
+      "GBP": 2390,
+      "USD": 3290,
+      "EUR": 2690,
+      "note": "price is determined from acceptance date and may include VAT/local taxes"
+    },
+    "submission_page_color_charges": 0,
+    "median_submission_to_first_decision_days": 96,
+    "review_contract": "single-blind; minimum two reviews",
+    "required_adaptations": [
+      "150-250 word structured abstract with Purpose, Methods, Results and Conclusion",
+      "separate single-blind title page with authors, BUPT affiliation, email and ORCID",
+      "formal Declarations for funding, competing interests, data/material/code availability and author contributions",
+      "editable LaTeX/BibTeX and figure sources",
+      "retain LLM-use disclosure in Methods or suitable alternative section"
+    ],
+    "structured_abstract_word_target": "150-250",
+    "timing_boundary": "median is not an acceptance or publication guarantee"
+  },
+  "near_neighbor_access": {
+    "bastos_icaart_2025": {
+      "doi": "10.1007/978-3-032-25032-2_14",
+      "read": "official visible article page, abstract, metadata, notes and visible references",
+      "pdf": "DOI PDF request returned HTML access page"
+    },
+    "karamousalidis_sn_computer_science_2026": {
+      "doi": "10.1007/s42979-026-05242-8",
+      "read": "official visible article page, abstract, metadata, notes and visible references",
+      "pdf": "DOI PDF request returned HTML access page"
+    },
+    "claim_boundary": "abstract/metadata/visible-page comparison only; no full-text replication claim"
+  },
+  "owner_actions_required": [
+    "route approval or explicit switch to SNCS",
+    "author order, applicant first author, BUPT first affiliation, corresponding email and ORCID",
+    "OpenAI Codex disclosure and verified software citation choice",
+    "patent or restricted-technology status",
+    "artifact release and license",
+    "submission, copyright and payment authorization",
+    "registration and travel/presentation approval",
+    "exact school recognition rule and exact 2027 thesis review date"
+  ],
+  "external_actions_performed": 0,
+  "submission_performed": false,
+  "payment_performed": false,
+  "public_release_performed": false
+}

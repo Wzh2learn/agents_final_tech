@@ -16,8 +16,9 @@
 \usepackage{array}
 \usepackage{url}
 \usepackage{seqsplit}
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
 \usepackage{SCITEPRESS}
+\setlength{\emergencystretch}{3em}
 
 \begin{document}
 \title{Visibility Is Not Detection: Auditing Measurement Boundaries in Staged and Evidence-Ranking Evaluation}
@@ -25,7 +26,7 @@
 \affiliation{Double-blind review copy}
 \email{}
 }
-\keywords{Measurement Validity, Agent Evaluation, Benchmark Auditing, Reproducibility.}
+\keywords{Measurement Validity, AI Evaluation, Benchmark Auditing, Reproducibility.}
 \abstract{Final-answer scores can hide whether an evaluation observed a defect, consumed the observation, or treats the outcome as harmless. We audit exactly two constructions. In a staged document evaluator, 96/118 header injections are visible, while the OCR-like family is unobserved on the frozen surface (\texttt{0/13}) and harmfulness remains contract-relative. Flat and layered scores are affine/rank-equivalent, a clean-only panel cannot identify the deployment threshold, and explicit instrumentation explains perfect stage separation. A nested FinQA probe exposes a measurement-object mismatch. In FinRank, tie policy moves absolute accuracy but preserves the hard-versus-random direction; post-hoc \texttt{text\_sha1} correction finds 442 overlapping hard-negative occurrences across 305 records and gold loss in 33 records. The bounded contribution separates visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap, and proposes a review checklist rather than a universal theory.}
 
 \onecolumn \maketitle \normalsize \setcounter{footnote}{0} \vfill
@@ -35,7 +36,7 @@ Staged document pipelines are usually reduced to final-answer correctness. That 
 We separate six objects: \emph{visibility} (instrument observation), \emph{detection} (predicate consumption under a threshold), \emph{harmfulness} (outcome change under an equivalence contract), \emph{score sensitivity} (absolute metric movement), \emph{decision stability} (survival of the supported decision), and \emph{reproduction gap} (artifact agreement under a stated environment). These are audit bookkeeping terms, not a causal theory. Confounding them turns score movement into protocol sensitivity, non-response into harm, and metric drift into decision reversal. Figure 1 shows the chain.
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\columnwidth]{figures/fig1_measurement_chain.pdf}
+\includegraphics[width=\columnwidth]{figures/fig1_measurement_chain.pdf}
 \caption{From injected failure to visibility, protocol detection and contract-relative outcome harm. NIST motivates measurement effectiveness but not this paper's framework.}
 \label{fig:1}
 \end{figure}
@@ -47,12 +48,14 @@ Our contributions are:
 \item A proposed six-step review checklist for evaluator authors: bind mutation, observation, score, ranking and reported claim to the same measurement object; report tie and identity contracts; and state the numerical tolerance and environment required for reproducibility. This checklist is not a validated universal method.
 \end{enumerate}
 The accounting is intentionally narrow: there are exactly two counted cases, with FinQA nested inside Case 1. MA-CERD and adaptive revalidation are outside Paper E and contribute no case or result. The audit does not establish a universal method, a detector ranking, or a general failure rate. Its external value is narrower but concrete: it changes what should be reported and which comparisons can be interpreted before further experiments are commissioned.
+Staged evidence and ranking contracts are also relevant to agent evaluators because an agent score can consume outputs from several tools and decision stages; however, neither counted case evaluates an agent system. The transferable object is the measurement discipline, not an empirical claim about agent behavior.
 \begin{table}[htbp]
 \centering
-\small
-\setlength{\tabcolsep}{3pt}
 \caption{Interpretation corrections exposed by the audit.}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.293\columnwidth}>{\raggedright\arraybackslash}p{0.293\columnwidth}>{\raggedright\arraybackslash}p{0.293\columnwidth}}
+\small
+\hfuzz=3pt
+\setlength{\tabcolsep}{0.5pt}
+\resizebox{\columnwidth}{!}{\begin{tabular}{>{\raggedright\arraybackslash}p{0.287\columnwidth}>{\raggedright\arraybackslash}p{0.287\columnwidth}>{\raggedright\arraybackslash}p{0.287\columnwidth}}
 \hline
 Naive reading & Audit evidence & Correct reading \\
 \hline
@@ -62,12 +65,13 @@ Perfect localization comes from hierarchy. & Direct stage leaves match the full 
 Metric movement flips the decision. & Absolute values move, but the hardness gap preserves direction. & Separate score sensitivity from decision stability. \\
 A deterministic rerun reproduces the benchmark. & Some metrics reproduce; global and metadata values drift. & Bind claims to environment, tolerance and metric scope. \\
 \hline
-\end{tabular}
+\end{tabular}}
 \end{table}
 \section{\uppercase{Related Work}}
 \subsection{Measurement validity and construct validity}
 Meta-evaluation studies whether metrics separate errors from acceptable variants or local contextual corrections \cite{amrhein2022aces,amrhein2023aces,moghe2024mtmeta,deviyani2025contextual}; rankings also move with protocol axes, prompts, seeds and target properties \cite{kendiukhov2026ranking,du2026stability,ross2024metric}. LLM-judge work reports position, verbosity, self-preference and perturbation effects \cite{liq2025scoringbias,lis2025llmjduge}, while NIST asks for meaningful measurement and demonstrated construct validity \cite{nist2023airmf,nist2024genai}. We ask whether the observation surface can see a controlled defect before interpreting metric differences.
 Caban and Bean et al. already provide broad validity frameworks and benchmark checklists \cite{caban2026validity,bean2025construct}. FinRank separates retrieval, reranking and hard-negative discrimination on a curated passage pool \cite{mansouri2026finrank}. Our increment is narrower: bind observation surface, score contract, tie order and source identity to the object that a concrete evaluation claims to measure.
+Within ICAART, Jouseau et al. propose an intrinsic data-quality metric, while Bastos Germano et al. expose hidden biases in synthetic vulnerability data and show that bias-aware data changes a detector's measured accuracy \cite{jouseau2025metric,bastos2026hidden}. Paper E does not propose a universal quality metric or retrain a detector. It audits existing measurement contracts and asks which visibility, harm, score and decision statements remain supportable after the observation and identity objects are made explicit.
 \subsection{Testing, oracles, and diagnosability}
 Mutation and metamorphic testing inject controlled changes \cite{cho2025metamorphic}; fault reasoning separates reachability, state change and propagation. Process-level evaluation observes intermediate behavior \cite{fan2026agentprocessbench,chung2026process}. We decompose non-detection into visibility, predicate and outcome mechanisms and audit the checkpoint instrument itself.
 \subsection{Empirical software evaluation and reproducibility audits}
@@ -88,17 +92,18 @@ Visibility is defined relative to the selected checkpoint evidence surface, wher
 The primary conceptual structure is the following visibility-by-detection matrix:
 \begin{table}[htbp]
 \centering
-\small
-\setlength{\tabcolsep}{3pt}
 \caption{Visibility-by-detection measurement matrix.}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.293\columnwidth}>{\raggedright\arraybackslash}p{0.293\columnwidth}>{\raggedright\arraybackslash}p{0.293\columnwidth}}
+\small
+\hfuzz=3pt
+\setlength{\tabcolsep}{0.5pt}
+\resizebox{\columnwidth}{!}{\begin{tabular}{>{\raggedright\arraybackslash}p{0.287\columnwidth}>{\raggedright\arraybackslash}p{0.287\columnwidth}>{\raggedright\arraybackslash}p{0.287\columnwidth}}
 \hline
 Checkpoint evidence & Protocol detects & Protocol does not detect \\
 \hline
 Visible & Detected visible defect & Visible but undetected \\
 Not visible & Detection through a different signal or predicate & Silently absorbed or unobservable \\
 \hline
-\end{tabular}
+\end{tabular}}
 \end{table}
 Harmfulness is orthogonal to this matrix and is annotated separately as harmful, equivalent, or unresolved under the selected equivalence criterion.
 For an injected defect d, visibility and protocol detection are separate observations:
@@ -153,18 +158,19 @@ The harmfulness label is also criterion-dependent, and our record contains two c
 The raw detection counts are not evidence of protocol discriminability. Table 2 compares three transferable protocols under different decision predicates: end-to-end detection tests whether the final mapping text changes, whereas flat and hierarchical scoring use frozen score-drop thresholds. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. At the frozen threshold, hierarchical scoring is not a more sensitive detector.
 \begin{table}[htbp]
 \centering
-\small
-\setlength{\tabcolsep}{0pt}
 \caption{Protocol-level detection under different decision predicates.}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.235\columnwidth}>{\raggedright\arraybackslash}p{0.235\columnwidth}>{\raggedright\arraybackslash}p{0.235\columnwidth}>{\raggedright\arraybackslash}p{0.235\columnwidth}}
+\small
+\hfuzz=3pt
+\setlength{\tabcolsep}{0.5pt}
+\resizebox{\columnwidth}{!}{\begin{tabular}{>{\raggedright\arraybackslash}p{0.216\columnwidth}>{\raggedright\arraybackslash}p{0.216\columnwidth}>{\raggedright\arraybackslash}p{0.216\columnwidth}>{\raggedright\arraybackslash}p{0.216\columnwidth}}
 \hline
 Protocol & Detection signal & Tables detected & Injections detected \\
 \hline
 End-to-end & Final mapping change & 95/95 (1.0000) & 112/118 (0.9492) \\
 Flat & Field-hit-rate drop & 75/95 (0.7895; 95\% CI [0.6947, 0.8737]) & 85/118 (0.7203) \\
-Hierarchical expert & Pruned root drop & 20/95 (0.2105; 95\% CI [0.1263, 0.2947]) & 13/118 (0.1102) \\
+Hierarchical\\ expert & Pruned root drop & 20/95 (0.2105; 95\% CI [0.1263, 0.2947]) & 13/118 (0.1102) \\
 \hline
-\end{tabular}
+\end{tabular}}
 \end{table}
 The raw flat-hierarchical gap does not establish inferior ranking quality. In the current single-responsive-leaf construction, the unrounded hierarchical contrastive score is a positive rescaling of the flat contrastive score, with fitted slope approximately 0.375, and the recorded scores retain identical ranks; corresponding decisions, and by implication their ROC geometry, therefore coincide, and corresponding thresholds satisfy theta\_H = 0.375 theta\_F. This is a structural equivalence of the two protocols' decisions, not a newly calibrated performance estimate; the diagnosis is deliberately narrow: it explains why the raw protocol gap cannot be read as a ranking difference, and it is not offered as a general algebraic result about hierarchical evaluation. Separately, the registered deployment operating point remains unresolved: the derived clean-only reanalysis contains 2,382 usable clean records whose score supports are exactly \{0\}, so every positive threshold has an observed FPR of zero and the clean panel cannot select a unique operating point. That calibration degeneracy does not negate the structural equivalence, and it is a statement about the current clean-only procedure, not a general claim that matched-FPR comparisons cannot be made; the registered strict predicate FPR = alpha and the tolerance predicate FPR <= alpha also remain distinct. Selecting a threshold by harmful TPR would violate the clean-only contract. Historical fixed-threshold sensitivity evidence remains in the dated historical governance record, but the old [0,0] interval is not a clean-calibrated confirmatory result. When more than one leaf varies with the input, neither affine nor ranking equivalence is guaranteed.
 The 118 injections close at the checkpoint level as 96 visible plus 22 silently absorbed; by family (injections / visible / absorbed): alias variant 47/43/4, date variant 17/15/2, mixed language 20/20/0, OCR-like 13/0/13, prefix noise 16/13/3, unit suffix 5/5/0 (frozen artifact listed in the evidence ledger). The protocol-level counts in Table 2 are measured on different signals and are therefore not a partition of the 96.
@@ -190,10 +196,11 @@ The nested FinQA probe produced V = 89/89, D = 0/89 and O = 0/89: every injected
 The compact FinRank result separates score sensitivity from decision stability. Values are hard/random pairwise accuracy and the random-minus-hard gap in percentage points:
 \begin{table}[htbp]
 \centering
-\small
-\setlength{\tabcolsep}{2pt}
 \caption{FinRank score sensitivity and narrow decision stability.}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.176\columnwidth}>{\raggedright\arraybackslash}p{0.176\columnwidth}>{\raggedright\arraybackslash}p{0.176\columnwidth}>{\raggedright\arraybackslash}p{0.176\columnwidth}>{\raggedright\arraybackslash}p{0.176\columnwidth}}
+\small
+\hfuzz=3pt
+\setlength{\tabcolsep}{0.5pt}
+\resizebox{\columnwidth}{!}{\begin{tabular}{>{\raggedright\arraybackslash}p{0.172\columnwidth}>{\raggedright\arraybackslash}p{0.172\columnwidth}>{\raggedright\arraybackslash}p{0.172\columnwidth}>{\raggedright\arraybackslash}p{0.172\columnwidth}>{\raggedright\arraybackslash}p{0.172\columnwidth}}
 \hline
 Model & Tie policy & Hard & Random & Gap \\
 \hline
@@ -204,7 +211,7 @@ BM25 & ties-positive & 74.780 & 87.789 & 13.009 \\
 BM25 & strict-win & 74.094 & 86.760 & 12.666 \\
 BM25 & half-credit & 74.437 & 87.275 & 12.838 \\
 \hline
-\end{tabular}
+\end{tabular}}
 \end{table}
 Exact ties occur in both deterministic score matrices. TF-IDF has 91 hard-pair and 135 random-pair ties; BM25 has 83 and 125. Changing ties-positive to strict-win moves random-negative accuracy by 1.084 points for TF-IDF and 1.029 for BM25, crossing the preregistered 1.0-point materiality threshold. This is score sensitivity. By contrast, the hard-versus-random gap moves by only 0.359 and 0.343 points and retains its direction under strict-win and half-credit scoring. This is decision stability for the narrow qualitative hardness claim. Five of 11,790 seed-42 random draws equal a curated hard negative, too few to explain the gap.
 Table values are independently rounded to three decimals from full-precision results. Consequently, subtracting the displayed TF-IDF strict-win cells gives 13.820, while the full-precision gap \texttt{13.820514366083984} rounds to the reported 13.821.
@@ -216,6 +223,7 @@ The two cases support one measurement discipline: visibility, detection and harm
 \subsection{Scientific limitations}
 Case 1 uses synthetic perturbations on one public corpus; three seeds cover 119 source-table UIDs but do not estimate a natural failure distribution. Harmfulness is contract-relative: the OCR-like family is unobserved, not proven harmful, and one judge classified its 13 cases as referentially equivalent. The semantic boundary analysis uses one judge on 28 cases. Perfect localization follows explicit stage instrumentation. FinQA does not regenerate downstream result fields, so it establishes a measurement-object boundary, not protocol blindness.
 FinRank v2 is a post-hoc correction after v1 used the wrong identity rule; its 442/305 and 33/2 counts are not a second frozen application. The audit covers TF-IDF and BM25, not neural or generative systems, and the residual global and metadata drift remains unexplained. MA-CERD, adaptive revalidation and internal AI reviews provide no Paper E evidence.
+MA-CERD and adaptive revalidation are not Paper E cases and provide no evidence here. The later AI-assisted 24-task review and deferred model-free or scoring routes are internal-only historical development records, not submission results. They are excluded from the counted cases, contribution and reported findings.
 \subsection{Proposed six-step review checklist}
 The following sequence is a proposed checklist for evaluator authors, not a validated universal method:
 \begin{enumerate}
@@ -231,7 +239,7 @@ Case 1 rejects three over-readings: score gaps are not automatically performance
 \section{\uppercase{Conclusion}}
 Final correctness cannot show whether a staged evaluation observed, consumed or preserved the relevant evidence. Across two cases we separate visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap. Case 1 removes score-equivalence, non-response and hierarchy over-readings; Case 2 separates metric sensitivity from decision stability. The result is a bounded audit and proposed checklist, not a universal theory or validated method.
 \section*{\uppercase{Acknowledgments}}
-Generative AI disclosure: OpenAI Codex assisted manuscript organization,
+Generative AI disclosure: OpenAI Codex \cite{openai2026codex} assisted manuscript organization,
 English editing and consistency checks in the abstract, related-work framing,
 interpretation table, discussion, conclusion, acknowledgments and submission
 materials, and assisted development and revision of offline analysis and

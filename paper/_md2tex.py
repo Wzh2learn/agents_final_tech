@@ -17,6 +17,9 @@ CITE = {
  "Berndt et al., 2026":"berndt2026flaky","Kummita et al., 2026":"kummita2026static",
  "Bean et al., 2025":"bean2025construct","Caban, 2026":"caban2026validity",
  "Mansouri et al., 2026":"mansouri2026finrank",
+ "Jouseau et al., 2025":"jouseau2025metric",
+ "Bastos Germano et al., 2026":"bastos2026hidden",
+ "OpenAI, 2026":"openai2026codex",
 }
 
 def esc(s):

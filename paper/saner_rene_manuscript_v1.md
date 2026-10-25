@@ -21,6 +21,8 @@ Our contributions are:
 
 The accounting is intentionally narrow: there are exactly two counted cases, with FinQA nested inside Case 1. MA-CERD and adaptive revalidation are outside Paper E and contribute no case or result. The audit does not establish a universal method, a detector ranking, or a general failure rate. Its external value is narrower but concrete: it changes what should be reported and which comparisons can be interpreted before further experiments are commissioned.
 
+Staged evidence and ranking contracts are also relevant to agent evaluators because an agent score can consume outputs from several tools and decision stages; however, neither counted case evaluates an agent system. The transferable object is the measurement discipline, not an empirical claim about agent behavior.
+
 **Table 1. Interpretation corrections exposed by the audit.**
 
 | Naive reading | Audit evidence | Correct reading |
@@ -38,6 +40,8 @@ The accounting is intentionally narrow: there are exactly two counted cases, wit
 Meta-evaluation studies whether metrics separate errors from acceptable variants or local contextual corrections [Amrhein et al., 2022; Amrhein et al., 2023; Moghe et al., 2024; Deviyani and Diaz, 2025]; rankings also move with protocol axes, prompts, seeds and target properties [Kendiukhov, 2026; Du et al., 2026; Ross et al., 2024]. LLM-judge work reports position, verbosity, self-preference and perturbation effects [Li et al., 2025a; Li et al., 2025b], while NIST asks for meaningful measurement and demonstrated construct validity [NIST, 2023; NIST, 2024]. We ask whether the observation surface can see a controlled defect before interpreting metric differences.
 
 Caban and Bean et al. already provide broad validity frameworks and benchmark checklists [Caban, 2026; Bean et al., 2025]. FinRank separates retrieval, reranking and hard-negative discrimination on a curated passage pool [Mansouri et al., 2026]. Our increment is narrower: bind observation surface, score contract, tie order and source identity to the object that a concrete evaluation claims to measure.
+
+Within ICAART, Jouseau et al. propose an intrinsic data-quality metric, while Bastos Germano et al. expose hidden biases in synthetic vulnerability data and show that bias-aware data changes a detector's measured accuracy [Jouseau et al., 2025; Bastos Germano et al., 2026]. Paper E does not propose a universal quality metric or retrain a detector. It audits existing measurement contracts and asks which visibility, harm, score and decision statements remain supportable after the observation and identity objects are made explicit.
 
 ### 2.2 Testing, oracles, and diagnosability
 
@@ -256,7 +260,7 @@ Final correctness cannot show whether a staged evaluation observed, consumed or 
 
 ## Acknowledgments
 
-Generative AI disclosure: OpenAI Codex assisted manuscript organization,
+Generative AI disclosure: OpenAI Codex [OpenAI, 2026] assisted manuscript organization,
 English editing and consistency checks in the abstract, related-work framing,
 interpretation table, discussion, conclusion, acknowledgments and submission
 materials, and assisted development and revision of offline analysis and
@@ -278,6 +282,7 @@ Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation a
 - Amrhein, C., Moghe, N., and Guillou, L. ACES: Translation Accuracy Challenge Sets at WMT 2023. arXiv:2311.01153, 2023.
 - Bean, A. M., Kearns, R. O., Romanou, A., et al. Measuring what Matters: Construct Validity in Large Language Model Benchmarks. arXiv:2511.04703, 2025.
 - Berndt, A., Bekmyradov, V., Gemulla, R., Kessel, M., Bach, T., and Baltes, S. Can We Classify Flaky Tests Using Only Test Code? An LLM-Based Empirical Study. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2026. DOI: 10.1109/SANER67736.2026.00016.
+- Bastos Germano, L., Duarte, J. C., Queiroz Vieira, L., Ribeiro Goldschmidt, R., and Choren Noya, R. Uncovering Hidden Biases in Synthetic Java Vulnerability Data for LLM-Based Detection. In Agents and Artificial Intelligence, 2026. DOI: 10.1007/978-3-032-25032-2_14.
 - Caban, W. Measurement Without Validity: The Compounding Reliability Problem in Agentic AI Evaluation. arXiv:2608.00794, 2026.
 - Cho, S., Ruberto, S., and Terragni, V. Metamorphic Testing of Large Language Models for Natural Language Processing. arXiv:2511.02108, 2025.
 - Chung, J., Byun, J., Vineet, V., and Kim, S. J. Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking. arXiv:2606.15673, 2026.
@@ -288,10 +293,12 @@ Case 1 uses public TAT-QA tables; frozen perturbation, checkpoint, aggregation a
 - Hoess, N., Paradis, C., Kazman, R., and Mauerer, W. Does the Tool Matter? Exploring Some Causes of Threats to Validity in Mining Software Repositories. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2025. DOI: 10.1109/SANER64311.2025.00067.
 - Kendiukhov, I. Quantifying Ranking Instability Across Evaluation Protocol Axes in Gene Regulatory Network Benchmarking. arXiv:2603.03493, 2026.
 - Kummita, S., Schiebel, F., Bodden, E., Miao, M., and Wei, S. Static Analysis Traces can Help Dynamic Symbolic Execution: a Replication Study. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2026. DOI: 10.1109/SANER67736.2026.00114.
+- Jouseau, R., Salva, S., and Samir, C. A New Metric for Measuring the Intrinsic Quality in Data Collected for Quantitative Classification. In Agents and Artificial Intelligence, 2025. DOI: 10.1007/978-3-031-87327-0_11.
 - Mansouri, S., Saad, D., Wahrenburg, M., Weissel, M., and Woebbeking, F. FinRank: An Evidence-Grounded Benchmark for Financial Question Answering and Retrieval over SEC Filings. arXiv:2608.07400, 2026.
 - Li, Q., Dou, S., Shao, K., Chen, C., and Hu, H. Evaluating Scoring Bias in LLM-as-a-Judge. arXiv:2506.22316, 2025.
 - Li, S., Xu, C., Wang, J., et al. LLMs Cannot Reliably Judge (Yet?): A Comprehensive Assessment on the Robustness of LLM-as-a-Judge. arXiv:2506.09443, 2025.
 - Moghe, N., Fazla, A., Amrhein, C., et al. Machine Translation Meta Evaluation through Translation Accuracy Challenge Sets. arXiv:2401.16313, 2024.
 - National Institute of Standards and Technology. Artificial Intelligence Risk Management Framework (AI RMF 1.0). NIST AI 100-1, January 2023. https://doi.org/10.6028/NIST.AI.100-1.
 - National Institute of Standards and Technology. Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile. NIST AI 600-1, July 2024. https://doi.org/10.6028/NIST.AI.600-1.
+- OpenAI. Codex. Software. https://openai.com/codex/ (accessed 2026-10-25).
 - Ross, C., Hall, M., Romero Soriano, A., and Williams, A. What Makes a Good Metric? Evaluating Automatic Metrics for Text-to-Image Consistency. arXiv:2412.13989, 2024.
