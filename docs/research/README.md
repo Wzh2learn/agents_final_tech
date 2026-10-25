@@ -6,9 +6,9 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 
 ## 当前任务与证据
 
-2026-10-25 完成 P0 可见表头/常数合同修正、同一候选反馈干预、oracle 机制诊断、24-family 交付回放和 Paper E 路由适配。开发面板上 neutral 56/72，localization 49/72，execution 40/72，均无 `wrong_to_correct`；先前 V4/V5 error-pool 回放上 neutral 62/72、original 60/72、localization 59/72。独立复核确认回放的 24/24 task IDs 与旧 error pool 重合，不能作为新 family 确认。O/R/E 因缺少反馈衍生且训练合格的纠正监督未训练。当前权威结果见 [Research Return 2026-10-25](../../research/feedback_delivery_continuation_20261025_v1/RESEARCH_RETURN_20261025.md)。
+当前交接为 [唯一现役科研指令](LOOP_D_RESEARCH_PROMPT.md) 的阶段 A：增量确认与后续方案回报。科研负责人已整理入口，**待Owner转发，Loop D尚未确认**；阶段B和672次/4次训练预算未批准。旧Goals已归档，原路径只作跳转。
 
-2026-10-25 小型修订算子诊断继续：共同语法适配后正确复制 2/2、已知最小编辑 2/2；neutral/category/localization 对两个开发错误均 0/2 目标精确。结果支持“明确编辑可执行、可见诊断未转化为编辑动作”的当前边界。完整训练和新来源确认需使用[独立预算](../../research/feedback_delivery_continuation_20261025_v1/NEXT_PHASE_BUDGET_REQUEST_V1.json)，不消耗旧余额重置阶段。
+此前P0、A、C及20次修订诊断已执行，无需重做全仓盘点。最新单位题缺可见尺度，适配器有把1)0改成10的反例，“诊断信息未转化为编辑”的统一归因尚未分离。raw、旧评分、runner、账本保留；见[自审复核](../governance/audit/loop_d_control_review/RECONCILIATION.json)。C的24/24任务与旧error pool重合，只作开发回放；新同起点O/R/E未训练。
 
 | 用途 | 权威记录 |
 |---|---|
@@ -16,10 +16,10 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 新一轮发表与学位研究方向 | [Loop D 四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)：有限冲刺、分阶段验收、自主探索；[v1](LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留任务来源 |
-| 当前回执 | [V5 RESEARCH_SPRINT_RETURN](../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN.md)；V4/V3/V2 回执为前序证据 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：A治理确认，B未启动；旧v1/v2路径仅跳转 |
+| 最新科研回执 | [修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)；[自审复核](../governance/audit/loop_d_control_review/RECONCILIATION.json)限定其解释 |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
-| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练 token 3,495,424 单列 |
+| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
 | 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 
@@ -32,7 +32,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-25
 | 研究线 | 当前判断与证据 |
 |---|---|
 | C1 测量 / Paper E | `NARROW_AND_CONTINUE_PACKAGE_AUDIT_PASS`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json) |
-| C2 学习 / 证据反馈 | `EXPLICIT_EDIT_EXECUTABLE_VISIBLE_DIAGNOSIS_NO_INCREMENT_OE_NOT_TRAINED`。copy 2/2、known edit 2/2；两个开发错误上 neutral/category/localization 均 0/2 目标精确。允许教师/工具生成合格纠正来训练修订，但须与普通答案监督和同起点 R 严格比较 |
+| C2 学习 / 证据反馈 | `DIAGNOSIS_CONFOUNDED_NEW_ORE_NOT_TRAINED`。普通SFT是有限面板强基线；具体配方已停止。单位/适配器混淆尚待核清，新方法及跨源优势未成立；本轮先治理 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `CONDITIONAL_ICAART_PRIMARY_SNCS_BACKUP`，12 页包审计、24/24 引用和私有 artifact 完整性通过；未投稿/付款/公开 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
@@ -53,7 +53,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。下一步从教师/工具核验的纠正轨迹构建 O/R/E 监督，并只在曝光并集为空的新来源上确认；不再堆同类文本定位或错误加权变体。Paper E 首投保持两案例，12 页费用和缺项见 [OWNER_DECISIONS_REQUIRED](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/OWNER_DECISIONS_REQUIRED.md)。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。阶段A先核可观测性、适配器和340 token差额，再提教师/工具纠正及同起点比较等下一实验；新来源确认和训练待批准，不重复已关闭配方。Paper E 首投保持两案例，12 页费用和缺项见 [OWNER_DECISIONS_REQUIRED](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/OWNER_DECISIONS_REQUIRED.md)。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 
@@ -61,10 +61,10 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [claim/evidence matrix](../../paper/saner_rene_claim_matrix_v1.json)与[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)
 - [整合独立复核](../../research/research_portfolio_v2/PAPER_E_INDEPENDENT_REVIEW.md)与[投稿门禁](PAPER_E_SUBMISSION_READINESS_GATE_v1.md)
 
-当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。9pt、11页 PDF、目标包审计和私有 artifact 复现已完成；有界比较后选择 ICAART 2027 Regular Paper 主投、SN Computer Science 顺序备投，正式外部动作待 Owner。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
+当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。9pt、12页 PDF、目标包审计和私有 artifact 复现已完成；既有建议为ICAART条件主投、SNCS顺序备投，待Owner最终确认；正式动作前核官方窗口和总成本。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
 
 ## 学位范围与历史
 
-- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)及资产地图/稿件骨架均已接 V2。旧数据 NO_GO、已停止面板及冻结证据不随新授权解除。
+- [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)、[学位架构 v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)、[工作包蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)及稿件骨架的现役区已接唯一指令；2027年10月送审，C2/C3待验证或替换。旧数据 NO_GO、已停止面板及冻结证据不随新授权解除。
 - [旧 THREADS 全文快照](../../memory/archive/THREADS_2026-10-21_pre_workspace_governance.md)保存历史原文；现役未决事项只在 [THREADS](../../memory/THREADS.md) 维护。
 - Raw、failed/partial 响应、冻结结果、独立审查与历史账本保留来源身份。AI 语义评审不是人工 Gold、盲审或导师签字。

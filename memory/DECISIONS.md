@@ -241,3 +241,7 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 
 结论: 以 docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md 记录当前 Paper E 科学阻断与未来作者验收，以 ../archive/2026-10-20_entry_consolidation/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md 路由硕士资格核验，以 ../archive/2026-10-20_entry_consolidation/REPO_GOVERNANCE_FINAL_v1.md 限定本地文档收尾。旧 closeout/side_handoff 的 human-only、直接投稿、PR 恢复和三端 PASS 不再控制当前行动；正文保留追溯。本次未改变四份科学基线、pilot 数值或旧闭线。
 理由: 用户明确要求进入执行前 neat，而现稿尚未落实作者级裁决；文档交接可用不等于科学过门、实验获准、远端同步或物理清场。Paper E 只继承为测量约束，Agent/Memory/SFT/DPO/Adaptation 保留有条件空间，不预设贡献。后续仍须按范围取得导师/owner裁决及具体许可。本轮无实验、改稿、代码、GB10/端点、提交/推送或资产删除。
+
+## [2026-10-25] Loop D 指令统一入库，先增量治理确认再批准实验
+结论：唯一执行正文为 docs/research/LOOP_D_RESEARCH_PROMPT.md；Documents与旧Goals路径只作导航，历史原文保全。本轮A待转发/确认，B及672次新预算仍未批准。
+理由：外部文件归档未解决仓库旧入口和跨机权威冲突。当前小诊断尚混有单位不可观测、适配器语义风险；账本340 token未对平，保守总量保留。治理先澄清事实和下一判别实验，不重复全仓盘点，也不把现役文档测试当作方法确认。

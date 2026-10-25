@@ -1328,3 +1328,11 @@ echo dispatch_log updated
 [2026-10-23] PRE-RESEARCH-GOVERNANCE-ASSET-CONTINUATION: completed offline reconciliation at local/origin/GB10 HEAD 9e43b038. Corrected G3 5/43 random compatibility and threshold protocol, G3 oracle scope, G2 state-recovery/action separation, G2 review counts and BM25/provenance limits. Added RESEARCH_BASELINE_AND_REUSE_MAP.md, RECONCILIATION.json and GOVERNANCE_RETURN.md; updated current research/memory/thesis/asset entries without rewriting frozen reports/raw. Three experiment cards prepared: state information-loss development-ready, evidence-expansion offline-ready after interface repair, learning fallback data-qualification-only. Focused tests 24 passed/2 skipped; Paper E claim/citation/prereg checks PASS; docs_lint 0 fail/0 warn; JSON parse PASS. Zero model/judge/training calls, zero production changes, no commit/push.
 
 [2026-10-24] FINANCIAL-FEEDBACK-FIRST-METHOD: executed 6 Qwen3-4B LoRA SFT arms and 812 frozen batched generations over TAT-QA-derived financial tasks. evidence_cf direct paired completion was 71.4% on same-source held-out versus 57.1% for exec_cf/cheap_cf, but the source-cluster interval lower bound was zero; external direct paired completion was zero for all arms. Tool execution of frozen formulas showed evidence_cf 28.6% external paired versus 35.7% for exec_cf/cheap_orig, so evidence-dependency filtering was not confirmed. Strict JSON success was zero and blocked deployable C3 comparison; post-hoc risk coverage remained diagnostic only. Rebuilt stale Paper E DOCX/anonymous preview/package audit and registered two scripts. Training 525,944 tokens/506.6 GPU-seconds; generation plus interrupted upper bound 940 attempts/354,716 tokens; zero judge/paid API/production Memory writes.
+
+## 2026-10-25 科研负责人 inquiry 自审与指令收拢
+
+- 用户授权：反思上轮neat治理后直接改进prompt和项目当前状态；采用first-principles后fact-check。
+- 执行：仓库唯一正文docs/research/LOOP_D_RESEARCH_PROMPT.md；两份旧Goals原文git mv归档，原路径保留导航；STATE/THREADS、科研入口、学位当前区同步。
+- 事实：单位题缺可见尺度；实际适配函数有1)0到10的语义反例；原聚合账与逐事件/训练复算差340 tokens，保守占用不改。
+- 边界：仅文档治理及标准库离线核对，0科研生成/judge/训练/生产探测/外部动作；未向Loop D发送。A待Owner转发确认，B和672次申请未批准。
+- 验收：41原归档hash、2旧Goals Git blob、496现役区链接、受保护源码/账本/投稿包/技能未改检查通过；docs_lint 0 fail / 0 warn。后续提交同步与定点测试收据保存在Documents/Loop_D_科研管理/checks。

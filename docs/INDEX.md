@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-22 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-25 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -11,11 +11,11 @@
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 当前科研基线与复用资产 | [`research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md`](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[`RECONCILIATION.json`](../research/research_baseline_governance_20261023/RECONCILIATION.json) |
-| 当前方法实验回执 | [`FIRST_METHOD_RETURN`](../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)、[`RESULT_SUMMARY.json`](../research/feedback_learning_finance_20261023_v1/RESULT_SUMMARY.json) |
-| 新一轮 Loop D Goals | [四项 Goals v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)；修正验收、推进真实研究冲刺与投稿；[上一版任务来源](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)保留历史 |
-| 四项 Goals 当前回执与独立审计 | [V2 SPRINT_RETURN](../research/publication_thesis_goals_v1/revision_v2/SPRINT_RETURN.md)、[Owner 独立审计](../research/publication_thesis_goals_v1/OWNER_INDEPENDENT_AUDIT_20261022.md)；审计阻断已修复或形成 G2/G3 有界判断 |
+| 当前方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见STATE |
+| 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)：A治理待转发/确认，B未启动；旧[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)/[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md) |
+| 四项 Goals 当前状态 | [STATE](../memory/STATE.md)、[THREADS](../memory/THREADS.md)；诊断及自审不等于完整Goals完成，历史独立审计保留来源 |
 | 本轮工作区与 Git 治理 | [治理报告](governance/2026-10-21_workspace_git_closeout.md)；记录资产分类、分支与跨主机最终核验，当前状态仍由 STATE 维护 |
-| 最新科研回执与记账 | [Portfolio V2 GOAL_RETURN](../research/research_portfolio_v2/GOAL_RETURN.md)、[当前聚合账本](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；已执行 Goal 的成本快照与 post-hoc 更正分开保留，新阶段按四项 Goals 单独记账 |
+| 当前科研记账 | [RESOURCE_LEDGER](../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：聚合保守保留，340 token待核；Portfolio V2是历史独立账本 |
 | 10月21日复核与已执行 Goal 来源 | [`进展复核`](../research/research_review_20261021_v1/REVIEW_AND_PHASED_GOAL_DRAFT.md)、[`前瞻研究与资格检查`](../research/prospective_research_20261021_v1/RESEARCH_BRIEF.md)、[`完整 Loop D Prompt`](../research/prospective_research_20261021_v1/LOOP_D_PROMPT.md)；保留设计来源，现役路由见科研入口 |
 | 导航 | [`INDEX.md`](INDEX.md) |
 | Agent 规则 | [`../AGENTS.md`](../AGENTS.md) |

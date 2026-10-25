@@ -1,0 +1,126 @@
+{
+  "schema": "loop_d_control_inquiry_v1",
+  "date": "2026-10-25",
+  "scope": "RESEARCH_LEAD_SELF_REVIEW_DOCUMENT_CONTROL_ONLY",
+  "mode": {
+    "primary": "first-principles",
+    "secondary": "fact-check",
+    "reason": "Authority, authorization and evidence attribution problems required source verification.",
+    "loaded_references": [
+      "skills/inquiry-methods/references/problem-solving.md",
+      "skills/inquiry-methods/references/learning.md",
+      "skills/inquiry-methods/assets/output-contracts.md"
+    ]
+  },
+  "evidence_boundary": {
+    "read": [
+      "active instructions, research state and routes",
+      "latest diagnostic runner, frozen source instance and ledger",
+      "original prompt archive manifest"
+    ],
+    "executed": [
+      "read-only Git baseline verification on local/origin/GB10",
+      "GB10 stdlib AST extraction of actual adapter functions and deterministic counterexample",
+      "existing ledger event summation"
+    ],
+    "not_executed": [
+      "scientific model generation",
+      "judge",
+      "training",
+      "production probes",
+      "submission/payment/public release",
+      "Loop D dispatch or confirmation"
+    ],
+    "baseline_head": "345af97a59f07684b6238bd0914ccb63f4bd18a8",
+    "baseline_three_hosts_clean": true
+  },
+  "facts": {
+    "adapter": {
+      "source_path": "/home/testuser/wzh/projects/agents_final_tech/research/feedback_delivery_continuation_20261025_v1/revision_operator_diagnostic_v1.py",
+      "source_sha256": "2b7104eaa0a1c83c922767943d1f87dfa7e63076e534cf967d4f1f601e5aae8e",
+      "before": "{\"program\":{\"const\":1)0},\"evidence_refs\":[],\"unit\":\"million\"}",
+      "after": "{\"program\":{\"const\":10},\"evidence_refs\":[],\"unit\":\"million\"}",
+      "applied": true,
+      "actions": [
+        "remove_one_close_paren_before_final_json"
+      ]
+    },
+    "unit_case": {
+      "source_path": "/home/testuser/wzh/research_runs/feedback_delivery_continuation_20261025_v1/experiment_a/intervention_instances_a_v1.jsonl",
+      "source_sha256": "80871a789e112e3ea77a16feb429ad080d1ee7deea2a26ed6fe827ee51c0457c",
+      "instance_id": "NAT_train_f1f2c2cb_27cb53a0::original::ordinary_retry",
+      "expected_unit": "million",
+      "visible_scale_present": false
+    },
+    "budget": {
+      "event_count": 35,
+      "attempts": 4064,
+      "generation_tokens": 5673908,
+      "training_tokens": 3495424,
+      "recomputed_total": 9169332,
+      "stated_total": 9169672,
+      "difference": 340,
+      "ledger_sha256": "ff5f847cbed4ccc40a69620cc19b5e124e86a52f3f6262e879bd5da69c3bab42"
+    },
+    "historical_original_archive": {
+      "files": 41,
+      "bytes": 755868,
+      "manifest": "D:/Documents/Loop_D_科研管理/MANIFEST.json"
+    },
+    "generation_attempts_this_review": 0,
+    "training_runs_this_review": 0
+  },
+  "inferences": [
+    "Reference-assisted edits demonstrate bounded command execution, not a uniquely diagnosed feedback-utilization failure.",
+    "Absent visible unit scale confounds unit correctness; two development errors cannot establish one causal mechanism.",
+    "The adapter can change semantic content; adapted and raw scores must remain distinct.",
+    "A machine-local prompt plus stale repository routes permits conflicting execution authority."
+  ],
+  "value_judgments": [
+    "Keep one Git-versioned execution body and navigation-only aliases.",
+    "Prefer incremental governance and one discriminating experiment to another full inventory.",
+    "Keep conservative accounting until the 340-token difference is explained."
+  ],
+  "unverified": [
+    "Cause of the 340-token discrepancy: missing event versus historical arithmetic unresolved.",
+    "Impact of adapter on historical outputs has not been rescored here.",
+    "Held-out method advantage and second/third thesis contributions not established.",
+    "Loop D has not received or confirmed this instruction."
+  ],
+  "recommendation_sequence": [
+    "Correct routes without changing raw data or ledger.",
+    "Forward phase A only for incremental confirmation.",
+    "Review corrections and experiment/budget recommendation.",
+    "Only then update the same instruction to authorize an agreed phase B."
+  ],
+  "applicability_conditions": [
+    "Owner wants confirmation before new experiments.",
+    "Reconcile new changes without overwriting another Loop."
+  ],
+  "risks_and_exit": [
+    "Document tests do not confirm scientific claims.",
+    "Do not reset budgets, rewrite raw results or auto-start B.",
+    "Preserve discrepancies rather than invent reconciliation."
+  ],
+  "first_action": "Read docs/research/LOOP_D_RESEARCH_PROMPT.md and verify differences since baseline.",
+  "authorization": {
+    "phase": "A_GOVERNANCE_CONFIRMATION",
+    "phase_B": "NOT_AUTHORIZED",
+    "proposal_672_attempts": "REQUESTED_NOT_AUTHORIZED"
+  },
+  "audit_read_failures": [
+    {
+      "reason": "initial exact instance lookup omitted ::ordinary_retry suffix",
+      "model_attempts": 0,
+      "resolution": "matched original source_task_id and variant"
+    }
+  ],
+  "inquiry_status": "COMPLETED_REVIEW_JUDGMENT_WITH_UNRESOLVED_ITEMS",
+  "bounded_check_results": {
+    "original_archive_hashes": 41,
+    "supplemental_control_snapshot": 1,
+    "repository_original_git_blobs_unchanged": 2,
+    "current_section_links_checked": 496,
+    "protected_code_results_ledger_paper_skills_unchanged": true
+  }
+}

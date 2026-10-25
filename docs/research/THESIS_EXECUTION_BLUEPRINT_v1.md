@@ -1,33 +1,27 @@
-# 硕士研究执行蓝图 v1：V2 发表、验证方法与学位综合
+# 硕士研究执行蓝图 v1
 
-> 2026-10-23｜`CURRENT_EXECUTION_BASELINE / THREE_CARDS_PREPARED`
-> 当前执行起点以 [Research Baseline](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) 的三张实验卡为准。
-> 2026-10-24 更新：长期路线固定为可信测量—反馈学习—可靠交付。首轮真实训练和交付回放见 [FIRST_METHOD_RETURN](../../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md)；下一轮只做约束 JSON + 固定计算器实验，不再恢复旧 WP 经验学习链。
-> 本文件已接续 [四项 Goals v2](LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)。2026-10-12 的 `DESIGN_ONLY_NOT_AUTHORIZED`、WP-0 只读和 300 次旧预算均为历史，不再覆盖当前授权；旧实验冻结和旧账本仍不恢复。
-> 依据：[THESIS_RESEARCH_ARCHITECTURE_v3.md](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md)。本文接续 V2 授权并记录当前工作流；历史工作包不自动恢复。
-> 2026-10-12 治理更新：[研究治理基线 v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 冻结科学边界与 G-RQ/G-M 推进裁决，优先于蓝图中的未来方法出口；本蓝图只维护工作包、原有首验参数与探索性资源门。更新前全文见 [原始历史快照](history/2026-10-12_pre_governance/README.md)。
-> For agentic workers：后续获准后使用仓库 `skills/executing-plans/SKILL.md` 按工作包推进；确有独立责任时再使用 `subagent-driven-development`，不自动派发全部工作包。
-> Skill 装载：本蓝图使用 writing-plans（工作包和验收）、jinrong-docs-sync（入口一致性）；graph-loop-rules 为红线背景。未来任务按卡片加载，单任务不超过五项技能，不安装或同步技能。
+> 更新：2026-10-25｜`CURRENT_WORKFLOWS / A_CONFIRMATION_ONLY`
+> 执行唯一依据：[LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)。A待Owner转发/Loop D确认，B和672次预算未获批。
+> [架构](THESIS_RESEARCH_ARCHITECTURE_v3.md)管理研究范围，[治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)管理科学边界；本文件不另设授权或预算。
+> 方法、训练与账本的现状见[STATE](../../memory/STATE.md)，可复用资产接续[既有地图](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。
 
-**Goal：** C1 完成 Paper E 投稿衔接；C2 在真实金融文档任务上比较反馈筛选与训练迁移；C3 在不完美核验下比较交付风险、覆盖和成本。允许负结果，不预设三个创新点成立。
+## 0. 现役工作流
 
-**历史 Architecture 口径（2026-10-12）：** Paper E 只提供测量反例与约束，经验复用、Memory、参数更新和持续适应均是研究对象，不是预设贡献。该段保留原语义，不继续控制当前权限。
+| 工作流 | 已有结果 | 下一步与出口 |
+|---|---|---|
+| G1 Paper E | 两案例、12页包、24/24引用及私有artifact机械审计 | 维护成熟包；Owner确认合适渠道与身份/外部动作，正式操作前核官方信息 |
+| A治理确认 | 科研负责人已归档指令和校正当前路由 | Loop D核单位可观测性、适配器及340 token差额；挑3—5项可复用资产，提出一个主攻和备选后回报 |
+| G2/C2学习 | 普通SFT强基线、14次历史训练；新O/R/E未训 | A中论证纠正监督、局部编辑/全量修订与同起点对照；获批后才执行 |
+| G3/C3交付 | neutral retry旧错误池开发回放；无策略增量 | 独立固定模型问题成立才继续；同报错误接受、正确覆盖、弃答、原对破坏和总成本 |
+| G4学位 | 中文素材、骨架及导师稿 | C2/C3不预认证；按2027年10月送审倒排，持续形成正文 |
 
-## 0. 现役 V2 执行面
+A不重做全仓清理、19份旧prompt审阅或全景综述，不发模型/judge/训练。已有41文件归档和资产地图直接复用。无法解释的差额保留，不以新制度或新表格代替研究判断。
 
-| 工作流 | 实际动作 | 当前出口 | 下一步 |
-|---|---|---|---|
-| **G1 Paper E** | 恢复 SCITEPRESS 9pt、修 manifest/披露、组装私有 artifact、GB10 clean reproduction、实际包审计 | **内部包就绪**；11 页、wide evidence 与 package audit PASS | Owner 完成作者/投稿/付款/公开决策；内部只做真实失败触发的修订 |
-| **RQ-U 状态信息损失定位** | 同一证据、同一 actor 下比较充分事实、实际抽取事实和行动使用 | **Card 1 开发可启动；确认输入局部缺口** | 先做 8-16 UID 信息等量开发比较 |
-| **RQ-A 有效补查与总成本** | 同一检索下 KEEP/EXPAND，固定 reader，全成本 | **Card 2 离线可启动；模型腿先修接口** | 先加入 same-budget random 与强廉价基线 |
-| **ALT-L 小模型学习备选** | 新任务资格、可执行监督、LoRA 链路 | **Card 3 仅资格/dry-run；训练未启动** | 先形成 source-qualified task annex 与干净 split |
-| **G4 论文综合** | Paper E 正文、RQ-U/RQ-A 中文材料和贡献矩阵 | **部分完成，持续写作** | 将停止边界和真实不确定性写入正文 |
+未来获批实验在GB10保存原始输入、raw/适配输出、实际长度、模型/环境/来源版本和全成本。source/report/table独立性须与证据一致；训练、开发、选样及历次确认进入曝光并集。比较局部编辑时须有等信息的全程序修订、确定性工具和neutral强对照，主要指标及停止规则提前冻结。
 
-**统一实验规则：** 正式新数字在 GB10 执行并保存 raw/命令/hash；开发 fixture、真实公开任务、旧证据重分析和模型输出分别标注；单批先小后大，失败/重试/canary/judge/训练均记账。新实验上限由当前 Goal 账本控制，不能把旧 300 次建议恢复为现役 cap。
+2027年1月复核发表和选题风险，3—4月裁决贡献组合，5—6月主要实验收口，7月完整初稿，8—9月导师修改与学校材料，10月按实际日程送审。实际方向依据科学结果调整，不把单一实验路线锁死。
 
-以下第 1-7 节保留 2026-10-12 的经验学习路线和工作包原文，作为历史设计与停止条件。它不控制当前三张卡，也不自动授权旧 WP-2/3/4/5。
-
-**Tech stack：** 复用现有研究 Python 入口和可审计工具执行模式；不接生产 FastAPI/PG，不建设新服务。actor 的模型 revision、运行方式和依赖以未来获准任务卡为准，已有权重校验不等于加载许可。
+以下第1—7节为2026-10-12历史工作包原文；旧“从今天开始”、300次预算、4B/8B安排及门状态均不是当前执行指令。
 
 ## 1. 第一优先级与从今天开始的顺序
 

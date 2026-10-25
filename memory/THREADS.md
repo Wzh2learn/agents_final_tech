@@ -8,17 +8,21 @@ Updated: 2026-10-25
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
-| NEXT-C2-SUPERVISION | `TEACHER_OR_TOOL_CORRECTIONS_REQUIRED` | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)显示模型能执行 2/2 明确最小编辑，但 neutral/category/localization 均 0/2 目标精确。下一步允许教师、确定性编辑器或训练来源参考生成合格纠正，不把学生先自行修对作为前提 |
+| LOOP-D-REBASELINE-CONFIRMATION | `PREPARED_NOT_DISPATCHED_OR_CONFIRMED` | [唯一现役指令](../docs/research/LOOP_D_RESEARCH_PROMPT.md)只执行A增量治理；等待Owner转发与Loop D回报，再审方案/预算，B不自动启动 |
+| LEDGER-340 | `UNRECONCILED_KEEP_CONSERVATIVE_TOTAL` | [自审证据](../docs/governance/audit/loop_d_control_review/RECONCILIATION.json)：35个生成/评审事件加5个训练事件复算9,169,332，比聚合9,169,672少340；attempts均4,064；不释放差额、不改旧账 |
+| UNIT-OBSERVABILITY | `MISSING_VISIBLE_SCALE_CONFIRMED_IMPACT_PENDING` | 最新诊断单位题可见prompt没有million/thousand尺度；不能计为可诊断单位纠错失败；核对影响、保留原评分版本 |
+| ADAPTER-SEMANTICS | `COUNTEREXAMPLE_REPRODUCED_FIX_AND_SCOPE_PENDING` | 实际适配函数可将1)0改成10；AST离线反例已复现。须收窄修复合同、raw/适配分报；本轮未改runner或重评分 |
+| NEXT-C2-SUPERVISION | `TEACHER_OR_TOOL_CORRECTIONS_REQUIRED` | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)显示模型能执行 2/2 明确最小编辑，但 neutral/category/localization 均 0/2 目标精确。候选可用教师/工具合格纠正，但先核单位可观测性及适配器；本阶段仅治理，后续实验另审 |
 | NEXT-PHASE-BUDGET | `REQUESTED_NOT_AUTHORIZED_672_ATTEMPTS` | [独立预算](../research/feedback_delivery_continuation_20261025_v1/NEXT_PHASE_BUDGET_REQUEST_V1.json)请求 672 generation attempts、2.8M generation tokens、4 training runs、4.0M training tokens；旧余额仅留核对，不重置或冒充新阶段 |
-| C2-FEEDBACK-REPAIR | `EXPLICIT_EDIT_EXECUTABLE_VISIBLE_DIAGNOSIS_NO_INCREMENT` | 共同语法适配后 copy 2/2、known edit 2/2；两个开发错误上 neutral/category/localization 均 0/2 目标精确。当前停止文本定位直接修订配方，但训练教会修订仍开放 |
+| C2-FEEDBACK-REPAIR | `SMALL_CONTROLS_WITH_OBSERVABILITY_AND_ADAPTER_CONFOUNDS` | 共同语法适配后 copy 2/2、known edit 2/2；两个开发错误上 neutral/category/localization 均 0/2 目标精确。仅是受限开发观察，不能定位为统一诊断利用机制；未来合格监督研究仍开放 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
-| PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)要求 Owner 在 2026-10-29 AoE 前授权并确认宣读/差旅和学校认可；任一不成立则转 SNCS，禁止同时投稿 |
+| PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)是日期化建议，尚非Owner最终批准；动作前核验窗口、展示/认定和合理总费用，路线变化须明确确认，不自动转投 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `PACKAGE_AUDIT_PASS_OWNER_EXTERNAL_ACTIONS` | [G1 package](../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)已更新 12 页 PDF、24/24 引用和可办理决策；未投稿/付款/公开 |
 | THESIS-DOC-CONTINUITY | `C1_C2_C3_BOUNDARIES_UPDATED` | C1 测量、C2 学习、C3 交付已写入现役入口；正式中文章节仍需把 A/C 负结果和停止条件整合成正文 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
-| LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。新阶段范围见四项 Goals |
+| LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。本轮只做A治理；新预算待审，历史广泛授权不等于本轮自动启动 |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |
 
 旧 `MIGRATION-ORACLE-DESIGN`、`REVALIDATION-POLICY-DESIGN`、`G2-STATE-ACTION`、`G3-INCREMENTAL-EVIDENCE` 和 `NEXT-STATE-ACTION-EXPERIMENT` 已降为历史研究线，现役入口统一使用 C1 测量、C2 学习、C3 交付；原始证据和停止结论不改写。
