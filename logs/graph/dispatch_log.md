@@ -1336,3 +1336,12 @@ echo dispatch_log updated
 - 事实：单位题缺可见尺度；实际适配函数有1)0到10的语义反例；原聚合账与逐事件/训练复算差340 tokens，保守占用不改。
 - 边界：仅文档治理及标准库离线核对，0科研生成/judge/训练/生产探测/外部动作；未向Loop D发送。A待Owner转发确认，B和672次申请未批准。
 - 验收：41原归档hash、2旧Goals Git blob、496现役区链接、受保护源码/账本/投稿包/技能未改检查通过；docs_lint 0 fail / 0 warn。后续提交同步与定点测试收据保存在Documents/Loop_D_科研管理/checks。
+
+
+## 2026-10-26 Phase B Graph Loop执行交接准备
+
+- Owner要求：接续长期研究规划，让GB10 A执行、C审计及已有skills推进论文目标。
+- 动作：审阅Phase A；原地更新唯一科研指令，明确监督资格/同起点比较/独立确认/写作与资源帽；修正A/C旧计划、服务器和学生规模默认，契约skill同提交补录。
+- 状态：APPROVED_FOR_OWNER_HANDOFF_NOT_DISPATCHED；Owner转发后D直接派发并在范围内裁决。此会话没有向Loop D发消息、启动harness或生成/训练。
+- 边界：340 token保守挂账；旧raw、停止面板、历史账本与投稿包保持身份；Paper E外部动作仍由Owner确认。
+- 交接审阅：docs/governance/audit/loop_d_control_review/PHASE_B_HANDOFF_REVIEW.json；验证结论由本轮实际检查回填，不借用旧PASS。

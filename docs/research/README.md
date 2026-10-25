@@ -6,9 +6,9 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
 
 ## 当前任务与证据
 
-当前交接为 [唯一现役科研指令](LOOP_D_RESEARCH_PROMPT.md) 的阶段 A：Owner 已转发，Loop D 已完成治理确认，状态为 `GOVERNANCE_RETURNED_AWAITING_REVIEW`；阶段B和672次/4次训练预算未批准。旧Goals已归档，原路径只作跳转。
+当前交接为 [唯一科研指令](LOOP_D_RESEARCH_PROMPT.md) 的阶段B执行方案：`APPROVED_FOR_OWNER_HANDOFF_NOT_DISPATCHED`。A已回报并经科研负责人审阅；Owner转发后，D可在明确资源帽内派发GB10 A/C并自主推进，不再等待另一份启动prompt。当前仅准备交接，未派发或训练。
 
-此前P0、A、C及20次修订诊断已执行，无需重做全仓盘点。Phase A 复算确认单位题缺可见尺度；旧适配器会把`1)0`改成`10`，安全版本只修终端 `\"...)}` 且区分 strict/embedded JSON。唯一可修引用题的三种文本条件仍0/1，不能建立统一因果归因。raw、旧评分、runner、账本保留；见[Phase A 回执](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。C的24/24任务与旧error pool重合，只作开发回放；新同起点O/R/E未训练。
+A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
 | 用途 | 权威记录 |
 |---|---|
@@ -16,7 +16,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：A治理确认，B未启动；旧v1/v2路径仅跳转 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：A已审阅，B待转发/未派发；旧v1/v2路径仅跳转 |
 | 最新科研回执 | [PHASE_A_RETURN](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)、[修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
@@ -53,7 +53,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。阶段A先核可观测性、适配器和340 token差额，再提教师/工具纠正及同起点比较等下一实验；新来源确认和训练待批准，不重复已关闭配方。Paper E 首投保持两案例，12 页费用和缺项见 [OWNER_DECISIONS_REQUIRED](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/OWNER_DECISIONS_REQUIRED.md)。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。A已完成增量核对，B方案待Owner转发；D/A/C按监督资格—同起点开发—隔离确认推进，340差额不阻塞新阶段，不重复关闭配方。Paper E 首投保持两案例，12 页费用和缺项见 [OWNER_DECISIONS_REQUIRED](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/OWNER_DECISIONS_REQUIRED.md)。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

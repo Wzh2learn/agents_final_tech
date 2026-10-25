@@ -1,0 +1,113 @@
+{
+  "schema": "loop_d_graph_loop_phase_b_handoff_review_v1",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "state": "APPROVED_FOR_OWNER_HANDOFF_NOT_DISPATCHED",
+  "review": "PHASE_A_ACCEPTED_WITH_OPEN_ITEMS",
+  "baseline_head": "1c027ab26ac4d8d92e52279385ce846adaa7c7f0",
+  "source_hashes": {
+    "docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md": "73d681de43484b426d459a8f07f9eb442a922182c9b1a8a16c4743a0ca4c1077",
+    "research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json": "4ab8cf7961a6d11a77943f8be7860771e46134e5e83fd3210063bb35b0f468f2",
+    "scripts/graph/loop_ac_launcher.sh": "05f5854495fa99266eee21268970c615e9ba4d15f37816fae383f7ec09d3fb46",
+    "scripts/graph/agent_env.sh": "ecd38fabc7c29b61d35dfa1a98dc2e6c443f9e9e94cdf54fb337d4644ccd8c00",
+    "docs/research/LOOP_D_RESEARCH_PROMPT.md": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7",
+    "scripts/graph/loop_a_exec_constraints.md": "536fb0065d4278085deacd1981d503f5cf1321add7967a8c40fb3add3d366991",
+    "scripts/graph/loop_c_audit_prompt.md": "d09cfd58cc05e052aed0610a203083b4067e873477e0f8371b5ce9c7d7760316",
+    "skills/agent-prompt-contracts/SKILL.md": "1a1a2cc0cca808df8aa36a5c03d9369b953b2a316b42e5b72b1168efbcdf2030"
+  },
+  "findings": [
+    {
+      "class": "FACT",
+      "finding": "Phase A excludes the unobservable unit case, separates strict/embedded JSON and prevents the adapter counterexample.",
+      "source": "research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json"
+    },
+    {
+      "class": "FACT",
+      "finding": "Before this change active A/C prompts bound September handoff; A also blocked another server and treated 4B as smoke-only. These defaults conflict with current GB10 ordinary Qwen3-4B task.",
+      "source": "Git baseline A/C prompts"
+    },
+    {
+      "class": "VALUE",
+      "finding": "Accept bounded A review; delegate ordinary within-scope process gates to D after Owner handoff; use A for experimental work and C for independent evidence verification."
+    },
+    {
+      "class": "UNVERIFIED",
+      "finding": "No new method result, cross-source benefit or A/C execution has been established by this handoff."
+    }
+  ],
+  "scientific_budget_on_owner_handoff": {
+    "generation_attempts": 672,
+    "generation_tokens": 2800000,
+    "training_runs": 4,
+    "training_tokens": 4000000,
+    "generation_plus_training_token_ceiling": 6800000,
+    "old_32_attempts": "NOT_ADDED",
+    "unreconciled_340_tokens": "CONSERVATIVELY_RETAINED"
+  },
+  "coordination_budget_on_owner_handoff": {
+    "harness_dispatch_attempts_including_retries": 16,
+    "reported_token_cost": "SEPARATE_FROM_SCIENTIFIC_SAMPLES_UNKNOWN_IF_UNAVAILABLE",
+    "no_new_provider_or_paid_plan": true
+  },
+  "current_turn": {
+    "harness_dispatches": 0,
+    "scientific_generation_attempts": 0,
+    "judges": 0,
+    "training_runs": 0,
+    "production_probes": 0,
+    "submissions_or_external_messages": 0
+  },
+  "official_sources_checked": [
+    {
+      "date": "2026-10-26",
+      "title": "ICAART 2027 important dates",
+      "url": "https://icaart.scitevents.org/ImportantDates.aspx",
+      "fact_used": "Regular deadline listed as 2026-10-29 AoE; not a route decision or acceptance prediction."
+    },
+    {
+      "date": "2026-10-26",
+      "title": "SN Computer Science submission guidelines",
+      "url": "https://link.springer.com/journal/42979/submission-guidelines",
+      "fact_used": "Journal adaptation must follow target guidelines; no new cost claim made here."
+    }
+  ],
+  "limits": [
+    "Document and static contract verification only.",
+    "Current provider configuration, GPU health and A/C liveness have not been probed.",
+    "Archive/raw/old budget request files remain historical, not new authority."
+  ],
+  "verification": {
+    "scope": "STATIC_PRE_DISPATCH_HANDOFF_NOT_HARNESS_EXECUTION",
+    "local_docs_lint": {
+      "fails": 0,
+      "warnings": 0
+    },
+    "canonical_links_checked": 13,
+    "historical_archived_files_hash_verified": 41,
+    "scientific_budget_components_checked": true,
+    "local_contract_skill_targeted_sync": [
+      "Codex",
+      "Claude"
+    ],
+    "changed_files_credential_shape_scan": "PASS_NO_MAINTAINER_WORDLIST_OR_PATH_DISCLOSURE_SCAN",
+    "skill_doctor": {
+      "errors": 0,
+      "warnings": 141,
+      "scope": "repository skills",
+      "status": "KNOWN_NONBLOCKING_WARNINGS"
+    },
+    "skill_map": {
+      "skills": 115,
+      "duplicates": 1,
+      "unresolved": 27,
+      "scope": "repository skills"
+    },
+    "remote_post_commit_checks": "RECORDED_SEPARATELY_IN_OWNER_DOCUMENTS_CHECKS",
+    "adversarial_review": {
+      "passes": true,
+      "failures": [],
+      "limits": "Static instruction consistency only; no runtime or scientific success asserted."
+    }
+  },
+  "source_hash_domain": "GIT_BLOB_BYTES; GB10 LF checkout. Windows CRLF working copies may differ bytewise."
+}

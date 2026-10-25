@@ -67,3 +67,10 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **对策**: opencode_adapter._FORMAT_HINT 尾部追加 `/no_think` (Qwen3 user-message 开关), 模型层关思考; 不动 sidecar/provider 配置。判 :8005 已有 enable_thinking=False 先例 (m2_eval_judge.py)。
 - **验证方式**: ① 重启后 warm 单问实测 <18s 记台账; ② 16 题确定性 eval + judge 质量不降 (关思考≠降质, 需复验); ③ status.sh B4 段 fallback 占比趋 0。
 - **证据**: docs/experiments/2026-08-11_agent_latency_diagnosis.md; dispatch 2026-08-12 #S2。
+
+## C-2 现役科研授权与角色证据边界（2026-10-26）
+
+- **失败模式（静态核实）**：A/C现役正文仍把9月handoff称作唯一计划；A写有不连接另一服务器、4B仅smoke/8B主学生的历史默认，与Phase A确认的GB10、ordinary Qwen3-4B资产冲突。另有风险是将契约4的业务verifier summary白名单无条件套给科研C，导致审计只读被审方汇总。
+- **对策**：A/C都绑定 `docs/research/LOOP_D_RESEARCH_PROMPT.md` 和当前任务卡版本/hash；执行位、学生规模、父checkpoint、范围与预算来自现役授权。科研C按任务卡读取冻结raw、参考和评分器，先独立复算后读A解释；业务verifier的既有白名单仍只在其业务任务适用。
+- **验证方式**：静态核验A/C均引用唯一现役指令，退出旧阶段/服务器/学生默认；定点文档治理测试、skill分发比对及源码diff。该检查证明指令一致性，不证明harness已经启动或模型实验成功。
+- **证据**：`docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md`（GB10 ordinary资产）；`docs/research/LOOP_D_RESEARCH_PROMPT.md`（当前角色/任务/预算）；本次A/C指令diff及Graph Loop执行交接核验。未声称已观察到一轮受该旧指令阻断的模型实验。
