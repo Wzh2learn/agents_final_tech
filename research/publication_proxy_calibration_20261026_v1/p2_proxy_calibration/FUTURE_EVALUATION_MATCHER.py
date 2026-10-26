@@ -15,8 +15,13 @@ from pathlib import Path
 from typing import Any
 
 
-HISTORICAL_PATH = Path(
-    "research/natural_error_evidence_cost_20261026_v1/a_closeout/P2_RECOVERY_RECOMPUTE_FINAL.py"
+REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+HISTORICAL_PATH = (
+    REPOSITORY_ROOT
+    / "research"
+    / "natural_error_evidence_cost_20261026_v1"
+    / "a_closeout"
+    / "P2_RECOVERY_RECOMPUTE_FINAL.py"
 )
 
 
@@ -48,6 +53,8 @@ def _parse_number_fixed(candidate: Any) -> float | None:
         text,
     )
     text = text.replace("%", " ")
+    if re.search(r"(?<=\d)\s+(?=\d|,)", text) or re.search(r"(?<=\d)\s+(?=,)", text):
+        return None
     text = re.sub(r"(?<=\d),(?=\d)", "", text)
     text = re.sub(r"\s+", "", text)
     if not re.fullmatch(r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)", text):

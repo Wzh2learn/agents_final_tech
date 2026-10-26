@@ -2,7 +2,9 @@
 
 - denominator: 24
 - frozen baseline numeric-correct: 19/24
-- public actor numeric-correct: 23/24
+- numeric program correctness: 23/24
+- complete semantic answer correctness: 13/24
+- rule-conformant unit agreement: 14/24
 - genuine repairs: 4
 - damage to previously numeric-correct: 0
 - direction-reference conflicts: 1
@@ -11,7 +13,20 @@
 - UNKNOWN-unit outputs: 10/24
 - outcomes: {'numeric': 14, 'numeric_unit_unknown': 10}
 
-The row-level JSON preserves every question, expected answer, baseline status, actor program, actor outcome, numeric value, repair/damage/direction flags, and source hashes.
+The 23/24 identity is numeric program correctness under the frozen scorer. It
+is not complete semantic answer correctness: 13/24 rows combine the frozen
+numeric value, an observable unit, and no reference-direction conflict. Unit
+agreement is 14/24. The remaining 10 rows are rule-conformant unit `UNKNOWN`
+outputs, not numeric failures.
+
+Row 07 remains `UNRESOLVED`. The actor's later-minus-earlier reading gives
+`2019 - 2018 = -1955`, while the frozen reference uses the opposite acceptable
+reading, `2018 - 2019 = 1955`. Both readings are linguistically acceptable for
+the question, so neither is declared correct.
+
+The row-level JSON is preserved unchanged and continues to record every
+question, expected answer, baseline status, actor program, actor outcome,
+numeric value, repair/damage/direction flags, and source hashes.
 
 # Full rows
 

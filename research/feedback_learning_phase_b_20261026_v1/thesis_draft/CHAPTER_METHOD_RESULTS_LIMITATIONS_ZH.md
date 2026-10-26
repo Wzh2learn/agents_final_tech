@@ -311,4 +311,41 @@ correct-to-wrong、abstention 和行动效用。若风险下降只来自 abstent
 
 ## 8. Publication 与代理校准补充（2026-10-26）
 
-本轮在同一工作树中完成了一个不触碰生产服务、数据库或训练的边界实现。P1 的确定性公开 actor 只读取问题与完整可见表格，冻结 24 个 ordinary original 的回归达到 23/24 numeric-correct；相对原模型 19/24，修复 4 条真实错误、没有破坏 19 条原先数值正确项，并保留 1 条 later-minus-earlier 与参考方向冲突。该结果不是新来源泛化，也不能把 actor 的 UNKNOWN-unit 输出解释为真实单位识别。P2 先修复未来评估路径的两个确定性缺陷：千位分隔只允许相邻数字之间的逗号，count 明确拒绝负整数；随后在 507 项屏幕分母、1 项预先排除和 12 项哈希分层开发面板上冻结选择、问题→表格/段落→角色/单位→程序/答案链和形式化 preflight。因为本任务命名空间缺少可执行的 runner→adapter→scorer dry-run 合同，preflight 在生成前失败并停止：生成调用 0、训练调用 0、生成 token 0。该停止链本身是可复核证据，不能被解读为三种上下文臂的答案/成本比较，更不能声称全上下文更准确、便宜或已形成可泛化代理校准结论。
+P1 的统一可见规则 actor 仍只读取问题与完整可见表格，历史 24 个 ordinary
+original 未被重跑或改写。应将三种身份分开：23/24 是冻结数值程序正确，13/24
+是数值、可观察单位和方向合同同时满足的完整语义正确，14/24 是可观察单位一致；
+其余 10 个单位 `UNKNOWN` 是规则允许的单位不确定，不是数值失败。第 07 项保留
+later-minus-earlier 的 -1955 与参考方向的 +1955 两种可接受读法，结论为
+`UNRESOLVED`。这组证据是同一可见规则在 frozen 24-item 面板上的身份修正，
+不是新来源泛化。
+
+P2 在生成前完成了 hash-bound runner→visible-context adapter→model actor→strict
+parser→scorer-input 的零输出 dry run 和正式 preflight，状态为
+`END_TO_END_PREFLIGHT_PASS`；actor payload 对 12×3 项均未包含 gold、UID、隐藏
+尺度或参考链。首次 40-call 过程在生成后因已被严格解析器接受的
+`TABLE:<column>` 在语义规范化中缺少 row/column 分隔而停止，失败过程和 40 条
+完整响应已原样保留；修复后仅复用既有响应完成计分，没有新增生成调用。该停止
+链是工程接口缺陷证据，不是代理是否具有信息价值的科学结果。
+
+真实三臂开发面板固定使用本地 Qwen3-4B。table+top-3 为 ACCEPT/REJECT
+2/10，交付错误风险 0.833，输入/输出 token 8,863/778，平均可见字符 1,710，
+生成墙钟 46.91s；table+top-5 为 3/9，风险 0.750，token 9,780/778，
+平均可见字符 2,040，墙钟 46.45s；table+all 为 3/9，风险 0.750，
+token 11,384/786，平均可见字符 2,630，墙钟 47.69s。合计 40 次调用
+（36 primary + 4 bounded retries）、2,609 output token、33,207 input
+token 和 157.01s；只有 1 个配对项从 top-3 的 REJECT 变为 top-5/all 的
+ACCEPT，语义 `PENDING_ADJUDICATION` 为 0。旧 507-item heuristic proxy
+计数、潜在覆盖和可见字符仍与这些真实 token/调用账目分开。该 12-item
+面板只显示更宽上下文提高了 1 个 ACCEPT 同时增加了输入成本，不能支持
+2-point noninferiority、generalization 或上下文臂的上/下界。
+
+Paper E 现为保留原两案例边界的完整 journal-derived manuscript：结构化摘要
+195 词，正文覆盖 Introduction、Related Work、Method/Measurement Contract、
+Experimental Setup、Results、Discussion/Limitations、Data Availability 和
+Declarations，并以 24 条真实条目和全部 in-text citation 接通 bibliography。
+96/118 保留 checkpoint-level 限定，FinRank 保留 post-hoc/clustered
+`text_sha1` 身份及未解释的 global/metadata reproduction drift。交付 PDF 为
+15 页、6,879 个抽取文本 token 的本地 PyMuPDF full-content fallback，不是
+TeX-engine compilation；Canonical LaTeX 仍待 D 的 approved document tool
+编译。该稿件未被声明为 accepted、published 或 school-recognized，作者、
+资助、专利、artifact release 和 submission 字段仍为 `TBD_OWNER`。

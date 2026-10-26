@@ -1,0 +1,82 @@
+{
+  "authority": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+  "authority_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+  "calculator_version": "safe_decimal_numeric_value_only_v1",
+  "checks": [
+    {
+      "check": "selection_reference_uid_identity",
+      "detail": "Frozen 12-UID order replays.",
+      "status": "PASS"
+    },
+    {
+      "check": "source_hash_binding",
+      "detail": "All three frozen source hashes match.",
+      "status": "PASS"
+    },
+    {
+      "check": "runner_adapter_scorer_zero_output_dry_run",
+      "detail": "12 items x 3 arms traversed with zero model output.",
+      "status": "PASS"
+    },
+    {
+      "check": "actor_visibility_boundary",
+      "detail": "No hidden key or UID reached the actor payload.",
+      "status": "PASS"
+    },
+    {
+      "check": "r7_r8_future_matcher",
+      "detail": "R7/R8 and role counterexamples execute.",
+      "status": "PASS"
+    },
+    {
+      "check": "tri_state_semantic_matcher",
+      "detail": "ACCEPT/REJECT/PENDING paths execute.",
+      "status": "PASS"
+    },
+    {
+      "check": "model_interface_files",
+      "detail": "Qwen3-4B path/config are bound; full model hash precedes output.",
+      "status": "PASS"
+    },
+    {
+      "check": "generation_budget",
+      "detail": "Primary=36; call cap=48; token cap=240000.",
+      "status": "PASS"
+    },
+    {
+      "check": "zero_output_at_preflight",
+      "detail": "No model output before qualification.",
+      "status": "PASS"
+    },
+    {
+      "check": "calculator_contract",
+      "detail": "Decimal-only calculator is frozen.",
+      "status": "PASS"
+    }
+  ],
+  "generated_outputs_before_generation": 0,
+  "matcher_sha256": "fced9f1c5c465a7b207322630aeb79af0acd5bd747cfd94d533f9e264f70e131",
+  "model_calls_before_generation": 0,
+  "prompt_template_sha256": "198597208734d79dac56f2f62c3952285a3d32c144f5d778ccbfc1940079a735",
+  "schema": "p2_remediation_formal_preflight_v1",
+  "source_hashes": {
+    "qualification": "d3b3ee96f8edff54205b7ff1eca28d7e48da85e7449e1d15a425d6ab3f664451",
+    "raw_dev": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "row_results": "efe134217e0629ec90b72ba302998d5b43756a9f46ff125fd2f2e09c01f7c9de"
+  },
+  "status": "END_TO_END_PREFLIGHT_PASS",
+  "tests": {
+    "command": [
+      "/home/testuser/wzh/projects/agents_final_tech/venv/bin/python",
+      "-m",
+      "unittest",
+      "-v",
+      "research.publication_proxy_calibration_20261026_v1.p1_rule_execution.test_public_actor",
+      "research.publication_proxy_calibration_20261026_v1.p2_proxy_calibration.test_matcher_regressions",
+      "research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain"
+    ],
+    "exit_status": 0,
+    "output_tail": "test_after_change_of_control_scope_is_section_limited (research.publication_proxy_calibration_20261026_v1.p1_rule_execution.test_public_actor.PublicActorTests.test_after_change_of_control_scope_is_section_limited) ... ok\ntest_direction_reference_conflict_preserves_later_minus_earlier (research.publication_proxy_calibration_20261026_v1.p1_rule_execution.test_public_actor.PublicActorTests.test_direction_reference_conflict_preserves_later_minus_earlier) ... ok\ntest_later_minus_earlier_and_visible_header_group (research.publication_proxy_calibration_20261026_v1.p1_rule_execution.test_public_actor.PublicActorTests.test_later_minus_earlier_and_visible_header_group) ... ok\ntest_classifier_counterexamples_require_visible_role_context (research.publication_proxy_calibration_20261026_v1.p2_proxy_calibration.test_matcher_regressions.FutureMatcherRegressionTests.test_classifier_counterexamples_require_visible_role_context) ... ok\ntest_r7_thousands_separator_is_digit_adjacent_only (research.publication_proxy_calibration_20261026_v1.p2_proxy_calibration.test_matcher_regressions.FutureMatcherRegressionTests.test_r7_thousands_separator_is_digit_adjacent_only) ... ok\ntest_r8_count_rejects_negative_integers (research.publication_proxy_calibration_20261026_v1.p2_proxy_calibration.test_matcher_regressions.FutureMatcherRegressionTests.test_r8_count_rejects_negative_integers) ... ok\ntest_arm_definition_is_fixed (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_arm_definition_is_fixed) ... ok\ntest_calculator_is_safe_decimal_only (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_calculator_is_safe_decimal_only) ... ok\ntest_dry_run_all_items_all_arms_zero_output (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_dry_run_all_items_all_arms_zero_output) ... ok\ntest_evidence_visibility_requires_required_paragraphs (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_evidence_visibility_requires_required_paragraphs) ... ok\ntest_prompt_template_hash_is_frozen (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_prompt_template_hash_is_frozen) ... ok\ntest_reference_chain_is_post_generation_only (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_reference_chain_is_post_generation_only) ... ok\ntest_strict_parser_accepts_table_column_reference (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_strict_parser_accepts_table_column_reference) ... ok\ntest_strict_parser_rejects_extra_key (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_strict_parser_rejects_extra_key) ... ok\ntest_tri_state_wrong_role_is_pending (research.publication_proxy_calibration_20261026_v1.raw.test_raw_chain.RawChainTests.test_tri_state_wrong_role_is_pending) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.075s\n\nOK\n",
+    "test_count": 15
+  }
+}

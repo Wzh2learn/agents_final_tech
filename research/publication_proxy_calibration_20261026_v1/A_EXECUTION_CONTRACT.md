@@ -1,6 +1,6 @@
 # Execution Contract
 
-Task: `publication-proxy-calibration-a-20261026`
+Task: `publication-proxy-calibration-remediate-a-20261026`
 
 ## Goal
 
@@ -24,7 +24,8 @@ before scientific generation unless the formal preflight passes.
   otherwise the concrete failure chain stops it.
 - Thesis updates are evidence-bounded and do not alter global state ledgers.
 - Focused tests, document checks, hashes, zero-training evidence, exact
-  commands and exit statuses are recorded in `receipts/` and `A_RETURN.md`.
+  commands and exit statuses are recorded in `receipts/` and
+  `A_REMEDIATION_RETURN.md`.
 
 ## Exclusions
 
@@ -46,5 +47,5 @@ before scientific generation unless the formal preflight passes.
 
 ## Skills actually loaded
 
-`research-writing-skill`, `paper-review-check`, `testing-practices`,
-`verify-before-done`, and `paper-polish-and-audit`.
+`research-writing-skill`, `executing-plans`, `structured-output`, and
+`verify-before-done`.
