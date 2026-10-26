@@ -1,0 +1,90 @@
+{
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "authority_inputs": {
+    "current_prompt": "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/A_PREPARE_TASK.md",
+    "current_prompt_sha256": "b14cbcda5544b70cf172713e89d6d804e6e76459c59359835ae00c86e8880050",
+    "p1_source_sha256": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+    "p2_source_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "stage_gate": "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/D_STAGE_GATE.md",
+    "stage_gate_sha256": "384ef47ce94331e5ca70721999e04e14af1f02607f90071a4fb98d7cab9285d7"
+  },
+  "candidate_cards": [
+    {
+      "candidate_id": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "deployable_action": "Visible-only role normalization plus fixed calculator is sufficient for these five; do not claim a model mechanism.",
+      "evidence": "Five frozen ordinary failures are complete and visible, but deterministic label/period/unit rules repair all five.",
+      "missing_condition": "At least two residual natural failures after strong simple controls.",
+      "probe_contract": "P1_PROBE_CONTRACT_DRAFT.json",
+      "problem": "Use of already-visible semantic roles.",
+      "qualification_status": "BLOCKED_AFTER_SIMPLE_CONTROLS",
+      "real_example_count": 5
+    },
+    {
+      "candidate_id": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "deployable_action": "Accept always-expand as the final strong baseline; exclude the one hidden-percent item from model-ready scoring.",
+      "evidence": "Always-expand is legally complete for 506/507 and cheap by the character proxy; every restricted frontier misses the frozen margin or budget.",
+      "missing_condition": "A restricted challenger with offline semantic potential within 2.0 percentage points of always-expand and within a frozen budget.",
+      "probe_contract": "P2_PROBE_CONTRACT_DRAFT.json",
+      "problem": "Record-internal table-text evidence acquisition cost at non-inferior answer risk.",
+      "qualification_status": "TASK_QUALIFIED_BUT_NO_COST_CANDIDATE",
+      "real_example_count": 5
+    }
+  ],
+  "execution_environment": {
+    "gpu": "NVIDIA GB10",
+    "hostname": "promaxgb10-0b48",
+    "kernel": "Linux 6.17.0-1018-nvidia aarch64",
+    "platform": "GB10"
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "outputs": [
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/A_PREPARE_RESULT.json",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/NATURAL_ERROR_DIAGNOSIS.jsonl",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/P1_SEMANTIC_LEDGER.json",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/P2_TASK_QUALIFICATION.json",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/STRONG_BASELINE_FRONTIERS.json",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/REAL_EXAMPLES.jsonl",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/MECHANISM_NEIGHBORS.md",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/EXPOSURE_REGISTER.json",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/P1_PROBE_CONTRACT_DRAFT.json",
+    "/home/testuser/wzh/next_research_stage_worktree_20261026/research/natural_error_evidence_cost_20261026_v1/a_prepare/P2_PROBE_CONTRACT_DRAFT.json"
+  ],
+  "overall_status": "PREPARED_BLOCKED_NO_PROBE_AUTHORIZED",
+  "output_sha256": {
+    "EXPOSURE_REGISTER.json": "02c7278819a8cdaf84a18872aa03c828431022d216af7955bb76955a349ae698",
+    "MECHANISM_NEIGHBORS.md": "3f3d46ab8edce2aba9d6b5dc1d5b3833e87b853c55151ff10ad113d4172fed43",
+    "NATURAL_ERROR_DIAGNOSIS.jsonl": "b44d3a39be0ba6b9009dd04270a49978a0ddc21c0e9ef8050fdd2b20edbde549",
+    "P1_PROBE_CONTRACT_DRAFT.json": "f84e796b6e6834ae6d5261f6993219c0fb3ac4ee95fa148147bd75c04091bfd9",
+    "P1_SEMANTIC_LEDGER.json": "f2386d7ce14d584f470b5ebd4aa5a484f50cc2af94ef0a8ddada6058f4bbf5bb",
+    "P2_PROBE_CONTRACT_DRAFT.json": "02671418d21a204273bc142fc1940f6e499c7e61db7ae6790a3effff7a346768",
+    "P2_TASK_QUALIFICATION.json": "d3b3ee96f8edff54205b7ff1eca28d7e48da85e7449e1d15a425d6ab3f664451",
+    "REAL_EXAMPLES.jsonl": "18cfdff027ad4af52f7cca010cd44fdbc7d6dbc257a201946836793ce20a632e",
+    "STRONG_BASELINE_FRONTIERS.json": "e3f69c2bd97bd6a5371804be0d4213d8c40518c2d9b08cfa8652883c6aeef5c3"
+  },
+  "role": "A-EXP",
+  "schema": "a_prepare_result_v1",
+  "scientific_totals_added": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "judge_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "selected_candidate": null,
+  "stage_flow_recommendation": "Do not release either blocked probe; return to D/C for no-go handling unless new qualifying evidence is supplied.",
+  "task_id": "natural-error-cost-prepare-a-20261026",
+  "verification_contract": {
+    "forbidden_reference_leakage_into_actor_features": false,
+    "frozen_artifact_mutation": false,
+    "json_and_jsonl_parse": true,
+    "local_checks_authoritative_for_GB10": false,
+    "required_output_count": 10
+  },
+  "zero_database_calls": true,
+  "zero_endpoint_calls": true,
+  "zero_generation": true,
+  "zero_judge": true,
+  "zero_production_calls": true,
+  "zero_training": true
+}

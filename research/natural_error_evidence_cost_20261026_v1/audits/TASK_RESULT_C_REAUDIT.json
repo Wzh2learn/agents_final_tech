@@ -1,0 +1,291 @@
+{
+  "a_artifacts_modified": false,
+  "audited_a_artifact_hashes_verified": true,
+  "audited_inputs": {
+    "a_output_hashes_all_match": true,
+    "a_prepare_outputs_all_match": true,
+    "a_prepare_task_sha256": "b14cbcda5544b70cf172713e89d6d804e6e76459c59359835ae00c86e8880050",
+    "a_remediate_required_outputs_present": 11,
+    "d_stage_gate_sha256": "384ef47ce94331e5ca70721999e04e14af1f02607f90071a4fb98d7cab9285d7",
+    "exposure_qualification_sha256": "39045142db73586504e0504b0f7e2ad73bbabd373075d57ae2d5aca9e94bdfaa",
+    "frozen_scorer_sha256": "f51e26769cf18a30bd9d5b1f133b9832fc8ddd951915e390df45333336fb5ac5",
+    "p1_instances_sha256": "00b92fb31a3ef37b69d6cb67d33723b3e94afbaddbf38e246913b9c7c8dc4d13",
+    "p1_results_sha256": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+    "tatqa_dev_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "blocking_fixes_before_release": [
+    "R1",
+    "R2"
+  ],
+  "candidate_verdicts": [
+    {
+      "blocking_fixes_from_preaudit_closed": [
+        "F1",
+        "F2",
+        "F3"
+      ],
+      "c_status": "BLOCKED_AFTER_SIMPLE_CONTROLS_EVIDENCE_CORRECTED",
+      "candidate_id": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "natural_model_errors": 4,
+      "note": "Stage-gate preference test fails: residual after visible-only simple controls is 0, and one of five failures is a reference defect. Must not be revived.",
+      "open_findings": [
+        "R1",
+        "R4"
+      ],
+      "policy_replay_genuine": "4/4",
+      "policy_replay_overall": "4/5",
+      "qualification_status": "REMEDIATED_STILL_BLOCKED",
+      "reference_defects": 1,
+      "residual_after_single_deployable_rule_policy": 0
+    },
+    {
+      "blocking_fixes_from_preaudit_closed": [
+        "F4",
+        "F5"
+      ],
+      "c_status": "NO_QUALIFIED_CHALLENGER_ROW_LEVEL_VERIFIED",
+      "candidate_id": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "diagnostic_candidate": null,
+      "natural_model_errors": 0,
+      "note": "All published numbers reproduce at row level. No restricted frontier passes both the -2.0 pp margin and a frozen context budget; none would at any margin in (0, 5] pp.",
+      "open_findings": [
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "qualification_status": "REMEDIATED_STILL_NO_GO",
+      "qualified_challenger": null,
+      "reference_defects": 0
+    }
+  ],
+  "checks": [
+    {
+      "detail": "24 ordinary-original rows, program_correct 19/5. 4 genuine model semantic errors, 1 reference/scoring defect (NAT_train_b7814ec0_7b6669a8). Sign tally over 20 change items: 19 later-minus-earlier, 1 inverted (the defect). Denominators explicit: 4/24 and 4/5.",
+      "id": 1,
+      "name": "p1_separates_model_errors_from_reference_defect",
+      "status": "PASS"
+    },
+    {
+      "detail": "VISIBLE_AXIS_SCOPE_POLICY_V1 is one ordered 6-rule gold-free policy (no per-case branching). Replay 4/5 overall, 4/4 on genuine errors. 4/5 is a ceiling: 38e317da and b7814ec0 are indistinguishable under every visible policy feature but have opposite gold signs.",
+      "id": 2,
+      "name": "p1_single_gold_free_policy_replay",
+      "status": "PASS"
+    },
+    {
+      "detail": "scoring_alignment.primary_metric = frozen program_correct numeric equality; implementation math.isclose rel_tol=1e-6 abs_tol=1e-6; exact_program_identity demoted to secondary strict diagnostic. Matches frozen evaluate_target.",
+      "id": 3,
+      "name": "p1_scoring_identity_explicit",
+      "status": "PASS"
+    },
+    {
+      "detail": "Program re-executed: exit 0, row_results_sha256 identical (93ce50e2...f340e), side outputs byte-identical. Hash chain (row_results, frontiers_payload, qualification_payload) recomputes. Independent reimplementation matches all aggregates and 507x6 row actions with 0 mismatches.",
+      "id": 4,
+      "name": "p2_recompute_reproducible_row_level",
+      "status": "PASS"
+    },
+    {
+      "detail": "deployable_action carries only ranking_scores and stop_stage (3042/3042). Selection == top-k by score 507/507 for both top-k frontiers, 0 mismatches, 0 injected orders, all three leakage declaration fields false on 507/507. build_frontier_actions receives only question text and paragraphs.",
+      "id": 5,
+      "name": "p2_no_gold_leakage_into_action_selection",
+      "status": "PASS"
+    },
+    {
+      "detail": "Freeze proven three ways: program hard-fail hash check (8/8 true), frozen_at 08:37:47 UTC < execution_started_at 08:38:21.350 UTC, and receipt/rule mtimes precede the recompute output. 0 call surfaces in the program and goal dir; 0 of A's 194 commands touch any call surface.",
+      "id": 6,
+      "name": "freeze_ordering_and_no_generation",
+      "status": "PASS"
+    },
+    {
+      "detail": "No restricted frontier passes both the -2.0 pp margin and a frozen context budget. Cost-and-action-passing set {table_only, small_topk_3, fixed_top1_neighbor} has smallest gap 10.650888 pp. Margin-passing restricted set is empty. No margin in (0, 5] pp flips it.",
+      "id": 7,
+      "name": "frontiers_margin_and_budget_screen",
+      "status": "PASS"
+    },
+    {
+      "detail": "row_results role and exposure distributions match the prior verified baseline exactly (507). 156 clusters. All 5 selected development examples verified field-by-field against pinned raw and SOURCE_EXPOSURE_QUALIFICATION.json. Proposed counts 467/6/6/7/21 = 507 consistent.",
+      "id": 8,
+      "name": "exposure_and_source_clusters",
+      "status": "PASS"
+    }
+  ],
+  "findings": [
+    {
+      "blocking": true,
+      "candidate": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "check": 2,
+      "disposition": "needs_new_filing",
+      "fingerprint": "superseded-claim-left-live-in-prior-version",
+      "id": "R1",
+      "premise_violated": "a remediation must not leave a falsified claim readable in a live artifact",
+      "required_fix": "Publish a corrected neighbor row in a_remediate/ and mark a_prepare/MECHANISM_NEIGHBORS.md row 2 and the 229/507 figure SUPERSEDED. Do not edit a_prepare/.",
+      "root_cause": "F2 second clause was not carried into A_REMEDIATE_TASK.md required corrections/outputs while A was forbidden to edit a_prepare/, so A complied with its contract and the stale claim survived.",
+      "severity": "medium",
+      "symptom": "a_prepare/MECHANISM_NEIGHBORS.md row 2 still asserts 'repairs all five frozen natural failures' and quotes the unreproducible 229/507 figure."
+    },
+    {
+      "blocking": true,
+      "candidate": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "check": 6,
+      "disposition": "needs_new_filing",
+      "fingerprint": "frozen-rule-claims-unimplemented-normalization",
+      "id": "R2",
+      "premise_violated": "a frozen scoring rule must implement what it declares",
+      "required_fix": "Implement the declared normalization or narrow the declared scope, extend self-tests, and re-freeze the rule plus the receipt hash before any probe is authorized.",
+      "root_cause": "The frozen normalization text and the implementation diverged; self-tests never cover percent sign, dollar sign or the 'percent' scale word.",
+      "severity": "medium",
+      "symptom": "P2_ANSWER_MATCHING_RULE.json declares stripping of the dollar sign, percent sign and scale words; the implementation does not strip them and returns numeric_parse_failure for 68.07%, 68.07 percent and $1,496.5."
+    },
+    {
+      "blocking": false,
+      "candidate": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "check": 6,
+      "disposition": "needs_new_filing",
+      "fingerprint": "declared-metric-and-unit-diverge-from-executed-screen",
+      "id": "R3",
+      "premise_violated": "pre-registration must describe the analysis actually executed",
+      "required_fix": "Align the receipt primary_metric and paired unit with the executed screen, or state the proxy explicitly. Immaterial: gap 10.671937 pp on 506 vs 10.650888 pp on 507.",
+      "root_cause": "Pre-generation screen uses an offline evidence ceiling as a proxy and the receipt was not updated to say so.",
+      "severity": "low",
+      "symptom": "Prereg primary_metric is full_semantic_answer_accuracy over 506 questions; the executed screen measures the margin on semantic_reference_potential over denominator 507. full_semantic_answer_accuracy is computed nowhere."
+    },
+    {
+      "blocking": false,
+      "candidate": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "check": 1,
+      "disposition": "already_filed",
+      "fingerprint": "evidence-transcription-not-checkable-as-written",
+      "id": "R4",
+      "premise_violated": "an evidence artifact must be checkable as written",
+      "required_fix": "Emit distinct visible rows including the axis-label row; make declared field lists match emitted fields. Candidate-2 header defect from the baseline is already fixed.",
+      "root_cause": "Transcription emits one row per gold evidence ref instead of a distinct row set; declared field lists do not match emitted schema.",
+      "severity": "low",
+      "symptom": "relevant_visible_rows duplicates the target row in all 5 diagnoses (2/2/3/2/3 listed, 1 unique each) and omits the R1 period-label row in 3 of 5. offline_reference_only drops frozen evidence_refs and adds undeclared deployment_leakage."
+    },
+    {
+      "blocking": false,
+      "candidate": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "check": 4,
+      "disposition": "needs_new_filing",
+      "fingerprint": "hardcoded-count-literals-in-recompute-output",
+      "id": "R5",
+      "premise_violated": "published aggregates must be derived, not asserted",
+      "required_fix": "Derive the counts at runtime. Values verified correct against the hash-pinned source; program aborts on source hash mismatch, bounding the risk.",
+      "root_cause": "Counts emitted as constants rather than computed.",
+      "severity": "low",
+      "symptom": "answers_present=507, complete_semantic_answer_references=506, incomplete=1, nonempty_tables=507, valid_nonempty_rel_paragraph_sets=507 are literals in P2_RECOVERY_RECOMPUTE.py, not runtime-derived."
+    },
+    {
+      "blocking": false,
+      "candidate": "goal",
+      "check": 6,
+      "disposition": "waivable",
+      "fingerprint": "background-canary-not-attributable-to-task",
+      "id": "R6",
+      "premise_violated": "none - disclosure requirement under CLAUDE.md health-probe counting",
+      "required_fix": "No action. Count recorded explicitly so that no later claim asserts zero model calls anywhere on the host in that window.",
+      "root_cause": "Loop B runs as a 1800 s daemon since 2026-07-30 and its standard cycle includes a QA canary; independent of this task.",
+      "severity": "informational",
+      "symptom": "Loop B daemon QA canary made 4 model calls at 16:44:55/16:45:34/16:46:24/16:47:07 during the remediation window."
+    }
+  ],
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "model_probe_authorized": false,
+  "overall_verdict": "CONDITIONAL",
+  "recommendation": {
+    "advisory_only": true,
+    "continued_work": "Paper E and thesis work per D_STAGE_GATE.md",
+    "disposition": "NO_GO_STOP_MODEL_STAGE",
+    "nearest_candidate_condition": "Only after R1 and R2 are fixed, and only P2_TABLE_TEXT_EVIDENCE_COST, and only as a diagnostic investigation of the 3.94 pp / 4.93 pp near-margin frontiers whose failure is cost rather than margin. Not a method result.",
+    "p1_must_not_be_revived": true,
+    "p1_p2_must_not_be_merged": true,
+    "primary_candidate": null,
+    "reason": "Both stage-gate preference tests fail on corrected, now-reproducible evidence: P1 residual after visible-only simple controls is 0 (needs at least 2), and P2 has no restricted frontier passing both the -2.0 pp margin and a frozen context budget."
+  },
+  "recomputed": {
+    "p1_natural_model_errors_after_c_reaudit": 4,
+    "p1_ordinary_original_questions": 24,
+    "p1_policy_replay_genuine": "4/4",
+    "p1_policy_replay_overall": "4/5",
+    "p1_program_correct": 19,
+    "p1_program_incorrect": 5,
+    "p1_reference_defects": 1,
+    "p1_residual_after_single_deployable_rule_policy": 0,
+    "p2_answer_type": {
+      "arithmetic": 205,
+      "count": 20,
+      "multi_span": 101,
+      "span": 181
+    },
+    "p2_diagnostic_candidate": null,
+    "p2_gold_paragraph_recovery": {
+      "always_expand": 507,
+      "fixed_top1_neighbor": 381,
+      "larger_topk_5": 482,
+      "small_topk_3": 441,
+      "table_only": 0,
+      "transparent_stop_expand": 480
+    },
+    "p2_margin_flip_threshold_pp": 10.650888,
+    "p2_qualified_challenger": null,
+    "p2_questions_total": 1668,
+    "p2_record_clusters": 156,
+    "p2_records": 278,
+    "p2_row_results_reproduced": true,
+    "p2_row_results_sha256": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e",
+    "p2_scale_source": {
+      "not_required": 170,
+      "paragraph": 237,
+      "question": 60,
+      "table": 13,
+      "table_and_paragraph": 6,
+      "unresolved": 21
+    },
+    "p2_semantic_reference_potential": {
+      "always_expand": 506,
+      "fixed_top1_neighbor": 414,
+      "larger_topk_5": 486,
+      "small_topk_3": 452,
+      "table_only": 197,
+      "transparent_stop_expand": 481
+    },
+    "p2_smallest_gap_among_cost_passing_pp": 10.650888,
+    "p2_source_requirement": {
+      "both": 265,
+      "paragraph": 44,
+      "table": 197,
+      "unresolved": 1
+    },
+    "p2_table_text_questions": 507,
+    "p2_total_visible_evidence_chars": {
+      "always_expand": 927751,
+      "fixed_top1_neighbor": 547954,
+      "larger_topk_5": 773767,
+      "small_topk_3": 619687,
+      "table_only": 223082,
+      "transparent_stop_expand": 784932
+    }
+  },
+  "role": "C",
+  "schema": "c_reaudit_result_v1",
+  "scientific_totals_added": {
+    "background_loop_b_canary_attributable_to_task": false,
+    "background_loop_b_canary_model_calls": 4,
+    "confirmation_calls": 0,
+    "database_calls": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "task_id": "natural-error-cost-reaudit-c-20261026",
+  "zero_database_calls": true,
+  "zero_endpoint_calls": true,
+  "zero_generation": true,
+  "zero_judge": true,
+  "zero_production_calls": true,
+  "zero_training": true
+}

@@ -1,0 +1,127 @@
+{
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "model_calls": 0,
+  "p1_evidence_correction": {
+    "genuine_model_semantic_errors": 4,
+    "natural_error_evidence_only": [
+      "NAT_train_38e317da_60cdb35a",
+      "NAT_train_72f960c0_a2eb030c",
+      "NAT_train_cf77f5f9_a3aade99",
+      "NAT_train_4c2c23e7_204e680d"
+    ],
+    "reference_defect_source_task_ids": [
+      "NAT_train_b7814ec0_7b6669a8"
+    ],
+    "reference_scoring_defects": 1
+  },
+  "p1_prior_exposure_examples": [
+    {
+      "evidence_class": "genuine_model_semantic_error",
+      "existing_run": "source_disjoint_confirmation_v4 ordinary original",
+      "new_development_exposure": false,
+      "source_task_id": "NAT_train_38e317da_60cdb35a"
+    },
+    {
+      "evidence_class": "genuine_model_semantic_error",
+      "existing_run": "source_disjoint_confirmation_v4 ordinary original",
+      "new_development_exposure": false,
+      "source_task_id": "NAT_train_72f960c0_a2eb030c"
+    },
+    {
+      "evidence_class": "genuine_model_semantic_error",
+      "existing_run": "source_disjoint_confirmation_v4 ordinary original",
+      "new_development_exposure": false,
+      "source_task_id": "NAT_train_cf77f5f9_a3aade99"
+    },
+    {
+      "evidence_class": "reference_scoring_defect",
+      "existing_run": "source_disjoint_confirmation_v4 ordinary original",
+      "new_development_exposure": false,
+      "source_task_id": "NAT_train_b7814ec0_7b6669a8"
+    },
+    {
+      "evidence_class": "genuine_model_semantic_error",
+      "existing_run": "source_disjoint_confirmation_v4 ordinary original",
+      "new_development_exposure": false,
+      "source_task_id": "NAT_train_4c2c23e7_204e680d"
+    }
+  ],
+  "proposed_question_level_counts_after_selection": {
+    "UNASSIGNED": 467,
+    "development": 6,
+    "excluded_pending_review": 6,
+    "history": 7,
+    "reserve": 21
+  },
+  "register_state": "PROPOSED_ONLY_NOT_WRITTEN_BACK_TO_PRIOR_QUALIFICATION",
+  "schema": "exposure_register_corrected_v2",
+  "selected_development_examples": [
+    {
+      "new_development_exposure": true,
+      "previous_effective_exposure_category": "STRUCTURAL_SCAN_ONLY",
+      "previous_existing_role": "UNASSIGNED",
+      "question": "In which year is the amount of total sales the largest?",
+      "question_index": 3,
+      "question_uid": "f4142349-eb72-49eb-9a76-f3ccb1010cbc",
+      "record_index": 0,
+      "selected_for": "P2 development frontier examples",
+      "source_cluster_id": "cluster_0596",
+      "table_uid": "3ffd9053-a45d-491c-957a-1b2fa0af0570"
+    },
+    {
+      "new_development_exposure": true,
+      "previous_effective_exposure_category": "STRUCTURAL_SCAN_ONLY",
+      "previous_existing_role": "UNASSIGNED",
+      "question": "What was the net profit/(loss) after tax in FY19?",
+      "question_index": 0,
+      "question_uid": "4db3c092-5b29-4715-baa8-f923802df170",
+      "record_index": 8,
+      "selected_for": "P2 development frontier examples",
+      "source_cluster_id": "cluster_1151",
+      "table_uid": "77d8e381-01d0-4cf9-882e-e1162db2cff2"
+    },
+    {
+      "new_development_exposure": true,
+      "previous_effective_exposure_category": "STRUCTURAL_SCAN_ONLY",
+      "previous_existing_role": "UNASSIGNED",
+      "question": "What were the Other operating expenses in 2019?",
+      "question_index": 0,
+      "question_uid": "a5992e2e-726e-469c-88f3-e7b2ea8db24c",
+      "record_index": 16,
+      "selected_for": "P2 development frontier examples",
+      "source_cluster_id": "cluster_0385",
+      "table_uid": "285a1ced-709e-4f45-a227-b6cd04e725f9"
+    },
+    {
+      "new_development_exposure": true,
+      "previous_effective_exposure_category": "STRUCTURAL_SCAN_ONLY",
+      "previous_existing_role": "UNASSIGNED",
+      "question": "What was the amount of Service-Based RSUs in 2017?",
+      "question_index": 1,
+      "question_uid": "4d8f127b-56e1-4c09-bd1d-b7f3b3d45d45",
+      "record_index": 93,
+      "selected_for": "P2 development frontier examples",
+      "source_cluster_id": "cluster_1707",
+      "table_uid": "b24ee687-2712-4f16-9bc9-0f3f3636e407"
+    },
+    {
+      "new_development_exposure": true,
+      "previous_effective_exposure_category": "STRUCTURAL_SCAN_ONLY",
+      "previous_existing_role": "UNASSIGNED",
+      "question": "What is the total costs incurred in 2019?",
+      "question_index": 0,
+      "question_uid": "45bf41a3-5d6f-47a4-8e8d-4105cd009ee2",
+      "record_index": 51,
+      "selected_for": "P2 development frontier examples",
+      "source_cluster_id": "cluster_1826",
+      "table_uid": "bd57880a-3395-45a5-83b1-8adc4483d4bd"
+    }
+  ],
+  "selection_policy": "Only previously unassigned structural-scan-only P2 examples are newly selected; P1 examples remain prior frozen training exposure.",
+  "source_qualification": {
+    "path": "/home/testuser/wzh/next_research_stage_worktree_20261026/research/tatqa_candidate_b_qualification_v1/SOURCE_EXPOSURE_QUALIFICATION.json",
+    "sha256": "39045142db73586504e0504b0f7e2ad73bbabd373075d57ae2d5aca9e94bdfaa",
+    "unchanged": true
+  },
+  "task_id": "natural-error-cost-remediate-a-20261026"
+}

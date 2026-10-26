@@ -1,0 +1,151 @@
+{
+  "accepted_baseline": "always_expand",
+  "always_expand_total_visible_evidence_chars": 946460,
+  "blocked_reason": "Top-3 meets the moderate cost budget but its 460/507 offline semantic ceiling is 9.07 percentage points below always-expand; top-5 is still 2.96 points below and exceeds both budgets. The transparent token-coverage stop rule is dominated at 293/507.",
+  "budget_screen": {
+    "aggressive_budget": {
+      "passing_cost_frontiers": [
+        "table_only",
+        "transparent_stop_expand"
+      ],
+      "qualified_noninferior_frontiers": [],
+      "threshold_percent": 50
+    },
+    "baseline_semantic_potential_percent": 99.8,
+    "margin_percentage_points": -2.0,
+    "moderate_budget": {
+      "passing_cost_frontiers": [
+        "table_only",
+        "small_topk_3",
+        "fixed_top1_neighbor",
+        "transparent_stop_expand"
+      ],
+      "qualified_noninferior_frontiers": [],
+      "threshold_percent": 75
+    }
+  },
+  "frontiers": [
+    {
+      "context_volume_ratio_vs_always_expand": 0.251365,
+      "definition": {
+        "paragraphs": 0,
+        "rule": "visible table and headers only"
+      },
+      "gold_paragraph_recovery": 0,
+      "max_visible_evidence_chars": 1329,
+      "mean_visible_evidence_chars": 469.2,
+      "meets_50_percent_budget": true,
+      "meets_75_percent_budget": true,
+      "name": "table_only",
+      "offline_gap_vs_always_expand_percentage_points": 54.64,
+      "p95_visible_evidence_chars": 973,
+      "semantic_reference_potential": 229,
+      "semantic_reference_potential_percent": 45.17,
+      "total_visible_evidence_chars": 237907
+    },
+    {
+      "context_volume_ratio_vs_always_expand": 0.70909,
+      "definition": {
+        "paragraphs": "up to 3",
+        "rule": "record-internal deterministic TF-IDF unigram+bigram top-3"
+      },
+      "gold_paragraph_recovery": 440,
+      "max_visible_evidence_chars": 3957,
+      "mean_visible_evidence_chars": 1323.7,
+      "meets_50_percent_budget": false,
+      "meets_75_percent_budget": true,
+      "name": "small_topk_3",
+      "offline_gap_vs_always_expand_percentage_points": 9.07,
+      "p95_visible_evidence_chars": 2730,
+      "semantic_reference_potential": 460,
+      "semantic_reference_potential_percent": 90.73,
+      "total_visible_evidence_chars": 671125
+    },
+    {
+      "context_volume_ratio_vs_always_expand": 0.642438,
+      "definition": {
+        "paragraphs": "top-1 plus immediate preceding/following paragraph",
+        "rule": "record-internal deterministic top-1 with fixed local neighbors"
+      },
+      "gold_paragraph_recovery": 358,
+      "max_visible_evidence_chars": 3498,
+      "mean_visible_evidence_chars": 1199.3,
+      "meets_50_percent_budget": false,
+      "meets_75_percent_budget": true,
+      "name": "fixed_top1_neighbor",
+      "offline_gap_vs_always_expand_percentage_points": 18.15,
+      "p95_visible_evidence_chars": 2744,
+      "semantic_reference_potential": 414,
+      "semantic_reference_potential_percent": 81.66,
+      "total_visible_evidence_chars": 608042
+    },
+    {
+      "context_volume_ratio_vs_always_expand": 0.863572,
+      "definition": {
+        "paragraphs": "up to 5",
+        "rule": "record-internal deterministic TF-IDF unigram+bigram top-5"
+      },
+      "gold_paragraph_recovery": 485,
+      "max_visible_evidence_chars": 4817,
+      "mean_visible_evidence_chars": 1612.1,
+      "meets_50_percent_budget": false,
+      "meets_75_percent_budget": false,
+      "name": "larger_topk_5",
+      "offline_gap_vs_always_expand_percentage_points": 2.96,
+      "p95_visible_evidence_chars": 3678,
+      "semantic_reference_potential": 491,
+      "semantic_reference_potential_percent": 96.84,
+      "total_visible_evidence_chars": 817336
+    },
+    {
+      "context_volume_ratio_vs_always_expand": 1.0,
+      "definition": {
+        "paragraphs": "all",
+        "rule": "visible table plus every paragraph in the same raw record"
+      },
+      "gold_paragraph_recovery": 507,
+      "max_visible_evidence_chars": 9255,
+      "mean_visible_evidence_chars": 1866.8,
+      "meets_50_percent_budget": false,
+      "meets_75_percent_budget": false,
+      "name": "always_expand",
+      "offline_gap_vs_always_expand_percentage_points": 0.0,
+      "p95_visible_evidence_chars": 5204,
+      "semantic_reference_potential": 506,
+      "semantic_reference_potential_percent": 99.8,
+      "total_visible_evidence_chars": 946460
+    },
+    {
+      "context_volume_ratio_vs_always_expand": 0.497799,
+      "definition": {
+        "paragraphs": "stage-dependent",
+        "rule": "table-only, then top-1+neighbors, top-3, top-5, all; stop when >=0.80 question-token coverage"
+      },
+      "gold_paragraph_recovery": 219,
+      "max_visible_evidence_chars": 6683,
+      "mean_visible_evidence_chars": 929.3,
+      "meets_50_percent_budget": true,
+      "meets_75_percent_budget": true,
+      "name": "transparent_stop_expand",
+      "offline_gap_vs_always_expand_percentage_points": 42.01,
+      "p95_visible_evidence_chars": 2607,
+      "semantic_reference_potential": 293,
+      "semantic_reference_potential_percent": 57.79,
+      "total_visible_evidence_chars": 471147
+    }
+  ],
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "metric_warning": "semantic_reference_potential is an offline evidence ceiling, not model accuracy. Characters are context-volume proxies only and are not token or latency savings.",
+  "qualified_challenger": null,
+  "question_count": 507,
+  "ranking_implementation": {
+    "gold_relevance_used_for_ranking": false,
+    "model_calls": 0,
+    "ranking": "deterministic local TF-IDF over unigrams and bigrams",
+    "seed": "none",
+    "stopwords": "fixed local list"
+  },
+  "schema": "strong_baseline_frontiers_v1",
+  "source_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+  "task_id": "natural-error-cost-prepare-a-20261026"
+}

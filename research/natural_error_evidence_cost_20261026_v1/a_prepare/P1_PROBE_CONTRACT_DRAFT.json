@@ -1,0 +1,47 @@
+{
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "candidate_id": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+  "execution_now": {
+    "generation_attempts": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "training_calls": 0
+  },
+  "falsifier": "Equal facts with normalized roles fail to improve program correctness over the frozen ordinary outputs, or static inspection finds a missing visible fact.",
+  "fixed_execution": {
+    "calculator": "fixed deterministic evaluator",
+    "gold_inputs_to_actor": false,
+    "hidden_unit_scales_to_actor": false,
+    "output_contract": "unchanged evidence_refs/program/unit JSON",
+    "reference_row_ids_to_actor": false
+  },
+  "if_explicitly_released": {
+    "arms": [
+      "visible-only normalized-role prompt versus frozen ordinary prompt"
+    ],
+    "examples": [
+      "NAT_train_38e317da_60cdb35a",
+      "NAT_train_72f960c0_a2eb030c",
+      "NAT_train_cf77f5f9_a3aade99",
+      "NAT_train_b7814ec0_7b6669a8",
+      "NAT_train_4c2c23e7_204e680d"
+    ],
+    "generation_tokens_cap": 0,
+    "judge_calls": 0,
+    "physical_generation_attempts_cap": 5,
+    "training_runs": 0
+  },
+  "missing_condition": "At least two ordinary natural failures must remain after the strongest simple visible-only controls; observed residual is zero.",
+  "schema": "blocked_probe_contract_v1",
+  "scoring": {
+    "offline_reference_only": true,
+    "primary": "exact structured program and deterministic value",
+    "secondary": [
+      "evidence_refs_set",
+      "unit",
+      "interface_valid"
+    ]
+  },
+  "status": "BLOCKED_NO_QUALIFIED_RESIDUAL",
+  "visible_transformation": "Preserve every raw table/header/question fact; add only transparent canonical roles derived from visible text: period axis, named-row axis, section axis, named-entity axis, and aggregation scope."
+}

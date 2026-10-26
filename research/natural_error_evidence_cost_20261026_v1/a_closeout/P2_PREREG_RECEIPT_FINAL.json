@@ -1,0 +1,37 @@
+{
+  "answer_matching_rule_path": "P2_ANSWER_MATCHING_RULE_FINAL.json",
+  "answer_matching_rule_sha256": "34350f7bd9aed9a05cfa9c3aec8cedcfbc979ed6f1378efd980a03993ede8157",
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "candidate_selection_rule": "From restricted frontiers only, retain candidates whose total visible-evidence characters are at most 75% or at most 50% of always-expand, whose deterministic retrieval-action count is at most 3, and whose offline semantic-reference-potential gap from always-expand is at most 2.0 percentage points. If multiple remain, select the smallest total-character candidate; ties use lexicographic frontier name. Any selected item is diagnostic only and is not a method result.",
+  "context_budgets_percent": [
+    75,
+    50
+  ],
+  "deterministic_action_budget": 3,
+  "executed_screen": {
+    "denominator": 507,
+    "paired_analysis_unit": "question_uid, paired across always-expand and each candidate frontier on all 507 table-text questions",
+    "primary_proxy": "semantic_reference_potential",
+    "proxy_warning": "offline evidence-sufficiency proxy; not model accuracy"
+  },
+  "frozen_at": "2026-10-26T17:49:18+08:00",
+  "frozen_before_frontier_computation": true,
+  "frozen_before_future_generation": true,
+  "future_model_evaluation": {
+    "denominator": 506,
+    "paired_analysis_unit": "question_uid, paired across always-expand and each candidate frontier on the 506 complete semantic references",
+    "primary_metric": "full_semantic_answer_accuracy under P2_ANSWER_MATCHING_RULE_FINAL.json"
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "generation_at_freeze": 0,
+  "model_probe_authorized": false,
+  "noninferiority_margin_percentage_points": -2.0,
+  "paired_analysis_unit": "question_uid, paired across always-expand and each candidate frontier on all 507 table-text questions for the executed offline screen",
+  "primary_metric": "semantic_reference_potential for the executed offline screen over 507 table-text questions",
+  "program_path": "P2_RECOVERY_RECOMPUTE_FINAL.py",
+  "program_sha256": "736a7f5ee10af5d1214d75fd6a99a15bd8eb94f873e3a9de9cd240ab2ab97b4e",
+  "receipt_scope": "P2 deterministic evidence recompute; no generation, judge, training, production or database call is authorized",
+  "schema": "p2_prereg_receipt_final_v1",
+  "source_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+  "task_id": "natural-error-cost-closeout-a-20261026"
+}

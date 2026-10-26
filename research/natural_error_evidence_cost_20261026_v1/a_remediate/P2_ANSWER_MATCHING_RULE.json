@@ -1,0 +1,58 @@
+{
+  "answer_normalization": {
+    "common": "Unicode NFKC; casefold; normalize curly quotes/dashes; collapse whitespace; remove thousands separators only between digits; trim outer whitespace and terminal punctuation",
+    "numeric": "Strip $, commas, percent sign, and scale words only after checking explicit-unit compatibility; parenthesized numbers are negative",
+    "numeric_tolerance": {
+      "absolute": 1e-06,
+      "implementation": "math.isclose(candidate, reference, rel_tol=1e-6, abs_tol=1e-6)",
+      "relative": 1e-06
+    }
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "count_handling": {
+    "accepted": "Exactly one finite non-negative integer after the common numeric normalization; explicit scale words are rejected.",
+    "comparison": "candidate integer must equal reference integer exactly",
+    "non_integer_or_multiple_counts": false
+  },
+  "executable_implementation": {
+    "entrypoint": "match_full_semantic_answer",
+    "implementation_file": "P2_RECOVERY_RECOMPUTE.py",
+    "implementation_sha256": "ca3759064f6d226886a7b4b9afa63821ca85b03fe0c1bc6b6d804b34efdbb431",
+    "self_tests_required_before_recompute": true
+  },
+  "frozen_at": "2026-10-26T16:37:47+08:00",
+  "full_semantic_answer_accuracy": {
+    "arithmetic": "Numeric value match under the frozen tolerance; an explicit incompatible unit fails, while omission of the reference scale is compatible.",
+    "count": "Frozen count rule.",
+    "denominator": "506 qualified table-text questions; the single predeclared NOT_MODEL_READY item is excluded before any model output.",
+    "multi_span": "All normalized gold spans must occur in the normalized candidate as word-boundary substrings; order is ignored and extra candidate text is allowed.",
+    "numeric_or_count_answer_types": [
+      "arithmetic",
+      "count"
+    ],
+    "span": "Normalized equality or normalized word-boundary containment in either direction is accepted.",
+    "unknown_reasonable_only_if": [
+      "ambiguity_visible was frozen true before model output because multiple legal interpretations remain from visible evidence",
+      "the reference status was frozen as NOT_MODEL_READY before model output and the item is excluded from the primary denominator"
+    ],
+    "unknown_tokens": [
+      "unknown",
+      "unanswerable",
+      "insufficient visible evidence"
+    ],
+    "unit_handling": {
+      "absent_unit_is_compatible": true,
+      "conflicting_explicit_unit": false,
+      "reference_scale_is_scored_separately": true
+    }
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "scoring_isolation": {
+    "answer_matching_uses_gold": "offline_scoring_only",
+    "gold_used_to_choose_deployable_action": false,
+    "hidden_scale_used_to_choose_deployable_action": false,
+    "reference_paragraph_id_used_to_choose_deployable_action": false
+  },
+  "schema": "p2_answer_matching_rule_v1",
+  "task_id": "natural-error-cost-remediate-a-20261026"
+}

@@ -1362,3 +1362,5 @@ echo dispatch_log updated
 
 
 [2026-10-26] DECISION-RESIDUAL-SCOPE-REVIEW: Owner转述682ca85e后，科研负责人核D/A/C原件并在GB10独立复算record内text-only覆盖及上下文体积；保留旧no-go执行，纠正always-expand纯覆盖门的外推。278 records包括389 text、507 table-text、772 table；后两类只计数未评价。ordinary原题19/24 program_correct、5条待语义资格，不当新确认。唯一prompt原地提出下一研究阶段与6次协作增量，原生成/训练帽保留；增量尚未接受、未派发。本会话0科研生成/训练/judge/生产探针/A-C派发/外部动作；本轮复核与验证收据见docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.*及Documents检查目录。
+
+[2026-10-26] NATURAL-ERROR-COST-STAGE: Owner接受新增6次A/C后，GB10 `next_research_stage_worktree_20261026`完成A准备、C前审、A证据修复、C复审、A收口、C终审。P1的24条ordinary originals最终为19 correct、5 frozen-incorrect，其中4个真实模型语义错误和1个reference defect；gold-free axis/scope policy修复4/4真实错误，残差0。P2的507个table-text题可完整复算，506个有完整语义参考；top-3/top-5/邻域/停止扩展相对always-expand均无同时满足-2.0pp答案非劣和75%/50%成本门的challenger。最终`NO_GO_STOP_MODEL_STAGE`，48-call模型探针未释放，训练/确认为0。C终审复算507行零差异，另记录两个未进入评分路径的matcher latent缺陷R7/R8。Paper E完成渠道复核并建议SNCS订阅条件主投，ICAART仅保留时间门备选；未投稿、付款、公开。A/C累计21/22，保留1次故障储备；本阶段科研生成/训练/judge/production/confirmation为0。回执：`research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md`。

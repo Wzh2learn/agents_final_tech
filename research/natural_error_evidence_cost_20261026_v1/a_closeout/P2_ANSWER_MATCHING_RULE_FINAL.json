@@ -1,0 +1,97 @@
+{
+  "answer_normalization": {
+    "common": [
+      "Unicode NFKC",
+      "casefold",
+      "normalize curly and typographic quotes to ASCII quotes",
+      "normalize Unicode dashes and minus signs to ASCII hyphen-minus",
+      "collapse all whitespace runs to one ASCII space and trim outer whitespace",
+      "remove thousands separators only when a comma is between ASCII digits",
+      "trim terminal ASCII sentence punctuation (. , ; : ! ?) without treating percent as punctuation"
+    ],
+    "numeric": [
+      "detect explicit candidate and reference units before numeric parsing",
+      "accept an explicit candidate unit only when it is compatible with the reference scale or an explicitly embedded reference scale",
+      "reject a conflicting or unsupported explicit candidate unit",
+      "strip the dollar sign and USD/dollar tokens as numeric formatting",
+      "strip commas between digits as thousands separators",
+      "strip percent sign or percent/percentage words only after percent-unit compatibility",
+      "strip visible billion/million/thousand scale words only after scale-unit compatibility",
+      "interpret a number wrapped in parentheses as negative, including an inner explicit minus sign",
+      "compare arithmetic values with the frozen numeric tolerance"
+    ],
+    "numeric_tolerance": {
+      "absolute": 1e-06,
+      "implementation": "math.isclose(candidate, reference, rel_tol=1e-6, abs_tol=1e-6)",
+      "relative": 1e-06
+    }
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "count_handling": {
+    "accepted": "Exactly one finite non-negative integer after common numeric normalization; explicit scale words are rejected.",
+    "comparison": "candidate integer must equal reference integer exactly",
+    "non_integer_or_multiple_counts": false
+  },
+  "executable_implementation": {
+    "entrypoint": "match_full_semantic_answer",
+    "implementation_file": "P2_RECOVERY_RECOMPUTE_FINAL.py",
+    "implementation_sha256": "736a7f5ee10af5d1214d75fd6a99a15bd8eb94f873e3a9de9cd240ab2ab97b4e",
+    "self_tests_required_before_recompute": true,
+    "required_self_tests": [
+      "percent_sign",
+      "percent_word",
+      "currency_and_comma",
+      "thousands_separator",
+      "parenthesized_negative",
+      "multi_span_order",
+      "count_integer",
+      "reasonable_unknown",
+      "unsupported_unknown"
+    ]
+  },
+  "frozen_at": "2026-10-26T17:48:40+08:00",
+  "full_semantic_answer_accuracy": {
+    "arithmetic": "Numeric value match under the frozen tolerance; an explicit incompatible unit fails, while omission of the reference scale is compatible.",
+    "count": "Frozen count rule.",
+    "denominator": "506 qualified table-text questions with complete semantic references; the predeclared NOT_MODEL_READY item is excluded before any model output.",
+    "multi_span": "All normalized gold spans must occur in the normalized candidate as word-boundary substrings; order is ignored and extra candidate text is allowed.",
+    "numeric_or_count_answer_types": [
+      "arithmetic",
+      "count"
+    ],
+    "span": "Normalized equality or normalized word-boundary containment in either direction is accepted.",
+    "unknown_reasonable_only_if": [
+      "ambiguity_visible was frozen true before model output because multiple legal interpretations remain from visible evidence",
+      "the reference status was frozen as NOT_MODEL_READY before model output and the item is excluded from the primary denominator"
+    ],
+    "unknown_tokens": [
+      "unknown",
+      "unanswerable",
+      "insufficient visible evidence"
+    ],
+    "unit_handling": {
+      "absent_candidate_unit_is_compatible": true,
+      "conflicting_explicit_unit": false,
+      "reference_scale_is_scored_separately": true
+    }
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "metric_scope": {
+    "executed_screen": {
+      "denominator": 507,
+      "primary_proxy": "semantic_reference_potential",
+      "status": "offline evidence-sufficiency proxy; not model accuracy"
+    },
+    "future_model_evaluation": {
+      "denominator": 506,
+      "primary_metric": "full_semantic_answer_accuracy"
+    }
+  },
+  "scoring_isolation": {
+    "answer_matching_uses_gold": "offline_scoring_only",
+    "gold_used_to_choose_deployable_action": false,
+    "hidden_scale_used_to_choose_deployable_action": false
+  },
+  "schema": "p2_answer_matching_rule_final_v1",
+  "task_id": "natural-error-cost-closeout-a-20261026"
+}

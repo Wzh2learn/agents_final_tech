@@ -1,0 +1,95 @@
+{
+  "answer_risk_cost_target": {
+    "actual_model_answer_risk": "UNKNOWN_ZERO_GENERATION",
+    "characters_interpretation": "deterministic context-volume proxy only; not measured tokens, latency, memory, or cost",
+    "primary_metric": "full_semantic_answer_accuracy",
+    "secondary_metrics": [
+      "program_correct",
+      "interface_valid",
+      "evidence_sufficiency",
+      "total_visible_evidence_chars"
+    ]
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "baseline_decision": {
+    "accepted_final_baseline": "always_expand",
+    "missing_condition": "No simple challenger has both a frozen cost budget and an offline semantic-answer ceiling within 2.0 percentage points of always-expand.",
+    "qualification_status": "TASK_LEGALLY_QUALIFIED_BUT_NO_NONINFERIOR_COST_CHALLENGER",
+    "reason": "It is legally complete for 506/507 semantically qualified questions, has a mean 1866.8-character context-volume proxy, p95 5204, and max 9255, and no measured generation was needed."
+  },
+  "frozen_before_output": {
+    "cost_budget_1": "total visible evidence characters <=75% of always-expand and <=3 deterministic evidence actions per question",
+    "cost_budget_2": "total visible evidence characters <=50% of always-expand and <=3 deterministic evidence actions per question",
+    "noninferiority_margin_percentage_points": -2.0
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "legally_recoverable_evidence": {
+    "method": "Exact or semantically equivalent operand recovery plus visible scale/precision rules; paragraph relevance alone is not treated as semantic necessity.",
+    "nonempty_tables": 507,
+    "source_requirement_counts": {
+      "both": 246,
+      "paragraph": 31,
+      "table": 229,
+      "unresolved": 1
+    },
+    "valid_nonempty_rel_paragraph_sets": 507
+  },
+  "reference_completeness": {
+    "answer_types": {
+      "arithmetic": 205,
+      "count": 20,
+      "multi-span": 101,
+      "span": 181
+    },
+    "answers_present": 507,
+    "arithmetic_or_count_derivations_nonempty": 225,
+    "complete_semantic_answer_references": 506,
+    "incomplete_or_ambiguous": 1,
+    "raw_references_present": 507
+  },
+  "schema": "p2_task_qualification_v1",
+  "source_cluster_and_exposure": {
+    "all_questions_mapped": 507,
+    "cluster_key": "parent record[table].uid",
+    "effective_exposure_category_counts": {
+      "EXPOSURE_UNKNOWN": 6,
+      "METHOD_DEVELOPMENT_OR_DIAGNOSTIC": 16,
+      "MODEL_OR_FEEDBACK_EXPOSURE": 14,
+      "PROGRAM_GENERATED_NO_CONTEXT_EVIDENCE": 22,
+      "PROGRAM_GENERATED_REFERENCE_PENDING_REVIEW": 1,
+      "STRUCTURAL_SCAN_ONLY": 448
+    },
+    "existing_role_question_counts": {
+      "UNASSIGNED": 472,
+      "development": 1,
+      "excluded_pending_review": 6,
+      "history": 7,
+      "reserve": 21
+    },
+    "qualification_sha256": "39045142db73586504e0504b0f7e2ad73bbabd373075d57ae2d5aca9e94bdfaa",
+    "qualification_source": "/home/testuser/wzh/next_research_stage_worktree_20261026/research/tatqa_candidate_b_qualification_v1/SOURCE_EXPOSURE_QUALIFICATION.json",
+    "record_clusters": 156
+  },
+  "source_identity": {
+    "answer_from_filter": "table-text",
+    "dev_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+    "dev_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "finqa_used": false,
+    "question_count": 507,
+    "task_source": "pinned TAT-QA raw dev only",
+    "train_sha256_identity_only": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69"
+  },
+  "task_id": "natural-error-cost-prepare-a-20261026",
+  "unresolved_item": {
+    "action": "Exclude from answer-risk scoring unless the unit/direction is made visible without leaking the reference.",
+    "gold_answer": 68.07,
+    "gold_derivation": "(3,901-2,321)/2,321",
+    "missing_condition": "The raw visible record supports absolute change or percentage change; the gold percent interpretation and hidden percent scale are not legally observable.",
+    "qualification": "NOT_MODEL_READY",
+    "question": "What was the change in the servicing fee between 2018 and 2019?",
+    "question_index": 5,
+    "question_uid": "81fc6048-7510-4c55-aa3c-4c9f1f5b8bcb",
+    "record_index": 257,
+    "table_uid": "708fa58a-083d-4a97-80a1-5fe9de71a36b"
+  }
+}

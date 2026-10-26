@@ -1,0 +1,157 @@
+{
+  "a_artifacts_modified": false,
+  "answer_matcher_probe": {
+    "agreed_with_declaration": 48,
+    "cases": 51,
+    "disagreed": 3,
+    "disagreement_ids": [
+      "R7",
+      "R8"
+    ],
+    "r2_regression_cases_fixed": 5,
+    "self_tests_passed": 18,
+    "self_tests_total": 18
+  },
+  "audited_object": "research/natural_error_evidence_cost_20261026_v1/a_closeout/",
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "blocking_before_probe_release": [
+    "R7",
+    "R8"
+  ],
+  "disposition_basis": "Final row-level replay produces no restricted frontier passing both the frozen -2.0 pp margin and a frozen context budget; P1 residual after visible-only controls is 0. Disposition is correct and unchanged.",
+  "disposition_verified": true,
+  "files_written": [
+    "research/natural_error_evidence_cost_20261026_v1/audits/C_FINAL_AUDIT.md",
+    "research/natural_error_evidence_cost_20261026_v1/audits/TASK_RESULT_C_FINAL.json"
+  ],
+  "final_candidate_disposition": "NO_GO_STOP_MODEL_STAGE",
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "hash_chain_verified": {
+    "frontiers_payload_sha256_recomputes": true,
+    "prereg_checks_all_true": 8,
+    "qualification_payload_sha256_recomputes": true,
+    "receipt_answer_rule_sha256_matches_rule": true,
+    "receipt_program_sha256_matches_program": true,
+    "row_results_sha256_recomputes": true,
+    "rule_implementation_sha256_matches_program": true
+  },
+  "independent_replay": {
+    "exit_code": 0,
+    "identical_rows": 507,
+    "matches_prior_remediation_identity": true,
+    "output_dir": "/tmp/cfinal_replay_a",
+    "program": "a_closeout/P2_RECOVERY_RECOMPUTE_FINAL.py",
+    "published_vs_replay_diff_fields": [
+      "execution_started_at",
+      "execution_completed_at",
+      "preregistration.receipt_path"
+    ],
+    "row_results_sha256": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e",
+    "rows": 507
+  },
+  "loop_b_canary_disclosure": {
+    "a_closeout_artifact_window_utc": "2026-10-26T09:48:27 - 2026-10-26T09:56:06",
+    "attributable_to_this_task": false,
+    "canary_calls_inside_a_closeout_artifact_window": 0,
+    "canary_latest_result": "4/4 PASS (q06_minan_cash_balance, adv_ocr_meta, adv_cross_doc, adv_refusal)",
+    "nearest_cycles": [
+      {
+        "model_calls": 4,
+        "position": "immediately before",
+        "window_utc": "2026-10-26T09:36:21 - 2026-10-26T09:38:22"
+      },
+      {
+        "model_calls": 4,
+        "position": "immediately after",
+        "window_utc": "2026-10-26T10:09:06 onward"
+      }
+    ],
+    "note": "Recorded per CLAUDE.md so no one later claims zero model calls occurred anywhere on the host that day.",
+    "source": "logs/graph/b4_ask_log.jsonl via scripts/graph/loop_b_verify.sh (Loop B daemon, independent)",
+    "total_canary_entries_on_2026_10_26": 132
+  },
+  "new_findings": [
+    {
+      "blocking_for_release": true,
+      "id": "R7",
+      "latent": true,
+      "pattern": "frozen-rule-strips-all-commas-not-only-digit-adjacent",
+      "severity": "low",
+      "summary": "_parse_number strips all commas unconditionally, while the frozen rule declares thousands-separator removal only between ASCII digits. Candidate 1, 496 scores True against 1496. Over-permissive; cannot mark a correct answer wrong. Not on the scoring path."
+    },
+    {
+      "blocking_for_release": true,
+      "id": "R8",
+      "latent": true,
+      "pattern": "frozen-count-rule-does-not-reject-negative",
+      "severity": "low",
+      "summary": "count_handling declares a non-negative integer; the implementation accepts negatives. -5 and (5) match reference -5. Unreachable against real count gold (never negative). Not on the scoring path."
+    },
+    {
+      "blocking_for_release": false,
+      "id": "R9",
+      "latent": false,
+      "pattern": "evidence_refs-order-not-frozen-order",
+      "severity": "low",
+      "summary": "For 4c2c23e7 only, emitted evidence_refs are sorted while the frozen expected.evidence_refs is in gold program evaluation order. Same cell set; gold program preserved byte-for-byte so nothing is lost. Pre-existing, not in R4 required fix list, record only."
+    }
+  ],
+  "overall_status": "CONDITIONAL",
+  "prior_version_preservation_verified": {
+    "a_prepare_files": 13,
+    "a_remediate_files": 17,
+    "byte_identical": true,
+    "hashes_matching": 30,
+    "mismatches": 0
+  },
+  "r_closure": {
+    "R1": {
+      "evidence": "MECHANISM_NEIGHBORS_CORRECTED.md SUPERSEDES the 5/5 claim (now 4/5 overall / 4/4 genuine), 229/507 (now 197/507) and 293/507 (now 481/507). a_prepare/ unmodified: 30/30 declared hashes match disk.",
+      "status": "CLOSED"
+    },
+    "R2": {
+      "evidence": "All 5 R2 regression cases (68.07%, 68.07 percent, $1,496.5, 1,496.5, (1,955)) now match. 18/18 self-tests pass; all 9 required_self_tests present; program hard-fails on any failure. Freeze order structural: program 09:48:27.910Z then rule 09:48:58.269Z then receipt 09:49:22.582Z then compute 09:54:58.645Z, with rule/program, receipt/program and receipt/rule hashes all verified. Residuals R7 and R8 filed against the same premise.",
+      "status": "CLOSED_IN_SUBSTANCE"
+    },
+    "R3": {
+      "evidence": "metric_scope, receipt executed_screen and future_model_evaluation blocks, and screen_metric_contract all separate semantic_reference_potential over 507 (offline proxy) from full_semantic_answer_accuracy over 506 (future model metric).",
+      "status": "CLOSED"
+    },
+    "R4": {
+      "evidence": "Distinct visible rows on 5/5 diagnoses and 5/5 ledger candidates; period-axis row emitted in 3/3 required cases (38e317da, cf77f5f9, b7814ec0); declared actor/offline field lists equal emitted fields on all 10 objects; every transcribed row, header and offline field verified against frozen source_disjoint_instances_v4.jsonl. Residual R9 filed.",
+      "status": "CLOSED"
+    },
+    "R5": {
+      "evidence": "Zero aggregate count literals in P2_RECOVERY_RECOMPUTE_FINAL.py. Independent replay reproduces row_results_sha256 93ce50e2... exactly (507 rows, 507 unique uids); published-vs-replay diff is 3 fields (2 timestamps, 1 receipt path). All aggregates recomputed from pinned source match. All three payload hashes recompute.",
+      "status": "CLOSED"
+    },
+    "R6": {
+      "evidence": "a_closeout/ has zero model/network/judge/training/production/confirmation surface (6 textual hits, all declarations). Independent Loop B canary disclosed separately.",
+      "status": "CLOSED_AND_DISCLOSED"
+    }
+  },
+  "role": "C",
+  "schema": "task_result_c_final_v1",
+  "scientific_totals_added": {
+    "confirmation_calls": 0,
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "judge_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "skill_loading_receipt": [
+    "audit-cycle"
+  ],
+  "task_id": "natural-error-cost-final-audit-c-20261026",
+  "zero_confirmation_calls": true,
+  "zero_database_calls": true,
+  "zero_endpoint_calls": true,
+  "zero_generation": true,
+  "zero_judge": true,
+  "zero_production_calls": true,
+  "zero_training": true
+}

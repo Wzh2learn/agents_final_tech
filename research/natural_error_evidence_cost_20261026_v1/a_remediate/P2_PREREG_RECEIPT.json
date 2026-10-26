@@ -1,0 +1,26 @@
+{
+  "answer_matching_rule_path": "P2_ANSWER_MATCHING_RULE.json",
+  "answer_matching_rule_sha256": "06d659c821c5d500ecf1525e28a9fdfc6710c54fd56e07750a3589ff27808fe7",
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "candidate_selection_rule": "From restricted frontiers only, retain candidates whose total visible-evidence characters are at most 75% or at most 50% of always-expand, whose deterministic retrieval-action count is at most 3, and whose offline semantic-reference-potential gap from always-expand is at most 2.0 percentage points. If multiple remain, select the smallest total-character candidate; ties use lexicographic frontier name. Any selected item is diagnostic only and is not a method result.",
+  "context_budgets_percent": [
+    75,
+    50
+  ],
+  "deterministic_action_budget": 3,
+  "frozen_at": "2026-10-26T16:37:47+08:00",
+  "frozen_before_frontier_computation": true,
+  "frozen_before_future_generation": true,
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "generation_at_freeze": 0,
+  "model_probe_authorized": false,
+  "noninferiority_margin_percentage_points": -2.0,
+  "paired_analysis_unit": "question_uid, paired across always-expand and the candidate frontier on the same 506 qualified questions; the one predeclared NOT_MODEL_READY hidden-scale question is excluded before output",
+  "primary_metric": "full_semantic_answer_accuracy under P2_ANSWER_MATCHING_RULE.json",
+  "program_path": "P2_RECOVERY_RECOMPUTE.py",
+  "program_sha256": "ca3759064f6d226886a7b4b9afa63821ca85b03fe0c1bc6b6d804b34efdbb431",
+  "receipt_scope": "P2 deterministic evidence recompute; no generation, judge, training, production or database call is authorized",
+  "schema": "p2_prereg_receipt_v1",
+  "source_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+  "task_id": "natural-error-cost-remediate-a-20261026"
+}

@@ -1,0 +1,50 @@
+{
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "candidate_id": "P2_TABLE_TEXT_EVIDENCE_COST",
+  "execution_now": {
+    "database_calls": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "implementation": {
+    "answer_matching_rule_sha256": "06d659c821c5d500ecf1525e28a9fdfc6710c54fd56e07750a3589ff27808fe7",
+    "prereg_receipt_sha256": "dcba23ca90ae6619aa695a1d27d8a430bee5cd1d100d0f5a3f4e62d203e396a2",
+    "program": "P2_RECOVERY_RECOMPUTE.py",
+    "program_sha256": "ca3759064f6d226886a7b4b9afa63821ca85b03fe0c1bc6b6d804b34efdbb431",
+    "recompute_sha256": "fad0ea7ab4f477172cdd1c419ce13ea1a9dfdb3f2e67d3432fba500493ab0981",
+    "row_results_sha256": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e"
+  },
+  "metrics": {
+    "frozen_numeric_program_metric": "program_correct using math.isclose rel_tol=1e-6 abs_tol=1e-6",
+    "primary": "full_semantic_answer_accuracy under P2_ANSWER_MATCHING_RULE.json",
+    "secondary": [
+      "interface_valid",
+      "evidence_sufficiency",
+      "total_visible_evidence_chars"
+    ]
+  },
+  "missing_condition": "No restricted frontier meets both the frozen -2.0 pp margin and a frozen 75% or 50% context budget.",
+  "model_probe_authorized": false,
+  "release_effect": "No model stage or probe is released; NO_GO remains unchanged.",
+  "schema": "blocked_probe_contract_corrected_v2",
+  "screen": {
+    "best_budget_passing_context_ratio": 0.667945,
+    "best_budget_passing_frontier": "small_topk_3",
+    "best_budget_passing_gap_percentage_points": 10.650888,
+    "context_budgets_percent": [
+      75,
+      50
+    ],
+    "diagnostic_candidate": null,
+    "disposition": "NO_GO",
+    "noninferiority_margin_percentage_points": -2.0,
+    "qualified_challenger": null
+  },
+  "status": "BLOCKED_NO_QUALIFIED_CHALLENGER",
+  "task_id": "natural-error-cost-remediate-a-20261026"
+}

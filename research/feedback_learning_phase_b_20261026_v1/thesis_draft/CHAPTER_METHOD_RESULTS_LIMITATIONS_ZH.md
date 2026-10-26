@@ -204,6 +204,19 @@ top-3 覆盖 378，top-5 和 top-3+top-1 邻域均覆盖 385，top-10 覆盖 389
 当前两个候选缺少独立残差，不证明条件判断或证据获取问题不存在；下一步需要未曝光自然
 来源、完整语义参考和能同时越过这些强基线的可执行残差。
 
+**补充资格复核。** 2026-10-26 的自然原题复核进一步把 P1 的 5 个 frozen
+incorrect 候选拆成 4 个真实模型语义错误和 1 个 reference/scoring defect。一个
+可见、无 gold、固定顺序的 axis/scope policy 对 4 个真实错误全部修复，残差为 0；
+因此该证据使用候选停止且不可复活。P2 改用 507 个 TAT-QA `table-text` 原题后，
+506 个有完整语义参考，1 个 hidden-percent 项预先标为 `NOT_MODEL_READY`。来源需求为
+table 197、paragraph 44、both 265、unresolved 1；offline semantic-potential
+为 table-only 197、top-3 452、top-1-neighbor 414、top-5 486、transparent
+stop/expand 481、always-expand 506。成本最优的 top-3 约为 always-expand 上下文
+66.8%，但与上限差 10.65 个百分点，远超预注册 2.0 个百分点容差；top-5 更接近但
+超过 75%/50% 成本门。最终 `qualified_challenger=null`，模型小探针不释放。
+这里的主筛查量是 offline `semantic_reference_potential`，未来模型实验才使用
+`full_semantic_answer_accuracy`；字符数只是上下文体积代理。
+
 ## 3. C3：固定模型交付的风险—覆盖—成本边界
 
 ### 3.1 方法

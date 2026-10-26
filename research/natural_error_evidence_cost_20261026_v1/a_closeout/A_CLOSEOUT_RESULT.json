@@ -1,0 +1,158 @@
+{
+  "aggregate_counts": {
+    "p1_policy_replay_genuine": "4/4",
+    "p1_policy_replay_overall": "4/5",
+    "p1_residual_genuine": 0,
+    "p2_answer_types": {
+      "arithmetic": 205,
+      "count": 20,
+      "multi-span": 101,
+      "span": 181
+    },
+    "p2_complete_semantic_references": 506,
+    "p2_table_text_questions": 507
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "corrections": {
+    "R1": {
+      "evidence": "MECHANISM_NEIGHBORS_CORRECTED.md marks the old row-2 five-of-five claim and 229/507 figure SUPERSEDED.",
+      "status": "CORRECTED"
+    },
+    "R2": {
+      "evidence": "18/18 required matcher self-tests pass; rule and receipt hashes are re-frozen.",
+      "status": "CORRECTED"
+    },
+    "R3": {
+      "evidence": "Executed screen names semantic_reference_potential over 507; future evaluation names full_semantic_answer_accuracy over 506.",
+      "status": "CORRECTED"
+    },
+    "R4": {
+      "evidence": "Final P1 rows are distinct, period-axis rows are emitted where required, and declared actor/offline field lists equal emitted fields.",
+      "status": "CORRECTED"
+    },
+    "R5": {
+      "evidence": "Final replay derives source, reference, cluster, frontier and completeness counts at runtime; no aggregate count literals remain in P2_RECOVERY_RECOMPUTE_FINAL.py.",
+      "status": "CORRECTED"
+    }
+  },
+  "disposition": "NO_GO_STOP_MODEL_STAGE",
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "implementation": {
+    "answer_matching_rule_sha256": "34350f7bd9aed9a05cfa9c3aec8cedcfbc979ed6f1378efd980a03993ede8157",
+    "prereg_receipt_sha256": "0832961771e3c1719cb68bc0d7bbfb12a2a9326e76ece4ab0c617b7f186099eb",
+    "recompute_program_sha256": "736a7f5ee10af5d1214d75fd6a99a15bd8eb94f873e3a9de9cd240ab2ab97b4e",
+    "self_tests_passed": 18,
+    "self_tests_total": 18
+  },
+  "model_probe_authorized": false,
+  "output_sha256_scope": {
+    "excluded_file": "A_CLOSEOUT_RESULT.json",
+    "reason": "self-referential SHA-256 would break determinism"
+  },
+  "outputs": {
+    "MECHANISM_NEIGHBORS_CORRECTED.md": {
+      "bytes": 3319,
+      "sha256": "4bb029a00a7abf0a4b8f8bbb3ef1748c0ef37a9fa1a030b5238cc37238ed718e"
+    },
+    "NATURAL_ERROR_DIAGNOSIS_FINAL.jsonl": {
+      "bytes": 12053,
+      "sha256": "46923e9d3b1991bf9bd1e631173a58bac311d72bb8be1121fb1fc99ff9b1767c"
+    },
+    "P1_SEMANTIC_LEDGER_FINAL.json": {
+      "bytes": 24706,
+      "sha256": "6a50c60a9289febece10b80ffb11306f8a099868b447830d6aeac91f3807275d"
+    },
+    "P2_ANSWER_MATCHING_RULE_FINAL.json": {
+      "bytes": 4464,
+      "sha256": "34350f7bd9aed9a05cfa9c3aec8cedcfbc979ed6f1378efd980a03993ede8157"
+    },
+    "P2_PREREG_RECEIPT_FINAL.json": {
+      "bytes": 2476,
+      "sha256": "0832961771e3c1719cb68bc0d7bbfb12a2a9326e76ece4ab0c617b7f186099eb"
+    },
+    "P2_RECOVERY_RECOMPUTE_FINAL.json": {
+      "bytes": 2555594,
+      "sha256": "efe134217e0629ec90b72ba302998d5b43756a9f46ff125fd2f2e09c01f7c9de"
+    },
+    "P2_RECOVERY_RECOMPUTE_FINAL.py": {
+      "bytes": 43987,
+      "sha256": "736a7f5ee10af5d1214d75fd6a99a15bd8eb94f873e3a9de9cd240ab2ab97b4e"
+    },
+    "STAGE_CANDIDATE_FINAL.json": {
+      "bytes": 1711,
+      "sha256": "d923081cdbdbd20d5dcdcecc8f6643f1c8c25fbe6f4aaafd0833d0c7da5189dc"
+    }
+  },
+  "overall_status": "CLOSEOUT_PUBLISHED_NO_GO_STOP_MODEL_STAGE",
+  "prior_version_preservation": {
+    "a_prepare_file_count": 13,
+    "a_prepare_sha256": {
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/.omc/state/idle-notif-cooldown.json": "7f4384c8b44b7e262d2bb30960c90a18a5b6df63ba53fa0c8438b900b11d7237",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/.omc/state/sessions/2d0c2311-2908-4f0f-9972-5f360fe7136e/last-tool-error-state.json": "20293131687c6ae5b1f20a18e62517a481261d4552c1ac49f4e9f58c9019e2f4",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/.omc/state/sessions/2d0c2311-2908-4f0f-9972-5f360fe7136e/pre-tool-advisory-throttle.json": "26d37166662bbe4b5f8f881e7108f7ef61fe3224c6d124c91fa82d1709b45ac0",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/A_PREPARE_RESULT.json": "c0a58654515c1ff23f8fe1f185ba39aa04ca4b37efa1208bb33b0b2968725ffe",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/EXPOSURE_REGISTER.json": "02c7278819a8cdaf84a18872aa03c828431022d216af7955bb76955a349ae698",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/MECHANISM_NEIGHBORS.md": "3f3d46ab8edce2aba9d6b5dc1d5b3833e87b853c55151ff10ad113d4172fed43",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/NATURAL_ERROR_DIAGNOSIS.jsonl": "b44d3a39be0ba6b9009dd04270a49978a0ddc21c0e9ef8050fdd2b20edbde549",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/P1_PROBE_CONTRACT_DRAFT.json": "f84e796b6e6834ae6d5261f6993219c0fb3ac4ee95fa148147bd75c04091bfd9",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/P1_SEMANTIC_LEDGER.json": "f2386d7ce14d584f470b5ebd4aa5a484f50cc2af94ef0a8ddada6058f4bbf5bb",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/P2_PROBE_CONTRACT_DRAFT.json": "02671418d21a204273bc142fc1940f6e499c7e61db7ae6790a3effff7a346768",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/P2_TASK_QUALIFICATION.json": "d3b3ee96f8edff54205b7ff1eca28d7e48da85e7449e1d15a425d6ab3f664451",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/REAL_EXAMPLES.jsonl": "18cfdff027ad4af52f7cca010cd44fdbc7d6dbc257a201946836793ce20a632e",
+      "research/natural_error_evidence_cost_20261026_v1/a_prepare/STRONG_BASELINE_FRONTIERS.json": "e3f69c2bd97bd6a5371804be0d4213d8c40518c2d9b08cfa8652883c6aeef5c3"
+    },
+    "a_remediate_file_count": 17,
+    "a_remediate_sha256": {
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/.omc/state/agent-replay-0bcc040a-e69f-440d-9d43-5e40a0e1bc7d.jsonl": "c0f50cb096619a1ea7fe0d2914883d9bafffdf9a9657ff158e2e2751f157c2c1",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/.omc/state/sessions/0bcc040a-e69f-440d-9d43-5e40a0e1bc7d/last-tool-error-state.json": "1b4944408cf7f4532bcc446ebac806bd5507c683d35bd011ab29b5b5ce968b5d",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/.omc/state/sessions/0bcc040a-e69f-440d-9d43-5e40a0e1bc7d/mission-state.json": "6352e00b0147f166ae5660f86b7cbdf43d27d50b836ca3795e95363bf744b9aa",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/.omc/state/sessions/0bcc040a-e69f-440d-9d43-5e40a0e1bc7d/pre-tool-advisory-throttle.json": "482e0020b2ee31e86d5979aa8621f066458e65859c2fd971e8c39111290da057",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/.omc/state/sessions/0bcc040a-e69f-440d-9d43-5e40a0e1bc7d/subagent-tracking-state.json": "6d2d7e290edbdde6cebb62eca3b413a4fb0d25ab764be45a5be6a63feb908b9a",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/A_REMEDIATION_RESULT.json": "0c15aa7c44f5f0901b1c8587b37fb4a1e8da66c00e3a72389a1e49f1596c1e61",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/EXPOSURE_REGISTER_CORRECTED.json": "c6126c0bca0bd0defc0606a3188c003466be8c6d80f6cf69df21c770b595d251",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/NATURAL_ERROR_DIAGNOSIS_CORRECTED.jsonl": "89f1789f3c00c2cc04e606a623277e23bb41c17a4cf9b06a994a9e5e8d7fe7b2",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P1_SEMANTIC_LEDGER_CORRECTED.json": "38a0c490fe4ac9c2031f2c74dbcbd680fafd039eb46f2c237b79c5b04291639b",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P2_ANSWER_MATCHING_RULE.json": "06d659c821c5d500ecf1525e28a9fdfc6710c54fd56e07750a3589ff27808fe7",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P2_PREREG_RECEIPT.json": "dcba23ca90ae6619aa695a1d27d8a430bee5cd1d100d0f5a3f4e62d203e396a2",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P2_PROBE_CONTRACT_DRAFT_CORRECTED.json": "be6e1d0cc4108d24139401b246b0b2fe156a706e56bb62af591e3a44635466d4",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P2_RECOVERY_RECOMPUTE.json": "fad0ea7ab4f477172cdd1c419ce13ea1a9dfdb3f2e67d3432fba500493ab0981",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P2_RECOVERY_RECOMPUTE.py": "ca3759064f6d226886a7b4b9afa63821ca85b03fe0c1bc6b6d804b34efdbb431",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/P2_TASK_QUALIFICATION_CORRECTED.json": "e38d89b74198324778a6ced47efe94a1940009a72fe723e0b8c6bcbf621ee6d2",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/STRONG_BASELINE_FRONTIERS_CORRECTED.json": "114b1d49a0a16686b65aff3cc4309303bf504b727a184da6bbf7e6fba7369eeb",
+      "research/natural_error_evidence_cost_20261026_v1/a_remediate/__pycache__/P2_RECOVERY_RECOMPUTE.cpython-312.pyc": "c702b335e0c71fdeec62c50787535955d9899e3e3445ef8d402d44701bb0bf9f"
+    },
+    "byte_identical": true
+  },
+  "role": "A-EXP",
+  "row_level_replay": {
+    "preserved": true,
+    "prior_remediation_row_results_sha256": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e",
+    "row_count": 507,
+    "row_results_sha256": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e"
+  },
+  "schema": "a_closeout_result_v1",
+  "scientific_totals_added": {
+    "confirmation_calls": 0,
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "judge_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "skill_loading_receipt": [
+    "graph-loop-rules",
+    "progress-reading-protocol",
+    "verify-before-done"
+  ],
+  "task_id": "natural-error-cost-closeout-a-20261026",
+  "zero_database_calls": true,
+  "zero_confirmation_calls": true,
+  "zero_endpoint_calls": true,
+  "zero_generation": true,
+  "zero_judge": true,
+  "zero_production_calls": true,
+  "zero_training": true
+}

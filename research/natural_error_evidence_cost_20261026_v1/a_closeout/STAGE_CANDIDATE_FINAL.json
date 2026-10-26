@@ -1,0 +1,52 @@
+{
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "disposition": "NO_GO_STOP_MODEL_STAGE",
+  "frontier_screen": {
+    "context_budgets_percent": [
+      75,
+      50
+    ],
+    "noninferiority_margin_percentage_points": -2.0
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "model_probe_authorized": false,
+  "p1_evidence_use": {
+    "observed_residual": 0,
+    "policy_replay_genuine": "4/4",
+    "policy_replay_overall": "4/5",
+    "preference_passed": false,
+    "required_residual_after_visible_controls": 2,
+    "status": "BLOCKED_AFTER_SIMPLE_CONTROLS"
+  },
+  "p2_evidence_cost": {
+    "cost_and_action_passing_frontiers": [
+      "table_only",
+      "small_topk_3",
+      "fixed_top1_neighbor"
+    ],
+    "executed_denominator": 507,
+    "executed_primary_proxy": "semantic_reference_potential",
+    "future_model_evaluation_denominator": 506,
+    "future_model_evaluation_primary_metric": "full_semantic_answer_accuracy",
+    "preference_passed": false,
+    "restricted_frontiers_passing_margin_and_budget": [],
+    "smallest_gap_among_cost_and_action_passing_pp": 10.650888,
+    "status": "NO_QUALIFIED_CHALLENGER"
+  },
+  "schema": "stage_candidate_final_v1",
+  "selected_primary_candidate": null,
+  "task_id": "natural-error-cost-closeout-a-20261026",
+  "verification": {
+    "answer_matching_self_tests": 18,
+    "answer_matching_self_tests_passed": 18,
+    "p1_candidates": 5,
+    "p2_row_results_sha256": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e",
+    "p2_rows": 507
+  },
+  "zero_database_calls": true,
+  "zero_endpoint_calls": true,
+  "zero_generation": true,
+  "zero_judge": true,
+  "zero_production_calls": true,
+  "zero_training": true
+}

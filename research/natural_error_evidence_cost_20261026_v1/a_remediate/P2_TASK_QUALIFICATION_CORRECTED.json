@@ -1,0 +1,71 @@
+{
+  "answer_risk_cost_target": {
+    "actual_model_answer_risk": "UNKNOWN_ZERO_GENERATION",
+    "characters_interpretation": "deterministic context-volume proxy only; not measured tokens, latency, memory, or cost",
+    "primary_metric": "full_semantic_answer_accuracy",
+    "secondary_metrics": [
+      "program_correct",
+      "interface_valid",
+      "evidence_sufficiency",
+      "total_visible_evidence_chars"
+    ]
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "baseline_decision": {
+    "accepted_final_baseline": "always_expand",
+    "diagnostic_candidate": null,
+    "qualification_status": "TASK_LEGALLY_QUALIFIED_NO_NONINFERIOR_COST_CHALLENGER",
+    "qualified_challenger": null,
+    "reason": "No restricted frontier passes both the frozen margin and a frozen context budget."
+  },
+  "frozen_before_output": {
+    "answer_matching_rule_sha256": "06d659c821c5d500ecf1525e28a9fdfc6710c54fd56e07750a3589ff27808fe7",
+    "cost_budget_1": "total visible evidence characters <=75% of always-expand and <=3 deterministic retrieval actions",
+    "cost_budget_2": "total visible evidence characters <=50% of always-expand and <=3 deterministic retrieval actions",
+    "noninferiority_margin_percentage_points": -2.0,
+    "prereg_receipt_sha256": "dcba23ca90ae6619aa695a1d27d8a430bee5cd1d100d0f5a3f4e62d203e396a2"
+  },
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "legally_recoverable_evidence": {
+    "method": "Offline: exact target/operand recovery from canonical table or gold rel_paragraphs plus visible scale resolution; gold is never passed to build_frontier_actions.",
+    "nonempty_tables": 507,
+    "scale_source_counts": {
+      "not_required": 170,
+      "paragraph": 237,
+      "question": 60,
+      "table": 13,
+      "table_and_paragraph": 6,
+      "unresolved": 21
+    },
+    "source_requirement_counts": {
+      "both": 265,
+      "paragraph": 44,
+      "table": 197,
+      "unresolved": 1
+    },
+    "source_requirement_gold_use": "offline_reference_scoring_only",
+    "valid_nonempty_rel_paragraph_sets": 507
+  },
+  "reference_completeness": {
+    "answer_types": {
+      "arithmetic": 205,
+      "count": 20,
+      "multi-span": 101,
+      "span": 181
+    },
+    "answers_present": 507,
+    "complete_semantic_answer_references": 506,
+    "incomplete_or_ambiguous": 1,
+    "not_model_ready_action": "UNKNOWN is the predeclared offline response for the one hidden percent-scale item; it remains excluded from the primary paired answer-risk denominator."
+  },
+  "schema": "p2_task_qualification_corrected_v2",
+  "source_identity": {
+    "answer_from_filter": "table-text",
+    "dev_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+    "dev_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "finqa_used": false,
+    "question_count": 507,
+    "task_source": "pinned TAT-QA raw dev only"
+  },
+  "task_id": "natural-error-cost-remediate-a-20261026"
+}

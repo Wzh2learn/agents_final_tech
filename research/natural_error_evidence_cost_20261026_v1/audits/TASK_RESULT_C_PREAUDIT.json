@@ -1,0 +1,206 @@
+{
+  "a_artifacts_modified": false,
+  "audited_a_artifact_hashes_verified": true,
+  "audited_inputs": {
+    "a_output_hashes_all_match": true,
+    "a_prepare_task_sha256": "b14cbcda5544b70cf172713e89d6d804e6e76459c59359835ae00c86e8880050",
+    "exposure_qualification_sha256": "39045142db73586504e0504b0f7e2ad73bbabd373075d57ae2d5aca9e94bdfaa",
+    "p1_instances_sha256": "00b92fb31a3ef37b69d6cb67d33723b3e94afbaddbf38e246913b9c7c8dc4d13",
+    "p1_results_sha256": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+    "p2_dev_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "stage_gate_sha256": "384ef47ce94331e5ca70721999e04e14af1f02607f90071a4fb98d7cab9285d7"
+  },
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "candidate_verdicts": [
+    {
+      "blocking_fixes": [
+        "F1",
+        "F2"
+      ],
+      "c_status": "BLOCKED_AFTER_SIMPLE_CONTROLS_EVIDENCE_CORRECTED",
+      "candidate_id": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "natural_model_errors": 4,
+      "other_fixes": [
+        "F3"
+      ],
+      "qualification_status_a": "BLOCKED_AFTER_SIMPLE_CONTROLS",
+      "reference_defects": 1,
+      "residual_after_simple_controls": 0,
+      "verdict": "CONDITIONAL",
+      "verdict_rationale": "The blocked conclusion holds on corrected evidence, but one of the five candidates is a reference defect and the 5/5 replay claim is false; the card may not be relied on until F1 and F2 land."
+    },
+    {
+      "blocking_fixes": [
+        "F4"
+      ],
+      "c_status": "TASK_QUALIFIED_COST_SCREEN_UNVERIFIED",
+      "candidate_id": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "other_fixes": [
+        "F5"
+      ],
+      "qualification_status_a": "TASK_QUALIFIED_BUT_NO_COST_CANDIDATE",
+      "qualified_challenger": null,
+      "verdict": "CONDITIONAL",
+      "verdict_rationale": "Identity, counts, evidence legality, exposure and deployable baselines verify exactly; the sole basis for no qualified challenger is an unpublished recovery rule set and cannot be independently reproduced. Robust without it: larger_topk_5 fails both cost budgets at any margin."
+    }
+  ],
+  "checks": [
+    {
+      "detail": "All five are ordinary-arm original variants with full visible tables and axis labels; four are genuine model semantic errors; the fifth is F1.",
+      "id": 1,
+      "name": "p1_natural_original_errors_and_decision_space",
+      "status": "PASS_WITH_EXCEPTION"
+    },
+    {
+      "detail": "F1 inverted gold direction on NAT_train_b7814ec0_7b6669a8; F2 5/5 rule replay not reproducible (4/5). Reasonable UNKNOWN and hidden-scale handling for P2 is correct.",
+      "id": 2,
+      "name": "reference_and_scoring_defects_separated",
+      "status": "FAIL"
+    },
+    {
+      "detail": "Gold programs, answers, reference row ids and hidden scales are absent from proposed actor inputs; F3 probe metric drifts from frozen scorer.",
+      "id": 3,
+      "name": "no_reference_leakage_into_actor_inputs",
+      "status": "PASS_WITH_FIX"
+    },
+    {
+      "detail": "507 table-text set, evidence legality and record-internal labelling verified exactly; F4 load-bearing ceilings not independently reproducible.",
+      "id": 4,
+      "name": "p2_evidence_and_reference_completeness",
+      "status": "PASS_WITH_FIX"
+    },
+    {
+      "detail": "Baselines deployable under matched information and cost; margin -2.0 pp and budgets 75/50 percent declared before generation; F5 pre-registration receipt and answer-matching rule missing.",
+      "id": 5,
+      "name": "baseline_deployability_and_frozen_margin_budgets",
+      "status": "PASS_WITH_FIX"
+    },
+    {
+      "detail": "Role and exposure counts reproduce exactly; all ten real examples registered; five selected development examples verified as prior STRUCTURAL_SCAN_ONLY UNASSIGNED.",
+      "id": 6,
+      "name": "exposure_and_source_cluster_registration",
+      "status": "PASS"
+    },
+    {
+      "detail": "Five neighbors plus stop/expand are materially differentiated and novelty is disclaimed; inherit F2 and F4 corrections.",
+      "id": 7,
+      "name": "mechanism_neighbors_differentiated",
+      "status": "PASS_WITH_FIX"
+    }
+  ],
+  "findings": [
+    {
+      "candidate": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "check": 2,
+      "id": "F1",
+      "required_fix": "Reclassify as reference/scoring defect; remove from natural model errors and from complete-reference claims.",
+      "severity": "blocking",
+      "summary": "NAT_train_b7814ec0_7b6669a8 gold direction is inverted relative to 19 of 20 change items in the frozen set, including five identically phrased items; the model followed the dominant later-minus-earlier convention."
+    },
+    {
+      "candidate": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "check": 2,
+      "id": "F2",
+      "required_fix": "Publish one frozen gold-free rule policy and report 4/5; correct MECHANISM_NEIGHBORS row 2.",
+      "severity": "blocking",
+      "summary": "Stated latest-minus-previous rule yields -1955 but the A gold is +1955; deterministic replay is 4/5, not 5/5, and the per-instance recipes are not one deployable policy."
+    },
+    {
+      "candidate": "P1_VISIBLE_SEMANTIC_ROLE_BINDING",
+      "check": 3,
+      "id": "F3",
+      "required_fix": "Align with frozen scorer or declare and justify dual metrics.",
+      "severity": "fix_before_release",
+      "summary": "Probe scoring.primary is exact program and value while the frozen metric is numeric equality."
+    },
+    {
+      "candidate": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "check": 4,
+      "id": "F4",
+      "required_fix": "Publish recovery/ranking program, serialization and matching rules; C re-runs the margin screen before the no-challenger result is used.",
+      "severity": "blocking",
+      "summary": "No published recompute program for semantic_reference_potential, source_requirement_counts, character volumes or the stopword list; C variants bracket but do not reproduce A, so the 2.0 pp margin screen is unverified."
+    },
+    {
+      "candidate": "P2_TABLE_TEXT_EVIDENCE_COST",
+      "check": 5,
+      "id": "F5",
+      "required_fix": "Add a pre-registration receipt and freeze the answer-matching rule before generation.",
+      "severity": "fix_before_release",
+      "summary": "Margin and budgets are declared in-artifact only and full_semantic_answer_accuracy has no frozen matching rule."
+    }
+  ],
+  "goal_id": "NATURAL_ERROR_EVIDENCE_COST_20261026",
+  "recommendation": {
+    "advisory_only": true,
+    "disposition": "NO_GO_STOP_MODEL_STAGE",
+    "nearest_candidate_condition": "Only after F4 re-run still shows no qualified challenger or shows one that passes a frozen budget, and after F5.",
+    "nearest_candidate_if_fixes_land": "P2_TABLE_TEXT_EVIDENCE_COST",
+    "p1_revivable": false,
+    "recommended_primary": null,
+    "stage_gate_basis": "P1 has zero residual after visible-only simple controls and P2 has no cost frontier inside the frozen margin and budgets; no candidate is forced."
+  },
+  "recomputed": {
+    "p1_natural_model_errors_after_c_audit": 4,
+    "p1_ordinary_original_questions": 24,
+    "p1_program_correct": 19,
+    "p1_program_incorrect": 5,
+    "p1_reference_defects": 1,
+    "p1_residual_after_single_deployable_rule_policy": 0,
+    "p2_answer_types": {
+      "arithmetic": 205,
+      "count": 20,
+      "multi_span": 101,
+      "span": 181
+    },
+    "p2_answers_present": 507,
+    "p2_arithmetic_or_count_derivations_nonempty": 225,
+    "p2_distinct_table_uids": 156,
+    "p2_exposure_counts": {
+      "EXPOSURE_UNKNOWN": 6,
+      "METHOD_DEVELOPMENT_OR_DIAGNOSTIC": 16,
+      "MODEL_OR_FEEDBACK_EXPOSURE": 14,
+      "PROGRAM_GENERATED_NO_CONTEXT_EVIDENCE": 22,
+      "PROGRAM_GENERATED_REFERENCE_PENDING_REVIEW": 1,
+      "STRUCTURAL_SCAN_ONLY": 448
+    },
+    "p2_gold_recovery_all": 507,
+    "p2_gold_recovery_neighbor_variant1": 357,
+    "p2_gold_recovery_neighbor_variant2": 377,
+    "p2_gold_recovery_top3_variant1": 431,
+    "p2_gold_recovery_top3_variant2": 444,
+    "p2_gold_recovery_top5_variant1": 483,
+    "p2_gold_recovery_top5_variant2": 487,
+    "p2_hidden_scale_items_excluded": 1,
+    "p2_role_counts": {
+      "UNASSIGNED": 472,
+      "development": 1,
+      "excluded_pending_review": 6,
+      "history": 7,
+      "reserve": 21
+    },
+    "p2_table_only_chars_a": 237907,
+    "p2_table_only_chars_variant_json": 240475,
+    "p2_table_text_questions": 507,
+    "p2_text_only_questions_not_used": 389
+  },
+  "role": "C",
+  "schema": "c_preaudit_result_v1",
+  "scientific_totals_added": {
+    "confirmation_calls": 0,
+    "database_calls": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "judge_calls": 0,
+    "production_calls": 0,
+    "training_runs": 0,
+    "training_tokens": 0
+  },
+  "task_id": "natural-error-cost-preaudit-c-20261026",
+  "zero_database_calls": true,
+  "zero_endpoint_calls": true,
+  "zero_generation": true,
+  "zero_judge": true,
+  "zero_production_calls": true,
+  "zero_training": true
+}

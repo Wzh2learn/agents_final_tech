@@ -1,0 +1,46 @@
+{
+  "authority_commit": "622b386986ca66c8119263e146f3d3e73c33e260",
+  "baseline": "always_expand",
+  "best_cost_challenger": "small_topk_3",
+  "best_cost_challenger_screen": {
+    "context_volume_ratio": 0.70909,
+    "margin_pass": false,
+    "offline_gap_percentage_points": 9.07,
+    "semantic_reference_potential": "460/507"
+  },
+  "candidate_id": "P2_TABLE_TEXT_EVIDENCE_COST",
+  "character_caveat": "Visible-evidence characters are context-volume proxies only; do not report them as measured token or latency savings.",
+  "execution_now": {
+    "generation_attempts": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "training_calls": 0
+  },
+  "frozen_gates": {
+    "cost_budget_1": "<=75% of always-expand total visible-evidence characters and <=3 deterministic actions",
+    "cost_budget_2": "<=50% of always-expand total visible-evidence characters and <=3 deterministic actions",
+    "noninferiority_margin_percentage_points": -2.0
+  },
+  "if_explicitly_released_after_requalification": {
+    "arms": [
+      "always_expand",
+      "qualified challenger"
+    ],
+    "generation_tokens_cap": 240000,
+    "judge_calls": 0,
+    "paired_questions_cap": 24,
+    "physical_generation_attempts_cap": 48,
+    "sample_selection": "D/C must select and register examples before output",
+    "training_calls": 0
+  },
+  "metrics": [
+    "full_semantic_answer_accuracy",
+    "program_correct",
+    "interface_valid",
+    "evidence_sufficiency",
+    "total_visible_evidence_chars"
+  ],
+  "missing_condition": "A challenger must meet one frozen cost budget and have an offline semantic-reference ceiling within 2.0 percentage points of always-expand; none does.",
+  "schema": "blocked_probe_contract_v1",
+  "status": "BLOCKED_NO_QUALIFIED_CHALLENGER"
+}
