@@ -6,7 +6,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
 
 ## 当前任务与证据
 
-阶段B已按[唯一科研指令](LOOP_D_RESEARCH_PROMPT.md)在GB10执行。B1收窄出 exposed-development set-binding supervision；R/E 同起点真实训练完成。192-token首轮是接口截断，384-token有界修复后 N=72.2%、R=69.4%、E=0%，当前 R/E 候选停止；confirmation 与 second seed 按冻结门未运行。详见[Phase B 回执](../../research/feedback_learning_phase_b_20261026_v1/PHASE_B_RETURN.md)。
+阶段B已有真实A/C执行、两次训练和准确的集合匹配计数，但[负责人事后复核](../governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)发现有效ordinary父模型未在训练中激活，R严格JSON0/36、集合匹配不等于答案正确。旧实现停止、不跑确认/第二seed；下一步按[唯一指令](LOOP_D_RESEARCH_PROMPT.md)做一次纠偏与真实决策残差资格/小探针，尚未派发。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
@@ -16,10 +16,10 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：阶段B已执行；旧v1/v2路径仅跳转 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：阶段B已执行且有效性叙事待纠偏；当前小探针交接在原预算余量内，旧v1/v2路径仅跳转 |
 | 最新科研回执 | [PHASE_A_RETURN](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)、[修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
-| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：当前 Goal 4,064 attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
+| 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
 | 历史独立账本 | [747-record ledger](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json)；更早账本继续隔离，不与 Portfolio V2 混算 |
 

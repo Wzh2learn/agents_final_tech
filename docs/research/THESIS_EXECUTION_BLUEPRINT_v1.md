@@ -1,21 +1,23 @@
 # 硕士研究执行蓝图 v1
 
-> 更新：2026-10-26｜`CURRENT_WORKFLOWS / PHASE_B_HANDOFF_PREPARED`
-> 执行唯一依据：[LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)。A已审阅，B执行交接待Owner转发，尚未派发；资源帽见唯一正文。
+> 更新：2026-10-26｜`CURRENT_WORKFLOWS / POST_B_VALIDITY_CORRECTION_AND_RESIDUAL_QUALIFICATION`
+> 执行唯一依据：[LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)。B已执行；事后纠偏/一次小探针待转发，资源只用原余量，不重置。
 > [架构](THESIS_RESEARCH_ARCHITECTURE_v3.md)管理研究范围，[治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)管理科学边界；本文件不另设授权或预算。
 > 方法、训练与账本的现状见[STATE](../../memory/STATE.md)，可复用资产接续[既有地图](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。
+
+> 2026-10-26事后更新：[Phase B复核](../governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)接受旧实现停止，纠正ordinary续训与方法负结果归因；B已执行，新训练本次不释放。当前行动、余量及单次转向以唯一指令为准，以下旧“B待转发/未训练”不再决定现状。
 
 ## 0. 现役工作流
 
 | 工作流 | 已有结果 | 下一步与出口 |
 |---|---|---|
 | G1 Paper E | 两案例、12页包、24/24引用及私有artifact机械审计 | 维护成熟包；Owner确认合适渠道与身份/外部动作，正式操作前核官方信息 |
-| Graph Loop执行交接 | A已完成且审阅，A/C旧科研路由同步修正 | D在Owner转发后实际派发，A实验、B机械验证、C独立审计，产物交D裁决 |
-| G2/C2学习 | 普通SFT强基线、14次历史训练；新O/R/E未训 | 按唯一指令先监督资格，再同起点R/E、O/N及工具强对照；确认前冻结 |
+| Graph Loop执行交接 | B已真实执行，当前实现停止且有效性归因待纠偏 | 接续原预算剩余3次派发，先资格、后有界探针、C一次独立审计 |
+| G2/C2学习 | 普通SFT强基线、14次历史训练；Phase B有2次真实child训练，父有效路径不合格 | 按唯一指令纠正有效性叙事，并先找完整语义可核验的决策残差；旧R/E不重开 |
 | G3/C3交付 | neutral retry旧错误池开发回放；无策略增量 | 独立固定模型问题成立才继续；同报错误接受、正确覆盖、弃答、原对破坏和总成本 |
 | G4学位 | 中文素材、骨架及导师稿 | C2/C3不预认证；按2027年10月送审倒排，持续形成正文 |
 
-A已收口，不重做全仓清理、19份旧prompt审阅或全景综述；B由Owner转发后启用GB10执行。已有41文件归档和资产地图直接复用。无法解释的差额保留，不以新制度或新表格代替研究判断。
+A/B均已有回执，不重做全仓清理、旧prompt审阅或全景综述；当前只接续事后纠偏和一次残差筛查。已有41文件归档和资产地图直接复用。无法解释的差额保留，不以新制度或新表格代替研究判断。
 
 阶段B实验在GB10保存原始输入、raw/适配输出、实际长度、模型/环境/来源版本和全成本。source/report/table独立性须与证据一致；训练、开发、选样及历次确认进入曝光并集。比较局部编辑时须有等信息的全程序修订、确定性工具和neutral强对照，主要指标及停止规则提前冻结。
 

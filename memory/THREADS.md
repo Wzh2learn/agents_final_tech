@@ -8,13 +8,14 @@ Updated: 2026-10-26
 
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
+| PHASE-B-VALIDITY | `PARENT_ACTIVITY_AND_ESTIMAND_CORRECTION_REQUIRED` | [负责人复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)发现训练父adapter未激活；原raw/计数保留，普通续训与R方法级负结果叙事需纠偏；旧R/E不重开 |
 | LOOP-D-PHASE-B-DISPATCH | `COMPLETED_CURRENT_R_E_STOPPED` | [Phase B 回执](../research/feedback_learning_phase_b_20261026_v1/PHASE_B_RETURN.md)：GB10 A/C 已执行，当前 R/E 候选停止；confirmation/second seed 按门未运行 |
 | LEDGER-340 | `UNRECONCILED_KEEP_CONSERVATIVE_TOTAL` | [自审证据](../docs/governance/audit/loop_d_control_review/RECONCILIATION.json)：35个生成/评审事件加5个训练事件复算9,169,332，比聚合9,169,672少340；attempts均4,064；不释放差额、不改旧账 |
 | UNIT-OBSERVABILITY | `UNOBSERVABLE_UNIT_CASE_EXCLUDED_FROM_INFERABLE_DENOMINATOR` | [A回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已确认单位尺度不可见；仅可修引用题0/1，后续监督按可观测性资格核验 |
 | ADAPTER-SEMANTICS | `SAFE_TAIL_AND_STRICT_SPLIT_VERIFIED_PHASE_A` | [A复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)已阻止1)0→10反例，raw/strict/embedded分开；不把旧适配器继续写成现役实现，未来合同仍需C核验 |
-| NEXT-C2-SUPERVISION | `CURRENT_IMPLEMENTATION_STOPPED_NEW_SUPERVISION_REQUIRED_FOR_RESTART` | 当前 reference-derived set-binding supervision 已完成真实训练但失败；重启需新来源隔离、verifier 核验自然纠正与稳定短输出合同 |
-| NEXT-PHASE-BUDGET | `188_PHYSICAL_CALLS_2_TRAININGS_CONFIRMATION_UNUSED` | Phase B 使用 188 次物理生成、2 次训练；confirmation 与 second seed 未释放。旧340差额仍单独保留 |
-| C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止，不支持反馈学习普遍无效 |
+| NEXT-C2-SUPERVISION | `CURRENT_IMPLEMENTATION_STOPPED_NEW_SUPERVISION_REQUIRED_FOR_RESTART` | 当前实现停止，ordinary有效续训前提未满足；下一步只筛完整语义可核验的新决策残差，旧代理监督不作训练合格认证 |
+| NEXT-PHASE-BUDGET | `ORIGINAL_CAPS_REMAIN_484_GENERATIONS_3_DISPATCHES_NO_TRAINING_THIS_HANDOFF` | Phase B已用188次物理生成、2次训练、13/16派发；当前小探针最多48次/240k生成tokens，训练0次，不重置旧总帽；旧340差额单独保留 |
+| C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止；[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)补充有效父模型与代理指标缺陷，不支持干净方法负结论或反馈学习普遍无效 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)是日期化建议，尚非Owner最终批准；动作前核验窗口、展示/认定和合理总费用，路线变化须明确确认，不自动转投 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |

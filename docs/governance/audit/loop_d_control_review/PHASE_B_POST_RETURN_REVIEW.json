@@ -1,0 +1,183 @@
+{
+  "schema": "phase_b_post_return_validity_review_v1",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "mode": "inquiry-methods/fact-check + experiment-autopsy",
+  "baseline_commit": "c7bcd5e980e913c2b31c4a5e2e840bc262001f14",
+  "hash_domain": "GIT_BLOB_BYTES",
+  "source_hashes": {
+    "research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAIN_RUN.py": "9df9ec42129dd539d80b0b2b60d8e0e5dc2e08e67fe5bebe8def924d7bd64f81",
+    "research/feedback_learning_phase_b_20261026_v1/b2/B2_PREFLIGHT_RECEIPT.json": "25a758fa9563d384cb6601794e111a572928fbcefad098e82c5f11cd80b70b09",
+    "research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_PATCH_CONTRACT.json": "c72993fe8b7c3a5deed22a7146b2a507e95c4fe77029337e89010c3bbc197867",
+    "research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py": "fdd7cb3652f1e785f752e1d510b3588e13791c3e2756e291213d66121d0fb7a0",
+    "research/feedback_learning_phase_b_20261026_v1/B2_D_FREEZE_DECISION.md": "d90c5ff4d139cc7b31796e0d8c608af4baf3c0d8405ba934f1c24d49f675212a",
+    "research/feedback_learning_phase_b_20261026_v1/b2b/B2B_GENERATION_RAW.jsonl": "a50e527551f34165789bf9e7363cfe2d02bb2d8696a9d6348dc7f557697c824b",
+    "research/feedback_learning_phase_b_20261026_v1/audits/B2B_C_COMBINED_AUDIT.md": "576574490c7d009590880e7e06f7cd81bd4428c8a671b11b17dbf7fbe7f46235",
+    "research/feedback_learning_phase_b_20261026_v1/PHASE_B_BUDGET_LEDGER.json": "8c2b54d17507f6c7a1a2329de53959b95f8ab9156c7163e710e219772e3a217b"
+  },
+  "verdict": "STOP_IMPLEMENTATION_ACCEPTED_ORDINARY_CONTINUATION_AND_METHOD_NEGATIVE_CLAIMS_NEED_CORRECTION",
+  "installed_primary_source": {
+    "peft_version": "0.21.2",
+    "peft_source": "/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/peft/peft_model.py",
+    "peft_source_sha256": "d22a1c50dea7a046ce28e71a79dfc20b1d96a2d238a9b457be6a88b6068e04d5",
+    "set_adapter_source": "    def set_adapter(self, adapter_name: str, inference_mode: bool = False) -> None:\n        \"\"\"\n        Sets the active adapter.\n\n        Only one adapter can be active at a time.\n\n        Additionally, this function will set the specified adapter to trainable (i.e., requires_grad=True) unless\n        inference_mode is True.\n\n        Args:\n            adapter_name (`str`):\n                The name of the adapter to be set as active. The adapter must be loaded first.\n            inference_mode (`bool`, optional):\n                Whether the activated adapter should be frozen (i.e. `requires_grad=False`). Default is False.\n        \"\"\"\n        if adapter_name not in self.peft_config:\n            raise ValueError(f\"Adapter {adapter_name} not found.\")\n        self.active_adapter = adapter_name\n        if not self.peft_config[adapter_name].is_prompt_learning:\n            # _set_adapter does not need to be called, since it's called through the BaseTuner class.\n            self.base_model.set_adapter(adapter_name, inference_mode=inference_mode)\n        else:\n            # handle auxiliary modules\n            _set_adapter(self, adapter_name, inference_mode=inference_mode)\n",
+    "trl_version": "1.14.1",
+    "trl_source_sha256": "802671dffd9ba8488f1cb6783b6c8c96eacbc1655876c359fa52c4c57649cbdf",
+    "trl_add_eos_logic_present": true,
+    "gpu_model_loaded": false,
+    "scientific_generation_attempts": 0,
+    "training_runs": 0
+  },
+  "synthetic_cpu_counterexample": {
+    "phase": "audit_synthetic_cpu_counterexample",
+    "peft": "0.21.2",
+    "device": "cpu",
+    "active_adapter": "b2_child",
+    "parent_output": [
+      [
+        2.0,
+        2.0
+      ]
+    ],
+    "child_output": [
+      [
+        0.0,
+        0.0
+      ]
+    ],
+    "base_output": [
+      [
+        0.0,
+        0.0
+      ]
+    ],
+    "parent_hash_unchanged": true,
+    "child_equals_base": true,
+    "child_equals_parent": false,
+    "scientific_generation_attempts": 0,
+    "training_runs": 0,
+    "endpoint_calls": 0
+  },
+  "independent_selected_primary_recompute": {
+    "scope": "INDEPENDENT_SELECTED_PRIMARY_COUNT_RECOMPUTE_NOT_FULL_C_REAUDIT",
+    "stats": {
+      "O_FROZEN_ORDINARY": {
+        "n": 36,
+        "classification": {
+          "correct": 27,
+          "reasonable_unknown": 4,
+          "wrong_or_undelivered": 5
+        },
+        "syntax": {
+          "STRICT": 36
+        },
+        "finish": {
+          "NOT_RECORDED": 36
+        }
+      },
+      "N_NEUTRAL_RETRY": {
+        "n": 36,
+        "classification": {
+          "correct": 26,
+          "reasonable_unknown": 4,
+          "wrong_or_undelivered": 6
+        },
+        "syntax": {
+          "STRICT": 36
+        },
+        "finish": {
+          "NOT_RECORDED": 36
+        }
+      },
+      "R_FULL_REVISION": {
+        "n": 36,
+        "classification": {
+          "correct": 25,
+          "reasonable_unknown": 4,
+          "wrong_or_undelivered": 7
+        },
+        "syntax": {
+          "EMBEDDED": 36
+        },
+        "finish": {
+          "MAX_NEW_TOKENS": 36
+        }
+      },
+      "E_RESTRICTED_PATCH": {
+        "n": 36,
+        "classification": {
+          "patch_schema_fail": 16,
+          "wrong_or_undelivered": 32,
+          "patch_key_fail": 20,
+          "reasonable_unknown": 4
+        },
+        "syntax": {
+          "EMBEDDED": 36
+        },
+        "finish": {
+          "MAX_NEW_TOKENS": 36
+        }
+      }
+    }
+  },
+  "facts": [
+    "Training selects fresh b2_child after loading ordinary_parent; no parent merge is present on that training path.",
+    "The preflight marks parent loaded but records active_adapter=b2_child for both parent_load and child_attachment.",
+    "Both SHA-256 values are required in predicted patch and checked by the deterministic applier, while generation has no hash-computation tool.",
+    "R 36/36 outputs are embedded JSON, not strict whole JSON; all 72 repaired generations hit max tokens.",
+    "Five qualified correction trajectories cover three families; three of the five materialized targets have reversed sign versus audit reference.",
+    "N and repaired R/E use different generation configurations."
+  ],
+  "inferences": [
+    "Same effective ordinary continuation is not satisfied by the inspected training path; unchanged parent hashes do not establish active parent computation.",
+    "The exact contribution of adapter activation, target imbalance, all-token loss, output contract and decoding to observed failure is not causally isolated.",
+    "Hash responsibilities confound the intended task but observed E rejection occurs first at keys/schema; hash burden is not proven sole cause.",
+    "R-N interval crosses zero and configuration is unmatched; no demonstrated gain is supported, not a general or clean causal method rejection."
+  ],
+  "values": [
+    "Keep current implementation closed; do not rerun old confirmation or train another patch variant.",
+    "Correct scope and run at most one new natural decision-residual qualification/pilot before method training."
+  ],
+  "unverified": [
+    "Exact real-Qwen zero-update logits equivalence and nested inference adapter composition have not been run.",
+    "No independent new-source generalization or feedback-derived learning is established.",
+    "Reported harness cached-token breakdown and Claude usage/fees remain unknown."
+  ],
+  "excluded_false_diagnosis": {
+    "claim": "runner missing explicit EOS proves EOS training defect",
+    "status": "NOT_ESTABLISHED",
+    "reason": "Installed TRL 1.14.1 contains automatic EOS appending logic."
+  },
+  "remaining_original_budget": {
+    "generation_attempts": 484,
+    "generation_tokens": 2660694,
+    "training_runs": 2,
+    "training_tokens": 3680052,
+    "collaboration_dispatch_attempts": 3
+  },
+  "current_review_side_effects": {
+    "harness_dispatches": 0,
+    "scientific_generation_attempts": 0,
+    "training_runs": 0,
+    "judge_calls": 0,
+    "production_probes": 0,
+    "audit_only": "Read-only installed-source checks and small synthetic CPU counterexample; no Qwen loaded."
+  },
+  "verification": {
+    "source_hashes_checked": 8,
+    "selected_primary_rows_recomputed": 144,
+    "historical_archives_hash_checked": 41,
+    "local_docs_lint": {
+      "fails": 0,
+      "warnings": 0
+    },
+    "changed_files_secret_scan": "PASS_SCOPE_ONLY_NO_MAINTAINER_WORDLIST_OR_PATH_SCAN",
+    "remote_cpu_counterexample": "PASS",
+    "remote_post_commit_checks": "TO_BE_RECORDED_SEPARATELY",
+    "adversarial_review": {
+      "passes": true,
+      "failures": [],
+      "limits": "Does not certify real-Qwen repaired equivalence or causal mechanism."
+    }
+  }
+}
