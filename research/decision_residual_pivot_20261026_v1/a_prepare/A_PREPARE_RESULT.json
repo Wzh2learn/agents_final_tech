@@ -1,0 +1,100 @@
+{
+  "schema": "decision_residual_a_prepare_result_v1",
+  "task_id": "phaseb-postb-prepare-a-20261026",
+  "goal_id": "DECISION_RESIDUAL_PILOT_20261026",
+  "role": "A-EXP",
+  "bound_commit": "19ddd7feffe90779f021304345ce894550c92816",
+  "decision": "NO_GO",
+  "decision_reason": "Neither screened candidate has an independent deployable decision residual after deterministic role binding or ordinary retrieval/fixed neighborhood controls.",
+  "missing_condition": "Acquire an untouched natural source family with a complete semantic answer reference, legally retrievable missing evidence, and a residual that survives exact cache, metadata/period rules, ordinary retrieval, fixed lookup, larger top-k and always-expand/neighbor controls.",
+  "premise_verification": {
+    "status": "PREMISE_FACTS_VERIFIED",
+    "binding_metadata_exception": "D_PREMISE_CORRECTION.md declares prompt SHA-256 e4c53572a01e1d0b6a86e7377948a8e2416dd3d9ffbcce43f2a40d715d4b7ef2, but the prompt at the bound commit is 327fb04ae18ff6e057338f28686389d183c24a797e22c325e8557cbea58f0cbe and no inspected git-history version matches the declared hash.",
+    "verified_facts": [
+      "child-only effective adapter activation on the inspected training and generation paths",
+      "deterministic tool ownership for canonicalization and integrity metadata",
+      "5 qualified set-binding corrections across 3 source families",
+      "39 correction rows and 217 no-op or unresolved rows per arm, from 36 trajectories and 12 tasks with 7 repeats",
+      "set-binding proxy target rather than semantic gold, including 3 sign-reversed eligible rows",
+      "O/N strict 36/36 and R/E embedded 36/36 with 72 MAX_NEW_TOKENS finishes"
+    ]
+  },
+  "candidate_screen": [
+    {
+      "candidate_id": "C1_CONDITIONAL_EVIDENCE_ROLE_APPLICABILITY",
+      "status": "NO_GO",
+      "strongest_simple_baseline": "Exact visible requested-role equals candidate-role rule",
+      "selected_real_example_count": 4,
+      "future_exposure_union": "ALL_SELECTED_EXAMPLES_EXPOSED"
+    },
+    {
+      "candidate_id": "C2_VERIFIABLE_EVIDENCE_ACQUISITION",
+      "status": "NO_GO",
+      "strongest_simple_baseline": "Ordinary top-k retrieval plus fixed document-local paragraph-neighbor closure",
+      "coverage": {
+        "text_only_gold_denominator": 198,
+        "top_3": 168,
+        "top_5": 171,
+        "top_3_radius_1": 177,
+        "top_3_radius_2": 186,
+        "top_3_radius_5": 195
+      },
+      "selected_real_example_count": 3,
+      "future_exposure_union": "ALL_SELECTED_EXAMPLES_EXPOSED"
+    }
+  ],
+  "probe_release": {
+    "status": "BLOCKED_MISSING_NATURAL_RESIDUAL",
+    "authorized_generation_attempts": 0,
+    "authorized_generation_tokens": 0,
+    "training_runs": 0,
+    "judge_calls": 0,
+    "production_calls": 0
+  },
+  "outputs": [
+    {
+      "path": "research/decision_residual_pivot_20261026_v1/a_prepare/PREMISE_VERIFICATION.json",
+      "sha256": "53cc3ed2b557df9f2802ea54d80f2c2eb46de752bd2c595b3436be7afd33db62"
+    },
+    {
+      "path": "research/decision_residual_pivot_20261026_v1/a_prepare/CANDIDATE_SCREEN.json",
+      "sha256": "f616fc490a1d804afe96b1aace359eb13ef624ad4b25312bc6f0e5081ee5f9c5"
+    },
+    {
+      "path": "research/decision_residual_pivot_20261026_v1/a_prepare/REAL_EXAMPLES.jsonl",
+      "sha256": "b8229a60345ce0cd6d5f68b617b790dbb601e41310664e4b0dae2ed5ccec7c2c"
+    },
+    {
+      "path": "research/decision_residual_pivot_20261026_v1/a_prepare/MECHANISM_NEIGHBORS.md",
+      "sha256": "abf3277454fc3e53e307c5ddba387e1348985b8bca5f8a63892cc6b41ac9b685"
+    },
+    {
+      "path": "research/decision_residual_pivot_20261026_v1/a_prepare/PROBE_CONTRACT_DRAFT.json",
+      "sha256": "d8e16fc5d39231ae3e8933eb6e63bdeb9ae78e7e34cd1a202d1560e9700564e1"
+    }
+  ],
+  "validation": {
+    "json_files_parse": true,
+    "jsonl_rows_parse": 7,
+    "candidate_1_example_rows": 4,
+    "candidate_2_example_rows": 3,
+    "all_examples_complete_reference": true,
+    "all_examples_deployable_action": true,
+    "all_examples_future_exposed": true,
+    "output_scope_only": true,
+    "old_phase_b_raw_reports_protocols_scores_modified": 0,
+    "unrelated_tests_run": 0
+  },
+  "actual_cost": {
+    "physical_generation_attempts": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "generation_tokens": 0,
+    "model_calls": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "production_calls": 0,
+    "monetary_cost": 0.0
+  },
+  "overall_status": "NO_GO_DOCUMENTED"
+}

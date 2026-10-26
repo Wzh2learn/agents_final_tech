@@ -1,0 +1,127 @@
+{
+  "schema": "decision_residual_candidate_screen_v1",
+  "task_id": "phaseb-postb-prepare-a-20261026",
+  "goal_id": "DECISION_RESIDUAL_PILOT_20261026",
+  "decision": "NO_GO",
+  "candidate_count_screened": 2,
+  "qualification_gate": {
+    "required": [
+      "complete semantic answer reference",
+      "legally retrievable or otherwise observable new evidence",
+      "deployable bounded action",
+      "residual remaining after exact cache, metadata and period rules, ordinary retrieval, fixed lookup, larger top-k and always-expand controls"
+    ],
+    "passed_candidate_count": 0
+  },
+  "missing_condition": "Acquire an untouched natural source family with a complete semantic answer reference, legally retrievable missing evidence, and a residual that survives exact cache, metadata/period rules, ordinary retrieval, fixed lookup, larger top-k and always-expand/neighbor controls.",
+  "candidates": [
+    {
+      "candidate_id": "C1_CONDITIONAL_EVIDENCE_ROLE_APPLICABILITY",
+      "category": "conditional_evidence_applicability",
+      "screen_result": "NO_GO",
+      "best_simple_baseline": "Deterministic exact visible-role equality: requested_role == candidate_role supports the role binding; any row-label or period mismatch is WRONG_ROLE.",
+      "simple_baseline_evidence": {
+        "four_selected_failures_explained": 4,
+        "four_selected_failures_total": 4,
+        "strong_role_rule_prior_result": "8/12 overall success and 9/12 correct role decisions",
+        "final_visible_role_history_result": "5/5 first-attempt success with 0 corrections and 0 role-decision changes"
+      },
+      "baseline_considerations": {
+        "exact_cache": "Does not create the role decision; can only replay a previously exact task and therefore does not establish a learned residual.",
+        "metadata_and_period_rules": "Period equality plus row-label equality directly identifies all four selected wrong-role failures.",
+        "ordinary_retrieval_or_fixed_lookup": "Not applicable to this visible-table role-binding panel.",
+        "always_expand_or_direct_answer": "Always expand cannot repair a role mismatch after the relevant visible row and period are already present; direct answer without role comparison is a weaker control."
+      },
+      "naturalness_and_masking": {
+        "source_failure_type": "Real frozen model failures on program-generated same-number/same-delta role tasks derived from public financial source rows.",
+        "natural_longitudinal_decision_trace": false,
+        "artificial_masking": "The collision and expected wrong-role label are constructed by task generation; no real deployment evidence absence is claimed."
+      },
+      "examples": [
+        "NR_development_0402_N2",
+        "NR_development_1582_N2",
+        "NR_development_2111_N2",
+        "NR_development_2174_N2"
+      ],
+      "example_count": 4,
+      "complete_reference_and_deployable_action": true,
+      "future_exposure_union": {
+        "every_selected_development_example_exposed": true,
+        "status": "EXPOSED_DEVELOPMENT_ONLY"
+      },
+      "rejection_reasons": [
+        "The negative tasks are authored or program-generated collision fixtures rather than natural post-feedback decision traces.",
+        "A deterministic requested-role equals candidate-role rule explains every selected failure and a static strong-role rule already improved the panel.",
+        "The existing history collection contains no genuine wrong-role feedback followed by a changed action."
+      ]
+    },
+    {
+      "candidate_id": "C2_VERIFIABLE_EVIDENCE_ACQUISITION",
+      "category": "verifiable_evidence_acquisition",
+      "screen_result": "NO_GO",
+      "source_snapshot": {
+        "path": "/home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json",
+        "sha256": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51",
+        "size_bytes": 10954658,
+        "total_questions": 883,
+        "text_only_gold_questions": 198
+      },
+      "best_simple_baseline": "Ordinary top-3 source retrieval followed by fixed document-paragraph neighborhood closure or a fixed larger top-k lookup.",
+      "simple_baseline_evidence": {
+        "official_top_3_gold_coverage": 168,
+        "official_top_5_gold_coverage": 171,
+        "top_3_plus_radius_1_gold_coverage": 177,
+        "top_3_plus_radius_2_gold_coverage": 186,
+        "top_3_plus_radius_5_gold_coverage": 195,
+        "denominator": 198
+      },
+      "baseline_considerations": {
+        "exact_cache": "Does not solve first occurrence and is irrelevant to the first-time acquisition slice.",
+        "metadata_and_period_rules": "Could improve ranking, but are dominated here by fixed neighborhood closure that reaches 186/198 at radius 2 and 195/198 at radius 5.",
+        "ordinary_retrieval_or_fixed_lookup": "Top-3 already covers 168/198; top-5 reaches 171/198.",
+        "always_expand_or_direct_answer": "Always radius-5 expansion covers 195/198. Direct answer without acquisition risks unsupported answers and has no verified evidence-acquisition advantage."
+      },
+      "naturalness_and_masking": {
+        "source_failure_type": "Controlled table-only interface on a public FinQA snapshot.",
+        "natural_real_world_evidence_absence": false,
+        "artificial_masking": "Source paragraphs are withheld by the controlled interface, but all gold paragraphs remain legally present and retrievable. This is not a natural source-absence claim."
+      },
+      "examples": [
+        "ETR/2002/page_24.pdf-3",
+        "HUM/2017/page_133.pdf-1",
+        "MRO/2017/page_111.pdf-1"
+      ],
+      "example_count": 3,
+      "complete_reference_and_deployable_action": true,
+      "future_exposure_union": {
+        "every_selected_development_example_exposed": true,
+        "status": "ASSUMED_EXPOSED_BY_TASK_DIRECTIVE_FOR_ALL_FUTURE_CONFIRMATION"
+      },
+      "rejection_reasons": [
+        "All three selected missing paragraphs are recovered by the deterministic fixed action: add immediate paragraph neighbors of official top-3 results.",
+        "Across the full text-only slice, fixed top-k or radius expansion explains almost all acquisition headroom.",
+        "The interface withholds retrievable source text, so the slice does not prove an independent real-world evidence-acquisition residual."
+      ]
+    }
+  ],
+  "source_hashes": {
+    "research/decision_space_autopsy_v1/SAME_NUMBER_ROLE_TASKS_DRAFT.json": "dbc54841f3e1a662b254c0249aed9fe1a8353be0b6d3f281eb55756810a14d5e",
+    "research/decision_space_autopsy_v1/exploratory_b0_v1/B0_RESULT_RESCORE_V1.json": "ddab3d98ef0a7e5620a6b724ccadde4e8675948e04d39304b303eeea4550090f",
+    "research/decision_space_autopsy_v1/exploratory_b0_v1/SAME_NUMBER_ROLE_EXPLORATION_SUMMARY.md": "29884649f4cc1f545e46d1c4b333e1eaae61f4d86fb6779b04a19a7efba24b59",
+    "/home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51"
+  },
+  "deterministic_scan": {
+    "slice_rule": "qa.gold_inds is non-empty and every gold key matches text_<integer>.",
+    "top_k_rule": "Use the first k entries of text_retrieved.",
+    "neighborhood_rule": "For each of the first three retrieved paragraph indices, add all paragraph indices within radius r in the concatenated pre_text+post_text sequence.",
+    "results": {
+      "text_only_gold_denominator": 198,
+      "top_3": 168,
+      "top_5": 171,
+      "top_3_radius_1": 177,
+      "top_3_radius_2": 186,
+      "top_3_radius_5": 195
+    }
+  },
+  "overall_residual_status": "NO_INDEPENDENT_DEPLOYABLE_RESIDUAL"
+}

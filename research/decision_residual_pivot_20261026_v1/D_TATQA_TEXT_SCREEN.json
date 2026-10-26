@@ -1,0 +1,287 @@
+{
+  "evidence_identity": "DETERMINISTIC_DEV_QUALIFICATION_SCREEN_NO_MODEL",
+  "input_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+  "input_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+  "method": "Per-record TF-IDF(1,2), cosine ranking, paragraph-order tie break",
+  "nonclaims": [
+    "Development screening only; selected examples are exposed.",
+    "Coverage is not full semantic answer accuracy.",
+    "No model, judge, training, production or confirmation call occurred."
+  ],
+  "schema": "tatqa_text_only_retrieval_screen_v1",
+  "summary": {
+    "top10": {
+      "average_context_paragraphs": 4.953727506426735,
+      "denominator": 389,
+      "gold_covered": 389
+    },
+    "top3": {
+      "average_context_paragraphs": 2.853470437017995,
+      "denominator": 389,
+      "gold_covered": 378
+    },
+    "top3_top1_neighbor": {
+      "average_context_paragraphs": 3.372750642673522,
+      "denominator": 389,
+      "gold_covered": 385
+    },
+    "top5": {
+      "average_context_paragraphs": 3.9974293059125965,
+      "denominator": 389,
+      "gold_covered": 385
+    }
+  },
+  "top3_miss_examples": [
+    {
+      "answer": [
+        "Includes deferred initial direct costs which are eliminated in IBM’s consolidated results."
+      ],
+      "context_paragraph_counts": {
+        "all": 4,
+        "top10": 4,
+        "top3": 3,
+        "top3_top1_neighbor": 4,
+        "top5": 4
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "3"
+      ],
+      "question": "What does the recorded investment include?",
+      "question_index": 0,
+      "record_index": 32,
+      "uid": "3b8f4113-c939-441c-bfdd-c8dcae1bd000"
+    },
+    {
+      "answer": [
+        "Adjusted EBITA was on the prior-year level as positive effects from productivity improvements and higher revenue were offset by price declines, a less favorable project mix and higher expenses for integration costs and capacity adjustments including severance."
+      ],
+      "context_paragraph_counts": {
+        "all": 5,
+        "top10": 5,
+        "top3": 3,
+        "top3_top1_neighbor": 4,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "3"
+      ],
+      "question": "What was the reason for the increase in the Adjusted EBITDA?",
+      "question_index": 2,
+      "record_index": 67,
+      "uid": "c3800ccf-434f-45b1-aca5-ef7cd3ee342a"
+    },
+    {
+      "answer": [
+        "$58.2 million"
+      ],
+      "context_paragraph_counts": {
+        "all": 6,
+        "top10": 6,
+        "top3": 3,
+        "top3_top1_neighbor": 4,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": false,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "2"
+      ],
+      "question": "What is the value of the assumed liabilites from Automated?",
+      "question_index": 1,
+      "record_index": 94,
+      "uid": "e5073c13-40b9-4109-be46-7cce9e32a203"
+    },
+    {
+      "answer": [
+        "Excludes stock-based compensation and certain expense allocations. Also excludes amortization of intangible assets and certain other GAAP-based expenses, which were not allocated to our operating segment results for purposes of reporting to and review by our CODMs, as further described under “Presentation of Operating Segment results and Other Financial Information” above."
+      ],
+      "context_paragraph_counts": {
+        "all": 5,
+        "top10": 5,
+        "top3": 3,
+        "top3_top1_neighbor": 4,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "2"
+      ],
+      "question": "What is excluded in the calculation of expenses for the business?",
+      "question_index": 3,
+      "record_index": 133,
+      "uid": "f643ad35-bc11-41f6-9318-1189afdab332"
+    },
+    {
+      "answer": 12,
+      "context_paragraph_counts": {
+        "all": 14,
+        "top10": 10,
+        "top3": 3,
+        "top3_top1_neighbor": 5,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": false,
+        "top5": false
+      },
+      "gold_paragraphs": [
+        "6",
+        "8"
+      ],
+      "question": "How long is Leigh Fox's tenure with the company?",
+      "question_index": 3,
+      "record_index": 156,
+      "uid": "e302a7ec-94e5-4bea-bff4-5d4b9d4f6265"
+    },
+    {
+      "answer": [
+        "both stated interest and the amortization of debt discount and issuance costs associated with the $400.0 million aggregate principal amount of our Convertible Senior Notes that were issued in March 2018"
+      ],
+      "context_paragraph_counts": {
+        "all": 10,
+        "top10": 10,
+        "top3": 3,
+        "top3_top1_neighbor": 5,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "6"
+      ],
+      "question": "What does interest expense include?",
+      "question_index": 1,
+      "record_index": 159,
+      "uid": "38640cdf-e1a8-437e-98b4-c3d3dbbed7fa"
+    },
+    {
+      "answer": [
+        "26.1%"
+      ],
+      "context_paragraph_counts": {
+        "all": 7,
+        "top10": 7,
+        "top3": 3,
+        "top3_top1_neighbor": 5,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": false
+      },
+      "gold_paragraphs": [
+        "6"
+      ],
+      "question": "What was the percentage decrease in NAV in 2019?",
+      "question_index": 2,
+      "record_index": 187,
+      "uid": "32b27169-7940-4b78-9a97-e0dc071ffde6"
+    },
+    {
+      "answer": [
+        "$539"
+      ],
+      "context_paragraph_counts": {
+        "all": 15,
+        "top10": 10,
+        "top3": 3,
+        "top3_top1_neighbor": 4,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "12",
+        "13"
+      ],
+      "question": "What was the decrease in Blizzard in-game net bookings for 2019, as compared to 2018?",
+      "question_index": 0,
+      "record_index": 196,
+      "uid": "fb46f62a-fd52-49d3-9394-844db5a3254e"
+    },
+    {
+      "answer": [
+        "primarily due to an increased in Solid Capacitor net sales $164.6 million"
+      ],
+      "context_paragraph_counts": {
+        "all": 7,
+        "top10": 7,
+        "top3": 3,
+        "top3_top1_neighbor": 5,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": true,
+        "top5": false
+      },
+      "gold_paragraphs": [
+        "3"
+      ],
+      "question": "What was the main reason for net sales increase between 2018 and 2019?",
+      "question_index": 0,
+      "record_index": 254,
+      "uid": "5486fae6-e665-4fdc-a6a8-470ab64ebfcd"
+    },
+    {
+      "answer": [
+        "88,848"
+      ],
+      "context_paragraph_counts": {
+        "all": 5,
+        "top10": 5,
+        "top3": 3,
+        "top3_top1_neighbor": 3,
+        "top5": 5
+      },
+      "coverage": {
+        "top10": true,
+        "top3": false,
+        "top3_top1_neighbor": false,
+        "top5": true
+      },
+      "gold_paragraphs": [
+        "1",
+        "4"
+      ],
+      "question": "How much was the company's income before income tax expense in 2019?",
+      "question_index": 2,
+      "record_index": 260,
+      "uid": "33f8d9ee-8162-44ea-befd-007a9ddb2ea0"
+    }
+  ]
+}

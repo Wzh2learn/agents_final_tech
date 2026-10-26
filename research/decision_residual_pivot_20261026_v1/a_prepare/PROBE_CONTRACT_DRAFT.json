@@ -1,0 +1,161 @@
+{
+  "schema": "decision_residual_probe_contract_draft_v1",
+  "task_id": "phaseb-postb-prepare-a-20261026",
+  "goal_id": "DECISION_RESIDUAL_PILOT_20261026",
+  "qualification_status": "NO_GO",
+  "release_status": "BLOCKED_MISSING_NATURAL_RESIDUAL",
+  "currently_freezeable": false,
+  "shape_ready_when_qualification_gate_passes": true,
+  "blocking_condition": "An untouched natural source family with complete semantic gold, legally retrievable missing evidence and a residual surviving all simple baselines has not been identified.",
+  "contingent_candidate": "C2_VERIFIABLE_EVIDENCE_ACQUISITION",
+  "authorization": {
+    "authorized_generation_attempts": 0,
+    "authorized_generation_tokens": 0,
+    "authorized_training_runs": 0,
+    "authorized_judge_calls": 0,
+    "authorized_production_calls": 0,
+    "release_rule": "No arm may execute unless a later authority freezes a qualifying panel and updates every zero authorization value."
+  },
+  "contingent_design": {
+    "physical_panel_size": 12,
+    "arms": [
+      {
+        "arm_id": "A_DIRECT_ANSWER",
+        "purpose": "Unsupported direct-answer control",
+        "generation_attempts": 12
+      },
+      {
+        "arm_id": "B_ORDINARY_TOP3",
+        "purpose": "Ordinary source retrieval control",
+        "generation_attempts": 12
+      },
+      {
+        "arm_id": "C_FIXED_TOP3_RADIUS1",
+        "purpose": "Fixed deterministic paragraph-neighbor closure",
+        "generation_attempts": 12
+      },
+      {
+        "arm_id": "D_QUALIFIED_ADAPTIVE_ACTION",
+        "purpose": "Candidate action selection beyond fixed closure",
+        "generation_attempts": 12
+      }
+    ],
+    "arm_count": 4,
+    "planned_physical_generation_attempts": 48,
+    "maximum_planned_generation_attempts": 48,
+    "generation_token_ceiling": 240000,
+    "maximum_input_tokens_per_attempt": 8192,
+    "maximum_decode_tokens_per_attempt": 1024,
+    "maximum_tool_calls_per_attempt": 6,
+    "maximum_retrieved_units_per_call": 10,
+    "maximum_expansion_actions_per_attempt": 2,
+    "deterministic_decode": true,
+    "sampling_temperature": 0.0,
+    "top_p": 1.0,
+    "seed": 20261026,
+    "retry_policy": "No silent retries; a transport failure is reported separately and does not consume a physical generation attempt unless generated tokens are returned."
+  },
+  "fixed_input_and_tool_budgets": {
+    "visible_source_boundary": "Only table plus retrieved units returned by the arm's legal action are model-visible.",
+    "oracle_prohibition": "Gold paragraph IDs, gold programs, answer strings and evaluator-only evidence may never enter a deployable prompt or tool result.",
+    "allowed_non_model_tools": [
+      "ordinary_source_retrieval",
+      "fixed_document_neighbor_lookup",
+      "calculator"
+    ],
+    "hash_and_canonicalization_responsibility": "Deterministic tool-owned infrastructure",
+    "model_responsibility": "Semantic fact selection and bounded action choice only"
+  },
+  "reporting_contract": {
+    "required_per_example": [
+      "natural_failure_input",
+      "visible_signal",
+      "legal_action",
+      "new_evidence",
+      "full_semantic_reference",
+      "model_delivery"
+    ],
+    "required_aggregate_metrics": {
+      "full_semantic_answer_accuracy": "Exact agreement with the frozen full semantic answer after legal tool execution.",
+      "wrong_to_correct": "Count and rate among examples wrong or undelivered in the matched ordinary-top3 control.",
+      "correct_to_wrong": "Count and rate among examples correct in the matched ordinary-top3 control.",
+      "reasonable_unknown": "Count and rate of outputs that abstain for a reference-validated missing-evidence condition.",
+      "wrong_delivery": "Count and rate of concrete answers not equal to the full semantic reference.",
+      "correct_coverage": "Count and rate of examples whose gold evidence is present in the arm-visible evidence set before generation.",
+      "actual_cost": "Physical attempts, prompt tokens, completion tokens, generated tokens, tool calls, wall-clock seconds and any measured monetary cost."
+    },
+    "decision_metrics_are_paired": true,
+    "confidence_interval_method": "Paired bootstrap over physical examples; no test-time resampling of generations.",
+    "minimum_success_line": "The qualified adaptive arm must improve full semantic answer accuracy over ordinary top-3, fixed top-3-radius-1 and always-expand radius-5 controls at matched or lower total cost without increasing correct-to-wrong or wrong-delivery rates.",
+    "failure_line": "If fixed radius 5 or a stronger ordinary retrieval/fixed lookup control explains the residual, record NO_GO and do not proceed to training.",
+    "current_reported_values": {
+      "status": "NOT_EXECUTED_ZERO_AUTHORIZATION",
+      "full_semantic_answer_accuracy": null,
+      "wrong_to_correct": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "correct_to_wrong": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "reasonable_unknown": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "wrong_delivery": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "correct_coverage": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      }
+    }
+  },
+  "oracle_diagnostics": {
+    "execution_status": "SEPARATE_EVALUATOR_ONLY_NOT_A_DEPLOYABLE_ARM",
+    "generation_uses_oracle_evidence": false,
+    "diagnostics": [
+      "gold-evidence recall before and after each legal action",
+      "whether missing gold is textually present in the pinned source",
+      "whether top-k, radius-1, radius-2 or radius-5 recovers it",
+      "semantic-reference executability",
+      "boilerplate versus computationally necessary gold decomposition"
+    ],
+    "counted_against_generation_attempts": false,
+    "counted_against_generation_tokens": false
+  },
+  "actual_cost_this_contract": {
+    "physical_generation_attempts": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "generation_tokens": 0,
+    "tool_calls": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "production_calls": 0,
+    "wall_clock_seconds": 0.0,
+    "monetary_cost": 0.0
+  },
+  "freeze_gate": [
+    "Untouched natural source family is pinned by immutable path and SHA-256.",
+    "Full semantic reference independently executes to the accepted answer.",
+    "Missing evidence is legally retrievable and oracle evidence is separated.",
+    "Residual survives exact cache, metadata/period rules, ordinary retrieval, fixed larger k, fixed neighborhood closure and always-expand controls.",
+    "Every panel example is added to the future exposure union before generation.",
+    "Authority explicitly changes authorized attempts, tokens and arms from zero."
+  ],
+  "stop_conditions": [
+    "Any simple baseline explains the residual.",
+    "A panel example lacks a complete semantic reference or deployable legal action.",
+    "Oracle evidence is visible to a deployable arm.",
+    "The planned 48-attempt or 240000-token ceiling would be exceeded.",
+    "Any model, judge, training or production side effect occurs outside this contract."
+  ]
+}

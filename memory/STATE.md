@@ -5,7 +5,7 @@
 
 ## 当前任务
 
-阶段B确有GB10 A/C执行和两次child训练；停止旧R/E、不跑确认/第二seed的决定保留。负责人[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)确认训练只激活b2_child，未满足ordinary父模型有效续训前提；原集合匹配计数不变，方法级归因须收窄。唯一指令已更新为一次纠偏及自然决策残差资格/小探针交接，尚未派发。
+阶段B确有GB10 A/C执行和两次child训练；停止旧R/E、不跑确认/第二seed的决定保留。事后复核确认训练只激活b2_child，原集合匹配计数不变但方法级归因已收窄。新一轮A资格筛查和C独立复核已完成：两个自然决策残差候选均被强简单基线解释，`NO_GO_FOR_MODEL_PROBE`，0次科研生成/训练/judge/生产调用。FinQA不作为新任务来源；TAT-QA覆盖筛查只测覆盖不测成本优势。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 

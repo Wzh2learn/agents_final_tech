@@ -1,0 +1,200 @@
+{
+  "schema": "decision_residual_premise_verification_v1",
+  "task_id": "phaseb-postb-prepare-a-20261026",
+  "goal_id": "DECISION_RESIDUAL_PILOT_20261026",
+  "verification_mode": "READ_ONLY_LOCAL_SOURCE_AND_FROZEN_RECEIPTS",
+  "bound_commit": "19ddd7feffe90779f021304345ce894550c92816",
+  "binding": {
+    "current_research_prompt": {
+      "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+      "git_blob_at_bound_commit": "5c3f970db754b0ce712161373c74fa34c36d42d0",
+      "sha256_at_bound_commit": "327fb04ae18ff6e057338f28686389d183c24a797e22c325e8557cbea58f0cbe"
+    },
+    "premise_correction": {
+      "path": "research/decision_residual_pivot_20261026_v1/D_PREMISE_CORRECTION.md",
+      "sha256": "9294a81b0d70fec982b563b5bf963c3a2e48b0231fee3a9491f5b0ab049441a6",
+      "declared_authority_sha256": "e4c53572a01e1d0b6a86e7377948a8e2416dd3d9ffbcce43f2a40d715d4b7ef2"
+    },
+    "task_card": {
+      "path": "research/decision_residual_pivot_20261026_v1/A_PREPARE_TASK.md",
+      "sha256": "5c2f258bfb84c8cc866bd04e5485fb22756447d09968b038cc17cffd9d39d86d"
+    },
+    "authority_hash_discrepancy": {
+      "status": "DECLARED_PROMPT_SHA256_NOT_FOUND_IN_GIT_HISTORY",
+      "interpretation": "The bound commit and current task instruction are authoritative for this preparation. The mismatch is a binding-metadata defect, not evidence against the independently checked premise facts.",
+      "history_compared": [
+        {
+          "commit": "19ddd7feffe90779f021304345ce894550c92816",
+          "sha256": "327fb04ae18ff6e057338f28686389d183c24a797e22c325e8557cbea58f0cbe"
+        },
+        {
+          "commit": "caa18102bdbbcfe99a889bcf82a125dcc20fdcca",
+          "sha256": "3ed5e1fc38c214c0620941903dcf5d4748ca9441edd651ecac2c78edac6db2d7"
+        },
+        {
+          "commit": "1c027ab26ac4d8d92e52279385ce846adaa7c7f0",
+          "sha256": "54d9012479ecaba06b80f64f4a2fd736f5446151084e50715cdc5025d7155320"
+        },
+        {
+          "commit": "0abc0935f80ba45d27e9a6d2bb997de46ea8ffd5",
+          "sha256": "8ec41d4414613427b90a1d6ca213dee777b6a3349bd9e683b84f6bfef0150cb1"
+        }
+      ]
+    }
+  },
+  "premise_checks": [
+    {
+      "id": "ACTIVE_ADAPTER_PATH",
+      "status": "VERIFIED",
+      "finding": "Training loads ordinary_parent, adds b2_child, then activates only b2_child. Generation loads the parent and any arm child, then activates only the requested arm. The inspected paths do not execute ordinary_parent and child simultaneously.",
+      "source": "research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAIN_RUN.py",
+      "line_evidence": [
+        704,
+        721,
+        1021,
+        1038
+      ],
+      "independent_receipt": "docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.json"
+    },
+    {
+      "id": "MODEL_TOOL_RESPONSIBILITY",
+      "status": "VERIFIED",
+      "finding": "The deterministic applier canonicalizes and checks candidate SHA-256 and validates target SHA-256. The generation prompt asks the model to emit both hashes, but provides no hash-computation tool. Model responsibility must remain semantic facts or bounded actions; canonicalization and integrity metadata must be tool-owned.",
+      "sources": [
+        "research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py",
+        "research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAIN_RUN.py"
+      ],
+      "line_evidence": {
+        "applier_canonical_sha256": 40,
+        "applier_candidate_hash_check": 233,
+        "applier_target_hash_format_check": 235,
+        "generation_prompt_hash_request": 323,
+        "generation_call_has_no_tool": 1320
+      }
+    },
+    {
+      "id": "FIVE_CORRECTIONS_THREE_FAMILIES",
+      "status": "VERIFIED",
+      "finding": "There are 5 qualified natural set-binding correction trajectories across 3 source families. Mechanism is VISIBLE_SET_BINDING_REBINDING.",
+      "source": "research/feedback_learning_phase_b_20261026_v1/B1_SUPERVISION_MANIFEST.json",
+      "values": {
+        "eligible_natural_error_count": 5,
+        "trajectory_count": 5,
+        "source_family_count": 3,
+        "registered_mechanism": "VISIBLE_SET_BINDING_REBINDING"
+      }
+    },
+    {
+      "id": "THIRTY_NINE_TWO_HUNDRED_SEVENTEEN_COMPOSITION",
+      "status": "VERIFIED",
+      "finding": "Each arm contains 39 eligible correction rows and 217 no-op or unresolved rows, for 256 rows. Those rows come from 36 unique trajectories and 12 source tasks, repeated 7 times plus four eligible-row repeats. Loss is over all non-padding prompt-plus-target tokens.",
+      "source": "research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json",
+      "values": {
+        "final_eligible_correction_rows_per_arm": 39,
+        "final_no_op_and_unresolved_rows_per_arm": 217,
+        "final_rows_per_arm": 256,
+        "unique_trajectories_per_arm": 36,
+        "unique_source_tasks_per_arm": 12,
+        "repeats": 7,
+        "loss_normalization": "mean over all non-padding prompt-plus-target tokens; no sample weighting"
+      }
+    },
+    {
+      "id": "TARGET_SCOPE",
+      "status": "VERIFIED",
+      "finding": "The supervised estimand is SET_BINDING_SET_ACCURACY, not answer correctness. Operator, order and unit are fixed from O. Three of five eligible targets are sign-reversed relative to the frozen audit reference, and the full reference program is not the training target.",
+      "source": "research/feedback_learning_phase_b_20261026_v1/B1_SUPERVISION_MANIFEST.json",
+      "values": {
+        "target_exact_is_not_semantic_gold": true,
+        "full_reference_program_is_training_target": false,
+        "sign_reversed_eligible_row_count": 3,
+        "sign_reversed_eligible_source_family_count": 2,
+        "answer_correctness_qualified": false
+      }
+    },
+    {
+      "id": "STRICT_AND_EMBEDDED_LAYERS",
+      "status": "VERIFIED",
+      "finding": "O and N are STRICT for 36/36. R and E are EMBEDDED for 36/36 and each arm has 36/36 MAX_NEW_TOKENS finishes.",
+      "source": "docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.json",
+      "values": {
+        "O_FROZEN_ORDINARY": {
+          "n": 36,
+          "syntax": "STRICT",
+          "finish": "NOT_RECORDED"
+        },
+        "N_NEUTRAL_RETRY": {
+          "n": 36,
+          "syntax": "STRICT",
+          "finish": "NOT_RECORDED"
+        },
+        "R_FULL_REVISION": {
+          "n": 36,
+          "syntax": "EMBEDDED",
+          "finish": "MAX_NEW_TOKENS"
+        },
+        "E_RESTRICTED_PATCH": {
+          "n": 36,
+          "syntax": "EMBEDDED",
+          "finish": "MAX_NEW_TOKENS"
+        }
+      }
+    }
+  ],
+  "command_ledger": [
+    {
+      "command": "git rev-parse 19ddd7feffe90779f021304345ce894550c92816 && git ls-tree 19ddd7feffe90779f021304345ce894550c92816 docs/research/LOOP_D_RESEARCH_PROMPT.md",
+      "result": "Bound commit resolves; prompt blob is 5c3f970db754b0ce712161373c74fa34c36d42d0."
+    },
+    {
+      "command": "git show 19ddd7feffe90779f021304345ce894550c92816:docs/research/LOOP_D_RESEARCH_PROMPT.md | sha256sum",
+      "result": "327fb04ae18ff6e057338f28686389d183c24a797e22c325e8557cbea58f0cbe"
+    },
+    {
+      "command": "git log --all --format='%H' -- docs/research/LOOP_D_RESEARCH_PROMPT.md | while read c; do git show \"$c:docs/research/LOOP_D_RESEARCH_PROMPT.md\" | sha256sum; done",
+      "result": "Compared four historical prompt versions; no match for e4c53572a01e1d0b6a86e7377948a8e2416dd3d9ffbcce43f2a40d715d4b7ef2."
+    },
+    {
+      "command": "sha256sum research/decision_residual_pivot_20261026_v1/A_PREPARE_TASK.md research/decision_residual_pivot_20261026_v1/D_PREMISE_CORRECTION.md",
+      "result": "Task card and premise correction hashes match the values recorded in this receipt."
+    },
+    {
+      "command": "nl -ba research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAIN_RUN.py | sed -n '700,750p;1015,1045p'",
+      "result": "Confirmed parent load, child add, one-active-adapter activation and full-prompt loss configuration."
+    },
+    {
+      "command": "nl -ba research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py | sed -n '31,43p;216,270p'",
+      "result": "Confirmed deterministic canonical SHA-256, candidate hash equality check and fail-closed patch application."
+    },
+    {
+      "command": "jq '{scientific_qualification:.scientific_qualification,qualified_estimand:.qualified_estimand,target_semantics:.target_semantics,materialized_target_disclosure:.materialized_target_disclosure}' research/feedback_learning_phase_b_20261026_v1/B1_SUPERVISION_MANIFEST.json",
+      "result": "Confirmed 5/3 corrections, target proxy scope and 3 sign reversals."
+    },
+    {
+      "command": "jq '{generation:.generation,training:.training}' research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json",
+      "result": "Confirmed 39/217/256 composition, 36 trajectories, 12 tasks, 7 repeats and token accounting."
+    },
+    {
+      "command": "jq '.independent_selected_primary_recompute.stats' docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.json",
+      "result": "Confirmed O/N strict 36/36, R/E embedded 36/36 and 72 MAX_NEW_TOKENS finishes."
+    }
+  ],
+  "source_hashes": {
+    "research/feedback_learning_phase_b_20261026_v1/B1_SUPERVISION_MANIFEST.json": "cd9057642a16b530345e71c1d965cf4a2c8823165a047fce3046b27429b3914c",
+    "research/feedback_learning_phase_b_20261026_v1/b2/B2_PROTOCOL_FROZEN.json": "f21af57c0c03c4a9ac0cdde1c91cbc8bd1cbe1a57a373cc7fca6d7fa9d7e785b",
+    "research/feedback_learning_phase_b_20261026_v1/b2/B2_TRAIN_RUN.py": "9df9ec42129dd539d80b0b2b60d8e0e5dc2e08e67fe5bebe8def924d7bd64f81",
+    "research/feedback_learning_phase_b_20261026_v1/B1_LOCAL_EDIT_APPLIER.py": "fdd7cb3652f1e785f752e1d510b3588e13791c3e2756e291213d66121d0fb7a0",
+    "docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.json": "ba6313f77df2227dcff92778365e50a57e9b1be08ae242f2fa8ce53b17f4f8fe"
+  },
+  "side_effect_accounting": {
+    "model_calls": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "production_probes": 0,
+    "new_generation_attempts": 0,
+    "generation_tokens": 0,
+    "endpoint_calls": 0,
+    "old_phase_b_files_modified": 0
+  },
+  "overall_status": "PREMISE_FACTS_VERIFIED_WITH_DECLARED_AUTHORITY_HASH_MISMATCH"
+}

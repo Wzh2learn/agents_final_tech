@@ -1,0 +1,294 @@
+{
+  "acceptance_conditions": {
+    "finqa_source_restriction_respected": {
+      "by_A": false,
+      "by_D": true,
+      "detail": "A ran a fresh deterministic scan over the restricted FinQA snapshot; D excludes it from the new candidate claim"
+    },
+    "simple_baseline_independently_reproduced": {
+      "c1_role": "REPRODUCED_ONLY_UNDER_STRENGTHENED_RULE",
+      "c2_tatqa": "REPRODUCED_EXACTLY",
+      "detail": "378/385/385/389 reproduced from an independent pure-NumPy implementation across five retrieval variants; C1 gives 3/4 under the stated rule and 4/4 under a positional-role rule"
+    }
+  },
+  "accepted_unconditional": [
+    "NO_GO_FOR_MODEL_PROBE disposition and BLOCKED_MISSING_NATURAL_RESIDUAL release block",
+    "all five D premise corrections K1-K7 independently re-derived from source",
+    "metric correction K8 and claim boundaries",
+    "prompt identity binding as three distinct labels with the Windows raw digest marked noncanonical",
+    "D source-scope correction excluding FinQA from the new candidate claim",
+    "missing-condition statement",
+    "zero-call compliance with disclosed caveat"
+  ],
+  "advisory_boundary": {
+    "incident_filing": "recommended only; recording belongs to append-only ledger flow",
+    "modified_a_or_d_artifacts": false,
+    "repairs_applied": false
+  },
+  "already_filed_not_new": [
+    "PHASE-B-VALIDITY parent-adapter non-activation",
+    "ADAPTER-SEMANTICS strict/embedded split",
+    "sign-reversed targets from prior direction-leak closure",
+    "C2-FEEDBACK-REPAIR R/E implementation stop"
+  ],
+  "bound_commit": "19ddd7feffe90779f021304345ce894550c92816",
+  "conditions": [
+    {
+      "id": "C-1",
+      "owner": "A artifact owner",
+      "text": "Reclassify authority_hash_discrepancy / binding_metadata_exception as a false positive from unnormalized digest comparison; e4c53572 is the LF->CRLF view of blob 5c3f970d, not a missing prompt version."
+    },
+    {
+      "id": "C-2",
+      "owner": "A artifact owner",
+      "text": "Re-bind D_PREMISE_CORRECTION.md: recorded 9294a81b does not equal current 1a77969. Re-hash the current file or restore the hashed content."
+    },
+    {
+      "id": "C-3",
+      "owner": "A artifact owner",
+      "text": "Correct the C1 figure: four_selected_failures_explained is 4 only under a positional/ordinal role-equality rule; the stated label+period rule gives 3/4. Name the rule that actually explains the count."
+    },
+    {
+      "id": "C-4",
+      "owner": "A and D artifact owners",
+      "text": "Disclose the 4-row asymmetric pad and the resulting 11/7/7/7/7 per-correction weighting in any reuse of the 39/217 composition."
+    },
+    {
+      "id": "C-5",
+      "owner": "D artifact owner",
+      "text": "Do not carry the FinQA 168/171/177/186/195 figures forward as new evidence or as a historical receipt; they are new-task computation on a restricted source with no prior carrier."
+    }
+  ],
+  "date": "2026-10-26",
+  "goal_id": "DECISION_RESIDUAL_PILOT_20261026",
+  "incidents": [
+    {
+      "carrier": "a_prepare/PREMISE_VERIFICATION.json binding.authority_hash_discrepancy; a_prepare/A_PREPARE_RESULT.json binding_metadata_exception",
+      "disposition": "needs_new_filing",
+      "fingerprint": "authority-digest-compared-without-line-ending-normalization",
+      "severity": "medium"
+    },
+    {
+      "carrier": "a_prepare/PREMISE_VERIFICATION.json records D_PREMISE_CORRECTION.md sha256 9294a81b0d70fec9...; current file sha256 1a7796999ea5c31e... (3909 bytes); mtime 11:47 postdates verification 11:39",
+      "disposition": "needs_new_filing",
+      "fingerprint": "binding-receipt-hash-stale-after-edit",
+      "severity": "medium"
+    },
+    {
+      "carrier": "a_prepare/CANDIDATE_SCREEN.json simple_baseline_evidence.four_selected_failures_explained",
+      "disposition": "needs_new_filing",
+      "fingerprint": "simple-baseline-figure-exceeds-stated-rule",
+      "severity": "high"
+    },
+    {
+      "carrier": "b2/B2_TRAIN_RUN.py:409; described as 5 x 7 repeats by both A and D",
+      "disposition": "needs_new_filing",
+      "fingerprint": "training-composition-undocumented-asymmetric-pad",
+      "severity": "medium"
+    },
+    {
+      "carrier": "a_prepare/CANDIDATE_SCREEN.json candidates[1].deterministic_scan",
+      "disposition": "needs_new_filing",
+      "fingerprint": "restricted-source-used-as-new-task-source",
+      "severity": "high"
+    },
+    {
+      "carrier": "D_NO_GO_DECISION.md candidate disposition C2",
+      "disposition": "waivable",
+      "fingerprint": "degenerate-top-k-reported-as-retrieval-coverage",
+      "severity": "low"
+    }
+  ],
+  "independence": {
+    "anti_anchoring_disclosure": "D_PREMISE_CORRECTION.md and D_NO_GO_DECISION.md were read before the reasoning chain formed",
+    "audit_depth": 1,
+    "authored_a_or_d_artifacts": false,
+    "mitigations_executed": [
+      "three sub-agents prohibited from reading those two files, gathering raw-command evidence",
+      "TAT-QA numeric chain re-derived independently before comparison with reported figures",
+      "all findings against A work recorded in full"
+    ],
+    "owned_files": [
+      "research/decision_residual_pivot_20261026_v1/audits/C_NO_GO_AUDIT.md",
+      "research/decision_residual_pivot_20261026_v1/audits/TASK_RESULT_C_NO_GO.json"
+    ]
+  },
+  "nonclaims": [
+    "Local recomputation only; no GB10, production or runtime behavior established",
+    "Development screening only; selected examples are exposed and cannot become a future confirmation set",
+    "Coverage is not full semantic answer accuracy",
+    "NO_GO does not disprove local editing or feedback learning in general",
+    "No mechanical qualification or small-sample signal is promoted to a method"
+  ],
+  "rejected": [],
+  "residual_determination": {
+    "c1": "no residual after metadata/period rules including row position",
+    "c2": "no residual after ordinary retrieval, fixed lookup, larger top-k and always-expand/neighbor",
+    "either_candidate_retains_deployable_residual": false,
+    "scope_limit": "coverage measured, not cost"
+  },
+  "role": "C independent audit",
+  "schema": "task_result_c_no_go_v1",
+  "task_id": "phaseb-postb-nogo-audit-c-20261026",
+  "task_items": [
+    {
+      "claims": {
+        "child_only_adapter_activation": {
+          "baseline_item": "PHASE-B-VALIDITY",
+          "evidence": "B2_TRAIN_RUN.py:704,710-721,731,758; PEFT 0.21.2 set_adapter docstring states only one adapter can be active at a time; parent hash preserved at :761-763 does not prove parent forward computation",
+          "status": "VERIFIED"
+        },
+        "eos_non_root_cause": {
+          "evidence": "Installed TRL 1.14.1 has 85 eos_token_id/_get_eos_token_id sites incl. automatic tokenizer->generation_config propagation and post-EOS masking; no evidence missing explicit EOS caused any failure",
+          "status": "VERIFIED"
+        },
+        "proxy_target_scope": {
+          "evidence": "Applied r_target patches to o_output.parsed_candidate.program: sign-reversed 3 of 5 (bdeeb701::relevant_change, b74eaf04::original, b74eaf04::irrelevant_change); set equality and unit preserved in all 5; direction_component.training_target false; all rows AUDIT_ONLY_NOT_A_TRAINING_TARGET",
+          "status": "VERIFIED"
+        },
+        "strict_embedded_layers": {
+          "evidence": "B2_DEVELOPMENT_ANALYSIS strict_whole_json 36 for O/N/ORDINARY; B2B repaired arms embedded_json_non_contract_output 36 and truncated_at_max_new_tokens 36 each (72 total); E fails first on keys/schema with interface_caused_unknown_delivery 36 and syntax_adapter_failure 0",
+          "status": "VERIFIED"
+        },
+        "tool_owned_integrity_fields": {
+          "evidence": "B2_TRAIN_RUN.py:323-328 requires the model to emit candidate_sha256 and target_sha256 in the E arm contract; tool side computes sha256_file/canonical_sha256/tensor_group_hash; empty_patch :370-376 hashes candidate for both fields correctly",
+          "status": "VERIFIED"
+        },
+        "training_composition": {
+          "defect": "training-composition-undocumented-asymmetric-pad",
+          "evidence": "B2_PROTOCOL_FROZEN.training: 39 correction + 217 no-op = 256 rows, 36 trajectories, 12 tasks, repeats 7; 31x7=217 but 5x7=35 != 39; B2_TRAIN_RUN.py:407-409 appends eligible[:4] giving one correction 11 rows and four corrections 7 rows",
+          "status": "VERIFIED_WITH_DEFECT"
+        },
+        "unique_corrections": {
+          "evidence": "Recomputed from B1_CORRECTION_TRAJECTORIES.jsonl: QUALIFIED 5 across 3 source tasks dac4e923(2), bdeeb701(1), b74eaf04(2); PRESERVE_ORIGINAL 56, UNRESOLVED 5, SET_PRESERVED_DIRECTION_UNRESOLVED 6",
+          "status": "VERIFIED"
+        }
+      },
+      "item": 1,
+      "requirement": "Phase B premise corrections from source and frozen receipts"
+    },
+    {
+      "defect": "authority-digest-compared-without-line-ending-normalization",
+      "digests": {
+        "blob_bytes": 22776,
+        "canonical_gb10_lf_sha256": "327fb04ae18ff6e057338f28686389d183c24a797e22c325e8557cbea58f0cbe",
+        "crlf_view_bytes": 22972,
+        "git_blob": "5c3f970db754b0ce712161373c74fa34c36d42d0",
+        "windows_raw_sha256": "e4c53572a01e1d0b6a86e7377948a8e2416dd3d9ffbcce43f2a40d715d4b7ef2"
+      },
+      "item": 2,
+      "nuance": "Stored blob is pure LF (0 CR, 196 LF) so the raw digest and the canonical-LF digest coincide; only two distinct SHA-256 values exist among the three labels. .gitattributes has no rule matching docs/research/LOOP_D_RESEARCH_PROMPT.md.",
+      "requirement": "Prompt identity binding: Git blob, canonical GB10 LF hash and Windows raw hash distinguished",
+      "status": "VERIFIED_BY_D_VIOLATED_BY_A"
+    },
+    {
+      "c1_role_screen": {
+        "claimed_explained": "4 of 4",
+        "counterexample": {
+          "distinguishing_feature": "table contains row_label \"Adjusted operating costs1\" twice, at row indices 4 and 9; only row position distinguishes requested_role from candidate_citation",
+          "task_id": "NR_development_1582_N2",
+          "visible_period_match": true,
+          "visible_row_label_match": true
+        },
+        "defect": "simple-baseline-figure-exceeds-stated-rule",
+        "panel": "research/decision_space_autopsy_v1/SAME_NUMBER_ROLE_TASKS_DRAFT.json + exploratory_b0_v1/B0_RESULT_RESCORE_V1.json",
+        "recomputed_under_positional_rule": "4 of 4",
+        "recomputed_under_stated_rule": "3 of 4",
+        "shared_failure_shape": "model computes zero difference of two identical numbers, numeric_match true, returns SUPPORTED where WRONG_ROLE expected; case_type same_number, role_match false by construction"
+      },
+      "finqa": {
+        "d_correction": "D excludes the FinQA snapshot from the new candidate claim and supplies an independent TAT-QA screen instead - correct disposition.",
+        "defect": "restricted-source-used-as-new-task-source",
+        "figures": "168/171/177/186/195 over 198",
+        "finding": "Figures exist only in a_prepare/CANDIDATE_SCREEN.json and a_prepare/A_PREPARE_RESULT.json; computed in this task by fresh deterministic_scan over /home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json, i.e. used as a new task source. Cannot be relabelled historical evidence because no historical carrier exists.",
+        "prior_receipt_found": false,
+        "search_forms": 4,
+        "status": "SOURCE_SCOPE_RESTRICTION_VIOLATED_BY_A_CORRECTED_BY_D"
+      },
+      "item": 3,
+      "requirement": "Independently recompute the two candidate screens; FinQA historical evidence only",
+      "tatqa_text_only": {
+        "degenerate_control_caveat": "top-10 equals always-expand for 359/389 (92.3 percent); top-5 already always-expand for 262/389; the 389/389 figure is largely always-expand, not retrieval ranking",
+        "denominator": 389,
+        "exact_match": true,
+        "method": "Independent pure-NumPy TF-IDF(1,2) smooth_idf + L2 cosine, order tie-break; NOT a re-run of D_TATQA_TEXT_SCREEN.py",
+        "recomputed": {
+          "top10": 389,
+          "top3": 378,
+          "top3_top1_neighbor": 385,
+          "top5": 385
+        },
+        "reported": {
+          "top10": 389,
+          "top3": 378,
+          "top3_top1_neighbor": 385,
+          "top5": 385
+        },
+        "residual_after_top10_or_always_expand": 0,
+        "residual_after_top5": 4,
+        "robustness": {
+          "tfidf_1_1_smooth": "377/385/384/389",
+          "tfidf_1_2_nosmooth": "380/386/385/389",
+          "tfidf_1_2_smooth": "378/385/385/389",
+          "tfidf_1_2_sublinear": "378/386/385/389",
+          "word_overlap_uni": "378/388/385/389"
+        },
+        "source": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+        "source_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+        "source_sha256_matches_pinned": true,
+        "structural_checks": {
+          "empty_gold_among_text": 0,
+          "gold_refs_not_matching_any_order": 0,
+          "records": 278,
+          "text_q_at_most_10_paragraphs": 359,
+          "text_q_at_most_3_paragraphs": 130,
+          "text_q_at_most_5_paragraphs": 262,
+          "unique_uids": 1668
+        }
+      }
+    },
+    {
+      "c1": {
+        "reason": "visible role binding including row position determines every selected failure; exact cache creates no decision; panel is program-generated collision fixtures, not natural post-feedback traces",
+        "residual": "none"
+      },
+      "c2": {
+        "reason": "FinQA excluded as a source; TAT-QA residual after top-5 is 4/389 and all 4 fall to top-10 or always-expand; mean 4.878 paragraphs makes always-expand cheap",
+        "residual": "none"
+      },
+      "item": 4,
+      "requirement": "Deployable residual after exact cache, metadata/period rules, ordinary retrieval, fixed lookup, larger top-k, always-expand/neighbor",
+      "scope_limit": "Screens measure coverage, not cost. A cost-aware expansion policy on 14-26 paragraph records was not evaluated and no cost evidence was gathered. Untested dimension, not a surviving residual: no deployable action with unsupplied value was instantiated with evidence.",
+      "verdict": "NO_DEPLOYABLE_RESIDUAL"
+    },
+    {
+      "caveat": "Zero-call rests partly on absence of contradicting artifacts; the producing work left no independent call ledger. Two deterministic dev-dataset screens were computed today and are labelled development screening with examples marked exposed.",
+      "checks": [
+        "directory inventory 12 files, no raw generation/checkpoints/judge logs/network captures",
+        "repo-wide freshness scan: only the 12 task files written after checkout",
+        "network sweep: only endpoint_calls 0 and prohibition text; no client libs, keys or hosts",
+        "model-name sweep: zero hits",
+        "D_TATQA_TEXT_SCREEN.py imports argparse/hashlib/json/pathlib/sklearn only",
+        "git status --porcelain shows only the untracked task directory",
+        "confirmation_outputs_inspected false; selected examples marked EXPOSED_DEVELOPMENT_ONLY",
+        "probe_release authorized attempts/tokens/training/judge/production all zero"
+      ],
+      "counter_evidence_found": false,
+      "item": 5,
+      "requirement": "No model, judge, training, production or confirmation source used or generated",
+      "status": "VERIFIED"
+    }
+  ],
+  "verdict": "CONDITIONAL",
+  "verdict_scope": "NO_GO_FOR_MODEL_PROBE disposition and all D premise corrections accepted without condition; A evidence chain accepted only after C-1..C-5 are recorded. Converts to ACCEPTED once those five conditions are filed. No claim fabricated or inverted; defects are evidence-chain precision and source-scope defects, not outcome defects.",
+  "zero_call_accounting": {
+    "confirmation_sources_used": 0,
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "healthy_probe_count": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "production_probes": 0,
+    "training_runs": 0
+  }
+}

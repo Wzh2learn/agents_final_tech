@@ -134,7 +134,7 @@ training selection。该面板必须标记为 `PRIOR_ERROR_POOL_DEVELOPMENT_REPL
 该结果是 bounded negative，不等于“反馈学习整体无效”。现有结果与“localization 不充分”
 和“模型不能稳定执行任何一次文本修订”均一致，但没有把两者因果分离。
 
-### 2.2.1 Phase B：同起点真实训练与接口修复
+### 2.2.1 Phase B：child-only 训练、集合代理指标与接口修复
 
 **监督与训练。** B1 从 24 个 families、72 条冻结 outputs 中收窄出 5 条可训练
 set-binding 纠正轨迹，覆盖 3 个 families 和两种可见行/期间角色误绑定。监督身份是
@@ -142,25 +142,34 @@ set-binding 纠正轨迹，覆盖 3 个 families 和两种可见行/期间角色
 不是训练目标；3/5 个合格目标相对冻结参考发生符号反向，因此唯一 estimand 是保持 O
 的算子、顺序和单位时的 `SET_BINDING_SET_ACCURACY`，不是答案正确性。开发面板为
 12 families ×3 repeated-measure variants，其中 7/12 个 family 的 original variant
-原本正确。R/E 从同一 ordinary parent 各训练 128 steps，合计 319,948 processed-text
-training tokens、287.98 GPU 秒。
+原本正确。R/E 各训练 128 steps，合计 319,948 processed-text training tokens、
+287.98 GPU 秒。但训练路径加载 ordinary parent 后立即新增并激活 `b2_child`；PEFT
+一次只激活一个 adapter，因此该实验不是已验证的 ordinary-parent continuation。
+36 条唯一轨迹被扩成每臂 256 行：39 条纠正呈现、217 条 no-op/未决。39 条呈现由
+5 个纠正身份以 `11/7/7/7/7` 的不对称权重重复得到，不是 39 个独立纠正；loss 覆盖
+全部 prompt+target tokens。这些是训练失败的候选解释，不是已识别根因。
 
 **接口修复后的结果。** 第一轮 192-token 生成使 R/E 各 24/36 条进入 syntax-adapter
 failure，判为 interface-truncation run。使用同一 R/E checkpoint、同一面板重新生成
 R/E 72 条，将上限提高到 384 并要求只输出合同对象，新增 66,592 generation tokens，
-未重训。按 source-family 配对的行级 accuracy 为 N=72.2%、R=69.4%、E=0%；E-R 为
+未重训。按 source-family 配对的行级 `SET_BINDING_SET_ACCURACY` 为 N=72.2%、
+R=69.4%、E=0%；E-R 为
 -69.4 个百分点，区间 [-91.7,-44.4]，E-N 为 -72.2 个百分点，区间 [-94.4,-47.2]，
 R-N 为 -2.8 个百分点，区间 [-19.4,+13.9]。三变体全对只作 paired-completion 次要诊断。
 
-**失败分布与判断。** N 为 26 correct、6 wrong、4 reasonable UNKNOWN；R 为 25 correct、
-7 wrong、4 reasonable UNKNOWN；O 为 27 correct、5 wrong、4 reasonable UNKNOWN。
+**失败分布与判断。** 这些 correct 数只表示证据集合匹配，不是答案语义正确数。N 为
+26 set-binding match、6 wrong、4 reasonable UNKNOWN；R 为 25 match、7 wrong、
+4 reasonable UNKNOWN；O 为 27 match、5 wrong、4 reasonable UNKNOWN。
 E 的接口口径为 36 个 interface-caused UNKNOWN、0 个合法 patch；按目标可得性口径，
 4 条无目标样本是合理 UNKNOWN，其余 32 条为 WRONG/LOST，即 `CORRECT 0 / UNKNOWN 4 /
 WRONG 32`。E 还造成 5 个 originally-correct family damage。72 条修复生成仍全部达到
-384-token 上限；E 生成虚构 JSON Schema、错误 hash 字段和非法 operation keys。
+384-token 上限。O/N 为 strict whole JSON；R/E 为 36/36 embedded JSON，strict 为 0。
+E 先败在 keys/schema，随后出现虚构 JSON Schema、错误 hash 字段和非法 operation keys。
+SHA 要求属于模型/工具责任混杂，不能单独解释 0 个合法 patch。
 reference-derived deterministic patch control 为 88.9%，但它是不可部署的 oracle control。
-R 虽恢复为可解析对象，仍低于 N 和 O，因此 R 也是 method-level negative，而不只是 E
-的接口对照。证据支持停止当前 R/E 实现，不支持推广为反馈学习或局部编辑普遍无效。
+R 虽能抽取首个对象，但没有严格可交付输出；R-N 配置不匹配且区间跨零，只能记为
+`NO_GAIN_OBSERVED_IN_THIS_CONFIGURATION`，不是干净的方法级因果负结果。证据支持停止
+当前 R/E 实现，不支持推广为反馈学习或局部编辑普遍无效。
 
 ### 2.3 局限
 
@@ -170,19 +179,30 @@ reference-derived set-binding revision supervision，不是教师反馈学习产
 单位/期间正确性或行动安全。B1 旧门使用 24-family semantic correctness，B2 实际替换为
 12-family `SET_BINDING_SET_ACCURACY` 且新增 zero-damage ceiling；两者不是同一分母或同一
 目标。Neutral correction 与 oracle correction 的存在说明“没有纠错能力”同样不是可支持
-结论。E 的失败还混合 patch schema、hash 约束、重复输出和 max-token 截断，R/E 72 条修复
-生成均未自然终止。N 又是首轮 sampling/192-token 配置，R/E 是 greedy/384-token/
+结论。E 的失败还混合 patch schema、hash 约束、重复输出和 max-token 截断；hash 应由
+工具计算，不能要求模型凭空生成。R/E 72 条修复生成均未自然终止。N 又是首轮
+sampling/192-token 配置，R/E 是 greedy/384-token/
 contract-suffix 配置，R-N 的小幅差异混有配置差异；累计物理生成调用为 188。方向门在该
 面板上结构性不可满足：2/3 个 eligible families 由 set-difference 方向规则产生符号反向，
-不能再计作 E 的额外失败。
+不能再计作 E 的额外失败。已安装 TRL 含自动 EOS 处理，因此不能把 runner 未手写 EOS
+认定为训练失败根因。
 
 ### 2.4 下一缺失证据
 
 当前 R/E 候选已满足停止规则，不应进入 exposure-clean confirmation 或第二 seed，也不应
-继续在同一面板上调提示或堆样本。若未来重启，必须先形成新的来源隔离、经教师或确定性
-verifier 核验的自然纠正监督，并用稳定、短输出、可执行的合同表示消除 schema/hash/截断
-混杂；确认集须在生成前通过历史曝光并集检查。在此之前，C2 保留为真实训练负结果和方法
-边界材料，资源转向与 C3 有区分的新问题。
+继续在同一面板上调提示或堆样本。若未来重启，必须先验证有效父计算路径，允许训练参考
+使用合法完整目标，由工具计算 hash/完整性字段，并形成新的来源隔离、经 verifier 核验的
+自然纠正监督；确认集须在生成前通过历史曝光并集检查。在此之前，C2 保留为实现失败和
+方法边界材料，资源转向与 C3 有区分的新问题。
+
+**决策残差资格筛查。** 后续对“条件化证据适用性”和“可核验的证据获取”做了有界筛查。
+角色/期间适用性被可见角色规则解释；TAT-QA 389 个自然 text-only 开发问题中，TF-IDF
+top-3 覆盖 378，top-5 和 top-3+top-1 邻域均覆盖 385，top-10 覆盖 389/389。但 top-10
+在 359/389 题上已经等同 always-expand，top-5 在 262/389 题上也已等同 always-expand；
+该筛查只测证据覆盖，不测成本感知策略优势。固定 top-k、邻域扩展或 always-expand 已解释
+主要证据获取余量，因此没有释放模型探针。该结果只说明
+当前两个候选缺少独立残差，不证明条件判断或证据获取问题不存在；下一步需要未曝光自然
+来源、完整语义参考和能同时越过这些强基线的可执行残差。
 
 ## 3. C3：固定模型交付的风险—覆盖—成本边界
 
@@ -244,7 +264,7 @@ correct-to-wrong、abstention 和行动效用。若风险下降只来自 abstent
 | 目标窗口 | 必须完成的证据动作 | 不可提前声称 |
 |---|---|---|
 | 2026-10-29 前 | Owner 决定 Paper E ICAART/SNCS 条件路线；不因截止临近提高科学主张 | ICAART 已获 Owner 批准或更易接收 |
-| 2026-11 | 关闭当前 R/E 候选并保留真实训练负结果；冻结 C3 资格、停止和证据身份规则 | C2/C3 已建立、已泛化 |
+| 2026-11 | 关闭当前 R/E 候选并保留真实训练后的实现失败与前提纠偏；冻结 C3 资格、停止和证据身份规则 | C2/C3 已建立、已泛化 |
 | 2026-12—2027-02 | 为第三研究点选择有区分的新问题；若重启经验学习，先取得新来源、稳定合同和 verifier 核验监督 | feedback learning 有效 |
 | 2027-03—2027-06 | 对新候选做小规模开发与真正来源隔离确认；不再在同一 C2 面板复验 | E 优于 R 或 neutral retry |
 | 2027-04—2027-07 | 在真正 disjoint panel 上完成 C3 cost-aware risk/coverage；独立审计机制、单位和成本 | gate 或 abstention 是新交付方法 |
