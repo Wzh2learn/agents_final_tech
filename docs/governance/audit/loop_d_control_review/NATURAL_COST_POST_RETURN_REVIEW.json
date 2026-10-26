@@ -1,0 +1,169 @@
+{
+  "schema": "natural_cost_post_return_audit_v1",
+  "date": "2026-10-26",
+  "baseline_commit": "0af5f5444feff8190ca9bf87cadab98e5f3ebe13",
+  "source_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+  "source_requirement_recompute": {
+    "both": 265,
+    "table": 197,
+    "paragraph": 44,
+    "unresolved": 1
+  },
+  "frozen_rows": 507,
+  "frozen_row_hash": "93ce50e26d51359c5e8dca9cca9381607b50f762c93ff3cce3da164d830f340e",
+  "frontier_arithmetic_recompute": {
+    "table_only": {
+      "potential": 197,
+      "characters": 223082
+    },
+    "small_topk_3": {
+      "potential": 452,
+      "characters": 619687
+    },
+    "fixed_top1_neighbor": {
+      "potential": 414,
+      "characters": 547954
+    },
+    "larger_topk_5": {
+      "potential": 486,
+      "characters": 773767
+    },
+    "always_expand": {
+      "potential": 506,
+      "characters": 927751
+    },
+    "transparent_stop_expand": {
+      "potential": 481,
+      "characters": 784932
+    }
+  },
+  "classifier_counterexamples": [
+    {
+      "id": "numeric_substring_in_wrong_quantity",
+      "expected_source": "paragraph",
+      "actual_source": "table",
+      "classification": {
+        "source_requirement": "table",
+        "target_source": "table",
+        "target_terms": 1,
+        "target_table_hits": 1,
+        "target_paragraph_hits": 1,
+        "scale_source": "not_required",
+        "scale_status": "OK"
+      },
+      "identity": "AUDIT_AUTHORED_COUNTEREXAMPLE_NOT_NATURAL_RESEARCH_RESULT"
+    },
+    {
+      "id": "same_literal_wrong_semantic_role",
+      "expected_source": "paragraph",
+      "actual_source": "table",
+      "classification": {
+        "source_requirement": "table",
+        "target_source": "table",
+        "target_terms": 1,
+        "target_table_hits": 1,
+        "target_paragraph_hits": 1,
+        "scale_source": "not_required",
+        "scale_status": "OK"
+      },
+      "identity": "AUDIT_AUTHORED_COUNTEREXAMPLE_NOT_NATURAL_RESEARCH_RESULT"
+    }
+  ],
+  "numeric_substring_flags": {
+    "count": 5,
+    "examples": [
+      {
+        "uid": "03de2d3b-2e3d-425f-8f59-7dfca536488e",
+        "terms_missing_as_numeric_tokens": [
+          "2"
+        ]
+      },
+      {
+        "uid": "219f3e23-c2b0-4607-9573-6af0eea1fb33",
+        "terms_missing_as_numeric_tokens": [
+          "2"
+        ]
+      },
+      {
+        "uid": "5a58d6e1-8526-49cc-a56a-c4ade901790c",
+        "terms_missing_as_numeric_tokens": [
+          "2"
+        ]
+      },
+      {
+        "uid": "26971fd2-ea63-4009-a394-b38d7cca0f97",
+        "terms_missing_as_numeric_tokens": [
+          "4"
+        ]
+      },
+      {
+        "uid": "8de2ed8c-c548-4bb9-982c-5d714675b443",
+        "terms_missing_as_numeric_tokens": [
+          "53"
+        ]
+      }
+    ],
+    "limit": "lexical sensitivity flags, not independently adjudicated natural semantic errors"
+  },
+  "p1": {
+    "policy_declared": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+    "policy_replay_count": 5,
+    "ordinary_original_denominator": 24,
+    "delivered_executable_files_containing_policy_id": [],
+    "limit": "No general executable P1 actor or all-24 regression is located in delivered stage artifacts; inline commands or external runners remain unverified."
+  },
+  "scientific_calls": 0,
+  "training_runs": 0,
+  "harness_dispatches": 0,
+  "observed_checkout_commit": "0af5f5444feff8190ca9bf87cadab98e5f3ebe13",
+  "loaded_skills": [
+    "inquiry-methods",
+    "experiment-autopsy",
+    "research-driven-design",
+    "jinrong-docs-sync",
+    "verify-before-done"
+  ],
+  "inquiry_mode": [
+    "fact-check",
+    "portfolio-triage"
+  ],
+  "verdict": "EXECUTION_ACCEPTED_OFFLINE_PROXY_NO_GO_RETAINED_SEMANTIC_CLOSURE_NOT_ESTABLISHED",
+  "proposal": {
+    "status": "NOT_AUTHORIZED_NOT_DISPATCHED",
+    "additional_harness_dispatches": 2,
+    "cap_before": 22,
+    "used": 21,
+    "cap_if_accepted": 24,
+    "scientific_generation_budget_increase": 0,
+    "pilot_generation_cap": 48,
+    "pilot_tokens_cap": 240000,
+    "pilot_training_runs": 0
+  },
+  "verification": {
+    "post_edit": "TO_BE_RECORDED_IN_EXTERNAL_CLOSEOUT",
+    "full_pytest_this_review": "NOT_RUN",
+    "original_full_pytest_reported": "967 passed, 1 failed, 14 skipped, 1 deselected",
+    "adversarial_review": {
+      "passes": true,
+      "failures": [],
+      "limits": "Two audit-authored counterexamples are not new natural findings; flags require adjudication; no method confirmed."
+    }
+  },
+  "source_git_blob_sha256": {
+    "research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md": "76a0efe828fca63c1e3fa576e76f4f666330bbb5902eaff831dfd733d94e417f",
+    "research/natural_error_evidence_cost_20261026_v1/D_STAGE_GATE.md": "384ef47ce94331e5ca70721999e04e14af1f02607f90071a4fb98d7cab9285d7",
+    "research/natural_error_evidence_cost_20261026_v1/a_closeout/P1_SEMANTIC_LEDGER_FINAL.json": "6a50c60a9289febece10b80ffb11306f8a099868b447830d6aeac91f3807275d",
+    "research/natural_error_evidence_cost_20261026_v1/a_closeout/P2_RECOVERY_RECOMPUTE_FINAL.py": "736a7f5ee10af5d1214d75fd6a99a15bd8eb94f873e3a9de9cd240ab2ab97b4e",
+    "research/natural_error_evidence_cost_20261026_v1/a_closeout/P2_RECOVERY_RECOMPUTE_FINAL.json": "efe134217e0629ec90b72ba302998d5b43756a9f46ff125fd2f2e09c01f7c9de",
+    "research/natural_error_evidence_cost_20261026_v1/audits/C_FINAL_AUDIT.md": "76acecc8f21a26bebc5e091a3d8c5c5bdf5f944afdc0aabeddfdad28c9bd7a67"
+  },
+  "current_review_side_effects": {
+    "scientific_generation_attempts": 0,
+    "training_runs": 0,
+    "judge_calls": 0,
+    "production_or_endpoint_probes": 0,
+    "harness_dispatches": 0,
+    "external_submission_payment_or_publication": 0
+  },
+  "upstream_classifier_semantic_counterexample_test": "FAIL_TWO_AUTHORED_FIXTURES"
+}

@@ -5,14 +5,14 @@
 > [架构](THESIS_RESEARCH_ARCHITECTURE_v3.md)管理研究范围，[治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)管理科学边界；本文件不另设授权或预算。
 > 方法、训练与账本的现状见[STATE](../../memory/STATE.md)，可复用资产接续[既有地图](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。
 
-> 2026-10-26最新接续：[no-go范围复核](../governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)接受依旧门停止调用，限定构造role/record内text-only切片，纠正always-expand覆盖门。下一阶段从已有自然语义错误定位或混合表文取证成本中选一个；协作增量与执行门见唯一指令，尚待Owner接受。以下历史身份不恢复旧权限。
+> 2026-10-26最新接续：[自然阶段事后复核](../governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)。原门下暂停接受；P1规则解释不等于全24题可执行修复，P2代理未认证语义充分性。原6次协作已用，累计21/22；期刊稿/一次答案成本校准及新增2次协作为待接受提案。以下历史身份不恢复旧权限。
 
 ## 0. 现役工作流
 
 | 工作流 | 已有结果 | 下一步与出口 |
 |---|---|---|
-| G1 Paper E | 两案例、12页包、24/24引用及私有artifact机械审计 | 维护成熟包；Owner确认合适渠道与身份/外部动作，正式操作前核官方信息 |
-| Graph Loop执行交接 | B及本轮no-go已执行，前提纠偏接受且no-go范围收窄 | 旧A/C已用15/16；新增6次为待接受提案，按唯一指令接续A准备/C前审/单主攻实验 |
+| G1 Paper E | 两案例、12页包、24/24引用及私有artifact机械审计 | 优先完成SNCS实质派生稿与Owner一页表；既有包收据复用，正式操作前核官方信息 |
+| Graph Loop执行交接 | B及本轮no-go已执行，前提纠偏接受且no-go范围收窄 | 旧A/C已用21/22；新2次为待接受提案，A交稿/必要补证/一次校准，C一次联合审阅 |
 | G2/C2学习 | 普通SFT强基线、14次历史训练；Phase B有2次真实child训练，父有效路径不合格 | 按唯一指令纠正有效性叙事，并先找完整语义可核验的决策残差；旧R/E不重开 |
 | G3/C3交付 | neutral retry旧错误池开发回放；无策略增量 | 独立固定模型问题成立才继续；同报错误接受、正确覆盖、弃答、原对破坏和总成本 |
 | G4学位 | 中文素材、骨架及导师稿 | C2/C3不预认证；按2027年10月送审倒排，持续形成正文 |

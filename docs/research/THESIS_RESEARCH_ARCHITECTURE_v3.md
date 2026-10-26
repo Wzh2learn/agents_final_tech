@@ -5,7 +5,7 @@
 > [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)管理科学边界，[执行蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)管理工作流；[STATE](../../memory/STATE.md)保存当前事实。
 > 原始历史架构见[快照](history/2026-10-12_pre_governance/README.md)，后文历史内容不控制当前贡献与运行权限。
 
-> 2026-10-26最新接续：[no-go范围复核](../governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)接受依旧门停止调用，限定构造role/record内text-only切片，纠正always-expand覆盖门。下一阶段从已有自然语义错误定位或混合表文取证成本中选一个；协作增量与执行门见唯一指令，尚待Owner接受。以下历史身份不恢复旧权限。
+> 2026-10-26最新接续：[自然阶段事后复核](../governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)。原门下暂停接受；P1规则解释不等于全24题可执行修复，P2代理未认证语义充分性。原6次协作已用，累计21/22；期刊稿/一次答案成本校准及新增2次协作为待接受提案。以下历史身份不恢复旧权限。
 
 ## 0. 当前研究范围与贡献边界
 

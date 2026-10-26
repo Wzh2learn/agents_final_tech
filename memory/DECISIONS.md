@@ -259,3 +259,8 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 ## [2026-10-26] 接受残差no-go执行，收窄范围并纠正always-expand门
 结论：378/385/385/389独立复现，旧角色构造任务与record内389个text-only切片停止模型探针合理；该覆盖门不否定完整答案—风险—成本问题。优先复用ordinary自然原题raw做语义资格，混合表文取证成本独立备选，只选一主攻。C2/C3仍未成立，Paper E不等待方法。
 理由：全量候选覆盖是信息上界，不应要求自适应在纯覆盖上击败全量；字符节省仅代理。新阶段提出增加6次A/C派发，旧15/16不重置，原模型/训练总帽不增加；Owner明确接受前不启动。本会话0科研生成/训练/A-C派发/外部动作。依据：docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md。
+
+
+## [2026-10-26] 接受自然阶段执行，区分规则解释、代理筛查与真实答案实验
+结论：原21/22次A/C及原门下暂停保留；507行计数/hash复现，P1缺统一actor/全24回归，P2分类器子串/角色反例已复现。506不是独立完整语义参考，不能用代理门关闭真实答案—成本研究。Paper E优先交SNCS派生稿；拟用A实作+C一次联合审阅完成必要补证和48次内校准，新增2次协作待Owner接受。旧raw与冻结门不改，本会话0科研生成/训练/A-C派发/外部动作。
+理由：旧方案把代理门过早用于阻止诊断，且六次协作实际用于准备/修复/审计/收口。后续收窄工作面并测最有信息价值的不确定性，不要求先证明正向收益，也不重开旧R/E。依据：docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md。

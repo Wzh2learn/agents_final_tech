@@ -5,7 +5,7 @@
 
 > 当前证据修正：[负责人复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)。27/26/25/0为集合匹配，R36/36为embedded抽取；禁止作为答案准确率或干净的ordinary续训方法负结果引用。
 
-> 最新范围：[no-go复核](../docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)。389题仅record内text-only覆盖；未测的答案/风险/成本不写成无研究空间。后两章继续作为候选，先定位既有自然语义失效，再决定方法。
+> 最新范围：[自然阶段事后复核](../docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)。507行代理可复算；规则执行/全24回归和完整语义充分性尚未建立，真实答案成本未测。后两章维持候选，按一次校准而非代理硬门决定方法投入。
 
 ## 现役题目、问题与章节
 

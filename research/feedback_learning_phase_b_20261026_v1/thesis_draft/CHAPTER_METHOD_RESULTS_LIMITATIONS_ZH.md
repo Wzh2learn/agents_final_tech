@@ -300,3 +300,10 @@ correct-to-wrong、abstention 和行动效用。若风险下降只来自 abstent
 - `research/feedback_delivery_continuation_20261025_v1/SAME_CANDIDATE_FEEDBACK_A_FINAL.json`
 - `research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json`
 - `research/feedback_delivery_continuation_20261025_v1/RESOURCE_RECEIPT_20261025.json`
+
+
+## 7. 自然筛查事后复核：代理与语义结论的界限（2026-10-26）
+
+本阶段507条表文问题的逐行计数与哈希可复现，但这种一致性不等于构念有效性。来源分类以参考答案或推导数字在表格/段落中的字面包含为依据；本次在原实现上构造并复现了两种误判：数字子串命中，以及相同数值属于不同语义角色。因此，197/44/265/1是启发式来源分类，506是自动参考状态，不能直接解释为完整语义充分性或模型正确率上界。两条反例仅为审计fixture；五条自然数值边界敏感性标记尚待语义裁决。
+
+对于原题错误，四条真实错误可以得到可见规则解释，但现有交付未定位统一可执行规则actor及全部24题的非破坏回归，不能由错误子集的4/4推出一般证据使用问题已关闭。后续应保持旧R/E实现停止，以同一actor、完整可复核参考和真实调用成本校准检索代理，再决定是否值得投入新方法。原离线门下暂停仍保留其历史身份，尚未执行的模型实验不作为方法负结果。证据见docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md及同目录机器收据。

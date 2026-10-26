@@ -26,3 +26,11 @@
 | C3 | 开发观察 | original 41,997 tokens/51.99s；retry 52,223/94.42s；localization 64,326/173.91s | 本地单次运行，每条件 72 attempts | 当前运行成本边界 | 稳定吞吐、生产成本或 policy 边际成本 | `research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json` | 重复运行、GPU/tool/wall cost 与边际 deployment cost |
 | C3 | 未验证 | 独立面板上的非 abstention 风险降低、跨来源覆盖和稳定成本优势 | 尚无 | 无 | 已建立交付创新或第三个独立贡献 | `docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md` | 预注册 disjoint panel、有限行动和独立审计 |
 | 全部 | 未验证 | 2027 年 10 月的确切评审日期 | Owner identity action | 目标窗口仅为 October 2027 | 具体日期或 10 月 31 日 | `research/feedback_learning_phase_b_20261026_v1/B1_A_PAPER_AND_THESIS_TASK.md` | Owner 提供准确日期 |
+
+
+### 2026-10-26事后复核附注（不回写上表历史计数）
+
+| 对象 | 本次可支持 | 尚不能支持 | 证据 |
+|---|---|---|---|
+| P1 | 四条错误的可见规则解释；五项错误子集重放 | 统一actor已交付、19条原对无破坏、一般问题残差0 | docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md |
+| P2 | 507行算术/hash及启发式分类可复现；两个人工审计反例可复现 | 506条独立完整语义参考、potential为真实答案上界、已测实际成本无收益 | 同目录JSON与natural_cost_post_return_audit.py；自然数值边界5条只是待审标记 |

@@ -5,7 +5,7 @@
 
 ## 当前任务
 
-阶段B前提纠偏保留，旧R/E继续停止。新增6次A/C已完成：P1的5个ordinary frozen failures是4个真实模型语义错误+1个reference defect，gold-free规则修复4/4后残差为0；P2的507个table-text原题可复算前沿没有同时满足答案非劣与成本预算的challenger。最终`NO_GO_STOP_MODEL_STAGE`，未释放48-call探针、未训练、未确认。C终审另有两个未进入评分路径的matcher latent缺陷，只作为未来探针发布前阻断。
+阶段B及自然错误/取证成本阶段已执行，旧R/E继续停止，A/C累计21/22，模型腿未运行。负责人[事后复核](../docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)复现507行算术/hash，接受原离线门下暂停；P1的4/4仍缺统一actor与全24题非破坏回归，P2的506完整参考/semantic potential仅是启发式分类状态。两个子串/角色反例实际复现，5个自然数值边界标记待裁决。下一提案优先交Paper E期刊派生稿及一次真实答案/成本校准，新增2次A/C尚待接受，本会话未派发。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
@@ -17,7 +17,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
 | Paper E 投稿路线 | [ROUTE_REASSESSMENT](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：SNCS订阅条件主投，ICAART仅在截止前四项条件齐备时启用 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
-| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：自然错误/取证成本阶段已执行并以no-go收口 |
+| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：自然阶段已执行；事后复核及两次协作/诊断提案见正文，未启动 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
 | 最新科研回执 | [STAGE_RETURN](../research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md)、[A_CLOSEOUT](../research/natural_error_evidence_cost_20261026_v1/a_closeout/A_CLOSEOUT_RESULT.json)、[C_FINAL](../research/natural_error_evidence_cost_20261026_v1/audits/TASK_RESULT_C_FINAL.json) |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |

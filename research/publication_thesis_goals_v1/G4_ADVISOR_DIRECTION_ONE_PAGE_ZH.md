@@ -1,6 +1,7 @@
 # 学硕论文方向讨论稿（一页）
 
 日期：2026-10-26
+当前附注：自然阶段已执行，P1规则解释与P2代理的外推经[事后复核](../../docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)收窄；后两点尚未成立。Paper E优先SNCS期刊派生稿准备，具体执行见唯一指令。
 暂定主题：**智能体任务评测的有效性与证据驱动验证方法研究**
 
 ## 当前三项材料

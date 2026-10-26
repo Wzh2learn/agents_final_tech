@@ -12,8 +12,9 @@
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 当前科研基线与复用资产 | [`research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md`](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[`RECONCILIATION.json`](../research/research_baseline_governance_20261023/RECONCILIATION.json) |
 | 当前方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见STATE |
-| 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)：本轮no-go已执行并限定范围；下一阶段/6次协作增量待接受，原科研总帽不变；旧[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)/[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md) |
+| 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)：自然阶段已执行21/22次协作；新事后复核与2次精简协作提案待接受，原科学总帽不变；旧[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)/[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md) |
 | 决策残差范围复核 | [负责人复核](governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)：独立复算、no-go范围、always-expand成本门及待接受的下一阶段提案；机器收据/复现脚本见正文 |
+| 自然错误/成本阶段事后复核 | [负责人复核](governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)：507行复算、P1执行证据缺口、P2分类反例及优先期刊稿/一次校准实验；原raw不改 |
 | 四项 Goals 当前状态 | [STATE](../memory/STATE.md)、[THREADS](../memory/THREADS.md)；诊断及自审不等于完整Goals完成，历史独立审计保留来源 |
 | 本轮工作区与 Git 治理 | [治理报告](governance/2026-10-21_workspace_git_closeout.md)；记录资产分类、分支与跨主机最终核验，当前状态仍由 STATE 维护 |
 | 当前科研记账 | [RESOURCE_LEDGER](../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：聚合保守保留，340 token待核；Portfolio V2是历史独立账本 |
