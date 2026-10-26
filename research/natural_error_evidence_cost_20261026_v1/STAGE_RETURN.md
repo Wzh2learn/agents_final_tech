@@ -115,4 +115,8 @@ daemon QA canary is disclosed separately and is not attributable to this task.
   sample cost.
 - The independent Loop B daemon made four QA canary calls outside the A
   closeout artifact window; they are not attributable to this task.
+- Remote full pytest on the final worktree: 967 passed, 1 failed, 14 skipped,
+  1 deselected. The sole failure is the known missing frozen FinQA fixture
+  `research/finqa_v2_20261010/results/finqa_v2_focused_preflight.log`, unrelated
+  to this stage. The repository delivery gate is therefore not fully green.
 - The original Phase B scientific caps remain unchanged.
