@@ -26,6 +26,7 @@
 | C3 | 开发观察 | original 41,997 tokens/51.99s；retry 52,223/94.42s；localization 64,326/173.91s | 本地单次运行，每条件 72 attempts | 当前运行成本边界 | 稳定吞吐、生产成本或 policy 边际成本 | `research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json` | 重复运行、GPU/tool/wall cost 与边际 deployment cost |
 | C3 | 未验证 | 独立面板上的非 abstention 风险降低、跨来源覆盖和稳定成本优势 | 尚无 | 无 | 已建立交付创新或第三个独立贡献 | `docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md` | 预注册 disjoint panel、有限行动和独立审计 |
 | Publication/proxy A | 开发观察 | P1 numeric 23/24、完整 semantic 13/24、可观察单位 14/24、单位 UNKNOWN 10/24，1 条方向冲突 `UNRESOLVED`；P2 preflight 后 12-item 三臂 ACCEPT 为 top-3 2/12、top-5 3/12、all 3/12，错误交付风险 0.833/0.750/0.750；合计 40 calls、2,609 output tokens、33,207 input tokens | frozen 24 originals；12-item exposed development panel；36 primary + 4 bounded retries | 修正 P1 数值/语义身份；报告同一开发面板的真实答案、风险和成本差异 | 2-point noninferiority、generalization、上/下界；Paper E 已接收/发表/学校认定 | `research/publication_proxy_calibration_20261026_v1/A_REMEDIATION_RETURN.md`、`raw/runs/primary/P2_CALIBRATION_RESULTS.json`、`paper_e_sncs/paper_e_sncs.tex` | 独立自然面板、approved TeX build、Owner 身份/投稿授权 |
+| D预算更正 | 合规主样本+执行事故 | 第一批40次为36主调用+4重试；第二批40次为科学载荷相同但物理耗时不同的确定性复跑。实际80/48 attempts、66,414 input、5,218 output；科学估计只从第一批raw零模型派生 | 12-item exposed development panel；两批raw均保留 | 修正“无新增调用”和40-call总账；停止all-context，top-5保留为开发候选 | 把第二批当独立确认/复现证据，或称预算合规 | `research/publication_proxy_calibration_20261026_v1/D_BUDGET_INCIDENT_AND_CORRECTED_ACCOUNTING.md`、`raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json` | 新预算、新冻结面板和独立确认 |
 | 全部 | 未验证 | 2027 年 10 月的确切评审日期 | Owner identity action | 目标窗口仅为 October 2027 | 具体日期或 10 月 31 日 | `research/feedback_learning_phase_b_20261026_v1/B1_A_PAPER_AND_THESIS_TASK.md` | Owner 提供准确日期 |
 
 
@@ -35,3 +36,11 @@
 |---|---|---|---|
 | P1 | 四条错误的可见规则解释；五项错误子集重放 | 统一actor已交付、19条原对无破坏、一般问题残差0 | docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md |
 | P2 | 507行算术/hash及启发式分类可复现；两个人工审计反例可复现 | 506条独立完整语义参考、potential为真实答案上界、已测实际成本无收益 | 同目录JSON与natural_cost_post_return_audit.py；自然数值边界5条只是待审标记 |
+
+### 2026-10-27接续更正
+
+| 对象 | 本次可支持 | 尚不能支持 | 证据 |
+|---|---|---|---|
+| P1 | 统一公共actor与全24题回归已交付；numeric 23/24、semantic 13/24、unit 14/24、4修复/0破坏 | 一般证据使用问题已关闭，或规则actor是学习方法贡献 | `research/publication_proxy_calibration_20261026_v1/p1_rule_execution/full_24_regression.json` |
+| P2 | 第一批40次真实三臂结果：2/3/3 ACCEPT；all被top-5弱支配；9/12三臂均失败 | 2点非劣、泛化、全上下文理论上界、代理potential与真实准确率同构 | `research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json` |
+| Paper E | 完整两案例期刊派生稿、15页fallback PDF、24/24引用 | 精确TeX-engine构建已验证、投稿/录用/学校认定 | `research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md` |

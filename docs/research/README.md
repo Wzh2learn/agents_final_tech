@@ -1,24 +1,24 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-27
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据
 
-阶段B及自然错误/取证成本阶段已执行，旧R/E停止，A/C累计21/22。本次[事后复核](../governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)接受原离线门下暂停、复现507行算术/hash；P1规则解释尚缺统一actor/全24回归，P2来源分类存在子串/角色反例，506是自动状态而非独立完整语义参考。现役提案优先Paper E期刊稿及一次真实答案/成本校准，新增2次协作待接受，尚未启动。
+Publication/Proxy阶段已执行，旧R/E停止，A/C累计24/24。P1公共actor/全24题回归已由C复算；P2完成12题三臂真实校准。Paper E形成完整两案例期刊派生稿。修复任务实际80/48生成attempts，超帽32；第一批40次为合规主样本，第二批隔离。506仍是自动参考状态，不是独立完整语义裁决。最终科学、预算与投稿边界见[D集成回执](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [PHASE_B_RETURN](../../research/feedback_learning_phase_b_20261026_v1/PHASE_B_RETURN.md)、[B2B_ANALYSIS](../../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)、[C_AUDIT](../../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json) |
+| 当前方法实验与成本 | [D_INTEGRATION_RETURN](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)、[COMPLIANT_RESULT](../../research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json)、[C_AUDIT](../../research/publication_proxy_calibration_20261026_v1/audits/C_JOINT_AUDIT.md) |
 | 当前自然错误/取证成本阶段 | [STAGE_RETURN](../../research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md)、[A_CLOSEOUT](../../research/natural_error_evidence_cost_20261026_v1/a_closeout/A_CLOSEOUT_RESULT.json)、[C_FINAL](../../research/natural_error_evidence_cost_20261026_v1/audits/TASK_RESULT_C_FINAL.json) |
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
-| Paper E 路由与办理 | [ROUTE_REASSESSMENT](../../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
+| Paper E 路由与办理 | [SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[ROUTE_REASSESSMENT](../../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：旧6次已用，事后复核及新增2次提案在唯一正文；旧路径仅跳转 |
-| 最新科研回执 | [STAGE_RETURN](../../research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md)、[C_FINAL](../../research/natural_error_evidence_cost_20261026_v1/audits/TASK_RESULT_C_FINAL.json) |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：Publication/Proxy阶段与预算事故已接续；旧路径仅跳转 |
+| 最新科研回执 | [D_INTEGRATION_RETURN](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)、[BUDGET_CORRECTION](../../research/publication_proxy_calibration_20261026_v1/D_BUDGET_INCIDENT_AND_CORRECTED_ACCOUNTING.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -32,10 +32,10 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| C1 测量 / Paper E | `NARROW_AND_CONTINUE_PACKAGE_AUDIT_PASS`，受限两案例测量审计；[唯一主稿](../../paper/saner_rene_manuscript_v1.md)、[ICAART 包](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md)与[目标包审计](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/G1_ICAART_PACKAGE_AUDIT_20261025.json) |
+| C1 测量 / Paper E | `AUTHOR_LEVEL_COMPLETE_TEX_BUILD_UNVERIFIED`，受限两案例测量审计；[SNCS派生稿](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex)与[15页fallback PDF](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.pdf)已具备，精确TeX编译待批准环境 |
 | C2 学习 / 证据反馈 | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_CLAIM`。真实child-only训练完成但未满足有效ordinary续训；N/R/E是集合代理比较且有接口混杂，仅停止当前实现，不作为干净方法负结论 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
-| Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，12 页包审计、24/24 引用和私有 artifact 完整性通过；未投稿/付款/公开 |
+| Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，完整派生稿、24/24 引用和Owner表已具备；精确TeX构建、作者/专利/artifact许可、投稿/付款/公开仍待办 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
 | Adaptive V3 | 当前 authored fixtures 上简单 greedy 已足够，two-step 无正向配对收益；[实现报告](../../research/research_portfolio_v2/ADAPTIVE_V3_IMPLEMENTATION_REPORT.md)。RPC capability 边界不等于操作系统沙箱 |

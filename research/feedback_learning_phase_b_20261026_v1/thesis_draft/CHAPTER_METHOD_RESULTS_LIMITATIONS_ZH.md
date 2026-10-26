@@ -324,20 +324,28 @@ parser→scorer-input 的零输出 dry run 和正式 preflight，状态为
 `END_TO_END_PREFLIGHT_PASS`；actor payload 对 12×3 项均未包含 gold、UID、隐藏
 尺度或参考链。首次 40-call 过程在生成后因已被严格解析器接受的
 `TABLE:<column>` 在语义规范化中缺少 row/column 分隔而停止，失败过程和 40 条
-完整响应已原样保留；修复后仅复用既有响应完成计分，没有新增生成调用。该停止
-链是工程接口缺陷证据，不是代理是否具有信息价值的科学结果。
+完整响应已原样保留。修复后又误跑了一次 40-call 确定性复跑，随后才执行真正的
+零模型重评分；两批科学载荷逐字段相同，但物理耗时不同，因此实际 attempts 是
+80 而不是 40。第一批 40 次保留为合规主样本，第二批隔离为超帽复跑事故；科学
+结果只从第一批 raw 的零模型派生评分读取。该执行事故和工程接口缺陷都不能被
+解释为代理信息价值的科学结果。
 
 真实三臂开发面板固定使用本地 Qwen3-4B。table+top-3 为 ACCEPT/REJECT
 2/10，交付错误风险 0.833，输入/输出 token 8,863/778，平均可见字符 1,710，
-生成墙钟 46.91s；table+top-5 为 3/9，风险 0.750，token 9,780/778，
-平均可见字符 2,040，墙钟 46.45s；table+all 为 3/9，风险 0.750，
-token 11,384/786，平均可见字符 2,630，墙钟 47.69s。合计 40 次调用
+生成墙钟 86.56s；table+top-5 为 3/9，风险 0.750，token 9,780/778，
+平均可见字符 2,040，墙钟 86.93s；table+all 为 3/9，风险 0.750，
+token 11,384/786，平均可见字符 2,630，墙钟 95.49s。合规主样本为 40 次调用
 （36 primary + 4 bounded retries）、2,609 output token、33,207 input
-token 和 157.01s；只有 1 个配对项从 top-3 的 REJECT 变为 top-5/all 的
-ACCEPT，语义 `PENDING_ADJUDICATION` 为 0。旧 507-item heuristic proxy
+token；实际总账为 80 attempts、5,218 output token、66,414 input token，
+超过 48-attempt 硬帽 32 次。12 个配对项中有 2 项三臂均 ACCEPT、1 项从
+top-3 的 REJECT 变为 top-5/all 的 ACCEPT、9 项三臂均 REJECT；语义
+`PENDING_ADJUDICATION` 为 0。旧 507-item heuristic proxy
 计数、潜在覆盖和可见字符仍与这些真实 token/调用账目分开。该 12-item
-面板只显示更宽上下文提高了 1 个 ACCEPT 同时增加了输入成本，不能支持
-2-point noninferiority、generalization 或上下文臂的上/下界。
+面板显示 table+all 相对 table+top-5 没有新增 ACCEPT，却多用 1,604 input
+tokens，应停止 all-context 候选；top-5 相对 top-3 只表现为 1 个新增
+ACCEPT 与 911 input tokens 的开发期风险—成本交换。9/12 项在三臂均失败，
+说明上下文宽度不能解释主要残差。该面板不能支持 2-point noninferiority、
+generalization 或上下文臂的上/下界。
 
 Paper E 现为保留原两案例边界的完整 journal-derived manuscript：结构化摘要
 195 词，正文覆盖 Introduction、Related Work、Method/Measurement Contract、
@@ -346,6 +354,7 @@ Declarations，并以 24 条真实条目和全部 in-text citation 接通 biblio
 96/118 保留 checkpoint-level 限定，FinRank 保留 post-hoc/clustered
 `text_sha1` 身份及未解释的 global/metadata reproduction drift。交付 PDF 为
 15 页、6,879 个抽取文本 token 的本地 PyMuPDF full-content fallback，不是
-TeX-engine compilation；Canonical LaTeX 仍待 D 的 approved document tool
-编译。该稿件未被声明为 accepted、published 或 school-recognized，作者、
+TeX-engine compilation。D 的 Windows 文档编译器因受限沙箱拒绝启动，GB10
+aarch64 Tectonic 下载又停滞于零字节，故 Canonical LaTeX 的精确编译仍是投稿前
+工程门。该稿件未被声明为 accepted、published 或 school-recognized，作者、
 资助、专利、artifact release 和 submission 字段仍为 `TBD_OWNER`。
