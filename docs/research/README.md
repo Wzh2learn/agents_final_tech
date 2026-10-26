@@ -6,7 +6,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-26
 
 ## 当前任务与证据
 
-阶段B已有真实A/C执行、两次child训练和准确的集合匹配计数，但ordinary父模型未保持激活，R严格JSON0/36、集合匹配不等于答案正确。旧实现停止、不跑确认/第二seed。新一轮A资格筛查与C独立复核已完成：两个自然决策残差候选均被强简单基线解释，`NO_GO_FOR_MODEL_PROBE`，0次科研生成/训练/judge/生产调用；FinQA不作新任务来源，TAT-QA覆盖筛查不等于成本优势。
+阶段B实现及其前提纠偏均已有证据，旧R/E继续停止。D本轮A准备/C审计按旧门作NO_GO、0科研调用的执行决定接受；no-go限于所测构造role和record内text-only切片，不认证所有自然语义问题或成本空间已穷尽。负责人独立复算378/385/385/389及候选上下文体积，纠正always-expand纯覆盖门。下一阶段提案优先已有ordinary原题语义失效定位、独立备选混合表文取证成本；只选一个进入模型研究。新增6次A/C派发待Owner明确接受，原生成/训练总帽不变，尚未启动。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
@@ -17,8 +17,8 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [PAPER_E_ROUTE_ADAPTATION](../../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)、[G1_SUBMISSION_PACKAGE](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：阶段B有效性已纠偏，自然残差资格结论为no-go；旧v1/v2路径仅跳转 |
-| 最新科研回执 | [PHASE_A_RETURN](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)、[修订算子诊断](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md) |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：接纳已执行no-go并限定范围；下一阶段/6次派发增量为待接受提案，旧路径仅跳转 |
+| 最新科研回执 | [D_NO_GO_DECISION](../../research/decision_residual_pivot_20261026_v1/D_NO_GO_DECISION.md)、[C审计](../../research/decision_residual_pivot_20261026_v1/audits/TASK_RESULT_C_NO_GO.json)及[范围复核](../governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |

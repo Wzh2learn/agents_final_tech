@@ -254,3 +254,8 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 ## [2026-10-26] Phase B事后复核：停止实现，纠正有效父模型与代理指标
 结论：接受旧R/E停止及确认/第二seed未运行；训练路径仅激活新child，不能认证ordinary-parent continuation。27/26/25/0是集合匹配，R严格whole-JSON0/36；R-N未匹配且区间跨零，只记未见增益。详见docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md。
 理由：父权重hash不变不能证明参与前向，补GB10已安装API与CPU反例。旧raw/协议/C报告保留，通过附注和现役入口纠偏。后续仅在原余量内做一次自然决策残差资格与至多48次生成，训练0次，不修补旧patch、不重置协作帽；待Owner转发，无本会话A/C派发。
+
+
+## [2026-10-26] 接受残差no-go执行，收窄范围并纠正always-expand门
+结论：378/385/385/389独立复现，旧角色构造任务与record内389个text-only切片停止模型探针合理；该覆盖门不否定完整答案—风险—成本问题。优先复用ordinary自然原题raw做语义资格，混合表文取证成本独立备选，只选一主攻。C2/C3仍未成立，Paper E不等待方法。
+理由：全量候选覆盖是信息上界，不应要求自适应在纯覆盖上击败全量；字符节省仅代理。新阶段提出增加6次A/C派发，旧15/16不重置，原模型/训练总帽不增加；Owner明确接受前不启动。本会话0科研生成/训练/A-C派发/外部动作。依据：docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md。

@@ -5,7 +5,7 @@
 
 ## 当前任务
 
-阶段B确有GB10 A/C执行和两次child训练；停止旧R/E、不跑确认/第二seed的决定保留。事后复核确认训练只激活b2_child，原集合匹配计数不变但方法级归因已收窄。新一轮A资格筛查和C独立复核已完成：两个自然决策残差候选均被强简单基线解释，`NO_GO_FOR_MODEL_PROBE`，0次科研生成/训练/judge/生产调用。FinQA不作为新任务来源；TAT-QA覆盖筛查只测覆盖不测成本优势。
+阶段B实现及其前提纠偏均已有证据，旧R/E继续停止。D本轮A准备/C审计按旧门作NO_GO、0科研调用的执行决定接受；no-go限于所测构造role和record内text-only切片，不认证所有自然语义问题或成本空间已穷尽。负责人独立复算378/385/385/389及候选上下文体积，纠正always-expand纯覆盖门。下一阶段提案优先已有ordinary原题语义失效定位、独立备选混合表文取证成本；只选一个进入模型研究。新增6次A/C派发待Owner明确接受，原生成/训练总帽不变，尚未启动。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
@@ -17,9 +17,9 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
 | Paper E 投稿路线 | [PAPER_E_ROUTE_ADAPTATION](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)：ICAART 条件主投、SN Computer Science 顺序备投 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
-| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：阶段B已执行且旧R/E停止；当前为事后有效性纠偏及一次有界转向 |
+| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：本轮no-go已执行；下一研究阶段与6次协作增量为待接受提案，未派发 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
-| 最新科研回执 | [PHASE_A_RETURN](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)、[REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md) |
+| 最新科研回执 | [D_NO_GO_DECISION](../research/decision_residual_pivot_20261026_v1/D_NO_GO_DECISION.md)与[C_AUDIT](../research/decision_residual_pivot_20261026_v1/audits/TASK_RESULT_C_NO_GO.json)；范围更正见[负责人复核](../docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md) |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
 | 当前聚合记账 | [RESOURCE_LEDGER](../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：历史阶段4,064 accounting attempts / 9,169,672 tokens，不含独立Phase B；B另记188物理生成、137,770—139,306生成tokens、2次训练/319,948训练tokens；340旧差额保留，不假称全局对账 |

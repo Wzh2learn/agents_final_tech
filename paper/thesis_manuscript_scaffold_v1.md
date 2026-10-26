@@ -1,9 +1,11 @@
 # 大论文稿件骨架与小论文继承表（v1）
 
 > 状态：`CURRENT_WRITING_SCAFFOLD / NOT_FINAL_THESIS` | 更新：2026-10-26
-> 当前执行见[唯一指令](../docs/research/LOOP_D_RESEARCH_PROMPT.md)；B已执行，事后有效性纠偏及单次转向待转发、未派发。本骨架管理写作，不派发实验。
+> 当前执行见[唯一指令](../docs/research/LOOP_D_RESEARCH_PROMPT.md)；B及后续no-go已执行。下一阶段/协作增量为待接受提案；本骨架不派发实验。
 
 > 当前证据修正：[负责人复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)。27/26/25/0为集合匹配，R36/36为embedded抽取；禁止作为答案准确率或干净的ordinary续训方法负结果引用。
+
+> 最新范围：[no-go复核](../docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)。389题仅record内text-only覆盖；未测的答案/风险/成本不写成无研究空间。后两章继续作为候选，先定位既有自然语义失效，再决定方法。
 
 ## 现役题目、问题与章节
 

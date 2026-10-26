@@ -9,13 +9,13 @@ Updated: 2026-10-26
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
 | PHASE-B-VALIDITY | `CORRECTED_IN_D_ADDENDUM_STOP_RETAINED` | 父adapter未激活、集合代理指标和R无干净因果负结论已写入[D前提纠偏](../research/decision_residual_pivot_20261026_v1/D_PREMISE_CORRECTION.md)；原raw/计数保留，旧R/E不重开 |
-| DECISION-RESIDUAL-NO-GO | `NO_GO_MODEL_PROBE_ZERO_CALLS_C_CONDITIONS_FILED` | A筛两候选均被强简单基线解释；C独立复算接受no-go。FinQA排除为新任务来源，TAT-QA只测覆盖不测成本；缺失条件见[D裁决](../research/decision_residual_pivot_20261026_v1/D_NO_GO_DECISION.md) |
+| DECISION-RESIDUAL-NO-GO | NO_GO_ACCEPTED_FOR_SCREENED_SLICE_COST_QUESTION_UNTESTED | [D裁决](../research/decision_residual_pivot_20261026_v1/D_NO_GO_DECISION.md)的执行停止保留；[负责人复核](../docs/governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)独立复现计数，但record内text-only覆盖不关闭自然语义失效或答案—风险—成本问题 |
 | LOOP-D-PHASE-B-DISPATCH | `COMPLETED_CURRENT_R_E_STOPPED` | [Phase B 回执](../research/feedback_learning_phase_b_20261026_v1/PHASE_B_RETURN.md)：GB10 A/C 已执行，当前 R/E 候选停止；confirmation/second seed 按门未运行 |
 | LEDGER-340 | `UNRECONCILED_KEEP_CONSERVATIVE_TOTAL` | [自审证据](../docs/governance/audit/loop_d_control_review/RECONCILIATION.json)：35个生成/评审事件加5个训练事件复算9,169,332，比聚合9,169,672少340；attempts均4,064；不释放差额、不改旧账 |
 | UNIT-OBSERVABILITY | `UNOBSERVABLE_UNIT_CASE_EXCLUDED_FROM_INFERABLE_DENOMINATOR` | [A回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已确认单位尺度不可见；仅可修引用题0/1，后续监督按可观测性资格核验 |
 | ADAPTER-SEMANTICS | `SAFE_TAIL_AND_STRICT_SPLIT_VERIFIED_PHASE_A` | [A复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)已阻止1)0→10反例，raw/strict/embedded分开；不把旧适配器继续写成现役实现，未来合同仍需C核验 |
-| NEXT-C2-SUPERVISION | `CURRENT_IMPLEMENTATION_STOPPED_NEW_SUPERVISION_REQUIRED_FOR_RESTART` | 当前实现停止，ordinary有效续训前提未满足；下一步只筛完整语义可核验的新决策残差，旧代理监督不作训练合格认证 |
-| NEXT-PHASE-BUDGET | `484_GENERATIONS_REMAIN_1_DISPATCH_REMAINS_NO_PROBE_RELEASED` | Phase B已用188次物理生成、2次训练、13/16派发；本轮A准备+C no-go审计用2/3派发、0科研生成/训练；模型探针因资格失败未释放，旧340差额单独保留 |
+| NEXT-C2-SUPERVISION | NATURAL_SEMANTIC_FAILURE_QUALIFICATION_PROPOSED | 先复用ordinary原题raw区分参考/可见信息/语义使用/接口问题；已有5条program错误仅是待审开发候选。完整监督与实际父路径合格后，才考虑一个新机制；不重启旧R/E |
+| NEXT-PHASE-BUDGET | OLD_REMAINDER_PRESERVED_PLUS_6_HARNESS_PROPOSED_NOT_AUTHORIZED | 原A/C已用15/16、余1；唯一指令§9提出新增6次、接受后累计帽22/余7。原484生成及2次训练余量不增加；小探针和后续训练按阶段门释放，未派发；旧340差额保留 |
 | C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止；[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)补充有效父模型与代理指标缺陷，不支持干净方法负结论或反馈学习普遍无效 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `ICAART_CONDITIONAL_PRIMARY_SNCS_BACKUP` | [路由适配](../research/feedback_delivery_continuation_20261025_v1/PAPER_E_ROUTE_ADAPTATION_20261025.md)是日期化建议，尚非Owner最终批准；动作前核验窗口、展示/认定和合理总费用，路线变化须明确确认，不自动转投 |

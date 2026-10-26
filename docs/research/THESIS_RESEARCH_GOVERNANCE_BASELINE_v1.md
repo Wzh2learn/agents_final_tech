@@ -1,24 +1,24 @@
 # 大论文研究治理与决策基线 v1
 
-> 更新：2026-10-26｜`CURRENT_BOUNDARIES / POST_B_VALIDITY_CORRECTION_AND_RESIDUAL_QUALIFICATION`
-> 唯一执行正文是 [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)。B已执行；当前纠偏和小探针待转发，预算与权限只由唯一正文管理。
+> 更新：2026-10-26｜`CURRENT_BOUNDARIES / NO_GO_SCOPE_REVIEW_NEXT_STAGE_PROPOSED`
+> 唯一执行正文是 [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)。本轮no-go已执行；新阶段提案不等于新增协作额度已授权。
 > 本文件管理长期科学边界，当前事实见 [STATE](../../memory/STATE.md)，未决见 [THREADS](../../memory/THREADS.md)。历史授权、旧门与旧账本不自动恢复为现役许可。
 > [学位架构](THESIS_RESEARCH_ARCHITECTURE_v3.md)管理范围，[蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)管理工作流；不再各自维护另一套执行授权。
 
-> 2026-10-26事后更新：[Phase B复核](../governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)接受旧实现停止，纠正ordinary续训与方法负结果归因；B已执行，新训练本次不释放。当前行动、余量及单次转向以唯一指令为准，以下旧“B待转发/未训练”不再决定现状。
+> 2026-10-26最新接续：[no-go范围复核](../governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)接受依旧门停止调用，限定构造role/record内text-only切片，纠正always-expand覆盖门。下一阶段从已有自然语义错误定位或混合表文取证成本中选一个；协作增量与执行门见唯一指令，尚待Owner接受。以下历史身份不恢复旧权限。
 
 ## 0. 当前阶段与长期边界
 
 | 范围 | 当前状态 |
 |---|---|
 | A治理 | 已完成并审阅，开放项保留，不再重做全景治理 |
-| B实现与接续 | B已执行，当前R/E停止；有效ordinary续训前提未满足，按唯一指令纠偏和筛一次残差 |
+| B实现与接续 | B已执行且有效性纠偏接受；本轮no-go限于所测切片，下一阶段按唯一指令作自然语义诊断/成本资格 |
 | Paper E | 保持两案例，现有12页包机械审计通过；渠道是条件建议，不等于Owner最终批准 |
 | G4 | 可同步现役章节、引用和导师讨论稿；不以写作成熟度替代方法证据 |
 | 保留给Owner | 作者身份、渠道/署名最终确认、正式投稿/付款/签署、展示承诺和公开发布 |
 | 持续边界 | 不改冻结raw，不恢复关闭面板，不接生产DB/Memory，不把AI审阅记成人工gold |
 
-历史Owner允许模型、工具和小规模LoRA/SFT研究；**B已执行；当前为有效性纠偏与一次小探针交接，原预算不重置，本次训练0次**。这不是收回长期自主性，也不以旧授权跳过本轮回报。生成与训练token均纳入统一成本；旧独立账本不混算。
+历史Owner允许模型、工具和小规模LoRA/SFT研究；**B及本轮no-go已执行；下一阶段/新增协作为待接受提案，原科研总帽不重置，训练须通过新阶段门**。这不是收回长期自主性，也不以旧授权跳过本轮回报。生成与训练token均纳入统一成本；旧独立账本不混算。
 
 ## 1. 长期目标与可签署结论
 

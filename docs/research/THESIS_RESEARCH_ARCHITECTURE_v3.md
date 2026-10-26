@@ -1,11 +1,11 @@
 # 大论文研究架构 v3：文档智能任务的测量、学习与可靠交付
 
 > 更新：2026-10-26｜`CURRENT_RESEARCH_ARCHITECTURE / C2_C3_NOT_ESTABLISHED`
-> 唯一执行正文：[LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)；B已执行；事后纠偏及一次转向交接待Owner转发，尚未派发。
+> 唯一执行正文：[LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)；本轮no-go已执行；下一阶段和协作增量为提案，未派发。
 > [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)管理科学边界，[执行蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)管理工作流；[STATE](../../memory/STATE.md)保存当前事实。
 > 原始历史架构见[快照](history/2026-10-12_pre_governance/README.md)，后文历史内容不控制当前贡献与运行权限。
 
-> 2026-10-26事后更新：[Phase B复核](../governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)接受旧实现停止，纠正ordinary续训与方法负结果归因；B已执行，新训练本次不释放。当前行动、余量及单次转向以唯一指令为准，以下旧“B待转发/未训练”不再决定现状。
+> 2026-10-26最新接续：[no-go范围复核](../governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)接受依旧门停止调用，限定构造role/record内text-only切片，纠正always-expand覆盖门。下一阶段从已有自然语义错误定位或混合表文取证成本中选一个；协作增量与执行门见唯一指令，尚待Owner接受。以下历史身份不恢复旧权限。
 
 ## 0. 当前研究范围与贡献边界
 
@@ -23,7 +23,7 @@
 
 送审为2027年10月、具体日未知；按2027年7月初稿、8—9月修改与材料缓冲倒排。NIST/ITIL只作研究背景，不作为方法创新或合规认证。
 
-**本轮执行面：**阶段B已执行；事后复核与下一次资格/小探针按唯一指令接续，原始证据只读。新交接尚未派发，本次未生成科研样本或训练；负责人归因同样允许以证据纠正。
+**本轮执行面：**B及其后A/C资格no-go均已执行；负责人纠正no-go外推和成本门。下一阶段先已有自然原题诊断，另查混合表文成本必要性，只选一个；增量提案未启动，原始证据只读。
 
 以下第1节起保留2026-10-12历史设计；“最终题目”等措辞仅是当时版本身份，不控制现役范围。
 

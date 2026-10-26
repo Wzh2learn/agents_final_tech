@@ -1,0 +1,186 @@
+{
+  "schema": "decision_residual_post_return_review_v1",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "mode": [
+    "fact-check",
+    "portfolio-triage"
+  ],
+  "baseline_commit": "682ca85e0c365e6c50b1ea1253b45b20a0679a67",
+  "source_git_blob_sha256": {
+    "docs/research/LOOP_D_RESEARCH_PROMPT.md": "327fb04ae18ff6e057338f28686389d183c24a797e22c325e8557cbea58f0cbe",
+    "research/decision_residual_pivot_20261026_v1/D_NO_GO_DECISION.md": "2ba997fa07d5aca6b6362bb7a68891ce683e1773c641bc1647e75b6ae524550d",
+    "research/decision_residual_pivot_20261026_v1/D_TATQA_TEXT_SCREEN.py": "499a6e6663f7b448c493e8dfeba43ac26c522405fe87eaf455b37c69ea6782af",
+    "research/decision_residual_pivot_20261026_v1/D_TATQA_TEXT_SCREEN.json": "009d0354fee051628ddcee32a12f68b2e24dd346e9d2744c4a34bc3d8493c817",
+    "research/decision_residual_pivot_20261026_v1/audits/TASK_RESULT_C_NO_GO.json": "80f59efdf1a2cc796be8086e8cdd43f86c2f534ebca97dc09f690d1344756d23",
+    "research/decision_residual_pivot_20261026_v1/a_prepare/CANDIDATE_SCREEN.json": "f616fc490a1d804afe96b1aace359eb13ef624ad4b25312bc6f0e5081ee5f9c5"
+  },
+  "coverage_recompute": {
+    "answer_from_counts": {
+      "table": 772,
+      "table-text": 507,
+      "text": 389
+    },
+    "empty_gold_count": 0,
+    "input_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "limits": [
+      "Exposed development screen; labels are not a new confirmation reference.",
+      "Characters proxy context volume, not measured tokens, latency, answer correctness, or deployable policy gain.",
+      "Retrieval is inside each preselected record; not full-report or corpus retrieval.",
+      "The 507 table-text questions were counted, not evaluated or certified."
+    ],
+    "neighbor_vs_top5": {
+      "chars_reduction_fraction": 0.1515729626096729,
+      "equal_annotated_evidence_coverage": true
+    },
+    "paragraph_histogram_by_text_question": {
+      "2": 57,
+      "3": 73,
+      "4": 73,
+      "5": 59,
+      "6": 33,
+      "7": 26,
+      "8": 16,
+      "9": 21,
+      "10": 1,
+      "11": 5,
+      "12": 6,
+      "13": 4,
+      "14": 2,
+      "15": 2,
+      "16": 5,
+      "24": 3,
+      "26": 3
+    },
+    "record_count": 278,
+    "schema": "decision_residual_post_return_audit_v1",
+    "scientific_generation_attempts": 0,
+    "summary": {
+      "all": {
+        "covered": 389,
+        "equals_all": 389,
+        "total_chars": 645455,
+        "total_paragraphs": 2094
+      },
+      "top1": {
+        "covered": 321,
+        "equals_all": 0,
+        "total_chars": 154453,
+        "total_paragraphs": 389
+      },
+      "top10": {
+        "covered": 389,
+        "equals_all": 359,
+        "total_chars": 609926,
+        "total_paragraphs": 1927
+      },
+      "top2": {
+        "covered": 367,
+        "equals_all": 57,
+        "total_chars": 281810,
+        "total_paragraphs": 778
+      },
+      "top3": {
+        "covered": 378,
+        "equals_all": 130,
+        "total_chars": 390822,
+        "total_paragraphs": 1110
+      },
+      "top3_neighbor": {
+        "covered": 385,
+        "equals_all": 155,
+        "total_chars": 449170,
+        "total_paragraphs": 1312
+      },
+      "top5": {
+        "covered": 385,
+        "equals_all": 262,
+        "total_chars": 529415,
+        "total_paragraphs": 1555
+      }
+    },
+    "text_only_count": 389,
+    "training_runs": 0
+  },
+  "ordinary_original_candidates": {
+    "path": "/home/testuser/wzh/research_runs/source_disjoint_confirmation_v4/source_disjoint_results_v4.jsonl",
+    "sha256": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+    "ordinary_original_denominator": 24,
+    "program_correct": 19,
+    "program_incorrect_candidates": 5,
+    "candidate_uids": [
+      "NAT_train_38e317da_60cdb35a",
+      "NAT_train_72f960c0_a2eb030c",
+      "NAT_train_cf77f5f9_a3aade99",
+      "NAT_train_b7814ec0_7b6669a8",
+      "NAT_train_4c2c23e7_204e680d"
+    ],
+    "identity": "EXPOSED_DEVELOPMENT_CANDIDATES_REQUIRE_SEMANTIC_ADJUDICATION",
+    "new_model_calls": 0
+  },
+  "verdict": "ACCEPT_EXECUTION_NO_GO_NARROW_SCOPE_AND_CORRECT_RESEARCH_GATE",
+  "facts": [
+    "Old 378/385/385/389 counts reproduced.",
+    "Screen is within preselected records and text-only, not an end-to-end answer/cost study.",
+    "Only selected old role fixtures were screened; no exhaustive claim about current ordinary natural semantic errors."
+  ],
+  "inferences": [
+    "Always-expand can bound evidence coverage without resolving an answer-risk-cost question.",
+    "Untouched sources are needed for qualified confirmation claims, not a universal prerequisite for exposed-development diagnosis."
+  ],
+  "values": [
+    "Prioritize Paper E publication progress and one mechanistic research problem.",
+    "Prefer reuse and truthful stops to repeated full governance or artificial novelty."
+  ],
+  "unverified": [
+    "Semantic qualification of the five existing original program-error candidates.",
+    "Usefulness of the 507 table-text questions.",
+    "Real answer/risk/cost gains, independent confirmation and method novelty."
+  ],
+  "current_review_side_effects": {
+    "scientific_generation_attempts": 0,
+    "training_runs": 0,
+    "judge_calls": 0,
+    "production_or_endpoint_probes": 0,
+    "harness_dispatches": 0,
+    "external_submission_payment_or_publication": 0
+  },
+  "budget_current": {
+    "generation_attempts_remaining": 484,
+    "generation_tokens_remaining": 2660694,
+    "training_runs_remaining": 2,
+    "training_tokens_remaining": 3680052,
+    "harness_used": 15,
+    "harness_cap": 16,
+    "harness_remaining": 1
+  },
+  "budget_proposal": {
+    "status": "NOT_AUTHORIZED_NOT_DISPATCHED",
+    "additional_harness_dispatches": 6,
+    "proposed_cumulative_harness_cap": 22,
+    "proposed_harness_remaining": 7,
+    "additional_scientific_generation_or_training_total_budget": 0,
+    "initial_pilot_generation_cap": 48,
+    "initial_pilot_generation_tokens_cap": 240000,
+    "initial_pilot_training_runs": 0
+  },
+  "verification": {
+    "remote_saved_script_run": "PASS_VIA_STDIN",
+    "coverage_expected_counts": [
+      378,
+      385,
+      385,
+      389
+    ],
+    "ordinary_raw_sha256_matched_receipt": true,
+    "local_and_remote_post_edit_checks": "TO_BE_RECORDED_IN_EXTERNAL_CLOSEOUT",
+    "adversarial_review": {
+      "passes": true,
+      "failures": [],
+      "limits": "No causal method result, endpoint health, real-Qwen correctness or complete source exhaustion certified."
+    },
+    "local_changed_files_credential_shape_scan": "PASS_15_COPIED_FILES_NO_MAINTAINER_WORDLIST_OR_PATH_SCAN",
+    "source_blob_hashes_checked": 6,
+    "canonical_relative_links_checked": 14
+  }
+}
