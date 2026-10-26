@@ -1,0 +1,542 @@
+{
+  "schema": "publication_proxy_calibration_c_joint_v1",
+  "task_id": "publication-proxy-calibration-c-20261026",
+  "goal_id": "PUBLICATION_AND_PROXY_CALIBRATION_20261026",
+  "role": "C_INDEPENDENT_JOINT_REVIEW",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "a_snapshot": "3a21a7186f9e20ef8feb62edae0d62987fe4bf30",
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "git_blob": "a38252322189ccb00a1a45b7611f693ada292faf",
+    "git_blob_matches": true,
+    "sha256_actual": "9dcef9001ee4e71d652dc0ad496139a54f5821f11d42a21fb7816393d1db3974",
+    "sha256_declared": "9dcef9001ee4e71d652dc0ad496139a54f5821f11d42a21fb7816393d1db3974",
+    "digest_matches": true
+  },
+  "verdict": "CONDITIONAL",
+  "verdict_scope": "P1 accepted; P2 qualification accepted; P2 scientific disposition and Paper E package blocked pending one bounded A remediation. AI review, not human gold and not venue acceptance.",
+  "verdict_subareas": {
+    "p1_public_rule_actor_and_full_24": "ACCEPTED",
+    "p2_r7r8_selection_reference_chain": "ACCEPTED",
+    "p2_scientific_disposition": "BLOCKED",
+    "paper_e_sncs_package": "BLOCKED",
+    "budget_zero_endpoint_discipline": "ACCEPTED"
+  },
+  "blocking_findings": [
+    {
+      "id": "B1",
+      "area": "P2",
+      "severity": "blocking",
+      "label": "INFERENCE+FACT",
+      "summary": "The preflight failure is an in-scope engineering qualification gap, not a scientific observation that the proxy has no information value. A converted the absence of its own required runner/adapter/scorer artefact into a scientific disposition that would close G3.",
+      "location": [
+        "research/publication_proxy_calibration_20261026_v1/A_RETURN.md:12",
+        "research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/receipts/P2_FORMAL_PREFLIGHT_RECEIPT.json:36-50",
+        "research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/receipts/P2_GENERATION_STOP_RECEIPT.json"
+      ],
+      "evidence": [
+        "P2_FORMAL_PREFLIGHT_RECEIPT.json analysis_plan FAIL: three-arm P2 runner->adapter->scorer contract is absent from this task namespace",
+        "P2_FORMAL_PREFLIGHT_RECEIPT.json integration_dry_run FAIL: cannot execute runner to adapter to scorer-input seam without a P2 adapter/runner implementation",
+        "both FAILs state absence of an implementation; neither is an observation about the proxy",
+        "docs/research/LOOP_D_RESEARCH_PROMPT.md:90 grants A ownership of raw/runner and requires section 4/5 qualification first",
+        "A_TASK.md:21 lists research/.../raw/ as a directory A must create and own; path is absent on disk",
+        "find for runner/adapter/scorer in the package returns nothing",
+        "A_RETURN.md:14 names the missing in-scope artefact as the next experiment, deferring A own scope to future work"
+      ],
+      "impact": "G3 is closed as no information value on an engineering gap. Information value is a property of the proxy-to-measured-answer/cost relation, and no answers or costs were measured. This would permanently mis-seed the C3 candidate and the thesis narrative.",
+      "smallest_follow_up": "Implement the hash-bound three-arm runner->adapter->scorer-input chain under raw/ (already A-owned), run the zero-output dry run on all 12 UIDs, re-run the preflight to END_TO_END_PREFLIGHT_PASS, then run the frozen 3-arm design. Re-label the current disposition ENGINEERING_QUALIFICATION_GAP_NOT_YET_MEASURED. Keep the generation stop.",
+      "generation_stop_was_correct": true
+    },
+    {
+      "id": "B2",
+      "area": "Paper E",
+      "severity": "blocking",
+      "label": "FACT",
+      "summary": "paper_e_sncs.pdf is a 1-page ReportLab cover sheet, not a compiled submission PDF, and its embedded abstract does not match the manuscript abstract.",
+      "location": [
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.pdf",
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/compile_package_pdf.py:15-29",
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/BUILD_RECEIPT.md:9"
+      ],
+      "evidence": [
+        "3031 bytes; /Type /Page count = 1; /Count 1",
+        "Producer ReportLab PDF Library; no pdfTeX/LaTeX marker",
+        "compile_package_pdf.py builds five hard-coded Paragraphs and does not render the manuscript",
+        "extracted PDF text is 232 words under four headings with no manuscript section structure",
+        "PDF abstract is 134 words; manuscript and Markdown abstract is 190 words",
+        "A_RETURN.md:42 records tectonic exit 126 Exec format error on aarch64; no alternate engine attempted",
+        "BUILD_RECEIPT.md:9 overclaims the PDF as a rendering of the editable manuscript text"
+      ],
+      "impact": "A_TASK requires a compiled PDF and authority section 3 requires a reviewable PDF of the complete journal manuscript. Neither exists.",
+      "smallest_follow_up": "Compile paper_e_sncs.tex with an aarch64-capable engine, record engine identity and page count in BUILD_RECEIPT.md, make the PDF a true rendering of the manuscript, re-hash."
+    },
+    {
+      "id": "B3",
+      "area": "Paper E",
+      "severity": "blocking",
+      "label": "FACT",
+      "summary": "paper_e_sncs.tex is a 752-word excerpt that discards Method, Related Work, Experimental Setup and Data Availability from the complete 6089-word original, and places an internal Reviewer Pass section inside the submission.",
+      "location": [
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex",
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/source_iccart_original.tex"
+      ],
+      "evidence": [
+        "paper_e_sncs.tex: 73 lines, 752 words (stripped 719), 0 tables, documentclass article",
+        "source_iccart_original.tex: 242 lines, 6089 words (stripped 5865), 4 tables, documentclass IEEEtran",
+        "derived sections: Introduction (1 paragraph); Two Audited Cases (2 one-paragraph subsections); Reviewer Pass; Limitations (5 sentences); Conclusion (2 sentences)",
+        "missing: Related Work (original 3 subsections), Method (original 5 subsections), Experimental Setup (original 6 subsections), Results (original 7 subsections collapsed to 2 prose paragraphs), Acknowledgments, Data Availability",
+        "paper_e_sncs.tex:55 places Reviewer Pass as a manuscript section",
+        "not a byte-copy but claim-level repackaging: title verbatim identical, all headline numbers reused, at least 3 verbatim or near-verbatim sentences",
+        "derived version drops the richer quantitative detail of the source (tie counts 91/135/83/125, slope 0.375, 112/118, 2382 clean records) leaving bare counts with no provenance pointer"
+      ],
+      "impact": "The G1 core deliverable (authority section 3: complete journal manuscript) is unmet. The package cannot be sent for review. The presence of source_iccart_original.tex is not evidence of adaptation; it is evidence that a complete manuscript existed and was compressed.",
+      "smallest_follow_up": "Expand paper_e_sncs.tex to the full manuscript: port and adapt Related Work, Method, Setup and Results from source_iccart_original.tex, add provenance pointers for every number, move the reviewer pass into FIRST_REVIEWER_PASS.md, restore Data Availability."
+    },
+    {
+      "id": "B4",
+      "area": "Paper E",
+      "severity": "blocking",
+      "label": "FACT",
+      "summary": "The manuscript has zero in-text citations, the 24-entry BibTeX file is unwired, and the two hand-written bibitems are never cited.",
+      "location": [
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex:55-72",
+        "research/publication_proxy_calibration_20261026_v1/paper_e_sncs/references.bib"
+      ],
+      "evidence": [
+        "cite commands in paper_e_sncs.tex: 0",
+        "references.bib entries: 24, all unused",
+        "bibliography command: absent",
+        "bibitem entries: 2 (nist, tatqa), never cited anywhere in the body",
+        "source_iccart_original.tex issues 14 cite commands matching references.bib, so the bib file is the source bibliography renamed and every citation was dropped",
+        "paper_e_sncs.tex:56 asserts closest work with zero supporting citation"
+      ],
+      "impact": "The closest-work claim is unsupported and the bibliography that ships is not the one the paper uses.",
+      "smallest_follow_up": "Add a bibliography command pointing at references.bib, cite the closest-work set in a Related Work section, delete or wire the two orphan bibitems."
+    }
+  ],
+  "non_blocking_findings": [
+    {
+      "id": "N1",
+      "area": "P1",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "23/24 is presented as the headline result; complete semantic answer correctness is 13/24 and unit agreement is 14/24.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/p1_rule_execution/P1_FULL_24_REPORT.md"],
+      "required_fix": "State both identities side by side wherever 23/24 appears."
+      ,"note": "A does bound this correctly in the thesis text; the risk is headline reuse."
+    },
+    {
+      "id": "N2",
+      "area": "P1",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "Row 7 records only direction_conflict true; the two acceptable interpretations are not recorded side by side.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/p1_rule_execution/full_24_regression.json"],
+      "required_fix": "Record both later-minus-earlier and earlier-minus-later readings and mark the item UNRESOLVED per authority section 4."
+    },
+    {
+      "id": "N3",
+      "area": "P1",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "receipts/P1_TEST_RECEIPT.md records a pytest exit-1 line as if it were evidence; no test was collected or run. Tests do pass 3/3 under a manual harness.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/receipts/P1_TEST_RECEIPT.md:3"],
+      "required_fix": "Run the tests under a working harness and report discovery plus execution counts; fix the bare public_actor import against the package init."
+      ,"note": "pytest is genuinely absent in the local Python 3.12 environment; A did not fabricate the failure, but a non-run is not a passing test receipt."
+    },
+    {
+      "id": "N4",
+      "area": "P2",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "FUTURE_EVALUATION_MATCHER.py HISTORICAL_PATH is cwd-relative; the P2 test module raises FileNotFoundError outside the repo root.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/FUTURE_EVALUATION_MATCHER.py:18"],
+      "required_fix": "Anchor the path to the module file location."
+    },
+    {
+      "id": "N5",
+      "area": "P2",
+      "severity": "medium",
+      "label": "FACT+INFERENCE",
+      "symptom": "The role counterexample repair is fixture-shaped. numeric_role_match is lexical token overlap, not semantic role; a wrong-role source is wrongly accepted. No substring 5-inside-2015 regression test exists. No pending-adjudication routing exists.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/FUTURE_EVALUATION_MATCHER.py:101-111"],
+      "required_fix": "Implement the pending-adjudication state authority section 5.1 requires, and add both counterexample classes as regression tests."
+      ,"note": "Latent only: zero generation occurred. Must be fixed before generation. Authority does not require a general semantic oracle."
+    },
+    {
+      "id": "N6",
+      "area": "P2",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "Prior blocking finding R2 asked for percent/dollar/scale self-tests on the future matcher; test_matcher_regressions.py contains none.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/test_matcher_regressions.py"],
+      "required_fix": "Add the percent-sign, percent-word, currency-and-comma and scale self-tests."
+      ,"note": "The parse-failure half of R2 is incidentally improved."
+    },
+    {
+      "id": "N7",
+      "area": "P2",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "A spaced digit group such as 1 496 still matches 1496 via whitespace stripping, wider than the declared digit-adjacent-only normalization.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/FUTURE_EVALUATION_MATCHER.py:56"],
+      "required_fix": "Narrow the normalization or declare the wider scope."
+      ,"note": "Pre-existing: the historical matcher behaves identically, so not a regression."
+    },
+    {
+      "id": "N8",
+      "area": "Paper E",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "fig1_measurement_chain.svg is unused, fig2_family_visibility_matrix.png is embedded twice, and Figure fig:chain is captioned and cross-referenced as the measurement chain but displays the family visibility matrix.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex:25,29,43"],
+      "required_fix": "Use fig1_measurement_chain.svg for fig:chain and remove the duplicate include."
+    },
+    {
+      "id": "N9",
+      "area": "Paper E",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "ABSTRACT_STRUCTURED.md labels itself 211 words; the body is 190 words by every counting method applied (190 body, 195 whole file). Still within the required 150-250.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/paper_e_sncs/ABSTRACT_STRUCTURED.md:1"],
+      "required_fix": "Correct the label."
+    },
+    {
+      "id": "N10",
+      "area": "Paper E",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "The SNCS text drops the checkpoint-level qualifier on 96/118 that the original manuscript carries.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex:21,36"],
+      "required_fix": "Restore the measurement-object qualifier; the paper own thesis is that counts must be bound to measurement objects."
+    },
+    {
+      "id": "N11",
+      "area": "Paper E",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "AI_USE_DISCLOSURE.md is package-level only; authority section 3 requires disclosure of which sections and which code used AI.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/paper_e_sncs/AI_USE_DISCLOSURE.md"],
+      "required_fix": "Enumerate sections and code that used AI, and what was human work."
+    },
+    {
+      "id": "N12",
+      "area": "Paper E",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "Every number in the manuscript is a bare count or ratio with no provenance pointer; the source had richer detail that was dropped.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex"],
+      "required_fix": "Add table or artefact references for each reported number."
+    },
+    {
+      "id": "N13",
+      "area": "package",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "ALL_FILES.sha256 fails self-verification: A_RETURN.md hash disagrees with its own git blob, and 7 pyc entries are listed that are not tracked in git.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/ALL_FILES.sha256"],
+      "required_fix": "Regenerate the manifest from the final files and drop pyc entries."
+      ,"note": "A_RETURN.md manifest value ee821b7d... versus actual and git-blob value c8061e6c...; only commit 3a21a7186 ever touched the file, so the manifest predates finalisation."
+    },
+    {
+      "id": "N14",
+      "area": "package",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "research/.../raw/ is listed in A_TASK ownership but was never created.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/raw/"],
+      "required_fix": "Create it with the P2 runner (B1)."
+    },
+    {
+      "id": "N15",
+      "area": "accounting",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "A usage is recorded as NOT_APPLICABLE_NO_CALL, conflating zero scientific generation with zero harness cost.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/A_RETURN.md:48"],
+      "required_fix": "Record harness_tokens UNKNOWN and harness_fees UNKNOWN, matching the Phase B TASK_RESULT_C budget schema."
+      ,"note": "The A harness demonstrably ran (45 files, +6662 lines). Authority section 2.6 and section 8 require harness cost kept as UNKNOWN."
+    },
+    {
+      "id": "N16",
+      "area": "thesis",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "The new EVIDENCE_TABLE.md row has 7 cells against a 4-column table and will not render as intended.",
+      "location": ["research/feedback_learning_phase_b_20261026_v1/thesis_draft/EVIDENCE_TABLE.md"],
+      "required_fix": "Reformat the row to the table 4-column shape."
+    },
+    {
+      "id": "N17",
+      "area": "thesis",
+      "severity": "medium",
+      "label": "FACT",
+      "symptom": "A pre-existing EVIDENCE_TABLE.md row still asserts 506 independent complete semantic references, potential is an upper bound on true answer accuracy, and measured actual cost shows no benefit, which are the three extrapolations authority section 2 corrections 3 and 5 order corrected.",
+      "location": ["research/feedback_learning_phase_b_20261026_v1/thesis_draft/EVIDENCE_TABLE.md"],
+      "required_fix": "Correct these while the file is open."
+      ,"note": "Pre-existing, but A owns the file and edited it in this task."
+    },
+    {
+      "id": "N18",
+      "area": "governance",
+      "severity": "low",
+      "label": "FACT",
+      "symptom": "A loaded 5 skills (within the cap) but 2 are outside the A authority list: paper-review-check is the C skill, and testing-practices and paper-polish-and-audit are unlisted.",
+      "location": ["research/publication_proxy_calibration_20261026_v1/A_EXECUTION_CONTRACT.md:49-50"],
+      "required_fix": "Keep A to research-writing-skill, executing-plans, structured-output and verify-before-done."
+    }
+  ],
+  "recomputed": {
+    "p1": {
+      "denominator": 24,
+      "baseline_numeric_correct": 19,
+      "actor_numeric_correct": 23,
+      "genuine_repairs": 4,
+      "damage_to_previously_numeric_correct": 0,
+      "direction_conflicts": 1,
+      "actor_program_executable": 24,
+      "actor_citation_valid": 24,
+      "actor_unit_unknown": 10,
+      "actor_outcomes": {"numeric": 14, "numeric_unit_unknown": 10},
+      "unit_agreement_with_gold": 14,
+      "actor_program_equals_gold_program": 22,
+      "actor_refs_equals_gold_refs": 22,
+      "complete_semantic_answer_correct_value_unit_refs_citation": 13,
+      "identity_statement": "23/24 is numeric program correctness ONLY; complete semantic answer correctness is 13/24",
+      "repairs_decomposition": {
+        "cell_selection_repairs": ["NAT_train_38e317da_60cdb35a", "NAT_train_cf77f5f9_a3aade99"],
+        "sign_repair": ["NAT_train_72f960c0_a2eb030c"],
+        "completion_repair": ["NAT_train_4c2c23e7_204e680d"],
+        "reference_defect_not_model_error": ["NAT_train_b7814ec0_7b6669a8"]
+      },
+      "unit_unknown_rows_gold_unit_not_visible": "10/10 verified: rows 3,5,9,11,17,18,19 have no unit token in visible table_text; rows 1,15,24 contain only ,000 as digit-grouping inside numbers",
+      "a_artifact_vs_c_recompute": "summary identical, 24 rows identical, 0 field diffs",
+      "actor_gold_freedom": "PASS - no uid/task_id/gold/expected branch and no per-case constants; solve(question, table_text) only"
+    },
+    "p2": {
+      "panel_size": 12,
+      "seed": 20261026,
+      "model_output_viewed": false,
+      "source_row_count": 507,
+      "source_qualified_count": 506,
+      "excluded_count": 1,
+      "replacements": 0,
+      "selection_replay": "byte-identical to stored P2_SELECTION_RECEIPT.json",
+      "panel_composition": {
+        "proxy_disagreement": {"disagree": 8, "agree": 4},
+        "source_requirement": {"both": 4, "paragraph": 4, "table": 4},
+        "answer_type": {"arithmetic": 4, "multi_span": 3, "span": 3, "count": 2},
+        "role": {"table": 8, "paragraph": 4}
+      },
+      "uid_binding_selected_to_reference_chain": true,
+      "reference_chain_rows": 12,
+      "reference_chain_identity_label": "automated AI review; not human gold or a complete semantic oracle",
+      "reference_chain_spotcheck": "3/3 values correct against visible tables: 10425.5=(9660+11191)/2; 155/113 payroll taxes; 96168 Canada revenue",
+      "preflight_checks_total": 12,
+      "preflight_pass": 10,
+      "preflight_fail": 2,
+      "preflight_failing_checks": ["analysis_plan", "integration_dry_run"],
+      "preflight_failure_class": "ENGINEERING_QUALIFICATION_GAP_NOT_SCIENTIFIC_OBSERVATION",
+      "r7_r8_before_after": "verified: historical falsely accepted 1, 496 and 14, 96 and negative counts; future rejects all; digit-adjacent forms still match",
+      "role_counterexample_broken_by_perturbation": "numeric_role_match on question units shipped with source units returned: 42 and expected 42 returns True",
+      "excluded_item": "question_uid 81fc6048-7510-4c55-aa3c-4c9f1f5b8bcb, gold 68.07 from (3,901-2,321)/2,321, NOT_MODEL_READY because the gold percent interpretation and hidden percent scale are not legally observable"
+    },
+    "paper_e": {
+      "tex_lines": 73,
+      "tex_words": 752,
+      "tex_words_stripped": 719,
+      "source_iccart_lines": 242,
+      "source_iccart_words": 6089,
+      "pdf_bytes": 3031,
+      "pdf_pages": 1,
+      "pdf_producer": "ReportLab PDF Library - www.reportlab.com",
+      "pdf_extracted_words": 232,
+      "pdf_abstract_words": 134,
+      "manuscript_abstract_words": 190,
+      "abstract_claimed_words": 211,
+      "abstract_in_required_range_150_250": true,
+      "abstract_pmrc_labels_present": true,
+      "cite_commands": 0,
+      "bib_entries": 24,
+      "bib_entries_cited": 0,
+      "bibliography_command_present": false,
+      "handwritten_bibitems": 2,
+      "handwritten_bibitems_cited": 0,
+      "tables": 0,
+      "figures_included": 3,
+      "figures_unique_files": 2,
+      "fig1_measurement_chain_referenced": false,
+      "fig2_included_twice": true,
+      "sections_present": ["Introduction", "Two Audited Cases", "Case 1", "Case 2", "Reviewer Pass", "Limitations", "Conclusion"],
+      "sections_missing": ["Related Work", "Method", "Experimental Setup", "Results", "Acknowledgments", "Data Availability"],
+      "tbd_owner_fields_present": true,
+      "numerical_claims_verified": {
+        "96/118": "CORRECT - checkpoint-level visibility per docs/research/stage_e_118_quantification_v1.md:14,20",
+        "0/13_ocr": "CORRECT - fig2_source.csv ocr_similar 0/13 at all gamma",
+        "442_305_33": "CORRECT - post-hoc v2 clustered by text_sha1",
+        "drift_0.19_0.16": "consistent with original manuscript"
+      },
+      "false_positive_rejected": "fig2_source.csv shows 85/118 at gamma 0.2 which is flat-protocol detection, not checkpoint visibility; 96/118 is a different frozen measurement object"
+    },
+    "package_integrity": {
+      "manifest_entries": 49,
+      "manifest_mismatched": 4,
+      "manifest_missing": 3,
+      "a_return_md_manifest_hash": "ee821b7dd7e9efcb8b41e03d45fa4ccf9ca2f43d70dc763c53a0627db0ffaa5a",
+      "a_return_md_actual_and_git_blob_hash": "c8061e6c854f744a5960784c6f296b9eeab27c3e0815ef5ac440e6b605c45d91",
+      "pyc_entries_in_manifest": 7,
+      "pyc_entries_tracked_in_git": 0
+    }
+  },
+  "p1_result_identity_and_boundary": {
+    "identity": "numeric program correctness 23/24; complete semantic answer correctness 13/24",
+    "why_the_gap_is_not_an_actor_failure": "10 rows return unit UNKNOWN where gold holds thousand/million/reported. C verified the gold unit is not derivable from the visible table text in all 10 cases: 7 rows have no unit token at all, and 3 rows contain only ,000 digit-grouping inside numbers, which is exactly the false-role signal authority section 2 correction 2 names. The frozen rule mandates UNKNOWN when unit is not legally observable, so these are measurement-contract residuals, not semantic errors.",
+    "boundary": "exposed development regression over the frozen 24 ordinary originals; not new-source generalization; A does not claim generalization",
+    "damage_claim": "0 of 19 previously numeric-correct items damaged - independently confirmed",
+    "direction_reference_conflict": "row 7 NAT_train_b7814ec0_7b6669a8. Gold uses R5:C2-R5:C1=+1955; actor uses R5:C1-R5:C2=-1955. Row 1 38e317da has the identical question shape and identical policy rules and its gold is R11:C1-R11:C2. The reference applies opposite subtraction conventions to structurally identical questions. The frozen model also produced -1955 on row 7. Corroborates prior TASK_RESULT_C_REAUDIT.json check 2 which classifies this item as a reference/scoring defect."
+  },
+  "p2_engineering_versus_scientific": {
+    "classification": "ENGINEERING_QUALIFICATION_GAP",
+    "not_a_scientific_observation": true,
+    "why_in_scope": [
+      "authority line 90 explicitly grants A ownership of raw/runner and requires section 4/5 qualification before generation",
+      "A_TASK G3 step 4 requires A to run a runner-to-adapter-to-scorer dry run, which presupposes building that chain",
+      "A_TASK ownership list names research/.../raw/ as a directory A must create and own; it was never created",
+      "no runner, adapter or scorer file exists anywhere in the package"
+    ],
+    "what_can_be_concluded_with_zero_model_calls": [
+      "R7/R8 behave as declared on tested fixtures",
+      "a 12-UID panel exists, selected before output, deterministic and well stratified",
+      "a reference chain exists with correctly recorded AI review identity",
+      "the three-arm experiment was not run and there is no answer/cost comparison",
+      "generation was correctly stopped before any model call",
+      "the offline proxy information value is UNMEASURED"
+    ],
+    "what_cannot_be_concluded_with_zero_model_calls": [
+      "whether the offline proxy predicts complete answers or actual cost",
+      "whether full context is more accurate or cheaper, or restricted context harmful",
+      "that the proxy has no information value",
+      "any 2pp non-equivalence"
+    ],
+    "generation_stop_was_correct": true,
+    "disposition_relabel_required": "ENGINEERING_QUALIFICATION_GAP_NOT_YET_MEASURED"
+  },
+  "scientific_totals_added": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "judge_calls": 0,
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "canary_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "health_probes": 0,
+    "hard_call_cap_unused": 48,
+    "hard_token_cap_unused": 240000
+  },
+  "budget": {
+    "generation_attempts": 0,
+    "generation_tokens": 0,
+    "training_runs": 0,
+    "training_tokens": 0,
+    "judge_calls": 0,
+    "canary_calls": 0,
+    "production_probes": 0,
+    "health_probes": 0,
+    "collaboration_dispatch_attempts_consumed": 1,
+    "collaboration_dispatch_attempts_authorized": 2,
+    "harness_tokens": "UNKNOWN",
+    "harness_fees": "UNKNOWN",
+    "unmeasured_categories": [
+      "A harness input/cache/output/reasoning tokens - recorded by A as NOT_APPLICABLE_NO_CALL, should be UNKNOWN (N15)",
+      "A harness subscription or provider fees",
+      "wall clock for the P1 regression and P2 selection",
+      "the failed tectonic compile attempt"
+    ]
+  },
+  "commands": [
+    "git rev-parse HEAD:docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "sha256sum docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "python3 p1_rule_execution/run_full_regression.py --instances <frozen instances> --results <frozen results> --output /tmp/C_recompute_24.json   (exit 0)",
+    "python3 diff of A artifact versus C recompute   (rows identical, summary identical)",
+    "python3 independent row-level recount",
+    "python3 unit/program/refs identity",
+    "python3 gold-unit visibility test on the 10 UNKNOWN rows",
+    "python3 -c import pytest   (exit 1, ModuleNotFoundError)",
+    "python3 -m pytest --version   (exit 1, No module named pytest)",
+    "python3 execute test_public_actor.py bodies   (3/3 pass)",
+    "python3 execute test_matcher_regressions.py bodies from p2_proxy_calibration   (exit 1, FileNotFoundError)",
+    "python3 execute test_matcher_regressions.py bodies from repo root   (3/3 pass)",
+    "python3 historical versus future matcher R7/R8 comparison",
+    "python3 numeric_role_match perturbation   (wrong-role source wrongly True)",
+    "python3 p2_proxy_calibration/select_and_reference.py --row-results <...> --raw-dev <...> --qualification <...> --output-dir /tmp/c_select_replay   (exit 0, identical)",
+    "python3 PDF page count and producer probe",
+    "python3 tex structure, cite, bibliography and figure census",
+    "python3 source_iccart_original.tex versus paper_e_sncs.tex",
+    "python3 ALL_FILES.sha256 integrity",
+    "python3 hash-scan for frozen inputs",
+    "python3 P2 panel composition and UID binding"
+  ],
+  "excluded": [
+    {
+      "item": "full LaTeX compile of paper_e_sncs.tex",
+      "status": "UNVERIFIED",
+      "reason": "no aarch64 TeX engine in the C environment; the A tectonic attempt failed exit 126"
+    },
+    {
+      "item": "pytest-collected execution of the test modules",
+      "status": "UNVERIFIED",
+      "reason": "pytest not installed; test bodies executed manually instead"
+    },
+    {
+      "item": "whether the bare public_actor import collects under pytest",
+      "status": "UNVERIFIED",
+      "reason": "cannot run pytest"
+    },
+    {
+      "item": "human or venue review of Paper E",
+      "status": "OUT_OF_SCOPE",
+      "reason": "AI review is not human gold or venue acceptance"
+    },
+    {
+      "item": "model / judge / training / canary / production / database probes",
+      "status": "EXCLUDED",
+      "reason": "zero-endpoint contract; C made 0 such calls"
+    },
+    {
+      "item": "A-owned source, labels, manuscripts, raw, receipts, thesis text, memory ledgers, frozen evidence",
+      "status": "EXCLUDED",
+      "reason": "read-only audit boundary; nothing modified"
+    }
+  ],
+  "old_failure_reserve": {
+    "justified": true,
+    "reason": "B1 affects a conclusion because it would wrongly close G3. B2 and B4 affect reproducibility and the reviewability the G1 deliverable exists to provide. Authority section 8 reserves the contingency for blockers affecting conclusion, safety or reproducibility.",
+    "scope_discipline": [
+      "one bounded A remediation",
+      "build the raw/ runner to adapter to scorer chain, complete and compile the SNCS manuscript, wire citations, re-label the P2 disposition",
+      "do not spend it on prose polishing (N8-N12, N16); disclose those once",
+      "do not start generation inside the remediation; generation follows END_TO_END_PREFLIGHT_PASS as a separate authorized step inside the existing 48-call and 240,000-token cap",
+      "P1 does not need re-running; it is independently reproduced and accepted"
+    ]
+  },
+  "boundary_compliance": {
+    "a_touched_memory_ledgers": false,
+    "a_touched_unique_prompt": false,
+    "a_touched_frozen_tests_or_hashes": false,
+    "a_committed_credentials_or_weights_or_logs": false,
+    "a_modified_frozen_evidence": false,
+    "a_commit_contains_only_owned_paths": true,
+    "c_modified_a_artifacts": false,
+    "c_files_written": [
+      "research/publication_proxy_calibration_20261026_v1/audits/C_JOINT_AUDIT.md",
+      "research/publication_proxy_calibration_20261026_v1/audits/TASK_RESULT_C.json",
+      "research/publication_proxy_calibration_20261026_v1/audits/C_RECOMPUTE.py"
+    ]
+  },
+  "next_gate": "D verifies B1-B4 and decides on the single bounded A remediation. After remediation, C re-audits only the changed surfaces: SNCS manuscript completeness and compiled PDF, citations, and the raw/ runner-to-adapter-to-scorer dry run to END_TO_END_PREFLIGHT_PASS, plus the P2 disposition re-label. P1 does not need re-audit. Generation remains unauthorized until preflight passes and is separately authorized inside the existing 48-call and 240,000-token cap.",
+  "independent_ai_review_notice": "This result is independent AI review. It is not human gold, not a venue decision, and not a claim of acceptance or school recognition. Values labelled independently recomputed were reproduced by C from hash-pinned inputs; values labelled verified were checked first-hand; inferences are labelled as such."
+}
