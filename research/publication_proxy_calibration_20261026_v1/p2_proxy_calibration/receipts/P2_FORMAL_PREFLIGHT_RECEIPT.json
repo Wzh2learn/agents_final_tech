@@ -1,0 +1,107 @@
+{
+  "actual_model_load_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+  "authority": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+  "authority_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+  "checks": [
+    {
+      "check": "authority_version",
+      "detail": "authority file exists and hash recorded",
+      "status": "PASS"
+    },
+    {
+      "check": "hash_domain",
+      "detail": "raw, qualification, row-results and matcher hashes are distinct and bound",
+      "status": "PASS"
+    },
+    {
+      "check": "runtime_interface",
+      "detail": "future matcher requires candidate, reference, answer_type, reference_scale and ambiguity flag",
+      "status": "PASS"
+    },
+    {
+      "check": "sample_group_identity",
+      "detail": "selection receipt records 12 UIDs, 12 clusters and 12 strata; exact IDs replayed before output",
+      "status": "PASS"
+    },
+    {
+      "check": "split_determinism",
+      "detail": "seed 20261026 and hash-ranked strata replay deterministically",
+      "status": "PASS"
+    },
+    {
+      "check": "scorer_binding",
+      "detail": "frozen scorer hash and future matcher hash recorded separately; no shared adapter mutation",
+      "status": "PASS"
+    },
+    {
+      "check": "analysis_plan",
+      "detail": "three-arm P2 runner->adapter->scorer contract is absent from this task namespace",
+      "status": "FAIL"
+    },
+    {
+      "check": "seeds_uncertainty",
+      "detail": "selection seed fixed; no bootstrap or estimand run",
+      "status": "PASS"
+    },
+    {
+      "check": "integration_dry_run",
+      "detail": "cannot execute runner to adapter to scorer-input seam without a P2 adapter/runner implementation",
+      "status": "FAIL"
+    },
+    {
+      "check": "zero_output_qualification",
+      "detail": "no generation result, estimand or formal output exists",
+      "status": "PASS"
+    },
+    {
+      "check": "previous_run_immutability",
+      "detail": "frozen historical matcher and receipts were restored unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "handoff_closure",
+      "detail": "A_RETURN will record failure chain and stop condition",
+      "status": "PASS"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/select_and_reference.py ...",
+      "exit_status": 0
+    },
+    {
+      "command": "python3 -m py_compile research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/FUTURE_EVALUATION_MATCHER.py",
+      "exit_status": 0
+    },
+    {
+      "command": "runner-to-adapter-to-scorer dry run",
+      "exit_status": 1
+    }
+  ],
+  "generation_stop_receipt": {
+    "generation_calls": 0,
+    "generation_tokens": 0,
+    "hard_call_cap": 48,
+    "hard_token_cap": 240000,
+    "reason": "preflight failure: missing task-owned P2 runner/adapter/scorer dry-run contract",
+    "status": "STOPPED_BEFORE_GENERATION",
+    "training_calls": 0,
+    "training_evidence": "no training launched; zero new model outputs"
+  },
+  "model_interface_files_sha256": {
+    "/home/testuser/wzh/models/hf/Qwen3-4B/config.json": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a",
+    "/home/testuser/wzh/models/hf/Qwen3-4B/generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+    "/home/testuser/wzh/models/hf/Qwen3-4B/model.safetensors.index.json": "6dc0981b8829fead746441f68f38f24c5ca4a3a66351f652c26c6df0efc43ab2",
+    "/home/testuser/wzh/models/hf/Qwen3-4B/tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+  },
+  "model_load_attempted": false,
+  "model_path_exists": true,
+  "schema": "publication_proxy_p2_formal_preflight_v1",
+  "source_hashes": {
+    "p2_qualification": "d3b3ee96f8edff54205b7ff1eca28d7e48da85e7449e1d15a425d6ab3f664451",
+    "p2_row_results": "efe134217e0629ec90b72ba302998d5b43756a9f46ff125fd2f2e09c01f7c9de",
+    "raw_dev": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+  },
+  "task_id": "publication-proxy-calibration-a-20261026",
+  "verification_level": "FAILED_RUNNER_ADAPTER_SCORER_DRY_RUN"
+}

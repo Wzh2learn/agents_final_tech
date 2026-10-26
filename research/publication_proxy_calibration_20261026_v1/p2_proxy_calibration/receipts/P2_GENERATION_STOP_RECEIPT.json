@@ -1,0 +1,10 @@
+{
+  "generation_calls": 0,
+  "generation_tokens": 0,
+  "hard_call_cap": 48,
+  "hard_token_cap": 240000,
+  "reason": "preflight failure: missing task-owned P2 runner/adapter/scorer dry-run contract",
+  "status": "STOPPED_BEFORE_GENERATION",
+  "training_calls": 0,
+  "training_evidence": "no training launched; zero new model outputs"
+}

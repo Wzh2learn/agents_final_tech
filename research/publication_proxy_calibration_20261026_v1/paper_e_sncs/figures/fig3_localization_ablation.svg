@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title>Figure 3. Multi-leaf localization and ablation</title>
+<desc>Macro-F1 and top-1 ablation bars on the explicitly instrumented M/R/N observation surface.</desc>
+<rect x="0" y="0" width="1600" height="1000" fill="#ffffff"/>
+<text x="800" y="60" fill="#172033" font-family="DejaVu Sans" font-size="36" font-weight="700" text-anchor="middle" xml:space="preserve">Figure 3. Multi-leaf localization and ablation</text>
+<text x="800" y="99" fill="#59677a" font-family="DejaVu Sans" font-size="22" font-weight="400" text-anchor="middle" xml:space="preserve">Explicitly instrumented M/R/N observation surface</text>
+<text x="70" y="139" fill="#172033" font-family="DejaVu Sans" font-size="27" font-weight="700" text-anchor="start" xml:space="preserve">Panel A · Macro-F1</text>
+<text x="355" y="217" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Full vector</text>
+<rect x="390" y="183" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="183" width="930" height="44" fill="#365a6b" stroke="#365a6b" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="217" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">1.0000</text>
+<text x="355" y="291" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Direct codebook</text>
+<rect x="390" y="257" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="257" width="930" height="44" fill="#365a6b" stroke="#365a6b" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="291" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">1.0000</text>
+<text x="355" y="365" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Non-direct leaves</text>
+<rect x="390" y="331" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="331" width="310" height="44" fill="#9aabb4" stroke="#71858f" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="365" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">0.3333</text>
+<text x="355" y="439" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Majority baseline</text>
+<rect x="390" y="405" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="405" width="155" height="44" fill="#9aabb4" stroke="#71858f" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="439" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">0.1667</text>
+<text x="70" y="524" fill="#172033" font-family="DejaVu Sans" font-size="27" font-weight="700" text-anchor="start" xml:space="preserve">Panel B · Top-1</text>
+<text x="355" y="602" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Full vector</text>
+<rect x="390" y="568" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="568" width="930" height="44" fill="#365a6b" stroke="#365a6b" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="602" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">1.0000</text>
+<text x="355" y="676" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Direct codebook</text>
+<rect x="390" y="642" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="642" width="930" height="44" fill="#365a6b" stroke="#365a6b" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="676" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">1.0000</text>
+<text x="355" y="750" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Non-direct leaves</text>
+<rect x="390" y="716" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="716" width="310" height="44" fill="#9aabb4" stroke="#71858f" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="750" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">0.3333</text>
+<text x="355" y="824" fill="#172033" font-family="DejaVu Sans" font-size="23" font-weight="400" text-anchor="end" xml:space="preserve">Chance baseline</text>
+<rect x="390" y="790" width="930" height="44" fill="#f3f5f7" stroke="#cdd5df" stroke-width="2" rx="8" ry="8"/>
+<rect x="390" y="790" width="310" height="44" fill="#9aabb4" stroke="#71858f" stroke-width="2" rx="8" ry="8"/>
+<text x="1570" y="824" fill="#172033" font-family="DejaVu Sans" font-size="24" font-weight="700" text-anchor="end" xml:space="preserve">0.3333</text>
+<text x="800" y="907" fill="#59677a" font-family="DejaVu Sans" font-size="20" font-weight="400" text-anchor="middle" xml:space="preserve">Full and direct-codebook localization are perfect on the explicitly instrumented M/R/N observation surface. When directly targeted checkpoints are</text>
+<text x="800" y="933" fill="#59677a" font-family="DejaVu Sans" font-size="20" font-weight="400" text-anchor="middle" xml:space="preserve">removed, top-1 falls to chance. The result reflects stage-aligned instrumentation, not emergent localization from the remaining hierarchy.</text>
+<metadata id="required-caption">Full and direct-codebook localization are perfect on the explicitly instrumented M/R/N observation surface. When directly targeted checkpoints are removed, top-1 falls to chance. The result reflects stage-aligned instrumentation, not emergent localization from the remaining hierarchy.</metadata>
+</svg>

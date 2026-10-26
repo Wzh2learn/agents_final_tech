@@ -1,0 +1,1404 @@
+{
+  "rows": [
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R11:C1",
+          "R11:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R11:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R11:C2"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -9005.0,
+      "baseline": {
+        "failure": "tool_execution",
+        "program_correct": false,
+        "program_executable": true,
+        "program_value": -15298.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -9005.0,
+        "evidence_refs": [
+          "R11:C1",
+          "R11:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R11:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R11:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": true,
+      "instance_id": "NAT_train_38e317da_60cdb35a::original",
+      "question": "What was the change in Total deferred provision between 2018 and 2019?",
+      "source_task_id": "NAT_train_38e317da_60cdb35a"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R2:C2",
+          "R2:C3"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C3"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 2.2,
+      "baseline": {
+        "failure": "tool_execution",
+        "program_correct": false,
+        "program_executable": true,
+        "program_value": -2.2
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 2.2,
+        "evidence_refs": [
+          "R2:C2",
+          "R2:C3"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C3"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": true,
+      "instance_id": "NAT_train_72f960c0_a2eb030c::original",
+      "question": "What was the change in Non-current trade and other receivables?",
+      "source_task_id": "NAT_train_72f960c0_a2eb030c"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R2:C2",
+          "R2:C1"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C1"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 47.299999999999955,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 47.299999999999955
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 47.3,
+        "evidence_refs": [
+          "R2:C2",
+          "R2:C1"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C1"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_00e40078_d62ef67c::original",
+      "question": "What was the change in the gross profit between the first and second quarter?",
+      "source_task_id": "NAT_train_00e40078_d62ef67c"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R3:C1",
+          "R3:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R3:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R3:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 150.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 150.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 150.0,
+        "evidence_refs": [
+          "R3:C1",
+          "R3:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R3:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R3:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_dc31ae4f_1f5700b6::original",
+      "question": "What is the change in Current: Trade payables from 2018 to 2019?",
+      "source_task_id": "NAT_train_dc31ae4f_1f5700b6"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2",
+          "R5:C3"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "4_inclusive_range",
+          "5_label_scope"
+        ],
+        "program": {
+          "left": {
+            "left": {
+              "ref": "R5:C1"
+            },
+            "op": "add",
+            "right": {
+              "ref": "R5:C2"
+            }
+          },
+          "op": "add",
+          "right": {
+            "ref": "R5:C3"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 198646.0,
+      "baseline": {
+        "failure": "tool_execution",
+        "program_correct": false,
+        "program_executable": true,
+        "program_value": 130429.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 198646.0,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2",
+          "R5:C3"
+        ],
+        "program": {
+          "left": {
+            "left": {
+              "ref": "R5:C1"
+            },
+            "op": "add",
+            "right": {
+              "ref": "R5:C2"
+            }
+          },
+          "op": "add",
+          "right": {
+            "ref": "R5:C3"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": true,
+      "instance_id": "NAT_train_cf77f5f9_a3aade99::original",
+      "question": "What is the total revenue in Thailand between 2017 to 2019?",
+      "source_task_id": "NAT_train_cf77f5f9_a3aade99"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R3:C1",
+          "R3:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R3:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R3:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -9.9,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": -9.9
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -9.9,
+        "evidence_refs": [
+          "R3:C1",
+          "R3:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R3:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R3:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_5027d461_28952bf2::original",
+      "question": "What was the change in exceptional items in 2019 from 2018?",
+      "source_task_id": "NAT_train_5027d461_28952bf2"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "actor_numeric_correct": false,
+      "actor_value": -1955.0,
+      "baseline": {
+        "failure": "tool_execution",
+        "program_correct": false,
+        "program_executable": true,
+        "program_value": -1955.0
+      },
+      "damage": false,
+      "direction_conflict": true,
+      "expected": {
+        "answer": 1955.0,
+        "evidence_refs": [
+          "R5:C2",
+          "R5:C1"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_b7814ec0_7b6669a8::original",
+      "question": "What is the change in net intangible assets between 2018 and 2019?",
+      "source_task_id": "NAT_train_b7814ec0_7b6669a8"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -67310.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": -67310.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -67310.0,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_c989956b_c24c3948::original",
+      "question": "What is the increase / (decrease) in the working capital from 2018 to 2019?",
+      "source_task_id": "NAT_train_c989956b_c24c3948"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R6:C2",
+          "R7:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "4_inclusive_range",
+          "5_label_scope",
+          "6_numeric_reference_validation"
+        ],
+        "program": {
+          "left": {
+            "ref": "R6:C2"
+          },
+          "op": "add",
+          "right": {
+            "ref": "R7:C2"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 1248208.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 1248208.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 1248208.0,
+        "evidence_refs": [
+          "R6:C2",
+          "R7:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R6:C2"
+          },
+          "op": "add",
+          "right": {
+            "ref": "R7:C2"
+          }
+        },
+        "unit": "reported"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_eaf92f5c_2540bb8a::original",
+      "question": "What was the total number of shares issued under ESP and DSP in 2019?",
+      "source_task_id": "NAT_train_eaf92f5c_2540bb8a"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R2:C1",
+          "R2:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 46.2,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 46.2
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 46.2,
+        "evidence_refs": [
+          "R2:C1",
+          "R2:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_7228db23_35dac8cf::original",
+      "question": "What was the change in the cash at bank?",
+      "source_task_id": "NAT_train_7228db23_35dac8cf"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R3:C1",
+          "R3:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R3:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R3:C2"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 8.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 8.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 8.0,
+        "evidence_refs": [
+          "R3:C1",
+          "R3:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R3:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R3:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_b1ff8cb9_c72a0760::original",
+      "question": "What was the change in Customer deposits between 2019 and 2020?",
+      "source_task_id": "NAT_train_b1ff8cb9_c72a0760"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R12:C2",
+          "R12:C1"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R12:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R12:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -17020.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": -17020.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -17020.0,
+        "evidence_refs": [
+          "R12:C2",
+          "R12:C1"
+        ],
+        "program": {
+          "left": {
+            "ref": "R12:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R12:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_7d7aac7e_b52494de::original",
+      "question": "What is the increase/ (decrease) in Benefits paid from 2018 to 2019?",
+      "source_task_id": "NAT_train_7d7aac7e_b52494de"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R5:C1",
+          "R2:C1"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -74.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": -74.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -74.0,
+        "evidence_refs": [
+          "R5:C1",
+          "R2:C1"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_0d202966_97734382::original",
+      "question": "What is the change in the number of options outstanding and exercisable in 2019 from 2018?",
+      "source_task_id": "NAT_train_0d202966_97734382"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R12:C1",
+          "R12:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R12:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R12:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 11.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 11.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 11.0,
+        "evidence_refs": [
+          "R12:C1",
+          "R12:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R12:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R12:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_17a8697e_cddf4516::original",
+      "question": "What is the nominal difference of non-current self-insured risks between 2019 and 2018?",
+      "source_task_id": "NAT_train_17a8697e_cddf4516"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R2:C1",
+          "R2:C2",
+          "R2:C3"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "5_label_scope",
+          "6_numeric_reference_validation"
+        ],
+        "program": {
+          "left": {
+            "left": {
+              "ref": "R2:C1"
+            },
+            "op": "add",
+            "right": {
+              "ref": "R2:C2"
+            }
+          },
+          "op": "add",
+          "right": {
+            "ref": "R2:C3"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 1904063.0,
+      "baseline": {
+        "failure": "program_execution",
+        "program_correct": false,
+        "program_executable": false,
+        "program_value": null
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 1904063.0,
+        "evidence_refs": [
+          "R2:C3",
+          "R2:C2",
+          "R2:C1"
+        ],
+        "program": {
+          "left": {
+            "left": {
+              "ref": "R2:C3"
+            },
+            "op": "add",
+            "right": {
+              "ref": "R2:C2"
+            }
+          },
+          "op": "add",
+          "right": {
+            "ref": "R2:C1"
+          }
+        },
+        "unit": "reported"
+      },
+      "genuine_repair": true,
+      "instance_id": "NAT_train_4c2c23e7_204e680d::original",
+      "question": "What is the total cash severance paid by the company if they were to terminate Chris Lien, Mister Walcott and Robert Bertz after Change of Control?",
+      "source_task_id": "NAT_train_4c2c23e7_204e680d"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 9.399999999999999,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 9.399999999999999
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 9.4,
+        "evidence_refs": [
+          "R5:C1",
+          "R5:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R5:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_bad47cb1_b801f010::original",
+      "question": "What was the change in Total Directors’ remuneration in 2019 from 2018?",
+      "source_task_id": "NAT_train_bad47cb1_b801f010"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R2:C1",
+          "R2:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C2"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 368.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 368.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 368.0,
+        "evidence_refs": [
+          "R2:C1",
+          "R2:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R2:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R2:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_f897bcf7_f27f4e85::original",
+      "question": "What was the change in deferred services revenue between 2018 and 2019?",
+      "source_task_id": "NAT_train_f897bcf7_f27f4e85"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R4:C2",
+          "R4:C3"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R4:C3"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 12.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 12.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 12.0,
+        "evidence_refs": [
+          "R4:C2",
+          "R4:C3"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C2"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R4:C3"
+          }
+        },
+        "unit": "reported"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_515261d9_4cfd7736::original",
+      "question": "What is the change in the amount for Usage in 2019?",
+      "source_task_id": "NAT_train_515261d9_4cfd7736"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R9:C1",
+          "R9:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R9:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R9:C2"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -29.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": -29.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -29.0,
+        "evidence_refs": [
+          "R9:C1",
+          "R9:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R9:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R9:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_c2535a25_8c3057bf::original",
+      "question": "What was the change in the property and equipment, net between 2018 and 2019?",
+      "source_task_id": "NAT_train_c2535a25_8c3057bf"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R4:C1",
+          "R5:C1"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "5_label_scope",
+          "6_numeric_reference_validation"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 4358459.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 4358459.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 4358459.0,
+        "evidence_refs": [
+          "R4:C1",
+          "R5:C1"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R5:C1"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_f3bd35a8_c3c65c22::original",
+      "question": "What is the gross profit as reported in 2019?",
+      "source_task_id": "NAT_train_f3bd35a8_c3c65c22"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R4:C1",
+          "R4:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R4:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": -827.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": -827.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": -827.0,
+        "evidence_refs": [
+          "R4:C1",
+          "R4:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R4:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_3c69f702_42904991::original",
+      "question": "What is the change in Wireless equipment revenue from 2018 to 2019?",
+      "source_task_id": "NAT_train_3c69f702_42904991"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R1:C1",
+          "R1:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R1:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R1:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 4.1,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 4.1
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 4.1,
+        "evidence_refs": [
+          "R1:C1",
+          "R1:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R1:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R1:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_09dfce79_a618d7e8::original",
+      "question": "What was the change in the amount for Christian Klein in 2019 from 2018?",
+      "source_task_id": "NAT_train_09dfce79_a618d7e8"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R6:C1",
+          "R6:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R6:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R6:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 1.6,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 1.6
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 1.6,
+        "evidence_refs": [
+          "R6:C1",
+          "R6:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R6:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R6:C2"
+          }
+        },
+        "unit": "million"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_df62465f_493610f6::original",
+      "question": "What was the change in net pension asset from 2018 to 2019?",
+      "source_task_id": "NAT_train_df62465f_493610f6"
+    },
+    {
+      "actor": {
+        "actor_outcome": "numeric_unit_unknown",
+        "citation_valid": true,
+        "evidence_refs": [
+          "R4:C1",
+          "R4:C2"
+        ],
+        "policy_id": "VISIBLE_AXIS_SCOPE_POLICY_V1",
+        "policy_rules": [
+          "2_explicit_period_binding",
+          "3_change_direction"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R4:C2"
+          }
+        },
+        "unit": "UNKNOWN"
+      },
+      "actor_numeric_correct": true,
+      "actor_value": 1249.0,
+      "baseline": {
+        "failure": "none",
+        "program_correct": true,
+        "program_executable": true,
+        "program_value": 1249.0
+      },
+      "damage": false,
+      "direction_conflict": false,
+      "expected": {
+        "answer": 1249.0,
+        "evidence_refs": [
+          "R4:C1",
+          "R4:C2"
+        ],
+        "program": {
+          "left": {
+            "ref": "R4:C1"
+          },
+          "op": "sub",
+          "right": {
+            "ref": "R4:C2"
+          }
+        },
+        "unit": "thousand"
+      },
+      "genuine_repair": false,
+      "instance_id": "NAT_train_85d4834f_e56f3061::original",
+      "question": "What is the change in the company's domestic-state income tax expense (benefit) between 2018 and 2019?",
+      "source_task_id": "NAT_train_85d4834f_e56f3061"
+    }
+  ],
+  "summary": {
+    "actor_citation_valid": 24,
+    "actor_numeric_correct": 23,
+    "actor_outcomes": {
+      "numeric": 14,
+      "numeric_unit_unknown": 10
+    },
+    "actor_program_executable": 24,
+    "actor_unit_unknown": 10,
+    "baseline_numeric_correct": 19,
+    "damage_to_previously_numeric_correct": 0,
+    "denominator": 24,
+    "direction_conflicts": 1,
+    "genuine_repairs": 4,
+    "input_sha256": {
+      "instances": "00b92fb31a3ef37b69d6cb67d33723b3e94afbaddbf38e246913b9c7c8dc4d13",
+      "results": "3723c388ff6f12a1b71314a361584bcd2678079cb86f0fc6c33865533c322e31",
+      "scorer": "f51e26769cf18a30bd9d5b1f133b9832fc8ddd951915e390df45333336fb5ac5"
+    },
+    "notes": [
+      "Exposed development regression over the frozen 24 ordinary originals.",
+      "The actor is deterministic and receives only question plus complete visible table text.",
+      "The frozen numeric scorer is imported and used for program execution."
+    ]
+  }
+}

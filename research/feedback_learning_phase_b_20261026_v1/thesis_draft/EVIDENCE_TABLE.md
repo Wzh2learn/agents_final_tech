@@ -34,3 +34,6 @@
 |---|---|---|---|
 | P1 | 四条错误的可见规则解释；五项错误子集重放 | 统一actor已交付、19条原对无破坏、一般问题残差0 | docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md |
 | P2 | 507行算术/hash及启发式分类可复现；两个人工审计反例可复现 | 506条独立完整语义参考、potential为真实答案上界、已测实际成本无收益 | 同目录JSON与natural_cost_post_return_audit.py；自然数值边界5条只是待审标记 |
+
+
+| Publication/proxy A | 已完成边界实现 | P1 24 项可见规则回归 | P1 19/24 原模型、actor 23/24；4 repairs、0 damage、1 direction conflict；P2 preflight 失败并停止 | 本任务新工作树，无新模型输出；非新来源泛化 | `research/publication_proxy_calibration_20261026_v1/A_RETURN.md`、`p1_rule_execution/full_24_regression.json`、`p2_proxy_calibration/receipts/P2_FORMAL_PREFLIGHT_RECEIPT.json` | owner 验证、三臂 runner/adapter/scorer 合同与真实生成调用 |

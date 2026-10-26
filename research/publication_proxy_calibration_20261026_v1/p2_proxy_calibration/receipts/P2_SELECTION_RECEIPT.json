@@ -1,0 +1,69 @@
+{
+  "denominator_preserved": {
+    "future_evaluation": 506,
+    "screen": 507,
+    "source": {
+      "answer_types": {
+        "arithmetic": 205,
+        "count": 20,
+        "multi-span": 101,
+        "span": 181
+      },
+      "answers_present": 507,
+      "arithmetic_or_count_derivations_nonempty": 225,
+      "complete_semantic_answer_references": 506,
+      "incomplete_or_ambiguous": 1,
+      "raw_references_present": 507
+    }
+  },
+  "excluded_count": 1,
+  "exclusion_reason": "P2 qualification excludes the frozen NOT_MODEL_READY ambiguous direction/scale item before model output",
+  "generation_status": "STOPPED_BEFORE_GENERATION",
+  "model_output_viewed": false,
+  "panel_limit": 12,
+  "replacements": [],
+  "schema": "p2_development_selection_v1",
+  "seed": 20261026,
+  "selected_count": 12,
+  "selected_uids": [
+    "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+    "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+    "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+    "01de2123-400f-4411-98d9-cd3f9f1e4136",
+    "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+    "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+    "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+    "cb4abf04-9551-46e2-8a32-46672e284167",
+    "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+    "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+    "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+    "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3"
+  ],
+  "selection_order": "one hash-ranked item per nonempty stratum, then fill by lexicographic stratum and UID hash",
+  "source_qualified_count": 506,
+  "source_row_count": 507,
+  "source_sha256": {
+    "qualification": "d3b3ee96f8edff54205b7ff1eca28d7e48da85e7449e1d15a425d6ab3f664451",
+    "raw_dev": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "row_results": "efe134217e0629ec90b72ba302998d5b43756a9f46ff125fd2f2e09c01f7c9de"
+  },
+  "stratification_rule": [
+    "source_requirement",
+    "answer_type",
+    "proxy_disagreement"
+  ],
+  "stratum_counts": {
+    "both|arithmetic|disagree": 129,
+    "both|multi-span|disagree": 30,
+    "both|span|disagree": 106,
+    "paragraph|arithmetic|disagree": 1,
+    "paragraph|count|disagree": 1,
+    "paragraph|multi-span|disagree": 1,
+    "paragraph|span|disagree": 41,
+    "table|arithmetic|agree": 74,
+    "table|count|agree": 19,
+    "table|multi-span|agree": 70,
+    "table|span|agree": 34
+  },
+  "task_id": "publication-proxy-calibration-a-20261026"
+}
