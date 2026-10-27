@@ -1,0 +1,52 @@
+{
+  "answer_type_free_status_counts": {
+    "ACCEPT": 12,
+    "REASONABLE_UNKNOWN": 5,
+    "REJECT": 19
+  },
+  "generation_records_created": 0,
+  "model_calls": 0,
+  "oracle_status_counts": {
+    "ACCEPT": 31,
+    "REASONABLE_UNKNOWN": 5
+  },
+  "question_only_rule_boundary": "The actor type is inferred only from question text. The scorer may use reference metadata after output. This is an exposed development heuristic and is not a general answer-type oracle replacement.",
+  "question_only_status_counts": {
+    "ACCEPT": 31,
+    "REASONABLE_UNKNOWN": 5
+  },
+  "review_identity": "D zero-model ablation; not human gold, not a model run and not new-source validation",
+  "schema": "question_only_answer_type_ablation_v1",
+  "source_hashes": {
+    "annotated": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "raw": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "reference": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066",
+    "source": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+  },
+  "status": "COMPLETE_ZERO_MODEL",
+  "training_runs": 0,
+  "variants": {
+    "answer_type_free": {
+      "rows_path": "research/adaptive_mechanism_20261027_v1/d_integration/results/ANSWER_TYPE_FREE_ROWS.jsonl",
+      "status_counts": {
+        "ACCEPT": 12,
+        "REASONABLE_UNKNOWN": 5,
+        "REJECT": 19
+      }
+    },
+    "oracle": {
+      "rows_path": "research/adaptive_mechanism_20261027_v1/d_integration/results/ORACLE_ROWS.jsonl",
+      "status_counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      }
+    },
+    "question_only": {
+      "rows_path": "research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ROWS.jsonl",
+      "status_counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      }
+    }
+  }
+}
