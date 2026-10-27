@@ -1,0 +1,158 @@
+{
+  "schema": "adaptive_mechanism_diagnostic_panel_preregistration_v1",
+  "task_id": "adaptive-mechanism-a-20261027",
+  "frozen_at": "2026-10-27T13:35:48+08:00",
+  "status": "FROZEN_STOP_BEFORE_GENERATION",
+  "decision": "STOP_TRANSPARENT_BASELINE_EXPLAINS_OR_BOUNDS_ALL_NATURAL_RESIDUALS",
+  "generation_authorized": false,
+  "generation_started": false,
+  "new_outputs_created": 0,
+  "panel_size_uid_count": 8,
+  "panel_uids": [
+    {
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "selection_reason": "real V2 residual: paragraph percentage reduction used the wrong table row"
+    },
+    {
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "selection_reason": "real V2 residual and visible count signal: enumerated services were not reduced to a count"
+    },
+    {
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "selection_reason": "real V2 residual and mean signal: correct operands but no mean reduction"
+    },
+    {
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "selection_reason": "real V2 residual: total used as a percentage change"
+    },
+    {
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "selection_reason": "real V2 residual and count signal: correct quarter set but no count"
+    },
+    {
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "selection_reason": "non-shared control already correct under the historical scorer in top3"
+    },
+    {
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "selection_reason": "non-shared control historically accepted in all three arms but non-equivalent under complete span contract"
+    },
+    {
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "selection_reason": "non-shared control already correct under the historical scorer in top5 and all"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1-direct-information-loss",
+      "statement": "Direct delivery retains operands or member sets but omits the requested typed reduction for mean and count questions."
+    },
+    {
+      "id": "H2-neutral-typed-baseline",
+      "statement": "A visible-only typed operand list plus the shared safe calculator resolves mean/count and percentage residuals when required evidence is visible."
+    },
+    {
+      "id": "H3-role-type-binding",
+      "statement": "A residual method signal would remain only if row, period, role, type or unit verification adds value beyond the transparent typed baseline."
+    }
+  ],
+  "arms": [
+    {
+      "id": "direct_answer",
+      "prompt_key": "direct_answer",
+      "tools": "same read-only visible context interface",
+      "reasoning_budget_delta": 0
+    },
+    {
+      "id": "neutral_typed_tool",
+      "prompt_key": "neutral_typed_tool",
+      "tools": "same read-only visible context interface plus shared safe calculator",
+      "reasoning_budget_delta": 0
+    },
+    {
+      "id": "verified_role_type_binding",
+      "prompt_key": "verified_role_type_binding",
+      "tools": "same read-only visible context interface plus shared safe calculator",
+      "reasoning_budget_delta": 0
+    }
+  ],
+  "prompts": {
+    "path": "research/adaptive_mechanism_20261027_v1/diagnostic_panel/prompts.json",
+    "sha256": "200c769ba334e1fe9f75f20f89ba676f671c2bd8657adca029bdb331af04147b"
+  },
+  "output_contract": {
+    "keys": [
+      "answer",
+      "numeric_value",
+      "unit",
+      "evidence_refs",
+      "unknown",
+      "clarification"
+    ],
+    "answer_types": [
+      "string",
+      "non-empty list of strings"
+    ],
+    "numeric_value_types": [
+      "null",
+      "finite number"
+    ],
+    "evidence_reference_grammar": "P[1-9][0-9]*|TABLE:C[0-9]+|TABLE:R[0-9]+:C[0-9]+",
+    "unknown_contract": "answer=UNKNOWN; numeric_value=null; unit=UNKNOWN; evidence_refs=[]; clarification nonempty"
+  },
+  "calculator": {
+    "path": "research/adaptive_mechanism_20261027_v1/persistent_budget/shared_tools.py",
+    "sha256": "c5777049d46169595d358654abc29c3f476107879055d33df6f07d223d138ae7",
+    "implementation": "safe AST evaluator with Decimal arithmetic and no imports or attribute access"
+  },
+  "model": {
+    "id": "Qwen/Qwen3-4B",
+    "local_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "upstream_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "file_manifest_sha256": "0f967e91a45dfb1ff799e1c131cd744ad80f627ced9d55e73f3a598bc25cdf2c",
+    "legacy_clean_model_files_manifest_sha256": "28860ecbda224e8d9ead8ec91e68abd6488dc3e33f46a768d0f33368203e456c",
+    "artifact_status": "ARTIFACT_VALIDATED_NOT_MODEL_GO",
+    "loaded_for_this_task": false,
+    "old_sft_or_r_e_checkpoint": false
+  },
+  "decoding": {
+    "algorithm": "greedy",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": 20261027,
+    "input_tokens_upper_bound_per_attempt": 6000,
+    "max_new_tokens_per_attempt": 512,
+    "stop_on": [
+      "complete valid JSON object",
+      "512 new tokens"
+    ]
+  },
+  "resource_budget": {
+    "primary_physical_attempts": 24,
+    "reserve_physical_attempts": 12,
+    "physical_attempt_cap": 36,
+    "input_plus_output_token_cap": 240000,
+    "every_failure_retry_and_interface_positive_counts": true,
+    "training_runs": 0
+  },
+  "matched_interface_rule": "All three arms receive the same visible context, output contract, read-only interface and token budget; no arm receives extra reasoning tokens or a private model/checkpoint.",
+  "stop_rules": [
+    "Do not generate when the visible typed baseline explains or contract-bounds every natural V2 residual.",
+    "Reject attempt 37 before model loading.",
+    "Reject any conservative reservation whose input upper bound plus max_new_tokens would cross 240000.",
+    "Stop after a complete JSON object or 512 new tokens.",
+    "Do not run confirmation, judge, training or new-source validation."
+  ],
+  "prerequisite_evidence": {
+    "scoring_v2_summary_sha256": "c4ff98613a53fc3dd14abb909b4d2d40477f64753ab6e7717ac32907363a061c",
+    "visible_typed_baseline_sha256": "9302521926c9647c5f69bb706b151046c448e6127e7ff11a7bd3e21c5ef6ae6e",
+    "error_cards_sha256": "82f6dab2b8c6a719a9667887b8291dd64b3eb9bf6d202c955691d623a421e9ae",
+    "diagnostic_summary_sha256": "aee478f813fd62025bf195df9b9d86965bd926f5405849fd3daf6eff9bf9aae9"
+  },
+  "claim_boundary": {
+    "panel_method_gain": false,
+    "confirmation_run": false,
+    "new_source_validation": false,
+    "c_acceptance": false
+  }
+}

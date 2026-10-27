@@ -1,0 +1,4138 @@
+{
+  "cards": [
+    {
+      "answer_type": "arithmetic",
+      "control_role": "old_shared_reject",
+      "diagnosis": "The visible paragraph supplies 2019=4.3 and 2018=19.6 million, but each arm instead returns the table's 3.1 row change: wrong row binding and wrong typed operation.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "8c902d4c8366d88a25e1752e",
+          "call_number": 15,
+          "complete_response": "{\n  \"answer\": \"3.1\",\n  \"numeric_value\": 3.1,\n  \"unit\": \"%\",\n  \"evidence_refs\": [\"TABLE:C3\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "3.1",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3"
+            ],
+            "numeric_value": 3.1,
+            "unit": "%",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "3.1",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P4"
+              ],
+              "observed": [
+                "TABLE:C3"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "P4": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction;evidence:semantic_reference_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": -78.06,
+                "observed": 3.1,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "3.1",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3"
+                ],
+                "numeric_value": 3.1,
+                "unit": "%",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "25b8866b70c8395e03f65c8f",
+          "call_number": 13,
+          "complete_response": "{\n  \"answer\": \"3.1%\",\n  \"numeric_value\": 3.1,\n  \"unit\": \"%\",\n  \"evidence_refs\": [\"TABLE:C3\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "3.1%",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3"
+            ],
+            "numeric_value": 3.1,
+            "unit": "%",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "3.1%",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P1"
+              ],
+              "observed": [
+                "TABLE:C3"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "P1": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction;evidence:semantic_reference_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": -78.06,
+                "observed": 3.1,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "3.1%",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3"
+                ],
+                "numeric_value": 3.1,
+                "unit": "%",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "4",
+            "5",
+            "7"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "ff88119d93f35ea7fdddb882",
+          "call_number": 14,
+          "complete_response": "{\n  \"answer\": \"3.1\",\n  \"numeric_value\": 3.1,\n  \"unit\": \"%\",\n  \"evidence_refs\": [\"TABLE:C3\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "3.1",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3"
+            ],
+            "numeric_value": 3.1,
+            "unit": "%",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "3.1",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P1"
+              ],
+              "observed": [
+                "TABLE:C3"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "P1": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction;evidence:semantic_reference_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": -78.06,
+                "observed": 3.1,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "3.1",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3"
+                ],
+                "numeric_value": 3.1,
+                "unit": "%",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "4",
+            "5",
+            "6",
+            "7",
+            "9"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "fact_entity_row_period_binding",
+        "operation_reduction",
+        "reference_defect",
+        "unit_direction"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "paragraph",
+      "visible_context_text": "P1: 2. Before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment amounting to $4.3 million in total (2018 $19.6 million).\n\nTABLE\ncolumns: C0=$ million | C1=2019 | C2=2018 | C3=Change (%)\nR1 [Order intake1] C0=Order intake1 | C1=532.0 | C2=470.0 | C3=13.2\nR2 [Revenue] C0=Revenue | C1=503.6 | C2=476.9 | C3=5.6\nR3 [Gross profit] C0=Gross profit | C1=368.6 | C2=344.5 | C3=7.0\nR4 [Gross margin (%)] C0=Gross margin (%) | C1=73.2 | C2=72.2 | C3=1.0\nR5 [Adjusted operating costs2] C0=Adjusted operating costs2 | C1=275.7 | C2=267.4 | C3=3.1\nR6 [Adjusted operating profit2] C0=Adjusted operating profit2 | C1=92.9 | C2=77.1 | C3=20.5\nR7 [Adjusted operating margin3 (%)] C0=Adjusted operating margin3 (%) | C1=18.4 | C2=16.2 | C3=2.2\nR8 [Reported operating profit] C0=Reported operating profit | C1=88.6 | C2=57.5 | C3=54.1\nR9 [Effective tax rate4 (%)] C0=Effective tax rate4 (%) | C1=13.0 | C2=15.4 | C3=(2.4)\nR10 [Reported profit before tax] C0=Reported profit before tax | C1=89.6 | C2=61.2 | C3=46.4\nR11 [Adjusted basic earnings per share5 (cents)] C0=Adjusted basic earnings per share5 (cents) | C1=13.40 | C2=10.86 | C3=23.4\nR12 [Basic earnings per share (cents)] C0=Basic earnings per share (cents) | C1=12.79 | C2=9.14 | C3=39.9\nR13 [Free cash flow6] C0=Free cash flow6 | C1=100.1 | C2=50.9 | C3=96.7\nR14 [Closing cash] C0=Closing cash | C1=183.2 | C2=121.6 | C3=50.7\nR15 [Final dividend per share7 (cents)] C0=Final dividend per share7 (cents) | C1=3.45 | C2=2.73 | C3=26.4",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12"
+        ],
+        "table_top3": [
+          "4",
+          "5",
+          "7"
+        ],
+        "table_top5": [
+          "4",
+          "5",
+          "6",
+          "7",
+          "9"
+        ]
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "control_role": "old_shared_reject",
+      "diagnosis": "The two payroll values are numerically correct, but numeric_value is an array under a scalar contract and the evidence is column-broad rather than row-bound.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "4858b620ed0d92ee4843817e",
+          "call_number": 9,
+          "complete_response": "{\n  \"answer\": [\"$155\", \"$113\"],\n  \"numeric_value\": [155, 113],\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C3\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "unsupported_unknown",
+          "parsed_response": {
+            "answer": [
+              "$155",
+              "$113"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3"
+            ],
+            "numeric_value": [
+              155,
+              113
+            ],
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 2,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": "TABLE:C3",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "invalid_numeric_value_type;numeric_array_contract",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;unit_and_scale_match",
+              "status": "PASS",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "$155",
+                  "$113"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3"
+                ],
+                "numeric_value": [
+                  155,
+                  113
+                ],
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "invalid_numeric_value_type;numeric_array_contract",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "FAIL"
+        },
+        "table_top3": {
+          "call_id": "75eda2be9ac760ba8c6ce4ce",
+          "call_number": 5,
+          "complete_response": "{\n  \"answer\": [\"$155\", \"$113\"],\n  \"numeric_value\": [155, 113],\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C3\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "unsupported_unknown",
+          "parsed_response": {
+            "answer": [
+              "$155",
+              "$113"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3"
+            ],
+            "numeric_value": [
+              155,
+              113
+            ],
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 2,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": "TABLE:C3",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "invalid_numeric_value_type;numeric_array_contract",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;unit_and_scale_match",
+              "status": "PASS",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "$155",
+                  "$113"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3"
+                ],
+                "numeric_value": [
+                  155,
+                  113
+                ],
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "invalid_numeric_value_type;numeric_array_contract",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "FAIL"
+        },
+        "table_top5": {
+          "call_id": "a10d6c637e2cc252fef66488",
+          "call_number": 7,
+          "complete_response": "{\n  \"answer\": [\"$155\", \"$113\"],\n  \"numeric_value\": [155, 113],\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C3\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "unsupported_unknown",
+          "parsed_response": {
+            "answer": [
+              "$155",
+              "$113"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3"
+            ],
+            "numeric_value": [
+              155,
+              113
+            ],
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 2,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": "TABLE:C3",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "invalid_numeric_value_type;numeric_array_contract",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;unit_and_scale_match",
+              "status": "PASS",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "$155",
+                  "$113"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3"
+                ],
+                "numeric_value": [
+                  155,
+                  113
+                ],
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "invalid_numeric_value_type;numeric_array_contract",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "FAIL"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "format": [
+            "invalid_numeric_value_type;numeric_array_contract"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "format": [
+            "invalid_numeric_value_type;numeric_array_contract"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "format": [
+            "invalid_numeric_value_type;numeric_array_contract"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "format",
+        "reference_defect"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "both",
+      "visible_context_text": "P1: Accrued liabilities at April 30, 2019 and 2018, respectively, consisted of the following (in thousands):\n\nTABLE\ncolumns: C0= | C1=2019 | C2=2018\nR1 [Vacation and other compensation] C0=Vacation and other compensation | C1=$1,659 | C2=$1,433\nR2 [Incentive compensation] C0=Incentive compensation | C1=346 | C2=411\nR3 [Payroll taxes] C0=Payroll taxes | C1=155 | C2=113\nR4 [Deferred revenue] C0=Deferred revenue | C1=- | C2=68\nR5 [Warranty reserve] C0=Warranty reserve | C1=529 | C2=520\nR6 [Commissions] C0=Commissions | C1=378 | C2=307\nR7 [Other] C0=Other | C1=504 | C2=564\nR8 [] C0= | C1=$3,571 | C2=$3,416",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2"
+        ],
+        "table_top3": [
+          "1",
+          "2"
+        ],
+        "table_top5": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "answer_type": "span",
+      "control_role": "non_shared_control",
+      "diagnosis": "The Canada value is correct, but USD/$ is used instead of the visible thousand scale and TABLE:C1 is not row-bound; top3 also lacks the scale paragraph.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "48bf12b797b62754c8c27989",
+          "call_number": 12,
+          "complete_response": "{\n  \"answer\": [\"96,168\"],\n  \"numeric_value\": 96168,\n  \"unit\": \"USD\",\n  \"evidence_refs\": [\"TABLE:C1\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": [
+              "96,168"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1"
+            ],
+            "numeric_value": 96168,
+            "unit": "USD",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R3:C1"
+              ],
+              "observed": [
+                "TABLE:C1"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R3:C1": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "numeric_unit:unit_or_scale_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "unit_or_scale_mismatch",
+              "status": "FAIL",
+              "unit": {
+                "expected": "thousand",
+                "observed": "USD",
+                "reason": "unit_or_scale_mismatch",
+                "status": "FAIL"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "96,168"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1"
+                ],
+                "numeric_value": 96168,
+                "unit": "USD",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "0b41e8a4ede7c45dcf1f865c",
+          "call_number": 10,
+          "complete_response": "{\n  \"answer\": [\"96,168\"],\n  \"numeric_value\": 96168,\n  \"unit\": \"$\",\n  \"evidence_refs\": [\"TABLE:C1\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": [
+              "96,168"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1"
+            ],
+            "numeric_value": 96168,
+            "unit": "$",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": [
+                "TABLE:C1"
+              ],
+              "reason": "legal_semantic_reference_not_reconstructible",
+              "status": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "reason": "numeric_unit:expected_scale_not_reconstructible_from_visible_evidence;evidence:legal_semantic_reference_not_reconstructible",
+              "status": "PENDING_ADJUDICATION"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "expected_scale_not_reconstructible_from_visible_evidence",
+              "status": "PENDING_ADJUDICATION",
+              "unit": {
+                "expected": "thousand",
+                "observed": "$",
+                "reason": "expected_scale_not_reconstructible_from_visible_evidence",
+                "status": "PENDING_ADJUDICATION"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "96,168"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1"
+                ],
+                "numeric_value": 96168,
+                "unit": "$",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "PENDING_ADJUDICATION",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "52000d6987e129031c667719",
+          "call_number": 11,
+          "complete_response": "{\n  \"answer\": [\"96,168\"],\n  \"numeric_value\": 96168,\n  \"unit\": \"USD\",\n  \"evidence_refs\": [\"TABLE:C1\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": [
+              "96,168"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1"
+            ],
+            "numeric_value": 96168,
+            "unit": "USD",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R3:C1"
+              ],
+              "observed": [
+                "TABLE:C1"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R3:C1": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "numeric_unit:unit_or_scale_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "unit_or_scale_mismatch",
+              "status": "FAIL",
+              "unit": {
+                "expected": "thousand",
+                "observed": "USD",
+                "reason": "unit_or_scale_mismatch",
+                "status": "FAIL"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "96,168"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1"
+                ],
+                "numeric_value": 96168,
+                "unit": "USD",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "unit_direction": [
+            "unit_or_scale_mismatch"
+          ]
+        },
+        "table_top3": {
+          "reference_defect": [
+            "legal_semantic_reference_not_reconstructible"
+          ],
+          "visible_information_insufficient": [
+            "legal_semantic_reference_not_reconstructible"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "unit_direction": [
+            "unit_or_scale_mismatch"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "reference_defect",
+        "unit_direction",
+        "visible_information_insufficient"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "PENDING_ADJUDICATION",
+        "table_top5": "REJECT"
+      },
+      "question": "What is the total external revenues from Canada in 2019?",
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "both",
+      "visible_context_text": "P1: Expressed in US $000's except share and per share amounts\n\nTABLE\ncolumns: C0= | C1=Years ended | C2= | C3= | C4=\nR1 [] C0= | C1=December 31, 2019 | C2= | C3=December 31, 2018 | C4=\nR2 [] C0= | C1=$ | C2=% | C3=$ | C4=%\nR3 [Canada] C0=Canada | C1=96,168 | C2=6.1% | C3=70,774 | C4=6.6%\nR4 [United States] C0=United States | C1=1,079,520 | C2=68.4% | C3=755,454 | C4=70.4%\nR5 [United Kingdom] C0=United Kingdom | C1=103,498 | C2=6.6% | C3=69,596 | C4=6.5%\nR6 [Australia] C0=Australia | C1=68,571 | C2=4.3% | C3=47,937 | C4=4.5%\nR7 [Rest of World] C0=Rest of World | C1=230,416 | C2=14.6% | C3=129,468 | C4=12.0%\nR8 [] C0= | C1=1,578,173 | C2=100.0% | C3=1,073,229 | C4=100.0%",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "table_top3": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top5": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "control_role": "old_shared_reject",
+      "diagnosis": "The question asks for enumerated services, while every arm returns fee categories; paragraph and column references therefore do not support the requested fact.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "01af72a528befb923670f68e",
+          "call_number": 22,
+          "complete_response": "{\n  \"answer\": [\"Audit Fees(1)\", \"Audit-Related Fees(2)\", \"Tax Fees(3)\"],\n  \"numeric_value\": null,\n  \"unit\": \"UNKNOWN\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\", \"VISIBLE:P7\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "unsupported_unknown",
+          "parsed_response": {
+            "answer": [
+              "Audit Fees(1)",
+              "Audit-Related Fees(2)",
+              "Tax Fees(3)"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "VISIBLE:P7"
+            ],
+            "numeric_value": null,
+            "unit": "UNKNOWN",
+            "unknown": false
+          },
+          "retry_attempt": 2,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "audit fees(1)",
+                "audit-related fees(2)",
+                "tax fees(3)"
+              ],
+              "missing": [
+                "auditing our annual consolidated financial statements",
+                "auditing our internal control over financial reporting in accordance with section 404 of the sarbanes-oxley act of 2002",
+                "auditing the financial statements of several of our subsidiaries",
+                "consultations regarding accounting standards",
+                "reviewing our quarterly financial statements",
+                "reviewing our registration statements and issuing related comfort letters",
+                "statutory audits for certain of our foreign subsidiaries"
+              ],
+              "observed": [
+                "Audit Fees(1)",
+                "Audit-Related Fees(2)",
+                "Tax Fees(3)"
+              ],
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": "VISIBLE:P7",
+              "reason": "invalid_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "invalid_evidence_reference_syntax",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "Audit Fees(1)",
+                  "Audit-Related Fees(2)",
+                  "Tax Fees(3)"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "VISIBLE:P7"
+                ],
+                "numeric_value": null,
+                "unit": "UNKNOWN",
+                "unknown": false
+              },
+              "reason": "invalid_evidence_reference_syntax",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ],
+          "strict_parse_outcome_historical": "FAIL"
+        },
+        "table_top3": {
+          "call_id": "356b24f1dc909bc807b2cb0c",
+          "call_number": 19,
+          "complete_response": "{\n  \"answer\": [\"Audit Fees\", \"Audit-Related Fees\", \"Tax Fees\"],\n  \"numeric_value\": null,\n  \"unit\": \"UNKNOWN\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\", \"P2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "Audit Fees",
+              "Audit-Related Fees",
+              "Tax Fees"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "P2"
+            ],
+            "numeric_value": null,
+            "unit": "UNKNOWN",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "audit fees",
+                "audit-related fees",
+                "tax fees"
+              ],
+              "missing": [
+                "auditing our annual consolidated financial statements",
+                "auditing our internal control over financial reporting in accordance with section 404 of the sarbanes-oxley act of 2002",
+                "auditing the financial statements of several of our subsidiaries",
+                "consultations regarding accounting standards",
+                "reviewing our quarterly financial statements",
+                "reviewing our registration statements and issuing related comfort letters",
+                "statutory audits for certain of our foreign subsidiaries"
+              ],
+              "observed": [
+                "Audit Fees",
+                "Audit-Related Fees",
+                "Tax Fees"
+              ],
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "P2"
+              ],
+              "reason": "legal_semantic_reference_not_reconstructible",
+              "status": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "Audit Fees",
+                  "Audit-Related Fees",
+                  "Tax Fees"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "P2"
+                ],
+                "numeric_value": null,
+                "unit": "UNKNOWN",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "3",
+            "6",
+            "10"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "6930242d791721807234ab05",
+          "call_number": 20,
+          "complete_response": "{\n  \"answer\": [\"Audit Fees\", \"Audit-Related Fees\", \"Tax Fees\"],\n  \"numeric_value\": null,\n  \"unit\": \"UNKNOWN\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\", \"P4\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "Audit Fees",
+              "Audit-Related Fees",
+              "Tax Fees"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "P4"
+            ],
+            "numeric_value": null,
+            "unit": "UNKNOWN",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "audit fees",
+                "audit-related fees",
+                "tax fees"
+              ],
+              "missing": [
+                "auditing our annual consolidated financial statements",
+                "auditing our internal control over financial reporting in accordance with section 404 of the sarbanes-oxley act of 2002",
+                "auditing the financial statements of several of our subsidiaries",
+                "consultations regarding accounting standards",
+                "reviewing our quarterly financial statements",
+                "reviewing our registration statements and issuing related comfort letters",
+                "statutory audits for certain of our foreign subsidiaries"
+              ],
+              "observed": [
+                "Audit Fees",
+                "Audit-Related Fees",
+                "Tax Fees"
+              ],
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "P4"
+              ],
+              "reason": "legal_semantic_reference_not_reconstructible",
+              "status": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "Audit Fees",
+                  "Audit-Related Fees",
+                  "Tax Fees"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "P4"
+                ],
+                "numeric_value": null,
+                "unit": "UNKNOWN",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "3",
+            "5",
+            "6",
+            "9",
+            "10"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ],
+          "format": [
+            "invalid_evidence_reference_syntax"
+          ],
+          "reference_defect": [
+            "invalid_reference"
+          ]
+        },
+        "table_top3": {
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ],
+          "reference_defect": [
+            "legal_semantic_reference_not_reconstructible"
+          ],
+          "visible_information_insufficient": [
+            "legal_semantic_reference_not_reconstructible"
+          ]
+        },
+        "table_top5": {
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ],
+          "reference_defect": [
+            "legal_semantic_reference_not_reconstructible"
+          ],
+          "visible_information_insufficient": [
+            "legal_semantic_reference_not_reconstructible"
+          ]
+        }
+      },
+      "labels": [
+        "fact_entity_row_period_binding",
+        "format",
+        "reference_defect",
+        "visible_information_insufficient"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What services have their costs included within the audit fees?",
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "paragraph",
+      "visible_context_text": "P1: (1) Includes the cost of services rendered in connection with (i) auditing our annual consolidated financial statements, (ii) auditing our internal control over financial reporting in accordance with Section 404 of the Sarbanes-Oxley Act of 2002, (iii) reviewing our quarterly financial statements, (iv) auditing the financial statements of several of our subsidiaries, (v) reviewing our registration statements and issuing related comfort letters, (vi) statutory audits for certain of our foreign subsidiaries, and (vii) consultations regarding accounting standards. In addition, the amount listed for 2018 includes a final billing of $785,000 that was received after we finalized our 2019 proxy statement and consequently was not reflected in the auditor fee table included in our 2019 proxy statement.\n\nTABLE\ncolumns: C0= | C1=Amount Billed | C2=\nR1 [] C0= | C1=2018 | C2=2019\nR2 [Audit Fees(1)] C0=Audit Fees(1) | C1=$16,014,014 | C2=$17,639,702\nR3 [Audit-Related Fees(2)] C0=Audit-Related Fees(2) | C1=106,528 | C2=153,203\nR4 [Tax Fees(3)] C0=Tax Fees(3) | C1=1,318,798 | C2=119,098\nR5 [Other] C0=Other | C1=— | C2=—\nR6 [Total Fees] C0=Total Fees | C1=$17,439,340 | C2=$17,912,003",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12"
+        ],
+        "table_top3": [
+          "3",
+          "6",
+          "10"
+        ],
+        "table_top5": [
+          "3",
+          "5",
+          "6",
+          "9",
+          "10"
+        ]
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "control_role": "old_shared_reject",
+      "diagnosis": "All arms return 2,991 rather than the 2018-minus-2017 diluted-share difference 3,251, indicating period/operation binding failure; references are only column-broad.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "925009c3dfee1d47bc2f73b6",
+          "call_number": 40,
+          "complete_response": "{\n  \"answer\": \"The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.\",\n  \"numeric_value\": 2991,\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C3\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3",
+              "TABLE:C2"
+            ],
+            "numeric_value": 2991,
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R9:C2",
+                "TABLE:R9:C3"
+              ],
+              "observed": [
+                "TABLE:C3",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R9:C2": "broad",
+                "TABLE:R9:C3": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 3251,
+                "observed": 2991,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3",
+                  "TABLE:C2"
+                ],
+                "numeric_value": 2991,
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "9cceb6c5597cf95d21e3df52",
+          "call_number": 38,
+          "complete_response": "{\n  \"answer\": \"The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.\",\n  \"numeric_value\": 2991,\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C3\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3",
+              "TABLE:C2"
+            ],
+            "numeric_value": 2991,
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R9:C2",
+                "TABLE:R9:C3"
+              ],
+              "observed": [
+                "TABLE:C3",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R9:C2": "broad",
+                "TABLE:R9:C3": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 3251,
+                "observed": 2991,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3",
+                  "TABLE:C2"
+                ],
+                "numeric_value": 2991,
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "479befb656131b2cd3dbc105",
+          "call_number": 39,
+          "complete_response": "{\n  \"answer\": \"The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.\",\n  \"numeric_value\": 2991,\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C3\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C3",
+              "TABLE:C2"
+            ],
+            "numeric_value": 2991,
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R9:C2",
+                "TABLE:R9:C3"
+              ],
+              "observed": [
+                "TABLE:C3",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R9:C2": "broad",
+                "TABLE:R9:C3": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 3251,
+                "observed": 2991,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "The change in the diluted weighted-average number of shares between 2017 and 2018 was a decrease of 2,991 thousand shares.",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C3",
+                  "TABLE:C2"
+                ],
+                "numeric_value": 2991,
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "fact_entity_row_period_binding",
+        "operation_reduction",
+        "unit_direction"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "both",
+      "visible_context_text": "P1: The following table presents the basic and diluted weighted-average number of shares of common stock (amounts in thousands, except per share data):\n\nTABLE\ncolumns: C0= | C1= | C2=Fiscal Years Ended March 31, | C3=\nR1 [] C0= | C1=2019 | C2=2018 | C3=2017\nR2 [Numerator] C0=Numerator | C1= | C2= | C3=\nR3 [Net income (1)] C0=Net income (1) | C1=$206,587 | C2=$254,127 | C3=$47,157\nR4 [Denominator:] C0=Denominator: | C1= | C2= | C3=\nR5 [Weighted-average common shares outstanding:] C0=Weighted-average common shares outstanding: | C1= | C2= | C3=\nR6 [Basic] C0=Basic | C1=57,840 | C2=52,798 | C3=46,552\nR7 [Assumed conversion of employee stock grants] C0=Assumed conversion of employee stock grants | C1=1,242 | C2=2,291 | C3=2,235\nR8 [Assumed conversion of warrants] C0=Assumed conversion of warrants | C1=— | C2=3,551 | C3=6,602\nR9 [Diluted] C0=Diluted | C1=$59,082 | C2=$58,640 | C3=$55,389\nR10 [Net income per basic share (1)] C0=Net income per basic share (1) | C1=$3.57 | C2=$4.81 | C3=$1.01\nR11 [Net income per diluted share (1)] C0=Net income per diluted share (1) | C1=$3.50 | C2=$4.33 | C3=$0.85",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2"
+        ],
+        "table_top3": [
+          "1",
+          "2"
+        ],
+        "table_top5": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "answer_type": "count",
+      "control_role": "old_shared_reject",
+      "diagnosis": "All arms enumerate fee-table categories but never count the seven paragraph services; the required visible paragraph is absent from the top3/top5 contexts.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "34820b999b30aae7e27e6889",
+          "call_number": 18,
+          "complete_response": "{\n  \"answer\": [\"Audit Fees(1)\", \"Audit-Related Fees(2)\", \"Tax Fees(3)\", \"Other\"],\n  \"numeric_value\": null,\n  \"unit\": \"UNKNOWN\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "Audit Fees(1)",
+              "Audit-Related Fees(2)",
+              "Tax Fees(3)",
+              "Other"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "UNKNOWN",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "Audit Fees(1)",
+                "Audit-Related Fees(2)",
+                "Tax Fees(3)",
+                "Other"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P7"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "P7": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": "7",
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "Audit Fees(1)",
+                  "Audit-Related Fees(2)",
+                  "Tax Fees(3)",
+                  "Other"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "UNKNOWN",
+                "unknown": false
+              },
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "ad195858f4eb205057763d1e",
+          "call_number": 16,
+          "complete_response": "{\n  \"answer\": [\"Audit Fees(1)\", \"Audit-Related Fees(2)\", \"Tax Fees(3)\", \"Other\"],\n  \"numeric_value\": null,\n  \"unit\": \"UNKNOWN\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "Audit Fees(1)",
+              "Audit-Related Fees(2)",
+              "Tax Fees(3)",
+              "Other"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "UNKNOWN",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "Audit Fees(1)",
+                "Audit-Related Fees(2)",
+                "Tax Fees(3)",
+                "Other"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "legal_semantic_reference_not_reconstructible",
+              "status": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": "7",
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "Audit Fees(1)",
+                  "Audit-Related Fees(2)",
+                  "Tax Fees(3)",
+                  "Other"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "UNKNOWN",
+                "unknown": false
+              },
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "3",
+            "6",
+            "10"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "fc62c1cc4986208e550965b4",
+          "call_number": 17,
+          "complete_response": "{\n  \"answer\": [\"Audit Fees(1)\", \"Audit-Related Fees(2)\", \"Tax Fees(3)\", \"Other\"],\n  \"numeric_value\": null,\n  \"unit\": \"UNKNOWN\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "Audit Fees(1)",
+              "Audit-Related Fees(2)",
+              "Tax Fees(3)",
+              "Other"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "UNKNOWN",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "Audit Fees(1)",
+                "Audit-Related Fees(2)",
+                "Tax Fees(3)",
+                "Other"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "legal_semantic_reference_not_reconstructible",
+              "status": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": "7",
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "Audit Fees(1)",
+                  "Audit-Related Fees(2)",
+                  "Tax Fees(3)",
+                  "Other"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "UNKNOWN",
+                "unknown": false
+              },
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "3",
+            "5",
+            "6",
+            "9",
+            "10"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "format": [
+            "count_must_be_nonnegative_integer;numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ]
+        },
+        "table_top3": {
+          "format": [
+            "count_must_be_nonnegative_integer;numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "reference_defect": [
+            "legal_semantic_reference_not_reconstructible"
+          ],
+          "visible_information_insufficient": [
+            "legal_semantic_reference_not_reconstructible"
+          ]
+        },
+        "table_top5": {
+          "format": [
+            "count_must_be_nonnegative_integer;numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "reference_defect": [
+            "legal_semantic_reference_not_reconstructible"
+          ],
+          "visible_information_insufficient": [
+            "legal_semantic_reference_not_reconstructible"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "format",
+        "operation_reduction",
+        "reference_defect",
+        "visible_information_insufficient"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "paragraph",
+      "visible_context_text": "P1: (1) Includes the cost of services rendered in connection with (i) auditing our annual consolidated financial statements, (ii) auditing our internal control over financial reporting in accordance with Section 404 of the Sarbanes-Oxley Act of 2002, (iii) reviewing our quarterly financial statements, (iv) auditing the financial statements of several of our subsidiaries, (v) reviewing our registration statements and issuing related comfort letters, (vi) statutory audits for certain of our foreign subsidiaries, and (vii) consultations regarding accounting standards. In addition, the amount listed for 2018 includes a final billing of $785,000 that was received after we finalized our 2019 proxy statement and consequently was not reflected in the auditor fee table included in our 2019 proxy statement.\n\nTABLE\ncolumns: C0= | C1=Amount Billed | C2=\nR1 [] C0= | C1=2018 | C2=2019\nR2 [Audit Fees(1)] C0=Audit Fees(1) | C1=$16,014,014 | C2=$17,639,702\nR3 [Audit-Related Fees(2)] C0=Audit-Related Fees(2) | C1=106,528 | C2=153,203\nR4 [Tax Fees(3)] C0=Tax Fees(3) | C1=1,318,798 | C2=119,098\nR5 [Other] C0=Other | C1=— | C2=—\nR6 [Total Fees] C0=Total Fees | C1=$17,439,340 | C2=$17,912,003",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12"
+        ],
+        "table_top3": [
+          "3",
+          "6",
+          "10"
+        ],
+        "table_top5": [
+          "3",
+          "5",
+          "6",
+          "9",
+          "10"
+        ]
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "control_role": "non_shared_control",
+      "diagnosis": "All arms add 'At end of the period' as a component even though it is the result row, and duplicate column-broad citations do not bind each span.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "44ceffabd9c535fe941164fd",
+          "call_number": 34,
+          "complete_response": "{\n  \"answer\": [\"At beginning of the period\", \"Additions\", \"At end of the period\"],\n  \"numeric_value\": null,\n  \"unit\": \"£m\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\", \"TABLE:C1\", \"TABLE:C2\", \"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": [
+              "At beginning of the period",
+              "Additions",
+              "At end of the period"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "£m",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "at end of the period"
+              ],
+              "missing": [],
+              "observed": [
+                "At beginning of the period",
+                "Additions",
+                "At end of the period"
+              ],
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R2:C0",
+                "TABLE:R3:C0"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "TABLE:R2:C0": "none",
+                "TABLE:R3:C0": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch;evidence:semantic_reference_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "At beginning of the period",
+                  "Additions",
+                  "At end of the period"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "£m",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "4259fc55c541667ac3ed7e67",
+          "call_number": 32,
+          "complete_response": "{\n  \"answer\": [\"At beginning of the period\", \"Additions\", \"At end of the period\"],\n  \"numeric_value\": null,\n  \"unit\": \"£m\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\", \"TABLE:C1\", \"TABLE:C2\", \"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": [
+              "At beginning of the period",
+              "Additions",
+              "At end of the period"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "£m",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "at end of the period"
+              ],
+              "missing": [],
+              "observed": [
+                "At beginning of the period",
+                "Additions",
+                "At end of the period"
+              ],
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R2:C0",
+                "TABLE:R3:C0"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "TABLE:R2:C0": "none",
+                "TABLE:R3:C0": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch;evidence:semantic_reference_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "At beginning of the period",
+                  "Additions",
+                  "At end of the period"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "£m",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "2e9fd7630953b16e38bdd61a",
+          "call_number": 33,
+          "complete_response": "{\n  \"answer\": [\"At beginning of the period\", \"Additions\", \"At end of the period\"],\n  \"numeric_value\": null,\n  \"unit\": \"£m\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\", \"TABLE:C1\", \"TABLE:C2\", \"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": [
+              "At beginning of the period",
+              "Additions",
+              "At end of the period"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "£m",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "at end of the period"
+              ],
+              "missing": [],
+              "observed": [
+                "At beginning of the period",
+                "Additions",
+                "At end of the period"
+              ],
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R2:C0",
+                "TABLE:R3:C0"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "semantic_reference_mismatch",
+              "status": "FAIL",
+              "support": {
+                "TABLE:R2:C0": "none",
+                "TABLE:R3:C0": "none"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch;evidence:semantic_reference_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "At beginning of the period",
+                  "Additions",
+                  "At end of the period"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "TABLE:C1",
+                  "TABLE:C2",
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "£m",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "semantic_reference_mismatch"
+          ],
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ],
+          "reference_defect": [
+            "semantic_reference_mismatch"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "fact_entity_row_period_binding",
+        "reference_defect"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "table",
+      "visible_context_text": "P1: 3. Investments in subsidiaries\nP2: The additions in the year and prior year relate to equity-settled share-based payments granted to the employees of subsidiary companies.\n\nTABLE\ncolumns: C0= | C1=2019 | C2=2018\nR1 [] C0= | C1=£m | C2=£m\nR2 [At beginning of the period] C0=At beginning of the period | C1=1,212.9 | C2=1,210.5\nR3 [Additions] C0=Additions | C1=3.1 | C2=2.4\nR4 [At end of the period] C0=At end of the period | C1=1,216.0 | C2=1,212.9",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top3": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top5": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "control_role": "old_shared_reject",
+      "diagnosis": "All arms expose the two trade-receivable operands but omit the mean reduction and scalar numeric_value, so correct operands do not constitute complete delivery.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "e47810e5f427d7083fc05616",
+          "call_number": 3,
+          "complete_response": "{\n  \"answer\": [\"9,660\", \"11,191\"],\n  \"numeric_value\": null,\n  \"unit\": \"USD\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "9,660",
+              "11,191"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "USD",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "9,660",
+                "11,191"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R4:C1",
+                "TABLE:R4:C2"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R4:C1": "broad",
+                "TABLE:R4:C2": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 10425.5,
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric;unit_or_scale_mismatch",
+              "status": "FAIL",
+              "unit": {
+                "expected": "thousand",
+                "observed": "USD",
+                "reason": "unit_or_scale_mismatch",
+                "status": "FAIL"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "9,660",
+                  "11,191"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "USD",
+                "unknown": false
+              },
+              "reason": "numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "1fba3ecc98e2097e203267e0",
+          "call_number": 1,
+          "complete_response": "{\n  \"answer\": [\"9,660\", \"11,191\"],\n  \"numeric_value\": null,\n  \"unit\": \"USD\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "9,660",
+              "11,191"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "USD",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "9,660",
+                "11,191"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R4:C1",
+                "TABLE:R4:C2"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R4:C1": "broad",
+                "TABLE:R4:C2": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 10425.5,
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric;unit_or_scale_mismatch",
+              "status": "FAIL",
+              "unit": {
+                "expected": "thousand",
+                "observed": "USD",
+                "reason": "unit_or_scale_mismatch",
+                "status": "FAIL"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "9,660",
+                  "11,191"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "USD",
+                "unknown": false
+              },
+              "reason": "numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "e6f14a3c7ca150a4ab68c02b",
+          "call_number": 2,
+          "complete_response": "{\n  \"answer\": [\"9,660\", \"11,191\"],\n  \"numeric_value\": null,\n  \"unit\": \"USD\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "9,660",
+              "11,191"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": null,
+            "unit": "USD",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "9,660",
+                "11,191"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R4:C1",
+                "TABLE:R4:C2"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R4:C1": "broad",
+                "TABLE:R4:C2": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 10425.5,
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric;unit_or_scale_mismatch",
+              "status": "FAIL",
+              "unit": {
+                "expected": "thousand",
+                "observed": "USD",
+                "reason": "unit_or_scale_mismatch",
+                "status": "FAIL"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "9,660",
+                  "11,191"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": null,
+                "unit": "USD",
+                "unknown": false
+              },
+              "reason": "numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "format": [
+            "numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "unit_direction": [
+            "numeric_value_missing_or_non_numeric;unit_or_scale_mismatch"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "format": [
+            "numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "unit_direction": [
+            "numeric_value_missing_or_non_numeric;unit_or_scale_mismatch"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "format": [
+            "numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "unit_direction": [
+            "numeric_value_missing_or_non_numeric;unit_or_scale_mismatch"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "format",
+        "operation_reduction",
+        "unit_direction"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "both",
+      "visible_context_text": "P1: Expressed in US $000's except share and per share amounts\n\nTABLE\ncolumns: C0= | C1=December 31, 2019 | C2=December 31, 2018 | C3=January 1, 2018\nR1 [] C0= | C1=$ | C2=$ | C3=$\nR2 [Indirect taxes receivable] C0=Indirect taxes receivable | C1=36,821 | C2=3,774 | C3=832\nR3 [Unbilled revenues] C0=Unbilled revenues | C1=31,629 | C2=12,653 | C3=7,616\nR4 [Trade receivables] C0=Trade receivables | C1=9,660 | C2=11,191 | C3=7,073\nR5 [Accrued interest] C0=Accrued interest | C1=5,754 | C2=5,109 | C3=2,015\nR6 [Other receivables] C0=Other receivables | C1=6,665 | C2=8,620 | C3=4,403\nR7 [] C0= | C1=90,529 | C2=41,347 | C3=21,939",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top3": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top5": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "control_role": "old_shared_reject",
+      "diagnosis": "All arms return 302%, the raw total rather than (302-148)/148=104.05%; the operation and direction are wrong and references are column-broad.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "fed34370c454064cb591e014",
+          "call_number": 28,
+          "complete_response": "{\n  \"answer\": \"302%\",\n  \"numeric_value\": 302,\n  \"unit\": \"%\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "302%",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": 302,
+            "unit": "%",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "302%",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R9:C1",
+                "TABLE:R9:C2"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R9:C1": "broad",
+                "TABLE:R9:C2": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 104.05,
+                "observed": 302,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "302%",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": 302,
+                "unit": "%",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "0f46cefaf87d2022b839facf",
+          "call_number": 26,
+          "complete_response": "{\n  \"answer\": \"302%\",\n  \"numeric_value\": 302,\n  \"unit\": \"%\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "302%",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": 302,
+            "unit": "%",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "302%",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R9:C1",
+                "TABLE:R9:C2"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R9:C1": "broad",
+                "TABLE:R9:C2": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 104.05,
+                "observed": 302,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "302%",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": 302,
+                "unit": "%",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "623923b6c45497e281015ee0",
+          "call_number": 27,
+          "complete_response": "{\n  \"answer\": \"302%\",\n  \"numeric_value\": 302,\n  \"unit\": \"%\",\n  \"evidence_refs\": [\"TABLE:C1\", \"TABLE:C2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "302%",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C1",
+              "TABLE:C2"
+            ],
+            "numeric_value": 302,
+            "unit": "%",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": "302%",
+              "reason": "numeric_answer_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "TABLE:R9:C1",
+                "TABLE:R9:C2"
+              ],
+              "observed": [
+                "TABLE:C1",
+                "TABLE:C2"
+              ],
+              "reason": "broad_reference_not_role_bound",
+              "status": "PENDING_ADJUDICATION",
+              "support": {
+                "TABLE:R9:C1": "broad",
+                "TABLE:R9:C2": "broad"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:numeric_answer_mismatch;numeric_unit:numeric_value_mismatch_or_direction",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": 104.05,
+                "observed": 302,
+                "reason": "numeric_value_mismatch_or_direction",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_mismatch_or_direction",
+              "status": "FAIL",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "302%",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C1",
+                  "TABLE:C2"
+                ],
+                "numeric_value": 302,
+                "unit": "%",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "broad_reference_not_role_bound"
+          ],
+          "fact_entity_row_period_binding": [
+            "numeric_answer_mismatch"
+          ],
+          "operation_reduction": [
+            "numeric_answer_mismatch"
+          ],
+          "unit_direction": [
+            "numeric_value_mismatch_or_direction"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "fact_entity_row_period_binding",
+        "operation_reduction",
+        "unit_direction"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "table",
+      "visible_context_text": "P1: Operating income included the following:\n\nTABLE\ncolumns: C0= | C1= | C2=Fiscal\nR1 [] C0= | C1=2019 | C2=2018\nR2 [] C0= | C1= | C2=(in millions)\nR3 [Acquisition-related charges:] C0=Acquisition-related charges: | C1= | C2=\nR4 [Acquisition and integration costs] C0=Acquisition and integration costs | C1=$  27 | C2=$  14\nR5 [Charges associated with the amortization of acquisition related fair value adjustments] C0=Charges associated with the amortization of acquisition related fair value adjustments | C1=3 | C2=8\nR6 [] C0= | C1=30 | C2=22\nR7 [Restructuring and other charges, net] C0=Restructuring and other charges, net | C1=255 | C2=126\nR8 [Other items(1)] C0=Other items(1) | C1=17 | C2=—\nR9 [Total] C0=Total | C1=$  302 | C2=$  148",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top3": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top5": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    {
+      "answer_type": "count",
+      "control_role": "old_shared_reject",
+      "diagnosis": "All arms find First/Second/Fourth but omit the count 3 and cite nonexistent columns C6/C8 instead of the visible quarter columns.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "a31046a660e2652d30c7eebb",
+          "call_number": 31,
+          "complete_response": "{\n  \"answer\": [\"First\", \"Second\", \"Fourth\"],\n  \"numeric_value\": null,\n  \"unit\": \"quarter\",\n  \"evidence_refs\": [\"TABLE:C6\", \"TABLE:C8\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "First",
+              "Second",
+              "Fourth"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C6",
+              "TABLE:C8"
+            ],
+            "numeric_value": null,
+            "unit": "quarter",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "First",
+                "Second",
+                "Fourth"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": "TABLE:C6",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": "3",
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "First",
+                  "Second",
+                  "Fourth"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C6",
+                  "TABLE:C8"
+                ],
+                "numeric_value": null,
+                "unit": "quarter",
+                "unknown": false
+              },
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "193c19aaba8bc63a4d46ef20",
+          "call_number": 29,
+          "complete_response": "{\n  \"answer\": [\"First\", \"Second\", \"Fourth\"],\n  \"numeric_value\": null,\n  \"unit\": \"quarter\",\n  \"evidence_refs\": [\"TABLE:C6\", \"TABLE:C8\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "First",
+              "Second",
+              "Fourth"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C6",
+              "TABLE:C8"
+            ],
+            "numeric_value": null,
+            "unit": "quarter",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "First",
+                "Second",
+                "Fourth"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": "TABLE:C6",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": "3",
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "First",
+                  "Second",
+                  "Fourth"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C6",
+                  "TABLE:C8"
+                ],
+                "numeric_value": null,
+                "unit": "quarter",
+                "unknown": false
+              },
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "a093a62884b4edac9fef6485",
+          "call_number": 30,
+          "complete_response": "{\n  \"answer\": [\"First\", \"Second\", \"Fourth\"],\n  \"numeric_value\": null,\n  \"unit\": \"quarter\",\n  \"evidence_refs\": [\"TABLE:C6\", \"TABLE:C8\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "First",
+              "Second",
+              "Fourth"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C6",
+              "TABLE:C8"
+            ],
+            "numeric_value": null,
+            "unit": "quarter",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "observed": [
+                "First",
+                "Second",
+                "Fourth"
+              ],
+              "reason": "numeric_answer_not_complete_or_reduced",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "observed": "TABLE:C6",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "expected": "3",
+                "observed": null,
+                "reason": "numeric_value_missing_or_non_numeric",
+                "status": "FAIL"
+              },
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "First",
+                  "Second",
+                  "Fourth"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C6",
+                  "TABLE:C8"
+                ],
+                "numeric_value": null,
+                "unit": "quarter",
+                "unknown": false
+              },
+              "reason": "count_must_be_nonnegative_integer;numeric_value_required",
+              "status": "STRICT_FAIL"
+            }
+          },
+          "scoring_v2_status": "STRICT_FAIL",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "format": [
+            "count_must_be_nonnegative_integer;numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "format": [
+            "count_must_be_nonnegative_integer;numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "format": [
+            "count_must_be_nonnegative_integer;numeric_value_required"
+          ],
+          "operation_reduction": [
+            "numeric_answer_not_complete_or_reduced"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "format",
+        "operation_reduction",
+        "reference_defect"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "table",
+      "visible_context_text": "P1: NOTES TO CONSOLIDATED FINANCIAL STATEMENTS (in thousands, except for share and per share data)\n\nTABLE\ncolumns: C0= | C1=First | C2=Second | C3=Third | C4=Fourth\nR1 [2019] C0=2019 | C1= | C2= | C3= | C4=\nR2 [Net sales] C0=Net sales | C1=$117,625 | C2=$120,684 | C3=$115,651 | C4=$115,040\nR3 [Gross margin] C0=Gross margin | C1=$40,615 | C2=$41,204 | C3=$37,057 | C4=$38,700\nR4 [Operating earnings] C0=Operating earnings | C1=$14,218 | C2=$17,083 | C3=$10,124 | C4=$12,391\nR5 [Net earnings] C0=Net earnings | C1=$11,419 | C2=$11,943 | C3=$2,722 | C4=$10,062\nR6 [Basic earnings per share] C0=Basic earnings per share | C1=$0.35 | C2=$0.36 | C3=$0.08 | C4=$0.31\nR7 [Diluted earnings per share] C0=Diluted earnings per share | C1=$0.34 | C2=$0.36 | C3=$0.08 | C4=$0.31\nR8 [2018] C0=2018 | C1= | C2= | C3= | C4=\nR9 [Net sales] C0=Net sales | C1=$113,530 | C2=$118,021 | C3=$118,859 | C4=$120,073\nR10 [Gross margin] C0=Gross margin | C1=$38,433 | C2=$41,813 | C3=$42,082 | C4=$42,645\nR11 [Operating earnings] C0=Operating earnings | C1=$13,359 | C2=$14,544 | C3=$16,118 | C4=$17,017\nR12 [Net earnings] C0=Net earnings | C1=$ 11,54 | C2=$7,209 | C3=$10,211 | C4=$17,564\nR13 [Basic earnings per share] C0=Basic earnings per share | C1=$0.35 | C2=$0.22 | C3=$0.31 | C4=$0.53\nR14 [Diluted earnings per share] C0=Diluted earnings per share | C1=$0.34 | C2=$0.21 | C3=$0.30 | C4=$0.52",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top3": [
+          "1",
+          "2",
+          "3"
+        ],
+        "table_top5": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    {
+      "answer_type": "span",
+      "control_role": "old_shared_reject",
+      "diagnosis": "All arms answer 'dollars' although the visible paragraph states '(in thousands)'; the citation is visible but the unit is wrong.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "886f4b4e6a80bbaa4ce67c36",
+          "call_number": 25,
+          "complete_response": "{\n  \"answer\": \"dollars\",\n  \"numeric_value\": null,\n  \"unit\": \"dollars\",\n  \"evidence_refs\": [\"P2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "dollars",
+            "clarification": "",
+            "evidence_refs": [
+              "P2"
+            ],
+            "numeric_value": null,
+            "unit": "dollars",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "dollars"
+              ],
+              "missing": [
+                "in thousands"
+              ],
+              "observed": "dollars",
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P2"
+              ],
+              "observed": [
+                "P2"
+              ],
+              "reason": "visible_reference_semantically_supports_answer",
+              "status": "PASS",
+              "support": {
+                "P2": "exact"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "dollars",
+                "clarification": "",
+                "evidence_refs": [
+                  "P2"
+                ],
+                "numeric_value": null,
+                "unit": "dollars",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "36b45fdc4a55c4c3b26d5b38",
+          "call_number": 23,
+          "complete_response": "{\n  \"answer\": \"dollars\",\n  \"numeric_value\": null,\n  \"unit\": \"dollars\",\n  \"evidence_refs\": [\"P2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "dollars",
+            "clarification": "",
+            "evidence_refs": [
+              "P2"
+            ],
+            "numeric_value": null,
+            "unit": "dollars",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "dollars"
+              ],
+              "missing": [
+                "in thousands"
+              ],
+              "observed": "dollars",
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P2"
+              ],
+              "observed": [
+                "P2"
+              ],
+              "reason": "visible_reference_semantically_supports_answer",
+              "status": "PASS",
+              "support": {
+                "P2": "exact"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "dollars",
+                "clarification": "",
+                "evidence_refs": [
+                  "P2"
+                ],
+                "numeric_value": null,
+                "unit": "dollars",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "af8fd98db44e932d2ef412dc",
+          "call_number": 24,
+          "complete_response": "{\n  \"answer\": \"dollars\",\n  \"numeric_value\": null,\n  \"unit\": \"dollars\",\n  \"evidence_refs\": [\"P2\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": "dollars",
+            "clarification": "",
+            "evidence_refs": [
+              "P2"
+            ],
+            "numeric_value": null,
+            "unit": "dollars",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "extra": [
+                "dollars"
+              ],
+              "missing": [
+                "in thousands"
+              ],
+              "observed": "dollars",
+              "reason": "exact_text_set_mismatch",
+              "status": "FAIL"
+            },
+            "evidence": {
+              "expected": [
+                "P2"
+              ],
+              "observed": [
+                "P2"
+              ],
+              "reason": "visible_reference_semantically_supports_answer",
+              "status": "PASS",
+              "support": {
+                "P2": "exact"
+              }
+            },
+            "final_delivery": {
+              "reason": "answer:exact_text_set_mismatch",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+              "status": "PASS",
+              "unit": {
+                "reason": "non_scale_unit_contract",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "dollars",
+                "clarification": "",
+                "evidence_refs": [
+                  "P2"
+                ],
+                "numeric_value": null,
+                "unit": "dollars",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ]
+        },
+        "table_top3": {
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ]
+        },
+        "table_top5": {
+          "fact_entity_row_period_binding": [
+            "exact_text_set_mismatch"
+          ]
+        }
+      },
+      "labels": [
+        "fact_entity_row_period_binding"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What is the units used for the data in the table?",
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "paragraph",
+      "visible_context_text": "P1: (in thousands)\n\nTABLE\ncolumns: C0= | C1= | C2=Years Ended December 31, | C3=31,\nR1 [] C0= | C1=2019 | C2=2018 | C3=2017\nR2 [Current provision for income taxes:] C0=Current provision for income taxes: | C1= | C2= | C3=\nR3 [State] C0=State | C1=$49 | C2=$44 | C3=$48\nR4 [Foreign] C0=Foreign | C1=1,716 | C2=953 | C3=1,023\nR5 [Total current] C0=Total current | C1=1,765 | C2=997 | C3=1,071\nR6 [Deferred tax expense (benefit):] C0=Deferred tax expense (benefit): | C1= | C2= | C3=\nR7 [Federal] C0=Federal | C1=3 | C2=(13) | C3=26\nR8 [Foreign] C0=Foreign | C1=(361) | C2=98 | C3=109\nR9 [Total deferred] C0=Total deferred | C1=(358) | C2=85 | C3=135\nR10 [Provision for income taxes] C0=Provision for income taxes | C1=$1,407 | C2=$1,082 | C3=$1,206",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2"
+        ],
+        "table_top3": [
+          "1",
+          "2"
+        ],
+        "table_top5": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "answer_type": "span",
+      "control_role": "non_shared_control",
+      "diagnosis": "The value and thousand scale are correct, but TABLE:C4 is column-broad rather than row-bound to Total Electronic Components.",
+      "evidence_boundary": "Card labels are derived from immutable raw responses, visible context and scoring-layer observations; model self-labels are not used as diagnoses.",
+      "historical_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "REJECT",
+        "table_top5": "ACCEPT"
+      },
+      "immutable_final_raw_by_arm": {
+        "table_all": {
+          "call_id": "b42e570dba35521cf477c152",
+          "call_number": 37,
+          "complete_response": "{\n  \"answer\": \"1,289,962\",\n  \"numeric_value\": 1289962,\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C4\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": "1,289,962",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C4"
+            ],
+            "numeric_value": 1289962,
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": "TABLE:C4",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "evidence:nonexistent_reference",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;unit_and_scale_match",
+              "status": "PASS",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "1,289,962",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C4"
+                ],
+                "numeric_value": 1289962,
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top3": {
+          "call_id": "7f68b74cd67af63acfe7ecee",
+          "call_number": 35,
+          "complete_response": "{\n  \"answer\": [\"$1,289,962\"],\n  \"numeric_value\": 1289962,\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C4\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "REJECT",
+          "historical_semantic_reason": "reference_mismatch",
+          "parsed_response": {
+            "answer": [
+              "$1,289,962"
+            ],
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C4"
+            ],
+            "numeric_value": 1289962,
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": "TABLE:C4",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "evidence:nonexistent_reference",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;unit_and_scale_match",
+              "status": "PASS",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": [
+                  "$1,289,962"
+                ],
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C4"
+                ],
+                "numeric_value": 1289962,
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "3",
+            "5",
+            "7"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        },
+        "table_top5": {
+          "call_id": "5a1ef34dfc30b12dd405e61b",
+          "call_number": 36,
+          "complete_response": "{\n  \"answer\": \"1,289,962\",\n  \"numeric_value\": 1289962,\n  \"unit\": \"thousands\",\n  \"evidence_refs\": [\"TABLE:C4\"],\n  \"unknown\": false,\n  \"clarification\": \"\"\n}",
+          "historical_semantic_outcome": "ACCEPT",
+          "historical_semantic_reason": "text_match_with_visible_evidence_ref",
+          "parsed_response": {
+            "answer": "1,289,962",
+            "clarification": "",
+            "evidence_refs": [
+              "TABLE:C4"
+            ],
+            "numeric_value": 1289962,
+            "unit": "thousands",
+            "unknown": false
+          },
+          "retry_attempt": 1,
+          "scoring_v2_layers": {
+            "answer": {
+              "reason": "exact_numeric_set",
+              "status": "PASS"
+            },
+            "evidence": {
+              "observed": "TABLE:C4",
+              "reason": "nonexistent_reference",
+              "status": "FAIL"
+            },
+            "final_delivery": {
+              "reason": "evidence:nonexistent_reference",
+              "status": "REJECT"
+            },
+            "numeric_unit": {
+              "numeric": {
+                "reason": "numeric_value_not_applicable",
+                "status": "PASS"
+              },
+              "reason": "numeric_value_not_applicable;unit_and_scale_match",
+              "status": "PASS",
+              "unit": {
+                "reason": "unit_and_scale_match",
+                "status": "PASS"
+              }
+            },
+            "strict": {
+              "parsed": {
+                "answer": "1,289,962",
+                "clarification": "",
+                "evidence_refs": [
+                  "TABLE:C4"
+                ],
+                "numeric_value": 1289962,
+                "unit": "thousands",
+                "unknown": false
+              },
+              "reason": "strict_contract_satisfied",
+              "status": "PASS"
+            }
+          },
+          "scoring_v2_status": "REJECT",
+          "selected_paragraph_orders": [
+            "3",
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "strict_parse_outcome_historical": "PASS"
+        }
+      },
+      "label_basis_by_arm": {
+        "table_all": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        },
+        "table_top3": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        },
+        "table_top5": {
+          "citation_support": [
+            "nonexistent_reference"
+          ],
+          "reference_defect": [
+            "nonexistent_reference"
+          ]
+        }
+      },
+      "labels": [
+        "citation_support",
+        "reference_defect"
+      ],
+      "post_v2_residual_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What is the net sales arising from total electronic components in 2019?",
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "schema": "adaptive_mechanism_error_card_v1",
+      "source_requirement": "table",
+      "visible_context_text": "P1: Electronic Component sales were $1,290.0 million for the fiscal year ended March 31, 2019 compared to $1,235.2 million during the fiscal year ended March 31, 2018.\nThe sales increase in Electronic Components product sales was driven by increased volume and a favorable pricing environment in our Ceramic and Tantalum\nComponents across most markets resulting from favorable global market conditions and increased demand for our electronic component products resulting from\ntechnological advances across a broad range of industries driven by IoT and an increasingly connected world led by the automotive, industrial, telecommunications,\nnetworking, and computer markets. Fiscal year 2019 Advanced Components group sales include $113.3 million of Ethertronics product as compared to $12.7 million for\nfiscal year 2018. These increases were partially offset by the loss of Kyocera resale product sales which were $19.0 million for fiscal year 2019 as compared to $296.3\nmillion for fiscal year 2018.\n\nTABLE\ncolumns: C0=Net sales (in thousands) | C1=2018 | C2=2019\nR1 [Ceramic Components] C0=Ceramic Components | C1=$226,204 | C2=$421,849\nR2 [Tantalum Components] C0=Tantalum Components | C1=366,194 | C2=382,905\nR3 [Advanced Components] C0=Advanced Components | C1=642,775 | C2=485,208\nR4 [Total Electronic Components] C0=Total Electronic Components | C1=1,235,173 | C2=1,289,962\nR5 [Interconnect, Sensing and Control Devices] C0=Interconnect, Sensing and Control Devices | C1=327,301 | C2=501,828\nR6 [Total Net Sales] C0=Total Net Sales | C1=$1,562,474 | C2=$1,791,790",
+      "visible_paragraph_orders_by_arm": {
+        "table_all": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "table_top3": [
+          "3",
+          "5",
+          "7"
+        ],
+        "table_top5": [
+          "3",
+          "5",
+          "6",
+          "7",
+          "8"
+        ]
+      }
+    }
+  ],
+  "model_calls": 0,
+  "non_shared_control_uid_count": 3,
+  "old_shared_reject_uid_count": 9,
+  "review_identity": "AI/automatic diagnostic labeling from immutable first-batch evidence; not model self-report and not human gold",
+  "schema": "adaptive_mechanism_error_card_set_v1",
+  "source_hashes": {
+    "annotated_jsonl": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "raw_jsonl": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "reference_chain": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066",
+    "scoring_v2_rows": "991b902a94408dea9c903c3d20b8215592f661cdee569197a7336306a0db94c0"
+  },
+  "status": "COMPLETE_12_EVIDENCE_GROUNDED_CARDS"
+}

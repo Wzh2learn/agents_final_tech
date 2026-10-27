@@ -1,0 +1,122 @@
+{
+  "a_snapshot": "276c858839ecbd9c190b8067552c683372efc193",
+  "areas": {
+    "paper_e_build": {
+      "blocking": false,
+      "evidence": "exit 127 BUILD_BLOCKED required TeX tool not found pdflatex; all TeX tools absent; source checks substantive with minor overstatement",
+      "status": "BUILD_BLOCKED_SUPPORTED"
+    },
+    "persistent_budget": {
+      "blocking": false,
+      "evidence": "ledger hash matches, 1 init event 0 generation; 7 fault tests OK; reserve-before-loader and raw-before-scoring traced in code; attempt37/token-cap reject before load",
+      "status": "VALID"
+    },
+    "scoring_v2": {
+      "blocking": false,
+      "evidence": "17 tests OK; layered strict/answer/numeric-unit/evidence/final-delivery; PENDING/STRICT_FAIL/REASONABLE_UNKNOWN distinct; historical 2/3/3 preserved; deltas 917/1604; zero-model rescore",
+      "status": "VALID"
+    },
+    "visible_typed_baseline": {
+      "blocking": true,
+      "evidence": "actor dispatches on gold answer_type which is not deployment-visible; answer-type-free ablation drops ACCEPT 31 to 12",
+      "status": "BLOCKING_DEFECT"
+    }
+  },
+  "authority_blob": "17f6895e3f2734f5e597f1a1d7853af22ae2adf4",
+  "authority_lf_sha256": "73da0c8a44512c4b47d677efa3a7c71b45fb7d15e582a77737c27c284f800d12",
+  "blocking_defects": [
+    {
+      "area": "visible_typed_baseline",
+      "id": "B1",
+      "impact": "headline visible-only zero-residual claim and STOP_BEFORE_GENERATION unsupported; conceals hidden reference access",
+      "lines": "478-513 dispatch; 556 fed reference[answer_type]; test_visible_typed_baseline.py 24-29 whitelists answer_type",
+      "path": "research/adaptive_mechanism_20261027_v1/diagnostics/visible_typed_baseline.py",
+      "smallest_follow_up": "reclassify baseline as oracle-assisted; re-characterize the 19 answer-type-free residuals; re-decide STOP; zero-model"
+    }
+  ],
+  "commands_exit_status": {
+    "answer_type_free_ablation": "12 ACCEPT + 19 REJECT + 5 REASONABLE_UNKNOWN",
+    "authority_lf_sha256": "match",
+    "baseline_tests": "5/5 OK",
+    "budget_fault_tests": "7/7 OK",
+    "build_paper_e_sh": "exit 127 BUILD_BLOCKED",
+    "check_sources": "PASS with limitations",
+    "git_cat_file_snapshot": "commit",
+    "scoring_tests": "17/17 OK",
+    "visible_baseline_recompute": "31 ACCEPT + 5 REASONABLE_UNKNOWN"
+  },
+  "date": "2026-10-27",
+  "independent_counts": {
+    "ablation_accept": 12,
+    "ablation_reasonable_unknown": 5,
+    "ablation_reject": 19,
+    "baseline_accept": 31,
+    "baseline_reasonable_unknown": 5,
+    "baseline_rows": 36,
+    "final_attempts": 36,
+    "historical_accept": {
+      "all": 3,
+      "top3": 2,
+      "top5": 3
+    },
+    "input_deltas": {
+      "all_minus_top5": 1604,
+      "top5_minus_top3": 917
+    },
+    "raw_rows": 40,
+    "selected_final_input": 30027,
+    "selected_final_output": 2342,
+    "uid_x_arm": "12x3"
+  },
+  "independent_hashes": {
+    "annotated": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "budget_ledger": "ad0535aeb3fb324c60631ca38b0bbb5a82cb509c834aefb624e025db2350fdef",
+    "budget_schema": "ac1090a9974d08350cbd4a699572a95c3440b92a039a22e910bb8619ca89910b",
+    "raw": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "reference_chain": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066"
+  },
+  "limitations": [
+    "L1 Paper E formula/final-page/cross-ref checks overstated",
+    "L2 elsarticle-harv.bst not bundled",
+    "L3 budget ledger override and projection-only cap",
+    "L4 budget stub loader for before-load proof",
+    "L5 actor question-keyword branches mild dev-set overfit"
+  ],
+  "new_physical_generation_justified": false,
+  "new_physical_generation_note": "reclassification and residual re-characterization are zero-model; the frozen 8-UID/36-attempt panel is justified only under answer-type-free boundary and fair shared baseline, and only if the Owner elects to pursue a mechanism; Owner resource decision outside this review",
+  "review_identity": "independent AI/automatic joint review; not human gold, venue acceptance or school recognition",
+  "schema": "loop_c_joint_review_result_v1",
+  "task_id": "adaptive-mechanism-c-20261027",
+  "totals": {
+    "historical_calls_preserved": 40,
+    "historical_input": 33207,
+    "historical_output": 2609,
+    "judge_calls": 0,
+    "model_loads": 0,
+    "new_generation_records": 0,
+    "new_input_tokens": 0,
+    "new_model_calls": 0,
+    "new_output_tokens": 0,
+    "new_retries": 0,
+    "production_probes": 0,
+    "training_runs": 0
+  },
+  "verdict": "CONDITIONAL",
+  "verdict_basis": "three of four areas sound; one blocking defect in the central scientific area (oracle-assisted baseline presented as visible-only)",
+  "visible_baseline_boundary": {
+    "answer_type_deployment_visible": false,
+    "baseline_fair_to_deployment": false,
+    "count_span_multispan_signal_visible_solvable": false,
+    "deployed_actor_payload_keys": [
+      "arm",
+      "call_id",
+      "paragraphs",
+      "question",
+      "table"
+    ],
+    "mean_signal_visible_solvable": true,
+    "oracle_field": "answer_type (gold, co-located with answer/program/unit in reference chain)",
+    "reasonable_unknown_justified_by_absent_evidence": true,
+    "stop_before_generation": "NOT_VALID_AS_STATED; becomes conditional / must be reopened with a bounded answer-type-free test"
+  }
+}

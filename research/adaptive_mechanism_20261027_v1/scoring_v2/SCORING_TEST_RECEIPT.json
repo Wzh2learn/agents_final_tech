@@ -1,0 +1,74 @@
+{
+  "schema": "adaptive_mechanism_scoring_v2_test_receipt_v1",
+  "status": "PASS_17_CONTROLS_AND_ZERO_MODEL_FIRST_BATCH_RESCORE",
+  "review_identity": "AI/automatic local unit and immutable-batch reanalysis; not human gold and not a judge",
+  "commands": [
+    "PYTHONPATH=research/adaptive_mechanism_20261027_v1/scoring_v2 python3 -m unittest -v research/adaptive_mechanism_20261027_v1/scoring_v2/test_scoring_v2.py",
+    "PYTHONPATH=. python3 research/adaptive_mechanism_20261027_v1/scoring_v2/rescore_first_batch.py --output research/adaptive_mechanism_20261027_v1/scoring_v2/results"
+  ],
+  "test_result": {
+    "tests_run": 17,
+    "failures": 0,
+    "errors": 0,
+    "result": "OK"
+  },
+  "control_coverage": {
+    "positive": [
+      "semantically equivalent currency display",
+      "exact multi-span set",
+      "correct mean typed reduction",
+      "correct count typed reduction"
+    ],
+    "adversarial_or_boundary": [
+      "wrong unit",
+      "wrong direction",
+      "wrong period or row",
+      "extra span",
+      "missing reference",
+      "nonexistent reference",
+      "out-of-range paragraph reference",
+      "numerically equal answer in the wrong role",
+      "negative count",
+      "numeric-array contract violation",
+      "reasonable unknown",
+      "unresolvable legal reference remains pending",
+      "unknown count preserves the unknown contract"
+    ]
+  },
+  "rescore": {
+    "first_batch_calls": 40,
+    "primary_final_attempts": 36,
+    "model_calls": 0,
+    "generation_records_created": 0,
+    "historical_score_visible": {
+      "table_top3": "2/12 ACCEPT",
+      "table_top5": "3/12 ACCEPT",
+      "table_all": "3/12 ACCEPT"
+    },
+    "scoring_v2_by_arm": {
+      "table_top3": {
+        "REJECT": 7,
+        "STRICT_FAIL": 4,
+        "PENDING_ADJUDICATION": 1
+      },
+      "table_top5": {
+        "REJECT": 8,
+        "STRICT_FAIL": 4
+      },
+      "table_all": {
+        "REJECT": 7,
+        "STRICT_FAIL": 5
+      }
+    },
+    "corrected_input_deltas": {
+      "table_top5_minus_table_top3": 917,
+      "table_all_minus_table_top5": 1604
+    }
+  },
+  "hashes": {
+    "test_file_sha256": "d8c53736eb10403400e8bdf189fbe2d8bbff39f470131cec60615b5dc2c1ff15",
+    "summary_json_sha256": "c4ff98613a53fc3dd14abb909b4d2d40477f64753ab6e7717ac32907363a061c",
+    "rows_jsonl_sha256": "991b902a94408dea9c903c3d20b8215592f661cdee569197a7336306a0db94c0"
+  },
+  "claim_boundary": "Development rescore of one immutable 12-UID first batch only; no human-gold, judge, new-source or C-acceptance claim."
+}

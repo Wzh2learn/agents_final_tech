@@ -359,6 +359,100 @@ aarch64 Tectonic 下载又停滞于零字节，故 Canonical LaTeX 的精确编�
 工程门。该稿件未被声明为 accepted、published 或 school-recognized，作者、
 资助、专利、artifact release 和 submission 字段仍为 `TBD_OWNER`。
 
+
+## 9. 自适应机制 A：形式构建、五层重评分与零模型机制诊断（2026-10-27）
+
+### 9.1 方法
+
+本轮只读取既有 Paper E 两案例稿、第一批 40 次不可变 raw 和其可见上下文，
+不加入 P1/P2 结果，不启动训练、LoRA/SFT、旧 R/E、judge、生产探测或外部联系。
+Paper E 仅尝试复用已安装的本地 TeX 工具链；未安装任何引擎时保留
+`BUILD_BLOCKED`，并把 canonical TeX、BibTeX、图形、构建脚本和非 TeX 源检查
+打包为可直接构建的 source bundle，不把 fallback PDF 冒充正式构建。
+
+Scoring V2 把历史二元结果拆成五个不可合并层：严格 JSON/schema/format、
+答案与精确集合完整性、数值等价/单位尺度/方向、证据存在与语义支持、最终交付。
+状态保留 `ACCEPT`、`REJECT`、`PENDING_ADJUDICATION`、`STRICT_FAIL` 和
+`REASONABLE_UNKNOWN`；`PENDING` 不等同 `WRONG`，数值正确也不等于完整交付。
+评分 actor 不接收 gold、期望参考、隐藏单位、期望程序或 UID 分支；可见段落
+映射、字符串 `##` 程序和数值单元格均可重建，无法合法重建时返回 PENDING。
+
+持久预算把逻辑 call ID 与物理 attempt ID 分离，在模型调用前以 `fcntl` 锁、
+追加写、flush 和 fsync 记录保守 reservation，调用后立即追加 raw response 和
+实际 usage，评分只能发生在 raw 持久化之后。账本位于仓库之外的固定绝对路径，
+`generate`、`resume`、`rescore` 分开；`rescore` 不加载模型、不创建生成记录。
+统一的 `normalize_answer` 与安全 AST/Decimal calculator 被可见基线和预注册
+三臂共同复用。
+
+机制诊断先用真实问题、第一批最终 raw 和可见上下文制作 12 张 error card
+（9 个旧三臂共同 REJECT UID、3 个非共同控制），标签来自评分层观察而不是模型
+自述。随后运行只接收问题、答案类型、可见段落和可见表格的透明 typed reduction
+baseline；参考答案和期望程序只在输出之后用于五层评分。最后冻结 8 UID、三条
+假设、三臂、提示词、输出合同、calculator、Qwen3-4B 身份、解码与停止规则。
+
+### 9.2 结果
+
+本地没有任何可用 TeX 引擎：`pdflatex`、`latex`、`lualatex`、`xelatex`、
+`tectonic`、`latexmk`、`bibtex`、`biber` 等均缺失；构建脚本退出码为 127，
+因此 Paper E 状态是 `BUILD_BLOCKED`。非 TeX 源检查通过，确认 24 条 bibliography
+条目、24 个被引 key、引用/书目集合完全一致、三幅图、结构化摘要、declarations、
+作者占位、正文、手工 figure cross-reference 和显式
+`elsarticle-harv.bst` 依赖；Owner 身份、专利、artifact、基金、费用与投稿字段
+仍待定。
+
+第一批 40 次调用按每个 12 UID × 3 臂的最终 attempt 选出 36 项，零模型重评分。
+历史旧评分保持可见：top-3 为 2/12 ACCEPT，top-5 为 3/12，all 为 3/12。
+新五层结果为 top-3 `REJECT 7 / STRICT_FAIL 4 / PENDING 1`，top-5
+`REJECT 8 / STRICT_FAIL 4`，all `REJECT 7 / STRICT_FAIL 5`。按层看，
+答案层三臂均为 PASS 3 / FAIL 9；strict 层 top-3/top5/all 分别为
+PASS 8/8/7、STRICT_FAIL 4/4/5；证据层 top-3 为 PASS 1 / FAIL 5 /
+PENDING 6，top-5 相同，all 为 PASS 1 / FAIL 7 / PENDING 4。
+最终 attempt 的输入 token 差已更正为 top-5−top-3 = 917、all−top-5 = 1,604；
+`PENDING` 仍单独计数，不并入错误。
+
+旧九个共同失败 UID 的 card 暴露三类优先信号：mean 题给出正确 9,660 与
+11,191 却没有 `(9,660+11,191)/2`；count 题给出 First/Second/Fourth 却没有 3；
+另一个 count 题甚至没有对七项服务做计数。另有错误期间/方向、numeric array、
+非存在引用、单位和 role binding 失败。透明可见基线在 36 个最终 attempt 上
+得到 `ACCEPT 31 / REASONABLE_UNKNOWN 5`，没有 `REJECT`、`STRICT_FAIL` 或
+未解释残差：mean、count 和 percentage 的 typed reduction 在证据可见时被解释；
+5 个 `REASONABLE_UNKNOWN` 对应 top-3 缺失比例尺度段落，以及 top-3/top5 缺失
+服务清单段落，属于可见信息不足而不是把 PENDING/UNKNOWN 记为 WRONG。
+
+外部主账本只有 1 条 `ledger_initialized`，SHA256 为
+`ad0535aeb3fb324c60631ca38b0bbb5a82cb509c834aefb624e025db2350fdef`；
+物理 attempts、raw rows、input/output tokens 和 model loads 全为 0。
+七项 fault injection 全部通过：评分抛错后 raw 保留且 rescore 增加 0 次；
+reservation 后崩溃仍保守消耗；两次调用间崩溃保留前一条 raw；切换输出目录不重置；
+第 37 次和 token-cap successor 都在 loader 调用前被拒绝；共享 calculator 回归通过。
+
+由于强简单基线解释或合同性约束了全部自然残差，候选在任何新输出前停止：
+`STOP_BEFORE_GENERATION`。8 UID 面板已冻结但未运行，生成、确认、新来源验证和
+C 验收均未发生；训练为 0，真实模型调用为 0，新增 generation record 为 0。
+
+### 9.3 局限与贡献边界
+
+Scoring V2、error card、baseline 和诊断结论均为 AI/automatic development
+review，不是人工 gold、预注册确认分或完整语义 oracle；12 UID 面板仍是已暴露
+开发面板，不能外推到新来源。baseline 的问题级解析是确定性公开规则，不是学习
+机制，也不能把 31/36 解释为模型准确率提升。5 个 `REASONABLE_UNKNOWN` 说明
+部分 top-3/top5 上下文没有交付完成答案所需的可见段落，但不证明所有上下文缺失
+都由 retrieval 可修复。
+
+Paper E 尚无正式 TeX 构建，不能声称精确引擎版本、页数、bibliography 渲染或
+投稿状态；两案例正文的 clustered/post-hoc identity、96/118 checkpoint-level
+限定和 FinRank reproduction drift 仍按原文保持。持久账本只证明本地工程护栏，
+不证明 GB10/生产运行；本轮未运行真实模型，因此不能声称任何三臂方法增益。
+在独立 fixed-snapshot C task 存在之前不得声称 C acceptance，也不能把本候选
+称为确认或 new-source validation。
+
+### 9.4 下一缺失证据
+
+下一步只有在 Owner 提供可用 TeX 工具链或批准精确构建环境时才补齐 Paper E
+正式 build evidence；科学上，当前候选应停止，除非出现独立来源上不能被透明
+typed baseline 解释的新残差。任何后续方法比较都必须先有独立 fixed-snapshot C
+task、冻结输入、匹配资源预算和持久账本，不得复用本轮开发面板充当确认。
+
 ## 10. 自适应机制审计后修正（2026-10-27）
 
 C 固定快照审阅发现，A 的“可见类型化基线”在 actor 分派中读取了参考链里的

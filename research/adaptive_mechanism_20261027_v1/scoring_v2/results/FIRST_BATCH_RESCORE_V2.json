@@ -1,0 +1,616 @@
+{
+  "claim_boundary": "Development reanalysis of one immutable 12-UID panel; no model, training, judge, production probe, human-gold claim, or new-source validation.",
+  "corrected_final_attempt_input_deltas": {
+    "table_all_minus_table_top5": 1604,
+    "table_top5_minus_table_top3": 917
+  },
+  "first_batch_call_count": 40,
+  "generation_records_created": 0,
+  "historical_score_visible": {
+    "identity": "historical old scorer; retained without reinterpretation",
+    "table_all_ACCEPT": 3,
+    "table_top3_ACCEPT": 2,
+    "table_top5_ACCEPT": 3
+  },
+  "model_calls_in_rescore": 0,
+  "paired_arm_summaries": {
+    "table_all": {
+      "historical_outcomes": {
+        "ACCEPT": 3,
+        "REJECT": 9
+      },
+      "input_tokens_final_attempts": 11384,
+      "items": 12,
+      "output_tokens_final_attempts": 786,
+      "scoring_v2_outcomes": {
+        "REJECT": 7,
+        "STRICT_FAIL": 5
+      },
+      "wall_seconds_final_attempts": 81.14109117537737
+    },
+    "table_all_minus_table_top5_input_delta": 1604,
+    "table_top3": {
+      "historical_outcomes": {
+        "ACCEPT": 2,
+        "REJECT": 10
+      },
+      "input_tokens_final_attempts": 8863,
+      "items": 12,
+      "output_tokens_final_attempts": 778,
+      "scoring_v2_outcomes": {
+        "PENDING_ADJUDICATION": 1,
+        "REJECT": 7,
+        "STRICT_FAIL": 4
+      },
+      "wall_seconds_final_attempts": 82.78690629824996
+    },
+    "table_top5": {
+      "historical_outcomes": {
+        "ACCEPT": 3,
+        "REJECT": 9
+      },
+      "input_tokens_final_attempts": 9780,
+      "items": 12,
+      "output_tokens_final_attempts": 778,
+      "scoring_v2_outcomes": {
+        "REJECT": 8,
+        "STRICT_FAIL": 4
+      },
+      "wall_seconds_final_attempts": 83.19795315898955
+    },
+    "table_top5_minus_table_top3_input_delta": 917
+  },
+  "per_layer_counts": {
+    "answer": {
+      "table_all": {
+        "FAIL": 9,
+        "PASS": 3
+      },
+      "table_top3": {
+        "FAIL": 9,
+        "PASS": 3
+      },
+      "table_top5": {
+        "FAIL": 9,
+        "PASS": 3
+      }
+    },
+    "evidence": {
+      "table_all": {
+        "FAIL": 7,
+        "PASS": 1,
+        "PENDING_ADJUDICATION": 4
+      },
+      "table_top3": {
+        "FAIL": 5,
+        "PASS": 1,
+        "PENDING_ADJUDICATION": 6
+      },
+      "table_top5": {
+        "FAIL": 5,
+        "PASS": 1,
+        "PENDING_ADJUDICATION": 6
+      }
+    },
+    "final_delivery": {
+      "table_all": {
+        "REJECT": 7,
+        "STRICT_FAIL": 5
+      },
+      "table_top3": {
+        "PENDING_ADJUDICATION": 1,
+        "REJECT": 7,
+        "STRICT_FAIL": 4
+      },
+      "table_top5": {
+        "REJECT": 8,
+        "STRICT_FAIL": 4
+      }
+    },
+    "numeric_unit": {
+      "table_all": {
+        "FAIL": 7,
+        "PASS": 5
+      },
+      "table_top3": {
+        "FAIL": 6,
+        "PASS": 5,
+        "PENDING_ADJUDICATION": 1
+      },
+      "table_top5": {
+        "FAIL": 7,
+        "PASS": 5
+      }
+    },
+    "strict": {
+      "table_all": {
+        "PASS": 7,
+        "STRICT_FAIL": 5
+      },
+      "table_top3": {
+        "PASS": 8,
+        "STRICT_FAIL": 4
+      },
+      "table_top5": {
+        "PASS": 8,
+        "STRICT_FAIL": 4
+      }
+    }
+  },
+  "per_uid_outcomes": [
+    {
+      "answer_type": "arithmetic",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "scoring_v2_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "PASS",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "PASS",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top3": {
+          "answer": "PASS",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "PASS",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top5": {
+          "answer": "PASS",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "PASS",
+          "strict": "STRICT_FAIL"
+        }
+      }
+    },
+    {
+      "answer_type": "span",
+      "historical_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "question": "What is the total external revenues from Canada in 2019?",
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "PENDING_ADJUDICATION",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "PASS",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "PASS",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "PENDING_ADJUDICATION",
+          "numeric_unit": "PENDING_ADJUDICATION",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "PASS",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What services have their costs included within the audit fees?",
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "scoring_v2_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "PASS",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "count",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "scoring_v2_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        }
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "historical_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "scoring_v2_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        }
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "PENDING_ADJUDICATION",
+          "final_delivery": "REJECT",
+          "numeric_unit": "FAIL",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "count",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "scoring_v2_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "FAIL",
+          "final_delivery": "STRICT_FAIL",
+          "numeric_unit": "FAIL",
+          "strict": "STRICT_FAIL"
+        }
+      }
+    },
+    {
+      "answer_type": "span",
+      "historical_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "question": "What is the units used for the data in the table?",
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "FAIL",
+          "evidence": "PASS",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "FAIL",
+          "evidence": "PASS",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "FAIL",
+          "evidence": "PASS",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        }
+      }
+    },
+    {
+      "answer_type": "span",
+      "historical_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "REJECT",
+        "table_top5": "ACCEPT"
+      },
+      "question": "What is the net sales arising from total electronic components in 2019?",
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "scoring_v2_by_arm": {
+        "table_all": "REJECT",
+        "table_top3": "REJECT",
+        "table_top5": "REJECT"
+      },
+      "scoring_v2_layer_statuses_by_arm": {
+        "table_all": {
+          "answer": "PASS",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top3": {
+          "answer": "PASS",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        },
+        "table_top5": {
+          "answer": "PASS",
+          "evidence": "FAIL",
+          "final_delivery": "REJECT",
+          "numeric_unit": "PASS",
+          "strict": "PASS"
+        }
+      }
+    }
+  ],
+  "primary_final_attempt_count": 36,
+  "review_identity": "AI/automatic scoring-v2 development reanalysis; not human gold, not a preregistered score, and not a complete semantic oracle",
+  "schema": "scoring_v2_first_batch_rescore_v1",
+  "selection_rule": "maximum call_number within each question_uid_sha256 x arm from the immutable first 40-call batch",
+  "source_hashes": {
+    "annotated_jsonl": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "raw_jsonl": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "reference_chain": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066",
+    "tatqa_dev_source": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+  },
+  "status": "COMPLETE_ZERO_MODEL_FIRST_BATCH_36_PRIMARY_FINAL_ATTEMPTS",
+  "status_semantics": {
+    "ACCEPT": "all five layers pass",
+    "PENDING_ADJUDICATION": "a legal reference, role binding, or visible scale cannot be resolved without inventing evidence",
+    "REASONABLE_UNKNOWN": "required evidence is not visible and the actor correctly declared unknown",
+    "REJECT": "at least one determinative layer fails",
+    "STRICT_FAIL": "JSON/schema/format/output contract fails before semantic acceptance"
+  }
+}

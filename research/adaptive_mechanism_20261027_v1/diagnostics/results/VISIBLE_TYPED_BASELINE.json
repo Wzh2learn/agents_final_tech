@@ -1,0 +1,3939 @@
+{
+  "baseline_boundary": "The actor function receives only the question, answer type and visible selected paragraphs/table; reference answers and expected programs are used only after output for five-layer scoring.",
+  "generation_records_created": 0,
+  "model_calls": 0,
+  "per_uid": [
+    {
+      "answer_type": "arithmetic",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "numeric_answer_complete",
+        "table_top3": "numeric_answer_complete",
+        "table_top5": "numeric_answer_complete"
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "exact_numeric_set",
+        "table_top3": "exact_numeric_set",
+        "table_top5": "exact_numeric_set"
+      }
+    },
+    {
+      "answer_type": "span",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "required_paragraph_not_visible",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What is the total external revenues from Canada in 2019?",
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "REASONABLE_UNKNOWN",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "exact_numeric_set",
+        "table_top3": "reasonable_unknown_declared",
+        "table_top5": "exact_numeric_set"
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "required_paragraph_not_visible",
+        "table_top5": "required_paragraph_not_visible"
+      },
+      "question": "What services have their costs included within the audit fees?",
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "REASONABLE_UNKNOWN",
+        "table_top5": "REASONABLE_UNKNOWN"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "exact_text_set",
+        "table_top3": "reasonable_unknown_declared",
+        "table_top5": "reasonable_unknown_declared"
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "numeric_answer_complete",
+        "table_top3": "numeric_answer_complete",
+        "table_top5": "numeric_answer_complete"
+      }
+    },
+    {
+      "answer_type": "count",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "required_paragraph_not_visible",
+        "table_top5": "required_paragraph_not_visible"
+      },
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "REASONABLE_UNKNOWN",
+        "table_top5": "REASONABLE_UNKNOWN"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "numeric_answer_complete",
+        "table_top3": "reasonable_unknown_declared",
+        "table_top5": "reasonable_unknown_declared"
+      }
+    },
+    {
+      "answer_type": "multi-span",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "exact_text_set",
+        "table_top3": "exact_text_set",
+        "table_top5": "exact_text_set"
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "numeric_answer_complete",
+        "table_top3": "numeric_answer_complete",
+        "table_top5": "numeric_answer_complete"
+      }
+    },
+    {
+      "answer_type": "arithmetic",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "numeric_answer_complete",
+        "table_top3": "numeric_answer_complete",
+        "table_top5": "numeric_answer_complete"
+      }
+    },
+    {
+      "answer_type": "count",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "numeric_answer_complete",
+        "table_top3": "numeric_answer_complete",
+        "table_top5": "numeric_answer_complete"
+      }
+    },
+    {
+      "answer_type": "span",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What is the units used for the data in the table?",
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "exact_text_set",
+        "table_top3": "exact_text_set",
+        "table_top5": "exact_text_set"
+      }
+    },
+    {
+      "answer_type": "span",
+      "evidence_by_arm": {
+        "table_all": "visible_reference_semantically_supports_answer",
+        "table_top3": "visible_reference_semantically_supports_answer",
+        "table_top5": "visible_reference_semantically_supports_answer"
+      },
+      "question": "What is the net sales arising from total electronic components in 2019?",
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "typed_operation_by_arm": {
+        "table_all": "exact_numeric_set",
+        "table_top3": "exact_numeric_set",
+        "table_top5": "exact_numeric_set"
+      }
+    }
+  ],
+  "review_identity": "AI/automatic deterministic baseline evaluation; not human gold, not a model run, and not new-source validation",
+  "row_count": 36,
+  "rows": [
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_all",
+      "call_id": "fed34370c454064cb591e014",
+      "call_number": 28,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "response": {
+        "answer": "104.05",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R9:C2",
+          "TABLE:R9:C1"
+        ],
+        "numeric_value": 104.05,
+        "unit": "percent",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R9:C1",
+            "TABLE:R9:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R9:C1",
+              "TABLE:R9:C2"
+            ],
+            "observed": [
+              "TABLE:R9:C2",
+              "TABLE:R9:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R9:C1": "exact",
+              "TABLE:R9:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 104.05,
+              "observed": 104.05,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "104.05",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R9:C2",
+                "TABLE:R9:C1"
+              ],
+              "numeric_value": 104.05,
+              "unit": "percent",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top3",
+      "call_id": "0f46cefaf87d2022b839facf",
+      "call_number": 26,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "response": {
+        "answer": "104.05",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R9:C2",
+          "TABLE:R9:C1"
+        ],
+        "numeric_value": 104.05,
+        "unit": "percent",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R9:C1",
+            "TABLE:R9:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R9:C1",
+              "TABLE:R9:C2"
+            ],
+            "observed": [
+              "TABLE:R9:C2",
+              "TABLE:R9:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R9:C1": "exact",
+              "TABLE:R9:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 104.05,
+              "observed": 104.05,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "104.05",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R9:C2",
+                "TABLE:R9:C1"
+              ],
+              "numeric_value": 104.05,
+              "unit": "percent",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top5",
+      "call_id": "623923b6c45497e281015ee0",
+      "call_number": 27,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "response": {
+        "answer": "104.05",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R9:C2",
+          "TABLE:R9:C1"
+        ],
+        "numeric_value": 104.05,
+        "unit": "percent",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R9:C1",
+            "TABLE:R9:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R9:C1",
+              "TABLE:R9:C2"
+            ],
+            "observed": [
+              "TABLE:R9:C2",
+              "TABLE:R9:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R9:C1": "exact",
+              "TABLE:R9:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 104.05,
+              "observed": 104.05,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "104.05",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R9:C2",
+                "TABLE:R9:C1"
+              ],
+              "numeric_value": 104.05,
+              "unit": "percent",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_all",
+      "call_id": "886f4b4e6a80bbaa4ce67c36",
+      "call_number": 25,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the units used for the data in the table?",
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "response": {
+        "answer": "in thousands",
+        "clarification": "",
+        "evidence_refs": [
+          "P2"
+        ],
+        "numeric_value": null,
+        "unit": "in thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P2"
+            ],
+            "observed": [
+              "P2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "in thousands",
+              "clarification": "",
+              "evidence_refs": [
+                "P2"
+              ],
+              "numeric_value": null,
+              "unit": "in thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_top3",
+      "call_id": "36b45fdc4a55c4c3b26d5b38",
+      "call_number": 23,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the units used for the data in the table?",
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "response": {
+        "answer": "in thousands",
+        "clarification": "",
+        "evidence_refs": [
+          "P2"
+        ],
+        "numeric_value": null,
+        "unit": "in thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P2"
+            ],
+            "observed": [
+              "P2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "in thousands",
+              "clarification": "",
+              "evidence_refs": [
+                "P2"
+              ],
+              "numeric_value": null,
+              "unit": "in thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_top5",
+      "call_id": "af8fd98db44e932d2ef412dc",
+      "call_number": 24,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the units used for the data in the table?",
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "response": {
+        "answer": "in thousands",
+        "clarification": "",
+        "evidence_refs": [
+          "P2"
+        ],
+        "numeric_value": null,
+        "unit": "in thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P2"
+            ],
+            "observed": [
+              "P2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "in thousands",
+              "clarification": "",
+              "evidence_refs": [
+                "P2"
+              ],
+              "numeric_value": null,
+              "unit": "in thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_all",
+      "call_id": "48bf12b797b62754c8c27989",
+      "call_number": 12,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the total external revenues from Canada in 2019?",
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "response": {
+        "answer": "96,168",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R3:C1"
+        ],
+        "numeric_value": 96168.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R3:C1"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R3:C1"
+            ],
+            "observed": [
+              "TABLE:R3:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R3:C1": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "96,168",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R3:C1"
+              ],
+              "numeric_value": 96168.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_top3",
+      "call_id": "0b41e8a4ede7c45dcf1f865c",
+      "call_number": 10,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the total external revenues from Canada in 2019?",
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "response": {
+        "answer": "UNKNOWN",
+        "clarification": "required numeric scale is not visible",
+        "evidence_refs": [],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": true
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [
+            "4"
+          ],
+          "reason": "required_paragraph_not_visible",
+          "reconstructible": false,
+          "refs": []
+        },
+        "layers": {
+          "answer": {
+            "reason": "reasonable_unknown_declared",
+            "status": "PASS"
+          },
+          "evidence": {
+            "reason": "required_paragraph_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "final_delivery": {
+            "reason": "required_evidence_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;required_scale_not_visible",
+            "status": "PASS",
+            "unit": {
+              "reason": "required_scale_not_visible",
+              "status": "REASONABLE_UNKNOWN"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "UNKNOWN",
+              "clarification": "required numeric scale is not visible",
+              "evidence_refs": [],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": true
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "REASONABLE_UNKNOWN"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_top5",
+      "call_id": "52000d6987e129031c667719",
+      "call_number": 11,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the total external revenues from Canada in 2019?",
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "response": {
+        "answer": "96,168",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R3:C1"
+        ],
+        "numeric_value": 96168.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R3:C1"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R3:C1"
+            ],
+            "observed": [
+              "TABLE:R3:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R3:C1": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "96,168",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R3:C1"
+              ],
+              "numeric_value": 96168.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_all",
+      "call_id": "4858b620ed0d92ee4843817e",
+      "call_number": 9,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "response": {
+        "answer": [
+          "155",
+          "113"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R3:C1",
+          "TABLE:R3:C2"
+        ],
+        "numeric_value": null,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R3:C1",
+            "TABLE:R3:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R3:C1",
+              "TABLE:R3:C2"
+            ],
+            "observed": [
+              "TABLE:R3:C1",
+              "TABLE:R3:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R3:C1": "exact",
+              "TABLE:R3:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "155",
+                "113"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R3:C1",
+                "TABLE:R3:C2"
+              ],
+              "numeric_value": null,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_top3",
+      "call_id": "75eda2be9ac760ba8c6ce4ce",
+      "call_number": 5,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "response": {
+        "answer": [
+          "155",
+          "113"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R3:C1",
+          "TABLE:R3:C2"
+        ],
+        "numeric_value": null,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R3:C1",
+            "TABLE:R3:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R3:C1",
+              "TABLE:R3:C2"
+            ],
+            "observed": [
+              "TABLE:R3:C1",
+              "TABLE:R3:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R3:C1": "exact",
+              "TABLE:R3:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "155",
+                "113"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R3:C1",
+                "TABLE:R3:C2"
+              ],
+              "numeric_value": null,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_top5",
+      "call_id": "a10d6c637e2cc252fef66488",
+      "call_number": 7,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "response": {
+        "answer": [
+          "155",
+          "113"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R3:C1",
+          "TABLE:R3:C2"
+        ],
+        "numeric_value": null,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R3:C1",
+            "TABLE:R3:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R3:C1",
+              "TABLE:R3:C2"
+            ],
+            "observed": [
+              "TABLE:R3:C1",
+              "TABLE:R3:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R3:C1": "exact",
+              "TABLE:R3:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "155",
+                "113"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R3:C1",
+                "TABLE:R3:C2"
+              ],
+              "numeric_value": null,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "count",
+      "arm": "table_all",
+      "call_id": "a31046a660e2652d30c7eebb",
+      "call_number": 31,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "response": {
+        "answer": "3",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:C1",
+          "TABLE:C2",
+          "TABLE:C4"
+        ],
+        "numeric_value": 3,
+        "unit": "count",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "count_members_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:C1",
+            "TABLE:C2",
+            "TABLE:C4"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C4"
+            ],
+            "observed": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C4"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:C1": "exact",
+              "TABLE:C2": "exact",
+              "TABLE:C4": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": "3",
+              "observed": 3,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "3",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C4"
+              ],
+              "numeric_value": 3,
+              "unit": "count",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "count",
+      "arm": "table_top3",
+      "call_id": "193c19aaba8bc63a4d46ef20",
+      "call_number": 29,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "response": {
+        "answer": "3",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:C1",
+          "TABLE:C2",
+          "TABLE:C4"
+        ],
+        "numeric_value": 3,
+        "unit": "count",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "count_members_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:C1",
+            "TABLE:C2",
+            "TABLE:C4"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C4"
+            ],
+            "observed": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C4"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:C1": "exact",
+              "TABLE:C2": "exact",
+              "TABLE:C4": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": "3",
+              "observed": 3,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "3",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C4"
+              ],
+              "numeric_value": 3,
+              "unit": "count",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "count",
+      "arm": "table_top5",
+      "call_id": "a093a62884b4edac9fef6485",
+      "call_number": 30,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "response": {
+        "answer": "3",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:C1",
+          "TABLE:C2",
+          "TABLE:C4"
+        ],
+        "numeric_value": 3,
+        "unit": "count",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "count_members_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:C1",
+            "TABLE:C2",
+            "TABLE:C4"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C4"
+            ],
+            "observed": [
+              "TABLE:C1",
+              "TABLE:C2",
+              "TABLE:C4"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:C1": "exact",
+              "TABLE:C2": "exact",
+              "TABLE:C4": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": "3",
+              "observed": 3,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "3",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:C1",
+                "TABLE:C2",
+                "TABLE:C4"
+              ],
+              "numeric_value": 3,
+              "unit": "count",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_all",
+      "call_id": "44ceffabd9c535fe941164fd",
+      "call_number": 34,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "response": {
+        "answer": [
+          "At beginning of the period",
+          "Additions"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R2:C0",
+          "TABLE:R3:C0"
+        ],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "answer_spans_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R2:C0",
+            "TABLE:R3:C0"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R2:C0",
+              "TABLE:R3:C0"
+            ],
+            "observed": [
+              "TABLE:R2:C0",
+              "TABLE:R3:C0"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R2:C0": "exact",
+              "TABLE:R3:C0": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "At beginning of the period",
+                "Additions"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R2:C0",
+                "TABLE:R3:C0"
+              ],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_top3",
+      "call_id": "4259fc55c541667ac3ed7e67",
+      "call_number": 32,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "response": {
+        "answer": [
+          "At beginning of the period",
+          "Additions"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R2:C0",
+          "TABLE:R3:C0"
+        ],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "answer_spans_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R2:C0",
+            "TABLE:R3:C0"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R2:C0",
+              "TABLE:R3:C0"
+            ],
+            "observed": [
+              "TABLE:R2:C0",
+              "TABLE:R3:C0"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R2:C0": "exact",
+              "TABLE:R3:C0": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "At beginning of the period",
+                "Additions"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R2:C0",
+                "TABLE:R3:C0"
+              ],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_top5",
+      "call_id": "2e9fd7630953b16e38bdd61a",
+      "call_number": 33,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "response": {
+        "answer": [
+          "At beginning of the period",
+          "Additions"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R2:C0",
+          "TABLE:R3:C0"
+        ],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "answer_spans_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R2:C0",
+            "TABLE:R3:C0"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R2:C0",
+              "TABLE:R3:C0"
+            ],
+            "observed": [
+              "TABLE:R2:C0",
+              "TABLE:R3:C0"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R2:C0": "exact",
+              "TABLE:R3:C0": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "At beginning of the period",
+                "Additions"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R2:C0",
+                "TABLE:R3:C0"
+              ],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_all",
+      "call_id": "8c902d4c8366d88a25e1752e",
+      "call_number": 15,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "response": {
+        "answer": "-78.06",
+        "clarification": "",
+        "evidence_refs": [
+          "P4"
+        ],
+        "numeric_value": -78.06,
+        "unit": "percent",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P4"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P4"
+            ],
+            "observed": [
+              "P4"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P4": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": -78.06,
+              "observed": -78.06,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "-78.06",
+              "clarification": "",
+              "evidence_refs": [
+                "P4"
+              ],
+              "numeric_value": -78.06,
+              "unit": "percent",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top3",
+      "call_id": "25b8866b70c8395e03f65c8f",
+      "call_number": 13,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "response": {
+        "answer": "-78.06",
+        "clarification": "",
+        "evidence_refs": [
+          "P1"
+        ],
+        "numeric_value": -78.06,
+        "unit": "percent",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P1"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P1"
+            ],
+            "observed": [
+              "P1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P1": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": -78.06,
+              "observed": -78.06,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "-78.06",
+              "clarification": "",
+              "evidence_refs": [
+                "P1"
+              ],
+              "numeric_value": -78.06,
+              "unit": "percent",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "4",
+        "5",
+        "7"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top5",
+      "call_id": "ff88119d93f35ea7fdddb882",
+      "call_number": 14,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "response": {
+        "answer": "-78.06",
+        "clarification": "",
+        "evidence_refs": [
+          "P1"
+        ],
+        "numeric_value": -78.06,
+        "unit": "percent",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P1"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P1"
+            ],
+            "observed": [
+              "P1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P1": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": -78.06,
+              "observed": -78.06,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "-78.06",
+              "clarification": "",
+              "evidence_refs": [
+                "P1"
+              ],
+              "numeric_value": -78.06,
+              "unit": "percent",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "9"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_all",
+      "call_id": "b42e570dba35521cf477c152",
+      "call_number": 37,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the net sales arising from total electronic components in 2019?",
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "response": {
+        "answer": "1,289,962",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R4:C2"
+        ],
+        "numeric_value": 1289962.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R4:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R4:C2"
+            ],
+            "observed": [
+              "TABLE:R4:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R4:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "1,289,962",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R4:C2"
+              ],
+              "numeric_value": 1289962.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_top3",
+      "call_id": "7f68b74cd67af63acfe7ecee",
+      "call_number": 35,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the net sales arising from total electronic components in 2019?",
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "response": {
+        "answer": "1,289,962",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R4:C2"
+        ],
+        "numeric_value": 1289962.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R4:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R4:C2"
+            ],
+            "observed": [
+              "TABLE:R4:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R4:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "1,289,962",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R4:C2"
+              ],
+              "numeric_value": 1289962.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "3",
+        "5",
+        "7"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "span",
+      "arm": "table_top5",
+      "call_id": "5a1ef34dfc30b12dd405e61b",
+      "call_number": 36,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the net sales arising from total electronic components in 2019?",
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "response": {
+        "answer": "1,289,962",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R4:C2"
+        ],
+        "numeric_value": 1289962.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "multi_span_numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R4:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_numeric_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R4:C2"
+            ],
+            "observed": [
+              "TABLE:R4:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R4:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "1,289,962",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R4:C2"
+              ],
+              "numeric_value": 1289962.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "3",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_all",
+      "call_id": "925009c3dfee1d47bc2f73b6",
+      "call_number": 40,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "response": {
+        "answer": "3251",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R9:C3",
+          "TABLE:R9:C2"
+        ],
+        "numeric_value": 3251.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R9:C2",
+            "TABLE:R9:C3"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R9:C2",
+              "TABLE:R9:C3"
+            ],
+            "observed": [
+              "TABLE:R9:C3",
+              "TABLE:R9:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R9:C2": "exact",
+              "TABLE:R9:C3": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 3251,
+              "observed": 3251.0,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "3251",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R9:C3",
+                "TABLE:R9:C2"
+              ],
+              "numeric_value": 3251.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top3",
+      "call_id": "9cceb6c5597cf95d21e3df52",
+      "call_number": 38,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "response": {
+        "answer": "3251",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R9:C3",
+          "TABLE:R9:C2"
+        ],
+        "numeric_value": 3251.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R9:C2",
+            "TABLE:R9:C3"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R9:C2",
+              "TABLE:R9:C3"
+            ],
+            "observed": [
+              "TABLE:R9:C3",
+              "TABLE:R9:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R9:C2": "exact",
+              "TABLE:R9:C3": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 3251,
+              "observed": 3251.0,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "3251",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R9:C3",
+                "TABLE:R9:C2"
+              ],
+              "numeric_value": 3251.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top5",
+      "call_id": "479befb656131b2cd3dbc105",
+      "call_number": 39,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "response": {
+        "answer": "3251",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R9:C3",
+          "TABLE:R9:C2"
+        ],
+        "numeric_value": 3251.0,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R9:C2",
+            "TABLE:R9:C3"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R9:C2",
+              "TABLE:R9:C3"
+            ],
+            "observed": [
+              "TABLE:R9:C3",
+              "TABLE:R9:C2"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R9:C2": "exact",
+              "TABLE:R9:C3": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 3251,
+              "observed": 3251.0,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "3251",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R9:C3",
+                "TABLE:R9:C2"
+              ],
+              "numeric_value": 3251.0,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "count",
+      "arm": "table_all",
+      "call_id": "34820b999b30aae7e27e6889",
+      "call_number": 18,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "response": {
+        "answer": "7",
+        "clarification": "",
+        "evidence_refs": [
+          "P7"
+        ],
+        "numeric_value": 7,
+        "unit": "count",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P7"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P7"
+            ],
+            "observed": [
+              "P7"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P7": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": "7",
+              "observed": 7,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "7",
+              "clarification": "",
+              "evidence_refs": [
+                "P7"
+              ],
+              "numeric_value": 7,
+              "unit": "count",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "count",
+      "arm": "table_top3",
+      "call_id": "ad195858f4eb205057763d1e",
+      "call_number": 16,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "response": {
+        "answer": "UNKNOWN",
+        "clarification": "visible context does not contain the enumerated service list",
+        "evidence_refs": [],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": true
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [
+            "7"
+          ],
+          "reason": "required_paragraph_not_visible",
+          "reconstructible": false,
+          "refs": []
+        },
+        "layers": {
+          "answer": {
+            "reason": "reasonable_unknown_declared",
+            "status": "PASS"
+          },
+          "evidence": {
+            "reason": "required_paragraph_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "final_delivery": {
+            "reason": "required_evidence_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": "7",
+              "observed": null,
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL"
+            },
+            "reason": "numeric_value_missing_or_non_numeric;unsupported_unknown",
+            "status": "FAIL",
+            "unit": {
+              "reason": "unsupported_unknown",
+              "status": "FAIL"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "UNKNOWN",
+              "clarification": "visible context does not contain the enumerated service list",
+              "evidence_refs": [],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": true
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "REASONABLE_UNKNOWN"
+      },
+      "visible_paragraph_orders": [
+        "3",
+        "6",
+        "10"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "count",
+      "arm": "table_top5",
+      "call_id": "fc62c1cc4986208e550965b4",
+      "call_number": 17,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "response": {
+        "answer": "UNKNOWN",
+        "clarification": "visible context does not contain the enumerated service list",
+        "evidence_refs": [],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": true
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [
+            "7"
+          ],
+          "reason": "required_paragraph_not_visible",
+          "reconstructible": false,
+          "refs": []
+        },
+        "layers": {
+          "answer": {
+            "reason": "reasonable_unknown_declared",
+            "status": "PASS"
+          },
+          "evidence": {
+            "reason": "required_paragraph_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "final_delivery": {
+            "reason": "required_evidence_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": "7",
+              "observed": null,
+              "reason": "numeric_value_missing_or_non_numeric",
+              "status": "FAIL"
+            },
+            "reason": "numeric_value_missing_or_non_numeric;unsupported_unknown",
+            "status": "FAIL",
+            "unit": {
+              "reason": "unsupported_unknown",
+              "status": "FAIL"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "UNKNOWN",
+              "clarification": "visible context does not contain the enumerated service list",
+              "evidence_refs": [],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": true
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "REASONABLE_UNKNOWN"
+      },
+      "visible_paragraph_orders": [
+        "3",
+        "5",
+        "6",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_all",
+      "call_id": "e47810e5f427d7083fc05616",
+      "call_number": 3,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "response": {
+        "answer": "10425.5",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R4:C2",
+          "TABLE:R4:C1"
+        ],
+        "numeric_value": 10425.5,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R4:C1",
+            "TABLE:R4:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R4:C1",
+              "TABLE:R4:C2"
+            ],
+            "observed": [
+              "TABLE:R4:C2",
+              "TABLE:R4:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R4:C1": "exact",
+              "TABLE:R4:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 10425.5,
+              "observed": 10425.5,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "10425.5",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R4:C2",
+                "TABLE:R4:C1"
+              ],
+              "numeric_value": 10425.5,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top3",
+      "call_id": "1fba3ecc98e2097e203267e0",
+      "call_number": 1,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "response": {
+        "answer": "10425.5",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R4:C2",
+          "TABLE:R4:C1"
+        ],
+        "numeric_value": 10425.5,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R4:C1",
+            "TABLE:R4:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R4:C1",
+              "TABLE:R4:C2"
+            ],
+            "observed": [
+              "TABLE:R4:C2",
+              "TABLE:R4:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R4:C1": "exact",
+              "TABLE:R4:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 10425.5,
+              "observed": 10425.5,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "10425.5",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R4:C2",
+                "TABLE:R4:C1"
+              ],
+              "numeric_value": 10425.5,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "arithmetic",
+      "arm": "table_top5",
+      "call_id": "e6f14a3c7ca150a4ab68c02b",
+      "call_number": 2,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "response": {
+        "answer": "10425.5",
+        "clarification": "",
+        "evidence_refs": [
+          "TABLE:R4:C2",
+          "TABLE:R4:C1"
+        ],
+        "numeric_value": 10425.5,
+        "unit": "thousands",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "numeric_cells_reconstructed",
+          "reconstructible": true,
+          "refs": [
+            "TABLE:R4:C1",
+            "TABLE:R4:C2"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "numeric_answer_complete",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "TABLE:R4:C1",
+              "TABLE:R4:C2"
+            ],
+            "observed": [
+              "TABLE:R4:C2",
+              "TABLE:R4:C1"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "TABLE:R4:C1": "exact",
+              "TABLE:R4:C2": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "expected": 10425.5,
+              "observed": 10425.5,
+              "reason": "signed_numeric_value_matches",
+              "status": "PASS"
+            },
+            "reason": "signed_numeric_value_matches;unit_and_scale_match",
+            "status": "PASS",
+            "unit": {
+              "reason": "unit_and_scale_match",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "10425.5",
+              "clarification": "",
+              "evidence_refs": [
+                "TABLE:R4:C2",
+                "TABLE:R4:C1"
+              ],
+              "numeric_value": 10425.5,
+              "unit": "thousands",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_all",
+      "call_id": "01af72a528befb923670f68e",
+      "call_number": 22,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What services have their costs included within the audit fees?",
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "response": {
+        "answer": [
+          "auditing our annual consolidated financial statements",
+          "auditing our internal control over financial reporting in accordance with Section 404 of the Sarbanes-Oxley Act of 2002",
+          "reviewing our quarterly financial statements",
+          "auditing the financial statements of several of our subsidiaries",
+          "reviewing our registration statements and issuing related comfort letters",
+          "statutory audits for certain of our foreign subsidiaries",
+          "consultations regarding accounting standards"
+        ],
+        "clarification": "",
+        "evidence_refs": [
+          "P7"
+        ],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": false
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [],
+          "reason": "required_visible_paragraph",
+          "reconstructible": true,
+          "refs": [
+            "P7"
+          ]
+        },
+        "layers": {
+          "answer": {
+            "reason": "exact_text_set",
+            "status": "PASS"
+          },
+          "evidence": {
+            "expected": [
+              "P7"
+            ],
+            "observed": [
+              "P7"
+            ],
+            "reason": "visible_reference_semantically_supports_answer",
+            "status": "PASS",
+            "support": {
+              "P7": "exact"
+            }
+          },
+          "final_delivery": {
+            "reason": "all_five_layers_pass",
+            "status": "ACCEPT"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "numeric_value_not_applicable;non_scale_unit_contract",
+            "status": "PASS",
+            "unit": {
+              "reason": "non_scale_unit_contract",
+              "status": "PASS"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": [
+                "auditing our annual consolidated financial statements",
+                "auditing our internal control over financial reporting in accordance with Section 404 of the Sarbanes-Oxley Act of 2002",
+                "reviewing our quarterly financial statements",
+                "auditing the financial statements of several of our subsidiaries",
+                "reviewing our registration statements and issuing related comfort letters",
+                "statutory audits for certain of our foreign subsidiaries",
+                "consultations regarding accounting standards"
+              ],
+              "clarification": "",
+              "evidence_refs": [
+                "P7"
+              ],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": false
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "ACCEPT"
+      },
+      "visible_paragraph_orders": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_top3",
+      "call_id": "356b24f1dc909bc807b2cb0c",
+      "call_number": 19,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What services have their costs included within the audit fees?",
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "response": {
+        "answer": "UNKNOWN",
+        "clarification": "visible context does not contain the enumerated service list",
+        "evidence_refs": [],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": true
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [
+            "7"
+          ],
+          "reason": "required_paragraph_not_visible",
+          "reconstructible": false,
+          "refs": []
+        },
+        "layers": {
+          "answer": {
+            "reason": "reasonable_unknown_declared",
+            "status": "PASS"
+          },
+          "evidence": {
+            "reason": "required_paragraph_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "final_delivery": {
+            "reason": "required_evidence_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "unsupported_unknown",
+            "status": "FAIL",
+            "unit": {
+              "reason": "unsupported_unknown",
+              "status": "FAIL"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "UNKNOWN",
+              "clarification": "visible context does not contain the enumerated service list",
+              "evidence_refs": [],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": true
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "REASONABLE_UNKNOWN"
+      },
+      "visible_paragraph_orders": [
+        "3",
+        "6",
+        "10"
+      ]
+    },
+    {
+      "actor_inputs": [
+        "question",
+        "answer_type",
+        "visible selected paragraphs",
+        "visible table"
+      ],
+      "answer_type": "multi-span",
+      "arm": "table_top5",
+      "call_id": "6930242d791721807234ab05",
+      "call_number": 20,
+      "forbidden_actor_inputs": [
+        "gold answer",
+        "expected evidence",
+        "hidden unit",
+        "UID branch",
+        "expected program"
+      ],
+      "question": "What services have their costs included within the audit fees?",
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "response": {
+        "answer": "UNKNOWN",
+        "clarification": "visible context does not contain the enumerated service list",
+        "evidence_refs": [],
+        "numeric_value": null,
+        "unit": "UNKNOWN",
+        "unknown": true
+      },
+      "schema": "visible_typed_baseline_row_v1",
+      "score": {
+        "expected_reference_reconstruction": {
+          "missing_raw_orders": [
+            "7"
+          ],
+          "reason": "required_paragraph_not_visible",
+          "reconstructible": false,
+          "refs": []
+        },
+        "layers": {
+          "answer": {
+            "reason": "reasonable_unknown_declared",
+            "status": "PASS"
+          },
+          "evidence": {
+            "reason": "required_paragraph_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "final_delivery": {
+            "reason": "required_evidence_not_visible",
+            "status": "REASONABLE_UNKNOWN"
+          },
+          "numeric_unit": {
+            "numeric": {
+              "reason": "numeric_value_not_applicable",
+              "status": "PASS"
+            },
+            "reason": "unsupported_unknown",
+            "status": "FAIL",
+            "unit": {
+              "reason": "unsupported_unknown",
+              "status": "FAIL"
+            }
+          },
+          "strict": {
+            "parsed": {
+              "answer": "UNKNOWN",
+              "clarification": "visible context does not contain the enumerated service list",
+              "evidence_refs": [],
+              "numeric_value": null,
+              "unit": "UNKNOWN",
+              "unknown": true
+            },
+            "reason": "strict_contract_satisfied",
+            "status": "PASS"
+          }
+        },
+        "status": "REASONABLE_UNKNOWN"
+      },
+      "visible_paragraph_orders": [
+        "3",
+        "5",
+        "6",
+        "9",
+        "10"
+      ]
+    }
+  ],
+  "schema": "visible_typed_baseline_result_v1",
+  "source_hashes": {
+    "annotated_jsonl": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "raw_jsonl": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "reference_chain": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066",
+    "tatqa_dev_source": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+  },
+  "status": "COMPLETE_ZERO_MODEL_FIRST_BATCH_VISIBLE_BASELINE",
+  "status_counts": {
+    "ACCEPT": 31,
+    "REASONABLE_UNKNOWN": 5
+  },
+  "training_runs": 0
+}

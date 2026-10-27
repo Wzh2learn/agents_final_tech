@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adaptive_mechanism_persistent_budget_ledger_v1",
+  "title": "Adaptive mechanism persistent physical budget ledger",
+  "type": "object",
+  "required": ["schema", "seq", "prev_event_sha256", "event_type", "event_sha256"],
+  "properties": {
+    "schema": {"const": "adaptive_mechanism_budget_event_v1"},
+    "seq": {"type": "integer", "minimum": 0},
+    "prev_event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$|^$"},
+    "event_type": {"enum": ["ledger_initialized", "reservation", "raw_response"]},
+    "event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "physical_attempt_id": {"type": "string", "pattern": "^pa-[0-9]{6}$"},
+    "logical_call_id": {"type": "string", "minLength": 1},
+    "arm": {"type": "string", "minLength": 1},
+    "output_dir": {"type": "string"},
+    "reserved_input_tokens": {"type": "integer", "minimum": 0},
+    "reserved_output_tokens": {"type": "integer", "minimum": 0},
+    "usage": {
+      "type": "object",
+      "required": ["input_tokens", "output_tokens"],
+      "properties": {
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "cached_tokens": {"type": ["integer", "null"]},
+        "reasoning_tokens": {"type": ["integer", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "response_text": {"type": "string"},
+    "response_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"event_type": {"const": "reservation"}}},
+      "then": {
+        "required": [
+          "physical_attempt_id",
+          "logical_call_id",
+          "arm",
+          "output_dir",
+          "reserved_input_tokens",
+          "reserved_output_tokens"
+        ]
+      }
+    },
+    {
+      "if": {"properties": {"event_type": {"const": "raw_response"}}},
+      "then": {
+        "required": [
+          "physical_attempt_id",
+          "logical_call_id",
+          "usage",
+          "response_text",
+          "response_sha256"
+        ]
+      }
+    }
+  ]
+}
