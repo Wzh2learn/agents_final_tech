@@ -19,7 +19,7 @@ being mistaken for a binding-mechanism result.
 | Documentation | `changed-and-verified` | `LOOP_D_RESEARCH_PROMPT.md`, `memory/STATE.md`, `memory/THREADS.md`, `docs/research/README.md` and this return carry one current account |
 | Rules | `verified-current` | Parent/project `AGENTS.md` and thin `CLAUDE.md` pointers remain applicable; no rule change was needed |
 | Memory | `changed-and-verified` | Project STATE/THREADS/DECISIONS updated; platform-generated memory remains read-only |
-| Workspace | `pending` | Word research branch is not merged into local main because of a redundant untracked local `paper_e_word/` copy; historical GB10 worktrees remain preserved |
+| Workspace | `pending-local-untracked-only` | GB10 research-branch conflicts were resolved and pushed at `c644cb4f5`; local and GB10 `main` are synced at `9c92d4cf`. The untracked local `paper_e_word/` copy still prevents a clean research-branch merge into local `main`; historical GB10 worktrees remain preserved |
 
 ## Current Scientific State
 
@@ -62,7 +62,8 @@ File contents were unchanged.
 
 - Local untracked `research/word_scoring_new_family_20261027_v1/paper_e_word/`:
   redundant with the pushed research branch and contains debug/intermediate
-  renders. Keep until the user confirms removal after branch integration.
+  renders. Keep until the user confirms removal or protected relocation before
+  any future research-branch merge into local `main`.
 - GB10 historical worktrees:
   `decision_residual_worktree_20261026`,
   `next_research_stage_worktree_20261026`,
