@@ -1,0 +1,322 @@
+{
+  "schema": "adaptive_mechanism_loop_a_return_v1",
+  "task_id": "adaptive-mechanism-a-20261027",
+  "date": "2026-10-27",
+  "timezone": "Asia/Shanghai",
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "git_blob": "17f6895e3f2734f5e597f1a1d7853af22ae2adf4",
+    "lf_sha256": "73da0c8a44512c4b47d677efa3a7c71b45fb7d15e582a77737c27c284f800d12"
+  },
+  "decision": {
+    "candidate": "STOP_BEFORE_GENERATION",
+    "reason": "The visible-only typed reduction baseline reached ACCEPT on 31 of 36 immutable final attempts and contract-valid REASONABLE_UNKNOWN on the other 5, leaving zero unexplained natural residuals.",
+    "generation_run": false,
+    "confirmation_run": false,
+    "new_source_validation": false,
+    "next_stage_research_card": null
+  },
+  "paper_e_formal_build": {
+    "status": "BUILD_BLOCKED",
+    "attempted_command": "bash research/adaptive_mechanism_20261027_v1/paper_e_formal_build/build_paper_e.sh",
+    "exit_code": 127,
+    "observed_error": "BUILD_BLOCKED: required TeX tool not found: pdflatex",
+    "installed_engine": null,
+    "engine_version": null,
+    "formal_pdf_hash": null,
+    "formal_page_count": null,
+    "fallback_pdf_claimed": false,
+    "source_check": {
+      "status": "PASS",
+      "receipt_path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/SOURCE_CHECK_RECEIPT.json",
+      "receipt_sha256": "f77169c502eea8b4878425e9435690d0be04df969d47b4d2f46dbaf9e1a96f39",
+      "bibliography_entries": 24,
+      "unique_cited_keys": 24,
+      "figures": 3,
+      "tables": 4,
+      "structured_abstract_word_count": 209,
+      "author_placeholder_count": 9,
+      "p1_p2_results_added": false
+    },
+    "first_reviewer": {
+      "path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/FIRST_REVIEWER_PASS_V2.md",
+      "review_identity": "AI/automatic first-reviewer check",
+      "checked": [
+        "contribution and nearest-work separation",
+        "interpretation changed by the two cases",
+        "clustered and post-hoc identity",
+        "claim boundaries",
+        "reference readability"
+      ],
+      "pending_fields": [
+        "Owner identity",
+        "patent",
+        "artifact",
+        "funding",
+        "fee",
+        "submission"
+      ]
+    }
+  },
+  "scoring_v2": {
+    "status": "COMPLETE_ZERO_MODEL_FIRST_BATCH_36_PRIMARY_FINAL_ATTEMPTS",
+    "review_identity": "AI/automatic scoring-v2 development reanalysis; not human gold and not a preregistered score",
+    "contract_layers": [
+      "strict",
+      "answer",
+      "numeric_unit",
+      "evidence",
+      "final_delivery"
+    ],
+    "statuses_preserved": [
+      "ACCEPT",
+      "REJECT",
+      "PENDING_ADJUDICATION",
+      "STRICT_FAIL",
+      "REASONABLE_UNKNOWN"
+    ],
+    "input": {
+      "immutable_first_batch_calls": 40,
+      "selection_rule": "maximum call_number within each question_uid_sha256 x arm",
+      "primary_final_attempts": 36,
+      "uids": 12,
+      "arms": 3
+    },
+    "zero_model": {
+      "model_calls_in_rescore": 0,
+      "generation_records_created": 0,
+      "model_loading": false
+    },
+    "tests": {
+      "command": "PYTHONPATH=research/adaptive_mechanism_20261027_v1/scoring_v2 python3 -m unittest -v research/adaptive_mechanism_20261027_v1/scoring_v2/test_scoring_v2.py",
+      "tests_run": 17,
+      "failures": 0,
+      "errors": 0,
+      "result": "OK",
+      "receipt_path": "research/adaptive_mechanism_20261027_v1/scoring_v2/SCORING_TEST_RECEIPT.json",
+      "receipt_sha256": "5d95734b52f9796664f1845e51fb7aa5b28b22639d3d7b69ad7093e9112c4687"
+    },
+    "results": {
+      "summary_path": "research/adaptive_mechanism_20261027_v1/scoring_v2/results/FIRST_BATCH_RESCORE_V2.json",
+      "summary_sha256": "c4ff98613a53fc3dd14abb909b4d2d40477f64753ab6e7717ac32907363a061c",
+      "rows_path": "research/adaptive_mechanism_20261027_v1/scoring_v2/results/FIRST_BATCH_ROWS_V2.jsonl",
+      "rows_sha256": "991b902a94408dea9c903c3d20b8215592f661cdee569197a7336306a0db94c0"
+    },
+    "historical_score_visible": {
+      "table_top3_ACCEPT": 2,
+      "table_top5_ACCEPT": 3,
+      "table_all_ACCEPT": 3
+    },
+    "corrected_final_attempt_input_deltas": {
+      "table_top5_minus_table_top3": 917,
+      "table_all_minus_table_top5": 1604
+    },
+    "per_layer_counts": {
+      "strict": {
+        "table_top3": {"PASS": 8, "STRICT_FAIL": 4},
+        "table_top5": {"PASS": 8, "STRICT_FAIL": 4},
+        "table_all": {"PASS": 7, "STRICT_FAIL": 5}
+      },
+      "answer": {
+        "table_top3": {"PASS": 3, "FAIL": 9},
+        "table_top5": {"PASS": 3, "FAIL": 9},
+        "table_all": {"PASS": 3, "FAIL": 9}
+      },
+      "numeric_unit": {
+        "table_top3": {"PASS": 5, "FAIL": 6, "PENDING_ADJUDICATION": 1},
+        "table_top5": {"PASS": 5, "FAIL": 7},
+        "table_all": {"PASS": 5, "FAIL": 7}
+      },
+      "evidence": {
+        "table_top3": {"PASS": 1, "FAIL": 5, "PENDING_ADJUDICATION": 6},
+        "table_top5": {"PASS": 1, "FAIL": 5, "PENDING_ADJUDICATION": 6},
+        "table_all": {"PASS": 1, "FAIL": 7, "PENDING_ADJUDICATION": 4}
+      },
+      "final_delivery": {
+        "table_top3": {"REJECT": 7, "STRICT_FAIL": 4, "PENDING_ADJUDICATION": 1},
+        "table_top5": {"REJECT": 8, "STRICT_FAIL": 4},
+        "table_all": {"REJECT": 7, "STRICT_FAIL": 5}
+      }
+    },
+    "per_uid_outcomes": [
+      {"uid_prefix": "01de2123", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["REJECT", "REJECT", "REJECT"]},
+      {"uid_prefix": "5e67e832", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["STRICT_FAIL", "STRICT_FAIL", "STRICT_FAIL"]},
+      {"uid_prefix": "7a1f65b6", "historical": ["ACCEPT", "ACCEPT", "ACCEPT"], "scoring_v2": ["PENDING_ADJUDICATION", "REJECT", "REJECT"]},
+      {"uid_prefix": "7e942684", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["REJECT", "REJECT", "STRICT_FAIL"]},
+      {"uid_prefix": "8a3fb2be", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["REJECT", "REJECT", "REJECT"]},
+      {"uid_prefix": "9e3493de", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["STRICT_FAIL", "STRICT_FAIL", "STRICT_FAIL"]},
+      {"uid_prefix": "a75bb0b1", "historical": ["ACCEPT", "ACCEPT", "ACCEPT"], "scoring_v2": ["REJECT", "REJECT", "REJECT"]},
+      {"uid_prefix": "ad42fe3e", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["STRICT_FAIL", "STRICT_FAIL", "STRICT_FAIL"]},
+      {"uid_prefix": "cb4abf04", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["REJECT", "REJECT", "REJECT"]},
+      {"uid_prefix": "e14c60c4", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["STRICT_FAIL", "STRICT_FAIL", "STRICT_FAIL"]},
+      {"uid_prefix": "f37d1be3", "historical": ["REJECT", "REJECT", "REJECT"], "scoring_v2": ["REJECT", "REJECT", "REJECT"]},
+      {"uid_prefix": "fcb5e3fa", "historical": ["REJECT", "ACCEPT", "ACCEPT"], "scoring_v2": ["REJECT", "REJECT", "REJECT"]}
+    ],
+    "per_uid_order": ["table_top3", "table_top5", "table_all"]
+  },
+  "persistent_physical_budget": {
+    "status": "PASS_FAULT_INJECTION_WITHOUT_MODEL_LOADING",
+    "external_ledger": {
+      "path": "/home/testuser/wzh/research_runs/persistent_budget/adaptive_mechanism_20261027/ledger.jsonl",
+      "sha256": "ad0535aeb3fb324c60631ca38b0bbb5a82cb509c834aefb624e025db2350fdef",
+      "line_count": 1,
+      "ledger_initialized_events": 1,
+      "reservations": 0,
+      "raw_rows": 0,
+      "physical_attempts": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "model_loads": 0
+    },
+    "schema_path": "research/adaptive_mechanism_20261027_v1/persistent_budget/schema.json",
+    "schema_sha256": "ac1090a9974d08350cbd4a699572a95c3440b92a039a22e910bb8619ca89910b",
+    "receipt_path": "research/adaptive_mechanism_20261027_v1/persistent_budget/BUDGET_RECEIPT.json",
+    "receipt_sha256": "fd1bd0e763b2c33f90e29d51c248bafe94578118dad43617d4ca69f61321bb9c",
+    "commands": ["generate", "resume", "rescore"],
+    "attempt_limits": {
+      "physical_attempts": 36,
+      "input_plus_output_tokens": 240000
+    },
+    "shared_normalization_calculator": "research/adaptive_mechanism_20261027_v1/persistent_budget/shared_tools.py",
+    "fault_injection_command": "PYTHONPATH=. python3 -m unittest -v research/adaptive_mechanism_20261027_v1/persistent_budget/test_persistent_budget.py",
+    "fault_injections": [
+      {"id": "scoring_failure_after_raw", "result": "PASS", "observed": "raw preserved; restart/rescore adds zero calls"},
+      {"id": "crash_after_reservation_before_raw", "result": "PASS", "observed": "uncertain reservation remains consumed"},
+      {"id": "crash_between_calls", "result": "PASS", "observed": "every earlier raw row remains present"},
+      {"id": "output_directory_change", "result": "PASS", "observed": "cumulative ledger is not reset"},
+      {"id": "attempt_37_rejected_before_model_loader", "result": "PASS", "observed": "loader call count remains 36"},
+      {"id": "token_cap_successor_rejected_before_model_loader", "result": "PASS", "observed": "loader call count remains 1 after conservative projection rejection"},
+      {"id": "shared_normalization_calculator", "result": "PASS", "observed": "safe arithmetic passes and import payload raises"}
+    ],
+    "tests_run": 7,
+    "failures": 0,
+    "errors": 0,
+    "result": "OK"
+  },
+  "diagnostic": {
+    "error_cards": {
+      "count": 12,
+      "composition": "nine old shared REJECT UIDs plus three non-shared controls",
+      "path": "research/adaptive_mechanism_20261027_v1/diagnostics/results/ERROR_CARDS.json",
+      "sha256": "82f6dab2b8c6a719a9667887b8291dd64b3eb9bf6d202c955691d623a421e9ae",
+      "source": "real question, immutable first-batch raw, and deployed visible context",
+      "review_identity": "AI/automatic error-card derivation; not model self-labels and not human gold"
+    },
+    "visible_typed_baseline": {
+      "path": "research/adaptive_mechanism_20261027_v1/diagnostics/results/VISIBLE_TYPED_BASELINE.json",
+      "sha256": "9302521926c9647c5f69bb706b151046c448e6127e7ff11a7bd3e21c5ef6ae6e",
+      "attempts": 36,
+      "status_counts": {"ACCEPT": 31, "REASONABLE_UNKNOWN": 5},
+      "reject": 0,
+      "strict_fail": 0,
+      "unexplained_natural_residuals": 0,
+      "actor_visible_inputs": ["question", "answer type", "selected visible paragraphs", "visible table"],
+      "actor_forbidden_inputs": ["gold", "UID branch", "expected program", "hidden units"],
+      "controls": {"tests_run": 5, "failures": 0, "errors": 0, "result": "OK"}
+    },
+    "summary": {
+      "path": "research/adaptive_mechanism_20261027_v1/diagnostics/results/DIAGNOSTIC_SUMMARY.json",
+      "sha256": "aee478f813fd62025bf195df9b9d86965bd926f5405849fd3daf6eff9bf9aae9",
+      "status": "COMPLETE_BASELINE_EXPLAINS_OR_BOUNDS_ALL_V2_RESIDUALS",
+      "decision": "STOP_BEFORE_GENERATION"
+    },
+    "frozen_panel": {
+      "preregistration_path": "research/adaptive_mechanism_20261027_v1/diagnostic_panel/DIAGNOSTIC_PANEL_PREREGISTRATION.json",
+      "preregistration_sha256": "e7e9387ffa2b3c57d8a6f622efdbff2cab65f6aadc63be37bd40b513121da19d",
+      "prompts_path": "research/adaptive_mechanism_20261027_v1/diagnostic_panel/prompts.json",
+      "prompts_sha256": "200c769ba334e1fe9f75f20f89ba676f671c2bd8657adca029bdb331af04147b",
+      "uid_count": 8,
+      "arm_count": 3,
+      "model": "Qwen/Qwen3-4B",
+      "upstream_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+      "file_manifest_sha256": "0f967e91a45dfb1ff799e1c131cd744ad80f627ced9d55e73f3a598bc25cdf2c",
+      "status": "FROZEN_STOP_BEFORE_GENERATION",
+      "model_loaded": false
+    }
+  },
+  "accounting": {
+    "immutable_historical_first_batch": {
+      "calls": 40,
+      "primary_final_attempts": 36,
+      "retries": 4,
+      "input_tokens": 33207,
+      "output_tokens": 2609,
+      "wall_seconds": 268.9788107126951,
+      "selected_36": {
+        "input_tokens": 30027,
+        "output_tokens": 2342,
+        "wall_seconds": 247.12595063261688,
+        "retries": 4
+      },
+      "cached_tokens": null
+    },
+    "this_a_task": {
+      "model_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cached_tokens": 0,
+      "retries": 0,
+      "generation_wall_seconds": 0,
+      "generation_records": 0,
+      "model_loads": 0,
+      "training_runs": 0,
+      "judge_calls": 0,
+      "production_probes": 0,
+      "raw_model_outputs_created": 0
+    }
+  },
+  "thesis": {
+    "chapter": {
+      "path": "research/feedback_learning_phase_b_20261026_v1/thesis_draft/CHAPTER_METHOD_RESULTS_LIMITATIONS_ZH.md",
+      "sha256": "19fe4f1317dcde7ba8e344e63719887c125137b253b247106a5dbd98c4d17312",
+      "addition": "substantive Chinese section 9"
+    },
+    "evidence_table": {
+      "path": "research/feedback_learning_phase_b_20261026_v1/thesis_draft/EVIDENCE_TABLE.md",
+      "sha256": "62100bb145886b0759e8cfc02883e9f305ca09a35ea767c8df7e6a09a6f2d11c",
+      "rows_added": 6
+    }
+  },
+  "a_harness_usage": {
+    "input_tokens": null,
+    "cached_tokens": null,
+    "output_tokens": null,
+    "reasoning_tokens": null,
+    "status": "NOT_EXPOSED_BY_HARNESS",
+    "fabricated": false
+  },
+  "skills_loaded": [
+    {"name": "graph-loop-rules", "sha256": "492fef50e386d9526385676968b649880eb0e409a70e8b345658342abd157a3e"},
+    {"name": "paper-review-check", "sha256": "2439cfaf06af5c5d8ddd9f4637fb126261e215a3c48c249e03ee3a4189862a83"},
+    {"name": "verify-before-done", "sha256": "3f62872c3e6f7bf3341a52f5dd577bc3fef4f517b8a4498b040da13617d5ddfa"}
+  ],
+  "skill_limit": {
+    "loaded": 3,
+    "maximum": 5
+  },
+  "verification": [
+    {"claim": "Paper E non-TeX source checks", "command": "python3 research/adaptive_mechanism_20261027_v1/paper_e_formal_build/check_sources.py --json research/adaptive_mechanism_20261027_v1/paper_e_formal_build/SOURCE_CHECK_RECEIPT.json", "result": "PASS"},
+    {"claim": "Paper E local formal build", "command": "bash research/adaptive_mechanism_20261027_v1/paper_e_formal_build/build_paper_e.sh", "result": "EXPECTED_BUILD_BLOCKED_EXIT_127"},
+    {"claim": "Scoring V2 controls", "command": "PYTHONPATH=research/adaptive_mechanism_20261027_v1/scoring_v2 python3 -m unittest -v research/adaptive_mechanism_20261027_v1/scoring_v2/test_scoring_v2.py", "result": "17_PASS"},
+    {"claim": "Scoring V2 zero-model rescore", "command": "PYTHONPATH=. python3 research/adaptive_mechanism_20261027_v1/scoring_v2/rescore_first_batch.py --output research/adaptive_mechanism_20261027_v1/scoring_v2/results", "result": "36_PRIMARY_FINAL_ATTEMPTS"},
+    {"claim": "Visible baseline controls", "command": "PYTHONPATH=. python3 -m unittest -v research/adaptive_mechanism_20261027_v1/diagnostics/test_visible_typed_baseline.py", "result": "5_PASS"},
+    {"claim": "Visible typed baseline", "command": "PYTHONPATH=. python3 research/adaptive_mechanism_20261027_v1/diagnostics/visible_typed_baseline.py", "result": "36_PASS_OR_REASONABLE_UNKNOWN"},
+    {"claim": "Error cards", "command": "PYTHONPATH=. python3 research/adaptive_mechanism_20261027_v1/diagnostics/build_error_cards.py", "result": "12_CARDS"},
+    {"claim": "Diagnostic decision", "command": "PYTHONPATH=. python3 research/adaptive_mechanism_20261027_v1/diagnostics/summarize_diagnostics.py", "result": "STOP_BEFORE_GENERATION"},
+    {"claim": "Persistent budget fault injection", "command": "PYTHONPATH=. python3 -m unittest -v research/adaptive_mechanism_20261027_v1/persistent_budget/test_persistent_budget.py", "result": "7_PASS"},
+    {"claim": "Python compilation", "command": "PYTHONPATH=. python3 -m compileall -q research/adaptive_mechanism_20261027_v1", "result": "PASS"},
+    {"claim": "Owned JSON parsing", "command": "python3 JSON parse over research/adaptive_mechanism_20261027_v1/**/*.json", "result": "PASS"},
+    {"claim": "Documentation lint", "command": "python3 scripts/docs_lint.py --json /tmp/adaptive_docs_lint_report.json", "result": "PASS_0_FAIL_0_WARN"}
+  ],
+  "full_repository_suite_run": false,
+  "claim_boundaries": [
+    "No C acceptance before an independent fixed-snapshot C task exists.",
+    "No panel method gain, confirmation, new-source validation, production result, formal TeX build, school recognition, or submission claim.",
+    "All diagnostics are AI/automatic development review, not human gold.",
+    "Historical raw, scores, manifests and reports were preserved."
+  ],
+  "return_markdown": {
+    "path": "research/adaptive_mechanism_20261027_v1/A_RETURN.md",
+    "sha256": "3c5501b1bc246c3bd403de9227c7ec1ec15017f0a59dcac2e62292271adde835"
+  }
+}

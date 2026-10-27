@@ -1,0 +1,44 @@
+{
+  "schema": "adaptive_mechanism_diagnostic_prompts_v1",
+  "common_context": [
+    "Use only the supplied visible question, paragraphs and table.",
+    "Do not use hidden gold answers, expected references, hidden units, UID branches or expected programs.",
+    "Return exactly one JSON object with keys answer, numeric_value, unit, evidence_refs, unknown and clarification.",
+    "evidence_refs must use only visible P<n>, TABLE:C<n> or TABLE:R<n>:C<n> identifiers.",
+    "If required visible evidence is absent, set unknown=true, answer=\"UNKNOWN\", numeric_value=null, unit=\"UNKNOWN\", evidence_refs=[] and provide a nonempty clarification."
+  ],
+  "arms": {
+    "direct_answer": {
+      "instruction": "Answer directly from the visible evidence. Apply the requested typed operation when the question requires one.",
+      "tool_access": "same_read_only_visible_context_interface",
+      "extra_reasoning_budget": 0
+    },
+    "neutral_typed_tool": {
+      "instruction": "Construct a visible-only typed operand list and deterministic program, then execute it with the shared safe calculator before answering.",
+      "tool_access": "same_read_only_visible_context_interface_plus_shared_safe_calculator",
+      "extra_reasoning_budget": 0
+    },
+    "verified_role_type_binding": {
+      "instruction": "Use the same visible typed program and shared safe calculator, then verify entity, row, period, role, type and unit bindings before delivery.",
+      "tool_access": "same_read_only_visible_context_interface_plus_shared_safe_calculator",
+      "extra_reasoning_budget": 0
+    }
+  },
+  "matched_resource_contract": {
+    "input_tokens_upper_bound_per_attempt": 6000,
+    "max_new_tokens_per_attempt": 512,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": 20261027,
+    "physical_attempt_cap": 36,
+    "primary_physical_attempts": 24,
+    "reserve_physical_attempts": 12,
+    "token_cap_input_plus_output": 240000
+  },
+  "stop_rules": [
+    "Stop before generation when the visible baseline explains or contract-bounds every natural V2 residual.",
+    "Reject before model loading at physical attempt 37 or when the conservative token projection exceeds 240000.",
+    "Stop an attempt after a complete JSON object or at 512 new tokens; never silently retry outside the persistent ledger.",
+    "Do not run confirmation, judge, training or new-source validation in this candidate."
+  ]
+}

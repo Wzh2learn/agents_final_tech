@@ -1,0 +1,107 @@
+{
+  "baseline_status_counts": {
+    "ACCEPT": 31,
+    "REASONABLE_UNKNOWN": 5
+  },
+  "bounded_as_reasonable_unknown": 5,
+  "claim_boundary": "One immutable 12-UID development panel only; no panel method gain, C acceptance, confirmation, production result, or external validation.",
+  "decision": {
+    "candidate": "STOP_BEFORE_GENERATION",
+    "confirmation_run": false,
+    "new_source_validation": false,
+    "reason": "The transparent visible-only typed baseline reaches ACCEPT on 31/36 attempts and a contract-valid REASONABLE_UNKNOWN on the remaining 5 where required visible evidence is absent; no unexplained natural residual remains."
+  },
+  "error_card_count": 12,
+  "explained_by_accept": 31,
+  "generation_records_created": 0,
+  "mechanism_signal_evidence": [
+    {
+      "baseline_numeric_by_arm": {
+        "table_all": 10425.5,
+        "table_top3": 10425.5,
+        "table_top5": 10425.5
+      },
+      "baseline_status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "interpretation": "Visible typed reduction resolves the mean/count information-loss signal wherever the required evidence is visible.",
+      "question": "What is the average trade receivables for 2018 and 2019?",
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "v2_status_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      }
+    },
+    {
+      "baseline_numeric_by_arm": {
+        "table_all": 3,
+        "table_top3": 3,
+        "table_top5": 3
+      },
+      "baseline_status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "ACCEPT",
+        "table_top5": "ACCEPT"
+      },
+      "interpretation": "Visible typed reduction resolves the mean/count information-loss signal wherever the required evidence is visible.",
+      "question": "How many quarters did the basic earnings per share exceed $0.30?",
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "v2_status_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      }
+    },
+    {
+      "baseline_numeric_by_arm": {
+        "table_all": 7,
+        "table_top3": null,
+        "table_top5": null
+      },
+      "baseline_status_by_arm": {
+        "table_all": "ACCEPT",
+        "table_top3": "REASONABLE_UNKNOWN",
+        "table_top5": "REASONABLE_UNKNOWN"
+      },
+      "interpretation": "Visible typed reduction resolves the mean/count information-loss signal wherever the required evidence is visible.",
+      "question": "How many services have their costs included within the audit fees?",
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "v2_status_by_arm": {
+        "table_all": "STRICT_FAIL",
+        "table_top3": "STRICT_FAIL",
+        "table_top5": "STRICT_FAIL"
+      }
+    }
+  ],
+  "model_calls": 0,
+  "review_identity": "AI/automatic zero-model diagnostic comparison; not human gold, not a judge, and not new-source validation",
+  "schema": "adaptive_mechanism_diagnostic_summary_v1",
+  "source_hashes": {
+    "error_cards": "82f6dab2b8c6a719a9667887b8291dd64b3eb9bf6d202c955691d623a421e9ae",
+    "scoring_v2_summary": "c4ff98613a53fc3dd14abb909b4d2d40477f64753ab6e7717ac32907363a061c",
+    "visible_typed_baseline": "9302521926c9647c5f69bb706b151046c448e6127e7ff11a7bd3e21c5ef6ae6e"
+  },
+  "status": "COMPLETE_BASELINE_EXPLAINS_OR_BOUNDS_ALL_V2_RESIDUALS",
+  "training_runs": 0,
+  "unexplained_natural_residuals": 0,
+  "unexplained_rows": [],
+  "v2_primary_final_attempts": 36,
+  "v2_status_counts_by_arm": {
+    "table_all": {
+      "REJECT": 7,
+      "STRICT_FAIL": 5
+    },
+    "table_top3": {
+      "PENDING_ADJUDICATION": 1,
+      "REJECT": 7,
+      "STRICT_FAIL": 4
+    },
+    "table_top5": {
+      "REJECT": 8,
+      "STRICT_FAIL": 4
+    }
+  }
+}

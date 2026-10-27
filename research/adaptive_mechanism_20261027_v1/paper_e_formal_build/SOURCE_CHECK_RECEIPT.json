@@ -1,0 +1,82 @@
+{
+  "bib_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+  "checks": {
+    "author_placeholders_present": {
+      "count": 9,
+      "pass": true
+    },
+    "bibliography_24": {
+      "bibliography_entries": 24,
+      "pass": true
+    },
+    "bibliography_style_explicit": {
+      "dependency": "elsarticle-harv.bst",
+      "pass": true
+    },
+    "canonical_bibliography_exists": {
+      "pass": true
+    },
+    "canonical_tex_exists": {
+      "pass": true
+    },
+    "citation_bibliography_identity": {
+      "missing": [],
+      "pass": true,
+      "uncited": []
+    },
+    "citations_24": {
+      "pass": true,
+      "unique_cited_keys": 24
+    },
+    "complete_body": {
+      "pass": true
+    },
+    "cross_references_resolve": {
+      "formal_refs": [],
+      "labels": [
+        "fig:1",
+        "fig:2",
+        "fig:3"
+      ],
+      "manual_figure_references": [
+        true,
+        true,
+        true
+      ],
+      "pass": true,
+      "unresolved": []
+    },
+    "declarations_present": {
+      "pass": true
+    },
+    "display_formula_inventory": {
+      "count": 0,
+      "note": "Numeric equations are expressed inline; no display formula environment is required by this manuscript.",
+      "pass": true
+    },
+    "figure_files_exist": {
+      "missing": [],
+      "pass": true
+    },
+    "figures_present": {
+      "count": 3,
+      "pass": true
+    },
+    "structured_abstract_present": {
+      "pass": true,
+      "word_count": 209,
+      "word_range_150_250": true
+    },
+    "tables_present": {
+      "count": 4,
+      "pass": true
+    },
+    "two_case_scope": {
+      "excludes_p1_p2_results": true,
+      "pass": true
+    }
+  },
+  "schema": "paper_e_non_tex_source_check_v1",
+  "status": "PASS",
+  "tex_sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734"
+}

@@ -44,3 +44,14 @@
 | P1 | 统一公共actor与全24题回归已交付；numeric 23/24、semantic 13/24、unit 14/24、4修复/0破坏 | 一般证据使用问题已关闭，或规则actor是学习方法贡献 | `research/publication_proxy_calibration_20261026_v1/p1_rule_execution/full_24_regression.json` |
 | P2 | 第一批40次真实三臂结果：2/3/3 ACCEPT；all被top-5弱支配；9/12三臂均失败 | 2点非劣、泛化、全上下文理论上界、代理potential与真实准确率同构 | `research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json` |
 | Paper E | 完整两案例期刊派生稿、15页fallback PDF、24/24引用 | 精确TeX-engine构建已验证、投稿/录用/学校认定 | `research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md` |
+
+### 2026-10-27自适应机制A补充（不改写上表历史计数）
+
+| 对象 | 本次可支持 | 尚不能支持 | 证据 |
+|---|---|---|---|
+| Paper E formal build | canonical 两案例源与 24/24 bibliography 源检查通过；本机无 TeX 引擎，`BUILD_BLOCKED`；Owner/专利/artifact/投稿字段待定 | 精确 engine/version、PDF hash/page count、正式 bibliography 渲染、投稿或学校认定 | `research/adaptive_mechanism_20261027_v1/paper_e_formal_build/BUILD_BLOCKED.md`、`SOURCE_CHECK_RECEIPT.json` |
+| Scoring V2 | 第一批 40 calls 的 36 个最终 attempt 零模型重评分；历史 2/3/3 保持可见；top3 `7R/4SF/1P`、top5 `8R/4SF`、all `7R/5SF`；输入差 917/1,604 | 人工 gold、预注册确认分、完整语义 oracle、C acceptance | `research/adaptive_mechanism_20261027_v1/scoring_v2/results/FIRST_BATCH_RESCORE_V2.json`、`SCORING_TEST_RECEIPT.json` |
+| Error cards | 12 张证据卡：9 个旧共同 REJECT + 3 个非共同控制；标签来自 raw/可见上下文/评分层，不是模型自述 | 模型自我解释有效、人工标签共识或一般错误分布 | `research/adaptive_mechanism_20261027_v1/diagnostics/results/ERROR_CARDS.json` |
+| Visible typed baseline | 36/36 零模型；`ACCEPT 31 / REASONABLE_UNKNOWN 5`；mean/count/percentage 可见 typed reduction 被解释；无未解释自然残差 | 模型准确率提升、方法增益、泛化或 new-source validation | `research/adaptive_mechanism_20261027_v1/diagnostics/results/VISIBLE_TYPED_BASELINE.json`、`DIAGNOSTIC_SUMMARY.json` |
+| Persistent budget | 外部 hash-chained/fsynced ledger 初始化 SHA256 `ad0535…fdef`；7 项 fault injection 其中 attempt-37/token-cap 在 loader 前拒绝；真实 attempts/tokens/model loads=0 | GB10/生产稳定性、实际生成成本或真实模型预算使用 | `research/adaptive_mechanism_20261027_v1/persistent_budget/BUDGET_RECEIPT.json` |
+| Diagnostic panel | 8 UID、三臂、提示词、输出合同、calculator、Qwen3-4B hash、解码和停止规则已冻结；强 baseline 解释或约束全部自然残差，故 `STOP_BEFORE_GENERATION` | 三臂方法增益、确认运行、新来源验证或 C acceptance | `research/adaptive_mechanism_20261027_v1/diagnostic_panel/DIAGNOSTIC_PANEL_PREREGISTRATION.json` |

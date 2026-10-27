@@ -1,0 +1,91 @@
+{
+  "schema": "adaptive_mechanism_persistent_budget_receipt_v1",
+  "status": "PASS_PERSISTENT_LEDGER_AND_7_FAULT_INJECTIONS_ZERO_MODEL",
+  "external_ledger": {
+    "path": "/home/testuser/wzh/research_runs/persistent_budget/adaptive_mechanism_20261027/ledger.jsonl",
+    "sha256": "ad0535aeb3fb324c60631ca38b0bbb5a82cb509c834aefb624e025db2350fdef",
+    "line_count": 1,
+    "event_count": 1,
+    "initialization_event_sha256": "5225690d6ce66abd36bfa7e958b87be6d8da468b74c648b75b731d95f597e6c6",
+    "physical_attempts": 0,
+    "raw_responses": 0,
+    "consumed_input_tokens": 0,
+    "consumed_output_tokens": 0,
+    "model_loaded": false
+  },
+  "repository_package": {
+    "schema_path": "research/adaptive_mechanism_20261027_v1/persistent_budget/schema.json",
+    "schema_sha256": "ac1090a9974d08350cbd4a699572a95c3440b92a039a22e910bb8619ca89910b",
+    "ledger_implementation_sha256": "ec2d1a406502673c4e2fca5465659edd828155315f60c4e9625bcc5d18c1fc17",
+    "runner_sha256": "9b3b14f2d8c3608def8e967f2d0585cdbe6ea6407cf4808cbd8e0a65c8605352",
+    "test_file_sha256": "89722d080c4ac0095b754eadd762f4b55c1115976a4209d77bf42a07317c280f"
+  },
+  "commands": {
+    "fault_injection_suite": "PYTHONPATH=. python3 -m unittest -v research/adaptive_mechanism_20261027_v1/persistent_budget/test_persistent_budget.py",
+    "cli_modes": [
+      "python3 -m research.adaptive_mechanism_20261027_v1.persistent_budget.runner --mode generate ...",
+      "python3 -m research.adaptive_mechanism_20261027_v1.persistent_budget.runner --mode resume ...",
+      "python3 -m research.adaptive_mechanism_20261027_v1.persistent_budget.runner --mode rescore ..."
+    ]
+  },
+  "fault_injections": [
+    {
+      "id": "scoring_throw_after_raw",
+      "test_method": "test_scoring_throw_keeps_raw_and_rescore_adds_zero_calls",
+      "result": "PASS",
+      "observed": "raw preserved; rescore created 0 generation records"
+    },
+    {
+      "id": "crash_after_reservation_before_raw",
+      "test_method": "test_crash_after_reservation_before_raw_remains_consumed",
+      "result": "PASS",
+      "observed": "uncertain reservation remains consumed; resume stops without loading a model"
+    },
+    {
+      "id": "crash_between_calls",
+      "test_method": "test_crash_between_calls_preserves_every_earlier_raw",
+      "result": "PASS",
+      "observed": "earlier raw row remains byte-present"
+    },
+    {
+      "id": "output_directory_change",
+      "test_method": "test_output_directory_change_cannot_reset_ledger",
+      "result": "PASS",
+      "observed": "two attempts remain cumulative across different output directories"
+    },
+    {
+      "id": "attempt_37",
+      "test_method": "test_attempt_37_rejected_before_model_loader",
+      "result": "PASS",
+      "observed": "loader call count remains 36 after rejection"
+    },
+    {
+      "id": "token_cap_successor",
+      "test_method": "test_token_cap_successor_rejected_before_model_loader",
+      "result": "PASS",
+      "observed": "loader call count remains 1 after conservative projection rejection"
+    },
+    {
+      "id": "shared_normalization_calculator",
+      "test_method": "test_shared_normalization_and_calculator",
+      "result": "PASS",
+      "observed": "shared Decimal calculator accepts safe arithmetic and rejects import payload"
+    }
+  ],
+  "test_result": {
+    "tests_run": 7,
+    "failures": 0,
+    "errors": 0,
+    "result": "OK"
+  },
+  "isolated_fault_ledger_root": "/home/testuser/wzh/research_runs/persistent_budget/adaptive_mechanism_20261027/fault_injection",
+  "isolated_fault_ledger_cleanup": "Temporary ledgers are removed by TemporaryDirectory after assertions; the external main ledger hash is unchanged.",
+  "physical_generation": {
+    "generate_calls": 0,
+    "resume_calls": 0,
+    "rescore_generation_records": 0,
+    "model_loads": 0,
+    "training_runs": 0
+  },
+  "claim_boundary": "Fault-injection proof only; no real model call, production probe, generation, or training."
+}
