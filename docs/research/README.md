@@ -6,7 +6,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-27
 
 ## 当前任务与证据
 
-Adaptive Mechanism阶段已完成A实作、C固定快照审阅和D零模型集成。scoring V2有效，C确认gold `answer_type`基线是oracle-assisted；D问题文本消融恢复31 ACCEPT/5 UNKNOWN，但只支持暴露开发面板的题面启发式边界。Paper E交付完整源包但正式TeX构建为 `BUILD_BLOCKED`。本轮新增模型、训练、judge和生产探针为0，A/C累计26/26。
+Adaptive Mechanism回放和31项定点测试已复核；当前开发面板停止接受，评分的同值角色、混合引用和单数字span字段仍有边界。见[负责人复核](../governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md)及同名JSON/脚本。Paper E正式TeX仍阻断，现提议完成Word稿与渲染；冻结强基线后用新表族做一次机制诊断。A/C26/26已用，新增2次及36/240k子预算重定向待Owner接受，未派发。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
@@ -17,7 +17,7 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [FORMAL_BUILD_PACKAGE](../../research/adaptive_mechanism_20261027_v1/paper_e_formal_build/)、[SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：A/C 26/26已执行；评分、预算、机制边界和Paper E构建阻断已接续 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：当前复核、Word交付与新表族提案原地接续，待Owner接受 |
 | 最新科研回执 | [D_INTEGRATION_RETURN](../../research/adaptive_mechanism_20261027_v1/D_INTEGRATION_RETURN.md)、[A_RETURN](../../research/adaptive_mechanism_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../../research/adaptive_mechanism_20261027_v1/audits/TASK_RESULT_C.json) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
@@ -35,7 +35,7 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | C1 测量 / Paper E | `BUILD_BLOCKED_SOURCE_READY`，受限两案例测量审计；[正式源包](../../research/adaptive_mechanism_20261027_v1/paper_e_formal_build/)和[SNCS派生稿](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex)已具备，精确TeX编译受工具阻断，非缺少科研许可 |
 | C2 学习 / 证据反馈 | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_CLAIM`。真实child-only训练完成但未满足有效ordinary续训；N/R/E是集合代理比较且有接口混杂，仅停止当前实现，不作为干净方法负结论 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
-| Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，完整派生稿、24/24 引用和Owner表已具备；精确TeX构建、作者/专利/artifact许可、投稿/付款/公开仍待办 |
+| Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，完整派生稿、24/24 引用和Owner表已具备；正式TeX仍阻断；当前改走已安装Pandoc/LibreOffice的Word生产链，稿件验收及作者/许可/投稿仍待办 |
 | FinRank 历史经验 | `STOP_ON_CURRENT_PANEL`；缺少可识别的匹配纠错空间，[失败历史资格复核](../../research/decision_space_autopsy_v1/exploratory_b0_v1/FAILURE_HISTORY_QUALIFICATION_AUDIT.md)不支持重开 H/K，也不否定经验复用的一般可能性 |
 | MA-CERD | 资源基线是 `resource_ids` membership localization；不是真实依赖边传播。Selective escalation 未验证，handling 完整集合匹配与动作可接受性须区分；见[更正](../../research/ma_cerd_independent_v1/CORRECTIONS_20261021.md) |
 | Adaptive V3 | 当前 authored fixtures 上简单 greedy 已足够，two-step 无正向配对收益；[实现报告](../../research/research_portfolio_v2/ADAPTIVE_V3_IMPLEMENTATION_REPORT.md)。RPC capability 边界不等于操作系统沙箱 |

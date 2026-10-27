@@ -1,0 +1,227 @@
+{
+  "schema": "adaptive_mechanism_post_return_review_v1",
+  "review_date": "2026-10-27",
+  "boundary": "AI read-only development audit, no new method experiment or human gold",
+  "scientific_generation": 0,
+  "training": 0,
+  "judge": 0,
+  "ac_dispatches": 0,
+  "variants": {
+    "oracle": {
+      "rows": 36,
+      "counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      },
+      "full_row_equality": true
+    },
+    "answer_type_free": {
+      "rows": 36,
+      "counts": {
+        "ACCEPT": 12,
+        "REJECT": 19,
+        "REASONABLE_UNKNOWN": 5
+      },
+      "full_row_equality": true
+    },
+    "question_only": {
+      "rows": 36,
+      "counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      },
+      "full_row_equality": true
+    }
+  },
+  "paired_equal_value_controls": {
+    "correct_role_only": {
+      "status": "REJECT",
+      "evidence": {
+        "status": "FAIL",
+        "reason": "semantic_reference_mismatch",
+        "expected": [
+          "TABLE:R1:C1",
+          "TABLE:R2:C1"
+        ],
+        "observed": [
+          "TABLE:R1:C1"
+        ],
+        "support": {
+          "TABLE:R2:C1": "none",
+          "TABLE:R1:C1": "exact"
+        }
+      }
+    },
+    "wrong_role_only": {
+      "status": "REJECT",
+      "evidence": {
+        "status": "FAIL",
+        "reason": "semantic_reference_mismatch",
+        "expected": [
+          "TABLE:R1:C1",
+          "TABLE:R2:C1"
+        ],
+        "observed": [
+          "TABLE:R2:C1"
+        ],
+        "support": {
+          "TABLE:R2:C1": "exact",
+          "TABLE:R1:C1": "none"
+        }
+      }
+    },
+    "both_roles": {
+      "status": "ACCEPT",
+      "evidence": {
+        "status": "PASS",
+        "reason": "visible_reference_semantically_supports_answer",
+        "expected": [
+          "TABLE:R1:C1",
+          "TABLE:R2:C1"
+        ],
+        "observed": [
+          "TABLE:R1:C1",
+          "TABLE:R2:C1"
+        ],
+        "support": {
+          "TABLE:R2:C1": "exact",
+          "TABLE:R1:C1": "exact"
+        }
+      }
+    }
+  },
+  "mixed_exact_and_broad_control": {
+    "status": "ACCEPT",
+    "evidence": {
+      "status": "PASS",
+      "reason": "visible_reference_semantically_supports_answer",
+      "expected": [
+        "TABLE:R1:C1",
+        "TABLE:R1:C2"
+      ],
+      "observed": [
+        "TABLE:R1:C1",
+        "TABLE:C2"
+      ],
+      "support": {
+        "TABLE:R1:C2": "broad",
+        "TABLE:R1:C1": "exact"
+      }
+    }
+  },
+  "single_numeric_span_contradictions": [
+    {
+      "uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "arm": "table_all",
+      "changed_value": -999999,
+      "status": "ACCEPT"
+    },
+    {
+      "uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "arm": "table_top5",
+      "changed_value": -999999,
+      "status": "ACCEPT"
+    },
+    {
+      "uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "arm": "table_all",
+      "changed_value": -999999,
+      "status": "ACCEPT"
+    },
+    {
+      "uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "arm": "table_top3",
+      "changed_value": -999999,
+      "status": "ACCEPT"
+    },
+    {
+      "uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "arm": "table_top5",
+      "changed_value": -999999,
+      "status": "ACCEPT"
+    }
+  ],
+  "historical_inputs_unchanged": true,
+  "input_hashes": {
+    "research/adaptive_mechanism_20261027_v1/A_RETURN.json": "00be5f58ca9eab8bcc0a9ad92c8ce60fd9743d8b273218ba34550d38ad7c723b",
+    "research/adaptive_mechanism_20261027_v1/C_TASK.md": "f1d1452c2e0e62b515ff2cc8c54d8adc20fe7d812e50fadfc331b9ae47754b27",
+    "research/adaptive_mechanism_20261027_v1/D_FINAL_MANIFEST.sha256": "bbc456f8c2e84fec49d8d5e2b73159221119b2bb9cec9459e740d611570ec943",
+    "research/adaptive_mechanism_20261027_v1/D_INTEGRATION_RETURN.md": "473a5d2042d365d33ad1d1080a1e7094a71317f3c361b2d2ca0051fb4374f640",
+    "research/adaptive_mechanism_20261027_v1/A_RETURN.md": "3c5501b1bc246c3bd403de9227c7ec1ec15017f0a59dcac2e62292271adde835",
+    "research/adaptive_mechanism_20261027_v1/A_TASK.md": "d11a7d3aa6d4e4d5d1f114c2d8fb156e31c22a02c9e5b323abedade9412e8d1e",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/runner.py": "9b3b14f2d8c3608def8e967f2d0585cdbe6ea6407cf4808cbd8e0a65c8605352",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/test_persistent_budget.py": "89722d080c4ac0095b754eadd762f4b55c1115976a4209d77bf42a07317c280f",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/shared_tools.py": "c5777049d46169595d358654abc29c3f476107879055d33df6f07d223d138ae7",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/schema.json": "ac1090a9974d08350cbd4a699572a95c3440b92a039a22e910bb8619ca89910b",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/__init__.py": "6e5119274dd326c25765891c7af2430f6b4f30d6eb28421aa1e2406644dc0f1e",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/BUDGET_RECEIPT.json": "fd1bd0e763b2c33f90e29d51c248bafe94578118dad43617d4ca69f61321bb9c",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/ledger.py": "ec2d1a406502673c4e2fca5465659edd828155315f60c4e9625bcc5d18c1fc17",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/test_scoring_v2.py": "d8c53736eb10403400e8bdf189fbe2d8bbff39f470131cec60615b5dc2c1ff15",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/SCORING_TEST_RECEIPT.json": "5d95734b52f9796664f1845e51fb7aa5b28b22639d3d7b69ad7093e9112c4687",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/scorer.py": "29697f867ce863b131e2bc3f292fa1d2f0855ee38a7cba677921bedf8ffdfeef",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/SCORING_CONTRACT.md": "3bb9399252dc303fb96773b2e6d561970beee4b366e38ec3ca272f0e8aa681e9",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/rescore_first_batch.py": "d9653184f4581119690678f9bbb06da608559fefa7cc553abaf611465a3c6d66",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/FIRST_REVIEWER_PASS_V2.md": "345e0dd551d85011b6f8095127609d42b758a6607e5e6586a6d416e020e1fc68",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/BUILD_BLOCKED.md": "ad7d5c3a3ef499b254f438f488bb96a29f72725445689c0505dea721feb019eb",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/check_sources.py": "4b76fd466d9394ec1c832667227cf8af420c6b3c98eab5884c0dfdde5323ae02",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/references.bib": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/SOURCE_CHECK_RECEIPT.json": "f77169c502eea8b4878425e9435690d0be04df969d47b4d2f46dbaf9e1a96f39",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/build_paper_e.sh": "f0fdac047d57f4007df00c1eb8f0944c82f97a8c0ac16e16586c84db71eed11c",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/summarize_diagnostics.py": "1c997158d6552dd84c946f2d893d26f08ee35c741051bbcab6cc70383162a682",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/build_error_cards.py": "c1ec54296d7b61a9d1b46282ca0a32923603c218971e872e24c434f9ac759543",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/visible_typed_baseline.py": "04da11f39be34e85335b36c0dcd511fb6ae863ba3cb64df01021fd74bacf124d",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/test_visible_typed_baseline.py": "c8e2ab18bd907bd9a240ccfe2510f3c64689b5fe6da9da9f42c67f2e01992fb7",
+    "research/adaptive_mechanism_20261027_v1/audits/C_JOINT_AUDIT.md": "c1b9ff5d4f56039801a6e8f5a9f496c05d440ef27487e1cc29ccfc4a5bf1ee8b",
+    "research/adaptive_mechanism_20261027_v1/audits/answer_type_ablation.py": "924fb8bbc91b5d780499ffea6d23ad682bdd3956f53cf5e4c2e6b3ed20ac3d2d",
+    "research/adaptive_mechanism_20261027_v1/audits/TASK_RESULT_C.json": "c8e2e80b4592258e33e12ee0c1c0f46ad37a01cba633c24ea9dfefd9e9e90061",
+    "research/adaptive_mechanism_20261027_v1/diagnostic_panel/DIAGNOSTIC_PANEL_PREREGISTRATION.json": "e7e9387ffa2b3c57d8a6f622efdbff2cab65f6aadc63be37bd40b513121da19d",
+    "research/adaptive_mechanism_20261027_v1/diagnostic_panel/prompts.json": "200c769ba334e1fe9f75f20f89ba676f671c2bd8657adca029bdb331af04147b",
+    "research/adaptive_mechanism_20261027_v1/d_integration/test_question_only_ablation.py": "3c75165f3cc710baf0ff87c92322b55aa35bc1c9cfd49258121f842d39f235c4",
+    "research/adaptive_mechanism_20261027_v1/d_integration/question_only_ablation.py": "29e0a48da029a72afe29c0687d68a8c1187a87696ec62bb240869420e3c28bce",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/results/FIRST_BATCH_RESCORE_V2.json": "c4ff98613a53fc3dd14abb909b4d2d40477f64753ab6e7717ac32907363a061c",
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/results/FIRST_BATCH_ROWS_V2.jsonl": "991b902a94408dea9c903c3d20b8215592f661cdee569197a7336306a0db94c0",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/figures/fig1_measurement_chain.svg": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/figures/fig1_measurement_chain.png": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/figures/fig3_localization_ablation.svg": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/figures/fig2_family_visibility_matrix.png": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/figures/fig3_localization_ablation.png": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64",
+    "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/figures/fig2_family_visibility_matrix.svg": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/results/VISIBLE_TYPED_BASELINE_ROWS.jsonl": "9bfe958987c29ab802a10b847ee56b0260c8ae409bc2c2ffa450a73aa2524dce",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/results/ERROR_CARDS.md": "f6bbca4fea649907b905f54e22a57376e4c585da08f977017d3e0ccd61cd3632",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/results/ERROR_CARDS.json": "82f6dab2b8c6a719a9667887b8291dd64b3eb9bf6d202c955691d623a421e9ae",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/results/DIAGNOSTIC_SUMMARY.json": "aee478f813fd62025bf195df9b9d86965bd926f5405849fd3daf6eff9bf9aae9",
+    "research/adaptive_mechanism_20261027_v1/diagnostics/results/VISIBLE_TYPED_BASELINE.json": "9302521926c9647c5f69bb706b151046c448e6127e7ff11a7bd3e21c5ef6ae6e",
+    "research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ABLATION.json": "186e70f413abcdbf27a222bf09c2325ac163dcd0e568bf313a1159a3455d5adf",
+    "research/adaptive_mechanism_20261027_v1/d_integration/results/ORACLE_ROWS.jsonl": "7a87847449d6e10eb367b8c12a07989d8150deb89ba2c1e3edb6f184919cb278",
+    "research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ROWS.jsonl": "d00efe3a8810e75c0d3687e7344b28364a8bc9d4d58ad05a24501ad48699b679",
+    "research/adaptive_mechanism_20261027_v1/d_integration/results/ANSWER_TYPE_FREE_ROWS.jsonl": "6c952016bfc2ef0c56e52509034f2d960788dd5346ca946a9ba8e65f875ef3d8",
+    "research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_GENERATIONS.raw.jsonl": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_GENERATIONS.annotated.jsonl": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "research/publication_proxy_calibration_20261026_v1/p2_proxy_calibration/receipts/P2_REFERENCE_CHAIN.json": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066",
+    "data/research/tatqa_raw_2026/tatqa_dataset_dev.json": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5"
+  },
+  "verdict": "ACCEPT_REPLAY_NARROW_SCORER_ROLE_AND_NUMERIC_CLAIMS",
+  "limits": [
+    "Controls are synthetic or mutations of exposed outputs, not natural error prevalence.",
+    "The five numeric-field mutations do not prove the five original responses were wrong.",
+    "31/5 is exactly reproducible under V2; role-complete semantic validation is not established.",
+    "No held-out panel, model loader, TeX build, submission or external publication was executed."
+  ],
+  "fresh_focused_verification": {
+    "environment": "GB10 Python3.12",
+    "passed": 31,
+    "command": "PYTHONPATH=src ./venv/bin/python -m pytest research/adaptive_mechanism_20261027_v1/{scoring_v2/test_scoring_v2.py,diagnostics/test_visible_typed_baseline.py,persistent_budget/test_persistent_budget.py,d_integration/test_question_only_ablation.py} -q",
+    "full_repository_tests": false
+  },
+  "publication_tool_inventory": {
+    "local_pandoc": "D:/pandocLatex2word/pandoc.exe",
+    "pandoc_version": "3.2.1",
+    "local_word_executable_exists": true,
+    "gb10_soffice": "/usr/bin/soffice",
+    "gb10_soffice_version": "24.2.7.2",
+    "new_document_created": false,
+    "new_render_executed": false,
+    "new_dependency_installed": false
+  }
+}

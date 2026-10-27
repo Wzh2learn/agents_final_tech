@@ -267,3 +267,7 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 
 ## [2026-10-27] 接受真实校准，暂停其完整语义与检索增益解释
 负责人在GB10从第一批raw直接重放36项，P1公共actor补证接受；P2旧2/3/3复现但6个数字参考不可达ACCEPT，额外span/错单位/伪引用可误放，净销售额新增ACCEPT受货币展示影响。input差为917。原raw不改，不据此认证检索/推理结论；先修评分和持久物理预算，再一个类型化读出机制诊断。Paper E完整fallback不等于正式TeX，内置编译器实际失败为技术阻断。新2次A/C为待接受提案；原余额404次科学生成保守保留，本会话0模型/训练/协作/外部动作。依据：docs/governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md。
+
+
+## [2026-10-27] 接受question-only回放，收窄评分并改走Word交付
+三组36行全字段复现、31项定点测试通过；保留当前开发面板停止。新配对控制发现同值正确角色误拒、混合引用漏检和5条单数字span数值字段矛盾仍ACCEPT，不改旧raw/31-5、不推自然错误率。SNCS官方接受Word，投稿准备不应只等TeX；唯一prompt原地更新为可编辑稿/渲染、有限评分修订和新表族机制诊断。新增2次A/C拟累计28、原余额内36/240k/0训练为待Owner接受提案；本会话0生成/训练/派发/外部动作。依据docs/governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md。

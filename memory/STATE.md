@@ -5,7 +5,7 @@
 
 ## 当前任务
 
-Adaptive Mechanism阶段已完成A实作、C固定快照审阅和D零模型集成。Paper E交付完整源包但 `BUILD_BLOCKED`；scoring V2和持久预算有效。C发现A的typed baseline误用gold `answer_type`，blank-type为12 ACCEPT/19 REJECT/5 UNKNOWN；D问题文本类型推断恢复31 ACCEPT/5 UNKNOWN，因此 `STOP_BEFORE_GENERATION` 仅在暴露开发面板和题面启发式边界内成立。冻结8UID/36-attempt面板未运行，本轮新增模型/训练/judge/生产为0，A/C累计26/26。详见[D集成回执](../research/adaptive_mechanism_20261027_v1/D_INTEGRATION_RETURN.md)。
+Adaptive Mechanism三组36行消融已在GB10全字段复现，31项相关测试通过；接受当前暴露面板停止。[负责人Adaptive复核](../docs/governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md)发现同值正确角色误拒、混合精确/宽泛引用漏检及5条单数字span篡改numeric_value仍ACCEPT，故评分V2只保留有边界的开发身份。Paper E完整源包仍BUILD_BLOCKED，官方支持Word，下一步改为当前可编辑Word稿和渲染验收。A/C26/26已用；新增2次协作（拟累计28）和原余额内36次/240k新表族诊断是待Owner接受提案，本会话0生成/训练/派发/外部动作。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
@@ -17,7 +17,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
 | Paper E 投稿路线 | [ROUTE_REASSESSMENT](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：SNCS订阅条件主投，ICAART仅在截止前四项条件齐备时启用 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
-| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：本轮A/C 26/26已执行；零模型机制边界裁决与Paper E构建阻断已接续 |
+| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：A/C26/26已用；Word交付、配对评分修订和新表族诊断提案待接受 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
 | 最新科研回执 | [D_INTEGRATION_RETURN](../research/adaptive_mechanism_20261027_v1/D_INTEGRATION_RETURN.md)、[A_RETURN](../research/adaptive_mechanism_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../research/adaptive_mechanism_20261027_v1/audits/TASK_RESULT_C.json) |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
