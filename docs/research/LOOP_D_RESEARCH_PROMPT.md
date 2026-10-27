@@ -1,9 +1,9 @@
 # Loop D 唯一现役科研指令
 
 > 更新：2026-10-27，Asia/Shanghai；本文件原地维护，旧prompt与实验只保留历史身份。
-> 已执行：Adaptive Mechanism，A/C累计26/26；本轮零新增科研生成/训练。三组消融计数已独立复现，评分语义仍有边界。
-> 当前计划：PAPER_E_WORD_DELIVERY / SCORER_PAIRED_CONTROLS / FROZEN_BASELINE_NEW_FAMILY_DIAGNOSTIC。
-> 授权状态：Owner已于2026-10-27接受新增2次A/C（旧26已用保留，累计帽28）；本轮安排一次A实作与一次C固定快照审阅。原余额内重定向最多36次物理生成/240,000 input+output tokens，训练0；不增加原科研总帽。
+> 已执行：Word交付、Scoring V3和同源新表族D/T/M诊断；A/C累计28/28。27次物理预留、46,054 input+output tokens、训练0。
+> 当前状态：PAUSED_AFTER_CONDITIONAL_C_REVIEW / WORD_INTERNAL_RENDER_WITH_DEFECTS / DTM_MECHANISM_EFFECT_UNIDENTIFIED。
+> 授权状态：本轮A/C和36次子预算已停止追加；不再派发、不再生成。C要求的24-call高输出重跑需要新的明确预算。正式投稿、付款、公开和外部联系仍未授权。
 
 ## 1. 长期目标和本轮要改变的事实
 
@@ -15,7 +15,7 @@
 
 送审为**2027年10月，具体日未知**。11月应收敛一个可反驳机制和合格自然任务；2027年1月复核方法与发表风险，3—4月确定贡献组合，5—6月核心确认，7月初稿，8—9月导师修改。C2/C3可合并或替换；不把评分修复、治理、一个执行器拆成三个创新点。NIST/ITIL只作背景。
 
-本轮应交付：一份符合渠道要求、可编辑且已渲染验收的Paper E；一个有配对正反例的评分修订；一次冻结强基线后的新表族机制诊断。不要再以全景治理报告或测试总数代替这些事实。
+本轮已形成一份14页内部渲染Word/PDF、一个通过三类配对控制的Scoring V3，以及一次同源新表族D/T/M诊断；但Word仍有提交级缺陷，D/T/M机制效应被输出预算截断混淆。当前以[C条件审阅](../governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md)之后的[本轮C审阅](../../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md)和[D收尾回执](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)为现役判断。
 
 ## 2. 增量接续与已接受结论
 
@@ -71,17 +71,17 @@ SN Computer Science订阅路线保持条件建议，首投只保留两案例。�
 
 ## 6. 执行编排和持久预算
 
-Owner已接受新增**A一次实作+C一次固定快照联合审阅**，累计28帽，原26已用保留。本轮使用后为28/28，无隐形重试派发；D集成和普通离线复核不是独立C。A在一次任务内按上述依赖顺序准备稿件生产脚本、完成评分和诊断，D负责本机转换/跨机渲染后再交固定快照；C独立核参考/曝光、配对正反例、预算、方法对照和Word排版，不只验机械PASS。D先读原始证据再裁决，不把C条件接受写成全局认证。
+新增**A一次实作+C一次固定快照联合审阅**已执行，累计28/28，无隐形重试派发；D集成和普通离线复核不是独立C。C独立复核参考/曝光、配对正反例、预算、方法对照和Word排版，结论为`CONDITIONAL`。D先读原始证据再裁决，不把C条件接受写成全局认证。
 
 沿用GB10现役launcher和no-smoke preflight，绑定本文件Git blob与LF hash。A拥有本次一个工作目录的新代码/派生结果/稿件；C仅写audit。明确库内还有其他Loop，不能回滚他人改动，不触碰冻结测试/生产服务/凭据。无需安装或批量同步skill；按角色选择少量最相关skill。
 
-原Phase B保守余额：**404物理生成、2,589,062 generation tokens、2次训练/3,680,052 training tokens**。Owner已接受将旧未用子帽重定向为：**36物理attempts、240,000 input+output tokens、训练0**；不增加总帽。默认24次主样本，12次接口正控/故障储备；一切真实模型正控、异常、重试、多阶段都计入36。没有故障无需耗尽储备。不开付费API、judge、生产调用和Memory写回。
+原Phase B保守余额在本轮前为**404物理生成、2,589,062 generation tokens、2次训练/3,680,052 training tokens**。本轮实际使用27次物理预留、46,054 input+output tokens、训练0；保守全局余量为**377物理生成、2,543,008 generation tokens**。36次子预算尚余9次预留，但C已证明D/T/M在512输出上限下完全混淆，不能用剩余9次硬凑结论。未经新预算和新固定协议不再生成。历史80/48事故和340差额不改写。
 
 生成前将现有持久预算guard接到实际本地loader：唯一外置ledger/run ID绑定，不因目录或重启换账；预留真实tokenized input加max_new_tokens上界，所有raw与实际usage先落盘再评分。已有raw仅rescore；不确定是否已执行则保守占用并停止自动重试。无模型故障测试先验，真实接口正控如需用储备计账，不做不计费canary。预算无法核清则停止生成，稿件/离线继续；不重新初始化历史80/48事故或340差额。
 
 ## 7. 交付与长期接续
 
-一份短回执同时交代：Paper E可编辑稿及真实渲染；评分三类配对控制和旧结果差异；新表族曝光身份/冻结时间/逐UID原始输出；T/M机制差异和替代解释；物理calls、生成/训练tokens、harness用量与未知项；C条件及D处理。不要先以“目标已完成”遮掉BUILD/方法/投稿仍未完成。
+本轮短回执见[D收尾回执](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)：Word为内部渲染通过但提交级有缺陷；Scoring V3三类配对控制成立；新表族为同源8-family；D/T/M机制效应未识别；27次物理预留和46,054 tokens已记账，训练0。下一阶段只能二选一：先修Paper E提交级缺陷，或申请新的24-call高输出预算重跑D/T/M。不要以“目标已完成”遮住BUILD、机制和投稿未完成。
 
 更新现役入口与中文正文，旧raw/停止判断保留。C1写成可审阅论文；C2/C3仍是候选，只有独立确认后才升级。11月按实测诊断挑一个可泛化机制，12月再决定纠正监督/小规模训练是否必要；C3只有与C2机制及评价目标独立时才单列。2027年1月仍无方法证据则调整贡献组合，不继续拆负结果凑三个点。
 

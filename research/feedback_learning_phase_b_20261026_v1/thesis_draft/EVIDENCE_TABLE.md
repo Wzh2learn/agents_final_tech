@@ -57,3 +57,5 @@
 | Diagnostic panel | 8 UID、三臂、提示词、输出合同、calculator、Qwen3-4B hash、解码和停止规则已冻结；强 baseline 解释或约束全部自然残差，故 `STOP_BEFORE_GENERATION` | 三臂方法增益、确认运行、新来源验证或 C acceptance | `research/adaptive_mechanism_20261027_v1/diagnostic_panel/DIAGNOSTIC_PANEL_PREREGISTRATION.json` |
 
 | 自适应机制 C/D复核 | 零模型边界消融 | gold `answer_type` 基线 31/5；blank-type 12/19/5；question-only 31/5，且 5 个 UNKNOWN 均为可见段落缺失 | 12 UID × 3 arms，同一第一批 raw 和 scorer | 问题文本类型启发式可复现该面板残差收束 | 通用 answer-type 推断、跨来源方法收益；冻结面板生成结果 | `research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ABLATION.json`、`audits/C_JOINT_AUDIT.md` | 新来源、answer-type-free 冻结面板 |
+
+| 2026-10-27 条件收尾 | Word/Scoring V3/同源新表族 | 14页内部渲染；三类配对控制通过；D/T/M真实执行但512-token截断与臂完全共线 | 8 family ×3 arms，27 reservations，46,054 input+output | Scoring V3、同源曝光和持久预算可用 | 提交级Word完成、M有效/无效、机制增量 | `research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md`、`audits/C_JOINT_AUDIT.md` | 修Paper E或新24-call高输出预算 |
