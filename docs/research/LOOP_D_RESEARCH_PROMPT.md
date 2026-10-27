@@ -4,6 +4,7 @@
 > 已执行：Word交付、Scoring V3和同源新表族D/T/M诊断；A/C累计28/28。27次物理预留、46,054 input+output tokens、训练0。
 > 当前状态：PAUSED_AFTER_CONDITIONAL_C_REVIEW / WORD_INTERNAL_RENDER_WITH_DEFECTS / DTM_MECHANISM_EFFECT_UNIDENTIFIED。
 > 授权状态：本轮A/C和36次子预算已停止追加；不再派发、不再生成。C要求的24-call高输出重跑需要新的明确预算。正式投稿、付款、公开和外部联系仍未授权。
+> 交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执 § 新对话交接](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续，先核实研究分支证据、本地未跟踪副本和Paper E源稿hash链，再开展任何工作。
 
 ## 1. 长期目标和本轮要改变的事实
 
@@ -82,6 +83,8 @@ SN Computer Science订阅路线保持条件建议，首投只保留两案例。�
 ## 7. 交付与长期接续
 
 本轮短回执见[D收尾回执](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)：Word为内部渲染通过但提交级有缺陷；Scoring V3三类配对控制成立；新表族为同源8-family；D/T/M机制效应未识别；27次物理预留和46,054 tokens已记账，训练0。下一阶段只能二选一：先修Paper E提交级缺陷，或申请新的24-call高输出预算重跑D/T/M。不要以“目标已完成”遮住BUILD、机制和投稿未完成。
+
+新对话交接入口固定为 [D收尾回执 § 新对话交接](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)。A/C 28/28 已耗尽；Paper E 尚非投稿终稿；D/T/M 仍受512-token截断混淆，不能判断机制有效性。没有新授权时不派发、不生成、不训练、不投稿、不付款、不公开或外部联系。
 
 更新现役入口与中文正文，旧raw/停止判断保留。C1写成可审阅论文；C2/C3仍是候选，只有独立确认后才升级。11月按实测诊断挑一个可泛化机制，12月再决定纠正监督/小规模训练是否必要；C3只有与C2机制及评价目标独立时才单列。2027年1月仍无方法证据则调整贡献组合，不继续拆负结果凑三个点。
 

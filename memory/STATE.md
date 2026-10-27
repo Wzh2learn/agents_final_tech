@@ -7,6 +7,8 @@
 
 Word交付、Scoring V3和同源新表族诊断已经A实作、D跨机渲染、C固定快照审阅；A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C结论为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E是14页内部渲染稿但仍有提交级排版/参考文献缺陷；D/T/M机制效应被512-token输出截断完全混淆，既不能判M有效，也不能判M无效。Owner要求暂停科研扩展，本轮状态收束在[D收尾回执](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，不再生成、派发、投稿或清理工作区。
 
+交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执的“新对话交接”](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续；A/C、raw、预算与Word证据在研究分支`c644cb4f`，本地未跟踪`paper_e_word/`保持原位。交接后不启动A/C、模型、训练、投稿或外部联系。
+
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
 此前 P0/A/C 负结果继续保留开发身份。Phase B 的R/E是真实训练后的实现失败；ordinary续训、答案正确率和干净方法负结果未被建立，不是新来源确认或feedback-derived learning。Paper E 投稿包较成熟，渠道仍为条件建议，Owner尚未批准外部动作。送审为2027年10月，具体日未知。
@@ -20,6 +22,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 | 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：本轮A/C28/28已执行并暂停；下一阶段只能修Paper E或申请新的D/T/M预算 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
 | 最新科研回执 | [D_CLOSEOUT_RETURN](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)、[A_RETURN](../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../research/word_scoring_new_family_20261027_v1/audits/TASK_RESULT_C.json) |
+| 新对话交接 | [D_CLOSEOUT_RETURN § 新对话交接](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)：最少必读、Git/工作区、预算与授权边界 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
 | 当前方法账本 | [DIAGNOSTIC_SUMMARY](../research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json)：27次预留、24条raw、46,054 input+output、0训练；历史80/48事故另存 |

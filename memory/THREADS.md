@@ -4,6 +4,8 @@ Updated: 2026-10-27
 
 当前短状态见 [STATE.md](STATE.md)，科研证据路由见 [Research Entry](../docs/research/README.md)。本表保留真实未决事项；完成或被后续证据更正的历史条目保留原文归档。
 
+Loop D 已于 2026-10-27 完成交接并暂停；新对话从 [D收尾回执 § 新对话交接](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续。A/C 28/28 已耗尽，不启动新派发、生成、训练、投稿或外部联系。
+
 ## 当前未决
 
 | ID | 状态 | 待决内容与证据 |
@@ -24,7 +26,7 @@ Updated: 2026-10-27
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `WORD_INTERNAL_RENDER_WITH_DEFECTS` | 14页DOCX/PDF已逐页渲染，但C列出提交级缺陷：五步冒充六步、表格/列表结构融合、表图标题/编号和书目顺序问题。不是可提交终稿 |
 | DTM-MECHANISM-RERUN | `NEW_BUDGET_REQUIRED_OUTPUT_CONFOUND` | C要求同一8-family面板、24次D/T/M、提高输出上限且Scoring V3不变；本轮余量不足，未追加生成 |
-| WORKSPACE-INTEGRATION | `REMOTE_RESOLVED_LOCAL_DUPLICATE_PENDING_USER_CONFIRMATION` | GB10研究分支冲突已解决并推至`c644cb4f5`，本机与GB10 `main`同步至`9c92d4cf`；本地未提交`paper_e_word/`副本与远端研究分支重复，GB10历史worktree保留。删除/受保护迁移候选见[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，未确认不清理 |
+| WORKSPACE-INTEGRATION | `REMOTE_RESOLVED_LOCAL_DUPLICATE_PENDING_USER_CONFIRMATION` | GB10研究分支冲突已解决并推至`c644cb4f5`，本机与GB10 `main`在本次交接前同步至`481b87ce`；本地未提交`paper_e_word/`副本与远端研究分支重复，GB10历史worktree保留。删除/受保护迁移候选见[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，未确认不清理 |
 | HISTORICAL-CREDENTIAL-CARRIERS | `OWNER_SECURITY_REVIEW_REQUIRED` | 本轮改动secret扫描干净；只读全树扫描在忽略的`.env`发现凭据形状。值未写入文档、文件未改删；需Owner判断是否有效、必要时轮换并选择安全存储/清理路径 |
 | THESIS-DOC-CONTINUITY | `CLOSEOUT_PAUSED_AFTER_CONDITIONAL_C` | 中文正文已含A阶段结果；C条件、Word缺陷和D/T/M混淆以[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)为现役补充，不把旧实验拆成新贡献 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
