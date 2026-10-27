@@ -93,3 +93,23 @@ and an answer-type-free actor contract.
 Only Paper E external actions remain: confirm the route and author fields,
 approve AI/patent/artifact wording, compile the canonical TeX in a normal
 environment, and separately authorize submission, payment and public release.
+
+## Final Verification
+
+- Scoring V2 controls: 17/17 passed.
+- Visible typed baseline controls: 5/5 passed.
+- Persistent budget fault suite: 7/7 passed.
+- Question-only ablation tests: 2/2 passed.
+- Question-only counts recomputed: oracle `31/5`, blank-type `12/19/5`,
+  question-only `31/5`.
+- `docs_lint`: PASS, 0 fail / 0 warn.
+- Persistent ledger SHA256:
+  `ad0535aeb3fb324c60631ca38b0bbb5a82cb509c834aefb624e025db2350fdef`;
+  one initialization event and zero generation records.
+- `build_paper_e.sh`: expected exit 127,
+  `BUILD_BLOCKED: required TeX tool not found: pdflatex`.
+
+The Paper E source check is useful but not a formal typesetting proof. C found
+that its formula inventory note, final-page check and cross-reference check are
+shallower than their labels imply; these limitations remain visible and were
+not used to claim a successful TeX build.
