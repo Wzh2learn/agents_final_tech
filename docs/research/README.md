@@ -6,19 +6,19 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-27
 
 ## 当前任务与证据
 
-Adaptive Mechanism回放和31项定点测试已复核；当前开发面板停止接受，评分的同值角色、混合引用和单数字span字段仍有边界。见[负责人复核](../governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md)及同名JSON/脚本。Paper E正式TeX仍阻断，现提议完成Word稿与渲染；冻结强基线后用新表族做一次机制诊断。A/C26/26已用，新增2次及36/240k子预算重定向待Owner接受，未派发。
+Word交付、Scoring V3和同源新表族诊断已完成一轮A/D/C闭环，A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C裁决为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E为14页内部渲染稿但仍有提交级缺陷；D/T/M机制效应被输出预算截断混淆。Owner已要求暂停科研扩展，现役收尾见[D收尾回执](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [A_RETURN](../../research/adaptive_mechanism_20261027_v1/A_RETURN.md)、[QUESTION_ONLY_ABLATION](../../research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ABLATION.json)、[C_AUDIT](../../research/adaptive_mechanism_20261027_v1/audits/C_JOINT_AUDIT.md) |
+| 当前方法实验与成本 | [A_RETURN](../../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[DIAGNOSTIC_SUMMARY](../../research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json)、[C_AUDIT](../../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md) |
 | 当前自然错误/取证成本阶段 | [STAGE_RETURN](../../research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md)、[A_CLOSEOUT](../../research/natural_error_evidence_cost_20261026_v1/a_closeout/A_CLOSEOUT_RESULT.json)、[C_FINAL](../../research/natural_error_evidence_cost_20261026_v1/audits/TASK_RESULT_C_FINAL.json) |
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
-| Paper E 路由与办理 | [FORMAL_BUILD_PACKAGE](../../research/adaptive_mechanism_20261027_v1/paper_e_formal_build/)、[SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
+| Paper E 路由与办理 | [WORD_RENDER_RECEIPT](../../research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md)、[SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：当前复核、Word交付与新表族提案原地接续，待Owner接受 |
-| 最新科研回执 | [D_INTEGRATION_RETURN](../../research/adaptive_mechanism_20261027_v1/D_INTEGRATION_RETURN.md)、[A_RETURN](../../research/adaptive_mechanism_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../../research/adaptive_mechanism_20261027_v1/audits/TASK_RESULT_C.json) |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：本轮已暂停；下一步只能修Paper E或申请新D/T/M预算 |
+| 最新科研回执 | [D_CLOSEOUT_RETURN](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)、[A_RETURN](../../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../../research/word_scoring_new_family_20261027_v1/audits/TASK_RESULT_C.json) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -32,7 +32,8 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| C1 测量 / Paper E | `BUILD_BLOCKED_SOURCE_READY`，受限两案例测量审计；[正式源包](../../research/adaptive_mechanism_20261027_v1/paper_e_formal_build/)和[SNCS派生稿](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex)已具备，精确TeX编译受工具阻断，非缺少科研许可 |
+| C1 测量 / Paper E | `WORD_INTERNAL_RENDER_WITH_DEFECTS`，受限两案例测量审计；14页DOCX/PDF已逐页渲染，但表图标题/编号、列表/表格结构、checklist和书目仍有提交级缺陷 |
+| C2/C3 同源新表族诊断 | `MECHANISM_EFFECT_UNIDENTIFIED_OUTPUT_BUDGET_CONFOUNDED`；D/T/M真实执行但512-token截断与臂完全共线，M未获公平试验。需新24-call高输出预算 |
 | C2 学习 / 证据反馈 | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_CLAIM`。真实child-only训练完成但未满足有效ordinary续训；N/R/E是集合代理比较且有接口混杂，仅停止当前实现，不作为干净方法负结论 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，完整派生稿、24/24 引用和Owner表已具备；正式TeX仍阻断；当前改走已安装Pandoc/LibreOffice的Word生产链，稿件验收及作者/许可/投稿仍待办 |

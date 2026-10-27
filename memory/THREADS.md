@@ -14,16 +14,19 @@ Updated: 2026-10-27
 | LEDGER-340 | `UNRECONCILED_KEEP_CONSERVATIVE_TOTAL` | [自审证据](../docs/governance/audit/loop_d_control_review/RECONCILIATION.json)：35个生成/评审事件加5个训练事件复算9,169,332，比聚合9,169,672少340；attempts均4,064；不释放差额、不改旧账 |
 | UNIT-OBSERVABILITY | `UNOBSERVABLE_UNIT_CASE_EXCLUDED_FROM_INFERABLE_DENOMINATOR` | [A回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已确认单位尺度不可见；仅可修引用题0/1，后续监督按可观测性资格核验 |
 | ADAPTER-SEMANTICS | `SAFE_TAIL_AND_STRICT_SPLIT_VERIFIED_PHASE_A` | [A复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)已阻止1)0→10反例，raw/strict/embedded分开；不把旧适配器继续写成现役实现，未来合同仍需C核验 |
-| NEXT-C2-SUPERVISION | `V2_REPLAY_ACCEPTED_ROLE_AND_NUMERIC_GAPS_OPEN` | [负责人复核](../docs/governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md)：三组全字段回放一致；同值角色配对正例、混合broad支持与单数字span字段一致性尚需修订，不把反例当自然错误率 |
-| NEXT-PHASE-BUDGET | `26_USED_NEXT_2_PROPOSED_NOT_DISPATCHED` | 原26/26已用；新增A一次/C一次累计拟28，原404次余额内重定向36次/240k新表族诊断，训练0。Owner接受前不派发、不生成；历史80/48与340差额不变 |
+| NEXT-C2-SUPERVISION | `SCORING_V3_CONFIRMED_DTM_EFFECT_UNIDENTIFIED` | [C审阅](../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md)确认三类配对控制与纯重评；D/T/M与512-token截断完全共线，M未获公平试验。需新24-call高输出预算，当前暂停 |
+| NEXT-PHASE-BUDGET | `28_USED_27_RESERVATIONS_PAUSED` | A/C28/28；本轮27次预留、24条raw、46,054 input+output、0训练。全局保守余377次/2,543,008 tokens；36次子预算余9次但不足以重跑24-call面板 |
 | P2-CALIBRATION-NEXT | `QUESTION_ONLY_STOP_ACCEPTED_DEVELOPMENT_ONLY` | blank-type为12/19/5，question-only为31/5；mean信号真实可见，count/span依赖题面规则。停止冻结面板方法候选，不称通用answer-type推断或跨来源方法 |
 | C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止；[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)补充有效父模型与代理指标缺陷，不支持干净方法负结论或反馈学习普遍无效 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY_ICAART_TIME_GATED` | [渠道复核](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：ICAART实时官网不可用且前置条件未齐；Owner仍需最终确认，未投稿/付款/公开 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `TEX_BLOCKED_WORD_DELIVERY_PROPOSED` | 正式TeX仍BUILD_BLOCKED；SNCS官方接受Word，需交当前完整DOCX及逐页渲染、数字引文/公式/参考文献验收。作者许可与正式外部动作另待Owner，不能以fallback或source check冒充可投 |
-| THESIS-DOC-CONTINUITY | `SCORING_V2_AND_QUESTION_ONLY_BOUNDARY_INTEGRATED` | 中文正文已记录评分V2、gold answer_type风险、question-only消融和Paper E BUILD_BLOCKED；C2/C3仍未成立，不把类型规则拆创新 |
+| PAPER-E-SUBMISSION | `WORD_INTERNAL_RENDER_WITH_DEFECTS` | 14页DOCX/PDF已逐页渲染，但C列出提交级缺陷：五步冒充六步、表格/列表结构融合、表图标题/编号和书目顺序问题。不是可提交终稿 |
+| DTM-MECHANISM-RERUN | `NEW_BUDGET_REQUIRED_OUTPUT_CONFOUND` | C要求同一8-family面板、24次D/T/M、提高输出上限且Scoring V3不变；本轮余量不足，未追加生成 |
+| WORKSPACE-INTEGRATION | `PENDING_USER_CONFIRMED_CLEANUP` | 本地未提交`paper_e_word/`副本与远端研究分支重复；GB10历史worktree保留。删除/移动候选见[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，未确认不清理 |
+| HISTORICAL-CREDENTIAL-CARRIERS | `OWNER_SECURITY_REVIEW_REQUIRED` | 本轮改动secret扫描干净；只读全树扫描在忽略的`.env`发现凭据形状。值未写入文档、文件未改删；需Owner判断是否有效、必要时轮换并选择安全存储/清理路径 |
+| THESIS-DOC-CONTINUITY | `CLOSEOUT_PAUSED_AFTER_CONDITIONAL_C` | 中文正文已含A阶段结果；C条件、Word缺陷和D/T/M混淆以[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)为现役补充，不把旧实验拆成新贡献 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。本轮范围以唯一指令和Owner转发为准；历史广泛授权不恢复停止面板 |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |

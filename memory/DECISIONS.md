@@ -271,3 +271,7 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 
 ## [2026-10-27] 接受question-only回放，收窄评分并改走Word交付
 三组36行全字段复现、31项定点测试通过；保留当前开发面板停止。新配对控制发现同值正确角色误拒、混合引用漏检和5条单数字span数值字段矛盾仍ACCEPT，不改旧raw/31-5、不推自然错误率。SNCS官方接受Word，投稿准备不应只等TeX；唯一prompt原地更新为可编辑稿/渲染、有限评分修订和新表族机制诊断。新增2次A/C拟累计28、原余额内36/240k/0训练为待Owner接受提案；本会话0生成/训练/派发/外部动作。依据docs/governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.md。
+
+## [2026-10-27] 条件审阅后暂停：不把输出截断当机制结论
+结论：Scoring V3、同源8-family曝光和持久预算接受；Paper E仅内部渲染可审阅，Word仍有提交级缺陷。D/T/M与512-token输出截断完全共线，M没有公平试验，停止追加生成，不判M有效或无效。A/C28/28耗尽，本轮27次预留、46,054 input+output tokens、训练0；下一机制实验必须另给24-call高输出预算，或先修Paper E。依据research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md与D_CLOSEOUT_RETURN.md。
+理由：界面完成度、截断和方法机制必须分离；剩余9次预留不足以完成C要求的同面板重跑，继续调用只会制造不可识别结果。历史raw、评分、账本和C审计保持原样，工作区清场等待用户确认。
