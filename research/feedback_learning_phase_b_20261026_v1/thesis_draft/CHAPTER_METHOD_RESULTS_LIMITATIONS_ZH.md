@@ -358,3 +358,18 @@ TeX-engine compilation。D 的 Windows 文档编译器因受限沙箱拒绝启�
 aarch64 Tectonic 下载又停滞于零字节，故 Canonical LaTeX 的精确编译仍是投稿前
 工程门。该稿件未被声明为 accepted、published 或 school-recognized，作者、
 资助、专利、artifact release 和 submission 字段仍为 `TBD_OWNER`。
+
+## 10. 自适应机制审计后修正（2026-10-27）
+
+C 固定快照审阅发现，A 的“可见类型化基线”在 actor 分派中读取了参考链里的
+gold `answer_type`。在真正部署可见边界下，blank-type 消融只有
+`12 ACCEPT / 19 REJECT / 5 REASONABLE_UNKNOWN`，所以原 `31 ACCEPT / 5`
+不能直接称为 visible-only 强基线。问题文本本身的确定性类型推断消融恢复到
+`31 ACCEPT / 5`，说明该面板上的算术、计数、span 和 multi-span 信号可以由
+可见问题复现，但这些题面分支是暴露开发启发式，不是通用答案类型推断器。
+
+因此本轮机制裁决收窄为：在该 12-UID 暴露面板上，问题文本类型推断加透明
+类型化归约解释或合理界定了全部 V2 残差；5 个 `REASONABLE_UNKNOWN` 均对应
+所需段落不在所选上下文。冻结 8-UID/36-attempt 面板没有运行，新增生成、
+训练、judge 和生产探针均为 0。下一阶段若要建立方法贡献，必须换新冻结来源、
+去掉 gold `answer_type`，并保持同样的可见输入边界和共享计算器。

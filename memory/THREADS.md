@@ -14,16 +14,16 @@ Updated: 2026-10-27
 | LEDGER-340 | `UNRECONCILED_KEEP_CONSERVATIVE_TOTAL` | [自审证据](../docs/governance/audit/loop_d_control_review/RECONCILIATION.json)：35个生成/评审事件加5个训练事件复算9,169,332，比聚合9,169,672少340；attempts均4,064；不释放差额、不改旧账 |
 | UNIT-OBSERVABILITY | `UNOBSERVABLE_UNIT_CASE_EXCLUDED_FROM_INFERABLE_DENOMINATOR` | [A回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已确认单位尺度不可见；仅可修引用题0/1，后续监督按可观测性资格核验 |
 | ADAPTER-SEMANTICS | `SAFE_TAIL_AND_STRICT_SPLIT_VERIFIED_PHASE_A` | [A复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)已阻止1)0→10反例，raw/strict/embedded分开；不把旧适配器继续写成现役实现，未来合同仍需C核验 |
-| NEXT-C2-SUPERVISION | `P1_EXECUTION_ACCEPTED_P2_MEASUREMENT_BLOCKED` | P1公共actor全24回归已交付；P2共享失败含格式/评分/语义混杂。先分层重评及类型化归约强基线，不恢复旧R/E |
-| NEXT-PHASE-BUDGET | `24_OF_24_USED_NEXT_TWO_PROPOSED_NOT_DISPATCHED` | 80次物理调用全部计账，原48帽超32不补授权；保守余额404次/2,589,062 generation tokens、2次训练/3,680,052 training tokens。下一提案仅36生成/240,000 input+output、训练0，新增2次A/C须Owner接受 |
-| P2-CALIBRATION-NEXT | `SCORE_VALIDITY_BLOCKS_RETRIEVAL_AND_METHOD_CLAIMS` | 原2/3/3复现；唯一新增ACCEPT为货币展示/评分差异，非已证检索收益。917 input差更正911；算术参考、额外span、单位和引用缺陷见[最新复核](../docs/governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)；all仅本开发面板旧评分下无增益，不作普遍停止结论 |
+| NEXT-C2-SUPERVISION | `SCORING_V2_VALID_TYPED_BASELINE_BOUNDARY_NARROWED` | scoring V2分层重评完成；gold `answer_type`基线被C判oracle-assisted，question-only消融恢复31/5但仍是暴露题面启发式。下一来源须answer-type-free冻结 |
+| NEXT-PHASE-BUDGET | `26_OF_26_USED_ZERO_NEW_GENERATION` | 本轮A一次+C一次已用，36次子预算未消耗；历史80/48事故不变。新生成只有在新来源、answer-type-free合同和独立A授权下才考虑 |
+| P2-CALIBRATION-NEXT | `QUESTION_ONLY_STOP_ACCEPTED_DEVELOPMENT_ONLY` | blank-type为12/19/5，question-only为31/5；mean信号真实可见，count/span依赖题面规则。停止冻结面板方法候选，不称通用answer-type推断或跨来源方法 |
 | C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止；[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)补充有效父模型与代理指标缺陷，不支持干净方法负结论或反馈学习普遍无效 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY_ICAART_TIME_GATED` | [渠道复核](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：ICAART实时官网不可用且前置条件未齐；Owner仍需最终确认，未投稿/付款/公开 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
 | PAPER-E-SUBMISSION | `FULL_DRAFT_BUILD_BLOCKED_OWNER_ACTIONS_SEPARATE` | 15页fallback有完整正文，但非TeX编译且参考文献保留原始字段。负责人重试内置编译器仍sandbox失败；正常构建是技术待办，身份/许可/正式提交等另待Owner。未投稿/付款/公开 |
-| THESIS-DOC-CONTINUITY | `P1_ACCEPTED_P2_SCORE_LIMITS_RECORDED` | P1执行缺口关闭；P2旧分数不作完整语义/检索增益，下一步定位选择→归约→合同信息损失。C2/C3仍未成立，不把matcher修复拆创新 |
+| THESIS-DOC-CONTINUITY | `SCORING_V2_AND_QUESTION_ONLY_BOUNDARY_INTEGRATED` | 中文正文已记录评分V2、gold answer_type风险、question-only消融和Paper E BUILD_BLOCKED；C2/C3仍未成立，不把类型规则拆创新 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。本轮范围以唯一指令和Owner转发为准；历史广泛授权不恢复停止面板 |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |

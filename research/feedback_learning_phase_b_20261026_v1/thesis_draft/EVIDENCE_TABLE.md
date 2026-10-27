@@ -44,3 +44,5 @@
 | P1 | 统一公共actor与全24题回归已交付；numeric 23/24、semantic 13/24、unit 14/24、4修复/0破坏 | 一般证据使用问题已关闭，或规则actor是学习方法贡献 | `research/publication_proxy_calibration_20261026_v1/p1_rule_execution/full_24_regression.json` |
 | P2 | 第一批40次真实三臂结果：2/3/3 ACCEPT；all被top-5弱支配；9/12三臂均失败 | 2点非劣、泛化、全上下文理论上界、代理potential与真实准确率同构 | `research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json` |
 | Paper E | 完整两案例期刊派生稿、15页fallback PDF、24/24引用 | 精确TeX-engine构建已验证、投稿/录用/学校认定 | `research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md` |
+
+| 自适应机制 C/D复核 | 零模型边界消融 | gold `answer_type` 基线 31/5；blank-type 12/19/5；question-only 31/5，且 5 个 UNKNOWN 均为可见段落缺失 | 12 UID × 3 arms，同一第一批 raw 和 scorer | 问题文本类型启发式可复现该面板残差收束 | 通用 answer-type 推断、跨来源方法收益；冻结面板生成结果 | `research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ABLATION.json`、`audits/C_JOINT_AUDIT.md` | 新来源、answer-type-free 冻结面板 |
