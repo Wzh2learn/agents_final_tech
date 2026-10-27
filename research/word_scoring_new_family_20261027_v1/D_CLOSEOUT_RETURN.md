@@ -135,6 +135,14 @@ closeout.
 | 9 | Paper E 内容主源 | `research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex`，由 `research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_MANIFEST.json` 标为 canonical source |
 | 10 | Paper E Word 源与产物 | `research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word.md` 为原始抽取源，`paper_e_word_fixed.md` 为转换派生源，`paper_e.docx` 与 `rendered_final/paper_e.pdf` 为内部渲染产物（research branch；本地另有未跟踪副本） |
 
+Hash 口径补充（2026-10-27）：manifest 中的 SHA256 按 Git 原始 blob
+字节计算。Windows 工作树对文本文件做 CRLF 转换后，`Get-FileHash` 或
+`git hash-object` 可能不同；例如 `paper_e_sncs.tex` 的 raw Git blob 为
+`f1993042...`，Windows 工作树为 `008c4749...`。`git show <commit>:<path> |
+sha256sum` 与 manifest 一致，Word 源、转换派生源、DOCX 和 PDF 的核心 blob
+也一致。后续身份核对应以 raw Git blob 或 manifest SHA256 为准，不把 CRLF
+表示差异误判为内容漂移。
+
 ### 3. Git 与工作区
 
 - `main`：本次交接前已核实本机、GitHub、GB10 均为 `481b87ce66b8`；本次
@@ -171,5 +179,5 @@ closeout.
   不做外部联系，不清理或迁移上述现场。
 
 新对话应从本节开始，先核实 research branch 证据可读取、本地未跟踪副本的
-身份，以及 Paper E 内容主源到 Word 产物的 hash 链；随后才选择修 Paper E 或
-申请新 D/T/M 预算。
+身份，以及 Paper E 内容主源到 Word 产物的 raw Git blob hash 链；随后才选择
+修 Paper E 或申请新 D/T/M 预算。

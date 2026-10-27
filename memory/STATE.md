@@ -7,7 +7,7 @@
 
 Word交付、Scoring V3和同源新表族诊断已经A实作、D跨机渲染、C固定快照审阅；A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C结论为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E是14页内部渲染稿但仍有提交级排版/参考文献缺陷；D/T/M机制效应被512-token输出截断完全混淆，既不能判M有效，也不能判M无效。Owner要求暂停科研扩展，本轮状态收束在[D收尾回执](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，不再生成、派发、投稿或清理工作区。
 
-交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执的“新对话交接”](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续；A/C、raw、预算与Word证据在研究分支`c644cb4f`，本地未跟踪`paper_e_word/`保持原位。交接后不启动A/C、模型、训练、投稿或外部联系。
+交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执的“新对话交接”](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续；A/C、raw、预算与Word证据在研究分支`c644cb4f`，本地未跟踪`paper_e_word/`保持原位。Paper E 身份核对使用 raw Git blob hash，避免把 Windows CRLF 工作树差异误判为内容漂移。交接后不启动A/C、模型、训练、投稿或外部联系。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 

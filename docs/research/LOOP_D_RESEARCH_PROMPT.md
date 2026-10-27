@@ -4,7 +4,7 @@
 > 已执行：Word交付、Scoring V3和同源新表族D/T/M诊断；A/C累计28/28。27次物理预留、46,054 input+output tokens、训练0。
 > 当前状态：PAUSED_AFTER_CONDITIONAL_C_REVIEW / WORD_INTERNAL_RENDER_WITH_DEFECTS / DTM_MECHANISM_EFFECT_UNIDENTIFIED。
 > 授权状态：本轮A/C和36次子预算已停止追加；不再派发、不再生成。C要求的24-call高输出重跑需要新的明确预算。正式投稿、付款、公开和外部联系仍未授权。
-> 交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执 § 新对话交接](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续，先核实研究分支证据、本地未跟踪副本和Paper E源稿hash链，再开展任何工作。
+> 交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执 § 新对话交接](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续，先核实研究分支证据、本地未跟踪副本和Paper E源稿raw Git blob hash链，再开展任何工作。
 
 ## 1. 长期目标和本轮要改变的事实
 
