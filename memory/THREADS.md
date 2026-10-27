@@ -48,6 +48,11 @@ Loop D 已于 2026-10-27 完成交接并暂停；新对话从 [D收尾回执 § 
 
 ## 已收口或被更正条目的去向
 
+- 2026-10-27：GB10 陈旧 A/C CLI transcript 已归档，50 条 OpenCode QA/eval
+  sidecar session 已清理；备份和清场回执见
+  [D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)。
+  `loop_runs` 证据、Loop B、服务 tmux 和 Claude memory 均保留。
+
 - 2026-10-26：阶段B真实训练、B2B接口修复和独立C复核已完成；当前 R/E 停止，C 的四项范围披露已由 D 采纳。340 token旧差额未解释，继续单独保留。
 
 - GOV-20261021 已完成：独有材料保全、九个历史独有提交合并、旧工作树退役、三端 main 对齐；范围、恢复入口和离线验收见[治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md)。

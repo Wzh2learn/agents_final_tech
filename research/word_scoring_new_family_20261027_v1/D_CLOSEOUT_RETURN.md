@@ -181,3 +181,21 @@ sha256sum` 与 manifest 一致，Word 源、转换派生源、DOCX 和 PDF 的�
 新对话应从本节开始，先核实 research branch 证据可读取、本地未跟踪副本的
 身份，以及 Paper E 内容主源到 Word 产物的 raw Git blob hash 链；随后才选择
 修 Paper E 或申请新 D/T/M 预算。
+
+## GB10 陈旧对话清理回执
+
+日期：2026-10-27，Asia/Shanghai。用户已在候选报告后明确授权归档和清理。
+
+- Loop A/C 一次性任务均已终态，活动 tmux 和 `codex exec` / `claude -p`
+  进程为 0；`word-scoring-new-family-a/c-20261027` 及 Phase B A/C 均保留
+  `done` status/log，不做删除。
+- 3 份 Codex rollout、1 份 Codex history、1 份 Claude transcript 已从活动
+  目录移至 GB10
+  `/home/testuser/wzh/backups/agent_conversation_cleanup_20261027/`，
+  `SHA256SUMS` 全部校验通过；Claude project memory 未移动。
+- OpenCode sidecar QA/eval session 清理前 50 条，使用项目
+  `scripts/opencode_session_cleanup.py --purge-all` 删除 50 条，清理后为 0；
+  清理前元数据保存在同目录 `opencode_sessions_before_cleanup.json`。
+- `coding-jinrong`、`graph-loop-b`、`opencode-serve`、`thinking-proxy`、
+  `vllserve` 保持运行。`/home/testuser/wzh/loop_runs` 的 191 份 status
+  和约 205 MB 日志作为科研证据原位保留。
