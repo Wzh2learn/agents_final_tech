@@ -1,0 +1,32 @@
+{
+  "counterexample": "Ordinary program-aided reasoning and typed schemas are established capabilities and are a counterexample to any novelty claim for T.",
+  "model_output_seen": false,
+  "reading_scope": "Only the three pre-existing project notes named by the task.",
+  "schema": "word_new_family_nearest_work_receipt_v1",
+  "single_mechanism_difference": "M alone adds deterministic row/period/role/unit binding validation before execution; T already has typed evidence and a program.",
+  "source_hashes": {
+    "research/paper_e_contribution_reassessment_v1/NEAREST_WORK_COMPARISON.md": "543848f7b42b1dd00b743ef1dd263eb7506b736daf00dde7535ab3aa5b551b47",
+    "research/paper_e_contribution_reassessment_v1/PAPER_E_PUBLIC_CASE_AUDIT.md": "5fb22490b55d6f1b35560c4a290b475e10d399b90047b0867060efea2c7007de",
+    "research/paper_e_contribution_reassessment_v1/REUSE_TASK_REDESIGN.md": "d8880c6135fa7754139ee579fd4838caca19306008c9b995a746036e13e5f479"
+  },
+  "strongest_neighbors": [
+    {
+      "boundary": "The present diagnostic does not propose a new financial-QA benchmark.",
+      "id": "FinRank",
+      "overlap": "Provenance-sensitive evidence discrimination and source identity.",
+      "source": "PAPER_E_PUBLIC_CASE_AUDIT.md and NEAREST_WORK_COMPARISON.md"
+    },
+    {
+      "boundary": "Arithmetic checking alone is not presented as verification.",
+      "id": "VeriFin",
+      "overlap": "Source-grounded claim verification with period, unit, line-item and formula binding.",
+      "source": "PAPER_E_PUBLIC_CASE_AUDIT.md and NEAREST_WORK_COMPARISON.md"
+    },
+    {
+      "boundary": "The Scoring V3 role control is not claimed as a new metric.",
+      "id": "Same-Number Citation Swaps",
+      "overlap": "Separates numeric correctness from cited-role support.",
+      "source": "PAPER_E_PUBLIC_CASE_AUDIT.md and REUSE_TASK_REDESIGN.md"
+    }
+  ]
+}

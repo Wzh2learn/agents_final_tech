@@ -1,0 +1,71 @@
+{
+  "consumed_token_upper_bound": 5966,
+  "fault_count": 3,
+  "faults": [
+    {
+      "actual_usage": {
+        "input_tokens": 1445,
+        "output_tokens": null
+      },
+      "actual_usage_known": true,
+      "consumed_token_upper_bound": 1957,
+      "failed_stage": "tokenized_input_validation_before_model_weight_load",
+      "failure": "transformers_chat_template_returned_batch_encoding_without_tensor_shape",
+      "logical_call_id": "word-new-family-20261027-a:D:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "model_weights_loaded": false,
+      "physical_attempt_id": "pa-000001",
+      "raw_response_persisted": false,
+      "real_model_generate_calls": 0,
+      "reservation_event_sha256": "f96b85b82d41076e7f285c697f7adb18d0b6c87351a23168f7cfc996e8fbd13b",
+      "reserved_input_tokens": 1445,
+      "reserved_output_tokens": 512,
+      "uncertain_reservation_consumed": true
+    },
+    {
+      "actual_usage": {
+        "input_tokens": 1445,
+        "output_tokens": null
+      },
+      "actual_usage_known": true,
+      "consumed_token_upper_bound": 1957,
+      "failed_stage": "tokenized_input_validation_before_model_weight_load",
+      "failure": "reservation_upper_bound_used_as_tokenized_input_length",
+      "logical_call_id": "word-new-family-20261027-a:D:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7:retry-1",
+      "model_weights_loaded": false,
+      "physical_attempt_id": "pa-000002",
+      "raw_response_persisted": false,
+      "real_model_generate_calls": 0,
+      "reservation_event_sha256": "90336a31450d2ba17b43cb63d0543043f068534e8326a50d7de7764dc350a8a7",
+      "reserved_input_tokens": 1445,
+      "reserved_output_tokens": 512,
+      "uncertain_reservation_consumed": true
+    },
+    {
+      "actual_usage": null,
+      "actual_usage_known": false,
+      "consumed_token_upper_bound": 2052,
+      "failed_stage": "loader_exception_after_model_generation_before_raw_append",
+      "failure": "model_stopped_without_complete_json_discarded_before_raw_append",
+      "logical_call_id": "word-new-family-20261027-a:D:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "model_weights_loaded": true,
+      "physical_attempt_id": "pa-000004",
+      "raw_response_persisted": false,
+      "real_model_generate_calls": 1,
+      "reservation_event_sha256": "53159b85a6c3100b2d1b8d8c17255bbe99ba0a26f7761959b46d4e238c5e24b0",
+      "reserved_input_tokens": 1540,
+      "reserved_output_tokens": 512,
+      "uncertain_reservation_consumed": true
+    }
+  ],
+  "ledger_path": "/home/testuser/wzh/research_runs/persistent_budget/word_new_family_20261027/ledger.jsonl",
+  "ledger_sha256": "2e1f0c4e4ab59c746390cfb37927efa35c81db085b2aea638364cb9435e73e86",
+  "model_weights_loaded": true,
+  "raw_response_persisted": false,
+  "real_model_generate_calls": 1,
+  "repair": "Use return_dict=True, reserve the exact input length plus 512, return every model response before scoring even when strict JSON is incomplete, and consume bounded retries with new logical_call_ids.",
+  "run_id": "word-new-family-20261027-a",
+  "schema": "word_new_family_interface_fault_receipt_v1",
+  "status": "PRESERVED_INTERFACE_AND_MODEL_FAILURES",
+  "training_runs": 0,
+  "uncertain_reservation_consumed": true
+}

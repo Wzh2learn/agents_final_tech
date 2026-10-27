@@ -1,0 +1,282 @@
+{
+  "binding_validations_passed": 0,
+  "calculator_executions": 0,
+  "model_loaded": false,
+  "raw_strict_pass_count": 0,
+  "rows": 24,
+  "rows_detail": [
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:D:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7:retry-2",
+      "question_uid": "57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": true,
+      "logical_call_id": "word-new-family-20261027-a:D:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b:retry-1",
+      "question_uid": "62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "raw_strict_pass": false,
+      "reason": "direct_final_contract_extracted",
+      "status": "PASS"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:D:177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "question_uid": "177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:D:b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "question_uid": "b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:D:f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "question_uid": "f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": true,
+      "logical_call_id": "word-new-family-20261027-a:D:90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "question_uid": "90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "raw_strict_pass": false,
+      "reason": "direct_final_contract_extracted",
+      "status": "PASS"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": true,
+      "logical_call_id": "word-new-family-20261027-a:D:49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "question_uid": "49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "raw_strict_pass": false,
+      "reason": "direct_final_contract_extracted",
+      "status": "PASS"
+    },
+    {
+      "arm": "D",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": true,
+      "logical_call_id": "word-new-family-20261027-a:D:24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "question_uid": "24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "raw_strict_pass": false,
+      "reason": "direct_final_contract_extracted",
+      "status": "PASS"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "question_uid": "57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "question_uid": "62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": true,
+      "logical_call_id": "word-new-family-20261027-a:T:177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "question_uid": "177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "raw_strict_pass": false,
+      "reason": "typed_envelope_normalized_with_shared_calculator",
+      "status": "PASS"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "question_uid": "b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "question_uid": "f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "question_uid": "90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "question_uid": "49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "T",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:T:24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "question_uid": "24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "question_uid": "57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "question_uid": "62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "question_uid": "177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "question_uid": "b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "question_uid": "f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "question_uid": "90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "question_uid": "49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    },
+    {
+      "arm": "M",
+      "binding_validation": null,
+      "calculator_executed": false,
+      "candidate_found": false,
+      "logical_call_id": "word-new-family-20261027-a:M:24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "question_uid": "24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "raw_strict_pass": false,
+      "reason": "no_complete_contract_candidate",
+      "status": "FAIL"
+    }
+  ],
+  "schema": "word_new_family_interface_normalization_receipt_v1",
+  "source_hashes": {
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_ROWS.jsonl": "b85f4d5eb0c0b39c4c72546e44581fc6dbaa2153f248ea92093c3c2fce765cee"
+  },
+  "status": "COMPLETE",
+  "status_counts": {
+    "FAIL": 19,
+    "PASS": 5
+  }
+}

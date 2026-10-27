@@ -1,0 +1,152 @@
+{
+  "M_repair_families": [],
+  "M_stop_decision": "M_DIFFERENCE_REQUIRES_REVIEW",
+  "T_matches_M_all_families": false,
+  "adapter_training": "NOT_RUN",
+  "all_arms_fail": false,
+  "arm_summary": {
+    "D": {
+      "citation_support_counts": {
+        "EXACT": 2,
+        "NONE_OR_MISMATCH": 2,
+        "UNAVAILABLE": 4
+      },
+      "complete_delivery": 0,
+      "correct_repair": 2,
+      "damage": 0,
+      "formula_status_counts": {
+        "NOT_APPLICABLE": 5,
+        "NO_EXPLICIT_FORMULA": 3
+      },
+      "interface_status_counts": {
+        "FAIL": 4,
+        "PASS": 4
+      },
+      "numeric_correct": 4,
+      "pending": 0,
+      "persisted_input_tokens": 8502,
+      "persisted_output_tokens": 3877,
+      "raw_strict_status_counts": {
+        "STRICT_FAIL": 8
+      },
+      "reasonable_unknown": 0,
+      "rows": 8,
+      "semantic_status_counts": {
+        "ACCEPT": 2,
+        "REJECT": 2,
+        "STRICT_FAIL": 4
+      },
+      "strict_failure": 8,
+      "unnecessary_refusal": 0
+    },
+    "M": {
+      "citation_support_counts": {
+        "UNAVAILABLE": 8
+      },
+      "complete_delivery": 0,
+      "correct_repair": 0,
+      "damage": 0,
+      "formula_status_counts": {
+        "NOT_APPLICABLE": 5,
+        "UNAVAILABLE_INTERFACE_FAILURE": 3
+      },
+      "interface_status_counts": {
+        "FAIL": 8
+      },
+      "numeric_correct": 0,
+      "pending": 0,
+      "persisted_input_tokens": 10374,
+      "persisted_output_tokens": 4096,
+      "raw_strict_status_counts": {
+        "STRICT_FAIL": 8
+      },
+      "reasonable_unknown": 0,
+      "rows": 8,
+      "semantic_status_counts": {
+        "STRICT_FAIL": 8
+      },
+      "strict_failure": 8,
+      "unnecessary_refusal": 0
+    },
+    "T": {
+      "citation_support_counts": {
+        "EXACT": 1,
+        "UNAVAILABLE": 7
+      },
+      "complete_delivery": 0,
+      "correct_repair": 1,
+      "damage": 0,
+      "formula_status_counts": {
+        "NOT_APPLICABLE": 5,
+        "UNAVAILABLE_INTERFACE_FAILURE": 3
+      },
+      "interface_status_counts": {
+        "FAIL": 7,
+        "PASS": 1
+      },
+      "numeric_correct": 1,
+      "pending": 0,
+      "persisted_input_tokens": 9198,
+      "persisted_output_tokens": 4041,
+      "raw_strict_status_counts": {
+        "STRICT_FAIL": 8
+      },
+      "reasonable_unknown": 0,
+      "rows": 8,
+      "semantic_status_counts": {
+        "ACCEPT": 1,
+        "STRICT_FAIL": 7
+      },
+      "strict_failure": 8,
+      "unnecessary_refusal": 0
+    }
+  },
+  "claim_boundary": "Natural reference-side selection before model output; does not claim cross-source validation, pretraining-disjointness, confirmation or method gain.",
+  "confirmation_card_prepared": false,
+  "confirmation_run": false,
+  "cost": {
+    "external_harness_calls": 0,
+    "generation_wall_seconds_last_process": 718.5607316493988,
+    "judge_calls": 0,
+    "ledger_consumed_input_plus_output_tokens": 46054,
+    "paid_api_calls": 0,
+    "persisted_actual_input_plus_output_tokens": 40088,
+    "persisted_actual_input_tokens": 28074,
+    "persisted_actual_output_tokens": 12014,
+    "persisted_raw_attempts": 24,
+    "physical_reservations": 27,
+    "preserved_pre_raw_failures": 3,
+    "production_calls": 0,
+    "real_model_generate_calls": 25,
+    "reserve_attempts_available": 9,
+    "reserve_attempts_used": 3,
+    "retries_with_persisted_raw": 2,
+    "service_or_endpoint_calls": 0,
+    "token_cap": 240000,
+    "training_runs": 0,
+    "uncertain_consumed_input_plus_output_tokens": 5966
+  },
+  "families": 8,
+  "rows": 24,
+  "schema": "word_new_family_diagnostic_summary_v1",
+  "source_hashes": {
+    "research/adaptive_mechanism_20261027_v1/scoring_v2/scorer.py": "29697f867ce863b131e2bc3f292fa1d2f0855ee38a7cba677921bedf8ffdfeef",
+    "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE.json": "089ce79ce8666b3803494716b66118585d803ce09f9d7a7d92ba89d621abdb5c",
+    "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE_ROWS.jsonl": "184df42a45cd42e42b5aba47892c5f310fec66916a8bef2f9501e8322997dba4",
+    "research/word_scoring_new_family_20261027_v1/exposure/PANEL_FREEZE.json": "501e6feba30d823ba5f8e98295225a247f42e0ef27e0c577fd73e2ae13771dde",
+    "research/word_scoring_new_family_20261027_v1/generation/GENERATION_RECEIPT.json": "426dd16539e0307ac53179a97eda0e9e25942eb4abc7d9492a703c788f4a799a",
+    "research/word_scoring_new_family_20261027_v1/generation/INTERFACE_FAULT_RECEIPT.json": "f3145783e6aac6446ae9dc001ed0bfc518677c03ef2dd26a0a8952bdfd9be31e",
+    "research/word_scoring_new_family_20261027_v1/generation/results/RAW_EXTRACTION_RECEIPT.json": "9e0b9839c49c4d412cf35dd309aabed9825ad286491989ad3e3b97e60e817196",
+    "research/word_scoring_new_family_20261027_v1/generation/results/RAW_RESPONSES.jsonl": "6bb0b5975995a67276ba35b775d1d02ed2eff93401e24b97e1a083b20d4a6448",
+    "research/word_scoring_new_family_20261027_v1/mechanism/MECHANISM_FREEZE.json": "e63ac80b0f6928bb0c1f94a95a836f75af083f64b894a2e24f923124d4535903",
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/scorer.py": "4d8075bd4065f0cf3c0a17a830185f2650eff925cdec977b8001fcfbab3bc383"
+  },
+  "source_identity_label": "SAME_SOURCE_NEW_TABLE_FAMILIES",
+  "status": "COMPLETE_RESCORE_NO_MODEL_CALL",
+  "unknowns": [
+    "Historical base-model pretraining exposure is unauditable.",
+    "One discarded model response has unknown actual token usage; its reservation upper bound is consumed.",
+    "DOCX/PDF visual acceptance and Loop C acceptance are outside A.",
+    "Frozen reference units may conflict with visible semantics for several non-arithmetic rows."
+  ]
+}

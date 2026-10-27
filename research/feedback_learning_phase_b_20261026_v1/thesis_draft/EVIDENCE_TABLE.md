@@ -57,3 +57,15 @@
 | Diagnostic panel | 8 UID、三臂、提示词、输出合同、calculator、Qwen3-4B hash、解码和停止规则已冻结；强 baseline 解释或约束全部自然残差，故 `STOP_BEFORE_GENERATION` | 三臂方法增益、确认运行、新来源验证或 C acceptance | `research/adaptive_mechanism_20261027_v1/diagnostic_panel/DIAGNOSTIC_PANEL_PREREGISTRATION.json` |
 
 | 自适应机制 C/D复核 | 零模型边界消融 | gold `answer_type` 基线 31/5；blank-type 12/19/5；question-only 31/5，且 5 个 UNKNOWN 均为可见段落缺失 | 12 UID × 3 arms，同一第一批 raw 和 scorer | 问题文本类型启发式可复现该面板残差收束 | 通用 answer-type 推断、跨来源方法收益；冻结面板生成结果 | `research/adaptive_mechanism_20261027_v1/d_integration/results/QUESTION_ONLY_ABLATION.json`、`audits/C_JOINT_AUDIT.md` | 新来源、answer-type-free 冻结面板 |
+
+### 2026-10-27 Word/Scoring V3/同源新表族 A补充（不改写历史计数）
+
+| 对象 | 本次可支持 | 尚不能支持 | 证据 |
+|---|---|---|---|
+| Paper E Word source | 208词摘要、5关键词、3图、4个可编辑表、24/24引用；Pandoc 3.2.1 命令与10 pt Times New Roman reference DOCX 已准备 | DOCX/PDF 视觉验收、精确分页、C acceptance、投稿/录用 | `research/word_scoring_new_family_20261027_v1/paper_e_word/SOURCE_CHECK_RECEIPT.json`、`CONVERSION_MANIFEST.json`、`CONVERSION_COMMAND.txt` |
+| Scoring V3 | 三组配对边界7/7、诊断接口5/5、V2 regression 17/17；四套纯重评分各36行，109个layer/UID差异，最终状态计数与历史一致 | 自然错误率、人工gold、完整语义oracle、C acceptance | `research/word_scoring_new_family_20261027_v1/scoring_v3/SCORING_TEST_RECEIPT.json`、`results/V3_PURE_RESCORE_SUMMARY.json`、`results/V2_V3_LAYER_UID_DIFFERENCES.jsonl` |
+| Exposure/freeze | TAT-QA dev排除审计后冻结8 UID/8 table family；标签 `SAME_SOURCE_NEW_TABLE_FAMILIES`；24条可见提示、模型/解码/合同输出前冻结 | cross-source、pretraining-disjoint、历史预训练暴露可审计或确认 | `research/word_scoring_new_family_20261027_v1/exposure/EXPOSURE_MANIFEST.json`、`PANEL_FREEZE.json`、`mechanism/MECHANISM_FREEZE.json` |
+| Zero-model baseline | 8行 `7 REJECT / 1 REASONABLE_UNKNOWN`；2 applicable、6 failure/abstention；0 model call | 模型准确率、方法增益或自然错误率 | `research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE.json` |
+| D/T/M diagnostic | 24条raw、D/T/M各8；raw strict 0/8每臂；语义接口 PASS D4/T1/M0；numeric correct 4/1/0；M无超T repair、无确认卡 | M binding机制收益、三臂准确率、confirmation或adapter训练 | `research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json`、`PER_FAMILY_SUMMARY.json`、`generation/results/RAW_RESPONSES.jsonl` |
+| Persistent budget | 25次真实generate、24 raw、2 pre-model fault、1 pre-raw discard；27 reservations；实际40,088 + 不确定5,966 = 46,054/240,000 tokens；wall 718.56s | 生产稳定性、服务成本或外部harness成本；未知discard实际usage | `research/word_scoring_new_family_20261027_v1/generation/GENERATION_RECEIPT.json`、`INTERFACE_FAULT_RECEIPT.json`、外部`ledger.jsonl` |
+| Nearest work | FinRank/VeriFin/Same-Number Citation Swaps为最近工作；M唯一tested difference为执行前binding validation | typed schema或program-aided reasoning本身是novel | `research/word_scoring_new_family_20261027_v1/mechanism/NEAREST_WORK_COMPARISON.json` |

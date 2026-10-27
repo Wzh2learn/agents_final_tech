@@ -1,0 +1,8 @@
+# Required local Pandoc version: 3.2.1
+pandoc --version | head -n 1
+
+# Run from this directory in the Windows conversion workspace.
+pandoc paper_e_word.md --from=markdown+pipe_tables+tex_math_dollars --resource-path=. --reference-doc=reference_style.docx --output=paper_e.docx
+
+# Optional source rebuild on GB10 before transfer to the Windows converter:
+python3 build_word_source.py --check-json=SOURCE_CHECK_RECEIPT.json --manifest-json=CONVERSION_MANIFEST.json

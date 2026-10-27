@@ -1,0 +1,88 @@
+{
+  "applicable_non_unknown": 2,
+  "baseline_identity": "Frozen question-only answer-type rule plus visible typed reduction and shared calculator; no model, gold answer input or UID branch.",
+  "claim_boundary": "Zero-model applicability/failure diagnostic on the frozen same-source new-table panel; not accuracy, method gain or confirmation.",
+  "failure_or_abstention": 6,
+  "generation_records_created": 0,
+  "model_calls": 0,
+  "per_uid": [
+    {
+      "answer_reason": "numeric_answer_mismatch",
+      "applicable": true,
+      "evidence_reason": "each_required_operand_exactly_supported",
+      "family_id": "b9871425-cbf5-4b6c-b1d3-6931727226a1",
+      "question_uid": "57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "reasonable_unknown_declared",
+      "applicable": false,
+      "evidence_reason": "unsupported_unknown_visible_evidence",
+      "family_id": "cc4f089d-e7bf-4b00-a096-48a3eed39f86",
+      "question_uid": "62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "reasonable_unknown_declared",
+      "applicable": false,
+      "evidence_reason": "unsupported_unknown_visible_evidence",
+      "family_id": "1cacb8a3-8587-4ff4-aadb-814352f5c0ff",
+      "question_uid": "177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "exact_text_set_mismatch",
+      "applicable": true,
+      "evidence_reason": "required_evidence_operand_mismatch",
+      "family_id": "92694e4b-3488-4983-ab60-dc7f88a7e0f5",
+      "question_uid": "b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "reasonable_unknown_declared",
+      "applicable": false,
+      "evidence_reason": "unsupported_unknown_visible_evidence",
+      "family_id": "a98c60cd-3990-47d0-9d30-351743be74c7",
+      "question_uid": "f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "reasonable_unknown_declared",
+      "applicable": false,
+      "evidence_reason": "unsupported_unknown_visible_evidence",
+      "family_id": "1f631856-89ba-471a-b65d-86801ec07401",
+      "question_uid": "90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "reasonable_unknown_declared",
+      "applicable": false,
+      "evidence_reason": "unsupported_unknown_visible_evidence",
+      "family_id": "b4fefe60-e68c-4ba3-a8f9-35395b7ea0a5",
+      "question_uid": "49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "status": "REJECT"
+    },
+    {
+      "answer_reason": "reasonable_unknown_declared",
+      "applicable": false,
+      "evidence_reason": "count_members_reconstructed",
+      "family_id": "d65a24cf-2c2b-4a9f-9cc9-6675b3583530",
+      "question_uid": "24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "status": "REASONABLE_UNKNOWN"
+    }
+  ],
+  "rows": 8,
+  "schema": "word_new_family_zero_model_baseline_v1",
+  "source_hashes": {
+    "panel_freeze": "501e6feba30d823ba5f8e98295225a247f42e0ef27e0c577fd73e2ae13771dde",
+    "question_only_rule": "29e0a48da029a72afe29c0687d68a8c1187a87696ec62bb240869420e3c28bce",
+    "scoring_v3": "4d8075bd4065f0cf3c0a17a830185f2650eff925cdec977b8001fcfbab3bc383",
+    "typed_baseline": "04da11f39be34e85335b36c0dcd511fb6ae863ba3cb64df01021fd74bacf124d"
+  },
+  "status": "COMPLETE_ZERO_MODEL_BASELINE",
+  "status_counts": {
+    "REASONABLE_UNKNOWN": 1,
+    "REJECT": 7
+  },
+  "training_runs": 0
+}

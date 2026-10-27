@@ -1,0 +1,18 @@
+{
+  "logical_call_id": "word-new-family-20261027-a:D:90f9af10-77ac-441c-a53d-3167c15ad61b",
+  "output_dir": "/home/testuser/wzh/word_scoring_new_family_worktree_20261027/research/word_scoring_new_family_20261027_v1/generation/raw/D/90f9af10-77ac-441c-a53d-3167c15ad61b/primary",
+  "physical_attempt_id": "pa-000009",
+  "raw_event_sha256": "0aba938878e80433d3a3e4b7be1627b2c694db42e42b95aff225474ad8aaf4a9",
+  "reservation_event_sha256": "05449448502c78ad22fc79b35bab63cf5e3303bed1c5814417a0570e751feb9c",
+  "schema": "adaptive_mechanism_generate_receipt_v1",
+  "score": {
+    "logical_call_id": "word-new-family-20261027-a:D:90f9af10-77ac-441c-a53d-3167c15ad61b",
+    "model_loaded_in_scorer": false,
+    "physical_attempt_id": "pa-000009",
+    "raw_event_sha256": "0aba938878e80433d3a3e4b7be1627b2c694db42e42b95aff225474ad8aaf4a9",
+    "schema": "word_new_family_raw_persist_receipt_v1",
+    "scored": false,
+    "status": "RAW_PERSISTED_NOT_SCORED"
+  },
+  "scored_only_after_raw_fsync": true
+}

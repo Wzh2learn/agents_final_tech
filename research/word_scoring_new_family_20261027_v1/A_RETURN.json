@@ -1,0 +1,65 @@
+{
+  "authority": {
+    "git_blob": "a2463f555f4ede2afcebb14dea2b627a0e5b99db",
+    "lf_sha256": "1414d5b1ce4dc1b47c736c2b5d661366b19d55faa3736dbae5d7c7a7066aac93",
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md"
+  },
+  "budget": {
+    "external_harness_calls": 0,
+    "judge_calls": 0,
+    "paid_api_calls": 0,
+    "physical_reservations": 27,
+    "production_calls": 0,
+    "persisted_actual_input_tokens": 28074,
+    "persisted_actual_output_tokens": 12014,
+    "persisted_actual_total_tokens": 40088,
+    "real_model_generate_calls": 25,
+    "retries_with_persisted_raw": 2,
+    "service_or_endpoint_calls": 0,
+    "token_cap": 240000,
+    "training_runs": 0,
+    "uncertain_consumed_tokens": 5966,
+    "wall_seconds_last_process": 718.5607316493988
+  },
+  "date": "2026-10-27",
+  "diagnostic": {
+    "M_repair_families": [],
+    "M_stop_decision": "M_DIFFERENCE_REQUIRES_REVIEW",
+    "T_matches_M_all_families": false,
+    "arm_interface_pass": {"D": 4, "M": 0, "T": 1},
+    "arm_numeric_correct": {"D": 4, "M": 0, "T": 1},
+    "arm_semantic_status": {
+      "D": {"ACCEPT": 2, "REJECT": 2, "STRICT_FAIL": 4},
+      "M": {"STRICT_FAIL": 8},
+      "T": {"ACCEPT": 1, "STRICT_FAIL": 7}
+    },
+    "confirmation_card_prepared": false,
+    "raw_rows": 24,
+    "rows_per_arm": {"D": 8, "M": 8, "T": 8}
+  },
+  "exposure": {
+    "eligible_unexposed_family_count": 38,
+    "historical_pretraining_exposure_auditable": false,
+    "selected_family_count": 8,
+    "selected_uid_count": 8,
+    "source_identity_label": "SAME_SOURCE_NEW_TABLE_FAMILIES"
+  },
+  "schema": "word_scoring_new_family_a_return_v1",
+  "scoring_v3": {
+    "diagnostic_interface_controls": {"passed": 5, "run": 5},
+    "pure_rescore_difference_rows": 109,
+    "targeted_controls": {"passed": 7, "run": 7},
+    "v2_regression": {"passed": 17, "run": 17}
+  },
+  "status": "A_TASK_COMPLETE_PENDING_D_CONVERSION_AND_C_REVIEW",
+  "task_id": "word-scoring-new-family-a-20261027",
+  "word_source": {
+    "abstract_words": 208,
+    "bibliography_entries": 24,
+    "cited_keys": 24,
+    "conversion_command": "paper_e_word/CONVERSION_COMMAND.txt",
+    "figures": 3,
+    "owner_fields": "TBD_OWNER",
+    "source_check": "PASS"
+  }
+}

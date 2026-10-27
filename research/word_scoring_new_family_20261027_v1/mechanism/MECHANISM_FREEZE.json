@@ -1,0 +1,158 @@
+{
+  "arms": {
+    "D": {
+      "instruction": "Answer directly from the visible evidence under the final delivery contract.",
+      "output_contract": "Return exactly one JSON object with exactly these six keys:\nanswer, numeric_value, unit, evidence_refs, unknown, clarification.\nanswer is a non-empty string or a non-empty list of strings.\nnumeric_value is a finite number or null.\nunit is a non-empty string.\nevidence_refs is a list of visible identifiers only.\nunknown is a boolean.\nclarification is a string.\nIf the required visible evidence is absent or insufficient, set unknown=true,\nanswer=\"UNKNOWN\", numeric_value=null, unit=\"UNKNOWN\", evidence_refs=[], and\nprovide a nonempty clarification. Do not emit Markdown or any other text.",
+      "tools": "same read-only visible context; no hidden references"
+    },
+    "M": {
+      "instruction": "Infer the same typed representation, explicitly bind row, period, role, and unit from visible evidence, validate every binding deterministically, and only then let the shared safe calculator execute it.",
+      "output_contract": "Return exactly one JSON object with exactly these keys:\nanswer_type, answer, operands, program, operation, unit, evidence_refs,\nunknown, clarification.\nanswer_type is one of arithmetic, count, multi-span, span, or other.\nanswer is a non-empty string or a non-empty list of strings.\noperands is a list of objects with operand_id, evidence_ref, and value.\nprogram is the deterministic expression to execute; use an empty string when\nno numeric expression applies.\noperation is one of add, subtract, multiply, divide, percent_change, mean,\ncompare, count, none.\nunit is a non-empty string.\nevidence_refs is a list of visible identifiers only.\nunknown is a boolean and clarification is a string.\nIf required visible evidence is absent, use the UNKNOWN envelope from the\nshared contract: unknown=true, answer=\"UNKNOWN\", numeric_value=null,\nunit=\"UNKNOWN\", evidence_refs=[], and a nonempty clarification.\nDo not emit Markdown or any other text.\n\nReturn exactly the typed object above plus exactly one additional key,\nbindings. bindings is a list with one object for every operand or evidence\nitem used. Each binding has evidence_ref, row, period, role, and unit.\nUse a visible table row number for row; use the visible header or source\nperiod for period; use the visible column or paragraph role for role; use the\nvisible table or paragraph unit for unit. Use null only when a field is not\npresent in the visible source. Bind every field from this prompt before the\nshared calculator executes the program. Do not invent hidden row IDs,\nperiods, roles, units, or reference answers.",
+      "tools": "same read-only visible context, shared normalization and safe calculator, plus deterministic binding validation"
+    },
+    "T": {
+      "instruction": "Infer a visible-only typed representation, construct a deterministic program, and let the shared safe calculator execute it before final normalization.",
+      "output_contract": "Return exactly one JSON object with exactly these keys:\nanswer_type, answer, operands, program, operation, unit, evidence_refs,\nunknown, clarification.\nanswer_type is one of arithmetic, count, multi-span, span, or other.\nanswer is a non-empty string or a non-empty list of strings.\noperands is a list of objects with operand_id, evidence_ref, and value.\nprogram is the deterministic expression to execute; use an empty string when\nno numeric expression applies.\noperation is one of add, subtract, multiply, divide, percent_change, mean,\ncompare, count, none.\nunit is a non-empty string.\nevidence_refs is a list of visible identifiers only.\nunknown is a boolean and clarification is a string.\nIf required visible evidence is absent, use the UNKNOWN envelope from the\nshared contract: unknown=true, answer=\"UNKNOWN\", numeric_value=null,\nunit=\"UNKNOWN\", evidence_refs=[], and a nonempty clarification.\nDo not emit Markdown or any other text.",
+      "tools": "same read-only visible context plus shared normalization and safe calculator"
+    }
+  },
+  "baseline": {
+    "model_calls": 0,
+    "path": "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE.json",
+    "sha256": "089ce79ce8666b3803494716b66118585d803ce09f9d7a7d92ba89d621abdb5c",
+    "status": "COMPLETE_ZERO_MODEL_BASELINE"
+  },
+  "claim_boundary": "Natural reference-side selection before model output; does not claim cross-source validation, pretraining-disjointness, confirmation or method gain.",
+  "decoding": {
+    "algorithm": "greedy",
+    "input_tokens_upper_bound_per_attempt": 6000,
+    "max_new_tokens_per_attempt": 512,
+    "seed": 20261027,
+    "stop_on": [
+      "complete valid JSON object",
+      "512 new tokens"
+    ],
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "frozen_at": "2026-10-27T16:05:39.487534+08:00",
+  "frozen_predictions": [
+    "D will be weakest on complete typed delivery and deterministic formula execution.",
+    "T will improve typed/formula delivery relative to D when visible evidence is sufficient.",
+    "M will differ from T only on binding-specific natural failures; formatting-only or abstention-only changes are not repairs."
+  ],
+  "metrics": [
+    "complete_delivery",
+    "correct_repair",
+    "damage",
+    "strict_failure",
+    "reasonable_unknown",
+    "unnecessary_refusal",
+    "pending",
+    "numeric_correctness",
+    "formula_correctness",
+    "visible_citation_support",
+    "direct_typed_binding_differences",
+    "alternative_explanations",
+    "total_cost"
+  ],
+  "model": {
+    "adapter_path": null,
+    "file_manifest_sha256": "0f967e91a45dfb1ff799e1c131cd744ad80f627ced9d55e73f3a598bc25cdf2c",
+    "id": "Qwen/Qwen3-4B",
+    "local_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+    "training_runs": 0,
+    "upstream_revision": "1cfa9a7208912126459214e8b04321603b3df60c"
+  },
+  "model_output_seen": false,
+  "nearest_work_receipt": {
+    "path": "research/word_scoring_new_family_20261027_v1/mechanism/NEAREST_WORK_COMPARISON.json",
+    "sha256": "c087f2d76f12ce0cc93dc776f385dbe9d9b2c1f29aeb068d09a27cee9330f5ca"
+  },
+  "output_contract": {
+    "binding_key": "bindings",
+    "binding_validation": "Every M binding must exist in the visible source and match its visible row, period, role, and unit before execution.",
+    "direct_final_keys": [
+      "answer",
+      "numeric_value",
+      "unit",
+      "evidence_refs",
+      "unknown",
+      "clarification"
+    ],
+    "typed_keys": [
+      "answer_type",
+      "answer",
+      "operands",
+      "program",
+      "operation",
+      "unit",
+      "evidence_refs",
+      "unknown",
+      "clarification"
+    ]
+  },
+  "persistent_budget": {
+    "ledger_module_path": "research/adaptive_mechanism_20261027_v1/persistent_budget/ledger.py",
+    "ledger_module_sha256": "ec2d1a406502673c4e2fca5465659edd828155315f60c4e9625bcc5d18c1fc17",
+    "ledger_path": "/home/testuser/wzh/research_runs/persistent_budget/word_new_family_20261027/ledger.jsonl",
+    "runner_module_path": "research/adaptive_mechanism_20261027_v1/persistent_budget/runner.py",
+    "runner_module_sha256": "9b3b14f2d8c3608def8e967f2d0585cdbe6ea6407cf4808cbd8e0a65c8605352"
+  },
+  "planned_prompts": {
+    "count": 24,
+    "path": "research/word_scoring_new_family_20261027_v1/mechanism/PLANNED_PROMPTS.jsonl",
+    "sha256": "02ee1cf44f9108f467c3f751016df367e3d17dd904f9edd468d357e03198f763"
+  },
+  "resource_budget": {
+    "every_failure_retry_and_interface_positive_counts": true,
+    "input_plus_output_token_cap": 240000,
+    "physical_attempt_cap": 36,
+    "primary_physical_attempts": 24,
+    "reserve_physical_attempts": 12,
+    "training_runs": 0
+  },
+  "run_id": "word-new-family-20261027-a",
+  "schema": "word_new_family_mechanism_freeze_v1",
+  "scoring_v3": {
+    "path": "research/word_scoring_new_family_20261027_v1/scoring_v3/scorer.py",
+    "sha256": "4d8075bd4065f0cf3c0a17a830185f2650eff925cdec977b8001fcfbab3bc383",
+    "tests_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/test_scoring_v3.py",
+    "tests_sha256": "29747d85d8a150be5d407a1942066bcac1fbbe5b5145def4c0d9db68e5b730db"
+  },
+  "selected_family_ids": [
+    "b9871425-cbf5-4b6c-b1d3-6931727226a1",
+    "cc4f089d-e7bf-4b00-a096-48a3eed39f86",
+    "1cacb8a3-8587-4ff4-aadb-814352f5c0ff",
+    "92694e4b-3488-4983-ab60-dc7f88a7e0f5",
+    "a98c60cd-3990-47d0-9d30-351743be74c7",
+    "1f631856-89ba-471a-b65d-86801ec07401",
+    "b4fefe60-e68c-4ba3-a8f9-35395b7ea0a5",
+    "d65a24cf-2c2b-4a9f-9cc9-6675b3583530"
+  ],
+  "selected_uid_count": 8,
+  "selected_uids": [
+    "57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+    "62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+    "177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+    "b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+    "f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+    "90f9af10-77ac-441c-a53d-3167c15ad61b",
+    "49e5b466-62c9-4cab-8d70-8e9317e7a007",
+    "24e5a96b-72f3-4ce8-8c59-4920dac95d2b"
+  ],
+  "shared_tools": {
+    "path": "research/adaptive_mechanism_20261027_v1/persistent_budget/shared_tools.py",
+    "sha256": "c5777049d46169595d358654abc29c3f476107879055d33df6f07d223d138ae7"
+  },
+  "source_identity_label": "SAME_SOURCE_NEW_TABLE_FAMILIES",
+  "status": "FROZEN_PRE_MODEL_OUTPUT",
+  "stop_rules": [
+    "Stop M after generation if T and M match on complete delivery, V3 status, numeric correctness, formula correctness, and citation support for every UID.",
+    "Prepare but do not run an independent confirmation card only when M repairs corresponding natural failures beyond formatting or abstention.",
+    "If all arms fail, separate model, reference and interface failures and do not train an adapter.",
+    "No confirmation, judge, training, paid API, production call, Memory writeback, public release, or external contact.",
+    "Reject attempt 37 or a token projection above 240000 before model loading."
+  ],
+  "task_id": "word-scoring-new-family-a-20261027"
+}

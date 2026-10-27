@@ -1,0 +1,37 @@
+{
+  "actual_local_model_loaded": false,
+  "commands": [
+    "PYTHONPATH=src:. python3.12 research/word_scoring_new_family_20261027_v1/budget/run_fault_tests.py"
+  ],
+  "errors": 0,
+  "failures": 0,
+  "fault_root": "/home/testuser/wzh/word_scoring_new_family_worktree_20261027/research/word_scoring_new_family_20261027_v1/budget/.fault_tmp",
+  "fault_root_owned_by_task": true,
+  "python": "3.12.3",
+  "real_generation_attempts": 0,
+  "real_model_calls": 0,
+  "schema": "word_new_family_budget_fault_test_receipt_v1",
+  "source_hashes": {
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/ledger.py": "ec2d1a406502673c4e2fca5465659edd828155315f60c4e9625bcc5d18c1fc17",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/runner.py": "9b3b14f2d8c3608def8e967f2d0585cdbe6ea6407cf4808cbd8e0a65c8605352",
+    "research/adaptive_mechanism_20261027_v1/persistent_budget/test_persistent_budget.py": "89722d080c4ac0095b754eadd762f4b55c1115976a4209d77bf42a07317c280f",
+    "research/word_scoring_new_family_20261027_v1/budget/test_word_new_family_faults.py": "b54f6f3a33382928bf9273485b41686e59c6b49b6bfc0cc101cd6d2e5a713118"
+  },
+  "status": "PASS",
+  "test_run": 11,
+  "tests": [
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_attempt_37_rejected_before_model_loader",
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_crash_after_reservation_before_raw_remains_consumed",
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_crash_between_calls_preserves_every_earlier_raw",
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_output_directory_change_cannot_reset_ledger",
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_scoring_throw_keeps_raw_and_rescore_adds_zero_calls",
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_shared_normalization_and_calculator",
+    "research.adaptive_mechanism_20261027_v1.persistent_budget.test_persistent_budget.PersistentBudgetFaultTests.test_token_cap_successor_rejected_before_model_loader",
+    "research.word_scoring_new_family_20261027_v1.budget.test_word_new_family_faults.WordNewFamilyAdditionalFaults.test_rescore_never_invokes_a_model_loader",
+    "research.word_scoring_new_family_20261027_v1.budget.test_word_new_family_faults.WordNewFamilyAdditionalFaults.test_reservation_matches_exact_input_plus_max_new",
+    "research.word_scoring_new_family_20261027_v1.budget.test_word_new_family_faults.WordNewFamilyAdditionalFaults.test_restart_preserves_ledger_and_prevents_duplicate_logical_call",
+    "research.word_scoring_new_family_20261027_v1.budget.test_word_new_family_faults.WordNewFamilyAdditionalFaults.test_timeout_reservation_remains_consumed_and_resume_stops"
+  ],
+  "training_runs": 0,
+  "uses_stub_loaders_only": true
+}

@@ -467,3 +467,105 @@ gold `answer_type`。在真正部署可见边界下，blank-type 消融只有
 所需段落不在所选上下文。冻结 8-UID/36-attempt 面板没有运行，新增生成、
 训练、judge 和生产探针均为 0。下一阶段若要建立方法贡献，必须换新冻结来源、
 去掉 gold `answer_type`，并保持同样的可见输入边界和共享计算器。
+
+## 11. Word 交付、Scoring V3 与同源新表族机制诊断（2026-10-27）
+
+### 11.1 方法与冻结边界
+
+本轮以既有完整两案例 manuscript 为 Paper E 唯一内容源，生成可由 Pandoc
+3.2.1 直接转换的 Word 源包；没有把 P1/P2 或本轮新表族结果写入 Paper E。
+源包保留 208 词结构化摘要、5 个关键词、三幅图、四个可编辑 Markdown 表、
+24 项数字括号引用、declarations 和 Data Availability。作者、单位、通讯作者、
+基金、专利、AI 披露批准和 artifact 字段仍为 `TBD_OWNER`；A 只做源检查，
+不声称 DOCX/PDF 视觉验收或 C acceptance。
+
+Scoring V3 在 V2 五层边界上新增三组配对控制：等值两行的 role-only
+引用必须由问题、行、期间、来源注释或可审查参考链独立定位，无法区分时为
+`PENDING`；每项 required evidence 分别判断，exact+exact 可通过而
+exact+broad 不得自动通过；单元素 numeric span 的 `answer` 与
+`numeric_value` 必须一致。纯重评分只读取不可变第一批 40-call raw 中的
+36 个最终 attempt，以及已保存的 oracle、blank-type 和 question-only 输出；
+不加载模型、不创建 generation record，也不改写 `2/3/3`、`31/5`、
+`12/19/5` 或历史 manifest。
+
+暴露审计先于任何新输出，从 source split、训练/开发/确认/error-pool、
+prior UID、table/report family 和本轮 inspected question 建立排除并集。
+在 TAT-QA dev 中按参考侧 `task_signature` 后接
+`SHA256(seed:uid)` 的固定规则选择 8 个此前未暴露的自然 table family，
+每 family 一个 UID，覆盖 arithmetic change/comparison/mean、span、
+multi-span 和 count。结果标签严格为
+`SAME_SOURCE_NEW_TABLE_FAMILIES`；历史预训练暴露不可审计，因此不声称
+pretraining-disjoint。输出前冻结参考侧问题、尺度、方向、required evidence、
+accepted answer、question-only typed baseline、共享 calculator、Scoring V3、
+模型/checkpoint/tokenizer/decode/output contract，以及 D/T/M 的 24 条提示。
+
+三臂使用同一 Qwen3-4B、greedy decode、512-token 输出预算和可见上下文。
+D 直接交付最终六键 JSON；T 推断 typed envelope、program 并调用共享安全
+calculator；M 在 T 上增加 row/period/role/unit binding，且必须先通过
+deterministic validation 才能执行。actor 看不到 gold answer/type/program、
+source requirement、correct row ID、hidden unit 或 reference answer。
+生成前先运行零模型 question-only typed baseline 和 11 项持久预算 fault test；
+每次真实调用前 reservation，raw 与 usage 在评分前 append/fsync。
+
+### 11.2 结果
+
+Word 源检查全部通过：摘要 208 词、5 关键词、3 图、4 个可编辑表、
+24 个被引 key 与 24 条 bibliography 完全一致、无 raw BibTeX 字段，
+两案例边界保持。转换命令和 `reference_style.docx` 已冻结，目标正文为
+10 pt Times New Roman；D 尚未执行 Windows Pandoc，因此没有 DOCX/PDF
+页码、分页、图片、公式或参考文献渲染验收。
+
+Scoring V3 的 7 项 targeted controls 全部通过，V2 regression 17/17、
+诊断接口 5/5。四套纯重评分各 36 行，共记录 109 个 layer/UID 差异行；
+发生变化的 UID 数为 blank-type 6、first-batch 8、oracle 11、
+question-only 11。各变体的 V3 final status 与 V2 保持不变：
+blank-type `12 ACCEPT / 19 REJECT / 5 REASONABLE_UNKNOWN`，
+first-batch `22 REJECT / 13 STRICT_FAIL / 1 PENDING`，
+oracle 和 question-only 均为 `31 ACCEPT / 5 REASONABLE_UNKNOWN`。
+差异主要落在 evidence 与 numeric/unit reason；这些是版本边界和原因层
+变化，不是自然错误率，也不改写历史计数。
+
+暴露审计得到 38 个候选未暴露 family，冻结面板为 8 UID/8 family。
+零模型 baseline 在 8 行上得到 `7 REJECT / 1 REASONABLE_UNKNOWN`、
+2 行 applicable、6 行 failure/abstention，且模型调用为 0。
+24 个持久 raw response 全部保留，D/T/M 各 8；原始严格合同均失败，
+原因是 reasoning prefix、截断或没有完整 JSON。语义接口可提取并归一化的
+行只有 D 4、T 1、M 0；D 得到 2 ACCEPT、2 REJECT、4 STRICT_FAIL，
+T 得到 1 ACCEPT、7 STRICT_FAIL，M 为 8 STRICT_FAIL。
+完整 strict delivery 因此三臂均为 0；D/T/M 的 numeric correct 分别为
+4/1/0，citation exact 分别为 2/1/0。多数 T/M 失败在 512-token 上限前
+没有完成合同，属于 model/interface failure；部分 span/count 另有冻结
+reference unit 与可见语义冲突，属于 reference-side ambiguity。
+
+T 与 M 的逐 UID 向量不完全相同，因为 T 在一个 numeric-span family
+完成归一化而 M 截断；但 M 没有任何超出 T 的自然 repair，且所有 M
+binding validation 都因合同未完成而不可用。因此没有准备 confirmation
+card，也没有训练 adapter。该差异不能被解释为 binding mechanism 的收益，
+只能说明 M 的额外合同在固定输出预算下产生了更高 interface risk。
+
+生成共发生 25 次真实 model generate call：24 条 raw 持久化，另 1 次
+loader 在 raw append 前丢弃响应；另有 2 次 pre-model tokenizer/reservation
+故障。物理 reservation 为 27，保留失败 3，bounded retry 2，剩余 reserve
+attempt 9。持久 raw 实际用量为 input 28,074、output 12,014、合计
+40,088 tokens；不确定 reservation 再保守消耗 5,966，账本总计
+46,054/240,000 tokens。最后一次生成进程 wall time 为 718.56 秒。
+训练、adapter、judge、paid API、service/endpoint、production 和 external
+harness 调用均为 0。
+
+最近工作对照只读取项目既有的 FinRank、VeriFin 和 Same-Number Citation
+Swaps 笔记；单 tested difference 是 M 在执行前增加确定性的
+row/period/role/unit binding validation。反例是 ordinary program-aided
+reasoning 与 typed schema 已属既有能力，不能把 T 或普通程序辅助推理称为
+novel。
+
+### 11.3 局限与下一缺失证据
+
+本轮是同源新 table family，不是 cross-source、human gold、预注册确认或
+pretraining-disjoint 验证；8 个 family 的历史预训练暴露不可审计。
+合成/变异 paired controls 只证明评分边界，不提供自然错误率。所有 raw
+严格失败、512-token 截断和 reference-unit ambiguity 使三臂不能形成干净的
+机制比较；当前不能声称 D/T/M 准确率、M repair、方法增益或 confirmation。
+Paper E 的 D-side Pandoc 3.2.1 转换与 GB10 LibreOffice 视觉检查仍待执行。
+下一步若继续机制研究，必须在不查看新输出后改 prompt 的前提下，使用独立
+fixed-snapshot、更充分且匹配的输出预算、接口正例资格门和独立确认面板；
+在此之前不训练 adapter，也不把本轮同源面板复用为确认。
