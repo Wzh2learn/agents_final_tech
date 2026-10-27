@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-25 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-27 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -12,7 +12,7 @@
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 当前科研基线与复用资产 | [`research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md`](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[`RECONCILIATION.json`](../research/research_baseline_governance_20261023/RECONCILIATION.json) |
 | 当前方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见STATE |
-| 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)：Adaptive阶段已执行，A/C26/26；最新复核接续Word交付、配对评分和新表族诊断，下一2次协作为提案；旧[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)/[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md) |
+| 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)：Word交付、Scoring V3和同源新表族诊断已执行，A/C28/28并处于`CONDITIONAL`后暂停；下一步只能修Paper E或另批D/T/M预算。旧[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)/[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md) |
 | 决策残差范围复核 | [负责人复核](governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)：独立复算、no-go范围、always-expand成本门及待接受的下一阶段提案；机器收据/复现脚本见正文 |
 | 自然错误/成本阶段事后复核 | [负责人复核](governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)：507行复算、P1执行证据缺口、P2分类反例及优先期刊稿/一次校准实验；原raw不改 |
 | Publication/Proxy事后复核 | [负责人复核](governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)：36项第一批raw直接重评分、双向评分反例、80次实物账与正式TeX阻断；原结果不覆盖 |
