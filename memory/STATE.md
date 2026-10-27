@@ -5,7 +5,7 @@
 
 ## 当前任务
 
-Publication/Proxy阶段已完成A实作、C联合审阅和一次故障储备修复，A/C累计24/24；旧R/E继续停止。P1公共actor和全24题回归已由C复算：numeric 23/24、完整semantic 13/24、unit 14/24，4修复/0破坏/1方向冲突。P2完成12题三臂真实校准：top-3/top-5/all为2/3/3 ACCEPT，all被top-5弱支配，9/12三臂均失败。修复任务实际发生40+40次物理生成，80/48超帽32次；第一批40次为合规主样本，第二批隔离，科学结果只从第一批raw零模型派生。Paper E形成15页完整fallback稿与24/24引用，精确TeX编译仍待批准环境。
+Publication/Proxy真实执行已接受，P1公共actor全24开发回归关闭旧执行缺口。负责人在GB10从第一批raw独立重评分36项，旧2/3/3 ACCEPT可复现但评分有效性不合格：算术参考不可达ACCEPT、span表示误拒、多span/单位/引用可能误放。唯一top-5新增ACCEPT不能解释为检索收益，input差为917而非911；9个共享REJECT尚非9个确认推理失败。实际80/48调用超帽32已全部扣账，A/C 24/24耗尽；原科学余额404次生成。本轮0新增模型/训练/A-C派发。Paper E完整15页fallback已具备，内置TeX编译重试仍遇sandbox helper不可用，正式构建及Owner外部动作分开。详见[负责人复核](../docs/governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
@@ -13,11 +13,11 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 
 | 用途 | 当前权威入口 |
 |---|---|
-| 当前方法实验 | [D_INTEGRATION_RETURN](../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)、[COMPLIANT_RESULT](../research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json)、[C_AUDIT](../research/publication_proxy_calibration_20261026_v1/audits/C_JOINT_AUDIT.md) |
+| 当前方法实验 | [负责人最新复核](../docs/governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)、[D历史回执](../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)；原2/3/3仅旧评分身份 |
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
 | Paper E 投稿路线 | [ROUTE_REASSESSMENT](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：SNCS订阅条件主投，ICAART仅在截止前四项条件齐备时启用 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
-| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：Publication/Proxy阶段已执行；预算事故与最终科学口径以D更正为准 |
+| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：先正式论文构建、零模型重评及记账防重跑，再一个有界机制实验；新增2次协作提案待接受 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
 | 最新科研回执 | [D_INTEGRATION_RETURN](../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)、[BUDGET_CORRECTION](../research/publication_proxy_calibration_20261026_v1/D_BUDGET_INCIDENT_AND_CORRECTED_ACCOUNTING.md)、[A_REMEDIATION_RETURN](../research/publication_proxy_calibration_20261026_v1/A_REMEDIATION_RETURN.md) |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
@@ -29,7 +29,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 
 ## 科学边界
 
-- C1 / Paper E：`AUTHOR_LEVEL_COMPLETE_TEX_BUILD_UNVERIFIED`。唯一主稿维持两案例；15页完整fallback PDF、24/24引用和投稿附件已具备。精确TeX编译、作者身份、专利/artifact许可及正式提交仍待Owner或批准环境。
+- C1 / Paper E：`FULL_DRAFT_BUILD_BLOCKED`。两案例完整稿与15页fallback已具备；参考文献fallback排版未达到正式PDF标准。正常TeX构建是技术待办，Owner负责身份/许可及正式外部动作，两者不混写。
 - 以下 G2、G3 与旧第三研究点条目保留为历史边界和复用素材，不承担现役 C1/C2/C3 贡献身份。
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。

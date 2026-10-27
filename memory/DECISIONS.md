@@ -264,3 +264,6 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 ## [2026-10-26] 接受自然阶段执行，区分规则解释、代理筛查与真实答案实验
 结论：原21/22次A/C及原门下暂停保留；507行计数/hash复现，P1缺统一actor/全24回归，P2分类器子串/角色反例已复现。506不是独立完整语义参考，不能用代理门关闭真实答案—成本研究。Paper E优先交SNCS派生稿；拟用A实作+C一次联合审阅完成必要补证和48次内校准，新增2次协作待Owner接受。旧raw与冻结门不改，本会话0科研生成/训练/A-C派发/外部动作。
 理由：旧方案把代理门过早用于阻止诊断，且六次协作实际用于准备/修复/审计/收口。后续收窄工作面并测最有信息价值的不确定性，不要求先证明正向收益，也不重开旧R/E。依据：docs/governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md。
+
+## [2026-10-27] 接受真实校准，暂停其完整语义与检索增益解释
+负责人在GB10从第一批raw直接重放36项，P1公共actor补证接受；P2旧2/3/3复现但6个数字参考不可达ACCEPT，额外span/错单位/伪引用可误放，净销售额新增ACCEPT受货币展示影响。input差为917。原raw不改，不据此认证检索/推理结论；先修评分和持久物理预算，再一个类型化读出机制诊断。Paper E完整fallback不等于正式TeX，内置编译器实际失败为技术阻断。新2次A/C为待接受提案；原余额404次科学生成保守保留，本会话0模型/训练/协作/外部动作。依据：docs/governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md。

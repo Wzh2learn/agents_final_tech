@@ -6,18 +6,18 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-27
 
 ## 当前任务与证据
 
-Publication/Proxy阶段已执行，旧R/E停止，A/C累计24/24。P1公共actor/全24题回归已由C复算；P2完成12题三臂真实校准。Paper E形成完整两案例期刊派生稿。修复任务实际80/48生成attempts，超帽32；第一批40次为合规主样本，第二批隔离。506仍是自动参考状态，不是独立完整语义裁决。最终科学、预算与投稿边界见[D集成回执](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)。
+Publication/Proxy真实执行及P1全24开发回归已接受；最新[负责人复核](../governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)在GB10从第一批raw直接重放36项，确认P2评分双向偏差，原2/3/3不能解释为完整语义准确率或检索收益。物理80/48事故已全部计入，A/C 24/24耗尽，新增协作仅为待接受提案。Paper E完整期刊稿已形成，15页fallback仅供内容审阅，正式TeX构建受工具阻断。
 
 A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
 
 | 用途 | 权威记录 |
 |---|---|
-| 当前方法实验与成本 | [D_INTEGRATION_RETURN](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)、[COMPLIANT_RESULT](../../research/publication_proxy_calibration_20261026_v1/raw/runs/compliant_primary/P2_CALIBRATION_RESULTS.json)、[C_AUDIT](../../research/publication_proxy_calibration_20261026_v1/audits/C_JOINT_AUDIT.md) |
+| 当前方法实验与成本 | [负责人最新复核](../governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)及同名JSON/脚本；[D历史集成](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)与原raw不改 |
 | 当前自然错误/取证成本阶段 | [STAGE_RETURN](../../research/natural_error_evidence_cost_20261026_v1/STAGE_RETURN.md)、[A_CLOSEOUT](../../research/natural_error_evidence_cost_20261026_v1/a_closeout/A_CLOSEOUT_RESULT.json)、[C_FINAL](../../research/natural_error_evidence_cost_20261026_v1/audits/TASK_RESULT_C_FINAL.json) |
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[ROUTE_REASSESSMENT](../../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：Publication/Proxy阶段与预算事故已接续；旧路径仅跳转 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：正式论文构建、修复评价/持久记账，再一个机制诊断；新增2次协作提案未派发 |
 | 最新科研回执 | [D_INTEGRATION_RETURN](../../research/publication_proxy_calibration_20261026_v1/D_INTEGRATION_RETURN.md)、[BUDGET_CORRECTION](../../research/publication_proxy_calibration_20261026_v1/D_BUDGET_INCIDENT_AND_CORRECTED_ACCOUNTING.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
@@ -32,7 +32,7 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 
 | 研究线 | 当前判断与证据 |
 |---|---|
-| C1 测量 / Paper E | `AUTHOR_LEVEL_COMPLETE_TEX_BUILD_UNVERIFIED`，受限两案例测量审计；[SNCS派生稿](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex)与[15页fallback PDF](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.pdf)已具备，精确TeX编译待批准环境 |
+| C1 测量 / Paper E | `AUTHOR_LEVEL_COMPLETE_TEX_BUILD_UNVERIFIED`，受限两案例测量审计；[SNCS派生稿](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.tex)与[15页fallback PDF](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/paper_e_sncs.pdf)已具备，精确TeX编译受工具阻断，非缺少科研许可 |
 | C2 学习 / 证据反馈 | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_CLAIM`。真实child-only训练完成但未满足有效ordinary续训；N/R/E是集合代理比较且有接口混杂，仅停止当前实现，不作为干净方法负结论 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，完整派生稿、24/24 引用和Owner表已具备；精确TeX构建、作者/专利/artifact许可、投稿/付款/公开仍待办 |

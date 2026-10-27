@@ -1,11 +1,11 @@
 # 大论文研究架构 v3：文档智能任务的测量、学习与可靠交付
 
-> 更新：2026-10-26｜`CURRENT_RESEARCH_ARCHITECTURE / C2_C3_NOT_ESTABLISHED`
+> 更新：2026-10-27｜`CURRENT_RESEARCH_ARCHITECTURE / C2_C3_NOT_ESTABLISHED`
 > 唯一执行正文：[LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)；本轮no-go已执行；下一阶段和协作增量为提案，未派发。
 > [治理基线](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)管理科学边界，[执行蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md)管理工作流；[STATE](../../memory/STATE.md)保存当前事实。
 > 原始历史架构见[快照](history/2026-10-12_pre_governance/README.md)，后文历史内容不控制当前贡献与运行权限。
 
-> 2026-10-26最新接续：[自然阶段事后复核](../governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)。原门下暂停接受；P1规则解释不等于全24题可执行修复，P2代理未认证语义充分性。原6次协作已用，累计21/22；期刊稿/一次答案成本校准及新增2次协作为待接受提案。以下历史身份不恢复旧权限。
+> 2026-10-27最新接续：[Publication/Proxy负责人复核](../governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)。P1全24执行已补齐；P2旧评分双向偏差阻断方法/检索增益解释。Paper E完整稿已有，正式构建未完。A/C24/24耗尽，新增2次为待接受提案；范围仅唯一指令。
 
 ## 0. 当前研究范围与贡献边界
 
@@ -23,7 +23,7 @@
 
 送审为2027年10月、具体日未知；按2027年7月初稿、8—9月修改与材料缓冲倒排。NIST/ITIL只作研究背景，不作为方法创新或合规认证。
 
-**本轮执行面：**B及其后A/C资格no-go均已执行；负责人纠正no-go外推和成本门。下一阶段先已有自然原题诊断，另查混合表文成本必要性，只选一个；增量提案未启动，原始证据只读。
+**本轮执行面：**具体任务见[唯一指令](LOOP_D_RESEARCH_PROMPT.md)，阻断见[THREADS](../../memory/THREADS.md)。研究顺序为正式论文构建、分层评价与信息损失定位、一个有界机制诊断；原始证据只读。
 
 以下第1节起保留2026-10-12历史设计；“最终题目”等措辞仅是当时版本身份，不控制现役范围。
 
