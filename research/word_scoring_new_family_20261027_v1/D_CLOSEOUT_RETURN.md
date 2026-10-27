@@ -19,7 +19,7 @@ being mistaken for a binding-mechanism result.
 | Documentation | `changed-and-verified` | `LOOP_D_RESEARCH_PROMPT.md`, `memory/STATE.md`, `memory/THREADS.md`, `docs/research/README.md` and this return carry one current account |
 | Rules | `verified-current` | Parent/project `AGENTS.md` and thin `CLAUDE.md` pointers remain applicable; no rule change was needed |
 | Memory | `changed-and-verified` | Project STATE/THREADS/DECISIONS updated; platform-generated memory remains read-only |
-| Workspace | `pending-local-untracked-only` | GB10 research-branch conflicts were resolved and pushed at `c644cb4f5`; local and GB10 `main` were synced at `481b87ce` before this handoff commit. The untracked local `paper_e_word/` copy still prevents a clean research-branch merge into local `main`; historical GB10 worktrees remain preserved |
+| Workspace | `pending-local-untracked-only` | GB10 research-branch conflicts were resolved and pushed at `c644cb4f5`; local and GB10 `main` were synced at `481b87ce` before the handoff commit. The research branch and `main` are divergent from merge-base `9c92d4cfc` (`main`-only 4 / research-only 7). The untracked local `paper_e_word/` has 38 same-name branch mirrors plus 85 unique debug/historical renders; it is not a whole-directory duplicate. Historical GB10 worktrees remain preserved |
 
 ## Current Scientific State
 
@@ -61,9 +61,9 @@ File contents were unchanged.
 ## Cleanup Candidates - Not Deleted
 
 - Local untracked `research/word_scoring_new_family_20261027_v1/paper_e_word/`:
-  redundant with the pushed research branch and contains debug/intermediate
-  renders. Keep until the user confirms removal or protected relocation before
-  any future research-branch merge into local `main`.
+  38 same-name files mirror the pushed research branch and 85 files are unique
+  debug/historical renders. Keep the entire directory until each class is
+  reviewed; only the mirrored class is a potential removal candidate.
 - GB10 historical worktrees:
   `decision_residual_worktree_20261026`,
   `next_research_stage_worktree_20261026`,
@@ -71,6 +71,8 @@ File contents were unchanged.
   `publication_proxy_calibration_worktree_20261026`,
   `adaptive_mechanism_worktree_20261027`.
   Preserve until their unique evidence and branch merge status are reviewed.
+  `word_scoring_new_family_worktree_20261027` is the current research evidence
+  worktree, not an additional historical cleanup candidate.
 - Local visualization temp projects `paper_e_compile_20261027` and
   `managed_paper_e_20261027` outside the repository. These are rebuildable
   compile attempts and can be removed after user confirmation.
@@ -143,6 +145,13 @@ sha256sum` 与 manifest 一致，Word 源、转换派生源、DOCX 和 PDF 的�
 也一致。后续身份核对应以 raw Git blob 或 manifest SHA256 为准，不把 CRLF
 表示差异误判为内容漂移。
 
+Artifact identity is a multi-receipt chain: `CONVERSION_MANIFEST.json` binds
+the canonical TeX and Word input source, while `D_WORD_RENDER_RECEIPT.md`
+binds `paper_e_word_fixed.md`, `paper_e.docx` and `rendered_final/paper_e.pdf`.
+`validation/ARTIFACT_HASHES.json` still contains 24 pre-`2b51ae607`
+`generation/receipts/D:<uid>.json`-style paths. Do not rerun that manifest
+literally without applying the recorded D/T/M receipt rename map.
+
 ### 3. Git 与工作区
 
 - `main`：本次交接前已核实本机、GitHub、GB10 均为 `481b87ce66b8`；本次
@@ -181,6 +190,33 @@ sha256sum` 与 manifest 一致，Word 源、转换派生源、DOCX 和 PDF 的�
 新对话应从本节开始，先核实 research branch 证据可读取、本地未跟踪副本的
 身份，以及 Paper E 内容主源到 Word 产物的 raw Git blob hash 链；随后才选择
 修 Paper E 或申请新 D/T/M 预算。
+
+## 独立 Loop C 交接复核与 D 回应
+
+独立 C 以零对话上下文复核了交接，结论为“可接续但证据归位未完全闭环”。
+D 已独立确认其三项关键发现：
+
+- `main` 与 `research/word-scoring-new-family-20261027` 从
+  `9c92d4cfc` 分叉，当前分别为 `b487a9b5` 与 `c644cb4f`；后者不是最新
+  `main` 的后代，新对话必须显式读取两边。
+- 本地 `paper_e_word/` 为 123 个文件，其中 38 个与研究分支同名镜像、
+  85 个是额外 debug/历史渲染，不能整目录称为冗余。
+- `2b51ae607` 将 24 个冒号 receipt 路径改为 Windows-safe 路径；旧
+  `ARTIFACT_HASHES.json` 的 24 个键尚未更新，属于已知映射债。
+
+D 对 C 的两项判断作边界修正：GB10 会话清理结果已在本对话中由 D 实测
+复核（OpenCode 0、A/C 进程 0、备份 `SHA256SUMS` PASS），因此对当前现场
+不是“未验证”；`loop_runs` 保留 205 MB 日志与 sidecar session 清理也不
+矛盾，前者是科研证据，后者是已完成 QA/eval 会话。
+
+D 采纳的架构建议：Loop D 保持主脑；Loop A/C 演化为有边界的独立 Agent，
+不作为加载全局上下文的大型工具。A 只接隔离实作，C 只接固定快照独立审查；
+机械校验交给确定性脚本。所有主/子 Agent、工具调用、重试和生成必须统一
+记账。具体上下文上限属于治理建议，不是实测阈值。
+
+新 Loop D 的第一项工作是证据归位与授权核对：确认 4/7 分叉、38/85 文件
+分类、24 个 receipt 改名映射和 raw hash 链；随后再按 Paper E 优先或申请
+新 D/T/M 预算二选一。
 
 ## GB10 陈旧对话清理回执
 
