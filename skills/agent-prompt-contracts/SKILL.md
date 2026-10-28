@@ -89,6 +89,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证方式**：冻结JSON字段控制为unit=8/8、unit_reference=0/8，单位分布3/1/4；核现役指令明确D可继续修图、29/29不追加派发、新科研生成仍为0。仅静态与离线复算，不代表新模型比较或论文图像已修完。
 - **证据**：`docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md`；固定起点`c33c14bf`的`research/word_scoring_new_family_20261027_v1/exposure/PANEL_FREEZE.json`与`DTM_DECISION_CARD_20261028.md`。本次只更新版本化技能源，未同步机器安装或修改harness。
 
+## C-3补充：第三方公式、对照真值与复现接口（2026-10-28）
+
+- **失败模式**：公开BEIR评测审计两份本地实现共享二值nDCG假设，与trec_eval分级gain不同；MAP分母不同；AB真阳性计数比较方向颠倒；复现命令与脚本参数不符。
+- **对策**：逐指标对照官方源码和可运行实现，构造分级/多相关文档及次序双向正负例；固定原稿和数据版本，重新计算受影响的输出；区分研究者示例排行榜、构造控制与官方结论。
+- **验证方式**：独立执行固定反例：nDCG当前1.0、官方公式约0.8597187；MAP当前1.0、官方0.5。真实数据影响尚未复算，不预断新结果。
+- **证据**：固定提交d79ba1a7的 `research/paper_e_public_eval_20261028/code/beir_audit.py` 和 `beir_audit_ab.py`；`docs/research/LOOP_D_RESEARCH_PROMPT.md`第0节及官方trec_eval源码链接。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

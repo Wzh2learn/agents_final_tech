@@ -8,6 +8,8 @@ Loop D 已于 2026-10-28 接任并执行完本轮授权：Paper E 实质修订�
 
 ## 当前未决
 
+BEIR第三案例评分合同、前后对照和复现命令需优先修复；负责人固定反例与具体执行步骤见[唯一科研指令](../docs/research/LOOP_D_RESEARCH_PROMPT.md)第0节，旧raw/结果保留，不以旧稿对外投稿。
+
 | ID | 状态 | 待决内容与证据 |
 |---|---|---|
 | PHASE-B-VALIDITY | `CORRECTED_IN_D_ADDENDUM_STOP_RETAINED` | 父adapter未激活、集合代理指标和R无干净因果负结论已写入[D前提纠偏](../research/decision_residual_pivot_20261026_v1/D_PREMISE_CORRECTION.md)；原raw/计数保留，旧R/E不重开 |

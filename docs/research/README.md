@@ -6,6 +6,8 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
 ## 当前任务与证据
 
+BEIR第三案例已完成首轮开发但发现评分与官方合同差异及AB计数方向问题；[唯一指令](LOOP_D_RESEARCH_PROMPT.md)第0节要求优先修复和重算，旧结果与raw保留，科学结论待复核。
+
 Owner希望Paper E补充独立公开评测和审计前后实际判断/纠错对照，并优先寻找较IJCNN更早、正式出版且可远程展示的会议。现役执行见[唯一指令](LOOP_D_RESEARCH_PROMPT.md)。先前三图已重导出，字号仍需按最终模板修订；新增实验及会议筛选尚未运行。Owner转发后启用限额内GB10本地生成，A/C不追加派发。
 
 | 用途 | 权威记录 |

@@ -1,6 +1,20 @@
 # Loop D 唯一现役科研指令
 
-> 2026-10-28，Asia/Shanghai。现阶段：PAPER_E_EMPIRICAL_STRENGTHENING_AND_EARLY_CONFERENCES。本文原地维护；旧指令与结论保留Git历史，不新建第二份长期prompt。
+> 2026-10-28，Asia/Shanghai。现阶段：BEIR_AUDIT_CORRECTION_BEFORE_SUBMISSION。本文原地维护；旧指令与结论保留Git历史，不新建第二份长期prompt。
+
+## 0. 最新优先事项：修复 BEIR 第三案例的评测和论证
+
+本节优先于下文原计划。D已完成 BEIR SciFact/NFCorpus实验和三案例稿，提交`d79ba1a7021511d3f75fd62ef2447f2b369d2c0b`。方向值得继续，但负责人复核发现核心评分定义和对照解释问题；**第三案例相关数值和结论暂作待复核，不能对外投稿或称为官方口径已验证**。前两案例不因本问题自动失效。立刻完成下列修复、回归、复算、论文和回执，再继续会议方案；无需额外模型调用也应首先完成。
+
+1. **nDCG定义**：`research/paper_e_public_eval_20261028/code/beir_audit.py`将正相关性全部转换为1，而BEIR官方`EvaluateRetrieval`调用`pytrec_eval`的`ndcg_cut`，trec_eval按qrels原始分级值作为gain。固定反例相关度[1,2]、排序[1,2]：现代码1.0，官方公式约0.8597187。调查两个数据集的真实grade分布并保持原始分级；区分二值nDCG与官方分级nDCG，不假设原结果一定改变/不变。来源：https://raw.githubusercontent.com/beir-cellar/beir/main/beir/retrieval/evaluation.py 和 https://raw.githubusercontent.com/usnistgov/trec_eval/main/m_ndcg_cut.c 。
+2. **MAP定义**：当前`map_cut`以min(n_rel,k)作分母，trec_eval以全部相关文档数n_rel作分母。两相关文档、k=1且首个命中：当前1.0，官方0.5。对照 https://raw.githubusercontent.com/usnistgov/trec_eval/main/m_map_cut.c ，建立正反例与官方实现或可信独立计算核验。明确MAP虽然已输出，论文关键第三案例主要使用nDCG，分别评估影响。
+3. **控制统计实现**：`beir_audit_ab.py`的`truth_diff`是(degraded,other)，但按高分先输出的asserted顺序为(other,degraded)，致`true_different_flagged`在B0/B1/A均为0。不能只反转就把其他所有系统作为已知ground truth；至少以基准与其构造退化配对，分别核方向、幅度和评价定义，其他比较仅在能证明真值时纳入。添加次序双向与正负控制。
+4. **来源及基线**：五组词法系统和两个人为控制由本研究实现及构造；明确这是一张由公开BEIR数据计算的示例排行榜，而非已证明的BEIR官方排行榜或官方报告断言。B0当前`b0_order`将相等的重复系统按稳定排序强行断言先后，构造了假阳性；增加会正确处理数值相等的简单基线，并与查询级bootstrap、配对测试比较。B1更换为recall@100实际上换了排序目标，不能仅凭顺序不同说它“误导”或是同目标强基线。B0/B1/A保持同一目标和可用信息，必要时另设多目标敏感性，不人为夸大收益。
+5. **统计及指标解释**：区间含0表示未能排除0，不证明两系统相等；相同输出的重复系统可以根据构造确定相同，但一般系统应称未能区分。对10/15对多重比较控制或报告校正敏感性，不把未校正区间写成确定显著性。`flip@10`目前比较的是有序列表，36.5%包括仅顺序变化，不等同于top-10成员集改变或10/11边界并列；重算顺序改变、成员集合改变及截断边界并列分别报告。审计未测人类实际选择或线上收益，报告模拟判断。
+6. **复现材料与冻结**：`CASE_NOTE.md`给AB脚本的`--data/--out`用法与脚本读取位置参数不一致，修复CLI或文档并实际从干净环境重放。确保pytrec_eval/trec_eval真实运行时依法核环境与来源，不能安装则先采用明确对照标准公式和独立反例、保留未验证边界；不得因200/200个同假设自写实现一致而称官方等价。核对BEIR默认忽略相同query/doc ID与查询分母规则。提供原实验前冻结证据及时间先后；若没有独立时间证据标为事后/开发性，不声称事前冻结。
+7. **版本与稿件**：`paper_e_revision_v2.md`相对4cc42909已有第三案例改动，与“v2留作冻结”不符；使用Git原始blob恢复独立历史快照或明确哈希指针，不覆盖新稿与原历史。全面审查v3仍有`This paper audits two...`、`neither counted case`等两/三案例不一致，排查交叉引用、图表、claims/refs和全部可能受本次复算影响的结果，旧JSON/raw/稿件保留版本；修正后建立新版本和manifest，完成真实渲染及逐页检查，特别是图1 5.7pt字号。提供旧/新逐指标与统计差异，不因结果不正向而修改假设或挑样本。
+
+沿用已转发Goal的预算/授权：本地模型尝试最多128次、输入输出合计100万tokens，含judge与物理重试；前次使用0，先核父账本，目标优先零模型复现。训练/付费API/生产/外部联系/投稿未授权，A/C29/29不新增派发。源数据license和官方工具依赖实测；有限成本选择可执行修复。新结论形成后再继续下文已授权的公开评测/会议科研；如修正导致结论消失，如实缩小/替换第三案例并给出可投稿路线。不要以发现问题为由停在纯治理或单独请求许可。
 
 ## 1. 任务与授权
 
