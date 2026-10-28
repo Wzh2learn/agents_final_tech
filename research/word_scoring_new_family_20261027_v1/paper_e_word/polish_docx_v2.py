@@ -150,6 +150,13 @@ def polish_captions(doc: Document) -> int:
         paragraph.paragraph_format.space_before = Pt(6)
         paragraph.paragraph_format.space_after = Pt(4)
         paragraph.paragraph_format.keep_with_next = True
+        paragraph.paragraph_format.keep_together = True
+        # A table caption sits above its table and must stay with the next
+        # block; a figure caption sits below its figure, so keeping it with the
+        # next block would chain image + caption + body text and push an
+        # otherwise fitting figure onto the following page.
+        if label.startswith("Figure"):
+            paragraph.paragraph_format.keep_with_next = False
         for run in paragraph.runs:
             run.font.name = "Times New Roman"
             rfonts = run._element.get_or_add_rPr().rFonts
@@ -190,6 +197,25 @@ def normalise_unknown_styles(doc: Document) -> dict:
 REFERENCE_RE = re.compile(r"^\[\d+\]\s")
 
 
+def keep_figures_with_captions(doc: Document) -> int:
+    """Anchor each figure paragraph to the caption that follows it.
+
+    Pandoc emits the image and its caption as two paragraphs. The caption
+    carries ``keep_with_next`` for the body text after it, but nothing stops
+    the image from being the last thing on a page with its caption pushed to
+    the next one. Every paragraph that holds a drawing therefore also gets
+    ``keep_with_next``.
+    """
+    drawing = qn("w:drawing")
+    count = 0
+    for paragraph in doc.paragraphs:
+        if paragraph._p.findall(".//" + drawing):
+            paragraph.paragraph_format.keep_with_next = True
+            paragraph.paragraph_format.keep_together = True
+            count += 1
+    return count
+
+
 def compact_reference_list(doc: Document) -> int:
     """Set the reference list tight single-spaced.
 
@@ -227,11 +253,12 @@ def main() -> int:
     author_fixed = split_author_paragraph(doc)
     tables = polish_tables(doc)
     captions = polish_captions(doc)
+    figures = keep_figures_with_captions(doc)
     refs = compact_reference_list(doc)
     doc.save(str(path))
     print(
         f"polished {path.name}: tables={tables} captions={captions} "
-        f"author_block_split={author_fixed} refs={refs} "
+        f"author_block_split={author_fixed} figures={figures} refs={refs} "
         f"removed_styles={styles['undefined_style_references_removed']}"
     )
     return 0

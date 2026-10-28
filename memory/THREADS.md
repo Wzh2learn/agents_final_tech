@@ -24,8 +24,8 @@ Loop D 已于 2026-10-28 接任并执行完本轮授权：Paper E 实质修订�
 | PAPER-E-ROUTE | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY_ICAART_TIME_GATED` | [渠道复核](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：ICAART实时官网不可用且前置条件未齐；Owner仍需最终确认，未投稿/付款/公开 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `INTERNAL_ARTWORK_FIX_CONTINUES` | 转换/正文修复已通过源重建与定点检查；三图、声明仍开放。D直接从源重导出并重渲染、自验、更新manifest，不需追加C或图片许可；C后修改未获独立复审 |
-| DTM-MECHANISM-RERUN | `CARD_REQUIRES_FIELD_CAUSALITY_METRIC_BUDGET_CORRECTIONS` | [负责人复核](../docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)：实际8/8含unit，不是unit_reference全缺；分段不识别因果；格式率持平不能停止M；推理不重复加账；35请求未闭合。D离线修卡，生成仍0 |
+| PAPER-E-SUBMISSION | `FIGURES_REBUILT_TEXT_READY_DECLARATIONS_OPEN` | 三图已从 SVG 源重导出（去图内标题/副标题/脚注与重复 caption，裁到内容框，1200 dpi 线图 / 600 dpi 组合图），14 页重渲染并逐页自验，页哈希与派生 manifest 更新，旧图与原 manifest 保留历史身份。仍开放：声明占位、图内字号 5.7–8.2 pt 低于推荐值、文献标题大小写。C后修改未获独立复审 |
+| DTM-MECHANISM-RERUN | `CARD_V2_CORRECTED_AWAITING_OWNER_BUDGET` | [决策卡v2](../research/word_scoring_new_family_20261027_v1/DTM_DECISION_CARD_20261028.md)已按[复核](../docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)原地更正：撤回因果与「单位未冻结」；`unit` 8/8 有值、3 条标签冲突使可分析面板收缩到 5；删除格式率停止判据；预算重开为 27 物理请求 / 67,824 token，重试入帽、D-long 取消。Owner只需接受硬帽与 5 条面板。生成仍 0 |
 | WORKSPACE-INTEGRATION | `CONTINUE_EXISTING_INTEGRATION_WORKTREE_PRESERVE_123_FILES` | 负责人本地复核起点集成分支c33c14bf、主工作树main f0c246df；123个未跟踪文件原位保留。主树合并路径冲突不阻断集成分支修稿；本次未复核GB10，后续同步实测后再报 |
 | HISTORICAL-CREDENTIAL-CARRIERS | `IGNORED_UNTRACKED_NO_LEAK_ESTABLISHED_NOT_A_BLOCKER` | 本次只核根.env未跟踪且被忽略，不读取内容或历史；先前“凭据形状”不能单独证明泄露，不要求轮换/迁移以完成科研交接。若将来有实际暴露证据再按证据处置，本轮未触碰 |
 | PAPER-E-CONTINUATION | `D_SELF_VERIFIES_REMAINING_INTERNAL_WORK_NO_C_REDISPATCH` | C已审08be0547且29/29用尽。D继续已授权的图片/稿件内部修订和自验，保留未经再次独立复审边界。C规则文件改写事件保留恢复证据，不扩展基础设施工程 |

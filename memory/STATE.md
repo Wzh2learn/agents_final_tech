@@ -1,13 +1,13 @@
 # Current State
 
-> Updated: 2026-10-28 | Scope: post-return review; D continues internal Paper E work; no new scientific calls
+> Updated: 2026-10-28（第二轮执行）| Scope: 三图源重导出与重渲染完成；D/T/M 卡已按复核更正；生成仍为 0
 > 上一轮治理核验：`VERIFIED`；备份、三端对齐与工作区核验范围见治理报告，不替代本轮科研方法或投稿包验收。
 
 ## 当前任务
 
 Loop D已接任，Paper E转换与正文修复有实质进展：单一生产源`paper_e_revision_v2.md`、14页DOCX/PDF及派生manifest已交付。负责人本地重放源重建与结构/算术检查PASS（6步、4表、3图、24引用、28项算术），不替代重新目视或科学同行评审。C曾审`08be0547`并判CONDITIONAL，累计29/29；后续正文修订未经再次独立复审。三图与声明仍开放，尚非最终投稿包。
 
-D可继续已授权内部图像修订、现成工具渲染和自验，不因C额度耗尽停止；不追加A/C。科研生成、训练、judge及外部动作保持未执行。下一步先闭环Paper E，再修离线实验卡；见[负责人复核](../docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)。
+本轮已完成两项：三图从 SVG 源重导出（移除图内标题/副标题/脚注与重复 caption，裁到内容框，按类别 1200 dpi 线图 / 600 dpi 组合图栅格化），14 页重渲染并逐页自验，页哈希与派生 manifest 更新，旧图与原 manifest 保留历史身份；离线实验卡已原地更正（撤回「合同长度效应」与「单位未冻结」，重开预算）。科研生成、训练、judge 及外部动作仍未执行，A/C 仍 29/29；见[本轮回执](../research/word_scoring_new_family_20261027_v1/D_CONTINUATION_RETURN_20261028.md)。
 
 负责人本地复核起点：集成分支`integration/paper-e-word-20261028`为`c33c14bf`，主工作树main仍为`f0c246df`；123个未跟踪Word文件原位保留。当前修订继续在现成集成worktree，main路径冲突不阻断论文工作。本次未重核GB10，不能将本地文档更新写为三端已同步。
 
@@ -41,8 +41,8 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 
 ## 科学边界
 
-- C1 / Paper E：`REVISED_AND_C_DISPOSED / TEXT_READY_ARTWORK_OPEN`。上一轮C列的正文缺陷（六步、表格/列表融合、表图编号、书目/引文）已全部关闭并有确定性复现；本轮C在冻结快照上仍判 `CONDITIONAL`，剩余阻断只有图像分辨率与图内标题，另加声明占位。正文修改发生在C快照之后，未获独立复审。
-- C2/C3新表族诊断：`OUTPUT_BUDGET_CONFOUNDING_QUANTIFIED / CAUSAL_EFFECT_UNIDENTIFIED`。旧24条分段支持严重预算混淆，不能分离合同长度的因果效应；D4/T1/M0是接口提取结果。实际unit字段和冻结语义仍需核验，旧卡已标待修；typed UNKNOWN冲突是静态缺陷，不归因为旧失败。未授权新生成。
+- C1 / Paper E：`TEXT_AND_FIGURES_READY / DECLARATIONS_OPEN`。正文缺陷全部关闭并有确定性复现；三图已从源重导出，分辨率按图像类别达标、图内标题与脚注已移除。剩余只有声明占位与图内字号（5.7–8.2 pt，低于 8–12 pt 推荐值，需重排版面）。C 快照之后的全部修改均为 D 自验，未经新的独立复审。
+- C2/C3新表族诊断：`SEVERE_BUDGET_CONFOUND / CARD_V2_CORRECTED`。旧24条分段支持严重输出预算混淆，**不分离**thinking 长度与合同长度；D4/T1/M0 是接口提取结果。参考字段为 `unit`（8/8 有值：percent 3、thousand 1、UNKNOWN 4），逐题核出 3 条标签冲突，可分析面板由 8 收缩到 5；预算重开为 27 物理请求 / 54,000 输入 / 13,824 输出 / 合计 67,824 token。typed UNKNOWN 冲突仍是静态缺陷，旧24条从未触发。未授权新生成。
 - 以下 G2、G3 与旧第三研究点条目保留为历史边界和复用素材，不承担现役 C1/C2/C3 贡献身份。
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。

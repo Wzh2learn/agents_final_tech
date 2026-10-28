@@ -228,6 +228,21 @@
     },
     {
       "occurrences": 1,
+      "old": "](figures/fig1_measurement_chain.png)",
+      "new": "](figures/art/fig1_measurement_chain_art.png)"
+    },
+    {
+      "occurrences": 1,
+      "old": "](figures/fig2_family_visibility_matrix.png)",
+      "new": "](figures/art/fig2_family_visibility_matrix_art.png)"
+    },
+    {
+      "occurrences": 1,
+      "old": "](figures/fig3_localization_ablation.png)",
+      "new": "](figures/art/fig3_localization_ablation_art.png)"
+    },
+    {
+      "occurrences": 1,
       "old": "The transferable object is the measurement discipline, not an empirical claim about agent behavior.\n",
       "new": "The transferable object is the measurement discipline, not an empirical claim about agent behavior. Table 1 states, for each over-reading the audit removes, the"
     },

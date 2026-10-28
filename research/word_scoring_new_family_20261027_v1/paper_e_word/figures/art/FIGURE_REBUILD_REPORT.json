@@ -1,0 +1,204 @@
+[
+  {
+    "source": "fig1_measurement_chain.svg",
+    "artifact": "figures\\art\\fig1_measurement_chain_art.svg",
+    "removed": [
+      {
+        "text": "Figure 1. Measurement chain",
+        "font_size": "36",
+        "fill": "#172033"
+      },
+      {
+        "text": "Observability precedes detection and harm claims",
+        "font_size": "22",
+        "fill": "#59677a"
+      },
+      {
+        "text": "NIST motivates measurement effectiveness, not this paper's blind-spot framework.",
+        "font_size": "22",
+        "fill": "#59677a"
+      },
+      {
+        "text": "<metadata>",
+        "font_size": null,
+        "fill": null
+      }
+    ],
+    "type_promoted": [
+      {
+        "from": "17",
+        "to": "21",
+        "text": "MOTIVATION"
+      },
+      {
+        "from": "17",
+        "to": "21",
+        "text": "CONTROLLED FAILURE"
+      },
+      {
+        "from": "17",
+        "to": "21",
+        "text": "VISIBILITY"
+      },
+      {
+        "from": "17",
+        "to": "21",
+        "text": "DETECTION"
+      },
+      {
+        "from": "17",
+        "to": "21",
+        "text": "OUTCOME / HARM"
+      }
+    ],
+    "crop": [
+      39.0,
+      128.0,
+      1722.0,
+      313.0
+    ],
+    "placed_in": [
+      6.5,
+      1.181
+    ],
+    "aspect": 0.1818,
+    "fonts": [
+      {
+        "svg_units": 18.0,
+        "page_pt": 4.9
+      },
+      {
+        "svg_units": 21.0,
+        "page_pt": 5.7
+      }
+    ]
+  },
+  {
+    "source": "fig2_family_visibility_matrix.svg",
+    "artifact": "figures\\art\\fig2_family_visibility_matrix_art.svg",
+    "removed": [
+      {
+        "text": "Figure 2. Defect family × checkpoint visibility",
+        "font_size": "36",
+        "fill": "#172033"
+      },
+      {
+        "text": "Cell = visibility rate; annotation = visible / injections",
+        "font_size": "22",
+        "fill": "#59677a"
+      },
+      {
+        "text": "Figure 2. Defect family × checkpoint visibility. This is a visibility matrix, no",
+        "font_size": "18",
+        "fill": "#59677a"
+      },
+      {
+        "text": "<metadata>",
+        "font_size": null,
+        "fill": null
+      },
+      {
+        "text": "<metadata>",
+        "font_size": null,
+        "fill": null
+      }
+    ],
+    "type_promoted": [
+      {
+        "from": "label",
+        "to": "label",
+        "text": "ocr similar -> OCR-like"
+      }
+    ],
+    "crop": [
+      39.0,
+      139.0,
+      1737.0,
+      881.0
+    ],
+    "placed_in": [
+      6.5,
+      3.297
+    ],
+    "aspect": 0.5072,
+    "fonts": [
+      {
+        "svg_units": 21.0,
+        "page_pt": 5.7
+      },
+      {
+        "svg_units": 22.0,
+        "page_pt": 5.9
+      },
+      {
+        "svg_units": 23.0,
+        "page_pt": 6.2
+      },
+      {
+        "svg_units": 25.0,
+        "page_pt": 6.7
+      },
+      {
+        "svg_units": 27.0,
+        "page_pt": 7.3
+      }
+    ]
+  },
+  {
+    "source": "fig3_localization_ablation.svg",
+    "artifact": "figures\\art\\fig3_localization_ablation_art.svg",
+    "removed": [
+      {
+        "text": "Figure 3. Multi-leaf localization and ablation",
+        "font_size": "36",
+        "fill": "#172033"
+      },
+      {
+        "text": "Explicitly instrumented M/R/N observation surface",
+        "font_size": "22",
+        "fill": "#59677a"
+      },
+      {
+        "text": "Full and direct-codebook localization are perfect on the explicitly instrumented",
+        "font_size": "20",
+        "fill": "#59677a"
+      },
+      {
+        "text": "removed, top-1 falls to chance. The result reflects stage-aligned instrumentatio",
+        "font_size": "20",
+        "fill": "#59677a"
+      },
+      {
+        "text": "<metadata>",
+        "font_size": null,
+        "fill": null
+      }
+    ],
+    "type_promoted": [],
+    "crop": [
+      54.0,
+      96.0,
+      1532.0,
+      754.0
+    ],
+    "placed_in": [
+      6.5,
+      3.199
+    ],
+    "aspect": 0.4922,
+    "fonts": [
+      {
+        "svg_units": 23.0,
+        "page_pt": 7.0
+      },
+      {
+        "svg_units": 24.0,
+        "page_pt": 7.3
+      },
+      {
+        "svg_units": 27.0,
+        "page_pt": 8.2
+      }
+    ]
+  }
+]

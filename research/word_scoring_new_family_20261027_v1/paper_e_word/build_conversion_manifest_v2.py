@@ -85,6 +85,8 @@ def main() -> int:
         "D_REVISION_NOTES_20261028.md",
         "SNCS_GUIDELINE_CHECK_20261028.md",
         "C_RESPONSE_AND_DISPOSITION_20261028.md",
+        "rebuild_figures.py",
+        "D_CONTINUATION_RETURN_20261028.md",
     ]
     artifacts = {}
     for name in text_files:
@@ -106,21 +108,44 @@ def main() -> int:
             binary[name] = {"path": rel, "status": "NOT_YET_COMMITTED"}
 
     figures = {}
+    art_meta = {
+        "fig1_measurement_chain_art.png": ("line_art", 1200),
+        "fig2_family_visibility_matrix_art.png": ("combination", 600),
+        "fig3_localization_ablation_art.png": ("combination", 600),
+    }
+    for name, (kind, target) in art_meta.items():
+        rel = BASE + "figures/art/" + name
+        oid, raw = blob(rel)
+        w = int.from_bytes(raw[16:20], "big")
+        figures[name] = {
+            "git_blob_oid": oid,
+            "raw_blob_sha256": hashlib.sha256(raw).hexdigest(),
+            "kind": kind,
+            "pixels": f"{w}x{int.from_bytes(raw[20:24], 'big')}",
+            "placed_width_in": 6.5,
+            "effective_dpi_at_placed_width": round(w / 6.5, 1),
+            "required_dpi": target,
+            "status": "MEETS_REQUIRED_DPI" if w / 6.5 >= target * 0.98 else "BELOW_REQUIRED_DPI",
+            "source_svg": rel.replace(".png", ".svg"),
+        }
+    legacy = {}
     for name in (
         "fig1_measurement_chain.png",
         "fig2_family_visibility_matrix.png",
         "fig3_localization_ablation.png",
     ):
         rel = BASE + "figures/" + name
-        oid, raw = blob(rel)
-        w, h = int.from_bytes(raw[16:20], "big"), int.from_bytes(raw[20:24], "big")
-        figures[name] = {
+        try:
+            oid, raw = blob(rel)
+        except SystemExit:
+            continue
+        w = int.from_bytes(raw[16:20], "big")
+        legacy[name] = {
             "git_blob_oid": oid,
             "raw_blob_sha256": hashlib.sha256(raw).hexdigest(),
-            "pixels": f"{w}x{h}",
-            "effective_dpi_at_6_5in": round(w / 6.5, 1),
-            "png_pHYs_present": b"pHYs" in raw,
-            "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE",
+            "pixels": f"{w}x{int.from_bytes(raw[20:24], 'big')}",
+            "status": "SUPERSEDED_RETAINED_FOR_HISTORY",
+            "why": "carries its own in-artwork title/subtitle/footnote and is below the required dpi",
         }
 
     frozen = {}
@@ -160,6 +185,7 @@ def main() -> int:
         "artifacts": artifacts,
         "outputs": binary,
         "figures": figures,
+        "superseded_figures_retained": legacy,
         "tools": {
             "pandoc": "3.2.1 at D:/pandocLatex2word/pandoc.exe",
             "pandoc_from": "markdown+pipe_tables+tex_math_dollars",

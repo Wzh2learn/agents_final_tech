@@ -32,9 +32,13 @@ score sensitivity (absolute metric movement), decision stability (survival of th
 reproduction gap (artifact agreement under a stated environment). These are audit bookkeeping terms, not a causal
 theory. Confounding them turns score movement into protocol sensitivity, non-response into harm, and metric drift
 into decision reversal. Figure 1 shows the chain.
-Figure 1. From injected failure to visibility, protocol detection and contract-relative outcome harm. NIST motivates
+
+
+
+
+Figure 1. From injected failure to visibility, protocol detection and contract-relative outcome harm. NIST motivates
 measurement effectiveness but not this paper’s framework.
-This paper audits two evaluation constructions. Case 1 is a frozen staged document evaluator with controlled header
+This paper audits two evaluation constructions. Case 1 is a frozen staged document evaluator with controlled header
 perturbations and a stage-aligned instrumentation study. It exposes family-dependent visibility, affine/rank score
 equivalence, a non-identifiable clean calibration point and an instrumentation attribution boundary. Its FinQA
 program-perturbation probe is nested inside Case 1 and tests only whether the perturbation and detection predicate
@@ -46,14 +50,14 @@ ordering remains stable under alternative tie policies, while absolute pairwise 
 contract-sensitive. The same case also narrows a reproducibility claim: in-record and pairwise values reproduce
 exactly in the audited environment, but global and metadata-filtered values do not reproduce at raw precision and
 the cause is unresolved. Our contributions are:
-    1.   A measurement-object separation for visibility, detection and contract-relative harmfulness in the staged
-         evaluator, with deterministic evidence for score-structure and instrumentation identifiability.
-    2.   A bounded FinRank evidence-ranking audit showing that tie policy and identity construction can move
-         absolute metrics without changing the qualitative hard-versus-random decision, while keeping the post-hoc
-         v2 identity correction and residual reproduction gap visible.
-    3.   A proposed six-step review checklist for evaluator authors: bind mutation, observation, score, ranking and
-         reported claim to the same measurement object; report tie and identity contracts; and state the numerical
-         tolerance and environment required for reproducibility. This checklist is not a validated universal method.
+     1.   A measurement-object separation for visibility, detection and contract-relative harmfulness in the staged
+          evaluator, with deterministic evidence for score-structure and instrumentation identifiability.
+     2.   A bounded FinRank evidence-ranking audit showing that tie policy and identity construction can move
+          absolute metrics without changing the qualitative hard-versus-random decision, while keeping the post-hoc
+          v2 identity correction and residual reproduction gap visible.
+     3.   A proposed six-step review checklist for evaluator authors: bind mutation, observation, score, ranking and
+          reported claim to the same measurement object; report tie and identity contracts; and state the numerical
+          tolerance and environment required for reproducibility. This checklist is not a validated universal method.
 The accounting is intentionally narrow: there are exactly two counted cases, with FinQA nested inside Case 1. MA-
 CERD and adaptive revalidation are outside this paper and contribute no case or result. The audit does not establish
 a universal method, a detector ranking, or a general failure rate. Its external value is narrower but concrete: it
@@ -62,7 +66,7 @@ commissioned. Staged evidence and ranking contracts are also relevant to agent e
 can consume outputs from several tools and decision stages; however, neither counted case evaluates an agent
 system. The transferable object is the measurement discipline, not an empirical claim about agent behavior. Table 1
 states, for each over-reading the audit removes, the evidence that removes it and the reading that replaces it.
-Table 1. Interpretation corrections exposed by the audit.
+Table 1. Interpretation corrections exposed by the audit.
 
  Naive reading                               Audit evidence                             Correct reading
 
@@ -88,9 +92,7 @@ states, for each over-reading the audit removes, the evidence that removes it an
 
  A deterministic rerun reproduces the        Some metrics reproduce; global and         Bind claims to environment, tolerance
  benchmark.                                  metadata values drift.                     and metric scope.
-
-
-2 Related Work
+2 Related Work
 
 2.1 Measurement validity and construct validity
 Meta-evaluation studies whether metrics separate errors from acceptable variants or local contextual corrections
@@ -117,7 +119,8 @@ RENE work similarly exposes measurement limits: Python-version identification de
 mining tools can disagree sharply on simple repository metrics [21]; test code alone is weak evidence for flakiness
 [22]; and a replication reverses part of the original symbolic-execution conclusion [23]. Our scope is exactly two
 constructions with explicit construct boundaries.
-3 Method
+
+3 Method
 The conceptual core is a three-way audit of visibility, detection, and harmfulness; the hierarchical checkpoint forest
 is the evidence instrument that makes the audit reproducible.
 
@@ -136,7 +139,7 @@ instantiation. The label Pruned root drop used in Section 5.2 denotes exactly th
 collapsed to its single input-responsive leaf (the field hit-rate leaf) and the drop rule above is applied there. Each leaf
 receives a score in [0,10]. Contractible properties use deterministic checks; semantic properties use a 0–5 judge
 score mapped to [0,10]. Sibling weights are normalized locally before bottom-up aggregation. Missing evidence is
-explicit: the parsing tree assigns 0, whereas the QA tree assigns a neutral 5. Hinge leaves affect the stability verdict,
+explicit: the parsing tree assigns 0, whereas the QA tree assigns a neutral 5. Hinge leaves affect the stability verdict,
 not the missing-evidence score. Every leaf stores its evidence and degradation reason. For node n with children
 C(n), the recursive score is:
 S(n) = sum over child nodes c in C(n) of [w(c) / sum of w(j) for j in C(n)] × S(c).
@@ -164,8 +167,8 @@ selected equivalence criterion. For an injected defect d, visibility and protoco
            score threshold.
           Visible but not detected: the checkpoint exposes a difference, but the selected protocol does not satisfy its
            detection predicate.
-        Silently absorbed: normalization or matching preserves the canonical correspondence, so that the
-         checkpoint does not expose the perturbation.
+          Silently absorbed: normalization or matching preserves the canonical correspondence, so that the
+           checkpoint does not expose the perturbation.
 Harmfulness is a separate, equivalence-dependent judgment, not a mutually exclusive visibility outcome:
 canonical-form preservation and reader-referent recoverability need not agree. The defect visibility profile reports
 visibility separately for each family. This preserves information lost by a single mutation score and distinguishes a
@@ -184,7 +187,7 @@ substituted for deterministic evidence when a contract exists.
 The evaluation-track instrument is a two-root checkpoint forest whose twelve leaves map deterministic or judge-
 derived evidence to a 0–10 score (Section 3.1). To test whether stage-aligned instrumentation carries stage
 information, we preregister a separate controlled study on the same corpus. Each stage contract perturbs one
-operation: a header token is replaced (mapping stage M), required source blocks are removed from the retrieval
+operation: a header token is replaced (mapping stage M), required source blocks are removed from the retrieval
 bundle (retrieval stage R), or one numeric operand is broken while labels, schema and identity are preserved
 (numeric stage N). Every cluster contributes three deterministic injections, and each injection is scored on the same
 twelve-leaf surface, producing a binary response vector; 24 clusters per stage give 72 clusters and 216 injections.
@@ -212,7 +215,7 @@ canonical contamination identity. V2 is a post-hoc deterministic correction to t
 reanalysis; it is not a second blind application or a wholly frozen application. The v1 tie metrics and thresholds are
 unchanged in v2. The audit compares ties-positive, strict-win and half-credit pairwise policies; gold-first and
 negative-first ordering for exact ties inside each record; forward and reverse corpus ordering for global ranking ties;
-the seed-42 random-negative draw; and source-identity loss under the metadata filter. Reproducibility is checked
+the seed-42 random-negative draw; and source-identity loss under the metadata filter. Reproducibility is checked
 against the released result JSON under the declared dependency versions and a second available environment. The
 application is deterministic and source-informed, not blind.
 
@@ -231,7 +234,7 @@ greedy-normalized, Hungarian, and Hungarian-normalized configurations. Semantic 
 pipeline (listed in the artifact manifest), i.e. Qwen3.6-35B-A3B (Q4_K_M GGUF) served locally, with 0–5
 dimension scores mapped to [0,10]. The primary threshold grid is:
 Γ = {0.2, 0.3, 0.5, 0.7, 0.9}.
-The OCR-like family contains 13 single-token, lowercase Levenshtein-distance-one substitutions with unchanged
+The OCR-like family contains 13 single-token, lowercase Levenshtein-distance-one substitutions with unchanged
 column values. These properties are mechanically recomputed before interpretation.
 
 4.2 Baselines and controls
@@ -259,7 +262,7 @@ injection generators are deterministic; clusters are selected by an outcome-blin
 results), and the pre-result freeze receipt binds the corpus, the generator, the runner and the environment by hash.
 Response predicates are contract-derived: for M the directly targeted parse leaves move; for R the retrieval leaf
 moves; for N the reconciliation leaf moves. Baselines are the metric-specific chance top-1 (1/3) and majority macro-
-F1 (1/6); uncertainty uses leave-one-cluster-out evaluation with 10,000 cluster-bootstrap resamples and a 10,000-
+F1 (1/6); uncertainty uses leave-one-cluster-out evaluation with 10,000 cluster-bootstrap resamples and a 10,000-
 replicate permutation null, both seeds frozen. The ablation re-scores the same rows with (i) the full twelve-leaf
 vector, (ii) the fixed three-direct-leaf codebook, (iii) non-direct leaves only, and (iv) a single any-response scalar.
 
@@ -279,7 +282,7 @@ companies. The released global pool contains 5,230 unique raw passage texts. The
 JSONL, repository code, split/random seed and result files. TF-IDF and BM25 are regenerated from the official
 script with its released parameters; neural baselines are outside this audit. The primary proposition was fixed before
 pair-level outcomes: the tie-positive policy and first-occurrence identity mapping may change absolute metric
-interpretation, while the paper’s narrow curated-pool contract may keep the hard-versus-random conclusion stable.
+interpretation, while the paper’s narrow curated-pool contract may keep the hard-versus-random conclusion stable.
 V1 materiality thresholds are 1.0 percentage point for pairwise values or hardness-gap movement and 0.5 point for
 global tie-order movement, and they remain unchanged after the post-hoc v2 identity correction. The outcome
 classes are interpretation changed, narrower contract stable, or no substantive impact.
@@ -304,10 +307,14 @@ measurement object. For uncertainty, the injection-level reference estimand is 0
 interval of [0, 24.71%] under an independent-injection assumption; the distinct table-level event estimand is 0/11
 with an exact binomial interval of [0, 28.49%]. The latter is not a clustered confidence interval for injection-level
 visibility. Figure 2 reports the full family-by-threshold visibility profile.
-Figure 2. Defect family × checkpoint visibility. Cell values are visibility rates at each threshold, annotated with visible/injection
+
+
+
+
+Figure 2. Defect family × checkpoint visibility. Cell values are visibility rates at each threshold, annotated with visible/injection
 counts; the OCR-like family is 0/13 across 11 clusters at every tested threshold. This is a visibility matrix, not a harmfulness
 matrix.
-The family unobserved on the frozen scored surface remains the same under four edit-distance matcher
+The family unobserved on the frozen scored surface remains the same under four edit-distance matcher
 configurations. However, the ordering of visible families is not invariant: changing the score normalization causes
 five class flips, all within the date-variation family, whereas switching from greedy to global assignment causes no
 flips. Thus, the existence of a family unobserved on the frozen scored surface is stable within the tested matcher
@@ -330,20 +337,20 @@ protocols under different decision predicates: end-to-end detection tests whethe
 whereas flat and hierarchical scoring use frozen score-drop thresholds. A changed source-header string can therefore
 count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the
 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts
-apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts.
+apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts.
 At the frozen threshold, hierarchical scoring is not a more sensitive detector.
 Table 3. Protocol-level detection under different decision predicates.
 
- Protocol                         Detection signal                 Tables detected          Injections detected
+ Protocol                         Detection signal                 Tables detected            Injections detected
 
- End-to-end                       Final mapping change             95/95 (1.0000)           112/118 (0.9492)
+ End-to-end                       Final mapping change             95/95 (1.0000)             112/118 (0.9492)
 
                                                                    75/95 (0.7895; 95% CI
- Flat                             Field-hit-rate drop                                       85/118 (0.7203)
+ Flat                             Field-hit-rate drop                                         85/118 (0.7203)
                                                                    [0.6947, 0.8737])
 
                                                                    20/95 (0.2105; 95% CI
- Hierarchical expert              Pruned root drop                                          13/118 (0.1102)
+ Hierarchical expert              Pruned root drop                                            13/118 (0.1102)
                                                                    [0.1263, 0.2947])
 
 The raw flat-hierarchical gap does not establish inferior ranking quality. In the current single-responsive-leaf
@@ -359,7 +366,7 @@ unique operating point. That calibration degeneracy does not negate the structur
 about the current clean-only procedure, not a general claim that matched-FPR comparisons cannot be made; the
 registered strict predicate FPR = alpha and the tolerance predicate FPR <= alpha also remain distinct. Selecting a
 threshold by harmful TPR would violate the clean-only contract. Earlier fixed-threshold sensitivity results remain in
-the project’s dated analysis record, but the old [0,0] interval is not a clean-calibrated confirmatory result. When
+the project’s dated analysis record, but the old [0,0] interval is not a clean-calibrated confirmatory result. When
 more than one leaf varies with the input, neither affine nor ranking equivalence is guaranteed. The 118 injections
 close at the checkpoint level as 96 visible plus 22 silently absorbed; by family (injections / visible / absorbed): alias
 variant 47/43/4, date variant 17/15/2, mixed language 20/20/0, OCR-like 13/0/13, prefix noise 16/13/3, unit suffix
@@ -382,7 +389,7 @@ UIDs gives a sensitivity estimate of 0.7535 with interval [0.6835, 0.8207]. The 
 leave-one-seed-out rates are 0.7701, 0.7730 and 0.7865. With only three seeds, we report these sensitivity values
 rather than a population-level seed interval. The earlier naive interval [0.7270, 0.8227] is retained only in the
 project’s dated reanalysis record and is not presented as source-table uncertainty. The seed-42 run reproduces the
-frozen artifact byte-for-byte. Judge calibration covers 120 leaf-state cells; this calibration window is distinct from
+frozen artifact byte-for-byte. Judge calibration covers 120 leaf-state cells; this calibration window is distinct from
 the semantic boundary analysis over the 28 injection-level judge cases described in Section 5.1. In the control-state
 comparison, rejudged summaries of historical 0–5 judgments differ from the frozen dimension means by at most 0.5,
 meeting the preregistered consistency expectation. This checks reproduction of aggregate dimension scores, not
@@ -395,8 +402,7 @@ PSO and greedy coordinate ascent reach the same mean separation of 1.432574. PSO
 seeds but requires 7,650 evaluations, compared with 67 for greedy search. A minimax variant improves worst-case
 separation to 0.35714 while reducing mean separation to 1.25605. We therefore do not claim PSO superiority. The
 result instead shows that objective choice matters more than optimizer sophistication in the present search space.
-
-5.5 Stage-aligned instrumentation: separable signatures and their boundary
+5.5 Stage-aligned instrumentation: separable signatures and their boundary
 
 
 
@@ -413,7 +419,7 @@ and permutation p = 1/10001 ≈ 0.0001, with zero ties and zero errors, against 
 1/3; majority macro-F1 1/6). The per-stage response profiles are disjoint within the construction: M moves the field-
 hit and table-regression leaves, R moves the source-required leaf, and N moves the reconciliation leaf. Figure 3
 reports the localization and ablation outcome. That positive result carries its boundary in the same rows. Re-scoring
-the identical 216 injections with the fixed three-direct-leaf codebook also yields macro-F1 and top-1 of 1.000; the
+the identical 216 injections with the fixed three-direct-leaf codebook also yields macro-F1 and top-1 of 1.000; the
 non-direct leaves alone fall to 0.3333 with a tie rate of 0.6667, which is the three-class chance level and the uniform-
 class macro-F1 baseline; under the frozen tie-as-incorrect rule they distinguish the mapping stage from the retrieval
 and numeric stages but do not distinguish retrieval from numeric, so they carry partial rather than no stage
@@ -431,7 +437,7 @@ do is regenerate the downstream result fields that the predicate reads. The zero
 this carrier construction rather than an estimated detection ability, and the mismatch is one of measurement objects,
 not of predicate definition. The formal result class is a mixed second-flow outcome; the accepted interpretation is a
 measurement-object mismatch, documented in a separate post-hoc analysis. This is a boundary probe inside Case 1,
-not a third case. We therefore treat causal alignment of measurement objects as a design requirement for future
+not a third case. We therefore treat causal alignment of measurement objects as a design requirement for future
 transfers, not as a validated law. Scorer non-portability, threshold non-transfer and corpus shift are not excluded by
 this evidence, and no transfer, blindness or semantic-correctness claim is made from this probe.
 
@@ -463,7 +469,7 @@ draws equal a curated hard negative, too few to explain the gap. Table values ar
 decimals from full-precision results. Consequently, subtracting the displayed TF-IDF strict-win cells gives 13.820,
 while the full-precision gap 13.820514366083984 rounds to the reported 13.821. The two movement figures quoted
 above are computed the same way, from full precision; subtracting the displayed cells instead gives 1.085 for the
-TF-IDF random-negative movement and 0.358 for its gap movement, while both BM25 movements reconcile
+TF-IDF random-negative movement and 0.358 for its gap movement, while both BM25 movements reconcile
 exactly from the displayed cells. Tie order is a separate sensitivity probe. Inside each record, concatenating gold
 before negatives makes exact ties gold-first. Reversing tie priority lowers MRR by 0.101-0.108 points and
 nDCG@5 by 0.572-0.573 points. Forward-versus-reverse corpus order changes top-level global ranking metrics by
@@ -480,7 +486,7 @@ exactly. Top-level global ranking metrics differ from the bundled result JSON by
 filtered metrics by up to 0.16 point in the declared deterministic environment; a second available environment
 changes some global values by as much as 0.47 point, while slice aggregates drift by as much as 0.51 point. Without
 the original score matrices or complete execution environment, the residual global and metadata metric drift cannot
-be attributed uniquely to tie order or dependency drift. Its cause is unresolved, and the result is a reproducibility
+be attributed uniquely to tie order or dependency drift. Its cause is unresolved, and the result is a reproducibility
 boundary rather than a benchmark failure.
 
 6 Discussion and Limitations
@@ -509,7 +515,8 @@ The following sequence is a proposed checklist for evaluator authors, not a vali
     4.   preserve source identity and equivalence contracts;
     5.   test whether the result changes a real report, model-selection or measurement decision;
     6.   report negative or stable results and the exact reproducibility envelope.
-6.3 Integrated interpretation
+
+6.3 Integrated interpretation
 Case 1 rejects three over-readings: score gaps are not automatically performance gaps, non-response is not
 automatically harm, and hierarchy alone does not explain localization. Case 2 separates score sensitivity from
 decision stability and leaves an unresolved reproduction gap. Mutation, observation, score, ranking and claim must
@@ -521,8 +528,7 @@ Across two cases we separate visibility, detection, harmfulness, score sensitivi
 gap. Case 1 removes score-equivalence, non-response and hierarchy over-readings; Case 2 separates metric
 sensitivity from decision stability. The result is a bounded audit and proposed checklist, not a universal theory or
 validated method.
-
-Acknowledgments
+Acknowledgments
 Generative AI disclosure: OpenAI Codex [24] assisted manuscript organization, English editing and consistency
 checks in the abstract, related-work framing, interpretation table, discussion, conclusion, acknowledgments and
 submission materials, and assisted development and revision of offline analysis and reproduction code used for
@@ -553,7 +559,8 @@ Data and code availability: see the Data Availability section.
 Authors’ contributions: TBD_OWNER.
 Patent status and inventors: TBD_OWNER. Artifact license and release authorization: TBD_OWNER.
 Submission channel, dates, fees and publication agreement: TBD_OWNER.
-References
+
+References
 [1] Amrhein C, Moghe N, Guillou L. ACES: Translation accuracy challenge sets for evaluating machine translation
 metrics. 2022. arXiv:2210.15615.
 [2] Amrhein C, Moghe N, Guillou L. ACES: Translation accuracy challenge sets at WMT 2023. 2023.
@@ -566,7 +573,7 @@ arXiv:2503.19828.
 benchmarking. 2026. arXiv:2603.03493.
 [6] Du S, Liang P, Shen Y, Shi C, Zhang H, Wang L. On the stability of prompt ranking in large language model
 evaluation. 2026. arXiv:2606.24381.
-[7] Ross C, Hall M, Soriano AR, Williams A. What makes a good metric? Evaluating automatic metrics for text-to-
+[7] Ross C, Hall M, Soriano AR, Williams A. What makes a good metric? Evaluating automatic metrics for text-to-
 image consistency. 2024. arXiv:2412.13989.
 [8] Li Q, Dou S, Shao K, Chen C, Hu H. Evaluating scoring bias in LLM-as-a-judge. 2025. arXiv:2506.22316.
 [9] Li S, Xu C, Wang J, Gong X, Chen C, Zhang J, et al. LLMs cannot reliably judge (yet?): A comprehensive

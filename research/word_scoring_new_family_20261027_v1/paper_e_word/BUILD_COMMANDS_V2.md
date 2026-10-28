@@ -45,7 +45,41 @@ structure around headings/lists/tables/images, caption numbering and resolution,
 in-text table/figure/section cross-references, citation ordering and coverage,
 LaTeX residue, placeholder count, and 28 arithmetic identities.
 
+## 2a. Rebuild the figure artwork from its SVG sources
+
+```bash
+python rebuild_figures.py
+```
+
+Drops the in-artwork title (`font-size="36"`), subtitle and caption/footnote
+lines (`fill="#59677a"`), removes the `required-caption` metadata, raises
+Figure 1's 17-unit stage headers to the 21-unit body size, crops the canvas to
+the remaining content with 16 units of padding, and writes
+`figures/art/figN_*_art.svg` at a fixed 6.5 in placed width. The script prints,
+per figure, every font size converted to points on the page so the type size is
+a measurement rather than a claim. The vector sources are kept and are what a
+journal EPS submission would use.
+
+Then rasterise on GB10 — SVG to vector PDF with LibreOffice, then the required
+dpi per image type with `pdftoppm`:
+
+```bash
+cd ~/wzh/paper_e_figs_art
+for f in *.svg; do
+  soffice --headless -env:UserInstallation=file:///tmp/lo_fig_$RANDOM \
+    --convert-to pdf --outdir pdf "$f"
+done
+pdftoppm -png -r 1200 pdf/fig1_measurement_chain_art.pdf      png/fig1_measurement_chain_art
+pdftoppm -png -r  600 pdf/fig2_family_visibility_matrix_art.pdf png/fig2_family_visibility_matrix_art
+pdftoppm -png -r  600 pdf/fig3_localization_ablation_art.pdf  png/fig3_localization_ablation_art
+```
+
+Figure 1 is line art (1200 dpi); Figures 2 and 3 are combination art
+(600 dpi). No DPI metadata is edited and no old raster is upscaled.
+`pdftoppm` writes `*-1.png`; rename to `*.png`.
+
 ## 3. DOCX
+
 
 ```bash
 D:/pandocLatex2word/pandoc.exe paper_e_revision_v2.md \

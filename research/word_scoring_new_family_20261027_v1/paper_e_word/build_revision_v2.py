@@ -156,6 +156,22 @@ EDITORIAL: list[tuple[str, str, int]] = [
         "permutation p = 1/10001 \u2248 0.0001",
         1,
     ),
+    # --- artwork rebuilt from source (titles removed, re-rendered) ---------
+    (
+        "](figures/fig1_measurement_chain.png)",
+        "](figures/art/fig1_measurement_chain_art.png)",
+        1,
+    ),
+    (
+        "](figures/fig2_family_visibility_matrix.png)",
+        "](figures/art/fig2_family_visibility_matrix_art.png)",
+        1,
+    ),
+    (
+        "](figures/fig3_localization_ablation.png)",
+        "](figures/art/fig3_localization_ablation_art.png)",
+        1,
+    ),
     # --- explicit in-text cross-references for every numbered exhibit ------
     (
         "The transferable object is the measurement discipline, not an empirical claim "
