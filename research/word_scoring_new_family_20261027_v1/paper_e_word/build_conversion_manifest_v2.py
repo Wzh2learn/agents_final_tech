@@ -145,6 +145,7 @@ def main() -> int:
         "schema": "paper_e_word_conversion_manifest_v2",
         "date": "2026-10-28",
         "bound_to_commit": rev,
+        "bound_to_note": "Commit at build time. Only this manifest file differs between that commit and the one carrying it; every artifact hash above matches the blobs at that commit.",
         "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
         "hash_rule": (
             "raw_blob_sha256 is the identity value. worktree_sha256 is recorded "
