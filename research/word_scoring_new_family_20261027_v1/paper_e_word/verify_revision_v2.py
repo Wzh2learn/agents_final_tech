@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SOURCE = HERE / "paper_e_revision_v3.md"
+SOURCE = HERE / "paper_e_revision_v4.md"
 
 TBD_FIELDS_EXPECTED = 10  # 3 author block lines + 7 statement fields
 
@@ -232,7 +232,7 @@ def main() -> int:
 
     failures = structure["failures"] + arithmetic["failures"]
     report = {
-        "schema": "paper_e_revision_v3_lint_v1",
+        "schema": "paper_e_revision_v4_lint_v1",
         "source": SOURCE.name,
         "verdict": "PASS" if not failures else "FAIL",
         "failures": failures,

@@ -14,7 +14,8 @@
     "judge_calls": 0,
     "training_runs": 0,
     "paid_api_calls": 0,
-    "retries": 0
+    "retries": 0,
+    "note": "correction round also used zero model calls"
   },
   "remaining": {
     "physical_generation_attempts": 128,
@@ -22,12 +23,12 @@
   },
   "why_zero": "The third case audits a released benchmark with deterministic lexical retrievers. No model output was needed to answer either question (does the leaderboard survive an audit; does the audit change the decision). Generation would have measured the retriever, not the protocol, which is the object under audit.",
   "compute_used": {
-    "gb10_cpu_audit_seconds": 8,
+    "gb10_cpu_audit_seconds": 18,
     "gb10_svg_to_pdf_renders": 3,
     "gb10_pdf_to_png_batches": 2,
     "gb10_document_renders": 1,
     "data_downloaded_mb": 5.3,
-    "note": "wall-clock and CPU figures are wall-clock observations, not metered cost"
+    "note": "two audit runs (v1 and corrected v2) plus two document renders"
   },
   "unmetered": {
     "d_harness_tokens": "UNKNOWN",
@@ -46,5 +47,11 @@
     "used_total": 29,
     "cap_total": 29,
     "this_round": 0
+  },
+  "revision": 2,
+  "correction_round": {
+    "metric_self_tests": 8,
+    "cross_impl_checks_per_subset": 400,
+    "model_calls": 0
   }
 }

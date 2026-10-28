@@ -8,8 +8,8 @@ Inputs (frozen, read-only):
     commit -- used to restore text that the extraction silently dropped.
 
 Output:
-  * ``paper_e_revision_v3.md``     -- THE production source for this round.
-                                     ``paper_e_revision_v3.docx`` and the
+  * ``paper_e_revision_v4.md``     -- THE production source for this round.
+                                     ``paper_e_revision_v4.docx`` and the
                                      rendered PDF are derived from it only.
 
 Every transformation below is an explicit, asserted replacement.  The script
@@ -49,7 +49,7 @@ BIB = HERE / "references.bib"
 CANONICAL_TEX = (
     "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex"
 )
-OUTPUT = HERE / "paper_e_revision_v3.md"
+OUTPUT = HERE / "paper_e_revision_v4.md"
 LOG = HERE / "REVISION_V2_BUILD_LOG.json"
 
 EXPECTED_SHA = {
@@ -195,17 +195,17 @@ EDITORIAL: list[tuple[str, str, int]] = [
     ),
     (
         '2. A bounded FinRank evidence-ranking audit showing that tie policy and identity construction can move absolute metrics without changing the qualitative hard-versus-random decision, while keeping the post-hoc v2 identity correction and residual reproduction gap visible.',
-        '2. Bounded external audits of two public evaluation systems: FinRank, where tie policy and identity construction move absolute metrics without changing the qualitative hard-versus-random decision, and a retrieval benchmark, where a cutoff change or a different tie order reorders near-tied systems while the headline score moves by 0.0002.',
+        '2. Bounded external audits of two public evaluation systems: FinRank, where tie policy and identity construction move absolute metrics without changing the qualitative hard-versus-random decision, and a retrieval benchmark, where a cutoff change or a different tie order reorders near-tied systems while the headline score moves by 0.0000.',
         1,
     ),
     (
         '\n## Experimental Setup\n',
-        '\n### Independent public system: retrieval evaluation\n\nThe third case audits a public retrieval benchmark instead of a bespoke pipeline. The released corpus, queries, relevance judgements and metric definitions are kept; what the audit changes is only the reporting decision built on top of them.\n\nThe objects are the same six. The observation surface is the full ranking a retriever produces. The detection predicate is the metric cutoff k, because nDCG@10 credits only positions 1 to 10. The outcome is the reported ordering of systems. Identity is the query-document binding between judgements and corpus. The tie contract is the order among exactly equal scores, which the official scorer leaves unspecified. Reproduction is checked by re-implementing the metrics twice.\n\nTwo subsets of the same benchmark family are used: SciFact (5,183 documents, 300 judged test queries, 339 positive pairs) and NFCorpus (3,633 documents, 323 judged test queries, 12,334 positive pairs). Five deterministic systems are compared, four BM25 configurations and a TF-IDF cosine ranker, all rebuilt from the released corpus with no model. Metrics follow the trec_eval definitions used by the official path (ndcg_cut, map_cut, recall); a second independent implementation agrees on 200 checks per subset with zero mismatches. Uncertainty is a query-level bootstrap with 2,000 resamples.\n\nTwo systems have a known answer by construction and act as controls: a duplicate of one BM25 configuration, whose scores are identical and whose correct verdict is *indistinguishable*, and a degraded configuration that pushes the top-ranked document below the cutoff, whose correct verdict is *worse*. They give one false-positive and one false-negative probe for any decision rule. The two subsets are two samples of one benchmark family, not two benchmarks, and no model is called.\n\n## Experimental Setup\n',
+        '\n### Independent public system: retrieval evaluation\n\nThe third case audits a public retrieval benchmark instead of a bespoke pipeline. The released corpus, queries, judgements and scoring path are kept; what the audit changes is the reporting decision built on top of them.\n\nThe objects are the same six. The observation surface is the full ranking a retriever produces. The detection predicate is the metric cutoff k, because nDCG@10 credits only positions 1 to 10. The outcome is the reported ordering of systems. Identity is the query-document binding between judgements and corpus. The tie contract is the order among exactly equal scores, which the scorer leaves unspecified. Reproduction is checked by implementing the same definitions twice.\n\nTwo subsets of one benchmark family are used: SciFact (5,183 documents, 300 judged test queries, 339 positive pairs, every grade equal to 1) and NFCorpus (3,633 documents, 323 judged queries, 12,334 positive pairs, grades 1 and 2). The metrics follow the trec_eval definitions that the official path calls: ndcg_cut takes the raw qrels grade as gain, and map_cut at cutoff k divides by the total number of relevant documents rather than by the cutoff. Both were implemented twice and pinned by hand-computed counter-examples; the pytrec_eval binary was not run, so the claim is equivalence to the published definition, not to the binary. Binary-gain nDCG is reported alongside: it coincides with the graded version on SciFact, where all grades are 1, and differs on NFCorpus.\n\nFive deterministic systems are compared, four BM25 configurations and a TF-IDF cosine ranker, all rebuilt from the released corpus with no model. Three views are put on the same target and the same information: a naive leaderboard that orders every pair, including pairs with exactly equal means; a point estimate that treats exactly equal means as a tie; and the audit, which asserts an order only when a paired query-level bootstrap interval (2,000 resamples) excludes zero, with Holm-adjusted permutation p-values reported alongside. Two constructed systems give controls with a known answer: an exact duplicate of one BM25 configuration, whose correct verdict is indistinguishable, and a degradation that pushes the top-ranked document below the cutoff, whose correct verdict is worse. Both controls are checked in both directions, and no general pair is reported as equal; only the duplicate is equal, by construction.\n\n## Experimental Setup\n',
         1,
     ),
     (
         '\n## Discussion and Limitations\n',
-        '\n### Case 3: a public leaderboard under the same audit\n\nThe official view ranks systems by mean nDCG@10 and asserts an order over every pair. On SciFact that order is BM25(1.5, 0.6) 0.6662, BM25(1.2, 0.75) 0.6622, BM25(0.9, 0.4) 0.6611, BM25(0.5, 0.3) 0.6552 and TF-IDF 0.6329. A paired query-level bootstrap separates three of ten pairs, and all three put a BM25 configuration above TF-IDF (+0.028 to +0.033, intervals excluding zero). No pair of BM25 configurations is separated: the reported internal order rests on differences of 0.001 to 0.011 whose intervals contain zero.\n\nNFCorpus shows the audit is not uniformly conservative. There four of ten pairs are separated and three of those are internal to the BM25 family, so the discipline separates pairs when the sample supports it and declines when it does not.\n\nTwo protocol choices move the ordering itself. Changing the cutoff from 10 to 100 reorders the systems on both subsets; on NFCorpus TF-IDF moves from second to fourth. Changing the tie order among exactly equal scores leaves 36.5% of NFCorpus queries with a different top-10 while moving the aggregate by 0.0002, so the perturbation is invisible in the headline number yet present in more than a third of the queries that number is computed from. SciFact has no exact score ties at the cutoff, which is why its tie gap is exactly zero: the same protocol is stable on one subset and unstable on another.\n\nThe before/after comparison puts three views on the same runs. The leaderboard view asserts all fifteen pairwise orders, including a strict order between the duplicate pair, which is a false positive. Adding recall@100 as a cheap extra number neither removes that order nor improves the conclusion: TF-IDF ranks first on recall@100 in both subsets while ranking last or second on nDCG@10, so the extra number yields a different unsupported ordering rather than a better one. The audited view asserts 9 of 15 orders on SciFact and 7 of 15 on NFCorpus, reports the duplicate pair as indistinguishable, and still detects the degraded system as worse (SciFact +0.480 with interval [0.414, 0.544]; NFCorpus +0.071 with [0.052, 0.092]).\n\nThe cost is countable: four metric sweeps and a 2,000-resample bootstrap over rankings that already exist, about eight seconds of CPU on both subsets, and no model calls. The value is the removal of one unsupported ordering per subset and the exposure of a tie instability the aggregate hides; the limit is that no audit can create evidence for a difference the sample does not contain.\n\n## Discussion and Limitations\n',
+        "\n### Case 3: a public leaderboard under the same audit\n\nCorrecting the scoring contract already moves one subset. Every SciFact grade is 1, so graded and binary gain coincide there and those numbers are unchanged. On NFCorpus, where 576 of 12,334 judgements carry grade 2, graded gain reorders the middle of the table: TF-IDF falls from second to third behind BM25(1.2, 0.75), and MAP@10 roughly halves, from 0.2225 to 0.1193, because the trec_eval denominator is the number of relevant documents rather than the cutoff.\n\nWith the corrected metric and Holm control over ten pairs, SciFact supports two orderings: BM25(1.5, 0.6) and BM25(1.2, 0.75) above TF-IDF, by +0.033 and +0.029. The third comparison that looked significant before correction, BM25(0.9, 0.4) over TF-IDF, does not survive (Holm-adjusted p = 0.14). NFCorpus supports one: BM25(1.5, 0.6) over BM25(0.5, 0.3), by +0.0082. Every other pair is not distinguished.\n\nTwo protocol choices move the ordering itself. The cutoff does: k=10 and k=100 give different orderings on both subsets. The tie order among exactly equal scores does too, and the three ways of counting it separate cleanly on NFCorpus: 36.5% of queries return a different top-10 as an ordered list, 25.7% a different top-10 as a set of documents, and 25.7% carry a tie exactly at the 10/11 boundary, while the aggregate moves by 0.0000. SciFact has no tie at the cutoff, so all three rates are zero there. The same protocol is stable on one subset and unstable on another.\n\nThe before/after comparison is less flattering than a first pass suggested, and the corrected version is what we report. A naive leaderboard that sorts by the mean asserts fifteen orders, including one between a system and its exact duplicate; that false positive is an artifact of the naive sort. A point estimate that treats exactly equal means as a tie asserts fourteen and passes both controls, so the audit is not shown to beat a careful simple baseline. What it adds is narrower and still useful: it withdraws five further orders on SciFact and seven on NFCorpus, none of which the data can adjudicate in either direction, and it restates the leaderboard's support as one or two orderings instead of ten. It converts an ordering into a statement of support; it does not correct a wrong answer.\n\nThe cost is four metric sweeps plus a bootstrap and a permutation test over rankings that already exist: under ten seconds of CPU and no model calls. The limit is that withdrawal is not refutation. An interval containing zero fails to exclude zero, and across ten pairs an uncorrected view expects roughly half a spurious ordering by chance, which is why the corrected count is reported next to the uncorrected one.\n\n## Discussion and Limitations\n",
         1,
     ),
     (
@@ -221,6 +221,21 @@ EDITORIAL: list[tuple[str, str, int]] = [
     (
         "The two cases support one measurement discipline:",
         "The three cases support one measurement discipline:",
+        1,
+    ),
+    (
+        "In the retrieval case a query-level bootstrap separates only three of ten system pairs on one subset and four of ten on another, the reported ordering of near-tied systems is not supported, and changing the cutoff or the tie order reorders systems while the headline score moves by 0.0002.",
+        "In the retrieval case, after Holm control, only two of ten system pairs on one subset and one of ten on another survive; changing the cutoff or the tie order reorders systems while the headline score moves by 0.0000, and a point-estimate baseline that respects exact ties already matches the audit on the constructed controls.",
+        1,
+    ),
+    (
+        "This paper audits two evaluation constructions.",
+        "This paper audits three evaluation constructions.",
+        1,
+    ),
+    (
+        "neither counted case evaluates an agent system",
+        "none of the counted cases evaluates an agent system",
         1,
     ),
     # --- explicit in-text cross-references for every numbered exhibit ------
@@ -584,7 +599,7 @@ def restore_dropped_items(text: str) -> tuple[str, list[dict]]:
         "policy and identity construction move absolute metrics without changing the "
         "qualitative hard-versus-random decision, and a retrieval benchmark, where a cutoff "
         "change or a different tie order reorders near-tied systems while the headline score "
-        "moves by 0.0002.\n"
+        "moves by 0.0000.\n"
     )
     if text.count(contrib_anchor) != 1:
         raise SystemExit("contribution-2 anchor not found")
@@ -917,7 +932,7 @@ def main() -> int:
         raise SystemExit(f"raw LaTeX commands remain in the revision source: {sorted(set(residual))}")
 
     payload = {
-        "schema": "paper_e_revision_v3_build_log_v1",
+        "schema": "paper_e_revision_v4_build_log_v1",
         "generated_date": "2026-10-28",
         "production_source": OUTPUT.name,
         "inputs": {

@@ -1,7 +1,7 @@
 {
-  "schema": "paper_e_revision_v3_build_log_v1",
+  "schema": "paper_e_revision_v4_build_log_v1",
   "generated_date": "2026-10-28",
-  "production_source": "paper_e_revision_v3.md",
+  "production_source": "paper_e_revision_v4.md",
   "inputs": {
     "paper_e_word.md": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
     "references.bib": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
@@ -274,7 +274,7 @@
     {
       "occurrences": 1,
       "old": "\n## Discussion and Limitations\n",
-      "new": "\n### Case 3: a public leaderboard under the same audit\n\nThe official view ranks systems by mean nDCG@10 and asserts an order over every pair. On SciFact that or"
+      "new": "\n### Case 3: a public leaderboard under the same audit\n\nCorrecting the scoring contract already moves one subset. Every SciFact grade is 1, so graded and binary"
     },
     {
       "occurrences": 1,
@@ -290,6 +290,21 @@
       "occurrences": 1,
       "old": "The two cases support one measurement discipline:",
       "new": "The three cases support one measurement discipline:"
+    },
+    {
+      "occurrences": 1,
+      "old": "In the retrieval case a query-level bootstrap separates only three of ten system pairs on one subset and four of ten on another, the reported ordering of near-t",
+      "new": "In the retrieval case, after Holm control, only two of ten system pairs on one subset and one of ten on another survive; changing the cutoff or the tie order re"
+    },
+    {
+      "occurrences": 1,
+      "old": "This paper audits two evaluation constructions.",
+      "new": "This paper audits three evaluation constructions."
+    },
+    {
+      "occurrences": 1,
+      "old": "neither counted case evaluates an agent system",
+      "new": "none of the counted cases evaluates an agent system"
     },
     {
       "occurrences": 1,

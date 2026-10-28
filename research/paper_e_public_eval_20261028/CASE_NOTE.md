@@ -1,142 +1,150 @@
-# Case 3 — auditing a public retrieval evaluation (BEIR), A and B in one case
+# Case 3 — auditing a public retrieval evaluation (BEIR), corrected
 
-Date: 2026-10-28. Loop D direct execution. **Model generation calls in this case: 0.**
-All numbers below come from `results/BEIR_AUDIT_RESULT_20261028.json` and
-`results/BEIR_AB_RESULT_20261028.json`, produced by `code/beir_audit.py` and
-`code/beir_audit_ab.py` on the released data.
+Date: 2026-10-28 (revision 2). Loop D direct execution. **Model generation calls: 0.**
+Supersedes `results/v1_uncorrected/`. The old JSONs are kept unchanged for comparison.
 
 ---
 
-## 1. Why this is an independent system
+## 0. What the first version got wrong
 
-Paper E's first two cases are a bespoke staged document evaluator and FinRank.
-This case audits a different public evaluation system with different mechanics:
+| # | Defect | Consequence | Status |
+|---|---|---|---|
+| 1 | nDCG binarised relevance | trec_eval `ndcg_cut` takes the **raw qrels grade** as gain. Counter-example rels [1,2], ranking [1,2]: binary gives 1.0, official 0.8597188 | fixed; self-test pins it |
+| 2 | MAP divided by `min(n_rel, K)` | trec_eval `map_cut.K` divides by **total n_rel**. Two relevant, K=1, first hit: old 1.0, official 0.5 | fixed; self-test pins it |
+| 3 | Control pairing reversed | `truth_diff` held (degraded, other) while assertions were (other, degraded), so `true_different_flagged` was 0 in every view | fixed; base/degraded paired explicitly, direction checked |
+| 4 | Naive leaderboard as strawman | B0's stable sort forced an order between equal duplicates; that "false positive" was an artefact of the naive sort | fixed; a point-estimate baseline that respects exact equality added |
+| 5 | recall@100 called a "strong simple baseline" | it changes the ranking target, so it is not the same task | removed from B1; kept only as a separate multi-target sensitivity |
+| 6 | CI containing 0 read as equality | "not distinguished" ≠ "proved equal" | wording corrected throughout |
+| 7 | No multiplicity control | 10 pairs at 95% expects ~0.5 spurious orders | Holm-adjusted permutation p-values added |
+| 8 | `flip@10` compared ordered lists | 36.5% mixed reordering with genuine membership change | split into order / member-set / boundary-tie rates |
+| 9 | CLI in the note did not match the script | could not be replayed as written | both scripts now take `--data/--out`; replayed from a clean directory |
+| 10 | "200/200 self-consistency" implied official equivalence | two implementations of the same assumption | reworded: equivalence to the published definition; `pytrec_eval` was not run |
 
-- the data are released corpora, queries and relevance judgements, not a pipeline
-  we built;
-- the metric definitions are the ones the official path uses (`ndcg_cut`,
-  `map_cut`, `recall`), not ours;
-- the decision under audit is a **leaderboard ordering**, not a single score;
-- the perturbation that matters here is a **cutoff and a tie order**, not a
-  document-identity rule.
-
-What transfers is the audit discipline, not the mechanism.
-
-## 2. Frozen contract (set before any result was read)
+## 1. Frozen contract (unchanged except where noted)
 
 | Element | Value |
 |---|---|
-| Benchmark | BEIR distribution, official host `public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/` |
-| Subsets | `scifact` (5,183 docs, 300 judged test queries, 339 positive pairs) and `nfcorpus` (3,633 docs, 323 judged test queries, 12,334 positive pairs) |
-| Splits | `qrels/test.tsv` only; `train`/`dev` untouched |
-| Systems | BM25 (k1,b) ∈ {(0.9,0.4), (1.2,0.75), (0.5,0.3), (1.5,0.6)} and TF-IDF cosine, all rebuilt from the released corpus |
-| Metrics | trec_eval definitions; k ∈ {10, 100} |
-| Uncertainty | query-level bootstrap, 2,000 resamples, seed 20261028 |
-| Controls | a duplicate system (identical scores) and a degraded system (top-ranked document pushed below the cutoff) |
-| Exposure | this is a first audit of these subsets by this project; no earlier result on them exists to leak into the design |
+| Benchmark | BEIR official distribution, `public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/` |
+| Subsets | `scifact` 5,183 docs / 300 judged test queries / 339 positive pairs / **all grades 1**; `nfcorpus` 3,633 docs / 323 queries / 12,334 positive pairs / **grades 1 (11,758) and 2 (576)** |
+| Splits | `qrels/test.tsv` only |
+| Systems | BM25 (0.9,0.4), (1.2,0.75), (0.5,0.3), (1.5,0.6); TF-IDF cosine — all rebuilt from the released corpus, no model |
+| Metrics | trec_eval `ndcg_cut` (graded gain), `map_cut.K` (denominator n_rel), `recall.K`; k ∈ {10,100}; binary-gain nDCG reported alongside |
+| Uncertainty | query-level bootstrap, 2,000 resamples; paired sign-flip permutation; **Holm** over the 10 pairs |
+| Controls | exact duplicate (correct verdict: indistinguishable) and top-document degradation (correct verdict: worse), each checked for direction |
+| Query/corpus id overlap | 0 on both subsets, so BEIR's `ignore_identical_ids` default cannot bind |
 
-Metrics are implemented twice: the production implementation and a second
-independent statement of the same definition agree on 200 checks per subset with
-**0 mismatches**. `pytrec_eval` is not installed on the machine, so the official
-binary was not run; that is stated as a limitation, not glossed over.
+**Provenance of the freeze claim.** No independent timestamped pre-registration exists
+for this contract; it was written after the first BEIR run had already been seen.
+It is therefore **post-hoc / developmental**, not pre-registered. The corrections
+below were made because the definitions were wrong, not because the results were
+unwelcome: two of them make the audit's story *weaker*.
 
-Dataset licensing: the BEIR distribution ships **no LICENSE file** and its README
-states that it does not vouch for a right to use the datasets. This audit
-therefore **redistributes no data**: the repository carries code and aggregate
-metrics only. Anyone reusing the numbers must obtain the corpora themselves.
+## 2. A — what the corrected metric does to the numbers
 
-## 3. A — does the reported leaderboard survive the audit
+### SciFact: no change, because the qrels are binary
 
-### SciFact (mean nDCG@10, 95% query-bootstrap interval)
-
-| System | nDCG@10 | interval | nDCG@100 | Recall@100 |
+| System | nDCG@10 (old) | nDCG@10 (new, graded) | binary | MAP@10 |
 |---|---|---|---|---|
-| BM25 (1.5, 0.6) | 0.6662 | [0.619, 0.713] | 0.6908 | 0.8826 |
-| BM25 (1.2, 0.75) | 0.6622 | [0.616, 0.709] | 0.6851 | 0.8826 |
-| BM25 (0.9, 0.4) | 0.6611 | [0.614, 0.707] | 0.6858 | 0.8852 |
-| BM25 (0.5, 0.3) | 0.6552 | [0.608, 0.701] | 0.6786 | 0.8844 |
-| TF-IDF | 0.6329 | [0.586, 0.676] | 0.6602 | 0.8916 |
+| BM25 (1.5, 0.6) | 0.6662 | 0.6662 | 0.6662 | 0.6246 |
+| BM25 (1.2, 0.75) | 0.6622 | 0.6622 | 0.6622 | 0.6174 |
+| BM25 (0.9, 0.4) | 0.6611 | 0.6611 | 0.6611 | 0.6180 |
+| BM25 (0.5, 0.3) | 0.6552 | 0.6552 | 0.6552 | 0.6099 |
+| TF-IDF | 0.6329 | 0.6329 | 0.6329 | 0.5796 |
 
-Only **3 of 10** pairs separate, and all three are BM25 above TF-IDF
-(+0.028 to +0.033). No pair of BM25 configurations separates: the printed
-internal order rests on 0.001–0.011 with intervals containing zero.
+### NFCorpus: the correction reorders the table and halves MAP
 
-### NFCorpus
+| System | nDCG@10 (old) | nDCG@10 (new) | binary | MAP@10 (old) | MAP@10 (new) |
+|---|---|---|---|---|---|
+| BM25 (1.5, 0.6) | 0.3090 | **0.3092** | 0.3090 | 0.2225 | **0.1193** |
+| BM25 (1.2, 0.75) | 0.3058 | **0.3062** | 0.3058 | 0.2201 | 0.1175 |
+| TF-IDF | 0.3065 | **0.3052** | 0.3065 | 0.2200 | 0.1162 |
+| BM25 (0.9, 0.4) | 0.3042 | **0.3045** | 0.3042 | 0.2203 | 0.1180 |
+| BM25 (0.5, 0.3) | 0.2994 | **0.3011** | 0.2994 | 0.2162 | 0.1159 |
 
-| System | nDCG@10 | nDCG@100 | Recall@100 |
+**The ranking changes**: TF-IDF drops from 2nd to 3rd, behind BM25(1.2, 0.75).
+MAP@10 roughly halves because the denominator is the number of relevant documents
+(mean ≈ 38 per query on NFCorpus), not the cutoff.
+
+### Support after multiplicity control
+
+| | SciFact | NFCorpus |
+|---|---|---|
+| pairs with CI excluding 0 (uncorrected) | 3 / 10 | 4 / 10 |
+| pairs surviving **Holm** (p < 0.05) | **2 / 10** | **1 / 10** |
+| which | BM25(1.5) > TF-IDF (+0.033), BM25(1.2) > TF-IDF (+0.029) | BM25(1.5) > BM25(0.5) (+0.0082) |
+| dropped by correction | BM25(0.9) > TF-IDF (p_holm = 0.14) | three pairs, p_holm ≥ 0.22 |
+
+### Tie order, counted three ways (NFCorpus; SciFact is 0 on all three)
+
+| Measure | Rate |
+|---|---|
+| top-10 differs as an **ordered list** | 36.5% |
+| top-10 differs as a **member set** | **25.7%** |
+| a tie sits exactly at the **10/11 boundary** | 25.7% |
+| aggregate nDCG@10 movement | **0.0000** |
+
+Local instability in a quarter of queries, invisible in the headline number.
+
+## 3. B — the before/after comparison, corrected
+
+Three views on the same target (mean graded nDCG@10) and the same information:
+
+| View | Asserted orders (SciFact / NFCorpus) | Duplicate control | Degradation control |
 |---|---|---|---|
-| BM25 (1.5, 0.6) | 0.3090 | 0.2532 | 0.2358 |
-| TF-IDF | 0.3065 | 0.2504 | 0.2371 |
-| BM25 (1.2, 0.75) | 0.3058 | 0.2518 | 0.2360 |
-| BM25 (0.9, 0.4) | 0.3042 | 0.2520 | 0.2367 |
-| BM25 (0.5, 0.3) | 0.2994 | 0.2482 | 0.2353 |
+| B0 naive leaderboard (orders even equal means) | 15 / 15 | **fails** (asserts an order on an exact duplicate) | passes |
+| B1 point estimate (equal means = tie) | **14 / 14** | **passes** | **passes** |
+| A audit (paired bootstrap CI excludes 0) | 9 / 7 | passes | passes |
+| A with Holm | 7 / 5 | passes | passes |
 
-**4 of 10** pairs separate, three of them inside the BM25 family. The audit is
-therefore not uniformly conservative: it separates when the sample supports it.
+**The audit's advantage over a careful simple baseline is not demonstrated.** B1 is
+one line of code, uses no resampling, and already passes both constructed controls.
+The earlier claim that the audit "removes a false positive" described a defect of the
+naive sort, not a property of the audit.
 
-### Two protocol choices move the ordering
+What the audit still contributes is narrower: it withdraws five further orders on
+SciFact and seven on NFCorpus, and it states the leaderboard's support as one or two
+orderings rather than ten. **Withdrawal is not refutation**: those pairs are *not
+distinguished*, which is not the same as *shown equal*.
 
-- **Cutoff**: k=10 and k=100 give **different orderings on both subsets**; on
-  NFCorpus TF-IDF moves from 2nd to 4th.
-- **Tie order** inside exactly equal scores: **36.5%** of NFCorpus queries get a
-  different top-10, while the aggregate moves by **0.0002**. SciFact has no
-  exact ties at the cutoff, so its tie gap is exactly 0 — the same protocol is
-  stable on one subset and unstable on another.
+Controls, with direction verified:
 
-## 4. B — does the audit change the decision, and in the right places
-
-Three views on the same runs and the same information:
-
-| View | What it adds | Orders asserted (SciFact / NFCorpus) | Duplicate pair | Degraded system |
-|---|---|---|---|---|
-| B0 official leaderboard | nothing | 15 / 15 | ordered (false positive) | — |
-| B1 strong simple rule | recall@100 | 15 / 15 | still ordered | — |
-| A audit | paired bootstrap + k + tie sensitivity | **9 / 7** | indistinguishable (correct) | worse (correct) |
-
-Controls:
-
-| Control | Correct verdict | Audit verdict | Value |
-|---|---|---|---|
-| duplicate of a BM25 system | indistinguishable | indistinguishable | difference 0.0000, interval [0.000, 0.000] |
-| degraded (top doc pushed below cutoff) | worse | worse | SciFact +0.480 [0.414, 0.544]; NFCorpus +0.071 [0.052, 0.092] |
-
-The strong simple baseline is not merely neutral, it **misleads**: recall@100
-ranks TF-IDF first on both subsets while nDCG@10 ranks it last or second, so
-adding a cheap extra number produces a different unsupported ordering rather
-than a better one.
+| Control | Correct verdict | Observed |
+|---|---|---|
+| exact duplicate of BM25(0.9,0.4) | indistinguishable | difference 0.0000, interval [0.000, 0.000] |
+| top document pushed below the cutoff | base worse | SciFact +0.480 [0.414, 0.544]; NFCorpus +0.071 [0.052, 0.092] |
 
 ### 原判断 → 审计 → 结果 → 代价
 
 | | |
 |---|---|
-| 原判断 | "BM25(1.5,0.6) > BM25(1.2,0.75) > BM25(0.9,0.4) > BM25(0.5,0.3) > TF-IDF；系统名次可直接引用" |
-| 审计发现 | 10 对里只有 3 对（SciFact）/ 4 对（NFCorpus）可分离；BM25 家族内部次序不可分离；k 与并列序都能改变名次；NFCorpus 36.5% 的查询 top-10 随并列序变化而总量只动 0.0002 |
-| 结果 | 断言数 15→9 / 15→7；重复系统被判"不可区分"（消除 1 个假阳性）；退化系统仍被判"更差"（保留真阳性）；"BM25 > TF-IDF" 这一条结论保留 |
-| 代价 | 4 次指标扫描 + 2,000 次自助重采样，约 8 秒 CPU，**0 次模型生成**；不改变任何原输出 |
+| 原判断（修正前稿） | nDCG@10 上 5 个系统可完全排序；审计消除 1 个假阳性、检出 1 个退化 |
+| 修正后 | 该"假阳性"是朴素排序的产物；会处理相等的点估计同样通过两个对照。真正成立的只有：SciFact 2/10、NFCorpus 1/10 对可分离 |
+| 结果 | 结论收窄：审计把"排序"变成"支持度陈述"，不纠正错误答案；并列序使 25.7% 查询的前十成员改变而总量不动 |
+| 代价 | 4 次指标扫描 + 自助 + 置换检验，< 10 秒 CPU，**0 次生成** |
 
-## 5. What this case does not establish
+## 4. What still does not hold
 
-- Two subsets of **one** benchmark family: not two benchmarks.
-- Lexical, deterministic systems only. Nothing here about dense or generative
-  retrieval, and no model-quality claim.
-- The instability is a property of the **reporting protocol**, not a defect of
-  any retriever.
-- The official `pytrec_eval` binary was not executed; equivalence rests on two
-  independent re-implementations agreeing 200/200 per subset.
-- No claim that these subsets' published numbers are wrong: the audit changes
-  what can be concluded from a table, not what any system scored.
+- Two subsets of **one** benchmark family; not two benchmarks.
+- Lexical deterministic systems only; nothing about dense or generative retrieval,
+  and no model-quality claim.
+- `pytrec_eval` was not executed. Equivalence is to the published trec_eval
+  definition, verified by hand-computed counter-examples and a second independent
+  implementation, **not** by the official binary.
+- The freeze claim is post-hoc. No independent timestamped pre-registration exists.
+- No claim that any published BEIR number is wrong: this audits what a table
+  supports, not what a system scored.
 
-## 6. Reproduction
+## 5. Reproduction (from a clean directory)
 
 ```bash
-# data (official host; ~2.8 MB + ~2.4 MB)
 curl -sSL -O https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip
 curl -sSL -O https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/nfcorpus.zip
 unzip -q scifact.zip && unzip -q nfcorpus.zip
-
-python code/beir_audit.py    --data . --out result.json
+python code/beir_audit.py    --data . --out result.json      # self-tests run first
 python code/beir_audit_ab.py --data . --out ab_result.json
 ```
 
-Data hashes (zip, SHA-256): `scifact 536e14446a0ba56ed1398ab1055f39fe852686ecad24a6306c80c490fa8e0165`,
+Data (zip SHA-256): `scifact 536e14446a0ba56ed1398ab1055f39fe852686ecad24a6306c80c490fa8e0165`,
 `nfcorpus efe5be03f8c5b86a5870102d0599d227c8c6e2484328e68c6522560385671b0b`.
+Licensing: the BEIR distribution ships no LICENSE and disclaims licensing; this
+repository redistributes **no data**, only code and aggregate metrics.

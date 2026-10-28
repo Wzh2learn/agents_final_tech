@@ -1,6 +1,6 @@
 {
-  "schema": "paper_e_revision_v3_lint_v1",
-  "source": "paper_e_revision_v3.md",
+  "schema": "paper_e_revision_v4_lint_v1",
+  "source": "paper_e_revision_v4.md",
   "verdict": "PASS",
   "failures": [],
   "structure": {
@@ -243,8 +243,8 @@
       "Results",
       "Conclusion"
     ],
-    "words_prose_only": 254,
-    "words_including_labels": 258,
+    "words_prose_only": 260,
+    "words_including_labels": 264,
     "note": "Reported as computed here; no word count is asserted in the manuscript."
   }
 }

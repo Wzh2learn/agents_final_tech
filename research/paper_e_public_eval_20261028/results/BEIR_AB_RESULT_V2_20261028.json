@@ -1,0 +1,206 @@
+{
+  "scifact": {
+    "queries": 300,
+    "naive_order": [
+      [
+        "bm25_b",
+        0.666249
+      ],
+      [
+        "bm25_c",
+        0.662213
+      ],
+      [
+        "bm25_a",
+        0.661069
+      ],
+      [
+        "dup_of_a",
+        0.661069
+      ],
+      [
+        "tfidf",
+        0.632911
+      ],
+      [
+        "deg_a",
+        0.18067
+      ]
+    ],
+    "asserted_counts": {
+      "b0": 15,
+      "b1": 14,
+      "audit": 9,
+      "audit_holm": 7
+    },
+    "controls": {
+      "b0": {
+        "asserts_order_on_duplicate": true,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": false,
+        "passes_degradation_control": true
+      },
+      "b1": {
+        "asserts_order_on_duplicate": false,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": true,
+        "passes_degradation_control": true
+      },
+      "audit": {
+        "asserts_order_on_duplicate": false,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": true,
+        "passes_degradation_control": true
+      },
+      "audit_holm": {
+        "asserts_order_on_duplicate": false,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": true,
+        "passes_degradation_control": true
+      }
+    },
+    "duplicate_pair_detail": {
+      "diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "p": 1.0,
+      "excludes_zero": false,
+      "p_holm": 1.0
+    },
+    "degraded_pair_detail": {
+      "diff": 0.4803989590599129,
+      "ci95": [
+        0.4138348463278631,
+        0.5436879396306034
+      ],
+      "p": 0.0004997501249375312,
+      "excludes_zero": true,
+      "p_holm": 0.0074962518740629685
+    },
+    "pairs_b1_asserts_audit_withdraws": [
+      "bm25_b>bm25_a",
+      "bm25_b>bm25_c",
+      "bm25_b>dup_of_a",
+      "bm25_c>bm25_a",
+      "bm25_c>dup_of_a"
+    ],
+    "withdrawn_touching_controls": [
+      "bm25_b>dup_of_a",
+      "bm25_c>dup_of_a"
+    ],
+    "tie_policy": {
+      "order_changed_rate@10": 0.0,
+      "members_changed_rate@10": 0.0
+    },
+    "multiplicity": {
+      "pairs": 15,
+      "uncorrected_assertions": 9,
+      "holm_assertions": 7
+    }
+  },
+  "nfcorpus": {
+    "queries": 323,
+    "naive_order": [
+      [
+        "bm25_b",
+        0.309228
+      ],
+      [
+        "bm25_c",
+        0.306195
+      ],
+      [
+        "tfidf",
+        0.305224
+      ],
+      [
+        "bm25_a",
+        0.304539
+      ],
+      [
+        "dup_of_a",
+        0.304539
+      ],
+      [
+        "deg_a",
+        0.229949
+      ]
+    ],
+    "asserted_counts": {
+      "b0": 15,
+      "b1": 14,
+      "audit": 7,
+      "audit_holm": 5
+    },
+    "controls": {
+      "b0": {
+        "asserts_order_on_duplicate": true,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": false,
+        "passes_degradation_control": true
+      },
+      "b1": {
+        "asserts_order_on_duplicate": false,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": true,
+        "passes_degradation_control": true
+      },
+      "audit": {
+        "asserts_order_on_duplicate": false,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": true,
+        "passes_degradation_control": true
+      },
+      "audit_holm": {
+        "asserts_order_on_duplicate": false,
+        "asserts_base_above_degraded": true,
+        "passes_duplicate_control": true,
+        "passes_degradation_control": true
+      }
+    },
+    "duplicate_pair_detail": {
+      "diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "p": 1.0,
+      "excludes_zero": false,
+      "p_holm": 1.0
+    },
+    "degraded_pair_detail": {
+      "diff": 0.07459037307795224,
+      "ci95": [
+        0.05508314659519827,
+        0.09562756021519818
+      ],
+      "p": 0.0004997501249375312,
+      "excludes_zero": true,
+      "p_holm": 0.0074962518740629685
+    },
+    "pairs_b1_asserts_audit_withdraws": [
+      "bm25_b>bm25_c",
+      "bm25_b>tfidf",
+      "bm25_c>bm25_a",
+      "bm25_c>dup_of_a",
+      "bm25_c>tfidf",
+      "tfidf>bm25_a",
+      "tfidf>dup_of_a"
+    ],
+    "withdrawn_touching_controls": [
+      "bm25_c>dup_of_a",
+      "tfidf>dup_of_a"
+    ],
+    "tie_policy": {
+      "order_changed_rate@10": 0.3653250773993808,
+      "members_changed_rate@10": 0.25696594427244585
+    },
+    "multiplicity": {
+      "pairs": 15,
+      "uncorrected_assertions": 7,
+      "holm_assertions": 5
+    }
+  }
+}
