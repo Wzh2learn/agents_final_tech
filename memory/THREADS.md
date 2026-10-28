@@ -1,5 +1,9 @@
 # Open Decisions And Blockers
 
+> **现役裁决（2026-10-28）**：本提示优先于下方历史条目。Paper E 三案例稿已完成 v3 内部修订，但仍待最终模板、完整独立审稿、作者与对外投稿事项；[v3 回执](../research/paper_e_manuscript_followup_20261028/V3_REVIEW_RETURN.md)、[统计复核](../research/paper_e_evidence_followup_20261028/INDEPENDENT_HOLM_REVIEW.md)。六系统不是预注册或独立数据确认。[投稿时间及条件备选](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)为当前路线，不预设主投已获批准。第二篇仍在[对标与资格筛选](../research/paper_e_evidence_followup_20261028/SECOND_PAPER_RELATED_WORK_20261028.md)。用户已接受现场参会。GB10 论文集成工作区与 GitHub 集成分支对齐；本机主树保留未跟踪副本，GB10 main 为独立旧状态；未核验生产服务。
+
+下方条目保留历史来源和原文，遇到状态冲突以本段为准，不能重开已停止的候选。
+
 Updated: 2026-10-28
 
 当前短状态见 [STATE.md](STATE.md)，科研证据路由见 [Research Entry](../docs/research/README.md)。本表保留真实未决事项；完成或被后续证据更正的历史条目保留原文归档。

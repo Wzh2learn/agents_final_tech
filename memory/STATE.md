@@ -1,5 +1,9 @@
 # Current State
 
+> **现役快照（2026-10-28，负责人复核）**：本段优先于下面保留的阶段历史。Paper E 的三案例 v3 是内部审阅稿，未投稿；六系统分析为事后探索，Holm 算术已独立重算，尚无独立数据确认或真实用户决策研究。最新材料见 [论文修订](../research/paper_e_manuscript_followup_20261028/V3_REVIEW_RETURN.md)、[实验](../research/paper_e_evidence_followup_20261028/RESULTS.md)、[投稿倒排](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。第二篇仅为[相关工作筛选与候选](../research/paper_e_evidence_followup_20261028/SECOND_PAPER_RELATED_WORK_20261028.md)，不是已成立创新。会议可线下；IJCNN 与 EASE 不可按“先等 IJCNN 后再投 EASE”顺序衔接。2027 年 10 月送审，具体日和学校成果凭证待核。主工作树保留未跟踪副本；以论文集成分支为此阶段科研工作入口。
+
+以下为阶段历史，旧评分、路线与待办中如与本快照冲突，均不代表当前裁决。
+
 > Updated: 2026-10-28（第二轮执行）| Scope: 三图源重导出与重渲染完成；D/T/M 卡已按复核更正；生成仍为 0
 > 上一轮治理核验：`VERIFIED`；备份、三端对齐与工作区核验范围见治理报告，不替代本轮科研方法或投稿包验收。
 
