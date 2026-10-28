@@ -1,0 +1,923 @@
+{
+  "claim_boundary": "Development pure rescore of saved outputs. Synthetic and mutated paired controls are not natural model error rates; no human-gold or new-source accuracy claim.",
+  "datasets": {
+    "blank_type": 36,
+    "first_batch_final": 36,
+    "oracle": 36,
+    "question_only": 36
+  },
+  "difference_count": 109,
+  "generation_records_created": 0,
+  "historical_immutables": {
+    "blank_type_counts": {
+      "ACCEPT": 12,
+      "REASONABLE_UNKNOWN": 5,
+      "REJECT": 19
+    },
+    "corrected_final_attempt_input_deltas": {
+      "table_all_minus_table_top5": 1604,
+      "table_top5_minus_table_top3": 917
+    },
+    "identity": "recorded from unchanged historical manifests; not recomputed or rewritten",
+    "old_first_batch_score": {
+      "table_all": 3,
+      "table_top3": 2,
+      "table_top5": 3
+    },
+    "oracle_counts": {
+      "ACCEPT": 31,
+      "REASONABLE_UNKNOWN": 5
+    },
+    "question_only_counts": {
+      "ACCEPT": 31,
+      "REASONABLE_UNKNOWN": 5
+    }
+  },
+  "judge_calls": 0,
+  "model_calls": 0,
+  "per_uid": [
+    {
+      "question_uid": "01de2123-400f-4411-98d9-cd3f9f1e4136",
+      "variants": {
+        "blank_type": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "first_batch_final": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "final_delivery": {
+              "v2": "REJECT",
+              "v3": "REJECT"
+            },
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "For adjusted operating costs, what was the percentage change in the amount of before exceptional items, acquisition related costs, acquired intangible asset amortisation and share-based payment between 2018 and 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "5e67e832-44c4-4284-96d3-75b81cd1ac26",
+      "variants": {
+        "blank_type": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "first_batch_final": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+          "v2_status": "STRICT_FAIL",
+          "v3_status": "STRICT_FAIL"
+        },
+        "oracle": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the amount of payroll taxes in 2019 and 2018 respectively?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "7a1f65b6-25e2-48e2-a3cc-baddc688545e",
+      "variants": {
+        "blank_type": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What is the total external revenues from Canada in 2019?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "first_batch_final": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PENDING_ADJUDICATION",
+              "v3": "PENDING_ADJUDICATION"
+            },
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "What is the total external revenues from Canada in 2019?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the total external revenues from Canada in 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the total external revenues from Canada in 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "7e942684-fe9e-4ded-a3e9-2f3a5aa707fe",
+      "variants": {
+        "blank_type": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What services have their costs included within the audit fees?",
+          "v2_status": "REASONABLE_UNKNOWN",
+          "v3_status": "REASONABLE_UNKNOWN"
+        },
+        "first_batch_final": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What services have their costs included within the audit fees?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What services have their costs included within the audit fees?",
+          "v2_status": "REASONABLE_UNKNOWN",
+          "v3_status": "REASONABLE_UNKNOWN"
+        },
+        "question_only": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What services have their costs included within the audit fees?",
+          "v2_status": "REASONABLE_UNKNOWN",
+          "v3_status": "REASONABLE_UNKNOWN"
+        }
+      }
+    },
+    {
+      "question_uid": "8a3fb2be-150b-410f-a6d5-f3a3dd1fdba3",
+      "variants": {
+        "blank_type": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "first_batch_final": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PENDING_ADJUDICATION",
+              "v3": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "v2": "REJECT",
+              "v3": "REJECT"
+            },
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What was the change in the diluted weighted-average number of shares between 2017 and 2018?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "9e3493de-9a29-4db8-ad06-52dc6ff1fdaf",
+      "variants": {
+        "blank_type": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "How many services have their costs included within the audit fees?",
+          "v2_status": "REASONABLE_UNKNOWN",
+          "v3_status": "REASONABLE_UNKNOWN"
+        },
+        "first_batch_final": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "How many services have their costs included within the audit fees?",
+          "v2_status": "STRICT_FAIL",
+          "v3_status": "STRICT_FAIL"
+        },
+        "oracle": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "How many services have their costs included within the audit fees?",
+          "v2_status": "REASONABLE_UNKNOWN",
+          "v3_status": "REASONABLE_UNKNOWN"
+        },
+        "question_only": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "How many services have their costs included within the audit fees?",
+          "v2_status": "REASONABLE_UNKNOWN",
+          "v3_status": "REASONABLE_UNKNOWN"
+        }
+      }
+    },
+    {
+      "question_uid": "a75bb0b1-4fb1-405c-b2f1-1df4ee3cc9be",
+      "variants": {
+        "blank_type": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "first_batch_final": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "multi-span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What are the components factored in the calculation of investments in subsidiaries at end of the period?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "ad42fe3e-38cd-446f-a313-b9a50f5e6937",
+      "variants": {
+        "blank_type": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the average trade receivables for 2018 and 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "first_batch_final": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PENDING_ADJUDICATION",
+              "v3": "PENDING_ADJUDICATION"
+            },
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "What is the average trade receivables for 2018 and 2019?",
+          "v2_status": "STRICT_FAIL",
+          "v3_status": "STRICT_FAIL"
+        },
+        "oracle": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the average trade receivables for 2018 and 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the average trade receivables for 2018 and 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "cb4abf04-9551-46e2-8a32-46672e284167",
+      "variants": {
+        "blank_type": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "first_batch_final": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PENDING_ADJUDICATION",
+              "v3": "PENDING_ADJUDICATION"
+            },
+            "final_delivery": {
+              "v2": "REJECT",
+              "v3": "REJECT"
+            },
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "arithmetic",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What was the percentage change in Total operating income in 2019 from 2018?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "e14c60c4-3460-42eb-8d21-c29abdbce3a8",
+      "variants": {
+        "blank_type": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "How many quarters did the basic earnings per share exceed $0.30?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "first_batch_final": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "numeric_unit": {
+              "v2": "FAIL",
+              "v3": "FAIL"
+            }
+          },
+          "question": "How many quarters did the basic earnings per share exceed $0.30?",
+          "v2_status": "STRICT_FAIL",
+          "v3_status": "STRICT_FAIL"
+        },
+        "oracle": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "How many quarters did the basic earnings per share exceed $0.30?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "count",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            },
+            "numeric_unit": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "How many quarters did the basic earnings per share exceed $0.30?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "f37d1be3-b3fe-487f-bd05-253c20f55eb2",
+      "variants": {
+        "blank_type": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What is the units used for the data in the table?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "first_batch_final": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the units used for the data in the table?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the units used for the data in the table?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the units used for the data in the table?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    },
+    {
+      "question_uid": "fcb5e3fa-fb0c-4cce-a86c-229ac3734bd2",
+      "variants": {
+        "blank_type": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What is the net sales arising from total electronic components in 2019?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "first_batch_final": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {},
+          "question": "What is the net sales arising from total electronic components in 2019?",
+          "v2_status": "REJECT",
+          "v3_status": "REJECT"
+        },
+        "oracle": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the net sales arising from total electronic components in 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        },
+        "question_only": {
+          "answer_type": "span",
+          "arm": "table_top5",
+          "layer_changes": {
+            "evidence": {
+              "v2": "PASS",
+              "v3": "PASS"
+            }
+          },
+          "question": "What is the net sales arising from total electronic components in 2019?",
+          "v2_status": "ACCEPT",
+          "v3_status": "ACCEPT"
+        }
+      }
+    }
+  ],
+  "schema": "scoring_v3_pure_rescore_v1",
+  "selection_rule": "immutable first 40-call raw batch; maximum call_number per UID x arm yields 36 final attempts",
+  "source_hashes": {
+    "annotated_jsonl": "cf3c243e93a5f345405281a85d8e5b7a981c993fc496c4ca99b55218e34ae1b3",
+    "raw_jsonl": "fca487c420409a389059aefe169562ca28f58246df0b6157b6c51b7258132488",
+    "reference_chain": "2a5340ac8a7fe8fe84d018db3f75a7aba175ff91a60d42f4d3e564d3b819e066",
+    "saved_blank_type": "6c952016bfc2ef0c56e52509034f2d960788dd5346ca946a9ba8e65f875ef3d8",
+    "saved_oracle": "7a87847449d6e10eb367b8c12a07989d8150deb89ba2c1e3edb6f184919cb278",
+    "saved_question_only": "d00efe3a8810e75c0d3687e7344b28364a8bc9d4d58ad05a24501ad48699b679",
+    "tatqa_dev_source": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "v2_first_batch_rows": "991b902a94408dea9c903c3d20b8215592f661cdee569197a7336306a0db94c0"
+  },
+  "status": "COMPLETE_ZERO_MODEL_PURE_RESCORE",
+  "summaries_by_variant": {
+    "blank_type": {
+      "changed_layer_status_counts": {
+        "evidence": 12,
+        "numeric_unit": 18
+      },
+      "rows": 36,
+      "v2_status_counts": {
+        "ACCEPT": 12,
+        "REASONABLE_UNKNOWN": 5,
+        "REJECT": 19
+      },
+      "v3_layer_status_counts": {
+        "answer": {
+          "PASS": 36
+        },
+        "evidence": {
+          "FAIL": 19,
+          "PASS": 12,
+          "REASONABLE_UNKNOWN": 5
+        },
+        "final_delivery": {
+          "ACCEPT": 12,
+          "REASONABLE_UNKNOWN": 5,
+          "REJECT": 19
+        },
+        "numeric_unit": {
+          "FAIL": 23,
+          "PASS": 13
+        },
+        "strict": {
+          "PASS": 36
+        }
+      },
+      "v3_status_counts": {
+        "ACCEPT": 12,
+        "REASONABLE_UNKNOWN": 5,
+        "REJECT": 19
+      }
+    },
+    "first_batch_final": {
+      "changed_layer_status_counts": {
+        "evidence": 14,
+        "final_delivery": 9,
+        "numeric_unit": 22
+      },
+      "rows": 36,
+      "v2_status_counts": {
+        "PENDING_ADJUDICATION": 1,
+        "REJECT": 22,
+        "STRICT_FAIL": 13
+      },
+      "v3_layer_status_counts": {
+        "answer": {
+          "FAIL": 27,
+          "PASS": 9
+        },
+        "evidence": {
+          "FAIL": 17,
+          "PASS": 3,
+          "PENDING_ADJUDICATION": 16
+        },
+        "final_delivery": {
+          "PENDING_ADJUDICATION": 1,
+          "REJECT": 22,
+          "STRICT_FAIL": 13
+        },
+        "numeric_unit": {
+          "FAIL": 20,
+          "PASS": 15,
+          "PENDING_ADJUDICATION": 1
+        },
+        "strict": {
+          "PASS": 23,
+          "STRICT_FAIL": 13
+        }
+      },
+      "v3_status_counts": {
+        "PENDING_ADJUDICATION": 1,
+        "REJECT": 22,
+        "STRICT_FAIL": 13
+      }
+    },
+    "oracle": {
+      "changed_layer_status_counts": {
+        "evidence": 31,
+        "numeric_unit": 18
+      },
+      "rows": 36,
+      "v2_status_counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      },
+      "v3_layer_status_counts": {
+        "answer": {
+          "PASS": 36
+        },
+        "evidence": {
+          "PASS": 31,
+          "REASONABLE_UNKNOWN": 5
+        },
+        "final_delivery": {
+          "ACCEPT": 31,
+          "REASONABLE_UNKNOWN": 5
+        },
+        "numeric_unit": {
+          "FAIL": 4,
+          "PASS": 32
+        },
+        "strict": {
+          "PASS": 36
+        }
+      },
+      "v3_status_counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      }
+    },
+    "question_only": {
+      "changed_layer_status_counts": {
+        "evidence": 31,
+        "numeric_unit": 18
+      },
+      "rows": 36,
+      "v2_status_counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      },
+      "v3_layer_status_counts": {
+        "answer": {
+          "PASS": 36
+        },
+        "evidence": {
+          "PASS": 31,
+          "REASONABLE_UNKNOWN": 5
+        },
+        "final_delivery": {
+          "ACCEPT": 31,
+          "REASONABLE_UNKNOWN": 5
+        },
+        "numeric_unit": {
+          "FAIL": 4,
+          "PASS": 32
+        },
+        "strict": {
+          "PASS": 36
+        }
+      },
+      "v3_status_counts": {
+        "ACCEPT": 31,
+        "REASONABLE_UNKNOWN": 5
+      }
+    }
+  },
+  "training_runs": 0,
+  "v3_version_boundaries": {
+    "pending_boundary": "unresolved legal reference or role binding remains PENDING",
+    "required_evidence_support": "each operand separately; any broad support is PENDING, not automatic PASS",
+    "role_only_equal_values": "independent required evidence binding; no gold numeric-value scan",
+    "single_element_numeric_span": "answer list element and numeric_value must agree",
+    "unknown_boundary": "reasonable missing-evidence UNKNOWN remains distinct from PENDING"
+  }
+}

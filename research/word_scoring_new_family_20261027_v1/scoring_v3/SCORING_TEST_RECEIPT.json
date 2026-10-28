@@ -1,0 +1,33 @@
+{
+  "commands": [
+    "PYTHONPATH=src python3.12 -m unittest research.word_scoring_new_family_20261027_v1.scoring_v3.test_scoring_v3 -v",
+    "PYTHONPATH=src python3.12 -m unittest research.word_scoring_new_family_20261027_v1.scoring_v3.test_diagnostic_rescore -v",
+    "PYTHONPATH=src python3.12 -m unittest discover -s research/adaptive_mechanism_20261027_v1/scoring_v2 -p test_scoring_v2.py"
+  ],
+  "diagnostic_interface_controls": {
+    "passed": 5,
+    "run": 5
+  },
+  "hashes": {
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/diagnostic_rescore.py": "b92035de0fb497374a89e6e58380f215fc4686b149b2abe8a28b6cf6d2c482a4",
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/rescore_pure.py": "177f19ccae5a848824d7b6ad6570027a0abced4ea2ad83dccbf13fc17f659787",
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V3_PURE_RESCORE_SUMMARY.json": "6d9cfd09e41558949c9b585cc60e9d18b0f211d2668be21afef96c52a86c21a6",
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/scorer.py": "4d8075bd4065f0cf3c0a17a830185f2650eff925cdec977b8001fcfbab3bc383",
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/test_diagnostic_rescore.py": "78b6cc98d8ca8c379e3e4597074d840a4c75131100c5466fce7b4cf21b841812",
+    "research/word_scoring_new_family_20261027_v1/scoring_v3/test_scoring_v3.py": "29747d85d8a150be5d407a1942066bcac1fbbe5b5145def4c0d9db68e5b730db"
+  },
+  "judge_calls": 0,
+  "model_calls": 0,
+  "python": "3.12.3",
+  "schema": "scoring_v3_test_receipt_v1",
+  "status": "PASS",
+  "training_runs": 0,
+  "v2_regression_controls": {
+    "passed": 17,
+    "run": 17
+  },
+  "v3_targeted_controls": {
+    "passed": 7,
+    "run": 7
+  }
+}

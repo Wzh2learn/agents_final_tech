@@ -1,0 +1,324 @@
+{
+  "families": [
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "no_complete_contract_candidate",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NO_EXPLICIT_FORMULA",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "UNAVAILABLE_INTERFACE_FAILURE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "UNAVAILABLE_INTERFACE_FAILURE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "b9871425-cbf5-4b6c-b1d3-6931727226a1",
+      "question_uid": "57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7",
+      "task_signature": "arithmetic_change"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "answer_text_or_set_mismatch",
+        "frozen_reference_unit_may_conflict_with_visible_semantics",
+        "no_complete_contract_candidate",
+        "non_contract_reasoning_prefix_before_json",
+        "numeric_or_unit_mismatch",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure",
+        "reference_unit_conflict",
+        "visible_citation_support_mismatch"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "PASS",
+          "numeric_correct": true,
+          "semantic_status": "REJECT",
+          "visible_citation_support": "NONE_OR_MISMATCH"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "cc4f089d-e7bf-4b00-a096-48a3eed39f86",
+      "question_uid": "62bb8d90-5ff5-4659-812a-a1b39c2c4e2b",
+      "task_signature": "span_text"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": false,
+      "alternative_explanations": [
+        "no_complete_contract_candidate",
+        "non_contract_reasoning_prefix_before_json",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "PASS",
+          "numeric_correct": true,
+          "semantic_status": "ACCEPT",
+          "visible_citation_support": "EXACT"
+        }
+      },
+      "family_id": "1cacb8a3-8587-4ff4-aadb-814352f5c0ff",
+      "question_uid": "177fcc7a-a3c4-4e17-9521-3bcfc7154f02",
+      "task_signature": "span_numeric"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "frozen_reference_unit_may_conflict_with_visible_semantics",
+        "no_complete_contract_candidate",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "92694e4b-3488-4983-ab60-dc7f88a7e0f5",
+      "question_uid": "b27a5513-7ad8-4172-99f9-0e8c9e7c9476",
+      "task_signature": "multi_span_text"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "no_complete_contract_candidate",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "a98c60cd-3990-47d0-9d30-351743be74c7",
+      "question_uid": "f4acbb7e-c861-4ff7-ba8c-450fb3a31224",
+      "task_signature": "multi_span_table"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "no_complete_contract_candidate",
+        "non_contract_reasoning_prefix_before_json",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NO_EXPLICIT_FORMULA",
+          "interface_status": "PASS",
+          "numeric_correct": true,
+          "semantic_status": "ACCEPT",
+          "visible_citation_support": "EXACT"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "UNAVAILABLE_INTERFACE_FAILURE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "UNAVAILABLE_INTERFACE_FAILURE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "1f631856-89ba-471a-b65d-86801ec07401",
+      "question_uid": "90f9af10-77ac-441c-a53d-3167c15ad61b",
+      "task_signature": "arithmetic_mean"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "no_complete_contract_candidate",
+        "non_contract_reasoning_prefix_before_json",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NO_EXPLICIT_FORMULA",
+          "interface_status": "PASS",
+          "numeric_correct": true,
+          "semantic_status": "ACCEPT",
+          "visible_citation_support": "EXACT"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "UNAVAILABLE_INTERFACE_FAILURE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "UNAVAILABLE_INTERFACE_FAILURE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "b4fefe60-e68c-4ba3-a8f9-35395b7ea0a5",
+      "question_uid": "49e5b466-62c9-4cab-8d70-8e9317e7a007",
+      "task_signature": "arithmetic_comparison"
+    },
+    {
+      "M_repair_beyond_T": false,
+      "T_matches_M": true,
+      "alternative_explanations": [
+        "answer_text_or_set_mismatch",
+        "frozen_reference_unit_may_conflict_with_visible_semantics",
+        "no_complete_contract_candidate",
+        "non_contract_reasoning_prefix_before_json",
+        "numeric_or_unit_mismatch",
+        "output_budget_exhausted_before_contract",
+        "raw_strict_format_failure",
+        "reference_unit_conflict",
+        "visible_citation_support_mismatch"
+      ],
+      "arms": {
+        "D": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "PASS",
+          "numeric_correct": true,
+          "semantic_status": "REJECT",
+          "visible_citation_support": "NONE_OR_MISMATCH"
+        },
+        "M": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        },
+        "T": {
+          "complete_delivery": false,
+          "formula_status": "NOT_APPLICABLE",
+          "interface_status": "FAIL",
+          "numeric_correct": false,
+          "semantic_status": "STRICT_FAIL",
+          "visible_citation_support": "UNAVAILABLE"
+        }
+      },
+      "family_id": "d65a24cf-2c2b-4a9f-9cc9-6675b3583530",
+      "question_uid": "24e5a96b-72f3-4ce8-8c59-4920dac95d2b",
+      "task_signature": "count"
+    }
+  ]
+}

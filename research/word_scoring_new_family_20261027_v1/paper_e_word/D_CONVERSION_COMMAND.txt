@@ -1,0 +1,9 @@
+# D Windows conversion, Pandoc 3.2.1
+python fix_docx_source.py
+pandoc paper_e_word_fixed.md --from=markdown+pipe_tables+tex_math_dollars --resource-path=. --reference-doc=reference_style.docx --output=paper_e.docx
+python polish_docx.py
+
+# GB10 render, LibreOffice 24.2.7.2
+# Use a fresh UserInstallation directory for every render.
+soffice --headless -env:UserInstallation=file:///tmp/lo_profile_word_new_family_20261027_final --convert-to pdf --outdir rendered_final paper_e.docx
+pdftoppm -png -r 120 rendered_final/paper_e.pdf rendered_final/page

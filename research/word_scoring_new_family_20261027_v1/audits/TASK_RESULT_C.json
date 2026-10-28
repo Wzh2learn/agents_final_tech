@@ -1,0 +1,413 @@
+{
+  "schema": "word_scoring_new_family_task_result_c_v1",
+  "task_id": "word-scoring-new-family-c-20261027",
+  "date": "2026-10-27",
+  "timezone": "Asia/Shanghai",
+  "loop": "C",
+  "review_type": "independent_fixed_snapshot_review",
+  "verdict": "CONDITIONAL",
+  "snapshots": {
+    "scientific_snapshot": "62c637ba5f3a21e370669a596298d45d3544ca82",
+    "integrated_snapshot": "911fb800c01ab145514eaffbfbbf25a7b0c5293b",
+    "review_head": "a624a6152"
+  },
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "git_blob": "a2463f555f4ede2afcebb14dea2b627a0e5b99db",
+    "lf_sha256": "1414d5b1ce4dc1b47c736c2b5d661366b19d55faa3736dbae5d7c7a7066aac93",
+    "verified_independently": true
+  },
+  "verdict_rationale": {
+    "not_accepted_because": [
+      "B1: D/T/M binding-mechanism effect is not identified; arm membership is perfectly confounded with output-budget exhaustion",
+      "B2: 25 real generate calls / 1 discarded before raw append rests on hardcoded list-index attribution, not instrumentation",
+      "B3: Proposed six-step review checklist lists five steps",
+      "B4: table captions and the itemize block are fused into body text"
+    ],
+    "not_rejected_because": [
+      "every reported count, hash and boundary in the task statement reproduces exactly",
+      "no frozen artifact was mutated; red-line files untouched",
+      "budget arithmetic closes exactly: 28074 + 12014 + 5966 = 46054"
+    ]
+  },
+  "faces": {
+    "paper_e_word_route": {
+      "verdict": "CONFIRMED_WITH_DEFECTS",
+      "paper_e_word_md_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+      "paper_e_word_md_unchanged_since": "62c637ba5",
+      "paper_e_word_fixed_md_sha256": "ac05bc8c578d87cff41ddec71d2990af1375b54cd71cbd76ae0a7453809a9fc1",
+      "paper_e_word_fixed_introduced_at": "911fb800c",
+      "fixed_is_structural_derivative": true,
+      "diff_opcodes_non_equal": 39,
+      "diff_similarity": 0.88779,
+      "paper_e_docx_sha256": "227309b88ab9778bbd1ce9c181ed468773410d3afb7ec3fd6eeaaea50ad9d5e0",
+      "paper_e_pdf_sha256": "231ae6e20a0b7362ce51bc3698e2947d4995a853c2077c36d065190b443a316f",
+      "d_page_hashes_sha256": "bddda16cf5c31456e4cfa81a358b75a8fe80b026ae09fba0a72107901841bc97",
+      "page_hashes_match": "14/14",
+      "page_hashes_mismatched": 0,
+      "pdf_producer": "LibreOffice 24.2",
+      "pdf_creator": "Writer",
+      "pdf_pages": 14,
+      "pdf_tagged": true,
+      "fallback_text_pdf": false,
+      "author_placeholders": "CONFIRMED",
+      "four_part_abstract": "PRESENT_count_misbound",
+      "abstract_word_count_claimed": 208,
+      "abstract_word_count_recomputed": 208,
+      "abstract_counter_region_includes_keywords_line": true,
+      "abstract_four_part_prose_only": 194,
+      "abstract_four_part_with_labels": 198,
+      "keywords": 5,
+      "figures": 3,
+      "editable_tables": 4,
+      "table_shapes": "6x3,3x3,4x4,7x5",
+      "numbered_tables": 2,
+      "numeric_citations_range": "1-24",
+      "references": 24,
+      "declarations": "PRESENT",
+      "data_availability": "PRESENT",
+      "raw_tex_bibtex_in_docx": 0,
+      "visual_pages_inspected": 14,
+      "visual_clipping": "none",
+      "visual_overlap": "none",
+      "table_continuation_header_repeated": true,
+      "figures_sharp": true,
+      "formula_readable": true,
+      "final_page_integrity": "clean, ends on reference 24",
+      "boundary": "internal Word-route rendering acceptance only; not publisher formatting, not submission acceptance, not school recognition"
+    },
+    "scoring_v3": {
+      "verdict": "CONFIRMED",
+      "same_value_role_confusion": "CONFIRMED",
+      "evidence_items_separate": "CONFIRMED",
+      "one_element_span_contradiction": "CONFIRMED",
+      "tests_passed": 12,
+      "tests_total": 12,
+      "pure_rescore_byte_identical": true,
+      "pure_rescore_rows": 144,
+      "pure_rescore_differences": 109,
+      "first_batch_replay_byte_identical": true,
+      "first_batch_rows": 36,
+      "model_calls_in_rescore": 0,
+      "frozen_history_2_3_3_unchanged": true,
+      "frozen_history_31_5_unchanged": true,
+      "frozen_history_12_19_5_unchanged": true,
+      "v2_artifacts_unchanged": true,
+      "red_line_files_untouched": true,
+      "red_line_files": "tests/test_m1_service.py, scripts/graph/frozen_hashes.txt",
+      "v2_v3_difference_rows": 109,
+      "v2_v3_keyed_by": "variant,question_uid,arm",
+      "v2_v3_converted_to_error_rates": false
+    },
+    "exposure_and_panel": {
+      "verdict": "CONFIRMED",
+      "source_identity_label": "SAME_SOURCE_NEW_TABLE_FAMILIES",
+      "cross_source": false,
+      "unique_families": 8,
+      "unique_uids": 8,
+      "frozen_pre_model_output": true,
+      "model_output_read_at_freeze": false,
+      "selection_seed": 20261027,
+      "distinct_task_signatures": 8,
+      "answer_type_counts": "arithmetic 3, multi-span 2, span 2, count 1",
+      "family_exclusion_counts": "existing_exposure_identity 236, independent_reference_binding_unresolved 1, this_round_inspected_family 3",
+      "eligible_unexposed_family_count": 38,
+      "historical_pretraining_exposure_auditable": false,
+      "historical_pretraining_exposure_declared_unauditable": true,
+      "freeze_order": "PANEL_FREEZE 15:59:33 -> scorer.py 15:59:58 -> MECHANISM_FREEZE 16:05:39 -> first reservation 16:08:45 -> first raw 16:11:26",
+      "panel_uids_match_raw_and_diagnostic": true,
+      "independently_reconfirmed": true,
+      "exclusions_reproducible_against": "pre-output tree state only (see L10)",
+      "full_panel_uid_family_pairs": 8
+    },
+    "persistent_budget": {
+      "verdict": "CONFIRMED_WITH_ONE_PROVENANCE_CAVEAT",
+      "ledger_path": "/home/testuser/wzh/research_runs/persistent_budget/word_new_family_20261027/ledger.jsonl",
+      "ledger_rows": 52,
+      "ledger_hash_chain_intact": true,
+      "physical_reservations": 27,
+      "physical_attempt_ids": "pa-000001..pa-000027",
+      "real_generate_calls_claimed": 25,
+      "real_generate_calls_measured": 24,
+      "real_generate_calls_asserted": 1,
+      "persisted_raw_rows": 24,
+      "raw_sha_verified": "24/24",
+      "fsync_before_scoring": "24/24",
+      "pre_raw_failures": 3,
+      "pre_raw_failure_attempts": "pa-000001,pa-000002,pa-000004",
+      "discarded_real_generation_asserted_for": "pa-000004",
+      "persisted_retries": 2,
+      "persisted_actual_input_tokens": 28074,
+      "persisted_actual_output_tokens": 12014,
+      "uncertain_consumed_upper_bound": 5966,
+      "uncertain_input_component": 4430,
+      "uncertain_output_component": 1536,
+      "ledger_consumed_tokens": 46054,
+      "ledger_token_cap": 240000,
+      "ledger_headroom": 193946,
+      "arithmetic_closes": true,
+      "arithmetic_identity": "28074 + 12014 + 5966 = 46054",
+      "training_calls": 0,
+      "judge_calls": 0,
+      "paid_api_calls": 0,
+      "service_or_endpoint_calls": 0,
+      "production_calls": 0,
+      "external_harness_calls": 0,
+      "real_local_model_used": true,
+      "local_model": "Qwen/Qwen3-4B local_files_only on CUDA GB10",
+      "fault_tests_ran": 11,
+      "fault_tests_passed": 11,
+      "fault_tests_exit": 0,
+      "reservation_before_call": "VERIFIED",
+      "raw_fsync_before_scoring": "VERIFIED",
+      "restart_and_output_dir_persistence": "VERIFIED",
+      "generate_resume_rescore_separated": "VERIFIED",
+      "pre_load_cap_rejection": "VERIFIED"
+    },
+    "dtm_mechanism": {
+      "reported_outcomes_reproduced": true,
+      "D_ACCEPT": 2,
+      "D_REJECT": 2,
+      "D_STRICT_FAIL": 4,
+      "T_ACCEPT": 1,
+      "T_REJECT": 0,
+      "T_STRICT_FAIL": 7,
+      "M_ACCEPT": 0,
+      "M_REJECT": 0,
+      "M_STRICT_FAIL": 8,
+      "complete_strict_delivery_all_arms": 0,
+      "M_repair_family_beyond_T": false,
+      "output_budget_cap_tokens": 512,
+      "cap_source": "generation/generate_local.py:38; generation/qualify_local_inputs.py:22",
+      "rows_at_cap": 19,
+      "rows_finished_in_budget": 5,
+      "at_cap_interface_pass": 0,
+      "not_at_cap_interface_pass": 5,
+      "at_cap_interface_fail": 19,
+      "not_at_cap_interface_fail": 0,
+      "at_cap_semantic_accept": 0,
+      "not_at_cap_semantic_accept": 3,
+      "at_cap_budget_exhausted_flag": 19,
+      "not_at_cap_budget_exhausted_flag": 0,
+      "confound_overlap": 0,
+      "completion_by_arm": "D 4/8, T 1/8, M 0/8",
+      "binding_mechanism_identified": false,
+      "method_gain_from_interface_normalization": false,
+      "all_accepts_via_interface_normalization": true,
+      "raw_strict_pass_all_arms": 0,
+      "reference_unit_ambiguity_rows": 9,
+      "reference_unit_ambiguity_uids": "b27a5513,62bb8d90,24e5a96b",
+      "reference_unit_ambiguity_is_question_property_not_arm": true,
+      "decision": "REQUIRE_ANOTHER_BOUNDED_TEST",
+      "decision_rejected_alternatives": "STOP_M, remain_conditional_unqualified",
+      "decision_detail": "budget-controlled replication on the same frozen 8-UID panel with MAX_NEW_TOKENS raised so zero rows truncate, scored by unchanged frozen Scoring V3; until then M_DIFFERENCE_REQUIRES_REVIEW must be annotated budget-confounded"
+    }
+  },
+  "blocking_defects": [
+    {
+      "id": "B1",
+      "area": "dtm_mechanism",
+      "summary": "binding-mechanism effect not identified; perfectly confounded with output-budget exhaustion",
+      "path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_ROWS.jsonl",
+      "line": "generation/generate_local.py:38"
+    },
+    {
+      "id": "B2",
+      "area": "budget",
+      "summary": "25 real generate calls / 1 discarded before raw append asserted via hardcoded list-index attribution; no surviving response text, no raw directory content and no tracked file supports the discarded generation",
+      "path": "research/word_scoring_new_family_20261027_v1/generation/record_interface_fault.py",
+      "line": "34-70",
+      "corroborating_limitations": "L9,L12"
+    },
+    {
+      "id": "B3",
+      "area": "paper_e_word",
+      "summary": "six-step review checklist lists five steps",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word_fixed.md",
+      "line": "225-232"
+    },
+    {
+      "id": "B4",
+      "area": "paper_e_word",
+      "summary": "table captions and itemize block fused into body text",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word_fixed.md",
+      "line": "40,93,160"
+    }
+  ],
+  "limitations": [
+    {
+      "id": "L1",
+      "summary": "208-word abstract count region includes the Keywords line; four-part abstract alone is 194/198 words",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_word_source.py",
+      "line": "480-482"
+    },
+    {
+      "id": "L2",
+      "summary": "only 2 of 4 editable tables are numbered",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word_fixed.md",
+      "line": "85,199"
+    },
+    {
+      "id": "L3",
+      "summary": "figures 1 and 2 captions live only in Word image alt text; only figure 3 has an ImageCaption paragraph",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e.docx",
+      "line": "wp:docPr descr"
+    },
+    {
+      "id": "L4",
+      "summary": "bibliography defects: NIST corporate author mangled in [10],[11]; literal et al.. in [13]",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-14.png"
+    },
+    {
+      "id": "L5",
+      "summary": "in-text citation brackets out of ascending order ([20,19], [23,22])",
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-03.png"
+    },
+    {
+      "id": "L6",
+      "summary": "GENERATION_RECEIPT retries=0 while bounded_retries=2 and ledger has 2 retry rows",
+      "path": "research/word_scoring_new_family_20261027_v1/generation/GENERATION_RECEIPT.json"
+    },
+    {
+      "id": "L7",
+      "summary": "any retry suffix is written into a retry-1 directory",
+      "path": "research/word_scoring_new_family_20261027_v1/generation/generate_local.py",
+      "line": "159"
+    },
+    {
+      "id": "L8",
+      "summary": "git dates cannot prove freeze-before-output; freeze artifacts and generation outputs all landed in single commit 62c637ba5 about 50 minutes after generation finished; ordering rests on in-file timestamps, fs mtimes and the external hash-chained ledger",
+      "path": "git log --name-status 62c637ba5"
+    },
+    {
+      "id": "L9",
+      "summary": "raw attempt evidence absent from the repo; generation raw arm/uid primary and retry-1 directories are empty and git ls-files returns 0 tracked files; receipts cite raw_event_sha256 and output_dir with no surviving file",
+      "path": "research/word_scoring_new_family_20261027_v1/generation/raw/"
+    },
+    {
+      "id": "L10",
+      "summary": "exclusions reproduce only against the pre-output tree state; re-running build_exposure_and_panel.py on the current tree yields union 18920, exclusions 244/1/3, eligible 30 because the run own outputs are now scanned as exposure identities",
+      "path": "research/word_scoring_new_family_20261027_v1/exposure/build_exposure_and_panel.py"
+    },
+    {
+      "id": "L11",
+      "summary": "reference-side unit field is not uniformly reliable (b27a5513 labelled thousand but answers in $ millions; 24e5a96b a count question labelled percent; four UIDs UNKNOWN), corroborating the reference-unit ambiguity",
+      "path": "research/word_scoring_new_family_20261027_v1/exposure/PANEL_FREEZE.json",
+      "line": "references[*].unit"
+    },
+    {
+      "id": "L12",
+      "summary": "ZERO_MODEL_BASELINE.json has no internal timestamp field; INTERFACE_FAULT_RECEIPT ledger_sha256 2e1f0c4e is an intermediate state with no preserved snapshot to re-verify",
+      "path": "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE.json"
+    }
+  ],
+  "smallest_follow_up": {
+    "action": "re-run the 24-call D/T/M panel on the same frozen 8-UID panel with MAX_NEW_TOKENS raised above the observed truncation point so zero rows truncate, score with unchanged frozen Scoring V3, re-read the D/T/M table",
+    "resolves": "B1",
+    "secondary_non_blocking": "four one-line Word fixes (blank lines at paper_e_word_fixed.md:40, :93, :160; sixth step or five-step heading at :225) and bibliography correction for [10],[11],[13]"
+  },
+  "commands": [
+    {
+      "cmd": "git cat-file -p a2463f55 | sha256sum",
+      "exit": 0,
+      "result": "1414d5b1ce4dc1b47c736c2b5d661366b19d55faa3736dbae5d7c7a7066aac93"
+    },
+    {
+      "cmd": "git rev-parse HEAD:docs/research/LOOP_D_RESEARCH_PROMPT.md",
+      "exit": 0,
+      "result": "a2463f555f4ede2afcebb14dea2b627a0e5b99db"
+    },
+    {
+      "cmd": "sha256 of 14 page PNGs vs D_PAGE_HASHES.sha256",
+      "exit": 0,
+      "result": "14/14 match, 0 mismatch"
+    },
+    {
+      "cmd": "sha256 paper_e_word.md / _fixed.md / paper_e.docx / paper_e.pdf",
+      "exit": 0,
+      "result": "see faces.paper_e_word_route"
+    },
+    {
+      "cmd": "zip/regex scan of paper_e.docx word/document.xml",
+      "exit": 0,
+      "result": "4 w:tbl, 24 w:tr, 3 media, 0 TeX/BibTeX keys"
+    },
+    {
+      "cmd": "pdfinfo rendered_final/paper_e.pdf",
+      "exit": 0,
+      "result": "Producer LibreOffice 24.2, Creator Writer, Pages 14, Tagged yes"
+    },
+    {
+      "cmd": "pdftotext -layout rendered_final/paper_e.pdf -",
+      "exit": 0,
+      "result": "50240 chars, 0 TeX/BibTeX keys, 24 refs 1-24"
+    },
+    {
+      "cmd": "python3 -m pytest test_scoring_v3.py test_diagnostic_rescore.py",
+      "exit": 0,
+      "result": "12 passed in 0.02s"
+    },
+    {
+      "cmd": "python3 -m unittest same two scoring modules",
+      "exit": 0,
+      "result": "Ran 12 tests OK"
+    },
+    {
+      "cmd": "rescore_pure.py run twice to tmp",
+      "exit": 0,
+      "result": "byte-identical to checked-in and run-to-run"
+    },
+    {
+      "cmd": "rescore_first_batch.py replay",
+      "exit": 0,
+      "result": "byte-identical, model_calls 0"
+    },
+    {
+      "cmd": "python3 -m unittest test_word_new_family_faults test_persistent_budget",
+      "exit": 0,
+      "result": "Ran 11 tests in 0.061s OK"
+    },
+    {
+      "cmd": "grep model/network over scoring_v3/*.py",
+      "exit": 1,
+      "result": "zero matches (clean)"
+    },
+    {
+      "cmd": "grep paid-API over both research trees",
+      "exit": 1,
+      "result": "zero matches (clean)"
+    },
+    {
+      "cmd": "ledger hash-chain verification over 52 rows",
+      "exit": 0,
+      "result": "chain intact, 52 links"
+    },
+    {
+      "cmd": "recompute raw usage sums from RAW_RESPONSES.jsonl",
+      "exit": 0,
+      "result": "input 28074, output 12014"
+    },
+    {
+      "cmd": "recompute orphan reservation totals from ledger",
+      "exit": 0,
+      "result": "5966 = 4430 + 1536"
+    },
+    {
+      "cmd": "crosstab output cap vs interface vs semantic",
+      "exit": 0,
+      "result": "19 at cap / 5 not at cap, overlap 0"
+    }
+  ],
+  "independence": {
+    "reviewer_authored_audited_artifacts": false,
+    "sub_agents_used": 3,
+    "model_calls": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "paid_api_calls": 0,
+    "production_calls": 0,
+    "audited_artifacts_modified": false,
+    "audit_fixture_written": "research/word_scoring_new_family_20261027_v1/audits/_pdf_text_layout.txt"
+  },
+  "standing_caveat": "Independent AI review is not human gold, publisher acceptance or school recognition. Advisory only; filing recommendations are for the human owner to adjudicate."
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "word_scoring_new_family_validation_receipt_v1",
+  "task_id": "word-scoring-new-family-a-20261027",
+  "status": "PASS",
+  "generated_at": "2026-10-27T17:13:25+08:00",
+  "path_base": "repository_root",
+  "authority": {
+    "path": "docs/research/LOOP_D_RESEARCH_PROMPT.md",
+    "git_blob": "a2463f555f4ede2afcebb14dea2b627a0e5b99db",
+    "lf_sha256": "1414d5b1ce4dc1b47c736c2b5d661366b19d55faa3736dbae5d7c7a7066aac93",
+    "matches_task_authority": true
+  },
+  "parser_validation": {
+    "json_files": 45,
+    "jsonl_files": 6,
+    "jsonl_records": 333,
+    "parsed_without_error": true
+  },
+  "substantive_receipt_checks": {
+    "word_source_check_pass": true,
+    "scoring_targeted_7_of_7": true,
+    "scoring_v2_regression_17_of_17": true,
+    "exposure_eligible_38": true,
+    "panel_selected_8": true,
+    "panel_frozen_before_generation": true,
+    "generation_24_rows": true,
+    "diagnostic_24_rows": true,
+    "budget_fault_11_of_11": true,
+    "a_return_complete_pending_gates": true,
+    "thesis_method_results_updated": true,
+    "thesis_evidence_updated": true
+  },
+  "artifact_validation": {
+    "manifest_path": "research/word_scoring_new_family_20261027_v1/validation/ARTIFACT_HASHES.json",
+    "manifest_sha256": "d08f52c45cb38e0a2074294fd4ff8def1456733588b8d306bad48300ecf7eb04",
+    "artifact_count": 86,
+    "all_listed_hashes_recomputed": true
+  },
+  "persistent_ledger": {
+    "path": "/home/testuser/wzh/research_runs/persistent_budget/word_new_family_20261027/ledger.jsonl",
+    "sha256": "c7bd1f7207b610ad17c194727a8d0affdb0105996ed2e97603cfeea408ca71ac",
+    "matches_a_return": true
+  },
+  "excluded_from_claim": [
+    "DOCX/PDF visual acceptance",
+    "formal C acceptance",
+    "cross-source validation",
+    "historical pretraining disjointness",
+    "new-family method gain"
+  ]
+}

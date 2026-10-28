@@ -1,0 +1,19 @@
+{
+  "actual_input_plus_output_tokens": 40088,
+  "actual_input_tokens": 28074,
+  "actual_output_tokens": 12014,
+  "arm_counts": {
+    "D": 8,
+    "M": 8,
+    "T": 8
+  },
+  "ledger_path": "/home/testuser/wzh/research_runs/persistent_budget/word_new_family_20261027/ledger.jsonl",
+  "ledger_sha256": "c7bd1f7207b610ad17c194727a8d0affdb0105996ed2e97603cfeea408ca71ac",
+  "model_loaded": false,
+  "output_path": "research/word_scoring_new_family_20261027_v1/generation/results/RAW_RESPONSES.jsonl",
+  "output_sha256": "6bb0b5975995a67276ba35b775d1d02ed2eff93401e24b97e1a083b20d4a6448",
+  "raw_rows": 24,
+  "schema": "word_new_family_raw_extraction_receipt_v1",
+  "status": "COMPLETE",
+  "training_runs": 0
+}

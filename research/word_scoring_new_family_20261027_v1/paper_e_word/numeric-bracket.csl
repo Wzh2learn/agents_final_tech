@@ -1,0 +1,136 @@
+{
+  "id": "numeric-bracket",
+  "title": "Numeric Bracket",
+  "category": [
+    "generic-base"
+  ],
+  "citation-format": "numeric",
+  "updated": "2026-10-27",
+  "locale": "en",
+  "macro-author": {
+    "names": [
+      {
+        "name": "author",
+        "delimiter": ", ",
+        "and": "text",
+        "et-al-min": 7,
+        "et-al-use-first": 6
+      }
+    ]
+  },
+  "macro-title": {
+    "text": {
+      "variable": "title",
+      "font-style": "italic"
+    }
+  },
+  "macro-date": {
+    "date": [
+      {
+        "variable": "issued",
+        "form": "text",
+        "date-parts": [
+          "year"
+        ]
+      }
+    ]
+  },
+  "macro-container": {
+    "text": {
+      "variable": "container-title",
+      "font-style": "italic"
+    }
+  },
+  "macro-identifier": {
+    "choose": [
+      {
+        "if": {
+          "variable": "DOI"
+        },
+        "then": {
+          "text": {
+            "prefix": "https://doi.org/",
+            "variable": "DOI"
+          }
+        },
+        "else": [
+          {
+            "if": {
+              "variable": "URL"
+            },
+            "then": {
+              "text": {
+                "variable": "URL"
+              }
+            }
+          },
+          {
+            "if": {
+              "variable": "archive"
+            },
+            "then": {
+              "text": [
+                {
+                  "term": "archive",
+                  "suffix": ":"
+                },
+                {
+                  "variable": "archive_location"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "citation": {
+    "layout": {
+      "prefix": "[",
+      "suffix": "]",
+      "delimiter": ", ",
+      "group": [
+        {
+          "text": {
+            "variable": "citation-number"
+          }
+        }
+      ]
+    }
+  },
+  "bibliography": {
+    "second-field-align": "flush",
+    "layout": {
+      "entry": {
+        "group": [
+          {
+            "text": {
+              "variable": "citation-number",
+              "suffix": "."
+            }
+          },
+          {
+            "macro": "macro-author",
+            "suffix": "."
+          },
+          {
+            "macro": "macro-title",
+            "suffix": "."
+          },
+          {
+            "macro": "macro-container",
+            "suffix": "."
+          },
+          {
+            "macro": "macro-date",
+            "suffix": "."
+          },
+          {
+            "macro": "macro-identifier",
+            "prefix": " "
+          }
+        ]
+      }
+    }
+  }
+}

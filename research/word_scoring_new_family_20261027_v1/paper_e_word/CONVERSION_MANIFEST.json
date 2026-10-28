@@ -1,0 +1,70 @@
+{
+  "body_style": "10 pt Times New Roman when supported by reference_style.docx",
+  "canonical_source": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex",
+  "canonical_source_sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734",
+  "date": "2026-10-27",
+  "expected_reference_docx": "reference_style.docx",
+  "figure_files": {
+    "fig1_measurement_chain.png": {
+      "bytes": 107052,
+      "sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af"
+    },
+    "fig1_measurement_chain.svg": {
+      "bytes": 6009,
+      "sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506"
+    },
+    "fig2_family_visibility_matrix.png": {
+      "bytes": 107930,
+      "sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d"
+    },
+    "fig2_family_visibility_matrix.svg": {
+      "bytes": 16932,
+      "sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02"
+    },
+    "fig3_localization_ablation.png": {
+      "bytes": 72520,
+      "sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64"
+    },
+    "fig3_localization_ablation.svg": {
+      "bytes": 6218,
+      "sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015"
+    }
+  },
+  "files": {
+    "CONVERSION_COMMAND.txt": {
+      "bytes": 463,
+      "sha256": "ee8c1a80a05b54026d393f9a773cba1df873b32c6a9c8687cfb4b18afb9cdd15"
+    },
+    "CONVERSION_README.md": {
+      "bytes": 1924,
+      "sha256": "835a7136858f27423b0a2882ba7f78a9dbcb6fd3b4b67ab35849b6091d52662e"
+    },
+    "REFERENCE_LIST.md": {
+      "bytes": 5072,
+      "sha256": "ec65a07b6acd41374e0713c88b87d1f6a1f9460302674e8c24e8e5936b5a0bb9"
+    },
+    "build_word_source.py": {
+      "bytes": 25437,
+      "sha256": "a1745d0a0a33ace7d16bb52d9ed50ee6c76b7a3fac74ca62dc7e52b8e24913ed"
+    },
+    "numeric-bracket.csl": {
+      "bytes": 2535,
+      "sha256": "941065245d7314c8ea83acb1d2081dc06e171d837411b1ea21aff5bea4c07ffd"
+    },
+    "paper_e_word.md": {
+      "bytes": 49677,
+      "sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9"
+    },
+    "reference_style.docx": {
+      "bytes": 36771,
+      "sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0"
+    },
+    "references.bib": {
+      "bytes": 7387,
+      "sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06"
+    }
+  },
+  "output": "paper_e.docx",
+  "schema": "paper_e_word_conversion_manifest_v1",
+  "status": "READY_FOR_D_PANDOC_3_2_1"
+}

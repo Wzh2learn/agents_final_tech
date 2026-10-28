@@ -1,0 +1,119 @@
+{
+  "checks": {
+    "bibliography": {
+      "entries": 24,
+      "missing": [],
+      "pass": true,
+      "uncited": []
+    },
+    "citations": {
+      "keys": [
+        "amrhein2022aces",
+        "amrhein2023aces",
+        "moghe2024mtmeta",
+        "deviyani2025contextual",
+        "kendiukhov2026ranking",
+        "du2026stability",
+        "ross2024metric",
+        "liq2025scoringbias",
+        "lis2025llmjduge",
+        "nist2023airmf",
+        "nist2024genai",
+        "caban2026validity",
+        "bean2025construct",
+        "mansouri2026finrank",
+        "jouseau2025metric",
+        "bastos2026hidden",
+        "cho2025metamorphic",
+        "fan2026agentprocessbench",
+        "chung2026process",
+        "gerhold2024limits",
+        "hoess2025does",
+        "berndt2026flaky",
+        "kummita2026static",
+        "openai2026codex"
+      ],
+      "pass": true,
+      "unique_numeric_citations": 24
+    },
+    "data_availability": {
+      "pass": true
+    },
+    "declarations": {
+      "pass": true
+    },
+    "figures": {
+      "count": 3,
+      "pass": true
+    },
+    "files": {
+      "numeric-bracket.csl": {
+        "exists": true,
+        "sha256": "941065245d7314c8ea83acb1d2081dc06e171d837411b1ea21aff5bea4c07ffd"
+      },
+      "paper_e_word.md": {
+        "exists": true,
+        "sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9"
+      },
+      "reference_list": {
+        "exists": true,
+        "sha256": "ec65a07b6acd41374e0713c88b87d1f6a1f9460302674e8c24e8e5936b5a0bb9"
+      },
+      "reference_style.docx": {
+        "exists": true,
+        "sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0"
+      },
+      "references.bib": {
+        "exists": true,
+        "sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06"
+      }
+    },
+    "keywords": {
+      "count": 5,
+      "keywords": [
+        "evaluation validity",
+        "staged evaluation",
+        "evidence ranking",
+        "score sensitivity",
+        "reproducibility"
+      ],
+      "pass": true
+    },
+    "owner_placeholders": {
+      "count": 9,
+      "pass": true
+    },
+    "raw_bibtex_absent": {
+      "pass": true
+    },
+    "source_identity": {
+      "head_blob": "01bcf2e0d4a6c17d8692b4502c28909593bb5f4a",
+      "pass": true,
+      "tex_sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734",
+      "working_blob": "01bcf2e0d4a6c17d8692b4502c28909593bb5f4a"
+    },
+    "structured_abstract": {
+      "pass": true,
+      "word_count": 208,
+      "word_range_150_250": true
+    },
+    "tables": {
+      "caption_count": 2,
+      "editable_markdown_tables": 4,
+      "pass": true
+    },
+    "two_case_boundary": {
+      "excludes_p1_p2": true,
+      "pass": true
+    }
+  },
+  "claim_boundary": "Source-package validation only; no Windows Pandoc conversion, DOCX visual acceptance, C acceptance, submission or publication claim.",
+  "date": "2026-10-27",
+  "schema": "paper_e_word_source_check_v1",
+  "sole_content_source": {
+    "git_blob": "01bcf2e0d4a6c17d8692b4502c28909593bb5f4a",
+    "path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex",
+    "sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734"
+  },
+  "status": "PASS"
+}
