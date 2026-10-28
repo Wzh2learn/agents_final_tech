@@ -1,12 +1,12 @@
 {
   "schema": "paper_e_word_conversion_manifest_v2",
   "date": "2026-10-28",
-  "bound_to_commit": "b6c8059a156c7ce643633e78c978e67c345e2dc7",
+  "bound_to_commit": "97ec0ca28d5966e65909a8c743d62a98b9b20bdc",
   "bound_to_note": "Commit at build time. Only this manifest file differs between that commit and the one carrying it; every artifact hash above matches the blobs at that commit.",
   "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
   "hash_rule": "raw_blob_sha256 is the identity value. worktree_sha256 is recorded separately because core.autocrlf=true makes the Windows checkout CRLF; a pair marked CRLF_CHECKOUT_ONLY differs only by line endings.",
   "production_source": {
-    "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.md",
+    "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v3.md",
     "role": "single editable body; DOCX and PDF derive from this file only"
   },
   "frozen_inputs": {
@@ -36,20 +36,20 @@
     }
   },
   "artifacts": {
-    "paper_e_revision_v2.md": {
-      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.md",
-      "git_blob_oid": "1c264b6ad56db916c5ec2efd481876fcf0dbdc26",
-      "raw_blob_sha256": "5aa2c945f5480967bec410dcf77300d4ff7f0f3eb828274f3c60f35468eb3dad",
-      "bytes": 51380,
-      "worktree_sha256": "d5a84e4b8c79976660e60f634188c86573d349e6de40d769cdc16c8f4d2f08b1",
+    "paper_e_revision_v3.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v3.md",
+      "git_blob_oid": "aadfebc7498b139801970cf05355ef84b7e50793",
+      "raw_blob_sha256": "5d00ffa832973fa259ac1551ef3d74bcb34c314edbb3cb9fdeace737e85dbd7b",
+      "bytes": 56758,
+      "worktree_sha256": "76c674bfdf435b5a68be502c9faab1c39467bae82299b229db2c99da8788eba3",
       "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
     },
     "build_revision_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_revision_v2.py",
-      "git_blob_oid": "abbb3ba0e701e78b3c2d4261cd755c7664d5aa25",
-      "raw_blob_sha256": "87d6f0e5b135c28c4f01b4deb74034cb9a0e902e3ee232b8f417a3304a402a87",
-      "bytes": 36503,
-      "worktree_sha256": "87d6f0e5b135c28c4f01b4deb74034cb9a0e902e3ee232b8f417a3304a402a87",
+      "git_blob_oid": "977190b4cd02e419a4a3fe330efd01f723720177",
+      "raw_blob_sha256": "9c5550cf683fdaf759a59b2b30b18dd4e4be5bd4945598962ea1ee48ff3ad918",
+      "bytes": 45378,
+      "worktree_sha256": "9c5550cf683fdaf759a59b2b30b18dd4e4be5bd4945598962ea1ee48ff3ad918",
       "worktree_vs_blob": "IDENTICAL"
     },
     "polish_docx_v2.py": {
@@ -62,11 +62,11 @@
     },
     "verify_revision_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/verify_revision_v2.py",
-      "git_blob_oid": "f770e1d7015257ca3262f1977314651a47468980",
-      "raw_blob_sha256": "f22a642f47bc9cfc819ca2e4cb763bfca132d5bb43322228971af80ac1bba2b2",
+      "git_blob_oid": "58b7162c144a21a5daedbca7a2e82f0f391b634b",
+      "raw_blob_sha256": "886681555686c96673c099f4e35e803f2f98734881c2208f8f53a3a111b63df3",
       "bytes": 11093,
-      "worktree_sha256": "dd35bdb407b1501ed81038b8e69639b571b3da64df99d1f35b940aa0a055d167",
-      "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
+      "worktree_sha256": "886681555686c96673c099f4e35e803f2f98734881c2208f8f53a3a111b63df3",
+      "worktree_vs_blob": "IDENTICAL"
     },
     "BUILD_COMMANDS_V2.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/BUILD_COMMANDS_V2.md",
@@ -102,10 +102,10 @@
     },
     "rebuild_figures.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rebuild_figures.py",
-      "git_blob_oid": "6f415a26862cc9568dcaa6715d744940e8b04959",
-      "raw_blob_sha256": "e2d4202cfd402d8b0c2d15dbbb4c9653002609d9ca8297fb69ec618fc24f6374",
-      "bytes": 8512,
-      "worktree_sha256": "e2d4202cfd402d8b0c2d15dbbb4c9653002609d9ca8297fb69ec618fc24f6374",
+      "git_blob_oid": "b56e7177761b564ddae597f2a71cafce8220e865",
+      "raw_blob_sha256": "d3da76f6061aa73a4bd71382f597b5a91daa892932514cb0738bc9d641b4ecb1",
+      "bytes": 9297,
+      "worktree_sha256": "d3da76f6061aa73a4bd71382f597b5a91daa892932514cb0738bc9d641b4ecb1",
       "worktree_vs_blob": "IDENTICAL"
     },
     "D_CONTINUATION_RETURN_20261028.md": {
@@ -116,20 +116,20 @@
     }
   },
   "outputs": {
-    "paper_e_revision_v2.docx": {
-      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.docx",
-      "git_blob_oid": "24806e9d62aa7832c1ed8b432b3a8f7db3948c33",
-      "raw_blob_sha256": "390b9cfc72b47ab44068e190e9e3abc37d6e26ec1addde7728411630a8fe6c99",
-      "bytes": 675722,
-      "worktree_sha256": "390b9cfc72b47ab44068e190e9e3abc37d6e26ec1addde7728411630a8fe6c99",
+    "paper_e_revision_v3.docx": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v3.docx",
+      "git_blob_oid": "c21ce7297231f6a0098435c870dc30aed02602a7",
+      "raw_blob_sha256": "c2cfaf8451bb41a760a51897232a9ba749bd03b90b5001dc73e0ea2ef44d32dd",
+      "bytes": 714833,
+      "worktree_sha256": "c2cfaf8451bb41a760a51897232a9ba749bd03b90b5001dc73e0ea2ef44d32dd",
       "worktree_vs_blob": "IDENTICAL"
     },
-    "rendered_v2/paper_e_revision_v2.pdf": {
-      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/paper_e_revision_v2.pdf",
-      "git_blob_oid": "6afd9b1fba187f7128e355bcdf0b765463d70734",
-      "raw_blob_sha256": "bde6cb72dc57868e135e7660be58b9050333aaef2be8ecf1c351d5dfb98f55eb",
-      "bytes": 591438,
-      "worktree_sha256": "bde6cb72dc57868e135e7660be58b9050333aaef2be8ecf1c351d5dfb98f55eb",
+    "rendered_v3/paper_e_revision_v3.pdf": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/paper_e_revision_v3.pdf",
+      "git_blob_oid": "b2ff93c3d396e65e9eaa457d1f2037fcf8d9a8eb",
+      "raw_blob_sha256": "5973b0824386dbbf9943c4420108901e1b37cae4a09597a51f7d440a8f37d555",
+      "bytes": 666991,
+      "worktree_sha256": "5973b0824386dbbf9943c4420108901e1b37cae4a09597a51f7d440a8f37d555",
       "worktree_vs_blob": "IDENTICAL"
     }
   },
@@ -146,8 +146,8 @@
       "source_svg": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/art/fig1_measurement_chain_art.svg"
     },
     "fig2_family_visibility_matrix_art.png": {
-      "git_blob_oid": "18b57f798e4dda44dea64c90e8d151d61876c4b9",
-      "raw_blob_sha256": "24ff658cd577be5edd2bc9f9998e93131e94ee2c0a67eaaf8cdd7d23afdd3909",
+      "git_blob_oid": "c6ba4ffe4a3dcceb65c80b537531bdac6b7afd9b",
+      "raw_blob_sha256": "ccee1c09ca0acf3d1bb239fa993e54d2fcc3c5f4d29fd9056a3cafe3b2fb1af0",
       "kind": "combination",
       "pixels": "3907x1985",
       "placed_width_in": 6.5,
@@ -157,10 +157,10 @@
       "source_svg": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/art/fig2_family_visibility_matrix_art.svg"
     },
     "fig3_localization_ablation_art.png": {
-      "git_blob_oid": "b8d687610601b19b8e520e5d2ba348d05e1a4c9c",
-      "raw_blob_sha256": "63a0d9bbb20162c18a8f28b43c417a3e5d87128eb9342f2b83dcfdafd4382637",
+      "git_blob_oid": "d21a3e9d4ffce99d1273daf6321dc263e45d617f",
+      "raw_blob_sha256": "29681f4be5cddc9b75a11a05d91692b1e573cb67e2d60a9e533d59383ecbbe57",
       "kind": "combination",
-      "pixels": "3907x1926",
+      "pixels": "3907x1934",
       "placed_width_in": 6.5,
       "effective_dpi_at_placed_width": 601.1,
       "required_dpi": 600,
@@ -213,7 +213,7 @@
     "abstract_part_labels": 4,
     "tbd_owner_placeholders": 10,
     "numbered_headings": 32,
-    "pages": 14
+    "pages": 16
   },
   "open_venue_items": {
     "figure_resolution": "246-277 dpi at 6.5 in, no pHYs; venue asks >=300 dpi",
