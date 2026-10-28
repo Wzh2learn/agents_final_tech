@@ -1,0 +1,1794 @@
+{
+  "schema": "loop_d_handoff_metadata_review_v1",
+  "review_date": "2026-10-28",
+  "scope": "OFFLINE_BLOB_AND_LOCAL_METADATA_NOT_FULL_SCIENTIFIC_OR_REMOTE_AUDIT",
+  "git_snapshot": {
+    "main_at_review": "809c8b184f7bd4d849bec786bfefc3fd02f1f920",
+    "research_commit": "c644cb4f57f24c943b469cda5a6fea3b8a105db8",
+    "merge_base": "9c92d4cfc595fb4251660b29d94092392cf21910",
+    "main_only_commits": 5,
+    "research_only_commits": 7,
+    "counts_are_point_in_time_not_required_future_state": true
+  },
+  "local_word": {
+    "total_files": 123,
+    "counts": {
+      "EXACT_BYTES": 38,
+      "LOCAL_ONLY_PRESERVE": 85
+    },
+    "action": "PRESERVE_ALL_NO_DELETE_OR_MOVE",
+    "files": [
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_word_source.py",
+        "bytes": 25437,
+        "local_sha256": "a1745d0a0a33ace7d16bb52d9ed50ee6c76b7a3fac74ca62dc7e52b8e24913ed",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "39ff49a2d304eee3a4ad74f3a88fc8cb94190ed1",
+        "branch_raw_sha256": "a1745d0a0a33ace7d16bb52d9ed50ee6c76b7a3fac74ca62dc7e52b8e24913ed"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_COMMAND.txt",
+        "bytes": 463,
+        "local_sha256": "ee8c1a80a05b54026d393f9a773cba1df873b32c6a9c8687cfb4b18afb9cdd15",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "d03155d553b5ab20c960181b0bfaf2292df78702",
+        "branch_raw_sha256": "ee8c1a80a05b54026d393f9a773cba1df873b32c6a9c8687cfb4b18afb9cdd15"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_MANIFEST.json",
+        "bytes": 2547,
+        "local_sha256": "91b396faf346d94e92678915137f58a2385614491825451786da33fe2e60591b",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "af9961e90a42f8db49b20220bdcaff1e86fb01b5",
+        "branch_raw_sha256": "91b396faf346d94e92678915137f58a2385614491825451786da33fe2e60591b"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_README.md",
+        "bytes": 1924,
+        "local_sha256": "835a7136858f27423b0a2882ba7f78a9dbcb6fd3b4b67ab35849b6091d52662e",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "70073088e511e609e7b9040465c5aba2d96508ff",
+        "branch_raw_sha256": "835a7136858f27423b0a2882ba7f78a9dbcb6fd3b4b67ab35849b6091d52662e"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_CONVERSION_COMMAND.txt",
+        "bytes": 549,
+        "local_sha256": "04e248a840640a3209c04119d43ab4740da07ec31cb824cacb4973d1514a87aa",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "030bd9291f8169ef73e42c50d4bc1490b32a6b36",
+        "branch_raw_sha256": "04e248a840640a3209c04119d43ab4740da07ec31cb824cacb4973d1514a87aa"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_PAGE_HASHES.sha256",
+        "bytes": 1316,
+        "local_sha256": "dabdd16cf5c31456e4cfa81a358b75a8fe80b026ae09fba0a72107901841bc97",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "8422c40d396b09bd460edccb294e2a3961e7bac4",
+        "branch_raw_sha256": "dabdd16cf5c31456e4cfa81a358b75a8fe80b026ae09fba0a72107901841bc97"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md",
+        "bytes": 2777,
+        "local_sha256": "f2dbb6880c28d96ce882abf9c43f4a2d8a8ac04b5ce1015d2bbb98ab36ef9f6d",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "3ad40f13f5ae42556d5f1683086a5dc588459381",
+        "branch_raw_sha256": "f2dbb6880c28d96ce882abf9c43f4a2d8a8ac04b5ce1015d2bbb98ab36ef9f6d"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/debug.html",
+        "bytes": 51749,
+        "local_sha256": "6bc77e37f9f0dfaee1cdb72a6e965df56b86f8486aaa7e222a6d191b8f35d2e7",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/debug_fixed.html",
+        "bytes": 54459,
+        "local_sha256": "64c9724158921379ddb86069048b26490044a9e7b023b9bbc3f8cbe5de9548fd",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig1_measurement_chain.png",
+        "bytes": 107052,
+        "local_sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "618f8f2c438951c96015c18bb85f78446c44eb87",
+        "branch_raw_sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig1_measurement_chain.svg",
+        "bytes": 6009,
+        "local_sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "4527953c644309591b15d8f872847ffb24a7bce0",
+        "branch_raw_sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig2_family_visibility_matrix.png",
+        "bytes": 107930,
+        "local_sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "1ffe1d544c31aac7b877a6d4d6076d2b02fddadd",
+        "branch_raw_sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig2_family_visibility_matrix.svg",
+        "bytes": 16932,
+        "local_sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "f507659fc833ced6161ddb9e054a88334fd85af8",
+        "branch_raw_sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig3_localization_ablation.png",
+        "bytes": 72520,
+        "local_sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "ab13cda0ade19631ad62ad0b2a74e0c1ad72ac43",
+        "branch_raw_sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig3_localization_ablation.svg",
+        "bytes": 6218,
+        "local_sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "841e17457ca765f8ff1782b6ed3eb11395370e35",
+        "branch_raw_sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/fix_docx_source.py",
+        "bytes": 3416,
+        "local_sha256": "bd9548f6cb02960e0247a0a773824e119ea687e5846c345eb6af392f7320beb8",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "c7e4315fec11acbe2480daa7be7ebf858c545fbd",
+        "branch_raw_sha256": "bd9548f6cb02960e0247a0a773824e119ea687e5846c345eb6af392f7320beb8"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/numeric-bracket.csl",
+        "bytes": 2535,
+        "local_sha256": "941065245d7314c8ea83acb1d2081dc06e171d837411b1ea21aff5bea4c07ffd",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "2edda3bbd098ea0ff935c72892e0f609adb26535",
+        "branch_raw_sha256": "941065245d7314c8ea83acb1d2081dc06e171d837411b1ea21aff5bea4c07ffd"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e.docx",
+        "bytes": 307239,
+        "local_sha256": "227309b88ab9778bbd1ce9c181ed468773410d3afb7ec3fd6eeaaea50ad9d5e0",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "e6dd174f842c6dfe1932745b4695a0260af37f17",
+        "branch_raw_sha256": "227309b88ab9778bbd1ce9c181ed468773410d3afb7ec3fd6eeaaea50ad9d5e0"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word.md",
+        "bytes": 49677,
+        "local_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "bbcc86c92715c07e860ecfdf3d9672106161e660",
+        "branch_raw_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word_fixed.md",
+        "bytes": 49640,
+        "local_sha256": "ac05bc8c578d87cff41ddec71d2990af1375b54cd71cbd76ae0a7453809a9fc1",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "6a4e32c7a13d9533d12038d0de90587613992890",
+        "branch_raw_sha256": "ac05bc8c578d87cff41ddec71d2990af1375b54cd71cbd76ae0a7453809a9fc1"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/polish_docx.py",
+        "bytes": 3531,
+        "local_sha256": "731a0b614993bbd204e9e5b7acd1a12c7e6af4bbee7e69f1be5e92f2a3466998",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "3fd0c4f1df89ca0cb178deed6dae6d170dc03068",
+        "branch_raw_sha256": "731a0b614993bbd204e9e5b7acd1a12c7e6af4bbee7e69f1be5e92f2a3466998"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/REFERENCE_LIST.md",
+        "bytes": 5072,
+        "local_sha256": "ec65a07b6acd41374e0713c88b87d1f6a1f9460302674e8c24e8e5936b5a0bb9",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "bbfb4b150f648e2b4e9d4269e507e12528cdd900",
+        "branch_raw_sha256": "ec65a07b6acd41374e0713c88b87d1f6a1f9460302674e8c24e8e5936b5a0bb9"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/reference_style.docx",
+        "bytes": 36771,
+        "local_sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "e44d819e14e804b8d4cd8fec17d72ce49440b0dd",
+        "branch_raw_sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/references.bib",
+        "bytes": 7387,
+        "local_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "d5cc241f91e77e088f81515f493b03a635ccf043",
+        "branch_raw_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-01.png",
+        "bytes": 212171,
+        "local_sha256": "c556c780ac0c838a114318bcd37afff729e72ce1900fc0feeb56425d2b65c5e4",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-02.png",
+        "bytes": 304590,
+        "local_sha256": "9c273f04ae6ff8a859f756f07c7356f2a4bcad631f1ecb9ced8059ba29a1542a",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-03.png",
+        "bytes": 342596,
+        "local_sha256": "d4d11fb453931c7c3ecaf6eea9023188f7225d058842b16a5262674b9a9a69e8",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-04.png",
+        "bytes": 337442,
+        "local_sha256": "a6db570c05830f06db613dc984aff01e6492563c9c2af612a69e00f9c12303aa",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-05.png",
+        "bytes": 347658,
+        "local_sha256": "8ad34c54f3bc5fccf8bfdf8ac6150e047efa9974c231363b10030020e2d3a430",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-06.png",
+        "bytes": 263169,
+        "local_sha256": "3629042321f5082f0ab46c379a05816a39c1bab80c15f6bb075388c22345783e",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-07.png",
+        "bytes": 363051,
+        "local_sha256": "7c799df9ffd7a2e3e7ca83e354524c78d6395c9124c03a7ab5cb703b2cd0c44f",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-08.png",
+        "bytes": 242533,
+        "local_sha256": "383c0aaf241d77dcb79bcd6222cde1ba8cbf97a6cdd373e14b9948311b6d1435",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-09.png",
+        "bytes": 364140,
+        "local_sha256": "253da8ba258ace820bc617c5d44ccfee4421fc473fefd86b7259dbc0c71f4f0c",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-10.png",
+        "bytes": 335836,
+        "local_sha256": "30a53e4e93573f2af8243d9bb6adc8d81d70f5767e662c674e87fcd15e836615",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-11.png",
+        "bytes": 315638,
+        "local_sha256": "e30c0e6d5e4f065aae3bf30f180db8e149b425c7402266044462233f35bbe0a1",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/page-12.png",
+        "bytes": 309808,
+        "local_sha256": "eaac031204d308e278be083348313dd017fc315057977a2cdb4a2e40cc039549",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered/paper_e.pdf",
+        "bytes": 364924,
+        "local_sha256": "772d42cfae1136ab319283cbb831d51af658d11b4d1bcdf4c401ff35fc146a26",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-01.png",
+        "bytes": 215142,
+        "local_sha256": "71772141bc4d7b2c033bc94e780c4f13a6dc89c61269bbf12fe3431707fba7ce",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "a1623d677a9c1327ef159338a20c3183806ca0eb",
+        "branch_raw_sha256": "71772141bc4d7b2c033bc94e780c4f13a6dc89c61269bbf12fe3431707fba7ce"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-02.png",
+        "bytes": 270450,
+        "local_sha256": "20f042de311c45901e4cf94354fe76f6c0cbb06e8d275dee6b7abd3d38ed2ea8",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "9671721656bb3ea3140cfe886383ac92c6590d59",
+        "branch_raw_sha256": "20f042de311c45901e4cf94354fe76f6c0cbb06e8d275dee6b7abd3d38ed2ea8"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-03.png",
+        "bytes": 250101,
+        "local_sha256": "e9e432b579bf66a5d1f1304b43e389d42f71656d5752ff7db13e8a5666e625f8",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "a6087614373d3c40b630e2194298321b7a6eb0c3",
+        "branch_raw_sha256": "e9e432b579bf66a5d1f1304b43e389d42f71656d5752ff7db13e8a5666e625f8"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-04.png",
+        "bytes": 285380,
+        "local_sha256": "170bf67fc96698a4f28ba3832a92954a6ba462d12ccbf45775f8883096df2ea4",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "074274874e51f8575749d50358d26ad158d20d66",
+        "branch_raw_sha256": "170bf67fc96698a4f28ba3832a92954a6ba462d12ccbf45775f8883096df2ea4"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-05.png",
+        "bytes": 329047,
+        "local_sha256": "bd8a7363d9eccced851763c2cb3ab1e3a1a1a2778b4955a0360de98b93df3a88",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "0103a0d915de770db9017c15f004a22d531f3fd9",
+        "branch_raw_sha256": "bd8a7363d9eccced851763c2cb3ab1e3a1a1a2778b4955a0360de98b93df3a88"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-06.png",
+        "bytes": 301330,
+        "local_sha256": "c70fd9a0afa738c9ae0554366d305e1e7e9c7bc47896104050ce9a292d3b7173",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "1485035eb02ce499589d192833259757ff6efe8c",
+        "branch_raw_sha256": "c70fd9a0afa738c9ae0554366d305e1e7e9c7bc47896104050ce9a292d3b7173"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-07.png",
+        "bytes": 249600,
+        "local_sha256": "01a3f23c79a6c7f93055798e234ec16b67da9655baf3bc3ef2f58026bd8cc9b7",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "2576f0e620b7634e1085630f7ee3536ad45082ff",
+        "branch_raw_sha256": "01a3f23c79a6c7f93055798e234ec16b67da9655baf3bc3ef2f58026bd8cc9b7"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-08.png",
+        "bytes": 306543,
+        "local_sha256": "203a0a84ccc86d7b6c3ee43ffe2775abb2b9fa5c1cab17796bec15f200bb566f",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "ce6cc7d8713b4d1f30df3183d96ff21a835d7cb7",
+        "branch_raw_sha256": "203a0a84ccc86d7b6c3ee43ffe2775abb2b9fa5c1cab17796bec15f200bb566f"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-09.png",
+        "bytes": 189158,
+        "local_sha256": "26858fffe9f843b3aac8910fd7a112308c3e37c158d525422940b79616c81e12",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "c323e0b4f934ec445f71366697921e0e16650951",
+        "branch_raw_sha256": "26858fffe9f843b3aac8910fd7a112308c3e37c158d525422940b79616c81e12"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-10.png",
+        "bytes": 215049,
+        "local_sha256": "489d3037f7263dfb8e3f71b3ed4c4b74b911e6002dbb007a24e7c4f05321f8f4",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "682f12beb987efdb822cef2ea507a2ce967b7c6c",
+        "branch_raw_sha256": "489d3037f7263dfb8e3f71b3ed4c4b74b911e6002dbb007a24e7c4f05321f8f4"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-11.png",
+        "bytes": 291461,
+        "local_sha256": "4eea96274c7950644ad43abc59d93e9dcc55cd9d29804bd6767580635f32c155",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "2be6c359caff9686cb21cb07627635ee66532e3c",
+        "branch_raw_sha256": "4eea96274c7950644ad43abc59d93e9dcc55cd9d29804bd6767580635f32c155"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-12.png",
+        "bytes": 276112,
+        "local_sha256": "6dfe9164e54b694f27ce81a23baaa733e39493994ec5368c467e75f480ba4d09",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "33fcb5880b1a7e0b62f509092b2f957445d75b76",
+        "branch_raw_sha256": "6dfe9164e54b694f27ce81a23baaa733e39493994ec5368c467e75f480ba4d09"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-13.png",
+        "bytes": 277674,
+        "local_sha256": "f883d5ab1c623733f3ff434a742b98c660ee568890adf38a79b771d13a151930",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "9286f9a23d5edd3878e10d34673ecc3b98f80f8a",
+        "branch_raw_sha256": "f883d5ab1c623733f3ff434a742b98c660ee568890adf38a79b771d13a151930"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/page-14.png",
+        "bytes": 325058,
+        "local_sha256": "3bcd28be4db8dcb7966a839d0439dd2e3af85031ee25d9275001182fece5ee02",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "8744da91de554f0f330498edd89bad2ba2582bb7",
+        "branch_raw_sha256": "3bcd28be4db8dcb7966a839d0439dd2e3af85031ee25d9275001182fece5ee02"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/paper_e.pdf",
+        "bytes": 414065,
+        "local_sha256": "231ae6e20a0b7362ce51bc3698e2947d4995a853c2077c36d065190b443a316f",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "7d6377f871209656dcf7a71b38274a4dfe475606",
+        "branch_raw_sha256": "231ae6e20a0b7362ce51bc3698e2947d4995a853c2077c36d065190b443a316f"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-01.png",
+        "bytes": 212171,
+        "local_sha256": "c556c780ac0c838a114318bcd37afff729e72ce1900fc0feeb56425d2b65c5e4",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-02.png",
+        "bytes": 218254,
+        "local_sha256": "a14370f83bce0280a5ca3d003a3689f5b358d4853a5ebe2f20f92fa65564d716",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-03.png",
+        "bytes": 157350,
+        "local_sha256": "3388235dfb06df006682932c62d574d7f76da12d6e3d0d4ffa6233e6bc709b79",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-04.png",
+        "bytes": 305641,
+        "local_sha256": "e1e71ee48d3964d070ca77fa18cc492032cc1ae0b866a63a8920c3c8eee65c2f",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-05.png",
+        "bytes": 204529,
+        "local_sha256": "20ac790bacc736ad134220acc7680d99aed6640535dc5e12e7e0b698d63c297d",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-06.png",
+        "bytes": 331416,
+        "local_sha256": "e45692721f22ae4a1d41b956627060ac111c96934e085e8324403634d345d30a",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-07.png",
+        "bytes": 298256,
+        "local_sha256": "ebc9deaf2f4a951c2a41b72deb39e4e28750e0b46d9c82bd4ebe87ffc0a00c50",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-08.png",
+        "bytes": 250784,
+        "local_sha256": "5df5e4b4a527da5b729a5126885d91426b22995cf1dfe1da6198b2344bad0f73",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-09.png",
+        "bytes": 156394,
+        "local_sha256": "466529d5e3b626b5a510b141c13822efa35c40da1eca9ff1b7cb26127d0fb30e",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-10.png",
+        "bytes": 319717,
+        "local_sha256": "0e059d7d0c46ff6fa1cfece06153859281035d86fd7d1cf87467f8a6eeb38052",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-11.png",
+        "bytes": 215049,
+        "local_sha256": "489d3037f7263dfb8e3f71b3ed4c4b74b911e6002dbb007a24e7c4f05321f8f4",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-12.png",
+        "bytes": 116445,
+        "local_sha256": "26856e591e7a25fcb3b9a69459045d79f618fd5e51bc7d3d34405cb0fbe6c160",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-13.png",
+        "bytes": 128840,
+        "local_sha256": "799ee641c8a83470fd06688773fd922ad2dbc98cead1b693b591bd89218a50fc",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-14.png",
+        "bytes": 301863,
+        "local_sha256": "790f3423bc264d1ca6d94e3ed649ca250fae560cb6438531cac6607bb12b975f",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-15.png",
+        "bytes": 267526,
+        "local_sha256": "88cfe28fab611bb291a545a275d697c74cf6f2592c74d2c30385427b1912cb36",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-16.png",
+        "bytes": 343845,
+        "local_sha256": "bdf01d758adbdc6d9de38b16f0b5244558b31a97deb5be40d94eb5f8e9e5c6c8",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/page-17.png",
+        "bytes": 42195,
+        "local_sha256": "edc847fed031f61999fa554c29f0e20725e54e30b9608b7815591c3445716d25",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/paper_e.pdf",
+        "bytes": 416507,
+        "local_sha256": "b6a159d8eee8f504ed3a5f29e5b5fc45fcd8f618406798d5f354c26e026a7ac3",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-01.png",
+        "bytes": 215142,
+        "local_sha256": "71772141bc4d7b2c033bc94e780c4f13a6dc89c61269bbf12fe3431707fba7ce",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-02.png",
+        "bytes": 202836,
+        "local_sha256": "363f91242e9111b6fef75f9ba682572cb76ca7c558731cbfffab1a75544d4476",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-03.png",
+        "bytes": 141006,
+        "local_sha256": "b4842a30ea385b6a1f71bd31a8902fe3e553813a35d9f3e8e933d113fc6022a1",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-04.png",
+        "bytes": 299890,
+        "local_sha256": "3ece5abc52ed7b53b205d4b647c31cc8418fd32969e12d810806193148dc148e",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-05.png",
+        "bytes": 190371,
+        "local_sha256": "ebd65e8b3f26ac2b353c43d901463362762eb5d2248a07151eb527991a30a382",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-06.png",
+        "bytes": 319358,
+        "local_sha256": "d72e4352a51073413a584e3f5319e832fe3d0b9e19ba10e5d7bbdbf786fed168",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-07.png",
+        "bytes": 295561,
+        "local_sha256": "f5169481cfc1f020929f3ae8cf7f8a0e2fee746dc53bb2abdd524aa04a604acb",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-08.png",
+        "bytes": 247637,
+        "local_sha256": "53fb96ae8fe4d622d947e5069ddd0e6cd85563de8728a57ba029c266acdfdf7c",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-09.png",
+        "bytes": 172539,
+        "local_sha256": "8c6bb4c91242c145ca3cf6bb6b8cc12194b298be11e73e71a1e076b298d19960",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-10.png",
+        "bytes": 321704,
+        "local_sha256": "2156601a59d040b85ec54de98f951fd77cfcedffbc72c3bb9fcf6ba16e2b74e5",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-11.png",
+        "bytes": 234278,
+        "local_sha256": "4219097cc5b2ee525ac15c931f46bb25a94e4614a1455f21cb71afa4f4a04e63",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-12.png",
+        "bytes": 130237,
+        "local_sha256": "97b259473cdce78538e1e563604d4fd4129d105d9c9c9d9fe3b5ca3a19421dad",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-13.png",
+        "bytes": 86847,
+        "local_sha256": "3e0eb1ac8b19a5c30071fa884f978b2a00d2dd34942e285407365168ae1013e4",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-14.png",
+        "bytes": 316665,
+        "local_sha256": "69539fbe0ded38dd5c33a66fe4ac208210f2eca07c948108874396348e0e292e",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-15.png",
+        "bytes": 264875,
+        "local_sha256": "f510494619b2140a0af04f359f4a2aa9c4e6474fa2b1dc083d1896dc805357b2",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-16.png",
+        "bytes": 343539,
+        "local_sha256": "4c392d580fdec527a4151e7ec105f6a9a1ee93a3c1745d9985c488f41fddb2cb",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/page-17.png",
+        "bytes": 72908,
+        "local_sha256": "c4f41cead7b8432a8bf7cd590b3884c3e32287b6b07f51a9135bb2d49aca7bba",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v3/paper_e.pdf",
+        "bytes": 416595,
+        "local_sha256": "5d4a1ab80ce818d6febaa59287b754f849787f453e8bf5bfb5366faecff82941",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-01.png",
+        "bytes": 215142,
+        "local_sha256": "71772141bc4d7b2c033bc94e780c4f13a6dc89c61269bbf12fe3431707fba7ce",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-02.png",
+        "bytes": 202836,
+        "local_sha256": "363f91242e9111b6fef75f9ba682572cb76ca7c558731cbfffab1a75544d4476",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-03.png",
+        "bytes": 141006,
+        "local_sha256": "b4842a30ea385b6a1f71bd31a8902fe3e553813a35d9f3e8e933d113fc6022a1",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-04.png",
+        "bytes": 299890,
+        "local_sha256": "3ece5abc52ed7b53b205d4b647c31cc8418fd32969e12d810806193148dc148e",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-05.png",
+        "bytes": 190371,
+        "local_sha256": "ebd65e8b3f26ac2b353c43d901463362762eb5d2248a07151eb527991a30a382",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-06.png",
+        "bytes": 319358,
+        "local_sha256": "d72e4352a51073413a584e3f5319e832fe3d0b9e19ba10e5d7bbdbf786fed168",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-07.png",
+        "bytes": 295561,
+        "local_sha256": "f5169481cfc1f020929f3ae8cf7f8a0e2fee746dc53bb2abdd524aa04a604acb",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-08.png",
+        "bytes": 247637,
+        "local_sha256": "53fb96ae8fe4d622d947e5069ddd0e6cd85563de8728a57ba029c266acdfdf7c",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-09.png",
+        "bytes": 172539,
+        "local_sha256": "8c6bb4c91242c145ca3cf6bb6b8cc12194b298be11e73e71a1e076b298d19960",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-10.png",
+        "bytes": 321704,
+        "local_sha256": "2156601a59d040b85ec54de98f951fd77cfcedffbc72c3bb9fcf6ba16e2b74e5",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-11.png",
+        "bytes": 234278,
+        "local_sha256": "4219097cc5b2ee525ac15c931f46bb25a94e4614a1455f21cb71afa4f4a04e63",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-12.png",
+        "bytes": 130445,
+        "local_sha256": "dc37388a6dbc97af821a55933a09a2c1804780674cf259790efb89009df69112",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-13.png",
+        "bytes": 111354,
+        "local_sha256": "eb0855fe09e798f38d7d58f598a6f42d54f070c8d449de8e691a3d338e8c8dd0",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-14.png",
+        "bytes": 302201,
+        "local_sha256": "98b1a9178aea6248d055a19394a9c265e81780f91fc7001ee8631492c728e606",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-15.png",
+        "bytes": 267941,
+        "local_sha256": "dbbcbce136d0eaf70206832ef8d6c52f7b29196c9bf5615fcfc71b8eff36fd32",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-16.png",
+        "bytes": 347003,
+        "local_sha256": "aab79d7c4c5ee1230f7683a3f33dace5b294bd073350b33483cba203ed22c1ee",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/page-17.png",
+        "bytes": 55438,
+        "local_sha256": "34bba0468c11fdb1387cdc69e5cdd3d5211403e3e34163ba60d5d7b19b5baed8",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/paper_e.pdf",
+        "bytes": 416451,
+        "local_sha256": "78ae8d8327e2c918c240f2c08ee51670fc3f70746222edcc227ad997f50b7f30",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-01.png",
+        "bytes": 215142,
+        "local_sha256": "71772141bc4d7b2c033bc94e780c4f13a6dc89c61269bbf12fe3431707fba7ce",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-02.png",
+        "bytes": 270450,
+        "local_sha256": "20f042de311c45901e4cf94354fe76f6c0cbb06e8d275dee6b7abd3d38ed2ea8",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-03.png",
+        "bytes": 250101,
+        "local_sha256": "e9e432b579bf66a5d1f1304b43e389d42f71656d5752ff7db13e8a5666e625f8",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-04.png",
+        "bytes": 282304,
+        "local_sha256": "c97ca03c08f0dd5bd097583046d5adfe47fc9dfe64a77e04d4a4d367f232786d",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-05.png",
+        "bytes": 329047,
+        "local_sha256": "bd8a7363d9eccced851763c2cb3ab1e3a1a1a2778b4955a0360de98b93df3a88",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-06.png",
+        "bytes": 300392,
+        "local_sha256": "0c19649a4a33cd71111357eb01bafb377aaaac94f0fa330f8192aea19d4a3ced",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-07.png",
+        "bytes": 249600,
+        "local_sha256": "01a3f23c79a6c7f93055798e234ec16b67da9655baf3bc3ef2f58026bd8cc9b7",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-08.png",
+        "bytes": 306543,
+        "local_sha256": "203a0a84ccc86d7b6c3ee43ffe2775abb2b9fa5c1cab17796bec15f200bb566f",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-09.png",
+        "bytes": 189158,
+        "local_sha256": "26858fffe9f843b3aac8910fd7a112308c3e37c158d525422940b79616c81e12",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-10.png",
+        "bytes": 215049,
+        "local_sha256": "489d3037f7263dfb8e3f71b3ed4c4b74b911e6002dbb007a24e7c4f05321f8f4",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-11.png",
+        "bytes": 291461,
+        "local_sha256": "4eea96274c7950644ad43abc59d93e9dcc55cd9d29804bd6767580635f32c155",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-12.png",
+        "bytes": 276112,
+        "local_sha256": "6dfe9164e54b694f27ce81a23baaa733e39493994ec5368c467e75f480ba4d09",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-13.png",
+        "bytes": 277674,
+        "local_sha256": "f883d5ab1c623733f3ff434a742b98c660ee568890adf38a79b771d13a151930",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/page-14.png",
+        "bytes": 325058,
+        "local_sha256": "3bcd28be4db8dcb7966a839d0439dd2e3af85031ee25d9275001182fece5ee02",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v5/paper_e.pdf",
+        "bytes": 413960,
+        "local_sha256": "88470d8929d97f3a799adf10cfc1f68689b003b52e157e2e47cedc6a7923069b",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/SOURCE_CHECK_RECEIPT.json",
+        "bytes": 3278,
+        "local_sha256": "c137965f43d993e9e58ed5ae00ca29fc4729f3d0f8b1ffd0b61cc43338acd990",
+        "classification": "EXACT_BYTES",
+        "branch_blob_id": "aae785fe1cb691387d426695fa5650314edebf28",
+        "branch_raw_sha256": "c137965f43d993e9e58ed5ae00ca29fc4729f3d0f8b1ffd0b61cc43338acd990"
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/test_plain.docx",
+        "bytes": 293067,
+        "local_sha256": "17b1df29c26654c5ac891ef56923555625e696fa1fa476ff1866693adc90418b",
+        "classification": "LOCAL_ONLY_PRESERVE"
+      }
+    ]
+  },
+  "receipt_rename": {
+    "commit": "2b51ae6070086bb52ab5e2746562bc66a99ae48e",
+    "count": 24,
+    "items": [
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "sha256_before": "d96ab35b1204bd2be4e68080f01dc05e5f86b7891b5c90c7e4311d23954bce9e",
+        "sha256_at_rename": "d96ab35b1204bd2be4e68080f01dc05e5f86b7891b5c90c7e4311d23954bce9e",
+        "sha256_at_research": "d96ab35b1204bd2be4e68080f01dc05e5f86b7891b5c90c7e4311d23954bce9e",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "sha256_before": "4e77f243722a4c92923bb8fc3bbabd3aa1926dd96110d96e1da583df4dac6738",
+        "sha256_at_rename": "4e77f243722a4c92923bb8fc3bbabd3aa1926dd96110d96e1da583df4dac6738",
+        "sha256_at_research": "4e77f243722a4c92923bb8fc3bbabd3aa1926dd96110d96e1da583df4dac6738",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "sha256_before": "03f4015b8dd3d3fd3ed0a6f32eb9c5f76f05a45b626074f4a2628f4e9d3362cc",
+        "sha256_at_rename": "03f4015b8dd3d3fd3ed0a6f32eb9c5f76f05a45b626074f4a2628f4e9d3362cc",
+        "sha256_at_research": "03f4015b8dd3d3fd3ed0a6f32eb9c5f76f05a45b626074f4a2628f4e9d3362cc",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "sha256_before": "d63bdf87f10e1c8d33932b2d50d412444414838f2d15246ddc7fb9d7afd5cbf2",
+        "sha256_at_rename": "d63bdf87f10e1c8d33932b2d50d412444414838f2d15246ddc7fb9d7afd5cbf2",
+        "sha256_at_research": "d63bdf87f10e1c8d33932b2d50d412444414838f2d15246ddc7fb9d7afd5cbf2",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "sha256_before": "58e542c23723e0ffb6f32a5a793a445db4f4d2343505caebbe97245345d26496",
+        "sha256_at_rename": "58e542c23723e0ffb6f32a5a793a445db4f4d2343505caebbe97245345d26496",
+        "sha256_at_research": "58e542c23723e0ffb6f32a5a793a445db4f4d2343505caebbe97245345d26496",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "sha256_before": "a67991f4eb01081aa36616941f61f3f9f03b4564a1f88b5db58ebc184fd50c5b",
+        "sha256_at_rename": "a67991f4eb01081aa36616941f61f3f9f03b4564a1f88b5db58ebc184fd50c5b",
+        "sha256_at_research": "a67991f4eb01081aa36616941f61f3f9f03b4564a1f88b5db58ebc184fd50c5b",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "sha256_before": "4efc53b7341ad390e21ea43e5c5bcecef3fc5c441a93153c4d8fea38d5684db8",
+        "sha256_at_rename": "4efc53b7341ad390e21ea43e5c5bcecef3fc5c441a93153c4d8fea38d5684db8",
+        "sha256_at_research": "4efc53b7341ad390e21ea43e5c5bcecef3fc5c441a93153c4d8fea38d5684db8",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "sha256_before": "d7f1e41ef3736ea3eece85a6976a8e13446b6bdc2f10deb6dee833161966174c",
+        "sha256_at_rename": "d7f1e41ef3736ea3eece85a6976a8e13446b6bdc2f10deb6dee833161966174c",
+        "sha256_at_research": "d7f1e41ef3736ea3eece85a6976a8e13446b6bdc2f10deb6dee833161966174c",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "sha256_before": "41a8669c78ad157cd3409bd955fcecf5846a00b42ac6af3c09727861f90f7706",
+        "sha256_at_rename": "41a8669c78ad157cd3409bd955fcecf5846a00b42ac6af3c09727861f90f7706",
+        "sha256_at_research": "41a8669c78ad157cd3409bd955fcecf5846a00b42ac6af3c09727861f90f7706",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "sha256_before": "e6ee5de7070f4cdeab7c4892a93e7334380de8f9b53399b0b723a7d39677a72d",
+        "sha256_at_rename": "e6ee5de7070f4cdeab7c4892a93e7334380de8f9b53399b0b723a7d39677a72d",
+        "sha256_at_research": "e6ee5de7070f4cdeab7c4892a93e7334380de8f9b53399b0b723a7d39677a72d",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "sha256_before": "f4acb12a6796b69d54d662d30314e58f9a21606dca93b291fd020a35249ea34d",
+        "sha256_at_rename": "f4acb12a6796b69d54d662d30314e58f9a21606dca93b291fd020a35249ea34d",
+        "sha256_at_research": "f4acb12a6796b69d54d662d30314e58f9a21606dca93b291fd020a35249ea34d",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "sha256_before": "c64b148467d4c845fb962159a8742bb0f2f80aff2b9629f2f3e4a0edecf0a121",
+        "sha256_at_rename": "c64b148467d4c845fb962159a8742bb0f2f80aff2b9629f2f3e4a0edecf0a121",
+        "sha256_at_research": "c64b148467d4c845fb962159a8742bb0f2f80aff2b9629f2f3e4a0edecf0a121",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "sha256_before": "084aae19da25edf3ead3c528d4e434f3a9a1a2c9336e2044388ca62773af98af",
+        "sha256_at_rename": "084aae19da25edf3ead3c528d4e434f3a9a1a2c9336e2044388ca62773af98af",
+        "sha256_at_research": "084aae19da25edf3ead3c528d4e434f3a9a1a2c9336e2044388ca62773af98af",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "sha256_before": "f94356312f8b94b2717f1a9cb0e30a27b156f7d4ab8cea9f00d0cc1ba8a7b47f",
+        "sha256_at_rename": "f94356312f8b94b2717f1a9cb0e30a27b156f7d4ab8cea9f00d0cc1ba8a7b47f",
+        "sha256_at_research": "f94356312f8b94b2717f1a9cb0e30a27b156f7d4ab8cea9f00d0cc1ba8a7b47f",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "sha256_before": "b17bc5bbe80ded1219f70289c0303e6d158d6a5db81fdc3770e4e0c34be5642d",
+        "sha256_at_rename": "b17bc5bbe80ded1219f70289c0303e6d158d6a5db81fdc3770e4e0c34be5642d",
+        "sha256_at_research": "b17bc5bbe80ded1219f70289c0303e6d158d6a5db81fdc3770e4e0c34be5642d",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "sha256_before": "2c00a0ce0b2b81027626983f5e2c6e06c2fb97bf56dbb0d4815b1b622e8f0db8",
+        "sha256_at_rename": "2c00a0ce0b2b81027626983f5e2c6e06c2fb97bf56dbb0d4815b1b622e8f0db8",
+        "sha256_at_research": "2c00a0ce0b2b81027626983f5e2c6e06c2fb97bf56dbb0d4815b1b622e8f0db8",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "sha256_before": "f31770e86f815c4671046fe1eac848d9d77d8be8472cde3cc1ea3821d4a5e126",
+        "sha256_at_rename": "f31770e86f815c4671046fe1eac848d9d77d8be8472cde3cc1ea3821d4a5e126",
+        "sha256_at_research": "f31770e86f815c4671046fe1eac848d9d77d8be8472cde3cc1ea3821d4a5e126",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "sha256_before": "8c0ec60791a0f416b543dc4037a2d4e0ca69aa72601a4e85724e1da0b9f88e8f",
+        "sha256_at_rename": "8c0ec60791a0f416b543dc4037a2d4e0ca69aa72601a4e85724e1da0b9f88e8f",
+        "sha256_at_research": "8c0ec60791a0f416b543dc4037a2d4e0ca69aa72601a4e85724e1da0b9f88e8f",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "sha256_before": "f7b91ed14cfaa7b0b659d69c9efd54e764718d77a7d9e2d66a9e4de2cdae7598",
+        "sha256_at_rename": "f7b91ed14cfaa7b0b659d69c9efd54e764718d77a7d9e2d66a9e4de2cdae7598",
+        "sha256_at_research": "f7b91ed14cfaa7b0b659d69c9efd54e764718d77a7d9e2d66a9e4de2cdae7598",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "sha256_before": "ab26ab728df0e181d941384b0e7ea886224bf3bf9f34a87c00b516a3908335a9",
+        "sha256_at_rename": "ab26ab728df0e181d941384b0e7ea886224bf3bf9f34a87c00b516a3908335a9",
+        "sha256_at_research": "ab26ab728df0e181d941384b0e7ea886224bf3bf9f34a87c00b516a3908335a9",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "sha256_before": "e397bc881d1e15cc2b8ec2f2e69b15941112e25e4418b040aa26cd17c56138c4",
+        "sha256_at_rename": "e397bc881d1e15cc2b8ec2f2e69b15941112e25e4418b040aa26cd17c56138c4",
+        "sha256_at_research": "e397bc881d1e15cc2b8ec2f2e69b15941112e25e4418b040aa26cd17c56138c4",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "sha256_before": "e3b15e3bf7280cec774f5f46bd9749c1664842bce183e6170865fc08f6627b1b",
+        "sha256_at_rename": "e3b15e3bf7280cec774f5f46bd9749c1664842bce183e6170865fc08f6627b1b",
+        "sha256_at_research": "e3b15e3bf7280cec774f5f46bd9749c1664842bce183e6170865fc08f6627b1b",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "sha256_before": "a3dbe60834225de18fa4cdd2f06f1d097dc1d6a31a5998abda705ab145f35492",
+        "sha256_at_rename": "a3dbe60834225de18fa4cdd2f06f1d097dc1d6a31a5998abda705ab145f35492",
+        "sha256_at_research": "a3dbe60834225de18fa4cdd2f06f1d097dc1d6a31a5998abda705ab145f35492",
+        "unchanged_across_rename_and_final": true
+      },
+      {
+        "old": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "new": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "sha256_before": "f7301b20ba6e4825ac040626a04cde9ac83ffe72532dd1da37302eb0a1541231",
+        "sha256_at_rename": "f7301b20ba6e4825ac040626a04cde9ac83ffe72532dd1da37302eb0a1541231",
+        "sha256_at_research": "f7301b20ba6e4825ac040626a04cde9ac83ffe72532dd1da37302eb0a1541231",
+        "unchanged_across_rename_and_final": true
+      }
+    ]
+  },
+  "historical_manifest": {
+    "path": "research/word_scoring_new_family_20261027_v1/validation/ARTIFACT_HASHES.json",
+    "raw_sha256": "d08f52c45cb38e0a2074294fd4ff8def1456733588b8d306bad48300ecf7eb04",
+    "declared_entries": 86,
+    "checked_entries": 86,
+    "counts": {
+      "HASH_MISMATCH": 2,
+      "MATCH": 84
+    },
+    "historical_manifest_modified": false,
+    "derived_path_resolution_only": true,
+    "items": [
+      {
+        "historical_path": "research/feedback_learning_phase_b_20261026_v1/thesis_draft/CHAPTER_METHOD_RESULTS_LIMITATIONS_ZH.md",
+        "resolved_path": "research/feedback_learning_phase_b_20261026_v1/thesis_draft/CHAPTER_METHOD_RESULTS_LIMITATIONS_ZH.md",
+        "expected_sha256": "e587542d1032a4dc26db30c694be3a64481f31b46386a5381c85bb7b672382ed",
+        "actual_sha256": "7d45625f3af2931353f1e38f20f879cbe2853131939bca0004365ab8c5ef34c2",
+        "status": "HASH_MISMATCH",
+        "expected_matches_A_delivery_62c637ba": true,
+        "expected_matches_pre_merge_2b51ae607": true,
+        "expected_matches_merge_a441c5ca": false,
+        "interpretation": "Historical snapshot differs after merge; preserve both and issue a derived current index"
+      },
+      {
+        "historical_path": "research/feedback_learning_phase_b_20261026_v1/thesis_draft/EVIDENCE_TABLE.md",
+        "resolved_path": "research/feedback_learning_phase_b_20261026_v1/thesis_draft/EVIDENCE_TABLE.md",
+        "expected_sha256": "4781f234ed33e7d94e059d8ebd162dd542a53b5f87671d7d194d4e1a98ee8c09",
+        "actual_sha256": "7b0f6b841ef0a69ba0a6dfe73409b52eb36013425e5be32ec81a28923d7949af",
+        "status": "HASH_MISMATCH",
+        "expected_matches_A_delivery_62c637ba": true,
+        "expected_matches_pre_merge_2b51ae607": true,
+        "expected_matches_merge_a441c5ca": false,
+        "interpretation": "Historical snapshot differs after merge; preserve both and issue a derived current index"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/A_RETURN.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/A_RETURN.json",
+        "expected_sha256": "4cb4ff9d79ba55769a8d58faa99e5f251728fd16dcf5d4162516e736078fd657",
+        "actual_sha256": "4cb4ff9d79ba55769a8d58faa99e5f251728fd16dcf5d4162516e736078fd657",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/A_RETURN.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/A_RETURN.md",
+        "expected_sha256": "d2f85c15d7f4072be15c40e4cc0a0fd979092ca19140f4d3027fcde530726194",
+        "actual_sha256": "d2f85c15d7f4072be15c40e4cc0a0fd979092ca19140f4d3027fcde530726194",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/A_TASK.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/A_TASK.md",
+        "expected_sha256": "52d70b0931114c246f01f7963fe9f08ce7fae8fcc500a625d78429f73d0ae0ab",
+        "actual_sha256": "52d70b0931114c246f01f7963fe9f08ce7fae8fcc500a625d78429f73d0ae0ab",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE.json",
+        "expected_sha256": "089ce79ce8666b3803494716b66118585d803ce09f9d7a7d92ba89d621abdb5c",
+        "actual_sha256": "089ce79ce8666b3803494716b66118585d803ce09f9d7a7d92ba89d621abdb5c",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE_ROWS.jsonl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/baseline/results/ZERO_MODEL_BASELINE_ROWS.jsonl",
+        "expected_sha256": "184df42a45cd42e42b5aba47892c5f310fec66916a8bef2f9501e8322997dba4",
+        "actual_sha256": "184df42a45cd42e42b5aba47892c5f310fec66916a8bef2f9501e8322997dba4",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/baseline/run_zero_model_baseline.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/baseline/run_zero_model_baseline.py",
+        "expected_sha256": "6ec1c7ae02944aadcfd16db8712945f061f252ed15b26a31cce17f9961fa1aca",
+        "actual_sha256": "6ec1c7ae02944aadcfd16db8712945f061f252ed15b26a31cce17f9961fa1aca",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/budget/BUDGET_FAULT_TEST_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/budget/BUDGET_FAULT_TEST_RECEIPT.json",
+        "expected_sha256": "b3e2b762a4d840441e2e12dd41fba0c6f8d5548df56bc1adfba295f9f7e58e89",
+        "actual_sha256": "b3e2b762a4d840441e2e12dd41fba0c6f8d5548df56bc1adfba295f9f7e58e89",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/budget/run_fault_tests.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/budget/run_fault_tests.py",
+        "expected_sha256": "02823b305005214fd25ae3b27aca6aadc77d1f11f22654e631f9c8ae9fa8d958",
+        "actual_sha256": "02823b305005214fd25ae3b27aca6aadc77d1f11f22654e631f9c8ae9fa8d958",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/budget/test_word_new_family_faults.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/budget/test_word_new_family_faults.py",
+        "expected_sha256": "b54f6f3a33382928bf9273485b41686e59c6b49b6bfc0cc101cd6d2e5a713118",
+        "actual_sha256": "b54f6f3a33382928bf9273485b41686e59c6b49b6bfc0cc101cd6d2e5a713118",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/exposure/EXPOSURE_MANIFEST.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/exposure/EXPOSURE_MANIFEST.json",
+        "expected_sha256": "9d223bafdca22319a93f9a6f039d80063b74556b408862c8798b12c64b0a1f1d",
+        "actual_sha256": "9d223bafdca22319a93f9a6f039d80063b74556b408862c8798b12c64b0a1f1d",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/exposure/PANEL_FREEZE.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/exposure/PANEL_FREEZE.json",
+        "expected_sha256": "501e6feba30d823ba5f8e98295225a247f42e0ef27e0c577fd73e2ae13771dde",
+        "actual_sha256": "501e6feba30d823ba5f8e98295225a247f42e0ef27e0c577fd73e2ae13771dde",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/exposure/build_exposure_and_panel.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/exposure/build_exposure_and_panel.py",
+        "expected_sha256": "d8c4323600f072b97f254fe0fe5c0d482f403438fbe46a3550620ff47d878e0b",
+        "actual_sha256": "d8c4323600f072b97f254fe0fe5c0d482f403438fbe46a3550620ff47d878e0b",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/GENERATION_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/GENERATION_RECEIPT.json",
+        "expected_sha256": "426dd16539e0307ac53179a97eda0e9e25942eb4abc7d9492a703c788f4a799a",
+        "actual_sha256": "426dd16539e0307ac53179a97eda0e9e25942eb4abc7d9492a703c788f4a799a",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/INTERFACE_FAULT_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/INTERFACE_FAULT_RECEIPT.json",
+        "expected_sha256": "f3145783e6aac6446ae9dc001ed0bfc518677c03ef2dd26a0a8952bdfd9be31e",
+        "actual_sha256": "f3145783e6aac6446ae9dc001ed0bfc518677c03ef2dd26a0a8952bdfd9be31e",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/PRE_GENERATION_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/PRE_GENERATION_RECEIPT.json",
+        "expected_sha256": "0a6ce58703ffd57a2bad70af65cec9a93e93dc7aaa8a79b13b083eafe13aefac",
+        "actual_sha256": "0a6ce58703ffd57a2bad70af65cec9a93e93dc7aaa8a79b13b083eafe13aefac",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/TOKEN_QUALIFICATION.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/TOKEN_QUALIFICATION.json",
+        "expected_sha256": "bc961eba2231b9de75b98fb1198562ee317dfc966959d348b3298a3f77e988a3",
+        "actual_sha256": "bc961eba2231b9de75b98fb1198562ee317dfc966959d348b3298a3f77e988a3",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/extract_raw.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/extract_raw.py",
+        "expected_sha256": "20af49b8526fbf7ef3c23412b7ea09b36bc85a0a80829325ee5c84ac388a9787",
+        "actual_sha256": "20af49b8526fbf7ef3c23412b7ea09b36bc85a0a80829325ee5c84ac388a9787",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/generate_local.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/generate_local.py",
+        "expected_sha256": "62dd1d693badd0e58890f5d9efa6f734e66feaf40e41fbd89fb11fdd293b3160",
+        "actual_sha256": "62dd1d693badd0e58890f5d9efa6f734e66feaf40e41fbd89fb11fdd293b3160",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/local_loader.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/local_loader.py",
+        "expected_sha256": "2ebe33060f2ff2003dadb34309cf85ad61b576ab112dc3e7a47c59f15863a504",
+        "actual_sha256": "2ebe33060f2ff2003dadb34309cf85ad61b576ab112dc3e7a47c59f15863a504",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/qualify_local_inputs.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/qualify_local_inputs.py",
+        "expected_sha256": "923be63bc354093854f6d5bf1a097ade4408e12370760df62f78c581cb9e52c4",
+        "actual_sha256": "923be63bc354093854f6d5bf1a097ade4408e12370760df62f78c581cb9e52c4",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "expected_sha256": "d96ab35b1204bd2be4e68080f01dc05e5f86b7891b5c90c7e4311d23954bce9e",
+        "actual_sha256": "d96ab35b1204bd2be4e68080f01dc05e5f86b7891b5c90c7e4311d23954bce9e",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "expected_sha256": "4e77f243722a4c92923bb8fc3bbabd3aa1926dd96110d96e1da583df4dac6738",
+        "actual_sha256": "4e77f243722a4c92923bb8fc3bbabd3aa1926dd96110d96e1da583df4dac6738",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "expected_sha256": "03f4015b8dd3d3fd3ed0a6f32eb9c5f76f05a45b626074f4a2628f4e9d3362cc",
+        "actual_sha256": "03f4015b8dd3d3fd3ed0a6f32eb9c5f76f05a45b626074f4a2628f4e9d3362cc",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "expected_sha256": "d63bdf87f10e1c8d33932b2d50d412444414838f2d15246ddc7fb9d7afd5cbf2",
+        "actual_sha256": "d63bdf87f10e1c8d33932b2d50d412444414838f2d15246ddc7fb9d7afd5cbf2",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "expected_sha256": "58e542c23723e0ffb6f32a5a793a445db4f4d2343505caebbe97245345d26496",
+        "actual_sha256": "58e542c23723e0ffb6f32a5a793a445db4f4d2343505caebbe97245345d26496",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "expected_sha256": "a67991f4eb01081aa36616941f61f3f9f03b4564a1f88b5db58ebc184fd50c5b",
+        "actual_sha256": "a67991f4eb01081aa36616941f61f3f9f03b4564a1f88b5db58ebc184fd50c5b",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "expected_sha256": "4efc53b7341ad390e21ea43e5c5bcecef3fc5c441a93153c4d8fea38d5684db8",
+        "actual_sha256": "4efc53b7341ad390e21ea43e5c5bcecef3fc5c441a93153c4d8fea38d5684db8",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D:f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/D_f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "expected_sha256": "d7f1e41ef3736ea3eece85a6976a8e13446b6bdc2f10deb6dee833161966174c",
+        "actual_sha256": "d7f1e41ef3736ea3eece85a6976a8e13446b6bdc2f10deb6dee833161966174c",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "expected_sha256": "41a8669c78ad157cd3409bd955fcecf5846a00b42ac6af3c09727861f90f7706",
+        "actual_sha256": "41a8669c78ad157cd3409bd955fcecf5846a00b42ac6af3c09727861f90f7706",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "expected_sha256": "e6ee5de7070f4cdeab7c4892a93e7334380de8f9b53399b0b723a7d39677a72d",
+        "actual_sha256": "e6ee5de7070f4cdeab7c4892a93e7334380de8f9b53399b0b723a7d39677a72d",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "expected_sha256": "f4acb12a6796b69d54d662d30314e58f9a21606dca93b291fd020a35249ea34d",
+        "actual_sha256": "f4acb12a6796b69d54d662d30314e58f9a21606dca93b291fd020a35249ea34d",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "expected_sha256": "c64b148467d4c845fb962159a8742bb0f2f80aff2b9629f2f3e4a0edecf0a121",
+        "actual_sha256": "c64b148467d4c845fb962159a8742bb0f2f80aff2b9629f2f3e4a0edecf0a121",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "expected_sha256": "084aae19da25edf3ead3c528d4e434f3a9a1a2c9336e2044388ca62773af98af",
+        "actual_sha256": "084aae19da25edf3ead3c528d4e434f3a9a1a2c9336e2044388ca62773af98af",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "expected_sha256": "f94356312f8b94b2717f1a9cb0e30a27b156f7d4ab8cea9f00d0cc1ba8a7b47f",
+        "actual_sha256": "f94356312f8b94b2717f1a9cb0e30a27b156f7d4ab8cea9f00d0cc1ba8a7b47f",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "expected_sha256": "b17bc5bbe80ded1219f70289c0303e6d158d6a5db81fdc3770e4e0c34be5642d",
+        "actual_sha256": "b17bc5bbe80ded1219f70289c0303e6d158d6a5db81fdc3770e4e0c34be5642d",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M:f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/M_f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "expected_sha256": "2c00a0ce0b2b81027626983f5e2c6e06c2fb97bf56dbb0d4815b1b622e8f0db8",
+        "actual_sha256": "2c00a0ce0b2b81027626983f5e2c6e06c2fb97bf56dbb0d4815b1b622e8f0db8",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_177fcc7a-a3c4-4e17-9521-3bcfc7154f02.json",
+        "expected_sha256": "f31770e86f815c4671046fe1eac848d9d77d8be8472cde3cc1ea3821d4a5e126",
+        "actual_sha256": "f31770e86f815c4671046fe1eac848d9d77d8be8472cde3cc1ea3821d4a5e126",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_24e5a96b-72f3-4ce8-8c59-4920dac95d2b.json",
+        "expected_sha256": "8c0ec60791a0f416b543dc4037a2d4e0ca69aa72601a4e85724e1da0b9f88e8f",
+        "actual_sha256": "8c0ec60791a0f416b543dc4037a2d4e0ca69aa72601a4e85724e1da0b9f88e8f",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_49e5b466-62c9-4cab-8d70-8e9317e7a007.json",
+        "expected_sha256": "f7b91ed14cfaa7b0b659d69c9efd54e764718d77a7d9e2d66a9e4de2cdae7598",
+        "actual_sha256": "f7b91ed14cfaa7b0b659d69c9efd54e764718d77a7d9e2d66a9e4de2cdae7598",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_57f38b17-ccdb-4d57-b075-9d1ff7dfb5e7.json",
+        "expected_sha256": "ab26ab728df0e181d941384b0e7ea886224bf3bf9f34a87c00b516a3908335a9",
+        "actual_sha256": "ab26ab728df0e181d941384b0e7ea886224bf3bf9f34a87c00b516a3908335a9",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_62bb8d90-5ff5-4659-812a-a1b39c2c4e2b.json",
+        "expected_sha256": "e397bc881d1e15cc2b8ec2f2e69b15941112e25e4418b040aa26cd17c56138c4",
+        "actual_sha256": "e397bc881d1e15cc2b8ec2f2e69b15941112e25e4418b040aa26cd17c56138c4",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_90f9af10-77ac-441c-a53d-3167c15ad61b.json",
+        "expected_sha256": "e3b15e3bf7280cec774f5f46bd9749c1664842bce183e6170865fc08f6627b1b",
+        "actual_sha256": "e3b15e3bf7280cec774f5f46bd9749c1664842bce183e6170865fc08f6627b1b",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_b27a5513-7ad8-4172-99f9-0e8c9e7c9476.json",
+        "expected_sha256": "a3dbe60834225de18fa4cdd2f06f1d097dc1d6a31a5998abda705ab145f35492",
+        "actual_sha256": "a3dbe60834225de18fa4cdd2f06f1d097dc1d6a31a5998abda705ab145f35492",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T:f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/receipts/T_f4acbb7e-c861-4ff7-ba8c-450fb3a31224.json",
+        "expected_sha256": "f7301b20ba6e4825ac040626a04cde9ac83ffe72532dd1da37302eb0a1541231",
+        "actual_sha256": "f7301b20ba6e4825ac040626a04cde9ac83ffe72532dd1da37302eb0a1541231",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/record_interface_fault.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/record_interface_fault.py",
+        "expected_sha256": "957878da0ac6078c26bacccfa8b7a48a36560dd07c8a980d721d831dd12cc07a",
+        "actual_sha256": "957878da0ac6078c26bacccfa8b7a48a36560dd07c8a980d721d831dd12cc07a",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/results/RAW_EXTRACTION_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/results/RAW_EXTRACTION_RECEIPT.json",
+        "expected_sha256": "9e0b9839c49c4d412cf35dd309aabed9825ad286491989ad3e3b97e60e817196",
+        "actual_sha256": "9e0b9839c49c4d412cf35dd309aabed9825ad286491989ad3e3b97e60e817196",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/generation/results/RAW_RESPONSES.jsonl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/generation/results/RAW_RESPONSES.jsonl",
+        "expected_sha256": "6bb0b5975995a67276ba35b775d1d02ed2eff93401e24b97e1a083b20d4a6448",
+        "actual_sha256": "6bb0b5975995a67276ba35b775d1d02ed2eff93401e24b97e1a083b20d4a6448",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/mechanism/MECHANISM_FREEZE.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/mechanism/MECHANISM_FREEZE.json",
+        "expected_sha256": "e63ac80b0f6928bb0c1f94a95a836f75af083f64b894a2e24f923124d4535903",
+        "actual_sha256": "e63ac80b0f6928bb0c1f94a95a836f75af083f64b894a2e24f923124d4535903",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/mechanism/NEAREST_WORK_COMPARISON.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/mechanism/NEAREST_WORK_COMPARISON.json",
+        "expected_sha256": "c087f2d76f12ce0cc93dc776f385dbe9d9b2c1f29aeb068d09a27cee9330f5ca",
+        "actual_sha256": "c087f2d76f12ce0cc93dc776f385dbe9d9b2c1f29aeb068d09a27cee9330f5ca",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/mechanism/NEAREST_WORK_COMPARISON.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/mechanism/NEAREST_WORK_COMPARISON.md",
+        "expected_sha256": "146445cb33f684e0844358f8f2462a41ab9d9c1cebbb944cf5da96d280cfe46f",
+        "actual_sha256": "146445cb33f684e0844358f8f2462a41ab9d9c1cebbb944cf5da96d280cfe46f",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/mechanism/PLANNED_PROMPTS.jsonl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/mechanism/PLANNED_PROMPTS.jsonl",
+        "expected_sha256": "02ee1cf44f9108f467c3f751016df367e3d17dd904f9edd468d357e03198f763",
+        "actual_sha256": "02ee1cf44f9108f467c3f751016df367e3d17dd904f9edd468d357e03198f763",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/mechanism/build_freeze.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/mechanism/build_freeze.py",
+        "expected_sha256": "9fe89cc21899e40961c9f212bd0fe59da9e19248ebf9012a025c665e3ac6f432",
+        "actual_sha256": "9fe89cc21899e40961c9f212bd0fe59da9e19248ebf9012a025c665e3ac6f432",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_COMMAND.txt",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_COMMAND.txt",
+        "expected_sha256": "ee8c1a80a05b54026d393f9a773cba1df873b32c6a9c8687cfb4b18afb9cdd15",
+        "actual_sha256": "ee8c1a80a05b54026d393f9a773cba1df873b32c6a9c8687cfb4b18afb9cdd15",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_MANIFEST.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_MANIFEST.json",
+        "expected_sha256": "91b396faf346d94e92678915137f58a2385614491825451786da33fe2e60591b",
+        "actual_sha256": "91b396faf346d94e92678915137f58a2385614491825451786da33fe2e60591b",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_README.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_README.md",
+        "expected_sha256": "835a7136858f27423b0a2882ba7f78a9dbcb6fd3b4b67ab35849b6091d52662e",
+        "actual_sha256": "835a7136858f27423b0a2882ba7f78a9dbcb6fd3b4b67ab35849b6091d52662e",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/REFERENCE_LIST.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/REFERENCE_LIST.md",
+        "expected_sha256": "ec65a07b6acd41374e0713c88b87d1f6a1f9460302674e8c24e8e5936b5a0bb9",
+        "actual_sha256": "ec65a07b6acd41374e0713c88b87d1f6a1f9460302674e8c24e8e5936b5a0bb9",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/SOURCE_CHECK_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/SOURCE_CHECK_RECEIPT.json",
+        "expected_sha256": "c137965f43d993e9e58ed5ae00ca29fc4729f3d0f8b1ffd0b61cc43338acd990",
+        "actual_sha256": "c137965f43d993e9e58ed5ae00ca29fc4729f3d0f8b1ffd0b61cc43338acd990",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_word_source.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_word_source.py",
+        "expected_sha256": "a1745d0a0a33ace7d16bb52d9ed50ee6c76b7a3fac74ca62dc7e52b8e24913ed",
+        "actual_sha256": "a1745d0a0a33ace7d16bb52d9ed50ee6c76b7a3fac74ca62dc7e52b8e24913ed",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig1_measurement_chain.png",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig1_measurement_chain.png",
+        "expected_sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af",
+        "actual_sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig1_measurement_chain.svg",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig1_measurement_chain.svg",
+        "expected_sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506",
+        "actual_sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig2_family_visibility_matrix.png",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig2_family_visibility_matrix.png",
+        "expected_sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d",
+        "actual_sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig2_family_visibility_matrix.svg",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig2_family_visibility_matrix.svg",
+        "expected_sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02",
+        "actual_sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig3_localization_ablation.png",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig3_localization_ablation.png",
+        "expected_sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64",
+        "actual_sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig3_localization_ablation.svg",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/fig3_localization_ablation.svg",
+        "expected_sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015",
+        "actual_sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/numeric-bracket.csl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/numeric-bracket.csl",
+        "expected_sha256": "941065245d7314c8ea83acb1d2081dc06e171d837411b1ea21aff5bea4c07ffd",
+        "actual_sha256": "941065245d7314c8ea83acb1d2081dc06e171d837411b1ea21aff5bea4c07ffd",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word.md",
+        "expected_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+        "actual_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/reference_style.docx",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/reference_style.docx",
+        "expected_sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0",
+        "actual_sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/references.bib",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/paper_e_word/references.bib",
+        "expected_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+        "actual_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/SCORING_CONTRACT.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/SCORING_CONTRACT.md",
+        "expected_sha256": "d8060bd66625a17276e1318f32cab774b45d273f5619bea1f22f665254bc2ce6",
+        "actual_sha256": "d8060bd66625a17276e1318f32cab774b45d273f5619bea1f22f665254bc2ce6",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/SCORING_TEST_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/SCORING_TEST_RECEIPT.json",
+        "expected_sha256": "4eca2a3fccf4dd7891133ff2d0a33aba92fdfbe28ad4aaf34dcf56668803642a",
+        "actual_sha256": "4eca2a3fccf4dd7891133ff2d0a33aba92fdfbe28ad4aaf34dcf56668803642a",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/diagnostic_rescore.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/diagnostic_rescore.py",
+        "expected_sha256": "b92035de0fb497374a89e6e58380f215fc4686b149b2abe8a28b6cf6d2c482a4",
+        "actual_sha256": "b92035de0fb497374a89e6e58380f215fc4686b149b2abe8a28b6cf6d2c482a4",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/rescore_pure.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/rescore_pure.py",
+        "expected_sha256": "177f19ccae5a848824d7b6ad6570027a0abced4ea2ad83dccbf13fc17f659787",
+        "actual_sha256": "177f19ccae5a848824d7b6ad6570027a0abced4ea2ad83dccbf13fc17f659787",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_ROWS.jsonl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_ROWS.jsonl",
+        "expected_sha256": "b85f4d5eb0c0b39c4c72546e44581fc6dbaa2153f248ea92093c3c2fce765cee",
+        "actual_sha256": "b85f4d5eb0c0b39c4c72546e44581fc6dbaa2153f248ea92093c3c2fce765cee",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json",
+        "expected_sha256": "0e8f4cd3460bcbd82fe8d33b6f81179880a0e3ff477af74dc272ff3d5ff5260b",
+        "actual_sha256": "0e8f4cd3460bcbd82fe8d33b6f81179880a0e3ff477af74dc272ff3d5ff5260b",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/INTERFACE_NORMALIZATION_RECEIPT.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/INTERFACE_NORMALIZATION_RECEIPT.json",
+        "expected_sha256": "4806751ae5610b60615a4abb7dfe3857025939e3d612c31c16a323ac65a15cba",
+        "actual_sha256": "4806751ae5610b60615a4abb7dfe3857025939e3d612c31c16a323ac65a15cba",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/MECHANISM_COMPARISON.md",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/MECHANISM_COMPARISON.md",
+        "expected_sha256": "b437338a4bc223fc9b7c3ee61c872ae572761e47530c52be339b92856f0edde8",
+        "actual_sha256": "b437338a4bc223fc9b7c3ee61c872ae572761e47530c52be339b92856f0edde8",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/PER_FAMILY_SUMMARY.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/PER_FAMILY_SUMMARY.json",
+        "expected_sha256": "6d93fc154ef6714eb6c30d34072de16f2e3641c4da41d2fd18d3f339bb443f8d",
+        "actual_sha256": "6d93fc154ef6714eb6c30d34072de16f2e3641c4da41d2fd18d3f339bb443f8d",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V2_V3_LAYER_UID_DIFFERENCES.jsonl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V2_V3_LAYER_UID_DIFFERENCES.jsonl",
+        "expected_sha256": "25499a1e1979b7f75412440e5feab034fd4c12a750e54568e77eae00c7c79e28",
+        "actual_sha256": "25499a1e1979b7f75412440e5feab034fd4c12a750e54568e77eae00c7c79e28",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V3_PURE_RESCORE_ROWS.jsonl",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V3_PURE_RESCORE_ROWS.jsonl",
+        "expected_sha256": "5e5b7633cb931806ad86156272632c395fec946b1dffbabc5bb5729f9b43f253",
+        "actual_sha256": "5e5b7633cb931806ad86156272632c395fec946b1dffbabc5bb5729f9b43f253",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V3_PURE_RESCORE_SUMMARY.json",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/results/V3_PURE_RESCORE_SUMMARY.json",
+        "expected_sha256": "6d9cfd09e41558949c9b585cc60e9d18b0f211d2668be21afef96c52a86c21a6",
+        "actual_sha256": "6d9cfd09e41558949c9b585cc60e9d18b0f211d2668be21afef96c52a86c21a6",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/scorer.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/scorer.py",
+        "expected_sha256": "4d8075bd4065f0cf3c0a17a830185f2650eff925cdec977b8001fcfbab3bc383",
+        "actual_sha256": "4d8075bd4065f0cf3c0a17a830185f2650eff925cdec977b8001fcfbab3bc383",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/test_diagnostic_rescore.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/test_diagnostic_rescore.py",
+        "expected_sha256": "78b6cc98d8ca8c379e3e4597074d840a4c75131100c5466fce7b4cf21b841812",
+        "actual_sha256": "78b6cc98d8ca8c379e3e4597074d840a4c75131100c5466fce7b4cf21b841812",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/test_scoring_v3.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/scoring_v3/test_scoring_v3.py",
+        "expected_sha256": "29747d85d8a150be5d407a1942066bcac1fbbe5b5145def4c0d9db68e5b730db",
+        "actual_sha256": "29747d85d8a150be5d407a1942066bcac1fbbe5b5145def4c0d9db68e5b730db",
+        "status": "MATCH"
+      },
+      {
+        "historical_path": "research/word_scoring_new_family_20261027_v1/validation/validate_artifacts.py",
+        "resolved_path": "research/word_scoring_new_family_20261027_v1/validation/validate_artifacts.py",
+        "expected_sha256": "f7a2a714d499ff28891b2c0bba32c4e683bcd59dd14b8aab40a0ad720ecd918d",
+        "actual_sha256": "f7a2a714d499ff28891b2c0bba32c4e683bcd59dd14b8aab40a0ad720ecd918d",
+        "status": "MATCH"
+      }
+    ]
+  },
+  "paper_chain": {
+    "conversion_manifest_sha256": "91b396faf346d94e92678915137f58a2385614491825451786da33fe2e60591b",
+    "render_receipt_sha256": "f2dbb6880c28d96ce882abf9c43f4a2d8a8ac04b5ce1015d2bbb98ab36ef9f6d",
+    "items": [
+      {
+        "path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex",
+        "git_blob_id": "01bcf2e0d4a6c17d8692b4502c28909593bb5f4a",
+        "raw_sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734",
+        "bound_by": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_MANIFEST.json",
+        "hash_present_and_matching": true
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word.md",
+        "git_blob_id": "bbcc86c92715c07e860ecfdf3d9672106161e660",
+        "raw_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+        "bound_by": "research/word_scoring_new_family_20261027_v1/paper_e_word/CONVERSION_MANIFEST.json",
+        "hash_present_and_matching": true
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word_fixed.md",
+        "git_blob_id": "6a4e32c7a13d9533d12038d0de90587613992890",
+        "raw_sha256": "ac05bc8c578d87cff41ddec71d2990af1375b54cd71cbd76ae0a7453809a9fc1",
+        "bound_by": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md",
+        "hash_present_and_matching": true
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e.docx",
+        "git_blob_id": "e6dd174f842c6dfe1932745b4695a0260af37f17",
+        "raw_sha256": "227309b88ab9778bbd1ce9c181ed468773410d3afb7ec3fd6eeaaea50ad9d5e0",
+        "bound_by": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md",
+        "hash_present_and_matching": true
+      },
+      {
+        "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_final/paper_e.pdf",
+        "git_blob_id": "7d6377f871209656dcf7a71b38274a4dfe475606",
+        "raw_sha256": "231ae6e20a0b7362ce51bc3698e2947d4995a853c2077c36d065190b443a316f",
+        "bound_by": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md",
+        "hash_present_and_matching": true
+      }
+    ],
+    "interpretation": "Multiple receipts bind identity, not submission quality"
+  },
+  "raw_and_budget": {
+    "raw_rows": 24,
+    "arms": {
+      "D": {
+        "raw_rows": 8,
+        "outputs_at_512": 4,
+        "strict_whole_json": 0,
+        "extracted_interface": {
+          "FAIL": 4,
+          "PASS": 4
+        }
+      },
+      "T": {
+        "raw_rows": 8,
+        "outputs_at_512": 7,
+        "strict_whole_json": 0,
+        "extracted_interface": {
+          "FAIL": 7,
+          "PASS": 1
+        }
+      },
+      "M": {
+        "raw_rows": 8,
+        "outputs_at_512": 8,
+        "strict_whole_json": 0,
+        "extracted_interface": {
+          "FAIL": 8
+        }
+      }
+    },
+    "persisted_usage": {
+      "input_tokens": 28074,
+      "output_tokens": 12014
+    },
+    "persisted_total_tokens": 40088,
+    "conservative_receipt_total": 46054,
+    "difference_retained_as_uncertain": 5966,
+    "generation_receipt_sha256": "426dd16539e0307ac53179a97eda0e9e25942eb4abc7d9492a703c788f4a799a",
+    "no_new_generation_or_authorization": true
+  },
+  "contract_probe": {
+    "freeze_sha256": "e63ac80b0f6928bb0c1f94a95a836f75af083f64b894a2e24f923124d4535903",
+    "parser_sha256": "b92035de0fb497374a89e6e58380f215fc4686b149b2abe8a28b6cf6d2c482a4",
+    "typed_unknown_instructs_numeric_value": true,
+    "parser_has_exact_key_guard": true,
+    "instructed_unknown_keys_pass_typed_exact_guard": false,
+    "extra_key": "numeric_value",
+    "probe_scope": "Frozen key-guard counterexample, not actual model error attribution",
+    "reference_unit_ambiguities_need_separate_review": true,
+    "actual_frozen_function_probe": {
+      "status": "FAIL",
+      "reason": "typed_key_contract_mismatch",
+      "observed_keys": [
+        "answer",
+        "answer_type",
+        "clarification",
+        "evidence_refs",
+        "numeric_value",
+        "operands",
+        "operation",
+        "program",
+        "unit",
+        "unknown"
+      ],
+      "expected_keys": [
+        "answer",
+        "answer_type",
+        "clarification",
+        "evidence_refs",
+        "operands",
+        "operation",
+        "program",
+        "unit",
+        "unknown"
+      ]
+    }
+  },
+  "environment_file": {
+    "tracked_at_root": false,
+    "ignored_at_root": true,
+    "ignore_rule": ".gitignore:17:/.env\t.env",
+    "content_read": false,
+    "history_read": false,
+    "leak_established": false
+  },
+  "not_done": [
+    "GB10 live state or conversation-cleanup recheck",
+    "merge or checkout research branch",
+    "delete, move, archive local files or worktrees",
+    "Paper E editing or final submission audit",
+    "model generation, training, A/C dispatch",
+    "submission, publication, payment or contact"
+  ]
+}

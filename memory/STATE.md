@@ -1,13 +1,16 @@
 # Current State
 
-> Updated: 2026-10-27 | Scope: publication, thesis and bounded mechanism continuation
+> Updated: 2026-10-28 | Scope: handoff review and Paper E-first continuation proposal
 > 上一轮治理核验：`VERIFIED`；备份、三端对齐与工作区核验范围见治理报告，不替代本轮科研方法或投稿包验收。
 
 ## 当前任务
 
-Word交付、Scoring V3和同源新表族诊断已经A实作、D跨机渲染、C固定快照审阅；A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C结论为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E是14页内部渲染稿但仍有提交级排版/参考文献缺陷；D/T/M机制效应被512-token输出截断完全混淆，既不能判M有效，也不能判M无效。Owner要求暂停科研扩展，本轮状态收束在[D收尾回执](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，不再生成、派发、投稿或清理工作区。
+负责人已完成[本地交接复核](../docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)并原地更新唯一指令。新方案为Paper E优先、D直接完成修订、论文冻结后最多一次C（提案累计帽29）；科学生成/训练仍为0。**Owner转发接受前旧D继续暂停，当前A/C仍28/28，本会话未派发。** 不重开全景治理、不删除或移动本地副本。复核起点main=809c8b18与研究分支c644cb4f为5/7独有提交，指令提交后会前移；123个Word文件为38个逐字节镜像及85个本地独有。24个receipt改名内容一致；旧清单映射后84/86匹配，两份学位稿对应合并前hash，已保留版本差异。
 
-交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执的“新对话交接”](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续；A/C、raw、预算与Word证据在研究分支`c644cb4f`，本地未跟踪`paper_e_word/`保持原位。Paper E 身份核对使用 raw Git blob hash，避免把 Windows CRLF 工作树差异误判为内容漂移。交接后不启动A/C、模型、训练、投稿或外部联系。
+
+Word交付、Scoring V3和同源新表族诊断已经A实作、D跨机渲染、C固定快照审阅；A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C结论为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E是14页内部渲染稿但仍有提交级排版/参考文献缺陷；D/T/M机制效应受512-token截断和不等长输出合同混淆，既不能判M有效，也不能判M无效。Owner要求暂停科研扩展，本轮状态收束在[D收尾回执](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)，不再生成、派发、投稿或清理工作区。
+
+交接状态：`HANDOFF_READY / PAUSED`。新 Loop D 从 [D收尾回执的“新对话交接”](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续；A/C、raw、预算与Word证据在研究分支`c644cb4f`，本地未跟踪`paper_e_word/`保持原位。Paper E 身份核对使用 raw Git blob hash，避免把 Windows CRLF 工作树差异误判为内容漂移。在Owner接受新接任指令前，不启动A/C、模型、训练、投稿或外部联系；新指令仅提议恢复内部稿件及离线工作，C最多一次，科学生成/训练保持暂停。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
@@ -19,7 +22,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
 | Paper E 投稿路线 | [WORD_RENDER_RECEIPT](../research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md)、[ROUTE_REASSESSMENT](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：SNCS条件主投；当前Word为内部渲染稿，不是可提交终稿 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
-| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：本轮A/C28/28已执行并暂停；下一阶段只能修Paper E或申请新的D/T/M预算 |
+| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：本轮A/C28/28已执行并暂停；下一阶段提案为Paper E优先、D直接修订与最多一次C，D/T/M只准备离线判别卡 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
 | 最新科研回执 | [D_CLOSEOUT_RETURN](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)、[A_RETURN](../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../research/word_scoring_new_family_20261027_v1/audits/TASK_RESULT_C.json) |
 | 新对话交接 | [D_CLOSEOUT_RETURN § 新对话交接](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)：最少必读、Git/工作区、预算与授权边界 |
@@ -33,7 +36,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 ## 科学边界
 
 - C1 / Paper E：`WORD_INTERNAL_RENDER_WITH_DEFECTS`。14页DOCX/PDF已逐页渲染，但C列出提交级缺陷：五步冒充六步、表格/列表结构融合、部分表图标题不完整、书目/引文顺序问题。未达到可提交终稿。
-- C2/C3 新表族诊断：`MECHANISM_EFFECT_UNIDENTIFIED_OUTPUT_BUDGET_CONFOUNDED`。D/T/M结果真实，但512-token截断与臂完全共线；M没有公平试验。需新24-call高输出预算才能裁决，本轮不继续。
+- C2/C3 新表族诊断：`MECHANISM_EFFECT_UNIDENTIFIED_OUTPUT_BUDGET_CONFOUNDED`。D/T/M结果真实；24条严格whole-JSON均失败，达到512上限D/T/M分别4/7/8条。M没有公平试验；新复核还发现typed UNKNOWN指令含解析器禁止字段，不能只提高输出预算。先准备修订卡，未授权生成。
 - 以下 G2、G3 与旧第三研究点条目保留为历史边界和复用素材，不承担现役 C1/C2/C3 贡献身份。
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。

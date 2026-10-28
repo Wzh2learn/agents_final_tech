@@ -235,3 +235,11 @@ D 采纳的架构建议：Loop D 保持主脑；Loop A/C 演化为有边界的�
 - `coding-jinrong`、`graph-loop-b`、`opencode-serve`、`thinking-proxy`、
   `vllserve` 保持运行。`/home/testuser/wzh/loop_runs` 的 191 份 status
   和约 205 MB 日志作为科研证据原位保留。
+
+## 2026-10-28 科研负责人接任复核附注
+
+本附注补充交接，不改上面的历史raw、评分和成本。起点main=809c8b18与研究分支c644cb4f独有提交实际为5/7；新指令入库后main继续前移，启动时重算。123个本地Word文件为38个逐字节镜像与85个本地独有，本次未移动或删除。24个receipt改名内容一致；旧ARTIFACT_HASHES映射后84/86匹配，两份学位稿的预期hash对应A交付/合并前版本。论文五个主要载体raw hash由两份既有receipt共同绑定，身份核验不代表投稿终稿。
+
+负责人还确认typed UNKNOWN含numeric_value与exact-key guard冲突；这是静态合同反例，不是旧模型失败的已证归因。新方案改为Paper E优先、D直接修订、论文冻结后最多一次C（接受后的累计帽29），D/T/M先做离线修订卡，科学生成和训练暂停。仅有.env凭据形状不证明泄露，本次只核未跟踪/被忽略元数据，未读取内容。
+
+复核证据：[JSON](../../docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)。唯一接任指令仍为[LOOP_D_RESEARCH_PROMPT](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)，Owner转发接受前原D继续暂停；本次无A/C派发、科研生成/训练、GB10实测、分支合并或外部动作。

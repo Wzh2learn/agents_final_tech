@@ -1,10 +1,13 @@
 # Research Entry
 
-Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-27
+Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据
+
+[负责人接任复核](../governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)已核：起点main/research为5/7分叉，Word副本38个逐字节镜像与85个本地独有，24个receipt改名内容一致；旧清单84/86匹配，两份学位稿在合并后变更。新唯一指令为Paper E优先、D直接修订、最多一次C（提案累计帽29），D/T/M只备离线修订卡；Owner转发前仍暂停，本会话没有A/C或科研生成。
+
 
 Word交付、Scoring V3和同源新表族诊断已完成一轮A/D/C闭环，A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C裁决为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E为14页内部渲染稿但仍有提交级缺陷；D/T/M机制效应被输出预算截断混淆。Owner已要求暂停科研扩展，现役收尾见[D收尾回执](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)。
 
@@ -17,7 +20,7 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [WORD_RENDER_RECEIPT](../../research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md)、[SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：本轮已暂停；下一步只能修Paper E或申请新D/T/M预算 |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：本轮已暂停；新提案Paper E优先及一次C，D/T/M先核合同/参考后另提预算 |
 | 最新科研回执 | [D_CLOSEOUT_RETURN](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)、[A_RETURN](../../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../../research/word_scoring_new_family_20261027_v1/audits/TASK_RESULT_C.json) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
@@ -33,7 +36,7 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 研究线 | 当前判断与证据 |
 |---|---|
 | C1 测量 / Paper E | `WORD_INTERNAL_RENDER_WITH_DEFECTS`，受限两案例测量审计；14页DOCX/PDF已逐页渲染，但表图标题/编号、列表/表格结构、checklist和书目仍有提交级缺陷 |
-| C2/C3 同源新表族诊断 | `MECHANISM_EFFECT_UNIDENTIFIED_OUTPUT_BUDGET_CONFOUNDED`；D/T/M真实执行但512-token截断与臂完全共线，M未获公平试验。需新24-call高输出预算 |
+| C2/C3 同源新表族诊断 | `MECHANISM_EFFECT_UNIDENTIFIED_OUTPUT_BUDGET_CONFOUNDED`；D/T/M真实执行但长度/截断混淆，M未获公平试验；typed UNKNOWN也存在exact-key冲突，先核合同/参考，不默认24-call重跑 |
 | C2 学习 / 证据反馈 | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_CLAIM`。真实child-only训练完成但未满足有效ordinary续训；N/R/E是集合代理比较且有接口混杂，仅停止当前实现，不作为干净方法负结论 |
 | C3 交付 / 核验与修复 | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED`。回放上 neutral 62/72、original 60/72、localization 59/72，但 24/24 与 V4/V5 error pool 重合；只支持开发停止判断，不支持新 family 泛化 |
 | Paper E | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY`，完整派生稿、24/24 引用和Owner表已具备；正式TeX仍阻断；当前改走已安装Pandoc/LibreOffice的Word生产链，稿件验收及作者/许可/投稿仍待办 |
@@ -63,7 +66,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [claim/evidence matrix](../../paper/saner_rene_claim_matrix_v1.json)与[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)
 - [整合独立复核](../../research/research_portfolio_v2/PAPER_E_INDEPENDENT_REVIEW.md)与[投稿门禁](PAPER_E_SUBMISSION_READINESS_GATE_v1.md)
 
-当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。9pt、12页 PDF、目标包审计和私有 artifact 复现已完成；当前建议SNCS订阅条件主投、ICAART历史时间门备选；SNCS实质派生稿待交付，Owner最终渠道与外部动作待确认；正式动作前核官方窗口和总成本。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
+当前范围为两个测量审计案例，FinQA 归入 Case 1，FinRank 为 Case 2。9pt、12页 PDF、目标包审计和私有 artifact 复现已完成；当前建议SNCS订阅条件主投、ICAART历史时间门备选；14页Word派生稿已有内部渲染，但尚待提交级修订，Owner最终渠道与外部动作待确认；正式动作前核官方窗口和总成本。原修订稿、旧审稿与各次 gate 保留为历史证据，不构成第二份现役主稿。
 
 ## 学位范围与历史
 

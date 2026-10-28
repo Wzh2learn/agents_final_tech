@@ -275,3 +275,8 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 ## [2026-10-27] 条件审阅后暂停：不把输出截断当机制结论
 结论：Scoring V3、同源8-family曝光和持久预算接受；Paper E仅内部渲染可审阅，Word仍有提交级缺陷。D/T/M与512-token输出截断完全共线，M没有公平试验，停止追加生成，不判M有效或无效。A/C28/28耗尽，本轮27次预留、46,054 input+output tokens、训练0；下一机制实验必须另给24-call高输出预算，或先修Paper E。依据research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md与D_CLOSEOUT_RETURN.md。
 理由：界面完成度、截断和方法机制必须分离；剩余9次预留不足以完成C要求的同面板重跑，继续调用只会制造不可识别结果。历史raw、评分、账本和C审计保持原样，工作区清场等待用户确认。
+
+## [2026-10-28] 接任方案Paper E优先，合同先于模型重跑
+
+结论：本地只读复核接受38/85分类与24个receipt改名，纠正起点分叉为5/7；旧manifest在路径映射后84/86匹配，两份学位稿保留合并前后身份。typed UNKNOWN的numeric_value违反精确keys；D/T/M机制仍未识别，不能只加大token重跑。唯一prompt原地更新为D直接完成Paper E内部修订、冻结后最多一次C（拟28→29），科研生成/训练为0。Owner转发前维持暂停，本会话未派发。
+理由：避免又一轮全景治理和Paper E/实验二选一；D主导与A/C按需是工作分工，不改现役harness/路由。当前hash链只证明身份，非投稿质量。根.env忽略且未跟踪的元数据不构成泄露证据；本次未读取凭据或历史、未清理文件。范围与复放见docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json。

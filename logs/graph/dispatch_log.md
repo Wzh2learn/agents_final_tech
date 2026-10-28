@@ -1388,3 +1388,6 @@ echo dispatch_log updated
 
 
 [2026-10-27] ADAPTIVE-MECHANISM-POST-RETURN-REVIEW: Root on70e06ebe independently replayed three36-row variants with full equality and ran31 focused tests on GB10 Python3.12. Added paired-role/mixed-reference controls and five numeric-field mutations; preserved historical artifacts. Current prompt proposes Word delivery, bounded scoring correction and a new-family mechanism diagnostic. Additional2 A/C (proposed cap28) and retargeting unused36/240k subbudget require Owner acceptance; no A/C dispatched, no scientific generation/training/judge/production or external action. Evidence: docs/governance/audit/loop_d_control_review/ADAPTIVE_MECHANISM_POST_RETURN_REVIEW.*.
+
+
+[2026-10-28] NEW-LOOP-D-HANDOFF-REVIEW-PREPARED: 科研负责人以main@809c8b18、research@c644cb4f做本地离线blob/元数据核验：分叉5/7；Word123=38 exact+85 local-only；24receipt改名不变；历史manifest映射后84/86匹配，2份学位稿为合并前hash；typed UNKNOWN与exact-key冲突。唯一prompt原地更新为Paper E优先、D直接修订及一次C提案（接受后累计29；现用仍28），科学生成/训练0。Owner未转发前维持PAUSED。本会话0 A/C派发、0科学生成/训练/judge、0 GB10探测、0分支合并/清理/外部动作。证据：docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json。

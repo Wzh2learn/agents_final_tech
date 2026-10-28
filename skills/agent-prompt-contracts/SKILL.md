@@ -74,3 +74,14 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **对策**：A/C都绑定 `docs/research/LOOP_D_RESEARCH_PROMPT.md` 和当前任务卡版本/hash；执行位、学生规模、父checkpoint、范围与预算来自现役授权。科研C按任务卡读取冻结raw、参考和评分器，先独立复算后读A解释；业务verifier的既有白名单仍只在其业务任务适用。
 - **验证方式**：静态核验A/C均引用唯一现役指令，退出旧阶段/服务器/学生默认；定点文档治理测试、skill分发比对及源码diff。该检查证明指令一致性，不证明harness已经启动或模型实验成功。
 - **证据**：`docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md`（GB10 ordinary资产）；`docs/research/LOOP_D_RESEARCH_PROMPT.md`（当前角色/任务/预算）；本次A/C指令diff及Graph Loop执行交接核验。未声称已观察到一轮受该旧指令阻断的模型实验。
+
+## C-3 先核完整合同，再归因输出预算（2026-10-28）
+
+- **失败模式（静态反例）**：固定D/T/M快照中，T/M的UNKNOWN指令包含`numeric_value=null`，typed解析器却要求不含该字段的精确keys。按该指令提供字段会被拒；旧输出又有19/24达到512上限，不能仅加大上限就宣称完成公平机制比较。
+- **对策**：生成前把答案与UNKNOWN的完整schema、prompt示例、解析器allowed keys成对核验；strict whole-JSON、embedded提取和语法适配分报。有合同或参考修订时冻结新版本，保留历史raw与分数；输出长度、thinking和额外字段负担作为实验对照，而非事后免费修复。
+- **验证方式**：只读固定Git blob；确定性合法/非法key集合控制及字节/hash负例通过。该反例证明合同不一致，不证明它导致旧24条中的具体模型失败，不声称已运行新模型。科研C可读取固定raw和参考，不受业务summary-only限制。
+- **证据**：`docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json`的`contract_probe`；同目录`review_loop_d_handoff_20261028.py --self-test`；现役`docs/research/LOOP_D_RESEARCH_PROMPT.md`第6节。版本化技能源与本机两份既有安装受控同步，未安装新技能或改harness配置。
+
+## Completion and verification
+
+修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
