@@ -1,7 +1,7 @@
 {
   "schema": "paper_e_word_conversion_manifest_v2",
   "date": "2026-10-28",
-  "bound_to_commit": "fb8b7be5ed4421aa1f45ad432a05d4e5cc2e6e60",
+  "bound_to_commit": "34d386fc64b1976997df7396f6d188f8511bb246",
   "bound_to_note": "Commit at build time. Only this manifest file differs between that commit and the one carrying it; every artifact hash above matches the blobs at that commit.",
   "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
   "hash_rule": "raw_blob_sha256 is the identity value. worktree_sha256 is recorded separately because core.autocrlf=true makes the Windows checkout CRLF; a pair marked CRLF_CHECKOUT_ONLY differs only by line endings.",
@@ -38,19 +38,19 @@
   "artifacts": {
     "paper_e_revision_v4.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v4.md",
-      "git_blob_oid": "HEAD:research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v4.md",
-      "raw_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "bytes": 0,
+      "git_blob_oid": "71ef972ad0c43d38cbcd595bb8f4141ce3795fef",
+      "raw_blob_sha256": "3391f58faf9564c97e2c4fdc8aa8ffe8ce0a391e12883d525fd5689471f75706",
+      "bytes": 57577,
       "worktree_sha256": "587347ff32c2c111cab30499f0bd0a309d0986b0a5d890e51de291257034da03",
-      "worktree_vs_blob": "CONTENT_DIFFERS"
+      "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
     },
     "build_revision_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_revision_v2.py",
-      "git_blob_oid": "977190b4cd02e419a4a3fe330efd01f723720177",
-      "raw_blob_sha256": "9c5550cf683fdaf759a59b2b30b18dd4e4be5bd4945598962ea1ee48ff3ad918",
-      "bytes": 45378,
+      "git_blob_oid": "519957e08ee7c20f1175be9c39e03d41d4182822",
+      "raw_blob_sha256": "874d8e8e78132383dcb7b2e753593b4bb15a25518c90cf037f3a2291b80a15fe",
+      "bytes": 47105,
       "worktree_sha256": "874d8e8e78132383dcb7b2e753593b4bb15a25518c90cf037f3a2291b80a15fe",
-      "worktree_vs_blob": "CONTENT_DIFFERS"
+      "worktree_vs_blob": "IDENTICAL"
     },
     "polish_docx_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/polish_docx_v2.py",
@@ -62,11 +62,11 @@
     },
     "verify_revision_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/verify_revision_v2.py",
-      "git_blob_oid": "58b7162c144a21a5daedbca7a2e82f0f391b634b",
-      "raw_blob_sha256": "886681555686c96673c099f4e35e803f2f98734881c2208f8f53a3a111b63df3",
+      "git_blob_oid": "f5df3fafc56fbd9a501a4dbc05bf71b222328c4c",
+      "raw_blob_sha256": "e05fde214248191d088cb66b7d254bad032274b36878fb2c1e1474acc40cf0a0",
       "bytes": 11093,
       "worktree_sha256": "e05fde214248191d088cb66b7d254bad032274b36878fb2c1e1474acc40cf0a0",
-      "worktree_vs_blob": "CONTENT_DIFFERS"
+      "worktree_vs_blob": "IDENTICAL"
     },
     "BUILD_COMMANDS_V2.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/BUILD_COMMANDS_V2.md",
@@ -118,19 +118,19 @@
   "outputs": {
     "paper_e_revision_v4.docx": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v4.docx",
-      "git_blob_oid": "HEAD:research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v4.docx",
-      "raw_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "bytes": 0,
+      "git_blob_oid": "31923823335928af94200f6c373b1edbfdac634a",
+      "raw_blob_sha256": "776b2832d9715c177699bd9a4a384da8a56d347774f1fef7af590f19e91f38cd",
+      "bytes": 715261,
       "worktree_sha256": "776b2832d9715c177699bd9a4a384da8a56d347774f1fef7af590f19e91f38cd",
-      "worktree_vs_blob": "CONTENT_DIFFERS"
+      "worktree_vs_blob": "IDENTICAL"
     },
     "rendered_v4/paper_e_revision_v4.pdf": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/paper_e_revision_v4.pdf",
-      "git_blob_oid": "HEAD:research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v4/paper_e_revision_v4.pdf",
-      "raw_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "bytes": 0,
+      "git_blob_oid": "ad26b518198968d23df578118f3cc32f95f4b045",
+      "raw_blob_sha256": "2bb17f17c52c53581779d4e06a87d8c886adf40ddf93f2ecc00c3fdbcf913736",
+      "bytes": 667948,
       "worktree_sha256": "2bb17f17c52c53581779d4e06a87d8c886adf40ddf93f2ecc00c3fdbcf913736",
-      "worktree_vs_blob": "CONTENT_DIFFERS"
+      "worktree_vs_blob": "IDENTICAL"
     }
   },
   "figures": {
