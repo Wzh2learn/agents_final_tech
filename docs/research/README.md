@@ -6,12 +6,9 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
 ## 当前任务与证据
 
-[负责人接任复核](../governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)已核：起点main/research为5/7分叉，Word副本38个逐字节镜像与85个本地独有，24个receipt改名内容一致；旧清单84/86匹配，两份学位稿在合并后变更。新唯一指令为Paper E优先、D直接修订、最多一次C（提案累计帽29），D/T/M只备离线修订卡；Owner转发前仍暂停，本会话没有A/C或科研生成。
+[最新负责人增量复核](../governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)接受Paper E实际转换/正文修复，并纠正C额度与D实作授权的混淆。D继续从已有SVG完成三图、DOCX/PDF重建与自验；A/C累计29/29不追加派发。作者声明与正式投稿仍待Owner，内部图像修订无需再申请许可。
 
-
-Word交付、Scoring V3和同源新表族诊断已完成一轮A/D/C闭环，A/C累计28/28，本轮27次物理预留、46,054 input+output tokens、训练0。C裁决为`CONDITIONAL`：Scoring V3、曝光/冻结和持久预算成立；Paper E为14页内部渲染稿但仍有提交级缺陷；D/T/M机制效应被输出预算截断混淆。Owner已要求暂停科研扩展，现役收尾见[D收尾回执](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)。
-
-A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适配已阻止旧1)0→10反例，strict/embedded分报。旧诊断与24/24错误池回放均保留开发身份，C2/C3方法尚未成立；340 token差额继续保守保留。参见[Phase A](../governance/audit/loop_d_control_review/PHASE_A_RETURN.md)。
+D/T/M旧24条仍不能识别机制效应。离线卡误读unit_reference（实际unit为3 percent、1 thousand、4 UNKNOWN），格式停止判据和35请求预算也需修正。新科研生成/训练保持0。当前在现成集成worktree接续；123个本地主工作树副本原位保留，不以main路径冲突阻断修稿。现役执行只读[唯一指令](LOOP_D_RESEARCH_PROMPT.md)，历史回执保持日期身份。
 
 | 用途 | 权威记录 |
 |---|---|
@@ -20,8 +17,8 @@ A确认单位题不可推断尺度，唯一可修引用题0/1；安全尾部适�
 | 修订算子诊断 | [RETURN](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json)、[RESOURCE](../../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_RESOURCE_RECEIPT_V1.json) |
 | Paper E 路由与办理 | [WORD_RENDER_RECEIPT](../../research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md)、[SNCS_DERIVED_PACKAGE](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/)、[OWNER_SHEET](../../research/publication_proxy_calibration_20261026_v1/paper_e_sncs/OWNER_DECISION_SHEET.md) |
 | 当前科研基线、资产与实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[RECONCILIATION](../../research/research_baseline_governance_20261023/RECONCILIATION.json) 保存复算、hash 与来源关系 |
-| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：本轮已暂停；新提案Paper E优先及一次C，D/T/M先核合同/参考后另提预算 |
-| 最新科研回执 | [D_CLOSEOUT_RETURN](../../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)、[A_RETURN](../../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../../research/word_scoring_new_family_20261027_v1/audits/TASK_RESULT_C.json) |
+| 唯一执行正文 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)：D先完成Paper E图像与重渲染，再纠正离线实验卡；29/29不追加派发，无新科研生成 |
+| 最新科研回执 | [D_LOOP_RETURN](../../research/word_scoring_new_family_20261027_v1/D_LOOP_RETURN_20261028.md)、[C审阅](../../research/word_scoring_new_family_20261027_v1/audits/C_PAPER_E_V2_REVIEW.md)、[负责人增量复核](../governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md) |
 | 本轮治理、资产分类与 Git 收口 | [工作区治理报告](../governance/2026-10-21_workspace_git_closeout.md)；跨主机与分支实况以报告的最终核验为准 |
 | 发表/学位当前账本 | [RESOURCE_LEDGER](../../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：不含独立Phase B的历史阶段4,064 accounting attempts / 9,169,672 tokens；训练3,495,424已含总量；事件复算9,169,332，340差额待核，保持原保守记账 |
 | 历史 Portfolio V2 账本 | [COST_AND_CANDIDATES.json](../../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；失败调用补记采用 post-hoc adjustment，原始回执不改 |
@@ -58,7 +55,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 - [依赖合同来源审计](../../research/research_portfolio_v2/pymigbench_external_change_v1/DEPENDENCY_CONTRACT_AUDIT.json)：36 条候选中 33 条可审计；manifest diff 缺失不等于不存在迁移意图。
 - [Adaptive V3 可重放环境](../../research/adaptive_revalidation_v3/README.md)：透明机制、预算曲线和能力边界可复用；已有 fixture 结果不应包装为真实分布泛化。
 
-这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。A已完成增量核对，B方案待Owner转发；D/A/C按监督资格—同起点开发—隔离确认推进，340差额不阻塞新阶段，不重复关闭配方。Paper E 首投保持两案例，12 页费用和缺项见 [OWNER_DECISIONS_REQUIRED](../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/OWNER_DECISIONS_REQUIRED.md)。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
+这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。历史阶段按监督资格—同起点开发—隔离确认推进的证据保留；现阶段D先完成Paper E图像与重渲染，科研生成/训练仍未授权。340差额保守保留。Paper E首投仍为两案例，当前作者/外部事项以THREADS为准，旧12页会议费用表仅作历史材料。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
 
 ## Paper E 唯一写作线
 

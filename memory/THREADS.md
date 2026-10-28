@@ -17,22 +17,22 @@ Loop D 已于 2026-10-28 接任并执行完本轮授权：Paper E 实质修订�
 | UNIT-OBSERVABILITY | `UNOBSERVABLE_UNIT_CASE_EXCLUDED_FROM_INFERABLE_DENOMINATOR` | [A回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已确认单位尺度不可见；仅可修引用题0/1，后续监督按可观测性资格核验 |
 | ADAPTER-SEMANTICS | `SAFE_TAIL_AND_STRICT_SPLIT_VERIFIED_PHASE_A` | [A复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)已阻止1)0→10反例，raw/strict/embedded分开；不把旧适配器继续写成现役实现，未来合同仍需C核验 |
 | NEXT-C2-SUPERVISION | `SCORING_V3_CONFIRMED_DTM_EFFECT_UNIDENTIFIED` | [C审阅](../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md)确认三类配对控制与纯重评；D/T/M有输出长度/截断混淆，M未获公平试验；typed UNKNOWN还存在exact-key冲突。修订卡需先核合同与参考，不能默认加长后24-call重跑 |
-| NEXT-PHASE-BUDGET | `28_USED_27_RESERVATIONS_PAUSED` | A/C28/28；本轮27次预留、24条raw、46,054 input+output、0训练。全局保守余377次/2,543,008 tokens；36次子预算余9次但不足以重跑24-call面板 |
+| NEXT-PHASE-BUDGET | `29_USED_NO_NEW_DISPATCH_OR_SCIENTIFIC_RUN` | A/C累计29/29；历史27次预留、24条raw和46,054 tokens保留。全局保守余额不是开跑许可；35请求卡输入/重试预算未闭合，需离线重写后再申请 |
 | P2-CALIBRATION-NEXT | `QUESTION_ONLY_STOP_ACCEPTED_DEVELOPMENT_ONLY` | blank-type为12/19/5，question-only为31/5；mean信号真实可见，count/span依赖题面规则。停止冻结面板方法候选，不称通用answer-type推断或跨来源方法 |
 | C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止；[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)补充有效父模型与代理指标缺陷，不支持干净方法负结论或反馈学习普遍无效 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
 | PAPER-E-ROUTE | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY_ICAART_TIME_GATED` | [渠道复核](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：ICAART实时官网不可用且前置条件未齐；Owner仍需最终确认，未投稿/付款/公开 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `TEXT_READY_ARTWORK_OPEN` | 14页DOCX/PDF重渲染并逐页自审；上轮正文缺陷全部关闭（六步已复原、列表与题注不再融合、4表3图编号与交叉引用一致、24条书目编号与作者式修正）。仍开放：三图 277/277/246 dpi 且图内含标题（C 判定阻断，D 明确未修）、声明占位、标题大小写 |
-| DTM-MECHANISM-RERUN | `DECISION_CARD_READY_AWAITING_OWNER_BUDGET` | [决策卡](../research/word_scoring_new_family_20261027_v1/DTM_DECISION_CARD_20261028.md)已出：旧512上限中推理占84.5–89.9%、答案仅44.6–58.9 token；合同可满足D4/T1/M0 跟随合同长度而非机制。需Owner先定 Q1（关thinking+384 或 留thinking+1024）、Q3 单位裁定规则、以及35请求/token上界。本轮生成0，未改任何历史raw |
-| WORKSPACE-INTEGRATION | `MERGED_IN_INTEGRATION_WORKTREE_MAIN_NOT_ADVANCED` | 研究分支已在 `_loop_d_integration_20261028` 普通合并（无冲突，`e052f706`），三端该分支同为 `808cd891`；主工作树的123个未跟踪Word副本原位保留，正因占住合并路径，本地 `main` 仍为 `f0c246df`。要推进main需Owner先决定该副本去留（本轮按指令不清场）。派生索引 84/86 匹配、24项改名一致、两份学位稿为合并前版本 |
+| PAPER-E-SUBMISSION | `INTERNAL_ARTWORK_FIX_CONTINUES` | 转换/正文修复已通过源重建与定点检查；三图、声明仍开放。D直接从源重导出并重渲染、自验、更新manifest，不需追加C或图片许可；C后修改未获独立复审 |
+| DTM-MECHANISM-RERUN | `CARD_REQUIRES_FIELD_CAUSALITY_METRIC_BUDGET_CORRECTIONS` | [负责人复核](../docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)：实际8/8含unit，不是unit_reference全缺；分段不识别因果；格式率持平不能停止M；推理不重复加账；35请求未闭合。D离线修卡，生成仍0 |
+| WORKSPACE-INTEGRATION | `CONTINUE_EXISTING_INTEGRATION_WORKTREE_PRESERVE_123_FILES` | 负责人本地复核起点集成分支c33c14bf、主工作树main f0c246df；123个未跟踪文件原位保留。主树合并路径冲突不阻断集成分支修稿；本次未复核GB10，后续同步实测后再报 |
 | HISTORICAL-CREDENTIAL-CARRIERS | `IGNORED_UNTRACKED_NO_LEAK_ESTABLISHED_NOT_A_BLOCKER` | 本次只核根.env未跟踪且被忽略，不读取内容或历史；先前“凭据形状”不能单独证明泄露，不要求轮换/迁移以完成科研交接。若将来有实际暴露证据再按证据处置，本轮未触碰 |
-| PAPER-E-CONTINUATION | `EXECUTED_C_DISPATCH_EXHAUSTED` | 内部修订与渲染已完成；唯一一次C已用（累计29/29，17分42秒，20/20工具调用），无剩余C额度。C之后的正文修改未获独立复审，此边界须带到投稿决策 |
-| THESIS-DOC-CONTINUITY | `CLOSEOUT_PAUSED_AFTER_CONDITIONAL_C` | 中文正文已含A阶段结果；C条件、Word缺陷和D/T/M混淆以[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)为现役补充，不把旧实验拆成新贡献 |
-| OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、资助与利益冲突、作者贡献、专利、artifact许可与公开、正式投稿付款及学校认定；另加：是否授权重导出三张图（分辨率与图内标题）、是否接受D/T/M新预算 |
+| PAPER-E-CONTINUATION | `D_SELF_VERIFIES_REMAINING_INTERNAL_WORK_NO_C_REDISPATCH` | C已审08be0547且29/29用尽。D继续已授权的图片/稿件内部修订和自验，保留未经再次独立复审边界。C规则文件改写事件保留恢复证据，不扩展基础设施工程 |
+| THESIS-DOC-CONTINUITY | `CONTINUE_PAPER_E_METHOD_EFFECT_UNIDENTIFIED` | 2027年10月送审日未定；Paper E两案例继续，C2/C3仍候选。旧raw/负结果保留，不把格式工程、治理和同一机制拆成三个创新点 |
+| OWNER_EXTERNAL_ACTIONS | `AUTHOR_DECLARATIONS_ROUTE_AND_EXTERNAL_ACTIONS` | 作者/北邮单位/通讯、资助/利益冲突、作者贡献、AI披露最终确认、专利/artifact许可与公开、渠道和正式投稿及适用费用/学校认定。新科研预算另行接受；不再把内部图像重导出、字段核验列为Owner许可 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。本轮范围以唯一指令和Owner转发为准；历史广泛授权不恢复停止面板 |
-| SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |
+| SKILL-METADATA-DEBT | `KNOWN_WARNINGS_AND_SOURCE_CONTRACT_UPDATE_NOT_DISTRIBUTED` | 历史skill-doctor为0 errors/141 warnings；本次仅补录版本化prompt契约，未同步机器安装。集成worktree为稀疏checkout，本地docs_lint的source missing/安装比较不是完整跨机分发验收；不阻断论文实作 |
 
 旧 `MIGRATION-ORACLE-DESIGN`、`REVALIDATION-POLICY-DESIGN`、`G2-STATE-ACTION`、`G3-INCREMENTAL-EVIDENCE` 和 `NEXT-STATE-ACTION-EXPERIMENT` 已降为历史研究线，现役入口统一使用 C1 测量、C2 学习、C3 交付；原始证据和停止结论不改写。
 

@@ -1,6 +1,8 @@
 # D/T/M 下一判别实验 — 决策卡
 
-日期：2026-10-28。状态：**离线准备完成，科研生成 0、训练 0、判分 0**。
+日期：2026-10-28。状态：**REQUIRES_OFFLINE_CORRECTION；科研生成0、训练0**。
+
+> 负责人增量复核：本卡下列旧内容尚待D原地修订，不能作为开跑方案。Q3误读不存在的`unit_reference`；实际`unit`为3 percent、1 thousand、4 UNKNOWN。分段统计不能升级为已识别合同因果效应；§6第3条错误地以格式率持平停止方法；§5未覆盖全部输入与物理重试。详见[复核](../../docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)及唯一现役指令。推理已包含在历史output总量，不能重复加账。下文保留返还时的原提案，待修订，不是接受的科研结论。
 本卡只回答“是否值得再花一次预算，以及花在什么合同上”，不构成开跑许可。
 
 配套证据：`validation/DTM_SEGMENT_SPLIT_20261028.json`（逐行分段 token 度量）、

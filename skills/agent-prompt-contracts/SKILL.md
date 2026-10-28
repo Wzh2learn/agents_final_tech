@@ -82,6 +82,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证方式**：只读固定Git blob；确定性合法/非法key集合控制及字节/hash负例通过。该反例证明合同不一致，不证明它导致旧24条中的具体模型失败，不声称已运行新模型。科研C可读取固定raw和参考，不受业务summary-only限制。
 - **证据**：`docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json`的`contract_probe`；同目录`review_loop_d_handoff_20261028.py --self-test`；现役`docs/research/LOOP_D_RESEARCH_PROMPT.md`第6节。版本化技能源与本机两份既有安装受控同步，未安装新技能或改harness配置。
 
+## C-3补充：字段存在、接口资格与方法效应分层（2026-10-28）
+
+- **失败模式（固定参考复算）**：D/T/M决策卡把不存在的`unit_reference`全None解释为8条参考都缺单位，实际8/8含`unit`；另把格式合规率持平作为停止M的语义方法判据。C额度耗尽被错误延伸为D不能继续已授权的内部图像修订。
+- **对策**：先验证schema字段存在再判断缺失，UNKNOWN与缺字段分列；接口资格和语义/风险/成本增量分开；审阅派发额度不代替已授权实作范围。科学总output与reasoning细分不重复记账。
+- **验证方式**：冻结JSON字段控制为unit=8/8、unit_reference=0/8，单位分布3/1/4；核现役指令明确D可继续修图、29/29不追加派发、新科研生成仍为0。仅静态与离线复算，不代表新模型比较或论文图像已修完。
+- **证据**：`docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md`；固定起点`c33c14bf`的`research/word_scoring_new_family_20261027_v1/exposure/PANEL_FREEZE.json`与`DTM_DECISION_CARD_20261028.md`。本次只更新版本化技能源，未同步机器安装或修改harness。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
