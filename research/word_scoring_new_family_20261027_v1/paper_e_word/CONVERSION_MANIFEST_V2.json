@@ -1,24 +1,28 @@
 {
   "schema": "paper_e_word_conversion_manifest_v2",
   "date": "2026-10-28",
+  "bound_to_commit": "2182fbaf5bab961fc8fa87117d6d2fa9c53e096b",
   "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
+  "hash_rule": "raw_blob_sha256 is the identity value. worktree_sha256 is recorded separately because core.autocrlf=true makes the Windows checkout CRLF; a pair marked CRLF_CHECKOUT_ONLY differs only by line endings.",
   "production_source": {
     "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.md",
-    "sha256": "832c73c9c4ee0adf014f4c11dc1966e5799636a7c18eddae8ca2a9095097a104",
     "role": "single editable body; DOCX and PDF derive from this file only"
   },
   "frozen_inputs": {
     "paper_e_word.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_word.md",
       "git_blob_oid": "bbcc86c92715c07e860ecfdf3d9672106161e660",
       "raw_blob_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
       "modified": false
     },
     "references.bib": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/references.bib",
       "git_blob_oid": "d5cc241f91e77e088f81515f493b03a635ccf043",
       "raw_blob_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
       "modified": false
     },
     "reference_style.docx": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/reference_style.docx",
       "git_blob_oid": "e44d819e14e804b8d4cd8fec17d72ce49440b0dd",
       "raw_blob_sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0",
       "modified": false
@@ -27,48 +31,123 @@
       "path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex",
       "git_blob_oid": "01bcf2e0d4a6c17d8692b4502c28909593bb5f4a",
       "raw_blob_sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734",
-      "modified": false,
-      "used_for": "verbatim restoration of contribution 3 and checklist step 6"
+      "modified": false
     }
   },
-  "build_scripts": {
-    "build_revision_v2.py": "afc52975197411284682af0ff2eb32f9a6d8502f30e6ad8668938945541fd68a",
-    "polish_docx_v2.py": "de52a6cb921f32bc99d938605d4c31ec1d805b2ff6c4d8161ca221db455ab20d",
-    "verify_revision_v2.py": "dd35bdb407b1501ed81038b8e69639b571b3da64df99d1f35b940aa0a055d167"
+  "artifacts": {
+    "paper_e_revision_v2.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.md",
+      "git_blob_oid": "c6193020224e20fab32d2c2bd762b4a723ee35aa",
+      "raw_blob_sha256": "6b458db29589a7858d25b046e5df45220a9f9ac491dac6d381f5bfc3e93e1791",
+      "bytes": 51356,
+      "worktree_sha256": "9973e321d33549cc3d680049821adc5a1c8c9efa2488f821e50b7f830c7181ed",
+      "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
+    },
+    "build_revision_v2.py": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_revision_v2.py",
+      "git_blob_oid": "a78057b1efd88287f4750aea428a4ccece821e7e",
+      "raw_blob_sha256": "a60d608838143529e6f8076ff42a7ba0ebe72c43aa347520dc0185b0145c5807",
+      "bytes": 36013,
+      "worktree_sha256": "cb237995a36c00c6b8141e4cdabcfb1aac18f7f0549f55dffd0d7524a6162dc7",
+      "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
+    },
+    "polish_docx_v2.py": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/polish_docx_v2.py",
+      "git_blob_oid": "fe2fe339508e3848cd6ce24abe176ea14f28b37f",
+      "raw_blob_sha256": "d84b8306d47530f779b3a1dc965ce1684cc7c4d960551a9af565491724519e86",
+      "bytes": 8897,
+      "worktree_sha256": "d84b8306d47530f779b3a1dc965ce1684cc7c4d960551a9af565491724519e86",
+      "worktree_vs_blob": "IDENTICAL"
+    },
+    "verify_revision_v2.py": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/verify_revision_v2.py",
+      "git_blob_oid": "f770e1d7015257ca3262f1977314651a47468980",
+      "raw_blob_sha256": "f22a642f47bc9cfc819ca2e4cb763bfca132d5bb43322228971af80ac1bba2b2",
+      "bytes": 11093,
+      "worktree_sha256": "dd35bdb407b1501ed81038b8e69639b571b3da64df99d1f35b940aa0a055d167",
+      "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
+    },
+    "BUILD_COMMANDS_V2.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/BUILD_COMMANDS_V2.md",
+      "git_blob_oid": "50556c1f59c97c4ec01ae85fcc0901856b36eb66",
+      "raw_blob_sha256": "3ba39d48db57436eb3414a83a4cee6d14a23ce2f5c7bbca6dc7818d18bae2dc9",
+      "bytes": 4032,
+      "worktree_sha256": "3ba39d48db57436eb3414a83a4cee6d14a23ce2f5c7bbca6dc7818d18bae2dc9",
+      "worktree_vs_blob": "IDENTICAL"
+    },
+    "D_REVISION_NOTES_20261028.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_REVISION_NOTES_20261028.md",
+      "git_blob_oid": "16789eeeaa30faaac859dbb7ccf7171490f1e68c",
+      "raw_blob_sha256": "3a2f3d265ee6430d4a80f982d2392667507bb8355297dfb51db887ea1cd64ce2",
+      "bytes": 15970,
+      "worktree_sha256": "3a2f3d265ee6430d4a80f982d2392667507bb8355297dfb51db887ea1cd64ce2",
+      "worktree_vs_blob": "IDENTICAL"
+    },
+    "SNCS_GUIDELINE_CHECK_20261028.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/SNCS_GUIDELINE_CHECK_20261028.md",
+      "git_blob_oid": "faaba3608b1ee1e9a90a943c09d8db348bf2618c",
+      "raw_blob_sha256": "0ffb218f07cb11379ffde7b453877ff8c261d8efb727b0f2db1763d133f0f3c5",
+      "bytes": 4564,
+      "worktree_sha256": "0ffb218f07cb11379ffde7b453877ff8c261d8efb727b0f2db1763d133f0f3c5",
+      "worktree_vs_blob": "IDENTICAL"
+    },
+    "C_RESPONSE_AND_DISPOSITION_20261028.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/C_RESPONSE_AND_DISPOSITION_20261028.md",
+      "git_blob_oid": "da7ac5a8240bbec25e3c3d1e4e9eefd4d0860f7a",
+      "raw_blob_sha256": "fb61e146397152009f712e03020dc21382e8bd3d188ca8fddaa7fb2724783929",
+      "bytes": 7832,
+      "worktree_sha256": "fb61e146397152009f712e03020dc21382e8bd3d188ca8fddaa7fb2724783929",
+      "worktree_vs_blob": "IDENTICAL"
+    }
   },
-  "build_log": "REVISION_V2_BUILD_LOG.json",
-  "lint_receipt": "research/word_scoring_new_family_20261027_v1/paper_e_word/../validation/REVISION_V2_LINT.json",
   "outputs": {
     "paper_e_revision_v2.docx": {
-      "bytes": 308279,
-      "sha256": "7f3d35058d00f646b3c3c11a7167995f8c23493566578c0f6dc816a7d342fd89"
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.docx",
+      "git_blob_oid": "cb574757496e0adf2473bdb891cdc7133b465475",
+      "raw_blob_sha256": "8c26bb0e20ee3e7fb737ecc520d3e47fbf7057f89fed80a7229f04aafc83818f",
+      "bytes": 308566,
+      "worktree_sha256": "8c26bb0e20ee3e7fb737ecc520d3e47fbf7057f89fed80a7229f04aafc83818f",
+      "worktree_vs_blob": "IDENTICAL"
     },
-    "paper_e_revision_v2.pdf": {
-      "bytes": 431566,
-      "sha256": "bf0496911487df07f4d5420954d292bc589194e165bcc1e6f4b781405c5f79f8",
-      "pages": 14,
-      "page_px": "1020x1320 at 120 DPI"
-    },
-    "page_hashes": "D_PAGE_HASHES_V2.sha256"
+    "rendered_v2/paper_e_revision_v2.pdf": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/paper_e_revision_v2.pdf",
+      "git_blob_oid": "26bf0e6524042142e3e4d8804d92c93637356a24",
+      "raw_blob_sha256": "d1d51f2795cd94e8b66ac93bec1e6ef8b59387a373a32f74c1ef13f8ecbebd11",
+      "bytes": 432240,
+      "worktree_sha256": "d1d51f2795cd94e8b66ac93bec1e6ef8b59387a373a32f74c1ef13f8ecbebd11",
+      "worktree_vs_blob": "IDENTICAL"
+    }
   },
   "figures": {
     "fig1_measurement_chain.png": {
-      "bytes": 107052,
-      "sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af"
+      "git_blob_oid": "618f8f2c438951c96015c18bb85f78446c44eb87",
+      "raw_blob_sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af",
+      "pixels": "1800x700",
+      "effective_dpi_at_6_5in": 276.9,
+      "png_pHYs_present": false,
+      "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE"
     },
     "fig2_family_visibility_matrix.png": {
-      "bytes": 107930,
-      "sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d"
+      "git_blob_oid": "1ffe1d544c31aac7b877a6d4d6076d2b02fddadd",
+      "raw_blob_sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d",
+      "pixels": "1800x1080",
+      "effective_dpi_at_6_5in": 276.9,
+      "png_pHYs_present": false,
+      "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE"
     },
     "fig3_localization_ablation.png": {
-      "bytes": 72520,
-      "sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64"
+      "git_blob_oid": "ab13cda0ade19631ad62ad0b2a74e0c1ad72ac43",
+      "raw_blob_sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64",
+      "pixels": "1600x1000",
+      "effective_dpi_at_6_5in": 246.2,
+      "png_pHYs_present": false,
+      "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE"
     }
   },
   "tools": {
     "pandoc": "3.2.1 at D:/pandocLatex2word/pandoc.exe",
     "pandoc_from": "markdown+pipe_tables+tex_math_dollars",
-    "libreoffice": "24.2.7.2 at /usr/bin/soffice on GB10, fresh -env:UserInstallation profile per render",
+    "libreoffice": "24.2.7.2 at /usr/bin/soffice on GB10, fresh -env:UserInstallation per render",
     "pdftoppm": "/usr/bin/pdftoppm -png -r 120",
     "python_docx": "python-docx in an isolated venv outside the repository"
   },
@@ -86,7 +165,13 @@
     "contributions": 3,
     "abstract_part_labels": 4,
     "tbd_owner_placeholders": 10,
-    "numbered_headings": 32
+    "numbered_headings": 32,
+    "pages": 14
   },
-  "boundary": "Internal Word-route revision acceptance. Not publisher formatting acceptance, not submission, not school recognition. Author identity, funding, patent/artifact permission, channel and fees remain TBD_OWNER."
+  "open_venue_items": {
+    "figure_resolution": "246-277 dpi at 6.5 in, no pHYs; venue asks >=300 dpi",
+    "figure_in_artwork_titles": "all three PNGs draw their own title and subtitle",
+    "declaration_placeholders": "Funding / Competing interests / Authors' contributions are TBD_OWNER"
+  },
+  "boundary": "Internal Word-route revision acceptance after one fixed-snapshot C review. Not publisher formatting acceptance, not submission, not school recognition."
 }

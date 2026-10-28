@@ -72,7 +72,9 @@ def main() -> int:
         lines.append(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  rendered_v2/{p.name}")
     pdf = HERE / "rendered_v2" / "paper_e_revision_v2.pdf"
     lines.append(f"{hashlib.sha256(pdf.read_bytes()).hexdigest()}  rendered_v2/{pdf.name}")
-    (HERE / "D_PAGE_HASHES_V2.sha256").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    # newline="" keeps LF so `sha256sum -c` works on a Windows checkout
+    with (HERE / "D_PAGE_HASHES_V2.sha256").open("w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(lines) + "\n")
 
     text_files = [
         "paper_e_revision_v2.md",
