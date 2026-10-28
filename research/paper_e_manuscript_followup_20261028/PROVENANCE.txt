@@ -1,0 +1,5 @@
+Input: D:\AIRcommend\JinRongAgents\_loop_d_integration_20261028\research\word_scoring_new_family_20261027_v1\paper_e_word\conference_short_20261028\conference_short.md
+SHA-256: 46c03ce4aef4369176e45a8ebe7eca76a97f69d05ef4e61636b9fbd135b2831e
+Long-paper cross-check: D:/AIRcommend/JinRongAgents/_loop_d_integration_20261028/research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_ijcnn2027_submission.md (sections 4–5)
+Output SHA-256: fefed803fdce13a51b45f7286f699c1f372c08dfe5dae1fa28853c53adce9a99
+This revision does not independently rerun experiments.

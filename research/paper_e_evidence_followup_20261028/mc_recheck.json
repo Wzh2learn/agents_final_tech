@@ -1,0 +1,291 @@
+{
+  "purpose": "post-hoc Monte Carlo sensitivity; no new outcome data",
+  "seed": 20261029,
+  "iterations_per_pair": 200000,
+  "batch": 1000,
+  "p_definition": "(1+count(|mean(sign*d)| >= |mean(d)|))/(iterations+1); two-sided",
+  "null_assumptions": "sign flips require within-query exchangeability under sharp null, or appropriate symmetry of paired differences; independent queries are assumed for inference; sample size and dependence may limit generalization",
+  "datasets": {
+    "scifact": {
+      "queries": 300,
+      "pairs": [
+        {
+          "a": "BM25_09_04",
+          "b": "BM25_12_075",
+          "difference": -0.001143768090331378,
+          "exceedances": 164129,
+          "p": 0.8206458967705161,
+          "mc_standard_error_approx": 0.0008578642342592198,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "BM25_05_03",
+          "difference": 0.0058858710561586125,
+          "exceedances": 47632,
+          "p": 0.2381638091809541,
+          "mc_standard_error_approx": 0.0009524752206156655,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "BM25_15_06",
+          "difference": -0.005180171803073424,
+          "exceedances": 57004,
+          "p": 0.2850235748821256,
+          "mc_standard_error_approx": 0.001009418487654003,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "TFIDF",
+          "difference": 0.028157925546336275,
+          "exceedances": 3340,
+          "p": 0.016704916475417622,
+          "mc_standard_error_approx": 0.00028658211947857933,
+          "p_holm": 0.13363933180334098
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "BGE",
+          "difference": -0.051637667482475454,
+          "exceedances": 1199,
+          "p": 0.005999970000149999,
+          "mc_standard_error_approx": 0.00017268425464047525,
+          "p_holm": 0.06599967000165
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "BM25_05_03",
+          "difference": 0.007029639146489989,
+          "exceedances": 57151,
+          "p": 0.285758571207144,
+          "mc_standard_error_approx": 0.0010101995104651249,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "BM25_15_06",
+          "difference": -0.004036403712742045,
+          "exceedances": 52176,
+          "p": 0.2608836955815221,
+          "mc_standard_error_approx": 0.0009818945792732787,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "TFIDF",
+          "difference": 0.029301693636667653,
+          "exceedances": 801,
+          "p": 0.00400997995010025,
+          "mc_standard_error_approx": 0.0001413134815030053,
+          "p_holm": 0.048119759401203
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "BGE",
+          "difference": -0.050493899392144076,
+          "exceedances": 1281,
+          "p": 0.006409967950160249,
+          "mc_standard_error_approx": 0.00017844999665225786,
+          "p_holm": 0.06599967000165
+        },
+        {
+          "a": "BM25_05_03",
+          "b": "BM25_15_06",
+          "difference": -0.011066042859232034,
+          "exceedances": 24645,
+          "p": 0.12322938385308073,
+          "mc_standard_error_approx": 0.0007349962680458685,
+          "p_holm": 0.7393763031184843
+        },
+        {
+          "a": "BM25_05_03",
+          "b": "TFIDF",
+          "difference": 0.022272054490177662,
+          "exceedances": 15449,
+          "p": 0.07724961375193123,
+          "mc_standard_error_approx": 0.0005970013020383987,
+          "p_holm": 0.5407472962635187
+        },
+        {
+          "a": "BM25_05_03",
+          "b": "BGE",
+          "difference": -0.05752353853863407,
+          "exceedances": 592,
+          "p": 0.0029649851750741247,
+          "mc_standard_error_approx": 0.00012157701341095929,
+          "p_holm": 0.03854480727596362
+        },
+        {
+          "a": "BM25_15_06",
+          "b": "TFIDF",
+          "difference": 0.03333809734940969,
+          "exceedances": 358,
+          "p": 0.0017949910250448747,
+          "mc_standard_error_approx": 9.465117622789699e-05,
+          "p_holm": 0.025129874350628245
+        },
+        {
+          "a": "BM25_15_06",
+          "b": "BGE",
+          "difference": -0.04645749567940202,
+          "exceedances": 2501,
+          "p": 0.012509937450312748,
+          "mc_standard_error_approx": 0.0002485300677513891,
+          "p_holm": 0.11258943705281473
+        },
+        {
+          "a": "TFIDF",
+          "b": "BGE",
+          "difference": -0.07979559302881173,
+          "exceedances": 3,
+          "p": 1.9999900000499998e-05,
+          "mc_standard_error_approx": 9.999875000343747e-06,
+          "p_holm": 0.00029999850000749997
+        }
+      ]
+    },
+    "nfcorpus": {
+      "queries": 323,
+      "pairs": [
+        {
+          "a": "BM25_09_04",
+          "b": "BM25_12_075",
+          "difference": -0.0016557626953421015,
+          "exceedances": 69645,
+          "p": 0.34822825885870573,
+          "mc_standard_error_approx": 0.0010652824475014594,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "BM25_05_03",
+          "difference": 0.0034819881444965715,
+          "exceedances": 6316,
+          "p": 0.03158484207578962,
+          "mc_standard_error_approx": 0.0003910705807577262,
+          "p_holm": 0.25267873660631696
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "BM25_15_06",
+          "difference": -0.004688133463519037,
+          "exceedances": 4803,
+          "p": 0.024019879900600498,
+          "mc_standard_error_approx": 0.00034236621671947443,
+          "p_holm": 0.2161789191054045
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "TFIDF",
+          "difference": -0.000684393574360692,
+          "exceedances": 171201,
+          "p": 0.8560057199714002,
+          "mc_standard_error_approx": 0.000785047537884315,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_09_04",
+          "b": "BGE",
+          "difference": -0.039245215420987405,
+          "exceedances": 134,
+          "p": 0.0006749966250168749,
+          "mc_standard_error_approx": 5.8074994815888304e-05,
+          "p_holm": 0.008774956125219373
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "BM25_05_03",
+          "difference": 0.005137750839838673,
+          "exceedances": 6669,
+          "p": 0.033349833250833745,
+          "mc_standard_error_approx": 0.0004014823898564876,
+          "p_holm": 0.25267873660631696
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "BM25_15_06",
+          "difference": -0.003032370768176935,
+          "exceedances": 14848,
+          "p": 0.07424462877685611,
+          "mc_standard_error_approx": 0.0005862267644633899,
+          "p_holm": 0.4454677726611367
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "TFIDF",
+          "difference": 0.0009713691209814098,
+          "exceedances": 158391,
+          "p": 0.7919560402197989,
+          "mc_standard_error_approx": 0.000907638889038959,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_12_075",
+          "b": "BGE",
+          "difference": -0.0375894527256453,
+          "exceedances": 258,
+          "p": 0.001294993525032375,
+          "mc_standard_error_approx": 8.041506440967697e-05,
+          "p_holm": 0.0155399223003885
+        },
+        {
+          "a": "BM25_05_03",
+          "b": "BM25_15_06",
+          "difference": -0.008170121608015609,
+          "exceedances": 742,
+          "p": 0.0037149814250928745,
+          "mc_standard_error_approx": 0.00013603639840322311,
+          "p_holm": 0.037149814250928746
+        },
+        {
+          "a": "BM25_05_03",
+          "b": "TFIDF",
+          "difference": -0.004166381718857263,
+          "exceedances": 69832,
+          "p": 0.34916325418372907,
+          "mc_standard_error_approx": 0.0010659462371798065,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_05_03",
+          "b": "BGE",
+          "difference": -0.04272720356548397,
+          "exceedances": 62,
+          "p": 0.00031499842500787496,
+          "mc_standard_error_approx": 3.967991941776832e-05,
+          "p_holm": 0.004724976375118125
+        },
+        {
+          "a": "BM25_15_06",
+          "b": "TFIDF",
+          "difference": 0.004003739889158344,
+          "exceedances": 50555,
+          "p": 0.25277873610631946,
+          "mc_standard_error_approx": 0.0009718066851972443,
+          "p_holm": 1.0
+        },
+        {
+          "a": "BM25_15_06",
+          "b": "BGE",
+          "difference": -0.03455708195746835,
+          "exceedances": 382,
+          "p": 0.0019149904250478748,
+          "mc_standard_error_approx": 9.77579469076517e-05,
+          "p_holm": 0.02106489467552662
+        },
+        {
+          "a": "TFIDF",
+          "b": "BGE",
+          "difference": -0.038560821846626715,
+          "exceedances": 123,
+          "p": 0.0006199969000154999,
+          "mc_standard_error_approx": 5.566024181853107e-05,
+          "p_holm": 0.008679956600216998
+        }
+      ]
+    }
+  },
+  "elapsed_seconds": 3.0620439052581787
+}

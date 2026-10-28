@@ -1,0 +1,4 @@
+Goal: improve the existing Paper E short manuscript while retaining each quantitative claim and its limited scope.
+Done: three compact evidence tables, active-leaf explanation, explicit baseline and retrospective caveats, reproducible source list and review handoff.
+Exclusions: no new experimental results, human labels, official-template compliance claim, external submission, Git commit or change to historical source files.
+Stop if provenance conflicts or a number cannot be traced to existing manuscript artifacts; label those issues for review.
