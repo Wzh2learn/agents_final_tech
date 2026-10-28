@@ -1,7 +1,7 @@
 {
   "schema": "paper_e_word_conversion_manifest_v2",
   "date": "2026-10-28",
-  "bound_to_commit": "2182fbaf5bab961fc8fa87117d6d2fa9c53e096b",
+  "bound_to_commit": "808cd891004ebcc2d107f878c6a261804653cb4c",
   "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
   "hash_rule": "raw_blob_sha256 is the identity value. worktree_sha256 is recorded separately because core.autocrlf=true makes the Windows checkout CRLF; a pair marked CRLF_CHECKOUT_ONLY differs only by line endings.",
   "production_source": {

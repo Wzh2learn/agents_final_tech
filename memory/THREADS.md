@@ -4,7 +4,7 @@ Updated: 2026-10-28
 
 当前短状态见 [STATE.md](STATE.md)，科研证据路由见 [Research Entry](../docs/research/README.md)。本表保留真实未决事项；完成或被后续证据更正的历史条目保留原文归档。
 
-Loop D 已于 2026-10-27 完成交接并暂停；新对话从 [D收尾回执 § 新对话交接](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) 接续。A/C 28/28 已耗尽。负责人新提案是Paper E优先、D直接修订及最多一次固定快照C（累计帽29），Owner转发接受前不启动；科研生成/训练及外部动作继续暂停。
+Loop D 已于 2026-10-28 接任并执行完本轮授权：Paper E 实质修订、Word/PDF 重渲染、逐页自审完成；唯一一次固定快照 C 已在 `08be0547` 上执行并处置，A/C 累计 29/29 用尽，本轮 A 为 0。科研生成/训练/判分仍为 0，外部动作仍待授权。
 
 ## 当前未决
 
@@ -24,13 +24,13 @@ Loop D 已于 2026-10-27 完成交接并暂停；新对话从 [D收尾回执 § 
 | PAPER-E-ROUTE | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY_ICAART_TIME_GATED` | [渠道复核](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：ICAART实时官网不可用且前置条件未齐；Owner仍需最终确认，未投稿/付款/公开 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
-| PAPER-E-SUBMISSION | `WORD_INTERNAL_RENDER_WITH_DEFECTS` | 14页DOCX/PDF已逐页渲染，但C列出提交级缺陷：五步冒充六步、表格/列表结构融合、表图标题/编号和书目顺序问题。不是可提交终稿 |
-| DTM-MECHANISM-RERUN | `OFFLINE_REDESIGN_BEFORE_NEW_BUDGET` | 旧C建议24-call高输出重跑保留；[负责人复核](../docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)确认T/M UNKNOWN带numeric_value会触发exact-key拒绝，另有单位参考待核。新增合同/参考版本、匹配T/M与推理预算后再提出具体判别卡；本轮生成0 |
-| WORKSPACE-INTEGRATION | `REVIEWED_38_EXACT_85_LOCAL_ONLY_MERGE_PENDING` | 本地起点main=809c8b18、研究分支c644cb4f为5/7分叉；123个Word文件是38个逐字节镜像及85个本地独有，全部保留。24个receipt映射已核；旧manifest的两份学位正文hash是合并前版本。下一D在干净集成worktree归位，不覆盖未跟踪目录；本次未合并或重核GB10 |
+| PAPER-E-SUBMISSION | `TEXT_READY_ARTWORK_OPEN` | 14页DOCX/PDF重渲染并逐页自审；上轮正文缺陷全部关闭（六步已复原、列表与题注不再融合、4表3图编号与交叉引用一致、24条书目编号与作者式修正）。仍开放：三图 277/277/246 dpi 且图内含标题（C 判定阻断，D 明确未修）、声明占位、标题大小写 |
+| DTM-MECHANISM-RERUN | `DECISION_CARD_READY_AWAITING_OWNER_BUDGET` | [决策卡](../research/word_scoring_new_family_20261027_v1/DTM_DECISION_CARD_20261028.md)已出：旧512上限中推理占84.5–89.9%、答案仅44.6–58.9 token；合同可满足D4/T1/M0 跟随合同长度而非机制。需Owner先定 Q1（关thinking+384 或 留thinking+1024）、Q3 单位裁定规则、以及35请求/token上界。本轮生成0，未改任何历史raw |
+| WORKSPACE-INTEGRATION | `MERGED_IN_INTEGRATION_WORKTREE_MAIN_NOT_ADVANCED` | 研究分支已在 `_loop_d_integration_20261028` 普通合并（无冲突，`e052f706`），三端该分支同为 `808cd891`；主工作树的123个未跟踪Word副本原位保留，正因占住合并路径，本地 `main` 仍为 `f0c246df`。要推进main需Owner先决定该副本去留（本轮按指令不清场）。派生索引 84/86 匹配、24项改名一致、两份学位稿为合并前版本 |
 | HISTORICAL-CREDENTIAL-CARRIERS | `IGNORED_UNTRACKED_NO_LEAK_ESTABLISHED_NOT_A_BLOCKER` | 本次只核根.env未跟踪且被忽略，不读取内容或历史；先前“凭据形状”不能单独证明泄露，不要求轮换/迁移以完成科研交接。若将来有实际暴露证据再按证据处置，本轮未触碰 |
-| PAPER-E-CONTINUATION | `PROPOSAL_READY_AWAITING_OWNER_FORWARD` | 唯一指令原地更新：D直接修完整Word稿/渲染，冻结后最多一次C（旧28保留、拟29），无新科学生成或训练。转发接受前不启动，不重新治理全库 |
+| PAPER-E-CONTINUATION | `EXECUTED_C_DISPATCH_EXHAUSTED` | 内部修订与渲染已完成；唯一一次C已用（累计29/29，17分42秒，20/20工具调用），无剩余C额度。C之后的正文修改未获独立复审，此边界须带到投稿决策 |
 | THESIS-DOC-CONTINUITY | `CLOSEOUT_PAUSED_AFTER_CONDITIONAL_C` | 中文正文已含A阶段结果；C条件、Word缺陷和D/T/M混淆以[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)为现役补充，不把旧实验拆成新贡献 |
-| OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、专利、AI披露批准、artifact/DOI公开、注册差旅、正式投稿付款及学校认定 |
+| OWNER_EXTERNAL_ACTIONS | `AUTHORS_FEES_SUBMISSION_PUBLIC_RELEASE` | 作者/单位/通讯、资助与利益冲突、作者贡献、专利、artifact许可与公开、正式投稿付款及学校认定；另加：是否授权重导出三张图（分辨率与图内标题）、是否接受D/T/M新预算 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。本轮范围以唯一指令和Owner转发为准；历史广泛授权不恢复停止面板 |
 | SKILL-METADATA-DEBT | `NONBLOCKING_KNOWN_WARNINGS` | skill-doctor 为 0 errors / 141 既有 warnings（completion contract 与 frontmatter 排序）；本轮不批量格式化技能，实际分发 check 两端均通过 |
 

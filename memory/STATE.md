@@ -1,9 +1,17 @@
 # Current State
 
-> Updated: 2026-10-28 | Scope: handoff review and Paper E-first continuation proposal
+> Updated: 2026-10-28 | Scope: Paper E revised, rendered, one C review executed and disposed
 > 上一轮治理核验：`VERIFIED`；备份、三端对齐与工作区核验范围见治理报告，不替代本轮科研方法或投稿包验收。
 
 ## 当前任务
+
+Loop D 已接任并执行完本轮授权范围。Paper E 从内部可渲染稿推进到**内容与技术上可交作者办理**：单一生产源 `paper_e_revision_v2.md`、14 页 DOCX/PDF、逐页目视、可复现构建命令与派生 manifest 齐备。唯一一次 C 已在冻结快照 `08be0547` 上执行（累计 29/29，17 分 42 秒，20/20 工具调用），结论 `CONDITIONAL`：3 阻断 + 10 非阻断，D 已逐项裁决——正文类缺陷在 C 之后全部修完，图像类（B1 分辨率 277/277/246 dpi、B2 图内含标题）**明确未修**，因为需要重导出并重新目视验收，而独立审阅额度已用尽。
+
+科研生成、训练、判分仍为 0。D/T/M 只做了离线判别卡（`DTM_DECISION_CARD_20261028.md`），新发现：旧 512 上限里推理通道平均占 84.5–89.9%，答案通道只剩 44.6–58.9 token；三臂合同 6/9/10 键，于是 D 4/8、T 1/8、M 0/8 的梯度跟随的是输出需求而不是机制质量。开跑需 Owner 先接受预算。
+
+Git 实况：研究分支已普通合入 `integration/paper-e-word-20261028`（无冲突），三端该分支同为 `808cd891`；本地 `main` 仍在 `f0c246df`，因为主工作树里那份 123 文件的未跟踪 Word 副本正好占住合并要写的路径，本轮按指令不强行 checkout、不迁移。本地独有文件、历史 raw、旧清单、历史 worktree 全部保留。
+
+
 
 负责人已完成[本地交接复核](../docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)并原地更新唯一指令。新方案为Paper E优先、D直接完成修订、论文冻结后最多一次C（提案累计帽29）；科学生成/训练仍为0。**Owner转发接受前旧D继续暂停，当前A/C仍28/28，本会话未派发。** 不重开全景治理、不删除或移动本地副本。复核起点main=809c8b18与研究分支c644cb4f为5/7独有提交，指令提交后会前移；123个Word文件为38个逐字节镜像及85个本地独有。24个receipt改名内容一致；旧清单映射后84/86匹配，两份学位稿对应合并前hash，已保留版本差异。
 
@@ -20,23 +28,23 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 |---|---|
 | 当前方法实验 | [A回执](../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C审阅](../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md)、[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) |
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
-| Paper E 投稿路线 | [WORD_RENDER_RECEIPT](../research/word_scoring_new_family_20261027_v1/paper_e_word/D_WORD_RENDER_RECEIPT.md)、[ROUTE_REASSESSMENT](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：SNCS条件主投；当前Word为内部渲染稿，不是可提交终稿 |
+| Paper E 投稿路线 | [REVISION_NOTES_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/D_REVISION_NOTES_20261028.md)、[SNCS_GUIDELINE_CHECK_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/SNCS_GUIDELINE_CHECK_20261028.md)、[C_RESPONSE_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/C_RESPONSE_AND_DISPOSITION_20261028.md)：SNCS条件主投；正文与技术包已达可交作者办理，图像分辨率/图内标题与声明占位仍开放 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
 | 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：本轮A/C28/28已执行并暂停；下一阶段提案为Paper E优先、D直接修订与最多一次C，D/T/M只准备离线判别卡 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
-| 最新科研回执 | [D_CLOSEOUT_RETURN](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)、[A_RETURN](../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C_TASK_RESULT](../research/word_scoring_new_family_20261027_v1/audits/TASK_RESULT_C.json) |
+| 最新科研回执 | [D_LOOP_RETURN_20261028](../research/word_scoring_new_family_20261027_v1/D_LOOP_RETURN_20261028.md)、[C_PAPER_E_V2_REVIEW](../research/word_scoring_new_family_20261027_v1/audits/C_PAPER_E_V2_REVIEW.md)、[DTM_DECISION_CARD](../research/word_scoring_new_family_20261027_v1/DTM_DECISION_CARD_20261028.md) |
 | 新对话交接 | [D_CLOSEOUT_RETURN § 新对话交接](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)：最少必读、Git/工作区、预算与授权边界 |
 | 本轮治理与 Git 实况 | [工作区治理报告](../docs/governance/2026-10-21_workspace_git_closeout.md) |
 | 唯一科研导航 | [docs/research/README.md](../docs/research/README.md) |
-| 当前方法账本 | [DIAGNOSTIC_SUMMARY](../research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json)：27次预留、24条raw、46,054 input+output、0训练；历史80/48事故另存 |
+| 当前方法账本 | [DIAGNOSTIC_SUMMARY](../research/word_scoring_new_family_20261027_v1/scoring_v3/results/DIAGNOSTIC_SUMMARY.json)：27次预留、24条raw、46,054 input+output、0训练；本轮新增0生成，仅对既有raw做分词分段测量([DTM_SEGMENT_SPLIT](../research/word_scoring_new_family_20261027_v1/validation/DTM_SEGMENT_SPLIT_20261028.json)) |
 | 历史聚合记账 | [RESOURCE_LEDGER](../research/publication_thesis_goals_v1/RESOURCE_LEDGER.json)：历史阶段4,064 accounting attempts / 9,169,672 tokens，不含独立Phase B；B另记188物理生成、137,770—139,306生成tokens、2次训练/319,948训练tokens；340旧差额保留，不假称全局对账 |
 | 历史 Portfolio 账本 | [COST_AND_CANDIDATES.json](../research/research_portfolio_v2/COST_AND_CANDIDATES.json)；历史独立账本不混算 |
 | 未决事项 | [THREADS.md](THREADS.md) |
 
 ## 科学边界
 
-- C1 / Paper E：`WORD_INTERNAL_RENDER_WITH_DEFECTS`。14页DOCX/PDF已逐页渲染，但C列出提交级缺陷：五步冒充六步、表格/列表结构融合、部分表图标题不完整、书目/引文顺序问题。未达到可提交终稿。
-- C2/C3 新表族诊断：`MECHANISM_EFFECT_UNIDENTIFIED_OUTPUT_BUDGET_CONFOUNDED`。D/T/M结果真实；24条严格whole-JSON均失败，达到512上限D/T/M分别4/7/8条。M没有公平试验；新复核还发现typed UNKNOWN指令含解析器禁止字段，不能只提高输出预算。先准备修订卡，未授权生成。
+- C1 / Paper E：`REVISED_AND_C_DISPOSED / TEXT_READY_ARTWORK_OPEN`。上一轮C列的正文缺陷（六步、表格/列表融合、表图编号、书目/引文）已全部关闭并有确定性复现；本轮C在冻结快照上仍判 `CONDITIONAL`，剩余阻断只有图像分辨率与图内标题，另加声明占位。正文修改发生在C快照之后，未获独立复审。
+- C2/C3 新表族诊断：`OUTPUT_CONTRACT_EFFECT_QUANTIFIED / M_NOT_TESTED`。旧24条中推理通道占512上限的84.5–89.9%，答案通道仅44.6–58.9 token；推理未闭合D2/T3/M3，JSON被截断D2/T4/M5，合同可满足D4/T1/M0。梯度跟随合同长度(6/9/10键)，不是机制质量。typed UNKNOWN 的 `numeric_value` 冲突仍在且本轮从未被触发。未授权生成。
 - 以下 G2、G3 与旧第三研究点条目保留为历史边界和复用素材，不承担现役 C1/C2/C3 贡献身份。
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。
