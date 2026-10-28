@@ -1,7 +1,7 @@
 {
-  "schema": "paper_e_revision_v2_build_log_v1",
+  "schema": "paper_e_revision_v3_build_log_v1",
   "generated_date": "2026-10-28",
-  "production_source": "paper_e_revision_v2.md",
+  "production_source": "paper_e_revision_v3.md",
   "inputs": {
     "paper_e_word.md": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
     "references.bib": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
@@ -179,7 +179,7 @@
     {
       "occurrences": 1,
       "old": "MA-CERD, adaptive revalidation and internal AI reviews provide no Paper E evidence.\nMA-CERD and adaptive revalidation are not Paper E cases and provide no evide",
-      "new": "Work outside these two constructions, including the MA-CERD dependency study, the adaptive revalidation panel and an internal AI-assisted 24-task review, provid"
+      "new": "Work outside these three constructions, including the MA-CERD dependency study, the adaptive revalidation panel and an internal AI-assisted 24-task review, prov"
     },
     {
       "occurrences": 1,
@@ -240,6 +240,56 @@
       "occurrences": 1,
       "old": "](figures/fig3_localization_ablation.png)",
       "new": "](figures/art/fig3_localization_ablation_art.png)"
+    },
+    {
+      "occurrences": 1,
+      "old": "**Methods.** We retain the original two-case scope: a frozen staged document evaluator with controlled header perturbations, instrumentation and a nested FinQA ",
+      "new": "**Methods.** We audit three evaluation constructions: a frozen staged document evaluator with controlled header perturbations, instrumentation and a nested FinQ"
+    },
+    {
+      "occurrences": 1,
+      "old": "In-record and pairwise values reproduce exactly, but global and metadata-filtered drift remains unexplained.",
+      "new": "In-record and pairwise values reproduce exactly, but global and metadata-filtered drift remains unexplained. In the retrieval case a query-level bootstrap separ"
+    },
+    {
+      "occurrences": 1,
+      "old": "**Conclusion.** The two cases support a bounded review discipline:",
+      "new": "**Conclusion.** The three cases support a bounded review discipline:"
+    },
+    {
+      "occurrences": 1,
+      "old": "The accounting is intentionally narrow: there are exactly two counted cases, with FinQA nested inside Case 1.",
+      "new": "The accounting is intentionally narrow: there are three counted cases, with FinQA nested inside Case 1; the third audit reuses a public benchmark and its releas"
+    },
+    {
+      "occurrences": 1,
+      "old": "2. A bounded FinRank evidence-ranking audit showing that tie policy and identity construction can move absolute metrics without changing the qualitative hard-ve",
+      "new": "2. Bounded external audits of two public evaluation systems: FinRank, where tie policy and identity construction move absolute metrics without changing the qual"
+    },
+    {
+      "occurrences": 1,
+      "old": "\n## Experimental Setup\n",
+      "new": "\n### Independent public system: retrieval evaluation\n\nThe third case audits a public retrieval benchmark instead of a bespoke pipeline. The released corpus, que"
+    },
+    {
+      "occurrences": 1,
+      "old": "\n## Discussion and Limitations\n",
+      "new": "\n### Case 3: a public leaderboard under the same audit\n\nThe official view ranks systems by mean nDCG@10 and asserts an order over every pair. On SciFact that or"
+    },
+    {
+      "occurrences": 1,
+      "old": "The audit covers TF-IDF and BM25, not neural or generative systems, and the residual global and metadata drift remains unexplained.",
+      "new": "The FinRank audit covers TF-IDF and BM25, not neural or generative systems, and the residual global and metadata drift remains unexplained. The retrieval case c"
+    },
+    {
+      "occurrences": 1,
+      "old": "Across two cases we separate visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap. Case 1 removes score-equivalence, n",
+      "new": "Across three cases we separate visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap. Case 1 removes score-equivalence,"
+    },
+    {
+      "occurrences": 1,
+      "old": "The two cases support one measurement discipline:",
+      "new": "The three cases support one measurement discipline:"
     },
     {
       "occurrences": 1,
@@ -420,6 +470,11 @@
       "new": "### 3.5 External evidence-ranking audit"
     },
     {
+      "level": 3,
+      "old": "### Independent public system: retrieval evaluation",
+      "new": "### 3.6 Independent public system: retrieval evaluation"
+    },
+    {
       "level": 2,
       "old": "## Experimental Setup",
       "new": "## 4 Experimental Setup"
@@ -498,6 +553,11 @@
       "level": 3,
       "old": "### Case 2: stable hardness decision, sensitive score contract",
       "new": "### 5.7 Case 2: stable hardness decision, sensitive score contract"
+    },
+    {
+      "level": 3,
+      "old": "### Case 3: a public leaderboard under the same audit",
+      "new": "### 5.8 Case 3: a public leaderboard under the same audit"
     },
     {
       "level": 2,

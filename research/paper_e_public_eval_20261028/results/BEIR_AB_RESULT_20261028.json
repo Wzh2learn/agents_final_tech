@@ -1,0 +1,224 @@
+{
+  "scifact": {
+    "queries": 300,
+    "b0_order": [
+      [
+        "bm25_b",
+        0.6662494290811016
+      ],
+      [
+        "bm25_c",
+        0.6622130253683596
+      ],
+      [
+        "bm25_a",
+        0.6610692572780281
+      ],
+      [
+        "dup_of_a",
+        0.6610692572780281
+      ],
+      [
+        "tfidf",
+        0.6329113317316919
+      ],
+      [
+        "deg_a",
+        0.1806702982181152
+      ]
+    ],
+    "b0": {
+      "asserted_orders": 15,
+      "true_different_flagged": 0,
+      "false_positive_on_duplicate": 1,
+      "true_different_total": 5
+    },
+    "b1_recall100_order": [
+      [
+        "tfidf",
+        0.8915555555555557
+      ],
+      [
+        "bm25_a",
+        0.8852222222222222
+      ],
+      [
+        "dup_of_a",
+        0.8852222222222222
+      ],
+      [
+        "bm25_b",
+        0.8825555555555555
+      ],
+      [
+        "bm25_c",
+        0.8825555555555555
+      ],
+      [
+        "deg_a",
+        0.3577222222222222
+      ]
+    ],
+    "b1": {
+      "asserted_orders": 15,
+      "true_different_flagged": 0,
+      "false_positive_on_duplicate": 1,
+      "true_different_total": 5
+    },
+    "audited_asserted": [
+      "bm25_a>deg_a",
+      "bm25_a>tfidf",
+      "bm25_b>deg_a",
+      "bm25_b>tfidf",
+      "bm25_c>deg_a",
+      "bm25_c>tfidf",
+      "dup_of_a>deg_a",
+      "dup_of_a>tfidf",
+      "tfidf>deg_a"
+    ],
+    "audited_ties": [
+      "bm25_a~dup_of_a",
+      "bm25_b~bm25_a",
+      "bm25_b~bm25_c",
+      "bm25_b~dup_of_a",
+      "bm25_c~bm25_a",
+      "bm25_c~dup_of_a"
+    ],
+    "A": {
+      "asserted_orders": 9,
+      "true_different_flagged": 0,
+      "false_positive_on_duplicate": 0,
+      "true_different_total": 5
+    },
+    "control_duplicate": {
+      "diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "audit_says_same": true
+    },
+    "control_degraded": {
+      "diff": 0.4803989590599129,
+      "ci95": [
+        0.4138348463278631,
+        0.5436879396306034
+      ],
+      "audit_says_worse": true
+    },
+    "k_sensitivity_order_agrees": false,
+    "tie_policy_query_flip_rate": 0.0,
+    "tie_policy_gap": 0.0
+  },
+  "nfcorpus": {
+    "queries": 323,
+    "b0_order": [
+      [
+        "bm25_b",
+        0.3090355517651688
+      ],
+      [
+        "tfidf",
+        0.30652154707555107
+      ],
+      [
+        "bm25_c",
+        0.3057529861890133
+      ],
+      [
+        "bm25_a",
+        0.3042221341814643
+      ],
+      [
+        "dup_of_a",
+        0.3042221341814643
+      ],
+      [
+        "deg_a",
+        0.23349476582335538
+      ]
+    ],
+    "b0": {
+      "asserted_orders": 15,
+      "true_different_flagged": 0,
+      "false_positive_on_duplicate": 1,
+      "true_different_total": 5
+    },
+    "b1_recall100_order": [
+      [
+        "tfidf",
+        0.23714954086927434
+      ],
+      [
+        "bm25_a",
+        0.23666831350276973
+      ],
+      [
+        "dup_of_a",
+        0.23666831350276973
+      ],
+      [
+        "bm25_c",
+        0.2359541693951468
+      ],
+      [
+        "bm25_b",
+        0.23580550291026064
+      ],
+      [
+        "deg_a",
+        0.17912470128296779
+      ]
+    ],
+    "b1": {
+      "asserted_orders": 15,
+      "true_different_flagged": 0,
+      "false_positive_on_duplicate": 1,
+      "true_different_total": 5
+    },
+    "audited_asserted": [
+      "bm25_a>deg_a",
+      "bm25_b>bm25_a",
+      "bm25_b>deg_a",
+      "bm25_b>dup_of_a",
+      "bm25_c>deg_a",
+      "dup_of_a>deg_a",
+      "tfidf>deg_a"
+    ],
+    "audited_ties": [
+      "bm25_a~dup_of_a",
+      "bm25_b~bm25_c",
+      "bm25_b~tfidf",
+      "bm25_c~bm25_a",
+      "bm25_c~dup_of_a",
+      "tfidf~bm25_a",
+      "tfidf~bm25_c",
+      "tfidf~dup_of_a"
+    ],
+    "A": {
+      "asserted_orders": 7,
+      "true_different_flagged": 0,
+      "false_positive_on_duplicate": 0,
+      "true_different_total": 5
+    },
+    "control_duplicate": {
+      "diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "audit_says_same": true
+    },
+    "control_degraded": {
+      "diff": 0.07072736835810894,
+      "ci95": [
+        0.05155768122409281,
+        0.09162000029440379
+      ],
+      "audit_says_worse": true
+    },
+    "k_sensitivity_order_agrees": false,
+    "tie_policy_query_flip_rate": 0.3653250773993808,
+    "tie_policy_gap": 3.993729784668165e-05
+  }
+}

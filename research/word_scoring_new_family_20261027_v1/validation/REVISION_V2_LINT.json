@@ -1,11 +1,11 @@
 {
-  "schema": "paper_e_revision_v2_lint_v1",
-  "source": "paper_e_revision_v2.md",
+  "schema": "paper_e_revision_v3_lint_v1",
+  "source": "paper_e_revision_v3.md",
   "verdict": "PASS",
   "failures": [],
   "structure": {
-    "headings": 37,
-    "numbered_sections": 32,
+    "headings": 39,
+    "numbered_sections": 34,
     "table_captions": 4,
     "figure_captions": 3,
     "checklist_steps": 6,
@@ -243,8 +243,8 @@
       "Results",
       "Conclusion"
     ],
-    "words_prose_only": 191,
-    "words_including_labels": 195,
+    "words_prose_only": 254,
+    "words_including_labels": 258,
     "note": "Reported as computed here; no word count is asserted in the manuscript."
   }
 }

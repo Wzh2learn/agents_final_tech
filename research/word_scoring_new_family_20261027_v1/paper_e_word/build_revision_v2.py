@@ -8,8 +8,8 @@ Inputs (frozen, read-only):
     commit -- used to restore text that the extraction silently dropped.
 
 Output:
-  * ``paper_e_revision_v2.md``     -- THE production source for this round.
-                                     ``paper_e_revision_v2.docx`` and the
+  * ``paper_e_revision_v3.md``     -- THE production source for this round.
+                                     ``paper_e_revision_v3.docx`` and the
                                      rendered PDF are derived from it only.
 
 Every transformation below is an explicit, asserted replacement.  The script
@@ -49,7 +49,7 @@ BIB = HERE / "references.bib"
 CANONICAL_TEX = (
     "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex"
 )
-OUTPUT = HERE / "paper_e_revision_v2.md"
+OUTPUT = HERE / "paper_e_revision_v3.md"
 LOG = HERE / "REVISION_V2_BUILD_LOG.json"
 
 EXPECTED_SHA = {
@@ -100,7 +100,7 @@ EDITORIAL: list[tuple[str, str, int]] = [
         "The later AI-assisted 24-task review and deferred model-free or scoring routes are "
         "internal-only historical development records, not submission results. They are excluded "
         "from the counted cases, contribution and reported findings.",
-        "Work outside these two constructions, including the MA-CERD dependency study, the "
+        "Work outside these three constructions, including the MA-CERD dependency study, the "
         "adaptive revalidation panel and an internal AI-assisted 24-task review, provides no "
         "evidence for this paper; it is excluded from the counted cases, the contribution and the "
         "reported findings.",
@@ -170,6 +170,57 @@ EDITORIAL: list[tuple[str, str, int]] = [
     (
         "](figures/fig3_localization_ablation.png)",
         "](figures/art/fig3_localization_ablation_art.png)",
+        1,
+    ),
+    # --- third case: public retrieval evaluation (2026-10-28) -------------
+    (
+        '**Methods.** We retain the original two-case scope: a frozen staged document evaluator with controlled header perturbations, instrumentation and a nested FinQA measurement-object probe; and FinRank, a public provenance-sensitive evidence-ranking benchmark. We inspect visibility, detection, harmfulness, score algebra, tie policy, identity construction, and reproduction.',
+        '**Methods.** We audit three evaluation constructions: a frozen staged document evaluator with controlled header perturbations, instrumentation and a nested FinQA measurement-object probe; FinRank, a public provenance-sensitive evidence-ranking benchmark; and a public retrieval benchmark scored with its own released judgements and metric definitions. We inspect visibility, detection, harmfulness, score algebra, tie policy, identity construction, cutoff choice, and reproduction.',
+        1,
+    ),
+    (
+        'In-record and pairwise values reproduce exactly, but global and metadata-filtered drift remains unexplained.',
+        'In-record and pairwise values reproduce exactly, but global and metadata-filtered drift remains unexplained. In the retrieval case a query-level bootstrap separates only three of ten system pairs on one subset and four of ten on another, the reported ordering of near-tied systems is not supported, and changing the cutoff or the tie order reorders systems while the headline score moves by 0.0002.',
+        1,
+    ),
+    (
+        '**Conclusion.** The two cases support a bounded review discipline:',
+        '**Conclusion.** The three cases support a bounded review discipline:',
+        1,
+    ),
+    (
+        'The accounting is intentionally narrow: there are exactly two counted cases, with FinQA nested inside Case 1.',
+        'The accounting is intentionally narrow: there are three counted cases, with FinQA nested inside Case 1; the third audit reuses a public benchmark and its released judgements rather than a new pipeline.',
+        1,
+    ),
+    (
+        '2. A bounded FinRank evidence-ranking audit showing that tie policy and identity construction can move absolute metrics without changing the qualitative hard-versus-random decision, while keeping the post-hoc v2 identity correction and residual reproduction gap visible.',
+        '2. Bounded external audits of two public evaluation systems: FinRank, where tie policy and identity construction move absolute metrics without changing the qualitative hard-versus-random decision, and a retrieval benchmark, where a cutoff change or a different tie order reorders near-tied systems while the headline score moves by 0.0002.',
+        1,
+    ),
+    (
+        '\n## Experimental Setup\n',
+        '\n### Independent public system: retrieval evaluation\n\nThe third case audits a public retrieval benchmark instead of a bespoke pipeline. The released corpus, queries, relevance judgements and metric definitions are kept; what the audit changes is only the reporting decision built on top of them.\n\nThe objects are the same six. The observation surface is the full ranking a retriever produces. The detection predicate is the metric cutoff k, because nDCG@10 credits only positions 1 to 10. The outcome is the reported ordering of systems. Identity is the query-document binding between judgements and corpus. The tie contract is the order among exactly equal scores, which the official scorer leaves unspecified. Reproduction is checked by re-implementing the metrics twice.\n\nTwo subsets of the same benchmark family are used: SciFact (5,183 documents, 300 judged test queries, 339 positive pairs) and NFCorpus (3,633 documents, 323 judged test queries, 12,334 positive pairs). Five deterministic systems are compared, four BM25 configurations and a TF-IDF cosine ranker, all rebuilt from the released corpus with no model. Metrics follow the trec_eval definitions used by the official path (ndcg_cut, map_cut, recall); a second independent implementation agrees on 200 checks per subset with zero mismatches. Uncertainty is a query-level bootstrap with 2,000 resamples.\n\nTwo systems have a known answer by construction and act as controls: a duplicate of one BM25 configuration, whose scores are identical and whose correct verdict is *indistinguishable*, and a degraded configuration that pushes the top-ranked document below the cutoff, whose correct verdict is *worse*. They give one false-positive and one false-negative probe for any decision rule. The two subsets are two samples of one benchmark family, not two benchmarks, and no model is called.\n\n## Experimental Setup\n',
+        1,
+    ),
+    (
+        '\n## Discussion and Limitations\n',
+        '\n### Case 3: a public leaderboard under the same audit\n\nThe official view ranks systems by mean nDCG@10 and asserts an order over every pair. On SciFact that order is BM25(1.5, 0.6) 0.6662, BM25(1.2, 0.75) 0.6622, BM25(0.9, 0.4) 0.6611, BM25(0.5, 0.3) 0.6552 and TF-IDF 0.6329. A paired query-level bootstrap separates three of ten pairs, and all three put a BM25 configuration above TF-IDF (+0.028 to +0.033, intervals excluding zero). No pair of BM25 configurations is separated: the reported internal order rests on differences of 0.001 to 0.011 whose intervals contain zero.\n\nNFCorpus shows the audit is not uniformly conservative. There four of ten pairs are separated and three of those are internal to the BM25 family, so the discipline separates pairs when the sample supports it and declines when it does not.\n\nTwo protocol choices move the ordering itself. Changing the cutoff from 10 to 100 reorders the systems on both subsets; on NFCorpus TF-IDF moves from second to fourth. Changing the tie order among exactly equal scores leaves 36.5% of NFCorpus queries with a different top-10 while moving the aggregate by 0.0002, so the perturbation is invisible in the headline number yet present in more than a third of the queries that number is computed from. SciFact has no exact score ties at the cutoff, which is why its tie gap is exactly zero: the same protocol is stable on one subset and unstable on another.\n\nThe before/after comparison puts three views on the same runs. The leaderboard view asserts all fifteen pairwise orders, including a strict order between the duplicate pair, which is a false positive. Adding recall@100 as a cheap extra number neither removes that order nor improves the conclusion: TF-IDF ranks first on recall@100 in both subsets while ranking last or second on nDCG@10, so the extra number yields a different unsupported ordering rather than a better one. The audited view asserts 9 of 15 orders on SciFact and 7 of 15 on NFCorpus, reports the duplicate pair as indistinguishable, and still detects the degraded system as worse (SciFact +0.480 with interval [0.414, 0.544]; NFCorpus +0.071 with [0.052, 0.092]).\n\nThe cost is countable: four metric sweeps and a 2,000-resample bootstrap over rankings that already exist, about eight seconds of CPU on both subsets, and no model calls. The value is the removal of one unsupported ordering per subset and the exposure of a tie instability the aggregate hides; the limit is that no audit can create evidence for a difference the sample does not contain.\n\n## Discussion and Limitations\n',
+        1,
+    ),
+    (
+        'The audit covers TF-IDF and BM25, not neural or generative systems, and the residual global and metadata drift remains unexplained.',
+        'The FinRank audit covers TF-IDF and BM25, not neural or generative systems, and the residual global and metadata drift remains unexplained. The retrieval case covers two subsets of one benchmark family and deterministic lexical systems only; it makes no claim about dense retrieval, and its instability is a property of the reporting protocol, not a defect of any system.',
+        1,
+    ),
+    (
+        'Across two cases we separate visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap. Case 1 removes score-equivalence, non-response and hierarchy over-readings; Case 2 separates metric sensitivity from decision stability.',
+        'Across three cases we separate visibility, detection, harmfulness, score sensitivity, decision stability and reproduction gap. Case 1 removes score-equivalence, non-response and hierarchy over-readings; Case 2 separates metric sensitivity from decision stability; Case 3 shows that on a public leaderboard the same discipline withdraws an ordering that the headline number asserts and keeps a degradation it must still detect.',
+        1,
+    ),
+    (
+        "The two cases support one measurement discipline:",
+        "The three cases support one measurement discipline:",
         1,
     ),
     # --- explicit in-text cross-references for every numbered exhibit ------
@@ -529,10 +580,11 @@ def restore_dropped_items(text: str) -> tuple[str, list[dict]]:
     applied = []
 
     contrib_anchor = (
-        "2. A bounded FinRank evidence-ranking audit showing that tie policy and identity "
-        "construction can move absolute metrics without changing the qualitative "
-        "hard-versus-random decision, while keeping the post-hoc v2 identity correction and "
-        "residual reproduction gap visible.\n"
+        "2. Bounded external audits of two public evaluation systems: FinRank, where tie "
+        "policy and identity construction move absolute metrics without changing the "
+        "qualitative hard-versus-random decision, and a retrieval benchmark, where a cutoff "
+        "change or a different tie order reorders near-tied systems while the headline score "
+        "moves by 0.0002.\n"
     )
     if text.count(contrib_anchor) != 1:
         raise SystemExit("contribution-2 anchor not found")
@@ -865,7 +917,7 @@ def main() -> int:
         raise SystemExit(f"raw LaTeX commands remain in the revision source: {sorted(set(residual))}")
 
     payload = {
-        "schema": "paper_e_revision_v2_build_log_v1",
+        "schema": "paper_e_revision_v3_build_log_v1",
         "generated_date": "2026-10-28",
         "production_source": OUTPUT.name,
         "inputs": {

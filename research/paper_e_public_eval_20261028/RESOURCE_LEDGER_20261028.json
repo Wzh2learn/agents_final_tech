@@ -1,0 +1,50 @@
+{
+  "schema": "paper_e_public_eval_budget_ledger_v1",
+  "goal": "PAPER_E_EMPIRICAL_STRENGTHENING_AND_EARLY_CONFERENCES",
+  "date": "2026-10-28",
+  "hard_caps": {
+    "physical_generation_attempts": 128,
+    "input_plus_output_tokens": 1000000,
+    "training_runs": 0
+  },
+  "consumed_this_goal": {
+    "physical_generation_attempts": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "judge_calls": 0,
+    "training_runs": 0,
+    "paid_api_calls": 0,
+    "retries": 0
+  },
+  "remaining": {
+    "physical_generation_attempts": 128,
+    "input_plus_output_tokens": 1000000
+  },
+  "why_zero": "The third case audits a released benchmark with deterministic lexical retrievers. No model output was needed to answer either question (does the leaderboard survive an audit; does the audit change the decision). Generation would have measured the retriever, not the protocol, which is the object under audit.",
+  "compute_used": {
+    "gb10_cpu_audit_seconds": 8,
+    "gb10_svg_to_pdf_renders": 3,
+    "gb10_pdf_to_png_batches": 2,
+    "gb10_document_renders": 1,
+    "data_downloaded_mb": 5.3,
+    "note": "wall-clock and CPU figures are wall-clock observations, not metered cost"
+  },
+  "unmetered": {
+    "d_harness_tokens": "UNKNOWN",
+    "gb10_electricity": "UNKNOWN",
+    "network_transfer": "UNKNOWN"
+  },
+  "parent_ledgers_not_reset": {
+    "historical_generation_tokens": 9169672,
+    "historical_accounting_attempts": 4064,
+    "dtm_panel_reserved": 27,
+    "dtm_panel_persisted_raw": 24,
+    "dtm_panel_tokens": 46054,
+    "note": "This goal keeps its own counter. Historical totals are not incremented by anything in this round, and the 5-sample D/T/M rerun was not started."
+  },
+  "a_c_dispatch": {
+    "used_total": 29,
+    "cap_total": 29,
+    "this_round": 0
+  }
+}

@@ -144,6 +144,24 @@ def promote_small_type(text: str, floor: int = 21) -> tuple[str, list[dict]]:
     return re.sub(r"<text ([^>]*)>(.*?)</text>", repl, text, flags=re.S), changed
 
 
+# Type size is fixed by (font units / canvas units) * placed width.  These
+# factors raise the two drawings that have slack in their boxes; Figure 1's
+# boxes are already filled by their labels, so it stays at 1.0 and its 5.7 pt
+# is reported as a structural limit rather than hidden.
+FONT_SCALE = {"fig1": 1.0, "fig2": 1.34, "fig3": 1.10}
+
+
+def scale_fonts(text: str, factor: float) -> str:
+    if factor == 1.0:
+        return text
+
+    def repl(m: re.Match[str]) -> str:
+        size = float(m.group(1))
+        return f'font-size="{round(size * factor):d}"'
+
+    return re.sub(r'font-size="(\d+(?:\.\d+)?)"', repl, text)
+
+
 def main() -> int:
     OUTDIR.mkdir(parents=True, exist_ok=True)
     report = []
@@ -156,6 +174,9 @@ def main() -> int:
 
         text, removed = drop_nodes(raw)
         text, promoted = promote_small_type(text)
+        key = src.stem.split("_")[0]
+        factor = FONT_SCALE.get(key, 1.0)
+        text = scale_fonts(text, factor)
         if "ocr similar" in text:
             text = text.replace("ocr similar", "OCR-like")
             promoted.append({"from": "label", "to": "label", "text": "ocr similar -> OCR-like"})
@@ -187,6 +208,7 @@ def main() -> int:
                 "artifact": str(dst.relative_to(HERE)),
                 "removed": removed,
                 "type_promoted": promoted,
+                "font_scale": factor,
                 "crop": [round(x0, 1), round(y0, 1), round(w, 1), round(h, 1)],
                 "placed_in": [PLACED_WIDTH_IN, round(height_in, 3)],
                 "aspect": round(h / w, 4),

@@ -70,14 +70,14 @@ def main() -> int:
     lines = []
     for p in pages:
         lines.append(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  rendered_v2/{p.name}")
-    pdf = HERE / "rendered_v2" / "paper_e_revision_v2.pdf"
+    pdf = HERE / "rendered_v2" / "paper_e_revision_v3.pdf"
     lines.append(f"{hashlib.sha256(pdf.read_bytes()).hexdigest()}  rendered_v2/{pdf.name}")
     # newline="" keeps LF so `sha256sum -c` works on a Windows checkout
     with (HERE / "D_PAGE_HASHES_V2.sha256").open("w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(lines) + "\n")
 
     text_files = [
-        "paper_e_revision_v2.md",
+        "paper_e_revision_v3.md",
         "build_revision_v2.py",
         "polish_docx_v2.py",
         "verify_revision_v2.py",
@@ -98,8 +98,8 @@ def main() -> int:
 
     binary = {}
     for name, ext in (
-        ("paper_e_revision_v2.docx", None),
-        ("rendered_v2/paper_e_revision_v2.pdf", None),
+        ("paper_e_revision_v3.docx", None),
+        ("rendered_v2/paper_e_revision_v3.pdf", None),
     ):
         rel = BASE + name
         try:
@@ -178,7 +178,7 @@ def main() -> int:
             "a pair marked CRLF_CHECKOUT_ONLY differs only by line endings."
         ),
         "production_source": {
-            "path": BASE + "paper_e_revision_v2.md",
+            "path": BASE + "paper_e_revision_v3.md",
             "role": "single editable body; DOCX and PDF derive from this file only",
         },
         "frozen_inputs": frozen,
