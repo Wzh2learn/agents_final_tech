@@ -22,3 +22,5 @@ research/feedback_learning_phase_b_20261026_v1/B1_FULL_TEST_OUTPUT.txt -text whi
 reports/LC-GOV-002*.md -text
 docs/archive/2026-10-21_loop_c_reports/** -text
 docs/archive/2026-10-21_loop_c_lead_prototype/** -text
+# Page-hash receipts must keep LF so `sha256sum -c` works on a Windows checkout.
+research/word_scoring_new_family_20261027_v1/paper_e_word/*.sha256 -text
