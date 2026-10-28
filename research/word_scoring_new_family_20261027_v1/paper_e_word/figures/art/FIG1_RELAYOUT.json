@@ -1,0 +1,29 @@
+{
+  "canvas": [
+    1460,
+    700
+  ],
+  "boxes": {
+    "w": 430,
+    "h": 200,
+    "radius": 14
+  },
+  "font_units": {
+    "title": 26,
+    "body": 24,
+    "step": 26
+  },
+  "page_pt_at_placed_width": {
+    "3.5": 4.1,
+    "6.5": 7.7,
+    "7.16": 8.5
+  },
+  "change": "single row + diamond -> two rows (3+2) + numbered rounded boxes",
+  "labels": [
+    "MOTIVATION",
+    "CONTROLLED FAILURE",
+    "VISIBILITY",
+    "DETECTION",
+    "OUTCOME / HARM"
+  ]
+}

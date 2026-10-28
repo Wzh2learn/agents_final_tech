@@ -26,7 +26,7 @@ BEIR第三案例评分合同、前后对照和复现命令已在2e7cc0f8修正�
 | PAPER-E-ROUTE | `EARLIER_CONFERENCE_SEARCH_IJCNN_BACKUP` | Owner偏好早会、正式出版、费用合理和远程展示；筛选更早可投会议，IJCNN 2027为备选，SNCS期刊顺序备选。学校是否认可预录、注册费及准确送审日需核实 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
 | PAPER-E-SCOPE | `TWO_CASES_EXISTING_THIRD_IF_QUALIFIED` | 当前两案例保留；经冻结合同与可复现验证的独立公开案例可纳入，更新全部主张和摘要，不能将开发性/后验观察冒充确认 |
-| PAPER-E-SUBMISSION | `THREE_CASES_RENDERED_CONFERENCE_LIMITED` | 三案例稿 16 页已渲染，§3.6/§5.8 为新增公开系统审计（BEIR，0 生成）；三图 1202/601/601 dpi 达标，图2/3 字号 7.5–9.7 pt，图1 仍 5.7 pt 结构受限；声明 10 处待填。C 只审两案例快照，后续无独立复审 |
+| PAPER-E-SUBMISSION | `IJCNN_PAGE_LIMIT_BLOCKS / SNCS_PRIMARY` | 匿名双栏 IJCNN 稿实测 13 页，超免费上限 7 页、超收费上限 3 页，付费也不能投；需另写真正 6 页精简稿。主投 SN Computer Science；IJCNN/FLAIRS 为有条件备选。官方 trec_eval 10.0-rc3 已实际运行，18,690 值一致 |
 | DTM-MECHANISM-RERUN | `CORRECTED_CARD_DEFERRED` | D已修正字段/参考/预算，5条可分析样本仅开发；本轮优先Paper E，不释放D/T/M重跑预算 |
 | WORKSPACE-INTEGRATION | `CONTINUE_EXISTING_INTEGRATION_WORKTREE_PRESERVE_123_FILES` | 负责人本地复核起点集成分支c33c14bf、主工作树main f0c246df；123个未跟踪文件原位保留。主树合并路径冲突不阻断集成分支修稿；本次未复核GB10，后续同步实测后再报 |
 | HISTORICAL-CREDENTIAL-CARRIERS | `IGNORED_UNTRACKED_NO_LEAK_ESTABLISHED_NOT_A_BLOCKER` | 本次只核根.env未跟踪且被忽略，不读取内容或历史；先前“凭据形状”不能单独证明泄露，不要求轮换/迁移以完成科研交接。若将来有实际暴露证据再按证据处置，本轮未触碰 |

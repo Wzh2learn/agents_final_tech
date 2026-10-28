@@ -238,6 +238,31 @@ EDITORIAL: list[tuple[str, str, int]] = [
         "none of the counted cases evaluates an agent system",
         1,
     ),
+    (
+        "Both were implemented twice and pinned by hand-computed counter-examples; the pytrec_eval binary was not run, so the claim is equivalence to the published definition, not to the binary.",
+        "Both were implemented twice, pinned by hand-computed counter-examples, and then checked per query against the official trec_eval binary, version 10.0-rc3: 18,690 values across the two subsets agree to the binary's four-decimal print precision, with a maximum deviation of 0.00005, half of the last printed digit.",
+        1,
+    ),
+    (
+        "and 25.7% carry a tie exactly at the 10/11 boundary, while the aggregate moves by 0.0000.",
+        "and 25.7% carry a tie exactly at the 10/11 boundary. The two aggregates are 0.304539 and 0.304491, a difference of 0.0000485, which four-decimal reporting renders as 0.0000; the movement is small, not zero.",
+        1,
+    ),
+    (
+        "With the corrected metric and Holm control over ten pairs,",
+        "The uncorrected column is a paired bootstrap interval; the corrected column is a Holm adjustment of paired sign-flip permutation p values, and the two procedures are reported separately rather than pooled. With the corrected metric and Holm control over ten pairs,",
+        1,
+    ),
+    (
+        "changing the cutoff or the tie order reorders systems while the headline score moves by 0.0000, and a point-estimate baseline",
+        "changing the cutoff or the tie order reorders systems while the headline score moves by about 0.00005, and a point-estimate baseline",
+        1,
+    ),
+    (
+        "change or a different tie order reorders near-tied systems while the headline score moves by 0.0000.",
+        "change or a different tie order reorders near-tied systems while the headline score moves by about 0.00005.",
+        1,
+    ),
     # --- explicit in-text cross-references for every numbered exhibit ------
     (
         "The transferable object is the measurement discipline, not an empirical claim "
@@ -599,7 +624,7 @@ def restore_dropped_items(text: str) -> tuple[str, list[dict]]:
         "policy and identity construction move absolute metrics without changing the "
         "qualitative hard-versus-random decision, and a retrieval benchmark, where a cutoff "
         "change or a different tie order reorders near-tied systems while the headline score "
-        "moves by 0.0000.\n"
+        "moves by about 0.00005.\n"
     )
     if text.count(contrib_anchor) != 1:
         raise SystemExit("contribution-2 anchor not found")

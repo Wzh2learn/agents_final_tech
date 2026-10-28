@@ -308,6 +308,31 @@
     },
     {
       "occurrences": 1,
+      "old": "Both were implemented twice and pinned by hand-computed counter-examples; the pytrec_eval binary was not run, so the claim is equivalence to the published defin",
+      "new": "Both were implemented twice, pinned by hand-computed counter-examples, and then checked per query against the official trec_eval binary, version 10.0-rc3: 18,69"
+    },
+    {
+      "occurrences": 1,
+      "old": "and 25.7% carry a tie exactly at the 10/11 boundary, while the aggregate moves by 0.0000.",
+      "new": "and 25.7% carry a tie exactly at the 10/11 boundary. The two aggregates are 0.304539 and 0.304491, a difference of 0.0000485, which four-decimal reporting rende"
+    },
+    {
+      "occurrences": 1,
+      "old": "With the corrected metric and Holm control over ten pairs,",
+      "new": "The uncorrected column is a paired bootstrap interval; the corrected column is a Holm adjustment of paired sign-flip permutation p values, and the two procedure"
+    },
+    {
+      "occurrences": 1,
+      "old": "changing the cutoff or the tie order reorders systems while the headline score moves by 0.0000, and a point-estimate baseline",
+      "new": "changing the cutoff or the tie order reorders systems while the headline score moves by about 0.00005, and a point-estimate baseline"
+    },
+    {
+      "occurrences": 1,
+      "old": "change or a different tie order reorders near-tied systems while the headline score moves by 0.0000.",
+      "new": "change or a different tie order reorders near-tied systems while the headline score moves by about 0.00005."
+    },
+    {
+      "occurrences": 1,
       "old": "The transferable object is the measurement discipline, not an empirical claim about agent behavior.\n",
       "new": "The transferable object is the measurement discipline, not an empirical claim about agent behavior. Table 1 states, for each over-reading the audit removes, the"
     },

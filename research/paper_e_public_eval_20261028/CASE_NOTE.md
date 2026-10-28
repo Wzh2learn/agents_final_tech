@@ -1,6 +1,6 @@
 # Case 3 — auditing a public retrieval evaluation (BEIR), corrected
 
-Date: 2026-10-28 (revision 2). Loop D direct execution. **Model generation calls: 0.**
+Date: 2026-10-28 (revision 3). Loop D direct execution. **Model generation calls: 0.**
 Supersedes `results/v1_uncorrected/`. The old JSONs are kept unchanged for comparison.
 
 ---
@@ -29,7 +29,7 @@ Supersedes `results/v1_uncorrected/`. The old JSONs are kept unchanged for compa
 | Splits | `qrels/test.tsv` only |
 | Systems | BM25 (0.9,0.4), (1.2,0.75), (0.5,0.3), (1.5,0.6); TF-IDF cosine — all rebuilt from the released corpus, no model |
 | Metrics | trec_eval `ndcg_cut` (graded gain), `map_cut.K` (denominator n_rel), `recall.K`; k ∈ {10,100}; binary-gain nDCG reported alongside |
-| Uncertainty | query-level bootstrap, 2,000 resamples; paired sign-flip permutation; **Holm** over the 10 pairs |
+| Uncertainty | query-level bootstrap, 2,000 resamples (uncorrected intervals); paired sign-flip permutation with **Holm** over the 10 pairs (corrected). The two are reported separately; an interval containing 0 means *not excluded*, not *proved equal* |
 | Controls | exact duplicate (correct verdict: indistinguishable) and top-document degradation (correct verdict: worse), each checked for direction |
 | Query/corpus id overlap | 0 on both subsets, so BEIR's `ignore_identical_ids` default cannot bind |
 
@@ -81,7 +81,7 @@ MAP@10 roughly halves because the denominator is the number of relevant document
 | top-10 differs as an **ordered list** | 36.5% |
 | top-10 differs as a **member set** | **25.7%** |
 | a tie sits exactly at the **10/11 boundary** | 25.7% |
-| aggregate nDCG@10 movement | **0.0000** |
+| aggregate nDCG@10 movement | **0.0000485** (0.30453945 vs 0.30449093; four decimals print as 0.0000, which is not zero) |
 
 Local instability in a quarter of queries, invisible in the headline number.
 
@@ -127,9 +127,12 @@ Controls, with direction verified:
 - Two subsets of **one** benchmark family; not two benchmarks.
 - Lexical deterministic systems only; nothing about dense or generative retrieval,
   and no model-quality claim.
-- `pytrec_eval` was not executed. Equivalence is to the published trec_eval
-  definition, verified by hand-computed counter-examples and a second independent
-  implementation, **not** by the official binary.
+- `pytrec_eval` was not executed, **but the official `trec_eval` binary was**:
+  version 10.0-rc3, built from the upstream source. 18,690 per-query values
+  (both subsets, five systems, k=10/100) agree to the binary's four-decimal
+  printed precision; maximum deviation 5.0e-05, which is half of the last
+  printed digit. Scope: it validates the metric definitions *given a ranking*,
+  not the audit's tie-breaking.
 - The freeze claim is post-hoc. No independent timestamped pre-registration exists.
 - No claim that any published BEIR number is wrong: this audits what a table
   supports, not what a system scored.
@@ -142,6 +145,9 @@ curl -sSL -O https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/
 unzip -q scifact.zip && unzip -q nfcorpus.zip
 python code/beir_audit.py    --data . --out result.json      # self-tests run first
 python code/beir_audit_ab.py --data . --out ab_result.json
+
+# official per-query cross-check (needs the trec_eval binary built from source)
+python code/official_crosscheck.py --data . --trec_eval /path/to/trec_eval --out official.json
 ```
 
 Data (zip SHA-256): `scifact 536e14446a0ba56ed1398ab1055f39fe852686ecad24a6306c80c490fa8e0165`,

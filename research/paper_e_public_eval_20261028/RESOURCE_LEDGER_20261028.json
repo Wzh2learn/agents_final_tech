@@ -26,7 +26,7 @@
     "gb10_cpu_audit_seconds": 18,
     "gb10_svg_to_pdf_renders": 3,
     "gb10_pdf_to_png_batches": 2,
-    "gb10_document_renders": 1,
+    "gb10_document_renders": 3,
     "data_downloaded_mb": 5.3,
     "note": "two audit runs (v1 and corrected v2) plus two document renders"
   },
@@ -48,10 +48,24 @@
     "cap_total": 29,
     "this_round": 0
   },
-  "revision": 2,
+  "revision": 3,
   "correction_round": {
     "metric_self_tests": 8,
     "cross_impl_checks_per_subset": 400,
     "model_calls": 0
+  },
+  "official_trec_eval_validation": {
+    "tool": "trec_eval 10.0-rc3 (built from source on GB10, gcc 13.3)",
+    "values_compared": 18690,
+    "mismatches_at_1e-4": 0,
+    "max_abs_diff": 5e-05,
+    "receipt": "results/OFFICIAL_TREC_EVAL_CROSSCHECK_20261028.json"
+  },
+  "conference_draft": {
+    "file": "paper_e_ijcnn2027_submission.docx",
+    "rendered_pages": 13,
+    "ijcnn_free_page_limit": 6,
+    "ijcnn_paid_page_limit": 10,
+    "verdict": "does not fit IJCNN 2027 even with over-length fees; a genuine 6-page rewrite is required"
   }
 }

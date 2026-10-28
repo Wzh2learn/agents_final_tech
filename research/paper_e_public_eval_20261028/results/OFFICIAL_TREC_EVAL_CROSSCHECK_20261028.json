@@ -1,0 +1,136 @@
+{
+  "trec_eval": {
+    "binary": "./trec_eval-main/trec_eval",
+    "version_output": "trec_eval version 10.0-rc3"
+  },
+  "datasets": {
+    "scifact": {
+      "queries": 300,
+      "systems": {
+        "bm25_09_04": {
+          "queries_compared": 300,
+          "max_abs_diff": 5.000000000000143e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1800
+        },
+        "bm25_12_075": {
+          "queries_compared": 300,
+          "max_abs_diff": 4.971243261508995e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1800
+        },
+        "bm25_05_03": {
+          "queries_compared": 300,
+          "max_abs_diff": 4.947999616211618e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1800
+        },
+        "bm25_15_06": {
+          "queries_compared": 300,
+          "max_abs_diff": 4.9535037193570997e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1800
+        },
+        "tfidf": {
+          "queries_compared": 300,
+          "max_abs_diff": 4.9535037193570997e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1800
+        }
+      },
+      "max_abs_diff": 5.000000000000143e-05,
+      "mismatches": 0,
+      "comparisons": 9000,
+      "per_metric": {
+        "recall_10": {
+          "n": 1500,
+          "max": 3.333333333332966e-05
+        },
+        "recall_100": {
+          "n": 1500,
+          "max": 3.333333333332966e-05
+        },
+        "ndcg_cut_10": {
+          "n": 1500,
+          "max": 4.971243261508995e-05
+        },
+        "ndcg_cut_100": {
+          "n": 1500,
+          "max": 4.971243261508995e-05
+        },
+        "map_cut_10": {
+          "n": 1500,
+          "max": 4.4444444444513564e-05
+        },
+        "map_cut_100": {
+          "n": 1500,
+          "max": 5.000000000000143e-05
+        }
+      }
+    },
+    "nfcorpus": {
+      "queries": 323,
+      "systems": {
+        "bm25_09_04": {
+          "queries_compared": 323,
+          "max_abs_diff": 5.000000000000143e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1938
+        },
+        "bm25_12_075": {
+          "queries_compared": 323,
+          "max_abs_diff": 5.000000000000143e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1938
+        },
+        "bm25_05_03": {
+          "queries_compared": 323,
+          "max_abs_diff": 5.000000000000143e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1938
+        },
+        "bm25_15_06": {
+          "queries_compared": 323,
+          "max_abs_diff": 5.000000000000143e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1938
+        },
+        "tfidf": {
+          "queries_compared": 323,
+          "max_abs_diff": 5.000000000000143e-05,
+          "mismatches": 0,
+          "match_at_printed_precision": 1938
+        }
+      },
+      "max_abs_diff": 5.000000000000143e-05,
+      "mismatches": 0,
+      "comparisons": 9690,
+      "per_metric": {
+        "recall_10": {
+          "n": 1615,
+          "max": 5.000000000000143e-05
+        },
+        "recall_100": {
+          "n": 1615,
+          "max": 5.000000000000143e-05
+        },
+        "ndcg_cut_10": {
+          "n": 1615,
+          "max": 4.97560752043269e-05
+        },
+        "ndcg_cut_100": {
+          "n": 1615,
+          "max": 4.9961591174388365e-05
+        },
+        "map_cut_10": {
+          "n": 1615,
+          "max": 5.000000000000143e-05
+        },
+        "map_cut_100": {
+          "n": 1615,
+          "max": 5.000000000000143e-05
+        }
+      }
+    }
+  }
+}
