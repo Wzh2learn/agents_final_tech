@@ -1,7 +1,7 @@
 {
   "schema": "paper_e_word_conversion_manifest_v2",
   "date": "2026-10-28",
-  "bound_to_commit": "f64ad704aefbcd57407422a1303854808c9ad66b",
+  "bound_to_commit": "b6c8059a156c7ce643633e78c978e67c345e2dc7",
   "bound_to_note": "Commit at build time. Only this manifest file differs between that commit and the one carrying it; every artifact hash above matches the blobs at that commit.",
   "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
   "hash_rule": "raw_blob_sha256 is the identity value. worktree_sha256 is recorded separately because core.autocrlf=true makes the Windows checkout CRLF; a pair marked CRLF_CHECKOUT_ONLY differs only by line endings.",
@@ -38,26 +38,26 @@
   "artifacts": {
     "paper_e_revision_v2.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.md",
-      "git_blob_oid": "c6193020224e20fab32d2c2bd762b4a723ee35aa",
-      "raw_blob_sha256": "6b458db29589a7858d25b046e5df45220a9f9ac491dac6d381f5bfc3e93e1791",
-      "bytes": 51356,
-      "worktree_sha256": "9973e321d33549cc3d680049821adc5a1c8c9efa2488f821e50b7f830c7181ed",
+      "git_blob_oid": "1c264b6ad56db916c5ec2efd481876fcf0dbdc26",
+      "raw_blob_sha256": "5aa2c945f5480967bec410dcf77300d4ff7f0f3eb828274f3c60f35468eb3dad",
+      "bytes": 51380,
+      "worktree_sha256": "d5a84e4b8c79976660e60f634188c86573d349e6de40d769cdc16c8f4d2f08b1",
       "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
     },
     "build_revision_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_revision_v2.py",
-      "git_blob_oid": "a78057b1efd88287f4750aea428a4ccece821e7e",
-      "raw_blob_sha256": "a60d608838143529e6f8076ff42a7ba0ebe72c43aa347520dc0185b0145c5807",
-      "bytes": 36013,
-      "worktree_sha256": "cb237995a36c00c6b8141e4cdabcfb1aac18f7f0549f55dffd0d7524a6162dc7",
-      "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
+      "git_blob_oid": "abbb3ba0e701e78b3c2d4261cd755c7664d5aa25",
+      "raw_blob_sha256": "87d6f0e5b135c28c4f01b4deb74034cb9a0e902e3ee232b8f417a3304a402a87",
+      "bytes": 36503,
+      "worktree_sha256": "87d6f0e5b135c28c4f01b4deb74034cb9a0e902e3ee232b8f417a3304a402a87",
+      "worktree_vs_blob": "IDENTICAL"
     },
     "polish_docx_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/polish_docx_v2.py",
-      "git_blob_oid": "fe2fe339508e3848cd6ce24abe176ea14f28b37f",
-      "raw_blob_sha256": "d84b8306d47530f779b3a1dc965ce1684cc7c4d960551a9af565491724519e86",
-      "bytes": 8897,
-      "worktree_sha256": "d84b8306d47530f779b3a1dc965ce1684cc7c4d960551a9af565491724519e86",
+      "git_blob_oid": "bf7446f34a7139124e94482307f5275fc1ab1f14",
+      "raw_blob_sha256": "170b46a671ce484860cafbf7a724a0974543bb36658a47b0e223ff072f63e08a",
+      "bytes": 10158,
+      "worktree_sha256": "170b46a671ce484860cafbf7a724a0974543bb36658a47b0e223ff072f63e08a",
       "worktree_vs_blob": "IDENTICAL"
     },
     "verify_revision_v2.py": {
@@ -70,10 +70,10 @@
     },
     "BUILD_COMMANDS_V2.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/BUILD_COMMANDS_V2.md",
-      "git_blob_oid": "50556c1f59c97c4ec01ae85fcc0901856b36eb66",
-      "raw_blob_sha256": "3ba39d48db57436eb3414a83a4cee6d14a23ce2f5c7bbca6dc7818d18bae2dc9",
-      "bytes": 4032,
-      "worktree_sha256": "3ba39d48db57436eb3414a83a4cee6d14a23ce2f5c7bbca6dc7818d18bae2dc9",
+      "git_blob_oid": "9678621a5360d83cfc7d208f07e4601b7349d4ee",
+      "raw_blob_sha256": "7d443516cb7bf399f0115f1bde99fafe73e3c5494585c9f168cb9d88f4b9aa32",
+      "bytes": 5460,
+      "worktree_sha256": "7d443516cb7bf399f0115f1bde99fafe73e3c5494585c9f168cb9d88f4b9aa32",
       "worktree_vs_blob": "IDENTICAL"
     },
     "D_REVISION_NOTES_20261028.md": {
@@ -86,10 +86,10 @@
     },
     "SNCS_GUIDELINE_CHECK_20261028.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/SNCS_GUIDELINE_CHECK_20261028.md",
-      "git_blob_oid": "faaba3608b1ee1e9a90a943c09d8db348bf2618c",
-      "raw_blob_sha256": "0ffb218f07cb11379ffde7b453877ff8c261d8efb727b0f2db1763d133f0f3c5",
-      "bytes": 4564,
-      "worktree_sha256": "0ffb218f07cb11379ffde7b453877ff8c261d8efb727b0f2db1763d133f0f3c5",
+      "git_blob_oid": "5a82bdc3ba9d3548bf35caea7a0a731258494ddd",
+      "raw_blob_sha256": "4e00f5a31df8444f6acc4d0e681a32d8a70a2bb66cd0d7049528d8e8341b0ce9",
+      "bytes": 5920,
+      "worktree_sha256": "4e00f5a31df8444f6acc4d0e681a32d8a70a2bb66cd0d7049528d8e8341b0ce9",
       "worktree_vs_blob": "IDENTICAL"
     },
     "C_RESPONSE_AND_DISPOSITION_20261028.md": {
@@ -99,50 +99,96 @@
       "bytes": 7832,
       "worktree_sha256": "fb61e146397152009f712e03020dc21382e8bd3d188ca8fddaa7fb2724783929",
       "worktree_vs_blob": "IDENTICAL"
+    },
+    "rebuild_figures.py": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rebuild_figures.py",
+      "git_blob_oid": "6f415a26862cc9568dcaa6715d744940e8b04959",
+      "raw_blob_sha256": "e2d4202cfd402d8b0c2d15dbbb4c9653002609d9ca8297fb69ec618fc24f6374",
+      "bytes": 8512,
+      "worktree_sha256": "e2d4202cfd402d8b0c2d15dbbb4c9653002609d9ca8297fb69ec618fc24f6374",
+      "worktree_vs_blob": "IDENTICAL"
+    },
+    "D_CONTINUATION_RETURN_20261028.md": {
+      "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/D_CONTINUATION_RETURN_20261028.md",
+      "git_blob_oid": "HEAD:research/word_scoring_new_family_20261027_v1/paper_e_word/D_CONTINUATION_RETURN_20261028.md",
+      "raw_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
     }
   },
   "outputs": {
     "paper_e_revision_v2.docx": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.docx",
-      "git_blob_oid": "cb574757496e0adf2473bdb891cdc7133b465475",
-      "raw_blob_sha256": "8c26bb0e20ee3e7fb737ecc520d3e47fbf7057f89fed80a7229f04aafc83818f",
-      "bytes": 308566,
-      "worktree_sha256": "8c26bb0e20ee3e7fb737ecc520d3e47fbf7057f89fed80a7229f04aafc83818f",
+      "git_blob_oid": "24806e9d62aa7832c1ed8b432b3a8f7db3948c33",
+      "raw_blob_sha256": "390b9cfc72b47ab44068e190e9e3abc37d6e26ec1addde7728411630a8fe6c99",
+      "bytes": 675722,
+      "worktree_sha256": "390b9cfc72b47ab44068e190e9e3abc37d6e26ec1addde7728411630a8fe6c99",
       "worktree_vs_blob": "IDENTICAL"
     },
     "rendered_v2/paper_e_revision_v2.pdf": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/rendered_v2/paper_e_revision_v2.pdf",
-      "git_blob_oid": "26bf0e6524042142e3e4d8804d92c93637356a24",
-      "raw_blob_sha256": "d1d51f2795cd94e8b66ac93bec1e6ef8b59387a373a32f74c1ef13f8ecbebd11",
-      "bytes": 432240,
-      "worktree_sha256": "d1d51f2795cd94e8b66ac93bec1e6ef8b59387a373a32f74c1ef13f8ecbebd11",
+      "git_blob_oid": "6afd9b1fba187f7128e355bcdf0b765463d70734",
+      "raw_blob_sha256": "bde6cb72dc57868e135e7660be58b9050333aaef2be8ecf1c351d5dfb98f55eb",
+      "bytes": 591438,
+      "worktree_sha256": "bde6cb72dc57868e135e7660be58b9050333aaef2be8ecf1c351d5dfb98f55eb",
       "worktree_vs_blob": "IDENTICAL"
     }
   },
   "figures": {
+    "fig1_measurement_chain_art.png": {
+      "git_blob_oid": "fdb1d29ab5ef2237c2047c03e22280e23db73fff",
+      "raw_blob_sha256": "dad6f89f32a596f433500214e5a8b3cd0e135eafbcabc75fe700d85c3203ea30",
+      "kind": "line_art",
+      "pixels": "7813x1430",
+      "placed_width_in": 6.5,
+      "effective_dpi_at_placed_width": 1202.0,
+      "required_dpi": 1200,
+      "status": "MEETS_REQUIRED_DPI",
+      "source_svg": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/art/fig1_measurement_chain_art.svg"
+    },
+    "fig2_family_visibility_matrix_art.png": {
+      "git_blob_oid": "18b57f798e4dda44dea64c90e8d151d61876c4b9",
+      "raw_blob_sha256": "24ff658cd577be5edd2bc9f9998e93131e94ee2c0a67eaaf8cdd7d23afdd3909",
+      "kind": "combination",
+      "pixels": "3907x1985",
+      "placed_width_in": 6.5,
+      "effective_dpi_at_placed_width": 601.1,
+      "required_dpi": 600,
+      "status": "MEETS_REQUIRED_DPI",
+      "source_svg": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/art/fig2_family_visibility_matrix_art.svg"
+    },
+    "fig3_localization_ablation_art.png": {
+      "git_blob_oid": "b8d687610601b19b8e520e5d2ba348d05e1a4c9c",
+      "raw_blob_sha256": "63a0d9bbb20162c18a8f28b43c417a3e5d87128eb9342f2b83dcfdafd4382637",
+      "kind": "combination",
+      "pixels": "3907x1926",
+      "placed_width_in": 6.5,
+      "effective_dpi_at_placed_width": 601.1,
+      "required_dpi": 600,
+      "status": "MEETS_REQUIRED_DPI",
+      "source_svg": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/art/fig3_localization_ablation_art.svg"
+    }
+  },
+  "superseded_figures_retained": {
     "fig1_measurement_chain.png": {
       "git_blob_oid": "618f8f2c438951c96015c18bb85f78446c44eb87",
       "raw_blob_sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af",
       "pixels": "1800x700",
-      "effective_dpi_at_6_5in": 276.9,
-      "png_pHYs_present": false,
-      "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE"
+      "status": "SUPERSEDED_RETAINED_FOR_HISTORY",
+      "why": "carries its own in-artwork title/subtitle/footnote and is below the required dpi"
     },
     "fig2_family_visibility_matrix.png": {
       "git_blob_oid": "1ffe1d544c31aac7b877a6d4d6076d2b02fddadd",
       "raw_blob_sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d",
       "pixels": "1800x1080",
-      "effective_dpi_at_6_5in": 276.9,
-      "png_pHYs_present": false,
-      "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE"
+      "status": "SUPERSEDED_RETAINED_FOR_HISTORY",
+      "why": "carries its own in-artwork title/subtitle/footnote and is below the required dpi"
     },
     "fig3_localization_ablation.png": {
       "git_blob_oid": "ab13cda0ade19631ad62ad0b2a74e0c1ad72ac43",
       "raw_blob_sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64",
       "pixels": "1600x1000",
-      "effective_dpi_at_6_5in": 246.2,
-      "png_pHYs_present": false,
-      "status": "BELOW_300_DPI_AND_CARRIES_IN_TITLE"
+      "status": "SUPERSEDED_RETAINED_FOR_HISTORY",
+      "why": "carries its own in-artwork title/subtitle/footnote and is below the required dpi"
     }
   },
   "tools": {
