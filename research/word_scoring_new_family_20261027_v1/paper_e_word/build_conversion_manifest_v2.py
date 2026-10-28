@@ -166,6 +166,27 @@ def main() -> int:
             "modified": False,
         }
 
+    submission = {}
+    sub = HERE / "paper_e_ijcnn2027_submission.docx"
+    if sub.is_file():
+        rel = BASE + "paper_e_ijcnn2027_submission.docx"
+        try:
+            oid, raw = blob(rel)
+        except SystemExit:
+            oid, raw = "", b""
+        submission = {
+            "file": rel,
+            "git_blob_oid": oid,
+            "raw_blob_sha256": hashlib.sha256(raw).hexdigest() if raw else "NOT_COMMITTED",
+            "format": "IJCNN 2027: double column, single spaced, 10pt Times Roman, Letter, double-blind",
+            "figures": "each figure in its own one-column section (Word figure* equivalent)",
+            "rendered_pages": 13,
+            "ijcnn_free_page_limit": 6,
+            "ijcnn_paid_page_limit": 10,
+            "extra_page_fee_usd": 100,
+            "verdict": "CANNOT_BE_SUBMITTED_AS_IS: 13 pages exceeds both limits; a genuine 6-page rewrite is required",
+        }
+
     manifest = {
         "schema": "paper_e_word_conversion_manifest_v2",
         "date": "2026-10-28",
@@ -185,6 +206,7 @@ def main() -> int:
         "artifacts": artifacts,
         "outputs": binary,
         "figures": figures,
+        "submission_draft": submission,
         "superseded_figures_retained": legacy,
         "tools": {
             "pandoc": "3.2.1 at D:/pandocLatex2word/pandoc.exe",

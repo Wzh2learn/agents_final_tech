@@ -1,7 +1,7 @@
 {
   "schema": "paper_e_word_conversion_manifest_v2",
   "date": "2026-10-28",
-  "bound_to_commit": "34d386fc64b1976997df7396f6d188f8511bb246",
+  "bound_to_commit": "65ead1f6a5c30cf80903640a3bec37dca7685ba1",
   "bound_to_note": "Commit at build time. Only this manifest file differs between that commit and the one carrying it; every artifact hash above matches the blobs at that commit.",
   "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
   "hash_rule": "raw_blob_sha256 is the identity value. worktree_sha256 is recorded separately because core.autocrlf=true makes the Windows checkout CRLF; a pair marked CRLF_CHECKOUT_ONLY differs only by line endings.",
@@ -38,18 +38,18 @@
   "artifacts": {
     "paper_e_revision_v4.md": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v4.md",
-      "git_blob_oid": "71ef972ad0c43d38cbcd595bb8f4141ce3795fef",
-      "raw_blob_sha256": "3391f58faf9564c97e2c4fdc8aa8ffe8ce0a391e12883d525fd5689471f75706",
-      "bytes": 57577,
-      "worktree_sha256": "587347ff32c2c111cab30499f0bd0a309d0986b0a5d890e51de291257034da03",
+      "git_blob_oid": "252129d8893efcc7c4ade78db4aa6be0ec9b8691",
+      "raw_blob_sha256": "f9e8b4b031abc0d53f6975b7548e2a50f1c874d025acf507278df16e6564ae9d",
+      "bytes": 58041,
+      "worktree_sha256": "5e27740f79f714840c4e355fdb79d977cd06f3962612a9599169469c00420266",
       "worktree_vs_blob": "CRLF_CHECKOUT_ONLY"
     },
     "build_revision_v2.py": {
       "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/build_revision_v2.py",
-      "git_blob_oid": "519957e08ee7c20f1175be9c39e03d41d4182822",
-      "raw_blob_sha256": "874d8e8e78132383dcb7b2e753593b4bb15a25518c90cf037f3a2291b80a15fe",
-      "bytes": 47105,
-      "worktree_sha256": "874d8e8e78132383dcb7b2e753593b4bb15a25518c90cf037f3a2291b80a15fe",
+      "git_blob_oid": "b693e32b1c03874ac557e1808adb0c72fc380635",
+      "raw_blob_sha256": "1a1a213fe552d991feb8ec6080d0267106f7c183ff1fdc3f5882d4df9a2cf345",
+      "bytes": 48930,
+      "worktree_sha256": "1a1a213fe552d991feb8ec6080d0267106f7c183ff1fdc3f5882d4df9a2cf345",
       "worktree_vs_blob": "IDENTICAL"
     },
     "polish_docx_v2.py": {
@@ -135,10 +135,10 @@
   },
   "figures": {
     "fig1_measurement_chain_art.png": {
-      "git_blob_oid": "fdb1d29ab5ef2237c2047c03e22280e23db73fff",
-      "raw_blob_sha256": "dad6f89f32a596f433500214e5a8b3cd0e135eafbcabc75fe700d85c3203ea30",
+      "git_blob_oid": "bd0d873ff0114c8b75ee684dd72adf7aa2861ec6",
+      "raw_blob_sha256": "975cc62f35259b066d3fbfd71ef55b9abbeb77511dcf1a576962ed7e3b12fd98",
       "kind": "line_art",
-      "pixels": "7813x1430",
+      "pixels": "7813x3752",
       "placed_width_in": 6.5,
       "effective_dpi_at_placed_width": 1202.0,
       "required_dpi": 1200,
@@ -167,6 +167,18 @@
       "status": "MEETS_REQUIRED_DPI",
       "source_svg": "research/word_scoring_new_family_20261027_v1/paper_e_word/figures/art/fig3_localization_ablation_art.svg"
     }
+  },
+  "submission_draft": {
+    "file": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_ijcnn2027_submission.docx",
+    "git_blob_oid": "476cca2a6f213a66a1bff3864546ec29724a888d",
+    "raw_blob_sha256": "baee28a0c9f2389debc3a81daa4ddbddcdfd0927bf281dd2a7af471f3598080c",
+    "format": "IJCNN 2027: double column, single spaced, 10pt Times Roman, Letter, double-blind",
+    "figures": "each figure in its own one-column section (Word figure* equivalent)",
+    "rendered_pages": 13,
+    "ijcnn_free_page_limit": 6,
+    "ijcnn_paid_page_limit": 10,
+    "extra_page_fee_usd": 100,
+    "verdict": "CANNOT_BE_SUBMITTED_AS_IS: 13 pages exceeds both limits; a genuine 6-page rewrite is required"
   },
   "superseded_figures_retained": {
     "fig1_measurement_chain.png": {
