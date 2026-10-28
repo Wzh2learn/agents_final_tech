@@ -5,18 +5,13 @@
 
 ## 当前任务
 
-Loop D已接任，Paper E转换与正文修复有实质进展：单一生产源`paper_e_revision_v2.md`、14页DOCX/PDF及派生manifest已交付。负责人本地重放源重建与结构/算术检查PASS（6步、4表、3图、24引用、28项算术），不替代重新目视或科学同行评审。C曾审`08be0547`并判CONDITIONAL，累计29/29；后续正文修订未经再次独立复审。三图与声明仍开放，尚非最终投稿包。
+Owner已要求增强Paper E的实证论证，并优先筛选更早、可远程展示的正式会议。现役指令：[LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。从公开评测独立验证与审计前后判断/纠错两方面推进，会议调研与稿件并行；结果尚未完成，Owner转发后执行。
 
-本轮已完成两项：三图从 SVG 源重导出（移除图内标题/副标题/脚注与重复 caption，裁到内容框，按类别 1200 dpi 线图 / 600 dpi 组合图栅格化），14 页重渲染并逐页自验，页哈希与派生 manifest 更新，旧图与原 manifest 保留历史身份；离线实验卡已原地更正（撤回「合同长度效应」与「单位未冻结」，重开预算）。科研生成、训练、judge 及外部动作仍未执行，A/C 仍 29/29；见[本轮回执](../research/word_scoring_new_family_20261027_v1/D_CONTINUATION_RETURN_20261028.md)。
+已有两案例与正向观察：FinRank的已检查比较方向对tie规则稳定；针对三个阶段设计的检查点在216条受控变化中可区分阶段，但简单直接检查同样有效。新独立案例与真实决策收益尚未建立，不声称通用Agent方法成立。
 
-负责人本地复核起点：集成分支`integration/paper-e-word-20261028`为`c33c14bf`，主工作树main仍为`f0c246df`；123个未跟踪Word文件原位保留。当前修订继续在现成集成worktree，main路径冲突不阻断论文工作。本次未重核GB10，不能将本地文档更新写为三端已同步。
+D上一轮在4cc4290完成三图源重导出、14页重渲染和D/T/M卡更正；图内字号5.7–8.2pt仍需依据最终模板处理，C后修改未获新独立审阅。D/T/M五条仅开发，不是当前实验。主树123个未跟踪副本保留，集成worktree继续使用。
 
-
-
-D/T/M旧面板仍受thinking、截断及不等长合同混淆，不能识别M效应。当前卡误读`unit_reference`；实际8条都有`unit`（3 percent、1 thousand、4 UNKNOWN），需逐题复核而非断言全缺。格式率持平不是停止方法的判据；35请求卡漏计部分输入和物理重试，尚不可开跑。历史推理输出已包含在output总量，不因缺细分重复追加。
-
-
-接任前的28/28、5/7分叉、38/85文件分类及84/86历史hash结果保留为[前次复核](../docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json)的日期快照，不再作为“尚待接任/尚可派C”的现役状态。旧raw、清单、参考、评分与历史worktree均保留。
+本Goal转发后授权限额内GB10本地评测，最多128物理生成尝试、100万输入+输出tokens（包含judge/失败/重试），训练、付费API、生产访问、A/C新增派发、外部投稿等不含在内。历史账本不重置，尚未转发和运行不得记为已授权/已用。
 
 Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位题没有可见 million/thousand 尺度，降为不可判定，唯一可修的引用题在 neutral/category/localization 下均 0/1。旧 generic adapter 的 `1)0→10` 语义污染反例已由 strict whole-JSON 和限定尾部规则阻止。详见 [Phase A 回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)与[复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)。
 
@@ -26,9 +21,9 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 |---|---|
 | 当前方法实验 | [A回执](../research/word_scoring_new_family_20261027_v1/A_RETURN.md)、[C审阅](../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md)、[D收尾](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md) |
 | 修订算子诊断 | [REVISION_OPERATOR_RETURN](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[CONTROL](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V2_CONTROL_RESCORED.json)、[MECHANISM](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_V3_MECHANISM.json) |
-| Paper E 投稿路线 | [REVISION_NOTES_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/D_REVISION_NOTES_20261028.md)、[SNCS_GUIDELINE_CHECK_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/SNCS_GUIDELINE_CHECK_20261028.md)、[C_RESPONSE_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/C_RESPONSE_AND_DISPOSITION_20261028.md)：SNCS条件主投；正文与技术包已达可交作者办理，图像分辨率/图内标题与声明占位仍开放 |
+| Paper E 投稿路线 | [REVISION_NOTES_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/D_REVISION_NOTES_20261028.md)、[SNCS_GUIDELINE_CHECK_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/SNCS_GUIDELINE_CHECK_20261028.md)、[C_RESPONSE_20261028](../research/word_scoring_new_family_20261027_v1/paper_e_word/C_RESPONSE_AND_DISPOSITION_20261028.md)：会议优先；实验补强与更早会议调研尚待执行，图内字号与声明仍开放 |
 | 当前科研基线与三张实验卡 | [RESEARCH_BASELINE_AND_REUSE_MAP](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)；[GOVERNANCE_RETURN](../research/research_baseline_governance_20261023/GOVERNANCE_RETURN.md) |
-| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：D继续内部修图与渲染，29/29不追加派发；先Paper E、后纠正离线实验卡，无新科研生成 |
+| 唯一现役指令 | [LOOP_D_RESEARCH_PROMPT](../docs/research/LOOP_D_RESEARCH_PROMPT.md)：Owner转发后补强Paper E公开验证与审计前后对照，并筛选更早会议；A/C29/29不追加派发 |
 | 事后有效性复核 | [POST_B_REVIEW](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)：主计数复算、有效父模型/合同与语义边界；本轮0科研生成/训练 |
 | 最新科研回执 | [D_LOOP_RETURN_20261028](../research/word_scoring_new_family_20261027_v1/D_LOOP_RETURN_20261028.md)、[C_PAPER_E_V2_REVIEW](../research/word_scoring_new_family_20261027_v1/audits/C_PAPER_E_V2_REVIEW.md)、[DTM_DECISION_CARD](../research/word_scoring_new_family_20261027_v1/DTM_DECISION_CARD_20261028.md) |
 | 新对话交接 | [D_CLOSEOUT_RETURN § 新对话交接](../research/word_scoring_new_family_20261027_v1/D_CLOSEOUT_RETURN.md)：最少必读、Git/工作区、预算与授权边界 |
@@ -42,7 +37,7 @@ Phase A 复算确认：安全尾部适配后 copy 2/2、known edit 2/2；单位�
 ## 科学边界
 
 - C1 / Paper E：`TEXT_AND_FIGURES_READY / DECLARATIONS_OPEN`。正文缺陷全部关闭并有确定性复现；三图已从源重导出，分辨率按图像类别达标、图内标题与脚注已移除。剩余只有声明占位与图内字号（5.7–8.2 pt，低于 8–12 pt 推荐值，需重排版面）。C 快照之后的全部修改均为 D 自验，未经新的独立复审。
-- C2/C3新表族诊断：`SEVERE_BUDGET_CONFOUND / CARD_V2_CORRECTED`。旧24条分段支持严重输出预算混淆，**不分离**thinking 长度与合同长度；D4/T1/M0 是接口提取结果。参考字段为 `unit`（8/8 有值：percent 3、thousand 1、UNKNOWN 4），逐题核出 3 条标签冲突，可分析面板由 8 收缩到 5；预算重开为 27 物理请求 / 54,000 输入 / 13,824 输出 / 合计 67,824 token。typed UNKNOWN 冲突仍是静态缺陷，旧24条从未触发。未授权新生成。
+- C2/C3新表族诊断：`SEVERE_BUDGET_CONFOUND / CARD_V2_CORRECTED`。旧24条分段支持严重输出预算混淆，**不分离**thinking 长度与合同长度；D4/T1/M0 是接口提取结果。参考字段为 `unit`（8/8 有值：percent 3、thousand 1、UNKNOWN 4），逐题核出 3 条标签冲突，可分析面板由 8 收缩到 5；预算重开为 27 物理请求 / 54,000 输入 / 13,824 输出 / 合计 67,824 token。typed UNKNOWN 冲突仍是静态缺陷，旧24条从未触发。D/T/M重跑未获本Goal授权。
 - 以下 G2、G3 与旧第三研究点条目保留为历史边界和复用素材，不承担现役 C1/C2/C3 贡献身份。
 - G2：`METHOD_INCREMENT_NOT_IDENTIFIED / STOP_CURRENT_MECHANISM`。v3 已绑定实际模块并拒绝审计反例；alias-aware static + repo/behavior 与 consumption + behavior 均 6/6。一个自然 Qwen 候选为等价正确实现，无新错误机制。
 - G3：`SIMPLE_RULE_SUFFICIENT / COMPLEX_PLANNER_PAUSED`。六对象真实动作中多个 simple baseline 均 6/6；单次 wall-clock 不支持稳定成本排序。

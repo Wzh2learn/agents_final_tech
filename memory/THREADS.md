@@ -17,18 +17,18 @@ Loop D 已于 2026-10-28 接任并执行完本轮授权：Paper E 实质修订�
 | UNIT-OBSERVABILITY | `UNOBSERVABLE_UNIT_CASE_EXCLUDED_FROM_INFERABLE_DENOMINATOR` | [A回执](../docs/governance/audit/loop_d_control_review/PHASE_A_RETURN.md)已确认单位尺度不可见；仅可修引用题0/1，后续监督按可观测性资格核验 |
 | ADAPTER-SEMANTICS | `SAFE_TAIL_AND_STRICT_SPLIT_VERIFIED_PHASE_A` | [A复算](../research/feedback_delivery_continuation_20261025_v1/PHASE_A_RECOMPUTE_V1.json)已阻止1)0→10反例，raw/strict/embedded分开；不把旧适配器继续写成现役实现，未来合同仍需C核验 |
 | NEXT-C2-SUPERVISION | `SCORING_V3_CONFIRMED_DTM_EFFECT_UNIDENTIFIED` | [C审阅](../research/word_scoring_new_family_20261027_v1/audits/C_JOINT_AUDIT.md)确认三类配对控制与纯重评；D/T/M有输出长度/截断混淆，M未获公平试验；typed UNKNOWN还存在exact-key冲突。修订卡需先核合同与参考，不能默认加长后24-call重跑 |
-| NEXT-PHASE-BUDGET | `29_USED_NO_NEW_DISPATCH_OR_SCIENTIFIC_RUN` | A/C累计29/29；历史27次预留、24条raw和46,054 tokens保留。全局保守余额不是开跑许可；35请求卡输入/重试预算未闭合，需离线重写后再申请 |
+| NEXT-PHASE-BUDGET | `PAPER_E_128_ATTEMPTS_1M_TOKENS_ON_FORWARD` | Owner转发后Paper E本地生成/judge硬帽128物理尝试与100万输入+输出tokens，含失败重试；先核父账本和余额，保留历史差额，DTM重跑不包含 |
 | P2-CALIBRATION-NEXT | `QUESTION_ONLY_STOP_ACCEPTED_DEVELOPMENT_ONLY` | blank-type为12/19/5，question-only为31/5；mean信号真实可见，count/span依赖题面规则。停止冻结面板方法候选，不称通用answer-type推断或跨来源方法 |
 | C2-FEEDBACK-REPAIR | `STOP_CURRENT_R_E_CANDIDATE_NOT_GENERAL_FEEDBACK_CLAIM` | [B2B 分析](../research/feedback_learning_phase_b_20261026_v1/b2b/B2B_DEVELOPMENT_ANALYSIS.json)与 [C 复核](../research/feedback_learning_phase_b_20261026_v1/audits/TASK_RESULT_C_B2B.json)支持当前实现停止；[事后复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)补充有效父模型与代理指标缺陷，不支持干净方法负结论或反馈学习普遍无效 |
 | C3-DELIVERY-POLICY | `PRIOR_ERROR_POOL_REPLAY_NEUTRAL_RETRY_STRONG_LOCALIZATION_STOPPED` | [回放 C](../research/feedback_delivery_continuation_20261025_v1/DELIVERY_CONFIRMATION_C_V1.json) 中 original 60/72、neutral 62/72、localization 59/72；定位修订修对 3、破坏 4。24/24 task IDs 与 V4/V5 error pool 重合，只作开发回放，透明门控只以大面积弃答降低条件错误率 |
-| PAPER-E-ROUTE | `SNCS_SUBSCRIPTION_CONDITIONAL_PRIMARY_ICAART_TIME_GATED` | [渠道复核](../research/natural_error_evidence_cost_20261026_v1/paper_e/ROUTE_REASSESSMENT_20261026.md)：ICAART实时官网不可用且前置条件未齐；Owner仍需最终确认，未投稿/付款/公开 |
+| PAPER-E-ROUTE | `EARLIER_CONFERENCE_SEARCH_IJCNN_BACKUP` | Owner偏好早会、正式出版、费用合理和远程展示；筛选更早可投会议，IJCNN 2027为备选，SNCS期刊顺序备选。学校是否认可预录、注册费及准确送审日需核实 |
 | THESIS-REVIEW-DATE | `OCTOBER_2027_EXACT_DATE_UNKNOWN` | Owner 更正此前 2027 年 4 月信息；不得假设具体送审日为 10 月 31 日 |
-| PAPER-E-SCOPE | `TWO_CASES_FOR_CURRENT_SUBMISSION` | 当前首投保持[主稿](../paper/saner_rene_manuscript_v1.md)两案例。FinQA 为89行/30 report clusters；UID 聚类与事后统计已同步，不追认事后分析为预注册 |
+| PAPER-E-SCOPE | `TWO_CASES_EXISTING_THIRD_IF_QUALIFIED` | 当前两案例保留；经冻结合同与可复现验证的独立公开案例可纳入，更新全部主张和摘要，不能将开发性/后验观察冒充确认 |
 | PAPER-E-SUBMISSION | `FIGURES_REBUILT_TEXT_READY_DECLARATIONS_OPEN` | 三图已从 SVG 源重导出（去图内标题/副标题/脚注与重复 caption，裁到内容框，1200 dpi 线图 / 600 dpi 组合图），14 页重渲染并逐页自验，页哈希与派生 manifest 更新，旧图与原 manifest 保留历史身份。仍开放：声明占位、图内字号 5.7–8.2 pt 低于推荐值、文献标题大小写。C后修改未获独立复审 |
-| DTM-MECHANISM-RERUN | `CARD_V2_CORRECTED_AWAITING_OWNER_BUDGET` | [决策卡v2](../research/word_scoring_new_family_20261027_v1/DTM_DECISION_CARD_20261028.md)已按[复核](../docs/governance/audit/loop_d_control_review/LOOP_D_POST_RETURN_REVIEW_20261028.md)原地更正：撤回因果与「单位未冻结」；`unit` 8/8 有值、3 条标签冲突使可分析面板收缩到 5；删除格式率停止判据；预算重开为 27 物理请求 / 67,824 token，重试入帽、D-long 取消。Owner只需接受硬帽与 5 条面板。生成仍 0 |
+| DTM-MECHANISM-RERUN | `CORRECTED_CARD_DEFERRED` | D已修正字段/参考/预算，5条可分析样本仅开发；本轮优先Paper E，不释放D/T/M重跑预算 |
 | WORKSPACE-INTEGRATION | `CONTINUE_EXISTING_INTEGRATION_WORKTREE_PRESERVE_123_FILES` | 负责人本地复核起点集成分支c33c14bf、主工作树main f0c246df；123个未跟踪文件原位保留。主树合并路径冲突不阻断集成分支修稿；本次未复核GB10，后续同步实测后再报 |
 | HISTORICAL-CREDENTIAL-CARRIERS | `IGNORED_UNTRACKED_NO_LEAK_ESTABLISHED_NOT_A_BLOCKER` | 本次只核根.env未跟踪且被忽略，不读取内容或历史；先前“凭据形状”不能单独证明泄露，不要求轮换/迁移以完成科研交接。若将来有实际暴露证据再按证据处置，本轮未触碰 |
-| PAPER-E-CONTINUATION | `D_SELF_VERIFIES_REMAINING_INTERNAL_WORK_NO_C_REDISPATCH` | C已审08be0547且29/29用尽。D继续已授权的图片/稿件内部修订和自验，保留未经再次独立复审边界。C规则文件改写事件保留恢复证据，不扩展基础设施工程 |
+| PAPER-E-CONTINUATION | `PUBLIC_EVALUATION_AND_DECISION_IMPACT_PLANNED` | Owner转发后执行公开体系验证与审计前后对照，使用强基线、正反例和成本；A/C29/29，不再派发。结果尚未运行 |
 | THESIS-DOC-CONTINUITY | `CONTINUE_PAPER_E_METHOD_EFFECT_UNIDENTIFIED` | 2027年10月送审日未定；Paper E两案例继续，C2/C3仍候选。旧raw/负结果保留，不把格式工程、治理和同一机制拆成三个创新点 |
 | OWNER_EXTERNAL_ACTIONS | `AUTHOR_DECLARATIONS_ROUTE_AND_EXTERNAL_ACTIONS` | 作者/北邮单位/通讯、资助/利益冲突、作者贡献、AI披露最终确认、专利/artifact许可与公开、渠道和正式投稿及适用费用/学校认定。新科研预算另行接受；不再把内部图像重导出、字段核验列为Owner许可 |
 | LEGACY-DATA-TRAINING | `HISTORICAL_NO_GO_RETAINED_NEW_STUDIES_AUTHORIZED` | Owner 新授权允许合格新数据上的小规模 LoRA/SFT 等研究；旧 Phase 1a `DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 及已停止面板的证据缺陷不解除，不洗掉旧训练/数据判定。本轮范围以唯一指令和Owner转发为准；历史广泛授权不恢复停止面板 |
