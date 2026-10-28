@@ -208,7 +208,7 @@ def compact_reference_list(doc: Document) -> int:
         if in_refs and REFERENCE_RE.match(text):
             fmt = paragraph.paragraph_format
             fmt.space_before = Pt(0)
-            fmt.space_after = Pt(3)
+            fmt.space_after = Pt(0)
             fmt.line_spacing = 1.0
             count += 1
     return count

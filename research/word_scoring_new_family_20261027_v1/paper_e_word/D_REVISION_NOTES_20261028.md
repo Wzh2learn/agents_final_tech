@@ -136,12 +136,54 @@ articles; the full comparison is in `SNCS_GUIDELINE_CHECK_20261028.md`.
   four-part structured abstract at 191 words (limit 150–250), 5 keywords (limit
   4–6), bracketed numeric citations, two heading levels (limit 3). No change
   needed.
-- **Not adapted, deliberately:** figure artwork. The three PNGs carry their own
-  titles and footnotes and are 120 dpi; the guideline wants vector EPS or ≥300
-  dpi halftone and no in-artwork titles. Re-exporting from the existing `.svg`
-  sources is a mechanical but visually re-reviewed task, and it would rebind
-  artifacts that C audited. Recorded as a bounded production item with an owner
-  decision, not done here.
+- **Not adapted, deliberately:** figure artwork. All three PNGs carry their own
+  titles, subtitles and footnotes, and their effective resolution at the 6.5 in
+  placed width is **277 / 277 / 246 dpi** with no `pHYs` chunk — the guideline
+  wants vector EPS or ≥300 dpi halftone and no in-artwork titles. (An earlier
+  draft of this note said "120 dpi"; that is the page-render DPI, not the artwork
+  resolution, and it was wrong.) Re-exporting from the existing `.svg` sources is
+  a mechanical but visually re-reviewed task, and it would rebind artifacts that
+  C audited. Recorded as a bounded production item with an owner decision, not
+  done here.
+
+## 3b. Corrections made after the single C review
+
+The C review (`C_PAPER_E_V2_REVIEW.md`) covered commit `08be0547`. Everything
+below was changed **after** that snapshot and therefore has **no independent
+review**. Full adjudication is in `C_RESPONSE_AND_DISPOSITION_20261028.md`.
+
+- **B3 — two undefined table populations.** §4.1's "95 tables" is the seed-42
+  panel, not the corpus; §5.3's denominators are 95/97/90 because each seed's
+  injection map selects its own tables, and the pooled runs cover 119 distinct
+  source tables. Both places now say so. No number changed.
+- **N1 — unexplained last-digit deltas.** Added the missing note that the two
+  prose deltas are also taken from full precision (cell subtraction gives 1.085
+  and 0.358; BM25 reconciles either way).
+- **N2 — two objects both called "visible".** §5.1 now names the threshold-free
+  checkpoint surface, gives the per-family threshold-free rates, and states that
+  Figure 2's cells are threshold-conditioned and span 0.71–1.00 at the lowest
+  threshold.
+- **N3 — the 28-case count had no referent.** Both mentions now say "28
+  injection-level judge cases" and point at §5.1, where the analysis is actually
+  described.
+- **N4 — inconsistent author truncation.** Uniform "first six authors, then et
+  al." `[3]`, `[9]` and `[18]` truncate; `[16]` lists five; `[13]` still has only
+  three known authors. Title capitalisation deliberately unchanged.
+- **N6 — page-hash file used bare filenames.** Regenerated with
+  `rendered_v2/`-relative paths so `sha256sum -c` works from this directory.
+- **N7 — Table 3 cited before Table 2.** §3.1 now defers to Section 5.2 instead
+  of forward-citing a table number.
+- **N10 — ambiguous plotted baseline.** Figure 3's caption now says which
+  baseline is plotted.
+- **D's own manifest defect.** The first `CONVERSION_MANIFEST_V2.json` hashed the
+  `.md` and three `.py` files from the Windows working copy (CRLF) instead of the
+  Git blob (LF), so four entries disagreed with the commit. Rebuilt with
+  `build_conversion_manifest_v2.py`, which hashes raw blob bytes and records the
+  working-tree hash separately.
+
+Accepted and **not** fixed: B1 and B2 (figure artwork — see §3a), N5 (the
+mismatch lives inside the raster), N8 (`TBD_OWNER` declarations, by design),
+N9 (citation distribution), and reference title capitalisation.
 
 ## 4. Arithmetic and consistency re-check
 

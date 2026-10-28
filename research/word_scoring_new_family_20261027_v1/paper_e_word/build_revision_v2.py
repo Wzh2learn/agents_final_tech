@@ -197,6 +197,66 @@ EDITORIAL: list[tuple[str, str, int]] = [
         "Romanou, Alejandro, et al.",
         1,
     ),
+    # --- corrections raised by the fixed-snapshot C review -----------------
+    # B3: the 95 tables / 118 injections are the seed-42 panel, not the corpus.
+    (
+        "It includes 95 tables and 118 synthetic injections across six header-drift "
+        "families.",
+        "The seed-42 primary panel covers 95 source tables and 118 synthetic injections "
+        "across six header-drift families.",
+        1,
+    ),
+    (
+        "The denominator-weighted table-run estimate is 219/282 = 0.7766, but these runs "
+        "map to only 119 unique source-table UIDs: 29 appear in one seed, 17 in two, and "
+        "73 in all three.",
+        "The denominator-weighted table-run estimate is 219/282 = 0.7766. The per-seed "
+        "denominators differ from the primary panel's 95 because each seed's injection map "
+        "selects its own source tables; pooling the three runs therefore covers more tables "
+        "than any single panel, and these runs map to only 119 unique source-table UIDs: 29 "
+        "appear in one seed, 17 in two, and 73 in all three.",
+        1,
+    ),
+    # N3: bind the 28-case figure to the analysis the paper actually reports.
+    (
+        "this calibration window is distinct from the 28-case semantic boundary analysis "
+        "reported in Section 6.",
+        "this calibration window is distinct from the semantic boundary analysis over the 28 "
+        "injection-level judge cases described in Section 5.1.",
+        1,
+    ),
+    (
+        "The semantic boundary analysis uses one judge on 28 cases.",
+        "The semantic boundary analysis uses one judge on 28 injection-level cases; "
+        "Section 5.1 reports the paired comparisons drawn from that window.",
+        1,
+    ),
+    # N1: the two prose deltas are also computed from full precision.
+    (
+        "rounds to the reported 13.821.\n",
+        "rounds to the reported 13.821. The two movement figures quoted above are computed "
+        "the same way, from full precision; subtracting the displayed cells instead gives "
+        "1.085 for the TF-IDF random-negative movement and 0.358 for its gap movement, while "
+        "both BM25 movements reconcile exactly from the displayed cells.\n",
+        1,
+    ),
+    # N2: name the two visibility objects instead of calling both "visible".
+    (
+        "Other families range from 0.81 to 1.00 visibility at the primary setting.",
+        "On the threshold-free checkpoint surface the other families range from 0.81 to 1.00 "
+        "(43/47 alias variant is 0.91, 15/17 date variant 0.88, 20/20 mixed language 1.00, "
+        "13/16 prefix noise 0.81, and 5/5 unit suffix 1.00). Figure 2 reports the same "
+        "families conditioned on each score threshold rather than on the threshold-free "
+        "surface; at the lowest threshold its cells span 0.71 to 1.00, so the two quantities "
+        "are related but are not the same measurement object.",
+        1,
+    ),
+    # N10: say which baseline is plotted.
+    (
+        "the majority-class macro-F1 reference (0.1667) is plotted.",
+        "the plotted reference is the majority-class macro-F1 baseline (0.1667).",
+        1,
+    ),
     # --- journal-required statement structure ------------------------------
     (
         "## Declarations\n",
@@ -282,7 +342,7 @@ NEW_TABLE_CAPTIONS = {
 
 # In-text table cross-references that must follow the renumbering.
 TABLE_XREF: list[tuple[str, str, int]] = [
-    ("In Table 2, the label *Pruned root drop*", "In Table 3, the label *Pruned root drop*", 1),
+    ("In Table 2, the label *Pruned root drop*", "The label *Pruned root drop* used in Section 5.2", 1),
     ("Table 2 compares three transferable protocols", "Table 3 compares three transferable protocols", 1),
     ("The protocol-level counts in Table 2 are measured", "The protocol-level counts in Table 3 are measured", 1),
 ]
@@ -717,8 +777,12 @@ def reformat_reference_authors(text: str) -> tuple[str, list[dict]]:
             raise SystemExit(f"reference [{number}] author list does not pair up: {authors_raw!r}")
 
         pairs = list(zip(tokens[0::2], tokens[1::2]))
+        truncated = len(pairs) > 6
+        if truncated:
+            pairs = pairs[:6]
         rendered = ", ".join(f"{family} {_initials(given)}" for family, given in pairs)
-        rendered += tail_marker
+        if truncated or tail_marker:
+            rendered += ", et al"
 
         changes.append(
             {

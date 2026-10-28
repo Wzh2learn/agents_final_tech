@@ -258,6 +258,41 @@
     },
     {
       "occurrences": 1,
+      "old": "It includes 95 tables and 118 synthetic injections across six header-drift families.",
+      "new": "The seed-42 primary panel covers 95 source tables and 118 synthetic injections across six header-drift families."
+    },
+    {
+      "occurrences": 1,
+      "old": "The denominator-weighted table-run estimate is 219/282 = 0.7766, but these runs map to only 119 unique source-table UIDs: 29 appear in one seed, 17 in two, and ",
+      "new": "The denominator-weighted table-run estimate is 219/282 = 0.7766. The per-seed denominators differ from the primary panel's 95 because each seed's injection map "
+    },
+    {
+      "occurrences": 1,
+      "old": "this calibration window is distinct from the 28-case semantic boundary analysis reported in Section 6.",
+      "new": "this calibration window is distinct from the semantic boundary analysis over the 28 injection-level judge cases described in Section 5.1."
+    },
+    {
+      "occurrences": 1,
+      "old": "The semantic boundary analysis uses one judge on 28 cases.",
+      "new": "The semantic boundary analysis uses one judge on 28 injection-level cases; Section 5.1 reports the paired comparisons drawn from that window."
+    },
+    {
+      "occurrences": 1,
+      "old": "rounds to the reported 13.821.\n",
+      "new": "rounds to the reported 13.821. The two movement figures quoted above are computed the same way, from full precision; subtracting the displayed cells instead giv"
+    },
+    {
+      "occurrences": 1,
+      "old": "Other families range from 0.81 to 1.00 visibility at the primary setting.",
+      "new": "On the threshold-free checkpoint surface the other families range from 0.81 to 1.00 (43/47 alias variant is 0.91, 15/17 date variant 0.88, 20/20 mixed language "
+    },
+    {
+      "occurrences": 1,
+      "old": "the majority-class macro-F1 reference (0.1667) is plotted.",
+      "new": "the plotted reference is the majority-class macro-F1 baseline (0.1667)."
+    },
+    {
+      "occurrences": 1,
       "old": "## Declarations\n",
       "new": "## Statements and Declarations\n"
     },
@@ -300,7 +335,7 @@
     {
       "occurrences": 1,
       "old": "In Table 2, the label *Pruned root drop*",
-      "new": "In Table 3, the label *Pruned root drop*"
+      "new": "The label *Pruned root drop* used in Section 5.2"
     },
     {
       "occurrences": 1,
@@ -498,9 +533,9 @@
       },
       {
         "entry": 3,
-        "authors_after": 8,
+        "authors_after": 6,
         "before": "Moghe, Nikita, Fazla, Arnisa, Amrhein, Chantal, Kocmi, Tom, Steedman, Mark, Birch, Alexandra, Sennrich, Rico, & Guillou, Liane",
-        "after": "Moghe N, Fazla A, Amrhein C, Kocmi T, Steedman M, Birch A, Sennrich R, Guillou L"
+        "after": "Moghe N, Fazla A, Amrhein C, Kocmi T, Steedman M, Birch A, et al"
       },
       {
         "entry": 4,
@@ -534,9 +569,9 @@
       },
       {
         "entry": 9,
-        "authors_after": 9,
+        "authors_after": 6,
         "before": "Li, Songze, Xu, Chuokun, Wang, Jiaying, Gong, Xueluan, Chen, Chen, Zhang, Jirui, Wang, Jun, Lam, Kwok-Yan, & Ji, Shouling",
-        "after": "Li S, Xu C, Wang J, Gong X, Chen C, Zhang J, Wang J, Lam KY, Ji S"
+        "after": "Li S, Xu C, Wang J, Gong X, Chen C, Zhang J, et al"
       },
       {
         "entry": 12,
@@ -576,9 +611,9 @@
       },
       {
         "entry": 18,
-        "authors_after": 12,
+        "authors_after": 6,
         "before": "Fan, Shengda, Ye, Xuyan, Huo, Yupeng, Chen, Zhi-Yuan, Guo, Yiju, Yang, Shenzhi, Yang, Wenkai, Ye, Shuqi, Chen, Jingwen, Chen, Haotian, Cong, Xin, & Lin, Yankai",
-        "after": "Fan S, Ye X, Huo Y, Chen ZY, Guo Y, Yang S, Yang W, Ye S, Chen J, Chen H, Cong X, Lin Y"
+        "after": "Fan S, Ye X, Huo Y, Chen ZY, Guo Y, Yang S, et al"
       },
       {
         "entry": 19,
