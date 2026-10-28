@@ -1,0 +1,644 @@
+{
+  "schema": "paper_e_revision_v2_build_log_v1",
+  "generated_date": "2026-10-28",
+  "production_source": "paper_e_revision_v2.md",
+  "inputs": {
+    "paper_e_word.md": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+    "references.bib": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+    "canonical_tex": {
+      "path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex",
+      "sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734"
+    }
+  },
+  "latex_cleanup": {
+    "yaml_author_block": "single <br>-joined author string -> three body lines",
+    "itemize": {
+      "items": 3,
+      "converted_to": "markdown bullet list"
+    },
+    "display_math": {
+      "blocks": 2,
+      "form": "editable prose line"
+    }
+  },
+  "display_lead_in": [
+    {
+      "occurrences": 1,
+      "old": "For node n with children C(n), the recursive score is\n",
+      "new": "For node n with children C(n), the recursive score is:\n"
+    },
+    {
+      "occurrences": 1,
+      "old": "The primary threshold grid is\n",
+      "new": "The primary threshold grid is:\n"
+    }
+  ],
+  "converter_defects_repaired": {
+    "D1_last_enumerate_item_dropped": [
+      {
+        "item": "contribution_3",
+        "restored_from": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex"
+      },
+      {
+        "item": "checklist_step_6",
+        "restored_from": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex"
+      }
+    ],
+    "D2_itemize_fused_into_paragraph": "blank line inserted before every list block",
+    "D3_figure_caption_alt_text_only": "blank line inserted before every standalone image",
+    "D4_citation_numbers_from_bib_order": {
+      "groups_changed": 14,
+      "detail": [
+        {
+          "from": "[amrhein2022aces,amrhein2023aces,moghe2024mtmeta,deviyani2025contextual]",
+          "to": "[1,2,3,4]",
+          "keys": [
+            "amrhein2022aces",
+            "amrhein2023aces",
+            "moghe2024mtmeta",
+            "deviyani2025contextual"
+          ]
+        },
+        {
+          "from": "[kendiukhov2026ranking,du2026stability,ross2024metric]",
+          "to": "[5,6,7]",
+          "keys": [
+            "kendiukhov2026ranking",
+            "du2026stability",
+            "ross2024metric"
+          ]
+        },
+        {
+          "from": "[liq2025scoringbias,lis2025llmjduge]",
+          "to": "[8,9]",
+          "keys": [
+            "liq2025scoringbias",
+            "lis2025llmjduge"
+          ]
+        },
+        {
+          "from": "[nist2023airmf,nist2024genai]",
+          "to": "[10,11]",
+          "keys": [
+            "nist2023airmf",
+            "nist2024genai"
+          ]
+        },
+        {
+          "from": "[caban2026validity,bean2025construct]",
+          "to": "[12,13]",
+          "keys": [
+            "caban2026validity",
+            "bean2025construct"
+          ]
+        },
+        {
+          "from": "[mansouri2026finrank]",
+          "to": "[14]",
+          "keys": [
+            "mansouri2026finrank"
+          ]
+        },
+        {
+          "from": "[jouseau2025metric,bastos2026hidden]",
+          "to": "[15,16]",
+          "keys": [
+            "jouseau2025metric",
+            "bastos2026hidden"
+          ]
+        },
+        {
+          "from": "[cho2025metamorphic]",
+          "to": "[17]",
+          "keys": [
+            "cho2025metamorphic"
+          ]
+        },
+        {
+          "from": "[fan2026agentprocessbench,chung2026process]",
+          "to": "[18,19]",
+          "keys": [
+            "fan2026agentprocessbench",
+            "chung2026process"
+          ]
+        },
+        {
+          "from": "[gerhold2024limits]",
+          "to": "[20]",
+          "keys": [
+            "gerhold2024limits"
+          ]
+        },
+        {
+          "from": "[hoess2025does]",
+          "to": "[21]",
+          "keys": [
+            "hoess2025does"
+          ]
+        },
+        {
+          "from": "[berndt2026flaky]",
+          "to": "[22]",
+          "keys": [
+            "berndt2026flaky"
+          ]
+        },
+        {
+          "from": "[kummita2026static]",
+          "to": "[23]",
+          "keys": [
+            "kummita2026static"
+          ]
+        },
+        {
+          "from": "[openai2026codex]",
+          "to": "[24]",
+          "keys": [
+            "openai2026codex"
+          ]
+        }
+      ]
+    }
+  },
+  "editorial_replacements": [
+    {
+      "occurrences": 1,
+      "old": "Paper E does not propose a universal quality metric or retrain a detector.",
+      "new": "This audit does not propose a universal quality metric or retrain a detector."
+    },
+    {
+      "occurrences": 1,
+      "old": "Within ICAART, Jouseau et al. propose an intrinsic data-quality metric",
+      "new": "In the ICAART proceedings, Jouseau et al. propose an intrinsic data-quality metric"
+    },
+    {
+      "occurrences": 1,
+      "old": "MA-CERD and adaptive revalidation are outside Paper E and contribute no case or result.",
+      "new": "MA-CERD and adaptive revalidation are outside this paper and contribute no case or result."
+    },
+    {
+      "occurrences": 1,
+      "old": "MA-CERD, adaptive revalidation and internal AI reviews provide no Paper E evidence.\nMA-CERD and adaptive revalidation are not Paper E cases and provide no evide",
+      "new": "Work outside these two constructions, including the MA-CERD dependency study, the adaptive revalidation panel and an internal AI-assisted 24-task review, provid"
+    },
+    {
+      "occurrences": 1,
+      "old": "recorded in a separate autopsy",
+      "new": "documented in a separate post-hoc analysis"
+    },
+    {
+      "occurrences": 1,
+      "old": "Historical fixed-threshold sensitivity evidence remains in the dated historical governance record, but",
+      "new": "Earlier fixed-threshold sensitivity results remain in the project's dated analysis record, but"
+    },
+    {
+      "occurrences": 1,
+      "old": "(frozen artifact listed in the evidence ledger)",
+      "new": "(family counts are bound by a frozen artifact in the evidence package)"
+    },
+    {
+      "occurrences": 1,
+      "old": "The historical naive interval [0.7270, 0.8227] is retained only in the dated reanalysis record",
+      "new": "The earlier naive interval [0.7270, 0.8227] is retained only in the project's dated reanalysis record"
+    },
+    {
+      "occurrences": 1,
+      "old": "drop = (H_orig - H_inj) x 10",
+      "new": "drop = (H_orig − H_inj) × 10"
+    },
+    {
+      "occurrences": 1,
+      "old": "for j in C(n)] x S(c).",
+      "new": "for j in C(n)] × S(c)."
+    },
+    {
+      "occurrences": 1,
+      "old": "theta_H = 0.375 theta_F",
+      "new": "θ_H = 0.375·θ_F"
+    },
+    {
+      "occurrences": 1,
+      "old": "Gamma = {0.2, 0.3, 0.5, 0.7, 0.9}.",
+      "new": "Γ = {0.2, 0.3, 0.5, 0.7, 0.9}."
+    },
+    {
+      "occurrences": 1,
+      "old": "permutation p = 1/10001 = 1e-4",
+      "new": "permutation p = 1/10001 ≈ 0.0001"
+    },
+    {
+      "occurrences": 1,
+      "old": "The transferable object is the measurement discipline, not an empirical claim about agent behavior.\n",
+      "new": "The transferable object is the measurement discipline, not an empirical claim about agent behavior. Table 1 states, for each over-reading the audit removes, the"
+    },
+    {
+      "occurrences": 1,
+      "old": "The primary conceptual structure is the following visibility-by-detection matrix:\n",
+      "new": "The primary conceptual structure is the visibility-by-detection matrix in Table 2:\n"
+    },
+    {
+      "occurrences": 1,
+      "old": "Values are hard/random pairwise accuracy and the random-minus-hard gap in percentage points:\n",
+      "new": "Table 4 reports hard/random pairwise accuracy and the random-minus-hard gap in percentage points:\n"
+    },
+    {
+      "occurrences": 1,
+      "old": "Standards, National Institute of & Technology. *Artificial intelligence risk management framework (AI RMF 1.0).*",
+      "new": "National Institute of Standards and Technology. *Artificial intelligence risk management framework (AI RMF 1.0).*"
+    },
+    {
+      "occurrences": 1,
+      "old": "Standards, National Institute of & Technology. *Artificial intelligence risk management framework: Generative artificial intelligence profile.*",
+      "new": "National Institute of Standards and Technology. *Artificial intelligence risk management framework: Generative artificial intelligence profile.*"
+    },
+    {
+      "occurrences": 1,
+      "old": "Romanou, Alejandro, & et al..",
+      "new": "Romanou, Alejandro, et al."
+    },
+    {
+      "occurrences": 1,
+      "old": "## Declarations\n",
+      "new": "## Statements and Declarations\n"
+    },
+    {
+      "occurrences": 1,
+      "old": "Author names, affiliations and corresponding details: **TBD_OWNER**.\nFunding: **TBD_OWNER**. Conflicts of interest: **TBD_OWNER**.\nPatent status and inventors: ",
+      "new": "**Author names, affiliations and corresponding details:** TBD_OWNER.\n\n**Funding:** TBD_OWNER.\n\n**Competing interests:** TBD_OWNER.\n\n**Ethics approval:** Not app"
+    },
+    {
+      "occurrences": 1,
+      "old": "The outcome classes are interpretation changed, narrower contract stable, or no substantive impact.\n",
+      "new": "The outcome classes are interpretation changed, narrower contract stable, or no substantive impact.\n\n### Analysis tooling and AI assistance\n\nEvery reported meas"
+    }
+  ],
+  "table_captions": [
+    {
+      "table": 1,
+      "caption": "Interpretation corrections exposed by the audit.",
+      "replaced_literal": "**Table 1. Interpretation corrections exposed by the audit.**"
+    },
+    {
+      "table": 3,
+      "caption": "Protocol-level detection under different decision predicates.",
+      "replaced_literal": "**Table 2. Protocol-level detection under different decision predicates.**"
+    }
+  ],
+  "table_caption_insertions": [
+    {
+      "table": 2,
+      "caption": "Visibility-by-detection matrix for an injected defect. Harmfulness is a separate, equivalence-dependent annotation and is not a cell of this matrix.",
+      "inserted_before": "visibility matrix table"
+    },
+    {
+      "table": 4,
+      "caption": "FinRank pairwise accuracy (percent) and the random-minus-hard gap under three tie policies.",
+      "inserted_before": "FinRank tie-policy table"
+    }
+  ],
+  "table_cross_references": [
+    {
+      "occurrences": 1,
+      "old": "In Table 2, the label *Pruned root drop*",
+      "new": "In Table 3, the label *Pruned root drop*"
+    },
+    {
+      "occurrences": 1,
+      "old": "Table 2 compares three transferable protocols",
+      "new": "Table 3 compares three transferable protocols"
+    },
+    {
+      "occurrences": 1,
+      "old": "The protocol-level counts in Table 2 are measured",
+      "new": "The protocol-level counts in Table 3 are measured"
+    }
+  ],
+  "section_numbering": [
+    {
+      "level": 2,
+      "old": "## Introduction",
+      "new": "## 1 Introduction"
+    },
+    {
+      "level": 2,
+      "old": "## Related Work",
+      "new": "## 2 Related Work"
+    },
+    {
+      "level": 3,
+      "old": "### Measurement validity and construct validity",
+      "new": "### 2.1 Measurement validity and construct validity"
+    },
+    {
+      "level": 3,
+      "old": "### Testing, oracles, and diagnosability",
+      "new": "### 2.2 Testing, oracles, and diagnosability"
+    },
+    {
+      "level": 3,
+      "old": "### Empirical software evaluation and reproducibility audits",
+      "new": "### 2.3 Empirical software evaluation and reproducibility audits"
+    },
+    {
+      "level": 2,
+      "old": "## Method",
+      "new": "## 3 Method"
+    },
+    {
+      "level": 3,
+      "old": "### Evidence instrument: checkpoint forest",
+      "new": "### 3.1 Evidence instrument: checkpoint forest"
+    },
+    {
+      "level": 3,
+      "old": "### Separating visibility, detection, and harmfulness",
+      "new": "### 3.2 Separating visibility, detection, and harmfulness"
+    },
+    {
+      "level": 3,
+      "old": "### Evaluating the evaluator",
+      "new": "### 3.3 Evaluating the evaluator"
+    },
+    {
+      "level": 3,
+      "old": "### Stage-aligned instrumentation and the nested FinQA boundary probe",
+      "new": "### 3.4 Stage-aligned instrumentation and the nested FinQA boundary probe"
+    },
+    {
+      "level": 3,
+      "old": "### External evidence-ranking audit",
+      "new": "### 3.5 External evidence-ranking audit"
+    },
+    {
+      "level": 2,
+      "old": "## Experimental Setup",
+      "new": "## 4 Experimental Setup"
+    },
+    {
+      "level": 3,
+      "old": "### Corpus and perturbations",
+      "new": "### 4.1 Corpus and perturbations"
+    },
+    {
+      "level": 3,
+      "old": "### Baselines and controls",
+      "new": "### 4.2 Baselines and controls"
+    },
+    {
+      "level": 3,
+      "old": "### Statistical discipline",
+      "new": "### 4.3 Statistical discipline"
+    },
+    {
+      "level": 3,
+      "old": "### Multi-leaf stage-aligned protocol",
+      "new": "### 4.4 Multi-leaf stage-aligned protocol"
+    },
+    {
+      "level": 3,
+      "old": "### Second-dataflow execution boundary",
+      "new": "### 4.5 Second-dataflow execution boundary"
+    },
+    {
+      "level": 3,
+      "old": "### FinRank external audit setup",
+      "new": "### 4.6 FinRank external audit setup"
+    },
+    {
+      "level": 3,
+      "old": "### Analysis tooling and AI assistance",
+      "new": "### 4.7 Analysis tooling and AI assistance"
+    },
+    {
+      "level": 2,
+      "old": "## Results",
+      "new": "## 5 Results"
+    },
+    {
+      "level": 3,
+      "old": "### Visibility depends on defect family",
+      "new": "### 5.1 Visibility depends on defect family"
+    },
+    {
+      "level": 3,
+      "old": "### The raw hierarchy gap is a threshold-placement artifact",
+      "new": "### 5.2 The raw hierarchy gap is a threshold-placement artifact"
+    },
+    {
+      "level": 3,
+      "old": "### Sensitivity and reproducibility",
+      "new": "### 5.3 Sensitivity and reproducibility"
+    },
+    {
+      "level": 3,
+      "old": "### Weight search produces an informative null",
+      "new": "### 5.4 Weight search produces an informative null"
+    },
+    {
+      "level": 3,
+      "old": "### Stage-aligned instrumentation: separable signatures and their boundary",
+      "new": "### 5.5 Stage-aligned instrumentation: separable signatures and their boundary"
+    },
+    {
+      "level": 3,
+      "old": "### Nested Case 1 boundary probe: measurement-object mismatch",
+      "new": "### 5.6 Nested Case 1 boundary probe: measurement-object mismatch"
+    },
+    {
+      "level": 3,
+      "old": "### Case 2: stable hardness decision, sensitive score contract",
+      "new": "### 5.7 Case 2: stable hardness decision, sensitive score contract"
+    },
+    {
+      "level": 2,
+      "old": "## Discussion and Limitations",
+      "new": "## 6 Discussion and Limitations"
+    },
+    {
+      "level": 3,
+      "old": "### Scientific limitations",
+      "new": "### 6.1 Scientific limitations"
+    },
+    {
+      "level": 3,
+      "old": "### Proposed six-step review checklist",
+      "new": "### 6.2 Proposed six-step review checklist"
+    },
+    {
+      "level": 3,
+      "old": "### Integrated interpretation",
+      "new": "### 6.3 Integrated interpretation"
+    },
+    {
+      "level": 2,
+      "old": "## Conclusion",
+      "new": "## 7 Conclusion"
+    }
+  ],
+  "reference_validation": {
+    "entries": 24,
+    "keys_in_first_appearance_order": 24,
+    "reference_list_matches_first_appearance_order": true,
+    "problems": []
+  },
+  "reference_author_style": {
+    "entries_reformatted": 21,
+    "detail": [
+      {
+        "entry": 1,
+        "authors_after": 3,
+        "before": "Amrhein, Chantal, Moghe, Nikita, & Guillou, Liane",
+        "after": "Amrhein C, Moghe N, Guillou L"
+      },
+      {
+        "entry": 2,
+        "authors_after": 3,
+        "before": "Amrhein, Chantal, Moghe, Nikita, & Guillou, Liane",
+        "after": "Amrhein C, Moghe N, Guillou L"
+      },
+      {
+        "entry": 3,
+        "authors_after": 8,
+        "before": "Moghe, Nikita, Fazla, Arnisa, Amrhein, Chantal, Kocmi, Tom, Steedman, Mark, Birch, Alexandra, Sennrich, Rico, & Guillou, Liane",
+        "after": "Moghe N, Fazla A, Amrhein C, Kocmi T, Steedman M, Birch A, Sennrich R, Guillou L"
+      },
+      {
+        "entry": 4,
+        "authors_after": 2,
+        "before": "Deviyani, Athiya & Diaz, Fernando",
+        "after": "Deviyani A, Diaz F"
+      },
+      {
+        "entry": 5,
+        "authors_after": 1,
+        "before": "Kendiukhov, Ihor",
+        "after": "Kendiukhov I"
+      },
+      {
+        "entry": 6,
+        "authors_after": 6,
+        "before": "Du, Shaoshuai, Liang, Penghao, Shen, Yixian, Shi, Chuanqi, Zhang, Hang, & Wang, Lun",
+        "after": "Du S, Liang P, Shen Y, Shi C, Zhang H, Wang L"
+      },
+      {
+        "entry": 7,
+        "authors_after": 4,
+        "before": "Ross, Candace, Hall, Melissa, Soriano, Adriana Romero, & Williams, Adina",
+        "after": "Ross C, Hall M, Soriano AR, Williams A"
+      },
+      {
+        "entry": 8,
+        "authors_after": 5,
+        "before": "Li, Qingquan, Dou, Shaoyu, Shao, Kailai, Chen, Chao, & Hu, Haixiang",
+        "after": "Li Q, Dou S, Shao K, Chen C, Hu H"
+      },
+      {
+        "entry": 9,
+        "authors_after": 9,
+        "before": "Li, Songze, Xu, Chuokun, Wang, Jiaying, Gong, Xueluan, Chen, Chen, Zhang, Jirui, Wang, Jun, Lam, Kwok-Yan, & Ji, Shouling",
+        "after": "Li S, Xu C, Wang J, Gong X, Chen C, Zhang J, Wang J, Lam KY, Ji S"
+      },
+      {
+        "entry": 12,
+        "authors_after": 1,
+        "before": "Caban, William",
+        "after": "Caban W"
+      },
+      {
+        "entry": 13,
+        "authors_after": 3,
+        "before": "Bean, Andrew M., Kearns, Ryan O., Romanou, Alejandro, et al",
+        "after": "Bean AM, Kearns RO, Romanou A, et al"
+      },
+      {
+        "entry": 14,
+        "authors_after": 5,
+        "before": "Mansouri, Sina, Saad, Daniel, Wahrenburg, Mark, Weissel, Michael, & Woebbeking, Felix",
+        "after": "Mansouri S, Saad D, Wahrenburg M, Weissel M, Woebbeking F"
+      },
+      {
+        "entry": 15,
+        "authors_after": 3,
+        "before": "Jouseau, Roxane, Salva, Sebastien, & Samir, Chafik",
+        "after": "Jouseau R, Salva S, Samir C"
+      },
+      {
+        "entry": 16,
+        "authors_after": 5,
+        "before": "Bastos Germano, Lucas, Duarte, Julio Cesar, Queiroz Vieira, Lincoln, Ribeiro Goldschmidt, Ronaldo, & Choren Noya, Ricardo",
+        "after": "Bastos Germano L, Duarte JC, Queiroz Vieira L, Ribeiro Goldschmidt R, Choren Noya R"
+      },
+      {
+        "entry": 17,
+        "authors_after": 3,
+        "before": "Cho, Steven, Ruberto, Stefano, & Terragni, Valerio",
+        "after": "Cho S, Ruberto S, Terragni V"
+      },
+      {
+        "entry": 18,
+        "authors_after": 12,
+        "before": "Fan, Shengda, Ye, Xuyan, Huo, Yupeng, Chen, Zhi-Yuan, Guo, Yiju, Yang, Shenzhi, Yang, Wenkai, Ye, Shuqi, Chen, Jingwen, Chen, Haotian, Cong, Xin, & Lin, Yankai",
+        "after": "Fan S, Ye X, Huo Y, Chen ZY, Guo Y, Yang S, Yang W, Ye S, Chen J, Chen H, Cong X, Lin Y"
+      },
+      {
+        "entry": 19,
+        "authors_after": 4,
+        "before": "Chung, Jiwan, Byun, JiHyuk, Vineet, Vibhav, & Kim, Seon Joo",
+        "after": "Chung J, Byun J, Vineet V, Kim SJ"
+      },
+      {
+        "entry": 20,
+        "authors_after": 3,
+        "before": "Gerhold, Marcus, Solovyeva, Lola, & Zaytsev, Vadim",
+        "after": "Gerhold M, Solovyeva L, Zaytsev V"
+      },
+      {
+        "entry": 21,
+        "authors_after": 4,
+        "before": "Hoess, Nicole, Paradis, Carlos, Kazman, Rick, & Mauerer, Wolfgang",
+        "after": "Hoess N, Paradis C, Kazman R, Mauerer W"
+      },
+      {
+        "entry": 22,
+        "authors_after": 6,
+        "before": "Berndt, Alexander, Bekmyradov, Vekil, Gemulla, Rainer, Kessel, Marcus, Bach, Thomas, & Baltes, Sebastian",
+        "after": "Berndt A, Bekmyradov V, Gemulla R, Kessel M, Bach T, Baltes S"
+      },
+      {
+        "entry": 23,
+        "authors_after": 5,
+        "before": "Kummita, Sriteja, Schiebel, Fabian, Bodden, Eric, Miao, Miao, & Wei, Shiyi",
+        "after": "Kummita S, Schiebel F, Bodden E, Miao M, Wei S"
+      }
+    ]
+  },
+  "citation_renumbering": {
+    "groups_changed": 14,
+    "mapping": {
+      "1": "amrhein2022aces",
+      "2": "amrhein2023aces",
+      "3": "moghe2024mtmeta",
+      "4": "deviyani2025contextual",
+      "5": "kendiukhov2026ranking",
+      "6": "du2026stability",
+      "7": "ross2024metric",
+      "8": "liq2025scoringbias",
+      "9": "lis2025llmjduge",
+      "10": "nist2023airmf",
+      "11": "nist2024genai",
+      "12": "caban2026validity",
+      "13": "bean2025construct",
+      "14": "mansouri2026finrank",
+      "15": "jouseau2025metric",
+      "16": "bastos2026hidden",
+      "17": "cho2025metamorphic",
+      "18": "fan2026agentprocessbench",
+      "19": "chung2026process",
+      "20": "gerhold2024limits",
+      "21": "hoess2025does",
+      "22": "berndt2026flaky",
+      "23": "kummita2026static",
+      "24": "openai2026codex"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema": "paper_e_word_conversion_manifest_v2",
+  "date": "2026-10-28",
+  "status": "RENDERED_AND_PAGE_CHECKED_NOT_SUBMITTED",
+  "production_source": {
+    "path": "research/word_scoring_new_family_20261027_v1/paper_e_word/paper_e_revision_v2.md",
+    "sha256": "832c73c9c4ee0adf014f4c11dc1966e5799636a7c18eddae8ca2a9095097a104",
+    "role": "single editable body; DOCX and PDF derive from this file only"
+  },
+  "frozen_inputs": {
+    "paper_e_word.md": {
+      "git_blob_oid": "bbcc86c92715c07e860ecfdf3d9672106161e660",
+      "raw_blob_sha256": "2aeba0ddc6a068a12064db9372b3be03d00de2335bd0d387506eff3d3223bba9",
+      "modified": false
+    },
+    "references.bib": {
+      "git_blob_oid": "d5cc241f91e77e088f81515f493b03a635ccf043",
+      "raw_blob_sha256": "f606916544375f0ce3be8ca602476b2f69a5aef3e633e443716a3face007df06",
+      "modified": false
+    },
+    "reference_style.docx": {
+      "git_blob_oid": "e44d819e14e804b8d4cd8fec17d72ce49440b0dd",
+      "raw_blob_sha256": "ea7a7e4f9e9e4fb50e3bc45d514d2fd252201e557a0c0b11ca3827570336c1a0",
+      "modified": false
+    },
+    "canonical_tex": {
+      "path": "research/adaptive_mechanism_20261027_v1/paper_e_formal_build/paper_e_sncs.tex",
+      "git_blob_oid": "01bcf2e0d4a6c17d8692b4502c28909593bb5f4a",
+      "raw_blob_sha256": "f1993042d344d97e7a47fe6cda1065ca3bfc42d7720565c492c8c6dfef173734",
+      "modified": false,
+      "used_for": "verbatim restoration of contribution 3 and checklist step 6"
+    }
+  },
+  "build_scripts": {
+    "build_revision_v2.py": "afc52975197411284682af0ff2eb32f9a6d8502f30e6ad8668938945541fd68a",
+    "polish_docx_v2.py": "de52a6cb921f32bc99d938605d4c31ec1d805b2ff6c4d8161ca221db455ab20d",
+    "verify_revision_v2.py": "dd35bdb407b1501ed81038b8e69639b571b3da64df99d1f35b940aa0a055d167"
+  },
+  "build_log": "REVISION_V2_BUILD_LOG.json",
+  "lint_receipt": "research/word_scoring_new_family_20261027_v1/paper_e_word/../validation/REVISION_V2_LINT.json",
+  "outputs": {
+    "paper_e_revision_v2.docx": {
+      "bytes": 308279,
+      "sha256": "7f3d35058d00f646b3c3c11a7167995f8c23493566578c0f6dc816a7d342fd89"
+    },
+    "paper_e_revision_v2.pdf": {
+      "bytes": 431566,
+      "sha256": "bf0496911487df07f4d5420954d292bc589194e165bcc1e6f4b781405c5f79f8",
+      "pages": 14,
+      "page_px": "1020x1320 at 120 DPI"
+    },
+    "page_hashes": "D_PAGE_HASHES_V2.sha256"
+  },
+  "figures": {
+    "fig1_measurement_chain.png": {
+      "bytes": 107052,
+      "sha256": "3f74fc55b404e5c74d908ce5d2a251adefe99a4169c7b934840d4821fe93e5af"
+    },
+    "fig2_family_visibility_matrix.png": {
+      "bytes": 107930,
+      "sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d"
+    },
+    "fig3_localization_ablation.png": {
+      "bytes": 72520,
+      "sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64"
+    }
+  },
+  "tools": {
+    "pandoc": "3.2.1 at D:/pandocLatex2word/pandoc.exe",
+    "pandoc_from": "markdown+pipe_tables+tex_math_dollars",
+    "libreoffice": "24.2.7.2 at /usr/bin/soffice on GB10, fresh -env:UserInstallation profile per render",
+    "pdftoppm": "/usr/bin/pdftoppm -png -r 120",
+    "python_docx": "python-docx in an isolated venv outside the repository"
+  },
+  "document_counts": {
+    "tables": 4,
+    "table_shapes": [
+      "6x3",
+      "3x3",
+      "4x4",
+      "7x5"
+    ],
+    "figures": 3,
+    "references": 24,
+    "checklist_steps": 6,
+    "contributions": 3,
+    "abstract_part_labels": 4,
+    "tbd_owner_placeholders": 10,
+    "numbered_headings": 32
+  },
+  "boundary": "Internal Word-route revision acceptance. Not publisher formatting acceptance, not submission, not school recognition. Author identity, funding, patent/artifact permission, channel and fees remain TBD_OWNER."
+}

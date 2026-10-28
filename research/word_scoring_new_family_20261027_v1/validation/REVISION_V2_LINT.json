@@ -1,0 +1,250 @@
+{
+  "schema": "paper_e_revision_v2_lint_v1",
+  "source": "paper_e_revision_v2.md",
+  "verdict": "PASS",
+  "failures": [],
+  "structure": {
+    "headings": 37,
+    "numbered_sections": 32,
+    "table_captions": 4,
+    "figure_captions": 3,
+    "checklist_steps": 6,
+    "bullets": 3,
+    "references": 24,
+    "cited_reference_numbers": 24,
+    "tbd_owner": 10
+  },
+  "arithmetic_checks": {
+    "total": 28,
+    "passed": 28,
+    "detail": [
+      {
+        "check": "alias variant row",
+        "lhs": [
+          47,
+          43,
+          4
+        ],
+        "rhs": [
+          47,
+          43,
+          4
+        ],
+        "ok": true
+      },
+      {
+        "check": "alias variant closes",
+        "lhs": 47,
+        "rhs": 47,
+        "ok": true
+      },
+      {
+        "check": "date variant row",
+        "lhs": [
+          17,
+          15,
+          2
+        ],
+        "rhs": [
+          17,
+          15,
+          2
+        ],
+        "ok": true
+      },
+      {
+        "check": "date variant closes",
+        "lhs": 17,
+        "rhs": 17,
+        "ok": true
+      },
+      {
+        "check": "mixed language row",
+        "lhs": [
+          20,
+          20,
+          0
+        ],
+        "rhs": [
+          20,
+          20,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "check": "mixed language closes",
+        "lhs": 20,
+        "rhs": 20,
+        "ok": true
+      },
+      {
+        "check": "OCR-like row",
+        "lhs": [
+          13,
+          0,
+          13
+        ],
+        "rhs": [
+          13,
+          0,
+          13
+        ],
+        "ok": true
+      },
+      {
+        "check": "OCR-like closes",
+        "lhs": 13,
+        "rhs": 13,
+        "ok": true
+      },
+      {
+        "check": "prefix noise row",
+        "lhs": [
+          16,
+          13,
+          3
+        ],
+        "rhs": [
+          16,
+          13,
+          3
+        ],
+        "ok": true
+      },
+      {
+        "check": "prefix noise closes",
+        "lhs": 16,
+        "rhs": 16,
+        "ok": true
+      },
+      {
+        "check": "unit suffix row",
+        "lhs": [
+          5,
+          5,
+          0
+        ],
+        "rhs": [
+          5,
+          5,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "check": "unit suffix closes",
+        "lhs": 5,
+        "rhs": 5,
+        "ok": true
+      },
+      {
+        "check": "total injections",
+        "lhs": 118,
+        "rhs": 118,
+        "ok": true
+      },
+      {
+        "check": "total visible",
+        "lhs": 96,
+        "rhs": 96,
+        "ok": true
+      },
+      {
+        "check": "total absorbed",
+        "lhs": 22,
+        "rhs": 22,
+        "ok": true
+      },
+      {
+        "check": "seed table runs",
+        "lhs": 219,
+        "rhs": 219,
+        "ok": true
+      },
+      {
+        "check": "seed table denominators",
+        "lhs": 282,
+        "rhs": 282,
+        "ok": true
+      },
+      {
+        "check": "UID partition",
+        "lhs": 119,
+        "rhs": 119,
+        "ok": true
+      },
+      {
+        "check": "stage clustering",
+        "lhs": 72,
+        "rhs": 72,
+        "ok": true
+      },
+      {
+        "check": "stage injections",
+        "lhs": 216,
+        "rhs": 216,
+        "ok": true
+      },
+      {
+        "check": "parsing+QA leaves",
+        "lhs": 12,
+        "rhs": 12,
+        "ok": true
+      },
+      {
+        "check": "TF-IDF/ties-positive gap",
+        "lhs": 14.179,
+        "rhs": 14.179,
+        "ok": true
+      },
+      {
+        "check": "TF-IDF/strict-win gap",
+        "lhs": 13.82,
+        "rhs": 13.821,
+        "ok": true
+      },
+      {
+        "check": "TF-IDF/half-credit gap",
+        "lhs": 14.0,
+        "rhs": 14.0,
+        "ok": true
+      },
+      {
+        "check": "BM25/ties-positive gap",
+        "lhs": 13.009,
+        "rhs": 13.009,
+        "ok": true
+      },
+      {
+        "check": "BM25/strict-win gap",
+        "lhs": 12.666,
+        "rhs": 12.666,
+        "ok": true
+      },
+      {
+        "check": "BM25/half-credit gap",
+        "lhs": 12.838,
+        "rhs": 12.838,
+        "ok": true
+      },
+      {
+        "check": "full-precision gap rounds to displayed",
+        "lhs": 13.821,
+        "rhs": 13.821,
+        "ok": true
+      }
+    ]
+  },
+  "abstract": {
+    "part_labels_present": [
+      "Purpose",
+      "Methods",
+      "Results",
+      "Conclusion"
+    ],
+    "words_prose_only": 191,
+    "words_including_labels": 195,
+    "note": "Reported as computed here; no word count is asserted in the manuscript."
+  }
+}
