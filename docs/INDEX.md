@@ -10,7 +10,7 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
-| Paper E 当前审阅稿 | [v5 内部审阅稿](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.md)；[修订记录](../research/paper_e_agent_evidence_20261029/V5_STORY_REVISION_RETURN.md)；[长期计划与文献对标](research/PAPER_E_STRATEGIC_REVIEW_20261029.md) |
+| Paper E 当前审阅稿 | [v6 内部审阅稿](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)；[修订记录](../research/paper_e_agent_evidence_20261029/V6_THRESHOLD_EXPLANATION_RETURN.md)；[长期计划与文献对标](research/PAPER_E_STRATEGIC_REVIEW_20261029.md) |
 | 历史科研基线与复用资产 | [2026-10-23 复用地图](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[对账](../research/research_baseline_governance_20261023/RECONCILIATION.json)；当前解释见 STATE |
 | 历史方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见 STATE |
 | 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)；当前任务以用户消息为准，2026-10-29 前入口和指令见[历史归档](archive/2026-10-29_research_neat/)，更早的[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)、[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅为历史跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md)。 |

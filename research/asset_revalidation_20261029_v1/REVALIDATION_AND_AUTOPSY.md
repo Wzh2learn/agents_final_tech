@@ -2,6 +2,8 @@
 
 日期：2026-10-29，Asia/Shanghai。基于 [事前范围](PLAN.md) 在 GB10 复算既有输入和产物；无新模型生成、训练、judge、生产探针或外部联系。本报告是对保存结果的事后复核，不是新来源确认，也不是独立人类评审。
 
+**后续方向更正：** 第 6 节的 Agent 产物/进程区分只是一个评价视角，不是第二篇唯一选题。长期研究继续覆盖反馈、自学习、蒸馏、经验记忆、skill、工具适配、规划和协作等候选；见[研究组合补充](../agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)。
+
 ## 1. Paper E：冻结结果可复算，但“更多干净样本”不能修复构造性缺口
 
 执行仓库原有 negative-result recomputation，唯一脚本改动是将输出位置重定向到独立临时目录，不覆盖冻结结果。11 个 summary 检查与旧回执一致：118 次受控注入、96 次可见；OCR-like 0/13；固定比例约 0.375、最大偏差 8.75e-8；两个 clean support 都为 0；全向量/直接叶各 1.000，非直接叶 top-1 0.333、平局 0.667。旧输入 hash 和三项 stage 产物 hash 均匹配。机器摘要见 [paper_e_summary.json](paper_e_summary.json)。

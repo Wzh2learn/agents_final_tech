@@ -5,8 +5,8 @@
 ## 接续时先核对
 
 1. 阅读 [研究入口](README.md)、[当前状态](../../memory/STATE.md)、[未决事项](../../memory/THREADS.md)和本次 [治理与资产地图](../governance/2026-10-29_research_neat_closeout.md)；核实本机、GitHub、GB10 实际 HEAD 和 worktree 现场。
-2. Paper E 当前为 [v5 三案例内部审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.md)，后续围绕目标投稿渠道精炼、排版及审查；不重算或重写冻结证据。四次 Agent 为开发补充。
-3. 第二篇以已有基础设施探索 Agent 热点，但先核近邻、参考合同、强基线、数据来源与许可；避免把一个任务的多个断言当独立任务。
+2. Paper E 当前为 [v6 三案例内部审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)，后续围绕目标投稿渠道精炼、排版及审查；不重算或重写冻结证据。四次 Agent 为开发补充。
+3. 第二篇以已有基础设施探索 Agent 热点，保持反馈学习、蒸馏、记忆、skill、规划协作和工具恢复等[方向开放](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)；先核近邻、参考合同、强基线、数据来源与许可，避免把一个任务的多个断言当独立任务。
 4. 保留历史 raw、失败、参考更正及独立账本；旧候选停止的范围不外推为整个研究领域无效。新研究预算、调用和训练按用户指令及相关持久账本确定，不重置旧账。
 
 ## 工作方式

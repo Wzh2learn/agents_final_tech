@@ -2,7 +2,7 @@
 
 日期：2026-10-29。范围：已有论文与材料的研究判断；本次没有运行实验。本文是当前解释和行动顺序，不替代原始数据、账本及历史实验回执。
 
-本复核使用当时的 v4 冻结稿；其后的叙事修订见 [v5 回执](../../research/paper_e_agent_evidence_20261029/V5_STORY_REVISION_RETURN.md)。
+本复核使用当时的 v4 冻结稿；其后的叙事修订见 [v5 回执](../../research/paper_e_agent_evidence_20261029/V5_STORY_REVISION_RETURN.md)和 [v6 回执](../../research/paper_e_agent_evidence_20261029/V6_THRESHOLD_EXPLANATION_RETURN.md)。
 
 ## 1. 长期目标是否继承
 
