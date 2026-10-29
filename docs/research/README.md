@@ -1,8 +1,8 @@
 # Research Entry
 
-> **2026-10-29 负责人复核**：[Paper E 长期目标、文献对标、证据及 GB10 复用地图](PAPER_E_STRATEGIC_REVIEW_20261029.md)。当前正文为 v4 内部审阅稿；后文旧阶段及“两案例”状态均属历史，若冲突以本条及现役状态为准。第二篇仍是待验证研究方向，不是既成方法贡献。
+> **2026-10-29 负责人复核**：[Paper E 长期目标、文献对标、证据及 GB10 复用地图](PAPER_E_STRATEGIC_REVIEW_20261029.md)。当前正文为 [v5 内部审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.md)，[修订记录](../../research/paper_e_agent_evidence_20261029/V5_STORY_REVISION_RETURN.md)；后文旧阶段及“两案例”状态均属历史，若冲突以本条及现役状态为准。第二篇仍是待验证研究方向，不是既成方法贡献。
 
-> **2026-10-29 现役研究**：Paper E [v4审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v4.md)、[实验](../../research/paper_e_agent_evidence_20261029/AGENT_EVIDENCE_RETURN.md)、[修订校正](../../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)、[负责人自审](../../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md)。四条真实 Agent 运行是事后、来源暴露的开发展示：AST仅覆盖字面直接调用，历史测试未重跑，未标注文档不判负；尚非投稿终稿。第二篇 [Skill开发对照](../../research/agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md)和[文档扩展](../../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md)是同一个公开任务的单次运行；信息和实际成本不同、部分请求被限或超时，方法增量及泛化尚未成立。下方旧阶段按历史材料阅读。
+> **2026-10-29 研究证据**：Paper E [v4历史审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v4.md)、[实验](../../research/paper_e_agent_evidence_20261029/AGENT_EVIDENCE_RETURN.md)、[修订校正](../../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)、[负责人自审](../../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md)。四条真实 Agent 运行是事后、来源暴露的开发展示：AST仅覆盖字面直接调用，历史测试未重跑，未标注文档不判负；尚非投稿终稿。第二篇 [Skill开发对照](../../research/agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md)和[文档扩展](../../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md)是同一个公开任务的单次运行；信息和实际成本不同、部分请求被限或超时，方法增量及泛化尚未成立。下方旧阶段按历史材料阅读。
 
 Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
