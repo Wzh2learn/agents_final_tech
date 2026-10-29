@@ -1,6 +1,6 @@
 # Research Entry
 
-> **Paper E v4（2026-10-29）**：[审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v4.md)、[实验](../../research/paper_e_agent_evidence_20261029/AGENT_EVIDENCE_RETURN.md)、[修订校正](../../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)、[负责人自审](../../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md)。四条真实 Agent 运行属于事后、来源暴露的开发展示：AST 仅覆盖字面直接调用，历史测试未重跑，未标注文档不判负；尚非投稿终稿。下方若有 v3 为现役的表述，以此补充为准。第二篇独立实验正在执行，未在本次提交中裁决。
+> **2026-10-29 现役研究**：Paper E [v4审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v4.md)、[实验](../../research/paper_e_agent_evidence_20261029/AGENT_EVIDENCE_RETURN.md)、[修订校正](../../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)、[负责人自审](../../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md)。四条真实 Agent 运行是事后、来源暴露的开发展示：AST仅覆盖字面直接调用，历史测试未重跑，未标注文档不判负；尚非投稿终稿。第二篇 [Skill开发对照](../../research/agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md)和[文档扩展](../../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md)是同一个公开任务的单次运行；信息和实际成本不同、部分请求被限或超时，方法增量及泛化尚未成立。下方旧阶段按历史材料阅读。
 
 Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 

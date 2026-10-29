@@ -1,6 +1,6 @@
 # Open Decisions And Blockers
 
-> **2026-10-29 Paper E 未决**：现有 [v4 审阅稿与校正](../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)保留来源暴露、小样本与已知成本；仍需确定投稿渠道、模板、署名/披露和独立来源。新脚本区分 qrel 正例、明确非正及缺失，原4条结果未改；后续用有独立参考的样本和强简单基线继续。第二篇实验仍在运行，不以此提交宣布完成。
+> **2026-10-29 科研未决**：[Paper E v4 审阅与校正](../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)保留来源暴露、小样本与已知成本；投稿渠道、模板、署名/披露和独立来源待办。新脚本区分 qrel 正例、明确非正及缺失。第二篇 [Skill 对照](../research/agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md)与[额外文档运行](../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md)为单任务开发观察，尚需等信息强基线、多任务重复和动态变化验证；代理拒绝具体原因未知，不能将10条断言当10个独立任务。
 
 > **2026-10-29 新增待办**：OpenCode/Qwen 已完成隔离合成任务，六次物理尝试及已知用量见[容器回执](../research/paper_e_deep_benchmark_20261029/CONTAINER_AGENT_EXPLORATION_RETURN.md)；自然来源、独立结果参考和可检验方法仍待完成。第二篇的 [SkillsBench 资格](../research/agent_frontier_portfolio_20261029/SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md)仅为改造环境中的离线断言，不是官方 BenchFlow 或 agent 成效；继续核验原始版本、许可、变更和强简单基线，不重开已停止面板。
 
