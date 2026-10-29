@@ -1,0 +1,31 @@
+{
+  "cases": {
+    "gold": {
+      "direct_detector_imports": [
+        "cchardet"
+      ],
+      "known_target_check": true,
+      "manifest_string_literals": [
+        "cchardet"
+      ],
+      "sha256": {
+        "partridge/utilities.py": "780c9923fa4e74d6bdf0c4546d851d93524ce5588b30a05a575ea022ea26847b",
+        "setup.py": "74e7dbae1e5e1b1a418c223a9e5e24810447550620cd23d268ed59124b28959f"
+      }
+    },
+    "parent": {
+      "direct_detector_imports": [
+        "chardet"
+      ],
+      "known_target_check": false,
+      "manifest_string_literals": [
+        "chardet"
+      ],
+      "sha256": {
+        "partridge/utilities.py": "1b73898d619d1e4e28abcd446abc3f632cc6432e616dd1cdad026ba52c24cd31",
+        "setup.py": "d8d1a61fb35bf3ae5552efd7af9449a24e26774d90ca1c7c0f2a6989d7df09da"
+      }
+    }
+  },
+  "status": "EXPOSED_DEVELOPMENT_QUALIFICATION_NOT_SKILL_EXPERIMENT"
+}

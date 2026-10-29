@@ -1,5 +1,7 @@
 # Open Decisions And Blockers
 
+> **2026-10-29 新增待办**：OpenCode/Qwen 已完成隔离合成任务，六次物理尝试及已知用量见[容器回执](../research/paper_e_deep_benchmark_20261029/CONTAINER_AGENT_EXPLORATION_RETURN.md)；自然来源、独立结果参考和可检验方法仍待完成。第二篇的 [SkillsBench 资格](../research/agent_frontier_portfolio_20261029/SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md)仅为改造环境中的离线断言，不是官方 BenchFlow 或 agent 成效；继续核验原始版本、许可、变更和强简单基线，不重开已停止面板。
+
 > **现役裁决（2026-10-29）**：本提示优先于下方历史条目。Paper E 三案例稿已完成 v3 内部修订，但仍待最终模板、完整独立审稿、作者与对外投稿事项；[v3 回执](../research/paper_e_manuscript_followup_20261028/V3_REVIEW_RETURN.md)、[统计复核](../research/paper_e_evidence_followup_20261028/INDEPENDENT_HOLM_REVIEW.md)。六系统不是预注册或独立数据确认。[投稿时间及条件备选](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)为当前路线，不预设主投已获批准。第二篇仍在[对标与资格筛选](../research/paper_e_evidence_followup_20261028/SECOND_PAPER_RELATED_WORK_20261028.md)。用户已接受现场参会。本机、GitHub、GB10 main 已快进接收集成分支；原本机副本及校验清单保存在 `D:/Documents/Loop_D_assets/git_sync_backup_20261029`。历史 worktree 已确认提交为 main 祖先，但含忽略文件或未提交改动，保留未删。GB10 `docs_lint` 有共享 skill 安装漂移和一条文档时效 warning；未核验生产服务。
 
 下方条目保留历史来源和原文，遇到状态冲突以本段为准，不能重开已停止的候选。

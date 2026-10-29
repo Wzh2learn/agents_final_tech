@@ -2,6 +2,8 @@
 
 Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
+> **现役补充（2026-10-29）**：本段优先于下方阶段历史。[Paper E 文献对标](../../research/paper_e_deep_benchmark_20261029/PAPER_E_RESEARCH_BENCHMARK.md)及[隔离 Agent 探索](../../research/paper_e_deep_benchmark_20261029/CONTAINER_AGENT_EXPLORATION_RETURN.md)记录六次物理 OpenCode 尝试：前三次未完成任务，后三次容器读入公开合成样本；其中已知事件总 tokens 为 29,329，前两次后端请求与 token 未知。现有两个样本仅是合成投影展示，无真实危害金标准、一般性能或新普适理论。[第二篇 Agent 热点候选](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)为文献初筛及资格计划，[SkillsBench 资格](../../research/agent_frontier_portfolio_20261029/SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md)是离线改造下的官方断言检查而非官方 BenchFlow 或 agent 效果；[Partridge 离线资格](../../research/agent_frontier_portfolio_20261029/PARTRIDGE_NATURAL_VERSION_QUALIFICATION.md)使用已暴露数据和既有测试补丁。Paper E 当前 v3 是内部稿；投稿和学校认定仍待办理。用户允许现场参会。历史状态与本段冲突时不作为现状依据。
+
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
 ## 当前任务与证据

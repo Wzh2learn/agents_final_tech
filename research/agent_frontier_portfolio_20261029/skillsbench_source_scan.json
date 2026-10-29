@@ -1,0 +1,33 @@
+{
+  "qualification": "REPOSITORY_TEXT_SCAN_ONLY_NOT_SOURCE_OR_MODEL_DECONTAMINATION",
+  "git_head": "b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af",
+  "v1_1_task_commit_ids": [
+    "55bfe693f2a19f6b2f29aca3f54fe98b9d994668"
+  ],
+  "v1_1_task_count": 87,
+  "task": "llm-prefix-cache-replay",
+  "benchflow_requirement": ">=0.6.3,<0.7",
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "registry_sha256": "ade4beaad3092cdbe9870f54e6a3e222e71f53be3527ec539ae002e1d6e5f6dc",
+  "selected_file_sha256": {
+    "task.md": "76bc3280055cd05df0c9855391d795595acc454cfd7da43a448fbbdba6026c72",
+    "environment/Dockerfile": "6f4f9f5e86b539a50c7cad44cb7eb948c2c50dbcf5d308c4b9bb34f6ae997d0a",
+    "environment/config.json": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3",
+    "environment/trace.jsonl": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+    "oracle/solve.sh": "1d12de1082c373c9654f0f2195613bcf442c2fe3724cf2a19a95c244fc0e4e63",
+    "verifier/test_outputs.py": "b8442216fbc86ffbd4b75e96c1b9885e3e57d87ec2664b3636c29c343bef53a7",
+    "verifier/oracle_helpers.py": "bc3579ef49fed337c6f707532f3572cb9dd5a82e42dea8184d2e2c278b6b896c",
+    "verifier/test.sh": "d0315e6d8e06686f40db287f9cc84b93de2ee9b1866a8349cb18bab73b7715d9",
+    "environment/skills/prefix-cache-replay/SKILL.md": "28ced940ec272cc01cf06519912077492d948b10e08a933acba12dd9907220cf"
+  },
+  "parent_overlap_check": {
+    "needles": [
+      "remix/partridge",
+      "09e89d98b5a00db44394204d2f3e70c220b51764",
+      "daefcbe6a03e92a0bfc0c2433279b9fd3d179f6c"
+    ],
+    "files_checked": 1430,
+    "large_files_skipped": 0,
+    "hits": []
+  }
+}

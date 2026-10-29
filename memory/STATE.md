@@ -1,5 +1,7 @@
 # Current State
 
+> **2026-10-29 科研增量**：[Paper E 对标](../research/paper_e_deep_benchmark_20261029/PAPER_E_RESEARCH_BENCHMARK.md)将观测界限定为背景而非新定理；[隔离 Agent 探索](../research/paper_e_deep_benchmark_20261029/CONTAINER_AGENT_EXPLORATION_RETURN.md)六次物理尝试中后三次容器任务完成，已知事件总 tokens 29,329、前两次用量未知；两个合成病例仅展示粗略最终数值与读取轨迹的观测差异，不证明实际危害或一般性能。[第二篇 Agent 候选](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)与 [SkillsBench 资格](../research/agent_frontier_portfolio_20261029/SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md)均未建立方法效果，Partridge 为暴露的离线资格。
+
 > **现役快照（2026-10-29，负责人复核）**：本段优先于下面保留的阶段历史。Paper E 的三案例 v3 是内部审阅稿，未投稿；六系统分析为事后探索，Holm 算术已独立重算，尚无独立数据确认或真实用户决策研究。最新材料见 [论文修订](../research/paper_e_manuscript_followup_20261028/V3_REVIEW_RETURN.md)、[实验](../research/paper_e_evidence_followup_20261028/RESULTS.md)、[投稿倒排](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。第二篇仅为[相关工作筛选与候选](../research/paper_e_evidence_followup_20261028/SECOND_PAPER_RELATED_WORK_20261028.md)，不是已成立创新。会议可线下；IJCNN 与 EASE 不可按“先等 IJCNN 后再投 EASE”顺序衔接。2027 年 10 月送审，具体日和学校成果凭证待核。经用户确认，原阻挡合并的本机副本已保存在 `D:/Documents/Loop_D_assets/git_sync_backup_20261029`，带逐文件 SHA-256 清单；本机、GitHub、GB10 main 已接收论文集成分支。新研究与历史 worktree 状态须另核，不能以此次合并宣称所有工作树 clean。
 
 以下为阶段历史，旧评分、路线与待办中如与本快照冲突，均不代表当前裁决。
