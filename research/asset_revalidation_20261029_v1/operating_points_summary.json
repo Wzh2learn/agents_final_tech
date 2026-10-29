@@ -1,0 +1,39 @@
+{
+  "caveat": "Counts are from saved rounded values and stored decisions; this check does not rerun the original pipeline or establish general calibration.",
+  "frozen_sha256": {
+    "logs/graph/eval/t1_eval_baseline_comparison.json": "4779c9e78f8d1b0d2f1e364456189215dc62d3abe478f7ec268052d7ee20d473",
+    "research/paper_t1_eval_baselines.py": "c0a52c92aae898a829e49304db976e1a400d0965e94c7bd2f296f4a76dcc6071",
+    "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json": "23f11dfe0bf95edacb878fc02f94ae135df9e0281960f879926143679c1fdea0",
+    "research/stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py": "f926c63d602db9ecbd2c64a8cdb0fff5850875a16ea88d386e905cc8bcb24489"
+  },
+  "matched_grid_fold_0": {
+    "difference": 0,
+    "flat_detected": 21,
+    "layered_detected": 21,
+    "theta_flat_drop10": 1.0,
+    "theta_layered_root_drop": 0.375
+  },
+  "matched_grid_predicate": "strictly greater than the corresponding thresholds; distinct from the original >= predicate",
+  "original": {
+    "injections": {
+      "flat_equal_2": 23,
+      "flat_ge_2": 85,
+      "flat_recorded_flags": 85,
+      "hier_equal_2": 0,
+      "hier_ge_2": 13,
+      "hier_recorded_flags": 13,
+      "n": 118
+    },
+    "tables": {
+      "flat_equal_2": 12,
+      "flat_ge_2": 75,
+      "flat_recorded_flags": 75,
+      "hier_equal_2": 0,
+      "hier_ge_2": 20,
+      "hier_recorded_flags": 20,
+      "n": 95
+    }
+  },
+  "original_predicate": "flat drop10 >= 2.0; hierarchical root drop >= 2.0, on their respective scales",
+  "scope": "post-hoc frozen-artifact recheck; not a new experimental panel"
+}
