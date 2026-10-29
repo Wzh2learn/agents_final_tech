@@ -1,5 +1,7 @@
 # Research Entry
 
+> **Paper E v4（2026-10-29）**：[审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v4.md)、[实验](../../research/paper_e_agent_evidence_20261029/AGENT_EVIDENCE_RETURN.md)、[修订校正](../../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)、[负责人自审](../../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md)。四条真实 Agent 运行属于事后、来源暴露的开发展示：AST 仅覆盖字面直接调用，历史测试未重跑，未标注文档不判负；尚非投稿终稿。下方若有 v3 为现役的表述，以此补充为准。第二篇独立实验正在执行，未在本次提交中裁决。
+
 Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
 > **现役补充（2026-10-29）**：本段优先于下方阶段历史。[Paper E 文献对标](../../research/paper_e_deep_benchmark_20261029/PAPER_E_RESEARCH_BENCHMARK.md)及[隔离 Agent 探索](../../research/paper_e_deep_benchmark_20261029/CONTAINER_AGENT_EXPLORATION_RETURN.md)记录六次物理 OpenCode 尝试：前三次未完成任务，后三次容器读入公开合成样本；其中已知事件总 tokens 为 29,329，前两次后端请求与 token 未知。现有两个样本仅是合成投影展示，无真实危害金标准、一般性能或新普适理论。[第二篇 Agent 热点候选](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)为文献初筛及资格计划，[SkillsBench 资格](../../research/agent_frontier_portfolio_20261029/SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md)是离线改造下的官方断言检查而非官方 BenchFlow 或 agent 效果；[Partridge 离线资格](../../research/agent_frontier_portfolio_20261029/PARTRIDGE_NATURAL_VERSION_QUALIFICATION.md)使用已暴露数据和既有测试补丁。Paper E 当前 v3 是内部稿；投稿和学校认定仍待办理。用户允许现场参会。历史状态与本段冲突时不作为现状依据。
