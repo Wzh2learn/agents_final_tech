@@ -2,6 +2,18 @@
 
 状态：文献初筛、只读运行条件资格检查；不是系统综述、已确认创新或实验成功。目标是为学术硕士寻找可验证方法和可发表论文，金融文档不是限制，现有工程系统主要提供执行与评测基础设施。外部论文是否已正式接收只按对应来源说明，arXiv 论文按预印本处理；不能宣称未核查的研究空白。
 
+## 2026-10-30：连续技能学习公开基准资格探索
+
+**实际动作**：在 GB10 `/home/testuser/wzh/research_evidence/agent_learning_20261030/` 获取 [SkillLearnBench](https://github.com/cxcscmu/SkillLearnBench) commit `726e1f79b96b0cb3d729d0e55a1c847e0b5353ae`（仓库声明 MIT，约 2.2 GB）与 [ContinualSkillBench](https://github.com/gtynnn060110-hash/continual-skill-bench-final) commit `91c76f887c2a422d1f8d4c1adacc944c9c2ad6c1`（仓库声明 Apache-2.0，约 4.7 GB）；两者各自依赖的原始数据许可仍需分别确认。未安装依赖、运行上游脚本或接触生产服务。源码和数据在 GB10，未纳入项目 Git。
+
+运行 [只读资格脚本](inspect_continual_skillbench.py)；GB10 的 [聚合回执](continual_skillbench_qualification_20261030.json) 记录 6 个仓库 task streams 各 100 条以及来源和评价方式，6 个 stream 不等同论文报告的 5 个主域，也不说明已经运行 600 条。金融 stream 有 51 条 rubric judge、13 条程序检查、13 条 F1、12 条数值、11 条精确匹配，来源含 10 条 TAT-QA 和 11 条 FinQA，与本项目已有研究来源重叠；是否具体题目或模型训练曝光仍需核验，不能作为无污染外部确认。Office 有 35 条 rubric judge，math 有 25 条；即使筛除 judge，也须检查基础题、数据和检查器是否可独立运行。项目说明预装任务技能，且环境注释说明 `tasks_spec.json` 留在 host；实际 agent 镜像和工具权限须逐项验收，不将静态阅读视为真实泄漏测试。
+
+**合成反例**：直接调用金融 stream 的 `tests/qa_eval.py` 辅助函数，`numeric` 将 `12%` 和 `$12` 评分为 1，`f1` 将 `-5` 与 `5` 评分为 1；`numeric` 对 `-5` vs `5` 为 0，正确同值控制为 1。它揭示辅助函数在这些构造输入下忽略单位或标点的行为，**未证明原始题目出现该反例，也未证明官方 agent 实际运行链一定使用该函数**。文件存在类 pytest 检查不等价语义验证；官方 test.sh 依赖运行时 feedback 聚合，后续须追踪每种调用链并验证端到端合同，不能把静态发现扩大为官方成绩无效。
+
+**可操作判断**：SkillLearnBench 明确提供 20 任务、100 实例、human/no-skill/one-shot/self/teacher 经验基线，环境依赖 Docker 和原作者特定 agent；ContinualSkillBench 的 sequential/pure ICL/independent 直接对应我们的核心竞争基线。已查的 `organize-messy-files-1` Dockerfile 构建时下载 100 份 PDF，金融任务 Dockerfile 需要 Ubuntu 安装依赖；本机镜像未命中对应基础镜像。不能把它们描述为已经可离线复现。优先选择 2 类无凭据、数据可离线核验、来源族可隔离的开发任务，复核 `skills` 与验证器挂载，做正负输出控制，再适配本地 OpenCode/Qwen；保留合成变化与自然任务的区别。当前仍未做真实 sequential agent run，不能声称新方法收益或新颖性。
+
+**资源**：本次科研模型生成、judge、训练及付费 API 均为 0；源码克隆、GPU 状态查询和 CPU 只读检查已完成，不影响既有实验账本或生产环境。
+
 ## 2026-10-29 第二篇：用户认可的两条主线与首个比较
 
 **问题池，不是已证明的新方法**：① Agent 怎样把执行反馈转化为之后可迁移的经验；② 任务或环境变化后，怎样判断记忆/skill 的适用性并更新。两者可以在同一连续任务链中联系：先做任务、获得可见反馈、再遇到变化任务，但不能把“把经验写成 skill”或“旧记忆失效”本身当新颖性。旧实验停止针对特定实现，不否定整个领域。

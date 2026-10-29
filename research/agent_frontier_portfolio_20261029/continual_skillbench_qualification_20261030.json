@@ -1,0 +1,138 @@
+{
+  "status": "OFFLINE_DEVELOPMENT_ONLY",
+  "domains": {
+    "finance-econ": {
+      "task_count": 100,
+      "eval_types": {
+        "exact_match": 11,
+        "f1": 13,
+        "numeric": 12,
+        "programmatic": 13,
+        "rubric_judge": 51
+      },
+      "sources": {
+        "FinBen": 5,
+        "FinQA": 11,
+        "FinanceBench": 8,
+        "GAIA": 2,
+        "InvestorBench": 6,
+        "OMBench": 51,
+        "TAT-QA": 10,
+        "claw-bench": 7
+      },
+      "spec_sha256": "9e9cf9a72348102d322621a6122d7e8ae82235853946c67b2c152d65d8e36181"
+    },
+    "healthcare": {
+      "task_count": 100,
+      "eval_types": {
+        "exact_match": 28,
+        "programmatic": 4,
+        "rubric_judge": 68
+      },
+      "sources": {
+        "GAIA": 1,
+        "HealthBench": 27,
+        "MedAgentsBench": 27,
+        "OMBench": 19,
+        "PhysicianBench": 22,
+        "claw-bench": 4
+      },
+      "spec_sha256": "31eb148e7cb17a0f2eada7e612d589df1fc81bd51bf23cf9101b292cf25841c7"
+    },
+    "law": {
+      "task_count": 100,
+      "eval_types": {
+        "exact_match": 40,
+        "programmatic": 10,
+        "rubric_judge": 50
+      },
+      "sources": {
+        "LawBench": 18,
+        "LegalBench": 18,
+        "Lexam": 4,
+        "OMBench": 25,
+        "claw-bench": 10,
+        "harvey-labs": 25
+      },
+      "spec_sha256": "b0c19c07b8ccf08dffcf013a8cd952809e8c5e1909a0ca9ef5486f7bcbd64059"
+    },
+    "math": {
+      "task_count": 100,
+      "eval_types": {
+        "exact_match": 39,
+        "numeric": 24,
+        "programmatic": 12,
+        "rubric_judge": 25
+      },
+      "sources": {
+        "aime": 10,
+        "amc12": 8,
+        "mathcode": 12,
+        "numinamath": 3,
+        "olympiadbench": 6,
+        "omnimath": 12,
+        "putnam_axiom": 24,
+        "realmath": 25
+      },
+      "spec_sha256": "e8dd99eecc7e06050c895f45fd48f919f7ea6bb6763608d80031eaae768b2130"
+    },
+    "office": {
+      "task_count": 100,
+      "eval_types": {
+        "exact_match": 2,
+        "numeric": 43,
+        "programmatic": 20,
+        "rubric_judge": 35
+      },
+      "sources": {
+        "OfficeQA": 45,
+        "WritingBench": 35,
+        "claw-bench": 20
+      },
+      "spec_sha256": "26441d6f1b97ae78438366b0dd8b490736944e805775981d9c732548c216608e"
+    },
+    "science": {
+      "task_count": 100,
+      "eval_types": {
+        "exact_match": 40,
+        "numeric": 40,
+        "rubric_judge": 20
+      },
+      "sources": {
+        "LAB-Bench": 40,
+        "SciBench": 40,
+        "ScienceAgentBench": 15,
+        "SkillsBench": 5
+      },
+      "spec_sha256": "d13fd97a066efa65f73d10b75f2e7f36a7120c3266be1a742dedff428fb039c4"
+    }
+  },
+  "synthetic_qa_helper_controls": [
+    {
+      "expected": "12%",
+      "actual": "$12",
+      "eval_type": "numeric",
+      "score": 1.0
+    },
+    {
+      "expected": "-5",
+      "actual": "5",
+      "eval_type": "numeric",
+      "score": 0.0
+    },
+    {
+      "expected": "-5",
+      "actual": "5",
+      "eval_type": "f1",
+      "score": 1.0
+    },
+    {
+      "expected": "12",
+      "actual": "12",
+      "eval_type": "numeric",
+      "score": 1.0
+    }
+  ],
+  "finance_qa_helper_sha256": "6ca2699845faf047cb6ed215d76dbee73129172c76cb1d2d902f83b6d90683c5",
+  "caveat": "Synthetic controls only; no claim that official judge runtime used this helper or that these strings occur in the dataset."
+}
