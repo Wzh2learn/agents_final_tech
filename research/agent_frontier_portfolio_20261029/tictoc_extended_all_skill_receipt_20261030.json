@@ -1,0 +1,126 @@
+{
+  "task": "tictoc-unnecessary-abort-detection",
+  "arm": "all_skill",
+  "status": "DEVELOPMENT_ONLY",
+  "agent_exit": 1,
+  "verifier_exit": 1,
+  "elapsed_seconds": 227.156,
+  "model_http_requests": [
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "DENIED_OR_LIMIT"
+  ],
+  "post_content_lengths": [
+    22114,
+    39764,
+    62537,
+    53688,
+    30496,
+    48452,
+    48893,
+    50809
+  ],
+  "step_finish_tokens": [
+    {
+      "total": 5509,
+      "input": 264,
+      "output": 156,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5089
+      }
+    },
+    {
+      "total": 10408,
+      "input": 4789,
+      "output": 270,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5349
+      }
+    },
+    {
+      "total": 25153,
+      "input": 6827,
+      "output": 8192,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 10134
+      }
+    },
+    {
+      "total": 7729,
+      "input": 5460,
+      "output": 2269,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 0
+      }
+    },
+    {
+      "total": 5978,
+      "input": 673,
+      "output": 216,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5089
+      }
+    },
+    {
+      "total": 10664,
+      "input": 4849,
+      "output": 57,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5758
+      }
+    },
+    {
+      "total": 10807,
+      "input": 81,
+      "output": 123,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 10603
+      }
+    },
+    {
+      "total": 11247,
+      "input": 391,
+      "output": 176,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 10680
+      }
+    }
+  ],
+  "raw_bytes": 173281,
+  "stderr_bytes": 377,
+  "output_files": [
+    "instructions.txt",
+    "opencode.json",
+    "skills",
+    "traces"
+  ],
+  "skills_prompted": [
+    "/root/skills/transaction-trace-analysis/SKILL.md",
+    "/root/skills/transaction-protocol-reasoning/SKILL.md",
+    "/root/skills/transaction-concurrency-control-foundations/SKILL.md"
+  ],
+  "sandbox": "docker network none; verifier absent during agent; limited UDS proxy",
+  "raw_sha256": "dba4f203ce068b6ea2d9895452fb715f3f0e391326f1db0255f71a02fe5c766d"
+}

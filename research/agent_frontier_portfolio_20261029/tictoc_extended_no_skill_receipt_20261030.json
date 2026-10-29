@@ -1,0 +1,85 @@
+{
+  "task": "tictoc-unnecessary-abort-detection",
+  "arm": "no_skill",
+  "status": "DEVELOPMENT_ONLY",
+  "agent_exit": 0,
+  "verifier_exit": 0,
+  "elapsed_seconds": 125.334,
+  "model_http_requests": [
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions"
+  ],
+  "post_content_lengths": [
+    21902,
+    24710,
+    25941,
+    33768,
+    34503
+  ],
+  "step_finish_tokens": [
+    {
+      "total": 5360,
+      "input": 211,
+      "output": 60,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5089
+      }
+    },
+    {
+      "total": 6260,
+      "input": 833,
+      "output": 131,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5296
+      }
+    },
+    {
+      "total": 8423,
+      "input": 463,
+      "output": 1835,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 6125
+      }
+    },
+    {
+      "total": 8498,
+      "input": 1861,
+      "output": 53,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 6584
+      }
+    },
+    {
+      "total": 8866,
+      "input": 318,
+      "output": 107,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 8441
+      }
+    }
+  ],
+  "raw_bytes": 17135,
+  "stderr_bytes": 0,
+  "output_files": [
+    "instructions.txt",
+    "opencode.json",
+    "traces",
+    "unnecessary_aborts.json"
+  ],
+  "skills_prompted": [],
+  "sandbox": "docker network none; verifier absent during agent; limited UDS proxy",
+  "raw_sha256": "b88302ee1d016d9180a6b67fa00080297268f90710d6420e04af15d0dce4a7f9"
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "condition": "incorrect",
+    "status": "PARSED",
+    "started_utc": "2026-10-29T17:11:34.879709+00:00",
+    "usage": {
+      "completion_tokens": 15,
+      "prompt_tokens": 1322,
+      "total_tokens": 1337,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "answer": "5.69",
+    "elapsed_seconds": 1.314
+  },
+  {
+    "condition": "uncertain",
+    "status": "PARSED",
+    "started_utc": "2026-10-29T17:11:36.194206+00:00",
+    "usage": {
+      "completion_tokens": 14,
+      "prompt_tokens": 1323,
+      "total_tokens": 1337,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "answer": "5.7",
+    "elapsed_seconds": 1.282
+  },
+  {
+    "condition": "correct",
+    "status": "PARSED",
+    "started_utc": "2026-10-29T17:11:37.478786+00:00",
+    "usage": {
+      "completion_tokens": 14,
+      "prompt_tokens": 1322,
+      "total_tokens": 1336,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "answer": "5.7",
+    "elapsed_seconds": 1.282
+  }
+]

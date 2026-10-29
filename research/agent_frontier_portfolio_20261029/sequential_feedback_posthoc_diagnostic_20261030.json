@@ -1,0 +1,32 @@
+[
+  {
+    "task_id": 5,
+    "arm": "independent",
+    "diagnostic": "ROUNDING_COMPATIBLE"
+  },
+  {
+    "task_id": 5,
+    "arm": "history_feedback",
+    "diagnostic": "ROUNDING_COMPATIBLE"
+  },
+  {
+    "task_id": 25,
+    "arm": "independent",
+    "diagnostic": "ROUNDING_COMPATIBLE"
+  },
+  {
+    "task_id": 25,
+    "arm": "history_feedback",
+    "diagnostic": "UNRESOLVED_BARE_PERCENT"
+  },
+  {
+    "task_id": 26,
+    "arm": "independent",
+    "diagnostic": "ROUNDING_COMPATIBLE"
+  },
+  {
+    "task_id": 26,
+    "arm": "history_feedback",
+    "diagnostic": "UNRESOLVED_BARE_PERCENT"
+  }
+]

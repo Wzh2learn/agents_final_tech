@@ -1,0 +1,85 @@
+{
+  "status": "DEVELOPMENT_ONLY",
+  "physical_attempts": 6,
+  "counts": {
+    "independent": {
+      "SCORED": 3,
+      "OUTPUT_CONTRACT_FAILURE": 0,
+      "REQUEST_OR_RESPONSE_FAILURE": 0
+    },
+    "history_feedback": {
+      "SCORED": 3,
+      "OUTPUT_CONTRACT_FAILURE": 0,
+      "REQUEST_OR_RESPONSE_FAILURE": 0
+    }
+  },
+  "scores": {
+    "independent": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "history_feedback": [
+      1.0,
+      0.0,
+      0.0
+    ]
+  },
+  "known_usage": [
+    {
+      "completion_tokens": 16,
+      "prompt_tokens": 358,
+      "total_tokens": 374,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    {
+      "completion_tokens": 16,
+      "prompt_tokens": 358,
+      "total_tokens": 374,
+      "prompt_tokens_details": {
+        "cached_tokens": 354
+      }
+    },
+    {
+      "completion_tokens": 15,
+      "prompt_tokens": 657,
+      "total_tokens": 672,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    {
+      "completion_tokens": 15,
+      "prompt_tokens": 1012,
+      "total_tokens": 1027,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    {
+      "completion_tokens": 15,
+      "prompt_tokens": 672,
+      "total_tokens": 687,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    {
+      "completion_tokens": 14,
+      "prompt_tokens": 1660,
+      "total_tokens": 1674,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    }
+  ],
+  "limitations": [
+    "three exposed FinQA tasks",
+    "direct model, not a tool-using agent",
+    "upstream scorer has known semantic limitations",
+    "no independent confirmation",
+    "model pretraining exposure unknown"
+  ]
+}

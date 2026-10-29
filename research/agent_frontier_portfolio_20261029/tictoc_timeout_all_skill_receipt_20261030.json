@@ -1,0 +1,43 @@
+{
+  "task": "tictoc-unnecessary-abort-detection",
+  "arm": "all_skill",
+  "status": "DEVELOPMENT_ONLY",
+  "agent_exit": 1,
+  "verifier_exit": 1,
+  "elapsed_seconds": 127.602,
+  "model_http_requests": [
+    "POST /v1/chat/completions",
+    "POST /v1/chat/completions"
+  ],
+  "post_content_lengths": [
+    22114,
+    39811
+  ],
+  "step_finish_tokens": [
+    {
+      "total": 5518,
+      "input": 264,
+      "output": 165,
+      "reasoning": 0,
+      "cache": {
+        "write": 0,
+        "read": 5089
+      }
+    }
+  ],
+  "raw_bytes": 40431,
+  "stderr_bytes": 376,
+  "output_files": [
+    "instructions.txt",
+    "opencode.json",
+    "skills",
+    "traces"
+  ],
+  "skills_prompted": [
+    "/root/skills/transaction-trace-analysis/SKILL.md",
+    "/root/skills/transaction-protocol-reasoning/SKILL.md",
+    "/root/skills/transaction-concurrency-control-foundations/SKILL.md"
+  ],
+  "sandbox": "docker network none; verifier absent during agent; limited UDS proxy",
+  "raw_sha256": "3306cbf482b0d7f8b597a131d1566be43db69a787669dd0ed0fefb510feb15c4"
+}
