@@ -1,5 +1,7 @@
 # Research Entry
 
+> **2026-10-29 负责人复核**：[Paper E 长期目标、文献对标、证据及 GB10 复用地图](PAPER_E_STRATEGIC_REVIEW_20261029.md)。当前正文为 v4 内部审阅稿；后文旧阶段及“两案例”状态均属历史，若冲突以本条及现役状态为准。第二篇仍是待验证研究方向，不是既成方法贡献。
+
 > **2026-10-29 现役研究**：Paper E [v4审阅稿](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v4.md)、[实验](../../research/paper_e_agent_evidence_20261029/AGENT_EVIDENCE_RETURN.md)、[修订校正](../../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)、[负责人自审](../../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md)。四条真实 Agent 运行是事后、来源暴露的开发展示：AST仅覆盖字面直接调用，历史测试未重跑，未标注文档不判负；尚非投稿终稿。第二篇 [Skill开发对照](../../research/agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md)和[文档扩展](../../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md)是同一个公开任务的单次运行；信息和实际成本不同、部分请求被限或超时，方法增量及泛化尚未成立。下方旧阶段按历史材料阅读。
 
 Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
@@ -8,7 +10,7 @@ Status: `CURRENT_SINGLE_ENTRY` | Updated: 2026-10-28
 
 本页是唯一现役科研入口。`docs/INDEX.md` 负责导航，`memory/STATE.md` 保留短状态，`memory/THREADS.md` 只记录未决事项。各阶段回执保留其日期与证据边界。
 
-## 当前任务与证据
+## 历史阶段任务与证据（以页首现役说明为准）
 
 BEIR评分与AB对照已修正，旧结果保留；官方评分器核对、精度表述、图1重排与真实会议稿继续，见[唯一指令](LOOP_D_RESEARCH_PROMPT.md)最新阶段。
 
@@ -61,7 +63,7 @@ NtripBrowser 证明该案例的行为测试会产生错误迁移的假阳性。�
 
 这些资产已供 V2-V5、首轮 C2/C3 和自然 TAT-QA 方法实验复用。旧 G2 消费/迁移方法、G3 复杂 planner、scope 面板和四个失败反馈候选继续停止。历史阶段按监督资格—同起点开发—隔离确认推进的证据保留；现阶段优先补强Paper E公开体系与决策收益，Owner转发后授权有界本地生成，训练未授权。340差额保守保留。Paper E当前稿有两案例，合格独立案例可加入，当前作者/外部事项以THREADS为准，旧12页会议费用表仅作历史材料。具体外部事项见[当前未决事项](../../memory/THREADS.md)。
 
-## Paper E 唯一写作线
+## Paper E 历史写作线（当前稿见页首）
 
 - [canonical manuscript](../../paper/saner_rene_manuscript_v1.md)
 - [claim/evidence matrix](../../paper/saner_rene_claim_matrix_v1.json)与[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)

@@ -10,7 +10,7 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
-| Paper E 当前审阅稿 | [v4 修订与证据边界](../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)；[负责人自审](../research/paper_e_agent_evidence_20261029/RESEARCH_LEAD_SELF_REVIEW.md) |
+| Paper E 当前审阅稿 | [v4 修订与证据边界](../research/paper_e_agent_evidence_20261029/V4_REVIEW_AND_CORRECTIONS.md)；[长期计划、文献对标与资产复用](research/PAPER_E_STRATEGIC_REVIEW_20261029.md) |
 | 当前科研基线与复用资产 | [`research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md`](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[`RECONCILIATION.json`](../research/research_baseline_governance_20261023/RECONCILIATION.json) |
 | 当前方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见STATE |
 | 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)：BEIR评分修正后推进真实会议稿、官方工具核对和早期会议筛选；A/C29/29不追加派发。旧[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)/[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md) |
