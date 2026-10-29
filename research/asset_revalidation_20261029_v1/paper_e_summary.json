@@ -1,0 +1,69 @@
+{
+  "scope": "frozen-input revalidation; output path redirected, not new independent sample",
+  "summary": {
+    "A_family_counts_match_paper": true,
+    "A_total_96_match": true,
+    "A_gamma_grid_all_match": true,
+    "A_checkpoint_rates_match": true,
+    "A_normalization_flips_all_date_variant": true,
+    "B_slopes_all_approx_0375": true,
+    "B_grid_all_zero": true,
+    "B_supports_zero": true,
+    "C_matches_stored_all": true,
+    "C_zero_columns_8": true,
+    "C_patterns_unique_1_each": true
+  },
+  "same_historical_summary": true,
+  "same_historical_input_hashes": true,
+  "checks": {
+    "A_frozen_hashes": {
+      "t2_visibility_sensitivity": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+      "checkpoint_discrimination_tables_v2": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "injection_map": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+      "tatqa_tables_input": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    "B_frozen_inputs_match": {
+      "d3_matched_fpr_stage_a": true,
+      "d1_mutant_validity_audit": true
+    },
+    "C_receipt_hash_checks": {
+      "predictions_sha256": true,
+      "result_json_sha256": true,
+      "formal_runner_sha256": true
+    },
+    "C_recomputed": {
+      "full_vector": {
+        "macro_f1": 1.0,
+        "top1": 1.0,
+        "tie_rate": 0.0
+      },
+      "direct_target_codebook": {
+        "macro_f1": 1.0,
+        "top1": 1.0,
+        "tie_rate": 0.0
+      },
+      "non_direct_leaves_only": {
+        "macro_f1": 0.3333333333333333,
+        "top1": 0.3333333333333333,
+        "tie_rate": 0.6666666666666666
+      },
+      "any_response_scalar": {
+        "macro_f1": 0.0,
+        "top1": 0.0,
+        "tie_rate": 1.0
+      }
+    },
+    "B_supports": {
+      "clean_flat_support": [
+        0.0
+      ],
+      "clean_layered_support": [
+        0.0
+      ],
+      "n_clean_usable": 2382,
+      "n_harmful_H_union_HI": 111
+    },
+    "B_max_dev_from_0375": 8.75000000233328e-08
+  },
+  "original_runner_sha256": "3d70cbcde59cb9f658ce8bcebf1be21a8ca0f1ee8036f9d6a17a2fbe319e2d32"
+}

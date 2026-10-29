@@ -8,7 +8,7 @@
 | 投稿与学位认定 | 用户希望尽早正规发表，可到场参会；学校要求本人第一作者、北邮第一单位、方向相关，会议还需召开并宣读/张贴。具体渠道、会期、作者/通讯、AI 披露、专利、artifact 许可、付款及正式提交仍待实际办理；不同时一稿多投。2027 年 10 月具体送审日未知。 |
 | 第二篇 Agent 方法 | [SkillsBench 单任务观察](../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md)尚无等信息、等成本、多任务确认；保留技能适用性、预算分配与失败恢复候选，先核近邻、许可、可执行参考与强基线。 |
 | 资源账本 | 历史 340-token 差额、部分未完成 POST 用量、模型权重标识等仍未核实；继续分别记账，不能视作零。 |
-| Git 与现场 | GB10 活动 Loop B 日志、集成工作树未跟踪材料、历史 worktree 忽略文件和 C 审阅工作树三项未跟踪材料保留；[分类与处置](../docs/governance/2026-10-29_research_neat_closeout.md)。 |
+| Git 与现场 | 本机集成工作树 30 项和 GB10 C 审阅工作树 3 项未跟踪文件均已校验归档；历史 worktree 的忽略文件与 GB10 活动 Loop B 日志保留。[最新归档及实验复核](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。 |
 | skill 分发 | 当前 repo skill-doctor 检查和本机分发漂移见治理回执；同步安装会改变共享机器环境，本轮未执行。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 边界及其他未复验事项保持未知；见[更早快照](archive/THREADS_2026-10-21_pre_workspace_governance.md)，不能因归档宣称解决。 |
 

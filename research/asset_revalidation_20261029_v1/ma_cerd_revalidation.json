@@ -1,0 +1,27 @@
+{
+  "counts": {
+    "always_defer_admissible": 250,
+    "always_defer_exact": 0,
+    "model_can_suggest_non_defer": 9,
+    "model_exact": 3,
+    "model_intersects": 250,
+    "model_only_defer": 241,
+    "model_subset": 245
+  },
+  "evidence": "post-hoc recomputation on saved source-exposed queue; not an agent decision trial",
+  "gold_action_set_distribution": {
+    "defer+execute+repair": 138,
+    "defer+repair": 112
+  },
+  "limits": "Set admissibility is not task completion or safety. Results are not held out; model received simulator relation.",
+  "model_action_set_distribution": {
+    "defer": 241,
+    "defer+execute+repair": 3,
+    "execute+repair": 6
+  },
+  "n": 250,
+  "source_hashes_sha256": {
+    "gold": "da3a5791af0f308dd6335974d7423e8a9ac2326377852573b900f42bca1a6bf9",
+    "results": "df0493d894e1262ea96c3ae1ac22b6f5e75588e8c7b16b02bd4f58f61d1eccce"
+  }
+}

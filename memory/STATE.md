@@ -6,12 +6,13 @@
 
 - **Paper E**：[v5 正文](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.md)、[PDF](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.pdf)、[修订记录](../research/paper_e_agent_evidence_20261029/V5_STORY_REVISION_RETURN.md)。三案例测量审计，14 页单栏内部稿，尚非会议模板终稿；Agent 四次运行为事后开发补充。近期优先形成自洽、适合正规发表的稿件。
 - **第二篇和学位**：Agent skill/工具信息适配是候选之一，[候选与近邻](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)。一个公开任务的 skill/文档运行是开发信号，非等信息等成本，也不是已确认创新；后续需要多任务强基线。硕士目标 2027 年 10 月送审，具体日期未知。
+- **最新资产复核**：[离线复算与尸检](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)核对 Paper E 冻结结果、迁移验证合同、Agent 单任务的 2,000 行产物及 MA-CERD 动作集合；均为事后复核，不是独立来源确认。
 - **解释边界**：BEIR 为研究者自建运行而非官方榜；FinRank 的部分身份结果为源码知情事后复现；未标注不等于不相关，统计不显著不等于相等。旧 R/E、exact-cache、FinRank H/K 等具体面板停止不等于相关一般方向无效。以日期更正和原证据为准。
 
 ## Git 与工作区
 
 - 本次治理起点 19df9ffe；实际当前 commit 以 Git 和远端实测为准。主线、集成分支及 GB10 对齐结果见 [治理与资产地图](../docs/governance/2026-10-29_research_neat_closeout.md)。
-- GB10 主树的 Loop B 测试日志可能持续更新；非本次研究改动，不回滚或提交。历史 worktree 和集成 worktree 的未跟踪/忽略文件需按清单保留。
+- GB10 主树的 Loop B 测试日志可能持续更新；非本次研究改动，不回滚或提交。本机集成 worktree 及 GB10 C 审阅 worktree 的未跟踪文件已校验归档；历史 worktree 忽略文件仍保留。
 - 历史账本各自独立；旧 340-token 差额与已记录的未知模型请求用量未解决，不能自行抹平或将账本简单相加。
 
 ## 运行及权限

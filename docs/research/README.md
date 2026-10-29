@@ -6,7 +6,7 @@
 | --- | --- |
 | Paper E 当前稿 | [v5 正文](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.md)、[审阅 PDF](../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v5.pdf)、[修订记录](../../research/paper_e_agent_evidence_20261029/V5_STORY_REVISION_RETURN.md) |
 | Paper E 长期问题与对标 | [战略复核与资产地图](PAPER_E_STRATEGIC_REVIEW_20261029.md)、[近邻对标](../../research/paper_e_deep_benchmark_20261029/PAPER_E_RESEARCH_BENCHMARK.md) |
-| 研究资产及可探索机会 | [本次治理与挖宝](../governance/2026-10-29_research_neat_closeout.md)、[历史基线与复用地图](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) |
+| 研究资产及可探索机会 | [离线复核与尸检](../../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)、[治理与挖宝](../governance/2026-10-29_research_neat_closeout.md)、[历史复用地图](../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md) |
 | 第二篇 Agent 候选 | [研究方向组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)、[skill 开发结果](../../research/agent_skill_method_20261029/DOCS_LIMIT12_EXPLORATION.md) |
 | 唯一可维护 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT](LOOP_D_RESEARCH_PROMPT.md)；是否启动具体新实验以用户当前指令及实际账本为准。 |
 | 投稿路线历史材料 | [路线调研](../../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；日期、费用和投稿条件必须在选择时重新核对。 |

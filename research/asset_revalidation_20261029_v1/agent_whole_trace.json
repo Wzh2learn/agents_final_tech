@@ -1,0 +1,87 @@
+{
+  "cases": {
+    "forced_skill": {
+      "actual_rows": 2000,
+      "agent_exit": 0,
+      "aggregate_matches": {
+        "final_cache_blocks": true,
+        "total_hit_tokens": true,
+        "total_prompt_tokens": true,
+        "total_requests": true
+      },
+      "config_sha256": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3",
+      "expected_rows": 2000,
+      "hit_tokens_mismatches": 0,
+      "idx_mismatches": 0,
+      "prompt_tokens_mismatches": 0,
+      "receipt_sha256": "be83fcb6ea598934d7d99adffbf7e6f5ba948ad976940fa0cd0fd473e24b3b61",
+      "report_present": true,
+      "report_sha256": "6362432aa9e93c86b896c938560dafabbd2ef68f19958fc96bc1a8512517e457",
+      "trace_sha256": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+      "verifier_exit": 0
+    },
+    "no_skill": {
+      "actual_rows": 2000,
+      "agent_exit": 1,
+      "aggregate_matches": {
+        "final_cache_blocks": false,
+        "total_hit_tokens": false,
+        "total_prompt_tokens": false,
+        "total_requests": true
+      },
+      "config_sha256": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3",
+      "expected_rows": 2000,
+      "hit_tokens_mismatches": 156,
+      "idx_mismatches": 0,
+      "prompt_tokens_mismatches": 2000,
+      "receipt_sha256": "af70e1af34121cb5c0045a78984c276cdc79e5d5965579ad0d482e515d54fbd8",
+      "report_present": true,
+      "report_sha256": "f6d62877e37c9df56c8b552e75daa5825ca192fc7ca1bdf0d47ca47079e28252",
+      "trace_sha256": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+      "verifier_exit": 1
+    },
+    "optional_docs_12": {
+      "actual_rows": 2000,
+      "agent_exit": 1,
+      "aggregate_matches": {
+        "final_cache_blocks": true,
+        "total_hit_tokens": true,
+        "total_prompt_tokens": true,
+        "total_requests": true
+      },
+      "config_sha256": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3",
+      "expected_rows": 2000,
+      "hit_tokens_mismatches": 0,
+      "idx_mismatches": 0,
+      "prompt_tokens_mismatches": 0,
+      "receipt_sha256": "4f176700a222eb65f63bdcf0c67dc583542a10a76ceca533d041afb767986229",
+      "report_present": true,
+      "report_sha256": "6362432aa9e93c86b896c938560dafabbd2ef68f19958fc96bc1a8512517e457",
+      "trace_sha256": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+      "verifier_exit": 0
+    },
+    "optional_docs_8": {
+      "actual_rows": 2000,
+      "agent_exit": 1,
+      "aggregate_matches": {
+        "final_cache_blocks": false,
+        "total_hit_tokens": false,
+        "total_prompt_tokens": true,
+        "total_requests": true
+      },
+      "config_sha256": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3",
+      "expected_rows": 2000,
+      "hit_tokens_mismatches": 95,
+      "idx_mismatches": 0,
+      "prompt_tokens_mismatches": 0,
+      "receipt_sha256": "0d4b8a7e9518503e76ed4d25ae6e76abba74b3ec80d6e2361305d5ba80e9546d",
+      "report_present": true,
+      "report_sha256": "906f7488aa051fa5b9319b24a3a1bef485e98a01387d6376f1d8bb1381fa89c8",
+      "trace_sha256": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+      "verifier_exit": 1
+    }
+  },
+  "limitations": "Additional rows are correlated within a single episode, not independent tasks; the oracle is not independently validated here. No model was called.",
+  "oracle_sha256": "bc3579ef49fed337c6f707532f3572cb9dd5a82e42dea8184d2e2c278b6b896c",
+  "scope": "post-hoc whole-trace comparison against the same public task verifier oracle; one task per run"
+}
