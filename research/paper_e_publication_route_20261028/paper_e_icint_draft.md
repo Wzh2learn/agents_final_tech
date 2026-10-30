@@ -11,11 +11,13 @@ lang: en-US
 
 A lower detection rate can indicate a weaker evaluator, but it can also arise when the same numerical threshold is applied to scores on different scales. Likewise, a change in benchmark score need not change the comparison for which the score was reported; and the highest mean in a leaderboard does not by itself establish that every apparent ordering is supported by the data. Such distinctions matter when researchers use evaluation results to select systems or interpret a benchmark.
 
-We ask: **which interpretations remain supported when the observation surface, scoring rule and comparison procedure are made explicit?** We investigate three evaluation constructions. First, controlled changes to public financial tables probe a staged document evaluator. Second, we inspect tie handling and source identity in FinRank [4]. Third, we assess researcher-generated lexical retrieval runs on SciFact and NFCorpus from BEIR [5], with a later dense-model exploration. The BEIR runs are our own constructions, not the published benchmark leaderboard.
+We ask: **which interpretations remain supported when the observation surface, scoring rule and comparison procedure are made explicit?** We investigate three evaluation constructions. First, controlled changes to public financial tables probe a staged document evaluator. Second, we inspect tie handling and source identity in FinRank [1]. Third, we assess researcher-generated lexical retrieval runs on SciFact and NFCorpus from BEIR [2], with a later dense-model exploration. The BEIR runs are our own constructions, not the published benchmark leaderboard.
 
 Our contributions are empirical and bounded. We explain a detection-rate difference by a positive score rescaling under a single-responsive-leaf restriction; show that a particular FinRank comparison retains its direction despite changes in absolute scores; and distinguish point-estimate rankings from comparisons supported under a specified paired statistical procedure. Each finding is tied to an explicit measurement object and relevant limitations.
 
-Prior work has examined metric and construct validity [1], [2], [3]. AgentSuite [9] audits interacting components in agent benchmarks at broader scale. Our study instead examines arithmetic, observation and comparison contracts in specific document and retrieval evaluations. It does not propose a new general theory of validity or claim an observed change in a user's decision.
+Prior work has examined metric and construct validity [3], [4], [5]. AgentSuite [6] audits interacting components in agent benchmarks at broader scale. Our study instead examines arithmetic, observation and comparison contracts in specific document and retrieval evaluations. It does not propose a new general theory of validity or claim an observed change in a user's decision.
+
+Document-specific work also evaluates semantic alignment and stage-level extraction: SCORE [7] addresses valid alternative representations in generative parsing, while Soric et al. [8] benchmark table extraction across heterogeneous PDFs and analyze evaluation metrics. Our case studies ask a complementary question about the interpretation of an existing evaluation's thresholds and retrieval comparisons; we do not benchmark document extraction models or claim a superior parsing metric.
 
 # II. Audit Design
 
@@ -31,7 +33,7 @@ The cases are complementary rather than replications of one universal interventi
 
 # III. Controlled Document Evaluation
 
-The frozen staged evaluator has parsing and question-answering checkpoint trees with twelve scored leaves. Its seed-42 panel contains 95 TAT-QA-derived source tables [6] and 118 controlled header changes across six families. Mapping and regression artifacts form the observed surface. A change is visible if that surface records a difference; protocol detection and downstream harm are separate quantities. The audit holds the evaluated inputs and scores fixed while comparing declared aggregation and threshold conventions. It does not observe every internal state or possible downstream use.
+The frozen staged evaluator has parsing and question-answering checkpoint trees with twelve scored leaves. Its seed-42 panel contains 95 TAT-QA-derived source tables [9] and 118 controlled header changes across six families. Mapping and regression artifacts form the observed surface. A change is visible if that surface records a difference; protocol detection and downstream harm are separate quantities. The audit holds the evaluated inputs and scores fixed while comparing declared aggregation and threshold conventions. It does not observe every internal state or possible downstream use.
 
 Of 118 injections, 96 were visible. None of the 13 OCR-like changes was visible on this surface. This observation does not establish 13 harmful misses: one existing semantic judge classified the cases as referentially equivalent, without an independent human reference.
 
@@ -50,11 +52,11 @@ The clean-only contrastive construction compares repeated deterministic computat
 
 The per-seed contributions to the 219/282 ratio are 75/95, 76/97 and 68/90. The denominators refer to table appearances within each run; the same source table may contribute to more than one run. The bootstrap resamples unique source identifiers while retaining their repeated appearances, so its resampling unit matches that dependency. This uncertainty interval is post-hoc and conditional on the available source tables and three seeds; it should not be interpreted as a guarantee for future datasets or seeds. Equal weighting of source identifiers gives 0.7535 with interval [0.6835, 0.8207].
 
-In a separate stage-aligned control, 72 source clusters contributed one injection each for mapping, retrieval and numeric processing. A leave-one-cluster-out nearest-centroid classifier on the full response vector attained macro-F1 and top-1 1.000. The three directly targeted leaves gave the same result; removing them reduced top-1 to 0.333 under the frozen tie-as-incorrect rule, with a 0.667 tie rate. The observed stage separation is attributable to explicit instrumentation, not to hierarchy alone. A nested FinQA probe [7] covered 89 rows from 30 report clusters; it changed program fields but did not recompute downstream result fields. Its zero detected and zero changed outcomes cannot estimate a failure rate for changed answers.
+In a separate stage-aligned control, 72 source clusters contributed one injection each for mapping, retrieval and numeric processing. A leave-one-cluster-out nearest-centroid classifier on the full response vector attained macro-F1 and top-1 1.000. The three directly targeted leaves gave the same result; removing them reduced top-1 to 0.333 under the frozen tie-as-incorrect rule, with a 0.667 tie rate. The observed stage separation is attributable to explicit instrumentation, not to hierarchy alone. A nested FinQA probe [10] covered 89 rows from 30 report clusters; it changed program fields but did not recompute downstream result fields. Its zero detected and zero changed outcomes cannot estimate a failure rate for changed answers.
 
 # IV. FinRank: Score Sensitivity and Decision Stability
 
-FinRank ranks evidence from financial filings [4]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. Table 2 shows that random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
+FinRank ranks evidence from financial filings [1]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. Table 2 shows that random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
 
 | System | Tie policy | Hard (%) | Random (%) | Gap (pp) |
 | --- | --- | ---: | ---: | ---: |
@@ -69,7 +71,7 @@ The identity analysis also explains why text identity and record identity are di
 
 # V. Retrieval Comparisons
 
-We built five lexical configurations on BEIR SciFact and NFCorpus [5]: TF-IDF and BM25 parameter pairs (k1, b) of (0.9, 0.4), (1.2, 0.75), (0.5, 0.3) and (1.5, 0.6). They use the released corpora, qrels and 300/323 judged queries, respectively. The systems are our own runs, and the two datasets belong to one benchmark family. We compare system scores on the same queries so that statistical analysis is paired; each dataset has its own comparison family.
+We built five lexical configurations on BEIR SciFact and NFCorpus [2]: TF-IDF and BM25 parameter pairs (k1, b) of (0.9, 0.4), (1.2, 0.75), (0.5, 0.3) and (1.5, 0.6). They use the released corpora, qrels and 300/323 judged queries, respectively. The systems are our own runs, and the two datasets belong to one benchmark family. We compare system scores on the same queries so that statistical analysis is paired; each dataset has its own comparison family.
 
 Our initial scoring implementation binarized graded relevance and used a different MAP denominator. Aligning it with the trec_eval contract corrected both definitions. Under graded nDCG@10, TF-IDF moved from second to third in one NFCorpus ranking; the separate denominator correction changed its example MAP@10 from approximately 0.2225 to 0.1193. This is a correction of our implementation, not evidence that the official leaderboard was wrong. For fixed rankings, trec_eval 10.0-rc3 agreed with 18,690 per-query nDCG, MAP and recall values within 1e-4; it does not validate tie-breaking policy.
 
@@ -79,7 +81,7 @@ For the five systems, 2,000 paired bootstrap resamples produced intervals exclud
 
 Separately from varying cutoff k, reversing document-ID tie order for one NFCorpus BM25 configuration at k=10 changed the ordered top ten for 36.5% of queries and top-ten membership for 25.7%. Mean nDCG@10 changed from 0.30453945 to 0.30449093, approximately 0.00005. Query-level changes can therefore be hidden by the aggregate in this setting; this is not an estimated benchmark-wide failure rate.
 
-For an intentionally duplicated system and an intentionally degraded control, an exact-tie-aware point-estimate rule and the paired audit both passed both controls. The controls do not demonstrate that the audit outperforms the simpler rule. A subsequent BGE-small-en-v1.5 [8] exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for BM25 on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an exploratory retrieval result selected after the original analysis, not evidence that the audit improved a user decision or that lexical tie findings transfer to dense models.
+For an intentionally duplicated system and an intentionally degraded control, an exact-tie-aware point-estimate rule and the paired audit both passed both controls. The controls do not demonstrate that the audit outperforms the simpler rule. A subsequent BGE-small-en-v1.5 [11] exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for BM25 on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an exploratory retrieval result selected after the original analysis, not evidence that the audit improved a user decision or that lexical tie findings transfer to dense models.
 
 The BGE comparison was later included with the five lexical runs in a separate six-system family of 15 pairs per dataset. With 200,000 Monte Carlo sign flips per pair and Holm correction within each dataset, the BGE-minus-BM25 nDCG@10 difference was +0.05049 on SciFact (adjusted p = 0.066000) and +0.03759 on NFCorpus (adjusted p = 0.015540). These post-hoc tests are not the original ten-pair family or independent confirmation. The saved dense outputs contain ranked document IDs rather than original dense scores, so they cannot establish dense-score tie frequencies. Numerical reproducibility of the tests does not establish their inferential assumptions.
 
@@ -89,24 +91,28 @@ The single BGE comparison originally used a paired bootstrap: the mean differenc
 
 The three cases show distinct ways in which an evaluation contract constrains a claim. In the staged evaluator, a rate difference coexists with identical ranks under a restricted score rescaling. In FinRank, a tested comparison retains direction as absolute scores change. In our BEIR runs, metric definitions, ties and statistical comparison procedures affect the interpretation of rankings.
 
-These findings have limited scope: the first case uses controlled table perturbations, FinRank uses lexical baselines and has an unresolved reproduction gap, and the BEIR analyses are retrospective runs over two datasets with a post-hoc dense extension. Existing validity frameworks already cover broader audit principles [1], [2], [3]. Our contribution is a reproducible set of case-specific observations and the distinction between numerical movement and supported interpretation. We recommend reporting the measurement object, scoring convention, comparison and uncertainty together; we do not claim a general audit guarantee or observed deployment benefit.
+These findings have limited scope: the first case uses controlled table perturbations, FinRank uses lexical baselines and has an unresolved reproduction gap, and the BEIR analyses are retrospective runs over two datasets with a post-hoc dense extension. Existing validity frameworks already cover broader audit principles [3], [4], [5]. Our contribution is a reproducible set of case-specific observations and the distinction between numerical movement and supported interpretation. We recommend reporting the measurement object, scoring convention, comparison and uncertainty together; we do not claim a general audit guarantee or observed deployment benefit.
 
 # References
 
-[1] C. Ross et al., “What makes a good metric? Evaluating automatic metrics for text-to-image consistency,” arXiv:2412.13989, 2024.
+[1] S. Mansouri et al., “FinRank: An Evidence-Grounded Benchmark for Financial Question Answering and Retrieval over SEC Filings,” arXiv:2608.07400, 2026.
 
-[2] W. Caban, “Measurement Without Validity: The Compounding Reliability Problem in Agentic AI Evaluation,” arXiv:2608.00794, 2026.
+[2] N. Thakur et al., “BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models,” NeurIPS Datasets and Benchmarks, 2021.
 
-[3] A. M. Bean et al., “Measuring what Matters: Construct Validity in Large Language Model Benchmarks,” arXiv:2511.04703, 2025.
+[3] C. Ross et al., “What makes a good metric? Evaluating automatic metrics for text-to-image consistency,” arXiv:2412.13989, 2024.
 
-[4] S. Mansouri et al., “FinRank: An Evidence-Grounded Benchmark for Financial Question Answering and Retrieval over SEC Filings,” arXiv:2608.07400, 2026.
+[4] W. Caban, “Measurement Without Validity: The Compounding Reliability Problem in Agentic AI Evaluation,” arXiv:2608.00794, 2026.
 
-[5] N. Thakur et al., “BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models,” NeurIPS Datasets and Benchmarks, 2021.
+[5] A. M. Bean et al., “Measuring what Matters: Construct Validity in Large Language Model Benchmarks,” arXiv:2511.04703, 2025.
 
-[6] F. Zhu et al., “TAT-QA: A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance,” ACL-IJCNLP, 2021, doi: 10.18653/v1/2021.acl-long.254.
+[6] H. Suh et al., “AgentSuite: Toward More Reliable Agent Evaluation with a Component-Based Benchmark Auditing Pipeline,” ICML, PMLR 306:116300–116319, 2026.
 
-[7] Z. Chen et al., “FinQA: A Dataset of Numerical Reasoning over Financial Data,” EMNLP, 2021, doi: 10.18653/v1/2021.emnlp-main.300.
+[7] R. Li et al., “SCORE: A Semantic Evaluation Framework for Generative Document Parsing,” arXiv:2509.19345, 2025.
 
-[8] Beijing Academy of Artificial Intelligence, “bge-small-en-v1.5,” model card, revision 5c38ec7c, https://huggingface.co/BAAI/bge-small-en-v1.5.
+[8] M. Soric, C. Gracianne, I. Manolescu, and P. Senellart, “Benchmarking Table Extraction from Heterogeneous Scientific PDF Documents,” arXiv:2511.16134v2, 2026.
 
-[9] H. Suh et al., “AgentSuite: Toward More Reliable Agent Evaluation with a Component-Based Benchmark Auditing Pipeline,” ICML, PMLR 306:116300–116319, 2026.
+[9] F. Zhu et al., “TAT-QA: A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance,” ACL-IJCNLP, 2021, doi: 10.18653/v1/2021.acl-long.254.
+
+[10] Z. Chen et al., “FinQA: A Dataset of Numerical Reasoning over Financial Data,” EMNLP, 2021, doi: 10.18653/v1/2021.emnlp-main.300.
+
+[11] Beijing Academy of Artificial Intelligence, “bge-small-en-v1.5,” model card, revision 5c38ec7c, https://huggingface.co/BAAI/bge-small-en-v1.5.

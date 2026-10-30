@@ -44,8 +44,8 @@ observation surface, scoring rule and comparison procedure are made
 explicit?} We investigate three evaluation constructions. First,
 controlled changes to public financial tables probe a staged document
 evaluator. Second, we inspect tie handling and source identity in
-FinRank \cite{r4}. Third, we assess researcher-generated lexical
-retrieval runs on SciFact and NFCorpus from BEIR \cite{r5}, with a later
+FinRank \cite{r1}. Third, we assess researcher-generated lexical
+retrieval runs on SciFact and NFCorpus from BEIR \cite{r2}, with a later
 dense-model exploration. The BEIR runs are our own constructions, not
 the published benchmark leaderboard.
 
@@ -57,12 +57,20 @@ point-estimate rankings from comparisons supported under a specified
 paired statistical procedure. Each finding is tied to an explicit
 measurement object and relevant limitations.
 
-Prior work has examined metric and construct validity \cite{r1},
-\cite{r2}, \cite{r3}. AgentSuite \cite{r9} audits interacting components
+Prior work has examined metric and construct validity \cite{r3},
+\cite{r4}, \cite{r5}. AgentSuite \cite{r6} audits interacting components
 in agent benchmarks at broader scale. Our study instead examines
 arithmetic, observation and comparison contracts in specific document
 and retrieval evaluations. It does not propose a new general theory of
 validity or claim an observed change in a user's decision.
+
+Document-specific work also evaluates semantic alignment and stage-level
+extraction: SCORE \cite{r7} addresses valid alternative representations
+in generative parsing, while Soric et al.~\cite{r8} benchmark table
+extraction across heterogeneous PDFs and analyze evaluation metrics. Our
+case studies ask a complementary question about the interpretation of an
+existing evaluation's thresholds and retrieval comparisons; we do not
+benchmark document extraction models or claim a superior parsing metric.
 
 \section{Audit Design}\label{audit-design}
 
@@ -113,7 +121,7 @@ Evaluation}\label{controlled-document-evaluation}
 
 The frozen staged evaluator has parsing and question-answering
 checkpoint trees with twelve scored leaves. Its seed-42 panel contains
-95 TAT-QA-derived source tables \cite{r6} and 118 controlled header
+95 TAT-QA-derived source tables \cite{r9} and 118 controlled header
 changes across six families. Mapping and regression artifacts form the
 observed surface. A change is visible if that surface records a
 difference; protocol detection and downstream harm are separate
@@ -195,7 +203,7 @@ vector attained macro-F1 and top-1 1.000. The three directly targeted
 leaves gave the same result; removing them reduced top-1 to 0.333 under
 the frozen tie-as-incorrect rule, with a 0.667 tie rate. The observed
 stage separation is attributable to explicit instrumentation, not to
-hierarchy alone. A nested FinQA probe \cite{r7} covered 89 rows from 30
+hierarchy alone. A nested FinQA probe \cite{r10} covered 89 rows from 30
 report clusters; it changed program fields but did not recompute
 downstream result fields. Its zero detected and zero changed outcomes
 cannot estimate a failure rate for changed answers.
@@ -203,7 +211,7 @@ cannot estimate a failure rate for changed answers.
 \section{FinRank: Score Sensitivity and Decision
 Stability}\label{finrank-score-sensitivity-and-decision-stability}
 
-FinRank ranks evidence from financial filings \cite{r4}. Under
+FinRank ranks evidence from financial filings \cite{r1}. Under
 tie-as-positive scoring, a score tie counts for the gold passage; under
 strict-win scoring, it does not. The tie comparisons and materiality
 threshold were fixed before pair-level outcomes. Table 2 shows that
@@ -252,7 +260,7 @@ separately because one does not resolve the other.
 \section{Retrieval Comparisons}\label{retrieval-comparisons}
 
 We built five lexical configurations on BEIR SciFact and NFCorpus
-\cite{r5}: TF-IDF and BM25 parameter pairs (k1, b) of (0.9, 0.4), (1.2,
+\cite{r2}: TF-IDF and BM25 parameter pairs (k1, b) of (0.9, 0.4), (1.2,
 0.75), (0.5, 0.3) and (1.5, 0.6). They use the released corpora, qrels
 and 300/323 judged queries, respectively. The systems are our own runs,
 and the two datasets belong to one benchmark family. We compare system
@@ -301,11 +309,11 @@ For an intentionally duplicated system and an intentionally degraded
 control, an exact-tie-aware point-estimate rule and the paired audit
 both passed both controls. The controls do not demonstrate that the
 audit outperforms the simpler rule. A subsequent BGE-small-en-v1.5
-\cite{r8} exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for BM25
-on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an exploratory
-retrieval result selected after the original analysis, not evidence that
-the audit improved a user decision or that lexical tie findings transfer
-to dense models.
+\cite{r11} exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for
+BM25 on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an
+exploratory retrieval result selected after the original analysis, not
+evidence that the audit improved a user decision or that lexical tie
+findings transfer to dense models.
 
 The BGE comparison was later included with the five lexical runs in a
 separate six-system family of 15 pairs per dataset. With 200,000 Monte
@@ -341,34 +349,39 @@ These findings have limited scope: the first case uses controlled table
 perturbations, FinRank uses lexical baselines and has an unresolved
 reproduction gap, and the BEIR analyses are retrospective runs over two
 datasets with a post-hoc dense extension. Existing validity frameworks
-already cover broader audit principles \cite{r1}, \cite{r2}, \cite{r3}.
+already cover broader audit principles \cite{r3}, \cite{r4}, \cite{r5}.
 Our contribution is a reproducible set of case-specific observations and
 the distinction between numerical movement and supported interpretation.
 We recommend reporting the measurement object, scoring convention,
 comparison and uncertainty together; we do not claim a general audit
 guarantee or observed deployment benefit.
-\begin{thebibliography}{9}
-\bibitem{r1} C. Ross et al., ``What makes a good metric? Evaluating automatic metrics
-for text-to-image consistency,'' arXiv:2412.13989, 2024.
-\bibitem{r2} W. Caban, ``Measurement Without Validity: The Compounding Reliability
-Problem in Agentic AI Evaluation,'' arXiv:2608.00794, 2026.
-\bibitem{r3} A. M. Bean et al., ``Measuring what Matters: Construct Validity in Large
-Language Model Benchmarks,'' arXiv:2511.04703, 2025.
-\bibitem{r4} S. Mansouri et al., ``FinRank: An Evidence-Grounded Benchmark for
+\begin{thebibliography}{11}
+\bibitem{r1} S. Mansouri et al., ``FinRank: An Evidence-Grounded Benchmark for
 Financial Question Answering and Retrieval over SEC Filings,''
 arXiv:2608.07400, 2026.
-\bibitem{r5} N. Thakur et al., ``BEIR: A Heterogeneous Benchmark for Zero-shot
+\bibitem{r2} N. Thakur et al., ``BEIR: A Heterogeneous Benchmark for Zero-shot
 Evaluation of Information Retrieval Models,'' NeurIPS Datasets and
 Benchmarks, 2021.
-\bibitem{r6} F. Zhu et al., ``TAT-QA: A Question Answering Benchmark on a Hybrid of
-Tabular and Textual Content in Finance,'' ACL-IJCNLP, 2021, doi:
-10.18653/v1/2021.acl-long.254.
-\bibitem{r7} Z. Chen et al., ``FinQA: A Dataset of Numerical Reasoning over Financial
-Data,'' EMNLP, 2021, doi: 10.18653/v1/2021.emnlp-main.300.
-\bibitem{r8} Beijing Academy of Artificial Intelligence, ``bge-small-en-v1.5,'' model
-card, revision 5c38ec7c, https://huggingface.co/BAAI/bge-small-en-v1.5.
-\bibitem{r9} H. Suh et al., ``AgentSuite: Toward More Reliable Agent Evaluation with
+\bibitem{r3} C. Ross et al., ``What makes a good metric? Evaluating automatic metrics
+for text-to-image consistency,'' arXiv:2412.13989, 2024.
+\bibitem{r4} W. Caban, ``Measurement Without Validity: The Compounding Reliability
+Problem in Agentic AI Evaluation,'' arXiv:2608.00794, 2026.
+\bibitem{r5} A. M. Bean et al., ``Measuring what Matters: Construct Validity in Large
+Language Model Benchmarks,'' arXiv:2511.04703, 2025.
+\bibitem{r6} H. Suh et al., ``AgentSuite: Toward More Reliable Agent Evaluation with
 a Component-Based Benchmark Auditing Pipeline,'' ICML, PMLR
 306:116300--116319, 2026.
+\bibitem{r7} R. Li et al., ``SCORE: A Semantic Evaluation Framework for Generative
+Document Parsing,'' arXiv:2509.19345, 2025.
+\bibitem{r8} M. Soric, C. Gracianne, I. Manolescu, and P. Senellart, ``Benchmarking
+Table Extraction from Heterogeneous Scientific PDF Documents,''
+arXiv:2511.16134v2, 2026.
+\bibitem{r9} F. Zhu et al., ``TAT-QA: A Question Answering Benchmark on a Hybrid of
+Tabular and Textual Content in Finance,'' ACL-IJCNLP, 2021, doi:
+10.18653/v1/2021.acl-long.254.
+\bibitem{r10} Z. Chen et al., ``FinQA: A Dataset of Numerical Reasoning over Financial
+Data,'' EMNLP, 2021, doi: 10.18653/v1/2021.emnlp-main.300.
+\bibitem{r11} Beijing Academy of Artificial Intelligence, ``bge-small-en-v1.5,'' model
+card, revision 5c38ec7c, https://huggingface.co/BAAI/bge-small-en-v1.5.
 \end{thebibliography}
 \end{document}

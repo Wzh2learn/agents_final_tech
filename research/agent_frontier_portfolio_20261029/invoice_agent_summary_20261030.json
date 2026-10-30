@@ -1,0 +1,168 @@
+{
+  "status": "DEVELOPMENT_ONLY",
+  "episodes": [
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/invoice_agent/invoice-fraud-detection__all_skill__960194",
+      "intervention": {
+        "arm": "all_skill",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "invoices.pdf": "a76ee7651a4e088ba566d3e5d5d9f499e773f1166cb2d7f888ea19291c4a813e",
+          "vendors.xlsx": "19ff6138112d84c2c695c8369fa315d0de42bd966dfdbd95d5a9553e8e9a08d3",
+          "purchase_orders.csv": "6f84df07d8195331d71940dbcd65e4369094063acece2fe86ca4883a50e35be8"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "6a5006aee264085253892b03c0f4aa2bacf19ca5e199590347fc25e6309ad480",
+        "libraries": "pypdf 6.4.1, openpyxl 3.1.5, rapidfuzz 3.14.3"
+      },
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 2
+      },
+      "post_agent_diagnostic": {
+        "status": "MISSING_OUTPUT"
+      },
+      "seconds": 259.395,
+      "posts": 16,
+      "reported_tokens_including_cache": 203869,
+      "recorded_steps": 16,
+      "raw_sha256": "d4da9f5ff37e488cb9e9a3449b430778df1007d9d92ac1766c6ed6f44db0fea1",
+      "receipt_sha256": "712f8b32e749ede74ecb0c5763775cec8d48ba090aae8e9d1bc3620cf99486ef"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/invoice_agent/invoice-fraud-detection__no_skill__956172",
+      "intervention": {
+        "arm": "no_skill",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "invoices.pdf": "a76ee7651a4e088ba566d3e5d5d9f499e773f1166cb2d7f888ea19291c4a813e",
+          "vendors.xlsx": "19ff6138112d84c2c695c8369fa315d0de42bd966dfdbd95d5a9553e8e9a08d3",
+          "purchase_orders.csv": "6f84df07d8195331d71940dbcd65e4369094063acece2fe86ca4883a50e35be8"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "6a5006aee264085253892b03c0f4aa2bacf19ca5e199590347fc25e6309ad480",
+        "libraries": "pypdf 6.4.1, openpyxl 3.1.5, rapidfuzz 3.14.3"
+      },
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 1
+      },
+      "post_agent_diagnostic": {
+        "expected_positive": 50,
+        "reference_clean": 3,
+        "predicted_rows": 50,
+        "valid_unique_pages": 50,
+        "invalid_rows": 0,
+        "duplicate_pages": 0,
+        "true_positive": 50,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "reason_match_among_page_true_positives": 18,
+        "full_field_validation": "not_checked_by_this_diagnostic; see original verifier"
+      },
+      "seconds": 236.975,
+      "posts": 16,
+      "reported_tokens_including_cache": 205748,
+      "recorded_steps": 16,
+      "raw_sha256": "efa2f614a06db8afb0d5b4b55476cee0ad7aa177e982b1cb597032464c17bcb0",
+      "receipt_sha256": "ac5e383661df30af04cbca97ae5c2d99ed69119ce4b1c0b893ac6b860abc5be4"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/invoice_agent/invoice-fraud-detection__no_skill__972403",
+      "intervention": {
+        "arm": "repair_neutral",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "invoices.pdf": "a76ee7651a4e088ba566d3e5d5d9f499e773f1166cb2d7f888ea19291c4a813e",
+          "vendors.xlsx": "19ff6138112d84c2c695c8369fa315d0de42bd966dfdbd95d5a9553e8e9a08d3",
+          "purchase_orders.csv": "6f84df07d8195331d71940dbcd65e4369094063acece2fe86ca4883a50e35be8",
+          "analyze_fraud.py": "e31c273089fa26b67ea19be8f5b2fcb7021d361193098cd112c27a7e09e2e30c",
+          "fraud_report.json": "8ccb243adab2e92c3acc59f82ea17cb9dc080c43194f7d6ba159ccdc774effdd"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "af2812240546b672cdba9137d384e684c073a187174e2ac5c42d457a73b55f0e",
+        "libraries": "pypdf 6.4.1, openpyxl 3.1.5, rapidfuzz 3.14.3"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 1
+      },
+      "post_agent_diagnostic": {
+        "expected_positive": 50,
+        "reference_clean": 3,
+        "predicted_rows": 50,
+        "valid_unique_pages": 50,
+        "invalid_rows": 0,
+        "duplicate_pages": 0,
+        "true_positive": 50,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "reason_match_among_page_true_positives": 18,
+        "full_field_validation": "not_checked_by_this_diagnostic; see original verifier"
+      },
+      "seconds": 116.031,
+      "posts": 7,
+      "reported_tokens_including_cache": 118800,
+      "recorded_steps": 7,
+      "raw_sha256": "385cbc81fe69af7e156cd24d2a635f665e893d8d988aed36643d39d9e1df0e4c",
+      "receipt_sha256": "2ca4a42062074dd9dfd38b121c333ff2b37484b659c80e85a01b442dbe0cbff8"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/invoice_agent/invoice-fraud-detection__no_skill__976721",
+      "intervention": {
+        "arm": "repair_diagnostic",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "invoices.pdf": "a76ee7651a4e088ba566d3e5d5d9f499e773f1166cb2d7f888ea19291c4a813e",
+          "vendors.xlsx": "19ff6138112d84c2c695c8369fa315d0de42bd966dfdbd95d5a9553e8e9a08d3",
+          "purchase_orders.csv": "6f84df07d8195331d71940dbcd65e4369094063acece2fe86ca4883a50e35be8",
+          "analyze_fraud.py": "e31c273089fa26b67ea19be8f5b2fcb7021d361193098cd112c27a7e09e2e30c",
+          "fraud_report.json": "8ccb243adab2e92c3acc59f82ea17cb9dc080c43194f7d6ba159ccdc774effdd"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "835f62d782f8e1c3494e63c12f4e8e6c92e46800b1180a289a07e566c7b918fd",
+        "libraries": "pypdf 6.4.1, openpyxl 3.1.5, rapidfuzz 3.14.3"
+      },
+      "agent_exit": 1,
+      "verifier_exit": 0,
+      "verifier_counts": {
+        "passed": 2
+      },
+      "post_agent_diagnostic": {
+        "expected_positive": 50,
+        "reference_clean": 3,
+        "predicted_rows": 50,
+        "valid_unique_pages": 50,
+        "invalid_rows": 0,
+        "duplicate_pages": 0,
+        "true_positive": 50,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "reason_match_among_page_true_positives": 50,
+        "full_field_validation": "not_checked_by_this_diagnostic; see original verifier"
+      },
+      "seconds": 107.899,
+      "posts": 16,
+      "reported_tokens_including_cache": 234940,
+      "recorded_steps": 16,
+      "raw_sha256": "9c4a88be0f4c6a6acbb0c779abe5076a02874f3cb245150e5de3c118a2fae2ae",
+      "receipt_sha256": "2ae3751b9452874532f8b9a415169de428a4d40a0bb208e5e7c932b65a4fdae9"
+    }
+  ],
+  "caveat": "Reference-derived diagnostics run only after agents finish. Step totals include cache; missing usage remains unknown."
+}

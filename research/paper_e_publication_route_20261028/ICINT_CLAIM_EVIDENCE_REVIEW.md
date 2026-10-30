@@ -16,6 +16,8 @@
 
 已核对公开原文的标题、首作者、年份或出版渠道：[Ross](https://arxiv.org/abs/2412.13989)、[Caban](https://arxiv.org/abs/2608.00794)、[Bean](https://arxiv.org/abs/2511.04703)、[FinRank](https://arxiv.org/abs/2608.07400)、[BEIR](https://datasets-benchmarks-proceedings.neurips.cc/paper_files/paper/2021/hash/65b9eea6e1cc6bb9f0cd2a47751a186f-Abstract-round2.html)、[TAT-QA](https://aclanthology.org/2021.acl-long.254/)、[FinQA](https://aclanthology.org/2021.emnlp-main.300/)、[BGE model card](https://huggingface.co/BAAI/bge-small-en-v1.5)、[AgentSuite](https://proceedings.mlr.press/v306/suh26a.html)。BGE 网页存在 `5c38ec7` 修订，但此核查本身不证明本地模型实际使用的文件 hash；实验版本仍按既有运行收据核对。上述文献核验不代替稿件全部引用上下文和作者列表的最终检查。
 
+后续补充两篇直接相关文档评价近邻：[SCORE](https://arxiv.org/abs/2509.19345)研究生成式文档解析的语义与结构评价；[Soric et al.](https://arxiv.org/abs/2511.16134)研究异构 PDF 的表格抽取及评测，arXiv v2 页面注明为 KDD 2026 论文的扩展版本。根据公开摘要和元数据核对了本稿引用范围；两篇均已覆盖部分评价设计问题，不支持将本稿表述为首次提出文档评测或阶段评价。
+
 ## 投稿级未完成事项
 
 - 首次读者复核仍需针对当前 **4 页 PDF**，尤其是单位、图表、统计假设、可重复性和独立性；先前独立 AI 评审对应其他版本，不能当作本稿通过。

@@ -48,7 +48,7 @@ Header injections & 85/118 & 13/118 \\
     body = body.replace(FINRANK_TABLE, FINRANK_LATEX)
     body = re.sub(r"\[(\d+)\]", lambda m: r"\cite{r" + m.group(1) + "}", body)
     items = re.findall(r"(?ms)^\[(\d+)\]\s*(.*?)(?=^\[\d+\]|\Z)", refs)
-    if [n for n, _ in items] != [str(n) for n in range(1, 10)]:
+    if [n for n, _ in items] != [str(n) for n in range(1, 12)]:
         raise ValueError("Unexpected reference numbering")
     references = "\n".join(r"\bibitem{r" + n + "} " + latex(item) for n, item in items)
     document = (r"\documentclass[runningheads]{llncs}" + "\n" +
@@ -59,7 +59,7 @@ Header injections & 85/118 & 13/118 \\
                 r"\author{Anonymous Authors}" + "\n" + r"\institute{}" + "\n" +
                 r"\maketitle" + "\n" + r"\begin{abstract}" + "\n" + latex(abstract) + "\n" +
                 r"\keywords{" + latex(keywords) + "}\n" + r"\end{abstract}" + "\n" +
-                latex(body) + "\n" + r"\begin{thebibliography}{9}" + "\n" + references + "\n" +
+                latex(body) + "\n" + r"\begin{thebibliography}{11}" + "\n" + references + "\n" +
                 r"\end{thebibliography}" + "\n" + r"\end{document}" + "\n")
     with OUTPUT.open("w", encoding="utf-8", newline="\n") as output:
         output.write(document)
