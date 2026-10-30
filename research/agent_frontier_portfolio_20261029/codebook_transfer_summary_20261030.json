@@ -1,0 +1,138 @@
+{
+  "status": "DEVELOPMENT_ONLY_NOT_SEMANTIC_GOLD",
+  "visible_input_diagnostics": {
+    "input_records": 12000,
+    "exact_whole_label_in_raw_text": 0,
+    "full_label_substring_in_raw_text": 0
+  },
+  "cases": {
+    "task_skill": {
+      "input_records": 12000,
+      "has_output": false,
+      "case": "/home/testuser/wzh/research_evidence/agent_learning_20261030/codebook_transfer/manufacturing-codebook-normalization__all_skill__1377541",
+      "condition": "task_skill",
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "tests_passed": null,
+      "tests_failed": 16,
+      "failed_tests": [
+        "test_T00_required_files_exist",
+        "test_T01_output_is_valid_json_object",
+        "test_T02_has_non_empty_records_array",
+        "test_T03_coverage_and_no_fabrication",
+        "test_T04_record_fields_should_match_input_sampled",
+        "test_T05_each_record_has_segments_and_ids_are_exact",
+        "test_T06_span_text_is_substring_strict",
+        "test_T07_codes_valid_per_product",
+        "test_T08_pred_label_should_match_codebook_when_known",
+        "test_T09_confidence_valid_and_well_separated",
+        "test_T10_unknown_rate_stricter_global_and_per_product",
+        "test_T11_semantic_alignment_should_hold",
+        "test_T12_component_mentions_should_reduce_unknown",
+        "test_T13_station_scope_should_mostly_match",
+        "test_T14_rationale_should_reference_context_often",
+        "test_T15_confidence_should_correlate_with_evidence"
+      ],
+      "post_requests": 15,
+      "denied_or_limit": 1,
+      "reported_step_tokens_including_cache": 204072,
+      "step_finish_count": 15,
+      "elapsed_seconds_including_verifier": 145.857,
+      "raw_sha256": "2b1c58c3505bf18c8a1998938717e66974d7efae3e1f30c63ef1d7792e1e596c",
+      "input_hashes": {
+        "task.md": "e3cdb4e6c27cf1d96ef51332feb98699f52ce6146b80680234b98116d36e330a",
+        "verifier/test_outputs.py": "faab891e7ca82e0efe0d7f578fa3f43c25b0fdde24bc269bb1d785f193f3e979",
+        "environment/skills/manufacturing-failure-reason-codebook-normalization/SKILL.md": "3aba5be4d0f33208d296198fef4bad8816d191bbdd3ec8594cda1de7aab055f0",
+        "environment/data/codebook_P1_POWER.csv": "8015e665af920161219554f3b65e880e1011a1236ae4bba48d494738798ba9e1",
+        "environment/data/codebook_P2_CTRL.csv": "013a91449215fd785ecbbe5524885ec764c9e6654770299c33e14379ec8f47d1",
+        "environment/data/codebook_P3_RF.csv": "273905dafe4a9dd42a631b016e369636dfcf3e376b3a41f28874f701092a05e1",
+        "environment/data/test_center_logs.csv": "8d10d9160caa5f8667cb0941d6bdc775be1fe9f2c4d54a40ca135db7be0fd6a4"
+      }
+    },
+    "no_memory": {
+      "input_records": 12000,
+      "has_output": true,
+      "output_sha256": "cab45d36fd03bab770ccccb264d537cba46ebdbf42557c1b44f3b8f010f452e4",
+      "output_records": 12000,
+      "unique_output_ids": 12000,
+      "input_ids_covered": 12000,
+      "counts": {
+        "segments": 36066,
+        "known_valid_codes": 17309,
+        "unknown_segments": 18757,
+        "known_station_mismatch": 2395
+      },
+      "case": "/home/testuser/wzh/research_evidence/agent_learning_20261030/codebook_transfer/manufacturing-codebook-normalization__no_skill__1364269",
+      "condition": "no_memory",
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "tests_passed": 13,
+      "tests_failed": 3,
+      "failed_tests": [
+        "test_T11_semantic_alignment_should_hold",
+        "test_T13_station_scope_should_mostly_match",
+        "test_T14_rationale_should_reference_context_often"
+      ],
+      "post_requests": 16,
+      "denied_or_limit": 1,
+      "reported_step_tokens_including_cache": 243889,
+      "step_finish_count": 16,
+      "elapsed_seconds_including_verifier": 308.608,
+      "raw_sha256": "0464cba34515d3c356fe6ec6fc1d834f41f8bf1f08e5c001b101b5e772f81a0f",
+      "input_hashes": {
+        "task.md": "e3cdb4e6c27cf1d96ef51332feb98699f52ce6146b80680234b98116d36e330a",
+        "verifier/test_outputs.py": "faab891e7ca82e0efe0d7f578fa3f43c25b0fdde24bc269bb1d785f193f3e979",
+        "environment/skills/manufacturing-failure-reason-codebook-normalization/SKILL.md": "3aba5be4d0f33208d296198fef4bad8816d191bbdd3ec8594cda1de7aab055f0",
+        "environment/data/codebook_P1_POWER.csv": "8015e665af920161219554f3b65e880e1011a1236ae4bba48d494738798ba9e1",
+        "environment/data/codebook_P2_CTRL.csv": "013a91449215fd785ecbbe5524885ec764c9e6654770299c33e14379ec8f47d1",
+        "environment/data/codebook_P3_RF.csv": "273905dafe4a9dd42a631b016e369636dfcf3e376b3a41f28874f701092a05e1",
+        "environment/data/test_center_logs.csv": "8d10d9160caa5f8667cb0941d6bdc775be1fe9f2c4d54a40ca135db7be0fd6a4"
+      }
+    },
+    "transferred_memory": {
+      "input_records": 12000,
+      "has_output": true,
+      "output_sha256": "a3b65dd2829903643acbbd6ca8873c2d7da39d7df35704287a42a10524589132",
+      "output_records": 12000,
+      "unique_output_ids": 12000,
+      "input_ids_covered": 12000,
+      "counts": {
+        "segments": 17267,
+        "known_valid_codes": 17267,
+        "known_station_mismatch": 999
+      },
+      "case": "/home/testuser/wzh/research_evidence/agent_learning_20261030/codebook_transfer/manufacturing-codebook-normalization__no_skill__1368523",
+      "condition": "transferred_memory",
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "tests_passed": 12,
+      "tests_failed": 4,
+      "failed_tests": [
+        "test_T09_confidence_valid_and_well_separated",
+        "test_T11_semantic_alignment_should_hold",
+        "test_T14_rationale_should_reference_context_often",
+        "test_T15_confidence_should_correlate_with_evidence"
+      ],
+      "post_requests": 16,
+      "denied_or_limit": 1,
+      "reported_step_tokens_including_cache": 250322,
+      "step_finish_count": 16,
+      "elapsed_seconds_including_verifier": 411.516,
+      "raw_sha256": "cbc663820cd0f3b967a4e536a2408f1604f92a3d5a94ade34d1b75e290c8c115",
+      "input_hashes": {
+        "task.md": "e3cdb4e6c27cf1d96ef51332feb98699f52ce6146b80680234b98116d36e330a",
+        "verifier/test_outputs.py": "faab891e7ca82e0efe0d7f578fa3f43c25b0fdde24bc269bb1d785f193f3e979",
+        "environment/skills/manufacturing-failure-reason-codebook-normalization/SKILL.md": "3aba5be4d0f33208d296198fef4bad8816d191bbdd3ec8594cda1de7aab055f0",
+        "environment/data/codebook_P1_POWER.csv": "8015e665af920161219554f3b65e880e1011a1236ae4bba48d494738798ba9e1",
+        "environment/data/codebook_P2_CTRL.csv": "013a91449215fd785ecbbe5524885ec764c9e6654770299c33e14379ec8f47d1",
+        "environment/data/codebook_P3_RF.csv": "273905dafe4a9dd42a631b016e369636dfcf3e376b3a41f28874f701092a05e1",
+        "environment/data/test_center_logs.csv": "8d10d9160caa5f8667cb0941d6bdc775be1fe9f2c4d54a40ca135db7be0fd6a4"
+      }
+    }
+  },
+  "pair": {
+    "shared_record_segment_ids": 17179,
+    "same_exact_span_with_shared_ids": 283,
+    "different_assigned_codes_on_same_exact_span": 244
+  }
+}

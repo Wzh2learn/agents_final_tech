@@ -1,0 +1,164 @@
+{
+  "status": "POST_HOC_DETERMINISTIC_CONTROL_NOT_SEMANTIC_GOLD",
+  "original_reproduces_saved_report_sha": true,
+  "visible_input_component_opportunities": {
+    "records": 12000,
+    "records_with_component_regex": 1871,
+    "records_with_regex_fragment_equal_keyword": 313,
+    "records_with_partial_regex_fragment_candidate": 234
+  },
+  "results": {
+    "original_replay": {
+      "input_records": 12000,
+      "has_output": true,
+      "output_sha256": "cab45d36fd03bab770ccccb264d537cba46ebdbf42557c1b44f3b8f010f452e4",
+      "output_records": 12000,
+      "unique_output_ids": 12000,
+      "input_ids_covered": 12000,
+      "counts": {
+        "segments": 36066,
+        "known_valid_codes": 17309,
+        "unknown_segments": 18757,
+        "known_station_mismatch": 2395
+      },
+      "failed_tests": [
+        "test_T11_semantic_alignment_should_hold",
+        "test_T13_station_scope_should_mostly_match",
+        "test_T14_rationale_should_reference_context_often"
+      ],
+      "tests_failed": 3,
+      "tests_passed": 13,
+      "run_receipt": {
+        "run": {
+          "exit": 0,
+          "seconds": 5.179
+        },
+        "verify": {
+          "exit": 1,
+          "seconds": 2.527
+        },
+        "script_sha256": "398e408577ec4b2b123e382819610cbd6646c0bf5b028948e0a5677981775928",
+        "output_sha256": "cab45d36fd03bab770ccccb264d537cba46ebdbf42557c1b44f3b8f010f452e4"
+      }
+    },
+    "case_substring": {
+      "input_records": 12000,
+      "has_output": true,
+      "output_sha256": "1a847b72f2bf5a7c3a6512d8b46794c3436d5cadeef11072060ab84eae34a747",
+      "output_records": 12000,
+      "unique_output_ids": 12000,
+      "input_ids_covered": 12000,
+      "counts": {
+        "segments": 36066,
+        "known_valid_codes": 17309,
+        "unknown_segments": 18757,
+        "known_station_mismatch": 2395
+      },
+      "failed_tests": [
+        "test_T11_semantic_alignment_should_hold",
+        "test_T13_station_scope_should_mostly_match",
+        "test_T14_rationale_should_reference_context_often"
+      ],
+      "tests_failed": 3,
+      "tests_passed": 13,
+      "run_receipt": {
+        "run": {
+          "exit": 0,
+          "seconds": 6.031
+        },
+        "verify": {
+          "exit": 1,
+          "seconds": 2.472
+        },
+        "script_sha256": "c2bdb5231aedcf0cbc8a154074cd0b6d2a4528186b2a3e0aea5f729467f515cf",
+        "output_sha256": "1a847b72f2bf5a7c3a6512d8b46794c3436d5cadeef11072060ab84eae34a747"
+      }
+    },
+    "case_exact": {
+      "input_records": 12000,
+      "has_output": true,
+      "output_sha256": "62e0c49891615c1303eba1a775baa430871468b6a31acb38643b5a5d38ac2cd0",
+      "output_records": 12000,
+      "unique_output_ids": 12000,
+      "input_ids_covered": 12000,
+      "counts": {
+        "segments": 36066,
+        "known_valid_codes": 17309,
+        "unknown_segments": 18757,
+        "known_station_mismatch": 2395
+      },
+      "failed_tests": [
+        "test_T11_semantic_alignment_should_hold",
+        "test_T13_station_scope_should_mostly_match",
+        "test_T14_rationale_should_reference_context_often"
+      ],
+      "tests_failed": 3,
+      "tests_passed": 13,
+      "run_receipt": {
+        "run": {
+          "exit": 0,
+          "seconds": 6.087
+        },
+        "verify": {
+          "exit": 1,
+          "seconds": 2.474
+        },
+        "script_sha256": "2b2a40004759ec871d6bb8f13918279b7bcb834a3d56f76a6f7d869eafaca708",
+        "output_sha256": "62e0c49891615c1303eba1a775baa430871468b6a31acb38643b5a5d38ac2cd0"
+      }
+    },
+    "case_signal_exact": {
+      "input_records": 12000,
+      "has_output": true,
+      "output_sha256": "6b969698ff164cb5aa97c4ce2e8092c56ddccf62d3e3a9f0ead1dcb35001c763",
+      "output_records": 12000,
+      "unique_output_ids": 12000,
+      "input_ids_covered": 12000,
+      "counts": {
+        "segments": 36066,
+        "known_valid_codes": 17309,
+        "unknown_segments": 18757,
+        "known_station_mismatch": 2395
+      },
+      "failed_tests": [
+        "test_T11_semantic_alignment_should_hold",
+        "test_T13_station_scope_should_mostly_match",
+        "test_T14_rationale_should_reference_context_often"
+      ],
+      "tests_failed": 3,
+      "tests_passed": 13,
+      "run_receipt": {
+        "run": {
+          "exit": 0,
+          "seconds": 6.185
+        },
+        "verify": {
+          "exit": 1,
+          "seconds": 2.472
+        },
+        "script_sha256": "611240bd42841e317ade592d6174857b9c55c26ce849e10cee9bd1256c4d2891",
+        "output_sha256": "6b969698ff164cb5aa97c4ce2e8092c56ddccf62d3e3a9f0ead1dcb35001c763"
+      }
+    }
+  },
+  "case_repair_vs_original": {
+    "shared_record_segment_ids": 36066,
+    "same_exact_span_with_shared_ids": 36066,
+    "different_assigned_codes_on_same_exact_span": 25
+  },
+  "exact_vs_substring": {
+    "shared_record_segment_ids": 36066,
+    "same_exact_span_with_shared_ids": 36066,
+    "different_assigned_codes_on_same_exact_span": 25
+  },
+  "exact_vs_original": {
+    "shared_record_segment_ids": 36066,
+    "same_exact_span_with_shared_ids": 36066,
+    "different_assigned_codes_on_same_exact_span": 0
+  },
+  "signal_exact_vs_exact": {
+    "shared_record_segment_ids": 36066,
+    "same_exact_span_with_shared_ids": 36066,
+    "different_assigned_codes_on_same_exact_span": 6
+  }
+}
