@@ -142,11 +142,14 @@ The frozen staged evaluator has parsing and question-answering
 checkpoint trees with twelve scored leaves. Its seed-42 panel contains
 95 TAT-QA-derived source tables \cite{r9} and 118 controlled header
 changes across six families. Mapping and regression artifacts form the
-observed surface. A change is visible if that surface records a
-difference; protocol detection and downstream harm are separate
-quantities. The audit holds the evaluated inputs and scores fixed while
-comparing declared aggregation and threshold conventions. It does not
-observe every internal state or possible downstream use.
+observed surface. For each injected header, the visibility analysis
+identifies its original canonical field: the change is counted as
+absorbed when that field still maps to the injected header, and visible
+otherwise. This matcher-relative criterion is not simply a
+character-level difference. Protocol detection and downstream harm are
+separate quantities. The audit holds the evaluated inputs and scores
+fixed while comparing declared aggregation and threshold conventions. It
+does not observe every internal state or possible downstream use.
 
 Of 118 injections, 96 were visible. None of the 13 OCR-like changes was
 visible on this surface. This observation does not establish 13 harmful
@@ -158,11 +161,13 @@ leaf responded. The unrounded hierarchical contrastive score was a
 positive rescaling of the flat score, with fitted slope approximately
 0.375 and identical observed rankings. The original flat field-hit-rate
 drop and hierarchical parsing-root drop each used a numerical operating
-threshold of \textbf{at least 2.0}, on their respective scales. At these
-original operating points the flat and hierarchical protocols detected
-75/95 versus 20/95 tables, or 85/118 versus 13/118 injections. Tables
-and injections are distinct units. The difference in rates therefore
-does not by itself establish a difference in ranking ability.
+threshold of \textbf{at least 2.0}, on their respective scales. Under
+the observed scaling, a flat threshold of 2.0 corresponds to about 0.75
+on the hierarchical scale, rather than 2.0. At these original operating
+points the flat and hierarchical protocols detected 75/95 versus 20/95
+tables, or 85/118 versus 13/118 injections. Tables and injections are
+distinct units. The difference in rates therefore does not by itself
+establish a difference in ranking ability.
 
 \begin{table}[t]
 \caption{Original seed-42 operating-point detection; table and injection counts are different units.}
@@ -208,12 +213,12 @@ repeated table runs are not 282 independent source tables.
 The per-seed contributions to the 219/282 ratio are 75/95, 76/97 and
 68/90. The denominators refer to table appearances within each run; the
 same source table may contribute to more than one run. The bootstrap
-resamples unique source identifiers while retaining their repeated
-appearances, so its resampling unit matches that dependency. This
-uncertainty interval is post-hoc and conditional on the available source
-tables and three seeds; it should not be interpreted as a guarantee for
-future datasets or seeds. Equal weighting of source identifiers gives
-0.7535 with interval {[}0.6835, 0.8207{]}.
+samples source identifiers with replacement, includes all run
+appearances for each sampled identifier, and recalculates the pooled
+ratio. This uncertainty interval is post-hoc and conditional on the
+available source tables and three seeds; it should not be interpreted as
+a guarantee for future datasets or seeds. Equal weighting of source
+identifiers gives 0.7535 with interval {[}0.6835, 0.8207{]}.
 
 In a separate stage-aligned control, 72 source clusters contributed one
 injection each for mapping, retrieval and numeric processing. A
@@ -254,16 +259,18 @@ BM25 & Strict & 74.094 & 86.760 & 12.666 \\
 \end{tabular}
 \end{table}
 
-Gaps are computed before display rounding. The comparison's qualitative
-direction is stable under these two policies; this does not establish
-stability for all decisions. A later source-informed identity analysis
-reproduces 442 hard-negative occurrences across 305 records sharing
-canonical text with another record's gold passage, and gold-passage loss
-in 33 records under the inspected metadata filter. These are post-hoc
-reproductions of known properties, not newly discovered benchmark
-defects. In-record and pairwise metrics reproduce exactly in the audited
-environment; some global and metadata-filtered results retain an
-unexplained reproduction gap.
+Gaps are random accuracy minus hard accuracy, computed before display
+rounding. The comparison's qualitative direction is stable under these
+two policies; this does not establish stability for all decisions. A
+later source-informed identity analysis reproduces 442 hard-negative
+occurrences across 305 records sharing canonical text with another
+record's gold passage, and gold-passage loss in 33 records under the
+inspected metadata filter. These are post-hoc reproductions of known
+properties, not newly discovered benchmark defects. In-record and
+pairwise metrics reproduce exactly in the audited environment; global
+and metadata-filtered metrics differ from the released results by up to
+0.19 and 0.16 percentage points, respectively, with the cause
+unresolved.
 
 The identity analysis also explains why text identity and record
 identity are different contracts. A pooled passage can occur in several
@@ -280,9 +287,13 @@ separately because one does not resolve the other.
 
 We built five lexical configurations on BEIR SciFact and NFCorpus
 \cite{r2}: TF-IDF and BM25 parameter pairs (k1, b) of (0.9, 0.4), (1.2,
-0.75), (0.5, 0.3) and (1.5, 0.6). They use the released corpora, qrels
-and 300/323 judged queries, respectively. The systems are our own runs,
-and the two datasets belong to one benchmark family. We compare system
+0.75), (0.5, 0.3) and (1.5, 0.6). We concatenate each document's title
+and text, lowercase and tokenize on ASCII alphanumeric runs, use
+log-scaled term frequency and smoothed inverse document frequency for
+TF-IDF cosine, and resolve equal scores by ascending document ID unless
+testing the alternative order. They use the released corpora, qrels and
+300/323 judged queries, respectively. The systems are our own runs, and
+the two datasets belong to one benchmark family. We compare system
 scores on the same queries so that statistical analysis is paired; each
 dataset has its own comparison family.
 
@@ -290,11 +301,11 @@ Our initial scoring implementation binarized graded relevance and used a
 different MAP denominator. Aligning it with the trec\_eval contract
 corrected both definitions. Under graded nDCG@10, TF-IDF moved from
 second to third in one NFCorpus ranking; the separate denominator
-correction changed its example MAP@10 from approximately 0.2225 to
-0.1193. This is a correction of our implementation, not evidence that
-the official leaderboard was wrong. For fixed rankings, trec\_eval
-10.0-rc3 agreed with 18,690 per-query nDCG, MAP and recall values within
-1e-4; it does not validate tie-breaking policy.
+correction changed TF-IDF's MAP@10 from approximately 0.2200 to 0.1162.
+This is a correction of our implementation, not evidence that the
+official leaderboard was wrong. For fixed rankings, trec\_eval 10.0-rc3
+agreed with 18,690 per-query nDCG, MAP and recall values within 1e-4; it
+does not validate tie-breaking policy.
 
 The cross-check writes a strictly decreasing score for each fixed rank,
 so the reference evaluator receives the order selected by our run. It
@@ -316,6 +327,15 @@ difference is not attributable to Holm correction alone. The inference
 depends on the relevant exchangeability or symmetry and
 query-independence assumptions; non-significance does not establish
 equality.
+
+The supported SciFact pairs were BM25(1.5, 0.6) versus TF-IDF (mean
+nDCG@10 difference +0.03334; Holm-adjusted p = 0.0100) and BM25(1.2,
+0.75) versus TF-IDF (+0.02930; p = 0.0450). On NFCorpus, BM25(1.5, 0.6)
+versus BM25(0.5, 0.3) had a difference of +0.00817 (p = 0.0300). A later
+200,000-draw sensitivity check on regenerated lexical query scores
+retains the same three supported pairs when Holm is recalculated within
+the five-system family. It reduces Monte Carlo variability but does not
+independently validate the data or inferential assumptions.
 
 Separately from varying cutoff k, reversing document-ID tie order for
 one NFCorpus BM25 configuration at k=10 changed the ordered top ten for

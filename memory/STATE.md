@@ -1,10 +1,10 @@
 # Current State
 
-> 2026-10-30 | 当前短状态；证据与导航见 [科研入口](../docs/research/README.md)，未决事项见 [THREADS](THREADS.md)。2026-10-29 治理前的完整原文见 [历史快照](archive/STATE_2026-10-29_pre_neat.md)，其中相对链接沿用原文件位于 memory/ 时的基址。
+> 2026-10-31 | 当前短状态；证据与导航见 [科研入口](../docs/research/README.md)，未决事项见 [THREADS](THREADS.md)。2026-10-29 治理前的完整原文见 [历史快照](archive/STATE_2026-10-29_pre_neat.md)，其中相对链接沿用原文件位于 memory/ 时的基址。
 
 ## 科研与论文
 
-- **Paper E**：现役 [ICINT 短稿](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[4 页审阅 PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)和 [8 页 ICDAR 模板预演](../research/paper_e_publication_route_20261028/icdar_latex/main.pdf)，路线及限制见[投稿计划](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。三案例测量审计，先准备 ICINT，拒稿或正式撤稿后再考虑 ICDAR；投稿级作者信息、声明、许可和审阅仍未完成。[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为更详细的历史内部稿，不是当前短稿入口。
+- **Paper E**：现役 [ICINT 短稿](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[4 页审阅 PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)和 [8 页 ICDAR 模板预演](../research/paper_e_publication_route_20261028/icdar_latex/main.pdf)，路线及限制见[投稿计划](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。三案例测量审计，先准备 ICINT，拒稿或正式撤稿后再考虑 ICDAR；[最新机器审读与数值更正](../research/paper_e_publication_route_20261028/ICINT_AI_REVIEW_RETURN_20261031.md)不是专家或同行评审。投稿级作者信息、声明、许可和独立审阅仍未完成。[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为更详细的历史内部稿，不是当前短稿入口。
 - **第二篇和学位**：以 IJCNN 2027 为探索目标，重点是 Agent 从反馈/经验学习和变化环境下的技能适配；训练、蒸馏、记忆、规划协作及可靠执行仍可按证据调整，[长期研究组合](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)。[跨任务迁移探索](../research/agent_frontier_portfolio_20261029/CROSS_TASK_TRANSFER_RETURN_20261030.md)已运行真实 Agent 与同程序控制，但没有独立语义 gold 或确认的方法收益。硕士目标 2027 年 10 月送审，具体日期未知。
 - **最新资产复核**：[离线复算与尸检](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)核对 Paper E 冻结结果、迁移验证合同、Agent 单任务的 2,000 行产物及 MA-CERD 动作集合；均为事后复核，不是独立来源确认。
 - **解释边界**：BEIR 为研究者自建运行而非官方榜；FinRank 的部分身份结果为源码知情事后复现；未标注不等于不相关，统计不显著不等于相等。旧 R/E、exact-cache、FinRank H/K 等具体面板停止不等于相关一般方向无效。以日期更正和原证据为准。

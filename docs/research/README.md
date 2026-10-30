@@ -1,6 +1,6 @@
 # 研究入口
 
-> 2026-10-30 | 当前科研导航。当前状态以 [STATE](../../memory/STATE.md) 为准，待决以 [THREADS](../../memory/THREADS.md) 为准；历史实验以原始 dated 回执及其更正为准。
+> 2026-10-31 | 当前科研导航。当前状态以 [STATE](../../memory/STATE.md) 为准，待决以 [THREADS](../../memory/THREADS.md) 为准；历史实验以原始 dated 回执及其更正为准。
 
 | 需要 | 入口 |
 | --- | --- |
