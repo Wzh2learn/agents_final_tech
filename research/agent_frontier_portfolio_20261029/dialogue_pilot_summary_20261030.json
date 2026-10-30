@@ -1,0 +1,205 @@
+{
+  "status": "DEVELOPMENT_ONLY",
+  "episodes": [
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/agent_tictoc_extended/dialogue-parser__all_skill__866393",
+      "arm": "all_skill",
+      "repair": null,
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 8,
+        "passed": 27
+      },
+      "seconds": 92.352,
+      "physical_posts": 8,
+      "reported_tokens_including_cache": 133597,
+      "recorded_steps": 8,
+      "raw_sha256": "dadad78146715444929772f38a25207a6b2f1a5c50af4403506edd7006e664f4",
+      "receipt_sha256": "dc95bd99731746203fb7fc16a153a884144c36dec6697810149df5b4bd594fa3"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/agent_tictoc_extended/dialogue-parser__no_skill__865566",
+      "arm": "no_skill",
+      "repair": null,
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 34
+      },
+      "seconds": 49.635,
+      "physical_posts": 8,
+      "reported_tokens_including_cache": 60934,
+      "recorded_steps": 8,
+      "raw_sha256": "ff38be3f266266a50d76e4b5610d68d11edd7e00f87f6dc236881f3d91daa0c1",
+      "receipt_sha256": "e5a84682aa61de53964e50a2143c1ad18ccab9107da3a7b724d07233fb70dadd"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/dialogue_repair/dialogue-parser__no_skill__869170",
+      "arm": "no_skill",
+      "repair": {
+        "condition": "neutral",
+        "initial_hashes": {
+          "solution.py": "518c931a8a7635e8edf78b8ec2f2ee6698292fe3bb17cddc83e4d3840b790d94",
+          "dialogue.json": "281b570d6c1db20f5f48eb78145c80f0c00e684a03a500b0ea52415c8c178756",
+          "dialogue.dot": "f18b527d55516e6ffa8a9294c461ce364487b943019c36d81ae5ee80844a050d"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "63560143839ac9a2d7e236a7ff7cb42293f9a45263184f454e3fb80c733fa2bb"
+      },
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 34
+      },
+      "seconds": 138.621,
+      "physical_posts": 8,
+      "reported_tokens_including_cache": 124208,
+      "recorded_steps": 8,
+      "raw_sha256": "0d061d821b6b7df3c641a55a7a6505661ec86a39f47d2ce94e5e255ab19de847",
+      "receipt_sha256": "1cf133b1540ba2d29459c457629f0968459f768e1890a99f2c901427ff812b29"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/dialogue_repair/dialogue-parser__no_skill__872329",
+      "arm": "no_skill",
+      "repair": {
+        "condition": "diagnostic",
+        "initial_hashes": {
+          "solution.py": "518c931a8a7635e8edf78b8ec2f2ee6698292fe3bb17cddc83e4d3840b790d94",
+          "dialogue.json": "281b570d6c1db20f5f48eb78145c80f0c00e684a03a500b0ea52415c8c178756",
+          "dialogue.dot": "f18b527d55516e6ffa8a9294c461ce364487b943019c36d81ae5ee80844a050d"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "23f3011188ada9d3edc4a85cf749d0300624a2d05393c9d59d07c99c64b8ef7d"
+      },
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 34
+      },
+      "seconds": 59.529,
+      "physical_posts": 8,
+      "reported_tokens_including_cache": 104940,
+      "recorded_steps": 8,
+      "raw_sha256": "8bb2a75f1e8858638cd2f6053af7a7ce66441053eb059e3b001465d4d8460bdd",
+      "receipt_sha256": "d753445da6e2b24715f6eb9658b7751e70d219808291799560feaa4c2aca9d73"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/dialogue_repair/dialogue-parser__no_skill__876036",
+      "arm": "no_skill",
+      "repair": {
+        "condition": "neutral",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solution.py": "518c931a8a7635e8edf78b8ec2f2ee6698292fe3bb17cddc83e4d3840b790d94",
+          "dialogue.json": "281b570d6c1db20f5f48eb78145c80f0c00e684a03a500b0ea52415c8c178756",
+          "dialogue.dot": "f18b527d55516e6ffa8a9294c461ce364487b943019c36d81ae5ee80844a050d"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "25f3ecb6737f566f8aebc582326d1bc862bf5981fc122e81beb513fd87b795fa"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 34
+      },
+      "seconds": 127.128,
+      "physical_posts": 12,
+      "reported_tokens_including_cache": 181972,
+      "recorded_steps": 12,
+      "raw_sha256": "081b3dae9175555abd544261f8f0b26750d7ecc497e009a2fbf73a6658022f7b",
+      "receipt_sha256": "55c321ce0f9dc90ef5ec4297150d2c12cf21df343cbb3a39d750d5322c41944c"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/dialogue_repair/dialogue-parser__no_skill__878323",
+      "arm": "no_skill",
+      "repair": {
+        "condition": "diagnostic",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solution.py": "518c931a8a7635e8edf78b8ec2f2ee6698292fe3bb17cddc83e4d3840b790d94",
+          "dialogue.json": "281b570d6c1db20f5f48eb78145c80f0c00e684a03a500b0ea52415c8c178756",
+          "dialogue.dot": "f18b527d55516e6ffa8a9294c461ce364487b943019c36d81ae5ee80844a050d"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "fff54f3646190b6fa9aaba90e6cff72eca346822deca52847fbb0c154638697d"
+      },
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 34
+      },
+      "seconds": 239.439,
+      "physical_posts": 16,
+      "reported_tokens_including_cache": 221072,
+      "recorded_steps": 16,
+      "raw_sha256": "5c55cd2b671e752603c7cdc25b01d3855728d974fcbd8f479c2b775bd1ea50ee",
+      "receipt_sha256": "2e775f39b7c452f3bd8a2f604617aa210aa824251865ff4e193c77ac254950a7"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/dialogue_repair/dialogue-parser__no_skill__888877",
+      "arm": "no_skill",
+      "repair": {
+        "condition": "neutral",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solution.py": "518c931a8a7635e8edf78b8ec2f2ee6698292fe3bb17cddc83e4d3840b790d94",
+          "dialogue.json": "281b570d6c1db20f5f48eb78145c80f0c00e684a03a500b0ea52415c8c178756",
+          "dialogue.dot": "f18b527d55516e6ffa8a9294c461ce364487b943019c36d81ae5ee80844a050d"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "6de802dc2071bb32425615c4cf8605fe445614c639335ccf9644d24ce2dfd702"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 6,
+        "passed": 29
+      },
+      "seconds": 260.305,
+      "physical_posts": 11,
+      "reported_tokens_including_cache": 139994,
+      "recorded_steps": 11,
+      "raw_sha256": "9caa3a17db900cb8c441896c089940eb45ec0b18813db4292051bb094fc74ed6",
+      "receipt_sha256": "eddd60cf1fd21592d95fa0377779088dbb11ab269d36bbba0de4fd4ca23d4fd4"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/dialogue_repair/dialogue-parser__no_skill__895054",
+      "arm": "no_skill",
+      "repair": {
+        "condition": "diagnostic",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solution.py": "518c931a8a7635e8edf78b8ec2f2ee6698292fe3bb17cddc83e4d3840b790d94",
+          "dialogue.json": "281b570d6c1db20f5f48eb78145c80f0c00e684a03a500b0ea52415c8c178756",
+          "dialogue.dot": "f18b527d55516e6ffa8a9294c461ce364487b943019c36d81ae5ee80844a050d"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "8d56a8e3b66b696addf8ba2c6e2092a535e9a4b0d3c92a36d4446bc5c8d3b023"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 1,
+        "passed": 34
+      },
+      "seconds": 132.086,
+      "physical_posts": 11,
+      "reported_tokens_including_cache": 166237,
+      "recorded_steps": 11,
+      "raw_sha256": "1d311bd4497422447bbb3745bffca3f4e87e53f8e472a62b529be901ad3140c9",
+      "receipt_sha256": "acfa4c8a4c088fb0590c769cb645ac6c0167752fd73ea0d3fd75ba07b7640b60"
+    }
+  ],
+  "usage_caveat": "Reported step totals include cache; a missing step has unknown usage.",
+  "verification_caveat": "pytest counts are not a general semantic success score."
+}

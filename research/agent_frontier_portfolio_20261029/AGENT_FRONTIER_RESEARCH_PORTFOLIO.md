@@ -4,6 +4,8 @@
 
 ## 2026-10-30：真实工具 Agent 的技能与执行预算探针
 
+**后续接续**：[真实 dialogue-parser 反馈与验证器研究](DIALOGUE_PILOT_RETURN_20261030.md)在新的任务上运行了 8 次 Agent episode。发现一次同起点修复中的真实文件权限阻断，并修复后重新执行；也发现原 verifier 可对缺少解析器的构造控制给出 35/35，以及对可达的 End 终点产生误拒。具体反馈与 neutral 两组在单案例中均通过新增解析烟测，原测试分别为 34/35 与 29/35，其中部分测试对图结构表示有争议。记录为候选问题和测量约束，不将它包装成反馈方法已成立。
+
 在 SkillsBench 开发任务 `tictoc-unnecessary-abort-detection` 上，将 OpenCode 与 GB10 本地 Qwen 组成可执行工具 Agent；相同任务分别提供 no-skill 和全部三份任务 skill。Docker 无网络、任务 verifier 不在 Agent 容器中；运行结束后在隔离环境执行原验证器。这里只是一个公开任务的开发探索，没有独立任务族、重复试验、source-isolated 测试，也没有经验学习或反馈更新。
 
 首次各运行一次时本地模型传输超时，两个条件都未交付；[no-skill 原回执](tictoc_timeout_no_skill_receipt_20261030.json)和 [all-skill 原回执](tictoc_timeout_all_skill_receipt_20261030.json)分别有 4 和 2 个物理 POST。第二轮仅将服务及回合超时上限从 120/300 秒调整到 300/600 秒，其余请求上限等保持，使用 [可复现适配脚本](run_tictoc_extended.py)，不是重写第一轮。
