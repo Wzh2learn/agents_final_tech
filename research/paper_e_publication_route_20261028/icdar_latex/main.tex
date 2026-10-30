@@ -206,14 +206,26 @@ Stability}\label{finrank-score-sensitivity-and-decision-stability}
 FinRank ranks evidence from financial filings \cite{r4}. Under
 tie-as-positive scoring, a score tie counts for the gold passage; under
 strict-win scoring, it does not. The tie comparisons and materiality
-threshold were fixed before pair-level outcomes. For TF-IDF, hard/random
-accuracy changes from 77.756\%/91.935\% to 77.030\%/90.850\%; the
-random-minus-hard gap changes from 14.179 to 13.821 percentage points.
-For BM25, the corresponding hard/random accuracies are 74.780\%/87.789\%
-and 74.094\%/86.760\%; gaps change from 13.009 to 12.666 points.
-Random-negative accuracy moves by 1.084 percentage points for TF-IDF and
-1.029 for BM25, exceeding the fixed 1.0-point threshold, while the gap
-remains positive in both systems.
+threshold were fixed before pair-level outcomes. Table 2 shows that
+random-negative accuracy moves by 1.084 percentage points for TF-IDF and
+1.029 for BM25, exceeding the fixed 1.0-point threshold, while the
+random-minus-hard gap remains positive in both systems.
+
+\begin{table}[htbp]
+\caption{FinRank pairwise accuracy under two tie policies; gaps are computed before rounding.}
+\label{tab:finrank}
+\centering
+\begin{tabular}{llrrr}
+\hline
+System & Policy & Hard (\%) & Random (\%) & Gap (pp) \\
+\hline
+TF-IDF & Positive & 77.756 & 91.935 & 14.179 \\
+TF-IDF & Strict & 77.030 & 90.850 & 13.821 \\
+BM25 & Positive & 74.780 & 87.789 & 13.009 \\
+BM25 & Strict & 74.094 & 86.760 & 12.666 \\
+\hline
+\end{tabular}
+\end{table}
 
 Gaps are computed before display rounding. The comparison's qualitative
 direction is stable under these two policies; this does not establish

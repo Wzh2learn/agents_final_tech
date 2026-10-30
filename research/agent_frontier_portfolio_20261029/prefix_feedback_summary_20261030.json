@@ -1,0 +1,118 @@
+{
+  "status": "DEVELOPMENT_ONLY",
+  "episodes": [
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/prefix_feedback/llm-prefix-cache-replay__all_skill__927210",
+      "intervention": {
+        "condition": "task_skill",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solve.py": "8722d2d306ca824b55cb277da6dbb8dc24ebf5d3e7b4946419e35fa6266faf8e",
+          "report.json": "f6d62877e37c9df56c8b552e75daa5825ca192fc7ca1bdf0d47ca47079e28252",
+          "trace.jsonl": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+          "config.json": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "ab3ec26c2a499ca78b1de35b54dd0d7fc2047ee84fb3fabc99c3e4953acfbe1c"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 0,
+      "verifier_counts": {
+        "passed": 10
+      },
+      "seconds": 69.443,
+      "posts": 8,
+      "reported_tokens_including_cache": 94762,
+      "recorded_steps": 8,
+      "raw_sha256": "5bbb67b6db8cef554974320b936e3916d428d400859956497efd3b75479d8206",
+      "receipt_sha256": "17a6ee6c298e38a058abcf06a5341416d7d3fcbb49001fd95b55280e3ae03ab6"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/prefix_feedback/llm-prefix-cache-replay__no_skill__917935",
+      "intervention": {
+        "condition": "neutral",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solve.py": "8722d2d306ca824b55cb277da6dbb8dc24ebf5d3e7b4946419e35fa6266faf8e",
+          "report.json": "f6d62877e37c9df56c8b552e75daa5825ca192fc7ca1bdf0d47ca47079e28252",
+          "trace.jsonl": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+          "config.json": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "ab3ec26c2a499ca78b1de35b54dd0d7fc2047ee84fb3fabc99c3e4953acfbe1c"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 8,
+        "passed": 2
+      },
+      "seconds": 171.602,
+      "posts": 8,
+      "reported_tokens_including_cache": 107014,
+      "recorded_steps": 8,
+      "raw_sha256": "237e2a31368f5c6917f4211dca38166929c3824c166923ddb47227e287867ab5",
+      "receipt_sha256": "c983d6bcfa7025ddac734b84530cca56812790a5d40e14f17b4daa2d6150a369"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/prefix_feedback/llm-prefix-cache-replay__no_skill__923034",
+      "intervention": {
+        "condition": "diagnostic",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "initial_hashes": {
+          "solve.py": "8722d2d306ca824b55cb277da6dbb8dc24ebf5d3e7b4946419e35fa6266faf8e",
+          "report.json": "f6d62877e37c9df56c8b552e75daa5825ca192fc7ca1bdf0d47ca47079e28252",
+          "trace.jsonl": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+          "config.json": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "9e104b3cc29cc0b5fb650560a9526b852c8930354479487a87273a85004a52ee"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 9,
+        "passed": 1
+      },
+      "seconds": 147.157,
+      "posts": 3,
+      "reported_tokens_including_cache": 25666,
+      "recorded_steps": 3,
+      "raw_sha256": "1b44e75d2912f8bfaf289c4b8b9ce01f514b293812f985143b0eee99ef7fd01c",
+      "receipt_sha256": "8ff738c44aa2f1e1dcbb8c70239e0eed6999898410a50ea0eb9125608dd40f31"
+    },
+    {
+      "directory": "/home/testuser/wzh/research_evidence/agent_learning_20261030/prefix_feedback/llm-prefix-cache-replay__no_skill__930110",
+      "intervention": {
+        "condition": "diagnostic_16k",
+        "request_limit": 16,
+        "post_body_byte_limit": 900000,
+        "per_step_output_limit": 16384,
+        "initial_hashes": {
+          "solve.py": "8722d2d306ca824b55cb277da6dbb8dc24ebf5d3e7b4946419e35fa6266faf8e",
+          "report.json": "f6d62877e37c9df56c8b552e75daa5825ca192fc7ca1bdf0d47ca47079e28252",
+          "trace.jsonl": "9e81b386f0d8cea16d376b041d7a7e8fed5ba65b53e989444c76cef408442c2a",
+          "config.json": "bf4f44ffb65803b2e0ffe998c144abc6b67418dc7cf1fdcefddd17a3056402b3"
+        },
+        "base_sha256": "4111a0be97845740769722e2e596871d51c7693d14d2372d7f6931b4d06e7afb",
+        "derived_sha256": "fd25daa4c1d7d85013f2a17738295d6809386c133f7838148b59e209ca5d9752"
+      },
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "verifier_counts": {
+        "failed": 5,
+        "passed": 5
+      },
+      "seconds": 120.613,
+      "posts": 5,
+      "reported_tokens_including_cache": 49753,
+      "recorded_steps": 5,
+      "raw_sha256": "0298e7111577559be8797213ea98687c0178af5102c6201f766119b2b62d65a2",
+      "receipt_sha256": "c1d48b20628dcf72c2f9c3716291def62c27e77a29b3245e36ed70272a9e88b2"
+    }
+  ],
+  "usage_caveat": "Step totals include cache; missing step usage remains unknown."
+}

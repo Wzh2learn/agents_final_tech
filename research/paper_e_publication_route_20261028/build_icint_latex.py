@@ -8,6 +8,29 @@ ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "paper_e_icint_draft.md"
 OUTPUT = ROOT / "icint_latex" / "main.tex"
 PANDOC = "D:/pandocLatex2word/pandoc.exe"
+FINRANK_TABLE = ("| System | Tie policy | Hard (%) | Random (%) | Gap (pp) |\n"
+                 "| --- | --- | ---: | ---: | ---: |\n"
+                 "| TF-IDF | Positive | 77.756 | 91.935 | 14.179 |\n"
+                 "| TF-IDF | Strict win | 77.030 | 90.850 | 13.821 |\n"
+                 "| BM25 | Positive | 74.780 | 87.789 | 13.009 |\n"
+                 "| BM25 | Strict win | 74.094 | 86.760 | 12.666 |")
+FINRANK_LATEX = r"""```{=latex}
+\begin{table}[htbp]
+\caption{FinRank pairwise accuracy under two tie policies; gaps are computed before rounding.}
+\label{tab:finrank}
+\centering
+\begin{tabular}{llrrr}
+\hline
+System & Policy & Hard (\%) & Random (\%) & Gap (pp) \\
+\hline
+TF-IDF & Positive & 77.756 & 91.935 & 14.179 \\
+TF-IDF & Strict & 77.030 & 90.850 & 13.821 \\
+BM25 & Positive & 74.780 & 87.789 & 13.009 \\
+BM25 & Strict & 74.094 & 86.760 & 12.666 \\
+\hline
+\end{tabular}
+\end{table}
+```"""
 
 
 def latex(text):
@@ -48,6 +71,9 @@ Header injections & 85/118 & 13/118 \\
 \end{table}
 ```"""
     body = body.replace(table, raw_table)
+    if body.count(FINRANK_TABLE) != 1:
+        raise ValueError("Expected FinRank table not found exactly once")
+    body = body.replace(FINRANK_TABLE, FINRANK_LATEX)
     body = re.sub(r"\[(\d+)\]", lambda m: r"\cite{r" + m.group(1) + "}", body)
     items = re.findall(r"(?ms)^\[(\d+)\]\s*(.*?)(?=^\[\d+\]|\Z)", refs)
     if [n for n, _ in items] != [str(n) for n in range(1, 10)]:

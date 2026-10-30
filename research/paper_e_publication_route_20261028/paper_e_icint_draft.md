@@ -54,7 +54,14 @@ In a separate stage-aligned control, 72 source clusters contributed one injectio
 
 # IV. FinRank: Score Sensitivity and Decision Stability
 
-FinRank ranks evidence from financial filings [4]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. For TF-IDF, hard/random accuracy changes from 77.756%/91.935% to 77.030%/90.850%; the random-minus-hard gap changes from 14.179 to 13.821 percentage points. For BM25, the corresponding hard/random accuracies are 74.780%/87.789% and 74.094%/86.760%; gaps change from 13.009 to 12.666 points. Random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the gap remains positive in both systems.
+FinRank ranks evidence from financial filings [4]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. Table 2 shows that random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
+
+| System | Tie policy | Hard (%) | Random (%) | Gap (pp) |
+| --- | --- | ---: | ---: | ---: |
+| TF-IDF | Positive | 77.756 | 91.935 | 14.179 |
+| TF-IDF | Strict win | 77.030 | 90.850 | 13.821 |
+| BM25 | Positive | 74.780 | 87.789 | 13.009 |
+| BM25 | Strict win | 74.094 | 86.760 | 12.666 |
 
 Gaps are computed before display rounding. The comparison's qualitative direction is stable under these two policies; this does not establish stability for all decisions. A later source-informed identity analysis reproduces 442 hard-negative occurrences across 305 records sharing canonical text with another record's gold passage, and gold-passage loss in 33 records under the inspected metadata filter. These are post-hoc reproductions of known properties, not newly discovered benchmark defects. In-record and pairwise metrics reproduce exactly in the audited environment; some global and metadata-filtered results retain an unexplained reproduction gap.
 

@@ -7,7 +7,7 @@ an already adapted document-analysis contribution.
 from pathlib import Path
 import re
 
-from build_icint_latex import latex
+from build_icint_latex import FINRANK_LATEX, FINRANK_TABLE, latex
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "paper_e_icint_draft.md"
@@ -43,6 +43,9 @@ Header injections & 85/118 & 13/118 \\
 \end{tabular}
 \end{table}
 ```""")
+    if body.count(FINRANK_TABLE) != 1:
+        raise ValueError("Expected FinRank table not found exactly once")
+    body = body.replace(FINRANK_TABLE, FINRANK_LATEX)
     body = re.sub(r"\[(\d+)\]", lambda m: r"\cite{r" + m.group(1) + "}", body)
     items = re.findall(r"(?ms)^\[(\d+)\]\s*(.*?)(?=^\[\d+\]|\Z)", refs)
     if [n for n, _ in items] != [str(n) for n in range(1, 10)]:
