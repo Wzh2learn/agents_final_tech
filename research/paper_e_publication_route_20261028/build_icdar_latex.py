@@ -7,7 +7,7 @@ an already adapted document-analysis contribution.
 from pathlib import Path
 import re
 
-from build_icint_latex import FINRANK_LATEX, FINRANK_TABLE, latex
+from build_icint_latex import FINRANK_LATEX, FINRANK_TABLE, INTERPRETATION_LATEX, INTERPRETATION_TABLE, latex
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "paper_e_icint_draft.md"
@@ -22,6 +22,9 @@ def main():
     keywords = keywords.removeprefix("**Index Terms—** ").rstrip(".")
     body, refs = body.split("# References", 1)
     body = re.sub(r"(?m)^# [IVX]+\. ", "# ", body)
+    if body.count(INTERPRETATION_TABLE) != 1:
+        raise ValueError("Expected interpretation table not found exactly once")
+    body = body.replace(INTERPRETATION_TABLE, INTERPRETATION_LATEX)
     table = ("| Original operating point | Flat | Hierarchical |\n"
              "| --- | ---: | ---: |\n"
              "| Source tables | 75/95 | 20/95 |\n"
@@ -52,7 +55,7 @@ Header injections & 85/118 & 13/118 \\
         raise ValueError("Unexpected reference numbering")
     references = "\n".join(r"\bibitem{r" + n + "} " + latex(item) for n, item in items)
     document = (r"\documentclass[runningheads]{llncs}" + "\n" +
-                r"\usepackage[T1]{fontenc}" + "\n" + r"\usepackage{url}" + "\n" +
+                r"\usepackage[T1]{fontenc}" + "\n" + r"\usepackage{url}" + "\n" + r"\usepackage{array}" + "\n" +
                 r"\begin{document}" + "\n" + r"\emergencystretch=2em" + "\n" +
                 r"\title{From Scores to Supported Claims: Measurement Audits of Document and Retrieval Evaluation}" + "\n" +
                 r"\titlerunning{Measurement Audits of Document and Retrieval Evaluation}" + "\n" +

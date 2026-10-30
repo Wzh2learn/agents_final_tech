@@ -25,7 +25,13 @@ We distinguish three questions: whether a change is **visible** at a selected ev
 
 The designs differ. Case 1 uses controlled perturbations. Case 2 inspects a released benchmark, including source-informed post-hoc identity analysis. Case 3 uses researcher-generated systems and test queries from a public benchmark; its original audit choices were not independently timestamped before the first run. We preserve fixed outputs and identify later explorations rather than treating them as prospective confirmation.
 
-The cases target three interpretations. First, a detection-rate difference does not necessarily imply a ranking difference when the score scales differ. Second, a shift in absolute accuracy need not reverse a stated comparison. Third, a higher retrieval mean is a point estimate; it does not automatically establish every pairwise system ordering. Each case below specifies what is held fixed and what is varied.
+The cases target three interpretations. First, a detection-rate difference does not necessarily imply a ranking difference when the score scales differ. Second, a shift in absolute accuracy need not reverse a stated comparison. Third, a higher retrieval mean is a point estimate; it does not automatically establish every pairwise system ordering. The following table summarizes what the audit changes in each interpretation; the cases below specify what is held fixed and what is varied.
+
+| Case | Tempting interpretation | Supported interpretation after audit |
+| --- | --- | --- |
+| Document | Lower detection means weaker ranking | The reported rates differ, but rankings coincide in the single-leaf setting. |
+| FinRank | Absolute score changes imply a changed comparison | The random-minus-hard gap stays positive under both inspected tie policies. |
+| Retrieval | A higher mean establishes every system ordering | The paired test supports only some differences; unsupported pairs are not proven equal. |
 
 For each construction we identify the input and outcome carrier, the evaluator or scoring implementation, the original reporting convention, the comparison of interest, and any alternative rule applied to fixed outputs. We use the term *decision* for a stated analytical interpretation such as the direction of a comparison; no intervention with a human decision-maker was conducted. The analysis can preserve an initial interpretation as well as qualify it. An audit of a score is useful even when the direction remains stable, because it identifies which aspects of the scoring contract matter to that conclusion.
 
@@ -56,7 +62,7 @@ In a separate stage-aligned control, 72 source clusters contributed one injectio
 
 # IV. FinRank: Score Sensitivity and Decision Stability
 
-FinRank ranks evidence from financial filings [1]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. Table 2 shows that random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
+FinRank ranks evidence from financial filings [1]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. The following table shows that random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
 
 | System | Tie policy | Hard (%) | Random (%) | Gap (pp) |
 | --- | --- | ---: | ---: | ---: |

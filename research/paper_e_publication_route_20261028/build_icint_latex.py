@@ -8,6 +8,29 @@ ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "paper_e_icint_draft.md"
 OUTPUT = ROOT / "icint_latex" / "main.tex"
 PANDOC = "D:/pandocLatex2word/pandoc.exe"
+INTERPRETATION_TABLE = ("| Case | Tempting interpretation | Supported interpretation after audit |\n"
+                        "| --- | --- | --- |\n"
+                        "| Document | Lower detection means weaker ranking | The reported rates differ, but rankings coincide in the single-leaf setting. |\n"
+                        "| FinRank | Absolute score changes imply a changed comparison | The random-minus-hard gap stays positive under both inspected tie policies. |\n"
+                        "| Retrieval | A higher mean establishes every system ordering | The paired test supports only some differences; unsupported pairs are not proven equal. |")
+INTERPRETATION_LATEX = r"""```{=latex}
+\begin{table}[htbp]
+\caption{Interpretations qualified or retained by the three audits.}
+\label{tab:interpretations}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.18\columnwidth}>{\raggedright\arraybackslash}p{.34\columnwidth}>{\raggedright\arraybackslash}p{.36\columnwidth}@{}}
+\hline
+Case & Tempting interpretation & Supported interpretation \\
+\hline
+Document & Lower detection means weaker ranking & Rates differ; ranks coincide in the single-leaf setting. \\
+FinRank & Absolute score changes imply a changed comparison & The random-minus-hard gap stays positive under both inspected tie policies. \\
+Retrieval & A higher mean establishes every system ordering & The paired test supports some differences; other pairs are not proven equal. \\
+\hline
+\end{tabular}
+\end{table}
+```"""
 FINRANK_TABLE = ("| System | Tie policy | Hard (%) | Random (%) | Gap (pp) |\n"
                  "| --- | --- | ---: | ---: | ---: |\n"
                  "| TF-IDF | Positive | 77.756 | 91.935 | 14.179 |\n"
@@ -49,6 +72,9 @@ def main():
     keywords = keywords.removeprefix("**Index Terms—** ")
     body, refs = body.split("# References", 1)
     body = re.sub(r"(?m)^# [IVX]+\. ", "# ", body)
+    if body.count(INTERPRETATION_TABLE) != 1:
+        raise ValueError("Expected interpretation table not found exactly once")
+    body = body.replace(INTERPRETATION_TABLE, INTERPRETATION_LATEX)
     table = ("| Original operating point | Flat | Hierarchical |\n"
              "| --- | ---: | ---: |\n"
              "| Source tables | 75/95 | 20/95 |\n"
@@ -81,7 +107,7 @@ Header injections & 85/118 & 13/118 \\
     references = "\n".join(r"\bibitem{r" + n + "} " + latex(item) for n, item in items)
     document = (r"\documentclass[conference]{IEEEtran}" + "\n" +
                 r"\usepackage[T1]{fontenc}" + "\n" + r"\usepackage{cite}" + "\n" +
-                r"\usepackage{url}" + "\n" + r"\begin{document}" + "\n" +
+                r"\usepackage{url}" + "\n" + r"\usepackage{array}" + "\n" + r"\begin{document}" + "\n" +
                 r"\title{From Scores to Supported Claims: Measurement Audits of Document and Retrieval Evaluation}" + "\n" +
                 r"\author{}" + "\n" + r"\maketitle" + "\n" +
                 r"\begin{abstract}" + "\n" + latex(abstract) + "\n" + r"\end{abstract}" + "\n" +

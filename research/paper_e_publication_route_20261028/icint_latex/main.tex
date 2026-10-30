@@ -2,6 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{cite}
 \usepackage{url}
+\usepackage{array}
 \begin{document}
 \title{From Scores to Supported Claims: Measurement Audits of Document and Retrieval Evaluation}
 \author{}
@@ -94,8 +95,26 @@ difference does not necessarily imply a ranking difference when the
 score scales differ. Second, a shift in absolute accuracy need not
 reverse a stated comparison. Third, a higher retrieval mean is a point
 estimate; it does not automatically establish every pairwise system
-ordering. Each case below specifies what is held fixed and what is
+ordering. The following table summarizes what the audit changes in each
+interpretation; the cases below specify what is held fixed and what is
 varied.
+
+\begin{table}[htbp]
+\caption{Interpretations qualified or retained by the three audits.}
+\label{tab:interpretations}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.18\columnwidth}>{\raggedright\arraybackslash}p{.34\columnwidth}>{\raggedright\arraybackslash}p{.36\columnwidth}@{}}
+\hline
+Case & Tempting interpretation & Supported interpretation \\
+\hline
+Document & Lower detection means weaker ranking & Rates differ; ranks coincide in the single-leaf setting. \\
+FinRank & Absolute score changes imply a changed comparison & The random-minus-hard gap stays positive under both inspected tie policies. \\
+Retrieval & A higher mean establishes every system ordering & The paired test supports some differences; other pairs are not proven equal. \\
+\hline
+\end{tabular}
+\end{table}
 
 For each construction we identify the input and outcome carrier, the
 evaluator or scoring implementation, the original reporting convention,
@@ -214,10 +233,10 @@ Stability}\label{finrank-score-sensitivity-and-decision-stability}
 FinRank ranks evidence from financial filings \cite{r1}. Under
 tie-as-positive scoring, a score tie counts for the gold passage; under
 strict-win scoring, it does not. The tie comparisons and materiality
-threshold were fixed before pair-level outcomes. Table 2 shows that
-random-negative accuracy moves by 1.084 percentage points for TF-IDF and
-1.029 for BM25, exceeding the fixed 1.0-point threshold, while the
-random-minus-hard gap remains positive in both systems.
+threshold were fixed before pair-level outcomes. The following table
+shows that random-negative accuracy moves by 1.084 percentage points for
+TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold,
+while the random-minus-hard gap remains positive in both systems.
 
 \begin{table}[htbp]
 \caption{FinRank pairwise accuracy under two tie policies; gaps are computed before rounding.}
