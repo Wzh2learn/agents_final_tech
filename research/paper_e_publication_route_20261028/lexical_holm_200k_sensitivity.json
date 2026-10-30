@@ -1,9 +1,10 @@
 {
   "status": "POST_HOC_NUMERICAL_SENSITIVITY_NOT_INDEPENDENT_CONFIRMATION",
-  "inputs_sha256": {
-    "five_system_result": "773f0f9123c858122f7978a40344a3cc3ff304d9a696ae8f40241d504a7d048a",
-    "six_system_200k_recheck": "ccacbb296dfbd97a071047beb8a965e3ceff640ca88640a825a5854e6e95a7c7"
+  "inputs_lf_sha256": {
+    "five_system_result": "c40e6416cc02bcb2ba1b6e8f06a35f8043a08747fb229e4e671885e463f73d4d",
+    "six_system_200k_recheck": "7038261675710b7b60b4d2b8d00450efefbd1d50839194bdfb4294e61aa54b5c"
   },
+  "hash_contract": "SHA-256 after CRLF to LF normalization; not the physical checkout-file hash",
   "contract": "retain five lexical systems; recompute Holm across ten unordered pairs per dataset",
   "iterations_per_pair": 200000,
   "seed": 20261029,

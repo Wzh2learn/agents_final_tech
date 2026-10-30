@@ -78,8 +78,13 @@ def recheck(original, sensitivity):
     return results
 
 
-def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def sha_lf(path):
+    """Hash repository text with Git's LF checkout normalization.
+
+    Windows and Linux checkouts can differ only in line endings. Preserve all
+    other bytes; this is not a hash of the physical checkout file.
+    """
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def main():
@@ -92,7 +97,8 @@ def main():
     old = json.loads(args.original.read_text(encoding="utf-8"))
     new = json.loads(args.sensitivity.read_text(encoding="utf-8"))
     data = {"status": "POST_HOC_NUMERICAL_SENSITIVITY_NOT_INDEPENDENT_CONFIRMATION",
-            "inputs_sha256": {"five_system_result": sha(args.original), "six_system_200k_recheck": sha(args.sensitivity)},
+            "inputs_lf_sha256": {"five_system_result": sha_lf(args.original), "six_system_200k_recheck": sha_lf(args.sensitivity)},
+            "hash_contract": "SHA-256 after CRLF to LF normalization; not the physical checkout-file hash",
             "contract": "retain five lexical systems; recompute Holm across ten unordered pairs per dataset",
             "iterations_per_pair": new["iterations_per_pair"], "seed": new["seed"],
             "limitations": "Uses prior regenerated query scores; matching pair means is not proof of query-level identity. Post-hoc and conditional on sign-flip assumptions.",

@@ -1,0 +1,31 @@
+{
+  "expected_deleted_total": 15,
+  "duplicate_expected_deleted": 0,
+  "deleted_missing_in_reference": 0,
+  "deleted_extra_in_reference": 0,
+  "expected_changes_total": 20,
+  "change_keys_missing_in_reference": 0,
+  "change_keys_extra_in_reference": 0,
+  "change_value_mismatches": 0,
+  "original_records": 10500,
+  "current_records": 10485,
+  "computed_deleted": 15,
+  "computed_added": 0,
+  "computed_field_changes": 20,
+  "pdf_id_occurrences": 10500,
+  "pdf_unique_ids": 10500,
+  "pdf_original_missing_ids": 0,
+  "pdf_extra_ids": 0,
+  "input_sha256_raw": {
+    "original_xlsx": "8ea04e63fd1bc04e8449246efa1a648c9d921668dd77c15bf2dc181f83f6e074",
+    "current_xlsx": "4a0020c3afa31f7a40e1d25c478a8480e2c8c8337a8b6250f51bfef7895b38a8",
+    "backup_pdf": "c26575e464f5d20bb80964f7775e23786c0ca2ab0597295c0efb2241e1c41c6c",
+    "benchmark_expected": "0656aa53dc1c992068aa94e9fcdafcf9ee944879ed69523e5a5651fc879bc25f"
+  },
+  "limitations": [
+    "synthetic source, not independently human-labelled",
+    "same-source spreadsheet reference, not independently collected data",
+    "PDF check compares identifiers only, not all field values",
+    "model pretraining exposure unknown"
+  ]
+}
