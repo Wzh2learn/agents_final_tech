@@ -4,7 +4,7 @@
 
 现役稿最近一次内容修订、MAP 数值归属纠正、机器审稿和 200,000 次词法配对数值敏感性重算见 [2026-10-31 回执](ICINT_AI_REVIEW_RETURN_20261031.md)。ICINT 和 ICDAR 模板分别为 4 页与 8 页，两份修订版均已渲染检查；这不替代独立专业审阅、匿名/许可审核或投稿。
 
-2026-10-31：作者已提供第一、第二作者及两位老师的英文姓名，北邮为第一单位；正式作者顺序、通讯作者和个人学院归属仍需最终确认。作者清单保存在仓库外的本地投稿准备文件，不写入双盲 PDF。北邮电子工程学院的[英文主页](https://see.bupt.edu.cn/en/About.htm)采用 `School of Electronic Engineering, Beijing University of Posts and Telecommunications`；[学院导师团队页面](https://see.bupt.edu.cn/info/1047/2741.htm)支持将该学院列为待核对候选，但不能单凭导师团队推定每位作者的单位。
+2026-10-31：作者已提供第一、第二作者及两位老师的英文姓名，确认本人和第二作者的署名学院为北邮电子工程学院，并指定了暂定通讯作者；两位老师的最终署名顺序及全部作者对成稿的确认仍待办理。作者清单保存在仓库外的私有投稿准备文件，不写入双盲 PDF。北邮电子工程学院的[英文主页](https://see.bupt.edu.cn/en/About.htm)采用 `School of Electronic Engineering, Beijing University of Posts and Telecommunications`；[学院导师团队页面](https://see.bupt.edu.cn/info/1047/2741.htm)将两位老师列入该学院团队。
 
 ## 2026-10-30 历史复核：ICDAR 2027 作为重点目标
 
