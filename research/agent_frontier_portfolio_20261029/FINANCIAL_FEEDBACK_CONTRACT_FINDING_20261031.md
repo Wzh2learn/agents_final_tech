@@ -2,6 +2,8 @@
 
 2026-10-31。我们在公开 SkillLearnBench commit `726e1f79b96b0cb3d729d0e55a1c847e0b5353ae` 的 `financial-analysis` 开发任务中，发现一个可以复算的**参考实现与股票类别合同问题**。它适合研究 Agent 如何面对可能有缺陷或不充分说明的反馈，但目前不是 Agent 方法结果，也不能据此认定整个基准无效。
 
+后续已在新增明确规则的受控改造任务上实际运行 [6 条 Agent 轨迹](FEEDBACK_CONFLICT_AGENT_PILOT_RETURN_20261031.md)：T1 实际答案触发两个检查器冲突；T2 五组均按当前合同答对，无历史和确定性程序亦答对，未观察到错误反馈的行动损害或提示的增益。该探索只使用上下文历史，未形成持久 skill。
+
 ## 发现一：参考实现中的相邻字符串被 Python 合并
 
 [任务 1 的公开 solution](https://github.com/cxcscmu/SkillLearnBench/blob/726e1f79b96b0cb3d729d0e55a1c847e0b5353ae/tasks/financial-analysis/financial-analysis-1/solution/solve.sh)将股票类别列表中的部分字符串写在连续行上但没有逗号。Python 会拼接相邻字符串字面量：[AST 与 token 复算](audit_13f_class_literals.py)发现源码包含 25 个字符串 token，运行时列表只有 10 项；本地检查的 1–6 六个 solution 都出现这一结构。我们不运行 solution，只静态解析其 Python heredoc。

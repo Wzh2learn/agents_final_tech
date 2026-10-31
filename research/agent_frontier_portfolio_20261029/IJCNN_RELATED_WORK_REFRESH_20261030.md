@@ -26,3 +26,5 @@
 **本项目已有可信起点**：[dialogue 研究](DIALOGUE_PILOT_RETURN_20261030.md)暴露 verifier 假阳性/误拒及同起点修复；[prefix 研究](PREFIX_FEEDBACK_RETURN_20261030.md)显示公开完整 skill 是强基线；[invoice 研究](INVOICE_AGENT_RETURN_20261030.md)中具体诊断有效，但一个给定相同诊断的确定性规则同样完全通过。它们支撑设计问题，不单独证明任何方法的普遍优势。下一步应优先从真实连续或环境变化基准中建立 2–3 个来源隔离的可运行序列，并根据实测调整训练或推理预算。相关论文所述结果是其作者报告，非本项目复现。
 
 SkillShift 官方仓库和 GB10 架构的实际资格检查、官方 smoke 的一处检查冲突，以及可行的后续路径见 [SkillShift 资格记录](SKILLSHIFT_QUALIFICATION_20261030.md)。
+
+2026-10-31 补充阅读 [RSE-Bench 方法正文](https://arxiv.org/html/2610.19910)：其 N-Bind 将真实 outcome 与同源另一执行记录错配，原任务目标和原评分规则保持不变；还区分学习时噪声与冻结后的部署评测。我们新发现的[金融检查器案例](FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md)涉及原 solution 的字符串拼接以及后续**人为明确新合同后旧检查器不再匹配**，与 N-Bind 的具体扰动入口不同，但“不同入口”本身不保证新颖性。后续若提出经验更新方法，应尽可能在 RSEClaw 可用时纳入其现有方法、干净历史、错配反馈和学习/评测分离；不能把一次静态上下文提示比较写成已学习技能。

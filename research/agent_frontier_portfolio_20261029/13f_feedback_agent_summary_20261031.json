@@ -1,0 +1,191 @@
+{
+  "status": "CONTROLLED_SINGLE_FAMILY_DEVELOPMENT",
+  "cases": {
+    "source": {
+      "case_name": "financial-feedback-t1__no_skill__1889716",
+      "task": "financial-feedback-t1",
+      "agent_exit": 0,
+      "contract_verifier_exit": 0,
+      "output_status": "VALID",
+      "count": 2710,
+      "expected_count": 2710,
+      "correct_under_explicit_contract": true,
+      "http_post_forwarded": 7,
+      "http_rejected": [],
+      "post_body_bytes_forwarded": 187551,
+      "reported_step_tokens_including_cache": 48144,
+      "reported_cache_read_tokens": 43376,
+      "step_finish_events": 7,
+      "elapsed_seconds_including_verifier": 40.594,
+      "raw_sha256": "ae1ec9b6adcbc37db483cd6fee15d50a4769410b939598f93d999c4f887073c9",
+      "trace_signals": {
+        "bash_commands": 4,
+        "commands_mentioning_previous_manager": 1,
+        "commands_mentioning_previous_counts": 0,
+        "text_messages_mentioning_feedback_or_conflict": 0,
+        "invalid_raw_jsonl_lines": 0
+      },
+      "output_sha256": "2c3040003eb976e7ba276c2eb67b0bd4085b30d185a540c133029d673524b44c"
+    },
+    "no_history": {
+      "case_name": "financial-feedback-t2__no_skill__1891855",
+      "task": "financial-feedback-t2",
+      "agent_exit": 0,
+      "contract_verifier_exit": 0,
+      "output_status": "VALID",
+      "count": 938,
+      "expected_count": 938,
+      "correct_under_explicit_contract": true,
+      "http_post_forwarded": 7,
+      "http_rejected": [],
+      "post_body_bytes_forwarded": 188797,
+      "reported_step_tokens_including_cache": 48663,
+      "reported_cache_read_tokens": 43635,
+      "step_finish_events": 7,
+      "elapsed_seconds_including_verifier": 47.705,
+      "raw_sha256": "13a5cdac2c82264080fd5d3aa3ccceb6079df395fb529c9c5cb5d48e4dbf374e",
+      "trace_signals": {
+        "bash_commands": 4,
+        "commands_mentioning_previous_manager": 0,
+        "commands_mentioning_previous_counts": 0,
+        "text_messages_mentioning_feedback_or_conflict": 0,
+        "invalid_raw_jsonl_lines": 0
+      },
+      "output_sha256": "eb0f3c9dcde0b7c4e91626c032ac142553ba131e1d475e56bae8b6ff1d371517"
+    },
+    "history_only": {
+      "case_name": "financial-feedback-t2__no_skill__1893398",
+      "task": "financial-feedback-t2",
+      "agent_exit": 0,
+      "contract_verifier_exit": 0,
+      "output_status": "VALID",
+      "count": 938,
+      "expected_count": 938,
+      "correct_under_explicit_contract": true,
+      "http_post_forwarded": 9,
+      "http_rejected": [],
+      "post_body_bytes_forwarded": 271056,
+      "reported_step_tokens_including_cache": 71067,
+      "reported_cache_read_tokens": 62874,
+      "step_finish_events": 9,
+      "elapsed_seconds_including_verifier": 72.873,
+      "raw_sha256": "fbe86a4d687ee81d02f8be702938c78d3014145f271724b2e47acc3c4850bd77",
+      "trace_signals": {
+        "bash_commands": 6,
+        "commands_mentioning_previous_manager": 0,
+        "commands_mentioning_previous_counts": 0,
+        "text_messages_mentioning_feedback_or_conflict": 0,
+        "invalid_raw_jsonl_lines": 0
+      },
+      "output_sha256": "eb0f3c9dcde0b7c4e91626c032ac142553ba131e1d475e56bae8b6ff1d371517"
+    },
+    "history_contract_feedback": {
+      "case_name": "financial-feedback-t2__no_skill__1895269",
+      "task": "financial-feedback-t2",
+      "agent_exit": 0,
+      "contract_verifier_exit": 0,
+      "output_status": "VALID",
+      "count": 938,
+      "expected_count": 938,
+      "correct_under_explicit_contract": true,
+      "http_post_forwarded": 12,
+      "http_rejected": [],
+      "post_body_bytes_forwarded": 384555,
+      "reported_step_tokens_including_cache": 104608,
+      "reported_cache_read_tokens": 90510,
+      "step_finish_events": 12,
+      "elapsed_seconds_including_verifier": 175.195,
+      "raw_sha256": "2509f0d3d72b675bcf2c1c2b7365d652651e6ba79909b409b57b644fd87883eb",
+      "trace_signals": {
+        "bash_commands": 10,
+        "commands_mentioning_previous_manager": 0,
+        "commands_mentioning_previous_counts": 0,
+        "text_messages_mentioning_feedback_or_conflict": 0,
+        "invalid_raw_jsonl_lines": 0
+      },
+      "output_sha256": "eb0f3c9dcde0b7c4e91626c032ac142553ba131e1d475e56bae8b6ff1d371517"
+    },
+    "history_upstream_feedback": {
+      "case_name": "financial-feedback-t2__no_skill__1897853",
+      "task": "financial-feedback-t2",
+      "agent_exit": 0,
+      "contract_verifier_exit": 0,
+      "output_status": "VALID",
+      "count": 938,
+      "expected_count": 938,
+      "correct_under_explicit_contract": true,
+      "http_post_forwarded": 14,
+      "http_rejected": [],
+      "post_body_bytes_forwarded": 536238,
+      "reported_step_tokens_including_cache": 147651,
+      "reported_cache_read_tokens": 126932,
+      "step_finish_events": 14,
+      "elapsed_seconds_including_verifier": 271.468,
+      "raw_sha256": "43642bf86f331c1a6ac9947be2b8894804f689d5246d9b581f0e56935c5a340f",
+      "trace_signals": {
+        "bash_commands": 11,
+        "commands_mentioning_previous_manager": 0,
+        "commands_mentioning_previous_counts": 0,
+        "text_messages_mentioning_feedback_or_conflict": 0,
+        "invalid_raw_jsonl_lines": 0
+      },
+      "output_sha256": "eb0f3c9dcde0b7c4e91626c032ac142553ba131e1d475e56bae8b6ff1d371517"
+    },
+    "history_conflict_check": {
+      "case_name": "financial-feedback-t2__no_skill__1903483",
+      "task": "financial-feedback-t2",
+      "agent_exit": 0,
+      "contract_verifier_exit": 0,
+      "output_status": "VALID",
+      "count": 938,
+      "expected_count": 938,
+      "correct_under_explicit_contract": true,
+      "http_post_forwarded": 12,
+      "http_rejected": [],
+      "post_body_bytes_forwarded": 463332,
+      "reported_step_tokens_including_cache": 129943,
+      "reported_cache_read_tokens": 106951,
+      "step_finish_events": 12,
+      "elapsed_seconds_including_verifier": 218.584,
+      "raw_sha256": "63d5604c51cd3824244a9a87c87971ecfaefc5bc879a2bf3b0c675a792621eec",
+      "trace_signals": {
+        "bash_commands": 10,
+        "commands_mentioning_previous_manager": 0,
+        "commands_mentioning_previous_counts": 0,
+        "text_messages_mentioning_feedback_or_conflict": 0,
+        "invalid_raw_jsonl_lines": 0
+      },
+      "output_sha256": "eb0f3c9dcde0b7c4e91626c032ac142553ba131e1d475e56bae8b6ff1d371517"
+    }
+  },
+  "deterministic_baselines": {
+    "t1": {
+      "count": 2710,
+      "matches_contract": true,
+      "verifier_passed": true,
+      "elapsed_seconds_program_only": 5.568,
+      "model_calls": 0,
+      "verifier_log_sha256": "f9991bfc1c7ebd12bb16ce56e1cf3117618ca286795cd280e4f6ac597c67ff48"
+    },
+    "t2": {
+      "count": 938,
+      "matches_contract": true,
+      "verifier_passed": true,
+      "elapsed_seconds_program_only": 5.583,
+      "model_calls": 0,
+      "verifier_log_sha256": "f9991bfc1c7ebd12bb16ce56e1cf3117618ca286795cd280e4f6ac597c67ff48"
+    }
+  },
+  "total_forwarded_posts": 61,
+  "total_step_tokens_including_cache": 550076,
+  "total_cache_read_tokens": 474278,
+  "history_sha256": "1ea8efff35442ef1d60c5db4167594b7e5944f640155528ec030388afa38ba80",
+  "previous_checker_conflict": true,
+  "limitations": [
+    "explicit class policy is a constructed contract, not financial ground truth",
+    "same public data and family, one episode per condition",
+    "history and feedback arms have different prompt information",
+    "step totals include cache reads; missing provider usage is unknown",
+    "literal trace markers do not prove whether the model used or ignored history"
+  ]
+}
