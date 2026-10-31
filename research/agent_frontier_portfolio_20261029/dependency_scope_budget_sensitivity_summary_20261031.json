@@ -1,0 +1,265 @@
+{
+  "status": "POSTHOC_BUDGET_SENSITIVITY_SINGLE_SOURCE",
+  "cases": {
+    "target_none": {
+      "case_name": "dependency-scope-target__no_skill__2130371",
+      "agent_exit": 1,
+      "original_verifier_exit": 1,
+      "original_tests_passed": 0,
+      "original_tests_failed": 8,
+      "scope_check": {
+        "scope": "cvss_gt_8",
+        "expected_records": 3,
+        "status": "MISSING_OUTPUT",
+        "exact_identity_and_scope": false
+      },
+      "cvss_source_check": {
+        "status": "MISSING_OUTPUT"
+      },
+      "metadata_copies": [
+        {
+          "path": ".cache/trivy/db/metadata.json",
+          "same_as_initial": false,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2099-01-22T00:35:52.153215525Z"
+        },
+        {
+          "path": "trivy-cache/db/metadata.json",
+          "same_as_initial": true,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2026-01-22T00:35:52.153215525Z"
+        },
+        {
+          "path": "trivy-local/db/metadata.json",
+          "same_as_initial": false,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2099-01-22T00:35:52.153215525Z"
+        }
+      ],
+      "forwarded_post": 32,
+      "denied": [
+        "DENIED:request_cap"
+      ],
+      "elapsed_seconds": 92.499,
+      "reported_total_tokens": 517777,
+      "reported_cache_read": 498772,
+      "raw_sha256": "c50937d85c4b8027d6e50d4c40e680f3309ea488fd12e3ea6e17a1d9c656dd67",
+      "csv_sha256": null
+    },
+    "target_native_skills": {
+      "case_name": "dependency-scope-target__all_skill__2150300",
+      "agent_exit": 1,
+      "original_verifier_exit": 1,
+      "original_tests_passed": 0,
+      "original_tests_failed": 8,
+      "scope_check": {
+        "scope": "cvss_gt_8",
+        "expected_records": 3,
+        "status": "MISSING_OUTPUT",
+        "exact_identity_and_scope": false
+      },
+      "cvss_source_check": {
+        "status": "MISSING_OUTPUT"
+      },
+      "metadata_copies": [
+        {
+          "path": "trivy-cache/db/metadata.json",
+          "same_as_initial": true,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2026-01-22T00:35:52.153215525Z"
+        }
+      ],
+      "forwarded_post": 32,
+      "denied": [
+        "DENIED:request_cap"
+      ],
+      "elapsed_seconds": 283.509,
+      "reported_total_tokens": 534529,
+      "reported_cache_read": 491085,
+      "raw_sha256": "f515078091e2197cd9b83007df9924d64a5a31eed3af5379f8c772eddfea7ac3",
+      "csv_sha256": null
+    },
+    "target_history": {
+      "case_name": "dependency-scope-target__no_skill__2135058",
+      "agent_exit": 0,
+      "original_verifier_exit": 0,
+      "original_tests_passed": 8,
+      "original_tests_failed": 0,
+      "scope_check": {
+        "scope": "cvss_gt_8",
+        "expected_records": 3,
+        "status": "SCORED",
+        "exact_identity_and_scope": true,
+        "observed_records": 3,
+        "missing": [],
+        "extra_or_duplicate": [],
+        "invalid_threshold_rows": 0
+      },
+      "cvss_source_check": {
+        "status": "SCORED",
+        "rows": [
+          {
+            "identity": [
+              "ip",
+              "2.0.0",
+              "CVE-2024-29415",
+              "HIGH"
+            ],
+            "reported": 9.8,
+            "status": "MATCHES_SNAPSHOT_SOURCE",
+            "matching_sources": [
+              "redhat"
+            ]
+          },
+          {
+            "identity": [
+              "ip",
+              "2.0.0",
+              "CVE-2023-42282",
+              "LOW"
+            ],
+            "reported": 9.8,
+            "status": "MATCHES_SNAPSHOT_SOURCE",
+            "matching_sources": [
+              "nvd",
+              "redhat"
+            ]
+          },
+          {
+            "identity": [
+              "tar",
+              "6.1.11",
+              "CVE-2026-23745",
+              "HIGH"
+            ],
+            "reported": 8.2,
+            "status": "MATCHES_SNAPSHOT_SOURCE",
+            "matching_sources": [
+              "redhat"
+            ]
+          }
+        ],
+        "limitation": "Matching a source value does not prove which source the Agent used."
+      },
+      "metadata_copies": [
+        {
+          "path": ".trivy-cache/db/metadata.json",
+          "same_as_initial": false,
+          "updated_at": "2099-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2099-01-21T04:16:21.902488913Z",
+          "next_update": "2099-01-22T00:35:52.153215525Z"
+        },
+        {
+          "path": "trivy-cache/db/metadata.json",
+          "same_as_initial": true,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2026-01-22T00:35:52.153215525Z"
+        }
+      ],
+      "forwarded_post": 14,
+      "denied": [],
+      "elapsed_seconds": 274.092,
+      "reported_total_tokens": 185694,
+      "reported_cache_read": 143610,
+      "raw_sha256": "52efb46ab0edb05ea9f5a0a6b6b53962618425b1b448134c696385c494ec8d50",
+      "csv_sha256": "f6935d62f5d629263aceef76544bfe9c4511b93b7dc225da26752c94ccb4ed2d"
+    },
+    "target_generated_skill": {
+      "case_name": "dependency-scope-target__no_skill__2145195",
+      "agent_exit": 0,
+      "original_verifier_exit": 1,
+      "original_tests_passed": 7,
+      "original_tests_failed": 1,
+      "scope_check": {
+        "scope": "cvss_gt_8",
+        "expected_records": 3,
+        "status": "SCORED",
+        "exact_identity_and_scope": true,
+        "observed_records": 3,
+        "missing": [],
+        "extra_or_duplicate": [],
+        "invalid_threshold_rows": 0
+      },
+      "cvss_source_check": {
+        "status": "SCORED",
+        "rows": [
+          {
+            "identity": [
+              "ip",
+              "2.0.0",
+              "CVE-2024-29415",
+              "HIGH"
+            ],
+            "reported": 9.8,
+            "status": "MATCHES_SNAPSHOT_SOURCE",
+            "matching_sources": [
+              "redhat"
+            ]
+          },
+          {
+            "identity": [
+              "ip",
+              "2.0.0",
+              "CVE-2023-42282",
+              "LOW"
+            ],
+            "reported": 9.8,
+            "status": "MATCHES_SNAPSHOT_SOURCE",
+            "matching_sources": [
+              "nvd",
+              "redhat"
+            ]
+          },
+          {
+            "identity": [
+              "tar",
+              "6.1.11",
+              "CVE-2026-23745",
+              "HIGH"
+            ],
+            "reported": 8.2,
+            "status": "MATCHES_SNAPSHOT_SOURCE",
+            "matching_sources": [
+              "redhat"
+            ]
+          }
+        ],
+        "limitation": "Matching a source value does not prove which source the Agent used."
+      },
+      "metadata_copies": [
+        {
+          "path": ".cache/trivy/db/metadata.json",
+          "same_as_initial": false,
+          "updated_at": "2026-10-30T00:00:00Z",
+          "downloaded_at": "2026-10-30T00:00:00Z",
+          "next_update": "2099-01-01T00:00:00Z"
+        },
+        {
+          "path": "trivy-cache/db/metadata.json",
+          "same_as_initial": true,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2026-01-22T00:35:52.153215525Z"
+        }
+      ],
+      "forwarded_post": 17,
+      "denied": [],
+      "elapsed_seconds": 101.977,
+      "reported_total_tokens": 182783,
+      "reported_cache_read": 161662,
+      "raw_sha256": "47eec04ca545689bbdd2905767f7360eaa55ae29478c76aa5ef6bd68717ac4a0",
+      "csv_sha256": "363df600c302acd89cf4680a2e56697657c1b5483c7084b7a57c71695f791399"
+    }
+  },
+  "totals": {
+    "forwarded_post": 95,
+    "denied": 2,
+    "reported_total_tokens": 1420783,
+    "reported_cache_read": 1295129
+  }
+}
