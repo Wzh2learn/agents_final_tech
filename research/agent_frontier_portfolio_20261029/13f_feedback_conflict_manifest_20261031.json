@@ -1,0 +1,18 @@
+{
+  "status": "CONTROLLED_DEVELOPMENT_NOT_OFFICIAL_BENCHMARK",
+  "archive_sha256_raw": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682",
+  "task_assets": {
+    "financial-feedback-t1": {
+      "source_task": "financial-analysis-1",
+      "task_sha256": "56e1104b70bf5b8683c86a62a0dcf404714fa4677bdfef9c15d6a39e46c47274",
+      "verifier_sha256": "40cc6d24bd4d7d88f441d9d3e7c055f42a2a0a596c4270c4d3ee30e4070199de",
+      "expected_sha256": "aa90345da8c666b19d675dcd1ee8639648810ae79a5452af9f9106b647f9d3ff"
+    },
+    "financial-feedback-t2": {
+      "source_task": "financial-analysis-2",
+      "task_sha256": "4bee6dbdd26601aa7898b839ef4b9dbeb89f4e5532bfe3481c3c827903892542",
+      "verifier_sha256": "40cc6d24bd4d7d88f441d9d3e7c055f42a2a0a596c4270c4d3ee30e4070199de",
+      "expected_sha256": "57026d961b9be61d1330678ab55c0619271a53fd820f0724a92b4e2b6ed733df"
+    }
+  }
+}
