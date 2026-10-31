@@ -1,0 +1,492 @@
+{
+  "status": "POSTHOC_REPEAT_SINGLE_SOURCE_NOT_CONFIRMATION",
+  "groups": {
+    "target_none": [
+      {
+        "round": 1,
+        "case_name": "dependency-scope-target__no_skill__2095636",
+        "agent_exit": 1,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 0,
+        "original_tests_failed": 8,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "MISSING_OUTPUT",
+          "exact_identity_and_scope": false
+        },
+        "cvss_source_check": {
+          "status": "MISSING_OUTPUT"
+        },
+        "metadata_copies": [
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 90.41,
+        "forwarded_post": 16,
+        "denied": [
+          "DENIED:request_cap"
+        ],
+        "reported_total_tokens": 190794,
+        "reported_cache_read": 152222,
+        "raw_sha256": "1f06c2ba555858c9d52782fab6daf557514112bd88c055997a43f728053635d9",
+        "csv_sha256": null
+      },
+      {
+        "round": 2,
+        "case_name": "dependency-scope-target__no_skill__2110994",
+        "agent_exit": 1,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 0,
+        "original_tests_failed": 8,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "MISSING_OUTPUT",
+          "exact_identity_and_scope": false
+        },
+        "cvss_source_check": {
+          "status": "MISSING_OUTPUT"
+        },
+        "metadata_copies": [
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 156.202,
+        "forwarded_post": 16,
+        "denied": [
+          "DENIED:request_cap"
+        ],
+        "reported_total_tokens": 139854,
+        "reported_cache_read": 106489,
+        "raw_sha256": "0e101230f878127b4d5ae257dcf5250a204363426017049ef46d297051f182b2",
+        "csv_sha256": null
+      }
+    ],
+    "target_history": [
+      {
+        "round": 1,
+        "case_name": "dependency-scope-target__no_skill__2097769",
+        "agent_exit": 1,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 0,
+        "original_tests_failed": 8,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "MISSING_OUTPUT",
+          "exact_identity_and_scope": false
+        },
+        "cvss_source_check": {
+          "status": "MISSING_OUTPUT"
+        },
+        "metadata_copies": [
+          {
+            "path": "mytrivycache/db/metadata.json",
+            "same_as_initial": false,
+            "updated_at": "2099-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2099-01-21T04:16:21.902488913Z",
+            "next_update": "2099-01-22T00:35:52.153215525Z"
+          },
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 115.376,
+        "forwarded_post": 16,
+        "denied": [
+          "DENIED:request_cap"
+        ],
+        "reported_total_tokens": 214445,
+        "reported_cache_read": 180672,
+        "raw_sha256": "73692684dbdfa301a8539657a78e97e93b298fdc73c2ae6582892b9931f92b4a",
+        "csv_sha256": null
+      },
+      {
+        "round": 2,
+        "case_name": "dependency-scope-target__no_skill__2117095",
+        "agent_exit": 1,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 0,
+        "original_tests_failed": 8,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "MISSING_OUTPUT",
+          "exact_identity_and_scope": false
+        },
+        "cvss_source_check": {
+          "status": "MISSING_OUTPUT"
+        },
+        "metadata_copies": [
+          {
+            "path": ".cache/trivy/db/metadata.json",
+            "same_as_initial": false,
+            "updated_at": "2099-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2099-01-21T04:16:21.902488913Z",
+            "next_update": "2099-01-22T00:35:52.153215525Z"
+          },
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 93.968,
+        "forwarded_post": 15,
+        "denied": [
+          "DENIED:post_byte_cap"
+        ],
+        "reported_total_tokens": 239654,
+        "reported_cache_read": 221467,
+        "raw_sha256": "794f1a0ea0950cac51c829a92ca03292daed3d47ff6ce22533ed15ed317d91fa",
+        "csv_sha256": null
+      }
+    ],
+    "target_generated_skill": [
+      {
+        "round": 1,
+        "case_name": "dependency-scope-target__no_skill__2100054",
+        "agent_exit": 0,
+        "original_verifier_exit": 0,
+        "original_tests_passed": 8,
+        "original_tests_failed": 0,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "SCORED",
+          "exact_identity_and_scope": true,
+          "observed_records": 3,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "invalid_threshold_rows": 0
+        },
+        "cvss_source_check": {
+          "status": "SCORED",
+          "rows": [
+            {
+              "identity": [
+                "ip",
+                "2.0.0",
+                "CVE-2024-29415",
+                "HIGH"
+              ],
+              "reported": 9.8,
+              "status": "MATCHES_SNAPSHOT_SOURCE",
+              "matching_sources": [
+                "redhat"
+              ]
+            },
+            {
+              "identity": [
+                "ip",
+                "2.0.0",
+                "CVE-2023-42282",
+                "LOW"
+              ],
+              "reported": 9.8,
+              "status": "MATCHES_SNAPSHOT_SOURCE",
+              "matching_sources": [
+                "nvd",
+                "redhat"
+              ]
+            },
+            {
+              "identity": [
+                "tar",
+                "6.1.11",
+                "CVE-2026-23745",
+                "HIGH"
+              ],
+              "reported": 8.2,
+              "status": "MATCHES_SNAPSHOT_SOURCE",
+              "matching_sources": [
+                "redhat"
+              ]
+            }
+          ],
+          "limitation": "Matching a source value does not prove which source the Agent used."
+        },
+        "metadata_copies": [
+          {
+            "path": ".cache/trivy/db/metadata.json",
+            "same_as_initial": false,
+            "updated_at": "2099-01-01T00:00:00.000000000Z",
+            "downloaded_at": "2099-01-01T00:00:00.000000000Z",
+            "next_update": "2099-01-01T00:00:00.000000000Z"
+          },
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 78.69,
+        "forwarded_post": 14,
+        "denied": [],
+        "reported_total_tokens": 143631,
+        "reported_cache_read": 129669,
+        "raw_sha256": "d9d39727f4ac1200d2321f8711b05ed55285a4c6fcf01abe1ee7d9429f2f1f33",
+        "csv_sha256": "f6935d62f5d629263aceef76544bfe9c4511b93b7dc225da26752c94ccb4ed2d"
+      },
+      {
+        "round": 2,
+        "case_name": "dependency-scope-target__no_skill__2119126",
+        "agent_exit": 0,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 7,
+        "original_tests_failed": 1,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "SCORED",
+          "exact_identity_and_scope": true,
+          "observed_records": 3,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "invalid_threshold_rows": 0
+        },
+        "cvss_source_check": {
+          "status": "SCORED",
+          "rows": [
+            {
+              "identity": [
+                "ip",
+                "2.0.0",
+                "CVE-2024-29415",
+                "HIGH"
+              ],
+              "reported": 9.8,
+              "status": "MATCHES_SNAPSHOT_SOURCE",
+              "matching_sources": [
+                "redhat"
+              ]
+            },
+            {
+              "identity": [
+                "ip",
+                "2.0.0",
+                "CVE-2023-42282",
+                "LOW"
+              ],
+              "reported": 9.8,
+              "status": "MATCHES_SNAPSHOT_SOURCE",
+              "matching_sources": [
+                "nvd",
+                "redhat"
+              ]
+            },
+            {
+              "identity": [
+                "tar",
+                "6.1.11",
+                "CVE-2026-23745",
+                "HIGH"
+              ],
+              "reported": 8.2,
+              "status": "MATCHES_SNAPSHOT_SOURCE",
+              "matching_sources": [
+                "redhat"
+              ]
+            }
+          ],
+          "limitation": "Matching a source value does not prove which source the Agent used."
+        },
+        "metadata_copies": [
+          {
+            "path": ".cache/trivy/db/metadata.json",
+            "same_as_initial": false,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2099-01-01T00:00:00.000000000Z"
+          },
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 74.119,
+        "forwarded_post": 13,
+        "denied": [],
+        "reported_total_tokens": 133591,
+        "reported_cache_read": 119315,
+        "raw_sha256": "0c2a231be55521f3d40fbd43aaf2cbd7d01fe1864d470e80c8a305261bbf3b09",
+        "csv_sha256": "363df600c302acd89cf4680a2e56697657c1b5483c7084b7a57c71695f791399"
+      }
+    ],
+    "target_native_skills": [
+      {
+        "round": 1,
+        "case_name": "dependency-scope-target__all_skill__2102834",
+        "agent_exit": 1,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 0,
+        "original_tests_failed": 8,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "MISSING_OUTPUT",
+          "exact_identity_and_scope": false
+        },
+        "cvss_source_check": {
+          "status": "MISSING_OUTPUT"
+        },
+        "metadata_copies": [
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 47.912,
+        "forwarded_post": 14,
+        "denied": [
+          "DENIED:post_byte_cap"
+        ],
+        "reported_total_tokens": 256382,
+        "reported_cache_read": 238585,
+        "raw_sha256": "8d4228b64bc6765ccf317a87b92934104304d7ebb4169623b92f4dc26822feac",
+        "csv_sha256": null
+      },
+      {
+        "round": 2,
+        "case_name": "dependency-scope-target__all_skill__2121568",
+        "agent_exit": 1,
+        "original_verifier_exit": 1,
+        "original_tests_passed": 0,
+        "original_tests_failed": 8,
+        "scope_check": {
+          "scope": "cvss_gt_8",
+          "expected_records": 3,
+          "status": "MISSING_OUTPUT",
+          "exact_identity_and_scope": false
+        },
+        "cvss_source_check": {
+          "status": "MISSING_OUTPUT"
+        },
+        "metadata_copies": [
+          {
+            "path": ".cache/trivy/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          },
+          {
+            "path": "trivy-cache/db/metadata.json",
+            "same_as_initial": true,
+            "updated_at": "2026-01-21T00:35:52.153215775Z",
+            "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+            "next_update": "2026-01-22T00:35:52.153215525Z"
+          }
+        ],
+        "elapsed_seconds": 110.545,
+        "forwarded_post": 16,
+        "denied": [
+          "DENIED:request_cap"
+        ],
+        "reported_total_tokens": 165287,
+        "reported_cache_read": 117678,
+        "raw_sha256": "85f0b7a5404cda5cf4370f24c30f19e67500da98d4e91f795e12fddd6c3c426f",
+        "csv_sha256": null
+      }
+    ]
+  },
+  "target_totals": {
+    "forwarded_post": 120,
+    "denied": 6,
+    "reported_total_tokens": 1483638,
+    "reported_cache_read": 1266097
+  },
+  "initial_source_and_learning": {
+    "source": {
+      "case_name": "dependency-scope-source__no_skill__2089246",
+      "agent_exit": 1,
+      "original_verifier_exit": 1,
+      "elapsed_seconds": 51.073,
+      "forwarded_post": 16,
+      "denied": [
+        "DENIED:request_cap"
+      ],
+      "reported_step_tokens": {
+        "total": 164709,
+        "input": 7500,
+        "output": 2292,
+        "reasoning": 0,
+        "cache_read": 154917
+      },
+      "raw_sha256": "bfb14b1056da71d6a0fdbefcc9f91e1bd1fb0d74b3727ac5077a20a1e6cbd2f4",
+      "history_sha256": null,
+      "skill_sha256": null,
+      "metadata_copies": [
+        {
+          "path": ".cache/trivy/db/metadata.json",
+          "same_as_initial": false,
+          "updated_at": "2099-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2099-01-21T04:16:21.902488913Z",
+          "next_update": "2099-01-22T00:35:52.153215525Z",
+          "sha256": "38665a9fa3ab5e4e69203a75eaac817db18fa6401aee0de72229872d1b851060"
+        },
+        {
+          "path": "trivy-cache/db/metadata.json",
+          "same_as_initial": true,
+          "updated_at": "2026-01-21T00:35:52.153215775Z",
+          "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+          "next_update": "2026-01-22T00:35:52.153215525Z",
+          "sha256": "68bc066165b491baae36b77d5d8d017f8675e2d7222fbb201695558d6ff0af84"
+        }
+      ],
+      "scope_check": {
+        "scope": "high",
+        "expected_records": 3,
+        "status": "MISSING_OUTPUT",
+        "exact_identity_and_scope": false
+      },
+      "output_csv_sha256": null
+    },
+    "learn": {
+      "case_name": "dependency-scope-learn__no_skill__2091795",
+      "agent_exit": 0,
+      "original_verifier_exit": 0,
+      "elapsed_seconds": 76.542,
+      "forwarded_post": 9,
+      "denied": [],
+      "reported_step_tokens": {
+        "total": 129541,
+        "input": 13240,
+        "output": 3678,
+        "reasoning": 0,
+        "cache_read": 112623
+      },
+      "raw_sha256": "a72e0f79832133fc5524e37dbdbd4cc0b7f09665198c01eab16b2b870701c947",
+      "history_sha256": "002832098228f5e982c726b58ec0142bc2bb08a29e8f69d9625c99bfd8a613e9",
+      "skill_sha256": null,
+      "metadata_copies": [],
+      "generated_skill_sha256": "92f13d4cb7abbf334d4a837049222bea28638fd8d815a2f70fd590877d9900b9",
+      "generated_skill_characters": 3683
+    }
+  }
+}
