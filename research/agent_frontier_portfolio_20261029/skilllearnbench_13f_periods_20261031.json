@@ -1,0 +1,302 @@
+{
+  "status": "SOURCE_QUALIFICATION_NOT_TASK_EVALUATION",
+  "q2_archive": {
+    "submission_rows": 10799,
+    "duplicate_submission_accessions": 0,
+    "target_period": "30-JUN-2025",
+    "target_period_rows": 10011,
+    "other_or_missing_period_rows": 788,
+    "period_counts": {
+      "30-JUN-2007": 1,
+      "30-JUN-2008": 1,
+      "30-JUN-2009": 1,
+      "30-JUN-2010": 2,
+      "30-JUN-2011": 2,
+      "30-JUN-2012": 2,
+      "30-JUN-2013": 2,
+      "30-JUN-2014": 3,
+      "30-JUN-2015": 3,
+      "30-JUN-2016": 3,
+      "30-JUN-2017": 3,
+      "30-JUN-2018": 6,
+      "30-JUN-2019": 6,
+      "30-JUN-2020": 9,
+      "30-JUN-2021": 13,
+      "30-JUN-2022": 16,
+      "30-JUN-2023": 17,
+      "30-JUN-2024": 41,
+      "30-JUN-2025": 10011,
+      "30-SEP-2007": 1,
+      "30-SEP-2008": 1,
+      "30-SEP-2009": 2,
+      "30-SEP-2010": 2,
+      "30-SEP-2011": 2,
+      "30-SEP-2012": 2,
+      "30-SEP-2013": 2,
+      "30-SEP-2014": 3,
+      "30-SEP-2015": 3,
+      "30-SEP-2016": 3,
+      "30-SEP-2017": 3,
+      "30-SEP-2018": 6,
+      "30-SEP-2019": 6,
+      "30-SEP-2020": 9,
+      "30-SEP-2021": 13,
+      "30-SEP-2022": 16,
+      "30-SEP-2023": 19,
+      "30-SEP-2024": 42,
+      "31-DEC-2006": 1,
+      "31-DEC-2007": 1,
+      "31-DEC-2008": 1,
+      "31-DEC-2009": 2,
+      "31-DEC-2010": 2,
+      "31-DEC-2011": 2,
+      "31-DEC-2012": 2,
+      "31-DEC-2013": 2,
+      "31-DEC-2014": 3,
+      "31-DEC-2015": 3,
+      "31-DEC-2016": 3,
+      "31-DEC-2017": 6,
+      "31-DEC-2018": 6,
+      "31-DEC-2019": 9,
+      "31-DEC-2020": 11,
+      "31-DEC-2021": 14,
+      "31-DEC-2022": 23,
+      "31-DEC-2023": 29,
+      "31-DEC-2024": 89,
+      "31-MAR-2007": 1,
+      "31-MAR-2008": 1,
+      "31-MAR-2009": 1,
+      "31-MAR-2010": 2,
+      "31-MAR-2011": 2,
+      "31-MAR-2012": 2,
+      "31-MAR-2013": 2,
+      "31-MAR-2014": 3,
+      "31-MAR-2015": 3,
+      "31-MAR-2016": 3,
+      "31-MAR-2017": 3,
+      "31-MAR-2018": 6,
+      "31-MAR-2019": 6,
+      "31-MAR-2020": 9,
+      "31-MAR-2021": 11,
+      "31-MAR-2022": 16,
+      "31-MAR-2023": 19,
+      "31-MAR-2024": 35,
+      "31-MAR-2025": 188
+    },
+    "cover_rows_without_submission": 0,
+    "manager_substring_checks": {
+      "renaissance technologies": {
+        "substring_matches": 1,
+        "target_period_matches": 1,
+        "period_counts": {
+          "30-JUN-2025": 1
+        },
+        "amendment_field_counts": {
+          "UNKNOWN": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "RENAISSANCE TECHNOLOGIES LLC",
+            "period": "30-JUN-2025",
+            "filings": 1
+          }
+        ]
+      },
+      "bridgewater associates": {
+        "substring_matches": 1,
+        "target_period_matches": 1,
+        "period_counts": {
+          "30-JUN-2025": 1
+        },
+        "amendment_field_counts": {
+          "N": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "Bridgewater Associates, LP",
+            "period": "30-JUN-2025",
+            "filings": 1
+          }
+        ]
+      },
+      "berkshire hathaway": {
+        "substring_matches": 4,
+        "target_period_matches": 3,
+        "period_counts": {
+          "30-JUN-2025": 3,
+          "31-MAR-2025": 1
+        },
+        "amendment_field_counts": {
+          "N": 3,
+          "Y": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "Berkshire Hathaway Homestate Insurance Co.",
+            "period": "30-JUN-2025",
+            "filings": 1
+          },
+          {
+            "name": "Berkshire Hathaway Inc",
+            "period": "30-JUN-2025",
+            "filings": 1
+          },
+          {
+            "name": "Berkshire Hathaway Inc",
+            "period": "31-MAR-2025",
+            "filings": 1
+          },
+          {
+            "name": "Berkshire Hathaway Life Insurance Co of Nebraska",
+            "period": "30-JUN-2025",
+            "filings": 1
+          }
+        ]
+      },
+      "soros fund management": {
+        "substring_matches": 1,
+        "target_period_matches": 1,
+        "period_counts": {
+          "30-JUN-2025": 1
+        },
+        "amendment_field_counts": {
+          "N": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "SOROS FUND MANAGEMENT LLC",
+            "period": "30-JUN-2025",
+            "filings": 1
+          }
+        ]
+      }
+    },
+    "archive_sha256_raw": "9468ae5e90278e847d5035f5efe4294b104a2a25f35169f532b83cea6de19365"
+  },
+  "q3_archive": {
+    "submission_rows": 10422,
+    "duplicate_submission_accessions": 0,
+    "target_period": "30-SEP-2025",
+    "target_period_rows": 9953,
+    "other_or_missing_period_rows": 469,
+    "period_counts": {
+      "30-JUN-2019": 1,
+      "30-JUN-2020": 4,
+      "30-JUN-2021": 5,
+      "30-JUN-2022": 7,
+      "30-JUN-2023": 10,
+      "30-JUN-2024": 23,
+      "30-JUN-2025": 165,
+      "30-SEP-2018": 1,
+      "30-SEP-2019": 2,
+      "30-SEP-2020": 4,
+      "30-SEP-2021": 5,
+      "30-SEP-2022": 7,
+      "30-SEP-2023": 14,
+      "30-SEP-2024": 27,
+      "30-SEP-2025": 9953,
+      "31-DEC-2018": 1,
+      "31-DEC-2019": 3,
+      "31-DEC-2020": 4,
+      "31-DEC-2021": 6,
+      "31-DEC-2022": 8,
+      "31-DEC-2023": 17,
+      "31-DEC-2024": 46,
+      "31-MAR-2019": 2,
+      "31-MAR-2020": 4,
+      "31-MAR-2021": 4,
+      "31-MAR-2022": 7,
+      "31-MAR-2023": 11,
+      "31-MAR-2024": 20,
+      "31-MAR-2025": 61
+    },
+    "cover_rows_without_submission": 0,
+    "manager_substring_checks": {
+      "renaissance technologies": {
+        "substring_matches": 1,
+        "target_period_matches": 1,
+        "period_counts": {
+          "30-SEP-2025": 1
+        },
+        "amendment_field_counts": {
+          "UNKNOWN": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "RENAISSANCE TECHNOLOGIES LLC",
+            "period": "30-SEP-2025",
+            "filings": 1
+          }
+        ]
+      },
+      "bridgewater associates": {
+        "substring_matches": 1,
+        "target_period_matches": 1,
+        "period_counts": {
+          "30-SEP-2025": 1
+        },
+        "amendment_field_counts": {
+          "N": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "Bridgewater Associates, LP",
+            "period": "30-SEP-2025",
+            "filings": 1
+          }
+        ]
+      },
+      "berkshire hathaway": {
+        "substring_matches": 3,
+        "target_period_matches": 3,
+        "period_counts": {
+          "30-SEP-2025": 3
+        },
+        "amendment_field_counts": {
+          "N": 3
+        },
+        "name_period_counts": [
+          {
+            "name": "Berkshire Hathaway Homestate Insurance Co.",
+            "period": "30-SEP-2025",
+            "filings": 1
+          },
+          {
+            "name": "Berkshire Hathaway Inc",
+            "period": "30-SEP-2025",
+            "filings": 1
+          },
+          {
+            "name": "Berkshire Hathaway Life Insurance Co of Nebraska",
+            "period": "30-SEP-2025",
+            "filings": 1
+          }
+        ]
+      },
+      "soros fund management": {
+        "substring_matches": 1,
+        "target_period_matches": 1,
+        "period_counts": {
+          "30-SEP-2025": 1
+        },
+        "amendment_field_counts": {
+          "N": 1
+        },
+        "name_period_counts": [
+          {
+            "name": "SOROS FUND MANAGEMENT LLC",
+            "period": "30-SEP-2025",
+            "filings": 1
+          }
+        ]
+      }
+    },
+    "archive_sha256_raw": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682"
+  },
+  "limitations": [
+    "source archive bytes not independently matched to SEC",
+    "substring search is not the benchmark fuzzy matcher",
+    "amendment flags and multiple filings require semantic handling",
+    "13F reportable holdings do not establish total AUM"
+  ]
+}

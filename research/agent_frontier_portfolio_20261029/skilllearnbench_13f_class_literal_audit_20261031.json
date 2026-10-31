@@ -1,0 +1,93 @@
+{
+  "status": "POST_HOC_SOURCE_CONTRACT_DIAGNOSTIC",
+  "period": "30-SEP-2025",
+  "archive_sha256_raw": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682",
+  "solution_inventory": {
+    "financial-analysis-1": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "79a675b10fc1dee5b32dbf06eebadc47f286573a18267f75beaddacfa795430c"
+    },
+    "financial-analysis-2": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "c29e5b0dfccdc93da4b41ffeac4f6d447dde342513d78f03853d07ed7ac2816e"
+    },
+    "financial-analysis-3": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "76de0e8bbe537494eb810d108e150304ca21691b7d5b2f547eb5c1049d70e0f8"
+    },
+    "financial-analysis-4": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "f50140ad3f3793dff8da872a202d73cec9211126c091895e993a76444f94e2dd"
+    },
+    "financial-analysis-5": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "fbbf4726985041395e18232f8753a497dd83bf744c5ef3d11941f7e9af2a10b4"
+    },
+    "financial-analysis-6": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "caf2328a007b86d9b87f6ee0e53d6bc67e42ab9550c0511f705c4372d516eaa3"
+    }
+  },
+  "tasks": {
+    "financial-analysis-1": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "79a675b10fc1dee5b32dbf06eebadc47f286573a18267f75beaddacfa795430c",
+      "expected_sha256_raw": "2a8145033cc6d4376d5ef07b5e49e91f10ec8e1a001fbff50df72d7adf2b5d59",
+      "runtime_count": 2451,
+      "separate_literals_count": 2710,
+      "additional_rows_under_separate_literals": 259,
+      "newly_included_class_counts": {
+        "sponsored adr": 44,
+        "sponsored ads": 75,
+        "adr": 7,
+        "cl b": 15,
+        "ord shs": 29,
+        "cl a com": 24,
+        "class a com": 23,
+        "cap stk cl a": 1,
+        "cl b new": 2,
+        "cap stk cl c": 1,
+        "cl a new": 25,
+        "shs cl a": 13
+      },
+      "expected_q2": 2451,
+      "runtime_matches_reference": true
+    },
+    "financial-analysis-2": {
+      "runtime_list_elements": 10,
+      "source_string_tokens": 25,
+      "solution_sha256_raw": "c29e5b0dfccdc93da4b41ffeac4f6d447dde342513d78f03853d07ed7ac2816e",
+      "expected_sha256_raw": "098a119dd7c10b42febaf2aef677e67cd63e486f822c64112419b0228930af27",
+      "runtime_count": 896,
+      "separate_literals_count": 938,
+      "additional_rows_under_separate_literals": 42,
+      "newly_included_class_counts": {
+        "sponsored adr": 12,
+        "sponsored ads": 3,
+        "adr": 1,
+        "cl b": 5,
+        "ord shs": 7,
+        "cl a com": 5,
+        "class a com": 5,
+        "cap stk cl a": 1,
+        "cl a new": 2,
+        "shs cl a": 1
+      },
+      "expected_q2": 896,
+      "runtime_matches_reference": true
+    }
+  },
+  "limitations": [
+    "separate literals are a syntactic counterfactual, not an independently validated stock ontology",
+    "source code matching expected does not prove how expected was generated",
+    "one public benchmark family; no agent or learning experiment",
+    "source archive not matched byte-for-byte to SEC"
+  ]
+}

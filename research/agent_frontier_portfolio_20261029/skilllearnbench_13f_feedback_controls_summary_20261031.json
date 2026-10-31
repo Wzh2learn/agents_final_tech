@@ -1,0 +1,38 @@
+{
+  "status": "PRIVILEGED_VERIFIER_CONTROLS_NOT_AGENT_OUTPUTS",
+  "tasks": {
+    "financial-analysis-1": {
+      "reference": {
+        "verifier_pass": true,
+        "q2_value": 2451,
+        "verifier_log_sha256": "fcd476841e8af121ff907e81a92a59579b64c007b70cb79f9d096806f703fc7e",
+        "fixture_sha256": "4387295c3275660a1253b07ccafd66a0b991f00d33fb1f6a3381a943e0ec37e0"
+      },
+      "separated_literals": {
+        "verifier_pass": false,
+        "q2_value": 2710,
+        "verifier_log_sha256": "022c8b9e1919631c197193df6e0a10ee6f6e7d4a83dd2e3b7bd533b25ae4b449",
+        "fixture_sha256": "e0f1ef979f82a76ed330df8d505db9388695d69181aa685321ba5dc8277cb20f"
+      }
+    },
+    "financial-analysis-2": {
+      "reference": {
+        "verifier_pass": true,
+        "q2_value": 896,
+        "verifier_log_sha256": "fcd476841e8af121ff907e81a92a59579b64c007b70cb79f9d096806f703fc7e",
+        "fixture_sha256": "f0361c819dbb0e5b11312629557a0b2b9894ba003afa8cbc9d0910b16b5c944a"
+      },
+      "separated_literals": {
+        "verifier_pass": false,
+        "q2_value": 938,
+        "verifier_log_sha256": "08f11b31e28a13e1b5ef5fbc6f9cc676383ced9e7bd0796e0437103f7e890787",
+        "fixture_sha256": "0707b6ae06e8e5666b702a3118ba1ef32d5aa520353d66178b2cd7de87dab148"
+      }
+    }
+  },
+  "limitations": [
+    "q1/q3/q4 copied from expected answers to isolate q2",
+    "runs original pytest assertions in an adapted offline container, not upstream test.sh",
+    "separate literals are not independently certified financial gold"
+  ]
+}

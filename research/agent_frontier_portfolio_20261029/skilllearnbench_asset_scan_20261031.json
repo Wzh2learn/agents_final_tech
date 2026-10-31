@@ -1,0 +1,1059 @@
+{
+  "task_families": 20,
+  "task_instances": 100,
+  "instances_with_no_scanned_assets": 13,
+  "physical_asset_files": 865,
+  "distinct_asset_hashes": 298,
+  "skipped_symlinks": 0,
+  "skipped_empty_files": 11,
+  "shared_byte_hash_groups": 183,
+  "shared_across_families_groups": 0,
+  "identical_nonempty_content_sets": [
+    [
+      "court-form-filling/court-form-filling-1",
+      "court-form-filling/court-form-filling-2",
+      "court-form-filling/court-form-filling-3",
+      "court-form-filling/court-form-filling-4",
+      "court-form-filling/court-form-filling-5",
+      "court-form-filling/court-form-filling-6"
+    ],
+    [
+      "dbscan-parameter-tuning/dbscan-parameter-tuning-1",
+      "dbscan-parameter-tuning/dbscan-parameter-tuning-2",
+      "dbscan-parameter-tuning/dbscan-parameter-tuning-3",
+      "dbscan-parameter-tuning/dbscan-parameter-tuning-4",
+      "dbscan-parameter-tuning/dbscan-parameter-tuning-5"
+    ],
+    [
+      "dependency-vulnerability-check/dependency-vulnerability-check-1",
+      "dependency-vulnerability-check/dependency-vulnerability-check-2",
+      "dependency-vulnerability-check/dependency-vulnerability-check-3",
+      "dependency-vulnerability-check/dependency-vulnerability-check-4",
+      "dependency-vulnerability-check/dependency-vulnerability-check-5"
+    ],
+    [
+      "earthquake-plate-calculation/earthquake-plate-calculation-1",
+      "earthquake-plate-calculation/earthquake-plate-calculation-2",
+      "earthquake-plate-calculation/earthquake-plate-calculation-3",
+      "earthquake-plate-calculation/earthquake-plate-calculation-4",
+      "earthquake-plate-calculation/earthquake-plate-calculation-5",
+      "earthquake-plate-calculation/earthquake-plate-calculation-6"
+    ],
+    [
+      "financial-analysis/financial-analysis-1",
+      "financial-analysis/financial-analysis-2",
+      "financial-analysis/financial-analysis-3",
+      "financial-analysis/financial-analysis-4",
+      "financial-analysis/financial-analysis-5",
+      "financial-analysis/financial-analysis-6"
+    ],
+    [
+      "github-repo-analytics/github-repo-analytics-1",
+      "github-repo-analytics/github-repo-analytics-2",
+      "github-repo-analytics/github-repo-analytics-3",
+      "github-repo-analytics/github-repo-analytics-4",
+      "github-repo-analytics/github-repo-analytics-5"
+    ],
+    [
+      "nlp-paper-reproduction/nlp-paper-reproduction-1",
+      "nlp-paper-reproduction/nlp-paper-reproduction-3"
+    ],
+    [
+      "organize-messy-files/organize-messy-files-1",
+      "organize-messy-files/organize-messy-files-2",
+      "organize-messy-files/organize-messy-files-3",
+      "organize-messy-files/organize-messy-files-4",
+      "organize-messy-files/organize-messy-files-5",
+      "organize-messy-files/organize-messy-files-6"
+    ],
+    [
+      "python-scala-translation/python-scala-translation-1",
+      "python-scala-translation/python-scala-translation-2"
+    ],
+    [
+      "stock-data-visualization/stock-data-visualization-1",
+      "stock-data-visualization/stock-data-visualization-4",
+      "stock-data-visualization/stock-data-visualization-5"
+    ],
+    [
+      "travel-planning/travel-planning-1",
+      "travel-planning/travel-planning-2",
+      "travel-planning/travel-planning-3",
+      "travel-planning/travel-planning-4",
+      "travel-planning/travel-planning-5"
+    ],
+    [
+      "weighted-gdp-calculation/weighted-gdp-calculation-1",
+      "weighted-gdp-calculation/weighted-gdp-calculation-6"
+    ]
+  ],
+  "top_shared_hash_groups": [
+    {
+      "sha256": "243f7ac4938c5e799124f2fb36542425270a88879997d5f234a4e66cab9f0e04",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/FeedbackForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/FeedbackForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/FeedbackForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/FeedbackForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/FeedbackForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/FeedbackForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "265f75d59eaef142e5cea20753d9b0fe0046f48be2707735575d3ed6490920b0",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/AutoTuneForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/AutoTuneForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/AutoTuneForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/AutoTuneForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/AutoTuneForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/AutoTuneForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "2c8e81a2028ed98ca1a3b2d115bbf54a8a7bc4d10fa3b9e85969b8331738486c",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/InsightForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/InsightForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/InsightForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/InsightForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/InsightForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/InsightForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "3fb69893a45ae6b3c01aa1a5aede34ddb4fd33b6ef0629cf5aa39324a9a121f6",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/EdgeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/EdgeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/EdgeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/EdgeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/EdgeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/EdgeForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-1",
+          "file": "PB2002_boundaries.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-2",
+          "file": "PB2002_boundaries.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-3",
+          "file": "PB2002_boundaries.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-4",
+          "file": "PB2002_boundaries.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-5",
+          "file": "PB2002_boundaries.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-6",
+          "file": "PB2002_boundaries.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "47b1fa4091e03e640f760c7eaa4fb0e10f6b86e52452f95faed3607b8d6d6614",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/VizForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/VizForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/VizForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/VizForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/VizForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/VizForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "4d6edfa17a6867a033dbbd32096333ace936054c541ff7d37e223017a7744463",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/PitchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/PitchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/PitchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/PitchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/PitchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/PitchForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "505c75f75c944061e42a4915c4634c5fbf9664b5dd0d2268b2eea40b416320f1",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/SentimentForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/SentimentForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/SentimentForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/SentimentForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/SentimentForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/SentimentForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "53f8b4ec3fc3685e8ef8ea449f0fb9b6a614455e5996c8bfa808af12f1342145",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/WorkFlowGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/WorkFlowGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/WorkFlowGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/WorkFlowGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/WorkFlowGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/WorkFlowGenie.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "549f8aa4f5c4e84dfd28750de212e5d5aadf0751568ae58522796141f0dcb947",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/metadata/salesforce_team.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/metadata/salesforce_team.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/metadata/salesforce_team.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/metadata/salesforce_team.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/metadata/salesforce_team.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/metadata/salesforce_team.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-1",
+          "file": "earthquakes_2024.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-2",
+          "file": "earthquakes_2024.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-3",
+          "file": "earthquakes_2024.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-4",
+          "file": "earthquakes_2024.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-5",
+          "file": "earthquakes_2024.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-6",
+          "file": "earthquakes_2024.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "56da3cace0deefd499f9d0ffbbab70b2576d000857a447e9b10d1c18f2a46478",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/MonitorForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/MonitorForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/MonitorForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/MonitorForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/MonitorForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/MonitorForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "5a4dc2898c13d3c4d4dfba9545794463d5bf9017c4447f9a1fa4293aff625f08",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "organize-messy-files/organize-messy-files-1",
+          "file": "paper_file_2.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-2",
+          "file": "paper_file_2.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-3",
+          "file": "paper_file_2.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-4",
+          "file": "paper_file_2.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-5",
+          "file": "paper_file_2.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-6",
+          "file": "paper_file_2.docx"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "697898e6b1a8c34c2419d94353d0d177b69c129b58f71ad77897075d0f0bc544",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/ContextForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/ContextForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/ContextForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/ContextForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/ContextForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/ContextForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "725841ce88567b2fa2b5a1192c4fc80e1c049be212b94f62e17f33ec575743b1",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/SearchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/SearchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/SearchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/SearchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/SearchForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/SearchForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "financial-analysis/financial-analysis-1",
+          "file": "13f-2025-q3.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-2",
+          "file": "13f-2025-q3.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-3",
+          "file": "13f-2025-q3.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-4",
+          "file": "13f-2025-q3.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-5",
+          "file": "13f-2025-q3.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-6",
+          "file": "13f-2025-q3.zip"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "793f5358aab3867c2948896ac84a18158512c7ae576c6e4bee5386a3123cba28",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "organize-messy-files/organize-messy-files-1",
+          "file": "paper_file_1.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-2",
+          "file": "paper_file_1.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-3",
+          "file": "paper_file_1.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-4",
+          "file": "paper_file_1.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-5",
+          "file": "paper_file_1.docx"
+        },
+        {
+          "instance": "organize-messy-files/organize-messy-files-6",
+          "file": "paper_file_1.docx"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "797acac1f4ee0972922434bd72d80e41a522bc46c7d2d5b7cce68ac52b27ca2e",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/SearchFlow.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/SearchFlow.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/SearchFlow.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/SearchFlow.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/SearchFlow.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/SearchFlow.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "8999bdb6ca31af3dfc55687e1c0df918b68cf522f7ccd5e30d89bb39ee74c7e4",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/ExplainabilityForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/ExplainabilityForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/ExplainabilityForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/ExplainabilityForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/ExplainabilityForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/ExplainabilityForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-1",
+          "file": "PB2002_plates.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-2",
+          "file": "PB2002_plates.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-3",
+          "file": "PB2002_plates.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-4",
+          "file": "PB2002_plates.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-5",
+          "file": "PB2002_plates.json"
+        },
+        {
+          "instance": "earthquake-plate-calculation/earthquake-plate-calculation-6",
+          "file": "PB2002_plates.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "9468ae5e90278e847d5035f5efe4294b104a2a25f35169f532b83cea6de19365",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "financial-analysis/financial-analysis-1",
+          "file": "13f-2025-q2.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-2",
+          "file": "13f-2025-q2.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-3",
+          "file": "13f-2025-q2.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-4",
+          "file": "13f-2025-q2.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-5",
+          "file": "13f-2025-q2.zip"
+        },
+        {
+          "instance": "financial-analysis/financial-analysis-6",
+          "file": "13f-2025-q2.zip"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "95c491d2bf3755a5ab622a1dcb203c5bb15ed05f89bf456b46da9027236710ea",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/LeadForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/LeadForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/LeadForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/LeadForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/LeadForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/LeadForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "9a32561c5e44a4668f2ca2e1f9c45ec559933b403418e8c9ecc79cd46dccbd40",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/TrendForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/TrendForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/TrendForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/TrendForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/TrendForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/TrendForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "a241bb4b3a4e49e4c382359ef1cdf4e687d9c2201afba02defc5695655374acd",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/CollaborateForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/CollaborateForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/CollaborateForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/CollaborateForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/CollaborateForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/CollaborateForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "ab45db62eb825a2f46d0e669d31d52a5b541504a43a20be00d8c2c4f3b01d05a",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/SupportForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/SupportForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/SupportForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/SupportForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/SupportForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/SupportForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "b33ae36a126f00c1187642a42c537a49e1ebdd85fae056e035b44957acc6e6d4",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/ConnectForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/ConnectForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/ConnectForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/ConnectForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/ConnectForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/ConnectForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "bd60e0a025507a9e05f236d913fd3c58c644d022eba68e3f4dd97d8f76a39060",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/SummarizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/SummarizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/SummarizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/SummarizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/SummarizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/SummarizeForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "c2e4df1afce15f1c316931be4d29f03427b4e717abe3a92a02aedd2f1ab4e1b7",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/ActionGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/ActionGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/ActionGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/ActionGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/ActionGenie.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/ActionGenie.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "c36b26b9931c95f7fa5c8787773563bc00fe28ad9390bfb456d6549ce632bcdb",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/ForecastForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/ForecastForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/ForecastForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/ForecastForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/ForecastForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/ForecastForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    },
+    {
+      "sha256": "c5a6c78c1877b7fe911b8d5d30175b4236bdec689b8ac85a27af605499e44066",
+      "distinct_instances": 6,
+      "distinct_families": 1,
+      "occurrences": [
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-1",
+          "file": "DATA/products/PersonalizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-2",
+          "file": "DATA/products/PersonalizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-3",
+          "file": "DATA/products/PersonalizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-4",
+          "file": "DATA/products/PersonalizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-5",
+          "file": "DATA/products/PersonalizeForce.json"
+        },
+        {
+          "instance": "enterprise-information-search/enterprise-information-search-6",
+          "file": "DATA/products/PersonalizeForce.json"
+        }
+      ],
+      "occurrences_truncated": 0
+    }
+  ],
+  "limitations": [
+    "only exact-byte matches; semantic and model-pretraining overlap are not tested",
+    "environment assets exclude Dockerfiles, skills directories and empty files",
+    "identical inputs can support intentionally different instructions or evaluation contracts",
+    "a directory-based instance is not necessarily an independent dataset or official split"
+  ],
+  "source_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae"
+}

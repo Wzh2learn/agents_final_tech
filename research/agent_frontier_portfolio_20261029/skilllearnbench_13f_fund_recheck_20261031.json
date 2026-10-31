@@ -1,0 +1,49 @@
+{
+  "status": "POST_HOC_DEVELOPMENT_REFERENCE_CHECK",
+  "tasks": {
+    "financial-analysis-1": {
+      "manager_name": "RENAISSANCE TECHNOLOGIES LLC",
+      "period": "30-SEP-2025",
+      "summary_entry_total": 3457,
+      "summary_value_raw": 75753182516,
+      "sum_infotable_values_raw": "75753182516",
+      "sum_equals_summary_value": true,
+      "infotable_rows": 3457,
+      "distinct_cusips": 3457,
+      "distinct_issuer_strings": 3144,
+      "option_rows": 0,
+      "reference_q1": 75753182516.0,
+      "reference_q2": 2451,
+      "reference_sha256_raw": "2a8145033cc6d4376d5ef07b5e49e91f10ec8e1a001fbff50df72d7adf2b5d59",
+      "reference_q1_divided_by_summary_value": 1.0,
+      "reference_q1_equals_infotable_sum": true,
+      "reference_q2_equals_infotable_rows": false,
+      "reference_q2_equals_distinct_cusips": false
+    },
+    "financial-analysis-2": {
+      "manager_name": "Bridgewater Associates, LP",
+      "period": "30-SEP-2025",
+      "summary_entry_total": 1014,
+      "summary_value_raw": 25527677108,
+      "sum_infotable_values_raw": "25527677108",
+      "sum_equals_summary_value": true,
+      "infotable_rows": 1014,
+      "distinct_cusips": 1014,
+      "distinct_issuer_strings": 1008,
+      "option_rows": 0,
+      "reference_q1": 25527677108.0,
+      "reference_q2": 896,
+      "reference_sha256_raw": "098a119dd7c10b42febaf2aef677e67cd63e486f822c64112419b0228930af27",
+      "reference_q1_divided_by_summary_value": 1.0,
+      "reference_q1_equals_infotable_sum": true,
+      "reference_q2_equals_infotable_rows": false,
+      "reference_q2_equals_distinct_cusips": false
+    }
+  },
+  "limitations": [
+    "one selected filing per manager based on visible substring and period",
+    "13F reportable holdings are not a complete measure of total fund AUM",
+    "Q3 only; no return, migration or agent performance evaluated",
+    "input ZIP not byte-matched to the SEC archive"
+  ]
+}
