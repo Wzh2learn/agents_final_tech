@@ -1,0 +1,549 @@
+{
+  "status": "POSTHOC_PRIVILEGED_TEST_CONTROLS_NOT_AGENT_OUTPUTS",
+  "benchmark_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+  "image_id": "sha256:0fc8b2941cd46391b8fdd1fea784d91ad9a7a0e31a3a703ae08842c653b33d40",
+  "pytest": "9.0.1 via mounted research venv",
+  "source_sha256": "9631f986a88da4cdeb9718c9b402df674b954dca3d52eeb1639930b11e9ee30a",
+  "records": [
+    {
+      "task": "enterprise-information-search-1",
+      "case": "placeholder_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "2d5f301b0b5f06484a506073b89451ebb4e40ecf64c2e2a68a23f7123835da5d",
+      "test_sha256": "4d0d203df5b91b4d026bd237c44999dea79c4230e97538e92a342aabc5070886",
+      "fixture_sha256": "84096d0d904756e088e057bb48cdc77d78af990f965c8b58289ec48a4e8798b2",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-1",
+      "case": "omitted_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "2d5f301b0b5f06484a506073b89451ebb4e40ecf64c2e2a68a23f7123835da5d",
+      "test_sha256": "4d0d203df5b91b4d026bd237c44999dea79c4230e97538e92a342aabc5070886",
+      "fixture_sha256": "8d42cf5b900d5c18bc932e9dc30a7d85cca038b3059afea281ed15b5edb11b2c",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-1",
+      "case": "extra_impossible_item",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "2d5f301b0b5f06484a506073b89451ebb4e40ecf64c2e2a68a23f7123835da5d",
+      "test_sha256": "4d0d203df5b91b4d026bd237c44999dea79c4230e97538e92a342aabc5070886",
+      "fixture_sha256": "f55fe7f4c532f220e72e3a7bd37eaa922351cc84ba86b9c1b35a65e07d60ab8f",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-1",
+      "case": "negative_token_count",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "2d5f301b0b5f06484a506073b89451ebb4e40ecf64c2e2a68a23f7123835da5d",
+      "test_sha256": "4d0d203df5b91b4d026bd237c44999dea79c4230e97538e92a342aabc5070886",
+      "fixture_sha256": "82938471639fbc76890d79eaec228653db410b04a9ef6c72d98bad05c7494119",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-1",
+      "case": "missing_required_item",
+      "exit_code": 1,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "2d5f301b0b5f06484a506073b89451ebb4e40ecf64c2e2a68a23f7123835da5d",
+      "test_sha256": "4d0d203df5b91b4d026bd237c44999dea79c4230e97538e92a342aabc5070886",
+      "fixture_sha256": "9227b8062aca09fd432b09c576cce2d7bd482c280126e9d418445860adada9c8",
+      "log_sha256": "24e1129e4093dafb4766ac5b32152c01a4766aab3f9553c927075ffc53c94482"
+    },
+    {
+      "task": "enterprise-information-search-2",
+      "case": "placeholder_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "e9ecbfb37e459f5e0faa66794c409fc803e23c1b71f7945d2d23839b786b2dbf",
+      "test_sha256": "d51d13f1329281eeec327544c8f4feca2e230e0f97143aeb48ceb73a6785a774",
+      "fixture_sha256": "005d9ce4ee66fe3add342f4502f2ecacc5d2aa246e29b210d1cd37ec30639550",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-2",
+      "case": "omitted_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "e9ecbfb37e459f5e0faa66794c409fc803e23c1b71f7945d2d23839b786b2dbf",
+      "test_sha256": "d51d13f1329281eeec327544c8f4feca2e230e0f97143aeb48ceb73a6785a774",
+      "fixture_sha256": "7fb8f7025721989b354cdaf27124cc37ea58b9649200dff36f2560da6b55dff5",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-2",
+      "case": "extra_impossible_item",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "e9ecbfb37e459f5e0faa66794c409fc803e23c1b71f7945d2d23839b786b2dbf",
+      "test_sha256": "d51d13f1329281eeec327544c8f4feca2e230e0f97143aeb48ceb73a6785a774",
+      "fixture_sha256": "021b0b7a4f64b5bb276fb24f3e2dbce5d469c04643b8b253f99019f74b6a2d88",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-2",
+      "case": "negative_token_count",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "e9ecbfb37e459f5e0faa66794c409fc803e23c1b71f7945d2d23839b786b2dbf",
+      "test_sha256": "d51d13f1329281eeec327544c8f4feca2e230e0f97143aeb48ceb73a6785a774",
+      "fixture_sha256": "9e07f078f38d6a4dcfe3ecf8a207a64d0028b160a319269c29027d90ec8deb90",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-2",
+      "case": "missing_required_item",
+      "exit_code": 1,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "e9ecbfb37e459f5e0faa66794c409fc803e23c1b71f7945d2d23839b786b2dbf",
+      "test_sha256": "d51d13f1329281eeec327544c8f4feca2e230e0f97143aeb48ceb73a6785a774",
+      "fixture_sha256": "965159ec361d022be188355d6f3c8f72ed548dad169220e107d4b1d308b3c822",
+      "log_sha256": "0571d8c7209ca35908411d32b5da3bc09824ede54d89106f49b61717ae34e02c"
+    },
+    {
+      "task": "enterprise-information-search-3",
+      "case": "placeholder_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "f540cfab0c128b9b8ce34641a07f9d647decda63c7395d8ac3adcd3cdf10f772",
+      "test_sha256": "b8078731892972552f9a2293354682f769d39d5f817b59ed89332b8f677068a8",
+      "fixture_sha256": "a835f25401fc8d4f69c7eff5d75598bd658b9373cd4c61c6aad408e4aae74a52",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-3",
+      "case": "omitted_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "f540cfab0c128b9b8ce34641a07f9d647decda63c7395d8ac3adcd3cdf10f772",
+      "test_sha256": "b8078731892972552f9a2293354682f769d39d5f817b59ed89332b8f677068a8",
+      "fixture_sha256": "0f283c76ebac25f7520cec940bffa4f3891c303a4626ed73423f2180104838c7",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-3",
+      "case": "extra_impossible_item",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "f540cfab0c128b9b8ce34641a07f9d647decda63c7395d8ac3adcd3cdf10f772",
+      "test_sha256": "b8078731892972552f9a2293354682f769d39d5f817b59ed89332b8f677068a8",
+      "fixture_sha256": "f4dc9de0636017ab852ff1c97dbd44f406c1153d385bd26ae66eb00e44d49cce",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-3",
+      "case": "negative_token_count",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "f540cfab0c128b9b8ce34641a07f9d647decda63c7395d8ac3adcd3cdf10f772",
+      "test_sha256": "b8078731892972552f9a2293354682f769d39d5f817b59ed89332b8f677068a8",
+      "fixture_sha256": "a15b232b40497825d83afcfcde5c016df514a4d170fa3bd20b2fe749c2868cdc",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-3",
+      "case": "missing_required_item",
+      "exit_code": 1,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "f540cfab0c128b9b8ce34641a07f9d647decda63c7395d8ac3adcd3cdf10f772",
+      "test_sha256": "b8078731892972552f9a2293354682f769d39d5f817b59ed89332b8f677068a8",
+      "fixture_sha256": "d469fc1b19bd10dfb20dccc89895c7c6b81db3990704e3c30dafeeef63a88ec1",
+      "log_sha256": "03ca7d6089773342e1750eac6ed27e8b686294f62326bc0babbb2199513a5907"
+    },
+    {
+      "task": "enterprise-information-search-4",
+      "case": "placeholder_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "be8ce4d547f787d7257e686032ae9d66e8c84a745770d7bd76fbc7c133a1bfae",
+      "test_sha256": "b308428530457d4175932203931e81a304b2696c706f9a17cfcd6314c6e643e9",
+      "fixture_sha256": "940a828c53e730e9cb15eb87edc338381916f8aea75acf82acd975d4f5b51671",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-4",
+      "case": "omitted_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "be8ce4d547f787d7257e686032ae9d66e8c84a745770d7bd76fbc7c133a1bfae",
+      "test_sha256": "b308428530457d4175932203931e81a304b2696c706f9a17cfcd6314c6e643e9",
+      "fixture_sha256": "905e3bbe64da79376cb5820f591733a5f21d72edb8086ba81b98a86f0e67b391",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-4",
+      "case": "extra_impossible_item",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "be8ce4d547f787d7257e686032ae9d66e8c84a745770d7bd76fbc7c133a1bfae",
+      "test_sha256": "b308428530457d4175932203931e81a304b2696c706f9a17cfcd6314c6e643e9",
+      "fixture_sha256": "1290478176075a40ac64b324c30867e3a7cf50e5cad86ceb3b58f398b1069746",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-4",
+      "case": "negative_token_count",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "be8ce4d547f787d7257e686032ae9d66e8c84a745770d7bd76fbc7c133a1bfae",
+      "test_sha256": "b308428530457d4175932203931e81a304b2696c706f9a17cfcd6314c6e643e9",
+      "fixture_sha256": "5768e42591a7a3c5d2558fdb75eb7ca7c5fc810955323c44068a24ef2db3c1bf",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-4",
+      "case": "missing_required_item",
+      "exit_code": 1,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "be8ce4d547f787d7257e686032ae9d66e8c84a745770d7bd76fbc7c133a1bfae",
+      "test_sha256": "b308428530457d4175932203931e81a304b2696c706f9a17cfcd6314c6e643e9",
+      "fixture_sha256": "c94e9c14bb1b05989d8cefec9f55ba35f0a66adf60f563248dd2561fcf611e09",
+      "log_sha256": "bff8c30cf756c95ecab0992d0e7dca3aa122dad48ee9f91a4511143000e18e9e"
+    },
+    {
+      "task": "enterprise-information-search-5",
+      "case": "placeholder_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "1abbe55f13538c7f654fc491f687c8d3790aaaf2e473bde357bf23a5d1a72df5",
+      "test_sha256": "407f26dca374cf9afaaf39ef9b6df1a597e6cd96de9974fabe42d9f203d485ca",
+      "fixture_sha256": "a2b0d15fa0fa0f830714110cd97849862891a26515e25a0e96dd259ac43e35a8",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-5",
+      "case": "omitted_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "1abbe55f13538c7f654fc491f687c8d3790aaaf2e473bde357bf23a5d1a72df5",
+      "test_sha256": "407f26dca374cf9afaaf39ef9b6df1a597e6cd96de9974fabe42d9f203d485ca",
+      "fixture_sha256": "6f01851f2d4ea334017c310ff43adc295bd4f60d7bb39c451a260e5b730fafa8",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-5",
+      "case": "extra_impossible_item",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "1abbe55f13538c7f654fc491f687c8d3790aaaf2e473bde357bf23a5d1a72df5",
+      "test_sha256": "407f26dca374cf9afaaf39ef9b6df1a597e6cd96de9974fabe42d9f203d485ca",
+      "fixture_sha256": "4e7aaca2c25f1848ef1bc4ae8cfdc08ced1f1d7eb21e64c7fb64a78032d9dd68",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-5",
+      "case": "negative_token_count",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "1abbe55f13538c7f654fc491f687c8d3790aaaf2e473bde357bf23a5d1a72df5",
+      "test_sha256": "407f26dca374cf9afaaf39ef9b6df1a597e6cd96de9974fabe42d9f203d485ca",
+      "fixture_sha256": "560ceb8dff06184302e7ce1ec8d3de3d2abc5de9aa1faf0c1f447e17e42695ff",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-5",
+      "case": "missing_required_item",
+      "exit_code": 1,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "1abbe55f13538c7f654fc491f687c8d3790aaaf2e473bde357bf23a5d1a72df5",
+      "test_sha256": "407f26dca374cf9afaaf39ef9b6df1a597e6cd96de9974fabe42d9f203d485ca",
+      "fixture_sha256": "2fe5df66e30a8c949896b9430c114bfbd24b21f574d6040de5a869d75967177a",
+      "log_sha256": "e0c6d89c8115a328e730b572e82a6875393d14e11aa75875a0c36f57c1db1463"
+    },
+    {
+      "task": "enterprise-information-search-6",
+      "case": "placeholder_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "c125a0bc7b5a80db92a422389344287490afe3c4baa71b6bbd0dd1cd9047733c",
+      "test_sha256": "aa6e9cd61b750e3aa03835d8d40a4176cf42840cf4c33eaf60e4fa0a406d6030",
+      "fixture_sha256": "518589bcb9ddf182f2851489978a6d20825257f1a152fc47bfacd421388d785c",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-6",
+      "case": "omitted_q2",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "c125a0bc7b5a80db92a422389344287490afe3c4baa71b6bbd0dd1cd9047733c",
+      "test_sha256": "aa6e9cd61b750e3aa03835d8d40a4176cf42840cf4c33eaf60e4fa0a406d6030",
+      "fixture_sha256": "3645e24fe2e2eaaccad049469e7fbc6158bb6af516e4293ac4da0f59eb5c0367",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-6",
+      "case": "extra_impossible_item",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "c125a0bc7b5a80db92a422389344287490afe3c4baa71b6bbd0dd1cd9047733c",
+      "test_sha256": "aa6e9cd61b750e3aa03835d8d40a4176cf42840cf4c33eaf60e4fa0a406d6030",
+      "fixture_sha256": "29aee17c5d8575021bf444b2d00bded156b6c08725a16f7e815db0357c55f0c8",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-6",
+      "case": "negative_token_count",
+      "exit_code": 0,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "c125a0bc7b5a80db92a422389344287490afe3c4baa71b6bbd0dd1cd9047733c",
+      "test_sha256": "aa6e9cd61b750e3aa03835d8d40a4176cf42840cf4c33eaf60e4fa0a406d6030",
+      "fixture_sha256": "590be2646ae003570b5ada0ec007673e1fb2f868685a5bb43bc06ee0c7cb2262",
+      "log_sha256": "c4a9d6df9a4b4bb3d77bb4705551886b7a0446ab2005e2c6b734c882b5a3a812"
+    },
+    {
+      "task": "enterprise-information-search-6",
+      "case": "missing_required_item",
+      "exit_code": 1,
+      "question_keys": [
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "expected_keys": [
+        "q1",
+        "q3"
+      ],
+      "question_sha256": "c125a0bc7b5a80db92a422389344287490afe3c4baa71b6bbd0dd1cd9047733c",
+      "test_sha256": "aa6e9cd61b750e3aa03835d8d40a4176cf42840cf4c33eaf60e4fa0a406d6030",
+      "fixture_sha256": "c9f89d014369042e94f178c912e1e391b29b04a7959f098b1a43fc6f7a1e4c4a",
+      "log_sha256": "4bfe29cb7417eb7f520393840465b39b3e710f42e92c884cb1f4e526bd41afd1"
+    }
+  ]
+}
