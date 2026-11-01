@@ -1,0 +1,273 @@
+{
+  "status": "POSTHOC_MANUAL_REPAIR_DEVELOPMENT",
+  "projects": {
+    "react": {
+      "original_skill": {
+        "case_name": "dependency-scope-target__no_skill__3032926",
+        "agent_exit": 0,
+        "format_verifier_exit": 0,
+        "lock_unchanged": true,
+        "snapshot_scoring": {
+          "status": "SCORED",
+          "expected_records": 4,
+          "identity_exact": true,
+          "identity_and_score_exact": true,
+          "observed_records": 4,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "wrong_scores": []
+        },
+        "metadata_audit": {
+          "observed_copies": [
+            {
+              "path": ".cache/trivy/db/metadata.json",
+              "unchanged": false,
+              "status": "SCORED",
+              "updated_at": "2099-01-01T00:00:00Z",
+              "downloaded_at": "2099-01-01T00:00:00Z",
+              "next_update": "2099-01-01T00:00:00Z"
+            },
+            {
+              "path": "trivy-cache/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            }
+          ],
+          "original_location_present": true,
+          "changed_copies": 1,
+          "unresolved_copies": 0,
+          "limitation": "Deleted copies and which metadata the scanner used are not established."
+        },
+        "forwarded_post": 15,
+        "denied": [],
+        "elapsed_seconds": 82.666,
+        "reported_total_tokens": 157269,
+        "reported_cache_read": 137938,
+        "raw_sha256": "1fe1e985d2a54ca072f5bceb3262045fb3a5277779323e708b684b8947ec87b7"
+      },
+      "manual_repair": {
+        "case_name": "dependency-scope-target__no_skill__3072277",
+        "agent_exit": 0,
+        "format_verifier_exit": 0,
+        "lock_unchanged": true,
+        "snapshot_scoring": {
+          "status": "SCORED",
+          "expected_records": 4,
+          "identity_exact": true,
+          "identity_and_score_exact": true,
+          "observed_records": 4,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "wrong_scores": []
+        },
+        "metadata_audit": {
+          "observed_copies": [
+            {
+              "path": ".cache/trivy/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            },
+            {
+              "path": "trivy-cache/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            }
+          ],
+          "original_location_present": true,
+          "changed_copies": 0,
+          "unresolved_copies": 0,
+          "limitation": "Deleted copies and which metadata the scanner used are not established."
+        },
+        "forwarded_post": 11,
+        "denied": [],
+        "elapsed_seconds": 56.369,
+        "reported_total_tokens": 98153,
+        "reported_cache_read": 88948,
+        "raw_sha256": "63812578e4e4bf3dfa69daeca1efb46733a3b140be97401088f449db2920ec3b"
+      },
+      "baseline": {
+        "status": "SCORED",
+        "expected_records": 4,
+        "identity_exact": true,
+        "identity_and_score_exact": true,
+        "observed_records": 4,
+        "missing": [],
+        "extra_or_duplicate": [],
+        "wrong_scores": []
+      },
+      "ordinary_history": {
+        "case_name": "dependency-scope-target__no_skill__3028096",
+        "agent_exit": 0,
+        "format_verifier_exit": 0,
+        "lock_unchanged": true,
+        "snapshot_scoring": {
+          "status": "SCORED",
+          "expected_records": 4,
+          "identity_exact": true,
+          "identity_and_score_exact": true,
+          "observed_records": 4,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "wrong_scores": []
+        },
+        "metadata_audit": {
+          "observed_copies": [
+            {
+              "path": ".cache/trivy/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            },
+            {
+              "path": "trivy-cache/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            },
+            {
+              "path": "trivy-work/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            }
+          ],
+          "original_location_present": true,
+          "changed_copies": 0,
+          "unresolved_copies": 0,
+          "limitation": "Deleted copies and which metadata the scanner used are not established."
+        },
+        "forwarded_post": 29,
+        "denied": [],
+        "elapsed_seconds": 356.167,
+        "reported_total_tokens": 512863,
+        "reported_cache_read": 418808,
+        "raw_sha256": "f72afc863c1475d5e6583858f5cf332b1764d6128341777ce2ee4192e2d2b4e5"
+      }
+    },
+    "node": {
+      "original_skill": {
+        "case_name": "dependency-scope-target__no_skill__3043066",
+        "agent_exit": 0,
+        "format_verifier_exit": 0,
+        "lock_unchanged": true,
+        "snapshot_scoring": {
+          "status": "SCORED",
+          "expected_records": 0,
+          "identity_exact": true,
+          "identity_and_score_exact": true,
+          "observed_records": 0,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "wrong_scores": []
+        },
+        "metadata_audit": {
+          "observed_copies": [
+            {
+              "path": ".cache/trivy/db/metadata.json",
+              "unchanged": false,
+              "status": "SCORED",
+              "updated_at": "2099-01-01T00:00:00.000000000Z",
+              "downloaded_at": "2099-01-01T00:00:00.000000000Z",
+              "next_update": "2099-01-01T00:00:00.000000000Z"
+            },
+            {
+              "path": "trivy-cache/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            }
+          ],
+          "original_location_present": true,
+          "changed_copies": 1,
+          "unresolved_copies": 0,
+          "limitation": "Deleted copies and which metadata the scanner used are not established."
+        },
+        "forwarded_post": 11,
+        "denied": [],
+        "elapsed_seconds": 47.377,
+        "reported_total_tokens": 94136,
+        "reported_cache_read": 81075,
+        "raw_sha256": "6b8442ea1eaeca288bae8fca081d1b018e46480166335bebfc275f89dda38b45"
+      },
+      "manual_repair": {
+        "case_name": "dependency-scope-target__no_skill__3073654",
+        "agent_exit": 0,
+        "format_verifier_exit": 0,
+        "lock_unchanged": true,
+        "snapshot_scoring": {
+          "status": "SCORED",
+          "expected_records": 0,
+          "identity_exact": true,
+          "identity_and_score_exact": true,
+          "observed_records": 0,
+          "missing": [],
+          "extra_or_duplicate": [],
+          "wrong_scores": []
+        },
+        "metadata_audit": {
+          "observed_copies": [
+            {
+              "path": ".cache/trivy/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            },
+            {
+              "path": "trivy-cache/db/metadata.json",
+              "unchanged": true,
+              "status": "SCORED",
+              "updated_at": "2026-01-21T00:35:52.153215775Z",
+              "downloaded_at": "2026-01-21T04:16:21.902488913Z",
+              "next_update": "2026-01-22T00:35:52.153215525Z"
+            }
+          ],
+          "original_location_present": true,
+          "changed_copies": 0,
+          "unresolved_copies": 0,
+          "limitation": "Deleted copies and which metadata the scanner used are not established."
+        },
+        "forwarded_post": 22,
+        "denied": [],
+        "elapsed_seconds": 88.604,
+        "reported_total_tokens": 251573,
+        "reported_cache_read": 237562,
+        "raw_sha256": "3d72f0dcde2571d7e8a9c68dbfe4473a63f36611f57ffe8d938246e54688b9a2"
+      },
+      "baseline": {
+        "status": "SCORED",
+        "expected_records": 0,
+        "identity_exact": true,
+        "identity_and_score_exact": true,
+        "observed_records": 0,
+        "missing": [],
+        "extra_or_duplicate": [],
+        "wrong_scores": []
+      }
+    }
+  },
+  "totals": {
+    "forwarded_post": 33,
+    "denied": 0,
+    "reported_total_tokens": 349726,
+    "reported_cache_read": 326510
+  }
+}
