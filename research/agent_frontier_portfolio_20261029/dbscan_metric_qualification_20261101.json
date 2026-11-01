@@ -1,0 +1,81 @@
+{
+  "status": "SOURCE_QUALIFICATION_NOT_AGENT_EVALUATION",
+  "commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+  "data_sha256": {
+    "citsci_train.csv": "5a1169e807ceddec822fa676bac29f92562a3a463bd27178b15778c61b642f19",
+    "expert_train.csv": "f7402b188f34c0dcf3c843545b15a486167d2e5770aec7cb5773fbb8aa777d92"
+  },
+  "metric_pair": [
+    "euclidean",
+    "chebyshev"
+  ],
+  "settings": {
+    "min_samples": 5,
+    "epsilon": 12,
+    "shape_weight": 1.0
+  },
+  "expert_image_count": 369,
+  "images_without_citizen_points": 0,
+  "different_partition_count": 218,
+  "first_10_hash_order": [
+    {
+      "image_id_sha256": "029f28ac16a19fff75d448493c2e5a0dc944c3a9d61c8efb5d698e6d17571e9d",
+      "point_count": 122,
+      "different_partition": true
+    },
+    {
+      "image_id_sha256": "0301a99ea21c7cee80b8c20606f3c013c7c32995f648367055dd0af147efc1aa",
+      "point_count": 48,
+      "different_partition": true
+    },
+    {
+      "image_id_sha256": "0421990c7fcecffea2c23820349f97ae7d0170512d7725b380ecd12818fa50e2",
+      "point_count": 308,
+      "different_partition": true
+    },
+    {
+      "image_id_sha256": "05334213f8b2f0f779dc8b5c893d6a1e13f645f6d454a31e64ed9f0a216170c3",
+      "point_count": 70,
+      "different_partition": true
+    },
+    {
+      "image_id_sha256": "05635e3809f71b789723b9dba33bf997920037f06b10e2620bd9cd1987fccc4b",
+      "point_count": 55,
+      "different_partition": false
+    },
+    {
+      "image_id_sha256": "060606c45e36767023c1067f93dbaf5f337cda5dca8b27ebaeef18efe157a652",
+      "point_count": 14,
+      "different_partition": false
+    },
+    {
+      "image_id_sha256": "063549dda41eab859b1721cc4c27a3d6e4e5000b83756eaae35414cbea51969e",
+      "point_count": 60,
+      "different_partition": true
+    },
+    {
+      "image_id_sha256": "06de62037896586fbb3d100780ae1c0371200d12a17869f04149138ab215dd67",
+      "point_count": 66,
+      "different_partition": true
+    },
+    {
+      "image_id_sha256": "07749b5777fa2563646b2bfe64567ba0ed4f1d4e6fac52a41a1d1e7b37ac4540",
+      "point_count": 87,
+      "different_partition": false
+    },
+    {
+      "image_id_sha256": "08ce9c0c9e04e1b8ca7c0bb9ba61e39c362f20842123a3391cf55521670c0b34",
+      "point_count": 85,
+      "different_partition": false
+    }
+  ],
+  "elapsed_seconds": 0.326,
+  "versions": {
+    "numpy": "2.5.1",
+    "pandas": "2.2.2",
+    "scipy": "1.18.0",
+    "sklearn": "1.9.0"
+  },
+  "model_calls": 0,
+  "limitations": "One grid point; researcher-exposed task; not benchmark reproduction."
+}

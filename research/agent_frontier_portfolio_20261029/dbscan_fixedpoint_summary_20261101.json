@@ -1,0 +1,28 @@
+{
+  "status": "POSTHOC_FIXED_POINT_QUALIFICATION",
+  "settings": {
+    "epsilon": 12,
+    "min_samples": 5,
+    "shape_weight": 1.0,
+    "match_cutoff_strictly_less_than": 100
+  },
+  "image_count": 369,
+  "partition_difference_count": 218,
+  "aggregate": {
+    "euclidean": {
+      "mean_f1": 0.5302255288274664,
+      "mean_delta_matched_images": 18.11584959138578,
+      "images_with_delta": 304
+    },
+    "chebyshev": {
+      "mean_f1": 0.5536863326317217,
+      "mean_delta_matched_images": 17.85899713462085,
+      "images_with_delta": 312
+    }
+  },
+  "sklearn": "1.9.0",
+  "elapsed_seconds": 0.341,
+  "model_calls": 0,
+  "limitation": "Single setting on exposed input; not full Pareto search or benchmark reproduction.",
+  "raw_sha256": "f43c7aeacc1c6dea47cc11ace932f5c1a3e8c309c417669caed4b5ca23f86633"
+}
