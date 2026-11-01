@@ -1,0 +1,13 @@
+{
+  "status": "SOURCE_ONLY_FRESH_PREPOPULATED_CACHE",
+  "exit_code": 1,
+  "metadata_sha256_before": "68bc066165b491baae36b77d5d8d017f8675e2d7222fbb201695558d6ff0af84",
+  "metadata_sha256_after": "68bc066165b491baae36b77d5d8d017f8675e2d7222fbb201695558d6ff0af84",
+  "source_report_sha256": "fb04b02db6381cf5ac2eedc4635148cba110627c6fcbcf96f8e694053d982095",
+  "scan_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reference_records": 0,
+  "observed_records": 0,
+  "same_identity_severity_cvss": false,
+  "supports_bounded_repair": false,
+  "model_calls": 0
+}

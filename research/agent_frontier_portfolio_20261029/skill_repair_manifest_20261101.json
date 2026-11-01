@@ -1,0 +1,13 @@
+{
+  "status": "MANUAL_RULE_DRIVEN_DEVELOPMENT_REPAIR",
+  "original_skill_sha256": "92f13d4cb7abbf334d4a837049222bea28638fd8d815a2f70fd590877d9900b9",
+  "source_witness_sha256": "c2fbb7788a18332d6e3e1900efa78606068ee3f6a17a9643460f1e3f4f66e1a2",
+  "repaired_skill_sha256": "b4350e2d0896a8dfc3541578bac0facf7ea19a8b2087a22954ada1bc031d574e",
+  "changes": [
+    "remove future-date advice",
+    "scope skip-db-update to tested cache",
+    "clarify source severity is overridden by current task"
+  ],
+  "unverified_example_code_preserved": true,
+  "model_calls": 0
+}
