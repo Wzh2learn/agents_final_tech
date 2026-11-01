@@ -50,6 +50,12 @@ def main():
     cache = args.output / "cache"
     cache.mkdir()
     subprocess.run(["cp", "--reflink=auto", "-a", str(args.assets / "trivy-cache/db"), str(cache / "db")], check=True)
+    # The container drops DAC capabilities and runs as root. Host-created files
+    # belong to the host user; make only this isolated copy writable to Trivy.
+    cache.chmod(0o777)
+    (cache / "db").chmod(0o777)
+    (cache / "db/trivy.db").chmod(0o666)
+    (cache / "db/metadata.json").chmod(0o666)
     metadata = cache / "db/metadata.json"
     before = sha(metadata)
     container_name = "trivy-source-probe-" + str(os.getpid())
@@ -71,17 +77,17 @@ def main():
         code, output, error = 124, exc.stdout or b"", exc.stderr or b""
     (args.output / "scan.json").write_bytes(output)
     (args.output / "stderr.txt").write_bytes(error)
+    reference = vulnerability_rows(json.loads(args.source_report.read_text(encoding="utf-8")))
     try:
         current = vulnerability_rows(json.loads(output))
-        reference = vulnerability_rows(json.loads(args.source_report.read_text(encoding="utf-8")))
         same = current == reference
     except (ValueError, KeyError, TypeError):
-        current, reference, same = [], [], False
+        current, same = None, False
     after = sha(metadata) if metadata.is_file() else None
     result = {"status": "SOURCE_ONLY_FRESH_PREPOPULATED_CACHE", "exit_code": code,
               "metadata_sha256_before": before, "metadata_sha256_after": after,
               "source_report_sha256": sha(args.source_report), "scan_sha256": sha(args.output / "scan.json"),
-              "reference_records": len(reference), "observed_records": len(current),
+              "reference_records": len(reference), "observed_records": len(current) if current is not None else None,
               "same_identity_severity_cvss": same,
               "supports_bounded_repair": code == 0 and same and before == after,
               "model_calls": 0}
