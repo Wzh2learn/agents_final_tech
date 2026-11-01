@@ -7,6 +7,7 @@
 - 两版本的公民科学输入 SHA-256 均为 `5a1169e807ceddec822fa676bac29f92562a3a463bd27178b15778c61b642f19`，专家输入均为 `f7402b188f34c0dcf3c843545b15a486167d2e5770aec7cb5773fbb8aa777d92`；分别约 46 MB 和 3 MB，保留在 GB10 上游 checkout。两份任务说明和两份已发布参考文件的哈希不同，文件哈希不同本身不证明结果或实现正确。
 - 使用两项说明都允许的一组参数 `min_samples=5, epsilon=12, shape_weight=1.0`，对 369 个专家图像逐一计算聚类。基于对簇标签重命名不敏感、但保留噪声身份的划分比较，**218/369** 个图像的划分不同。参见[运行脚本](qualify_dbscan_metric_shift_20261101.py)和[摘要](dbscan_metric_qualification_20261101.json)。
 - 看过划分变化后，用相同固定参数和任务所述的欧氏距离贪心匹配另算一个开发性结果：[固定点汇总](dbscan_fixedpoint_summary_20261101.json)中，欧氏 / 切比雪夫聚类的图像等权平均 F1 分别为 **0.5302 / 0.5537**。平均匹配距离分别为 **18.1158 / 17.8590**，但只在有匹配的图像上计算，分母分别是 **304 / 312**；不应直接把距离差当成同一配对样本的性能提升。计算方法见[脚本](evaluate_dbscan_fixedpoint_20261101.py)。
+- 在无网络、只读容器中调用该公开任务的两份已发布实现，对同一参数和相同 369 个图像重算；两种距离的 F1 和平均匹配距离与本次计算的差均为 0。见[交叉检查](dbscan_fixedpoint_reference_check_20261101.json)及[脚本](crosscheck_dbscan_reference_20261101.py)。这是同环境、同输入、单参数点的实现核对，不把作者实现当独立人工 ground truth，也不覆盖完整搜索空间。
 - 逐图像计算结果留在 GB10 `research_evidence/agent_learning_20261030/dbscan_metric_qualification_20261101/fixedpoint.json`，原始文件 SHA-256 `f43c7aeacc1c6dea47cc11ace932f5c1a3e8c309c417669caed4b5ca23f86633`；Git 中只放哈希和汇总。一次固定参数计算不能说明完整 Pareto 前沿、任务通过率或哪种距离普遍更优。
 
 ## 价值与下一步

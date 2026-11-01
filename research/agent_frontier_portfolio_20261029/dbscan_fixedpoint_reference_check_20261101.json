@@ -1,0 +1,28 @@
+{
+  "status": "SOURCE_IMPLEMENTATION_FIXED_POINT_CROSSCHECK",
+  "source_sha256": [
+    "b25dbd168d4dd1a58873abfad38f1fccafab68cbbbf6cf9f79eb6114ab8e475e",
+    "f17b89148e9db5fabd6eaa7f624df7ee0818634225ea97a106831630b8488981"
+  ],
+  "fixedpoint_raw_sha256": "f43c7aeacc1c6dea47cc11ace932f5c1a3e8c309c417669caed4b5ca23f86633",
+  "images": 369,
+  "results": {
+    "euclidean": {
+      "reference_f1": 0.5302255288274664,
+      "reference_delta": 18.11584959138578,
+      "difference_f1": 0.0,
+      "difference_delta": 0.0,
+      "agrees_within_1e-10": true
+    },
+    "chebyshev": {
+      "reference_f1": 0.5536863326317217,
+      "reference_delta": 17.85899713462085,
+      "difference_f1": 0.0,
+      "difference_delta": 0.0,
+      "agrees_within_1e-10": true
+    }
+  },
+  "sklearn": "1.9.0",
+  "model_calls": 0,
+  "limitation": "Same input and runtime, one point; source code is not independent ground truth."
+}
