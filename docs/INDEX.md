@@ -10,12 +10,13 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
-| Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[路线与 ICDAR 预演](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |
+| Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[ICDAR 备投工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)、[投稿路线](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |
 | Paper E 长期问题与对标 | [战略复核与资产地图](research/PAPER_E_STRATEGIC_REVIEW_20261029.md)；当前投稿路线以现役审阅稿和 STATE 为准 |
 | 历史科研基线与复用资产 | [2026-10-23 复用地图](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[对账](../research/research_baseline_governance_20261023/RECONCILIATION.json)；当前解释见 STATE |
 | 历史方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见 STATE |
 | 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)；当前任务以用户消息为准，2026-10-29 前入口和指令见[历史归档](archive/2026-10-29_research_neat/)，更早的[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)、[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅为历史跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md)。 |
 | 科研治理与资产机会 | [治理与挖宝](governance/2026-10-29_research_neat_closeout.md)；[复现与尸检](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。 |
+| 2026-11-01 科研自审与治理 | [现役入口、证据边界、技能及工作树复核](governance/2026-11-01_research_inquiry_and_neat.md)；最新状态以 STATE / THREADS 为准。 |
 | 决策残差范围复核 | [负责人复核](governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)：独立复算、no-go范围、always-expand成本门及待接受的下一阶段提案；机器收据/复现脚本见正文 |
 | 自然错误/成本阶段事后复核 | [负责人复核](governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)：507行复算、P1执行证据缺口、P2分类反例及优先期刊稿/一次校准实验；原raw不改 |
 | Publication/Proxy事后复核 | [负责人复核](governance/audit/loop_d_control_review/PUBLICATION_PROXY_POST_RETURN_REVIEW.md)：36项第一批raw直接重评分、双向评分反例、80次实物账与正式TeX阻断；原结果不覆盖 |

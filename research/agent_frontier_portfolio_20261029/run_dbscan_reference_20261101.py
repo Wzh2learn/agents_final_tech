@@ -14,6 +14,7 @@ SOURCES = {1: "b25dbd168d4dd1a58873abfad38f1fccafab68cbbbf6cf9f79eb6114ab8e475e"
            2: "f17b89148e9db5fabd6eaa7f624df7ee0818634225ea97a106831630b8488981"}
 EXPECTED = {1: "6732c58185de4e5f8a8e07db42ca76651185962e0d90b657123384b3a7dfdfb3",
             2: "dab29520a95adb2269818d450f912d40de4bd99cf54f8f80307de29e8361c26b"}
+TEST_HASH = "7a652bc3112f01cb7a97fedbc15fc47b81bda442199b4c95b2f367ae0932aaff"
 DATA = {"citsci_train.csv": "5a1169e807ceddec822fa676bac29f92562a3a463bd27178b15778c61b642f19",
         "expert_train.csv": "f7402b188f34c0dcf3c843545b15a486167d2e5770aec7cb5773fbb8aa777d92"}
 IMAGE = "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca"
@@ -57,6 +58,8 @@ def main():
     tests, data = task / "tests", task / "environment/data"
     if sha(source) != SOURCES[args.version] or sha(tests / "expected_frontier.csv") != EXPECTED[args.version]:
         raise ValueError("released source or expected reference changed")
+    if sha(tests / "test_outputs.py") != TEST_HASH:
+        raise ValueError("released verifier changed")
     for name, expected in DATA.items():
         if sha(data / name) != expected:
             raise ValueError("input dataset changed: " + name)
@@ -96,6 +99,7 @@ def main():
     result_file = work / "pareto_frontier.csv"
     receipt = {"status": "SOURCE_REFERENCE_COMPATIBILITY_NOT_OFFICIAL_ENVIRONMENT", "task": args.version,
                "source_sha256": SOURCES[args.version], "expected_sha256": EXPECTED[args.version],
+               "test_sha256": TEST_HASH,
                "data_sha256": DATA, "image": image_id, "solver": run, "verifier": verification,
                "output_sha256": sha(result_file) if result_file.is_file() else None,
                "timeout_seconds": args.timeout, "model_calls": 0,
