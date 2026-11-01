@@ -19,3 +19,7 @@
 ## 完整搜索兼容性执行计划
 
 在看到固定点结果后，计划在无网络、只读输入的独立容器中分别运行上游 task 1/2 的完整公开参考实现，随后才挂载该 task 的原测试。脚本为 [run_dbscan_reference_20261101.py](run_dbscan_reference_20261101.py)，每次限制 2 CPU、3 GB 内存和 1,200 秒，保留超时、stderr、输出与测试结果。使用 GB10 现有 Python 3.12 依赖，若通过也只能说该组合通过所运行的原测试，不能称作官方固定 Python 3.9 环境复现。仅在输入数据、参考脚本和 reference 文件 hash 固定后运行；无模型、无训练、无目标 Agent 暴露。
+
+首轮 task 1 运行时，现有 SciPy 对大量距离计算反复输出弃用警告，约 195.6 秒后日志超过 100 MB，主动终止容器（solver exit 137，尚无输出和测试结果）。完整 stdout、stderr 及收据保留在 GB10 `research_evidence/agent_learning_20261030/dbscan_metric_qualification_20261101/full_task1/`；stderr SHA-256 为 `91068705a9bf223c331117dcc57dd078dbd1488c0fb4994ee8064e6068ef0fc7`。这次是为控制日志体积而中断的环境运行，不作为聚类或方法结果。
+
+后续重跑使用新的输出目录，仅对参考求解进程设置 `PYTHONWARNINGS=ignore::DeprecationWarning`；其他警告和原测试输出仍保留。该设置只改变警告输出，不改变任务算法、输入、超时或资源上限；依赖版本差异仍然存在。

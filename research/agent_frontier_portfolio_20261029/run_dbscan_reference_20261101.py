@@ -76,7 +76,11 @@ def main():
               "-e", "OMP_NUM_THREADS=1", "-e", "MKL_NUM_THREADS=1", "-e", "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
               "--mount", f"type=bind,src={args.dependencies.resolve()},dst=/deps,readonly"]
     name = "dbscan-reference-" + str(os.getpid())
-    solver = common + ["--name", name, "--mount", f"type=bind,src={work.resolve()},dst=/root",
+    # Recent SciPy emits a warning for each distance calculation. Preserve the
+    # unsuppressed interrupted run separately, and silence only deprecations in
+    # this long solver run; all other warnings and verifier output remain visible.
+    solver = common + ["-e", "PYTHONWARNINGS=ignore::DeprecationWarning", "--name", name,
+                       "--mount", f"type=bind,src={work.resolve()},dst=/root",
                        "--mount", f"type=bind,src={data.resolve()},dst=/root/data,readonly",
                        "--mount", f"type=bind,src={source.resolve()},dst=/root/solution.py,readonly",
                        "--workdir", "/root", "python:3.12-slim", "python3", "/root/solution.py"]
@@ -95,6 +99,7 @@ def main():
                "data_sha256": DATA, "image": image_id, "solver": run, "verifier": verification,
                "output_sha256": sha(result_file) if result_file.is_file() else None,
                "timeout_seconds": args.timeout, "model_calls": 0,
+               "solver_warning_filter": "ignore::DeprecationWarning",
                "limitation": "Current Python and scientific libraries differ from the published Dockerfile."}
     (args.output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(receipt), flush=True)
