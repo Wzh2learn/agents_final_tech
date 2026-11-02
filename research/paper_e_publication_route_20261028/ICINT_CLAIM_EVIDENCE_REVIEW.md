@@ -18,6 +18,12 @@
 
 后续补充两篇直接相关文档评价近邻：[SCORE](https://arxiv.org/abs/2509.19345)研究生成式文档解析的语义与结构评价；[Soric et al.](https://arxiv.org/abs/2511.16134)研究异构 PDF 的表格抽取及评测，arXiv v2 页面注明为 KDD 2026 论文的扩展版本。根据公开摘要和元数据核对了本稿引用范围；两篇均已覆盖部分评价设计问题，不支持将本稿表述为首次提出文档评测或阶段评价。
 
+### 2026-11-02 补充：当前参考文献和 BGE 权重的来源核对
+
+- 当前四页稿的 FinRank、Caban、Bean、Ross、SCORE 和 Soric arXiv 标识、标题及首作者可分别在上列原始记录核对；[AgentSuite 的 PMLR 原始页面](https://proceedings.mlr.press/v306/suh26a.html)确认为 ICML 2026、卷 306、116300–116319 页。[BEIR 正式论文集页面](https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/hash/65b9eea6e1cc6bb9f0cd2a47751a186f-Abstract-round2.html)使用稿件中的 `Heterogeneous` 拼写；arXiv 元数据拼作 `Heterogenous`，这是来源差异，不应盲目按 arXiv 改写已引用的正式论文集标题。
+- [Bean 等人的 NeurIPS 2025 论文集记录](https://proceedings.neurips.cc/paper_files/paper/2025/hash/1967e0fc3aa6cbbace562f5cb8e3954e-Abstract-Datasets_and_Benchmarks_Track.html)可作为比当前 arXiv 引文更具体的发表版本；Soric 等人的 [KDD 2026 作者版](https://pierre.senellart.com/publications/soric2026benchmarking.pdf)与正文引用的 arXiv v2 扩展版不是完全相同的版本，如更换引文须重新核对相应主张。这些是后续作者修订建议，不在 Gemini 当前审阅期间静默替换 PDF。
+- [Hugging Face 固定版本的元数据](https://huggingface.co/api/models/BAAI/bge-small-en-v1.5/revision/5c38ec7c?blobs=true)给出的完整 revision 为 `5c38ec7c405ec4b44b94cc5a9bb96e735b38267a`，其中 `model.safetensors` 的 LFS SHA-256 为 `3c9f31665447c8911517620762200d2245a2518d6e7208acc78cd9db317e21ad`。它与原始 dense run 收据 `dense_probe.json` 中记录的 revision、weight hash，以及 2026-11-02 GB10 对该缓存权重文件实际重算的 SHA-256 一致；该收据本身 SHA-256 为 `c7833c9bb78ca0246e25c13e0518fbe39bfa11b5bc5a68491154355cd1a4e738`。这把本稿引文版本与**已记录的权重文件**对应起来；不证明所有 tokenizer、依赖、其他文件及软件环境均已复现，也不是新跑的稠密检索实验。
+
 ## 2026-10-30 首次读者视角的叙事修订与构建复核
 
 2026-10-30 快照中的短稿新增三案例总览表：分别说明“较低检测率是否意味着较弱排序”“绝对分数变化是否改变比较方向”和“均值排序是否支持每个配对”。该表不引入新实验或新的普遍理论；对应证据和范围仍分别由上面的操作点、FinRank 和 BEIR 条目支持。正文明确区分考察过的结论保持稳定、结论需要收窄和未能排除相等；不把无显著结果表述为两系统相等。
