@@ -1,6 +1,6 @@
 # 转发 Gemini 的独立审阅提示
 
-请附上同目录 `icint_latex/main.pdf` 和 `BEIR_PAIRWISE_REVIEW_SUPPLEMENT.md`。如方便，也可附 `lexical_holm_200k_sensitivity.json`；没有原始数据时，不要让审阅者声称已独立复算原始实验。
+请附上同目录 `icint_latex/main.pdf` 和 `BEIR_PAIRWISE_REVIEW_SUPPLEMENT.md`。2026-11-02 现役 PDF 的 SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`；若后续重建，请先核对版本再填写审阅记录。如方便，也可附 `lexical_holm_200k_sensitivity.json`；没有原始数据时，不要让审阅者声称已独立复算原始实验。
 
 ```text
 请作为第一次阅读该稿的评测/信息检索实证研究审稿人，独立审阅附带的 ICINT 匿名短稿及词法系统配对补充表。目标是帮助作者形成清楚、可信、可投稿的论文，而不是简单罗列免责声明或假定必须做更多实验。

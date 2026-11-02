@@ -1,6 +1,6 @@
 # ICINT 短稿：主张、证据及尚待核对事项
 
-2026-10-30 科研负责人逐项对照，适用 [ICINT 短稿](paper_e_icint_draft.md) 和同源 [IEEE 双栏审阅 PDF](icint_latex/main.pdf)。该表不是独立的外部审稿、专家人工标注或对全量原始实验的新复跑。
+2026-10-30 科研负责人逐项对照，列出主张的可追溯证据。2026-11-02 的现役 [ICINT 短稿](paper_e_icint_draft.md)及 [IEEE 双栏审阅 PDF](icint_latex/main.pdf)沿用这些案例，新增材料说明与 AI 披露候选；现役 PDF SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`。下方历史审查并未独立复审新增声明，也不是外部审稿、专家人工标注或全量原始实验的新复跑。
 
 | 稿件主张 | 当前可追溯证据 | 此次检查及范围 |
 |---|---|---|
@@ -24,7 +24,7 @@
 
 该快照用 ICINT 官网模板中的 IEEEtran class 和 Springer 官方 LNCS class 生成：ICINT PDF **4 页**，SHA-256 `e7db8986a315bd7ba147c6b1dd674d3205b106a9a18458ae6b59cffec511f47b`；ICDAR 模板预演 **8 页**，SHA-256 `6ffd22d05f94120ff52c5e18107b6cc9f11940cc57f674405faa6fb8bd5a22ee`。该快照的 ICINT 四页和 ICDAR 新表页已渲染检查，表格可读；两份 PDF 元数据均无 Author 字段，引用首次出现顺序与文献序号为 1–11，编译日志无 overfull 和 undefined references。仍有 underfull、Windows Fontconfig 提示，Poppler 的字符映射文件路径也产生提示。以上是工程和叙事自查，**不是**对匿名性、每项结果、统计假设或外部原创性的完整证明；独立首次读者/统计评审仍待完成。ICDAR 文档分析定位还需实质改写。
 
-2026-10-31 现役稿的机器审读、数值归属修正、复现信息及 200,000 次词法配对数值敏感性重算见 [审稿与复核回执](ICINT_AI_REVIEW_RETURN_20261031.md)；它取代本段快照作为当前 PDF 状态。
+2026-10-31 稿件的机器审读、数值归属修正、复现信息及 200,000 次词法配对数值敏感性重算见 [审稿与复核回执](ICINT_AI_REVIEW_RETURN_20261031.md)；这是历史审查记录，不能替代对 2026-11-02 现役 PDF 的首次读者复核。
 
 ## 投稿级未完成事项
 
