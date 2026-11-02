@@ -72,6 +72,9 @@ def main():
     keywords = keywords.removeprefix("**Index Terms—** ")
     body, refs = body.split("# References", 1)
     body = re.sub(r"(?m)^# [IVX]+\. ", "# ", body)
+    if body.count("# Acknowledgment\n") != 1:
+        raise ValueError("Expected one acknowledgment")
+    body = body.replace("# Acknowledgment\n", "```{=latex}\n\\section*{Acknowledgment}\n```\n")
     if body.count(INTERPRETATION_TABLE) != 1:
         raise ValueError("Expected interpretation table not found exactly once")
     body = body.replace(INTERPRETATION_TABLE, INTERPRETATION_LATEX)
@@ -102,7 +105,7 @@ Header injections & 85/118 & 13/118 \\
     body = body.replace(FINRANK_TABLE, FINRANK_LATEX)
     body = re.sub(r"\[(\d+)\]", lambda m: r"\cite{r" + m.group(1) + "}", body)
     items = re.findall(r"(?ms)^\[(\d+)\]\s*(.*?)(?=^\[\d+\]|\Z)", refs)
-    if [n for n, _ in items] != [str(n) for n in range(1, 12)]:
+    if not items or [n for n, _ in items] != [str(n) for n in range(1, len(items) + 1)]:
         raise ValueError("Unexpected reference numbering")
     references = "\n".join(r"\bibitem{r" + n + "} " + latex(item) for n, item in items)
     document = (r"\documentclass[conference]{IEEEtran}" + "\n" +
@@ -112,7 +115,7 @@ Header injections & 85/118 & 13/118 \\
                 r"\author{}" + "\n" + r"\maketitle" + "\n" +
                 r"\begin{abstract}" + "\n" + latex(abstract) + "\n" + r"\end{abstract}" + "\n" +
                 r"\begin{IEEEkeywords}" + "\n" + latex(keywords) + "\n" + r"\end{IEEEkeywords}" + "\n" +
-                latex(body) + "\n" + r"\begin{thebibliography}{11}" + "\n" + references + "\n" +
+                latex(body) + "\n" + r"\begin{thebibliography}{" + str(len(items)) + "}\n" + references + "\n" +
                 r"\end{thebibliography}" + "\n" + r"\end{document}" + "\n")
     with OUTPUT.open("w", encoding="utf-8", newline="\n") as output:
         output.write(document)

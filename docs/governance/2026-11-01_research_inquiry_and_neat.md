@@ -1,5 +1,7 @@
 # 科研负责人自审与治理：2026-11-01
 
+> 2026-11-02：下述稿件 hash 与页数为本次治理时的快照；材料说明和 AI 披露候选加入后的现役版本见 [ICINT 核验](../../research/paper_e_publication_route_20261028/ICINT_PREFLIGHT_20261101.md)和 [ICDAR 回执](../../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)。
+
 本次按 `inquiry-methods` 的 **fact-check** 与 **portfolio-triage** 自问自审，结合 `neat-freak`、`jinrong-docs-sync` 和完成前验证。范围为近期 Paper E、第二篇的公开任务探针、证据账本和本机/GB10 Git 工作区；不重跑历史模型、不清理原始证据、不改写旧实验。研究、内部审阅、投稿和发表分开记录。
 
 ## 自问：我们是否找得到现役论文？

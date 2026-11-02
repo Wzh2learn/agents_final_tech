@@ -103,6 +103,14 @@ The three cases show distinct ways in which an evaluation contract constrains a 
 
 These findings have limited scope: the first case uses controlled perturbations to structured tables, without a page-image recognition experiment or an independent human reference for the OCR-like variants. FinRank uses lexical baselines and has an unresolved reproduction gap, and the BEIR analyses are retrospective runs over two datasets with a post-hoc dense extension. Existing validity frameworks already cover broader audit principles [3], [4], [5]. Our contribution is a reproducible set of case-specific observations and the distinction between numerical movement and supported interpretation. We recommend reporting the measurement object, scoring convention, comparison and uncertainty together; we do not claim a general audit guarantee or observed deployment benefit.
 
+# Data and Materials
+
+The TAT-QA, FinRank and BEIR data used in this study are described in [9], [1] and [2], respectively; the BEIR runs use released relevance judgments. Study-specific audit scripts, configuration records and aggregate results are retained as research artifacts. Access to and redistribution of underlying data remain subject to the respective source terms.
+
+# Acknowledgment
+
+Generative AI tools, including DeepSeek [12] and OpenAI Codex [13], assisted with analysis-code development and drafting and revision of manuscript text in Sections 1–6. Google Gemini [14] provided review suggestions on earlier drafts. The authors are responsible for the final manuscript and its conclusions.
+
 # References
 
 [1] S. Mansouri et al., “FinRank: An Evidence-Grounded Benchmark for Financial Question Answering and Retrieval over SEC Filings,” arXiv:2608.07400, 2026.
@@ -126,3 +134,9 @@ These findings have limited scope: the first case uses controlled perturbations 
 [10] Z. Chen et al., “FinQA: A Dataset of Numerical Reasoning over Financial Data,” EMNLP, 2021, doi: 10.18653/v1/2021.emnlp-main.300.
 
 [11] Beijing Academy of Artificial Intelligence, “bge-small-en-v1.5,” model card, revision 5c38ec7c, https://huggingface.co/BAAI/bge-small-en-v1.5.
+
+[12] DeepSeek, “DeepSeek V4.1,” https://www.deepseek.com/, accessed November 2, 2026.
+
+[13] OpenAI, “Codex,” https://openai.com/codex/, accessed November 2, 2026.
+
+[14] Google, “Gemini,” https://gemini.google.com/, accessed November 2, 2026.

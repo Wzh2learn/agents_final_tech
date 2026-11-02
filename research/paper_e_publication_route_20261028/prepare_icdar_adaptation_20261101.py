@@ -105,6 +105,8 @@ def main():
         "OCR-like variants. FinRank uses lexical baselines and has an unresolved reproduction gap, and the BEIR "
         "analyses are retrospective runs over two datasets with a post-hoc dense extension.")
     text = replace_once(text, limitation, expanded_limitation)
+    text = replace_once(text, "manuscript text in Sections I–VI.",
+                        "manuscript text in Sections 1–6.")
     with OUTPUT.open("w", encoding="utf-8", newline="\n") as output:
         output.write(text)
     print("Wrote", OUTPUT, "with independently recounted seed-42 family counts")

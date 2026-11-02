@@ -1,6 +1,7 @@
 """Protect specific scientific attribution errors found during manuscript review."""
 import json
 from pathlib import Path
+import re
 import unittest
 
 from research.paper_e_publication_route_20261028.recheck_lexical_holm import recheck
@@ -41,6 +42,23 @@ class PaperClaimRegressionTest(unittest.TestCase):
         injections = [row for table in tables for row in table["injections"]]
         self.assertEqual((len(tables), len(injections), sum(row["visible"] for row in injections)), (95, 118, 96))
         self.assertTrue(all(row["canonical"] is not None for row in injections))
+
+    def test_current_manuscripts_cite_every_reference_and_include_disclosure(self):
+        directory = PAPER.parent
+        variants = ((PAPER, directory / "icint_latex/main.tex", "Sections I--VI"),
+                    (directory / "paper_e_icdar_working.md",
+                     directory / "icdar_adapted_20261101/main.tex", "Sections 1--6"))
+        for markdown, latex, section_label in variants:
+            body, references = markdown.read_text(encoding="utf-8").split("# References", 1)
+            declared = re.findall(r"(?m)^\[(\d+)\]", references)
+            cited = set(re.findall(r"\[(\d+)\]", body))
+            self.assertEqual(declared, [str(n) for n in range(1, len(declared) + 1)])
+            self.assertEqual(cited, set(declared))
+            rendered = latex.read_text(encoding="utf-8")
+            self.assertEqual(re.findall(r"\\bibitem\{r(\d+)\}", rendered), declared)
+            self.assertEqual(set(re.findall(r"\\cite\{r(\d+)\}", rendered)), cited)
+            self.assertEqual(rendered.count(r"\section*{Acknowledgment}"), 1)
+            self.assertIn(section_label, rendered)
 
 
 if __name__ == "__main__":
