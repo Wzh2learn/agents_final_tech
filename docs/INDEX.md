@@ -10,6 +10,7 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
+| 导师确认材料 | [2026-11-02 学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)、[转发 PDF](../output/pdf/advisor_brief_20261102.pdf) |
 | Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[ICDAR 备投工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)、[投稿路线](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |
 | Paper E 长期问题与对标 | [战略复核与资产地图](research/PAPER_E_STRATEGIC_REVIEW_20261029.md)；当前投稿路线以现役审阅稿和 STATE 为准 |
 | 历史科研基线与复用资产 | [2026-10-23 复用地图](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[对账](../research/research_baseline_governance_20261023/RECONCILIATION.json)；当前解释见 STATE |

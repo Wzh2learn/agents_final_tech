@@ -1,7 +1,8 @@
 # 大论文稿件骨架与小论文继承表（v1）
 
-> 状态：`CURRENT_WRITING_SCAFFOLD / NOT_FINAL_THESIS` | 更新：2026-10-26
-> 当前执行见[唯一指令](../docs/research/LOOP_D_RESEARCH_PROMPT.md)；B及后续no-go已执行。下一阶段/协作增量为待接受提案；本骨架不派发实验。
+> 状态：`HISTORICAL_WRITING_SCAFFOLD / NOT_CURRENT_RESEARCH_PLAN` | 原更新：2026-10-26
+> 2026-11-02 说明：保留本文作为当时的写作和实验脉络，不作为现役方向、稿件案例数或投稿路线；当前导师沟通见[学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)，现役状态见 [STATE](../memory/STATE.md)。
+> 以下保留当时执行说明：B及后续no-go已执行；本骨架不派发实验。
 
 > 当前证据修正：[负责人复核](../docs/governance/audit/loop_d_control_review/PHASE_B_POST_RETURN_REVIEW.md)。27/26/25/0为集合匹配，R36/36为embedded抽取；禁止作为答案准确率或干净的ordinary续训方法负结果引用。
 
