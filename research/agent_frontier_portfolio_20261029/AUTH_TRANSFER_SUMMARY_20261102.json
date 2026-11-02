@@ -1,0 +1,239 @@
+{
+  "status": "POSTHOC_DEVELOPMENT_NOT_OFFICIAL_HARNESS",
+  "source": {
+    "raw_sha256": "14dbba560ff536baa4ed5af1bd7456ef40cff966dcd42adeac9ab6c41d6a7c4c",
+    "posts": 10,
+    "reported_usage": {
+      "input": 4672,
+      "output": 1852,
+      "reasoning": 0,
+      "total": 77755,
+      "cache_read": 71231,
+      "steps": 10,
+      "missing_total_steps": 0
+    }
+  },
+  "cases": {
+    "no_history": {
+      "arm": "no_skill",
+      "raw_sha256": "217b6c9f4dc36f60cc9958fab8fe3ca0f98e6e36c95aba3a7d146bdc8944ddd9",
+      "intervention_sha256": "77c7d870efc4bb9a972bffacb96d073f84dc06b786b1be50f4517b32c3f000e2",
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "posts": 6,
+      "reported_usage": {
+        "input": 3675,
+        "output": 2470,
+        "reasoning": 0,
+        "total": 46241,
+        "cache_read": 40096,
+        "steps": 6,
+        "missing_total_steps": 0
+      },
+      "elapsed_seconds": 95.234,
+      "score_report_sha256": "b66f210aaea43ed88804479d3ea1cf5212aa9c1f210674fd668d2f0250ecdca6",
+      "released_dimensions": {
+        "outcome_public": {
+          "passed": 2,
+          "total": 2
+        },
+        "outcome_hidden": {
+          "passed": 5,
+          "total": 5
+        },
+        "process_public": {
+          "passed": 0,
+          "total": 1
+        },
+        "process_hidden": {
+          "passed": 2,
+          "total": 3
+        }
+      },
+      "released_weighted_score": 66.67,
+      "behavior_passed": 8,
+      "behavior_total": 8,
+      "repeated_expiry_stress": {
+        "result": null,
+        "error": "ProbeGuard",
+        "auth_calls": 9,
+        "data_calls": 8,
+        "tokens": [
+          "probe-1",
+          "probe-2",
+          "probe-3",
+          "probe-4",
+          "probe-5",
+          "probe-6",
+          "probe-7",
+          "probe-8"
+        ]
+      },
+      "project_sha256": {
+        "auth_client.py": "11dbc881730d90c17902b2bcc28b75261f08113fa4eb85c97f2f80935b89febe",
+        "auth_policy.py": "257b6d705f2e1355fd0f3cab4fb08f8dc6b5499898a0de2e3535f0b5aed9a370",
+        "mock_auth_api.py": "d8f8968aa412421b24050a397948c86fe4a7408307f661615f82b0aa9f085340",
+        "token_session.py": "df03026117ae1109e6ae0205c13da986d204d7dbc1621cca8ec0c4cef5026536"
+      },
+      "trace": {
+        "prior_file_read_paths": [],
+        "unsuccessful_prior_reads": [],
+        "other_prior_tool_mentions": [],
+        "edit_paths": [
+          "/root/task/auth_policy.py"
+        ]
+      }
+    },
+    "optional": {
+      "arm": "source_program_plus_feedback",
+      "raw_sha256": "6e940caae32b04a9438a36489206320747d49be1370475be48e1be0c66081546",
+      "intervention_sha256": "24ddd98edc87fa5271ae37df225f4811f0aca73df7ef745fba87c025c321d376",
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "posts": 8,
+      "reported_usage": {
+        "input": 4270,
+        "output": 1877,
+        "reasoning": 0,
+        "total": 60804,
+        "cache_read": 54657,
+        "steps": 8,
+        "missing_total_steps": 0
+      },
+      "elapsed_seconds": 36.624,
+      "score_report_sha256": "b66f210aaea43ed88804479d3ea1cf5212aa9c1f210674fd668d2f0250ecdca6",
+      "released_dimensions": {
+        "outcome_public": {
+          "passed": 2,
+          "total": 2
+        },
+        "outcome_hidden": {
+          "passed": 5,
+          "total": 5
+        },
+        "process_public": {
+          "passed": 0,
+          "total": 1
+        },
+        "process_hidden": {
+          "passed": 2,
+          "total": 3
+        }
+      },
+      "released_weighted_score": 66.67,
+      "behavior_passed": 8,
+      "behavior_total": 8,
+      "repeated_expiry_stress": {
+        "result": null,
+        "error": "ProbeGuard",
+        "auth_calls": 9,
+        "data_calls": 8,
+        "tokens": [
+          "probe-1",
+          "probe-2",
+          "probe-3",
+          "probe-4",
+          "probe-5",
+          "probe-6",
+          "probe-7",
+          "probe-8"
+        ]
+      },
+      "project_sha256": {
+        "auth_client.py": "11dbc881730d90c17902b2bcc28b75261f08113fa4eb85c97f2f80935b89febe",
+        "auth_policy.py": "257b6d705f2e1355fd0f3cab4fb08f8dc6b5499898a0de2e3535f0b5aed9a370",
+        "mock_auth_api.py": "d8f8968aa412421b24050a397948c86fe4a7408307f661615f82b0aa9f085340",
+        "token_session.py": "df03026117ae1109e6ae0205c13da986d204d7dbc1621cca8ec0c4cef5026536"
+      },
+      "trace": {
+        "prior_file_read_paths": [],
+        "unsuccessful_prior_reads": [],
+        "other_prior_tool_mentions": [
+          "glob"
+        ],
+        "edit_paths": [
+          "/root/task/auth_policy.py"
+        ]
+      }
+    },
+    "required": {
+      "arm": "source_program_required",
+      "raw_sha256": "cbbb5415eb6c22e0ee4fa1ff96e47af861a8f7e891409719e386e1cb10ac74db",
+      "intervention_sha256": "e1b4c7142308bdaf6110811852cc58e1dc4f0a7994f0155e3fbe1cc7c0612073",
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "posts": 7,
+      "reported_usage": {
+        "input": 5189,
+        "output": 1962,
+        "reasoning": 0,
+        "total": 61059,
+        "cache_read": 53908,
+        "steps": 7,
+        "missing_total_steps": 0
+      },
+      "elapsed_seconds": 38.437,
+      "score_report_sha256": "b66f210aaea43ed88804479d3ea1cf5212aa9c1f210674fd668d2f0250ecdca6",
+      "released_dimensions": {
+        "outcome_public": {
+          "passed": 2,
+          "total": 2
+        },
+        "outcome_hidden": {
+          "passed": 5,
+          "total": 5
+        },
+        "process_public": {
+          "passed": 0,
+          "total": 1
+        },
+        "process_hidden": {
+          "passed": 2,
+          "total": 3
+        }
+      },
+      "released_weighted_score": 66.67,
+      "behavior_passed": 8,
+      "behavior_total": 8,
+      "repeated_expiry_stress": {
+        "result": null,
+        "error": "ProbeGuard",
+        "auth_calls": 9,
+        "data_calls": 8,
+        "tokens": [
+          "probe-1",
+          "probe-2",
+          "probe-3",
+          "probe-4",
+          "probe-5",
+          "probe-6",
+          "probe-7",
+          "probe-8"
+        ]
+      },
+      "project_sha256": {
+        "auth_client.py": "11dbc881730d90c17902b2bcc28b75261f08113fa4eb85c97f2f80935b89febe",
+        "auth_policy.py": "257b6d705f2e1355fd0f3cab4fb08f8dc6b5499898a0de2e3535f0b5aed9a370",
+        "mock_auth_api.py": "d8f8968aa412421b24050a397948c86fe4a7408307f661615f82b0aa9f085340",
+        "token_session.py": "df03026117ae1109e6ae0205c13da986d204d7dbc1621cca8ec0c4cef5026536"
+      },
+      "trace": {
+        "prior_file_read_paths": [
+          "/root/prior_instructions.txt",
+          "/root/prior_retry_client.py",
+          "/root/prior_policy.py",
+          "/root/prior_feedback.txt"
+        ],
+        "unsuccessful_prior_reads": [],
+        "other_prior_tool_mentions": [],
+        "edit_paths": [
+          "/root/task/auth_policy.py"
+        ]
+      }
+    }
+  },
+  "qualification_sha256": "e3efcd7ac07d4fb886fe08f8b059bdbc965e780af02c1d9944ddc94ac71acaed",
+  "behavior_probe_sha256": "76a45f3de7d3e620f6bd5f7243a2ac519835eabc2524fb53f64c1211a06ecc46",
+  "source_cost_is_shared_not_additive_between_history_arms": true,
+  "limitations": "One exposed task family; forced access condition was designed after earlier outputs; total usage includes reported cache reads."
+}

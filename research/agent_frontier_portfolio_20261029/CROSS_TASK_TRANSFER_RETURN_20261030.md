@@ -1,6 +1,6 @@
 # 跨任务经验迁移与元件匹配尸检
 
-2026-10-30；**开发探索，不是跨 benchmark 确认，也不是已成立的 IJCNN 方法**。实验卡和各组输入哈希见 [预先冻结的运行计划](CROSS_TASK_TRANSFER_PILOT_PLAN_20261030.md)、[Agent 汇总](codebook_transfer_summary_20261030.json)；后续回放的四个控制及哈希见[控制计划](CODEBOOK_COMPONENT_CONTROL_PLAN_20261030.md)、[控制汇总](codebook_component_controls_summary_20261030.json)。目标是检验来自发票任务的标识符匹配经验在另一种工具任务上如何被使用，而不是根据一个成功轨迹宣称可泛化学习。
+2026-10-30；**开发探索，不是跨 benchmark 确认，也不是已成立的 IJCNN 方法**。实验卡和各组输入哈希见 [预先冻结的运行计划](archive/plans/CROSS_TASK_TRANSFER_PILOT_PLAN_20261030.md)、[Agent 汇总](codebook_transfer_summary_20261030.json)；后续回放的四个控制及哈希见[控制计划](archive/plans/CODEBOOK_COMPONENT_CONTROL_PLAN_20261030.md)、[控制汇总](codebook_component_controls_summary_20261030.json)。目标是检验来自发票任务的标识符匹配经验在另一种工具任务上如何被使用，而不是根据一个成功轨迹宣称可泛化学习。
 
 ## 三次真实工具 Agent 运行
 

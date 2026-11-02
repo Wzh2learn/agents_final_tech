@@ -1,9 +1,10 @@
 # Open Decisions And Blockers
 
-> 2026-11-02 | 只列当前未决。历史原文见 [治理前快照](archive/THREADS_2026-10-29_pre_neat.md)，相对链接沿用原文件位于 memory/ 时的基址；科研当前状态见 [STATE](STATE.md)。
+> 2026-11-03 | 只列当前未决。历史原文见 [治理前快照](archive/THREADS_2026-10-29_pre_neat.md)，相对链接沿用原文件位于 memory/ 时的基址；科研当前状态见 [STATE](STATE.md)。
 
 | 事项 | 当前状态与下一步 |
 | --- | --- |
+| Gemini 审稿反馈 | 已收到当前四页 Paper E 稿件的审稿意见；本次归档后先逐项核对稿件与现有证据，区分可直接采纳、待核验和应纠正的建议。长期科研 Goal 按用户要求暂停，后续是否重启由用户决定。 |
 | 2026-11-05 前导师确认 | 将[方向与小论文进展讨论稿](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)及当前 Paper E 审阅稿提供给导师；听取对研究主线、后两点划分、投稿路线与学校成果认定的意见。导师反馈尚未取得。 |
 | Paper E 正文 | [ICINT 审阅稿](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)已用真实模板编译；[机器审读与数值更正](../research/paper_e_publication_route_20261028/ICINT_AI_REVIEW_RETURN_20261031.md)、[官网和 PDF 补充检查](../research/paper_e_publication_route_20261028/ICINT_PREFLIGHT_20261101.md)不替代独立统计、引文、匿名和许可复核。[原操作点复核](../research/asset_revalidation_20261029_v1/operating_points_summary.json)显示原判定为 ≥，匹配网格为严格 >。[ICDAR 工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)强化了文档分析定位，为 ICINT 拒稿后的顺序备投准备，尚未终审。 |
 | 投稿与学位认定 | 用户选择 ICINT 首投、ICDAR 顺序备投，可到场参会；学校要求本人第一作者、北邮第一单位、方向相关，会议还需召开并宣读/张贴。用户已给出第一、第二作者及两位老师的英文姓名，确认两名学生的北邮电子工程学院署名，并指定暂定通讯作者；私有投稿准备文件保存在仓库外。最终作者顺序与作者团队对成稿的确认仍待办理。AI 披露、专利、artifact 许可、2027 论文集出版信息、费用及正式提交仍待实际办理；不同时一稿多投。2027 年 10 月具体送审日未知。 |

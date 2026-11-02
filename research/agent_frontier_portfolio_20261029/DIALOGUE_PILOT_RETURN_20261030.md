@@ -1,6 +1,6 @@
 # Dialogue parser: feedback, repair and verifier development study
 
-日期：2026-10-30。状态：**真实 Agent 开发性机制观察，非跨任务确认、非已成立论文方法。** 同一 SkillsBench v1.1 任务、同一 GB10 Qwen3.6-35B-A3B 与 OpenCode、相同公开输入，在线生成期间无外网、无隐藏 verifier；测试在独立容器内事后运行。使用项目适配 runner，不声称官方 harness 复现。研究设计在[实验卡](DIALOGUE_AGENT_PILOT_PLAN_20261030.md)，逐次资源与 raw hash 在[账本](dialogue_pilot_summary_20261030.json)。
+日期：2026-10-30。状态：**真实 Agent 开发性机制观察，非跨任务确认、非已成立论文方法。** 同一 SkillsBench v1.1 任务、同一 GB10 Qwen3.6-35B-A3B 与 OpenCode、相同公开输入，在线生成期间无外网、无隐藏 verifier；测试在独立容器内事后运行。使用项目适配 runner，不声称官方 harness 复现。研究设计在[实验卡](archive/plans/DIALOGUE_AGENT_PILOT_PLAN_20261030.md)，逐次资源与 raw hash 在[账本](dialogue_pilot_summary_20261030.json)。
 
 数据固定：SkillsBench checkout `b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af`；上游 `dialogue-parser/task.md` SHA-256 `d14e9102a433abcdb7cbab8a02e082b698fb87eb50fd9e8bc95c2ebb8d9cc1ab`；原 `verifier/test_outputs.py` SHA-256 `d0effcfa8ba898260bce69ba8a0c4852f4959a83e9130cc69c13847f0f05b01c`。这能固定检查对象，但不排除公开题目曾在模型训练中出现。
 

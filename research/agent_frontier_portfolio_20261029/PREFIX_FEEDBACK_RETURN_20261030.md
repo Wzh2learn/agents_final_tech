@@ -1,6 +1,6 @@
 # Prefix-cache Agent repair: second development case
 
-2026-10-30；独立于 dialogue-parser 的**任务**，仍属于同一 SkillsBench v1.1 checkout，不是独立 benchmark。使用真实隔离 OpenCode/Qwen Agent、固定原始代码/输出、无外网、事后独立挂载原 verifier。见[事前实验卡](PREFIX_FEEDBACK_PILOT_PLAN_20261030.md)、[逐次账本](prefix_feedback_summary_20261030.json)和[运行器](run_prefix_feedback_probe.py)。
+2026-10-30；独立于 dialogue-parser 的**任务**，仍属于同一 SkillsBench v1.1 checkout，不是独立 benchmark。使用真实隔离 OpenCode/Qwen Agent、固定原始代码/输出、无外网、事后独立挂载原 verifier。见[事前实验卡](archive/plans/PREFIX_FEEDBACK_PILOT_PLAN_20261030.md)、[逐次账本](prefix_feedback_summary_20261030.json)和[运行器](run_prefix_feedback_probe.py)。
 
 源 checkout `b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af`；`task.md` SHA-256 `76bc3280055cd05df0c9855391d795595acc454cfd7da43a448fbbdba6026c72`；上游 `oracle_helpers.py` SHA-256 `bc3579ef49fed337c6f707532f3572cb9dd5a82e42dea8184d2e2c278b6b896c`；原 `prefix-cache-replay` skill SHA-256 `28ced940ec272cc01cf06519912077492d948b10e08a933acba12dd9907220cf`。固定版本不排除模型预训练曝光。
 

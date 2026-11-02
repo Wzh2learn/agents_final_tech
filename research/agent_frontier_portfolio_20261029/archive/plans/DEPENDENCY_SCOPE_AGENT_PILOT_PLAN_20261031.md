@@ -1,6 +1,6 @@
 # 真实 Agent：从反馈生成经验并适配变化任务
 
-2026-10-31，开发实验卡；正式模型运行前冻结。基于已看过的 [公开任务及原测试资格检查](DEPENDENCY_SCOPE_SHIFT_QUALIFICATION_20261031.md)，不是独立确认或官方 harness。
+2026-10-31，开发实验卡；正式模型运行前冻结。基于已看过的 [公开任务及原测试资格检查](../../DEPENDENCY_SCOPE_SHIFT_QUALIFICATION_20261031.md)，不是独立确认或官方 harness。
 
 ## 问题
 

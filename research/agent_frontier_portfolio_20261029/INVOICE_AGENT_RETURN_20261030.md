@@ -1,6 +1,6 @@
 # Invoice benchmark: skills, feedback and simple-rule control
 
-2026-10-30。状态：**第三个真实工具 Agent 开发任务，非独立 benchmark 或模型未见来源确认。** SkillsBench v1.1 checkout `b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af`，任务是根据发票 PDF、供应商表及采购订单按固定优先顺序标注异常。所有材料为公开任务数据，不是线上财务审核。公开输入及 SHA-256、环境和预算见[实验卡](INVOICE_AGENT_PILOT_PLAN_20261030.md)、[逐次账本](invoice_agent_summary_20261030.json)。Python 容器使用 pypdf 6.4.1、openpyxl 3.1.5 和 rapidfuzz 3.14.3，与原 Dockerfile 的完整环境并不完全相同；隐藏 verifier 和参考数据仅在 Agent 结束后挂载。每条一轮，模型预训练曝光未知。
+2026-10-30。状态：**第三个真实工具 Agent 开发任务，非独立 benchmark 或模型未见来源确认。** SkillsBench v1.1 checkout `b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af`，任务是根据发票 PDF、供应商表及采购订单按固定优先顺序标注异常。所有材料为公开任务数据，不是线上财务审核。公开输入及 SHA-256、环境和预算见[实验卡](archive/plans/INVOICE_AGENT_PILOT_PLAN_20261030.md)、[逐次账本](invoice_agent_summary_20261030.json)。Python 容器使用 pypdf 6.4.1、openpyxl 3.1.5 和 rapidfuzz 3.14.3，与原 Dockerfile 的完整环境并不完全相同；隐藏 verifier 和参考数据仅在 Agent 结束后挂载。每条一轮，模型预训练曝光未知。
 
 | 条件 | 实际输出和原 verifier | 按页检出 P/R | 异常原因与参考一致 | 物理 POST |
 |---|---|---|---:|

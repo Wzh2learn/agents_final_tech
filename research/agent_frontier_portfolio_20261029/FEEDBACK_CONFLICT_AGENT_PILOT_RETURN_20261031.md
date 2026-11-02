@@ -1,6 +1,6 @@
 # 13F 规则与反馈冲突：真实 Agent 开发实验
 
-2026-10-31。根据[事前冻结的实验卡](FEEDBACK_CONFLICT_AGENT_PILOT_PLAN_20261031.md)，用 OpenCode + GB10 本地 Qwen3.6-35B-A3B 实际运行了 6 条隔离工具 Agent 轨迹。任务改造、资源合同和参考 hash 在 `0c449e2e` 冻结；聚合数字、轨迹哈希、检查绑定及可见行为指标见[可复算摘要](13f_feedback_agent_summary_20261031.json)。
+2026-10-31。根据[事前冻结的实验卡](archive/plans/FEEDBACK_CONFLICT_AGENT_PILOT_PLAN_20261031.md)，用 OpenCode + GB10 本地 Qwen3.6-35B-A3B 实际运行了 6 条隔离工具 Agent 轨迹。任务改造、资源合同和参考 hash 在 `0c449e2e` 冻结；聚合数字、轨迹哈希、检查绑定及可见行为指标见[可复算摘要](13f_feedback_agent_summary_20261031.json)。
 
 ## 实际历史：两个检查器确实产生不同反馈
 

@@ -24,6 +24,8 @@ PINNED = {
     "environment/auth_policy.py": "68ad5b1ad27876a310aa7c43952d1c33de26cf8bbc2534af2ddbe0977692bd26",
     "environment/mock_auth_api.py": "d8f8968aa412421b24050a397948c86fe4a7408307f661615f82b0aa9f085340",
     "environment/token_session.py": "df03026117ae1109e6ae0205c13da986d204d7dbc1621cca8ec0c4cef5026536",
+    "environment/README.md": "40a53b105d42fee7220d6aef0aa7f35cf82c188de4fbe352df5700a11edd8f73",
+    "environment/docs/auth-recovery.md": "0b0699c486f0172a124a95324c88219ebca8655d4133daebb42ab1c46d3d847d",
     "solution/solve.sh": "5ff07da7cccefeebdcb36cde37cbd9cade375f4a1da8f75c074b69f1464e248a",
     "tests/test.sh": "e51f8c82a375e594c8e7e4350be722b56a3d1d159fef137e6405b9c1097181a2",
     "tests/test_outcome.py": "90feaab7736188bd0a11a6106bc29f06dc9a1c2a803129d89b15dd8e716224dc",

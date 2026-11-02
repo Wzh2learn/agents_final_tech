@@ -1,6 +1,6 @@
 # 13F 任务规则与评分反馈冲突：真实 Agent 开发实验卡
 
-2026-10-31；本卡须在本实验首次模型请求前与运行器、任务构建器一起提交。这个实验围绕已有[公开任务源码发现](FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md)，但**主动增加明确类别合同，属于受控改造任务**，不宣称原始自然语言任务的金融语义只有一个正确答案，也不宣称运行了官方基准。
+2026-10-31；本卡须在本实验首次模型请求前与运行器、任务构建器一起提交。这个实验围绕已有[公开任务源码发现](../../FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md)，但**主动增加明确类别合同，属于受控改造任务**，不宣称原始自然语言任务的金融语义只有一个正确答案，也不宣称运行了官方基准。
 
 ## 研究问题
 
@@ -8,7 +8,7 @@
 
 ## 两个受控任务
 
-共用公开 SkillLearnBench `financial-analysis` 的 Q3 ZIP（输入 hash 与[复算](skilllearnbench_13f_class_literal_audit_20261031.json)绑定）。任务明确给出同一个 25 项可执行 `TITLEOFCLASS` 列表，要求在 `PERIODOFREPORT=30-SEP-2025` 且 `FILINGMANAGER_NAME` 大小写无关**完整相等**的申报上，统计 `TITLEOFCLASS.lower()` 精确属于该列表的 `INFOTABLE` 行数。T1 管理人为 Renaissance，T2 为 Bridgewater；输出 `/root/count.json`，仅含整数字段 `count`。这定义的是该实验合同下的计数，不能当成独立金融分类 gold 或基金全部 AUM。
+共用公开 SkillLearnBench `financial-analysis` 的 Q3 ZIP（输入 hash 与[复算](../../skilllearnbench_13f_class_literal_audit_20261031.json)绑定）。任务明确给出同一个 25 项可执行 `TITLEOFCLASS` 列表，要求在 `PERIODOFREPORT=30-SEP-2025` 且 `FILINGMANAGER_NAME` 大小写无关**完整相等**的申报上，统计 `TITLEOFCLASS.lower()` 精确属于该列表的 `INFOTABLE` 行数。T1 管理人为 Renaissance，T2 为 Bridgewater；输出 `/root/count.json`，仅含整数字段 `count`。这定义的是该实验合同下的计数，不能当成独立金融分类 gold 或基金全部 AUM。
 
 实际数据、完整类别合同、可读脚本工具对所有组相同；原 solution、原测试、目标 expected、Q2 报告数据和代码仓库均不放进 Agent 容器。原测试及定制的合同 checker 仅在 Agent 停止后挂载。预先的 CPU 复算确定了隐藏参考，以数据、任务和代码 hash 冻结；gold 只能用于评价和构造已发生的历史反馈，不提供 T2 目标答案。
 

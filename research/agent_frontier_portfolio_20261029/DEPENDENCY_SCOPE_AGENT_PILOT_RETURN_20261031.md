@@ -1,6 +1,6 @@
 # 真实 Agent 从失败反馈生成经验：首次运行
 
-2026-10-31。按事前提交的 [实验卡](DEPENDENCY_SCOPE_AGENT_PILOT_PLAN_20261031.md)在 GB10 运行 OpenCode + 本地 Qwen；[逐组哈希、评测和成本](dependency_scope_agent_pilot_summary_20261031.json)可由 [复算器](summarize_dependency_scope_pilot_20261031.py)从原始回执和扫描报告重建。接续：[看过首轮后冻结的重复计划](DEPENDENCY_SCOPE_REPEAT_PLAN_20261031.md)。这是一个已暴露来源上的开发性观察，不是独立确认。
+2026-10-31。按事前提交的 [实验卡](archive/plans/DEPENDENCY_SCOPE_AGENT_PILOT_PLAN_20261031.md)在 GB10 运行 OpenCode + 本地 Qwen；[逐组哈希、评测和成本](dependency_scope_agent_pilot_summary_20261031.json)可由 [复算器](summarize_dependency_scope_pilot_20261031.py)从原始回执和扫描报告重建。接续：[看过首轮后冻结的重复计划](archive/plans/DEPENDENCY_SCOPE_REPEAT_PLAN_20261031.md)。这是一个已暴露来源上的开发性观察，不是独立确认。
 
 ## 真实连续流程
 
@@ -31,6 +31,6 @@
 
 ## 下一步
 
-先按[重复计划](DEPENDENCY_SCOPE_REPEAT_PLAN_20261031.md)固定同一生成 skill，对四个目标条件各再运行一次，分开统计输出、上限故障、修改时间及经验生成总成本。之后选择多个来源的自然工作流和公开相关方法，探索**依据可见执行反馈筛选或修订经验，并保护证据来源信息**的可执行方法，而不是将这个单任务结果包装成通用 Memory 架构。模型训练只在具有足够来源隔离、可执行监督与训练预算匹配时考虑。
+先按[重复计划](archive/plans/DEPENDENCY_SCOPE_REPEAT_PLAN_20261031.md)固定同一生成 skill，对四个目标条件各再运行一次，分开统计输出、上限故障、修改时间及经验生成总成本。之后选择多个来源的自然工作流和公开相关方法，探索**依据可见执行反馈筛选或修订经验，并保护证据来源信息**的可执行方法，而不是将这个单任务结果包装成通用 Memory 架构。模型训练只在具有足够来源隔离、可执行监督与训练预算匹配时考虑。
 
 原始任务、工具事件、生成 skill、模型回执、每次输出、原测试与固定扫描输出保存在 GB10 `.../research_evidence/agent_learning_20261030/dependency_scope_agent_pilot_20261031/`；scanner/DB 在相邻 `dependency_scope_assets_20261031/`，不将约 920 MB DB 提交 Git。源码许可和模型预训练曝光仍需分别处理。

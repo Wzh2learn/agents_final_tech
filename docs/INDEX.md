@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-31 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-11-03 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -16,7 +16,7 @@
 | 历史科研基线与复用资产 | [2026-10-23 复用地图](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)、[对账](../research/research_baseline_governance_20261023/RECONCILIATION.json)；当前解释见 STATE |
 | 历史方法实验回执 | [修订诊断](../research/feedback_delivery_continuation_20261025_v1/REVISION_OPERATOR_DIAGNOSTIC_RETURN.md)、[科研负责人自审](governance/audit/loop_d_control_review/RECONCILIATION.json)；最新解释见 STATE |
 | 唯一 Loop D 指令 | [LOOP_D_RESEARCH_PROMPT.md](research/LOOP_D_RESEARCH_PROMPT.md)；当前任务以用户消息为准，2026-10-29 前入口和指令见[历史归档](archive/2026-10-29_research_neat/)，更早的[v1](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_20261021.md)、[v2](research/LOOP_D_PUBLICATION_AND_THESIS_GOALS_V2_20261022.md)仅为历史跳转，原文见[归档](archive/2026-10-25_loop_d_prompt_consolidation/README.md)。 |
-| 科研治理与资产机会 | [治理与挖宝](governance/2026-10-29_research_neat_closeout.md)；[复现与尸检](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。 |
+| 科研治理与资产机会 | [治理与挖宝](governance/2026-10-29_research_neat_closeout.md)；[复现与尸检](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)；[已完成实验计划归档](../research/agent_frontier_portfolio_20261029/archive/plans/)。 |
 | 2026-11-01 科研自审与治理 | [现役入口、证据边界、技能及工作树复核](governance/2026-11-01_research_inquiry_and_neat.md)；最新状态以 STATE / THREADS 为准。 |
 | 决策残差范围复核 | [负责人复核](governance/audit/loop_d_control_review/DECISION_RESIDUAL_POST_RETURN_REVIEW.md)：独立复算、no-go范围、always-expand成本门及待接受的下一阶段提案；机器收据/复现脚本见正文 |
 | 自然错误/成本阶段事后复核 | [负责人复核](governance/audit/loop_d_control_review/NATURAL_COST_POST_RETURN_REVIEW.md)：507行复算、P1执行证据缺口、P2分类反例及优先期刊稿/一次校准实验；原raw不改 |

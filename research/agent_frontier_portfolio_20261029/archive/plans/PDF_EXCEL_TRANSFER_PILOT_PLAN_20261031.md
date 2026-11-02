@@ -6,7 +6,7 @@
 
 目标为 SkillsBench v1.1 checkout `b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af` 中的 `pdf-excel-diff`，与发票任务同 benchmark、不同任务，不是独立 benchmark；模型预训练曝光未知。任务要求从旧 PDF 和新 Excel 中识别删除与字段修改，数据生成器明确描述其为合成员工数据。任务源的顶层仓库为 Apache-2.0；它在 Dockerfile 中另行下载 [skillsbench-files](https://github.com/XuandongZhao/skillsbench-files) 数据仓库。数据仓库固定 HEAD `2982259afd39ec77df4c324bd29208f77986e9de`，没有发现单独 LICENSE，数据许可**未确认**：原文件仅保存在 GB10 研究证据目录，不加入 Git 或重新分发，不用来训练。
 
-我们用数据仓库的原始 Excel 与当前 Excel **独立于 benchmark 的 expected JSON 重新计算**：原始 10,500 条、当前 10,485 条，15 删除、20 字段变化，与 expected 的 ID、字段、值全部相符；旧 PDF 经 `pdftotext` 提取 10,500 个唯一 ID，与原始 Excel ID 集合一致。详细 hash 和计数见 [资格结果](pdf_excel_reference_qualification_20261031.json)及[脚本](qualify_pdf_excel_reference.py)。这一核对只验证 PDF 的 ID 集合，尚未逐字段证明 PDF 等于原始 Excel；两个表格和 expected 仍来自同一公开数据制作链，不是人工或独立自然业务 gold。
+我们用数据仓库的原始 Excel 与当前 Excel **独立于 benchmark 的 expected JSON 重新计算**：原始 10,500 条、当前 10,485 条，15 删除、20 字段变化，与 expected 的 ID、字段、值全部相符；旧 PDF 经 `pdftotext` 提取 10,500 个唯一 ID，与原始 Excel ID 集合一致。详细 hash 和计数见 [资格结果](../../pdf_excel_reference_qualification_20261031.json)及[脚本](../../qualify_pdf_excel_reference.py)。这一核对只验证 PDF 的 ID 集合，尚未逐字段证明 PDF 等于原始 Excel；两个表格和 expected 仍来自同一公开数据制作链，不是人工或独立自然业务 gold。
 
 ## 三个条件和资源
 

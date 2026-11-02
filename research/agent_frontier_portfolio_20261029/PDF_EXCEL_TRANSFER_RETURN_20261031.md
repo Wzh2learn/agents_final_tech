@@ -1,6 +1,6 @@
 # PDF/Excel 跨任务经验：真实 Agent 与对照结果
 
-2026-10-31。三次运行按[事前实验卡](PDF_EXCEL_TRANSFER_PILOT_PLAN_20261031.md)执行；模型是 GB10 本地 Qwen3.6-35B-A3B，工具 Agent 是 OpenCode，输入与环境相同。结果为**一个公开合成任务的三次开发运行**，不能作为方法有效、跨 benchmark 泛化或因果效应确认。聚合数据及 raw 的 hash 见[机器可复算摘要](pdf_excel_transfer_summary_20261031.json)。
+2026-10-31。三次运行按[事前实验卡](archive/plans/PDF_EXCEL_TRANSFER_PILOT_PLAN_20261031.md)执行；模型是 GB10 本地 Qwen3.6-35B-A3B，工具 Agent 是 OpenCode，输入与环境相同。结果为**一个公开合成任务的三次开发运行**，不能作为方法有效、跨 benchmark 泛化或因果效应确认。聚合数据及 raw 的 hash 见[机器可复算摘要](pdf_excel_transfer_summary_20261031.json)。
 
 ## 实际交付
 

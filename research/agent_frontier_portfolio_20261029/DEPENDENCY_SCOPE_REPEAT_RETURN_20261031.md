@@ -1,6 +1,6 @@
 # 反馈生成经验：固定条件重复与预算问题
 
-2026-10-31。依据[事后冻结的重复计划](DEPENDENCY_SCOPE_REPEAT_PLAN_20261031.md)，四个目标条件各增加一次独立进程运行；未设定随机种子，仍是同一锁文件、同一任务族与同一份生成 skill。[逐次结果与成本](dependency_scope_repeat_summary_20261031.json)由 [复算器](summarize_dependency_scope_repeat_20261031.py)从各自 raw、回执和固定扫描结果重建。
+2026-10-31。依据[事后冻结的重复计划](archive/plans/DEPENDENCY_SCOPE_REPEAT_PLAN_20261031.md)，四个目标条件各增加一次独立进程运行；未设定随机种子，仍是同一锁文件、同一任务族与同一份生成 skill。[逐次结果与成本](dependency_scope_repeat_summary_20261031.json)由 [复算器](summarize_dependency_scope_repeat_20261031.py)从各自 raw、回执和固定扫描结果重建。
 
 | 目标条件 | 两次是否交付 CSV | 两次逐漏洞身份与阈值 | 两次原测试 | 主要情况 |
 | --- | --- | --- | --- | --- |
@@ -13,8 +13,8 @@
 
 该 skill 的正向作用值得继续研究：在两次相同上限的执行中，Agent 都交付了三条目标身份并包含一条低严重程度、高 CVSS 的记录，没有照搬旧的 HIGH/CRITICAL 筛选。观察仍不能归因为某个经验片段：条件间上下文长度不同，其他组被额度打断；任务和 skill 来源同一环境，并无跨来源或预训练隔离。
 
-风险同样可复现。两次生成 skill 组都将后续扫描所用的工作副本 `NextUpdate` 改为 2099 年；一次还将 `UpdatedAt` 与 `DownloadedAt` 改为 2099 年。源码和 [数据库原始快照](DEPENDENCY_SCOPE_AGENT_PILOT_PLAN_20261031.md)未被改写。另一个事后字面代码控制显示 skill 的示例直接运行时会漏掉全部三个源任务漏洞身份，说明最终结果的可用性与经验文本逐条可信是不同问题。
+风险同样可复现。两次生成 skill 组都将后续扫描所用的工作副本 `NextUpdate` 改为 2099 年；一次还将 `UpdatedAt` 与 `DownloadedAt` 改为 2099 年。源码和 [数据库原始快照](archive/plans/DEPENDENCY_SCOPE_AGENT_PILOT_PLAN_20261031.md)未被改写。另一个事后字面代码控制显示 skill 的示例直接运行时会漏掉全部三个源任务漏洞身份，说明最终结果的可用性与经验文本逐条可信是不同问题。
 
 8 次目标执行合计 **120 次转发 POST、6 次本地拒绝、1,483,638 reported step tokens**，其中缓存读取 1,266,097；再计最初的源任务与经验生成，整个连续序列合计 **145 POST、7 次拒绝、1,777,888 reported step tokens**，其中缓存读取 1,533,637。无训练、付费 API、人工 judge 或生产 Memory 写回。没有把缓存读取当成等量新 token。
 
-为区分经验作用与上限截断，已单独拟定[统一扩大预算的事后实验](DEPENDENCY_SCOPE_BUDGET_SENSITIVITY_PLAN_20261031.md)：四组使用相同的新额度再运行。随后优先测试可执行经验验证及来源保持，并在不同任务族与新来源比较相同成本的公开方法和透明规则。
+为区分经验作用与上限截断，已单独拟定[统一扩大预算的事后实验](archive/plans/DEPENDENCY_SCOPE_BUDGET_SENSITIVITY_PLAN_20261031.md)：四组使用相同的新额度再运行。随后优先测试可执行经验验证及来源保持，并在不同任务族与新来源比较相同成本的公开方法和透明规则。
