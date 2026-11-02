@@ -38,6 +38,8 @@
 
 后续 T5 目标任务的[两臂开发运行器](run_skillevol_retry_target_20261102.py)已准备，并检查无历史与带源程序及反馈的提示来源；此时只完成接口资格和测试，尚未执行目标任务，也不能作为适配效果。T1 与 T5 属于同一已曝光任务族，不是跨来源确认。
 
+T1 的三种同起点反馈开发臂现已完成：neutral、diagnostic、diagnostic-plus-behavior 分别使用 11、7、18 次模型 POST，Agent 退出码均为 0，嵌入式 verifier 退出码均为 1。逐项报告显示三臂和反馈前同一源解均为 outcome `6/6`、process `2/3`；事后冻结 mock 的九项行为探针中四者均为 `9/9`。因此，本例未观察到反馈条件改善这些指标，也未观察到这九项行为回退；过程失败的具体合同是否必须要求字面位置仍需按原任务解释，不从一个案例外推。探针回执 SHA-256 `f99a0700667d98f15cf25fcbdcdc026adcdcdcbdc37f9fffba1041a338a9ba04`；四条 Agent raw、三臂 verifier 和探针完整结果保存在 GB10 `research_evidence/agent_learning_20261030/`，该探针没有新增模型调用。
+
 ## 与 Paper E 并行
 
 Paper E 继续按 ICINT 匿名稿优先办理：完成当前 PDF 首次读者/统计审阅、作者团队确认署名与 AI 声明、核对论文集出版与学校认定；只有在 ICINT 拒稿或正式撤稿后才考虑 ICDAR 顺序投稿。实验开发可并行，不进行未授权的投稿、付款、公开或外部联系。
