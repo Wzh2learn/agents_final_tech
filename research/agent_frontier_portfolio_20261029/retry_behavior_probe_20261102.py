@@ -3,6 +3,7 @@
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,7 @@ from run_dbscan_reference_20261101 import IMAGE, sha
 
 QUALIFICATION_HASH = "022c731ee609d60989e433653ebe0b0c35b180018868b41259e535afd8879f06"
 SOURCE_RAW_HASH = "14dbba560ff536baa4ed5af1bd7456ef40cff966dcd42adeac9ab6c41d6a7c4c"
+MOCK_HASH = "0771ed9a42eaa0342bf76fc62ea27e3810a7a287b3d1990a14971797fe06a8e3"
 
 
 def regular_case(fetch, api_class, clock_class, delay):
@@ -50,7 +52,13 @@ def bounded_case(fetch, clock_class, limit):
 
 def inside():
     sys.path.insert(0, "/project")
-    from mock_api import FakeClock, RateLimitAPI
+    spec = importlib.util.spec_from_file_location("frozen_retry_mock", "/frozen_mock.py")
+    if spec is None or spec.loader is None:
+        raise RuntimeError("frozen evaluation mock unavailable")
+    mock = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mock
+    spec.loader.exec_module(mock)
+    FakeClock, RateLimitAPI = mock.FakeClock, mock.RateLimitAPI
     from retry_client import fetch_cases
     regular = [regular_case(fetch_cases, RateLimitAPI, FakeClock, delay) for delay in (0, 1, 2, 5, 9, 17)]
     bounded = [bounded_case(fetch_cases, FakeClock, limit) for limit in (0, 1, 3)]
@@ -65,6 +73,7 @@ def main():
     parser.add_argument("--qualification", type=Path)
     parser.add_argument("--agent-case", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--extra-project", action="append", default=[], metavar="LABEL=PATH")
     args = parser.parse_args()
     if args.inside:
         inside()
@@ -88,6 +97,17 @@ def main():
     projects = {"starter": args.qualification / "starter/project",
                 "released_solution": args.qualification / "released_solution/project",
                 "agent_solution": args.agent_case / "work/task"}
+    for value in args.extra_project:
+        label, separator, location = value.partition("=")
+        if not separator or not label or not label.replace("_", "").replace("-", "").isalnum() or label in projects:
+            raise ValueError("extra projects need a unique alphanumeric label and path")
+        project = Path(location)
+        if not project.is_dir():
+            raise ValueError("extra project does not exist: " + label)
+        projects[label] = project
+    frozen_mock = args.qualification / "starter/project/mock_api.py"
+    if sha(frozen_mock) != MOCK_HASH:
+        raise ValueError("frozen evaluation mock changed")
     results = {}
     script = Path(__file__).resolve()
     # The probe itself imports only stdlib in the container. Mount the project's
@@ -98,6 +118,7 @@ def main():
                    "--cpus", "1", "--memory", "512m", "--pids-limit", "64", "--cap-drop", "ALL",
                    "--security-opt", "no-new-privileges", "--tmpfs", "/tmp:rw,nosuid,size=32m",
                    "-e", "PYTHONDONTWRITEBYTECODE=1", "--mount", f"type=bind,src={project.resolve()},dst=/project,readonly",
+                   "--mount", f"type=bind,src={frozen_mock.resolve()},dst=/frozen_mock.py,readonly",
                    "--mount", f"type=bind,src={script},dst=/probe.py,readonly",
                    "--mount", f"type=bind,src={helper},dst=/run_dbscan_reference_20261101.py,readonly",
                    "python:3.12-slim", "python3", "/probe.py", "--inside"]
@@ -107,10 +128,11 @@ def main():
                           "stdout_sha256": hashlib.sha256(result.stdout).hexdigest(),
                           "stderr_sha256": hashlib.sha256(result.stderr).hexdigest(),
                           "checks": json.loads(result.stdout) if result.returncode == 0 else None,
-                          "retry_client_sha256": sha(project / "retry_client.py"),
-                          "policy_sha256": sha(project / "rate_limit_policy.py")}
+                          "project_file_sha256": {name: sha(project / name) if (project / name).is_file() else None
+                                                    for name in ("retry_client.py", "rate_limit_policy.py",
+                                                                 "mock_api.py", "request_journal.py")}}
     output = {"status": "POSTHOC_DEVELOPMENT_BEHAVIOR_PROBE", "source_agent_raw_sha256": SOURCE_RAW_HASH,
-              "qualification_sha256": QUALIFICATION_HASH, "probe_sha256": sha(script),
+              "qualification_sha256": QUALIFICATION_HASH, "frozen_mock_sha256": MOCK_HASH, "probe_sha256": sha(script),
               "model_calls": 0, "cases": results,
               "limitation": "One task, a finite mock-input suite, and checks designed after observing the verifier failure."}
     args.output.write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
