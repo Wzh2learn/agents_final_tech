@@ -38,9 +38,9 @@ def derive(base_text, arm):
     text = replace_once(text, "'tictoc-unnecessary-abort-detection','429-with-retry-after-header') or arm",
                         "'tictoc-unnecessary-abort-detection','429-with-retry-after-header',"
                         "'retry-masks-auth-expiry-trap') or arm")
-    if arm == "source_program_plus_feedback":
+    if arm in ("source_program_plus_feedback", "source_program_required"):
         text = replace_once(text, "case=ROOT/(task+'__'+arm+'__'+str(os.getpid()))",
-                            "case=ROOT/(task+'__source_program_plus_feedback__'+str(os.getpid()))")
+                            "case=ROOT/(task+'__" + arm + "__'+str(os.getpid()))")
         marker = "(work/'instructions.txt').write_text(body,encoding='utf8')"
         extra = (marker + "\nshutil.copy2(Path(os.environ['RETRY_SOURCE_INSTRUCTION']),work/'prior_instructions.txt')"
                  "\nshutil.copy2(Path(os.environ['RETRY_SOURCE_PROJECT'])/'retry_client.py',work/'prior_retry_client.py')"
@@ -48,10 +48,15 @@ def derive(base_text, arm):
                  "\n(work/'prior_feedback.txt').write_text(os.environ['RETRY_SOURCE_FEEDBACK'],encoding='utf8')"
                  "\nfor _n in ('prior_instructions.txt','prior_retry_client.py','prior_policy.py','prior_feedback.txt'): (work/_n).chmod(0o644)")
         text = replace_once(text, marker, extra)
+        optional = ("f'Read the earlier task, program and feedback in {target}/prior_* if useful. "
+                    "Work only inside {target}/task and follow the current task. Do not ask for user input. '")
+        required = ("f'Before solving, use the read tool to inspect {target}/prior_instructions.txt, "
+                    "{target}/prior_retry_client.py, {target}/prior_policy.py and {target}/prior_feedback.txt. "
+                    "Compare them with the current task, and use only applicable experience. "
+                    "Work only inside {target}/task and follow the current task. Do not ask for user input. '")
         text = replace_once(text, "f'Work only inside {target}/task. Follow the task deliverables. Do not ask for user input. '",
-                            "f'Read the earlier task, program and feedback in {target}/prior_* if useful. "
-                            "Work only inside {target}/task and follow the current task. Do not ask for user input. '")
-        text = replace_once(text, "receipt={'task':task,'arm':arm", "receipt={'task':task,'arm':'source_program_plus_feedback'")
+                            optional if arm == "source_program_plus_feedback" else required)
+        text = replace_once(text, "receipt={'task':task,'arm':arm", "receipt={'task':task,'arm':'" + arm + "'")
     elif arm != "no_history":
         raise ValueError("unsupported condition")
     compile(text, "derived_skillevol_target_runner.py", "exec")
@@ -60,7 +65,7 @@ def derive(base_text, arm):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("arm", choices=("no_history", "source_program_plus_feedback"))
+    parser.add_argument("arm", choices=("no_history", "source_program_plus_feedback", "source_program_required"))
     for option in ("base", "task", "source-task", "source-case", "checkout", "qualification", "probe"):
         parser.add_argument("--" + option, type=Path, required=True)
     parser.add_argument("--check", action="store_true")
