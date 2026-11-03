@@ -4,7 +4,7 @@
 
 | 事项 | 当前状态与下一步 |
 | --- | --- |
-| Gemini 审稿反馈 | 已收到完整修改稿和核查表，并经现有数据、代码和 GB10 离线重建选择性整合到 [Paper E 现役稿](../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md)。对指定折 21/24 相同注入已逐条证实；未解复现差异不预设原因。原始 AI 输出作为历史输入保留，不是同行评审。长期科研 Goal 继续暂停。 |
+| Gemini 审稿反馈 | 已收到完整修改稿和核查表，并经现有数据、代码和 GB10 离线重建选择性整合到 [Paper E 现役稿](../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md)。对指定折 21/24 相同注入已逐条证实；未解复现差异不预设原因。原始 AI 输出作为历史输入保留，不是同行评审。用户已恢复长期科研 Goal，后续按现役计划推进。 |
 | 2026-11-05 前导师确认 | 将[方向与小论文进展讨论稿](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)及当前 Paper E 审阅稿提供给导师；听取对研究主线、后两点划分、投稿路线与学校成果认定的意见。导师反馈尚未取得。 |
 | Paper E 正文 | [ICINT 审阅稿](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)已结合 Gemini 建议更新并编译为 4 页；[当前证据核对](../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md)不替代独立统计、引文、匿名和许可复核。匹配原操作点的 `>=2` / `>=0.75` 与另一严格 `>` 网格必须区分。[ICDAR 工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)已同步正文，但仍含 Acknowledgment，尚不符合其双盲审稿稿禁止致谢的要求。 |
 | 投稿与学位认定 | 用户选择 ICINT 首投、ICDAR 顺序备投，可到场参会；学校要求本人第一作者、北邮第一单位、方向相关，会议还需召开并宣读/张贴。用户已给出第一、第二作者及两位老师的英文姓名，确认两名学生的北邮电子工程学院署名，并指定暂定通讯作者；私有投稿准备文件保存在仓库外。最终作者顺序与作者团队对成稿的确认仍待办理。AI 披露、专利、artifact 许可、2027 论文集出版信息、费用及正式提交仍待实际办理；不同时一稿多投。2027 年 10 月具体送审日未知。 |
