@@ -1,0 +1,421 @@
+{
+  "status": "SINGLE_EXPOSED_FAMILY_DEVELOPMENT_NOT_GENERALIZATION",
+  "scope": "upstream reference-relative results; task does not specify exact projection; no independent geodesic gold",
+  "cases": {
+    "source_no_history": {
+      "condition": "no_history",
+      "task": 1,
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "upstream_passed": 5,
+      "upstream_total": 8,
+      "test_statuses": {
+        "test_distance_within_tolerance": "FAIL",
+        "test_earthquake_id_correct": "FAIL",
+        "test_latitude_within_tolerance": "ok",
+        "test_longitude_within_tolerance": "ok",
+        "test_magnitude_within_tolerance": "ok",
+        "test_output_file_and_structure": "ok",
+        "test_place_correct": "ok",
+        "test_time_correct": "FAIL"
+      },
+      "test_status_scope": "eight per-field tests",
+      "answer_present_and_parseable": true,
+      "event_id_exact": false,
+      "event_id_contains_reference_as_alias": true,
+      "same_place": true,
+      "same_coordinates_as_reference": false,
+      "time_matches_reference_to_seconds": true,
+      "reported_distance_km": 3551.98,
+      "distance_minus_reference_km": -326.29,
+      "history_file_mentioned_in_tool_input": false,
+      "error_types": [
+        "ContextOverflowError"
+      ],
+      "model_post_count": 20,
+      "locally_denied_count": 0,
+      "forwarded_post_body_bytes": 1082331,
+      "reported_step_tokens": {
+        "total": 257400,
+        "input": 87697,
+        "output": 22978,
+        "reasoning": 0,
+        "cache_read": 146725
+      },
+      "elapsed_seconds_including_verifier": 464.568,
+      "raw_sha256": "22d021257077dd9ac8ab242b289c04237ec621e297db1d5bfd119377dca81762",
+      "receipt_sha256": "2ebd05aff683d0733f8ed97999627addbe68560ffdfc8d52cd58bfa9d14ba729",
+      "intervention_sha256": "4adfd2b5383e3fdda2ff779aea16c13105bdfc419d6b9aa695eceee6859ce3c0",
+      "answer_sha256": "a3a7063b4c4857f3579334c52067e32f91644801d14f2fbaa850fd06a73be4da",
+      "dependency_tree": {
+        "sha256": "2e43b59b7b24652168483c71b3b532497208e2eb439e16417c5999c04632f075",
+        "files": 6709
+      },
+      "instruction_sha256": "3e91e8fe6ae254a9aa858241c74c8a59bb7ba0b0ece0b644c73531007a2ed269",
+      "input_sha256": {
+        "earthquakes_2024.json": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+        "PB2002_boundaries.json": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+        "PB2002_plates.json": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21"
+      },
+      "image": "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca"
+    },
+    "target_no_history": {
+      "condition": "no_history",
+      "task": 3,
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "upstream_passed": 7,
+      "upstream_total": 8,
+      "test_statuses": {
+        "test_distance_within_tolerance": "FAIL",
+        "test_earthquake_id_correct": "ok",
+        "test_latitude_within_tolerance": "ok",
+        "test_longitude_within_tolerance": "ok",
+        "test_magnitude_within_tolerance": "ok",
+        "test_output_file_and_structure": "ok",
+        "test_place_correct": "ok",
+        "test_time_correct": "ok"
+      },
+      "test_status_scope": "eight per-field tests",
+      "answer_present_and_parseable": true,
+      "event_id_exact": true,
+      "event_id_contains_reference_as_alias": true,
+      "same_place": true,
+      "same_coordinates_as_reference": true,
+      "time_matches_reference_to_seconds": true,
+      "reported_distance_km": 1828.0,
+      "distance_minus_reference_km": -66.53,
+      "history_file_mentioned_in_tool_input": false,
+      "error_types": [
+        "ContextOverflowError"
+      ],
+      "model_post_count": 14,
+      "locally_denied_count": 0,
+      "forwarded_post_body_bytes": 672913,
+      "reported_step_tokens": {
+        "total": 120478,
+        "input": 18600,
+        "output": 7260,
+        "reasoning": 0,
+        "cache_read": 94618
+      },
+      "elapsed_seconds_including_verifier": 138.873,
+      "raw_sha256": "0aa92ad1db285d0a84c4565e6d8b1e14646d625591f3254ec14cbd358c1e41fc",
+      "receipt_sha256": "5f15a80256abd878ec65906ece03826ec3721cd4d636e9ed4dc2a0db95ffb66e",
+      "intervention_sha256": "f26958626c7bad9c3df8782dd617bb0aee0899236173c14602798b903090c32f",
+      "answer_sha256": "8f87869a034540fe67e926d42a2573c66b0470d195f7f588ffe617d1348e945c",
+      "dependency_tree": {
+        "sha256": "2e43b59b7b24652168483c71b3b532497208e2eb439e16417c5999c04632f075",
+        "files": 6709
+      },
+      "instruction_sha256": "c0b9f3290956300e498ff2ee974c1e0bd62171b3eb877d29910a829f1a4663df",
+      "input_sha256": {
+        "earthquakes_2024.json": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+        "PB2002_boundaries.json": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+        "PB2002_plates.json": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21"
+      },
+      "image": "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca",
+      "distance_within_wgs84_sampling_bound": false
+    },
+    "target_raw_history": {
+      "condition": "raw_history",
+      "task": 3,
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "upstream_passed": 7,
+      "upstream_total": 8,
+      "test_statuses": {
+        "test_distance_within_tolerance": "FAIL",
+        "test_earthquake_id_correct": "ok",
+        "test_latitude_within_tolerance": "ok",
+        "test_longitude_within_tolerance": "ok",
+        "test_magnitude_within_tolerance": "ok",
+        "test_output_file_and_structure": "ok",
+        "test_place_correct": "ok",
+        "test_time_correct": "ok"
+      },
+      "test_status_scope": "eight per-field tests",
+      "answer_present_and_parseable": true,
+      "event_id_exact": true,
+      "event_id_contains_reference_as_alias": true,
+      "same_place": true,
+      "same_coordinates_as_reference": true,
+      "time_matches_reference_to_seconds": true,
+      "reported_distance_km": 1828.0,
+      "distance_minus_reference_km": -66.53,
+      "history_file_mentioned_in_tool_input": false,
+      "error_types": [],
+      "model_post_count": 11,
+      "locally_denied_count": 0,
+      "forwarded_post_body_bytes": 418843,
+      "reported_step_tokens": {
+        "total": 115983,
+        "input": 14701,
+        "output": 5335,
+        "reasoning": 0,
+        "cache_read": 95947
+      },
+      "elapsed_seconds_including_verifier": 226.325,
+      "raw_sha256": "a247e41175f0c3745cbc4a13895adc9bd5c8c9d5f96b7f1ae105de9f6dde04b2",
+      "receipt_sha256": "0dabe0bf6eeb6a8be23bc1e653b27cfb51232dd806406db735636e5670f70e64",
+      "intervention_sha256": "dd30768590f99385da7c10f9140efaea9a9505dc56d04cedd64e308c7551ce30",
+      "answer_sha256": "8f87869a034540fe67e926d42a2573c66b0470d195f7f588ffe617d1348e945c",
+      "dependency_tree": {
+        "sha256": "2e43b59b7b24652168483c71b3b532497208e2eb439e16417c5999c04632f075",
+        "files": 6709
+      },
+      "instruction_sha256": "c0b9f3290956300e498ff2ee974c1e0bd62171b3eb877d29910a829f1a4663df",
+      "input_sha256": {
+        "earthquakes_2024.json": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+        "PB2002_boundaries.json": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+        "PB2002_plates.json": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21"
+      },
+      "image": "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca",
+      "distance_within_wgs84_sampling_bound": false
+    },
+    "target_generated_skill": {
+      "condition": "generated_skill",
+      "task": 3,
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "upstream_passed": 7,
+      "upstream_total": 8,
+      "test_statuses": {
+        "test_distance_within_tolerance": "FAIL",
+        "test_earthquake_id_correct": "ok",
+        "test_latitude_within_tolerance": "ok",
+        "test_longitude_within_tolerance": "ok",
+        "test_magnitude_within_tolerance": "ok",
+        "test_output_file_and_structure": "ok",
+        "test_place_correct": "ok",
+        "test_time_correct": "ok"
+      },
+      "test_status_scope": "eight per-field tests",
+      "answer_present_and_parseable": true,
+      "event_id_exact": true,
+      "event_id_contains_reference_as_alias": true,
+      "same_place": true,
+      "same_coordinates_as_reference": true,
+      "time_matches_reference_to_seconds": true,
+      "reported_distance_km": 1826.09,
+      "distance_minus_reference_km": -68.44,
+      "history_file_mentioned_in_tool_input": true,
+      "error_types": [],
+      "model_post_count": 15,
+      "locally_denied_count": 0,
+      "forwarded_post_body_bytes": 847512,
+      "reported_step_tokens": {
+        "total": 238965,
+        "input": 44521,
+        "output": 20727,
+        "reasoning": 0,
+        "cache_read": 173717
+      },
+      "elapsed_seconds_including_verifier": 436.695,
+      "raw_sha256": "e723cea2560e90a42a32342fb04da2a9aca7cd84697cbe78bfb55bc8110f1348",
+      "receipt_sha256": "c088459a909c11f32f7d5b9d7d94c74e3a3a7f8102ac610a922ebb96f311d91e",
+      "intervention_sha256": "bf7d89a7b793bba04bb7a541cacef25ef7528dde65bee353d7266255d7b3896c",
+      "answer_sha256": "2b91f99b230b91bc78fad39554ac44ee766a57b51399419d7894c2bffcfc792d",
+      "dependency_tree": {
+        "sha256": "2e43b59b7b24652168483c71b3b532497208e2eb439e16417c5999c04632f075",
+        "files": 6709
+      },
+      "instruction_sha256": "c0b9f3290956300e498ff2ee974c1e0bd62171b3eb877d29910a829f1a4663df",
+      "input_sha256": {
+        "earthquakes_2024.json": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+        "PB2002_boundaries.json": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+        "PB2002_plates.json": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21"
+      },
+      "image": "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca",
+      "distance_within_wgs84_sampling_bound": true
+    },
+    "target_raw_history_required": {
+      "condition": "raw_history_required",
+      "task": 3,
+      "agent_exit": 0,
+      "verifier_exit": 1,
+      "upstream_passed": 7,
+      "upstream_total": 8,
+      "test_statuses": {
+        "test_distance_within_tolerance": "FAIL",
+        "test_earthquake_id_correct": "ok",
+        "test_latitude_within_tolerance": "ok",
+        "test_longitude_within_tolerance": "ok",
+        "test_magnitude_within_tolerance": "ok",
+        "test_output_file_and_structure": "ok",
+        "test_place_correct": "ok",
+        "test_time_correct": "ok"
+      },
+      "test_status_scope": "eight per-field tests",
+      "answer_present_and_parseable": true,
+      "event_id_exact": true,
+      "event_id_contains_reference_as_alias": true,
+      "same_place": true,
+      "same_coordinates_as_reference": true,
+      "time_matches_reference_to_seconds": true,
+      "reported_distance_km": 1828.0,
+      "distance_minus_reference_km": -66.53,
+      "history_file_mentioned_in_tool_input": true,
+      "error_types": [],
+      "model_post_count": 10,
+      "locally_denied_count": 0,
+      "forwarded_post_body_bytes": 560314,
+      "reported_step_tokens": {
+        "total": 166032,
+        "input": 18302,
+        "output": 11282,
+        "reasoning": 0,
+        "cache_read": 136448
+      },
+      "elapsed_seconds_including_verifier": 217.515,
+      "raw_sha256": "ee21f30831e53499513cd7bb5df95e25986bfba1f9a860b9c3751b6514707d24",
+      "receipt_sha256": "15e34ba0b638489664223ed18690a38da70954767f27c8917af39088bb5ff0ef",
+      "intervention_sha256": "d8e4f38bd18993d74cfd372b248b3fa45e812d4ec3244b5cd6cfc9b64bb31332",
+      "answer_sha256": "8f87869a034540fe67e926d42a2573c66b0470d195f7f588ffe617d1348e945c",
+      "dependency_tree": {
+        "sha256": "2e43b59b7b24652168483c71b3b532497208e2eb439e16417c5999c04632f075",
+        "files": 6709
+      },
+      "instruction_sha256": "c0b9f3290956300e498ff2ee974c1e0bd62171b3eb877d29910a829f1a4663df",
+      "input_sha256": {
+        "earthquakes_2024.json": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+        "PB2002_boundaries.json": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+        "PB2002_plates.json": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21"
+      },
+      "image": "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca",
+      "distance_within_wgs84_sampling_bound": false
+    },
+    "target_generated_skill_required": {
+      "condition": "generated_skill_required",
+      "task": 3,
+      "agent_exit": 1,
+      "verifier_exit": 1,
+      "upstream_passed": 6,
+      "upstream_total": 8,
+      "test_statuses": {
+        "test_distance_within_tolerance": "FAIL",
+        "test_earthquake_id_correct": "ok",
+        "test_latitude_within_tolerance": "ok",
+        "test_longitude_within_tolerance": "ok",
+        "test_magnitude_within_tolerance": "ok",
+        "test_output_file_and_structure": "ok",
+        "test_place_correct": "ok",
+        "test_time_correct": "FAIL"
+      },
+      "test_status_scope": "eight per-field tests",
+      "answer_present_and_parseable": true,
+      "event_id_exact": true,
+      "event_id_contains_reference_as_alias": true,
+      "same_place": true,
+      "same_coordinates_as_reference": true,
+      "time_matches_reference_to_seconds": true,
+      "reported_distance_km": 60.0,
+      "distance_minus_reference_km": -1834.53,
+      "history_file_mentioned_in_tool_input": true,
+      "error_types": [
+        "ContextOverflowError",
+        "ContextOverflowError",
+        "ContextOverflowError"
+      ],
+      "model_post_count": 15,
+      "locally_denied_count": 0,
+      "forwarded_post_body_bytes": 981661,
+      "reported_step_tokens": {
+        "total": 125315,
+        "input": 28401,
+        "output": 11622,
+        "reasoning": 0,
+        "cache_read": 85292
+      },
+      "elapsed_seconds_including_verifier": 226.264,
+      "raw_sha256": "9bbd7f77788cc00d363172d08609287560d1087f2c3594a5ccbbb05bfc0ef6d8",
+      "receipt_sha256": "092c6578afd7727e403e86a4a53d6a3fbf58540ee677320fcf8148355bae985b",
+      "intervention_sha256": "1872eb8bf807e37d36088e507e6e6a15580e16d7f8eb7698905c8278d7d0041b",
+      "answer_sha256": "06aec2215ee99f639dbac3323324e796de8d2d921d5598e511ecc9c9171be666",
+      "dependency_tree": {
+        "sha256": "2e43b59b7b24652168483c71b3b532497208e2eb439e16417c5999c04632f075",
+        "files": 6709
+      },
+      "instruction_sha256": "c0b9f3290956300e498ff2ee974c1e0bd62171b3eb877d29910a829f1a4663df",
+      "input_sha256": {
+        "earthquakes_2024.json": "55580cfc907cb4fada9e0ca57de17d36399a04936cfe736b81b5f128b0f246ec",
+        "PB2002_boundaries.json": "42b3e0876a7e40f133e958ba7ab85f8851b5c693a046fbc3b138e7751863d92a",
+        "PB2002_plates.json": "922918f970baf7e645821a4a728b945dbb5eeac1337d71d087fba021bcc79e21"
+      },
+      "image": "sha256:364db321fcc720859537bc04fab5c06a3be6ad0c87686a380b015a0d36c232ca",
+      "distance_within_wgs84_sampling_bound": false
+    }
+  },
+  "source_experience_generation": {
+    "ledger_sha256": "4f9bb804bd27159aed81a206610cea9eeebf04128be6d1b9d930cd1a6b934c06",
+    "usage": {
+      "completion_tokens": 927,
+      "prompt_tokens": 7568,
+      "total_tokens": 8495,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "calls": 1
+  },
+  "projection_controls": {
+    "receipt_sha256": "c43921e7cdae68cdd46a0e89fadaa8fee2e04ded811487bb0afba19f6c120f8d",
+    "results": {
+      "EPSG:4087": {
+        "program_sha256": "194178b1c92b02363a4b15e909e28ca31bd3afebc09bee3be0eb8a5c009f2493",
+        "execution": {
+          "exit_code": 0,
+          "wall_seconds": 0.9921177309006453
+        },
+        "verification": {
+          "exit_code": 0,
+          "wall_seconds": 0.3193698860704899
+        },
+        "id": "us7000mqfy",
+        "distance_km": 1894.53
+      },
+      "EPSG:6933": {
+        "program_sha256": "a04ca462a219c4831589331db9e1561fbd44d0c17364c746d27a7bff8da3c7ad",
+        "execution": {
+          "exit_code": 0,
+          "wall_seconds": 0.9166046213358641
+        },
+        "verification": {
+          "exit_code": 1,
+          "wall_seconds": 0.32796006090939045
+        },
+        "id": "us7000mqfy",
+        "distance_km": 1751.08
+      },
+      "EPSG:8857": {
+        "program_sha256": "13f05c4216ab2f41802b716f3fae628e91fe80da8c297b3e183c017f16859dc0",
+        "execution": {
+          "exit_code": 0,
+          "wall_seconds": 0.9924685340374708
+        },
+        "verification": {
+          "exit_code": 1,
+          "wall_seconds": 0.3480884488672018
+        },
+        "id": "us7000mqfy",
+        "distance_km": 1746.65
+      }
+    }
+  },
+  "geodesic_control": {
+    "receipt_sha256": "1f4558c461e706884b23f0b49fdc0b6abf01754665fc29f11565df1bfe57dcd4",
+    "bounds_km": [
+      1826.0889395927168,
+      1826.0939396110107
+    ],
+    "spacing_m": 10.0,
+    "unique_two_decimal_distance_km": 1826.09,
+    "scope": "only the selected target event; not an independent ranking of all events"
+  },
+  "total_agent_posts": 85,
+  "total_reported_agent_tokens": 1024173,
+  "total_reported_cache_read": 732747,
+  "source_and_target_data_shared": true
+}
