@@ -1,6 +1,6 @@
 # ICINT 短稿：主张、证据及尚待核对事项
 
-> 2026-11-03：Gemini 的修订稿与核查表已作为[历史审阅输入](archive/20261103_gemini_review.zip)保留，压缩包内 manifest 绑定原文哈希；现役为 [ICINT 正文](paper_e_icint_draft.md)和 [4 页 PDF](icint_latex/main.pdf)，更新三项文献出处后的 PDF SHA-256 `0425b9e74c7a6c18fe1f27e49149680fb48823047754cc50bf87cf39a48515a6`；此前 Gemini 修订版 PDF SHA-256 `8143d3759a4d3839798b30c069cd37ddd4f9b9c6e56cf11540953a274843c5b7` 保留于 Git 历史。Gemini 建议经项目侧数据与代码复核后选择性吸收，不把 AI 审阅当作外部同行评审或作者团队终审。
+> 2026-11-04：现役为 [ICINT 正文](paper_e_icint_draft.md)和 [4 页 PDF](icint_latex/main.pdf)，PDF SHA-256 `1b52ca0f63cb9ca554f996b5b9203c34b58d9a5aa741e006c48eec3c41221c01`。Gemini 的修订稿与核查表作为[历史审阅输入](archive/20261103_gemini_review.zip)保留，压缩包内 manifest 绑定原文哈希；2026-11-03 文献更新版 PDF 的 SHA-256 `0425b9e74c7a6c18fe1f27e49149680fb48823047754cc50bf87cf39a48515a6` 保留于 Git 历史。审阅建议经项目侧数据与代码复核后选择性吸收，不把 AI 审阅当作外部同行评审或作者团队终审。
 
 本次对既有证据的核对：保存的逐表/逐注入圆整分数上，flat `>=2.0` 与 hierarchical `>=0.75` 分别选中完全相同的 `75/95` 表与 `85/118` 注入。另一 strict `>1.0` / `>0.375` 网格的 24 个 H/HI 标签注入在 GB10 使用冻结输入离线重建，两者选中同一批 21 个；前一次仅凭汇总数无法确认集合，本次已消除该不确定性。重建使用 [D3 的 load_corpus / g1_reproduce](../paper_d3_matched_fpr_stage_a.py) 和 [matched-grid 的 clean 筛选与分折实现](../stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py)：对排序后的 clean 与 H/HI 表 UID 取索引模 5 选 fold 0，再以 `(uid, col, type)` 比较两规则选中的集合。重建得到 2,382 clean 表、111 个 H/HI 注入、fold 0 的 24 个注入及相同的 21 个命中。两项不是新样本或生产阈值定标。
 
@@ -15,6 +15,10 @@
 ### 2026-11-03 补充：相关工作原始出处
 
 针对现役稿核验了相关工作的作者、标题与载体：[FinRank](https://arxiv.org/abs/2608.07400) 与 [Caban 的有效性分析](https://arxiv.org/abs/2608.00794)对应当前 arXiv 编号；[AgentSuite 的 PMLR 页面](https://proceedings.mlr.press/v306/suh26a.html)确认 ICML 2026、卷 306 与页码。原稿以预印本引用的三篇工作有正式会议出处：Ross 等为 [COLM 2024](https://openreview.net/pdf?id=LFfktMPAci)，Bean 等为 [NeurIPS 2025 数据集与基准轨道](https://proceedings.neurips.cc/paper_files/paper/2025/hash/1967e0fc3aa6cbbace562f5cb8e3954e-Abstract-Datasets_and_Benchmarks_Track.html)，Soric 等为 [KDD 2026](https://soricm.github.io/table-extraction-benchmark/)；现役稿已改用对应会议出处。此项核验改善引用信息，不改变实验结果，也不意味着全部文献、底层数据许可或模型权重版本均已核完。
+
+### 2026-11-04 补充：摘要与排版复核
+
+按最新审阅意见明确摘要中的扁平/层级比较对象与 FinRank 比较方向；统一文内 $h$、$(k_1,b)$、$(b+1)/(M+1)$、$b$、$M$、$p$ 和 $10^{-4}$ 的数学排版，所列 $p$ 值统一显示四位小数，保留原始更高精度结果。核对当前源文件和 PDF 后，首段句号、FinRank 表题分号以及四条工具引用的标点与日期已经正确，未因旧截图或文本抽取误识而改坏。导师沟通稿按用户要求移除 Gemini 字样和送审时间；论文内的 AI 使用声明保留供作者团队核实。
 
 2026-10-30 科研负责人逐项对照，列出主张的可追溯证据。2026-11-02 当时的 ICINT 稿及 IEEE 双栏审阅 PDF 沿用这些案例，新增材料说明与 AI 披露候选；当时 PDF SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`。下方历史审查并未独立复审新增声明，也不是外部审稿、专家人工标注或全量原始实验的新复跑。
 

@@ -37,7 +37,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont("AdvisorCJK", 8)
     canvas.setFillColor(colors.HexColor("#5b6672"))
-    canvas.drawString(18 * mm, 12 * mm, "硕士论文方向与小论文进展 · 2026-11-03")
+    canvas.drawString(18 * mm, 12 * mm, "硕士论文方向与小论文进展 · 2026-11-04")
     canvas.drawRightString(A4[0] - 18 * mm, 12 * mm, str(doc.page))
     canvas.restoreState()
 

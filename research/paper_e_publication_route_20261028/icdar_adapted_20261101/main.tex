@@ -11,22 +11,22 @@ Document Analysis and Retrieval}
 \institute{}
 \maketitle
 \begin{abstract}
-Evaluation scores are used to compare systems, but their interpretation
-depends on what an evaluator observes, how observations are scored and
-what comparison is supported. We examine these dependencies in three
-audits: a staged document evaluator, the released FinRank
-evidence-ranking benchmark and researcher-generated runs on two BEIR
-datasets. In the staged evaluator, 96 of 118 controlled header changes
-were visible. Under a single-responsive-leaf restriction, unscaled
-thresholds detected 75/95 versus 20/95 tables, while a post-hoc
+Interpreting evaluation scores depends on what is observed, how it is
+scored and which comparisons the evidence supports. We audit a staged
+document evaluator, the released FinRank evidence-ranking benchmark and
+researcher-generated runs on two BEIR datasets. In the staged evaluator,
+96 of 118 controlled header changes were visible. Under a
+single-responsive-leaf restriction, applying the same threshold to flat
+and hierarchical scores detected 75/95 versus 20/95 tables; a post-hoc
 scale-matched threshold recovered the same 75/95 tables on saved
 outputs. In FinRank, changing the tie policy shifted absolute pairwise
-accuracy while preserving the examined hard-versus-random comparison.
-For our BEIR runs, paired sign-flip tests with Holm correction supported
-two of ten lexical-system comparisons on SciFact and one on NFCorpus. An
-exact-tie-aware point-estimate baseline also passed our duplicate and
-degradation controls. These cases show how explicit measurement
-contracts qualify or preserve particular comparisons.
+accuracy while preserving the direction of the hard-versus-random
+comparison. For our BEIR runs, paired sign-flip tests with Holm
+correction supported two of ten lexical-system comparisons on SciFact
+and one on NFCorpus. An exact-tie-aware point-estimate baseline also
+passed our duplicate and degradation controls. These cases show how
+explicit measurement contracts qualify or preserve particular
+comparisons.
 \keywords{measurement validity, document evaluation, information retrieval,
 reproducibility, benchmark auditing}
 \end{abstract}
@@ -101,14 +101,12 @@ independently timestamped before the first run. We preserve fixed
 outputs and identify later explorations rather than treating them as
 prospective confirmation.
 
-The cases target three interpretations. First, a detection-rate
-difference does not necessarily imply a ranking difference when the
-score scales differ. Second, a shift in absolute accuracy need not
-reverse a stated comparison. Third, a higher retrieval mean is a point
-estimate; it does not automatically establish every pairwise system
-ordering. The following table summarizes what the audit changes in each
-interpretation; the cases below specify what is held fixed and what is
-varied.
+The three cases distinguish score differences from supported
+comparisons: a detection-rate gap need not imply a ranking gap, absolute
+accuracy changes need not reverse a comparison, and a higher mean need
+not establish every pairwise ordering. The following table summarizes
+these interpretations; each case specifies what is held fixed and what
+is varied.
 
 \begin{table}[htbp]
 \caption{Interpretations qualified or retained by the three audits.}
@@ -162,9 +160,9 @@ within 95 tables. They characterize the particular matcher-relative
 surface, not generic document defects or actual OCR error rates.
 
 In this construction the QA tree was frozen and only the field-hit-rate
-leaf responded. For field hit rate h, the aggregation weights give a
-parsing-root score of approximately 6.25 + 3.75h, while the flat drop is
-ten times the hit-rate drop. The hierarchical drop is therefore
+leaf responded. For field hit rate \(h\), the aggregation weights give a
+parsing-root score of approximately \(6.25 + 3.75h\), while the flat
+drop is ten times the hit-rate drop. The hierarchical drop is therefore
 approximately 0.375 times the flat drop, and their observed rankings
 coincide. The original protocols each used a numerical operating
 threshold of \textbf{at least 2.0} on their respective scales. At those
@@ -283,9 +281,9 @@ unresolved.
 \section{Retrieval Comparisons}\label{retrieval-comparisons}
 
 We built five lexical configurations on BEIR SciFact and NFCorpus
-\cite{r2}: TF-IDF and BM25 parameter pairs (k1, b) of (0.9, 0.4), (1.2,
-0.75), (0.5, 0.3) and (1.5, 0.6). We concatenate each document's title
-and text, lowercase and tokenize on ASCII alphanumeric runs, use
+\cite{r2}: TF-IDF and BM25 parameter pairs \((k_1, b)\) of (0.9, 0.4),
+(1.2, 0.75), (0.5, 0.3) and (1.5, 0.6). We concatenate each document's
+title and text, lowercase and tokenize on ASCII alphanumeric runs, use
 log-scaled term frequency and smoothed inverse document frequency for
 TF-IDF cosine, and resolve equal scores by ascending document ID unless
 testing the alternative order. They use the released corpora, qrels and
@@ -301,8 +299,8 @@ second to third in one NFCorpus ranking; the separate denominator
 correction changed TF-IDF's MAP@10 from approximately 0.2200 to 0.1162.
 This is a correction of our implementation, not evidence that the
 official leaderboard was wrong. For fixed rankings, trec\_eval 10.0-rc3
-agreed with 18,690 per-query values within 1e-4: five systems, 623
-queries and six nDCG, MAP and recall cutoff combinations. This check
+agreed with 18,690 per-query values within \(10^{-4}\): five systems,
+623 queries and six nDCG, MAP and recall cutoff combinations. This check
 does not validate tie-breaking policy.
 
 The cross-check encodes each fixed rank with a strictly decreasing
@@ -317,21 +315,22 @@ intervals excluding zero for 3/10 pairs on SciFact and 4/10 on NFCorpus.
 A separate two-sided paired sign-flip procedure with 2,000 Monte Carlo
 draws per pair and Holm correction supported 2/10 and 1/10,
 respectively. Both sign-flip analyses use the Monte Carlo correction
-(b+1)/(M+1), where b is the number of draws at least as extreme as
-observed and M the number of draws. Bootstrap and sign-flip are
+\((b+1)/(M+1)\), where \(b\) is the number of draws at least as extreme
+as observed and \(M\) the number of draws. Bootstrap and sign-flip are
 different inference procedures, so the count difference is not
 attributable to Holm correction alone. Inference depends on the relevant
 exchangeability or symmetry and query-independence assumptions;
 non-significance does not establish equality.
 
 The supported SciFact pairs were BM25(1.5, 0.6) versus TF-IDF (mean
-nDCG@10 difference +0.03334; Holm-adjusted p = 0.0100) and BM25(1.2,
-0.75) versus TF-IDF (+0.02930; p = 0.0450). On NFCorpus, BM25(1.5, 0.6)
-versus BM25(0.5, 0.3) had a difference of +0.00817 (p = 0.0300). A later
-200,000-draw sensitivity check on regenerated lexical query scores
-retains the same three supported pairs when Holm is recalculated within
-the five-system family. It reduces Monte Carlo variability but does not
-independently validate the data or inferential assumptions.
+nDCG@10 difference +0.03334; Holm-adjusted \(p = 0.0100\)) and BM25(1.2,
+0.75) versus TF-IDF (+0.02930; \(p = 0.0450\)). On NFCorpus, BM25(1.5,
+0.6) versus BM25(0.5, 0.3) had a difference of +0.00817
+(\(p = 0.0300\)). A later 200,000-draw sensitivity check on regenerated
+lexical query scores retains the same three supported pairs when Holm is
+recalculated within the five-system family. It reduces Monte Carlo
+variability but does not independently validate the data or inferential
+assumptions.
 
 Reversing document-ID tie order for BM25(0.9, 0.4) on NFCorpus at k=10
 changed the ordered top ten for 36.5\% of queries and top-ten membership
@@ -354,14 +353,14 @@ The BGE comparison was later included with the five lexical runs in a
 separate six-system family of 15 pairs per dataset. With 200,000 Monte
 Carlo sign flips per pair and Holm correction within each dataset, the
 BGE-minus-BM25(1.2, 0.75) nDCG@10 difference was +0.05049 on SciFact
-(unadjusted p = 0.00641; adjusted p = 0.066000) and +0.03759 on NFCorpus
-(adjusted p = 0.015540). The SciFact pair crosses the 0.05 threshold
-after adjustment within this same test; it is not evidence of equality.
-These post-hoc tests are not the original ten-pair family or independent
-confirmation. The saved dense outputs contain ranked document IDs rather
-than original dense scores, so they cannot establish dense-score tie
-frequencies. Numerical reproducibility of the tests does not establish
-their inferential assumptions.
+(unadjusted \(p = 0.0064\); adjusted \(p = 0.0660\)) and +0.03759 on
+NFCorpus (adjusted \(p = 0.0155\)). The SciFact pair crosses the 0.05
+threshold after adjustment within this same test; it is not evidence of
+equality. These post-hoc tests are not the original ten-pair family or
+independent confirmation. The saved dense outputs contain ranked
+document IDs rather than original dense scores, so they cannot establish
+dense-score tie frequencies. Numerical reproducibility of the tests does
+not establish their inferential assumptions.
 
 The earlier single-pair BGE analysis used normalized embeddings, the
 model's query prefix and a 512-token cap. Its uncorrected
