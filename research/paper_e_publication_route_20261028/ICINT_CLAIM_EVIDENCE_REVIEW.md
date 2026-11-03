@@ -6,6 +6,12 @@
 
 叙事上明确了两个 BM25 配置、早期本地指标实现修正、加一 Monte Carlo 公式及同一 sign-flip 检验校正前后的 p 值。Gemini 将 FinRank 未解复现差异直接归因于环境或预处理的说法未被采纳；现稿直接报告差异及原因未解。此次 GB10 离线重建无模型、judge、训练或端点调用。
 
+### 2026-11-03 补充：逐查询统计的另一套实现复核
+
+使用保存的六系统逐查询分数及不同随机种子，在 GB10 的 Python 3.12.3 环境由 [SciPy + statsmodels 复核脚本](review_saved_query_statistics.py)重新执行两个数据集共 30 组配对符号翻转检验；每对 200,000 次抽样，分别在五个词法系统的 10 对和六系统的 15 对内做 Holm 校正。三个配对的穷举例、完全相同输出和已知 Holm 例均通过控制。结果与此前 200,000 次分析的**全部配对显著性判断一致**：词法系统在 SciFact 为 2/10、NFCorpus 为 1/10；六系统分别为 4/15 和 6/15。新的模拟中 BGE 与 BM25(1.2, 0.75) 的 Holm 值分别约为 0.06798 和 0.01476；原稿仍报告旧种子对应的 0.066000 和 0.015540，二者无需混写。
+
+复核使用的是同一批已保存数据，不是新样本或人工统计评审，也未验证查询独立性等推断假设。逐对结果见[统计汇总](scipy_signflip_review_20261103.json)。输入与执行脚本的原始字节 SHA-256 分别为 `b4596b01db7557570f644fcecf0325af6a18261637e47b6c9e112480fb87acdc`、`3be21920756a8a0bd4617bad98f08d4e1c8a3747ce697ac6483404b666d9c15e`；执行回执原始字节 SHA-256 为 `1abd5468211d6c96d5ef1f5e4a5f506993eb0e5a551eb0fa509725e4f32405ad`，原始副本保存在 GB10 `/home/testuser/wzh/research_evidence/paper_e_20261028/stats_review_20261103/scipy_statsmodels_200k_v2.json` 和本机 `D:/Documents/Loop_D_assets/paper_e_statistics_review_20261103/scipy_statsmodels_200k_gb10_v2.json`；Git 工作树可能进行换行转换。此复核无模型调用、训练或新检索实验。
+
 2026-10-30 科研负责人逐项对照，列出主张的可追溯证据。2026-11-02 当时的 ICINT 稿及 IEEE 双栏审阅 PDF 沿用这些案例，新增材料说明与 AI 披露候选；当时 PDF SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`。下方历史审查并未独立复审新增声明，也不是外部审稿、专家人工标注或全量原始实验的新复跑。
 
 | 稿件主张 | 当前可追溯证据 | 此次检查及范围 |
