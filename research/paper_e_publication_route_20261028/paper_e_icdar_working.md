@@ -113,17 +113,17 @@ Generative AI tools, including DeepSeek [12] and OpenAI Codex [13], assisted wit
 
 [2] N. Thakur et al., “BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models,” NeurIPS Datasets and Benchmarks, 2021.
 
-[3] C. Ross et al., “What makes a good metric? Evaluating automatic metrics for text-to-image consistency,” arXiv:2412.13989, 2024.
+[3] C. Ross et al., “What makes a good metric? Evaluating automatic metrics for text-to-image consistency,” First Conference on Language Modeling (COLM), 2024.
 
 [4] W. Caban, “Measurement Without Validity: The Compounding Reliability Problem in Agentic AI Evaluation,” arXiv:2608.00794, 2026.
 
-[5] A. M. Bean et al., “Measuring what Matters: Construct Validity in Large Language Model Benchmarks,” arXiv:2511.04703, 2025.
+[5] A. M. Bean et al., “Measuring what Matters: Construct Validity in Large Language Model Benchmarks,” NeurIPS Datasets and Benchmarks Track, 2025, doi: 10.52202/085713-0590.
 
 [6] H. Suh et al., “AgentSuite: Toward More Reliable Agent Evaluation with a Component-Based Benchmark Auditing Pipeline,” ICML, PMLR 306:116300–116319, 2026.
 
 [7] R. Li et al., “SCORE: A Semantic Evaluation Framework for Generative Document Parsing,” arXiv:2509.19345, 2025.
 
-[8] M. Soric, C. Gracianne, I. Manolescu, and P. Senellart, “Benchmarking Table Extraction from Heterogeneous Scientific PDF Documents,” arXiv:2511.16134v2, 2026.
+[8] M. Soric, C. Gracianne, I. Manolescu, and P. Senellart, “Benchmarking Table Extraction from Heterogeneous Scientific PDF Documents,” Proc. ACM SIGKDD, pp. 9813–9823, 2026, doi: 10.1145/3770855.3817462.
 
 [9] F. Zhu et al., “TAT-QA: A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance,” ACL-IJCNLP, 2021, doi: 10.18653/v1/2021.acl-long.254.
 

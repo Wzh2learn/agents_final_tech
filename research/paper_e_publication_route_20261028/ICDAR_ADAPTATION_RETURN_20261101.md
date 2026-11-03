@@ -1,6 +1,8 @@
 # ICDAR 顺序备投：文档分析定位工作稿
 
-> 2026-11-03 更新：由当前 ICINT 正文重新派生的 [ICDAR 工作 PDF](icdar_adapted_20261101/main.pdf)为 8 页，SHA-256 `d1833017a3f53f512deb74d06cfbf173edd298337e933c4984345e59d8ec1e22`；由 Tectonic 使用其下载的 LNCS class 编译，本次未逐字节核验该 class 与 Springer 官网包一致。**这是内部工作稿，不是可直接提交的双盲稿**：它保留了 AI 使用说明的 Acknowledgment，而 [ICDAR 征稿页](https://icdar2027.org/call-for-papers)要求审稿稿件不含 acknowledgements；若后续启用此备投，须先按届时规则确定匿名 AI 披露位置并重新检查。以下历史“现役”称谓仅指当时快照。
+> 2026-11-03 文献更新：由 ICINT 正文重新派生的 [ICDAR 工作 PDF](icdar_adapted_20261101/main.pdf)为 8 页，SHA-256 `b5afcc927d25fffbd564f2414762159b09d09a4aff7e33b138e2f71d6542c23d`；使用已核对的 Springer 官网 LNCS class（SHA-256 `04ec99046ad9867f6cd54ffd1ef8c47c767b327d1baec77536db0528cd492fa2`）和 Tectonic 编译，更新三项会议出处，数值结果未变。**这是内部工作稿，不是可直接提交的双盲稿**：它保留了 AI 使用说明的 Acknowledgment，而 [ICDAR 征稿页](https://icdar2027.org/call-for-papers)要求审稿稿件不含 acknowledgements；若后续启用此备投，须先按届时规则确定匿名 AI 披露位置并重新检查。
+
+> 2026-11-03 较早工作稿为 8 页，SHA-256 `d1833017a3f53f512deb74d06cfbf173edd298337e933c4984345e59d8ec1e22`；当时 Tectonic 下载的 LNCS class 未逐字节核验。以下历史“现役”称谓仅指当时快照。
 
 > 2026-11-02 更新：随 ICINT 正文同步材料说明及 AI 使用披露候选，现役 [LNCS 工作 PDF](icdar_adapted_20261101/main.pdf)为 9 页，SHA-256 `99755c1399bf64d6fc7facf239d11fd343975ffc0eab91a233aae11589781598`。新版已重新编译及逐页检查，作者披露及终审仍待确认。以下 2026-11-01 的 8 页和 hash 是修改前快照。
 

@@ -1,6 +1,8 @@
 # ICINT 审阅稿核验：2026-11-01
 
-> 2026-11-03 更新：当前 [匿名 PDF](icint_latex/main.pdf)为 4 页，SHA-256 `8143d3759a4d3839798b30c069cd37ddd4f9b9c6e56cf11540953a274843c5b7`；已按 Gemini 意见核对并整合阈值、BM25 参数和统计叙事，详情见[证据核对](ICINT_CLAIM_EVIDENCE_REVIEW.md)。本次重新取得官网模板 ZIP（SHA-256 `f247cb6665907793d1949110f24b8a1cb262073c09b5f0026aa8d1d658cb6c1d`），使用其中的 IEEEtran class（SHA-256 `c972aca108fda004c3514d63658e02816da2e54d9a1451e870b9bd970e003f55`）和 Tectonic 编译；4 页已逐页检查、字体嵌入、最后一页双栏平衡，无 overfull，存在 underfull 与 Fontconfig/字体替代提示。作者、AI 声明和材料许可等仍待最终确认。以下较早条目的“现役”及哈希均只指各自日期的快照。
+> 2026-11-03 文献更新：现役[匿名 PDF](icint_latex/main.pdf)为 4 页，SHA-256 `0425b9e74c7a6c18fe1f27e49149680fb48823047754cc50bf87cf39a48515a6`。三篇相关工作改用已核验的正式会议出处，数值结果未变；使用官网 IEEEtran class（SHA-256 `c972aca108fda004c3514d63658e02816da2e54d9a1451e870b9bd970e003f55`）及 Tectonic 0.17.0 重新编译，四页目视检查、七种字体均嵌入、无 overfull；有 underfull 和 Fontconfig 提示。作者、AI 声明、匿名细节和材料许可等仍待团队最终确认。
+
+> 2026-11-03 较早更新：Gemini 修订后的当时匿名 PDF 为 4 页，SHA-256 `8143d3759a4d3839798b30c069cd37ddd4f9b9c6e56cf11540953a274843c5b7`；阈值、BM25 参数和统计叙事的核对见[证据记录](ICINT_CLAIM_EVIDENCE_REVIEW.md)。当时使用的官网模板 ZIP SHA-256 `f247cb6665907793d1949110f24b8a1cb262073c09b5f0026aa8d1d658cb6c1d`。以下较早条目的“现役”及哈希均只指各自日期的快照。
 
 > 2026-11-02 更新：现役 [ICINT 匿名 PDF](icint_latex/main.pdf)加入材料说明和 AI 使用披露**候选**，仍为 4 页，SHA-256 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`。已知使用工具按可追溯记录列出，但完整工具、具体作用、章节与最终措辞仍须作者团队核对；不能视为作者已批准。已重新检查匿名文本、嵌入字体、引用和页面布局。以下 2026-11-01 内容是修改前的历史快照，原有 hash 保留。
 

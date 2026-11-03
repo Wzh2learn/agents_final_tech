@@ -2,7 +2,7 @@
 
 最新路线更新：2026-11-03（Asia/Shanghai）。现役决策见“ICINT 首投、ICDAR 顺序备投”；其他带日期的评估保留为历史记录，若与现役路线冲突以现役路线为准。这是可审阅的规划，不代表已投稿、已录用或已确认学校认定。
 
-2026-11-03：Gemini 建议经证据核对后选择性整合，现役 [ICINT 正文](paper_e_icint_draft.md)及 [4 页 PDF](icint_latex/main.pdf)加入同一案例的匹配阈值结果，直接说明三个案例支持的比较结论；[证据记录](ICINT_CLAIM_EVIDENCE_REVIEW.md)保存来源。ICINT 官网仍列 11 月 15 日截止，允许 4—8 页；注册覆盖前 5 页。重新派生的 [ICDAR 8 页工作稿](ICDAR_ADAPTATION_RETURN_20261101.md)仍含 Acknowledgment，与官网审稿稿禁止致谢的要求冲突，不能直接作为双盲投稿稿；AI 披露和匿名形式须在启用备投时另核。
+2026-11-03：Gemini 建议经证据核对后选择性整合，现役 [ICINT 正文](paper_e_icint_draft.md)及 [4 页 PDF](icint_latex/main.pdf)加入同一案例的匹配阈值结果，直接说明三个案例支持的比较结论；三篇相关工作已更新为核验过的正式会议出处，[证据记录](ICINT_CLAIM_EVIDENCE_REVIEW.md)保存来源。ICINT 官网仍列 11 月 15 日截止，允许 4—8 页；注册覆盖前 5 页。重新派生的 [ICDAR 8 页工作稿](ICDAR_ADAPTATION_RETURN_20261101.md)仍含 Acknowledgment，与官网审稿稿禁止致谢的要求冲突，不能直接作为双盲投稿稿；AI 披露和匿名形式须在启用备投时另核。
 
 2026-11-02：ICINT 与 ICDAR 工作稿加入材料说明和 AI 使用披露候选并重新编译，当时分别为 4 页和 9 页；工具清单、章节作用及最终措辞仍待作者团队确认。后续状态、PDF 和 hash 分别见 [ICINT 更新](ICINT_PREFLIGHT_20261101.md)和 [ICDAR 更新](ICDAR_ADAPTATION_RETURN_20261101.md)。
 
