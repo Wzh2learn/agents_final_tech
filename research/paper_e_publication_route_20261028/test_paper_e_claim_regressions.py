@@ -13,6 +13,7 @@ V1 = ROOT / "research/paper_e_public_eval_20261028/results/v1_uncorrected/BEIR_A
 V2 = ROOT / "research/paper_e_public_eval_20261028/results/BEIR_AUDIT_RESULT_V2_20261028.json"
 MC = ROOT / "research/paper_e_evidence_followup_20261028/mc_recheck.json"
 VISIBILITY = ROOT / "logs/graph/eval/checkpoint_discrimination_tables_v2.json"
+OPERATING_POINTS = ROOT / "logs/graph/eval/t1_eval_baseline_comparison.json"
 
 
 def load(path):
@@ -20,6 +21,17 @@ def load(path):
 
 
 class PaperClaimRegressionTest(unittest.TestCase):
+    def test_saved_scores_support_matched_threshold_claim(self):
+        arm = load(OPERATING_POINTS)["arm_b"]
+        for unit, expected_total, expected_detected in (
+            ("tables", 95, 75), ("injections", 118, 85),
+        ):
+            rows = arm[unit]
+            flat = {i for i, row in enumerate(rows) if row["drop10"] >= 2.0}
+            matched = {i for i, row in enumerate(rows) if row["E1.3_root_drop"] >= 0.75}
+            self.assertEqual((len(rows), len(flat)), (expected_total, expected_detected))
+            self.assertEqual(flat, matched)
+
     def test_tfidf_map_values_belong_to_tfidf_not_bm25(self):
         first, second = (next(row for row in load(path)["datasets"] if row["dataset"] == "nfcorpus") for path in (V1, V2))
         old = first["systems"]["tfidf_cosine"]["map@10"]["mean"]

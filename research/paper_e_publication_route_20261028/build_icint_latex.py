@@ -31,6 +31,26 @@ Retrieval & A higher mean establishes every system ordering & The paired test su
 \end{tabular}
 \end{table}
 ```"""
+DETECTION_TABLE = ("| Analysis unit | Flat >=2 | Hierarchical >=2 | Hierarchical >=0.75 |\n"
+                   "| --- | ---: | ---: | ---: |\n"
+                   "| Source tables | 75/95 | 20/95 | 75/95 |\n"
+                   "| Header injections | 85/118 | 13/118 | 85/118 |")
+DETECTION_LATEX = r"""```{=latex}
+\begin{table}[htbp]
+\caption{Seed-42 original thresholds and post-hoc scale matching; table and injection counts are distinct units.}
+\label{tab:original-detection}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrr}
+\hline
+Unit & Flat $\ge 2$ & Tree $\ge 2$ & Tree $\ge 0.75$ \\
+\hline
+Source tables & 75/95 & 20/95 & 75/95 \\
+Header injections & 85/118 & 13/118 & 85/118 \\
+\hline
+\end{tabular}
+\end{table}
+```"""
 FINRANK_TABLE = ("| System | Tie policy | Hard (%) | Random (%) | Gap (pp) |\n"
                  "| --- | --- | ---: | ---: | ---: |\n"
                  "| TF-IDF | Positive | 77.756 | 91.935 | 14.179 |\n"
@@ -78,28 +98,9 @@ def main():
     if body.count(INTERPRETATION_TABLE) != 1:
         raise ValueError("Expected interpretation table not found exactly once")
     body = body.replace(INTERPRETATION_TABLE, INTERPRETATION_LATEX)
-    table = ("| Original operating point | Flat | Hierarchical |\n"
-             "| --- | ---: | ---: |\n"
-             "| Source tables | 75/95 | 20/95 |\n"
-             "| Header injections | 85/118 | 13/118 |")
-    if body.count(table) != 1:
+    if body.count(DETECTION_TABLE) != 1:
         raise ValueError("Expected detection table not found exactly once")
-    raw_table = r"""```{=latex}
-\begin{table}[t]
-\caption{Original seed-42 operating-point detection; table and injection counts are different units.}
-\label{tab:original-detection}
-\centering
-\begin{tabular}{lrr}
-\hline
-Unit & Flat & Hierarchical \\
-\hline
-Source tables & 75/95 & 20/95 \\
-Header injections & 85/118 & 13/118 \\
-\hline
-\end{tabular}
-\end{table}
-```"""
-    body = body.replace(table, raw_table)
+    body = body.replace(DETECTION_TABLE, DETECTION_LATEX)
     if body.count(FINRANK_TABLE) != 1:
         raise ValueError("Expected FinRank table not found exactly once")
     body = body.replace(FINRANK_TABLE, FINRANK_LATEX)
@@ -110,12 +111,13 @@ Header injections & 85/118 & 13/118 \\
     references = "\n".join(r"\bibitem{r" + n + "} " + latex(item) for n, item in items)
     document = (r"\documentclass[conference]{IEEEtran}" + "\n" +
                 r"\usepackage[T1]{fontenc}" + "\n" + r"\usepackage{cite}" + "\n" +
-                r"\usepackage{url}" + "\n" + r"\usepackage{array}" + "\n" + r"\begin{document}" + "\n" +
+                r"\usepackage{url}" + "\n" + r"\usepackage{array}" + "\n" +
+                r"\usepackage{balance}" + "\n" + r"\begin{document}" + "\n" +
                 r"\title{From Scores to Supported Claims: Measurement Audits of Document and Retrieval Evaluation}" + "\n" +
                 r"\author{}" + "\n" + r"\maketitle" + "\n" +
                 r"\begin{abstract}" + "\n" + latex(abstract) + "\n" + r"\end{abstract}" + "\n" +
                 r"\begin{IEEEkeywords}" + "\n" + latex(keywords) + "\n" + r"\end{IEEEkeywords}" + "\n" +
-                latex(body) + "\n" + r"\begin{thebibliography}{" + str(len(items)) + "}\n" + references + "\n" +
+                latex(body) + "\n" + r"\balance" + "\n" + r"\begin{thebibliography}{" + str(len(items)) + "}\n" + references + "\n" +
                 r"\end{thebibliography}" + "\n" + r"\end{document}" + "\n")
     with OUTPUT.open("w", encoding="utf-8", newline="\n") as output:
         output.write(document)

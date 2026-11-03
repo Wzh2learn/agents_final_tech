@@ -4,6 +4,7 @@ from html import escape
 from pathlib import Path
 import re
 
+from reportlab import rl_config
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
@@ -36,7 +37,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont("AdvisorCJK", 8)
     canvas.setFillColor(colors.HexColor("#5b6672"))
-    canvas.drawString(18 * mm, 12 * mm, "硕士论文方向与小论文进展 · 2026-11-02")
+    canvas.drawString(18 * mm, 12 * mm, "硕士论文方向与小论文进展 · 2026-11-03")
     canvas.drawRightString(A4[0] - 18 * mm, 12 * mm, str(doc.page))
     canvas.restoreState()
 
@@ -45,6 +46,7 @@ def main():
     if not FONT.is_file():
         raise FileNotFoundError(f"A Chinese font is required: {FONT}")
     pdfmetrics.registerFont(TTFont("AdvisorCJK", str(FONT)))
+    rl_config.canvas_basefontname = "AdvisorCJK"
     pdfmetrics.registerFontFamily(
         "AdvisorCJK", normal="AdvisorCJK", bold="AdvisorCJK",
         italic="AdvisorCJK", boldItalic="AdvisorCJK"

@@ -1,5 +1,7 @@
 # 转发 Gemini 的独立审阅提示
 
+> 历史审阅指令：下方哈希绑定 2026-11-02 的旧稿，不是当前稿。2026-11-03 的 Gemini 输出及核对记录见[现役证据说明](ICINT_CLAIM_EVIDENCE_REVIEW.md)。
+
 请在新对话附上同目录现役 `icint_latex/main.pdf`；`BEIR_PAIRWISE_REVIEW_SUPPLEMENT.md` 可选，仅作私下审阅，是否公开尚待许可核验。2026-11-02 现役 PDF 的 SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`；若后续重建，请先核对版本再填写审阅记录。没有原始数据时，不要让审阅者声称已独立复算原始实验。之前 Gemini 评阅过较长版本，不等于已经评阅这个 4 页版本。
 
 ```text

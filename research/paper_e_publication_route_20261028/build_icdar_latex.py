@@ -8,7 +8,10 @@ import argparse
 from pathlib import Path
 import re
 
-from build_icint_latex import FINRANK_LATEX, FINRANK_TABLE, INTERPRETATION_LATEX, INTERPRETATION_TABLE, latex
+from build_icint_latex import (
+    DETECTION_LATEX, DETECTION_TABLE, FINRANK_LATEX, FINRANK_TABLE,
+    INTERPRETATION_LATEX, INTERPRETATION_TABLE, latex,
+)
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "paper_e_icint_draft.md"
@@ -39,28 +42,9 @@ def main():
     if body.count(INTERPRETATION_TABLE) != 1:
         raise ValueError("Expected interpretation table not found exactly once")
     body = body.replace(INTERPRETATION_TABLE, INTERPRETATION_LATEX)
-    table = ("| Original operating point | Flat | Hierarchical |\n"
-             "| --- | ---: | ---: |\n"
-             "| Source tables | 75/95 | 20/95 |\n"
-             "| Header injections | 85/118 | 13/118 |")
-    if body.count(table) != 1:
+    if body.count(DETECTION_TABLE) != 1:
         raise ValueError("Expected detection table not found exactly once")
-    body = body.replace(table, r"""```{=latex}
-\begin{table}[htbp]
-\caption{Original seed-42 operating-point detection; table and injection counts are different units.}
-\label{tab:original-detection}
-\centering
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{lrr}
-\hline
-Unit & Flat & Hierarchical \\
-\hline
-Source tables & 75/95 & 20/95 \\
-Header injections & 85/118 & 13/118 \\
-\hline
-\end{tabular}
-\end{table}
-```""")
+    body = body.replace(DETECTION_TABLE, DETECTION_LATEX)
     if body.count(FINRANK_TABLE) != 1:
         raise ValueError("Expected FinRank table not found exactly once")
     finrank = FINRANK_LATEX.replace(r"\begin{tabular}{llrrr}",

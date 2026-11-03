@@ -1,11 +1,17 @@
 # ICINT 短稿：主张、证据及尚待核对事项
 
-2026-10-30 科研负责人逐项对照，列出主张的可追溯证据。2026-11-02 的现役 [ICINT 短稿](paper_e_icint_draft.md)及 [IEEE 双栏审阅 PDF](icint_latex/main.pdf)沿用这些案例，新增材料说明与 AI 披露候选；现役 PDF SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`。下方历史审查并未独立复审新增声明，也不是外部审稿、专家人工标注或全量原始实验的新复跑。
+> 2026-11-03：Gemini 的修订稿与核查表已作为[历史审阅输入](archive/20261103_gemini_review.zip)保留，压缩包内 manifest 绑定原文哈希；现役为 [ICINT 正文](paper_e_icint_draft.md)和 [4 页 PDF](icint_latex/main.pdf)，PDF SHA-256 `8143d3759a4d3839798b30c069cd37ddd4f9b9c6e56cf11540953a274843c5b7`。Gemini 建议经项目侧数据与代码复核后选择性吸收，不把 AI 审阅当作外部同行评审或作者团队终审。
+
+本次对既有证据的核对：保存的逐表/逐注入圆整分数上，flat `>=2.0` 与 hierarchical `>=0.75` 分别选中完全相同的 `75/95` 表与 `85/118` 注入。另一 strict `>1.0` / `>0.375` 网格的 24 个 H/HI 标签注入在 GB10 使用冻结输入离线重建，两者选中同一批 21 个；前一次仅凭汇总数无法确认集合，本次已消除该不确定性。重建使用 [D3 的 load_corpus / g1_reproduce](../paper_d3_matched_fpr_stage_a.py) 和 [matched-grid 的 clean 筛选与分折实现](../stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py)：对排序后的 clean 与 H/HI 表 UID 取索引模 5 选 fold 0，再以 `(uid, col, type)` 比较两规则选中的集合。重建得到 2,382 clean 表、111 个 H/HI 注入、fold 0 的 24 个注入及相同的 21 个命中。两项不是新样本或生产阈值定标。
+
+叙事上明确了两个 BM25 配置、早期本地指标实现修正、加一 Monte Carlo 公式及同一 sign-flip 检验校正前后的 p 值。Gemini 将 FinRank 未解复现差异直接归因于环境或预处理的说法未被采纳；现稿直接报告差异及原因未解。此次 GB10 离线重建无模型、judge、训练或端点调用。
+
+2026-10-30 科研负责人逐项对照，列出主张的可追溯证据。2026-11-02 当时的 ICINT 稿及 IEEE 双栏审阅 PDF 沿用这些案例，新增材料说明与 AI 披露候选；当时 PDF SHA-256 是 `68c594b6b1a43dc0ede95485000ecf4e4d2e4cf8c963f662af9f966111c8aaa0`。下方历史审查并未独立复审新增声明，也不是外部审稿、专家人工标注或全量原始实验的新复跑。
 
 | 稿件主张 | 当前可追溯证据 | 此次检查及范围 |
 |---|---|---|
 | Case 1：95 表 / 118 注入；flat 75/95、85/118；hierarchical 20/95、13/118，原操作点是各自尺度上 `>=2` | [冻结操作点复核](../asset_revalidation_20261029_v1/operating_points_summary.json) | 记录决策标志与对应计数一致，含 12 张 flat 值恰为 2 的边界表；只复核保存结果，不是重跑全管线。 |
-| 0.375 缩放和对应阈值；strict `>1` / `>0.375` 的指定折 21/21 | [v6 阈值说明](../paper_e_agent_evidence_20261029/V6_THRESHOLD_EXPLANATION_RETURN.md)、[冻结 matched 结果](../stage_e_method_revision_20261009/matched_fpr_reanalysis.json) | 两个谓词和两个面板不得混写；仅适用于冻结 QA 和单响应叶设置。 |
+| 0.375 缩放和对应阈值；strict `>1` / `>0.375` 的指定折各检出同一批 `21/24` 标签注入 | [v6 阈值说明](../paper_e_agent_evidence_20261029/V6_THRESHOLD_EXPLANATION_RETURN.md)、[冻结 matched 结果](../stage_e_method_revision_20261009/matched_fpr_reanalysis.json) | 两个谓词和两个面板不得混写；仅适用于冻结 QA 和单响应叶设置。 |
 | UID 聚类的 219/282 和 119 UID | [v6 正文](../paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)、[上一版提交包](../publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/README.md) | 三种子表运行不是独立表；区间是事后 UID 聚类估计。须保留 raw 及其重算路径，确认公开许可后才可能公开。 |
 | Case 2：tie policy 下 TF-IDF / BM25 的 hard、random、gap | [FinRank 外部审计](../research_direction_sprint_20261020_v1/execution_v1/PAPER_E_EXTERNAL_AUDIT.md)、[独立复核](../research_direction_sprint_20261020_v1/execution_v1/INDEPENDENT_REVIEW.md) | 对照数值和统计单位为百分点；差与 gap 均在舍入前计算。身份/过滤数为源码知情的事后复现，未解决的全局差距未被解释。 |
 | Case 3：自行运行的 5 系统 10 对比较，以及独立的 bootstrap 和 sign-flip/Holm | [修正回执](../paper_e_public_eval_20261028/D_BEIR_CORRECTION_RETURN_20261028.md)、[计算实现](../paper_e_public_eval_20261028/code/beir_audit.py) | 实现中每种比较默认 2,000 次，Bootstrap 与 sign-flip 为不同程序，不能把差值全部归因 Holm；未显著不证明相等。 |

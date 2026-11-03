@@ -17,17 +17,16 @@ what comparison is supported. We examine these dependencies in three
 audits: a staged document evaluator, the released FinRank
 evidence-ranking benchmark and researcher-generated runs on two BEIR
 datasets. In the staged evaluator, 96 of 118 controlled header changes
-were visible; under a single-responsive-leaf restriction, flat and
-hierarchical scores had the same ordering up to an approximately 0.375
-scale factor, despite different fixed-threshold detection rates. In
-FinRank, changing the tie policy shifted absolute pairwise accuracy
-while preserving the direction of the examined hard-versus-random
-comparison. For the BEIR runs, a paired sign-flip analysis with Holm
-correction supported two of ten lexical-system comparisons on SciFact
-and one on NFCorpus. An exact-tie-aware point-estimate baseline also
-passed our duplicate and degradation controls. These findings show how
-explicit measurement contracts qualify or preserve particular
-comparisons; they do not establish a universally validated audit method.
+were visible. Under a single-responsive-leaf restriction, unscaled
+thresholds detected 75/95 versus 20/95 tables, while a post-hoc
+scale-matched threshold recovered the same 75/95 tables on saved
+outputs. In FinRank, changing the tie policy shifted absolute pairwise
+accuracy while preserving the examined hard-versus-random comparison.
+For our BEIR runs, paired sign-flip tests with Holm correction supported
+two of ten lexical-system comparisons on SciFact and one on NFCorpus. An
+exact-tie-aware point-estimate baseline also passed our duplicate and
+degradation controls. These cases show how explicit measurement
+contracts qualify or preserve particular comparisons.
 \keywords{measurement validity, document evaluation, information retrieval,
 reproducibility, benchmark auditing}
 \end{abstract}
@@ -51,20 +50,18 @@ retrieval runs on SciFact and NFCorpus from BEIR \cite{r2}, with a later
 dense-model exploration. The BEIR runs are our own constructions, not
 the published benchmark leaderboard.
 
-Our contributions are empirical and bounded. We explain a detection-rate
-difference by a positive score rescaling under a single-responsive-leaf
-restriction; show that a particular FinRank comparison retains its
-direction despite changes in absolute scores; and distinguish
-point-estimate rankings from comparisons supported under a specified
-paired statistical procedure. Each finding is tied to an explicit
-measurement object and relevant limitations.
+Our contributions are three empirical findings. We explain a
+detection-rate difference by a positive score rescaling under a
+single-responsive-leaf restriction; show that a particular FinRank
+comparison retains its direction despite changes in absolute scores; and
+distinguish point-estimate rankings from comparisons supported under a
+specified paired statistical procedure.
 
 Prior work has examined metric and construct validity \cite{r3},
 \cite{r4}, \cite{r5}. AgentSuite \cite{r6} audits interacting components
-in agent benchmarks at broader scale. Our study instead examines
-arithmetic, observation and comparison contracts in specific document
-and retrieval evaluations. It does not propose a new general theory of
-validity or claim an observed change in a user's decision.
+in agent benchmarks at broader scale. We complement these perspectives
+with artifact-level analyses of observation, score scaling and
+comparison in document and retrieval evaluations.
 
 Document analysis evaluation already addresses several related problems.
 SCORE \cite{r7} evaluates semantically equivalent but structurally
@@ -131,39 +128,27 @@ Retrieval & A higher mean establishes every system ordering & The paired test su
 \end{table}
 
 For each construction we identify the input and outcome carrier, the
-evaluator or scoring implementation, the original reporting convention,
-the comparison of interest, and any alternative rule applied to fixed
-outputs. We use the term \emph{decision} for a stated analytical
-interpretation such as the direction of a comparison; no intervention
-with a human decision-maker was conducted. The analysis can preserve an
-initial interpretation as well as qualify it. An audit of a score is
-useful even when the direction remains stable, because it identifies
-which aspects of the scoring contract matter to that conclusion.
-
-The cases are complementary rather than replications of one universal
-intervention. The document case compares response visibility and
-threshold behavior in an instrumented construction. The FinRank case
-varies tie credit for a released financial retrieval benchmark. The BEIR
-case investigates metric definitions, query-level variation and
-uncertainty for newly constructed runs. Consequently, their sample
-counts, populations and effect sizes are not combined into one overall
-audit-success rate.
+implementation, the original reporting convention and the comparison of
+interest. We use \emph{decision} for an analytical interpretation such
+as a comparison's direction; no human-decision intervention was
+conducted. The cases use different units and populations, so their
+counts are not pooled into an overall audit-success rate.
 
 \section{Controlled Document
 Evaluation}\label{controlled-document-evaluation}
 
-The frozen staged evaluator has parsing and question-answering
-checkpoint trees with twelve scored leaves. Its seed-42 panel contains
-95 TAT-QA-derived source tables \cite{r9} and 118 controlled header
-changes across six families. Mapping and regression artifacts form the
-observed surface. For each injected header, the visibility analysis
-identifies its original canonical field: the change is counted as
-absorbed when that field still maps to the injected header, and visible
-otherwise. This matcher-relative criterion is not simply a
-character-level difference. Protocol detection and downstream harm are
-separate quantities. The audit holds the evaluated inputs and scores
-fixed while comparing declared aggregation and threshold conventions. It
-does not observe every internal state or possible downstream use.
+Our project-built, frozen staged evaluator has parsing and
+question-answering checkpoint trees with twelve scored leaves. Its
+seed-42 panel contains 95 TAT-QA-derived source tables \cite{r9} and 118
+controlled header changes across six families. Mapping and regression
+artifacts form the observed surface. For each injected header, the
+visibility analysis identifies its original canonical field: the change
+is counted as absorbed when that field still maps to the injected
+header, and visible otherwise. This matcher-relative criterion is not
+simply a character-level difference. Protocol detection and downstream
+harm are separate quantities. The audit holds the evaluated inputs and
+scores fixed while comparing declared aggregation and threshold
+conventions.
 
 Of 118 injections, 96 were visible. None of the 13 OCR-like changes was
 visible on this surface. This observation does not establish 13 harmful
@@ -177,39 +162,39 @@ within 95 tables. They characterize the particular matcher-relative
 surface, not generic document defects or actual OCR error rates.
 
 In this construction the QA tree was frozen and only the field-hit-rate
-leaf responded. The unrounded hierarchical contrastive score was a
-positive rescaling of the flat score, with fitted slope approximately
-0.375 and identical observed rankings. The original flat field-hit-rate
-drop and hierarchical parsing-root drop each used a numerical operating
-threshold of \textbf{at least 2.0}, on their respective scales. Under
-the observed scaling, a flat threshold of 2.0 corresponds to about 0.75
-on the hierarchical scale, rather than 2.0. At these original operating
-points the flat and hierarchical protocols detected 75/95 versus 20/95
-tables, or 85/118 versus 13/118 injections. Tables and injections are
-distinct units. The difference in rates therefore does not by itself
-establish a difference in ranking ability.
+leaf responded. For field hit rate h, the aggregation weights give a
+parsing-root score of approximately 6.25 + 3.75h, while the flat drop is
+ten times the hit-rate drop. The hierarchical drop is therefore
+approximately 0.375 times the flat drop, and their observed rankings
+coincide. The original protocols each used a numerical operating
+threshold of \textbf{at least 2.0} on their respective scales. At those
+thresholds the flat and hierarchical protocols detected 75/95 versus
+20/95 tables, or 85/118 versus 13/118 injections. Tables and injections
+are distinct units; a rate difference does not by itself establish a
+ranking difference.
 
 \begin{table}[htbp]
-\caption{Original seed-42 operating-point detection; table and injection counts are different units.}
+\caption{Seed-42 original thresholds and post-hoc scale matching; table and injection counts are distinct units.}
 \label{tab:original-detection}
 \centering
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{lrr}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrr}
 \hline
-Unit & Flat & Hierarchical \\
+Unit & Flat $\ge 2$ & Tree $\ge 2$ & Tree $\ge 0.75$ \\
 \hline
-Source tables & 75/95 & 20/95 \\
-Header injections & 85/118 & 13/118 \\
+Source tables & 75/95 & 20/95 & 75/95 \\
+Header injections & 85/118 & 13/118 & 85/118 \\
 \hline
 \end{tabular}
 \end{table}
 
-The separate matched-threshold reanalysis used strict greater-than
-comparisons: a flat threshold of 1.0 corresponds to a hierarchical
-threshold of 0.375; the recorded fold detects 21 cases under either. It
-is not the original 2.0 operating-point analysis. This distinction also
-matters for boundary values: 12 of the 95 tables have a flat drop
-exactly equal to 2.0.
+The flat threshold of 2.0 corresponds to 0.75 on the hierarchical scale.
+In a post-hoc check of saved rounded scores, these matched thresholds
+select the same 75/95 tables and 85/118 injections as the flat rule. A
+separate grid used strict greater-than thresholds of 1.0 and 0.375: in
+one recorded fold both selected the same 21 of 24 injections with
+experimental H/HI labels. The predicates must not be conflated: 12 of
+the 95 tables have a flat drop exactly equal to 2.0.
 
 In this single-leaf setting, a positive rescaling preserves score order;
 retaining the same decision rule also requires rescaling its threshold.
@@ -247,11 +232,11 @@ source cluster out at a time, so the three injected stages from the
 held-out cluster were not included when fitting its centroids. This
 ablation tests the source of the observed signal in the controlled
 instrument, not error localization on an independent deployed system.
-The observed stage separation is attributable to explicit
-instrumentation, not to hierarchy alone. A nested FinQA probe \cite{r10}
-covered 89 rows from 30 report clusters; it changed program fields but
-did not recompute downstream result fields. Its zero detected and zero
-changed outcomes cannot estimate a failure rate for changed answers.
+The controlled stage signal thus resides in the directly targeted
+leaves. A nested FinQA probe \cite{r10} covered 89 rows from 30 report
+clusters; it changed program fields but did not recompute downstream
+result fields. Its zero detected and zero changed outcomes cannot
+estimate a failure rate for changed answers.
 
 \section{FinRank: Score Sensitivity and Decision
 Stability}\label{finrank-score-sensitivity-and-decision-stability}
@@ -282,28 +267,18 @@ BM25 & Strict & 74.094 & 86.760 & 12.666 \\
 \end{table}
 
 Gaps are random accuracy minus hard accuracy, computed before display
-rounding. The comparison's qualitative direction is stable under these
-two policies; this does not establish stability for all decisions. A
-later source-informed identity analysis reproduces 442 hard-negative
-occurrences across 305 records sharing canonical text with another
-record's gold passage, and gold-passage loss in 33 records under the
-inspected metadata filter. These are post-hoc reproductions of known
-properties, not newly discovered benchmark defects. In-record and
+rounding. The gap's direction and descriptive TF-IDF/BM25 ordering
+remain stable under both policies. A source-informed post-hoc analysis
+of the 1,185-record release reproduces 442 hard-negative occurrences
+across 305 records sharing canonical text with another record's gold
+passage. The inspected pooled corpus keeps the first occurrence's
+metadata when deduplicating passage text; metadata filtering can
+consequently exclude a later record's gold text, as observed for 33
+records. These properties were known from the source. In-record and
 pairwise metrics reproduce exactly in the audited environment; global
 and metadata-filtered metrics differ from the released results by up to
-0.19 and 0.16 percentage points, respectively, with the cause
+0.19 and 0.16 percentage points, respectively. The cause remains
 unresolved.
-
-The identity analysis also explains why text identity and record
-identity are different contracts. A pooled passage can occur in several
-records with different metadata. When the inspected implementation
-deduplicates text by first occurrence and retains that occurrence's
-metadata, a later record's gold text can be excluded by metadata
-filtering even though its text appeared in the pooled corpus. The
-reproduced counts describe that implementation and its released data,
-not the prevalence of this behavior in other retrieval systems. Exact
-in-record reproduction and the remaining global mismatch are reported
-separately because one does not resolve the other.
 
 \section{Retrieval Comparisons}\label{retrieval-comparisons}
 
@@ -326,29 +301,28 @@ second to third in one NFCorpus ranking; the separate denominator
 correction changed TF-IDF's MAP@10 from approximately 0.2200 to 0.1162.
 This is a correction of our implementation, not evidence that the
 official leaderboard was wrong. For fixed rankings, trec\_eval 10.0-rc3
-agreed with 18,690 per-query nDCG, MAP and recall values within 1e-4; it
+agreed with 18,690 per-query values within 1e-4: five systems, 623
+queries and six nDCG, MAP and recall cutoff combinations. This check
 does not validate tie-breaking policy.
 
-The cross-check writes a strictly decreasing score for each fixed rank,
-so the reference evaluator receives the order selected by our run. It
-can test the metric values for that order, but cannot decide which
-document should win an equal-score tie. The maximum observed discrepancy
-was approximately 0.00005, consistent with four-decimal output
-precision. The executable used was trec\_eval itself; the check was not
-a separate execution of the pytrec\_eval Python binding. These
-distinctions make the reproducibility statement narrower and more useful
-than a general assertion that an entire retrieval pipeline has been
-independently reproduced.
+The cross-check encodes each fixed rank with a strictly decreasing
+score. Its maximum discrepancy was approximately 0.00005, consistent
+with the reference program's four-decimal output. It checks metric
+arithmetic for the chosen ranking, rather than which document should win
+a score tie; the executable was trec\_eval itself, not the pytrec\_eval
+Python binding.
 
 For the five systems, 2,000 paired bootstrap resamples produced
 intervals excluding zero for 3/10 pairs on SciFact and 4/10 on NFCorpus.
 A separate two-sided paired sign-flip procedure with 2,000 Monte Carlo
 draws per pair and Holm correction supported 2/10 and 1/10,
-respectively. These are different inference procedures, so the count
-difference is not attributable to Holm correction alone. The inference
-depends on the relevant exchangeability or symmetry and
-query-independence assumptions; non-significance does not establish
-equality.
+respectively. Both sign-flip analyses use the Monte Carlo correction
+(b+1)/(M+1), where b is the number of draws at least as extreme as
+observed and M the number of draws. Bootstrap and sign-flip are
+different inference procedures, so the count difference is not
+attributable to Holm correction alone. Inference depends on the relevant
+exchangeability or symmetry and query-independence assumptions;
+non-significance does not establish equality.
 
 The supported SciFact pairs were BM25(1.5, 0.6) versus TF-IDF (mean
 nDCG@10 difference +0.03334; Holm-adjusted p = 0.0100) and BM25(1.2,
@@ -359,29 +333,31 @@ retains the same three supported pairs when Holm is recalculated within
 the five-system family. It reduces Monte Carlo variability but does not
 independently validate the data or inferential assumptions.
 
-Separately from varying cutoff k, reversing document-ID tie order for
-one NFCorpus BM25 configuration at k=10 changed the ordered top ten for
-36.5\% of queries and top-ten membership for 25.7\%. Mean nDCG@10
-changed from 0.30453945 to 0.30449093, approximately 0.00005.
-Query-level changes can therefore be hidden by the aggregate in this
-setting; this is not an estimated benchmark-wide failure rate.
+Reversing document-ID tie order for BM25(0.9, 0.4) on NFCorpus at k=10
+changed the ordered top ten for 36.5\% of queries and top-ten membership
+for 25.7\%. Mean nDCG@10 changed from 0.30453945 to 0.30449093,
+approximately 0.00005. Query-level changes can therefore be hidden by
+the aggregate in this setting; this is not an estimated benchmark-wide
+failure rate.
 
 For an intentionally duplicated system and an intentionally degraded
 control, an exact-tie-aware point-estimate rule and the paired audit
 both passed both controls. The controls do not demonstrate that the
 audit outperforms the simpler rule. A subsequent BGE-small-en-v1.5
 \cite{r11} exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for
-BM25 on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an
-exploratory retrieval result selected after the original analysis, not
-evidence that the audit improved a user decision or that lexical tie
+BM25(1.2, 0.75) on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This
+is an exploratory retrieval result selected after the original analysis,
+not evidence that the audit improved a user decision or that lexical tie
 findings transfer to dense models.
 
 The BGE comparison was later included with the five lexical runs in a
 separate six-system family of 15 pairs per dataset. With 200,000 Monte
 Carlo sign flips per pair and Holm correction within each dataset, the
-BGE-minus-BM25 nDCG@10 difference was +0.05049 on SciFact (adjusted p =
-0.066000) and +0.03759 on NFCorpus (adjusted p = 0.015540). These
-post-hoc tests are not the original ten-pair family or independent
+BGE-minus-BM25(1.2, 0.75) nDCG@10 difference was +0.05049 on SciFact
+(unadjusted p = 0.00641; adjusted p = 0.066000) and +0.03759 on NFCorpus
+(adjusted p = 0.015540). The SciFact pair crosses the 0.05 threshold
+after adjustment within this same test; it is not evidence of equality.
+These post-hoc tests are not the original ten-pair family or independent
 confirmation. The saved dense outputs contain ranked document IDs rather
 than original dense scores, so they cannot establish dense-score tie
 frequencies. Numerical reproducibility of the tests does not establish
@@ -398,11 +374,12 @@ prospective confirmation.
 \section{Discussion and Conclusion}\label{discussion-and-conclusion}
 
 The three cases show distinct ways in which an evaluation contract
-constrains a claim. In the staged evaluator, a rate difference coexists
-with identical ranks under a restricted score rescaling. In FinRank, a
-tested comparison retains direction as absolute scores change. In our
-BEIR runs, metric definitions, ties and statistical comparison
-procedures affect the interpretation of rankings.
+constrains a claim. In the staged evaluator, an apparent rate difference
+vanishes after matching thresholds under a restricted score rescaling.
+In FinRank, a tested comparison retains direction as absolute scores
+change. In our BEIR runs, tie handling and statistical comparison
+procedures affect the interpretation of rankings; correction of our own
+metric implementation is a separate calibration step.
 
 These findings have limited scope: the first case uses controlled
 perturbations to structured tables, without a page-image recognition

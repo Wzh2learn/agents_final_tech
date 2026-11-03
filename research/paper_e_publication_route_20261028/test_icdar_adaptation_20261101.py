@@ -30,4 +30,4 @@ def test_backup_preserves_corrected_map_and_document_scope():
     assert "TF-IDF's MAP@10 from approximately 0.2200 to 0.1162" in text
     assert "not page-image OCR outputs" in text
     assert "without a page-image recognition experiment" in text
-    assert "not establish a universally validated audit method" in text
+    assert "do not claim a general audit guarantee" in text

@@ -74,12 +74,8 @@ def main():
         "the observed signal in the controlled instrument, not error localization on an independent deployed system.")
     text = replace_once(text, stage, expanded_stage)
 
-    scaling = ("This comparison illustrates why a threshold needs both a numeric value and a scale. In the observed "
-        "single-leaf setting, multiplying every flat contrast by a positive constant preserves order. A corresponding "
-        "threshold must be multiplied by the same constant if the same decision rule is to be retained. The original "
-        "protocols did not apply corresponding thresholds. The matched-grid example tests the relationship on saved "
-        "outputs; it does not certify that a production threshold has been calibrated. Neither the scaling result nor "
-        "the matched-grid behavior should be generalized to a setting where additional leaves respond differently.")
+    scaling = ("Matching the threshold to its score scale thus recovers the same decisions in this single-leaf "
+        "setting and makes the original detection-rate gap interpretable. A deployment threshold still requires calibration.")
     concise_scaling = ("In this single-leaf setting, a positive rescaling preserves score order; retaining the same "
         "decision rule also requires rescaling its threshold. The matched-grid example uses saved outputs and does "
         "not calibrate a deployment threshold or establish equivalence with multiple responsive leaves.")

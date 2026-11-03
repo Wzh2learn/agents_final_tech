@@ -1,5 +1,7 @@
 # ICDAR 顺序备投：文档分析定位工作稿
 
+> 2026-11-03 更新：由当前 ICINT 正文重新派生的 [ICDAR 工作 PDF](icdar_adapted_20261101/main.pdf)为 8 页，SHA-256 `d1833017a3f53f512deb74d06cfbf173edd298337e933c4984345e59d8ec1e22`；由 Tectonic 使用其下载的 LNCS class 编译，本次未逐字节核验该 class 与 Springer 官网包一致。**这是内部工作稿，不是可直接提交的双盲稿**：它保留了 AI 使用说明的 Acknowledgment，而 [ICDAR 征稿页](https://icdar2027.org/call-for-papers)要求审稿稿件不含 acknowledgements；若后续启用此备投，须先按届时规则确定匿名 AI 披露位置并重新检查。以下历史“现役”称谓仅指当时快照。
+
 > 2026-11-02 更新：随 ICINT 正文同步材料说明及 AI 使用披露候选，现役 [LNCS 工作 PDF](icdar_adapted_20261101/main.pdf)为 9 页，SHA-256 `99755c1399bf64d6fc7facf239d11fd343975ffc0eab91a233aae11589781598`。新版已重新编译及逐页检查，作者披露及终审仍待确认。以下 2026-11-01 的 8 页和 hash 是修改前快照。
 
 2026-11-01。此稿是 Paper E 的备投准备，只有 ICINT 正式拒稿或确认撤稿后才考虑向 ICDAR 投递；不是另一篇独立论文，也尚未投稿。
