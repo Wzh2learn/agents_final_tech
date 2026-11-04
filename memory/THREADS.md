@@ -12,6 +12,7 @@
 | 自然任务及经验时序 | [SWE-ContextBench](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) 的固定 Lite 来源提供真实问题对，一条公开源轨迹含目标后的修复提交摘要。SymPy 目标无历史、源历史及生成 skill 各一次均未通过目标问题测试、独立 Python 3.8 回归 `84/84`；历史达请求上限，skill 达墙时上限。skill 未清楚保留源任务最终失败状态；这是反馈保真度的开发线索，尚不是方法优势。 |
 | Django 自然任务 | [固定源码与资格](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已在 ARM 上完成源/目标问题正负控制与 `35/35`、`17/17` 可映射回归。目标无历史臂未修复且产生 2 项回归；历史/skill 臂未改源码、未修复。原序历史读取遗漏第 79 行反馈，同内容反馈前置后读到反馈但仍未修复且达到请求上限；已冻结同一失败候选，下一步比较有无真实回归反馈的继续修订。源另有 1 条非测试名未映射，公开旧轨迹不用于时间隔离经验。 |
 | 资源账本 | 历史 340-token 差额、部分未完成 POST 用量、模型权重标识等仍未核实；继续分别记账，不能视作零。 |
+| 长期记忆与自主调度 | [架构说明](../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05)区分项目状态、会话持久化、向量情景记忆与候选复习/反思；当前仍无已验证的统一八层记忆或恢复型自动队列。现有反射代码配置外部模型接口，实际生产调用未核验；个人对话接入或后台自动执行前需明确数据与授权范围。会话元数据约束不代替用户身份和资源归属认证。 |
 | Git 与现场 | 本机集成工作树 30 项和 GB10 C 审阅工作树 3 项未跟踪文件均已校验归档；历史 worktree 的忽略文件与 GB10 活动 Loop B 日志保留。[最新归档及实验复核](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。2026-11-04 推送遇到 GitHub SSH 公钥认证失败；本机与 GB10 通过校验过的 Git bundle 快进对齐，GitHub 仍待认证恢复后补推，不覆盖历史。 |
 | 文档时效与 skill | 2026-11-04 文档 lint 为 0 fail、3 warn：两份 33/34 为项目明确冻结文档，另一份 `m1_coldstart_candidates.md` 仍待相关工作复验，不用仅改日期消警。GB10 `sync_skills --check` 为 100 项一致；仓库 skill-doctor 为 0 errors、140 warnings，skill-map 报 1 组 `pdf` 同名和 27 条待判的类似引用，不能把候选全部当成真实断链。未自动修改 skills。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 边界及其他未复验事项保持未知；见[更早快照](archive/THREADS_2026-10-21_pre_workspace_governance.md)，不能因归档宣称解决。 |

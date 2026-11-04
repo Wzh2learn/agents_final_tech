@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-11-04 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-11-05 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -9,6 +9,7 @@
 | 需要 | 权威入口 |
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
+| Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 导师确认材料 | [现役学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)、[转发 PDF](../output/pdf/advisor_brief_20261102.pdf) |
 | Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[ICDAR 备投工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)、[投稿路线](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |

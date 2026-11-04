@@ -90,6 +90,18 @@ start_task() {
   if tmux has-session -t "$session" 2>/dev/null; then
     die "session already running: $session"
   fi
+  # A task/role pair is an evidence identity, not a reusable output filename.
+  # Check orphaned artifacts too, then claim the status path atomically so two
+  # simultaneous starts cannot both launch and overwrite each other's receipt.
+  local artifact
+  for artifact in "$status" "$log" "$runner" "$log.attempt-1" "$log.attempt-2"; do
+    if [[ -e "$artifact" || -L "$artifact" ]]; then
+      die "task/role already has an artifact; use a new task id: $task/$role"
+    fi
+  done
+  if ! (set -o noclobber; : > "$status") 2>/dev/null; then
+    die "task/role already claimed; use a new task id: $task/$role"
+  fi
   write_status "$status" queued "$task" "$role" "" "queued"
   if [[ "$role" == "a" ]]; then
     cat > "$runner" <<'EOF'

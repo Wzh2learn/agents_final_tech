@@ -26,9 +26,9 @@ class EpisodicMemoryProvider:
         """添加一条记忆片段"""
         try:
             doc_metadata = {
+                **(metadata or {}),
                 "session_id": session_id,
                 "type": "episodic",
-                **(metadata or {})
             }
             doc = Document(page_content=content, metadata=doc_metadata)
             self.vector_store.add_documents([doc])

@@ -1,6 +1,6 @@
 # Loop A / Loop C Detached Launcher
 
-> 状态: 活跃 | 更新: 2026-10-09 | 取代/被取代: 取代旧手工 tmux 派发说明；历史 supervisor 脚本保留为只读历史
+> 状态: 活跃 | 更新: 2026-11-05 | 取代/被取代: 取代旧手工 tmux 派发说明；历史 supervisor 脚本保留为只读历史
 
 ## Purpose
 
@@ -19,6 +19,8 @@ bash scripts/graph/loop_ac_launcher.sh stop <task-id> a
 ```
 
 `preflight` checks executable paths and external configuration file presence without reading or printing credentials. `--smoke` adds a minimal Codex and Claude response check. `start` launches a detached tmux session, writes `$HOME/wzh/loop_runs/<task-id>/<role>.log`, and writes a status JSON file.
+
+A task ID plus role identifies one dispatch. Since 2026-11-05, `start` refuses to overwrite an existing role receipt, runner or log, and claims the status path atomically to prevent concurrent starts of the same role. A and C can still use the same task ID. To make a new attempt, use a new task ID; an empty or orphaned status remains evidence to inspect, not an invitation to overwrite it. This protects dispatch artifacts; it is not an automatic durable queue or a proof that an Agent completed its work.
 
 ## Timeout and recovery
 
