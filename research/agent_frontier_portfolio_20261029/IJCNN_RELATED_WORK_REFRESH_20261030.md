@@ -10,6 +10,8 @@
 | [Self-Authored Verification Is Unreliable](https://arxiv.org/abs/2607.24300)，2026-07 预印本 | 研究自写测试与部署表现的偏差；其 SEAL 用 Agent 不可见的固定审计和历史回滚减少退化。 | 不能只提出“用隐藏测试和回滚”；对照可见测试、外部审计、成本、不可见标签可得性以及不同参考缺陷。 |
 | [EvoClawBench](https://arxiv.org/abs/2607.09711)，2026-06 预印本 | 比较无技能、任务前生成技能与任务后从轨迹总结技能，并计入创建成本；跨 coding、data、office 等任务。 | 不能只比较有没有生成 skill；可借其可执行工作流和 authoring 成本口径，核查环境和训练来源再决定能否复现。 |
 | [ContinualSkillBench](https://arxiv.org/abs/2608.03874)，v3 2026-10 | 比较顺序上下文和技能维护，发现部分设置中保留历史/反馈与显式 skill 平均效果接近。 | 必须包含普通历史、普通反馈、直接重试等同预算控制，不能只与无历史比较。金融流与已有项目来源重合，不作未见确认。 |
+| [SkillFlow](https://arxiv.org/html/2604.17308)，2026 预印本 | 作者构造 20 个工作流族、166 个任务；顺序使用轨迹和验证反馈增量增加、修订或删除技能，并报告任务成功、读取和成本。其协议按工作流族重置技能库，不在主协议中交错不同工作流。 | 同族顺序迁移、反馈修订和 skill 增长均非本项目的新问题；交错工作流及检索可能值得研究，但是否已有其他近邻覆盖尚未证明。其[任务发布页](https://huggingface.co/datasets/zhang-ziao/SkillFlow-Task)将许可标为 `other`，底层资产和再分发权未明确，不能直接作为开放训练或再发布素材。 |
+| [EdgeBench](https://arxiv.org/abs/2607.05155)，2026 预印本 | 作者在长时程环境反馈下研究 Agent 迭代学习；[官方仓库](https://github.com/ByteDance-Seed/EdgeBench)写明 134 个任务中公开 51 个，任务数据 CC BY 4.0，框架 Apache-2.0。 | 可作为后续高难度来源和可见反馈设计参照；其任务按多小时运行，不等同当前短程技能迁移实验，成本和 GB10 兼容性尚未实测。 |
 | [CoEvoSkills](https://arxiv.org/abs/2604.01687)，COLM 接收预印本 | 已在 SkillsBench 上联合迭代 skill 生成器与不读取 gold 的代理 verifier。 | 同一 SkillsBench 上“无 gold、反馈驱动 skill”已有先例；若使用该数据须考虑复现近邻与其他来源数据。 |
 | [SkillEvo](https://arxiv.org/abs/2608.13120)，2026-08 预印本 | 多轮用户模拟生成反馈并维护技能，利用治理处理退化和膨胀。 | 不能仅以“反馈可信/多轮/修订回归”作为创新；需识别更具体可观测条件和不同信息、预算比较。 |
 | [SkillEvolBench](https://arxiv.org/abs/2605.24117)，2026-05 预印本 | 作者设计 180 个任务、6 个环境和有学习/冻结部署角色的任务族；比较原始轨迹、无 skill、自生成与人工编制 skill，报告迁移、漂移和成本。 | “从轨迹形成可复用技能并在变化任务中验证”已有直接对标；需要实际复现或公平实现其历史轨迹与 skill 基线，不以本项目两任务探索作为超越。GB10 来源资格见[检查记录](SKILLEVOLBENCH_SOURCE_QUALIFICATION_20261030.md)。 |
