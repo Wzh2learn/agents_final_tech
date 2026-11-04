@@ -1397,3 +1397,7 @@ echo dispatch_log updated
 [2026-11-04] SKILLFLOW-RECONCILIATION-QUALIFICATION: 私有固定来源两题的参考、空输出和重复 ID 控制已执行；不同解析器复算与原参考一致，并确认题面示例包含部分真实答案。构造的单单元格变体使旧参考失效，三次无历史 Agent 的隔离 preflight 通过、实际执行尚未开始。证据与输入许可边界见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；本条记录的提交先于模型执行。科研模型、训练、付费 API 和生产调用均为 0。
 
 [2026-11-04] SKILLFLOW-RECONCILIATION-DIRECT: 两个原题及一个过时示例变体的无历史 Agent 均与各自输入独立复算一致；原测试不适用于变体。三次 Agent 共 26 POST、214,263 报告 token，缓存 182,556 已含在内。随后仅用源轨迹与源反馈生成 skill，1 POST、5,304 token；四次经验/历史目标对照尚未执行，计划和证据见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`。无训练、付费 API、生产调用、投稿或公开。
+
+[2026-11-04] SKILLFLOW-RECONCILIATION-EXPERIENCE: 追加四次目标 Agent（源历史和生成 skill 各覆盖原题与单值变化），新增 26 POST、276,160 报告 token；四条均与各自输入独立复算一致，历史/skill 均完整读入。本组含此前三次无历史及一次 skill 生成累计 53 POST、495,727 报告 token；原测试对变化输入保留失效边界。每条件仅一次，没有可识别的正确率增益。无训练、付费 API 或生产调用。
+
+[2026-11-04] EVOCLAW-CONFIG-DEVELOPMENT: 对公开合成配置任务运行独立类型控制及 3 条隔离 Agent；构造的 95 类型错误被原检查全部放过，真实无历史与源历史目标输出各 `4/4` 独立正确。3 条 Agent 共 18 POST、152,381 报告 token（含缓存 127,519），源历史整理无模型调用；不把构造控制称作 Agent 实际失败。初始预留元数据被完成记录覆盖的缺口已注明并修正后续脚本。详细回执见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；无训练、付费 API、生产调用或外部发布。
