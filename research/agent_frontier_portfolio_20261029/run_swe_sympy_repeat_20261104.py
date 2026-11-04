@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import os
@@ -80,7 +81,9 @@ def make_harness(condition: str, seed: int, experience: Path | None) -> str:
            "   except (ValueError,EOFError,UnicodeDecodeError):\n"
            "    calls.append('DENIED:invalid_metadata');self.request.sendall("
            "b'HTTP/1.1 400 Bad Request\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n"
-           "   sampling.append(meta)")
+           "   sampling.append(meta)\n"
+           "   with (case/'sampling_metadata.jsonl').open('a',encoding='utf-8') as log:\n"
+           "    log.write(json.dumps(meta,separators=(',',':'))+'\\n');log.flush()")
     code = common.replace_once(code, old, new, 1)
     code = common.replace_once(code, "receipt={'task':task", "receipt={'sampling_metadata':sampling,'task':task", 1)
     old = "(work/'opencode.json').write_text(json.dumps(cfg),encoding='utf8')"
@@ -119,10 +122,16 @@ def run_one(condition: str, seed: int) -> None:
         if reservation['status'] != 'COMPLETED' or receipt['raw_sha256'] != common.sha(case / 'raw.jsonl'):
             raise ValueError('repeat evidence incomplete')
         sampling = receipt['sampling_metadata']
+        sampling_log = case / 'sampling_metadata.jsonl'
+        persisted = [json.loads(line) for line in sampling_log.read_text(encoding='utf-8').splitlines()]
+        norm = lambda rows: Counter(json.dumps(row, sort_keys=True) for row in rows)
+        if norm(sampling) != norm(persisted):
+            raise ValueError('persisted sampling metadata does not match receipt')
         same_seed = bool(sampling) and all(x.get('seed') == seed for x in sampling)
         same_temperature = bool(sampling) and all(x.get('temperature') == TEMPERATURE for x in sampling)
         expected.update({'status': 'COMPLETED', 'started_sha256': common.sha(started),
                          'case': str(case), 'reservation_sha256': common.sha(reservation_path),
+                         'sampling_log_sha256': common.sha(sampling_log),
                          'sampling_requests': len(sampling), 'seed_observed_as_requested': same_seed,
                          'temperature_observed_as_requested': same_temperature})
         completed.write_text(json.dumps(expected, indent=2) + '\n', encoding='utf-8')
@@ -165,6 +174,7 @@ def summarize() -> None:
                     or common.sha(receipt_path) != reservation['raw_receipt_sha256']
                     or common.sha(score_path) != reservation['benchmark_receipt_sha256']
                     or common.sha(case / 'raw.jsonl') != receipt['raw_sha256']
+                    or common.sha(case / 'sampling_metadata.jsonl') != planned['sampling_log_sha256']
                     or not score['candidate_unchanged']):
                 raise ValueError('repeat receipt mismatch')
             for name, expected in score['candidate_artifact_sha256_after'].items():
