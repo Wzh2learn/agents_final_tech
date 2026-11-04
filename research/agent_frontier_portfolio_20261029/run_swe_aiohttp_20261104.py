@@ -161,7 +161,7 @@ def run(task: str, condition: str) -> None:
     validate()
     if task == 'source' and condition != 'none':
         raise ValueError('source runs without experience')
-    if condition == 'published_skill':
+    if condition in ('published_skill', 'general_only'):
         experience = PUB_SKILL
     elif condition in ('neutral_plan', 'conditioned_plan'):
         source_cases = sorted(path for path in RUNS.iterdir() if path.is_dir() and path.name.startswith('source__none__'))

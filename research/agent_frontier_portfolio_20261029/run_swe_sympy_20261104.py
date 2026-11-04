@@ -19,6 +19,7 @@ from qualify_swe_sympy_20261104 import OUT as QUAL, SYMPY, SYMPY_REV
 QUAL_SHA = 'e725bd55c4a5583340196bc8a08b3aff48d985d5a3157035e366653271ea8b20'
 RUNS = common.ROOT / 'swe_sympy_agent_20261104'
 PROBE_ROOT = common.ROOT / 'swe_sympy_independent_probe_20261104'
+GENERAL_ROOT = common.ROOT / 'swe_sympy_general_extension_20261104'
 STEM = 'sympy-symbolic-math'
 IMAGE = common.IMAGE
 TASKS = {'source': 1, 'target': 2}
@@ -66,7 +67,7 @@ def derive(task: str, condition: str, experience: Path | None) -> str:
         + ("(work/'source_experience.md').touch(mode=0o444)\n" if experience else '')
     )
     edits = [
-        ("ROOT=Path('/home/testuser/wzh/research_evidence/agent_skill_method_20261029')", f'ROOT=Path({str(RUNS)!r})', 1),
+        ("ROOT=Path('/home/testuser/wzh/research_evidence/agent_skill_method_20261029')", f'ROOT=Path({str(common.RUNS)!r})', 1),
         ("UP=Path('/home/testuser/wzh/research_evidence/agent_frontier_20261029/skillsbench_v1_1/tasks')", f'UP=Path({str(common.BENCH / "tasks")!r})', 1),
         ("if task not in ('llm-prefix-cache-replay','dialogue-parser','tictoc-unnecessary-abort-detection') or arm not in ('no_skill','all_skill','select_skill'): raise SystemExit('unsupported')",
          f"if task not in {tuple(TASKS)!r} or arm != 'no_skill': raise SystemExit('unsupported')", 1),
@@ -318,6 +319,112 @@ def probe_targets() -> None:
     print(json.dumps({'receipt': str(receipt), 'sha256': common.sha(receipt), 'cases': rows}))
 
 
+def extract_general(text: str) -> str:
+    """Keep one named section intact, including any task-specific examples within it."""
+    sections = re.findall(r'(?ms)^## General Steps[^\n]*\n(.*?)(?=^## |\Z)', text)
+    if len(sections) != 1 or not sections[0].strip():
+        raise ValueError('expected one nonempty general section')
+    return '# Source experience: general section only\n\n## General Steps\n\n' + sections[0].strip() + '\n'
+
+
+def prepare_general() -> None:
+    """Freeze the existing general section after observing two development arms."""
+    validate()
+    sources = sorted(p for p in RUNS.iterdir() if p.is_dir() and p.name.startswith('source__none__'))
+    if len(sources) != 1 or GENERAL_ROOT.exists():
+        raise ValueError('expected one source and a new extension directory')
+    source = sources[0]
+    meta = json.loads((source / 'experience_metadata.json').read_text(encoding='utf-8'))
+    skill = source / 'generated_skill.md'
+    if common.sha(skill) != meta['skill_sha256']:
+        raise ValueError('source skill changed')
+    content = extract_general(skill.read_text(encoding='utf-8'))
+    GENERAL_ROOT.mkdir()
+    general = GENERAL_ROOT / 'general_only.md'
+    general.write_text(content, encoding='utf-8')
+    receipt = GENERAL_ROOT / 'pre_run_receipt.json'
+    receipt.write_text(json.dumps({
+        'scope': 'POST_HOC_SOURCE_SECTION_DEVELOPMENT', 'source_case': str(source),
+        'source_skill_sha256': common.sha(skill), 'general_sha256': common.sha(general),
+        'selection': 'one existing General Steps section; examples within that section are retained',
+        'observed_before_selection': ['target none 13/15', 'target source history 14/15'],
+        'limitations': 'content and length change together; not a single-factor causal estimate',
+    }, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'general': str(general), 'sha256': common.sha(general),
+                      'receipt_sha256': common.sha(receipt)}))
+
+
+def run_general() -> None:
+    """Reuse the normal agent runner with an explicitly labeled general-only input."""
+    receipt = json.loads((GENERAL_ROOT / 'pre_run_receipt.json').read_text(encoding='utf-8'))
+    general = GENERAL_ROOT / 'general_only.md'
+    if common.sha(general) != receipt['general_sha256']:
+        raise ValueError('general-only input changed')
+    common.RUNS, common.PUB_SKILL = GENERAL_ROOT, general
+    common.run('target', 'general_only')
+
+
+def probe_general() -> None:
+    validate()
+    controls = json.loads((PROBE_ROOT / 'pre_run_controls.json').read_text(encoding='utf-8'))
+    script = PROBE_ROOT / 'probe.py'
+    pre = json.loads((GENERAL_ROOT / 'pre_run_receipt.json').read_text(encoding='utf-8'))
+    general = GENERAL_ROOT / 'general_only.md'
+    if common.sha(script) != controls['probe_sha256'] or common.sha(general) != pre['general_sha256']:
+        raise ValueError('probe or general input changed')
+    cases = sorted(p for p in GENERAL_ROOT.iterdir()
+                   if p.is_dir() and re.fullmatch(r'target__general_only__\d+', p.name))
+    if len(cases) != 1:
+        raise ValueError('expected one general-only candidate')
+    case = cases[0]
+    reservation = json.loads((GENERAL_ROOT / (case.name + '.reservation.json')).read_text(encoding='utf-8'))
+    receipt = json.loads((case / 'receipt.json').read_text(encoding='utf-8'))
+    result = json.loads((case / 'benchmark_receipt.json').read_text(encoding='utf-8'))
+    if (reservation['status'] != 'COMPLETED' or reservation['experience_sha256'] != common.sha(general)
+            or reservation['raw_receipt_sha256'] != common.sha(case / 'receipt.json')
+            or reservation['benchmark_receipt_sha256'] != common.sha(case / 'benchmark_receipt.json')
+            or receipt['raw_sha256'] != common.sha(case / 'raw.jsonl') or not result['candidate_unchanged']):
+        raise ValueError('general-only case evidence changed')
+    for name, expected in result['candidate_artifact_sha256_after'].items():
+        artifact = case / 'work' / name
+        actual = common.sha(artifact) if artifact.is_file() and not artifact.is_symlink() else None
+        if actual != expected:
+            raise ValueError('candidate changed before probe')
+    out = GENERAL_ROOT / 'probe_result'
+    out.mkdir(exist_ok=False)
+    probe = execute_probe(case / 'work', script, 'candidate', out)
+    lines = general.read_text(encoding='utf-8').splitlines()
+    seen, reads = {}, 0
+    for line in (case / 'raw.jsonl').read_text(encoding='utf-8').splitlines():
+        event = json.loads(line)
+        part, state = event.get('part', {}), event.get('part', {}).get('state', {})
+        if (event.get('type') == 'tool_use' and part.get('tool') == 'read'
+                and state.get('input', {}).get('filePath') == '/root/source_experience.md'):
+            reads += 1
+            for entry in str(state.get('output', '')).splitlines():
+                found = re.match(r'^(\d+): ?(.*)$', entry)
+                if found:
+                    seen[int(found.group(1))] = found.group(2)
+    usage, calls = receipt['step_finish_tokens'], receipt['model_http_requests']
+    summary = {'scope': 'POST_HOC_SOURCE_SECTION_DEVELOPMENT', 'case': case.name,
+               'agent_exit': receipt['agent_exit'], 'benchmark_exit': result['exit'],
+               'benchmark_summary': result['summary'], 'failed_names': result['failed_names'],
+               'http_post': sum(x.startswith('POST ') for x in calls),
+               'denied': [x for x in calls if x.startswith('DENIED')],
+               'reported_tokens': sum(x.get('total', 0) for x in usage),
+               'cache_read_included': sum(x.get('cache', {}).get('read', 0) for x in usage),
+               'elapsed_seconds': receipt['elapsed_seconds'], 'experience_reads': reads,
+               'experience_lines_seen': len(seen), 'experience_lines_total': len(lines),
+               'experience_read_exact': len(seen) == len(lines) and all(
+                   seen.get(i) == lines[i - 1] for i in range(1, len(lines) + 1)),
+               'general_sha256': common.sha(general), 'raw_sha256': common.sha(case / 'raw.jsonl'),
+               'benchmark_receipt_sha256': common.sha(case / 'benchmark_receipt.json'),
+               'probe_sha256': common.sha(script), 'probe': probe}
+    target = out / 'summary.json'
+    target.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'summary': str(target), 'sha256': common.sha(target), 'result': summary}))
+
+
 def summarize(path: Path) -> None:
     if path.exists():
         raise FileExistsError('summary already exists')
@@ -432,6 +539,9 @@ if __name__ == '__main__':
     parser.add_argument('--summarize', type=Path)
     parser.add_argument('--prepare-probe', action='store_true')
     parser.add_argument('--probe-targets', action='store_true')
+    parser.add_argument('--prepare-general', action='store_true')
+    parser.add_argument('--run-general', action='store_true')
+    parser.add_argument('--probe-general', action='store_true')
     args = parser.parse_args()
     if args.preflight:
         validate()
@@ -450,6 +560,12 @@ if __name__ == '__main__':
         prepare_probe()
     elif args.probe_targets:
         probe_targets()
+    elif args.prepare_general:
+        prepare_general()
+    elif args.run_general:
+        run_general()
+    elif args.probe_general:
+        probe_general()
     elif args.task:
         common.run(args.task, args.condition)
     else:
