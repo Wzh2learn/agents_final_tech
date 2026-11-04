@@ -1415,3 +1415,5 @@ echo dispatch_log updated
 [2026-11-04] SWE-CONTEXTBENCH-SYMPY-CONTROLS: 实际下载两个自然问题指定的 SymPy 历史源码，研究者侧将测试与参考修复置于隔离控制副本。初始 pytest 缺失和 distutils 缺失两轮单独保留；依赖挂载及兼容层就绪后，源与目标各自原始版本的选定测试失败、参考修复通过，源 1 项和目标 2 项选定回归均通过。这不是全部基准或官方镜像验证，未向 Agent 暴露目标补丁和测试。细节与三份回执哈希见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；模型、训练、judge、生产调用均为 0。
 
 [2026-11-04] SWE-CONTEXTBENCH-SYMPY-AGENT-CONTRACT: 预先固定源、目标各一次无历史 Agent 的隔离输入、请求/时间上限、采样字段及退出后测试方式；运行器无模型 preflight 通过。目标测试与参考补丁仅在外部控制/评分副本，计划、脚本与边界见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；本条提交时尚未启动模型执行。
+
+[2026-11-04] SWE-CONTEXTBENCH-SYMPY-DIRECT: 源 Agent 达 48 请求上限并出现测试补丁冲突，事后仅恢复评分副本中的补丁涉及测试文件后，源问题测试失败、所选回归通过。目标无历史 Agent 正常结束但目标测试失败；事后 Python 3.8 复核目标 `84/84` 回归通过，参考修复/原始版本的预期正负控制也成立。两 Agent 共 86 POST / 1,279,003 报告 tokens（含缓存 1,141,963），1 次超帽请求被拒。现按真实源动作和失败反馈形成历史，后续历史/skill 对照为事后开发；无训练、judge、付费 API、生产调用或外部发布。回执与环境边界见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`。

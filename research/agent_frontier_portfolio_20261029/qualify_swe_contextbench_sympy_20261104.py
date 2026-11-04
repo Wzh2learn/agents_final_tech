@@ -7,6 +7,7 @@ trees that an agent may later receive. It does not run a model.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
@@ -227,5 +228,85 @@ def main() -> None:
                 for arm, detail in case['arms'].items()} for label, case in result['cases'].items()}}))
 
 
+def test_legacy(work: Path, nodes: list[str], log: Path, label: str) -> dict:
+    legacy = Path('/home/testuser/miniconda3/envs/haiguan')
+    environment = ROOT / 'swe_contextbench_sympy_python38_env_20261104'
+    site = environment / 'site'
+    name = f'contextbench-py38-{label}-{int(time.time())}'
+    cmd = ['docker', 'run', '--name', name, '--rm', '--pull', 'never', '--network', 'none',
+           '--read-only', '--cpus', '2', '--memory', '3g', '--pids-limit', '256',
+           '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
+           '--tmpfs', '/tmp:rw,nosuid,size=128m', '-e', 'PYTHONPATH=/workspace:/deps38',
+           '-e', 'PYTHONDONTWRITEBYTECODE=1', '-e', 'PYTEST_DISABLE_PLUGIN_AUTOLOAD=1',
+           '-e', 'HYPOTHESIS_STORAGE_DIRECTORY=/tmp/hypothesis',
+           '--mount', f'type=bind,src={work},dst=/workspace,readonly',
+           '--mount', f'type=bind,src={legacy},dst=/opt/legacy,readonly',
+           '--mount', f'type=bind,src={site},dst=/deps38,readonly', '--workdir', '/workspace',
+           '--entrypoint', '/opt/legacy/bin/python', IMAGE, '-m', 'pytest', '-q',
+           '-p', 'no:cacheprovider', *nodes]
+    start = time.monotonic()
+    try:
+        proc = subprocess.run(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                              stderr=subprocess.STDOUT, timeout=240, check=False)
+        code, output_bytes = proc.returncode, proc.stdout
+    except subprocess.TimeoutExpired as exc:
+        code, output_bytes = 124, exc.stdout or b''
+        subprocess.run(['docker', 'kill', name], stdout=subprocess.DEVNULL,
+                       stderr=subprocess.DEVNULL, timeout=10, check=False)
+    log.write_bytes(output_bytes)
+    lines = output_bytes.decode('utf-8', errors='replace').splitlines()
+    summary = next((line.strip() for line in reversed(lines)
+                    if any(term in line for term in (' passed', ' failed', ' error'))), '')
+    return {'exit': code, 'summary': summary, 'nodes': len(nodes),
+            'seconds': round(time.monotonic() - start, 3), 'log_sha256': sha(log)}
+
+
+def legacy_controls() -> None:
+    """Recheck frozen controls in a separate Python 3.8 ARM environment."""
+    legacy = Path('/home/testuser/miniconda3/envs/haiguan')
+    environment = ROOT / 'swe_contextbench_sympy_python38_env_20261104'
+    site, wheelhouse = environment / 'site', environment / 'wheelhouse'
+    output = environment / 'controls'
+    if output.exists():
+        raise FileExistsError('legacy control directory already exists')
+    if not (legacy / 'bin/python').is_file() or not site.is_dir() or not wheelhouse.is_dir():
+        raise ValueError('legacy interpreter or private dependencies missing')
+    output.mkdir()
+    wheels = {p.name: sha(p) for p in sorted(wheelhouse.glob('*.whl'))}
+    if len(wheels) != 11:
+        raise ValueError('unexpected legacy wheel count')
+    site_files = {p.relative_to(site).as_posix(): sha(p) for p in sorted(site.rglob('*'))
+                  if p.is_file() and not p.is_symlink()}
+    manifest = {'python_binary_sha256': sha(legacy / 'bin/python'), 'wheels': wheels,
+                'site_files': site_files, 'container_image': IMAGE,
+                'limits': 'host conda runtime mounted read-only; full runtime library tree not frozen'}
+    path = output / 'environment_manifest.json'
+    path.write_text(json.dumps(manifest, sort_keys=True, indent=2) + '\n', encoding='utf-8')
+    result = {'scope': 'HISTORICAL_CONTROLS_PYTHON38_ARM_ADAPTED',
+              'script_sha256': sha(Path(__file__)), 'environment_manifest_sha256': sha(path),
+              'agent_or_model_calls': 0, 'cases': {}}
+
+    for label, spec in CASES.items():
+        reg = (json.loads(dataset_row(spec)['PASS_TO_PASS']) if label == 'target'
+               else spec['regression'])
+        result['cases'][label] = {}
+        for arm in ('base_with_tests', 'gold_with_tests'):
+            work = OUT / label / arm
+            result['cases'][label][arm] = {
+                'focus': test_legacy(work, spec['focus'], output / f'{label}_{arm}_focus.log', label + '-focus'),
+                'regression': test_legacy(work, reg, output / f'{label}_{arm}_regression.log', label + '-regression')}
+            (output / 'progress.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+            print(json.dumps({'case': label, 'arm': arm, 'result': result['cases'][label][arm]}), flush=True)
+    after = {p.relative_to(site).as_posix(): sha(p) for p in sorted(site.rglob('*'))
+             if p.is_file() and not p.is_symlink()}
+    result['environment_unchanged'] = after == site_files
+    receipt = output / 'receipt.json'
+    receipt.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'receipt': str(receipt), 'sha256': sha(receipt)}), flush=True)
+
+
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--legacy-controls', action='store_true')
+    args = parser.parse_args()
+    legacy_controls() if args.legacy_controls else main()
