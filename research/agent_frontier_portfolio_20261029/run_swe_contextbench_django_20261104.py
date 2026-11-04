@@ -21,6 +21,12 @@ import run_swe_contextbench_sympy_20261104 as core
 ROOT = shared.ROOT / 'swe_contextbench_django_agent_20261104'
 QUAL_SHA = '3c0e97a962c1607fb6aca351438a79c48b1b1528ae7e3f971bec099095094ff4'
 REGRESSION_SHA = 'd18485d97cd01aa52150657fa48664eeb7efe8b1cb605e0144730d6bb7031e74'
+RETRY_SOURCE_SHA = 'f30b980316d62fbe801927c93e6227fadcafbb168059a94a9ca108836636ae64'
+RETRY_ROOT = ROOT / 'target_feedback_retry_input'
+RETRY_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry')
+RETRY_INSTRUCTION = ('\n\nThe workspace contains an earlier incomplete implementation of this issue. '
+                     'Continue from the current files: inspect the code, run relevant tests, and try '
+                     'to solve the issue without introducing regressions.')
 
 
 def verify_base(task: str) -> None:
@@ -60,15 +66,94 @@ def verify_base(task: str) -> None:
 
 
 def derive(task: str, condition: str = 'none', experience: Path | None = None) -> str:
-    code = core.derive(task, condition, experience)
+    retry = condition in RETRY_CONDITIONS
+    if retry and (task != 'target' or experience is not None):
+        raise ValueError('candidate retry applies only to the target without source experience')
+    code = core.derive(task, 'none' if retry else condition, experience)
     substitutions = ((str(core.ROOT), str(ROOT)), (str(shared.OUT), str(django.OUT)),
                      (str(shared.OVERLAY / 'site'), str(django.ENV / 'site')))
     for old, new in substitutions:
         if old not in code:
             raise ValueError('missing expected SymPy harness fragment')
         code = code.replace(old, new)
+    if retry:
+        code = core.replace_once(code, repr(str(ROOT / f'target__none__seed{core.SEED}')),
+                                 repr(str(ROOT / f'target__{condition}__seed{core.SEED}')))
+        code = core.replace_once(code, "shutil.copytree(src/'clean_base',work,dirs_exist_ok=True)",
+                                 f"shutil.copytree(Path({str(RETRY_ROOT / 'candidate')!r}),work,dirs_exist_ok=True)")
+        marker = "body=(src/'task.txt').read_text(encoding='utf8').strip()"
+        addon = f'\nbody+={RETRY_INSTRUCTION!r}'
+        if condition == 'candidate_feedback_retry':
+            addon += f"\nbody+='\\n\\n'+Path({str(RETRY_ROOT / 'feedback.txt')!r}).read_text(encoding='utf8')"
+        code = core.replace_once(code, marker, marker + addon)
     compile(code, '<django-contextbench-harness>', 'exec')
     return code
+
+
+def retry_files(path: Path) -> dict:
+    if any(p.is_symlink() for p in path.rglob('*')):
+        raise ValueError('candidate snapshot contains a symbolic link')
+    return {p.relative_to(path).as_posix(): shared.sha(p) for p in sorted(path.rglob('*'))
+            if p.is_file() and p.name not in ('instructions.txt', 'opencode.json')
+            and not any(x in ('.git', '__pycache__', '.pytest_cache') for x in p.parts)}
+
+
+def prepare_retry() -> None:
+    """Freeze one actual incomplete candidate and its observed regression feedback."""
+    preflight()
+    if RETRY_ROOT.exists():
+        raise FileExistsError('candidate retry input already exists')
+    case = ROOT / f'target__none__seed{core.SEED}'
+    receipt = ROOT / f'target__none__seed{core.SEED}.completed.json'
+    if shared.sha(receipt) != RETRY_SOURCE_SHA:
+        raise ValueError('source target receipt changed')
+    record = json.loads(receipt.read_text(encoding='utf-8'))
+    evaluation = record['post_run_evaluation']
+    log = case / 'post_run_evaluation/regression.log'
+    if (record['agent_exit'] == 0 or evaluation['status'] != 'EVALUATED' or
+            evaluation['focus']['exit'] == 0 or evaluation['regression']['exit'] == 0 or
+            evaluation['regression']['summary'] != ['Ran 17 tests in 0.013s', 'FAILED (errors=2)'] or
+            shared.sha(log) != evaluation['regression']['log_sha256']):
+        raise ValueError('candidate and its measured feedback do not match the frozen source')
+    trace = log.read_text(encoding='utf-8', errors='replace')[-1800:]
+    if "AttributeError: 'OneToOneField' object has no attribute 'field'" not in trace:
+        raise ValueError('expected observed regression traceback is missing')
+    work = case / 'work'
+    before = retry_files(work)
+    RETRY_ROOT.mkdir()
+    candidate = RETRY_ROOT / 'candidate'
+    shutil.copytree(work, candidate, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache',
+                                                                    'instructions.txt', 'opencode.json'))
+    if retry_files(candidate) != before:
+        raise ValueError('candidate copy differs from the observed source workspace')
+    feedback = ('Previous independent regression run on this candidate: 17 tests, 2 errors. '
+                'A traceback excerpt follows; use it as diagnostic evidence, not as a reference patch.\n\n' + trace)
+    (RETRY_ROOT / 'feedback.txt').write_text(feedback, encoding='utf-8')
+    manifest = {'source_completion_sha256': RETRY_SOURCE_SHA, 'source_raw_sha256': record['raw_sha256'],
+                'source_regression_log_sha256': shared.sha(log), 'candidate_files': before,
+                'feedback_sha256': shared.sha(RETRY_ROOT / 'feedback.txt'),
+                'scope': 'post-hoc same-candidate development, not held-out confirmation'}
+    path = RETRY_ROOT / 'manifest.json'
+    path.write_text(json.dumps(manifest, sort_keys=True, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'candidate_files': len(before), 'manifest_sha256': shared.sha(path),
+                      'feedback_sha256': manifest['feedback_sha256'], 'scientific_model_calls': 0}))
+
+
+def verify_retry() -> dict:
+    path = RETRY_ROOT / 'manifest.json'
+    manifest = json.loads(path.read_text(encoding='utf-8'))
+    source_receipt = ROOT / f'target__none__seed{core.SEED}.completed.json'
+    source_log = ROOT / f'target__none__seed{core.SEED}/post_run_evaluation/regression.log'
+    if (manifest['source_completion_sha256'] != RETRY_SOURCE_SHA or shared.sha(source_receipt) != RETRY_SOURCE_SHA or
+            shared.sha(source_log) != manifest['source_regression_log_sha256'] or
+            retry_files(RETRY_ROOT / 'candidate') != manifest['candidate_files'] or
+            shared.sha(RETRY_ROOT / 'feedback.txt') != manifest['feedback_sha256']):
+        raise ValueError('candidate snapshot or original feedback changed')
+    neutral, feedback = (derive('target', x) for x in RETRY_CONDITIONS)
+    if (str(RETRY_ROOT / 'feedback.txt') in neutral or str(RETRY_ROOT / 'feedback.txt') not in feedback or
+            repr(RETRY_INSTRUCTION) not in neutral or repr(RETRY_INSTRUCTION) not in feedback):
+        raise ValueError('retry comparison has an unexpected prompt difference')
+    return {'manifest_sha256': shared.sha(path), 'feedback_sha256': manifest['feedback_sha256']}
 
 
 def preflight() -> None:
@@ -276,7 +361,9 @@ def reorder_history() -> None:
 
 def run(task: str, condition: str) -> None:
     preflight()
-    experience = None if condition == 'none' else experience_file(condition)
+    retry = condition in RETRY_CONDITIONS
+    retry_info = verify_retry() if retry else None
+    experience = None if condition == 'none' or retry else experience_file(condition)
     case = ROOT / f'{task}__{condition}__seed{core.SEED}'
     started = ROOT / f'{task}__{condition}__seed{core.SEED}.started.json'
     complete = ROOT / f'{task}__{condition}__seed{core.SEED}.completed.json'
@@ -289,6 +376,7 @@ def run(task: str, condition: str) -> None:
             'harness_sha256': shared.sha(harness), 'shim_sha256': shared.sha(ROOT / 'runtime/sitecustomize.py'),
             'max_http_requests': core.MAX_HTTP_REQUESTS, 'max_bytes': core.MAX_BYTES,
             'max_seconds': core.MAX_SECONDS, 'experience_sha256': shared.sha(experience) if experience else None,
+            'candidate_retry_input': retry_info,
             'status': 'STARTED'}
     started.write_text(json.dumps(plan, indent=2) + '\n', encoding='utf-8')
     proc = subprocess.run([sys.executable, str(harness), task, 'no_skill'], stdin=subprocess.DEVNULL,
@@ -348,9 +436,11 @@ if __name__ == '__main__':
     parser.add_argument('--build-experience', action='store_true')
     parser.add_argument('--generate-skill', action='store_true')
     parser.add_argument('--reorder-history', action='store_true')
+    parser.add_argument('--prepare-retry', action='store_true')
+    parser.add_argument('--preflight-retry', action='store_true')
     parser.add_argument('--task', choices=('source', 'target'))
     parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill',
-                                                 'feedback_first_history'), default='none')
+                                                 'feedback_first_history', *RETRY_CONDITIONS), default='none')
     args = parser.parse_args()
     if args.preflight:
         preflight()
@@ -360,6 +450,11 @@ if __name__ == '__main__':
         generate_skill()
     elif args.reorder_history:
         reorder_history()
+    elif args.prepare_retry:
+        prepare_retry()
+    elif args.preflight_retry:
+        preflight()
+        print(json.dumps({'status': 'RETRY_PREFLIGHT_PASS', **verify_retry(), 'scientific_model_calls': 0}))
     elif args.task:
         run(args.task, args.condition)
     else:

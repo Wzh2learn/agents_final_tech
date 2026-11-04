@@ -1425,3 +1425,5 @@ echo dispatch_log updated
 [2026-11-04] SWE-CONTEXTBENCH-DJANGO-DIRECT: 两个无历史 Agent 均达请求上限；源未修改源码、源问题 2 项失败且可映射回归 `35/35` 通过；目标问题测试报错、原本通过的 17 项回归出现 2 项错误。两次共 `96` POST / `1,398,992` 报告 tokens（含缓存 `1,159,528`），各有 1 次超帽请求被拒。源 67 个实际工具动作及失败反馈已形成截断历史，已规划但尚未执行目标历史/skill 对照，未提供目标测试。详见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；无训练、judge、付费 API、生产调用或外部发布。
 
 [2026-11-04] SWE-CONTEXTBENCH-DJANGO-EXPERIENCE: 源历史目标臂 4 POST / `46,215` 报告 tokens，实际只读前 73/82 行，源最终反馈位于第 79 行；skill 目标臂 17 POST / `206,376` 报告 tokens，完整读取 21/21 行；skill 生成另 1 POST / `22,845` tokens。两臂均未改源码、目标问题测试仍报错、17/17 回归通过。基于读取缺口，事后固定结构对象及字符数相同、将反馈从第 79 行移至第 4 行的透明顺序对照，尚未执行。证据、成本与近邻见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；无训练、judge、付费 API、生产调用或外部发布。
+
+[2026-11-05] SWE-CONTEXTBENCH-DJANGO-FEEDBACK-ORDER: 同一结构对象的反馈前置臂读取前 73/82 行、实际读到第 4 行反馈，48 POST / 623,912 报告 tokens（含缓存 478,312），1 次超帽请求被拒；未改目标源码，目标问题测试报错、回归 17/17。随后无模型固定同一失败候选及原始回归反馈，准备 neutral/feedback 两臂继续修订；属于事后同题开发。候选清单与反馈哈希、资源口径和未决边界见现役研究计划；无训练、judge、付费 API、生产调用或外部发布。
