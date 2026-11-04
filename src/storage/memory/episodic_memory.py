@@ -22,8 +22,8 @@ class EpisodicMemoryProvider:
             self._vector_store = get_vector_store(collection_name=self.collection_name)
         return self._vector_store
 
-    async def add_memory(self, session_id: str, content: str, metadata: Dict[str, Any] = None):
-        """添加一条记忆片段"""
+    async def add_memory(self, session_id: str, content: str, metadata: Dict[str, Any] = None) -> bool:
+        """添加一条记忆片段；返回写入适配器是否接受该条记录。"""
         try:
             doc_metadata = {
                 **(metadata or {}),
@@ -33,8 +33,10 @@ class EpisodicMemoryProvider:
             doc = Document(page_content=content, metadata=doc_metadata)
             self.vector_store.add_documents([doc])
             logger.info(f"Added episodic memory for session {session_id}")
+            return True
         except Exception as e:
             logger.error(f"Failed to add episodic memory: {e}")
+            return False
 
     async def search_memory(self, query: str, session_id: str, top_k: int = 5) -> List[Document]:
         """检索相关记忆片段 (Target Attention 召回)"""

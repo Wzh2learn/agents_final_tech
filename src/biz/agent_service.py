@@ -25,7 +25,8 @@ class AgentService:
     def __init__(self):
         self._agent = None
         self._system_prompt = self._load_system_prompt()
-        self._reflection_index: Dict[str, int] = {}  # conversation_id -> last_reflected_msg_index
+        self._reflection_index: Dict[str, str] = {}  # conversation_id -> last reflected message ID
+        self._reflection_inflight: set[str] = set()
     
     def _load_system_prompt(self) -> str:
         """加载系统提示词"""
@@ -72,31 +73,34 @@ class AgentService:
 
     async def _check_and_trigger_reflection(self, conversation_id: str, messages: List[Any]):
         """检查并触发记忆反射逻辑 (HMM 核心触发器)"""
-        # 内存保护：清理过大的 reflection_index
-        if len(self._reflection_index) > self.MAX_REFLECTION_INDEX_SIZE:
-            # 保留最新的 50% 条目
-            keep_count = self.MAX_REFLECTION_INDEX_SIZE // 2
-            keys_to_remove = list(self._reflection_index.keys())[:-keep_count]
-            for k in keys_to_remove:
-                del self._reflection_index[k]
-            logger.info(f"Cleaned reflection_index, kept {keep_count} entries")
-        
-        # 去重：只处理新增的消息，避免重复反射
-        last_index = self._reflection_index.get(conversation_id, 0)
-        if len(messages) <= last_index:
+        # The graph keeps a sliding window, so a list length is not a durable
+        # cursor. Use stable message IDs within this process instead.
+        if conversation_id in self._reflection_inflight:
             return
-        
-        # 如果消息超过 15 条 (接近 20 条的滑动窗口上限)，尝试触发反射
-        if len(messages) < 15:
+        eligible = [m for m in messages if isinstance(m, (HumanMessage, AIMessage))]
+        ids = [m.id for m in eligible]
+        if any(not isinstance(message_id, str) or not message_id for message_id in ids) or len(set(ids)) != len(ids):
+            logger.warning("Skipping reflection: message IDs are missing or duplicated")
             return
+        last_id = self._reflection_index.get(conversation_id)
+        if last_id is not None:
+            if last_id not in ids:
+                logger.warning("Skipping reflection: previous cursor is outside the current message window")
+                return
+            eligible = eligible[ids.index(last_id) + 1:]
+        if len(eligible) < 15:
+            return
+        msgs_to_reflect = eligible[:10]
+        # There is no await between the check and insertion; concurrent tasks on
+        # this service's event loop cannot reserve the same session twice.
+        self._reflection_inflight.add(conversation_id)
 
         try:
             logger.info(f"触发记忆反射检查: conversation_id={conversation_id}, msg_count={len(messages)}")
             from tools.memory_reflector import reflect_on_conversation
             from storage.memory.episodic_memory import get_episodic_memory_provider
             
-            # 1. 提取较早的消息进行总结 (例如前 10 条)
-            msgs_to_reflect = messages[:10]
+            # 1. 只处理游标之后最早的一批对话消息。
             msgs_json = json.dumps([
                 {"role": "human" if isinstance(m, HumanMessage) else "ai", "content": m.content}
                 for m in msgs_to_reflect
@@ -122,18 +126,29 @@ class AgentService:
 
             # 3. 存入长期记忆 (Episodic Memory)
             provider = get_episodic_memory_provider()
-            await provider.add_memory(
+            saved = await provider.add_memory(
                 session_id=conversation_id,
                 content=f"[历史摘要]: {summary}\n[关键事实]: {json.dumps(facts, ensure_ascii=False)}",
                 metadata={"trigger": "auto_reflection", "msg_count": len(msgs_to_reflect)}
             )
-            logger.info(f"记忆反射完成并存入 L2: {conversation_id}")
-            
-            # 更新反射索引，避免重复反射相同范围的消息
-            self._reflection_index[conversation_id] = len(messages)
+            if saved is not True:
+                logger.warning("Reflection memory was not accepted by the storage adapter")
+                return
+            logger.info(f"记忆反射已交给 L2 存储适配器: {conversation_id}")
+
+            # Advance only after an accepted write. This cursor is process-local.
+            self._reflection_index.pop(conversation_id, None)
+            self._reflection_index[conversation_id] = msgs_to_reflect[-1].id
+            if len(self._reflection_index) > self.MAX_REFLECTION_INDEX_SIZE:
+                keep_count = self.MAX_REFLECTION_INDEX_SIZE // 2
+                for key in list(self._reflection_index.keys())[:-keep_count]:
+                    del self._reflection_index[key]
+                logger.info(f"Cleaned reflection_index, kept {keep_count} entries")
             
         except Exception as e:
             logger.warning(f"记忆反射触发失败: {e}")
+        finally:
+            self._reflection_inflight.discard(conversation_id)
 
     async def chat(self, message: str, conversation_id: str, role: str = "default") -> Dict[str, Any]:
         """同步对话接口，返回内容与追踪信息"""
