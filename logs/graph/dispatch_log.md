@@ -1395,3 +1395,5 @@ echo dispatch_log updated
 [2026-11-04] STOCK-FORMAT-AGENT-DEVELOPMENT: GB10 隔离环境完成一个源、两个同族目标的 Agent/历史/skill 对照及事后反馈对照；未观察到稳定 skill 增益，并识别历史读取截断与 tooltip 实现敏感误拒。11 次 Agent 与一次源 skill 生成共记录 151 次 POST、2,093,024 报告 token，缓存已计入，失败未报告使用量保留未知。实验、成本、回执与后续范围见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；Git commit 为包含本条目的提交。无训练、付费 API、生产调用、投稿或公开发布。
 
 [2026-11-04] SKILLFLOW-RECONCILIATION-QUALIFICATION: 私有固定来源两题的参考、空输出和重复 ID 控制已执行；不同解析器复算与原参考一致，并确认题面示例包含部分真实答案。构造的单单元格变体使旧参考失效，三次无历史 Agent 的隔离 preflight 通过、实际执行尚未开始。证据与输入许可边界见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；本条记录的提交先于模型执行。科研模型、训练、付费 API 和生产调用均为 0。
+
+[2026-11-04] SKILLFLOW-RECONCILIATION-DIRECT: 两个原题及一个过时示例变体的无历史 Agent 均与各自输入独立复算一致；原测试不适用于变体。三次 Agent 共 26 POST、214,263 报告 token，缓存 182,556 已含在内。随后仅用源轨迹与源反馈生成 skill，1 POST、5,304 token；四次经验/历史目标对照尚未执行，计划和证据见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`。无训练、付费 API、生产调用、投稿或公开。
