@@ -1407,3 +1407,11 @@ echo dispatch_log updated
 [2026-11-04] SWE-SKILLS-SYMPY-DEVELOPMENT: 源 Agent `18/18`；六条目标 Agent 的无历史、源历史、生成 skill、公开 skill、中性计划、源 skill 条件计划分别为 `13/15`、`14/15`、`15/15`、`14/15`、`14/15`、`15/15`，追加通用段为 `7/15`；每臂一次，公开 skill 与通用段达调用上限。四项事先冻结的开发性补充行为中，完整 skill、源历史与两种计划各 `4/4`，无历史 `1/4`。原 Agent 环境缺 `hypothesis`，之后的私有依赖挂载复验与模型执行分开记载。七次原定 Agent、一次追加 Agent、skill 生成和两次计划共 `220` POST / `2,955,574` 报告 tokens（含缓存 `2,470,093`）；未完成或被拒请求的潜在用量不自行补零。结果与四份回执哈希见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；无训练、judge、付费 API、生产调用或外部发布。
 
 [2026-11-04] SWE-SKILLS-SYMPY-REPEAT-INTERFACE-PILOT: 修复测试依赖后的首个无历史 Agent 有 `5` 次 POST / `55,051` 报告 tokens（含缓存 `11,650`）。逐请求记录发现 5 次均未携带预定温度，且 1 次未携带种子；该回合作为接口诊断独立保留，不并入后续统一采样配置的重复比较。后续通过隔离代理改写采样字段并重新核验请求长度；原始回执与输出不改。无训练、judge、付费 API、生产调用或外部发布。
+
+[2026-11-04] SWE-CONTEXTBENCH-SOURCE-SCREEN: 固定公开代码与数据，匹配 300 源轨迹及 99 个目标；102 条 Lite 关联的源任务时间早于/相同/晚于目标为 33/28/41。六个选定开发对的源 PR merge 均为目标 base 祖先；一条公开 Django 源轨迹含目标修复之后的 Git 提交摘要，不能直接当成严格时间隔离历史。详细来源、许可与 ARM 边界见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；无科研模型、训练、judge、生产调用或外部发布。
+
+[2026-11-04] SWE-SKILLS-SYMPY-REPEATS: 依赖和采样参数转发统一后，同一目标的无历史、中性计划、条件计划各两次均 `15/15` 与补充 `4/4`；源 skill 两次为 `1/15`（补充检查导入失败）、`10/15`（补充 `2/4`），所有 Agent 均退出 0。8 条目标执行共 `176` POST / `2,010,668` 报告 tokens（含缓存 `1,433,253`），源任务与经验形成不计入此数字；结果仅限同题固定经验，不证明跨题效应或失败根因。回执与费用见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`。无训练、judge、付费 API、生产调用或外部发布。
+
+[2026-11-04] SWE-CONTEXTBENCH-SYMPY-CONTROLS: 实际下载两个自然问题指定的 SymPy 历史源码，研究者侧将测试与参考修复置于隔离控制副本。初始 pytest 缺失和 distutils 缺失两轮单独保留；依赖挂载及兼容层就绪后，源与目标各自原始版本的选定测试失败、参考修复通过，源 1 项和目标 2 项选定回归均通过。这不是全部基准或官方镜像验证，未向 Agent 暴露目标补丁和测试。细节与三份回执哈希见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；模型、训练、judge、生产调用均为 0。
+
+[2026-11-04] SWE-CONTEXTBENCH-SYMPY-AGENT-CONTRACT: 预先固定源、目标各一次无历史 Agent 的隔离输入、请求/时间上限、采样字段及退出后测试方式；运行器无模型 preflight 通过。目标测试与参考补丁仅在外部控制/评分副本，计划、脚本与边界见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；本条提交时尚未启动模型执行。
