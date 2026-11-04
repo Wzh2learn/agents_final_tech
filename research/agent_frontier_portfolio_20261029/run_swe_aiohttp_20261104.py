@@ -26,6 +26,10 @@ RUNS = ROOT / 'swe_aiohttp_agent_20261104_v2'
 PUB_SKILL = BENCH / 'skills/asyncio-patterns/SKILL.md'
 TASK_FILE_STEM = 'asyncio-patterns'
 TASKS = {'source': 1, 'target': 2}
+SOURCE_RUNS = None
+MAX_HTTP = 32
+MAX_REQUEST_BYTES = 4000000
+MAX_WALL_SECONDS = 1500
 
 
 def validate() -> dict:
@@ -164,7 +168,8 @@ def run(task: str, condition: str) -> None:
     if condition in ('published_skill', 'general_only'):
         experience = PUB_SKILL
     elif condition in ('neutral_plan', 'conditioned_plan'):
-        source_cases = sorted(path for path in RUNS.iterdir() if path.is_dir() and path.name.startswith('source__none__'))
+        source_cases = sorted(path for path in (SOURCE_RUNS or RUNS).iterdir()
+                              if path.is_dir() and path.name.startswith('source__none__'))
         if len(source_cases) != 1:
             raise ValueError('expected a single recorded source episode')
         plan_dir = source_cases[0] / 'target_plans' / condition
@@ -173,7 +178,8 @@ def run(task: str, condition: str) -> None:
         if ledger['status'] != 'RECEIVED' or ledger['plan_sha256'] != sha(experience):
             raise ValueError('target plan changed or is not ready')
     elif condition in ('source_history', 'generated_skill'):
-        source_cases = sorted(path for path in RUNS.iterdir() if path.is_dir() and path.name.startswith('source__none__'))
+        source_cases = sorted(path for path in (SOURCE_RUNS or RUNS).iterdir()
+                              if path.is_dir() and path.name.startswith('source__none__'))
         if len(source_cases) != 1:
             raise ValueError('expected a single recorded source episode')
         source = source_cases[0]
@@ -194,7 +200,7 @@ def run(task: str, condition: str) -> None:
             'repository_revision': AIO_REV, 'benchmark_revision': BENCH_REV, 'qualification_sha256': QUAL_SHA,
             'derived_sha256': hashlib.sha256(code.encode()).hexdigest(),
             'experience_sha256': sha(experience) if experience else None,
-            'max_http': 32, 'max_request_bytes': 4000000, 'max_wall_seconds': 1500,
+            'max_http': MAX_HTTP, 'max_request_bytes': MAX_REQUEST_BYTES, 'max_wall_seconds': MAX_WALL_SECONDS,
             'started_utc': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     reservation.write_text(json.dumps(info, indent=2) + '\n', encoding='utf-8')
     old_argv = sys.argv
