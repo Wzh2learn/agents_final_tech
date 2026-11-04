@@ -12,6 +12,7 @@
 - **股票可视化格式变化**：[现役计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)记录 CSV 源、JSON/TSV 目标的无历史、历史、生成 skill 和事后反馈对照；各格仅一次，同属一个已曝光工作流族。skill 未稳定超过无历史或研究者的透明适配；一条目标未完成文件交付。历史读取的实际截断与上游 tooltip 测试的实现敏感性已分别用逐行对照和可执行反例核实。Agent 本身没有浏览器，成本与边界均在计划中单列；尚无跨来源方法收益。
 - **SkillFlow 对账任务**：[现役计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)记录两个同族合成 PDF/Excel 任务及一个单元格变化的过时示例变体。无历史、真实源历史、生成 skill 在目标原题及变体的单次输出均与当前输入独立复算一致；变体不能用旧测试答案评分。目标条件各仅一次，无法判断稳定效率差或方法增益。
 - **EvoClaw 配置迁移**：[现役计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)记录公开合成任务的评分反例及真实 Agent 开发对照：95 个类型标签全错的构造产物仍通过 `30/30` 原检查；无历史和源历史各一次均正确完成四个目标文件。不是已观察到的 Agent 受错误反馈影响，也没有方法增量。后续优先资格验证真实项目任务。
+- **真实项目 Agent 开发**：[aiohttp 对照](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)的源 Agent 通过 `15/15`；目标条件化经验计划公开测试 `13/14`，但额外行为探针发现正常退出与异常传播缺陷，无历史反而通过这两项。源 skill 组发生源任务文件的额外修改；各条件各一次，不构成方法增益。初始两次权限事故另记成本。[SymPy 第二项目](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已完成无模型正负资格，尚未运行 Agent。
 - **最新资产复核**：[离线复算与尸检](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)核对 Paper E 冻结结果、迁移验证合同、Agent 单任务的 2,000 行产物及 MA-CERD 动作集合；均为事后复核，不是独立来源确认。
 - **解释边界**：BEIR 为研究者自建运行而非官方榜；FinRank 的部分身份结果为源码知情事后复现；未标注不等于不相关，统计不显著不等于相等。旧 R/E、exact-cache、FinRank H/K 等具体面板停止不等于相关一般方向无效。以日期更正和原证据为准。
 
