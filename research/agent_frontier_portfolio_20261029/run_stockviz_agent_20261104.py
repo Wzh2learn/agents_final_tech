@@ -55,13 +55,18 @@ def prepare(version: int, condition: str, experience: Path | None):
             raise ValueError('source experience changed')
         if condition == 'raw_history':
             mount = history
+        elif condition in ('readable_tail', 'readable_diagnostic'):
+            mount = experience / 'source_history_readable.txt'
+            if config.get('readable_sha256') != digest(mount):
+                raise ValueError('readable source history changed')
         else:
             mount = experience / 'skill.md'
             ledger = json.loads((experience / 'ledger.json').read_text(encoding='utf-8'))
             if ledger['status'] != 'RECEIVED' or ledger['skill_sha256'] != digest(mount):
                 raise ValueError('generated skill unavailable or changed')
             history_hashes['skill_ledger'] = digest(experience / 'ledger.json')
-        dest = '/root/source_history.json' if condition == 'raw_history' else '/root/source_skill.md'
+        dest = ('/root/source_history.json' if condition == 'raw_history' else
+                '/root/source_history_readable.txt' if condition.startswith('readable_') else '/root/source_skill.md')
         history_mounts.append((mount, dest))
         history_hashes[dest] = digest(mount)
 
@@ -83,6 +88,10 @@ def prepare(version: int, condition: str, experience: Path | None):
          "A local D3 6.7.0 bundle is available at /root/d3.v6.7.0.min.js; copy it to the required output path. The task inputs are in /root/data.", 1),
         ("len(calls)>=8", "len(calls)>=24", 1),
         ("sum(payload_bytes)+length>450000", "sum(payload_bytes)+length>1500000", 1),
+        ("calls.append('DENIED_OR_LIMIT');self.request.sendall",
+         "reason=('method' if line not in allowed else 'request_cap' if len(calls)>=24 "
+         "else 'missing_length' if length is None else 'post_byte_cap')\n"
+         "   calls.append('DENIED:'+reason);self.request.sendall", 1),
         ("'timeout':120000", "'timeout':300000", 1),
         ("[],[],120)", "[],[],300)", 2),
         ("stderr=subprocess.PIPE,timeout=300)", "stderr=subprocess.PIPE,timeout=1200)", 1),
@@ -136,7 +145,8 @@ def prepare(version: int, condition: str, experience: Path | None):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('task', type=int, choices=(1, 2, 3))
-    parser.add_argument('--condition', choices=('no_history', 'raw_history', 'generated_skill'), default='no_history')
+    parser.add_argument('--condition', choices=('no_history', 'raw_history', 'generated_skill',
+                                               'readable_tail', 'readable_diagnostic'), default='no_history')
     parser.add_argument('--experience', type=Path)
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()

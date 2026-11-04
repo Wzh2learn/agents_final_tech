@@ -1391,3 +1391,5 @@ echo dispatch_log updated
 
 
 [2026-10-28] NEW-LOOP-D-HANDOFF-REVIEW-PREPARED: 科研负责人以main@809c8b18、research@c644cb4f做本地离线blob/元数据核验：分叉5/7；Word123=38 exact+85 local-only；24receipt改名不变；历史manifest映射后84/86匹配，2份学位稿为合并前hash；typed UNKNOWN与exact-key冲突。唯一prompt原地更新为Paper E优先、D直接修订及一次C提案（接受后累计29；现用仍28），科学生成/训练0。Owner未转发前维持PAUSED。本会话0 A/C派发、0科学生成/训练/judge、0 GB10探测、0分支合并/清理/外部动作。证据：docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json。
+
+[2026-11-04] STOCK-FORMAT-AGENT-DEVELOPMENT: GB10 隔离环境完成一个源、两个同族目标的 Agent/历史/skill 对照及事后反馈对照；未观察到稳定 skill 增益，并识别历史读取截断与 tooltip 实现敏感误拒。11 次 Agent 与一次源 skill 生成共记录 151 次 POST、2,093,024 报告 token，缓存已计入，失败未报告使用量保留未知。实验、成本、回执与后续范围见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；Git commit 为包含本条目的提交。无训练、付费 API、生产调用、投稿或公开发布。

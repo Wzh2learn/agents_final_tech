@@ -63,12 +63,69 @@ def make_history(source: Path) -> tuple[dict, dict]:
     return history, config
 
 
+def make_readable_controls(source: Path, original: Path, output: Path) -> None:
+    """Prepare post-hoc, source-only controls without making a model request."""
+    original_history = original / 'source_history.json'
+    original_config = json.loads((original / 'config.json').read_text(encoding='utf-8'))
+    receipt = json.loads((source / 'receipt.json').read_text(encoding='utf-8'))
+    if (original_config['source_history_sha256'] != sha(original_history)
+            or original_config['source_trace_sha256'] != sha(source / 'raw.jsonl')
+            or receipt['raw_sha256'] != sha(source / 'raw.jsonl')
+            or receipt['task'] != 'stock-data-visualization-1'):
+        raise ValueError('original experience is not bound to the frozen source episode')
+    history = json.loads(original_history.read_text(encoding='utf-8'))
+    source_log = (source / 'verifier.txt').read_text(encoding='utf-8', errors='replace')
+    snippets = [line for line in source_log.splitlines()
+                if '"GET /output/data/stock-descriptions.csv HTTP/1.1" 404' in line
+                or 'AssertionError: indiv-stock/ directory must exist' in line]
+    if len(snippets) != 2:
+        raise ValueError('expected source feedback excerpts are not uniquely present')
+    output.mkdir(parents=True, exist_ok=False)
+    for name in ('readable_tail', 'readable_diagnostic'):
+        case = output / name
+        case.mkdir()
+        # Keep a byte-exact copy of the original source-only history for provenance.
+        (case / 'source_history.json').write_bytes(original_history.read_bytes())
+        visible = json.loads(original_history.read_text(encoding='utf-8'))
+        if name == 'readable_diagnostic':
+            visible['source_feedback']['post_hoc_source_log_excerpts'] = snippets
+        encoded = json.dumps(visible, ensure_ascii=False, separators=(',', ':'))
+        chunks = [encoded[i:i + 700] for i in range(0, len(encoded), 700)]
+        preface = ('Source episode history as a losslessly wrapped JSON stream. '
+                   'Each numbered line is a consecutive chunk; concatenate the text after | '
+                   'in order to reconstruct the exact JSON. The current task may differ.\n')
+        wrapped = preface + ''.join(f'{i:04d}|{chunk}\n' for i, chunk in enumerate(chunks))
+        reconstructed = ''.join(line.split('|', 1)[1] for line in wrapped.splitlines()[1:])
+        if reconstructed != encoded or json.loads(reconstructed) != visible or max(map(len, wrapped.splitlines())) > 1000:
+            raise ValueError('readable history is not lossless or contains a long line')
+        text_path = case / 'source_history_readable.txt'
+        text_path.write_text(wrapped, encoding='utf-8')
+        config = dict(original_config)
+        config.pop('target_task_or_reference_seen_by_author', None)
+        config.update({'status': 'POST_HOC_SOURCE_ONLY_DIAGNOSTIC',
+                       'researcher_had_seen_target_tasks_and_tests': True,
+                       'target_task_or_reference_given_to_model': False,
+                       'source_feedback_full_log_sha256': sha(source / 'verifier.txt'),
+                       'source_history_sha256': sha(case / 'source_history.json'),
+                       'readable_sha256': sha(text_path),
+                       'readable_json_sha256': hashlib.sha256(encoded.encode('utf-8')).hexdigest(),
+                       'selected_source_excerpt_count': 2 if name == 'readable_diagnostic' else 0,
+                       'format': 'lossless 700-character chunks', 'model_requests': 0})
+        write_json(case / 'config.json', config)
+    print(json.dumps({'status': 'PREPARED', 'controls': ['readable_tail', 'readable_diagnostic'],
+                      'source_feedback_sha256': sha(source / 'verifier.txt'), 'model_requests': 0}), flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('source', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--readable-controls-from', type=Path)
     args = parser.parse_args()
     source = args.source.resolve()
+    if args.readable_controls_from:
+        make_readable_controls(source, args.readable_controls_from.resolve(), args.output)
+        return
     history, config = make_history(source)
     args.output.mkdir(parents=True, exist_ok=False)
     history_path = args.output / 'source_history.json'
