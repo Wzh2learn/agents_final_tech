@@ -96,7 +96,8 @@ def verify_clean_base(label: str) -> None:
 
 
 def derive(task: str, condition: str = 'none', experience: Path | None = None) -> str:
-    if task not in ('source', 'target') or condition not in ('none', 'source_history', 'generated_skill'):
+    if task not in ('source', 'target') or condition not in ('none', 'source_history', 'generated_skill',
+                                                            'feedback_first_history'):
         raise ValueError('unsupported task or experience condition')
     if (task == 'source' and condition != 'none') or ((condition == 'none') != (experience is None)):
         raise ValueError('inconsistent task/experience selection')
@@ -216,7 +217,7 @@ def preflight() -> None:
                '-c', 'import distutils.version, pytest, sympy; print(pytest.__version__, sympy.__version__)']
         subprocess.run(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                        timeout=30, check=True)
-    for condition in ('source_history', 'generated_skill'):
+    for condition in ('source_history', 'generated_skill', 'feedback_first_history'):
         derive('target', condition, Path('/tmp/preflight-source-experience.md'))
     ns = {'json': json}
     exec(CAPTURE, ns)
@@ -400,9 +401,11 @@ def legacy_evaluate(task: str, condition: str) -> None:
 def experience_file(condition: str) -> Path:
     directory = ROOT / 'source_experience'
     meta = json.loads((directory / 'metadata.json').read_text(encoding='utf-8'))
-    name = {'source_history': 'source_history.md', 'generated_skill': 'generated_skill.md'}[condition]
+    name = {'source_history': 'source_history.md', 'generated_skill': 'generated_skill.md',
+            'feedback_first_history': 'feedback_first_history.md'}[condition]
     path = directory / name
-    key = 'history_sha256' if condition == 'source_history' else 'skill_sha256'
+    key = {'source_history': 'history_sha256', 'generated_skill': 'skill_sha256',
+           'feedback_first_history': 'feedback_first_history_sha256'}[condition]
     if qual.sha(path) != meta.get(key):
         raise ValueError('source experience changed or not generated')
     return path
@@ -601,7 +604,8 @@ if __name__ == '__main__':
     parser.add_argument('--build-experience', action='store_true')
     parser.add_argument('--generate-skill', action='store_true')
     parser.add_argument('--task', choices=('source', 'target'))
-    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill'), default='none')
+    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill',
+                                                 'feedback_first_history'), default='none')
     args = parser.parse_args()
     if args.preflight:
         preflight()

@@ -114,7 +114,7 @@ def preflight() -> None:
                '-c', 'import django, asgiref, sqlparse; print(django.get_version())']
         subprocess.run(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                        timeout=30, check=True)
-    for condition in ('source_history', 'generated_skill'):
+    for condition in ('source_history', 'generated_skill', 'feedback_first_history'):
         derive('target', condition, Path('/tmp/preflight-django-experience.md'))
     print(json.dumps({'status': 'PREFLIGHT_PASS', 'scientific_model_calls': 0, 'qualified_cases': list(django.CASES)}))
 
@@ -149,9 +149,11 @@ def evaluate(task: str, case: Path) -> dict:
 def experience_file(condition: str) -> Path:
     directory = ROOT / 'source_experience'
     meta = json.loads((directory / 'metadata.json').read_text(encoding='utf-8'))
-    name = {'source_history': 'source_history.md', 'generated_skill': 'generated_skill.md'}[condition]
+    name = {'source_history': 'source_history.md', 'generated_skill': 'generated_skill.md',
+            'feedback_first_history': 'feedback_first_history.md'}[condition]
     path = directory / name
-    key = 'history_sha256' if condition == 'source_history' else 'skill_sha256'
+    key = {'source_history': 'history_sha256', 'generated_skill': 'skill_sha256',
+           'feedback_first_history': 'feedback_first_history_sha256'}[condition]
     if shared.sha(path) != meta.get(key):
         raise ValueError('Django source experience changed or missing')
     return path
@@ -235,6 +237,43 @@ def generate_skill() -> None:
         core.ROOT, core.preflight = old_root, old_preflight
 
 
+def reorder_history() -> None:
+    """Move existing source feedback forward without changing the logical record."""
+    preflight()
+    original = experience_file('source_history')
+    directory, meta_path = original.parent, original.parent / 'metadata.json'
+    output = directory / 'feedback_first_history.md'
+    if output.exists():
+        raise FileExistsError('feedback-first history already exists')
+    lines = original.read_text(encoding='utf-8').splitlines()
+    encoded = ''.join(line.split('|', 1)[1] for line in lines[1:])
+    content = json.loads(encoded)
+    keys = ('source_task', 'source_feedback', 'source_changed_paths', 'source_actions', 'scope')
+    if set(content) != set(keys):
+        raise ValueError('source history schema changed')
+    reordered = json.dumps({key: content[key] for key in keys}, ensure_ascii=False, separators=(',', ':'))
+    if len(reordered) != len(encoded) or json.loads(reordered) != content:
+        raise ValueError('feedback ordering changed the source record')
+    chunks = [reordered[i:i + 700] for i in range(0, len(reordered), 700)]
+    readable = lines[0] + '\n' + ''.join(f'{i:04d}|{chunk}\n' for i, chunk in enumerate(chunks))
+    if json.loads(''.join(line.split('|', 1)[1] for line in readable.splitlines()[1:])) != content:
+        raise ValueError('feedback-first wrapping changed the source record')
+    output.write_text(readable, encoding='utf-8')
+    info = json.loads(meta_path.read_text(encoding='utf-8'))
+    info['feedback_first_history_sha256'] = shared.sha(output)
+    info['feedback_order_control'] = {
+        'same_logical_record': True, 'same_json_character_count': True,
+        'canonical_record_sha256': shared.sha_bytes(json.dumps(content, sort_keys=True, ensure_ascii=False,
+                                                                 separators=(',', ':')).encode('utf-8')),
+        'original_feedback_lines': [i + 1 for i, line in enumerate(lines) if 'source_feedback' in line],
+        'reordered_feedback_lines': [i + 1 for i, line in enumerate(readable.splitlines())
+                                     if 'source_feedback' in line],
+    }
+    meta_path.write_text(json.dumps(info, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'history': str(output), 'sha256': shared.sha(output),
+                      'control': info['feedback_order_control']}, ensure_ascii=False))
+
+
 def run(task: str, condition: str) -> None:
     preflight()
     experience = None if condition == 'none' else experience_file(condition)
@@ -308,8 +347,10 @@ if __name__ == '__main__':
     parser.add_argument('--preflight', action='store_true')
     parser.add_argument('--build-experience', action='store_true')
     parser.add_argument('--generate-skill', action='store_true')
+    parser.add_argument('--reorder-history', action='store_true')
     parser.add_argument('--task', choices=('source', 'target'))
-    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill'), default='none')
+    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill',
+                                                 'feedback_first_history'), default='none')
     args = parser.parse_args()
     if args.preflight:
         preflight()
@@ -317,6 +358,8 @@ if __name__ == '__main__':
         build_experience()
     elif args.generate_skill:
         generate_skill()
+    elif args.reorder_history:
+        reorder_history()
     elif args.task:
         run(args.task, args.condition)
     else:
