@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 import time
+import zipfile
 
 import run_swe_aiohttp_20261104 as common
 from qualify_swe_sympy_20261104 import OUT as QUAL, SYMPY, SYMPY_REV
@@ -20,6 +21,9 @@ QUAL_SHA = 'e725bd55c4a5583340196bc8a08b3aff48d985d5a3157035e366653271ea8b20'
 RUNS = common.ROOT / 'swe_sympy_agent_20261104'
 PROBE_ROOT = common.ROOT / 'swe_sympy_independent_probe_20261104'
 GENERAL_ROOT = common.ROOT / 'swe_sympy_general_extension_20261104'
+NATIVE_ROOT = common.ROOT / 'swe_sympy_native_probe_20261104'
+HYPOTHESIS_ROOT = common.ROOT / 'sympy_hypothesis_env_20261104'
+HYPOTHESIS_MANIFEST_SHA = '535659f88bae86059cac418c39634ff14d140eb555828fb7753584225c06d459'
 STEM = 'sympy-symbolic-math'
 IMAGE = common.IMAGE
 TASKS = {'source': 1, 'target': 2}
@@ -425,6 +429,106 @@ def probe_general() -> None:
     print(json.dumps({'summary': str(target), 'sha256': common.sha(target), 'result': summary}))
 
 
+def validate_hypothesis_overlay() -> dict:
+    """Check pinned PyPI wheel bytes and every extracted file before use."""
+    manifest = HYPOTHESIS_ROOT / 'manifest.json'
+    if common.sha(manifest) != HYPOTHESIS_MANIFEST_SHA:
+        raise ValueError('hypothesis overlay manifest changed')
+    data = json.loads(manifest.read_text(encoding='utf-8'))
+    site = HYPOTHESIS_ROOT / 'site'
+    expected_files = set()
+    for package in data['packages']:
+        wheel = HYPOTHESIS_ROOT / package['filename']
+        if common.sha(wheel) != package['sha256']:
+            raise ValueError('wheel changed')
+        with zipfile.ZipFile(wheel) as archive:
+            for member in archive.infolist():
+                if member.is_dir():
+                    continue
+                path = (site / member.filename).resolve()
+                if not path.is_relative_to(site.resolve()) or not path.is_file():
+                    raise ValueError('unsafe or missing extracted wheel member')
+                if hashlib.sha256(archive.read(member)).hexdigest() != common.sha(path):
+                    raise ValueError('extracted wheel member changed')
+                expected_files.add(path)
+    actual = {p.resolve() for p in site.rglob('*') if p.is_file()}
+    if actual != expected_files:
+        raise ValueError('unexpected files in hypothesis overlay')
+    return data
+
+
+def run_native_test(work: Path, label: str, overlay: bool, output: Path) -> dict:
+    """Run the task's own pytest file in an isolated post-hoc environment."""
+    name = f'native-sympy-{os.getpid()}-{label}'
+    pythonpath = '/workspace/sympy:/extra:/deps' if overlay else '/workspace/sympy:/deps'
+    cmd = ['docker', 'run', '--name', name, '--rm', '--pull', 'never', '--network', 'none', '--read-only',
+           '--cpus', '2', '--memory', '3g', '--pids-limit', '256', '--cap-drop', 'ALL',
+           '--security-opt', 'no-new-privileges', '--tmpfs', '/tmp:rw,nosuid,size=128m',
+           '-e', f'PYTHONPATH={pythonpath}', '-e', 'PYTHONDONTWRITEBYTECODE=1',
+           '-e', 'PYTEST_DISABLE_PLUGIN_AUTOLOAD=1', '-e', 'HYPOTHESIS_STORAGE_DIRECTORY=/tmp/hypothesis',
+           '--mount', f'type=bind,src={work},dst=/workspace/sympy,readonly',
+           '--mount', f'type=bind,src={common.DEPS},dst=/deps,readonly']
+    if overlay:
+        cmd += ['--mount', f'type=bind,src={HYPOTHESIS_ROOT / "site"},dst=/extra,readonly']
+    cmd += ['--workdir', '/workspace/sympy', '--entrypoint', 'python3', IMAGE, '-m', 'pytest',
+            'sympy/matrices/tests/test_charutil.py', '-q', '-p', 'no:cacheprovider']
+    started = time.monotonic()
+    try:
+        proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=180, check=False)
+        code, data = proc.returncode, proc.stdout
+    except subprocess.TimeoutExpired as exc:
+        code, data = 124, exc.stdout or b''
+        subprocess.run(['docker', 'kill', name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                       timeout=10, check=False)
+    log = output / f'{label}.log'
+    log.write_bytes(data)
+    text = data.decode('utf-8', errors='replace')
+    result_line = next((line.strip() for line in reversed(text.splitlines())
+                        if re.search(r'\d+ (?:passed|failed|error)', line)), '')
+    return {'label': label, 'overlay': overlay, 'exit': code, 'summary': result_line,
+            'hypothesis_missing': 'hypothesis is a required dependency' in text.lower(),
+            'seconds': round(time.monotonic() - started, 3), 'log_sha256': common.sha(log)}
+
+
+def native_probe() -> None:
+    """Contrast the original and repaired test environments on frozen artifacts."""
+    validate()
+    packages = validate_hypothesis_overlay()
+    if NATIVE_ROOT.exists():
+        raise FileExistsError('native probe directory already exists')
+    NATIVE_ROOT.mkdir()
+    positive = QUAL / 'batch2_positive/sympy'
+    controls = [run_native_test(positive, 'positive_original', False, NATIVE_ROOT),
+                run_native_test(positive, 'positive_overlay', True, NATIVE_ROOT)]
+    controls_path = NATIVE_ROOT / 'controls.json'
+    controls_path.write_text(json.dumps(controls, indent=2) + '\n', encoding='utf-8')
+    if (controls[0]['exit'] == 0 or not controls[0]['hypothesis_missing'] or controls[1]['exit'] != 0):
+        raise ValueError('native environment controls failed; logs preserved')
+    cases = sorted(p for p in RUNS.iterdir() if p.is_dir() and p.name.startswith('target__'))
+    cases += sorted(p for p in GENERAL_ROOT.iterdir() if p.is_dir() and p.name.startswith('target__general_only__'))
+    if len(cases) != 7:
+        raise ValueError('expected six primary and one post-hoc target candidates')
+    results = []
+    for index, case in enumerate(cases):
+        score = json.loads((case / 'benchmark_receipt.json').read_text(encoding='utf-8'))
+        for name, expected in score['candidate_artifact_sha256_after'].items():
+            artifact = case / 'work' / name
+            actual = common.sha(artifact) if artifact.is_file() and not artifact.is_symlink() else None
+            if actual != expected:
+                raise ValueError('candidate changed before native probe')
+        trial = run_native_test(case / 'work', f'candidate_{index}', True, NATIVE_ROOT)
+        trial.update({'case': case.name, 'benchmark_receipt_sha256': common.sha(case / 'benchmark_receipt.json')})
+        results.append(trial)
+    summary = {'scope': 'POST_HOC_NATIVE_TEST_WITH_PINNED_PRIVATE_OVERLAY',
+               'limitations': 'Artifacts were produced in the original environment; overlay is not evidence '
+                              'that agents ran or passed tests during their own episodes.',
+               'overlay_manifest_sha256': HYPOTHESIS_MANIFEST_SHA, 'packages': packages['packages'],
+               'controls': controls, 'cases': results}
+    path = NATIVE_ROOT / 'summary.json'
+    path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'summary': str(path), 'sha256': common.sha(path), 'results': results}))
+
+
 def summarize(path: Path) -> None:
     if path.exists():
         raise FileExistsError('summary already exists')
@@ -542,6 +646,7 @@ if __name__ == '__main__':
     parser.add_argument('--prepare-general', action='store_true')
     parser.add_argument('--run-general', action='store_true')
     parser.add_argument('--probe-general', action='store_true')
+    parser.add_argument('--native-probe', action='store_true')
     args = parser.parse_args()
     if args.preflight:
         validate()
@@ -566,6 +671,8 @@ if __name__ == '__main__':
         run_general()
     elif args.probe_general:
         probe_general()
+    elif args.native_probe:
+        native_probe()
     elif args.task:
         common.run(args.task, args.condition)
     else:
