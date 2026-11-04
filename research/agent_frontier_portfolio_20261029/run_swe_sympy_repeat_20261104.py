@@ -14,7 +14,7 @@ import sys
 import run_swe_sympy_20261104 as sympy_run
 
 common = sympy_run.common
-ROOT = common.ROOT / 'swe_sympy_repeat_overlay_20261104'
+ROOT = common.ROOT / 'swe_sympy_repeat_overlay_20261104_v2'
 SOURCE_ROOT = sympy_run.RUNS
 CONDITIONS = ('none', 'generated_skill', 'neutral_plan', 'conditioned_plan')
 SEEDS = (7101, 7102)
@@ -23,7 +23,7 @@ MAX_HTTP, MAX_BYTES, MAX_SECONDS = 48, 6000000, 1800
 
 # This exact function is inserted into the isolated proxy and exercised by preflight.
 CAPTURE_SOURCE = r'''
-def capture_sampling(first, length, recv):
+def capture_sampling(first, length, recv, temperature, seed):
  header,body=first.split(b'\r\n\r\n',1)
  if length is None or length < 0 or len(body) > length: raise ValueError('invalid content length')
  while len(body)<length:
@@ -32,9 +32,19 @@ def capture_sampling(first, length, recv):
   body+=chunk
  payload=json.loads(body.decode('utf-8'))
  if not isinstance(payload,dict): raise ValueError('non-object request')
+ before_temperature,before_seed=payload.get('temperature'),payload.get('seed')
+ payload['temperature'],payload['seed']=temperature,seed
+ body=json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode('utf-8')
+ lines=header.split(b'\r\n')
+ matches=[i for i,line in enumerate(lines) if line.lower().startswith(b'content-length:')]
+ if len(matches)!=1: raise ValueError('ambiguous content length')
+ lines[matches[0]]=b'Content-Length: '+str(len(body)).encode('ascii')
  keys=('model','temperature','seed','top_p','max_tokens','max_completion_tokens')
  meta={k:payload.get(k) if isinstance(payload.get(k),(str,int,float,type(None))) else None for k in keys}
- return header+b'\r\n\r\n'+body,meta
+ meta.update({'temperature_before':before_temperature if isinstance(before_temperature,(int,float,type(None))) else None,
+              'seed_before':before_seed if isinstance(before_seed,(int,type(None))) else None,
+              'original_length':length,'forwarded_length':len(body)})
+ return b'\r\n'.join(lines)+b'\r\n\r\n'+body,meta,len(body)
 '''
 
 
@@ -43,15 +53,33 @@ def preflight() -> None:
     sympy_run.validate_hypothesis_overlay()
     ns = {'json': json}
     exec(compile(CAPTURE_SOURCE, '<capture-test>', 'exec'), ns)
-    payload = json.dumps({'model': 'local', 'temperature': TEMPERATURE, 'seed': 7101,
-                          'messages': [{'content': 'private prompt'}]}).encode()
+    original = {'model': 'local', 'messages': [{'content': 'private prompt 私有内容'}]}
+    payload = json.dumps(original, ensure_ascii=False).encode('utf-8')
     chunks = [payload[7:21], payload[21:]]
-    first = b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: 1\r\n\r\n' + payload[:7]
-    whole, meta = ns['capture_sampling'](first, len(payload), lambda n: chunks.pop(0))
-    assert whole.endswith(payload) and meta['seed'] == 7101 and meta['temperature'] == TEMPERATURE
+    first = (b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: '
+             + str(len(payload)).encode('ascii') + b'\r\n\r\n' + payload[:7])
+    whole, meta, forwarded = ns['capture_sampling'](first, len(payload), lambda n: chunks.pop(0), TEMPERATURE, 7101)
+    headers, body = whole.split(b'\r\n\r\n', 1)
+    assert json.loads(body) == {**original, 'temperature': TEMPERATURE, 'seed': 7101} and forwarded == len(body)
+    assert b'Content-Length: ' + str(forwarded).encode('ascii') in headers
+    assert meta['seed'] == 7101 and meta['temperature'] == TEMPERATURE
+    assert meta['seed_before'] is None and meta['temperature_before'] is None
     assert 'messages' not in meta and 'private prompt' not in json.dumps(meta)
+    specified = json.dumps({**original, 'temperature': 0.8, 'seed': 42}).encode('utf-8')
+    header = b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: ' + str(len(specified)).encode('ascii')
+    changed, meta2, _ = ns['capture_sampling'](header + b'\r\n\r\n' + specified, len(specified),
+                                                lambda n: b'', TEMPERATURE, 7101)
+    assert meta2['temperature_before'] == 0.8 and meta2['seed_before'] == 42
+    assert json.loads(changed.split(b'\r\n\r\n', 1)[1])['temperature'] == TEMPERATURE
     try:
-        ns['capture_sampling'](first, len(payload), lambda n: b'')
+        ns['capture_sampling'](header + b'\r\nContent-Length: 0\r\n\r\n' + specified,
+                               len(specified), lambda n: b'', TEMPERATURE, 7101)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('ambiguous content length accepted')
+    try:
+        ns['capture_sampling'](first, len(payload), lambda n: b'', TEMPERATURE, 7101)
     except EOFError:
         pass
     else:
@@ -77,10 +105,14 @@ def make_harness(condition: str, seed: int, experience: Path | None) -> str:
     old = "  if line.startswith(b'POST'):payload_bytes.append(length)"
     new = ("  if line.startswith(b'POST'):\n"
            "   payload_bytes.append(length)\n"
-           "   try:first,meta=capture_sampling(first,length,self.request.recv)\n"
+           f"   try:first,meta,forwarded=capture_sampling(first,length,self.request.recv,{TEMPERATURE},{seed})\n"
            "   except (ValueError,EOFError,UnicodeDecodeError):\n"
            "    calls.append('DENIED:invalid_metadata');self.request.sendall("
            "b'HTTP/1.1 400 Bad Request\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n"
+           "   payload_bytes[-1]=forwarded\n"
+           f"   if sum(payload_bytes)>{MAX_BYTES}:\n"
+           "    calls.append('DENIED:post_byte_cap_after_override');self.request.sendall("
+           "b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n"
            "   sampling.append(meta)\n"
            "   with (case/'sampling_metadata.jsonl').open('a',encoding='utf-8') as log:\n"
            "    log.write(json.dumps(meta,separators=(',',':'))+'\\n');log.flush()")
