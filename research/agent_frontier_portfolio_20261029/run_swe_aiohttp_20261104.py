@@ -24,6 +24,7 @@ IMAGE = 'sha256:648a1999badfe683239ec49e05b2a508e37f762213478122c58fa713f6c00f58
 QUAL_SHA = '54d45a4ee7b117ec8c889a63b585b4481577187a3daf6440dab063ce63d33aca'
 RUNS = ROOT / 'swe_aiohttp_agent_20261104_v2'
 PUB_SKILL = BENCH / 'skills/asyncio-patterns/SKILL.md'
+TASK_FILE_STEM = 'asyncio-patterns'
 TASKS = {'source': 1, 'target': 2}
 
 
@@ -188,7 +189,7 @@ def run(task: str, condition: str) -> None:
     reservation = RUNS / f'{task}__{condition}__{os.getpid()}.reservation.json'
     if reservation.exists():
         raise FileExistsError('episode reservation exists')
-    task_file = BENCH / f'tasks/batch{TASKS[task]}/asyncio-patterns.md'
+    task_file = BENCH / f'tasks/batch{TASKS[task]}/{TASK_FILE_STEM}.md'
     info = {'status': 'STARTED', 'task': task, 'condition': condition, 'task_sha256': sha(task_file),
             'repository_revision': AIO_REV, 'benchmark_revision': BENCH_REV, 'qualification_sha256': QUAL_SHA,
             'derived_sha256': hashlib.sha256(code.encode()).hexdigest(),
@@ -374,14 +375,14 @@ def make_target_plan(condition: str) -> None:
     skill = source / 'generated_skill.md'
     if sha(skill) != meta['skill_sha256']:
         raise ValueError('source skill changed')
-    task_file = BENCH / 'tasks/batch2/asyncio-patterns.md'
+    task_file = BENCH / f'tasks/batch2/{TASK_FILE_STEM}.md'
     target = task_file.read_text(encoding='utf-8')
     material = {'current_task': target}
     if condition == 'conditioned_plan':
         material['prior_source_skill'] = skill.read_text(encoding='utf-8')
     prompt = ('Create a concise implementation plan for the current task. Use only the supplied material; '
-              'do not assume hidden tests or invent results. Focus on required files, API, concurrency, '
-              'exception handling, and tests. The current task always takes priority over any prior experience. '
+              'do not assume hidden tests or invent results. Focus on required files, API, required behaviors, '
+              'edge cases, and tests. The current task always takes priority over any prior experience. '
               'Output the plan only.')
     payload = {'model': 'Qwen3.6-35B-A3B-Q4_K_M.gguf', 'temperature': 0, 'max_tokens': 1600,
                'chat_template_kwargs': {'enable_thinking': False},
