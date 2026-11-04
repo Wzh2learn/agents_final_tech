@@ -7,6 +7,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
+import re
 import shutil
 import subprocess
 import sys
@@ -58,8 +59,8 @@ def verify_base(task: str) -> None:
         raise ValueError('Django clean source has unexpected files')
 
 
-def derive(task: str) -> str:
-    code = core.derive(task)
+def derive(task: str, condition: str = 'none', experience: Path | None = None) -> str:
+    code = core.derive(task, condition, experience)
     substitutions = ((str(core.ROOT), str(ROOT)), (str(shared.OUT), str(django.OUT)),
                      (str(shared.OVERLAY / 'site'), str(django.ENV / 'site')))
     for old, new in substitutions:
@@ -113,6 +114,8 @@ def preflight() -> None:
                '-c', 'import django, asgiref, sqlparse; print(django.get_version())']
         subprocess.run(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                        timeout=30, check=True)
+    for condition in ('source_history', 'generated_skill'):
+        derive('target', condition, Path('/tmp/preflight-django-experience.md'))
     print(json.dumps({'status': 'PREFLIGHT_PASS', 'scientific_model_calls': 0, 'qualified_cases': list(django.CASES)}))
 
 
@@ -143,25 +146,116 @@ def evaluate(task: str, case: Path) -> dict:
     return result
 
 
-def run(task: str) -> None:
+def experience_file(condition: str) -> Path:
+    directory = ROOT / 'source_experience'
+    meta = json.loads((directory / 'metadata.json').read_text(encoding='utf-8'))
+    name = {'source_history': 'source_history.md', 'generated_skill': 'generated_skill.md'}[condition]
+    path = directory / name
+    key = 'history_sha256' if condition == 'source_history' else 'skill_sha256'
+    if shared.sha(path) != meta.get(key):
+        raise ValueError('Django source experience changed or missing')
+    return path
+
+
+def build_experience() -> None:
+    """Construct source-only clipped action history plus actual source feedback."""
     preflight()
-    case = ROOT / f'{task}__none__seed{core.SEED}'
-    started = ROOT / f'{task}__none__seed{core.SEED}.started.json'
-    complete = ROOT / f'{task}__none__seed{core.SEED}.completed.json'
-    harness = ROOT / f'{task}__none__seed{core.SEED}.harness.py'
+    case = ROOT / f'source__none__seed{core.SEED}'
+    completed = ROOT / f'source__none__seed{core.SEED}.completed.json'
+    plan = json.loads(completed.read_text(encoding='utf-8'))
+    raw = case / 'raw.jsonl'
+    feedback = plan['post_run_evaluation']
+    if (shared.sha(raw) != plan['raw_sha256'] or feedback['status'] != 'EVALUATED' or
+            not feedback.get('focus') or not feedback.get('regression')):
+        raise ValueError('Django source episode or feedback is incomplete')
+    actions = []
+    for line in raw.read_text(encoding='utf-8').splitlines():
+        event = json.loads(line)
+        if event.get('type') != 'tool_use':
+            continue
+        part, state = event.get('part', {}), event.get('part', {}).get('state', {})
+        inp = json.dumps(state.get('input', {}), ensure_ascii=False, separators=(',', ':'))
+        output = str(state.get('output', ''))
+        actions.append({'tool': part.get('tool'), 'status': state.get('status'),
+                        'input_prefix': inp[:600], 'input_chars': len(inp),
+                        'input_sha256': shared.sha_bytes(inp.encode('utf-8')),
+                        'output_tail': output[-800:], 'output_chars': len(output),
+                        'output_sha256': shared.sha_bytes(output.encode('utf-8'))})
+    if not actions:
+        raise ValueError('Django source episode has no tool actions')
+    base, work = django.OUT / 'source/clean_base', case / 'work'
+    def files(root: Path) -> dict:
+        return {p.relative_to(root).as_posix(): shared.sha(p) for p in root.rglob('*')
+                if p.is_file() and not p.is_symlink() and p.name not in ('instructions.txt', 'opencode.json')
+                and not any(part in ('.git', '__pycache__', '.pytest_cache') for part in p.parts)}
+    before, after = files(base), files(work)
+    changed = sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))
+    log = (case / 'post_run_evaluation/focus.log').read_text(encoding='utf-8', errors='replace')
+    content = {'source_task': (django.OUT / 'source/task.txt').read_text(encoding='utf-8'),
+               'source_actions': actions, 'source_changed_paths': changed,
+               'source_feedback': {'agent_exit': plan['agent_exit'], 'request_limit_reached': bool(plan['denied']),
+                                   'focus_exit': feedback['focus']['exit'],
+                                   'focus_summary': feedback['focus']['summary'],
+                                   'regression_exit': feedback['regression']['exit'],
+                                   'regression_summary': feedback['regression']['summary'],
+                                   'unresolved_regression_count': len(feedback['unresolved_regression_labels']),
+                                   'focus_log_tail': log[-2000:]},
+               'scope': 'all recorded source tool actions with clipped fields, changed paths, '
+                        'source-only post-run feedback; no target issue or target tests'}
+    encoded = json.dumps(content, ensure_ascii=False, separators=(',', ':'))
+    if '35356' in encoded or 'recursive relationships in select_related() and only()' in encoded.lower():
+        raise ValueError('Django source history contains a literal target marker')
+    pieces = [encoded[i:i + 700] for i in range(0, len(encoded), 700)]
+    readable = ('Source-only task history. The current task may differ. Concatenate text after | '
+                'on numbered lines to reconstruct the JSON.\n' +
+                ''.join(f'{i:04d}|{piece}\n' for i, piece in enumerate(pieces)))
+    if ''.join(line.split('|', 1)[1] for line in readable.splitlines()[1:]) != encoded:
+        raise ValueError('Django history wrapping changed content')
+    out = ROOT / 'source_experience'
+    out.mkdir(exist_ok=False)
+    history = out / 'source_history.md'
+    history.write_text(readable, encoding='utf-8')
+    metadata = {'source_raw_sha256': shared.sha(raw), 'source_completion_sha256': shared.sha(completed),
+                'history_sha256': shared.sha(history), 'actions': len(actions), 'history_chars': len(readable),
+                'changed_paths': changed, 'clipped_inputs': sum(x['input_chars'] > 600 for x in actions),
+                'clipped_outputs': sum(x['output_chars'] > 800 for x in actions),
+                'target_marker_screen': 'NO_LITERAL_MATCH; semantic or model pretraining leakage remains unknown',
+                'scope': content['scope']}
+    (out / 'metadata.json').write_text(json.dumps(metadata, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'history': str(history), 'metadata': metadata}, ensure_ascii=False))
+
+
+def generate_skill() -> None:
+    """Reuse the same source-only local-model skill generator and ledger."""
+    old_root, old_preflight = core.ROOT, core.preflight
+    try:
+        core.ROOT, core.preflight = ROOT, preflight
+        core.generate_skill()
+    finally:
+        core.ROOT, core.preflight = old_root, old_preflight
+
+
+def run(task: str, condition: str) -> None:
+    preflight()
+    experience = None if condition == 'none' else experience_file(condition)
+    case = ROOT / f'{task}__{condition}__seed{core.SEED}'
+    started = ROOT / f'{task}__{condition}__seed{core.SEED}.started.json'
+    complete = ROOT / f'{task}__{condition}__seed{core.SEED}.completed.json'
+    harness = ROOT / f'{task}__{condition}__seed{core.SEED}.harness.py'
     if any(path.exists() for path in (case, started, complete, harness)):
         raise FileExistsError('Django task already attempted')
-    harness.write_text(derive(task), encoding='utf-8')
-    plan = {'task': task, 'condition': 'none', 'seed': core.SEED, 'temperature': core.TEMPERATURE,
+    harness.write_text(derive(task, condition, experience), encoding='utf-8')
+    plan = {'task': task, 'condition': condition, 'seed': core.SEED, 'temperature': core.TEMPERATURE,
             'base_sha256': core.BASE_SHA, 'qualification_sha256': QUAL_SHA, 'regression_sha256': REGRESSION_SHA,
             'harness_sha256': shared.sha(harness), 'shim_sha256': shared.sha(ROOT / 'runtime/sitecustomize.py'),
             'max_http_requests': core.MAX_HTTP_REQUESTS, 'max_bytes': core.MAX_BYTES,
-            'max_seconds': core.MAX_SECONDS, 'status': 'STARTED'}
+            'max_seconds': core.MAX_SECONDS, 'experience_sha256': shared.sha(experience) if experience else None,
+            'status': 'STARTED'}
     started.write_text(json.dumps(plan, indent=2) + '\n', encoding='utf-8')
     proc = subprocess.run([sys.executable, str(harness), task, 'no_skill'], stdin=subprocess.DEVNULL,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=core.MAX_SECONDS + 120)
-    (ROOT / f'{task}__none__seed{core.SEED}.runner.stdout').write_bytes(proc.stdout)
-    (ROOT / f'{task}__none__seed{core.SEED}.runner.stderr').write_bytes(proc.stderr)
+    (ROOT / f'{task}__{condition}__seed{core.SEED}.runner.stdout').write_bytes(proc.stdout)
+    (ROOT / f'{task}__{condition}__seed{core.SEED}.runner.stderr').write_bytes(proc.stderr)
     plan.update({'runner_exit': proc.returncode, 'started_sha256': shared.sha(started)})
     if proc.returncode == 0 and (case / 'receipt.json').is_file():
         receipt = json.loads((case / 'receipt.json').read_text(encoding='utf-8'))
@@ -171,6 +265,28 @@ def run(task: str) -> None:
             json.dumps(x, sort_keys=True) for x in receipt['sampling_metadata'])
         if not same or shared.sha(case / 'raw.jsonl') != receipt['raw_sha256']:
             raise ValueError('Django agent receipt changed')
+        read_info = None
+        if experience:
+            if shared.sha(experience) != plan['experience_sha256']:
+                raise ValueError('Django source experience changed during execution')
+            expected_lines = experience.read_text(encoding='utf-8').splitlines()
+            seen, reads = {}, 0
+            for line in (case / 'raw.jsonl').read_text(encoding='utf-8').splitlines():
+                event = json.loads(line)
+                part, state = event.get('part', {}), event.get('part', {}).get('state', {})
+                if (event.get('type') == 'tool_use' and part.get('tool') == 'read' and
+                        state.get('input', {}).get('filePath') == '/root/source_experience.md'):
+                    reads += 1
+                    for entry in str(state.get('output', '')).splitlines():
+                        match = re.match(r'^(\d+): ?(.*)$', entry)
+                        if match:
+                            index = int(match.group(1))
+                            if index in seen and seen[index] != match.group(2):
+                                raise ValueError('inconsistent Django experience read')
+                            seen[index] = match.group(2)
+            read_info = {'read_calls': reads, 'lines_seen': len(seen), 'lines_total': len(expected_lines),
+                         'complete_exact_read': len(seen) == len(expected_lines) and all(
+                             seen.get(i) == expected_lines[i - 1] for i in range(1, len(expected_lines) + 1))}
         plan.update({'status': 'COMPLETED', 'agent_exit': receipt['agent_exit'],
                      'posts': sum(x.startswith('POST ') for x in receipt['model_http_requests']),
                      'denied': [x for x in receipt['model_http_requests'] if x.startswith('DENIED')],
@@ -179,7 +295,8 @@ def run(task: str) -> None:
                                                 for x in receipt['step_finish_tokens']),
                      'seed_and_temperature_forwarded': bool(metadata) and all(
                          x['seed'] == core.SEED and x['temperature'] == core.TEMPERATURE for x in metadata),
-                     'raw_sha256': receipt['raw_sha256'], 'post_run_evaluation': evaluate(task, case)})
+                     'raw_sha256': receipt['raw_sha256'], 'experience_read': read_info,
+                     'post_run_evaluation': evaluate(task, case)})
     else:
         plan['status'] = 'RUNNER_ERROR_REVIEW_RAW_AND_PROXY_LOG'
     complete.write_text(json.dumps(plan, indent=2) + '\n', encoding='utf-8')
@@ -189,11 +306,18 @@ def run(task: str) -> None:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--preflight', action='store_true')
+    parser.add_argument('--build-experience', action='store_true')
+    parser.add_argument('--generate-skill', action='store_true')
     parser.add_argument('--task', choices=('source', 'target'))
+    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill'), default='none')
     args = parser.parse_args()
     if args.preflight:
         preflight()
+    elif args.build_experience:
+        build_experience()
+    elif args.generate_skill:
+        generate_skill()
     elif args.task:
-        run(args.task)
+        run(args.task, args.condition)
     else:
         parser.error('choose --preflight or --task')
