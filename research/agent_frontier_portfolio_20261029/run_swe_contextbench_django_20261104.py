@@ -22,6 +22,8 @@ ROOT = shared.ROOT / 'swe_contextbench_django_agent_20261104'
 QUAL_SHA = '3c0e97a962c1607fb6aca351438a79c48b1b1528ae7e3f971bec099095094ff4'
 REGRESSION_SHA = 'd18485d97cd01aa52150657fa48664eeb7efe8b1cb605e0144730d6bb7031e74'
 RETRY_SOURCE_SHA = 'f30b980316d62fbe801927c93e6227fadcafbb168059a94a9ca108836636ae64'
+RETRY_MANIFEST_SHA = 'd6a4525977957769bf8a4d3bcd5990e3420b50833cc374f393f740b6c07de43f'
+RETRY_FEEDBACK_SHA = '71e74b4f88595844110ecb7321252fca45dfedee36904d4bdd82005cdcefd43f'
 RETRY_ROOT = ROOT / 'target_feedback_retry_input'
 RETRY_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry')
 RETRY_INSTRUCTION = ('\n\nThe workspace contains an earlier incomplete implementation of this issue. '
@@ -144,7 +146,8 @@ def verify_retry() -> dict:
     manifest = json.loads(path.read_text(encoding='utf-8'))
     source_receipt = ROOT / f'target__none__seed{core.SEED}.completed.json'
     source_log = ROOT / f'target__none__seed{core.SEED}/post_run_evaluation/regression.log'
-    if (manifest['source_completion_sha256'] != RETRY_SOURCE_SHA or shared.sha(source_receipt) != RETRY_SOURCE_SHA or
+    if (shared.sha(path) != RETRY_MANIFEST_SHA or manifest['feedback_sha256'] != RETRY_FEEDBACK_SHA or
+            manifest['source_completion_sha256'] != RETRY_SOURCE_SHA or shared.sha(source_receipt) != RETRY_SOURCE_SHA or
             shared.sha(source_log) != manifest['source_regression_log_sha256'] or
             retry_files(RETRY_ROOT / 'candidate') != manifest['candidate_files'] or
             shared.sha(RETRY_ROOT / 'feedback.txt') != manifest['feedback_sha256']):
@@ -154,6 +157,46 @@ def verify_retry() -> dict:
             repr(RETRY_INSTRUCTION) not in neutral or repr(RETRY_INSTRUCTION) not in feedback):
         raise ValueError('retry comparison has an unexpected prompt difference')
     return {'manifest_sha256': shared.sha(path), 'feedback_sha256': manifest['feedback_sha256']}
+
+
+def retry_instructions(condition: str) -> tuple[str, int | None]:
+    text = (django.OUT / 'target/task.txt').read_text(encoding='utf-8').strip() + RETRY_INSTRUCTION
+    feedback_start = None
+    if condition == 'candidate_feedback_retry':
+        text += '\n\n'
+        feedback_start = len(text.splitlines()) + 1
+        text += (RETRY_ROOT / 'feedback.txt').read_text(encoding='utf-8')
+    return text, feedback_start
+
+
+def inspect_retry_reads(raw: Path, expected: str, feedback_start: int | None) -> dict:
+    lines, seen, reads, other_mentions = expected.splitlines(), {}, 0, 0
+    for line in raw.read_text(encoding='utf-8').splitlines():
+        event = json.loads(line)
+        part = event.get('part', {})
+        state = part.get('state', {})
+        inputs = state.get('input', {})
+        if event.get('type') != 'tool_use' or 'instructions.txt' not in json.dumps(inputs):
+            continue
+        if part.get('tool') != 'read' or inputs.get('filePath') != '/root/instructions.txt':
+            other_mentions += 1
+            continue
+        reads += 1
+        for entry in str(state.get('output', '')).splitlines():
+            match = re.match(r'^(\d+): ?(.*)$', entry)
+            if match:
+                number = int(match.group(1))
+                if number in seen and seen[number] != match.group(2):
+                    raise ValueError('inconsistent instruction read')
+                seen[number] = match.group(2)
+    matched = {i for i in range(1, len(lines) + 1) if seen.get(i) == lines[i - 1]}
+    feedback_lines = set(range(feedback_start, len(lines) + 1)) if feedback_start else set()
+    return {'scope': 'read tool only; other path mentions require raw inspection', 'read_calls': reads,
+            'other_path_mentions': other_mentions, 'matched_lines': len(matched), 'total_lines': len(lines),
+            'complete_exact_read': len(matched) == len(lines),
+            'feedback_matched_lines': len(matched & feedback_lines) if feedback_start else None,
+            'feedback_total_lines': len(feedback_lines) if feedback_start else None,
+            'feedback_complete_exact_read': feedback_lines <= matched if feedback_start else None}
 
 
 def preflight() -> None:
@@ -204,16 +247,25 @@ def preflight() -> None:
     print(json.dumps({'status': 'PREFLIGHT_PASS', 'scientific_model_calls': 0, 'qualified_cases': list(django.CASES)}))
 
 
-def evaluate(task: str, case: Path) -> dict:
+def evaluate(task: str, case: Path, restore_tests: bool = False) -> dict:
     work = case / 'work'
     links = [p.relative_to(work).as_posix() for p in work.rglob('*') if p.is_symlink()]
     if links:
         return {'status': 'UNRESOLVED_SYMLINK', 'links': links[:20]}
-    out = case / 'post_run_evaluation'
+    out = case / ('post_run_evaluation_restored_tests' if restore_tests else 'post_run_evaluation')
     out.mkdir()
     copy = out / 'candidate'
-    shutil.copytree(work, copy, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache',
-                                                            'instructions.txt', 'opencode.json'))
+    standard_ignore = shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache',
+                                             'instructions.txt', 'opencode.json')
+    def ignore(path, names):
+        excluded = set(standard_ignore(path, names))
+        if restore_tests and Path(path) == work and 'tests' in names:
+            excluded.add('tests')
+        return excluded
+    shutil.copytree(work, copy, ignore=ignore)
+    if restore_tests:
+        verify_base(task)
+        shutil.copytree(django.OUT / task / 'clean_base/tests', copy / 'tests')
     spec = django.CASES[task]
     rows = pq.read_table(shared.DATA / spec['data'], columns=['instance_id', 'test_patch']).to_pylist()
     row = next(item for item in rows if item['instance_id'] == spec['id'])
@@ -222,6 +274,7 @@ def evaluate(task: str, case: Path) -> dict:
         raise ValueError('Django hidden test patch changed')
     applied = shared.apply_patch(copy, row['test_patch'])
     result = {'status': 'TEST_PATCH_CONFLICT' if applied['apply_exit'] != 0 else 'EVALUATED',
+              'test_source': 'FROZEN_BASE' if restore_tests else 'AGENT_WORKSPACE',
               'test_patch': applied}
     if applied['apply_exit'] == 0:
         labels, unresolved = django.regression_labels(spec)
@@ -378,6 +431,10 @@ def run(task: str, condition: str) -> None:
             'max_seconds': core.MAX_SECONDS, 'experience_sha256': shared.sha(experience) if experience else None,
             'candidate_retry_input': retry_info,
             'status': 'STARTED'}
+    if retry:
+        expected_instructions, feedback_start = retry_instructions(condition)
+        plan['instructions_sha256'] = shared.sha_bytes(expected_instructions.encode('utf-8'))
+        plan['feedback_start_line'] = feedback_start
     started.write_text(json.dumps(plan, indent=2) + '\n', encoding='utf-8')
     proc = subprocess.run([sys.executable, str(harness), task, 'no_skill'], stdin=subprocess.DEVNULL,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=core.MAX_SECONDS + 120)
@@ -414,6 +471,8 @@ def run(task: str, condition: str) -> None:
             read_info = {'read_calls': reads, 'lines_seen': len(seen), 'lines_total': len(expected_lines),
                          'complete_exact_read': len(seen) == len(expected_lines) and all(
                              seen.get(i) == expected_lines[i - 1] for i in range(1, len(expected_lines) + 1))}
+        if retry and verify_retry() != retry_info:
+            raise ValueError('candidate retry inputs changed during execution')
         plan.update({'status': 'COMPLETED', 'agent_exit': receipt['agent_exit'],
                      'posts': sum(x.startswith('POST ') for x in receipt['model_http_requests']),
                      'denied': [x for x in receipt['model_http_requests'] if x.startswith('DENIED')],
@@ -424,6 +483,9 @@ def run(task: str, condition: str) -> None:
                          x['seed'] == core.SEED and x['temperature'] == core.TEMPERATURE for x in metadata),
                      'raw_sha256': receipt['raw_sha256'], 'experience_read': read_info,
                      'post_run_evaluation': evaluate(task, case)})
+        if retry:
+            plan['post_run_evaluation_restored_tests'] = evaluate(task, case, restore_tests=True)
+            plan['instruction_read'] = inspect_retry_reads(case / 'raw.jsonl', expected_instructions, feedback_start)
     else:
         plan['status'] = 'RUNNER_ERROR_REVIEW_RAW_AND_PROXY_LOG'
     complete.write_text(json.dumps(plan, indent=2) + '\n', encoding='utf-8')

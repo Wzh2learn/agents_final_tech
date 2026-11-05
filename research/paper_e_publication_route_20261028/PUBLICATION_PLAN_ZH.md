@@ -2,7 +2,7 @@
 
 最新路线更新：2026-11-05（Asia/Shanghai）。现役决策见“ICINT 首投、ICDAR 顺序备投”；其他带日期的评估保留为历史记录，若与现役路线冲突以现役路线为准。这是可审阅的规划，不代表已投稿、已录用或已确认学校认定。
 
-2026-11-05：用户已将 Paper E 审阅 PDF 与导师沟通稿发给老师，等待反馈。[ICINT 官网](https://www.icint.org/)当前列 2026-11-15 截稿、12-15 通知；[ICDAR 征稿页](https://icdar2027.org/call-for-papers)与[日期页](https://icdar2027.org/important-dates)现均列 2027-02-23 摘要、03-02 全文截止，AoE。已发送的导师沟通稿保留当时核验结果，不追溯修改；以接近投稿时官网和投稿系统为准。科研 Goal 当前暂停，待用户恢复。
+2026-11-05：用户已将 Paper E 审阅 PDF 与导师沟通稿发给老师，等待反馈。[ICINT 官网](https://www.icint.org/)当前列 2026-11-15 截稿、12-15 通知；[ICDAR 征稿页](https://icdar2027.org/call-for-papers)与[日期页](https://icdar2027.org/important-dates)现均列 2027-02-23 摘要、03-02 全文截止，AoE。已发送的导师沟通稿保留当时核验结果，不追溯修改；以接近投稿时官网和投稿系统为准。科研 Goal 已恢复。
 
 2026-11-04：已完成摘要、公式、统计符号及引用排版更新，现役 [ICINT 审阅 PDF](icint_latex/main.pdf)为 4 页。匿名材料与[导师沟通稿](../advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)已备好供作者和导师审阅；下一步依据反馈完善作者团队确认、AI 声明与投稿手续。研究执行重点转向第二篇；不将等待反馈解释为已完成投稿。
 
