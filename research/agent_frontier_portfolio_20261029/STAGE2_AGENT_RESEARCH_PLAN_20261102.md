@@ -6,20 +6,13 @@
 
 Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形成经验，并在任务、工具或环境变化后选择、验证和修订经验。IJCNN 2027 为目标窗口；Paper E 已交导师，等待反馈，ICINT 首投、ICDAR 顺序备投。
 
-Astropy统一资源四臂均完整修复，但后续审计发现wheel依赖目录可读取未来修复，效果比较降级为暴露开发。Matplotlib也发现同类问题，target尚未启动。下一步隔离actor依赖与解释器可读面，重新形成洁净source经验后执行目标对照；旧结果、形成成本和冻结产物保留，不沿用为洁净输入。
+actor依赖/解释器可读面已隔离并完成容器控制。Matplotlib新source已执行，接下来从该次raw/补丁/完整反馈形成经验、冻结输入并跑target四臂。Astropy旧四臂因wheel可读未来修复降级为暴露开发，旧结果/成本/冻结产物保留，不沿用为新输入。
 
 ## 最新开发证据
 
-源`Astropy14995`→目标`15082`已完成[同配置强基线对照](results/ASTROPY_PROFILE_CONTROLS_20261106.md)；原source和旧profile结果独立保留。新组seed7202、context65536/output16384、每臂48POST/1500秒：
+源`Matplotlib23562`→目标`27361`的[当前隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)采用seed7201、context65536/output16384、每臂48POST/1500秒。新source实际30POST/806,684tokens，关键测试2/2、回归136/136、原题异常消除；附加形状检查未满足，完整probe与窄合同一起保留。target尚未开始。源形成与后续使用分项记账，不拿测试数当任务数。
 
-| 目标输入 | 关键测试 / 回归 | POST / reported tokens | 执行 |
-| --- | --- | --- | --- |
-| 无历史 | 3/3、132/132 | 19 /677,365 | exit0 |
-| 源补丁＋真实结果 | 3/3、132/132 | 16 /454,616 | exit0、输入完整读取 |
-| 长行安全完整历史 | 3/3、132/132 | 12 /325,435 | exit0、输入完整读取 |
-| 普通生成skill | 3/3、132/132 | 19 /409,368 | exit0、输入完整读取 |
-
-本组66POST/1,866,784tokens；缓存已含、形成费用沿原账不重复计。四臂轨迹未见显式读取依赖答案路径，但可读污染仍须洁净复验。总token、未缓存输入/输出和时间分别比较；每格一个任务/seed，不代表稳定方法。Matplotlib[原题/base-gold资格](results/MATPLOTLIB_QUALIFICATION_20261106.md)成立，旧source重评2/2、136/136；它的完整依赖挂载同样暴露未来源码，新比较重做source而不复用旧skill。混合native组件与开发预曝光边界保留。
+此前Astropy四臂数值、成本与可读面降级见[原对照](results/ASTROPY_PROFILE_CONTROLS_20261106.md)，不再抄入现役表。[Matplotlib资格和隔离控制](results/MATPLOTLIB_QUALIFICATION_20261106.md)说明混合native组件及开发预曝光边界。若target观察到skill优势，再比较完整实际补丁＋结果等强简单方法；不同任务与重复之前不认证新方法。
 
 ## 进入投稿稿制作的门槛
 
@@ -39,7 +32,8 @@ Astropy统一资源四臂均完整修复，但后续审计发现wheel依赖目�
 
 | 要解决的具体问题 | 只加载这些材料 |
 | --- | --- |
-| 当前 Astropy 比较与下一臂 | [当前批次](results/ASTROPY_PROFILE_CONTROLS_20261106.md)，再按其中路径读取私有 completed/raw/冻结输入；不先扫全部历史。 |
+| 当前 Matplotlib 目标对照 | [当前批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)，再按其中路径读取私有completed/raw/冻结输入；不先扫全部历史。 |
+| Astropy资源与可读面边界 | [旧四臂及隔离修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)；不能复用旧source进入新隔离批次。 |
 | 真实任务时序 / SymPy | [来源和 SymPy](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md) |
 | Django 读取、前置反馈和同候选续修 | [Django](../../docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md) |
 | Sphinx 失败状态与摘要/续写 | [Sphinx](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md) |
