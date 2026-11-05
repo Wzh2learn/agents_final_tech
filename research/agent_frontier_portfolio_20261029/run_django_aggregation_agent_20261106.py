@@ -195,7 +195,23 @@ def rebind_model(code: str, profile: dict) -> str:
     code = core.replace_once(code, old, f"socket.create_connection(({profile['host']!r},{profile['port']}),timeout=30)")
     if code.count('qwen3.6-35b-a3b') < 2 or 'Qwen3.6-35B-A3B' not in code:
         raise ValueError('model alias fragments missing')
-    return code.replace('qwen3.6-35b-a3b', profile['model_id']).replace('Qwen3.6-35B-A3B', profile['model_id'])
+    return code.replace('Qwen3.6-35B-A3B', profile['model_id']).replace('qwen3.6-35b-a3b', profile['model_id'])
+
+
+def validate_backend_choice(backend: str, task: str, condition: str) -> None:
+    if backend not in ('student8b', 'teacher35b'):
+        raise ValueError('unknown model backend')
+    if backend == 'teacher35b' and (task, condition) != ('source', 'none'):
+        raise ValueError('teacher profile permitted only for a fresh source with no experience')
+
+
+def set_model_limits(code: str, profile: dict, backend: str) -> str:
+    old="'limit':{'context':32768,'output':8192}"
+    if backend == 'student8b':
+        if (profile['context'],profile['output']) != (32768,8192):raise ValueError('student limits changed')
+        return code
+    if (profile['context'],profile['output']) != (65536,16384):raise ValueError('teacher limits changed')
+    return core.replace_once(code,old,"'limit':{'context':65536,'output':16384}")
 
 
 def clean_root(task: str) -> Path:
@@ -348,7 +364,9 @@ def repair_prompt(task: str, condition: str, feedback: str) -> str:
 
 
 def derive(root: Path, task: str, condition: str, experience: Path | None,
-           actor: dict, profile: dict, task_file: Path, pg: dict | None, candidate: Path | None = None) -> str:
+           actor: dict, profile: dict, task_file: Path, pg: dict | None, candidate: Path | None = None,
+           backend: str = 'student8b') -> str:
+    validate_backend_choice(backend, task, condition)
     protocol = SimpleNamespace(OUT=QUAL, SITE=Path(actor['sites']['default']), LEGACY=Path(actor['runtime']))
     base_condition = 'none' if condition in REPAIR_CONDITIONS else condition
     code = requests_runner.derive(root, task, base_condition, experience, protocol=protocol, seed=CASES[task][4])
@@ -358,6 +376,7 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
         new = str(root / f'{task}__{condition}__seed{CASES[task][4]}')
         code = core.replace_once(code, old, new)
     code = rebind_model(code, profile)
+    code = set_model_limits(code, profile, backend)
     code = core.replace_once(code, "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')",
         "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')\n payload['model']=" + repr(profile['model_id']))
     code = core.replace_once(code, "shutil.copytree(src/'clean_base',work,dirs_exist_ok=True)",
@@ -376,6 +395,9 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
     code = core.replace_once(code, 'line not in allowed or len(calls)>=24 or ', 'line not in allowed or ')
     code = core.replace_once(code, 'timeout=900)', f'timeout={MAX_SECONDS})')
     extra = ripgrep_binding()
+    if backend == 'teacher35b':
+        instruction_file = root / f'{task}__{condition}__seed{CASES[task][4]}' / 'work/instructions.txt'
+        extra += ['--mount', f'type=bind,src={instruction_file},dst=/root/instructions.txt,readonly']
     if pg:
         extra += ['--mount', f"type=bind,src={pg['host_socket_dir']},dst=/research-pg,readonly",
                   '--mount', f"type=bind,src={actor['sites']['pgdriver']},dst=/pgdriver,readonly",
@@ -505,6 +527,7 @@ def main() -> None:
     parser.add_argument('--repair-source-attempt-id')
     parser.add_argument('--repair-draft-dir', type=Path)
     parser.add_argument('--repair-draft-sha256')
+    parser.add_argument('--backend', choices=('student8b','teacher35b'), default='student8b')
     parser.add_argument('--model-profile', type=Path, required=True)
     parser.add_argument('--model-profile-sha256', required=True)
     parser.add_argument('--actor-projection', type=Path, required=True)
@@ -514,6 +537,7 @@ def main() -> None:
     parser.add_argument('--preflight-only', action='store_true')
     args = parser.parse_args()
     root = attempt_root(PARENT, args.attempt_id)
+    validate_backend_choice(args.backend, args.task, args.condition)
     is_repair = args.condition in REPAIR_CONDITIONS
     if args.task != 'source' and is_repair: parser.error('repair conditions are source-only')
     if args.task == 'source' and args.condition not in ('none', *REPAIR_CONDITIONS): parser.error('unsupported source condition')
@@ -528,8 +552,13 @@ def main() -> None:
     if (args.pg_socket_manifest is None) != (args.pg_socket_sha256 is None): parser.error('socket manifest and hash required together')
     if args.task == 'source' and args.pg_socket_manifest is None: parser.error('source requires private PostgreSQL socket')
     if args.task == 'target' and args.pg_socket_manifest is not None: parser.error('target must not receive PostgreSQL socket')
-    profile = validate_model_profile(args.model_profile, args.model_profile_sha256)
-    backend = verify_live_backend(profile)
+    if args.backend == 'teacher35b':
+        from scripts.graph import research_teacher_backend as teacher_backend
+        profile = teacher_backend.validate_model_profile(args.model_profile, args.model_profile_sha256)
+        backend = teacher_backend.verify_live_backend(profile)
+    else:
+        profile = validate_model_profile(args.model_profile, args.model_profile_sha256)
+        backend = verify_live_backend(profile)
     actor = actor_projection(args.actor_projection, args.actor_manifest_sha256, args.task)
     pg = require_socket_manifest(args.pg_socket_manifest, args.pg_socket_sha256, PARENT) if args.pg_socket_manifest else None
     live_pg = verify_live_postgres(pg) if pg else None
@@ -537,6 +566,10 @@ def main() -> None:
     control = qualification(args.task)
     row = row_for(args.task)
     task_text = row['problem_statement'].replace('\r\n', '\n').rstrip() + '\n'
+    if args.backend == 'teacher35b':
+        task_text = task_text.rstrip() + ('\n\nEnvironment: The instructions at /root/instructions.txt are read-only; '
+            'repository code under /root/django is writable. You may inspect files and run relevant local tests '
+            'without asking the user for permission.\n')
     candidate = None; repair = None
     if is_repair:
         if args.repair_source_attempt_id != REPAIR_SOURCE or args.repair_draft_sha256 != REPAIR_DRAFT_SHA:
@@ -571,12 +604,13 @@ def main() -> None:
             root / (eid + '.completed.json'), root / (eid + '.auto_reservation.json'))):
         raise FileExistsError('episode already exists; never overwrite or auto-retry')
     # derive compiles without launching the model; the actor receives only task_text and frozen baseline.
-    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg, candidate)
+    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg, candidate, args.backend)
     if args.preflight_only:
         print(json.dumps({'status': 'PREFLIGHT_ONLY', 'episode': eid, 'task_sha256': hashlib.sha256(task_text.encode()).hexdigest(),
                           'harness_sha256': hashlib.sha256(code.encode()).hexdigest(),
                           'model_profile_sha256': args.model_profile_sha256, 'projection_sha256': args.actor_manifest_sha256,
                           'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg,
+                          'backend_kind': args.backend,
                           'repair': repair, 'model_calls': 0}))
         return
     prepare_actor_runtime(root)
@@ -590,6 +624,7 @@ def main() -> None:
                       'research_auto_record.py': Path(sys.modules['scripts.graph.research_auto_record'].__file__),
                       'research_tool_runtime.py': Path(sys.modules['scripts.graph.research_tool_runtime'].__file__),
                       'base_harness.py': core.BASE}
+        if args.backend == 'teacher35b': components['research_teacher_backend.py'] = Path(teacher_backend.__file__)
         if is_repair:
             components['experience_helper.py'] = Path(experience_helper.__file__)
         snapshot = root / (eid + '.components'); snapshot.mkdir()
@@ -598,6 +633,7 @@ def main() -> None:
         if any(sha(path) != component_hashes[name] for name, path in components.items()):
             raise ValueError('components changed during snapshot')
         plan = {'task': task, 'condition': condition, 'seed': CASES[task][4], 'max_posts': MAX_POSTS,
+                'backend_kind': args.backend, 'profile_context': profile['context'], 'profile_output': profile['output'],
                 'max_seconds': MAX_SECONDS, 'model_profile_sha256': args.model_profile_sha256,
                 'projection_sha256': args.actor_manifest_sha256, 'pg_socket_manifest_sha256': args.pg_socket_sha256,
                 'live_backend': backend, 'live_postgres': live_pg,

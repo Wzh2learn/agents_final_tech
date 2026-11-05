@@ -53,6 +53,19 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         self.assertIn('http://127.0.0.1:18004/v1', out)
         self.assertNotIn('qwen3.6-35b-a3b', out)
         with self.assertRaises(ValueError): runner.rebind_model('incomplete', {'host':'127.0.0.1','port':18104,'model_id':'qwen3-8b-qual'})
+        teacher=dict(host='127.0.0.1',port=8004,model_id='Qwen3.6-35B-A3B-Q4_K_M.gguf')
+        upgraded=runner.rebind_model(code,teacher)
+        self.assertIn('gb10/Qwen3.6-35B-A3B-Q4_K_M.gguf',upgraded)
+        self.assertNotIn('Q4_K_M.gguf-Q4_K_M.gguf',upgraded)
+
+    def test_teacher_is_source_none_only_and_limits_are_profiled(self):
+        runner.validate_backend_choice('teacher35b','source','none')
+        for task,condition in [('target','none'),('source','candidate_neutral_retry'),('source','feedback_card')]:
+            with self.assertRaises(ValueError):runner.validate_backend_choice('teacher35b',task,condition)
+        profile={'context':65536,'output':16384}
+        original="cfg={'limit':{'context':32768,'output':8192}}"
+        self.assertIn("'context':65536,'output':16384",runner.set_model_limits(original,profile,'teacher35b'))
+        self.assertEqual(runner.set_model_limits(original,{'context':32768,'output':8192},'student8b'),original)
 
     def test_live_server_arguments_must_match_the_frozen_profile(self):
         profile = {'gguf_path':'/research/model.gguf', 'host':'127.0.0.1', 'port':18104,

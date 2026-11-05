@@ -3,7 +3,7 @@
 > 2026-11-06 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active**：用户已恢复第二阶段。主攻 Agent 从执行与反馈形成经验、在变化任务中选择与修订技能；面向 IJCNN 和硕士论文。长期方向见[研究组合](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，当前执行只读[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
-- **当前检查点**：Django8B source与N/F续修已完成，均未修复；N/F误选只读题面为修改对象。下一步统一执行边界作一次资格复验，仍失败则强教师采集可靠纠正。原始失败与成本见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不当作反馈普遍无效。
+- **当前检查点**：Django8B及一次边界复验仍未修复；零测试误判与重复无效编辑已定位。停止本候选提示变体，转既有35B研究模型采集经原题/回归验证的源轨迹，再决定学生迁移。原始失败与成本见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 - **方法状态**：已有多来源开发轨迹和失败分析；尚无跨来源稳定方法增量。RethinkSkill 原生摘要接入可生成合法提案，但该次实际只改末尾换行。来源、接口和历史结论通过短计划按需加载。
 - **Paper E**：用户已发老师审阅，等待反馈。现役[ICINT 四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)，ICDAR 顺序备投；尚未正式投稿。学校要求本人一作、北邮第一单位、方向相关，会议须召开并宣读/张贴。作者信息已私有准备；不在公开记忆复制。硕士按 2027 年 10 月送审倒排。
 - **搜索**：科研联网默认使用当前 Codex 宿主原生搜索；无自动 DeepSeek/Qwen 搜索回退。GB10 禁网实验由 D 提供带来源材料，不假造宿主搜索的 HTTP API。搜索切换不改变推理模型或业务 RAG。
