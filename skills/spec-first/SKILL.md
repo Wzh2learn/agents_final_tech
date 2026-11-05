@@ -14,8 +14,16 @@ A useful contract keeps the objective stable while allowing the implementation t
 5. **Execute and update in place.** Change the plan when evidence or the user changes the direction; retain the reason and prior evidence. Do not treat a completed subtask, an empty blocker list, a passing lint, or a clean worktree as completion of the user's whole objective.
 6. **Verify and report.** Run checks appropriate to the change, show actual outcomes and remaining uncertainty, and report only decisions that the user must make. Do not invent commands, permissions, results, or hidden approvals.
 
+## Iterative research
+
+For multi-stage research, turn a specific gap in prior work into competing, testable candidates. Reproduce an appropriate strong baseline under the same data and compute conditions; screen on development subsets before spending resources on wider evaluation. Preserve unsuccessful and untried candidates and distinguish engineering faults, inconclusive outcomes and scientific counterevidence.
+
+Use results to revise ideas, test the contribution of changed components, and let substantive review criticism trigger targeted experiments or a return to an earlier stage. Bound retries by the task's budget and preserve a separate confirmation set; selection on it makes it development data. Bind claims to artifacts and check scoring, task rules, references and method-code consistency when relevant. An AI critic is advisory, not an independent human reviewer, acceptance decision or authorization. Reuse the existing plan and evidence ledger; add an independent reviewer only when the decision warrants the cost.
+
 ## Completion and verification
 
 The current plan identifies the objective, authority, next checkpoint, verification and unresolved items; the reported state matches the evidence actually collected.
 
 This adaptation incorporates planning principles from [Khazix leader](https://github.com/KKKKhazix/khazix-skills/tree/35bd05b466ceb83a727b28afb54b45b69a6c3b0a/leader), MIT licensed; project rules and the current user's instructions take precedence over source examples.
+
+The iterative research guidance also draws on [ScientistTwo](https://arxiv.org/abs/2609.19644), Sections 3.1–3.6 and its integrity audit. These are adapted practices, not a reproduction of its system or results.

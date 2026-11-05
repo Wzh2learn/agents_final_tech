@@ -9,7 +9,7 @@
 | 需要 | 权威入口 |
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
-| Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
+| Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[科研证据图检查](../scripts/graph/research_evidence_graph.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
 | 导师确认材料 | [现役学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)、[转发 PDF](../output/pdf/advisor_brief_20261102.pdf) |
 | Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[ICDAR 备投工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)、[投稿路线](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |
