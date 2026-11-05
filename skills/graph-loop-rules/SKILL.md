@@ -20,7 +20,9 @@ description: JinRongAgents Graph Loop 红线与运行约束。OpenCode agent 在
 - gap/遗留项台账唯一信源：memory/THREADS.md，其他文档只引用不复述。
 - 现状以 memory/STATE.md 为准，不到历史文档里找现状。
 - Loop A 执行层完整约束见 scripts/graph/loop_a_exec_constraints.md；Loop C 审计 prompt 见 scripts/graph/loop_c_audit_prompt.md。
-- 需要联网检索或数值验证时用 python scripts/qwen_harness_tools.py（web_search / code_interpreter / web_extractor），不滥用。
+- 科研联网检索默认使用当前 Codex 宿主原生搜索（本会话 `search_service.web_run` / `web.run`），优先官方论文、代码、数据及文档，保留来源与日期。
+- 不自动调用 `scripts/deepseek_search_tools.py` 或 `scripts/qwen_harness_tools.py web_search`；旧CLI仅在任务明确选用时运行。数值验证优先本地确定性工具，Qwen其他工具功能保留。
+- GB10禁网科研Agent不继承宿主搜索工具，也没有可猜测的HTTP端点；需要材料时由D检索并提供带链接/版本的结果，不因工具缺失改用旧搜索或索取新凭据。推理模型和业务RAG不受此规则变更影响。
 
 ## 验证要求
 交付前必须：远端 ./venv/bin/python -m pytest -q 全绿（基线 275 passed / 13 skipped）；证据先于断言（evidence before assertions）。

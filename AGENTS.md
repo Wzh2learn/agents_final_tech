@@ -1,6 +1,6 @@
 <!-- FOR AI AGENTS - Human readability is a side effect, not a goal -->
 <!-- Managed by agent: keep this file concise and move detail to its authority -->
-<!-- Last updated: 2026-10-19 | Last verified: 2026-10-19 -->
+<!-- Last updated: 2026-11-06 | Last verified: 2026-11-06 (loading/search routing) -->
 
 # Repository Guidelines
 
@@ -8,15 +8,12 @@
 
 ## Read first
 
-1. [`memory/CORE.md`](memory/CORE.md) — durable architecture and runtime baseline.
-2. [`memory/STATE.md`](memory/STATE.md) — short current repository snapshot.
-3. [`memory/THREADS.md`](memory/THREADS.md) — sole current ledger for open decisions and blockers.
-4. [`docs/INDEX.md`](docs/INDEX.md) — documentation catalog and status labels.
-5. [`docs/SKILL_ROUTING.md`](docs/SKILL_ROUTING.md) — project skill selection rules.
-6. [`../AGENTS.md`](../AGENTS.md) — workspace skill registry, including the
-   Loop A `paper-deep-reading` registration.
+1. [`memory/STATE.md`](memory/STATE.md) — short current snapshot; check only task-relevant rows in [`memory/THREADS.md`](memory/THREADS.md).
+2. Research tasks: [`docs/research/LOOP_D_RESEARCH_PROMPT.md`](docs/research/LOOP_D_RESEARCH_PROMPT.md), then its short execution plan and one relevant evidence record. Do not preload archives or all raw histories.
+3. Read [`memory/CORE.md`](memory/CORE.md) for architecture/runtime work. Use the top navigation or targeted search in [`docs/INDEX.md`](docs/INDEX.md); load only the relevant section of [`docs/SKILL_ROUTING.md`](docs/SKILL_ROUTING.md).
+4. [`../AGENTS.md`](../AGENTS.md) provides the workspace skill registry. Closest scoped rules still apply; retain all safety and execution boundaries below.
 
-`HANDOFF.md` and `memory/archive/` are historical evidence, not current state.
+`HANDOFF.md` and `memory/archive/` are history. Project-maintained memory is editable under the user's task; host-generated Codex memory is a separate, read-only source. Default research web search is the current host-native search tool; legacy DeepSeek/Qwen search CLIs are opt-in only. GB10 offline actors receive sourced materials from D, not an invented host-search URL.
 
 ## Commands
 

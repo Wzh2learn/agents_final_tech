@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Qwen Token Plan Harness Tools CLI Wrapper.
+"""Legacy opt-in Qwen Token Plan Harness Tools CLI Wrapper.
+
+Research web search defaults to the active Codex host-native search tool.
+This compatibility CLI is not an automatic fallback; non-search tools remain available.
 
 Provides shell-accessible wrappers for Qwen platform-side tools:
   web_search, code_interpreter, web_extractor, t2i_search, i2i_search

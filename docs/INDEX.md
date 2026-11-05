@@ -1,8 +1,10 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-11-05 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-11-06 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
+
+科研联网默认当前 Codex 宿主原生搜索；索引中的 DeepSeek/Qwen 搜索CLI是兼容保留，不是现役默认或自动回退。
 
 ## 从这里开始
 
@@ -11,6 +13,8 @@
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[科研证据自动记录](../scripts/graph/research_auto_record.py)、[科研证据图检查](../scripts/graph/research_evidence_graph.py)、[离线研究工具检查](../scripts/graph/research_tool_runtime.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
+| 第二篇最小接续 | [短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定任务记录；[Astropy当前批次](../research/agent_frontier_portfolio_20261029/results/ASTROPY_PILOT_20261106.md)。按需读[长期组合](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
+| 研究上下文与归档 | [体量/链接检查脚本](../scripts/graph/research_context_check.py)；[2026-11-06主题归档与原文校验](archive/2026-11-06_agent_research_context/README.md)。七份活文档总额32KiB，历史按主题读；这不是宿主上下文硬上限。 |
 | Agent 实验离线接续脚本 | [压缩轨迹复算](../research/agent_frontier_portfolio_20261029/audit_compaction_events_20261105.py)、[RethinkSkill 源适配探针](../research/agent_frontier_portfolio_20261029/prepare_rethinkskill_sphinx_20261105.py)、[源候选接口](../research/agent_frontier_portfolio_20261029/run_rethinkskill_source_candidate_20261105.py)、[复算测试](../research/agent_frontier_portfolio_20261029/test_audit_compaction_events_20261105.py)；真实调用须遵循当前目标和预算，现状见研究计划。 |
 | 导师确认材料 | [现役学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)、[转发 PDF](../output/pdf/advisor_brief_20261102.pdf) |
 | Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[ICDAR 备投工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)、[投稿路线](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |

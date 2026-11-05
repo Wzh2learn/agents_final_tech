@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""CLI for DeepSeek's read-only Search and Fetch JSON APIs."""
+"""Legacy opt-in CLI for DeepSeek read-only Search/Fetch.
+
+Research defaults to the active Codex host-native search tool; this CLI is not
+an automatic fallback. Its existing API and inference-provider settings are unchanged."""
 
 from __future__ import annotations
 

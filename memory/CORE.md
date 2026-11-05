@@ -1,6 +1,6 @@
 # memory/CORE.md — 永久事实（始终加载，<100 行）
 
-更新: 2026-10-09（Loop A/C Xiaomi 模型路由收敛；运行拓扑仍按现场服务核验）
+更新: 2026-11-06（科研搜索路由；模型/运行基线仍为2026-10-09记录，实际服务须现场核验）
 
 ## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.129.237.26, ARM64）
 
@@ -19,7 +19,8 @@
 
 - Loop A (Codex CLI): `mimo-v2.6-flash` via `Xiaomi_Token_Plan`，执行 profile `~/.codex/loopa-exec.config.toml`；诊断 profile 使用 `mimo-v2.6-pro`。
 - Loop C (Claude Code): `mimo-v2.6-pro` via Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`（`~/.claude/settings.json`；2026-10-09 默认入口 smoke PASS）。
-- qwen_harness_tools.py: qwen3.8-max-preview（独立于 Loop 路由，仍属历史/工具线）。
+- 科研联网默认当前 Codex 宿主原生搜索；GB10 禁网实验由 D 提供带来源材料，不自动回退到 DeepSeek/Qwen 搜索。
+- qwen_harness_tools.py: qwen3.8-max-preview（历史兼容工具，显式选用才执行；code_interpreter/web_extractor 功能保留）。
 - 凭证只存外部受保护环境文件；不写入 Git、文档、日志或 prompt。
 - 禁止: 加载 72B（已删除; 硬禁 08-17 作废, 改模型准入预算门, 见 DECISIONS）；PaddleOCR（ARM64 SIGSEGV）；VLM :8007/Triton 线已关闭。
 

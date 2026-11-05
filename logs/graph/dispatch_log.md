@@ -1433,3 +1433,5 @@ echo dispatch_log updated
 [2026-11-05] REQUESTS-NATURAL-DEVELOPMENT: source独立问题1/1、回归子集73/73；target none与source_history均参考问题0/2、回归65/65，历史完整读取280/280。三条Agent共71转发POST，源skill生成1POST；加上两次接口诊断，本恢复阶段74POST/916,873报告tokens（缓存692,502已含），另2次超帽拒绝未转发。原题本地流式复核显示版本与gold合同差异，该对停止后续模型比较；全部raw、原评分与后验probe保留，未宣称方法成功/失败。自动记录三次绑定检查通过；同episode重复执行被生成前拒绝。0训练/judge/生产调用。commit见本轮集成。
 
 [2026-11-05] OFFLINE-TOOLS-NATIVE-FEEDBACK-ASTROPY: 缺rg导致OpenCode下载受禁网阻断，零模型成对debug验证只读固定rg挂载可恢复搜索。RethinkSkill改用原生字段摘要，1POST/2,447tokens得到协议合法但仅换行变化的候选，不部署旧目标。Astropy原题复现与gold一致，source base/gold问题0/1和1/1、完整PTP均179/179；target0/3和3/3、PTP均132/132。新runner离线预检、原始测试恢复、脚本换行身份及并发POST帽控制完成；先提交同步再运行source。0训练/judge/生产操作。commit见本轮代码与研究计划集成。
+
+[2026-11-06] RESEARCH-CONTEXT-NEAT: 默认科研联网切到Codex宿主原生搜索，不自动回退DeepSeek/Qwen；只读核验已启动Astropy普通skill臂完成，独立问题3/3、回归132/132但达24POST帽，批次单独归档。第二篇三份长文与STATE/THREADS共195,779归一化字节分18段保留，可逆链接/全文hash重建通过；短入口按需加载，新增UTF-8体量和本地链接门。此次治理无新模型生成/训练/judge；skill分发和三端同步以本轮实测为准，commit见本轮集成。

@@ -1,25 +1,18 @@
 # Open Decisions And Blockers
 
-> 2026-11-05 | 只列当前未决。历史原文见 [治理前快照](archive/THREADS_2026-10-29_pre_neat.md)，相对链接沿用原文件位于 memory/ 时的基址；科研当前状态见 [STATE](STATE.md)。
+> 2026-11-06 | 只留未决与下一动作；当前实验数值见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不在这里重抄实验日志。
 
-| 事项 | 当前状态与下一步 |
+| 事项 | 下一动作 / 边界 |
 | --- | --- |
-| 科研目标 | 2026-11-05 用户确认升级并恢复 Goal，现为 active；按既有授权推进第二阶段研究。[现役入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md#目标与恢复检查点2026-11-05)记录恢复检查点；Paper E 等待导师反馈。 |
-| 导师反馈 | 用户已向老师发送[方向与小论文进展讨论稿](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)及 Paper E 审阅 PDF；等待对研究主线、后两点划分、投稿路线与学校成果认定的意见。 |
-| Paper E 正文 | [ICINT 审阅稿](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)及 4 页 PDF 已按反馈更新摘要、排版和相关文献；[证据核对](../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md)保留数值与审阅边界。等待导师和作者团队意见，之后完成声明、匿名及许可终核。匹配原操作点的 `>=2` / `>=0.75` 与另一严格 `>` 网格必须区分。[ICDAR 工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)仍含 Acknowledgment，启用前须依双盲要求调整。 |
-| 投稿与学位认定 | 用户选择 ICINT 首投、ICDAR 顺序备投，可到场参会；学校要求本人第一作者、北邮第一单位、方向相关，会议还需召开并宣读/张贴。2026-11-04 用户已确认暂定四位作者顺序及通讯作者，确认两名学生的北邮电子工程学院署名；私有投稿准备文件已更新并保存在仓库外。作者团队对最终顺序与成稿的确认仍待办理。AI 披露、专利、artifact 许可、2027 论文集出版信息、费用及正式提交仍待实际办理；不同时一稿多投。2027 年 10 月具体送审日未知。 |
-| 未来仓库分享 | 仓库已跟踪 [Paper E 私有候选复现包](../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/README.md)及 ZIP；包内[许可记录](../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/LICENSES.md)称 FinRank 数据为 CC BY-NC 4.0、新编代码许可待定。对外提供访问或公开前须核查分享范围、未发表内容和许可；当前远端可见性未核实，不因提交成功推断已公开。 |
-| 第二篇 Agent 方法 | [长期研究组合](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)以 IJCNN 为目标，围绕经验反馈学习与变化任务技能适配。[来源见证与人工局部修订](../research/agent_frontier_portfolio_20261029/SKILL_VERIFICATION_RETURN_20261101.md)及 [DBSCAN 试验](../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md)均未确立方法增量。[地震任务开发](../research/agent_frontier_portfolio_20261029/EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md)出现一次 skill 辅助距离结果与独立界一致的积极线索，也出现同一 skill 的失败；股票格式变化的各臂及反馈对照同样没有稳定方法增量。[SkillFlow 对账族](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)目标原题与过时示例变体均被无历史、源历史和 skill 单次解对；未识别稳定方法优势，变体须按新输入评分。需在不同来源和重复运行上验证适用性、失败反馈及真实成本。EdgeBench 官方 51 项定义均声明 x86，GB10 为 ARM，跨架构可运行性尚未验证。 |
-| Agent 来源扩展 | [EvoClaw 配置任务](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)中原评分漏检类型错误；无历史和源历史在目标四文件各一次均正确。[SWE-Skills-Bench](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)的 aiohttp 补充行为检查推翻了仅据 `13/14` 宣称条件计划更优；SymPy 在依赖修复后的同题重复中，无历史与两种计划均两次 `15/15`、`4/4`，原 skill 两次为 `1/15`、`10/15`，初次正向结果不稳定。相关任务是 benchmark 构造需求和本地 ARM 适配，下一步转向自然问题与不同来源，不据此宣称普遍 skill 退化。 |
-| 自然任务及经验时序 | [SWE-ContextBench](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) 的固定 Lite 来源提供真实问题对，一条公开源轨迹含目标后的修复提交摘要。SymPy 目标无历史、源历史及生成 skill 各一次均未通过目标问题测试、独立 Python 3.8 回归 `84/84`；历史达请求上限，skill 达墙时上限。skill 未清楚保留源任务最终失败状态；这是反馈保真度的开发线索，尚不是方法优势。 |
-| Sphinx 经验状态 | [四臂开发对照](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)均未完成目标；长历史尾部源反馈未进入实际读取，两个 skill 完整读取但未修改源码，且均在压缩续写后提出等待继续。不要重复同一单题提示；需在其他来源任务核查有效行为变化、反馈保真和压缩/继续接口，加入同信息近邻与完整成本。 |
-| Requests 新来源接续 | [源任务修复与目标对照](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#恢复研究requests-自然任务对2026-11-05)已执行；原题行为与gold合同/版本不一致，该对停止后续模型比较。保留原分数、完整读取历史及局部读取失败观察；下一个真实来源先核对题面与参考语义，避免把任务合同差异记作学习失败。 |
-| Django 自然任务 | [固定源码与资格](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已在 ARM 上完成源/目标问题正负控制与 `35/35`、`17/17` 可映射回归。目标无历史臂未修复且产生 2 项回归；历史/skill 臂未改源码、未修复。同候选中性与真实反馈续修已各跑一次，两臂均达到调用上限并保留原有错误，反馈臂完整读取反馈但未修改候选。停止重复该单题，转向能产生可测成功与失败的多来源任务；不据此否定反馈学习。源另有 1 条非测试名未映射，公开旧轨迹不用于时间隔离经验。 |
-| 资源账本 | 历史 340-token 差额、部分未完成 POST 用量、模型权重标识等仍未核实；继续分别记账，不能视作零。 |
-| 自动科研记录后续 | 新 Requests runner 已按显式 attempt 隔离输出并接入自动记录，不改 seed 或覆盖旧记录。ContextBench 三个历史 runner 的 episode 标识仍绑定 task、condition、seed，预检失败也会占位；后续迁移时需同时改实际输出路径，不能只改 reservation。跨机器预算锁及其他 runner 自动接入仍未实现。 |
-| 长期记忆与自主调度 | [架构说明](../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05)区分项目状态、会话持久化、向量情景记忆与候选复习/反思；当前仍无已验证的统一八层记忆或恢复型自动队列。反思增量游标仅在单进程内生效，游标已滑出窗口或缺少稳定 ID 时跳过，存储响应丢失后的重试可能重复；现有反射代码配置外部模型接口，实际生产调用未核验，个人对话接入前需明确数据与授权范围。会话元数据约束不代替用户身份和资源归属认证。 |
-| Git 与现场 | 本机旧集成 worktree 的 30 项及 GB10 C 审阅 worktree 的 3 项未跟踪文件此前已校验归档；2026-11-05 又移除了本机和 GB10 各一个已合并、只剩可重建缓存/报告的重复 worktree。GB10 另有 7 个历史 worktree，其 HEAD 均在 main 历史中，但忽略文件含 JSON、日志及模型权重，保留待逐项处理；Loop B 日志保持原状。[历史归档与实验复核](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。GitHub SSH 公钥认证于 2026-11-05 复测成功；各端提交与同步状态以实际 Git 检查为准。 |
-| 文档时效与 skill | 2026-11-05 文档 lint 为 0 fail、3 warn：两份 33/34 为项目明确冻结文档，另一份 `m1_coldstart_candidates.md` 仍待相关工作复验，不用仅改日期消警。本次已更新现有 `neat-freak` 与 `spec-first`；本机和 GB10 `sync_skills --check` 为 101 项一致，仓库 skill-doctor 为 0 errors、136 warnings，skill-map 报 1 组 `pdf` 同名和 27 条待判的类似引用，不能把候选全部当成真实断链。 |
-| 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 边界及其他未复验事项保持未知；见[更早快照](archive/THREADS_2026-10-21_pre_workspace_governance.md)，不能因归档宣称解决。 |
+| 导师及作者反馈 | Paper E 与方向沟通稿已发送；等待研究点划分、首投路线和成稿反馈。内部研究可继续，无需等待此项。 |
+| Paper E 投稿办理 | ICINT 首投、拒稿或正式撤稿后 ICDAR；作者暂定 Zhonghua Wang、Jiali Ruan、Bin Hou、Yunxiao Zu（通讯），北邮电子工程学院。团队终核、声明、许可、学校凭证与费用须在正式办理时确认。ICDAR 工作稿仍有致谢，启用前处理双盲。作者邮箱等私有字段不入 Git。 |
+| 第二篇当前比较 | Astropy 普通 skill 有一次完整修复，历史读取存在长行截断；结果卡尚未执行。先完成本次治理，再按[执行合同](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续冻结输入、比较强基线、安排重复与来源扩展，不把单次开发结果当方法确认。 |
+| 公开方法参照 | RethinkSkill 仅完成协议级接入；需合格真实反馈、训练/验证/目标隔离及接受门，才能形成方法比较。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
+| 来源与参考资格 | Requests 此对题面/版本/gold 行为冲突，不继续该对模型比较；Sphinx/Django/SymPy 等旧现场按[历史证据目录](../docs/archive/2026-11-06_agent_research_context/README.md)查阅。新来源先核验实际原题、base/gold、回归与时间边界。EdgeBench x86→ARM 尚未确认。 |
+| 成本及运行器 | 历史 340-token 差额、在途请求及部分模型权重标识保持未知。Requests/Astropy 已有显式 attempt；三个旧 ContextBench runner 的标识仍绑定 task/condition/seed，改造须同时迁移实际输出目录。跨机器预算锁未实现。 |
+| 记忆和自动调度 | 反思游标只验证单进程；尚无统一八层记忆、恢复队列或持续自动唤醒。个人会话接入、身份/归属和生产反思调用均不能由已有摘要功能推定已授权或实现。见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
+| 工作区与分享 | GB10 7 个历史 worktree 内有独有日志/模型等忽略产物，继续保留；Loop B 日志不回滚。对外分享前须核查 Paper E 私有复现包、FinRank 非商用数据及代码许可；远端可见性未核实。 |
+| 文档与 skill 存量 | 既有 docs lint 3 条时效提醒：冻结 33/34 与待复验 m1_coldstart。本轮 skill-doctor 为0 errors/134 warnings；对变更的两项skill定向map为0重复/0未解析引用，不代表全库没有历史同名问题。最新复验以命令回执为准。 |
+| 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
-不得因记录停止某一候选就将新来源研究或用户已授权的科研一概关闭；也不得因新授权改写旧实验、参考或冻结账本。
+科研 Goal 保持 active。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)；停止具体候选不等于关闭新来源研究。2027 年 10 月具体送审日仍待学校确定。

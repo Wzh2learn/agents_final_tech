@@ -1,0 +1,777 @@
+{
+  "schema": "research_context_archive_v1",
+  "date": "2026-11-06",
+  "git_baseline": "d102487ac36b121b15b284f23e0b30cff66f8eda",
+  "normalization": "UTF-8, LF; consecutive original segments preserved; relative Markdown destinations rebased reversibly.",
+  "sources": [
+    {
+      "path": "research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md",
+      "normalized_sha256": "fb5f5bffcd542860085f226c67664357c6fde7e9b4d1d875ad6d1b44c1adac20",
+      "normalized_bytes": 106634,
+      "parts": [
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md",
+          "start_character": 0,
+          "end_character_exclusive": 8120,
+          "body_sha256": "f27cdbd5bd5ec1ac01fb5e849eb5478cb1f75f0cbf0e91fb24610e4b61bc624f",
+          "original_segment_sha256": "b84c717c618e10ae4754a9a1bc997712625ec768e6e7c3cc739edca3a9d465f9",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "IJCNN_EXPERIMENT_PROGRAM_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/IJCNN_EXPERIMENT_PROGRAM_20261030.md"
+            ],
+            [
+              "DBSCAN_AGENT_PILOT_RETURN_20261102.md",
+              "../../../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md"
+            ],
+            [
+              "../paper_e_publication_route_20261028/icint_latex/main.pdf",
+              "../../../research/paper_e_publication_route_20261028/icint_latex/main.pdf"
+            ],
+            [
+              "../advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md",
+              "../../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md"
+            ],
+            [
+              "../../memory/STATE.md",
+              "../../../memory/STATE.md"
+            ],
+            [
+              "qualify_earthquake_skilllearn.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_earthquake_skilllearn.py"
+            ],
+            [
+              "EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md",
+              "../../../research/agent_frontier_portfolio_20261029/EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md"
+            ],
+            [
+              "qualify_stockviz_shift_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_stockviz_shift_20261104.py"
+            ],
+            [
+              "run_stockviz_agent_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_stockviz_agent_20261104.py"
+            ],
+            [
+              "build_stockviz_experience_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/build_stockviz_experience_20261104.py"
+            ],
+            [
+              "run_stockviz_transparent_baseline_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_stockviz_transparent_baseline_20261104.py"
+            ],
+            [
+              "probe_stockviz_tooltips_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/probe_stockviz_tooltips_20261104.py"
+            ],
+            [
+              "summarize_stockviz_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/summarize_stockviz_20261104.py"
+            ],
+            [
+              "qualify_evoclaw_config_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_evoclaw_config_20261104.py"
+            ],
+            [
+              "run_evoclaw_config_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_evoclaw_config_20261104.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md",
+          "start_character": 8120,
+          "end_character_exclusive": 11796,
+          "body_sha256": "6182b6db3981a1ae29e5cf68611d2442e1dd01d397d5411f1152a090a493b315",
+          "original_segment_sha256": "eacf88591a672713445ab0975176e1bd5f845539867054aaec1845568622f67f",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_swe_aiohttp_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_aiohttp_20261104.py"
+            ],
+            [
+              "run_swe_aiohttp_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_aiohttp_20261104.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/sympy_skill_development_20261104.md",
+          "start_character": 11796,
+          "end_character_exclusive": 18119,
+          "body_sha256": "28dd453c38441deef6240e5ba0b09d4b0375d415279dbb3c4950ca6606be47f9",
+          "original_segment_sha256": "93d386eda32a5adda5ed218be8e8a7f973a88c1d23736a8b29f112691a543955",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_swe_sympy_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_sympy_20261104.py"
+            ],
+            [
+              "run_swe_sympy_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_sympy_20261104.py"
+            ],
+            [
+              "run_swe_sympy_repeat_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_sympy_repeat_20261104.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md",
+          "start_character": 18119,
+          "end_character_exclusive": 24109,
+          "body_sha256": "0cc32e859a4068d13feb5e048e43e0954deb2a184e80bf036121e635935ece75",
+          "original_segment_sha256": "68f627c5f01be03491017f6d89615ba397e23282864c138e268d787ab8471d3d",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_swe_contextbench_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_contextbench_20261104.py"
+            ],
+            [
+              "qualify_swe_contextbench_sympy_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_contextbench_sympy_20261104.py"
+            ],
+            [
+              "run_swe_contextbench_sympy_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_contextbench_sympy_20261104.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md",
+          "start_character": 24109,
+          "end_character_exclusive": 29265,
+          "body_sha256": "eb6b651d3a210cd6a9385f0a8a41df50fd2d55bbbde007320f6c190883f4b817",
+          "original_segment_sha256": "4f33f8957482c2903687f655476322a8c1249d8a29a3d0f54a8fa91b713a5c3c",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_swe_contextbench_django_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_contextbench_django_20261104.py"
+            ],
+            [
+              "run_swe_contextbench_django_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_contextbench_django_20261104.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md",
+          "start_character": 29265,
+          "end_character_exclusive": 36937,
+          "body_sha256": "a329c05afb9f9c31389734bdccc60c4db3e518e9a7eb57516fe9596426890721",
+          "original_segment_sha256": "0811f6c2b1dd3016031b5bf06fd81c215f1fe231a096cec9ff80659c14553283",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_swe_contextbench_sphinx_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_contextbench_sphinx_20261105.py"
+            ],
+            [
+              "build_source_status_control_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/build_source_status_control_20261105.py"
+            ],
+            [
+              "audit_compaction_events_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/audit_compaction_events_20261105.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md",
+          "start_character": 36937,
+          "end_character_exclusive": 44662,
+          "body_sha256": "6c485e49347b2411c6a22658b03e2e509c32010529f01bae4d6e71a35800f20e",
+          "original_segment_sha256": "786b160fd4a337dc3d1ba77a687df433f1ab3523c47f5696aeeb234e6f87059b",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_skillflow_reconciliation_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_skillflow_reconciliation_20261104.py"
+            ],
+            [
+              "run_skillflow_reconciliation_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_skillflow_reconciliation_20261104.py"
+            ],
+            [
+              "summarize_skillflow_reconciliation_20261104.py",
+              "../../../research/agent_frontier_portfolio_20261029/summarize_skillflow_reconciliation_20261104.py"
+            ],
+            [
+              "IJCNN_RELATED_WORK_REFRESH_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md"
+            ],
+            [
+              "qualify_skillevol_retry_20261102.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_skillevol_retry_20261102.py"
+            ],
+            [
+              "run_skillevol_retry_agent_20261102.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_skillevol_retry_agent_20261102.py"
+            ],
+            [
+              "retry_behavior_probe_20261102.py",
+              "../../../research/agent_frontier_portfolio_20261029/retry_behavior_probe_20261102.py"
+            ],
+            [
+              "run_retry_feedback_controls_20261102.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_retry_feedback_controls_20261102.py"
+            ],
+            [
+              "run_skillevol_retry_target_20261102.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_skillevol_retry_target_20261102.py"
+            ],
+            [
+              "AUTH_TRANSFER_AUTOPSY_20261102.md",
+              "../../../research/agent_frontier_portfolio_20261029/AUTH_TRANSFER_AUTOPSY_20261102.md"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md",
+          "start_character": 44662,
+          "end_character_exclusive": 46528,
+          "body_sha256": "aefc01ab082fc3d12e16c2fa57e4d8f8524eda6137bab6ec52167c36c82b1d07",
+          "original_segment_sha256": "51f3772f4a78ec830fe7dd80c8c83a31ad22a1f08af2336aee153f7dd593a0ef",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "archive/replays/continual_office_20261104.zip",
+              "../../../research/agent_frontier_portfolio_20261029/archive/replays/continual_office_20261104.zip"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md",
+          "start_character": 46528,
+          "end_character_exclusive": 50009,
+          "body_sha256": "accccf8b48ef8f937b3314a67eff80ad759c350a305a7e026a8f06ba7ec5ce4e",
+          "original_segment_sha256": "1378953f831d014ac237c1d913bce19685d9203ac04a49f9401e9ecc6c710428",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "qualify_swe_contextbench_requests_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_contextbench_requests_20261105.py"
+            ],
+            [
+              "run_swe_contextbench_requests_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_contextbench_requests_20261105.py"
+            ],
+            [
+              "probe_requests_streaming_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/probe_requests_streaming_20261105.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md",
+          "start_character": 50009,
+          "end_character_exclusive": 53813,
+          "body_sha256": "4a0edad3a9ce49fe0466d1488a7a1e4fbe7036487c89903dd746575691815962",
+          "original_segment_sha256": "d045022d82ada458954b75369f5eef6edeeefb20d65c16361c958df4cea5c212",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "../../scripts/graph/research_tool_runtime.py",
+              "../../../scripts/graph/research_tool_runtime.py"
+            ],
+            [
+              "IJCNN_RELATED_WORK_REFRESH_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md"
+            ],
+            [
+              "qualify_swe_contextbench_astropy_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/qualify_swe_contextbench_astropy_20261105.py"
+            ],
+            [
+              "run_swe_contextbench_astropy_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_swe_contextbench_astropy_20261105.py"
+            ]
+          ],
+          "footer_characters": 46
+        }
+      ]
+    },
+    {
+      "path": "research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md",
+      "normalized_sha256": "7ab56fabf60031dd318376d9eeff67410d9e9f44a7ab7f1b704a801e43e6ef2a",
+      "normalized_bytes": 35895,
+      "parts": [
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/portfolio_early_runs_20261030.md",
+          "start_character": 0,
+          "end_character_exclusive": 7255,
+          "body_sha256": "82ba6709034c8ecddd4648d655664491be7f843d791739bfdaf1512e13c18fea",
+          "original_segment_sha256": "4ef254830ee2996781f020862f636cc882c52fd10f06268bd01d86726111e1e0",
+          "header_characters": 244,
+          "original_to_rebased": [
+            [
+              "PDF_EXCEL_TRANSFER_RETURN_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/PDF_EXCEL_TRANSFER_RETURN_20261031.md"
+            ],
+            [
+              "FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md"
+            ],
+            [
+              "FEEDBACK_CONFLICT_AGENT_PILOT_RETURN_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/FEEDBACK_CONFLICT_AGENT_PILOT_RETURN_20261031.md"
+            ],
+            [
+              "ENTERPRISE_FEEDBACK_QUALIFICATION_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/ENTERPRISE_FEEDBACK_QUALIFICATION_20261031.md"
+            ],
+            [
+              "DEPENDENCY_SCOPE_SHIFT_QUALIFICATION_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/DEPENDENCY_SCOPE_SHIFT_QUALIFICATION_20261031.md"
+            ],
+            [
+              "DEPENDENCY_SCOPE_REPEAT_RETURN_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/DEPENDENCY_SCOPE_REPEAT_RETURN_20261031.md"
+            ],
+            [
+              "DEPENDENCY_SCOPE_BUDGET_SENSITIVITY_RETURN_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/DEPENDENCY_SCOPE_BUDGET_SENSITIVITY_RETURN_20261031.md"
+            ],
+            [
+              "DEPENDENCY_CROSS_PROJECT_RETURN_20261101.md",
+              "../../../research/agent_frontier_portfolio_20261029/DEPENDENCY_CROSS_PROJECT_RETURN_20261101.md"
+            ],
+            [
+              "SKILL_VERIFICATION_RETURN_20261101.md",
+              "../../../research/agent_frontier_portfolio_20261029/SKILL_VERIFICATION_RETURN_20261101.md"
+            ],
+            [
+              "DBSCAN_METRIC_SHIFT_QUALIFICATION_20261101.md",
+              "../../../research/agent_frontier_portfolio_20261029/DBSCAN_METRIC_SHIFT_QUALIFICATION_20261101.md"
+            ],
+            [
+              "DBSCAN_AGENT_PILOT_RETURN_20261102.md",
+              "../../../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md"
+            ],
+            [
+              "CROSS_TASK_TRANSFER_RETURN_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/CROSS_TASK_TRANSFER_RETURN_20261030.md"
+            ],
+            [
+              "IJCNN_EXPERIMENT_PROGRAM_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/IJCNN_EXPERIMENT_PROGRAM_20261030.md"
+            ],
+            [
+              "IJCNN_RELATED_WORK_REFRESH_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md"
+            ],
+            [
+              "DIALOGUE_PILOT_RETURN_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/DIALOGUE_PILOT_RETURN_20261030.md"
+            ],
+            [
+              "PREFIX_FEEDBACK_RETURN_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/PREFIX_FEEDBACK_RETURN_20261030.md"
+            ],
+            [
+              "tictoc_timeout_no_skill_receipt_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/tictoc_timeout_no_skill_receipt_20261030.json"
+            ],
+            [
+              "tictoc_timeout_all_skill_receipt_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/tictoc_timeout_all_skill_receipt_20261030.json"
+            ],
+            [
+              "run_tictoc_extended.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_tictoc_extended.py"
+            ],
+            [
+              "tictoc_extended_no_skill_receipt_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/tictoc_extended_no_skill_receipt_20261030.json"
+            ],
+            [
+              "tictoc_extended_all_skill_receipt_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/tictoc_extended_all_skill_receipt_20261030.json"
+            ],
+            [
+              "run_sequential_feedback_pilot.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_sequential_feedback_pilot.py"
+            ],
+            [
+              "sequential_feedback_pilot_summary_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/sequential_feedback_pilot_summary_20261030.json"
+            ],
+            [
+              "sequential_feedback_pilot_ledger_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/sequential_feedback_pilot_ledger_20261030.json"
+            ],
+            [
+              "numeric_semantic_diagnostic.py",
+              "../../../research/agent_frontier_portfolio_20261029/numeric_semantic_diagnostic.py"
+            ],
+            [
+              "sequential_feedback_posthoc_diagnostic_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/sequential_feedback_posthoc_diagnostic_20261030.json"
+            ],
+            [
+              "run_feedback_label_probe.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_feedback_label_probe.py"
+            ],
+            [
+              "feedback_label_pilot_ledger_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/feedback_label_pilot_ledger_20261030.json"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/portfolio_scope_20261029_30.md",
+          "start_character": 7255,
+          "end_character_exclusive": 14115,
+          "body_sha256": "0a321c20a9e514057266ca6834fdbb805b9070da4ace03d62d9503a640c9d07d",
+          "original_segment_sha256": "6e2268043800426c98b3a8e9cdc650bc05142c345b507895dd980fa04ca6e5b7",
+          "header_characters": 244,
+          "original_to_rebased": [
+            [
+              "inspect_continual_skillbench.py",
+              "../../../research/agent_frontier_portfolio_20261029/inspect_continual_skillbench.py"
+            ],
+            [
+              "continual_skillbench_qualification_20261030.json",
+              "../../../research/agent_frontier_portfolio_20261029/continual_skillbench_qualification_20261030.json"
+            ],
+            [
+              "../research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md",
+              "../../../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md"
+            ],
+            [
+              "../decision_residual_pivot_20261026_v1/D_PREMISE_CORRECTION.md",
+              "../../../research/decision_residual_pivot_20261026_v1/D_PREMISE_CORRECTION.md"
+            ],
+            [
+              "../feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md",
+              "../../../research/feedback_learning_finance_20261023_v1/FIRST_METHOD_RETURN.md"
+            ],
+            [
+              "../agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md",
+              "../../../research/agent_skill_method_20261029/DOCS_AVAILABLE_CONTROL_RETURN.md"
+            ],
+            [
+              "../publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN_V5.md",
+              "../../../research/publication_thesis_goals_v1/revision_v5/RESEARCH_SPRINT_RETURN_V5.md"
+            ],
+            [
+              "../publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md",
+              "../../../research/publication_thesis_goals_v1/revision_v2/G2_V2_REPORT.md"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/portfolio_candidates_20261029.md",
+          "start_character": 14115,
+          "end_character_exclusive": 17821,
+          "body_sha256": "00ce0ddcef455ba84ee088c0377f68fd804928084830eaaa14578f62ad005f59",
+          "original_segment_sha256": "98f4f84a68ca611b849cc67b75dc6694a0712d9c5998aec4799869aecd4f2aa0",
+          "header_characters": 244,
+          "original_to_rebased": [
+            [
+              "PARTRIDGE_NATURAL_VERSION_QUALIFICATION.md",
+              "../../../research/agent_frontier_portfolio_20261029/PARTRIDGE_NATURAL_VERSION_QUALIFICATION.md"
+            ]
+          ],
+          "footer_characters": 46
+        }
+      ]
+    },
+    {
+      "path": "research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md",
+      "normalized_sha256": "8aa6d774ded9c06cdd8835750b2f1d875e451f9ea25986e8be030c3cb9114bfa",
+      "normalized_bytes": 31804,
+      "parts": [
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/related_work_sources_20261030_1105.md",
+          "start_character": 0,
+          "end_character_exclusive": 7299,
+          "body_sha256": "e47474d9b44c810f3892e1daa08c1a3185705bb127594d0e9713ea692caed827",
+          "original_segment_sha256": "c3afd521ac9bc97d520cea58be43e8a7881ecc5455362dac0789b51dd1faf563",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "STAGE2_AGENT_RESEARCH_PLAN_20261102.md",
+              "../../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md"
+            ],
+            [
+              "SKILLEVOLBENCH_SOURCE_QUALIFICATION_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/SKILLEVOLBENCH_SOURCE_QUALIFICATION_20261030.md"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md",
+          "start_character": 7299,
+          "end_character_exclusive": 11231,
+          "body_sha256": "b7ff38c22024a3a3973af5a4b7f2aee7983dfd4fcbec8efb0a77ede257a9f9eb",
+          "original_segment_sha256": "a0da73b132fcb7ca9f5cdcd2116da149a513fde85ad93ade794dbe382ae0b230",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "prepare_rethinkskill_sphinx_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/prepare_rethinkskill_sphinx_20261105.py"
+            ],
+            [
+              "run_rethinkskill_source_candidate_20261105.py",
+              "../../../research/agent_frontier_portfolio_20261029/run_rethinkskill_source_candidate_20261105.py"
+            ]
+          ],
+          "footer_characters": 46
+        },
+        {
+          "path": "docs/archive/2026-11-06_agent_research_context/related_work_candidate_design_20261105.md",
+          "start_character": 11231,
+          "end_character_exclusive": 15787,
+          "body_sha256": "d314ca9792849f66207303231f21ea5b18174271c2a145b2c1f717f2cc96e382",
+          "original_segment_sha256": "36a45ce75f2e025ee43b12670e11b23411f2cc14771c91c0e94b50e3a9562acf",
+          "header_characters": 246,
+          "original_to_rebased": [
+            [
+              "DIALOGUE_PILOT_RETURN_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/DIALOGUE_PILOT_RETURN_20261030.md"
+            ],
+            [
+              "PREFIX_FEEDBACK_RETURN_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/PREFIX_FEEDBACK_RETURN_20261030.md"
+            ],
+            [
+              "INVOICE_AGENT_RETURN_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/INVOICE_AGENT_RETURN_20261030.md"
+            ],
+            [
+              "SKILLSHIFT_QUALIFICATION_20261030.md",
+              "../../../research/agent_frontier_portfolio_20261029/SKILLSHIFT_QUALIFICATION_20261030.md"
+            ],
+            [
+              "FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/FINANCIAL_FEEDBACK_CONTRACT_FINDING_20261031.md"
+            ],
+            [
+              "DEPENDENCY_SCOPE_REPEAT_RETURN_20261031.md",
+              "../../../research/agent_frontier_portfolio_20261029/DEPENDENCY_SCOPE_REPEAT_RETURN_20261031.md"
+            ]
+          ],
+          "footer_characters": 46
+        }
+      ]
+    },
+    {
+      "path": "memory/STATE.md",
+      "normalized_sha256": "f855c5e4f0f951f3f65288f6527f557199015ffe9383b07a6d95c01d4784c0e7",
+      "normalized_bytes": 12186,
+      "parts": [
+        {
+          "path": "memory/archive/STATE_2026-11-06_pre_context_neat.md",
+          "start_character": 0,
+          "end_character_exclusive": 6588,
+          "body_sha256": "82df805632598ea545f5670ca8166d1b55a1e280171fbe8d65ec837add3d0ed0",
+          "original_segment_sha256": "f855c5e4f0f951f3f65288f6527f557199015ffe9383b07a6d95c01d4784c0e7",
+          "header_characters": 0,
+          "original_to_rebased": [
+            [
+              "../docs/research/README.md",
+              "../../docs/research/README.md"
+            ],
+            [
+              "THREADS.md",
+              "../THREADS.md"
+            ],
+            [
+              "archive/STATE_2026-10-29_pre_neat.md",
+              "STATE_2026-10-29_pre_neat.md"
+            ],
+            [
+              "../docs/research/LOOP_D_RESEARCH_PROMPT.md#目标与恢复检查点2026-11-05",
+              "../../docs/research/LOOP_D_RESEARCH_PROMPT.md#目标与恢复检查点2026-11-05"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md",
+              "../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md"
+            ],
+            [
+              "../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md",
+              "../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/paper_e_icint_draft.md",
+              "../../research/paper_e_publication_route_20261028/paper_e_icint_draft.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/icint_latex/main.pdf",
+              "../../research/paper_e_publication_route_20261028/icint_latex/main.pdf"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md",
+              "../../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md",
+              "../../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md",
+              "../../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md"
+            ],
+            [
+              "../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md",
+              "../../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md",
+              "../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/SKILL_VERIFICATION_RETURN_20261101.md",
+              "../../research/agent_frontier_portfolio_20261029/SKILL_VERIFICATION_RETURN_20261101.md"
+            ],
+            [
+              "../docs/17_Graph_Engineering_多层Loop设计.md#科研协作增量从候选到可复核结果2026-11-05",
+              "../../docs/17_Graph_Engineering_多层Loop设计.md#科研协作增量从候选到可复核结果2026-11-05"
+            ],
+            [
+              "../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05",
+              "../../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md",
+              "../../research/agent_frontier_portfolio_20261029/EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md",
+              "../../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/AUTH_TRANSFER_AUTOPSY_20261102.md",
+              "../../research/agent_frontier_portfolio_20261029/AUTH_TRANSFER_AUTOPSY_20261102.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#恢复研究requests-自然任务对2026-11-05",
+              "../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#恢复研究requests-自然任务对2026-11-05"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#工具修复反馈接入与-astropy-批次2026-11-05",
+              "../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#工具修复反馈接入与-astropy-批次2026-11-05"
+            ],
+            [
+              "../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md",
+              "../../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md"
+            ],
+            [
+              "../docs/governance/2026-10-29_research_neat_closeout.md",
+              "../../docs/governance/2026-10-29_research_neat_closeout.md"
+            ]
+          ],
+          "footer_characters": 46
+        }
+      ]
+    },
+    {
+      "path": "memory/THREADS.md",
+      "normalized_sha256": "c6f6e956e32cf2448ae0aeb9d696c6831bfefea4d1e96693a42482e30f42a806",
+      "normalized_bytes": 9260,
+      "parts": [
+        {
+          "path": "memory/archive/THREADS_2026-11-06_pre_context_neat.md",
+          "start_character": 0,
+          "end_character_exclusive": 5118,
+          "body_sha256": "0774c5dea6d0d9912b8e334f97274d693bfc6ba90c024dbed8f4a84464511324",
+          "original_segment_sha256": "c6f6e956e32cf2448ae0aeb9d696c6831bfefea4d1e96693a42482e30f42a806",
+          "header_characters": 0,
+          "original_to_rebased": [
+            [
+              "archive/THREADS_2026-10-29_pre_neat.md",
+              "THREADS_2026-10-29_pre_neat.md"
+            ],
+            [
+              "STATE.md",
+              "../STATE.md"
+            ],
+            [
+              "../docs/research/LOOP_D_RESEARCH_PROMPT.md#目标与恢复检查点2026-11-05",
+              "../../docs/research/LOOP_D_RESEARCH_PROMPT.md#目标与恢复检查点2026-11-05"
+            ],
+            [
+              "../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md",
+              "../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/paper_e_icint_draft.md",
+              "../../research/paper_e_publication_route_20261028/paper_e_icint_draft.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md",
+              "../../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md"
+            ],
+            [
+              "../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md",
+              "../../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md"
+            ],
+            [
+              "../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/README.md",
+              "../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/README.md"
+            ],
+            [
+              "../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/LICENSES.md",
+              "../../research/publication_thesis_goals_v1/G1_SUBMISSION_PACKAGE/PAPER_E_PRIVATE_ARTIFACT_CANDIDATE/LICENSES.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md",
+              "../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/SKILL_VERIFICATION_RETURN_20261101.md",
+              "../../research/agent_frontier_portfolio_20261029/SKILL_VERIFICATION_RETURN_20261101.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md",
+              "../../research/agent_frontier_portfolio_20261029/DBSCAN_AGENT_PILOT_RETURN_20261102.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md",
+              "../../research/agent_frontier_portfolio_20261029/EARTHQUAKE_AGENT_DEVELOPMENT_20261103.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md",
+              "../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md"
+            ],
+            [
+              "../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#恢复研究requests-自然任务对2026-11-05",
+              "../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#恢复研究requests-自然任务对2026-11-05"
+            ],
+            [
+              "../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05",
+              "../../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05"
+            ],
+            [
+              "../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md",
+              "../../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md"
+            ],
+            [
+              "archive/THREADS_2026-10-21_pre_workspace_governance.md",
+              "THREADS_2026-10-21_pre_workspace_governance.md"
+            ]
+          ],
+          "footer_characters": 46
+        }
+      ]
+    }
+  ]
+}

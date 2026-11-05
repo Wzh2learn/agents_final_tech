@@ -103,6 +103,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证**：同一禁网镜像 debug rg 搜索由缺工具 exit1 变为固定 hash 的只读 rg 挂载 exit0，零模型。原生字段摘要诊断一次生成后通过官方三字段及外层提案验证，但 diff 只有末尾换行变化；不据此认定学习收益，也不声称完整原方法复现。
 - **证据**：[近邻接入记录](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)、[现役研究计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)、[离线工具探针](../../scripts/graph/research_tool_runtime.py)。原始请求、响应和 paired 工具日志保存在对应 GB10 私有证据目录。
 
+## C-5 研究入口按需加载与宿主搜索（2026-11-06）
+
+- **现场问题**：现役第二阶段计划累积超过100KB，STATE/THREADS又复制实验过程；规则仍强制旧搜索CLI，容易让接任Agent误读历史状态或多次加载同一证据。
+- **对策**：STATE只留恢复定位、THREADS只留未决，短计划仅承载当前比较和下一步；逐轮过程按主题分段归档、链接按新基址重定位，保留可逆映射与原文hash。科研默认宿主原生搜索，禁网执行层由D提供带来源材料；不臆造HTTP地址、不自动回退DeepSeek/Qwen搜索。
+- **验证**：上下文检查覆盖7份活文档的UTF-8字节、总额与本地链接；历史分段可逆重建。已启动Astropy输出只读收录，没有为整理重跑模型。文件绑定和索引通过不当成方法确认。
+- **证据**：`scripts/graph/research_context_check.py`、`docs/archive/2026-11-06_agent_research_context/MANIFEST.json`及同目录README；现役搜索规则在`graph-loop-rules`和唯一Loop D入口。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
