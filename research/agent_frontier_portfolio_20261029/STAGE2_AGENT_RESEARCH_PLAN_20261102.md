@@ -12,7 +12,7 @@ Matplotlib新隔离source和target四臂已完成：无历史/普通历史/普�
 
 源`Matplotlib23562`→目标`27361`的[隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)采用seed7201、context65536/output16384、每臂48POST/1500秒。三种经验均完整读入。无历史、普通历史、普通skill各1/1关键及150/150回归；结果卡1/1但149/150。skill少4POST，非缓存输入输出合计更高，时间未改善。本批含source与形成共124POST/2,789,460tokens。单任务开发，不把条件数/测试数当独立任务。
 
-此前Astropy四臂数值、成本与可读面降级见[原对照](results/ASTROPY_PROFILE_CONTROLS_20261106.md)。下一attempt在Astropy自己的`isolated_dependencies_20261106`下先source(seed7201)，形成新经验后target(seed7202)同配置比较；投影v2及base/gold控制已通过，不需重建基础设施。[Matplotlib资格](results/MATPLOTLIB_QUALIFICATION_20261106.md)与原raw继续保留。不同任务/重复之前不认证新方法。
+Astropy[新隔离复验合同](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)已写入；自己的`isolated_dependencies_20261106`下先source(seed7201)，形成新经验后target(seed7202)同配置比较。投影v2及base/gold控制已通过，不需重建基础设施。[旧四臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md)与[Matplotlib资格](results/MATPLOTLIB_QUALIFICATION_20261106.md)保留。不同任务/重复之前不认证新方法。
 
 ## 进入投稿稿制作的门槛
 
@@ -33,7 +33,7 @@ Matplotlib新隔离source和target四臂已完成：无历史/普通历史/普�
 | 要解决的具体问题 | 只加载这些材料 |
 | --- | --- |
 | 当前 Matplotlib 目标对照 | [当前批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)，再按其中路径读取私有completed/raw/冻结输入；不先扫全部历史。 |
-| Astropy资源与可读面边界 | [旧四臂及隔离修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)；不能复用旧source进入新隔离批次。 |
+| Astropy新隔离比较 | [本批合同与结果](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；[旧四臂及修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)单独保留，不混用source。 |
 | 真实任务时序 / SymPy | [来源和 SymPy](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md) |
 | Django 读取、前置反馈和同候选续修 | [Django](../../docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md) |
 | Sphinx 失败状态与摘要/续写 | [Sphinx](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md) |
