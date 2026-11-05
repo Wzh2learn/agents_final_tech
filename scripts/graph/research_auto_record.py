@@ -23,6 +23,15 @@ from scripts.graph.research_evidence_graph import validate, _unique_object
 _ID = re.compile(r"^[A-Za-z0-9_-]+__[-A-Za-z0-9_]+__seed[0-9]+$")
 
 
+class RecordingPendingError(RuntimeError):
+    """The episode may have run; inspect its reservation and recover, never rerun."""
+
+    def __init__(self, episode_id: str):
+        self.episode_id = episode_id
+        super().__init__(f"Recording pending for {episode_id}; the episode may have executed. "
+                         "Inspect its reservation and recover; do not rerun automatically.")
+
+
 def _paths(root: Path, episode_id: str) -> dict:
     if not _ID.fullmatch(episode_id):
         raise ValueError("invalid episode identifier")
@@ -188,6 +197,13 @@ def recover_episode(root: Path, episode_id: str, elapsed_seconds=None, *, abando
         raise ValueError("episode reservation missing")
     if not paths["terminal"].is_file() and not abandoned:
         raise ValueError("episode may still be running; no terminal marker")
+    if elapsed_seconds is None and paths["terminal"].is_file():
+        try:
+            terminal = _strict_json(paths["terminal"])
+            if terminal.get("episode_id") == episode_id:
+                elapsed_seconds = _number(terminal.get("elapsed_seconds"))
+        except (ValueError, OSError, UnicodeError):
+            pass  # Legacy or malformed terminal: duration remains unknown.
     if not paths["sidecar"].exists():
         receipt, costs, contract, cost_errors, token_source, posts_source = _costs(paths, elapsed_seconds)
         artifacts = []
@@ -254,15 +270,22 @@ def recorded_episode(root: Path, seed: int):
                 raise FileExistsError("episode already attempted or recorded")
             _write_new(p["reservation"], {"version": 1, "episode_id": episode_id})
             start = time.monotonic()
+            execution_returned = False
             try:
-                return func(task, condition)
+                result = func(task, condition)
+                execution_returned = True
+                return result
             finally:
+                elapsed_seconds = time.monotonic() - start
                 try:
                     _write_new(p["terminal"], {"version": 1, "episode_id": episode_id,
-                               "execution_returned": sys.exc_info()[0] is None})
-                    recover_episode(base, episode_id, time.monotonic() - start)
+                               "execution_returned": execution_returned,
+                               "elapsed_seconds": elapsed_seconds})
+                    recover_episode(base, episode_id, elapsed_seconds)
                 except Exception as exc:
-                    # Reservation remains. Never mask the execution result or retry.
+                    # Reservation remains; a successful episode must not look fully recorded.
                     print(f"research-auto-record: sidecar pending: {exc}", file=sys.stderr)
+                    if execution_returned:
+                        raise RecordingPendingError(episode_id) from exc
         return wrapped
     return decorate

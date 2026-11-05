@@ -8,7 +8,7 @@ import time
 
 import pytest
 
-from scripts.graph.research_auto_record import recorded_episode, recover_episode
+from scripts.graph.research_auto_record import RecordingPendingError, recorded_episode, recover_episode
 from scripts.graph import research_auto_record
 from scripts.graph.research_evidence_graph import validate
 
@@ -135,14 +135,86 @@ def test_sidecar_publish_failure_preserves_terminal_and_recovers(tmp_path, monke
     def run(task, condition):
         calls.append(1)
         (tmp_path / (EPISODE + '.completed.json')).write_text('{"status":"COMPLETED"}', encoding='utf-8')
-    run('source')
-    assert (tmp_path / (EPISODE + '.auto_terminal.json')).exists()
+    with pytest.raises(RecordingPendingError, match='do not rerun automatically') as error:
+        run('source')
+    assert error.value.episode_id == EPISODE
+    terminal = json.loads((tmp_path / (EPISODE + '.auto_terminal.json')).read_text(encoding='utf-8'))
+    assert terminal['execution_returned'] is True and terminal['elapsed_seconds'] >= 0
     assert not (tmp_path / (EPISODE + '.auto_record.json')).exists()
     with pytest.raises(FileExistsError):
         run('source')
     monkeypatch.setattr(research_auto_record.os, 'link', original)
     recover_episode(tmp_path, EPISODE)
-    assert calls == [1] and validate(tmp_path, artifacts(tmp_path)[1])['valid']
+    side, graph = artifacts(tmp_path)
+    assert calls == [1] and validate(tmp_path, graph)['valid']
+    assert side['costs']['elapsed_seconds'] == terminal['elapsed_seconds']
+
+
+def test_recording_failure_does_not_mask_episode_error(tmp_path, monkeypatch, capsys):
+    original = research_auto_record.os.link
+
+    def fail_sidecar(source, destination):
+        if str(destination).endswith('.auto_record.json'):
+            raise OSError('simulated publish failure')
+        return original(source, destination)
+
+    monkeypatch.setattr(research_auto_record.os, 'link', fail_sidecar)
+    calls = []
+
+    @recorded_episode(tmp_path, 7)
+    def run(task, condition):
+        calls.append(1)
+        raise ValueError('original episode failure')
+
+    with pytest.raises(ValueError, match='original episode failure'):
+        run('source')
+    assert 'sidecar pending' in capsys.readouterr().err
+    terminal = json.loads((tmp_path / (EPISODE + '.auto_terminal.json')).read_text(encoding='utf-8'))
+    assert terminal['execution_returned'] is False
+    with pytest.raises(FileExistsError):
+        run('source')
+    monkeypatch.setattr(research_auto_record.os, 'link', original)
+    recover_episode(tmp_path, EPISODE)
+    assert calls == [1]
+    assert artifacts(tmp_path)[0]['costs']['elapsed_seconds'] == terminal['elapsed_seconds']
+
+
+def test_success_inside_callers_except_still_reports_recording_failure(tmp_path, monkeypatch):
+    original = research_auto_record.os.link
+
+    def fail_sidecar(source, destination):
+        if str(destination).endswith('.auto_record.json'):
+            raise OSError('simulated publish failure')
+        return original(source, destination)
+
+    monkeypatch.setattr(research_auto_record.os, 'link', fail_sidecar)
+
+    @recorded_episode(tmp_path, 7)
+    def run(task, condition):
+        return 'complete'
+
+    try:
+        raise ValueError('caller error')
+    except ValueError:
+        with pytest.raises(RecordingPendingError):
+            run('source')
+
+
+@pytest.mark.parametrize('elapsed', [True, -1, '5', float('inf')])
+def test_recovery_rejects_invalid_terminal_elapsed(tmp_path, elapsed):
+    (tmp_path / (EPISODE + '.auto_reservation.json')).write_text('{}', encoding='utf-8')
+    (tmp_path / (EPISODE + '.auto_terminal.json')).write_text(json.dumps(
+        {'version': 1, 'episode_id': EPISODE, 'elapsed_seconds': elapsed}), encoding='utf-8')
+    recover_episode(tmp_path, EPISODE)
+    assert artifacts(tmp_path)[0]['costs']['elapsed_seconds'] is None
+
+
+def test_recovery_legacy_terminal_without_duration_is_unknown(tmp_path):
+    (tmp_path / (EPISODE + '.auto_reservation.json')).write_text('{}', encoding='utf-8')
+    (tmp_path / (EPISODE + '.auto_terminal.json')).write_text(json.dumps(
+        {'version': 1, 'episode_id': EPISODE, 'execution_returned': True}), encoding='utf-8')
+    recover_episode(tmp_path, EPISODE)
+    assert artifacts(tmp_path)[0]['costs']['elapsed_seconds'] is None
 
 
 def test_first_episode_creates_missing_private_root(tmp_path):
