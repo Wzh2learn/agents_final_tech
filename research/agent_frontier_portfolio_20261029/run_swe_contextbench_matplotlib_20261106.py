@@ -1,0 +1,267 @@
+#!/usr/bin/env python3
+"""Private Matplotlib ContextBench agent runner; no model calls in preflight."""
+from __future__ import annotations
+import argparse, difflib, hashlib, json, re, shutil, subprocess, sys, tarfile
+from collections import Counter
+from pathlib import Path, PurePosixPath
+from types import SimpleNamespace
+import pyarrow.parquet as pq
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+from scripts.graph.research_auto_record import recorded_episode
+from scripts.graph.research_tool_runtime import ripgrep_binding, RG_SHA256, OPENCODE
+import scripts.graph.research_auto_record as auto_record
+import scripts.graph.research_evidence_graph as evidence_graph
+import scripts.graph.research_tool_runtime as tool_runtime
+import qualify_swe_contextbench_matplotlib_20261106 as qual
+import qualify_swe_contextbench_sympy_20261104 as shared
+import run_swe_contextbench_sympy_20261104 as core
+import run_swe_contextbench_requests_20261105 as requests_runner
+import run_swe_contextbench_sphinx_20261105 as sphinx_runner
+from run_swe_contextbench_sphinx_20261105 import inspect_experience_reads
+
+PARENT=qual.ROOT/'matplotlib_agent_20261106'
+QUAL_SHA='b23f6980004b249b60902a6f68f82a561170a7d41209b8eecc4239609d1b9a25'
+QUAL_SCRIPT_SHA='b7910caf78f36ca35828a71874c8a76b46fd6d808444cde7c8f9fa3c1ec68ece'
+OVERLAYS={'source':'7591391ae24530151c051d1ec4e5c9cc92578d672929b82a3adaec6c54457e2f','target':'2aac128017a6ec3838809d260d270daabe754e7a80e55d475bb39c8f7393142c'}
+TARGET_MARKERS=('matplotlib__matplotlib-27361','pull/27361','issues/27361','#27361')
+DEFAULT_CONTEXT=65536; DEFAULT_OUTPUT=16384; DEFAULT_POSTS=48; DEFAULT_SECONDS=1500
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def env_for(task):return qual.OUT/'source_env' if task=='source' else qual.ROOT/'matplotlib_qualification_20261106/target_env'
+def site_for(task):return env_for(task)/'lib/python3.10/site-packages'
+def protocol(task):return SimpleNamespace(OUT=qual.OUT,SITE=site_for(task),LEGACY=qual.LEGACY)
+
+def row_for(task):
+ identity,dataset,rev,*_=qual.CASES[task]
+ cols=['instance_id','base_commit','problem_statement','test_patch','FAIL_TO_PASS','PASS_TO_PASS']
+ rows=[r for r in pq.read_table(qual.DATA/dataset,columns=cols).to_pylist() if r['instance_id']==identity]
+ if len(rows)!=1 or rows[0]['base_commit']!=rev:raise ValueError('identity mismatch')
+ return rows[0]
+
+def verify_source(task):
+ _,_,rev,archive_hash,_,_=qual.CASES[task];archive=qual.OUT/(task+'.tar.gz');clean=qual.OUT/task/'clean_base'
+ if sha(archive)!=archive_hash or not clean.is_dir() or any(p.is_symlink() for p in clean.rglob('*')):raise ValueError('archive or source links changed')
+ expected={}; materialized={}
+ with tarfile.open(archive,'r:gz') as tf:
+  for it in tf:
+   p=PurePosixPath(it.name)
+   if not p.parts or p.parts[0]!='matplotlib-'+rev or p.is_absolute() or '..' in p.parts or not(it.isdir() or it.isfile() or it.issym()):raise ValueError('unsafe archive')
+   if it.isdir():continue
+   rel=PurePosixPath(*p.parts[1:]).as_posix(); member=it
+   if it.issym():
+    link=PurePosixPath(it.linkname)
+    if len(link.parts)!=1 or link.name in ('.','..'):raise ValueError('unsafe link')
+    member=tf.getmember(str(p.parent/link))
+    if not member.isfile():raise ValueError('unsafe link target')
+   with tf.extractfile(member) as fp:digest=hashlib.sha256(fp.read()).hexdigest()
+   expected[rel]=digest
+   if it.issym():materialized[rel]={'target':it.linkname,'sha256':digest}
+ actual={p.relative_to(clean).as_posix():sha(p) for p in clean.rglob('*') if p.is_file()}
+ if actual!=expected or (clean/'.git').exists():raise ValueError('clean base changed')
+ if json.loads((qual.OUT/task/'materialized_links.json').read_text())!=materialized:raise ValueError('materialized link manifest changed')
+
+def check_overlay(task):
+ path=qual.OUT/task/'base_overlay.json'
+ if sha(path)!=OVERLAYS[task]:raise ValueError('overlay manifest changed')
+ result=json.loads(path.read_text());site=site_for(task)/'matplotlib'
+ for rel,digest in result.items():
+  p=PurePosixPath(rel)
+  if p.is_absolute() or '..' in p.parts or not (rel.endswith('.so') or rel=='_version.py') or sha(site/rel)!=digest:raise ValueError('overlay changed')
+ return result
+
+def preflight(task):
+ shared.checked_dataset()
+ frozen=qual.OUT/'qualify.py';current=Path(qual.__file__)
+ if sha(frozen)!=QUAL_SCRIPT_SHA or frozen.read_bytes().replace(b'\r\n',b'\n')!=current.read_bytes().replace(b'\r\n',b'\n'):raise ValueError('qualification script mismatch')
+ if sha(core.BASE)!=core.BASE_SHA or sha(qual.OUT/'receipt.json')!=QUAL_SHA:raise ValueError('base harness or receipt mismatch')
+ receipt=json.loads((qual.OUT/'receipt.json').read_text());c=receipt['cases'][task];spec=qual.CASES[task]
+ if c['id']!=spec[0] or c['base_commit']!=spec[2]:raise ValueError('qualification identity mismatch')
+ verify_source(task);check_overlay(task)
+ wheel=qual.OUT/'wheelhouse'/c['wheel_name']
+ if sha(wheel)!=c['wheel_sha256']:raise ValueError('wheel changed')
+ deps=subprocess.run([str(env_for(task)/'bin/python'),'-m','pip','freeze'],capture_output=True,text=True,check=True,timeout=60).stdout
+ if hashlib.sha256(deps.encode()).hexdigest()!=c['dependency_sha256'] or sha(qual.LEGACY/'bin/python3.10')!=receipt['python_sha256']:raise ValueError('environment changed')
+ row=row_for(task);task_file=qual.OUT/task/'task.txt'
+ if task_file.read_text()!=row['problem_statement'].replace('\r\n','\n').rstrip()+'\n' or sha(task_file)!=c['task_sha256']:raise ValueError('task mismatch')
+ if hashlib.sha256(row['test_patch'].encode()).hexdigest()!=c['arms']['base']['test_patch']['sha256']:raise ValueError('test patch mismatch')
+ for name,col in (('focus','FAIL_TO_PASS'),('regression','PASS_TO_PASS')):
+  p=qual.OUT/task/(name+'_nodes.json')
+  if sha(p)!=c[name+'_nodes_sha256'] or json.loads(p.read_text())!=json.loads(row[col]):raise ValueError('nodes changed')
+ for arm in ('base','gold'):
+  a=c['arms'][arm]
+  if a['focus']['exit']!=(1 if arm=='base' else 0) or a['regression']['exit']!=0:raise ValueError('unqualified tests')
+  for metric in ('focus','regression','issue_probe'):
+   log=qual.OUT/task/(arm+'_'+metric+'.log')
+   if sha(log)!=a[metric]['log_sha256']:raise ValueError('control log changed')
+  for metric in ('focus','regression'):
+   log=qual.OUT/task/(arm+'_'+metric+'.log')
+   rows=[l for l in log.read_text(errors='replace').splitlines() if l.startswith('QUALIFICATION_NODES ')]
+   if len(rows)!=1:raise ValueError('missing selection record')
+   selected=json.loads(rows[0].split(' ',1)[1]);expected=a[metric]['nodes_requested']
+   if selected['requested']!=expected or selected['selected']!=expected or selected['missing'] or selected['ambiguous']:raise ValueError('incomplete test coverage')
+  lines=(qual.OUT/task/(arm+'_issue_probe.log')).read_text(errors='replace').splitlines()
+  probes=[json.loads(l) for l in lines if l.startswith('{')]
+  if len(probes)!=1:raise ValueError('issue probe absent')
+  entries=probes[0]['cases']; expected_keys=('issue_get_facecolors_before_draw',) if task=='source' else ('issue_save_pdf','issue_save_png_300dpi')
+  for key in expected_keys:
+   v=entries[key]
+   if arm=='base' and (not v.get('exception') or v['exception']['type']!='AttributeError'):raise ValueError('base issue not reproduced')
+   if arm=='gold' and (v.get('exception') or not v.get('finite_rgba_and_shape_stable',v.get('render_semantics_pass'))):raise ValueError('gold issue not resolved')
+ ripgrep_binding();return c
+
+def derive(root,task,condition,experience,*,seed,max_posts,max_seconds,context_limit,output_limit):
+ code=requests_runner.derive(root,task,condition,experience,protocol=protocol(task),seed=seed)
+ base="shutil.copytree(src/'clean_base',work,dirs_exist_ok=True)"
+ ov=(base+'\nimport json as _overlay_json\n'+f"_manifest=Path({str(qual.OUT/task/'base_overlay.json')!r})\n"+f"if hashlib.sha256(_manifest.read_bytes()).hexdigest()!={OVERLAYS[task]!r}:raise ValueError('overlay manifest changed')\n"+f"_site=Path({str(site_for(task)/'matplotlib')!r})\n"+"for _rel,_sha in _overlay_json.loads(_manifest.read_text()).items():\n _s=_site/_rel;_d=work/'lib/matplotlib'/_rel\n if _d.exists() or hashlib.sha256(_s.read_bytes()).hexdigest()!=_sha:raise ValueError('unsafe or changed overlay')\n _d.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(_s,_d)\n")
+ code=core.replace_once(code,base,ov)
+ code=core.replace_once(code,"'--entrypoint','python3'","'--entrypoint','/extra/bin/python'")
+ code=core.replace_once(code,"'-e','PYTHONPATH=/deps'","'-e','PYTHONPATH=/root/lib:/deps','-e','MPLBACKEND=Agg','-e','MPLCONFIGDIR=/tmp/mpl'")
+ code=core.replace_once(code,'Use the checked-out repository and local Python dependencies; network access is unavailable.','Use the checked-out repository and local Python 3.10 dependencies; network access is unavailable. Use MPLBACKEND=Agg for graphics and python -m pytest -o addopts= followed by tests you choose.')
+ code=core.replace_once(code,'calls=[]; payload_bytes=[]; sampling=[];','calls=[]; payload_bytes=[]; sampling=[]; post_lock=threading.Lock(); post_count=[0];')
+ line="  line=first.split(b'\\r\\n',1)[0].rsplit(b' ',1)[0]"
+ guard=line+f"\n  if line.startswith(b'POST'):\n   with post_lock:\n    if post_count[0]>={max_posts}:\n     calls.append('DENIED_POST_LIMIT');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    post_count[0]+=1"
+ code=core.replace_once(code,line,guard)
+ code=core.replace_once(code,'line not in allowed or len(calls)>=24 or ','line not in allowed or ')
+ if max_seconds!=900:code=core.replace_once(code,'timeout=900)',f'timeout={max_seconds})')
+ code=core.replace_once(code,"{'context':32768,'output':8192}",repr({'context':context_limit,'output':output_limit}) if (context_limit,output_limit)!=(32768,8192) else "{'context':32768,'output':8192}")
+ code=core.replace_once(code,'cmd[_at:_at]=[','cmd[_at:_at]='+repr(ripgrep_binding())+'+[')
+ compile(code,'<matplotlib-agent-harness>','exec');return code
+
+def evaluate(task,case):
+ work=case/'work'
+ if any(p.is_symlink() for p in work.rglob('*')):return {'status':'UNRESOLVED_SYMLINK'}
+ out=case/'post_run_evaluation_restored_tests';out.mkdir();copy=out/'candidate'
+ shutil.copytree(work,copy,ignore=shutil.ignore_patterns('.git','__pycache__','.pytest_cache','instructions.txt','opencode.json','source_experience.md'))
+ clean=qual.OUT/task/'clean_base';testfile=Path(qual.CASES[task][5]);testdir=testfile.parent
+ if (copy/testdir).exists():shutil.rmtree(copy/testdir)
+ shutil.copytree(clean/testdir,copy/testdir)
+ restored=[]
+ for parent in [Path('.'),*list(testdir.parents)[::-1][1:]]+[testdir]:
+  rel=parent/'conftest.py';src=clean/rel;dst=copy/rel
+  if dst.is_symlink():raise ValueError('unsafe conftest')
+  if src.is_file():dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst);restored.append(rel.as_posix())
+  elif dst.exists():dst.unlink();restored.append(rel.as_posix()+' (candidate-only removed)')
+ for name in ('pytest.ini','pyproject.toml','setup.cfg','tox.ini'):
+  src=clean/name;dst=copy/name
+  if src.is_file():shutil.copyfile(src,dst);restored.append(name)
+  elif dst.exists():dst.unlink();restored.append(name+' (candidate-only removed)')
+ patch=qual.patch(copy,row_for(task)['test_patch'],out/'test.patch')
+ result={'status':'TEST_PATCH_CONFLICT','test_source':'FROZEN_BASE','restored':restored,'test_patch':patch,'regression_scope':'complete frozen PASS_TO_PASS with unique exact/prefix/class resolution'}
+ if len(patch['steps'])==2 and all(x['exit']==0 for x in patch['steps']):
+  result['status']='EVALUATED';result['issue_probe']=qual.run(copy,site_for(task),['-c',qual.PROBE,task],out/'issue_probe.log',task+'agentissue')
+  for m,col in (('focus','FAIL_TO_PASS'),('regression','PASS_TO_PASS')):
+   nodes=json.loads(row_for(task)[col]);result[m]=qual.run(copy,site_for(task),['-c',qual.LAUNCHER,json.dumps(nodes),qual.CASES[task][5]],out/(m+'.log'),task+'agent'+m);result[m]['nodes_requested']=len(nodes)
+ return result
+
+def build_experience(root,seed):
+ completed=root/f'source__none__seed{seed}.completed.json';record=json.loads(completed.read_text());case=root/f'source__none__seed{seed}';raw=case/'raw.jsonl';feedback=record['post_run_evaluation']
+ if record['status']!='COMPLETED' or feedback['status']!='EVALUATED' or sha(raw)!=record['raw_sha256']:raise ValueError('incomplete source episode')
+ for metric in ('focus','regression','issue_probe'):
+  if sha(case/'post_run_evaluation_restored_tests'/(metric+'.log'))!=feedback[metric]['log_sha256']:raise ValueError('source feedback changed')
+ actions=[]
+ for line in raw.read_text().splitlines():
+  ev=json.loads(line)
+  if ev.get('type')!='tool_use':continue
+  part=ev['part'];state=part.get('state',{});inp=json.dumps(state.get('input',{}),ensure_ascii=False);out=str(state.get('output',''))
+  actions.append({'tool':part.get('tool'),'status':state.get('status'),'input_prefix':inp[:600],'input_chars':len(inp),'input_sha256':hashlib.sha256(inp.encode()).hexdigest(),'output_tail':out[-800:],'output_chars':len(out),'output_sha256':hashlib.sha256(out.encode()).hexdigest()})
+ if not actions:raise ValueError('no source actions')
+ probe_lines=(case/'post_run_evaluation_restored_tests'/'issue_probe.log').read_text(errors='replace').splitlines()
+ probes=[json.loads(line) for line in probe_lines if line.startswith('{')]
+ if len(probes)!=1 or 'issue_get_facecolors_before_draw' not in probes[0]['cases']:raise ValueError('source issue probe missing')
+ source_issue=probes[0]['cases']['issue_get_facecolors_before_draw']
+ base=qual.OUT/'source/clean_base';work=case/'work';ignored={'lib/matplotlib/'+x for x in check_overlay('source')}
+ def tree(root):return {p.relative_to(root).as_posix():sha(p) for p in root.rglob('*') if p.is_file() and p.relative_to(root).as_posix() not in ignored and not any(x in ('.git','__pycache__','.pytest_cache') for x in p.parts) and p.name not in ('instructions.txt','opencode.json')}
+ before,after=tree(base),tree(work);changed=sorted(k for k in before.keys()|after.keys() if before.get(k)!=after.get(k));parts=[];omitted=[]
+ for name in changed:
+  a,b=base/name,work/name
+  if Path(name).suffix not in ('.py','.md','.txt') or any(p.is_file() and p.stat().st_size>1000000 for p in (a,b)):omitted.append(name);continue
+  left=a.read_text(encoding='utf8',errors='replace').splitlines(True) if a.is_file() else [];right=b.read_text(encoding='utf8',errors='replace').splitlines(True) if b.is_file() else []
+  parts.extend(difflib.unified_diff(left,right,fromfile='source-base/'+name,tofile='source-agent/'+name))
+ diff=''.join(parts)
+ source={'source_task':(qual.OUT/'source/task.txt').read_text(),'source_result':{'seed':seed,'agent_exit':record['agent_exit'],'posts':record['posts'],'request_limit_reached':record['posts']>=record['max_posts'],'focus_exit':feedback['focus']['exit'],'focus_count':feedback['focus']['nodes_requested'],'regression_exit':feedback['regression']['exit'],'regression_count':feedback['regression']['nodes_requested'],'regression_scope':feedback['regression_scope'],'original_issue_probe':source_issue},'changed_paths':changed}
+ digest=json.dumps(source,ensure_ascii=False,indent=2);history=json.dumps({**source,'source_artifact_diff_prefix':diff[:10000],'source_artifact_diff_chars':len(diff),'source_artifact_diff_sha256':hashlib.sha256(diff.encode()).hexdigest(),'source_artifact_diff_omitted_paths':omitted,'source_actions':actions},ensure_ascii=False,indent=2)
+ if any(m.casefold() in (history+raw.read_text()).casefold() for m in TARGET_MARKERS):raise ValueError('target literal in source experience')
+ out=root/'source_experience';out.mkdir();(out/'source_history.md').write_text('Source-only clipped history; feedback is stated first.\n'+history+'\n',encoding='utf8');(out/'feedback_card.md').write_text('Transparent source-only result digest; no inferred repair instructions.\n'+digest+'\n',encoding='utf8')
+ meta={'source_seed':seed,'source_raw_sha256':sha(raw),'source_completion_sha256':sha(completed),'actions':len(actions),'clipped_inputs':sum(a['input_chars']>600 for a in actions),'clipped_outputs':sum(a['output_chars']>800 for a in actions),'artifact_diff':{'cap':10000,'chars':len(diff),'sha256':hashlib.sha256(diff.encode()).hexdigest(),'omitted_paths':omitted},'scope':'source-only; literal screen is not evidence of semantic/pretraining isolation','artifacts':{p.name:sha(p) for p in out.iterdir() if p.is_file()}}
+ (out/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print(json.dumps(meta))
+
+def environment_preflight(root,task):
+ out=root/('preflight_'+task);out.mkdir(parents=True,exist_ok=False);work=out/'work';shutil.copytree(qual.OUT/task/'clean_base',work)
+ if qual.overlay(work,site_for(task))!=check_overlay(task):raise ValueError('overlay mismatch')
+ cmd=['docker','run','--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','2g','--pids-limit','128','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=128m','--tmpfs','/home/agent:rw,nosuid,size=128m','-e','HOME=/home/agent','-e','MPLBACKEND=Agg','-e','MPLCONFIGDIR=/tmp/mpl','-e','PYTHONDONTWRITEBYTECODE=1','-e','PYTHONPATH=/workspace/lib:/deps','--mount',f'type=bind,src={work},dst=/workspace,readonly','--mount',f'type=bind,src={qual.LEGACY},dst=/extra,readonly','--mount',f'type=bind,src={site_for(task)},dst=/deps,readonly',*ripgrep_binding(),'--workdir','/workspace','--entrypoint','/extra/bin/python',qual.IMAGE,'-c','import matplotlib,numpy; import matplotlib.pyplot as p; import mpl_toolkits.mplot3d.art3d as a; f=p.figure(); f.add_subplot(111).plot([0,1]); f.canvas.draw(); print(matplotlib.__version__,numpy.__version__,matplotlib.__file__,a.__file__)']
+ p=subprocess.run(cmd,capture_output=True,timeout=90);(out/'python.stdout').write_bytes(p.stdout);(out/'python.stderr').write_bytes(p.stderr)
+ if p.returncode:raise ValueError('python rendering preflight failed')
+ cmd=['docker','run','--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','1g','--pids-limit','128','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=128m','--tmpfs','/home/agent:rw,nosuid,size=128m','-e','HOME=/home/agent','-e','OPENCODE_DISABLE_MODELS_FETCH=1','--mount',f'type=bind,src={work},dst=/root,readonly','--mount',f'type=bind,src={OPENCODE},dst=/opt/opencode,readonly',*ripgrep_binding(),'--workdir','/root','--entrypoint','/opt/opencode',qual.IMAGE,'debug','rg','search','do_3d_projection','--pure']
+ r=subprocess.run(cmd,capture_output=True,timeout=90);(out/'rg.stdout').write_bytes(r.stdout);(out/'rg.stderr').write_bytes(r.stderr)
+ if r.returncode or not r.stdout:raise ValueError('offline opencode rg failed')
+ ns={'json':json};exec(core.CAPTURE,ns);body=json.dumps({'model':'mock'}).encode();head=b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: '+str(len(body)).encode()+b'\r\n\r\n';forwarded,meta,_=ns['capture_sampling'](head+body,len(body),lambda _:b'',core.TEMPERATURE,7201)
+ if json.loads(forwarded.split(b'\r\n\r\n',1)[1])['seed']!=7201 or meta['temperature']!=core.TEMPERATURE:raise ValueError('sampling override failed')
+ try:ns['capture_sampling'](head,len(body),lambda _:b'',core.TEMPERATURE,7201)
+ except EOFError:pass
+ else:raise ValueError('short request accepted')
+ return {'python_stdout_sha256':sha(out/'python.stdout'),'python_stderr_sha256':sha(out/'python.stderr'),'rg_stdout_sha256':sha(out/'rg.stdout'),'rg_stderr_sha256':sha(out/'rg.stderr'),'overlay_sha256':OVERLAYS[task],'ripgrep_sha256':RG_SHA256,'sampling_mock':'PASS'}
+
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--attempt-id',required=True);p.add_argument('--source-attempt-id');p.add_argument('--source-seed',type=int,default=core.SEED);p.add_argument('--seed',type=int,default=core.SEED);p.add_argument('--max-posts',type=int,default=DEFAULT_POSTS);p.add_argument('--max-seconds',type=int,default=DEFAULT_SECONDS);p.add_argument('--context-limit',type=int,default=DEFAULT_CONTEXT);p.add_argument('--output-limit',type=int,default=DEFAULT_OUTPUT)
+ a=p.add_mutually_exclusive_group(required=True);a.add_argument('--task',choices=('source','target'));a.add_argument('--build-experience',action='store_true');a.add_argument('--generate-skill',action='store_true')
+ p.add_argument('--condition',choices=('none','source_history','feedback_card','generated_skill'),default='none');p.add_argument('--experience',type=Path);p.add_argument('--experience-sha256');p.add_argument('--preflight-only',action='store_true');args=p.parse_args()
+ for x in (args.attempt_id,args.source_attempt_id):
+  if x is not None and not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,63}',x):p.error('invalid attempt id')
+ if not (0<=args.seed<2**31 and 0<=args.source_seed<2**31 and args.max_posts>0 and args.max_seconds>0 and 4096<=args.context_limit<=65536 and 0<args.output_limit<args.context_limit):p.error('invalid seed/limits')
+ root=PARENT/'attempts'/args.attempt_id;source_root=PARENT/'attempts'/(args.source_attempt_id or args.attempt_id)
+ if args.build_experience or args.generate_skill:
+  if args.condition!='none' or args.experience or args.experience_sha256 or args.preflight_only:p.error('incompatible arguments')
+  preflight('source')
+  if args.build_experience:build_experience(source_root,args.source_seed)
+  else:requests_runner.generate_skill(source_root)
+  return
+ if (args.condition=='none')!=(args.experience is None) or ((args.experience is None)!=(args.experience_sha256 is None)):p.error('experience and hash required together')
+ if args.task=='source' and args.condition!='none':p.error('source must have no experience')
+ if args.experience and (args.experience.is_symlink() or sha(args.experience)!=args.experience_sha256):raise ValueError('experience changed')
+ control=preflight(args.task);code=derive(root,args.task,args.condition,args.experience,seed=args.seed,max_posts=args.max_posts,max_seconds=args.max_seconds,context_limit=args.context_limit,output_limit=args.output_limit)
+ if args.preflight_only:
+  root.mkdir(parents=True,exist_ok=True);harness=root/('preflight_'+args.task+'.harness.py');report=root/('preflight_'+args.task+'.json')
+  if any(x.exists() for x in (harness,report,root/('preflight_'+args.task))):raise FileExistsError('preflight already exists')
+  with harness.open('x') as f:f.write(code)
+  env=environment_preflight(root,args.task);result={'status':'PREFLIGHT_PASS_NO_MODEL','task':args.task,'attempt_id':args.attempt_id,'runner_sha256':sha(Path(__file__)),'qualification_sha256':QUAL_SHA,'harness_sha256':sha(harness),'environment':env,'model_calls':0}
+  with report.open('x') as f:f.write(json.dumps(result,indent=2)+'\n')
+  print(json.dumps(result));return
+ target_freeze=None
+ if args.task=='target':
+  d=source_root/'source_experience';freeze=d/'target_input_freeze.json';files=('source_history.md','feedback_card.md','generated_skill.md');completed=source_root/f'source__none__seed{args.source_seed}.completed.json'
+  if not freeze.exists():
+   ledger=json.loads((d/'skill_generation_ledger.json').read_text());meta=json.loads((d/'metadata.json').read_text())
+   if ledger['status']!='RECEIVED' or ledger['finish_reason']!='stop' or meta['source_seed']!=args.source_seed or meta['source_completion_sha256']!=sha(completed):raise ValueError('source evidence or generated skill incomplete')
+   if any(meta['artifacts'][n]!=sha(d/n) for n in ('source_history.md','feedback_card.md')) or ledger['source_history_sha256']!=sha(d/'source_history.md') or ledger['skill_sha256']!=sha(d/'generated_skill.md'):raise ValueError('source artifact provenance mismatch')
+   if meta['source_raw_sha256']!=sha(source_root/f'source__none__seed{args.source_seed}'/'raw.jsonl'):raise ValueError('source raw changed')
+   record={'source_completion_sha256':sha(completed),'source_metadata_sha256':sha(d/'metadata.json'),'skill_generation_ledger_sha256':sha(d/'skill_generation_ledger.json'),'source_seed':args.source_seed,'artifacts':{n:sha(d/n) for n in files},'scope':'source-only; frozen before first target call; research team has seen target references'}
+   with freeze.open('x') as f:json.dump(record,f,indent=2)
+  record=json.loads(freeze.read_text())
+  if record['source_seed']!=args.source_seed or record['source_completion_sha256']!=sha(completed) or record['source_metadata_sha256']!=sha(d/'metadata.json') or record['skill_generation_ledger_sha256']!=sha(d/'skill_generation_ledger.json') or any(sha(d/n)!=h for n,h in record['artifacts'].items()):raise ValueError('source inputs changed')
+  if args.experience and (args.experience.resolve().parent!=d.resolve() or record['artifacts'].get(args.experience.name)!=args.experience_sha256 or args.experience.name!={'source_history':'source_history.md','feedback_card':'feedback_card.md','generated_skill':'generated_skill.md'}[args.condition]):raise ValueError('experience outside frozen set')
+  target_freeze=sha(freeze)
+ (root/'runtime').mkdir(parents=True,exist_ok=True)
+ @recorded_episode(root,args.seed)
+ def run(task,condition):
+  eid=f'{task}__{condition}__seed{args.seed}';case=root/eid;harness=root/(eid+'.harness.py');snapshot=root/(eid+'.outer_runner.py')
+  if any(q.exists() for q in (case,harness,snapshot,root/(eid+'.started.json'),root/(eid+'.completed.json'))):raise FileExistsError('episode already exists')
+  with harness.open('x') as f:f.write(code)
+  with snapshot.open('xb') as f:f.write(Path(__file__).read_bytes())
+  components={'core':Path(core.__file__),'requests_runner':Path(requests_runner.__file__),'qualification':Path(qual.__file__),'auto_record':Path(auto_record.__file__),'evidence_graph':Path(evidence_graph.__file__),'tool_runtime':Path(tool_runtime.__file__),'shared_qualification':Path(shared.__file__),'sphinx_runner':Path(sphinx_runner.__file__),'opencode':OPENCODE};component_hashes={n:sha(v) for n,v in components.items()}
+  plan={'status':'STARTED','component_sha256':component_hashes,'task':task,'condition':condition,'attempt_id':args.attempt_id,'seed':args.seed,'temperature':core.TEMPERATURE,'source_attempt_id':source_root.name,'source_seed':args.source_seed,'max_posts':args.max_posts,'max_seconds':args.max_seconds,'context_limit':args.context_limit,'output_limit':args.output_limit,'proxy_max_bytes':core.MAX_BYTES,'task_identity':control['id'],'base_commit':control['base_commit'],'harness_sha256':sha(harness),'outer_runner_snapshot_sha256':sha(snapshot),'runner_sha256':sha(Path(__file__)),'qualification_sha256':QUAL_SHA,'overlay_sha256':OVERLAYS[task],'ripgrep_sha256':RG_SHA256,'task_text_sha256':control['task_sha256'],'experience_sha256':args.experience_sha256,'target_input_freeze_sha256':target_freeze,'candidate_reference_hidden':True}
+  start=root/(eid+'.started.json');start.write_text(json.dumps(plan,indent=2)+'\n')
+  proc=subprocess.run([sys.executable,str(harness),task,'no_skill'],stdin=subprocess.DEVNULL,capture_output=True,timeout=args.max_seconds+120);(root/(eid+'.runner.stdout')).write_bytes(proc.stdout);(root/(eid+'.runner.stderr')).write_bytes(proc.stderr);plan.update({'runner_exit':proc.returncode,'started_sha256':sha(start)})
+  if sha(snapshot)!=plan['outer_runner_snapshot_sha256'] or any(sha(path)!=component_hashes[n] for n,path in components.items()):raise ValueError('runner snapshot or component changed')
+  ripgrep_binding()
+  if proc.returncode==0 and (case/'receipt.json').is_file():
+   r=json.loads((case/'receipt.json').read_text());raw=case/'raw.jsonl'
+   if sha(raw)!=r['raw_sha256']:raise ValueError('raw changed')
+   sample=case/'sampling_metadata.jsonl';metadata=[json.loads(s) for s in sample.read_text().splitlines()] if sample.is_file() else []
+   if Counter(json.dumps(x,sort_keys=True) for x in metadata)!=Counter(json.dumps(x,sort_keys=True) for x in r['sampling_metadata']):raise ValueError('sampling mismatch')
+   if (case/'frozen_instructions.txt').read_bytes()!=(qual.OUT/task/'task.txt').read_text().strip().encode():raise ValueError('task mismatch')
+   if args.experience and sha(args.experience)!=args.experience_sha256:raise ValueError('experience changed during run')
+   plan.update({'status':'COMPLETED','agent_exit':r['agent_exit'],'raw_sha256':r['raw_sha256'],'posts':sum(x.startswith('POST ') for x in r['model_http_requests']),'denied':[x for x in r['model_http_requests'] if x.startswith('DENIED')],'reported_tokens':sum(x.get('total',0) for x in r['step_finish_tokens']),'cache_read_included':sum(x.get('cache',{}).get('read',0) for x in r['step_finish_tokens']),'seed_and_temperature_forwarded':bool(metadata) and all(x['seed']==args.seed and x['temperature']==core.TEMPERATURE for x in metadata),'experience_read':inspect_experience_reads(raw,args.experience) if args.experience else None,'post_run_evaluation':evaluate(task,case)})
+  else:plan['status']='RUNNER_ERROR_REVIEW_RAW_AND_PROXY_LOG'
+  complete=root/(eid+'.completed.json');complete.write_text(json.dumps(plan,indent=2)+'\n');print(json.dumps({'receipt':str(complete),'sha256':sha(complete),'result':plan}))
+ run(args.task,args.condition)
+if __name__=='__main__':main()

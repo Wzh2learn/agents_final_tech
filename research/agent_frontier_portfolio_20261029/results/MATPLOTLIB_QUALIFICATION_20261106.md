@@ -37,3 +37,12 @@ GB10私有根：`/home/testuser/wzh/research_evidence/agent_learning_20261030/ma
 - `source/`、`target/`下各base/gold的原题、focus、regression日志及overlay、materialized_links清单可独立复核。第一套失败在相邻`matplotlib_qualification_20261106/`保留。
 
 一次限定范围的独立只读核对已复算回执、映射、原题结果及归档实体化文件，未见阻断；它是AI代码/文件核对，不是人工专业金标。此次新增模型、训练、judge、生产调用均0。下一步复用已修复的离线搜索、真实源执行、冻结经验与自动账本，先完成自然source，再开展同配置target强基线。
+
+
+## Agent 执行入口（尚未模型实跑）
+
+[运行器](../run_swe_contextbench_matplotlib_20261106.py)复用现有core/Requests派生、自动记录和固定rg，无全局模块参数替换。默认context65536/output16384、48转发POST/1500秒，seed/限额显式配置；source/target各使用对应冻结依赖。实际Agent完成后，评分副本恢复冻结测试、ancestor conftest与pytest配置，再独立跑原题和全部映射测试。
+
+零模型预检根：`matplotlib_agent_20261106/attempts/preflight3/`。当前原始runner SHA-256 `d0015ddf171a10644eea59ff24af52b553458e90a2ce3b4ce44bb4679d67e9f7`；source/target均通过隔离绘图、rg、源archive/overlay/完整节点及资格hash核验。`preflight2/post_cap_probe/receipt.json`记录50个并发虚拟POST仅放行48；`preflight1/evaluator_gold_probe/preflight_receipt.json`记录合成参考候选的测试篡改被还原，独立问题1/1、回归150/150且原候选保留。重复预检拒绝并保留旧hash。合成seed7244仅用来验证源经验构造，不计为Agent样本。
+
+独立只读源码核对确认当前文件与preflight3哈希一致、source工作区不包含gold/隐藏补丁/未来Git，未发现默认source命令的确定性阻断；实际行为仍待实跑。下一source执行用独立attempt `pilot_matplotlib_20261106`，默认seed7201；待当前Astropy四臂结束后串行启动，不争用模型。

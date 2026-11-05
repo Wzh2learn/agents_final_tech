@@ -1437,3 +1437,5 @@ echo dispatch_log updated
 [2026-11-06] RESEARCH-CONTEXT-NEAT: 默认科研联网切到Codex宿主原生搜索，不自动回退DeepSeek/Qwen；只读核验已启动Astropy普通skill臂完成，独立问题3/3、回归132/132但达24POST帽，批次单独归档。第二篇三份长文与STATE/THREADS共195,779归一化字节分18段保留，可逆链接/全文hash重建通过；短入口按需加载，新增UTF-8体量和本地链接门。此次治理无新模型生成/训练/judge；skill分发和三端同步以本轮实测为准，commit见本轮集成。
 
 [2026-11-06] ASTROPY-CONTROLS-AND-MATPLOTLIB-QUALIFICATION: 冻结结果卡完成24POST/298,054报告tokens，问题0/3、回归132/132；原Astropy组含形成共84POST/1,139,010tokens。轨迹复核发现源补丁完整读取但末次模型8192输出length，不能归因compaction。新增显式目标seed/context/output/调用与时间设置、源经验复用及确定性长行安全/源补丁结果基线；原默认harness4臂逐字节不变，新参数/原值roundtrip零模型验证12项。Matplotlib新项目原题、base/gold与完整136/150回归资格通过，保留首套ABI失败和混合构建边界；其模型调用0。用户已确认可调整本地实验配额；新同配置4臂按当前批次合同执行。
+
+[2026-11-06] MATPLOTLIB-AGENT-PREFLIGHT: 复用core/Requests派生、自动记录和固定rg，source/target零模型预检通过；50虚拟并发POST放行48，重复输出拒绝，合成gold评分恢复测试通过且候选不改写；源经验构造保留真实diff和原题结果。预检/合成数据不计Agent方法样本。实际source待Astropy同配置四臂完成后串行启动；当前四臂使用固定9c92521b组件，新增独立runner不修改其正在执行组件。
