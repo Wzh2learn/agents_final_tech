@@ -13,6 +13,11 @@ import subprocess
 import sys
 import tarfile
 
+_REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPOSITORY_ROOT))
+from scripts.graph.research_auto_record import recorded_episode
+
 import pyarrow.parquet as pq
 import qualify_swe_contextbench_django_20261104 as django
 import qualify_swe_contextbench_sympy_20261104 as shared
@@ -412,6 +417,7 @@ def reorder_history() -> None:
                       'control': info['feedback_order_control']}, ensure_ascii=False))
 
 
+@recorded_episode(ROOT, core.SEED)
 def run(task: str, condition: str) -> None:
     preflight()
     retry = condition in RETRY_CONDITIONS

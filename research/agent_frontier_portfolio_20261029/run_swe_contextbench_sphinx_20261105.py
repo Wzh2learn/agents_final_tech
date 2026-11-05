@@ -13,6 +13,9 @@ import subprocess
 import sys
 import tarfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from scripts.graph.research_auto_record import recorded_episode
+
 import pyarrow.parquet as pq
 import qualify_swe_contextbench_sphinx_20261105 as qual
 import qualify_swe_contextbench_sympy_20261104 as shared
@@ -362,6 +365,7 @@ def inspect_experience_reads(raw: Path, experience: Path, read_path: str = '/roo
                 seen.get(i) == expected[i - 1] for i in range(1, len(expected) + 1))}
 
 
+@recorded_episode(ROOT, core.SEED)
 def run(task: str, condition: str = 'none') -> None:
     preflight()
     if task == 'source' and condition != 'none':

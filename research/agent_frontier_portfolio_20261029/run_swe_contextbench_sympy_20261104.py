@@ -22,6 +22,11 @@ import tarfile
 import time
 import urllib.request
 
+_REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPOSITORY_ROOT))
+from scripts.graph.research_auto_record import recorded_episode
+
 import pyarrow.parquet as pq
 import qualify_swe_contextbench_sympy_20261104 as qual
 
@@ -526,6 +531,7 @@ def generate_skill() -> None:
     print(json.dumps(accounting, ensure_ascii=False))
 
 
+@recorded_episode(ROOT, SEED)
 def run(task: str, condition: str) -> None:
     preflight()
     runtime = ROOT / 'runtime'
