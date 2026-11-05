@@ -72,7 +72,9 @@ def source_fixture(root):
     (directory/'source_history.md').write_text('Source history\n'+json.dumps(history),encoding='utf8')
     (directory/'feedback_card.md').write_text('old result card\n',encoding='utf8')
     (directory/'generated_skill.md').write_text('source-only skill\n',encoding='utf8')
-    save(directory/'skill_generation_ledger.json', {'status':'RECEIVED','finish_reason':'stop'})
+    save(directory/'skill_generation_ledger.json', {'status':'RECEIVED','finish_reason':'stop',
+         'source_history_sha256':profiles.sha(directory/'source_history.md'),
+         'skill_sha256':profiles.sha(directory/'generated_skill.md')})
     save(directory/'metadata.json', {'source_completion_sha256':profiles.sha(complete),
          'source_raw_sha256':profiles.sha(raw), 'artifacts':{'source_history.md':profiles.sha(directory/'source_history.md')}})
     save(directory/'target_input_freeze.json', {'source_completion_sha256':profiles.sha(complete),
@@ -93,6 +95,18 @@ def test_history_roundtrip_retains_strings_and_structure():
 def test_history_never_truncates_an_oversized_remaining_field():
     with pytest.raises(ValueError, match='do not truncate'):
         profiles.render_history({'source_task':'short', 'unbounded': 'x' * 1900})
+
+
+def test_long_source_diff_is_literal_and_lossless_without_changing_short_format():
+    short = {'source_task': 'task\n', 'source_artifact_diff_prefix': '+small()\n'}
+    short_text = profiles.render_history(short)
+    assert 'Observed source diff:' not in short_text
+    diff = '--- source\n+++ candidate\n' + ''.join(f'+observed_call_{i}()\n' for i in range(120))
+    long = {**short, 'source_artifact_diff_prefix': diff, 'source_result': {'exit': 0}}
+    text = profiles.render_history(long)
+    assert diff in text
+    assert max(map(len, text.splitlines())) <= 1800
+    assert profiles.decode_history(text) == long
 
 
 def test_prepare_preserves_skill_and_qualifies_full_diff(tmp_path):
@@ -152,3 +166,36 @@ def test_legacy_inputs_cannot_be_relabelled_as_a_different_source(tmp_path):
     assert profiles.validate_profile(source/'source_experience', source) is None
     with pytest.raises(ValueError, match='source-bound profile'):
         profiles.validate_profile(other/'source_experience', source)
+
+
+def test_profile_can_be_prepared_before_any_target_in_this_attempt(tmp_path):
+    source, history = source_fixture(tmp_path)
+    out = tmp_path / 'prospective_profile'
+    record = profiles.prepare(source, out, timing='before_target')
+    assert record['preparation_timing'] == 'before_target_in_source_attempt'
+    assert record['scope'].startswith('prospective development')
+    assert profiles.decode_history((out/'source_history.md').read_text(encoding='utf8')) == history
+    assert profiles.validate_profile(out, source) == profiles.sha(out/'input_profile_manifest.json')
+
+
+@pytest.mark.parametrize('suffix', ['started', 'completed'])
+def test_late_profile_cannot_be_marked_before_target(tmp_path, suffix):
+    source, _ = source_fixture(tmp_path)
+    save(source / f'target__none__seed7202.{suffix}.json', {})
+    out = tmp_path / 'late_profile'
+    with pytest.raises(ValueError, match='target already'):
+        profiles.prepare(source, out, timing='before_target')
+    assert not out.exists()
+
+
+def test_profile_rejects_edited_skill_even_if_input_freeze_is_refreshed(tmp_path):
+    source, _ = source_fixture(tmp_path)
+    origin = source / 'source_experience'
+    (origin/'generated_skill.md').write_text('manually changed ordinary skill', encoding='utf8')
+    freeze = json.loads((origin/'target_input_freeze.json').read_text(encoding='utf8'))
+    freeze['artifacts']['generated_skill.md'] = profiles.sha(origin/'generated_skill.md')
+    save(origin/'target_input_freeze.json', freeze)
+    out = tmp_path / 'altered_skill_profile'
+    with pytest.raises(ValueError, match='generation provenance'):
+        profiles.prepare(source, out)
+    assert not out.exists()

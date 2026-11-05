@@ -8,6 +8,7 @@ from pathlib import Path
 
 TASK_START = '\n~~~~text\n'
 TASK_END = '\n~~~~\n\nSource execution record:\n~~~~json\n'
+DIFF_START = '\n~~~~\n\nObserved source diff:\n~~~~diff\n'
 END = '\n~~~~\n'
 
 
@@ -25,9 +26,17 @@ def render_history(history: dict) -> str:
     if '\n~~~~' in task:
         raise ValueError('source task conflicts with literal delimiter')
     remainder = {key: value for key, value in history.items() if key != 'source_task'}
-    text = ('Source-only history; same original values, with the task rendered literally.\n'
-            'Source task:' + TASK_START + task + TASK_END +
-            json.dumps(remainder, ensure_ascii=False, indent=2) + END)
+    prefix = ('Source-only history; same original values, with the task rendered literally.\n'
+              'Source task:' + TASK_START + task)
+    diff = remainder.get('source_artifact_diff_prefix')
+    literal_diff = isinstance(diff, str) and max(map(len, json.dumps(
+        {'source_artifact_diff_prefix': diff}, ensure_ascii=False, indent=2).splitlines())) > 1800
+    if literal_diff:
+        if '\n~~~~' in diff:
+            raise ValueError('source diff conflicts with literal delimiter')
+        remainder.pop('source_artifact_diff_prefix')
+        prefix += DIFF_START + diff
+    text = prefix + TASK_END + json.dumps(remainder, ensure_ascii=False, indent=2) + END
     if max(map(len, text.splitlines()), default=0) > 1800:
         raise ValueError('history still exceeds the read-tool line limit; do not truncate it')
     if decode_history(text) != history:
@@ -37,12 +46,21 @@ def render_history(history: dict) -> str:
 
 def decode_history(text: str) -> dict:
     payload = text.split(TASK_START, 1)[1]
-    task, remainder = payload.split(TASK_END, 1)
+    diff = None
+    if DIFF_START in payload:
+        task, payload = payload.split(DIFF_START, 1)
+        diff, remainder = payload.split(TASK_END, 1)
+    else:
+        task, remainder = payload.split(TASK_END, 1)
     if not remainder.endswith(END):
         raise ValueError('missing source-record end')
     record = json.loads(remainder[:-len(END)])
     if 'source_task' in record:
         raise ValueError('duplicate source task')
+    if diff is not None:
+        if 'source_artifact_diff_prefix' in record:
+            raise ValueError('duplicate source diff')
+        record['source_artifact_diff_prefix'] = diff
     return {'source_task': task, **record}
 
 
@@ -56,10 +74,16 @@ def render_patch_card(history: dict) -> str:
             '\n\nComplete observed source diff:\n~~~~diff\n' + diff + '\n~~~~\n')
 
 
-def prepare(source: Path, output: Path) -> dict:
+def prepare(source: Path, output: Path, *, timing: str = 'post_hoc') -> dict:
     if output.exists() or output.is_symlink():
         raise FileExistsError('preserve the existing profile and choose a new output directory')
     source = source.resolve()
+    if timing not in ('post_hoc', 'before_target'):
+        raise ValueError('unknown profile preparation timing')
+    if timing == 'before_target' and any(
+            list(source.glob(pattern)) for pattern in
+            ('target__*.started.json', 'target__*.completed.json')):
+        raise ValueError('target already started in this source attempt')
     directory = source / 'source_experience'
     complete = source / 'source__none__seed7201.completed.json'
     record = json.loads(complete.read_text(encoding='utf-8'))
@@ -93,6 +117,9 @@ def prepare(source: Path, output: Path) -> dict:
         if sha(log) != feedback[name]['log_sha256']:
             raise ValueError('source evaluation log changed')
     ledger = json.loads((directory / 'skill_generation_ledger.json').read_text(encoding='utf-8'))
+    if (ledger.get('source_history_sha256') != sha(history_path) or
+            ledger.get('skill_sha256') != sha(directory / 'generated_skill.md')):
+        raise ValueError('skill generation provenance changed')
     freeze = json.loads((directory / 'target_input_freeze.json').read_text(encoding='utf-8'))
     if (ledger['status'] != 'RECEIVED' or ledger['finish_reason'] != 'stop' or
         freeze['source_completion_sha256'] != sha(complete) or
@@ -116,10 +143,14 @@ def prepare(source: Path, output: Path) -> dict:
         'rendered_round_trip_canonical_sha256': canonical(decode_history(safe_history)),
         'history_max_line_characters': max(map(len, safe_history.splitlines())),
         'feedback_card_kind': 'actual_source_diff_and_verified_outcome',
-        'scope': 'post-hoc development controls after the original target outcomes; no new source generation',
+        'scope': ('prospective development controls before target runs in this source attempt; source already executed'
+                  if timing == 'before_target' else
+                  'post-hoc development controls after the original target outcomes; no new source generation'),
         'artifacts': {n: sha(output / n) for n in ('source_history.md', 'feedback_card.md',
                                                     'generated_skill.md', 'skill_generation_ledger.json')},
     }
+    if timing == 'before_target':
+        manifest['preparation_timing'] = 'before_target_in_source_attempt'
     with (output / 'input_profile_manifest.json').open('x', encoding='utf-8', newline='\n') as stream:
         json.dump(manifest, stream, ensure_ascii=False, indent=2)
         stream.write('\n')
@@ -139,6 +170,10 @@ def validate_profile(directory: Path, source: Path) -> str | None:
     completion = source / 'source__none__seed7201.completed.json'
     original = (origin / 'source_history.md').read_text(encoding='utf-8')
     history = json.loads(original[original.index('{'):])
+    ledger = json.loads((origin / 'skill_generation_ledger.json').read_text(encoding='utf-8'))
+    if (ledger.get('source_history_sha256') != sha(origin / 'source_history.md') or
+            ledger.get('skill_sha256') != sha(origin / 'generated_skill.md')):
+        raise ValueError('skill generation provenance changed')
     expected_files = {'source_history.md', 'feedback_card.md', 'generated_skill.md', 'skill_generation_ledger.json'}
     if (Path(record['source_attempt']).resolve() != source.resolve() or
         record['source_completion_sha256'] != sha(completion) or
@@ -160,8 +195,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-attempt', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--timing', choices=('post_hoc', 'before_target'), default='post_hoc')
     args = parser.parse_args()
-    result = prepare(args.source_attempt, args.output)
+    result = prepare(args.source_attempt, args.output, timing=args.timing)
     print(json.dumps(result, ensure_ascii=False))
 
 

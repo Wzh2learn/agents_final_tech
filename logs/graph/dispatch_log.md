@@ -1451,3 +1451,5 @@ echo dispatch_log updated
 [04:20] Matplotlib隔离target四臂完成并独立复核 → none/history/skill均1/1+150/150，feedback_card149/150；skill请求更少但未见净成本优势；新批合计124POST/2789460tokens；122项审阅证据双机hash复核 → 本次结果提交，科研Goal继续
 
 [04:30] Astropy隔离开发复验设计 → 新source7201/四target7202，统一64K/16K/48POST/1500s，零模型源输入冻结后派生profile，旧暴露输入不复用 → 本次合同提交
+
+[04:47] Astropy隔离source与编译完成 → 15POST/461994tokens，1/1+179/179；skill1POST/8900；新diff无损分行及before-target时间标签，绑定原生成；4B既有GGUF只读hash核实 → 本次准备提交

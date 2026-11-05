@@ -228,6 +228,7 @@ def main():
   if not freeze.exists():
    ledger=json.loads((d/'skill_generation_ledger.json').read_text())
    if ledger['status']!='RECEIVED' or ledger['finish_reason']!='stop':raise ValueError('ordinary skill incomplete')
+   if ledger.get('source_history_sha256')!=sha(source_root/'source_experience/source_history.md') or ledger.get('skill_sha256')!=sha(d/'generated_skill.md'):raise ValueError('ordinary skill generation provenance changed')
    record={'source_completion_sha256':sha(source_root/f'source__none__seed{core.SEED}.completed.json'),'skill_generation_ledger_sha256':sha(d/'skill_generation_ledger.json'),'artifacts':{n:sha(d/n) for n in files},'scope':'source-only inputs frozen before first target run; researchers have seen references'}
    if profile_sha:record.update({'input_profile_manifest_sha256':profile_sha,'source_attempt_id':source_root.name,'input_label':args.input_label})
    with freeze.open('x') as f:json.dump(record,f,indent=2)
