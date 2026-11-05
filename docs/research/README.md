@@ -1,6 +1,6 @@
 # 研究入口
 
-> 2026-11-05 | 当前科研导航。Paper E 与导师材料已发送，等待作者团队及导师反馈；第二阶段重点研究 Agent 经验学习和变化适配。Goal 当前为 paused，框架升级已完成本轮收尾，等待用户确认，详见[现役指令](LOOP_D_RESEARCH_PROMPT.md)。当前状态以 [STATE](../../memory/STATE.md) 为准，待决以 [THREADS](../../memory/THREADS.md) 为准；历史实验以原始日期回执及其更正为准。
+> 2026-11-05 | 当前科研导航。Paper E 与导师材料已发送，等待作者团队及导师反馈；第二阶段重点研究 Agent 经验学习和变化适配。Goal 已由用户恢复为 active，继续第二阶段研究，详见[现役指令](LOOP_D_RESEARCH_PROMPT.md)。当前状态以 [STATE](../../memory/STATE.md) 为准，待决以 [THREADS](../../memory/THREADS.md) 为准；历史实验以原始日期回执及其更正为准。
 
 | 需要 | 入口 |
 | --- | --- |

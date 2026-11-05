@@ -1427,3 +1427,7 @@ echo dispatch_log updated
 [2026-11-04] SWE-CONTEXTBENCH-DJANGO-EXPERIENCE: 源历史目标臂 4 POST / `46,215` 报告 tokens，实际只读前 73/82 行，源最终反馈位于第 79 行；skill 目标臂 17 POST / `206,376` 报告 tokens，完整读取 21/21 行；skill 生成另 1 POST / `22,845` tokens。两臂均未改源码、目标问题测试仍报错、17/17 回归通过。基于读取缺口，事后固定结构对象及字符数相同、将反馈从第 79 行移至第 4 行的透明顺序对照，尚未执行。证据、成本与近邻见 `research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md`；无训练、judge、付费 API、生产调用或外部发布。
 
 [2026-11-05] SWE-CONTEXTBENCH-DJANGO-FEEDBACK-ORDER: 同一结构对象的反馈前置臂读取前 73/82 行、实际读到第 4 行反馈，48 POST / 623,912 报告 tokens（含缓存 478,312），1 次超帽请求被拒；未改目标源码，目标问题测试报错、回归 17/17。随后无模型固定同一失败候选及原始回归反馈，准备 neutral/feedback 两臂继续修订；属于事后同题开发。候选清单与反馈哈希、资源口径和未决边界见现役研究计划；无训练、judge、付费 API、生产调用或外部发布。
+
+[2026-11-05] GOAL-RESUMED-RETHINKSKILL-DIAGNOSTIC: 用户确认框架升级并恢复科研Goal。Sphinx source-only长输出与schema约束诊断各1次POST，共58,839报告tokens（含cache 51,792），0训练/judge；前者正常结束但键名ration不合官方契约，后者6000输出截断，官方离线重放均未获得有效候选。不是方法效果比较；原请求/响应/账本保留。新requests自然问题对由隔离执行子任务资格化，未启动该任务模型。commit待本轮集成。
+
+[2026-11-05] REQUESTS-NATURAL-DEVELOPMENT: source独立问题1/1、回归子集73/73；target none与source_history均参考问题0/2、回归65/65，历史完整读取280/280。三条Agent共71转发POST，源skill生成1POST；加上两次接口诊断，本恢复阶段74POST/916,873报告tokens（缓存692,502已含），另2次超帽拒绝未转发。原题本地流式复核显示版本与gold合同差异，该对停止后续模型比较；全部raw、原评分与后验probe保留，未宣称方法成功/失败。自动记录三次绑定检查通过；同episode重复执行被生成前拒绝。0训练/judge/生产调用。commit见本轮集成。

@@ -27,12 +27,16 @@ def sha(path: Path) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument('--diagnostic-long', action='store_true',
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--diagnostic-long', action='store_true',
                         help='Separate post-hoc 6000-token output-cap diagnostic; no overwrite')
+    mode.add_argument('--constrained', action='store_true',
+                      help='Separate 6000-token schema-constrained transport diagnostic')
     args = parser.parse_args()
-    out = ROOT / ('rethinkskill_sphinx_direct_candidate_20261105_long' if args.diagnostic_long
+    out = ROOT / ('rethinkskill_sphinx_direct_candidate_20261105_constrained' if args.constrained else
+                 'rethinkskill_sphinx_direct_candidate_20261105_long' if args.diagnostic_long
                   else 'rethinkskill_sphinx_direct_candidate_20261105')
-    output_cap = 6000 if args.diagnostic_long else 2500
+    output_cap = 6000 if args.diagnostic_long or args.constrained else 2500
     if out.exists():
         raise FileExistsError('candidate already attempted; inspect prior ledger')
     task, policy, probe = INPUT / 'task.md', INPUT / 'optimizer_policy.md', INPUT / 'receipt.json'
@@ -45,6 +49,13 @@ def main() -> None:
                'max_tokens': output_cap, 'chat_template_kwargs': {'enable_thinking': False},
                'messages': [{'role': 'system', 'content': policy_text},
                             {'role': 'user', 'content': task_text}]}
+    if args.constrained:
+        payload['response_format'] = {'type': 'json_object', 'schema': {
+            'type': 'object', 'properties': {
+                'operation': {'type': 'string', 'enum': ['add', 'delete', 'replace', 'noop']},
+                'candidate_skill': {'type': 'string'}, 'rationale': {'type': 'string'}},
+            'required': ['operation', 'candidate_skill', 'rationale'],
+            'additionalProperties': False}}
     request_bytes = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode('utf8')
     if len(request_bytes) > 1_000_000:
         raise ValueError('source-only request unexpectedly large')
@@ -54,6 +65,7 @@ def main() -> None:
     ledger_path = out / 'ledger.json'
     ledger = {'status': 'ATTEMPT_STARTED', 'physical_http_attempts': 1, 'usage': None,
               'request_sha256': sha(request_path), 'source_task_sha256': TASK_SHA, 'output_cap': output_cap,
+              'schema_constrained': args.constrained,
               'scope': 'post-hoc source-only direct-model adaptation; no target execution or validation gate'}
     ledger_path.write_text(json.dumps(ledger, indent=2) + '\n', encoding='utf8')
     started = time.monotonic()
