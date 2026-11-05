@@ -1447,3 +1447,5 @@ echo dispatch_log updated
 [03:37] actor依赖可读面尸检与修复 → Astropy/Matplotlib wheel未来修复可读；旧数值保留并降级，新独立runtime/deps固定hash，拒绝旧source，零模型容器与base/gold控制完成 → 本次隔离修正提交
 
 [03:47] 隔离Matplotlib source真实执行 → 30POST/806684tokens，关键2/2、回归136/136，完整probe连同窄合同保留；target待冻结 → 本次源结果提交
+
+[04:20] Matplotlib隔离target四臂完成并独立复核 → none/history/skill均1/1+150/150，feedback_card149/150；skill请求更少但未见净成本优势；新批合计124POST/2789460tokens；122项审阅证据双机hash复核 → 本次结果提交，科研Goal继续
