@@ -11,6 +11,7 @@
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[科研证据图检查](../scripts/graph/research_evidence_graph.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
+| Agent 实验离线接续脚本 | [压缩轨迹复算](../research/agent_frontier_portfolio_20261029/audit_compaction_events_20261105.py)、[RethinkSkill 源适配探针](../research/agent_frontier_portfolio_20261029/prepare_rethinkskill_sphinx_20261105.py)、[源候选接口](../research/agent_frontier_portfolio_20261029/run_rethinkskill_source_candidate_20261105.py)、[复算测试](../research/agent_frontier_portfolio_20261029/test_audit_compaction_events_20261105.py)；真实调用须遵循当前目标和预算，现状见研究计划。 |
 | 导师确认材料 | [现役学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)、[转发 PDF](../output/pdf/advisor_brief_20261102.pdf) |
 | Paper E 当前审阅稿 | [ICINT 正文](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[PDF](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)、[ICDAR 备投工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)、[投稿路线](../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)；[v6](../research/paper_e_agent_evidence_20261029/paper_e_review_revision_v6.md)为历史详细稿 |
 | Paper E 长期问题与对标 | [战略复核与资产地图](research/PAPER_E_STRATEGIC_REVIEW_20261029.md)；当前投稿路线以现役审阅稿和 STATE 为准 |
