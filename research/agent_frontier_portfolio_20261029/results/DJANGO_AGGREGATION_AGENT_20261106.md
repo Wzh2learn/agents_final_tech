@@ -16,7 +16,8 @@ source seed7201、target seed7202，temperature0.2，每episode48POST/1200秒/6M
 
 | 输入 | SHA-256 / 配置 |
 | --- | --- |
-| source依赖投影manifest | `387f9d8f11bb154c3b5cb77fd94dd5bb7cd898bf7e6383dabad43052a6ad4483`，Python3.8 |
+| source依赖投影v1 manifest | `387f9d8f11bb154c3b5cb77fd94dd5bb7cd898bf7e6383dabad43052a6ad4483`，Python3.8；完整评测暴露缺依赖，未用于模型执行 |
+| source依赖投影v2 manifest | `f76dc69ba650e61c49a81611392dabf15b65c5d67b7c8fc0ae03bac10c10c16c`，保留旧投影，加入原环境已有typing_extensions/pytz |
 | target依赖投影manifest | `196a1cfb4cb2d98fddb66ac56bed81ee90868b8e608fc15055b0e051f8a33efc`，Python3.10 |
 | 模型profile | `acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab6d0`，独立loopback18104 |
 | 8B GGUF | `d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785` |
@@ -30,4 +31,12 @@ Python、Django源码导入和source跨容器socket查询在零模型预检中�
 
 两次PG初始启动因镜像初始化脚本固定使用标准socket目录而失败；退出码、日志和两个失败回执保留。绑定标准`/var/run/postgresql`后第三次启动成功，未发生模型调用。该新环境仅有1次模型health GET，0生成；先前小模型资格7POST/44,800tokens归[独立资格批次](QWEN4B_TOOL_QUALIFICATION_20261106.md)，不算本批方法结果。
 
+更完整的gold预检发现，顶层`import django`通过不能保证测试路径可运行：source的asgiref需要`typing_extensions.ParamSpec`，隔离后原环境的隐式依赖消失。v1失败记录保留，v2仅从原Python3.8环境补typing_extensions与Django3.1所需pytz，不恢复整个site-packages；新投影仍排除Django安装源码。target完整路径另核。准备阶段问题不计作Agent任务失败。
+
 当前检查点：实现和验证新runner，提交固定代码后运行真实source；随后冻结源经验再执行目标比较。运行期间不改已启动harness及其绑定组件，不把预检或候选生成当方法成立。
+
+## 运行器资格（首次生成前）
+
+[新runner](../run_django_aggregation_agent_20261106.py)与[合同测试](../../../tests/test_django_aggregation_runner.py)已核对。远端8项定点测试通过（含Python3.8投影）；无历史source/target已接入自动记录、完整外层/组件快照和退出后独立评测。经验冻结与skill形成接口尚未实现，非none条件明确拒绝，不能把预定四臂写成已执行。
+
+完整合成gold控制：source关键1/1、可映射回归65/65与新PG评测库原题均通过，target关键6/6、回归166/166与SQLite原题均通过。`preflight_django_runner_20261106_v2/receipt.json` SHA `878d825dac2758bc74ce079cac759daa005643435081cf473ed2f6ae43cf4a36`。随后base控制保持原题/关键失败、回归通过，实际合成请求验证18104模型及7201/7202种子转发；v3 receipt SHA `7c710cf5530ea7a5c27651c83885f4f448156e977725cd9ae8e861ba0005fb01`。这两批均0科研生成，非模型成功样本。

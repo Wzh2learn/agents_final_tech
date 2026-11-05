@@ -1,0 +1,512 @@
+#!/usr/bin/env python3
+"""Private Django aggregation development episodes on a frozen 8B profile.
+
+No network/model/DB operation occurs on import.  The source/target actor sees
+only its frozen baseline, problem statement, isolated dependencies, model
+bridge, and (source only) a separately owned PostgreSQL Unix socket.
+"""
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import hashlib
+import json
+import os
+from pathlib import Path, PurePosixPath
+import re
+import shutil
+import stat
+import subprocess
+import sys
+import tarfile
+import time
+from types import SimpleNamespace
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from scripts.graph.research_auto_record import recorded_episode
+from scripts.graph import research_actor_dependencies
+from scripts.graph.research_tool_runtime import ripgrep_binding
+import qualify_swe_contextbench_sympy_20261104 as shared
+import run_swe_contextbench_sympy_20261104 as core
+import run_swe_contextbench_requests_20261105 as requests_runner
+from run_swe_contextbench_sphinx_20261105 import inspect_experience_reads
+
+PRIVATE_ROOT = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030')
+QUAL = PRIVATE_ROOT / 'django_aggregation_qualification_20261106'
+PARENT = PRIVATE_ROOT / 'django_aggregation_agent_20261106'
+DATA = PRIVATE_ROOT / 'swe_contextbench_data_20261104'
+QUAL_SHA = '46f67e61c87e2e3d118189fbce9ce45a9cbf105eb8440ff2eee6d43d67dd16cc'
+SOURCE_IMAGE = 'sha256:648a1999badfe683239ec49e05b2a508e37f762213478122c58fa713f6c00f58'
+CASES = {
+    'source': ('django__django-12589', 'SWEContextBench_Lite_Experience.parquet',
+               '895f28f9cbed817c00ab68770433170d83132d90', '3.8', 7201),
+    'target': ('django__django-34176', 'SWEContextBench_Related_Lite.parquet',
+               '016bead6a23989adec5c7ee6948db7ce2fc5e89b', '3.10', 7202),
+}
+PROJECTIONS = {
+    'source': ('actor_source_v2', 'f76dc69ba650e61c49a81611392dabf15b65c5d67b7c8fc0ae03bac10c10c16c'),
+    'target': ('actor_target', '196a1cfb4cb2d98fddb66ac56bed81ee90868b8e608fc15055b0e051f8a33efc'),
+}
+MAX_POSTS, MAX_SECONDS, MAX_BYTES = 48, 1200, 6_000_000
+
+
+def sha(path: Path) -> str:
+    h = hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for block in iter(lambda: f.read(1024 * 1024), b''):
+            h.update(block)
+    return h.hexdigest()
+
+
+def private_directory(path: Path, root: Path) -> Path:
+    path, root = Path(path), Path(root)
+    if not path.is_absolute() or not root.is_absolute() or path.is_symlink():
+        raise ValueError('private path must be absolute and not a symlink')
+    resolved = path.resolve()
+    if not resolved.is_relative_to(root.resolve()) or not resolved.is_dir():
+        raise ValueError('path is outside the declared private directory')
+    return resolved
+
+
+def attempt_root(parent: Path, attempt_id: str) -> Path:
+    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,63}', attempt_id):
+        raise ValueError('invalid attempt identifier')
+    return Path(parent) / 'attempts' / attempt_id
+
+
+def validate_model_profile(path: Path, digest: str) -> dict:
+    if path.is_symlink() or sha(path) != digest:
+        raise ValueError('model profile missing or hash mismatch')
+    p = json.loads(path.read_text(encoding='utf8'))
+    keys = {'version', 'host', 'port', 'model_id', 'gguf_path', 'gguf_sha256',
+            'context', 'output', 'pid', 'server_executable_sha256', 'thinking', 'ownership'}
+    if set(p) != keys or (p['version'], p['host'], p['port'], p['model_id'], p['context'], p['output']) != (
+            1, '127.0.0.1', 18104, 'qwen3-8b-qual', 32768, 8192):
+        raise ValueError('unexpected model endpoint/profile')
+    if p['ownership'] != 'research_django_aggregation_20261106' or p['thinking'] != 'default_template':
+        raise ValueError('unrecognized research server ownership/thinking')
+    if not isinstance(p['pid'], int) or p['pid'] <= 0 or not re.fullmatch(r'[0-9a-f]{64}', p['server_executable_sha256']):
+        raise ValueError('invalid server identity')
+    model = Path(p['gguf_path'])
+    if not model.is_absolute() or model.is_symlink() or not model.is_file() or sha(model) != p['gguf_sha256']:
+        raise ValueError('model weights changed')
+    return p
+
+
+def verify_server_argv(argv: list, profile: dict) -> None:
+    expected = {'-m': profile['gguf_path'], '--host': profile['host'], '--port': str(profile['port']),
+                '--alias': profile['model_id'], '-c': str(profile['context']), '-n': str(profile['output']), '-np': '1'}
+    for flag, value in expected.items():
+        if argv.count(flag) != 1 or argv.index(flag) + 1 >= len(argv) or argv[argv.index(flag)+1] != value:
+            raise ValueError('live server command disagrees with profile: ' + flag)
+    if argv.count('--no-context-shift') != 1: raise ValueError('live server permits context shifting')
+
+
+def verify_live_backend(profile: dict) -> dict:
+    proc = Path('/proc') / str(profile['pid'])
+    argv = (proc / 'cmdline').read_bytes().decode('utf8').rstrip('\0').split('\0')
+    verify_server_argv(argv, profile)
+    binary_hash = sha(proc / 'exe')
+    if binary_hash != profile['server_executable_sha256']: raise ValueError('live server executable changed')
+    sockets = set()
+    for fd in (proc / 'fd').iterdir():
+        try:
+            m = re.fullmatch(r'socket:\[([0-9]+)\]', os.readlink(fd))
+            if m: sockets.add(m.group(1))
+        except FileNotFoundError: pass
+    port = f"{profile['port']:04X}"
+    listeners = [line.split() for line in (proc / 'net/tcp').read_text().splitlines()[1:]]
+    if not any(row[1] == '0100007F:' + port and row[3] == '0A' and row[9] in sockets for row in listeners):
+        raise ValueError('profile process does not own expected loopback listener')
+    return {'pid': profile['pid'], 'executable_sha256': binary_hash,
+            'cmdline_sha256': hashlib.sha256((proc / 'cmdline').read_bytes()).hexdigest(),
+            'owns_loopback_listener': True}
+
+
+def verify_live_postgres(pg: dict) -> dict:
+    proc = subprocess.run(['docker', 'inspect', pg['container_id']], capture_output=True, check=True, timeout=30)
+    identity = json.loads(proc.stdout)[0]; host = identity['HostConfig']; cfg = identity['Config']
+    matches = [m for m in identity['Mounts'] if m.get('Destination') == '/var/run/postgresql']
+    if (identity['Id'] != pg['container_id'] or identity['Image'] != pg['image_id']
+            or identity['Name'].lstrip('/') != pg['container_name'] or host['NetworkMode'] != 'none'
+            or host.get('PortBindings') or host.get('PublishAllPorts') or not identity['State']['Running']
+            or (cfg.get('Labels') or {}).get('jinrong.research.owner') != 'django_aggregation_20261106'
+            or len(matches) != 1 or matches[0].get('Source') != pg['host_socket_dir']):
+        raise ValueError('private postgres container identity/mount changed')
+    return {'container_id': identity['Id'], 'image_id': identity['Image'], 'network': 'none',
+            'host_ports': False, 'socket_mount_source': matches[0]['Source']}
+
+
+def require_socket_manifest(path: Path, digest: str, parent: Path) -> dict:
+    path = Path(path)
+    if path.is_symlink() or not path.is_file() or sha(path) != digest:
+        raise ValueError('socket manifest missing or changed')
+    p = json.loads(path.read_text(encoding='utf8'))
+    keys = {'version', 'container_name', 'container_id', 'image_id', 'host_socket_dir',
+            'actor_socket_dir', 'database', 'user', 'network', 'host_ports'}
+    if not keys.issubset(p) or p['version'] != 1 or p['network'] != 'none' or p['host_ports'] is not False:
+        raise ValueError('invalid private postgres socket manifest')
+    if (p['actor_socket_dir'], p['database'], p['user']) != ('/research-pg', 'research_probe', 'research_probe'):
+        raise ValueError('unexpected private database identity')
+    if not p['container_name'].startswith('research-django-aggregation-agent-20261106-') or p.get('owner') != 'django_aggregation_20261106':
+        raise ValueError('postgres service is not task-owned')
+    if not re.fullmatch(r'[a-f0-9]{12,64}', p['container_id']) or not re.fullmatch(r'sha256:[a-f0-9]{64}', p['image_id']):
+        raise ValueError('invalid container identity')
+    directory = private_directory(Path(p['host_socket_dir']), parent)
+    if not re.fullmatch(r'pg_socket(?:_v[0-9]+)?', directory.name) or directory.parent != Path(parent).resolve():
+        raise ValueError('socket must be in the task-specific socket directory')
+    for item in directory.iterdir():
+        if item.is_symlink() or item.name not in {'.s.PGSQL.5432', '.s.PGSQL.5432.lock'}:
+            raise ValueError('unexpected socket directory content')
+    socket = directory / '.s.PGSQL.5432'
+    if not socket.exists() or not stat.S_ISSOCK(socket.stat().st_mode):
+        raise ValueError('private postgres socket unavailable')
+    return p
+
+
+def actor_projection(path: Path, digest: str, task: str) -> dict:
+    name, expected = PROJECTIONS[task]
+    if path.is_symlink() or path.resolve() != (PARENT / name).resolve() or digest != expected:
+        raise ValueError('unexpected actor projection')
+    result = research_actor_dependencies.verify_projection(path, digest)
+    manifest = json.loads((path / 'manifest.json').read_text())
+    if manifest.get('python') != CASES[task][3] or 'django' not in manifest.get('blocked_packages', []):
+        raise ValueError('projection Python or blocked package mismatch')
+    expected_sites = {'default', 'pgdriver'} if task == 'source' else {'default'}
+    if set(result['sites']) != expected_sites:
+        raise ValueError('unexpected actor site set')
+    return result
+
+
+def rebind_model(code: str, profile: dict) -> str:
+    old = "socket.create_connection(('127.0.0.1',8004),timeout=30)"
+    code = core.replace_once(code, old, f"socket.create_connection(({profile['host']!r},{profile['port']}),timeout=30)")
+    if code.count('qwen3.6-35b-a3b') < 2 or 'Qwen3.6-35B-A3B' not in code:
+        raise ValueError('model alias fragments missing')
+    return code.replace('qwen3.6-35b-a3b', profile['model_id']).replace('Qwen3.6-35B-A3B', profile['model_id'])
+
+
+def clean_root(task: str) -> Path:
+    return QUAL / ('sqlite_' + task) / 'clean'
+
+
+def verify_clean_archive(task: str, case: dict) -> None:
+    root = clean_root(task); archive = QUAL / (task + '.tar.gz')
+    if root.is_symlink() or not root.is_dir() or sha(archive) != case['archive_sha256']:
+        raise ValueError('frozen baseline unavailable')
+    expected, skipped = {}, []
+    with tarfile.open(archive, 'r:gz') as tf:
+        for item in tf:
+            p = PurePosixPath(item.name)
+            if not p.parts or p.parts[0] != 'django-' + case['base'] or p.is_absolute() or '..' in p.parts:
+                raise ValueError('unsafe source archive')
+            if item.issym():
+                skipped.append(item.name); continue
+            if item.isdir(): continue
+            if not item.isfile(): raise ValueError('unexpected archive entry')
+            with tf.extractfile(item) as stream:
+                expected[PurePosixPath(*p.parts[1:]).as_posix()] = hashlib.sha256(stream.read()).hexdigest()
+    actual = {p.relative_to(root).as_posix(): sha(p) for p in root.rglob('*') if p.is_file()}
+    if actual != expected or sorted(skipped) != sorted(case['omitted_symlinks']) or (root / '.git').exists():
+        raise ValueError('baseline differs from qualified archive')
+    if any(p.is_symlink() for p in root.rglob('*')):
+        raise ValueError('baseline has a symlink')
+
+
+def row_for(task: str, *, include_reference: bool = False) -> dict:
+    import pyarrow.parquet as pq
+    identity, file, rev, _, _ = CASES[task]
+    cols = ['instance_id', 'base_commit', 'problem_statement']
+    if include_reference: cols += ['test_patch']
+    rows = [r for r in pq.read_table(DATA / file, columns=cols).to_pylist() if r['instance_id'] == identity]
+    if len(rows) != 1 or rows[0]['base_commit'] != rev:
+        raise ValueError('dataset instance/revision mismatch')
+    return rows[0]
+
+
+def qualification(task: str) -> dict:
+    shared.checked_dataset()
+    path = QUAL / 'sqlite_receipt.json'
+    if sha(path) != QUAL_SHA: raise ValueError('qualification receipt changed')
+    c = json.loads(path.read_text())['cases'][task]
+    if (c['id'], c['base']) != CASES[task][:1] + CASES[task][2:3]:
+        raise ValueError('qualification identity changed')
+    for arm in ('base', 'gold'):
+        a = c['arms'][arm]
+        if a['focus']['exit'] != (1 if arm == 'base' else 0) or a['regression']['exit'] != 0:
+            raise ValueError('qualification controls failed')
+        for metric in ('focus', 'regression'):
+            if sha(QUAL / ('sqlite_' + task) / (arm + '_' + metric + '.log')) != a[metric]['sha256']:
+                raise ValueError('qualification log changed')
+    verify_clean_archive(task, c)
+    return c
+
+
+def restore_candidate(work: Path, clean: Path, output: Path) -> None:
+    if output.exists() or output.is_symlink(): raise FileExistsError('preserve prior evaluation')
+    if any(p.is_symlink() for p in work.rglob('*')): raise ValueError('candidate symlink requires review')
+    shutil.copytree(work, output, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache',
+                    'instructions.txt', 'opencode.json', 'source_experience.md'))
+    if (output / 'tests').exists(): shutil.rmtree(output / 'tests')
+    shutil.copytree(clean / 'tests', output / 'tests')
+    for p in output.rglob('conftest.py'):
+        if not (clean / p.relative_to(output)).is_file(): p.unlink()
+    for p in clean.rglob('conftest.py'):
+        target = output / p.relative_to(clean)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(p, target)
+    for rel in ('conftest.py', 'pytest.ini', 'pyproject.toml', 'setup.cfg', 'tox.ini'):
+        old, dest = clean / rel, output / rel
+        if old.is_file(): shutil.copy2(old, dest)
+        elif dest.exists(): dest.unlink()
+
+
+def derive(root: Path, task: str, condition: str, experience: Path | None,
+           actor: dict, profile: dict, task_file: Path, pg: dict | None) -> str:
+    protocol = SimpleNamespace(OUT=QUAL, SITE=Path(actor['sites']['default']), LEGACY=Path(actor['runtime']))
+    code = requests_runner.derive(root, task, condition, experience, protocol=protocol, seed=CASES[task][4])
+    code = rebind_model(code, profile)
+    code = core.replace_once(code, "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')",
+        "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')\n payload['model']=" + repr(profile['model_id']))
+    code = core.replace_once(code, "shutil.copytree(src/'clean_base',work,dirs_exist_ok=True)",
+        f"shutil.copytree(Path({str(clean_root(task))!r}),work,dirs_exist_ok=True)")
+    code = core.replace_once(code, "(src/'task.txt').read_text(encoding='utf8').strip()",
+        f"Path({str(task_file)!r}).read_text(encoding='utf8').strip()")
+    code = core.replace_once(code, "'--entrypoint','python3'", "'--entrypoint','/extra/bin/python'")
+    code = core.replace_once(code, 'Use the checked-out repository and local Python dependencies; network access is unavailable.',
+        'Use the checked-out repository and isolated Python dependencies; network access is unavailable.' +
+        (' PostgreSQL is available only via PGHOST=/research-pg, PGUSER=research_probe, PGDATABASE=research_probe.' if pg else ''))
+    code = core.replace_once(code, 'calls=[]; payload_bytes=[]; sampling=[];',
+        'calls=[]; payload_bytes=[]; sampling=[]; post_lock=threading.Lock(); post_count=[0];')
+    line = "  line=first.split(b'\\r\\n',1)[0].rsplit(b' ',1)[0]"
+    guard = line + "\n  if line.startswith(b'POST'):\n   with post_lock:\n    if post_count[0]>=48:\n     calls.append('DENIED_POST_LIMIT');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    post_count[0]+=1"
+    code = core.replace_once(code, line, guard)
+    code = core.replace_once(code, 'line not in allowed or len(calls)>=24 or ', 'line not in allowed or ')
+    code = core.replace_once(code, 'timeout=900)', f'timeout={MAX_SECONDS})')
+    extra = ripgrep_binding()
+    if pg:
+        extra += ['--mount', f"type=bind,src={pg['host_socket_dir']},dst=/research-pg,readonly",
+                  '--mount', f"type=bind,src={actor['sites']['pgdriver']},dst=/pgdriver,readonly",
+                  '-e', 'PGHOST=/research-pg', '-e', 'PGUSER=research_probe', '-e', 'PGDATABASE=research_probe']
+        code = core.replace_once(code, "'-e','PYTHONPATH=/deps'", "'-e','PYTHONPATH=/deps:/pgdriver'")
+    code = core.replace_once(code, 'cmd[_at:_at]=[', 'cmd[_at:_at]=' + repr(extra) + '+[')
+    compile(code, '<django-aggregation-harness>', 'exec')
+    return code
+
+
+def adapt_source_probe(data: str, eval_db: str) -> str:
+    """Keep the original issue's SQL/expected values byte-identical."""
+    if not re.fullmatch(r'research_eval_[0-9a-f]{16}', eval_db): raise ValueError('invalid evaluation DB')
+    adapted = core.replace_once(data, 'password=pathlib.Path("/run/research_secret").read_text().strip()', 'password=""')
+    adapted = core.replace_once(adapted, '"HOST":"research-django-aggregation-20261106-db"', '"HOST":"/research-pg"')
+    adapted = core.replace_once(adapted, '"NAME":"research_probe"', '"NAME":' + repr(eval_db))
+    restored = adapted.replace('password=""', 'password=pathlib.Path("/run/research_secret").read_text().strip()', 1)
+    restored = restored.replace('"HOST":"/research-pg"', '"HOST":"research-django-aggregation-20261106-db"', 1)
+    restored = restored.replace('"NAME":' + repr(eval_db), '"NAME":"research_probe"', 1)
+    if restored != data: raise ValueError('probe changed beyond isolation adaptation')
+    return adapted
+
+
+def run_evaluator(task: str, case: Path, control: dict, actor: dict, pg: dict | None) -> dict:
+    """Apply the frozen test patch only after actor exit, to a restored copy."""
+    work, out = case / 'work', case / 'post_run_evaluation_restored_tests'
+    out.mkdir()
+    copy = out / 'candidate'
+    restore_candidate(work, clean_root(task), copy)
+    reference = row_for(task, include_reference=True)['test_patch'].encode('utf8')
+    if hashlib.sha256(reference).hexdigest() != control['arms']['base']['patches'][0]['sha256']:
+        raise ValueError('frozen test patch mismatch')
+    patch = out / 'test.patch'; patch.write_bytes(reference)
+    steps = []
+    for arguments in (['git', 'apply', '--check', str(patch)], ['git', 'apply', str(patch)]):
+        proc = subprocess.run(arguments, cwd=copy, capture_output=True, timeout=30)
+        steps.append({'exit': proc.returncode, 'stderr': proc.stderr.decode(errors='replace')[-2000:]})
+        if proc.returncode: break
+    result = {'status': 'TEST_PATCH_CONFLICT', 'patch_sha256': sha(patch), 'patch_steps': steps,
+              'regression_scope': 'qualification-mapped SQLite subset; see qualification receipt'}
+    if len(steps) != 2 or any(s['exit'] for s in steps): return result
+    base = ['docker', 'run', '--rm', '--pull', 'never', '--network', 'none', '--read-only',
+            '--cpus', '2', '--memory', '3g', '--pids-limit', '256', '--cap-drop', 'ALL',
+            '--security-opt', 'no-new-privileges', '--tmpfs', '/tmp:rw,nosuid,size=256m',
+            '-e', 'HOME=/tmp', '-e', 'PYTHONDONTWRITEBYTECODE=1',
+            '--mount', f'type=bind,src={copy},dst=/workspace,readonly',
+            '--mount', f"type=bind,src={actor['runtime']},dst=/extra,readonly",
+            '--mount', f"type=bind,src={actor['sites']['default']},dst=/deps,readonly",
+            '--workdir', '/workspace', '--entrypoint', '/extra/bin/python']
+    def execute(name: str, command: list, nodes: int) -> dict:
+        start = time.monotonic()
+        try:
+            p = subprocess.run(command, capture_output=True, timeout=300)
+            exit_code, data = p.returncode, p.stdout + p.stderr
+        except subprocess.TimeoutExpired as exc:
+            exit_code, data = 124, (exc.stdout or b'') + (exc.stderr or b'')
+        log = out / (name + '.log'); log.write_bytes(data)
+        lines = data.decode(errors='replace').splitlines()
+        return {'exit': exit_code, 'nodes_requested': nodes, 'log_sha256': sha(log),
+                'seconds': round(time.monotonic()-start, 3),
+                'summary': [s for s in lines if s.startswith(('Ran ', 'FAILED', 'OK'))][-4:]}
+    for metric in ('focus', 'regression'):
+        labels = control[metric + '_labels']
+        cmd = base + ['-e', 'PYTHONPATH=/workspace:/deps', SOURCE_IMAGE,
+                      'tests/runtests.py', '--settings=test_sqlite', '--parallel=1', '--verbosity=1', *labels]
+        result[metric] = execute(metric, cmd, len(labels))
+    # Probe scripts are D-side data, mounted only here, never to the actor.
+    probe_root = QUAL / 'issue_probe'
+    name = 'source_issue_probe.py' if task == 'source' else 'target_issue_probe.py'
+    original = probe_root / name
+    expected = ('bad04113610b05e9946274a967aeb2b6fb7487ac45dfd96e7683c8d3284d209d'
+                if task == 'source' else '01725a6a639f6e818aac7aca7fc33ef51ac250013a96df674a09f5b72b7984ea')
+    if sha(original) != expected: raise ValueError('original issue probe changed')
+    model_path = probe_root / ('probeapp' if task == 'source' else 'targetprobe') / 'models.py'
+    model_hash = ('f9381e2204cf9b2ea2f6c909d023f0acc6db7795d94ee2b7ff2c1cbcec1d9f61'
+                  if task == 'source' else '427bf4116859d22903e823c2abe251250fa21dc6da2ca35f1bda94e3334a63e4')
+    if sha(model_path) != model_hash: raise ValueError('original probe models changed')
+    data = original.read_text(encoding='utf8')
+    eval_db = None
+    if task == 'source':
+        eval_db = 'research_eval_' + hashlib.sha256(str(case).encode()).hexdigest()[:16]
+        data = adapt_source_probe(data, eval_db)
+    probe = out / 'issue_probe.py'; probe.write_text(data, encoding='utf8')
+    cmd = base + ['--mount', f'type=bind,src={probe_root},dst=/probe,readonly',
+                  '--mount', f'type=bind,src={probe},dst=/issue_probe.py,readonly']
+    pythonpath = '/workspace:/probe:/deps'
+    if pg:
+        cmd += ['--mount', f"type=bind,src={pg['host_socket_dir']},dst=/research-pg,readonly",
+                '--mount', f"type=bind,src={actor['sites']['pgdriver']},dst=/pgdriver,readonly"]
+        pythonpath += ':/pgdriver'
+    cmd += ['-e', 'PYTHONPATH=' + pythonpath, SOURCE_IMAGE, '/issue_probe.py']
+    if pg:
+        verify_live_postgres(pg)
+        psql = ['docker', 'exec', pg['container_id'], 'psql', '-X', '-v', 'ON_ERROR_STOP=1', '-U', 'research_probe', '-d', 'postgres', '-c']
+        create = subprocess.run(psql + [f'CREATE DATABASE {eval_db}'], capture_output=True, timeout=30)
+        if create.returncode: raise RuntimeError('private evaluation database creation failed')
+        try:
+            result['issue_probe'] = execute('issue_probe', cmd, 1)
+        finally:
+            drop = subprocess.run(psql + [f'DROP DATABASE {eval_db} WITH (FORCE)'], capture_output=True, timeout=30)
+            (out / 'database_lifecycle.json').write_text(json.dumps({'database': eval_db, 'created_after_actor': True,
+                    'container_id': pg['container_id'], 'create_exit': create.returncode, 'drop_exit': drop.returncode}) + '\n')
+            if drop.returncode: raise RuntimeError('private evaluation database cleanup failed')
+        result['issue_probe']['database_lifecycle_sha256'] = sha(out / 'database_lifecycle.json')
+    else:
+        result['issue_probe'] = execute('issue_probe', cmd, 1)
+    lines = (out / 'issue_probe.log').read_text(encoding='utf8', errors='replace').splitlines()
+    observed = []
+    for line in lines:
+        try: observed.append(json.loads(line))
+        except ValueError: pass
+    result['issue_probe']['observed'] = observed[-1] if observed else None
+    result['issue_probe']['original_sha256'] = expected
+    result['issue_probe']['original_models_sha256'] = model_hash
+    result['issue_probe']['adapted_sha256'] = sha(probe)
+    result['status'] = 'EVALUATED'
+    return result
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--attempt-id', required=True)
+    parser.add_argument('--task', choices=('source', 'target'), required=True)
+    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill', 'feedback_card'), default='none')
+    parser.add_argument('--experience', type=Path)
+    parser.add_argument('--experience-sha256')
+    parser.add_argument('--model-profile', type=Path, required=True)
+    parser.add_argument('--model-profile-sha256', required=True)
+    parser.add_argument('--actor-projection', type=Path, required=True)
+    parser.add_argument('--actor-manifest-sha256', required=True)
+    parser.add_argument('--pg-socket-manifest', type=Path)
+    parser.add_argument('--pg-socket-sha256')
+    parser.add_argument('--preflight-only', action='store_true')
+    args = parser.parse_args()
+    root = attempt_root(PARENT, args.attempt_id)
+    if args.task == 'source' and args.condition != 'none': parser.error('source requires no history')
+    if (args.condition == 'none') != (args.experience is None) or ((args.experience is None) != (args.experience_sha256 is None)):
+        parser.error('experience and hash must both be supplied for experience arms')
+    if args.condition != 'none':
+        # No ad-hoc experience or unbound skill: the freeze/build interface is intentionally gated.
+        raise ValueError('source experience freeze interface not yet implemented; no experience arms released')
+    if (args.pg_socket_manifest is None) != (args.pg_socket_sha256 is None): parser.error('socket manifest and hash required together')
+    if args.task == 'source' and args.pg_socket_manifest is None: parser.error('source requires private PostgreSQL socket')
+    if args.task == 'target' and args.pg_socket_manifest is not None: parser.error('target must not receive PostgreSQL socket')
+    profile = validate_model_profile(args.model_profile, args.model_profile_sha256)
+    backend = verify_live_backend(profile)
+    actor = actor_projection(args.actor_projection, args.actor_manifest_sha256, args.task)
+    pg = require_socket_manifest(args.pg_socket_manifest, args.pg_socket_sha256, PARENT) if args.pg_socket_manifest else None
+    live_pg = verify_live_postgres(pg) if pg else None
+    if sha(core.BASE) != core.BASE_SHA: raise ValueError('base harness changed')
+    control = qualification(args.task)
+    row = row_for(args.task)
+    task_text = row['problem_statement'].replace('\r\n', '\n').rstrip() + '\n'
+    eid = f'{args.task}__{args.condition}__seed{CASES[args.task][4]}'
+    case = root / eid
+    task_file = root / (eid + '.task.txt')
+    harness = root / (eid + '.harness.py')
+    if any(p.exists() or p.is_symlink() for p in (case, task_file, harness, root / (eid + '.started.json'),
+            root / (eid + '.completed.json'), root / (eid + '.auto_reservation.json'))):
+        raise FileExistsError('episode already exists; never overwrite or auto-retry')
+    # derive compiles without launching the model; the actor receives only task_text and frozen baseline.
+    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg)
+    if args.preflight_only:
+        print(json.dumps({'status': 'PREFLIGHT_ONLY', 'episode': eid, 'task_sha256': hashlib.sha256(task_text.encode()).hexdigest(),
+                          'harness_sha256': hashlib.sha256(code.encode()).hexdigest(),
+                          'model_profile_sha256': args.model_profile_sha256, 'projection_sha256': args.actor_manifest_sha256,
+                          'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg, 'model_calls': 0}))
+        return
+    root.mkdir(parents=True, exist_ok=True)
+    @recorded_episode(root, CASES[args.task][4])
+    def run(task: str, condition: str) -> None:
+        task_file.write_text(task_text, encoding='utf8')
+        harness.write_text(code, encoding='utf8')
+        components = {'outer_runner.py': Path(__file__), 'core.py': Path(core.__file__),
+                      'requests_runner.py': Path(requests_runner.__file__),
+                      'research_actor_dependencies.py': Path(research_actor_dependencies.__file__),
+                      'research_auto_record.py': Path(sys.modules['scripts.graph.research_auto_record'].__file__),
+                      'research_tool_runtime.py': Path(sys.modules['scripts.graph.research_tool_runtime'].__file__),
+                      'base_harness.py': core.BASE}
+        snapshot = root / (eid + '.components'); snapshot.mkdir()
+        for name, path in components.items(): shutil.copyfile(path, snapshot / name)
+        component_hashes = {name: sha(snapshot / name) for name in components}
+        if any(sha(path) != component_hashes[name] for name, path in components.items()):
+            raise ValueError('components changed during snapshot')
+        plan = {'task': task, 'condition': condition, 'seed': CASES[task][4], 'max_posts': MAX_POSTS,
+                'max_seconds': MAX_SECONDS, 'model_profile_sha256': args.model_profile_sha256,
+                'projection_sha256': args.actor_manifest_sha256, 'pg_socket_manifest_sha256': args.pg_socket_sha256,
+                'live_backend': backend, 'live_postgres': live_pg,
+                'task_sha256': sha(task_file), 'harness_sha256': sha(harness), 'runner_sha256': component_hashes['outer_runner.py'],
+                'component_sha256': component_hashes,
+                'status': 'STARTED', 'reference_boundary': 'D-side reference visible only in post-run evaluator'}
+        start = root / (eid + '.started.json'); start.write_text(json.dumps(plan, indent=2) + '\n')
+        proc = subprocess.run([sys.executable, str(harness), task, 'no_skill'], stdin=subprocess.DEVNULL,
+                              capture_output=True, timeout=MAX_SECONDS + 120)
+        (root / (eid + '.runner.stdout')).write_bytes(proc.stdout)
+        (root / (eid + '.runner.stderr')).write_bytes(proc.stderr)
+        plan.update({'runner_exit': proc.returncode, 'started_sha256': sha(start)})
+        if proc.returncode == 0 and (case / 'receipt.json').is_file():
+            receipt = json.loads((case / 'receipt.json').read_text(encoding='utf8'))
+            if sha(case / 'raw.jsonl') != receipt['raw_sha256']: raise ValueError('raw receipt changed')
+            sampling_file = case / 'sampling_metadata.jsonl'
+            metadata = [json.loads(s) for s in sampling_file.read_text().splitlines()] if sampling_file.is_file() else []
+            if Counter(json.dumps(x, sort_keys=True) for x in metadata) != Counter(json.dumps(x, sort_keys=True) for x in receipt['sampling_metadata']):
+                raise ValueError('sampling metadata changed')
+            if (case / 'frozen_instructions.txt').read_bytes() != task_text.strip().encode('utf8'):
+                raise ValueError('actor problem changed')
+            forwarded = bool(metadata) and all(x['seed'] == CASES[task][4] and x['temperature'] == core.TEMPERATURE
+                                                and x['model'] == profile['model_id'] for x in metadata)
+            plan.update({'status': 'COMPLETED', 'agent_exit': receipt['agent_exit'], 'raw_sha256': receipt['raw_sha256'],
+                         'posts': sum(s.startswith('POST ') for s in receipt['model_http_requests']),
+                         'denied': [s for s in receipt['model_http_requests'] if s.startswith('DENIED')],
+                         'reported_tokens': sum(t.get('total', 0) for t in receipt['step_finish_tokens']),
+                         'cache_read_included': sum(t.get('cache', {}).get('read', 0) for t in receipt['step_finish_tokens']),
+                         'seed_temperature_model_forwarded': forwarded,
+                         'post_run_evaluation': run_evaluator(task, case, control, actor, pg)})
+        else: plan['status'] = 'RUNNER_ERROR_REVIEW_RAW_AND_PROXY_LOG'
+        if any(sha(path) != component_hashes[name] or sha(snapshot / name) != component_hashes[name]
+               for name, path in components.items()):
+            raise ValueError('runner component changed during episode; review raw and reservation')
+        completed = root / (eid + '.completed.json'); completed.write_text(json.dumps(plan, indent=2) + '\n')
+        print(json.dumps({'receipt': str(completed), 'sha256': sha(completed), 'status': plan['status']}))
+    run(args.task, args.condition)
+
+
+if __name__ == '__main__':
+    main()
