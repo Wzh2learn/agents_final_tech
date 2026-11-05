@@ -22,7 +22,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 下一自然对为Django12589→34176，时序已核；公开旧轨迹含未来目标题号，须重新采源经验。独立SQLite与原题数据库资格见[本对记录](results/DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)，不使用业务DB。[小模型资格](results/QWEN4B_TOOL_QUALIFICATION_20261106.md)：4B工具可用但文件语义错；8B自主修对文件，POST门阻断最终回复。8B先作真实任务开发；4B保留学习候选，不能由一个fixture永久否定。对标见[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
 
-新Django原题：独立PG15适配的source base报`status`歧义/gold给预期结果；target SQLite base报`name`歧义/gold给预期结果。冻结SQLite控制分别1与6项关键、65与166项可映射回归；源另1项是prose，非测试。下一执行先冻结私有PG/socket与无未来源码的actor环境，再跑8B无历史source及同配置target对照；若source失败，保留真实失败并据反馈续修，不编造成功经验。PG11未复现；D侧已见参考，非盲确认。
+新Django原题正反控制与冻结SQLite检查已通过，PG11未复现。独立socket和依赖已冻结，[当前8B批次](results/DJANGO_AGGREGATION_AGENT_20261106.md)接续真实source与target对照；失败保留，不编造成功经验。D侧已见参考，非盲确认。
 
 现在可同步写问题、相关工作与实验设计；锁定方法和结果须满足：①与最近方法的独立机制清楚；②至少两个独立项目来源的留出任务，来源隔离并重复验证；③超过无历史、普通历史/skill、简单修复及公开近邻中的最强者，或在效果相当时有明确总成本收益；④同预算对照与消融能解释收益，未修复/截断单列；⑤冻结确认后的区间、失败和复放可核查。确认样本量依据开发方差决定，统计单位是任务/来源而非测试条数。若简单方法解释收益，调整候选；不将旧工程故障计作方法证据。
 

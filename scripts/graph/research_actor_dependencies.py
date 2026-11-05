@@ -35,23 +35,24 @@ def _reject_links(root,*,ignored=()):
    p=Path(directory)/name
    if p.is_symlink():raise ValueError('input contains symlink '+str(p))
 
-def prepare_projection(destination,python_prefix,sites,blocked_packages):
+def prepare_projection(destination,python_prefix,sites,blocked_packages,*,python_version='3.10'):
  destination=Path(destination);python_prefix=Path(python_prefix)
  if not destination.is_absolute() or not python_prefix.is_absolute() or not sites or not blocked_packages:raise ValueError('absolute private paths and explicit policy required')
  if any(not re.fullmatch(r'[A-Za-z0-9_]+',x) for x in blocked_packages):raise ValueError('invalid blocked package')
  if any(not re.fullmatch(r'[A-Za-z0-9_-]+',name) for name in sites):raise ValueError('invalid site name')
- stdlib=python_prefix/'lib/python3.10';binary=python_prefix/'bin/python3.10'
- if not stdlib.is_dir() or not binary.is_file():raise ValueError('Python 3.10 interpreter/stdlib unavailable')
+ if python_version not in ('3.8','3.10'):raise ValueError('unsupported Python projection version')
+ stdlib=python_prefix/('lib/python'+python_version);binary=python_prefix/('bin/python'+python_version)
+ if not stdlib.is_dir() or not binary.is_file():raise ValueError('requested Python interpreter/stdlib unavailable')
  site_paths={name:Path(path) for name,path in sites.items()}
  if any(not path.is_absolute() or not path.is_dir() or path.is_symlink() for path in site_paths.values()):raise ValueError('invalid site path')
  _reject_links(stdlib,ignored=('site-packages','__pycache__'))
  for path in site_paths.values():_reject_links(path,ignored=('__pycache__',))
  destination.mkdir(parents=True,exist_ok=False)
  runtime=destination/'runtime';(runtime/'bin').mkdir(parents=True)
- for name in ('python','python3','python3.10'):shutil.copy2(binary,runtime/'bin'/name)
+ for name in ('python','python3','python'+python_version):shutil.copy2(binary,runtime/'bin'/name)
  def runtime_ignore(directory,names):
   return {n for n in names if n in ('site-packages','__pycache__') or n.endswith(('.pyc','.pyo'))}
- shutil.copytree(stdlib,runtime/'lib/python3.10',ignore=runtime_ignore)
+ shutil.copytree(stdlib,runtime/('lib/python'+python_version),ignore=runtime_ignore)
  lib=python_prefix/'lib'
  for path in sorted(lib.glob('*.so*')):
   if not path.is_file():continue
@@ -63,7 +64,7 @@ def prepare_projection(destination,python_prefix,sites,blocked_packages):
    top=Path(directory)==path
    return {n for n in names if n=='__pycache__' or n.endswith(('.pyc','.pyo')) or (top and _blocked(n,blocked_packages))}
   shutil.copytree(path,destination/'deps'/name,ignore=site_ignore)
- manifest={'version':1,'python':'3.10','blocked_packages':list(blocked_packages),'site_names':sorted(site_paths),
+ manifest={'version':1,'python':python_version,'blocked_packages':list(blocked_packages),'site_names':sorted(site_paths),
            'source_interpreter_sha256':sha(binary),'source_site_paths':{k:str(v) for k,v in sorted(site_paths.items())},
            'files':_files(destination),'scope':'actor runtime and third-party packages only; no project wheel Python source or package metadata'}
  result=destination/'manifest.json'
@@ -77,10 +78,12 @@ def verify_projection(destination,expected_manifest_sha256):
  if path.is_symlink() or sha(path)!=expected_manifest_sha256:raise ValueError('projection manifest hash changed')
  manifest=json.loads(path.read_text(encoding='utf8'))
  if manifest.get('version')!=1:raise ValueError('projection format mismatch')
+ python_version=manifest.get('python')
+ if python_version not in ('3.8','3.10'):raise ValueError('unsupported Python projection version')
  actual=_files(destination);actual.pop('manifest.json',None)
  if actual!=manifest['files']:raise ValueError('projection content changed')
  runtime=destination/'runtime';python=runtime/'bin/python'
- if (runtime/'lib/python3.10/site-packages').exists() or not python.is_file():raise ValueError('runtime site-packages exposed or interpreter missing')
+ if (runtime/('lib/python'+python_version)/'site-packages').exists() or not python.is_file():raise ValueError('runtime site-packages exposed or interpreter missing')
  for name in manifest['site_names']:
   site=destination/'deps'/name
   if not site.is_dir() or any(_blocked(child.name,manifest['blocked_packages']) for child in site.iterdir()):raise ValueError('blocked package exposed')
