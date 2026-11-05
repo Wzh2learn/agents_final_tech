@@ -56,7 +56,7 @@ def _ranges(numbers: list[int]) -> list[list[int]]:
 
 def build_packet(root: Path, names: list[str], max_chars: int) -> dict:
     """Round-robin complete non-empty lines; report every omitted line range."""
-    if not names or len(names) > MAX_SOURCES or not 1 <= max_chars <= MAX_CHARS:
+    if not names or len(names) > MAX_SOURCES or type(max_chars) is not int or not 1 <= max_chars <= MAX_CHARS:
         raise ValueError("invalid source count or character budget")
     sources, seen = [], set()
     for name in names:
@@ -95,9 +95,36 @@ def verify_packet(root: Path, packet: dict) -> bool:
     """Verify source hashes, selections, budget, and content against current files."""
     try:
         names = [source["path"] for source in packet["sources"]]
-        return packet == build_packet(root, names, packet["max_content_chars"])
+        expected = build_packet(root, names, packet["max_content_chars"])
+        return _same_json_value(packet, expected)
     except (KeyError, TypeError, ValueError, OSError, UnicodeError):
         return False
+
+
+def _same_json_value(actual, expected) -> bool:
+    """Compare recursively without Python's True == 1 / 1.0 == 1 coercion."""
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(expected, dict):
+        return (all(type(key) is str for key in actual) and actual.keys() == expected.keys()
+                and all(_same_json_value(actual[key], value) for key, value in expected.items()))
+    if isinstance(expected, list):
+        return len(actual) == len(expected) and all(
+            _same_json_value(a, b) for a, b in zip(actual, expected))
+    return actual == expected
+
+
+def _unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON key: " + key)
+        result[key] = value
+    return result
+
+
+def _invalid_constant(value):
+    raise ValueError("non-finite JSON number: " + value)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -111,9 +138,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.verify:
             if args.output or args.source:
                 raise ValueError("--verify cannot be combined with --source or --output")
-            packet = json.loads(args.verify.read_text(encoding="utf-8"))
+            packet = json.loads(args.verify.read_text(encoding="utf-8"),
+                                object_pairs_hook=_unique_object, parse_constant=_invalid_constant)
             valid = verify_packet(ROOT, packet)
-            print(json.dumps({"valid": valid, "scope": "current source bytes and deterministic selection"}))
+            omitted = (sum(end - start + 1 for source in packet["sources"]
+                           for start, end in source["omitted_ranges"]) if valid else None)
+            coverage = ("unverified" if omitted is None else
+                        "partial_nonempty" if omitted else "complete_nonempty")
+            print(json.dumps({"valid": valid, "scope": "current source bytes and deterministic selection",
+                              "coverage": coverage, "omitted_nonempty_lines": omitted}))
             return 0 if valid else 1
         packet = build_packet(ROOT, args.source or list(DEFAULT_SOURCES), args.max_chars)
         rendered = json.dumps(packet, ensure_ascii=False, indent=2) + "\n"

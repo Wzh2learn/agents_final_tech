@@ -69,3 +69,50 @@ def test_rejects_symlink_outside_repository(tmp_path):
         pytest.skip("symlink creation is unavailable on this filesystem")
     with pytest.raises(ValueError):
         build_packet(tmp_path, ["outside.md"], 100)
+
+
+@pytest.mark.parametrize("field", ["version", "line", "total_lines", "max_content_chars"])
+def test_verify_rejects_boolean_and_float_substitution(tmp_path, field):
+    write(tmp_path, "source.md", "x\n")
+    packet = build_packet(tmp_path, ["source.md"], 1)
+    for substitute in (True, 1.0):
+        altered = json.loads(json.dumps(packet))
+        if field == "line":
+            altered["sources"][0]["included"][0]["line"] = substitute
+        elif field == "total_lines":
+            altered["sources"][0][field] = substitute
+        else:
+            altered[field] = substitute
+        assert not verify_packet(tmp_path, altered)
+
+
+@pytest.mark.parametrize("raw", [
+    '{"version":1,"version":1}',
+    '{"sources":[{"path":"a.md","path":"b.md"}]}',
+    '{"version":NaN}',
+    '{"version":Infinity}',
+    '{"version":-Infinity}',
+])
+def test_cli_rejects_duplicate_json_keys_and_nonfinite_numbers(tmp_path, monkeypatch, raw):
+    monkeypatch.setattr(context_packet, "ROOT", tmp_path)
+    file = write(tmp_path, "packet.json", raw)
+    assert context_packet.main(["--verify", str(file)]) == 2
+
+
+def test_cli_verification_distinguishes_partial_full_and_invalid_coverage(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(context_packet, "ROOT", tmp_path)
+    write(tmp_path, "source.md", "a\nlong line\n")
+    target = tmp_path / "packet.json"
+    for budget, expected, omitted in [(1, "partial_nonempty", 1), (100, "complete_nonempty", 0)]:
+        target.write_text(json.dumps(build_packet(tmp_path, ["source.md"], budget)), encoding="utf-8")
+        assert context_packet.main(["--verify", str(target)]) == 0
+        report = json.loads(capsys.readouterr().out)
+        assert report["valid"] and report["coverage"] == expected
+        assert report["omitted_nonempty_lines"] == omitted
+    packet = json.loads(target.read_text(encoding="utf-8"))
+    packet["version"] = True
+    target.write_text(json.dumps(packet), encoding="utf-8")
+    assert context_packet.main(["--verify", str(target)]) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert not report["valid"] and report["coverage"] == "unverified"
+    assert report["omitted_nonempty_lines"] is None
