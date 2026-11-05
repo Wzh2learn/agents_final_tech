@@ -33,7 +33,7 @@ Python、Django源码导入和source跨容器socket查询在零模型预检中�
 
 更完整的gold预检发现，顶层`import django`通过不能保证测试路径可运行：source的asgiref需要`typing_extensions.ParamSpec`，隔离后原环境的隐式依赖消失。v1失败记录保留，v2仅从原Python3.8环境补typing_extensions与Django3.1所需pytz，不恢复整个site-packages；新投影仍排除Django安装源码。target完整路径另核。准备阶段问题不计作Agent任务失败。
 
-当前检查点：实现和验证新runner，提交固定代码后运行真实source；随后冻结源经验再执行目标比较。运行期间不改已启动harness及其绑定组件，不把预检或候选生成当方法成立。
+首次生成前的检查点是实现并验证新runner，再提交固定代码运行真实source。以下继续记录实际结果和判断变化。运行期间不改已启动harness及其绑定组件，不把预检或候选生成当方法成立。
 
 ## 运行器资格（首次生成前）
 
@@ -42,3 +42,25 @@ Python、Django源码导入和source跨容器socket查询在零模型预检中�
 完整合成gold控制：source关键1/1、可映射回归65/65与新PG评测库原题均通过，target关键6/6、回归166/166与SQLite原题均通过。`preflight_django_runner_20261106_v2/receipt.json` SHA `878d825dac2758bc74ce079cac759daa005643435081cf473ed2f6ae43cf4a36`。随后base控制保持原题/关键失败、回归通过，实际合成请求验证18104模型及7201/7202种子转发；v3 receipt SHA `7c710cf5530ea7a5c27651c83885f4f448156e977725cd9ae8e861ba0005fb01`。这两批均0科研生成，非模型成功样本。
 
 第一次实际启动`initial_8b_20261106`在Docker阶段退出125：继承harness还需空的`attempt/runtime`挂载目录，合成评测绕过actor启动而漏检该前提。该attempt的raw为空、0POST/0tokens，candidate保持base，不能计作模型任务失败；completed SHA `242bf45a1625154919a389b8063c5f2fb447666a92649a2a180540210b83a8c1`与stderr保留。修复显式创建空目录并拒绝symlink/隐藏内容，新增测试先失败后通过；真实重启使用新attempt，不覆盖第一次现场。
+
+## 首次真实源任务结果
+
+代码`2b01d3d8`，attempt `runtime_ready_8b_20261106`。实际8POST，采样记录确认8B/.2/7201/output8192均正确；Agent exit0、无proxy拒绝，60.663秒。报告76,496tokens＝缓存64,321＋未缓存输入10,315＋输出1,860。训练、额外judge和付费科研API为0。
+
+这些是本episode的模型/执行用量，环境构建、评测CPU及D/子Agent平台开销另计；目前不以76,496tokens声称完整端到端科研成本。
+
+独立恢复测试后，关键0/1；65项回归有42 errors（23项无错误），原题probe在构造SQL时触发`TypeError`、未产生结构化结果。这是实际候选错误，不是初始Docker故障：模型将`GROUP BY %s`硬编码为带反引号的status，随后原代码仍执行字符串格式化，引入`TypeError: not all arguments converted during string formatting`；反引号也不符合本任务PostgreSQL语法。
+
+raw显示Agent读取题面、glob/grep、编辑与调用不存在的git，没有读取compiler文件或运行任务测试，最终请求用户许可运行测试。不能据此断言“诊断利用失败”，因为本episode没有收到退出后独立反馈。completed SHA `2283c62a7fd88aa308707a8188ad02d02890a7fce38e9a7c9e4a15c96aac7508`，raw SHA `bd9a10cbc06ded3e5f6e0f85bc521d4640e9acbe1024c3bbc087205583f31c33`；实际源码与完整组件快照均保留。
+
+**下一判断**：暂不把错补丁直接传播到四个目标臂。先从完全相同的实际候选、同模型/工具/预算出发，比较普通续修与真实测试反馈续修；两者共享完成修复及测试的执行要求，反馈臂只增加本候选的真实错误，不给参考补丁或目标信息。若普通重试追平，反馈不能被认证为独立增量；若均失败，区分实际能力与执行策略，再考虑强教师形成可验证纠正轨迹。当前经验整理仅保留真实失败，不把它写为成功修复。
+
+失败经验DRAFT已由[整理器](../prepare_django_aggregation_experience_20261106.py)实际形成，私有同attempt的`source_experience_draft_v1/draft_manifest.json` SHA `cd2691418f8b5714539f4470d6e8126f21ca6da4f9007320bde09b18191abefd`。绑定raw、7个实际动作摘要、完整实际diff、组件快照及独立错误；未生成skill、未做最终freeze。历史动作按600/800字符截取，字段与diff采用可无损重组的短行，不称完整原始对话。4项故障/篡改测试通过；DRAFT不是已验证技能，也未写入生产Memory。
+
+## 等起点续修合同
+
+N/F均从实际source work的同一6,192文件快照开始，排除原instructions/config/caches，不复制退出后含隐藏测试的评测副本。快照manifest SHA `cc2bb44e58e1db598beef71acf12c73ce2b06443139521b94a6df1cfe551dd0f`。相同题面后均增加自主完成内部修复与实际测试的要求；F仅再附本候选的真实错误、数量及最后两个Django应用栈帧，不含测试断言、人工修法或目标信息。N是强简单续修对照，不是复刻首次原始prompt。
+
+每臂均使用原模型/.2/7201/32768/8192/48POST/1200秒/6MB，串行N→F；每次启动前由D核验同一专属PG归属并清空重建`research_probe`，保存reset回执，目标库/业务库均不操作。退出后原题仍在各自新建独立评测库中运行。首次source成本为共同前置成本，不能用新增续修调用掩盖它；此处比较是一次源修复诊断，不是目标泛化确认。
+
+两臂CLI零模型预检和错误draft哈希负例已通过，`repair_preflight_20261106_v1/receipt.json` SHA `6f6ad9b81981984e8e9eb51d0a9d6a4b3628a2fceaf654fcf0e2d2d30054c5e8`。三组定点测试本机15项通过；源代码提交后实跑。技能生成器已接入显式单次生成/最终freeze校验，但当前仅DRAFT，target技能臂仍未释放。

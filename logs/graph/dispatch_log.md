@@ -1457,3 +1457,5 @@ echo dispatch_log updated
 [05:54] 隔离经验复验与新任务准备 → Astropy四臂均3/3+132/132，普通历史保留本次成本信号；84POST/2298659含缓存tokens。小模型资格7POST/44800含缓存，8B文件独立正确但POST门阻断最终回复。Django新对PG15/SQLite原题base失败gold通过，公开旧轨迹未来信息禁用；三个私有审阅包双机逐成员核对 → 本次研究提交，Goal active
 
 [06:26] Django8B迁移运行前资格 → 独占PG Unix socket/无网络actor/py3.8与3.10投影；source缺依赖v1保留，v2补既有typing_extensions+pytz；base/gold原题与完整可映射回归正反通过，8项定点测试，0生成。非none接口尚未释放 → 本次runner提交后启动真实source
+
+[06:54] Django真实源执行及同候选诊断 → 初始挂载缺失0POST保留；修复后8POST/76496含缓存tokens，exit0但关键失败/42回归errors，非诊断利用结论；失败DRAFT绑定raw/组件/实际diff。N/F同6192文件候选、仅差真实反馈，15项定点测试/0模型预检；共享自主闭环要求与skill C6同提交 → 本次续修协议提交后串行执行，Goal active

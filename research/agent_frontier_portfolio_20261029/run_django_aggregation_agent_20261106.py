@@ -48,6 +48,9 @@ PROJECTIONS = {
     'target': ('actor_target', '196a1cfb4cb2d98fddb66ac56bed81ee90868b8e608fc15055b0e051f8a33efc'),
 }
 MAX_POSTS, MAX_SECONDS, MAX_BYTES = 48, 1200, 6_000_000
+REPAIR_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry')
+REPAIR_SOURCE = 'runtime_ready_8b_20261106'
+REPAIR_DRAFT_SHA = 'cd2691418f8b5714539f4470d6e8126f21ca6da4f9007320bde09b18191abefd'
 
 
 def sha(path: Path) -> str:
@@ -270,15 +273,92 @@ def restore_candidate(work: Path, clean: Path, output: Path) -> None:
         elif dest.exists(): dest.unlink()
 
 
+def repair_tree(root: Path) -> dict:
+    if root.is_symlink() or not root.is_dir(): raise ValueError('candidate directory invalid')
+    result = {}
+    for p in root.rglob('*'):
+        if p.is_symlink(): raise ValueError('candidate symlink rejected')
+        if not p.is_file(): continue
+        rel = p.relative_to(root)
+        if any(part in ('.git', '__pycache__', '.pytest_cache') for part in rel.parts): continue
+        if len(rel.parts) == 1 and rel.name in ('instructions.txt', 'opencode.json', 'source_experience.md'): continue
+        result[rel.as_posix()] = sha(p)
+    return result
+
+
+def freeze_repair_candidate(work: Path, snapshot: Path, manifest: Path, draft_sha: str) -> dict:
+    expected = repair_tree(work)
+    if snapshot.exists() != manifest.exists(): raise ValueError('incomplete frozen candidate; do not overwrite')
+    if not snapshot.exists():
+        def ignore(path, names):
+            blocked = {'.git', '__pycache__', '.pytest_cache'} & set(names)
+            if Path(path) == work: blocked |= {'instructions.txt', 'opencode.json', 'source_experience.md'} & set(names)
+            return blocked
+        shutil.copytree(work, snapshot, ignore=ignore)
+        data = {'source_draft_sha256': draft_sha, 'files': expected,
+                'scope': 'source candidate only; no post-run evaluator copy or hidden test patch'}
+        if repair_tree(snapshot) != expected: raise ValueError('candidate snapshot changed during copy')
+        with manifest.open('x', encoding='utf8') as f:json.dump(data, f, indent=2);f.write('\n')
+    data = json.loads(manifest.read_text(encoding='utf8'))
+    if data.get('source_draft_sha256') != draft_sha or data.get('files') != expected or repair_tree(snapshot) != expected:
+        raise ValueError('frozen candidate or source work changed')
+    return data
+
+
+def error_summary(log: str) -> list:
+    matched=[]
+    for line in log.splitlines():
+        if (re.fullmatch(r'[A-Za-z_][A-Za-z0-9_.]*(?:Error|Exception): .{0,240}', line)
+                or re.fullmatch(r'FAILED \([^\n]{1,120}\)', line)
+                or re.fullmatch(r'Ran [0-9]+ tests? in .+', line)) and line not in matched:
+            matched.append(line)
+    return matched[-6:]
+
+
+def application_frames(log: str) -> list:
+    lines=log.splitlines(); frames=[]
+    for i,line in enumerate(lines):
+        if re.fullmatch(r'\s*File "/workspace/django/[A-Za-z0-9_./-]+\.py", line [0-9]+, in [^\n]{1,120}', line):
+            code=lines[i+1].strip()[:240] if i+1<len(lines) and lines[i+1].startswith('    ') else ''
+            frame=line.strip()+(('\n    '+code) if code else '')
+            if frame not in frames:frames.append(frame)
+    return frames[-2:]
+
+
+def repair_feedback(record: dict, case: Path) -> str:
+    feedback=record['post_run_evaluation']; items=[]
+    for name in ('focus','regression','issue_probe'):
+        metric=feedback[name]; log=(case/'post_run_evaluation_restored_tests'/(name+'.log')).read_text(encoding='utf8',errors='replace')
+        items.append({'check':name,'exit':metric['exit'],'requested':metric['nodes_requested'],
+                      'observed':error_summary(log),'application_frames':application_frames(log)})
+    text='Independent source evaluation feedback (observed results only):\n'+json.dumps(items,ensure_ascii=True,indent=2)
+    if any(s in text.lower() for s in ('django__django-34176','/pull/34176','/issues/34176','#34176')):
+        raise ValueError('feedback contains target identity')
+    return text
+
+
+def repair_prompt(task: str, condition: str, feedback: str) -> str:
+    if condition not in REPAIR_CONDITIONS: raise ValueError('not a source repair condition')
+    common=task.rstrip()+'\n\nContinue from the current implementation. Inspect and run relevant local tests yourself; '
+    common+='complete the repair without asking for permission. Do not assume the current implementation is correct.'
+    return common + ('\n\n'+feedback if condition=='candidate_feedback_retry' else '')
+
+
 def derive(root: Path, task: str, condition: str, experience: Path | None,
-           actor: dict, profile: dict, task_file: Path, pg: dict | None) -> str:
+           actor: dict, profile: dict, task_file: Path, pg: dict | None, candidate: Path | None = None) -> str:
     protocol = SimpleNamespace(OUT=QUAL, SITE=Path(actor['sites']['default']), LEGACY=Path(actor['runtime']))
-    code = requests_runner.derive(root, task, condition, experience, protocol=protocol, seed=CASES[task][4])
+    base_condition = 'none' if condition in REPAIR_CONDITIONS else condition
+    code = requests_runner.derive(root, task, base_condition, experience, protocol=protocol, seed=CASES[task][4])
+    if condition in REPAIR_CONDITIONS:
+        if task != 'source' or candidate is None or experience is not None: raise ValueError('invalid repair inputs')
+        old = str(root / f'{task}__none__seed{CASES[task][4]}')
+        new = str(root / f'{task}__{condition}__seed{CASES[task][4]}')
+        code = core.replace_once(code, old, new)
     code = rebind_model(code, profile)
     code = core.replace_once(code, "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')",
         "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')\n payload['model']=" + repr(profile['model_id']))
     code = core.replace_once(code, "shutil.copytree(src/'clean_base',work,dirs_exist_ok=True)",
-        f"shutil.copytree(Path({str(clean_root(task))!r}),work,dirs_exist_ok=True)")
+        f"shutil.copytree(Path({str(candidate if candidate else clean_root(task))!r}),work,dirs_exist_ok=True)")
     code = core.replace_once(code, "(src/'task.txt').read_text(encoding='utf8').strip()",
         f"Path({str(task_file)!r}).read_text(encoding='utf8').strip()")
     code = core.replace_once(code, "'--entrypoint','python3'", "'--entrypoint','/extra/bin/python'")
@@ -416,9 +496,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--attempt-id', required=True)
     parser.add_argument('--task', choices=('source', 'target'), required=True)
-    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill', 'feedback_card'), default='none')
+    parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill', 'feedback_card', *REPAIR_CONDITIONS), default='none')
     parser.add_argument('--experience', type=Path)
     parser.add_argument('--experience-sha256')
+    parser.add_argument('--repair-source-attempt-id')
+    parser.add_argument('--repair-draft-dir', type=Path)
+    parser.add_argument('--repair-draft-sha256')
     parser.add_argument('--model-profile', type=Path, required=True)
     parser.add_argument('--model-profile-sha256', required=True)
     parser.add_argument('--actor-projection', type=Path, required=True)
@@ -428,12 +511,17 @@ def main() -> None:
     parser.add_argument('--preflight-only', action='store_true')
     args = parser.parse_args()
     root = attempt_root(PARENT, args.attempt_id)
-    if args.task == 'source' and args.condition != 'none': parser.error('source requires no history')
-    if (args.condition == 'none') != (args.experience is None) or ((args.experience is None) != (args.experience_sha256 is None)):
+    is_repair = args.condition in REPAIR_CONDITIONS
+    if args.task != 'source' and is_repair: parser.error('repair conditions are source-only')
+    if args.task == 'source' and args.condition not in ('none', *REPAIR_CONDITIONS): parser.error('unsupported source condition')
+    if (args.condition in ('none', *REPAIR_CONDITIONS)) != (args.experience is None) or ((args.experience is None) != (args.experience_sha256 is None)):
         parser.error('experience and hash must both be supplied for experience arms')
-    if args.condition != 'none':
+    if args.condition != 'none' and not is_repair:
         # No ad-hoc experience or unbound skill: the freeze/build interface is intentionally gated.
         raise ValueError('source experience freeze interface not yet implemented; no experience arms released')
+    repair_args = (args.repair_source_attempt_id, args.repair_draft_dir, args.repair_draft_sha256)
+    if is_repair and any(x is None for x in repair_args): parser.error('repair source, draft directory and hash required')
+    if not is_repair and any(x is not None for x in repair_args): parser.error('repair arguments require a repair condition')
     if (args.pg_socket_manifest is None) != (args.pg_socket_sha256 is None): parser.error('socket manifest and hash required together')
     if args.task == 'source' and args.pg_socket_manifest is None: parser.error('source requires private PostgreSQL socket')
     if args.task == 'target' and args.pg_socket_manifest is not None: parser.error('target must not receive PostgreSQL socket')
@@ -446,6 +534,32 @@ def main() -> None:
     control = qualification(args.task)
     row = row_for(args.task)
     task_text = row['problem_statement'].replace('\r\n', '\n').rstrip() + '\n'
+    candidate = None; repair = None
+    if is_repair:
+        if args.repair_source_attempt_id != REPAIR_SOURCE or args.repair_draft_sha256 != REPAIR_DRAFT_SHA:
+            raise ValueError('unrecognized repair source or draft')
+        source = attempt_root(PARENT, args.repair_source_attempt_id)
+        draft_dir = source / 'source_experience_draft_v1'
+        if args.repair_draft_dir.is_symlink() or args.repair_draft_dir.resolve() != draft_dir.resolve():
+            raise ValueError('draft directory differs from source-bound draft')
+        if sha(draft_dir / 'draft_manifest.json') != REPAIR_DRAFT_SHA: raise ValueError('repair draft hash changed')
+        import prepare_django_aggregation_experience_20261106 as experience_helper
+        draft = experience_helper.validate_draft(source, clean_root('source'), draft_dir)
+        started = json.loads((source/'source__none__seed7201.started.json').read_text(encoding='utf8'))
+        if (draft['source']['model_profile_sha256'] != args.model_profile_sha256
+                or draft['source']['projection_sha256'] != args.actor_manifest_sha256
+                or sha(source/'source__none__seed7201.task.txt') != hashlib.sha256(task_text.encode()).hexdigest()):
+            raise ValueError('repair model/projection/task differs from source')
+        old_case=source/'source__none__seed7201';record=json.loads((source/'source__none__seed7201.completed.json').read_text())
+        feedback=repair_feedback(record,old_case)
+        candidate=source/'repair_candidate_frozen_v1'; manifest=source/'repair_candidate_frozen_v1.json'
+        freeze_repair_candidate(old_case/'work',candidate,manifest,REPAIR_DRAFT_SHA)
+        task_text=repair_prompt(task_text,args.condition,feedback)+'\n'
+        repair={'source_completion_sha256':draft['source']['completion_sha256'],'draft_sha256':REPAIR_DRAFT_SHA,
+                'candidate_manifest_sha256':sha(manifest),'feedback_sha256':hashlib.sha256(feedback.encode()).hexdigest()
+                    if args.condition=='candidate_feedback_retry' else None,
+                'scope':'source candidate continuation; not target confirmation',
+                'database_reset':'operator must reset only the manifest-bound private research_probe before each arm'}
     eid = f'{args.task}__{args.condition}__seed{CASES[args.task][4]}'
     case = root / eid
     task_file = root / (eid + '.task.txt')
@@ -454,12 +568,13 @@ def main() -> None:
             root / (eid + '.completed.json'), root / (eid + '.auto_reservation.json'))):
         raise FileExistsError('episode already exists; never overwrite or auto-retry')
     # derive compiles without launching the model; the actor receives only task_text and frozen baseline.
-    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg)
+    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg, candidate)
     if args.preflight_only:
         print(json.dumps({'status': 'PREFLIGHT_ONLY', 'episode': eid, 'task_sha256': hashlib.sha256(task_text.encode()).hexdigest(),
                           'harness_sha256': hashlib.sha256(code.encode()).hexdigest(),
                           'model_profile_sha256': args.model_profile_sha256, 'projection_sha256': args.actor_manifest_sha256,
-                          'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg, 'model_calls': 0}))
+                          'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg,
+                          'repair': repair, 'model_calls': 0}))
         return
     prepare_actor_runtime(root)
     @recorded_episode(root, CASES[args.task][4])
@@ -472,6 +587,8 @@ def main() -> None:
                       'research_auto_record.py': Path(sys.modules['scripts.graph.research_auto_record'].__file__),
                       'research_tool_runtime.py': Path(sys.modules['scripts.graph.research_tool_runtime'].__file__),
                       'base_harness.py': core.BASE}
+        if is_repair:
+            components['experience_helper.py'] = Path(experience_helper.__file__)
         snapshot = root / (eid + '.components'); snapshot.mkdir()
         for name, path in components.items(): shutil.copyfile(path, snapshot / name)
         component_hashes = {name: sha(snapshot / name) for name in components}
@@ -481,6 +598,7 @@ def main() -> None:
                 'max_seconds': MAX_SECONDS, 'model_profile_sha256': args.model_profile_sha256,
                 'projection_sha256': args.actor_manifest_sha256, 'pg_socket_manifest_sha256': args.pg_socket_sha256,
                 'live_backend': backend, 'live_postgres': live_pg,
+                'repair': repair,
                 'task_sha256': sha(task_file), 'harness_sha256': sha(harness), 'runner_sha256': component_hashes['outer_runner.py'],
                 'component_sha256': component_hashes,
                 'status': 'STARTED', 'reference_boundary': 'D-side reference visible only in post-run evaluator'}
@@ -489,6 +607,10 @@ def main() -> None:
                               capture_output=True, timeout=MAX_SECONDS + 120)
         (root / (eid + '.runner.stdout')).write_bytes(proc.stdout)
         (root / (eid + '.runner.stderr')).write_bytes(proc.stderr)
+        if candidate is not None:
+            freeze_repair_candidate(old_case/'work', candidate, manifest, REPAIR_DRAFT_SHA)
+            if sha(manifest) != repair['candidate_manifest_sha256']:
+                raise ValueError('frozen repair candidate changed during episode')
         plan.update({'runner_exit': proc.returncode, 'started_sha256': sha(start)})
         if proc.returncode == 0 and (case / 'receipt.json').is_file():
             receipt = json.loads((case / 'receipt.json').read_text(encoding='utf8'))

@@ -102,5 +102,41 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         with self.assertRaises(ValueError): runner.adapt_source_probe(data, 'postgres')
         with self.assertRaises(ValueError): runner.adapt_source_probe(data.replace('"NAME":"research_probe"', ''), 'research_eval_0123456789abcdef')
 
+    def test_repair_arms_share_frozen_candidate_and_only_feedback_differs(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); work=root/'work';work.mkdir();(work/'module.py').write_text('candidate')
+            (work/'instructions.txt').write_text('old prompt');(work/'opencode.json').write_text('old config')
+            case=root/'case';case.mkdir();ev=case/'post_run_evaluation_restored_tests';ev.mkdir()
+            for name in ('focus','regression','issue_probe'):
+                (ev/(name+'.log')).write_text('TypeError: example failure\nRan 65 tests\nFAILED (errors=42)\n')
+            record={'post_run_evaluation':{'focus':{'exit':1,'nodes_requested':1},
+                   'regression':{'exit':1,'nodes_requested':65},'issue_probe':{'exit':1,'nodes_requested':1}}}
+            feedback=runner.repair_feedback(record,case)
+            self.assertIn('errors=42',feedback)
+            neutral=runner.repair_prompt('SOURCE TASK\n','candidate_neutral_retry',feedback)
+            informed=runner.repair_prompt('SOURCE TASK\n','candidate_feedback_retry',feedback)
+            self.assertTrue(informed.startswith(neutral));self.assertEqual(informed[len(neutral):],'\n\n'+feedback)
+            snapshot=root/'snapshot'; manifest=root/'candidate.json'
+            first=runner.freeze_repair_candidate(work,snapshot,manifest,'a'*64)
+            second=runner.freeze_repair_candidate(work,snapshot,manifest,'a'*64)
+            self.assertEqual(first,second)
+            self.assertEqual((snapshot/'module.py').read_text(),'candidate')
+            self.assertFalse((snapshot/'instructions.txt').exists())
+            (snapshot/'module.py').write_text('tampered')
+            with self.assertRaises(ValueError): runner.freeze_repair_candidate(work,snapshot,manifest,'a'*64)
+
+    def test_feedback_excludes_test_lines_and_unknown_exceptions(self):
+        self.assertEqual(runner.error_summary('line\nTypeError: broken\nFAILED (errors=42)\n'),
+                         ['TypeError: broken', 'FAILED (errors=42)'])
+        self.assertEqual(runner.error_summary('some secret hidden test content'),[])
+        log=('  File "/workspace/tests/hidden.py", line 3, in test_gold\n'
+             '    assert secret_gold == expected\n'
+             '  File "/workspace/django/db/models/sql/compiler.py", line 573, in as_sql\n'
+             '    result.append(candidate_format)\nTypeError: broken\n')
+        frames=runner.application_frames(log)
+        self.assertEqual(len(frames),1)
+        self.assertIn('compiler.py',frames[0]);self.assertIn('result.append(candidate_format)',frames[0])
+        self.assertNotIn('hidden',str(frames));self.assertNotIn('secret_gold',str(frames))
+
 
 if __name__ == '__main__': unittest.main()

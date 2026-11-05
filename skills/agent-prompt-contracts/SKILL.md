@@ -110,6 +110,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证**：上下文检查覆盖7份活文档的UTF-8字节、总额与本地链接；历史分段可逆重建。已启动Astropy输出只读收录，没有为整理重跑模型。文件绑定和索引通过不当成方法确认。
 - **证据**：`scripts/graph/research_context_check.py`、`docs/archive/2026-11-06_agent_research_context/MANIFEST.json`及同目录README；现役搜索规则在`graph-loop-rules`和唯一Loop D入口。
 
+## C-6 同候选续修的执行要求与反馈边界（2026-11-06）
+
+- **现场**：Django8B源执行8次请求后正常退出，但未运行测试，最终询问是否继续；实际补丁引入格式化TypeError与42项回归错误。正常退出不能算修复成功，也不能据未收到反馈的运行判定“反馈利用失败”。
+- **对策**：续修N/F共享完全相同的真实候选、题面、模型/工具/预算和“实际运行相关测试、无需重复请求内部执行许可”的要求。F仅增加本候选的真实错误及应用代码栈，不给隐藏测试断言、参考补丁或目标信息；源/目标与经验形成分开记账。
+- **验证**：单测核对候选字节相同、两臂prompt仅差真实反馈、快照/日志篡改拒绝。执行要求可能改善闭环，但是否改善语义修复仍须真实N/F结果判断，不把prompt修订当方法收益。
+- **证据**：[Django本批记录](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md)、`2b01d3d8`源代码及私有`runtime_ready_8b_20261106`的原始raw/独立评测；后续结果在同一批次原地更新。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
