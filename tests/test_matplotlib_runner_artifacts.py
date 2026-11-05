@@ -99,6 +99,26 @@ class CandidateArtifactTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             runner.source_revision(self.root, 7)
 
+    def test_source_episode_requires_frozen_actor_projection_and_mounts(self):
+        eid = 'source__none__seed7'
+        harness = self.root / (eid + '.harness.py')
+        harness.write_text(f'type=bind,src={runner.ACTOR_DEPS}/deps/source,dst=/deps,readonly\n'
+                           f'type=bind,src={runner.ACTOR_DEPS}/runtime,dst=/extra,readonly\n')
+        started = self.root / (eid + '.started.json')
+        started.write_text(json.dumps({'harness_sha256': runner.sha(harness),
+                                       'actor_projection_sha256': runner.ACTOR_DEPS_SHA}))
+        completed = self.root / (eid + '.completed.json')
+        record = {'status': 'COMPLETED', 'started_sha256': runner.sha(started),
+                  'harness_sha256': runner.sha(harness)}
+        for value in (None, 'wrong'):
+            record['actor_projection_sha256'] = value
+            completed.write_text(json.dumps(record))
+            with self.assertRaises(ValueError):
+                runner.verify_source_actor_projection(self.root, 7)
+        record['actor_projection_sha256'] = runner.ACTOR_DEPS_SHA
+        completed.write_text(json.dumps(record))
+        self.assertEqual(runner.verify_source_actor_projection(self.root, 7)['status'], 'COMPLETED')
+
     def test_evaluation_directory_never_overwrites(self):
         out = runner.new_evaluation_dir(self.root, 'recheck')
         sentinel = out / 'receipt.json'

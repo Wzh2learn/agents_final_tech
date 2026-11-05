@@ -1,6 +1,7 @@
 """Evidence controls must retain source semantics and reject altered provenance."""
 from __future__ import annotations
 import hashlib
+import importlib
 import importlib.util
 import json
 from pathlib import Path
@@ -10,6 +11,33 @@ FILE = Path(__file__).resolve().parents[1] / 'research/agent_frontier_portfolio_
 spec = importlib.util.spec_from_file_location('evidence_profiles', FILE)
 profiles = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(profiles)
+
+
+def test_exposed_source_cannot_be_reused_by_an_isolated_actor(tmp_path, monkeypatch):
+    monkeypatch.syspath_prepend(str(FILE.parent))
+    runner = importlib.import_module('run_swe_contextbench_astropy_20261105')
+    completed = tmp_path / f'source__none__seed{runner.core.SEED}.completed.json'
+    for record in ({'status': 'COMPLETED'},
+                   {'status': 'COMPLETED', 'actor_projection_sha256': 'different-surface'}):
+        completed.write_text(json.dumps(record), encoding='utf8')
+        with pytest.raises(ValueError, match='isolated dependency surface'):
+            runner.check_source_projection(tmp_path)
+    harness = tmp_path / f'source__none__seed{runner.core.SEED}.harness.py'
+    harness.write_text(f'type=bind,src={runner.ACTOR_PROJECTION / "deps/default"},dst=/deps,readonly\n'
+                       f'type=bind,src={runner.ACTOR_PROJECTION / "runtime"},dst=/extra,readonly\n',
+                       encoding='utf8')
+    started = tmp_path / f'source__none__seed{runner.core.SEED}.started.json'
+    started.write_text(json.dumps({'actor_projection_sha256': runner.ACTOR_PROJECTION_SHA,
+                                   'harness_sha256': runner.sha(harness)}), encoding='utf8')
+    completed.write_text(json.dumps({'status': 'COMPLETED',
+                                    'actor_projection_sha256': runner.ACTOR_PROJECTION_SHA,
+                                    'started_sha256': runner.sha(started),
+                                    'harness_sha256': runner.sha(harness)}), encoding='utf8')
+    runner.check_source_projection(tmp_path)
+    harness.write_text(harness.read_text().replace(str(runner.ACTOR_PROJECTION / 'deps/default'),
+                                                 'unfiltered'), encoding='utf8')
+    with pytest.raises(ValueError, match='provenance changed'):
+        runner.check_source_projection(tmp_path)
 
 
 def save(path, value):

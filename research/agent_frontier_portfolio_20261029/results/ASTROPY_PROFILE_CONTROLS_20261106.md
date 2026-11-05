@@ -21,11 +21,21 @@
 
 ## 科研裁决
 
+**后续可读面审计降级（在下一次目标生成前发现）**：actor只读挂载的`/deps/astropy/nddata/mixins/ndarithmetic.py`来自5.3.2 wheel，包含目标gold的两处未来修复（`hasattr(operand, "data")`和`getattr(operand, "mask", None)`）。`/root`源码优先导入并不能阻止直接读取`/deps`。四臂raw的tool input中未发现依赖路径、`sys.path`、`inspect.getfile`等显式命中，但这不能排除间接访问。上述实测数值与成本保留；它们不再作为参考隐藏的干净迁移证据。旧source也使用此依赖面，后续应在隔离依赖和解释器可读目录后，重新形成source经验并复验，不能仅换target挂载后沿用旧source。
+
 1. **旧的“skill独自成功”不是稳定方法增量**：新配置下无历史也完整修复；由于seed、context/output和请求配额共同变化，不能只归因于输出帽。
-2. **当前完整历史是更强简单基线**：此单次运行同时更少请求、更少未缓存输入/输出和更短用时，普通skill没有超过它。不把生成skill当作方法收益的默认来源。
+2. **完整历史是必须保留的强简单基线**：此单次运行同时更少请求、更少未缓存输入/输出和更短用时；依赖可读面污染使效果比较仍待洁净复验。不把生成skill当作方法收益的默认来源。
 3. **本组不同输入条件下观察到成本差异**：该次结果没有表明复杂技能抽象优于完整历史。下一步在不同项目的自然source/target中重复对照，再判断来源约束、动作时适用性或学习型编译是否仍有残差。
 
 本组一个已曝光任务、每臂一次；3个参数化测试不是3个独立任务。较长历史的格式、预算与seed变化均须如实区分，耗时也受缓存、运行次序和共享机器影响，不报告为总体稳定节省。
+
+## 隔离修正与后续复验
+
+新[actor依赖投影](../../../scripts/graph/research_actor_dependencies.py)单独复制解释器/标准库和第三方依赖，不把原完整环境挂给actor；排除精确`astropy`项目目录及其metadata，保留`astropy_iers_data`。现役私有`astropy_agent_20261105/actor_dependencies_v2`共3442文件，manifest SHA `32fd788dae461e4eca1f792c9f9e569c70bac9ee7d0befb3335848f98efe1aed`。v1保留；v2仅增加同字节的`python3`入口，防止它落到image的不同版本解释器，其他投影文件逐项一致。运行器在前后验证固定hash，并拒绝started/completed/harness未绑定这一可读面的旧source；不是仅给旧target换路径后继续。
+
+零模型容器检查：source/target可从冻结源码导入并使用NumPy、离线rg；`/deps/astropy`和`/extra/lib/python3.10/site-packages`均不存在。相同隔离依赖下再次执行base/gold控制：source关键测试0/1→1/1、两臂179/179回归；target关键测试0/3→3/3、两臂132/132回归。原资格目录只读挂载，未改历史资格或原始数据。
+
+现役v2三解释器别名、两个环境和8个base/gold控制均实跑通过，`actor_isolation_check_20261106/astropy_environment_v2/receipt.json` SHA `a1f63adf3dd850337d9ac481da091c1cf684daa565eeecb8d56061f0f5532a0f`。较早v1私有`actor_isolation_check_20261106/astropy_environment_receipt.json` SHA `3e56f3fae8cf78491bf442a7622dc7ba2b7b3b7dae96660715217975ade6a0cf`；`astropy_controls/receipt.json` SHA `5faa13f2ce8dfa22e67b3163b3e51bce467b4be18e75d6eda771fe7ff2cb7d6c`。这是运行隔离与控制复验，不是新的Agent方法结果。洁净source及target比较须使用新attempt，尚未执行。
 
 ## 成本与证据
 

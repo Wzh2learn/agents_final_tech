@@ -1443,3 +1443,5 @@ echo dispatch_log updated
 [2026-11-06] ASTROPY-MATCHED-CONTROLS-MATPLOTLIB-SOURCE: Astropy统一65536/16384、48POST/1500s、seed7202的none/补丁结果/安全历史/普通skill均问题3/3+回归132/132，19/16/12/19POST，共66POST/1,866,784tokens(cache1,602,038已含)。完整历史为本组更强简单基线，不归因为通用效率因果。Matplotlib真实source34POST/921,757tokens(agent0)，原评分被pytest生成图片链接阻断；保留raw/候选/completed后零模型重评2/2+136/136。pre/post颜色形状差是附加未明示性质，不能代替原题合法性判据；源经验绑定双通道反馈，未编造整体错误或完美语义。
 
 [2026-11-06] MATPLOTLIB-SOURCE-INPUTS-FROZEN: 原source评分/候选/raw保持不变，PNG/pytest预期链接限定排除、源码仍保留，后验重评2/2+136/136；附加颜色形状性质不替代原题合同。source-only历史和结果卡绑定原状态与revision；本地普通skill形成1POST/18,778tokens，正常stop。target三输入已冻结(65942eda)，目标模型调用0。该项目形成阶段35POST/940,535tokens，未新增训练/judge，未来从此检查点继续。
+
+[03:37] actor依赖可读面尸检与修复 → Astropy/Matplotlib wheel未来修复可读；旧数值保留并降级，新独立runtime/deps固定hash，拒绝旧source，零模型容器与base/gold控制完成 → 本次隔离修正提交

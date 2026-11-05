@@ -1,8 +1,10 @@
 # Matplotlib 自然任务对：运行资格
 
-> 2026-11-06 | 零模型资格，不是Agent效果。脚本：[资格器](../qualify_swe_contextbench_matplotlib_20261106.py)。原题、参考、依赖与时序通过后才安排source→target经验比较。
+> 2026-11-06 | 资格与source开发记录。脚本：[资格器](../qualify_swe_contextbench_matplotlib_20261106.py)。区分零模型控制、旧暴露source与新的隔离比较，不将资格成绩当Agent效果。
 
 ## 固定来源与原题
+
+**Agent输入隔离修正**：后续独立复核发现完整wheel site-packages经`/deps`可读，target的`/deps/mpl_toolkits/mplot3d/art3d.py`含未来gold修复。正常导入旧源码不等于参考不可读；目标模型尚未启动，因此先修隔离。旧source/普通skill/冻结输入保留为暴露环境的开发产物，不进入新的洁净比较。base/gold资格数字不变；新source须使用只含必要依赖且不含wheel项目源码的可读面重新执行和形成经验。
 
 - source `matplotlib__matplotlib-23562`，base `29a86636a9c45ab5ac4d80ac76eaee497f460dce`：3D collection在首次投影前读取颜色触发AttributeError。
 - target `matplotlib__matplotlib-27361`，base `5b5154ded5ee9c546e640b01f1a75ac041fd2fed`：3D patch在tight-layout保存时尚未建立二维路径；与source同属投影初始化，但对象、路径和测试不同。
@@ -66,3 +68,15 @@ GB10私有根：`/home/testuser/wzh/research_evidence/agent_learning_20261030/ma
 普通skill形成使用已提交`502c095f`入口和既有抽取器，真实1次本地POST、17,918输入＋860输出＝18,778tokens，缓存0，25.245秒正常stop。skill SHA `33210f513ef16d4873ddb8c7f2cab8b88211130bce98c070c397331f211de698`；保留原请求与响应，未人为润色或纠正。它包含对源初始化路径的概括及列映射更新等未决条件；源测试实际只检查RGBA与不抛异常，不能把模型建议的所有检查当作已执行事实。
 
 target尚未调用模型。源history42,672bytes/430行/最长1581字符、结果卡2397bytes、skill3314bytes；实际读取仍需在目标执行时核对。`source_experience/target_input_freeze.json` SHA `65942eda7a2d45b56960e9ecb53b94226074fc2f3af0b26f55cbfc99292b33b6`，绑定原source、修订评价、source metadata、形成账本及三个输入文件。该项目累计形成阶段35POST/940,535tokens，source与skill形成分项记账。下一检查点是在相同target版本和资源下跑无历史、普通历史、普通skill及透明反馈对照，再决定是否增加实际补丁摘要/跨seed；新额外输入须另行冻结，不改已冻结三文件。
+
+## 隔离批次执行合同（在首次新生成前写入）
+
+隔离投影已完成零模型验证：私有`matplotlib_actor_dependencies_20261106_v2`，7168文件，manifest SHA `e63a69c6c719bdcc56aa8d08b7ba7635de6bafe90f826b51b7eda79cdad0f75b`。runtime不含site-packages，source/target各自的deps排除matplotlib/mpl_toolkits项目源码；三Python别名均3.10.19，Agg与rg通过。先前两个gold读取入口不存在，同权限image/可读挂载扫描只见固定`/root/lib/mpl_toolkits/mplot3d/art3d.py`，AST核对相应目标方法不含gold lazy projection。扫描排除虚拟/proc、/sys、/dev，以及实测不可读的apt私有缓存目录；这是具体路径核验，不是任意编码副本或预训练隔离证明。
+
+`matplotlib_agent_20261106/attempts/actor_isolation_v6/preflight_source.json` SHA `fe6009943beaf594938e138ac8734cc6406c30872f85e817527d2c4da6162be5`，target回执 SHA `99a5e8c948014affb8c2c70737d07f715a39b0afff4e1604c73b4838bb98920a`。v1已重放两个任务的base/gold原题与focus，v2逐文件仅增加同字节python3入口；旧投影、失败扫描和原stderr保留。运行器前后验证新固定hash，经验构造/skill形成/target均拒绝未绑定该投影的旧source。
+
+新attempt为`isolated_dependencies_20261106`，source和target都用seed7201、temperature0.2、context65536/output16384，每个执行episode上限48转发POST/1500秒。固定原题、版本、native overlay、rg和现有隐藏评分，新增actor依赖投影须通过同权限可读面与解释器检查。先在新投影执行真实source，再由该次raw/实际补丁/独立结果形成普通历史和反馈卡，生成一次普通skill并冻结输入；不复用旧暴露source的任何经验文本。
+
+target按无历史→透明结果卡→普通源历史→普通skill串行运行，每臂独立工作区、相同资源。记录关键测试1项、完整回归150项及原题PDF/PNG实际渲染语义；分列Agent退出、预算截断、异常和未评，读取经验以raw为准。比较请求、未缓存输入/输出、缓存、用时，source/skill形成单独计费并说明摊销，不只挑选有利成本代理。若skill胜出，仍需实际补丁＋结果等强简单对照和重复，才能进入方法主张。
+
+这是一对已在开发中见过参考的自然任务，不冒充盲确认或预训练隔离；测试条数不当独立任务数。此合同绑定下一批次，旧35POST及原回执原位保留，隔离修正不重写旧账。

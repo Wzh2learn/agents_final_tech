@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Private Matplotlib ContextBench agent runner; no model calls in preflight."""
 from __future__ import annotations
-import argparse, difflib, hashlib, json, os, re, shutil, stat, subprocess, sys, tarfile
+import argparse, ast, difflib, hashlib, json, os, re, shlex, shutil, stat, subprocess, sys, tarfile
 from collections import Counter
 from pathlib import Path, PurePosixPath
 from types import SimpleNamespace
@@ -9,6 +9,8 @@ import pyarrow.parquet as pq
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from scripts.graph.research_auto_record import recorded_episode
 from scripts.graph.research_tool_runtime import ripgrep_binding, RG_SHA256, OPENCODE
+from scripts.graph.research_actor_dependencies import verify_projection
+import scripts.graph.research_actor_dependencies as actor_dependencies
 import scripts.graph.research_auto_record as auto_record
 import scripts.graph.research_evidence_graph as evidence_graph
 import scripts.graph.research_tool_runtime as tool_runtime
@@ -20,6 +22,8 @@ import run_swe_contextbench_sphinx_20261105 as sphinx_runner
 from run_swe_contextbench_sphinx_20261105 import inspect_experience_reads
 
 PARENT=qual.ROOT/'matplotlib_agent_20261106'
+ACTOR_DEPS=qual.ROOT/'matplotlib_actor_dependencies_20261106_v2'
+ACTOR_DEPS_SHA='e63a69c6c719bdcc56aa8d08b7ba7635de6bafe90f826b51b7eda79cdad0f75b'
 QUAL_SHA='b23f6980004b249b60902a6f68f82a561170a7d41209b8eecc4239609d1b9a25'
 QUAL_SCRIPT_SHA='b7910caf78f36ca35828a71874c8a76b46fd6d808444cde7c8f9fa3c1ec68ece'
 OVERLAYS={'source':'7591391ae24530151c051d1ec4e5c9cc92578d672929b82a3adaec6c54457e2f','target':'2aac128017a6ec3838809d260d270daabe754e7a80e55d475bb39c8f7393142c'}
@@ -29,7 +33,8 @@ DEFAULT_CONTEXT=65536; DEFAULT_OUTPUT=16384; DEFAULT_POSTS=48; DEFAULT_SECONDS=1
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def env_for(task):return qual.OUT/'source_env' if task=='source' else qual.ROOT/'matplotlib_qualification_20261106/target_env'
 def site_for(task):return env_for(task)/'lib/python3.10/site-packages'
-def protocol(task):return SimpleNamespace(OUT=qual.OUT,SITE=site_for(task),LEGACY=qual.LEGACY)
+def actor_site_for(task):return ACTOR_DEPS/'deps'/task
+def protocol(task):return SimpleNamespace(OUT=qual.OUT,SITE=actor_site_for(task),LEGACY=ACTOR_DEPS/'runtime')
 
 def row_for(task):
  identity,dataset,rev,*_=qual.CASES[task]
@@ -71,6 +76,8 @@ def check_overlay(task):
 
 def preflight(task):
  shared.checked_dataset()
+ projection=verify_projection(ACTOR_DEPS,ACTOR_DEPS_SHA)
+ if projection['blocked_packages']!=['matplotlib','mpl_toolkits'] or set(projection['sites'])!={'source','target'}:raise ValueError('actor projection policy mismatch')
  frozen=qual.OUT/'qualify.py';current=Path(qual.__file__)
  if sha(frozen)!=QUAL_SCRIPT_SHA or frozen.read_bytes().replace(b'\r\n',b'\n')!=current.read_bytes().replace(b'\r\n',b'\n'):raise ValueError('qualification script mismatch')
  if sha(core.BASE)!=core.BASE_SHA or sha(qual.OUT/'receipt.json')!=QUAL_SHA:raise ValueError('base harness or receipt mismatch')
@@ -249,7 +256,18 @@ def source_semantic_detail(root,seed,expected_sha=None):
  if len(rows)!=1 or 'issue_get_facecolors_before_draw' not in rows[0]['cases']:raise ValueError('semantic detail malformed')
  return rows[0]['cases']['issue_get_facecolors_before_draw'],digest
 
+def verify_source_actor_projection(root,seed):
+ eid=f'source__none__seed{seed}';completed=root/(eid+'.completed.json');started=root/(eid+'.started.json');harness=root/(eid+'.harness.py')
+ record=json.loads(completed.read_text());initial=json.loads(started.read_text())
+ if (record.get('status')!='COMPLETED' or record.get('actor_projection_sha256')!=ACTOR_DEPS_SHA or initial.get('actor_projection_sha256')!=ACTOR_DEPS_SHA or record.get('started_sha256')!=sha(started) or record.get('harness_sha256')!=sha(harness) or initial.get('harness_sha256')!=sha(harness)):
+  raise ValueError('source episode did not use the current verified actor projection')
+ text=harness.read_text()
+ if f'type=bind,src={ACTOR_DEPS}/deps/source,dst=/deps,readonly' not in text or f'type=bind,src={ACTOR_DEPS}/runtime,dst=/extra,readonly' not in text:
+  raise ValueError('source harness actor projection mounts missing')
+ return record
+
 def build_experience(root,seed,*,use_revision=False):
+ verify_source_actor_projection(root,seed)
  completed=root/f'source__none__seed{seed}.completed.json';record=json.loads(completed.read_text());case=root/f'source__none__seed{seed}';raw=case/'raw.jsonl';feedback=record['post_run_evaluation']
  revision_sha=None;log_dir=case/'post_run_evaluation_restored_tests'
  if use_revision:
@@ -294,21 +312,38 @@ def build_experience(root,seed,*,use_revision=False):
  meta={'source_seed':seed,'source_revision_sha256':revision_sha,'source_semantic_detail_sha256':semantic_detail_sha,'ignored_generated_cache':{'excluded_root':artifacts['excluded_root'],'entries':len(cache_manifest),'symlinks':len(artifacts['excluded_symlinks']),'manifest_sha256':sha(out/'ignored_generated_cache_manifest.json'),'scope':'private source output only; excluded from code-change inventory; candidate and raw retained'},'source_raw_sha256':sha(raw),'source_completion_sha256':sha(completed),'actions':len(actions),'clipped_inputs':sum(a['input_chars']>600 for a in actions),'clipped_outputs':sum(a['output_chars']>800 for a in actions),'artifact_diff':{'cap':10000,'chars':len(diff),'sha256':hashlib.sha256(diff.encode()).hexdigest(),'omitted_paths':omitted},'scope':'source-only; literal screen is not evidence of semantic/pretraining isolation','artifacts':{p.name:sha(p) for p in out.iterdir() if p.is_file()}}
  (out/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print(json.dumps(meta))
 
+def inspect_frozen_actor_canary(work,task):
+ path=work/'lib/mpl_toolkits/mplot3d/art3d.py';tree=ast.parse(path.read_text(encoding='utf8'))
+ class_name,methods=('Poly3DCollection',('get_facecolor','get_edgecolor')) if task=='source' else ('Patch3D',('get_path',))
+ classes=[node for node in tree.body if isinstance(node,ast.ClassDef) and node.name==class_name]
+ if len(classes)!=1:raise ValueError('canary class missing')
+ for name in methods:
+  targets=[node for node in classes[0].body if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)) and node.name==name]
+  if len(targets)!=1:raise ValueError('canary method missing')
+  if any(isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr=='do_3d_projection' for node in ast.walk(targets[0])):raise ValueError('gold lazy projection in actor source')
+ return {'class':class_name,'methods':list(methods),'gold_lazy_projection_present':False,'art3d_sha256':sha(path)}
+
 def environment_preflight(root,task):
  out=root/('preflight_'+task);out.mkdir(parents=True,exist_ok=False);work=out/'work';shutil.copytree(qual.OUT/task/'clean_base',work)
  if qual.overlay(work,site_for(task))!=check_overlay(task):raise ValueError('overlay mismatch')
- cmd=['docker','run','--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','2g','--pids-limit','128','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=128m','--tmpfs','/home/agent:rw,nosuid,size=128m','-e','HOME=/home/agent','-e','MPLBACKEND=Agg','-e','MPLCONFIGDIR=/tmp/mpl','-e','PYTHONDONTWRITEBYTECODE=1','-e','PYTHONPATH=/workspace/lib:/deps','--mount',f'type=bind,src={work},dst=/workspace,readonly','--mount',f'type=bind,src={qual.LEGACY},dst=/extra,readonly','--mount',f'type=bind,src={site_for(task)},dst=/deps,readonly',*ripgrep_binding(),'--workdir','/workspace','--entrypoint','/extra/bin/python',qual.IMAGE,'-c','import matplotlib,numpy; import matplotlib.pyplot as p; import mpl_toolkits.mplot3d.art3d as a; f=p.figure(); f.add_subplot(111).plot([0,1]); f.canvas.draw(); print(matplotlib.__version__,numpy.__version__,matplotlib.__file__,a.__file__)']
+ canary=inspect_frozen_actor_canary(work,task)
+ cmd=['docker','run','--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','2g','--pids-limit','128','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=128m','--tmpfs','/home/agent:rw,nosuid,size=128m','-e','HOME=/home/agent','-e','MPLBACKEND=Agg','-e','MPLCONFIGDIR=/tmp/mpl','-e','PYTHONDONTWRITEBYTECODE=1','-e','PYTHONPATH=/workspace/lib:/deps','--mount',f'type=bind,src={work},dst=/workspace,readonly','--mount',f'type=bind,src={ACTOR_DEPS}/runtime,dst=/extra,readonly','--mount',f'type=bind,src={actor_site_for(task)},dst=/deps,readonly',*ripgrep_binding(),'--workdir','/workspace','--entrypoint','/bin/sh',qual.IMAGE,'-c',
+      'set -eu; for p in python python3 python3.10; do /extra/bin/$p -c '+shlex.quote('import sys,matplotlib,numpy; import matplotlib.pyplot as p; import mpl_toolkits.mplot3d.art3d as a; f=p.figure(); f.add_subplot(111).plot([0,1]); f.canvas.draw(); print(sys.version_info[:3],matplotlib.__version__,numpy.__version__,matplotlib.__file__,a.__file__)')+'; done']
  p=subprocess.run(cmd,capture_output=True,timeout=90);(out/'python.stdout').write_bytes(p.stdout);(out/'python.stderr').write_bytes(p.stderr)
- if p.returncode:raise ValueError('python rendering preflight failed')
+ if p.returncode or len(p.stdout.decode().splitlines())!=3 or len(set(p.stdout.decode().splitlines()))!=1:raise ValueError('python aliases/rendering preflight failed')
  cmd=['docker','run','--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','1g','--pids-limit','128','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=128m','--tmpfs','/home/agent:rw,nosuid,size=128m','-e','HOME=/home/agent','-e','OPENCODE_DISABLE_MODELS_FETCH=1','--mount',f'type=bind,src={work},dst=/root,readonly','--mount',f'type=bind,src={OPENCODE},dst=/opt/opencode,readonly',*ripgrep_binding(),'--workdir','/root','--entrypoint','/opt/opencode',qual.IMAGE,'debug','rg','search','do_3d_projection','--pure']
  r=subprocess.run(cmd,capture_output=True,timeout=90);(out/'rg.stdout').write_bytes(r.stdout);(out/'rg.stderr').write_bytes(r.stderr)
  if r.returncode or not r.stdout:raise ValueError('offline opencode rg failed')
+ scan=r'set -eu; for p in /deps/mpl_toolkits/mplot3d/art3d.py /deps/matplotlib/__init__.py /extra/lib/python3.10/site-packages/mpl_toolkits/mplot3d/art3d.py /extra/lib/python3.10/site-packages/matplotlib/__init__.py; do if cat "$p" >/dev/null 2>&1; then echo READABLE:$p; exit 1; elif [ -e "$p" ]; then echo UNEXPECTED_PATH:$p; exit 1; fi; done; if ls -A /var/cache/apt/archives/partial >/dev/null 2>&1; then echo UNEXPECTED_APT_CACHE_READABLE; exit 1; fi; find / -path /proc -prune -o -path /sys -prune -o -path /dev -prune -o -path /var/cache/apt/archives/partial -prune -o -type f \( -path "*/mpl_toolkits/mplot3d/art3d.py" -o -path "*/astropy/nddata/mixins/ndarithmetic.py" \) -print'
+ cmd=['docker','run','--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','1g','--pids-limit','128','--cap-drop','ALL','--security-opt','no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=128m','--tmpfs','/home/agent:rw,nosuid,size=128m','-e','HOME=/home/agent','--mount',f'type=bind,src={work},dst=/root,readonly','--mount',f'type=bind,src={ACTOR_DEPS}/runtime,dst=/extra,readonly','--mount',f'type=bind,src={actor_site_for(task)},dst=/deps,readonly','--mount',f'type=bind,src={OPENCODE},dst=/opt/opencode,readonly',*ripgrep_binding(),'--workdir','/root','--entrypoint','/bin/sh',qual.IMAGE,'-c',scan]
+ scan_result=subprocess.run(cmd,capture_output=True,timeout=90);(out/'leak_scan.stdout').write_bytes(scan_result.stdout);(out/'leak_scan.stderr').write_bytes(scan_result.stderr);(out/'leak_scan.exit').write_text(str(scan_result.returncode)+'\n')
+ if scan_result.returncode or scan_result.stdout.decode().splitlines()!=['/root/lib/mpl_toolkits/mplot3d/art3d.py']:raise ValueError('unexpected actor-readable mplot3d path')
  ns={'json':json};exec(core.CAPTURE,ns);body=json.dumps({'model':'mock'}).encode();head=b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: '+str(len(body)).encode()+b'\r\n\r\n';forwarded,meta,_=ns['capture_sampling'](head+body,len(body),lambda _:b'',core.TEMPERATURE,7201)
  if json.loads(forwarded.split(b'\r\n\r\n',1)[1])['seed']!=7201 or meta['temperature']!=core.TEMPERATURE:raise ValueError('sampling override failed')
  try:ns['capture_sampling'](head,len(body),lambda _:b'',core.TEMPERATURE,7201)
  except EOFError:pass
  else:raise ValueError('short request accepted')
- return {'python_stdout_sha256':sha(out/'python.stdout'),'python_stderr_sha256':sha(out/'python.stderr'),'rg_stdout_sha256':sha(out/'rg.stdout'),'rg_stderr_sha256':sha(out/'rg.stderr'),'overlay_sha256':OVERLAYS[task],'ripgrep_sha256':RG_SHA256,'sampling_mock':'PASS'}
+ return {'python_stdout_sha256':sha(out/'python.stdout'),'python_stderr_sha256':sha(out/'python.stderr'),'rg_stdout_sha256':sha(out/'rg.stdout'),'rg_stderr_sha256':sha(out/'rg.stderr'),'overlay_sha256':OVERLAYS[task],'ripgrep_sha256':RG_SHA256,'actor_projection_sha256':ACTOR_DEPS_SHA,'canary':canary,'readable_art3d_paths':['/root/lib/mpl_toolkits/mplot3d/art3d.py'],'excluded_virtual_paths':['/proc','/sys','/dev'],'excluded_verified_unreadable_paths':['/var/cache/apt/archives/partial'],'leak_scan_stdout_sha256':sha(out/'leak_scan.stdout'),'leak_scan_stderr_sha256':sha(out/'leak_scan.stderr'),'scope':'specific mplot3d art3d and Astropy ndarithmetic paths across actor mounts and image; not a general untrusted-sandbox guarantee','sampling_mock':'PASS'}
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--attempt-id',required=True);p.add_argument('--source-attempt-id');p.add_argument('--source-seed',type=int,default=core.SEED);p.add_argument('--seed',type=int,default=core.SEED);p.add_argument('--max-posts',type=int,default=DEFAULT_POSTS);p.add_argument('--max-seconds',type=int,default=DEFAULT_SECONDS);p.add_argument('--context-limit',type=int,default=DEFAULT_CONTEXT);p.add_argument('--output-limit',type=int,default=DEFAULT_OUTPUT)
@@ -323,7 +358,9 @@ def main():
   preflight('source')
   if args.build_experience:build_experience(source_root,args.source_seed,use_revision=args.use_source_revision)
   elif args.reevaluate_source:reevaluate_source(source_root,args.source_seed)
-  else:requests_runner.generate_skill(source_root)
+  else:
+   verify_source_actor_projection(source_root,args.source_seed)
+   requests_runner.generate_skill(source_root)
   return
  if args.use_source_revision:p.error('--use-source-revision applies to --build-experience only')
  if (args.condition=='none')!=(args.experience is None) or ((args.experience is None)!=(args.experience_sha256 is None)):p.error('experience and hash required together')
@@ -339,6 +376,7 @@ def main():
   print(json.dumps(result));return
  target_freeze=None
  if args.task=='target':
+  verify_source_actor_projection(source_root,args.source_seed)
   d=source_root/'source_experience';freeze=d/'target_input_freeze.json';files=('source_history.md','feedback_card.md','generated_skill.md');completed=source_root/f'source__none__seed{args.source_seed}.completed.json'
   if not freeze.exists():
    ledger=json.loads((d/'skill_generation_ledger.json').read_text());meta=json.loads((d/'metadata.json').read_text())
@@ -358,18 +396,20 @@ def main():
   if args.experience and (args.experience.resolve().parent!=d.resolve() or record['artifacts'].get(args.experience.name)!=args.experience_sha256 or args.experience.name!={'source_history':'source_history.md','feedback_card':'feedback_card.md','generated_skill':'generated_skill.md'}[args.condition]):raise ValueError('experience outside frozen set')
   target_freeze=sha(freeze)
  (root/'runtime').mkdir(parents=True,exist_ok=True)
+ if any((root/'runtime').iterdir()):raise ValueError('actor runtime mount must be empty')
  @recorded_episode(root,args.seed)
  def run(task,condition):
   eid=f'{task}__{condition}__seed{args.seed}';case=root/eid;harness=root/(eid+'.harness.py');snapshot=root/(eid+'.outer_runner.py')
   if any(q.exists() for q in (case,harness,snapshot,root/(eid+'.started.json'),root/(eid+'.completed.json'))):raise FileExistsError('episode already exists')
   with harness.open('x') as f:f.write(code)
   with snapshot.open('xb') as f:f.write(Path(__file__).read_bytes())
-  components={'core':Path(core.__file__),'requests_runner':Path(requests_runner.__file__),'qualification':Path(qual.__file__),'auto_record':Path(auto_record.__file__),'evidence_graph':Path(evidence_graph.__file__),'tool_runtime':Path(tool_runtime.__file__),'shared_qualification':Path(shared.__file__),'sphinx_runner':Path(sphinx_runner.__file__),'opencode':OPENCODE};component_hashes={n:sha(v) for n,v in components.items()}
-  plan={'status':'STARTED','component_sha256':component_hashes,'task':task,'condition':condition,'attempt_id':args.attempt_id,'seed':args.seed,'temperature':core.TEMPERATURE,'source_attempt_id':source_root.name,'source_seed':args.source_seed,'max_posts':args.max_posts,'max_seconds':args.max_seconds,'context_limit':args.context_limit,'output_limit':args.output_limit,'proxy_max_bytes':core.MAX_BYTES,'task_identity':control['id'],'base_commit':control['base_commit'],'harness_sha256':sha(harness),'outer_runner_snapshot_sha256':sha(snapshot),'runner_sha256':sha(Path(__file__)),'qualification_sha256':QUAL_SHA,'overlay_sha256':OVERLAYS[task],'ripgrep_sha256':RG_SHA256,'task_text_sha256':control['task_sha256'],'experience_sha256':args.experience_sha256,'target_input_freeze_sha256':target_freeze,'candidate_reference_hidden':True}
+  components={'core':Path(core.__file__),'requests_runner':Path(requests_runner.__file__),'qualification':Path(qual.__file__),'auto_record':Path(auto_record.__file__),'evidence_graph':Path(evidence_graph.__file__),'tool_runtime':Path(tool_runtime.__file__),'actor_dependencies':Path(actor_dependencies.__file__),'shared_qualification':Path(shared.__file__),'sphinx_runner':Path(sphinx_runner.__file__),'opencode':OPENCODE};component_hashes={n:sha(v) for n,v in components.items()}
+  plan={'status':'STARTED','component_sha256':component_hashes,'task':task,'condition':condition,'attempt_id':args.attempt_id,'seed':args.seed,'temperature':core.TEMPERATURE,'source_attempt_id':source_root.name,'source_seed':args.source_seed,'max_posts':args.max_posts,'max_seconds':args.max_seconds,'context_limit':args.context_limit,'output_limit':args.output_limit,'proxy_max_bytes':core.MAX_BYTES,'task_identity':control['id'],'base_commit':control['base_commit'],'harness_sha256':sha(harness),'outer_runner_snapshot_sha256':sha(snapshot),'runner_sha256':sha(Path(__file__)),'qualification_sha256':QUAL_SHA,'actor_projection_sha256':ACTOR_DEPS_SHA,'overlay_sha256':OVERLAYS[task],'ripgrep_sha256':RG_SHA256,'task_text_sha256':control['task_sha256'],'experience_sha256':args.experience_sha256,'target_input_freeze_sha256':target_freeze,'candidate_reference_hidden':True}
   start=root/(eid+'.started.json');start.write_text(json.dumps(plan,indent=2)+'\n')
   proc=subprocess.run([sys.executable,str(harness),task,'no_skill'],stdin=subprocess.DEVNULL,capture_output=True,timeout=args.max_seconds+120);(root/(eid+'.runner.stdout')).write_bytes(proc.stdout);(root/(eid+'.runner.stderr')).write_bytes(proc.stderr);plan.update({'runner_exit':proc.returncode,'started_sha256':sha(start)})
   if sha(snapshot)!=plan['outer_runner_snapshot_sha256'] or any(sha(path)!=component_hashes[n] for n,path in components.items()):raise ValueError('runner snapshot or component changed')
-  ripgrep_binding()
+  ripgrep_binding();verify_projection(ACTOR_DEPS,ACTOR_DEPS_SHA)
+  if any((root/'runtime').iterdir()):raise ValueError('actor runtime mount changed')
   if proc.returncode==0 and (case/'receipt.json').is_file():
    r=json.loads((case/'receipt.json').read_text());raw=case/'raw.jsonl'
    if sha(raw)!=r['raw_sha256']:raise ValueError('raw changed')
