@@ -116,6 +116,10 @@ class DjangoResearchRunnerTests(unittest.TestCase):
             neutral=runner.repair_prompt('SOURCE TASK\n','candidate_neutral_retry',feedback)
             informed=runner.repair_prompt('SOURCE TASK\n','candidate_feedback_retry',feedback)
             self.assertTrue(informed.startswith(neutral));self.assertEqual(informed[len(neutral):],'\n\n'+feedback)
+            self.assertIn('/root/instructions.txt is a read-only issue specification',neutral)
+            self.assertIn('Writable Django project source is under /root/django/',neutral)
+            self.assertIn('Evaluation paths beginning /workspace/',neutral)
+            self.assertNotIn('compiler.py',neutral)
             snapshot=root/'snapshot'; manifest=root/'candidate.json'
             first=runner.freeze_repair_candidate(work,snapshot,manifest,'a'*64)
             second=runner.freeze_repair_candidate(work,snapshot,manifest,'a'*64)

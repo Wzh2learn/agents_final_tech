@@ -341,6 +341,9 @@ def repair_prompt(task: str, condition: str, feedback: str) -> str:
     if condition not in REPAIR_CONDITIONS: raise ValueError('not a source repair condition')
     common=task.rstrip()+'\n\nContinue from the current implementation. Inspect and run relevant local tests yourself; '
     common+='complete the repair without asking for permission. Do not assume the current implementation is correct.'
+    common+=' The file /root/instructions.txt is a read-only issue specification, not executable project source; do not edit it or change its permissions.'
+    common+=' Writable Django project source is under /root/django/. Inspect and modify the relevant project files; a permission error on the specification does not mean the source is read-only.'
+    common+=' Evaluation paths beginning /workspace/ refer to the same repository-relative paths under /root/ in this actor. Apply this path mapping when inspecting diagnostic frames.'
     return common + ('\n\n'+feedback if condition=='candidate_feedback_retry' else '')
 
 

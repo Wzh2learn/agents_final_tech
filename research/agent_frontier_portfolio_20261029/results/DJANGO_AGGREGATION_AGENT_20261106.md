@@ -81,3 +81,7 @@ raw支持更具体的解释：N读完46行题面后尝试编辑`/root/instructio
 **后续裁决**：保留8B为学习/执行候选，当前不直接将其失败经验生成器当可靠教师。先给所有新对照统一的强简单执行合同：明确题面只读、仓库源码可改、应用栈路径与actor路径的对应，实际测试并禁止将题面当待修改程序。该合同是环境说明，不计作新方法；只做一次有边界的N/F资格复验，不反复堆提示。若仍无合法有效修订，使用更强教师的真实执行＋反馈生成经原题与回归验证的轨迹，再决定学习/技能迁移。目标任务仍未运行，未冻结成功skill，尚无新方法增量。
 
 162项raw/回执/组件快照/DRAFT/DB重置与预检工件已双机归位：本机`D:/Documents/Loop_D_assets/agent_learning_20261106/django_source_feedback_controls_20261106.tar.gz`，GB10私有`evidence_packets_20261106/django_source_feedback_controls/`；537,025bytes，SHA `0d9ab8f2f3f43b6b98b9ade832a2554665504eab2d111cde69b08b38b67a0723`。本机逐成员hash与完整包hash均核对相符。包不含完整源码/运行依赖/模型权重/live socket，非独立复现发行包，不入Git。
+
+## 一次执行边界资格复验（运行前）
+
+新attempt `scoped_candidate_retry_controls_8b_20261106`。沿用同一冻结候选、模型、预算、N→F顺序及各臂前空库重建，只向两个prompt共同补充：`instructions.txt`是只读题面，不修改/提权；Django源码在`/root/django/`可改；评测`/workspace/`按同一repo相对路径对应actor的`/root/`。不指定待改函数或修法，F仍只比N多实际诊断。单测确认新说明在两臂相同且未包含compiler文件名。这是一次执行资格复验，不与旧prompt结果作方法优越性比较；若仍无有效源码修订，不再扩提示，转强教师。
