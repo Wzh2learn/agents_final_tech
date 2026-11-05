@@ -22,7 +22,7 @@
 
 ## Git 与工作区
 
-- 主线、集成分支和 GB10 以当前 Git 与远端实测为准；因 GitHub SSH 公钥认证失败，暂由校验过的 Git bundle 对齐本机与 GB10，GitHub 待认证恢复后补推。2026-10-29 的治理起点及历史结果见 [治理与资产地图](../docs/governance/2026-10-29_research_neat_closeout.md)。
+- 主线、集成分支和 GB10 以当前 Git 与远端实测为准；2026-11-05 GitHub SSH 公钥认证已恢复，之前本机与 GB10 通过校验过的 Git bundle 对齐，远端同步状态以实际 fetch/push 为准。2026-10-29 的治理起点及历史结果见 [治理与资产地图](../docs/governance/2026-10-29_research_neat_closeout.md)。
 - 2026-11-05 本机重复集成 worktree 与 GB10 同 HEAD 的 `paper_e_research_20261028` 已核实无独有内容后移除；集成分支引用保留。GB10 另有 7 个历史 worktree，含被忽略的结果、日志或模型文件，暂时保留。GB10 主树 Loop B 测试日志可能持续更新，不回滚或提交。
 - 历史账本各自独立；旧 340-token 差额与已记录的未知模型请求用量未解决，不能自行抹平或将账本简单相加。
 

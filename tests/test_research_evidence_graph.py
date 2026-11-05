@@ -132,3 +132,40 @@ def test_invalid_nested_types_are_reported_without_crash(tmp_path, capsys):
     (tmp_path / "types.json").write_text(json.dumps(snapshot), encoding="utf-8")
     assert main(["--root", str(tmp_path), "types.json"]) == 1
     assert len(json.loads(capsys.readouterr().out)["errors"]) >= 4
+
+
+@pytest.mark.parametrize("location", ["root", "snapshot", "evidence"])
+def test_cli_reports_resolve_runtime_error_as_json(tmp_path, capsys, monkeypatch, location):
+    snapshot = fixture(tmp_path)
+    if location == "evidence":
+        snapshot["evidence"][0]["path"] = "loop"
+    (tmp_path / "snapshot.json").write_text(json.dumps(snapshot), encoding="utf-8")
+    target = tmp_path if location == "root" else tmp_path / ("loop" if location == "evidence" else "snapshot.json")
+    original = Path.resolve
+
+    def fail_target(self, *args, **kwargs):
+        if self == target:
+            raise RuntimeError("Symlink loop")
+        return original(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "resolve", fail_target)
+    assert main(["--root", str(tmp_path), "snapshot.json"]) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report["valid"] is False and report["errors"]
+
+
+@pytest.mark.parametrize("location", ["root", "snapshot", "evidence"])
+def test_cli_handles_real_symlink_loop(tmp_path, capsys, location):
+    snapshot = fixture(tmp_path)
+    if location == "evidence":
+        snapshot["evidence"][0]["path"] = "loop"
+    (tmp_path / "snapshot.json").write_text(json.dumps(snapshot), encoding="utf-8")
+    try:
+        (tmp_path / "loop").symlink_to("loop")
+    except OSError:
+        pytest.skip("symlinks unavailable")
+    root = tmp_path / "loop" if location == "root" else tmp_path
+    snapshot_path = "loop" if location == "snapshot" else "snapshot.json"
+    assert main(["--root", str(root), snapshot_path]) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report["valid"] is False and report["errors"]

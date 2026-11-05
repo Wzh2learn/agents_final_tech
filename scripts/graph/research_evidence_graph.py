@@ -35,13 +35,21 @@ import sys
 from typing import Any
 
 
+def _resolve(path: Path, *, strict: bool = False) -> Path:
+    """Normalize pathlib's pre-3.13 symlink-loop RuntimeError to ValueError."""
+    try:
+        return path.resolve(strict=strict)
+    except RuntimeError as exc:
+        raise ValueError("path resolution failed: " + str(exc)) from exc
+
+
 def _path(root: Path, name: Any) -> Path:
     if not isinstance(name, str) or not name:
         raise ValueError("path must be a nonempty relative string")
     rel = Path(name)
     if rel.is_absolute() or rel.drive or ".." in rel.parts:
         raise ValueError("absolute and parent paths are forbidden")
-    path = (root / rel).resolve()
+    path = _resolve(root / rel)
     try:
         path.relative_to(root)
     except ValueError as exc:
@@ -71,7 +79,7 @@ def _unique_object(pairs):
 
 def validate(root: Path, snapshot: Any) -> dict:
     """Check schema, links, ancestry and evidence bytes within a single root."""
-    root = root.resolve(strict=True)
+    root = _resolve(root, strict=True)
     if not root.is_dir():
         raise ValueError("root must be a directory")
     errors = []
@@ -169,7 +177,7 @@ def main(argv=None) -> int:
     parser.add_argument("snapshot", help="JSON file relative to root")
     args = parser.parse_args(argv)
     try:
-        root = args.root.resolve(strict=True)
+        root = _resolve(args.root, strict=True)
         data = json.loads(_path(root, args.snapshot).read_text(encoding="utf-8"), object_pairs_hook=_unique_object)
         report = validate(root, data)
     except (OSError, ValueError, UnicodeError, json.JSONDecodeError) as exc:

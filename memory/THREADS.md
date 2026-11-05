@@ -15,8 +15,8 @@
 | Django 自然任务 | [固定源码与资格](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已在 ARM 上完成源/目标问题正负控制与 `35/35`、`17/17` 可映射回归。目标无历史臂未修复且产生 2 项回归；历史/skill 臂未改源码、未修复。同候选中性与真实反馈续修已各跑一次，两臂均达到调用上限并保留原有错误，反馈臂完整读取反馈但未修改候选。停止重复该单题，转向能产生可测成功与失败的多来源任务；不据此否定反馈学习。源另有 1 条非测试名未映射，公开旧轨迹不用于时间隔离经验。 |
 | 资源账本 | 历史 340-token 差额、部分未完成 POST 用量、模型权重标识等仍未核实；继续分别记账，不能视作零。 |
 | 长期记忆与自主调度 | [架构说明](../docs/17_Graph_Engineering_多层Loop设计.md#基建升级事实记忆与协作2026-11-05)区分项目状态、会话持久化、向量情景记忆与候选复习/反思；当前仍无已验证的统一八层记忆或恢复型自动队列。反思增量游标仅在单进程内生效，游标已滑出窗口或缺少稳定 ID 时跳过，存储响应丢失后的重试可能重复；现有反射代码配置外部模型接口，实际生产调用未核验，个人对话接入前需明确数据与授权范围。会话元数据约束不代替用户身份和资源归属认证。 |
-| Git 与现场 | 本机旧集成 worktree 的 30 项及 GB10 C 审阅 worktree 的 3 项未跟踪文件此前已校验归档；2026-11-05 又移除了本机和 GB10 各一个已合并、只剩可重建缓存/报告的重复 worktree。GB10 另有 7 个历史 worktree，其 HEAD 均在 main 历史中，但忽略文件含 JSON、日志及模型权重，保留待逐项处理；Loop B 日志保持原状。[历史归档与实验复核](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。GitHub SSH 公钥认证仍未恢复；本机与 GB10 通过校验过的 Git bundle 对齐，待恢复后补推。 |
-| 文档时效与 skill | 2026-11-05 文档 lint 为 0 fail、3 warn：两份 33/34 为项目明确冻结文档，另一份 `m1_coldstart_candidates.md` 仍待相关工作复验，不用仅改日期消警。本次已更新现有 `neat-freak` 与 `spec-first`；GB10 `sync_skills --check` 为 100 项一致，仓库 skill-doctor 为 0 errors、136 warnings，skill-map 报 1 组 `pdf` 同名和 27 条待判的类似引用，不能把候选全部当成真实断链。 |
+| Git 与现场 | 本机旧集成 worktree 的 30 项及 GB10 C 审阅 worktree 的 3 项未跟踪文件此前已校验归档；2026-11-05 又移除了本机和 GB10 各一个已合并、只剩可重建缓存/报告的重复 worktree。GB10 另有 7 个历史 worktree，其 HEAD 均在 main 历史中，但忽略文件含 JSON、日志及模型权重，保留待逐项处理；Loop B 日志保持原状。[历史归档与实验复核](../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)。GitHub SSH 公钥认证于 2026-11-05 复测成功；各端提交与同步状态以实际 Git 检查为准。 |
+| 文档时效与 skill | 2026-11-05 文档 lint 为 0 fail、3 warn：两份 33/34 为项目明确冻结文档，另一份 `m1_coldstart_candidates.md` 仍待相关工作复验，不用仅改日期消警。本次已更新现有 `neat-freak` 与 `spec-first`；本机和 GB10 `sync_skills --check` 为 101 项一致，仓库 skill-doctor 为 0 errors、136 warnings，skill-map 报 1 组 `pdf` 同名和 27 条待判的类似引用，不能把候选全部当成真实断链。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 边界及其他未复验事项保持未知；见[更早快照](archive/THREADS_2026-10-21_pre_workspace_governance.md)，不能因归档宣称解决。 |
 
 不得因记录停止某一候选就将新来源研究或用户已授权的科研一概关闭；也不得因新授权改写旧实验、参考或冻结账本。
