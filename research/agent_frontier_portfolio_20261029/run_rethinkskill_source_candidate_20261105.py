@@ -32,15 +32,21 @@ def main() -> None:
                         help='Separate post-hoc 6000-token output-cap diagnostic; no overwrite')
     mode.add_argument('--constrained', action='store_true',
                       help='Separate 6000-token schema-constrained transport diagnostic')
+    mode.add_argument('--native-feedback', action='store_true',
+                      help='Separate 2500-token native-field source-summary diagnostic')
     args = parser.parse_args()
-    out = ROOT / ('rethinkskill_sphinx_direct_candidate_20261105_constrained' if args.constrained else
+    out = ROOT / ('rethinkskill_sphinx_direct_candidate_20261105_native' if args.native_feedback else
+                 'rethinkskill_sphinx_direct_candidate_20261105_constrained' if args.constrained else
                  'rethinkskill_sphinx_direct_candidate_20261105_long' if args.diagnostic_long
                   else 'rethinkskill_sphinx_direct_candidate_20261105')
     output_cap = 6000 if args.diagnostic_long or args.constrained else 2500
     if out.exists():
         raise FileExistsError('candidate already attempted; inspect prior ledger')
-    task, policy, probe = INPUT / 'task.md', INPUT / 'optimizer_policy.md', INPUT / 'receipt.json'
-    if sha(task) != TASK_SHA or sha(policy) != POLICY_SHA or sha(probe) != PROBE_SHA:
+    input_dir = ROOT / 'rethinkskill_sphinx_adapter_20261105_v6' if args.native_feedback else INPUT
+    task_sha = '527f722e2f1db2b12124bbae4eb47b9f53105daa2b18479ea41b6f8df7b1427d' if args.native_feedback else TASK_SHA
+    probe_sha = 'bfe21f42bbb4d089defdff16cb81eecbd39dabd44bc65bb9279b9d0ca355221b' if args.native_feedback else PROBE_SHA
+    task, policy, probe = input_dir / 'task.md', input_dir / 'optimizer_policy.md', input_dir / 'receipt.json'
+    if sha(task) != task_sha or sha(policy) != POLICY_SHA or sha(probe) != probe_sha:
         raise ValueError('frozen optimizer source contract changed')
     task_text, policy_text = task.read_text(encoding='utf8'), policy.read_text(encoding='utf8')
     if any(marker.casefold() in (task_text + policy_text).casefold() for marker in TARGET_MARKERS):
@@ -64,8 +70,9 @@ def main() -> None:
     request_path.write_bytes(request_bytes)
     ledger_path = out / 'ledger.json'
     ledger = {'status': 'ATTEMPT_STARTED', 'physical_http_attempts': 1, 'usage': None,
-              'request_sha256': sha(request_path), 'source_task_sha256': TASK_SHA, 'output_cap': output_cap,
+              'request_sha256': sha(request_path), 'source_task_sha256': task_sha, 'output_cap': output_cap,
               'schema_constrained': args.constrained,
+              'feedback_view': 'native_field_summary' if args.native_feedback else 'legacy_full_history',
               'scope': 'post-hoc source-only direct-model adaptation; no target execution or validation gate'}
     ledger_path.write_text(json.dumps(ledger, indent=2) + '\n', encoding='utf8')
     started = time.monotonic()

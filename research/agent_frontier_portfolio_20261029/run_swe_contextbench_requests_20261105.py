@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import difflib
 import hashlib
 import json
 from pathlib import Path
@@ -95,11 +96,11 @@ def preflight(task: str) -> dict:
     return c
 
 
-def derive(root: Path, task: str, condition: str, experience: Path | None) -> str:
+def derive(root: Path, task: str, condition: str, experience: Path | None, *, protocol=qual) -> str:
     base_condition = 'none' if condition == 'none' else 'generated_skill'
     code = core.derive(task, base_condition, experience)
-    for old, new in ((str(core.ROOT), str(root)), (str(shared.OUT), str(qual.OUT)),
-                     (str(shared.DEPS), str(qual.SITE)), (str(shared.OVERLAY / 'site'), str(qual.LEGACY))):
+    for old, new in ((str(core.ROOT), str(root)), (str(shared.OUT), str(protocol.OUT)),
+                     (str(shared.DEPS), str(protocol.SITE)), (str(shared.OVERLAY / 'site'), str(protocol.LEGACY))):
         if old not in code:
             raise ValueError('missing harness binding: ' + old)
         code = code.replace(old, new)
@@ -144,7 +145,7 @@ def evaluate(task: str, case: Path, control: dict) -> dict:
     return result
 
 
-def build_experience(root: Path) -> None:
+def build_experience(root: Path, *, protocol=qual, target_markers=('psf__requests-3481', 'pull/3481', 'issues/3481', '#3481'), ignored_paths=(), include_artifact_diff=False) -> None:
     """Freeze source-only clipped history and a transparent feedback digest."""
     completed = root / f'source__none__seed{core.SEED}.completed.json'
     record = json.loads(completed.read_text(encoding='utf8'))
@@ -174,19 +175,39 @@ def build_experience(root: Path) -> None:
     def tree(path):
         return {p.relative_to(path).as_posix(): sha(p) for p in path.rglob('*') if p.is_file()
                 and not any(x in ('.git', '__pycache__', '.pytest_cache') for x in p.parts)
-                and p.name not in ('instructions.txt', 'opencode.json')}
-    before, after = tree(qual.OUT / 'source/clean_base'), tree(case / 'work')
+                and p.name not in ('instructions.txt', 'opencode.json')
+                and p.relative_to(path).as_posix() not in ignored_paths}
+    before, after = tree(protocol.OUT / 'source/clean_base'), tree(case / 'work')
     changed = sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))
-    source = {'source_task': (qual.OUT / 'source/task.txt').read_text(encoding='utf8'),
+    source = {'source_task': (protocol.OUT / 'source/task.txt').read_text(encoding='utf8'),
         'source_result': {'agent_exit': record['agent_exit'], 'posts': record['posts'],
             'request_limit_reached': record['posts'] >= MAX_POSTS,
             'focus_exit': feedback['focus']['exit'], 'focus_count': feedback['focus']['nodes_requested'],
             'regression_exit': feedback['regression']['exit'], 'regression_count': feedback['regression']['nodes_requested'],
             'regression_scope': feedback['regression_scope']}, 'changed_paths': changed}
     digest = json.dumps(source, ensure_ascii=False, indent=2)
-    history = json.dumps({**source, 'source_actions': actions}, ensure_ascii=False, indent=2)
+    extra = {}
+    if include_artifact_diff:
+        pieces, omitted = [], []
+        for name in changed:
+            old, new = protocol.OUT / 'source/clean_base' / name, case / 'work' / name
+            if (Path(name).suffix not in ('.py', '.md', '.txt') or
+                    any(p.is_file() and p.stat().st_size > 1_000_000 for p in (old, new))):
+                omitted.append(name)
+                continue
+            left = old.read_text(encoding='utf8', errors='replace').splitlines(True) if old.is_file() else []
+            right = new.read_text(encoding='utf8', errors='replace').splitlines(True) if new.is_file() else []
+            pieces.extend(difflib.unified_diff(left, right, fromfile='source-base/' + name,
+                                               tofile='source-agent/' + name))
+        diff = ''.join(pieces)
+        extra = {'source_artifact_diff_prefix': diff[:10000], 'source_artifact_diff_chars': len(diff),
+                 'source_artifact_diff_sha256': hashlib.sha256(diff.encode('utf8')).hexdigest(),
+                 'source_artifact_diff_omitted_paths': omitted,
+                 'source_changed_artifact_hashes': {name: {'before': before.get(name), 'after': after.get(name)}
+                                                   for name in changed}}
+    history = json.dumps({**source, **extra, 'source_actions': actions}, ensure_ascii=False, indent=2)
     if any(marker.casefold() in (history + raw.read_text(encoding='utf8')).casefold()
-           for marker in ('psf__requests-3481', 'pull/3481', 'issues/3481', '#3481')):
+           for marker in target_markers):
         raise ValueError('literal target marker in source experience')
     out = root / 'source_experience'
     out.mkdir()
@@ -198,6 +219,10 @@ def build_experience(root: Path) -> None:
             'clipped_outputs': sum(a['output_chars'] > 800 for a in actions),
             'scope': 'source-only; literal target screen is not proof of semantic or pretraining isolation',
             'artifacts': {p.name: sha(p) for p in out.iterdir() if p.is_file()}}
+    if include_artifact_diff:
+        meta['artifact_diff'] = {'cap': 10000, 'chars': extra['source_artifact_diff_chars'],
+                                'sha256': extra['source_artifact_diff_sha256'],
+                                'omitted_paths': extra['source_artifact_diff_omitted_paths']}
     (out / 'metadata.json').write_text(json.dumps(meta, indent=2) + '\n', encoding='utf8')
     print(json.dumps(meta))
 

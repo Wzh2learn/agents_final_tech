@@ -96,6 +96,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证方式**：独立执行固定反例：nDCG当前1.0、官方公式约0.8597187；MAP当前1.0、官方0.5。真实数据影响尚未复算，不预断新结果。
 - **证据**：固定提交d79ba1a7的 `research/paper_e_public_eval_20261028/code/beir_audit.py` 和 `beir_audit_ab.py`；`docs/research/LOOP_D_RESEARCH_PROMPT.md`第0节及官方trec_eval源码链接。
 
+## C-4 外部方法的反馈输入与离线工具先对齐（2026-11-05）
+
+- **失败模式（实测）**：RethinkSkill 接入把完整历史放入自定义反馈字段，明显大于其原生 evaluator 摘要；扩大输出上限未保证契约合规。另有 OpenCode glob/grep 因容器缺 rg 而尝试下载，在禁网环境失败，Agent 生成的经验又将其写成通用工具建议。
+- **对策**：对照固定上游的反馈构造、字段、候选验证和 gate；改变证据信息量必须标明适配，缺失答案或 gold 不补造。先验证离线工具是否存在，再给模型诊断提示。外部方法结构校验和实际方法效果分别验收，格式等价的候选不能直接计作技能改进。
+- **验证**：同一禁网镜像 debug rg 搜索由缺工具 exit1 变为固定 hash 的只读 rg 挂载 exit0，零模型。原生字段摘要诊断一次生成后通过官方三字段及外层提案验证，但 diff 只有末尾换行变化；不据此认定学习收益，也不声称完整原方法复现。
+- **证据**：[近邻接入记录](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)、[现役研究计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)、[离线工具探针](../../scripts/graph/research_tool_runtime.py)。原始请求、响应和 paired 工具日志保存在对应 GB10 私有证据目录。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

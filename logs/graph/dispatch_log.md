@@ -1431,3 +1431,5 @@ echo dispatch_log updated
 [2026-11-05] GOAL-RESUMED-RETHINKSKILL-DIAGNOSTIC: 用户确认框架升级并恢复科研Goal。Sphinx source-only长输出与schema约束诊断各1次POST，共58,839报告tokens（含cache 51,792），0训练/judge；前者正常结束但键名ration不合官方契约，后者6000输出截断，官方离线重放均未获得有效候选。不是方法效果比较；原请求/响应/账本保留。新requests自然问题对由隔离执行子任务资格化，未启动该任务模型。commit待本轮集成。
 
 [2026-11-05] REQUESTS-NATURAL-DEVELOPMENT: source独立问题1/1、回归子集73/73；target none与source_history均参考问题0/2、回归65/65，历史完整读取280/280。三条Agent共71转发POST，源skill生成1POST；加上两次接口诊断，本恢复阶段74POST/916,873报告tokens（缓存692,502已含），另2次超帽拒绝未转发。原题本地流式复核显示版本与gold合同差异，该对停止后续模型比较；全部raw、原评分与后验probe保留，未宣称方法成功/失败。自动记录三次绑定检查通过；同episode重复执行被生成前拒绝。0训练/judge/生产调用。commit见本轮集成。
+
+[2026-11-05] OFFLINE-TOOLS-NATIVE-FEEDBACK-ASTROPY: 缺rg导致OpenCode下载受禁网阻断，零模型成对debug验证只读固定rg挂载可恢复搜索。RethinkSkill改用原生字段摘要，1POST/2,447tokens得到协议合法但仅换行变化的候选，不部署旧目标。Astropy原题复现与gold一致，source base/gold问题0/1和1/1、完整PTP均179/179；target0/3和3/3、PTP均132/132。新runner离线预检、原始测试恢复、脚本换行身份及并发POST帽控制完成；先提交同步再运行source。0训练/judge/生产操作。commit见本轮代码与研究计划集成。

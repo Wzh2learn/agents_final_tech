@@ -75,6 +75,8 @@ def main() -> None:
                         help='Optional frozen source-only response, replayed without a model call')
     parser.add_argument('--candidate-ledger', type=Path,
                         help='Required physical-call ledger for a model response')
+    parser.add_argument('--native-feedback', action='store_true',
+                        help='Use native evaluator field names and a bounded source failure summary')
     args = parser.parse_args()
     if (args.model_response is None) != (args.candidate_ledger is None):
         parser.error('--model-response and --candidate-ledger must be supplied together')
@@ -94,9 +96,20 @@ def main() -> None:
         raise ValueError('source feedback is not the frozen failed-task evaluation')
     if any(marker.casefold() in (history + skill).casefold() for marker in TARGET_MARKERS):
         raise ValueError('source input contains a literal target marker')
+    source_feedback = {'category': 'failure', 'source_history': history,
+                       'focus_test_exit': 1, 'regression_test_exit': 0}
+    if args.native_feedback:
+        wrapped = history.splitlines()[1:]
+        if not wrapped or any('|' not in line for line in wrapped):
+            raise ValueError('source history is not the frozen wrapped JSON')
+        data = json.loads(''.join(line.split('|', 1)[1] for line in wrapped))
+        failure_text = data['source_feedback']['focus_log_tail']
+        source_feedback = {'category': 'failure', 'case_id': 'sphinx-doc__sphinx-8627',
+            'answer': '', 'reason': 'Independent restored source tests failed; final answer not supplied.',
+            'metrics': {'focus_test_exit': 1, 'regression_test_exit': 0}, 'gold': '',
+            'fail_reason': failure_text[-1600:]}
     training = EvaluationOutcome(valid=True, hard=0.0, soft=0.0,
-        feedback=({'category': 'failure', 'source_history': history,
-                   'focus_test_exit': 1, 'regression_test_exit': 0},),
+        feedback=(source_feedback,),
         reference='source-receipt-sha256:' + SOURCE_RECEIPT_SHA,
         attempted_calls=0, completed_calls=0)
     training.validate()
@@ -128,6 +141,9 @@ def main() -> None:
               'upstream_archive_sha256': UPSTREAM_ARCHIVE_SHA, 'verified_upstream_files': files,
               'source_history_sha256': HISTORY_SHA, 'parent_skill_sha256': SKILL_SHA,
               'source_receipt_sha256': SOURCE_RECEIPT_SHA,
+              'feedback_view': 'native_field_summary' if args.native_feedback else 'legacy_full_history',
+              'offline_reused_source_execution': {'posts': receipt.get('posts'),
+                                                  'reported_tokens': receipt.get('reported_tokens')},
               'rendered_task_sha256': sha(OUT / 'task.md'),
               'optimizer_policy_sha256': sha(OUT / 'optimizer_policy.md'),
               'synthetic_positive_valid': good.valid, 'synthetic_missing_fields_valid': bad.valid,

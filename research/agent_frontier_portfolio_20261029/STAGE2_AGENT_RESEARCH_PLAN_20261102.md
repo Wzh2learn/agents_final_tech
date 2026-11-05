@@ -370,6 +370,20 @@ T5 的无历史与可选源历史两条 Agent 轨迹已执行；后者只 glob �
 
 本次恢复阶段截至上述运行累计 `74` 次转发模型POST、`916,873`报告tokens，其中缓存`692,502`已包含在总量；另2次被代理拒绝的超帽请求没有转发。该小计包含三条Agent、一次源skill生成和前述两次RethinkSkill接口诊断；无训练、judge或生产Memory写回，不与历史旧账直接合并。
 
+## 工具修复、反馈接入与 Astropy 批次（2026-11-05）
+
+**工具前提已修复**：[离线工具探针](../../scripts/graph/research_tool_runtime.py)在同一禁网镜像和一次性HOME下成对运行OpenCode搜索；缺rg时exit1且无匹配，只读挂载固定ARM64 rg后exit0、有真实源码匹配，零模型。原工具错误不归因于经验方法。探针总回执 SHA-256 `73791f1a61b9c82d88b5805f73126565a75aa61bb836ffd78f196632846b5519`，私有根 `ripgrep_runtime_probe_20261105/`；rg SHA-256 `968cabe8efed72fd8fd482cb76b6084fcb695fc5293af7fb62296b02f487fb69`。新Astropy所有臂统一使用该绑定；旧轨迹和工具环境不追溯修改。
+
+**公开基线接入推进**：RethinkSkill的原生字段摘要诊断获得一个格式和提案协议合法的replace，但实际diff只删末尾换行，未获得实质修订，未部署旧Sphinx。见[接入与成本记录](IJCNN_RELATED_WORK_REFRESH_20261030.md)。本阶段新模型调用1次、2,447报告tokens，历史源执行不重计；这解除了格式接入的一部分疑问，下一次真正方法比较仍须源训练/独立验证/目标分离，不能省去gate。
+
+**新自然任务资格**：`astropy__astropy-14995` → `astropy__astropy-15082`，source base `b16c7d12ccbc7b2d20364b89fb44285bcbfede54`，target base `c5e2521db013d9641999be9c79d1d807741bc39a`。题面、实际原题复现和参考行为一致：source无mask操作数的bitwise掩码传播在base失败、gold修复；target无mask/无unit的collapse在base报AttributeError、gold返回正确数组并保持单位。source focus base/gold `0/1`、`1/1`，两者完整回归 `179/179`；target为`0/3`、`3/3`，两者完整回归`132/132`。源修复是目标基线祖先；目标正文直接给出源PR和机制，因此该信息对所有Agent可见，不能当成历史臂的独有信息。
+
+[资格器](qualify_swe_contextbench_astropy_20261105.py)回执 SHA-256 `e0ed1ac9cb580b36f65a9c90e4f99b418963e72554be92a031be955afa1fd71d`，私有根 `astropy_qualification_20261105/`；时序证据 SHA-256 `0e2ebe5f2054e9cb0bffd7cc0eb81c771807eacf25b7a6c06bcba77286e6581b`。使用隔离Python3.10/NumPy1.24.3，并仅将Astropy5.3.2 ARM wheel中缺失的17个原生扩展和生成的`_version.py`放入源树；不是固定commit的原生编译，关键Python逻辑保持固定源。覆盖清单SHA-256 `08e6caf6ff363d2e3175af60b017b1030f32bf08ed34949ddc909cbf6b9c6300`；源码BSD-3-Clause，任务数据按发布来源记录。
+
+[Astropy runner](run_swe_contextbench_astropy_20261105.py)复用现有harness、经验提取及自动记录，所有新尝试有独立attempt根，完整outer runner与组件hash在生成前固定。预检已验证实际Python/依赖与OpenCode搜索；原始nested tests恢复反例、资格脚本LF等价/真实差异反例、30并发请求仅24放行的零模型控制均保留在`astropy_agent_20261105/attempts/preflight*/`。先运行source无历史，使用真实源产物和最终反馈冻结历史、普通skill与透明结果卡，再运行target无历史和同预算经验对照；每臂24POST/900秒，seed7201、temperature0.2，模型与工具一致。新源历史额外保留最多10,000字符的真实最终代码diff及完整hash，避免仅依赖截断的edit输入；该字段同时提供给普通历史和skill生成。未通过参考测试、原题行为、异常退出和预算耗尽分开记录。
+
+主研究问题继续沿用既有的“可运行指令、推断条件与环境副作用分离”，观察经验是否改变可执行行为，再决定采用来源约束编译、执行见证或适用性学习。先完成这些强基线；已有公开方法的字段结构、历史回放或简单规则能够解释结果时，以其为参照调整候选。训练与蒸馏仍是可选路线，监督需来自语义合格的真实结果，并计入形成和验证成本。
+
 ## 与 Paper E 并行
 
 用户已将 Paper E 的 ICINT 匿名审阅稿与导师讨论稿发送给老师，等待导师及作者团队反馈；收到意见后继续确认署名、AI 声明、论文集出版与学校认定。只有在 ICINT 拒稿或正式撤稿后才考虑 ICDAR 顺序投稿。2026-11-05 用户确认升级并恢复科研 Goal；不进行未授权的投稿、付款、公开或外部联系。

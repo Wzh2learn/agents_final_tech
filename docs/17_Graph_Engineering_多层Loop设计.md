@@ -35,6 +35,8 @@
 
 恢复科研后，[Requests runner](../research/agent_frontier_portfolio_20261029/run_swe_contextbench_requests_20261105.py)也已接入该记录器，并在两道真实任务上实跑。它以显式 `--attempt-id` 的独立输出目录容纳同参数新尝试，源经验在首次目标调用前冻结；这一做法没有改写上述三个历史入口的标识。经验形成、Agent 正常收尾、参考测试与原始题面行为分别记录，不将任何一个返回码直接等同于任务全面成功。
 
+[离线工具检查](../scripts/graph/research_tool_runtime.py)固定ARM64 ripgrep字节并生成只读挂载；在无网络、无模型桥接的OpenCode debug搜索中，缺工具对照失败，挂载后能搜索真实源码。Astropy新批次使用此工具profile及明确的Python运行环境；这不追溯改变旧episode，也没有替换生产镜像或主机服务。环境预检使用独立输出，已有结果拒绝覆盖。
+
 ## 基建升级：事实、记忆与协作（2026-11-05）
 
 本次按用户要求暂停科研目标，以**现有实现反向拆解**后选择增量改进。外部参考固定为 [Khazix Skills `35bd05b`](https://github.com/KKKKhazix/khazix-skills/tree/35bd05b466ceb83a727b28afb54b45b69a6c3b0a)、[Agent Autoloop `8f8e2ee`](https://github.com/KKKKhazix/agent-autoloop/tree/8f8e2eef3cfaa8f7a418818adc442450fe6bd884) 和 [DeepSeek Superagent 原型 `8c32a9d`](https://github.com/deepseek-ai/dsh-superagent-prototype/tree/8c32a9dc5d72c033816c6a8110b37f40cf94fba4)；均为 MIT 许可的参考源码，未直接安装自动调度器。参考原型、设计文章和本项目实测需分开，不能把源码设计当成本项目已上线能力。

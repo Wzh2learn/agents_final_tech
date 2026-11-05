@@ -9,7 +9,7 @@
 | 需要 | 权威入口 |
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
-| Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[科研证据自动记录](../scripts/graph/research_auto_record.py)、[科研证据图检查](../scripts/graph/research_evidence_graph.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
+| Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[科研证据自动记录](../scripts/graph/research_auto_record.py)、[科研证据图检查](../scripts/graph/research_evidence_graph.py)、[离线研究工具检查](../scripts/graph/research_tool_runtime.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
 | 研究入口 | [`research/README.md`](research/README.md) |
 | Agent 实验离线接续脚本 | [压缩轨迹复算](../research/agent_frontier_portfolio_20261029/audit_compaction_events_20261105.py)、[RethinkSkill 源适配探针](../research/agent_frontier_portfolio_20261029/prepare_rethinkskill_sphinx_20261105.py)、[源候选接口](../research/agent_frontier_portfolio_20261029/run_rethinkskill_source_candidate_20261105.py)、[复算测试](../research/agent_frontier_portfolio_20261029/test_audit_compaction_events_20261105.py)；真实调用须遵循当前目标和预算，现状见研究计划。 |
 | 导师确认材料 | [现役学位方向与小论文进展](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)、[转发 PDF](../output/pdf/advisor_brief_20261102.pdf) |
