@@ -1439,3 +1439,7 @@ echo dispatch_log updated
 [2026-11-06] ASTROPY-CONTROLS-AND-MATPLOTLIB-QUALIFICATION: 冻结结果卡完成24POST/298,054报告tokens，问题0/3、回归132/132；原Astropy组含形成共84POST/1,139,010tokens。轨迹复核发现源补丁完整读取但末次模型8192输出length，不能归因compaction。新增显式目标seed/context/output/调用与时间设置、源经验复用及确定性长行安全/源补丁结果基线；原默认harness4臂逐字节不变，新参数/原值roundtrip零模型验证12项。Matplotlib新项目原题、base/gold与完整136/150回归资格通过，保留首套ABI失败和混合构建边界；其模型调用0。用户已确认可调整本地实验配额；新同配置4臂按当前批次合同执行。
 
 [2026-11-06] MATPLOTLIB-AGENT-PREFLIGHT: 复用core/Requests派生、自动记录和固定rg，source/target零模型预检通过；50虚拟并发POST放行48，重复输出拒绝，合成gold评分恢复测试通过且候选不改写；源经验构造保留真实diff和原题结果。预检/合成数据不计Agent方法样本。实际source待Astropy同配置四臂完成后串行启动；当前四臂使用固定9c92521b组件，新增独立runner不修改其正在执行组件。
+
+[2026-11-06] ASTROPY-MATCHED-CONTROLS-MATPLOTLIB-SOURCE: Astropy统一65536/16384、48POST/1500s、seed7202的none/补丁结果/安全历史/普通skill均问题3/3+回归132/132，19/16/12/19POST，共66POST/1,866,784tokens(cache1,602,038已含)。完整历史为本组更强简单基线，不归因为通用效率因果。Matplotlib真实source34POST/921,757tokens(agent0)，原评分被pytest生成图片链接阻断；保留raw/候选/completed后零模型重评2/2+136/136。pre/post颜色形状差是附加未明示性质，不能代替原题合法性判据；源经验绑定双通道反馈，未编造整体错误或完美语义。
+
+[2026-11-06] MATPLOTLIB-SOURCE-INPUTS-FROZEN: 原source评分/候选/raw保持不变，PNG/pytest预期链接限定排除、源码仍保留，后验重评2/2+136/136；附加颜色形状性质不替代原题合同。source-only历史和结果卡绑定原状态与revision；本地普通skill形成1POST/18,778tokens，正常stop。target三输入已冻结(65942eda)，目标模型调用0。该项目形成阶段35POST/940,535tokens，未新增训练/judge，未来从此检查点继续。

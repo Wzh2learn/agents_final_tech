@@ -6,21 +6,20 @@
 
 Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形成经验，并在任务、工具或环境变化后选择、验证和修订经验。IJCNN 2027 为目标窗口；Paper E 已交导师，等待反馈，ICINT 首投、ICDAR 顺序备投。
 
-默认搜索与文档分层已更新，三端同步以Git实测为准。Astropy 普通 skill 臂已自然结束并归位；未为整理重跑或覆盖它。结果卡已结束且未完成完整修复。下一检查点是统一较大上下文/输出配额下的强基线比较，；Matplotlib原题/base/gold已完成资格，尚未运行Agent。详见当前批次合同与[新来源资格](results/MATPLOTLIB_QUALIFICATION_20261106.md)。
+Astropy统一较大资源配置的四臂已结束，全部完整修复；完整历史在该次运行中比普通skill更省目标执行成本。Matplotlib真实source已重评并形成经验，目标输入已冻结；下一步冻结其实际经验，再比较target，而非延续Astropy旧的skill独胜解释。
 
-## 最新开发证据：Astropy
+## 最新开发证据
 
-源 `14995` → 目标 `15082`；目标正文已公开提及源 PR，各臂共享此信息。独立原题、base/gold 和完整回归先完成资格验证；详见[批次结果与复放入口](results/ASTROPY_PILOT_20261106.md)。
+源`Astropy14995`→目标`15082`已完成[同配置强基线对照](results/ASTROPY_PROFILE_CONTROLS_20261106.md)；原source和旧profile结果独立保留。新组seed7202、context65536/output16384、每臂48POST/1500秒：
 
-| 条件 | 问题测试 | 回归 | POST / reported tokens | 执行状态 |
-| --- | --- | --- | --- | --- |
-| 源无历史 | 1/1 | 179/179 | 14 / 154,712 | 正常退出 |
-| 目标无历史 | 0/3 | 132/132 | 15 / 246,557 | 正常退出；数值正确但 mask 契约未满足 |
-| 目标普通历史 | 0/3 | 132/132 | 6 / 79,588 | 进程0但模型length终止；原题仍异常，长行被截断 |
-| 目标普通 skill | 3/3 | 132/132 | 24 / 351,534 | 达请求上限、Agent exit1；独立产物和原题行为通过 |
-| 目标结果卡 | 0/3 | 132/132 | 24 / 298,054 | 达请求上限；mask仍为全False |
+| 目标输入 | 关键测试 / 回归 | POST / reported tokens | 执行 |
+| --- | --- | --- | --- |
+| 无历史 | 3/3、132/132 | 19 /677,365 | exit0 |
+| 源补丁＋真实结果 | 3/3、132/132 | 16 /454,616 | exit0、输入完整读取 |
+| 长行安全完整历史 | 3/3、132/132 | 12 /325,435 | exit0、输入完整读取 |
+| 普通生成skill | 3/3、132/132 | 19 /409,368 | exit0、输入完整读取 |
 
-普通 skill 形成另用 1 POST / 8,565 tokens；缓存读取包含在报告 tokens 中，不再相加。以上为一个已曝光任务对、单 seed；有正向开发线索，尚非方法或跨来源确认。混合 wheel 原生扩展及 NumPy ABI 警告在所有臂保留。普通历史源题行被截短，但源补丁完整读取；末次8192输出以length结束。skill32行完整读取。新批次统一更大配额并加入长行安全历史和源补丁摘要。
+本组66POST/1,866,784tokens；缓存已含、形成费用沿原账不重复计。总token、未缓存输入/输出和时间分别比较，不拿单一代理指标宣称成本收益。各格只有一个任务/seed；尚无新方法超过最强简单基线。Matplotlib[原题/base-gold资格](results/MATPLOTLIB_QUALIFICATION_20261106.md)已通过，source原评分因绘图缓存未决，另行保留原件重评后2/2、136/136；窄合同与附加性质并列记录。混合native组件与开发预曝光边界保留。
 
 ## 进入投稿稿制作的门槛
 
@@ -38,7 +37,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 | 要解决的具体问题 | 只加载这些材料 |
 | --- | --- |
-| 当前 Astropy 比较与下一臂 | [当前批次](results/ASTROPY_PILOT_20261106.md)，再按其中路径读取私有 completed/raw/冻结输入；不先扫全部历史。 |
+| 当前 Astropy 比较与下一臂 | [当前批次](results/ASTROPY_PROFILE_CONTROLS_20261106.md)，再按其中路径读取私有 completed/raw/冻结输入；不先扫全部历史。 |
 | 真实任务时序 / SymPy | [来源和 SymPy](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md) |
 | Django 读取、前置反馈和同候选续修 | [Django](../../docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md) |
 | Sphinx 失败状态与摘要/续写 | [Sphinx](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md) |
@@ -55,49 +54,37 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 ## 旧章节链接
 
-保留已有深链接；每项直接指向对应证据，不扩充启动正文。
+按原始主题分组保留深链接；点击后只读对应历史片段。
 
 <a id="当前优先级2026-11-04"></a>
-[原章节：当前优先级（2026-11-04）](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
-
 <a id="地震与板块工作流下一组开发对照2026-11-03"></a>
-[原章节：地震与板块工作流：下一组开发对照（2026-11-03）](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
-
 <a id="两条并行问题线"></a>
-[原章节：两条并行问题线](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
-
 <a id="输入格式变化的可视化工作流资格与开发2026-11-04"></a>
-[原章节：输入格式变化的可视化工作流：资格与开发（2026-11-04）](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
-
 <a id="evoclaw-配置迁移公开反馈与独立合同2026-11-04"></a>
-[原章节：EvoClaw 配置迁移：公开反馈与独立合同（2026-11-04）](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
+[当前优先级（2026-11-04） 等原章节](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
 
 <a id="swe-skills-bench--aiohttp真实项目执行资格2026-11-04"></a>
-[原章节：SWE-Skills-Bench / aiohttp：真实项目执行资格（2026-11-04）](../../docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md)
+[SWE-Skills-Bench / aiohttp：真实项目执行资格（2026-11-04） 原记录](../../docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md)
 
 <a id="swe-skills-bench--sympy第二项目资格2026-11-04"></a>
-[原章节：SWE-Skills-Bench / SymPy：第二项目资格（2026-11-04）](../../docs/archive/2026-11-06_agent_research_context/sympy_skill_development_20261104.md)
+[SWE-Skills-Bench / SymPy：第二项目资格（2026-11-04） 原记录](../../docs/archive/2026-11-06_agent_research_context/sympy_skill_development_20261104.md)
 
 <a id="swe-contextbench真实问题对与经验时间边界2026-11-04"></a>
-[原章节：SWE-ContextBench：真实问题对与经验时间边界（2026-11-04）](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)
+[SWE-ContextBench：真实问题对与经验时间边界（2026-11-04） 原记录](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)
 
 <a id="升级后目标接续2026-11-05用户已恢复"></a>
-[原章节：升级后目标接续（2026-11-05，用户已恢复）](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md)
+[升级后目标接续（2026-11-05，用户已恢复） 原记录](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md)
 
 <a id="任务组合和实验顺序"></a>
-[原章节：任务组合和实验顺序](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
-
 <a id="当前来源资格skillevolbench-的-api-重试族"></a>
-[原章节：当前来源资格：SkillEvolBench 的 API 重试族](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
+[任务组合和实验顺序 等原章节](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
 
 <a id="不同来源的连续办公任务开发2026-11-0304"></a>
-[原章节：不同来源的连续办公任务开发（2026-11-03—04）](../../docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md)
+[不同来源的连续办公任务开发（2026-11-03—04） 原记录](../../docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md)
 
 <a id="恢复研究requests-自然任务对2026-11-05"></a>
-[原章节：恢复研究：Requests 自然任务对（2026-11-05）](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md)
+[恢复研究：Requests 自然任务对（2026-11-05） 原记录](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md)
 
 <a id="工具修复反馈接入与-astropy-批次2026-11-05"></a>
-[原章节：工具修复、反馈接入与 Astropy 批次（2026-11-05）](results/ASTROPY_PILOT_20261106.md)
-
 <a id="与-paper-e-并行"></a>
-[原章节：与 Paper E 并行](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)
+[工具修复、反馈接入与 Astropy 批次（2026-11-05） 等原章节](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)

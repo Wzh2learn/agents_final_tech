@@ -39,34 +39,20 @@
 
 ## 旧章节链接
 
-保留已有深链接；每项直接指向对应证据，不扩充启动正文。
+按原始主题分组保留深链接；点击后只读对应历史片段。
 
 <a id="2026-10-30真实工具-agent-的技能与执行预算探针"></a>
-[原章节：2026-10-30：真实工具 Agent 的技能与执行预算探针](../../docs/archive/2026-11-06_agent_research_context/portfolio_early_runs_20261030.md)
-
 <a id="2026-10-30ijcnn-目标及首次连续反馈开发运行"></a>
-[原章节：2026-10-30：IJCNN 目标及首次连续反馈开发运行](../../docs/archive/2026-11-06_agent_research_context/portfolio_early_runs_20261030.md)
+[2026-10-30：真实工具 Agent 的技能与执行预算探针 等原章节](../../docs/archive/2026-11-06_agent_research_context/portfolio_early_runs_20261030.md)
 
 <a id="2026-10-30连续技能学习公开基准资格探索"></a>
-[原章节：2026-10-30：连续技能学习公开基准资格探索](../../docs/archive/2026-11-06_agent_research_context/portfolio_scope_20261029_30.md)
-
 <a id="2026-10-29-第二篇用户认可的两条主线与首个比较"></a>
-[原章节：2026-10-29 第二篇：用户认可的两条主线与首个比较](../../docs/archive/2026-11-06_agent_research_context/portfolio_scope_20261029_30.md)
-
 <a id="2026-10-29-负责人补充长期研究不收窄为一次评价发现"></a>
-[原章节：2026-10-29 负责人补充：长期研究不收窄为一次评价发现](../../docs/archive/2026-11-06_agent_research_context/portfolio_scope_20261029_30.md)
-
 <a id="1-已有研究的界限什么不能直接算创新"></a>
-[原章节：1. 已有研究的界限：什么不能直接算创新](../../docs/archive/2026-11-06_agent_research_context/portfolio_scope_20261029_30.md)
+[2026-10-30：连续技能学习公开基准资格探索 等原章节](../../docs/archive/2026-11-06_agent_research_context/portfolio_scope_20261029_30.md)
 
 <a id="2-候选-a环境变化下的-agent-skill-适用性与可靠迁移优先资格验证"></a>
-[原章节：2. 候选 A：环境变化下的 Agent skill 适用性与可靠迁移（优先资格验证）](../../docs/archive/2026-11-06_agent_research_context/portfolio_candidates_20261029.md)
-
 <a id="3-候选-b可验证预算分配什么时候让更多-agent-帮忙"></a>
-[原章节：3. 候选 B：可验证预算分配：什么时候让更多 Agent 帮忙？](../../docs/archive/2026-11-06_agent_research_context/portfolio_candidates_20261029.md)
-
 <a id="4-候选-c不确定工具结果下的执行恢复与受控副作用"></a>
-[原章节：4. 候选 C：不确定工具结果下的执行恢复与受控副作用](../../docs/archive/2026-11-06_agent_research_context/portfolio_candidates_20261029.md)
-
 <a id="5-已完成的只读资格检查和下一步"></a>
-[原章节：5. 已完成的只读资格检查和下一步](../../docs/archive/2026-11-06_agent_research_context/portfolio_candidates_20261029.md)
+[2. 候选 A：环境变化下的 Agent skill 适用性与可靠迁移（优先资格验证） 等原章节](../../docs/archive/2026-11-06_agent_research_context/portfolio_candidates_20261029.md)

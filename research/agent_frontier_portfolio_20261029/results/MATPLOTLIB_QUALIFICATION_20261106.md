@@ -39,10 +39,30 @@ GB10私有根：`/home/testuser/wzh/research_evidence/agent_learning_20261030/ma
 一次限定范围的独立只读核对已复算回执、映射、原题结果及归档实体化文件，未见阻断；它是AI代码/文件核对，不是人工专业金标。此次新增模型、训练、judge、生产调用均0。下一步复用已修复的离线搜索、真实源执行、冻结经验与自动账本，先完成自然source，再开展同配置target强基线。
 
 
-## Agent 执行入口（尚未模型实跑）
+## Agent 执行入口与预检
 
 [运行器](../run_swe_contextbench_matplotlib_20261106.py)复用现有core/Requests派生、自动记录和固定rg，无全局模块参数替换。默认context65536/output16384、48转发POST/1500秒，seed/限额显式配置；source/target各使用对应冻结依赖。实际Agent完成后，评分副本恢复冻结测试、ancestor conftest与pytest配置，再独立跑原题和全部映射测试。
 
 零模型预检根：`matplotlib_agent_20261106/attempts/preflight3/`。当前原始runner SHA-256 `d0015ddf171a10644eea59ff24af52b553458e90a2ce3b4ce44bb4679d67e9f7`；source/target均通过隔离绘图、rg、源archive/overlay/完整节点及资格hash核验。`preflight2/post_cap_probe/receipt.json`记录50个并发虚拟POST仅放行48；`preflight1/evaluator_gold_probe/preflight_receipt.json`记录合成参考候选的测试篡改被还原，独立问题1/1、回归150/150且原候选保留。重复预检拒绝并保留旧hash。合成seed7244仅用来验证源经验构造，不计为Agent样本。
 
-独立只读源码核对确认当前文件与preflight3哈希一致、source工作区不包含gold/隐藏补丁/未来Git，未发现默认source命令的确定性阻断；实际行为仍待实跑。下一source执行用独立attempt `pilot_matplotlib_20261106`，默认seed7201；待当前Astropy四臂结束后串行启动，不争用模型。
+独立只读源码核对确认当前文件与preflight3哈希一致、source工作区不包含gold/隐藏补丁/未来Git，未发现默认source命令的确定性阻断；实际行为仍待实跑。实际source使用独立attempt `pilot_matplotlib_20261106`、seed7201，在Astropy四臂完成后串行执行，未争用模型。
+
+
+## 实际source与保留原件的重评
+
+代码快照`502c095f`下的source实际执行已结束：Agent exit0，34转发POST /921,757 reported tokens（含缓存875,411）；未缓存输入38,176、输出8,170，自动计时202.17秒。原completed SHA-256 `154c53615751e26f4ce7ff9d6da13fcefb4afd4e1bae9487acc9bcdcb2d309bd`、raw SHA `b5cd61f9228bb26ac2f0a7f00138ed7dfe33bd4fe481d8b31e6a5fe0986cd2dc`。
+
+原评分因公开绘图测试生成的`result_images`预期图片软链接而返回`UNRESOLVED_SYMLINK`，不是已评出的失败。现仅排除原clean_base不存在、且根目录自身不是软链接的生成图片项，记录99个PNG/55个预期图片链接；其他源码或异常链接继续拒绝。缓存清单SHA `12fef49546507d465fb92f90427ec34b8e862d5fa0da82b233e522b51df95a14`。真实源码变更仍为art3d.py与测试文件，完整diff1497字符；未把图片当成代码改动或经验指令。
+
+零模型、独立评分副本重评结果：冻结关键测试**2/2**、完整回归**136/136**，原题调用不再抛异常。原candidate逐文件/链接manifest、raw和completed前后不变，原状态不重写；新revision在`pilot_matplotlib_20261106/source__none__seed7201/post_run_recheck_generated_images_v1/receipt.json`，SHA `869ed49561c2c902b6e226e98ace4528b3ab352dd01c2024e70fb77d8209d740`。
+
+**附加属性范围校准**：候选首次get_facecolors返回形状[1,4]，draw后为[2500,4]；参考修复前后稳定。原问题只给出异常，未明确要求首次长度及前后稳定；collection API也允许单颜色。因此这是一项有动机的补充观察，不能单凭它宣布整个source修复非法。源经验并列记录公开窄合同通过、实测形状变化和更广泛语义未确定，不把“测试通过”扩展成所有映射行为都已验证。
+
+源经验已零模型构造，39个真实工具动作，6项输入/16项输出按既有600/800字符规则截取，并另保留完整实际diff。`source_experience/metadata.json` SHA `961feaee7f22cdcc82c9c6dce1c5a120368659aeb11200c68e186aae149d6b5e`；history `28c0fdfaa8e04fdb7fe54e866e9f9a3bedb0afae1977f4f310fcb58b27c2e886`；结果卡 `8dc3961f28a369b47407860aecbba0d01cead66cb49f82eb22d009d66d3eeff8`。元数据明确绑定原status、重评hash和附加性质范围，target冻结前再次复核。构造命令已执行，不能覆盖重建；普通skill随后已编译，目标输入已冻结，见下。
+
+4项定向artifact/revision测试已在GB10通过；本机因无Windows软链接权限有2项平台跳过，其他保护不弱化。此修订没有新增模型调用，不改测试节点或参考。
+
+
+普通skill形成使用已提交`502c095f`入口和既有抽取器，真实1次本地POST、17,918输入＋860输出＝18,778tokens，缓存0，25.245秒正常stop。skill SHA `33210f513ef16d4873ddb8c7f2cab8b88211130bce98c070c397331f211de698`；保留原请求与响应，未人为润色或纠正。它包含对源初始化路径的概括及列映射更新等未决条件；源测试实际只检查RGBA与不抛异常，不能把模型建议的所有检查当作已执行事实。
+
+target尚未调用模型。源history42,672bytes/430行/最长1581字符、结果卡2397bytes、skill3314bytes；实际读取仍需在目标执行时核对。`source_experience/target_input_freeze.json` SHA `65942eda7a2d45b56960e9ecb53b94226074fc2f3af0b26f55cbfc99292b33b6`，绑定原source、修订评价、source metadata、形成账本及三个输入文件。该项目累计形成阶段35POST/940,535tokens，source与skill形成分项记账。下一检查点是在相同target版本和资源下跑无历史、普通历史、普通skill及透明反馈对照，再决定是否增加实际补丁摘要/跨seed；新额外输入须另行冻结，不改已冻结三文件。

@@ -66,11 +66,4 @@ GB10 私有证据根：
 
 **开发裁决**：普通skill有一次合格修复，尚不归因于表示或学习机制；旧原始历史的工具/生成约束及不同探索量是替代解释。不重复旧分数当确认。
 
-**下一批事前合同（在旧结果后设计，新的运行前冻结）**：复用该次真实源，不重新生成源或skill。固定新attempt、seed7202及同一模型/工具/参考；统一实验端context65536、output16384、每臂48转发POST/1500秒，服务实际上限只读核对为65536，不重启服务。新一轮比较：无历史、原始对象等值的长行安全历史、原普通skill、确定性的完整源补丁＋真实结果。每条input hash和来源先绑定。至多4臂192次转发；不把该设置与旧8192/24臂直接解释为单一变量因果实验。
-
-长行安全历史必须能逐值重建原对象，不补造新反馈；补丁摘要必须来自完整实际源diff与独立结果，不加入目标参考或推断修复指令。新组用于排除简单证据组织及预算解释，随后决定重复、公开近邻和新项目资格。目标均为已曝光开发任务；原source形成费用只在原批次记一次，新增目标费用单记。
-
-
-新输入profile已零模型生成，根在`astropy_agent_20261105/attempts/profile_controls_20261106/source_experience/`；manifest SHA-256 `5cf3474b13d2030715e171ffaceb31dca340b3073ad1195e8a726d945f71a2b0`。长行安全历史SHA `9d6e8847b64dc5a073f906962d38532aa451c5455e012534e66eda9ea1624663`，源补丁/结果摘要SHA `3739e9999f1cefcd7b5f821d3782eda81cec3b18d2566d74c2694a9f20f3c8c4`；普通skill沿原hash。新target顺序固定为none→源补丁结果→长行安全历史→普通skill，seed7202；source沿用原seed7201，只在原批次记账。
-
-[输入准备器](../prepare_astropy_evidence_profiles_20261106.py)校验源raw/评分/完整diff，拒绝跨来源错误绑定、刷新hash后向摘要追加的无来源文本及覆盖已有profile。修改后的runner默认4种target派生与旧harness逐字节相同；新seed实际进入代理payload、路径和配置，新增上下文/输出/请求及墙时设置在零模型控制中核对。代码验证、原值roundtrip及参数检查12项通过，8项准备器测试通过；首个私有验证目录存在一次导入旧模块导致的测试失败，第二目录显式加载新模块后通过，未冒充科学结果。证据在`astropy_agent_20261105/implementation_check2_20261106/implementation_receipt.json`。原记录和旧执行上限不追溯修改。
+后续统一资源配置的四臂已另记为[强基线开发对照](ASTROPY_PROFILE_CONTROLS_20261106.md)，避免把两种profile与seed混为重复。新组没有新增source或skill形成调用。

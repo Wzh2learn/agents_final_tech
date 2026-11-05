@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Private Matplotlib ContextBench agent runner; no model calls in preflight."""
 from __future__ import annotations
-import argparse, difflib, hashlib, json, re, shutil, subprocess, sys, tarfile
+import argparse, difflib, hashlib, json, os, re, shutil, stat, subprocess, sys, tarfile
 from collections import Counter
 from pathlib import Path, PurePosixPath
 from types import SimpleNamespace
@@ -127,12 +127,54 @@ def derive(root,task,condition,experience,*,seed,max_posts,max_seconds,context_l
  code=core.replace_once(code,'cmd[_at:_at]=[','cmd[_at:_at]='+repr(ripgrep_binding())+'+[')
  compile(code,'<matplotlib-agent-harness>','exec');return code
 
-def evaluate(task,case):
- work=case/'work'
- if any(p.is_symlink() for p in work.rglob('*')):return {'status':'UNRESOLVED_SYMLINK'}
- out=case/'post_run_evaluation_restored_tests';out.mkdir();copy=out/'candidate'
- shutil.copytree(work,copy,ignore=shutil.ignore_patterns('.git','__pycache__','.pytest_cache','instructions.txt','opencode.json','source_experience.md'))
- clean=qual.OUT/task/'clean_base';testfile=Path(qual.CASES[task][5]);testdir=testfile.parent
+def candidate_manifest(work):
+ """Fingerprint every candidate file/link without following symlinks."""
+ if work.is_symlink() or not work.is_dir():raise ValueError('candidate root is not a regular directory')
+ entries={}
+ for directory,dirs,files in os.walk(work,topdown=True,followlinks=False):
+  dirs.sort();files.sort()
+  for name in dirs+files:
+   path=Path(directory)/name;rel=path.relative_to(work).as_posix();info=path.lstat()
+   if stat.S_ISLNK(info.st_mode):entries[rel]={'type':'symlink','target':os.readlink(path)}
+   elif stat.S_ISREG(info.st_mode):entries[rel]={'type':'file','sha256':sha(path),'bytes':info.st_size}
+   elif stat.S_ISDIR(info.st_mode):entries[rel]={'type':'directory'}
+   else:raise ValueError('unsupported candidate entry '+rel)
+ return entries
+
+def inspect_candidate_artifacts(work,clean):
+ """Only exclude a newly generated, non-symlink root result_images directory."""
+ artifact=work/'result_images';frozen=clean/'result_images'
+ eligible=not os.path.lexists(frozen) and not artifact.is_symlink() and artifact.is_dir()
+ excluded=[];excluded_files=[];unresolved=[]
+ for directory,dirs,files in os.walk(work,topdown=True,followlinks=False):
+  dirs.sort();files.sort()
+  for name in dirs+files:
+   path=Path(directory)/name
+   rel=path.relative_to(work).as_posix()
+   if path.is_symlink():
+    entry={'path':rel,'target':os.readlink(path)}
+    if eligible and rel.startswith('result_images/') and path.name.endswith('-expected.png') and entry['target'].startswith('/root/lib/mpl_toolkits/') and '/baseline_images/' in entry['target'] and '..' not in PurePosixPath(entry['target']).parts:excluded.append(entry)
+    else:unresolved.append(entry)
+   elif eligible and rel.startswith('result_images/') and path.is_file() and path.suffix=='.png':excluded_files.append(rel)
+ return {'excluded_root':'result_images' if eligible else None,'excluded_symlinks':excluded,'excluded_files':excluded_files,'unresolved_symlinks':unresolved,'frozen_root_absent':not os.path.lexists(frozen)}
+
+def new_evaluation_dir(case,name):
+ if not re.fullmatch(r'[A-Za-z0-9_][A-Za-z0-9_-]{0,63}',name):raise ValueError('invalid evaluation directory')
+ out=case/name;out.mkdir(exist_ok=False);return out
+
+def evaluate(task,case,*,output_name='post_run_evaluation_restored_tests'):
+ work=case/'work';clean=qual.OUT/task/'clean_base';artifacts=inspect_candidate_artifacts(work,clean)
+ if artifacts['unresolved_symlinks']:return {'status':'UNRESOLVED_SYMLINK','artifacts':artifacts}
+ out=new_evaluation_dir(case,output_name);copy=out/'candidate'
+ standard=shutil.ignore_patterns('.git','__pycache__','.pytest_cache','instructions.txt','opencode.json','source_experience.md')
+ artifact_paths=set(artifacts['excluded_files'])|{entry['path'] for entry in artifacts['excluded_symlinks']}
+ def ignore(directory,names):
+  ignored=set(standard(directory,names))
+  for name in names:
+   if (Path(directory)/name).relative_to(work).as_posix() in artifact_paths:ignored.add(name)
+  return ignored
+ shutil.copytree(work,copy,ignore=ignore)
+ testfile=Path(qual.CASES[task][5]);testdir=testfile.parent
  if (copy/testdir).exists():shutil.rmtree(copy/testdir)
  shutil.copytree(clean/testdir,copy/testdir)
  restored=[]
@@ -146,18 +188,75 @@ def evaluate(task,case):
   if src.is_file():shutil.copyfile(src,dst);restored.append(name)
   elif dst.exists():dst.unlink();restored.append(name+' (candidate-only removed)')
  patch=qual.patch(copy,row_for(task)['test_patch'],out/'test.patch')
- result={'status':'TEST_PATCH_CONFLICT','test_source':'FROZEN_BASE','restored':restored,'test_patch':patch,'regression_scope':'complete frozen PASS_TO_PASS with unique exact/prefix/class resolution'}
+ result={'status':'TEST_PATCH_CONFLICT','test_source':'FROZEN_BASE','restored':restored,'test_patch':patch,'artifacts':artifacts,'regression_scope':'complete frozen PASS_TO_PASS with unique exact/prefix/class resolution'}
  if len(patch['steps'])==2 and all(x['exit']==0 for x in patch['steps']):
   result['status']='EVALUATED';result['issue_probe']=qual.run(copy,site_for(task),['-c',qual.PROBE,task],out/'issue_probe.log',task+'agentissue')
   for m,col in (('focus','FAIL_TO_PASS'),('regression','PASS_TO_PASS')):
    nodes=json.loads(row_for(task)[col]);result[m]=qual.run(copy,site_for(task),['-c',qual.LAUNCHER,json.dumps(nodes),qual.CASES[task][5]],out/(m+'.log'),task+'agent'+m);result[m]['nodes_requested']=len(nodes)
  return result
 
-def build_experience(root,seed):
+POSTHOC_NAME='post_run_recheck_generated_images_v1'
+
+def source_revision(root,seed,expected_sha=None):
+ case=root/f'source__none__seed{seed}';completed=root/f'source__none__seed{seed}.completed.json';raw=case/'raw.jsonl';out=case/POSTHOC_NAME;path=out/'receipt.json'
+ if path.is_symlink() or not path.is_file():raise ValueError('missing source revision')
+ digest=sha(path)
+ if expected_sha is not None and digest!=expected_sha:raise ValueError('source revision hash changed')
+ revision=json.loads(path.read_text())
+ if (revision.get('scope')!='POSTHOC_GENERATED_IMAGE_ARTIFACT_RECHECK' or revision.get('original_completed_sha256')!=sha(completed) or revision.get('original_raw_sha256')!=sha(raw) or not revision.get('candidate_unchanged') or not revision.get('original_completed_unchanged') or not revision.get('original_raw_unchanged') or revision.get('model_calls')!=0):raise ValueError('source revision provenance mismatch')
+ if json.loads(completed.read_text()).get('post_run_evaluation',{}).get('status')!='UNRESOLVED_SYMLINK' or revision.get('result',{}).get('status')!='EVALUATED':raise ValueError('original or revised source status mismatch')
+ for metric in ('focus','regression','issue_probe'):
+  if sha(out/(metric+'.log'))!=revision['result'][metric]['log_sha256']:raise ValueError('source revision log mismatch')
+ before=out/'candidate_manifest_before.json';after=out/'candidate_manifest_after.json'
+ if sha(before)!=revision['candidate_manifest_before_sha256'] or sha(after)!=revision['candidate_manifest_after_sha256'] or before.read_bytes()!=after.read_bytes():raise ValueError('source revision manifest mismatch')
+ current=json.dumps(candidate_manifest(case/'work'),sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')+b'\n'
+ if hashlib.sha256(current).hexdigest()!=revision['candidate_manifest_after_sha256']:raise ValueError('source candidate changed since recheck')
+ return revision,digest
+
+def reevaluate_source(root,seed):
+ case=root/f'source__none__seed{seed}';completed=root/f'source__none__seed{seed}.completed.json';raw=case/'raw.jsonl'
+ record=json.loads(completed.read_text())
+ if record.get('status')!='COMPLETED' or record.get('post_run_evaluation',{}).get('status')!='UNRESOLVED_SYMLINK' or sha(raw)!=record.get('raw_sha256'):raise ValueError('no matching frozen unresolved episode')
+ out=case/POSTHOC_NAME
+ if os.path.lexists(out):raise FileExistsError('posthoc evaluation already exists')
+ original_sha=sha(completed);raw_sha=sha(raw);before=candidate_manifest(case/'work')
+ result=evaluate('source',case,output_name=POSTHOC_NAME)
+ if not out.is_dir():raise ValueError('candidate has unresolved non-artifact symlinks')
+ after=candidate_manifest(case/'work');unchanged=before==after
+ before_path=out/'candidate_manifest_before.json';after_path=out/'candidate_manifest_after.json'
+ for path,data in ((before_path,before),(after_path,after)):
+  with path.open('xb') as f:f.write(json.dumps(data,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')+b'\n')
+ revision={'scope':'POSTHOC_GENERATED_IMAGE_ARTIFACT_RECHECK','original_completed_sha256':original_sha,'original_raw_sha256':raw_sha,'candidate_unchanged':unchanged,'candidate_manifest_before_sha256':sha(before_path),'candidate_manifest_after_sha256':sha(after_path),'original_completed_unchanged':sha(completed)==original_sha,'original_raw_unchanged':sha(raw)==raw_sha,'model_calls':0,'result':result}
+ path=out/'receipt.json'
+ with path.open('x',encoding='utf8') as f:f.write(json.dumps(revision,indent=2)+'\n')
+ print(json.dumps({'revision':str(path),'sha256':sha(path),'candidate_unchanged':unchanged,'result':result}))
+
+def source_tree(root,ignored,cache_paths):
+ return {p.relative_to(root).as_posix():sha(p) for p in root.rglob('*')
+         if p.relative_to(root).as_posix() not in cache_paths and not p.is_symlink() and p.is_file()
+         and p.relative_to(root).as_posix() not in ignored
+         and not any(x in ('.git','__pycache__','.pytest_cache') for x in p.parts)
+         and p.name not in ('instructions.txt','opencode.json')}
+
+def source_semantic_detail(root,seed,expected_sha=None):
+ case=root/f'source__none__seed{seed}';directory=case/'semantic_detail_v1';receipt=directory/'receipt.json';log=directory/'detail.log'
+ if receipt.is_symlink() or not receipt.is_file() or log.is_symlink() or not log.is_file():raise ValueError('semantic detail unavailable')
+ digest=sha(receipt)
+ if expected_sha is not None and digest!=expected_sha:raise ValueError('semantic detail receipt changed')
+ detail=json.loads(receipt.read_text())
+ if detail.get('result',{}).get('exit')!=0 or detail['result'].get('log_sha256')!=sha(log):raise ValueError('semantic detail log changed')
+ rows=[json.loads(line) for line in log.read_text(errors='replace').splitlines() if line.startswith('{')]
+ if len(rows)!=1 or 'issue_get_facecolors_before_draw' not in rows[0]['cases']:raise ValueError('semantic detail malformed')
+ return rows[0]['cases']['issue_get_facecolors_before_draw'],digest
+
+def build_experience(root,seed,*,use_revision=False):
  completed=root/f'source__none__seed{seed}.completed.json';record=json.loads(completed.read_text());case=root/f'source__none__seed{seed}';raw=case/'raw.jsonl';feedback=record['post_run_evaluation']
+ revision_sha=None;log_dir=case/'post_run_evaluation_restored_tests'
+ if use_revision:
+  revision,revision_sha=source_revision(root,seed);feedback=revision['result'];log_dir=case/POSTHOC_NAME
  if record['status']!='COMPLETED' or feedback['status']!='EVALUATED' or sha(raw)!=record['raw_sha256']:raise ValueError('incomplete source episode')
  for metric in ('focus','regression','issue_probe'):
-  if sha(case/'post_run_evaluation_restored_tests'/(metric+'.log'))!=feedback[metric]['log_sha256']:raise ValueError('source feedback changed')
+  if sha(log_dir/(metric+'.log'))!=feedback[metric]['log_sha256']:raise ValueError('source feedback changed')
  actions=[]
  for line in raw.read_text().splitlines():
   ev=json.loads(line)
@@ -165,24 +264,34 @@ def build_experience(root,seed):
   part=ev['part'];state=part.get('state',{});inp=json.dumps(state.get('input',{}),ensure_ascii=False);out=str(state.get('output',''))
   actions.append({'tool':part.get('tool'),'status':state.get('status'),'input_prefix':inp[:600],'input_chars':len(inp),'input_sha256':hashlib.sha256(inp.encode()).hexdigest(),'output_tail':out[-800:],'output_chars':len(out),'output_sha256':hashlib.sha256(out.encode()).hexdigest()})
  if not actions:raise ValueError('no source actions')
- probe_lines=(case/'post_run_evaluation_restored_tests'/'issue_probe.log').read_text(errors='replace').splitlines()
+ probe_lines=(log_dir/'issue_probe.log').read_text(errors='replace').splitlines()
  probes=[json.loads(line) for line in probe_lines if line.startswith('{')]
  if len(probes)!=1 or 'issue_get_facecolors_before_draw' not in probes[0]['cases']:raise ValueError('source issue probe missing')
- source_issue=probes[0]['cases']['issue_get_facecolors_before_draw']
+ source_issue=probes[0]['cases']['issue_get_facecolors_before_draw'];semantic_detail_sha=None
+ if use_revision:
+  source_issue,semantic_detail_sha=source_semantic_detail(root,seed)
+  source_issue=dict(source_issue)
+ pre_shape=source_issue.get('facecolors_shape');post_shape=source_issue.get('post_draw_facecolors_shape')
+ supplementary={'pre_draw_shape':pre_shape,'post_draw_shape':post_shape,'pre_post_cardinality_stable':pre_shape==post_shape if pre_shape is not None and post_shape is not None else None,'scope':'Motivated additional property, not explicitly required by source issue; a singleton color is valid in the collection API. This observation does not settle the full task.'}
  base=qual.OUT/'source/clean_base';work=case/'work';ignored={'lib/matplotlib/'+x for x in check_overlay('source')}
- def tree(root):return {p.relative_to(root).as_posix():sha(p) for p in root.rglob('*') if p.is_file() and p.relative_to(root).as_posix() not in ignored and not any(x in ('.git','__pycache__','.pytest_cache') for x in p.parts) and p.name not in ('instructions.txt','opencode.json')}
- before,after=tree(base),tree(work);changed=sorted(k for k in before.keys()|after.keys() if before.get(k)!=after.get(k));parts=[];omitted=[]
+ artifacts=inspect_candidate_artifacts(work,base)
+ if artifacts['unresolved_symlinks']:raise ValueError('unresolved source symlinks')
+ cache_paths=set(artifacts['excluded_files'])|{entry['path'] for entry in artifacts['excluded_symlinks']}
+ cache_manifest={name:entry for name,entry in candidate_manifest(work).items() if name in cache_paths}
+ before,after=source_tree(base,ignored,cache_paths),source_tree(work,ignored,cache_paths);changed=sorted(k for k in before.keys()|after.keys() if before.get(k)!=after.get(k));parts=[];omitted=[]
  for name in changed:
   a,b=base/name,work/name
   if Path(name).suffix not in ('.py','.md','.txt') or any(p.is_file() and p.stat().st_size>1000000 for p in (a,b)):omitted.append(name);continue
   left=a.read_text(encoding='utf8',errors='replace').splitlines(True) if a.is_file() else [];right=b.read_text(encoding='utf8',errors='replace').splitlines(True) if b.is_file() else []
   parts.extend(difflib.unified_diff(left,right,fromfile='source-base/'+name,tofile='source-agent/'+name))
  diff=''.join(parts)
- source={'source_task':(qual.OUT/'source/task.txt').read_text(),'source_result':{'seed':seed,'agent_exit':record['agent_exit'],'posts':record['posts'],'request_limit_reached':record['posts']>=record['max_posts'],'focus_exit':feedback['focus']['exit'],'focus_count':feedback['focus']['nodes_requested'],'regression_exit':feedback['regression']['exit'],'regression_count':feedback['regression']['nodes_requested'],'regression_scope':feedback['regression_scope'],'original_issue_probe':source_issue},'changed_paths':changed}
+ source={'source_task':(qual.OUT/'source/task.txt').read_text(),'source_result':{'seed':seed,'agent_exit':record['agent_exit'],'posts':record['posts'],'request_limit_reached':record['posts']>=record['max_posts'],'focus_exit':feedback['focus']['exit'],'focus_count':feedback['focus']['nodes_requested'],'regression_exit':feedback['regression']['exit'],'regression_count':feedback['regression']['nodes_requested'],'regression_scope':feedback['regression_scope'],'published_no_exception_observed':source_issue.get('exception') is None,'supplementary_probe':supplementary,'original_evaluation_status':record['post_run_evaluation']['status'],'posthoc_revision_sha256':revision_sha},'changed_paths':changed}
  digest=json.dumps(source,ensure_ascii=False,indent=2);history=json.dumps({**source,'source_artifact_diff_prefix':diff[:10000],'source_artifact_diff_chars':len(diff),'source_artifact_diff_sha256':hashlib.sha256(diff.encode()).hexdigest(),'source_artifact_diff_omitted_paths':omitted,'source_actions':actions},ensure_ascii=False,indent=2)
  if any(m.casefold() in (history+raw.read_text()).casefold() for m in TARGET_MARKERS):raise ValueError('target literal in source experience')
- out=root/'source_experience';out.mkdir();(out/'source_history.md').write_text('Source-only clipped history; feedback is stated first.\n'+history+'\n',encoding='utf8');(out/'feedback_card.md').write_text('Transparent source-only result digest; no inferred repair instructions.\n'+digest+'\n',encoding='utf8')
- meta={'source_seed':seed,'source_raw_sha256':sha(raw),'source_completion_sha256':sha(completed),'actions':len(actions),'clipped_inputs':sum(a['input_chars']>600 for a in actions),'clipped_outputs':sum(a['output_chars']>800 for a in actions),'artifact_diff':{'cap':10000,'chars':len(diff),'sha256':hashlib.sha256(diff.encode()).hexdigest(),'omitted_paths':omitted},'scope':'source-only; literal screen is not evidence of semantic/pretraining isolation','artifacts':{p.name:sha(p) for p in out.iterdir() if p.is_file()}}
+ out=root/'source_experience';out.mkdir()
+ (out/'ignored_generated_cache_manifest.json').write_text(json.dumps(cache_manifest,indent=2,sort_keys=True)+'\n',encoding='utf8')
+ (out/'source_history.md').write_text('Source-only clipped history; feedback is stated first.\n'+history+'\n',encoding='utf8');(out/'feedback_card.md').write_text('Transparent source-only result digest; no inferred repair instructions.\n'+digest+'\n',encoding='utf8')
+ meta={'source_seed':seed,'source_revision_sha256':revision_sha,'source_semantic_detail_sha256':semantic_detail_sha,'ignored_generated_cache':{'excluded_root':artifacts['excluded_root'],'entries':len(cache_manifest),'symlinks':len(artifacts['excluded_symlinks']),'manifest_sha256':sha(out/'ignored_generated_cache_manifest.json'),'scope':'private source output only; excluded from code-change inventory; candidate and raw retained'},'source_raw_sha256':sha(raw),'source_completion_sha256':sha(completed),'actions':len(actions),'clipped_inputs':sum(a['input_chars']>600 for a in actions),'clipped_outputs':sum(a['output_chars']>800 for a in actions),'artifact_diff':{'cap':10000,'chars':len(diff),'sha256':hashlib.sha256(diff.encode()).hexdigest(),'omitted_paths':omitted},'scope':'source-only; literal screen is not evidence of semantic/pretraining isolation','artifacts':{p.name:sha(p) for p in out.iterdir() if p.is_file()}}
  (out/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n');print(json.dumps(meta))
 
 def environment_preflight(root,task):
@@ -203,18 +312,20 @@ def environment_preflight(root,task):
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--attempt-id',required=True);p.add_argument('--source-attempt-id');p.add_argument('--source-seed',type=int,default=core.SEED);p.add_argument('--seed',type=int,default=core.SEED);p.add_argument('--max-posts',type=int,default=DEFAULT_POSTS);p.add_argument('--max-seconds',type=int,default=DEFAULT_SECONDS);p.add_argument('--context-limit',type=int,default=DEFAULT_CONTEXT);p.add_argument('--output-limit',type=int,default=DEFAULT_OUTPUT)
- a=p.add_mutually_exclusive_group(required=True);a.add_argument('--task',choices=('source','target'));a.add_argument('--build-experience',action='store_true');a.add_argument('--generate-skill',action='store_true')
- p.add_argument('--condition',choices=('none','source_history','feedback_card','generated_skill'),default='none');p.add_argument('--experience',type=Path);p.add_argument('--experience-sha256');p.add_argument('--preflight-only',action='store_true');args=p.parse_args()
+ a=p.add_mutually_exclusive_group(required=True);a.add_argument('--task',choices=('source','target'));a.add_argument('--build-experience',action='store_true');a.add_argument('--generate-skill',action='store_true');a.add_argument('--reevaluate-source',action='store_true')
+ p.add_argument('--use-source-revision',action='store_true');p.add_argument('--condition',choices=('none','source_history','feedback_card','generated_skill'),default='none');p.add_argument('--experience',type=Path);p.add_argument('--experience-sha256');p.add_argument('--preflight-only',action='store_true');args=p.parse_args()
  for x in (args.attempt_id,args.source_attempt_id):
   if x is not None and not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,63}',x):p.error('invalid attempt id')
  if not (0<=args.seed<2**31 and 0<=args.source_seed<2**31 and args.max_posts>0 and args.max_seconds>0 and 4096<=args.context_limit<=65536 and 0<args.output_limit<args.context_limit):p.error('invalid seed/limits')
  root=PARENT/'attempts'/args.attempt_id;source_root=PARENT/'attempts'/(args.source_attempt_id or args.attempt_id)
- if args.build_experience or args.generate_skill:
-  if args.condition!='none' or args.experience or args.experience_sha256 or args.preflight_only:p.error('incompatible arguments')
+ if args.build_experience or args.generate_skill or args.reevaluate_source:
+  if args.condition!='none' or args.experience or args.experience_sha256 or args.preflight_only or (args.use_source_revision and not args.build_experience):p.error('incompatible arguments')
   preflight('source')
-  if args.build_experience:build_experience(source_root,args.source_seed)
+  if args.build_experience:build_experience(source_root,args.source_seed,use_revision=args.use_source_revision)
+  elif args.reevaluate_source:reevaluate_source(source_root,args.source_seed)
   else:requests_runner.generate_skill(source_root)
   return
+ if args.use_source_revision:p.error('--use-source-revision applies to --build-experience only')
  if (args.condition=='none')!=(args.experience is None) or ((args.experience is None)!=(args.experience_sha256 is None)):p.error('experience and hash required together')
  if args.task=='source' and args.condition!='none':p.error('source must have no experience')
  if args.experience and (args.experience.is_symlink() or sha(args.experience)!=args.experience_sha256):raise ValueError('experience changed')
@@ -234,9 +345,15 @@ def main():
    if ledger['status']!='RECEIVED' or ledger['finish_reason']!='stop' or meta['source_seed']!=args.source_seed or meta['source_completion_sha256']!=sha(completed):raise ValueError('source evidence or generated skill incomplete')
    if any(meta['artifacts'][n]!=sha(d/n) for n in ('source_history.md','feedback_card.md')) or ledger['source_history_sha256']!=sha(d/'source_history.md') or ledger['skill_sha256']!=sha(d/'generated_skill.md'):raise ValueError('source artifact provenance mismatch')
    if meta['source_raw_sha256']!=sha(source_root/f'source__none__seed{args.source_seed}'/'raw.jsonl'):raise ValueError('source raw changed')
-   record={'source_completion_sha256':sha(completed),'source_metadata_sha256':sha(d/'metadata.json'),'skill_generation_ledger_sha256':sha(d/'skill_generation_ledger.json'),'source_seed':args.source_seed,'artifacts':{n:sha(d/n) for n in files},'scope':'source-only; frozen before first target call; research team has seen target references'}
+   if meta.get('source_revision_sha256'):
+    source_revision(source_root,args.source_seed,meta['source_revision_sha256'])
+    source_semantic_detail(source_root,args.source_seed,meta['source_semantic_detail_sha256'])
+   record={'source_semantic_detail_sha256':meta.get('source_semantic_detail_sha256'),'source_revision_sha256':meta.get('source_revision_sha256'),'source_completion_sha256':sha(completed),'source_metadata_sha256':sha(d/'metadata.json'),'skill_generation_ledger_sha256':sha(d/'skill_generation_ledger.json'),'source_seed':args.source_seed,'artifacts':{n:sha(d/n) for n in files},'scope':'source-only; frozen before first target call; research team has seen target references'}
    with freeze.open('x') as f:json.dump(record,f,indent=2)
   record=json.loads(freeze.read_text())
+  if record.get('source_revision_sha256'):
+   source_revision(source_root,args.source_seed,record['source_revision_sha256'])
+   source_semantic_detail(source_root,args.source_seed,record['source_semantic_detail_sha256'])
   if record['source_seed']!=args.source_seed or record['source_completion_sha256']!=sha(completed) or record['source_metadata_sha256']!=sha(d/'metadata.json') or record['skill_generation_ledger_sha256']!=sha(d/'skill_generation_ledger.json') or any(sha(d/n)!=h for n,h in record['artifacts'].items()):raise ValueError('source inputs changed')
   if args.experience and (args.experience.resolve().parent!=d.resolve() or record['artifacts'].get(args.experience.name)!=args.experience_sha256 or args.experience.name!={'source_history':'source_history.md','feedback_card':'feedback_card.md','generated_skill':'generated_skill.md'}[args.condition]):raise ValueError('experience outside frozen set')
   target_freeze=sha(freeze)
