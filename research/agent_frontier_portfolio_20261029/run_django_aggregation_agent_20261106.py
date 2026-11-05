@@ -74,6 +74,15 @@ def attempt_root(parent: Path, attempt_id: str) -> Path:
     return Path(parent) / 'attempts' / attempt_id
 
 
+def prepare_actor_runtime(root: Path) -> Path:
+    """The inherited harness mounts this empty, task-owned compatibility path."""
+    runtime = root / 'runtime'
+    if runtime.is_symlink() or (runtime.exists() and (not runtime.is_dir() or any(runtime.iterdir()))):
+        raise ValueError('unexpected content in the empty actor runtime mount')
+    runtime.mkdir(parents=True, exist_ok=True)
+    return runtime
+
+
 def validate_model_profile(path: Path, digest: str) -> dict:
     if path.is_symlink() or sha(path) != digest:
         raise ValueError('model profile missing or hash mismatch')
@@ -452,7 +461,7 @@ def main() -> None:
                           'model_profile_sha256': args.model_profile_sha256, 'projection_sha256': args.actor_manifest_sha256,
                           'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg, 'model_calls': 0}))
         return
-    root.mkdir(parents=True, exist_ok=True)
+    prepare_actor_runtime(root)
     @recorded_episode(root, CASES[args.task][4])
     def run(task: str, condition: str) -> None:
         task_file.write_text(task_text, encoding='utf8')

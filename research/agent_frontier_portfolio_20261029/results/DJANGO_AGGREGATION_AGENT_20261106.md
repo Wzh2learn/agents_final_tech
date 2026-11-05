@@ -40,3 +40,5 @@ Python、Django源码导入和source跨容器socket查询在零模型预检中�
 [新runner](../run_django_aggregation_agent_20261106.py)与[合同测试](../../../tests/test_django_aggregation_runner.py)已核对。远端8项定点测试通过（含Python3.8投影）；无历史source/target已接入自动记录、完整外层/组件快照和退出后独立评测。经验冻结与skill形成接口尚未实现，非none条件明确拒绝，不能把预定四臂写成已执行。
 
 完整合成gold控制：source关键1/1、可映射回归65/65与新PG评测库原题均通过，target关键6/6、回归166/166与SQLite原题均通过。`preflight_django_runner_20261106_v2/receipt.json` SHA `878d825dac2758bc74ce079cac759daa005643435081cf473ed2f6ae43cf4a36`。随后base控制保持原题/关键失败、回归通过，实际合成请求验证18104模型及7201/7202种子转发；v3 receipt SHA `7c710cf5530ea7a5c27651c83885f4f448156e977725cd9ae8e861ba0005fb01`。这两批均0科研生成，非模型成功样本。
+
+第一次实际启动`initial_8b_20261106`在Docker阶段退出125：继承harness还需空的`attempt/runtime`挂载目录，合成评测绕过actor启动而漏检该前提。该attempt的raw为空、0POST/0tokens，candidate保持base，不能计作模型任务失败；completed SHA `242bf45a1625154919a389b8063c5f2fb447666a92649a2a180540210b83a8c1`与stderr保留。修复显式创建空目录并拒绝symlink/隐藏内容，新增测试先失败后通过；真实重启使用新attempt，不覆盖第一次现场。

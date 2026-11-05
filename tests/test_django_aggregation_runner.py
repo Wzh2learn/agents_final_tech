@@ -16,6 +16,16 @@ spec.loader.exec_module(runner)
 
 
 class DjangoResearchRunnerTests(unittest.TestCase):
+    def test_actual_actor_runtime_mount_is_created_and_cannot_hide_files(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / 'fresh_attempt'
+            runtime = runner.prepare_actor_runtime(root)
+            self.assertTrue(runtime.is_dir())
+            self.assertEqual(list(runtime.iterdir()), [])
+            self.assertEqual(runner.prepare_actor_runtime(root), runtime)
+            (runtime / 'future.py').write_text('not a permitted dependency')
+            with self.assertRaises(ValueError): runner.prepare_actor_runtime(root)
+
     def test_model_profile_is_bound_and_rejects_other_endpoint(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td); model = root / 'weights.gguf'; model.write_bytes(b'weights')
