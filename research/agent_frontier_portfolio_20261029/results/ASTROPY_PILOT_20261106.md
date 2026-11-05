@@ -18,9 +18,9 @@ Python3.10 / NumPy1.24.3，原生组件来自 Astropy5.3.2 ARM wheel（17个扩�
 | --- | --- | --- | --- | --- |
 | source / none | 0 / 正常退出 | 1/1、179/179 | 4组数据与mask均正确 | 14 /154,712（90,492） |
 | target / none | 0 / 正常退出 | 0/3、132/132 | 两例数据与unit正确，无异常；mask应为None却为全False数组 | 15 /246,557（201,704） |
-| target / source_history | 0 / 正常退出 | 0/3、132/132 | 两例仍分别抛mask/unit AttributeError | 6 /79,588（25,539） |
+| target / source_history | 进程0 / 末次模型输出length | 0/3、132/132 | 两例仍分别抛mask/unit AttributeError | 6 /79,588（25,539） |
 | target / generated_skill | 1 / 请求上限 | 3/3、132/132 | 两例数据[60,66,72,78]、mask None、unit Jy/None均正确 | 24 /351,534（237,893） |
-| target / feedback_card | 未执行 | 未执行 | 已冻结卡片，尚无模型输出 | 0 |
+| target / feedback_card | 1 / 请求上限 | 0/3、132/132 | 两例数据和unit正确，但mask为全False而非None | 24 /298,054（227,675） |
 
 普通 skill 单次产生合格目标产物，但执行未正常收口。无历史仅消除异常不算满足完整问题合同，历史臂回归通过也不代表修复目标。
 
@@ -41,12 +41,12 @@ Python3.10 / NumPy1.24.3，原生组件来自 Astropy5.3.2 ARM wheel（17个扩�
 
 ## 成本与证据定位
 
-本任务对已完成 source、三个目标臂及一次skill形成，合计**60次转发POST、840,956 reported tokens，缓存555,628已包含其中**；限额拒绝不算转发调用，其记录保留在代理raw。无新增训练/judge。RethinkSkill的1 POST /2,447 tokens及其他来源单独记账，不混入此小计。
+本任务对已完成 source、四个目标臂及一次skill形成，合计**84次转发POST、1,139,010 reported tokens，缓存783,303已包含其中**；限额拒绝不算转发调用，其记录保留在代理raw。无新增训练/judge。RethinkSkill的1 POST /2,447 tokens及其他来源单独记账，不混入此小计。
 
 GB10 私有证据根：
 `/home/testuser/wzh/research_evidence/agent_learning_20261030/astropy_agent_20261105/attempts/pilot_astropy_20261105/`
 
-每个执行前缀为 `source__none__seed7201` 或 `target__{none,source_history,generated_skill}__seed7201`；按需读取该前缀的 `.completed.json`、`.auto_record.json`、`.evidence_check.json`、harness原始输出及独立评分。源码资格记录在同级来源根 `astropy_qualification_20261105/`，源经验及生成账在本attempt的 `source_experience/`。
+每个执行前缀为 `source__none__seed7201` 或 `target__{none,source_history,generated_skill,feedback_card}__seed7201`；按需读取该前缀的 `.completed.json`、`.auto_record.json`、`.evidence_check.json`、harness原始输出及独立评分。源码资格记录在同级来源根 `astropy_qualification_20261105/`，源经验及生成账在本attempt的 `source_experience/`。
 
 | completed 文件前缀 | SHA-256 |
 | --- | --- |
@@ -54,9 +54,23 @@ GB10 私有证据根：
 | target__none__seed7201 | `c22613b0599f3ea6cb8d1e60819d1de5e4ef4335167f6dcac3abe5660fe060ce` |
 | target__source_history__seed7201 | `50f9ce291db611baf95194cb7dbcbc81c387443aaaa1a5f0543e8477823e2570` |
 | target__generated_skill__seed7201 | `de066af651c17b6f097d32c0610f79bd7cc747735e0ed5961a57e5e3d25ff49e` |
+| target__feedback_card__seed7201 | `1a77bf197b4c86948de4fa2566993178cf3771a3deffce56b0b31d51a6757a13` |
 
-4个episode各10项文件绑定通过；这是文件来源检查，不是独立统计/方法审阅。源码BSD-3-Clause，数据来源许可沿资格记录保留。
+5个episode各10项文件绑定通过；这是文件来源检查，不是独立统计/方法审阅。源码BSD-3-Clause，数据来源许可沿资格记录保留。
 
-## 判断与下一步
+## 轨迹归因与后续合同
 
-当前有“普通skill可在该次变化任务中完成修复”的积极线索，但一个任务对和seed不足以确认方法。先完成冻结结果卡臂，再核对调用预算、历史读取和实际代码行为；有可辨识机制后安排重复与不同来源，加入公开近邻及强简单对照。原工具缺失已经修复，不能将旧工具失败算成经验方法效果。
+无历史臂把collapse路径接入masked array并补无单位算术，自写检查与旧套件通过，却将无mask状态变为全False。skill臂区分 `operand=None` 和 `operand.mask=None`，经过自测失败及再修订后保留None状态，并正确处理unit/first_found。它的产物不是源补丁的逐字复制。
+
+普通历史第3行源题描述被裁467字符，但第17行的502字符源补丁逐字完整进入读取；不能说模型没看到源代码。该臂末次请求输出达到8192并以length结束，无可见text/tool事件。三臂的输出帽均8192；未记录enable_thinking，reasoning=0不能证明无隐藏推理，更不能把length归因于compaction。结果卡17行号齐但逐字读取不完整，仍只消除了异常。
+
+**开发裁决**：普通skill有一次合格修复，尚不归因于表示或学习机制；旧原始历史的工具/生成约束及不同探索量是替代解释。不重复旧分数当确认。
+
+**下一批事前合同（在旧结果后设计，新的运行前冻结）**：复用该次真实源，不重新生成源或skill。固定新attempt、seed7202及同一模型/工具/参考；统一实验端context65536、output16384、每臂48转发POST/1500秒，服务实际上限只读核对为65536，不重启服务。新一轮比较：无历史、原始对象等值的长行安全历史、原普通skill、确定性的完整源补丁＋真实结果。每条input hash和来源先绑定。至多4臂192次转发；不把该设置与旧8192/24臂直接解释为单一变量因果实验。
+
+长行安全历史必须能逐值重建原对象，不补造新反馈；补丁摘要必须来自完整实际源diff与独立结果，不加入目标参考或推断修复指令。新组用于排除简单证据组织及预算解释，随后决定重复、公开近邻和新项目资格。目标均为已曝光开发任务；原source形成费用只在原批次记一次，新增目标费用单记。
+
+
+新输入profile已零模型生成，根在`astropy_agent_20261105/attempts/profile_controls_20261106/source_experience/`；manifest SHA-256 `5cf3474b13d2030715e171ffaceb31dca340b3073ad1195e8a726d945f71a2b0`。长行安全历史SHA `9d6e8847b64dc5a073f906962d38532aa451c5455e012534e66eda9ea1624663`，源补丁/结果摘要SHA `3739e9999f1cefcd7b5f821d3782eda81cec3b18d2566d74c2694a9f20f3c8c4`；普通skill沿原hash。新target顺序固定为none→源补丁结果→长行安全历史→普通skill，seed7202；source沿用原seed7201，只在原批次记账。
+
+[输入准备器](../prepare_astropy_evidence_profiles_20261106.py)校验源raw/评分/完整diff，拒绝跨来源错误绑定、刷新hash后向摘要追加的无来源文本及覆盖已有profile。修改后的runner默认4种target派生与旧harness逐字节相同；新seed实际进入代理payload、路径和配置，新增上下文/输出/请求及墙时设置在零模型控制中核对。代码验证、原值roundtrip及参数检查12项通过，8项准备器测试通过；首个私有验证目录存在一次导入旧模块导致的测试失败，第二目录显式加载新模块后通过，未冒充科学结果。证据在`astropy_agent_20261105/implementation_check2_20261106/implementation_receipt.json`。原记录和旧执行上限不追溯修改。

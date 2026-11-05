@@ -96,17 +96,17 @@ def preflight(task: str) -> dict:
     return c
 
 
-def derive(root: Path, task: str, condition: str, experience: Path | None, *, protocol=qual) -> str:
+def derive(root: Path, task: str, condition: str, experience: Path | None, *, protocol=qual, seed: int = core.SEED) -> str:
     base_condition = 'none' if condition == 'none' else 'generated_skill'
-    code = core.derive(task, base_condition, experience)
+    code = core.derive(task, base_condition, experience, seed=seed)
     for old, new in ((str(core.ROOT), str(root)), (str(shared.OUT), str(protocol.OUT)),
                      (str(shared.DEPS), str(protocol.SITE)), (str(shared.OVERLAY / 'site'), str(protocol.LEGACY))):
         if old not in code:
             raise ValueError('missing harness binding: ' + old)
         code = code.replace(old, new)
     if condition != base_condition:
-        code = core.replace_once(code, str(root / f'{task}__{base_condition}__seed{core.SEED}'),
-                                 str(root / f'{task}__{condition}__seed{core.SEED}'))
+        code = core.replace_once(code, str(root / f'{task}__{base_condition}__seed{seed}'),
+                                 str(root / f'{task}__{condition}__seed{seed}'))
     edits = [
         ("'-e','PYTHONPATH=/runtime:/extra:/deps'", "'-e','PYTHONPATH=/deps','-e','PATH=/extra/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'"),
         (f'len(calls)>={core.MAX_HTTP_REQUESTS}', f'len(calls)>={MAX_POSTS}'),
@@ -181,7 +181,7 @@ def build_experience(root: Path, *, protocol=qual, target_markers=('psf__request
     changed = sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))
     source = {'source_task': (protocol.OUT / 'source/task.txt').read_text(encoding='utf8'),
         'source_result': {'agent_exit': record['agent_exit'], 'posts': record['posts'],
-            'request_limit_reached': record['posts'] >= MAX_POSTS,
+            'request_limit_reached': record['posts'] >= record.get('max_posts', MAX_POSTS),
             'focus_exit': feedback['focus']['exit'], 'focus_count': feedback['focus']['nodes_requested'],
             'regression_exit': feedback['regression']['exit'], 'regression_count': feedback['regression']['nodes_requested'],
             'regression_scope': feedback['regression_scope']}, 'changed_paths': changed}

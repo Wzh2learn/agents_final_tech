@@ -100,13 +100,13 @@ def verify_clean_base(label: str) -> None:
         raise ValueError('clean source tree contains unexpected files')
 
 
-def derive(task: str, condition: str = 'none', experience: Path | None = None) -> str:
+def derive(task: str, condition: str = 'none', experience: Path | None = None, *, seed: int = SEED) -> str:
     if task not in ('source', 'target') or condition not in ('none', 'source_history', 'generated_skill',
                                                             'feedback_first_history'):
         raise ValueError('unsupported task or experience condition')
     if (task == 'source' and condition != 'none') or ((condition == 'none') != (experience is None)):
         raise ValueError('inconsistent task/experience selection')
-    case = ROOT / f'{task}__{condition}__seed{SEED}'
+    case = ROOT / f'{task}__{condition}__seed{seed}'
     src = qual.OUT / task
     code = BASE.read_text(encoding='utf-8')
     marker = '# A completely separate non-agent container mounts verifier after the episode;'
@@ -169,7 +169,7 @@ def derive(task: str, condition: str = 'none', experience: Path | None = None) -
     old = "  if line.startswith(b'POST'):payload_bytes.append(length)"
     new = ("  if line.startswith(b'POST'):\n"
            "   payload_bytes.append(length)\n"
-           f"   try:first,meta,forwarded=capture_sampling(first,length,self.request.recv,{TEMPERATURE},{SEED})\n"
+           f"   try:first,meta,forwarded=capture_sampling(first,length,self.request.recv,{TEMPERATURE},{seed})\n"
            "   except (ValueError,EOFError,UnicodeDecodeError):\n"
            "    calls.append('DENIED:invalid_metadata');self.request.sendall("
            "b'HTTP/1.1 400 Bad Request\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n"
@@ -182,7 +182,7 @@ def derive(task: str, condition: str = 'none', experience: Path | None = None) -
            "    log.write(json.dumps(meta,separators=(',',':'))+'\\n');log.flush()")
     code = replace_once(code, old, new)
     code = replace_once(code, "(work/'opencode.json').write_text(json.dumps(cfg),encoding='utf8')",
-                        f"cfg['agent']={{'build':{{'temperature':{TEMPERATURE},'seed':{SEED}}}}}\n"
+                        f"cfg['agent']={{'build':{{'temperature':{TEMPERATURE},'seed':{seed}}}}}\n"
                         "(work/'opencode.json').write_text(json.dumps(cfg),encoding='utf8')")
     compile(code, '<contextbench-derived-harness>', 'exec')
     return code

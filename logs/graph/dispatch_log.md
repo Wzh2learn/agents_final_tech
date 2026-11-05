@@ -1435,3 +1435,5 @@ echo dispatch_log updated
 [2026-11-05] OFFLINE-TOOLS-NATIVE-FEEDBACK-ASTROPY: 缺rg导致OpenCode下载受禁网阻断，零模型成对debug验证只读固定rg挂载可恢复搜索。RethinkSkill改用原生字段摘要，1POST/2,447tokens得到协议合法但仅换行变化的候选，不部署旧目标。Astropy原题复现与gold一致，source base/gold问题0/1和1/1、完整PTP均179/179；target0/3和3/3、PTP均132/132。新runner离线预检、原始测试恢复、脚本换行身份及并发POST帽控制完成；先提交同步再运行source。0训练/judge/生产操作。commit见本轮代码与研究计划集成。
 
 [2026-11-06] RESEARCH-CONTEXT-NEAT: 默认科研联网切到Codex宿主原生搜索，不自动回退DeepSeek/Qwen；只读核验已启动Astropy普通skill臂完成，独立问题3/3、回归132/132但达24POST帽，批次单独归档。第二篇三份长文与STATE/THREADS共195,779归一化字节分18段保留，可逆链接/全文hash重建通过；短入口按需加载，新增UTF-8体量和本地链接门。此次治理无新模型生成/训练/judge；skill分发和三端同步以本轮实测为准，commit见本轮集成。
+
+[2026-11-06] ASTROPY-CONTROLS-AND-MATPLOTLIB-QUALIFICATION: 冻结结果卡完成24POST/298,054报告tokens，问题0/3、回归132/132；原Astropy组含形成共84POST/1,139,010tokens。轨迹复核发现源补丁完整读取但末次模型8192输出length，不能归因compaction。新增显式目标seed/context/output/调用与时间设置、源经验复用及确定性长行安全/源补丁结果基线；原默认harness4臂逐字节不变，新参数/原值roundtrip零模型验证12项。Matplotlib新项目原题、base/gold与完整136/150回归资格通过，保留首套ABI失败和混合构建边界；其模型调用0。用户已确认可调整本地实验配额；新同配置4臂按当前批次合同执行。
