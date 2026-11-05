@@ -64,3 +64,20 @@ N/F均从实际source work的同一6,192文件快照开始，排除原instructio
 每臂均使用原模型/.2/7201/32768/8192/48POST/1200秒/6MB，串行N→F；每次启动前由D核验同一专属PG归属并清空重建`research_probe`，保存reset回执，目标库/业务库均不操作。退出后原题仍在各自新建独立评测库中运行。首次source成本为共同前置成本，不能用新增续修调用掩盖它；此处比较是一次源修复诊断，不是目标泛化确认。
 
 两臂CLI零模型预检和错误draft哈希负例已通过，`repair_preflight_20261106_v1/receipt.json` SHA `6f6ad9b81981984e8e9eb51d0a9d6a4b3628a2fceaf654fcf0e2d2d30054c5e8`。三组定点测试本机15项通过；源代码提交后实跑。技能生成器已接入显式单次生成/最终freeze校验，但当前仅DRAFT，target技能臂仍未释放。
+
+## N/F实际结果与判断变化
+
+代码`ecf5c0c5`，attempt `candidate_retry_controls_8b_20261106`。每臂的专属PG空库reset与退出后eval库create/drop均有单独回执；没有访问业务库。两组均Agent exit0、0 proxy拒绝；关键仍失败，65项回归仍42 errors，原题probe仍为格式化TypeError，实际compiler.py SHA均保持`f6769134fcc917d6531584aa68987732f9a3d7fdfdbde2c7a147c692dbee6a89`。
+
+| 臂 | POST | 报告tokens（含缓存） | 缓存 | 未缓存输入 | 输出 | 自动计时秒 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 普通续修N | 5 | 41,371 | 35,894 | 3,966 | 1,511 | 46.307 |
+| 测试反馈续修F | 5 | 58,760 | 48,387 | 8,615 | 1,758 | 59.366 |
+
+N completed SHA `5bb1ad9a9f411981a0c202b0687f39bbdf40f6e7d2a931fa8641e94fe25f2bd6`，F `a874ebe426efb13f8f066341c851b900b657ed491d7c4af261f4bd696d6bf282`。本批初始真实source加N/F共18POST/176,627tokens（缓存148,602、未缓存输入22,896、输出5,129），训练与额外judge仍0；工程/协调开销另计。
+
+raw支持更具体的解释：N读完46行题面后尝试编辑`/root/instructions.txt`；F完整读到90行（含真实应用栈）后也选中该文件，并尝试chmod。两次edit的实际错误均为`PermissionDenied: FileSystem.writeFile (/root/instructions.txt)`，F的chmod亦被拒。它们没有进入真正的仓库源码修订。原source曾成功修改compiler，故不能把只读题面误解为整个源码目录不可写；也不能将此次结果外推为一般反馈学习无效。
+
+**后续裁决**：保留8B为学习/执行候选，当前不直接将其失败经验生成器当可靠教师。先给所有新对照统一的强简单执行合同：明确题面只读、仓库源码可改、应用栈路径与actor路径的对应，实际测试并禁止将题面当待修改程序。该合同是环境说明，不计作新方法；只做一次有边界的N/F资格复验，不反复堆提示。若仍无合法有效修订，使用更强教师的真实执行＋反馈生成经原题与回归验证的轨迹，再决定学习/技能迁移。目标任务仍未运行，未冻结成功skill，尚无新方法增量。
+
+162项raw/回执/组件快照/DRAFT/DB重置与预检工件已双机归位：本机`D:/Documents/Loop_D_assets/agent_learning_20261106/django_source_feedback_controls_20261106.tar.gz`，GB10私有`evidence_packets_20261106/django_source_feedback_controls/`；537,025bytes，SHA `0d9ab8f2f3f43b6b98b9ade832a2554665504eab2d111cde69b08b38b67a0723`。本机逐成员hash与完整包hash均核对相符。包不含完整源码/运行依赖/模型权重/live socket，非独立复现发行包，不入Git。
