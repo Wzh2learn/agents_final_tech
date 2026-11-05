@@ -6,17 +6,23 @@
 
 Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形成经验，并在任务、工具或环境变化后选择、验证和修订经验。IJCNN 2027 为目标窗口；Paper E 已交导师，等待反馈，ICINT 首投、ICDAR 顺序备投。
 
-Matplotlib新隔离source和target四臂已完成：无历史/普通历史/普通skill通过全部冻结检查，结果卡引入1项既有图形回归；skill仅少POST，没有本次净成本优势。下一步复用已验证Astropy投影，从新source重做四臂，核查旧成本信号；旧暴露结果/成本/输入保留，不沿用为新输入。
+2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
+
+两项目隔离source/target四臂已完成；普通历史在Astropy保留等结果成本信号，在Matplotlib没有同样优势。小模型工具及Django原题正反控制已取得，接续8B新源经验/目标迁移，按能力与反馈选择学习实验。旧可读面结果/成本/输入保留，不混作新证据。
 
 ## 最新开发证据
 
-源`Matplotlib23562`→目标`27361`的[隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)采用seed7201、context65536/output16384、每臂48POST/1500秒。三种经验均完整读入。无历史、普通历史、普通skill各1/1关键及150/150回归；结果卡1/1但149/150。skill少4POST，非缓存输入输出合计更高，时间未改善。本批含source与形成共124POST/2,789,460tokens。单任务开发，不把条件数/测试数当独立任务。
+`Matplotlib23562→27361`[隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)：无历史/历史/skill均通过关键与完整回归，结果卡出现1项回归；skill少POST但本次token/用时无优势。含source与形成124POST/2,789,460tokens。
 
-Astropy[新隔离复验合同](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)已写入；自己的`isolated_dependencies_20261106`下先source(seed7201)，形成新经验后target(seed7202)同配置比较。投影v2及base/gold控制已通过，不需重建基础设施。[旧四臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md)与[Matplotlib资格](results/MATPLOTLIB_QUALIFICATION_20261106.md)保留。不同任务/重复之前不认证新方法。
+`Astropy14995→15082`[隔离批次](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)：四臂关键3/3、回归132/132、原题实际data/mask/unit相符；普通历史目标未缓存输入输出41,264tokens，对无历史83,758，本次94对212秒。skill未超过历史。含source与形成84POST/2,298,659tokens。每任务一次，两个项目不能给出稳定选择规律；两批结果卡信息不同。完整raw与hash按批次加载，[旧四臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md)保留。
 
 ## 进入投稿稿制作的门槛
 
-隔离复验后若无历史也稳定完成，不在已被模型掌握的简单任务上堆训练。下一批可换近期自然问题、真实工具/环境变化或较小模型，并先确认难度与反馈可用性；只有跨任务出现表示、修订或验证选择的实际差异，才使用已有LoRA/训练链学习，而不是预先限定只能做某种技能库。
+35B无历史也能完成当前任务，下一批增加真实变化难度并验证较小模型。表示路由训练先查固定策略之外的选择空间；actor或skill-editor训练在有真实监督、来源隔离与普通SFT对照时，可直接做小规模诊断，不把35B的表示收益作为硬门槛。诊断与论文贡献认证分开，按结果选择参数学习、经验编译或二者结合。
+
+下一自然对为Django12589→34176，时序已核；公开旧轨迹含未来目标题号，须重新采源经验。独立SQLite与原题数据库资格见[本对记录](results/DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)，不使用业务DB。[小模型资格](results/QWEN4B_TOOL_QUALIFICATION_20261106.md)：4B工具可用但文件语义错；8B自主修对文件，POST门阻断最终回复。8B先作真实任务开发；4B保留学习候选，不能由一个fixture永久否定。对标见[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+
+新Django原题：独立PG15适配的source base报`status`歧义/gold给预期结果；target SQLite base报`name`歧义/gold给预期结果。冻结SQLite控制分别1与6项关键、65与166项可映射回归；源另1项是prose，非测试。下一执行先冻结私有PG/socket与无未来源码的actor环境，再跑8B无历史source及同配置target对照；若source失败，保留真实失败并据反馈续修，不编造成功经验。PG11未复现；D侧已见参考，非盲确认。
 
 现在可同步写问题、相关工作与实验设计；锁定方法和结果须满足：①与最近方法的独立机制清楚；②至少两个独立项目来源的留出任务，来源隔离并重复验证；③超过无历史、普通历史/skill、简单修复及公开近邻中的最强者，或在效果相当时有明确总成本收益；④同预算对照与消融能解释收益，未修复/截断单列；⑤冻结确认后的区间、失败和复放可核查。确认样本量依据开发方差决定，统计单位是任务/来源而非测试条数。若简单方法解释收益，调整候选；不将旧工程故障计作方法证据。
 

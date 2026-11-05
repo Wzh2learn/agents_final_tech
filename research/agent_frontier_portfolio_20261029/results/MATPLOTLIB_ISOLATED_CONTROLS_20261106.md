@@ -64,3 +64,5 @@ target合计93POST/1,965,183tokens，含缓存1,833,609、未缓存输入106,955
 122项raw/回执/输入/评分日志另存审阅包，本机`D:/Documents/Loop_D_assets/agent_learning_20261106/matplotlib_isolated_controls_20261106.tar.gz`与GB10私有`evidence_packets_20261106/matplotlib_isolated_controls/`同一包；680,295bytes，SHA `0d88f64e6585429f604fa63195c22e4c4b071a1251591d6d4a39ebf2d5d2b2e9`。本机逐成员复核122项hash相符；不含完整源码checkout、权重或可独立运行的环境，原始大现场继续留GB10，包不入Git。
 
 本批是一个已曝光开发目标、四种输入条件，151个测试不是151个独立任务。没有新训练方法或泛化确认。下一检查点：复用已验证的Astropy隔离投影，从新source重做同配置对照，检验旧历史复用成本信号是否保留；如果无历史也稳定完成，则换更有挑战的自然任务或小模型，不在此简单面板上堆训练。
+
+接续：上述Astropy复验已完成，[结果及下一动作](ASTROPY_ISOLATED_CONTROLS_20261106.md)单独收录，旧检查点不作为现役待办。

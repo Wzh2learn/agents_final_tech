@@ -1453,3 +1453,5 @@ echo dispatch_log updated
 [04:30] Astropy隔离开发复验设计 → 新source7201/四target7202，统一64K/16K/48POST/1500s，零模型源输入冻结后派生profile，旧暴露输入不复用 → 本次合同提交
 
 [04:47] Astropy隔离source与编译完成 → 15POST/461994tokens，1/1+179/179；skill1POST/8900；新diff无损分行及before-target时间标签，绑定原生成；4B既有GGUF只读hash核实 → 本次准备提交
+
+[05:54] 隔离经验复验与新任务准备 → Astropy四臂均3/3+132/132，普通历史保留本次成本信号；84POST/2298659含缓存tokens。小模型资格7POST/44800含缓存，8B文件独立正确但POST门阻断最终回复。Django新对PG15/SQLite原题base失败gold通过，公开旧轨迹未来信息禁用；三个私有审阅包双机逐成员核对 → 本次研究提交，Goal active

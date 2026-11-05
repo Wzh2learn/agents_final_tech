@@ -32,7 +32,7 @@
 - source→target 时间边界检查、独立原题复现、隐藏问题测试/回归和实际经验读取核对。
 - 自动 raw/成本 sidecar、证据绑定、显式 attempt 输出；公开论文和代码适配资格。
 - Qwen/PEFT/TRL 训练链及历史失败约束；有合格监督后再决定是否训练，不默认延续旧 R/E 结论。
-- 较小模型存量已只读核实：GB10 `models/gguf/qwen3-4b/Qwen3-4B-Q4_K_M.gguf`（2,497,280,256 bytes，SHA `7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5`），另有4B HF目录与8B备选；本次未加载。4B HF配置max_position_embeddings=40960，GGUF实际模板/上下文和Agent工具调用仍待资格验证。复用[start脚本](../../scripts/start_llamacpp_model.sh)与既有训练链，单独研究端口；不改现役35B服务、不使用旧金融adapter充当新基座。模型文件名不证明权重来源或预训练隔离。
+- 较小模型存量：GB10已有4B/8B GGUF与4B HF目录，实际工件、上下文及工具资格逐批核验；模型名不证明权重来源或预训练隔离。复用现有llama-server、OpenCode及训练链，使用独立研究端口；不改现役35B服务，不把旧金融adapter当新基座。
 
 ## 维护与历史
 
