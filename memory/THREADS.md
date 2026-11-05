@@ -4,7 +4,7 @@
 
 | 事项 | 当前状态与下一步 |
 | --- | --- |
-| 科研目标 | 第二阶段 Goal 已恢复，按[第二阶段计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)推进多来源 Agent 经验与反馈研究；Paper E 等待导师反馈。 |
+| 科研目标 | Goal 工具当前显示 active；用户本轮要求先梳理目标、确认后再继续科研。[现役入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md#目标与恢复检查点2026-11-05)记录恢复检查点；Paper E 等待导师反馈。 |
 | 导师反馈 | 用户已向老师发送[方向与小论文进展讨论稿](../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)及 Paper E 审阅 PDF；等待对研究主线、后两点划分、投稿路线与学校成果认定的意见。 |
 | Paper E 正文 | [ICINT 审阅稿](../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)及 4 页 PDF 已按反馈更新摘要、排版和相关文献；[证据核对](../research/paper_e_publication_route_20261028/ICINT_CLAIM_EVIDENCE_REVIEW.md)保留数值与审阅边界。等待导师和作者团队意见，之后完成声明、匿名及许可终核。匹配原操作点的 `>=2` / `>=0.75` 与另一严格 `>` 网格必须区分。[ICDAR 工作稿](../research/paper_e_publication_route_20261028/ICDAR_ADAPTATION_RETURN_20261101.md)仍含 Acknowledgment，启用前须依双盲要求调整。 |
 | 投稿与学位认定 | 用户选择 ICINT 首投、ICDAR 顺序备投，可到场参会；学校要求本人第一作者、北邮第一单位、方向相关，会议还需召开并宣读/张贴。2026-11-04 用户已确认暂定四位作者顺序及通讯作者，确认两名学生的北邮电子工程学院署名；私有投稿准备文件已更新并保存在仓库外。作者团队对最终顺序与成稿的确认仍待办理。AI 披露、专利、artifact 许可、2027 论文集出版信息、费用及正式提交仍待实际办理；不同时一稿多投。2027 年 10 月具体送审日未知。 |
