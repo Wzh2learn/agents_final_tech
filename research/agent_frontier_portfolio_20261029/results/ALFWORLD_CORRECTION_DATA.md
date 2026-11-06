@@ -46,6 +46,8 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 本批只检验从reset迁移。后续恢复开发固定取frozen结束时未won/未done且至少一个接受动作的完整前缀，共8个现场；零动作cool_02单列reset诊断。接受动作不自动等于有效进度，不挑近成功片段。各臂重放同一公共现场，用额外且统一的接续额度（候选32POST/600秒，尚未冻结），不把原128POST耗尽写成仍有剩余；world仍总100动作，形成费只计一次。比较最强简单history/公共摘要、ordinary/recovery，并补同接续额度reset控制，以区分恢复特异性与一般能力。旧load_prefix只接受collect及同protocol，后续须显式绑定旧protocol/manifest/receipt/world SHA，不改原回执。此设计未启动，EVAL_ONLY目标输出不回流训练。
 
+[追加前缀加载器](../alfworld_recovery_source.py)已离线实现，显式绑定旧protocol/cohort/manifest/receipt/world哈希并分开新旧额度；GB10联合聚焦38 tests/19 subtests通过。真实16条来源中8个失败前缀可加载，7成功与1零动作来源被拒绝。当前prepare尚未接入，未实际重放world或调用模型；本次不改运行中的组件。
+
 ## 方法重叠与下一验证
 
 Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配提取知识，STeP已有教师纠正与partial masking；ACE/AgentFold/DGRR等也覆盖局部更新、折叠及依赖撤回。原文方法核对与其余近邻完整保留于[按需精读](ALFWORLD_CONTEXT_STUDY.md#mechanism-reading)。当前SFT是监督来源/能力对照，不是上述方法的新名字；独立贡献仍待实际比较。
