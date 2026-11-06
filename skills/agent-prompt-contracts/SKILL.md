@@ -131,6 +131,7 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **内部调用与配置**：公开step少于HTTP可来自压缩/失败调用，不等于超帽；反向多于HTTP才否定完整计量。保存SSE/provider usage，未知单列，不能与step tokens相加。推理开关按请求kwargs核实；客户端和桥接等待一致，单个任务不产补丁先做配置资格，不能包装为方法负结果。
 - **经验迁移载体**：source只按其已归档快照、实际diff/反馈生成；目标前固定历史/卡/skill，全臂绑定同一manifest，无历史只作D侧绑定。跨任务函数适配须核对实际派生harness的模型/seed/任务/评测节点，不修改原模块全局、不沿用源任务的测试数。目标资格不是目标actor结果。
 - **27B写入通道**：vLLM非流式请求仅靠模板默认关闭thinking，曾将606字符的技能放入reasoning、content为空；不是截断。原始失败保留，新attempt显式`chat_template_kwargs.enable_thinking=false`后final content正常，不把reasoning搬成答案、不盲目扩输出。已知baseline环境失败应同时告知所有目标actor，不能只在评分器里排除。
+- **经验交付而非路径提醒**：SymPy三经验臂有读取提醒但真实read/请求正文均无经验内容，不能解释为内容无效或负迁移。新诊断将同一冻结skill显式注入首轮用户上下文，绑定交付模式/内容hash并核实实际请求；原文件式结果和默认配置保留。显式注入的效果仍须真实语义验收，不能靠prompt字符串测试认证。
 - **证据**：[Django当前合同](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)、`research_teacher_backend.py`、`run_django_aggregation_agent_20261106.py`与对应测试；私有评测控制receipt `11b8ef99fc16255733eb754934fcf57115320d165f82099dc77091d077f98f8a`。
 
 ## C-8 非代码环境的动作与观察边界（2026-11-06）

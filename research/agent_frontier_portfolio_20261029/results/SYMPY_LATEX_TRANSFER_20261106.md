@@ -56,3 +56,19 @@ Qwen27B已经实际修复源任务14774。现在检验：这些真实执行与�
 目标共93POST、1,245,825已知provider tokens＋1请求usage未知；加源采集与两次形成后的研发共112POST、1,424,022已知tokens＋该未知请求。缓存是其中子集，不再相加；同源账本只记一次。完整冷启动与既有经验的使用成本仍须按臂分列，失败臂较少POST不构成有效率优势。
 
 证据：私有`cohort_v2/RESULTS.jsonl`及各`transfer_attempts/target_*_v2`的raw/请求/独立评分；双端选定包`.../evidence_packets_20261106/sympy_frozen_four_arm_target_evidence_thin_20261106.tar.gz`，SHA `f90b1814e04243cb0cda259f25ef793c2ca60f60e16c5da614880e6ff20a15f8`，511成员逐项核验。旧manifest和输出不重写，全局方法贡献仍未成立。
+
+## 加载与能力的两项诊断
+
+沿用同一source manifest，先冻结两份独立新attempt，再串行执行；不是重新定义旧四臂，也不是独立确认。27B-none使用原生`enable_thinking=false`；8B-inline将同一冻结skill的607bytes直接送入首轮user上下文，不再要求它先读经验文件。源内容、目标题面/回归与seed均不改，实际转发body还要核对。
+
+| attempt | inputs manifest SHA-256 |
+| --- | --- |
+| `target_none_teacher27b_file_diag_v1` | `71d7d6a8c4ec192421a559536637143d7045f689d20b363852eeaf747cf99d16` |
+| `target_generated_skill_student8b_inline_diag_v1` | `cc1eba6f22c01ab6a656bfd7d4fdb1591656fff93a1110a4c41d9d5b33889016` |
+
+代码SHA `f525d28da37ed15881686fd6d638f0c623175f4dcadf02c55eab8e65d8f29c60`；20项远端tests/24subtests通过，包括默认8B/file派生字节兼容、backend/delivery错配拒绝及实际首轮内容。两项真实运行均已结束，原题未修、142回归通过，源码均未改动：
+
+- 27B-none：48POST、848,959tokens，usage完整；11read/34bash/2grep，重复打印原行为直到POST门终止。completed SHA `185d76de4555b5791d00ab59b31cf3ba151100970ae0f8a0ccea651a3e0ef5b5`。这说明仅换更强模型的默认不推理配置仍未解决本题，不是所有27B模式的能力上界。
+- 8B-inline：607bytes确在首个实际user请求中，body SHA `641c831a442d2e33bfb010d36b6c7c53bdc17f20603a0d1d5563c6bf6e263c63`；5POST、19,977已知tokens。两次2000行read后，模型端明确拒绝48,522tokens请求，超过32,768上下文；随后退出ContextOverflowError，不能作为skill语义负结果。`00003`为已知上下文拒绝，但无provider usage，仍单列而不补零。completed SHA `cd9324bd2a1ec31c8fd2588f42344d4530c1344fcc0bf92cca73c21a051fc2c3`。
+
+终态在私有`loading_capacity_diagnostics_v1/RESULTS.jsonl`。新诊断实际53POST、868,936已知tokens＋1个拒绝请求无usage；不与同一provider的公开步骤重复相加。当前暂停扩展这个SymPy执行配置；如重启，先显式控制读取/上下文和推理模式。主攻转向已有真实成功及新开发池的ALFWorld，不让单个代码任务阻塞经验研究。

@@ -32,6 +32,8 @@ TARGETS = PARENT/'transfer_attempts'
 TARGET_BASE = '226b942f0748819d5d2d723b91591fed4975961c'
 STUDENT_PROFILE = source.PRIVATE/'django_aggregation_agent_20261106/model_profile.json'
 STUDENT_SHA = 'acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab6d0'
+TARGET_BACKENDS = ('student8b','teacher27b')
+EXPERIENCE_DELIVERIES = ('file','inline')
 TARGET_HASHES = {'patch':'29f89ebf3661c4f2ac79f78ebfd261496a97c571474eb362add78de40155b0b6',
  'test_patch':'cbfe6c47680a45a2b532ccaa50b35e6c54f262297c0fbc20e6fa56998beb26a8',
  'problem_statement':'daee201cddfd6c378587e897a5104d7104a1b71a790a529190b3220cf3f8219d'}
@@ -297,15 +299,98 @@ def target_evaluator():
 def target_id(condition):return f'target__{condition}__seed7202'
 
 
-def derive_target(root,condition,actor,profile,experience):
+def target_binding(backend='student8b'):
+    if backend not in TARGET_BACKENDS:raise ValueError('unsupported target backend')
+    teacher=backend=='teacher27b'
+    return {'target_backend':backend,'target_model_id':'qwen38-27b-fp8' if teacher else 'qwen3-8b-qual',
+            'model_profile_sha256':source.PROFILE_SHA if teacher else STUDENT_SHA,
+            'target_chat_template_kwargs':{'enable_thinking':False} if teacher else None}
+
+
+def target_profile(backend):
+    target_binding(backend)
+    if backend=='teacher27b':
+        return source.teacher.validate_vllm_model_profile(source.PROFILE,source.PROFILE_SHA,full=False)
+    return source.primitives.validate_model_profile(STUDENT_PROFILE,STUDENT_SHA)
+
+
+def check_target_binding(manifest,backend=None,delivery=None):
+    selected=manifest.get('target_backend','student8b')
+    delivery_selected=manifest.get('experience_delivery','file')
+    backend=selected if backend is None else backend
+    delivery=delivery_selected if delivery is None else delivery
+    if selected!=backend or delivery_selected!=delivery or delivery not in EXPERIENCE_DELIVERIES:
+        raise ValueError('target backend or experience delivery mismatch')
+    expected=target_binding(backend)
+    if ('target_backend' in manifest or backend!='student8b' or delivery!='file') and not (set(expected)|{'experience_delivery','experience_content_sha256'})<=set(manifest):
+        raise ValueError('target configuration fields missing')
+    for key,value in expected.items():
+        # Legacy 8B/file manifests remain readable; never rewrite their evidence.
+        default=value if backend=='student8b' and delivery=='file' and key!='model_profile_sha256' else None
+        if json.dumps(manifest.get(key,default),sort_keys=True)!=json.dumps(value,sort_keys=True):
+            raise ValueError('target model/profile/native kwargs mismatch')
+    if manifest.get('adapter_bindings',{}).get('backend')!=backend:
+        raise ValueError('target adapter backend mismatch')
+    content=manifest.get('experience_sha256')
+    if (manifest.get('condition')=='none' and content is not None or
+            manifest.get('experience_content_sha256',content)!=content):
+        raise ValueError('target experience content binding mismatch')
+    return backend,delivery
+
+
+def inline_exposure(case,experience):
+    requests=sorted((case/'model_request_bodies').glob('*.json'))
+    content=experience.read_bytes();text=content.decode('utf8')
+    result={'experience_sha256':sha(experience),'content_bytes':len(content),'file_read_not_required':True}
+    if not requests:return dict(result,status='MODEL_REQUEST_UNAVAILABLE')
+    path=requests[0];payload=read(path);users=[]
+    for message in payload.get('messages',[]):
+        if message.get('role')!='user':continue
+        value=message.get('content','')
+        users.append(value if isinstance(value,str) else ''.join(part.get('text','') for part in value if isinstance(part,dict)))
+    return dict(result,status='INLINE_FIRST_USER_PROMPT_VERIFIED' if any(text in user for user in users) else 'INLINE_FIRST_USER_PROMPT_MISSING',
+                request_body_file=path.name,request_body_sha256=sha(path))
+
+
+def target_integrity(case,receipt,backend):
+    result=source.execution_integrity(case,receipt)
+    if backend=='teacher27b':
+        expected=target_binding(backend)['target_chat_template_kwargs']
+        for metadata in receipt['sampling_metadata']:
+            payload=read(case/'model_request_bodies'/metadata['request_body_file'])
+            if any(json.dumps(row.get('chat_template_kwargs'),sort_keys=True)!=json.dumps(expected,sort_keys=True)
+                   for row in (metadata,payload)):
+                raise ValueError('forwarded target native kwargs changed')
+    return result
+
+
+def derive_target(root,condition,actor,profile,experience,backend='student8b',experience_delivery='file'):
+    target_binding(backend)
+    if experience_delivery not in EXPERIENCE_DELIVERIES:raise ValueError('unsupported experience delivery')
     def bind_requests(_root,_task,_condition,_experience,*,protocol,seed):
-        return source.requests_runner.derive(root,'target',condition,experience,protocol=protocol,seed=7202)
+        inline=experience_delivery=='inline' and condition!='none'
+        code=source.requests_runner.derive(root,'target','none' if inline else condition,
+                                          None if inline else experience,protocol=protocol,seed=7202)
+        if inline:
+            code=source.core.replace_once(code,str(root/target_id('none')),str(root/target_id(condition)))
+        return code
     proxy=SimpleNamespace(rebind_model=source.primitives.rebind_model,
-        set_model_limits=lambda code,p,backend:source.primitives.set_model_limits(code,p,'student8b'),
+        set_model_limits=lambda code,p,_backend:source.primitives.set_model_limits(code,p,backend),
         bind_per_request_transport=source.primitives.bind_per_request_transport)
     code=adapt(source.derive,requests_runner=SimpleNamespace(derive=bind_requests),primitives=proxy,EID=target_id(condition))(root,actor,profile)
-    return source.core.replace_once(code,"(src/'task.txt').read_text(encoding='utf8').strip()",
-                                    "(src/'task.txt').read_bytes().decode('utf8')")
+    code=source.core.replace_once(code,"(src/'task.txt').read_text(encoding='utf8').strip()",
+                                 "(src/'task.txt').read_bytes().decode('utf8')")
+    if backend=='teacher27b':
+        code=source.core.replace_once(code," payload['temperature'],payload['seed']=temperature,seed",
+            " payload['chat_template_kwargs']={'enable_thinking':False}\\n payload['temperature'],payload['seed']=temperature,seed".replace('\\n','\n'))
+        code=source.core.replace_once(code," metadata.update({'temperature_before':before_temperature",
+            " metadata['chat_template_kwargs']=payload['chat_template_kwargs']\\n metadata.update({'temperature_before':before_temperature".replace('\\n','\n'))
+    if experience_delivery=='inline' and condition!='none':
+        text=experience.read_bytes().decode('utf8')
+        addition='\\n\\nFrozen source experience (verbatim):\\n'.replace('\\n','\n')+text+'\nEND FROZEN SOURCE EXPERIENCE\n'
+        code=source.core.replace_once(code,"cfg={'provider':","prompt += "+repr(addition)+"\\ncfg={'provider':".replace('\\n','\n'))
+    compile(code,'<sympy-target-adapter>','exec')
+    return code
 
 
 def target_components():
@@ -317,12 +402,14 @@ def target_components():
 def verify_target_inputs(root,manifest):
     if manifest['experience_id']!=EXPERIENCE.name:raise ValueError('target experience mismatch; use matching --experience-id')
     check_experience_config(manifest)
+    backend,_=check_target_binding(manifest)
     frozen_source(manifest['source_manifest_sha256'])
     source.dependencies.verify_projection(PARENT/'actor_python38',manifest['projection_sha256'])
     if (source.tree(root/'inputs/target/clean_base')!=manifest['baseline_tree']
             or sha(root/'inputs/target/task.txt')!=manifest['task_sha256']
             or sha(root/'frozen_source_harness.py')!=manifest['harness_sha256']
-            or sha(root/'model_profile.json')!=STUDENT_SHA):raise ValueError('target inputs changed')
+            or sha(root/'model_profile.json')!=target_binding(backend)['model_profile_sha256']
+            or read(root/'model_profile.json')['model_id']!=target_binding(backend)['target_model_id']):raise ValueError('target inputs changed')
     paths=target_components();snapshot=root/(target_id(manifest['condition'])+'.components')
     if set(paths)!=set(manifest['component_sha256']) or any(sha(paths[n])!=h or sha(snapshot/n)!=h for n,h in manifest['component_sha256'].items()):
         raise ValueError('target components changed')
@@ -330,32 +417,35 @@ def verify_target_inputs(root,manifest):
         raise ValueError('actor experience changed')
 
 
-def prepare_target(attempt,condition,source_digest):
+def prepare_target(attempt,condition,source_digest,backend='student8b',experience_delivery='file'):
     if condition not in CONDITIONS:raise ValueError('unsupported target condition')
+    binding=target_binding(backend)
+    if experience_delivery not in EXPERIENCE_DELIVERIES:raise ValueError('unsupported experience delivery')
     frozen_source(source_digest);row,_=target_row()
     root=TARGETS/source.primitives.attempt_root(PARENT,attempt).name
     if TARGETS.is_symlink() or root.exists() or root.is_symlink():raise FileExistsError('preserve existing transfer attempt')
-    actor=source.prepare_projection();profile=source.primitives.validate_model_profile(STUDENT_PROFILE,STUDENT_SHA)
+    actor=source.prepare_projection();profile=target_profile(backend)
     verify_clean=adapt(source.verify_clean,SOURCE_BASE=TARGET_BASE)
     verify_clean(source.QUAL/'target/clean',source.QUAL/'target.tar.gz')
     root.mkdir(parents=True);inputs=root/'inputs/target';inputs.mkdir(parents=True)
     shutil.copytree(source.QUAL/'target/clean',inputs/'clean_base')
     (inputs/'task.txt').write_text(target_task(row['problem_statement']),encoding='utf8')
-    shutil.copyfile(STUDENT_PROFILE,root/'model_profile.json');source.primitives.prepare_actor_runtime(root)
+    shutil.copyfile(source.PROFILE if backend=='teacher27b' else STUDENT_PROFILE,root/'model_profile.json');source.primitives.prepare_actor_runtime(root)
     experience=None
     if condition!='none':
         experience=root/'source_experience.md';shutil.copyfile(EXPERIENCE/(condition+'.md'),experience)
     paths=target_components();snapshot=root/(target_id(condition)+'.components');snapshot.mkdir()
     for name,path in paths.items():shutil.copyfile(path,snapshot/name)
-    harness=root/'frozen_source_harness.py';harness.write_text(derive_target(root,condition,actor,profile,experience),encoding='utf8')
+    harness=root/'frozen_source_harness.py';harness.write_text(derive_target(root,condition,actor,profile,experience,backend,experience_delivery),encoding='utf8')
     manifest={'status':'PREPARED','condition':condition,'source_manifest_sha256':source_digest,
         'experience_id':EXPERIENCE.name,'experience_config':experience_config(),
         'source_completion_sha256':SOURCE_SHA,'projection_sha256':actor['manifest_sha256'],
-        'model_profile_sha256':STUDENT_SHA,'task_sha256':sha(inputs/'task.txt'),'harness_sha256':sha(harness),
+        **binding,'experience_delivery':experience_delivery,
+        'experience_content_sha256':sha(experience) if experience else None,'task_sha256':sha(inputs/'task.txt'),'harness_sha256':sha(harness),
         'component_sha256':{name:sha(snapshot/name) for name in paths},'baseline_tree':source.tree(inputs/'clean_base'),
         'experience_sha256':sha(experience) if experience else None,'target_base':TARGET_BASE,
         'target_regression_nodes_sha256':NODES_SHA,'known_exclusions':EXCLUDED,
-        'adapter_bindings':{'role':'target','seed':7202,'backend':'student8b','evaluation_count':142,
+        'adapter_bindings':{'role':'target','seed':7202,'backend':backend,'evaluation_count':142,
                             'source_evaluation_count':114,'shared_globals_modified':False}}
     write_new(root/'inputs_manifest.json',manifest);verify_target_inputs(root,manifest)
     control=adapt(source.preflight,[('inputs/source/clean_base','inputs/target/clean_base',1),('source_gold.patch','target_gold.patch',1)],
@@ -363,26 +453,31 @@ def prepare_target(attempt,condition,source_digest):
     return {'root':str(root),'status':control['status'],'model_calls':0,'inputs_manifest_sha256':sha(root/'inputs_manifest.json')}
 
 
-def execute_target(attempt,source_digest,input_digest):
+def execute_target(attempt,source_digest,input_digest,backend='student8b',experience_delivery='file'):
     root=TARGETS/source.primitives.attempt_root(PARENT,attempt).name;manifest=read(root/'inputs_manifest.json')
     if manifest['experience_id']!=EXPERIENCE.name:raise ValueError('target experience mismatch; use matching --experience-id')
     check_experience_config(manifest)
+    check_target_binding(manifest,backend,experience_delivery)
     if manifest['source_manifest_sha256']!=source_digest:raise ValueError('target bound to different source')
     condition=manifest['condition'];eid=target_id(condition);actor=source.prepare_projection()
-    row,_=target_row();profile=source.primitives.validate_model_profile(STUDENT_PROFILE,STUDENT_SHA)
+    row,_=target_row();profile=target_profile(backend)
     def observed_write(path,value):
         if path.name in (eid+'.started.json',eid+'.completed.json'):
-            value=dict(value,source_manifest_sha256=source_digest,experience_id=EXPERIENCE.name,experience_config=experience_config())
+            value=dict(value,source_manifest_sha256=source_digest,experience_id=EXPERIENCE.name,experience_config=experience_config(),
+                       **target_binding(backend),experience_delivery=experience_delivery,
+                       experience_content_sha256=manifest.get('experience_content_sha256',manifest.get('experience_sha256')))
             if path.name.endswith('.completed.json'):
                 raw=root/eid/'raw.jsonl'
-                value['experience_read']=(inspect_experience_reads(raw,root/'source_experience.md') if raw.is_file()
-                                          else {'status':'RAW_UNAVAILABLE'}) if condition!='none' else None
+                value['experience_read']=(inline_exposure(root/eid,root/'source_experience.md') if experience_delivery=='inline'
+                    else inspect_experience_reads(raw,root/'source_experience.md') if raw.is_file()
+                    else {'status':'RAW_UNAVAILABLE'}) if condition!='none' else None
         write_new(path,value)
-    run=adapt(source.execute_source,[(7201,7202,3),('source','target',2),('none',condition,1),('teacher27b','student8b',1),
+    run=adapt(source.execute_source,[(7201,7202,3),('source','target',2),('none',condition,1),('teacher27b',backend,1),
         ('inputs/source/task.txt','inputs/target/task.txt',1),('inputs/source/clean_base','inputs/target/clean_base',1),
         ('source_artifact_qualification','target_artifact_qualification',1)],
-        EID=eid,PROFILE_SHA=STUDENT_SHA,verify_inputs=verify_target_inputs,checked_qualification=target_row,
-        teacher=SimpleNamespace(verify_vllm_backend=source.primitives.verify_live_backend),
+        EID=eid,PROFILE_SHA=target_binding(backend)['model_profile_sha256'],verify_inputs=verify_target_inputs,checked_qualification=target_row,
+        execution_integrity=lambda case,receipt:target_integrity(case,receipt,backend),
+        teacher=SimpleNamespace(verify_vllm_backend=source.teacher.verify_vllm_backend if backend=='teacher27b' else source.primitives.verify_live_backend),
         evaluate=target_evaluator(),write_new=observed_write)
     return run(root,manifest,actor,row,profile,input_digest)
 
@@ -392,6 +487,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('mode',choices=('prepare-source','generate-skill','freeze-source','prepare-target','execute-target'))
     parser.add_argument('--attempt-id');parser.add_argument('--condition',choices=CONDITIONS,default='none')
+    parser.add_argument('--target-backend',choices=TARGET_BACKENDS,default='student8b')
+    parser.add_argument('--experience-delivery',choices=EXPERIENCE_DELIVERIES,default='file')
     parser.add_argument('--experience-id',default='source_experience_v1',help='use the same version for formation and every target mode')
     parser.add_argument('--source-manifest-sha256');parser.add_argument('--inputs-manifest-sha256')
     args=parser.parse_args()
@@ -402,8 +499,8 @@ def main():
     if args.mode=='prepare-source':result=prepare_source()
     elif args.mode=='generate-skill':result=generate_skill()
     elif args.mode=='freeze-source':result=freeze_source()
-    elif args.mode=='prepare-target':result=prepare_target(args.attempt_id,args.condition,args.source_manifest_sha256)
-    else:result=execute_target(args.attempt_id,args.source_manifest_sha256,args.inputs_manifest_sha256)
+    elif args.mode=='prepare-target':result=prepare_target(args.attempt_id,args.condition,args.source_manifest_sha256,args.target_backend,args.experience_delivery)
+    else:result=execute_target(args.attempt_id,args.source_manifest_sha256,args.inputs_manifest_sha256,args.target_backend,args.experience_delivery)
     response={'mode':args.mode,'result':result}
     if args.mode=='freeze-source':response['source_manifest_sha256']=sha(EXPERIENCE/'frozen_manifest.json')
     print(json.dumps(response))
