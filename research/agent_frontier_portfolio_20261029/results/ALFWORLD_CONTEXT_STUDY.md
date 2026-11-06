@@ -1,6 +1,6 @@
 # ALFWorld多任务上下文研究
 
-> 2026-11-06 | 本主题原地接续；模型与原会话历史见[ALFWorld记录](ALFWORLD_TEXT_AGENT_20261106.md)。当前执行次序见[唯一短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。这不是论文确认结果。
+> 2026-11-07 | 本主题原地接续；模型与原会话历史见[ALFWorld记录](ALFWORLD_TEXT_AGENT_20261106.md)。当前执行次序见[唯一短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。这不是论文确认结果。
 
 <a id="current-multitask"></a>
 
@@ -84,18 +84,30 @@ look_01四臂均won=true，cool_01与heat_02四臂均false；新增249真POST/3,
 
 当前固定drop_recent以更低实际调用/输入成本达到相同观测won，复杂选择器暂无必要性证据；小样本和截尾限制仍在。这改变下一步：先检验两个强简单控制，不扩大选择器或重训actor。`collect_none`沿用同一冻结题面、模型、seed、32POST/600秒及统一续做，仅从头不加载旧经验；`goal_recent`在原drop_recent末尾只重复已有公共目标，不给步骤。前者和恢复臂分别分析，不把起点不同的成绩直接相减。新条件事后开发、非确认；待旧actor结束后再发布绑定新代码的运行。
 
-### 当前在途：强简单控制
+### 强简单控制：22个episode已返回
 
 新代码`34c7055d1bc53e6442d567b069f81067d86714ef`已在旧actor全部退出、lock可取后发布到本机/GB10/GitHub。GB10四文件focused为45passed/167subtests；对18个旧collector任务逐字节重建一致、18个none和4个goal公共输入零模型核对通过。独立静态审阅未见阻断，不替代模型结果。本机unittest的symlink项受Windows权限限制，实际完整验证以GB10为准；没有重跑全仓测试。
 
-`context_study_v1/simple_controls_v1`已启动，owned PID4053364，控制器Q下`run_context_study_simple_controls_v1.py`。固定队列先clean_02/look_01/cool_01/heat_02的4个goal_recent，再按原冻结顺序跑18个collect_none，共22个episode，不因结果替换或调提示。原old源只引用；新none从相同reset重开任务。ADMISSION绑定driver/hash、源码epoch、原18份source manifest/receipt及完整queue。每次新none还核对与旧collector的caps、sampling/profile、assignment及reset原文一致。实际状态只看events/RESULT和核验后的controller；缺RESULT不自动重启。
+`context_study_v1/simple_controls_v1/RESULT.json`已返回`ALL22_SIMPLE_CONTROLS_RETURNED`，原PID4053364退出，不重启。控制器Q下`run_context_study_simple_controls_v1.py`保留。固定队列先clean_02/look_01/cool_01/heat_02的4个goal_recent，再按原顺序跑18个collect_none，无替换或调提示。原source只引用；新none从相同reset重开任务。ADMISSION绑定driver/hash、源码epoch、原18份source manifest/receipt及完整queue。每次none还核对与旧collector的caps、sampling/profile、assignment及reset原文一致。
+
+普通带经验为6/18，无经验3/18；带经验新增成功clean_01、clean_03、clean_04、heat_01，同时look_01从无经验成功变为失败。另两题clean_05、look_03两条件均成功。它是同一开发seed下的双向现象，不支持一律清空；原baseline继承整个经验附加段（含公共提示与wrapper），尚未隔离语义内容与通用示例/提示作用。4个新增成功都来自history载体，唯一损失来自skill载体；事后“history则加载、skill则不加载”在本面板即可达到7/18并覆盖两条件成功并集，复杂初始选择器还需越过这个简单规则。
+
+4个goal_recent仍仅look_01成功，73 POST/817,960tokens；原drop_recent同样1/4，为31 POST/180,557tokens。目标重申未增加本面板成功现场，停止继续改写该提示。22个控制合计514真POST/4,594,978tokens，usage unknown为0；其中18个none为441 POST/3,777,018tokens。全量独立SSE、完整输入、18对reset/caps/profile/sampling与4个goal replay复核差异0，`SIMPLE_CONTROLS_RECOMPUTE_V1.json` SHA `6b903f0f7897d4a6dce4a615e3d07772975ec08d21f45b933d5fecd70e1206b3`。新增输入4,569,506（cached4,395,991）、输出25,472，本地未forward预约0；27B后续不混入该账。
 
 截至新控制开跑前，多任务主线累计805真POST/9,989,020tokens（含18个collector、16个学生恢复及1个27B诊断），这是本专题范围，不是整个项目总账。新22个控制另增记；无训练、judge、付费科研API或生产写回。上述旧批次全部终态，无须再等历史marker。
 
-旧批完整私有证据薄包`alfworld_18_collections_four_recoveries_v1_20261106.tar.gz`已双端保存并逐成员核验：4,928成员、26,811,943字节，archive SHA `67e8d9c8d2c5f13ccc1ae3ab59ec02792dd7b7211af99990d8e892758fd72ed4`，manifest SHA `727fd9cd448751630212af1e19daa727d8f942798f4e6264c63d2231d61f7915`。不含workspace、私有game/专家原轨迹、缓存或权重；不是完整runtime，也不是公开artifact。新simple_controls在途数据不混入旧包。
+旧批完整私有证据薄包`alfworld_18_collections_four_recoveries_v1_20261106.tar.gz`已双端保存并逐成员核验：4,928成员、26,811,943字节，archive SHA `67e8d9c8d2c5f13ccc1ae3ab59ec02792dd7b7211af99990d8e892758fd72ed4`，manifest SHA `727fd9cd448751630212af1e19daa727d8f942798f4e6264c63d2231d61f7915`。不含workspace、私有game/专家原轨迹、缓存或权重；不是完整runtime，也不是公开artifact。它不包含后续simple_controls。
+
+### 自然失败现场的教师恢复：已返回
+
+`context_study_v1/teacher_state_batch_v1/RESULT.json`已返回`ALL6_TEACHER_STATE_DIAGNOSTICS_RETURNED`，原PID4073951已退出。固定三个自然未完成source加clean_02校准，补两条8B recent后测四条27B recent；学生0/4、教师3/4，剩一题触上下文门。新215真POST/2,863,108tokens，实际原生重放、相同公开prompt/caps及SSE复算差异0；`TEACHER_STATES_RECOMPUTE_V1.json` SHA `1bf001d43834b4d9a691b151c7a76eca4bb74b6958c011b647d165708a4fee90`。
+
+三个成功是可执行纠正候选，不是学习增益；模型能力和实际计算不同。完整结果、账本以及新启动的8现场教师采集只在[现役纠正记录](ALFWORLD_CORRECTION_DATA.md)维护，不在本页追加采集日志。
+
+进入本6诊断批前，本专题累计1,319真POST/14,583,998tokens，原source物理只计一次。Paper E与对外动作不在本批范围。
 
 暂停时仅对核验argv后的当前owned controller发SIGTERM，handler会退出当前episode并保留receipt/未知usage，清理actor/relay/world；不停止模型服务。case中断不作为正常方法失败或合格收集样本。该锁只约束本study driver，不宣称跨机器全局预算锁。
 
-科研代码已整合发布至`d1566f021542ec319cb7aa3f4cc9fc561412df35`，本机/GB10/GitHub refs实测一致；本机clean，GB10仅保留Loop B的`logs/graph/pytest_loopb.txt`外部修改。C8版本`509a50605e3c44d6f04c0cb89a6c6276b3c31dd8b757cb8d59896b711d3e18bb`在两机器各两个既有安装副本一致。后续文档提交不改本批科研代码epoch，当前HEAD以Git为准。
+初批发布回执（历史）：科研代码`d1566f021542ec319cb7aa3f4cc9fc561412df35`当时三端refs一致，本机clean、GB10保留Loop B日志修改。C8版本`509a50605e3c44d6f04c0cb89a6c6276b3c31dd8b757cb8d59896b711d3e18bb`当时两机器各两个既有安装副本一致；本轮没有再改skill。后续代码/文档发布与当前HEAD分开，以实际Git为准。
 
-首批私有薄包SHA `b23fae27524bb5f6e1401a1316487bb9cea1d9b091cca684c4e705f28fb26bf9`，1,294成员；原会话控制包SHA `647a9de772f40ccc6f427de53c97121eddfb80e6d37253c4ae6b1423c1f1957a`，218成员，均双端逐成员核验。排除workspace、原game/专家轨迹与缓存；没有权重/凭据或公开artifact。新在途批不包含在该已冻结薄包中。
+首批私有薄包SHA `b23fae27524bb5f6e1401a1316487bb9cea1d9b091cca684c4e705f28fb26bf9`，1,294成员；原会话控制包SHA `647a9de772f40ccc6f427de53c97121eddfb80e6d37253c4ae6b1423c1f1957a`，218成员，均双端逐成员核验。排除workspace、原game/专家轨迹与缓存；没有权重/凭据或公开artifact。它们不包含后续批次。
