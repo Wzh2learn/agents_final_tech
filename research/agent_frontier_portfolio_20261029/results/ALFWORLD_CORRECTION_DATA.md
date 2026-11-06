@@ -28,7 +28,7 @@ CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,74
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
-两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。现役CPU计划为`learning_comparison_v1/plans/ordinary_v4`（manifest SHA `875243cbcab87d968789e76f34745ee3514c27e0ac65c470ab499b8ee90a8c09`）与`recovery_v4`（SHA `4be913090ed70584a52b7b7d832b3aecc3e87991221bb3665ca953ef274888c7`）。历史计划/源码/失败保留，全部采样与预算未变；v4尚未GPU运行。训练前后不加入canary生成，实际学习效果随后按环境won评价。
+两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各计划192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。现役计划为`learning_comparison_v1/plans/ordinary_v4`（manifest SHA `875243cbcab87d968789e76f34745ee3514c27e0ac65c470ab499b8ee90a8c09`）与`recovery_v4`（SHA `4be913090ed70584a52b7b7d832b3aecc3e87991221bb3665ca953ef274888c7`）。历史计划/源码/失败保留，全部采样与预算未变。`owned_window_v3`已开始实际运行：普通臂成功加载权重并产生有限loss/非零梯度更新，纠正臂排队；实际步数查各plan的`steps.jsonl`，以最终receipt为准。request SHA `69c07d8e1a6e63539a01b3d4ad85d69e7362a096c11b20cb2004287649fe66ff`。只暂停owned18104，结束原样恢复；共享35B/27B不变。训练前后不加入canary生成，实际学习效果随后按环境won评价。
 
 仅D在持有本study队列及owned18104窗口时显式运行，窗口不代表整GPU独占；共享35B/27B保持常驻，结束须恢复owned8B原argv/cwd与健康。OOM保留失败、实际步数与未知项，不自动换模型/截样或改共享服务。4B不是前置。HF8B五shard共16,381,516,776bytes已完整绑定；`HF8B_MODEL_BINDING_V1.json` SHA `b8d5af477c1f6be67981583a4a60df9561ea53872e0676535aa9745fce011dc1`。它不证明与旧GGUF权重数值等价；部署比较要保持相同推理基座/量化与接口。
 
@@ -44,7 +44,11 @@ v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载�
 
 冻结8B基线批次`heldout_frozen8b_v1`已闭合：原控制器PID29543已退出，Q下`run_context_study_heldout_frozen8b_v1.py`；代码epoch `62b197b8`，16题按冻结顺序全跑，stage ordinary_reset、无经验、无LoRA。评测protocol SHA `5af8c4579b8f14ed2fc3e2857b2928726b83a02c81e1b2b33ac81d4e18497aa2`。RESULT SHA `18e6873320b843a1256ba1b285e1036bb95fa62e866adaba24ae277fc5780c6c`：won为3/16（look2/4、cool1/4、clean0/4、heat0/4），755 POST、9,055,073输入＋33,410输出＝9,088,483tokens；其中缓存输入8,871,228是输入子集，不重复计费量。usage未知0。本专题累计2,824 POST/31,947,685tokens，不是项目全账；新16结果不进入训练或调SFT超参。
 
-首个closed新题128POST仅3个接受动作、125次invalid_action；模型混用了cloth/towel并重复put/drop语法。仅为首例观察，不外推全部失败。新增[直接策略](../alfworld_direct_policy.py)与离线控制：复用同world/原目标/完整公共历史/8B权重/采样/预算，native JSON动态enum仅允许当前公开admissible_commands或显式stop；未won最多一次固定Continue。不向actor提供expert、别名规则或私有参考。GB10离线13测试/12 subtests通过，仅证明实现合同；服务端schema尚待实际运行验证，拒绝则保留失败、不降级。下一步按原16题冻结顺序执行全部，单题仍128 POST/100动作/1800秒、32K上下文及8192输出。此臂同时改变接口与动作约束，是强简单组合基线，不能单独归因去掉OpenCode，也不是新方法。
+独立复核16份receipt/manifest和755份原SSE无差异；13失败按最终停止原因分3个POST上限、4个context门、6个普通stop（均已继续一次）。4个零工具错误失败仍处理错对象或漏清洗。侧车`heldout_frozen8b_v1/independent_review_v1.json` SHA `65c72e1a017aff2f7dc4c45cd738953be545995c8b4526315d954961060c008f`。这支持检验合法动作基线，不证明所有失败都由动作格式引起。
+
+[直接策略](../alfworld_direct_policy.py)已在同16题实际跑完，服务端动态schema可用：native won为1/16（仅cool_03），比旧臂新增1题、丢失旧3题；7个context门、8个100动作耗尽的done-unwon、1个won。1271 POST/动作均在此前公开admissible列表，无非法动作；13,811,233输入＋9,819输出＝13,821,052tokens，缓存输入13,477,285为输入子集，unknown0。逐响应hash/usage、16个相同公共reset及独立native终态均复算通过。RESULT SHA `6f265b6a9416ffaef77e66823f61e4255fdb28fb661c4859fa3ed7084efee42b`；`COMPARISON_V1.json` SHA `f8f1d32b0724f6895955c94f3541bbcc64dd0fb9a7da7de2ed27c91ca172eaf9`。本专题生成累计4095 POST/45,768,737tokens，不含训练和研发Agent。
+
+该臂保留原目标/完整公共历史/权重/采样/caps及一次Continue，但同时去除OpenCode计划/工具结构并只准输出单动作JSON；结果不识别单独约束效应，也不代表强简单基线已经穷尽。不再修补此action-only臂。对照[ReAct §4](https://arxiv.org/html/2210.03629v3)及[官方ALFWorld入口](https://github.com/ysymyth/ReAct/blob/master/alfworld.ipynb)（2026-11-07已读，未复现成绩），后续保留同数据条件的计划/示例基线；不能把它们的收益改称新经验机制。原16题已属暴露开发数据，未进入SFT监督或超参选择。
 
 Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。尚无模型运行，未来完整actor可读面未验收，公开复现当前为空SQLite查询，不把13项测试算13任务。
 
@@ -60,6 +64,6 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 ## 本轮判读与训练对照取舍
 
-Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督，16新布局冻结8B为3/16；UNVERIFIED：纠正监督是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：先用native合法动作组合基线检验执行残差，再让有限SFT服务明确问题。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：完成16题native基线与冻结8B逐任务比较，再决定SFT及第二环境的具体投入。
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督，16新布局的OpenCode/native动作臂分别3/16和1/16；UNVERIFIED：纠正监督是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：完成有界训练对照，保留计划/示例等强简单方法。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：监测两臂SFT及原服务恢复，核同推理基座/实际激活adapter后再评价；第二环境只补薄任务入口。
 
 新薄包`alfworld_teacher_complete_supervision_v2_20261107.tar.gz`（1,553成员，5,421,100bytes；SHA `5361d083bdeb7599efce2781667ae2903cc05ab93507b0445d23036dd7954bf2`）已在GB10、本机逐成员核验；manifest SHA `37997af7e5f5d5460315c078454b1eb94b7d8b8e314c78651e46362ca9117403`。依赖前述source/四诊断薄包；不含在途普通18题，也不是公开可再分发数据包。
