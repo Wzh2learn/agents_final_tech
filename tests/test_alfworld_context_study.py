@@ -21,7 +21,7 @@ spec.loader.exec_module(r)
 
 PUBLIC_KEYS = ("observation", "score", "done", "won", "action_count", "admissible_commands")
 RECOVERY_ARMS = ("keep_full", "keep_recent", "drop_full", "drop_recent")
-ARMS = ("collect", "collect_none", "goal_recent") + RECOVERY_ARMS
+ARMS = ("collect", "collect_none", "goal_recent", "ordinary_reset") + RECOVERY_ARMS
 EXPERIENCE = '\n  SOURCE_EXPERIENCE_BEGIN\n`tool` "quoted" 中文\nSOURCE_EXPERIENCE_END\n\n'
 
 
@@ -80,6 +80,17 @@ def render(reset, steps, current, keep, window):
 
 
 class ContextPromptTests(unittest.TestCase):
+    def test_ordinary_reset_is_the_exact_empty_history_public_recovery_contract(self):
+        reset, steps, current = prompt_inputs()
+        expected = r.render_prompt(reset, [], reset, "", False, "recent")
+        assignment = {"carrier": "ordinary_public_history"}
+        actual = r.initial_prompt(reset, "ordinary_reset", assignment, EXPERIENCE)
+        self.assertEqual(actual.encode(), expected.encode())
+        self.assertEqual(actual, r.initial_prompt(reset, "ordinary_reset", assignment, "OTHER_SOURCE"))
+        for absent in ("SOURCE_EXPERIENCE_BEGIN", "HISTORY_OBSERVATION_", current["observation"], "NEVER_RENDER"):
+            self.assertNotIn(absent, actual)
+        self.assertIn({key: reset[key] for key in PUBLIC_KEYS}, list(json_objects(actual)))
+
     def test_restatement_adds_only_the_existing_public_goal_to_drop_recent(self):
         reset, steps, current = prompt_inputs()
         baseline = render(reset, steps, current, False, "recent")
@@ -112,6 +123,8 @@ class ContextPromptTests(unittest.TestCase):
             ordinary = r.collection_prompt(reset, "collect", assignment, EXPERIENCE)
             plain = r.collection_prompt(reset, "collect_none", assignment, EXPERIENCE)
             alternate = r.collection_prompt(reset, "collect_none", assignment, "OTHER_SOURCE")
+            self.assertEqual(r.initial_prompt(reset, "collect", assignment, EXPERIENCE), ordinary)
+            self.assertEqual(r.initial_prompt(reset, "collect_none", assignment, EXPERIENCE), plain)
             with self.assertRaises(ValueError):
                 r.collection_prompt(reset, "drop_recent", assignment, EXPERIENCE)
         self.assertEqual(ordinary, plain + "\n" + EXPERIENCE)
@@ -229,6 +242,145 @@ class ContextAccountingTests(unittest.TestCase):
                            "model_request_payload_bytes": 4000, "model_response_wire_bytes": 6000}):
             with self.subTest(exhausted=exhausted), self.assertRaises(ValueError):
                 r.remaining_caps(self.total, dict(self.receipt, **exhausted))
+
+
+class ContextStageDispatchTests(unittest.TestCase):
+    def setUp(self):
+        self.study = {
+            "total_caps": {"posts": 128, "seconds": 1800, "world_actions": 100,
+                           "model_payload_bytes_combined": 64000000},
+            "collection_caps": {"posts": 32, "seconds": 600, "world_actions": 100,
+                                "model_payload_bytes_combined": 64000000}}
+        self.prefix = {"receipt": {"model_posts": 8, "elapsed_seconds": 90.25, "world_actions": 10,
+                                   "model_request_payload_bytes": 1000, "model_response_wire_bytes": 2000}}
+
+    def test_reset_uses_total_caps_and_all_old_stage_caps_are_unchanged(self):
+        before = copy.deepcopy((self.study, self.prefix))
+        self.assertIs(r.stage_caps("ordinary_reset", self.study, None), self.study["total_caps"])
+        for stage in ("collect", "collect_none"):
+            self.assertIs(r.stage_caps(stage, self.study, None), self.study["collection_caps"])
+        for stage in RECOVERY_ARMS + ("goal_recent",):
+            with self.subTest(stage=stage):
+                self.assertEqual(r.stage_caps(stage, self.study, self.prefix),
+                                 r.remaining_caps(self.study["total_caps"], self.prefix["receipt"]))
+        self.assertEqual((self.study, self.prefix), before)
+
+    def test_prepare_verify_both_backends_keep_reset_progress_and_total_caps(self):
+        validator = r.recovery().bridge().validate_response
+
+        def write_new(path, value):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("x", encoding="utf-8") as out:
+                json.dump(value, out)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            qual = Path(tmp).resolve()
+            binary = qual / "mock-binary"
+            binary.write_bytes(b"OFFLINE_ONLY")
+            reset = public_state(0, "Your task is to: heat some egg and put it in diningtable.")
+            study = dict(self.study, world_seed=17, pool_path="D-only-pool", pool_sha256="mock-pool-sha")
+            assignment = {"carrier": "ordinary_public_history", "source_id": "D-only-source"}
+            game, binding = {"game_path": "D-only-game"}, {"sha256": "mock-game-sha"}
+            profile = {"model_id": "mock-model"}
+            core = SimpleNamespace(load_profile=mock.Mock(return_value=profile), write_new=write_new,
+                config=lambda p, seed: {"model": p["model_id"], "seed": seed},
+                model_payload=lambda *args: {"mock_sampling": True},
+                PROFILE_PINS={backend: ("mock-profile", "mock-profile-sha") for backend in ("student8b", "teacher27b")},
+                dependencies=SimpleNamespace(verify_projection=mock.Mock()),
+                RUNTIME_ROOT=qual / "mock-runtime", RUNTIME_SHA="mock-runtime-sha",
+                BINARY=binary, BINARY_SHA=r.sha(binary), IMAGE="mock-image", stop_world=mock.Mock())
+            rec = SimpleNamespace(actor=lambda: core, bridge=lambda: SimpleNamespace(validate_response=validator),
+                                  token_qualifier=mock.Mock(return_value=({"tokenizer": "offline"}, mock.Mock())))
+            pool = SimpleNamespace(start_world=mock.Mock(return_value=((object(), qual / "mock-world"), reset, game)))
+            with mock.patch.object(r, "QUAL", qual), mock.patch.object(r, "recovery", return_value=rec), \
+                    mock.patch.object(r, "protocol", return_value=study), \
+                    mock.patch.object(r, "read_case", return_value=(game, binding, assignment, EXPERIENCE)), \
+                    mock.patch.object(r, "components", return_value={"offline_test": "fixed"}), \
+                    mock.patch.object(r, "task_pool", return_value=pool), \
+                    mock.patch.object(r, "load_prefix", side_effect=AssertionError("ordinary has no source")), \
+                    mock.patch.object(r, "cohort_binding", side_effect=AssertionError("ordinary has no cohort")), \
+                    mock.patch.object(r.os, "getuid", return_value=1000, create=True), \
+                    mock.patch.object(r.os, "getgid", return_value=1000, create=True), \
+                    mock.patch.object(r.subprocess, "check_output", return_value="mock-image-id\n"), \
+                    mock.patch("socket.create_connection", side_effect=AssertionError("no network")):
+                for backend in ("student8b", "teacher27b"):
+                    with self.subTest(backend=backend):
+                        root = qual / ("context_study_v1/cases/heat_2/ordinary_reset/" + backend + "/attempt_v1")
+                        manifest = r.prepare(root, qual / "mock-protocol.json", "a" * 64)
+                        verified = r.verify(root, r.sha(root / "manifest.json"))
+                        self.assertIsNone(verified[3])
+                        self.assertEqual(manifest["caps"], self.study["total_caps"])
+                        for key in ("source_root", "source_binding", "cohort_binding"):
+                            self.assertIsNone(manifest[key])
+                        self.assertEqual((root / "task.txt").read_bytes(),
+                                         r.render_prompt(reset, [], reset, "", False, "recent").encode())
+                        self.assertEqual(pool.start_world.call_args.args[4]["world_actions"], 100)
+                        self.assertFalse((root.parents[2] / "RECOVERY_COHORT.json").exists())
+                        # Even a rehashed manifest cannot disguise a recovery handoff as a reset.
+                        (root / "handoff_public.json").write_text(json.dumps(public_state(1, "Existing progress")), encoding="utf-8")
+                        manifest["inputs_sha256"]["handoff_public.json"] = r.sha(root / "handoff_public.json")
+                        (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+                        with self.assertRaisesRegex(ValueError, "cannot contain recovery progress"):
+                            r.verify(root, r.sha(root / "manifest.json"))
+
+    def test_only_actual_recovery_stages_accept_a_source_prefix(self):
+        invalid = [(stage, self.prefix) for stage in ("collect", "collect_none", "ordinary_reset")]
+        invalid += [(stage, None) for stage in RECOVERY_ARMS + ("goal_recent",)]
+        invalid += [("invented", None), ("invented", self.prefix)]
+        for stage, prefix in invalid:
+            with self.subTest(stage=stage, prefix=prefix), self.assertRaises(ValueError):
+                r.stage_caps(stage, self.study, prefix)
+
+    def test_verify_rejects_forged_reset_recovery_switches_before_cohort_or_actor(self):
+        invalid = [(stage, "mock-source", None) for stage in ("collect", "collect_none", "ordinary_reset")]
+        invalid += [(stage, None, None) for stage in RECOVERY_ARMS + ("goal_recent",)]
+        invalid.append(("ordinary_reset", None, {"path": "forged-recovery-cohort"}))
+        with tempfile.TemporaryDirectory() as tmp:
+            qual = Path(tmp).resolve()
+            for index, (stage, source_root, cohort) in enumerate(invalid, 1):
+                root = qual / ("context_study_v1/cases/heat_2/" + stage + "/student8b/attempt_v" + str(index))
+                root.mkdir(parents=True)
+                manifest = {"case_id": "heat_2", "stage": stage, "backend": "student8b", "components": {},
+                            "protocol_path": "mock-protocol", "protocol_sha256": "a" * 64,
+                            "source_root": source_root, "cohort_binding": cohort}
+                (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+                with self.subTest(stage=stage, source_root=source_root, cohort=cohort), \
+                        mock.patch.object(r, "QUAL", qual), mock.patch.object(r, "components", return_value={}), \
+                        mock.patch.object(r, "protocol", return_value=self.study), \
+                        mock.patch.object(r, "read_case", return_value=({}, {}, {}, "D_ONLY_SOURCE")), \
+                        mock.patch.object(r, "load_prefix", return_value=self.prefix) as load, \
+                        mock.patch.object(r, "cohort_binding", side_effect=AssertionError("no cohort mutation")), \
+                        mock.patch.object(r, "recovery", side_effect=AssertionError("no actor access")):
+                    with self.assertRaises(ValueError):
+                        r.verify(root, r.sha(root / "manifest.json"))
+                    self.assertEqual(load.call_count, int(source_root is not None))
+
+    def test_ordinary_timeout_is_an_episode_timeout_without_any_actor_or_model(self):
+        def write_new(path, value):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("x", encoding="utf-8") as out:
+                json.dump(value, out)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            qual = Path(tmp).resolve()
+            root = qual / "context_study_v1/cases/heat_2/ordinary_reset/teacher27b/attempt_v1"
+            root.mkdir(parents=True)
+            manifest = {"case_id": "heat_2", "stage": "ordinary_reset", "backend": "teacher27b",
+                        "world_seed": 17, "caps": self.study["total_caps"], "source_binding": None}
+            study = {"pool_path": "mock-not-read", "pool_sha256": "mock-sha"}
+            core = SimpleNamespace(write_new=write_new, ModelRelay=type("UnusedRelay", (), {}))
+            pool = SimpleNamespace(start_world=mock.Mock(side_effect=subprocess.TimeoutExpired("mock-world", 1)))
+            with mock.patch.object(r, "QUAL", qual), \
+                    mock.patch.object(r, "verify", return_value=(manifest, study, {}, None, None)), \
+                    mock.patch.object(r, "recovery", return_value=SimpleNamespace(actor=lambda: core)), \
+                    mock.patch.object(r, "task_pool", return_value=pool), \
+                    mock.patch.object(r.subprocess, "run", side_effect=AssertionError("no actor process")), \
+                    mock.patch("socket.create_connection", side_effect=AssertionError("no network")):
+                receipt = r.run_episode(root, "mock-manifest-sha")
+            self.assertEqual(receipt["status"], "EPISODE_TIMEOUT")
+            self.assertEqual(receipt["errors"], [])
+            self.assertEqual(receipt["real_model_calls"], 0)
+            self.assertIsNone(receipt["source_binding_charge_once"])
 
 
 class ContextContinuationTests(unittest.TestCase):
@@ -425,7 +577,7 @@ def collector_fixture():
         root = qual / "context_study_v1/cases/heat_2/collect/student8b/attempt_v1"
         root.mkdir(parents=True)
         protocol_sha = "a" * 64
-        manifest = {"protocol_sha256": protocol_sha}
+        manifest = {"protocol_sha256": protocol_sha, "case_id": "heat_2", "stage": "collect", "backend": "student8b"}
         (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         digest = r.sha(root / "manifest.json")
         reset = public_state(0, "Public reset goal.")
@@ -455,6 +607,28 @@ def collector_fixture():
 
 
 class ContextCollectorBindingTests(unittest.TestCase):
+    def test_relabeling_an_ordinary_manifest_cannot_create_a_real_collector(self):
+        with collector_fixture() as f:
+            path = f.root / "manifest.json"
+            original = json.loads(path.read_text())
+            for change in ({"stage": "ordinary_reset"}, {"stage": "collect_none"},
+                           {"backend": "teacher27b"}, {"case_id": "other_case"}):
+                with self.subTest(change=change):
+                    path.write_text(json.dumps(dict(original, **change)), encoding="utf-8")
+                    digest = r.sha(path)
+                    for name, value in (("receipt.json", f.receipt), ("reservation.json", f.reservation)):
+                        (f.root / name).write_text(json.dumps(dict(value, manifest_sha256=digest)), encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "student collection"):
+                        r.load_prefix(f.root, "heat_2")
+
+    def test_plain_reset_and_other_noncollector_paths_cannot_seed_real_recovery(self):
+        with collector_fixture() as f:
+            for stage, backend in (("ordinary_reset", "student8b"), ("ordinary_reset", "teacher27b"),
+                                   ("collect_none", "student8b"), ("collect", "teacher27b")):
+                root = f.root.parents[2] / stage / backend / "attempt_v1"
+                with self.subTest(stage=stage, backend=backend), self.assertRaisesRegex(ValueError, "student collection"):
+                    r.load_prefix(root, "heat_2")
+
     def test_only_real_positive_call_collection_and_real_reservation_can_seed_recovery(self):
         with collector_fixture() as f:
             prefix = r.load_prefix(f.root, "heat_2")

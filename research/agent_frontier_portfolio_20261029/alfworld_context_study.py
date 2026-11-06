@@ -20,7 +20,7 @@ QUAL = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfwor
 HERE = Path(__file__).resolve().parent
 RECOVERY_SHA = 'cad06ec2b6f9e144fea29c17061b9527d07b7df13ecbf5784fb0870d9a0ce8ca'
 RECENT_STEPS = 3
-STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent')
+STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent', 'ordinary_reset')
 PUBLIC_KEYS = ('observation', 'score', 'done', 'won', 'action_count', 'admissible_commands')
 CONTINUE = 'Continue the unfinished task.'
 _REC = None
@@ -109,6 +109,25 @@ def recovery_prompt(reset, steps, current, experience, stage):
             raise ValueError('public goal must be a single visible instruction')
         text += '\nCurrent task to finish (restated from the public reset): ' + goal + '\n'
     return text
+
+
+def initial_prompt(reset: dict, stage: str, assignment: dict, experience: str) -> str:
+    """Start an ordinary episode without inventing a failed source trajectory."""
+    if stage == 'ordinary_reset':
+        return render_prompt(reset, [], reset, '', False, 'recent')
+    return collection_prompt(reset, stage, assignment, experience)
+
+
+def stage_caps(stage: str, study: dict, prefix: dict | None) -> dict:
+    """Validate source presence and preserve each stage's original budget."""
+    if stage not in STAGES:
+        raise ValueError('unsupported episode stage')
+    from_reset = stage in {'collect', 'collect_none', 'ordinary_reset'}
+    if from_reset != (prefix is None):
+        raise ValueError('only recovery stages require a source prefix')
+    if stage == 'ordinary_reset':
+        return study['total_caps']
+    return study['collection_caps'] if prefix is None else remaining_caps(study['total_caps'], prefix['receipt'])
 
 
 def remaining_caps(total, receipt):
@@ -203,6 +222,8 @@ def load_prefix(root, case_id):
     m = json.loads((root / 'manifest.json').read_text())
     r = json.loads((root / 'receipt.json').read_text())
     reservation = json.loads((root / 'reservation.json').read_text())
+    if (m.get('case_id'), m.get('stage'), m.get('backend')) != (case_id, 'collect', 'student8b'):
+        raise ValueError('source manifest must identify this case student collection')
     if (r.get('label') != 'MULTITASK_CONTEXT_DEVELOPMENT' or
             reservation.get('mode') != 'REAL_DEVELOPMENT' or
             reservation.get('manifest_sha256') != sha(root/'manifest.json') or
@@ -257,11 +278,9 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     core = recovery().actor()
     profile = core.load_profile(backend)
     game, pool, assignment, experience = read_case(study, case_id)
-    prefix = load_prefix(source_root, case_id) if source_root else None
-    if (stage in {'collect', 'collect_none'}) != (prefix is None):
-        raise ValueError('only collection has no source prefix')
+    prefix = load_prefix(source_root, case_id) if source_root is not None else None
+    caps = stage_caps(stage, study, prefix)
     cohort = cohort_binding(root,prefix,protocol_sha) if prefix else None
-    caps = study['collection_caps'] if prefix is None else remaining_caps(study['total_caps'], prefix['receipt'])
     world = None
     try:
         # World budget is total100 even when collection's request/time budget is shorter.
@@ -274,7 +293,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     finally:
         if world:
             core.stop_world(world)
-    prompt = (collection_prompt(reset, stage, assignment, experience) if prefix is None else
+    prompt = (initial_prompt(reset, stage, assignment, experience) if prefix is None else
               recovery_prompt(reset, prefix['steps'], current, experience, stage))
     (root / 'task.txt').write_bytes(prompt.encode())
     core.write_new(root / 'opencode_config.json', core.config(profile, model_seed))
@@ -311,10 +330,11 @@ def verify(root, digest):
         raise ValueError('namespace or components changed')
     study = protocol(m['protocol_path'], m['protocol_sha256'])
     game, pool, assignment, experience = read_case(study, m['case_id'])
-    prefix = load_prefix(m['source_root'], m['case_id']) if m['source_root'] else None
-    if prefix and m['cohort_binding'] != cohort_binding(root,prefix,m['protocol_sha256']):
+    prefix = load_prefix(m['source_root'], m['case_id']) if m['source_root'] is not None else None
+    caps = stage_caps(m['stage'], study, prefix)
+    expected_cohort = cohort_binding(root,prefix,m['protocol_sha256']) if prefix else None
+    if m['cohort_binding'] != expected_cohort:
         raise ValueError('shared recovery cohort changed')
-    caps = study['collection_caps'] if prefix is None else remaining_caps(study['total_caps'], prefix['receipt'])
     core = recovery().actor()
     p = core.load_profile(m['backend'])
     if (m['game'] != game or m['pool_binding'] != pool or m['caps'] != caps or
@@ -328,7 +348,9 @@ def verify(root, digest):
             raise ValueError('frozen actor input changed')
     reset = json.loads((root/'initial_reset.json').read_text())
     current = json.loads((root/'handoff_public.json').read_text())
-    expected = (collection_prompt(reset, m['stage'], assignment, experience) if prefix is None else
+    if prefix is None and current != reset:
+        raise ValueError('from-reset stage cannot contain recovery progress')
+    expected = (initial_prompt(reset, m['stage'], assignment, experience) if prefix is None else
                 recovery_prompt(reset,prefix['steps'],current,experience,m['stage']))
     if (root/'task.txt').read_bytes() != expected.encode() or hashlib.sha256(experience.encode()).hexdigest() != m['experience_text_sha256']:
         raise ValueError('prompt or source carrier changed')
