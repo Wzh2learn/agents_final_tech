@@ -2,26 +2,7 @@
 
 > 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景与已关闭的对照见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。目标是形成真实可执行的反馈监督，尚未训练或建立新方法贡献。
 
-## 已完成：四现场的能力诊断
-
-固定取三个自然未完成source（cool_01/cool_04/heat_03），加clean_02校准；后者不是新任务。补两条缺失8B drop_recent后，与27B在相同原source、公共目标/观察、最近3条accepted history及总cap比较，已有学生结果不重跑。教师不用专家动作、隐藏事实或参考计划。backend能力/实际计算不同，这不是等计算方法比较。
-
-| 现场 | 8B won / POST | 27B won / POST | 27B新动作 / tokens |
-| --- | --- | --- | --- |
-| clean_02 | false / 10 | true / 16 | 15 / 128,280 |
-| cool_01 | false / 12 | true / 12 | 10 / 80,968 |
-| cool_04 | false / 63 | false / 47 | 46 / 681,234 |
-| heat_03 | false / 71 | true / 6 | 5 / 33,449 |
-
-27B成功恢复3/4，提供3个不同任务/布局的实际纠正候选；不是3个独立环境，也不是人工gold。成功轨迹仍须按真实tool结果、执行合法性、角色与来源检查后才能导出监督。cool_04的27B也触输入＋8192预留输出＋512余量的上下文门，不能称其任务不可解；它保留为失败和后续长轨迹分析，不混进成功监督。暂不围绕单例追加提示变体。
-
-批次`context_study_v1/teacher_state_batch_v1/RESULT.json`为`ALL6_TEACHER_STATE_DIAGNOSTICS_RETURNED`，原PID4073951已退出。新6条共215真POST、2,863,108tokens＝2,853,227输入＋9,881输出；2条学生134 POST/1,939,177tokens，4条教师81 POST/923,931tokens。已知cached1,891,711仅来自学生输入；教师81次cache细分未知，不能填0。usage unknown为0；另3次本地预约未forward。
-
-复用冻结独立审阅脚本的纯解析函数，逐条重读SSE/body SHA、输入绑定、原生终态和重放，四对prompt原文/caps/cohort/source相同；差异0。`TEACHER_STATES_RECOMPUTE_V1.json` SHA `1bf001d43834b4d9a691b151c7a76eca4bb74b6958c011b647d165708a4fee90`。它是确定性复算，不是新独立人工/统计审阅。
-
-本批结束时本专题累计1,534真POST/17,447,106tokens，source形成只物理计一次；这不是项目全局账，研发Agent与更早形成/训练成本另账引用。没有新增训练、judge、付费科研API或生产写回。
-
-两个增量私有薄包已在GB10和本机逐成员核验：`alfworld_simple_controls_v1_20261106.tar.gz`为3,080成员，SHA `7edfbc4635a5f175343dddb4721f6182e4efcb473c661cf15933d2c2479669a4`；`alfworld_teacher_states_v1_20261106.tar.gz`为1,241成员，SHA `52358c539c563e3e86a16a2be29ab8135bdd9c06267d87639d543ae7dd5d3bc4`。原source依赖[背景记录](ALFWORLD_CONTEXT_STUDY.md)所列18题包；这些不是完整runtime或公开artifact，不包含在途8题。原始命名保留批次开始日期，不因跨午夜改名。
+四现场能力诊断与旧分账已移至[已关闭的先导实验](ALFWORLD_CONTEXT_STUDY.md#teacher-pilot)；本页保留当前结果和下一动作。
 
 ## 已完成：原十二个失败现场的固定教师对照
 
@@ -43,15 +24,15 @@ CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,74
 
 16条成功轨迹导出171个接受动作，CPU编译7,311监督tokens、最长18,180、无截断/排除。chat manifest SHA `b7cbec3a1660e20f293a08b5feae2470a28e024a10f4d50267ff6e20ce7f8bb6`；token manifest `supervision_tokens_v1/teacher_ordinary_reset_qwen3_8b_v1/data_manifest.json` SHA `3e070a3e713279405b0e23db6fcd38ac75f5e95c8991997b09cbc7d779cb3675`。两条失败成本均保留，普通监督无虚构collector或重放费。
 
-## 当前动作：7组来源匹配的有界SFT开发
+## 当前动作：新布局基线先行，SFT作有界支持
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
-两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。`learning_comparison_v1/plans/ordinary_v3` manifest SHA `1c1de3d41e2bdb5aa616d869414dfcfbdcf3539490f5d5dcd5e9e7c65ddd5400`；`recovery_v3` SHA `43369fb83d67206351b0c032feefe53930ad0330edb41b22ce94f8bc51fe9fb2`。旧CPU计划、源码与失败均保留，v3采样与预算未变。训练前后不加入canary生成，实际学习效果随后按环境won评价。
+两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。现役CPU计划为`learning_comparison_v1/plans/ordinary_v4`（manifest SHA `875243cbcab87d968789e76f34745ee3514c27e0ac65c470ab499b8ee90a8c09`）与`recovery_v4`（SHA `4be913090ed70584a52b7b7d832b3aecc3e87991221bb3665ca953ef274888c7`）。历史计划/源码/失败保留，全部采样与预算未变；v4尚未GPU运行。训练前后不加入canary生成，实际学习效果随后按环境won评价。
 
 仅D在持有本study队列及owned18104窗口时显式运行，窗口不代表整GPU独占；共享35B/27B保持常驻，结束须恢复owned8B原argv/cwd与健康。OOM保留失败、实际步数与未知项，不自动换模型/截样或改共享服务。4B不是前置。HF8B五shard共16,381,516,776bytes已完整绑定；`HF8B_MODEL_BINDING_V1.json` SHA `b8d5af477c1f6be67981583a4a60df9561ea53872e0676535aa9745fce011dc1`。它不证明与旧GGUF权重数值等价；部署比较要保持相同推理基座/量化与接口。
 
-v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载、0forward、0优化步，不是OOM或学习负结果）。根已在新进程精确复现：reset_peak不触发CUDA初始化，必须先mem_get_info；现已修正并以失败→通过回归验证。`owned_window_v1`结束已恢复8B原argv/cwd（PID16445），共享35B/27B身份未变；5次健康GET、1次CUDA内存探测、零模型生成。旧窗口与receipt保留，下一次只用新v3计划及独立窗口，不复写失败。
+v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载、0forward、0优化步，不是OOM或学习负结果）。根已在新进程精确复现：reset_peak不触发CUDA初始化，必须先mem_get_info；现已修正并以失败→通过回归验证。`owned_window_v1`结束已恢复8B原argv/cwd（PID16445），共享35B/27B身份未变；5次健康GET、1次CUDA内存探测、零模型生成。旧窗口与receipt保留，随后v3在CUDA初始化处报OOM，仍0权重加载/0forward/0步；`owned_window_v2`已恢复原8B（PID24359），共享服务未变，7次健康GET/1次CUDA探测。两次都不是学习负结果。定向释放已绑定HF8B文件的clean页缓存，实测MemFree增加约8.7GB而MemAvailable近似不变；v4仅在逐shard完整核验后作同类建议，并记录原始异常堆栈与阶段，不保证显存足够。不改共享模型，不让此支持项阻塞主线。
 
 独立数据复核读取361份原SSE和135配对训练行，无差异；只允许7组暴露任务上的有限学习开发，不是训练器或泛化审定。`learning_comparison_v1/independent_data_review_v1.json` SHA `2cf11cceebef3c06caeb07ebd7f6b7a04807fd930c9a6abd21757ebd132859b8`。训练源码/CPU loss与梯度检查另行验证，不将mock通过冒充真实GPU训练。
 
@@ -60,6 +41,10 @@ v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载�
 另冻结16个development-heldout任务：clean/heat/cool/look各4，16布局/UID；排除原28个已知布局。`heldout_pool_v1/POOL.json` SHA `5f1eb3820881d797867c8348e71559a57d339a753bb88ef5b7bf70530095be00`，资格SHA `3ff9f90bb2a254f38db43817d73df84b42095a818554d19199161deace9b3e65`；官方expert/native控制16/16通过，CPU89.53秒，无替换。仍是官方train来源的本地开发留出，不是跨来源或正式确认；expert轨迹为EVAL_ONLY，禁止进入训练。原18配额因可用heat/cool合计8布局而需9不可行，先改四类各4并冻结元数据匹配规则，再运行控制；原阻断证据保留。
 
 未来三臂共同使用相同actor/输入/cap，分别报告12个训练已见类型任务和4个未在本轮SFT出现的clean非退化检查，以及整体16题；不凭环境资格宣称模型已评测。
+
+冻结8B基线批次`heldout_frozen8b_v1`已启动，owned控制器PID29543，Q下`run_context_study_heldout_frozen8b_v1.py`；代码epoch `62b197b8`，16题按冻结顺序全跑，stage ordinary_reset、无经验、无LoRA。评测protocol SHA `5af8c4579b8f14ed2fc3e2857b2928726b83a02c81e1b2b33ac81d4e18497aa2`。先核进程/RESULT，不重复启动；STOP_REQUESTED加该已核PID SIGTERM只停本批actor/relay/world。新16结果不进入训练或调SFT超参。
+
+首个closed新题128POST仅3个接受动作、125次invalid_action；模型混用了cloth/towel并重复put/drop语法。仅为首例观察，不外推全部失败。补充准备“native JSON合法动作选择”的强简单组合基线，复用相同world/目标/完整历史/模型/预算；尚无此新臂结果，差异不能单独归因去掉OpenCode，也不称新方法。
 
 Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。尚无模型运行，未来完整actor可读面未验收，公开复现当前为空SQLite查询，不把13项测试算13任务。
 
