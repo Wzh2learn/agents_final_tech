@@ -2,7 +2,7 @@
 
 > 2026-11-06 | 开发环境资格与真实actor入口。现役次序见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，本页不新建prompt或Goal。模型实验结果按原始回执更新。
 
-接续先读[当前经验比较](#current-transfer)，其余章节按问题加载，不把资格控制当作当前待办。
+接续先读[当前学习资格](#current-learning)，经验结果看[固定载体比较](#current-transfer)；其余按问题加载，不把历史控制当待办。
 
 ## 为什么增加这一来源
 
@@ -155,6 +155,32 @@ heat history失败源8动作/9POST后未成功，两臂同额剩余119POST/1754�
 两臂逐步重放8个旧world动作后再行动；无errors/relay errors，usage完整。新增24POST/151,936tokens；8B中性已成功，按事前分支跳过terminal_guard。简单fresh-session能从该失败状态恢复，故原skill成功不能独占归因于其内容或新抽象机制；不等于否定skill从reset的开发正例，也不等于两种对话状态完全相同。教师接管已给出经过真实执行的纠正，旧“从reset成功不代表从学生失败状态纠正”的资格缺口在这一任务上补齐。
 
 两个actor的纠正记录及8个精确代码组件冻结于`failure_recovery_v1/qualified_corrections_v1/FROZEN_MANIFEST.json`，SHA `06a6313b8d62709699dfe8e88b13e9736b24d3daccee22eaa98abeb56893b7c1`。它们属于同一已暴露任务/布局的一个来源组，不拆成两个独立训练/确认组。`qualified_world_correction=true`但`training_ready=false`：仍需assistant-only loss mask、匹配base/adapter推理接入及更多独立来源/留出评测。恢复器/原actor/编译器共52tests及83subtests通过；资格receipt SHA `1b2d3394a7ba66b9603328b9bd2ac7b9bba5b9d6f937eb6894bbcea9a45a2c80`。所有mock标明假请求且不授予真实纠正资格；未新训练。
+
+<a id="current-learning"></a>
+
+## 真实纠正到参数学习：当前资格阶段
+
+该阶段检验数据、梯度和adapter保存/重载闭环，先不用单个任务认证学习收益。按research-driven-design区分部署行为、监督信号和配置耦合：沿用已有q/v LoRA基础，修正旧训练链对全部非padding token算loss的设置；训练和评测使用匹配BF16基座，不将4B新配置与旧8B GGUF的差别当学习收益。
+
+[数据模块](../alfworld_correction_data_20261106.py)从已验收恢复case的provider请求与SSE组装样本，先核先前325成员清单（SHA `afdc84eb2a337a06be923cebe742debee8d92c08cab5645c5369eff639eab058`）。teacher-only为5条native工具响应与1条终结content，共6行/1来源组，长度4615–6514tokens、监督252tokens。完整system/user/tool上下文保留，只有当前assistant completion及真实EOS监督，EOS后换行/所有prompt均为-100；不将reasoning当答案，不截断。4B/8B tokenizer导出相同rows SHA `e098807a89bfab1b74f18e9e68bfcad0c6d296d0a578b14e13a3297fd959e2ee`，是同6条样本而非12条。4B/8B数据manifest SHA分别`5c59f64d041a7df04a6a5bcb53d9247ec607e86523bf54ea00a932ab16f46126`、`3806a26e64d3a141d96dc5093f98936b37bc690b38fc44d8c3cbaaac943d82e0`，数据资格11tests/13subtests通过；实际CPU回执SHA `ed4223d1a7ddbe1bfc450a5db7c0873916135a7b6b219b7eaa06a20c2ec6c211`。
+
+独立AI复算已从锚定原始forwarded请求逐token验证6/6数组/边界/labels/EOS相符。导出row经sort_keys序列化后schema键顺序改变，仅用row内messages/tools重新render会少1token；目前数组正确，精确重建必须回读锚定raw。这是非阻断可复现缺陷，原导出不覆盖，后续新版本修复roundtrip。
+
+[两步训练器](../run_alfworld_correction_learning_20261106.py)只取前两条teacher行作资格，fresh HF4B基座＋一个q/v rank8 adapter，无旧parent adapter；现有torch/PEFT，不走旧TRL自动重写labels。仅投影监督位置前一格的logits，保持标准causal shift与CE；tiny Qwen对照验证loss及梯度与完整masked CE一致，5tests/16subtests通过。完整HF4B七文件8.056GB已流式hash，绑定SHA `e74513f1fe22a2cb9198714738bb86b2f78c05eb0474b25e3759394b8a709823`。
+
+训练前实测CUDA free11.2GB、host available约17.5GB，不叠加8B训练。D只临时释放owned8B:18104原PID3205480（profile归属research_django_aggregation），不触共享8004/8006；同一私有controller在finally用原argv/cwd恢复，并保留新PID/health GET数/共享进程身份。controller为`learning_qualification_v1/run_owned_training_v1.py`，状态只查`owned_training_window_v1/RESULT.json`及实际进程，不根据旧profile PID推测当前服务。
+
+实际训练root=`learning_qualification_v1/attempt_v1`，manifest SHA `da55d9bbfc24ea0dd284d5291a5e3a14655160521f6717369310708e976b9fc7`，代码SHA `357b6daaf688ae0ce7c73ccee1787c01e03bdfd77583d7b3c920d2b15adca5fc`；data代码SHA `0b20b130fe8a3a8a05d610a542a45d8dd60b4491644e28b3740b8551d69ca4aa`。已结束，不重跑reserved根。完整代码在训练前单独快照；未来data代码修正不改本次身份，旧F/原始轨迹不改。
+
+### 已完成的两步资格，不作方法确认
+
+真实2optimizer steps完成，LoRA梯度有限且非零。序列tokens9557（已包含监督部分，不再加88）、监督tokens88；不是对全部6行完整训练。初始化零adapter与base的最大logit差0，训练后停用adapter与原base差0，训练adapter相对base差8.125，保存并重载adapter与训练态eval差0。它证明梯度及序列化连通，不证明准确率提升。receipt SHA `1df59e5c5870b40105ad5ac62f01dd00530433aaa47d2081d222c2637b5f78fe`，状态`QUALIFIED_TRAINING_GRAPH_AND_IN_PROCESS_RELOAD`。
+
+2次in-process greedy生成共9136prompt＋98completion tokens，HTTP模型请求0，judge0；同一个暴露训练prompt上，base和adapter均给出`take egg 1 from diningtable 1`的可解析工具文本，未执行world动作，不能当2条任务成功或heldout成绩。PyTorch峰值allocated10,121,544,192bytes/reserved10,917,773,312bytes，未新下载/安装。
+
+controller已用原argv/cwd恢复8B为PID3853089，`/health`通过（5次readiness GET，0模型POST），共享35B原进程及27B容器身份均未变；完整结果见`owned_training_window_v1/RESULT.json`。旧profile中的PID3205480是原冻结采样身份，不覆写；当前进程身份看该lifecycle侧车及实际进程。原始训练输出、失败与代码快照保留。独立mask审计SHA `c4d8faa191de7d2c54f30d0af8b63b6bf38115060a76fe39ea5d6dd7098199c9`另确认无未来工具反馈泄漏及1token序列化顺序问题的边界。
+
+下一修复新导出版本的顺序往返；无需为序列化修复重训本次已验证数组。随后为同一BF16 base/adapter接真实OpenCode/world执行，再扩来源隔离的纠正监督。当前仍是训练资格，独立学习机制、heldout收益与第二篇方法贡献尚待实验。
 
 下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
 
