@@ -206,12 +206,14 @@ def rebind_model(code: str, profile: dict) -> str:
 
 
 def validate_backend_choice(backend: str, task: str, condition: str) -> None:
-    if backend not in ('student8b', 'teacher35b'):
+    if backend not in ('student8b', 'teacher35b', 'teacher27b'):
         raise ValueError('unknown model backend')
     if backend == 'teacher35b' and (task != 'source' or condition not in ('none',*TEACHER_REPAIR_CONDITIONS)):
         raise ValueError('teacher profile permitted only for source and its approved feedback repair')
     if backend == 'student8b' and condition in TEACHER_REPAIR_CONDITIONS:
         raise ValueError('teacher feedback repair requires teacher backend')
+    if backend == 'teacher27b' and (task,condition) != ('source','none'):
+        raise ValueError('27B qualification currently permits only a fresh source episode')
 
 
 def set_model_limits(code: str, profile: dict, backend: str) -> str:
@@ -219,9 +221,17 @@ def set_model_limits(code: str, profile: dict, backend: str) -> str:
     if backend == 'student8b':
         if (profile['context'],profile['output']) != (32768,8192):raise ValueError('student limits changed')
         return code
+    if backend == 'teacher27b':
+        if (profile['context'],profile['output']) != (32768,8192):raise ValueError('27B limits changed')
+        return core.replace_once(code,"'timeout':300000","'timeout':900000")
     if (profile['context'],profile['output']) != (65536,16384):raise ValueError('teacher limits changed')
     code=core.replace_once(code,old,"'limit':{'context':65536,'output':16384}")
     return core.replace_once(code,"'timeout':300000","'timeout':900000")
+
+
+def episode_limits(backend: str) -> tuple[int,int,int]:
+    # Teacher acquisition gets room to finish; previous experiments retain their caps.
+    return (96,2400,12_000_000) if backend=='teacher27b' else (MAX_POSTS,MAX_SECONDS,MAX_BYTES)
 
 
 def clean_root(task: str) -> Path:
@@ -424,6 +434,7 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
            actor: dict, profile: dict, task_file: Path, pg: dict | None, candidate: Path | None = None,
            backend: str = 'student8b') -> str:
     validate_backend_choice(backend, task, condition)
+    max_posts,max_seconds,max_bytes=episode_limits(backend)
     protocol = SimpleNamespace(OUT=QUAL, SITE=Path(actor['sites']['default']), LEGACY=Path(actor['runtime']))
     base_condition = 'none' if condition in REPAIR_CONDITIONS else condition
     code = requests_runner.derive(root, task, base_condition, experience, protocol=protocol, seed=CASES[task][4])
@@ -447,12 +458,15 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
     code = core.replace_once(code, 'calls=[]; payload_bytes=[]; sampling=[];',
         'calls=[]; payload_bytes=[]; sampling=[]; post_lock=threading.Lock(); post_count=[0];')
     line = "  line=first.split(b'\\r\\n',1)[0].rsplit(b' ',1)[0]"
-    guard = line + "\n  if line.startswith(b'POST'):\n   with post_lock:\n    if post_count[0]>=48:\n     calls.append('DENIED_POST_LIMIT');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    post_count[0]+=1"
+    guard = line + f"\n  if line.startswith(b'POST'):\n   with post_lock:\n    if post_count[0]>={max_posts}:\n     calls.append('DENIED_POST_LIMIT');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    post_count[0]+=1"
     code = core.replace_once(code, line, guard)
     code = core.replace_once(code, 'line not in allowed or len(calls)>=24 or ', 'line not in allowed or ')
-    code = core.replace_once(code, 'timeout=900)', f'timeout={MAX_SECONDS})')
+    code = core.replace_once(code, 'timeout=900)', f'timeout={max_seconds})')
+    if max_bytes != MAX_BYTES:
+        code=core.replace_once(code,'sum(payload_bytes)+length>6000000',f'sum(payload_bytes)+length>{max_bytes}')
+        code=core.replace_once(code,'sum(payload_bytes)>6000000',f'sum(payload_bytes)>{max_bytes}')
     extra = ripgrep_binding()
-    if backend == 'teacher35b':
+    if backend in ('teacher35b','teacher27b'):
         instruction_file = root / f'{task}__{condition}__seed{CASES[task][4]}' / 'work/instructions.txt'
         extra += ['--mount', f'type=bind,src={instruction_file},dst=/root/instructions.txt,readonly']
     if pg:
@@ -478,7 +492,53 @@ def adapt_source_probe(data: str, eval_db: str) -> str:
     return adapted
 
 
-def run_evaluator(task: str, case: Path, control: dict, actor: dict, pg: dict | None) -> dict:
+def source_artifact_qualification(result: dict) -> dict:
+    """A source repair must retain the tested behavior, not just exit normally."""
+    failures=[]
+    for name,count,skips in [('focus',1,0),('regression',65,0),('broader_regression',219,1)]:
+        check=result.get(name,{})
+        if (check.get('exit') != 0 or check.get('tests_observed') != count
+                or check.get('skipped_observed') != skips):
+            failures.append(name)
+    issue=result.get('issue_probe',{}); observed=issue.get('observed')
+    if (issue.get('exit') != 0 or not isinstance(observed,dict)
+            or observed.get('exception') is not None or observed.get('expected_data') is not True):
+        failures.append('original_issue_semantics')
+    return {'passed':not failures,'failed_checks':failures,
+            'scope':'source issue + mapped SQLite regression + aggregation/expressions; not full Django correctness'}
+
+
+def validate_target_experience(root: Path, condition: str, manifest: Path, digest: str,
+                               experience: Path | None, experience_digest: str | None) -> dict:
+    """Bind every target arm, including no-history, to one pre-target source freeze."""
+    import prepare_django_aggregation_experience_20261106 as helper
+    if manifest.is_symlink() or not manifest.is_file() or sha(manifest)!=digest:
+        raise ValueError('source experience manifest missing or changed')
+    data=json.loads(manifest.read_text(encoding='utf8'))
+    source=private_directory(Path(data['source']['source_attempt']),PARENT/'attempts')
+    output=manifest.parent
+    if output.is_symlink() or output.resolve().parent!=source or manifest.name!='input_profile_manifest.json':
+        raise ValueError('experience manifest is outside its source attempt')
+    frozen=helper.validate_frozen(source,clean_root('source'),output,digest)
+    names={'source_history':'source_history.md','feedback_card':'feedback_card.md','generated_skill':'generated_skill.md'}
+    if condition=='none':
+        if experience is not None or experience_digest is not None:raise ValueError('no-history must not receive experience')
+        selected=None
+    else:
+        if condition not in names or experience is None or experience.is_symlink():raise ValueError('unknown experience arm')
+        selected=names[condition]; expected=output/selected
+        if (experience.resolve()!=expected.resolve() or experience_digest!=frozen['artifacts'][selected]
+                or sha(experience)!=experience_digest):raise ValueError('target input differs from frozen source artifact')
+    for old in root.glob('target__*.started.json'):
+        prior=json.loads(old.read_text(encoding='utf8')).get('source_experience',{})
+        if prior.get('manifest_sha256')!=digest:raise ValueError('target cohort must share the same source freeze')
+    return {'manifest_sha256':digest,'source_completion_sha256':frozen['source']['completion_sha256'],
+            'selected_artifact':selected,'artifact_sha256':experience_digest,'applied_to_actor':selected is not None,
+            'scope':'same source formation shared across cohort; no-history is bound only in D-side metadata'}
+
+
+def run_evaluator(task: str, case: Path, control: dict, actor: dict, pg: dict | None,
+                  broader_regression: bool = False) -> dict:
     """Apply the frozen test patch only after actor exit, to a restored copy."""
     work, out = case / 'work', case / 'post_run_evaluation_restored_tests'
     out.mkdir()
@@ -513,7 +573,11 @@ def run_evaluator(task: str, case: Path, control: dict, actor: dict, pg: dict | 
             exit_code, data = 124, (exc.stdout or b'') + (exc.stderr or b'')
         log = out / (name + '.log'); log.write_bytes(data)
         lines = data.decode(errors='replace').splitlines()
+        counts=[int(m.group(1)) for s in lines if (m:=re.match(r'^Ran (\d+) tests?\b',s))]
+        skips=[int(m.group(1)) for s in lines if (m:=re.search(r'\bskipped=(\d+)',s))]
         return {'exit': exit_code, 'nodes_requested': nodes, 'log_sha256': sha(log),
+                'tests_observed': counts[-1] if counts else None,
+                'skipped_observed': skips[-1] if skips else (0 if counts else None),
                 'seconds': round(time.monotonic()-start, 3),
                 'summary': [s for s in lines if s.startswith(('Ran ', 'FAILED', 'OK'))][-4:]}
     for metric in ('focus', 'regression'):
@@ -521,6 +585,13 @@ def run_evaluator(task: str, case: Path, control: dict, actor: dict, pg: dict | 
         cmd = base + ['-e', 'PYTHONPATH=/workspace:/deps', SOURCE_IMAGE,
                       'tests/runtests.py', '--settings=test_sqlite', '--parallel=1', '--verbosity=1', *labels]
         result[metric] = execute(metric, cmd, len(labels))
+    if broader_regression:
+        if task != 'source':raise ValueError('broader regression is source-only in this qualification')
+        labels=['aggregation','expressions']
+        cmd=base+['-e','PYTHONPATH=/workspace:/deps',SOURCE_IMAGE,
+                  'tests/runtests.py','--settings=test_sqlite','--parallel=1','--verbosity=1',*labels]
+        result['broader_regression']=execute('broader_regression',cmd,len(labels))
+        result['broader_regression']['labels']=labels
     # Probe scripts are D-side data, mounted only here, never to the actor.
     probe_root = QUAL / 'issue_probe'
     name = 'source_issue_probe.py' if task == 'source' else 'target_issue_probe.py'
@@ -571,6 +642,8 @@ def run_evaluator(task: str, case: Path, control: dict, actor: dict, pg: dict | 
     result['issue_probe']['original_models_sha256'] = model_hash
     result['issue_probe']['adapted_sha256'] = sha(probe)
     result['status'] = 'EVALUATED'
+    if task == 'source' and broader_regression:
+        result['source_artifact_qualification']=source_artifact_qualification(result)
     return result
 
 
@@ -581,10 +654,13 @@ def main() -> None:
     parser.add_argument('--condition', choices=('none', 'source_history', 'generated_skill', 'feedback_card', *REPAIR_CONDITIONS), default='none')
     parser.add_argument('--experience', type=Path)
     parser.add_argument('--experience-sha256')
+    parser.add_argument('--source-experience-manifest',type=Path)
+    parser.add_argument('--source-experience-manifest-sha256')
     parser.add_argument('--repair-source-attempt-id')
     parser.add_argument('--repair-draft-dir', type=Path)
     parser.add_argument('--repair-draft-sha256')
-    parser.add_argument('--backend', choices=('student8b','teacher35b'), default='student8b')
+    parser.add_argument('--backend', choices=('student8b','teacher35b','teacher27b'), default='student8b')
+    parser.add_argument('--broader-regression', action='store_true')
     parser.add_argument('--model-profile', type=Path, required=True)
     parser.add_argument('--model-profile-sha256', required=True)
     parser.add_argument('--actor-projection', type=Path, required=True)
@@ -595,24 +671,37 @@ def main() -> None:
     args = parser.parse_args()
     root = attempt_root(PARENT, args.attempt_id)
     validate_backend_choice(args.backend, args.task, args.condition)
+    max_posts,max_seconds,max_bytes=episode_limits(args.backend)
+    if args.broader_regression and args.task != 'source':parser.error('broader regression is source-only')
+    if args.backend == 'teacher27b' and not args.broader_regression:parser.error('27B source qualification requires broader regression')
     is_repair = args.condition in REPAIR_CONDITIONS
     if args.task != 'source' and is_repair: parser.error('repair conditions are source-only')
     if args.task == 'source' and args.condition not in ('none', *REPAIR_CONDITIONS): parser.error('unsupported source condition')
     if (args.condition in ('none', *REPAIR_CONDITIONS)) != (args.experience is None) or ((args.experience is None) != (args.experience_sha256 is None)):
         parser.error('experience and hash must both be supplied for experience arms')
-    if args.condition != 'none' and not is_repair:
-        # No ad-hoc experience or unbound skill: the freeze/build interface is intentionally gated.
-        raise ValueError('source experience freeze interface not yet implemented; no experience arms released')
+    if args.task=='target':
+        if args.source_experience_manifest is None or args.source_experience_manifest_sha256 is None:
+            parser.error('all target arms require the same frozen source manifest')
+        source_experience=validate_target_experience(root,args.condition,args.source_experience_manifest,
+            args.source_experience_manifest_sha256,args.experience,args.experience_sha256)
+    else:
+        if args.source_experience_manifest is not None or args.source_experience_manifest_sha256 is not None:
+            parser.error('source episode must not consume a target comparison manifest')
+        source_experience=None
     repair_args = (args.repair_source_attempt_id, args.repair_draft_dir, args.repair_draft_sha256)
     if is_repair and any(x is None for x in repair_args): parser.error('repair source, draft directory and hash required')
     if not is_repair and any(x is not None for x in repair_args): parser.error('repair arguments require a repair condition')
     if (args.pg_socket_manifest is None) != (args.pg_socket_sha256 is None): parser.error('socket manifest and hash required together')
     if args.task == 'source' and args.pg_socket_manifest is None: parser.error('source requires private PostgreSQL socket')
     if args.task == 'target' and args.pg_socket_manifest is not None: parser.error('target must not receive PostgreSQL socket')
-    if args.backend == 'teacher35b':
+    if args.backend in ('teacher35b','teacher27b'):
         from scripts.graph import research_teacher_backend as teacher_backend
-        profile = teacher_backend.validate_model_profile(args.model_profile, args.model_profile_sha256)
-        backend = teacher_backend.verify_live_backend(profile)
+        if args.backend == 'teacher27b':
+            profile=teacher_backend.validate_vllm_model_profile(args.model_profile,args.model_profile_sha256)
+            backend=teacher_backend.verify_vllm_backend(profile)
+        else:
+            profile = teacher_backend.validate_model_profile(args.model_profile, args.model_profile_sha256)
+            backend = teacher_backend.verify_live_backend(profile)
     else:
         profile = validate_model_profile(args.model_profile, args.model_profile_sha256)
         backend = verify_live_backend(profile)
@@ -623,7 +712,7 @@ def main() -> None:
     control = qualification(args.task)
     row = row_for(args.task)
     task_text = row['problem_statement'].replace('\r\n', '\n').rstrip() + '\n'
-    if args.backend == 'teacher35b':
+    if args.backend in ('teacher35b','teacher27b'):
         task_text = task_text.rstrip() + ('\n\nEnvironment: The instructions at /root/instructions.txt are read-only; '
             'repository code under /root/django is writable. You may inspect files and run relevant local tests '
             'without asking the user for permission.\n')
@@ -687,6 +776,10 @@ def main() -> None:
                           'model_profile_sha256': args.model_profile_sha256, 'projection_sha256': args.actor_manifest_sha256,
                           'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg,
                           'backend_kind': args.backend,
+                          'episode_limits':{'max_posts':max_posts,'max_seconds':max_seconds,'max_payload_bytes':max_bytes},
+                          'request_timeout_ms':300000 if args.backend=='student8b' else 900000,
+                          'broader_regression_requested': args.broader_regression,
+                          'source_experience':source_experience,
                           'repair': repair, 'model_calls': 0}))
         return
     prepare_actor_runtime(root)
@@ -700,18 +793,22 @@ def main() -> None:
                       'research_auto_record.py': Path(sys.modules['scripts.graph.research_auto_record'].__file__),
                       'research_tool_runtime.py': Path(sys.modules['scripts.graph.research_tool_runtime'].__file__),
                       'base_harness.py': core.BASE}
-        if args.backend == 'teacher35b': components['research_teacher_backend.py'] = Path(teacher_backend.__file__)
-        if is_repair:
+        if args.backend in ('teacher35b','teacher27b'): components['research_teacher_backend.py'] = Path(teacher_backend.__file__)
+        if is_repair or args.task=='target':
+            if args.task=='target':import prepare_django_aggregation_experience_20261106 as experience_helper
             components['experience_helper.py'] = Path(experience_helper.__file__)
+        if args.experience is not None:components['source_experience.md']=args.experience
         snapshot = root / (eid + '.components'); snapshot.mkdir()
         for name, path in components.items(): shutil.copyfile(path, snapshot / name)
         component_hashes = {name: sha(snapshot / name) for name in components}
         if any(sha(path) != component_hashes[name] for name, path in components.items()):
             raise ValueError('components changed during snapshot')
-        plan = {'task': task, 'condition': condition, 'seed': CASES[task][4], 'max_posts': MAX_POSTS,
+        plan = {'task': task, 'condition': condition, 'seed': CASES[task][4], 'max_posts': max_posts,
                 'backend_kind': args.backend, 'profile_context': profile['context'], 'profile_output': profile['output'],
-                'request_timeout_ms': 900000 if args.backend == 'teacher35b' else 300000,
-                'max_seconds': MAX_SECONDS, 'model_profile_sha256': args.model_profile_sha256,
+                'request_timeout_ms': 300000 if args.backend == 'student8b' else 900000,
+                'broader_regression_requested': args.broader_regression,
+                'source_experience':source_experience,
+                'max_seconds': max_seconds, 'max_payload_bytes': max_bytes, 'model_profile_sha256': args.model_profile_sha256,
                 'projection_sha256': args.actor_manifest_sha256, 'pg_socket_manifest_sha256': args.pg_socket_sha256,
                 'live_backend': backend, 'live_postgres': live_pg,
                 'repair': repair,
@@ -720,7 +817,7 @@ def main() -> None:
                 'status': 'STARTED', 'reference_boundary': 'D-side reference visible only in post-run evaluator'}
         start = root / (eid + '.started.json'); start.write_text(json.dumps(plan, indent=2) + '\n')
         proc = subprocess.run([sys.executable, str(harness), task, 'no_skill'], stdin=subprocess.DEVNULL,
-                              capture_output=True, timeout=MAX_SECONDS + 120)
+                              capture_output=True, timeout=max_seconds + 120)
         (root / (eid + '.runner.stdout')).write_bytes(proc.stdout)
         (root / (eid + '.runner.stderr')).write_bytes(proc.stderr)
         if candidate is not None:
@@ -748,7 +845,16 @@ def main() -> None:
                              s.startswith('POST ') for s in receipt['model_http_requests']),
                          'cache_read_included': sum(t.get('cache', {}).get('read', 0) for t in receipt['step_finish_tokens']),
                          'seed_temperature_model_forwarded': forwarded,
-                         'post_run_evaluation': run_evaluator(task, case, control, actor, pg)})
+                         'post_run_evaluation': run_evaluator(task, case, control, actor, pg,args.broader_regression)})
+            if args.task=='target' and args.experience is not None:
+                plan['experience_read_observation']=inspect_experience_reads(case/'raw.jsonl',args.experience)
+            if args.task=='target':
+                validate_target_experience(root,args.condition,args.source_experience_manifest,
+                    args.source_experience_manifest_sha256,args.experience,args.experience_sha256)
+            if args.backend == 'teacher27b':
+                end_backend=teacher_backend.verify_vllm_backend(profile)
+                plan['live_backend_after']=end_backend
+                if end_backend != backend:raise ValueError('27B backend changed during episode')
         else: plan['status'] = 'RUNNER_ERROR_REVIEW_RAW_AND_PROXY_LOG'
         if any(sha(path) != component_hashes[name] or sha(snapshot / name) != component_hashes[name]
                for name, path in components.items()):

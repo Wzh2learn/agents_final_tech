@@ -121,6 +121,33 @@ class ExperienceTests(unittest.TestCase):
         (self.output/'skill_generation_ledger.json').write_text(json.dumps(ledger))
         with self.assertRaises(ValueError):exp.validate_skill(self.output,draft)
 
+    def test_27b_compiler_uses_hf_backend_and_keeps_source_feedback(self):
+        from scripts.graph import research_teacher_backend as teacher
+        started=json.loads(self.started.read_text());started['backend_kind']='teacher27b'
+        snap=self.components/'research_teacher_backend.py';snap.write_bytes(Path(teacher.__file__).read_bytes())
+        started['component_sha256']['research_teacher_backend.py']=exp.sha(snap)
+        self.started.write_text(json.dumps(started));self.record['started_sha256']=exp.sha(self.started)
+        log=self.ev/'broader_regression.log';log.write_text('Ran 219 tests\nFAILED (failures=1, skipped=1)\n')
+        self.record['post_run_evaluation']['broader_regression']={'exit':1,'tests_observed':219,'log_sha256':exp.sha(log)}
+        self.record['post_run_evaluation']['source_artifact_qualification']={'passed':False,'failed_checks':['broader_regression']}
+        self.completed.write_text(json.dumps(self.record));self.draft()
+        self.assertIn('broader_regression',(self.output/'source_history.md').read_text())
+        response={'choices':[{'finish_reason':'stop','message':{'content':'Retain regression checks; source repair is unqualified.'}}],
+                  'usage':{'total_tokens':13}}
+        http_response=mock.MagicMock();http_response.__enter__.return_value.read.return_value=json.dumps(response).encode()
+        profile={'host':'127.0.0.1','port':8006,'model_id':'qwen38-27b-fp8'}
+        with mock.patch.object(exp,'validate_draft',return_value=json.loads((self.output/'draft_manifest.json').read_text())), \
+             mock.patch.object(teacher,'validate_vllm_model_profile',return_value=profile), \
+             mock.patch.object(teacher,'verify_vllm_backend',return_value={'container_id':'fixed'}), \
+             mock.patch.object(exp.urllib.request,'urlopen',return_value=http_response) as http:
+            ledger=exp.generate_skill(self.source,self.base,self.output,self.root/'profile.json','a'*64)
+        self.assertEqual(http.call_args.args[0].full_url,'http://127.0.0.1:8006/v1/chat/completions')
+        self.assertEqual(http.call_args.kwargs['timeout'],900)
+        self.assertEqual(ledger['backend_kind'],'teacher27b')
+        exp.validate_skill(self.output,json.loads((self.output/'draft_manifest.json').read_text()))
+        log.write_text('tampered')
+        with self.assertRaises(ValueError):exp.validate_draft(self.source,self.base,self.output,verify_baseline=self.qual)
+
     def test_teacher_source_without_backend_snapshot_is_rejected(self):
         started=json.loads(self.started.read_text());started['backend_kind']='teacher35b'
         self.started.write_text(json.dumps(started));self.record['started_sha256']=exp.sha(self.started)

@@ -122,6 +122,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **长输出与客户端等待**：教师联合首启13POST但只有12个usage步骤，第13次在300秒客户端期限退出、没有完成编辑。教师隔离harness等待设900秒，仍受1200秒episode与48POST总门约束；同题面/反馈/候选重跑，未知usage单列。该工程故障不裁决方法；不改共享模型服务，8B计时不变。
 - **证据**：[Django本批记录](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md)、`2b01d3d8`源代码及私有`runtime_ready_8b_20261106`的原始raw/独立评测；后续结果在同一批次原地更新。
 
+## C-7 复用现有教师与固定迁移输入（2026-11-06）
+
+- **问题**：已有27B HF/vLLM服务不能用35B GGUF进程校验或64K参数替代；只检查源任务窄面板曾放过实际回归。源经验形成完成前若先看目标结果，会污染载体选择。
+- **对策**：教师profile分开绑定真实权重清单、服务、模板、原生上下文/输出和运行余量；不重启共享服务。真实源产物接受原题和已核回归的联合检查。历史、补丁卡、skill在目标前冻结，所有目标臂（含无历史）绑定同一来源；无历史绑定仅留D侧。形成、失败及使用成本分账，记录实际经验读取。
+- **验证边界**：零生成base/gold联合验收反例、模型/端口/manifest篡改及同来源绑定测试；真实教师和学生效果仍须执行后判断。D可按既有本地资源授权调整新批运行余量，不将工程上限、单个候选停止或文档完成当科研目标完成。
+- **证据**：[Django当前合同](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)、`research_teacher_backend.py`、`run_django_aggregation_agent_20261106.py`与对应测试；私有评测控制receipt `11b8ef99fc16255733eb754934fcf57115320d165f82099dc77091d077f98f8a`。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

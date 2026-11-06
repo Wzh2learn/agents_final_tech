@@ -25,7 +25,8 @@ COMPONENTS = {'outer_runner.py', 'core.py', 'requests_runner.py', 'research_acto
               'research_auto_record.py', 'base_harness.py'}
 MARKERS = ('django__django-34176', '/pull/34176', '/issues/34176', '#34176')
 BACKENDS = {'student8b': {'model_id': 'qwen3-8b-qual', 'host': '127.0.0.1', 'port': 18104},
-            'teacher35b': {'model_id': 'Qwen3.6-35B-A3B-Q4_K_M.gguf', 'host': '127.0.0.1', 'port': 8004}}
+            'teacher35b': {'model_id': 'Qwen3.6-35B-A3B-Q4_K_M.gguf', 'host': '127.0.0.1', 'port': 8004},
+            'teacher27b': {'model_id': 'qwen38-27b-fp8', 'host': '127.0.0.1', 'port': 8006}}
 
 
 def sha(path: Path) -> str:
@@ -119,7 +120,7 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
     if not COMPONENTS.issubset(components) or started.get('runner_sha256')!=components['outer_runner.py']:
         raise ValueError('source component snapshot incomplete')
     kind=started.get('backend_kind','student8b')
-    if kind not in BACKENDS or (kind=='teacher35b' and 'research_teacher_backend.py' not in components):
+    if kind not in BACKENDS or (kind.startswith('teacher') and 'research_teacher_backend.py' not in components):
         raise ValueError('source backend or teacher snapshot missing')
     if any(sha(snap/name)!=digest for name,digest in components.items()): raise ValueError('source component snapshot changed')
     task_file=source/(EID+'.task.txt')
@@ -131,7 +132,7 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
     feedback=record.get('post_run_evaluation',{})
     if feedback.get('status')!='EVALUATED':raise ValueError('source feedback incomplete')
     logs={}
-    for key in ('focus','regression','issue_probe'):
+    for key in ('focus','regression','issue_probe',*(['broader_regression'] if 'broader_regression' in feedback else [])):
         item=feedback.get(key,{})
         path=case/'post_run_evaluation_restored_tests'/(key+'.log')
         if sha(path)!=item.get('log_sha256'):raise ValueError('source feedback log changed')
@@ -157,6 +158,9 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
     outcome={'agent_exit':record.get('agent_exit'),'physical_posts':record['posts'],
              'reported_tokens':record.get('reported_tokens'),'focus':feedback['focus'],
              'regression':feedback['regression'],'issue_probe':feedback['issue_probe']}
+    if 'broader_regression' in feedback:
+        outcome['broader_regression']=feedback['broader_regression']
+        outcome['source_artifact_qualification']=feedback.get('source_artifact_qualification')
     return {'provenance':provenance,'outcome':outcome,'actions':actions,'diff':diff,'changed_paths':changed,'task':task_file.read_bytes()}
 
 
@@ -203,7 +207,7 @@ def source_backend(draft: dict) -> tuple[str, dict]:
     if sha(started_file)!=draft['source']['started_sha256']:raise ValueError('source start changed')
     started=read(started_file);kind=started.get('backend_kind','student8b')
     if kind not in BACKENDS:raise ValueError('unknown source backend')
-    if kind=='teacher35b':
+    if kind.startswith('teacher'):
         name='research_teacher_backend.py';components=started.get('component_sha256',{})
         if name not in components or sha(source/(EID+'.components')/name)!=components[name]:
             raise ValueError('teacher source helper snapshot missing or changed')
@@ -215,11 +219,15 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
     draft=validate_draft(source,baseline,output)
     if digest!=draft['source']['model_profile_sha256']:raise ValueError('skill model differs from source model profile')
     kind,started=source_backend(draft)
-    if kind=='teacher35b':
+    if kind.startswith('teacher'):
         from scripts.graph import research_teacher_backend as backend_helper
     else:
         import run_django_aggregation_agent_20261106 as backend_helper
-    profile=backend_helper.validate_model_profile(model_profile,digest);live=backend_helper.verify_live_backend(profile)
+    if kind=='teacher27b':
+        profile=backend_helper.validate_vllm_model_profile(model_profile,digest)
+        live=backend_helper.verify_vllm_backend(profile)
+    else:
+        profile=backend_helper.validate_model_profile(model_profile,digest);live=backend_helper.verify_live_backend(profile)
     expected=BACKENDS[kind]
     if any(profile.get(k)!=v for k,v in expected.items()):raise ValueError('source backend profile does not match whitelist')
     endpoint=f"http://{profile['host']}:{profile['port']}/v1/chat/completions"
@@ -237,7 +245,8 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
     ledger={'status':'ATTEMPT_STARTED','physical_http_attempts':1,'model_profile_sha256':digest,'backend':live,
             'backend_kind':kind,'model_id':profile['model_id'],'endpoint':endpoint,
             'backend_helper_sha256':sha(Path(backend_helper.__file__)),'experience_helper_sha256':sha(Path(__file__)),
-            'source_backend_helper_sha256':started.get('component_sha256',{}).get('research_teacher_backend.py') if kind=='teacher35b' else None,
+            'source_backend_helper_sha256':started.get('component_sha256',{}).get('research_teacher_backend.py') if kind.startswith('teacher') else None,
+            'request_timeout_seconds':900 if kind.startswith('teacher') else 300,
             'source_history_sha256':sha(output/'source_history.md'),'request_sha256':sha(paths['skill_generation_request.json']),
             'usage':None,'finish_reason':None}
     ledger_path=paths['skill_generation_ledger.json']
@@ -246,7 +255,7 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
     try:
         req=urllib.request.Request(endpoint,data=data,
                                    headers={'Content-Type':'application/json'},method='POST')
-        with urllib.request.urlopen(req,timeout=300) as response:raw=response.read()
+        with urllib.request.urlopen(req,timeout=ledger['request_timeout_seconds']) as response:raw=response.read()
         with paths['skill_generation_response.json'].open('xb') as f:f.write(raw)
         parsed=json.loads(raw);choice=parsed['choices'][0];text=choice['message']['content']
         ledger.update({'response_sha256':sha(paths['skill_generation_response.json']),
@@ -275,9 +284,9 @@ def validate_skill(output: Path, draft: dict) -> dict:
             or ledger.get('source_history_sha256')!=sha(output/'source_history.md')):
         raise ValueError('skill ledger or source binding invalid')
     new_fields={'backend_kind','model_id','endpoint','backend_helper_sha256','experience_helper_sha256','source_backend_helper_sha256'}
-    if kind=='teacher35b' or any(field in ledger for field in new_fields):
+    if kind.startswith('teacher') or any(field in ledger for field in new_fields):
         endpoint=f"http://{expected['host']}:{expected['port']}/v1/chat/completions"
-        source_helper=started['component_sha256'].get('research_teacher_backend.py') if kind=='teacher35b' else None
+        source_helper=started['component_sha256'].get('research_teacher_backend.py') if kind.startswith('teacher') else None
         if (not new_fields.issubset(ledger) or ledger['backend_kind']!=kind or ledger['model_id']!=expected['model_id']
                 or ledger['endpoint']!=endpoint or ledger['source_backend_helper_sha256']!=source_helper
                 or any(not isinstance(ledger[key],str) or not re.fullmatch(r'[0-9a-f]{64}',ledger[key])

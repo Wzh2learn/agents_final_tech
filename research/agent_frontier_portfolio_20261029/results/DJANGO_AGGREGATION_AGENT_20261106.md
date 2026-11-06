@@ -147,6 +147,20 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 
 ## 当前接续：优先核验并使用27B
 
+### 27B采集与学生迁移：运行前合同
+
+**Mode / Boundary**：inquiry-methods的minimal-experiment，使用已核原题、base/gold、现有隔离harness及GB10本地模型。最影响决策的三个假设是：27B能提供同时满足原题与回归的轨迹；该经验可改善8B的变化任务；普通skill相对历史/补丁卡有收益。先实测第一个，再做迁移，不用工程检查替代后两项证据。
+
+profile `qwen38_27b_model_profile_v1.json` SHA `9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279`；实际66个权重及必要配置/分词文件共30,889,968,808bytes，manifest SHA `c96a2de0131047513e5723d8db26c65f98113402a0eb328ae61e98e3682d9bd8`。首次流式hash37.729秒、完整重读37.804秒，校验receipt `4e928c882b025b542b2ce3c85643ba3c58961efa7ef2aba7d41cf4d9cb4ca68c`。这些固定磁盘内容与服务容器/模板身份，不声称测得GPU内权重hash。宿主PID命名空间不对应，绑定Docker PID/StartedAt并将host start ticks保持未知。
+
+**Action / Budget**：`teacher27_source_20261106`从同一冻结source base开始，沿用35B首次源题的通用环境说明，不附gold、隐藏测试或未来目标；temp0.2/seed7201、实际32K共享上下文/output8192。为采集完整教师轨迹，D按用户本地资源授权将此新角色的运行余量设为96POST/2400秒/12MB、单请求900秒；不追改旧8B/35B的48POST/1200秒/6MB。上限用于可复放和资源观察，不是方法成败门，更不意味着全项目模型请求预算耗尽。
+
+退出后同一次独立评测检查关键1项、映射回归65项、扩大aggregation/expressions219项（gold已有skip1）及PG原题语义。记录实际执行/跳过数，拒绝零测试或只凭probe exit0判断通过。base/gold零生成控制已得到预期否/是，receipt `11b8ef99fc16255733eb754934fcf57115320d165f82099dc77091d077f98f8a`。27B CLI预检stdout SHA `0149dbb6173f10e301a1fa94ed420df0a71481dabaea73631159a3854383ee14`；只是工程资格，不是27B修复成绩。
+
+**Continue / Metrics**：记录真实源产物后，形成历史摘要、完整实际补丁/反馈卡与一次普通skill；凡失败/回归如实进入材料，不冒充成功示范。所有目标臂开始前固定同一来源manifest。学生8B用相同target34176、seed7202/0.2/32K/output8192与48POST/1200秒/6MB，比较无历史、历史、补丁卡、普通skill；无历史仅在D侧绑定来源、不把经验给actor。比较原题结果、关键/回归、实际读取、形成及执行总成本。四种载体的信息量不同，属于完整使用方案比较，不能直接归因于文本格式。
+
+**Risks / Exit / Next**：此对属于已知参考的开发，数据量不支持方法认证。27B身份/接口、源任务效果、迁移效果分层判断；源失败则据实际问题调整轨迹形成或换来源，不将失败外推为反馈学习无效。若普通历史、廉价规则或公开方法解释收益，就把它们作为强基线，继续寻找机制差异。第一动作是冻结本代码、真实运行27B源任务；合格材料后立即开展学生目标比较，而非继续停留于盘点。
+
 用户补充GB10已有Qwen3.8-27B。只读实测确认vllm-probe在8006服务`qwen38-27b-fp8`，max_model_len32,768、max_num_seqs32、前缀缓存开启、qwen3_xml工具解析、qwen3推理解析；沿用既有自定义模板，不凭模板文件名断言每次实际thinking状态。容器ID `4b7c8b76fd42c474f76c9ee53b13c90980dc9ddae7e62cd8201dc58cc79eadf3`，镜像 `sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f`。本次1个只读models GET、0生成、0服务改动；没有把DSpark辅助草稿模型当完整27B。
 
 私有盘点`qwen38_27b_asset_inventory_20261106.json` SHA `f4ac7074a76134358c6c58e30dd860aa84c2d2398df229f9e5641e916771565c`，已绑定config、权重索引和实际模板hash；全权重SHA清单尚未在本盘点计算。官方[模型卡](https://huggingface.co/Qwen/Qwen3.8-27B)和[vLLM配方](https://recipes.vllm.ai/Qwen/Qwen3.8-27B)说明其沿用qwen3_5架构，因此本地config使用该架构名不等于文件误标；外部说明不代替本机任务成绩。

@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT), str(ROOT / 'research/agent_frontier_portfolio_20261029')]
@@ -62,16 +63,25 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         runner.validate_backend_choice('teacher35b','source','none')
         runner.validate_backend_choice('teacher35b','source','teacher_feedback_repair')
         runner.validate_backend_choice('teacher35b','source','teacher_joint_feedback_repair')
+        runner.validate_backend_choice('teacher27b','source','none')
         for task,condition in [('target','none'),('source','candidate_neutral_retry'),('source','feedback_card')]:
             with self.assertRaises(ValueError):runner.validate_backend_choice('teacher35b',task,condition)
         with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_feedback_repair')
         with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_joint_feedback_repair')
+        with self.assertRaises(ValueError):runner.validate_backend_choice('teacher27b','target','none')
+        with self.assertRaises(ValueError):runner.validate_backend_choice('teacher27b','source','teacher_feedback_repair')
         profile={'context':65536,'output':16384}
         original="cfg={'options':{'timeout':300000},'limit':{'context':32768,'output':8192}}"
         upgraded=runner.set_model_limits(original,profile,'teacher35b')
         self.assertIn("'context':65536,'output':16384",upgraded)
         self.assertIn("'timeout':900000",upgraded)
         self.assertEqual(runner.set_model_limits(original,{'context':32768,'output':8192},'student8b'),original)
+        q27=runner.set_model_limits(original,{'context':32768,'output':8192},'teacher27b')
+        self.assertEqual(q27,original.replace("'timeout':300000","'timeout':900000"))
+        with self.assertRaises(ValueError):runner.set_model_limits(original,profile,'teacher27b')
+        self.assertEqual(runner.episode_limits('teacher27b'),(96,2400,12_000_000))
+        self.assertEqual(runner.episode_limits('student8b'),(48,1200,6_000_000))
+        self.assertEqual(runner.episode_limits('teacher35b'),(48,1200,6_000_000))
 
     def test_live_server_arguments_must_match_the_frozen_profile(self):
         profile = {'gguf_path':'/research/model.gguf', 'host':'127.0.0.1', 'port':18104,
@@ -171,6 +181,41 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         with self.assertRaises(ValueError):runner.joint_source_validation_feedback(record)
         checks['issue_probe']['observed']={'exception':None,'expected_data':False}
         with self.assertRaises(ValueError):runner.joint_source_validation_feedback(record)
+
+    def test_source_qualification_rejects_zero_tests_skips_and_caught_probe_exception(self):
+        checks={k:{'exit':0,'tests_observed':n,'skipped_observed':s}
+                for k,n,s in [('focus',1,0),('regression',65,0),('broader_regression',219,1)]}
+        checks['issue_probe']={'exit':0,'observed':{'exception':None,'expected_data':True}}
+        self.assertTrue(runner.source_artifact_qualification(checks)['passed'])
+        checks['broader_regression']['exit']=1
+        self.assertEqual(runner.source_artifact_qualification(checks)['failed_checks'],['broader_regression'])
+        checks['broader_regression']['exit']=0;checks['focus']['tests_observed']=0
+        self.assertFalse(runner.source_artifact_qualification(checks)['passed'])
+        checks['focus']['tests_observed']=1;checks['broader_regression']['skipped_observed']=219
+        self.assertFalse(runner.source_artifact_qualification(checks)['passed'])
+        checks['broader_regression']['skipped_observed']=1
+        checks['issue_probe']['observed']={'exception':{'type':'ProgrammingError'}}
+        self.assertEqual(runner.source_artifact_qualification(checks)['failed_checks'],['original_issue_semantics'])
+
+    def test_target_arms_bind_same_freeze_without_leaking_memory_to_none(self):
+        import prepare_django_aggregation_experience_20261106 as helper
+        with tempfile.TemporaryDirectory() as td:
+            parent=Path(td)/'private';source=parent/'attempts/source';output=source/'experience';output.mkdir(parents=True)
+            root=parent/'attempts/cohort';root.mkdir()
+            history=output/'source_history.md';history.write_text('frozen history')
+            manifest=output/'input_profile_manifest.json'
+            frozen={'source':{'source_attempt':str(source.resolve()),'completion_sha256':'c'*64},
+                    'artifacts':{'source_history.md':runner.sha(history)}}
+            manifest.write_text(json.dumps(frozen));digest=runner.sha(manifest)
+            with mock.patch.object(runner,'PARENT',parent),mock.patch.object(helper,'validate_frozen',return_value=frozen):
+                no_history=runner.validate_target_experience(root,'none',manifest,digest,None,None)
+                self.assertFalse(no_history['applied_to_actor']);self.assertIsNone(no_history['artifact_sha256'])
+                bound=runner.validate_target_experience(root,'source_history',manifest,digest,history,runner.sha(history))
+                self.assertTrue(bound['applied_to_actor'])
+                with self.assertRaises(ValueError):runner.validate_target_experience(root,'source_history',manifest,digest,history,'0'*64)
+                with self.assertRaises(ValueError):runner.validate_target_experience(root,'none',manifest,digest,history,runner.sha(history))
+                (root/'target__none__seed7202.started.json').write_text(json.dumps({'source_experience':{'manifest_sha256':'0'*64}}))
+                with self.assertRaises(ValueError):runner.validate_target_experience(root,'source_history',manifest,digest,history,runner.sha(history))
 
     def test_teacher_public_feedback_rejects_changed_receipt_or_log(self):
         with tempfile.TemporaryDirectory() as td:

@@ -58,4 +58,78 @@ class TeacherTests(unittest.TestCase):
         self.assertEqual(result['context_shift'],'UNKNOWN')
 
 
+class VllmTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.root=Path(self.tmp.name);self.model=self.root/'model';self.model.mkdir()
+        self.template=self.root/'template.jinja';self.template.write_text('template')
+        for name in teacher.VLLM_METADATA_FILES:
+            if name!='model.safetensors.index.json':(self.model/name).write_text(name)
+        (self.model/'layer.safetensors').write_bytes(b'weights')
+        (self.model/'model.safetensors.index.json').write_text(json.dumps({'weight_map':{'x':'layer.safetensors','y':'layer.safetensors'}}))
+        self.patches=[mock.patch.object(teacher,'VLLM_MODEL_ROOT',self.model),
+            mock.patch.object(teacher,'VLLM_TEMPLATE',self.template),
+            mock.patch.object(teacher,'VLLM_CONFIG_SHA',teacher.sha(self.model/'config.json')),
+            mock.patch.object(teacher,'VLLM_INDEX_SHA',teacher.sha(self.model/'model.safetensors.index.json')),
+            mock.patch.object(teacher,'VLLM_TEMPLATE_SHA',teacher.sha(self.template)),
+            mock.patch.object(teacher,'VLLM_PRIVATE_ROOT',self.root)]
+        for patch in self.patches:patch.start();self.addCleanup(patch.stop)
+        self.manifest=self.root/'manifest.json';self.profile=self.root/'profile.json'
+        self.live={'container_id':teacher.VLLM_CONTAINER_ID,'container_name':'vllm-probe','image_id':teacher.VLLM_IMAGE_ID,
+            'pid':42,'started_at':'2026-08-21T15:41:38.036347742Z','process_start_ticks':987,
+            'running':True,'port_bindings':{'8000/tcp':[{'HostIp':'','HostPort':'8006'}]},
+            'model_mount':{'Source':str(self.model),'Destination':'/models/model','RW':False,'Type':'bind'},
+            'template_mount':{'Source':str(self.template),'Destination':'/models/chat_template_custom.jinja','RW':False,'Type':'bind'},
+            'argv':['vllm','serve','/models/model','--served-model-name','qwen38-27b-fp8','--max-num-seqs','32',
+                 '--max-model-len','32768','--enable-prefix-caching','--reasoning-parser','qwen3',
+                 '--tool-call-parser','qwen3_xml','--chat-template','/models/chat_template_custom.jinja']}
+
+    def build(self):
+        manifest=teacher.build_vllm_weights_manifest(self.model,self.manifest)
+        self.assertEqual(manifest['weight_files'],['layer.safetensors'])
+        with mock.patch.object(teacher,'inspect_vllm_container',return_value=self.live):
+            profile=teacher.create_vllm_model_profile(self.profile,self.manifest,teacher.sha(self.manifest))
+        return profile
+
+    def test_manifest_and_profile_detect_wrong_inputs_or_file_tamper(self):
+        profile=self.build();self.assertEqual(profile['context'],32768)
+        self.assertEqual(teacher.validate_vllm_model_profile(self.profile,teacher.sha(self.profile),full=True),profile)
+        with self.assertRaises(ValueError):teacher.validate_vllm_model_profile(self.profile,'0'*64,full=True)
+        p=dict(profile,port=8007);self.profile.write_text(json.dumps(p))
+        with self.assertRaises(ValueError):teacher.validate_vllm_model_profile(self.profile,teacher.sha(self.profile),full=True)
+        for field,value in [('model_id','other'),('model_root',str(self.root/'other')),('context',65536)]:
+            self.profile.write_text(json.dumps(dict(profile,**{field:value})))
+            with self.assertRaises(ValueError):teacher.validate_vllm_model_profile(self.profile,teacher.sha(self.profile),full=True)
+        self.profile.write_text(json.dumps(profile));(self.model/'layer.safetensors').write_bytes(b'tampered')
+        with self.assertRaises(ValueError):teacher.validate_vllm_model_profile(self.profile,teacher.sha(self.profile),full=True)
+
+    def test_live_contract_rejects_mapping_identity_and_context_changes(self):
+        profile=self.build()
+        with mock.patch.object(teacher,'inspect_vllm_container',return_value=self.live):
+            self.assertTrue(teacher.verify_vllm_backend(profile)['running'])
+        for field,value in [('port_bindings',{'8000/tcp':[{'HostIp':'','HostPort':'9999'}]}),
+                            ('container_id','f'*64),('image_id','sha256:'+'0'*64),('pid',43),
+                            ('started_at','2026-08-22T15:41:38Z'),('process_start_ticks',988)]:
+            broken=dict(self.live,**{field:value})
+            with mock.patch.object(teacher,'inspect_vllm_container',return_value=broken):
+                with self.assertRaises(ValueError):teacher.verify_vllm_backend(profile)
+        broken=dict(self.live,argv=[x if x!='32768' else '65536' for x in self.live['argv']])
+        with mock.patch.object(teacher,'inspect_vllm_container',return_value=broken):
+            with self.assertRaises(ValueError):teacher.verify_vllm_backend(profile)
+        broken=dict(self.live,model_mount=dict(self.live['model_mount'],RW=True))
+        with mock.patch.object(teacher,'inspect_vllm_container',return_value=broken):
+            with self.assertRaises(ValueError):teacher.verify_vllm_backend(profile)
+
+    def test_index_cannot_escape_or_duplicate_untracked_weight(self):
+        index=self.model/'model.safetensors.index.json'
+        index.write_text(json.dumps({'weight_map':{'x':'../secret.safetensors'}}))
+        with mock.patch.object(teacher,'VLLM_INDEX_SHA',teacher.sha(index)):
+            with self.assertRaises(ValueError):teacher.build_vllm_weights_manifest(self.model,self.manifest)
+
+    def test_manifest_tamper_is_rejected(self):
+        self.build();profile_digest=teacher.sha(self.profile)
+        self.manifest.write_text(self.manifest.read_text()+' ')
+        with self.assertRaises(ValueError):teacher.validate_vllm_model_profile(self.profile,profile_digest,full=True)
+
+
 if __name__=='__main__':unittest.main()
