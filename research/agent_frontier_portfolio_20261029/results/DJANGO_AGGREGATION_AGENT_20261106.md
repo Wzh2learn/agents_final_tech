@@ -126,3 +126,13 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 下一次`teacher_feedback_repair`从上述真实候选和同一教师profile继续，仍48POST/1200秒/6MB；提供其实际父源diff及公开回归失败，不给gold修法或目标信息。diff由已验证DRAFT无损恢复，避免新上下文不知前次删改；它包含真实失败测试草稿，不把它认证为正确示例。新attempt保留父源、DRAFT、候选快照和补充反馈hash；普通8B的N/F条件及历史身份不变。目的为取得经完整当前合同核验的纠正轨迹，不据单次教师续修认证反馈机制。仍以关键/65项回归/原题及上述219项检查决定是否适合作正向示范，记录调用门、失败及全部来源成本。
 
 本次源轨迹、DRAFT、预检及扩大回归55项已双机保存为私有`evidence_packets_20261106/django_teacher_source_20261106.tar.gz`；本机同名文件仍在`D:/Documents/Loop_D_assets/agent_learning_20261106/`。252,498bytes，SHA `f69dca996a4850c2cb0068315bc32dae23ef03cbec7e4746bf67cf2985c7cac3`，全部成员hash核对通过；不包含完整依赖/模型，不作为独立发行包。
+
+教师续修零模型CLI预检已通过，stdout SHA `f78d9f88e5e511a8093108308a66ad6c764e9cd9438720218c70e82b028bb65f`；父候选manifest `c5f03e13e072d76f5f0c95f6a8abc674f635b8a8b150acfda946af948415734b`，实际父diff `03ff09d618b00fd2ff03ea7f36bc70c201ca56c73af88d575c6b1db321004a08`。代码`591d5195`三端同步后启动`teacher_feedback_repair_35b_20261106`；29项定点测试通过，docs lint为0fail/3条既有提醒。不修改在途绑定组件；原题与扩大回归等待本次实际产物。
+
+## 单项反馈续修结果与联合目标强基线
+
+续修27POST/775,019tokens（缓存734,426、未缓存输入36,602、输出3,991），105.253秒、Agent exit0、无代理拒绝。completed SHA `d183d65bed9e7f6f525b5d5845510c57507f33898cf6aaad33e4fa9fee614e5f`，raw `fdbf6fb1cebea2387db879fd270f2f5689e4593f6fade8417a5a167a00b230ce`。模型完整恢复了原Subquery方法，79项原有aggregation测试在actor内通过；但独立关键测试再次失败、原题重新报`status`歧义，65项映射回归仍通过。原题probe进程exit0只是捕获异常后打印JSON，实际`observed.exception=ProgrammingError`；不能按进程码计作任务通过。
+
+同命令重放219项扩大集合：base与续修均1 error、gold无失败，各skip1。receipt `c0da3f0f33fb1bd98bcef174d1e49c5af5dadc49ea2f19e366a5c4f0e1b65fa1`。消除了新回归但恢复原bug，尚无适合传播的完整正向示范。
+
+下一强简单对照`teacher_joint_feedback_repair`仍从**同一个首次教师候选**开始，使用相同profile、父diff、公开失败和预算，仅再列出该候选已通过的关键/65项回归/原题观察，明确新修订须同时保持原题修复与原有行为。父原题语义通过由`expected_data=true`与无异常核验，不把exit0当正确；不给gold补丁、隐藏断言或目标题信息。它是见过单项反馈结果后设计的一次开发对照，不冒充预注册机制确认。若简单联合要求就解决问题，后续学习方法必须超过这个基线；若仍失败，本对不继续堆教师提示，保留失败并转其他来源或明确标注的参考辅助监督。

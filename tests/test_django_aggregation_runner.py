@@ -58,12 +58,14 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         self.assertIn('gb10/Qwen3.6-35B-A3B-Q4_K_M.gguf',upgraded)
         self.assertNotIn('Q4_K_M.gguf-Q4_K_M.gguf',upgraded)
 
-    def test_teacher_is_source_none_only_and_limits_are_profiled(self):
+    def test_teacher_is_source_approved_conditions_only_and_limits_are_profiled(self):
         runner.validate_backend_choice('teacher35b','source','none')
         runner.validate_backend_choice('teacher35b','source','teacher_feedback_repair')
+        runner.validate_backend_choice('teacher35b','source','teacher_joint_feedback_repair')
         for task,condition in [('target','none'),('source','candidate_neutral_retry'),('source','feedback_card')]:
             with self.assertRaises(ValueError):runner.validate_backend_choice('teacher35b',task,condition)
         with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_feedback_repair')
+        with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_joint_feedback_repair')
         profile={'context':65536,'output':16384}
         original="cfg={'limit':{'context':32768,'output':8192}}"
         self.assertIn("'context':65536,'output':16384",runner.set_model_limits(original,profile,'teacher35b'))
@@ -156,6 +158,17 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         self.assertEqual(len(frames),1)
         self.assertIn('compiler.py',frames[0]);self.assertIn('result.append(candidate_format)',frames[0])
         self.assertNotIn('hidden',str(frames));self.assertNotIn('secret_gold',str(frames))
+
+    def test_joint_feedback_does_not_confuse_probe_exit_with_semantic_success(self):
+        checks={'focus':{'exit':0,'summary':['Ran 1 test','OK']},
+                'regression':{'exit':0,'summary':['Ran 65 tests','OK']},
+                'issue_probe':{'exit':0,'observed':{'exception':None,'expected_data':True}}}
+        record={'post_run_evaluation':checks}
+        self.assertIn('original issue repair AND',runner.joint_source_validation_feedback(record))
+        checks['issue_probe']['observed']={'exception':{'type':'ProgrammingError'}}
+        with self.assertRaises(ValueError):runner.joint_source_validation_feedback(record)
+        checks['issue_probe']['observed']={'exception':None,'expected_data':False}
+        with self.assertRaises(ValueError):runner.joint_source_validation_feedback(record)
 
     def test_teacher_public_feedback_rejects_changed_receipt_or_log(self):
         with tempfile.TemporaryDirectory() as td:

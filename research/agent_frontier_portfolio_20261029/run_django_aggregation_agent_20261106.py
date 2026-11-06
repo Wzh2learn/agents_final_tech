@@ -49,7 +49,8 @@ PROJECTIONS = {
     'target': ('actor_target', '196a1cfb4cb2d98fddb66ac56bed81ee90868b8e608fc15055b0e051f8a33efc'),
 }
 MAX_POSTS, MAX_SECONDS, MAX_BYTES = 48, 1200, 6_000_000
-REPAIR_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry', 'teacher_feedback_repair')
+TEACHER_REPAIR_CONDITIONS = ('teacher_feedback_repair', 'teacher_joint_feedback_repair')
+REPAIR_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry', *TEACHER_REPAIR_CONDITIONS)
 REPAIR_SOURCE = 'runtime_ready_8b_20261106'
 REPAIR_DRAFT_SHA = 'cd2691418f8b5714539f4470d6e8126f21ca6da4f9007320bde09b18191abefd'
 TEACHER_REPAIR_SOURCE = 'teacher_source_35b_20261106'
@@ -207,9 +208,9 @@ def rebind_model(code: str, profile: dict) -> str:
 def validate_backend_choice(backend: str, task: str, condition: str) -> None:
     if backend not in ('student8b', 'teacher35b'):
         raise ValueError('unknown model backend')
-    if backend == 'teacher35b' and (task != 'source' or condition not in ('none','teacher_feedback_repair')):
+    if backend == 'teacher35b' and (task != 'source' or condition not in ('none',*TEACHER_REPAIR_CONDITIONS)):
         raise ValueError('teacher profile permitted only for source and its approved feedback repair')
-    if backend == 'student8b' and condition == 'teacher_feedback_repair':
+    if backend == 'student8b' and condition in TEACHER_REPAIR_CONDITIONS:
         raise ValueError('teacher feedback repair requires teacher backend')
 
 
@@ -395,6 +396,19 @@ def teacher_public_feedback(receipt: Path, log: Path, clean: Path,
     return feedback,binding
 
 
+def joint_source_validation_feedback(record: dict) -> str:
+    checks=record['post_run_evaluation']; issue=checks['issue_probe'].get('observed',{})
+    if (checks['focus']['exit'] != 0 or checks['regression']['exit'] != 0
+            or issue.get('exception') is not None or issue.get('expected_data') is not True):
+        raise ValueError('parent did not pass the source checks being preserved')
+    observed={'focus':checks['focus']['summary'],'regression':checks['regression']['summary'],
+              'original_issue':{'exception':None,'expected_data':True}}
+    return ('Joint validation requirement: preserve the original issue repair AND the existing regression behavior. '
+            'Fixing only the reported regression while reintroducing the original issue is not a completed repair. '
+            'The parent implementation passed these independently observed source checks:\n'
+            +json.dumps(observed,ensure_ascii=True,indent=2))
+
+
 def repair_prompt(task: str, condition: str, feedback: str) -> str:
     if condition not in REPAIR_CONDITIONS: raise ValueError('not a source repair condition')
     common=task.rstrip()+'\n\nContinue from the current implementation. Inspect and run relevant local tests yourself; '
@@ -402,7 +416,7 @@ def repair_prompt(task: str, condition: str, feedback: str) -> str:
     common+=' The file /root/instructions.txt is a read-only issue specification, not executable project source; do not edit it or change its permissions.'
     common+=' Writable Django project source is under /root/django/. Inspect and modify the relevant project files; a permission error on the specification does not mean the source is read-only.'
     common+=' Evaluation paths beginning /workspace/ refer to the same repository-relative paths under /root/ in this actor. Apply this path mapping when inspecting diagnostic frames.'
-    return common + ('\n\n'+feedback if condition in ('candidate_feedback_retry','teacher_feedback_repair') else '')
+    return common + ('\n\n'+feedback if condition in ('candidate_feedback_retry',*TEACHER_REPAIR_CONDITIONS) else '')
 
 
 def derive(root: Path, task: str, condition: str, experience: Path | None,
@@ -614,7 +628,7 @@ def main() -> None:
             'without asking the user for permission.\n')
     candidate = None; repair = None
     if is_repair:
-        is_teacher_repair = args.condition == 'teacher_feedback_repair'
+        is_teacher_repair = args.condition in TEACHER_REPAIR_CONDITIONS
         repair_source_id = TEACHER_REPAIR_SOURCE if is_teacher_repair else REPAIR_SOURCE
         repair_draft_digest = TEACHER_REPAIR_DRAFT_SHA if is_teacher_repair else REPAIR_DRAFT_SHA
         if args.repair_source_attempt_id != repair_source_id or args.repair_draft_sha256 != repair_draft_digest:
@@ -642,6 +656,9 @@ def main() -> None:
             broad_binding['observed_source_diff_sha256']=hashlib.sha256(source_diff).hexdigest()
             feedback=('Observed parent-agent edits against the source baseline, not a reference repair:\n'
                       +source_diff.decode('utf8',errors='replace')+'\n'+feedback)
+            if args.condition == 'teacher_joint_feedback_repair':
+                feedback+='\n\n'+joint_source_validation_feedback(record)
+            broad_binding['joint_validation']=args.condition == 'teacher_joint_feedback_repair'
             candidate=source/'teacher_repair_candidate_frozen_v1'; manifest=source/'teacher_repair_candidate_frozen_v1.json'
         else:
             feedback=repair_feedback(record,old_case);broad_binding=None
@@ -650,7 +667,7 @@ def main() -> None:
         task_text=repair_prompt(task_text,args.condition,feedback)+'\n'
         repair={'source_completion_sha256':draft['source']['completion_sha256'],'draft_sha256':repair_draft_digest,
                 'candidate_manifest_sha256':sha(manifest),'feedback_sha256':hashlib.sha256(feedback.encode()).hexdigest()
-                    if args.condition in ('candidate_feedback_retry','teacher_feedback_repair') else None,
+                    if args.condition in ('candidate_feedback_retry',*TEACHER_REPAIR_CONDITIONS) else None,
                 'public_regression':broad_binding,
                 'scope':'source candidate continuation; not target confirmation',
                 'database_reset':'operator must reset only the manifest-bound private research_probe before each arm'}
