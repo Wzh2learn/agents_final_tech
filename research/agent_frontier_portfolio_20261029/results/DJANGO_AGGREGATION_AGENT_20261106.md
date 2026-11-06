@@ -145,6 +145,14 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 
 <a id="current-27b-handoff"></a>
 
+### 最新执行：27B长连接计量事故与修复
+
+`teacher27_source_20261106`已由D停止，仅停止自有actor `4ad7c3998cbf`，未重启共享模型。旧代理只解析连接首个请求，随后双向字节relay把HTTP keep-alive上的后续请求一并转发，绕过逐请求计数、采样绑定及字节门。完成记录虽然写`posts=1`，raw实际有156个完成usage步骤、157个step_start；至少156次完成推理，另一次开始是否到达模型/用量未知。已报告1,930,944 tokens为下界，不把旧1POST当真实总数。相对96POST限额至少超出60次。raw SHA `7bf0272ba9af60fbe92dc52b6e7376929eecefa91f36e49c17a9e8cb2c7da86f`、completed SHA `6c57ce4d8f15b25e726c81f7c8ac3a5a2a85a6e7ca83bad4d5c3e3b9cb29d30b`原样保留；另存operator_stop与对账，不覆写历史回执。该轮反复对不存在的`/root/django/tests`调用工具；原题未修、65项映射回归通过，不能解释为经验学习机制失败。
+
+确定性复现：同一持久客户端发三请求，旧relay在限额2下返回`200/200/200`，新单响应relay为`200/200/403`；chunked SSE解码后body保持一致。新harness每次只转发一个HTTP响应并关闭客户端连接，下一请求必须重新过门；私有记录实际转发JSON body（不记auth/header），完成后核对POST、usage步骤、逐请求hash。已知计量无效的源不可升级为合格经验。此前8B/35B记录有逐POST/usage相符检查；35B联合第13次未完成用量继续单列，不能由本次vLLM缺陷反推旧记录全部失效。
+
+下一步先用相同题面/采样/默认thinking做传输诊断，检查工具`NotFound`是否真的进入模型请求；若连续出现同一无效路径且无源码编辑，可停止诊断而非继续烧满余量。只有确认反馈完整后，才决定是否调整通用路径说明或per-request thinking。每次改变配置都另列，不用接口修复冒充方法收益。
+
 ## 当前接续：优先核验并使用27B
 
 ### 27B采集与学生迁移：运行前合同

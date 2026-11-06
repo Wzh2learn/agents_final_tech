@@ -11,6 +11,7 @@ import argparse
 import ast
 from collections import Counter
 import hashlib
+import inspect
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -232,6 +233,76 @@ def set_model_limits(code: str, profile: dict, backend: str) -> str:
 def episode_limits(backend: str) -> tuple[int,int,int]:
     # Teacher acquisition gets room to finish; previous experiments retain their caps.
     return (96,2400,12_000_000) if backend=='teacher27b' else (MAX_POSTS,MAX_SECONDS,MAX_BYTES)
+
+
+def relay_one_model_response(client, upstream):
+    """Relay exactly one response; HTTP keep-alive cannot bypass the next gate.
+
+    HTTPResponse decodes chunked SSE bodies. Downstream is close-delimited,
+    keeping the response body unchanged while requiring a new counted request.
+    """
+    import http.client
+    upstream.settimeout(300)
+    response = http.client.HTTPResponse(upstream)
+    response.begin()
+    excluded = {'connection', 'keep-alive', 'proxy-connection', 'transfer-encoding',
+                'trailer', 'upgrade'}
+    if response.chunked:
+        excluded.add('content-length')
+    headers = [(k, v) for k, v in response.getheaders() if k.lower() not in excluded]
+    head = f'HTTP/1.1 {response.status} {response.reason}\r\n'
+    head += ''.join(f'{k}: {v}\r\n' for k, v in headers)
+    client.sendall((head+'Connection: close\r\n\r\n').encode('iso-8859-1'))
+    size = 0
+    try:
+        while True:
+            body = response.read1(65536)
+            if not body:
+                break
+            client.sendall(body)
+            size += len(body)
+    finally:
+        response.close()
+    return {'status': response.status, 'body_bytes': size, 'complete': True}
+
+
+def bind_per_request_transport(code: str) -> str:
+    """Keep request bodies privately for tool-feedback provenance, never headers."""
+    code = core.replace_once(code, 'class Handler(socketserver.BaseRequestHandler):',
+                             inspect.getsource(relay_one_model_response)+'\nclass Handler(socketserver.BaseRequestHandler):')
+    marker = '    sampling.append(meta)'
+    capture = (
+        "    request_body=first.split(b'\\r\\n\\r\\n',1)[1]\n"
+        "    request_dir=case/'model_request_bodies';request_dir.mkdir(exist_ok=True)\n"
+        "    request_path=request_dir/(str(post_count[0]).zfill(5)+'.json')\n"
+        "    with request_path.open('xb') as request_log:request_log.write(request_body)\n"
+        "    meta['request_body_sha256']=hashlib.sha256(request_body).hexdigest()\n"
+        "    meta['request_body_file']=request_path.name\n" + marker)
+    code = core.replace_once(code, marker, capture)
+    code = core.replace_once(code, 'try:upstream.sendall(first);relay(self.request,upstream)',
+                             'try:upstream.sendall(first);relay_one_model_response(self.request,upstream)')
+    return code
+
+
+def execution_integrity(case: Path, receipt: dict) -> dict:
+    """A completed process is not evidence of fully metered model execution."""
+    posts = sum(s.startswith('POST ') for s in receipt['model_http_requests'])
+    metadata = receipt['sampling_metadata']
+    failures = []
+    if len(receipt['step_finish_tokens']) != posts:
+        failures.append('model_usage_steps_disagree_with_counted_posts')
+    if len(metadata) != posts:
+        failures.append('sampling_metadata_disagrees_with_posts')
+    for entry in metadata:
+        name = entry.get('request_body_file', '')
+        if not re.fullmatch(r'[0-9]{5}\.json', name):
+            failures.append('request_body_binding_missing'); break
+        path = case / 'model_request_bodies' / name
+        if path.is_symlink() or not path.is_file() or sha(path) != entry.get('request_body_sha256'):
+            failures.append('request_body_binding_invalid'); break
+    return {'version':1, 'passed':not failures, 'failures':failures,
+            'counted_posts':posts, 'completed_usage_steps':len(receipt['step_finish_tokens']),
+            'scope':'one counted, privately captured request per completed model step'}
 
 
 def clean_root(task: str) -> Path:
@@ -475,6 +546,7 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
                   '-e', 'PGHOST=/research-pg', '-e', 'PGUSER=research_probe', '-e', 'PGDATABASE=research_probe']
         code = core.replace_once(code, "'-e','PYTHONPATH=/deps'", "'-e','PYTHONPATH=/deps:/pgdriver'")
     code = core.replace_once(code, 'cmd[_at:_at]=[', 'cmd[_at:_at]=' + repr(extra) + '+[')
+    code = bind_per_request_transport(code)
     compile(code, '<django-aggregation-harness>', 'exec')
     return code
 
@@ -845,6 +917,7 @@ def main() -> None:
                              s.startswith('POST ') for s in receipt['model_http_requests']),
                          'cache_read_included': sum(t.get('cache', {}).get('read', 0) for t in receipt['step_finish_tokens']),
                          'seed_temperature_model_forwarded': forwarded,
+                         'execution_integrity': execution_integrity(case, receipt),
                          'post_run_evaluation': run_evaluator(task, case, control, actor, pg,args.broader_regression)})
             if args.task=='target' and args.experience is not None:
                 plan['experience_read_observation']=inspect_experience_reads(case/'raw.jsonl',args.experience)

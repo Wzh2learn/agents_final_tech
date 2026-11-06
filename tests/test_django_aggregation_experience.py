@@ -1,5 +1,6 @@
 """Source-evidence contracts, exercised only with synthetic files."""
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -48,6 +49,15 @@ class ExperienceTests(unittest.TestCase):
 
     def draft(self): return exp.build_draft(self.source,self.base,self.output,verify_baseline=self.qual)
 
+    def actions(self, *states):
+        raw=self.case/'raw.jsonl'
+        raw.write_text(''.join(json.dumps({'type':'tool_use','part':{'tool':'bash','state':state}})+'\n'
+                               for state in states),encoding='utf8')
+        self.record['raw_sha256']=exp.sha(raw)
+        self.completed.write_text(json.dumps(self.record))
+        receipt=json.loads(self.receipt.read_text());receipt['raw_sha256']=exp.sha(raw)
+        self.receipt.write_text(json.dumps(receipt))
+
     def skill(self):
         request=self.output/'skill_generation_request.json';request.write_text(json.dumps({'model':'qwen3-8b-qual',
             'temperature':0.2,'seed':7201,'max_tokens':2500,'messages':[{'role':'user','content':(self.output/'source_history.md').read_text()}]}))
@@ -65,11 +75,98 @@ class ExperienceTests(unittest.TestCase):
         self.assertIn(b'x'*4000,exp.decode_patch(text))
         self.assertLess(max(map(len,text.splitlines())),1801)
 
+    def test_failed_tool_error_keeps_status_and_separate_output_error_evidence(self):
+        error='discarded prefix: '+'x'*900+'\nPermissionDenied: 源文件 is read-only'
+        self.actions({'input':{'command':'write file'},'status':'error','error':error},
+                     {'input':{'command':'run checks'},'status':'error','output':'partial stdout',
+                      'error':'Process exited with code 1'},
+                     {'input':{'command':'ls'},'status':'completed','output':'ok'})
+        draft=self.draft()
+        text=(self.output/'source_history.md').read_text(encoding='utf8')
+        actions=json.loads(exp.decode_field(text,'ACTION_JSON'))
+        self.assertEqual(actions[0]['status'],'error')
+        self.assertEqual(actions[0]['output_tail'],'')
+        self.assertEqual(actions[0]['error_tail'],error[-800:])
+        self.assertEqual(actions[0]['error_chars'],len(error))
+        self.assertEqual(actions[0]['error_sha256'],hashlib.sha256(error.encode()).hexdigest())
+        self.assertEqual(actions[1]['output_tail'],'partial stdout')
+        self.assertEqual(actions[1]['output_chars'],len('partial stdout'))
+        self.assertEqual(actions[1]['output_sha256'],hashlib.sha256(b'partial stdout').hexdigest())
+        self.assertEqual(actions[1]['error_tail'],'Process exited with code 1')
+        self.assertEqual(actions[2]['status'],'completed')
+        self.assertEqual(actions[2]['error_tail'],'')
+        self.assertEqual(actions[2]['error_chars'],0)
+        self.assertEqual(actions[2]['error_sha256'],hashlib.sha256(b'').hexdigest())
+        self.assertEqual(draft['history_rendering_version'],2)
+        self.assertIn('error tail 800 characters',text)
+        self.assertLess(max(map(len,text.splitlines())),1801)
+        self.assertEqual(exp.validate_draft(self.source,self.base,self.output,verify_baseline=self.qual),draft)
+
+    def test_legacy_draft_and_frozen_history_validate_without_rewriting_bytes(self):
+        self.actions({'input':{'command':'write file'},'status':'error','output':'partial stdout',
+                      'error':'PermissionDenied: source file is read-only'})
+        draft=self.draft();draft.pop('history_rendering_version',None)
+        ev=exp.source_evidence(self.source,self.base,verify_baseline=self.qual)
+        inp=json.dumps({'command':'write file'},ensure_ascii=False);out='partial stdout'
+        # Independently spell the pre-version action schema and document layout.
+        # Using the new legacy renderer to generate its expected bytes would hide drift.
+        legacy_actions=[{'tool':'bash','status':'error','input_prefix':inp,'input_chars':len(inp),
+                         'input_sha256':hashlib.sha256(inp.encode()).hexdigest(),'output_tail':out,
+                         'output_chars':len(out),'output_sha256':hashlib.sha256(out.encode()).hexdigest()}]
+        legacy='Source-only ordinary history.\nSource outcome:\n'+json.dumps(ev['outcome'],ensure_ascii=True,indent=2)+'\n'
+        legacy+='Changed paths:\n'+json.dumps(ev['changed_paths'],ensure_ascii=True,indent=2)+'\n'
+        legacy+='Source task (ordered JSON parts):\n'+exp.render_field('SOURCE_TASK',ev['task'])
+        legacy+='Tool actions (input prefix 600 characters, output tail 800 characters; hashes retain identity):\n'
+        legacy+=exp.render_field('ACTION_JSON',json.dumps(legacy_actions,ensure_ascii=True,indent=2).encode())
+        legacy+='Complete observed source unified diff; concatenate ordered JSON part text exactly:\n'
+        legacy+=exp.render_field('COMPLETE_SOURCE_DIFF',ev['diff'])
+        (self.output/'source_history.md').write_bytes(legacy.encode())
+        draft['artifacts']['source_history.md']=exp.sha(self.output/'source_history.md')
+        (self.output/'draft_manifest.json').write_text(json.dumps(draft,indent=2)+'\n')
+        self.skill()
+        names=('source_history.md','feedback_card.md','generated_skill.md','skill_generation_request.json',
+               'skill_generation_response.json','skill_generation_ledger.json','draft_manifest.json')
+        frozen={'status':'FROZEN_BEFORE_TARGET','source':draft['source'],
+                'artifacts':{name:exp.sha(self.output/name) for name in names},
+                'scope':'development only; no target episode was visible in the source attempt family at freeze'}
+        manifest=self.output/'input_profile_manifest.json'
+        manifest.write_text(json.dumps(frozen,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+        before={path.name:path.read_bytes() for path in self.output.iterdir()}
+        self.assertEqual(exp.validate_draft(self.source,self.base,self.output,verify_baseline=self.qual),draft)
+        self.assertEqual(exp.validate_frozen(self.source,self.base,self.output,exp.sha(manifest),
+                                           verify_baseline=self.qual),frozen)
+        self.assertEqual({path.name:path.read_bytes() for path in self.output.iterdir()},before)
+        self.assertNotIn(b'PermissionDenied',exp.decode_field(legacy,'ACTION_JSON'))
+
+    def test_history_rendering_contract_cannot_be_downgraded_or_unknown(self):
+        self.draft();path=self.output/'draft_manifest.json';draft=json.loads(path.read_text())
+        for version in (None,True,0,3,'2'):
+            with self.subTest(version=version):
+                changed=dict(draft)
+                if version is None:changed.pop('history_rendering_version',None)
+                else:changed['history_rendering_version']=version
+                path.write_text(json.dumps(changed))
+                with self.assertRaises(ValueError):
+                    exp.validate_draft(self.source,self.base,self.output,verify_baseline=self.qual)
+
     def test_zero_posts_and_raw_tamper_rejected(self):
         self.record['posts']=0;self.completed.write_text(json.dumps(self.record))
         with self.assertRaises(ValueError): self.draft()
         self.record['posts']=1;self.completed.write_text(json.dumps(self.record));(self.case/'raw.jsonl').write_text('{}\n')
         with self.assertRaises(ValueError): self.draft()
+
+    def test_known_failed_execution_integrity_cannot_become_source_experience(self):
+        # Historical records predate the transport integrity field.
+        exp.source_evidence(self.source,self.base,verify_baseline=self.qual)
+        self.record['execution_integrity']={'passed':True}
+        self.completed.write_text(json.dumps(self.record))
+        exp.source_evidence(self.source,self.base,verify_baseline=self.qual)
+        self.record['execution_integrity']={'passed':False,'reason':'unmetered keep-alive requests'}
+        self.completed.write_text(json.dumps(self.record))
+        with self.assertRaisesRegex(ValueError,'execution integrity'):
+            exp.source_evidence(self.source,self.base,verify_baseline=self.qual)
+        with self.assertRaisesRegex(ValueError,'execution integrity'):self.draft()
+        self.assertFalse(self.output.exists())
 
     def test_feedback_skill_tamper_and_target_started_rejected(self):
         self.draft(); self.skill()
@@ -84,9 +181,14 @@ class ExperienceTests(unittest.TestCase):
 
     def test_frozen_manifest_validates_historical_source_and_detects_snapshot_change(self):
         self.draft();self.skill()
-        exp.freeze(self.source,self.base,self.output,verify_baseline=self.qual)
-        digest=exp.sha(self.output/'input_profile_manifest.json')
+        frozen=exp.freeze(self.source,self.base,self.output,verify_baseline=self.qual)
+        self.assertEqual(frozen['history_rendering_version'],2)
+        path=self.output/'input_profile_manifest.json';original=path.read_bytes();digest=exp.sha(path)
         self.assertEqual(exp.validate_frozen(self.source,self.base,self.output,digest,verify_baseline=self.qual)['status'],'FROZEN_BEFORE_TARGET')
+        frozen['history_rendering_version']=1;path.write_text(json.dumps(frozen))
+        with self.assertRaises(ValueError):
+            exp.validate_frozen(self.source,self.base,self.output,exp.sha(path),verify_baseline=self.qual)
+        path.write_bytes(original)
         (self.components/'outer_runner.py').write_text('changed')
         with self.assertRaises(ValueError): exp.validate_frozen(self.source,self.base,self.output,digest,verify_baseline=self.qual)
 

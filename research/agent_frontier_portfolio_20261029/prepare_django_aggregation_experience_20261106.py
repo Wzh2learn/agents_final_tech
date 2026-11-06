@@ -27,6 +27,7 @@ MARKERS = ('django__django-34176', '/pull/34176', '/issues/34176', '#34176')
 BACKENDS = {'student8b': {'model_id': 'qwen3-8b-qual', 'host': '127.0.0.1', 'port': 18104},
             'teacher35b': {'model_id': 'Qwen3.6-35B-A3B-Q4_K_M.gguf', 'host': '127.0.0.1', 'port': 8004},
             'teacher27b': {'model_id': 'qwen38-27b-fp8', 'host': '127.0.0.1', 'port': 8006}}
+HISTORY_RENDERING_VERSION = 2
 
 
 def sha(path: Path) -> str:
@@ -108,10 +109,20 @@ def decode_patch(document: str) -> bytes:
     return decode_field(document,'COMPLETE_SOURCE_DIFF')
 
 
-def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_baseline) -> dict:
+def check_history_version(version: int) -> int:
+    if type(version) is not int or version not in (1,HISTORY_RENDERING_VERSION):
+        raise ValueError('unsupported history rendering version')
+    return version
+
+
+def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_baseline,
+                    history_rendering_version: int = HISTORY_RENDERING_VERSION) -> dict:
+    check_history_version(history_rendering_version)
     completed=source/(EID+'.completed.json')
     if not completed.is_file(): raise ValueError('source has not completed; do not read live raw')
     record=read(completed); start=source/(EID+'.started.json'); started=read(start)
+    if record.get('execution_integrity',{}).get('passed') is False:
+        raise ValueError('source execution integrity failed; do not form learning inputs')
     if (record.get('status')!='COMPLETED' or type(record.get('posts')) is not int or record['posts']<1
             or record.get('started_sha256')!=sha(start)
             or (started.get('task'),started.get('condition'),started.get('seed'))!=('source','none',7201)):
@@ -143,9 +154,16 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
         if ev.get('type')=='tool_use':
             part=ev.get('part',{});state=part.get('state',{})
             inp=json.dumps(state.get('input',{}),ensure_ascii=False);out=str(state.get('output',''))
-            actions.append({'tool':part.get('tool'),'status':state.get('status'),'input_prefix':inp[:600],
-                            'input_chars':len(inp),'input_sha256':hashlib.sha256(inp.encode()).hexdigest(),
-                            'output_tail':out[-800:],'output_chars':len(out),'output_sha256':hashlib.sha256(out.encode()).hexdigest()})
+            action={'tool':part.get('tool'),'status':state.get('status'),'input_prefix':inp[:600],
+                    'input_chars':len(inp),'input_sha256':hashlib.sha256(inp.encode()).hexdigest(),
+                    'output_tail':out[-800:],'output_chars':len(out),'output_sha256':hashlib.sha256(out.encode()).hexdigest()}
+            # OpenCode failed actions put diagnostics in state.error, often with
+            # no output. Keep both channels; v1 remains exact for old manifests.
+            if history_rendering_version>=2:
+                error=str(state.get('error',''))
+                action.update({'error_tail':error[-800:],'error_chars':len(error),
+                               'error_sha256':hashlib.sha256(error.encode()).hexdigest()})
+            actions.append(action)
     if not actions:raise ValueError('source has no recorded tool actions')
     diff,changed,files=make_diff(baseline,case/'work')
     if any(marker.casefold() in (raw.read_text(encoding='utf8')+diff.decode('utf8',errors='replace')).casefold() for marker in MARKERS):
@@ -161,7 +179,8 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
     if 'broader_regression' in feedback:
         outcome['broader_regression']=feedback['broader_regression']
         outcome['source_artifact_qualification']=feedback.get('source_artifact_qualification')
-    return {'provenance':provenance,'outcome':outcome,'actions':actions,'diff':diff,'changed_paths':changed,'task':task_file.read_bytes()}
+    return {'provenance':provenance,'outcome':outcome,'actions':actions,'diff':diff,'changed_paths':changed,
+            'task':task_file.read_bytes(),'history_rendering_version':history_rendering_version}
 
 
 def body(label: str, evidence: dict, *, history: bool) -> str:
@@ -169,7 +188,10 @@ def body(label: str, evidence: dict, *, history: bool) -> str:
     result+='Changed paths:\n'+json.dumps(evidence['changed_paths'],ensure_ascii=True,indent=2)+'\n'
     if history:
         result+='Source task (ordered JSON parts):\n'+render_field('SOURCE_TASK',evidence['task'])
-        result+='Tool actions (input prefix 600 characters, output tail 800 characters; hashes retain identity):\n'
+        if evidence['history_rendering_version']==1:
+            result+='Tool actions (input prefix 600 characters, output tail 800 characters; hashes retain identity):\n'
+        else:
+            result+='Tool actions (status, input prefix 600 characters, output tail 800 characters, error tail 800 characters; hashes retain identity):\n'
         result+=render_field('ACTION_JSON',json.dumps(evidence['actions'],ensure_ascii=True,indent=2).encode())
     result+='Complete observed source unified diff; concatenate ordered JSON part text exactly:\n'
     result+=render_field('COMPLETE_SOURCE_DIFF',evidence['diff'])
@@ -185,7 +207,8 @@ def build_draft(source: Path, baseline: Path, output: Path, *, verify_baseline=v
     for name,text in [('source_history.md',body('Source-only ordinary history.',ev,history=True)),
                       ('feedback_card.md',body('Observed source edit and source outcome.',ev,history=False))]:
         (output/name).write_text(text,encoding='utf8')
-    manifest={'status':'DRAFT','source':ev['provenance'], 'action_count':len(ev['actions']),
+    manifest={'status':'DRAFT','history_rendering_version':HISTORY_RENDERING_VERSION,
+              'source':ev['provenance'], 'action_count':len(ev['actions']),
               'artifacts':{n:sha(output/n) for n in ('source_history.md','feedback_card.md')},
               'scope':'source-only; explicit identity screen does not prove pretraining independence'}
     (output/'draft_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf8')
@@ -193,7 +216,11 @@ def build_draft(source: Path, baseline: Path, output: Path, *, verify_baseline=v
 
 
 def validate_draft(source: Path, baseline: Path, output: Path, *, verify_baseline=verify_baseline) -> dict:
-    draft=read(output/'draft_manifest.json');ev=source_evidence(source,baseline,verify_baseline=verify_baseline)
+    draft=read(output/'draft_manifest.json')
+    # Missing version denotes the original renderer, including its omitted error
+    # channel. Never rewrite an already generated/frozen learning input.
+    ev=source_evidence(source,baseline,verify_baseline=verify_baseline,
+                       history_rendering_version=draft.get('history_rendering_version',1))
     if (draft.get('status')!='DRAFT' or draft['source']!=ev['provenance'] or
         any(sha(output/name)!=digest for name,digest in draft['artifacts'].items()) or
         (output/'source_history.md').read_text(encoding='utf8')!=body('Source-only ordinary history.',ev,history=True) or
@@ -319,6 +346,8 @@ def freeze(source: Path, baseline: Path, output: Path, *, verify_baseline=verify
     manifest={'status':'FROZEN_BEFORE_TARGET','source':draft['source'],
               'artifacts':{n:sha(output/n) for n in names},
               'scope':'development only; no target episode was visible in the source attempt family at freeze'}
+    if 'history_rendering_version' in draft:
+        manifest['history_rendering_version']=draft['history_rendering_version']
     if list(source.parent.glob('*/target__*.started.json')) or list(source.parent.glob('*/target__*.completed.json')):
         raise ValueError('target started during freeze')
     with final.open('x',encoding='utf8') as f:json.dump(manifest,f,ensure_ascii=False,indent=2);f.write('\n')
@@ -338,6 +367,7 @@ def validate_frozen(source: Path, baseline: Path, output: Path, expected_sha256:
     names={'source_history.md','feedback_card.md','generated_skill.md','skill_generation_request.json',
            'skill_generation_response.json','skill_generation_ledger.json','draft_manifest.json'}
     if (manifest.get('status')!='FROZEN_BEFORE_TARGET' or manifest.get('source')!=draft['source']
+            or check_history_version(manifest.get('history_rendering_version',1))!=draft.get('history_rendering_version',1)
             or set(manifest.get('artifacts',{}))!=names
             or any(sha(output/name)!=digest for name,digest in manifest['artifacts'].items())):
         raise ValueError('frozen source profile changed')

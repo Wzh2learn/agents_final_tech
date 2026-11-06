@@ -2,6 +2,10 @@
 import hashlib
 import importlib.util
 import json
+import http.client
+import socket
+import socketserver
+import threading
 from pathlib import Path
 import sys
 import tempfile
@@ -17,6 +21,108 @@ spec.loader.exec_module(runner)
 
 
 class DjangoResearchRunnerTests(unittest.TestCase):
+    def test_unmetered_or_unbound_source_cannot_be_qualified(self):
+        with tempfile.TemporaryDirectory() as td:
+            case=Path(td)
+            receipt={'model_http_requests':['POST /v1/chat/completions'],
+                     'sampling_metadata':[], 'step_finish_tokens':[{},{}]}
+            invalid=runner.execution_integrity(case,receipt)
+            self.assertFalse(invalid['passed'])
+            self.assertIn('model_usage_steps_disagree_with_counted_posts',invalid['failures'])
+            request=case/'model_request_bodies/00001.json'
+            request.parent.mkdir();request.write_bytes(b'{}')
+            receipt['step_finish_tokens']=[{}]
+            receipt['sampling_metadata']=[{'request_body_file':request.name,
+                                           'request_body_sha256':runner.sha(request)}]
+            self.assertTrue(runner.execution_integrity(case,receipt)['passed'])
+            request.write_bytes(b'{"changed":true}')
+            self.assertFalse(runner.execution_integrity(case,receipt)['passed'])
+
+    def test_keepalive_cannot_forward_a_second_uncounted_request(self):
+        """A persistent client must reconnect through the request budget gate."""
+        from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+        upstream_calls = []
+        counted = []
+
+        class Model(BaseHTTPRequestHandler):
+            protocol_version = 'HTTP/1.1'
+            def do_POST(self):
+                upstream_calls.append(self.rfile.read(int(self.headers['Content-Length'])))
+                self.send_response(200)
+                self.send_header('Content-Length', '2')
+                self.end_headers()
+                self.wfile.write(b'{}')
+                self.wfile.flush()
+            def log_message(self, *args): pass
+
+        model = ThreadingHTTPServer(('127.0.0.1', 0), Model)
+        class Bridge(socketserver.BaseRequestHandler):
+            def handle(self):
+                first = b''
+                while b'\r\n\r\n' not in first:
+                    first += self.request.recv(4096)
+                headers, body = first.split(b'\r\n\r\n', 1)
+                length = int(next(x.split(b':',1)[1] for x in headers.split(b'\r\n')
+                                  if x.lower().startswith(b'content-length:')))
+                while len(body) < length:
+                    body += self.request.recv(length-len(body))
+                counted.append(body)
+                if len(counted) > 2:
+                    self.request.sendall(b'HTTP/1.1 403 Forbidden\r\nConnection: close\r\nContent-Length: 0\r\n\r\n')
+                    return
+                with socket.create_connection(model.server_address, timeout=2) as upstream:
+                    upstream.sendall(headers+b'\r\n\r\n'+body)
+                    runner.relay_one_model_response(self.request, upstream)
+
+        bridge = socketserver.ThreadingTCPServer(('127.0.0.1',0), Bridge)
+        for server in (model, bridge):
+            threading.Thread(target=server.serve_forever, daemon=True).start()
+        client = http.client.HTTPConnection(*bridge.server_address, timeout=2)
+        try:
+            responses = []
+            for body in ('first','second','third'):
+                client.request('POST','/v1/chat/completions',body=body)
+                response = client.getresponse()
+                responses.append((response.status, response.getheader('Connection'), response.read()))
+            self.assertEqual([r[0] for r in responses], [200,200,403])
+            self.assertEqual([r[1] for r in responses], ['close']*3)
+            self.assertEqual(counted, [b'first',b'second',b'third'])
+            self.assertEqual(upstream_calls, [b'first',b'second'])
+        finally:
+            client.close()
+            for server in (bridge, model):
+                server.shutdown(); server.server_close()
+
+    def test_chunked_sse_is_forwarded_without_chunk_frames(self):
+        client, bridge = socket.socketpair()
+        upstream, model = socket.socketpair()
+        received = []
+        failures = []
+        def relay():
+            try:
+                received.append(runner.relay_one_model_response(bridge, upstream))
+            except Exception as exc:
+                failures.append(exc)
+            finally:
+                bridge.close(); upstream.close()
+        thread = threading.Thread(target=relay, daemon=True)
+        thread.start()
+        try:
+            model.sendall(b'HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\n'
+                          b'Transfer-Encoding: chunked\r\n\r\n'
+                          b'9\r\ndata: 1\n\n\r\nE\r\ndata: [DONE]\n\n\r\n0\r\n\r\n')
+            response = http.client.HTTPResponse(client)
+            response.begin()
+            self.assertEqual(response.getheader('Connection'), 'close')
+            self.assertIsNone(response.getheader('Transfer-Encoding'))
+            self.assertEqual(response.read(), b'data: 1\n\ndata: [DONE]\n\n')
+            thread.join(timeout=2)
+            self.assertFalse(thread.is_alive())
+            self.assertEqual(failures, [])
+            self.assertEqual(received, [{'status':200,'body_bytes':23,'complete':True}])
+        finally:
+            client.close(); model.close()
+
     def test_actual_actor_runtime_mount_is_created_and_cannot_hide_files(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td) / 'fresh_attempt'
