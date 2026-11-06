@@ -173,6 +173,19 @@ CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,74
 
 v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载、0forward、0优化步，不是OOM或学习负结果）。根已在新进程精确复现：reset_peak不触发CUDA初始化，必须先mem_get_info；现已修正并以失败→通过回归验证。`owned_window_v1`结束已恢复8B原argv/cwd（PID16445），共享35B/27B身份未变；5次健康GET、1次CUDA内存探测、零模型生成。旧窗口与receipt保留，随后v3在CUDA初始化处报OOM，仍0权重加载/0forward/0步；`owned_window_v2`已恢复原8B（PID24359），共享服务未变，7次健康GET/1次CUDA探测。两次都不是学习负结果。定向释放已绑定HF8B文件的clean页缓存，实测MemFree增加约8.7GB而MemAvailable近似不变；v4仅在逐shard完整核验后作同类建议，并记录原始异常堆栈与阶段，不保证显存足够。不改共享模型，不让此支持项阻塞主线。
 
+<a id="old-parent-baselines"></a>
+
+## 已闭合：旧Q4底座与两种执行接口
+
+冻结8B基线批次`heldout_frozen8b_v1`已闭合：原控制器PID29543已退出，Q下`run_context_study_heldout_frozen8b_v1.py`；代码epoch `62b197b8`，16题按冻结顺序全跑，stage ordinary_reset、无经验、无LoRA。评测protocol SHA `5af8c4579b8f14ed2fc3e2857b2928726b83a02c81e1b2b33ac81d4e18497aa2`。RESULT SHA `18e6873320b843a1256ba1b285e1036bb95fa62e866adaba24ae277fc5780c6c`：won为3/16（look2/4、cool1/4、clean0/4、heat0/4），755 POST、9,055,073输入＋33,410输出＝9,088,483tokens；其中缓存输入8,871,228是输入子集，不重复计费量。usage未知0。本专题累计2,824 POST/31,947,685tokens，不是项目全账；新16结果不进入训练或调SFT超参。
+
+独立复核16份receipt/manifest和755份原SSE无差异；13失败按最终停止原因分3个POST上限、4个context门、6个普通stop（均已继续一次）。4个零工具错误失败仍处理错对象或漏清洗。侧车`heldout_frozen8b_v1/independent_review_v1.json` SHA `65c72e1a017aff2f7dc4c45cd738953be545995c8b4526315d954961060c008f`。这支持检验合法动作基线，不证明所有失败都由动作格式引起。
+
+[直接策略](../alfworld_direct_policy.py)已在同16题实际跑完，服务端动态schema可用：native won为1/16（仅cool_03），比旧臂新增1题、丢失旧3题；7个context门、8个100动作耗尽的done-unwon、1个won。1271 POST/动作均在此前公开admissible列表，无非法动作；13,811,233输入＋9,819输出＝13,821,052tokens，缓存输入13,477,285为输入子集，unknown0。逐响应hash/usage、16个相同公共reset及独立native终态均复算通过。RESULT SHA `6f265b6a9416ffaef77e66823f61e4255fdb28fb661c4859fa3ed7084efee42b`；`COMPARISON_V1.json` SHA `f8f1d32b0724f6895955c94f3541bbcc64dd0fb9a7da7de2ed27c91ca172eaf9`。本专题生成累计4095 POST/45,768,737tokens，不含训练和研发Agent。
+
+该臂保留原目标/完整公共历史/权重/采样/caps及一次Continue，但同时去除OpenCode计划/工具结构并只准输出单动作JSON；结果不识别单独约束效应，也不代表强简单基线已经穷尽。不再修补此action-only臂。对照[ReAct §4](https://arxiv.org/html/2210.03629v3)及[官方ALFWorld入口](https://github.com/ysymyth/ReAct/blob/master/alfworld.ipynb)（2026-11-07已读，未复现成绩），后续保留同数据条件的计划/示例基线；不能把它们的收益改称新经验机制。原16题已属暴露开发数据，未进入SFT监督或超参选择。
+
+
 <a id="mechanism-reading"></a>
 
 ## 2026-11-07按需：近邻机制原文核对
