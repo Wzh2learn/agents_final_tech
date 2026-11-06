@@ -1,4 +1,4 @@
-# ALFWorld执行纠正：现役采集记录
+# ALFWorld：执行纠正与学习开发
 
 > 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景与已关闭的对照见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。目标是形成真实可执行的反馈监督，尚未训练或建立新方法贡献。
 
@@ -35,11 +35,29 @@
 
 CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,740，无排除或截断；逐个使用实际forwarded request和native SSE，历史消息及tool输出mask为-100，只当前助手动作completion＋单个im_end监督，尾部模板换行不计loss。HF模板前缀逐token相同；未加载权重、未调用CUDA或推理。`supervision_tokens_v1/teacher_drop_recent_qwen3_8b_v1/data_manifest.json` SHA `e12352162db845a61e14f337b722b17391262c08a953817c0316da388ebf124e`。数据量仍小，接受动作中也有冗余/探索，不能称逐步最优示范；训练比较须控制接口收益及来源不平衡。
 
-## 当前动作：普通成功经验与纠正经验的匹配对照
+## 已完成：从头执行的强教师与普通监督
 
-复用现有study新增`ordinary_reset`阶段：27B在相同18题从真实初始状态执行，使用与recent恢复一致的空历史/空经验提示合同；100实际动作、128 POST、1800秒总cap，普通stop未成功最多统一续做一次。无虚构失败source、不重放旧进度；与32 POST的学生collector不混称同预算。数据集按任务/布局配对，普通成功与纠正成功分开导出；交集用于匹配监督比较，全部失败仍计成本。
+`ordinary_teacher_v1/RESULT.json`已闭合：27B从真实reset执行原18题，成功16/18；265 POST、2,518,697tokens＝2,505,815输入＋12,882输出，usage缺失0，cache细分未知，episode用时合计2,003.724秒。clean_02、heat_01触输入上下文门而失败。RESULT SHA `e52b1c2d7b146b0f3884e8d65197691ee9e3cb83dd7d2ce4e1bc05e45f9ae085`，原PID4157942已退出；本专题累计2,069 POST/22,859,202tokens（不含更早项目账及研发Agent）。
 
-代码已发布为`9056b53d`；批次`context_study_v1/ordinary_teacher_v1`、owned PID4157942已启动，按冻结POOL顺序运行18题，driver为Q下`run_context_study_ordinary_teacher_v1.py`。终态以RESULT为准；STOP_REQUESTED加核验该PID的SIGTERM仅退出本批actor/relay/world，不停模型。它提供直接强模型成本基线和普通成功SFT监督，不把“有教师纠正”本身当新方法。8B HF权重已存在；CUDA空上下文探测两次OOM，暂不加载新GPU模型或改共享服务。4B继续作为支持项，不阻塞多任务数据与机制分析。
+同一12个原未完成任务上，直接教师从头完成11/12、160 POST；教师从学生现场恢复8/12、351 POST，尚未加学生形成费。clean_02只在恢复成功，cool_03/cool_04/look_02/look_04只在从头成功。两种起点、进度和上下文不同，这是配对开发诊断，不能归因为“重启/保留进度”的单独作用；也不能默认小模型失败后再接管更省。直接教师是必须保留的部署成本参照。
+
+16条成功轨迹导出171个接受动作，CPU编译7,311监督tokens、最长18,180、无截断/排除。chat manifest SHA `b7cbec3a1660e20f293a08b5feae2470a28e024a10f4d50267ff6e20ce7f8bb6`；token manifest `supervision_tokens_v1/teacher_ordinary_reset_qwen3_8b_v1/data_manifest.json` SHA `3e070a3e713279405b0e23db6fcd38ac75f5e95c8991997b09cbc7d779cb3675`。两条失败成本均保留，普通监督无虚构collector或重放费。
+
+## 当前动作：7组来源匹配的有界SFT开发
+
+普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
+
+两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。`learning_comparison_v1/plans/ordinary_v2` manifest SHA `ec4aa26b91041a316af0319e0704405d006a5d71e4195fd126c1b5c25bd3e2d4`；`recovery_v2` SHA `2b2364fa8a4c8dcfcae5ed327c2cce4503ee80a3a8fab88cac23180cfbce0217`。v1是未运行CPU草案，原样保留。训练前后不加入canary生成，实际学习效果随后按环境won评价。
+
+仅D在持有本study队列及owned18104窗口时显式运行，窗口不代表整GPU独占；共享35B/27B保持常驻，结束须恢复owned8B原argv/cwd与健康。OOM保留失败、实际步数与未知项，不自动换模型/截样或改共享服务。4B不是前置。HF8B五shard共16,381,516,776bytes已完整绑定；`HF8B_MODEL_BINDING_V1.json` SHA `b8d5af477c1f6be67981583a4a60df9561ea53872e0676535aa9745fce011dc1`。它不证明与旧GGUF权重数值等价；部署比较要保持相同推理基座/量化与接口。
+
+## 新布局与第二环境
+
+另冻结16个development-heldout任务：clean/heat/cool/look各4，16布局/UID；排除原28个已知布局。`heldout_pool_v1/POOL.json` SHA `5f1eb3820881d797867c8348e71559a57d339a753bb88ef5b7bf70530095be00`，资格SHA `3ff9f90bb2a254f38db43817d73df84b42095a818554d19199161deace9b3e65`；官方expert/native控制16/16通过，CPU89.53秒，无替换。仍是官方train来源的本地开发留出，不是跨来源或正式确认；expert轨迹为EVAL_ONLY，禁止进入训练。原18配额因可用heat/cool合计8布局而需9不可行，先改四类各4并冻结元数据匹配规则，再运行控制；原阻断证据保留。
+
+未来三臂共同使用相同actor/输入/cap，分别报告12个训练已见类型任务和4个未在本轮SFT出现的clean非退化检查，以及整体16题；不凭环境资格宣称模型已评测。
+
+Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。尚无模型运行，未来完整actor可读面未验收，公开复现当前为空SQLite查询，不把13项测试算13任务。
 
 ## 方法重叠与下一验证
 
@@ -53,6 +71,6 @@ CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,74
 
 ## 本轮判读与训练对照取舍
 
-Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督；UNVERIFIED：它是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：先完成直接教师/普通成功池与逐completion标签；在交集任务上匹配基座、来源权重、有效监督token、步数与评测接口，再做小规模学习开发。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若无稳定独立任务增益或简单goal/合法动作/循环控制已解释收益，停止复杂学习候选，保留数据与负结果；不为等所有环境/模型资格而延迟有界开发。First action：验证当前普通18题终态，随后配对编译两类监督。
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督；UNVERIFIED：它是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：先完成直接教师/普通成功池与逐completion标签；在交集任务上匹配基座、来源权重、有效监督token、步数与评测接口，再做小规模学习开发。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若无稳定独立任务增益或简单goal/合法动作/循环控制已解释收益，停止复杂学习候选，保留数据与负结果；不为等所有环境/模型资格而延迟有界开发。First action：完成独立数据复核后，显式运行两臂有限SFT，再在冻结新布局上比较。
 
 新薄包`alfworld_teacher_complete_supervision_v2_20261107.tar.gz`（1,553成员，5,421,100bytes；SHA `5361d083bdeb7599efce2781667ae2903cc05ab93507b0445d23036dd7954bf2`）已在GB10、本机逐成员核验；manifest SHA `37997af7e5f5d5460315c078454b1eb94b7d8b8e314c78651e46362ca9117403`。依赖前述source/四诊断薄包；不含在途普通18题，也不是公开可再分发数据包。
