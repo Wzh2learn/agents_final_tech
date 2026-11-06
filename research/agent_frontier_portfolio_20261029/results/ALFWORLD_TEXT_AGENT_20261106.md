@@ -139,6 +139,23 @@ none/v2为62POST、903,356已知provider tokens、48合法动作/12次invalid ac
 
 两开发目标、各单seed下普通skill仅heat成功，无历史/历史/摘要均未成功，27B直接两题均成功。它提供了真实可复用的正向迁移轨迹与具体失败残差；下一用相同失败动作前缀恢复实际环境，比较fresh-session中性继续、仅终态合同提醒和教师接管，判断简单策略是否已解释恢复，再决定学习机制。整个pilot（两源＋编译、旧clean五臂、nativeFalse clean四臂、heat五臂；不含此前环境资格/初始calibration）物理合计469POST/6,179,533provider tokens，未重复计算复用的none/v2；不同模型token不视为等价算力。
 
+heat独立AI只读审计侧车SHA `bf98101e3b75e58bc21bdb6a612a5c8ab38a1bb975d53a51da904710c8732cd7`核对上述终态/成本、实际forwarded nativeFalse、源writer只含公开经验、F早于target reservation及无特权读取；不替代未见任务确认。heat完整目标与新审计已双端逐项保存为907成员私有薄包，SHA `08bbec92fd22eb7a176df16fdd97d106666a4e6d6d9f58a5708d445b390f7425`。clean新三臂和独立nativeFalse审计的566成员包SHA `ac2d632b9ca5053dc316914716d6f4c5dbaf4ddfb70330b3cf8f60db302f9319`。
+
+### 相同失败前缀的恢复对照
+
+新增[恢复器](../run_alfworld_recovery_20261106.py)不修改CBC actor或原pilot合同。固定失败源manifest/receipt/world trace，真实reset后逐条重放已接受动作并比较每个公开state；非法工具请求不冒充world动作。两个backend给同一公开投影：原任务、完整历史动作/观察、完整当前state及admissible commands；不恢复原OpenCode对话，也不含PDDL/专家。preflight/mock不触模型；真实execute要求manifest SHA、独占reservation、实际模板token门，旧失败和source F不改。
+
+heat history失败源8动作/9POST后未成功，两臂同额剩余119POST/1754秒/92个actor动作；world总动作帽100包括重放8步。旧9POST物理成本只计一次，重放控制动作/CPU另列。冻结`failure_recovery_v1/heat2_recovery_comparison_v1/FROZEN_PLAN.json` SHA `0746e46996c1539b825e8faa86a59ebce7e7e18fd12eb978624a5ddd9cf61707`，顺序8B neutral→27B neutral；只有8B neutral未成功时才另冻并运行8B terminal_guard。两臂actual roots为`failure_recovery_v1/heat2_history_v1/<backend>/attempt_v1`，均已结束，不重复执行。恢复器源码SHA `cad06ec2b6f9e144fea29c17061b9527d07b7df13ecbf5784fb0870d9a0ce8ca`；当前任务/layout显式排除未来确认。
+
+| 相同真实失败状态的fresh-session | native won | 新动作 / POST | 新provider tokens | receipt SHA-256 |
+| --- | --- | --- | --- | --- |
+| 8B中性继续 | true | 9 / 18 | 117,535 | `16bb5056d370cc0ae2320d82454bed38911c27e20c2679d7937e3e9d837be193` |
+| 27B教师接管 | true | 5 / 6 | 34,401 | `e7d3394b82f38d519de5262428032a0c2c38e6e2ac7cc8787dd947e18024deac` |
+
+两臂逐步重放8个旧world动作后再行动；无errors/relay errors，usage完整。新增24POST/151,936tokens；8B中性已成功，按事前分支跳过terminal_guard。简单fresh-session能从该失败状态恢复，故原skill成功不能独占归因于其内容或新抽象机制；不等于否定skill从reset的开发正例，也不等于两种对话状态完全相同。教师接管已给出经过真实执行的纠正，旧“从reset成功不代表从学生失败状态纠正”的资格缺口在这一任务上补齐。
+
+两个actor的纠正记录及8个精确代码组件冻结于`failure_recovery_v1/qualified_corrections_v1/FROZEN_MANIFEST.json`，SHA `06a6313b8d62709699dfe8e88b13e9736b24d3daccee22eaa98abeb56893b7c1`。它们属于同一已暴露任务/布局的一个来源组，不拆成两个独立训练/确认组。`qualified_world_correction=true`但`training_ready=false`：仍需assistant-only loss mask、匹配base/adapter推理接入及更多独立来源/留出评测。恢复器/原actor/编译器共52tests及83subtests通过；资格receipt SHA `1b2d3394a7ba66b9603328b9bd2ac7b9bba5b9d6f937eb6894bbcea9a45a2c80`。所有mock标明假请求且不授予真实纠正资格；未新训练。
+
 下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
 
 旧五臂、两源冻结载体/编译raw、none/v2及两版精确代码快照已打私有薄包，SHA `0dc93c35005a90b1091fc8b62ff725ce010f72cdc26ab2e7ee3b957e39ee5145`，789成员双端逐项验证；不含actor workspace/runtime或全量游戏。独立新侧车及在途三臂另行保存，不改原包。
