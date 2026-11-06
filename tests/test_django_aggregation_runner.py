@@ -67,8 +67,10 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_feedback_repair')
         with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_joint_feedback_repair')
         profile={'context':65536,'output':16384}
-        original="cfg={'limit':{'context':32768,'output':8192}}"
-        self.assertIn("'context':65536,'output':16384",runner.set_model_limits(original,profile,'teacher35b'))
+        original="cfg={'options':{'timeout':300000},'limit':{'context':32768,'output':8192}}"
+        upgraded=runner.set_model_limits(original,profile,'teacher35b')
+        self.assertIn("'context':65536,'output':16384",upgraded)
+        self.assertIn("'timeout':900000",upgraded)
         self.assertEqual(runner.set_model_limits(original,{'context':32768,'output':8192},'student8b'),original)
 
     def test_live_server_arguments_must_match_the_frozen_profile(self):

@@ -136,3 +136,13 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 同命令重放219项扩大集合：base与续修均1 error、gold无失败，各skip1。receipt `c0da3f0f33fb1bd98bcef174d1e49c5af5dadc49ea2f19e366a5c4f0e1b65fa1`。消除了新回归但恢复原bug，尚无适合传播的完整正向示范。
 
 下一强简单对照`teacher_joint_feedback_repair`仍从**同一个首次教师候选**开始，使用相同profile、父diff、公开失败和预算，仅再列出该候选已通过的关键/65项回归/原题观察，明确新修订须同时保持原题修复与原有行为。父原题语义通过由`expected_data=true`与无异常核验，不把exit0当正确；不给gold补丁、隐藏断言或目标题信息。它是见过单项反馈结果后设计的一次开发对照，不冒充预注册机制确认。若简单联合要求就解决问题，后续学习方法必须超过这个基线；若仍失败，本对不继续堆教师提示，保留失败并转其他来源或明确标注的参考辅助监督。
+
+联合首启`teacher_joint_feedback_repair_35b_20261106`在第13次POST等待约300秒后收到`The operation timed out`，12个完整usage步骤，358.732秒、Agent exit1；0次源码编辑，不能裁决联合要求的语义效果。completed SHA `4e888fb10abd281f4752dbf4de0c77edf5b67e3122b880b6a90b9cffc05ea8d0`，raw `cf957f6d7a8fafce297e538713e50b280e0a98efce77e97ccad10242804386df`。已报告283,711tokens＝缓存249,263＋未缓存输入32,531＋输出1,917；末次调用未回usage，总量仍有未知，不记0或用下轮填补。初始产物保留原题通过/1项公开回归，扩大检查receipt `7ecb4936bc89729849efb158156c3ebd29f0201e3b9ded1f249e6001034eeb35`。
+
+实测opencode配置的request timeout仍为300,000ms，虽然教师output上限已为16,384；隔离harness把教师客户端等待改为900,000ms，8B仍300,000，episode48POST/1200秒/6MB及模型、题面、反馈、候选均保持。追加1次只读slots GET确认旧调用已不在处理；教师准备/观察累计5GET。新attempt只作相同联合合同的传输修复重跑，不按首启推断方法无效；开始前核对题面hash及归一化harness仅timeout不同。补记录usage步骤与物理POST计数是否一致，避免把部分usage当完整总成本。
+
+## 下一来源资产筛查
+
+已下载的Relationship.parquet第81行原配对为SymPy14774→19235，经验/目标记录时间2018-06-05与2020-05-01、关联issue14768/19235；base分别`8fc63c2d71752389a44367b8ef4aba8a91af6a45`、`226b942f0748819d5d2d723b91591fed4975961c`。可借原SymPy Python3.8环境与资格工具，但新对仍须核原题、base/gold及source merge祖先，不能复用旧对成绩。
+
+第70行scikit25638→25637也是数据原配对，但source experience_issue_url与target related_issue_url都指向issue25637，先暂停把它作独立迁移候选；尚不判定数据集违规。记录时间先后不等于merge/base祖先，也不等于来源隔离。关系表SHA `f59b1a0fd021c6608bd185f15113cbbd26f804c20494da6d4827adb9ea70edb5`，Lite Experience `7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4`，Related Lite `1930b392f7beb17a0d87c2e79d1eb889af2c5996b23a003386651ba64a68b8f3`。本盘点0生成，资格结果单独记录。

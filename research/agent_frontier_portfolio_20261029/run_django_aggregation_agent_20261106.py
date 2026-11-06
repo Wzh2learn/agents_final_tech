@@ -220,7 +220,8 @@ def set_model_limits(code: str, profile: dict, backend: str) -> str:
         if (profile['context'],profile['output']) != (32768,8192):raise ValueError('student limits changed')
         return code
     if (profile['context'],profile['output']) != (65536,16384):raise ValueError('teacher limits changed')
-    return core.replace_once(code,old,"'limit':{'context':65536,'output':16384}")
+    code=core.replace_once(code,old,"'limit':{'context':65536,'output':16384}")
+    return core.replace_once(code,"'timeout':300000","'timeout':900000")
 
 
 def clean_root(task: str) -> Path:
@@ -709,6 +710,7 @@ def main() -> None:
             raise ValueError('components changed during snapshot')
         plan = {'task': task, 'condition': condition, 'seed': CASES[task][4], 'max_posts': MAX_POSTS,
                 'backend_kind': args.backend, 'profile_context': profile['context'], 'profile_output': profile['output'],
+                'request_timeout_ms': 900000 if args.backend == 'teacher35b' else 300000,
                 'max_seconds': MAX_SECONDS, 'model_profile_sha256': args.model_profile_sha256,
                 'projection_sha256': args.actor_manifest_sha256, 'pg_socket_manifest_sha256': args.pg_socket_sha256,
                 'live_backend': backend, 'live_postgres': live_pg,
@@ -741,6 +743,9 @@ def main() -> None:
                          'posts': sum(s.startswith('POST ') for s in receipt['model_http_requests']),
                          'denied': [s for s in receipt['model_http_requests'] if s.startswith('DENIED')],
                          'reported_tokens': sum(t.get('total', 0) for t in receipt['step_finish_tokens']),
+                         'reported_usage_steps': len(receipt['step_finish_tokens']),
+                         'usage_step_count_matches_posts': len(receipt['step_finish_tokens']) == sum(
+                             s.startswith('POST ') for s in receipt['model_http_requests']),
                          'cache_read_included': sum(t.get('cache', {}).get('read', 0) for t in receipt['step_finish_tokens']),
                          'seed_temperature_model_forwarded': forwarded,
                          'post_run_evaluation': run_evaluator(task, case, control, actor, pg)})
