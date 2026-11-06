@@ -42,9 +42,9 @@ v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载�
 
 未来三臂共同使用相同actor/输入/cap，分别报告12个训练已见类型任务和4个未在本轮SFT出现的clean非退化检查，以及整体16题；不凭环境资格宣称模型已评测。
 
-冻结8B基线批次`heldout_frozen8b_v1`已启动，owned控制器PID29543，Q下`run_context_study_heldout_frozen8b_v1.py`；代码epoch `62b197b8`，16题按冻结顺序全跑，stage ordinary_reset、无经验、无LoRA。评测protocol SHA `5af8c4579b8f14ed2fc3e2857b2928726b83a02c81e1b2b33ac81d4e18497aa2`。先核进程/RESULT，不重复启动；STOP_REQUESTED加该已核PID SIGTERM只停本批actor/relay/world。新16结果不进入训练或调SFT超参。
+冻结8B基线批次`heldout_frozen8b_v1`已闭合：原控制器PID29543已退出，Q下`run_context_study_heldout_frozen8b_v1.py`；代码epoch `62b197b8`，16题按冻结顺序全跑，stage ordinary_reset、无经验、无LoRA。评测protocol SHA `5af8c4579b8f14ed2fc3e2857b2928726b83a02c81e1b2b33ac81d4e18497aa2`。RESULT SHA `18e6873320b843a1256ba1b285e1036bb95fa62e866adaba24ae277fc5780c6c`：won为3/16（look2/4、cool1/4、clean0/4、heat0/4），755 POST、9,055,073输入＋33,410输出＝9,088,483tokens；其中缓存输入8,871,228是输入子集，不重复计费量。usage未知0。本专题累计2,824 POST/31,947,685tokens，不是项目全账；新16结果不进入训练或调SFT超参。
 
-首个closed新题128POST仅3个接受动作、125次invalid_action；模型混用了cloth/towel并重复put/drop语法。仅为首例观察，不外推全部失败。补充准备“native JSON合法动作选择”的强简单组合基线，复用相同world/目标/完整历史/模型/预算；尚无此新臂结果，差异不能单独归因去掉OpenCode，也不称新方法。
+首个closed新题128POST仅3个接受动作、125次invalid_action；模型混用了cloth/towel并重复put/drop语法。仅为首例观察，不外推全部失败。新增[直接策略](../alfworld_direct_policy.py)与离线控制：复用同world/原目标/完整公共历史/8B权重/采样/预算，native JSON动态enum仅允许当前公开admissible_commands或显式stop；未won最多一次固定Continue。不向actor提供expert、别名规则或私有参考。GB10离线13测试/12 subtests通过，仅证明实现合同；服务端schema尚待实际运行验证，拒绝则保留失败、不降级。下一步按原16题冻结顺序执行全部，单题仍128 POST/100动作/1800秒、32K上下文及8192输出。此臂同时改变接口与动作约束，是强简单组合基线，不能单独归因去掉OpenCode，也不是新方法。
 
 Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。尚无模型运行，未来完整actor可读面未验收，公开复现当前为空SQLite查询，不把13项测试算13任务。
 
@@ -60,6 +60,6 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 ## 本轮判读与训练对照取舍
 
-Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督；UNVERIFIED：它是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：先完成直接教师/普通成功池与逐completion标签；在交集任务上匹配基座、来源权重、有效监督token、步数与评测接口，再做小规模学习开发。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若无稳定独立任务增益或简单goal/合法动作/循环控制已解释收益，停止复杂学习候选，保留数据与负结果；不为等所有环境/模型资格而延迟有界开发。First action：完成独立数据复核后，显式运行两臂有限SFT，再在冻结新布局上比较。
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督，16新布局冻结8B为3/16；UNVERIFIED：纠正监督是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：先用native合法动作组合基线检验执行残差，再让有限SFT服务明确问题。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：完成16题native基线与冻结8B逐任务比较，再决定SFT及第二环境的具体投入。
 
 新薄包`alfworld_teacher_complete_supervision_v2_20261107.tar.gz`（1,553成员，5,421,100bytes；SHA `5361d083bdeb7599efce2781667ae2903cc05ab93507b0445d23036dd7954bf2`）已在GB10、本机逐成员核验；manifest SHA `37997af7e5f5d5460315c078454b1eb94b7d8b8e314c78651e46362ca9117403`。依赖前述source/四诊断薄包；不含在途普通18题，也不是公开可再分发数据包。
