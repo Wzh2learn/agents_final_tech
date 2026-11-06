@@ -20,7 +20,8 @@ sys.modules[spec.name] = r
 spec.loader.exec_module(r)
 
 PUBLIC_KEYS = ("observation", "score", "done", "won", "action_count", "admissible_commands")
-ARMS = ("collect", "keep_full", "keep_recent", "drop_full", "drop_recent")
+RECOVERY_ARMS = ("keep_full", "keep_recent", "drop_full", "drop_recent")
+ARMS = ("collect", "collect_none", "goal_recent") + RECOVERY_ARMS
 EXPERIENCE = '\n  SOURCE_EXPERIENCE_BEGIN\n`tool` "quoted" 中文\nSOURCE_EXPERIENCE_END\n\n'
 
 
@@ -79,6 +80,46 @@ def render(reset, steps, current, keep, window):
 
 
 class ContextPromptTests(unittest.TestCase):
+    def test_restatement_adds_only_the_existing_public_goal_to_drop_recent(self):
+        reset, steps, current = prompt_inputs()
+        baseline = render(reset, steps, current, False, "recent")
+        restated = r.recovery_prompt(reset, steps, current, EXPERIENCE, "goal_recent")
+        goal = reset["observation"].split("Your task is to:", 1)[1].strip()
+        self.assertEqual(restated, baseline +
+            "\nCurrent task to finish (restated from the public reset): " + goal + "\n")
+        self.assertNotIn("SOURCE_EXPERIENCE_BEGIN", restated)
+        self.assertNotIn("NEVER_RENDER", restated)
+        for stage in RECOVERY_ARMS:
+            with self.subTest(stage=stage):
+                self.assertEqual(r.recovery_prompt(reset, steps, current, EXPERIENCE, stage),
+                    render(reset, steps, current, stage.startswith("keep_"), stage.split("_")[1]))
+        for observation in ("No explicit public goal.", "Your task is to:",
+                            "Your task is to: heat egg.\nUnrelated extra text.",
+                            "Your task is to: heat egg. Your task is to: clean egg."):
+            with self.subTest(observation=observation), self.assertRaises(ValueError):
+                r.recovery_prompt(dict(reset, observation=observation), steps, current, EXPERIENCE, "goal_recent")
+
+    def test_no_experience_collection_uses_same_task_without_any_carrier(self):
+        def frozen_task(state, condition="none", experience=None):
+            prompt = "FROZEN_TASK:" + state["observation"]
+            return prompt if condition == "none" else prompt + "\n" + experience
+
+        core = SimpleNamespace(condition_prompt=mock.Mock(side_effect=frozen_task))
+        rec = SimpleNamespace(actor=lambda: core)
+        reset, _, _ = prompt_inputs()
+        assignment = {"carrier": "ordinary_public_history"}
+        with mock.patch.object(r, "recovery", return_value=rec):
+            ordinary = r.collection_prompt(reset, "collect", assignment, EXPERIENCE)
+            plain = r.collection_prompt(reset, "collect_none", assignment, EXPERIENCE)
+            alternate = r.collection_prompt(reset, "collect_none", assignment, "OTHER_SOURCE")
+            with self.assertRaises(ValueError):
+                r.collection_prompt(reset, "drop_recent", assignment, EXPERIENCE)
+        self.assertEqual(ordinary, plain + "\n" + EXPERIENCE)
+        self.assertEqual(plain, alternate)
+        self.assertIn(reset["observation"], plain)
+        self.assertNotIn("SOURCE_EXPERIENCE_BEGIN", plain)
+        self.assertEqual(core.condition_prompt.call_args_list[1], mock.call(reset, "none"))
+
     def test_four_arms_preserve_full_goal_current_state_and_shared_tool_contract(self):
         reset, steps, current = prompt_inputs()
         before = copy.deepcopy((reset, steps, current))
@@ -440,7 +481,7 @@ class ContextCollectorBindingTests(unittest.TestCase):
             pointer = f.root.parents[2] / "RECOVERY_COHORT.json"
             self.assertFalse(pointer.exists())
             frozen_bytes, binding = None, None
-            for arm in ARMS[1:]:
+            for arm in RECOVERY_ARMS:
                 episode = f.root.parents[2] / arm / "student8b/attempt_v1"
                 current = r.cohort_binding(episode, prefix, f.protocol_sha)
                 self.assertEqual(Path(current["path"]), pointer)

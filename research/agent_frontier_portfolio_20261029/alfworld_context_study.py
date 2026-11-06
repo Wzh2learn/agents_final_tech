@@ -20,7 +20,7 @@ QUAL = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfwor
 HERE = Path(__file__).resolve().parent
 RECOVERY_SHA = 'cad06ec2b6f9e144fea29c17061b9527d07b7df13ecbf5784fb0870d9a0ce8ca'
 RECENT_STEPS = 3
-STAGES = ('collect', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent')
+STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent')
 PUBLIC_KEYS = ('observation', 'score', 'done', 'won', 'action_count', 'admissible_commands')
 CONTINUE = 'Continue the unfinished task.'
 _REC = None
@@ -63,6 +63,16 @@ def public(value):
     return result
 
 
+def collection_prompt(reset, stage, assignment, experience):
+    """The no-experience control uses the identical frozen task/controller."""
+    core = recovery().actor()
+    if stage == 'collect_none':
+        return core.condition_prompt(reset, 'none')
+    if stage != 'collect':
+        raise ValueError('not a collection condition')
+    return core.condition_prompt(reset, assignment['carrier'], experience)
+
+
 def render_prompt(reset, steps, current, experience, keep, window):
     if type(keep) is not bool or window not in {'full', 'recent'} or not isinstance(experience, str):
         raise ValueError('invalid context condition')
@@ -82,6 +92,23 @@ def render_prompt(reset, steps, current, experience, keep, window):
         'not fresh evidence. Follow the current goal rather than an old object or procedure. Every accepted action '
         'including look consumes a real step. Continue autonomously. Stop when done is true, and claim success only '
         'after an actual response has won=true. There is no reset, game selection or administrative operation.\n')
+
+
+def recovery_prompt(reset, steps, current, experience, stage):
+    if stage not in {'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent'}:
+        raise ValueError('not a recovery condition')
+    text = render_prompt(reset, steps, current, experience, stage.startswith('keep_'), stage.split('_')[1])
+    if stage == 'goal_recent':
+        # Repetition of an already supplied public goal, never a reference plan.
+        observation = public(reset)['observation']
+        marker = 'Your task is to:'
+        if observation.count(marker) != 1:
+            raise ValueError('public goal must be unambiguous for restatement')
+        goal = observation.split(marker, 1)[1].strip()
+        if not goal or '\n' in goal:
+            raise ValueError('public goal must be a single visible instruction')
+        text += '\nCurrent task to finish (restated from the public reset): ' + goal + '\n'
+    return text
 
 
 def remaining_caps(total, receipt):
@@ -231,7 +258,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     profile = core.load_profile(backend)
     game, pool, assignment, experience = read_case(study, case_id)
     prefix = load_prefix(source_root, case_id) if source_root else None
-    if (stage == 'collect') != (prefix is None):
+    if (stage in {'collect', 'collect_none'}) != (prefix is None):
         raise ValueError('only collection has no source prefix')
     cohort = cohort_binding(root,prefix,protocol_sha) if prefix else None
     caps = study['collection_caps'] if prefix is None else remaining_caps(study['total_caps'], prefix['receipt'])
@@ -247,8 +274,8 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     finally:
         if world:
             core.stop_world(world)
-    prompt = (core.condition_prompt(reset, assignment['carrier'], experience) if stage == 'collect' else
-              render_prompt(reset, prefix['steps'], current, experience, stage.startswith('keep_'), stage.split('_')[1]))
+    prompt = (collection_prompt(reset, stage, assignment, experience) if prefix is None else
+              recovery_prompt(reset, prefix['steps'], current, experience, stage))
     (root / 'task.txt').write_bytes(prompt.encode())
     core.write_new(root / 'opencode_config.json', core.config(profile, model_seed))
     core.write_new(root / 'initial_reset.json', reset)
@@ -301,8 +328,8 @@ def verify(root, digest):
             raise ValueError('frozen actor input changed')
     reset = json.loads((root/'initial_reset.json').read_text())
     current = json.loads((root/'handoff_public.json').read_text())
-    expected = (core.condition_prompt(reset, assignment['carrier'], experience) if prefix is None else
-                render_prompt(reset,prefix['steps'],current,experience,m['stage'].startswith('keep_'),m['stage'].split('_')[1]))
+    expected = (collection_prompt(reset, m['stage'], assignment, experience) if prefix is None else
+                recovery_prompt(reset,prefix['steps'],current,experience,m['stage']))
     if (root/'task.txt').read_bytes() != expected.encode() or hashlib.sha256(experience.encode()).hexdigest() != m['experience_text_sha256']:
         raise ValueError('prompt or source carrier changed')
     binding, qualify = recovery().token_qualifier(m['backend'],p)
@@ -413,7 +440,7 @@ def run_episode(root, digest, *, fake_endpoint=None):
                            'world_state_before':state,'world_reset':False,'new_method':False})
         status = 'RETURNED'
     except subprocess.TimeoutExpired:
-        status = 'COLLECTION_TIMEOUT' if m['stage']=='collect' else 'EPISODE_TIMEOUT'
+        status = 'COLLECTION_TIMEOUT' if m['stage'] in {'collect', 'collect_none'} else 'EPISODE_TIMEOUT'
     except Exception as exc:
         errors.append({'type':type(exc).__name__,'error':str(exc)})
     finally:
