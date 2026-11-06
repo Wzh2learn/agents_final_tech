@@ -342,5 +342,216 @@ class ActorContractTests(unittest.TestCase):
             self.assertEqual(list(Path(tmp).iterdir()), [])
 
 
+    def pool_fixture(self, temporary):
+        qual = Path(temporary) / "qual"
+        base = qual / "source_expansion_v1"
+        base.mkdir(parents=True)
+        assets = qual / "assets"
+        assets.mkdir()
+        archives = {}
+        for name in ("json_2.1.1_json.zip", "json_2.1.2_tw-pddl.zip"):
+            path = assets / name
+            path.write_bytes(("unit archive " + name).encode())
+            archives[name] = {"path": str(path), "sha256": actor.sha(path)}
+        receipt = base / "RECEIPT.json"
+        receipt.write_text(json.dumps({"archives": archives}))
+        rows = []
+        for category in ("clean", "heat", "cool", "plain_place"):
+            for index in (1, 2):
+                identifier = category + "_" + str(index)
+                game = base / "private_game_assets" / identifier / "game.tw-pddl"
+                game.parent.mkdir(parents=True)
+                game.write_bytes(("private game " + identifier).encode())
+                trajectory = game.with_name("traj_data.json")
+                trajectory.write_bytes(("private trajectory " + identifier).encode())
+                rows.append({"id": identifier, "category": category, "layout": index,
+                             "private_game_path": str(game), "game_sha256": actor.sha(game),
+                             "traj_sha256": actor.sha(trajectory), "game_member": identifier + "/game.tw-pddl",
+                             "traj_member": identifier + "/traj_data.json",
+                             "private_expert_path": "/NEVER_READ/private_expert/" + identifier})
+        pool = base / "FUTURE_POOL.json"
+        pool.write_text(json.dumps({"receipt_sha256": actor.sha(receipt), "games": rows}))
+        return qual, pool, receipt, rows
+
+    def test_default_caps_stay_legacy_and_new_caps_are_explicit_and_bounded(self):
+        self.assertEqual(actor.episode_caps(), {"posts": 48, "seconds": 1200, "world_actions": 100,
+                                               "model_payload_bytes_combined": 6_000_000})
+        expanded = {"posts": 128, "seconds": 1800, "world_actions": 100,
+                    "model_payload_bytes_combined": 64_000_000}
+        self.assertEqual(actor.episode_caps(expanded), expanded)
+        for changes in ({"posts": 129}, {"posts": True}, {"seconds": 1801},
+                        {"world_actions": 101}, {"model_payload_bytes_combined": 64_000_001},
+                        {"posts": 0}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                actor.episode_caps({**expanded, **changes})
+
+    @unittest.skipUnless(hasattr(socket, "AF_UNIX"), "Unix sockets required")
+    def test_relay_receives_manifest_caps_instead_of_budget_defaults(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            qual = Path(temporary)
+            model = qual / "m0"
+            model.mkdir()
+            root = qual / "episode"
+            root.mkdir()
+            caps = {"posts": 128, "seconds": 1800, "world_actions": 100,
+                    "model_payload_bytes_combined": 64_000_000}
+            with mock.patch.object(actor, "QUAL", qual), \
+                    mock.patch.object(actor, "load_relay", return_value=lambda *args: None), \
+                    mock.patch.object(actor.socket, "create_connection", side_effect=AssertionError("model probe")):
+                relay = actor.ModelRelay(root, model, "student8b", profile(), 17, ("127.0.0.1", 1),
+                                         caps, actor.model_payload({}, "student8b", profile(), 17))
+                try:
+                    self.assertEqual(relay.budget.max_posts, 128)
+                    self.assertEqual(relay.budget.max_bytes, 64_000_000)
+                    import time
+                    self.assertGreater(relay.budget.deadline - time.monotonic(), 1795)
+                    for _ in range(128):
+                        relay.budget.reserve(1)
+                    with self.assertRaises(ValueError):
+                        relay.budget.reserve(1)
+                finally:
+                    relay.close()
+
+    def test_pool_binds_exact_ids_archive_and_selected_asset_hashes_without_oracle(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            qual, pool, receipt, rows = self.pool_fixture(temporary)
+            digest = actor.sha(pool)
+            with mock.patch.multiple(actor, QUAL=qual, POOL_SHA=digest,
+                                     POOL_RECEIPT_SHA=actor.sha(receipt)):
+                game, binding = actor.select_game("clean_1", pool, digest)
+                self.assertEqual(actor.sha(game["game_path"]), rows[0]["game_sha256"])
+                self.assertEqual(binding["sha256"], digest)
+                self.assertEqual(set(binding["archives"]),
+                                 {"json_2.1.1_json.zip", "json_2.1.2_tw-pddl.zip"})
+                self.assertNotIn("private_expert", json.dumps([game, binding]))
+                for identifier, path, sha in (("../../secret", pool, digest),
+                                               ("clean_1", pool, "0" * 64),
+                                               ("clean_1", None, digest),
+                                               ("clean_1", pool, None)):
+                    with self.subTest(identifier=identifier, path=path, sha=sha), self.assertRaises(ValueError):
+                        actor.select_game(identifier, path, sha)
+                with self.assertRaises(ValueError):
+                    actor.select_game("clean_1")  # No arbitrary pool id in legacy mode.
+                for asset in [qual / "assets/json_2.1.2_tw-pddl.zip",
+                              Path(rows[0]["private_game_path"]),
+                              Path(rows[0]["private_game_path"]).with_name("traj_data.json")]:
+                    before = asset.read_bytes()
+                    asset.write_bytes(before + b"changed")
+                    with self.subTest(asset=asset), self.assertRaises(ValueError):
+                        actor.select_game("clean_1", pool, digest)
+                    asset.write_bytes(before)
+                original = json.loads(pool.read_text())
+                changed = json.loads(pool.read_text())
+                changed["games"][0]["private_game_path"] = "/NEVER_READ/private_expert/plan"
+                pool.write_text(json.dumps(changed))
+                with mock.patch.object(actor, "POOL_SHA", actor.sha(pool)), self.assertRaises(ValueError):
+                    actor.select_game("clean_1", pool, actor.sha(pool))
+                pool.write_text(json.dumps(original))
+
+    def test_pool_world_launch_uses_private_library_mode_and_explicit_caps(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            qual = Path(temporary)
+            root = qual / "episode"
+            root.mkdir()
+            public = qual / "w0"
+            public.mkdir()
+            game = qual / "private_game.tw-pddl"
+            game.write_bytes(b"unit asset")
+            caps = {"posts": 128, "seconds": 1800, "world_actions": 100,
+                    "model_payload_bytes_combined": 64_000_000}
+            selected = {"game_path": str(game), "sha256_game": actor.sha(game)}
+            pool = {"sha256": "a" * 64}
+            process = mock.Mock()
+            process.pid = 1234
+            process.poll.return_value = 0
+            process.wait.return_value = 0
+
+            def started(argv, **kwargs):
+                (public / "s").touch()
+                (public / "initial_reset_snapshot.json").write_text('{"observation":"public"}')
+                return process
+
+            with mock.patch.object(actor, "QUAL", qual), \
+                    mock.patch.object(actor, "select_game", return_value=(selected, pool)), \
+                    mock.patch.object(actor, "socket_directory", return_value=public), \
+                    mock.patch.object(actor.subprocess, "Popen", side_effect=started) as launch:
+                handle, initial, _ = actor.start_world(root, "clean_1", 17, "preflight", caps,
+                                                       qual / "FUTURE_POOL.json", "a" * 64)
+                argv = launch.call_args.args[0]
+                self.assertIn("--serve-pool-world", argv)
+                self.assertNotIn("--game-file", argv)
+                for flag, value in (("--max-posts", "128"), ("--max-seconds", "1800"),
+                                    ("--max-actions", "100"), ("--max-bytes", "64000000")):
+                    self.assertEqual(argv[argv.index(flag) + 1], value)
+                self.assertEqual(initial, {"observation": "public"})
+                self.assertEqual({p.name for p in public.iterdir()},
+                                 {"s", "client.py", "initial_reset_snapshot.json"})
+                actor.stop_world(handle)
+
+    def test_pool_manifest_caps_sampling_and_snapshot_tampering_are_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            qual, pool, receipt, _ = self.pool_fixture(temporary)
+            digest = actor.sha(pool)
+            root = qual / "episode"
+            root.mkdir()
+            binary = qual / "binary"
+            binary.write_bytes(b"unit binary")
+            with mock.patch.multiple(actor, QUAL=qual, POOL_SHA=digest,
+                                     POOL_RECEIPT_SHA=actor.sha(receipt), BINARY=binary,
+                                     BINARY_SHA=actor.sha(binary)), \
+                    mock.patch.object(actor, "components", return_value={"runner": "a" * 64}), \
+                    mock.patch.object(actor, "load_profile", return_value=profile("qwen38-27b-fp8")), \
+                    mock.patch.object(actor.dependencies, "verify_projection"):
+                game, binding = actor.select_game("clean_1", pool, digest)
+                files = {"opencode_config.json": b"{}", "task.txt": b"public",
+                         "initial_reset.json": b"{}", "pool_manifest.json": pool.read_bytes()}
+                for name, content in files.items():
+                    (root / name).write_bytes(content)
+                value = {"components": {"runner": "a" * 64}, "backend": "teacher27b", "seed": 17,
+                         "game_id": "clean_1", "game_path": game["game_path"],
+                         "game_sha256": game["sha256_game"], "uid": os.getuid(), "gid": os.getgid(),
+                         "config_sha256": actor.sha(root / "opencode_config.json"),
+                         "prompt_sha256": actor.sha(root / "task.txt"),
+                         "initial_sha256": actor.sha(root / "initial_reset.json"),
+                         "caps": actor.episode_caps(),
+                         "sampling": actor.model_payload({}, "teacher27b", profile("qwen38-27b-fp8"), 17),
+                         "pool_binding": binding}
+                frozen = root / "manifest.json"
+                frozen.write_text(json.dumps(value))
+                self.assertEqual(actor.verify_manifest(root, actor.sha(frozen)), value)
+                for change in ({"caps": {**value["caps"], "posts": 129}},
+                               {"sampling": {**value["sampling"], "chat_template_kwargs": {"enable_thinking": 0}}},
+                               {"pool_binding": {**binding, "game_sha256": "0" * 64}}):
+                    frozen.write_text(json.dumps({**value, **change}))
+                    with self.subTest(change=change), self.assertRaises(ValueError):
+                        actor.verify_manifest(root, actor.sha(frozen))
+                frozen.write_text(json.dumps(value))
+                (root / "pool_manifest.json").write_bytes(b"changed pool snapshot")
+                with self.assertRaises(ValueError):
+                    actor.verify_manifest(root, actor.sha(frozen))
+
+    def test_cli_freezes_explicit_caps_and_rejects_execute_overrides(self):
+        caps = {"posts": 128, "seconds": 1800, "world_actions": 100,
+                "model_payload_bytes_combined": 64_000_000}
+        with mock.patch.object(actor, "preflight", return_value={}) as prepare, \
+                mock.patch("sys.stdout", new_callable=io.StringIO):
+            actor.main(["--preflight-only", "--run-root", "/private/new", "--backend", "teacher27b",
+                        "--pool-manifest", "/private/pool.json", "--pool-manifest-sha", "a" * 64,
+                        "--game-id", "clean_1", "--max-posts", "128", "--max-seconds", "1800",
+                        "--max-actions", "100", "--max-bytes", "64000000"])
+            self.assertEqual(prepare.call_args.kwargs["caps"], caps)
+            self.assertEqual(prepare.call_args.args[2], "clean_1")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "manifest.json").write_text(json.dumps({"caps": caps}))
+            with mock.patch.object(actor, "execute") as execute, \
+                    mock.patch("sys.stderr", new_callable=io.StringIO):
+                with self.assertRaises(SystemExit):
+                    actor.main(["--execute", "--run-root", str(root), "--manifest-sha", "a" * 64,
+                                "--max-posts", "48"])
+                execute.assert_not_called()
+
+
+
 if __name__ == "__main__":
     unittest.main()

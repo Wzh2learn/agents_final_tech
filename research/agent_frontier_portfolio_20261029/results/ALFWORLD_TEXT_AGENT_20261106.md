@@ -56,4 +56,6 @@ SymPy四臂结束后，按48POST/1200秒/100环境动作、请求payload＋响�
 
 在扩源池任何模型运行前，固定每类`_1`为source、`_2`为target；首批只采`clean_1`和`heat_1`的27B真实源，不根据成败替换来源。`experience_transfer_pilot_v1/CONTRACT.json` SHA `088fcc1b43f71f6c09f63168456b9c200ee1bb7352f55afd2db5443c6f36625e`。这是内部事前冻结，不追认独立时间戳预注册。
 
-新角色预算拟为128POST/1800秒/100动作/64MB请求payload＋响应wire；上下文32K/output8192、seed17/temp0.2、27B显式关闭thinking。新代码须将实际caps传至所有执行层并绑定manifest；不得只改文档数字。源只给真实模型观察/动作与终态反馈，专家/PDDL不进writer。普通历史、普通skill、透明goal条件摘要均在目标前冻结，成本分冷启动与既有经验使用；是否训练或加入新机制由实际监督和最强简单基线的残差决定。
+新角色预算为128POST/1800秒/100动作/64MB请求payload＋响应wire；上下文32K/output8192、seed17/temp0.2、27B显式关闭thinking。实际caps已传至relay/world并绑定manifest；旧默认仍保留。源只给真实模型观察/动作与终态反馈，专家/PDDL不进writer。普通历史、普通skill、透明goal条件摘要均在目标前冻结，成本分冷启动与既有经验使用；是否训练或加入新机制由实际监督和最强简单基线的残差决定。
+
+pool/caps扩展代码SHA `2a95c969b9f327e7bcaeb4c6e885242c9344c544c4cfe99f08d5fdcdcec875a4`，20项GB10 tests/33subtests通过。`pool_actor_extension_v1/final_receipt.json` SHA `ffa24edd360967d9bf326e4a95f1ca93133ba91cd2a1351d82885d972a19ced7`；唯一新`teacher27b_clean1_caps128_preflight_v1`的inputs manifest SHA `2dc493fd8eb8e45b3acca73ddedd150c9d2f47e9646096e3e542aaaae044e2ce`，原生reset验证0动作/0模型、owned socket已清理，尚待D真实execute。预检不当作成功经验。

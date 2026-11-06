@@ -138,6 +138,7 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 - **风险与对策**：家居任务不能将私有PDDL、专家动作或初始缓存误当actor当前证据。任务prompt说明单条client动作、逐次读实际返回、look也计步、reset快照仅为初始缓存；OpenCode实际只暴露bash，游戏/专家/轨迹留在D侧，环境won决定成功。
 - **已验证范围**：两游戏专家通过真实UDS动作及Docker隔离控制；28项远端契约测试与30个subtests通过，owned fake端口的两backend模拟各2假POST/1原生look，标为MOCK_ORACLE，不冒充模型经验。27B请求显式关闭thinking，保存逐请求/响应和未知usage；终态后请求、非法参数和结束竞态有确定性控制。真实模型任务另记结果。
+- **资源和来源合同**：8B真实episode在响应字节门终止，扩源专家有85步；新批显式绑定pool/archives/game与实际POST/秒/动作/byte caps，并传到relay/world。上下文大小是另一个约束，不能把byte余量当模型token余量。新pool的20tests/33subtests及原生reset预检通过；旧reserved根和原预算不追改。
 - **证据**：[ALFWorld记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md)、`scripts/graph/research_alfworld_bridge.py`、`tests/test_research_alfworld_bridge.py`、`tests/test_alfworld_actor.py`。
 
 ## Completion and verification

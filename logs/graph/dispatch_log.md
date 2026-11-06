@@ -1465,3 +1465,4 @@ echo dispatch_log updated
 [11:17] 27B逐请求计量修复及双源执行 → 长连接事故原始156完成步骤/未知请求保留；76项共享定点与10项新对测试通过，活入口32304bytes。SymPy27B真实17POST/148213tokens、原题及114回归通过，103件轻包双机hash一致；Django低推理源仍在跑，未做目标对照 → 4cf241aa后状态同步，Goal active
 
 [13:45] SymPy迁移尸检与ALFWorld真实执行 → 四臂93POST/1245825已知tokens加1未知请求，三经验均未读，不能判断内容负迁移；双端511成员证据核验。ALFWorld28tests/30subtests通过，8B字节门停止，27B真实15动作won、17POST/142565tokens；非代码源可复用。已更新近邻、短索引和prompt边界 → 本次实作提交，Goal active
+[14:44] 加载诊断收口与非代码迁移pilot → SymPy两诊断53POST/868936已知tokens加1上下文拒绝usage缺项，暂停当前执行配置；ALFWorld8题事前哈希选样和专家资格通过，源/目标先冻结。pool/caps实际传值20tests/33subtests通过，clean_1新预检0动作/0模型，准备真实源采集 → 本次pool执行提交，Goal active

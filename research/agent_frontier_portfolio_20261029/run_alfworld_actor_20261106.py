@@ -9,6 +9,8 @@ import argparse
 import ast
 import hashlib
 import http.server
+import importlib.util
+import importlib.metadata
 import json
 import os
 from pathlib import Path
@@ -37,6 +39,10 @@ PRIMITIVES = REPO / "research/agent_frontier_portfolio_20261029/run_django_aggre
 MAX_POSTS, MAX_SECONDS, MAX_BYTES, MAX_ACTIONS = 48, 1200, 6_000_000, 100
 IMAGE = "python:3.12-slim"
 GAME_IDS = ("clean_apple_diningtable19", "heat_apple_countertop2")
+POOL_SHA = "1309000e4ec90fb40246f7fce235ed06fbc30f017bfe747f89aab1ebe1a3a426"
+POOL_RECEIPT_SHA = "2a126dd70bae97ca55d47546ff94afcb552d3690dd25c7890b5384981be35d29"
+CAP_LIMITS = {"posts": 128, "seconds": 1800, "world_actions": 100,
+              "model_payload_bytes_combined": 64_000_000}
 sys.path.insert(0, str(REPO))
 from scripts.graph import research_auto_record as records
 from scripts.graph import research_actor_dependencies as dependencies
@@ -196,9 +202,104 @@ def cleanup_directory(path):
     Path(path).rmdir()
 
 
-def start_world(root, game_id, seed, label):
-    rows = json.loads((QUAL / "assets/dev_game_manifest.json").read_text())
-    game = rows[GAME_IDS.index(game_id)]
+def episode_caps(value=None):
+    defaults = {"posts": MAX_POSTS, "seconds": MAX_SECONDS, "world_actions": MAX_ACTIONS,
+                "model_payload_bytes_combined": MAX_BYTES}
+    value = defaults if value is None else value
+    if (type(value) is not dict or set(value) != set(defaults) or
+            any(type(value[key]) is not int or not 1 <= value[key] <= limit
+                for key, limit in CAP_LIMITS.items())):
+        raise ValueError("invalid per-episode caps")
+    return dict(value)
+
+
+def select_game(game_id, pool_manifest=None, pool_sha=None):
+    if pool_manifest is None and pool_sha is None:
+        if game_id not in GAME_IDS:
+            raise ValueError("game id requires a frozen pool")
+        game = json.loads((QUAL / "assets/dev_game_manifest.json").read_text())[GAME_IDS.index(game_id)]
+        if sha(game["game_path"]) != game["sha256_game"]:
+            raise ValueError("legacy game changed")
+        return game, None
+    path = Path(pool_manifest) if pool_manifest is not None else None
+    expected = QUAL / "source_expansion_v1/FUTURE_POOL.json"
+    if (path is None or path.is_symlink() or path.resolve() != expected.resolve() or
+            pool_sha != POOL_SHA or sha(path) != pool_sha):
+        raise ValueError("unapproved pool manifest")
+    pool = json.loads(path.read_text())
+    receipt_path = path.parent / "RECEIPT.json"
+    if (receipt_path.is_symlink() or pool["receipt_sha256"] != POOL_RECEIPT_SHA or
+            sha(receipt_path) != POOL_RECEIPT_SHA):
+        raise ValueError("pool qualification receipt changed")
+    receipt = json.loads(receipt_path.read_text())
+    games = pool["games"]
+    ids = {category + "_" + str(index) for category in ("clean", "heat", "cool", "plain_place")
+           for index in (1, 2)}
+    if len(games) != 8 or {row["id"] for row in games} != ids or game_id not in ids:
+        raise ValueError("pool must contain the frozen eight development games")
+    for category in ("clean", "heat", "cool", "plain_place"):
+        layouts = [row["layout"] for row in games if row["category"] == category]
+        if len(layouts) != 2 or len(set(layouts)) != 2:
+            raise ValueError("pool category/floorplan mismatch")
+    archives = receipt["archives"]
+    if set(archives) != {"json_2.1.1_json.zip", "json_2.1.2_tw-pddl.zip"}:
+        raise ValueError("unexpected pool archive set")
+    for name, value in archives.items():
+        archive = QUAL / "assets" / name
+        if (archive.is_symlink() or Path(value["path"]) != archive or
+                sha(archive) != value["sha256"]):
+            raise ValueError("pool source archive changed")
+    row = next(row for row in games if row["id"] == game_id)
+    game = QUAL / "source_expansion_v1/private_game_assets" / game_id / "game.tw-pddl"
+    trajectory = game.with_name("traj_data.json")
+    for asset in (game, trajectory):
+        current = QUAL
+        for part in asset.relative_to(QUAL).parts:
+            current = current / part
+            if current.is_symlink():
+                raise ValueError("pool asset symlink")
+    if (Path(row["private_game_path"]) != game or sha(game) != row["game_sha256"] or
+            sha(trajectory) != row["traj_sha256"]):
+        raise ValueError("pool game/trajectory changed")
+    binding = {"path": str(path.resolve()), "sha256": pool_sha,
+               "receipt_sha256": POOL_RECEIPT_SHA, "archives": archives,
+               "game_member": row["game_member"], "traj_member": row["traj_member"],
+               "game_sha256": row["game_sha256"], "traj_sha256": row["traj_sha256"]}
+    return {"game_path": str(game), "sha256_game": row["game_sha256"]}, binding
+
+
+def serve_pool_world(root, game_id, seed, caps, pool_manifest, pool_sha, socket_path, log):
+    game, binding = select_game(game_id, pool_manifest, pool_sha)
+    if sha(BRIDGE) != BRIDGE_SHA:
+        raise ValueError("qualified bridge changed")
+    spec = importlib.util.spec_from_file_location("private_pool_world", BRIDGE)
+    bridge = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(bridge)
+    bridge.validate_private_paths(Path(game["game_path"]), Path(socket_path), Path(log))
+    if Path(root).resolve() not in Path(log).resolve().parents:
+        raise ValueError("pool trajectory must stay in D run root")
+    metadata = {"game_id": game_id, "asset_sha256": game["sha256_game"], "seed": seed,
+                "step_cap": caps["world_actions"], "caps": caps,
+                "mode": "DEV_train_name_randomization", "bridge_sha256": BRIDGE_SHA,
+                "pool_manifest_sha256": binding["sha256"],
+                "archive_sha256": {name: row["sha256"] for name, row in binding["archives"].items()},
+                "versions": {name: importlib.metadata.version(name) for name in
+                             ("alfworld", "textworld", "fast-downward-textworld")}}
+    metadata["episode_sha256"] = hashlib.sha256(json.dumps(metadata, sort_keys=True).encode()).hexdigest()
+    episode = bridge.Episode(bridge.NativeBackend(Path(game["game_path"]), seed),
+                             caps["world_actions"], bridge.PublicTrajectory(Path(log), metadata), True)
+    stop = threading.Event()
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(sig, lambda *_: stop.set())
+    try:
+        bridge.serve(Path(socket_path), episode, stop)
+    finally:
+        episode.close()
+
+
+def start_world(root, game_id, seed, label, caps=None, pool_manifest=None, pool_sha=None):
+    caps = episode_caps(caps)
+    game, pool = select_game(game_id, pool_manifest, pool_sha)
     if sha(game["game_path"]) != game["sha256_game"] or sha(BRIDGE) != BRIDGE_SHA:
         raise ValueError("world asset or bridge changed")
     public = socket_directory("w")
@@ -207,7 +308,15 @@ def start_world(root, game_id, seed, label):
     argv = [str(QUAL / "venv/bin/python"), "-B", str(BRIDGE), "serve",
             "--socket", str(public / "s"), "--trajectory", str(log),
             "--game-id", game_id, "--game-file", game["game_path"], "--seed", str(seed),
-            "--step-cap", str(MAX_ACTIONS), "--admissible-commands"]
+            "--step-cap", str(caps["world_actions"]), "--admissible-commands"]
+    if pool:
+        argv = [str(QUAL / "venv/bin/python"), "-B", str(Path(__file__).resolve()),
+                "--serve-pool-world", "--run-root", str(root), "--socket", str(public / "s"),
+                "--trajectory", str(log), "--pool-manifest", str(pool_manifest),
+                "--pool-manifest-sha", pool_sha, "--game-id", game_id, "--seed", str(seed),
+                "--max-posts", str(caps["posts"]), "--max-seconds", str(caps["seconds"]),
+                "--max-actions", str(caps["world_actions"]),
+                "--max-bytes", str(caps["model_payload_bytes_combined"])]
     output = (root / (label + "_world.stdout")).open("xb")
     errors = (root / (label + "_world.stderr")).open("xb")
     process = subprocess.Popen(argv, stdout=output, stderr=errors,
@@ -247,13 +356,15 @@ def components():
     return {str(path): sha(path) for path in paths}
 
 
-def preflight(root, backend, game_id, seed):
+def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, pool_manifest_sha=None):
     root = Path(root).resolve()
     if QUAL.resolve() not in root.parents or root == QUAL:
         raise ValueError("run root must be inside private qualification root")
     root.mkdir(parents=True, exist_ok=True)
     if any(root.iterdir()):
         raise FileExistsError("preflight requires a fresh empty run root")
+    caps = episode_caps(caps)
+    _, pool = select_game(game_id, pool_manifest, pool_manifest_sha)
     profile = load_profile(backend)
     dependencies.verify_projection(RUNTIME_ROOT, RUNTIME_SHA)
     if sha(BINARY) != BINARY_SHA:
@@ -262,7 +373,7 @@ def preflight(root, backend, game_id, seed):
                                     text=True).strip()
     world = None
     try:
-        world, initial, game = start_world(root, game_id, seed, "preflight")
+        world, initial, game = start_world(root, game_id, seed, "preflight", caps, pool_manifest, pool_manifest_sha)
         write_new(root / "initial_reset.json", initial)
     finally:
         if world:
@@ -281,11 +392,13 @@ def preflight(root, backend, game_id, seed):
         "runtime_manifest_sha256": RUNTIME_SHA, "opencode_binary_sha256": BINARY_SHA,
         "components": components(), "config_sha256": sha(root / "opencode_config.json"),
         "prompt_sha256": sha(root / "task.txt"), "initial_sha256": sha(root / "initial_reset.json"),
-        "caps": {"posts": MAX_POSTS, "seconds": MAX_SECONDS, "world_actions": MAX_ACTIONS,
-                 "model_payload_bytes_combined": MAX_BYTES},
+        "caps": caps, "sampling": model_payload({}, backend, profile, seed),
         "thinking": "explicit_false" if backend == "teacher27b" else "existing_template_default",
         "model_calls": 0, "live_endpoint_probed": False,
     }
+    if pool:
+        manifest["pool_binding"] = pool
+        (root / "pool_manifest.json").write_bytes(Path(pool_manifest).read_bytes())
     write_new(root / "manifest.json", manifest)
     return manifest
 
@@ -322,7 +435,7 @@ class Budget:
             self.failed = True
 
 
-def receive_http(connection):
+def receive_http(connection, max_bytes=MAX_BYTES):
     data = bytearray()
     while b"\r\n\r\n" not in data:
         part = connection.recv(4096)
@@ -343,7 +456,7 @@ def receive_http(connection):
     if b"transfer-encoding" in headers:
         raise ValueError("chunked requests are not accepted")
     length = int(headers[b"content-length"])
-    if not 0 < length <= MAX_BYTES:
+    if not 0 < length <= max_bytes:
         raise ValueError("request length outside budget")
     while len(body) < length:
         part = connection.recv(min(65536, length - len(body)))
@@ -356,9 +469,13 @@ def receive_http(connection):
 
 
 class ModelRelay:
-    def __init__(self, root, directory, backend, profile, seed, endpoint):
+    def __init__(self, root, directory, backend, profile, seed, endpoint, caps, sampling):
         self.root, self.directory = Path(root), Path(directory)
-        self.budget = Budget()
+        caps = episode_caps(caps)
+        self.budget = Budget(max_posts=caps["posts"],
+                             max_bytes=caps["model_payload_bytes_combined"], seconds=caps["seconds"])
+        if json.dumps(sampling, sort_keys=True) != json.dumps(model_payload({}, backend, profile, seed), sort_keys=True):
+            raise ValueError("relay sampling differs from frozen manifest")
         self.relay = load_relay()
         self.owned = set()
         self.lock = threading.Lock()
@@ -373,7 +490,7 @@ class ModelRelay:
                 self.request.settimeout(20)
                 upstream = None
                 try:
-                    incoming = receive_http(self.request)
+                    incoming = receive_http(self.request, caps["model_payload_bytes_combined"])
                     with owner.lock:
                         observed = len(owner.tools)
                         owner.tools.append({"post": None, "definitions": incoming.get("tools", [])})
@@ -381,7 +498,10 @@ class ModelRelay:
                     names = [t["function"]["name"] for t in incoming.get("tools", [])]
                     if any(name != "bash" for name in names):
                         raise ValueError("unexpected exposed tool")
-                    payload = model_payload(incoming, backend, profile, seed)
+                    payload = dict(incoming)
+                    payload.update(sampling)
+                    if backend == "student8b":
+                        payload.pop("chat_template_kwargs", None)
                     body = json.dumps(payload, separators=(",", ":")).encode()
                     index = owner.budget.reserve(len(body))
                     write_new(owner.root / "requests" / (str(index).zfill(5) + ".json"),
@@ -474,6 +594,18 @@ def verify_manifest(root, digest):
         raise ValueError("world asset or OpenCode changed")
     if (os.getuid(), os.getgid()) != (manifest["uid"], manifest["gid"]):
         raise ValueError("run owner changed")
+    episode_caps(manifest.get("caps"))
+    if "sampling" in manifest:
+        expected = model_payload({}, manifest["backend"], load_profile(manifest["backend"]), manifest["seed"])
+        if json.dumps(manifest["sampling"], sort_keys=True) != json.dumps(expected, sort_keys=True):
+            raise ValueError("frozen sampling mismatch")
+    if "pool_binding" in manifest:
+        pool = manifest["pool_binding"]
+        game, actual = select_game(manifest["game_id"], pool["path"], pool["sha256"])
+        if (actual != pool or game["game_path"] != manifest["game_path"] or
+                game["sha256_game"] != manifest["game_sha256"] or
+                sha(root / "pool_manifest.json") != pool["sha256"]):
+            raise ValueError("frozen pool binding changed")
     dependencies.verify_projection(RUNTIME_ROOT, RUNTIME_SHA)
     return manifest
 
@@ -485,13 +617,17 @@ def execute(root, digest, *, mock_endpoint=None):
     write_new(root / "reservation.json", {"manifest_sha256": digest,
               "mode": "MOCK_ORACLE_CONTROL" if mock_endpoint else "REAL_NO_HISTORY_EPISODE"})
     profile = load_profile(manifest["backend"])
+    caps = episode_caps(manifest.get("caps"))
+    sampling = manifest.get("sampling", model_payload({}, manifest["backend"], profile, manifest["seed"]))
+    pool = manifest.get("pool_binding")
     world = relay = None
     model_dir = None
     start = time.monotonic()
     name = "alfworld-owned-" + str(os.getpid()) + "-" + str(time.monotonic_ns())
     status, docker_exit = "FAILED", None
     try:
-        world, initial, _ = start_world(root, manifest["game_id"], manifest["seed"], "execute")
+        world, initial, _ = start_world(root, manifest["game_id"], manifest["seed"], "execute", caps,
+                                        pool["path"] if pool else None, pool["sha256"] if pool else None)
         if initial != json.loads((root / "initial_reset.json").read_text()):
             raise ValueError("reset differs from frozen initial state")
         work = root / "workspace"
@@ -501,12 +637,12 @@ def execute(root, digest, *, mock_endpoint=None):
         (work / "guest.py").write_text(GUEST)
         model_dir = socket_directory("m")
         endpoint = mock_endpoint or (profile["host"], profile["port"])
-        relay = ModelRelay(root, model_dir, manifest["backend"], profile, manifest["seed"], endpoint)
+        relay = ModelRelay(root, model_dir, manifest["backend"], profile, manifest["seed"], endpoint, caps, sampling)
         argv = docker_command(work, world[1], model_dir, manifest, name)
         write_new(root / "docker_command.json", {"argv": argv})
         with (root / "raw.jsonl").open("xb") as raw, (root / "docker.stderr").open("xb") as errors:
             result = subprocess.run(argv, stdout=raw, stderr=errors,
-                                    timeout=max(1, MAX_SECONDS - (time.monotonic() - start)))
+                                    timeout=max(1, caps["seconds"] - (time.monotonic() - start)))
             docker_exit = result.returncode
         status = "RETURNED"
     except subprocess.TimeoutExpired:
@@ -546,7 +682,7 @@ def execute(root, digest, *, mock_endpoint=None):
             "label": "MOCK_ORACLE_CONTROL" if mock_endpoint else "NO_HISTORY_DEV_PDDL_ONLY",
             "status": "CLEANUP_INCOMPLETE" if cleanup_errors else status,
             "cleanup_errors": cleanup_errors, "docker_exit": docker_exit, "manifest_sha256": digest,
-            "elapsed_seconds": time.monotonic() - start,
+            "elapsed_seconds": time.monotonic() - start, "caps": caps, "sampling": sampling,
             "model_posts": relay.budget.posts if relay else 0,
             "model_request_payload_bytes": relay.budget.request_bytes if relay else 0,
             "model_response_wire_bytes": relay.budget.response_bytes if relay else 0,
@@ -566,9 +702,9 @@ def execute(root, digest, *, mock_endpoint=None):
     return receipt
 
 
-def mock_control(root, backend, game_id, seed):
+def mock_control(root, backend, game_id, seed, **options):
     """Owned fake HTTP tests tool plumbing, never genuine policy or experience."""
-    manifest = preflight(root, backend, game_id, seed)
+    manifest = preflight(root, backend, game_id, seed, **options)
     lock = threading.Lock()
     issued = [False]
 
@@ -630,22 +766,52 @@ def main(argv=None):
     mode.add_argument("--preflight-only", action="store_true")
     mode.add_argument("--execute", action="store_true", help="D only; one fresh reserved episode")
     mode.add_argument("--mock-control", action="store_true", help="owned fake HTTP; zero model")
+    mode.add_argument("--serve-pool-world", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--backend", choices=PROFILE_PINS, default="student8b")
-    parser.add_argument("--game-id", choices=GAME_IDS, default=GAME_IDS[0])
+    parser.add_argument("--game-id")
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--manifest-sha")
+    parser.add_argument("--pool-manifest", type=Path)
+    parser.add_argument("--pool-manifest-sha")
+    for flag in ("posts", "seconds", "actions", "bytes"):
+        parser.add_argument("--max-" + flag, type=int)
+    parser.add_argument("--socket", help=argparse.SUPPRESS)
+    parser.add_argument("--trajectory", help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
     if not 0 <= args.seed < 2**32:
         parser.error("seed outside uint32 range")
+    if bool(args.pool_manifest) != bool(args.pool_manifest_sha):
+        parser.error("pool manifest and SHA must be provided together")
+    overrides = {key: value for key, value in (
+        ("posts", args.max_posts), ("seconds", args.max_seconds),
+        ("world_actions", args.max_actions), ("model_payload_bytes_combined", args.max_bytes))
+        if value is not None}
+    caps = episode_caps(dict(episode_caps(), **overrides))
     if args.execute:
         if not args.manifest_sha:
             parser.error("--execute requires frozen --manifest-sha")
+        if overrides or args.pool_manifest or args.game_id:
+            frozen = json.loads((args.run_root / "manifest.json").read_text())
+            if any(episode_caps(frozen.get("caps"))[key] != value for key, value in overrides.items()):
+                parser.error("execute caps differ from frozen manifest")
+            if args.game_id and args.game_id != frozen["game_id"]:
+                parser.error("execute game differs from frozen manifest")
+            if args.pool_manifest and (str(args.pool_manifest.resolve()), args.pool_manifest_sha) != (
+                    frozen.get("pool_binding", {}).get("path"),
+                    frozen.get("pool_binding", {}).get("sha256")):
+                parser.error("execute pool differs from frozen manifest")
         result = execute(args.run_root, args.manifest_sha)
-    elif args.mock_control:
-        result = mock_control(args.run_root, args.backend, args.game_id, args.seed)
+    elif args.serve_pool_world:
+        if not args.pool_manifest or not args.game_id or not args.socket or not args.trajectory:
+            parser.error("private pool world requires pool, game, socket and trajectory")
+        serve_pool_world(args.run_root, args.game_id, args.seed, caps, args.pool_manifest,
+                         args.pool_manifest_sha, args.socket, args.trajectory)
+        return
     else:
-        result = preflight(args.run_root, args.backend, args.game_id, args.seed)
+        run = mock_control if args.mock_control else preflight
+        result = run(args.run_root, args.backend, args.game_id or GAME_IDS[0], args.seed,
+                     caps=caps, pool_manifest=args.pool_manifest, pool_manifest_sha=args.pool_manifest_sha)
     print(json.dumps({"run_root": str(args.run_root), "result": result}, ensure_ascii=True))
 
 
