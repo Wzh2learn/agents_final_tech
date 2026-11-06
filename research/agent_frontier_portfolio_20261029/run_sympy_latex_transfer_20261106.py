@@ -13,6 +13,7 @@ import http.client
 import inspect
 import json
 from pathlib import Path
+import re
 import shutil
 import sys
 import tempfile
@@ -37,11 +38,38 @@ TARGET_HASHES = {'patch':'29f89ebf3661c4f2ac79f78ebfd261496a97c571474eb362add78d
 NODES_SHA = '66cf54285fe4099dbbbd3adf8b703f92849c4e7e155ec01f14f95d453f247ac9'
 EXCLUDED = ['sympy/printing/tests/test_latex.py::test_issue_13559',
             'sympy/printing/tests/test_latex.py::test_issue_8470']
+TARGET_ENVIRONMENT_NOTE = ('\nEnvironment qualification: Before any edits, the Python 3.8 baseline already fails '
+    'test_issue_13559 and test_issue_8470 in sympy/printing/tests/test_latex.py. '
+    'These are baseline compatibility failures. Leave these tests unchanged and exclude these two '
+    'when running printing tests.\n')
 MARKERS = ('sympy__sympy-19235','/pull/19235','/issues/19235','#19235','gh-19235')
 CONDITIONS = ('none','source_history','feedback_card','generated_skill')
 EXPERIENCE_NAMES = {'source_history.md','feedback_card.md','generated_skill.md','draft_manifest.json',
                    'skill_generation_request.json','skill_generation_response.json','skill_generation_ledger.json'}
 sha, read, write_new = source.sha, source.read, source.write_new
+
+
+def experience_directory(experience_id):
+    if not re.fullmatch(r'source_experience_v[1-9][0-9]*',experience_id):raise ValueError('invalid experience identifier')
+    path=PARENT/experience_id
+    if (PARENT.is_symlink() or path.is_symlink() or path.resolve().parent!=PARENT.resolve()
+            or (path.exists() and not path.is_dir())):raise ValueError('unsafe experience directory')
+    return path
+
+
+def experience_config():
+    return {'experience_id':EXPERIENCE.name,'skill_chat_template_kwargs':
+            None if EXPERIENCE.name=='source_experience_v1' else {'enable_thinking':False}}
+
+
+def check_experience_config(record):
+    # Previously written v1 drafts/ledgers remain immutable legacy evidence.
+    if 'experience_config' not in record and EXPERIENCE.name=='source_experience_v1':return
+    if json.dumps(record.get('experience_config'),sort_keys=True)!=json.dumps(experience_config(),sort_keys=True):
+        raise ValueError('experience configuration changed; use matching --experience-id')
+
+
+def target_task(problem):return problem+source.ENVIRONMENT+TARGET_ENVIRONMENT_NOTE
 
 
 def adapt(function, replacements=(), **bindings):
@@ -118,6 +146,7 @@ def prepare_source():
                                ('feedback_card.md','Observed source edit and source outcome.',False)]:
         (EXPERIENCE/name).write_text(rendering.body(label,ev,history=history),encoding='utf8')
     manifest = {'status':'DRAFT','source':ev['provenance'],'history_rendering_version':2,
+                'experience_config':experience_config(),
                 'artifacts':{name:sha(EXPERIENCE/name) for name in ('source_history.md','feedback_card.md')},
                 'scope':'exposed development; source issue supplies a fix hint; no target or gold input'}
     write_new(EXPERIENCE/'draft_manifest.json',manifest)
@@ -126,6 +155,7 @@ def prepare_source():
 
 def validate_draft():
     draft=read(EXPERIENCE/'draft_manifest.json');ev=source_evidence()
+    check_experience_config(draft)
     if draft['source'] != ev['provenance'] or draft['history_rendering_version'] != 2:
         raise ValueError('source draft binding changed')
     for name,label,history in [('source_history.md','Source-only ordinary history.',True),
@@ -137,10 +167,13 @@ def validate_draft():
 
 
 def skill_payload():
-    return {'model':'qwen38-27b-fp8','temperature':.2,'seed':7201,'max_tokens':2500,'stream':False,
+    payload={'model':'qwen38-27b-fp8','temperature':.2,'seed':7201,'max_tokens':2500,'stream':False,
         'messages':[{'role':'system','content':'Create concise reusable instructions from this source-only execution and '
           'measured feedback. Distinguish successes, actual failures and uncertainty. Do not invent a future task. Return only skill text.'},
           {'role':'user','content':(EXPERIENCE/'source_history.md').read_text(encoding='utf8')}]}
+    kwargs=experience_config()['skill_chat_template_kwargs']
+    if kwargs is not None:payload['chat_template_kwargs']=kwargs
+    return payload
 
 
 def retain_response(response,path):
@@ -166,7 +199,8 @@ def generate_skill():
     payload=skill_payload()
     request=EXPERIENCE/'skill_generation_request.json';request.write_bytes(json.dumps(payload,ensure_ascii=False).encode())
     ledger={'status':'ATTEMPT_STARTED','physical_http_attempts':1,'model_profile_sha256':source.PROFILE_SHA,
-            'source_history_sha256':sha(EXPERIENCE/'source_history.md'),'request_sha256':sha(request),'backend':backend}
+            'source_history_sha256':sha(EXPERIENCE/'source_history.md'),'request_sha256':sha(request),'backend':backend,
+            'experience_config':experience_config()}
     write_new(ledger_path,ledger)
     connection=http.client.HTTPConnection(profile['host'],profile['port'],timeout=900)
     try:
@@ -177,13 +211,13 @@ def generate_skill():
         parsed=json.loads(raw);ledger['provider_usage']=parsed.get('usage')
         if response.status != 200:raise ValueError('skill generation HTTP failure')
         choice=parsed['choices'][0];text=choice['message']['content']
-        if choice.get('finish_reason') != 'stop' or not isinstance(text,str) or not text.strip():
-            raise ValueError('skill output empty or truncated')
+        if choice.get('finish_reason') != 'stop':raise ValueError('skill output did not finish normally')
+        if not isinstance(text,str) or not text.strip():raise ValueError('skill final content is empty; reasoning is not final content')
         if any(marker.casefold() in text.casefold() for marker in MARKERS):raise ValueError('skill contains future target identity')
         with (EXPERIENCE/'generated_skill.md').open('x',encoding='utf8') as stream:stream.write(text.strip()+'\n')
         ledger.update(status='RECEIVED',skill_sha256=sha(EXPERIENCE/'generated_skill.md'))
     except Exception as exc:
-        ledger.update(status='FAILED_RETAINED_RAW_OR_UNKNOWN_USAGE',error_type=type(exc).__name__);raise
+        ledger.update(status='FAILED_RETAINED_RAW_OR_UNKNOWN_USAGE',error_type=type(exc).__name__,error_message=str(exc));raise
     finally:
         if (EXPERIENCE/'skill_generation_response.json').exists():
             ledger['response_sha256']=sha(EXPERIENCE/'skill_generation_response.json')
@@ -193,6 +227,7 @@ def generate_skill():
 
 def validate_skill():
     ledger=read(EXPERIENCE/'skill_generation_ledger.json')
+    check_experience_config(ledger)
     for field,name in [('request_sha256','skill_generation_request.json'),('response_sha256','skill_generation_response.json'),
                         ('skill_sha256','generated_skill.md')]:
         if ledger.get(field) != sha(EXPERIENCE/name):raise ValueError('skill evidence changed')
@@ -200,7 +235,7 @@ def validate_skill():
     choice=response['choices'][0];text=choice['message']['content']
     if (ledger.get('status')!='RECEIVED' or ledger.get('physical_http_attempts')!=1 or ledger.get('http_status')!=200
             or ledger.get('model_profile_sha256')!=source.PROFILE_SHA or request.get('model')!='qwen38-27b-fp8'
-            or request!=skill_payload()
+            or json.dumps(request,sort_keys=True)!=json.dumps(skill_payload(),sort_keys=True)
             or request['messages'][-1]['content']!=(EXPERIENCE/'source_history.md').read_text(encoding='utf8')
             or ledger.get('source_history_sha256')!=sha(EXPERIENCE/'source_history.md')
             or choice.get('finish_reason')!='stop' or text.strip()+'\n'!=(EXPERIENCE/'generated_skill.md').read_text(encoding='utf8')
@@ -212,6 +247,7 @@ def validate_skill():
 def freeze_source():
     no_target_started();draft=validate_draft();validate_skill()
     manifest={'status':'FROZEN_BEFORE_TARGET','source':draft['source'],
+              'experience_config':experience_config(),
               'artifacts':{name:sha(EXPERIENCE/name) for name in sorted(EXPERIENCE_NAMES)},'scope':draft['scope']}
     write_new(EXPERIENCE/'frozen_manifest.json',manifest);return manifest
 
@@ -219,6 +255,7 @@ def freeze_source():
 def frozen_source(digest):
     if sha(EXPERIENCE/'frozen_manifest.json')!=digest:raise ValueError('frozen source manifest changed')
     frozen=read(EXPERIENCE/'frozen_manifest.json');draft=validate_draft();validate_skill()
+    check_experience_config(frozen)
     if (frozen['status']!='FROZEN_BEFORE_TARGET' or frozen['source']!=draft['source'] or
             set(frozen['artifacts'])!=EXPERIENCE_NAMES or
             any(sha(EXPERIENCE/name)!=value for name,value in frozen['artifacts'].items())):
@@ -266,7 +303,9 @@ def derive_target(root,condition,actor,profile,experience):
     proxy=SimpleNamespace(rebind_model=source.primitives.rebind_model,
         set_model_limits=lambda code,p,backend:source.primitives.set_model_limits(code,p,'student8b'),
         bind_per_request_transport=source.primitives.bind_per_request_transport)
-    return adapt(source.derive,requests_runner=SimpleNamespace(derive=bind_requests),primitives=proxy,EID=target_id(condition))(root,actor,profile)
+    code=adapt(source.derive,requests_runner=SimpleNamespace(derive=bind_requests),primitives=proxy,EID=target_id(condition))(root,actor,profile)
+    return source.core.replace_once(code,"(src/'task.txt').read_text(encoding='utf8').strip()",
+                                    "(src/'task.txt').read_bytes().decode('utf8')")
 
 
 def target_components():
@@ -276,6 +315,8 @@ def target_components():
 
 
 def verify_target_inputs(root,manifest):
+    if manifest['experience_id']!=EXPERIENCE.name:raise ValueError('target experience mismatch; use matching --experience-id')
+    check_experience_config(manifest)
     frozen_source(manifest['source_manifest_sha256'])
     source.dependencies.verify_projection(PARENT/'actor_python38',manifest['projection_sha256'])
     if (source.tree(root/'inputs/target/clean_base')!=manifest['baseline_tree']
@@ -299,7 +340,7 @@ def prepare_target(attempt,condition,source_digest):
     verify_clean(source.QUAL/'target/clean',source.QUAL/'target.tar.gz')
     root.mkdir(parents=True);inputs=root/'inputs/target';inputs.mkdir(parents=True)
     shutil.copytree(source.QUAL/'target/clean',inputs/'clean_base')
-    (inputs/'task.txt').write_text(row['problem_statement']+source.ENVIRONMENT,encoding='utf8')
+    (inputs/'task.txt').write_text(target_task(row['problem_statement']),encoding='utf8')
     shutil.copyfile(STUDENT_PROFILE,root/'model_profile.json');source.primitives.prepare_actor_runtime(root)
     experience=None
     if condition!='none':
@@ -308,6 +349,7 @@ def prepare_target(attempt,condition,source_digest):
     for name,path in paths.items():shutil.copyfile(path,snapshot/name)
     harness=root/'frozen_source_harness.py';harness.write_text(derive_target(root,condition,actor,profile,experience),encoding='utf8')
     manifest={'status':'PREPARED','condition':condition,'source_manifest_sha256':source_digest,
+        'experience_id':EXPERIENCE.name,'experience_config':experience_config(),
         'source_completion_sha256':SOURCE_SHA,'projection_sha256':actor['manifest_sha256'],
         'model_profile_sha256':STUDENT_SHA,'task_sha256':sha(inputs/'task.txt'),'harness_sha256':sha(harness),
         'component_sha256':{name:sha(snapshot/name) for name in paths},'baseline_tree':source.tree(inputs/'clean_base'),
@@ -323,12 +365,14 @@ def prepare_target(attempt,condition,source_digest):
 
 def execute_target(attempt,source_digest,input_digest):
     root=TARGETS/source.primitives.attempt_root(PARENT,attempt).name;manifest=read(root/'inputs_manifest.json')
+    if manifest['experience_id']!=EXPERIENCE.name:raise ValueError('target experience mismatch; use matching --experience-id')
+    check_experience_config(manifest)
     if manifest['source_manifest_sha256']!=source_digest:raise ValueError('target bound to different source')
     condition=manifest['condition'];eid=target_id(condition);actor=source.prepare_projection()
     row,_=target_row();profile=source.primitives.validate_model_profile(STUDENT_PROFILE,STUDENT_SHA)
     def observed_write(path,value):
         if path.name in (eid+'.started.json',eid+'.completed.json'):
-            value=dict(value,source_manifest_sha256=source_digest)
+            value=dict(value,source_manifest_sha256=source_digest,experience_id=EXPERIENCE.name,experience_config=experience_config())
             if path.name.endswith('.completed.json'):
                 raw=root/eid/'raw.jsonl'
                 value['experience_read']=(inspect_experience_reads(raw,root/'source_experience.md') if raw.is_file()
@@ -344,11 +388,14 @@ def execute_target(attempt,source_digest,input_digest):
 
 
 def main():
+    global EXPERIENCE
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('mode',choices=('prepare-source','generate-skill','freeze-source','prepare-target','execute-target'))
     parser.add_argument('--attempt-id');parser.add_argument('--condition',choices=CONDITIONS,default='none')
+    parser.add_argument('--experience-id',default='source_experience_v1',help='use the same version for formation and every target mode')
     parser.add_argument('--source-manifest-sha256');parser.add_argument('--inputs-manifest-sha256')
     args=parser.parse_args()
+    EXPERIENCE=experience_directory(args.experience_id)
     if args.mode.endswith('target') and (not args.attempt_id or not args.source_manifest_sha256):
         parser.error('target modes require --attempt-id and --source-manifest-sha256')
     if args.mode=='execute-target' and not args.inputs_manifest_sha256:parser.error('execution requires reviewed --inputs-manifest-sha256')

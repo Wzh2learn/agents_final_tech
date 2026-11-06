@@ -267,6 +267,10 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
                      'and measured feedback. Distinguish successful actions, observed failures and uncertainty; '
                      'do not invent results or assume a future task. Return only the skill text.'},
                     {'role':'user','content':(output/'source_history.md').read_text(encoding='utf8')}]}
+    if kind=='teacher27b':
+        # The live vLLM parser routes non-stream text to reasoning unless this
+        # native flag is explicit, even when the template defaults to off.
+        payload['chat_template_kwargs']={'enable_thinking':False}
     data=json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode('utf8')
     if len(data)>6_000_000:raise ValueError('source history exceeds generation request cap')
     with paths['skill_generation_request.json'].open('xb') as f:f.write(data)
@@ -327,6 +331,8 @@ def validate_skill(output: Path, draft: dict) -> dict:
     if (request.get('model')!=expected['model_id'] or request.get('seed')!=7201 or request.get('temperature')!=0.2
             or request.get('max_tokens')!=2500 or request.get('messages',[])[-1].get('content')!=(output/'source_history.md').read_text(encoding='utf8')):
         raise ValueError('skill request is not source-bound')
+    if kind=='teacher27b' and request.get('chat_template_kwargs')!={'enable_thinking':False}:
+        raise ValueError('27B skill compiler requires explicit final-content mode')
     choice=response['choices'][0]
     if choice.get('finish_reason')!='stop' or choice['message']['content'].strip()+'\n'!=(output/'generated_skill.md').read_text(encoding='utf8'):
         raise ValueError('skill does not match the recorded response')

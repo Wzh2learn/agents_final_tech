@@ -251,6 +251,7 @@ class ExperienceTests(unittest.TestCase):
         self.assertEqual(http.call_args.args[0].full_url,'http://127.0.0.1:8006/v1/chat/completions')
         self.assertEqual(http.call_args.kwargs['timeout'],900)
         self.assertEqual(ledger['backend_kind'],'teacher27b')
+        self.assertEqual(json.loads(http.call_args.args[0].data)['chat_template_kwargs'],{'enable_thinking':False})
         exp.validate_skill(self.output,json.loads((self.output/'draft_manifest.json').read_text()))
         log.write_text('tampered')
         with self.assertRaises(ValueError):exp.validate_draft(self.source,self.base,self.output,verify_baseline=self.qual)
