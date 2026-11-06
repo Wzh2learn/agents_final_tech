@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import time
@@ -51,6 +52,48 @@ def regular(path):
     if any(c in str(path) for c in (',', '\n', '\r')):
         raise ValueError('unsafe mount path')
     return path
+
+
+def socket_directory(root):
+    """A deterministic short mount path, frozen equally by prepare and execute."""
+    root=regular(root)
+    uid=os.getuid() if hasattr(os,'getuid') else 0
+    path=Path('/tmp')/('d34570-'+str(uid)+'-'+hashlib.sha256(os.fsencode(root)).hexdigest()[:24])
+    if len(os.fsencode(path/'model.sock'))>103:raise ValueError('UDS path exceeds portable byte budget')
+    return path
+
+
+def owned_socket_directory(path):
+    path=regular(path)
+    uid=os.getuid() if hasattr(os,'getuid') else 0
+    if path.parent!=Path('/tmp') or not re.fullmatch('d34570-'+str(uid)+'-[a-f0-9]{24}',path.name):
+        raise ValueError('not a task-owned short socket directory')
+    return path
+
+
+def create_socket_directory(path):
+    path=owned_socket_directory(path)
+    path.mkdir(mode=0o755,exist_ok=False)
+    path.chmod(0o755)  # The readonly container bind must remain traversable.
+    value=path.stat()
+    return (value.st_dev,value.st_ino)
+
+
+def cleanup_socket_directory(path,identity):
+    """Remove only this invocation's directory and its actual model socket."""
+    path=owned_socket_directory(path)
+    if not path.exists():return False
+    value=path.lstat()
+    if not stat.S_ISDIR(value.st_mode) or value.st_uid!=os.getuid() or (value.st_dev,value.st_ino)!=tuple(identity):
+        raise ValueError('socket directory ownership/inode changed')
+    entries=list(path.iterdir())
+    if any(p.name!='model.sock' for p in entries):raise ValueError('unexpected socket-directory entry; preserve it')
+    for entry in entries:
+        item=entry.lstat()
+        if not stat.S_ISSOCK(item.st_mode) or item.st_uid!=os.getuid():raise ValueError('not an owned socket; preserve it')
+        entry.unlink()
+    path.rmdir()
+    return True
 
 
 def tree(path):
@@ -208,7 +251,7 @@ def derive(root, profile):
         (",0.2,7201)", ',0.2,17)', 1), ("'seed':7201", "'seed':17", 1),
         ('6000000', str(CAPS['model_wire_bytes_combined']), 4),
         ("case.mkdir(parents=True, exist_ok=False)", "preparing=sys.argv[3:]==['prepare']\nif sys.argv[3:] not in ([],['prepare']):raise ValueError('invalid stage')\nif not preparing:guard_execution(ROOT)\ncase.mkdir(parents=True, exist_ok=not preparing)", 1),
-        ("work=case/'work'; work.mkdir(); work.chmod(0o777); bridge=Path('/tmp')/('skill_bridge_'+str(os.getpid())); bridge.mkdir(exist_ok=False)", f"work=case/'work'; work.mkdir(exist_ok=not preparing); work.chmod(0o777); bridge=Path({str(root / 'bridge')!r}); bridge.mkdir(exist_ok=False)", 1),
+        ("work=case/'work'; work.mkdir(); work.chmod(0o777); bridge=Path('/tmp')/('skill_bridge_'+str(os.getpid())); bridge.mkdir(exist_ok=False)", f"work=case/'work'; work.mkdir(exist_ok=not preparing); work.chmod(0o777); bridge=Path({str(socket_directory(root))!r})", 1),
         (" payload['temperature'],payload['seed']=temperature,seed", " payload['chat_template_kwargs']={'enable_thinking':False}\n payload['max_tokens']=8192\n payload.pop('max_completion_tokens',None)\n payload['temperature'],payload['seed']=temperature,seed", 1),
         ("post_count=[0];", "post_count=[0]; response_bytes=[0]; episode_deadline=[None];", 1),
         ('upstream.settimeout(900)', 'upstream.settimeout(max(0.001,episode_deadline[0]-time.monotonic()))', 1),
@@ -247,12 +290,17 @@ def derive(root, profile):
     for name in ('instructions.txt', 'public_feedback.json', 'opencode.json'):
         mounts += ['--mount', f'type=bind,src={root / "episode/work" / name},dst=/root/{name},readonly']
     code = replace(code, 'cmd[_at:_at]=[', 'cmd[_at:_at]=' + repr(mounts) + '+[')
-    import_line = f"sys.path.insert(0,{str(HERE)!r})\nfrom run_django34570_development import audit_command,relay_capped,check_http_frame,guard_execution\n"
+    import_line = f"sys.path.insert(0,{str(HERE)!r})\nfrom run_django34570_development import audit_command,relay_capped,check_http_frame,guard_execution,create_socket_directory,cleanup_socket_directory\n"
     code = replace(code, 'from pathlib import Path\n\nROOT=', 'from pathlib import Path\n' + import_line + '\nROOT=')
     code = replace(code, "  line=first.split(b'\\r\\n',1)[0].rsplit(b' ',1)[0]",
         "  try:check_http_frame(first)\n  except ValueError:\n   calls.append('DENIED:invalid_http_frame');return\n  line=first.split(b'\\r\\n',1)[0].rsplit(b' ',1)[0]")
-    gate = f"\naudit_command(cmd,json.loads(Path({str(root / 'surface.json')!r}).read_text()))\ncommand_path=Path({str(root / 'actor_command.json')!r})\nif preparing:\n with command_path.open('x') as log:json.dump(cmd,log,indent=2)\n bridge.rmdir()\n raise SystemExit(0)\nif json.loads(command_path.read_text())!=cmd:raise ValueError('frozen actor command changed')\n"
+    gate = f"\naudit_command(cmd,json.loads(Path({str(root / 'surface.json')!r}).read_text()))\ncommand_path=Path({str(root / 'actor_command.json')!r})\nif preparing:\n with command_path.open('x') as log:json.dump(cmd,log,indent=2)\n raise SystemExit(0)\nif json.loads(command_path.read_text())!=cmd:raise ValueError('frozen actor command changed')\n"
     code = replace(code, '; server=Server(str(sockpath),Handler);', gate + 'episode_deadline[0]=time.monotonic()+1200\nserver=Server(str(sockpath),Handler);')
+    # Own the short UDS only while running; a bind/startup error must clean it too.
+    code=replace(code, "server=Server(str(sockpath),Handler);os.chmod(sockpath,0o666);threading.Thread(target=server.serve_forever,daemon=True).start();start=time.time()\ntry:\n try:",
+        "server=None;server_started=False;bridge_identity=None\ntry:\n bridge_identity=create_socket_directory(bridge)\n server=Server(str(sockpath),Handler);os.chmod(sockpath,0o666);threading.Thread(target=server.serve_forever,daemon=True).start();server_started=True;start=time.time()\n try:")
+    code=replace(code, " server.shutdown();server.server_close();sockpath.unlink(missing_ok=True);bridge.rmdir()",
+        " if server is not None:\n  if server_started:server.shutdown()\n  server.server_close()\n if bridge_identity is not None:cleanup_socket_directory(bridge,bridge_identity)")
     if str(agg.QUAL) in code or 'research-pg' in code or 'pgdriver' in code:
         raise ValueError('old source/PG binding survived derivation')
     compile(code, '<django34570-bound-harness>', 'exec')
@@ -286,7 +334,7 @@ def prepare(root):
         '\n\nPublic reproduction on the unmodified base (shared task input, NOT an actor failure or prior experience):\n' + feedback)
     work = root / 'episode/work'
     mounts = {'/root': {'source': str(work), 'readonly': False},
-              '/bridge': {'source': str(root / 'bridge'), 'readonly': True},
+              '/bridge': {'source': str(socket_directory(root)), 'readonly': True},
               '/opt/opencode': {'source': '/home/testuser/.opencode/bin/opencode', 'readonly': True},
               '/usr/local/bin/rg': {'source': '/home/testuser/.cache/opencode/bin/rg', 'readonly': True},
               '/deps': {'source': str(DEPS), 'readonly': True},
@@ -449,6 +497,17 @@ def score_semantics(focus, regression, probe_exit, probe):
             'fixed': passed(focus, 1) and passed(regression, 13) and public_pass}
 
 
+def scoring_probe(out):
+    source=regular(TASK/'scoring/public_issue_probe.py')
+    expected=PINNED['scoring/public_issue_probe.py']
+    if sha(source)!=expected:raise ValueError('frozen public probe changed')
+    target=out/'public_issue_probe.py'
+    with target.open('xb') as dest:dest.write(source.read_bytes())
+    target.chmod(0o444)
+    if sha(target)!=expected:raise ValueError('scoring probe copy changed')
+    return target
+
+
 def evaluate(root, manifest):
     agg, native = helpers()
     out = root / 'scoring'
@@ -462,13 +521,14 @@ def evaluate(root, manifest):
             'module_sha256': sha(native.__file__), 'work': str(candidate), 'labels': manifest[key],
             'log': str(out / (name + '.log')), 'name': '34570-' + name, 'image': IMAGE, 'dependencies': str(DEPS)})
         result[name] = native.test(candidate, manifest[key], out / (name + '.log'), '34570-' + name)
+    probe_path=scoring_probe(out)
     name = 'django34570-public-' + str(os.getpid())
     cmd = ['docker', 'run', '--name', name, '--rm', '--pull', 'never', '--network', 'none', '--read-only',
            '--cpus', '2', '--memory', '3g', '--pids-limit', '256', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
            '--tmpfs', '/tmp:rw,nosuid,size=128m', '-e', 'PYTHONPATH=/workspace:/extra', '-e', 'PYTHONDONTWRITEBYTECODE=1',
            '--mount', f'type=bind,src={candidate},dst=/workspace,readonly',
            '--mount', f'type=bind,src={DEPS},dst=/extra,readonly',
-           '--mount', f'type=bind,src={TASK / "scoring/public_issue_probe.py"},dst=/public_issue_probe.py,readonly',
+           '--mount', f'type=bind,src={probe_path},dst=/public_issue_probe.py,readonly',
            '--workdir', '/workspace', '--entrypoint', 'python3', IMAGE, '/public_issue_probe.py']
     write_new(out / 'public_probe_command.json', cmd)
     try:
@@ -484,7 +544,7 @@ def evaluate(root, manifest):
     except (ValueError, UnicodeDecodeError):
         probe = {}
     result.update({'public_probe': {'exit': code, 'result': probe, 'stdout_sha256': sha(out / 'public.stdout'),
-                                  'stderr_sha256': sha(out / 'public.stderr')},
+                                  'stderr_sha256': sha(out / 'public.stderr'),'probe_copy_sha256':sha(probe_path),'probe_copy_mode':oct(probe_path.stat().st_mode&0o777)},
                    'semantics': score_semantics(result['focus'], result['regression'], code, probe),
                    'wall_seconds': time.monotonic() - started, 'model_calls': 0,
                    'statistical_unit': 'one task, not fourteen independent samples',

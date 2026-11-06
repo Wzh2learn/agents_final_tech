@@ -1,5 +1,6 @@
 """CPU-only boundary tests; no model, service, database or Docker invocation."""
 from contextlib import nullcontext
+import ast
 import importlib.util
 import json
 import os
@@ -7,6 +8,9 @@ from pathlib import Path
 import sys
 import tempfile
 import threading
+import socket
+import socketserver
+import stat
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -49,6 +53,56 @@ class Django34570Tests(unittest.TestCase):
         for dst, mount in mounts.items():
             cmd += ['--mount', f'type=bind,src={mount["source"]},dst={dst}' + (',readonly' if mount['readonly'] else '')]
         return cmd + [runner.IMAGE, '-c', 'public entry'], mounts
+
+    @unittest.skipUnless(os.name=='posix' and hasattr(socket,'AF_UNIX'),'native Unix socket qualification')
+    def test_long_native_path_fails_but_frozen_short_path_really_binds(self):
+        with tempfile.TemporaryDirectory(prefix='d34570-path-') as temp:
+            root=Path(temp)/('deep_attempt_'+'x'*110);old=root/'bridge/model.sock';old.parent.mkdir(parents=True)
+            with socket.socket(socket.AF_UNIX) as peer:
+                with self.assertRaisesRegex(OSError,'path too long'):peer.bind(str(old))
+            directory=runner.socket_directory(root);self.assertLessEqual(len(os.fsencode(directory/'model.sock')),103);self.assertEqual(directory,runner.socket_directory(root));identity=runner.create_socket_directory(directory)
+            try:
+                self.assertEqual(stat.S_IMODE(directory.stat().st_mode),0o755)
+                with socketserver.UnixStreamServer(str(directory/'model.sock'),socketserver.BaseRequestHandler):self.assertTrue(stat.S_ISSOCK((directory/'model.sock').stat().st_mode))
+            finally:runner.cleanup_socket_directory(directory,identity)
+            self.assertFalse(directory.exists())
+    @unittest.skipUnless(os.name=='posix','inode/UID owned socket cleanup')
+    def test_socket_cleanup_preserves_foreign_content_and_wrong_inode(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory=runner.socket_directory(Path(temp));identity=runner.create_socket_directory(directory)
+            try:
+                with self.assertRaisesRegex(ValueError,'ownership/inode'):runner.cleanup_socket_directory(directory,(identity[0],identity[1]+1))
+                foreign=directory/'model.sock';foreign.write_text('not a socket')
+                with self.assertRaisesRegex(ValueError,'not an owned socket'):runner.cleanup_socket_directory(directory,identity)
+                self.assertEqual(foreign.read_text(),'not a socket');foreign.unlink();extra=directory/'do_not_delete';extra.write_text('foreign')
+                with self.assertRaisesRegex(ValueError,'unexpected'):runner.cleanup_socket_directory(directory,identity)
+                self.assertTrue(extra.exists());extra.unlink()
+            finally:runner.cleanup_socket_directory(directory,identity)
+    @unittest.skipUnless(os.name=='posix','short path collision refusal')
+    def test_existing_short_directory_never_reused_or_removed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory=runner.socket_directory(Path(temp));identity=runner.create_socket_directory(directory)
+            try:
+                with self.assertRaises(FileExistsError):runner.create_socket_directory(directory)
+                self.assertTrue(directory.exists())
+            finally:runner.cleanup_socket_directory(directory,identity)
+    def test_probe_handoff_is_readable_copy_without_mutating_frozen_source(self):
+        with tempfile.TemporaryDirectory() as temp:
+            task=Path(temp);source=task/'scoring/public_issue_probe.py';source.parent.mkdir();source.write_bytes(b'print("public")\n');source.chmod(0o600);out=task/'out';out.mkdir();before=runner.sha(source)
+            with patch.object(runner,'TASK',task),patch.object(runner,'PINNED',{'scoring/public_issue_probe.py':before}):copy=runner.scoring_probe(out)
+            self.assertEqual(runner.sha(copy),before);self.assertEqual(runner.sha(source),before)
+            if os.name=='posix':self.assertEqual(stat.S_IMODE(source.stat().st_mode),0o600);self.assertEqual(stat.S_IMODE(copy.stat().st_mode),0o444)
+            self.assertNotEqual(source,copy)
+    def test_public_scoring_mounts_readable_handoff_not_private_source(self):
+        with tempfile.TemporaryDirectory() as temp:
+            task=Path(temp);root=task/'attempt';root.mkdir();source=task/'scoring/public_issue_probe.py';source.parent.mkdir();source.write_bytes(b'# public probe\n');source.chmod(0o600);commands=[]
+            def restore(work,clean,candidate):candidate.mkdir();(candidate/'candidate.py').write_text('actual candidate')
+            agg=SimpleNamespace(restore_candidate=restore);native=SimpleNamespace(__file__=str(MODULE),test=lambda *a:{'exit':1,'summary':[]})
+            probe={'public_problem_results':{n:{'status':'RETURNED','row_count':0} for n in ('ManyToManyField','GenericForeignKey')}}
+            def run(cmd,**kwargs):
+                commands.append(cmd);return SimpleNamespace(returncode=0,stdout=json.dumps(probe).encode(),stderr=b'')
+            with patch.object(runner,'TASK',task),patch.object(runner,'PINNED',{'scoring/public_issue_probe.py':runner.sha(source)}),patch.object(runner,'helpers',return_value=(agg,native)),patch.object(runner.subprocess,'run',side_effect=run):result=runner.evaluate(root,{'focus_labels':['one'],'regression_labels':['more']})
+            mount=next(x for x in commands[0] if 'dst=/public_issue_probe.py' in x);self.assertIn(str(root/'scoring/public_issue_probe.py'),mount);self.assertTrue(mount.endswith(',readonly'));self.assertNotIn('src='+str(source)+',',mount);self.assertEqual(result['public_probe']['probe_copy_sha256'],runner.sha(source));self.assertFalse(result['semantics']['fixed']);self.assertEqual(result['model_calls'],0)
 
     def test_parent_mount_and_postgres_are_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -221,6 +275,18 @@ class Django34570Tests(unittest.TestCase):
             self.assertIn('post_count[0]>=48', code)
             self.assertIn("raise SystemExit(0)\nif json.loads(command_path", code)
             self.assertIn('episode_deadline[0]=time.monotonic()+1200', code)
+
+    @unittest.skipUnless(os.name=='posix' and Path('/home/testuser/wzh/research_evidence/agent_skill_method_20261029/run_skill_episode_output8192.py').is_file(),'GB10 derived startup CPU control')
+    def test_actual_derived_bind_failure_cleans_only_its_socket(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);profile={'host':'127.0.0.1','port':18104,'model_id':'qwen3-8b-qual','context':32768,'output':8192};code=runner.derive(root,profile);directory=runner.socket_directory(root);self.assertIn('bridge=Path('+repr(str(directory))+')',code);self.assertNotIn(str(root/'bridge'),code)
+            nodes=[n for n in ast.parse(code).body if isinstance(n,ast.Try) and n.body and isinstance(n.body[0],ast.Assign) and any(isinstance(t,ast.Name) and t.id=='bridge_identity' for t in n.body[0].targets)];self.assertEqual(len(nodes),1)
+            def failing_server(path,handler):
+                with socket.socket(socket.AF_UNIX) as peer:peer.bind(path)
+                raise OSError('MOCK failure after native socket bind; no model/Docker')
+            namespace={'server':None,'server_started':False,'bridge_identity':None,'bridge':directory,'sockpath':directory/'model.sock','Server':failing_server,'Handler':object,'create_socket_directory':runner.create_socket_directory,'cleanup_socket_directory':runner.cleanup_socket_directory}
+            with self.assertRaisesRegex(OSError,'MOCK failure'):exec(compile(ast.Module(body=nodes,type_ignores=[]),'<actual-derived-bind-finally>','exec'),namespace)
+            self.assertFalse(directory.exists())
 
     @unittest.skipUnless(Path('/home/testuser/wzh/research_evidence/agent_skill_method_20261029/run_skill_episode_output8192.py').is_file(), 'GB10 stable restore function only')
     def test_independent_restore_discards_actor_test_and_config_edits(self):
