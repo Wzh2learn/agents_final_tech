@@ -17,6 +17,7 @@ from pathlib import Path
 import random
 import re
 import time
+import traceback
 
 ST=Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfworld_text_qualification_20261106/context_study_v1')
 TOKENS=Path(__file__).with_name('alfworld_supervision_tokens.py')
@@ -133,6 +134,25 @@ def verify_plan(root,digest,study_root=ST):
     return root,plan,{r['row_id']:r for r in rows}
 
 
+def verify_safetensor_and_advise(path,expected_sha):
+    """Run-only: full read/hash, then clean-cache advice on that same read-only fd.
+
+    Accepted advice reports a kernel hint, not measured eviction or GPU headroom.
+    No global cache operation and no file content modification is performed.
+    """
+    digest=hashlib.sha256();result={'path':str(path),'clean_cache_eviction_guaranteed':False}
+    with Path(path).open('rb') as stream:
+        for chunk in iter(lambda:stream.read(8*1024**2),b''):digest.update(chunk)
+        if digest.hexdigest()!=expected_sha:raise IntegrityError('hash mismatch: '+str(path))
+        result['verified_sha256']=expected_sha
+        advice=getattr(os,'posix_fadvise',None);flag=getattr(os,'POSIX_FADV_DONTNEED',None)
+        if not callable(advice) or flag is None:result.update(status='unknown',reason='POSIX clean-file-cache advice unavailable');return result
+        try:
+            advice(stream.fileno(),0,0,flag);result.update(status='accepted',effect='unknown; no guarantee of eviction or enough CUDA memory')
+        except OSError as exc:result.update(status='failed',error={'type':type(exc).__name__,'errno':exc.errno,'message':str(exc)})
+    return result
+
+
 def validate_model_binding(path,digest,plan):
     reference=plan.get('model_binding_reference')
     if reference is not None and reference!={'path':str(canonical(path)),'sha256':digest}:raise IntegrityError('full model binding differs from frozen CPU reference')
@@ -140,11 +160,13 @@ def validate_model_binding(path,digest,plan):
     if str(model)!=plan['model_path'] or (model/'adapter_config.json').exists():raise IntegrityError('wrong model or parent adapter')
     files=binding['files']
     if type(files) is not list or not files:raise IntegrityError('empty full model binding')
-    names={}
+    names={};cache_advice=[]
     for row in files:
         p=canonical(row['path'])
         if p.parent!=model or p.name in names or type(row.get('bytes')) is not int or row['bytes']<0 or p.stat().st_size!=row['bytes'] or p.name.startswith('adapter_'):raise IntegrityError('invalid/duplicate/base-adapter binding file')
-        checked(p,row['sha256']);names[p.name]=row['sha256']
+        if p.name.endswith('.safetensors'):cache_advice.append(verify_safetensor_and_advise(p,row['sha256']))
+        else:checked(p,row['sha256'])
+        names[p.name]=row['sha256']
     if 'model.safetensors.index.json' not in names:raise IntegrityError('full8B binding requires safetensor index')
     index=read(model/'model.safetensors.index.json');shards=set(index['weight_map'].values())
     if not shards or any(type(n) is not str or Path(n).name!=n or not n.endswith('.safetensors') for n in shards) or not shards<=names.keys():raise IntegrityError('missing/unsafe bound weight shards')
@@ -152,7 +174,7 @@ def validate_model_binding(path,digest,plan):
     if actual_shards!=shards:raise IntegrityError('unbound or missing effective safetensor files')
     for name,d in plan['tokenizer_binding']['files_sha256'].items():
         if names.get(name)!=d:raise IntegrityError('training base differs from tokenizer/model config')
-    return binding
+    return {**binding,'runtime_cache_advice':cache_advice}
 
 
 def validate_window(path,digest,plan_sha,model_path):
@@ -197,50 +219,58 @@ def run(root,plan_sha,model_binding,model_binding_sha,resource_window,resource_w
     reservation={'plan_sha256':plan_sha,'model_binding_path':str(model_binding),'model_binding_sha256':model_binding_sha,'resource_window_path':str(resource_window),'resource_window_sha256':resource_window_sha,'resource_scope':'D research queue/owned18104 only; not a global GPU or cross-host lock','mode':'EXPLICIT_LORA_TRAIN_NO_GENERATION'}
     write_new(root/'reservation.json',reservation)
     started=time.monotonic();model=optimizer=torch=loss=logits=gradients=trainable=None;completed_rows=Counter();completed_groups=Counter()
-    receipt={'status':'FAILED','reservation':reservation,'optimizer_updates_attempted':0,'optimizer_updates_completed':0,'forward_calls_started':0,'forward_calls_completed':0,'completed_forward_sequence_tokens':0,'completed_forward_supervised_tokens':0,'attempted_sequence_tokens_upper_bound':0,'attempted_supervised_tokens_upper_bound':0,'completed_update_sequence_tokens':0,'completed_update_supervised_tokens':0,'model_weight_loads_started':0,'model_weight_loads_completed':0,'http_generation_inference_calls':0,'source_groups':plan['source_groups'],'development_only':True,'shared_models_managed':False,'gpu_exclusive':False,'formation_ledger_reference':plan['formation_ledger_reference']}
+    receipt={'status':'FAILED','reservation':reservation,'optimizer_updates_attempted':0,'optimizer_updates_completed':0,'forward_calls_started':0,'forward_calls_completed':0,'completed_forward_sequence_tokens':0,'completed_forward_supervised_tokens':0,'attempted_sequence_tokens_upper_bound':0,'attempted_supervised_tokens_upper_bound':0,'completed_update_sequence_tokens':0,'completed_update_supervised_tokens':0,'model_weight_loads_started':0,'model_weight_loads_completed':0,'binding_cache_advice':binding.get('runtime_cache_advice',[]),'cache_advice_guarantees_sufficient_memory':False,'execution_stage':'import_training_libraries','http_generation_inference_calls':0,'source_groups':plan['source_groups'],'development_only':True,'shared_models_managed':False,'gpu_exclusive':False,'formation_ledger_reference':plan['formation_ledger_reference']}
     try:
         import torch
         from peft import LoraConfig,get_peft_model
         from transformers import AutoModelForCausalLM,set_seed
-        os.environ.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false');set_seed(CONFIG['seed']);receipt['cuda_memory_before']=dict(zip(['free','total'],torch.cuda.mem_get_info(0)));torch.cuda.reset_peak_memory_stats(0)
-        receipt['model_weight_loads_started']+=1
+        os.environ.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false');receipt['execution_stage']='set_seed';set_seed(CONFIG['seed'])
+        receipt['execution_stage']='cuda_mem_get_info';receipt['cuda_memory_before']=dict(zip(['free','total'],torch.cuda.mem_get_info(0)))
+        receipt['execution_stage']='cuda_reset_peak_memory_stats';torch.cuda.reset_peak_memory_stats(0)
+        receipt['execution_stage']='load_model_weights';receipt['model_weight_loads_started']+=1
         model=AutoModelForCausalLM.from_pretrained(plan['model_path'],dtype=torch.bfloat16,device_map={'':0},attn_implementation='sdpa',local_files_only=True,trust_remote_code=False,use_safetensors=True)
         receipt['model_weight_loads_completed']+=1;model.config.use_cache=False
+        receipt['execution_stage']='create_fresh_lora'
         model=get_peft_model(model,LoraConfig(r=8,lora_alpha=16,lora_dropout=0.0,bias='none',task_type='CAUSAL_LM',target_modules=['q_proj','v_proj'],init_lora_weights=True))
         trainable={n:p for n,p in model.named_parameters() if p.requires_grad}
         if not trainable or any('lora_' not in n or not any('.'+m+'.' in n for m in CONFIG['target_modules']) for n in trainable):raise IntegrityError('only fresh q/v LoRA parameters may train')
         receipt['trainable_parameters']=sum(p.numel() for p in trainable.values());receipt['initial_adapter_tensor_hashes']=adapter_hashes(model)
         model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False});model.enable_input_require_grads();model.train()
+        receipt['execution_stage']='optimizer_setup'
         optimizer=torch.optim.AdamW(list(trainable.values()),lr=CONFIG['learning_rate'],betas=tuple(CONFIG['adam_betas']),eps=CONFIG['adam_eps'],weight_decay=CONFIG['weight_decay'])
         if {id(p) for g in optimizer.param_groups for p in g['params']}!={id(p) for p in trainable.values()}:raise IntegrityError('optimizer includes non-LoRA parameters')
         with (root/'steps.jsonl').open('x',encoding='utf8') as log:
             for scheduled in plan['schedule']:
                 if time.monotonic()-started>=plan['wall_limit_seconds']:raise TimeoutError('frozen wall budget reached; no retry')
                 row=rows[scheduled['row_id']];receipt['optimizer_updates_attempted']+=1;receipt['attempted_sequence_tokens_upper_bound']+=len(row['input_ids']);receipt['attempted_supervised_tokens_upper_bound']+=row['supervised_tokens'];log.write(json.dumps({'event':'attempt',**scheduled})+'\n');log.flush();optimizer.zero_grad(set_to_none=True);receipt['forward_calls_started']+=1
+                receipt['execution_stage']='optimizer_forward'
                 loss,logits=sparse_causal(model,row,model.device,eos=plan['tokenizer_binding']['eos_token_id'],max_length=plan['max_length'],vocab_size=model.config.vocab_size);receipt['forward_calls_completed']+=1;receipt['completed_forward_sequence_tokens']+=len(row['input_ids']);receipt['completed_forward_supervised_tokens']+=row['supervised_tokens']
                 if not torch.isfinite(loss):raise FloatingPointError('non-finite masked loss')
-                loss.backward();gradients=[p.grad for p in trainable.values() if p.grad is not None]
+                receipt['execution_stage']='optimizer_backward';loss.backward();gradients=[p.grad for p in trainable.values() if p.grad is not None]
                 if not gradients or not all(torch.isfinite(g).all() for g in gradients) or any(p.grad is not None for n,p in model.named_parameters() if n not in trainable):raise FloatingPointError('missing/non-finite LoRA or unexpected base gradients')
                 norm=math.sqrt(sum(float(g.float().square().sum()) for g in gradients))
                 if not math.isfinite(norm) or norm==0:raise FloatingPointError('zero/non-finite LoRA gradient norm')
-                optimizer.step();completed_rows[row['row_id']]+=1;completed_groups[row['source_group']]+=1;receipt['optimizer_updates_completed']+=1;receipt['completed_update_sequence_tokens']+=len(row['input_ids']);receipt['completed_update_supervised_tokens']+=row['supervised_tokens'];log.write(json.dumps({'event':'optimizer_update',**scheduled,'loss':float(loss.detach()),'gradient_norm':norm,'wall_seconds':time.monotonic()-started})+'\n');log.flush();loss=logits=None
+                receipt['execution_stage']='optimizer_update';optimizer.step();completed_rows[row['row_id']]+=1;completed_groups[row['source_group']]+=1;receipt['optimizer_updates_completed']+=1;receipt['completed_update_sequence_tokens']+=len(row['input_ids']);receipt['completed_update_supervised_tokens']+=row['supervised_tokens'];log.write(json.dumps({'event':'optimizer_update',**scheduled,'loss':float(loss.detach()),'gradient_norm':norm,'wall_seconds':time.monotonic()-started})+'\n');log.flush();loss=logits=None
+        receipt['execution_stage']='save_adapter'
         model.eval();model.gradient_checkpointing_disable();receipt['trained_adapter_tensor_hashes']=adapter_hashes(model);adapter=root/'adapter';model.save_pretrained(adapter,safe_serialization=True);receipt['adapter_files_sha256']={p.name:sha(p) for p in adapter.iterdir() if p.is_file()}
+        receipt['execution_stage']='reload_adapter'
         model.load_adapter(str(adapter),adapter_name='reload_check',is_trainable=False,local_files_only=True);model.set_adapter('reload_check');model.eval();receipt['reload_active_adapters']=model.active_adapters;receipt['saved_adapter_config']=read(adapter/'adapter_config.json')
         cfg=receipt['saved_adapter_config']
         if (set(cfg['target_modules'])!={'q_proj','v_proj'} or cfg['r']!=8 or cfg['lora_alpha']!=16 or cfg['lora_dropout']!=0.0 or cfg['bias']!='none' or cfg['base_model_name_or_path']!=plan['model_path'] or receipt['reload_active_adapters']!=['reload_check']):raise IntegrityError('saved/reloaded adapter configuration/active identity differs')
+        receipt['execution_stage']='verify_reload_tensor_hashes'
         receipt['reloaded_adapter_tensor_hashes']=adapter_hashes(model,'reload_check');receipt['adapter_reload_tensor_identity_verified']=receipt['trained_adapter_tensor_hashes']==receipt['reloaded_adapter_tensor_hashes']
         if not receipt['adapter_reload_tensor_identity_verified']:raise IntegrityError('adapter save/reload tensors differ')
         if receipt['optimizer_updates_completed']!=plan['optimizer_updates']:raise IntegrityError('completed update count differs from frozen schedule')
-        receipt['status']='TRAINED_SAVED_RELOADED_NO_WORLD_EVALUATION'
+        receipt['execution_stage']='completed';receipt['status']='TRAINED_SAVED_RELOADED_NO_WORLD_EVALUATION'
     except Exception as exc:
-        receipt['error']={'type':type(exc).__name__,'message':str(exc)};receipt['oom_evidence']=classify_oom(exc,torch);receipt['oom']=receipt['oom_evidence']['oom'];receipt['retry_performed']=False
+        receipt['failure_stage']=receipt['execution_stage'];receipt['error']={'type':type(exc).__name__,'message':str(exc),'traceback':traceback.format_exc()};receipt['oom_evidence']=classify_oom(exc,torch);receipt['oom']=receipt['oom_evidence']['oom'];receipt['retry_performed']=False
     finally:
         receipt['work_wall_seconds']=time.monotonic()-started;cleanup_started=time.monotonic();receipt['completed_group_update_counts']=dict(completed_groups);receipt['completed_row_visit_counts']=dict(completed_rows)
         try:
             if torch is not None and torch.cuda.is_initialized():receipt['cuda_peak_allocated_bytes']=torch.cuda.max_memory_allocated(0);receipt['cuda_peak_reserved_bytes']=torch.cuda.max_memory_reserved(0)
             del optimizer,model,loss,logits,gradients,trainable;gc.collect()
             if torch is not None and torch.cuda.is_initialized():torch.cuda.empty_cache()
-        except Exception as cleanup_error:receipt['cleanup_error']={'type':type(cleanup_error).__name__,'message':str(cleanup_error)}
+        except Exception as cleanup_error:receipt['cleanup_error']={'type':type(cleanup_error).__name__,'message':str(cleanup_error),'stage':'cleanup','traceback':traceback.format_exc()}
         receipt['cleanup_wall_seconds']=time.monotonic()-cleanup_started;receipt['wall_seconds']=time.monotonic()-started
         write_new(root/'receipt.json',receipt)
     return receipt

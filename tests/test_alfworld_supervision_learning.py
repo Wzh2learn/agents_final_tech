@@ -79,7 +79,7 @@ class PlanTests(unittest.TestCase):
         torch=types.SimpleNamespace(cuda=cuda,bfloat16='MOCK_BF16',OutOfMemoryError=FakeOOM);peft=types.SimpleNamespace(LoraConfig=lambda **k:None,get_peft_model=lambda *a:None);transformers=types.SimpleNamespace(AutoModelForCausalLM=types.SimpleNamespace(from_pretrained=fail_load),set_seed=lambda seed:None)
         with patch.object(x,'verify_plan',return_value=(self.attempt,plan,{})),patch.object(x,'validate_window',return_value={}),patch.object(x,'validate_model_binding',return_value={}),patch.dict(sys.modules,{'torch':torch,'peft':peft,'transformers':transformers}):
             receipt=x.run(self.attempt,'a'*64,self.base/'binding','b'*64,self.base/'window','c'*64,study_root=self.base)
-        self.assertEqual(len(calls),1);self.assertEqual(receipt['status'],'FAILED');self.assertTrue(receipt['oom']);self.assertFalse(receipt['retry_performed']);self.assertEqual(receipt['optimizer_updates_completed'],0);self.assertTrue((self.attempt/'receipt.json').exists());self.assertTrue((self.attempt/'reservation.json').exists())
+        self.assertEqual(len(calls),1);self.assertEqual(receipt['status'],'FAILED');self.assertEqual(receipt['failure_stage'],'load_model_weights');self.assertIn('fail_load',receipt['error']['traceback']);self.assertTrue(receipt['oom']);self.assertFalse(receipt['retry_performed']);self.assertEqual(receipt['optimizer_updates_completed'],0);self.assertTrue((self.attempt/'receipt.json').exists());self.assertTrue((self.attempt/'reservation.json').exists())
         with self.assertRaisesRegex(FileExistsError,'never rerun'):x.run(self.attempt,'a'*64,self.base/'binding','b'*64,self.base/'window','c'*64,study_root=self.base)
     def test_AcceleratorError_CUDA_oom_message_is_not_false_non_OOM(self):
         self.prepare();plan=x.read(self.attempt/'manifest.json');calls=[]
@@ -90,7 +90,7 @@ class PlanTests(unittest.TestCase):
         cuda=types.SimpleNamespace(reset_peak_memory_stats=lambda *a:None,mem_get_info=fail_mem,is_initialized=lambda:False);torch=types.SimpleNamespace(cuda=cuda,bfloat16='MOCK',OutOfMemoryError=TypedOOM);peft=types.SimpleNamespace(LoraConfig=lambda **k:None,get_peft_model=lambda *a:None);transformers=types.SimpleNamespace(AutoModelForCausalLM=types.SimpleNamespace(from_pretrained=must_not_load),set_seed=lambda seed:None)
         with patch.object(x,'verify_plan',return_value=(self.attempt,plan,{})),patch.object(x,'validate_window',return_value={}),patch.object(x,'validate_model_binding',return_value={}),patch.dict(sys.modules,{'torch':torch,'peft':peft,'transformers':transformers}):
             receipt=x.run(self.attempt,'a'*64,self.base/'binding','b'*64,self.base/'window','c'*64,study_root=self.base)
-        self.assertEqual(receipt['status'],'FAILED');self.assertEqual(receipt['error'],{'type':'AcceleratorError','message':'CUDA error: out of memory'});self.assertTrue(receipt['oom']);self.assertFalse(receipt['oom_evidence']['typed_torch_out_of_memory']);self.assertTrue(receipt['oom_evidence']['cuda_out_of_memory_message']);self.assertEqual(receipt['oom_evidence']['classification'],'cuda_oom_message_only');self.assertEqual(receipt['model_weight_loads_started'],0);self.assertEqual(calls,[]);self.assertFalse(receipt['retry_performed'])
+        self.assertEqual(receipt['status'],'FAILED');self.assertEqual(receipt['error']['type'],'AcceleratorError');self.assertEqual(receipt['error']['message'],'CUDA error: out of memory');self.assertEqual(receipt['failure_stage'],'cuda_mem_get_info');self.assertIn('fail_mem',receipt['error']['traceback']);self.assertTrue(receipt['oom']);self.assertFalse(receipt['oom_evidence']['typed_torch_out_of_memory']);self.assertTrue(receipt['oom_evidence']['cuda_out_of_memory_message']);self.assertEqual(receipt['oom_evidence']['classification'],'cuda_oom_message_only');self.assertEqual(receipt['model_weight_loads_started'],0);self.assertEqual(calls,[]);self.assertFalse(receipt['retry_performed'])
     def test_no_OOM_evidence_is_unclassified_not_definitive_false(self):
         result=x.classify_oom(ValueError('MOCK unrelated failure'),types.SimpleNamespace(OutOfMemoryError=MemoryError));self.assertIsNone(result['oom']);self.assertEqual(result['classification'],'unclassified_no_oom_evidence')
     def test_memory_query_initializes_CUDA_before_peak_reset(self):
@@ -108,6 +108,29 @@ class PlanTests(unittest.TestCase):
         with patch.object(x,'verify_plan',return_value=(self.attempt,plan,{})),patch.object(x,'validate_window',return_value={}),patch.object(x,'validate_model_binding',return_value={}),patch.dict(sys.modules,{'torch':torch,'peft':peft,'transformers':transformers}):
             receipt=x.run(self.attempt,'a'*64,self.base/'binding','b'*64,self.base/'window','c'*64,study_root=self.base)
         self.assertEqual(calls,['mem_get_info','reset_peak_memory_stats','weight_load']);self.assertTrue(receipt['oom_evidence']['typed_torch_out_of_memory']);self.assertEqual(receipt['cuda_memory_before'],{'free':123,'total':456});self.assertEqual(receipt['optimizer_updates_completed'],0)
+    def test_full_hash_then_cache_advice_only_on_bound_safetensor(self):
+        self.prepare();plan=x.read(self.attempt/'manifest.json');path=self.model_binding();calls=[];shard=self.model/'model-00001-of-00001.safetensors';original=shard.read_bytes()
+        def hint(fd,offset,length,flag):calls.append((x.os.fstat(fd).st_ino,offset,length,flag))
+        with patch.object(x.os,'posix_fadvise',hint,create=True),patch.object(x.os,'POSIX_FADV_DONTNEED',4,create=True):binding=x.validate_model_binding(path,x.sha(path),plan)
+        self.assertEqual(calls,[(shard.stat().st_ino,0,0,4)]);self.assertEqual(len(binding['runtime_cache_advice']),1);advice=binding['runtime_cache_advice'][0];self.assertEqual(advice['status'],'accepted');self.assertEqual(advice['verified_sha256'],x.sha(shard));self.assertFalse(advice['clean_cache_eviction_guaranteed']);self.assertEqual(shard.read_bytes(),original)
+    def test_same_size_corrupt_weight_still_fails_hash_before_advice(self):
+        self.prepare();plan=x.read(self.attempt/'manifest.json');path=self.model_binding();shard=self.model/'model-00001-of-00001.safetensors';old=shard.read_bytes();shard.write_bytes(bytes([old[0]^1])+old[1:]);calls=[]
+        with patch.object(x.os,'posix_fadvise',lambda *a:calls.append(a),create=True),patch.object(x.os,'POSIX_FADV_DONTNEED',4,create=True),self.assertRaisesRegex(x.IntegrityError,'hash mismatch'):x.validate_model_binding(path,x.sha(path),plan)
+        self.assertEqual(calls,[])
+    def test_advice_OSError_recorded_without_claiming_eviction(self):
+        self.prepare();plan=x.read(self.attempt/'manifest.json');path=self.model_binding()
+        def fail(*args):raise OSError(95,'MOCK clean-cache advice unavailable')
+        with patch.object(x.os,'posix_fadvise',fail,create=True),patch.object(x.os,'POSIX_FADV_DONTNEED',4,create=True):result=x.validate_model_binding(path,x.sha(path),plan)
+        advice=result['runtime_cache_advice'][0];self.assertEqual(advice['status'],'failed');self.assertEqual(advice['error']['errno'],95);self.assertIn('MOCK',advice['error']['message']);self.assertFalse(advice['clean_cache_eviction_guaranteed'])
+    def test_unavailable_advice_is_explicitly_unknown(self):
+        self.prepare();plan=x.read(self.attempt/'manifest.json');path=self.model_binding()
+        with patch.object(x.os,'posix_fadvise',None,create=True):result=x.validate_model_binding(path,x.sha(path),plan)
+        self.assertEqual(result['runtime_cache_advice'][0]['status'],'unknown')
+    def test_CPU_plan_never_hashes_weights_or_advises_cache(self):
+        path=self.model_binding()
+        with patch.object(x,'verify_safetensor_and_advise',side_effect=AssertionError('CPU prepare must not read/advice weights')) as mock:
+            result=x.prepare(self.attempt,self.manifest,x.sha(self.manifest),['gA','gB'],updates=12,model_binding=path,model_binding_sha=x.sha(path),study_root=self.base)
+        mock.assert_not_called();self.assertEqual(result['optimizer_updates'],12)
     def test_import_has_no_torch_HF_CUDA_or_model_start(self):
         code="import importlib.util,sys;s=importlib.util.spec_from_file_location('m',sys.argv[1]);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);print(any(x in sys.modules for x in ['torch','transformers','peft']))";done=subprocess.run([sys.executable,'-B','-c',code,str(PATH)],capture_output=True,text=True,check=True);self.assertEqual(done.stdout.strip(),'False')
     def test_prepare_refuses_existing_attempt(self):
