@@ -33,14 +33,26 @@
 
 导出保留真实请求/SSE、公共content与tool_calls；被拒绝动作、工具反馈与最终文字不作为正监督，失败上下文不删除。每个当前动作completion仍须按实际请求编译token标签。已验证多轮chat候选不等于可直接投入旧单completion训练器。
 
+CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,740，无排除或截断；逐个使用实际forwarded request和native SSE，历史消息及tool输出mask为-100，只当前助手动作completion＋单个im_end监督，尾部模板换行不计loss。HF模板前缀逐token相同；未加载权重、未调用CUDA或推理。`supervision_tokens_v1/teacher_drop_recent_qwen3_8b_v1/data_manifest.json` SHA `e12352162db845a61e14f337b722b17391262c08a953817c0316da388ebf124e`。数据量仍小，接受动作中也有冗余/探索，不能称逐步最优示范；训练比较须控制接口收益及来源不平衡。
+
 ## 当前动作：普通成功经验与纠正经验的匹配对照
 
 复用现有study新增`ordinary_reset`阶段：27B在相同18题从真实初始状态执行，使用与recent恢复一致的空历史/空经验提示合同；100实际动作、128 POST、1800秒总cap，普通stop未成功最多统一续做一次。无虚构失败source、不重放旧进度；与32 POST的学生collector不混称同预算。数据集按任务/布局配对，普通成功与纠正成功分开导出；交集用于匹配监督比较，全部失败仍计成本。
 
-先发表代码、冻结队列及请求设置，再启动该批。它提供直接强模型成本基线和普通成功SFT监督，不把“有教师纠正”本身当新方法。8B HF权重已存在；CUDA空上下文探测两次OOM，暂不加载新GPU模型或改共享服务。4B继续作为支持项，不阻塞多任务数据与机制分析。
+代码已发布为`9056b53d`；批次`context_study_v1/ordinary_teacher_v1`、owned PID4157942已启动，按冻结POOL顺序运行18题，driver为Q下`run_context_study_ordinary_teacher_v1.py`。终态以RESULT为准；STOP_REQUESTED加核验该PID的SIGTERM仅退出本批actor/relay/world，不停模型。它提供直接强模型成本基线和普通成功SFT监督，不把“有教师纠正”本身当新方法。8B HF权重已存在；CUDA空上下文探测两次OOM，暂不加载新GPU模型或改共享服务。4B继续作为支持项，不阻塞多任务数据与机制分析。
 
 ## 方法重叠与下一验证
 
 [ACE §3](https://arxiv.org/html/2510.04618v1)已有带效用记录的条目、局部delta更新和保留历史知识；[AgentFold §3](https://arxiv.org/html/2510.24699v1)已有任务执行中的细粒度/深层上下文折叠和轨迹SFT。[STeP](https://arxiv.org/html/2505.20023v1)已有学生失败现场的教师纠正与partial masking。均已读方法正文，未复现成绩；局部改经验、继续外部进度或换LoRA都不足以构成独立贡献。
 
-待验证的窄问题是：可见新反馈否定某条经验前提后，是否需要撤回其依赖步骤并保留仍成立的进度。先对比精确目标绑定、循环保护、等预算摘要及上述局部更新适配；当前失败轨迹并未证明这种残差。普通/纠正监督学习是能力和训练对照，不预先宣称新方法。第二环境按[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续；不再训练已无成功选择空间的旧四臂选择器。
+**2026-11-07原文新增核对**：[Dependency-Guided Rollback Repair §3](https://arxiv.org/html/2608.10502v1)已研究故障经验的后继失效、独立支持保留和选择性重放；其输入包含上游已诊断的故障memory，明确不能撤销不可逆外部副作用。因此“撤回前提及依赖、保留未受影响部分”也不是新机制。可比较的剩余条件是普通执行反馈下的诊断不确定性、实际外部进度及补偿成本，是否值得学习仍须实测。
+
+[Invalidation Contracts §3/6.4](https://arxiv.org/html/2609.00243v1)提供服务端版本/差分与依赖失效，实验为作者构建API；[MERIT §3](https://arxiv.org/html/2608.05906v1)已有按错误类型检索正负修复记忆，但终态正确性用oracle反馈。这些是应对齐的近邻/信息条件，不因换环境就认定独立增量。当前失败并未证明需要复杂依赖机制；先比较精确目标绑定、循环保护、等预算摘要和相关局部更新适配。新增最直接对标（2026-11-07读方法正文，未复现成绩）：[Sentry §3](https://arxiv.org/html/2610.02994v1)已按运行中失败触发少量经验、验证局部恢复再入库；[EMG §4](https://arxiv.org/html/2607.13884v3)已对失败/成功轨迹做决策图匹配以提取纠正知识，并在ALFWorld/ScienceWorld评测；[VH-GPO §3](https://arxiv.org/html/2610.14000v1)已从学生现场做教师恢复、验证提前交还控制并学习。故“条件暴露失败经验”“从成功/失败差异抽技能”“短教师桥＋学生续做”也须作为对照，不能直接改名为新方法。优先对齐Sentry的反馈条件、EMG的监督来源和STeP的纠正训练；VH-GPO涉及额外搜索和RL，比较时不能省略其形成成本或称已完整复现。
+
+普通/纠正监督学习是能力和训练对照，不预先宣称新方法。第二环境按[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续；不再训练已无成功选择空间的旧四臂选择器。
+
+## 本轮判读与训练对照取舍
+
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督；UNVERIFIED：它是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：先完成直接教师/普通成功池与逐completion标签；在交集任务上匹配基座、来源权重、有效监督token、步数与评测接口，再做小规模学习开发。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若无稳定独立任务增益或简单goal/合法动作/循环控制已解释收益，停止复杂学习候选，保留数据与负结果；不为等所有环境/模型资格而延迟有界开发。First action：验证当前普通18题终态，随后配对编译两类监督。
+
+新薄包`alfworld_teacher_complete_supervision_v2_20261107.tar.gz`（1,553成员，5,421,100bytes；SHA `5361d083bdeb7599efce2781667ae2903cc05ab93507b0445d23036dd7954bf2`）已在GB10、本机逐成员核验；manifest SHA `37997af7e5f5d5460315c078454b1eb94b7d8b8e314c78651e46362ca9117403`。依赖前述source/四诊断薄包；不含在途普通18题，也不是公开可再分发数据包。

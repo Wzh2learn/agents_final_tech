@@ -33,7 +33,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **比较要求**：增加GLoW式guard＋fresh执行及固定K重验，标明适配而非原法复现；旧主动探针想法保留为备选。
 
-**当前重叠（2026-11-07）**：[Memento](https://arxiv.org/html/2611.00244v1)已有上下文管理，[STeP](https://arxiv.org/html/2505.20023v1)已有现场教师纠正，[ACE](https://arxiv.org/html/2510.04618v1)已有局部记忆delta，[AgentFold](https://arxiv.org/html/2510.24699v1)已有执行中折叠与轨迹SFT；方法正文已核，未复现成绩。当前窄假设和强基线见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**当前直接对标（2026-11-07）**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR](https://arxiv.org/html/2608.10502v1)已覆盖依赖撤回。方法正文已核，未复现成绩。ACE/AgentFold/VH-GPO等重叠、剩余假设及比较条件见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
