@@ -93,6 +93,21 @@ class PlanTests(unittest.TestCase):
         self.assertEqual(receipt['status'],'FAILED');self.assertEqual(receipt['error'],{'type':'AcceleratorError','message':'CUDA error: out of memory'});self.assertTrue(receipt['oom']);self.assertFalse(receipt['oom_evidence']['typed_torch_out_of_memory']);self.assertTrue(receipt['oom_evidence']['cuda_out_of_memory_message']);self.assertEqual(receipt['oom_evidence']['classification'],'cuda_oom_message_only');self.assertEqual(receipt['model_weight_loads_started'],0);self.assertEqual(calls,[]);self.assertFalse(receipt['retry_performed'])
     def test_no_OOM_evidence_is_unclassified_not_definitive_false(self):
         result=x.classify_oom(ValueError('MOCK unrelated failure'),types.SimpleNamespace(OutOfMemoryError=MemoryError));self.assertIsNone(result['oom']);self.assertEqual(result['classification'],'unclassified_no_oom_evidence')
+    def test_memory_query_initializes_CUDA_before_peak_reset(self):
+        self.prepare();plan=x.read(self.attempt/'manifest.json');calls=[];initialized=False
+        class FakeOOM(RuntimeError):pass
+        def query(*args):
+            nonlocal initialized
+            calls.append('mem_get_info');initialized=True;return (123,456)
+        def reset(*args):
+            calls.append('reset_peak_memory_stats')
+            if not initialized:raise RuntimeError('Invalid device argument ')
+        def stop_before_real_weights(*args,**kwargs):calls.append('weight_load');raise FakeOOM('MOCK stop after memory setup; no actual model/GPU')
+        cuda=types.SimpleNamespace(reset_peak_memory_stats=reset,mem_get_info=query,is_initialized=lambda:initialized,max_memory_allocated=lambda *a:0,max_memory_reserved=lambda *a:0,empty_cache=lambda:None)
+        torch=types.SimpleNamespace(cuda=cuda,bfloat16='MOCK',OutOfMemoryError=FakeOOM);peft=types.SimpleNamespace(LoraConfig=lambda **k:None,get_peft_model=lambda *a:None);transformers=types.SimpleNamespace(AutoModelForCausalLM=types.SimpleNamespace(from_pretrained=stop_before_real_weights),set_seed=lambda seed:None)
+        with patch.object(x,'verify_plan',return_value=(self.attempt,plan,{})),patch.object(x,'validate_window',return_value={}),patch.object(x,'validate_model_binding',return_value={}),patch.dict(sys.modules,{'torch':torch,'peft':peft,'transformers':transformers}):
+            receipt=x.run(self.attempt,'a'*64,self.base/'binding','b'*64,self.base/'window','c'*64,study_root=self.base)
+        self.assertEqual(calls,['mem_get_info','reset_peak_memory_stats','weight_load']);self.assertTrue(receipt['oom_evidence']['typed_torch_out_of_memory']);self.assertEqual(receipt['cuda_memory_before'],{'free':123,'total':456});self.assertEqual(receipt['optimizer_updates_completed'],0)
     def test_import_has_no_torch_HF_CUDA_or_model_start(self):
         code="import importlib.util,sys;s=importlib.util.spec_from_file_location('m',sys.argv[1]);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);print(any(x in sys.modules for x in ['torch','transformers','peft']))";done=subprocess.run([sys.executable,'-B','-c',code,str(PATH)],capture_output=True,text=True,check=True);self.assertEqual(done.stdout.strip(),'False')
     def test_prepare_refuses_existing_attempt(self):

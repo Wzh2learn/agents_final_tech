@@ -47,9 +47,13 @@ CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,74
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
-两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。`learning_comparison_v1/plans/ordinary_v2` manifest SHA `ec4aa26b91041a316af0319e0704405d006a5d71e4195fd126c1b5c25bd3e2d4`；`recovery_v2` SHA `2b2364fa8a4c8dcfcae5ed327c2cce4503ee80a3a8fab88cac23180cfbce0217`。v1是未运行CPU草案，原样保留。训练前后不加入canary生成，实际学习效果随后按环境won评价。
+两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。`learning_comparison_v1/plans/ordinary_v3` manifest SHA `1c1de3d41e2bdb5aa616d869414dfcfbdcf3539490f5d5dcd5e9e7c65ddd5400`；`recovery_v3` SHA `43369fb83d67206351b0c032feefe53930ad0330edb41b22ce94f8bc51fe9fb2`。旧CPU计划、源码与失败均保留，v3采样与预算未变。训练前后不加入canary生成，实际学习效果随后按环境won评价。
 
 仅D在持有本study队列及owned18104窗口时显式运行，窗口不代表整GPU独占；共享35B/27B保持常驻，结束须恢复owned8B原argv/cwd与健康。OOM保留失败、实际步数与未知项，不自动换模型/截样或改共享服务。4B不是前置。HF8B五shard共16,381,516,776bytes已完整绑定；`HF8B_MODEL_BINDING_V1.json` SHA `b8d5af477c1f6be67981583a4a60df9561ea53872e0676535aa9745fce011dc1`。它不证明与旧GGUF权重数值等价；部署比较要保持相同推理基座/量化与接口。
+
+v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载、0forward、0优化步，不是OOM或学习负结果）。根已在新进程精确复现：reset_peak不触发CUDA初始化，必须先mem_get_info；现已修正并以失败→通过回归验证。`owned_window_v1`结束已恢复8B原argv/cwd（PID16445），共享35B/27B身份未变；5次健康GET、1次CUDA内存探测、零模型生成。旧窗口与receipt保留，下一次只用新v3计划及独立窗口，不复写失败。
+
+独立数据复核读取361份原SSE和135配对训练行，无差异；只允许7组暴露任务上的有限学习开发，不是训练器或泛化审定。`learning_comparison_v1/independent_data_review_v1.json` SHA `2cf11cceebef3c06caeb07ebd7f6b7a04807fd930c9a6abd21757ebd132859b8`。训练源码/CPU loss与梯度检查另行验证，不将mock通过冒充真实GPU训练。
 
 ## 新布局与第二环境
 

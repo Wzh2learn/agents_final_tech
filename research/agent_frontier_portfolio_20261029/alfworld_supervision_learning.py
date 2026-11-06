@@ -202,7 +202,7 @@ def run(root,plan_sha,model_binding,model_binding_sha,resource_window,resource_w
         import torch
         from peft import LoraConfig,get_peft_model
         from transformers import AutoModelForCausalLM,set_seed
-        os.environ.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false');set_seed(CONFIG['seed']);torch.cuda.reset_peak_memory_stats(0);receipt['cuda_memory_before']=dict(zip(['free','total'],torch.cuda.mem_get_info(0)))
+        os.environ.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false');set_seed(CONFIG['seed']);receipt['cuda_memory_before']=dict(zip(['free','total'],torch.cuda.mem_get_info(0)));torch.cuda.reset_peak_memory_stats(0)
         receipt['model_weight_loads_started']+=1
         model=AutoModelForCausalLM.from_pretrained(plan['model_path'],dtype=torch.bfloat16,device_map={'':0},attn_implementation='sdpa',local_files_only=True,trust_remote_code=False,use_safetensors=True)
         receipt['model_weight_loads_completed']+=1;model.config.use_cache=False
