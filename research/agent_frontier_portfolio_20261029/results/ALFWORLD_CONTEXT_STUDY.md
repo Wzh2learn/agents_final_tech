@@ -43,21 +43,58 @@ clean_01无需恢复，不能据此断言经验有因果收益。clean_02在预�
 
 本批实际196模型POST：两个collector40，四学生恢复132，教师诊断24。Provider总2,552,181tokens＝2,543,737输入＋8,444输出；已知cached输入2,183,533是输入子集，27B未报告cache细分，不能填0或把全部输入当同量新增计算。旧clean1/heat1经验形成成本按原manifest引用；本批来源收集仅物理计一次。无训练、judge、付费科研API或生产写回；研发Agent控制层成本另账，完整财务账单未知。
 
-原始SSE逐条重读、body SHA、usage逐POST求和、真实payload参数、task交付和cohort/25步重放一致性复算见`context_study_v1/MULTITASK_RECOMPUTE_V1.json`，SHA `21d31cf7c6477234a63be2160306c9e6947bc25db02c35d6e540ba8284e9718b`。四臂与教师receipt哈希均列在该私有回执，不在启动文档重复。新原生数据目前仅2个目标/1个恢复cohort；其余16例尚未执行模型，不能称18题模型结果。
+原始SSE逐条重读、body SHA、usage逐POST求和、真实payload参数、task交付和cohort/25步重放一致性复算见`context_study_v1/MULTITASK_RECOMPUTE_V1.json`，SHA `21d31cf7c6477234a63be2160306c9e6947bc25db02c35d6e540ba8284e9718b`。四臂与教师receipt哈希均列在该私有回执，不在启动文档重复。此首批仅2个目标/1个恢复cohort；后续18题结果另列，不扩张首批证据范围。
 
 ### 下一行动
 
-沿冻结execution_order继续look_01、cool_01及其余任务，优先形成独立前缀池和真实成败分布，再扩大恢复比较。学习选择器尚无正向必要性证据。加入目标重申等强简单控制和部署近邻对照仍按短计划安排；不围绕clean_02继续调参追求正例，也不等待4B接入。初批固定顺序不支持独立的墙时因果比较，后续确认需平衡顺序并按任务/来源分组。当前运行状态读取对应batch的RESULT/driver；已结束初批无需等待marker。
+扩独立前缀池后再比较恢复策略，并补从头不加载经验的强简单基线。学习选择器尚无正向必要性证据；目标重申、摘要与近邻按短计划推进。不围绕clean_02调参追求正例，也不等待4B。初批固定顺序不支持独立的墙时因果比较，后续确认需平衡顺序并按任务/来源分组。实际状态读对应batch的RESULT/driver。
 
 ### 工程验证与发布边界
 
 GB10本轮focused四文件43passed/155subtests；本机docs lint0fail/3既有时效warn、上下文/链接检查与diff检查通过，变更18文件secret scan无真实凭据形状命中。skill-doctor0errors/134既有warnings，定向map0重复/0未解析。C8源已同步本机两个既有安装副本；GB10与Git发布终态另实测。没有重跑全仓pytest，不宣称旧FinQA fixture问题已修复。源码/协议的旧epoch保存在私有frozen_code及旧attempt，重放旧collector须用其快照，不以最新HEAD假充原运行源码。
 
-## 当前接续：剩余16题的收集批
+## 18题收集已返回；接续多任务恢复
 
-已启动`context_study_v1/collection_sweep_v1`，按冻结execution_order从look_01、cool_01继续其余16题；本批只收集真实执行及未完成前缀，不自动扩恢复臂或训练。实际输入、初始PID4020003、controller argv/hash、科研源码HEAD和case列表见`ADMISSION.json`；逐题结果追加`events.jsonl`，最终状态见`RESULT.json`。控制器为Q下`run_context_study_collection_sweep_v1.py`。RESULT存在即检查终态；尚无RESULT时先核ADMISSION对应进程与当前case，不重复启动。
+`context_study_v1/collection_sweep_v1/RESULT.json`已返回`ALL16_COLLECTIONS_RETURNED`；PID4020003已退出。它按冻结顺序完成其余16题，仅收集真实执行及未完成前缀，无替换、教师或训练。原控制器Q下`run_context_study_collection_sweep_v1.py`与ADMISSION保留，不能重启覆盖。该批360真POST、4,060,606tokens；合并初始两个collector为18题、400POST、4,496,471tokens。
 
-暂停时仅对核验argv后的该owned controller发SIGTERM，handler会退出当前episode并保留receipt/未知usage，清理actor/relay/world；不停止模型服务。case中断不作为正常方法失败或合格收集样本。该锁只约束本study driver，不宣称跨机器全局预算锁。
+独立零模型复核18个manifest/receipt、400份原始响应body/SSE usage、完整task/载体交付、原生won及282个动作，差异0；`COLLECTION_RECOMPUTE_V1.json` SHA `7112a26845d800074e9af2f47754b01a72d69911cc21ad9726c5903c954aeb16`。输入4,479,553，其中cached4,280,169；输出16,918；usage/cache未知均0，cached没有再加进总量。
+
+| 目标类型 | 成功/任务数 | 自然未完成 | 调用上限截尾 |
+| --- | ---: | ---: | ---: |
+| clean | 4/5 | 0 | 1 |
+| heat | 1/5 | 1 | 3 |
+| cool | 0/4 | 2 | 2 |
+| look | 1/4 | 0 | 3 |
+| 合计 | 6/18 | 3 | 9 |
+
+这不是经验增益估计：所有collector都加载预分配经验，没有从头无经验对照。任务、来源和载体分组也不是随机化因果结论。独立只读尸检发现cool_01拿着apple时反复寻找tomato，并两次heat apple；heat_01则按目标heat mug后完成。它们支持继续区分目标跟踪、持物/动作约束与历史信念，尚不能归因旧经验。
+
+`context_study_v1/recovery_sweep_v1/RESULT.json`已返回`ALL12_RECOVERIES_RETURNED`，原owned PID4037300已退出，study lock可取；控制器Q下`run_context_study_recovery_sweep_v1.py`不重启。选取规则是在冻结顺序中对尚未测试的每个任务类型取首个合格未完成现场，即look_01、cool_01、heat_02；三题各跑原四臂，保留全部结果，不按恢复成败换题。原source不重跑、每题共用同一cohort，其他合同及arm_order不变。ADMISSION记录选择规则、source receipt、源码与driver SHA。
+
+look_01四臂均won=true，cool_01与heat_02四臂均false；新增249真POST/3,376,233tokens，unknown usage为0，4臂在上下文门停止，其他未完成按实际普通stop等状态保留。结合旧clean_02，当前4个恢复现场的成功集合完全相同：只有look_01成功。删除经验、截短初始历史均未增加成功现场；不能据此归因旧经验，但本面板没有成功率上的策略选择空间。
+
+独立逐响应SSE与receipt复算差异0；replay分别6/23/30行（source步数＋reset），全部equal，每题四臂的cohort/source/protocol一致。`RECOVERY_SWEEP_RECOMPUTE_V1.json` SHA `d80ab5b9f8404aeb95feff9aa74642d54c57541a26c972b30dc0118de1a9a209`。新249 POST的输入3,365,213（cached3,258,612）、输出11,020；另4次本地预约未forward，不算模型调用。224次重放控制动作另记。三个source的93 POST/978,264tokens已包含在18题collector账，不能再加进全批物理账。
+
+| 四现场恢复汇总（source费用另计一次） | 成功/现场 | 真POST | Provider tokens |
+| --- | ---: | ---: | ---: |
+| drop_recent | 1/4 | 31 | 180,557 |
+| keep_full | 1/4 | 136 | 2,128,168 |
+| drop_full | 1/4 | 107 | 1,464,380 |
+| keep_recent | 1/4 | 107 | 1,448,371 |
+
+当前固定drop_recent以更低实际调用/输入成本达到相同观测won，复杂选择器暂无必要性证据；小样本和截尾限制仍在。这改变下一步：先检验两个强简单控制，不扩大选择器或重训actor。`collect_none`沿用同一冻结题面、模型、seed、32POST/600秒及统一续做，仅从头不加载旧经验；`goal_recent`在原drop_recent末尾只重复已有公共目标，不给步骤。前者和恢复臂分别分析，不把起点不同的成绩直接相减。新条件事后开发、非确认；待旧actor结束后再发布绑定新代码的运行。
+
+### 当前在途：强简单控制
+
+新代码`34c7055d1bc53e6442d567b069f81067d86714ef`已在旧actor全部退出、lock可取后发布到本机/GB10/GitHub。GB10四文件focused为45passed/167subtests；对18个旧collector任务逐字节重建一致、18个none和4个goal公共输入零模型核对通过。独立静态审阅未见阻断，不替代模型结果。本机unittest的symlink项受Windows权限限制，实际完整验证以GB10为准；没有重跑全仓测试。
+
+`context_study_v1/simple_controls_v1`已启动，owned PID4053364，控制器Q下`run_context_study_simple_controls_v1.py`。固定队列先clean_02/look_01/cool_01/heat_02的4个goal_recent，再按原冻结顺序跑18个collect_none，共22个episode，不因结果替换或调提示。原old源只引用；新none从相同reset重开任务。ADMISSION绑定driver/hash、源码epoch、原18份source manifest/receipt及完整queue。每次新none还核对与旧collector的caps、sampling/profile、assignment及reset原文一致。实际状态只看events/RESULT和核验后的controller；缺RESULT不自动重启。
+
+截至新控制开跑前，多任务主线累计805真POST/9,989,020tokens（含18个collector、16个学生恢复及1个27B诊断），这是本专题范围，不是整个项目总账。新22个控制另增记；无训练、judge、付费科研API或生产写回。上述旧批次全部终态，无须再等历史marker。
+
+旧批完整私有证据薄包`alfworld_18_collections_four_recoveries_v1_20261106.tar.gz`已双端保存并逐成员核验：4,928成员、26,811,943字节，archive SHA `67e8d9c8d2c5f13ccc1ae3ab59ec02792dd7b7211af99990d8e892758fd72ed4`，manifest SHA `727fd9cd448751630212af1e19daa727d8f942798f4e6264c63d2231d61f7915`。不含workspace、私有game/专家原轨迹、缓存或权重；不是完整runtime，也不是公开artifact。新simple_controls在途数据不混入旧包。
+
+暂停时仅对核验argv后的当前owned controller发SIGTERM，handler会退出当前episode并保留receipt/未知usage，清理actor/relay/world；不停止模型服务。case中断不作为正常方法失败或合格收集样本。该锁只约束本study driver，不宣称跨机器全局预算锁。
 
 科研代码已整合发布至`d1566f021542ec319cb7aa3f4cc9fc561412df35`，本机/GB10/GitHub refs实测一致；本机clean，GB10仅保留Loop B的`logs/graph/pytest_loopb.txt`外部修改。C8版本`509a50605e3c44d6f04c0cb89a6c6276b3c31dd8b757cb8d59896b711d3e18bb`在两机器各两个既有安装副本一致。后续文档提交不改本批科研代码epoch，当前HEAD以Git为准。
 
