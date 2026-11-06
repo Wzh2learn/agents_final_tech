@@ -52,7 +52,7 @@ SymPy四臂结束后，按48POST/1200秒/100环境动作、请求payload＋响�
 
 双端私有`alfworld_source_expansion_private_controls_20261106.tar.gz`，SHA `0f6f76c3f7aadb06d09257153c65b291cec90f90495e241b1cceaf583b228cf5`，65成员核验通过；含特权专家/PDDL控制，不能整包给actor或公开分发。
 
-下一批按实际动作/上下文需求冻结新预算，避免直接沿用旧48POST/6MB角色上限；旧结果不追改。先比较无经验、普通历史/skill与实体替换/条件化等强简单策略，再决定方法残差。当前尚无ALFWorld经验迁移结果。
+扩源时按实际动作/上下文需求冻结新预算，没有直接沿用旧48POST/6MB角色上限；旧结果不追改。当时尚无ALFWorld经验迁移结果，随后实际比较见[当前经验比较](#current-transfer)。
 
 ## 经验迁移pilot的事前分工
 
@@ -123,7 +123,21 @@ none/v2为62POST、903,356已知provider tokens、48合法动作/12次invalid ac
 
 四臂合计182POST/2,639,299tokens，usage完整；本次补齐三臂新增120POST/1,735,943tokens。历史臂把mug放到shelf并称其为kettle，实际world未成功；skill后段重复look后用普通文字给出下一动作；摘要未找到kettle即提前结束。载体均完整encoded交付，不能再解释为“未读到经验”。它们没有解决当前配置的对象绑定和规划失败，但这一个开发目标不否定经验学习领域。
 
-第二个预先固定目标heat_2已冻结五臂再启动，plan SHA `3d4154d899cbf6c72254febff993053aeced191d6099ff3e45ea00ed2df3e03e`，先27B直接none、再8B nativeFalse的四种条件；source热任务F保持原字节。结果见私有`heat2_nativefalse_cohort_v1/RESULTS.jsonl`，在途不改CBC代码。
+第二个预先固定目标heat_2已冻结五臂再启动，plan SHA `3d4154d899cbf6c72254febff993053aeced191d6099ff3e45ea00ed2df3e03e`，先27B直接none、再8B nativeFalse的四种条件；source热任务F保持原字节。结果已收，见私有`heat2_nativefalse_cohort_v1/RESULTS.jsonl`。
+
+| heat_2条件 | native won | 动作 / POST | 已知provider tokens |
+| --- | --- | --- | --- |
+| 27B直接none | true | 26 / 27 | 238,852 |
+| 8B none | false | 29 / 128 | 2,020,135 |
+| 8B普通公开历史 | false | 8 / 9 | 113,940 |
+| 8B普通skill | true | 15 / 18 | 134,266 |
+| 8B透明摘要 | false | 8 / 9 | 51,938 |
+
+合计191POST/2,559,131tokens，usage完整、cleanup无错误。8B none耗尽POST帽；不等同其余提前停止。skill成功由实际take/heat/move egg 1及world won确认，完整历史与摘要则加热并放置potato 3而非目标egg。源是potato 2/sidetable，目标错误已适配ID和diningtable，只保留了错误物体类别，不能说整个源路径机械照搬。
+
+正向结果的机制也不能夸大：skill先拿错potato 3，放错物体后仍won=false，随后利用公开观察中的egg 1继续，最终成功。history/summary在放错物体后的公开state与skill除action_count外全等（canonical SHA `06e3f1633a60d2600178b5d6416ac5f8f8e85e0857c6062df540687060eb27f5`），但停止；skill最初多一步移动及一次非法动作，不能称三臂前缀完全相同，也未据此证明内部完整状态相同。该差异支持研究反馈后的继续/恢复，不支持“skill从一开始正确绑定目标”或新方法成立。
+
+两开发目标、各单seed下普通skill仅heat成功，无历史/历史/摘要均未成功，27B直接两题均成功。它提供了真实可复用的正向迁移轨迹与具体失败残差；下一用相同失败动作前缀恢复实际环境，比较fresh-session中性继续、仅终态合同提醒和教师接管，判断简单策略是否已解释恢复，再决定学习机制。整个pilot（两源＋编译、旧clean五臂、nativeFalse clean四臂、heat五臂；不含此前环境资格/初始calibration）物理合计469POST/6,179,533provider tokens，未重复计算复用的none/v2；不同模型token不视为等价算力。
 
 下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
 

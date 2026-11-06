@@ -8,7 +8,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-当前接续[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md#current-transfer)：clean_2新四臂已收，heat_2五臂在跑；源F不改。随后从真实失败状态重放，比较8B中性续做与27B纠正接管，再准备反馈监督；HF8B/4B和训练链已存在，尚未新训练。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)本配置收口，[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源保留。方法须超过最强基线与近邻。
+当前接续[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md#current-transfer)：两任务已收，普通skill在heat目标成功但先拿错物体后恢复；源F不改。下一重放失败状态，对照8B中性fresh-session/终态规则与27B纠正接管，再准备反馈监督；本地HF8B/4B及训练链可用，尚未新训练。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)本配置收口，[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源保留。
 
 ## 最新开发证据
 
