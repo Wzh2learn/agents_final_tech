@@ -1,6 +1,8 @@
-# Django：8B真实执行与经验迁移开发
+# Django：真实执行、反馈与教师经验资格
 
 > 2026-11-06 | 本页在首次模型执行前创建，原地维护本批合同与结果。前置[资格](DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)已经跑通原题base/gold；它不是Agent成绩。Paper E不在本批修改。
+
+接续先只读[当前27B检查点](#current-27b-handoff)；此前各节是本批过程证据，按问题检索。
 
 ## 问题与比较
 
@@ -140,6 +142,20 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 联合首启`teacher_joint_feedback_repair_35b_20261106`在第13次POST等待约300秒后收到`The operation timed out`，12个完整usage步骤，358.732秒、Agent exit1；0次源码编辑，不能裁决联合要求的语义效果。completed SHA `4e888fb10abd281f4752dbf4de0c77edf5b67e3122b880b6a90b9cffc05ea8d0`，raw `cf957f6d7a8fafce297e538713e50b280e0a98efce77e97ccad10242804386df`。已报告283,711tokens＝缓存249,263＋未缓存输入32,531＋输出1,917；末次调用未回usage，总量仍有未知，不记0或用下轮填补。初始产物保留原题通过/1项公开回归，扩大检查receipt `7ecb4936bc89729849efb158156c3ebd29f0201e3b9ded1f249e6001034eeb35`。
 
 实测opencode配置的request timeout仍为300,000ms，虽然教师output上限已为16,384；隔离harness把教师客户端等待改为900,000ms，8B仍300,000，episode48POST/1200秒/6MB及模型、题面、反馈、候选均保持。追加1次只读slots GET确认旧调用已不在处理；教师准备/观察累计5GET。新attempt只作相同联合合同的传输修复重跑，不按首启推断方法无效；开始前核对题面hash及归一化harness仅timeout不同。补记录usage步骤与物理POST计数是否一致，避免把部分usage当完整总成本。
+
+<a id="current-27b-handoff"></a>
+
+## 当前接续：优先核验并使用27B
+
+用户补充GB10已有Qwen3.8-27B。只读实测确认vllm-probe在8006服务`qwen38-27b-fp8`，max_model_len32,768、max_num_seqs32、前缀缓存开启、qwen3_xml工具解析、qwen3推理解析；沿用既有自定义模板，不凭模板文件名断言每次实际thinking状态。容器ID `4b7c8b76fd42c474f76c9ee53b13c90980dc9ddae7e62cd8201dc58cc79eadf3`，镜像 `sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f`。本次1个只读models GET、0生成、0服务改动；没有把DSpark辅助草稿模型当完整27B。
+
+私有盘点`qwen38_27b_asset_inventory_20261106.json` SHA `f4ac7074a76134358c6c58e30dd860aa84c2d2398df229f9e5641e916771565c`，已绑定config、权重索引和实际模板hash；全权重SHA清单尚未在本盘点计算。官方[模型卡](https://huggingface.co/Qwen/Qwen3.8-27B)和[vLLM配方](https://recipes.vllm.ai/Qwen/Qwen3.8-27B)说明其沿用qwen3_5架构，因此本地config使用该架构名不等于文件误标；外部说明不代替本机任务成绩。
+
+**下一动作变更**：优先把既有27B服务接入隔离研究runner，以原题、映射及扩大回归核验教师质量；4B/8B保留学生/成本对照，35B保留历史与辅助角色。900秒客户端修订尚未做35B重跑，该重跑不再优先。27B当前仅资产核实，尚未运行本批真实任务；使用其32K实际上限，不把35B的64K配置套用，不为科研重启共享服务。Goal继续active。
+
+并行SymPy14774→19235已完成零模型开发资格：source原题/焦点base失败→gold通过、回归114/114双通过；target原题/焦点亦base失败→gold通过，原144项回归有2项两臂共同的Python3.8 AST失败，冻结排除后其余142/142双通过。source题面直接给修改提示，target直接引用前序PR，适合开发性同项目适配，不作为独立发现或跨项目确认。FINAL_QUALIFICATION SHA `941e2cc1f44ddb77059d6feb6a51669b7e5cab39cb8456a832231b998ba974e7`，其引用的全部文件hash由D复核；3个官方metadata请求、2个源码下载、0生成/训练。原144项失败与排除依据保留。
+
+两次教师续修、扩大检查、27B盘点与SymPy资格共104项已双机保存为私有`evidence_packets_20261106/django_teacher_repair_and_sympy_qualification_20261106.tar.gz`，本机仍在`D:/Documents/Loop_D_assets/agent_learning_20261106/`；268,578bytes，SHA `579c3fd024c6339ddf36aaed06454cdc5a0a060b3e6d45907657427d4d73972c`，全部成员hash核对通过。包内对账标出联合首启13POST/12 usage步骤，不是完整源码/模型发行包。此Django系列共153实际POST，已报告3,245,196tokens，另1个调用用量未知，不能当精确总量。
 
 ## 下一来源资产筛查
 
