@@ -21,6 +21,19 @@ spec.loader.exec_module(runner)
 
 
 class DjangoResearchRunnerTests(unittest.TestCase):
+    def test_transport_binding_preserves_generated_handler_indentation(self):
+        code = ('class Handler(socketserver.BaseRequestHandler):\n'
+                ' def handle(self):\n'
+                "  if line.startswith(b'POST'):\n"
+                '   sampling.append(meta)\n'
+                '  try:upstream.sendall(first);relay(self.request,upstream)\n'
+                '  finally:upstream.close()\n')
+        bound=runner.bind_per_request_transport(code)
+        compile(bound,'<bound-handler>','exec')
+        self.assertIn('relay_one_model_response(self.request,upstream)',bound)
+        self.assertIn("request_path.open('xb')",bound)
+        self.assertNotIn('relay(self.request,upstream)',bound)
+
     def test_unmetered_or_unbound_source_cannot_be_qualified(self):
         with tempfile.TemporaryDirectory() as td:
             case=Path(td)

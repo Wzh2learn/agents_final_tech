@@ -270,14 +270,14 @@ def bind_per_request_transport(code: str) -> str:
     """Keep request bodies privately for tool-feedback provenance, never headers."""
     code = core.replace_once(code, 'class Handler(socketserver.BaseRequestHandler):',
                              inspect.getsource(relay_one_model_response)+'\nclass Handler(socketserver.BaseRequestHandler):')
-    marker = '    sampling.append(meta)'
+    marker = '   sampling.append(meta)'
     capture = (
-        "    request_body=first.split(b'\\r\\n\\r\\n',1)[1]\n"
-        "    request_dir=case/'model_request_bodies';request_dir.mkdir(exist_ok=True)\n"
-        "    request_path=request_dir/(str(post_count[0]).zfill(5)+'.json')\n"
-        "    with request_path.open('xb') as request_log:request_log.write(request_body)\n"
-        "    meta['request_body_sha256']=hashlib.sha256(request_body).hexdigest()\n"
-        "    meta['request_body_file']=request_path.name\n" + marker)
+        "   request_body=first.split(b'\\r\\n\\r\\n',1)[1]\n"
+        "   request_dir=case/'model_request_bodies';request_dir.mkdir(exist_ok=True)\n"
+        "   request_path=request_dir/(str(post_count[0]).zfill(5)+'.json')\n"
+        "   with request_path.open('xb') as request_log:request_log.write(request_body)\n"
+        "   meta['request_body_sha256']=hashlib.sha256(request_body).hexdigest()\n"
+        "   meta['request_body_file']=request_path.name\n" + marker)
     code = core.replace_once(code, marker, capture)
     code = core.replace_once(code, 'try:upstream.sendall(first);relay(self.request,upstream)',
                              'try:upstream.sendall(first);relay_one_model_response(self.request,upstream)')
