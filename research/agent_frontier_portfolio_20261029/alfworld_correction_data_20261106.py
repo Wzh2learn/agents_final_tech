@@ -326,7 +326,9 @@ def export_rows(bundle, output_root):
         raise ValueError("row count changed after qualification")
     for row in bundle["rows"]:
         validate_labels(row)
-    payload = b"".join(packed(row) + b"\n" for row in bundle["rows"])
+    # HF tool rendering depends on nested schema insertion order.
+    payload = b"".join(json.dumps(row, ensure_ascii=False, separators=(",", ":")).encode("utf8") + b"\n"
+                       for row in bundle["rows"])
     root.mkdir(parents=True, exist_ok=False)
     with (root / "rows.jsonl").open("xb") as handle:
         handle.write(payload)

@@ -8,7 +8,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-当前接续[ALFWorld学习资格](results/ALFWORLD_TEXT_AGENT_20261106.md#current-learning)：teacher纠正6行/1来源组已过mask复核，4B两步LoRA及匹配base/adapter重载资格通过，owned8B已恢复。下一修导出schema顺序往返，再接真实agent/world评测并扩独立纠正来源；不将同一暴露prompt的HF生成当学习增益。普通skill正例亦有简单fresh-session恢复解释。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)本配置收口，[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源保留。
+当前接续[ALFWorld原会话续做对照](results/ALFWORLD_TEXT_AGENT_20261106.md#current-context)：数据v2保序及4B两步LoRA/重载资格已通过，owned8B已恢复。下一先在同失败world比较原会话普通retry与已有fresh-session，再接匹配base/adapter真实任务并扩来源；不将训练资格当收益。原会话DB/WAL资产已定位，新episode未启动。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)本配置收口，[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源保留。
 
 ## 最新开发证据
 

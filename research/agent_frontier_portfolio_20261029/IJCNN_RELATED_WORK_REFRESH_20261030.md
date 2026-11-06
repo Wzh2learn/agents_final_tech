@@ -33,7 +33,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **Recommendation / Conditions**：强基线增加GLoW风格结构化guard＋fresh执行及固定K新旧任务重验，标明适配而非原法复现。窄候选是目标不可见时主动操纵源条件、重算实际行动后果以辨别适用边界；区别尚未建立。必须同时对比等证据普通摘要、等预算随机有效探针，区分特权source gold与执行反馈、合成干预与自然目标。
 
-**Risk / Exit / First action**：两项目隔离比较已完成，接续[当前自然任务](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)与可靠教师轨迹资格，收集不同来源的正/负效用。训练由实际监督决定；若普通SFT、历史或简单规则解释收益，调整机制。oracle选择与开发修复不计作泛化确认。
+**Actor学习补查 / 下一验证**：[Agent-R、STeP、MEMENTO机制与对照](results/ALFWORLD_TEXT_AGENT_20261106.md#actor-learning-related)。教师纠正、SFT与笔记学习已有覆盖；下一先分离失败world保留与对话保留，再测纠正监督。普通SFT/简单重启追平则换机制，不把训练资格当泛化收益。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 

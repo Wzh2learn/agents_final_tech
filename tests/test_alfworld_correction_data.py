@@ -246,6 +246,42 @@ class CorrectionDataTests(unittest.TestCase):
                 d.export_rows(corrupted, f["base"] / "exports/corrupted")
             self.assertFalse((f["base"] / "exports/corrupted").exists())
 
+    @unittest.skipUnless(d.FROZEN.is_file() and d.PROVIDER_MANIFEST.is_file() and
+                         all((Path('/home/testuser/wzh/models/hf') / name / 'tokenizer.json').is_file()
+                             for name in ('Qwen3-4B', 'Qwen3-8B')), "requires frozen GB10 CPU tokenizer assets")
+    def test_real_tokenizer_export_reload_roundtrip_preserves_schema_order_and_v1_tensors(self):
+        data_base = d.FROZEN.parent.parent / "correction_action_sft_v1"
+        for model_name, dataset_name in (("Qwen3-4B", "teacher_qwen3_4b_v1"),
+                                         ("Qwen3-8B", "teacher_qwen3_8b_v1")):
+            with self.subTest(model=model_name):
+                model = Path('/home/testuser/wzh/models/hf') / model_name
+                bundle = d.build_rows(d.FROZEN, d.FROZEN_SHA, model)
+                tokenizer = d.load_tokenizer(model)
+                old = {row["row_id"]: row for row in map(json.loads, (data_base / dataset_name / "rows.jsonl").read_text().splitlines())}
+                with tempfile.TemporaryDirectory(dir=data_base / "qualification_v1", prefix="roundtrip_test_") as tmp:
+                    output = Path(tmp) / "fresh_export"
+                    d.export_rows(bundle, output)
+                    stored = [json.loads(line) for line in (output / "rows.jsonl").read_text().splitlines()]
+                    self.assertEqual(len(stored), 6)
+                    for original, row in zip(bundle["rows"], stored):
+                        with self.subTest(row=row["row_id"]):
+                            # json.dumps without sort_keys exposes nested insertion order.
+                            for field in ("request_messages", "request_tools", "native_assistant"):
+                                self.assertEqual(json.dumps(row[field]), json.dumps(original[field]))
+                            request = {"messages": row["request_messages"], "tools": row["request_tools"]}
+                            recomputed = d.encode_row(request, row["native_assistant"], tokenizer, bundle["manifest"]["max_length"])
+                            for field in ("input_ids", "attention_mask", "labels", "target_token_ids",
+                                          "prompt_token_count", "assistant_end_index", "supervised_tokens"):
+                                self.assertEqual(recomputed[field], row[field])
+                                self.assertEqual(row[field], old[row["row_id"]][field])
+                            d.validate_labels(row)
+                    # A passing test must actually expose the old sorted-key regression.
+                    sorted_row = json.loads(d.packed(bundle["rows"][0]))
+                    sorted_recomputed = d.encode_row({"messages": sorted_row["request_messages"],
+                        "tools": sorted_row["request_tools"]}, sorted_row["native_assistant"], tokenizer,
+                        bundle["manifest"]["max_length"])
+                    self.assertNotEqual(sorted_recomputed["input_ids"], sorted_row["input_ids"])
+
     def test_import_has_no_transformers_torch_or_side_effects(self):
         code = ("import importlib.util,sys; s=importlib.util.spec_from_file_location('isolated',sys.argv[1]);"
                 "m=importlib.util.module_from_spec(s);s.loader.exec_module(m);"

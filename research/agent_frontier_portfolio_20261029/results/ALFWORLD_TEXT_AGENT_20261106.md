@@ -2,7 +2,7 @@
 
 > 2026-11-06 | 开发环境资格与真实actor入口。现役次序见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，本页不新建prompt或Goal。模型实验结果按原始回执更新。
 
-接续先读[当前学习资格](#current-learning)，经验结果看[固定载体比较](#current-transfer)；其余按问题加载，不把历史控制当待办。
+接续先读[原会话续做对照](#current-context)，训练资格看[学习阶段](#current-learning)，旧经验看[固定载体比较](#current-transfer)；按问题加载，不把历史控制当待办。
 
 ## 为什么增加这一来源
 
@@ -164,7 +164,7 @@ heat history失败源8动作/9POST后未成功，两臂同额剩余119POST/1754�
 
 [数据模块](../alfworld_correction_data_20261106.py)从已验收恢复case的provider请求与SSE组装样本，先核先前325成员清单（SHA `afdc84eb2a337a06be923cebe742debee8d92c08cab5645c5369eff639eab058`）。teacher-only为5条native工具响应与1条终结content，共6行/1来源组，长度4615–6514tokens、监督252tokens。完整system/user/tool上下文保留，只有当前assistant completion及真实EOS监督，EOS后换行/所有prompt均为-100；不将reasoning当答案，不截断。4B/8B tokenizer导出相同rows SHA `e098807a89bfab1b74f18e9e68bfcad0c6d296d0a578b14e13a3297fd959e2ee`，是同6条样本而非12条。4B/8B数据manifest SHA分别`5c59f64d041a7df04a6a5bcb53d9247ec607e86523bf54ea00a932ab16f46126`、`3806a26e64d3a141d96dc5093f98936b37bc690b38fc44d8c3cbaaac943d82e0`，数据资格11tests/13subtests通过；实际CPU回执SHA `ed4223d1a7ddbe1bfc450a5db7c0873916135a7b6b219b7eaa06a20c2ec6c211`。
 
-独立AI复算已从锚定原始forwarded请求逐token验证6/6数组/边界/labels/EOS相符。导出row经sort_keys序列化后schema键顺序改变，仅用row内messages/tools重新render会少1token；目前数组正确，精确重建必须回读锚定raw。这是非阻断可复现缺陷，原导出不覆盖，后续新版本修复roundtrip。
+独立AI复算从锚定原始forwarded请求逐token验证v1的6/6数组/边界/labels/EOS相符。v1 row经sort_keys序列化后schema键顺序改变，仅用row内messages/tools重新render少1token；数组本身正确，精确重建须回读锚定raw。原导出保留，现已用下述v2修复该非阻断复现缺陷。
 
 [两步训练器](../run_alfworld_correction_learning_20261106.py)只取前两条teacher行作资格，fresh HF4B基座＋一个q/v rank8 adapter，无旧parent adapter；现有torch/PEFT，不走旧TRL自动重写labels。仅投影监督位置前一格的logits，保持标准causal shift与CE；tiny Qwen对照验证loss及梯度与完整masked CE一致，5tests/16subtests通过。完整HF4B七文件8.056GB已流式hash，绑定SHA `e74513f1fe22a2cb9198714738bb86b2f78c05eb0474b25e3759394b8a709823`。
 
@@ -180,7 +180,41 @@ heat history失败源8动作/9POST后未成功，两臂同额剩余119POST/1754�
 
 controller已用原argv/cwd恢复8B为PID3853089，`/health`通过（5次readiness GET，0模型POST），共享35B原进程及27B容器身份均未变；完整结果见`owned_training_window_v1/RESULT.json`。旧profile中的PID3205480是原冻结采样身份，不覆写；当前进程身份看该lifecycle侧车及实际进程。原始训练输出、失败与代码快照保留。独立mask审计SHA `c4d8faa191de7d2c54f30d0af8b63b6bf38115060a76fe39ea5d6dd7098199c9`另确认无未来工具反馈泄漏及1token序列化顺序问题的边界。
 
-下一修复新导出版本的顺序往返；无需为序列化修复重训本次已验证数组。随后为同一BF16 base/adapter接真实OpenCode/world执行，再扩来源隔离的纠正监督。当前仍是训练资格，独立学习机制、heldout收益与第二篇方法贡献尚待实验。
+### 当前数据v2与下一动作
+
+只改row序列化保留嵌套dict原顺序，canonical hash helper未改；v1/F/raw/上述训练回执不覆盖。新`teacher_qwen3_4b_v2`和`teacher_qwen3_8b_v2`各6行，rows SHA均为`0ba3efc42ed4260260c4bb7a9f5cdb442c4e31bca497c65e6bd7b24811f6a485`。数据manifest SHA分别为`968e02535bd96e2556c8f968920287c5e0577d66eea90de1e20ebc2f82f94ed6`、`724d433d5084787f09386a5b274a4aa5f5f1698e922a856ec92b7b4eb1796b1d`；新data代码SHA `5713e6ee62ab5940ac9cbdc929102ae0194a5b6bd3186c9236ad670177a506a5`。
+
+真实HF4B/8B tokenizer各6行从保存row自身字段重新render，prefix/full/labels全等；v2所有数组和语义值与v1全等，不是新监督。12tests/27subtests通过，v2资格receipt SHA `d0c6fc623e6f0b96010a34100dc0cae5e2dce0592b7f48ebf1695406155f7e47`。无需为该序列化修复重训已验证数组；训练原始代码对应Git `33684e69`及私有训练前快照。
+
+训练、adapter、原始数据v1、代码快照及资源恢复证据已私有薄包保存，SHA `e7a47cde21a0daae326828c26b0fdbea03ac9cbc17b61c3cc2f1acf552bfe033`，35成员双端逐项核验；未含基座权重。下一为同一BF16 base/adapter接真实OpenCode/world执行，再扩来源隔离的纠正监督。当前仍是训练资格，独立学习机制、heldout收益与第二篇方法贡献尚待实验。
+
+<a id="actor-learning-related"></a>
+
+## Actor学习对标与下一方法问题
+
+2026-11-06补查三篇一手论文方法；核过原文，不代表已复现论文成绩。它们补充现有SkillGLoW/SkillApt/CIPO等skill编辑与选择对照，防止把ordinary actor SFT或教师纠正重新命名为创新。
+
+| 一手工作 | 已覆盖的机制 | 对当前实验的实际要求 |
+| --- | --- | --- |
+| [Agent-R: Training Language Model Agents to Reflect via Iterative Self-Training](https://arxiv.org/abs/2501.11425)（2025） | MCTS好/坏轨迹、定位错误转折、拼接纠正数据与迭代SFT；三交互环境。 | “反思＋纠正训练”本身不新。分支拼接是否在坏分支留下的实际物理状态上再执行，需查其代码，不能仅凭公式断言不一致。 |
+| [Training LLM-Based Agents with Synthetic Self-Reflected Trajectories and Partial Masking / STeP](https://arxiv.org/abs/2505.20023)（2025） | 学生交互、教师逐步纠正、实际环境继续与终局成功筛选，部分错误token masking；ALFWorld/WebShop/SciWorld。 | 是直接强近邻。仅有“实际执行过的教师纠正＋partial mask”不构成增量；正式方法须对齐其纠正信号、教师查询与总训练预算。 |
+| [MEMENTO: Learning Context Management for Long Context Processing Agents](https://arxiv.org/abs/2611.00244)（2026-10-30预印本） | Qwen3-8B事后笔记SFT、含正确性/笔记/校准奖励的RL及测试时上下文折叠/回溯。 | 学习何时保留/恢复上下文已有覆盖；只读书籍问答的上下文回溯不能直接等同回滚已改变的可执行环境。 |
+
+当前更有信息量的候选问题是：**失败后要保留的是环境进度、实际对话，还是仅当前可验证状态？** 现有N恢复同时保留world、清空原对话并给公开轨迹投影；它不能因果分离这些因素。先检查原OpenCode会话是否可受控续接，在同一个失败world和剩余cap上比较：原会话普通retry、原会话追加相同当前观察、fresh-session公开投影、简单末段历史/目标重申。必要时再做world reset×context reset的2×2，并显式计失去的进度与恢复成本；不把人工重置当自然变更或免费动作。
+
+若简单重启/当前状态重申追平，当前复杂恢复控制无必要性证据，但仍可形成合法的普通SFT和教师纠正基线。若存在稳定残差，再比较同起点、同token预算的成功轨迹SFT、真实失败状态纠正SFT、rehearsal及近邻方法，检验保持实际状态一致的监督是否改善未见任务恢复。迁移到工具/前置条件变化须有真实版本或明确标注的可执行干预；固定版本失效规则、固定K验证和更强模型仍作强对照。上述是可证伪候选，不是通用新理论或已有差异已经成立。
+
+<a id="current-context"></a>
+
+## 下一科学对照：保留实际会话，未启动
+
+先排除更强简单解释：既有fresh-session恢复成功不代表必须清空历史，原会话只需继续一次也可能成功。源仍是`target_attempts/heat_2/student8b/ordinary_public_history/attempt_v1`，receipt SHA `dd93a8586a719f160cad32925f95c40f3a18206cf022411532ba921cc900044d`。其private workspace保留`.local/share/opencode/opencode.db`及WAL/SHM，raw仅一个sessionID；只读资产清单`failure_context_v1/SESSION_RESUME_ASSET_V1.json` SHA `22dc7b634c2d52fed2917582ecc337311267ace967006b93258f7d91174d5bc0`列实际会话ID和三文件hash，WAL4,120,032bytes。该清单是定位，不是live job或已续接证明。
+
+缓存help已说明`run --session`可用，但尚未实际验证续接。下一在新隔离副本备份DB＋WAL，仅副本重建SHM/锁并checkpoint，绝不改原DB；保持`/workspace`、HOME、UID、二进制和工具配置。重放原8步、逐state全等后，预检/mock核第一次续接payload实际保留历史和工具反馈、nativeFalse与模板预算，再做8B原会话中性retry。world总帽100（旧8＋新最多92），同额剩余119POST/1754秒；原source成本只计一次。模型当前owned8B PID3853089/port18104，原参数已恢复，原profile保留，先核lifecycle与实际进程而非旧PID。
+
+预先记录分支：若原会话中性retry成功，不再为同任务复杂上下文策略扩样，先将普通续做列为强基线；若失败，再冻“保留会话＋追加同一当前可见state”对照，必要时检查只移除旧source载体/末段历史。不能将重播文本称原对话恢复，也不从reasoning执行动作。不同context共享同native反馈/工具/caps；若引入自动终态继续，后续所有学习/记忆臂均用相同controller，避免把停止协议缺陷算作学习收益。
+
+4B下一接口工作是同一BF16 base与`learning_qualification_v1/attempt_v1/adapter`的真实harness/world接入；现有两次HF生成不替代它。此工程可并行准备，模型窗口须量测余量、只管理owned进程、最终恢复；共享8004/8006继续不动。当前没有新episode在途，无需等待标记文件，按上述可执行步骤推进。
 
 下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
 

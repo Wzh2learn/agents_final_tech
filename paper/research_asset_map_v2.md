@@ -8,7 +8,7 @@
 | --- | --- |
 | [SymPy真实源与迁移](../research/agent_frontier_portfolio_20261029/results/SYMPY_LATEX_TRANSFER_20261106.md) | 合格27B源、冻结历史/卡/skill、8B四臂raw及未读取经验的尸检；不是方法收益。 |
 | [Django联合验收源](../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff) | 原题与回归合格的代码产物、超时轨迹及未知usage；隔离环境，不使用业务DB。 |
-| [ALFWorld非代码经验](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md) | PDDL兼容环境、隔离动作桥、真实27B成功轨迹及8B预算终止；未建立学习/迁移增量。 |
+| [ALFWorld经验与纠正](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md#current-learning) | 真实源/冻结载体、单题skill与中性恢复正例、保序assistant-only数据及4B LoRA资格；尚未确认新方法或跨来源收益。 |
 
 ## 0. 2026-10-24历史素材身份与实际使用
 
