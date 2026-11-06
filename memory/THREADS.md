@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E 与方向沟通稿已发送；等待研究点划分、首投路线和成稿反馈。内部研究可继续，无需等待此项。 |
 | Paper E 投稿办理 | ICINT 首投、拒稿或正式撤稿后 ICDAR；作者暂定 Zhonghua Wang、Jiali Ruan、Bin Hou、Yunxiao Zu（通讯），北邮电子工程学院。团队终核、声明、许可、学校凭证与费用须在正式办理时确认。ICDAR 工作稿仍有致谢，启用前处理双盲。作者邮箱等私有字段不入 Git。 |
-| 第二篇当前比较 | ALFWorld接续8题开发池及源/目标划分，按实际需求定新预算；SymPy先收口此执行配置。历史计量事故和未知usage保留，按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)执行。 |
+| 第二篇当前比较 | ALFWorld heat_2五臂在跑，源F不改；下一用真实失败状态重放验收教师纠正，对照8B中性续做。HF8B训练资产已找到，尚未新训练。按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)执行。 |
 | 公开方法参照 | RethinkSkill 仅完成协议级接入；需合格真实反馈、训练/验证/目标隔离及接受门，才能形成方法比较。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Requests 此对题面/版本/gold 行为冲突，不继续该对模型比较；Sphinx/Django/SymPy 等旧现场按[历史证据目录](../docs/archive/2026-11-06_agent_research_context/README.md)查阅。新来源先核验实际原题、base/gold、回归与时间边界。EdgeBench x86→ARM 尚未确认。 |
 | 成本及运行器 | 历史 340-token 差额、在途请求及部分模型权重标识保持未知。Requests/Astropy 已有显式 attempt；三个旧 ContextBench runner 的标识仍绑定 task/condition/seed，改造须同时迁移实际输出目录。跨机器预算锁未实现。 |

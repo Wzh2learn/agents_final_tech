@@ -740,9 +740,16 @@ class ExperienceContractTests(unittest.TestCase):
                 manifest = actor.preflight(root, "student8b", "clean_2", 17, caps=fixture["caps"],
                              pool_manifest=fixture["pool"], pool_manifest_sha=fixture["pool_sha"],
                              condition=condition, experience_manifest=fixture["path"],
-                             experience_manifest_sha=fixture["sha"])
+                             experience_manifest_sha=fixture["sha"],
+                             student_enable_thinking=False if condition == "none" else None)
                 component.assert_called_with(True)
                 self.assertEqual(manifest["condition"], condition)
+                if condition == "none":
+                    self.assertIs(manifest["student_enable_thinking"], False)
+                    self.assertEqual(manifest["sampling"]["chat_template_kwargs"], {"enable_thinking": False})
+                else:
+                    self.assertNotIn("student_enable_thinking", manifest)
+                    self.assertNotIn("chat_template_kwargs", manifest["sampling"])
                 self.assertEqual(manifest["experience_binding"], bound_experience(fixture, condition)["record"])
                 digest = actor.sha(root / "manifest.json")
                 self.assertEqual(actor.verify_manifest(root, digest), manifest)
@@ -751,6 +758,12 @@ class ExperienceContractTests(unittest.TestCase):
                     self.assertEqual(prompt, actor.task_prompt(fixture["initial"]))
                 else:
                     self.assertIn(fixture["result"]["texts"][condition], prompt)
+                if condition == "none":
+                    tampered = copy.deepcopy(manifest)
+                    tampered.pop("student_enable_thinking")
+                    (root / "manifest.json").write_text(json.dumps(tampered))
+                    with self.assertRaises(ValueError):
+                        actor.verify_manifest(root, actor.sha(root / "manifest.json"))
                 tampered = copy.deepcopy(manifest)
                 tampered["model_id"] = "qwen38-27b-fp8"
                 (root / "manifest.json").write_text(json.dumps(tampered))
@@ -784,11 +797,55 @@ class ExperienceContractTests(unittest.TestCase):
                         {"messages": [{"role": "assistant", "content": text}]},
                         {"messages": [{"role": "user", "content": None}, None]}):
             proof = actor.delivery_evidence(payload, "ordinary_generated_skill", text)
-            self.assertEqual(proof["status"], "COMPLETE_CARRIER_MISSING")
+            self.assertEqual(proof["status"], "COMPLETE_CARRIER_NOT_VERIFIED")
             self.assertIsNone(proof["delivered_content_sha256"])
         proof = actor.delivery_evidence({"messages": []})
         self.assertEqual(proof["status"], "NONE_NO_CONTENT_INJECTION")
         self.assertIsNone(proof["expected_content_sha256"])
+
+    def test_measured_quote_layer_requires_whole_task_equality_before_normalization(self):
+        carrier = 'History "quoted" `backtick`\nraw \\n and \\" slash\r\n'
+        task = 'CURRENT goal\n' + carrier + '\nEND'
+        wire = '"' + task.replace('"', chr(92) + '"') + '"'
+        payload = {"messages": [{"role": "user", "content": wire}]}
+        proof = actor.delivery_evidence(payload, "ordinary_public_history", carrier, task)
+        self.assertIs(proof["first_forwarded_user_contains_full_content"], False)
+        self.assertIs(proof["whole_task_lossless_quoted_equal"], True)
+        self.assertEqual(proof["status"], "COMPLETE_CARRIER_LOSSLESS_ENCODED")
+        self.assertEqual(proof["normalization"], "OPENCODE_ARGV_QUOTE_LAYER_V1")
+        self.assertEqual(proof["first_forwarded_user_sha256"], actor.hashlib.sha256(wire.encode()).hexdigest())
+        self.assertEqual(proof["normalized_task_sha256"], actor.hashlib.sha256(task.encode()).hexdigest())
+        self.assertEqual(proof["normalized_content_sha256"], actor.hashlib.sha256(carrier.encode()).hexdigest())
+        self.assertIsNone(proof["delivered_content_sha256"])
+        self.assertIs(proof["delivery_proves_understanding"], False)
+        for expected in (None, task + 'tampered'):
+            with self.subTest(expected=expected):
+                rejected = actor.delivery_evidence(payload, "ordinary_public_history", carrier, expected)
+                self.assertEqual(rejected["status"], "COMPLETE_CARRIER_NOT_VERIFIED")
+                self.assertIsNone(rejected["normalized_content_sha256"])
+                self.assertIsNone(rejected["normalized_task_sha256"])
+        none = actor.delivery_evidence(payload, expected_task=task)
+        self.assertEqual(none["status"], "NONE_NO_CONTENT_INJECTION")
+        self.assertIs(none["whole_task_lossless_quoted_equal"], True)
+
+    def test_student_native_false_is_explicit_and_default_keeps_old_payload(self):
+        incoming = {"chat_template_kwargs": {"enable_thinking": True}, "messages": []}
+        default = actor.model_payload(incoming, "student8b", profile(), 17)
+        self.assertNotIn("chat_template_kwargs", default)
+        disabled = actor.model_payload(incoming, "student8b", profile(), 17, False)
+        self.assertEqual(disabled["chat_template_kwargs"], {"enable_thinking": False})
+        self.assertEqual({k: v for k, v in disabled.items() if k != "chat_template_kwargs"}, default)
+        for backend, override in (("student8b", True), ("student8b", "false"), ("student8b", 0),
+                                  ("teacher27b", False)):
+            with self.subTest(backend=backend, override=override), self.assertRaises(ValueError):
+                actor.model_payload({}, backend, profile(), 17, override)
+        # argv transport deliberately remains identical for the prospective thinking diagnosis.
+        tree = actor.ast.parse(actor.GUEST)
+        call = next(node for node in actor.ast.walk(tree) if isinstance(node, actor.ast.Call)
+                    and isinstance(node.func, actor.ast.Attribute) and node.func.attr == "run")
+        self.assertIsInstance(call.args[0].elts[-1], actor.ast.Name)
+        self.assertEqual(call.args[0].elts[-1].id, "prompt")
+        self.assertEqual([kw.arg for kw in call.keywords], ["stdin"])
 
     def test_actual_forward_records_first_delivery_once_without_any_endpoint(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -797,6 +854,7 @@ class ExperienceContractTests(unittest.TestCase):
             relay.lock, relay.budget = threading.Lock(), actor.Budget(seconds=30)
             relay.owned, relay.forwarded, relay.closing = set(), 0, False
             relay.condition, relay.experience_text, relay.delivery = "ordinary_generated_skill", "frozen\n", None
+            relay.expected_task = "current task\nfrozen\n"
             upstream = mock.Mock()
             payload = {"messages": [{"role": "user", "content": "current task\nfrozen\n"}]}
             with mock.patch.object(actor.socket, "create_connection", side_effect=AssertionError("no endpoint")):
@@ -816,16 +874,19 @@ class ExperienceContractTests(unittest.TestCase):
         with mock.patch.object(actor, "preflight", return_value={}) as prepare, \
                 mock.patch("sys.stdout", new_callable=io.StringIO):
             actor.main(["--preflight-only", "--run-root", "/private/new", "--condition",
-                        "ordinary_generated_skill", "--experience-manifest", "/private/frozen_manifest.json",
+                        "ordinary_generated_skill", "--student-enable-thinking", "false",
+                        "--experience-manifest", "/private/frozen_manifest.json",
                         "--experience-manifest-sha", "a" * 64])
             self.assertEqual(prepare.call_args.kwargs["condition"], "ordinary_generated_skill")
+            self.assertIs(prepare.call_args.kwargs["student_enable_thinking"], False)
             self.assertEqual(prepare.call_args.kwargs["experience_manifest_sha"], "a" * 64)
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / "manifest.json").write_text(json.dumps({"condition": "ordinary_generated_skill",
                 "experience_binding": {"manifest_path": "/private/frozen_manifest.json",
                                        "manifest_sha256": "a" * 64}}))
-            for flags in (["--condition", "none"], ["--experience-manifest", "/different/frozen_manifest.json",
+            for flags in (["--condition", "none"], ["--student-enable-thinking", "false"],
+                          ["--experience-manifest", "/different/frozen_manifest.json",
                                                     "--experience-manifest-sha", "a" * 64]):
                 with self.subTest(flags=flags), mock.patch.object(actor, "execute") as execute, \
                         mock.patch("sys.stderr", new_callable=io.StringIO), self.assertRaises(SystemExit):

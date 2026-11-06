@@ -140,6 +140,8 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **已验证范围**：两游戏专家通过真实UDS动作及Docker隔离控制；28项远端契约测试与30个subtests通过，owned fake端口的两backend模拟各2假POST/1原生look，标为MOCK_ORACLE，不冒充模型经验。27B请求显式关闭thinking，保存逐请求/响应和未知usage；终态后请求、非法参数和结束竞态有确定性控制。真实模型任务另记结果。
 - **资源和来源合同**：8B真实episode在响应字节门终止，扩源专家有85步；新批显式绑定pool/archives/game与实际POST/秒/动作/byte caps，并传到relay/world。上下文大小是另一个约束，不能把byte余量当模型token余量。新pool的20tests/33subtests及原生reset预检通过；旧reserved根和原预算不追改。
 - **源经验与首轮交付**：公开任务、raw text/tool的input/output/error及world终态形成载体，不用PDDL/专家代替实际经验。普通skill单次生成并计量，先冻齐再跑目标；none仅D侧同源绑定，其余完整内联，并核对首个实际forwarded请求。形成入口查target reservation，冻结后的只读验证不再受该门阻断。37tests/56subtests及五臂零模型预检通过；交付验证不等于理解或迁移成功。
+- **SDK编码与思考通道**：实际OpenCode把task包双引号并转义内部双引号；整串可逆且task hash相符时是完整encoded delivery，raw substring失败不能叫未交付。旧标签由sidecar更正。8B末次动作曾只出现在reasoning、无native tool_calls，不自动搬运；新诊断只显式关闭student thinking，默认原请求保持。39tests/63subtests与owned fake验证编码、native kwargs，真机语义结果另记。
+- **通道资格不等于任务成功**：真实nativeFalse诊断62个forwarded payload均为false，SSE无reasoning且有60次native工具调用，仍拿错对象并提前结束；不能继续归因于旧通道故障，也不要求无经验先成功才允许经验比较。同冻结源的三经验条件随后补齐；真实失败状态的教师纠正须单独重放验收，不用从reset成功替代。
 - **证据**：[ALFWorld记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md)、`scripts/graph/research_alfworld_bridge.py`、`tests/test_research_alfworld_bridge.py`、`tests/test_alfworld_actor.py`。
 
 ## Completion and verification

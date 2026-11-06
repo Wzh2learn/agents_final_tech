@@ -8,13 +8,13 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-当前执行[ALFWorld clean_2五臂](results/ALFWORLD_TEXT_AGENT_20261106.md#current-transfer)：两源载体已冻结，先核在途/receipt再接续，不重跑reserved根。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)此配置已收口；[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源可复用但完整历史超当前writer32K。新方法仍须超过最强普通载体与公开近邻。
+当前接续[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md#current-transfer)：clean_2新四臂已收，heat_2五臂在跑；源F不改。随后从真实失败状态重放，比较8B中性续做与27B纠正接管，再准备反馈监督；HF8B/4B和训练链已存在，尚未新训练。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)本配置收口，[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源保留。方法须超过最强基线与近邻。
 
 ## 最新开发证据
 
-`Matplotlib23562→27361`[隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)：无历史/历史/skill均通过关键与完整回归，结果卡出现1项回归；skill少POST但本次token/用时无优势。含source与形成124POST/2,789,460tokens。
+`Matplotlib23562→27361`[隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)：无历史/历史/skill均通过关键与回归，结果卡有1项回归；skill少POST但token/用时无优势。完整形成和使用成本见批次原始账本。
 
-`Astropy14995→15082`[隔离批次](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)：四臂关键3/3、回归132/132、原题实际data/mask/unit相符；普通历史目标未缓存输入输出41,264tokens，对无历史83,758，本次94对212秒。skill未超过历史。含source与形成84POST/2,298,659tokens。每任务一次，两个项目不能给出稳定选择规律；两批结果卡信息不同。完整raw与hash按批次加载，[旧四臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md)保留。
+`Astropy14995→15082`[隔离批次](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)：四臂关键3/3、回归132/132，实际data/mask/unit相符；普通历史本次比无历史省token/时间，skill未超过历史。两项目各单次，不能给出稳定选择规律；完整账本/raw按批次加载，[旧四臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md)保留。
 
 ## 进入投稿稿制作的门槛
 

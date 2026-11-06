@@ -89,3 +89,42 @@ pool/caps扩展代码SHA `2a95c969b9f327e7bcaeb4c6e885242c9344c544c4cfe99f08d5fd
 各在`experience_transfer_pilot_v1/experiences/<source>/v1`。source采集＋编译实际20POST/113,981tokens；采集和形成只在物理账本计一次，目标边际与整条pipeline成本分列。两条源的131成员薄包与当时7个Git代码组件快照均已双端核验，包SHA `64c9fce404d4464e352c112f129a8598430c922a235adb0de05f25970f3d07b2`。
 
 首个`clean_2`目标预检五臂均通过且0目标生成；冻结顺序为8B none→普通公开历史→普通生成skill→透明goal条件摘要，最后27B直接none。`clean2_cohort_v1/FROZEN_PLAN.json` SHA `8ccfe5fed4545f650338f4c266199dab4dfca08eae2a9809af22a0047427f2be`。它是单个开发目标，不能将五臂当五个任务。actor接入代码SHA `e42622cd6ca1334b07d4eb53544d8b222fc22b5d3bcd2f53585c9be239050030`，compiler SHA `14bc026e3f51877c2679989404af56e35a1c63fc2e3cfe4f5a6f3bfb95643d3d`；37项tests/56subtests通过。source形成写入门与目标后的只读验证分开，所有目标含none绑定同一F，none提示不含来源内容，其余须由真实首请求核实完整载体交付。
+
+### 五臂终态与接口裁决
+
+| 模型 / 条件 | native won | 实际动作 / POST | 已知provider tokens |
+| --- | --- | --- | --- |
+| 8B none | false | 47 / 51 | 692,784 |
+| 8B 普通公开历史 | false | 3 / 4 | 41,424 |
+| 8B 普通skill | false | 7 / 8 | 54,103 |
+| 8B 透明摘要 | false | 3 / 4 | 22,844 |
+| 27B直接none | true | 8 / 9 | 55,967 |
+
+合计76POST/867,122tokens，usage完整、cleanup无错误，均未耗尽各自运行帽。四种8B末次SSE均finish=stop、final content空、没有native tool_calls，待执行的bash动作却在reasoning字段；不能把reasoning挪成动作。none已清洗kettle并到达shelf，但最后放置未执行。独立只读复核支持优先诊断8B思考/工具通道资格，不能用这一批认证经验无效或负迁移。
+
+首请求核查还纠正了测量器：五臂SDK user均逐字等于双引号包裹task、内部双引号增加一层反斜线；逆变换后task原始bytes/SHA全部恢复。history/skill的`COMPLETE_CARRIER_MISSING`是raw substring误判，信息完整但为lossless quoting，不是原始字节直接交付。原receipt不重写，后续校验同时保留raw和整串等价归一化证据。controller显示误取`experience_exposure`，实际字段为`experience_delivery`，原显示null不作科学证据。
+
+27B直接执行已提供可靠的强基线；首批8B经验方案没有可交付收益。随后做same-transport的8B none/attempt_v2，显式native thinking=false，其余条件不改。事前增补见`NATIVE_FALSE_DIAGNOSTIC_ADDENDUM_V1.json`；配置修复不计作新学习方法。
+
+该诊断已结束，inputs manifest SHA `41b6d38ccfe89dd8ee61ad31d10e6ee17f139b4d28420a1501a72d98946acdc7`，root为`target_attempts/clean_2/student8b/none/attempt_v2`，结果写`wire_thinking_diagnostic_v1/NATIVE_FALSE_RESULT.json`。actor代码SHA `cbc4db7e5b1bf6927004eff833d0584f3db3a875efb00c13965523955ad90a76`，39tests/63subtests通过。保留argv输送；四个旧8B首请求在新默认配置下逐字重建相等，新flag只增加原生false。3次fake POST单列，0真实探针；旧receipt/F不改，SDK编码校正sidecar SHA `e4c3acfce655f5dedaa702523c0f179e2f3cc7a132e62c6df4c3dd1403da7246`。
+
+### NativeFalse真实诊断与后续同配置比较
+
+none/v2为62POST、903,356已知provider tokens、48合法动作/12次invalid action，won=false，usage完整、cleanup无错误；receipt SHA `f612abb5a50be31c17e869a88cc07c98f8bf929d24f9628404d45b4d6d04648a`。独立AI只读复核逐POST确认：62个实际forwarded payload均显式false，62份SSE的reasoning字符为0，60次native工具调用；这不把未报告的内部reasoning tokens填成0。末次是普通content声称会继续找kettle，随后stop，没有工具调用。实际拿错mug发生在压缩前，最后清洗的仍是mug，故本次是对象控制、规划和提前结束问题，已不同于v1推理通道动作未执行。侧车`NATIVE_FALSE_INDEPENDENT_AUDIT.json` SHA `ac0fa7fdd92048c8b3f96ab3fbfc34e5ea901ada9ada24a96258c43ca889f8f4`。
+
+通道合格不要求无经验先成功。D冻结`clean2_nativefalse_cohort_v1/FROZEN_PLAN.json`（SHA `79d9436b8765e3cda18bb3b8bda91a8fed8e8ad40888a325036c4723a06f90cf`），复用none/v2、不再生成；其余三个条件用各自attempt_v2、同一source F/seed/上下文/caps/nativeFalse，核经验是否缩短搜索或减少目标偏移。它仍是一个已暴露开发目标，结果不能冒充来源隔离确认。
+
+| clean_2 nativeFalse条件 | won | 动作 / POST | 已知provider tokens |
+| --- | --- | --- | --- |
+| none/v2（复用，不再次计物理调用） | false | 48 / 62 | 903,356 |
+| 普通公开历史/v2 | false | 13 / 14 | 167,580 |
+| 普通skill/v2 | false | 51 / 53 | 790,611 |
+| 透明摘要/v2 | false | 51 / 53 | 777,752 |
+
+四臂合计182POST/2,639,299tokens，usage完整；本次补齐三臂新增120POST/1,735,943tokens。历史臂把mug放到shelf并称其为kettle，实际world未成功；skill后段重复look后用普通文字给出下一动作；摘要未找到kettle即提前结束。载体均完整encoded交付，不能再解释为“未读到经验”。它们没有解决当前配置的对象绑定和规划失败，但这一个开发目标不否定经验学习领域。
+
+第二个预先固定目标heat_2已冻结五臂再启动，plan SHA `3d4154d899cbf6c72254febff993053aeced191d6099ff3e45ea00ed2df3e03e`，先27B直接none、再8B nativeFalse的四种条件；source热任务F保持原字节。结果见私有`heat2_nativefalse_cohort_v1/RESULTS.jsonl`，在途不改CBC代码。
+
+下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
+
+旧五臂、两源冻结载体/编译raw、none/v2及两版精确代码快照已打私有薄包，SHA `0dc93c35005a90b1091fc8b62ff725ce010f72cdc26ab2e7ee3b957e39ee5145`，789成员双端逐项验证；不含actor workspace/runtime或全量游戏。独立新侧车及在途三臂另行保存，不改原包。

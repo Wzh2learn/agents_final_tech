@@ -89,12 +89,14 @@ def load_profile(backend):
     return profile
 
 
-def model_payload(value, backend, profile, seed):
+def model_payload(value, backend, profile, seed, student_enable_thinking=None):
+    if student_enable_thinking is not None and (student_enable_thinking is not False or backend != "student8b"):
+        raise ValueError("native thinking override is student8b false only")
     value = dict(value)
     value.update(model=profile["model_id"], seed=seed, temperature=0.2,
                  max_tokens=profile["output"], stream=True,
                  stream_options={"include_usage": True})
-    if backend == "teacher27b":
+    if backend == "teacher27b" or student_enable_thinking is False:
         value["chat_template_kwargs"] = {"enable_thinking": False}
     else:
         value.pop("chat_template_kwargs", None)
@@ -264,13 +266,8 @@ def condition_prompt(initial, condition="none", experience_text=None):
             experience_text + "\n</source-experience>\n")
 
 
-def delivery_evidence(payload, condition="none", experience_text=None):
-    result = {"condition": condition, "delivery_proves_understanding": False,
-              "expected_content_sha256": None, "delivered_content_sha256": None,
-              "first_forwarded_user_contains_full_content": None}
-    if condition == "none":
-        return dict(result, status="NONE_NO_CONTENT_INJECTION")
-    content = experience_text.encode("utf-8")
+def delivery_evidence(payload, condition="none", experience_text=None, expected_task=None):
+    """Only normalize the measured SDK quote layer after whole-task equivalence."""
     users = []
     for message in payload.get("messages", []):
         if not isinstance(message, dict) or message.get("role") != "user":
@@ -281,11 +278,36 @@ def delivery_evidence(payload, condition="none", experience_text=None):
         elif isinstance(value, list):
             users.append("".join(part["text"] for part in value
                 if isinstance(part, dict) and isinstance(part.get("text"), str)))
-    present = any(experience_text in value for value in users)
-    digest = hashlib.sha256(content).hexdigest()
-    return dict(result, status="COMPLETE_CARRIER_DELIVERED" if present else "COMPLETE_CARRIER_MISSING",
-                expected_content_sha256=digest, delivered_content_sha256=digest if present else None,
-                content_bytes=len(content), first_forwarded_user_contains_full_content=present)
+    digest = lambda value: hashlib.sha256(value.encode("utf-8")).hexdigest()
+    raw_task = isinstance(expected_task, str) and expected_task in users
+    # This is not JSON encoding: actual newlines/backticks/backslashes are retained.
+    quoted = ('"' + expected_task.replace('"', chr(92) + '"') + '"') if isinstance(expected_task, str) else None
+    encoded_task = quoted is not None and quoted in users
+    normalized = expected_task if raw_task or encoded_task else None
+    result = {"condition": condition, "delivery_proves_understanding": False,
+              "first_forwarded_user_sha256": digest(users[0]) if users else None,
+              "all_user_content_sha256": [digest(value) for value in users],
+              "expected_task_sha256": digest(expected_task) if isinstance(expected_task, str) else None,
+              "whole_task_raw_equal": raw_task, "whole_task_lossless_quoted_equal": encoded_task,
+              "normalization": "OPENCODE_ARGV_QUOTE_LAYER_V1" if encoded_task else
+                               "UNMODIFIED_TASK" if raw_task else "NOT_VERIFIED",
+              "normalized_task_sha256": digest(normalized) if normalized is not None else None,
+              "expected_content_sha256": None, "delivered_content_sha256": None,
+              "normalized_content_sha256": None,
+              "first_forwarded_user_contains_full_content": None}
+    if condition == "none":
+        return dict(result, status="NONE_NO_CONTENT_INJECTION")
+    content_sha = digest(experience_text)
+    raw_present = any(experience_text in value for value in users)
+    normalized_present = normalized is not None and experience_text in normalized
+    status = ("COMPLETE_CARRIER_LOSSLESS_ENCODED" if encoded_task and normalized_present else
+              "COMPLETE_CARRIER_DELIVERED" if raw_present else "COMPLETE_CARRIER_NOT_VERIFIED")
+    return dict(result, status=status, expected_content_sha256=content_sha,
+                delivered_content_sha256=content_sha if raw_present else None,
+                normalized_content_sha256=content_sha if normalized_present else None,
+                content_bytes=len(experience_text.encode("utf-8")),
+                carrier_information_verified=raw_present or normalized_present,
+                first_forwarded_user_contains_full_content=raw_present)
 
 
 def docker_command(work, world, model, manifest, name):
@@ -490,7 +512,8 @@ def components(experience=False):
 
 
 def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, pool_manifest_sha=None,
-              condition="none", experience_manifest=None, experience_manifest_sha=None):
+              condition="none", experience_manifest=None, experience_manifest_sha=None,
+              student_enable_thinking=None):
     root = Path(root).resolve()
     if QUAL.resolve() not in root.parents or root == QUAL:
         raise ValueError("run root must be inside private qualification root")
@@ -501,6 +524,7 @@ def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, po
     caps = episode_caps(caps)
     _, pool = select_game(game_id, pool_manifest, pool_manifest_sha)
     profile = load_profile(backend)
+    sampling = model_payload({}, backend, profile, seed, student_enable_thinking)
     experience = experience_for_target(experience_manifest, experience_manifest_sha, game_id, condition,
                                       pool["sha256"] if pool else None, profile["model_id"], seed, caps)
     dependencies.verify_projection(RUNTIME_ROOT, RUNTIME_SHA)
@@ -529,10 +553,13 @@ def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, po
         "runtime_manifest_sha256": RUNTIME_SHA, "opencode_binary_sha256": BINARY_SHA,
         "components": components(experience is not None), "config_sha256": sha(root / "opencode_config.json"),
         "prompt_sha256": sha(root / "task.txt"), "initial_sha256": sha(root / "initial_reset.json"),
-        "caps": caps, "sampling": model_payload({}, backend, profile, seed),
+        "caps": caps, "sampling": sampling,
         "thinking": "explicit_false" if backend == "teacher27b" else "existing_template_default",
         "model_calls": 0, "live_endpoint_probed": False,
     }
+    if student_enable_thinking is False:
+        manifest["student_enable_thinking"] = False
+        manifest["thinking"] = "student_native_explicit_false"
     if experience:
         manifest["condition"] = condition
         manifest["experience_binding"] = experience["record"]
@@ -612,17 +639,19 @@ def receive_http(connection, max_bytes=MAX_BYTES):
 
 class ModelRelay:
     def __init__(self, root, directory, backend, profile, seed, endpoint, caps, sampling,
-                 condition="none", experience_text=None):
+                 condition="none", experience_text=None, student_enable_thinking=None):
         self.root, self.directory = Path(root), Path(directory)
         caps = episode_caps(caps)
         self.budget = Budget(max_posts=caps["posts"],
                              max_bytes=caps["model_payload_bytes_combined"], seconds=caps["seconds"])
-        if json.dumps(sampling, sort_keys=True) != json.dumps(model_payload({}, backend, profile, seed), sort_keys=True):
+        if json.dumps(sampling, sort_keys=True) != json.dumps(model_payload({}, backend, profile, seed, student_enable_thinking), sort_keys=True):
             raise ValueError("relay sampling differs from frozen manifest")
         if (condition not in CONDITIONS or (condition == "none") != (experience_text is None) or
                 condition != "none" and not isinstance(experience_text, str)):
             raise ValueError("relay condition/content mismatch")
         self.condition, self.experience_text = condition, experience_text
+        task_path = self.root / "task.txt"
+        self.expected_task = task_path.read_bytes().decode("utf-8") if task_path.is_file() else None
         self.delivery = None
         self.relay = load_relay()
         self.owned = set()
@@ -648,7 +677,7 @@ class ModelRelay:
                         raise ValueError("unexpected exposed tool")
                     payload = dict(incoming)
                     payload.update(sampling)
-                    if backend == "student8b":
+                    if backend == "student8b" and student_enable_thinking is None:
                         payload.pop("chat_template_kwargs", None)
                     body = json.dumps(payload, separators=(",", ":")).encode()
                     index = owner.budget.reserve(len(body))
@@ -705,7 +734,8 @@ class ModelRelay:
                 upstream.sendall(packet)
                 self.forwarded += 1
                 if self.forwarded == 1:
-                    self.delivery = delivery_evidence(payload or {}, self.condition, self.experience_text)
+                    self.delivery = delivery_evidence(payload or {}, self.condition, self.experience_text,
+                                                      getattr(self, "expected_task", None))
                     self.delivery.update(first_forwarded_post=post_index,
                         first_forwarded_request_sha256=hashlib.sha256(
                             json.dumps(payload or {}, separators=(",", ":")).encode()).hexdigest())
@@ -753,7 +783,8 @@ def verify_manifest(root, digest):
         profile = load_profile(manifest["backend"])
         if "model_id" in manifest and manifest["model_id"] != profile["model_id"]:
             raise ValueError("frozen backend/model mismatch")
-        expected = model_payload({}, manifest["backend"], profile, manifest["seed"])
+        expected = model_payload({}, manifest["backend"], profile, manifest["seed"],
+                                 manifest.get("student_enable_thinking"))
         if json.dumps(manifest["sampling"], sort_keys=True) != json.dumps(expected, sort_keys=True):
             raise ValueError("frozen sampling mismatch")
     if "pool_binding" in manifest:
@@ -787,7 +818,8 @@ def execute(root, digest, *, mock_endpoint=None):
               "mode": "MOCK_ORACLE_CONTROL" if mock_endpoint else "REAL_NO_HISTORY_EPISODE"})
     profile = load_profile(manifest["backend"])
     caps = episode_caps(manifest.get("caps"))
-    sampling = manifest.get("sampling", model_payload({}, manifest["backend"], profile, manifest["seed"]))
+    sampling = manifest.get("sampling", model_payload({}, manifest["backend"], profile, manifest["seed"],
+                                                   manifest.get("student_enable_thinking")))
     pool = manifest.get("pool_binding")
     bound = manifest.get("experience_binding")
     experience = experience_for_target(bound["manifest_path"] if bound else None,
@@ -811,7 +843,8 @@ def execute(root, digest, *, mock_endpoint=None):
         model_dir = socket_directory("m")
         endpoint = mock_endpoint or (profile["host"], profile["port"])
         relay = ModelRelay(root, model_dir, manifest["backend"], profile, manifest["seed"], endpoint, caps, sampling,
-                           condition, experience["text"] if experience else None)
+                           condition, experience["text"] if experience else None,
+                           manifest.get("student_enable_thinking"))
         argv = docker_command(work, world[1], model_dir, manifest, name)
         write_new(root / "docker_command.json", {"argv": argv})
         with (root / "raw.jsonl").open("xb") as raw, (root / "docker.stderr").open("xb") as errors:
@@ -855,6 +888,7 @@ def execute(root, digest, *, mock_endpoint=None):
         receipt = {
             "label": "MOCK_ORACLE_CONTROL" if mock_endpoint else manifest.get("label", "NO_HISTORY_DEV_PDDL_ONLY"),
             "condition": condition, "experience_binding": bound,
+            "student_enable_thinking": manifest.get("student_enable_thinking"),
             "experience_delivery": relay.delivery if relay else None,
             "status": "CLEANUP_INCOMPLETE" if cleanup_errors else status,
             "cleanup_errors": cleanup_errors, "docker_exit": docker_exit, "manifest_sha256": digest,
@@ -948,6 +982,8 @@ def main(argv=None):
     parser.add_argument("--game-id")
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--manifest-sha")
+    parser.add_argument("--student-enable-thinking", choices=("default", "false"),
+                        help="student8b native template override; default retains profile behavior")
     parser.add_argument("--condition", choices=CONDITIONS)
     parser.add_argument("--experience-manifest", type=Path)
     parser.add_argument("--experience-manifest-sha")
@@ -969,13 +1005,17 @@ def main(argv=None):
         ("world_actions", args.max_actions), ("model_payload_bytes_combined", args.max_bytes))
         if value is not None}
     caps = episode_caps(dict(episode_caps(), **overrides))
+    student_thinking = False if args.student_enable_thinking == "false" else None
     if args.execute:
         if not args.manifest_sha:
             parser.error("--execute requires frozen --manifest-sha")
-        if overrides or args.pool_manifest or args.game_id or args.condition is not None or args.experience_manifest:
+        if (overrides or args.pool_manifest or args.game_id or args.condition is not None or
+                args.experience_manifest or args.student_enable_thinking is not None):
             frozen = json.loads((args.run_root / "manifest.json").read_text())
             if any(episode_caps(frozen.get("caps"))[key] != value for key, value in overrides.items()):
                 parser.error("execute caps differ from frozen manifest")
+            if args.student_enable_thinking is not None and student_thinking is not frozen.get("student_enable_thinking"):
+                parser.error("execute native thinking differs from frozen manifest")
             if args.condition is not None and args.condition != frozen.get("condition", "none"):
                 parser.error("execute condition differs from frozen manifest")
             if args.experience_manifest and (str(args.experience_manifest.resolve()), args.experience_manifest_sha) != (
@@ -1000,7 +1040,8 @@ def main(argv=None):
         result = run(args.run_root, args.backend, args.game_id or GAME_IDS[0], args.seed,
                      caps=caps, pool_manifest=args.pool_manifest, pool_manifest_sha=args.pool_manifest_sha,
                      condition=args.condition or "none", experience_manifest=args.experience_manifest,
-                     experience_manifest_sha=args.experience_manifest_sha)
+                     experience_manifest_sha=args.experience_manifest_sha,
+                     student_enable_thinking=student_thinking)
     print(json.dumps({"run_root": str(args.run_root), "result": result}, ensure_ascii=True))
 
 
