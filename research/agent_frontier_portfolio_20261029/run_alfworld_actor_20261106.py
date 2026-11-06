@@ -13,6 +13,7 @@ import importlib.util
 import importlib.metadata
 import json
 import os
+import re
 from pathlib import Path
 import signal
 import socket
@@ -38,6 +39,12 @@ BRIDGE_SHA = "37ea21a558c73068b84958ba3862c01f31c8c719f61cb011399004c0ce8bbce5"
 PRIMITIVES = REPO / "research/agent_frontier_portfolio_20261029/run_django_aggregation_agent_20261106.py"
 MAX_POSTS, MAX_SECONDS, MAX_BYTES, MAX_ACTIONS = 48, 1200, 6_000_000, 100
 IMAGE = "python:3.12-slim"
+CONDITIONS = ("none", "ordinary_public_history", "ordinary_generated_skill",
+              "transparent_goal_conditioned_source_summary")
+EXPERIENCE_MODULE = Path(__file__).with_name("prepare_alfworld_experience_20261106.py")
+CONTRACT_SHA = "088fcc1b43f71f6c09f63168456b9c200ee1bb7352f55afd2db5443c6f36625e"
+DIRECT_NONE_SHA = "ff72bef437c1c9b7665323db0349a6307592d61ecd666aa2aa4290c2daef12eb"
+EXPERIENCE_NOTE = "Historical experience is not the current state. Follow the current goal and real environment feedback."
 GAME_IDS = ("clean_apple_diningtable19", "heat_apple_countertop2")
 POOL_SHA = "1309000e4ec90fb40246f7fce235ed06fbc30f017bfe747f89aab1ebe1a3a426"
 POOL_RECEIPT_SHA = "2a126dd70bae97ca55d47546ff94afcb552d3690dd25c7890b5384981be35d29"
@@ -150,11 +157,135 @@ def serve():
  while True:
   client,_=listener.accept();threading.Thread(target=proxy,args=(client,),daemon=True).start()
 threading.Thread(target=serve,daemon=True).start()
-prompt=pathlib.Path("/workspace/task.txt").read_text()
+prompt=pathlib.Path("/workspace/task.txt").read_bytes().decode("utf-8")
 result=subprocess.run(["/opt/opencode","run","--pure","--format","json","-m",sys.argv[1],
  "--title","alfworld-no-history",prompt],stdin=subprocess.DEVNULL)
 raise SystemExit(result.returncode)
 '''
+
+
+def experience_validator():
+    if EXPERIENCE_MODULE.is_symlink() or not EXPERIENCE_MODULE.is_file():
+        raise ValueError("experience compiler is not ready")
+    spec = importlib.util.spec_from_file_location("frozen_alfworld_experience", EXPERIENCE_MODULE)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.validate_frozen
+
+
+def check_target_namespace(root, game_id, backend, condition):
+    targets = {category + "_2" for category in ("clean", "heat", "cool", "plain_place")}
+    if game_id not in targets:
+        return
+    base = QUAL / "experience_transfer_pilot_v1/target_attempts"
+    expected = base / game_id / backend / condition
+    root = Path(root)
+    if root.parent.resolve() != expected.resolve() or not re.fullmatch(r"attempt_v[1-9][0-9]*", root.name):
+        raise ValueError("pilot target requires canonical target_attempts/game/backend/condition/attempt_vN")
+    current = QUAL
+    for part in expected.relative_to(QUAL).parts:
+        current = current / part
+        if current.is_symlink():
+            raise ValueError("pilot target namespace symlink")
+
+
+def experience_for_target(path, digest, game_id, condition, pool_sha, model_id, seed, caps):
+    if condition not in CONDITIONS:
+        raise ValueError("unsupported experience condition")
+    targets = {category + "_2" for category in ("clean", "heat", "cool", "plain_place")}
+    if path is None and digest is None:
+        if condition != "none" or game_id in targets:
+            raise ValueError("every pilot target condition requires a frozen source manifest")
+        return None
+    if path is None or digest is None:
+        raise ValueError("experience manifest and SHA must be provided together")
+    path = Path(path)
+    if path.is_symlink() or path.name != "frozen_manifest.json" or sha(path) != digest:
+        raise ValueError("frozen experience manifest changed")
+    result = experience_validator()(path, digest)
+    manifest, texts, binding = result["manifest"], result["texts"], result["binding"]
+    contract_path = QUAL / "experience_transfer_pilot_v1/CONTRACT.json"
+    if (sha(contract_path) != CONTRACT_SHA or manifest.get("version") != 1 or
+            manifest.get("contract_sha256") != CONTRACT_SHA or pool_sha != POOL_SHA):
+        raise ValueError("experience contract or pool mismatch")
+    contract = json.loads(contract_path.read_text())
+    source_id = manifest["source_game_id"]
+    if (source_id, game_id) not in {(row["source"], row["target"]) for row in contract["pairs"]}:
+        raise ValueError("experience requires the contracted source_1 to same-family target_2")
+    if seed != contract["world_and_model_seed"]:
+        raise ValueError("pilot sampling seed mismatch")
+    wanted_caps = dict(contract["new_episode_caps"])
+    wanted_caps["model_payload_bytes_combined"] = wanted_caps.pop("request_payload_plus_response_wire_bytes")
+    if caps != wanted_caps:
+        raise ValueError("pilot conditions require the same contracted caps")
+    direct_sha = None
+    if model_id != contract["target_model"]:
+        addendum = QUAL / "experience_transfer_pilot_v1/DIRECT_TARGET_BASELINE_ADDENDUM_V1.json"
+        if condition != "none" or model_id != "qwen38-27b-fp8" or sha(addendum) != DIRECT_NONE_SHA:
+            raise ValueError("unsupported pilot target model/condition")
+        direct = json.loads(addendum.read_text())
+        if game_id not in direct["target_games"] or direct["parent_contract_sha256"] != CONTRACT_SHA:
+            raise ValueError("direct teacher baseline binding mismatch")
+        direct_sha = DIRECT_NONE_SHA
+    if set(texts) != set(CONDITIONS[1:]) or set(manifest["artifact_sha256"]) != set(CONDITIONS[1:]):
+        raise ValueError("frozen source carrier set changed")
+    for name, text in texts.items():
+        if (type(text) is not str or not text.strip() or
+                hashlib.sha256(text.encode("utf-8")).hexdigest() != manifest["artifact_sha256"][name]):
+            raise ValueError("frozen carrier text/SHA mismatch")
+    source = manifest["source"]
+    if "pool_manifest_sha256" in source and (
+            source["pool_manifest_sha256"] != pool_sha or
+            binding.get("source_pool_manifest_sha256") != pool_sha):
+        raise ValueError("source and target pool mismatch")
+    expected = {"source_game_id": source_id, "source_manifest_sha256": source["manifest_sha256"],
+                "source_receipt_sha256": source["receipt_sha256"],
+                "source_trajectory_sha256": source["trajectory_sha256"],
+                "source_raw_sha256": source["raw_sha256"], "source_won": source["won"],
+                "contract_sha256": CONTRACT_SHA, "frozen_manifest_sha256": digest}
+    if any(json.dumps(binding.get(key), sort_keys=True) != json.dumps(value, sort_keys=True)
+           for key, value in expected.items()):
+        raise ValueError("source experience binding mismatch")
+    record = {"manifest_path": str(path.resolve()), "manifest_sha256": digest, "binding": binding,
+              "artifact_sha256": manifest["artifact_sha256"],
+              "selected_content_sha256": None if condition == "none" else manifest["artifact_sha256"][condition]}
+    if direct_sha:
+        record["direct_target_baseline_addendum_sha256"] = direct_sha
+    return {"record": record, "text": None if condition == "none" else texts[condition]}
+
+
+def condition_prompt(initial, condition="none", experience_text=None):
+    prompt = task_prompt(initial)
+    if condition == "none":
+        return prompt
+    if condition not in CONDITIONS or not isinstance(experience_text, str) or not experience_text:
+        raise ValueError("condition requires frozen carrier content")
+    return (prompt + "\n\n" + EXPERIENCE_NOTE + "\n<source-experience>\n" +
+            experience_text + "\n</source-experience>\n")
+
+
+def delivery_evidence(payload, condition="none", experience_text=None):
+    result = {"condition": condition, "delivery_proves_understanding": False,
+              "expected_content_sha256": None, "delivered_content_sha256": None,
+              "first_forwarded_user_contains_full_content": None}
+    if condition == "none":
+        return dict(result, status="NONE_NO_CONTENT_INJECTION")
+    content = experience_text.encode("utf-8")
+    users = []
+    for message in payload.get("messages", []):
+        if not isinstance(message, dict) or message.get("role") != "user":
+            continue
+        value = message.get("content", "")
+        if isinstance(value, str):
+            users.append(value)
+        elif isinstance(value, list):
+            users.append("".join(part["text"] for part in value
+                if isinstance(part, dict) and isinstance(part.get("text"), str)))
+    present = any(experience_text in value for value in users)
+    digest = hashlib.sha256(content).hexdigest()
+    return dict(result, status="COMPLETE_CARRIER_DELIVERED" if present else "COMPLETE_CARRIER_MISSING",
+                expected_content_sha256=digest, delivered_content_sha256=digest if present else None,
+                content_bytes=len(content), first_forwarded_user_contains_full_content=present)
 
 
 def docker_command(work, world, model, manifest, name):
@@ -347,25 +478,31 @@ def stop_world(handle):
         cleanup_directory(public)
 
 
-def components():
+def components(experience=False):
     paths = [Path(__file__), BRIDGE, PRIMITIVES,
              REPO / "scripts/graph/research_auto_record.py",
              REPO / "scripts/graph/research_evidence_graph.py",
              REPO / "scripts/graph/research_actor_dependencies.py",
              REPO / "scripts/graph/research_teacher_backend.py"]
+    if experience:
+        paths.append(EXPERIENCE_MODULE)
     return {str(path): sha(path) for path in paths}
 
 
-def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, pool_manifest_sha=None):
+def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, pool_manifest_sha=None,
+              condition="none", experience_manifest=None, experience_manifest_sha=None):
     root = Path(root).resolve()
     if QUAL.resolve() not in root.parents or root == QUAL:
         raise ValueError("run root must be inside private qualification root")
+    check_target_namespace(root, game_id, backend, condition)
     root.mkdir(parents=True, exist_ok=True)
     if any(root.iterdir()):
         raise FileExistsError("preflight requires a fresh empty run root")
     caps = episode_caps(caps)
     _, pool = select_game(game_id, pool_manifest, pool_manifest_sha)
     profile = load_profile(backend)
+    experience = experience_for_target(experience_manifest, experience_manifest_sha, game_id, condition,
+                                      pool["sha256"] if pool else None, profile["model_id"], seed, caps)
     dependencies.verify_projection(RUNTIME_ROOT, RUNTIME_SHA)
     if sha(BINARY) != BINARY_SHA:
         raise ValueError("OpenCode binary changed")
@@ -379,7 +516,7 @@ def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, po
         if world:
             stop_world(world)
     write_new(root / "opencode_config.json", config(profile, seed))
-    (root / "task.txt").write_text(task_prompt(initial), encoding="utf-8")
+    (root / "task.txt").write_text(condition_prompt(initial, condition, experience["text"] if experience else None), encoding="utf-8")
     manifest = {
         "version": 1, "label": "NO_HISTORY_DEV_PDDL_ONLY",
         "backend": backend, "model_id": profile["model_id"],
@@ -390,12 +527,17 @@ def preflight(root, backend, game_id, seed, *, caps=None, pool_manifest=None, po
         "admissible_commands_sensor": True, "original_paper_replication": False,
         "uid": os.getuid(), "gid": os.getgid(), "image_id": image,
         "runtime_manifest_sha256": RUNTIME_SHA, "opencode_binary_sha256": BINARY_SHA,
-        "components": components(), "config_sha256": sha(root / "opencode_config.json"),
+        "components": components(experience is not None), "config_sha256": sha(root / "opencode_config.json"),
         "prompt_sha256": sha(root / "task.txt"), "initial_sha256": sha(root / "initial_reset.json"),
         "caps": caps, "sampling": model_payload({}, backend, profile, seed),
         "thinking": "explicit_false" if backend == "teacher27b" else "existing_template_default",
         "model_calls": 0, "live_endpoint_probed": False,
     }
+    if experience:
+        manifest["condition"] = condition
+        manifest["experience_binding"] = experience["record"]
+        if condition != "none":
+            manifest["label"] = "SOURCE_EXPERIENCE_DEV_PDDL_ONLY"
     if pool:
         manifest["pool_binding"] = pool
         (root / "pool_manifest.json").write_bytes(Path(pool_manifest).read_bytes())
@@ -469,13 +611,19 @@ def receive_http(connection, max_bytes=MAX_BYTES):
 
 
 class ModelRelay:
-    def __init__(self, root, directory, backend, profile, seed, endpoint, caps, sampling):
+    def __init__(self, root, directory, backend, profile, seed, endpoint, caps, sampling,
+                 condition="none", experience_text=None):
         self.root, self.directory = Path(root), Path(directory)
         caps = episode_caps(caps)
         self.budget = Budget(max_posts=caps["posts"],
                              max_bytes=caps["model_payload_bytes_combined"], seconds=caps["seconds"])
         if json.dumps(sampling, sort_keys=True) != json.dumps(model_payload({}, backend, profile, seed), sort_keys=True):
             raise ValueError("relay sampling differs from frozen manifest")
+        if (condition not in CONDITIONS or (condition == "none") != (experience_text is None) or
+                condition != "none" and not isinstance(experience_text, str)):
+            raise ValueError("relay condition/content mismatch")
+        self.condition, self.experience_text = condition, experience_text
+        self.delivery = None
         self.relay = load_relay()
         self.owned = set()
         self.lock = threading.Lock()
@@ -512,7 +660,7 @@ class ModelRelay:
                     packet = (b"POST /v1/chat/completions HTTP/1.1\r\nHost: local\r\n"
                               b"Content-Type: application/json\r\nConnection: close\r\nContent-Length: "
                               + str(len(body)).encode() + b"\r\n\r\n" + body)
-                    owner.forward(upstream, packet)
+                    owner.forward(upstream, packet, payload, index)
 
                     class CountedClient:
                         def sendall(self, data):
@@ -547,7 +695,7 @@ class ModelRelay:
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
 
-    def forward(self, upstream, packet):
+    def forward(self, upstream, packet, payload=None, post_index=None):
         # A socket connected after shutdown began must never escape the close snapshot.
         with self.lock:
             with self.budget.lock:
@@ -556,6 +704,12 @@ class ModelRelay:
                 self.owned.add(upstream)
                 upstream.sendall(packet)
                 self.forwarded += 1
+                if self.forwarded == 1:
+                    self.delivery = delivery_evidence(payload or {}, self.condition, self.experience_text)
+                    self.delivery.update(first_forwarded_post=post_index,
+                        first_forwarded_request_sha256=hashlib.sha256(
+                            json.dumps(payload or {}, separators=(",", ":")).encode()).hexdigest())
+                    write_new(self.root / "experience_delivery.json", self.delivery)
 
     def begin_close(self):
         with self.lock:
@@ -584,7 +738,7 @@ def verify_manifest(root, digest):
     if QUAL.resolve() not in root.parents or sha(root / "manifest.json") != digest:
         raise ValueError("frozen manifest mismatch")
     manifest = json.loads((root / "manifest.json").read_text())
-    if manifest["components"] != components():
+    if manifest["components"] != components("experience_binding" in manifest):
         raise ValueError("runner or shared component changed")
     for filename, key in (("opencode_config.json", "config_sha256"), ("task.txt", "prompt_sha256"),
                           ("initial_reset.json", "initial_sha256")):
@@ -596,7 +750,10 @@ def verify_manifest(root, digest):
         raise ValueError("run owner changed")
     episode_caps(manifest.get("caps"))
     if "sampling" in manifest:
-        expected = model_payload({}, manifest["backend"], load_profile(manifest["backend"]), manifest["seed"])
+        profile = load_profile(manifest["backend"])
+        if "model_id" in manifest and manifest["model_id"] != profile["model_id"]:
+            raise ValueError("frozen backend/model mismatch")
+        expected = model_payload({}, manifest["backend"], profile, manifest["seed"])
         if json.dumps(manifest["sampling"], sort_keys=True) != json.dumps(expected, sort_keys=True):
             raise ValueError("frozen sampling mismatch")
     if "pool_binding" in manifest:
@@ -606,6 +763,16 @@ def verify_manifest(root, digest):
                 game["sha256_game"] != manifest["game_sha256"] or
                 sha(root / "pool_manifest.json") != pool["sha256"]):
             raise ValueError("frozen pool binding changed")
+    condition = manifest.get("condition", "none")
+    bound = manifest.get("experience_binding")
+    pool_sha = manifest.get("pool_binding", {}).get("sha256")
+    proof = experience_for_target(bound["manifest_path"] if bound else None,
+                                 bound["manifest_sha256"] if bound else None,
+                                 manifest.get("game_id"), condition, pool_sha, manifest.get("model_id"),
+                                 manifest.get("seed"), episode_caps(manifest.get("caps")))
+    if (proof["record"] if proof else None) != bound:
+        raise ValueError("frozen experience binding changed")
+    check_target_namespace(root, manifest.get("game_id"), manifest.get("backend"), condition)
     dependencies.verify_projection(RUNTIME_ROOT, RUNTIME_SHA)
     return manifest
 
@@ -614,12 +781,18 @@ def execute(root, digest, *, mock_endpoint=None):
     """Only explicit CLI execute reaches a real endpoint; mocks use an owned port."""
     root = Path(root).resolve()
     manifest = verify_manifest(root, digest)
+    condition = manifest.get("condition", "none")
+    check_target_namespace(root, manifest.get("game_id"), manifest["backend"], condition)
     write_new(root / "reservation.json", {"manifest_sha256": digest,
               "mode": "MOCK_ORACLE_CONTROL" if mock_endpoint else "REAL_NO_HISTORY_EPISODE"})
     profile = load_profile(manifest["backend"])
     caps = episode_caps(manifest.get("caps"))
     sampling = manifest.get("sampling", model_payload({}, manifest["backend"], profile, manifest["seed"]))
     pool = manifest.get("pool_binding")
+    bound = manifest.get("experience_binding")
+    experience = experience_for_target(bound["manifest_path"] if bound else None,
+        bound["manifest_sha256"] if bound else None, manifest.get("game_id"), condition,
+        pool["sha256"] if pool else None, profile["model_id"], manifest["seed"], caps)
     world = relay = None
     model_dir = None
     start = time.monotonic()
@@ -637,7 +810,8 @@ def execute(root, digest, *, mock_endpoint=None):
         (work / "guest.py").write_text(GUEST)
         model_dir = socket_directory("m")
         endpoint = mock_endpoint or (profile["host"], profile["port"])
-        relay = ModelRelay(root, model_dir, manifest["backend"], profile, manifest["seed"], endpoint, caps, sampling)
+        relay = ModelRelay(root, model_dir, manifest["backend"], profile, manifest["seed"], endpoint, caps, sampling,
+                           condition, experience["text"] if experience else None)
         argv = docker_command(work, world[1], model_dir, manifest, name)
         write_new(root / "docker_command.json", {"argv": argv})
         with (root / "raw.jsonl").open("xb") as raw, (root / "docker.stderr").open("xb") as errors:
@@ -679,7 +853,9 @@ def execute(root, digest, *, mock_endpoint=None):
             tokens = None
             token_parse_error = {"type": type(exc).__name__, "error": str(exc)}
         receipt = {
-            "label": "MOCK_ORACLE_CONTROL" if mock_endpoint else "NO_HISTORY_DEV_PDDL_ONLY",
+            "label": "MOCK_ORACLE_CONTROL" if mock_endpoint else manifest.get("label", "NO_HISTORY_DEV_PDDL_ONLY"),
+            "condition": condition, "experience_binding": bound,
+            "experience_delivery": relay.delivery if relay else None,
             "status": "CLEANUP_INCOMPLETE" if cleanup_errors else status,
             "cleanup_errors": cleanup_errors, "docker_exit": docker_exit, "manifest_sha256": digest,
             "elapsed_seconds": time.monotonic() - start, "caps": caps, "sampling": sampling,
@@ -772,6 +948,9 @@ def main(argv=None):
     parser.add_argument("--game-id")
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--manifest-sha")
+    parser.add_argument("--condition", choices=CONDITIONS)
+    parser.add_argument("--experience-manifest", type=Path)
+    parser.add_argument("--experience-manifest-sha")
     parser.add_argument("--pool-manifest", type=Path)
     parser.add_argument("--pool-manifest-sha")
     for flag in ("posts", "seconds", "actions", "bytes"):
@@ -783,6 +962,8 @@ def main(argv=None):
         parser.error("seed outside uint32 range")
     if bool(args.pool_manifest) != bool(args.pool_manifest_sha):
         parser.error("pool manifest and SHA must be provided together")
+    if bool(args.experience_manifest) != bool(args.experience_manifest_sha):
+        parser.error("experience manifest and SHA must be provided together")
     overrides = {key: value for key, value in (
         ("posts", args.max_posts), ("seconds", args.max_seconds),
         ("world_actions", args.max_actions), ("model_payload_bytes_combined", args.max_bytes))
@@ -791,10 +972,16 @@ def main(argv=None):
     if args.execute:
         if not args.manifest_sha:
             parser.error("--execute requires frozen --manifest-sha")
-        if overrides or args.pool_manifest or args.game_id:
+        if overrides or args.pool_manifest or args.game_id or args.condition is not None or args.experience_manifest:
             frozen = json.loads((args.run_root / "manifest.json").read_text())
             if any(episode_caps(frozen.get("caps"))[key] != value for key, value in overrides.items()):
                 parser.error("execute caps differ from frozen manifest")
+            if args.condition is not None and args.condition != frozen.get("condition", "none"):
+                parser.error("execute condition differs from frozen manifest")
+            if args.experience_manifest and (str(args.experience_manifest.resolve()), args.experience_manifest_sha) != (
+                    frozen.get("experience_binding", {}).get("manifest_path"),
+                    frozen.get("experience_binding", {}).get("manifest_sha256")):
+                parser.error("execute experience differs from frozen manifest")
             if args.game_id and args.game_id != frozen["game_id"]:
                 parser.error("execute game differs from frozen manifest")
             if args.pool_manifest and (str(args.pool_manifest.resolve()), args.pool_manifest_sha) != (
@@ -811,7 +998,9 @@ def main(argv=None):
     else:
         run = mock_control if args.mock_control else preflight
         result = run(args.run_root, args.backend, args.game_id or GAME_IDS[0], args.seed,
-                     caps=caps, pool_manifest=args.pool_manifest, pool_manifest_sha=args.pool_manifest_sha)
+                     caps=caps, pool_manifest=args.pool_manifest, pool_manifest_sha=args.pool_manifest_sha,
+                     condition=args.condition or "none", experience_manifest=args.experience_manifest,
+                     experience_manifest_sha=args.experience_manifest_sha)
     print(json.dumps({"run_root": str(args.run_root), "result": result}, ensure_ascii=True))
 
 

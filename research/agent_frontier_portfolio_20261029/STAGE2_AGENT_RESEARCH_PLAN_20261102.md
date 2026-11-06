@@ -8,7 +8,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)两诊断已结束：27B默认模式未改源码，8B显式加载后上下文溢出，暂停此配置。[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源历史超32K。[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md)已有27B成功轨迹和8题开发资格，先冻结源/目标与新预算，再做经验比较。
+当前执行[ALFWorld clean_2五臂](results/ALFWORLD_TEXT_AGENT_20261106.md#current-transfer)：两源载体已冻结，先核在途/receipt再接续，不重跑reserved根。[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)此配置已收口；[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源可复用但完整历史超当前writer32K。新方法仍须超过最强普通载体与公开近邻。
 
 ## 最新开发证据
 
@@ -18,7 +18,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 ## 进入投稿稿制作的门槛
 
-35B无历史也能完成当前任务，下一批增加真实变化难度并验证较小模型。表示路由训练先查固定策略之外的选择空间；actor或skill-editor训练在有真实监督、来源隔离与普通SFT对照时，可直接做小规模诊断，不把35B的表示收益作为硬门槛。诊断与论文贡献认证分开，按结果选择参数学习、经验编译或二者结合。
+Matplotlib/Astropy的35B无历史接近上限，本批转向8B/27B与非代码变化任务。训练可与经验编译并行推进：从学生真实低效/失败状态重放，由教师产生纠正并实际执行验收，形成反馈监督，再与普通SFT、rehearsal及固定规则比较。反事实rollout本身已有先例；判断学习增量须分离更强教师、额外信息与新机制，来源隔离且不使用确认目标训练。
 
 Django12589→34176使用新采源经验，公开旧轨迹含未来目标题号，不能替代；原题/数据库资格见[本对记录](results/DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)，不使用业务DB。SymPy14774→19235题面自带修法/前序引用，属开发；目标原144回归有2项共同Python3.8失败，排除后142通过。scikit25638→25637关联同issue，不作独立迁移。
 

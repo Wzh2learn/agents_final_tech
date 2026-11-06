@@ -2,6 +2,8 @@
 
 > 2026-11-06 | 开发环境资格与真实actor入口。现役次序见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，本页不新建prompt或Goal。模型实验结果按原始回执更新。
 
+接续先读[当前经验比较](#current-transfer)，其余章节按问题加载，不把资格控制当作当前待办。
+
 ## 为什么增加这一来源
 
 代码修复之外，用可执行家居任务检验经验中的实体、动作顺序和前置条件能否迁移。先建立无经验actor，再比较普通历史、普通skill及有证据的新候选；不把环境部署、专家成功或实体改名当成学习增量。对标SkillGLoW等已有ALFWorld研究，基准选择本身不是创新。
@@ -58,4 +60,32 @@ SymPy四臂结束后，按48POST/1200秒/100环境动作、请求payload＋响�
 
 新角色预算为128POST/1800秒/100动作/64MB请求payload＋响应wire；上下文32K/output8192、seed17/temp0.2、27B显式关闭thinking。实际caps已传至relay/world并绑定manifest；旧默认仍保留。源只给真实模型观察/动作与终态反馈，专家/PDDL不进writer。普通历史、普通skill、透明goal条件摘要均在目标前冻结，成本分冷启动与既有经验使用；是否训练或加入新机制由实际监督和最强简单基线的残差决定。
 
-pool/caps扩展代码SHA `2a95c969b9f327e7bcaeb4c6e885242c9344c544c4cfe99f08d5fdcdcec875a4`，20项GB10 tests/33subtests通过。`pool_actor_extension_v1/final_receipt.json` SHA `ffa24edd360967d9bf326e4a95f1ca93133ba91cd2a1351d82885d972a19ced7`；唯一新`teacher27b_clean1_caps128_preflight_v1`的inputs manifest SHA `2dc493fd8eb8e45b3acca73ddedd150c9d2f47e9646096e3e542aaaae044e2ce`，原生reset验证0动作/0模型、owned socket已清理，尚待D真实execute。预检不当作成功经验。
+pool/caps扩展代码SHA `2a95c969b9f327e7bcaeb4c6e885242c9344c544c4cfe99f08d5fdcdcec875a4`，20项GB10 tests/33subtests通过。运行前`pool_actor_extension_v1/final_receipt.json` SHA `ffa24edd360967d9bf326e4a95f1ca93133ba91cd2a1351d82885d972a19ced7`；`teacher27b_clean1_caps128_preflight_v1`的inputs manifest SHA `2dc493fd8eb8e45b3acca73ddedd150c9d2f47e9646096e3e542aaaae044e2ce`，预检仅原生reset、0动作/0模型并清理socket。实际模型终态见下节，不以预检当成功经验。
+
+### 首批真实源已完成
+
+源/目标分工冻结后，D串行采集两条真实27B源，未更换题目：
+
+| source | 实际结果 | 用量与终态receipt SHA-256 |
+| --- | --- | --- |
+| `clean_1` | 8动作、won/done=true | 9POST、47,390tokens，usage完整；`554da1ae3ae4ebcd78845ec3d9164ba49665999caa742af2c9a864e424cca3cf`。 |
+| `heat_1` | 8动作、won/done=true | 9POST、53,736tokens，usage完整；`0d0d5f6d28ac848d03b59079269eacd87650327c8284b54cc140c9a7527b3749`。 |
+
+两条均正常返回、cleanup无错误；合计18POST/101,126tokens。`heat_1`输入manifest SHA `983cc29d5c87c31aa85f91ff6a974cfd82b350b1dd1eed9070f540743ede4251`。私有`experience_transfer_pilot_v1/SOURCES.json`先于生成绑定两root，终态见`SOURCE_RESULTS.jsonl`。它们是可用真实经验，尚非迁移收益。接下来冻结公开历史、普通生成skill及透明goal条件摘要，再比较新布局的8B目标；expert/PDDL仍不进入任何载体。
+
+目标运行前另加27B直接无历史对照，检验把形成经验的算力直接用于更强actor是否更划算；它与8B四条件分表，不混作同模型方法增量。事前增补在`DIRECT_TARGET_BASELINE_ADDENDUM_V1.json`，两目标/seed/运行cap同样冻结。形成和使用按模型分列，冷启动与既有经验视图均报告，不把不同模型的一个token当相同计算成本。
+
+<a id="current-transfer"></a>
+
+## 两源经验冻结与首个目标比较
+
+[编译器](../prepare_alfworld_experience_20261106.py)只从真实source公开任务、raw text/tool的input/output/error与实际world反馈取材。保留完整source归档，不将PDDL/专家、pool全表或目标信息送进writer。两个source各一次27B编译，实际prompt长度与本地模板计数一致：clean 4,788＋730=5,518tokens，heat 6,692＋645=7,337tokens；合计2POST/12,855tokens，用量完整、cache详情未提供。输出原样作为普通skill基线，未人工改写建议或挑选最佳样本。
+
+| source | 冻结manifest SHA-256 | 历史 / skill / 透明摘要大小 |
+| --- | --- | --- |
+| clean_1 | `5956067df1e59bb81c5a3f21bc7acd8fd60d21ca0df35b14fc2fb1ab854d4a11` | 13,535 / 2,715 / 1,096bytes |
+| heat_1 | `8153681da13e84878488d27b0fead3e01b185f5f9bfbaef1cabec6d23b73a70f` | 18,672 / 2,335 / 1,060bytes |
+
+各在`experience_transfer_pilot_v1/experiences/<source>/v1`。source采集＋编译实际20POST/113,981tokens；采集和形成只在物理账本计一次，目标边际与整条pipeline成本分列。两条源的131成员薄包与当时7个Git代码组件快照均已双端核验，包SHA `64c9fce404d4464e352c112f129a8598430c922a235adb0de05f25970f3d07b2`。
+
+首个`clean_2`目标预检五臂均通过且0目标生成；冻结顺序为8B none→普通公开历史→普通生成skill→透明goal条件摘要，最后27B直接none。`clean2_cohort_v1/FROZEN_PLAN.json` SHA `8ccfe5fed4545f650338f4c266199dab4dfca08eae2a9809af22a0047427f2be`。它是单个开发目标，不能将五臂当五个任务。actor接入代码SHA `e42622cd6ca1334b07d4eb53544d8b222fc22b5d3bcd2f53585c9be239050030`，compiler SHA `14bc026e3f51877c2679989404af56e35a1c63fc2e3cfe4f5a6f3bfb95643d3d`；37项tests/56subtests通过。source形成写入门与目标后的只读验证分开，所有目标含none绑定同一F，none提示不含来源内容，其余须由真实首请求核实完整载体交付。

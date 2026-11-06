@@ -1,5 +1,7 @@
 """ALFWorld actor boundary contracts; tests never contact a model endpoint."""
 import importlib.util
+import copy
+from contextlib import contextmanager, ExitStack
 import io
 import os
 import json
@@ -549,6 +551,285 @@ class ActorContractTests(unittest.TestCase):
                 with self.assertRaises(SystemExit):
                     actor.main(["--execute", "--run-root", str(root), "--manifest-sha", "a" * 64,
                                 "--max-posts", "48"])
+                execute.assert_not_called()
+
+
+@contextmanager
+def frozen_experience_fixture():
+    """Compiler interface fixture, never a real target/source generation."""
+    with tempfile.TemporaryDirectory() as tmp, ExitStack() as stack:
+        qual = Path(tmp) / "qual"
+        pilot = qual / "experience_transfer_pilot_v1"
+        source = pilot / "experiences/clean_1/v1"
+        source.mkdir(parents=True)
+        pool = qual / "FUTURE_POOL.json"
+        pool.write_bytes(b"unit frozen pool")
+        pool_sha = actor.sha(pool)
+        caps = dict(actor.CAP_LIMITS)
+        contract = {"pool_sha256": pool_sha, "pairs": [
+            {"source": n + "_1", "target": n + "_2"}
+            for n in ("clean", "heat", "cool", "plain_place")],
+            "target_model": "qwen3-8b-qual", "world_and_model_seed": 17,
+            "new_episode_caps": {"posts": 128, "seconds": 1800, "world_actions": 100,
+                                 "request_payload_plus_response_wire_bytes": 64_000_000}}
+        contract_path = pilot / "CONTRACT.json"
+        contract_path.write_text(json.dumps(contract))
+        contract_sha = actor.sha(contract_path)
+        addendum = pilot / "DIRECT_TARGET_BASELINE_ADDENDUM_V1.json"
+        addendum.write_text(json.dumps({"parent_contract_sha256": contract_sha,
+                                       "target_games": ["clean_2", "heat_2"]}))
+        texts = {name: name + "\nSOURCE PUBLIC GOAL\r\nstep: real feedback\n"
+                 for name in actor.CONDITIONS[1:]}
+        hashes = {name: actor.hashlib.sha256(text.encode()).hexdigest() for name, text in texts.items()}
+        manifest = {"version": 1, "source_game_id": "clean_1", "contract_sha256": contract_sha,
+                    "source": {"root": "/D_PRIVATE/source", "manifest_sha256": "1" * 64,
+                               "receipt_sha256": "2" * 64, "trajectory_sha256": "3" * 64,
+                               "raw_sha256": "4" * 64, "won": False,
+                               "pool_manifest_sha256": pool_sha}, "artifact_sha256": hashes}
+        frozen = source / "frozen_manifest.json"
+        frozen.write_text(json.dumps(manifest))
+        digest = actor.sha(frozen)
+        binding = {"source_game_id": "clean_1", "source_manifest_sha256": "1" * 64,
+                   "source_receipt_sha256": "2" * 64, "source_trajectory_sha256": "3" * 64,
+                   "source_raw_sha256": "4" * 64, "source_won": False,
+                   "contract_sha256": contract_sha, "frozen_manifest_sha256": digest,
+                   "source_pool_manifest_sha256": pool_sha}
+        result = {"manifest": manifest, "texts": texts, "binding": binding}
+        validator = mock.Mock(side_effect=lambda path, sha: result)
+        stack.enter_context(mock.patch.multiple(actor, QUAL=qual, POOL_SHA=pool_sha,
+                            CONTRACT_SHA=contract_sha, DIRECT_NONE_SHA=actor.sha(addendum)))
+        stack.enter_context(mock.patch.object(actor, "experience_validator", return_value=validator))
+        game = qual / "game.tw-pddl"
+        game.write_bytes(b"private fixture asset")
+        initial = {"observation": "CURRENT target public goal", "score": 0, "won": False,
+                   "done": False, "action_count": 0, "admissible_commands": ["look"]}
+        yield {"qual": qual, "pilot": pilot, "path": frozen, "sha": digest, "result": result,
+               "pool": pool, "pool_sha": pool_sha, "caps": caps, "game": game,
+               "initial": initial, "validator": validator}
+
+
+def bound_experience(fixture, condition="none", **overrides):
+    values = {"path": fixture["path"], "digest": fixture["sha"], "game_id": "clean_2",
+              "condition": condition, "pool_sha": fixture["pool_sha"],
+              "model_id": "qwen3-8b-qual", "seed": 17, "caps": fixture["caps"]}
+    values.update(overrides)
+    return actor.experience_for_target(**values)
+
+
+class ExperienceContractTests(unittest.TestCase):
+    def test_four_conditions_bind_same_frozen_source_and_none_keeps_prompt_bytes(self):
+        with frozen_experience_fixture() as fixture:
+            initial = fixture["initial"]
+            records = []
+            for condition in actor.CONDITIONS:
+                with self.subTest(condition=condition):
+                    experience = bound_experience(fixture, condition)
+                    records.append(experience["record"])
+                    prompt = actor.condition_prompt(initial, condition, experience["text"])
+                    self.assertTrue(prompt.startswith(actor.task_prompt(initial)))
+                    if condition == "none":
+                        self.assertEqual(prompt.encode(), actor.task_prompt(initial).encode())
+                        self.assertIsNone(experience["text"])
+                        self.assertIsNone(experience["record"]["selected_content_sha256"])
+                    else:
+                        text = fixture["result"]["texts"][condition]
+                        self.assertEqual(prompt.count(text), 1)
+                        self.assertEqual(prompt.count(actor.EXPERIENCE_NOTE), 1)
+                        self.assertEqual(experience["record"]["selected_content_sha256"],
+                                         actor.hashlib.sha256(text.encode()).hexdigest())
+                    for private in ("/D_PRIVATE", "frozen_manifest.json", "game.tw-pddl", "expert_plan"):
+                        self.assertNotIn(private, prompt)
+            self.assertTrue(all(row["binding"] == records[0]["binding"] for row in records))
+            self.assertIs(records[0]["binding"]["source_won"], False)  # Failures are not selected away.
+            fixture["validator"].assert_called_with(fixture["path"], fixture["sha"])
+            self.assertIsNone(actor.experience_for_target(None, None, "clean_1", "none", None, None, 17,
+                                                          actor.episode_caps()))
+            self.assertIsNone(actor.experience_for_target(None, None, actor.GAME_IDS[0], "none", None,
+                                                          None, 17, actor.episode_caps()))
+
+    def test_guest_reads_carrier_bytes_without_universal_newline_rewriting(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "task.txt"
+            carrier = "frozen original\r\nsecond line\n"
+            prompt = actor.condition_prompt({"observation": "current goal"},
+                                             "ordinary_generated_skill", carrier)
+            path.write_bytes(prompt.encode())
+            tree = actor.ast.parse(actor.GUEST)
+            assignment = next(node for node in tree.body if isinstance(node, actor.ast.Assign)
+                              and any(isinstance(t, actor.ast.Name) and t.id == "prompt" for t in node.targets))
+            expression = actor.ast.Expression(assignment.value)
+            loaded = eval(compile(expression, "guest_prompt_reader", "eval"),
+                          {"pathlib": mock.Mock(Path=mock.Mock(return_value=path))})
+            self.assertEqual(loaded.encode(), prompt.encode())
+            proof = actor.delivery_evidence({"messages": [{"role": "user", "content": loaded}]},
+                                            "ordinary_generated_skill", carrier)
+            self.assertIs(proof["first_forwarded_user_contains_full_content"], True)
+
+    def test_target_requires_frozen_pair_seed_caps_and_permitted_backend(self):
+        with frozen_experience_fixture() as fixture:
+            changes = [dict(path=None, digest=None), dict(path=None), dict(digest="0" * 64),
+                       dict(game_id="clean_1"), dict(game_id="heat_2"), dict(pool_sha="0" * 64),
+                       dict(seed=18), dict(caps=actor.episode_caps()),
+                       dict(condition="ordinary_generated_skill", model_id="qwen38-27b-fp8"),
+                       dict(condition="unknown")]
+            for change in changes:
+                with self.subTest(change=change), self.assertRaises(ValueError):
+                    bound_experience(fixture, **change)
+            teacher = bound_experience(fixture, model_id="qwen38-27b-fp8")
+            self.assertEqual(teacher["record"]["direct_target_baseline_addendum_sha256"], actor.DIRECT_NONE_SHA)
+            for path, value in ((["manifest", "source_game_id"], "clean_2"),
+                                (["manifest", "artifact_sha256", "ordinary_generated_skill"], "f" * 64),
+                                (["binding", "source_raw_sha256"], "f" * 64),
+                                (["binding", "source_pool_manifest_sha256"], "f" * 64)):
+                before = copy.deepcopy(fixture["result"])
+                parent = fixture["result"]
+                for key in path[:-1]:
+                    parent = parent[key]
+                parent[path[-1]] = value
+                with self.subTest(path=path), self.assertRaises(ValueError):
+                    bound_experience(fixture)
+                fixture["result"].clear()
+                fixture["result"].update(before)
+
+    def test_target_namespace_rejects_untracked_or_symlink_attempt_before_reserving(self):
+        with frozen_experience_fixture() as fixture:
+            root = fixture["pilot"] / "target_attempts/clean_2/student8b/none/attempt_v1"
+            actor.check_target_namespace(root, "clean_2", "student8b", "none")
+            for candidate in (fixture["qual"] / "untracked", root.with_name("attempt_v0"),
+                              root.parent.parent / "attempt_v1"):
+                with self.subTest(candidate=candidate), self.assertRaises(ValueError):
+                    actor.check_target_namespace(candidate, "clean_2", "student8b", "none")
+            actor.check_target_namespace(fixture["qual"] / "legacy", "clean_1", "teacher27b", "none")
+            bad = fixture["qual"] / "untracked"
+            with mock.patch.object(actor, "verify_manifest", return_value={"backend": "student8b",
+                                    "game_id": "clean_2", "condition": "none"}), \
+                    mock.patch.object(actor, "write_new") as reserve, \
+                    mock.patch.object(actor, "load_profile") as load, \
+                    mock.patch.object(actor.socket, "create_connection") as connect:
+                with self.assertRaises(ValueError):
+                    actor.execute(bad, "a" * 64)
+                reserve.assert_not_called()
+                load.assert_not_called()
+                connect.assert_not_called()
+            root.parent.mkdir(parents=True)
+            alternate = fixture["qual"] / "alternate"
+            alternate.mkdir()
+            root.parent.rename(root.parent.with_name("saved_none"))
+            root.parent.symlink_to(alternate, target_is_directory=True)
+            with self.assertRaises(ValueError):
+                actor.check_target_namespace(root, "clean_2", "student8b", "none")
+
+    def test_preflight_manifest_freezes_content_and_compiler_without_actor_source_mount(self):
+        with frozen_experience_fixture() as fixture, ExitStack() as stack:
+            binary = fixture["qual"] / "binary"
+            binary.write_bytes(b"pinned unit binary")
+            game = {"game_path": str(fixture["game"]), "sha256_game": actor.sha(fixture["game"])}
+            pool = {"path": str(fixture["pool"]), "sha256": fixture["pool_sha"]}
+            pinned = {"runner": "a" * 64, "compiler": "b" * 64}
+            stack.enter_context(mock.patch.multiple(actor, BINARY=binary, BINARY_SHA=actor.sha(binary)))
+            component = stack.enter_context(mock.patch.object(actor, "components", return_value=pinned))
+            stack.enter_context(mock.patch.object(actor, "load_profile", return_value=profile()))
+            stack.enter_context(mock.patch.object(actor, "select_game", return_value=(game, pool)))
+            stack.enter_context(mock.patch.object(actor.dependencies, "verify_projection"))
+            stack.enter_context(mock.patch.object(actor.subprocess, "check_output", return_value="sha256:unit"))
+            start = stack.enter_context(mock.patch.object(actor, "start_world",
+                        return_value=((None, None, None), fixture["initial"], game)))
+            stack.enter_context(mock.patch.object(actor, "stop_world"))
+            for condition in actor.CONDITIONS:
+                root = fixture["pilot"] / "target_attempts/clean_2/student8b" / condition / "attempt_v1"
+                manifest = actor.preflight(root, "student8b", "clean_2", 17, caps=fixture["caps"],
+                             pool_manifest=fixture["pool"], pool_manifest_sha=fixture["pool_sha"],
+                             condition=condition, experience_manifest=fixture["path"],
+                             experience_manifest_sha=fixture["sha"])
+                component.assert_called_with(True)
+                self.assertEqual(manifest["condition"], condition)
+                self.assertEqual(manifest["experience_binding"], bound_experience(fixture, condition)["record"])
+                digest = actor.sha(root / "manifest.json")
+                self.assertEqual(actor.verify_manifest(root, digest), manifest)
+                prompt = (root / "task.txt").read_bytes().decode()
+                if condition == "none":
+                    self.assertEqual(prompt, actor.task_prompt(fixture["initial"]))
+                else:
+                    self.assertIn(fixture["result"]["texts"][condition], prompt)
+                tampered = copy.deepcopy(manifest)
+                tampered["model_id"] = "qwen38-27b-fp8"
+                (root / "manifest.json").write_text(json.dumps(tampered))
+                with self.assertRaises(ValueError):
+                    actor.verify_manifest(root, actor.sha(root / "manifest.json"))
+                tampered = copy.deepcopy(manifest)
+                tampered["experience_binding"]["selected_content_sha256"] = "f" * 64
+                (root / "manifest.json").write_text(json.dumps(tampered))
+                with self.assertRaises(ValueError):
+                    actor.verify_manifest(root, actor.sha(root / "manifest.json"))
+                (root / "manifest.json").write_text(json.dumps(manifest))
+                component.return_value = {**pinned, "compiler": "f" * 64}
+                with self.assertRaises(ValueError):
+                    actor.verify_manifest(root, actor.sha(root / "manifest.json"))
+                component.return_value = pinned
+                self.assertNotIn(str(fixture["path"]), prompt)
+            self.assertEqual(start.call_count, 4)
+        # New module is bound only when requested; old source manifests remain independent.
+        self.assertNotIn(str(actor.EXPERIENCE_MODULE), actor.components())
+        self.assertEqual(actor.components(True)[str(actor.EXPERIENCE_MODULE)], actor.sha(actor.EXPERIENCE_MODULE))
+
+    def test_delivery_checks_full_first_user_text_not_path_or_assistant_text(self):
+        text = "complete frozen skill\r\nline two\n"
+        for content in ("task\n" + text, [{"type": "text", "text": "task\n" + text}]):
+            payload = {"messages": [{"role": "user", "content": content}]}
+            proof = actor.delivery_evidence(payload, "ordinary_generated_skill", text)
+            self.assertIs(proof["first_forwarded_user_contains_full_content"], True)
+            self.assertEqual(proof["delivered_content_sha256"], actor.hashlib.sha256(text.encode()).hexdigest())
+            self.assertIs(proof["delivery_proves_understanding"], False)
+        for payload in ({"messages": [{"role": "user", "content": "Read /workspace/source_experience.md"}]},
+                        {"messages": [{"role": "assistant", "content": text}]},
+                        {"messages": [{"role": "user", "content": None}, None]}):
+            proof = actor.delivery_evidence(payload, "ordinary_generated_skill", text)
+            self.assertEqual(proof["status"], "COMPLETE_CARRIER_MISSING")
+            self.assertIsNone(proof["delivered_content_sha256"])
+        proof = actor.delivery_evidence({"messages": []})
+        self.assertEqual(proof["status"], "NONE_NO_CONTENT_INJECTION")
+        self.assertIsNone(proof["expected_content_sha256"])
+
+    def test_actual_forward_records_first_delivery_once_without_any_endpoint(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            relay = actor.ModelRelay.__new__(actor.ModelRelay)
+            relay.root = Path(temporary)
+            relay.lock, relay.budget = threading.Lock(), actor.Budget(seconds=30)
+            relay.owned, relay.forwarded, relay.closing = set(), 0, False
+            relay.condition, relay.experience_text, relay.delivery = "ordinary_generated_skill", "frozen\n", None
+            upstream = mock.Mock()
+            payload = {"messages": [{"role": "user", "content": "current task\nfrozen\n"}]}
+            with mock.patch.object(actor.socket, "create_connection", side_effect=AssertionError("no endpoint")):
+                relay.forward(upstream, b"first packet", payload, 7)
+                before = (relay.root / "experience_delivery.json").read_bytes()
+                relay.forward(upstream, b"second packet", {}, 8)
+            proof = json.loads(before)
+            self.assertEqual(proof["first_forwarded_post"], 7)
+            self.assertIs(proof["first_forwarded_user_contains_full_content"], True)
+            self.assertEqual(proof["first_forwarded_request_sha256"], actor.hashlib.sha256(
+                json.dumps(payload, separators=(",", ":")).encode()).hexdigest())
+            self.assertEqual((relay.root / "experience_delivery.json").read_bytes(), before)
+            self.assertEqual(relay.forwarded, 2)
+            self.assertEqual(upstream.sendall.call_count, 2)
+
+    def test_cli_conditions_bind_prepare_and_reject_frozen_execute_overrides(self):
+        with mock.patch.object(actor, "preflight", return_value={}) as prepare, \
+                mock.patch("sys.stdout", new_callable=io.StringIO):
+            actor.main(["--preflight-only", "--run-root", "/private/new", "--condition",
+                        "ordinary_generated_skill", "--experience-manifest", "/private/frozen_manifest.json",
+                        "--experience-manifest-sha", "a" * 64])
+            self.assertEqual(prepare.call_args.kwargs["condition"], "ordinary_generated_skill")
+            self.assertEqual(prepare.call_args.kwargs["experience_manifest_sha"], "a" * 64)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "manifest.json").write_text(json.dumps({"condition": "ordinary_generated_skill",
+                "experience_binding": {"manifest_path": "/private/frozen_manifest.json",
+                                       "manifest_sha256": "a" * 64}}))
+            for flags in (["--condition", "none"], ["--experience-manifest", "/different/frozen_manifest.json",
+                                                    "--experience-manifest-sha", "a" * 64]):
+                with self.subTest(flags=flags), mock.patch.object(actor, "execute") as execute, \
+                        mock.patch("sys.stderr", new_callable=io.StringIO), self.assertRaises(SystemExit):
+                    actor.main(["--execute", "--run-root", str(root), "--manifest-sha", "b" * 64] + flags)
                 execute.assert_not_called()
 
 
