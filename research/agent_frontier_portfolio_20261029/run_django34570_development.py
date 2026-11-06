@@ -24,6 +24,8 @@ PRIVATE = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030')
 TASK = PRIVATE / 'django34570_development_v1'
 STUDY = PRIVATE / 'alfworld_text_qualification_20261106/context_study_v1'
 WINDOW = STUDY / 'learning_comparison_v1/owned_window_v3'
+EVAL = STUDY / 'learning_comparison_v1/hf_evaluation_v1'
+MANUAL_RESTORE_SHA = '131747165d1ce410612065bd7d619fc17382a9c8ddde941902e6cc750fa9d251'
 PROFILE = PRIVATE / 'django_aggregation_agent_20261106/model_profile.json'
 PROFILE_SHA = 'acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab6d0'
 DEPS = PRIVATE / 'swe_contextbench_django_env_20261104/site'
@@ -234,6 +236,8 @@ def guard_execution(root):
             or reservation.get('mode') != 'REAL_8B_NO_EXPERIENCE_DEVELOPMENT'
             or sha(root / 'execution_manifest.json') != digest):
         raise ValueError('derived harness requires explicit reserved execution')
+    frozen=read_checked(root/'execution_manifest.json',digest)
+    if 'latest_restore' in frozen:verify_frozen_latest_restore(frozen)
 
 
 def derive(root, profile):
@@ -421,20 +425,76 @@ def verify_restoration(profile, admission, result, identity):
         raise ValueError('restored executable changed')
 
 
-def bind_runtime(root, digest, admission_sha, result_sha):
+def latest_restore_reference(path,digest):
+    """Only two explicit closed receipt schemas; no caller-supplied free PID."""
+    path=regular(path)
+    if path.resolve()!=path or PRIVATE not in path.parents:raise ValueError('latest restoration must be canonical inside private ROOT')
+    value=read_checked(path,digest)
+    if path==EVAL/'manual_restore_v1/RESULT.json':
+        # This historical schema encodes healthy in the exact D-qualified status,
+        # not a nonexistent restored_healthy field. Its known content SHA is fixed.
+        if (digest!=MANUAL_RESTORE_SHA or value.get('status')!='ORIGINAL_Q4_RESTORED_AFTER_PREGENERATION_IDENTITY_RACE' or type(value.get('health_gets')) is not int or value['health_gets']<=0 or type(value.get('model_generation_posts')) is not int or value['model_generation_posts']!=0):raise ValueError('manual restoration health/status contract differs')
+        schema='manual_restore_v1_known_sha_status_health_contract'
+    elif path.parent.parent==EVAL and path.name=='RESULT.json' and re.fullmatch(r'RUN_v[1-9][0-9]*',path.parent.name):
+        if (value.get('status') not in {'ALL_FIVE_ARMS_RETURNED','STOPPED_RESTORE_REQUIRED'} or value.get('restored_healthy') is not True or type(value.get('window_wall_seconds')) not in (int,float) or value['window_wall_seconds']<0 or value.get('restoration_error') or value.get('shared_identity_error')):raise ValueError('evaluation restoration is not closed and healthy')
+        schema='hf_evaluation_closed_restored_healthy_v1'
+    else:raise ValueError('unsupported latest restoration source schema/path')
+    if any(value.get(key) is not True for key in ('shared35_unchanged','shared27_unchanged')):raise ValueError('latest restoration changed shared services')
+    process=value.get('restored_process')
+    if (type(process) is not dict or set(process)!={'pid','start_ticks','argv','cwd','exe'} or type(process['pid']) is not int or process['pid']<=0 or type(process['start_ticks']) is not str or not process['start_ticks'].isdigit() or not int(process['start_ticks']) or type(process['argv']) is not list or not process['argv'] or any(type(x) is not str or not x or '\0' in x for x in process['argv']) or any(type(process[k]) is not str or not process[k] for k in ('cwd','exe'))):raise ValueError('latest restoration lacks a complete process identity')
+    return {'path':str(path),'sha256':digest,'schema':schema},process
+
+
+def process_identity_full(pid):
+    identity=process_identity(pid)
+    return {**identity,'exe':os.readlink(Path('/proc')/str(pid)/'exe')}
+
+
+def verify_latest_restoration(profile,admission,legacy_result,restored,identity):
+    """Preserve the original owned-Q4 contract; only PID/start time may renew."""
+    expected=('qwen3-8b-qual','127.0.0.1',18104,32768,8192,
+              '/home/testuser/wzh/models/gguf/qwen3-8b/Qwen3-8B-Q4_K_M.gguf',
+              'd98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785')
+    if tuple(profile.get(k) for k in ('model_id','host','port','context','output','gguf_path','gguf_sha256'))!=expected:raise ValueError('latest restoration requires the pinned original Q4 profile')
+    if any(legacy_result.get(k) is not True for k in ('owned8b_restored_healthy','restored_exact_argv','shared35_unchanged','shared27_unchanged')):raise ValueError('original window restoration proof failed')
+    old=admission['owned_process'];argv=old['argv']
+    flags={'-m':profile['gguf_path'],'--host':profile['host'],'--port':str(profile['port']),'--alias':profile['model_id'],'-c':str(profile['context']),'-n':str(profile['output']),'-np':'1'}
+    if (not argv or any(type(a) is not str or a.startswith(('--lora','--adapter')) for a in argv) or argv.count('--no-context-shift')!=1 or any(argv.count(k)!=1 or argv.index(k)+1>=len(argv) or argv[argv.index(k)+1]!=v for k,v in flags.items()) or old.get('exe')!=argv[0]):raise ValueError('original admission is not unadapted owned Q4')
+    if any(restored[k]!=old[k] for k in ('argv','cwd','exe')):raise ValueError('latest restoration argv/cwd/exe differs from original Q4')
+    if any(identity.get(k)!=restored[k] for k in ('pid','start_ticks','argv','cwd','exe')) or identity.get('executable_sha256')!=profile['server_executable_sha256']:raise ValueError('actual process differs from latest restoration identity')
+
+
+def verify_frozen_latest_restore(frozen):
+    ref=frozen['latest_restore'];actual,restored=latest_restore_reference(Path(ref['path']),ref['sha256'])
+    if actual!=ref:raise ValueError('frozen latest restoration schema/reference changed')
+    profile=read_checked(PROFILE,PROFILE_SHA);admission=read_checked(WINDOW/'ADMISSION.json',frozen['admission_sha256']);legacy=read_checked(WINDOW/'RESULT.json',frozen['result_sha256']);identity=process_identity_full(restored['pid'])
+    verify_latest_restoration(profile,admission,legacy,restored,identity)
+    if identity!=frozen['identity']:raise ValueError('runtime changed since latest restoration binding')
+    return identity
+
+
+def bind_runtime(root, digest, admission_sha, result_sha, *, latest_restore_path=None, latest_restore_sha=None):
+    if (latest_restore_path is None)!=(latest_restore_sha is None):raise ValueError('latest restoration path and SHA must be supplied together')
     with queue_lock():
         verify_prepared(root, digest)
         admission = read_checked(WINDOW / 'ADMISSION.json', admission_sha)
         result = read_checked(WINDOW / 'RESULT.json', result_sha)
         profile = read_checked(PROFILE, PROFILE_SHA)
-        identity = process_identity(result['restored_8b_pid'])
-        verify_restoration(profile, admission, result, identity)
+        latest_ref=None
+        if latest_restore_path is None:
+            identity=process_identity(result['restored_8b_pid'])
+            verify_restoration(profile,admission,result,identity)
+        else:
+            latest_ref,restored=latest_restore_reference(latest_restore_path,latest_restore_sha)
+            identity=process_identity_full(restored['pid'])
+            verify_latest_restoration(profile,admission,result,restored,identity)
         agg, _ = helpers()
         # The profile's original PID is deliberately not used for runtime identity.
         profile = agg.validate_model_profile(PROFILE, PROFILE_SHA)
         live = agg.verify_live_backend({**profile, 'pid': identity['pid']})
         frozen = {'manifest_sha256': digest, 'admission_sha256': admission_sha, 'result_sha256': result_sha,
                   'identity': identity, 'live_backend': live, 'status': 'BOUND_RESTORED_8B_NO_MODEL_CALL'}
+        if latest_ref is not None:frozen['latest_restore']=latest_ref
         write_new(root / 'execution_manifest.json', frozen)
         return {'execution_manifest_sha256': sha(root / 'execution_manifest.json'), **frozen}
 
@@ -561,8 +621,10 @@ def execute(root, digest):
         result = read_checked(WINDOW / 'RESULT.json', frozen['result_sha256'])
         agg, _ = helpers()
         profile = agg.validate_model_profile(PROFILE, PROFILE_SHA)
-        identity = process_identity(frozen['identity']['pid'])
-        verify_restoration(profile, admission, result, identity)
+        if 'latest_restore' in frozen:identity=verify_frozen_latest_restore(frozen)
+        else:
+            identity=process_identity(frozen['identity']['pid'])
+            verify_restoration(profile,admission,result,identity)
         if identity != frozen['identity']:
             raise ValueError('runtime changed since manifest binding')
         agg.verify_live_backend({**profile, 'pid': identity['pid']})
@@ -608,7 +670,11 @@ def main(argv=None):
     parser.add_argument('--manifest-sha')
     parser.add_argument('--admission-sha')
     parser.add_argument('--result-sha')
+    parser.add_argument('--latest-restore-result',type=Path)
+    parser.add_argument('--latest-restore-sha')
     args = parser.parse_args(argv)
+    if (args.latest_restore_result is None)!=(args.latest_restore_sha is None):parser.error('latest restoration path and SHA are a pair')
+    if args.stage!='bind-runtime' and args.latest_restore_result is not None:parser.error('latest restoration parameters are bind-runtime only')
     if args.stage != 'prepare' and not args.manifest_sha:
         parser.error('explicit manifest SHA required')
     if args.stage == 'prepare':
@@ -616,7 +682,8 @@ def main(argv=None):
     elif args.stage == 'bind-runtime':
         if not args.admission_sha or not args.result_sha:
             parser.error('bind-runtime requires completed restoration receipt hashes')
-        result = bind_runtime(args.root, args.manifest_sha, args.admission_sha, args.result_sha)
+        if args.latest_restore_result is None:result=bind_runtime(args.root,args.manifest_sha,args.admission_sha,args.result_sha)
+        else:result=bind_runtime(args.root,args.manifest_sha,args.admission_sha,args.result_sha,latest_restore_path=args.latest_restore_result,latest_restore_sha=args.latest_restore_sha)
     else:
         result = execute(args.root, args.manifest_sha)
     print(json.dumps(result, ensure_ascii=False))
