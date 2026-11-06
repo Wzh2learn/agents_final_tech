@@ -52,3 +52,13 @@ clean_01无需恢复，不能据此断言经验有因果收益。clean_02在预�
 ### 工程验证与发布边界
 
 GB10本轮focused四文件43passed/155subtests；本机docs lint0fail/3既有时效warn、上下文/链接检查与diff检查通过，变更18文件secret scan无真实凭据形状命中。skill-doctor0errors/134既有warnings，定向map0重复/0未解析。C8源已同步本机两个既有安装副本；GB10与Git发布终态另实测。没有重跑全仓pytest，不宣称旧FinQA fixture问题已修复。源码/协议的旧epoch保存在私有frozen_code及旧attempt，重放旧collector须用其快照，不以最新HEAD假充原运行源码。
+
+## 当前接续：剩余16题的收集批
+
+已启动`context_study_v1/collection_sweep_v1`，按冻结execution_order从look_01、cool_01继续其余16题；本批只收集真实执行及未完成前缀，不自动扩恢复臂或训练。实际输入、初始PID4020003、controller argv/hash、科研源码HEAD和case列表见`ADMISSION.json`；逐题结果追加`events.jsonl`，最终状态见`RESULT.json`。控制器为Q下`run_context_study_collection_sweep_v1.py`。RESULT存在即检查终态；尚无RESULT时先核ADMISSION对应进程与当前case，不重复启动。
+
+暂停时仅对核验argv后的该owned controller发SIGTERM，handler会退出当前episode并保留receipt/未知usage，清理actor/relay/world；不停止模型服务。case中断不作为正常方法失败或合格收集样本。该锁只约束本study driver，不宣称跨机器全局预算锁。
+
+科研代码已整合发布至`d1566f021542ec319cb7aa3f4cc9fc561412df35`，本机/GB10/GitHub refs实测一致；本机clean，GB10仅保留Loop B的`logs/graph/pytest_loopb.txt`外部修改。C8版本`509a50605e3c44d6f04c0cb89a6c6276b3c31dd8b757cb8d59896b711d3e18bb`在两机器各两个既有安装副本一致。后续文档提交不改本批科研代码epoch，当前HEAD以Git为准。
+
+首批私有薄包SHA `b23fae27524bb5f6e1401a1316487bb9cea1d9b091cca684c4e705f28fb26bf9`，1,294成员；原会话控制包SHA `647a9de772f40ccc6f427de53c97121eddfb80e6d37253c4ae6b1423c1f1957a`，218成员，均双端逐成员核验。排除workspace、原game/专家轨迹与缓存；没有权重/凭据或公开artifact。新在途批不包含在该已冻结薄包中。
