@@ -42,7 +42,11 @@
 
 该臂保留原目标/完整公共历史/权重/采样/caps及一次Continue，但同时去除OpenCode计划/工具结构并只准输出单动作JSON；结果不识别单独约束效应，也不代表强简单基线已经穷尽。不再修补此action-only臂。对照[ReAct §4](https://arxiv.org/html/2210.03629v3)及[官方ALFWorld入口](https://github.com/ysymyth/ReAct/blob/master/alfworld.ipynb)（2026-11-07已读，未复现成绩），后续保留同数据条件的计划/示例基线；不能把它们的收益改称新经验机制。原16题已属暴露开发数据，未进入SFT监督或超参选择。
 
-Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。新[薄任务入口](../run_django34570_development.py)复用现有derive/计量/独立评分；GB10聚焦12测试/7 subtests通过、实际容器11项可读写边界检查通过，静态准备manifest SHA `43a5c6791d3ff2cfd422f50cf8eb8f6060a976250a0ff78466b07697f19b75d4`。v5已绑定当时恢复态，但actor启动因AF_UNIX路径过长在模型转发前失败；公开probe亦受源0600权限阻断，旧现场保留。最小修复为短自有socket及同hash的只读probe副本，冻结源不动；GB10新增后复验18测试/7 subtests通过，尚未重跑actor。原PID已随窗口改变，后续须接最新恢复回执，不绕过旧runtime守卫。公开复现为空SQLite查询，不把13项测试算13任务。
+Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。新[薄任务入口](../run_django34570_development.py)复用现有derive/计量/独立评分；GB10聚焦12测试/7 subtests通过、实际容器11项可读写边界检查通过，静态准备manifest SHA `43a5c6791d3ff2cfd422f50cf8eb8f6060a976250a0ff78466b07697f19b75d4`。v5已绑定当时恢复态，但actor启动因AF_UNIX路径过长在模型转发前失败；公开probe亦受源0600权限阻断，旧现场保留。最小修复为短自有socket及同hash的只读probe副本，冻结源不动；GB10复验33测试/29 subtests通过。入口已支持显式closed恢复回执，并保留原Q4 argv/cwd/权重与完整进程身份守卫；等ALF窗口结束恢复后再运行新attempt，尚未重跑actor。公开复现为空SQLite查询，不把13项测试算13任务。
+
+后续素材盘点只查官方ZIP成员与opaque hash：`learning_comparison_v1/NEXT_SOURCE_INVENTORY_V1.json` SHA `c236da94b5ebf37a523e9b396f9ce06ad4f00192fea8925f4495f5c2234bcbb6`。已有134个官方valid_unseen JSON/PDDL交集、134个独特game payload，与原18/新16池的game hash无交集；尚未检查全项目曝光、原生运行或专家兼容，不是第二环境或确认结果。不改当前16题，也不把该池用于训练。
+
+本批只检验从reset迁移。后续保留进度的恢复比较，应按固定规则使用冻结对照产生的、未won/未done且至少一个接受动作的真实失败前缀；同一现场比较各学习臂及原会话retry、短历史/目标重申等简单策略。此为待执行问题，不能用reset负结果替代，也不把这些EVAL_ONLY目标输出回流训练。
 
 ## 方法重叠与下一验证
 
