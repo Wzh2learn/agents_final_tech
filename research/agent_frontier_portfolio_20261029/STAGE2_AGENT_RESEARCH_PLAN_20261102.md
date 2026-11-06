@@ -8,7 +8,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-两项目隔离四臂已收录。27B的SymPy新源已通过原题及114回归，17POST/148,213tokens；下一步冻结历史/卡/skill做8B迁移。Django低推理源在跑，勿改绑定代码或重启。见[当前检查点](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)，旧过程按需加载。
+两项目隔离四臂已收录。27B的SymPy源通过原题及114回归，17POST/148,213tokens；冻结历史/卡/skill后做[8B迁移比较](results/SYMPY_LATEX_TRANSFER_20261106.md)。[Django低推理源](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)仍在跑，勿改绑定代码或重启。旧过程按需加载。
 
 ## 最新开发证据
 
