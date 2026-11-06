@@ -145,7 +145,13 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 
 <a id="current-27b-handoff"></a>
 
-### 最新执行：27B长连接计量事故与修复
+### 最新源经验检查点
+
+合格的低推理源产物及部分轨迹已提取为`attempts/teacher27_thinking_low_source_20261106/source_experience_v1`的DRAFT，尚未生成skill或冻结迁移输入。普通历史88,405bytes/SHA `128698108ae3cd52bda73cdbd387ab156b460dce24d75f82006c99f49436d495`；卡5,273bytes/SHA `41795f49f46d80ab497f395910a84fa54cc64f8c55692f1e5ee5fc6b665986bf`，均绑定完整实际diff与联合结果，不把超时改称正常完成。
+
+本地分词器零模型计数：历史正文38,357tokens，卡1,909tokens。历史本身已超过27B现服务32K，未盲发生成请求；需在新配置显式选择source-only预算视图或有资格的较大上下文writer，并区分所给信息。保留完整历史，不把裁切损失误判为经验机制。此准备0模型调用；该合格源的199成员轻证据包已双端核验，SHA `9987712bd65327a953520d8b798d06b7393eec88ad5cc899560653e16f24fdd1`。
+
+### 执行过程：27B长连接计量事故与修复
 
 `teacher27_source_20261106`已由D停止，仅停止自有actor `4ad7c3998cbf`，未重启共享模型。旧代理只解析连接首个请求，随后双向字节relay把HTTP keep-alive上的后续请求一并转发，绕过逐请求计数、采样绑定及字节门。完成记录虽然写`posts=1`，raw实际有156个完成usage步骤、157个step_start；至少156次完成推理，另一次开始是否到达模型/用量未知。已报告1,930,944 tokens为下界，不把旧1POST当真实总数。相对96POST限额至少超出60次。raw SHA `7bf0272ba9af60fbe92dc52b6e7376929eecefa91f36e49c17a9e8cb2c7da86f`、completed SHA `6c57ce4d8f15b25e726c81f7c8ac3a5a2a85a6e7ca83bad4d5c3e3b9cb29d30b`原样保留；另存operator_stop与对账，不覆写历史回执。该轮反复对不存在的`/root/django/tests`调用工具；原题未修、65项映射回归通过，不能解释为经验学习机制失败。
 

@@ -1,10 +1,16 @@
 # 三阶段科研资产地图 v2：发表、验证方法与学位综合现役索引
 
-> 状态：`CURRENT_ASSET_INDEX` | 更新：2026-10-24 | 范围：Paper E、C2 反馈学习、C3 可靠交付、G4 学位综合
+> 状态：`HISTORICAL_ASSET_INDEX_WITH_CURRENT_ROUTES` | 路由更新：2026-11-06 | 下列旧三阶段账本保留原文，不作为当前执行状态。
 
-> 2026-10-23 接续：可执行资产身份、环境、污染边界、复用成本与三张实验卡集中见 [Research Baseline And Reuse Map](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)。本文件保留项目历史资产索引；冲突时以该基线的日期化更正为准。
+> 当前目标、下一动作和资产资格从[第二阶段短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)按需加载。2026-10-23的[基线](../research/research_baseline_governance_20261023/RESEARCH_BASELINE_AND_REUSE_MAP.md)只解释当时材料；不覆盖用户后续授权、Paper E路线和真实实验终态。
 
-## 0. V2 现役素材身份与实际使用
+| 当前资产入口 | 可复用内容与资格 |
+| --- | --- |
+| [SymPy真实源与迁移](../research/agent_frontier_portfolio_20261029/results/SYMPY_LATEX_TRANSFER_20261106.md) | 合格27B源、冻结历史/卡/skill、8B四臂raw及未读取经验的尸检；不是方法收益。 |
+| [Django联合验收源](../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff) | 原题与回归合格的代码产物、超时轨迹及未知usage；隔离环境，不使用业务DB。 |
+| [ALFWorld非代码经验](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md) | PDDL兼容环境、隔离动作桥、真实27B成功轨迹及8B预算终止；未建立学习/迁移增量。 |
+
+## 0. 2026-10-24历史素材身份与实际使用
 
 本表严格区分 **实际读入/重分析、真实执行、计划使用、仅历史边界**。列名不等于已复用。
 

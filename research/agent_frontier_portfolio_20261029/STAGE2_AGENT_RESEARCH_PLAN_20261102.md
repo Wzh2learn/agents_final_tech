@@ -8,7 +8,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-[SymPy 8B四臂](results/SYMPY_LATEX_TRANSFER_20261106.md)均未修复，三经验均未读取；先做显式注入与27B无历史诊断，不判经验内容无效。[Django 27B源产物](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)通过联合检查但episode超时。[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md)已进入真实actor开发，勿改在途绑定代码。
+[SymPy](results/SYMPY_LATEX_TRANSFER_20261106.md)两诊断已结束：27B默认模式未改源码，8B显式加载后上下文溢出，暂停此配置。[Django](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)源历史超32K。[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md)已有27B成功轨迹和8题开发资格，先冻结源/目标与新预算，再做经验比较。
 
 ## 最新开发证据
 

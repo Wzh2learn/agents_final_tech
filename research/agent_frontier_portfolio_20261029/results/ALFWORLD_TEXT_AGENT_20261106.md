@@ -40,4 +40,20 @@ SymPy四臂结束后，按48POST/1200秒/100环境动作、请求payload＋响�
 
 两个真实episode均已terminal、owned容器/桥接清理无错误；公共raw步骤分别41/17。实际合计58POST、716,631已知tokens＋1未知请求，模拟调用另列。以上是两种固定配置的单次开发观察，不是模型排名或经验收益。8B停止受工程字节门约束，后续可在新manifest中增大预算，旧结果不改。
 
-27B成功轨迹提供了第二类真实源经验；下一步从现有官方归档先冻结未曝光train开发任务，再验证普通历史/skill、实体替换/条件化等强简单策略。当前尚无经验迁移结果。
+27B成功轨迹提供了第二类真实源经验。真实两episode与明确标记的模拟控制已双端保存为`alfworld_real_actor_and_frozen_controls_20261106.tar.gz`，SHA `289ebffa29f8e852ad65c199bb6656ceebab46fc1a458ff9af236e663de2455e`，329成员逐项核验。
+
+## 已冻结的下一开发池
+
+只用现有官方归档，先固定哈希选样规则再跑专家，不根据上述模型成败挑题。clean/heat/cool/plain-place各2题，8个不同floorplan，整体排除旧布局2/19；8题均从reset未成功到专家终态won。专家动作数9/17/8/15/8/85/27/9，不能当最短路径或模型成绩。seed17改名及重复reset文本/合法命令可复现；这仍是train开发池，不是未见来源确认。没有新增模型、下载或依赖。
+
+私有`source_expansion_v1/RECEIPT.json` SHA `2a126dd70bae97ca55d47546ff94afcb552d3690dd25c7890b5384981be35d29`，`FUTURE_POOL.json` SHA `1309000e4ec90fb40246f7fce235ed06fbc30f017bfe747f89aab1ebe1a3a426`，最终64项来源hash已复算。专家/PDDL只在D侧，未来actor_reset_views仅含公共观察及合法动作。
+
+双端私有`alfworld_source_expansion_private_controls_20261106.tar.gz`，SHA `0f6f76c3f7aadb06d09257153c65b291cec90f90495e241b1cceaf583b228cf5`，65成员核验通过；含特权专家/PDDL控制，不能整包给actor或公开分发。
+
+下一批按实际动作/上下文需求冻结新预算，避免直接沿用旧48POST/6MB角色上限；旧结果不追改。先比较无经验、普通历史/skill与实体替换/条件化等强简单策略，再决定方法残差。当前尚无ALFWorld经验迁移结果。
+
+## 经验迁移pilot的事前分工
+
+在扩源池任何模型运行前，固定每类`_1`为source、`_2`为target；首批只采`clean_1`和`heat_1`的27B真实源，不根据成败替换来源。`experience_transfer_pilot_v1/CONTRACT.json` SHA `088fcc1b43f71f6c09f63168456b9c200ee1bb7352f55afd2db5443c6f36625e`。这是内部事前冻结，不追认独立时间戳预注册。
+
+新角色预算拟为128POST/1800秒/100动作/64MB请求payload＋响应wire；上下文32K/output8192、seed17/temp0.2、27B显式关闭thinking。新代码须将实际caps传至所有执行层并绑定manifest；不得只改文档数字。源只给真实模型观察/动作与终态反馈，专家/PDDL不进writer。普通历史、普通skill、透明goal条件摘要均在目标前冻结，成本分冷启动与既有经验使用；是否训练或加入新机制由实际监督和最强简单基线的残差决定。
