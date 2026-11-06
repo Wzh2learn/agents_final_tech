@@ -11,6 +11,7 @@ import difflib
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
+import re
 import tarfile
 import time
 import urllib.request
@@ -23,6 +24,8 @@ QUAL_SHA = '46f67e61c87e2e3d118189fbce9ce45a9cbf105eb8440ff2eee6d43d67dd16cc'
 COMPONENTS = {'outer_runner.py', 'core.py', 'requests_runner.py', 'research_actor_dependencies.py',
               'research_auto_record.py', 'base_harness.py'}
 MARKERS = ('django__django-34176', '/pull/34176', '/issues/34176', '#34176')
+BACKENDS = {'student8b': {'model_id': 'qwen3-8b-qual', 'host': '127.0.0.1', 'port': 18104},
+            'teacher35b': {'model_id': 'Qwen3.6-35B-A3B-Q4_K_M.gguf', 'host': '127.0.0.1', 'port': 8004}}
 
 
 def sha(path: Path) -> str:
@@ -115,6 +118,9 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
     components=started.get('component_sha256',{});snap=source/(EID+'.components')
     if not COMPONENTS.issubset(components) or started.get('runner_sha256')!=components['outer_runner.py']:
         raise ValueError('source component snapshot incomplete')
+    kind=started.get('backend_kind','student8b')
+    if kind not in BACKENDS or (kind=='teacher35b' and 'research_teacher_backend.py' not in components):
+        raise ValueError('source backend or teacher snapshot missing')
     if any(sha(snap/name)!=digest for name,digest in components.items()): raise ValueError('source component snapshot changed')
     task_file=source/(EID+'.task.txt')
     if sha(task_file)!=started.get('task_sha256'):raise ValueError('source task changed')
@@ -192,12 +198,31 @@ def validate_draft(source: Path, baseline: Path, output: Path, *, verify_baselin
     return draft
 
 
+def source_backend(draft: dict) -> tuple[str, dict]:
+    source=Path(draft['source']['source_attempt']);started_file=source/(EID+'.started.json')
+    if sha(started_file)!=draft['source']['started_sha256']:raise ValueError('source start changed')
+    started=read(started_file);kind=started.get('backend_kind','student8b')
+    if kind not in BACKENDS:raise ValueError('unknown source backend')
+    if kind=='teacher35b':
+        name='research_teacher_backend.py';components=started.get('component_sha256',{})
+        if name not in components or sha(source/(EID+'.components')/name)!=components[name]:
+            raise ValueError('teacher source helper snapshot missing or changed')
+    return kind,started
+
+
 def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Path, digest: str) -> dict:
     """Explicitly generate one ordinary skill; reserve before the sole POST."""
     draft=validate_draft(source,baseline,output)
     if digest!=draft['source']['model_profile_sha256']:raise ValueError('skill model differs from source model profile')
-    import run_django_aggregation_agent_20261106 as runner
-    profile=runner.validate_model_profile(model_profile,digest);live=runner.verify_live_backend(profile)
+    kind,started=source_backend(draft)
+    if kind=='teacher35b':
+        from scripts.graph import research_teacher_backend as backend_helper
+    else:
+        import run_django_aggregation_agent_20261106 as backend_helper
+    profile=backend_helper.validate_model_profile(model_profile,digest);live=backend_helper.verify_live_backend(profile)
+    expected=BACKENDS[kind]
+    if any(profile.get(k)!=v for k,v in expected.items()):raise ValueError('source backend profile does not match whitelist')
+    endpoint=f"http://{profile['host']}:{profile['port']}/v1/chat/completions"
     paths={name:output/name for name in ('skill_generation_request.json','skill_generation_response.json',
                                          'skill_generation_ledger.json','generated_skill.md')}
     if any(p.exists() or p.is_symlink() for p in paths.values()): raise FileExistsError('generation already attempted')
@@ -210,13 +235,16 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
     if len(data)>6_000_000:raise ValueError('source history exceeds generation request cap')
     with paths['skill_generation_request.json'].open('xb') as f:f.write(data)
     ledger={'status':'ATTEMPT_STARTED','physical_http_attempts':1,'model_profile_sha256':digest,'backend':live,
+            'backend_kind':kind,'model_id':profile['model_id'],'endpoint':endpoint,
+            'backend_helper_sha256':sha(Path(backend_helper.__file__)),'experience_helper_sha256':sha(Path(__file__)),
+            'source_backend_helper_sha256':started.get('component_sha256',{}).get('research_teacher_backend.py') if kind=='teacher35b' else None,
             'source_history_sha256':sha(output/'source_history.md'),'request_sha256':sha(paths['skill_generation_request.json']),
             'usage':None,'finish_reason':None}
     ledger_path=paths['skill_generation_ledger.json']
     with ledger_path.open('x',encoding='utf8') as f:json.dump(ledger,f,indent=2)
     begin=time.monotonic()
     try:
-        req=urllib.request.Request('http://127.0.0.1:18104/v1/chat/completions',data=data,
+        req=urllib.request.Request(endpoint,data=data,
                                    headers={'Content-Type':'application/json'},method='POST')
         with urllib.request.urlopen(req,timeout=300) as response:raw=response.read()
         with paths['skill_generation_response.json'].open('xb') as f:f.write(raw)
@@ -225,6 +253,8 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
                        'usage':parsed.get('usage'),'finish_reason':choice.get('finish_reason')})
         if not isinstance(text,str) or not text.strip() or choice.get('finish_reason')!='stop':
             raise ValueError('skill output empty or truncated')
+        if any(marker.casefold() in text.casefold() for marker in MARKERS):
+            raise ValueError('generated skill contains explicit target identity')
         with paths['generated_skill.md'].open('x',encoding='utf8') as f:f.write(text.strip()+'\n')
         ledger.update({'status':'RECEIVED','skill_sha256':sha(paths['generated_skill.md'])})
     except Exception as exc:
@@ -239,20 +269,32 @@ def generate_skill(source: Path, baseline: Path, output: Path, model_profile: Pa
 
 def validate_skill(output: Path, draft: dict) -> dict:
     ledger=read(output/'skill_generation_ledger.json')
+    kind,started=source_backend(draft); expected=BACKENDS[kind]
     if (ledger.get('status')!='RECEIVED' or ledger.get('physical_http_attempts')!=1 or ledger.get('finish_reason')!='stop'
             or ledger.get('model_profile_sha256')!=draft['source']['model_profile_sha256']
             or ledger.get('source_history_sha256')!=sha(output/'source_history.md')):
         raise ValueError('skill ledger or source binding invalid')
+    new_fields={'backend_kind','model_id','endpoint','backend_helper_sha256','experience_helper_sha256','source_backend_helper_sha256'}
+    if kind=='teacher35b' or any(field in ledger for field in new_fields):
+        endpoint=f"http://{expected['host']}:{expected['port']}/v1/chat/completions"
+        source_helper=started['component_sha256'].get('research_teacher_backend.py') if kind=='teacher35b' else None
+        if (not new_fields.issubset(ledger) or ledger['backend_kind']!=kind or ledger['model_id']!=expected['model_id']
+                or ledger['endpoint']!=endpoint or ledger['source_backend_helper_sha256']!=source_helper
+                or any(not isinstance(ledger[key],str) or not re.fullmatch(r'[0-9a-f]{64}',ledger[key])
+                       for key in ('backend_helper_sha256','experience_helper_sha256'))):
+            raise ValueError('skill backend metadata does not match its source')
     for key,name in [('request_sha256','skill_generation_request.json'),('response_sha256','skill_generation_response.json'),
                      ('skill_sha256','generated_skill.md')]:
         if ledger.get(key)!=sha(output/name):raise ValueError('skill evidence changed')
     request=read(output/'skill_generation_request.json');response=read(output/'skill_generation_response.json')
-    if (request.get('model')!='qwen3-8b-qual' or request.get('seed')!=7201 or request.get('temperature')!=0.2
+    if (request.get('model')!=expected['model_id'] or request.get('seed')!=7201 or request.get('temperature')!=0.2
             or request.get('max_tokens')!=2500 or request.get('messages',[])[-1].get('content')!=(output/'source_history.md').read_text(encoding='utf8')):
         raise ValueError('skill request is not source-bound')
     choice=response['choices'][0]
     if choice.get('finish_reason')!='stop' or choice['message']['content'].strip()+'\n'!=(output/'generated_skill.md').read_text(encoding='utf8'):
         raise ValueError('skill does not match the recorded response')
+    if any(marker.casefold() in choice['message']['content'].casefold() for marker in MARKERS):
+        raise ValueError('generated skill contains explicit target identity')
     return ledger
 
 

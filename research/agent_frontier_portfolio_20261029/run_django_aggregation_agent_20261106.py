@@ -8,6 +8,7 @@ bridge, and (source only) a separately owned PostgreSQL Unix socket.
 from __future__ import annotations
 
 import argparse
+import ast
 from collections import Counter
 import hashlib
 import json
@@ -48,9 +49,14 @@ PROJECTIONS = {
     'target': ('actor_target', '196a1cfb4cb2d98fddb66ac56bed81ee90868b8e608fc15055b0e051f8a33efc'),
 }
 MAX_POSTS, MAX_SECONDS, MAX_BYTES = 48, 1200, 6_000_000
-REPAIR_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry')
+REPAIR_CONDITIONS = ('candidate_neutral_retry', 'candidate_feedback_retry', 'teacher_feedback_repair')
 REPAIR_SOURCE = 'runtime_ready_8b_20261106'
 REPAIR_DRAFT_SHA = 'cd2691418f8b5714539f4470d6e8126f21ca6da4f9007320bde09b18191abefd'
+TEACHER_REPAIR_SOURCE = 'teacher_source_35b_20261106'
+TEACHER_REPAIR_DRAFT_SHA = 'f009780d6105c1baff0f42cbfde8ef9b8148752595ea56113fe5faf2b7b24eee'
+TEACHER_PROFILE_SHA = '2b0d9ed7d9bc4b763a697bfbb52e69c208217567d3089af7eb2f7ce5544e7294'
+TEACHER_BROAD_RECEIPT_SHA = '2e58244265854ac2dacca9e4c0bca9850d93dcd7109e467717ea380737a8ebcc'
+TEACHER_BROAD_LOG_SHA = 'ed69458dd7aa3629ae5f298338f1dcb7352490f7833ad6c8af2f092f2ed6e9da'
 
 
 def sha(path: Path) -> str:
@@ -201,8 +207,10 @@ def rebind_model(code: str, profile: dict) -> str:
 def validate_backend_choice(backend: str, task: str, condition: str) -> None:
     if backend not in ('student8b', 'teacher35b'):
         raise ValueError('unknown model backend')
-    if backend == 'teacher35b' and (task, condition) != ('source', 'none'):
-        raise ValueError('teacher profile permitted only for a fresh source with no experience')
+    if backend == 'teacher35b' and (task != 'source' or condition not in ('none','teacher_feedback_repair')):
+        raise ValueError('teacher profile permitted only for source and its approved feedback repair')
+    if backend == 'student8b' and condition == 'teacher_feedback_repair':
+        raise ValueError('teacher feedback repair requires teacher backend')
 
 
 def set_model_limits(code: str, profile: dict, backend: str) -> str:
@@ -353,6 +361,40 @@ def repair_feedback(record: dict, case: Path) -> str:
     return text
 
 
+def teacher_public_feedback(receipt: Path, log: Path, clean: Path,
+                            receipt_sha: str = TEACHER_BROAD_RECEIPT_SHA,
+                            log_sha: str = TEACHER_BROAD_LOG_SHA) -> tuple[str, dict]:
+    """Copy only the failure of an independently verified existing public test."""
+    if sha(receipt) != receipt_sha or sha(log) != log_sha: raise ValueError('broader regression receipt or log changed')
+    data=json.loads(receipt.read_text(encoding='utf8')); teacher=data['results']['teacher']
+    if teacher['exit'] != 1 or teacher['log_sha256'] != log_sha:raise ValueError('broader regression does not bind teacher failure')
+    test_file=clean/'tests/aggregation/tests.py';source=test_file.read_text(encoding='utf8')
+    module=ast.parse(source)
+    classes=[n for n in module.body if isinstance(n,ast.ClassDef) and n.name=='AggregateTestCase']
+    methods=[n for n in classes[0].body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))
+             and n.name=='test_aggregation_subquery_annotation'] if len(classes)==1 else []
+    if len(methods)!=1:raise ValueError('reported test is absent from clean public source')
+    method=ast.get_source_segment(source,methods[0])
+    if "self.assertEqual(ctx[0]['sql'].count('SELECT'), 2)" not in method:
+        raise ValueError('clean public test lacks the observed SELECT-count assertion')
+    text=log.read_text(encoding='utf8')
+    marker='FAIL: test_aggregation_subquery_annotation (aggregation.tests.AggregateTestCase)'
+    end='AssertionError: 3 != 2'
+    if text.count(marker)!=1 or text.count(end)!=1 or text.count('\nFAIL:')>1 or 'FAILED (failures=1, skipped=1)' not in text:
+        raise ValueError('broader regression failure does not match expected public test')
+    start=text.index(marker); stop=text.index(end,start)+len(end)
+    failure=text[start:stop]
+    if any(s in failure.lower() for s in ('django__django-34176','/pull/34176','/issues/34176','#34176')):
+        raise ValueError('feedback contains target identity')
+    feedback=('Independent regression feedback for a test already present in the public source checkout; '
+              '219 tests ran, one failed and one was skipped.\n'+failure)
+    binding={'broader_receipt_sha256':receipt_sha,'teacher_log_sha256':log_sha,
+             'public_test_file_sha256':sha(test_file),
+             'public_test_method_sha256':hashlib.sha256(method.encode('utf8')).hexdigest(),
+             'test':'aggregation.tests.AggregateTestCase.test_aggregation_subquery_annotation'}
+    return feedback,binding
+
+
 def repair_prompt(task: str, condition: str, feedback: str) -> str:
     if condition not in REPAIR_CONDITIONS: raise ValueError('not a source repair condition')
     common=task.rstrip()+'\n\nContinue from the current implementation. Inspect and run relevant local tests yourself; '
@@ -360,7 +402,7 @@ def repair_prompt(task: str, condition: str, feedback: str) -> str:
     common+=' The file /root/instructions.txt is a read-only issue specification, not executable project source; do not edit it or change its permissions.'
     common+=' Writable Django project source is under /root/django/. Inspect and modify the relevant project files; a permission error on the specification does not mean the source is read-only.'
     common+=' Evaluation paths beginning /workspace/ refer to the same repository-relative paths under /root/ in this actor. Apply this path mapping when inspecting diagnostic frames.'
-    return common + ('\n\n'+feedback if condition=='candidate_feedback_retry' else '')
+    return common + ('\n\n'+feedback if condition in ('candidate_feedback_retry','teacher_feedback_repair') else '')
 
 
 def derive(root: Path, task: str, condition: str, experience: Path | None,
@@ -572,28 +614,44 @@ def main() -> None:
             'without asking the user for permission.\n')
     candidate = None; repair = None
     if is_repair:
-        if args.repair_source_attempt_id != REPAIR_SOURCE or args.repair_draft_sha256 != REPAIR_DRAFT_SHA:
+        is_teacher_repair = args.condition == 'teacher_feedback_repair'
+        repair_source_id = TEACHER_REPAIR_SOURCE if is_teacher_repair else REPAIR_SOURCE
+        repair_draft_digest = TEACHER_REPAIR_DRAFT_SHA if is_teacher_repair else REPAIR_DRAFT_SHA
+        if args.repair_source_attempt_id != repair_source_id or args.repair_draft_sha256 != repair_draft_digest:
             raise ValueError('unrecognized repair source or draft')
+        if is_teacher_repair and args.model_profile_sha256 != TEACHER_PROFILE_SHA:
+            raise ValueError('teacher repair must use the source teacher profile')
         source = attempt_root(PARENT, args.repair_source_attempt_id)
-        draft_dir = source / 'source_experience_draft_v1'
+        draft_dir = source / ('source_experience_teacher_v1' if is_teacher_repair else 'source_experience_draft_v1')
         if args.repair_draft_dir.is_symlink() or args.repair_draft_dir.resolve() != draft_dir.resolve():
             raise ValueError('draft directory differs from source-bound draft')
-        if sha(draft_dir / 'draft_manifest.json') != REPAIR_DRAFT_SHA: raise ValueError('repair draft hash changed')
+        if sha(draft_dir / 'draft_manifest.json') != repair_draft_digest: raise ValueError('repair draft hash changed')
         import prepare_django_aggregation_experience_20261106 as experience_helper
         draft = experience_helper.validate_draft(source, clean_root('source'), draft_dir)
         started = json.loads((source/'source__none__seed7201.started.json').read_text(encoding='utf8'))
         if (draft['source']['model_profile_sha256'] != args.model_profile_sha256
                 or draft['source']['projection_sha256'] != args.actor_manifest_sha256
+                or started.get('backend_kind','student8b') != args.backend
                 or sha(source/'source__none__seed7201.task.txt') != hashlib.sha256(task_text.encode()).hexdigest()):
             raise ValueError('repair model/projection/task differs from source')
         old_case=source/'source__none__seed7201';record=json.loads((source/'source__none__seed7201.completed.json').read_text())
-        feedback=repair_feedback(record,old_case)
-        candidate=source/'repair_candidate_frozen_v1'; manifest=source/'repair_candidate_frozen_v1.json'
-        freeze_repair_candidate(old_case/'work',candidate,manifest,REPAIR_DRAFT_SHA)
+        if is_teacher_repair:
+            broad=PARENT/'teacher_broader_regression_20261106_v1'
+            feedback,broad_binding=teacher_public_feedback(broad/'receipt.json',broad/'teacher.log',clean_root('source'))
+            source_diff=experience_helper.decode_patch((draft_dir/'feedback_card.md').read_text(encoding='utf8'))
+            broad_binding['observed_source_diff_sha256']=hashlib.sha256(source_diff).hexdigest()
+            feedback=('Observed parent-agent edits against the source baseline, not a reference repair:\n'
+                      +source_diff.decode('utf8',errors='replace')+'\n'+feedback)
+            candidate=source/'teacher_repair_candidate_frozen_v1'; manifest=source/'teacher_repair_candidate_frozen_v1.json'
+        else:
+            feedback=repair_feedback(record,old_case);broad_binding=None
+            candidate=source/'repair_candidate_frozen_v1'; manifest=source/'repair_candidate_frozen_v1.json'
+        freeze_repair_candidate(old_case/'work',candidate,manifest,repair_draft_digest)
         task_text=repair_prompt(task_text,args.condition,feedback)+'\n'
-        repair={'source_completion_sha256':draft['source']['completion_sha256'],'draft_sha256':REPAIR_DRAFT_SHA,
+        repair={'source_completion_sha256':draft['source']['completion_sha256'],'draft_sha256':repair_draft_digest,
                 'candidate_manifest_sha256':sha(manifest),'feedback_sha256':hashlib.sha256(feedback.encode()).hexdigest()
-                    if args.condition=='candidate_feedback_retry' else None,
+                    if args.condition in ('candidate_feedback_retry','teacher_feedback_repair') else None,
+                'public_regression':broad_binding,
                 'scope':'source candidate continuation; not target confirmation',
                 'database_reset':'operator must reset only the manifest-bound private research_probe before each arm'}
     eid = f'{args.task}__{args.condition}__seed{CASES[args.task][4]}'
@@ -647,7 +705,7 @@ def main() -> None:
         (root / (eid + '.runner.stdout')).write_bytes(proc.stdout)
         (root / (eid + '.runner.stderr')).write_bytes(proc.stderr)
         if candidate is not None:
-            freeze_repair_candidate(old_case/'work', candidate, manifest, REPAIR_DRAFT_SHA)
+            freeze_repair_candidate(old_case/'work', candidate, manifest, repair_draft_digest)
             if sha(manifest) != repair['candidate_manifest_sha256']:
                 raise ValueError('frozen repair candidate changed during episode')
         plan.update({'runner_exit': proc.returncode, 'started_sha256': sha(start)})

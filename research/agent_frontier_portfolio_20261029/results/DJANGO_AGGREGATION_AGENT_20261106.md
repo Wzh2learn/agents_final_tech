@@ -109,4 +109,20 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 
 教师使用source `none`独立新attempt、48POST/1200秒/6MB，context65,536/output16,384为输入与输出共享上下文范围内的配置，不声称可用65,536输入另加16,384输出。沿既有模板thinking；未从进程确认context-shift关闭，后端共享负载及不同资源上限不支持纯模型大小归因。actor仅可读冻结base、同一Python3.8投影和专属PGsocket；统一说明只读题面/可写源码，仍不给参考补丁、隐藏测试或未来目标信息。每次启动前重建专属research_probe空库，退出后仍用新的独立评测库。
 
+教师完整CLI零模型预检SHA `288a94d41ed90bc97d9c3857bb3b9a07fec57b0eefa98ba2fb53113867d9fb33`，派生harness `64fce2755305532e67893bee61fd87178e108556687355c28d4e22259ef7bbd8`；合成请求合同与实际Docker只读题面/可写工作区检查分别见`teacher_derive_preflight_20261106_v1/receipt.json`（`b516ed6ce5c8a12d7652d46073aa30dce9f30ebcc6e9b33891b7f5036d35d364`）、`teacher_mount_probe_20261106_v1/receipt.json`（`20496179298c1189d742967c81e42d11b7ff4c497a7d7bf7b8ec120cb666b6f3`）。代码`c8412373`已三端同步后，以`teacher_source_35b_20261106`启动；不改运行中绑定组件。GB10相关24项测试通过，非教师修复成绩。
+
 通过关键测试、65项映射回归和真实PG原题，才可将其登记为本源任务的有效教师轨迹；失败则按实际错误区分源码修订、工具使用和环境，不用更多上下文自动解释为学习收益。成功后先冻结实际轨迹、反馈与形成成本，再决定学生迁移或学习数据资格；单一源题不启动训练或宣称新方法。
+
+## 教师实际结果与补充验证合同
+
+教师产物通过关键1/1、映射回归65/65，PG原题得到`[{"status":7,"total_count":1}]`。completed SHA `07533253b98b4a6c69564380989acda67cb42e8ec8a28e6fd68355647f7ac2b5`，raw SHA `eaff219394b8c5f41c9d8eed801c2ff7904a0fc407ea696e23f1130b8c1c4fc6`；48POST/1,378,852tokens（缓存1,245,583、未缓存输入108,553、输出24,716），624.926秒。第49次转发被本批POST门拒绝，Agent exit1；代码产物有效与调用闭环未完成分别报告，不计49次真实模型请求。新增1次只读slots GET核对请求output16,384仍在实际处理；本教师准备/观察合计4GET，不是生成。
+
+源DRAFT `source_experience_teacher_v1/draft_manifest.json` SHA `f009780d6105c1baff0f42cbfde8ef9b8148752595ea56113fe5faf2b7b24eee`，57个真实工具动作，普通历史75,415bytes，补丁/反馈卡8,614bytes。实际改动为Subquery.get_group_by_cols统一返回`[self]`及新增测试草稿test_fix.py。后者在actor中尚未跑通；不把它作为验证测试或正确示范。学习输入须保留真实失败状态，不能据D侧通过编造actor已完成自验。
+
+补丁较宽：它不再区分alias或external columns。**在传播或生成普通skill前**，追加一次零生成的SQLite `aggregation`和`expressions`完整目录检查；同命令比较冻结base、公开gold与教师候选，全部只读运行。这是见过补丁后的扩大资格验证，不改原65项分数，不作为预注册确认；若教师新增破坏而gold没有，则不能将该修法当可靠通用示范，先定位适用范围。
+
+补充检查已完成：三者均收集219项、各跳过1项；base为1 error，gold无失败，教师为1 failure（`test_aggregation_subquery_annotation`，SQL中的SELECT计数3而原有合同要求2）。其余218项不是额外独立任务，不能按测试数扩大研究样本量。receipt SHA `2e58244265854ac2dacca9e4c0bca9850d93dcd7109e467717ea380737a8ebcc`，教师log `ed69458dd7aa3629ae5f298338f1dcb7352490f7833ad6c8af2f092f2ed6e9da`；失败函数在clean/base/gold同字节，block SHA `fc38abc5b718ac3f06b36e86a0aa83223542aa537bdee5e21691183a3b226c10`。这是真实回归，暂不生成成功skill或训练示范。
+
+下一次`teacher_feedback_repair`从上述真实候选和同一教师profile继续，仍48POST/1200秒/6MB；提供其实际父源diff及公开回归失败，不给gold修法或目标信息。diff由已验证DRAFT无损恢复，避免新上下文不知前次删改；它包含真实失败测试草稿，不把它认证为正确示例。新attempt保留父源、DRAFT、候选快照和补充反馈hash；普通8B的N/F条件及历史身份不变。目的为取得经完整当前合同核验的纠正轨迹，不据单次教师续修认证反馈机制。仍以关键/65项回归/原题及上述219项检查决定是否适合作正向示范，记录调用门、失败及全部来源成本。
+
+本次源轨迹、DRAFT、预检及扩大回归55项已双机保存为私有`evidence_packets_20261106/django_teacher_source_20261106.tar.gz`；本机同名文件仍在`D:/Documents/Loop_D_assets/agent_learning_20261106/`。252,498bytes，SHA `f69dca996a4850c2cb0068315bc32dae23ef03cbec7e4746bf67cf2985c7cac3`，全部成员hash核对通过；不包含完整依赖/模型，不作为独立发行包。

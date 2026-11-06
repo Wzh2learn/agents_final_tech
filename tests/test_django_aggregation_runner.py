@@ -60,8 +60,10 @@ class DjangoResearchRunnerTests(unittest.TestCase):
 
     def test_teacher_is_source_none_only_and_limits_are_profiled(self):
         runner.validate_backend_choice('teacher35b','source','none')
+        runner.validate_backend_choice('teacher35b','source','teacher_feedback_repair')
         for task,condition in [('target','none'),('source','candidate_neutral_retry'),('source','feedback_card')]:
             with self.assertRaises(ValueError):runner.validate_backend_choice('teacher35b',task,condition)
+        with self.assertRaises(ValueError):runner.validate_backend_choice('student8b','source','teacher_feedback_repair')
         profile={'context':65536,'output':16384}
         original="cfg={'limit':{'context':32768,'output':8192}}"
         self.assertIn("'context':65536,'output':16384",runner.set_model_limits(original,profile,'teacher35b'))
@@ -154,6 +156,25 @@ class DjangoResearchRunnerTests(unittest.TestCase):
         self.assertEqual(len(frames),1)
         self.assertIn('compiler.py',frames[0]);self.assertIn('result.append(candidate_format)',frames[0])
         self.assertNotIn('hidden',str(frames));self.assertNotIn('secret_gold',str(frames))
+
+    def test_teacher_public_feedback_rejects_changed_receipt_or_log(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);clean=root/'clean';test=clean/'tests/aggregation/tests.py';test.parent.mkdir(parents=True)
+            test.write_text("class AggregateTestCase:\n    def test_aggregation_subquery_annotation(self):\n        self.assertEqual(ctx[0]['sql'].count('SELECT'), 2)\n")
+            log=root/'teacher.log';log.write_text('FAIL: test_aggregation_subquery_annotation (aggregation.tests.AggregateTestCase)\n'
+                'Traceback (most recent call last):\n  File "/workspace/tests/aggregation/tests.py", line 1141\n'
+                "    self.assertEqual(ctx[0]['sql'].count('SELECT'), 2)\nAssertionError: 3 != 2\n"
+                'Ran 219 tests in 0.1s\nFAILED (failures=1, skipped=1)\n')
+            receipt=root/'receipt.json';receipt.write_text(json.dumps({'results':{'teacher':{'exit':1,'log_sha256':runner.sha(log)}}}))
+            receipt_sha,log_sha=runner.sha(receipt),runner.sha(log)
+            feedback,binding=runner.teacher_public_feedback(receipt,log,clean,receipt_sha,log_sha)
+            self.assertIn('AssertionError: 3 != 2',feedback)
+            self.assertIn('test_aggregation_subquery_annotation',feedback)
+            self.assertEqual(binding['teacher_log_sha256'],log_sha)
+            log.write_text('tampered')
+            with self.assertRaises(ValueError):runner.teacher_public_feedback(receipt,log,clean,receipt_sha,log_sha)
+            log.write_text('clean again');receipt.write_text('{}')
+            with self.assertRaises(ValueError):runner.teacher_public_feedback(receipt,log,clean,receipt_sha,log_sha)
 
 
 if __name__ == '__main__': unittest.main()
