@@ -167,6 +167,10 @@ CPU tokenizer已完成真实编译：83行/8组、3,582监督token，最长10,74
 
 <a id="learning-runtime-history"></a>
 
+## 已闭合：同来源两臂真实训练
+
+两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各计划192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。现役计划为`learning_comparison_v1/plans/ordinary_v4`（manifest SHA `875243cbcab87d968789e76f34745ee3514c27e0ac65c470ab499b8ee90a8c09`）与`recovery_v4`（SHA `4be913090ed70584a52b7b7d832b3aecc3e87991221bb3665ca953ef274888c7`）。历史计划/源码/失败保留。`owned_window_v3`普通臂已192步保存并重载，tensor hash精确一致，实际1,135,199序列/8,239监督tokens、1579.43秒；receipt SHA `5d35669dabdd9a5a3ae2fea48b691f3bb3112628d42e2b7b945cc79573331068`。纠正臂亦完成192步保存/重载，实际1,135,273序列/8,378监督tokens、1600.13秒；receipt SHA `7d74ad33cf595935c5297fef5eb85547110c36d3c12e17d8643631aef9f085b8`。两臂合计384更新、2,270,472序列/16,617监督tokens。request SHA `69c07d8e1a6e63539a01b3d4ad85d69e7362a096c11b20cb2004287649fe66ff`。窗口已原样恢复owned18104（PID123887），共享35B/27B身份不变；4次健康GET、1次CUDA探测，窗口3237.58秒、科研生成0。窗口RESULT SHA `6f4ceae02bead9e5a424489492d60dee9dfc2c21160c947a6dfb2994adc2da46`。未加入canary生成，实际学习效果随后按环境won评价。
+
 2026-11-07新评价窗口`learning_comparison_v1/hf_evaluation_v1/RUN_v1`在Popen后立即采集身份，启动瞬态被误判，0个task/POST；BF16实际已加载。原RESULT SHA `b8dfa6fda5c377049810e03915b7d4640552dc5ae5e33e11fd99cb452823039a`保留。D精确收回自有BF16 PID169132、原样恢复Q4为PID171257，保护35B/27B不变；`manual_restore_v1/RESULT.json` SHA `131747165d1ce410612065bd7d619fc17382a9c8ddde941902e6cc750fa9d251`，4次健康GET、0生成。v2把执行资格的稳定argv/cwd/exe与Popen子进程的清理所有权分开；D真实CPU exec过渡观察及5项测试通过，科学协议、任务和权重未改。随后RUN_v2开始实际评价，不能将本窗口工程失败算作学习负结果。
 
 ## 2026-11-07闭合：训练前工程现场

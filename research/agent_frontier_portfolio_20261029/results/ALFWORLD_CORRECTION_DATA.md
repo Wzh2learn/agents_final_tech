@@ -1,6 +1,6 @@
 # ALFWorld：执行纠正与学习开发
 
-> 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景与已关闭的对照见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。两臂SFT已完成，frozen臂闭合，余四臂运行中，尚无新方法贡献。
+> 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景与已关闭的对照见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。两臂SFT已完成，frozen与普通SFT各16题闭合，纠正及历史臂继续比较，尚无新方法贡献。
 
 四现场能力诊断与旧分账已移至[已关闭的先导实验](ALFWORLD_CONTEXT_STUDY.md#teacher-pilot)；本页保留当前结果和下一动作。
 
@@ -8,11 +8,11 @@
 
 27B从头执行16/18、从12个学生现场恢复8/12；两者成功交集只有7组（4heat/2cool/1look）。普通/纠正轨迹分别67/68个接受动作；失败和全部形成费保留。完整导出、token标签、来源hash和教师成本见[已闭合监督材料](ALFWORLD_CONTEXT_STUDY.md#teacher-supervision)，不再默认加载全过程。
 
-## 当前动作：保留frozen结果，接续剩余四臂
+## 当前动作：保留闭合结果，完成纠正与历史比较
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
-两臂用同HF8B基座、seed17、新q/v LoRA r8/alpha16/dropout0，各计划192次成功optimizer更新，来源均衡轮转且覆盖全部动作；普通计划1,135,199序列tokens/8,239监督tokens，纠正1,135,273/8,378。只称同来源/初始化/更新数；不把不同训练量写成完全等成本。现役计划为`learning_comparison_v1/plans/ordinary_v4`（manifest SHA `875243cbcab87d968789e76f34745ee3514c27e0ac65c470ab499b8ee90a8c09`）与`recovery_v4`（SHA `4be913090ed70584a52b7b7d832b3aecc3e87991221bb3665ca953ef274888c7`）。历史计划/源码/失败保留。`owned_window_v3`普通臂已192步保存并重载，tensor hash精确一致，实际1,135,199序列/8,239监督tokens、1579.43秒；receipt SHA `5d35669dabdd9a5a3ae2fea48b691f3bb3112628d42e2b7b945cc79573331068`。纠正臂亦完成192步保存/重载，实际1,135,273序列/8,378监督tokens、1600.13秒；receipt SHA `7d74ad33cf595935c5297fef5eb85547110c36d3c12e17d8643631aef9f085b8`。两臂合计384更新、2,270,472序列/16,617监督tokens。request SHA `69c07d8e1a6e63539a01b3d4ad85d69e7362a096c11b20cb2004287649fe66ff`。窗口已原样恢复owned18104（PID123887），共享35B/27B身份不变；4次健康GET、1次CUDA探测，窗口3237.58秒、科研生成0。窗口RESULT SHA `6f4ceae02bead9e5a424489492d60dee9dfc2c21160c947a6dfb2994adc2da46`。未加入canary生成，实际学习效果随后按环境won评价。
+两臂使用同HF8B、seed17和新q/v LoRA r8/alpha16，各完成192次更新并保存/重载。合计2,270,472序列tokens、16,617监督tokens；普通/纠正训练用时1579.43/1600.13秒，监督tokens各8,239/8,378。同来源/初始化/更新数不等于完全等成本。原计划、实际receipt、旧工程失败和owned窗口恢复记录见[闭合训练](ALFWORLD_CONTEXT_STUDY.md#learning-runtime-history)。
 
 仅D在持有本study队列及owned18104窗口时显式运行，窗口不代表整GPU独占；共享35B/27B保持常驻，结束须恢复owned8B原argv/cwd与健康。OOM保留失败、实际步数与未知项，不自动换模型/截样或改共享服务。4B不是前置。HF8B五shard共16,381,516,776bytes已完整绑定；`HF8B_MODEL_BINDING_V1.json` SHA `b8d5af477c1f6be67981583a4a60df9561ea53872e0676535aa9745fce011dc1`。
 
@@ -20,7 +20,7 @@
 
 普通适配器已CPU转GGUF：144个q/v A/B的F32形状/数值与PEFT精确一致，3833856参数有限且非零，72基础模块维度兼容；输出SHA `deaf4b1618cdc3664dab92d798c375f36ae2e9e6c87e787e9118277fa2bb805f`，receipt SHA `d2a1411c50f79138cd2012fccb78934721a6d7a87cc45d3220138db84871bfee`。工具为官方llama.cpp `954de248`的私有副本，不装入项目venv；Windows CRLF导出与上游blob另有逐文件映射，142份Python AST一致，不混用SHA。CPU文件资格不是实际加载或学习收益。
 
-纠正适配器同样完成144个A/B张量与PEFT逐值核对，新BF16父模型72模块维度一致；GGUF SHA `560a86bd66d11fd2186a9ddff0130b8c4bc37a1fb148623a6faea831cc4b34ba`，receipt SHA `7c61a8a03a45954ed4168b175c6889783f3fe0e91ba0def3488911476cc46f9c`。两适配器均封存只读；普通原生加载已确认，纠正尚未加载，学习收益待完整任务比较。
+纠正适配器同样完成144个A/B张量与PEFT逐值核对，新BF16父模型72模块维度一致；GGUF SHA `560a86bd66d11fd2186a9ddff0130b8c4bc37a1fb148623a6faea831cc4b34ba`，receipt SHA `7c61a8a03a45954ed4168b175c6889783f3fe0e91ba0def3488911476cc46f9c`。两适配器均封存只读；两种适配器均已实际原生加载；学习收益待完整任务比较。
 
 同7组普通教师轨迹另备`reference_history_v1/BANK.json`（SHA `eca70c91e604aa1c35304121760b062203bfecc0a92dd2225997ada6ec073870`）：67接受动作和1次实际invalid_action，公开文本合计13216bytes；不造thought、不含heldout。选择仅用公开goal类别、同类public_text hash首项，缺类固定fallback；clean无训练例。仅是同来源普通历史对照准备，不是完整ReAct复现、全量token匹配或已运行的ICL结果。
 
@@ -36,9 +36,11 @@
 
 HF共同父模型的frozen臂已闭合：**7/16 won，primary三类6/12，clean1/4**（heat1、cool2、look3、clean1）。746个请求预算记录中741次实际转发；10,184,855输入＋31,890输出＝10,216,745tokens，缓存输入9,994,186为输入子集。D逐条复算741份原SSE的hash/usage与原生终态及实际采样，0差异，无length结束；`hf_evaluation_v1/FROZEN_ARM_RESULT_V1.json` SHA `77f087dea66571529e5fc64b1be9772d48c217ee3691dda835459943e97fc644`。截至frozen臂闭合，本专题HTTP生成累计4,836 calls/55,985,482tokens（不含在途余四臂），训练/研发Agent另记，不是项目全账。旧Q4两接口的结果和来源保留于[闭合对照](ALFWORLD_CONTEXT_STUDY.md#old-parent-baselines)，不充当本共同父模型对照。
 
+普通SFT臂16题亦闭合：**7/16 won**，633个预算请求中628次实际转发；7,806,812输入＋26,788输出＝7,833,600tokens，其中cached输入7,625,705为输入子集，usage/cache未知0。逐条原SSE、实际采样、共同父模型/ordinary adapter及native终态复算0差异；`hf_evaluation_v1/ORDINARY_ARM_RAW_CHECK_V1.json` SHA `63bce2cdce99ad0bac66f90e39d51761dfdcd01464111ae50d461e9278d59faf`。成功总数相同尚不代表完成同一组任务；纠正与历史臂继续运行，不从部分结果宣布学习收益。[闭合汇总器](../summarize_alfworld_learning.py)已33项测试通过，只在80条全部闭合后报告配对结果，冻结16条只计一次。
+
 同16题的27B从头执行成本对照也已准备，`learning_comparison_v1/teacher_reference_v1/PROTOCOL.json` SHA `f458e77dc3098b29654b59486f2b1e5d4c38fe127c16579e8ee04ddd6c2c7e3a`。只完成CPU检查，未生成；须五臂80次闭合并恢复owned8B后，由D显式绑定closed结果再运行，不能与当前批次并发或把教师计作免费oracle。其输出仍EVAL_ONLY。
 
-Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。新[薄任务入口](../run_django34570_development.py)复用现有derive/计量/独立评分；GB10聚焦12测试/7 subtests通过、实际容器11项可读写边界检查通过，静态准备manifest SHA `43a5c6791d3ff2cfd422f50cf8eb8f6060a976250a0ff78466b07697f19b75d4`。v5已绑定当时恢复态，但actor启动因AF_UNIX路径过长在模型转发前失败；公开probe亦受源0600权限阻断，旧现场保留。最小修复为短自有socket及同hash的只读probe副本，冻结源不动；GB10复验33测试/29 subtests通过。入口已支持显式closed恢复回执，并保留原Q4 argv/cwd/权重与完整进程身份守卫；等ALF窗口结束恢复后再运行新attempt，尚未重跑actor。公开复现为空SQLite查询，不把13项测试算13任务。
+Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。新[薄任务入口](../run_django34570_development.py)复用现有derive/计量/独立评分；GB10聚焦12测试/7 subtests通过、实际容器11项可读写边界检查通过，静态准备manifest SHA `43a5c6791d3ff2cfd422f50cf8eb8f6060a976250a0ff78466b07697f19b75d4`。v5已绑定当时恢复态，但actor启动因AF_UNIX路径过长在模型转发前失败；公开probe亦受源0600权限阻断，旧现场保留。最小修复为短自有socket及同hash的只读probe副本，冻结源不动；GB10复验33测试/29 subtests通过。入口已支持显式closed恢复回执，并保留原Q4 argv/cwd/权重与完整进程身份守卫；新`attempts/cpu_surface_v6`已静态准备（manifest SHA `ab040fba656d2ce553e7f257f7b49912aadfc1f6a0b7eb4dbbe9fa8ed95ab446`，0模型/服务动作）；等ALF窗口结束恢复后显式绑定再运行，尚未重跑actor。公开复现为空SQLite查询，不把13项测试算13任务。
 
 后续素材盘点只查官方ZIP成员与opaque hash：`learning_comparison_v1/NEXT_SOURCE_INVENTORY_V1.json` SHA `c236da94b5ebf37a523e9b396f9ce06ad4f00192fea8925f4495f5c2234bcbb6`。已有134个官方valid_unseen JSON/PDDL交集、134个独特game payload，与原18/新16池的game hash无交集；尚未检查全项目曝光、原生运行或专家兼容，不是第二环境或确认结果。不改当前16题，也不把该池用于训练。
 
@@ -50,6 +52,6 @@ Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配�
 
 ## 本轮判读与训练对照取舍
 
-Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督，16新布局的OpenCode/native动作臂分别3/16和1/16；UNVERIFIED：纠正监督是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：完成有界训练对照，保留计划/示例等强简单方法。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：完成同HF父模型CPU导出与显式runtime绑定，三臂各自新进程下核实际adapter后评价；第二环境直接进入已备入口的真实开发执行，不再追加框架。
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：教师恢复已有8组真实监督，共同HF父模型下frozen与普通SFT各7/16；UNVERIFIED：纠正监督是否比等源普通成功SFT更有迁移价值，或只是修复工具接口。Recommendation：完成有界训练对照，保留计划/示例等强简单方法。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：闭合现役五臂比较；恢复owned8B后执行已备第二环境，再测保留实际进度的恢复，不追加框架。
 
 当前32个闭合baseline及对照材料已私有镜像：`alfworld_frozen_and_native_baselines_v1_20261107.tar.gz`，10746成员/27367833bytes，SHA `68023591e37f2624a810f5d66319bc417bb53c6515f5eab49af1c30bafa12d04`；双端逐成员核验。原监督薄包见上述历史段。另有闭合训练/部署薄包`alfworld_learning_and_deployment_v1_20261107.tar.gz`，87成员/57,243,487bytes，SHA `1459c7fe6dd7723502643ac40735b1dc2c0551d537da3c3e7444b6e134f63cdf`，双端逐成员核验；含两adapter、不含16GB共同父模型与在途评价raw。frozen16闭合薄包`alfworld_common_parent_frozen16_v1_20261107.tar.gz`（4130成员/24,264,221bytes）SHA `cc8c635f7d28d94b8d25551c8633641fbb19933525805d1d9a52cec5847e4cab`，双端逐成员核验；未复制仍在写入的恢复服务日志。所有包均非公开分发。
