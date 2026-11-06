@@ -33,7 +33,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **Recommendation / Conditions**：强基线增加GLoW风格结构化guard＋fresh执行及固定K新旧任务重验，标明适配而非原法复现。窄候选是目标不可见时主动操纵源条件、重算实际行动后果以辨别适用边界；区别尚未建立。必须同时对比等证据普通摘要、等预算随机有效探针，区分特权source gold与执行反馈、合成干预与自然目标。
 
-**Actor学习补查 / 下一验证**：[Agent-R、STeP、MEMENTO机制与对照](results/ALFWORLD_TEXT_AGENT_20261106.md#actor-learning-related)。教师纠正、SFT与笔记学习已有覆盖；下一先分离失败world保留与对话保留，再测纠正监督。普通SFT/简单重启追平则换机制，不把训练资格当泛化收益。
+**2026-11-06原文复核 / 下一验证**：[SkillApt §3.2–3.6](https://arxiv.org/html/2609.26863v1)已有WITH/WITHOUT配对效用和LOAD/ABSTAIN；[Memento §3.6](https://arxiv.org/html/2611.00244v1)已有笔记压缩、折叠和回溯；[STeP §3.3–3.4](https://arxiv.org/html/2505.20023v1)已有学生现场的教师纠正及partial masking。原文可支持这些重叠，未复现成绩或完整代码。仅改成选择器/LoRA不构成区别；保持外部进度的经验撤回是否有独立残差仍待多任务实验。主攻与顺序只见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，旧机制笔记按[ALF记录](results/ALFWORLD_TEXT_AGENT_20261106.md#actor-learning-related)加载。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 

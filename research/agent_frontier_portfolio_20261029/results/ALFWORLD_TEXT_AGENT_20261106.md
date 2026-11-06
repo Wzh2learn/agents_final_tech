@@ -156,6 +156,14 @@ heat history失败源8动作/9POST后未成功，两臂同额剩余119POST/1754�
 
 两个actor的纠正记录及8个精确代码组件冻结于`failure_recovery_v1/qualified_corrections_v1/FROZEN_MANIFEST.json`，SHA `06a6313b8d62709699dfe8e88b13e9736b24d3daccee22eaa98abeb56893b7c1`。它们属于同一已暴露任务/布局的一个来源组，不拆成两个独立训练/确认组。`qualified_world_correction=true`但`training_ready=false`：仍需assistant-only loss mask、匹配base/adapter推理接入及更多独立来源/留出评测。恢复器/原actor/编译器共52tests及83subtests通过；资格receipt SHA `1b2d3394a7ba66b9603328b9bd2ac7b9bba5b9d6f937eb6894bbcea9a45a2c80`。所有mock标明假请求且不授予真实纠正资格；未新训练。
 
+### 历史准备说明（已由后续结果接续）
+
+> 以下是当时的安排与证据包说明，不是当前待办；后续实际恢复、训练和权重核验见本页对应章节。
+>
+> 下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
+>
+> 旧五臂、两源冻结载体/编译raw、none/v2及两版精确代码快照已打私有薄包，SHA `0dc93c35005a90b1091fc8b62ff725ce010f72cdc26ab2e7ee3b957e39ee5145`，789成员双端逐项验证；不含actor workspace/runtime或全量游戏。独立新侧车及在途三臂另行保存，不改原包。
+
 <a id="current-learning"></a>
 
 ## 真实纠正到参数学习：当前资格阶段
@@ -206,16 +214,68 @@ controller已用原argv/cwd恢复8B为PID3853089，`/health`通过（5次readine
 
 <a id="current-context"></a>
 
-## 下一科学对照：保留实际会话，未启动
+## 原会话续做对照：两种开发条件均失败
 
 先排除更强简单解释：既有fresh-session恢复成功不代表必须清空历史，原会话只需继续一次也可能成功。源仍是`target_attempts/heat_2/student8b/ordinary_public_history/attempt_v1`，receipt SHA `dd93a8586a719f160cad32925f95c40f3a18206cf022411532ba921cc900044d`。其private workspace保留`.local/share/opencode/opencode.db`及WAL/SHM，raw仅一个sessionID；只读资产清单`failure_context_v1/SESSION_RESUME_ASSET_V1.json` SHA `22dc7b634c2d52fed2917582ecc337311267ace967006b93258f7d91174d5bc0`列实际会话ID和三文件hash，WAL4,120,032bytes。该清单是定位，不是live job或已续接证明。
 
-缓存help已说明`run --session`可用，但尚未实际验证续接。下一在新隔离副本备份DB＋WAL，仅副本重建SHM/锁并checkpoint，绝不改原DB；保持`/workspace`、HOME、UID、二进制和工具配置。重放原8步、逐state全等后，预检/mock核第一次续接payload实际保留历史和工具反馈、nativeFalse与模板预算，再做8B原会话中性retry。world总帽100（旧8＋新最多92），同额剩余119POST/1754秒；原source成本只计一次。模型当前owned8B PID3853089/port18104，原参数已恢复，原profile保留，先核lifecycle与实际进程而非旧PID。
+[原会话runner](../run_alfworld_context_recovery_20261106.py)（SHA `622dc3cee775d8bea1c5d8bdc3616690b44fa1ecac58cb59afce86ffe6cc5661`）只在私有副本重建SHM/锁并checkpoint，原DB三文件SHA运行后仍相同。保持`/workspace`、HOME、UID、二进制/配置；每次从原失败状态重放8步并逐state全等。实际OpenCode `--session`首请求完整保留原user/源经验载体、8个工具call_id/参数/反馈及原final；mock与实际交付控制均通过。两条件同额剩余119POST/1754秒/92新动作、world总帽100，native thinking=False；原source成本只计一次。9tests/9subtests通过。
 
 预先记录分支：若原会话中性retry成功，不再为同任务复杂上下文策略扩样，先将普通续做列为强基线；若失败，再冻“保留会话＋追加同一当前可见state”对照，必要时检查只移除旧source载体/末段历史。不能将重播文本称原对话恢复，也不从reasoning执行动作。不同context共享同native反馈/工具/caps；若引入自动终态继续，后续所有学习/记忆臂均用相同controller，避免把停止协议缺陷算作学习收益。
 
-4B下一接口工作是同一BF16 base与`learning_qualification_v1/attempt_v1/adapter`的真实harness/world接入；现有两次HF生成不替代它。此工程可并行准备，模型窗口须量测余量、只管理owned进程、最终恢复；共享8004/8006继续不动。当前没有新episode在途，无需等待标记文件，按上述可执行步骤推进。
+### 实际结果与判断
 
-下一步从真实失败状态重放公开动作，比较8B中性续做和27B纠正接管，以实际world成功验收纠正监督，而非继续改skill措辞。只读核实已找到本地HF Qwen3-8B BF16五分片16.38GB、4B三分片8.04GB及既有PEFT/TRL单卡链；这只是资产资格，未核完整权重hash、未新训练。旧trainer对全部非padding token算loss，后续必须显式核assistant mask和adapter回接评测，不能直接把“训练跑完”算学习收益。
+私有根为`failure_context_v1/heat2_history_v1/student8b/<mode>/attempt_v1`。neutral新user仅`Continue the unfinished task.`；其失败后才冻结并执行resume_current_state，仅额外追加同一公开当前状态。
 
-旧五臂、两源冻结载体/编译raw、none/v2及两版精确代码快照已打私有薄包，SHA `0dc93c35005a90b1091fc8b62ff725ce010f72cdc26ab2e7ee3b957e39ee5145`，789成员双端逐项验证；不含actor workspace/runtime或全量游戏。独立新侧车及在途三臂另行保存，不改原包。
+| 同一失败world的续做方式 | 新动作 | 真POST | Provider tokens | Native won |
+| --- | ---: | ---: | ---: | --- |
+| 保留原会话，neutral | 1 | 2 | 29,609 | false |
+| 保留原会话，追加当前state | 11 | 19 | 331,591 | false |
+| 先前fresh-session公开轨迹投影 | 9 | 18 | 117,535 | true |
+
+前两项均RETURNED、usage完整、无relay/cleanup错误，非预算耗尽。neutral只look后声称已完成；追加state后拿对egg1，却到炉灶/烤面包机/水槽并实际执行`clean egg 1 with sinkbasin 1`，放回桌上后仍声称完成，没有heat动作。首请求完整保留历史不证明模型理解；真实环境score0/won=false否定完成声明。
+
+新增21POST/361,200tokens（360,333 input＋867 output），cached339,921是输入子集，不另加。neutral receipt SHA `1fdba7a6158e9890d12d7a0959b78a1cf6e580e98d13d3052752a51d2d9c29dc`；state receipt SHA `67a117ed3c6705606fbd3e7cbff4b197e78dc08b6c64c8ad8db22b38a3aef79d`。完整交付、逐POST usage、raw/SSE、原DB未变和清理复核见`failure_context_v1/qualification_v1/verification_receipt_v1.json`，SHA `ac929fc5decbd6f0b3388513dc64fb552e18bd112a2ce1f0df2fee06cc885977`。
+
+本例的恢复成功没有被普通原会话retry或仅重申当前state解释。但fresh-session同时省略了旧source经验载体、改变历史表示和提示，尚不能单独归因于清空会话。下一方法对照应拆分旧source保留/移除与近期公开轨迹，先比较短历史、重申目标等强简单控制，再扩来源。两新条件仍是同一heat2/layout4开发来源，不是两个独立确认样本。
+
+两个已记录工程边界：8B离线模板计数比provider首轮低8tokens、state末轮低26，实际最大prompt19,850＋8192仍留4726上下文余量；原runner先resolve的alias guard仍有latent缺口，当前两次均用直接canonical根、未走alias，冻结源码不追改。二者均未导致当前任务失败。
+
+<a id="current-adapter"></a>
+
+## 匹配4B base/adapter真实接入
+
+[接入runner](../run_alfworld_adapter_qualification_20261106.py)将同一BF16基座与已保存LoRA接入同一OpenCode客户端、同一失败world与公开恢复prompt，仅relay派发不同server模型别名；不拿GGUF8B与BF16训练臂作方法对比。12tests/47subtests通过，包括profile/adapter篡改、symlink别名、独占reservation、模板超上下文拒forward及清理异常保留receipt。源recovery/CBC模块未改。
+
+D已进入私有owned服务窗口，先释放空闲自有8B:18104，在18106加载既有HF4B并做base/zero-adapter/trained的native工具控制，再按冻结顺序跑两实际臂。共享8004/8006不动；退出须先确认owned4B已停止，再以原argv/cwd恢复8B。窗口结果只查`adapter_qualification_v1/owned_serving_window_v1/RESULT.json`和实际进程，未结束前不称接入合格。当前是一个已曝光状态的接口资格，不是学习收益或未见任务确认。
+
+
+
+### 用户暂停时的接入状态（2026-11-06）
+
+窗口v1在HTTP helper命名遮蔽import模块处失败，0模型POST；独立恢复回执`owned_serving_window_v1/RECOVERY_RESULT.json` SHA `a94f0d1c4140840fc0bf59b2a6863b9c1486bb9fbc95a75581ea48eb354e89a9`核owned4B停止、8B恢复。v2修复命名并通过无网络CPU反例后，vLLM在engine CUDA MemorySnapshot初始化报OOM，尚未加载到可接受请求，0canary/0episode。`owned_serving_window_v2/RESULT.json`记4B停止、8B原argv/cwd恢复PID3927598，health通过，共享35B/27B身份未变。两份已执行controller保留原文；日志/资源资格失败不作模型或方法负结果。
+
+用户此时明确要求先停。没有新HF服务、生成、训练或模型探针启动；暂不提交/推送，保留工作树WIP。恢复后先核当前资源和这两份window证据，再决定采用已合格HF链或修vLLM，不重复旧attempt。原会话对照私有薄包已形成，SHA `647a9de772f40ccc6f427de53c97121eddfb80e6d37253c4ae6b1423c1f1957a`，218成员remote核验；本机复制/核验尚待继续。
+
+<a id="expert-review"></a>
+
+## 外部专家反馈的负责人复核（2026-11-06）
+
+**Mode / Boundary**：inquiry-methods的portfolio-triage，以用户转发的外部评审为待核建议。本轮核本机入口/工作树和skill版本、静态orchestrator/B路径，并重读SkillApt、Memento、STeP一手HTML方法；未访问GB10运行态、模型、DB或业务端点，未运行实验/训练，Goal保持暂停。专家的远端抽样深度以其自述为限，不包装为本负责人又重放了全部任务。
+
+**已核事实与处理**：Loop D入口残留Goal active确与STATE冲突，现删除独立状态值，入口与计划均引用STATE及用户最新指令。orchestrator A/C仅打印、B可真实访问服务的边界与代码相符，但CORE和Graph文档原已披露；不能据单一入口断言项目没有自动化。本次不重写架构，也不将四层职责当每轮必经流程。仓库C8源SHA `5e060d506a5c559471c446222e8d3584c02283805699f38d11c4fa0a3ef43dda`，本机Codex/Claude两安装副本均为`aad21028369e0a0284996c5ab112288cf99ea8cf8620aacec509e51d73dced79`，是待发布WIP与已安装版之差；没有自动分发，GB10安装本轮未再次核实。
+
+**采纳的优先级**：4B接通从主线前置降为支持工作。稳定8B/27B路径先用于独立任务、强固定策略和上下文混杂拆分；有跨任务选择空间再投入选择器/actor训练。D负责日常判断与分析，A按需实作，C集中协议冻结和重要结果；机械检查用离线脚本，默认在线B不自动运行。近期不新增完整自动科研调度、记忆层或无需求的runner重构。
+
+**需要收窄的研究主张**：当前fresh-session成功没有被原会话retry/追加观察解释，但同时省略了旧source经验、改变历史表示、提示和长度，不能认定reset的单独因果收益。现有变化主要是任务/目标/布局，不证明外部动作规则改变。旧经验撤回与轻量选择器已有近邻，候选独立性为UNVERIFIED；研究是否学习选择器由多任务结果决定。
+
+**下一行动与退出条件**：用户明确恢复后，按短计划冻结12–20个独立任务/布局的开发池和后续留出；先测固定新会话中的经验保留×目标历史窗口，以及所有臂一致的未成功普通stop续做控制。原会话与短窗口/摘要等是强实用对照，控制层Agent与被研究actor分账。若最佳固定策略已同样好，不扩复杂选择器；若有稳定异质性，再做学习、消融和第二环境。形成oracle标签的开发分支需计成本，测试不免费运行全部候选再择优。主线不再等待4B所有接口和全库治理合格。
+
+本次只更新既有入口、短计划、近邻与本记录，未创建新项目prompt/审计报告。未提交runner/test和C8均保留原字节；发布、分发和跨机WIP集成尚待专门收尾，不声称三端工作树已同步。
+
+**本机验证**：research_context_check与git diff --check通过；docs_lint为1 fail/3 warn，fail即C8待发布源与两安装副本漂移，3条为既有时效提醒。skill-doctor实跑0 errors/134 warnings（该工具仍exit1），定向skill-map为0重复/0未解析；没有fix-safe、安装或分发。未运行实验、模型或数据库检查，不把文档检查称全绿。当前12项WIP的字节快照及manifest保存在本机私有资产`expert_feedback_current_wip_20261106.*`，不以HEAD单独标识此次审阅后状态；精确内容以生成的manifest核对。
+
+<a id="current-multitask"></a>
+
+## 多任务上下文研究入口
+
+18题池资格、首两题真实模型收集、四臂恢复与27B能力诊断已集中到[多任务研究](ALFWORLD_CONTEXT_STUDY.md)。本页保留环境资格、旧原会话与训练证据，不在这里复制后续批次。

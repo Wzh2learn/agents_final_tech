@@ -143,6 +143,8 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **SDK编码与思考通道**：实际OpenCode把task包双引号并转义内部双引号；整串可逆且task hash相符时是完整encoded delivery，raw substring失败不能叫未交付。旧标签由sidecar更正。8B末次动作曾只出现在reasoning、无native tool_calls，不自动搬运；新诊断只显式关闭student thinking，默认原请求保持。39tests/63subtests与owned fake验证编码、native kwargs，真机语义结果另记。
 - **通道资格不等于任务成功**：真实nativeFalse诊断62个forwarded payload均为false，SSE无reasoning且有60次native工具调用，仍拿错对象并提前结束；不能继续归因于旧通道故障，也不要求无经验先成功才允许经验比较。同冻结源的三经验条件随后补齐；真实失败状态的教师纠正须单独重放验收，不用从reset成功替代。
 - **失败前缀与新对话**：恢复器只重放有hash的实际world动作并逐state核对；fresh-session不冒充原对话恢复。公开投影保留goal/动作/完整观察，只省去历史commands，末态保留全commands；两臂同额剩余cap，重放动作不算actor新动作，旧形成成本不重复计。原生模板资格须计input_ids，不能把BatchEncoding的键数当token；vLLM工具arguments的离线投影不改变forwarded payload。真实纠正资格仍看world won，不看mock成功或最终文字。
+- **原会话不是文本回放**：只复制私有actor的DB/WAL/SHM并在副本checkpoint；原文件hash不变。实际首个续接请求须保留旧user/源载体、全部原tool call参数/反馈及末次assistant，不能以DB存在替代交付验收。普通续做失败后才追加同公开state；环境won而非新final决定完成，原source成本只计一次。8B离线模板计数与provider可有小差，复核真实usage与余量；新4B双臂共用client alias、同精度/模板/环境，零adapter工具控制与接入资格不等于学习效果。
+- **多任务续做对照**：新任务与经验分配先冻结，fake来源不得进入真实恢复；四臂共用同一collector/hash及剩余额度，world总动作帽不随收集POST帽缩小。所有条件统一原会话最多一次中性续做并分报首停/最终won。复用旧qualifier/replay须按实际字段适配，原绑定与代码保留；来源预算截尾不写成自然失败。新通用study/pool的真实隔离fake闭环为3假POST/1look/1续做，22tests/99subtests通过；实际模型结果另见ALF记录。
 - **纠正监督资格**：保留实际请求/响应的原始schema顺序和锚，不从reasoning生成答案；仅当前assistant＋EOS算loss，prompt/tool输出及EOS后换行mask。模板逐token对齐；JSON递归sort_keys会改变schema呈现，新导出保序并验序列化往返，旧已核数组不因写出修复重训。小步LoRA还须验base未变、adapter保存重载、匹配精度/模板；训练与同prompt生成资格不作heldout任务收益。
 - **证据**：[ALFWorld记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md)、`scripts/graph/research_alfworld_bridge.py`、`tests/test_research_alfworld_bridge.py`、`tests/test_alfworld_actor.py`。
 
