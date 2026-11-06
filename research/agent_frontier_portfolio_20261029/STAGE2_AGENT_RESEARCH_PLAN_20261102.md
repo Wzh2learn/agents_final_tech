@@ -8,7 +8,7 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 2026-11-06核对[IJCNN官方截止](https://ijcnn.org/2027/events/regular-papers-deadline)仍为2027-01-31。内部倒排：11月中旬建立新任务/模型基线，11月底选择有证据的方法；12月独立确认与正文，1月审阅及投稿准备。未达到方法门槛则调整任务或机制，不为赶窗口认证弱证据。
 
-两项目隔离四臂已收录。27B的SymPy源通过原题及114回归，17POST/148,213tokens；冻结历史/卡/skill后做[8B迁移比较](results/SYMPY_LATEX_TRANSFER_20261106.md)。[Django低推理源](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)仍在跑，勿改绑定代码或重启。旧过程按需加载。
+[SymPy 8B四臂](results/SYMPY_LATEX_TRANSFER_20261106.md)均未修复，三经验均未读取；先做显式注入与27B无历史诊断，不判经验内容无效。[Django 27B源产物](results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)通过联合检查但episode超时。[ALFWorld](results/ALFWORLD_TEXT_AGENT_20261106.md)已进入真实actor开发，勿改在途绑定代码。
 
 ## 最新开发证据
 
@@ -20,9 +20,9 @@ Goal active。主攻第二篇和硕士研究：Agent 从真实执行/反馈形�
 
 35B无历史也能完成当前任务，下一批增加真实变化难度并验证较小模型。表示路由训练先查固定策略之外的选择空间；actor或skill-editor训练在有真实监督、来源隔离与普通SFT对照时，可直接做小规模诊断，不把35B的表示收益作为硬门槛。诊断与论文贡献认证分开，按结果选择参数学习、经验编译或二者结合。
 
-下一自然对为Django12589→34176，时序已核；公开旧轨迹含未来目标题号，须重新采源经验。独立SQLite与原题数据库资格见[本对记录](results/DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)，不使用业务DB。[小模型资格](results/QWEN4B_TOOL_QUALIFICATION_20261106.md)：4B工具可用但文件语义错；8B自主修对文件，POST门阻断最终回复。8B先作真实任务开发；4B保留学习候选，不能由一个fixture永久否定。对标见[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+Django12589→34176使用新采源经验，公开旧轨迹含未来目标题号，不能替代；原题/数据库资格见[本对记录](results/DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)，不使用业务DB。SymPy14774→19235题面自带修法/前序引用，属开发；目标原144回归有2项共同Python3.8失败，排除后142通过。scikit25638→25637关联同issue，不作独立迁移。
 
-Django35B出现修对原题却破坏回归、续修恢复原bug的交换；联合要求尚未完成，13POST只有12个usage步骤。900秒客户端等待已修订但未重跑。现优先验证27B完整任务质量，再编译经验做学生迁移。SymPy14774→19235已通过带限定开发资格，target原144回归有2项共同失败、排除后142通过；题面自带修法/前序引用。scikit25638→25637关联同issue，暂停作独立迁移。详情按批次加载；暂无新方法确认。
+[小模型资格](results/QWEN4B_TOOL_QUALIFICATION_20261106.md)只定位工具与能力，不永久否定4B；当前用8B作学生、27B采真实源经验。先看四臂实际补丁、回归、经验读取和完整成本，再决定较强actor诊断、内容消融或新方法。SkillGLoW已覆盖guard与fresh准入，SkillHEX/CIPO已覆盖执行反馈与反事实rollout；下一候选必须超过[这些近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)，不能把普通摘要换名为创新。
 
 现在可同步写问题、相关工作与实验设计；锁定方法和结果须满足：①与最近方法的独立机制清楚；②至少两个独立项目来源的留出任务，来源隔离并重复验证；③超过无历史、普通历史/skill、简单修复及公开近邻中的最强者，或在效果相当时有明确总成本收益；④同预算对照与消融能解释收益，未修复/截断单列；⑤冻结确认后的区间、失败和复放可核查。确认样本量依据开发方差决定，统计单位是任务/来源而非测试条数。若简单方法解释收益，调整候选；不将旧工程故障计作方法证据。
 

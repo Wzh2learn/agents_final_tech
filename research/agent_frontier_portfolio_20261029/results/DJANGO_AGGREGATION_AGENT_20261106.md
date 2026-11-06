@@ -169,7 +169,9 @@ SymPy源已完成，私有`agent_learning_20261030/sympy_latex_agent_20261106/at
 
 103工件轻包已双机逐成员核验：`evidence_packets_20261106/sympy_latex_source27_success_thin_v2_20261106.tar.gz`，345,485bytes，SHA `d1786de0f46e9582c5845884dc6319b5e4846332cc80ad631f675179e24b467b`；只含raw、请求/响应、绑定代码和实际修改文件。前一个私有非轻包误带1557个preflight gold_input文件，只留审计历史、不得供actor使用，v2 manifest明确更正；运行中actor未接触该目录。两项源采集在共享GPU上重叠，不用该wall time作模型/方法延迟比较。当前接续移至[SymPy迁移比较](SYMPY_LATEX_TRANSFER_20261106.md)：三载体已冻结，将串行运行8B目标，不重启已有episode。
 
-## 当前接续：优先核验并使用27B
+## 历史运行前合同：优先核验并使用27B
+
+> 以下保留当时状态，不是当前待办；执行终态以[当前检查点](#current-27b-handoff)为准。
 
 ### 27B采集与学生迁移：运行前合同
 

@@ -133,6 +133,12 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **27B写入通道**：vLLM非流式请求仅靠模板默认关闭thinking，曾将606字符的技能放入reasoning、content为空；不是截断。原始失败保留，新attempt显式`chat_template_kwargs.enable_thinking=false`后final content正常，不把reasoning搬成答案、不盲目扩输出。已知baseline环境失败应同时告知所有目标actor，不能只在评分器里排除。
 - **证据**：[Django当前合同](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)、`research_teacher_backend.py`、`run_django_aggregation_agent_20261106.py`与对应测试；私有评测控制receipt `11b8ef99fc16255733eb754934fcf57115320d165f82099dc77091d077f98f8a`。
 
+## C-8 非代码环境的动作与观察边界（2026-11-06）
+
+- **风险与对策**：家居任务不能将私有PDDL、专家动作或初始缓存误当actor当前证据。任务prompt说明单条client动作、逐次读实际返回、look也计步、reset快照仅为初始缓存；OpenCode实际只暴露bash，游戏/专家/轨迹留在D侧，环境won决定成功。
+- **已验证范围**：两游戏专家通过真实UDS动作及Docker隔离控制；28项远端契约测试与30个subtests通过，owned fake端口的两backend模拟各2假POST/1原生look，标为MOCK_ORACLE，不冒充模型经验。27B请求显式关闭thinking，保存逐请求/响应和未知usage；终态后请求、非法参数和结束竞态有确定性控制。真实模型任务另记结果。
+- **证据**：[ALFWorld记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md)、`scripts/graph/research_alfworld_bridge.py`、`tests/test_research_alfworld_bridge.py`、`tests/test_alfworld_actor.py`。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
