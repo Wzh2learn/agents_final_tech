@@ -1461,3 +1461,5 @@ echo dispatch_log updated
 [06:54] Django真实源执行及同候选诊断 → 初始挂载缺失0POST保留；修复后8POST/76496含缓存tokens，exit0但关键失败/42回归errors，非诊断利用结论；失败DRAFT绑定raw/组件/实际diff。N/F同6192文件候选、仅差真实反馈，15项定点测试/0模型预检；共享自主闭环要求与skill C6同提交 → 本次续修协议提交后串行执行，Goal active
 
 [07:14] Django N/F真实完成与证据归位 → N5POST/41371、F5POST/58760含缓存tokens，均误改只读题面、源码未动，42回归errors保留；合计含原source18POST/176627，非反馈普遍无效。162工件双机逐成员hash通过，38项远端定点测试；下一统一源码/题面边界一次资格复验，再决定强教师 → 本次结果提交，Goal active
+
+[11:17] 27B逐请求计量修复及双源执行 → 长连接事故原始156完成步骤/未知请求保留；76项共享定点与10项新对测试通过，活入口32304bytes。SymPy27B真实17POST/148213tokens、原题及114回归通过，103件轻包双机hash一致；Django低推理源仍在跑，未做目标对照 → 4cf241aa后状态同步，Goal active

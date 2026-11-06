@@ -161,6 +161,12 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 
 独立窄审确认SymPy14774→19235的13份资格工件和clean源码均匹配hash，可复用既有Python3.8/SymPy依赖，但新建blocked-SymPy投影；不能直接执行旧19487→19484 runner。新对source题面自带修法、target引用前序，仍属带限定开发。以该对并行准备，避免把整条研究卡在Django单题。
 
+**当前执行**（`4cf241aa`）：Django `attempts/teacher27_thinking_low_source_20261106`仍在运行，harness SHA `ddab793f4dca5ee441cd2bdbb13d9d1435b011d894159393a1b7f74ac51d12c7`；首个实际body已核`enable_thinking=true/low`，已完成响应为HTTP200。SymPy源已完成，私有`agent_learning_20261030/sympy_latex_agent_20261106/attempts/teacher27_source_v1`输入manifest SHA `c2a09f6bd50bf98721081e37425e176c13e2bfd3246ecedd6911c1902287e160`，零模型预检receipt `879f892a031d78253341d2463f87915ce5934545a1baa3248e4880971069eea2`，actor依赖投影`3637be1d94932dfff7ad9af88c2d5a6ebef42a51a6464e2f56717abd04cda703`。
+
+**SymPy真实源验收**：17POST、17条完整provider usage，总148,213tokens，与raw公开步骤相同，不相加；未知用量为空。独立原题probe正确、focus1/1、回归114/114，实际导入`/workspace/sympy/__init__.py`。原有Python文件只改`printing/latex.py`与其`tests/test_latex.py`，conftest/testing基础设施未改。completed SHA `9d3d0e74502346202ab76bf4bef859eeb2bc8a06940ddf80a8038555e5e72a7e`，raw `a285c5cc6b9f2ec395a57aa1119c80803b27f2877efdbee506ce44ab20a8e93f`。这是合格开发源经验，尚无后续目标/方法效果。
+
+103工件轻包已双机逐成员核验：`evidence_packets_20261106/sympy_latex_source27_success_thin_v2_20261106.tar.gz`，345,485bytes，SHA `d1786de0f46e9582c5845884dc6319b5e4846332cc80ad631f675179e24b467b`；只含raw、请求/响应、绑定代码和实际修改文件。前一个私有非轻包误带1557个preflight gold_input文件，只留审计历史、不得供actor使用，v2 manifest明确更正；运行中actor未接触该目录。两项源采集在共享GPU上重叠，不用该wall time作模型/方法延迟比较。续接先查看Django completed/容器，不因观察超时重启、不改存活期间绑定代码。下一步用SymPy合格源编译并冻结历史/结果卡/skill，再做8B目标对照；尚未执行该目标。
+
 ## 当前接续：优先核验并使用27B
 
 ### 27B采集与学生迁移：运行前合同
