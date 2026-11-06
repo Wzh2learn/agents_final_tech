@@ -30,7 +30,7 @@ class DjangoResearchRunnerTests(unittest.TestCase):
                 '  finally:upstream.close()\n')
         bound=runner.bind_per_request_transport(code)
         compile(bound,'<bound-handler>','exec')
-        self.assertIn('relay_one_model_response(self.request,upstream)',bound)
+        self.assertIn('relay_one_model_response(self.request,upstream,',bound)
         self.assertIn("request_path.open('xb')",bound)
         self.assertNotIn('relay(self.request,upstream)',bound)
 
@@ -41,13 +41,16 @@ class DjangoResearchRunnerTests(unittest.TestCase):
                      'sampling_metadata':[], 'step_finish_tokens':[{},{}]}
             invalid=runner.execution_integrity(case,receipt)
             self.assertFalse(invalid['passed'])
-            self.assertIn('model_usage_steps_disagree_with_counted_posts',invalid['failures'])
+            self.assertIn('more_completed_model_steps_than_counted_posts',invalid['failures'])
             request=case/'model_request_bodies/00001.json'
             request.parent.mkdir();request.write_bytes(b'{}')
             receipt['step_finish_tokens']=[{}]
             receipt['sampling_metadata']=[{'request_body_file':request.name,
                                            'request_body_sha256':runner.sha(request)}]
             self.assertTrue(runner.execution_integrity(case,receipt)['passed'])
+            receipt['step_finish_tokens']=[]
+            self.assertTrue(runner.execution_integrity(case,receipt)['passed'])
+            self.assertFalse(runner.execution_integrity(case,receipt)['usage_step_count_matches_posts'])
             request.write_bytes(b'{"changed":true}')
             self.assertFalse(runner.execution_integrity(case,receipt)['passed'])
 
@@ -135,6 +138,34 @@ class DjangoResearchRunnerTests(unittest.TestCase):
             self.assertEqual(received, [{'status':200,'body_bytes':23,'complete':True}])
         finally:
             client.close(); model.close()
+
+    def test_provider_usage_includes_internal_model_response_and_detects_tampering(self):
+        with tempfile.TemporaryDirectory() as td:
+            case=Path(td);path=case/'model_response_bodies/00001.body'
+            client,bridge=socket.socketpair();upstream,model=socket.socketpair()
+            errors=[]
+            def relay():
+                try:runner.relay_one_model_response(bridge,upstream,path)
+                except Exception as exc:errors.append(exc)
+                finally:bridge.close();upstream.close()
+            thread=threading.Thread(target=relay,daemon=True);thread.start()
+            payload=b'data: {"choices":[],"usage":{"prompt_tokens":19,"completion_tokens":2,"total_tokens":21}}\n\ndata: [DONE]\n\n'
+            try:
+                model.sendall(b'HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nContent-Length: '+str(len(payload)).encode()+b'\r\n\r\n'+payload)
+                response=http.client.HTTPResponse(client);response.begin()
+                self.assertEqual(response.read(),payload);thread.join(timeout=2)
+                self.assertFalse(thread.is_alive());self.assertEqual(errors,[])
+                receipt={'sampling_metadata':[{'request_body_file':'00001.json'}]}
+                usage=runner.provider_usage(case,receipt)
+                self.assertTrue(usage['usage_complete'])
+                self.assertEqual(usage['reported_tokens_known'],21)
+                receipt['sampling_metadata'].append({'request_body_file':'00002.json'})
+                usage=runner.provider_usage(case,receipt)
+                self.assertFalse(usage['usage_complete'])
+                self.assertEqual(usage['unknown_usage_requests'],['00002.json'])
+                path.write_bytes(b'changed')
+                with self.assertRaises(ValueError):runner.provider_usage(case,receipt)
+            finally:client.close();model.close()
 
     def test_actual_actor_runtime_mount_is_created_and_cannot_hide_files(self):
         with tempfile.TemporaryDirectory() as td:

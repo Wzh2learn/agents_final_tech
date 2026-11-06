@@ -128,6 +128,7 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **对策**：教师profile分开绑定真实权重清单、服务、模板、原生上下文/输出和运行余量；不重启共享服务。真实源产物接受原题和已核回归的联合检查。历史、补丁卡、skill在目标前冻结，所有目标臂（含无历史）绑定同一来源；无历史绑定仅留D侧。形成、失败及使用成本分账，记录实际经验读取。
 - **验证边界**：零生成base/gold联合验收反例、模型/端口/manifest篡改及同来源绑定测试；真实教师和学生效果仍须执行后判断。D可按既有本地资源授权调整新批运行余量，不将工程上限、单个候选停止或文档完成当科研目标完成。
 - **长连接与真实反馈**：vLLM首轮156个usage步骤却仅首POST被代理计数，源作废并保留未知请求用量；新relay每响应关闭连接、逐请求保存私有body并核对计数。工具失败的`state.error`须进入新普通历史，旧载体按版本保留原字节；否则“经验无效”可能只是反馈丢失。
+- **内部调用与配置**：公开step少于HTTP可来自压缩/失败调用，不等于超帽；反向多于HTTP才否定完整计量。保存SSE/provider usage，未知单列，不能与step tokens相加。推理开关按请求kwargs核实；客户端和桥接等待一致，单个任务不产补丁先做配置资格，不能包装为方法负结果。
 - **证据**：[Django当前合同](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md#current-27b-handoff)、`research_teacher_backend.py`、`run_django_aggregation_agent_20261106.py`与对应测试；私有评测控制receipt `11b8ef99fc16255733eb754934fcf57115320d165f82099dc77091d077f98f8a`。
 
 ## Completion and verification

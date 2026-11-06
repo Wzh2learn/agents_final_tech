@@ -153,6 +153,14 @@ N completed SHA `af66b881ba82baf86992743cf208ef767f99c59bc2cfe9ec6a8df363086b4b4
 
 下一步先用相同题面/采样/默认thinking做传输诊断，检查工具`NotFound`是否真的进入模型请求；若连续出现同一无效路径且无源码编辑，可停止诊断而非继续烧满余量。只有确认反馈完整后，才决定是否调整通用路径说明或per-request thinking。每次改变配置都另列，不用接口修复冒充方法收益。
 
+**诊断完成与下一配置**：首个修复诊断在生成前因注入缩进片段不符退出，0模型；修正后`teacher27_transport_diag_v2_20261106`实际60次请求、55个step_finish、910,170已报告tokens，含压缩步骤，另5条请求用量未匹配，不能记0。D观察50余步骤仍反复检索/阅读、源码Python树逐文件未改后停止actor；这是事后开发判断，不是预注册方法停止。关键/原题未修、65项映射回归通过，不能推论27B总体能力或反馈学习无效。raw SHA `8ad4446218696b5761394eacc66c61ae4d04e03fdbc128a052c99bcfdff2bfbc`，completed `b0d8c0ac26320b1c9f6c13ee534756bcf03a8ef84463e8a23b35e64496915972`。已修正每步实际采样；旧事故轮后续采样未核，因此两轮不构成等采样因果对照。
+
+下一次同题面/base/工具/seed/temperature/角色限额，只将27B每请求thinking从模板默认关闭改为`enable_thinking=true, reasoning_effort=low`；通过实际转发body核对，不改共享服务。额外保存解chunk后的SSE原文与provider usage，区分公开step tokens与实际HTTP总用量，避免压缩/失败请求漏算。POST与字节预留各有锁和独立请求index。`steps>POST`否定完整计量；`steps<POST`可能是内部/失败调用，须报告未知成本而非直接判作超帽。零模型实际derived-harness控制和远端相关定点测试已通过，真实执行尚待下一轮。
+
+本轮152个私有工件已双机逐成员hash核对：`evidence_packets_20261106/django_27b_transport_diagnostics_20261106.tar.gz`，1,401,459bytes，SHA `c31f52d4cfc2d235ccb7380f455efaa559003b4d7d7e5d7eb9a652dcc880d846`。包含raw、回执、代码快照及27B权重hash清单，不含模型权重或runtime分发。本地在`D:/Documents/Loop_D_assets/agent_learning_20261106/`。原账本保留，旧1POST由附加对账明确失效。
+
+独立窄审确认SymPy14774→19235的13份资格工件和clean源码均匹配hash，可复用既有Python3.8/SymPy依赖，但新建blocked-SymPy投影；不能直接执行旧19487→19484 runner。新对source题面自带修法、target引用前序，仍属带限定开发。以该对并行准备，避免把整条研究卡在Django单题。
+
 ## 当前接续：优先核验并使用27B
 
 ### 27B采集与学生迁移：运行前合同

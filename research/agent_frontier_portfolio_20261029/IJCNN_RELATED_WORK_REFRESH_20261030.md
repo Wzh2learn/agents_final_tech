@@ -30,7 +30,7 @@ RethinkSkill 固定源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）。
 - **CONFIRMED**：[SkillApt §3.2–3.6](https://arxiv.org/html/2609.26863v1)已覆盖配对效用与LOAD/ABSTAIN。SRA v1使用题面哈希和固定近邻估计，正确性相同的成本正/负例都标0.5；这不等于其一般问题定义排除了成本或更丰富状态。
 - **CONFIRMED**：[Skill-R1 §3](https://arxiv.org/html/2605.09359v1)已覆盖用真实rollout奖励训练循环编辑器，不能只靠换成LoRA或代码任务宣称新方法。
 
-**Recommendation / Conditions**：候选聚焦变化任务中知识载体、局部修订和验证投入的联合选择；需检验旧轨迹rubric一致性与修改后真实行为兼容是否分离，并与固定载体、廉价规则及上述近邻比较。这里仍是**UNVERIFIED**的机制区别，不能由单个失败直接推出。
+**Recommendation / Conditions**：Skill-V历史门复评旧轨迹，并未描述接受前重跑旧任务；Skill-R1真实rollout评价新skill。强基线应含“历史证据门＋固定K次新旧任务重执行”（本项目适配，非原法完整复现）。联合选择载体、修订与验证投入须超过它及廉价规则；独立增量仍待实测。
 
 **Risk / Exit / First action**：两项目隔离比较已完成，接续[当前自然任务](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)与可靠教师轨迹资格，收集不同来源的正/负效用。训练由实际监督决定；若普通SFT、历史或简单规则解释收益，调整机制。oracle选择与开发修复不计作泛化确认。
 

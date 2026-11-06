@@ -235,14 +235,17 @@ def episode_limits(backend: str) -> tuple[int,int,int]:
     return (96,2400,12_000_000) if backend=='teacher27b' else (MAX_POSTS,MAX_SECONDS,MAX_BYTES)
 
 
-def relay_one_model_response(client, upstream):
+def relay_one_model_response(client, upstream, response_path=None):
     """Relay exactly one response; HTTP keep-alive cannot bypass the next gate.
 
     HTTPResponse decodes chunked SSE bodies. Downstream is close-delimited,
     keeping the response body unchanged while requiring a new counted request.
     """
     import http.client
-    upstream.settimeout(300)
+    import hashlib
+    import json
+    from pathlib import Path
+    upstream.settimeout(900)
     response = http.client.HTTPResponse(upstream)
     response.begin()
     excluded = {'connection', 'keep-alive', 'proxy-connection', 'transfer-encoding',
@@ -254,15 +257,40 @@ def relay_one_model_response(client, upstream):
     head += ''.join(f'{k}: {v}\r\n' for k, v in headers)
     client.sendall((head+'Connection: close\r\n\r\n').encode('iso-8859-1'))
     size = 0
+    complete = False
+    sink = None
+    usage = None
+    pending = b''
+    digest = hashlib.sha256()
+    if response_path is not None:
+        response_path=Path(response_path)
+        response_path.parent.mkdir(parents=True,exist_ok=True)
+        sink=response_path.open('xb')
     try:
         while True:
             body = response.read1(65536)
             if not body:
                 break
-            client.sendall(body)
+            if sink is not None:
+                sink.write(body);digest.update(body)
+                pending += body
+                while b'\n' in pending:
+                    line,pending=pending.split(b'\n',1)
+                    if line.startswith(b'data: '):
+                        try:
+                            item=json.loads(line[6:])
+                            if isinstance(item,dict) and isinstance(item.get('usage'),dict):usage=item['usage']
+                        except (ValueError,UnicodeDecodeError):pass
             size += len(body)
+            client.sendall(body)
+        complete = True
     finally:
         response.close()
+        if sink is not None:
+            sink.close()
+            with response_path.with_suffix(response_path.suffix+'.receipt.json').open('x') as out:
+                json.dump({'status':response.status,'complete':complete,'body_bytes':size,
+                           'body_sha256':digest.hexdigest(),'usage':usage},out,indent=2)
     return {'status': response.status, 'body_bytes': size, 'complete': True}
 
 
@@ -274,13 +302,13 @@ def bind_per_request_transport(code: str) -> str:
     capture = (
         "   request_body=first.split(b'\\r\\n\\r\\n',1)[1]\n"
         "   request_dir=case/'model_request_bodies';request_dir.mkdir(exist_ok=True)\n"
-        "   request_path=request_dir/(str(post_count[0]).zfill(5)+'.json')\n"
+        "   request_path=request_dir/(str(request_index).zfill(5)+'.json')\n"
         "   with request_path.open('xb') as request_log:request_log.write(request_body)\n"
         "   meta['request_body_sha256']=hashlib.sha256(request_body).hexdigest()\n"
         "   meta['request_body_file']=request_path.name\n" + marker)
     code = core.replace_once(code, marker, capture)
     code = core.replace_once(code, 'try:upstream.sendall(first);relay(self.request,upstream)',
-                             'try:upstream.sendall(first);relay_one_model_response(self.request,upstream)')
+                             "try:upstream.sendall(first);relay_one_model_response(self.request,upstream,case/'model_response_bodies'/(request_path.stem+'.body') if line.startswith(b'POST') else None)")
     return code
 
 
@@ -289,8 +317,8 @@ def execution_integrity(case: Path, receipt: dict) -> dict:
     posts = sum(s.startswith('POST ') for s in receipt['model_http_requests'])
     metadata = receipt['sampling_metadata']
     failures = []
-    if len(receipt['step_finish_tokens']) != posts:
-        failures.append('model_usage_steps_disagree_with_counted_posts')
+    if len(receipt['step_finish_tokens']) > posts:
+        failures.append('more_completed_model_steps_than_counted_posts')
     if len(metadata) != posts:
         failures.append('sampling_metadata_disagrees_with_posts')
     for entry in metadata:
@@ -302,7 +330,33 @@ def execution_integrity(case: Path, receipt: dict) -> dict:
             failures.append('request_body_binding_invalid'); break
     return {'version':1, 'passed':not failures, 'failures':failures,
             'counted_posts':posts, 'completed_usage_steps':len(receipt['step_finish_tokens']),
-            'scope':'one counted, privately captured request per completed model step'}
+            'usage_step_count_matches_posts':len(receipt['step_finish_tokens'])==posts,
+            'scope':'all requests privately captured; fewer public usage steps may be internal/failed calls, not unmetered requests'}
+
+
+def provider_usage(case: Path, receipt: dict) -> dict:
+    """Recover provider usage for internal calls and retain unknown responses."""
+    known=0;unknown=[];bindings=[]
+    for entry in receipt['sampling_metadata']:
+        name=entry.get('request_body_file','')
+        if not re.fullmatch(r'[0-9]{5}\.json',name):raise ValueError('invalid response request binding')
+        body=case/'model_response_bodies'/(Path(name).stem+'.body')
+        record=body.with_suffix('.body.receipt.json')
+        if not record.is_file():unknown.append(name);continue
+        data=json.loads(record.read_text())
+        if not body.is_file() or sha(body)!=data['body_sha256']:raise ValueError('provider response changed')
+        usage=data.get('usage')
+        if isinstance(usage,dict) and type(usage.get('total_tokens')) is int:
+            known+=usage['total_tokens']
+        elif data['complete'] and 400<=data['status']<500:
+            # The full failed response is retained; no generation usage is reported.
+            unknown.append(name)
+        else:unknown.append(name)
+        bindings.append({'request':name,'response_sha256':data['body_sha256'],
+                         'receipt_sha256':sha(record),'status':data['status'],'complete':data['complete']})
+    return {'reported_tokens_known':known,'unknown_usage_requests':unknown,
+            'usage_complete':not unknown,'response_bindings':bindings,
+            'scope':'provider totals include internal calls; do not add again to public step tokens'}
 
 
 def clean_root(task: str) -> Path:
@@ -503,8 +557,10 @@ def repair_prompt(task: str, condition: str, feedback: str) -> str:
 
 def derive(root: Path, task: str, condition: str, experience: Path | None,
            actor: dict, profile: dict, task_file: Path, pg: dict | None, candidate: Path | None = None,
-           backend: str = 'student8b') -> str:
+           backend: str = 'student8b', teacher_thinking: str = 'default') -> str:
     validate_backend_choice(backend, task, condition)
+    if teacher_thinking not in ('default','low') or (teacher_thinking!='default' and backend!='teacher27b'):
+        raise ValueError('per-request reasoning override is for the 27B teacher only')
     max_posts,max_seconds,max_bytes=episode_limits(backend)
     protocol = SimpleNamespace(OUT=QUAL, SITE=Path(actor['sites']['default']), LEGACY=Path(actor['runtime']))
     base_condition = 'none' if condition in REPAIR_CONDITIONS else condition
@@ -518,6 +574,10 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
     code = set_model_limits(code, profile, backend)
     code = core.replace_once(code, "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')",
         "before_temperature,before_seed=payload.get('temperature'),payload.get('seed')\n payload['model']=" + repr(profile['model_id']))
+    if teacher_thinking=='low':
+        code=core.replace_once(code," payload['temperature'],payload['seed']=temperature,seed",
+            " payload['chat_template_kwargs']={'enable_thinking':True,'reasoning_effort':'low'}\n payload['temperature'],payload['seed']=temperature,seed")
+    code=core.replace_once(code,"'max_completion_tokens')}","'max_completion_tokens','chat_template_kwargs')}")
     code = core.replace_once(code, "shutil.copytree(src/'clean_base',work,dirs_exist_ok=True)",
         f"shutil.copytree(Path({str(candidate if candidate else clean_root(task))!r}),work,dirs_exist_ok=True)")
     code = core.replace_once(code, "(src/'task.txt').read_text(encoding='utf8').strip()",
@@ -529,13 +589,19 @@ def derive(root: Path, task: str, condition: str, experience: Path | None,
     code = core.replace_once(code, 'calls=[]; payload_bytes=[]; sampling=[];',
         'calls=[]; payload_bytes=[]; sampling=[]; post_lock=threading.Lock(); post_count=[0];')
     line = "  line=first.split(b'\\r\\n',1)[0].rsplit(b' ',1)[0]"
-    guard = line + f"\n  if line.startswith(b'POST'):\n   with post_lock:\n    if post_count[0]>={max_posts}:\n     calls.append('DENIED_POST_LIMIT');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    post_count[0]+=1"
+    guard = line + f"\n  if line.startswith(b'POST'):\n   with post_lock:\n    if post_count[0]>={max_posts}:\n     calls.append('DENIED_POST_LIMIT');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    post_count[0]+=1\n    request_index=post_count[0]"
     code = core.replace_once(code, line, guard)
     code = core.replace_once(code, 'line not in allowed or len(calls)>=24 or ', 'line not in allowed or ')
+    code = core.replace_once(code,'   payload_bytes.append(length)',
+        f"   with post_lock:\n    if sum(payload_bytes)+length>{max_bytes}:\n     calls.append('DENIED:reserved_byte_cap');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    payload_index=len(payload_bytes);payload_bytes.append(length)")
+    code = core.replace_once(code,'   payload_bytes[-1]=forwarded',
+        f"   with post_lock:\n    if sum(payload_bytes)-payload_bytes[payload_index]+forwarded>{max_bytes}:\n     calls.append('DENIED:forwarded_byte_cap');self.request.sendall(b'HTTP/1.1 403 Forbidden\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n');return\n    payload_bytes[payload_index]=forwarded")
     code = core.replace_once(code, 'timeout=900)', f'timeout={max_seconds})')
     if max_bytes != MAX_BYTES:
         code=core.replace_once(code,'sum(payload_bytes)+length>6000000',f'sum(payload_bytes)+length>{max_bytes}')
         code=core.replace_once(code,'sum(payload_bytes)>6000000',f'sum(payload_bytes)>{max_bytes}')
+    if backend in ('teacher35b','teacher27b'):
+        code=core.replace_once(code,'select.select([c,s],[],[],300)','select.select([c,s],[],[],900)')
     extra = ripgrep_binding()
     if backend in ('teacher35b','teacher27b'):
         instruction_file = root / f'{task}__{condition}__seed{CASES[task][4]}' / 'work/instructions.txt'
@@ -732,6 +798,7 @@ def main() -> None:
     parser.add_argument('--repair-draft-dir', type=Path)
     parser.add_argument('--repair-draft-sha256')
     parser.add_argument('--backend', choices=('student8b','teacher35b','teacher27b'), default='student8b')
+    parser.add_argument('--teacher-thinking',choices=('default','low'),default='default')
     parser.add_argument('--broader-regression', action='store_true')
     parser.add_argument('--model-profile', type=Path, required=True)
     parser.add_argument('--model-profile-sha256', required=True)
@@ -743,6 +810,7 @@ def main() -> None:
     args = parser.parse_args()
     root = attempt_root(PARENT, args.attempt_id)
     validate_backend_choice(args.backend, args.task, args.condition)
+    if args.teacher_thinking!='default' and args.backend!='teacher27b':parser.error('reasoning override is for 27B teacher')
     max_posts,max_seconds,max_bytes=episode_limits(args.backend)
     if args.broader_regression and args.task != 'source':parser.error('broader regression is source-only')
     if args.backend == 'teacher27b' and not args.broader_regression:parser.error('27B source qualification requires broader regression')
@@ -841,13 +909,14 @@ def main() -> None:
             root / (eid + '.completed.json'), root / (eid + '.auto_reservation.json'))):
         raise FileExistsError('episode already exists; never overwrite or auto-retry')
     # derive compiles without launching the model; the actor receives only task_text and frozen baseline.
-    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg, candidate, args.backend)
+    code = derive(root, args.task, args.condition, args.experience, actor, profile, task_file, pg, candidate, args.backend,args.teacher_thinking)
     if args.preflight_only:
         print(json.dumps({'status': 'PREFLIGHT_ONLY', 'episode': eid, 'task_sha256': hashlib.sha256(task_text.encode()).hexdigest(),
                           'harness_sha256': hashlib.sha256(code.encode()).hexdigest(),
                           'model_profile_sha256': args.model_profile_sha256, 'projection_sha256': args.actor_manifest_sha256,
                           'socket_sha256': args.pg_socket_sha256, 'backend': backend, 'postgres': live_pg,
                           'backend_kind': args.backend,
+                          'teacher_thinking':args.teacher_thinking,
                           'episode_limits':{'max_posts':max_posts,'max_seconds':max_seconds,'max_payload_bytes':max_bytes},
                           'request_timeout_ms':300000 if args.backend=='student8b' else 900000,
                           'broader_regression_requested': args.broader_regression,
@@ -877,6 +946,7 @@ def main() -> None:
             raise ValueError('components changed during snapshot')
         plan = {'task': task, 'condition': condition, 'seed': CASES[task][4], 'max_posts': max_posts,
                 'backend_kind': args.backend, 'profile_context': profile['context'], 'profile_output': profile['output'],
+                'teacher_thinking':args.teacher_thinking,
                 'request_timeout_ms': 300000 if args.backend == 'student8b' else 900000,
                 'broader_regression_requested': args.broader_regression,
                 'source_experience':source_experience,
@@ -907,7 +977,9 @@ def main() -> None:
             if (case / 'frozen_instructions.txt').read_bytes() != task_text.strip().encode('utf8'):
                 raise ValueError('actor problem changed')
             forwarded = bool(metadata) and all(x['seed'] == CASES[task][4] and x['temperature'] == core.TEMPERATURE
-                                                and x['model'] == profile['model_id'] for x in metadata)
+                                                and x['model'] == profile['model_id']
+                                                and x.get('chat_template_kwargs')==({'enable_thinking':True,'reasoning_effort':'low'}
+                                                    if args.teacher_thinking=='low' else None) for x in metadata)
             plan.update({'status': 'COMPLETED', 'agent_exit': receipt['agent_exit'], 'raw_sha256': receipt['raw_sha256'],
                          'posts': sum(s.startswith('POST ') for s in receipt['model_http_requests']),
                          'denied': [s for s in receipt['model_http_requests'] if s.startswith('DENIED')],
@@ -917,6 +989,8 @@ def main() -> None:
                              s.startswith('POST ') for s in receipt['model_http_requests']),
                          'cache_read_included': sum(t.get('cache', {}).get('read', 0) for t in receipt['step_finish_tokens']),
                          'seed_temperature_model_forwarded': forwarded,
+                         'teacher_thinking':args.teacher_thinking,
+                         'model_http_usage':provider_usage(case, receipt),
                          'execution_integrity': execution_integrity(case, receipt),
                          'post_run_evaluation': run_evaluator(task, case, control, actor, pg,args.broader_regression)})
             if args.task=='target' and args.experience is not None:

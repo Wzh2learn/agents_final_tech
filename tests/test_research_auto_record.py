@@ -342,3 +342,23 @@ def test_posts_mismatch_is_invalid_and_uncounted(tmp_path):
     side, _ = artifacts(tmp_path)
     assert side['cost_contract'] == 'INVALID' and side['costs']['posts'] is None
     assert any('posts differs' in e for e in side['cost_errors'])
+
+
+def test_keepalive_bypass_cannot_be_certified_by_two_matching_wrong_receipts(tmp_path):
+    @recorded_episode(tmp_path, 7)
+    def run(task, condition):
+        case=tmp_path/EPISODE;case.mkdir()
+        token={'input':1,'output':2,'reasoning':0,'total':3,'cache':{'read':0}}
+        raw=case/'raw.jsonl'
+        raw.write_text((json.dumps({'type':'step_finish','part':{'tokens':token}})+'\n')*2)
+        digest=hashlib.sha256(raw.read_bytes()).hexdigest()
+        (case/'receipt.json').write_text(json.dumps({'raw_sha256':digest,
+            'step_finish_tokens':[token,token],'model_http_requests':['POST /v1']}))
+        (tmp_path/(EPISODE+'.completed.json')).write_text(json.dumps({'raw_sha256':digest,
+            'posts':1,'reported_tokens':6,'cache_read_included':0}))
+    run('source')
+    side,_=artifacts(tmp_path)
+    assert side['cost_contract']=='INVALID'
+    assert side['costs']['posts'] is None
+    assert side['costs']['reported_tokens']==6
+    assert side['posts_source']=='INCOMPLETE_REQUEST_ACCOUNTING'

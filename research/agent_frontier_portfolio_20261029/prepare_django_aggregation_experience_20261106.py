@@ -121,7 +121,8 @@ def source_evidence(source: Path, baseline: Path, *, verify_baseline=verify_base
     completed=source/(EID+'.completed.json')
     if not completed.is_file(): raise ValueError('source has not completed; do not read live raw')
     record=read(completed); start=source/(EID+'.started.json'); started=read(start)
-    if record.get('execution_integrity',{}).get('passed') is False:
+    if (record.get('execution_integrity',{}).get('passed') is False
+            or ('execution_integrity' not in record and record.get('usage_step_count_matches_posts') is False)):
         raise ValueError('source execution integrity failed; do not form learning inputs')
     if (record.get('status')!='COMPLETED' or type(record.get('posts')) is not int or record['posts']<1
             or record.get('started_sha256')!=sha(start)

@@ -165,6 +165,10 @@ def _costs(paths, elapsed_seconds):
             raw_steps = _raw_step_tokens(raw)
             if json.dumps(raw_steps, sort_keys=True) != json.dumps(steps, sort_keys=True):
                 raise ValueError('step token events differ from raw')
+            if costs['posts'] is not None and len(raw_steps)>costs['posts']:
+                errors.append('more completed model steps than counted posts; request accounting is incomplete')
+                costs['posts']=None
+                posts_source='INCOMPLETE_REQUEST_ACCOUNTING'
             totals = [s.get('total') for s in steps]
             caches = [s.get('cache', {}).get('read') if isinstance(s.get('cache'), dict) else None for s in steps]
             if (any(type(v) is not int or v < 0 for v in totals + caches)

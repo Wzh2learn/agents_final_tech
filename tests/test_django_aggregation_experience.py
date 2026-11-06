@@ -167,6 +167,11 @@ class ExperienceTests(unittest.TestCase):
             exp.source_evidence(self.source,self.base,verify_baseline=self.qual)
         with self.assertRaisesRegex(ValueError,'execution integrity'):self.draft()
         self.assertFalse(self.output.exists())
+        self.record.pop('execution_integrity')
+        self.record['usage_step_count_matches_posts']=False
+        self.completed.write_text(json.dumps(self.record))
+        with self.assertRaisesRegex(ValueError,'execution integrity'):
+            exp.source_evidence(self.source,self.base,verify_baseline=self.qual)
 
     def test_feedback_skill_tamper_and_target_started_rejected(self):
         self.draft(); self.skill()
