@@ -31,9 +31,9 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 - **CONFIRMED**：[SkillApt §3.2–3.6](https://arxiv.org/html/2609.26863v1)已覆盖配对效用与LOAD/ABSTAIN。SRA v1使用题面哈希和固定近邻估计，正确性相同的成本正/负例都标0.5；这不等于其一般问题定义排除了成本或更丰富状态。
 - **CONFIRMED**：[Skill-R1 §3](https://arxiv.org/html/2605.09359v1)已覆盖用真实rollout奖励训练循环编辑器，不能只靠换成LoRA或代码任务宣称新方法。
 
-**Recommendation / Conditions**：强基线增加GLoW风格结构化guard＋fresh执行及固定K新旧任务重验，标明适配而非原法复现。窄候选是目标不可见时主动操纵源条件、重算实际行动后果以辨别适用边界；区别尚未建立。必须同时对比等证据普通摘要、等预算随机有效探针，区分特权source gold与执行反馈、合成干预与自然目标。
+**比较要求**：增加GLoW式guard＋fresh执行及固定K重验，标明适配而非原法复现；旧主动探针想法保留为备选。
 
-**2026-11-06原文复核 / 下一验证**：[SkillApt §3.2–3.6](https://arxiv.org/html/2609.26863v1)已有WITH/WITHOUT配对效用和LOAD/ABSTAIN；[Memento §3.6](https://arxiv.org/html/2611.00244v1)已有笔记压缩、折叠和回溯；[STeP §3.3–3.4](https://arxiv.org/html/2505.20023v1)已有学生现场的教师纠正及partial masking。原文可支持这些重叠，未复现成绩或完整代码。仅改成选择器/LoRA不构成区别；保持外部进度的经验撤回是否有独立残差仍待多任务实验。主攻与顺序只见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，旧机制笔记按[ALF记录](results/ALFWORLD_TEXT_AGENT_20261106.md#actor-learning-related)加载。
+**当前重叠（2026-11-07）**：[Memento](https://arxiv.org/html/2611.00244v1)已有上下文管理，[STeP](https://arxiv.org/html/2505.20023v1)已有现场教师纠正，[ACE](https://arxiv.org/html/2510.04618v1)已有局部记忆delta，[AgentFold](https://arxiv.org/html/2510.24699v1)已有执行中折叠与轨迹SFT；方法正文已核，未复现成绩。当前窄假设和强基线见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 

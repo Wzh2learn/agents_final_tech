@@ -23,16 +23,24 @@
 
 两个增量私有薄包已在GB10和本机逐成员核验：`alfworld_simple_controls_v1_20261106.tar.gz`为3,080成员，SHA `7edfbc4635a5f175343dddb4721f6182e4efcb473c661cf15933d2c2479669a4`；`alfworld_teacher_states_v1_20261106.tar.gz`为1,241成员，SHA `52358c539c563e3e86a16a2be29ab8135bdd9c06267d87639d543ae7dd5d3bc4`。原source依赖[背景记录](ALFWORLD_CONTEXT_STUDY.md)所列18题包；这些不是完整runtime或公开artifact，不包含在途8题。原始命名保留批次开始日期，不因跨午夜改名。
 
-## 当前在途：补齐剩余八个原失败现场
+## 已完成：原十二个失败现场的固定教师对照
 
-- 批次：`context_study_v1/teacher_pool_expansion_v1`；owned PID4095165，控制器Q下`run_context_study_teacher_pool_v1.py`。Q为`/home/testuser/wzh/research_evidence/agent_learning_20261030/alfworld_text_qualification_20261106`。
-- 固定队列：look_01、cool_02、look_02、heat_02、cool_03、look_04、heat_04、heat_05；均为原18题中尚未测27B recent的合格未完成source，无替换或按成功筛选。look_01虽已被学生恢复，仍保留以补全强模型基线。
-- 沿用原protocol SHA `2fb92f35b20ae00e03183da837e92218240233180df9d3f9cf6d14383170843d`和科研代码epoch `34c7055d`；27B统一drop_recent/nativeFalse/seed17，其他合同不变。不重跑原collector，不训练actor或选择器。
-- ADMISSION绑定全队列、source receipt、driver与components SHA。逐题events，最终RESULT；先核对应进程及终态，不因缺marker重复启动。已完成6诊断批不再等待。
-- 暂停只向本批写STOP_REQUESTED并对核验argv的该PID发SIGTERM，保留当前receipt/未知usage，退出actor/relay/world；不停止模型服务。锁仅约束本study，不能冒充全局预算锁。
+八题扩展批已全部返回：look_01、cool_02、heat_02、heat_04、heat_05成功，look_02、cool_03、look_04失败；270真POST、2,893,399tokens。与前四题合计，27B recent恢复8/12，共351 POST、3,817,330tokens；本专题总计1,804 POST、20,340,505tokens，不是项目全局账。所有失败与形成成本保留；cool_04等上下文门不证明任务无解，look_04还包括大量被环境拒绝的动作。
 
-这轮用于补全原12个未完成现场的固定强模型基线及纠正候选。各恢复从共同原source分支，不能当作“先跑失败的恢复臂、再免费回滚给教师”的部署策略。真实形成、失败、重放与后续使用成本分别保留。
+`teacher_pool_expansion_v1/RESULT.json` SHA `7925d7ea2114fd392dfe843a821488c97fc8bede79d53d6e5b7716aa72d85cde`；PID4095165已退出。教师的每个现场都从原source分支，不能当作先免费尝试别臂再回滚的部署收益。
 
-## 下一唯一优先工作
+离线导出位于`context_study_v1/recovery_supervision_v2/teacher_drop_recent_complete_v1`：8个任务/布局组、83个接受动作回合；`data_manifest.json` SHA `aea83b3319a3f90f5472a28bb0ba5990a64f6e0e92c519a21a717473d76fa44b`。这是同一环境的四类任务，不是8个独立来源。全部351次教师请求（含4条失败）计入形成账；1576项输入证据未改变。`qualification_v1.json` SHA `91e1417146965d98ed52316b6398e276135b4366e472973b9ca1a10357695ef4`还检验了真实双轮失败：固定Continue、同会话、27次tool结果对齐22个实际动作，正监督为0。
 
-完整返回后，导出实际成功轨迹的可追溯监督候选，检查唯一任务/布局、工具错误与来源隔离，保留所有失败。先与普通成功轨迹、强固定策略及STeP等近邻对齐，再决定小规模学习实验；当前3个成功现场不够认证学习或泛化。4B接入是有时限的支持工作，不阻塞8B/27B的多任务研究。第二环境沿[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续；不再把四现场没有成功选择空间的旧选择器当成已成立方法。
+导出保留真实请求/SSE、公共content与tool_calls；被拒绝动作、工具反馈与最终文字不作为正监督，失败上下文不删除。每个当前动作completion仍须按实际请求编译token标签。已验证多轮chat候选不等于可直接投入旧单completion训练器。
+
+## 当前动作：普通成功经验与纠正经验的匹配对照
+
+复用现有study新增`ordinary_reset`阶段：27B在相同18题从真实初始状态执行，使用与recent恢复一致的空历史/空经验提示合同；100实际动作、128 POST、1800秒总cap，普通stop未成功最多统一续做一次。无虚构失败source、不重放旧进度；与32 POST的学生collector不混称同预算。数据集按任务/布局配对，普通成功与纠正成功分开导出；交集用于匹配监督比较，全部失败仍计成本。
+
+先发表代码、冻结队列及请求设置，再启动该批。它提供直接强模型成本基线和普通成功SFT监督，不把“有教师纠正”本身当新方法。8B HF权重已存在；CUDA空上下文探测两次OOM，暂不加载新GPU模型或改共享服务。4B继续作为支持项，不阻塞多任务数据与机制分析。
+
+## 方法重叠与下一验证
+
+[ACE §3](https://arxiv.org/html/2510.04618v1)已有带效用记录的条目、局部delta更新和保留历史知识；[AgentFold §3](https://arxiv.org/html/2510.24699v1)已有任务执行中的细粒度/深层上下文折叠和轨迹SFT。[STeP](https://arxiv.org/html/2505.20023v1)已有学生失败现场的教师纠正与partial masking。均已读方法正文，未复现成绩；局部改经验、继续外部进度或换LoRA都不足以构成独立贡献。
+
+待验证的窄问题是：可见新反馈否定某条经验前提后，是否需要撤回其依赖步骤并保留仍成立的进度。先对比精确目标绑定、循环保护、等预算摘要及上述局部更新适配；当前失败轨迹并未证明这种残差。普通/纠正监督学习是能力和训练对照，不预先宣称新方法。第二环境按[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续；不再训练已无成功选择空间的旧四臂选择器。
