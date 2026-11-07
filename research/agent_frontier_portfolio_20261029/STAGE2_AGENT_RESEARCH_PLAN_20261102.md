@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[新Matplotlib来源段](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)。新pair的1/181与1/60参考控制全过；27B真实source48POST只读失败，停止无引导重试。复用已执行的训练source参考纠正，形成明确标注的证据；下一步冻目标无经验/文件定位/完整参考证据基线，不先训练。旧8现场R成功被All7覆盖，停止扩同7来源配方；旧reset信号及形成费保留。尚无独立方法，布局变化不等于动力学变化。
+当前只读[新Matplotlib来源段](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)。新pair的1/181与1/60参考控制全过；27B真实source48POST只读失败，停止无引导重试。复用已执行的训练source参考纠正，形成明确标注的证据；已冻无经验/文件定位/完整参考证据三臂，正同设置串行运行，不先训练。旧8现场R成功被All7覆盖，停止扩同7来源配方；旧reset信号及形成费保留。尚无独立方法，布局变化不等于动力学变化。
 
 ## 执行原则与后续顺序
 
@@ -56,30 +56,30 @@
 <a id="两条并行问题线"></a>
 <a id="输入格式变化的可视化工作流资格与开发2026-11-04"></a>
 <a id="evoclaw-配置迁移公开反馈与独立合同2026-11-04"></a>
-[当前优先级（2026-11-04） 等原章节](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
+[原章节](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
 
 <a id="swe-skills-bench--aiohttp真实项目执行资格2026-11-04"></a>
-[SWE-Skills-Bench / aiohttp：真实项目执行资格（2026-11-04） 原记录](../../docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md)
 
 <a id="swe-skills-bench--sympy第二项目资格2026-11-04"></a>
-[SWE-Skills-Bench / SymPy：第二项目资格（2026-11-04） 原记录](../../docs/archive/2026-11-06_agent_research_context/sympy_skill_development_20261104.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/sympy_skill_development_20261104.md)
 
 <a id="swe-contextbench真实问题对与经验时间边界2026-11-04"></a>
-[SWE-ContextBench：真实问题对与经验时间边界（2026-11-04） 原记录](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)
 
 <a id="升级后目标接续2026-11-05用户已恢复"></a>
-[升级后目标接续（2026-11-05，用户已恢复） 原记录](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md)
 
 <a id="任务组合和实验顺序"></a>
 <a id="当前来源资格skillevolbench-的-api-重试族"></a>
-[任务组合和实验顺序 等原章节](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
+[原章节](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
 
 <a id="不同来源的连续办公任务开发2026-11-0304"></a>
-[不同来源的连续办公任务开发（2026-11-03—04） 原记录](../../docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md)
 
 <a id="恢复研究requests-自然任务对2026-11-05"></a>
-[恢复研究：Requests 自然任务对（2026-11-05） 原记录](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md)
 
 <a id="工具修复反馈接入与-astropy-批次2026-11-05"></a>
 <a id="与-paper-e-并行"></a>
-[工具修复、反馈接入与 Astropy 批次（2026-11-05） 等原章节](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)
+[原章节](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)
