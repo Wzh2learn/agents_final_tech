@@ -56,7 +56,10 @@
 
 **本批首臂已闭合，其他臂仍运行。** frozen_last3为3/16 won（主比较2/12、clean1/4），1,312实际POST；输入6,546,720、cached子集5,418,388、输出56,154tokens，非缓存输入1,128,332。旧frozen full为7/16、主比较6/12，输入10,184,855但非缓存仅190,669；控制器版本不同，不能把跨版本差全归因于截短。D已在本机对16条native终态和全部1,312份原SSE的hash/usage/cache重新核算，0差异；1,307 tool_calls、5 stop、0 length。独立check SHA `aa671380ea16f694c9afff9713be11d4ecf8975728cbb04b10a8fbde9ad39729`。闭合摘要`runtime_context_baselines_v1/FROZEN_LAST3_CLOSED_V1.json` SHA `94370c4da5763a9f497020391e2c5dc6f63c5c8db3b34cbf71f8f6ecd9391f38`。当前观察已不支持把持续last3默认视为更强、更省计算的策略；完整历史须保留作恢复对照，仍待O/R同协议对比和全批裁决。
 
-## 两项改变下一步的发现
+**本批第二臂已闭合。** ordinary_last3为4/16 won（primary4/12、clean0/4）；与同批frozen_last3的3/16并列作补充描述，原六对R/O和交互仍待完整批次。配对新增cool_02/heat_02/heat_04，损失look_01/clean_02。其12条失败中9条触发此前的最近12观察三次重访信号，4条成功均未触发，连续三次同动作仍为0。实际1,185 POST；input5,866,422、cached子集4,795,157、noncached1,071,265、output50,103，total5,916,525tokens。1,181 tool_calls、4 stop、0 length；episode墙时合计6,497.96秒，不作隔离硬件下的因果耗时比较。D重读两完整短历史臂共2,497份原SSE并核native/hash/usage/cache，0差异；`FROZEN_ORDINARY_LAST3_CLOSED_V1.json` SHA `85bb2106295c53ba2753f4d2b855d0c170a501133da9176688c4c4e0063ce574`。新ordinary16原始包又在本机逐成员及SSE独立核验，本机check SHA `bf8b9137ecb81178e728443b039e0ecdc31c590fc570bdc5319404868445fb9d`。本次仅只读分析，完整历史与R臂继续原设置，不训练或改在途组件。
+
+<a id="两项改变下一步的发现"></a>
+## 机制线索与下一阶段准备
 
 **持续短历史需要与学习增量分开比较。** 旧drop_recent仅首次交接保留3条公共动作，之后OpenCode历史继续增长；闭合样例第74次转发仍含73个工具回合。新[纯投影器](../alfworld_context_projection.py)逐次保留所有系统/用户目标及最近3个完整工具回合，不造摘要；离线核对F/O的1379份闭合请求后，已接入Relay且在上述真实body核实生效。投影发生在采样合入后、body序列化/计费/记录前；六组结果闭合后再判断短历史能否解释学习差异。
 
@@ -96,6 +99,8 @@ Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FAC
 
 后续两source与8个保留现场的闭合证据包`source_pairs_and_preserved_states_v1_20261107.tar.gz`已双端逐成员核验88项，17,256,211bytes、SHA `2eec08f3e78d52038472e8f62bd0d69b33676961fb1f3a42869b54742e487ae0`（manifest SHA `4a5647676e2cc8277ec6fc0c82cee27c5dcb624eb73bfd74c95d8409718118aa`）。本机另逐条核8个公开重放日志的322动作及回执hash；不含在途96回合或完整base/gold工作树，不作actor输入。
 
-首臂闭合raw私有包已双端逐成员核验9,550项，34,584,157bytes、SHA `41be9737b82e03ff8378b56ae0e55c540f4f3407b849412e720b84ec590ab6f5`；只含frozen_last3闭合16条，不含在途O/R。source准备/审阅/内核控制薄包双端核验90项，3,106,501bytes、SHA `f6ab79c43decaf40b9379aa0592cac9dedfe45e6439e1cd8fc433612f6e671b3`；不含完整work/baseline/runtime。继承此前ALFWorld专题已闭合7,839HTTP/91,963,598tokens，只追加本首臂1,312 / 6,602,874，得到已闭合小计9,151 / 98,566,472；仍排除在途其余臂、训练和研发Agent，不是项目总账。
+首臂闭合raw私有包已双端逐成员核验9,550项，34,584,157bytes、SHA `41be9737b82e03ff8378b56ae0e55c540f4f3407b849412e720b84ec590ab6f5`；只含frozen_last3闭合16条。source准备/审阅/内核控制薄包双端核验90项，3,106,501bytes、SHA `f6ab79c43decaf40b9379aa0592cac9dedfe45e6439e1cd8fc433612f6e671b3`；不含完整work/baseline/runtime。继承此前ALFWorld专题已闭合7,839HTTP/91,963,598tokens，只追加本首臂1,312 / 6,602,874，当时已闭合小计9,151 / 98,566,472；排除其余在途臂、训练和研发Agent，不是项目总账。
+
+ordinary_last3闭合原始包双端核验8,656项、29,176,224bytes，SHA `97345e170747f8b7448fc8ac81585e08191620182a955d4abf74aa1ac81b39e4`，只加入该臂16条，不复制在途完整历史/R输出。小计再增加1,185 HTTP / 5,916,525tokens，当前ALF专题已闭合10,336 HTTP / 104,482,997tokens；再次解析先前frozen原SSE不重复记生成。仍非项目总账，训练、研发Agent、未闭合其余臂及历史差额单列。
 
 source评分控制薄包已双端核验59项、18,178bytes，SHA `2e6a7066eed4486a240c42d7db9ddc4fc41a35741331f14d78f2d303758fb42e`；本机另核4份base/gold回执的完整标签、预期失败/通过及清理，check SHA `2a260602c18411b07f63eba05be1e1ceb96e04be1bc5598461ba52a2bd08d428`。不含work/baseline/gold树，未公开。
