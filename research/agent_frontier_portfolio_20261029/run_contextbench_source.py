@@ -30,6 +30,7 @@ REGISTRY_SHA = 'de086acea81dcfae7bdc6e3276a05e7c8ff02e0c6ce38a989bb9f1560a39838f
 RESULT_SHA = '576dec0cc19d342d50c8ebfd65b90dde8c123ba7e1fd199545dde209ad638ab2'
 PROFILE_SHA = '9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279'
 CAPS = dict(posts=48, seconds=1200, combined_wire_bytes=64 * 1024**2)
+SEND_TIMEOUT = 5.0
 SOURCES = {
     'django__django-12453': ('django/django', 'b330b918e979ea39a21d47b61172d112caf432c3', 'django__django-31051', 5,
         'd4e3a8f860acf71c69b63bbe2b553599807d1bf25ab0ae3c79c7b236bc6efd87'),
@@ -300,8 +301,9 @@ class Relay:
             with self.lock:
                 if self.closing: raise RuntimeError('relay closed before POST')
                 self.active.add(upstream)
-                if time.monotonic() >= self.deadline: raise TimeoutError('episode deadline before POST')
-                upstream.settimeout(max(0.001, self.deadline - time.monotonic()))
+                remaining = self.deadline - time.monotonic()
+                if remaining <= 0: raise TimeoutError('episode deadline before POST')
+                upstream.settimeout(min(SEND_TIMEOUT, remaining))
                 sending = True; self.event(index, 'send_started')
                 # The close linearization point cannot cross registration/check/send.
                 upstream.sendall(packet); sent = True
@@ -315,6 +317,7 @@ class Relay:
                         if relay.used + len(data) > relay.caps['combined_wire_bytes']: raise RuntimeError('response wire cap')
                         relay.used += len(data); relay.response_bytes += len(data)
                     client.sendall(data)
+            # Restore the response-read timeout after the short, locked request write.
             class DeadlineSocket:
                 def settimeout(self, seconds): upstream.settimeout(max(0.001, min(seconds, relay.deadline - time.monotonic())))
                 def makefile(self, *args, **kwargs): return upstream.makefile(*args, **kwargs)

@@ -419,3 +419,52 @@ def test_close_cannot_cross_check_and_actual_send_boundary(tmp_path, monkeypatch
         assert bill['actual_forwarded_posts'] == 0 and bill['uncertain_partial_sends'] == 1
         assert bill['budget_reserved_combined_wire_bytes'] > 0 and bill['integrity_passed'] is False
     finally: decision.set(); client.close(); worker.join(3); close_worker.join(3)
+
+
+def test_close_is_bounded_when_locked_fake_send_honors_timeout(tmp_path, monkeypatch):
+    """Engineering timing control: scale the production bound down, not the episode."""
+    monkeypatch.setattr(m, 'SEND_TIMEOUT', 0.05, raising=False)
+    relay = relay_at(tmp_path); sending = threading.Event(); release = threading.Event(); configured = []
+    class BlockingSocket:
+        timeout = None
+        def settimeout(self, seconds): self.timeout = seconds; configured.append(seconds)
+        def sendall(self, packet):
+            sending.set(); release.wait(self.timeout)
+            raise socket.timeout('fake partial write reached its configured timeout')
+        def shutdown(self, _): pass
+        def close(self): pass
+    monkeypatch.setattr(socket, 'create_connection', lambda *_, **__: BlockingSocket())
+    client, receiver = socket.socketpair(); worker = threading.Thread(target=relay.handle, args=(receiver,))
+    worker.start(); wire_payload(client, {'messages': []})
+    closer = threading.Thread(target=relay.close)
+    try:
+        assert sending.wait(3); closer.start(); closer.join(1)
+        assert not closer.is_alive(), 'close waited for the episode timeout instead of the short send bound'
+        worker.join(1); assert not worker.is_alive()
+        assert 0 < configured[0] <= .05
+        bill = relay.accounting()
+        assert bill['actual_forwarded_posts'] == 0 and bill['uncertain_partial_sends'] == 1
+        assert bill['actual_forwarded_body_bytes'] == 0 and bill['budget_reserved_combined_wire_bytes'] > 0
+        assert bill['integrity_passed'] is False
+    finally:
+        release.set(); client.close(); worker.join(3)
+        if closer.ident is not None: closer.join(3)
+
+
+def test_successful_fake_send_restores_response_deadline_timeout(tmp_path, monkeypatch):
+    assert m.SEND_TIMEOUT == 5.0
+    bodies, workers = fake_upstream(monkeypatch); connect = socket.create_connection; trace = []
+    class SocketView:
+        def __init__(self, sock): self.sock = sock; self.timeout = None
+        def settimeout(self, seconds): self.timeout = seconds; trace.append(('timeout', seconds)); self.sock.settimeout(seconds)
+        def sendall(self, packet): trace.append(('send', self.timeout)); self.sock.sendall(packet)
+        def makefile(self, *args, **kwargs): return self.sock.makefile(*args, **kwargs)
+        def shutdown(self, how): return self.sock.shutdown(how)
+        def close(self): self.sock.close()
+    monkeypatch.setattr(socket, 'create_connection', lambda *a, **kw: SocketView(connect(*a, **kw)))
+    relay = relay_at(tmp_path); assert exchange(relay).startswith(b'HTTP/1.1 200')
+    for worker in workers: worker.join(3)
+    assert trace[0] == ('timeout', 5.0) and trace[1] == ('send', 5.0)
+    assert trace[-1][0] == 'timeout' and 5.0 < trace[-1][1] <= 10
+    bill = relay.accounting()
+    assert bill['actual_forwarded_posts'] == 1 and bill['provider_total_tokens_known'] == 7 and bill['integrity_passed'] is True
