@@ -108,6 +108,8 @@ def runtime_reference(ref):
 
 
 def load_reference_context(stage, backend, path=None, digest=None, *, study=None):
+    if experience_mode(study or {}, stage) == 'none' and (path is not None or digest is not None):
+        raise ValueError('none experience mode cannot load reference context')
     if (path is None) != (digest is None):
         raise ValueError('reference context path and SHA must be provided together')
     additional = additional_source_reference(study or {})
@@ -407,6 +409,7 @@ def stage_caps(stage: str, study: dict, prefix: dict | None) -> dict:
     """Validate source presence and preserve each stage's original budget."""
     if stage not in STAGES:
         raise ValueError('unsupported episode stage')
+    experience_mode(study, stage)
     from_reset = stage in {'collect', 'collect_none', 'ordinary_reset'}
     if from_reset != (prefix is None):
         raise ValueError('only recovery stages require a source prefix')
@@ -474,6 +477,7 @@ def protocol(path, digest):
     if path.is_symlink() or sha(path) != digest:
         raise ValueError('frozen study protocol changed')
     value = json.loads(path.read_text())
+    experience_mode(value)
     runtime_controls(value)
     additional_source_reference(value)
     core = recovery().actor()
@@ -630,12 +634,53 @@ def study_relay(core, manifest, study, qualify):
     return Relay
 
 
+EXTERNAL_EXPERIENCE_FIELDS = frozenset({
+    'experience_assignment', 'experience_manifest', 'experience_manifest_sha',
+    'experience_manifest_sha256', 'experience_artifact_sha256', 'external_carrier',
+    'reference_context', 'reference_context_path', 'reference_context_sha',
+    'reference_context_sha256', 'additional_recovery_source',
+})
+
+
+def reject_external_experience(value):
+    if EXTERNAL_EXPERIENCE_FIELDS.intersection(value):
+        raise ValueError('none experience mode forbids external carrier references')
+
+
+def experience_mode(study, stage=None):
+    """Absence preserves legacy admission; only explicit none omits all carriers."""
+    if 'experience_mode' not in study:
+        return None
+    if type(study['experience_mode']) is not str or study['experience_mode'] != 'none':
+        raise ValueError('unknown experience_mode')
+    reject_external_experience(study)
+    if stage is not None and stage not in {'collect_none','ordinary_reset','drop_full','drop_recent','goal_recent'}:
+        raise ValueError('none experience mode forbids this stage')
+    return 'none'
+
+
+def verify_experience_mode(manifest, study):
+    mode = experience_mode(study, manifest['stage'])
+    if (('experience_mode' in manifest) != ('experience_mode' in study) or
+            manifest.get('experience_mode') != mode):
+        raise ValueError('manifest experience_mode differs from frozen protocol')
+    if mode == 'none' and (manifest.get('experience_assignment') != {} or
+            manifest.get('experience_text_sha256') != hashlib.sha256(b'').hexdigest() or
+            (EXTERNAL_EXPERIENCE_FIELDS - {'experience_assignment'}).intersection(manifest)):
+        raise ValueError('none manifest contains external experience')
+
+
 def read_case(study, case_id):
+    mode = experience_mode(study)
     if case_id not in study['case_ids']:
         raise ValueError('case not in frozen study')
     game, binding = task_pool().select_game(study['pool_path'], study['pool_sha256'], case_id)
     pool = json.loads(Path(study['pool_path']).read_text())
     row = next(row for row in pool['games'] if row['id'] == case_id)
+    if mode == 'none':
+        reject_external_experience(pool)
+        reject_external_experience(row)
+        return game, binding, {}, ''
     a = row['experience_assignment']
     if a['carrier'] not in {'ordinary_public_history', 'ordinary_generated_skill'}:
         raise ValueError('unsupported frozen carrier')
@@ -672,6 +717,8 @@ def additional_source_helper():
 
 
 def load_source_prefix(study, case_id, source_root):
+    if experience_mode(study) == 'none':
+        return load_prefix(source_root, case_id, study=study) if source_root is not None else None
     ref = additional_source_reference(study)
     if ref is None:
         return load_prefix(source_root, case_id) if source_root is not None else None
@@ -700,14 +747,16 @@ def additional_source_metadata(study, prefix):
         historical_formation=dict(prefix['historical_formation']))
 
 
-def load_prefix(root, case_id):
+def load_prefix(root, case_id, *, study=None):
     root = check_root(root)
-    if root.parts[-3:-1] != ('collect', 'student8b') or root.parts[-4] != case_id:
+    none = experience_mode(study or {}) == 'none'
+    stage = 'collect_none' if none else 'collect'
+    if root.parts[-3:-1] != (stage, 'student8b') or root.parts[-4] != case_id:
         raise ValueError('recovery requires this case student collection')
     m = json.loads((root / 'manifest.json').read_text())
     r = json.loads((root / 'receipt.json').read_text())
     reservation = json.loads((root / 'reservation.json').read_text())
-    if (m.get('case_id'), m.get('stage'), m.get('backend')) != (case_id, 'collect', 'student8b'):
+    if (m.get('case_id'), m.get('stage'), m.get('backend')) != (case_id, stage, 'student8b'):
         raise ValueError('source manifest must identify this case student collection')
     if (r.get('label') != 'MULTITASK_CONTEXT_DEVELOPMENT' or
             reservation.get('mode') != 'REAL_DEVELOPMENT' or
@@ -717,6 +766,29 @@ def load_prefix(root, case_id):
         raise ValueError('only an actual model collection can seed real recovery')
     if r['manifest_sha256'] != sha(root / 'manifest.json') or r['won'] or r['unknown_usage_model_posts']:
         raise ValueError('source must be a complete-accounted nonterminal unfinished attempt')
+    if none:
+        # Source verification is read-only and cannot recurse: collect_none has no source_root.
+        if m.get('source_root') is not None or r.get('won') is not False:
+            raise ValueError('none source is not an original unfinished collection')
+        source_manifest, source_study, _, source_prefix, _ = verify(root, sha(root/'manifest.json'))
+        if (source_prefix is not None or experience_mode(source_study) != 'none' or
+                r.get('experience_mode') != 'none' or reservation.get('experience_mode') != 'none' or
+                case_id not in study['case_ids'] or
+                any(source_study[k] != study[k] for k in ('pool_path','pool_sha256','world_seed')) or
+                source_manifest != m or m['world_seed'] != source_study['world_seed']):
+            raise ValueError('none source contract or pool differs')
+        responses = r.get('response_receipts')
+        if (type(r['forwarded_model_posts']) is not int or type(r.get('model_posts')) is not int or
+                r['model_posts'] != r['real_model_calls'] or type(r['unknown_usage_model_posts']) is not int or
+                type(responses) is not list or len(responses) != r['real_model_calls']):
+            raise ValueError('none source model accounting is incomplete')
+        for response in responses:
+            usage = response.get('usage') if isinstance(response,dict) else None
+            if (not isinstance(response,dict) or response.get('complete') is not True or not isinstance(usage,dict) or
+                    any(type(usage.get(k)) is not int or usage[k] < 0 for k in ('prompt_tokens','completion_tokens','total_tokens')) or
+                    usage['total_tokens'] != usage['prompt_tokens'] + usage['completion_tokens']):
+                raise ValueError('none source provider usage is incomplete')
+        remaining_caps(source_study['total_caps'], r)
     events = [json.loads(line) for line in (root / 'execute_world.jsonl').read_text().splitlines()]
     resets = [public(row['state']) for row in events if row.get('event') == 'reset']
     steps = [{'action': row['action'], 'state': public(row['state'])} for row in events if row.get('event') == 'step']
@@ -724,7 +796,12 @@ def load_prefix(root, case_id):
             [row['state']['action_count'] for row in steps] != list(range(1, len(steps)+1)) or
             public(r['final_world_state']) != steps[-1]['state'] or r['world_actions'] != len(steps)):
         raise ValueError('incomplete or terminal public source trajectory')
+    if none and (resets[0]['action_count'] != 0 or resets[0]['done'] or resets[0]['won'] or
+            any(row['state']['done'] or row['state']['won'] for row in steps) or len(steps) >= 100):
+        raise ValueError('none source must retain nonterminal world-action budget')
     binding = {str(root / name): sha(root / name) for name in ('manifest.json', 'receipt.json', 'execute_world.jsonl')}
+    if none:
+        binding[m['protocol_path']] = m['protocol_sha256']
     return {'root': root, 'manifest': m, 'receipt': r, 'reset': resets[0], 'steps': steps,
             'binding': binding, 'public_prefix_sha256':hashlib.sha256(
                 json.dumps([resets[0],steps],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()}
@@ -770,6 +847,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
         raise FileExistsError('fresh empty attempt required')
     case_id, stage, backend, _ = root.parts[-4:]
     study = protocol(protocol_path, protocol_sha)
+    mode = experience_mode(study, stage)
     reference, reference_text = load_reference_context(stage, backend, reference_context, reference_context_sha, study=study)
     core = recovery().actor()
     profile, override = load_study_profile(backend, runtime_profile, runtime_profile_sha)
@@ -818,6 +896,8 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     if additional is not None:
         manifest['additional_recovery_source'] = additional_source_reference(study)
         manifest['additional_recovery_metadata'] = additional
+    if mode is not None:
+        manifest['experience_mode'] = mode
     if 'runtime_controls' in study:
         manifest['runtime_controls'] = runtime_controls(study)
     if override is not None:
@@ -836,6 +916,7 @@ def verify(root, digest):
     if tuple(root.parts[-4:-1]) != (m['case_id'], m['stage'], m['backend']) or m['components'] != components():
         raise ValueError('namespace or components changed')
     study = protocol(m['protocol_path'], m['protocol_sha256'])
+    verify_experience_mode(m, study)
     bound_reference = m.get('reference_context')
     reference, reference_text = load_reference_context(m['stage'], m['backend'],
             bound_reference['path'] if bound_reference else None, bound_reference['sha256'] if bound_reference else None, study=study)
@@ -930,6 +1011,8 @@ def run_episode(root, digest, *, fake_endpoint=None):
     core = recovery().actor()
     controls = verify_runtime_controls(m,study)
     reservation = {'manifest_sha256':digest,'mode':'OWNED_FAKE' if fake_endpoint else 'REAL_DEVELOPMENT'}
+    if 'experience_mode' in m:
+        reservation['experience_mode'] = m['experience_mode']
     if 'additional_recovery_source' in m:
         reservation['additional_recovery_source'] = m['additional_recovery_source']
         reservation['additional_recovery_metadata'] = m['additional_recovery_metadata']
@@ -1039,6 +1122,8 @@ def run_episode(root, digest, *, fake_endpoint=None):
         if 'additional_recovery_source' in m:
             receipt['additional_recovery_source'] = m['additional_recovery_source']
             receipt['additional_recovery_metadata'] = m['additional_recovery_metadata']
+        if 'experience_mode' in m:
+            receipt['experience_mode'] = m['experience_mode']
         if 'runtime_controls' in m:
             receipt['runtime_controls'] = controls
             receipt['controller_stop'] = getattr(relay,'terminal_witness',None)

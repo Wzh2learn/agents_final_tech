@@ -1161,5 +1161,166 @@ class RuntimeControlsTests(unittest.TestCase):
             self.assertEqual(len(sent),1)
 
 
+@contextmanager
+def no_experience_fixture():
+    """Engineering fixtures only: world/profile/image/tokenizer are CPU mocks."""
+    from contextlib import ExitStack
+    actual = r.recovery().actor()
+    validator = r.recovery().bridge().validate_response
+    with tempfile.TemporaryDirectory() as tmp, ExitStack() as stack:
+        qual = Path(tmp).resolve(); case = 'nexttrain_clean_01'
+        pool_path = qual/'POOL.json'; pool_path.write_text(json.dumps({'games':[{'id':case,'expert_qualified':True}]}))
+        protocol_path = qual/'PROTOCOL.json'
+        study = dict(version=1,schema='ALFWORLD_NO_EXTERNAL_EXPERIENCE_SOURCE_V1',experience_mode='none',
+            pool_path=str(pool_path),pool_sha256=r.sha(pool_path),case_ids=[case],world_seed=17,model_seeds=[17],
+            recent_steps=3,ordinary_continuations=1,context_margin_tokens=512,
+            collection_caps=dict(posts=96,seconds=900,world_actions=100,model_payload_bytes_combined=32000000),
+            total_caps=dict(posts=128,seconds=1800,world_actions=100,model_payload_bytes_combined=64000000),
+            runtime_controls=dict(native_terminal_stop=True,recent_tool_rounds=None))
+        def save_protocol():
+            protocol_path.write_text(json.dumps(study));return r.sha(protocol_path)
+        save_protocol()
+        def write(path,value):
+            path.parent.mkdir(parents=True,exist_ok=True)
+            with path.open('x') as f:json.dump(value,f)
+        binary=qual/'CPU_BINARY';binary.write_bytes(b'CPU_NOT_EXECUTABLE')
+        carrier=mock.Mock(side_effect=AssertionError('none must not open a carrier'))
+        profile={'model_id':'CPU_FAKE'}
+        core=SimpleNamespace(write_new=write,load_profile=lambda _:profile,episode_caps=actual.episode_caps,
+            condition_prompt=actual.condition_prompt,experience_validator=carrier,
+            config=lambda p,seed:{'CPU_MODEL':p['model_id'],'seed':seed},model_payload=lambda *a:{'CPU_SAMPLING':True},
+            PROFILE_PINS={b:('CPU_PROFILE','CPU_SHA') for b in ('student8b','teacher27b')},
+            dependencies=SimpleNamespace(verify_projection=mock.Mock()),RUNTIME_ROOT='CPU_RUNTIME',RUNTIME_SHA='CPU_SHA',
+            BINARY=binary,BINARY_SHA=r.sha(binary),IMAGE='CPU_IMAGE',stop_world=mock.Mock())
+        reset=public_state(0,'Your task is to: clean an object. CPU_PUBLIC_GOAL')
+        game={'game_path':'CPU_GAME','sha256_game':'CPU_GAME_SHA'}
+        def select(path,digest,ident):
+            if str(path)!=str(pool_path) or r.sha(pool_path)!=digest or ident!=case:raise ValueError('CPU pool binding mismatch')
+            return game,{'path':str(pool_path),'sha256':digest}
+        pool=SimpleNamespace(select_game=mock.Mock(side_effect=select),
+            start_world=mock.Mock(return_value=((object(),qual/'CPU_WORLD'),reset,game)))
+        rec=SimpleNamespace(actor=lambda:core,bridge=lambda:SimpleNamespace(validate_response=validator))
+        for patcher in [mock.patch.object(r,'QUAL',qual),mock.patch.object(r,'recovery',return_value=rec),
+                mock.patch.object(r,'task_pool',return_value=pool),mock.patch.object(r,'components',return_value={'CPU_ENGINEERING':'fixed'}),
+                mock.patch.object(r,'study_token_qualifier',return_value=({'CPU_TOKENIZER':'fixed'},mock.Mock())),
+                mock.patch.object(r.subprocess,'check_output',return_value='CPU_IMAGE_ID\n'),
+                mock.patch.object(r.subprocess,'run',side_effect=AssertionError('no real containers or worlds')),
+                mock.patch('socket.create_connection',side_effect=AssertionError('no backend'))]:stack.enter_context(patcher)
+        yield SimpleNamespace(qual=qual,case=case,study=study,protocol=protocol_path,save_protocol=save_protocol,
+            pool_path=pool_path,pool=pool,core=core,carrier=carrier,reset=reset,
+            root=lambda stage='collect_none',backend='student8b',attempt=1:qual/'context_study_v1/cases'/case/stage/backend/('attempt_v'+str(attempt)))
+
+
+class NoExternalExperienceTests(unittest.TestCase):
+    def test_none_reads_qualified_pool_without_touching_carrier_and_legacy_stays_strict(self):
+        with no_experience_fixture() as f:
+            game,binding,assignment,text=r.read_case(f.study,f.case)
+            self.assertEqual((assignment,text),({},''));f.carrier.assert_not_called()
+            f.pool.select_game.assert_called_once_with(str(f.pool_path),f.study['pool_sha256'],f.case)
+            legacy=dict(f.study);legacy.pop('experience_mode')
+            with self.assertRaises(KeyError):r.read_case(legacy,f.case)
+
+    def test_unknown_mode_external_refs_and_assigned_row_fail_before_carrier(self):
+        with no_experience_fixture() as f:
+            for mode in [None,False,'legacy','external',{},[]]:
+                with self.subTest(mode=mode),self.assertRaises(ValueError):r.read_case(dict(f.study,experience_mode=mode),f.case)
+            for key in ['experience_assignment','experience_manifest','reference_context','additional_recovery_source']:
+                with self.subTest(key=key),self.assertRaises(ValueError):r.read_case(dict(f.study,**{key:{}}),f.case)
+            for assignment in [None,{},dict(carrier='ordinary_public_history',manifest_path='NEVER_READ')]:
+                f.pool_path.write_text(json.dumps({'games':[{'id':f.case,'experience_assignment':assignment}]}));f.study['pool_sha256']=r.sha(f.pool_path)
+                with self.subTest(assignment=assignment),self.assertRaises(ValueError):r.read_case(f.study,f.case)
+            f.carrier.assert_not_called()
+
+    def test_none_refuses_keep_collect_and_reference_context_without_reading_it(self):
+        with no_experience_fixture() as f:
+            for stage in ['collect','keep_full','keep_recent']:
+                with self.subTest(stage=stage),self.assertRaises(ValueError):r.prepare(f.root(stage),f.protocol,f.save_protocol())
+            f.pool.start_world.assert_not_called();f.carrier.assert_not_called()
+            with self.assertRaises(ValueError):r.load_reference_context('ordinary_reset','student8b',f.qual/'NEVER_READ','a'*64,study=f.study)
+
+    def test_none_episode_records_mode_even_when_mock_world_cannot_start(self):
+        with no_experience_fixture() as f:
+            root=f.root();m=r.prepare(root,f.protocol,f.save_protocol());digest=r.sha(root/'manifest.json')
+            f.pool.start_world.side_effect=subprocess.TimeoutExpired('CPU_FAKE_WORLD',1)
+            with mock.patch.object(r,'study_relay',return_value=object):result=r.run_episode(root,digest)
+            self.assertEqual(result['status'],'COLLECTION_TIMEOUT')
+            self.assertEqual(result['experience_mode'],'none')
+            self.assertEqual(json.loads((root/'reservation.json').read_text())['experience_mode'],'none')
+            self.assertEqual(result['real_model_calls'],0);f.carrier.assert_not_called()
+
+    def test_prepare_verify_both_backends_and_rehashed_manifest_cannot_import_experience(self):
+        with no_experience_fixture() as f:
+            for backend in ['student8b','teacher27b']:
+                root=f.root(backend=backend);m=r.prepare(root,f.protocol,f.save_protocol());r.verify(root,r.sha(root/'manifest.json'))
+                self.assertEqual(m['experience_mode'],'none');self.assertEqual(m['experience_assignment'],{})
+                self.assertEqual(m['experience_text_sha256'],hashlib.sha256(b'').hexdigest())
+                self.assertEqual((root/'task.txt').read_bytes(),f.core.condition_prompt(f.reset,'none').encode())
+                for field,value in [('experience_mode',None),('experience_assignment',{'carrier':'ordinary_public_history'}),
+                        ('experience_text_sha256','a'*64),('reference_context',{'path':'NEVER_READ','sha256':'a'*64})]:
+                    bad=copy.deepcopy(m)
+                    if value is None:bad.pop(field)
+                    else:bad[field]=value
+                    (root/'manifest.json').write_text(json.dumps(bad))
+                    with self.subTest(backend=backend,field=field),self.assertRaises(ValueError):r.verify(root,r.sha(root/'manifest.json'))
+                (root/'manifest.json').write_text(json.dumps(m))
+                (root/'task.txt').write_text('INJECTED_EXPERT_REFERENCE');bad=copy.deepcopy(m);bad['inputs_sha256']['task.txt']=r.sha(root/'task.txt')
+                (root/'manifest.json').write_text(json.dumps(bad))
+                with self.assertRaises(ValueError):r.verify(root,r.sha(root/'manifest.json'))
+            f.carrier.assert_not_called()
+
+    def make_prefix(self,f):
+        root=f.root();m=r.prepare(root,f.protocol,f.save_protocol());digest=r.sha(root/'manifest.json')
+        final=public_state(1,'CPU_ACTUAL_UNFINISHED_STATE')
+        (root/'execute_world.jsonl').write_text(json.dumps({'event':'reset','state':f.reset})+'\n'+json.dumps({'event':'step','action':'look','state':final})+'\n')
+        receipt=dict(label='MULTITASK_CONTEXT_DEVELOPMENT',status='RETURNED',manifest_sha256=digest,experience_mode='none',
+            real_model_calls=1,forwarded_model_posts=1,model_posts=1,won=False,unknown_usage_model_posts=0,
+            final_world_state=final,world_actions=1,elapsed_seconds=2.5,model_request_payload_bytes=123,model_response_wire_bytes=456,
+            response_receipts=[{'complete':True,'usage':{'prompt_tokens':10,'completion_tokens':2,'total_tokens':12}}])
+        reservation=dict(mode='REAL_DEVELOPMENT',manifest_sha256=digest,experience_mode='none')
+        for name,value in [('receipt.json',receipt),('reservation.json',reservation)]: (root/name).write_text(json.dumps(value))
+        return root,m,receipt,reservation
+
+    def test_new_collect_none_prefix_has_real_calls_no_carrier_and_remaining_world_actions(self):
+        with no_experience_fixture() as f:
+            root,_,receipt,_=self.make_prefix(f);prefix=r.load_source_prefix(f.study,f.case,root)
+            self.assertEqual(prefix['manifest']['stage'],'collect_none');self.assertEqual(len(prefix['steps']),1)
+            self.assertEqual(r.stage_caps('drop_full',f.study,prefix),dict(posts=127,seconds=1797,world_actions=99,model_payload_bytes_combined=63999421))
+            for stage in ['drop_full','drop_recent','goal_recent']:self.assertEqual(r.stage_caps(stage,f.study,prefix)['world_actions'],99)
+            with self.assertRaises(ValueError):r.load_prefix(root,f.case)
+            with self.assertRaises(ValueError):r.load_source_prefix(dict(f.study,pool_sha256='b'*64),f.case,root)
+            f.carrier.assert_not_called()
+
+    def test_new_prefix_rejects_missing_usage_false_origin_and_successful_terminal_states(self):
+        with no_experience_fixture() as f:
+            root,m,receipt,reservation=self.make_prefix(f)
+            for change in [dict(real_model_calls=0),dict(unknown_usage_model_posts=1),dict(response_receipts=[]),
+                    dict(response_receipts=[{'complete':True,'usage':None}]),dict(response_receipts=[None]),dict(model_posts=2),dict(won=True),
+                    dict(experience_mode='external'),dict(final_world_state=dict(receipt['final_world_state'],done=True))]:
+                (root/'receipt.json').write_text(json.dumps(dict(receipt,**change)))
+                with self.subTest(change=change),self.assertRaises(ValueError):r.load_source_prefix(f.study,f.case,root)
+            (root/'receipt.json').write_text(json.dumps(receipt));bad=copy.deepcopy(m);bad['backend']='teacher27b'
+            (root/'manifest.json').write_text(json.dumps(bad));d=r.sha(root/'manifest.json')
+            (root/'receipt.json').write_text(json.dumps(dict(receipt,manifest_sha256=d)))
+            (root/'reservation.json').write_text(json.dumps(dict(reservation,manifest_sha256=d)))
+            with self.assertRaises(ValueError):r.load_source_prefix(f.study,f.case,root)
+
+    def test_new_source_manifest_rebinding_or_exhausted_world_does_not_launder_a_prefix(self):
+        with no_experience_fixture() as f:
+            root,m,receipt,reservation=self.make_prefix(f)
+            for change in [dict(source_root=str(root)),dict(experience_assignment={'carrier':'ordinary_public_history'}),
+                    dict(caps=dict(m['caps'],posts=95))]:
+                bad=dict(m,**change);(root/'manifest.json').write_text(json.dumps(bad));digest=r.sha(root/'manifest.json')
+                (root/'receipt.json').write_text(json.dumps(dict(receipt,manifest_sha256=digest)))
+                (root/'reservation.json').write_text(json.dumps(dict(reservation,manifest_sha256=digest)))
+                with self.subTest(change=change),self.assertRaises(ValueError):r.load_source_prefix(f.study,f.case,root)
+            (root/'manifest.json').write_text(json.dumps(m));digest=r.sha(root/'manifest.json')
+            final=public_state(100,'CPU_WORLD_BUDGET_EXHAUSTED')
+            events=[{'event':'reset','state':f.reset}]+[{'event':'step','action':'look','state':public_state(i,'CPU_STEP')} for i in range(1,100)]+[{'event':'step','action':'look','state':final}]
+            (root/'execute_world.jsonl').write_text(''.join(json.dumps(z)+'\n' for z in events))
+            (root/'receipt.json').write_text(json.dumps(dict(receipt,manifest_sha256=digest,world_actions=100,final_world_state=final)))
+            (root/'reservation.json').write_text(json.dumps(dict(reservation,manifest_sha256=digest)))
+            with self.assertRaises(ValueError):r.load_source_prefix(f.study,f.case,root)
+
+
 if __name__ == '__main__':
     unittest.main()
