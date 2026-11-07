@@ -174,6 +174,28 @@ def frozen(contract,epoch):
         raise RuntimeError('frozen helper/protocol/source/components changed')
 
 
+def qualified_actor_rounds(root,rounds,cap,stop):
+    """Only exit1 with the recorded relay refusal qualifies as a guard exit."""
+    expected={}
+    if cap:expected[403]='Forbidden'
+    if stop:expected[409]='Conflict'
+    for row in rounds:
+        number=row.get('round');code=row.get('exit')
+        if type(number) is not int or number<1:raise ValueError('actor round identity missing')
+        raw=Path(root)/('raw_'+str(number)+'.jsonl')
+        if sha(raw)!=row.get('raw_sha256'):raise ValueError('actor round raw SHA differs')
+        if type(code) is not int or code not in (0,1) or code==1 and not expected:
+            raise ValueError('unqualified actor failure')
+        if code==0:continue
+        rows=[json.loads(line) for line in raw.read_text().splitlines()]
+        errors=[r for r in rows if r.get('type')=='error']
+        if not errors or rows[-1].get('type')!='error':raise ValueError('actor failure has no terminal relay refusal')
+        for record in errors:
+            error=record.get('error') or {};data=error.get('data') or {};status=data.get('statusCode')
+            if error.get('name')!='APIError' or type(status) is not int or status not in expected or data.get('message')!=expected[status]:
+                raise ValueError('actor failure includes an unqualified raw error')
+
+
 def audit(study,root,receipt,manifest):
     root=Path(root);gates=receipt['model_relay_errors'];cap=bool(gates)
     if receipt['errors'] or any(e.get('type')!='ValueError' or e.get('detail') not in CAP_ERRORS for e in gates):
@@ -199,7 +221,7 @@ def audit(study,root,receipt,manifest):
             raise ValueError('native terminal witness/reason/count differs')
     elif receipt['status']=='NATIVE_TERMINAL_STOP' or receipt.get('controller_stops'):
         raise ValueError('terminal status has no verified witness')
-    if any(r['exit']!=0 for r in receipt['rounds']) and not (cap or stop):raise ValueError('unqualified actor failure')
+    qualified_actor_rounds(root,receipt['rounds'],cap,stop)
     requests=sorted((root/'requests').glob('*.json'));request_bytes=0
     if len(requests)!=posts:raise ValueError('budget request records missing')
     for path in requests:
@@ -278,15 +300,29 @@ def aggregate(rows):
         scope='New unique roots only; formation, training and historical bills remain separate')
 
 
+def require_free_owned_port(tables=Path('/proc/net')):
+    """Read local socket tables; no endpoint probe and no unknown listener overlay."""
+    for name in ('tcp','tcp6'):
+        for line in (tables/name).read_text().splitlines()[1:]:
+            fields=line.split()
+            if fields[3]=='0A' and fields[1].rsplit(':',1)[-1]=='46B8':
+                raise RuntimeError('unknown listener on18104; refuse restoration overlay')
+
+
 def restore(h,original,child,ticket,output,window,stop_requested):
     """Collect only birth-ticket children; never signal or overlay an unknown PID."""
     result=dict(restored_healthy=False);restored_child=restore_ticket=None
+    def check_shared():
+        try:h.protected(window)
+        except Exception as exc:
+            result.setdefault('shared_identity_error',str(exc))
+            result.setdefault('shared_identity_errors',[]).append(str(exc))
     try:
         if child is not None:
             h.stop_child(child,ticket);child.wait(timeout=15)
         if original is None:return result
         prior=h.proc(original['pid'])
-        h.protected(window)
+        check_shared() # Shared drift stops research, not independent safe Q4 restoration.
         if prior is not None:
             if prior!=original:raise RuntimeError('original PID replaced; refuse overlay or signal')
             h.listener(original);health,_=h.get('/health',output/'retained_q4_health',1)
@@ -294,7 +330,7 @@ def restore(h,original,child,ticket,output,window,stop_requested):
             result.update(restored_healthy=True,restored_process=original,original_not_released=True)
         else:
             if not stop_requested:raise RuntimeError('original disappeared without owned release')
-            h.idle()
+            h.idle();require_free_owned_port()
             with (output/'restore_q4.log').open('xb') as log:
                 restored_child=subprocess.Popen(original['argv'],cwd=original['cwd'],stdin=subprocess.DEVNULL,
                     stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
@@ -310,8 +346,9 @@ def restore(h,original,child,ticket,output,window,stop_requested):
             try:h.stop_child(restored_child,restore_ticket);restored_child.wait(timeout=15)
             except BaseException as cleanup:result['restore_child_cleanup_error']=str(cleanup)
     if result['restored_healthy']:
-        try:h.protected(window);result.update(shared35_unchanged=True,shared27_unchanged=True)
-        except BaseException as exc:result['shared_identity_error']=str(exc)
+        check_shared()
+        if 'shared_identity_error' not in result:
+            result.update(shared35_unchanged=True,shared27_unchanged=True)
     return result
 
 

@@ -244,6 +244,9 @@ def receipt_fixture(*,won=False,terminal=True):
                'done':terminal,'won':won,'action_count':1,'admissible_commands':['look']}
         (root/'execute_world.jsonl').write_text('OWNED_FAKE_NATIVE_LOG\n',encoding='utf8')
         (root/'raw_1.jsonl').write_text('{"OWNED_FAKE":true}\n')
+        if terminal:
+            (root/'raw_1.jsonl').write_text(json.dumps({'type':'error','error':{'name':'APIError',
+                'data':{'statusCode':409,'message':'Conflict'}}})+'\n')
         payload={'model':'OWNED_FAKE','messages':[{'role':'user','content':'PUBLIC_GOAL_ANCHOR'}]}
         write(root/'requests/00001.json',{'incoming':payload,'forwarded':payload})
         request_body=json.dumps(payload,separators=(',',':')).encode()
@@ -268,7 +271,7 @@ def receipt_fixture(*,won=False,terminal=True):
                  'manifest_sha256':digest(root/'manifest.json'),'runtime_controls':controls,
                  'final_world_state':state,'won':won,'controller_stop':stop,
                  'controller_stops':[{'type':'ControllerStop','reason':reason}] if terminal else [],
-                 'rounds':[{'exit':1 if terminal else 0}],
+                 'rounds':[{'round':1,'exit':1 if terminal else 0,'raw_sha256':digest(root/'raw_1.jsonl')}],
                  'model_request_payload_bytes':len(request_body),'model_response_wire_bytes':len(response_body)+40,
                  'response_receipts':[response],
                  'provider_usage':{k:usage[k] for k in ('prompt_tokens','completion_tokens','total_tokens')},
@@ -283,7 +286,64 @@ def save_receipt(f):
     write(f.root/'receipt.json',f.receipt)
 
 
+def write_raw_refusal(f,status,*,extra=None,message=None,name='APIError'):
+    rows=list(extra or [])+[{'type':'error','error':{'name':name,'data':{'statusCode':status,
+        'message':message or {403:'Forbidden',409:'Conflict'}.get(status,'OWNED_FAKE_OTHER_ERROR')}}}]
+    path=f.root/'raw_1.jsonl';path.write_text(''.join(json.dumps(row)+'\n' for row in rows))
+    f.receipt['rounds'][0]['raw_sha256']=digest(path)
+
+
 class RuntimeAuditTests(unittest.TestCase):
+    def test_cap_or_terminal_witness_does_not_mask_killed_actor_and_preserves_bills(self):
+        for kind,code in (('cap',137),('won',137),('done_unwon',-9)):
+            with self.subTest(kind=kind),receipt_fixture(won=kind=='won',terminal=kind!='cap') as f:
+                f.receipt['rounds'][0]['exit']=code
+                if kind=='cap':
+                    f.receipt['model_relay_errors']=[{'type':'ValueError',
+                        'detail':'native template estimate plus output/margin exceeds context'}]
+                    write_raw_refusal(f,403)
+                save_receipt(f);before=(f.root/'receipt.json').read_bytes()
+                with self.assertRaisesRegex(ValueError,'actor failure'):
+                    r.audit(f.study,f.root,f.receipt,f.manifest)
+                rows=[{'root':str(f.root),'status':'CLOSED_UNAUDITED'}]
+                totals=r.aggregate(rows)
+                self.assertEqual((totals['known_actual_model_calls'],totals['known_budget_model_posts']),(1,1))
+                self.assertEqual(totals['provider_usage_known_subtotals'],{'prompt_tokens':8,'completion_tokens':2,'total_tokens':10})
+                self.assertIsNone(totals['total_actual_model_calls']);self.assertIsNone(totals['unknown_usage_model_posts'])
+                self.assertNotIn('scientific_cap',rows[0])
+                self.assertEqual((f.root/'receipt.json').read_bytes(),before)
+                self.assertEqual(json.loads(before)['final_world_state'],f.witness['state'])
+
+    def test_only_normal_zero_and_qualified_guard_one_exits_are_accepted(self):
+        for terminal,won,code,cap in ((False,False,0,False),(False,False,1,True),
+                                     (True,True,1,False),(True,False,1,False)):
+            with self.subTest(terminal=terminal,won=won,code=code,cap=cap),receipt_fixture(won=won,terminal=terminal) as f:
+                f.receipt['rounds'][0]['exit']=code
+                if cap:
+                    f.receipt['model_relay_errors']=[{'type':'ValueError','detail':'episode model budget closed'}]
+                    write_raw_refusal(f,403)
+                save_receipt(f)
+                self.assertEqual(r.audit(f.study,f.root,f.receipt,f.manifest)['scientific_cap'],cap)
+
+    def test_guard_exit_requires_bound_terminal_api_error_without_other_opaque_errors(self):
+        for mode in ('raw_sha','not_terminal','no_error','wrong_status','wrong_message','wrong_name','earlier_opaque','wrong_round'):
+            with self.subTest(mode=mode),receipt_fixture(won=True) as f:
+                if mode=='raw_sha':f.receipt['rounds'][0]['raw_sha256']='0'*64
+                elif mode=='not_terminal':
+                    path=f.root/'raw_1.jsonl';path.write_text(path.read_text()+'{"type":"step_finish"}\n')
+                    f.receipt['rounds'][0]['raw_sha256']=digest(path)
+                elif mode=='no_error':
+                    path=f.root/'raw_1.jsonl';path.write_text('{"type":"step_finish"}\n')
+                    f.receipt['rounds'][0]['raw_sha256']=digest(path)
+                elif mode=='wrong_status':write_raw_refusal(f,403)
+                elif mode=='wrong_message':write_raw_refusal(f,409,message='OWNED_FAKE different failure')
+                elif mode=='wrong_name':write_raw_refusal(f,409,name='OWNED_FAKE_OtherError')
+                elif mode=='earlier_opaque':write_raw_refusal(f,409,extra=[{'type':'error','error':{
+                    'name':'UnknownError','data':{'message':'OWNED_FAKE unrelated crash'}}}])
+                else:f.receipt['rounds'][0]['round']=0
+                save_receipt(f)
+                with self.assertRaises(ValueError):r.audit(f.study,f.root,f.receipt,f.manifest)
+
     def test_ordinary_returned_receipt_cannot_replace_the_fresh_native_outcome(self):
         with receipt_fixture(terminal=False) as f:
             f.study.native_world_witness.return_value=dict(f.witness,
@@ -442,7 +502,66 @@ def fake_lifecycle(original):
         ready=mock.Mock(),stop_owned=mock.Mock())
 
 
+class OwnedPortGuardTests(unittest.TestCase):
+    def test_unknown_ipv4_or_ipv6_listener_blocks_without_any_socket_probe(self):
+        header='sl local_address rem_address st\n'
+        for family in ('tcp','tcp6'):
+            with self.subTest(family=family),tempfile.TemporaryDirectory() as tmp:
+                tables=Path(tmp)
+                for name in ('tcp','tcp6'):(tables/name).write_text(header)
+                r.require_free_owned_port(tables)
+                (tables/family).write_text(header+'0: 00000000:46B8 00000000:0000 0A\n')
+                with self.assertRaisesRegex(RuntimeError,'unknown listener'):r.require_free_owned_port(tables)
+
+
 class RestoreOwnershipTests(unittest.TestCase):
+    def setUp(self):
+        patcher=mock.patch.object(r,'require_free_owned_port',create=True)
+        self.port_guard=patcher.start();self.addCleanup(patcher.stop)
+
+    def test_preexisting_shared_mismatch_still_restores_safely_and_keeps_the_failure(self):
+        for persists in (False,True):
+            with self.subTest(persists=persists),tempfile.TemporaryDirectory() as tmp:
+                original=process();h=fake_lifecycle(original);h.proc.return_value=None
+                child=mock.Mock(name='OWNED_FAKE_OLD_CHILD');ticket={'OWNED_FAKE_TICKET':True}
+                restored=mock.Mock(name='OWNED_FAKE_RESTORED_CHILD')
+                failure=RuntimeError('OWNED_FAKE preexisting shared mismatch')
+                h.protected.side_effect=[failure,failure if persists else None]
+                with mock.patch.object(r.subprocess,'Popen',return_value=restored) as popen:
+                    result=r.restore(h,original,child,ticket,Path(tmp),{},True)
+                self.assertTrue(result['restored_healthy'])
+                self.assertIn('preexisting shared mismatch',result['shared_identity_error'])
+                self.assertNotIn('shared35_unchanged',result)
+                self.assertNotIn('restoration_error',result)
+                h.stop_child.assert_called_once_with(child,ticket);child.wait.assert_called_once_with(timeout=15)
+                h.idle.assert_called_once();self.port_guard.assert_called();popen.assert_called_once()
+                self.assertEqual(popen.call_args.args[0],original['argv'])
+                self.assertEqual(popen.call_args.kwargs['cwd'],original['cwd'])
+                h.protected.assert_called();restored.wait.assert_not_called()
+
+    def test_preexisting_shared_mismatch_retains_exact_original_without_duplicate_restart(self):
+        original=process();h=fake_lifecycle(original)
+        h.protected.side_effect=RuntimeError('OWNED_FAKE persistent shared mismatch')
+        with tempfile.TemporaryDirectory() as tmp,mock.patch.object(r.subprocess,'Popen') as popen:
+            result=r.restore(h,original,None,None,Path(tmp),{},False)
+        self.assertTrue(result['restored_healthy']);self.assertTrue(result['original_not_released'])
+        self.assertIn('persistent shared mismatch',result['shared_identity_error'])
+        self.assertNotIn('shared35_unchanged',result)
+        h.listener.assert_called_once_with(original);h.get.assert_called_once()
+        h.stop_child.assert_not_called();h.stop_owned.assert_not_called();popen.assert_not_called()
+        self.port_guard.assert_not_called()
+
+    def test_unknown_owned_port_listener_blocks_restore_even_with_shared_mismatch(self):
+        original=process();h=fake_lifecycle(original);h.proc.return_value=None
+        h.protected.side_effect=RuntimeError('OWNED_FAKE shared mismatch')
+        self.port_guard.side_effect=RuntimeError('unknown listener on18104')
+        with tempfile.TemporaryDirectory() as tmp,mock.patch.object(r.subprocess,'Popen') as popen:
+            result=r.restore(h,original,None,None,Path(tmp),{},True)
+        self.assertFalse(result['restored_healthy'])
+        self.assertIn('shared mismatch',result['shared_identity_error'])
+        self.assertIn('unknown listener',result['restoration_error']['message'])
+        h.stop_owned.assert_not_called();h.stop_child.assert_not_called();popen.assert_not_called()
+
     def test_exact_retained_original_is_checked_without_start_or_stop(self):
         original=process();h=fake_lifecycle(original)
         with tempfile.TemporaryDirectory() as tmp,mock.patch.object(r.subprocess,'Popen') as popen:
