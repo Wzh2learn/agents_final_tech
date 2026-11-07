@@ -21,7 +21,7 @@ import time
 
 QUAL = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfworld_text_qualification_20261106')
 HERE = Path(__file__).resolve().parent
-RECOVERY_SHA = 'cad06ec2b6f9e144fea29c17061b9527d07b7df13ecbf5784fb0870d9a0ce8ca'
+RECOVERY_SHA = '496535b5ddac56fb72eb2eb87f0cec4c4b86c00f2bd56129098b531fb448aa29'
 RECENT_STEPS = 3
 STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent', 'ordinary_reset')
 PUBLIC_KEYS = ('observation', 'score', 'done', 'won', 'action_count', 'admissible_commands')
@@ -332,6 +332,7 @@ def task_pool():
 
 def components():
     paths = [Path(__file__).resolve(),HERE/'alfworld_task_pool.py',
+             HERE/'alfworld_context_projection.py',
              HERE/'prepare_alfworld_experience_20261106.py',HERE/'prepare_django_aggregation_experience_20261106.py']
     return {**recovery().components(), **{str(p):sha(p) for p in paths}}
 
@@ -458,6 +459,7 @@ def protocol(path, digest):
     if path.is_symlink() or sha(path) != digest:
         raise ValueError('frozen study protocol changed')
     value = json.loads(path.read_text())
+    runtime_controls(value)
     core = recovery().actor()
     core.episode_caps(value['total_caps'])
     core.episode_caps(value['collection_caps'])
@@ -468,6 +470,148 @@ def protocol(path, digest):
             value['collection_caps']['seconds'] >= value['total_caps']['seconds']):
         raise ValueError('unqualified common controller/budget contract')
     return value
+
+
+def runtime_controls(value):
+    """Only new frozen protocols opt in; missing fields retain legacy identity."""
+    if 'runtime_controls' not in value:
+        return {'native_terminal_stop': False, 'recent_tool_rounds': None}
+    controls = value['runtime_controls']
+    if (type(controls) is not dict or set(controls) != {'native_terminal_stop', 'recent_tool_rounds'} or
+            type(controls['native_terminal_stop']) is not bool or
+            not (controls['recent_tool_rounds'] is None or
+                 type(controls['recent_tool_rounds']) is int and controls['recent_tool_rounds'] == 3)):
+        raise ValueError('invalid frozen runtime_controls')
+    return dict(controls)
+
+
+def verify_runtime_controls(manifest, study):
+    controls = runtime_controls(study)
+    if ('runtime_controls' in manifest) != ('runtime_controls' in study) or runtime_controls(manifest) != controls:
+        raise ValueError('manifest runtime_controls differ from frozen protocol')
+    return controls
+
+
+def native_world_witness(root, manifest):
+    """Fail closed on incomplete, stale, or unverifiable private native records."""
+    root = Path(root)
+    path = root / 'execute_world.jsonl'
+    if path.is_symlink() or not path.is_file() or any(p.is_symlink() for p in path.parents):
+        raise ValueError('native world trajectory must be a private regular file')
+    before = path.stat()
+    raw = path.read_bytes()
+    after = path.stat()
+    identity = lambda s: (s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+    if identity(before) != identity(after) or not raw.endswith(b'\n'):
+        raise ValueError('native world trajectory is incomplete or changed during read')
+    def unique_object(pairs):
+        result = {}
+        for key,value in pairs:
+            if key in result:
+                raise ValueError('duplicate native world JSON key')
+            result[key] = value
+        return result
+    try:
+        rows = [json.loads(line,object_pairs_hook=unique_object) for line in raw.splitlines()]
+        metadata = rows[0]
+        if type(metadata) is not dict or metadata.get('event') != 'episode':
+            raise ValueError('native episode metadata missing')
+        frozen = dict(metadata)
+        digest = frozen.pop('episode_sha256')
+        frozen.pop('event')  # PublicTrajectory adds this after the metadata hash is frozen.
+        if (hashlib.sha256(json.dumps(frozen,sort_keys=True).encode()).hexdigest() != digest or
+                metadata['game_id'] != manifest['case_id'] or metadata['seed'] != manifest['world_seed'] or
+                metadata['step_cap'] != 100 or metadata['bridge_sha256'] != recovery().actor().BRIDGE_SHA or
+                metadata['asset_sha256'] != manifest['game']['sha256_game'] or
+                metadata['pool_manifest_sha256'] != manifest['pool_binding']['sha256'] or
+                metadata['caps'] != dict(manifest['caps'],world_actions=100)):
+            raise ValueError('native episode binding differs from frozen study')
+        if len(rows) < 2 or type(rows[1]) is not dict or rows[1].get('event') != 'reset':
+            raise ValueError('native reset missing')
+        previous = None
+        for index,row in enumerate(rows[1:]):
+            event = 'reset' if index == 0 else 'step'
+            allowed = {'event','state'} if index == 0 else {'event','action','state'}
+            if type(row) is not dict or set(row) != allowed or row['event'] != event:
+                raise ValueError('unverifiable native world event')
+            if index and (type(row['action']) is not str or not row['action']):
+                raise ValueError('native step action missing')
+            state = public(row['state'])
+            if set(row['state']) != set(PUBLIC_KEYS) or state['action_count'] != index or index > 100:
+                raise ValueError('native action sequence differs')
+            if state['won'] and not state['done'] or previous and previous['done']:
+                raise ValueError('inconsistent native terminal state')
+            if index == 0 and state != json.loads((root/'initial_reset.json').read_text()):
+                raise ValueError('native reset differs from frozen preflight')
+            previous = state
+    except (KeyError,IndexError,TypeError,UnicodeError,json.JSONDecodeError) as exc:
+        raise ValueError('malformed native world trajectory') from exc
+    return {'path':str(path), 'sha256':hashlib.sha256(raw).hexdigest(), 'bytes':len(raw),
+            'row':len(rows), 'state':previous, 'episode_sha256':digest}
+
+
+def study_relay(core, manifest, study, qualify):
+    controls = verify_runtime_controls(manifest, study)
+
+    class Relay(core.ModelRelay):
+        terminal_witness = None
+        preserve_serialized_payload = 'runtime_controls' in manifest
+
+        def check_native_terminal(self):
+            if not controls['native_terminal_stop']:
+                return
+            if self.terminal_witness is None:
+                witness = native_world_witness(self.root,manifest)
+                state = witness['state']
+                if not (state['done'] or state['won']):
+                    return
+                with self.lock:
+                    if self.terminal_witness is None:
+                        self.terminal_witness = dict(witness,
+                            reason='native_won' if state['won'] else 'native_done_unwon',
+                            forwarded_posts_at_stop=self.forwarded)
+                        core.write_new(self.root/'controller_stop.json',self.terminal_witness)
+            raise core.ControllerStop(self.terminal_witness['reason'])
+
+        def prepare_payload(self,payload,observed_index):
+            self.check_native_terminal()  # Before projection, tokenization, reservation or connect.
+            if controls['recent_tool_rounds'] is not None:
+                projector = module(HERE/'alfworld_context_projection.py','context_study_projection')
+                payload,proof = projector.project_last_tool_rounds(payload,controls['recent_tool_rounds'])
+                body = json.dumps(payload,separators=(',',':')).encode()
+                core.write_new(self.root/'projections'/(str(observed_index).zfill(5)+'.json'),
+                    dict(proof,observed_request=observed_index,serialized_body_sha256=hashlib.sha256(body).hexdigest(),
+                         received_record_sha256=sha(self.root/'observed_requests'/(str(observed_index).zfill(5)+'.json')),
+                         serialized_body_bytes=len(body),runtime_controls=controls))
+            # Legacy qualification keeps its original forward/reservation order.
+            if 'runtime_controls' in manifest:
+                self.qualify_payload(payload,observed_index)
+            return payload
+
+        def qualify_payload(self,payload,index):
+            if self.forwarded == 0:
+                delivery = core.delivery_evidence(payload,expected_task=self.expected_task)
+                core.write_new(self.root/'actual_task_delivery.json',dict(delivery,stage=manifest['stage']))
+                if not (delivery['whole_task_raw_equal'] or delivery['whole_task_lossless_quoted_equal']):
+                    raise ValueError('actual first model request lost the frozen context condition')
+            proof = qualify(payload)
+            proof['safety_margin_tokens'] = study['context_margin_tokens']
+            proof['fits_with_margin'] = proof['template_input_tokens'] + proof['reserved_output_tokens'] + study['context_margin_tokens'] <= proof['context']
+            core.write_new(self.root/'template_checks'/(str(index).zfill(5)+'.json'),proof)
+            if not proof['fits_with_margin']:
+                raise ValueError('native template estimate plus output/margin exceeds context')
+
+        def forward(self,upstream,packet,payload=None,post_index=None):
+            if 'runtime_controls' not in manifest:
+                self.qualify_payload(payload,post_index)
+                return super().forward(upstream,packet,payload,post_index)
+            # Share the send lock with terminal latching. A proven stop cannot be
+            # overtaken by another handler's already prepared packet.
+            with self.lock:
+                self.check_native_terminal()
+                return super().forward(upstream,packet,payload,post_index)
+
+    return Relay
 
 
 def read_case(study, case_id):
@@ -603,6 +747,8 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
             'uid': os.getuid(), 'gid': os.getgid(), 'image_id': image,
             'inputs_sha256': {name: sha(root/name) for name in ['task.txt','opencode_config.json','initial_reset.json','handoff_public.json']},
             'development_only': True, 'ordinary_continuations': 1, 'recent_steps': RECENT_STEPS}
+    if 'runtime_controls' in study:
+        manifest['runtime_controls'] = runtime_controls(study)
     if override is not None:
         manifest['runtime_profile_override'] = override
     if reference is not None:
@@ -624,6 +770,7 @@ def verify(root, digest):
     if reference != bound_reference:
         raise ValueError('frozen reference context metadata changed')
     study = protocol(m['protocol_path'], m['protocol_sha256'])
+    verify_runtime_controls(m,study)
     game, pool, assignment, experience = read_case(study, m['case_id'])
     prefix = load_prefix(m['source_root'], m['case_id']) if m['source_root'] is not None else None
     caps = stage_caps(m['stage'], study, prefix)
@@ -700,7 +847,10 @@ def run_episode(root, digest, *, fake_endpoint=None):
     root = check_root(root)
     m,study,p,prefix,qualify = verify(root,digest)
     core = recovery().actor()
+    controls = verify_runtime_controls(m,study)
     reservation = {'manifest_sha256':digest,'mode':'OWNED_FAKE' if fake_endpoint else 'REAL_DEVELOPMENT'}
+    if 'runtime_controls' in m:
+        reservation['runtime_controls'] = controls
     if m.get('runtime_profile_override') is not None:
         reservation['runtime_identity'] = (verify_runtime_identity(m['runtime_profile_override']) if fake_endpoint is None
                                            else {'mode':'OWNED_FAKE_NO_RUNTIME_IDENTITY_CLAIM'})
@@ -710,20 +860,7 @@ def run_episode(root, digest, *, fake_endpoint=None):
     errors,rounds = [],[]
     replay_cost = None
     status = 'FAILED'
-    class Relay(core.ModelRelay):
-        def forward(self,upstream,packet,payload=None,post_index=None):
-            if self.forwarded == 0:
-                delivery = core.delivery_evidence(payload,expected_task=self.expected_task)
-                core.write_new(root/'actual_task_delivery.json',dict(delivery,stage=m['stage']))
-                if not (delivery['whole_task_raw_equal'] or delivery['whole_task_lossless_quoted_equal']):
-                    raise ValueError('actual first model request lost the frozen context condition')
-            proof = qualify(payload)
-            proof['safety_margin_tokens'] = study['context_margin_tokens']
-            proof['fits_with_margin'] = proof['template_input_tokens'] + proof['reserved_output_tokens'] + study['context_margin_tokens'] <= proof['context']
-            core.write_new(root/'template_checks'/(str(post_index).zfill(5)+'.json'),proof)
-            if not proof['fits_with_margin']:
-                raise ValueError('native template estimate plus output/margin exceeds context')
-            return super().forward(upstream,packet,payload,post_index)
+    Relay = study_relay(core,m,study,qualify)
     name = None
     try:
         world,reset,_ = task_pool().start_world(root,m['case_id'],m['world_seed'],'execute',
@@ -764,7 +901,7 @@ def run_episode(root, digest, *, fake_endpoint=None):
             (work/'task.txt').write_bytes(CONTINUE.encode())
             core.write_new(root/'ordinary_continuation.json',{'session_id':sid,'prompt':CONTINUE,'after_round':1,
                            'world_state_before':state,'world_reset':False,'new_method':False})
-        status = 'RETURNED'
+        status = 'NATIVE_TERMINAL_STOP' if getattr(relay,'terminal_witness',None) else 'RETURNED'
     except subprocess.TimeoutExpired:
         status = 'COLLECTION_TIMEOUT' if m['stage'] in {'collect', 'collect_none'} else 'EPISODE_TIMEOUT'
     except Exception as exc:
@@ -815,6 +952,10 @@ def run_episode(root, digest, *, fake_endpoint=None):
             'replay_control_cost':replay_cost,'experience_delivery':relay.delivery if relay else None,
             'source_binding_charge_once':m['source_binding'],'development_only':True,
             'not_independent_confirmation':True,'cached_tokens_are_input_subset':True}
+        if 'runtime_controls' in m:
+            receipt['runtime_controls'] = controls
+            receipt['controller_stop'] = getattr(relay,'terminal_witness',None)
+            receipt['controller_stops'] = relay.controller_stops if relay else []
         core.write_new(root/'receipt.json',receipt)
     return receipt
 

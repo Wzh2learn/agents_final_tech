@@ -637,7 +637,13 @@ def receive_http(connection, max_bytes=MAX_BYTES):
     return json.loads(body)
 
 
+class ControllerStop(Exception):
+    """Expected controller refusal; distinct from a relay/interface failure."""
+
+
 class ModelRelay:
+    preserve_serialized_payload = False
+
     def __init__(self, root, directory, backend, profile, seed, endpoint, caps, sampling,
                  condition="none", experience_text=None, student_enable_thinking=None):
         self.root, self.directory = Path(root), Path(directory)
@@ -655,9 +661,10 @@ class ModelRelay:
         self.delivery = None
         self.relay = load_relay()
         self.owned = set()
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
         self.tools = []
         self.errors = []
+        self.controller_stops = []
         self.forwarded = 0
         self.closing = False
         owner = self
@@ -679,10 +686,14 @@ class ModelRelay:
                     payload.update(sampling)
                     if backend == "student8b" and student_enable_thinking is None:
                         payload.pop("chat_template_kwargs", None)
+                    payload = owner.prepare_payload(payload, observed + 1)
                     body = json.dumps(payload, separators=(",", ":")).encode()
                     index = owner.budget.reserve(len(body))
                     write_new(owner.root / "requests" / (str(index).zfill(5) + ".json"),
                               {"incoming": incoming, "forwarded": payload})
+                    if owner.preserve_serialized_payload:
+                        with (owner.root / "requests" / (str(index).zfill(5) + ".body")).open("xb") as out:
+                            out.write(body)
                     with owner.lock:
                         owner.tools[observed]["post"] = index
                     upstream = socket.create_connection(endpoint, timeout=20)
@@ -701,6 +712,14 @@ class ModelRelay:
                                          owner.root / "responses" / (str(index).zfill(5) + ".body"))
                     if result["status"] >= 400:
                         owner.budget.poison()
+                except ControllerStop as exc:
+                    with owner.lock:
+                        owner.controller_stops.append({"type": type(exc).__name__, "reason": str(exc)})
+                    try:
+                        self.request.sendall(b"HTTP/1.1 409 Conflict\r\nContent-Length: 0\r\n"
+                                             b"Connection: close\r\n\r\n")
+                    except OSError:
+                        pass
                 except Exception as exc:
                     with owner.lock:
                         owner.errors.append({"type": type(exc).__name__, "detail": str(exc)})
@@ -723,6 +742,10 @@ class ModelRelay:
         os.chmod(self.directory / "s", 0o600)
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
+
+    def prepare_payload(self, payload, observed_index):
+        """Identity by default; called before serialization and any POST charge."""
+        return payload
 
     def forward(self, upstream, packet, payload=None, post_index=None):
         # A socket connected after shutdown began must never escape the close snapshot.

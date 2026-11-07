@@ -3,10 +3,13 @@ import copy
 from contextlib import contextmanager
 import importlib.util
 import json
+import hashlib
 from pathlib import Path
+import socket
 import subprocess
 import sys
 import tempfile
+import threading
 from types import SimpleNamespace
 import unittest
 from unittest import mock
@@ -303,11 +306,24 @@ class ContextStageDispatchTests(unittest.TestCase):
                     mock.patch.object(r.os, "getgid", return_value=1000, create=True), \
                     mock.patch.object(r.subprocess, "check_output", return_value="mock-image-id\n"), \
                     mock.patch("socket.create_connection", side_effect=AssertionError("no network")):
-                for backend in ("student8b", "teacher27b"):
-                    with self.subTest(backend=backend):
-                        root = qual / ("context_study_v1/cases/heat_2/ordinary_reset/" + backend + "/attempt_v1")
+                choices = [None, {'native_terminal_stop':True,'recent_tool_rounds':None},
+                           {'native_terminal_stop':True,'recent_tool_rounds':3}]
+                for index,(backend,controls) in enumerate([(b,c) for b in ("student8b", "teacher27b") for c in choices],1):
+                    with self.subTest(backend=backend,controls=controls):
+                        study.pop('runtime_controls',None)
+                        if controls is not None:study['runtime_controls']=controls
+                        root = qual / ("context_study_v1/cases/heat_2/ordinary_reset/" + backend + "/attempt_v"+str(index))
                         manifest = r.prepare(root, qual / "mock-protocol.json", "a" * 64)
                         verified = r.verify(root, r.sha(root / "manifest.json"))
+                        if controls is None:self.assertNotIn('runtime_controls',manifest)
+                        else:self.assertEqual(manifest['runtime_controls'],controls)
+                        forged = copy.deepcopy(manifest)
+                        if controls is None:forged['runtime_controls']=choices[-1]
+                        else:forged.pop('runtime_controls')
+                        (root/'manifest.json').write_text(json.dumps(forged),encoding='utf8')
+                        with self.assertRaisesRegex(ValueError,'runtime_controls'):
+                            r.verify(root,r.sha(root/'manifest.json'))
+                        (root/'manifest.json').write_text(json.dumps(manifest),encoding='utf8')
                         self.assertIsNone(verified[3])
                         self.assertEqual(manifest["caps"], self.study["total_caps"])
                         for key in ("source_root", "source_binding", "cohort_binding"):
@@ -381,6 +397,8 @@ class ContextStageDispatchTests(unittest.TestCase):
             self.assertEqual(receipt["errors"], [])
             self.assertEqual(receipt["real_model_calls"], 0)
             self.assertIsNone(receipt["source_binding_charge_once"])
+            self.assertNotIn('runtime_controls',receipt)
+            self.assertNotIn('controller_stop',receipt)
 
 
 class ContextContinuationTests(unittest.TestCase):
@@ -459,6 +477,7 @@ class ContextPersistedSessionTests(unittest.TestCase):
             def __init__(self, *args, **kwargs):
                 self.budget = SimpleNamespace(posts=0, request_bytes=0, response_bytes=0)
                 self.forwarded, self.errors, self.delivery, self.closed = 0, [], None, False
+                self.controller_stops, self.terminal_witness = [], None
                 instances.append(self)
 
             def begin_close(self):
@@ -485,6 +504,8 @@ class ContextPersistedSessionTests(unittest.TestCase):
             manifest = {"case_id": "heat_2", "stage": "collect", "backend": "student8b",
                         "world_seed": 17, "model_seed": 17, "caps": caps, "sampling": {}, "source_binding": None}
             study = {"context_margin_tokens": 512, "pool_path": "mock-not-read", "pool_sha256": "mock-pool"}
+            controls={'native_terminal_stop':True,'recent_tool_rounds':3}
+            manifest['runtime_controls']=study['runtime_controls']=controls
             profile = {"host": "mock-not-connected", "port": 1, "context": 32768, "output": 8192}
             core = SimpleNamespace(GUEST=guest, ModelRelay=Relay, write_new=write_new,
                 socket_directory=mock.Mock(return_value=qual / "mock-model-sockets"),
@@ -527,6 +548,10 @@ class ContextPersistedSessionTests(unittest.TestCase):
             self.assertTrue(instances[0].closed)
             self.assertFalse(json.loads((root / "ordinary_continuation.json").read_text())["world_reset"])
             self.assertIsNone(receipt["provider_cached_input_tokens"])
+            self.assertEqual(receipt['runtime_controls'],controls)
+            self.assertIsNone(receipt['controller_stop'])
+            self.assertEqual(receipt['controller_stops'],[])
+            self.assertEqual(json.loads((root/'reservation.json').read_text())['runtime_controls'],controls)
 
 
 class ContextNamespaceTests(unittest.TestCase):
@@ -695,5 +720,277 @@ def test_replay_metadata_adapter_keeps_immutable_source_binding():
     assert replay.call_args.args[1:] == ('reset', 'step', 'log')
 
 
-if __name__ == "__main__":
+def rolling_payload(rounds=5):
+    messages = [{'role':'system','content':'SYSTEM_ANCHOR'},
+                {'role':'developer','content':'DEVELOPER_ANCHOR'},
+                {'role':'user','content':'FROZEN_GOAL 中文'}]
+    for index in range(rounds):
+        calls = [{'id':str(index)+suffix,'type':'function',
+                  'function':{'name':'bash','arguments':json.dumps({'command':'look '+suffix})}}
+                 for suffix in ('a','b')]
+        messages += [{'role':'assistant','content':'batch '+str(index),'tool_calls':calls}]
+        messages += [{'role':'tool','tool_call_id':call['id'],'content':'complete reply '+call['id']}
+                     for call in reversed(calls)]
+        if index == 0:
+            messages += [{'role':'user','content':'LATER_USER_GOAL_ANCHOR'}]
+    return {'messages':messages,'tools':[{'type':'function','function':{'name':'bash',
+        'parameters':{'type':'object','properties':{'zeta':{'type':'string'},'alpha':{'type':'string'}}}}}],
+        'temperature':99,'model':'UNTRUSTED','chat_template_kwargs':{'enable_thinking':True}}
+
+
+@contextmanager
+def owned_fake_relay(controls, qualifier=None):
+    """Real relay UDS and socketpairs only: no world, Docker or network endpoint."""
+    core = r.recovery().actor()
+    with tempfile.TemporaryDirectory(prefix='alf-fake-') as tmp:
+        root = Path(tmp).resolve()
+        directory = root/'m';directory.mkdir()
+        (root/'task.txt').write_text('FROZEN_GOAL 中文',encoding='utf8')
+        reset = public_state(0,'Your task is to: complete the actual goal.')
+        (root/'initial_reset.json').write_text(json.dumps(reset),encoding='utf8')
+        caps = {'posts':20,'seconds':60,'world_actions':100,'model_payload_bytes_combined':1_000_000}
+        manifest = {'case_id':'fake_case','world_seed':17,'stage':'ordinary_reset','caps':caps,
+                    'game':{'sha256_game':'fake-game-sha'},'pool_binding':{'sha256':'fake-pool-sha'}}
+        study = {'context_margin_tokens':512}
+        if controls is not None:
+            manifest['runtime_controls'] = study['runtime_controls'] = controls
+        metadata = {'game_id':manifest['case_id'],'seed':17,'step_cap':100,
+                    'bridge_sha256':core.BRIDGE_SHA,'asset_sha256':'fake-game-sha',
+                    'pool_manifest_sha256':'fake-pool-sha','caps':caps}
+        metadata['episode_sha256'] = hashlib.sha256(json.dumps(metadata,sort_keys=True).encode()).hexdigest()
+        metadata = dict(event='episode',**metadata) # PublicTrajectory wrapper, outside hash.
+        rows = [metadata,{'event':'reset','state':reset}]
+        def write_rows(value):
+            (root/'execute_world.jsonl').write_text(''.join(json.dumps(x)+'\n' for x in value),encoding='utf8')
+        write_rows(rows)
+        qualify = qualifier or mock.Mock(return_value={'template_input_tokens':12,'reserved_output_tokens':8192,'context':32768})
+        profile = {'model_id':'OWNED_FAKE','context':32768,'output':8192}
+        relay_type = r.study_relay(core,manifest,study,qualify)
+        with mock.patch.object(core,'cleanup_directory'), mock.patch.object(core.socket,'create_connection',
+                side_effect=AssertionError('real network forbidden')) as connect:
+            relay = relay_type(root,directory,'student8b',profile,17,('OWNED_FAKE_NEVER_RESOLVE',0),caps,
+                      core.model_payload({},'student8b',profile,17,False),student_enable_thinking=False)
+            try:
+                yield SimpleNamespace(root=root,core=core,relay=relay,rows=rows,write_rows=write_rows,
+                                      manifest=manifest,study=study,qualify=qualify,connect=connect)
+            finally:
+                relay.close()
+
+
+def fake_uds_request(relay,payload):
+    body = json.dumps(payload,separators=(',',':')).encode()
+    packet = (b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: '+str(len(body)).encode()+b'\r\n\r\n'+body)
+    with socket.socket(socket.AF_UNIX) as client:
+        client.settimeout(3);client.connect(str(relay.directory/'s'));client.sendall(packet)
+        reply = b''
+        while True:
+            part = client.recv(65536)
+            if not part:break
+            reply += part
+    return reply
+
+
+@contextmanager
+def fake_upstream(f):
+    """Capture an actual serialized packet using a CPU-only owned socketpair."""
+    sender,peer = socket.socketpair()
+    captured,errors = [],[]
+    def receive():
+        try:
+            peer.settimeout(3);wire=b''
+            while b'\r\n\r\n' not in wire:wire+=peer.recv(65536)
+            head,body=wire.split(b'\r\n\r\n',1)
+            length=int(next(line.split(b':',1)[1] for line in head.split(b'\r\n') if line.lower().startswith(b'content-length:')))
+            while len(body)<length:body+=peer.recv(65536)
+            captured.append((head,body))
+            peer.sendall(b'HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: close\r\n\r\n{}')
+        except Exception as exc:errors.append(exc)
+        finally:peer.close()
+    thread=threading.Thread(target=receive);thread.start()
+    try:
+        with mock.patch.object(f.core.socket,'create_connection',return_value=sender) as connect:
+            yield captured,connect
+    finally:
+        sender.close();thread.join(timeout=4)
+        assert not thread.is_alive()
+        assert not errors,errors
+
+
+class RuntimeControlsTests(unittest.TestCase):
+    def test_protocol_controls_are_explicit_strict_and_manifest_bound(self):
+        self.assertEqual(r.runtime_controls({}),{'native_terminal_stop':False,'recent_tool_rounds':None})
+        valid = {'native_terminal_stop':True,'recent_tool_rounds':3}
+        for bad in (None,{},[],dict(valid,unknown=True),dict(valid,native_terminal_stop=1),
+                    dict(valid,recent_tool_rounds=True),dict(valid,recent_tool_rounds=3.0),
+                    dict(valid,recent_tool_rounds=2),{'recent_tool_rounds':3}):
+            with self.subTest(bad=bad),self.assertRaises(ValueError):r.runtime_controls({'runtime_controls':bad})
+        study={'runtime_controls':valid}
+        self.assertEqual(r.verify_runtime_controls(study,study),valid)
+        for manifest in ({},{'runtime_controls':dict(valid,native_terminal_stop=False)}):
+            with self.subTest(manifest=manifest),self.assertRaises(ValueError):r.verify_runtime_controls(manifest,study)
+        with self.assertRaises(ValueError):r.verify_runtime_controls(study,{})
+
+    def test_rolling_projection_is_actual_wire_and_billed_bytes_with_ordered_anchors(self):
+        controls={'native_terminal_stop':True,'recent_tool_rounds':3}
+        incoming=rolling_payload();before=copy.deepcopy(incoming)
+        with owned_fake_relay(controls) as f:
+            with fake_upstream(f) as (captured,connect):
+                self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 200'))
+            stored=json.loads((f.root/'requests/00001.json').read_text())
+            wire=captured[0][1];payload=json.loads(wire)
+            self.assertEqual(wire,(f.root/'requests/00001.body').read_bytes())
+            self.assertEqual(wire,json.dumps(stored['forwarded'],separators=(',',':')).encode())
+            self.assertEqual(f.relay.budget.request_bytes,len(wire))
+            self.assertEqual((f.relay.budget.posts,f.relay.forwarded),(1,1))
+            self.assertEqual(stored['incoming'],before)
+            anchors=lambda x:[m for m in x['messages'] if m['role'] in {'system','developer','user'}]
+            self.assertEqual(anchors(payload),anchors(incoming))
+            self.assertEqual([m['content'] for m in payload['messages'] if m['role']=='tool'],
+                ['complete reply '+str(i)+s for i in (2,3,4) for s in ('b','a')])
+            self.assertEqual(payload['tools'],incoming['tools'])
+            self.assertEqual(list(payload['tools'][0]['function']['parameters']['properties']),['zeta','alpha'])
+            self.assertEqual(payload['temperature'],0.2)
+            self.assertEqual(payload['chat_template_kwargs'],{'enable_thinking':False})
+            projection=json.loads((f.root/'projections/00001.json').read_text())
+            self.assertEqual((projection['original_round_count'],projection['kept_round_count']),(5,3))
+            self.assertEqual(projection['serialized_body_sha256'],hashlib.sha256(wire).hexdigest())
+            self.assertEqual(projection['serialized_body_bytes'],len(wire))
+            self.assertEqual(projection['received_record_sha256'],r.sha(f.root/'observed_requests/00001.json'))
+            self.assertEqual(f.qualify.call_args.args[0],payload)
+            self.assertEqual(f.relay.errors,[]);connect.assert_called_once()
+            # The same projection applies on later live turns, not only the handoff.
+            with fake_upstream(f) as (later,_):fake_uds_request(f.relay,rolling_payload(6))
+            self.assertEqual([m['content'] for m in json.loads(later[0][1])['messages'] if m['role']=='tool'],
+                ['complete reply '+str(i)+s for i in (3,4,5) for s in ('b','a')])
+            self.assertEqual(f.relay.budget.request_bytes,len(wire)+len(later[0][1]))
+            self.assertEqual(f.relay.forwarded,2)
+            self.assertEqual(json.loads((f.root/'projections/00002.json').read_text())['kept_round_count'],3)
+        self.assertEqual(incoming,before)
+
+    def test_absent_controls_keep_exact_identity_wire_and_legacy_order(self):
+        with owned_fake_relay(None) as f:
+            incoming=rolling_payload()
+            with fake_upstream(f) as (captured,_):fake_uds_request(f.relay,incoming)
+            expected=f.core.model_payload(incoming,'student8b',{'model_id':'OWNED_FAKE','output':8192},17,False)
+            self.assertEqual(captured[0][1],json.dumps(expected,separators=(',',':')).encode())
+            self.assertFalse((f.root/'projections').exists())
+            self.assertFalse((f.root/'controller_stop.json').exists())
+            self.assertFalse((f.root/'requests/00001.body').exists())
+            self.assertEqual(f.relay.errors,[])
+
+    def test_native_terminal_stop_and_repeats_have_zero_posts_before_projection_or_qualification(self):
+        for won in (False,True):
+            with self.subTest(won=won),owned_fake_relay({'native_terminal_stop':True,'recent_tool_rounds':3}) as f:
+                terminal=dict(public_state(1,'REAL_NATIVE_TERMINAL'),done=True,won=won)
+                f.write_rows(f.rows+[{'event':'step','action':'look','state':terminal}])
+                # Invalid tool structure cannot preempt the native terminal controller.
+                for _ in range(2):
+                    self.assertTrue(fake_uds_request(f.relay,{'messages':[{'role':'tool'}]}).startswith(b'HTTP/1.1 409'))
+                self.assertEqual((f.relay.budget.posts,f.relay.budget.request_bytes,f.relay.forwarded),(0,0,0))
+                f.connect.assert_not_called();f.qualify.assert_not_called()
+                self.assertEqual(f.relay.errors,[]);self.assertFalse(f.relay.budget.failed)
+                self.assertEqual(len(f.relay.controller_stops),2)
+                witness=json.loads((f.root/'controller_stop.json').read_text())
+                self.assertEqual(witness['reason'],'native_won' if won else 'native_done_unwon')
+                self.assertEqual(witness['state'],terminal)
+                self.assertEqual(witness['sha256'],r.sha(f.root/'execute_world.jsonl'))
+                self.assertFalse((f.root/'requests').exists())
+
+    def test_nonterminal_native_state_overrides_model_success_text_then_terminal_blocks_next_post(self):
+        with owned_fake_relay({'native_terminal_stop':True,'recent_tool_rounds':None}) as f:
+            incoming=rolling_payload(0);incoming['messages'].append({'role':'assistant','content':'done=true won=true I succeeded'})
+            with fake_upstream(f):self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 200'))
+            f.write_rows(f.rows+[{'event':'step','action':'look','state':dict(public_state(1,'native done'),done=True)}])
+            self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 409'))
+            self.assertEqual((f.relay.forwarded,f.relay.budget.posts),(1,1))
+            self.assertEqual(f.relay.terminal_witness['forwarded_posts_at_stop'],1)
+
+    def test_terminal_created_during_token_qualification_is_rechecked_before_actual_send(self):
+        with owned_fake_relay({'native_terminal_stop':True,'recent_tool_rounds':3}) as f:
+            def qualify(payload):
+                f.write_rows(f.rows+[{'event':'step','action':'look','state':dict(public_state(1,'won'),done=True,won=True)}])
+                return {'template_input_tokens':12,'reserved_output_tokens':8192,'context':32768}
+            f.qualify.side_effect=qualify
+            sender,peer=socket.socketpair()
+            try:
+                with mock.patch.object(f.core.socket,'create_connection',return_value=sender):
+                    self.assertTrue(fake_uds_request(f.relay,rolling_payload()).startswith(b'HTTP/1.1 409'))
+                self.assertEqual(peer.recv(1),b'')
+            finally:sender.close();peer.close()
+            self.assertEqual(f.relay.forwarded,0)
+            self.assertEqual(f.relay.budget.posts,1) # Reserved, explicitly never forwarded.
+            self.assertEqual(f.relay.errors,[])
+
+    def test_malformed_projection_and_native_state_fail_before_any_send(self):
+        for mode in ('projection','truncated','missing','bad_json','duplicate_key','wrong_case','wrong_asset','error_event',
+                     'noncontiguous','won_without_done','reset_mismatch','step_after_done','symlink'):
+            with self.subTest(mode=mode),owned_fake_relay({'native_terminal_stop':True,'recent_tool_rounds':3}) as f:
+                path=f.root/'execute_world.jsonl';incoming=rolling_payload()
+                rows=copy.deepcopy(f.rows)
+                if mode=='projection':incoming['messages'].append({'role':'tool','tool_call_id':'dangling'})
+                elif mode=='truncated':path.write_bytes(path.read_bytes().rstrip(b'\n'))
+                elif mode=='missing':path.unlink()
+                elif mode=='bad_json':path.write_text('not-json\n')
+                elif mode=='duplicate_key':path.write_bytes(path.read_bytes().replace(b'"won": false',b'"won": false, "won": true',1))
+                elif mode in ('wrong_case','wrong_asset'):
+                    rows[0]['game_id' if mode=='wrong_case' else 'asset_sha256']='wrong'
+                    metadata=dict(rows[0]);metadata.pop('episode_sha256');metadata.pop('event')
+                    rows[0]['episode_sha256']=hashlib.sha256(json.dumps(metadata,sort_keys=True).encode()).hexdigest()
+                    f.write_rows(rows)
+                elif mode=='error_event':f.write_rows(rows+[{'event':'error','error':'environment_failure','action_count':1}])
+                elif mode=='noncontiguous':f.write_rows(rows+[{'event':'step','action':'look','state':public_state(2,'bad count')}])
+                elif mode=='won_without_done':f.write_rows(rows+[{'event':'step','action':'look','state':dict(public_state(1,'bad flags'),won=True)}])
+                elif mode=='reset_mismatch':rows[1]['state']['observation']='FORGED_RESET';f.write_rows(rows)
+                elif mode=='step_after_done':f.write_rows(rows+[
+                    {'event':'step','action':'look','state':dict(public_state(1,'done'),done=True)},
+                    {'event':'step','action':'look','state':public_state(2,'invalid future')}])
+                elif mode=='symlink':target=f.root/'elsewhere';path.rename(target);path.symlink_to(target)
+                self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 403'))
+                self.assertEqual((f.relay.budget.posts,f.relay.forwarded),(0,0))
+                f.connect.assert_not_called();f.qualify.assert_not_called()
+                self.assertTrue(f.relay.errors);self.assertFalse((f.root/'controller_stop.json').exists())
+
+    def test_recorded_terminal_latch_cannot_be_overtaken_by_prepared_sender(self):
+        with owned_fake_relay({'native_terminal_stop':True,'recent_tool_rounds':None}) as f:
+            checked,resume,terminal_read=threading.Event(),threading.Event(),threading.Event()
+            actual=r.native_world_witness;sent,errors=[],[]
+            def witness(root,manifest):
+                result=actual(root,manifest)
+                if threading.current_thread().name=='fake-prepared-sender':
+                    checked.set()
+                    if not resume.wait(3):raise RuntimeError('test sender was not released')
+                else:terminal_read.set()
+                return result
+            class FakeUpstream:
+                def sendall(self,packet):sent.append((packet,f.relay.terminal_witness))
+                def shutdown(self,*args):pass
+                def close(self):pass
+            upstream=FakeUpstream()
+            def sender():
+                try:f.relay.forward(upstream,b'OWNED_FAKE_PACKET',rolling_payload(0),1)
+                except Exception as exc:errors.append(exc)
+            def stopper():
+                try:f.relay.check_native_terminal()
+                except f.core.ControllerStop:pass
+                except Exception as exc:errors.append(exc)
+            with mock.patch.object(r,'native_world_witness',side_effect=witness):
+                first=threading.Thread(target=sender,name='fake-prepared-sender');first.start()
+                self.assertTrue(checked.wait(3))
+                f.write_rows(f.rows+[{'event':'step','action':'look','state':dict(public_state(1,'done'),done=True)}])
+                second=threading.Thread(target=stopper);second.start()
+                try:
+                    self.assertTrue(terminal_read.wait(3))
+                    # Stopper has read terminal, but cannot record a stop while
+                    # sender holds the final check+send lock.
+                    self.assertIsNone(f.relay.terminal_witness)
+                finally:
+                    resume.set();first.join(3);second.join(3)
+            self.assertFalse(first.is_alive());self.assertFalse(second.is_alive())
+            self.assertEqual(errors,[]);self.assertEqual(sent,[(b'OWNED_FAKE_PACKET',None)])
+            self.assertEqual(f.relay.terminal_witness['forwarded_posts_at_stop'],1)
+            with self.assertRaises(f.core.ControllerStop):f.relay.forward(upstream,b'FORBIDDEN_LATER_PACKET')
+            self.assertEqual(len(sent),1)
+
+
+if __name__ == '__main__':
     unittest.main()

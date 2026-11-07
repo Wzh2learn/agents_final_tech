@@ -20,7 +20,7 @@ QUAL = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfwor
 BRIDGE = REPO / 'scripts/graph/research_alfworld_bridge.py'
 BRIDGE_SHA = '37ea21a558c73068b84958ba3862c01f31c8c719f61cb011399004c0ce8bbce5'
 CBC = Path(__file__).with_name('run_alfworld_actor_20261106.py')
-CBC_SHA = 'cbc4db7e5b1bf6927004eff833d0584f3db3a875efb00c13965523955ad90a76'
+CBC_SHA = 'a192e6d2e3c7f8c4fbccc20d9528ad08dddf94bf2701b5e077f2d32d438d157c'
 ARCHIVES = {'json_2.1.1_json.zip':'25171f16e20ad7b048c47275c45b0babf3aa1cbab29cec97387922350a9844bc',
             'json_2.1.2_tw-pddl.zip':'eea90499df27b9cb3147d1d1927264146d38194b575e25f70a82875545742dcb'}
 PREFIXES = {'clean':'pick_clean_then_place_in_recep','heat':'pick_heat_then_place_in_recep',
