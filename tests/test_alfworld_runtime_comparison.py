@@ -139,6 +139,146 @@ def check_fixture(f):
     return r.check_plan(*f.refs,f.output,study=f.study)
 
 
+def full_baseline_fixture(f):
+    """Post-hoc controls refer to a complete96; none of its episodes are carried."""
+    origin_plan=copy.deepcopy(f.plan)
+    origin_ref=write(f.base/'origin96/PLAN.json',origin_plan)
+    rows=[]
+    for arm in origin_plan['arms']:
+        for case in CASES:
+            root=f.st/'cases'/case/'ordinary_reset/student8b'/('attempt_v'+str(arm['attempt']))
+            receipt=write(root/'receipt.json',dict(case_id=case,backend='student8b',stage='ordinary_reset',
+                                                  won=False,fake_arm=arm['id']))
+            rows.append(dict(arm=arm['id'],case=case,status='CLOSED_AUDITED',won=False,
+                             root=str(root),receipt_sha256=receipt['sha256']))
+    closure=dict(status='ALL96_RUNTIME_CONTEXT_RETURNED',cases=rows,completed_receipts=96,
+                 carried_episodes=0,training=0,judges=0,restored_healthy=True,
+                 shared35_unchanged=True,shared27_unchanged=True,restored_process=process(202),
+                 unknown_usage_model_posts=0,unrun=[],unclosed_attempts=[],aggregation_errors=[])
+    closure_ref=write(f.base/'origin96/RESULT.json',closure)
+    plan=dict(schema='ALFWORLD_FULL_BASELINE_EXTENSION_PLAN_V1',case_ids=list(CASES),
+              arms=[dict(id=name,variant='frozen',reference=reference,context='full',attempt=attempt,
+                         protocol=f.protocols['full'])
+                    for name,reference,attempt in [('frozen_full','none',30),('history_all7_full','all7',31)]],
+              planned_episodes=32,carried_episodes=0,maximum_planned_model_posts=4096,
+              maximum_per_episode_caps=CAPS,origin_context_plan=origin_ref,origin_context_result=closure_ref)
+    f.plan=plan;f.refs[0]=write(Path(f.refs[0]['path']),plan)
+    return closure_ref
+
+
+class FullBaselineExtensionTests(unittest.TestCase):
+    def test_exact_two_full_controls_are_bound_to_closed96_and_fresh(self):
+        with contract_fixture() as f:
+            previous=full_baseline_fixture(f)
+            with mock.patch.object(r.subprocess,'Popen',side_effect=AssertionError('CPU check only')):
+                c=r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=previous)
+            self.assertEqual(len(c['rows']),32)
+            self.assertEqual([a['id'] for a in c['plan']['arms']],['frozen_full','history_all7_full'])
+            self.assertTrue(all(a['context']=='full' and a['variant']=='frozen' for a in c['plan']['arms']))
+            self.assertEqual(c['owned_process'],process(202))
+            self.assertEqual(c['bindings'][previous['path']],previous['sha256'])
+            self.assertFalse(f.output.exists())
+            self.assertTrue(all(not Path(row['root']).exists() for row in c['rows']))
+
+    def test_partial_or_changed_origin_and_reused_attempt_are_rejected(self):
+        for mode in ('missing_restore','missing_origin','status','missing_case','duplicate_case','unaudited',
+                     'bad_receipt','unknown_cost','changed_cases','reused_attempt','different_full_protocol',
+                     'missing_receipt_file','tampered_receipt_file','wrong_receipt_case'):
+            with self.subTest(mode=mode),contract_fixture() as f:
+                previous=full_baseline_fixture(f)
+                plan=copy.deepcopy(f.plan)
+                closure=json.loads(Path(previous['path']).read_text())
+                if mode=='missing_origin':plan.pop('origin_context_plan')
+                elif mode=='status':closure['status']='STARTED'
+                elif mode=='missing_case':closure['cases'].pop()
+                elif mode=='duplicate_case':closure['cases'][-1]=copy.deepcopy(closure['cases'][0])
+                elif mode=='unaudited':closure['cases'][0]['status']='CLOSED_UNAUDITED'
+                elif mode=='bad_receipt':closure['cases'][0]['receipt_sha256']='invalid'
+                elif mode=='unknown_cost':closure['unknown_usage_model_posts']=1
+                elif mode=='changed_cases':plan['case_ids']=list(reversed(CASES))
+                elif mode=='reused_attempt':plan['arms'][0]['attempt']=8
+                elif mode=='different_full_protocol':
+                    value=json.loads(Path(f.protocols['full']['path']).read_text())
+                    value['HF_parent_binding']['sha256']='e'*64
+                    other=write(f.base/'different_full.json',value)
+                    for arm in plan['arms']:arm['protocol']=other
+                elif mode in ('missing_receipt_file','tampered_receipt_file','wrong_receipt_case'):
+                    path=Path(closure['cases'][0]['root'])/'receipt.json'
+                    if mode=='missing_receipt_file':path.unlink()
+                    elif mode=='tampered_receipt_file':path.write_text('changed')
+                    else:
+                        value=json.loads(path.read_text());value['case_id']='different_case'
+                        new=write(path,value);closure['cases'][0]['receipt_sha256']=new['sha256']
+                previous=write(Path(previous['path']),closure)
+                plan['origin_context_result']=previous
+                f.refs[0]=write(Path(f.refs[0]['path']),plan)
+                with self.assertRaises((ValueError,KeyError,RuntimeError)):
+                    r.check_plan(*f.refs,f.output,study=f.study,
+                                 restoration_ref=None if mode=='missing_restore' else previous)
+
+    def test_only_the_fixed32_full_design_is_accepted(self):
+        for mode in ('last3','extra_arm','missing_arm','budget','count','carried','variant','reference',
+                     'float_count','float_budget','bool_carried'):
+            with self.subTest(mode=mode),contract_fixture() as f:
+                previous=full_baseline_fixture(f);plan=copy.deepcopy(f.plan)
+                if mode=='last3':plan['arms'][0]['context']='last3'
+                elif mode=='extra_arm':plan['arms'].append(copy.deepcopy(plan['arms'][0]))
+                elif mode=='missing_arm':plan['arms'].pop()
+                elif mode=='budget':plan['maximum_planned_model_posts']=4097
+                elif mode=='count':plan['planned_episodes']=96
+                elif mode=='carried':plan['carried_episodes']=1
+                elif mode=='variant':plan['arms'][0]['variant']='recovery'
+                elif mode=='float_count':plan['planned_episodes']=32.0
+                elif mode=='float_budget':plan['maximum_planned_model_posts']=4096.0
+                elif mode=='bool_carried':plan['carried_episodes']=False
+                else:plan['arms'][1]['reference']='none'
+                f.refs[0]=write(Path(f.refs[0]['path']),plan)
+                with self.assertRaises(ValueError):
+                    r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=previous)
+
+    def test_analysis_reference_is_frozen_without_reading_any_models(self):
+        with contract_fixture() as f:
+            previous=full_baseline_fixture(f)
+            analysis=write(f.base/'ANALYSIS.json',{'scope':'OWNED_FAKE_FIXED_ANALYSIS'})
+            f.plan['analysis_contract']=analysis;f.refs[0]=write(Path(f.refs[0]['path']),f.plan)
+            c=r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=previous)
+            self.assertEqual(c['bindings'][analysis['path']],analysis['sha256'])
+            previous_data=json.loads(Path(previous['path']).read_text())
+            old_receipt=Path(previous_data['cases'][0]['root'])/'receipt.json'
+            self.assertEqual(c['bindings'][str(old_receipt)],digest(old_receipt))
+            Path(analysis['path']).write_text('changed')
+            with self.assertRaisesRegex(RuntimeError,'frozen'):
+                r.frozen(c,c['study'].components())
+
+    def test_large_closed_json_has_a_separate_finite_limit_not_a_weight_exception(self):
+        with contract_fixture() as f:
+            previous=full_baseline_fixture(f)
+            closure=json.loads(Path(previous['path']).read_text());closure['fake_metadata_padding']='x'*10_000_001
+            previous=write(Path(previous['path']),closure);f.plan['origin_context_result']=previous
+            f.refs[0]=write(Path(f.refs[0]['path']),f.plan)
+            c=r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=previous)
+            self.assertEqual(len(c['rows']),32)
+            closure['fake_metadata_padding']='x'*17_000_000
+            previous=write(Path(previous['path']),closure);f.plan['origin_context_result']=previous
+            f.refs[0]=write(Path(f.refs[0]['path']),f.plan)
+            with self.assertRaises(ValueError):
+                r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=previous)
+
+    def test_final_status_never_labels32_as96_or_an_incomplete32_as_closed(self):
+        with contract_fixture() as f:
+            full_baseline_fixture(f)
+            complete=dict(status='ALL32_FULL_BASELINES_RETURNED',completed_receipts=32,restored_healthy=True,
+                          unclosed_attempts=[],aggregation_errors=[],unrun=[])
+            self.assertEqual(r.final_status(f.plan,complete),'ALL32_FULL_BASELINES_RETURNED')
+            for key,value in [('completed_receipts',31),('unrun',['missing']),('aggregation_errors',['bad']),
+                              ('episode_cleanup_error','pending'),('shared_identity_error','changed')]:
+                with self.subTest(key=key):
+                    self.assertEqual(r.final_status(f.plan,dict(complete,**{key:value})),
+                                     'INCOMPLETE_OR_CLEANUP_FAILURE')
+            self.assertEqual(r.final_status(f.plan,dict(complete,restored_healthy=False)),
+                             'RESTORATION_NOT_VERIFIED')
+
+
 class FrozenPlanTests(unittest.TestCase):
     def test_explicit_closed_restoration_updates_only_owned_process_and_is_bound(self):
         with contract_fixture() as f:

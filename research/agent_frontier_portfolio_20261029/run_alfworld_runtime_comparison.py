@@ -1,4 +1,4 @@
-"""Finite exposed-development six-arm x 16-reset comparison.
+"""Finite exposed-development six-arm comparison or its two-full-control extension.
 
 Check mode reads frozen small artifacts only. Execute explicitly owns one18104
 window; model failure is an outcome, interface/accounting failure stops the queue.
@@ -28,6 +28,12 @@ OLD_PROFILE_SHA = 'acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab
 CAPS = dict(posts=128,seconds=1800,world_actions=100,model_payload_bytes_combined=64000000)
 TOKENS = ('prompt_tokens','completion_tokens','total_tokens')
 CAP_ERRORS = {'native template estimate plus output/margin exceeds context','episode model budget closed'}
+SIX_SCHEMA = 'ALFWORLD_RUNTIME_CONTEXT_BASELINE_PLAN_V2'
+FULL_SCHEMA = 'ALFWORLD_FULL_BASELINE_EXTENSION_PLAN_V1'
+SIX_ARMS = [('frozen_last3','frozen','none','last3'),('ordinary_last3','ordinary','none','last3'),
+            ('ordinary_full','ordinary','none','full'),('recovery_full','recovery','none','full'),
+            ('recovery_last3','recovery','none','last3'),('history_all7_last3','frozen','all7','last3')]
+FULL_ARMS = [('frozen_full','frozen','none','full'),('history_all7_full','frozen','all7','full')]
 
 
 def sha(path):
@@ -42,13 +48,74 @@ def private(path):
     return path
 
 
-def checked(ref):
+def checked(ref, *, max_bytes=10_000_000):
     if type(ref) is not dict or set(ref) != {'path','sha256'} or not re.fullmatch('[a-f0-9]{64}',ref['sha256']):
         raise ValueError('reference requires exact path and SHA')
     path = private(ref['path'])
-    if path.stat().st_size > 10_000_000 or sha(path) != ref['sha256']:
+    if path.stat().st_size > max_bytes or sha(path) != ref['sha256']:
         raise ValueError('frozen small artifact changed: '+str(path))
     return json.loads(path.read_text())
+
+
+def full_baseline_origin(plan, cases, arms, bindings):
+    """Bind the post-hoc controls to the complete original96, without carrying it."""
+    if not all(k in plan for k in ('origin_context_plan','origin_context_result')):
+        raise ValueError('full controls require the frozen original96 plan/result')
+    origin_ref=plan['origin_context_plan'];result_ref=plan['origin_context_result']
+    origin=checked(origin_ref)
+    # The real closure embeds96 raw-binding maps and is10.7MB. Only this typed
+    # result (and restoration metadata below) gets a bounded16MiB JSON allowance.
+    previous=checked(result_ref,max_bytes=16*1024**2)
+    if (origin.get('schema')!=SIX_SCHEMA or origin.get('planned_episodes')!=96 or
+            origin.get('carried_episodes')!=0 or origin.get('case_ids')!=cases or
+            origin.get('maximum_planned_model_posts')!=12288 or
+            origin.get('maximum_per_episode_caps')!=CAPS or
+            [(a['id'],a['variant'],a['reference'],a['context']) for a in origin.get('arms',[])]!=SIX_ARMS):
+        raise ValueError('full controls changed the original96 design/tasks')
+    previous_arms={a['id']:a for a in origin['arms']}
+    expected=[(a['id'],case) for a in origin['arms'] for case in cases]
+    rows=previous.get('cases',[])
+    if (previous.get('status')!='ALL96_RUNTIME_CONTEXT_RETURNED' or
+            previous.get('completed_receipts')!=96 or previous.get('carried_episodes')!=0 or
+            any(previous.get(k) is not True for k in ('restored_healthy','shared35_unchanged','shared27_unchanged')) or
+            any(type(previous.get(k)) is not int or previous[k]!=0 for k in ('training','judges','unknown_usage_model_posts')) or
+            any(previous.get(k) for k in ('error','unrun','unclosed_attempts','aggregation_errors','aggregation_error',
+                'episode_cleanup_error','server_cleanup_error','restoration_error','shared_identity_error')) or
+            len(rows)!=96 or [(r.get('arm'),r.get('case')) for r in rows]!=expected):
+        raise ValueError('full controls require all96 audited, restored and accounted')
+    for row in rows:
+        arm=previous_arms[row['arm']]
+        root=ST/'cases'/row['case']/'ordinary_reset/student8b'/('attempt_v'+str(arm['attempt']))
+        if (row.get('status')!='CLOSED_AUDITED' or type(row.get('won')) is not bool or
+                row.get('root')!=str(root) or not re.fullmatch('[a-f0-9]{64}',row.get('receipt_sha256',''))):
+            raise ValueError('original96 episode identity/closure differs')
+        receipt_ref=dict(path=str(root/'receipt.json'),sha256=row['receipt_sha256'])
+        if not (root/'receipt.json').is_file():raise ValueError('original96 receipt is missing')
+        receipt=checked(receipt_ref)
+        if ((receipt.get('case_id'),receipt.get('stage'),receipt.get('backend'))!=
+                (row['case'],'ordinary_reset','student8b') or
+                type(receipt.get('won')) is not bool or receipt['won']!=row['won']):
+            raise ValueError('original96 receipt task/outcome differs')
+        bindings[receipt_ref['path']]=receipt_ref['sha256']
+    old_attempts={a['attempt'] for a in origin['arms']}
+    if any(a['attempt'] in old_attempts or a['protocol']!=previous_arms['ordinary_full']['protocol'] for a in arms):
+        raise ValueError('full controls require fresh attempts and the identical full protocol')
+    for ref in (origin_ref,result_ref):bindings[ref['path']]=ref['sha256']
+
+
+def completed_status(plan):
+    if plan['schema']==SIX_SCHEMA:return 'ALL96_RUNTIME_CONTEXT_RETURNED'
+    if plan['schema']==FULL_SCHEMA:return 'ALL32_FULL_BASELINES_RETURNED'
+    raise ValueError('unknown completion design')
+
+
+def final_status(plan, result):
+    if not result.get('restored_healthy'):return 'RESTORATION_NOT_VERIFIED'
+    if result['status']==completed_status(plan) and (result.get('completed_receipts')!=plan['planned_episodes'] or
+            any(result.get(k) for k in ('unclosed_attempts','aggregation_errors','unrun',
+                'episode_cleanup_error','shared_identity_error'))):
+        return 'INCOMPLETE_OR_CLEANUP_FAILURE'
+    return result['status']
 
 
 def load(path,name):
@@ -98,18 +165,26 @@ def prerequisite(kind,value,cases):
 def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,restoration_ref=None):
     study=study or load(HERE/'alfworld_context_study.py','runtime_comparison_study')
     p=checked(plan_ref);cases=p['case_ids'];arms=p['arms'];output=private(output)
-    if (p.get('schema') not in {'ALFWORLD_RUNTIME_CONTEXT_BASELINE_PLAN_V2'} or
+    extension=p.get('schema')==FULL_SCHEMA
+    count=32 if extension else 96
+    expected=FULL_ARMS if extension else SIX_ARMS
+    if (p.get('schema') not in {SIX_SCHEMA,FULL_SCHEMA} or
             len(cases)!=16 or len(set(cases))!=16 or any(not re.fullmatch('[A-Za-z0-9][A-Za-z0-9_-]*',c) for c in cases) or
-            p.get('planned_episodes')!=96 or p.get('carried_episodes')!=0 or
-            p.get('maximum_planned_model_posts')!=12288 or p.get('maximum_per_episode_caps')!=CAPS or len(arms)!=6):
+            p.get('planned_episodes')!=count or p.get('carried_episodes')!=0 or
+            p.get('maximum_planned_model_posts')!=count*CAPS['posts'] or p.get('maximum_per_episode_caps')!=CAPS or
+            len(arms)!=len(expected)):
         raise ValueError('unknown schema or non-finite comparison contract')
-    if any(type(v) is not int for v in p['maximum_per_episode_caps'].values()):raise ValueError('caps must be integers')
-    expected=[('frozen_last3','frozen','none','last3'),('ordinary_last3','ordinary','none','last3'),
-              ('ordinary_full','ordinary','none','full'),('recovery_full','recovery','none','full'),
-              ('recovery_last3','recovery','none','last3'),('history_all7_last3','frozen','all7','last3')]
+    if (any(type(v) is not int for v in p['maximum_per_episode_caps'].values()) or
+            any(type(p[k]) is not int for k in ('planned_episodes','carried_episodes','maximum_planned_model_posts'))):
+        raise ValueError('caps/counts must be integers')
     if [(a['id'],a['variant'],a['reference'],a['context']) for a in arms]!=expected:
-        raise ValueError('not the exact six-arm V2 design/order')
+        raise ValueError('not the exact fixed design/order')
     bindings={ref['path']:ref['sha256'] for ref in (plan_ref,student_ref,teacher_ref,django_ref)}
+    if extension:
+        if restoration_ref is None:raise ValueError('full controls require explicit current restoration')
+        full_baseline_origin(p,cases,arms,bindings)
+    if p.get('analysis_contract'):
+        ref=p['analysis_contract'];checked(ref);bindings[ref['path']]=ref['sha256']
     protocols={};selections=None;common=None;combinations=set();rows=[]
     for arm in arms:
         if (set(arm)!={'id','variant','reference','context','attempt','protocol'} or
@@ -137,7 +212,7 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
             root=ST/'cases'/case/'ordinary_reset/student8b'/('attempt_v'+str(arm['attempt']))
             if root.exists():raise FileExistsError('preserve existing episode: '+str(root))
             rows.append(dict(arm=arm['id'],case=case,root=str(root),status='UNRUN'))
-    if len({r['root'] for r in rows})!=96 or len({a['id'] for a in arms})!=6:
+    if len({r['root'] for r in rows})!=count or len({a['id'] for a in arms})!=len(expected):
         raise ValueError('duplicate case/root/arm identity')
     if output.exists():raise FileExistsError('fresh output required')
     selection=common['context_selection'];selected=checked(selection);bindings[selection['path']]=selection['sha256']
@@ -162,8 +237,9 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
         raise ValueError('original Q4 restoration contract changed')
     owned=student['restored_process']
     if restoration_ref is not None:
-        previous=checked(restoration_ref);owned=previous.get('restored_process',{})
-        if (previous.get('status') not in {'STOPPED_RESTORE_REQUIRED','ALL96_RUNTIME_CONTEXT_RETURNED','INCOMPLETE_OR_CLEANUP_FAILURE'} or
+        previous=checked(restoration_ref,max_bytes=16*1024**2);owned=previous.get('restored_process',{})
+        if (previous.get('status') not in {'STOPPED_RESTORE_REQUIRED','ALL96_RUNTIME_CONTEXT_RETURNED',
+                'ALL32_FULL_BASELINES_RETURNED','INCOMPLETE_OR_CLEANUP_FAILURE'} or
                 any(previous.get(k) is not True for k in ('restored_healthy','shared35_unchanged','shared27_unchanged')) or
                 any(previous.get(k) for k in ('restoration_error','server_cleanup_error','episode_cleanup_error','shared_identity_error')) or
                 set(owned)!={'pid','start_ticks','exe','argv','cwd'} or type(owned['pid']) is not int or owned['pid']<=0 or
@@ -436,7 +512,7 @@ def execute(c):
                         entry.update(audit(study,active,receipt,m));entry['status']='CLOSED_AUDITED';event('case_audited',**entry)
                         frozen(c,epoch);h.protected(window);active=None
                     h.stop_child(child,ticket);child.wait(timeout=15);child=ticket=None
-            result['status']='ALL96_RUNTIME_CONTEXT_RETURNED'
+            result['status']=completed_status(p)
         except BaseException as exc:
             result.update(status='STOPPED_RESTORE_REQUIRED',error=dict(type=type(exc).__name__,message=str(exc)))
             event('queue_stopped',error=result['error'],active_root=str(active) if active else None)
@@ -449,11 +525,7 @@ def execute(c):
             try:result.update(aggregate(rows))
             except BaseException as exc:result.update(aggregation_error=str(exc),total_actual_model_calls=None,unknown_usage_model_posts=None)
             result['window_wall_seconds']=time.monotonic()-started
-            if not result['restored_healthy']:result['status']='RESTORATION_NOT_VERIFIED'
-            if result['status']=='ALL96_RUNTIME_CONTEXT_RETURNED' and (result.get('completed_receipts')!=96 or
-                    result.get('unclosed_attempts') or result.get('aggregation_errors') or result.get('unrun') or
-                    result.get('episode_cleanup_error') or result.get('shared_identity_error')):
-                result['status']='INCOMPLETE_OR_CLEANUP_FAILURE'
+            result['status']=final_status(p,result)
             try:h.new(out/'RESULT.json',result);event('window_closed',status=result['status'],result_sha256=sha(out/'RESULT.json'))
             finally:
                 for sig,handler in previous.items():signal.signal(sig,handler)
@@ -474,12 +546,12 @@ def main(argv=None):
     c=check_plan(*refs,args.output,restoration_ref=restoration_ref);helper() # Checked import only; never call the old execute/main.
     if args.check:
         frozen(c,c['study'].components())
-        result=dict(status='CPU_CHECK_ONLY_NOT_EXECUTED',planned_episodes=96,model_calls=0,service_actions=0,
+        result=dict(status='CPU_CHECK_ONLY_NOT_EXECUTED',planned_episodes=c['plan']['planned_episodes'],model_calls=0,service_actions=0,
                     native_world_runs=0,parent_weight_hash_not_run=True)
     else:result=execute(c)
     print(json.dumps({k:result.get(k) for k in ('status','planned_episodes','completed_receipts','known_actual_model_calls',
         'total_actual_model_calls','unknown_usage_model_posts','restored_healthy') if k in result}))
-    return 0 if args.check or result['status']=='ALL96_RUNTIME_CONTEXT_RETURNED' else 1
+    return 0 if args.check or result['status']==completed_status(c['plan']) else 1
 
 
 if __name__=='__main__':
