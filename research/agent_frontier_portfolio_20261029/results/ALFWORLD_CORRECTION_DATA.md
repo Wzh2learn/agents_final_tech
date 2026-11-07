@@ -8,7 +8,7 @@
 
 27B从头执行16/18、从12个学生现场恢复8/12；两者成功交集只有7组（4heat/2cool/1look）。普通/纠正轨迹分别67/68个接受动作；失败和全部形成费保留。完整导出、token标签、来源hash和教师成本见[已闭合监督材料](ALFWORLD_CONTEXT_STUDY.md#teacher-supervision)，不再默认加载全过程。
 
-## 当前动作：六组持续短历史对照的预启动修正
+## 当前动作：启动六组持续短历史对照
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
@@ -68,7 +68,9 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 新actor/taskpool代码导致旧pool精确代码绑定失效，未放松守卫或改旧receipt；同16资产在新根`pool_v2`真实重做16/16零模型expert/native控制，90.92秒，题目/UID/layout/game/traj及公开reset均与旧池一致，不计新样本。新POOL SHA `b922dd1a108754f31d862a56bd97eb4cee4e665be6b59279b4e8c7433a465b64`、qualification SHA `304e38e4b927f274bcf7e7b72f8071820dcde0e30da1e6cd8d3337f001adaaed`。新witness还对旧80份实际native记录全量解析匹配，SHA `e514868d57713f23e5d6a3e121cd6be99c4fc18dd346cee9519691747f579967`。
 
-隔离分支代码及root实际纯CPU检查已通过；独立Terra/max预启动代码审阅仍阻止模型阶段：C1保护服务身份异常会跳过本可安全尝试的原Q4恢复；C2预算/终态标志会掩盖137/-9等异常退出。已交同一A在原上下文一次修正，仍未启动96回合。C固定快照回执SHA `07d9fe095154d7b9621f0a58d7a8317e6a43754468e167330592a3296fe572b0`；修复后同一C只复核这两项。没有新增Agent以重做同一实现或把模拟测试写成真实效果。
+独立Terra/max预启动审阅发现并复现C1（共享身份异常挡住可安全尝试的原Q4恢复）和C2（cap/终态标志掩盖异常退出）。同一A续接修正：保护异常保留且独立恢复安全owned实例；137/-9拒绝；exit0/1都核raw SHA及顶层错误，只有匹配实际403/409拒绝证据才作为正常gate，普通工具错误反馈保留。V1/V2原回执均保留，同一C限定复核V3放行（SHA `7677c9d8dfd3ac9587487ef1746c38c5b59828c90246b0ebc3a5de0833c99661`），没有另起Agent重做实现。root远端实际133tests/380subtests通过；4个actor/pool组件未因审阅修正再变，未重做native资格。
+
+代码已合并；driver SHA `ce8f29296929a120f293a107f6d8612d917aea4f76b426ee7dd619070c16ad7d`。旧源码和原五臂费用保持，ROOT闭合源码/C薄包已双端核验18成员，SHA `a10e86f96986a16c6ca6c027df9c75750158252239665083f8e4b9639c60a60a`。这些是纯CPU/假数据及旧native档案核验，实际409/模型窗口和96科学结果仍待运行，不称方法通过。
 
 ## 两项改变下一步的发现
 
@@ -90,6 +92,6 @@ Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配�
 
 ## 本轮判读与训练对照取舍
 
-Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：同HF的F/O/R/all7/top1为7/7/10/7/6（各16题），primary为6/6/7/5/4（各12题）；UNVERIFIED：纠正监督相对等源普通成功SFT的增益是否可重复，以及持续短历史能否解释它。Recommendation：先统一工程停止门、比较执行全程的K3与完整历史；若R仍有残差，再扩独立纠正来源并比较普通混合rehearsal、可见目标/持物规则和反馈衍生监督。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：五臂/27B/Django闭合，复用A/C修完预启动两项代码问题，运行六组last3对照，再决定追加学习及8现场恢复。
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：同HF的F/O/R/all7/top1为7/7/10/7/6（各16题），primary为6/6/7/5/4（各12题）；UNVERIFIED：纠正监督相对等源普通成功SFT的增益是否可重复，以及持续短历史能否解释它。Recommendation：先统一工程停止门、比较执行全程的K3与完整历史；若R仍有残差，再扩独立纠正来源并比较普通混合rehearsal、可见目标/持物规则和反馈衍生监督。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：五臂/27B/Django闭合，复用A/C完成预启动修正与限定复核，运行六组last3对照，再决定追加学习及8现场恢复。
 
 新增64条闭合raw薄包已在GB10与本机逐一核验14,052成员，SHA `0995fa01149373591fea14cea126a9112f229430f1a2e8558c554acb2ac2c9b0`（manifest SHA `9018cfabed3d9e2113080a7dc01cb36f0fda9acf2178a4594e3020ef0f6db733`）；与先前frozen16包共同覆盖80条，未复制仍写入的restore服务日志。历史baseline、训练/部署及frozen16薄包的镜像hash见[私有资产](ALFWORLD_LEARNING_RUNTIME.md#private-packets)，不复制在途服务日志。
