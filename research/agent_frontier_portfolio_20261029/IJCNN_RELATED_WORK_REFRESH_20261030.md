@@ -35,6 +35,8 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **当前直接对标（2026-11-07）**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR](https://arxiv.org/html/2608.10502v1)已有依赖撤回，[Memento](https://arxiv.org/html/2611.00244v1)已有学习笔记/窗口重建。方法正文已核，未复现成绩。ACE/AgentFold/VH-GPO等重叠、剩余假设及比较条件见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
+2026-11-08复核：[Agent-R §3/4.4](https://arxiv.org/html/2501.11425v3)是自生成搜索/轨迹拼接，已有失败中间前缀续做；不能概括为STeP式强教师接管。具体比较见[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)。
+
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
 ## 旧章节链接
