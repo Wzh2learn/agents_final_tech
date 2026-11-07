@@ -40,6 +40,11 @@ class FragmentedSocket:
 
 
 class ActorContractTests(unittest.TestCase):
+    def test_default_payload_preparation_is_exact_identity(self):
+        payload = {"messages": [{"role": "user", "content": "中文 goal"}], "tools": []}
+        relay = actor.ModelRelay.__new__(actor.ModelRelay)
+        self.assertIs(relay.prepare_payload(payload, 1), payload)
+
     def test_config_is_bash_only_and_disables_sdk_retries(self):
         cfg = actor.config(profile(), 17)
         self.assertEqual(cfg["model"], "gb10/qwen3-8b-qual")
