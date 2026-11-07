@@ -272,6 +272,149 @@ def run_record(labels,states,exit=None,fatal=None):
     return record
 
 
+
+@contextmanager
+def matplotlib_contract_fixture():
+    """Synthetic pair/projection; no benchmark gold, Docker or actor use."""
+    with contract_fixture() as f:
+        specs=[];rows={}
+        for case,(revision,role,dataset,f2p,ptp,module) in r.MPL_CASES.items():
+            path=f.root/(case+'.tar.gz');archive(path,'matplotlib/matplotlib',revision)
+            labels={'f2p':[module+'::test_f2p'], 'ptp':[module+'::test_ptp_'+str(i) for i in range(ptp)]}
+            rows[case]=dict(problem_statement='CPU_PUBLIC_'+case,test_patch='+++ b/'+module+'\n',patch='CPU_EVAL_ONLY_REFERENCE',
+                FAIL_TO_PASS=json.dumps(labels['f2p']),PASS_TO_PASS=json.dumps(labels['ptp']))
+            (f.data/dataset).write_bytes(b'CPU_SYNTHETIC_DATASET_NOT_PARSED')
+            specs.append(dict(instance_id=case,repo='matplotlib/matplotlib',base_commit=revision,role=role,
+                dataset_file=dataset,archive={'path':str(path),'sha256':sha(path)},dependency_slot='source',
+                problem_sha256=hashlib.sha256(rows[case]['problem_statement'].encode()).hexdigest(),
+                label_map={k:[dict(published=x,node=x) for x in v] for k,v in labels.items()}))
+        pair={kind:{k:spec[k] for k in ('instance_id','repo','base_commit')} for kind,spec in zip(('source','target'),specs)}
+        selection=reference(f.root/'mpl_selection.json',{'pairs':[pair]})
+        ancestry=reference(f.root/'mpl_ancestry.json',{'schema':'code_source_second_wave_ancestry_v1','selection_sha256':selection['sha256'],
+            'results':[dict(repo='matplotlib/matplotlib',source=specs[0]['instance_id'],target=specs[1]['instance_id'],target_base=specs[1]['base_commit'],status='ANCESTRY_PASS_METADATA_ONLY')]})
+        runtime={'image':r.IMAGE,'projection':{'path':str(f.root/'projection/manifest.json'),'sha256':'a'*64},
+            'native_overlays':{'source':{'path':str(f.root/'native.json'),'sha256':'b'*64},'target':{'path':str(f.root/'native2.json'),'sha256':'c'*64}}}
+        dataset_ref=reference(f.data/'mpl_manifest.json',{'files':[{'name':n,'sha256':sha(f.data/n)} for n in {v[2] for v in r.MPL_CASES.values()}]})
+        c=dict(schema='contextbench_pool_qualification_matplotlib_pair_v1',dataset_manifest=dataset_ref,selection=selection,ancestry=ancestry,cases=specs,runtime=runtime)
+        f.shared.dataset_row.side_effect=lambda spec:copy.deepcopy(rows[spec['id']])
+        helper=SimpleNamespace(extract=mock.Mock(),overlay=mock.Mock(return_value={}))
+        assets=dict(runtime=str(f.root/'projection/runtime'),sites={k:str(f.root/'projection/deps'/k) for k in ('source','target')},native_sites={'source':'CPU_NATIVE_SOURCE','target':'CPU_NATIVE_TARGET'},overlays={'source':{},'target':{}},helper=helper)
+        with mock.patch.object(r,'matplotlib_assets',return_value=assets):
+            f.c=c;f.sha=write(f.path,c);f.assets=assets;f.mpl_rows=rows;yield f
+
+
+class MatplotlibPairTests(unittest.TestCase):
+    def test_exact_matplotlib_nodes_are_supported_without_rewriting_published_labels(self):
+        labels=['lib/matplotlib/tests/test_pickle.py::test_complete[png]']
+        self.assertEqual(r.mapped_labels('matplotlib/matplotlib',labels),labels)
+
+    def test_new_pair_check_binds_raw_problem_counts_and_never_extracts_or_runs(self):
+        with matplotlib_contract_fixture() as f,mock.patch.object(subprocess,'run',side_effect=AssertionError('CPU check cannot run')):
+            result=r.load_contract(f.path,f.sha,f.output)
+            self.assertEqual([(len(x['labels']['f2p']),len(x['labels']['ptp'])) for x in result['cases']],[(1,181),(1,60)])
+            self.assertEqual(result['mode'],'matplotlib_pair');self.assertFalse(f.output.exists())
+            self.assertFalse(f.assets['helper'].extract.called);self.assertFalse(f.assets['helper'].overlay.called)
+
+    def test_pair_schema_mapping_raw_hash_and_ancestry_changes_fail_closed(self):
+        with matplotlib_contract_fixture() as f:
+            for edit in ('duplicate','base','role','raw_problem','node_alias','missing_label','slot','ancestry'):
+                c=copy.deepcopy(f.c)
+                if edit=='duplicate':c['cases'][1]=copy.deepcopy(c['cases'][0])
+                elif edit=='base':c['cases'][0]['base_commit']='0'*40
+                elif edit=='role':c['cases'][0]['role']='target'
+                elif edit=='raw_problem':c['cases'][0]['problem_sha256']='0'*64
+                elif edit=='node_alias':c['cases'][0]['label_map']['f2p'][0]['node']=c['cases'][0]['label_map']['ptp'][0]['node']
+                elif edit=='missing_label':c['cases'][0]['label_map']['ptp'].pop()
+                elif edit=='slot':c['cases'][0]['dependency_slot']='unapproved'
+                else:c['ancestry']=reference(f.root/'wrong_ancestry.json',{'schema':'code_source_second_wave_ancestry_v1','selection_sha256':c['selection']['sha256'],'results':[]})
+                with self.subTest(edit=edit),self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,c),f.output)
+
+    def test_ast_node_mapping_keeps_params_complete_nodes_and_top_level_functions(self):
+        module='lib/matplotlib/tests/test_cbook.py'
+        source='class TestBox:\n def test_bad_dims(self): pass\nclass TestCallback:\n def test_callback(self): pass\ndef test_grouper_private(): pass\n'
+        labels=[module+'::test_bad_dims',module+'::test_callback[False]',module+'::TestCallback::test_callback[True]',module+'::test_grouper_private']
+        before=labels.copy();expected=[module+'::TestBox::test_bad_dims',module+'::TestCallback::test_callback[False]',labels[2],labels[3]]
+        self.assertEqual(r.resolve_matplotlib_nodes(module,source,labels),expected);self.assertEqual(labels,before)
+
+    def test_ast_node_mapping_rejects_missing_ambiguous_partial_and_duplicate_aliases(self):
+        module='lib/matplotlib/tests/test_cbook.py';source='class A:\n def test_same(self): pass\nclass B:\n def test_same(self): pass\n'
+        for labels in [[module+'::test_same'],[module+'::test_missing'],[module+'::UNKNOWN::test_same']]:
+            with self.subTest(labels=labels),self.assertRaises(ValueError):r.resolve_matplotlib_nodes(module,source,labels)
+        source='class A:\n def test_same(self): pass\n'
+        with self.assertRaises(ValueError):r.resolve_matplotlib_nodes(module,source,[module+'::test_same',module+'::A::test_same'])
+
+    def test_ast_contract_binds_public_file_and_rejects_missing_function_or_forged_mapping(self):
+        with matplotlib_contract_fixture() as f:
+            f.c['schema']='contextbench_pool_qualification_matplotlib_pair_v2'
+            f.c['mapping_origin']=dict(policy='exact_or_unique_ast_class_path_v1',prior_runs=[reference(f.root/'run1.json',dict(status='ERROR',container_runs=1,seconds=.1)),reference(f.root/'run2.json',dict(status='ERROR',container_runs=3,seconds=.1))],prior_code_snapshot=reference(f.root/'snapshot.json',{'files':[]}),caps=dict(container_runs=4,group_seconds=300,seconds=900),target_task_nature='maintenance_followup_not_independent_bug')
+            for spec in f.c['cases']:
+                code='def test_f2p(): pass\n'
+                target=spec['role']=='target'
+                code+=('class TestPublic:\n' if target else '')+'\n'.join((' ' if target else '')+'def '+e['published'].split('::')[-1]+'('+('self' if target else '')+'): pass' for e in spec['label_map']['ptp'])+'\n'
+                path=f.root/(spec['role']+'_public_tests.py');path.write_text(code);spec['node_source']={'path':str(path),'sha256':sha(path)}
+                if target:
+                    for e in spec['label_map']['ptp']:e['node']=e['node'].replace('::','::TestPublic::',1)
+            result=r.load_contract(f.path,write(f.path,f.c),f.output);self.assertEqual(result['caps']['seconds'],900)
+            self.assertEqual(result['mapping_counts'],{'matplotlib__matplotlib-25332':0,'matplotlib__matplotlib-25352':60})
+            c=copy.deepcopy(f.c);c['cases'][1]['label_map']['ptp'][0]['node']=c['cases'][1]['label_map']['ptp'][0]['published']
+            with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,c),f.output)
+            path=Path(f.c['cases'][1]['node_source']['path']);path.write_text('def only_unrelated(): pass\n')
+            f.c['cases'][1]['node_source']['sha256']=sha(path)
+            with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,f.c),f.output)
+
+    def test_warning_compatibility_is_exact_and_product_warning_remains_an_error(self):
+        options=r.matplotlib_warning_options(r.MPL_WARNING_RULES)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);test=root/'test_warning_control.py'
+            test.write_text("import warnings\ndef test_known():\n    exec(\"import warnings; warnings.warn('pkg_resources is deprecated as an API', DeprecationWarning)\", {'__name__':'pkg_resources'})\ndef test_product():\n    exec(\"import warnings; warnings.warn('pkg_resources is deprecated as an API', DeprecationWarning)\", {'__name__':'matplotlib._api'})\n")
+            done=subprocess.run([sys.executable,'-m','pytest','-q','-W','error',*options,str(test)],cwd=root,capture_output=True,timeout=30,env=dict(os.environ,PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'))
+            self.assertEqual(done.returncode,1,done.stdout.decode());self.assertIn('1 failed, 1 passed',done.stdout.decode())
+        changed=copy.deepcopy(r.MPL_WARNING_RULES);changed[0]['module']='.*'
+        with self.assertRaises(ValueError):r.matplotlib_warning_options(changed)
+
+    def test_group_preserves_actual_exit_and_never_turns_skip_missing_or_signal_into_pass(self):
+        labels={'f2p':['f'],'ptp':['p']}
+        base={'exit':1,'result':{'tests':{'f':'failed','p':'passed'},'fatal':[]}}
+        gold={'exit':0,'result':{'tests':{'f':'passed','p':'passed'},'fatal':[]}}
+        self.assertTrue(r.matplotlib_qualification(base,gold,labels)['qualified']);self.assertEqual(base['exit'],1)
+        for value in ('failed','skipped','xfailed','xpassed','missing'):
+            bad=copy.deepcopy(base)
+            if value=='missing':bad['result']['tests'].pop('p')
+            else:bad['result']['tests']['p']=value
+            with self.subTest(value=value):self.assertFalse(r.matplotlib_qualification(bad,gold,labels)['qualified'])
+        for code in (137,-9,2):
+            bad=copy.deepcopy(base);bad['exit']=code;self.assertFalse(r.matplotlib_qualification(bad,gold,labels)['qualified'])
+
+    def test_matplotlib_command_has_python310_exact_nodes_offline_readonly_and_owned_cid(self):
+        assets={'runtime':'/CPU/runtime','sites':{'source':'/CPU/deps/source'}}
+        cmd=r.matplotlib_command(Path('/CPU/work'),['lib/matplotlib/tests/test_pickle.py::test_complete[png]'],Path('/CPU/runner.py'),'CPU_NAME',Path('/CPU/cid'),assets,'source')
+        self.assertEqual(cmd[cmd.index('--network')+1],'none');self.assertIn('--read-only',cmd)
+        self.assertEqual(cmd[cmd.index('--cpus')+1],'1');self.assertEqual(cmd[cmd.index('--memory')+1],'4g')
+        self.assertEqual(cmd[cmd.index('--cidfile')+1],'/CPU/cid');self.assertIn('PYTHONPATH=/workspace/lib:/deps',cmd)
+        self.assertEqual(cmd[cmd.index('--entrypoint')+1],'/extra/bin/python');self.assertIn('matplotlib',cmd)
+        self.assertTrue(all('readonly' in cmd[i+1] for i,x in enumerate(cmd[:-1]) if x=='--mount'))
+
+    def test_missing_or_mismatched_owned_cid_never_removes_an_unknown_container(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cid=Path(tmp)/'cid';cid.write_text('a'*64);calls=[]
+            def inspect(cmd,**kw):calls.append(cmd);return SimpleNamespace(returncode=0,stdout=b'"/OTHER_OWNER"',stderr=b'')
+            with mock.patch.object(subprocess,'run',side_effect=inspect),self.assertRaises(ValueError):r.matplotlib_cleanup(cid,'CPU_OWNED')
+            self.assertEqual(len(calls),1);self.assertEqual(calls[0][:2],['docker','inspect'])
+
+    def test_execute_uses_only_four_combined_groups_and_never_applies_gold_to_clean_base(self):
+        with matplotlib_contract_fixture() as f:
+            loaded=r.load_contract(f.path,f.sha,f.output);f.shared.apply_patch.side_effect=lambda *a:{'check_exit':0,'apply_exit':0}
+            def extract(archive,base,rev):base.mkdir();(base/'clean.py').write_bytes(b'CPU_PUBLIC_BASE');return {}
+            f.assets['helper'].extract.side_effect=extract
+            groups=[]
+            def group(work,labels,runner,log,assets,slot,timeout):
+                groups.append((work.name,len(labels),timeout));states={n:'failed' if work.name=='base_with_tests' and 'test_f2p' in n else 'passed' for n in labels}
+                return dict(exit=1 if 'failed' in states.values() else 0,result=dict(tests=states,fatal=[]),cleanup=dict(status='ALREADY_REMOVED'),container_started=True,seconds=.01)
+            with mock.patch.object(r,'mem_available',return_value=8*1024**3),mock.patch.object(r,'run_matplotlib_group',side_effect=group):result=r.execute(loaded)
+            self.assertEqual(result['status'],'QUALIFIED');self.assertEqual(len(groups),4)
+            for case in result['cases'].values():self.assertTrue(case['qualification']['qualified'])
+            self.assertEqual(sum('CPU_EVAL_ONLY_REFERENCE'==x.args[1] for x in f.shared.apply_patch.call_args_list),2)
+
 class PerTestOutcomeTests(unittest.TestCase):
     def test_full_runner_records_real_unittest_pass_assertion_failure_and_import_error(self):
         # Execute the complete wrapper in a CPU child, with synthetic public tests
