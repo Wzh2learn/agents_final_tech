@@ -71,7 +71,7 @@ def dependencies(kind,ref,bindings):
         binary=LEGACY/'bin/python'
         if manifest['container_image']!=IMAGE or not binary.resolve().is_relative_to(LEGACY) or sha(binary)!=manifest['python_binary_sha256']:raise ValueError('legacy interpreter changed')
         bindings[str(binary)]=manifest['python_binary_sha256']
-    return manifest.get('limits','image Python3.12 and frozen private site/wheels')
+    return 'Python3.8 via shared SHA-bound read-only LEGACY; repository site/wheels frozen; full conda runtime library tree not frozen. '+manifest.get('limits','')
 
 
 def archive_members(path,repo,revision):
@@ -129,7 +129,7 @@ def status(test,value):result['tests'][test]=value
 def error_kind(test,err):
  return 'error' if issubclass(err[0],(ImportError,SyntaxError)) or test.__class__.__name__.startswith('_') else 'failed'
 try:
- assert sys.version_info[:2]==((3,12) if kind=='django' else (3,8)), 'wrong Python runtime'
+ assert sys.version_info[:2]==(3,8), 'wrong historical Python runtime'
  if kind=='django':
   sys.path.insert(0,'/workspace/tests')
   class Recorded(unittest.TextTestResult):
@@ -152,10 +152,11 @@ try:
     if report.failed:result['fatal'].append('collection_error')
    def pytest_runtest_logreport(self,report):
     if report.failed and report.when!='call':status(report.nodeid,'error')
-    elif report.when=='call':
+    elif report.when=='call' or report.skipped:
      value='error' if report.failed and any(k in report.longreprtext for k in ('ImportError','ModuleNotFoundError')) else report.outcome
-     status(report.nodeid,'xfailed' if hasattr(report,'wasxfail') else value)
-    elif report.skipped:status(report.nodeid,'skipped')
+     if hasattr(report,'wasxfail') and report.skipped:value='xfailed'
+     elif hasattr(report,'wasxfail') and report.passed:value='xpassed'
+     status(report.nodeid,value)
   code=pytest.main(['-q','-p','no:cacheprovider']+labels,plugins=[Plugin()])
 except SystemExit as exc:code=exc.code
 except BaseException as exc:code=2;result['fatal'].append(type(exc).__name__);traceback.print_exc()
@@ -177,8 +178,8 @@ def command(work,repo,labels,runner_path,name):
     kind='django' if repo=='django/django' else 'sympy';site=ROOT/('swe_contextbench_'+('django_env_20261104' if kind=='django' else 'sympy_python38_env_20261104'))/'site'
     cmd=['docker','run','--name',name,'--rm','--pull','never','--network','none','--read-only','--cpus','1','--memory','1g','--pids-limit','256','--cap-drop','ALL','--security-opt','no-new-privileges','--user',str(os.getuid())+':'+str(os.getgid()),'--tmpfs','/tmp:rw,nosuid,size=128m','-e','PYTHONPATH=/workspace:/deps','-e','PYTHONDONTWRITEBYTECODE=1','-e','PYTEST_DISABLE_PLUGIN_AUTOLOAD=1','-e','HYPOTHESIS_STORAGE_DIRECTORY=/tmp/hypothesis','--workdir','/workspace']
     for src,dst in ((work,'/workspace'),(site,'/deps'),(runner_path,'/qualifier.py')):cmd+=['--mount','type=bind,src='+str(src)+',dst='+dst+',readonly']
-    if kind=='sympy':cmd+=['--mount','type=bind,src='+str(LEGACY)+',dst=/opt/legacy,readonly']
-    return cmd+['--entrypoint','python3' if kind=='django' else '/opt/legacy/bin/python',IMAGE,'/qualifier.py',kind,*labels]
+    cmd+=['--mount','type=bind,src='+str(LEGACY)+',dst=/opt/legacy,readonly']
+    return cmd+['--entrypoint','/opt/legacy/bin/python',IMAGE,'/qualifier.py',kind,*labels]
 
 
 def mem_available():

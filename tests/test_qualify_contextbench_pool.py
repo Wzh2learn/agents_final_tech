@@ -138,6 +138,9 @@ class FrozenContractTests(unittest.TestCase):
                              ['django__django-31051','sympy__sympy-9384','sympy__sympy-19006'])
             f.shared.extract_safe.assert_not_called();f.shared.apply_patch.assert_not_called();f.django.extract.assert_not_called()
             self.assertFalse(f.output.exists())
+            for limits in c['limits'].values():
+                self.assertIn('Python3.8',limits)
+                self.assertIn('full conda runtime library tree not frozen',limits)
 
     def test_duplicate_unknown_case_schema_hash_and_path_escape_are_rejected(self):
         for mode in ('duplicate','schema','hash','dataset_escape','unlisted_dataset','archive_escape','output_escape','existing_output',
@@ -213,7 +216,9 @@ raise SystemExit(0 if result.wasSuccessful() else 1)
 '''
         with tempfile.TemporaryDirectory(prefix='cb-runner-cpu-') as tmp:
             root=Path(tmp);(root/'tests').mkdir();(root/'tests/runtests.py').write_text(fake_tests,encoding='utf8')
-            done=subprocess.run([sys.executable,'-c',r.RUNNER,'django'],cwd=root,stdin=subprocess.DEVNULL,
+            python=r.LEGACY/'bin/python'
+            if not python.is_file():self.skipTest('frozen historical Python3.8 is unavailable')
+            done=subprocess.run([str(python),'-c',r.RUNNER,'django'],cwd=root,stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20,
                 env={**os.environ,'PYTHONDONTWRITEBYTECODE':'1'})
         self.assertEqual(done.returncode,1,done.stderr.decode('utf8',errors='replace'))
@@ -223,6 +228,36 @@ raise SystemExit(0 if result.wasSuccessful() else 1)
         self.assertEqual(payload,{'tests':{prefix+'test_passed':'passed',prefix+'test_failed':'failed',
             prefix+'test_import_error':'error'},'fatal':[]})
         self.assertFalse(r.classify(list(payload['tests']),{'exit':done.returncode,'result':payload})['complete'])
+
+    def test_pytest_wrapper_distinguishes_xfail_xpass_and_strict_xpass_on_python38(self):
+        python=r.LEGACY/'bin/python'
+        if not python.is_file():self.skipTest('frozen historical Python3.8 is unavailable')
+        fake_tests='''import pytest
+@pytest.mark.xfail(reason="OWNED_FAKE_expected_failure")
+def test_expected_fail():assert False
+@pytest.mark.xfail(reason="OWNED_FAKE_unexpected_pass",strict=False)
+def test_unexpected_pass():assert True
+@pytest.mark.xfail(reason="OWNED_FAKE_strict_pass",strict=True)
+def test_strict_pass():assert True
+@pytest.fixture
+def setup_xfail():pytest.xfail("OWNED_FAKE_setup_xfail")
+def test_setup_xfail(setup_xfail):assert True
+'''
+        with tempfile.TemporaryDirectory(prefix='cb-pytest-cpu-') as tmp:
+            root=Path(tmp);(root/'test_public.py').write_text(fake_tests,encoding='utf8')
+            labels=['test_public.py::'+name for name in ('test_expected_fail','test_unexpected_pass','test_strict_pass','test_setup_xfail')]
+            done=subprocess.run([str(python),'-c',r.RUNNER,'sympy',*labels],cwd=root,stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20,env={**os.environ,
+                'PYTHONPATH':str(r.ROOT/'swe_contextbench_sympy_python38_env_20261104/site'),
+                'PYTHONDONTWRITEBYTECODE':'1','PYTEST_DISABLE_PLUGIN_AUTOLOAD':'1'})
+        self.assertEqual(done.returncode,1,done.stderr.decode('utf8',errors='replace'))
+        markers=[s[len(r.MARKER):] for s in done.stdout.decode('utf8').splitlines() if s.startswith(r.MARKER)]
+        self.assertEqual(len(markers),1)
+        payload=json.loads(markers[0]);self.assertEqual(payload['fatal'],[])
+        self.assertEqual(payload['tests'],dict(zip(labels,('xfailed','xpassed','failed','xfailed'))))
+        record={'exit':done.returncode,'result':payload};record['coverage']=r.classify(labels,record)
+        self.assertFalse(record['coverage']['complete'])
+        self.assertFalse(r.qualification(record,record,record,record)['qualified'])
 
     def test_mixed_base_results_are_not_all_fail_to_pass_reproduction(self):
         labels=['sympy/test_fake.py::test_a','sympy/test_fake.py::test_b']
@@ -268,8 +303,10 @@ class ContainerBoundaryTests(unittest.TestCase):
                 self.assertTrue(all(x.endswith(',readonly') for x in mounts))
                 self.assertFalse(any('docker.sock' in x for x in argv))
                 self.assertEqual(argv[argv.index('--name')+1],'OWNED_FAKE_NAME')
-                self.assertEqual(argv[argv.index('--entrypoint')+1],
-                                 'python3' if repo=='django/django' else '/opt/legacy/bin/python')
+                self.assertEqual(argv[argv.index('--entrypoint')+1],'/opt/legacy/bin/python')
+                self.assertIn('type=bind,src='+str(r.LEGACY)+',dst=/opt/legacy,readonly',mounts)
+                site='django_env_20261104' if repo=='django/django' else 'sympy_python38_env_20261104'
+                self.assertIn('type=bind,src='+str(r.ROOT/('swe_contextbench_'+site)/'site')+',dst=/deps,readonly',mounts)
 
     def test_timeout_removes_only_its_generated_owned_container_and_keeps_partial_log(self):
         with tempfile.TemporaryDirectory() as tmp:
