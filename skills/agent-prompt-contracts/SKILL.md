@@ -148,6 +148,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **纠正监督资格**：保留实际请求/响应的原始schema顺序和锚，不从reasoning生成答案；仅当前assistant＋EOS算loss，prompt/tool输出及EOS后换行mask。模板逐token对齐；JSON递归sort_keys会改变schema呈现，新导出保序并验序列化往返，旧已核数组不因写出修复重训。小步LoRA还须验base未变、adapter保存重载、匹配精度/模板；训练与同prompt生成资格不作heldout任务收益。
 - **证据**：[ALFWorld记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md)、`scripts/graph/research_alfworld_bridge.py`、`tests/test_research_alfworld_bridge.py`、`tests/test_alfworld_actor.py`。
 
+## C-9 Source actor 的唯一工具与实际发送说明（2026-11-08）
+
+- **确认的冲突**：两道代码source实际只开放bash，其发送给模型的说明却禁止文件读写/编辑/搜索，并指向未开放的专用工具。两题各48动作只读/搜索、47轮后继反馈完整、首user完整；这些事实未证明合同冲突导致过去循环，也不裁决反馈学习效应。
+- **最小对策**：仅source入口在实际序列化、字节帽、预留和转发前深拷贝payload，将唯一bash说明改为可在隔离`/workspace`读、编辑和运行测试。函数名、参数schema、messages、sampling及其他字段保序保值；缺失、重复或未知工具明确拒绝。私有ledger绑定incoming/forwarded工具hash及实际body hash；新manifest显式绑定`contextbench_source_bash_v2`，旧attempt/raw/失败状态/费用不改、不复用旧reserved根。不扩大ALF或生产工具面。
+- **验证边界**：假socket核实际forward body、字节帽/hash顺序、深拷贝及非法工具零转发，GB10聚焦57项通过。另一次独立4POST/120秒/2MiB接口控制实际用2POST/25.77秒/56,724bytes，原生bash写入读回28bytes完全匹配；D再核19绑定、两份原SSE费用和容器清理。只证明本次写入通路，未证明合同冲突是旧循环原因，未重跑SWE题目。旧96POST及失败费不重置；新接口控制5,494tokens另账，cache未知。
+- **证据**：[现役source工具合同记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_CORRECTION_DATA.md#source-tool-contract)；私有尸检SHA `52b958f5b39914c37017824e356ba9d56555a9b37907d7f30ad26311ebdb5727`、`TOOL_CONTRACT_V2_CANARY_V1/receipt.json` SHA `b8e914788bcaccf6aab7cc4dd639787993095b1648e1c28b9d41dd733d73ecaa`，以及`run_contextbench_source.py`与其测试。仓库版本为权威，安装分发另核，不由Git同步推断。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

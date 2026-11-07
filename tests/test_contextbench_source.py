@@ -1,5 +1,6 @@
 """CPU engineering controls only: synthetic sources and fake socket pairs, no model evidence."""
 import hashlib
+import copy
 import json
 import os
 from pathlib import Path
@@ -136,6 +137,113 @@ def wire_payload(client, payload):
     client.sendall(b'POST /v1/chat/completions HTTP/1.1\r\nContent-Length: ' + str(len(body)).encode() + b'\r\n\r\n' + body)
 
 
+def synthetic_payload(**extra):
+    """Engineering fixture reproducing the actual bash-only description conflict."""
+    return dict(messages=[{'role': 'user', 'content': 'synthetic CPU control'}],
+        tools=[dict(type='function', function=dict(name='bash',
+            description='DO NOT use it for file operations (reading, writing, editing, searching, finding files) - use the specialized tools for this instead.',
+            parameters=dict(type='object', properties=dict(command=dict(type='string'),
+                workdir=dict(type='string')), required=['command'])))], **extra)
+
+
+def test_source_tool_contract_only_changes_description_without_mutating_input():
+    payload = synthetic_payload(temperature=.2, seed=17, stream=True,
+        chat_template_kwargs={'enable_thinking': False})
+    before = copy.deepcopy(payload)
+    forwarded, proof = m.prepare_tool_contract(payload)
+    assert payload == before and forwarded is not payload
+    description = forwarded['tools'][0]['function'].pop('description')
+    expected = copy.deepcopy(before); expected['tools'][0]['function'].pop('description')
+    assert forwarded == expected
+    assert '/workspace' in description and all(word in description.lower() for word in ('read', 'edit', 'test'))
+    assert 'specialized tools' not in description and 'DO NOT use it for file operations' not in description
+    assert proof['version'] == m.TOOL_CONTRACT_VERSION
+    assert proof['incoming_tools_sha256'] != proof['forwarded_tools_sha256']
+    assert proof['incoming_tools_sha256'] == hashlib.sha256(json.dumps(before['tools'], ensure_ascii=False, allow_nan=False, separators=(',', ':')).encode()).hexdigest()
+    forwarded['messages'][0]['content'] = 'only the copy changes'
+    assert payload == before
+
+
+def test_actual_fake_wire_replaces_legacy_bash_description(tmp_path, monkeypatch):
+    """Fails on the old wire behavior, independent of the new pure helper."""
+    bodies, workers = fake_upstream(monkeypatch); relay = relay_at(tmp_path)
+    assert exchange(relay, synthetic_payload()).startswith(b'HTTP/1.1 200')
+    for worker in workers: worker.join(3)
+    actual = json.loads(bodies[0])['tools'][0]['function']['description']
+    assert 'DO NOT use it for file operations' not in actual
+    assert '/workspace' in actual and all(word in actual.lower() for word in ('read', 'edit', 'test'))
+
+
+@pytest.mark.parametrize('tools', [None, [], 'bash',
+    [{'type': 'function', 'function': {'name': 'edit', 'description': 'edit', 'parameters': {}}}],
+    synthetic_payload()['tools'] * 2,
+    synthetic_payload()['tools'] + [{'type': 'function', 'function': {'name': 'read'}}],
+    [{'type': 'custom', 'function': {'name': 'bash', 'description': 'bash', 'parameters': {}}}],
+    [{'type': 'function', 'function': {'name': 'bash', 'description': 'bash', 'parameters': []}}],
+])
+def test_invalid_source_tool_contract_never_reserves_or_connects(tmp_path, monkeypatch, tools):
+    connected = []
+    def forbidden(*_, **__): connected.append(True); raise AssertionError('invalid tools reached connect')
+    monkeypatch.setattr(socket, 'create_connection', forbidden)
+    payload = synthetic_payload(); payload['tools'] = tools
+    relay = relay_at(tmp_path)
+    assert exchange(relay, payload).startswith(b'HTTP/1.1 502')
+    bill = relay.accounting()
+    assert connected == [] and bill['actual_forwarded_posts'] == 0
+    assert bill['budget_reserved_combined_wire_bytes'] == 0
+    assert not list((tmp_path / 'wire').glob('*.request.json'))
+
+
+def test_missing_source_tool_contract_never_connects(tmp_path, monkeypatch):
+    connected = []
+    def forbidden(*_, **__): connected.append(True); raise AssertionError('missing tools reached connect')
+    monkeypatch.setattr(socket, 'create_connection', forbidden)
+    relay = relay_at(tmp_path)
+    assert exchange(relay, {'messages': []}).startswith(b'HTTP/1.1 502')
+    assert connected == [] and relay.accounting()['budget_reserved_combined_wire_bytes'] == 0
+
+
+def test_tool_contract_actual_fake_wire_precedes_byte_cap_and_hash(tmp_path, monkeypatch):
+    payload = synthetic_payload(); before = copy.deepcopy(payload)
+    projected, proof = m.prepare_tool_contract(payload)
+    projected = actor.model_payload(projected, 'teacher27b', relay_at_profile(), 17)
+    expected = json.dumps(projected, ensure_ascii=False, allow_nan=False, separators=(',', ':')).encode()
+    bodies, workers = fake_upstream(monkeypatch); relay = relay_at(tmp_path)
+    assert exchange(relay, payload).startswith(b'HTTP/1.1 200')
+    for worker in workers: worker.join(3)
+    assert bodies == [expected] and payload == before
+    assert (tmp_path / 'wire/00001.request.json').read_bytes() == expected
+    ledger = [json.loads(x) for x in (tmp_path / 'forward_ledger.jsonl').read_text().splitlines()]
+    contract = next(x for x in ledger if x['event'] == 'tool_contract_prepared')
+    assert all(contract[k] == v for k, v in proof.items())
+    assert contract['body_sha256'] == hashlib.sha256(expected).hexdigest()
+    assert contract['body_bytes'] == relay.accounting()['actual_forwarded_body_bytes'] == len(expected)
+    incoming = actor.model_payload(copy.deepcopy(payload), 'teacher27b', relay_at_profile(), 17)
+    assert len(json.dumps(incoming, ensure_ascii=False, separators=(',', ':')).encode()) < len(expected)
+    denied = tmp_path / 'denied'; denied.mkdir(); connected = []
+    def forbidden(*_, **__): connected.append(True); raise AssertionError('projected body exceeded cap')
+    monkeypatch.setattr(socket, 'create_connection', forbidden)
+    capped = relay_at(denied, dict(posts=1, seconds=10, combined_wire_bytes=len(expected)-1))
+    assert exchange(capped, payload).startswith(b'HTTP/1.1 403')
+    assert connected == [] and capped.accounting()['budget_reserved_combined_wire_bytes'] == 0
+    assert (denied / 'wire/00001.request.json').read_bytes() == expected
+
+
+def relay_at_profile():
+    return dict(host='127.0.0.1', port=1, model_id='qwen38-27b-fp8', output=8192)
+
+
+@pytest.mark.parametrize('mutation', ['legacy', 'changed_contract'])
+def test_new_prepare_binds_tool_contract_and_rejects_old_policy(prepared_inputs, mutation):
+    f = prepared_inputs; prepare(f); path = f.root / 'manifest.json'; manifest = json.loads(path.read_text())
+    assert manifest['schema'] == 'contextbench_source_v2'
+    assert manifest['tool_contract']['version'] == m.TOOL_CONTRACT_VERSION
+    if mutation == 'legacy': manifest['schema'] = 'contextbench_source_v1'; manifest.pop('tool_contract')
+    else: manifest['tool_contract']['version'] = 'unapproved'
+    digest = write_json(path, manifest)
+    with pytest.raises(ValueError, match='policy'): m.verify(f.root, digest)
+
+
 def fake_upstream(monkeypatch):
     """Socket pairs only, no listening endpoint; capture the actual serialized POST."""
     bodies = []; workers = []
@@ -158,7 +266,7 @@ def fake_upstream(monkeypatch):
 def exchange(relay, payload=None):
     client, receiver = socket.socketpair(); client.settimeout(5)
     worker = threading.Thread(target=relay.handle, args=(receiver,)); worker.start()
-    wire_payload(client, {'messages': [{'role': 'user', 'content': 'synthetic CPU control'}]} if payload is None else payload)
+    wire_payload(client, synthetic_payload() if payload is None else payload)
     data = b''
     while True:
         piece = client.recv(65536)
@@ -302,13 +410,16 @@ def test_deadline_rechecked_after_connect_before_any_wire_post(tmp_path, monkeyp
 def test_response_wire_cap_keeps_known_request_and_unknown_response_usage(tmp_path, monkeypatch):
     bodies, workers = fake_upstream(monkeypatch)
     # Request fits, but the received response cannot be forwarded within the ceiling.
-    relay = relay_at(tmp_path, dict(posts=1, seconds=10, combined_wire_bytes=250))
+    value, _ = m.prepare_tool_contract(synthetic_payload())
+    value = actor.model_payload(value, 'teacher27b', relay_at_profile(), 17)
+    size = len(json.dumps(value, ensure_ascii=False, separators=(',', ':')).encode())
+    relay = relay_at(tmp_path, dict(posts=1, seconds=10, combined_wire_bytes=size+1))
     exchange(relay)
     for w in workers: w.join(5)
     bill = relay.accounting()
     assert bill['actual_forwarded_posts'] == 1 and bill['actual_forwarded_body_bytes'] == len(bodies[0])
     assert bill['unknown_usage_requests'] == [1] and bill['provider_total_tokens_known'] == 0
-    assert bill['budget_reserved_combined_wire_bytes'] <= 250 and bill['integrity_passed'] is False
+    assert bill['budget_reserved_combined_wire_bytes'] <= size+1 and bill['integrity_passed'] is False
 
 
 def test_changed_component_binding_fails_verification(prepared_inputs):
@@ -372,7 +483,7 @@ def test_close_rejects_connection_that_returns_after_shutdown(tmp_path, monkeypa
         connecting.set(); assert release.wait(3); return upstream
     monkeypatch.setattr(socket, 'create_connection', connect)
     client, receiver = socket.socketpair(); worker = threading.Thread(target=relay.handle, args=(receiver,))
-    worker.start(); wire_payload(client, {'messages': []})
+    worker.start(); wire_payload(client, synthetic_payload())
     try:
         assert connecting.wait(3); relay.close(); release.set(); worker.join(3)
         assert not worker.is_alive() and upstream.closed and frames == []
@@ -410,7 +521,7 @@ def test_close_cannot_cross_check_and_actual_send_boundary(tmp_path, monkeypatch
         close_done.set()
     close_worker = threading.Thread(target=closer); close_worker.start()
     client, receiver = socket.socketpair(); worker = threading.Thread(target=relay.handle, args=(receiver,))
-    worker.start(); wire_payload(client, {'messages': []})
+    worker.start(); wire_payload(client, synthetic_payload())
     try:
         worker.join(3); close_worker.join(3)
         assert not worker.is_alive() and not close_worker.is_alive() and close_done.is_set()
@@ -435,7 +546,7 @@ def test_close_is_bounded_when_locked_fake_send_honors_timeout(tmp_path, monkeyp
         def close(self): pass
     monkeypatch.setattr(socket, 'create_connection', lambda *_, **__: BlockingSocket())
     client, receiver = socket.socketpair(); worker = threading.Thread(target=relay.handle, args=(receiver,))
-    worker.start(); wire_payload(client, {'messages': []})
+    worker.start(); wire_payload(client, synthetic_payload())
     closer = threading.Thread(target=relay.close)
     try:
         assert sending.wait(3); closer.start(); closer.join(1)

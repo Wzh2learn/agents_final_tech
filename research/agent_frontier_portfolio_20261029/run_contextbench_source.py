@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from contextlib import contextmanager
+import copy
 import difflib
 import hashlib
 import importlib
@@ -31,12 +32,47 @@ RESULT_SHA = '576dec0cc19d342d50c8ebfd65b90dde8c123ba7e1fd199545dde209ad638ab2'
 PROFILE_SHA = '9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279'
 CAPS = dict(posts=48, seconds=1200, combined_wire_bytes=64 * 1024**2)
 SEND_TIMEOUT = 5.0
+TOOL_CONTRACT_VERSION = 'contextbench_source_bash_v2'
+BASH_DESCRIPTION = (
+    'Execute shell commands in the isolated, offline code-task workspace. This is the only '
+    'available tool: use shell commands directly to discover, search and read files, edit '
+    'source files in /workspace, and run relevant tests. Use workdir to select a directory; '
+    'the default is /workspace. Keep source changes in /workspace. Public task inputs and '
+    'dependency mounts are read-only. Network access is unavailable. Inspect command output '
+    'and test results before deciding whether the requested change is complete.'
+)
 SOURCES = {
     'django__django-12453': ('django/django', 'b330b918e979ea39a21d47b61172d112caf432c3', 'django__django-31051', 5,
         'd4e3a8f860acf71c69b63bbe2b553599807d1bf25ab0ae3c79c7b236bc6efd87'),
     'sympy__sympy-21055': ('sympy/sympy', '748ce73479ee2cd5c861431091001cc18943c735', 'sympy__sympy-9384', 13,
         '3637be1d94932dfff7ad9af88c2d5a6ebef42a51a6464e2f56717abd04cda703'),
 }
+
+
+def tool_contract_policy():
+    return dict(version=TOOL_CONTRACT_VERSION,
+        bash_description_sha256=hashlib.sha256(BASH_DESCRIPTION.encode()).hexdigest())
+
+
+def prepare_tool_contract(payload):
+    """Pure source-only adaptation; preserve every field except bash description."""
+    tools = payload.get('tools') if isinstance(payload, dict) else None
+    if not isinstance(tools, list) or len(tools) != 1:
+        raise ValueError('source tool contract requires exactly one bash function')
+    tool = tools[0]
+    function = tool.get('function') if isinstance(tool, dict) else None
+    if (not isinstance(function, dict) or tool.get('type') != 'function'
+            or function.get('name') != 'bash' or not isinstance(function.get('description'), str)
+            or not isinstance(function.get('parameters'), dict)):
+        raise ValueError('source tool contract requires the bash description and parameter schema')
+    def tools_sha(value):
+        return hashlib.sha256(json.dumps(value, ensure_ascii=False, allow_nan=False,
+            separators=(',', ':')).encode()).hexdigest()
+    incoming = tools_sha(tools)
+    forwarded = copy.deepcopy(payload)
+    forwarded['tools'][0]['function']['description'] = BASH_DESCRIPTION
+    return forwarded, dict(version=TOOL_CONTRACT_VERSION, incoming_tools_sha256=incoming,
+        forwarded_tools_sha256=tools_sha(forwarded['tools']))
 
 # Explicit code-task guest. No generated runner, inherited world tool or host shell.
 GUEST = r'''import json,os,pathlib,select,socket,subprocess,sys,threading
@@ -213,7 +249,7 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
     shutil.copyfile(parent / 'test.patch', root / 'scoring/test.patch')
     (inputs / 'guest.py').write_text(GUEST)
     new(inputs / 'opencode.json', h.actor.config(p, 17))
-    manifest = dict(schema='contextbench_source_v1', root=str(root), source=source,
+    manifest = dict(schema='contextbench_source_v2', tool_contract=tool_contract_policy(), root=str(root), source=source,
         registry=dict(path=str(registry), sha256=registry_sha), source_result=reg['source_result'],
         repo=case['spec']['repo'], base=case['spec']['base_commit'], labels=case['labels'],
         scorer_dependencies=scorer, projection=dict(path=str(projection), sha256=projection_sha), profile=dict(path=str(profile), sha256=profile_sha),
@@ -230,7 +266,7 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
 
 def verify(root, digest, *, initial=True):
     root = safe(root); m = read_ref(dict(path=str(root / 'manifest.json'), sha256=digest)); h = helpers()
-    if m['schema'] != 'contextbench_source_v1' or m['root'] != str(root) or m['caps'] != CAPS or m['sampling'] != dict(seed=17, temperature=0.2, native_thinking=False, context=32768, output=8192):
+    if m['schema'] != 'contextbench_source_v2' or m.get('tool_contract') != tool_contract_policy() or m['root'] != str(root) or m['caps'] != CAPS or m['sampling'] != dict(seed=17, temperature=0.2, native_thinking=False, context=32768, output=8192):
         raise ValueError('manifest policy differs')
     reg, case, _ = source_input(m['registry']['path'], m['registry']['sha256'], m['source'])
     if m['source_result'] != reg['source_result'] or (m['repo'], m['base'], m['labels']) != (case['spec']['repo'], case['spec']['base_commit'], case['labels']):
@@ -285,10 +321,12 @@ class Relay:
             client.settimeout(max(0.001, self.deadline - time.monotonic()))
             value = self.h.actor.receive_http(client, self.caps['combined_wire_bytes'])
             if not isinstance(value, dict): raise ValueError('model payload must be an object')
+            value, contract = prepare_tool_contract(value)
             value = self.h.actor.model_payload(value, 'teacher27b', self.profile, 17)
             value.pop('max_completion_tokens', None)
             body = json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(',', ':')).encode()
             size = len(body); path = self.root / 'wire' / f'{index:05d}.request.json'; path.write_bytes(body)
+            self.event(index, 'tool_contract_prepared', **contract, body_bytes=size, body_sha256=sha(path))
             with self.lock:
                 if self.closing: raise RuntimeError('relay closed before reservation')
                 if time.monotonic() >= self.deadline: raise TimeoutError('episode deadline')
