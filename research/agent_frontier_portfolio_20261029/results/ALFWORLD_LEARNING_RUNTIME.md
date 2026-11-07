@@ -10,6 +10,14 @@
 
 2026-11-07新评价窗口`learning_comparison_v1/hf_evaluation_v1/RUN_v1`在Popen后立即采集身份，启动瞬态被误判，0个task/POST；BF16实际已加载。原RESULT SHA `b8dfa6fda5c377049810e03915b7d4640552dc5ae5e33e11fd99cb452823039a`保留。D精确收回自有BF16 PID169132、原样恢复Q4为PID171257，保护35B/27B不变；`manual_restore_v1/RESULT.json` SHA `131747165d1ce410612065bd7d619fc17382a9c8ddde941902e6cc750fa9d251`，4次健康GET、0生成。v2把执行资格的稳定argv/cwd/exe与Popen子进程的清理所有权分开；D真实CPU exec过渡观察及5项测试通过，科学协议、任务和权重未改。随后RUN_v2开始实际评价，不能将本窗口工程失败算作学习负结果。
 
+### 实际训练表示复核（2026-11-07）
+
+独立只读核对V4排程实际覆盖的全部135个唯一训练行及原请求：ordinary为67行、7组、2,865唯一监督tokens，均从reset起步；recovery为68行、同7组、2,950唯一监督tokens，均来自drop_recent失败现场。两者训练system token hash一致；135行均只监督当前助手动作与EOS，历史及工具反馈为-100，未发现错误历史进入loss。`TRAINING_REPRESENTATION_CENSUS_V1.json`位于私有证据目录`evidence_packets_20261106`，SHA `2c3b1595109516d3eb05020abd5052ca746dc28b16bd3fab5f1fe1f050557a55`。
+
+重要区别：R原始user中保留的是起始现场最近3个已接受**环境动作**，随后教师原生assistant/tool历史继续增长；运行期last3则滚动保留3个完整**工具调用轮次**，二者不是同一操作。当前O/R检验训练方案整体差异，包含来源状态、可用信息及表示，不能单独归因为反馈内容。当前批次按冻结合同继续；若R出现稳定收益，再用表示及信息匹配对照拆分来源，不自动增加训练变体。
+
+仅按公开目标检查135行中的heat/cool/clean正监督动作，普通无非目标处理动作，纠正有1个（目标hot tomato时执行cool tomato）；hot/heated、cold/cooled按对应动作解释。`TEACHER_GOAL_OPERATION_SCAN_V1.json` SHA `43e4c2143a141d3dc0311920e5d63cefba10b703e484fbf8d865e920f8e5da59`。这只是监督筛查线索，不证明该步有害、冗余或解释迁移失败；移动、搜索、开关等动作未判定必要性，不据此清洗数据或改变在途实验。
+
 ## 2026-11-07闭合：训练前工程现场
 
 v2首次实跑在权重加载前返回`Invalid device argument`（0权重加载、0forward、0优化步，不是OOM或学习负结果）。根已在新进程精确复现：reset_peak不触发CUDA初始化，必须先mem_get_info；现已修正并以失败→通过回归验证。`owned_window_v1`结束已恢复8B原argv/cwd（PID16445），共享35B/27B身份未变；5次健康GET、1次CUDA内存探测、零模型生成。旧窗口与receipt保留，随后v3在CUDA初始化处报OOM，仍0权重加载/0forward/0步；`owned_window_v2`已恢复原8B（PID24359），共享服务未变，7次健康GET/1次CUDA探测。两次都不是学习负结果。定向释放已绑定HF8B文件的clean页缓存，实测MemFree增加约8.7GB而MemAvailable近似不变；v4仅在逐shard完整核验后作同类建议，并记录原始异常堆栈与阶段，不保证显存足够。不改共享模型，不让此支持项阻塞主线。

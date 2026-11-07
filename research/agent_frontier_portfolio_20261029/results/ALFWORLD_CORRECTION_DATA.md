@@ -8,6 +8,8 @@
 
 27B从头执行16/18、从12个学生现场恢复8/12；两者成功交集只有7组（4heat/2cool/1look）。普通/纠正轨迹分别67/68个接受动作；失败和全部形成费保留。完整导出、token标签、来源hash和教师成本见[已闭合监督材料](ALFWORLD_CONTEXT_STUDY.md#teacher-supervision)，不再默认加载全过程。
 
+实际135个训练行及原请求已全核：历史均不参与loss；O从reset学习，R从失败现场学习，后者起始user含3个环境动作，不能等同运行期last3工具轮次。因此O/R目前识别训练方案整体差异；表示及信息条件的拆分留待稳定收益出现后。证据见[训练表示复核](ALFWORLD_LEARNING_RUNTIME.md#实际训练表示复核2026-11-07)，不改在途合同。
+
 ## 当前动作：六组新批次与代码任务资格
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
