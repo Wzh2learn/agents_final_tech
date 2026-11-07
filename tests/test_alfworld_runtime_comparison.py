@@ -905,3 +905,144 @@ class PrerequisiteTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
+def preserved_fixture(f):
+    cases=CASES[:8]
+    old=write(f.base/'preserved/old_protocol.json',dict(case_ids=CASES))
+    src=write(f.base/'preserved/source_contract.json',dict(schema='ALFWORLD_ADDITIONAL_RECOVERY_V1',
+        source_protocol=old,source_bindings={case:dict(root=str(f.st/'cases'/case/'ordinary_reset/student8b/attempt_v2')) for case in cases}))
+    prefixes={}
+    native=[]
+    for case in cases:
+        file=write(f.base/'preserved'/case/'source.json',dict(case=case,won=False))
+        prefix=dict(root=Path(json.loads(Path(src['path']).read_text())['source_bindings'][case]['root']),
+            steps=[dict(action='look')]*2,public_prefix_sha256=hashlib.sha256(case.encode()).hexdigest(),
+            binding={file['path']:file['sha256']},additional_caps=dict(CAPS,posts=32,seconds=600,world_actions=98),
+            budget_semantics='ADDITIONAL_PHASE_NOT_OLD_REMAINING_POSTS',world_step_cap=100,
+            receipt=dict(real_model_calls=128),manifest=dict(protocol_sha256=old['sha256']))
+        prefixes[case]=prefix
+        native.append(dict(case=case,status='PUBLIC_REPLAY_EQUAL',source_actions=2,remaining_world_actions=98,
+            public_prefix_sha256=prefix['public_prefix_sha256'],owned_world_stopped=True,
+            final_state=dict(won=False,done=False,action_count=2)))
+    replay=write(f.base/'preserved/native.json',dict(schema='additional_failure_prefix_native_replay_v1',
+        status='QUALIFIED_PUBLIC_REPLAY',source_protocol=src,rows=native,model_calls=0,training=0,replayed_actions=16,
+        pool=dict(path=str(f.base/'POOL.json'),sha256='a'*64)))
+    q=json.loads(Path(f.protocols['full']['path']).read_text())
+    selection=json.loads(Path(q['context_selection']['path']).read_text())
+    selection['selections']=[x for x in selection['selections'] if x['case'] in cases]
+    q['context_selection']=write(f.base/'preserved/contexts.json',selection)
+    q.update(schema='HF8B_PRESERVED_FAILURE_CONTEXT_DEVELOPMENT_V1',intended_stage='preserved_recovery',
+        case_ids=cases,additional_recovery_source=src)
+    proto=write(f.base/'preserved/PROTOCOL.json',q)
+    plan=dict(schema='ALFWORLD_PRESERVED_RECOVERY_COMPARISON_PLAN_V1',case_ids=cases,
+        arms=[dict(id=name,variant=variant,reference=reference,context='full',attempt=40+i,protocol=proto)
+              for i,(name,variant,reference) in enumerate([
+                ('frozen_full','frozen','none'),('ordinary_full','ordinary','none'),
+                ('recovery_full','recovery','none'),('history_all7_full','frozen','all7')])],
+        additional_recovery_source=src,source_native_replay=replay,
+        planned_episodes=32,carried_episodes=0,maximum_planned_model_posts=1024,
+        maximum_per_episode_caps=dict(CAPS,posts=32,seconds=600))
+    f.plan=plan;f.refs[0]=write(Path(f.refs[0]['path']),plan)
+    f.study.load_source_prefix=mock.Mock(side_effect=lambda study,case,root:copy.deepcopy(prefixes[case]))
+    restoration=write(f.base/'preserved/restoration.json',dict(status='ALL32_FULL_BASELINES_RETURNED',
+        restored_healthy=True,shared35_unchanged=True,shared27_unchanged=True,restored_process=process(202)))
+    return SimpleNamespace(cases=cases,prefixes=prefixes,source=src,replay=replay,protocol=proto,restoration=restoration)
+
+
+class PreservedRecoveryControllerTests(unittest.TestCase):
+    def check(self,f,g):return r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=g.restoration)
+
+    def test_exact_four_arms_same_eight_sources_and_new_budget(self):
+        with contract_fixture() as f:
+            g=preserved_fixture(f);c=self.check(f,g)
+            self.assertEqual(len(c['rows']),32);self.assertEqual(set(c['prefixes']),set(g.cases))
+            self.assertEqual(c['owned_process'],process(202))
+            self.assertEqual({Path(x['root']).parts[-3] for x in c['rows']},{'drop_full','keep_full'})
+            for prefix in g.prefixes.values():
+                for path,h in prefix['binding'].items():self.assertEqual(c['bindings'][path],h)
+            self.assertEqual(c['plan']['maximum_planned_model_posts'],1024)
+            self.assertEqual(r.completed_status(c['plan']),'ALL32_PRESERVED_RECOVERY_RETURNED')
+            self.assertEqual(c['student']['completed_receipts'],80)
+
+    def test_missing_provenance_or_wrong_finite_design_rejected(self):
+        for mode in ('missing_source','missing_replay','wrong_cases','wrong_posts','wrong_arms','wrong_child','no_restore'):
+            with self.subTest(mode=mode),contract_fixture() as f:
+                g=preserved_fixture(f)
+                if mode=='missing_source':del f.plan['additional_recovery_source']
+                elif mode=='missing_replay':del f.plan['source_native_replay']
+                elif mode=='wrong_cases':f.plan['case_ids'][-1]=CASES[9]
+                elif mode=='wrong_posts':f.plan['maximum_planned_model_posts']=4096
+                elif mode=='wrong_arms':f.plan['arms'][0]['context']='last3'
+                elif mode=='wrong_child':
+                    q=json.loads(Path(g.protocol['path']).read_text());q.pop('additional_recovery_source');new=write(g.protocol['path'],q)
+                    for a in f.plan['arms']:a['protocol']=new
+                f.refs[0]=write(f.refs[0]['path'],f.plan)
+                with self.assertRaises((ValueError,KeyError)):
+                    r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=None if mode=='no_restore' else g.restoration)
+
+    def test_native_replay_and_prefix_cannot_be_swapped(self):
+        for mode in ('not_closed','won','wrong_prefix','wrong_actions','wrong_source','zero_actions','changed_root'):
+            with self.subTest(mode=mode),contract_fixture() as f:
+                g=preserved_fixture(f);v=json.loads(Path(g.replay['path']).read_text())
+                if mode=='not_closed':v['rows'][0]['owned_world_stopped']=False
+                elif mode=='won':v['rows'][0]['final_state']['won']=True
+                elif mode=='wrong_prefix':v['rows'][0]['public_prefix_sha256']='f'*64
+                elif mode=='wrong_actions':v['rows'][0]['remaining_world_actions']=99
+                elif mode=='wrong_source':v['source_protocol']['sha256']='f'*64
+                elif mode=='zero_actions':g.prefixes[g.cases[0]]['steps']=[]
+                elif mode=='changed_root':g.prefixes[g.cases[0]]['root']=g.prefixes[g.cases[1]]['root']
+                f.plan['source_native_replay']=write(g.replay['path'],v);f.refs[0]=write(f.refs[0]['path'],f.plan)
+                with self.assertRaises(ValueError):self.check(f,g)
+
+    def test_old_source_change_after_admission_invalidates_epoch(self):
+        with contract_fixture() as f:
+            g=preserved_fixture(f);c=self.check(f,g);epoch=f.study.components()
+            path=next(iter(g.prefixes[g.cases[0]]['binding']));Path(path).write_text('CHANGED')
+            with self.assertRaises(RuntimeError):r.frozen(c,epoch)
+
+    def test_recovery_admission_uses_eight_not_legacy_sixteen_rows(self):
+        with contract_fixture() as f:
+            g=preserved_fixture(f);f.plan['case_ids']=CASES;f.refs[0]=write(f.refs[0]['path'],f.plan)
+            with self.assertRaises(ValueError):self.check(f,g)
+
+    def test_preparation_carries_the_actual_prefix_and_only_all7_adds_reference(self):
+        with contract_fixture() as f:
+            g=preserved_fixture(f);c=self.check(f,g);parent={'OWNED_FAKE_PARENT':True}
+            seen=[]
+            def prepare(root,protocol,protocol_sha,**kwargs):
+                root.mkdir(parents=True);case=root.parts[-4];(root/'initial_reset.json').write_bytes(case.encode())
+                prefix=g.prefixes[case];seen.append((root,kwargs.copy()))
+                return dict(source_root=str(kwargs['source_root']),source_binding=prefix['binding'],
+                    additional_recovery_source=g.source,caps=prefix['additional_caps'],
+                    runtime_controls={'native_terminal_stop':True,'recent_tool_rounds':None},
+                    runtime_profile_override={'gguf_verification':parent})
+            f.study.prepare=mock.Mock(side_effect=prepare)
+            for arm in f.plan['arms']:
+                entry=next(x for x in c['rows'] if x['arm']==arm['id'])
+                m,caps=r.prepare_episode(c,entry,arm,Path('/OWNED_FAKE_PROFILE'),'a'*64,parent)
+                root,kwargs=seen[-1];self.assertEqual(kwargs['source_root'],g.prefixes[entry['case']]['root'])
+                self.assertEqual(caps,dict(CAPS,posts=32,seconds=600,world_actions=98))
+                self.assertEqual(root.parts[-3],'keep_full' if arm['reference']=='all7' else 'drop_full')
+                expected=Path(c['selections'][entry['case']]['all7']['path']) if arm['reference']=='all7' else None
+                self.assertEqual(kwargs['reference_context'],expected)
+                self.assertEqual(kwargs['model_seed'],17)
+
+    def test_source_outcome_counts_only_new_actions_and_requires_same_prefix(self):
+        with contract_fixture() as f:
+            g=preserved_fixture(f);c=self.check(f,g);entry=c['rows'][0];prefix=g.prefixes[entry['case']]
+            receipt=dict(world_actions=3,total_world_action_count=5,final_world_state=dict(action_count=5),
+                source_binding_charge_once=prefix['binding'])
+            r.validate_preserved_outcome(c,entry,receipt)
+            for change in (dict(world_actions=5),dict(total_world_action_count=3),
+                           dict(world_actions=99,total_world_action_count=101,final_world_state=dict(action_count=101)),
+                           dict(source_binding_charge_once={})):
+                with self.subTest(change=change),self.assertRaises(ValueError):
+                    r.validate_preserved_outcome(c,entry,dict(receipt,**change))
+
+    def test_audit_respects_the_explicit_new_post_cap(self):
+        with receipt_fixture() as f:
+            f.receipt.update(model_posts=33,forwarded_model_posts=33,real_model_calls=33)
+            with self.assertRaisesRegex(ValueError,'actual/budget calls differ'):
+                r.audit(f.study,f.root,f.receipt,f.manifest,caps=dict(CAPS,posts=32,seconds=600))

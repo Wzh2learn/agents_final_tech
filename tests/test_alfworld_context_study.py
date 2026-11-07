@@ -631,6 +631,175 @@ def collector_fixture():
                                   protocol_sha=protocol_sha, writer=writer)
 
 
+
+class AdditionalRecoveryStudyTests(unittest.TestCase):
+    """Synthetic closed sources plus fake preflight; no world, model or Docker."""
+    def setUp(self):
+        fixture = r.module(ROOT/'tests/test_alfworld_recovery_source.py', 'study_additional_source_fixture')
+        self.helper = fixture.m
+        self.f = fixture.SourceTests('runTest'); self.f.setUp(); self.addCleanup(self.f.doCleanups)
+        self.f.root = self.f.base/'context_study_v1/cases'/self.f.case/'ordinary_reset/student8b/attempt_v2'
+        self.f.root.mkdir(parents=True)
+        self.f.receipt.update(elapsed_seconds=1800, model_request_payload_bytes=64000000, model_response_wire_bytes=0)
+        for event in self.f.events:
+            if 'state' in event: event['state']['private_pddl'] = 'NEVER_RENDER_PRIVATE_SOURCE'
+        self.f.save()
+        self.study = dict(total_caps=self.f.manifest['caps'].copy(),
+            collection_caps=dict(posts=32, seconds=600, world_actions=100, model_payload_bytes_combined=64000000),
+            intended_stage='preserved_recovery', world_seed=17, case_ids=[self.f.case],
+            pool_path='CPU_ONLY_POOL', pool_sha256='CPU_ONLY_POOL_SHA', recent_steps=3,
+            ordinary_continuations=1, context_margin_tokens=512,
+            additional_recovery_source=dict(path=str(self.f.new), sha256=r.sha(self.f.new)))
+        self.enterContext(mock.patch.object(r, 'QUAL', self.f.base))
+
+    def source_refreshed(self):
+        self.f.save(); self.study['additional_recovery_source']['sha256'] = r.sha(self.f.new)
+
+    def tagged_prefix(self):
+        return dict(self.f.load(), additional_recovery_source=self.study['additional_recovery_source'].copy(),
+            source_loader_sha256=r.sha(r.HERE/'alfworld_recovery_source.py'))
+
+    @contextmanager
+    def loader(self):
+        with mock.patch.object(r, 'additional_source_helper', return_value=self.helper): yield
+
+    @contextmanager
+    def prepared(self):
+        validator = r.recovery().bridge().validate_response
+        binary = self.f.base/'CPU_BINARY'; binary.write_bytes(b'FAKE_NOT_EXECUTABLE')
+        def write_new(path, value):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open('x') as f: json.dump(value, f)
+        profile = {'model_id': 'CPU_MODEL'}
+        core = SimpleNamespace(write_new=write_new, config=lambda *a: {'CPU_CONFIG': True},
+            model_payload=lambda *a: {'CPU_SAMPLING': True}, PROFILE_PINS={'student8b': ('CPU_PROFILE','CPU_SHA')},
+            dependencies=SimpleNamespace(verify_projection=mock.Mock()), RUNTIME_ROOT='CPU_RUNTIME', RUNTIME_SHA='CPU_RUNTIME_SHA',
+            BINARY=binary, BINARY_SHA=r.sha(binary), IMAGE='CPU_IMAGE', stop_world=mock.Mock())
+        rec = SimpleNamespace(actor=lambda: core, bridge=lambda: SimpleNamespace(validate_response=validator))
+        pool = SimpleNamespace(start_world=mock.Mock(return_value=((object(), self.f.base/'CPU_WORLD'), self.f.state(0), {})))
+        from contextlib import ExitStack
+        with ExitStack() as stack:
+            for patcher in (mock.patch.object(r,'additional_source_helper',return_value=self.helper),
+                mock.patch.object(r,'recovery',return_value=rec), mock.patch.object(r,'protocol',return_value=self.study),
+                mock.patch.object(r,'load_study_profile',return_value=(profile,None)),
+                mock.patch.object(r,'read_case',return_value=({}, {}, {}, 'NEVER_INJECT_ASSIGNED_CARRIER')),
+                mock.patch.object(r,'components',return_value={'CPU_STUDY':'fixed','CPU_SOURCE_HELPER':r.sha(r.HERE/'alfworld_recovery_source.py')}),
+                mock.patch.object(r,'study_token_qualifier',return_value=({'CPU_TOKENIZER':'fixed'},mock.Mock())),
+                mock.patch.object(r,'task_pool',return_value=pool), mock.patch.object(r,'replay_prefix',return_value=(self.f.state(2),{})),
+                mock.patch.object(r.subprocess,'check_output',return_value='CPU_IMAGE_ID\n'),
+                mock.patch.object(r.subprocess,'run',side_effect=AssertionError('CPU test cannot run a container'))):
+                stack.enter_context(patcher)
+            yield pool
+
+    def root(self, stage='drop_full', attempt=1, backend='student8b'):
+        return self.f.root.parents[2]/stage/backend/('attempt_v'+str(attempt))
+
+    def test_exhausted_old_total_still_has_only_the_independent_new_phase(self):
+        prefix = self.tagged_prefix(); before = copy.deepcopy(prefix)
+        with self.assertRaises(ValueError): r.remaining_caps(self.study['total_caps'], prefix['receipt'])
+        self.assertEqual(r.stage_caps('drop_full', self.study, prefix), dict(posts=32,seconds=600,
+            world_actions=98,model_payload_bytes_combined=64000000))
+        self.assertEqual(prefix, before)
+        for stage in ('ordinary_reset','collect','drop_recent','keep_recent','goal_recent'):
+            with self.subTest(stage=stage), self.assertRaises(ValueError): r.stage_caps(stage,self.study,prefix)
+        for key,value in [('budget_semantics','OLD_REMAINING'),('additional_caps',dict(prefix['additional_caps'],posts=31))]:
+            with self.subTest(key=key), self.assertRaises(ValueError): r.stage_caps('drop_full',self.study,dict(prefix,**{key:value}))
+
+    def test_explicit_source_dispatch_preserves_helper_identity_and_rejects_wrong_root_case_or_license(self):
+        with self.loader():
+            prefix = r.load_source_prefix(self.study,self.f.case,self.f.root)
+            self.assertEqual(prefix['manifest']['stage'],'ordinary_reset')
+            self.assertEqual(prefix['receipt']['model_posts'],128)
+            self.assertEqual(prefix['root'],self.f.root)
+            self.assertEqual(prefix['additional_recovery_source'],self.study['additional_recovery_source'])
+            for case,root in [(self.f.case,self.f.root.with_name('attempt_v3')),('other_case',self.f.root)]:
+                with self.subTest(case=case,root=root), self.assertRaises(ValueError): r.load_source_prefix(self.study,case,root)
+            missing = dict(self.study); missing.pop('additional_recovery_source')
+            with self.assertRaises(ValueError): r.load_source_prefix(missing,self.f.case,self.f.root)
+            for ref in [None,{},dict(self.study['additional_recovery_source'],sha256='0'*64),dict(self.study['additional_recovery_source'],extra=True)]:
+                with self.subTest(ref=ref), self.assertRaises(ValueError):
+                    r.load_source_prefix(dict(self.study,additional_recovery_source=ref),self.f.case,self.f.root)
+            for change in [{'won':True},{'label':'OWNED_FAKE_NOT_SCIENTIFIC'},{'real_model_calls':0}]:
+                saved=self.f.receipt.copy(); self.f.receipt.update(change); self.source_refreshed()
+                with self.subTest(change=change),self.assertRaises(ValueError):r.load_source_prefix(self.study,self.f.case,self.f.root)
+                self.f.receipt=saved
+            self.source_refreshed(); self.f.protocol['allow_frozen_ordinary_reset_sources']=False; self.source_refreshed()
+            with self.assertRaises(ValueError):r.load_source_prefix(self.study,self.f.case,self.f.root)
+
+    def test_legacy_loader_and_cohort_are_not_relaxed_and_helper_bytes_are_bound(self):
+        with mock.patch.object(r,'load_prefix',return_value='LEGACY') as legacy:
+            self.assertEqual(r.load_source_prefix({},self.f.case,self.f.root),'LEGACY')
+            legacy.assert_called_once_with(self.f.root,self.f.case)
+        self.assertIn(str(r.HERE/'alfworld_recovery_source.py'),r.components())
+        with mock.patch.object(r,'ADDITIONAL_SOURCE_SHA','0'*64),self.assertRaises(ValueError):r.additional_source_helper()
+        with collector_fixture() as f:
+            prefix=r.load_prefix(f.root,'heat_2')
+            with self.assertRaisesRegex(ValueError,'different frozen study'):r.cohort_binding(f.root,prefix,'b'*64)
+
+    def test_new_cohort_is_isolated_and_rejects_changed_prefix_or_new_protocol(self):
+        prefix=self.tagged_prefix(); legacy=self.root().parents[2]/'RECOVERY_COHORT.json';legacy.write_bytes(b'KEEP_LEGACY_BYTES')
+        validator=r.recovery().bridge().validate_response
+        def write_new(path,value):
+            with path.open('x') as f:json.dump(value,f)
+        rec=SimpleNamespace(actor=lambda:SimpleNamespace(write_new=write_new),bridge=lambda:SimpleNamespace(validate_response=validator))
+        with mock.patch.object(r,'recovery',return_value=rec):
+            first=r.cohort_binding(self.root(),prefix,'a'*64,study=self.study)
+            self.assertEqual(Path(first['path']).name,'ADDITIONAL_RECOVERY_COHORT.json')
+            self.assertEqual(r.cohort_binding(self.root('keep_full'),prefix,'a'*64,study=self.study),first)
+            raw=Path(first['path']).read_bytes()
+            for changed,digest in [(dict(prefix,public_prefix_sha256='b'*64),'a'*64),
+                (dict(prefix,root=self.f.root.with_name('attempt_v3')),'a'*64),(prefix,'b'*64)]:
+                with self.subTest(digest=digest),self.assertRaises(ValueError):r.cohort_binding(self.root(),changed,digest,study=self.study)
+                self.assertEqual(Path(first['path']).read_bytes(),raw)
+        self.assertEqual(legacy.read_bytes(),b'KEEP_LEGACY_BYTES')
+
+    def test_prepare_verify_full_prefix_reference_budget_and_rehashed_mutations(self):
+        ref=self.f.base/'all7.txt';ref.write_bytes(b'CPU_SYNTHETIC_ALL7_PUBLIC_HISTORY\n')
+        with self.prepared() as pool:
+            drop=self.root();d=r.prepare(drop,'CPU_PROTOCOL','a'*64,source_root=self.f.root)
+            keep=self.root('keep_full');k=r.prepare(keep,'CPU_PROTOCOL','a'*64,source_root=self.f.root,
+                reference_context=ref,reference_context_sha=r.sha(ref))
+            for root,m in [(drop,d),(keep,k)]:
+                checked=r.verify(root,r.sha(root/'manifest.json'));self.assertEqual(checked[3]['root'],self.f.root)
+                self.assertEqual(m['caps']['posts'],32);self.assertEqual(m['caps']['seconds'],600);self.assertEqual(m['caps']['world_actions'],98)
+                self.assertEqual(m['additional_recovery_metadata']['budget_semantics'],'ADDITIONAL_PHASE_NOT_OLD_REMAINING_POSTS')
+                self.assertEqual(m['additional_recovery_source'],self.study['additional_recovery_source'])
+                text=(root/'task.txt').read_text();self.assertNotIn('NEVER_',text)
+                lo,hi=history_range(text);history=json.loads(text[lo:hi]);self.assertEqual([x['state']['action_count'] for x in history],[1,2])
+            self.assertEqual(d['cohort_binding'],k['cohort_binding'])
+            self.assertEqual(pool.start_world.call_args.args[4]['world_actions'],100)
+            self.assertEqual((keep/'task.txt').read_bytes(),r.render_prompt(self.f.state(0),self.f.load()['steps'],self.f.state(2),ref.read_text(),True,'full').encode())
+            self.assertNotIn(ref.read_text(),(drop/'task.txt').read_text())
+            for edit in ['caps','metadata','source_ref','cohort','reference']:
+                bad=copy.deepcopy(k)
+                if edit=='caps':bad['caps']['posts']=31
+                elif edit=='metadata':bad['additional_recovery_metadata']['budget_semantics']='OLD_REMAINING'
+                elif edit=='source_ref':bad['additional_recovery_source']['sha256']='0'*64
+                elif edit=='cohort':bad['cohort_binding']['sha256']='0'*64
+                else:bad['reference_context']['text_sha256']='0'*64
+                (keep/'manifest.json').write_text(json.dumps(bad))
+                with self.subTest(edit=edit),self.assertRaises(ValueError):r.verify(keep,r.sha(keep/'manifest.json'))
+            (keep/'manifest.json').write_text(json.dumps(k))
+            cohort=Path(k['cohort_binding']['path']);original_cohort=cohort.read_bytes()
+            cohort.write_bytes(original_cohort+b'\n')
+            with self.assertRaises(ValueError):r.verify(keep,r.sha(keep/'manifest.json'))
+            cohort.unlink()
+            with self.assertRaises(ValueError):r.verify(keep,r.sha(keep/'manifest.json'))
+            self.assertFalse(cohort.exists());cohort.write_bytes(original_cohort)
+            original_reference=ref.read_bytes();ref.write_bytes(original_reference+b'CHANGED_REFERENCE')
+            with self.assertRaises(ValueError):r.verify(keep,r.sha(keep/'manifest.json'))
+            ref.write_bytes(original_reference)
+            current=dict(self.f.state(2),observation='FORGED_CURRENT');(keep/'handoff_public.json').write_text(json.dumps(current))
+            (keep/'task.txt').write_text(r.render_prompt(self.f.state(0),self.f.load()['steps'],current,ref.read_text(),True,'full'))
+            forged=copy.deepcopy(k)
+            for name in ('handoff_public.json','task.txt'):forged['inputs_sha256'][name]=r.sha(keep/name)
+            (keep/'manifest.json').write_text(json.dumps(forged))
+            with self.assertRaises(ValueError):r.verify(keep,r.sha(keep/'manifest.json'))
+            with self.assertRaises(ValueError):r.prepare(self.root('keep_full',2),'CPU_PROTOCOL','a'*64,source_root=self.f.root)
+            with self.assertRaises(ValueError):r.prepare(self.root('drop_full',2),'CPU_PROTOCOL','a'*64,source_root=self.f.root,reference_context=ref,reference_context_sha=r.sha(ref))
+            with self.assertRaises(ValueError):r.load_reference_context('keep_full','student8b',ref,r.sha(ref))
+            with self.assertRaises(ValueError):r.load_reference_context('keep_full','teacher27b',ref,r.sha(ref),study=self.study)
+
 class ContextCollectorBindingTests(unittest.TestCase):
     def test_relabeling_an_ordinary_manifest_cannot_create_a_real_collector(self):
         with collector_fixture() as f:
