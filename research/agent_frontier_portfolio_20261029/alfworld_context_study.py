@@ -22,6 +22,7 @@ import time
 QUAL = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfworld_text_qualification_20261106')
 HERE = Path(__file__).resolve().parent
 RECOVERY_SHA = '8f2ae03ad09b4c37acdcd419b8e9a84d88d52ef035b8ad975b98b3e70c993844'
+ADDITIONAL_SOURCE_SHA = '9c617d8d35c44824e9c82c7d4549b2d374e4a5ddb9605ea5dc000c5c442ffdd3'
 RECENT_STEPS = 3
 STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent', 'ordinary_reset')
 PUBLIC_KEYS = ('observation', 'score', 'done', 'won', 'action_count', 'admissible_commands')
@@ -106,13 +107,17 @@ def runtime_reference(ref):
     return runtime_file(ref['path'], ref['sha256'])
 
 
-def load_reference_context(stage, backend, path=None, digest=None):
+def load_reference_context(stage, backend, path=None, digest=None, *, study=None):
     if (path is None) != (digest is None):
         raise ValueError('reference context path and SHA must be provided together')
+    additional = additional_source_reference(study or {})
     if path is None:
+        if additional is not None and stage == 'keep_full':
+            raise ValueError('additional keep_full requires explicit reference context')
         return None, None
-    if stage != 'ordinary_reset' or backend != 'student8b':
-        raise ValueError('reference context is ordinary_reset/student8b only')
+    allowed = stage == ('keep_full' if additional is not None else 'ordinary_reset')
+    if not allowed or backend != 'student8b':
+        raise ValueError('reference context is ordinary_reset/student8b or explicit additional keep_full/student8b only')
     path = runtime_file(path, digest)
     raw = path.read_bytes()
     if hashlib.sha256(raw).hexdigest() != digest:
@@ -332,7 +337,7 @@ def task_pool():
 
 def components():
     paths = [Path(__file__).resolve(),HERE/'alfworld_task_pool.py',
-             HERE/'alfworld_context_projection.py',
+             HERE/'alfworld_context_projection.py',HERE/'alfworld_recovery_source.py',
              HERE/'prepare_alfworld_experience_20261106.py',HERE/'prepare_django_aggregation_experience_20261106.py']
     return {**recovery().components(), **{str(p):sha(p) for p in paths}}
 
@@ -405,6 +410,16 @@ def stage_caps(stage: str, study: dict, prefix: dict | None) -> dict:
     from_reset = stage in {'collect', 'collect_none', 'ordinary_reset'}
     if from_reset != (prefix is None):
         raise ValueError('only recovery stages require a source prefix')
+    if additional_source_reference(study) is not None:
+        if stage not in {'drop_full', 'keep_full'} or prefix is None:
+            raise ValueError('additional recovery requires a complete-history source stage')
+        metadata = additional_source_metadata(study, prefix)
+        expected = dict(posts=32, seconds=600, model_payload_bytes_combined=64000000, world_actions=100-len(prefix['steps']))
+        if (not 0 < len(prefix['steps']) < 100 or metadata['additional_caps'] != expected or
+                any(type(v) is not int or v <= 0 for v in metadata['additional_caps'].values()) or
+                metadata['world_step_cap'] != 100 or metadata['budget_semantics'] != 'ADDITIONAL_PHASE_NOT_OLD_REMAINING_POSTS'):
+            raise ValueError('additional recovery budget differs from the source contract')
+        return dict(metadata['additional_caps'])
     if stage == 'ordinary_reset':
         return study['total_caps']
     return study['collection_caps'] if prefix is None else remaining_caps(study['total_caps'], prefix['receipt'])
@@ -460,6 +475,7 @@ def protocol(path, digest):
         raise ValueError('frozen study protocol changed')
     value = json.loads(path.read_text())
     runtime_controls(value)
+    additional_source_reference(value)
     core = recovery().actor()
     core.episode_caps(value['total_caps'])
     core.episode_caps(value['collection_caps'])
@@ -638,6 +654,52 @@ def read_case(study, case_id):
     return game, binding, a, value['texts'][a['carrier']]
 
 
+def additional_source_reference(study):
+    if 'additional_recovery_source' not in study:
+        return None
+    ref = study['additional_recovery_source']
+    if (study.get('intended_stage') != 'preserved_recovery' or not isinstance(ref, dict) or
+            set(ref) != {'path', 'sha256'} or not isinstance(ref['path'], str) or not isinstance(ref['sha256'], str)):
+        raise ValueError('invalid explicit additional recovery source contract')
+    return {'path':str(runtime_reference(ref)), 'sha256':ref['sha256']}
+
+
+def additional_source_helper():
+    path = HERE/'alfworld_recovery_source.py'
+    if path.is_symlink() or sha(path) != ADDITIONAL_SOURCE_SHA:
+        raise ValueError('additional source helper changed')
+    return module(path, 'context_study_additional_source')
+
+
+def load_source_prefix(study, case_id, source_root):
+    ref = additional_source_reference(study)
+    if ref is None:
+        return load_prefix(source_root, case_id) if source_root is not None else None
+    if source_root is None:
+        raise ValueError('additional recovery requires an explicit source root')
+    root = check_root(source_root)
+    if case_id not in study['case_ids'] or root.parts[-4] != case_id:
+        raise ValueError('additional recovery source case differs')
+    prefix = additional_source_helper().load_source(ref['path'], ref['sha256'], case_id)
+    if Path(prefix['root']) != root:
+        raise ValueError('additional recovery source root differs from the approved source')
+    return dict(prefix, additional_recovery_source=ref, source_loader_sha256=ADDITIONAL_SOURCE_SHA)
+
+
+def additional_source_metadata(study, prefix):
+    ref = additional_source_reference(study)
+    if ref is None:
+        return None
+    if (prefix is None or prefix.get('additional_recovery_source') != ref or
+            prefix.get('source_loader_sha256') != ADDITIONAL_SOURCE_SHA):
+        raise ValueError('additional recovery source metadata differs')
+    return dict(source_loader_sha256=ADDITIONAL_SOURCE_SHA,
+        historical_protocol_sha256=prefix['manifest']['protocol_sha256'],
+        public_prefix_sha256=prefix['public_prefix_sha256'], additional_caps=dict(prefix['additional_caps']),
+        world_step_cap=prefix['world_step_cap'], budget_semantics=prefix['budget_semantics'],
+        historical_formation=dict(prefix['historical_formation']))
+
+
 def load_prefix(root, case_id):
     root = check_root(root)
     if root.parts[-3:-1] != ('collect', 'student8b') or root.parts[-4] != case_id:
@@ -675,12 +737,17 @@ def replay_prefix(prefix, reset, step, log):
     return recovery().replay(projected,reset,step,log)
 
 
-def cohort_binding(root, prefix, protocol_sha):
+def cohort_binding(root, prefix, protocol_sha, *, study=None):
     """One immutable prefix per case; arms cannot cherry-pick other attempts."""
     path = check_root(root).parents[2] / 'RECOVERY_COHORT.json'
     expected = {'protocol_sha256':protocol_sha, 'source_root':str(prefix['root']),
                 'source_binding':prefix['binding']}
-    if prefix['manifest']['protocol_sha256'] != protocol_sha:
+    additional = additional_source_reference(study or {})
+    if additional is not None:
+        stage_caps(check_root(root).parts[-3], study, prefix)
+        path = check_root(root).parents[2] / 'ADDITIONAL_RECOVERY_COHORT.json'
+        expected.update(additional_recovery_source=additional, additional_recovery_metadata=additional_source_metadata(study, prefix))
+    elif prefix['manifest']['protocol_sha256'] != protocol_sha:
         raise ValueError('source belongs to a different frozen study')
     try:
         recovery().actor().write_new(path,expected)
@@ -702,14 +769,15 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     if any(root.iterdir()):
         raise FileExistsError('fresh empty attempt required')
     case_id, stage, backend, _ = root.parts[-4:]
-    reference, reference_text = load_reference_context(stage, backend, reference_context, reference_context_sha)
     study = protocol(protocol_path, protocol_sha)
+    reference, reference_text = load_reference_context(stage, backend, reference_context, reference_context_sha, study=study)
     core = recovery().actor()
     profile, override = load_study_profile(backend, runtime_profile, runtime_profile_sha)
     game, pool, assignment, experience = read_case(study, case_id)
-    prefix = load_prefix(source_root, case_id) if source_root is not None else None
+    prefix = load_source_prefix(study, case_id, source_root)
     caps = stage_caps(stage, study, prefix)
-    cohort = cohort_binding(root,prefix,protocol_sha) if prefix else None
+    additional = additional_source_metadata(study, prefix)
+    cohort = cohort_binding(root,prefix,protocol_sha,study=study) if prefix else None
     world = None
     try:
         # World budget is total100 even when collection's request/time budget is shorter.
@@ -722,7 +790,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     finally:
         if world:
             core.stop_world(world)
-    prompt = (render_prompt(reset, [], reset, reference_text, True, 'recent') if reference is not None else
+    prompt = (render_prompt(reset, prefix['steps'] if prefix else [], current, reference_text, True, 'full' if prefix else 'recent') if reference is not None else
               initial_prompt(reset, stage, assignment, experience) if prefix is None else
               recovery_prompt(reset, prefix['steps'], current, experience, stage))
     (root / 'task.txt').write_bytes(prompt.encode())
@@ -747,6 +815,9 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
             'uid': os.getuid(), 'gid': os.getgid(), 'image_id': image,
             'inputs_sha256': {name: sha(root/name) for name in ['task.txt','opencode_config.json','initial_reset.json','handoff_public.json']},
             'development_only': True, 'ordinary_continuations': 1, 'recent_steps': RECENT_STEPS}
+    if additional is not None:
+        manifest['additional_recovery_source'] = additional_source_reference(study)
+        manifest['additional_recovery_metadata'] = additional
     if 'runtime_controls' in study:
         manifest['runtime_controls'] = runtime_controls(study)
     if override is not None:
@@ -764,17 +835,25 @@ def verify(root, digest):
     m = json.loads((root / 'manifest.json').read_text())
     if tuple(root.parts[-4:-1]) != (m['case_id'], m['stage'], m['backend']) or m['components'] != components():
         raise ValueError('namespace or components changed')
+    study = protocol(m['protocol_path'], m['protocol_sha256'])
     bound_reference = m.get('reference_context')
     reference, reference_text = load_reference_context(m['stage'], m['backend'],
-            bound_reference['path'] if bound_reference else None, bound_reference['sha256'] if bound_reference else None)
+            bound_reference['path'] if bound_reference else None, bound_reference['sha256'] if bound_reference else None, study=study)
     if reference != bound_reference:
         raise ValueError('frozen reference context metadata changed')
-    study = protocol(m['protocol_path'], m['protocol_sha256'])
     verify_runtime_controls(m,study)
     game, pool, assignment, experience = read_case(study, m['case_id'])
-    prefix = load_prefix(m['source_root'], m['case_id']) if m['source_root'] is not None else None
+    prefix = load_source_prefix(study, m['case_id'], m['source_root'])
     caps = stage_caps(m['stage'], study, prefix)
-    expected_cohort = cohort_binding(root,prefix,m['protocol_sha256']) if prefix else None
+    additional = additional_source_metadata(study, prefix)
+    if additional is None:
+        if any(key in m for key in ('additional_recovery_source','additional_recovery_metadata')):
+            raise ValueError('legacy source cannot acquire additional recovery metadata')
+    elif (m.get('additional_recovery_source') != additional_source_reference(study) or
+            m.get('additional_recovery_metadata') != additional or
+            not (root.parents[2]/'ADDITIONAL_RECOVERY_COHORT.json').is_file()):
+        raise ValueError('additional recovery source/budget/cohort metadata changed')
+    expected_cohort = cohort_binding(root,prefix,m['protocol_sha256'],study=study) if prefix else None
     if m['cohort_binding'] != expected_cohort:
         raise ValueError('shared recovery cohort changed')
     core = recovery().actor()
@@ -796,7 +875,9 @@ def verify(root, digest):
     current = json.loads((root/'handoff_public.json').read_text())
     if prefix is None and current != reset:
         raise ValueError('from-reset stage cannot contain recovery progress')
-    expected = (render_prompt(reset, [], reset, reference_text, True, 'recent') if reference is not None else
+    if additional is not None and (reset != prefix['reset'] or current != prefix['steps'][-1]['state']):
+        raise ValueError('preserved source public handoff changed')
+    expected = (render_prompt(reset, prefix['steps'] if prefix else [], current, reference_text, True, 'full' if prefix else 'recent') if reference is not None else
                 initial_prompt(reset, m['stage'], assignment, experience) if prefix is None else
                 recovery_prompt(reset,prefix['steps'],current,experience,m['stage']))
     if (root/'task.txt').read_bytes() != expected.encode() or hashlib.sha256(experience.encode()).hexdigest() != m['experience_text_sha256']:
@@ -849,6 +930,9 @@ def run_episode(root, digest, *, fake_endpoint=None):
     core = recovery().actor()
     controls = verify_runtime_controls(m,study)
     reservation = {'manifest_sha256':digest,'mode':'OWNED_FAKE' if fake_endpoint else 'REAL_DEVELOPMENT'}
+    if 'additional_recovery_source' in m:
+        reservation['additional_recovery_source'] = m['additional_recovery_source']
+        reservation['additional_recovery_metadata'] = m['additional_recovery_metadata']
     if 'runtime_controls' in m:
         reservation['runtime_controls'] = controls
     if m.get('runtime_profile_override') is not None:
@@ -952,6 +1036,9 @@ def run_episode(root, digest, *, fake_endpoint=None):
             'replay_control_cost':replay_cost,'experience_delivery':relay.delivery if relay else None,
             'source_binding_charge_once':m['source_binding'],'development_only':True,
             'not_independent_confirmation':True,'cached_tokens_are_input_subset':True}
+        if 'additional_recovery_source' in m:
+            receipt['additional_recovery_source'] = m['additional_recovery_source']
+            receipt['additional_recovery_metadata'] = m['additional_recovery_metadata']
         if 'runtime_controls' in m:
             receipt['runtime_controls'] = controls
             receipt['controller_stop'] = getattr(relay,'terminal_witness',None)

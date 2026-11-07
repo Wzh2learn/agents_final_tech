@@ -30,10 +30,14 @@ TOKENS = ('prompt_tokens','completion_tokens','total_tokens')
 CAP_ERRORS = {'native template estimate plus output/margin exceeds context','episode model budget closed'}
 SIX_SCHEMA = 'ALFWORLD_RUNTIME_CONTEXT_BASELINE_PLAN_V2'
 FULL_SCHEMA = 'ALFWORLD_FULL_BASELINE_EXTENSION_PLAN_V1'
+RECOVERY_SCHEMA = 'ALFWORLD_PRESERVED_RECOVERY_COMPARISON_PLAN_V1'
+RECOVERY_CAPS = dict(CAPS,posts=32,seconds=600)
 SIX_ARMS = [('frozen_last3','frozen','none','last3'),('ordinary_last3','ordinary','none','last3'),
             ('ordinary_full','ordinary','none','full'),('recovery_full','recovery','none','full'),
             ('recovery_last3','recovery','none','last3'),('history_all7_last3','frozen','all7','last3')]
 FULL_ARMS = [('frozen_full','frozen','none','full'),('history_all7_full','frozen','all7','full')]
+RECOVERY_ARMS = [('frozen_full','frozen','none','full'),('ordinary_full','ordinary','none','full'),
+                 ('recovery_full','recovery','none','full'),('history_all7_full','frozen','all7','full')]
 
 
 def sha(path):
@@ -103,9 +107,52 @@ def full_baseline_origin(plan, cases, arms, bindings):
     for ref in (origin_ref,result_ref):bindings[ref['path']]=ref['sha256']
 
 
+def preserved_sources(plan,cases,common,bindings,study):
+    """Qualify the fixed eight nonterminal prefixes, not a fresh-source claim."""
+    if not all(k in plan for k in ('additional_recovery_source','source_native_replay')):
+        raise ValueError('preserved recovery requires source and native replay references')
+    source_ref=plan['additional_recovery_source'];native_ref=plan['source_native_replay']
+    source=checked(source_ref);native=checked(native_ref);old_ref=source['source_protocol'];old=checked(old_ref)
+    if (source.get('schema')!='ALFWORLD_ADDITIONAL_RECOVERY_V1' or
+            native.get('schema')!='additional_failure_prefix_native_replay_v1' or
+            native.get('status')!='QUALIFIED_PUBLIC_REPLAY' or native.get('source_protocol')!=source_ref or
+            native.get('model_calls')!=0 or native.get('training')!=0 or
+            len(old.get('case_ids',[]))!=16 or len(set(old['case_ids']))!=16 or
+            len(native.get('rows',[]))!=8 or [r.get('case') for r in native['rows']]!=cases or
+            common.get('additional_recovery_source')!=source_ref or
+            native.get('pool')!=dict(path=common['pool_path'],sha256=common['pool_sha256'])):
+        raise ValueError('preserved source/native cohort or protocol differs')
+    prefixes={};total_steps=0
+    for case,row in zip(cases,native['rows']):
+        if case not in old['case_ids'] or case not in source['source_bindings']:
+            raise ValueError('preserved case not in the frozen source cohort')
+        root=Path(source['source_bindings'][case]['root'])
+        prefix=study.load_source_prefix(common,case,root);n=len(prefix['steps'])
+        expected=dict(RECOVERY_CAPS,world_actions=100-n)
+        if (prefix['root']!=root or not 0<n<100 or prefix.get('additional_caps')!=expected or
+                prefix.get('world_step_cap')!=100 or
+                prefix.get('budget_semantics')!='ADDITIONAL_PHASE_NOT_OLD_REMAINING_POSTS' or
+                prefix['manifest']['protocol_sha256']!=old_ref['sha256'] or
+                row.get('status')!='PUBLIC_REPLAY_EQUAL' or row.get('owned_world_stopped') is not True or
+                row.get('public_prefix_sha256')!=prefix['public_prefix_sha256'] or
+                row.get('source_actions')!=n or row.get('remaining_world_actions')!=100-n or
+                row.get('final_state',{}).get('won') is not False or row['final_state'].get('done') is not False or
+                row['final_state'].get('action_count')!=n):
+            raise ValueError('preserved prefix/replay/new-phase budget differs')
+        for path,digest in prefix['binding'].items():
+            path=private(path)
+            if sha(path)!=digest:raise ValueError('preserved source binding changed')
+            bindings[str(path)]=digest
+        prefixes[case]=prefix;total_steps+=n
+    if native.get('replayed_actions')!=total_steps:raise ValueError('native replay action total differs')
+    for ref in (source_ref,native_ref,old_ref):bindings[ref['path']]=ref['sha256']
+    return prefixes,old['case_ids']
+
+
 def completed_status(plan):
     if plan['schema']==SIX_SCHEMA:return 'ALL96_RUNTIME_CONTEXT_RETURNED'
     if plan['schema']==FULL_SCHEMA:return 'ALL32_FULL_BASELINES_RETURNED'
+    if plan['schema']==RECOVERY_SCHEMA:return 'ALL32_PRESERVED_RECOVERY_RETURNED'
     raise ValueError('unknown completion design')
 
 
@@ -165,13 +212,15 @@ def prerequisite(kind,value,cases):
 def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,restoration_ref=None):
     study=study or load(HERE/'alfworld_context_study.py','runtime_comparison_study')
     p=checked(plan_ref);cases=p['case_ids'];arms=p['arms'];output=private(output)
-    extension=p.get('schema')==FULL_SCHEMA
-    count=32 if extension else 96
-    expected=FULL_ARMS if extension else SIX_ARMS
-    if (p.get('schema') not in {SIX_SCHEMA,FULL_SCHEMA} or
-            len(cases)!=16 or len(set(cases))!=16 or any(not re.fullmatch('[A-Za-z0-9][A-Za-z0-9_-]*',c) for c in cases) or
+    extension=p.get('schema')==FULL_SCHEMA;preserved=p.get('schema')==RECOVERY_SCHEMA
+    count=32 if extension or preserved else 96
+    expected=RECOVERY_ARMS if preserved else FULL_ARMS if extension else SIX_ARMS
+    maximum=RECOVERY_CAPS if preserved else CAPS
+    case_count=8 if preserved else 16
+    if (p.get('schema') not in {SIX_SCHEMA,FULL_SCHEMA,RECOVERY_SCHEMA} or
+            len(cases)!=case_count or len(set(cases))!=case_count or any(not re.fullmatch('[A-Za-z0-9][A-Za-z0-9_-]*',c) for c in cases) or
             p.get('planned_episodes')!=count or p.get('carried_episodes')!=0 or
-            p.get('maximum_planned_model_posts')!=count*CAPS['posts'] or p.get('maximum_per_episode_caps')!=CAPS or
+            p.get('maximum_planned_model_posts')!=count*maximum['posts'] or p.get('maximum_per_episode_caps')!=maximum or
             len(arms)!=len(expected)):
         raise ValueError('unknown schema or non-finite comparison contract')
     if (any(type(v) is not int for v in p['maximum_per_episode_caps'].values()) or
@@ -185,6 +234,7 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
         full_baseline_origin(p,cases,arms,bindings)
     if p.get('analysis_contract'):
         ref=p['analysis_contract'];checked(ref);bindings[ref['path']]=ref['sha256']
+    if preserved and restoration_ref is None:raise ValueError('preserved recovery requires current restoration')
     protocols={};selections=None;common=None;combinations=set();rows=[]
     for arm in arms:
         if (set(arm)!={'id','variant','reference','context','attempt','protocol'} or
@@ -195,9 +245,11 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
         combination=(arm['variant'],arm['reference'],arm['context'])
         if combination in combinations:raise ValueError('duplicate comparison arm')
         combinations.add(combination);ref=arm['protocol'];q=checked(ref);bindings[ref['path']]=ref['sha256']
-        if (q.get('schema') not in {'HF8B_NATIVE_TERMINAL_CONTEXT_CONTROL_DEVELOPMENT_V1','HF8B_NATIVE_TERMINAL_CONTEXT_CONTROL_DEVELOPMENT_V2'} or
+        allowed_schemas={'HF8B_PRESERVED_FAILURE_CONTEXT_DEVELOPMENT_V1'} if preserved else {'HF8B_NATIVE_TERMINAL_CONTEXT_CONTROL_DEVELOPMENT_V1','HF8B_NATIVE_TERMINAL_CONTEXT_CONTROL_DEVELOPMENT_V2'}
+        if (q.get('schema') not in allowed_schemas or
                 q.get('case_ids')!=cases or q.get('total_caps')!=CAPS or q.get('world_seed')!=17 or q.get('model_seeds')!=[17] or
-                q.get('intended_stage')!='ordinary_reset' or q.get('intended_backend')!='student8b' or
+                q.get('intended_stage')!=('preserved_recovery' if preserved else 'ordinary_reset') or
+                ('additional_recovery_source' in q)!=preserved or q.get('intended_backend')!='student8b' or
                 q.get('context_margin_tokens')!=512 or q.get('ordinary_continuations')!=1 or q.get('recent_steps')!=3 or
                 study.runtime_controls(q)!={'native_terminal_stop':True,'recent_tool_rounds':3 if arm['context']=='last3' else None}):
             raise ValueError('child protocol/controller/caps changed')
@@ -209,7 +261,8 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
         if common is not None and shared!=common:raise ValueError('full/last3 changed more than runtime controls')
         common=shared;protocols[arm['context']]=q
         for case in cases:
-            root=ST/'cases'/case/'ordinary_reset/student8b'/('attempt_v'+str(arm['attempt']))
+            stage=('keep_full' if arm['reference']=='all7' else 'drop_full') if preserved else 'ordinary_reset'
+            root=ST/'cases'/case/stage/'student8b'/('attempt_v'+str(arm['attempt']))
             if root.exists():raise FileExistsError('preserve existing episode: '+str(root))
             rows.append(dict(arm=arm['id'],case=case,root=str(root),status='UNRUN'))
     if len({r['root'] for r in rows})!=count or len({a['id'] for a in arms})!=len(expected):
@@ -223,8 +276,10 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
         if not re.fullmatch('[a-f0-9]{64}',row['public_reset_sha256']) or sha(path)!=ref['sha256']:
             raise ValueError('public reset/context binding changed')
         bindings[str(path)]=ref['sha256']
-    student=prerequisite('student',checked(student_ref),cases)
-    prerequisite('teacher',checked(teacher_ref),cases);prerequisite('django',checked(django_ref),cases)
+    prefixes={};prerequisite_cases=cases
+    if preserved:prefixes,prerequisite_cases=preserved_sources(p,cases,common,bindings,study)
+    student=prerequisite('student',checked(student_ref),prerequisite_cases)
+    prerequisite('teacher',checked(teacher_ref),prerequisite_cases);prerequisite('django',checked(django_ref),cases)
     teacher_admission=Path(teacher_ref['path']).with_name('ADMISSION.json')
     admission=checked(dict(path=str(teacher_admission),sha256=sha(teacher_admission)))
     if admission['closed_student_result']!=student_ref:raise ValueError('teacher used another student closure')
@@ -239,7 +294,7 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
     if restoration_ref is not None:
         previous=checked(restoration_ref,max_bytes=16*1024**2);owned=previous.get('restored_process',{})
         if (previous.get('status') not in {'STOPPED_RESTORE_REQUIRED','ALL96_RUNTIME_CONTEXT_RETURNED',
-                'ALL32_FULL_BASELINES_RETURNED','INCOMPLETE_OR_CLEANUP_FAILURE'} or
+                'ALL32_FULL_BASELINES_RETURNED','ALL32_PRESERVED_RECOVERY_RETURNED','INCOMPLETE_OR_CLEANUP_FAILURE'} or
                 any(previous.get(k) is not True for k in ('restored_healthy','shared35_unchanged','shared27_unchanged')) or
                 any(previous.get(k) for k in ('restoration_error','server_cleanup_error','episode_cleanup_error','shared_identity_error')) or
                 set(owned)!={'pid','start_ticks','exe','argv','cwd'} or type(owned['pid']) is not int or owned['pid']<=0 or
@@ -253,7 +308,8 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,res
         private(ref['path'])
         if not re.fullmatch('[a-f0-9]{64}',ref['sha256']):raise ValueError('model binding SHA missing')
     return dict(plan=p,protocols=protocols,selections=selections,rows=rows,bindings=bindings,
-                student=student,owned_process=owned,window=window,old_profile=old_profile,study=study,output=output)
+                student=student,owned_process=owned,window=window,old_profile=old_profile,study=study,output=output,
+                prefixes=prefixes)
 
 
 def frozen(contract,epoch):
@@ -283,14 +339,15 @@ def qualified_actor_rounds(root,rounds,cap,stop):
                 raise ValueError('actor failure includes an unqualified raw error')
 
 
-def audit(study,root,receipt,manifest):
+def audit(study,root,receipt,manifest,*,caps=None):
+    caps=CAPS if caps is None else caps
     root=Path(root);gates=receipt['model_relay_errors'];cap=bool(gates)
     if receipt['errors'] or any(e.get('type')!='ValueError' or e.get('detail') not in CAP_ERRORS for e in gates):
         raise ValueError('generic episode/transport/cleanup failure')
     if receipt['status'] not in {'RETURNED','EPISODE_TIMEOUT','NATIVE_TERMINAL_STOP'} or receipt['label']!='MULTITASK_CONTEXT_DEVELOPMENT':
         raise ValueError('unknown episode status/label')
     posts,actual=receipt['model_posts'],receipt['forwarded_model_posts']
-    if any(type(n) is not int for n in (posts,actual,receipt['real_model_calls'])) or not 0<=actual<=posts<=128 or receipt['real_model_calls']!=actual:
+    if any(type(n) is not int for n in (posts,actual,receipt['real_model_calls'])) or not 0<=actual<=posts<=caps['posts'] or receipt['real_model_calls']!=actual:
         raise ValueError('actual/budget calls differ')
     if receipt['manifest_sha256']!=sha(root/'manifest.json') or receipt['runtime_controls']!=manifest['runtime_controls']:
         raise ValueError('receipt manifest/control binding changed')
@@ -317,7 +374,7 @@ def audit(study,root,receipt,manifest):
         request_bytes+=len(body)
     if request_bytes!=receipt['model_request_payload_bytes']:raise ValueError('request byte accounting differs')
     if (any(type(receipt.get(k)) is not int or receipt[k]<0 for k in ('model_request_payload_bytes','model_response_wire_bytes')) or
-            request_bytes+receipt['model_response_wire_bytes']>CAPS['model_payload_bytes_combined']):
+            request_bytes+receipt['model_response_wire_bytes']>caps['model_payload_bytes_combined']):
         raise ValueError('combined physical byte accounting invalid')
     records=sorted((root/'responses').glob('*.receipt.json'));totals=dict.fromkeys(TOKENS,0);cached=[];known=0
     if len(records)!=len(receipt['response_receipts']) or len(records)>actual:raise ValueError('response counts differ')
@@ -439,6 +496,37 @@ def restore(h,original,child,ticket,output,window,stop_requested):
     return result
 
 
+def validate_preserved_outcome(contract,entry,receipt):
+    prefix=contract.get('prefixes',{}).get(entry['case'])
+    if prefix is None:return
+    new=receipt.get('world_actions');total=receipt.get('total_world_action_count')
+    if (type(new) is not int or not 0<=new<=prefix['additional_caps']['world_actions'] or
+            type(total) is not int or total!=len(prefix['steps'])+new or
+            receipt.get('final_world_state',{}).get('action_count')!=total or
+            receipt.get('source_binding_charge_once')!=prefix['binding']):
+        raise ValueError('preserved source/new action or formation accounting differs')
+
+
+def prepare_episode(contract,entry,arm,profile_path,profile_sha,parent):
+    """One shared preparation path; only the explicit source branch replays state."""
+    study=contract['study'];root=Path(entry['root']);q=contract['protocols'][arm['context']]
+    prefix=contract.get('prefixes',{}).get(entry['case'])
+    ref=contract['selections'][entry['case']]['all7'] if arm['reference']=='all7' else None
+    kwargs=dict(model_seed=17,runtime_profile=profile_path,runtime_profile_sha=profile_sha,
+        reference_context=Path(ref['path']) if ref else None,reference_context_sha=ref['sha256'] if ref else None)
+    if prefix is not None:kwargs['source_root']=prefix['root']
+    m=study.prepare(root,Path(arm['protocol']['path']),arm['protocol']['sha256'],**kwargs)
+    caps=prefix['additional_caps'] if prefix is not None else CAPS
+    expected_source=str(prefix['root']) if prefix is not None else None
+    if (m['source_root']!=expected_source or m['caps']!=caps or m['runtime_controls']!=q['runtime_controls'] or
+            sha(root/'initial_reset.json')!=contract['selections'][entry['case']]['public_reset_sha256'] or
+            m['runtime_profile_override']['gguf_verification']!=parent):raise ValueError('episode input/source/parent differs')
+    if prefix is not None and (m['source_binding']!=prefix['binding'] or
+            m.get('additional_recovery_source')!=contract['plan']['additional_recovery_source']):
+        raise ValueError('preserved episode source metadata differs')
+    return m,caps
+
+
 def execute(c):
     h=helper();study=c['study'];out=c['output'];p=c['plan'];rows=c['rows'];window=c['window']
     epoch=study.components();c['bindings'][str(Path(__file__).resolve())]=sha(__file__)
@@ -500,16 +588,11 @@ def execute(c):
                         active=Path(entry['root']);frozen(c,epoch);h.listener(current);h.protected(window)
                         if active.exists():raise FileExistsError('attempt appeared after admission')
                         entry['status']='PREPARING';event('case_start',**entry)
-                        ref=c['selections'][entry['case']]['all7'] if arm['reference']=='all7' else None
-                        m=study.prepare(active,Path(arm['protocol']['path']),arm['protocol']['sha256'],model_seed=17,
-                            runtime_profile=profile_path,runtime_profile_sha=profile_sha,
-                            reference_context=Path(ref['path']) if ref else None,reference_context_sha=ref['sha256'] if ref else None)
-                        if (m['source_root'] is not None or m['caps']!=CAPS or m['runtime_controls']!=q['runtime_controls'] or
-                                sha(active/'initial_reset.json')!=c['selections'][entry['case']]['public_reset_sha256'] or
-                                m['runtime_profile_override']['gguf_verification']!=parent):raise ValueError('reset/input/parent differs')
+                        m,caps=prepare_episode(c,entry,arm,profile_path,profile_sha,parent)
                         frozen(c,epoch);entry['status']='EXECUTING';receipt=study.run_episode(active,sha(active/'manifest.json'))
                         entry.update(status='CLOSED_UNAUDITED',receipt_sha256=sha(active/'receipt.json'))
-                        entry.update(audit(study,active,receipt,m));entry['status']='CLOSED_AUDITED';event('case_audited',**entry)
+                        validate_preserved_outcome(c,entry,receipt)
+                        entry.update(audit(study,active,receipt,m,caps=caps));entry['status']='CLOSED_AUDITED';event('case_audited',**entry)
                         frozen(c,epoch);h.protected(window);active=None
                     h.stop_child(child,ticket);child.wait(timeout=15);child=ticket=None
             result['status']=completed_status(p)
