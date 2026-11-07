@@ -1,6 +1,6 @@
 # ALFWorld：执行纠正与学习开发
 
-> 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。六组96条闭合并复核；完整历史R/O为11/16对6/16，primary差值区间跨0。两代码来源均未修复；下一步补完整历史强基线，尚无独立方法贡献。
+> 2026-11-08更新，批次始于11月6日 | 当前只加载本页；背景见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。旧96条闭合；完整历史强基线32条在途。两代码来源未修复，工具写入通路已通过控制；尚无独立方法贡献。
 
 四现场能力诊断与旧分账已移至[已关闭的先导实验](ALFWORLD_CONTEXT_STUDY.md#teacher-pilot)；本页保留当前结果和下一动作。
 
@@ -10,7 +10,7 @@
 
 实际135个训练行及原请求已全核：历史均不参与loss；O从reset学习，R从失败现场学习，后者起始user含3个环境动作，不能等同运行期last3工具轮次。因此O/R目前识别训练方案整体差异；表示及信息条件的拆分留待稳定收益出现后。证据见[训练表示复核](ALFWORLD_LEARNING_RUNTIME.md#实际训练表示复核2026-11-07)，不改在途合同。
 
-## 当前动作：六组新批次与代码任务资格
+## 当前动作：完整历史强基线与来源纠正
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
@@ -50,6 +50,10 @@
 
 **两源尸检已核。** `SOURCE_EPISODES_AUTOPSY_V1.json` SHA `52b958f5b39914c37017824e356ba9d56555a9b37907d7f30ad26311ebdb5727`：A共7次工具，D再核324绑定与96原SSE，合计input1,105,961/output5,586/total1,111,547tokens一致；96条cache未报告。每题48动作均只读/搜索、无编辑或测试，47轮后继工具反馈逐字带回，首user题面完整。确认实际只开放bash，而其说明禁止读写/编辑并指向未开放工具；这是能力/说明合同冲突，未证明它导致循环，亦不把两次失败当纯模型能力或反馈学习结论。先做source专用的最小合同修正和隔离写入验证，不改ALF/生产工具面，不直接重跑整批；source参考辅助纠正为低成本后续选项。
 
+**工具说明修正与真实写入控制通过。** source专用v2只在转发前深拷贝替换唯一bash的说明，保留schema/messages及其他字段，非法工具拒绝；不改ALF或生产面。GB10 Python3.12聚焦57项通过，C限定静态PASS（SHA `1b1859f5b29ec70f16f7b52a247d817cb7c0a83371e4e1c831f07f642b1d9580`）。独立4POST/120秒/2MiB控制实际2POST、25.77秒、56,724wire bytes，1次原生bash真实写入并读回28bytes；D复核19绑定、原SSE和容器清理。receipt SHA `b8e914788bcaccf6aab7cc4dd639787993095b1648e1c28b9d41dd733d73ecaa`，D复核SHA `f0f8d6924735941ba8a2626a9196b55ce075a4ab55eb05af58cd27d8ac5afe96`。新增input5,341/output153/total5,494tokens，cache未知，训练0；旧96帽未重置、SWE题未重跑。只确认此次通路，不归因旧循环或认证修复能力。
+
+该控制薄包21成员已双端核验，SHA `37516f9214d85400d8e082f0de583d44708e808c76396790a64acb7e3e834048`。新临时树仅5个受控修改与28缓存；五文件/patch及Git基线655afb2e已私有镜像，代码包SHA `aedaff8004b7e01bb9210294ac18b179023163aa18ebccf86ad9dad55dd7b1d8`，D核17组件的快照或Git重建后只移除这棵新测试树，7个历史树保留；收尾SHA `c11a983e20cc4edc8f1434b78bf5e294bdaac22aff1873b573ec6bf01f5fe6d2`。C9在本机/GB10各两harness定向分发，LF SHA `a496be2764834b097c9defd174d6eccd803573d146faa760dd19b8263c776ef3`，未声称全技能库重验。
+
 报告保留两项byte差：每题wire计数比原SSE body多6,720bytes。冻结relay明确wire另计HTTP响应头，body文件不含头；单位不同，不据此判断token丢失或超帽。动态头原文未归档，未声称独立重建每字节。两源闭合私有包349成员/2,068,583bytes已双端核验，SHA `3d3ac3fa60fcc0ac078204f96113e43397863a0aa67eb6e2e7d44e6399c2de63`，本机check SHA `973a88f07660ea1d4efdf6b7cf2091d22090b9942b6bd861007b9c05514c8d8a`；尸检报告随后单独镜像，不重打原包。
 
 [追加前缀加载器](../alfworld_recovery_source.py)显式绑定旧protocol/cohort/manifest/receipt/world哈希并分开新旧额度，联合聚焦38 tests/19 subtests通过。现已对8个合格失败前缀实际重放：322个接受动作及全部公开reset/逐步状态均相等，8个owned world均关闭，模型/训练0、环境段墙时合计23.35秒。5个heat/cool/look为主比较，3个clean作诊断；7成功与1零动作来源被拒绝。`additional_recovery_v1/NATIVE_REPLAY_RUN_V1/RESULT.json` SHA `32b93d6d436d973d9e2e7ed53d9db6e6d444aefe581589dfe3d9f5fcb8c2577f`；来源协议SHA `466815d7b75026d3605f88e3504a4c54502792878dd13b90e4697e3b57a567d4`。接受动作不保证有用进度；公开重放不证明全部隐藏状态等价。当前prepare未接入、未做学习恢复比较，不改在途96回合组件。8个来源原本都是无经验ordinary_reset失败，不能改称旧skill失效现场。其完整/近期3步的单user提示实测为1,014–5,027 / 681–1,238 HF tokens（不含OpenCode额外输入）；`PROMPT_LENGTH_V1.json` SHA `72ae67c334ddf23a7dc8afd8a46cd6534b34558f134472acdbe6ea37bf72b8b5`，仅CPU计数。下一恢复阶段另给32 POST/600秒，world总100步、各现场尚余27–92步；旧形成费只计一次，不按每臂重收。
@@ -69,7 +73,7 @@
 
 完整历史R相对O主比较增2/12，95%描述区间[-8.33,+41.67]pp；短历史R/O/All7均4/12。交互为-16.67pp，区间[-41.67,+8.33]pp，尚未分离稳定学习增量或历史交互。R短历史7个成功均在R完整历史11个成功内，后者POST、总输入及noncached均更低；不据此训练选择器。All7仅测last3，仍缺匹配的full普通历史，不能把Rfull对All7short当同窗口优势。冻结六对与成本见[全批闭合](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#all96-results)；27B直接执行14/16及形成/训练费继续作参照，独立代码来源采集已接续。
 
-**后续取舍已收窄。** 来源批先闭合；新训练前仅补F full与All7 full两臂32回合，同当前父模型、16暴露任务、完整历史/终态控制和额度。既有F full来自旧控制器，不能直接当同设置基线；All7 full尚未运行。保持原始提示序列化，不借修格式同时改处理条件；明确为事后开发延伸，不改旧96合同。然后用现有权重在8个旧失败现场按共同新增32POST/600秒比较恢复；旧形成费只计一次，不把该条件失败池当新来源确认。
+**完整历史32条已启动。** 两臂F full与All7 full，同父模型、16暴露任务、完整历史/终态控制与额度；既有F full控制器不同，因此补同设置基线。保持原始提示序列化，属事后开发，不改旧96合同。私有`full_baseline_extension_v1/RUN_V1`由PID1301996/start_ticks1081148502持有，launch SHA `acb2f1e1a6a5efed2dff7be1816a4e6e60a77842797f018f2970501d45b9187a`；已见首条`case_start`，尚无闭合结果。四个预定对比、C限定PASS、计划/源码hash见[完整合同](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#full-baseline-extension)。结果出来前不增训练或选择器；然后以现有权重在8个旧失败现场按共同新增32POST/600秒比较恢复，旧形成费只计一次，不将条件失败池当新来源确认。
 
 <a id="两项改变下一步的发现"></a>
 ## 机制线索与下一阶段准备

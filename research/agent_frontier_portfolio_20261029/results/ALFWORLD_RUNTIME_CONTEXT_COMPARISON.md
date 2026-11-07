@@ -73,6 +73,14 @@ R短历史的primary4/12全来自look，不能把整体7/16解释为普遍学会
 
 末臂实际935POST；input8,864,262、cached子集7,875,435、noncached988,827、output40,679、total8,904,941tokens；928 tool_calls、7 stop、0 length，800接受动作，episode墙时4,298.28秒。D决定先补F full和All7 full两臂32个事后开发回合，保持当前提示表示与控制器语义，补齐同窗口强基线；旧F full的控制器不同。其结果出来前不增训练，不将Rfull对短窗口对照的优势写成方法成立。
 
+<a id="full-baseline-extension"></a>
+
+## 完整历史强基线延伸（2026-11-08）
+
+仅补同控制器的Frozen full和All7 history full，各16条；同父模型、原16个暴露布局、完整历史协议及每条128 POST/1800秒/100 world动作/64MB，独立最大4,096 POST，训练0。不改旧96结果或提示序列化。主要比较仍为12个已见类型，clean4作诊断，整体16次要；四个方向固定为Rfull−Ffull、Rfull−All7full、All7full−Ffull和Ofull−Ffull。使用原配对分层10,000次重采样/seed17，不将区间含0当相等。新32与旧96顺序运行，属于事后开发，不能排除运行时期差异。
+
+私有`full_baseline_extension_v1/PLAN_V1.json` SHA `ef42050b28e16ef7298c88ccc6c98db2fb4f48b8f84158a89f3c5cf88f4bf134`，分析合同SHA `c6fea56798acb107a06137016c826cef15bbfad54dbde5e84074f35c1a518d01`。C限定预审PASS（回执SHA `b8dc00b6e22850514ddeda8594fd3f4f21b6256eecc4630fe7c6016936031c67`），含旧96原回执的存在/哈希/任务/结果及后续冻结检查；不代替新结果审阅。发布LF源码SHA `05766a4833b4ddf766473501407677282f4343ad24b5017bfddaecf68f546d11`，GB10 46 tests/135 subtests及实际计划check通过。`LAUNCH_ARGUMENTS_V3.json` SHA `4fd6dcb82207d5d824623b5c8af3aa821fcafc218a9d95a78469d117629c0069`记录CRLF到LF发布差异，旧V1/V2保留。静态输入/CPU记录/C审阅共14成员薄包已双端核验，SHA `e540e05400c006aa854c8adb5d059621ec9209ff619ea7b35b78e93bd92ba80b`。执行owner与实时结果只在[现役记录](ALFWORLD_CORRECTION_DATA.md)维护；计划或预审通过不代表效果。
+
 <a id="closed-costs"></a>
 
 ## 闭合成本与私有镜像

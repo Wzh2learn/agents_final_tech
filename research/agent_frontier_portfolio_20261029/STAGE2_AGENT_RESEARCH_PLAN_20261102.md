@@ -1,6 +1,6 @@
 # 第二阶段：Agent 经验学习与变化适配
 
-> 2026-11-07 | 唯一现役计划，原地更新。运行授权只查[STATE](../../memory/STATE.md)和用户最新指令；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+> 2026-11-08 | 唯一现役计划，原地更新。运行授权只查[STATE](../../memory/STATE.md)和用户最新指令；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
 
 ## 目标与负责人取舍
 
@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[纠正学习](results/ALFWORLD_CORRECTION_DATA.md)：同7来源O/R均192步保存/重载，旧五臂及27B参照已闭合。新六组96条已闭合并恢复，Rfull primary7/12对Ofull5/12，区间跨0；不增训练。两代码来源各48请求均未修复，原96帽用尽不重跑；代码工具说明冲突先最小修正/隔离验证。先补同控制器Ffull/All7full两臂32回合，检验强完整历史基线，再做8个保留现场恢复；不训练旧选择器。旧AWQ-compatible GGUF不套新LoRA。尚无独立方法，布局变化不等于动力学变化。
+当前只读[纠正学习](results/ALFWORLD_CORRECTION_DATA.md)：同7来源O/R各192步保存/重载，六组96条闭合，Rfull primary7/12对Ofull5/12，区间跨0。Ffull/All7full同控制器32条已启动，先核强完整历史基线；暂不增训练或选择器。代码两来源各48请求未修复，旧帽不重置；工具说明已修，2POST隔离写入通过。接着用现有权重比较8个保留现场；source参考辅助纠正另作候选。旧AWQ-compatible GGUF不套新LoRA；尚无独立方法，布局变化不等于动力学变化。
 
 ## 用户恢复后的执行顺序
 
