@@ -396,7 +396,8 @@ def stop_owned(cidfile, name):
     if not re.fullmatch('[0-9a-f]{64}', cid): raise ValueError('unverifiable container ID')
     inspected = subprocess.run(['docker', 'inspect', '--format', '{{json .Name}}', cid], capture_output=True, timeout=15)
     if inspected.returncode:
-        if b'No such object' in inspected.stderr or b'No such container' in inspected.stderr: return dict(cid=cid, name=name, status='ALREADY_REMOVED')
+        error = inspected.stderr.lower()
+        if b'no such object' in error or b'no such container' in error: return dict(cid=cid, name=name, status='ALREADY_REMOVED')
         raise ValueError('container ownership not proven; no stop')
     if json.loads(inspected.stdout) != '/' + name: raise ValueError('container ownership not proven; no stop')
     result = subprocess.run(['docker', 'rm', '-f', cid], capture_output=True, timeout=15)

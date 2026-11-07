@@ -468,3 +468,23 @@ def test_successful_fake_send_restores_response_deadline_timeout(tmp_path, monke
     assert trace[-1][0] == 'timeout' and 5.0 < trace[-1][1] <= 10
     bill = relay.accounting()
     assert bill['actual_forwarded_posts'] == 1 and bill['provider_total_tokens_known'] == 7 and bill['integrity_passed'] is True
+
+
+@pytest.mark.parametrize('stderr,missing', [
+    (b'error: no such object: ', True),
+    (b'Error response from daemon: No such container: ', True),
+    (b'permission denied while trying to connect to the Docker daemon socket: ', False),
+    (b'Cannot connect to the Docker daemon at unix:///var/run/docker.sock: ', False),
+])
+def test_missing_cid_case_normalization_does_not_accept_operational_errors(tmp_path, monkeypatch, stderr, missing):
+    cid = tmp_path / 'cid'; cid.write_text('a' * 64); calls = []
+    def inspect(cmd, **_):
+        calls.append(cmd)
+        return SimpleNamespace(returncode=1, stdout=b'', stderr=stderr + b'a' * 64 + b'\n')
+    monkeypatch.setattr(subprocess, 'run', inspect)
+    if missing:
+        result = m.stop_owned(cid, 'ours')
+        assert result == dict(cid='a' * 64, name='ours', status='ALREADY_REMOVED')
+    else:
+        with pytest.raises(ValueError, match='ownership not proven'): m.stop_owned(cid, 'ours')
+    assert len(calls) == 1 and calls[0] == ['docker', 'inspect', '--format', '{{json .Name}}', 'a' * 64]
