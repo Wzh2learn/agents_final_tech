@@ -186,9 +186,9 @@ def qualified_actor_rounds(root,rounds,cap,stop):
         if sha(raw)!=row.get('raw_sha256'):raise ValueError('actor round raw SHA differs')
         if type(code) is not int or code not in (0,1) or code==1 and not expected:
             raise ValueError('unqualified actor failure')
-        if code==0:continue
         rows=[json.loads(line) for line in raw.read_text().splitlines()]
         errors=[r for r in rows if r.get('type')=='error']
+        if not errors and code==0:continue
         if not errors or rows[-1].get('type')!='error':raise ValueError('actor failure has no terminal relay refusal')
         for record in errors:
             error=record.get('error') or {};data=error.get('data') or {};status=data.get('statusCode')

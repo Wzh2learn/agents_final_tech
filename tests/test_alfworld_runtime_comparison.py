@@ -294,6 +294,39 @@ def write_raw_refusal(f,status,*,extra=None,message=None,name='APIError'):
 
 
 class RuntimeAuditTests(unittest.TestCase):
+    def test_zero_exit_unknown_top_level_errors_stop_and_keep_native_state_and_costs(self):
+        for won in (False,True):
+            for earlier in (False,True):
+                with self.subTest(won=won,earlier=earlier),receipt_fixture(won=won,terminal=won) as f:
+                    f.receipt['rounds'][0]['exit']=0
+                    write_raw_refusal(f,409,name='OWNED_FAKE_UnknownError',message='OWNED_FAKE opaque failure')
+                    if earlier:
+                        path=f.root/'raw_1.jsonl';path.write_text(path.read_text()+'{"type":"step_finish"}\n')
+                        f.receipt['rounds'][0]['raw_sha256']=digest(path)
+                    save_receipt(f);before=(f.root/'receipt.json').read_bytes()
+                    with self.assertRaisesRegex(ValueError,'actor failure'):
+                        r.audit(f.study,f.root,f.receipt,f.manifest)
+                    totals=r.aggregate([{'root':str(f.root),'status':'CLOSED_UNAUDITED'}])
+                    self.assertEqual(totals['known_actual_model_calls'],1)
+                    self.assertEqual(totals['provider_usage_known_subtotals'],{'prompt_tokens':8,'completion_tokens':2,'total_tokens':10})
+                    self.assertIsNone(totals['total_actual_model_calls'])
+                    self.assertEqual((f.root/'receipt.json').read_bytes(),before)
+                    self.assertEqual(json.loads(before)['final_world_state'],f.witness['state'])
+
+    def test_zero_exit_normal_tool_feedback_and_qualified_relay_errors_remain_valid(self):
+        for mode in ('tool_feedback','cap403','stop409'):
+            with self.subTest(mode=mode),receipt_fixture(won=mode=='stop409',terminal=mode=='stop409') as f:
+                f.receipt['rounds'][0]['exit']=0
+                if mode=='tool_feedback':
+                    path=f.root/'raw_1.jsonl';path.write_text(json.dumps({'type':'tool_use','state':{
+                        'status':'error','error':'OWNED_FAKE ordinary tool feedback'}})+'\n')
+                    f.receipt['rounds'][0]['raw_sha256']=digest(path)
+                elif mode=='cap403':
+                    f.receipt['model_relay_errors']=[{'type':'ValueError','detail':'episode model budget closed'}]
+                    write_raw_refusal(f,403)
+                save_receipt(f)
+                self.assertEqual(r.audit(f.study,f.root,f.receipt,f.manifest)['scientific_cap'],mode=='cap403')
+
     def test_cap_or_terminal_witness_does_not_mask_killed_actor_and_preserves_bills(self):
         for kind,code in (('cap',137),('won',137),('done_unwon',-9)):
             with self.subTest(kind=kind),receipt_fixture(won=kind=='won',terminal=kind!='cap') as f:
