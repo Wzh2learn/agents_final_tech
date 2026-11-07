@@ -1,6 +1,6 @@
-# ALFWorld：闭合训练与运行绑定
+# 学习研究：闭合训练、运行与来源准备
 
-> 2026-11-07按主题拆分；只在核查模型坐标、训练、部署或私有镜像时加载。科学结果和下一动作只读[现役学习记录](ALFWORLD_CORRECTION_DATA.md)。原文来自拆分前 Git `685fcfd8` 的当前记录与背景记录，不改写旧数值。
+> 2026-11-07按主题拆分；只在核查训练、部署、闭合成本或来源资格时加载。当前裁决和下一动作只读[现役学习记录](ALFWORLD_CORRECTION_DATA.md)。训练/部署旧片段来自拆分前 Git `685fcfd8`；后续结果和代码准备各节注明迁入来源，不改写旧数值。
 
 <a id="learning-runtime-history"></a>
 
@@ -84,3 +84,26 @@ R相对F/O主比较只多1/12，配对分层布局bootstrap的95%描述区间为
 截至该参照闭合，ALFWorld专题继承账只追加340次/3,624,759tokens，变为7,703HTTP调用/91,350,396tokens；不含训练、研发Agent或下述Django。研发子Agent缓存/费用不由这份科研调用账证明。
 
 Django34570已完成新自然问题准备（私有`django34570_development_v1/summary.json` SHA `dd4046ba3b380103c967f7ee0b7d688188fa0b863e1bd8e4e47665c12d96bd28`）：base关键1项报错、gold1/1通过，两者回归13/13；M2M/GFK公开调用在base报AttributeError、gold正常。10次CPU容器含初次权限失败，均保留；gold/test补丁独立于actor源树。新[薄任务入口](../run_django34570_development.py)复用现有derive/计量/独立评分；GB10聚焦12测试/7 subtests通过、实际容器11项可读写边界检查通过，静态准备manifest SHA `43a5c6791d3ff2cfd422f50cf8eb8f6060a976250a0ff78466b07697f19b75d4`。v5已绑定当时恢复态，但actor启动因AF_UNIX路径过长在模型转发前失败；公开probe亦受源0600权限阻断，旧现场保留。最小修复为短自有socket及同hash的只读probe副本，冻结源不动；GB10复验33测试/29 subtests通过。入口已支持显式closed恢复回执，并保留原Q4 argv/cwd/权重与完整进程身份守卫；新`attempts/cpu_surface_v6`已静态准备（manifest SHA `ab040fba656d2ce553e7f257f7b49912aadfc1f6a0b7eb4dbbe9fa8ed95ab446`，0模型/服务动作）；已按五臂closed恢复回执绑定同一原Q4 PID372039并实际执行。v6结果`GENERATION_RECORDED`（SHA `8ffc1c3065268d79b4651980a1396c6d081d9fcf812095390d661e1b9fc20110`）：33实际/预算POST、588,426已报告tokens、89.07秒，已完整计量；独立F2P失败、PTP13/13、公开M2M/GFK复现失败，fixed=false。actor正常退出却最后询问是否继续，候选相对起点0改动/0删除/0非缓存新增；`CANDIDATE_DELTA_V1.json` SHA `8f6be481e3822dd5e396688a8f822d30a88989cf3d9519f4af976fb5098c81e5`。这是可运行、未解决的一道新代码开发问题，尚无经验/学习比较，也不是反馈学习负结果；公开复现为空SQLite查询，不把13项测试算13任务。
+
+<a id="code-source-controls"></a>
+## 代码经验来源：闭合的资格与接口准备
+
+> 从当前学习记录原文迁入；实际source采集现状仍读该记录，不以本节历史等待状态作为现役待办。迁移文本规范换行后SHA-256：`0eecd1070768f1bddcc02df439e05c965ff60f2d4374eaa98fa901164596ffbb`。
+
+本节`ROOT`为`/home/testuser/wzh/research_evidence/agent_learning_20261030`；未加前缀的source资格/准备回执位于`ROOT/code_source_expansion_v1/`。迁入前快照为Git `b682eafd`。
+
+第二环境增量准备使用现有ContextBench Lite与Django/SymPy隔离依赖。元数据过滤剩21个关联候选目标（非全项目未曝光认证），按题目hash选得Django31051、SymPy9384/19006三目标及其较早来源；`ROOT/next_code_source_inventory_v1.json` SHA `114f22de08c94404909720ff950a61bbe0f0e39be4503bfe289616caf1c1081c`。上游`created_at`仅作排序，实际核GitHub源修复merge确为目标base祖先；`code_source_expansion_v1/ANCESTRY_CHECK_V1.json` SHA `c8412bc8d709509fa9336520dd4d19572c65f67dea571f8fa5a4ce6700143603`。源码准备阶段共下载3份官方commit归档：6次公开元数据HTTP＋3次源码HTTP、0模型/环境/训练；归档清单SHA `bc92d85748b67ea41fdfe67c85f169289429a526936c1d6d15bf021259d402d7`。CPU资格合同SHA `8b9d0977494184c8e61eeafde308143fdc4dc293bf401b8b8b9c541f1b3c6017`；先复现base/gold及全部已发布回归，再决定是否用作新开发任务，不把源码时序通过当任务修复资格。
+
+已集成[统一CPU资格入口](../qualify_contextbench_pool.py)，首轮`QUALIFICATION_RUN_V1/receipt.json` SHA `6b43065ab2d70372d34258ad276b3a023b4aaffb16c65d6c79f28bf5511f3f14`返回NOT_QUALIFIED，但分题结果可用：SymPy9384的2个F2P全部base失败/gold通过，两侧320个PTP全部通过；Django31051在Python3.12缺distutils、未进入测试；SymPy19006的4个F2P成立，两侧PTP均46通过/2失败，首错为旧AST构造False常量的ValueError。后两者不当方法负结果，不豁免既存回归。最小修复复用已有冻结Python3.8给历史Django运行，同时区分pytest XFAIL/XPASS且仍拒绝non-pass资格；16tests/32subtests通过。`QUALIFICATION_RUN_V2`已闭合（receipt SHA `a3c7eef5d3b803dba02992d553d9858bf3e8385ace1d4c33435c750221044aa0`）：Django31051的12个F2P全部失败→通过、两侧25个PTP全通过；SymPy9384保留完整资格，19006仍未通过且不豁免两项。整体仍为NOT_QUALIFIED，不冒充三题全绿；仅两题进入开发EVAL_ONLY注册表`QUALIFIED_TARGETS_V1.json`（SHA `01493c013446b832b084aa914a578d4a0b0fe5b2645665792d59f43a7479da2f`），其较早经验源的后续资格见下段，真实轨迹尚未采集。两轮共24个实际测试容器、测试段墙时合计240.99秒、0模型，源码SHA `d05c12e757dae2d4c55261f62af89fb9ddec6830cbb6733dab9df3bdb23ffad8`；三题/源码/patch/标签不变，完整conda库树未冻结。它与六组实验仅并行占CPU，不发其他GPU请求；墙时不作为隔离硬件下的因果成本比较。本轮A临时worktree已合并并仅清理13个重建缓存，7个历史资产树保留，Agent上下文保留。
+
+本批只检验从reset迁移。后续恢复开发固定取frozen结束时未won/未done且至少一个接受动作的完整前缀，共8个现场；零动作cool_02单列reset诊断。接受动作不自动等于有效进度，不挑近成功片段。各臂重放同一公共现场，用额外且统一的接续额度（候选32POST/600秒，尚未冻结），不把原128POST耗尽写成仍有剩余；world仍总100动作，形成费只计一次。比较最强简单history/公共摘要、ordinary/recovery，并补同接续额度reset控制，以区分恢复特异性与一般能力。旧load_prefix只接受collect及同protocol，后续须显式绑定旧protocol/manifest/receipt/world SHA，不改原回执。此设计未启动，EVAL_ONLY目标输出不回流训练。
+
+**两对代码任务的经验来源已完成资格。** 仍复用同一A，不新建Agent：扩展入口以原Experience标签逐项绑定具体测试方法，未放宽旧三target资格。`SOURCE_CONTRACT_V1.json` SHA `8c48cb051323c396fb50d05994c3b0a67cacb92afb902e644c04faa336b57df7`；8个真实CPU容器、测试段15.26秒，Django12453的1个F2P失败→通过、两侧5个PTP通过；SymPy21055的1个F2P失败→通过、两侧13个PTP通过。D复核491个输入hash、原始测试日志及clean源码树；19 tests/47 subtests通过。`SOURCE_QUALIFICATION_RUN_V1/receipt.json` SHA `576dec0cc19d342d50c8ebfd65b90dde8c123ba7e1fd199545dde209ad638ab2`；两对注册表`QUALIFIED_SOURCE_TARGET_PAIRS_V1.json` SHA `de086acea81dcfae7bdc6e3276a05e7c8ff02e0c6ce38a989bb9f1560a39838f`。经验源为12453→31051、21055→9384，源码修复merge均为目标base祖先；新增2次官方source归档HTTP，扩展专题累计11次非模型HTTP。此为参考/测试资格，不是Agent成功经验；source真实轨迹待模型窗口释放后采集，目标仍为EVAL_ONLY，gold/隐藏测试不进actor。
+
+**通用代码source入口已准备，实际经验尚未采集。** 新[单一入口](../run_contextbench_source.py)供两个source复用，直接导入稳定传输/隔离依赖/评分组件，不再复制日期runner或提取旧AST代码。最新源码`f63e4a0e`；D实跑62 tests/47 subtests通过。C固定快照找到并复现晚连接越过关闭，再限定复核原子关停和5秒单次发送界；D另以真实内核socketpair阻塞写验证约5.01秒收尾、部分发送仍unknown，真实模型0。C审到`0f0e30cc`，后续Docker缺失对象小写兼容由D检查及真实容器核验。
+
+两个真实资产V4 CPU prepare与frozen verify均通过；`SOURCE_ACTOR_PREPARE_D_V4.json` SHA `ebece8b1aabd89d3050800709ae42a5f13c33fd872838994ccf4eee1e65ab1ec`，Django/SymPy manifest分别`7fdcc03db7adda119d77b012b31120ca774fdcffb8352e158c0b6e07262a1ee5` / `7d639a0c1983ec9a1c547419efbba8c75846d7c9f9ed6139db5d0e4a0091a37a`。原公开题面与包装提示分hash，Django自带作者建议diff原样保留；actor Py3.8/依赖与资格逐文件相等（47/415）。实际Django容器的导入、OpenCode1.18.3、可写代码、只读题面及私有评分不可见均通过；首次正常自动删除被大小写误报，原回执保留且精确CID确认已不存在。新scorer控制在可用内存3,240,075,264bytes低于4GiB时正确DEFERRED，未启动测试容器；SymPy表面及base/gold评分均待资源释放后在新控制根续做。`SOURCE_PREPARATION_RETURN_V1.json` SHA `6409af4cdc0ee494148f72c0d844a89cfdcc377cbdf3d49fe442387339352304`。本轮仅2个Django表面容器、source模型/训练0；V1–V3静态准备保留未执行，不作为经验。
+
+**资源允许后已补完CPU控制。** 新根`SOURCE_SCORER_CONTROLS_V2/RESULT.json` SHA `7718efabe51be0ebedde1030652ba19af912f6f1c738bf19a6ba0ec7eac37ff7`：8个实际测试容器、30.48秒；两source均原版F2P失败、参考F2P通过、两侧PTP全通过。SymPy实际隔离表面亦PASS（Py3.8.20、项目从/workspace导入、OpenCode1.18.3、代码可写/输入只读、私有证据不可见），精确CID自动删除。汇总`SOURCE_PREPARATION_RETURN_V2.json` SHA `530dd81deae03ea69d95ec14cee9d51925f047c6d74d385c33e1a4e80d5390fd`。本次新增1表面＋8测试容器，source模型/训练仍0；旧低内存DEFERRED保留。下一步仅待主模型窗口释放后采集真实source轨迹，不能把参考控制通过当Agent经验。
+
+[回到现役学习记录](ALFWORLD_CORRECTION_DATA.md)。
