@@ -1,6 +1,6 @@
 # ALFWorld：执行纠正与学习开发
 
-> 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景与已关闭的对照见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。同父模型五臂80回合已闭合；纠正SFT有正向开发信号，27B直接执行参照已闭合，尚无独立方法贡献。
+> 2026-11-07更新，批次始于11月6日 | 当前只加载本页；背景见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。六组新批次继续；完整历史R/O为11/16对6/16，待短历史及独立来源比较。旧五臂与27B参照已闭合，尚无独立方法贡献。
 
 四现场能力诊断与旧分账已移至[已关闭的先导实验](ALFWORLD_CONTEXT_STUDY.md#teacher-pilot)；本页保留当前结果和下一动作。
 
@@ -64,8 +64,12 @@
 
 这两条普通臂的描述性对照为full6/16、last3为4/16：full新增look_01/clean_02/cool_01，丢失cool_02。last3总tokens较低，但请求更多（1,185对640），noncached输入反而更多（1,071,265对189,196）；不能只按上下文长度推定费用或计算节省，也不能把缓存输入按新增计算等价计价。墙时非隔离硬件因果估计；该对照不替代冻结六对R/O及交互，R臂尚在途，未改设置或新增训练。
 
+**纠正完整历史臂已闭合。** recovery_full为11/16 won（primary7/12、clean4/4），相对同批ordinary_full新增clean_01/look_02/look_04/clean_03/clean_04/cool_03，丢失heat_02；主比较增2/12，clean增3/4。387实际及预算POST；input4,321,152、cached子集4,158,864、noncached162,288、output16,614，total4,337,766tokens；387 tool_calls、0 stop、0 length，378接受动作，episode墙时1,759.74秒。A核2,489输入绑定，D独立核全部387份原SSE、16个native终态及费用，差异0；与普通完整历史16个首请求逐字节相同。A回执`RECOVERY_FULL_CLOSED_V1.json` SHA `0d397c696d85133e2c45896312a2a590c964bd89392f226818afb157e659d319`；D复算SHA `43136b101ac32d5a35d3d26336e896663c9a7736d304fdc32c1b9fc728d95b49`。这是当前开发面板的训练方案信号；短历史R和history臂继续，六对/交互区间仍等96条闭合。直接27B的14/16及形成/训练费用继续作成本参照，不单凭运行tokens判定部署更省。
+
 <a id="两项改变下一步的发现"></a>
 ## 机制线索与下一阶段准备
+
+**代码来源的具体问题（执行前公开题面判读）**：Django12453→31051同涉序列化依赖，但前者公开建议反序列化事务，后者区分普通外键、自然键与循环依赖；SymPy21055→9384同为refine，前者参数简化，后者Piecewise分支条件。它们可检验相关旧经验的适用边界，不能只用关键词相同当可迁移证据。D-only私有`code_source_expansion_v1/SOURCE_PAIR_PUBLIC_MECHANISMS_V1.json` SHA `c04a7f8822f483b5a4caea53a4fdd6ecce684e32dc74ebb23a5cd9c99ae7f0d8`绑定公开题面与既定source输入；不含新结果。后续经验生成只能读source证据，不能读这份包含目标解释的笔记；无历史、普通摘要和不重复旧补丁检查仍作强简单对照。
 
 **持续短历史需要与学习增量分开比较。** 旧drop_recent仅首次交接保留3条公共动作，之后OpenCode历史继续增长；闭合样例第74次转发仍含73个工具回合。新[纯投影器](../alfworld_context_projection.py)逐次保留所有系统/用户目标及最近3个完整工具回合，不造摘要；离线核对F/O的1379份闭合请求后，已接入Relay且在上述真实body核实生效。投影发生在采样合入后、body序列化/计费/记录前；六组结果闭合后再判断短历史能否解释学习差异。
 
@@ -110,5 +114,7 @@ Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FAC
 ordinary_last3闭合原始包双端核验8,656项、29,176,224bytes，SHA `97345e170747f8b7448fc8ac81585e08191620182a955d4abf74aa1ac81b39e4`，只加入该臂16条，不复制在途完整历史/R输出。小计再增加1,185 HTTP / 5,916,525tokens，当前ALF专题已闭合10,336 HTTP / 104,482,997tokens；再次解析先前frozen原SSE不重复记生成。仍非项目总账，训练、研发Agent、未闭合其余臂及历史差额单列。
 
 ordinary_full闭合包双端核验4,201项、25,244,280bytes，SHA `e8ce840431faefde6c8b4a2b54c94e5bed131cc1eb5ca937be76d40bc72c580d`；本机check SHA `237067124940022bcf274d91a136d22f8c18f64014075413c62b89d1856d9f92`。只含已闭合普通完整历史16条及固定事件前缀，不含在途R输出。本专题仅增加该臂640 HTTP / 8,135,342tokens，已闭合小计10,976 HTTP / 112,618,339tokens；A只读核查4次工具调用，D复算0新增生成，研发Agent用量仍分账，不填0。
+
+recovery_full闭合包双端核验2,677项、13,856,346bytes，SHA `1c0863f09895e5f9ab52e70e284ff6dc18678d31186f766fb4ba42f5d4f5124e`；本机check SHA `baf908eca7731400b0688d23c9574c3e440859eae49e72d8999537de5451470c`。只含闭合R完整历史16条及固定事件前缀，不含R短历史或history在途输出。本专题只增加该臂387 HTTP / 4,337,766tokens，已闭合小计11,363 HTTP / 116,956,105tokens；A含有界等待共6次工具调用，D复算0新增生成。全部仍为本专题闭合账，不含在途、训练及研发Agent，不是项目总成本。
 
 source评分控制薄包已双端核验59项、18,178bytes，SHA `2e6a7066eed4486a240c42d7db9ddc4fc41a35741331f14d78f2d303758fb42e`；本机另核4份base/gold回执的完整标签、预期失败/通过及清理，check SHA `2a260602c18411b07f63eba05be1e1ceb96e04be1bc5598461ba52a2bd08d428`。不含work/baseline/gold树，未公开。
