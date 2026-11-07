@@ -118,16 +118,34 @@ target按无历史→透明结果卡→普通源历史→普通skill串行运行
 
 停止无引导source重试，不先训练。复用已经真实执行且1/181全过的V4 source参考应用，形成`SOURCE_COLLECTION_V1/REFERENCE_ASSISTED_SOURCE_V1/SOURCE_EVIDENCE.json`，3,123bytes、SHA `1dae2bf35ea1c72a124a3ea236e1c00dd62e1ad1db734e11629ec74a3fe4c413`；manifest SHA `02e8448f7150df7ba27f6c38ef61e94495d8b7827f3a7f16dd36a26d83757f20`。它含source原题、source参考补丁、实际base/gold结果及本次自然失败事实，无target gold/未来题号；复用已有执行，0新增模型/容器/训练，形成费不隐藏或重计。
 
-这是明确标注的训练来源参考辅助证据，不是Qwen成功轨迹或反馈学出的skill。后续先准备无经验、仅source文件位置提示、完整已验证source证据的同设置强基线对照；若再试紧凑卡/学习方法，必须给信息匹配的完整参考证据基线，不能只击败未修复的失败历史便归因于表示或学习。新目标接口和预算须先冻结，当前未运行目标或释放训练。
+这是明确标注的训练来源参考辅助证据，不是Qwen成功轨迹或反馈学出的skill。后续先准备无经验、仅source文件位置提示、完整已验证source证据的同设置强基线对照；若再试紧凑卡/学习方法，必须给信息匹配的完整参考证据基线，不能只击败未修复的失败历史便归因于表示或学习。该来源证据冻结时尚未运行目标、未释放训练；后续目标对照见下文。
 
 完整321成员私有闭合包已双端逐项核验：10,171,046bytes、SHA `aab5c78e9af3ae8cc57c14b7540fef321cabcfb54e66cd84f4c5765738893a93`；manifest SHA `ae847c1ab7f47885db48c818b55bd9d08967886f807837987e01ebd22b67e476`，本机check SHA `3161936a14936170262efd1191731401d59e88dc5393570da52b84524a6fb90f`。包只含控制/原始调用/精确源码与source证据，不含完整scratch或依赖包；v1误收staged第三方文件，v2已排除并保留修正说明。实际18个运行Python组件快照SHA `56871ba5a0beaf5f8f22dce464aeba62234fa733c760f139c65d2200ab196aac`；源码与测试两文件发布到Git时CRLF→LF，已核AST相同，原执行字节仍在快照，未改历史绑定（规范化记录SHA `b86c78ab20abb4b441312cbd538fe9e4ca7992c4cb50e78fcc22207dea3449a5`）。
 
 代码集成后，已确认无在途source进程、4项自有WIP与main仅规范化换行差异，且18运行源码/两份测试已归档；随后正常移除已完成的资格临时worktree，保留原7历史树。不是删除raw、依赖或父模型。清理回执SHA `6f0518db52d41ee3cc10443249b4446c120369001638a8ea82e6d253cab00826`含原路径恢复配方；旧严格组件复核须用对应源码快照，不能拿当前main冒充历史字节。
 
-### 新pair目标三臂：执行中
+### 新pair目标三臂：已闭合
 
 目标25352独立准入，复用Bash-v2、relay、锁和评分，仅显式target依赖槽；source默认准入不变。GB10固定字节127tests/65subtests通过，3份真实输入CPU prepare/verify不含模型或容器。C仅检查固定源码/差异/隔离/预算，回执SHA `25c4d5915d36a5669dbd638efbde67250ccd5c7e6c39d7af1c547af638df0a49`，不当效果证据。源码已集成main `4ea46e4d`，不新建worktree。
 
 私有`TARGET_BASELINES_V1/PROTOCOL_V1.json` SHA `66c54d60539f422718cefcddfa1fbc3b76f0963e00a949bd99d13af24e82e097`冻结none/source_file_locator/full_verified_source_evidence，后者只给上述source证据，不给target gold。三臂同clean base、27B FP8、seed17/temp0.2、thinkingFalse、ctx32768/output8192，每臂48POST/1200秒/64MiB，串行且不自动重试，无训练。正式prepare14.858秒，SHA `ad7cf0efe651f36e8ffdd06e8f2e7308e68332efe03b3a7cd2e5e10eb9eb3846`；D复核19组件和同设置SHA `59b4c49f04975310200d1eb34d698ab07dadbb410dee46d1481d44ceea046aa2`。
 
-已释放单pair开发比较，不是方法/确认：完整经验若未超过文件位置，不归因于经验学习；无经验已全过则不在该题造增益。必须F2P1/1及PTP60/60全过，skip/error/missing非成功。发布SHA `a70a03370901fa2ac69726e7ea2de68b964c862692c4807100c288a05b32a3bf`；`LAUNCH_V1.json` SHA `114346059b9f3fa6ba4fc08ac05d233631078fecc421d3558679fd661ff61ae4`记录owner PID1525386/start1082873070，已实测存活，终态再核原始账。旧source48POST及全部形成费保留。
+已释放单pair开发比较，不是方法/确认：完整经验若未超过文件位置，不归因于经验学习；无经验已全过则不在该题造增益。必须F2P1/1及PTP60/60全过，skip/error/missing非成功。发布SHA `a70a03370901fa2ac69726e7ea2de68b964c862692c4807100c288a05b32a3bf`；`LAUNCH_V1.json` SHA `114346059b9f3fa6ba4fc08ac05d233631078fecc421d3558679fd661ff61ae4`记录owner PID1525386/start1082873070，启动时已实测存活，终态见下文。旧source48POST及全部形成费保留。
+
+**真实闭合结果。** 2026-11-08三臂均在48个实际POST后停滞；第49次本地attempt由relay按HARD_CAP拒绝，保留GENERATION_FAULT，不把这个403说成上游凭据失败。原失败题是公开维护要求对应的Grouper内部mapping控制；不是下游答案准确率。
+
+| 臂 | 实际POST / bash动作 | F2P / PTP | 源码改动 | input / output / total tokens |
+| --- | --- | --- | --- | --- |
+| 无经验 | 48 / 48 | 0/1 / 60/60 | 0 | 452,291 / 3,571 / 455,862 |
+| source文件位置 | 48 / 48 | 0/1 / 60/60 | 0 | 446,804 / 3,750 / 450,554 |
+| 完整已验证source证据 | 48 / 52 | 0/1 / 60/60 | 0 | 498,552 / 3,903 / 502,455 |
+
+合计144实际POST、147本地attempt、148个bash动作、1,408,871tokens（input1,397,647/output11,224）。三臂各自只有15/11/16个不同命令，最多重复34/38/37次；命令均为grep/sed/ls读取搜索，未编辑或自行测试，candidate.diff均0字节。144份provider原始SSE均tool_calls结束、无length，144份cache细分全部缺失，cached/noncached不补0。这里是同一任务三种输入，不是3个独立任务。旧source形成费另账，不重计。
+
+D全量核对144份实际body/响应/usage、所有原生评分和19运行组件的Git blob字节；9个自有容器已实测不存在、owner已终止、模型锁可取得。原生每臂1个失败与60个通过，日志marker/hash/完整覆盖一致。D闭合SHA `586cbb92218e7e5b7e59f00b9aed24511cab47ffa6df93c683ce72718122af82`；裁决SHA `8bfc23c42a2d6c586aea328f5ddddf048311de0902149b012955025fc99d3939`。C仍仅为启动前审阅，本轮结果由D核验。
+
+实测wire输入被OpenCodeCLI加外引号、转义内部双引号并保留原CRLF；全部请求精确匹配该变换，source内容未丢失。核对器最初误按未包装/换行规范化后的字符串比较，原读器已留底，修正只影响核验、未改raw或重跑模型。未证明该包装导致停滞，不据此宣布反馈学习无效。
+
+**决策：停止该pair当前actor下的经验表示变体和训练。** 完整source证据也未打破搜索循环，没有经验增益证据。后验重复动作诊断显示：若在相同command+output连续3次后结束已有轨迹，无经验/文件位置后面分别还有31/35次请求、333,033/365,190tokens；这只是保存轨迹的费用诊断，未实现恢复、未声称真实节省，full臂含多动作/请求，不套用一对一计算。下一动作转向[新增训练来源](ALFWORLD_ADDITIONAL_SOURCES.md)，不复活旧7来源R配方。
+
+547成员私有闭合包已镜像本机并逐项核验：4,202,258bytes，SHA `3a6213c33f8982a15a5c5129c6be8bb79c49507312d4b8c5aebb1e9be05f421e`；manifest SHA `00fc1916e190a30fcf6fdb0217cac9b563983b71c062a33999b9c04c5c81f568`，本机check SHA `bc360b2e641d51bb7854bd3d96e367a2501618175ba8ab625590506fd92e26f5`。包不含完整scratch/第三方依赖/权重，19组件按Git `4ea46e4d`逐blob可重建；无需新worktree。

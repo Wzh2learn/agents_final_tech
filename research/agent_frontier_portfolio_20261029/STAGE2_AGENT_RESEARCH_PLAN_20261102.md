@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[新Matplotlib来源段](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)。新pair的1/181与1/60参考控制全过；27B真实source48POST只读失败，停止无引导重试。复用已执行的训练source参考纠正，形成明确标注的证据；已冻无经验/文件定位/完整参考证据三臂，正同设置串行运行，不先训练。旧8现场R成功被All7覆盖，停止扩同7来源配方；旧reset信号及形成费保留。尚无独立方法，布局变化不等于动力学变化。
+当前只读[新增ALF来源](results/ALFWORLD_ADDITIONAL_SOURCES.md)。新增12个TRAIN来源原生/expert资格全过。下一步冻结来源角色、学生/教师、多任务执行/反馈比较及预算，再采真实轨迹，不先训练。新Matplotlib三臂各48POST均只搜索、F2P0/1，停止该pair的表示变体；[闭合证据](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)按需读。旧7来源R唯一恢复成功被All7覆盖，其配方停止；不把新增数据等同方法成立，也不把场景变化当动力学变化。
 
 ## 执行原则与后续顺序
 
@@ -33,6 +33,7 @@
 
 | 要解决的具体问题 | 只加载这些材料 |
 | --- | --- |
+| 新ALF训练来源 | [来源与原生资格](results/ALFWORLD_ADDITIONAL_SOURCES.md)。 |
 | Matplotlib 新pair及来源证据 | [新任务段落](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)；旧23562/27361的[隔离对照](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)仅按需读。 |
 | Astropy新隔离比较 | [本批合同与结果](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；[旧四臂及修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)单独保留，不混用source。 |
 | 真实任务时序 / SymPy | [来源和 SymPy](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md) |
