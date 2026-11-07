@@ -34,6 +34,45 @@
 
 A核7,582个绑定及1,060份投影证明，1,059个实际body全部匹配，最多保留3个完整工具回合；D独立重读全部1,059份原SSE、16个native终态、请求body与固定事件前缀，差异0。16题首个观察请求与普通短历史/R完整历史逐字节相同。A回执`RECOVERY_LAST3_CLOSED_V1.json` SHA `9d7696fb7e0621682e464c52ca69ccc33cf49077bf3e42aca159c2c15eaf84fb`；D复算`RECOVERY_LAST3_ROOT_RECHECK_V1.json` SHA `cc42dffb04fb111dac40c0617ada6905388c6c3ac8f94c8629f88bfb2c53b854`。本次复用A续接核查5次工具调用；未改在途history臂，未新增训练或因果结论。
 
+**五个闭合臂的任务类型分解（事后描述）。** D只读取上述固定事件前缀和已核category映射；每列恰为4个任务，仍只有同16个任务/布局，不是80个独立样本，没有新增显著性检验。
+
+| 臂 | clean | cool | heat | look |
+| --- | --- | --- | --- | --- |
+| Frozen last3 | 1/4 | 0/4 | 0/4 | 2/4 |
+| Ordinary last3 | 0/4 | 1/4 | 2/4 | 1/4 |
+| Ordinary full | 1/4 | 1/4 | 2/4 | 2/4 |
+| Recovery full | 4/4 | 2/4 | 1/4 | 4/4 |
+| Recovery last3 | 3/4 | 0/4 | 0/4 | 4/4 |
+
+R短历史的primary4/12全来自look，不能把整体7/16解释为普遍学会了加热/冷却。R完整历史在本面板保留R短历史全部成功，且POST、总输入和非缓存输入均更低，故不据这两臂训练复杂的上下文选择器；完整历史作为后续强固定对照。任务需要长期状态信息只是待检验解释，类型、搜索路线、训练方案与采样的作用尚未分离。history臂和冻结六对/交互仍待全批闭合。
+
+<a id="all96-results"></a>
+
+## 全96闭合与冻结分析
+
+`RUN_V3/RESULT.json`状态`ALL96_RUNTIME_CONTEXT_RETURNED`，96/96、0继承、原Q4健康恢复，受保护35B/27B身份未变；SHA `b6bc426206ff395a8ee3e51e8da6f90accb2bfccc656fd14175cecd2b91d0012`。恢复后Q4为PID1220283/start1080455452，原主进程已退出，来源采集按既定队列接续。末臂history_all7_last3为6/16（primary4/12、clean2/4），全批矩阵已由冻结分析器验过原生终态与回执；末臂原SSE和C全批独立复核另行闭合，不把分析器运行等同所有复核完成。
+
+冻结分析器SHA `1303a9a99ac79495cd4d6a9da06099ba05e2efb741c314eeaa9538c362c933cb`，输出`RUNTIME_COMPARISON_SUMMARY_V3.json` SHA `366147721fed8c9c158aa27576ba00408a58378b56dda3e8238b44d42537e31f`。PLAN与V2→V3分析链均绑定；按原16任务/布局分组，四类型各4，primary排除clean，所有臂共用分层bootstrap抽样索引，seed17、10,000次、linear百分位95%描述区间。全部对比保留，不按区间筛选；本面板已曝光且单seed，不作独立确认或显著性获胜认证。
+
+| 预定对比 A−B | primary12差值pp [95%区间] | overall16差值pp [95%区间] |
+| --- | --- | --- |
+| R last3−O last3 | 0.00 [-25.00,25.00] | 18.75 [-6.25,37.50] |
+| R full−O full | 16.67 [-8.33,41.67] | 31.25 [12.50,50.00] |
+| R last3−F last3 | 16.67 [0.00,33.33] | 25.00 [6.25,43.75] |
+| R last3−All7 last3 | 0.00 [-25.00,25.00] | 6.25 [-25.00,31.25] |
+| R full−F last3 | 41.67 [16.67,66.67] | 50.00 [31.09,75.00] |
+| R full−All7 last3 | 25.00 [0.00,50.00] | 31.25 [6.25,56.25] |
+
+配对交互`(Rlast3−Olast3)−(Rfull−Ofull)`：primary -16.67pp [-41.67,8.33]、clean 0.00pp [-75.00,75.00]、overall -12.50pp [-37.50,12.50]。整体R/O full有正向开发信号，primary与交互仍不确定；不把clean的3/4增量改写为三种已见类型的普遍提升。R/O训练同时改变起始状态、表示与信息条件，不能仅归因于反馈内容。Rfull对F/All7 short也同时改变窗口，不能据此宣称超过最强匹配历史基线；补齐All7 full比增加新训练更能回答这一缺口，旧96保持原结论与事后顺序。
+
+本批实际/预算POST均5,518；input39,280,968（含cached子集34,657,190，noncached4,623,778）、output235,792、total39,516,760tokens，unknown usage/cache均0；4,458接受动作，episode墙时合计28,717.75秒，研究窗口29,264.91秒。formation/training在通用汇总中保留UNKNOWN及来源引用，不能填0或当未发生；已知两次训练费用仍在现役页另账。七份固定闭合JSON已在本机逐hash镜像；本次分析/复制0新增模型请求，接续中的代码来源另账。
+
+**独立复核闭合。** 复用C从固定96份receipt/native及5,518条响应usage元数据独立重算，六对与交互在三切片共21项结果均一致，26条done-unwon未混为成功。结论`PASS_WITH_SCIENTIFIC_LIMITATIONS`，回执`C_RUNTIME_CONTEXT_RESULTS_REVIEW_V3.json` SHA `2c7b80bfaf8a2ef22c6535b5646b2080b3698318fbb214fc312d8b9ad9706dab`；3次只读检查和1次独占写入，未重解析原SSE或探测实时服务。各臂SSE另由A/D复算，不把该C范围说成全面人工统计认证。
+
+**末臂reference判据修正，无模型重跑。** A原`HISTORY_LAST3_CLOSED_V1.json` SHA `dd409e935281fcf55322dff5dfe81d93dce3b96d256b4dbb8d01529a3ac6e7fd`核native/935原SSE/投影均一致，但另记951个参考字串不匹配；后续`HISTORY_REFERENCE_RECHECK_V1.json` SHA `ae9b77acf4a90e73311ff7f872d290f954e2ac3d2186a28106bbbf6302e48abc`又将完整task逐字相等作为参考存在前提。D直接读取实际首user及转发body：user以JSON字符串成帧，`json.loads(...,strict=False)`后16首请求和935转发均包含完整all7载体UTF8原字节（SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`）。完整task差异来自当前公开观察JSON里的字面换行转义；所有96首user均满足解码后等于task中的字面反斜线n转LF，非all7缺失。此为既有表示的观察性核对，不改raw，也不证明表示在行为上中性。两份原报告保留；root复核SHA `add132ffb7e660cecb3ec38a6519f4eb78ab5d73641c1592ccb9692112b14603`，再核6,715绑定、935原SSE/native16/费用，0残留差异。
+
+末臂实际935POST；input8,864,262、cached子集7,875,435、noncached988,827、output40,679、total8,904,941tokens；928 tool_calls、7 stop、0 length，800接受动作，episode墙时4,298.28秒。D决定先补F full和All7 full两臂32个事后开发回合，保持当前提示表示与控制器语义，补齐同窗口强基线；旧F full的控制器不同。其结果出来前不增训练，不将Rfull对短窗口对照的优势写成方法成立。
+
 <a id="closed-costs"></a>
 
 ## 闭合成本与私有镜像
@@ -47,5 +86,7 @@ ordinary_full闭合包双端核验4,201项、25,244,280bytes，SHA `e8ce840431fa
 recovery_full闭合包双端核验2,677项、13,856,346bytes，SHA `1c0863f09895e5f9ab52e70e284ff6dc18678d31186f766fb4ba42f5d4f5124e`；本机check SHA `baf908eca7731400b0688d23c9574c3e440859eae49e72d8999537de5451470c`。只含闭合R完整历史16条及固定事件前缀，不含R短历史或history在途输出。本专题只增加该臂387 HTTP / 4,337,766tokens，已闭合小计11,363 HTTP / 116,956,105tokens；A含有界等待共6次工具调用，D复算0新增生成。全部仍为本专题闭合账，不含在途、训练及研发Agent，不是项目总成本。
 
 recovery_last3闭合包双端逐成员核验7,769项、30,092,908bytes，SHA `a31167512a2e638c8f7ab87abf7d9e334b2f239258710cbed853380056bf422b`；manifest SHA `1329c863646a42a85db65b350b949a50975193a5b34ec9eef57dd4ea9703f95a`，本机check SHA `221e126ccfcfcb8fbb621ec57a4eeb9a234b7feddcdb44135c73a3592620d665`。仅含闭合R短历史16条、两份复核与固定事件前缀，不含在途history或服务日志。该臂新增1,059 HTTP / 5,619,312tokens，ALF专题已闭合小计12,422 HTTP / 122,575,417tokens；复制/再次解析不追加生成，训练/研发Agent及未知历史成本另账。
+
+末臂及全96闭合包双端核验6,937成员、52,082,332bytes，SHA `4a69158f6d831853261732c74b24335896a6ac5da6981682d029f81a15301c1e`；manifest SHA `cf821fe0fb0f06518a733022181b40d09a2a859849cb15dead6fe4eb7ae0a36c`，本机check SHA `cd15d186d31766359cd66129b46ee69cc1bca8f6a3a6e7553a9995717e3a43ae`。含history16原始记录、原参考误报/后续复核、固定全96合同与回执及15份绑定Python源码快照（清单SHA `ab456b93cb5d6a79fc533b41b4dd07363b5c8f8100f4f25b8f16772522743f40`），不含其他臂重复raw、服务日志或权重；源码修改后以此快照及Git `89984349`复现旧代码，不能用新版本冒充原绑定。末臂仅追加935 HTTP / 8,904,941tokens，ALF专题闭合累计13,357 HTTP / 131,480,358tokens，来源阶段另账；复制与确定性复算不追加科学生成，研发Agent用量另账。
 
 [返回现役学习与评价](ALFWORLD_CORRECTION_DATA.md)。
