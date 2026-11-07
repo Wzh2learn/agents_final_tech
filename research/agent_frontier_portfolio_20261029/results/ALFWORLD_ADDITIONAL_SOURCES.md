@@ -1,6 +1,6 @@
 # ALFWorld 新增训练来源
 
-> 2026-11-08 | 只维护这批来源与原生资格；当前研究动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。旧7来源配方已停止，旧学习/恢复结果见[历史学习记录](ALFWORLD_CORRECTION_DATA.md)，不在本批重算。
+> 2026-11-08 | 维护这批来源与真实采集；当前研究动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。旧7来源配方已停止，旧学习/恢复结果见[历史学习记录](ALFWORLD_CORRECTION_DATA.md)，不在本批重算。
 
 ## 为什么获取新来源
 
@@ -35,6 +35,20 @@ GB10私有根为`/home/testuser/wzh/research_evidence/agent_learning_20261030/al
 
 114成员闭合私有包已双端逐项核验，631,027bytes，SHA `bd7d1646de2b388168c8e95fe8438d4c6ef00737f399334b82db6bdc9cd965e7`；manifest SHA `0959c086e4742562330f28d8e6e492164165110cc1f1ae8dd96181c9db6d8cbe`；本机check SHA `1133e1672ca8ae1cb11e5e49469a10c2c60a7ea736e49d83a930ad140ddf7bce`。原ZIP保留GB10固定缓存，包不含模型/依赖；源资产与专家参考受上述EVAL_ONLY边界约束。
 
-## 下一步唯一动作
+## 真实执行采集
 
-先冻结多任务真实执行与反馈采集协议，明确研究训练/开发来源角色、学生/教师、经验形成、强简单基线及有限预算；沿用这个POOL与现役actor接口，不新造runner。先获得新任务上的能力与策略选择空间，再决定学习，不因为新池可运行就扩旧R配方或训练选择器。当前尚无这12项的actor结果、纠正监督或训练行。
+12例全部作为TRAIN形成来源，不作验证或确认。每例由现有8B GGUF学生和27B FP8教师分别从相同原生初始现场执行；固定seed17、32K上下文、最多8192输出、关闭thinking，不输入旧经验、gold或expert轨迹。直接27B也作为成本基线；不同模型的能力差异不解释为学习收益。
+
+私有`source_collection_v1/SOURCE_COLLECTION_PROTOCOL_V1.json` SHA `17597dbc116c7919b893645206eabc7201e4aaddd93ed9fe4325b820a8a7964e`；PLAN SHA `326e0287585825212d11c30e1d5891a2c43028f845e596d80787126c1e129c70`。固定24个任务运行，逐例最多96 POST、900秒、100环境动作、32,000,000模型收发bytes，合计最多2,304 POST；普通无错误stop最多同session继续一次，共享该例额度。只采集，不训练、不judge、不调用付费科研API；后续恢复预算未释放。
+
+复用现役study并增加明确的`experience_mode=none`；未声明该模式的旧合同保持原准入。发现并修复首轮顶层接口error后仍可能续跑的问题：raw/hash保留，普通工具错误反馈不当作接口错误。GB10 focused为65 tests/282 subtests；私有逐例闭合门14项、批次取消/启动/绑定控制7项合成CPU检查通过，不把它们当真实模型成绩。
+
+队列只在真实原生终态、逐轮raw/退出码、费用和清理证据闭合后进入下一例；137、UnknownError、未知调用账等阻断后续未运行例。已证明的终态/POST帽/上下文预算拒绝分别记录；原生`won`独立报告，cache明细缺失保留null。全批持有已有模型资源锁；取消先等待已拥有子进程退出，观察超时不冒充终止。私有gate SHA `390aecf9a39fdbbc325bd20edf1327289e5626f1d518195d6da5738ba8ccc921`，driver SHA `9bb2d9feb3065e649c431535f8cba568a34c5ebef5328c4fbfdc3012d2467dcf`。
+
+正式执行前两例的V2 native准备记录SHA `10cae464e8b79f17502e2666d5d491ad210f6433a04f00802e77087769b8cd7c`，当时无actor输出。旧两份准备因代码修复被V2替代，但原位保留；更早一次解释器失败亦保留。启动前实际native准备5次，其中V2复核10.118秒；后续22例轮到时再准备，最多合计27次准备，额外3次属于预生成工程复核，不增加24次科学任务运行或POST帽。
+
+C对四项具体阻断的限定复核通过，回执SHA `61c8393098cff6d3f9fff108d0c8e8174ebb9f82344499faac1f18cdd6b08a1d`；不代表真实采集效果。D release SHA `f741411031e706ff1938115cb885da91ff653efb34c95415c0d01c5a1f3ca6ca`绑定代码、两份manifest、协议、POOL与profile等固定文件，`--check-only`通过后启动。
+
+**运行中**：GB10 owned driver PID `1623227`、birth ticks `1083656173`；以实时进程/回执为准，不从本行推断仍存活。首槽`nexttrain_clean_01/collect_none/student8b/attempt_v3`已产生实际请求与原生动作；teacher首槽为`attempt_v2`，其余固定槽为`attempt_v1`。每槽结果只在其closure与原始receipt闭合后计入，不能用进行中请求数报最终成本。
+
+批次返回后按任务统计成功、失败、停止原因和形成成本，再决定保留进度的反馈比较。尚无本批纠正监督、训练行或方法增益，不扩旧R配方。私有运行路径和日志留在同一主题目录，不新增现役prompt。
