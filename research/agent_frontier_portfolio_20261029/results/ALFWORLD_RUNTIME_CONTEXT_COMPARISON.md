@@ -30,6 +30,10 @@
 
 **纠正完整历史臂已闭合。** recovery_full为11/16 won（primary7/12、clean4/4），相对同批ordinary_full新增clean_01/look_02/look_04/clean_03/clean_04/cool_03，丢失heat_02；主比较增2/12，clean增3/4。387实际及预算POST；input4,321,152、cached子集4,158,864、noncached162,288、output16,614，total4,337,766tokens；387 tool_calls、0 stop、0 length，378接受动作，episode墙时1,759.74秒。A核2,489输入绑定，D独立核全部387份原SSE、16个native终态及费用，差异0；与普通完整历史16个首请求逐字节相同。A回执`RECOVERY_FULL_CLOSED_V1.json` SHA `0d397c696d85133e2c45896312a2a590c964bd89392f226818afb157e659d319`；D复算SHA `43136b101ac32d5a35d3d26336e896663c9a7736d304fdc32c1b9fc728d95b49`。这是当前开发面板的训练方案信号；短历史R和history臂继续，六对/交互区间仍等96条闭合。直接27B的14/16及形成/训练费用继续作成本参照，不单凭运行tokens判定部署更省。
 
+**纠正短历史臂已闭合。** recovery_last3为7/16 won（primary4/12、clean3/4），与ordinary_last3主比较同为4/12，整体增加来自clean；逐题新增look_01/look_02/clean_02/look_04/clean_03/clean_04，丢失cool_02/heat_02/heat_04。R短历史成功集合是R完整历史成功集合的子集，后者另成功clean_01/cool_01/cool_03/heat_04。1,059实际及预算POST；input5,574,507、cached子集4,490,637、noncached1,083,870、output44,805，total5,619,312tokens；1,059 tool_calls、0 stop、0 length，906接受动作，episode墙时4,156.56秒。相对R完整历史，其总输入与noncached均更多；这是一组配对开发观察，墙时仍非隔离计算因果比较。
+
+A核7,582个绑定及1,060份投影证明，1,059个实际body全部匹配，最多保留3个完整工具回合；D独立重读全部1,059份原SSE、16个native终态、请求body与固定事件前缀，差异0。16题首个观察请求与普通短历史/R完整历史逐字节相同。A回执`RECOVERY_LAST3_CLOSED_V1.json` SHA `9d7696fb7e0621682e464c52ca69ccc33cf49077bf3e42aca159c2c15eaf84fb`；D复算`RECOVERY_LAST3_ROOT_RECHECK_V1.json` SHA `cc42dffb04fb111dac40c0617ada6905388c6c3ac8f94c8629f88bfb2c53b854`。本次复用A续接核查5次工具调用；未改在途history臂，未新增训练或因果结论。
+
 <a id="closed-costs"></a>
 
 ## 闭合成本与私有镜像
@@ -41,5 +45,7 @@ ordinary_last3闭合原始包双端核验8,656项、29,176,224bytes，SHA `97345
 ordinary_full闭合包双端核验4,201项、25,244,280bytes，SHA `e8ce840431faefde6c8b4a2b54c94e5bed131cc1eb5ca937be76d40bc72c580d`；本机check SHA `237067124940022bcf274d91a136d22f8c18f64014075413c62b89d1856d9f92`。只含已闭合普通完整历史16条及固定事件前缀，不含在途R输出。本专题仅增加该臂640 HTTP / 8,135,342tokens，已闭合小计10,976 HTTP / 112,618,339tokens；A只读核查4次工具调用，D复算0新增生成，研发Agent用量仍分账，不填0。
 
 recovery_full闭合包双端核验2,677项、13,856,346bytes，SHA `1c0863f09895e5f9ab52e70e284ff6dc18678d31186f766fb4ba42f5d4f5124e`；本机check SHA `baf908eca7731400b0688d23c9574c3e440859eae49e72d8999537de5451470c`。只含闭合R完整历史16条及固定事件前缀，不含R短历史或history在途输出。本专题只增加该臂387 HTTP / 4,337,766tokens，已闭合小计11,363 HTTP / 116,956,105tokens；A含有界等待共6次工具调用，D复算0新增生成。全部仍为本专题闭合账，不含在途、训练及研发Agent，不是项目总成本。
+
+recovery_last3闭合包双端逐成员核验7,769项、30,092,908bytes，SHA `a31167512a2e638c8f7ab87abf7d9e334b2f239258710cbed853380056bf422b`；manifest SHA `1329c863646a42a85db65b350b949a50975193a5b34ec9eef57dd4ea9703f95a`，本机check SHA `221e126ccfcfcb8fbb621ec57a4eeb9a234b7feddcdb44135c73a3592620d665`。仅含闭合R短历史16条、两份复核与固定事件前缀，不含在途history或服务日志。该臂新增1,059 HTTP / 5,619,312tokens，ALF专题已闭合小计12,422 HTTP / 122,575,417tokens；复制/再次解析不追加生成，训练/研发Agent及未知历史成本另账。
 
 [返回现役学习与评价](ALFWORLD_CORRECTION_DATA.md)。
