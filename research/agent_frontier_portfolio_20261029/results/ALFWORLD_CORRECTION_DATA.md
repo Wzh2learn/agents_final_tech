@@ -8,7 +8,7 @@
 
 27B从头执行16/18、从12个学生现场恢复8/12；两者成功交集只有7组（4heat/2cool/1look）。普通/纠正轨迹分别67/68个接受动作；失败和全部形成费保留。完整导出、token标签、来源hash和教师成本见[已闭合监督材料](ALFWORLD_CONTEXT_STUDY.md#teacher-supervision)，不再默认加载全过程。
 
-## 当前动作：修复终态通知后恢复六组对照
+## 当前动作：六组新批次与代码任务资格
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
@@ -60,7 +60,9 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 定向来源核对补齐了训练7组的14份普通/纠正manifest身份：与134候选的task UID、完整family、layout、game hash交集均为空，但去掉布局后仍共享3种目标模板、9个候选。报告`learning_comparison_v1/NEXT_SOURCE_TRAINING_OVERLAP_V1.json` SHA `fa1d19a265ef5314f329c63d68119959cbef4a81f9fe7c39431b7ad58e2adf06`；未重验训练行或全项目暴露。候选134个trial只含47个family和4个布局，类型与布局部分共线；后续须按组设计，不能按134个独立样本报告。
 
-第二环境增量准备使用现有ContextBench Lite与Django/SymPy隔离依赖。元数据过滤剩21个关联候选目标（非全项目未曝光认证），按题目hash选得Django31051、SymPy9384/19006三目标及其较早来源；`ROOT/next_code_source_inventory_v1.json` SHA `114f22de08c94404909720ff950a61bbe0f0e39be4503bfe289616caf1c1081c`。上游`created_at`仅作排序，实际核GitHub源修复merge确为目标base祖先；`code_source_expansion_v1/ANCESTRY_CHECK_V1.json` SHA `c8412bc8d709509fa9336520dd4d19572c65f67dea571f8fa5a4ce6700143603`。3份官方commit源码已下载未解包，6次公开元数据HTTP＋3次源码HTTP、0模型/环境/训练；归档清单SHA `bc92d85748b67ea41fdfe67c85f169289429a526936c1d6d15bf021259d402d7`。CPU资格合同SHA `8b9d0977494184c8e61eeafde308143fdc4dc293bf401b8b8b9c541f1b3c6017`；先复现base/gold及全部已发布回归，再决定是否用作新开发任务，不把源码时序通过当任务修复资格。
+第二环境增量准备使用现有ContextBench Lite与Django/SymPy隔离依赖。元数据过滤剩21个关联候选目标（非全项目未曝光认证），按题目hash选得Django31051、SymPy9384/19006三目标及其较早来源；`ROOT/next_code_source_inventory_v1.json` SHA `114f22de08c94404909720ff950a61bbe0f0e39be4503bfe289616caf1c1081c`。上游`created_at`仅作排序，实际核GitHub源修复merge确为目标base祖先；`code_source_expansion_v1/ANCESTRY_CHECK_V1.json` SHA `c8412bc8d709509fa9336520dd4d19572c65f67dea571f8fa5a4ce6700143603`。源码准备阶段共下载3份官方commit归档：6次公开元数据HTTP＋3次源码HTTP、0模型/环境/训练；归档清单SHA `bc92d85748b67ea41fdfe67c85f169289429a526936c1d6d15bf021259d402d7`。CPU资格合同SHA `8b9d0977494184c8e61eeafde308143fdc4dc293bf401b8b8b9c541f1b3c6017`；先复现base/gold及全部已发布回归，再决定是否用作新开发任务，不把源码时序通过当任务修复资格。
+
+已集成[统一CPU资格入口](../qualify_contextbench_pool.py)，首轮`QUALIFICATION_RUN_V1/receipt.json` SHA `6b43065ab2d70372d34258ad276b3a023b4aaffb16c65d6c79f28bf5511f3f14`返回NOT_QUALIFIED，但分题结果可用：SymPy9384的2个F2P全部base失败/gold通过，两侧320个PTP全部通过；Django31051在Python3.12缺distutils、未进入测试；SymPy19006的4个F2P成立，两侧PTP均46通过/2失败，首错为旧AST构造False常量的ValueError。后两者不当方法负结果，不豁免既存回归。最小修复复用已有冻结Python3.8给历史Django运行，同时区分pytest XFAIL/XPASS且仍拒绝non-pass资格；16tests/32subtests通过。`QUALIFICATION_RUN_V2`已闭合（receipt SHA `a3c7eef5d3b803dba02992d553d9858bf3e8385ace1d4c33435c750221044aa0`）：Django31051的12个F2P全部失败→通过、两侧25个PTP全通过；SymPy9384保留完整资格，19006仍未通过且不豁免两项。整体仍为NOT_QUALIFIED，不冒充三题全绿；仅两题进入开发EVAL_ONLY注册表`QUALIFIED_TARGETS_V1.json`（SHA `01493c013446b832b084aa914a578d4a0b0fe5b2645665792d59f43a7479da2f`），其较早经验源尚未资格/采集。两轮共24个实际测试容器、测试段墙时合计240.99秒、0模型，源码SHA `d05c12e757dae2d4c55261f62af89fb9ddec6830cbb6733dab9df3bdb23ffad8`；三题/源码/patch/标签不变，完整conda库树未冻结。它与六组实验仅并行占CPU，不发其他GPU请求；墙时不作为隔离硬件下的因果成本比较。本轮A临时worktree已合并并仅清理13个重建缓存，7个历史资产树保留，Agent上下文保留。
 
 本批只检验从reset迁移。后续恢复开发固定取frozen结束时未won/未done且至少一个接受动作的完整前缀，共8个现场；零动作cool_02单列reset诊断。接受动作不自动等于有效进度，不挑近成功片段。各臂重放同一公共现场，用额外且统一的接续额度（候选32POST/600秒，尚未冻结），不把原128POST耗尽写成仍有剩余；world仍总100动作，形成费只计一次。比较最强简单history/公共摘要、ordinary/recovery，并补同接续额度reset控制，以区分恢复特异性与一般能力。旧load_prefix只接受collect及同protocol，后续须显式绑定旧protocol/manifest/receipt/world SHA，不改原回执。此设计未启动，EVAL_ONLY目标输出不回流训练。
 
@@ -76,11 +78,9 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 代码已合并；driver SHA `ce8f29296929a120f293a107f6d8612d917aea4f76b426ee7dd619070c16ad7d`。旧源码和原五臂费用保持，ROOT闭合源码/C薄包已双端核验18成员，SHA `a10e86f96986a16c6ca6c027df9c75750158252239665083f8e4b9639c60a60a`。预启动检查为纯CPU/假数据及旧native档案核验，不证明实际409或方法效果。
 
-main `8200764f`启动的`RUN_V2`现已受控停止。首回合clean_01在128实际POST上限失败；第69次实际body确认从68个工具回合保留3个，目标、8192输出、seed17/temperature0.2及nativeFalse保留。次回合look_01实际5动作、8POST即native won，但终态返回409后客户端继续发相同请求，新增10次拒绝按2/4/8/16/32/64/128/256/512秒指数退避，模型转发始终为8。D核原PID682492/出生票/完整argv，通过pidfd发SIGTERM走原清理路径，没有因SSH超时重启或在运行中改源码。`RUN_V2/RESULT.json` SHA `a6d6c3f8a5d7bd65640805a8506c9526d8c75736521bd20b4f2bd524e5157811`：`STOPPED_RESTORE_REQUIRED`但实际restored_healthy=true，原Q4恢复PID718236/start1077364320，35/27身份不变，无清理异常。
+`RUN_V2`在终态409重试时受控停止：clean_01上限失败、look_01原生成功，实际136POST/613,202tokens与原输出全部保留。400永久终止响应经真实OpenCode假接口及GB10聚焦136tests/389subtests验证；原Q4已恢复，35/27不变。接口事故、完整成本与双端私有镜像见[闭合运行记录](ALFWORLD_LEARNING_RUNTIME.md#terminal-retry-20261107)，不当作学习方法负结果。
 
-原两回合原生结果均保留，不作为完整六组方法比较。新增136真实POST，607,566输入＋5,636输出＝613,202tokens，cached输入532,586为输入子集，usage未知0；第二回合receipt因受控中断记FAILED而won=true，两者不混同。事故记录SHA `6e46a52d59f59a0329ded6256996a7317df5f52c1a46e5145ff7f771a28102fa`。从五臂/27B后的专题累计追加本136次，为7,839 HTTP/91,963,598生成tokens，仍不含训练、研发Agent及Django。
-
-同一C续做真实OpenCode1.18.3＋原GUEST桥＋断网假relay验证：409产生2次相同假请求（按约定清理，不算自然退出），400/410/403均1请求后自然exit1。原响应字节、命令、raw及清理核验见`TERMINAL_HTTP_PROBE_V1/VERIFICATION.json` SHA `424d49a6318e9213fed8f0c5662a55d4ccfeadf0d0a7ca639ca70f002e269694`；0模型/0world。现役终态改400 Bad Request，仍要求真实终态见证；无见证400、旧409或未知错误均拒绝。原403预算门不变。恢复入口新增显式closed回执以绑定新Q4进程，恢复旧版SHA校验后`POSIX_FADV_DONTNEED`建议（不保证驱逐，不据此归因SSH异常）；GB10实际136 tests/389 subtests通过。后续使用新输出根和精确源码绑定，科学设计、权重、种子、caps不因这两题调优。
+现已从固定源码`8fcfc342`启动`runtime_context_baselines_v1/RUN_V3`（PID748995/start1077529568），使用新attempt14–19、0继承旧回合；同六臂/16题/权重/种子/caps及原统计对比。`PLAN_V3.json` SHA `3e7d9814c12a96fb1723977f252278b54527d61cd8f622330974710ad446a8d1`，分析合同SHA `f43382c981d691e123130b4d1a320cd447e920fa6a9bccd6ea1c71eced987f82`；明确记录旧2题结果已知，不是独立确认。新精确源码绑定的同16资产native/expert复验16/16、142.23秒、0模型；pool_v3 SHA `afe5d0deffa3380b34b39bbc398df10c774b51fd164a8cb4b88dbe632cb784ad`。同一C限定代码审阅无阻断，回执SHA `d8826d2f4ffa5f32f476916580093abd3407e445ef01780b7a0fcaeedc709557`。已实际核look_01在5动作/8POST后36.35秒自然收尾，新增1次终态拒绝即exit1，raw为400/Bad Request/isRetryable=false，native won保持；其receipt SHA `c4c84f79bc74aa810b21a484cf3d8cebb46fc18e33c506e96b80bc18e2b9044c`。全96结果尚待闭合。
 
 ## 两项改变下一步的发现
 
@@ -105,3 +105,5 @@ Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配�
 Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：同HF的F/O/R/all7/top1为7/7/10/7/6（各16题），primary为6/6/7/5/4（各12题）；UNVERIFIED：纠正监督相对等源普通成功SFT的增益是否可重复，以及持续短历史能否解释它。Recommendation：先统一工程停止门、比较执行全程的K3与完整历史；若R仍有残差，再扩独立纠正来源并比较普通混合rehearsal、可见目标/持物规则和反馈衍生监督。Conditions：接受动作不等于最优动作；同任务两类轨迹不算两个来源。Risk/exit：若简单goal/合法动作/循环控制已解释收益，停止复杂学习候选；保留形成与失败总成本，不让训练内存资格阻塞独立任务。First action：五臂/27B/Django闭合，复用A/C完成预启动修正与限定复核，运行六组last3对照，再决定追加学习及8现场恢复。
 
 新增64条闭合raw薄包已在GB10与本机逐一核验14,052成员，SHA `0995fa01149373591fea14cea126a9112f229430f1a2e8558c554acb2ac2c9b0`（manifest SHA `9018cfabed3d9e2113080a7dc01cb36f0fda9acf2178a4594e3020ef0f6db733`）；与先前frozen16包共同覆盖80条，未复制仍写入的restore服务日志。历史baseline、训练/部署及frozen16薄包的镜像hash见[私有资产](ALFWORLD_LEARNING_RUNTIME.md#private-packets)，不复制在途服务日志。
+
+代码资格私有包`code_development_qualification_v1_20261107.tar.gz`已双端逐成员核验76项，2,704,064bytes、SHA `267bf996950f25cadfddd2e7a5390d761ad6b8d36b074a98bc44d3a79f847532`；保留两轮原结果、命令、逐test状态、错误与注册表，未打包完整candidate/gold树，不是公开artifact。
