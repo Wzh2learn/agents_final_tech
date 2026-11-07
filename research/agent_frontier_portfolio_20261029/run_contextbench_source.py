@@ -550,14 +550,15 @@ def run_owned(cmd, name, cidfile, stdout, stderr, timeout):
     return result
 
 
-def scored_test(work, repo, labels, runner, output, suite, h, *, matplotlib_assets=None):
+def scored_test(work, repo, labels, runner, output, suite, h, *, matplotlib_assets=None, matplotlib_slot='source'):
+    if matplotlib_slot not in ('source', 'target'): raise ValueError('unapproved Matplotlib scoring slot')
     available = h.pool.mem_available()
     if available < 4 * 1024**3: return dict(status='DEFERRED', MemAvailable=available)
     name = 'cb-source-score-' + str(os.getpid()) + '-' + str(time.monotonic_ns())
     cid = output / (suite + '.cid')
     if repo == 'matplotlib/matplotlib':
         if matplotlib_assets is None: raise ValueError('qualified Matplotlib scorer assets required')
-        cmd = h.pool.matplotlib_command(work, labels, runner, name, cid, matplotlib_assets, 'source')
+        cmd = h.pool.matplotlib_command(work, labels, runner, name, cid, matplotlib_assets, matplotlib_slot)
     else:
         cmd = h.pool.command(work, repo, labels, runner, name)
         cmd[2:2] = ['--cidfile', str(cid)]
@@ -573,7 +574,8 @@ def scored_test(work, repo, labels, runner, output, suite, h, *, matplotlib_asse
     return record
 
 
-def score(root, manifest, h):
+def score(root, manifest, h, *, matplotlib_slot='source'):
+    if matplotlib_slot not in ('source', 'target'): raise ValueError('unapproved Matplotlib scoring slot')
     output = root / 'scoring'; candidate = output / 'candidate'; work = root / 'work'; clean = root / 'baseline'
     tree(work)  # Reject links, including hardlinks, before candidate copying.
     shutil.copytree(work, candidate, ignore=shutil.ignore_patterns('__pycache__', '.pytest_cache'))
@@ -604,7 +606,8 @@ def score(root, manifest, h):
         if assets is None:
             r = scored_test(candidate, manifest['repo'], manifest['labels'][suite], runner, output, suite, h)
         else:
-            r = scored_test(candidate, manifest['repo'], manifest['labels'][suite], runner, output, suite, h, matplotlib_assets=assets)
+            slot = {} if matplotlib_slot == 'source' else dict(matplotlib_slot=matplotlib_slot)
+            r = scored_test(candidate, manifest['repo'], manifest['labels'][suite], runner, output, suite, h, matplotlib_assets=assets, **slot)
         result['suites'][suite] = r
         if r.get('status') == 'DEFERRED' or r.get('error') or r.get('cleanup_error'): break
     result['passed'] = len(result['suites']) == 2 and all(not r.get('error') and not r.get('cleanup_error') and r.get('exit') == 0 and r.get('coverage', {}).get('complete') is True and all(s == 'passed' for s in r['coverage']['labels'].values()) for r in result['suites'].values())
@@ -644,9 +647,17 @@ def successful(result):
 def execute(root, digest, registry, registry_sha, source):
     m, h, actor, profile = verify(root, digest); root = Path(root)
     if (m['registry'], m['source']) != (dict(path=str(registry), sha256=registry_sha), source): raise ValueError('CLI input differs from manifest')
+    return execute_prepared(root, digest, (m, h, actor, profile), verify,
+        identity=dict(source=source), success_key='source_success', mode='REAL_SOURCE_EPISODE')
+
+
+def execute_prepared(root, digest, prepared, verify_prepared, *, identity, success_key, mode, score_prepared=None):
+    """Reuse the owned lifecycle after the caller's independent admission check."""
+    m, h, actor, profile = prepared; root = Path(root); caps = m['caps']
+    scorer = score if score_prepared is None else score_prepared
     with resource_lock():
-        new(root / 'reservation.json', dict(manifest_sha256=digest, mode='REAL_SOURCE_EPISODE'))
-        result = dict(status='ERROR', source=source, manifest_sha256=digest, source_success=False)
+        new(root / 'reservation.json', dict(manifest_sha256=digest, mode=mode))
+        result = dict(status='ERROR', manifest_sha256=digest, **identity); result[success_key] = False
         bridge = relay = server = thread = None
         name = 'cb-source-' + str(os.getpid()) + '-' + str(time.monotonic_ns())
         old_signal = signal.getsignal(signal.SIGTERM)
@@ -655,15 +666,15 @@ def execute(root, digest, registry, registry_sha, source):
         try:
             h.teacher.validate_vllm_model_profile(m['profile']['path'], m['profile']['sha256'], full=True)
             result['backend'] = h.teacher.verify_vllm_backend(profile)
-            bridge = Path(tempfile.mkdtemp(prefix='cb-src-', dir='/tmp')); bridge.chmod(0o700); identity = bridge.stat().st_ino
-            relay = Relay(root, profile, h, deadline=time.monotonic() + CAPS['seconds'])
+            bridge = Path(tempfile.mkdtemp(prefix='cb-src-', dir='/tmp')); bridge.chmod(0o700); bridge_identity = bridge.stat().st_ino
+            relay = Relay(root, profile, h, deadline=time.monotonic() + caps['seconds'], caps=caps)
             class Server(socketserver.ThreadingUnixStreamServer): daemon_threads = False; block_on_close = True
             class Handler(socketserver.BaseRequestHandler):
                 def handle(self): relay.handle(self.request)
             server = Server(str(bridge / 's'), Handler); os.chmod(bridge / 's', 0o600)
             thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
             cmd = docker_command(root, actor, bridge, profile, h, name, source_runtime=m.get('source_runtime')); new(root / 'actor_command.json', cmd)
-            result['actor'] = run_owned(cmd, name, root / 'container.cid', root / 'raw.jsonl', root / 'actor.stderr', CAPS['seconds'])
+            result['actor'] = run_owned(cmd, name, root / 'container.cid', root / 'raw.jsonl', root / 'actor.stderr', caps['seconds'])
             fault = result['actor'].get('error')
             status = ('INTERRUPTED' if fault['type'] in ('KeyboardInterrupt', 'InterruptedError') else 'RUNTIME_ERROR') if fault else 'ACTOR_RETURNED'
             if result['actor'].get('cleanup_error'): status = 'CLEANUP_FAILED'
@@ -680,18 +691,18 @@ def execute(root, digest, registry, registry_sha, source):
                 except Exception as exc: result['accounting_error'] = str(exc)
             if bridge:
                 try:
-                    if bridge.stat().st_ino != identity or set(p.name for p in bridge.iterdir()) != {'s'}: raise ValueError('UDS ownership changed')
+                    if bridge.stat().st_ino != bridge_identity or set(p.name for p in bridge.iterdir()) != {'s'}: raise ValueError('UDS ownership changed')
                     (bridge / 's').unlink(); bridge.rmdir()
                 except Exception as exc: result['socket_cleanup_error'] = str(exc)
         try:
-            verify(root, digest, initial=False)
+            verify_prepared(root, digest, initial=False)
             result['changed_artifacts'] = candidate_diff(root)
             if result['status'] == 'ACTOR_RETURNED' and not result.get('actor', {}).get('cleanup_error'):
-                result['scoring'] = score(root, m, h)
-            verify(root, digest, initial=False)
+                result['scoring'] = scorer(root, m, h)
+            verify_prepared(root, digest, initial=False)
             if result.get('scoring', {}).get('status') == 'UNFINISHED': result['status'] = 'UNFINISHED_SCORING'
             if result['status'] == 'ACTOR_RETURNED' and (result.get('raw_errors') or result.get('actor_exit') != 0 or result.get('accounting', {}).get('integrity_passed') is not True): result['status'] = 'GENERATION_FAULT'
-            result['source_success'] = successful(result)
+            result[success_key] = successful(result)
         except BaseException as exc:
             result['finalization_error'] = dict(type=type(exc).__name__, message=str(exc))
         finally:
