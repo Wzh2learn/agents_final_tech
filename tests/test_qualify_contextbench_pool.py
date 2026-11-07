@@ -194,6 +194,77 @@ class FrozenContractTests(unittest.TestCase):
             with self.assertRaises(ValueError):r.main(inside)
 
 
+@contextmanager
+def source_contract_fixture():
+    with contract_fixture() as f:
+        experience=f.data/'SWEContextBench_Lite_Experience.parquet';experience.write_bytes(b'OWNED_FAKE_EXPERIENCE')
+        dataset=reference(f.data/'manifest.json',{'files':[{'name':experience.name,'sha256':sha(experience)}]})
+        f.rows.clear();specs=[];pairs=[];registered=[]
+        for i,(id,repo,ptp,target) in enumerate([('django__django-12453','django/django',5,'django__django-31051'),('sympy__sympy-21055','sympy/sympy',13,'sympy__sympy-9384')]):
+            source={'instance_id':id,'repo':repo,'base_commit':str(i+4)*40};dest={'instance_id':target,'repo':repo,'base_commit':str(i+6)*40}
+            pairs.append({'source':source,'target':dest,'status':'ANCESTRY_CONFIRMED','source_merge_is_ancestor':True})
+            registered.append(dict(dest,earlier_experience_candidate=source))
+            module='tests/backends/base/test_creation.py' if repo=='django/django' else 'sympy/assumptions/tests/test_refine.py'
+            maps={};row={'problem_statement':'OWNED_FAKE_SOURCE','test_patch':'+++ b/'+module+'\n','patch':'OWNED_FAKE_GOLD'}
+            for suite,count,field in [('f2p',1,'FAIL_TO_PASS'),('ptp',ptp,'PASS_TO_PASS')]:
+                entries=[]
+                for n in range(count):
+                    method='test_'+suite+'_'+str(n);pub=method+' (backends.base.test_creation.FakeTests)' if repo=='django/django' else method
+                    entries.append({'published':pub,'node':module+('::FakeTests::' if repo=='django/django' else '::')+method})
+                maps[suite]=entries;row[field]=json.dumps([entry['published'] for entry in entries])
+            f.rows[id]=row;path=f.root/(id+'.tar.gz');archive(path,repo,source['base_commit'])
+            specs.append(dict(source,dataset_file=experience.name,archive={'path':str(path),'sha256':sha(path)},role='source',related_target_id=target,label_map=maps))
+        inv=reference(f.root/'inventory.json',{'qualification_candidates':pairs})
+        ancestry=reference(f.root/'ancestry.json',{'input':inv,'rows':pairs})
+        registry=reference(f.root/'QUALIFIED.json',{'schema':'qualified_code_development_pool_v1','cases':registered})
+        c=dict(f.c,schema='contextbench_pool_qualification_source_v2',dataset_manifest=dataset,ancestry=ancestry,cases=specs,qualified_targets=registry)
+        f.c=c;f.sha=write(f.path,c)
+        with mock.patch.object(r,'QUALIFIED_TARGETS_SHA',registry['sha256'],create=True):yield f
+
+
+class SourceContractTests(unittest.TestCase):
+    def test_source_v2_keeps_method_and_exact_two_source_counts_without_execution(self):
+        with source_contract_fixture() as f,mock.patch.object(r.subprocess,'run',side_effect=AssertionError('no container')):
+            c=r.load_contract(f.path,f.sha,f.output)
+            self.assertEqual([case['spec']['instance_id'] for case in c['cases']],['django__django-12453','sympy__sympy-21055'])
+            self.assertEqual([(len(case['labels']['f2p']),len(case['labels']['ptp'])) for case in c['cases']],[(1,5),(1,13)])
+            self.assertEqual(c['cases'][0]['labels']['f2p'],['backends.base.test_creation.FakeTests.test_f2p_0'])
+            f.django.regression_labels.assert_not_called();f.django.extract.assert_not_called();f.shared.extract_safe.assert_not_called()
+
+    def test_source_identity_registry_and_complete_unambiguous_maps_fail_closed(self):
+        for mode in ('role','related','base','qualified_hash','dataset','missing','extra','class_only','wrong_method','wrong_published','alias','sympy_module','sympy_name','ancestry_source','patch_module'):
+            with self.subTest(mode=mode),source_contract_fixture() as f:
+                c=copy.deepcopy(f.c);d,s=c['cases'];entry=d['label_map']['f2p'][0]
+                if mode=='role':d['role']='target'
+                elif mode=='related':d['related_target_id']=s['related_target_id']
+                elif mode=='base':d['base_commit']='f'*40
+                elif mode=='qualified_hash':c['qualified_targets']['sha256']='0'*64
+                elif mode=='dataset':d['dataset_file']='fake.parquet'
+                elif mode=='missing':d['label_map']['ptp'].pop()
+                elif mode=='extra':d['label_map']['ptp'].append(dict(entry))
+                elif mode=='class_only':entry['node']='tests/backends/base/test_creation.py::FakeTests'
+                elif mode=='wrong_method':entry['node']+='WRONG'
+                elif mode=='wrong_published':entry['published']='test_WRONG (backends.base.test_creation.FakeTests)'
+                elif mode=='alias':d['label_map']['ptp'][0]['node']=entry['node']
+                elif mode=='sympy_module':s['label_map']['f2p'][0]['node']='sympy/other/tests/test_refine.py::test_f2p_0'
+                elif mode=='sympy_name':s['label_map']['f2p'][0]['node']+='WRONG'
+                elif mode=='ancestry_source':
+                    ancestry=json.loads(Path(c['ancestry']['path']).read_text());ancestry['rows'][0]['source']['base_commit']='f'*40
+                    c['ancestry']=reference(Path(c['ancestry']['path']),ancestry)
+                else:f.rows[s['instance_id']]['test_patch']='+++ b/sympy/other.py\n'
+                with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,c),f.output)
+
+    def test_validated_two_source_case_count_can_close_qualified_with_fake_test_controls(self):
+        with source_contract_fixture() as f:
+            c=r.load_contract(f.path,f.sha,f.output)
+            def extract(archive,destination,revision):destination.mkdir();(destination/'LICENSE').write_text('OWNED_FAKE');return 1
+            f.shared.extract_safe.side_effect=extract;f.django.extract.side_effect=extract
+            f.shared.apply_patch.side_effect=None;f.shared.apply_patch.return_value={'check_exit':0,'apply_exit':0,'diagnostic':''}
+            def tests(work,repo,labels,runner,log):return run_record(labels,['failed' if work.name=='base_with_tests' and log.name.endswith('_f2p.log') else 'passed']*len(labels))
+            with mock.patch.object(r,'mem_available',return_value=8*1024**3),mock.patch.object(r,'run_tests',side_effect=tests):result=r.execute(c)
+            self.assertEqual(result['status'],'QUALIFIED');self.assertEqual(len(result['cases']),2)
+
+
 def run_record(labels,states,exit=None,fatal=None):
     if exit is None:exit=1 if 'failed' in states else 0
     record={'exit':exit,'result':{'tests':dict(zip(labels,states)),'fatal':fatal or []}}

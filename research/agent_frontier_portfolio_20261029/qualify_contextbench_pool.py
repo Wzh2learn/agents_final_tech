@@ -1,4 +1,4 @@
-"""Frozen three-target CPU qualification; check never starts a container or model."""
+"""Frozen target/source CPU qualification; check never starts a container or model."""
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, importlib, json, os, re, shutil, subprocess, sys, tarfile, time
 
@@ -7,6 +7,8 @@ HERE=Path(__file__).resolve().parent
 LEGACY=Path('/home/testuser/miniconda3/envs/haiguan')
 IMAGE='sha256:648a1999badfe683239ec49e05b2a508e37f762213478122c58fa713f6c00f58'
 TARGETS={'django__django-31051':('django/django',12,25),'sympy__sympy-9384':('sympy/sympy',2,320),'sympy__sympy-19006':('sympy/sympy',4,48)}
+SOURCES={'django__django-12453':('django/django',1,5,'django__django-31051'),'sympy__sympy-21055':('sympy/sympy',1,13,'sympy__sympy-9384')}
+QUALIFIED_TARGETS_SHA='01493c013446b832b084aa914a578d4a0b0fe5b2645665792d59f43a7479da2f'
 PINS={'qualify_swe_contextbench_sympy_20261104':'98e20dc49a8b01dd956aed5035b09e7aeeeba11a454fdaf9a17d1d315a61e085','qualify_swe_contextbench_django_20261104':'d232272dd6538cebe67b7867ce0b9fc133b7af9800cf6d64d57569aea71cb078'}
 MARKER='CONTEXTBENCH_RESULT='
 
@@ -87,11 +89,34 @@ def archive_members(path,repo,revision):
     return count
 
 
+def source_labels(spec,row):
+    mapping=spec['label_map'];result={}
+    if type(mapping) is not dict or set(mapping)!={'f2p','ptp'}:raise ValueError('invalid source label map')
+    module='tests/backends/base/test_creation.py' if spec['repo']=='django/django' else 'sympy/assumptions/tests/test_refine.py'
+    if module not in {s[6:] for s in row['test_patch'].splitlines() if s.startswith('+++ b/')}:raise ValueError('source module absent from published test patch')
+    for suite,field in [('f2p','FAIL_TO_PASS'),('ptp','PASS_TO_PASS')]:
+        entries=mapping[suite];published=json.loads(row[field])
+        if type(entries) is not list or any(type(e) is not dict or set(e)!={'published','node'} for e in entries) or [e['published'] for e in entries]!=published:raise ValueError('source map must cover published labels exactly in order')
+        nodes=[e['node'] for e in entries];converted=mapped_labels(spec['repo'],nodes)
+        for e,node in zip(entries,converted):
+            if e['node'].split('::')[0]!=module:raise ValueError('source node outside fixed test module')
+            if spec['repo']=='django/django':
+                old=re.fullmatch(r'([A-Za-z_]\w*)\s+\(([A-Za-z_][\w.]*)\)',e['published'])
+                if len(e['node'].split('::'))!=3 or not old or node!=old.group(2)+'.'+old.group(1):raise ValueError('source Django mapping lost or changed method')
+            elif not re.fullmatch(r'test_[A-Za-z_]\w*',e['published']) or node!=module+'::'+e['published']:raise ValueError('source SymPy bare name mapping differs')
+        result[suite]=converted
+    flat=result['f2p']+result['ptp']
+    if len(flat)!=len(set(flat)):raise ValueError('source labels alias one executable node')
+    return result
+
+
 def load_contract(path,digest,output):
     bindings={};c=checked(dict(path=str(path),sha256=digest),bindings);output=safe(output)
     if output.exists():raise FileExistsError('fresh private output required')
-    if set(c)!={'schema','dataset_manifest','ancestry','cases','runtime'} or c['schema']!='contextbench_pool_qualification_v1':raise ValueError('unknown contract schema')
-    if [r['instance_id'] for r in c['cases']]!=list(TARGETS):raise ValueError('duplicate/unknown/misordered targets')
+    source=c.get('schema')=='contextbench_pool_qualification_source_v2';catalog=SOURCES if source else TARGETS
+    keys={'schema','dataset_manifest','ancestry','cases','runtime'}|({'qualified_targets'} if source else set())
+    if set(c)!=keys or c.get('schema') not in ('contextbench_pool_qualification_v1','contextbench_pool_qualification_source_v2'):raise ValueError('unknown contract schema')
+    if [r['instance_id'] for r in c['cases']]!=list(catalog):raise ValueError('duplicate/unknown/misordered cases')
     h,d=helpers();dataset=checked(c['dataset_manifest'],bindings)
     if Path(c['dataset_manifest']['path']).parent!=h.DATA:raise ValueError('dataset helper root differs')
     for row in dataset['files']:
@@ -101,16 +126,28 @@ def load_contract(path,digest,output):
         bindings[str(file)]=row['sha256']
     ancestry=checked(c['ancestry'],bindings);inventory=checked(ancestry['input'],bindings)
     selected={r['target']['instance_id']:r['target'] for r in inventory['qualification_candidates']}
+    if source:
+        if c['qualified_targets']['sha256']!=QUALIFIED_TARGETS_SHA:raise ValueError('source qualified-target registry changed')
+        registry=checked(c['qualified_targets'],bindings);registered={r['instance_id']:r for r in registry['cases']}
+        if registry['schema']!='qualified_code_development_pool_v1' or len(registry['cases'])!=2 or set(registered)!={r[3] for r in SOURCES.values()}:raise ValueError('source targets are not the frozen qualified pair')
     if set(c['runtime'])!={'image','django_dependency_manifest','sympy_dependency_manifest'} or c['runtime']['image']!=IMAGE:raise ValueError('runtime image/schema changed')
     limits={k:dependencies(k,c['runtime'][k+'_dependency_manifest'],bindings) for k in ('django','sympy')};cases=[]
     for spec in c['cases']:
-        if set(spec)!={'instance_id','repo','base_commit','dataset_file','archive'} or Path(spec['dataset_file']).name!=spec['dataset_file'] or spec['dataset_file'] not in {r['name'] for r in dataset['files']}:raise ValueError('invalid case/path schema')
-        target=selected[spec['instance_id']];a=[r for r in ancestry['rows'] if r['target']==target]
-        if spec['repo']!=TARGETS[spec['instance_id']][0] or spec['base_commit']!=target['base_commit'] or len(a)!=1 or a[0]['source_merge_is_ancestor'] is not True or a[0]['status']!='ANCESTRY_CONFIRMED':raise ValueError('case ancestry/binding changed')
+        fields={'instance_id','repo','base_commit','dataset_file','archive'}|({'role','related_target_id','label_map'} if source else set())
+        if set(spec)!=fields or Path(spec['dataset_file']).name!=spec['dataset_file'] or spec['dataset_file'] not in {r['name'] for r in dataset['files']}:raise ValueError('invalid case/path schema')
+        if source:
+            if spec['role']!='source' or spec['dataset_file']!='SWEContextBench_Lite_Experience.parquet' or spec['related_target_id']!=catalog[spec['instance_id']][3]:raise ValueError('source role/dataset/related target changed')
+            related=spec['related_target_id'];identity={k:spec[k] for k in ('repo','instance_id','base_commit')};target=selected[related]
+            bound=registered[related];earlier=bound['earlier_experience_candidate']
+            if any(earlier[k]!=identity[k] or bound[k]!=target[k] for k in identity):raise ValueError('source or related qualified-target identity differs')
+            a=[r for r in ancestry['rows'] if r['target']==target and all(r['source'][k]==v for k,v in identity.items())]
+        else:
+            target=selected[spec['instance_id']];a=[r for r in ancestry['rows'] if r['target']==target]
+        if spec['repo']!=catalog[spec['instance_id']][0] or (not source and spec['base_commit']!=target['base_commit']) or len(a)!=1 or a[0]['source_merge_is_ancestor'] is not True or a[0]['status']!='ANCESTRY_CONFIRMED':raise ValueError('case ancestry/binding changed')
         row=h.dataset_row(dict(id=spec['instance_id'],rev=spec['base_commit'],data=spec['dataset_file']))
-        labels={key:mapped_labels(spec['repo'],json.loads(row[field])) for key,field in [('f2p','FAIL_TO_PASS'),('ptp','PASS_TO_PASS')]}
-        if tuple(map(len,labels.values()))!=TARGETS[spec['instance_id']][1:]:raise ValueError('published label counts changed')
-        if spec['repo']=='django/django':
+        labels=source_labels(spec,row) if source else {key:mapped_labels(spec['repo'],json.loads(row[field])) for key,field in [('f2p','FAIL_TO_PASS'),('ptp','PASS_TO_PASS')]}
+        if tuple(map(len,labels.values()))!=catalog[spec['instance_id']][1:3]:raise ValueError('published label counts changed')
+        if spec['repo']=='django/django' and not source:
             converted,unresolved=d.regression_labels(dict(id=spec['instance_id'],rev=spec['base_commit'],data=spec['dataset_file']))
             if unresolved or converted!=labels['ptp']:raise ValueError('Django helper mapping differs')
         ref=spec['archive'];archive=safe(ref['path'])
@@ -259,7 +296,7 @@ def execute(c):
             if result['status']=='DEFERRED':break
         if result['status']!='DEFERRED':
             if any(sha(p)!=digest for p,digest in c['bindings'].items()):raise ValueError('qualification inputs changed during tests')
-            result['status']='QUALIFIED' if len(result['cases'])==3 and all(r['qualification']['qualified'] for r in result['cases'].values()) else 'NOT_QUALIFIED'
+            result['status']='QUALIFIED' if len(result['cases'])==len(c['cases']) and all(r['qualification']['qualified'] for r in result['cases'].values()) else 'NOT_QUALIFIED'
     except Exception as exc:result.update(status='ERROR',error=dict(type=type(exc).__name__,message=str(exc)))
     finally:new(out/'receipt.json',result)
     return result
