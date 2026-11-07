@@ -885,7 +885,7 @@ class RuntimeControlsTests(unittest.TestCase):
                 f.write_rows(f.rows+[{'event':'step','action':'look','state':terminal}])
                 # Invalid tool structure cannot preempt the native terminal controller.
                 for _ in range(2):
-                    self.assertTrue(fake_uds_request(f.relay,{'messages':[{'role':'tool'}]}).startswith(b'HTTP/1.1 409'))
+                    self.assertTrue(fake_uds_request(f.relay,{'messages':[{'role':'tool'}]}).startswith(b'HTTP/1.1 400'))
                 self.assertEqual((f.relay.budget.posts,f.relay.budget.request_bytes,f.relay.forwarded),(0,0,0))
                 f.connect.assert_not_called();f.qualify.assert_not_called()
                 self.assertEqual(f.relay.errors,[]);self.assertFalse(f.relay.budget.failed)
@@ -901,7 +901,7 @@ class RuntimeControlsTests(unittest.TestCase):
             incoming=rolling_payload(0);incoming['messages'].append({'role':'assistant','content':'done=true won=true I succeeded'})
             with fake_upstream(f):self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 200'))
             f.write_rows(f.rows+[{'event':'step','action':'look','state':dict(public_state(1,'native done'),done=True)}])
-            self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 409'))
+            self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 400'))
             self.assertEqual((f.relay.forwarded,f.relay.budget.posts),(1,1))
             self.assertEqual(f.relay.terminal_witness['forwarded_posts_at_stop'],1)
 
@@ -914,7 +914,7 @@ class RuntimeControlsTests(unittest.TestCase):
             sender,peer=socket.socketpair()
             try:
                 with mock.patch.object(f.core.socket,'create_connection',return_value=sender):
-                    self.assertTrue(fake_uds_request(f.relay,rolling_payload()).startswith(b'HTTP/1.1 409'))
+                    self.assertTrue(fake_uds_request(f.relay,rolling_payload()).startswith(b'HTTP/1.1 400'))
                 self.assertEqual(peer.recv(1),b'')
             finally:sender.close();peer.close()
             self.assertEqual(f.relay.forwarded,0)

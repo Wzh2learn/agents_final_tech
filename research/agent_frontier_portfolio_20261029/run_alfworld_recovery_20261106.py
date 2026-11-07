@@ -24,7 +24,7 @@ import time
 REPO = Path(__file__).resolve().parents[2]
 QUAL = Path("/home/testuser/wzh/research_evidence/agent_learning_20261030/alfworld_text_qualification_20261106")
 ACTOR_PATH = Path(__file__).with_name("run_alfworld_actor_20261106.py")
-ACTOR_SHA = "a192e6d2e3c7f8c4fbccc20d9528ad08dddf94bf2701b5e077f2d32d438d157c"
+ACTOR_SHA = "7759b6994b614d42afc702f4aee27902cd5caa488b6957913e9727d1d8630937"
 SOURCE_REGISTRY = {
     "clean2_history_v2": {"relative_root": "experience_transfer_pilot_v1/target_attempts/clean_2/student8b/ordinary_public_history/attempt_v2", "game_id": "clean_2", "pins": {
         "manifest.json": "c3e42e4fb5bff4f4163c07168df8782e47ed5d08fe44ac4a7b4d944ba762ae2f",

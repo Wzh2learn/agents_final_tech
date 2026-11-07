@@ -95,7 +95,7 @@ def prerequisite(kind,value,cases):
     return value
 
 
-def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None):
+def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None,restoration_ref=None):
     study=study or load(HERE/'alfworld_context_study.py','runtime_comparison_study')
     p=checked(plan_ref);cases=p['case_ids'];arms=p['arms'];output=private(output)
     if (p.get('schema') not in {'ALFWORLD_RUNTIME_CONTEXT_BASELINE_PLAN_V2'} or
@@ -160,13 +160,24 @@ def check_plan(plan_ref,student_ref,teacher_ref,django_ref,output,study=None):
     bindings.update({str(WINDOW):WINDOW_SHA,str(OLD_PROFILE):OLD_PROFILE_SHA,str(HELPER):HELPER_SHA})
     if any(student['restored_process'][k]!=window['owned_process'][k] for k in ('argv','cwd','exe')):
         raise ValueError('original Q4 restoration contract changed')
+    owned=student['restored_process']
+    if restoration_ref is not None:
+        previous=checked(restoration_ref);owned=previous.get('restored_process',{})
+        if (previous.get('status') not in {'STOPPED_RESTORE_REQUIRED','ALL96_RUNTIME_CONTEXT_RETURNED','INCOMPLETE_OR_CLEANUP_FAILURE'} or
+                any(previous.get(k) is not True for k in ('restored_healthy','shared35_unchanged','shared27_unchanged')) or
+                any(previous.get(k) for k in ('restoration_error','server_cleanup_error','episode_cleanup_error','shared_identity_error')) or
+                set(owned)!={'pid','start_ticks','exe','argv','cwd'} or type(owned['pid']) is not int or owned['pid']<=0 or
+                not isinstance(owned['start_ticks'],str) or not owned['start_ticks'].isdigit() or
+                any(owned[k]!=window['owned_process'][k] for k in ('argv','cwd','exe'))):
+            raise ValueError('previous window does not prove a healthy, unchanged owned restoration')
+        bindings[restoration_ref['path']]=restoration_ref['sha256']
     # Parent/adapter file hashes are intentionally deferred to explicit execution.
     if set(common['adapters'])!={'ordinary','recovery'}:raise ValueError('unexpected adapter variants')
     for ref in [common['parent_gguf'],common['HF_parent_binding'],*common['adapters'].values()]:
         private(ref['path'])
         if not re.fullmatch('[a-f0-9]{64}',ref['sha256']):raise ValueError('model binding SHA missing')
     return dict(plan=p,protocols=protocols,selections=selections,rows=rows,bindings=bindings,
-                student=student,window=window,old_profile=old_profile,study=study,output=output)
+                student=student,owned_process=owned,window=window,old_profile=old_profile,study=study,output=output)
 
 
 def frozen(contract,epoch):
@@ -175,10 +186,10 @@ def frozen(contract,epoch):
 
 
 def qualified_actor_rounds(root,rounds,cap,stop):
-    """Only exit1 with the recorded relay refusal qualifies as a guard exit."""
+    """Validate raw guard errors even on exit0; reject unrelated failures."""
     expected={}
     if cap:expected[403]='Forbidden'
-    if stop:expected[409]='Conflict'
+    if stop:expected[400]='Bad Request'
     for row in rounds:
         number=row.get('round');code=row.get('exit')
         if type(number) is not int or number<1:raise ValueError('actor round identity missing')
@@ -370,13 +381,19 @@ def execute(c):
             if not cancelled:cancelled=True;raise KeyboardInterrupt('CANCEL_REQUESTED')
         previous={s:signal.signal(s,cancel) for s in (signal.SIGTERM,signal.SIGINT)}
         try:
-            frozen(c,epoch);original=c['student']['restored_process']
+            frozen(c,epoch);original=c['owned_process']
             if h.proc(original['pid'])!=original:raise RuntimeError('current Q4 differs from complete restoration identity')
             h.listener(original);h.protected(window);h.idle()
             common=c['protocols']['full'];_,parent=study.verified_gguf(common['parent_gguf']['path'],common['parent_gguf']['sha256'])
+            # SHA verification can populate page cache on this unified-memory host.
+            # This is the same advisory release as the previously qualified driver.
+            fd=os.open(common['parent_gguf']['path'],os.O_RDONLY|os.O_NOFOLLOW)
+            try:os.posix_fadvise(fd,0,0,os.POSIX_FADV_DONTNEED)
+            finally:os.close(fd)
             if sha(original['exe'])!=c['old_profile']['server_executable_sha256']:raise ValueError('server executable changed')
             h.new(out/'ADMISSION.json',dict(owner_pid=os.getpid(),bindings=c['bindings'],components=epoch,
-                  owned_process=original,parent_verification=parent,protected35=window['protected35'],protected27=window['protected27']))
+                  owned_process=original,parent_verification=parent,parent_cache_advice='POSIX_FADV_DONTNEED accepted; eviction not guaranteed',
+                  protected35=window['protected35'],protected27=window['protected27']))
             # No model success qualification: the first scheduled actor is counted.
             released=True;h.stop_owned(original,escalate=False);event('original_stopped',process=original)
             for arm in p['arms']:
@@ -449,9 +466,12 @@ def main(argv=None):
     mode.add_argument('--check',action='store_true');mode.add_argument('--execute',action='store_true')
     for name in ('plan','student-result','teacher-result','django-result'):
         parser.add_argument('--'+name,type=Path,required=True);parser.add_argument('--'+name+'-sha',required=True)
+    parser.add_argument('--restoration-result',type=Path);parser.add_argument('--restoration-result-sha')
     parser.add_argument('--output',type=Path,required=True);args=parser.parse_args(argv)
+    if bool(args.restoration_result)!=bool(args.restoration_result_sha):parser.error('restoration result and SHA must be supplied together')
     refs=[dict(path=str(getattr(args,k)),sha256=getattr(args,k+'_sha')) for k in ('plan','student_result','teacher_result','django_result')]
-    c=check_plan(*refs,args.output);helper() # Checked import only; never call the old execute/main.
+    restoration_ref=(dict(path=str(args.restoration_result),sha256=args.restoration_result_sha) if args.restoration_result else None)
+    c=check_plan(*refs,args.output,restoration_ref=restoration_ref);helper() # Checked import only; never call the old execute/main.
     if args.check:
         frozen(c,c['study'].components())
         result=dict(status='CPU_CHECK_ONLY_NOT_EXECUTED',planned_episodes=96,model_calls=0,service_actions=0,

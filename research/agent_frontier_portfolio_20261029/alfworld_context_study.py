@@ -21,7 +21,7 @@ import time
 
 QUAL = Path('/home/testuser/wzh/research_evidence/agent_learning_20261030/alfworld_text_qualification_20261106')
 HERE = Path(__file__).resolve().parent
-RECOVERY_SHA = '496535b5ddac56fb72eb2eb87f0cec4c4b86c00f2bd56129098b531fb448aa29'
+RECOVERY_SHA = '8f2ae03ad09b4c37acdcd419b8e9a84d88d52ef035b8ad975b98b3e70c993844'
 RECENT_STEPS = 3
 STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent', 'ordinary_reset')
 PUBLIC_KEYS = ('observation', 'score', 'done', 'won', 'action_count', 'admissible_commands')

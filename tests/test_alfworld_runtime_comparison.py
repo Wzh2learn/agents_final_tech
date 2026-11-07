@@ -140,6 +140,35 @@ def check_fixture(f):
 
 
 class FrozenPlanTests(unittest.TestCase):
+    def test_explicit_closed_restoration_updates_only_owned_process_and_is_bound(self):
+        with contract_fixture() as f:
+            previous={'status':'STOPPED_RESTORE_REQUIRED','restored_healthy':True,
+                      'shared35_unchanged':True,'shared27_unchanged':True,
+                      'restored_process':process(202),
+                      'error':{'type':'KeyboardInterrupt','message':'CANCEL_REQUESTED'}}
+            ref=write(f.base/'prior_window/RESULT.json',previous)
+            c=r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=ref)
+            self.assertEqual(c['owned_process'],process(202))
+            self.assertEqual(c['student']['restored_process'],process(101))
+            self.assertEqual(c['bindings'][ref['path']],ref['sha256'])
+            self.assertFalse(f.output.exists())
+
+    def test_restoration_override_requires_terminal_healthy_unchanged_cleanup(self):
+        for mode in ('live','unhealthy','shared','cleanup','wrong_argv','bad_pid','bad_ticks'):
+            with self.subTest(mode=mode),contract_fixture() as f:
+                v={'status':'STOPPED_RESTORE_REQUIRED','restored_healthy':True,
+                   'shared35_unchanged':True,'shared27_unchanged':True,'restored_process':process(202)}
+                if mode=='live':v['status']='STARTED'
+                elif mode=='unhealthy':v['restored_healthy']=False
+                elif mode=='shared':v['shared27_unchanged']=False
+                elif mode=='cleanup':v['episode_cleanup_error']='OWNED_FAKE pending child'
+                elif mode=='wrong_argv':v['restored_process']['argv']=['OWNED_FAKE different model']
+                elif mode=='bad_pid':v['restored_process']['pid']=True
+                else:v['restored_process']['start_ticks']='not-a-birth-ticket'
+                ref=write(f.base/'prior_window/RESULT.json',v)
+                with self.assertRaises(ValueError):
+                    r.check_plan(*f.refs,f.output,study=f.study,restoration_ref=ref)
+
     def test_check_accepts_only_the_exact_fresh_six_arm_cases_without_external_actions(self):
         with contract_fixture() as f:
             real_sha=r.sha
@@ -246,7 +275,7 @@ def receipt_fixture(*,won=False,terminal=True):
         (root/'raw_1.jsonl').write_text('{"OWNED_FAKE":true}\n')
         if terminal:
             (root/'raw_1.jsonl').write_text(json.dumps({'type':'error','error':{'name':'APIError',
-                'data':{'statusCode':409,'message':'Conflict'}}})+'\n')
+                'data':{'statusCode':400,'message':'Bad Request'}}})+'\n')
         payload={'model':'OWNED_FAKE','messages':[{'role':'user','content':'PUBLIC_GOAL_ANCHOR'}]}
         write(root/'requests/00001.json',{'incoming':payload,'forwarded':payload})
         request_body=json.dumps(payload,separators=(',',':')).encode()
@@ -288,18 +317,30 @@ def save_receipt(f):
 
 def write_raw_refusal(f,status,*,extra=None,message=None,name='APIError'):
     rows=list(extra or [])+[{'type':'error','error':{'name':name,'data':{'statusCode':status,
-        'message':message or {403:'Forbidden',409:'Conflict'}.get(status,'OWNED_FAKE_OTHER_ERROR')}}}]
+        'message':message or {403:'Forbidden',400:'Bad Request'}.get(status,'OWNED_FAKE_OTHER_ERROR')}}}]
     path=f.root/'raw_1.jsonl';path.write_text(''.join(json.dumps(row)+'\n' for row in rows))
     f.receipt['rounds'][0]['raw_sha256']=digest(path)
 
 
 class RuntimeAuditTests(unittest.TestCase):
+    def test_permanent_terminal_http_requires_witness_and_rejects_old_retryable_409(self):
+        for terminal,status,message in ((False,400,'Bad Request'),(True,409,'Conflict')):
+            with self.subTest(terminal=terminal,status=status),receipt_fixture(won=terminal,terminal=terminal) as f:
+                write_raw_refusal(f,status,message=message)
+                save_receipt(f)
+                with self.assertRaisesRegex(ValueError,'actor failure'):
+                    r.audit(f.study,f.root,f.receipt,f.manifest)
+        with receipt_fixture(won=False,terminal=True) as f:
+            result=r.audit(f.study,f.root,f.receipt,f.manifest)
+            self.assertFalse(result['won'])
+            self.assertTrue(result['done_unwon'])
+
     def test_zero_exit_unknown_top_level_errors_stop_and_keep_native_state_and_costs(self):
         for won in (False,True):
             for earlier in (False,True):
                 with self.subTest(won=won,earlier=earlier),receipt_fixture(won=won,terminal=won) as f:
                     f.receipt['rounds'][0]['exit']=0
-                    write_raw_refusal(f,409,name='OWNED_FAKE_UnknownError',message='OWNED_FAKE opaque failure')
+                    write_raw_refusal(f,400,name='OWNED_FAKE_UnknownError',message='OWNED_FAKE opaque failure')
                     if earlier:
                         path=f.root/'raw_1.jsonl';path.write_text(path.read_text()+'{"type":"step_finish"}\n')
                         f.receipt['rounds'][0]['raw_sha256']=digest(path)
@@ -314,8 +355,8 @@ class RuntimeAuditTests(unittest.TestCase):
                     self.assertEqual(json.loads(before)['final_world_state'],f.witness['state'])
 
     def test_zero_exit_normal_tool_feedback_and_qualified_relay_errors_remain_valid(self):
-        for mode in ('tool_feedback','cap403','stop409'):
-            with self.subTest(mode=mode),receipt_fixture(won=mode=='stop409',terminal=mode=='stop409') as f:
+        for mode in ('tool_feedback','cap403','stop400'):
+            with self.subTest(mode=mode),receipt_fixture(won=mode=='stop400',terminal=mode=='stop400') as f:
                 f.receipt['rounds'][0]['exit']=0
                 if mode=='tool_feedback':
                     path=f.root/'raw_1.jsonl';path.write_text(json.dumps({'type':'tool_use','state':{
@@ -369,9 +410,9 @@ class RuntimeAuditTests(unittest.TestCase):
                     path=f.root/'raw_1.jsonl';path.write_text('{"type":"step_finish"}\n')
                     f.receipt['rounds'][0]['raw_sha256']=digest(path)
                 elif mode=='wrong_status':write_raw_refusal(f,403)
-                elif mode=='wrong_message':write_raw_refusal(f,409,message='OWNED_FAKE different failure')
-                elif mode=='wrong_name':write_raw_refusal(f,409,name='OWNED_FAKE_OtherError')
-                elif mode=='earlier_opaque':write_raw_refusal(f,409,extra=[{'type':'error','error':{
+                elif mode=='wrong_message':write_raw_refusal(f,400,message='OWNED_FAKE different failure')
+                elif mode=='wrong_name':write_raw_refusal(f,400,name='OWNED_FAKE_OtherError')
+                elif mode=='earlier_opaque':write_raw_refusal(f,400,extra=[{'type':'error','error':{
                     'name':'UnknownError','data':{'message':'OWNED_FAKE unrelated crash'}}}])
                 else:f.receipt['rounds'][0]['round']=0
                 save_receipt(f)

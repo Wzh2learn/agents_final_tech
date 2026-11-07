@@ -716,7 +716,9 @@ class ModelRelay:
                     with owner.lock:
                         owner.controller_stops.append({"type": type(exc).__name__, "reason": str(exc)})
                     try:
-                        self.request.sendall(b"HTTP/1.1 409 Conflict\r\nContent-Length: 0\r\n"
+                        # OpenCode retries 409 with exponential backoff. This
+                        # witnessed episode end is permanent, not a retry hint.
+                        self.request.sendall(b"HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\n"
                                              b"Connection: close\r\n\r\n")
                     except OSError:
                         pass
