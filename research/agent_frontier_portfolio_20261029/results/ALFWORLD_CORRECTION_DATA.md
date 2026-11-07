@@ -1,6 +1,6 @@
 # ALFWorld：执行纠正与学习开发
 
-> 2026-11-08更新，批次始于11月6日 | 当前只加载本页；背景见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。旧96条闭合；完整历史强基线32条在途。两代码来源未修复，工具写入通路已通过控制；尚无独立方法贡献。
+> 2026-11-08更新，批次始于11月6日 | 当前只加载本页；背景见[18任务研究](ALFWORLD_CONTEXT_STUDY.md)。96条与完整历史32条均闭合；8个失败现场四臂在途。代码写入已验证，新Matplotlib任务对源码已缓存；尚无独立方法贡献。
 
 四现场能力诊断与旧分账已移至[已关闭的先导实验](ALFWORLD_CONTEXT_STUDY.md#teacher-pilot)；本页保留当前结果和下一动作。
 
@@ -71,11 +71,11 @@
 | Recovery last3 | 4/12 | 3/4 | 7/16 | 1,059 |
 | All7 history last3 | 4/12 | 2/4 | 6/16 | 935 |
 
-完整历史R相对O主比较增2/12，95%描述区间[-8.33,+41.67]pp；短历史R/O/All7均4/12。交互为-16.67pp，区间[-41.67,+8.33]pp，尚未分离稳定学习增量或历史交互。R短历史7个成功均在R完整历史11个成功内，后者POST、总输入及noncached均更低；不据此训练选择器。All7仅测last3，仍缺匹配的full普通历史，不能把Rfull对All7short当同窗口优势。冻结六对与成本见[全批闭合](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#all96-results)；27B直接执行14/16及形成/训练费继续作参照，独立代码来源采集已接续。
+完整历史R相对O主比较增2/12，95%描述区间[-8.33,+41.67]pp；短历史R/O/All7均4/12。交互为-16.67pp，区间[-41.67,+8.33]pp，尚未分离稳定学习增量或历史交互。R短历史7个成功均在R完整历史11个成功内，后者POST、总输入及noncached均更低；不据此训练选择器。旧96中All7只测last3，不能把该臂与Rfull直接当同窗口比较；完整历史补充已在下文闭合。冻结六对与成本见[全批闭合](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#all96-results)；27B直接执行14/16及形成/训练费继续作参照，独立代码来源采集已接续。
 
-**完整历史32条运行中。** 两臂F full与All7 full，同父模型、16暴露任务、完整历史/终态控制与额度；既有F full控制器不同，因此补同设置基线。保持原始提示序列化，属事后开发，不改旧96合同。私有`full_baseline_extension_v1/RUN_V1`由PID1301996/start_ticks1081148502持有，launch SHA `acb2f1e1a6a5efed2dff7be1816a4e6e60a77842797f018f2970501d45b9187a`；已核F full16条闭合，All7 full仍在途，尚无全批结果。四个预定对比、C限定PASS、计划/源码hash见[完整合同](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#full-baseline-extension)。结果出来前不增训练或选择器。
+**完整历史32条已闭合、复核及恢复。** 新F full为primary5/12、clean1/4、整体6/16；All7 full为5/12、2/4、7/16。旧R full为7/12、4/4、11/16，对两个匹配固定基线的primary差均+16.67pp、描述区间[0,41.67]；整体差分别+31.25/+25pp。保留了值得后续验证的点估计残差，不能由clean或整体替代primary结论，也未分离纯反馈内容。逐项结果、四组区间和费用见[完整历史对照](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#full-baseline-extension)。新增1,022POST/13,184,363tokens，原始SSE/交付/原生末态及当前恢复身份均已核；C独立重算一致。PID1301996已退出，旧raw及源码快照已双端归档。
 
-**保留现场四臂已备，尚未部署。** 隔离分支`research/preserved-recovery-controls-20261108`/`69bf6b00`只改既有study/controller及测试，未新增runner。冻结8个旧失败现场，F/O/R均完整公开前缀、无额外经验；Frozen All7另给同7普通教师轨迹。共32条、独立上限1,024POST，各32POST/600秒/64M，world总100、按现场剩27–92步；primary5、clean3、整体8。98 tests/368 subtests及实际计划CPU检查通过，无新增world/模型。C限定条件通过（SHA `8acd4d55b3d9264f338d1cb39dd72c7770220339f0a73481c1a9d79866057bf3`）；继承的旧数量文字已改为V2并复验，代码/案例/分析/预算不变。私有`additional_recovery_v1/RECOVERY_PLAN_V2.json` SHA `64cd1bd4d6ae29ec3e1660b04de8f35c21610cfe52f965e36b40cef8b85d4984`；发布须先收齐当前32结果及代码快照，再绑定最新恢复身份。主树仍用旧代码；研究分支三端同69bf6b00。
+**8个保留现场四臂已启动。** 原隔离分支69bf6b00已并入main7af454e0，只复用既有study/controller。F/O/R均完整公开前缀、无额外经验；Frozen All7另给同7普通教师轨迹。共32条、独立上限1,024POST，各32POST/600秒/64M，world总100、按现场剩27–92步；primary5、clean3、整体8。98 tests/368 subtests及V2实际计划检查通过，C限定条件通过（SHA `8acd4d55b3d9264f338d1cb39dd72c7770220339f0a73481c1a9d79866057bf3`），旧数量文字已更正。计划SHA `64cd1bd4d6ae29ec3e1660b04de8f35c21610cfe52f965e36b40cef8b85d4984`；已绑定补充32闭合结果6966f16b的最新恢复身份。私有`additional_recovery_v1/RECOVERY_RUN_V1`由PID1379062/start_ticks1081725810持有，launch SHA `afb24e3e9480b9a79513c16e745e6b85487f863b1f61ee7a43bafc7cc9a93a4a`；已见真实case闭合，尚无全批结果。临时树和已合并支线已删除，原7历史树保留。
 
 八个ALF来源回执唯一去重：旧614POST、input9,250,602（cache子集9,105,499、noncached145,103）、output26,614、total9,277,216tokens，全部已计在原frozen16账，不能再次或按四臂重复追加。`RECOVERY_SOURCE_COST_V1.json` SHA `fc07268eb016af5bf5022839da5113710f3878174724aa9c0edc693ca4313364`。接入源码/协议/审阅/日志27成员薄包双端核验，SHA `4dc1f08fda481a639a02b2699b3ff1ad68535799e0e91e098f8e72f3d430e3c4`。这是旧失败条件池的恢复诊断，不是新任务确认或旧skill失效实验。
 
@@ -108,6 +108,9 @@
 
 **跨项目下一波只完成时序核验。** 冻结另一4项目各1对的元数据选择（scikit-learn限定2020后以复用现代依赖，再按target hash选题），12次官方只读HTTP全部保留并复核方向：Matplotlib25332→25352、scikit-learn25638→25637、Sphinx8282→8127均源修复merge为目标base祖先；Seaborn3190→3203源修复晚于目标题且不在目标base中，按当前时序门拒绝，不改阈值找信号。前三对分别涉及pickle修复后的Grouper实现替换、nullable dtype从unique_labels到LabelBinarizer的扩展、overload类型提示到ellipsis引用解析；均只作问题关系，不宣称旧经验已有效/失效。dataset ID不总是上游PR号：后两target实际PR为25813/9104，依规范URL与commit核，不按ID猜。`code_source_expansion_v1/SECOND_WAVE_ANCESTRY_V1/RESULT.json` SHA `25d2264f52836d719897bca05f8dceb4b30f6024a90e2036fa1de47b5358a107`。14成员薄包已镜像，SHA `d8ab365f92f61d93dec5d1fd492e6eb7fd35f463d4da7d8027eb7bea63967de1`；本波0测试/环境/模型/训练，尚未下载新项目或开放actor。先实际采集现有两source，不把这3对时序通过当新经验/方法证据。
 
+
+**Matplotlib新任务对源码已缓存（11月8日）。** 25332/25352的准确base分别66ba515e/3742e7e，两个官方commit archive共75,362,388bytes已双端核hash；只读取目标instance/repo/base列，未读取目标参考补丁正文。私有`SECOND_WAVE_ARCHIVES_V1/FETCH_RECEIPT_V1.json` SHA `76f948d5c6385c5c0c6850ef1de0c35e2dad482c835ae2caa64c0ec0ce6bf3ca`，2次公开GET，未解压或执行。可复用旧Python3.10依赖投影（manifest SHA `e63a69c6c719bdcc56aa8d08b7ba7635de6bafe90f826b51b7eda79cdad0f75b`），尚未证明适配新base；须先做新pair的base/gold原题与完整回归资格，再开放actor。这是已有项目的新任务对，不算全新未曝光项目确认。
+
 ## 方法重叠与下一验证
 
 Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配提取知识，STeP已有教师纠正与partial masking；ACE/AgentFold/DGRR等也覆盖局部更新、折叠及依赖撤回。原文方法核对与其余近邻完整保留于[按需精读](ALFWORLD_CONTEXT_STUDY.md#mechanism-reading)。当前SFT是监督来源/能力对照，不是上述方法的新名字；独立贡献仍待实际比较。另核[Memento](https://arxiv.org/html/2611.00244v1)已有学习笔记/上下文重建，[SkillApt](https://arxiv.org/html/2609.26863v1)的一般形式已有状态、模型与成本条件效用；STeP混合普通/纠正监督，当前纯O/R小LoRA不是其复现。不能仅因某公开实现较窄而声称状态选择或混合纠正为新机制。
@@ -116,7 +119,7 @@ Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配�
 
 **记忆/上下文近邻补核（2026-11-07，方法与设置已读、代码成绩未复现）**：[MemGen §4–5](https://arxiv.org/html/2509.24704v1)以LoRA触发器和潜在记忆配合冻结reasoner，含ALFWorld与跨域评测；[AgeMem §3–4](https://arxiv.org/html/2601.01885v1)已用策略内工具学习长期/短期记忆操作，含ALFWorld等五任务；[CADOC §2–5](https://arxiv.org/html/2609.37012v1)已用可精确查回的Card及缓存重建成本调度批量编辑，并做固定轨迹和实际任务链评价。故不以学习上下文、换ALFWorld或发现缓存失效单独立贡献。若继续研究压缩，应加入“近期历史＋精确查回旧记录”对照，并计查回费；不改现96协议。私有`MEMORY_CONTEXT_NEIGHBORS_V1.json` SHA `795db6815fd35c272e408a08b3f0b588c2d3fa20ccee5c0be62b57380a30312b`保留比较范围。
 
-Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：新96已闭合，Rfull/O full为11/16对6/16，但primary差+2/12的区间跨0；Rshort/Oshort/All7short primary同为4/12。UNVERIFIED：纯反馈内容收益、上下文交互、匹配完整历史强基线及跨来源迁移。Recommendation：不增训练或旧选择器；来源批闭合后先补Ffull/All7full同控制器32回合，再以相同新增预算比较8个保留现场。Conditions：接受动作不等于最优动作，七训练组不等于135独立来源，All7short不是Rfull的同窗口强基线。Risk/exit：若强固定方法解释收益即停止复杂候选，保留全部形成/失败费。O/R恢复须同历史、目标、公开反馈及新增额度；不同新增world步数的reset参照不作状态因果对照。
+Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FACT：96与匹配full32均闭合；R primary7/12对F/All7各5/12，差值区间[0,41.67]pp，普通训练仍5/12。UNVERIFIED：纯反馈内容效应、恢复状态下的增量和跨来源迁移。Recommendation：现有权重做8个保留现场四臂开发，不增训练或选择器。Conditions：同公开历史/目标/当前观察/新增额度；七训练组不是135独立来源，接受动作不保证有用进度。Risk/exit：若最强固定策略解释恢复收益，则停止扩同7来源配方；保留形成/失败费，不将条件旧失败池或不同剩余步数reset参照当新任务/状态因果确认。
 
 新增64条闭合raw薄包已在GB10与本机逐一核验14,052成员，SHA `0995fa01149373591fea14cea126a9112f229430f1a2e8558c554acb2ac2c9b0`（manifest SHA `9018cfabed3d9e2113080a7dc01cb36f0fda9acf2178a4594e3020ef0f6db733`）；与先前frozen16包共同覆盖80条，未复制仍写入的restore服务日志。历史baseline、训练/部署及frozen16薄包的镜像hash见[私有资产](ALFWORLD_LEARNING_RUNTIME.md#private-packets)，不复制在途服务日志。
 
@@ -124,6 +127,6 @@ Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FAC
 
 后续两source与8个保留现场的闭合证据包`source_pairs_and_preserved_states_v1_20261107.tar.gz`已双端逐成员核验88项，17,256,211bytes、SHA `2eec08f3e78d52038472e8f62bd0d69b33676961fb1f3a42869b54742e487ae0`（manifest SHA `4a5647676e2cc8277ec6fc0c82cee27c5dcb624eb73bfd74c95d8409718118aa`）。本机另逐条核8个公开重放日志的322动作及回执hash；不含在途96回合或完整base/gold工作树，不作actor输入。
 
-六组闭合原始包、逐次成本与双端核验hash见[闭合成本](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#closed-costs)。全96完成后，ALF专题累计13,357 HTTP / 131,480,358tokens；只追加新末臂935/8,904,941一次。代码来源、训练、研发Agent及历史差额另账，不是项目总成本。
+六组及补充32的原始包与费用见[闭合成本](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#closed-costs)。全96完成时小计13,357 HTTP / 131,480,358tokens；加入补充32后已闭合小计14,379 / 144,664,721，仅新增1,022/13,184,363一次。在途恢复、代码来源、训练、研发Agent及历史差额另账，不是项目总成本。
 
 source评分控制薄包已双端核验59项、18,178bytes，SHA `2e6a7066eed4486a240c42d7db9ddc4fc41a35741331f14d78f2d303758fb42e`；本机另核4份base/gold回执的完整标签、预期失败/通过及清理，check SHA `2a260602c18411b07f63eba05be1e1ceb96e04be1bc5598461ba52a2bd08d428`。不含work/baseline/gold树，未公开。

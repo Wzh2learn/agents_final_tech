@@ -1,6 +1,6 @@
 # ALFWorld：六组上下文与学习对照
 
-> 2026-11-07 | 协议、修正链与逐臂闭合原文。当前进度及下一动作只读[现役学习与评价](ALFWORLD_CORRECTION_DATA.md)。各段按当时闭合次序保留，不把早期“仍运行”当最新状态；原始raw/账本未改。
+> 2026-11-08 | 原96及完整历史补充32的协议、修正链与闭合证据。当前进度及下一动作只读[现役学习与评价](ALFWORLD_CORRECTION_DATA.md)。各段按当时闭合次序保留，不把早期“仍运行”当最新状态；原始raw/账本未改。
 
 从Git `5e0c7d5bcacccc47aba32b31ecbd9f1d406345fe` 的原现役页移入；规范换行后协议/逐臂段SHA `9bedffaabcc2012673831e8e68aaf810de9c8e3ca92e6c117593dd4821dba78b`，闭合成本段SHA `e94622fc930d576cf752c1c38d28860a4f49ab8c0edbb7770508d97350c6919e`。两段均逐字相同，后续完整批次结果另行追加。
 
@@ -82,6 +82,32 @@ R短历史的primary4/12全来自look，不能把整体7/16解释为普遍学会
 仅补同控制器的Frozen full和All7 history full，各16条；同父模型、原16个暴露布局、完整历史协议及每条128 POST/1800秒/100 world动作/64MB，独立最大4,096 POST，训练0。不改旧96结果或提示序列化。主要比较仍为12个已见类型，clean4作诊断，整体16次要；四个方向固定为Rfull−Ffull、Rfull−All7full、All7full−Ffull和Ofull−Ffull。使用原配对分层10,000次重采样/seed17，不将区间含0当相等。新32与旧96顺序运行，属于事后开发，不能排除运行时期差异。
 
 私有`full_baseline_extension_v1/PLAN_V1.json` SHA `ef42050b28e16ef7298c88ccc6c98db2fb4f48b8f84158a89f3c5cf88f4bf134`，分析合同SHA `c6fea56798acb107a06137016c826cef15bbfad54dbde5e84074f35c1a518d01`。C限定预审PASS（回执SHA `b8dc00b6e22850514ddeda8594fd3f4f21b6256eecc4630fe7c6016936031c67`），含旧96原回执的存在/哈希/任务/结果及后续冻结检查；不代替新结果审阅。发布LF源码SHA `05766a4833b4ddf766473501407677282f4343ad24b5017bfddaecf68f546d11`，GB10 46 tests/135 subtests及实际计划check通过。`LAUNCH_ARGUMENTS_V3.json` SHA `4fd6dcb82207d5d824623b5c8af3aa821fcafc218a9d95a78469d117629c0069`记录CRLF到LF发布差异，旧V1/V2保留。静态输入/CPU记录/C审阅共14成员薄包已双端核验，SHA `e540e05400c006aa854c8adb5d059621ec9209ff619ea7b35b78e93bd92ba80b`。执行owner与实时结果只在[现役记录](ALFWORLD_CORRECTION_DATA.md)维护；计划或预审通过不代表效果。
+
+### 补充32条闭合结果
+
+| Full策略 | Primary12 | Clean4 | Overall16 | 实际POST |
+| --- | --- | --- | --- | --- |
+| Frozen（新增） | 5/12 | 1/4 | 6/16 | 686 |
+| Ordinary（旧96） | 5/12 | 1/4 | 6/16 | 640 |
+| Recovery（旧96） | 7/12 | 4/4 | 11/16 | 387 |
+| All7 history（新增） | 5/12 | 2/4 | 7/16 | 336 |
+
+按冻结顺序列出差值和95%描述区间（pp）：
+
+| 对比 | Primary12 | Clean4 | Overall16 |
+| --- | --- | --- | --- |
+| R−F | +16.67 [0,41.67] | +75 [25,100] | +31.25 [12.5,50] |
+| R−All7 | +16.67 [0,41.67] | +50 [0,100] | +25 [6.25,43.75] |
+| All7−F | 0 [-25,25] | +25 [0,75] | +6.25 [-12.5,25] |
+| O−F | 0 [-25,25] | 0 [-75,75] | 0 [-25,25] |
+
+最强已测完整历史固定策略没有完全解释R的点估计优势；两个关键primary区间的下界均为0，因此只支持继续做失败现场开发对照，不认证方法或纯反馈内容效应。clean/overall不替代primary，旧新窗口时间/顺序仍未随机化；All7的POST少于R，不能声称R成本全面占优。
+
+新结果`full_baseline_extension_v1/RUN_V1/RESULT.json` SHA `6966f16b0ca8303509e03c469e2c291e91c890f1a492a2272ec3751f74173a5f`；回执汇总SHA `337dc3443a3fe7f350ca4aef119e77d3139f2d08daef619944fbf45554bd2109`。D逐份核32原生末态、全部1,022原SSE/绑定、完整历史消息无relay改动、All7逐请求实际交付，0差异；fresh恢复进程/监听及受保护身份亦核，raw核验SHA `7a9564a0982ecc265283d1431c99196cd072e4a692802ac2569a0dab46fe1e99`。C独立核旧O/R各16、新32及12组配对区间一致，限定审阅SHA `6d1a106ed24aae3635012189fd6754184ac77d5bf4e1c601f754a43a9e79a976`，未重复原SSE层。D裁决回执SHA `ede2d63effbce89cf5f5e9c12e5ec9488c1fa4a7761999116ce35084298f0937`。
+
+新增input13,138,404、cached子集12,751,306、noncached387,098、output45,959、total13,184,363tokens；unknown/cache缺失均0，窗口4,201.70秒。F/All7分别为total8,533,588/4,650,775tokens，episode墙时2,563.13/1,458.83秒。完整6951成员闭合包已双端核验，43,324,795bytes、SHA `45c2e082cc55415c1269e9799e596601dc76938fcebc5f834643b6cbb59b25ee`，manifest SHA `a9061138ead9538034728e6652f161e78259248003b2a0b6cbea7c0102824ad4`，本机核验SHA `9d19e3fefe1552ee1df9c5bf1e6b266c6cfb2a6751acb2a8cce54b1072dd5f01`。含15份旧运行源码快照（SHA `f80ddbf0266cea4c7177a1f61f101b50951b9a6ed16f5002ca46087983499f6c`），不复制仍活跃的恢复服务stdout。
+
+本专题已闭合累计14,379 HTTP / 144,664,721tokens，只追加本1,022/13,184,363一次；新在途恢复、训练、代码来源、研发Agent及历史差额仍分账。
 
 <a id="closed-costs"></a>
 
