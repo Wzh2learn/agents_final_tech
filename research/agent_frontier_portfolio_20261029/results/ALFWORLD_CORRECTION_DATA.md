@@ -8,7 +8,7 @@
 
 27B从头执行16/18、从12个学生现场恢复8/12；两者成功交集只有7组（4heat/2cool/1look）。普通/纠正轨迹分别67/68个接受动作；失败和全部形成费保留。完整导出、token标签、来源hash和教师成本见[已闭合监督材料](ALFWORLD_CONTEXT_STUDY.md#teacher-supervision)，不再默认加载全过程。
 
-## 当前动作：启动六组持续短历史对照
+## 当前动作：六组持续短历史对照执行中
 
 普通/纠正轨迹成功交集为7个任务/布局（普通67动作/2,865监督tokens，纠正68/2,950）。按双方成功取交集是common-support条件分析；唯一clean纠正任务被排除，因此训练只含heat/cool/look三类，不能称覆盖全部失败。配对记录`recovery_supervision_v2/ordinary_recovery_pairing_v1.json` SHA `dc0f6b6a6c464b53c16d708e51ee33d0ba61157bbe351f7e678f782d4eba5fcf`。全部形成与失败成本不因筛选删除。
 
@@ -70,11 +70,13 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 独立Terra/max预启动审阅发现并复现C1（共享身份异常挡住可安全尝试的原Q4恢复）和C2（cap/终态标志掩盖异常退出）。同一A续接修正：保护异常保留且独立恢复安全owned实例；137/-9拒绝；exit0/1都核raw SHA及顶层错误，只有匹配实际403/409拒绝证据才作为正常gate，普通工具错误反馈保留。V1/V2原回执均保留，同一C限定复核V3放行（SHA `7677c9d8dfd3ac9587487ef1746c38c5b59828c90246b0ebc3a5de0833c99661`），没有另起Agent重做实现。root远端实际133tests/380subtests通过；4个actor/pool组件未因审阅修正再变，未重做native资格。
 
-代码已合并；driver SHA `ce8f29296929a120f293a107f6d8612d917aea4f76b426ee7dd619070c16ad7d`。旧源码和原五臂费用保持，ROOT闭合源码/C薄包已双端核验18成员，SHA `a10e86f96986a16c6ca6c027df9c75750158252239665083f8e4b9639c60a60a`。这些是纯CPU/假数据及旧native档案核验，实际409/模型窗口和96科学结果仍待运行，不称方法通过。
+代码已合并；driver SHA `ce8f29296929a120f293a107f6d8612d917aea4f76b426ee7dd619070c16ad7d`。旧源码和原五臂费用保持，ROOT闭合源码/C薄包已双端核验18成员，SHA `a10e86f96986a16c6ca6c027df9c75750158252239665083f8e4b9639c60a60a`。预启动检查为纯CPU/假数据及旧native档案核验，不证明实际409或方法效果。
+
+main `8200764f`启动`runtime_context_baselines_v1/RUN_V2`，原controller PID682492，启动回执`LAUNCH_V2.json`。SSH一度banner超时；恢复后实际核实原进程、owned BF16实例及首回合持续产生raw，没有重新提交。首回合`heldout1_clean_01/attempt_v8`第69次真实请求的`.body`只含system/user和3个完整工具回合，8192输出、seed17/temperature0.2及nativeFalse保留；投影证明从68个工具回合保留3个。此为接入生效证据，96回合结论和实际终态门仍待闭合。静态比较另确认薄controller遗漏旧版SHA校验后的`POSIX_FADV_DONTNEED`提示（`--no-mmap`保留）；尚不能归因SSH异常，运行中不改冻结源码、不重启共享实例，闭合后再处理。
 
 ## 两项改变下一步的发现
 
-**持续短历史尚未比较。** 当前drop_recent仅首次交接保留3条公共动作，之后OpenCode历史继续增长；闭合样例第74次转发仍含73个工具回合。新[纯投影器](../alfworld_context_projection.py)逐次保留所有系统/用户目标及最近3个完整工具回合，不造摘要；已核对F/O的1379份闭合请求，目标/采样/tools均保留，尚未接入Relay或运行模型。GB10三模块聚焦50tests/43subtests通过。接入必须发生在采样合入后、body序列化/计费/记录前，不能只改forward的dict而仍发送旧packet。80次和teacher均已闭合；最小hook在隔离分支完成，实际效果待六组对照。
+**持续短历史需要与学习增量分开比较。** 旧drop_recent仅首次交接保留3条公共动作，之后OpenCode历史继续增长；闭合样例第74次转发仍含73个工具回合。新[纯投影器](../alfworld_context_projection.py)逐次保留所有系统/用户目标及最近3个完整工具回合，不造摘要；离线核对F/O的1379份闭合请求后，已接入Relay且在上述真实body核实生效。投影发生在采样合入后、body序列化/计费/记录前；六组结果闭合后再判断短历史能否解释学习差异。
 
 **最终成功不保证每个接受动作适合作为正监督。** 同7组O67/R68动作的精确LCS合计36；其余差异不自动算错误。针对三条暴露训练轨迹，另做6个无模型native控制（固定源前缀与后继动作，事后诊断）：
 
