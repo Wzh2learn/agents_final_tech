@@ -1,6 +1,6 @@
 """Frozen target/source CPU qualification; check never starts a container or model."""
 from pathlib import Path, PurePosixPath
-import argparse, ast, hashlib, importlib, json, os, re, shutil, subprocess, sys, tarfile, time
+import argparse, ast, hashlib, importlib, json, math, os, re, shutil, subprocess, sys, tarfile, time
 
 ROOT=Path('/home/testuser/wzh/research_evidence/agent_learning_20261030')
 HERE=Path(__file__).resolve().parent
@@ -107,13 +107,16 @@ def load_matplotlib_pair(c,bindings,output):
     prior=[];caps=dict(container_runs=4,group_seconds=600,seconds=1800);mapping_counts={}
     if ast_mode:
         origin=c['mapping_origin']
-        if (set(origin)!={'policy','prior_runs','prior_code_snapshot','caps','target_task_nature'} or origin['policy']!='exact_or_unique_ast_class_path_v1' or origin['caps']!=dict(container_runs=4,group_seconds=300,seconds=900) or origin['target_task_nature']!='maintenance_followup_not_independent_bug' or len(origin['prior_runs'])!=2):raise ValueError('invalid AST mapping origin/caps')
+        if (set(origin)!={'policy','prior_runs','prior_code_snapshot','caps','target_task_nature'} or origin['policy']!='exact_or_unique_ast_class_path_v1' or origin['caps']!=dict(container_runs=4,group_seconds=300,seconds=900) or origin['target_task_nature']!='maintenance_followup_not_independent_bug' or type(origin['prior_runs']) is not list or len(origin['prior_runs']) not in (2,3)):raise ValueError('invalid AST mapping origin/caps')
         caps=origin['caps']
+        seen_paths=set();seen_hashes=set()
         for ref in origin['prior_runs']:
             record=checked(ref,bindings)
-            if record['status']!='ERROR' or type(record['container_runs']) is not int or record['container_runs']<0:raise ValueError('prior qualification identity differs')
+            if ref['path'] in seen_paths or ref['sha256'] in seen_hashes:raise ValueError('duplicate prior qualification receipt')
+            seen_paths.add(ref['path']);seen_hashes.add(ref['sha256'])
+            if record['status']!='ERROR' or type(record['container_runs']) is not int or record['container_runs']<0 or type(record.get('seconds')) not in (int,float) or not math.isfinite(record['seconds']) or record['seconds']<0:raise ValueError('prior qualification identity differs')
             prior.append(dict(receipt=ref,container_runs=record['container_runs'],seconds=record['seconds']))
-        if sum(x['container_runs'] for x in prior)!=4:raise ValueError('historical container ledger differs')
+        if sum(x['container_runs'] for x in prior)!=(4 if len(prior)==2 else 7):raise ValueError('historical container ledger differs')
         snapshot=checked(origin['prior_code_snapshot'],bindings)
         for item in snapshot['files']:
             file=safe(item['snapshot']['path'])
@@ -260,7 +263,7 @@ def execute_matplotlib_pair(c):
         result['total_container_runs_all_attempts']=result['container_runs']+sum(x['container_runs'] for x in c.get('prior_controls',[]))
         result['prior_controls_seconds']=sum(x['seconds'] for x in c.get('prior_controls',[]))
         result['total_container_runs_including_prior_environment_control']=result['container_runs']+(assets.get('prior_environment_control') or {}).get('container_runs',0)
-        result['seconds']=time.monotonic()-started;result['total_seconds_including_prior_environment_control']=result['seconds']+(assets.get('prior_environment_control') or {}).get('seconds',0);result['unrun_cases']=[x['spec']['instance_id'] for x in c['cases'] if x['spec']['instance_id'] not in result['cases']];new(out/'receipt.json',result)
+        result['seconds']=time.monotonic()-started;result['total_seconds_all_attempts']=result['seconds']+result['prior_controls_seconds'];result['total_seconds_including_prior_environment_control']=result['seconds']+(assets.get('prior_environment_control') or {}).get('seconds',0);result['unrun_cases']=[x['spec']['instance_id'] for x in c['cases'] if x['spec']['instance_id'] not in result['cases']];new(out/'receipt.json',result)
     return result
 
 

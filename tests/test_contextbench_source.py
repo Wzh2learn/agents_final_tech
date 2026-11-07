@@ -72,6 +72,127 @@ def prepare(f):
     return m.prepare(f.registry, f.registry_sha, f.source, f.root, f.projection, f.projection_sha, f.profile, f.profile_sha)
 
 
+@pytest.fixture
+def matplotlib_inputs(prepared_inputs, monkeypatch):
+    """Synthetic native-result records, never benchmark gold or an actual actor."""
+    f = prepared_inputs
+    source, target = 'matplotlib__matplotlib-25332', 'matplotlib__matplotlib-25352'
+    result_root = f.private / 'mpl_qualification'; result_root.mkdir()
+    cases = {}
+    for identity, base, role, count in [
+        (source, '66ba515e671638971bd11a34cff12c107a437e0b', 'source', 181),
+        (target, '3742e7e8385e70072fb2521a411a25dd69d22dbf', 'target', 60),
+    ]:
+        root = result_root / identity; clean = root / 'clean_base'
+        (clean / 'lib/matplotlib/tests').mkdir(parents=True)
+        (clean / 'lib/matplotlib/cbook.py').write_text('CPU_PUBLIC_BASE = 1\n')
+        (clean / 'lib/matplotlib/_native.so').write_bytes(b'CPU_NOT_AN_ELF_LIBRARY')
+        (root / 'task.txt').write_bytes(b'Public source task only.\r\n' if role == 'source' else b'Private future task')
+        (root / 'test.patch').write_text('CPU_EVALUATOR_ONLY_PATCH')
+        labels = dict(f2p=['lib/matplotlib/tests/test_cpu.py::test_f2p'],
+                      ptp=['lib/matplotlib/tests/test_cpu.py::test_ptp_' + str(i) for i in range(count)])
+        arms = {}
+        for arm, fail in [('base_with_tests', True), ('gold_with_tests', False)]:
+            tests = {n: 'passed' for n in labels['f2p'] + labels['ptp']}
+            if fail: tests[labels['f2p'][0]] = 'failed'
+            payload = dict(tests=tests, fatal=[])
+            log = root / (arm + '.log'); log.write_text(pool.MARKER + json.dumps(payload) + '\n')
+            arms[arm] = dict(group=dict(exit=int(fail), result=payload, log_sha256=m.sha(log)))
+        cases[identity] = dict(spec=dict(instance_id=identity, repo='matplotlib/matplotlib', base_commit=base, role=role),
+            labels=labels, arms=arms, qualification=pool.matplotlib_qualification(
+                arms['base_with_tests']['group'], arms['gold_with_tests']['group'], labels),
+            clean_base_sha256=m.tree(clean), input_sha256={name:m.sha(root/name) for name in ['task.txt','test.patch']},
+            native_overlay={'_native.so':m.sha(clean/'lib/matplotlib/_native.so')})
+    contract = f.private / 'mpl_contract.json'
+    contract_sha = write_json(contract, dict(runtime={'CPU_RUNTIME':True}))
+    receipt = result_root / 'receipt.json'
+    digest = write_json(receipt, dict(status='QUALIFIED', model_calls=0, training=0,
+        cases=cases, input_sha256={str(contract):contract_sha}, unrun_groups=[]))
+    projection = f.private / 'mpl_projection'; (projection / 'runtime/bin').mkdir(parents=True)
+    (projection / 'runtime/bin/python').write_text('CPU_NON_EXECUTABLE')
+    for slot in ['source','target']:
+        (projection / 'deps' / slot).mkdir(parents=True)
+        (projection / 'deps' / slot / 'numpy.py').write_text('CPU_NOT_A_PACKAGE')
+    value = dict(version=1, python='3.10', blocked_packages=['matplotlib','mpl_toolkits'], site_names=['source','target'],
+        source_site_paths={'source':'/CPU/source','target':'/CPU/target'},
+        files={name:dict(sha256=digest,bytes=(projection/name).stat().st_size) for name,digest in m.tree(projection).items()})
+    projection_sha = write_json(projection/'manifest.json',value)
+    registry = f.private / 'mpl_registry.json'
+    reg = dict(schema='qualified_matplotlib_source_v1', source_result=dict(path=str(receipt),sha256=digest),
+        qualification_contract=dict(path=str(contract),sha256=contract_sha),
+        actor_projection=dict(path=str(projection),sha256=projection_sha),
+        rows=[dict(source=source,target=target,clean_base=str(result_root/source/'clean_base'))])
+    f.source=source;f.registry=registry;f.registry_sha=write_json(registry,reg)
+    f.projection=projection;f.projection_sha=projection_sha;f.receipt=receipt;f.cases=cases;f.reg=reg
+    monkeypatch.setattr(m,'scoring_dependencies',lambda *_:dict(bindings={},limits='CPU Matplotlib',matplotlib_runtime={'CPU_RUNTIME':True}))
+    return f
+
+
+def test_matplotlib_source_prepares_python310_without_exposing_target_or_gold(matplotlib_inputs):
+    f=matplotlib_inputs;result=prepare(f);manifest,h,actor,_=m.verify(f.root,result['manifest_sha256'])
+    assert manifest['source_runtime']['python']=='3.10'
+    assert (f.root/'inputs/source_task.txt').read_bytes()==(f.receipt.parent/f.source/'task.txt').read_bytes()
+    prompt=(f.root/'inputs/task.txt').read_text()
+    assert 'Python 3.10' in prompt and '25352' not in prompt and 'Private future task' not in prompt
+    assert not any('reference.patch' in str(p) for p in (f.root/'inputs').rglob('*'))
+    bridge=f.private/'bridge';bridge.mkdir()
+    cmd=m.docker_command(f.root,actor,bridge,json.loads(f.profile.read_text()),h,'CPU_MPL',source_runtime=manifest['source_runtime'])
+    assert 'PYTHONPATH=/workspace/lib:/deps' in cmd and 'MPLBACKEND=Agg' in cmd and cmd[-1]=='3.10'
+    assert any('dst=/deps,readonly' in v and '/deps/source' in v for v in cmd)
+    assert not any(str(f.receipt.parent) in v for v in cmd if 'type=bind' in v)
+
+
+@pytest.mark.parametrize('change',['target_unqualified','skip','missing','wrong_projection','native_change','target_in_source'])
+def test_matplotlib_source_rejects_incomplete_or_mixed_evidence(matplotlib_inputs,change):
+    f=matplotlib_inputs
+    if change=='wrong_projection': f.projection_sha='0'*64
+    elif change=='native_change':
+        (f.receipt.parent/f.source/'clean_base/lib/matplotlib/_native.so').write_bytes(b'changed')
+    elif change=='target_in_source':
+        p=f.receipt.parent/f.source/'task.txt';p.write_text('Future target #25352');x=json.loads(f.receipt.read_text())
+        x['cases'][f.source]['input_sha256']['task.txt']=m.sha(p)
+        f.reg['source_result']['sha256']=write_json(f.receipt,x);f.registry_sha=write_json(f.registry,f.reg)
+    else:
+        x=json.loads(f.receipt.read_text());target=x['cases']['matplotlib__matplotlib-25352']
+        if change=='target_unqualified':target['qualification']['qualified']=False
+        else:
+            group=target['arms']['gold_with_tests']['group'];node=target['labels']['ptp'][0]
+            if change=='skip':group['result']['tests'][node]='skipped'
+            else:group['result']['tests'].pop(node)
+        f.reg['source_result']['sha256']=write_json(f.receipt,x);f.registry_sha=write_json(f.registry,f.reg)
+    with pytest.raises(ValueError):prepare(f)
+    assert not f.root.exists()
+
+
+def test_matplotlib_native_overlay_stays_frozen_during_actor_edits(matplotlib_inputs):
+    f=matplotlib_inputs;digest=prepare(f)['manifest_sha256']
+    (f.root/'work/lib/matplotlib/_native.so').write_bytes(b'actor cannot replace native dependency')
+    with pytest.raises(ValueError,match='native'):m.verify(f.root,digest,initial=False)
+
+
+def test_matplotlib_candidate_scorer_uses_only_qualified_source_dependencies(tmp_path,monkeypatch):
+    labels=['lib/matplotlib/tests/test_cpu.py::test_f2p'];calls=[]
+    assets=dict(runtime='/CPU/python310',sites=dict(source='/CPU/source',target='/CPU/future'))
+    def command(work,nodes,runner,name,cid,given,slot):
+        assert given is assets and slot=='source' and nodes==labels
+        calls.append(slot);return ['CPU_ONLY_COMMAND']
+    def owned(cmd,name,cid,stdout,stderr,timeout):
+        assert cmd==['CPU_ONLY_COMMAND'];stdout.write_text(pool.MARKER+json.dumps(dict(tests={labels[0]:'passed'},fatal=[]))+'\n');stderr.write_bytes(b'')
+        return dict(exit=0,cleanup=dict(status='CPU_NO_CONTAINER'))
+    monkeypatch.setattr(m,'run_owned',owned)
+    h=SimpleNamespace(pool=SimpleNamespace(mem_available=lambda:8*1024**3,matplotlib_command=command,MARKER=pool.MARKER,classify=pool.classify))
+    record=m.scored_test(tmp_path,'matplotlib/matplotlib',labels,tmp_path/'runner.py',tmp_path,'f2p',h,matplotlib_assets=assets)
+    assert record['coverage']['complete'] is True and calls==['source']
+    with pytest.raises(ValueError,match='assets'):m.scored_test(tmp_path,'matplotlib/matplotlib',labels,tmp_path/'runner.py',tmp_path,'other',h)
+
+
+def test_matplotlib_rejects_edited_native_result_even_if_qualification_boolean_is_true(matplotlib_inputs):
+    f=matplotlib_inputs;case=f.cases[f.source];log=f.receipt.parent/f.source/'gold_with_tests.log'
+    log.write_text(pool.MARKER+json.dumps(dict(tests={},fatal=[]))+'\n')
+    with pytest.raises(ValueError,match='log'):prepare(f)
+    assert not f.root.exists()
+
+
 def test_prepare_has_zero_process_endpoint_and_verbatim_public_input(prepared_inputs, monkeypatch):
     f = prepared_inputs
     def forbidden(*_, **__): raise AssertionError('CPU prepare crossed execution boundary')

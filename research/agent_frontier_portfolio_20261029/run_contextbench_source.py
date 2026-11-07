@@ -47,6 +47,9 @@ SOURCES = {
     'sympy__sympy-21055': ('sympy/sympy', '748ce73479ee2cd5c861431091001cc18943c735', 'sympy__sympy-9384', 13,
         '3637be1d94932dfff7ad9af88c2d5a6ebef42a51a6464e2f56717abd04cda703'),
 }
+MPL_SOURCE_ID = 'matplotlib__matplotlib-25332'
+MPL_TARGET_ID = 'matplotlib__matplotlib-25352'
+MPL_SOURCE_RUNTIME = dict(python='3.10', pythonpath='/workspace/lib:/deps', backend='Agg')
 
 
 def tool_contract_policy():
@@ -76,7 +79,8 @@ def prepare_tool_contract(payload):
 
 # Explicit code-task guest. No generated runner, inherited world tool or host shell.
 GUEST = r'''import json,os,pathlib,select,socket,subprocess,sys,threading
-assert sys.version_info[:2]==(3,8) and os.getuid()==int(sys.argv[2]) and os.getuid()!=0
+expected_python=tuple(map(int,sys.argv[3].split('.'))) if len(sys.argv)>3 else (3,8)
+assert expected_python in ((3,8),(3,10)) and sys.version_info[:2]==expected_python and os.getuid()==int(sys.argv[2]) and os.getuid()!=0
 assert os.environ['HOME']=='/home/agent' and os.access('/workspace',os.W_OK)
 assert not pathlib.Path('/home/testuser/wzh/research_evidence').exists()
 def proxy(client):
@@ -178,6 +182,13 @@ def profile_input(path, digest, h):
 
 
 def projection_input(path, digest, source, h):
+    if source == MPL_SOURCE_ID:
+        actor = h.deps.verify_projection(safe(path), digest)
+        manifest = read_ref(dict(path=str(Path(path) / 'manifest.json'), sha256=digest))
+        if (manifest['python'], manifest['blocked_packages'], manifest['site_names']) != ('3.10', ['matplotlib', 'mpl_toolkits'], ['source', 'target']):
+            raise ValueError('Matplotlib projection differs from qualified source')
+        # The actor sees only its source dependency slot, never the target slot.
+        return {**actor, 'sites': {'default': actor['sites']['source']}}
     repo, _, _, _, expected = SOURCES[source]
     if digest != expected: raise ValueError('unapproved dependency projection')
     actor = h.deps.verify_projection(safe(path), digest)
@@ -191,7 +202,59 @@ def projection_input(path, digest, source, h):
     return actor
 
 
+def matplotlib_source_input(registry, digest):
+    reg = read_ref(dict(path=str(registry), sha256=digest))
+    if (set(reg) != {'schema', 'source_result', 'qualification_contract', 'actor_projection', 'rows'}
+            or reg['schema'] != 'qualified_matplotlib_source_v1'):
+        raise ValueError('unapproved Matplotlib source registry')
+    result = read_ref(reg['source_result']); contract = read_ref(reg['qualification_contract'])
+    if (result.get('status') != 'QUALIFIED' or result.get('model_calls') != 0
+            or result.get('training') != 0 or result.get('unrun_groups')
+            or set(result.get('cases', {})) != {MPL_SOURCE_ID, MPL_TARGET_ID}
+            or result.get('input_sha256', {}).get(reg['qualification_contract']['path']) != reg['qualification_contract']['sha256']):
+        raise ValueError('incomplete Matplotlib pair qualification')
+    h = helpers()
+    for identity, base, role, count in [
+        (MPL_SOURCE_ID, '66ba515e671638971bd11a34cff12c107a437e0b', 'source', 181),
+        (MPL_TARGET_ID, '3742e7e8385e70072fb2521a411a25dd69d22dbf', 'target', 60),
+    ]:
+        case = result['cases'][identity]; spec = case['spec']; labels = case['labels']
+        if (spec['instance_id'], spec['repo'], spec['base_commit'], spec['role']) != (identity, 'matplotlib/matplotlib', base, role):
+            raise ValueError('Matplotlib qualification identity differs')
+        if set(labels) != {'f2p', 'ptp'} or (len(labels['f2p']), len(labels['ptp'])) != (1, count):
+            raise ValueError('Matplotlib source/target label counts differ')
+        flat = labels['f2p'] + labels['ptp']
+        if len(set(flat)) != len(flat) or any(not n.startswith('lib/matplotlib/tests/') for n in flat):
+            raise ValueError('Matplotlib executable label identity differs')
+        groups = [case['arms'][arm]['group'] for arm in ('base_with_tests', 'gold_with_tests')]
+        computed = h.pool.matplotlib_qualification(*groups, labels)
+        if case['qualification'] != computed or computed['qualified'] is not True:
+            raise ValueError('Matplotlib native source/target controls incomplete')
+        parent = safe(reg['source_result']['path']).parent / identity
+        for arm, group in zip(('base_with_tests', 'gold_with_tests'), groups):
+            log = safe(parent / (arm + '.log'))
+            markers = [line[len(h.pool.MARKER):] for line in log.read_text().splitlines() if line.startswith(h.pool.MARKER)]
+            if sha(log) != group['log_sha256'] or len(markers) != 1 or json.loads(markers[0]) != group['result']:
+                raise ValueError('Matplotlib native qualification log changed')
+    rows = reg['rows']
+    if (len(rows) != 1 or set(rows[0]) != {'source', 'target', 'clean_base'}
+            or (rows[0]['source'], rows[0]['target']) != (MPL_SOURCE_ID, MPL_TARGET_ID)):
+        raise ValueError('Matplotlib source/target registry row differs')
+    case = result['cases'][MPL_SOURCE_ID]
+    parent = safe(reg['source_result']['path']).parent / MPL_SOURCE_ID
+    if safe(rows[0]['clean_base']) != parent / 'clean_base' or tree(parent / 'clean_base') != case['clean_base_sha256']:
+        raise ValueError('Matplotlib clean source changed')
+    for name in ('task.txt', 'test.patch'):
+        if sha(safe(parent / name)) != case['input_sha256'][name]:
+            raise ValueError('Matplotlib public source input changed')
+    text = (parent / 'task.txt').read_text()
+    if any(marker in text for marker in (MPL_TARGET_ID, '/pull/25352', '/issues/25352', '#25352')):
+        raise ValueError('target identity in Matplotlib source task')
+    return reg, case, parent
+
+
 def source_input(registry, digest, source):
+    if source == MPL_SOURCE_ID: return matplotlib_source_input(registry, digest)
     if source not in SOURCES or digest != REGISTRY_SHA: raise ValueError('unapproved source/registry')
     reg = read_ref(dict(path=str(registry), sha256=digest))
     if reg['schema'] != 'qualified_source_target_pairs_v1' or reg['source_result']['sha256'] != RESULT_SHA:
@@ -220,6 +283,12 @@ def source_input(registry, digest, source):
 
 
 def scoring_dependencies(registry, h):
+    if registry['schema'] == 'qualified_matplotlib_source_v1':
+        contract = read_ref(registry['qualification_contract']); bindings = {}
+        if contract['runtime']['projection'] != dict(path=str(Path(registry['actor_projection']['path']) / 'manifest.json'), sha256=registry['actor_projection']['sha256']):
+            raise ValueError('Matplotlib actor/scorer projection differs')
+        h.pool.matplotlib_assets(contract['runtime'], bindings)
+        return dict(bindings=bindings, limits='Exact qualified Python3.10 projection and native overlay', matplotlib_runtime=contract['runtime'])
     result = read_ref(registry['source_result'])
     contracts = [(p, digest) for p, digest in result['input_sha256'].items() if Path(p).name == 'SOURCE_CONTRACT_V1.json']
     if len(contracts) != 1: raise ValueError('qualified source contract missing')
@@ -231,6 +300,8 @@ def scoring_dependencies(registry, h):
 
 def prepare(registry, registry_sha, source, root, projection, projection_sha, profile, profile_sha):
     h = helpers(); reg, case, parent = source_input(registry, registry_sha, source)
+    if source == MPL_SOURCE_ID and reg['actor_projection'] != dict(path=str(projection), sha256=projection_sha):
+        raise ValueError('Matplotlib actor projection differs from registry')
     scorer = scoring_dependencies(reg, h)
     p = profile_input(profile, profile_sha, h); actor = projection_input(projection, projection_sha, source, h)
     root = safe(root)
@@ -245,7 +316,8 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
     inputs = root / 'inputs'; inputs.mkdir(); (root / 'scoring').mkdir()
     shutil.copyfile(parent / 'task.txt', inputs / 'source_task.txt')
     public = (inputs / 'source_task.txt').read_bytes().decode('utf8')
-    (inputs / 'task.txt').write_text('Implement the requested source change in /workspace and run relevant tests. Python 3.8 and dependencies are offline. Do not ask for permission to continue. The task below is reproduced verbatim.\n\n' + public)
+    version = '3.10' if source == MPL_SOURCE_ID else '3.8'
+    (inputs / 'task.txt').write_text('Implement the requested source change in /workspace and run relevant tests. Python ' + version + ' and dependencies are offline. Do not ask for permission to continue. The task below is reproduced verbatim.\n\n' + public)
     shutil.copyfile(parent / 'test.patch', root / 'scoring/test.patch')
     (inputs / 'guest.py').write_text(GUEST)
     new(inputs / 'opencode.json', h.actor.config(p, 17))
@@ -260,6 +332,9 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
         boundary='source clean/task only; scorer/test_patch/registry/targets/gold never actor mounts',
         dependency_limit='qualification used legacy conda libraries not wholly frozen; actor projection bytes frozen separately',
         status='CPU_PREPARED', models_called=0, container_runs=0)
+    if source == MPL_SOURCE_ID:
+        manifest['source_runtime'] = MPL_SOURCE_RUNTIME
+        manifest['native_overlay'] = case['native_overlay']
     new(root / 'manifest.json', manifest)
     return dict(status='CPU_PREPARED', root=str(root), manifest_sha256=sha(root / 'manifest.json'))
 
@@ -271,6 +346,13 @@ def verify(root, digest, *, initial=True):
     reg, case, _ = source_input(m['registry']['path'], m['registry']['sha256'], m['source'])
     if m['source_result'] != reg['source_result'] or (m['repo'], m['base'], m['labels']) != (case['spec']['repo'], case['spec']['base_commit'], case['labels']):
         raise ValueError('manifest source differs')
+    if m['source'] == MPL_SOURCE_ID:
+        if (reg['actor_projection'] != m['projection'] or m.get('source_runtime') != MPL_SOURCE_RUNTIME
+                or m.get('native_overlay') != case['native_overlay']):
+            raise ValueError('Matplotlib source runtime differs')
+        for rel, expected in m['native_overlay'].items():
+            if sha(safe(root / 'work/lib/matplotlib' / rel)) != expected:
+                raise ValueError('actor changed frozen native dependency')
     if scoring_dependencies(reg, h) != m['scorer_dependencies']: raise ValueError('scorer dependencies changed')
     actor = projection_input(m['projection']['path'], m['projection']['sha256'], m['source'], h)
     p = profile_input(m['profile']['path'], m['profile']['sha256'], h)
@@ -408,7 +490,8 @@ class Relay:
             byte_scope='budget: serialized request bodies plus downstream response HTTP headers and dechunked bodies; raw provider bodies preserved separately')
 
 
-def docker_command(root, actor, bridge, profile, h, name):
+def docker_command(root, actor, bridge, profile, h, name, *, source_runtime=None):
+    if source_runtime not in (None, MPL_SOURCE_RUNTIME): raise ValueError('unapproved source runtime')
     root, bridge = safe(root), safe(bridge)
     mounts = [(root / 'work', '/workspace', False), (root / 'inputs', '/inputs', True),
         (Path(actor['runtime']), '/extra', True), (Path(actor['sites']['default']), '/deps', True),
@@ -424,9 +507,12 @@ def docker_command(root, actor, bridge, profile, h, name):
     env = dict(HOME='/home/agent', OPENCODE_CONFIG='/inputs/opencode.json', OPENCODE_DISABLE_MODELS_FETCH='1',
         PYTHONPATH='/deps', PATH='/extra/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         PYTHONDONTWRITEBYTECODE='1', PYTEST_DISABLE_PLUGIN_AUTOLOAD='1', HYPOTHESIS_STORAGE_DIRECTORY='/tmp/hypothesis')
+    if source_runtime is not None:
+        env.update(PYTHONPATH=source_runtime['pythonpath'], MPLBACKEND=source_runtime['backend'], MPLCONFIGDIR='/tmp/mpl')
     for key, value in env.items(): cmd += ['-e', key + '=' + value]
     for (src, dst, readonly), path in zip(mounts, paths): cmd += ['--mount', f'type=bind,src={path},dst={dst}' + (',readonly' if readonly else '')]
-    return cmd + ['--entrypoint', '/extra/bin/python', h.pool.IMAGE, '/inputs/guest.py', 'gb10/' + profile['model_id'], str(os.getuid())]
+    return cmd + ['--entrypoint', '/extra/bin/python', h.pool.IMAGE, '/inputs/guest.py', 'gb10/' + profile['model_id'], str(os.getuid()),
+        source_runtime['python'] if source_runtime else '3.8']
 
 
 def stop_owned(cidfile, name):
@@ -464,12 +550,17 @@ def run_owned(cmd, name, cidfile, stdout, stderr, timeout):
     return result
 
 
-def scored_test(work, repo, labels, runner, output, suite, h):
+def scored_test(work, repo, labels, runner, output, suite, h, *, matplotlib_assets=None):
     available = h.pool.mem_available()
     if available < 4 * 1024**3: return dict(status='DEFERRED', MemAvailable=available)
     name = 'cb-source-score-' + str(os.getpid()) + '-' + str(time.monotonic_ns())
-    cid = output / (suite + '.cid'); cmd = h.pool.command(work, repo, labels, runner, name)
-    cmd[2:2] = ['--cidfile', str(cid)]
+    cid = output / (suite + '.cid')
+    if repo == 'matplotlib/matplotlib':
+        if matplotlib_assets is None: raise ValueError('qualified Matplotlib scorer assets required')
+        cmd = h.pool.matplotlib_command(work, labels, runner, name, cid, matplotlib_assets, 'source')
+    else:
+        cmd = h.pool.command(work, repo, labels, runner, name)
+        cmd[2:2] = ['--cidfile', str(cid)]
     new(output / (suite + '.command.json'), dict(argv=cmd, name=name, timeout_seconds=240))
     log, errors = output / (suite + '.log'), output / (suite + '.stderr')
     started = time.monotonic(); record = run_owned(cmd, name, cid, log, errors, 240)
@@ -506,8 +597,14 @@ def score(root, manifest, h):
     if applied['apply_exit'] != 0: return dict(passed=False, status='TEST_PATCH_FAILED', patch=applied)
     runner = output / 'qualifier.py'; runner.write_text(h.pool.RUNNER)
     result = dict(status='EVALUATED', runner_sha256=sha(runner), suites={})
+    assets = None
+    if manifest['repo'] == 'matplotlib/matplotlib':
+        assets = h.pool.matplotlib_assets(manifest['scorer_dependencies']['matplotlib_runtime'], {})
     for suite in ('f2p', 'ptp'):
-        r = scored_test(candidate, manifest['repo'], manifest['labels'][suite], runner, output, suite, h)
+        if assets is None:
+            r = scored_test(candidate, manifest['repo'], manifest['labels'][suite], runner, output, suite, h)
+        else:
+            r = scored_test(candidate, manifest['repo'], manifest['labels'][suite], runner, output, suite, h, matplotlib_assets=assets)
         result['suites'][suite] = r
         if r.get('status') == 'DEFERRED' or r.get('error') or r.get('cleanup_error'): break
     result['passed'] = len(result['suites']) == 2 and all(not r.get('error') and not r.get('cleanup_error') and r.get('exit') == 0 and r.get('coverage', {}).get('complete') is True and all(s == 'passed' for s in r['coverage']['labels'].values()) for r in result['suites'].values())
@@ -565,7 +662,7 @@ def execute(root, digest, registry, registry_sha, source):
                 def handle(self): relay.handle(self.request)
             server = Server(str(bridge / 's'), Handler); os.chmod(bridge / 's', 0o600)
             thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
-            cmd = docker_command(root, actor, bridge, profile, h, name); new(root / 'actor_command.json', cmd)
+            cmd = docker_command(root, actor, bridge, profile, h, name, source_runtime=m.get('source_runtime')); new(root / 'actor_command.json', cmd)
             result['actor'] = run_owned(cmd, name, root / 'container.cid', root / 'raw.jsonl', root / 'actor.stderr', CAPS['seconds'])
             fault = result['actor'].get('error')
             status = ('INTERRUPTED' if fault['type'] in ('KeyboardInterrupt', 'InterruptedError') else 'RUNTIME_ERROR') if fault else 'ACTOR_RETURNED'
@@ -607,7 +704,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__); mode = p.add_mutually_exclusive_group(required=True)
     mode.add_argument('--prepare', action='store_true'); mode.add_argument('--execute', action='store_true')
     p.add_argument('--registry', type=Path, required=True); p.add_argument('--registry-sha', required=True)
-    p.add_argument('--source', choices=SOURCES, required=True); p.add_argument('--root', type=Path, required=True)
+    p.add_argument('--source', choices=(*SOURCES, MPL_SOURCE_ID), required=True); p.add_argument('--root', type=Path, required=True)
     for key in ('projection', 'profile'): p.add_argument('--' + key, type=Path); p.add_argument('--' + key + '-sha')
     p.add_argument('--manifest-sha'); args = p.parse_args(argv)
     if args.prepare:

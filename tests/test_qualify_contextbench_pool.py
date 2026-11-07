@@ -356,6 +356,15 @@ class MatplotlibPairTests(unittest.TestCase):
                     for e in spec['label_map']['ptp']:e['node']=e['node'].replace('::','::TestPublic::',1)
             result=r.load_contract(f.path,write(f.path,f.c),f.output);self.assertEqual(result['caps']['seconds'],900)
             self.assertEqual(result['mapping_counts'],{'matplotlib__matplotlib-25332':0,'matplotlib__matplotlib-25352':60})
+            third=reference(f.root/'run3.json',dict(status='ERROR',container_runs=3,seconds=.2))
+            f.c['mapping_origin']['prior_runs'].append(third)
+            result=r.load_contract(f.path,write(f.path,f.c),f.output)
+            self.assertEqual(sum(x['container_runs'] for x in result['prior_controls']),7)
+            for duplicate in ('same_path','same_bytes_other_path'):
+                invalid=copy.deepcopy(f.c)
+                invalid['mapping_origin']['prior_runs'][2]=(invalid['mapping_origin']['prior_runs'][1] if duplicate=='same_path' else reference(f.root/'copied_run2.json',dict(status='ERROR',container_runs=3,seconds=.1)))
+                with self.subTest(duplicate=duplicate),self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,invalid),f.output)
+
             c=copy.deepcopy(f.c);c['cases'][1]['label_map']['ptp'][0]['node']=c['cases'][1]['label_map']['ptp'][0]['published']
             with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,c),f.output)
             path=Path(f.c['cases'][1]['node_source']['path']);path.write_text('def only_unrelated(): pass\n')
