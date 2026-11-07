@@ -73,6 +73,8 @@ R短历史的primary4/12全来自look，不能把整体7/16解释为普遍学会
 
 末臂实际935POST；input8,864,262、cached子集7,875,435、noncached988,827、output40,679、total8,904,941tokens；928 tool_calls、7 stop、0 length，800接受动作，episode墙时4,298.28秒。D决定先补F full和All7 full两臂32个事后开发回合，保持当前提示表示与控制器语义，补齐同窗口强基线；旧F full的控制器不同。其结果出来前不增训练，不将Rfull对短窗口对照的优势写成方法成立。
 
+**O/R动作尸检（事后）。** 全部7个full分歧中，R独胜6、O独胜1；其中primary为3对1，clean为3对0。实际公开动作显示若干O失败包含重复移动/查看或未执行清洗，R对应运行到达原生成功；heat_02则相反。此为结果选取后的行为描述，不证明反馈的独立因果作用，也不是无偏效率样本。`ORDINARY_RECOVERY_ACTION_AUTOPSY_V1.json` SHA `f64ad806a42a6324f70876bfa3f660f183a298c34e23e59b8fe085b5a3e627c3`绑定原结果及14条世界日志/回执，共29项；新增模型0。它支持继续排除完整历史强基线，而非追加同7来源训练。
+
 <a id="full-baseline-extension"></a>
 
 ## 完整历史强基线延伸（2026-11-08）

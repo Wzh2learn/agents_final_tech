@@ -56,7 +56,7 @@
 
 报告保留两项byte差：每题wire计数比原SSE body多6,720bytes。冻结relay明确wire另计HTTP响应头，body文件不含头；单位不同，不据此判断token丢失或超帽。动态头原文未归档，未声称独立重建每字节。两源闭合私有包349成员/2,068,583bytes已双端核验，SHA `3d3ac3fa60fcc0ac078204f96113e43397863a0aa67eb6e2e7d44e6399c2de63`，本机check SHA `973a88f07660ea1d4efdf6b7cf2091d22090b9942b6bd861007b9c05514c8d8a`；尸检报告随后单独镜像，不重打原包。
 
-[追加前缀加载器](../alfworld_recovery_source.py)显式绑定旧protocol/cohort/manifest/receipt/world哈希并分开新旧额度，联合聚焦38 tests/19 subtests通过。现已对8个合格失败前缀实际重放：322个接受动作及全部公开reset/逐步状态均相等，8个owned world均关闭，模型/训练0、环境段墙时合计23.35秒。5个heat/cool/look为主比较，3个clean作诊断；7成功与1零动作来源被拒绝。`additional_recovery_v1/NATIVE_REPLAY_RUN_V1/RESULT.json` SHA `32b93d6d436d973d9e2e7ed53d9db6e6d444aefe581589dfe3d9f5fcb8c2577f`；来源协议SHA `466815d7b75026d3605f88e3504a4c54502792878dd13b90e4697e3b57a567d4`。接受动作不保证有用进度；公开重放不证明全部隐藏状态等价。当前prepare未接入、未做学习恢复比较，不改在途96回合组件。8个来源原本都是无经验ordinary_reset失败，不能改称旧skill失效现场。其完整/近期3步的单user提示实测为1,014–5,027 / 681–1,238 HF tokens（不含OpenCode额外输入）；`PROMPT_LENGTH_V1.json` SHA `72ae67c334ddf23a7dc8afd8a46cd6534b34558f134472acdbe6ea37bf72b8b5`，仅CPU计数。下一恢复阶段另给32 POST/600秒，world总100步、各现场尚余27–92步；旧形成费只计一次，不按每臂重收。
+[追加前缀加载器](../alfworld_recovery_source.py)显式绑定旧protocol/cohort/manifest/receipt/world哈希并分开新旧额度，联合聚焦38 tests/19 subtests通过。现已对8个合格失败前缀实际重放：322个接受动作及全部公开reset/逐步状态均相等，8个owned world均关闭，模型/训练0、环境段墙时合计23.35秒。5个heat/cool/look为主比较，3个clean作诊断；7成功与1零动作来源被拒绝。`additional_recovery_v1/NATIVE_REPLAY_RUN_V1/RESULT.json` SHA `32b93d6d436d973d9e2e7ed53d9db6e6d444aefe581589dfe3d9f5fcb8c2577f`；来源协议SHA `466815d7b75026d3605f88e3504a4c54502792878dd13b90e4697e3b57a567d4`。接受动作不保证有用进度；公开重放不证明全部隐藏状态等价。当时prepare尚未接入、未做学习恢复比较，未改在途96回合组件；后续隔离接入状态见下文。8个来源原本都是无经验ordinary_reset失败，不能改称旧skill失效现场。其完整/近期3步的单user提示实测为1,014–5,027 / 681–1,238 HF tokens（不含OpenCode额外输入）；`PROMPT_LENGTH_V1.json` SHA `72ae67c334ddf23a7dc8afd8a46cd6534b34558f134472acdbe6ea37bf72b8b5`，仅CPU计数。下一恢复阶段另给32 POST/600秒，world总100步、各现场尚余27–92步；旧形成费只计一次，不按每臂重收。
 
 ## 下一批：六组而非重复训练
 
@@ -73,7 +73,11 @@
 
 完整历史R相对O主比较增2/12，95%描述区间[-8.33,+41.67]pp；短历史R/O/All7均4/12。交互为-16.67pp，区间[-41.67,+8.33]pp，尚未分离稳定学习增量或历史交互。R短历史7个成功均在R完整历史11个成功内，后者POST、总输入及noncached均更低；不据此训练选择器。All7仅测last3，仍缺匹配的full普通历史，不能把Rfull对All7short当同窗口优势。冻结六对与成本见[全批闭合](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#all96-results)；27B直接执行14/16及形成/训练费继续作参照，独立代码来源采集已接续。
 
-**完整历史32条已启动。** 两臂F full与All7 full，同父模型、16暴露任务、完整历史/终态控制与额度；既有F full控制器不同，因此补同设置基线。保持原始提示序列化，属事后开发，不改旧96合同。私有`full_baseline_extension_v1/RUN_V1`由PID1301996/start_ticks1081148502持有，launch SHA `acb2f1e1a6a5efed2dff7be1816a4e6e60a77842797f018f2970501d45b9187a`；已见首条`case_start`，尚无闭合结果。四个预定对比、C限定PASS、计划/源码hash见[完整合同](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#full-baseline-extension)。结果出来前不增训练或选择器；然后以现有权重在8个旧失败现场按共同新增32POST/600秒比较恢复，旧形成费只计一次，不将条件失败池当新来源确认。
+**完整历史32条运行中。** 两臂F full与All7 full，同父模型、16暴露任务、完整历史/终态控制与额度；既有F full控制器不同，因此补同设置基线。保持原始提示序列化，属事后开发，不改旧96合同。私有`full_baseline_extension_v1/RUN_V1`由PID1301996/start_ticks1081148502持有，launch SHA `acb2f1e1a6a5efed2dff7be1816a4e6e60a77842797f018f2970501d45b9187a`；已核F full16条闭合，All7 full仍在途，尚无全批结果。四个预定对比、C限定PASS、计划/源码hash见[完整合同](ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#full-baseline-extension)。结果出来前不增训练或选择器。
+
+**保留现场四臂已备，尚未部署。** 隔离分支`research/preserved-recovery-controls-20261108`/`69bf6b00`只改既有study/controller及测试，未新增runner。冻结8个旧失败现场，F/O/R均完整公开前缀、无额外经验；Frozen All7另给同7普通教师轨迹。共32条、独立上限1,024POST，各32POST/600秒/64M，world总100、按现场剩27–92步；primary5、clean3、整体8。98 tests/368 subtests及实际计划CPU检查通过，无新增world/模型。C限定条件通过（SHA `8acd4d55b3d9264f338d1cb39dd72c7770220339f0a73481c1a9d79866057bf3`）；继承的旧数量文字已改为V2并复验，代码/案例/分析/预算不变。私有`additional_recovery_v1/RECOVERY_PLAN_V2.json` SHA `64cd1bd4d6ae29ec3e1660b04de8f35c21610cfe52f965e36b40cef8b85d4984`；发布须先收齐当前32结果及代码快照，再绑定最新恢复身份。主树仍用旧代码；研究分支三端同69bf6b00。
+
+八个ALF来源回执唯一去重：旧614POST、input9,250,602（cache子集9,105,499、noncached145,103）、output26,614、total9,277,216tokens，全部已计在原frozen16账，不能再次或按四臂重复追加。`RECOVERY_SOURCE_COST_V1.json` SHA `fc07268eb016af5bf5022839da5113710f3878174724aa9c0edc693ca4313364`。接入源码/协议/审阅/日志27成员薄包双端核验，SHA `4dc1f08fda481a639a02b2699b3ff1ad68535799e0e91e098f8e72f3d430e3c4`。这是旧失败条件池的恢复诊断，不是新任务确认或旧skill失效实验。
 
 <a id="两项改变下一步的发现"></a>
 ## 机制线索与下一阶段准备
