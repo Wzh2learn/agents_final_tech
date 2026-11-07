@@ -86,6 +86,12 @@
 
 **闭合短历史轨迹尸检。** 本机读取已核验包中16份world日志：979个接受动作，13个失败中9个至少2/3观察再次出现；全16条均无相邻同动作重复。观察键仅含observation/score/won及排序后的合法动作，排除计步/done；重复公开观察不证明隐藏状态相同或动作无用。clean_01在look/examine之间交替，cool_01反复往返fridge/diningtable，说明只查连续同动作会漏掉本批循环。私有`evidence_packets_20261106/frozen_short_trajectory_autopsy_v1.json` SHA `419b47505b0269573239b6b67862f1887c785d460554d4b351da3600697fb3fb`。这是下一恢复触发器的开发线索，不把它当截短的独立因果证明，不改在途臂。
 
+**公开反馈触发器的开发回放。** 再核旧五臂80条及新frozen_last3 16条闭合轨迹（仍只有同16个任务/布局簇）：最近12次公开观察（含初始reset）中同一观察出现3次，覆盖23/56个最终失败、0/40个最终成功；连续3次同动作只覆盖1/56、0/40。固定第12步报警覆盖43/56失败，也在12/40个最终成功的原轨迹上报警。旧O/R完整历史中该循环信号分别出现于4/9和0/6个失败；R的6条失败仍有34–70步，包含持续搜索与错误处理操作，不能用“没有近期循环”替代成功。私有`public_feedback_signal_replay_v1.json` SHA `06f9cfd3e003a05553c6d5728422719e7c8c1da08141581b99d22d6ad2a25a64`。信号只用观察文本与排序合法动作，不读取隐藏state/gold；这是已暴露数据上的事后报警描述，未执行干预、未证明恢复效用，且不以这些EVAL_ONLY输出训练。它支持下一轮保留循环触发、固定步数与语义反馈三类简单对照，不把96条当96独立任务。
+
+**六组分析入口已静态验收。** 复用[现有分析器](../summarize_alfworld_learning.py)新增显式runtime模式，不新建日期runner；冻结`1dd75aa8`仅改分析器/测试，GB10实跑57 tests通过。原C复核六方向、任务内交互、六臂共同抽样和未知cache，限定PASS；私有`SUMMARIZER_C_SCOPED_REVIEW_V1.json`记录其范围。D另用真实已闭合frozen_last3的16行重核新native见证及9,284个绑定，0差异，check SHA `a5f66037be4df9ad67a2dbb33b3904b33feb943a4102514d3e2046d74b1f42a1`。全96仍无终态RESULT，不生成真实总表；待完整批次、还原及成本闭合才出六对和交互描述区间。旧API保持，形成/训练费与本轮评测分账。审阅与触发器回放薄包3成员已双端核验，SHA `1a7b248f3a50cc1337f8038ffe881214fd3ce89936047095e414c8b3a7348a6a`。
+
+**后续独立来源容量。** 对同两份已绑定官方ALF档案只查2233条四类任务元数据，不打开expert轨迹/新环境：已选布局并集44个，train尚余287题/33布局，但只有clean/look，heat/cool新布局为0；valid_unseen尚余93题，却仅FloorPlan10/308/424三组。因而本地快照不能再按四类各3个新布局扩成12个独立组；未见题目与未见布局必须分列，不能把93题当93独立房间。`learning_comparison_v1/NEXT_SOURCE_CAPACITY_V1.json` SHA `0e811b31062fdc59cc4f6345214a30c408b7092ae5298565eba93db2bf75d5e8`。先完成当前实际比较与两code来源，再以自然代码项目扩样；若复用已见ALF布局，须明确改为task-family迁移问题。现有代码元数据21对覆盖6项目；另核399条source/target的标准化问题与repo/base/patch/test身份，未发现原20个已声明ID的同问题别名命中或完整重复组，全部20ID均可核；这不认证全项目未曝光。`code_source_expansion_v1/METADATA_IDENTITY_AUDIT_V1.json` SHA `29a710f50f860382bec467aab8297ee2d964cebf557e6ce99a5d201fd9ea0783`。两份元数据JSON已镜像，0模型/环境/训练。
+
 ## 方法重叠与下一验证
 
 Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配提取知识，STeP已有教师纠正与partial masking；ACE/AgentFold/DGRR等也覆盖局部更新、折叠及依赖撤回。原文方法核对与其余近邻完整保留于[按需精读](ALFWORLD_CONTEXT_STUDY.md#mechanism-reading)。当前SFT是监督来源/能力对照，不是上述方法的新名字；独立贡献仍待实际比较。另核[Memento](https://arxiv.org/html/2611.00244v1)已有学习笔记/上下文重建，[SkillApt](https://arxiv.org/html/2609.26863v1)的一般形式已有状态、模型与成本条件效用；STeP混合普通/纠正监督，当前纯O/R小LoRA不是其复现。不能仅因某公开实现较窄而声称状态选择或混合纠正为新机制。
