@@ -554,6 +554,56 @@ class ContextPersistedSessionTests(unittest.TestCase):
             self.assertEqual(json.loads((root/'reservation.json').read_text())['runtime_controls'],controls)
 
 
+    def test_top_level_raw_errors_block_retry_but_tool_feedback_does_not(self):
+        """Mock every execution surface; exercise the actual two-round controller."""
+        actual=r.recovery();guest=actual.actor().GUEST;bridge=actual.bridge()
+        sid='ses_ValidOriginal1'
+        normal=[{'type':'step_finish','sessionID':sid}]
+        tool_error=[{'type':'tool_use','sessionID':sid,'part':{'state':{'status':'error','error':'ordinary failed tool feedback'}}}]+normal
+        unknown=normal+[{'type':'error','sessionID':sid,'error':{'name':'UnknownError','data':{'message':'CPU opaque error'}}}]
+        api=normal+[{'type':'error','sessionID':sid,'error':{'name':'APIError','data':{'statusCode':403,'message':'Forbidden'}}}]
+        scenarios=[(unknown,0,False,1),(normal,0,False,2),(tool_error,0,False,2),
+                   (normal,0,True,1),(normal,1,False,1),(normal,137,False,1),(api,0,False,1)]
+        class Relay:
+            def __init__(self,*a,**k):
+                self.budget=SimpleNamespace(posts=0,request_bytes=0,response_bytes=0)
+                self.forwarded=0;self.errors=[];self.delivery=None;self.controller_stops=[];self.terminal_witness=None
+            def begin_close(self):pass
+            def close(self):pass
+        def write(path,value):
+            path.parent.mkdir(parents=True,exist_ok=True)
+            with path.open('x') as f:json.dump(value,f)
+        for rows,code,terminal,expected in scenarios:
+            with self.subTest(raw_type=rows[-1]['type'],exit=code,terminal=terminal),tempfile.TemporaryDirectory() as tmp:
+                qual=Path(tmp).resolve();root=qual/'context_study_v1/cases/CPU_CASE/collect_none/student8b/attempt_v1';root.mkdir(parents=True)
+                reset=public_state(0,'Your task is to: clean an object.');final=dict(public_state(1,'CPU public progress'),done=terminal)
+                write(root/'initial_reset.json',reset);write(root/'handoff_public.json',reset);write(root/'opencode_config.json',{})
+                (root/'task.txt').write_text('CPU frozen task');launches=[]
+                m=dict(case_id='CPU_CASE',stage='collect_none',backend='student8b',world_seed=17,model_seed=17,
+                    caps=dict(posts=20,seconds=120,world_actions=100,model_payload_bytes_combined=10000),sampling={},source_binding=None)
+                study=dict(pool_path='CPU_POOL',pool_sha256='CPU_SHA');profile=dict(host='CPU_NOT_CONNECTED',port=1)
+                core=SimpleNamespace(GUEST=guest,ModelRelay=Relay,write_new=write,socket_directory=lambda *_:qual/'CPU_MODEL',
+                    docker_command=lambda *_:['CPU_ACTOR'],stop_world=mock.Mock(),cleanup_directory=mock.Mock())
+                pool=SimpleNamespace(start_world=mock.Mock(return_value=((object(),qual/'CPU_WORLD'),reset,{})))
+                def process(argv,**kw):
+                    if argv==['CPU_ACTOR']:
+                        launches.append(argv);kw['stdout'].write((''.join(json.dumps(z)+'\n' for z in rows)).encode())
+                        return subprocess.CompletedProcess(argv,code)
+                    self.assertEqual(argv[:3],['docker','rm','-f']);return subprocess.CompletedProcess(argv,0)
+                with mock.patch.object(r,'QUAL',qual),mock.patch.object(r,'recovery',return_value=SimpleNamespace(actor=lambda:core,bridge=lambda:bridge)), \
+                        mock.patch.object(r,'task_pool',return_value=pool),mock.patch.object(r,'verify',return_value=(m,study,profile,None,mock.Mock())), \
+                        mock.patch.object(r,'final_state',return_value=final),mock.patch.object(r.subprocess,'run',side_effect=process), \
+                        mock.patch('socket.create_connection',side_effect=AssertionError('no endpoint')):
+                    result=r.run_episode(root,'CPU_FROZEN_SHA',fake_endpoint=('CPU_NOT_CONNECTED',1))
+                self.assertEqual(len(launches),expected)
+                self.assertEqual((root/'ordinary_continuation.json').exists(),expected==2)
+                self.assertEqual(r.session_id(root/'raw_1.jsonl'),sid)
+                if rows[-1]['type']=='error':
+                    self.assertEqual(result['rounds'][0]['raw_top_level_error_count'],1)
+                    self.assertEqual((root/'raw_1.jsonl').read_text(),''.join(json.dumps(z)+'\n' for z in rows))
+                else:self.assertNotIn('raw_top_level_error_count',result['rounds'][0])
+
+
 class ContextNamespaceTests(unittest.TestCase):
     def test_only_canonical_case_arm_backend_attempt_names_are_allowed(self):
         with tempfile.TemporaryDirectory() as tmp, mock.patch.object(r, "QUAL", Path(tmp).resolve()):

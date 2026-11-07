@@ -1060,7 +1060,10 @@ def run_episode(root, digest, *, fake_endpoint=None):
             state = final_state(root)
             rounds.append({'round':round_index,'exit':done.returncode,'raw_sha256':sha(raw),'state':state,
                            'model_posts_cumulative':relay.budget.posts,'actor_elapsed':time.monotonic()-actor_started})
-            if round_index==2 or not one_continue_eligible(done.returncode,state,relay.budget.posts,m['caps']['posts'],
+            raw_error_count = sum(json.loads(line).get('type') == 'error' for line in raw.read_bytes().splitlines())
+            if raw_error_count:
+                rounds[-1]['raw_top_level_error_count'] = raw_error_count
+            if round_index==2 or raw_error_count or not one_continue_eligible(done.returncode,state,relay.budget.posts,m['caps']['posts'],
                             time.monotonic()-actor_started,m['caps']['seconds'],relay.errors):
                 break
             sid = session_id(raw)
