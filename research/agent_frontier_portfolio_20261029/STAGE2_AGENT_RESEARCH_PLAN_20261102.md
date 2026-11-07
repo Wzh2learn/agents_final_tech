@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[纠正学习](results/ALFWORLD_CORRECTION_DATA.md)：8现场四臂已闭合，primary各0/5；R与固定All7仅同一clean题成功。停止扩同7来源恢复配方，保留旧reset开发信号，转向独立任务/纠正来源。Matplotlib新前题base/gold及181回归通过；后题base有1真失败、57回归通过、3项缺pandas而跳过，gold未跑。先完成可执行参考，不启模型或训练；此前代码来源旧帽不重置。尚无独立方法，布局变化不等于动力学变化。
+当前只读[新Matplotlib来源段](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)。新pair的1/181与1/60参考控制全过；27B真实source48POST只读失败，停止无引导重试。复用已执行的训练source参考纠正，形成明确标注的证据；下一步冻目标无经验/文件定位/完整参考证据基线，不先训练。旧8现场R成功被All7覆盖，停止扩同7来源配方；旧reset信号及形成费保留。尚无独立方法，布局变化不等于动力学变化。
 
 ## 执行原则与后续顺序
 
@@ -33,7 +33,7 @@
 
 | 要解决的具体问题 | 只加载这些材料 |
 | --- | --- |
-| 当前 Matplotlib 目标对照 | [当前批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)，再按其中路径读取私有completed/raw/冻结输入；不先扫全部历史。 |
+| Matplotlib 新pair及来源证据 | [新任务段落](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)；旧23562/27361的[隔离对照](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)仅按需读。 |
 | Astropy新隔离比较 | [本批合同与结果](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；[旧四臂及修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)单独保留，不混用source。 |
 | 真实任务时序 / SymPy | [来源和 SymPy](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md) |
 | Django 读取、前置反馈和同候选续修 | [Django](../../docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md) |

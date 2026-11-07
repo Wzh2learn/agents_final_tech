@@ -80,3 +80,46 @@ target尚未调用模型。源history42,672bytes/430行/最长1581字符、结�
 target按无历史→透明结果卡→普通源历史→普通skill串行运行，每臂独立工作区、相同资源。记录关键测试1项、完整回归150项及原题PDF/PNG实际渲染语义；分列Agent退出、预算截断、异常和未评，读取经验以raw为准。比较请求、未缓存输入/输出、缓存、用时，source/skill形成单独计费并说明摊销，不只挑选有利成本代理。若skill胜出，仍需实际补丁＋结果等强简单对照和重复，才能进入方法主张。
 
 这是一对已在开发中见过参考的自然任务，不冒充盲确认或预训练隔离；测试条数不当独立任务数。此合同绑定下一批次，旧35POST及原回执原位保留，隔离修正不重写旧账。
+
+<a id="new-source-pair"></a>
+
+## 新任务对25332→25352与真实来源采集（2026-11-08）
+
+本节属于新pair，前文23562/27361的旧结果不合并。资产根为GB10私有`/home/testuser/wzh/research_evidence/agent_learning_20261030/code_source_expansion_v1/MATPLOTLIB_PAIR_QUALIFICATION_V1`；准确源码包位于同级`SECOND_WAVE_ARCHIVES_V1`。以下缓存与V1–V3过程从Git `5b6c77e5` 的ALFWORLD_CORRECTION_DATA同题段逐字迁入，规范LF原段SHA `8c5ffb3430b4c4604e61fd4d0464aecb984b1b29dd822522f58073edcd40f942`；它是V4前快照，现态见后续。
+
+**Matplotlib新任务对源码缓存（11月8日，资格前快照）。** 25332/25352的准确base分别66ba515e/3742e7e，两个官方commit archive共75,362,388bytes已双端核hash；当时只读取目标instance/repo/base列，未读取目标参考补丁正文。私有`SECOND_WAVE_ARCHIVES_V1/FETCH_RECEIPT_V1.json` SHA `76f948d5c6385c5c0c6850ef1de0c35e2dad482c835ae2caa64c0ec0ce6bf3ca`，2次公开GET，当时尚未解压或执行。可复用旧Python3.10依赖投影（manifest SHA `e63a69c6c719bdcc56aa8d08b7ba7635de6bafe90f826b51b7eda79cdad0f75b`），缓存时尚未证明适配新base；须先做新pair的base/gold原题与完整回归资格，再开放actor。这是已有项目的新任务对，不算全新未曝光项目确认。
+
+**新pair原生资格进展（11月8日）。** source25332已两次复现F2P1 fail→pass，181PTP两侧全过。target25352是同组件维护重构；25个公开label缺类路径，经AST唯一映射后61节点齐全，base为1失败/57通过/3跳过，3项pandas可选回归因投影未含pandas而skip，gold未跑，pair仍不合格，不释放actor。原警告错误、缺类路径与V1/V2/V3保留，未把skip当pass。累计7个CPU容器/34.342秒，模型/网络/安装0，30tests/63subtests通过；D核全部7份原生日志及owned CID已移除。`MATPLOTLIB_PAIR_QUALIFICATION_V1/RUN_V3/receipt.json` SHA `d75a7f499f20385c2e2cc15a121447ba6798de0b60731e186dd5156afd6d8fce`，D核验SHA `c27d8441b8cc5ea395dd69a7f690d6e39fe0775fc2e8d4358db006c77af49964`。仓库兼容缓存扫描超时，未据此宣称缓存不存在；下一步只解决明确的pandas参考缺口，不改方法结论。 78成员私有包已双端核验，SHA `9d0f84fc64b2f7a4b3d8a9685a6d76b07d4d50605aece588ae6d60443b39920e`；资格临时树保留用于冻结路径复核，源码已集成main。
+
+### V4：缓存补齐后的完整资格
+
+只复用milvus缓存pandas2.3.3，与原NumPy1.24.3/Python3.10及dateutil2.8.2相容；补缺失pytz2026.1.post1，source补tzdata2025.3，target保留2026.6。旧投影/原字节及native overlay不变，无网络或安装。新投影`PANDAS_PROJECTION_V1/manifest.json` SHA `4bc597b975481716b893eee86a2b87417bc1732b19b9e26f9766c320de3a7b8e`；9,881绑定与2,684复制记录保留。source/target的项目源码仍被依赖投影屏蔽。
+
+| 新pair控制 | F2P | PTP | 实际退出 |
+| --- | --- | --- | --- |
+| source base | 1失败 | 181通过 | 1 |
+| source gold | 1通过 | 181通过 | 0 |
+| target base | 1失败 | 60通过 | 1 |
+| target gold | 1通过 | 60通过 | 0 |
+
+四组无skip/missing/error，D已独立核日志marker/hash。V4状态QUALIFIED，实际新增4容器/16.853秒，含V1–V3共11容器/51.195秒，均已关闭；0模型。V4合同SHA `6723d734d33fad028a2324092ec01f84b1b7361abd71b7a6b046b51cfb38d2ce`，receipt SHA `490dc51749892229d689312f56ef178f3bb0078c45f24b870addc3b85dd53cfe`，交付SHA `19152ff96ca1023780b385b14513a33888196b7b2040d55cf7008de1bf03f412`。资格只证明任务可执行与参考有效，target仍是维护后续任务。
+
+### 一次真实source采集与停止
+
+复用`run_contextbench_source.py`的Bash-v2、relay、计量与隔离容器，只增Python3.10/source依赖槽/本地项目lib与原生评分支持；旧Django/SymPy准入不变。先有两条失败控制，新增后联合97tests/65subtests通过。实际CPU prepare 4.767秒、0模型；四文件固定快照SHA `d56cfa009b8107937325a57dad971d471128d5be8cd0bfb185e67b58ad41718c`，C限定启动审阅无确定性阻断，SHA `7d928a80d8a3f9ab4b7b105e19d266479c54786ec22c3a238753fd27f5a7cde5`，未把测试或prepare当实际修复。
+
+私有`SOURCE_COLLECTION_V1/attempt_v1`只采source25332，现有27B FP8、thinkingFalse、ctx32768/output8192、seed17/temp0.2；独立上限48POST/1200秒/64MiB，无训练、无目标调用、无服务重启。manifest SHA `af119afd6a670a94905ac21391634935f1da8ef941d26a0af576e7674d084b06`；启动SHA `f3ca235a21e342f6abf0eefd16739cab39884f1699633ac8f74ba83cf4189a4d`，原owner1473717/start1082424090已退出。
+
+真实结果为GENERATION_FAULT、source_success=false：48个bash动作全为读取/搜索，末30次相同grep返回exit1/空输出；无编辑、无模型自行测试，diff0字节。最终F2P0/1、PTP181/181，原始weakref pickle故障保留；第49个本地attempt被帽拒绝，没有超发。全部48次实际body是Bash-v2且完整保留题面，47个后继工具反馈均逐字透传。未发现实际接口阻断，不能把无编辑尝试当作写入路径验证；也不据一个source否定学习。A尸检SHA `4460754835fe3622337e76ba1294b7db77b6e715e1ec38be31bfe06bb00f20bf`。
+
+新增48POST、input410,882/output3,075/total413,957tokens；48请求cache均未知，noncached不填0或等同全部输入。D核全部48实际request/provider body hash、usage、1/181原生日志及三个owned容器已移除、锁空闲，SHA `12dc9cd013153b7f9c0250c34bbe877ed15874910f7c97f9d1a23c8c637682a4`；原receipt SHA `e0202b46997c32ef0c357498b29b181e7721a33b56cf5b301c1d66f7f8de8c9a`。这与旧两source各48POST分开：三道source形成共144POST/1,525,504tokens，接口canary2POST/5,494tokens、ALF与研发Agent另账，不是项目总账。
+
+### 可复用的reference-assisted来源证据
+
+停止无引导source重试，不先训练。复用已经真实执行且1/181全过的V4 source参考应用，形成`SOURCE_COLLECTION_V1/REFERENCE_ASSISTED_SOURCE_V1/SOURCE_EVIDENCE.json`，3,123bytes、SHA `1dae2bf35ea1c72a124a3ea236e1c00dd62e1ad1db734e11629ec74a3fe4c413`；manifest SHA `02e8448f7150df7ba27f6c38ef61e94495d8b7827f3a7f16dd36a26d83757f20`。它含source原题、source参考补丁、实际base/gold结果及本次自然失败事实，无target gold/未来题号；复用已有执行，0新增模型/容器/训练，形成费不隐藏或重计。
+
+这是明确标注的训练来源参考辅助证据，不是Qwen成功轨迹或反馈学出的skill。后续先准备无经验、仅source文件位置提示、完整已验证source证据的同设置强基线对照；若再试紧凑卡/学习方法，必须给信息匹配的完整参考证据基线，不能只击败未修复的失败历史便归因于表示或学习。新目标接口和预算须先冻结，当前未运行目标或释放训练。
+
+完整321成员私有闭合包已双端逐项核验：10,171,046bytes、SHA `aab5c78e9af3ae8cc57c14b7540fef321cabcfb54e66cd84f4c5765738893a93`；manifest SHA `ae847c1ab7f47885db48c818b55bd9d08967886f807837987e01ebd22b67e476`，本机check SHA `3161936a14936170262efd1191731401d59e88dc5393570da52b84524a6fb90f`。包只含控制/原始调用/精确源码与source证据，不含完整scratch或依赖包；v1误收staged第三方文件，v2已排除并保留修正说明。实际18个运行Python组件快照SHA `56871ba5a0beaf5f8f22dce464aeba62234fa733c760f139c65d2200ab196aac`；源码与测试两文件发布到Git时CRLF→LF，已核AST相同，原执行字节仍在快照，未改历史绑定（规范化记录SHA `b86c78ab20abb4b441312cbd538fe9e4ca7992c4cb50e78fcc22207dea3449a5`）。
+
+代码集成后，已确认无在途source进程、4项自有WIP与main仅规范化换行差异，且18运行源码/两份测试已归档；随后正常移除已完成的资格临时worktree，保留原7历史树。不是删除raw、依赖或父模型。清理回执SHA `6f0518db52d41ee3cc10443249b4446c120369001638a8ea82e6d253cab00826`含原路径恢复配方；旧严格组件复核须用对应源码快照，不能拿当前main冒充历史字节。

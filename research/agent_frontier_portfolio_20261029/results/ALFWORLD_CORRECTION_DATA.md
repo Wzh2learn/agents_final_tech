@@ -109,13 +109,11 @@
 **跨项目下一波只完成时序核验。** 冻结另一4项目各1对的元数据选择（scikit-learn限定2020后以复用现代依赖，再按target hash选题），12次官方只读HTTP全部保留并复核方向：Matplotlib25332→25352、scikit-learn25638→25637、Sphinx8282→8127均源修复merge为目标base祖先；Seaborn3190→3203源修复晚于目标题且不在目标base中，按当前时序门拒绝，不改阈值找信号。前三对分别涉及pickle修复后的Grouper实现替换、nullable dtype从unique_labels到LabelBinarizer的扩展、overload类型提示到ellipsis引用解析；均只作问题关系，不宣称旧经验已有效/失效。dataset ID不总是上游PR号：后两target实际PR为25813/9104，依规范URL与commit核，不按ID猜。`code_source_expansion_v1/SECOND_WAVE_ANCESTRY_V1/RESULT.json` SHA `25d2264f52836d719897bca05f8dceb4b30f6024a90e2036fa1de47b5358a107`。14成员薄包已镜像，SHA `d8ab365f92f61d93dec5d1fd492e6eb7fd35f463d4da7d8027eb7bea63967de1`；本波0测试/环境/模型/训练，尚未下载新项目或开放actor。先实际采集现有两source，不把这3对时序通过当新经验/方法证据。
 
 
-**Matplotlib新任务对源码缓存（11月8日，资格前快照）。** 25332/25352的准确base分别66ba515e/3742e7e，两个官方commit archive共75,362,388bytes已双端核hash；当时只读取目标instance/repo/base列，未读取目标参考补丁正文。私有`SECOND_WAVE_ARCHIVES_V1/FETCH_RECEIPT_V1.json` SHA `76f948d5c6385c5c0c6850ef1de0c35e2dad482c835ae2caa64c0ec0ce6bf3ca`，2次公开GET，当时尚未解压或执行。可复用旧Python3.10依赖投影（manifest SHA `e63a69c6c719bdcc56aa8d08b7ba7635de6bafe90f826b51b7eda79cdad0f75b`），缓存时尚未证明适配新base；须先做新pair的base/gold原题与完整回归资格，再开放actor。这是已有项目的新任务对，不算全新未曝光项目确认。
-
-**新pair原生资格进展（11月8日）。** source25332已两次复现F2P1 fail→pass，181PTP两侧全过。target25352是同组件维护重构；25个公开label缺类路径，经AST唯一映射后61节点齐全，base为1失败/57通过/3跳过，3项pandas可选回归因投影未含pandas而skip，gold未跑，pair仍不合格，不释放actor。原警告错误、缺类路径与V1/V2/V3保留，未把skip当pass。累计7个CPU容器/34.342秒，模型/网络/安装0，30tests/63subtests通过；D核全部7份原生日志及owned CID已移除。`MATPLOTLIB_PAIR_QUALIFICATION_V1/RUN_V3/receipt.json` SHA `d75a7f499f20385c2e2cc15a121447ba6798de0b60731e186dd5156afd6d8fce`，D核验SHA `c27d8441b8cc5ea395dd69a7f690d6e39fe0775fc2e8d4358db006c77af49964`。仓库兼容缓存扫描超时，未据此宣称缓存不存在；下一步只解决明确的pandas参考缺口，不改方法结论。 78成员私有包已双端核验，SHA `9d0f84fc64b2f7a4b3d8a9685a6d76b07d4d50605aece588ae6d60443b39920e`；资格临时树保留用于冻结路径复核，源码已集成main。
+**Matplotlib新来源另按主题加载。** [新pair资格与真实采集](MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)保留原缓存/V1–V3失败链及逐字迁移hash；不再把代码任务的详情默认装入本ALF记录。
 
 ## 方法重叠与下一验证
 
-Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配提取知识，STeP已有教师纠正与partial masking；ACE/AgentFold/DGRR等也覆盖局部更新、折叠及依赖撤回。原文方法核对与其余近邻完整保留于[按需精读](ALFWORLD_CONTEXT_STUDY.md#mechanism-reading)。当前SFT是监督来源/能力对照，不是上述方法的新名字；独立贡献仍待实际比较。另核[Memento](https://arxiv.org/html/2611.00244v1)已有学习笔记/上下文重建，[SkillApt](https://arxiv.org/html/2609.26863v1)的一般形式已有状态、模型与成本条件效用；STeP混合普通/纠正监督，当前纯O/R小LoRA不是其复现。不能仅因某公开实现较窄而声称状态选择或混合纠正为新机制。
+Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配提取知识，STeP已有教师纠正与partial masking；ACE/AgentFold/DGRR等也覆盖局部更新、折叠及依赖撤回。原文方法核对与其余近邻完整保留于[按需精读](ALFWORLD_CONTEXT_STUDY.md#mechanism-reading)。当前SFT是监督来源/能力对照，不是上述方法的新名字；独立贡献仍待实际比较。另核[Memento](https://arxiv.org/html/2611.00244v1)在静态书籍QA中已有学习笔记/上下文重建，[SkillApt](https://arxiv.org/html/2609.26863v1)的一般形式已有状态、模型与成本条件效用；STeP混合普通/纠正监督，当前纯O/R小LoRA不是其复现。不能仅因某公开实现较窄而声称状态选择或混合纠正为新机制。
 
 ## 本轮判读与训练对照取舍
 
