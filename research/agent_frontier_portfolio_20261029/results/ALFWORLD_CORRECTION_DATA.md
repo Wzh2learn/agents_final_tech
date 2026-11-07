@@ -48,6 +48,8 @@
 
 两个真实资产V4 CPU prepare与frozen verify均通过；`SOURCE_ACTOR_PREPARE_D_V4.json` SHA `ebece8b1aabd89d3050800709ae42a5f13c33fd872838994ccf4eee1e65ab1ec`，Django/SymPy manifest分别`7fdcc03db7adda119d77b012b31120ca774fdcffb8352e158c0b6e07262a1ee5` / `7d639a0c1983ec9a1c547419efbba8c75846d7c9f9ed6139db5d0e4a0091a37a`。原公开题面与包装提示分hash，Django自带作者建议diff原样保留；actor Py3.8/依赖与资格逐文件相等（47/415）。实际Django容器的导入、OpenCode1.18.3、可写代码、只读题面及私有评分不可见均通过；首次正常自动删除被大小写误报，原回执保留且精确CID确认已不存在。新scorer控制在可用内存3,240,075,264bytes低于4GiB时正确DEFERRED，未启动测试容器；SymPy表面及base/gold评分均待资源释放后在新控制根续做。`SOURCE_PREPARATION_RETURN_V1.json` SHA `6409af4cdc0ee494148f72c0d844a89cfdcc377cbdf3d49fe442387339352304`。本轮仅2个Django表面容器、source模型/训练0；V1–V3静态准备保留未执行，不作为经验。
 
+**资源允许后已补完CPU控制。** 新根`SOURCE_SCORER_CONTROLS_V2/RESULT.json` SHA `7718efabe51be0ebedde1030652ba19af912f6f1c738bf19a6ba0ec7eac37ff7`：8个实际测试容器、30.48秒；两source均原版F2P失败、参考F2P通过、两侧PTP全通过。SymPy实际隔离表面亦PASS（Py3.8.20、项目从/workspace导入、OpenCode1.18.3、代码可写/输入只读、私有证据不可见），精确CID自动删除。汇总`SOURCE_PREPARATION_RETURN_V2.json` SHA `530dd81deae03ea69d95ec14cee9d51925f047c6d74d385c33e1a4e80d5390fd`。本次新增1表面＋8测试容器，source模型/训练仍0；旧低内存DEFERRED保留。下一步仅待主模型窗口释放后采集真实source轨迹，不能把参考控制通过当Agent经验。
+
 [追加前缀加载器](../alfworld_recovery_source.py)显式绑定旧protocol/cohort/manifest/receipt/world哈希并分开新旧额度，联合聚焦38 tests/19 subtests通过。现已对8个合格失败前缀实际重放：322个接受动作及全部公开reset/逐步状态均相等，8个owned world均关闭，模型/训练0、环境段墙时合计23.35秒。5个heat/cool/look为主比较，3个clean作诊断；7成功与1零动作来源被拒绝。`additional_recovery_v1/NATIVE_REPLAY_RUN_V1/RESULT.json` SHA `32b93d6d436d973d9e2e7ed53d9db6e6d444aefe581589dfe3d9f5fcb8c2577f`；来源协议SHA `466815d7b75026d3605f88e3504a4c54502792878dd13b90e4697e3b57a567d4`。接受动作不保证有用进度；公开重放不证明全部隐藏状态等价。当前prepare未接入、未做学习恢复比较，不改在途96回合组件。8个来源原本都是无经验ordinary_reset失败，不能改称旧skill失效现场。其完整/近期3步的单user提示实测为1,014–5,027 / 681–1,238 HF tokens（不含OpenCode额外输入）；`PROMPT_LENGTH_V1.json` SHA `72ae67c334ddf23a7dc8afd8a46cd6534b34558f134472acdbe6ea37bf72b8b5`，仅CPU计数。下一恢复阶段另给32 POST/600秒，world总100步、各现场尚余27–92步；旧形成费只计一次，不按每臂重收。
 
 ## 下一批：六组而非重复训练
@@ -82,6 +84,8 @@
 
 **旧历史选择空间已复算。** 在闭合F/all7的同16题单次实现中，all7相对F修复clean_02/look_04，同时丢失look_01/heat_02；整体均7/16，事后逐题oracle并集9/16。主比较12题为F6、all7 5、oracle7；按公开goal类别事后取较好固定臂仍为6。故当前主面板的观测选择上界只多1/12，尚不值得据此训练复杂选择器。`hf_evaluation_v1/CLOSED_HISTORY_CHOICE_SPACE_V1.json` SHA `2c91f9dc747a53b1e307d2b0a1f52bdfc7e7ae0c518f809de1d8138bb046e1ed`；逐receipt hash已核。这是暴露开发的事后观察上界，不是稳定个体处理效应或可部署oracle，不用这些EVAL_ONLY目标输出训练。
 
+**闭合短历史轨迹尸检。** 本机读取已核验包中16份world日志：979个接受动作，13个失败中9个至少2/3观察再次出现；全16条均无相邻同动作重复。观察键仅含observation/score/won及排序后的合法动作，排除计步/done；重复公开观察不证明隐藏状态相同或动作无用。clean_01在look/examine之间交替，cool_01反复往返fridge/diningtable，说明只查连续同动作会漏掉本批循环。私有`evidence_packets_20261106/frozen_short_trajectory_autopsy_v1.json` SHA `419b47505b0269573239b6b67862f1887c785d460554d4b351da3600697fb3fb`。这是下一恢复触发器的开发线索，不把它当截短的独立因果证明，不改在途臂。
+
 ## 方法重叠与下一验证
 
 Sentry已有失败触发与验证后入库，EMG已有失败/成功轨迹匹配提取知识，STeP已有教师纠正与partial masking；ACE/AgentFold/DGRR等也覆盖局部更新、折叠及依赖撤回。原文方法核对与其余近邻完整保留于[按需精读](ALFWORLD_CONTEXT_STUDY.md#mechanism-reading)。当前SFT是监督来源/能力对照，不是上述方法的新名字；独立贡献仍待实际比较。另核[Memento](https://arxiv.org/html/2611.00244v1)已有学习笔记/上下文重建，[SkillApt](https://arxiv.org/html/2609.26863v1)的一般形式已有状态、模型与成本条件效用；STeP混合普通/纠正监督，当前纯O/R小LoRA不是其复现。不能仅因某公开实现较窄而声称状态选择或混合纠正为新机制。
@@ -97,3 +101,5 @@ Mode为inquiry-methods / minimal-experiment，结合research-driven-design。FAC
 后续两source与8个保留现场的闭合证据包`source_pairs_and_preserved_states_v1_20261107.tar.gz`已双端逐成员核验88项，17,256,211bytes、SHA `2eec08f3e78d52038472e8f62bd0d69b33676961fb1f3a42869b54742e487ae0`（manifest SHA `4a5647676e2cc8277ec6fc0c82cee27c5dcb624eb73bfd74c95d8409718118aa`）。本机另逐条核8个公开重放日志的322动作及回执hash；不含在途96回合或完整base/gold工作树，不作actor输入。
 
 首臂闭合raw私有包已双端逐成员核验9,550项，34,584,157bytes、SHA `41be9737b82e03ff8378b56ae0e55c540f4f3407b849412e720b84ec590ab6f5`；只含frozen_last3闭合16条，不含在途O/R。source准备/审阅/内核控制薄包双端核验90项，3,106,501bytes、SHA `f6ab79c43decaf40b9379aa0592cac9dedfe45e6439e1cd8fc433612f6e671b3`；不含完整work/baseline/runtime。继承此前ALFWorld专题已闭合7,839HTTP/91,963,598tokens，只追加本首臂1,312 / 6,602,874，得到已闭合小计9,151 / 98,566,472；仍排除在途其余臂、训练和研发Agent，不是项目总账。
+
+source评分控制薄包已双端核验59项、18,178bytes，SHA `2e6a7066eed4486a240c42d7db9ddc4fc41a35741331f14d78f2d303758fb42e`；本机另核4份base/gold回执的完整标签、预期失败/通过及清理，check SHA `2a260602c18411b07f63eba05be1e1ceb96e04be1bc5598461ba52a2bd08d428`。不含work/baseline/gold树，未公开。
