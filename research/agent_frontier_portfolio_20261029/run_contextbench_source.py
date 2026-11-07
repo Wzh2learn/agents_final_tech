@@ -266,7 +266,7 @@ class Relay:
         self.root, self.profile, self.h, self.deadline = Path(root), profile, h, deadline
         self.caps = CAPS if caps is None else caps
         self.lock = threading.RLock(); self.posts = self.inflight = self.unknown = self.used = self.response_bytes = 0
-        self.attempts = 0; self.failures = []; self.active = set()
+        self.attempts = 0; self.failures = []; self.active = set(); self.closing = False
         (self.root / 'wire').mkdir()
 
     def event(self, index, kind, **extra):
@@ -279,6 +279,8 @@ class Relay:
         with self.lock: self.attempts += 1; index = self.attempts; self.active.add(client)
         self.event(index, 'attempt')
         try:
+            with self.lock:
+                if self.closing: raise RuntimeError('relay closed before request')
             client.settimeout(max(0.001, self.deadline - time.monotonic()))
             value = self.h.actor.receive_http(client, self.caps['combined_wire_bytes'])
             if not isinstance(value, dict): raise ValueError('model payload must be an object')
@@ -287,20 +289,23 @@ class Relay:
             body = json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(',', ':')).encode()
             size = len(body); path = self.root / 'wire' / f'{index:05d}.request.json'; path.write_bytes(body)
             with self.lock:
+                if self.closing: raise RuntimeError('relay closed before reservation')
                 if time.monotonic() >= self.deadline: raise TimeoutError('episode deadline')
                 if self.posts + self.inflight + self.unknown >= self.caps['posts'] or self.used + size > self.caps['combined_wire_bytes']:
                     self.event(index, 'refused', reason='HARD_CAP'); client.sendall(b'HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\nConnection: close\r\n\r\n'); return
                 self.inflight += 1; self.used += size; reserved = True
             self.event(index, 'prepared', body_bytes=size, body_sha256=sha(path))
             upstream = socket.create_connection((self.profile['host'], self.profile['port']), timeout=max(0.001, min(30, self.deadline - time.monotonic())))
-            with self.lock: self.active.add(upstream)
             packet = (f'POST /v1/chat/completions HTTP/1.1\r\nHost: {self.profile["host"]}:{self.profile["port"]}\r\nContent-Type: application/json\r\nContent-Length: {size}\r\nConnection: close\r\n\r\n').encode() + body
             with self.lock:
+                if self.closing: raise RuntimeError('relay closed before POST')
+                self.active.add(upstream)
                 if time.monotonic() >= self.deadline: raise TimeoutError('episode deadline before POST')
                 upstream.settimeout(max(0.001, self.deadline - time.monotonic()))
                 sending = True; self.event(index, 'send_started')
-            upstream.sendall(packet); sent = True
-            with self.lock: self.posts += 1; self.inflight -= 1; reserved = False
+                # The close linearization point cannot cross registration/check/send.
+                upstream.sendall(packet); sent = True
+                self.posts += 1; self.inflight -= 1; reserved = False
             self.event(index, 'forwarded', body_bytes=size, body_sha256=sha(path))
             relay = self
             class ClientMeter:
@@ -335,6 +340,7 @@ class Relay:
 
     def close(self):
         with self.lock:
+            self.closing = True
             for connection in tuple(self.active):
                 try: connection.shutdown(socket.SHUT_RDWR)
                 except OSError: pass

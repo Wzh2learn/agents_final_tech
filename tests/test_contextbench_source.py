@@ -356,3 +356,66 @@ def test_busy_resource_refuses_before_reservation_or_live_validation(prepared_in
     monkeypatch.setattr(m, 'resource_lock', busy)
     with pytest.raises(BlockingIOError): m.execute(f.root, digest, f.registry, f.registry_sha, f.source)
     assert not (f.root / 'reservation.json').exists() and not (f.root / 'receipt.json').exists()
+
+
+def test_close_rejects_connection_that_returns_after_shutdown(tmp_path, monkeypatch):
+    """Fake delayed connect: close must prohibit its later first POST."""
+    relay = relay_at(tmp_path); connecting = threading.Event(); release = threading.Event(); frames = []
+    class LateSocket:
+        closed = False
+        def settimeout(self, _): pass
+        def sendall(self, data): frames.append(data); raise OSError('fake attempted send after close')
+        def shutdown(self, _): self.closed = True
+        def close(self): self.closed = True
+    upstream = LateSocket()
+    def connect(*_, **__):
+        connecting.set(); assert release.wait(3); return upstream
+    monkeypatch.setattr(socket, 'create_connection', connect)
+    client, receiver = socket.socketpair(); worker = threading.Thread(target=relay.handle, args=(receiver,))
+    worker.start(); wire_payload(client, {'messages': []})
+    try:
+        assert connecting.wait(3); relay.close(); release.set(); worker.join(3)
+        assert not worker.is_alive() and upstream.closed and frames == []
+        bill = relay.accounting()
+        assert bill['actual_forwarded_posts'] == bill['uncertain_partial_sends'] == bill['budget_reserved_combined_wire_bytes'] == 0
+        assert bill['integrity_passed'] is False
+    finally: release.set(); client.close(); worker.join(3)
+
+
+def test_close_cannot_cross_check_and_actual_send_boundary(tmp_path, monkeypatch):
+    """Fake attribute gate pauses between guard evaluation and calling sendall."""
+    relay = relay_at(tmp_path); ready = threading.Event(); decision = threading.Event(); close_done = threading.Event()
+    frame_after_close = []; probe = []
+    class GatedSocket:
+        closed = False
+        def settimeout(self, _): pass
+        @property
+        def sendall(self):
+            ready.set(); assert decision.wait(3); return self.write_fragment
+        def write_fragment(self, packet):
+            frame_after_close.append(self.closed)
+            raise OSError('fake partial send; bill extent remains unknown')
+        def shutdown(self, _): self.closed = True
+        def close(self): self.closed = True
+    upstream = GatedSocket(); monkeypatch.setattr(socket, 'create_connection', lambda *_, **__: upstream)
+    def closer():
+        assert ready.wait(3)
+        acquired = relay.lock.acquire(blocking=False); probe.append(acquired)
+        if acquired:
+            try: relay.close()
+            finally: relay.lock.release()
+            decision.set()
+        else:
+            decision.set(); relay.close()
+        close_done.set()
+    close_worker = threading.Thread(target=closer); close_worker.start()
+    client, receiver = socket.socketpair(); worker = threading.Thread(target=relay.handle, args=(receiver,))
+    worker.start(); wire_payload(client, {'messages': []})
+    try:
+        worker.join(3); close_worker.join(3)
+        assert not worker.is_alive() and not close_worker.is_alive() and close_done.is_set()
+        assert frame_after_close == [False] and probe == [False]
+        bill = relay.accounting()
+        assert bill['actual_forwarded_posts'] == 0 and bill['uncertain_partial_sends'] == 1
+        assert bill['budget_reserved_combined_wire_bytes'] > 0 and bill['integrity_passed'] is False
+    finally: decision.set(); client.close(); worker.join(3); close_worker.join(3)
