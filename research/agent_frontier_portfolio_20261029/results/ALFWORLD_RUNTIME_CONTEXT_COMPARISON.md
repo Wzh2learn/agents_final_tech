@@ -109,6 +109,27 @@ R短历史的primary4/12全来自look，不能把整体7/16解释为普遍学会
 
 本专题已闭合累计14,379 HTTP / 144,664,721tokens，只追加本1,022/13,184,363一次；新在途恢复、训练、代码来源、研发Agent及历史差额仍分账。
 
+<a id="preserved-recovery-results"></a>
+
+### 八个失败现场的四臂结果（2026-11-08）
+
+预定旧失败池中8个非零动作现场、公开前缀/当前观察相同；各新增32POST/600秒，world总100步。不是新增独立任务，也不是旧skill失效或环境动力学变化。全32条闭合，原Q4恢复、35B/27B身份未变；原owner1379062已退出。结果SHA `81d20a0e33e0b981f26b614b44b9a890a812bc0430c3b1cbbe5342a3ca339be7`。
+
+| 完整历史策略 | Primary5 | Clean3 | Overall8 | 新POST | 总tokens |
+| --- | --- | --- | --- | --- | --- |
+| Frozen | 0/5 | 0/3 | 0/8 | 209 | 2,423,825 |
+| Ordinary | 0/5 | 0/3 | 0/8 | 200 | 2,177,119 |
+| Recovery | 0/5 | 1/3 | 1/8 | 222 | 2,728,849 |
+| 固定All7 | 0/5 | 1/3 | 1/8 | 210 | 3,418,488 |
+
+R与All7只在同一`clean_02`成功，R没有独有成功；R−O/F仅该诊断题多1，R−All7逐题完全相同。按冻结条件**停止扩同7来源恢复配方，不在这八题继续堆变体或训练选择器**。这不撤回旧reset面板的有限开发信号，也不证明反馈学习无效或总体等效。STeP/Agent-R重叠与输入表示混杂仍见下节。
+
+保留全部限制：F/O在clean_02各32POST而0新动作；clean_03四臂均从73走至100步done-unwon；6回合触及上下文预留守卫（F1/R1/All7 4），15回合触及POST帽。831条tool_calls、10条stop，无length；因此这里是固定合同下的有界续做结果，不能把上下文或动作限制解释成无限预算下的能力结论。新接受动作679，公开重放控制1,288步/37.45秒；原8来源614POST/9,277,216tokens已在旧账计过，不按四臂再收。另一个零动作旧cool_02按预定规则未入组，其2POST仍在旧账。
+
+新增841POST：input10,707,862、cached子集10,262,086、noncached445,776、output40,419、total10,748,281；窗口3,891.27秒，training0。D核全部32原生轨迹、逐状态旧前缀、841原SSE与实际完整输入/All7交付，SHA `361e9fe49c6164c83fcf0644370ff60feb2daec61008fd3f2c6e94f00617590a`；C独立重算逐题、切片及成本一致，SHA `b5d8edf851b8643503f5285a9ca93970bfa4fa868c6960735b1c11612900b066`。根复算器V1误把原reset和重放交接当同一个状态，V2改为分别核reset、完整公开前缀和handoff；V1及修正记录保留，科学runner/raw未变。
+
+D裁决`D_RECOVERY_DECISION_V1.json` SHA `66d6ccfdc710138958193cdb753050c1c9182d0ff8ec08753f800abee4749600`。完整6,209成员私有闭合包已双端核验，36,558,990bytes，SHA `a885df35853bb6f9a080e8f31a1c84b30bcc72c1ad944b6ecbd109fb48f59851`；manifest SHA `94fd9b8d36c9c81548910edac92241d57c47ceabcbfccba0d361774ee512c4a8`、本机check SHA `3a460da2effc89b25726ffc619f0c147e73fa57e0138603f1e503183f89a3f95`。不含权重、活跃服务日志与actor数据库；15份精确闭合源码另有snapshot SHA `c695f860eb2ba08b0c3d87d134ee968582022774b47572af4ac09da7d4691f7e`。ALF专题已闭合累计15,220 HTTP /155,413,002tokens，训练、代码来源、研发Agent及历史340差额另账。
+
 <a id="recovery-literature"></a>
 
 ### 恢复学习的近邻核对（2026-11-08）
