@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[新增ALF来源](results/ALFWORLD_ADDITIONAL_SOURCES.md)：12个TRAIN任务×8B/27B无外部经验采集已启动，24运行/最多2,304 POST，逐例闭合、故障停队；先收真实轨迹，不训练。闭合后按失败状态与教师能力设计保留进度的反馈比较。新Matplotlib pair表示变体、旧7来源R配方均停止；[代码对照证据](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)按需读。新增来源不等于方法成立，场景变化不等于动力学变化。
+当前只读[新增ALF来源](results/ALFWORLD_ADDITIONAL_SOURCES.md)：24条形成运行已闭合，8B2/12、27B10/12。27B四种上下文策略×两真实构造现场已启动，8个开发运行/最多384 POST；先核实际请求和逐例闭合，不训练。旧R和Matplotlib表示变体停止；[代码证据](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)按需读。单任务控制不是方法贡献或独立确认。
 
 ## 执行原则与后续顺序
 

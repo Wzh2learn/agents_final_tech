@@ -45,27 +45,28 @@ GB10私有根为`/home/testuser/wzh/research_evidence/agent_learning_20261030/al
 
 队列只在真实原生终态、逐轮raw/退出码、费用和清理证据闭合后进入下一例；137、UnknownError、未知调用账等阻断后续未运行例。已证明的终态/POST帽/上下文预算拒绝分别记录；原生`won`独立报告，cache明细缺失保留null。全批持有已有模型资源锁；取消先等待已拥有子进程退出，观察超时不冒充终止。私有gate SHA `390aecf9a39fdbbc325bd20edf1327289e5626f1d518195d6da5738ba8ccc921`，driver SHA `9bb2d9feb3065e649c431535f8cba568a34c5ebef5328c4fbfdc3012d2467dcf`。
 
-正式执行前两例的V2 native准备记录SHA `10cae464e8b79f17502e2666d5d491ad210f6433a04f00802e77087769b8cd7c`，当时无actor输出。旧两份准备因代码修复被V2替代，但原位保留；更早一次解释器失败亦保留。启动前实际native准备5次，其中V2复核10.118秒；后续22例轮到时再准备，最多合计27次准备，额外3次属于预生成工程复核，不增加24次科学任务运行或POST帽。
+正式执行前两例的V2 native准备记录SHA `10cae464e8b79f17502e2666d5d491ad210f6433a04f00802e77087769b8cd7c`，当时无actor输出。旧两份准备因代码修复被V2替代，但原位保留；更早一次解释器失败亦保留。整批实际27次native准备，额外3次为预生成工程复核，不增加24次科学任务运行或POST帽。
 
 C对四项具体阻断的限定复核通过，回执SHA `61c8393098cff6d3f9fff108d0c8e8174ebb9f82344499faac1f18cdd6b08a1d`；不代表真实采集效果。D release SHA `f741411031e706ff1938115cb885da91ff653efb34c95415c0d01c5a1f3ca6ca`绑定代码、两份manifest、协议、POOL与profile等固定文件，`--check-only`通过后启动。
 
-**运行中**：GB10 owned driver PID `1623227`、birth ticks `1083656173`；以实时进程/回执为准，不从本行推断仍存活。首槽`nexttrain_clean_01/collect_none/student8b/attempt_v3`已产生实际请求与原生动作；teacher首槽为`attempt_v2`，其余固定槽为`attempt_v1`。每槽结果只在其closure与原始receipt闭合后计入，不能用进行中请求数报最终成本。
+**24/24已闭合**：末事件为`batch_completed`，原driver PID `1623227`已不存在，29个本批owned容器和24个执行world进程均已清理，模型资源锁可取得，既有8B进程未重启。首槽student为`attempt_v3`、teacher为`attempt_v2`，其余固定槽为`attempt_v1`；原始目录不重命名或覆盖。
 
-批次返回后按任务统计成功、失败、停止原因和形成成本，再决定保留进度的反馈比较。尚无本批纠正监督、训练行或方法增益，不扩旧R配方。私有运行路径和日志留在同一主题目录，不新增现役prompt。
+私有运行路径和日志留在同一主题目录，不新增现役prompt。以下只报告TRAIN形成阶段；普通教师成功轨迹尚不是针对学生失败的合格纠正监督，不扩旧R配方。
 
-### 首三条已闭合运行：开发观察
+### 完整闭合结果与失败类型
 
-以下是批次未结束时的固定前缀，不代表12例总成绩。三条均通过实际raw/费用闭合，原生`won=false`；工具尝试与环境接受的动作不是同一计数。
+| 来源模型 | Clean成功 | Look成功 | 全部成功 | 实际转发POST | provider total tokens |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 8B | 0/6 | 2/6 | 2/12 | 592 | 6,064,851 |
+| 27B | 4/6 | 6/6 | 10/12 | 339 | 3,383,834 |
 
-| 任务 / 模型 | 实际模型POST | 接受的原生动作 | 返回invalid_action的工具调用 | provider total tokens |
-| --- | ---: | ---: | ---: | ---: |
-| clean_01 / 8B | 96 | 6 | 90 | 878,321 |
-| clean_01 / 27B | 96 | 39 | 57 | 1,239,453 |
-| clean_02 / 8B | 10 | 8 | 0 | 52,510 |
+两模型面对相同12个来源；能力、精度和部署不同，不解释为学习增益。全批931实际POST，输入9,404,883、输出43,802、总计9,448,685 tokens；provider总usage未知0。8B已知缓存输入5,931,334，27B的339个响应缺缓存明细，因此**总体缓存量为null**，不能只用已知子集充当整体。研发Agent/工具额外费用未知，历史340-token差额仍独立保留。
 
-前两条用满POST帽。8B重复89次被拒的`put towel 1 in drawer 1`；27B也反复尝试被拒的`clean towel 1 with sink 1`与`use sink 1`。不能据此认定环境已执行这些动作。第三条有两轮普通续做、共8次真实工具调用，末尾输出了工具形状的普通文本而未实际执行；正常进程结束不代表任务完成。
+29次OpenCode运行使用24个原生执行world；921次工具调用中403次被环境接受、518次返回invalid_action，后者未推进world。8B有5次普通续做及2次未执行的工具形状文本。第一条8B重复89次被拒的`put towel 1 in drawer 1`，其失败不能简单归因于经验不足。后续强基线须覆盖合法动作反馈和实际工具执行，接口收益与经验学习收益分开。
 
-这组观察要求后续强简单基线覆盖合法动作反馈与实际工具执行；相应工程或界面收益须与经验学习收益分开。整批仍按原固定名单/配置继续，不因看到结果就更换任务或给未运行臂追加提示；待全批返回再选择开发候选。
+各episode墙时合计3,541.728秒，整批3,764.103秒，GPU-seconds未测。D逐槽重新读取raw闭合，C从931个实际SSE与原生轨迹独立复算一致；D闭合SHA `c017c9dfb02a8d27a7d837e2544ca47aef03d641df0c56e011b5aa0c2016b86f`，C复核SHA `cbedba3ee3260a1ca424d985a412427162008449a0ada3fa8d7b9209ada1fd44`。
+
+完整私有包6365成员/29,229,655bytes，包含27次准备、24个执行现场和31份冻结输入映射；SHA `95a1ff1b31a422a9b73f934787d4f942ae646923e7aaaf21a7932d53c02d2e79`，manifest SHA `e52770ad04497d9485f33e3d4f7fe7599fbe7de594fb941cce02de4e9066efcb`。本机逐项字节核验通过，check SHA `b988b1b50e165fb374b5161ee316402827dbb4ffc5198df5f0704056d72e2a52`。旧版本代码与raw均已封存，后续代码演进不改写此批证据。
 
 ## 真实状态变化与部分进度：零模型开发控制
 
@@ -86,3 +87,15 @@ D在同一原生world中实际搬动物体，复用现有Episode/NativeBackend�
 控制与已闭合教师来源的私有包已双端保留，142成员/246,404bytes，SHA `6b5b1eba86148716f78f0787a5f03128d3f2cec63a5151e3c6d1b92bbbf764c0`；manifest SHA `ec89248f136b72294204e9e9c0d39cf044d57ae76698d8cc52527362756b215b`。本机逐项字节核验，并独立从raw重算三个28步接手状态完全相同、32步终态true/true/false；不只读取RESULT的通过标志。包不含workspace、权重或依赖，既有native12资产包另存。
 
 后续若进入模型实验，必须分开完整world重放轨迹与actor可见历史，并使用相同观察、合法动作、预算和干预代价。先比较固定保留/撤回、短历史、目标重申、笔记折叠、配对效用选择和简单冲突规则；只有反馈隐藏/打乱消融与新任务验证留下残差，才投入学习选择器。本控制说明问题可执行，尚不提供新方法或新理论。
+
+## 运行中：27B checkpoint开发对照
+
+私有`state_change_development_v1/actor_checkpoint_v1/D_MODEL_DEVELOPMENT_PLAN_V1.json` SHA `7c697126054b8a866cd2d12ff43cc667752cfcd18ea5e37eac558e3da1e266a2`，COHORT SHA `2bd0da21ffc55ad9773c41ddc2e8fed00863be7819edcbe5090d9f63256d04c8`。两种opaque现场与四种策略：完整历史、无旧历史、滚动近期历史、近期历史加目标重申。共同新会话，48 POST/900秒/72剩余原生步/32M bytes；8个开发episode最多384 POST，已按下述冻结release启动。
+
+接入只重放完整28步，prompt只读21步公开历史和当前state28；隐蔽7步、条件名、新位置真相及D续做答案不进入模型。旧source合同不变；本批额外预算不从旧teacher POST余额冒算。新接口89 tests/282 subtests、私有闭合门15项和driver 10项CPU控制通过；它们不代表真实模型效果。
+
+前两槽真实零生成预演均重放28步/29个状态逐条相等，当前状态28且剩余72步；实际task字节相同，SHA `9c39dd76f91e45edf39be275bd7a1a8a5880ef7846a2e090dbdb68efb4eba6c6`。PREPARED SHA `482e13d772c95ac95e859515411e15e97633b6370a71957ce60a399dbb01fb59`。C限定复核`LIMITED_PASS`，SHA `23140f2fdea31235dd94d603699701c5c26c2adcd2848f3e5f4f7deccbe41bc6`；余下六槽准备与全部模型行为仍待实际验证。
+
+D release SHA `0db1e12f78b05d4145ae8a13361dff86d720cbfc9a06ee84c837e9ee3d82d61e`绑定67份文件，check-only通过；owned driver PID `1727745`/birth `1084497627`已启动，首槽已产生真实响应。逐槽核原生won、实际POST/usage/raw和清理后才续跑，异常停止未开始项，不自动重试。是否仍在运行只查实时进程和回执，不从本段推断。代码commit `30c80250`已同步本机/GitHub/GB10；私有准备文件保留于上述同一批目录。
+
+此pilot只有一个曝光TRAIN任务，不作独立确认或训练。原生目标允许其他合格soapbar，不能为制造进度价值而限制actor必须使用soapbar2；最强固定策略若已解释结果，就简化或替换候选。后续扩独立任务并补摘要、配对效用与冲突规则后，才判断是否值得学习。
