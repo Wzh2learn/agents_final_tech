@@ -1038,7 +1038,7 @@ def rolling_payload(rounds=5):
 
 
 @contextmanager
-def owned_fake_relay(controls, qualifier=None):
+def owned_fake_relay(controls, qualifier=None, action_channel=None):
     """Real relay UDS and socketpairs only: no world, Docker or network endpoint."""
     core = r.recovery().actor()
     with tempfile.TemporaryDirectory(prefix='alf-fake-') as tmp:
@@ -1053,6 +1053,8 @@ def owned_fake_relay(controls, qualifier=None):
         study = {'context_margin_tokens':512}
         if controls is not None:
             manifest['runtime_controls'] = study['runtime_controls'] = controls
+        if action_channel is not None:
+            manifest['action_channel'] = study['action_channel'] = action_channel
         metadata = {'game_id':manifest['case_id'],'seed':17,'step_cap':100,
                     'bridge_sha256':core.BRIDGE_SHA,'asset_sha256':'fake-game-sha',
                     'pool_manifest_sha256':'fake-pool-sha','caps':caps}
@@ -1064,11 +1066,16 @@ def owned_fake_relay(controls, qualifier=None):
         write_rows(rows)
         qualify = qualifier or mock.Mock(return_value={'template_input_tokens':12,'reserved_output_tokens':8192,'context':32768})
         profile = {'model_id':'OWNED_FAKE','context':32768,'output':8192}
+        sampling = (r.expected_sampling(study,core,'student8b',profile,17) if action_channel is not None else
+                    core.model_payload({},'student8b',profile,17,False))
+        manifest['sampling'] = sampling
+        if action_channel == 'required':
+            manifest['relay_constructor_sampling'] = core.model_payload({},'student8b',profile,17,False)
         relay_type = r.study_relay(core,manifest,study,qualify)
         with mock.patch.object(core,'cleanup_directory'), mock.patch.object(core.socket,'create_connection',
                 side_effect=AssertionError('real network forbidden')) as connect:
             relay = relay_type(root,directory,'student8b',profile,17,('OWNED_FAKE_NEVER_RESOLVE',0),caps,
-                      core.model_payload({},'student8b',profile,17,False),student_enable_thinking=False)
+                      sampling,student_enable_thinking=False)
             try:
                 yield SimpleNamespace(root=root,core=core,relay=relay,rows=rows,write_rows=write_rows,
                                       manifest=manifest,study=study,qualify=qualify,connect=connect)
@@ -1450,6 +1457,101 @@ class NoExternalExperienceTests(unittest.TestCase):
             (root/'receipt.json').write_text(json.dumps(dict(receipt,manifest_sha256=digest,world_actions=100,final_world_state=final)))
             (root/'reservation.json').write_text(json.dumps(dict(reservation,manifest_sha256=digest)))
             with self.assertRaises(ValueError):r.load_source_prefix(f.study,f.case,root)
+
+
+class ActionChannelTests(unittest.TestCase):
+    """Engineering controls only; fake UDS traffic is not model evidence."""
+    def test_expected_sampling_default_auto_and_required_keep_legacy_bytes(self):
+        core=SimpleNamespace(model_payload=mock.Mock(side_effect=lambda *a:dict(model='CPU',seed=a[3],temperature=.2)))
+        for backend in ['student8b','teacher27b']:
+            legacy=core.model_payload({},backend,{},17,False if backend=='student8b' else None)
+            for study in [{},{'action_channel':'auto'}]:
+                self.assertEqual(json.dumps(r.expected_sampling(study,core,backend,{},17)),json.dumps(legacy))
+            self.assertEqual(r.expected_sampling({'action_channel':'required'},core,backend,{},17),dict(legacy,tool_choice='required'))
+        core.model_payload.assert_called_with({},'teacher27b',{},17,None)
+
+    def test_unknown_channel_rejected_by_protocol_before_world(self):
+        with no_experience_fixture() as f:
+            for value in [None,False,0,'','none','REQUIRED',{},[]]:
+                f.study['action_channel']=value
+                with self.subTest(value=value),self.assertRaises(ValueError):r.protocol(f.protocol,f.save_protocol())
+            f.pool.start_world.assert_not_called()
+
+    def test_prepare_verify_bind_channel_and_sampling_even_with_rehashed_manifest(self):
+        with no_experience_fixture() as f:
+            for attempt,channel in enumerate([None,'auto','required'],1):
+                if channel is None:f.study.pop('action_channel',None)
+                else:f.study['action_channel']=channel
+                root=f.root(attempt=attempt);m=r.prepare(root,f.protocol,f.save_protocol())
+                r.verify(root,r.sha(root/'manifest.json'))
+                self.assertEqual('action_channel' in m,channel is not None)
+                self.assertEqual(m['sampling'],r.expected_sampling(f.study,f.core,'student8b',{},17))
+                self.assertEqual('relay_constructor_sampling' in m,channel=='required')
+                variants=[dict(m,action_channel='required' if channel!='required' else 'auto')]
+                if channel is not None:
+                    removed=copy.deepcopy(m);removed.pop('action_channel');variants.append(removed)
+                wrong=copy.deepcopy(m);wrong['sampling']['tool_choice']='auto' if channel=='required' else 'required';variants.append(wrong)
+                wrong=copy.deepcopy(m);wrong['relay_constructor_sampling']={'UNBOUND':True};variants.append(wrong)
+                for bad in variants:
+                    (root/'manifest.json').write_text(json.dumps(bad))
+                    with self.subTest(channel=channel,bad=bad),self.assertRaises(ValueError):r.verify(root,r.sha(root/'manifest.json'))
+                (root/'manifest.json').write_text(json.dumps(m))
+                f.study['action_channel']='auto' if channel=='required' else 'required'
+                rebound=copy.deepcopy(m);rebound['protocol_sha256']=f.save_protocol()
+                (root/'manifest.json').write_text(json.dumps(rebound))
+                with self.assertRaises(ValueError):r.verify(root,r.sha(root/'manifest.json'))
+
+    def test_required_actual_wire_overrides_auto_before_byte_accounting(self):
+        for controls in [None,dict(native_terminal_stop=True,recent_tool_rounds=None),
+                         dict(native_terminal_stop=True,recent_tool_rounds=3)]:
+            with self.subTest(controls=controls),owned_fake_relay(controls,action_channel='required') as f:
+                incoming=rolling_payload();incoming['tool_choice']='auto';before=copy.deepcopy(incoming)
+                with fake_upstream(f) as (captured,_):
+                    self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 200'))
+                stored=json.loads((f.root/'requests/00001.json').read_text());wire=captured[0][1]
+                self.assertEqual(json.loads((f.root/'observed_requests/00001.json').read_text()),before)
+                self.assertEqual(stored['incoming'],before);self.assertEqual(stored['forwarded']['tool_choice'],'required')
+                self.assertEqual(wire,(f.root/'requests/00001.body').read_bytes())
+                self.assertEqual(wire,json.dumps(stored['forwarded'],separators=(',',':')).encode())
+                self.assertEqual(f.relay.budget.request_bytes,len(wire));self.assertEqual(f.relay.forwarded,1)
+                self.assertEqual(stored['forwarded']['tools'],before['tools']);self.assertEqual(incoming,before)
+                self.assertEqual(f.qualify.call_args.args[0],stored['forwarded'])
+                self.assertNotIn('tool_choice',f.manifest['relay_constructor_sampling'])
+
+    def test_required_bytes_and_native_terminal_gate_prevent_actual_forward(self):
+        controls=dict(native_terminal_stop=True,recent_tool_rounds=None)
+        with owned_fake_relay(controls,action_channel='required') as f:
+            incoming=rolling_payload();incoming['tool_choice']='auto'
+            baseline=f.core.model_payload(incoming,'student8b',{'model_id':'OWNED_FAKE','output':8192},17,False)
+            f.relay.budget.max_bytes=len(json.dumps(baseline,separators=(',',':')).encode())
+            self.assertTrue(fake_uds_request(f.relay,incoming).startswith(b'HTTP/1.1 403'))
+            self.assertEqual(f.qualify.call_args.args[0]['tool_choice'],'required')
+            self.assertEqual((f.relay.forwarded,f.relay.budget.posts),(0,0));f.connect.assert_not_called()
+        with owned_fake_relay(controls,action_channel='required') as f:
+            f.write_rows(f.rows+[{'event':'step','action':'look','state':dict(public_state(1,'NATIVE_WON'),won=True,done=True)}])
+            for _ in range(2):fake_uds_request(f.relay,rolling_payload())
+            self.assertEqual((f.relay.forwarded,f.relay.budget.posts),(0,0));f.connect.assert_not_called();f.qualify.assert_not_called()
+
+    def test_explicit_auto_keeps_legacy_forwarded_wire(self):
+        with owned_fake_relay(None,action_channel='auto') as f:
+            incoming=rolling_payload();incoming['tool_choice']='auto'
+            with fake_upstream(f) as (captured,_):fake_uds_request(f.relay,incoming)
+            expected=f.core.model_payload(incoming,'student8b',{'model_id':'OWNED_FAKE','output':8192},17,False)
+            self.assertEqual(captured[0][1],json.dumps(expected,separators=(',',':')).encode())
+            self.assertFalse((f.root/'requests/00001.body').exists())
+
+    def test_relay_rejects_manifest_or_constructor_sampling_mismatch_before_start(self):
+        started=mock.Mock(return_value=None);base=type('CPUModelRelay',(),{'__init__':started})
+        core=SimpleNamespace(ModelRelay=base,model_payload=lambda *a:{'CPU_SAMPLING':True})
+        study={'action_channel':'required'};sampling={'CPU_SAMPLING':True,'tool_choice':'required'}
+        for manifest,supplied in [({'action_channel':'auto','sampling':sampling},sampling),
+                ({'action_channel':'required','sampling':{'CPU_SAMPLING':True}},sampling),
+                ({'action_channel':'required','sampling':sampling},{'CPU_SAMPLING':True}),
+                ({'action_channel':'required','sampling':sampling,'relay_constructor_sampling':{'WRONG':True}},sampling)]:
+            with self.subTest(manifest=manifest,supplied=supplied),self.assertRaises(ValueError):
+                relay=r.study_relay(core,manifest,study,mock.Mock())
+                relay(None,None,'student8b',{},17,None,{},supplied)
+        started.assert_not_called()
 
 
 if __name__ == '__main__':

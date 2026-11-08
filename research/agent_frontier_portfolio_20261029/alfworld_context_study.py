@@ -504,6 +504,7 @@ def protocol(path, digest):
             return result
         value = json.loads(raw, object_pairs_hook=unique_object)
     experience_mode(value)
+    action_channel(value)
     runtime_controls(value)
     additional_source_reference(value)
     checkpoint = checkpoint_references(value)
@@ -517,6 +518,26 @@ def protocol(path, digest):
              value['collection_caps']['seconds'] >= value['total_caps']['seconds']))):
         raise ValueError('unqualified common controller/budget contract')
     return value
+
+
+def action_channel(value):
+    channel = value.get('action_channel', 'auto')
+    if type(channel) is not str or channel not in ('auto', 'required'):
+        raise ValueError('invalid frozen action_channel')
+    return channel
+
+
+def verify_action_channel(manifest, study):
+    if (('action_channel' in manifest) != ('action_channel' in study) or
+            action_channel(manifest) != action_channel(study)):
+        raise ValueError('manifest action_channel differs from frozen protocol')
+
+
+def expected_sampling(study, core, backend, profile, seed):
+    sampling = core.model_payload({}, backend, profile, seed, False if backend == 'student8b' else None)
+    if action_channel(study) == 'required':
+        sampling['tool_choice'] = 'required'
+    return sampling
 
 
 def runtime_controls(value):
@@ -599,10 +620,24 @@ def native_world_witness(root, manifest):
 
 def study_relay(core, manifest, study, qualify):
     controls = verify_runtime_controls(manifest, study)
+    verify_action_channel(manifest, study)
+    required = action_channel(study) == 'required'
 
     class Relay(core.ModelRelay):
         terminal_witness = None
-        preserve_serialized_payload = 'runtime_controls' in manifest
+        preserve_serialized_payload = 'runtime_controls' in manifest or required
+
+        def __init__(self, root, directory, backend, profile, seed, endpoint, caps, sampling, *args, **kwargs):
+            if required:
+                expected = expected_sampling(study, core, backend, profile, seed)
+                thinking = kwargs.get('student_enable_thinking', args[2] if len(args) > 2 else None)
+                baseline = core.model_payload({}, backend, profile, seed, thinking)
+                if (sampling != expected or manifest.get('sampling') != expected or
+                        manifest.get('relay_constructor_sampling') != baseline):
+                    raise ValueError('required relay sampling differs from frozen manifest')
+                # CBC validates its unchanged baseline; this study hook applies the opt-in below.
+                sampling = baseline
+            super().__init__(root, directory, backend, profile, seed, endpoint, caps, sampling, *args, **kwargs)
 
         def check_native_terminal(self):
             if not controls['native_terminal_stop']:
@@ -622,6 +657,8 @@ def study_relay(core, manifest, study, qualify):
 
         def prepare_payload(self,payload,observed_index):
             self.check_native_terminal()  # Before projection, tokenization, reservation or connect.
+            if required:
+                payload.update(manifest['sampling'])  # Before template checks, serialization and byte reservation.
             if controls['recent_tool_rounds'] is not None:
                 projector = module(HERE/'alfworld_context_projection.py','context_study_projection')
                 payload,proof = projector.project_last_tool_rounds(payload,controls['recent_tool_rounds'])
@@ -979,7 +1016,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
             'source_root': str(prefix['root']) if prefix and not prefix_metadata(prefix) else None, 'source_binding': prefix['binding'] if prefix else None,
             'cohort_binding':cohort,
             'caps': caps, 'world_step_cap': 100, 'tokenizer_binding': token_binding,
-            'sampling': core.model_payload({}, backend, profile, model_seed, False if backend == 'student8b' else None),
+            'sampling': expected_sampling(study, core, backend, profile, model_seed),
             'profile_sha256': override['sha256'] if override else core.PROFILE_PINS[backend][1], 'components': components(),
             'uid': os.getuid(), 'gid': os.getgid(), 'image_id': image,
             'inputs_sha256': {name: sha(root/name) for name in ['task.txt','opencode_config.json','initial_reset.json','handoff_public.json']},
@@ -990,6 +1027,10 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
         manifest['additional_recovery_metadata'] = additional
     if mode is not None:
         manifest['experience_mode'] = mode
+    if 'action_channel' in study:
+        manifest['action_channel'] = action_channel(study)
+    if action_channel(study) == 'required':
+        manifest['relay_constructor_sampling'] = expected_sampling({}, core, backend, profile, model_seed)
     if 'runtime_controls' in study:
         manifest['runtime_controls'] = runtime_controls(study)
     if override is not None:
@@ -1009,6 +1050,7 @@ def verify(root, digest):
         raise ValueError('namespace or components changed')
     study = protocol(m['protocol_path'], m['protocol_sha256'])
     verify_experience_mode(m, study)
+    verify_action_channel(m, study)
     bound_reference = m.get('reference_context')
     reference, reference_text = load_reference_context(m['stage'], m['backend'],
             bound_reference['path'] if bound_reference else None, bound_reference['sha256'] if bound_reference else None, study=study)
@@ -1037,6 +1079,11 @@ def verify(root, digest):
     p, override = load_study_profile(m['backend'], bound['path'] if bound else None, bound['sha256'] if bound else None)
     if bound != override:
         raise ValueError('frozen runtime profile metadata changed')
+    constructor_sampling = (expected_sampling({}, core, m['backend'], p, m['model_seed'])
+                            if action_channel(study) == 'required' else None)
+    if (('relay_constructor_sampling' in m) != (constructor_sampling is not None) or
+            m.get('relay_constructor_sampling') != constructor_sampling):
+        raise ValueError('frozen relay constructor sampling changed')
     profile_sha = override['sha256'] if override else core.PROFILE_PINS[m['backend']][1]
     if expected_checkpoint and (m.get('world_seed') != study['world_seed'] or m.get('world_step_cap') != 100 or
             set(m['inputs_sha256']) != {'task.txt','opencode_config.json','initial_reset.json','handoff_public.json'} or
@@ -1045,7 +1092,7 @@ def verify(root, digest):
     if (m['game'] != game or m['pool_binding'] != pool or m['caps'] != caps or
             m['experience_assignment'] != assignment or m['profile_sha256'] != profile_sha or
             m['source_binding'] != (prefix['binding'] if prefix else None) or
-            m['sampling'] != core.model_payload({}, m['backend'], p, m['model_seed'], False if m['backend']=='student8b' else None) or
+            m['sampling'] != expected_sampling(study, core, m['backend'], p, m['model_seed']) or
             m['model_id'] != p['model_id'] or (m['uid'],m['gid']) != (os.getuid(),os.getgid())):
         raise ValueError('frozen study inputs changed')
     for name, h in m['inputs_sha256'].items():
@@ -1112,6 +1159,8 @@ def run_episode(root, digest, *, fake_endpoint=None):
     reservation = {'manifest_sha256':digest,'mode':'OWNED_FAKE' if fake_endpoint else 'REAL_DEVELOPMENT'}
     if 'experience_mode' in m:
         reservation['experience_mode'] = m['experience_mode']
+    if 'action_channel' in m:
+        reservation['action_channel'] = m['action_channel']
     if 'additional_recovery_source' in m:
         reservation['additional_recovery_source'] = m['additional_recovery_source']
         reservation['additional_recovery_metadata'] = m['additional_recovery_metadata']
@@ -1228,6 +1277,8 @@ def run_episode(root, digest, *, fake_endpoint=None):
             receipt['additional_recovery_metadata'] = m['additional_recovery_metadata']
         if 'experience_mode' in m:
             receipt['experience_mode'] = m['experience_mode']
+        if 'action_channel' in m:
+            receipt['action_channel'] = m['action_channel']
         if 'runtime_controls' in m:
             receipt['runtime_controls'] = controls
             receipt['controller_stop'] = getattr(relay,'terminal_witness',None)
