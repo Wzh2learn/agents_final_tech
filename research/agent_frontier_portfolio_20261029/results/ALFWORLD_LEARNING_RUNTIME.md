@@ -1,6 +1,6 @@
 # 已训练8B基线：复用入口
 
-> 2026-11-08 | 下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练、部署和旧五臂完整过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md)；本页不新增实验或改写原结果。
+> 2026-11-08 | 本页索引复用资产与当前批次，下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练、部署及旧五臂过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md)。
 
 <a id="trained-baselines"></a>
 ## 当前复用：同BF16父模型的 frozen / ordinary / recovery
@@ -49,7 +49,9 @@ R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同�
 
 V1草案有一项Windows CRLF代码摘要，V2改按Git blob并保留运输映射，当时尚无模型运行。C只读复核36槽、同条件、来源和判读范围，未发现科学输入矛盾。GB10完整`study.protocol`及代码hash/36个新root不存在检查通过；该纯读取阶段模型/world/HTTP为0。本机完整parser的旧依赖字节失败仍保留，不冒充Linux准入。
 
-**裁决边界。** R训练于失败前缀接续，from-reset只测配方迁移，不单独识别反馈因果；负结果也不能否定其恢复用途。任何学习优越性裁决前，先冻结并补齐同12题Frozen＋普通history_all7，旧16题不能替代。逐槽仍须核实际加载、转发配置、原生终态与费用，不把文件声明或服务启动当比较结果。
+**裁决边界。** R训练于失败前缀接续，from-reset只测配方迁移，不单独识别反馈因果；负结果不否定其恢复用途。学习优越性裁决前补同12题Frozen＋普通history_all7：Frozen复用本批合格闭合结果；在途期间只准备all7输入，待本批闭合、释放模型锁后另冻有限执行，禁止重复启动Frozen或占用当前窗口。旧16题不能替代。
+
+**普通历史资产。** 旧16题共用同一份7条普通教师成功轨迹，heat4/cool2/look1，不是7条纠正。`hf_evaluation_v1/contexts/all7.txt` SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`，可直接复用内容。新12题仍须单独绑定pool、公开reset与共同配置；现役`experience_mode=none`拒绝该参考，旧驱动硬锁16题，不能直接替换输入或修改在途代码。
 
 **真实执行已启动。** 私有`RUN_OPERATOR_V1.py` SHA `83fa07e1af89197307b11c7b529b410af23cc23fc47d2a9caa05a06fe78b5b2f`；`D_EXECUTION_RELEASE_V1.json` SHA `b3823c72efd7c4eb00334ff2cddc03367ff576bcc2e81a05d1cf74c72bd0138b`。D重新核全部16个仓库组件同Git基线、当前原8B完整身份/端口、共享模型及锁，已启动独占批次，F的共同BF16实际加载、空LoRA及首槽准备通过。当前成绩只查`RUN_V1/STATE.json`，最终需`RESULT.json`及原始回执闭合；启动不等于36槽完成。
 
