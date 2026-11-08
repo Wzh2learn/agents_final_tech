@@ -6,28 +6,22 @@
 
 主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
 
-多任务优先，4B为支持资产。D/A/C与子Agent规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)，依据见[专家复核](results/ALFWORLD_TEXT_AGENT_20261106.md#expert-review)。
+主攻[组合反事实信用分配候选](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：学习经验组合何时有用，而非再做普通纠正SFT。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
 
-主攻候选：**保留实际进度，利用反馈选择旧经验的保留、撤回或上下文重建。** 经验选择、笔记管理、纠正训练均已有近邻，R只作适配强基线；停止追加普通纠正SFT变体，先明确可区分近邻的机制与反证实验。最佳固定策略或近邻强适配解释收益时简化或切换，尚无独特普适机制的证据。
-
-当前[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽**闭合并独立复核**：look主比较F/O/R为4/6、4/6、6/6；all12为4、6、8，R保留为强开发基线，非独立确认。H18槽已启动：all7历史12槽、目标类型匹配6槽，clean-none复用F并照计策略费用，不加训练；按STATE票据观察，闭合核费用和Q4恢复。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)准备合格SymPy双臂输入，不重跑同题资格。之后推进保留实际进度的上下文机制拆分与独立来源扩样。
+[五种开发基线](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合并复核：新12题F/O/R/all7/目标匹配分别4/6/8/4/4。R有开发优势但属于已有配方，不是新方法。新增H18为766 POST，Q4已恢复。SymPy普通复用双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制的第二环境验证复用。
 
 ## 执行原则与后续顺序
 
-1. **能力。** 按多任务实测选actor，27B供稳定机制/教师，8B供学习对照，4B不作前置。复用动作桥、原生won与请求证据，不重启共享服务。
-2. **样本。** 约12–20个独立任务/布局用于开发，含有益/无关/误导经验；按来源留出。heat_2/clean_2只作曝光回归，切片/seed/测试条数不算独立任务，不给actor变化真值。
-3. **混杂拆分。** 同执行前缀、环境进度与新会话表示，比较经验保留/移除 × 完整/近期历史；共有目标、当前公开观察、工具、模型与剩余额度。补原会话retry、目标重申、摘要；近期需全程滚动。普通stop未won时统一最多继续一次，首停与最终结果分记。
-4. **选择空间。** 配对重复估方差，oracle只作上界；稳定跨任务异质性出现后再训练选择器/actor并对比近邻。测试只执行所选策略，学习与确认隔离；固定短窗口追平则简化。机制消融见专家复核。
-
-第二环境复用隔离代码的非饱和题，35B容易题的测试数不代表泛化。主攻无残差时，再按[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)评估教师纠正状态选择或经验重验证。
+1. **最小识别。** look6已有无经验00、单轨迹A的10、all7的11；核实际输入后补其余六轨迹B的01，最多6新槽/768 POST。该后验开发试验只检验组合效应，尚未释放，不冒充动态撤回。[片段与四格原语](feedback_context_policy.py)已实现，CPU通过不代表机制成立。
+2. **明确预测。** 比较`I=V11−V10−V01+V00`及逐题最佳组合。非零I和优于最佳固定策略的上界都需存在，再在新seed/独立布局重复；若仅是更多文本、目标类型或固定短历史解释效果，停止该具体候选。
+3. **学习机制。** 有重复信号后，以同前缀续做监督联合效用，并比较随机/均匀补格与按决策价值补格。用相同数据/容量的普通联合MLP、独立片段效用、规则及近邻强适配定位增量；不把多数据、多算力或重复加权说成新信息。
+4. **动态与迁移。** 扩至12–20个来源隔离任务现场，统一当前观察、目标、真实进度与预算；清理旧上下文再暴露所选片段。训练只用开发来源，测试仅执行所选策略；第二环境及未见组合验证后才定稿。heat_2/clean_2仍为曝光回归。
 
 ## 证据和写作要求
 
-可先写问题、近邻和设计。方法/结果定稿需超出近邻的机制、至少两个独立环境/项目来源留出验证，超过强简单策略及匹配近邻或同效果下有总成本收益；配对重复、来源分组区间、无害非退化与消融。确认规模按开发方差定，12–20例不直接认证论文。
+可写问题与设计，方法定稿需独立机制、两环境留出、超过强对照或同效果下的总成本收益，以及配对重复、分组区间、无害非退化和消融。规模按开发方差定，12–20例不认证论文。
 
-先冻题面、环境、来源时序、输入、评测、预算。actor不读未来目标、gold/专家动作/隐藏事实；公开重放相等不代表隐藏状态相等。成功以原生won/独立语义为准，done/exit0不足；接口/截断与方法结果分记，原始失败与账本不覆盖。
-
-研发Agent、actor/教师、训练/进程内生成分账；input/cached子集/output/墙时分报，未知与差额保留。直接27B作成本基线；只按实验需求抽接口。
+冻结来源、输入与预算；actor不读未来gold/隐藏事实，公开重放不证明隐藏等价。原生won和独立语义决定成功，普通stop未成功也是失败；接口/未知结局另记。研发、形成、推理和训练分账，cache不重复相加，未知与旧差额保留；直接27B作成本对照。
 
 ## 按问题加载证据
 
@@ -53,7 +47,7 @@
 <a id="两条并行问题线"></a>
 <a id="输入格式变化的可视化工作流资格与开发2026-11-04"></a>
 <a id="evoclaw-配置迁移公开反馈与独立合同2026-11-04"></a>
-[原章节](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
 
 <a id="swe-skills-bench--aiohttp真实项目执行资格2026-11-04"></a>
 [原记录](../../docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md)
@@ -69,7 +63,7 @@
 
 <a id="任务组合和实验顺序"></a>
 <a id="当前来源资格skillevolbench-的-api-重试族"></a>
-[原章节](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
 
 <a id="不同来源的连续办公任务开发2026-11-0304"></a>
 [原记录](../../docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md)
@@ -79,4 +73,4 @@
 
 <a id="工具修复反馈接入与-astropy-批次2026-11-05"></a>
 <a id="与-paper-e-并行"></a>
-[原章节](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)

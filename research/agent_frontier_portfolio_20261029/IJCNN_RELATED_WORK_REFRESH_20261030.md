@@ -39,9 +39,13 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
+**11-09机制拆解（first-principles）**：本轮核原文方法，未复现代码。借[CIPO §3.4](https://arxiv.org/html/2610.04991v1)的同状态分支比较；[DGRR §3](https://arxiv.org/html/2608.10502v1)已覆盖依赖修复/独立支持，要求诊断出的故障记忆ID；[TrustMem §3](https://aclanthology.org/2026.findings-emnlp.2419.pdf)已有同记忆状态更新偏好与转移验证。不能将局部修订本身当新机制。
+
+[LW2S](https://arxiv.org/html/2609.30734v1)已有单组件skip信用分配；[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)指出影响可残留于历史/摘要/cache。新候选检验组合干预与预算分配，不声称精确遗忘。非零四格交互不代表有选择收益，交互loss不增加观测；须比较同数据/容量联合MLP及强适配。具体设计在[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)，这些借鉴不是新颖性证明。
+
 ## 旧章节链接
 
 按原始主题分组保留深链接；点击后只读对应历史片段。
 
 <a id="可执行候选反馈与经验的适用性而非又一个技能库"></a>
-[可执行候选：反馈与经验的适用性，而非又一个技能库 原记录](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)
+[原记录](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)
