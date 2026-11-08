@@ -21,7 +21,7 @@
 
 ## 已接入到哪一步
 
-RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生摘要接口1POST/2,447tokens得到合法但只添换行的提案，未部署；早期字段错配不算方法负结果。[接入与设计](../../docs/archive/2026-11-06_agent_research_context/related_work_candidate_design_20261105.md)、[早期诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)按需读。正式比较仍需真实修订、接受门和后续任务；新查三篇只核主文/附录机制，未复现官方实现。
+RethinkSkill原生接口已接通，提案未部署，不作方法负结果。[源码与接入](../../docs/archive/2026-11-06_agent_research_context/related_work_candidate_design_20261105.md)、[诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)按需读；正式比较仍需修订、接受门及后续执行。表中机制核查不等于成绩复现。
 
 ## 机制自审（2026-11-06）
 
@@ -35,7 +35,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **当前参照**：[Sentry](https://arxiv.org/html/2610.02994v1)失败时暴露经验；[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3](https://arxiv.org/html/2608.10502v1)依赖失效/独立支持，须对齐故障标识；[Memento §3](https://arxiv.org/html/2611.00244v1)学习笔记折叠/回退。原文已核，成绩未复现；细节查[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)。
 
-**R的定位**：[STeP](https://arxiv.org/html/2505.20023v1)已有教师纠正/partial masking；[Agent-R §3](https://arxiv.org/html/2501.11425v3)是自搜索拼接及失败前缀续做，非强教师接管。O/R同7源组、192更新，监督量与采集成本不同。R为适配基线，6/12对8/12不能识别新意或反馈因果；[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)保留细节。
+**R属强基线**：[STeP](https://arxiv.org/html/2505.20023v1)用教师纠正/partial masking；[Agent-R](https://arxiv.org/html/2501.11425v3)用自搜索拼接。O/R的6/12对8/12不识别新意或反馈因果；[数据/成本对齐](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)按需读。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
@@ -46,6 +46,8 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 **取舍**：B-only四格仅识别现象；非零交互不保证选择收益。后续聚焦同一真实前缀、不回滚外部进度的反馈修订；必须超过上述强适配及同数据联合MLP/组合bandit，独立算法尚未定。[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)提示影响仍会残留于历史/cache，不声称精确遗忘。设计见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
 
 [MERIT §3](https://arxiv.org/html/2608.05906v1)以oracle确认修复、已观测失败及错型检索积累经验；部署比较须对齐oracle可用性。非执行/超预算是真实效用损失，但不足以反证经验前提；区分两类标签仍只是估计对象划分，候选修订必须胜过不可变bank＋弃用及同信息修复。
+
+**11-09补查方法正文**：[AttriMem §2–3](https://arxiv.org/html/2607.21106v3)以记忆遮罩对最终答案的贡献奖励记忆构建；[MemCalib §3](https://arxiv.org/html/2609.24259v1)已有原子过用/欠用及固定回答反事实信用；[Anti-Persistence §3](https://arxiv.org/html/2610.27406v1)已有结果/成本bandit选择临时经验合成。因此细粒度奖励、按需重写或选择合成模式均不是独立新意。下一步用真实执行反馈检验可学残差，不把换任务包装为机制。
 
 ## 旧章节链接
 

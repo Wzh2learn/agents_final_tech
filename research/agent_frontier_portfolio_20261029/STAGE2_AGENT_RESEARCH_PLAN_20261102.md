@@ -12,8 +12,8 @@
 
 ## 执行原则与后续顺序
 
-1. **已完成识别。** B6为2/6、139 POST；四格实际I为`[1,0,0,-1,1,0]`，3布局达开发数值门。预测卡把O向量抄作A，已按24份receipt更正，旧卡保留；不称前瞻确认。oracle5/6在补B前已有，且R为6/6，不据此训练选择器。
-2. **下一批采集。** [三首响应](results/ALFWORLD_ADDITIONAL_SOURCES.md#action-channel)3/3通道合规，只有1条动作在源合法列表；无任务执行。新18源拟用F共同BF16/全7历史/required取得真实反馈：每题128 POST/1800秒/100动作/64MB，合计≤2304 POST，尚未释放。先冻结输入/预算再运行，旧格由receipt取数。
+1. **已闭合开发格。** B6四格3/6布局交互非零，受通道及上下文帽混淆；预测卡抄错向量已按raw更正。oracle5/6原已存在、R为6/6，不据此训练选择器。数字及旧卡按证据路由读取。
+2. **在途采集。** [新18源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)已按V2释放：F/BF16、全7历史、required；每题128 POST/actor1800秒/100动作/64MB，批次≤2304 POST。按固定任务顺序取真实反馈，不替换失败；未知计量停，已核上限按端到端结果保留。
 3. **学习机制。** 有重复信号后，设计反馈反证前提与保留实际进度的修订机制。普通联合效用/主动采集仅作基线，与同数据/容量MLP、组合bandit、JointCore及MemHarness强适配比较；不把交互项、多数据或更多算力说成新信息。
 4. **动态与迁移。** [新18源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)为TRAIN，134 valid_unseen保留确认。采集后按原生未成功、公开非零进度及剩余动作筛真实恢复现场；同一前缀重放后比较保留/移除/修订，actor始终见相同真实状态。第二环境/未见组合后才定稿；旧heat_2/clean_2只作回归。
 
@@ -36,7 +36,7 @@
 
 ## 维护规则
 
-本页只留目标、当前比较、下一动作和证据路由；闭合证据按主题保存。STATE只留定位，THREADS只留未决，不重复实验日志。[上下文检查](../../scripts/graph/research_context_check.py)限制单页与启动体量；超限先拆主题，原始证据不截断。联网、GB10能力及外部操作边界按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行。
+本页只留计划及路由，STATE留定位、THREADS留未决；闭合证据按主题保存。[上下文检查](../../scripts/graph/research_context_check.py)限制启动体量，原始证据不截断。联网、运行与外部边界按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行。
 
 ## 旧章节链接
 

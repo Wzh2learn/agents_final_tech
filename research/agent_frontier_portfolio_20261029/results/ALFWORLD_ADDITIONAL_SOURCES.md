@@ -20,13 +20,21 @@
 - 私有采集包SHA：`95a1ff1b31a422a9b73f934787d4f942ae646923e7aaaf21a7932d53c02d2e79`；成员、实际路径及账本见[完整采集记录](../../../docs/archive/2026-11-06_agent_research_context/alfworld_sources_through_20261108.md#完整闭合结果与失败类型)。
 
 <a id="progress-feedback18"></a>
-## 新18个开发源：原生资格已通过
+## 新18个开发源：资格完成，采集中
 
 新增clean9/look9均来自TRAIN；UID、family、layout/group、game hash互异，排除旧18/16/运行池、新12、7训练源、2上游源及登记的保留身份。筛后有clean55条/11布局、look103条/10布局，按冻结身份hash取18，不按结果换样。数字布局不同不证明语义独立，完整外部/预训练曝光仍未知。
 
-两份官方ZIP及36个选中成员实际hash相符；18/18专家控制通过，共247动作、串行48.59秒。核原生观察/score/done/won、reset合法动作、同seed重置/名称映射；D另逐项通过现役池读取器。无模型、HTTP、训练或容器调用。这是环境资格，尚无actor失败前缀或学习成绩；专家轨迹只在私有评价侧。
+两份官方ZIP及36个选中成员实际hash相符；18/18专家控制通过，共247动作、串行48.59秒。核原生观察/score/done/won、reset合法动作、同seed重置/名称映射；D另逐项通过现役池读取器。资格阶段无模型、HTTP、训练或容器调用，不提供actor失败或学习成绩；专家轨迹只在私有评价侧。
 
 私有根`progress_feedback_development_v1/native_pool_v1/`：`POOL.json` SHA `7fe85fb7564b1e0eba908e1279522a84fefce0dd61b80f2c75ad646ec992c6fe`，`qualification.json` SHA `581735ebf62a710c1a8819a8a50a3ac6f916b45129f62514ad3d149d5c9b874c`。双端包`progress_feedback18_native_qualified_v1_20261109.tar.gz`为305,768bytes/170文件，SHA `2ff52de6a5a1abdcdca89f9aca75e8270e8f1bbe07c1a4a779830545bdf7754e`；不含完整ZIP或模型。
+
+**当前真实采集。** 同级`source_collection_v1/SOURCE_PLAN_V2.json` SHA `016a18104ff901a22b40b4f636c4f705a96a0511a7ad9bce47746a2094ba34a0`；执行器V2 SHA `719b34ada6bc7126d0f656057beb7f7a3ae8668b1ae5666b160135053d76f532`，D release SHA `2f7a8e6f54649316e1dffd80a57dfed033c9de2d6e5daa24f44959e360544fd9`。C固定快照核查后，D实跑22项CPU控制通过；它们不是模型/原生成绩。2026-11-09启动`RUN_V1`，controller PID2543943/birth1091452816，实际argv与`CONTROLLER_TICKET_V1.json`一致；观察超时先查此句柄，不另起批次。
+
+F共同BF16无LoRA、全7普通历史、seed17/温度0.2、thinking关闭、32K/8192、required及原生终态门。首题实际wire已核，incoming auto与转发required分记，已出现原生接受动作；尚无批次成功率。固定18题、不替换失败，每题128 POST/100动作/64MB、actor阶段1800秒（不含prepare/preflight）；合计2304 POST/75,497,472tokens为预留上界，不是实际消耗。7080秒停止科研转清理、7200秒为含120秒恢复预留的目标，安全恢复可越目标并单列。未知usage/接口错停队列，已核cap可继续并保留真实won。闭合前不宣称已恢复Q4/解锁；不训练、教师或judge。
+
+**用途限定。** 本批是source development，不是方法确认。零动作、纯接口失败和上下文耗尽不自动标为经验前提错误；下游另核非终态、公开动作/反馈、剩余动作，并区分仅导航与物体状态变化，之后才构造同前缀保留/撤回/修订对照。134 valid_unseen仍保留。
+
+输入及发车绑定已双端归档：`progress_feedback18_source_inputs_v2_20261109.tar.gz`，472,697bytes/97文件，SHA `179f8f6960a9027fc240c17cb6253aa6649a596215fa3b3eb2adb6a699aaec18`；不含本批在途输出，闭合结果另核。
 
 <a id="action-channel"></a>
 ## 首响应通道对照：不是任务成功
@@ -35,7 +43,7 @@
 
 新增3 POST：input24,009/output155，共24,164tokens，cached6,619为input子集；窗口51.38秒，训练/judge为0。C独立核请求、3 SSE、usage/schema/字节及公开reset；D另核Q4恢复身份、35/27和锁释放。当前私有`ACTION_CHANNEL_REQUIRED_V1/D_C_CLOSEOUT_V1.json` SHA `401c0c8d112a8f0d1fade3f316c634ed9337251843c868ce78c394ab070ba6ee`。双端包`action_channel3_closed_v1_20261109.tar.gz`为365,364bytes/102文件，SHA `ef5916660ab9d0d26ee0e713633460fedf64358e55dc54f05849427b6677d7c8`。
 
-新协议以显式`action_channel=required`冻结执行采样，另记CBC构造采样；缺省/auto保留旧路径。required不替代`runtime_controls.native_terminal_stop=true`。使用新组件epoch，旧raw/评分不重算；真实episode待新采集验证。[首响应CPU准备/解析](../action_channel_probe.py)不执行工具。
+新协议以显式`action_channel=required`冻结执行采样，另记CBC构造采样；缺省/auto保留旧路径。required不替代`runtime_controls.native_terminal_stop=true`。使用新组件epoch，旧raw/评分不重算；真实episode见上方在途批次。[首响应CPU准备/解析](../action_channel_probe.py)不执行工具。
 
 <a id="student-failure-recovery"></a>
 ## 四组真实学生失败恢复：已闭合
