@@ -53,9 +53,23 @@ V1草案有一项Windows CRLF代码摘要，V2改按Git blob并保留运输映�
 
 **普通历史资产。** 旧16题共用同一份7条普通教师成功轨迹，heat4/cool2/look1，不是7条纠正。`hf_evaluation_v1/contexts/all7.txt` SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`，可直接复用内容。新12题仍须单独绑定pool、公开reset与共同配置；现役`experience_mode=none`拒绝该参考，旧驱动硬锁16题，不能直接替换输入或修改在途代码。
 
-**真实执行已启动。** 私有`RUN_OPERATOR_V1.py` SHA `83fa07e1af89197307b11c7b529b410af23cc23fc47d2a9caa05a06fe78b5b2f`；`D_EXECUTION_RELEASE_V1.json` SHA `b3823c72efd7c4eb00334ff2cddc03367ff576bcc2e81a05d1cf74c72bd0138b`。D重新核全部16个仓库组件同Git基线、当前原8B完整身份/端口、共享模型及锁，已启动独占批次，F的共同BF16实际加载、空LoRA及首槽准备通过。当前成绩只查`RUN_V1/STATE.json`，最终需`RESULT.json`及原始回执闭合；启动不等于36槽完成。
+私有`ordinary_history_train12_inputs_v1/`已准备原POOL与all7。`reference_only`候选补丁SHA `705a90bb94f3630a6c7a8681916ae114ae652b327a9e8c92fdd007694fae0e04`通过本机Python3.12的32项合成CPU控制与patch check，**未应用、未运行历史臂、未做Linux集成**。闭合后由D集成、核真实输入并释放有限批次；旧null-assignment模板仍是阻断草稿。
 
-启动前C发现并关闭SSE完整性、world句柄交接及写盘失败释放锁三项缺口。控制仅在本批operator实例：复用原world参数，增加拥有资源登记及延迟取消；不改冻结pool文件或旧结果。D用真实历史SSE正例/三反例，以及GB10三个普通CPU子进程对照验证：旧mask继承需强杀、新版SIGTERM正常退出、登记时取消无残留；不是ALFWorld或模型成绩。旧代码与未保留的旧测试退出码均如实保存。
+**真实执行中。** operator SHA `83fa07e1af89197307b11c7b529b410af23cc23fc47d2a9caa05a06fe78b5b2f`；release SHA `b3823c72efd7c4eb00334ff2cddc03367ff576bcc2e81a05d1cf74c72bd0138b`。16组件、原8B身份、共享进程及锁已核，当前进度查`RUN_V1/STATE.json`，最终须`RESULT.json`和raw闭合。SSE、world归属、取消与写盘失败控制的C/D证据留在本批私有目录；旧代码与测试退出码边界保留。
+
+**第一臂闭合观察。** Frozen为look **4/6**、clean **0/6**，共748 POST；O/R未齐，尚不能裁决训练。clean6的476条完成工具调用中220次返回公共世界状态、256次为非法动作；248次非法集中在两题，另一类失败包含目标物体错绑。该后验诊断不构成因果解释。私有`D_CLEAN_FROZEN_AUTOPSY_V1.json` SHA `be9eeb756d2cf29c3d48d7094bc100f86e565de74d3c628c111a17641c132641`。
+
+## 来源形成成本：已复算组件
+
+由训练行追到原receipt及SSE，357份响应逐条重算相符；all7的BANK、源组和receipt也与O的7条来源逐一一致。
+
+| 已用来源组件 | 历史POST | provider input+output tokens |
+| --- | ---: | ---: |
+| H/all7与O共用的7次普通教师成功执行 | 75 | 500,683 |
+| R的7次学生失败前缀 | 202 | 2,295,467 |
+| R的7次教师纠正接续 | 80 | 543,819 |
+
+R上述来源组件合计282 POST/2,839,286 tokens，尚须并入祖先carrier、筛选、训练等费用；不是方法总成本。H与O按方法分别计形成费，项目事件总账只记一次共享事件。cache未知仍为null，不把不同模型的token当等价计算。此次仅历史回算，新增模型调用0。私有`D_SELECTED_SOURCE_COSTS_V3.json` SHA `b555af7517dc7d44f7bd09f5b11c5fa87346268941c8a7d9cf7224c39652ff02`；全项目与研发Agent未知账保持。
 
 ## 历史记录按需读
 
