@@ -1,6 +1,6 @@
 # 第二篇：近邻与实验设计参照
 
-> 2026-11-08 | 短导航；保留最接近的方法与比较要求。完整检索、来源日期和接口诊断见[历史目录](../../docs/archive/2026-11-06_agent_research_context/README.md)。不同条目的证据深度不一，摘要阅读不等于源码复现。
+> 2026-11-09 | 短导航；保留最接近的方法与比较要求。完整检索、来源日期和接口诊断见[历史目录](../../docs/archive/2026-11-06_agent_research_context/README.md)。不同条目的证据深度不一，摘要阅读不等于源码复现。
 
 ## 优先比较什么
 
@@ -35,7 +35,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **当前直接对标**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3/4/D](https://arxiv.org/html/2608.10502v1)已有依赖失效与独立证据保留，须对齐故障标识并比较最新观察覆盖；[Memento §3.2–3.6/4.2.2](https://arxiv.org/html/2611.00244v1)学习静态书籍QA笔记及窗口压缩/回退。原文已核，未复现成绩。更多重叠与假设见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
-2026-11-08复核：[Agent-R §3/4.4](https://arxiv.org/html/2501.11425v3)是自生成搜索/轨迹拼接，已有失败中间前缀续做；不能概括为STeP式强教师接管。具体比较见[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)。
+2026-11-09定位：[STeP](https://arxiv.org/html/2505.20023v1)已有教师反思纠正及partial masking，[Agent-R §3/4.4](https://arxiv.org/html/2501.11425v3)已有自生成搜索/轨迹拼接及失败前缀续做，不能概括为强教师接管。R仅属已有纠正学习的适配强基线：O/R同7源组、192更新，但监督tokens为8,239/8,378，开发6/12与8/12不单独识别反馈因果或新颖性。采集成本也不等同。当前没有独特普适机制的证据；执行中撤回亦须超越SkillApt/Memento等强适配，组合不能自动算创新。[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)保留细节。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 

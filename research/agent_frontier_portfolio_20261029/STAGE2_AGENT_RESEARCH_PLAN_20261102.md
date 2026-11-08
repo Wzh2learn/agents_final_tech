@@ -8,7 +8,7 @@
 
 多任务优先，4B为支持资产。D/A/C与子Agent规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)，依据见[专家复核](results/ALFWORLD_TEXT_AGENT_20261106.md#expert-review)。
 
-主攻候选：**保留实际进度，利用反馈选择旧经验的保留、撤回或上下文重建。** 近邻已覆盖经验选择、笔记管理、教师纠正，独立机制尚未成立；最佳固定策略解释收益时简化或切换。
+主攻候选：**保留实际进度，利用反馈选择旧经验的保留、撤回或上下文重建。** 经验选择、笔记管理、纠正训练均已有近邻，R只作适配强基线；停止追加普通纠正SFT变体，先明确可区分近邻的机制与反证实验。最佳固定策略或近邻强适配解释收益时简化或切换，尚无独特普适机制的证据。
 
 当前[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽**闭合并独立复核**：look主比较F/O/R为4/6、4/6、6/6；all12为4、6、8，R保留为强开发基线，非独立确认。H18槽已启动：all7历史12槽、目标类型匹配6槽，clean-none复用F并照计策略费用，不加训练；按STATE票据观察，闭合核费用和Q4恢复。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)准备合格SymPy双臂输入，不重跑同题资格。之后推进保留实际进度的上下文机制拆分与独立来源扩样。
 
