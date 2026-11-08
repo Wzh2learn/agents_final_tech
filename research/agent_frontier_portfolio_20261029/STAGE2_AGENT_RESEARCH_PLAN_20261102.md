@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[ALF对照及下一步](results/ALFWORLD_ADDITIONAL_SOURCES.md#checkpoint-results)：24条形成运行与8条checkpoint对照已闭合，本例完整历史成功且成本最少，不训练选择器。下一步接入两个自然失败来源及新look任务；补摘要、最新观察覆盖和原子续做强基线，先测独立任务的选择空间。旧R和Matplotlib变体停止；[代码证据](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)按需读。当前无独立方法确认。
+当前只读[ALF多任务比较](results/ALFWORLD_ADDITIONAL_SOURCES.md#multitask-context)：两批各8槽已闭合，未出现成功交叉，不训练选择器。下一步仅一次原生合法动作接口诊断，区分当前包装与能力瓶颈；随后扩独立任务并补摘要、最新观察覆盖和原子续做。旧R和Matplotlib变体停止；[代码证据](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)按需读，尚无独立方法确认。
 
 ## 执行原则与后续顺序
 
