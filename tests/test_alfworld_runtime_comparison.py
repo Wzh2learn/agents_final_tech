@@ -1046,3 +1046,158 @@ class PreservedRecoveryControllerTests(unittest.TestCase):
             f.receipt.update(model_posts=33,forwarded_model_posts=33,real_model_calls=33)
             with self.assertRaisesRegex(ValueError,'actual/budget calls differ'):
                 r.audit(f.study,f.root,f.receipt,f.manifest,caps=dict(CAPS,posts=32,seconds=600))
+
+
+class ReferenceComponentProbeTests(unittest.TestCase):
+    """Synthetic CPU controls: no model, native world, container, or shared lease."""
+    def plan(self):
+        cases=['nexttrain_look_%02d'%i for i in range(1,7)]
+        return dict(schema='ALFWORLD_REFERENCE_COMPONENT_PROBE_V1',planned_episodes=6,max_forwarded_posts=768,
+            rows=[dict(case=case,root=str(r.ST/'cases'/case/'ordinary_reset/student8b/attempt_v6')) for case in cases])
+
+    def ledger(self):
+        rows=[dict(status='CLOSED_AUDITED') for _ in range(6)]
+        result=dict(completed_receipts=6,aggregation_errors=[],unclosed_attempts=[],unrun=[],unknown_usage_model_posts=0,
+            total_actual_model_calls=6,known_budget_model_posts=6,known_actual_model_calls=6,
+            restored_healthy=True,shared35_unchanged=True,shared27_unchanged=True)
+        return rows,result
+
+    def test_fixed_six_fresh_slots_and_768_budget(self):
+        p=self.plan();self.assertEqual(r._reference_probe_shape(p),[e['case'] for e in p['rows']])
+        for key,value in [('planned_episodes',18),('max_forwarded_posts',2304)]:
+            with self.subTest(key=key),self.assertRaises(ValueError):r._reference_probe_shape(dict(p,**{key:value}))
+        for attempt in ('attempt_v1','attempt_v5','attempt_v06'):
+            bad=copy.deepcopy(p);bad['rows'][0]['root']=str(Path(bad['rows'][0]['root']).with_name(attempt))
+            with self.subTest(attempt=attempt),self.assertRaises(ValueError):r._reference_probe_shape(bad)
+
+    def test_duplicate_or_mismatched_slot_rejected(self):
+        p=self.plan();p['rows'][-1]=copy.deepcopy(p['rows'][0])
+        with self.assertRaises(ValueError):r._reference_probe_shape(p)
+        p=self.plan();p['rows'][1]['root']=str(Path(p['rows'][1]['root']).with_name('attempt_v7'))
+        with self.assertRaises(ValueError):r._reference_probe_shape(p)
+
+    def test_actual_plan_file_sha_checked_before_loading_helpers(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory).resolve();path=root/'plan.json';path.write_text(json.dumps(self.plan()))
+            with mock.patch.object(r,'ROOT',root),mock.patch.object(r,'load') as load:
+                with self.assertRaises(ValueError):r.check_reference_probe_plan(path,'0'*64)
+            load.assert_not_called()
+
+    def test_release_must_match_current_identity_and_six_budget(self):
+        c=dict(plan_ref={'path':'/FAKE/plan','sha256':'a'*64},epoch={},execution_controls={'FAKE_GUARD':'SHA'},
+            owned_process={'pid':123,'start_ticks':'456'},closed_refs={'F':'FAKE_F','H':'FAKE_H'},bindings={})
+        release=dict(schema='ALFWORLD_REFERENCE_COMPONENT_RELEASE_V1',status='RELEASED',plan=c['plan_ref'],operator_sha256=r.sha(SCRIPT),
+            components={},execution_controls=c['execution_controls'],restored_process=c['owned_process'],closed_results=c['closed_refs'],
+            reference_B_sha256='69d22b795c361c52683a293b4eb0c772a0ca1526e4aca845724205dc72af91bd',
+            episodes=6,maximum_forwarded_posts=768,input_bindings={},training=0,judges=0)
+        for change in (dict(episodes=18),dict(maximum_forwarded_posts=2304),dict(restored_process={'pid':999}),dict(execution_controls={})):
+            with self.subTest(change=change),mock.patch.object(r,'check_reference_probe_plan',return_value=c),mock.patch.object(r,'private',side_effect=Path),\
+                    mock.patch.object(r,'checked',return_value=dict(release,**change)),mock.patch.object(r,'_execute_owned_reference_rows') as execute:
+                with self.assertRaises(ValueError):r.execute_reference_probe('/FAKE/plan','a'*64,'/FAKE/release','b'*64)
+                execute.assert_not_called()
+
+    def test_shared_window_rejects_missing_release_before_any_resource_action(self):
+        with mock.patch.object(r,'helper') as helper:
+            with self.assertRaisesRegex(ValueError,'release'):r._execute_owned_reference_rows({})
+        helper.assert_not_called()
+
+    def test_only_experience_changes_normalize_including_quote_layer(self):
+        prefix='Goal and \\n sensor <prior_experience>';suffix='</prior_experience> current shelf remains public'
+        a={'messages':[{'content':'"'+prefix+'A \\"quoted\\"'+suffix+'"'}],'time':'2026-11-08','tools':[{'x':1}]}
+        b=copy.deepcopy(a);b['messages'][0]['content']='"'+prefix+'B'+suffix+'"'
+        self.assertEqual(r._reference_probe_frame(a),r._reference_probe_frame(b))
+        b['time']='2026-11-09';self.assertNotEqual(r._reference_probe_frame(a),r._reference_probe_frame(b))
+        with self.assertRaises(ValueError):r._reference_probe_frame('<prior_experience>unclosed')
+
+    @contextmanager
+    def frame_guard(self,base_returns_saved=False):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);case='nexttrain_look_01';reset={'observation':'FAKE public room','done':False,'won':False,'action_count':0}
+            task=lambda body:'Goal\n<prior_experience>\n'+body+'\n</prior_experience>\ncurrent state unchanged'
+            quote=lambda text:'"'+text.replace('"',chr(92)+'"')+'"'
+            incoming=lambda body:{'messages':[{'role':'system','content':'Current date: 2026-11-08'},{'role':'user','content':quote(task(body))}],'tools':[{'function':{'name':'bash'}}]}
+            source=incoming('A');observed=incoming('B');sampling={'seed':17,'temperature':.2}
+            c=dict(execution_controls={'frame_guard':{'path':'FAKE_CONTROLLER','sha256':'c'*64}},frames={case:r._reference_probe_frame(dict(
+                task=task('A'),reset=reset,handoff=reset,incoming=source,forwarded=dict(source,**sampling),observed=source))})
+            c['relay_input_frames']={case:dict(c['frames'][case],incoming=r._reference_probe_frame(dict(source,**sampling)))}
+            (root/'task.txt').write_text(task('B'));write(root/'initial_reset.json',reset);write(root/'handoff_public.json',reset)
+            write(root/'observed_requests/00001.json',observed)
+            visits=[]
+            legitimate=copy.deepcopy(dict(observed,**sampling))
+            class BaseRelay:
+                def prepare_payload(self,payload,index):
+                    visits.append('parent_whole_task_proof');return copy.deepcopy(legitimate) if base_returns_saved else payload
+            factory=mock.Mock(return_value=BaseRelay);study=SimpleNamespace(study_relay=factory)
+            r._install_reference_frame_guard(study,c)
+            cls=study.study_relay(SimpleNamespace(write_new=write),{'case_id':case},{},None)
+            relay=cls();relay.root=root;relay.forwarded=0
+            yield SimpleNamespace(root=root,relay=relay,observed=observed,payload=dict(observed,**sampling),visits=visits,c=c,sampling=sampling)
+
+    def test_real_guard_factory_keeps_payload_and_records_input_only(self):
+        with self.frame_guard() as f:
+            before=copy.deepcopy(f.payload);returned=f.relay.prepare_payload(f.payload,1)
+            self.assertIs(returned,f.payload);self.assertEqual(returned,before);self.assertEqual(f.visits,['parent_whole_task_proof'])
+            proof=json.loads((f.root/'reference_input_frame_checks/00001.json').read_text())
+            self.assertTrue(proof['matched']);self.assertFalse(proof['actual_forward_or_native_outcome_claim'])
+
+    def test_date_or_template_drift_blocks_before_any_post_reservation(self):
+        with self.frame_guard() as f:
+            f.payload['messages'][0]['content']='Current date: 2026-11-09';reserved=mock.Mock()
+            with self.assertRaisesRegex(ValueError,'first input frame'):
+                payload=f.relay.prepare_payload(f.payload,1);reserved(json.dumps(payload).encode())
+            reserved.assert_not_called()
+            self.assertFalse(json.loads((f.root/'reference_input_frame_checks/00001.json').read_text())['matched'])
+
+    def test_real_hook_input_cannot_be_replaced_by_observed_or_base_output(self):
+        for change in ('date','extra_field'):
+            with self.subTest(change=change),self.frame_guard(base_returns_saved=True) as f:
+                if change=='date':f.payload['messages'][0]['content']='Current date: 2026-11-09'
+                else:f.payload['unknown_actual_input']={'unapproved':True}
+                reserved=mock.Mock()
+                with self.assertRaisesRegex(ValueError,'first input frame'):
+                    forwarded=f.relay.prepare_payload(f.payload,1);reserved(json.dumps(forwarded).encode())
+                reserved.assert_not_called();proof=json.loads((f.root/'reference_input_frame_checks/00001.json').read_text())
+                self.assertFalse(proof['matched']);self.assertNotEqual(proof['incoming_payload_sha256'],proof['prepared_payload_sha256'])
+
+    def test_missing_or_changed_controller_proofs_cannot_close_actual_wire(self):
+        with self.frame_guard() as f:
+            f.relay.prepare_payload(f.payload,1);f.c['plan_ref']={'path':'FAKE_PLAN','sha256':'a'*64}
+            write(f.root/'requests/00001.json',{'incoming':f.observed,'forwarded':f.payload})
+            (f.root/'requests/00001.body').write_bytes(json.dumps(f.payload,separators=(',',':')).encode())
+            binding_path=f.root/'controller_execution_binding.json';binding={'plan':f.c['plan_ref'],'execution_controls':f.c['execution_controls']};write(binding_path,binding)
+            manifest={'sampling':f.sampling};proof_path=f.root/'reference_input_frame_checks/00001.json';proof=json.loads(proof_path.read_text())
+            refs=r._reference_probe_delivery_bindings(f.c,f.root,manifest)
+            self.assertEqual(set(refs),{str(proof_path),str(binding_path)})
+            for key,value in [('matched',False),('kind','NATIVE_SUCCESS'),('actual_forward_or_native_outcome_claim',True),
+                              ('control',{}),('incoming_payload_sha256','0'*64),('prepared_payload_sha256','0'*64),('observed_request_sha256','0'*64)]:
+                with self.subTest(field=key):
+                    write(proof_path,dict(proof,**{key:value}));entry={'status':'CLOSED_UNAUDITED'}
+                    with self.assertRaises(ValueError):
+                        r._reference_probe_delivery_bindings(f.c,f.root,manifest);entry['status']='CLOSED_AUDITED'
+                    self.assertEqual(entry['status'],'CLOSED_UNAUDITED')
+            write(proof_path,proof);write(binding_path,dict(binding,plan={'path':'FORGED'}))
+            with self.assertRaises(ValueError):r._reference_probe_delivery_bindings(f.c,f.root,manifest)
+            write(binding_path,binding)
+            for path in (proof_path,binding_path):
+                raw=path.read_bytes();path.unlink()
+                with self.subTest(missing=path.name),self.assertRaises(OSError):r._reference_probe_delivery_bindings(f.c,f.root,manifest)
+                path.write_bytes(raw)
+
+    def test_raw_accounting_unknown_or_partial_never_complete(self):
+        rows,result=self.ledger();self.assertTrue(r._reference_rows_complete(result,rows))
+        for change in (dict(unknown_usage_model_posts=1),dict(total_actual_model_calls=None),dict(known_budget_model_posts=769),
+                       dict(aggregation_errors=['unknown']),dict(unrun=['slot']),dict(unclosed_attempts=['slot']),dict(known_actual_model_calls=5)):
+            with self.subTest(change=change):self.assertFalse(r._reference_rows_complete(dict(result,**change),rows))
+        self.assertFalse(r._reference_rows_complete(result,rows+[{'status':'CLOSED_AUDITED'}]))
+
+    def test_restoration_failure_or_disk_failure_keeps_lease(self):
+        class Held(BaseException):pass
+        def hold(*args):raise Held()
+        for failure in ('restoration_error','world_cleanup_error','shared_identity_error','disk'):
+            with self.subTest(failure=failure):
+                rows,result=self.ledger();old=SimpleNamespace(write=mock.Mock(),hold_for_d=mock.Mock(side_effect=hold))
+                c=dict(old=old,rows=rows,output=Path('/FAKE/OWNED_OUTPUT'))
+                if failure!='disk':result[failure]='FAKE_ERROR'
+                persist=mock.Mock(side_effect=OSError('FAKE_DISK')) if failure=='disk' else mock.Mock()
+                with mock.patch.object(r,'sha',return_value='FAKE_SHA'),self.assertRaises(Held):r._finish_reference_rows(c,result,persist,mock.Mock())
+                self.assertEqual(result['status'],'NEEDS_D_RECOVERY');old.hold_for_d.assert_called_once()

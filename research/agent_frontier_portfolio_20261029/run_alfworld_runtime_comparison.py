@@ -616,6 +616,292 @@ def execute(c):
     return result
 
 
+def _reference_probe_frame(value):
+    """Remove experience content only, including inside the measured SDK quote layer."""
+    if isinstance(value,str):
+        if value.count('<prior_experience>')!=value.count('</prior_experience>') or value.count('<prior_experience>')>1:
+            raise ValueError('ambiguous experience boundaries')
+        return re.sub(r'(<prior_experience>)[\s\S]*?(</prior_experience>)',r'\1\2',value)
+    if isinstance(value,list):return [_reference_probe_frame(v) for v in value]
+    if isinstance(value,dict):return {k:_reference_probe_frame(v) for k,v in value.items()}
+    return value
+
+
+def _reference_probe_shape(p):
+    cases=['nexttrain_look_%02d'%i for i in range(1,7)];rows=p.get('rows',[])
+    if (p.get('schema')!='ALFWORLD_REFERENCE_COMPONENT_PROBE_V1' or p.get('planned_episodes')!=6 or
+            p.get('max_forwarded_posts')!=768 or len(rows)!=6 or [e.get('case') for e in rows]!=cases):
+        raise ValueError('fixed look6/768 plan required')
+    attempts=[]
+    for e in rows:
+        root=Path(e['root']);match=re.fullmatch('attempt_v([1-9][0-9]*)',root.name)
+        if (set(e)!={'case','root'} or not match or int(match[1])<6 or
+                root!=ST/'cases'/e['case']/'ordinary_reset/student8b'/root.name):raise ValueError('fresh canonical B slot required')
+        attempts.append(root.name)
+    if len(set(attempts))!=1 or len({e['root'] for e in rows})!=6:raise ValueError('duplicate or mismatched attempts')
+    return cases
+
+
+def _install_reference_frame_guard(study,c):
+    import copy
+    factory=study.study_relay
+    def aligned_relay(core,manifest,protocol,qualify):
+        base=factory(core,manifest,protocol,qualify)
+        class Relay(base):
+            def prepare_payload(self,payload,index):
+                incoming=copy.deepcopy(payload)
+                payload=super().prepare_payload(payload,index)  # Includes measured whole-task quote-layer proof.
+                if self.forwarded==0:
+                    observed=json.loads((self.root/'observed_requests'/('%05d.json'%index)).read_text())
+                    frame=dict(task=(self.root/'task.txt').read_text(),reset=json.loads((self.root/'initial_reset.json').read_text()),
+                        handoff=json.loads((self.root/'handoff_public.json').read_text()),incoming=incoming,forwarded=payload,observed=observed)
+                    try:matched=_reference_probe_frame(frame)==c['relay_input_frames'][manifest['case_id']]
+                    except ValueError:matched=False
+                    core.write_new(self.root/'reference_input_frame_checks'/('%05d.json'%index),dict(kind='PRE_SEND_INPUT_ONLY',
+                        control=c['execution_controls']['frame_guard'],observed_request_sha256=sha(self.root/'observed_requests'/('%05d.json'%index)),
+                        incoming_payload_sha256=hashlib.sha256(json.dumps(incoming,separators=(',',':')).encode()).hexdigest(),
+                        prepared_payload_sha256=hashlib.sha256(json.dumps(payload,separators=(',',':')).encode()).hexdigest(),
+                        matched=matched,actual_forward_or_native_outcome_claim=False))
+                    if not matched:raise ValueError('first input frame changed beyond B experience')
+                return payload
+        return Relay
+    study.study_relay=aligned_relay  # This checked study import only; neither payload nor old helpers are rewritten.
+
+
+def reference_probe_execution_controls():
+    parent=BASE/'next_train_source_v1'
+    return dict(frame_guard=dict(path=str(Path(__file__).resolve()),sha256=sha(__file__),function='_install_reference_frame_guard',
+            incoming_capture='prepare_payload argument after CBC sampling, before super; source reconstruction from frozen incoming+sampling'),
+        world_guard=dict(path=str(parent/'trained_baseline_transfer_v1/RUN_OPERATOR_V1.py'),sha256='83fa07e1af89197307b11c7b529b410af23cc23fc47d2a9caa05a06fe78b5b2f',function='owned_start_world'),
+        receipt_audit=dict(path=str(parent/'ordinary_history_train12_inputs_v1/RUN_HISTORY_CANDIDATE_V2.py'),sha256='5ff7c35771f67d752c80506d138052dd73ae1566ab35a485b79ca238a63e0496',function='audited'))
+
+
+def _reference_probe_delivery_bindings(c,root,manifest):
+    check_path=root/'reference_input_frame_checks/00001.json';binding_path=root/'controller_execution_binding.json'
+    precheck=json.loads(check_path.read_text());request=json.loads((root/'requests/00001.json').read_text())
+    incoming=dict(request['incoming']);incoming.update(manifest['sampling'])
+    if (precheck['kind']!='PRE_SEND_INPUT_ONLY' or precheck['actual_forward_or_native_outcome_claim'] is not False or
+            precheck['matched'] is not True or precheck['control']!=c['execution_controls']['frame_guard'] or
+            precheck['incoming_payload_sha256']!=hashlib.sha256(json.dumps(incoming,separators=(',',':')).encode()).hexdigest() or
+            precheck['prepared_payload_sha256']!=sha(root/'requests/00001.body') or
+            precheck['observed_request_sha256']!=sha(root/'observed_requests/00001.json') or
+            json.loads(binding_path.read_text())!=dict(plan=c['plan_ref'],execution_controls=c['execution_controls'])):
+        raise ValueError('pre-send input/controller proof differs from actual saved wire')
+    return {str(path):sha(path) for path in (check_path,binding_path)}
+
+
+def check_reference_probe_plan(plan_path,plan_sha):
+    """CPU/file-only qualification. Never prepare, inspect services, or hash weights."""
+    from types import SimpleNamespace
+    ref=dict(path=str(private(plan_path)),sha256=plan_sha);p=checked(ref);cases=_reference_probe_shape(p)
+    bindings={ref['path']:plan_sha,str(Path(__file__).resolve()):sha(__file__)}
+    def read(r):
+        value=checked(r);bindings[r['path']]=r['sha256'];return value
+    spec=read(p['inputs'])
+    if p['inputs']['sha256']!='208ab2a96a6255c96ebb0aff49dbc515b53ed2be4d0122dce2b2f2c7567e9534':raise ValueError('wrong component inputs')
+    alignment=read(spec['alignment_evidence'])
+    prediction=Path(spec['reference_B']['path']).with_name('D_MECHANISM_PREDICTION_V2.json')
+    if p['mechanism_prediction']!=dict(path=str(prediction),sha256='4360c93e5bf66f99d3b1a543478ecbeaaf5ff7b6ffb0ed3bf524e1edb2e0792e'):raise ValueError('frozen development prediction ref required')
+    read(p['mechanism_prediction'])  # Hypothesis provenance, never an execution permission.
+    if (spec['cases']!=cases or spec['new_episodes']!=6 or spec['max_new_posts']!=768 or
+            spec['alignment_evidence']['sha256']!='141b93d9b9332cb37fb2812a2841d320bb07217768a88be368002f167acfc181' or
+            alignment['strictly_aligned'] is not True):raise ValueError('component cohort/alignment differs')
+    parent=BASE/'next_train_source_v1/ordinary_history_train12_inputs_v1'
+    kernel=parent/'RUN_HISTORY_CANDIDATE_V2.py';kernel_sha='5ff7c35771f67d752c80506d138052dd73ae1566ab35a485b79ca238a63e0496'
+    if sha(private(kernel))!=kernel_sha:raise ValueError('frozen H18 pure helpers changed')
+    hist=load(kernel,'reference_probe_h18_pure');old=hist.original();bindings[str(kernel)]=kernel_sha;bindings[str(hist.ORIGINAL)]=hist.ORIGINAL_SHA
+    study_path=HERE/'alfworld_context_study.py'
+    if sha(study_path)!='716c4dd09ad7e673f75bb52b36708713d58c8dde00275784df41571453d535c6':raise ValueError('actor study differs from aligned H18')
+    study=load(study_path,'reference_probe_study');epoch=study.components()
+    if p['operator_sha256']!=sha(__file__) or p['components']!=epoch:raise ValueError('new operator/component epoch required')
+    bindings.update(epoch);q=study.protocol(Path(spec['protocol']['path']),spec['protocol']['sha256']);read(spec['protocol'])
+    controls=reference_probe_execution_controls()
+    if p['execution_controls']!=controls:raise ValueError('explicit actual controller code bindings required beyond study components')
+    if (spec['protocol']['sha256']!='77c04adf4224f3c9c098c387385f482f369ab4ef95f713b85ecc914af9d8aa23' or
+            q['case_ids']!=cases or q['total_caps']!=CAPS or q['runtime_controls']!={'native_terminal_stop':True,'recent_tool_rounds':None} or
+            q['experience_mode']!='reference_only' or q['generation_settings']!={'seed':17,'temperature':.2,'enable_thinking':False,'context':32768,'max_tokens':8192}):
+        raise ValueError('fixed reference-only full/BF16 decoding/caps required')
+    data={}
+    for name,r in (('A',alignment['source_A']),('AB',alignment['source_all7']),('B',spec['reference_B'])):
+        path=private(r['path']);data[name]=path.read_bytes()
+        if sha(path)!=r['sha256']:raise ValueError('reference bytes changed')
+        bindings[str(path)]=r['sha256']
+    if (q['reference_context']!=spec['reference_B'] or sha(private(spec['reference_B']['path']))!='69d22b795c361c52683a293b4eb0c772a0ca1526e4aca845724205dc72af91bd' or
+            data['AB'].count(data['A'])!=1 or data['AB'][9881:10689]!=data['A'] or data['B']!=data['AB'][:9881]+data['AB'][10689:]):
+        raise ValueError('B must be the exact A subtraction, without other edits')
+    closed={name:read({k:r[k] for k in ('path','sha256')}) for name,r in alignment['closed_results'].items()}
+    for name,n,status in (('F',36,'ALL36_TRANSFER_RETURNED'),('H',18,'ALL18_HISTORY_RETURNED')):
+        value=closed[name]
+        if (value['status']!=status or value['completed_receipts']!=n or value['unknown_usage_model_posts']!=0 or
+                any(value.get(k) for k in ('error','aggregation_errors','unrun','unclosed_attempts')) or
+                any(value.get(k) is not True for k in ('restored_healthy','shared35_unchanged','shared27_unchanged'))):raise ValueError('prior batch not closed')
+    admission=read(p['H_admission']);expected_admission=str(Path(alignment['closed_results']['H']['path']).with_name('ADMISSION.json'))
+    if p['H_admission']['path']!=expected_admission or p['restored_process']!=closed['H']['restored_process']:raise ValueError('H18 restoration identity required')
+    window={k:admission[k] for k in ('protected35','protected27')};h=helper();old_profile=read(dict(path=str(OLD_PROFILE),sha256=OLD_PROFILE_SHA))
+    for path,digest in ((HELPER,HELPER_SHA),(WINDOW,WINDOW_SHA)):read(dict(path=str(path),sha256=digest))
+    c=dict(plan=p,study=study,epoch=epoch,bindings=bindings,old=old,hist=hist,h=h,old_profile=old_profile,owned_process=p['restored_process'],
+        window=window,comparison=SimpleNamespace(audit=audit),protocols={'B':q},texts={'B':data['B'].decode()},frozen_cases={},frames={},relay_input_frames={},
+        output=private(p['output_root']),plan_ref=ref,closed_refs=alignment['closed_results'],execution_controls=controls)
+    for case in cases:
+        frames=[];relay_frames=[]
+        for cell,source,attempt in (('00',closed['F'],1),('10',closed['H'],5),('11',closed['H'],4)):
+            row=next(e for e in source['cases'] if e['case']==case and Path(e['root']).name=='attempt_v'+str(attempt))
+            root=private(row['root']);info=alignment['cases'][case][cell]
+            if row['status']!='CLOSED_AUDITED' or str(root)!=info['root']:raise ValueError('aligned prior slot differs')
+            manifest=read(dict(path=str(root/'manifest.json'),sha256=row['manifest_sha256']));read(dict(path=str(root/'receipt.json'),sha256=row['receipt_sha256']))
+            hist.frozen_runtime(manifest,q)
+            for name,digest in info['files_sha256'].items():
+                path=root/name
+                if sha(path)!=digest:raise ValueError('aligned source input changed')
+                bindings[str(path)]=digest
+            request=json.loads((root/'requests/00001.json').read_text());observed=json.loads((root/'observed_requests/00001.json').read_text())
+            frames.append(_reference_probe_frame(dict(task=(root/'task.txt').read_text(),reset=json.loads((root/'initial_reset.json').read_text()),
+                handoff=json.loads((root/'handoff_public.json').read_text()),incoming=request['incoming'],forwarded=request['forwarded'],observed=observed)))
+            hook_input=dict(request['incoming']);hook_input.update(manifest['sampling'])  # Exact frozen CBC7759 Handler ABI, with no exclusions.
+            if hook_input!=request['forwarded']:raise ValueError('prior full-history sampling reconstruction differs from actual wire')
+            relay_frames.append(dict(frames[-1],incoming=_reference_probe_frame(hook_input)))
+            tools=hashlib.sha256(json.dumps(request['forwarded']['tools'],sort_keys=True,separators=(',',':')).encode()).hexdigest();hist.seed_frozen_tools(c,tools)
+            if cell=='00':c['frozen_cases'][case]=dict(row=row,manifest=manifest)
+        if any(f!=frames[0] for f in frames[1:]) or any(f!=relay_frames[0] for f in relay_frames[1:]):raise ValueError('non-experience task/state/request frame differs')
+        c['frames'][case]=frames[0];c['relay_input_frames'][case]=relay_frames[0]
+    c['rows']=[dict(e,id='B__'+e['case'],arm='B',policy='B',protocol=spec['protocol'],reference=spec['reference_B'],status='UNRUN') for e in p['rows']]
+    if c['output'].parent!=Path(spec['reference_B']['path']).parent or c['output'].exists() or any(Path(e['root']).exists() for e in c['rows']):raise FileExistsError('fresh probe output/slots required')
+    return c
+
+
+def _reference_rows_complete(result,rows):
+    n=len(rows);actual=result.get('total_actual_model_calls');posts=result.get('known_budget_model_posts')
+    return (0<n<=6 and all(r['status']=='CLOSED_AUDITED' for r in rows) and result.get('completed_receipts')==n and
+        all(result.get(k)==[] for k in ('aggregation_errors','unrun','unclosed_attempts')) and result.get('unknown_usage_model_posts')==0 and
+        type(actual) is int and type(posts) is int and n<=actual<=posts<=n*CAPS['posts'] and result.get('known_actual_model_calls')==actual and
+        not result.get('error') and not result.get('aggregation_error'))
+
+
+def _finish_reference_rows(c,result,persist,event):
+    old=c['old'];out=c['output'];rows=c['rows']
+    unsafe=('episode_cleanup_error','server_cleanup_error','restoration_error','restore_child_cleanup_error','shared_identity_error','shared_identity_errors','world_cleanup_error','durable_write_error')
+    safe=all(result.get(k) is True for k in ('restored_healthy','shared35_unchanged','shared27_unchanged')) and not any(k in result for k in unsafe)
+    result.update(status='ALL%d_REFERENCE_COMPONENT_RETURNED'%len(rows) if safe and _reference_rows_complete(result,rows) else 'STOPPED_RESTORED' if safe else 'NEEDS_D_RECOVERY',
+        resource_lease='RELEASE_AFTER_DURABLE_RESULT' if safe else 'HELD_FOR_D_INTERNAL_TAKEOVER')
+    try:persist();old.write(out/'RESULT.json',result);event('window_closed',status=result['status'],result_sha256=sha(out/'RESULT.json'))
+    except BaseException as exc:
+        safe=False;result.update(status='NEEDS_D_RECOVERY',resource_lease='HELD_FOR_D_INTERNAL_TAKEOVER',durable_write_error=str(exc))
+        for path in (out/'STATE.json',out/'RESULT.json'):
+            try:old.write(path,result,replace=path.exists())
+            except BaseException:pass
+    if not safe:old.hold_for_d(out,ST/'model_resource.lock');raise RuntimeError('D hold returned')
+
+
+def _execute_owned_reference_rows(c):
+    """Finite reference rows in one owned BF16 window; no callbacks or scheduler."""
+    if not c.get('authorized_release'):raise ValueError('new explicit reference-row release required')
+    old=c['old'];h=c['h'];study=c['study'];out=c['output'];rows=c['rows'];q=c['protocols']['B'];original=c['owned_process']
+    result=dict(status='STARTED',cases=rows,restored_healthy=False,training=0,judges=0,development_only=True,historical_formation_and_training_costs=None,
+        execution_controls=c['execution_controls'],scientific_scope='Development component completion, not independent method validation')
+    lock_path=ST/'model_resource.lock'
+    if lock_path.is_symlink() or not lock_path.is_file():raise ValueError('existing shared lock required')
+    lock=lock_path.open('r+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    if os.fstat(lock.fileno()).st_ino!=lock_path.stat().st_ino:raise ValueError('lock inode changed')
+    owned=[];child=ticket=active=None;released=owns_output=False;started=time.monotonic();cancelled=False
+    pool=study.task_pool();pool.start_world=lambda *a,**k:old.owned_start_world(pool,owned,*a,**k);study.task_pool=lambda:pool
+    _install_reference_frame_guard(study,c)
+    def event(kind,**data):
+        try:
+            with (out/'events.jsonl').open('a',encoding='utf-8') as f:f.write(json.dumps(dict(event=kind,utc=time.time(),**data))+'\n');f.flush();os.fsync(f.fileno())
+        except BaseException as exc:result['durable_write_error']=str(exc);raise
+    h.event=event
+    def persist():
+        try:old.write(out/'STATE.json',result,replace=(out/'STATE.json').exists())
+        except BaseException as exc:result['durable_write_error']=str(exc);raise
+    def cancel(*_):
+        nonlocal cancelled
+        if not cancelled:cancelled=True;raise KeyboardInterrupt('CANCEL_REQUESTED')
+    previous={s:signal.signal(s,cancel) for s in (signal.SIGTERM,signal.SIGINT)}
+    try:
+        out.mkdir();owns_output=True;frozen(c,c['epoch'])
+        if h.proc(original['pid'])!=original:raise RuntimeError('complete current Q4 identity differs')
+        h.listener(original);h.protected(c['window']);h.idle()
+        if sha(original['exe'])!=c['old_profile']['server_executable_sha256']:raise ValueError('server executable changed')
+        _,parent=study.verified_gguf(q['parent_gguf']['path'],q['parent_gguf']['sha256'])
+        fd=os.open(q['parent_gguf']['path'],os.O_RDONLY|os.O_NOFOLLOW)
+        try:os.posix_fadvise(fd,0,0,os.POSIX_FADV_DONTNEED)
+        finally:os.close(fd)
+        old.write(out/'ADMISSION.json',dict(owner_pid=os.getpid(),bindings=c['bindings'],components=c['epoch'],execution_controls=c['execution_controls'],owned_process=original,protected35=c['window']['protected35'],protected27=c['window']['protected27'],parent_verification=parent))
+        persist();released=True;h.stop_owned(original,escalate=False);require_free_owned_port();argv=h.server_argv(original['argv'],q['parent_gguf']['path'],None)
+        with (out/'server.log').open('xb') as log:
+            pending=[];saved={}
+            try:
+                for sig in previous:saved[sig]=signal.signal(sig,lambda sig,frame:pending.append(sig))
+                child=subprocess.Popen(argv,cwd=original['cwd'],stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+                ticket=h.owned_child_ticket(child)
+            finally:
+                for sig,handler in saved.items():signal.signal(sig,handler)
+            if pending:cancel()
+            old.write(out/'SPAWN_TICKET.json',ticket);current=h.stable_child(child,dict(argv=argv,cwd=original['cwd'],exe=original['exe']),out/'startup_identity.jsonl',ticket)
+            h.ready(child,current,out);h.listener(current);h.protected(c['window']);loaded,body=h.get('/lora-adapters',out/'loaded_adapters',1)
+            if loaded['status']!=200:raise RuntimeError('loaded adapter HTTP failure')
+            h.adapters(body,None)
+            old.write(out/'RUNTIME_ADMISSION.json',dict(schema='owned_8b_runtime_admission_v1',status='OWNED_RESEARCH_RUNTIME_READY',process=current,gguf={k:q['parent_gguf'][k] for k in ('path','sha256')},model_alias='qwen3-8b-qual',active_lora=None,parent_hf_binding=q['HF_parent_binding'],loaded_adapter_receipt=loaded))
+            profile=dict(schema='alfworld_owned_8b_runtime_profile_v1',variant='frozen',host='127.0.0.1',port=18104,model_id='qwen3-8b-qual',context=32768,output=8192,enable_thinking=False,gguf_path=q['parent_gguf']['path'],gguf_sha256=q['parent_gguf']['sha256'],server_executable=original['exe'],server_executable_sha256=c['old_profile']['server_executable_sha256'],parent_hf_binding=q['HF_parent_binding'],runtime_admission=dict(path=str(out/'RUNTIME_ADMISSION.json'),sha256=sha(out/'RUNTIME_ADMISSION.json')))
+            old.write(out/'PROFILE.json',profile);profile_sha=sha(out/'PROFILE.json')
+            for entry in rows:
+                frozen(c,c['epoch']);h.listener(current);h.protected(c['window']);active=Path(entry['root'])
+                if active.exists():raise FileExistsError('preserve appeared slot')
+                entry['status']='PREPARING';persist();event('case_start',slot=entry['id'])
+                m=study.prepare(active,Path(entry['protocol']['path']),entry['protocol']['sha256'],model_seed=17,runtime_profile=out/'PROFILE.json',runtime_profile_sha=profile_sha,reference_context=Path(entry['reference']['path']),reference_context_sha=entry['reference']['sha256'])
+                c['hist'].prepared(c,entry,m,profile,profile_sha,parent)
+                old.write(active/'controller_execution_binding.json',dict(plan=c['plan_ref'],execution_controls=c['execution_controls']))
+                entry.update(status='EXECUTING',manifest_sha256=sha(active/'manifest.json'));persist();frozen(c,c['epoch'])
+                receipt=study.run_episode(active,entry['manifest_sha256'])
+                if any(e.get('cleanup')=='world' for e in receipt.get('errors',[])):result['world_cleanup_error']=receipt['errors']
+                entry.update(status='CLOSED_UNAUDITED',receipt_sha256=sha(active/'receipt.json'));persist()
+                if any(e.get('detail')=='first input frame changed beyond B experience' for e in receipt.get('model_relay_errors',[])):
+                    entry.update(input_admission='REJECTED',scientific_outcome_eligible=False)
+                    raise ValueError('INPUT_ADMISSION_REJECTED: first input frame changed')
+                proof=c['hist'].audited(c,entry,m,receipt)
+                request=json.loads((active/'requests/00001.json').read_text());observed=json.loads((active/'observed_requests/00001.json').read_text())
+                frame=_reference_probe_frame(dict(task=(active/'task.txt').read_text(),reset=json.loads((active/'initial_reset.json').read_text()),handoff=json.loads((active/'handoff_public.json').read_text()),incoming=request['incoming'],forwarded=request['forwarded'],observed=observed))
+                if frame!=c['frames'][entry['case']]:
+                    entry.update(input_admission='REJECTED',scientific_outcome_eligible=False)
+                    raise ValueError('INPUT_ADMISSION_REJECTED: actual raw input frame changed')
+                proof['raw_bindings'].update(_reference_probe_delivery_bindings(c,active,m))
+                entry.update(proof,status='CLOSED_AUDITED');persist();event('case_audited',slot=entry['id']);active=None
+            frozen(c,c['epoch']);h.protected(c['window'])
+    except BaseException as exc:
+        result['error']=dict(type=type(exc).__name__,message=str(exc))
+        if owns_output:event('queue_stopped',error=result['error'])
+    finally:
+        for sig in previous:signal.signal(sig,signal.SIG_IGN)
+        if not owns_output:old.hold_for_d(out,lock_path);raise RuntimeError('D hold returned')
+        try:
+            if active is not None:h.cleanup_episode(active)
+        except BaseException as exc:result['episode_cleanup_error']=str(exc)
+        result['owned_worlds']=[]
+        for record in owned:
+            try:old.close_owned_world(record)
+            except BaseException as exc:result['world_cleanup_error']=str(exc)
+            proc=record.get('process');result['owned_worlds'].append(dict(root=record['root'],label=record['label'],pid=proc.pid if proc else None,exit=proc.poll() if proc else None))
+            if record.get('cleanup_error'):result['world_cleanup_error']=record['cleanup_error']
+        try:result.update(restore(h,original,child,ticket,out,c['window'],released))
+        except BaseException as exc:result.update(restored_healthy=False,restoration_error=str(exc))
+        try:result.update(aggregate(rows))
+        except BaseException as exc:result.update(aggregation_error=str(exc),total_actual_model_calls=None,unknown_usage_model_posts=None)
+        result['window_wall_seconds']=time.monotonic()-started;_finish_reference_rows(c,result,persist,event)
+        fcntl.flock(lock,fcntl.LOCK_UN);lock.close()
+        for sig,handler in previous.items():signal.signal(sig,handler)
+    return result
+
+
+def execute_reference_probe(plan_path,plan_sha,release_path,release_sha):
+    c=check_reference_probe_plan(plan_path,plan_sha);release_ref=dict(path=str(private(release_path)),sha256=release_sha);release=checked(release_ref)
+    expected=dict(schema='ALFWORLD_REFERENCE_COMPONENT_RELEASE_V1',status='RELEASED',plan=c['plan_ref'],operator_sha256=sha(__file__),
+        components=c['epoch'],execution_controls=c['execution_controls'],restored_process=c['owned_process'],closed_results=c['closed_refs'],reference_B_sha256='69d22b795c361c52683a293b4eb0c772a0ca1526e4aca845724205dc72af91bd',
+        episodes=6,maximum_forwarded_posts=768,input_bindings=c['bindings'],training=0,judges=0)
+    if release!=expected:raise ValueError('new exact6/768 release required; old releases never carry')
+    c['bindings'][release_ref['path']]=release_sha;c['authorized_release']=release_ref
+    return _execute_owned_reference_rows(c)
+
+
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__);mode=parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--check',action='store_true');mode.add_argument('--execute',action='store_true')
