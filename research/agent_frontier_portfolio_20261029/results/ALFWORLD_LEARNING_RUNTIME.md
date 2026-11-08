@@ -21,15 +21,9 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 
 同HF8B、seed17、q/v LoRA r8/alpha16/dropout0、lr2e-4、batch1，两臂各192更新；O为1,135,199序列/8,239监督tokens，R为1,135,273/8,378。实际135个唯一行中O为67行、R为68行，来自相同7组；只监督当前助手动作与EOS。同父模型/初始化/更新数，非完全等训练量；训练wall为O 1,579.4秒、R 1,600.1秒，共享GPU，不能写成GPU秒。R是失败前缀接续，O从reset形成，只比较配方整体。
 
-| 旧16题开发结果 | heat/cool/look主比较 | clean诊断 | 全部原生won |
-| --- | ---: | ---: | ---: |
-| Frozen F | 6/12 | 1/4 | 7/16 |
-| Ordinary O | 6/12 | 1/4 | 7/16 |
-| Recovery R | 7/12 | 3/4 | 10/16 |
-| 普通历史all7 | 5/12 | 2/4 | 7/16 |
-| 普通历史top1 | 4/12 | 2/4 | 6/16 |
+旧16题F/O/R/all7/top1为7/7/10/7/6个won；完整分型和费用见下方归档链接。训练行尸检：look的O/R唯一动作行3/2、实际更新均28、监督tokens 1,225/1,246，R并非用了更多look动作或更新；上下文和监督内容仍不同。私有`TRAINING_REPRESENTATION_CENSUS_V1.json`双端留存。
 
-R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同、实际token更低。旧R存在原生成功后继续请求的长尾，未来三臂统一原生终态停止；工程停止控制不能算学习贡献，旧费用不扣除。[五臂完整账和C复核](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md#five-arm-results)给出全部费用、区间与旧27B参照。
+旧R-F/O主比较差的区间含0；新批已统一原生终态停止，旧长尾费用不扣除。[旧五臂完整账](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md#five-arm-results)保留区间、成本及27B参照。
 
 ## 新布局比较：36槽闭合，纠正训练保留为强基线
 
@@ -47,23 +41,32 @@ R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同�
 
 原F/O/R36槽为1,913 POST、input 22,280,136、output 82,836，cache 21,849,417为input子集。R对O两题增益、零损失，对F四题增益、零损失；F/O在look成功身份互换，R覆盖二者成功并集。新增H18为766 POST、input 10,624,832、output 32,740、合计10,657,572，cache 10,380,370仍为子集。目标匹配策略账含旧F clean6的478 POST/5,648,657 tokens，不重复计入新增支出。均为单seed曝光开发，未识别反馈因果或独立方法。
 
-| 冻结输入 | SHA256 |
-| --- | --- |
-| `BATCH_PLAN_V2.json` | `ea4731e0b3e0c1162393350f23601f35ee57bef20f730142716f987afaec3b0c` |
-| `PROTOCOL_V1.json` | `684f68b7f56091734c474069994734a300e2b8fb9933628161a401ec6a636e92` |
-| `SOURCE_ISOLATION_V1.json` | `fa764abde4d35bb2d1f86a1eb91281ce2318ac40f730e255a283ed6762f0de61` |
+冻结批次计划、协议和来源隔离表随下方36槽包保存；其原始hash以包内manifest为准。
 
-**复核及封存。** C独立核36个原生结果、11,694条raw绑定和1,913条原SSE；所有72个owned world容器退出，原18104 Q4已恢复、锁已释放。完整raw及16份代码快照双端封存：`trained_baseline_transfer36_closed_v1_20261108.tar.gz`，90,741,393bytes/12,545文件，SHA `86b782a2f154e336ebf72fffcd33791f9e7a3a5b1e89a1a1e6f7b02879af6390`；不含模型权重或完整actor缓存。C为AI独立复核，接受上述开发性结果及边界；未重哈希完整16GB父模型。27B的登录用户/proc不可见不代表容器死亡：D另以Docker状态及1次研究health GET确认存活，无新增生成。
+**封存。** C核36个原生结果、11,694绑定及1,913 SSE；72个world容器退出，Q4恢复/解锁。双端`trained_baseline_transfer36_closed_v1_20261108.tar.gz`为90,741,393bytes/12,545文件/16份代码快照，SHA `86b782a2f154e336ebf72fffcd33791f9e7a3a5b1e89a1a1e6f7b02879af6390`。不含权重/actor缓存；C未重哈希16GB模型，D另以Docker及1次health GET核27B存活。
 
-H结果没有改写R的基线地位：all7对F新增2题、退化2题，对R新增1题、退化5题；目标匹配与F逐题成功向量相同。普通历史解释不了R的全部开发优势，但R仍是已有纠正配方，不能据此宣布新机制。停止追加普通SFT变体，下一步做组合效用识别。
+all7对F新增2题/退化2题，对R新增1题/退化5题；目标匹配与F逐题向量相同。R仍是已有配方，不追加普通SFT变体。
 
-**普通历史资产。** 旧16题共用同一份7条普通教师成功轨迹，heat4/cool2/look1，不是7条纠正。`hf_evaluation_v1/contexts/all7.txt` SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`，可直接复用内容。新12题仍须单独绑定pool、公开reset与共同配置；现役`experience_mode=none`拒绝该参考，旧驱动硬锁16题，不能直接替换输入或修改在途代码。
+**历史资产。** `hf_evaluation_v1/contexts/all7.txt`为7条普通教师成功轨迹（heat4/cool2/look1），非纠正；SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`。复用需绑定新pool/reset/配置；`experience_mode=none`不接受参考，旧16题驱动不能换输入重跑。
 
-私有`ordinary_history_train12_inputs_v1/RUN_V1/RESULT.json`为`ALL18_HISTORY_RETURNED`，SHA `45d7351f3b070bc30e65eb352fbcaba651d24fdc72fdda9f83e20b6b4094663a`。C独立核18槽、766条原SSE及4,702项绑定，无结果阻断；原Q4恢复身份与锁释放已核。PID2349435已退出，不重启。先前V2在模型调用前因D漏绑计划文件被拒绝，0模型/HTTP/world，旧release/日志保留。
+私有`ordinary_history_train12_inputs_v1/RUN_V1/RESULT.json`为`ALL18_HISTORY_RETURNED`，SHA `45d7351f3b070bc30e65eb352fbcaba651d24fdc72fdda9f83e20b6b4094663a`。C核18槽、766 SSE及4,702绑定；Q4恢复/解锁。PID2349435已退出，不重启；先前零调用准入失败随包保留。
 
 双端封存`history18_closed_v1_20261109.tar.gz`：38,570,450bytes/5,083文件/16份代码快照，SHA `e44cec93720f73ede013fa7eb535a8e92e19f965a3b63df372511dcae7e08ae0`；复用F证据依赖上面的36槽包，不重抄或重计。源权重、actor缓存及生产数据不在包内。
 
-**在途四格识别。** look6补01=B（其余六轨迹），配对旧00=F、10=单look轨迹A、11=all7。题面/公开状态/实际首请求在经验块外全部相同；A在all7的`[9881,10689)`恰出现一次。私有`COMPONENT_INPUTS_V1/EXECUTION_PLAN_V2.json` SHA `0e11794e6a0c4d81b32092aff8b3857bd1efe6700cda501172bd8ab5cc818221`；D释放6新槽/768POST，PID见STATE。新执行路径GB10为94测试/184子测通过；初次CPU检查误将Python源解析为JSON，已修、0模型。预测V2纠正V1错误的H0推导（旧版保留），H1阈值未改。仅reset再暴露，不认证动态撤回或新算法；设计见[研究组合](../AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
+**四格已闭合。** A为单look轨迹，B为其余六条；all7中`[9881,10689)`恰为A。题面、公开状态及经验外首请求匹配；传输含已记录引号转义，不称原始线上字节完全相同。
+
+| 固定mask / look6 | 逐题won向量 | 成功 |
+| --- | --- | ---: |
+| 00 无经验 | 0,0,1,1,1,1 | 4/6 |
+| 10 A | 0,0,1,1,1,1 | 4/6 |
+| 01 B（新增） | 0,0,0,1,0,1 | 2/6 |
+| 11 A+B | 1,0,0,0,1,1 | 3/6 |
+
+`I=V11−V10−V01+V00=[1,0,0,-1,1,0]`，3布局数值非零，达到开发H1；一格一次0/1并非期望交互。oracle5/6在补B前已有，不是B增益或部署成绩；R在同六题为6/6。B01/03/05各两次普通stop、0工具/动作；B02为63 POST/50动作后达context帽；不能把差异归为纯语义依赖。
+
+新增139 POST、input 2,062,676/output 5,706、共2,068,382 tokens，cache 1,997,824为input子集，训练/judge为0。C独立核6终态、139 SSE、879绑定和首帧证明；D另核当前Q4身份、35/27及锁释放。预测卡把O误抄成A，按实际24份receipt更正，旧卡/旧裁决保留；不称前瞻确认。汇报print错误发生在内核写结果/恢复/解锁后，不重跑。初次CPU检查的源文件JSON误读为0模型失败；修后GB10为94测试/184子测通过。
+
+私有当前裁决`COMPONENT_INPUTS_V1/D_C_CLOSEOUT_V1.json` SHA `dbe88de043a0d5cc2195dc0c3fc5dbd77859f3565d36367ced959795680afcd4`。双端包`component_probe6_closed_v1_20261109.tar.gz`为7,286,660bytes/955文件，SHA `2315574faa213c3f1f960e834d840323fb2c2c1c478b5cbf3052b290e58e04a6`；依赖上述旧36/H18包。下一步先做通道诊断，不在此六题训练联合选择器，见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 ## 来源形成成本：已复算组件
 
@@ -76,7 +79,7 @@ H结果没有改写R的基线地位：all7对F新增2题、退化2题，对R新�
 | R的7次教师纠正接续 | 80 | 543,819 |
 | R上游heat_1/clean_1成功执行及技能形成 | 20 | 113,981 |
 
-R已用来源链合计302 POST/2,953,267 tokens，筛选/转换/训练等费用分列，非方法总成本。H与O各按策略计形成费，项目事件账只记一次共享事件；未知cache保留null，不把跨模型token当等价计算。此次历史回算无新模型调用。私有`D_SELECTED_SOURCE_COSTS_V4.json` SHA `374b4b5ae1dd5e7494c8f007ce7d9614d86bb2cc4e6b4e0db29c02ac344275a8`；未选中尝试及研发账另列。
+R来源链302 POST/2,953,267 tokens，非含筛选/训练的完整总成本。H/O策略计形成费，物理账共享事件只记一次；未知cache保留null，跨模型token不等价计算。私有`D_SELECTED_SOURCE_COSTS_V4.json` SHA `374b4b5ae1dd5e7494c8f007ce7d9614d86bb2cc4e6b4e0db29c02ac344275a8`。
 
 ## 历史记录按需读
 
