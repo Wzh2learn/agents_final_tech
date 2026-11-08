@@ -11,7 +11,7 @@
 | 来源与参考资格 | Requests 此对题面/版本/gold 行为冲突，不继续该对模型比较；Sphinx/Django/SymPy 等旧现场按[历史证据目录](../docs/archive/2026-11-06_agent_research_context/README.md)查阅。新来源先核验实际原题、base/gold、回归与时间边界。EdgeBench x86→ARM 尚未确认。 |
 | 成本及运行器 | 历史340-token差额、历史未知请求和部分权重标识保留。Requests/Astropy已有显式attempt；旧ContextBench标识仍绑定task/condition/seed，改造须迁移输出目录。跨机器预算锁未实现；当前是否在途查STATE，不能从本行推断。 |
 | 记忆和自动调度 | 反思游标只验证单进程；尚无统一八层记忆、恢复队列或持续自动唤醒。个人会话接入、身份/归属和生产反思调用均不能由已有摘要功能推定已授权或实现。见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 11-08核7个历史worktree及两端历史分支独有提交均0；7棵都有独有忽略产物，保留现场。Loop B日志不回滚。本机CLAUDE为Windows链接占位，GB10实际链接正常；本机Claude规则加载未验。分享前核私有包及许可；远端可见性未复验。 |
+| 工作区与分享 | 11-08历史提交均已入main，旧分支及7棵worktree的精确位置归档为`archive/20261108/*`标签；三端只留main分支。7棵历史树含独有忽略产物，原位保留；Loop B日志不回滚。本机CLAUDE为Windows链接占位，GB10实际链接正常，本机Claude加载未验。分享前核私有包、许可与远端可见性。 |
 | 文档与 skill 存量 | 11-08 doctor为0 errors/134既有warnings；两机各101个A/C安装项无漂移。map多副本不直接删。保留3项docs过期警告；通用规则脚本另命中2个vendored示例占位和计数告警，未冒充项目规则故障。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
