@@ -6,16 +6,16 @@
 
 主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
 
-主攻[反馈下的经验适用性与组合效用](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：先识别作用再设计机制，不再追加普通纠正SFT。JointCore、MemHarness及普通组合bandit须作强对照，算法尚未确定。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
+主攻[执行见证保留与重新取证](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：先排除强规则，再设计学习机制，不再追加普通纠正SFT。JointCore、MemHarness、CEDAR及同数据简单模型作参照；算法尚未确定。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
 
 [五基线与四格](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R仍属已有配方。SymPy双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制第二环境复用；不为增加基线数量而单独扩跑。
 
 ## 执行原则与后续顺序
 
 1. **已闭合开发格。** B6四格3/6布局交互非零，受通道及上下文帽混淆；预测卡抄错向量已按raw更正。oracle5/6原已存在、R为6/6，不据此训练选择器。数字及旧卡按证据路由读取。
-2. **在途采集。** [新18源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)已按V2释放：F/BF16、全7历史、required；每题128 POST/actor1800秒/100动作/64MB，批次≤2304 POST。按固定任务顺序取真实反馈，不替换失败；未知计量停，已核上限按端到端结果保留。
-3. **学习机制。** 有重复信号后，设计反馈反证前提与保留实际进度的修订机制。普通联合效用/主动采集仅作基线，与同数据/容量MLP、组合bandit、JointCore及MemHarness强适配比较；不把交互项、多数据或更多算力说成新信息。
-4. **动态与迁移。** [新18源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)为TRAIN，134 valid_unseen保留确认。采集后按原生未成功、公开非零进度及剩余动作筛真实恢复现场；同一前缀重放后比较保留/移除/修订，actor始终见相同真实状态。第二环境/未见组合后才定稿；旧heat_2/clean_2只作回归。
+2. **新来源已闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功、14未完成，930 POST；13上下文帽、1请求帽。原world已关闭，末反馈12条未转发；它们是可重放开发前缀，不是纠正监督或经验失效标签。
+3. **先做强规则反证。** 在14个现场同前缀重放，比较每次重做与按公开见证省略已做步骤，两臂同搜索/合法动作/剩余额度。旧两题的共同搜索消除了位置扰动影响，但未证明必须存储进度见证。CPU控制后才为有残差的任务设计训练，不让更多SFT代替新机制。
+4. **学习与迁移。** 候选把陈旧绑定替换成可执行取证步骤，保留取证无法替代的见证；需超越公开进度清单＋搜索、总是重做及近邻强适配。134 valid_unseen继续保留，按任务/布局分组，第二环境验证；旧heat_2/clean_2仅作开发。部署只执行选中方案，取证动作和形成成本均计入。
 
 ## 证据和写作要求
 

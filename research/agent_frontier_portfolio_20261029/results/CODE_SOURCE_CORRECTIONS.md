@@ -62,9 +62,9 @@ GB10私有根为`ROOT/code_source_expansion_v1/SOURCE_ACTOR_PREPARED_V2_BASH_FIX
 
 D核全部48原SSE/实际工具合同/请求hash/封顶账及容器清理；closure SHA `f92f4bb287b216cfb8401e6862656df6139e13416496b2b65c673bc2481ffb1a`，原receipt SHA `5d9cc82cd7a069e2b39b47920fcafa844b27c49ab0ff9f8733f99786824144fe`。私有薄包183成员/742,006bytes，SHA `9dd91038692e93b97319dd3fbb33bfa15d3e0d905e4aa19fc6b3b97cc7cb8825`，本机逐项核182文件。源码/依赖沿用原资格资产，不用参考patch冒充Agent成功。
 
-**下一步：同输入单轮教师代码修复能力对照。** 同27B/seed17/32k上下文/8k总输出，非thinking与thinking各最多1POST，只有请求级思考开关不同。输入限本来源的公开题面、源码和真实执行反馈；D定位辅助不冒充完整自主Agent。输出补丁在隔离工作区检查并原生评分，严格保留reasoning/content、格式或长度失败、调用和形成成本。固定模板具有True分支，但旧source入口强制False且False计数器不能套用True；当前只准备薄衔接与CPU验证，尚无True实际请求或新训练。不继续同配置48轮重试；必要时比较明确标记的source-reference辅助基线。新增[SymPy集合候选](ALFWORLD_LEARNING_RUNTIME.md#sympy-intersection)仍仅作公开行为素材。
+**历史设计（已执行，结果见[当前结果](#current)）：同输入单轮教师代码修复能力对照。** 同27B/seed17/32k上下文/8k总输出，非thinking与thinking各最多1POST，只有请求级思考开关不同。输入限本来源的公开题面、源码和真实执行反馈；D定位辅助不冒充完整自主Agent。输出补丁在隔离工作区检查并原生评分，严格保留reasoning/content、格式或长度失败、调用和形成成本。固定模板具有True分支，但旧source入口强制False且False计数器不能套用True；当时只准备薄衔接与CPU验证，尚无True实际请求或新训练。不继续同配置48轮重试；必要时比较明确标记的source-reference辅助基线。新增[SymPy集合候选](ALFWORLD_LEARNING_RUNTIME.md#sympy-intersection)仍仅作公开行为素材。
 
-新[单轮入口](../contextbench_teacher_patch.py)与49项CPU检查已完成，尚未prepare或生成。真实分词初检将BatchEncoding的2个字段误作长度，旧证明保留为无效；修复后按一维整数token计数，False为3,583、True为3,619，加8,192输出与512余量均小于32,768。协议SHA `983a80057a21db5863bf08a7a3f9de2f438ff778ed815a6b8d0d6ac878adaf67`；实际CPU复核SHA `76e67530e5eb66e72080325bed3a9230aab8351d03f09555092270ca7202088b`，模型/环境/容器0。它是当前代码来源的能力诊断，不把它设为其他已合格ALF来源继续研究的统一前置。
+当时[单轮入口](../contextbench_teacher_patch.py)与49项CPU检查已完成，尚未prepare或生成；后续实际执行由页首结果取代此状态。真实分词初检将BatchEncoding的2个字段误作长度，旧证明保留为无效；修复后按一维整数token计数，False为3,583、True为3,619，加8,192输出与512余量均小于32,768。协议SHA `983a80057a21db5863bf08a7a3f9de2f438ff778ed815a6b8d0d6ac878adaf67`；实际CPU复核SHA `76e67530e5eb66e72080325bed3a9230aab8351d03f09555092270ca7202088b`，模型/环境/容器0。它是代码来源的能力诊断，不把它设为其他已合格ALF来源继续研究的统一前置。
 
 报告保留两项byte差：每题wire计数比原SSE body多6,720bytes。冻结relay明确wire另计HTTP响应头，body文件不含头；单位不同，不据此判断token丢失或超帽。动态头原文未归档，未声称独立重建每字节。两源闭合私有包349成员/2,068,583bytes已双端核验，SHA `3d3ac3fa60fcc0ac078204f96113e43397863a0aa67eb6e2e7d44e6399c2de63`，本机check SHA `973a88f07660ea1d4efdf6b7cf2091d22090b9942b6bd861007b9c05514c8d8a`；尸检报告随后单独镜像，不重打原包。
 
