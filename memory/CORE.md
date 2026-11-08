@@ -1,6 +1,6 @@
-# memory/CORE.md — 永久事实（始终加载，<100 行）
+# memory/CORE.md — 架构与历史运行基线（按需加载）
 
-更新: 2026-11-06（科研搜索路由；模型/运行基线仍为2026-10-09记录，实际服务须现场核验）
+更新: 2026-11-08。下列服务、CLI配置和质量数字是标注日期的历史基线，本次neat没有探测服务；当前任务、授权与研究actor以STATE、短计划和实际批次为准。
 
 ## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.129.237.26, ARM64）
 
@@ -15,18 +15,19 @@
 | :15432 | PostgreSQL + PGVector (docker) | vector_db, collection m1_parsed_statements |
 | :8090 | ZhikunCode (docker) | Multi-Agent 平台，可选扩展面 |
 
-## 模型路由（2026-10-09 现役）
+## 历史 CLI 路由（2026-10-09，不代表当前宿主子Agent）
 
 - Loop A (Codex CLI): `mimo-v2.6-flash` via `Xiaomi_Token_Plan`，执行 profile `~/.codex/loopa-exec.config.toml`；诊断 profile 使用 `mimo-v2.6-pro`。
 - Loop C (Claude Code): `mimo-v2.6-pro` via Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`（`~/.claude/settings.json`；2026-10-09 默认入口 smoke PASS）。
 - 科研联网默认当前 Codex 宿主原生搜索；GB10 禁网实验由 D 提供带来源材料，不自动回退到 DeepSeek/Qwen 搜索。
 - qwen_harness_tools.py: qwen3.8-max-preview（历史兼容工具，显式选用才执行；code_interpreter/web_extractor 功能保留）。
 - 凭证只存外部受保护环境文件；不写入 Git、文档、日志或 prompt。
-- 禁止: 加载 72B（已删除; 硬禁 08-17 作废, 改模型准入预算门, 见 DECISIONS）；PaddleOCR（ARM64 SIGSEGV）；VLM :8007/Triton 线已关闭。
+- 当前宿主子Agent优先续用相关上下文；新执行位按用户偏好使用GPT-6.1 Terra/max。它与上述GB10 CLI配置、实验中的8B/27B actor是不同对象；不据此改安装配置或承诺缓存命中。
+- 禁止加载72B（已删除）；PaddleOCR曾有ARM64 SIGSEGV；VLM :8007/Triton为历史关闭记录，本次未复验。
 
 ## Graph 四层 Loop
 
-- D 授权/验收 → A 执行 → B 独立验证 → C 独立审计；这是研发协作，不是 `src/agents/` 业务图。
+- D日常主责；A按需隔离实现，B或离线脚本确定性验证，C在冻结协议/重大结论时独立审阅。不是每轮必经四阶段，也不是 `src/agents/` 业务图。
 - 当前任务决定范围与预算，入口为 `scripts/graph/loop_a_exec_constraints.md`、`scripts/graph/loop_c_audit_prompt.md`；不从历史模型/频率推断许可。
 - `graph_orchestrator.sh` 仅有 B 的实际启动逻辑，A/C 主要打印说明；start/stop 会改变运行状态，不是健康查询。
 - B 的判分确定性不等于零调用：默认 canary/API/QA/PG 检查会访问真实服务；本地定点测试不替代它。
@@ -44,10 +45,10 @@
 ## 冻结红线
 
 - tests/test_m1_service.py（冻结节点）；scripts/graph/frozen_hashes.txt（冻结基准）；schema 冻结 hash
-- 不碰 API key；模型准入走预算门（72B 已删除）；归档用 git mv 不用 rm；不 enable systemd；审查意见不照单全收
+- 不碰API key、不加载72B；其他研究模型按当前授权和批次预算；归档用git mv；不enable systemd；审查意见须核实。
 - OpenCode/MCP 交付物三件（09/10/2026-07-19_m2_mcp_verification）2026-08-05 归档至 docs/archive/：可归档、永不删除，INDEX 归档组保留条目
 - HANDOFF.md 冻结为历史文档；现状写 memory/STATE.md
-- :8006 有条件可用（2026-08-31 用户裁定, 五条件全列）: ① 仅限预注册窗口卡内 ② 仅限白天错峰、夜间零调用 ③ 卡内硬预算门（调用计数器）④ canary 异常即停+记账、窗内不归因 ⑤ 窗口外恢复零触碰; J7 端点鲁棒性窗不随本条自动开启（原判据另批）。此为 :8006 零触碰红线的唯一有效放宽。
+- 2026-08-31的:8006旧窗口要求曾为：预注册、白天错峰/夜间零调用、硬预算、canary异常停止、窗外零触碰。它不替代用户后续明确授权的科研批次，也不自动开启生产/J7探针；当前研究依STATE、固定profile与实际预算执行，共享服务不随意重启。
 
 ## 质量基线（2026-08-22 更新）
 

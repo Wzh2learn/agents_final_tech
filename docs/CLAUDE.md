@@ -1,30 +1,9 @@
 # Claude Code Project Guide
 
-> 状态: 活跃（Loop C 薄指针） | 更新: 2026-11-03 | 取代/被取代: 无
-
-2026-10-19 review: the root-rule pointer and project boundaries remain current;
-this file intentionally stays a thin pointer.
+> 状态: 活跃（Loop C 薄指针） | 更新: 2026-11-08 | 取代/被取代: 无
 
 Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../AGENTS.md). Current implementation status is maintained in [`../memory/STATE.md`](../memory/STATE.md); do not duplicate either source here.
 
-2026-11-03 review: the listed repository and directory paths exist. Research work should use [`research/README.md`](research/README.md) for current entry points, rather than treating archived experiment plans as active instructions. This path check does not establish runtime or deployment status.
+Read the current snapshot, then use [`research/README.md`](research/README.md) for research or [`INDEX.md`](INDEX.md) for another task. Load one relevant plan and evidence record; architecture documents are needed only for architecture work. Archived plans and historical model configurations are not current authorization.
 
-## Required Reading
-
-Before changing code, read:
-
-1. `../README.md`
-2. `../memory/STATE.md` (current snapshot; HANDOFF.md is frozen history)
-3. `17_Graph_Engineering_多层Loop设计.md`
-4. `21_基础设施盘点与gap解决规划.md`
-5. `INDEX.md` (doc map)
-
-## Project-Specific Notes
-
-- The application is FastAPI-based. Do not introduce Flask response patterns into new routes.
-- Keep Web routes in `src/web/routers/`, business logic in `src/biz/`, reusable tools in `src/tools/`, and the OpenCode adapter in `src/mcp_server/`.
-- The existing `RAGService` and PostgreSQL/PGVector data are the single knowledge backend.
-- The first MCP version is read-only. Write, delete, re-index, OCR, and evaluation operations require an explicit reviewed task.
-- `opencode.json` points to a GB10-local OpenAI-compatible endpoint; credentials and machine-specific overrides must remain outside Git.
-
-Use Python 3.12. Because this repository uses a `src/` layout, set `PYTHONPATH=src` when running tests directly.
+For independent review, use a fixed snapshot and explicit scope. Distinguish AI review from human reference labels; do not edit the reviewed artifacts. Paths and reading routes were checked on 2026-11-08; this does not establish runtime or deployment status.

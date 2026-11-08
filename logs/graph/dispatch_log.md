@@ -1466,3 +1466,5 @@ echo dispatch_log updated
 
 [13:45] SymPy迁移尸检与ALFWorld真实执行 → 四臂93POST/1245825已知tokens加1未知请求，三经验均未读，不能判断内容负迁移；双端511成员证据核验。ALFWorld28tests/30subtests通过，8B字节门停止，27B真实15动作won、17POST/142565tokens；非代码源可复用。已更新近邻、短索引和prompt边界 → 本次实作提交，Goal active
 [14:44] 加载诊断收口与非代码迁移pilot → SymPy两诊断53POST/868936已知tokens加1上下文拒绝usage缺项，暂停当前执行配置；ALFWorld8题事前哈希选样和专家资格通过，源/目标先冻结。pool/caps实际传值20tests/33subtests通过，clean_1新预检0动作/0模型，准备真实源采集 → 本次pool执行提交，Goal active
+
+[2026-11-08 13:55] 结论同步与全盘neat → 教师入口49项GB10离线检查，真实长度3583/3619，旧2字段证明标无效；现役规则按需加载、同类子Agent续用；两机各101项skill无漂移，7历史worktree代码已集成而忽略产物保留；本轮neat新增科研生成/训练/服务探测0 → 本次docs提交，Goal active
