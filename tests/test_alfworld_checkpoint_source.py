@@ -260,7 +260,7 @@ def test_current_policy_is_checkpoint_only_and_legacy_source_contract_stays_stri
 # V2 tests use synthetic files and fake external native/model surfaces only.
 @contextmanager
 def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkpoints=2, *,
-               source_backend=None, source_profile=None, source_mismatch=None):
+               source_backend=None, source_profile=None, source_mismatch=None, checkpoint_attempts=None):
     with fixture() as f, ExitStack() as stack:
         failure=kind in ('REAL_CLOSED_ACTOR_FAILURE','REAL_CLOSED_STUDENT8B_FAILURE')
         source_backend=source_backend or ('student8b' if kind=='REAL_CLOSED_STUDENT8B_FAILURE' else 'teacher27b')
@@ -399,6 +399,13 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
                 replay_action_count=count,visible_context_action_count=visible,source_kind=kind,not_training_supervision=True,
                 provenance=[dict(role=k,**v) for k,v in prov.items()])
         group['approved_runs']=[x for x in group['approved_runs'] if x['stage'] in ('drop_full','goal_recent') and x['checkpoint_id'] in descriptors]
+        if checkpoint_attempts is not None:
+            def root(stage,opaque):
+                return f.private/'cases'/f.case/stage/'teacher27b'/('attempt_v'+str(checkpoint_attempts[opaque]))
+            f.root=root
+            for slot in group['approved_runs']:
+                slot['attempt']=checkpoint_attempts[slot['checkpoint_id']]
+                slot['run_root']=str(root(slot['stage'],slot['checkpoint_id']))
         def save():
             group['checkpoints']={opaque:write(f.base/('CPU_V2_DESCRIPTOR_'+opaque+'.json'),d) for opaque,d in descriptors.items()}
             gr=write(f.base/'CPU_V2_COHORT.json',group)
@@ -447,6 +454,54 @@ def test_v2_student_failure_parent_8b_and_recovery_27b_are_separate(stage):
 def test_v2_failure_kind_cannot_relabel_other_model_parent(kind,backend):
     with v2_fixture(kind,8,8,1,source_backend=backend) as f:
         with pytest.raises(ValueError,match='source is not this real none'):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('attempts',[{'a':3},{'a':3,'b':4}])
+def test_v2_student_explicit_attempts_allow_fresh_roots_and_still_require_fresh_prepare(attempts):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,len(attempts),checkpoint_attempts=attempts) as f:
+        for stage in ('drop_full','goal_recent'):
+            for opaque,number in attempts.items():
+                root=f.root(stage,opaque);assert root.name=='attempt_v'+str(number) and not root.exists()
+                m=prepare(f,stage,opaque);r.verify(root,r.sha(root/'manifest.json'))
+                assert m['caps']['world_actions']==92 and m['backend']=='teacher27b'
+                before=len(f.replayed)
+                with pytest.raises((ValueError,FileExistsError)):prepare(f,stage,opaque)
+                assert len(f.replayed)==before
+
+
+@pytest.mark.parametrize('attempt',[0,-1,True,3.0,'3'])
+def test_v2_student_attempt_must_be_an_exact_positive_integer(attempt):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,checkpoint_attempts={'a':attempt}) as f:
+        # A canonical destination isolates the real helper's type guard from the caller's root-name guard.
+        _,study=f.protocols['drop_full_a']
+        with pytest.raises(ValueError,match='positive integer'):
+            f.v2.helper.load_checkpoint(study,f.case,f.root('drop_full','a').parent/'attempt_v3',17,
+                validate_public=r.public,private_root=f.private)
+        with pytest.raises(ValueError):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+def test_v2_student_same_checkpoint_must_pair_stage_attempts():
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,checkpoint_attempts={'a':3}) as f:
+        slot=next(x for x in f.v2.group['approved_runs'] if x['stage']=='goal_recent')
+        slot.update(attempt=4,run_root=str(f.root('goal_recent','a').parent/'attempt_v4'));f.v2.save()
+        with pytest.raises(ValueError,match='same attempt'):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+def test_v2_student_different_checkpoints_cannot_reuse_one_attempt():
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,2,checkpoint_attempts={'a':3,'b':3}) as f:
+        # Select b, the last matching root: destination selection alone would not reject this.
+        with pytest.raises(ValueError,match='distinct attempts'):prepare(f,'drop_full','b')
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('kind,count,visible',[
+    ('REAL_CLOSED_ACTOR_FAILURE',8,8),('D_CONSTRUCTED_MATCHED_CONTROL',14,7)])
+def test_v2_legacy_teacher_and_constructed_checkpoints_still_fix_a_to_attempt_one(kind,count,visible):
+    with v2_fixture(kind,count,visible,1,checkpoint_attempts={'a':3}) as f:
+        with pytest.raises(ValueError,match='slot identity'):prepare(f,'drop_full','a')
         assert not f.replayed
 
 

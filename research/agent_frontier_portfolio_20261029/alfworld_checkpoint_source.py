@@ -486,14 +486,20 @@ def load_checkpoint(study, case_id, run_root, model_seed, *, validate_public, pr
     game = games[0];reader.read(dict(path=game['private_game_path'],sha256=game['game_sha256']),'bytes')
     visible = reader.trajectory(reader.read(group['visible_context']),visible_count)
     current = reader.state(reader.read(group['handoff_public']),count)
-    approved = group['approved_runs'];expected = set();chosen = None
+    approved = group['approved_runs'];expected = set();chosen = None;attempts = {}
     if type(approved) is not list or len(approved) != 2*len(group['checkpoints']):
         raise ValueError('V2 slots must enumerate the two policies for every checkpoint')
     for slot in approved:
         if (set(slot) != {'id','case_id','stage','backend','model_seed','attempt','run_root','checkpoint_id','runtime_controls'} or
                 slot['stage'] not in V2_STAGES or slot['checkpoint_id'] not in group['checkpoints']):
             raise ValueError('unknown V2 slot')
-        opaque = slot['checkpoint_id'];attempt = 1 if opaque == 'a' else 2
+        opaque = slot['checkpoint_id']
+        if group['source_kind'] == 'REAL_CLOSED_STUDENT8B_FAILURE':
+            attempt = slot['attempt']
+            if type(attempt) is not int or attempt < 1:
+                raise ValueError('student checkpoint attempt must be a positive integer')
+        else:
+            attempt = 1 if opaque == 'a' else 2
         root = Path(private_root)/'cases'/case_id/slot['stage']/'teacher27b'/('attempt_v'+str(attempt))
         controls = dict(native_terminal_stop=True,recent_tool_rounds=3 if slot['stage']=='goal_recent' else None)
         key = slot['stage'],opaque
@@ -503,8 +509,13 @@ def load_checkpoint(study, case_id, run_root, model_seed, *, validate_public, pr
                 slot['runtime_controls'].get('native_terminal_stop') is not True or
                 (slot['stage'] == 'goal_recent' and type(slot['runtime_controls'].get('recent_tool_rounds')) is not int)):
             raise ValueError('V2 slot identity, pairing or runtime controls differ')
+        if group['source_kind'] == 'REAL_CLOSED_STUDENT8B_FAILURE':
+            if attempts.setdefault(opaque,attempt) != attempt:
+                raise ValueError('student checkpoint policies must use the same attempt')
         expected.add(key)
         if str(root) == str(run_root):chosen = slot
+    if len(set(attempts.values())) != len(attempts):
+        raise ValueError('student checkpoints must use distinct attempts')
     if (expected != {(s,c) for s in V2_STAGES for c in group['checkpoints']} or chosen is None or
             study['runtime_controls'] != chosen['runtime_controls'] or refs['checkpoint_reference'] != group['checkpoints'][chosen['checkpoint_id']]):
         raise ValueError('V2 destination is not the approved paired slot')
