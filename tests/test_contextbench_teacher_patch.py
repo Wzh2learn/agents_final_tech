@@ -12,6 +12,7 @@ from test_alfworld_native_actor import a as native, core, FakeSocket
 HERE = Path(__file__).resolve().parents[1] / 'research/agent_frontier_portfolio_20261029'
 spec = importlib.util.spec_from_file_location('cpu_teacher_patch', HERE / 'contextbench_teacher_patch.py')
 t = importlib.util.module_from_spec(spec); spec.loader.exec_module(t)
+REAL_TOKEN_COUNTER = t.token_counter
 spec = importlib.util.spec_from_file_location('cpu_source_patch_helper', HERE / 'run_contextbench_source.py')
 source = importlib.util.module_from_spec(spec); spec.loader.exec_module(source)
 spec = importlib.util.spec_from_file_location('cpu_git_apply_helper', HERE / 'qualify_swe_contextbench_sympy_20261104.py')
@@ -156,8 +157,42 @@ def test_tokenizer_receives_actual_kwargs_and_true_has_its_own_count(tmp_path):
         proofs = [count(t.payload_for([dict(role='user', content='CPU')], dict(model_id='CPU'), mode)) for mode in (False, True)]
     assert [p['template_input_tokens'] for p in proofs] == [2, 4]
     assert [c['enable_thinking'] for c in calls] == [False, True]
+    assert all(c['return_dict'] is False for c in calls)
+    assert all(p['token_return_type'] == 'builtins.list' for p in proofs)
     assert load.call_args.kwargs == dict(local_files_only=True, trust_remote_code=False, use_fast=True)
     assert binding['template_sha256'] == t.sha(template.read_bytes())
+
+
+@pytest.mark.parametrize('shape', ['mapping', 'BatchEncoding', 'nested', 'bool', 'string', 'tuple', 'empty', 'negative'])
+def test_tokenizer_never_treats_mapping_fields_or_nonflat_ids_as_tokens(tmp_path, shape):
+    from transformers import AutoTokenizer, BatchEncoding
+    template = tmp_path / 'template.jinja'; template.write_text('CPU_TEMPLATE')
+    for name in ('tokenizer.json', 'tokenizer_config.json'): (tmp_path / name).write_text('{}')
+    values = dict(mapping={'input_ids': [1, 2, 3], 'attention_mask': [1, 1, 1]},
+        BatchEncoding=BatchEncoding({'input_ids': [1, 2, 3], 'attention_mask': [1, 1, 1]}),
+        nested=[[1, 2, 3]], bool=[True], string=['1'], tuple=(1, 2), empty=[], negative=[-1])
+    tokenizer = SimpleNamespace(apply_chat_template=mock.Mock(return_value=values[shape]))
+    with mock.patch.object(AutoTokenizer, 'from_pretrained', return_value=tokenizer):
+        count, _ = t.token_counter(dict(model_root=str(tmp_path), template_path=str(template), template_sha256=t.sha(template.read_bytes())))
+        with pytest.raises(ValueError, match='list of integer token IDs'):
+            count(t.payload_for([dict(role='user', content='CPU')], dict(model_id='CPU'), False))
+    assert tokenizer.apply_chat_template.call_args.kwargs['return_dict'] is False
+
+
+def test_actual_token_counter_marks_overlong_sequence_and_load_rejects(synthetic, monkeypatch, tmp_path):
+    # Exercise the real counter against a fake tokenizer, not a mocked token-count proof.
+    from transformers import AutoTokenizer
+    template = tmp_path / 'template.jinja'; template.write_text('CPU_TEMPLATE')
+    for name in ('tokenizer.json', 'tokenizer_config.json'): (tmp_path / name).write_text('{}')
+    profile = dict(model_id='CPU', model_root=str(tmp_path), template_path=str(template), template_sha256=t.sha(template.read_bytes()))
+    tokenizer = SimpleNamespace(apply_chat_template=mock.Mock(return_value=[1] * (32768 - 8192 - 512 + 1)))
+    with mock.patch.object(AutoTokenizer, 'from_pretrained', return_value=tokenizer):
+        count, binding = REAL_TOKEN_COUNTER(profile)
+        proof = count(t.payload_for([dict(role='user', content='CPU')], profile, False))
+    assert proof['template_input_tokens'] == 24065 and proof['fits_with_margin'] is False
+    monkeypatch.setattr(t, 'token_counter', lambda profile: (count, binding))
+    with pytest.raises(ValueError, match='exceeds context reserve'): t.load_inputs(synthetic.path, synthetic.digest)
+    assert not synthetic.root.exists()
 
 
 @pytest.mark.parametrize('change', ['prose', 'two_fences', 'test', 'traversal', 'delete', 'rename', 'binary', 'mode', 'no_final_lf'])

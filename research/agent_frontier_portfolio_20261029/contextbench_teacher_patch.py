@@ -116,10 +116,14 @@ def token_counter(profile):
                    tokenizers=importlib.metadata.version('tokenizers'))
     def count(payload):
         tokens = tokenizer.apply_chat_template(payload['messages'], chat_template=template.decode(),
-            tools=payload['tools'] or None, tokenize=True, add_generation_prompt=True, **payload['chat_template_kwargs'])
+            tools=payload['tools'] or None, tokenize=True, return_dict=False, add_generation_prompt=True,
+            **payload['chat_template_kwargs'])
+        if type(tokens) is not list or not tokens or any(type(token) is not int or token < 0 for token in tokens):
+            raise ValueError('serving tokenizer must return one nonempty list of integer token IDs')
         number = len(tokens)
         return dict(template_input_tokens=number, reserved_output_tokens=8192, context=32768,
                     safety_margin_tokens=512, fits_with_margin=number + 8192 + 512 <= 32768,
+                    token_return_type=type(tokens).__module__ + '.' + type(tokens).__name__,
                     enable_thinking=payload['chat_template_kwargs']['enable_thinking'], payload_sha256=sha(wire_body(payload)))
     return count, binding
 
