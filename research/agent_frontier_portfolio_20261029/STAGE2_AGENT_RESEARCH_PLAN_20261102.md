@@ -1,6 +1,6 @@
 # 第二阶段：Agent 经验学习与变化适配
 
-> 2026-11-08 | 唯一现役计划，原地更新。运行授权只查[STATE](../../memory/STATE.md)和用户最新指令；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+> 2026-11-09 | 唯一现役计划，原地更新。运行授权只查[STATE](../../memory/STATE.md)和用户最新指令；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
 
 ## 目标与负责人取舍
 
@@ -10,7 +10,7 @@
 
 主攻候选：**保留实际进度，利用反馈选择旧经验的保留、撤回或上下文重建。** 近邻已覆盖经验选择、笔记管理、教师纠正，独立机制尚未成立；最佳固定策略解释收益时简化或切换。
 
-当前[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽**闭合并独立复核**：look主比较F/O/R为4/6、4/6、6/6；all12为4、6、8，R保留为强开发基线，非独立确认。下一步补all7历史12槽及目标类型匹配6槽，clean-none复用F并照计策略费用；不增加训练。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)复用合格SymPy目标准备双臂输入，不重跑同题资格。之后才推进保留实际进度的上下文机制拆分与独立来源扩样。
+当前[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽**闭合并独立复核**：look主比较F/O/R为4/6、4/6、6/6；all12为4、6、8，R保留为强开发基线，非独立确认。H18槽已启动：all7历史12槽、目标类型匹配6槽，clean-none复用F并照计策略费用，不加训练；按STATE票据观察，闭合核费用和Q4恢复。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)准备合格SymPy双臂输入，不重跑同题资格。之后推进保留实际进度的上下文机制拆分与独立来源扩样。
 
 ## 执行原则与后续顺序
 

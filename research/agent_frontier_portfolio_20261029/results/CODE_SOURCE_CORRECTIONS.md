@@ -1,6 +1,6 @@
 # 代码来源：教师纠正与形成成本
 
-> 状态: 活跃 | 更新: 2026-11-08 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
+> 状态: 活跃 | 更新: 2026-11-09 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
 
 <a id="current"></a>
 ## 当前结果
@@ -42,7 +42,7 @@ GB10私有根为`ROOT/code_source_expansion_v1/SOURCE_ACTOR_PREPARED_V2_BASH_FIX
 
 **可复用的目标资格。** 21055的`refine/arg`与9384的`refine/Piecewise`同属假设化简问题。9384历史CPU资格已完成：原题base 0/2、gold 2/2，双方回归各320/320。本轮只读复验GB10现存`QUALIFICATION_RUN_V2/sympy__sympy-9384/clean_base`的1,883文件及公开题面，全部与原冻结SHA一致，没有重跑模型或资格测试。该目录是源码快照，不是Git checkout；Python3.8 ARM环境仍沿历史记录，未整体复验。私有`sympy_refine_transfer_v1/ASSET_STATUS_V1.json` SHA `906a6a1f28603b544097fc1dba6c8013490c754d3be200602bc33b55748be0d2`。下一步复用已有runner准备隔离actor输入，gold/testpatch/资格父目录不进入actor；来源只能称教师辅助修复记录，尚无目标迁移结果，不再先重复已通过的资格。
 
-**准备器已复用。** [现有目标驱动](../run_contextbench_target.py)新增SymPy显式分支：none与source_repair_record，固定绑定原教师失败、后验重计数及执行验证。CPU准备仅复制隔离输入，实际执行复用既有SymPy评分器；不把修复记录称为普通成功轨迹。新增与旧Matplotlib合计45项本机合成控制通过（导入替身及Windows UID适配）；GB10真实准备、运行环境与双臂结果另核，当前没有目标模型成绩。
+**准备器已复用。** [现有目标驱动](../run_contextbench_target.py)新增SymPy显式分支：none与source_repair_record，固定绑定原教师失败、后验重计数及执行验证。实际执行复用既有SymPy评分器，不把修复记录称为普通成功轨迹。本机45项合成控制通过（导入替身及Windows UID适配）；GB10与ALF准备器合计97项/246个子控制通过，无替身。两臂实际CPU准备及D独立verify已完成，各1,883文件，0模型/HTTP/容器；gold/资格父目录/评分补丁不进actor挂载。私有`ROOT/sympy_refine_transfer_v1/TARGET_PROTOCOL_V1.json` SHA `698785a471942627e60b6dbeb30deb56fa66f5d7d955b21ba3dedd8984765884`及6份元数据已双端镜像；源/目标路径与manifest查同目录。待H窗口闭合后核27B后端与有限执行，尚无目标模型成绩。
 
 ## 先前准备与故障记录（迁入原文）
 

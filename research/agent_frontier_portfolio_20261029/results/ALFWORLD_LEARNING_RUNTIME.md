@@ -1,6 +1,6 @@
 # 已训练8B基线：复用入口
 
-> 2026-11-08 | 本页索引复用资产与当前批次，下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练、部署及旧五臂过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md)。
+> 2026-11-09 | 本页索引复用资产与当前批次，下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练、部署及旧五臂过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md)。
 
 <a id="trained-baselines"></a>
 ## 当前复用：同BF16父模型的 frozen / ordinary / recovery
@@ -35,7 +35,7 @@ R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同�
 
 7条直接监督任务为heat4/cool2/look1，无clean目标；与新12题的UID、family、layout、layout_group、game hash交集均0。R形成链另用过heat_1/clean_1经验，两祖先与新12题的UID/family/layout/game hash也均无重叠（私有D_UPSTREAM_SOURCE_SCOPE_V1）。clean只称监督目标类型留出，不能称整个形成链没见过clean。同benchmark、D已曝光TRAIN；look6主比较、clean6诊断、all12次级，非独立确认。
 
-私有根`next_train_source_v1/trained_baseline_transfer_v1/`的`RUN_V1/RESULT.json`状态为`ALL36_TRANSFER_RETURNED`，SHA `aa48994ebe77ce3b616038a1f482891d00ba72a6fab6a0b8974127b9de9c551c`。36槽均闭合，无未解释usage或未运行项。三臂显式绑定共同BF16父模型、O/R唯一LoRA且scale1；统一reset、无经验、seed17、temperature0.2、thinking=false、32K/8192、full历史、原生终态停止及最多一次普通续做。每槽128POST/1800秒/100动作/64MiB收发，旧默认Q4不作frozen替身。
+私有根`next_train_source_v1/trained_baseline_transfer_v1/`的`RUN_V1/RESULT.json`状态为`ALL36_TRANSFER_RETURNED`，SHA `aa48994ebe77ce3b616038a1f482891d00ba72a6fab6a0b8974127b9de9c551c`。36槽均闭合，无未解释usage或未运行项。三臂显式绑定共同BF16父模型、O/R唯一LoRA且scale1；统一reset、无经验、seed17、temperature0.2、thinking=false、32K/8192、full历史、原生终态停止及最多一次普通续做。每槽128POST/1800秒/100动作/64,000,000收发bytes，旧默认Q4不作frozen替身。
 
 | 臂 | look主比较 | clean诊断 | 全部原生won | 实际POST | input+output tokens |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -57,7 +57,9 @@ R的学生前缀、教师接续与O从reset成功执行不同，当前只支持�
 
 **普通历史资产。** 旧16题共用同一份7条普通教师成功轨迹，heat4/cool2/look1，不是7条纠正。`hf_evaluation_v1/contexts/all7.txt` SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`，可直接复用内容。新12题仍须单独绑定pool、公开reset与共同配置；现役`experience_mode=none`拒绝该参考，旧驱动硬锁16题，不能直接替换输入或修改在途代码。
 
-私有`ordinary_history_train12_inputs_v1/`已备原POOL与两种参考：all7跑12槽；公开目标类型匹配top1、无匹配则none另跑look6，clean6复用F并照计策略推理费。新18槽上限2,304 POST，尚未释放；规则在F已知、H输出前设计，不是学习方法。`reference_only`批准补丁SHA `705a90bb94f3630a6c7a8681916ae114ae652b327a9e8c92fdd007694fae0e04`已集成；本机32项CPU合成控制及C对有限operator V2的静态delta复核通过，真实Linux输入准入另核。旧null-assignment模板及V1 operator均非执行入口。
+私有`ordinary_history_train12_inputs_v1/`的新18槽已启动：all7跑12槽；公开目标类型匹配top1、无匹配则none另跑look6，clean6复用F并照计策略推理费；上限2,304 POST。规则在F已知、H输出前设计，不是学习方法。批准`reference_only`代码SHA `716c4dd09ad7e673f75bb52b36708713d58c8dde00275784df41571453d535c6`已三端一致；32项本机合成控制、operator V2双端37控制、C静态delta及GB10真实输入准入通过。15个study组件与另1个comparison单独绑定；旧null-assignment模板/V1 operator非执行入口。
+
+实际计划`HISTORY_PLAN_CANDIDATE_FILLED_V2.json` SHA `12cbac9092d11f1bfe7ef57355b01b1976f37adee889117e6d7d608d83c4ba29`，release `D_EXECUTION_RELEASE_V3.json` SHA `af3f091440d1a7d4418103787146cd8a26267b91e0fc13d7c48c4f3c233b7d2e`。现役进程查`OPERATOR_PROCESS_V3.json`，PID2349435/start1089686187；进度/终态查`RUN_V1/STATE.json`/`RESULT.json`。前次V2启动因D漏绑计划文件在模型调用前被CLI拒绝，0模型/HTTP/world，原release/日志及`D_LAUNCH_FAILURE_V2.json`保留；不是科学失败样本。所有新输入与票据已镜像本机；不重复启动或替换在途代码。
 
 ## 来源形成成本：已复算组件
 
