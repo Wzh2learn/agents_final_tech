@@ -255,3 +255,241 @@ def test_current_policy_is_checkpoint_only_and_legacy_source_contract_stays_stri
         with pytest.raises(ValueError):r.protocol(legacy_path,r.sha(legacy_path))
         for stage in ('collect','collect_none','ordinary_reset','keep_full','keep_recent'):
             with pytest.raises(ValueError):r.experience_mode(p,stage)
+
+
+# V2 tests use synthetic files and fake external native/model surfaces only.
+@contextmanager
+def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkpoints=2):
+    with fixture() as f, ExitStack() as stack:
+        h=r.checkpoint_source()
+        stack.enter_context(mock.patch.object(r,'checkpoint_source',return_value=h))
+        poolref=f.group['pool'];pool=json.loads(Path(poolref['path']).read_text());game=pool['games'][0]
+        reset=copy.deepcopy(f.worlds['a']['reset'])
+        current=public_state(count,'PUBLIC_CURRENT shelf');current['admissible_commands']=['look','inventory','CPU_AGENT_ALTERNATIVE']
+        common=[]
+        for i in range(1,visible+1):
+            state=copy.deepcopy(current) if i==count else public_state(i,'PUBLIC_VISIBLE_'+str(i))
+            state['admissible_commands']=['look','inventory','CPU_VISIBLE_'+str(i+1),'CPU_ORIGINAL_'+str(i+1)]
+            if i==visible and i<count:state['admissible_commands']+=['CPU_HIDDEN_A_'+str(i+1),'CPU_HIDDEN_B_'+str(i+1)]
+            common.append(dict(action='CPU_VISIBLE_'+str(i),state=state))
+        if count==visible:common[-1]['state']=copy.deepcopy(current)
+        visref=write(f.base/'V2_visible.json',dict(reset=reset,steps=common));curref=write(f.base/'V2_current.json',current)
+        worlds={}
+        for opaque in ['a','b']:
+            steps=copy.deepcopy(common)
+            for i in range(visible+1,count+1):
+                state=copy.deepcopy(current) if i==count else public_state(i,'CPU_PRIVATE_RELATION_'+opaque+'_'+str(i))
+                if i<count:state['admissible_commands']=['look','inventory','CPU_HIDDEN_'+opaque.upper()+'_'+str(i+1)]
+                steps.append(dict(action='CPU_HIDDEN_'+opaque.upper()+'_'+str(i),state=state))
+            worlds[opaque]=dict(reset=reset,steps=steps)
+        f.worlds.update(worlds)
+        # Original actor files are synthetic, with explicit synthetic trust anchors below.
+        src=f.private/'cases'/f.case/'collect_none'/'teacher27b'/'attempt_v1';src.mkdir(parents=True)
+        sourcecaps=dict(posts=1,seconds=900,world_actions=100,model_payload_bytes_combined=32000000)
+        original=copy.deepcopy(worlds['a']) if kind=='REAL_CLOSED_ACTOR_FAILURE' else dict(reset=reset,steps=copy.deepcopy(common[:4]))
+        if kind!='REAL_CLOSED_ACTOR_FAILURE':
+            for i in (5,6,7):
+                state=public_state(i,'CPU_ORIGINAL_TEACHER_'+str(i))
+                state['admissible_commands']=['look','inventory','CPU_ORIGINAL_'+str(i+1)]
+                if i==7:state.update(done=True,won=True,score=1.0)
+                original['steps'].append(dict(action='CPU_ORIGINAL_'+str(i),state=state))
+        oldproto=write(src/'protocol.json',dict(experience_mode='none',case_ids=[f.case],pool_path=poolref['path'],pool_sha256=poolref['sha256'],world_seed=17,collection_caps=sourcecaps))
+        for name,value in [('initial_reset.json',reset),('handoff_public.json',reset),('opencode_config.json',{})]:write(src/name,value)
+        (src/'task.txt').write_text('CPU_SOURCE_PUBLIC_TASK')
+        m=dict(case_id=f.case,stage='collect_none',backend='teacher27b',world_seed=17,model_seed=17,world_step_cap=100,
+            source_root=None,experience_mode='none',experience_assignment={},experience_text_sha256=hashlib.sha256(b'').hexdigest(),
+            pool_binding=poolref,game=dict(sha256_game=game['game_sha256']),profile_sha256='9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279',
+            protocol_path=oldproto['path'],protocol_sha256=oldproto['sha256'],caps=sourcecaps,
+            components={'CPU_OLD_COMPONENT_BYTES_NO_LONGER_CURRENT':'f'*64},
+            inputs_sha256={x:r.sha(src/x) for x in ['task.txt','initial_reset.json','handoff_public.json','opencode_config.json']})
+        mr=write(src/'manifest.json',m);reservation=write(src/'reservation.json',dict(manifest_sha256=mr['sha256'],mode='REAL_DEVELOPMENT',experience_mode='none'))
+        header=dict(game_id=f.case,asset_sha256=game['game_sha256'],seed=17,step_cap=100,caps=sourcecaps,pool_manifest_sha256=poolref['sha256'])
+        header['episode_sha256']=hashlib.sha256(json.dumps(header,sort_keys=True).encode()).hexdigest()
+        source_trace=src/'execute_world.jsonl'
+        source_trace.write_text(''.join(json.dumps(x)+'\n' for x in [dict(event='episode',**header),dict(event='reset',state=reset)]+[dict(event='step',**x) for x in original['steps']]))
+        tr=dict(path=str(source_trace),sha256=r.sha(source_trace))
+        raw=src/'raw_1.jsonl';raw.write_text(json.dumps(dict(type='error',error=dict(name='APIError',data=dict(statusCode=403))))+'\n' if kind=='REAL_CLOSED_ACTOR_FAILURE' else '{"type":"step_finish"}\n')
+        usage=dict(prompt_tokens=2,completion_tokens=1,total_tokens=3)
+        response=dict(status=200,complete=True,body_bytes=1,body_sha256=hashlib.sha256(b'x').hexdigest(),usage=usage)
+        (src/'responses').mkdir();(src/'responses/00001.body').write_bytes(b'x');write(src/'responses/00001.body.receipt.json',response)
+        receipt=dict(case_id=f.case,stage='collect_none',backend='teacher27b',experience_mode='none',label='MULTITASK_CONTEXT_DEVELOPMENT',manifest_sha256=mr['sha256'],
+            final_world_state=original['steps'][-1]['state'],won=kind!='REAL_CLOSED_ACTOR_FAILURE',errors=[],world_actions=len(original['steps']),total_world_action_count=len(original['steps']),
+            real_model_calls=1,model_posts=1,forwarded_model_posts=1,unknown_usage_model_posts=0,elapsed_seconds=1,
+            model_request_payload_bytes=1,model_response_wire_bytes=1,response_receipts=[response],provider_usage=usage,
+            model_relay_errors=[dict(type='ValueError',detail='episode model budget closed')] if kind=='REAL_CLOSED_ACTOR_FAILURE' else [],
+            rounds=[dict(round=1,exit=1 if kind=='REAL_CLOSED_ACTOR_FAILURE' else 0,raw_sha256=r.sha(raw))])
+        rr=write(src/'receipt.json',receipt)
+        provenance={}
+        if kind=='REAL_CLOSED_ACTOR_FAILURE':
+            ac=dict(reserved_posts=1,actual_forwarded_posts=1,real_model_calls=1,unknown_usage_calls=0,unexplained_reserved_not_forwarded=0,
+                provider_usage_known=usage,request_payload_bytes=1,response_wire_bytes=1)
+            files={str(p):r.sha(p) for p in src.rglob('*') if p.is_file()}
+            slot=dict(can_continue=True,task_won=False,task_won_known=True,reasons=[],classification='POST_CAP_CLOSED',accounting=ac,
+                native_witness=dict(path=tr['path'],sha256=tr['sha256'],state=original['steps'][-1]['state'],episode_sha256=header['episode_sha256']),bindings=files)
+            slotref=write(f.base/'CPU_SLOT_CLOSURE.json',slot)
+            crow=dict(root=str(src),case=f.case,backend='teacher27b',slot=1,manifest_sha256=mr['sha256'],receipt_sha256=rr['sha256'],native_sha256=tr['sha256'],
+                closure_sha256=slotref['sha256'],won=False,done=False,actions=count,posts=1,reserved_posts=1,unknown_usage_calls=0,
+                provider_usage_known=usage,request_bytes=1,response_wire_bytes=1)
+            reviewref=write(f.base/'CPU_C_REVIEW.json',dict(schema='C_SOURCE_COLLECTION_RESULT_REVIEW_V1',verdict='PASS_WITH_ACCOUNTING_LIMITS',
+                blocking_findings=[],per_slot_independent_results=[crow],frozen_inputs=[dict(path='CPU_OLD_CODE_NOT_REHASHED',sha256='f'*64)]))
+            drow=dict(root=str(src),case_id=f.case,backend='teacher27b',slot=1,manifest_sha256=mr['sha256'],receipt_sha256=rr['sha256'],
+                closure_sha256=slotref['sha256'],native_won=False,native_actions=count,classification='POST_CAP_CLOSED',accounting=ac)
+            batchref=write(f.base/'CPU_D_CLOSURE.json',dict(schema='D_TRAIN12_SOURCE_COLLECTION_CLOSURE_V1',status='ALL24_CLOSED_AND_RAW_RECHECKED',
+                independent_result_review=reviewref,rows=[drow]))
+            # Only external frozen trust-root values are replaced for synthetic evidence.
+            stack.enter_context(mock.patch.object(h,'CLOSED_BATCH_SHA',batchref['sha256']))
+            stack.enter_context(mock.patch.object(h,'CLOSED_REVIEW_SHA',reviewref['sha256']))
+            provenance=dict(source_manifest=mr,source_receipt=rr,source_reservation=reservation,source_native_trace=tr,
+                source_slot_closure=slotref,source_batch_closure=batchref,source_independent_review=reviewref)
+        else:
+            code_ref=write(f.base/'CPU_CONTROL_CODE.json',{'SYNTHETIC_NOT_EXECUTABLE':True})
+            screenref=write(f.base/'CPU_SOURCE_SCREEN.json',dict(rows=[dict(case_id=f.case,source_receipt=rr,source_trace=tr)]))
+            conditions=[dict(id='cpu_positive_a',lamp_on=True,intervention=[x['action'] for x in worlds['a']['steps'][visible:]],actual_paper_location='a',expected_won=True),
+                        dict(id='cpu_positive_b',lamp_on=True,intervention=[x['action'] for x in worlds['b']['steps'][visible:]],actual_paper_location='b',expected_won=True),
+                        dict(id='cpu_negative',lamp_on=False,intervention=[x['action'] for x in worlds['b']['steps'][visible:]],actual_paper_location='b',expected_won=False)]
+            control=dict(schema='NEXTDEV_LOOK01_NATIVE_MATCHED_V1',case_id=f.case,seed=17,pool=poolref,game=dict(path=game['private_game_path'],sha256=game['game_sha256']),
+                source_receipt=rr,source_trace=tr,source_screen=screenref,source_prefix_actions=[x['action'] for x in original['steps'][:4]],
+                source_prefix_sha256=hashlib.sha256(json.dumps([reset,original['steps'][:4]],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest(),
+                common_visible_extension=[x['action'] for x in common[4:]],visible_count=visible,handoff_action_count=count,
+                maximum_worlds=3,maximum_actions_per_world=100,models=0,HTTP=0,Docker=0,training=0,code=code_ref,conditions=conditions,witness_template=['look']*3)
+            controlref=write(f.base/'CPU_MATCH_PROTOCOL.json',control);resultrows=[]
+            for index,condition in enumerate(conditions):
+                steps=copy.deepcopy(worlds['a' if index==0 else 'b']['steps'])
+                if index==2:steps[2]['action']='look';steps[2]['state']['observation']='CPU_NEGATIVE_OBSERVATION'
+                for i in range(count+1,count+4):
+                    state=public_state(i,'CPU_PRIVATE_WITNESS');state['admissible_commands']=['look','inventory']
+                    if i==count+3 and index<2:state.update(done=True,won=True,score=1.0)
+                    steps.append(dict(action='look',state=state))
+                path=f.base/('CPU_CONTROL_'+str(index)+'.jsonl')
+                meta=dict(event='episode',case_id=f.case,seed=17,game_sha256=game['game_sha256'],protocol_sha256=controlref['sha256'],condition=condition['id'])
+                path.write_text(''.join(json.dumps(x)+'\n' for x in [meta,dict(event='reset',state=reset)]+[dict(event='step',**x) for x in steps]))
+                resultrows.append(dict(id=condition['id'],trace=dict(path=str(path),sha256=r.sha(path)),error=None,cleanup_error=None,accepted_actions=len(steps),
+                    before_intervention=steps[visible-1]['state'],handoff=steps[count-1]['state'],final=steps[-1]['state']))
+            resultref=write(f.base/'CPU_MATCH_RESULT.json',dict(status='NATIVE_MATCHED_CONTROL_PASS',error=None,unstarted=[],protocol_sha256=controlref['sha256'],
+                code_sha256=code_ref['sha256'],actual_worlds_started=3,models=0,HTTP=0,Docker=0,training=0,conditions=resultrows))
+        caps=dict(posts=48,seconds=900,world_actions=100-count,model_payload_bytes_combined=32000000)
+        group=copy.deepcopy(f.group);group.update(schema='ALFWORLD_CHECKPOINT_COHORT_V2',version=2,source_kind=kind,replay_action_count=count,
+            visible_context_action_count=visible,visible_context=visref,handoff_public=curref,actor_caps=caps)
+        descriptors={}
+        for index,opaque in enumerate(['a','b'][:checkpoints]):
+            prov=copy.deepcopy(provenance)
+            if kind!='REAL_CLOSED_ACTOR_FAILURE':
+                prov=dict(matched_control_protocol=controlref,matched_control_result=resultref,native_trace=resultrows[index]['trace'],
+                    paired_native_trace=resultrows[1-index]['trace'],negative_native_trace=resultrows[2]['trace'])
+            descriptors[opaque]=dict(schema='ALFWORLD_NATIVE_CHECKPOINT_V2',version=2,case_id=f.case,pool=poolref,world_seed=17,world_step_cap=100,
+                world_replay=write(f.base/('CPU_V2_WORLD_'+opaque+'.json'),worlds[opaque]),visible_context=visref,handoff_public=curref,
+                replay_action_count=count,visible_context_action_count=visible,source_kind=kind,not_training_supervision=True,
+                provenance=[dict(role=k,**v) for k,v in prov.items()])
+        group['approved_runs']=[x for x in group['approved_runs'] if x['stage'] in ('drop_full','goal_recent') and x['checkpoint_id'] in descriptors]
+        def save():
+            group['checkpoints']={opaque:write(f.base/('CPU_V2_DESCRIPTOR_'+opaque+'.json'),d) for opaque,d in descriptors.items()}
+            gr=write(f.base/'CPU_V2_COHORT.json',group)
+            for slot in group['approved_runs']:
+                path,study=f.protocols[slot['id']]
+                study.update(checkpoint_group_reference=gr,checkpoint_reference=group['checkpoints'][slot['checkpoint_id']],
+                    collection_caps=dict(caps,world_actions=100),total_caps=dict(caps,world_actions=100))
+                write(path,study)
+        save()
+        def step(socket,action):
+            i=f.active['index'];steps=worlds[f.active['opaque']]['steps']
+            if i<count:
+                expected=steps[i];assert action==expected['action'];state=expected['state'];f.replayed.append((f.active['root'],action))
+            else:
+                assert action=='CPU_AGENT_ALTERNATIVE' and i<100;state=dict(current,action_count=i+1,done=True,won=True,score=1.0)
+            f.active['index']+=1
+            with f.active['log'].open('a') as log:log.write(json.dumps(dict(event='step',action=action,state=state))+'\n')
+            return state
+        stack.enter_context(mock.patch.object(r.recovery().bridge(),'client_step',side_effect=step))
+        f.v2=SimpleNamespace(helper=h,group=group,descriptors=descriptors,save=save,source=src,step=step,caps=caps,count=count)
+        yield f
+
+
+@pytest.mark.parametrize('kind,count,visible,checkpoints',[
+    ('D_CONSTRUCTED_MATCHED_CONTROL',14,7,1),('D_CONSTRUCTED_MATCHED_CONTROL',14,7,2),
+    ('REAL_CLOSED_ACTOR_FAILURE',39,39,1),('REAL_CLOSED_ACTOR_FAILURE',11,11,1),
+    ('REAL_CLOSED_ACTOR_FAILURE',1,1,1),('REAL_CLOSED_ACTOR_FAILURE',99,99,1)])
+def test_v2_real_prepare_variable_counts_and_honest_source_kind(kind,count,visible,checkpoints):
+    with v2_fixture(kind,count,visible,checkpoints) as f:
+        for stage in ('drop_full','goal_recent'):
+            tasks=[]
+            for opaque in list(f.v2.descriptors):
+                root=f.root(stage,opaque);m=prepare(f,stage,opaque);r.verify(root,r.sha(root/'manifest.json'))
+                assert m['caps']==f.v2.caps and m['replay_action_count']==count and m['visible_count']==visible
+                assert m['checkpoint_version']==2 and m['checkpoint_source_kind']==kind and m['source_root'] is None
+                text=(root/'task.txt').read_text();tasks.append(text)
+                assert 'CPU_HIDDEN_' not in text and 'CPU_PRIVATE_' not in text and str(f.base) not in text
+                assert len([x for x in f.replayed if x[0]==root])==count
+                if kind=='REAL_CLOSED_ACTOR_FAILURE':assert m['caps']['posts']==48 # old1-post cap exhausted, new phase intact
+            assert len(set(tasks))==1
+
+
+@pytest.mark.parametrize('change',['role','missing','source_hash','terminal','slot','partial_slots','backend','world_seed','visible','caps','kind','negative_selected','source_case','source_usage','source_runtime','escape'])
+def test_v2_provenance_and_slot_pollution_fail_before_native(change):
+    kind='REAL_CLOSED_ACTOR_FAILURE' if change in ('source_hash','source_case','source_usage','source_runtime','escape') else 'D_CONSTRUCTED_MATCHED_CONTROL'
+    with v2_fixture(kind,39,39,1) if kind=='REAL_CLOSED_ACTOR_FAILURE' else v2_fixture() as f:
+        d=f.v2.descriptors['a'];g=f.v2.group
+        if change=='role':d['provenance'][0]['role']='UNKNOWN_ROLE'
+        elif change=='missing':d['provenance'].pop()
+        elif change in ('source_hash','source_case','source_usage','source_runtime','escape'):
+            path=f.v2.source/'receipt.json';value=json.loads(path.read_text())
+            if change=='source_case':value['case_id']='OTHER_CASE'
+            elif change=='source_usage':value['unknown_usage_model_posts']=1
+            elif change=='source_runtime':value['rounds'][0]['exit']=137
+            else:value['CPU_TAMPERED']=True
+            write(path,value)
+        elif change=='terminal':
+            p=Path(d['handoff_public']['path']);write(p,dict(json.loads(p.read_text()),done=True,won=True))
+        elif change=='slot':g['approved_runs'][0]['attempt']=2
+        elif change=='partial_slots':g['approved_runs'].pop()
+        elif change=='backend':g['approved_runs'][0]['backend']='student8b'
+        elif change=='world_seed':d['world_seed']=18
+        elif change=='visible':g['visible_context_action_count']=15
+        elif change=='caps':g['actor_caps']['world_actions']+=1
+        elif change=='kind':d['source_kind']='REAL_CLOSED_ACTOR_FAILURE'
+        elif change=='negative_selected':
+            refs={x['role']:x for x in d['provenance']}
+            refs['native_trace']['path']=refs['negative_native_trace']['path'];refs['native_trace']['sha256']=refs['negative_native_trace']['sha256']
+        f.v2.save()
+        with pytest.raises(ValueError):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+def test_v2_executor_offset_and_rebound_kind_rejected():
+    with v2_fixture('REAL_CLOSED_ACTOR_FAILURE',39,39,1) as f:
+        root=f.root('drop_full','a');m=prepare(f,'drop_full','a')
+        bad=copy.deepcopy(m);bad['checkpoint_source_kind']='D_CONSTRUCTED_MATCHED_CONTROL';write(root/'manifest.json',bad)
+        with pytest.raises(ValueError):r.verify(root,r.sha(root/'manifest.json'))
+        write(root/'manifest.json',m)
+        class Relay:
+            def __init__(self,*a,**k):
+                self.budget=SimpleNamespace(posts=0,request_bytes=0,response_bytes=0);self.forwarded=0;self.errors=[];self.delivery=None;self.controller_stops=[];self.terminal_witness=None
+            def begin_close(self):pass
+            def close(self):pass
+        def process(argv,**kw):
+            if argv[:2]==['docker','run']:
+                f.v2.step(None,'CPU_AGENT_ALTERNATIVE');kw['stdout'].write(b'{"type":"step_finish","sessionID":"ses_CPU1"}\n')
+            return subprocess.CompletedProcess(argv,0)
+        with mock.patch.object(f.core,'ModelRelay',Relay),mock.patch.object(f.core,'socket_directory',return_value=f.base/'CPU_MODEL'),mock.patch.object(r.subprocess,'run',side_effect=process):
+            result=r.run_episode(root,r.sha(root/'manifest.json'),fake_endpoint=('CPU_NO_ENDPOINT',1))
+        assert result['world_actions']==1 and result['total_world_action_count']==40
+        assert result['replay_action_count']==39 and result['checkpoint_source_kind']=='REAL_CLOSED_ACTOR_FAILURE'
+
+
+@pytest.mark.parametrize('change',['zero','hundred','unknown_kind','numeric_stop'])
+def test_v2_rejects_count_and_strict_control_schema(change):
+    with v2_fixture() as f:
+        if change=='zero':f.v2.group['replay_action_count']=0
+        elif change=='hundred':f.v2.group['replay_action_count']=100
+        elif change=='unknown_kind':f.v2.group['source_kind']='UNKNOWN'
+        else:f.v2.group['approved_runs'][0]['runtime_controls']['native_terminal_stop']=1
+        f.v2.save()
+        with pytest.raises(ValueError):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+def test_v1_cannot_silently_acquire_variable_v2_counts():
+    with fixture() as f:
+        path,p=f.protocols['drop_full_a'];g=copy.deepcopy(f.group);g['replay_action_count']=14;g['visible_context_action_count']=7
+        p['checkpoint_group_reference']=write(f.base/'COHORT.json',g);write(path,p)
+        with pytest.raises(ValueError):prepare(f,'drop_full','a')
+        assert not f.replayed

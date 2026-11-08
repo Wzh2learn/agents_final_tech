@@ -411,9 +411,9 @@ def stage_caps(stage: str, study: dict, prefix: dict | None) -> dict:
         raise ValueError('unsupported episode stage')
     experience_mode(study, stage)
     if checkpoint_references(study) is not None:
-        if stage not in checkpoint_source().STAGES or prefix is None or prefix.get('actor_caps') != checkpoint_source().CAPS:
+        if prefix is None or stage not in (checkpoint_source().V2_STAGES if prefix.get('checkpoint_version') == 2 else checkpoint_source().STAGES):
             raise ValueError('checkpoint requires its approved phase and prefix')
-        return dict(prefix['actor_caps'])
+        return checkpoint_source().phase_caps(prefix)
     if stage == 'checkpoint_current':
         raise ValueError('checkpoint_current requires an explicit checkpoint contract')
     from_reset = stage in {'collect', 'collect_none', 'ordinary_reset'}
@@ -966,7 +966,7 @@ def verify(root, digest):
     game, pool, assignment, experience = read_case(study, m['case_id'])
     prefix = load_source_prefix(study, m['case_id'], m['source_root'], run_root=root, model_seed=m['model_seed'] if checkpoint_references(study) else 17)
     expected_checkpoint = prefix_metadata(prefix)
-    if {key:m[key] for key in (*checkpoint_source().REF_KEYS,'replay_action_count','visible_count') if key in m} != expected_checkpoint:
+    if {key:m[key] for key in checkpoint_source().METADATA_KEYS if key in m} != expected_checkpoint:
         raise ValueError('checkpoint manifest references or counts changed')
     caps = stage_caps(m['stage'], study, prefix)
     additional = additional_source_metadata(study, prefix)
