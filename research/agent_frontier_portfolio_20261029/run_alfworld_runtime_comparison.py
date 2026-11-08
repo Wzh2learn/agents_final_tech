@@ -738,7 +738,9 @@ def check_reference_probe_plan(plan_path,plan_sha):
     admission=read(p['H_admission']);expected_admission=str(Path(alignment['closed_results']['H']['path']).with_name('ADMISSION.json'))
     if p['H_admission']['path']!=expected_admission or p['restored_process']!=closed['H']['restored_process']:raise ValueError('H18 restoration identity required')
     window={k:admission[k] for k in ('protected35','protected27')};h=helper();old_profile=read(dict(path=str(OLD_PROFILE),sha256=OLD_PROFILE_SHA))
-    for path,digest in ((HELPER,HELPER_SHA),(WINDOW,WINDOW_SHA)):read(dict(path=str(path),sha256=digest))
+    for path,digest in ((HELPER,HELPER_SHA),(WINDOW,WINDOW_SHA)):
+        if sha(private(path))!=digest:raise ValueError('frozen controller support bytes changed')
+        bindings[str(path)]=digest
     c=dict(plan=p,study=study,epoch=epoch,bindings=bindings,old=old,hist=hist,h=h,old_profile=old_profile,owned_process=p['restored_process'],
         window=window,comparison=SimpleNamespace(audit=audit),protocols={'B':q},texts={'B':data['B'].decode()},frozen_cases={},frames={},relay_input_frames={},
         output=private(p['output_root']),plan_ref=ref,closed_refs=alignment['closed_results'],execution_controls=controls)
