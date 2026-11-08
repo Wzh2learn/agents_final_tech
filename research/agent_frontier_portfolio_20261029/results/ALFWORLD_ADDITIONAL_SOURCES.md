@@ -176,10 +176,16 @@ D闭合SHA `a99628142b475b53f028f55f81e6933a3f0c4ba450ab37fe17e23886fbea14da`；
 
 12题来源中，clean02/03/05/06与look01/02/03/04是同初始任务下27B成功、8B失败；clean01/04两者均失败，look05/06两者均成功。27B的10条成功轨迹可作普通经验，但当时从reset独立执行，不是针对8B失败的纠正。两批旧上下文面板未出现双向成功交叉，不从它们训练选择器。
 
-现有[checkpoint入口](../alfworld_checkpoint_source.py)只增`REAL_CLOSED_STUDENT8B_FAILURE`：严格绑定student8b路径/原profile、manifest/receipt、既有D/C闭合对应行、POOL/seed、原生终态和费用；恢复actor仍为27B，旧teacher来源门不放松。不新建runner或自动注入经验。GB10联合117项/239子测试通过；首次镜像缺一个原fixture的5项保留，补入后通过，D再完整核117项。新helper SHA `7bf39c342be4b46cc2c7d63ae29a19904139140e0feed157e0527baa837bca9b`；原CPU报告SHA `35d124f66c57762cb1ea39edb9d1439b5264aeb96d8058e598ca420e3ce1f3d0`。
+现有[checkpoint入口](../alfworld_checkpoint_source.py)只增`REAL_CLOSED_STUDENT8B_FAILURE`：严格绑定student8b路径/原profile、manifest/receipt、既有D/C闭合对应行、POOL/seed、原生终态和费用；恢复actor仍为27B，旧teacher来源门不放松。不新建runner或自动注入经验。GB10联合117项/239子测试通过；首次镜像缺一个原fixture的5项保留，补入后通过，D再完整核117项。首次接入helper SHA `7bf39c342be4b46cc2c7d63ae29a19904139140e0feed157e0527baa837bca9b`；原CPU报告SHA `35d124f66c57762cb1ea39edb9d1439b5264aeb96d8058e598ca420e3ce1f3d0`。
 
-clean02的8B来源manifest SHA `8ef124042235694f0a881844a5e7bfe33e9673ea1675e6b91955630d09f22d7a`、receipt SHA `55ea6fdef9b246ee7559d766cad9dc1d66c56ac810a50f95c2bb5f611da4cb2c`；元数据为10POST、8个world动作、won=false/done=false、未知usage0。理论剩余92步，**实际前缀重放尚未做**。本接入新增模型/原生world/容器0。
+原接入当时仅做CPU验证，模型/原生world/容器均0；上述helper和117项是该阶段历史版本。随后显式绑定新student来源的正整数attempt，clean02使用新attempt3、clean03使用attempt1，保留旧输出。当前helper SHA `adf8c61cab8fc7895fa5bf5a58e787f3d3648efcbea79f4d4b3463669a0c0191`，该修订80项通过。
 
-下一步先用既有`load_source_prefix/replay_prefix`核clean02/03，再在相同现场、目标、模型、工具、剩余额度及停止规则下比较完整/近期历史；额外成功经验需另明输入与来源边界。本批仍是已曝光TRAIN开发，不是确认或学习收益。
+**真实重放已完成。** clean02来源manifest/receipt SHA为`8ef124042235694f0a881844a5e7bfe33e9673ea1675e6b91955630d09f22d7a` / `55ea6fdef9b246ee7559d766cad9dc1d66c56ac810a50f95c2bb5f611da4cb2c`，原10POST、8动作；clean03为`28eaae1d138822fd4aba7161041112e135bc79161fe392cdb3d71621b8bfd1e7` / `d8c1bf19abc4b575c68dc9dab6e8c7c4339a379a31371636b041d30669aba1a7`，原17POST、15动作。两个来源均won=false/done=false、usage完整。复用既有重放接口恢复23原动作、25公开状态（含reset），逐项相等，剩余额度92/85；两个自有world均退出，无新后缀动作、模型、HTTP或容器。原生墙时合计2.5165秒；这证明公开轨迹恢复一致，不代表隐藏状态普遍等价或恢复任务成功。
+
+私有`student_failure_recovery_v1/NATIVE_REPLAY_V1/RESULT.json` SHA `0fdda0e9b4e375e504a74844ccdeba7923da7b78472fbbbd6b091184cd29a38e`；D逐项复核动作、公开状态和进程退出。双端逐字节核37成员资格包SHA `84cac74617e8925b58a20ba5be696515801d3864fe59137185621d71747619cb`，绑定当时c76代码快照；后续代码修订不改写它。
+
+**恢复比较前的控制对齐。** 两条公开轨迹都曾操作与目标不符的物品，不能据此断言遗忘。因此新student来源的`drop_full`与`goal_recent`共用同一目标提醒，完整/近期历史及滚动窗口仍分别保留。旧teacher/constructed输出和普通stop最多续做一次的逻辑未改。study SHA `c154e8fd317e8042b2d9806d8f4ba09ec75f0332360e80877717c04a0e9de82c`，GB10联合132项/246子测试通过，D另一次重验通过。
+
+下一步按两题×两历史策略准备四槽，再以相同27B、目标、观察、工具、剩余额度和停止规则串行恢复；prepare自己的原生重放另记成本。当前四槽未执行，经验模式为none；额外成功经验需另明输入与来源边界。本批是已曝光TRAIN开发，只检验历史策略，不作确认或学习收益。
 
 Django12589有修好原题却引入新回归的真实代码候选，可作第二环境开发资产。SQLite回归与任务专属PG语义探针分属完整评测合同；离线准备不访问PG，正式续做不能略过PG后宣称完整成功。旧35B来源与新27B接续应分标身份，旧题不作新确认。

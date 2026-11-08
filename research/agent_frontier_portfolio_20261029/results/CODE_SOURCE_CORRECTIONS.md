@@ -36,6 +36,10 @@ GB10私有根为`ROOT/code_source_expansion_v1/SOURCE_ACTOR_PREPARED_V2_BASH_FIX
 
 [单轮入口](../contextbench_teacher_patch.py)；[主线短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。纠正使用与后续目标必须继续隔离，不能把该已曝光source改称新确认。
 
+## 后续代码版本边界
+
+注册候选为21055→9384：源修复merge `4b03990bb9df237c110b8120ffe5ed94c610348c`是目标base `70cd4ffd093ac224fc0226c1be58f9163e2c800a`的祖先（ahead290/behind0）。既有compare索引SHA `c22b36b869f5b3d72827e1a352b15fa62585e6dccfd56297c97e812b669c97e6`，`ANCESTRY_CHECK_V1.json` SHA `c8412bc8d709509fa9336520dd4d19572c65f67dea571f8fa5a4ce6700143603`；本次仅核元数据与汇总，没有重查原始compare。这支持代码版本向前，不证明原issue提出时间或无曝光。目标维持DEVELOPMENT_EVAL_ONLY，本轮未运行它。9384与21309两条题面hash不同，但索引绑定同一上游PR21309与同一base，不能作为两项独立PR修复计数。集合候选16988→16953仍仅有公开行为/时序复现，未获actor资格。
+
 ## 先前准备与故障记录（迁入原文）
 
 以下为原页面代码来源段的完整历史文本；其中“下一步”指当时状态，当前裁决只看上文。

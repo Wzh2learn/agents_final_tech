@@ -4,13 +4,13 @@
 
 ## 目标与负责人取舍
 
-主攻第二篇和硕士研究：Agent从真实执行/反馈形成经验，在任务、工具或环境变化后选择、验证和修订经验。IJCNN 2027为目标窗口；Paper E已交导师，等待反馈，ICINT首投、ICDAR顺序备投。2026-11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；内部仍按11月底选择方法、12月确认及正文、1月审阅准备倒排。学位2027年10月送审。
+主攻第二篇和硕士研究：Agent从真实执行/反馈形成经验，在变化后选择、验证和修订经验。2026-11-06核对的[IJCNN 2027截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；内部按11月底选择方法、12月确认及正文、1月审阅准备倒排。Paper E与学位安排查STATE。
 
-**负责人取舍。** 稳定8B/27B上的多任务研究优先，4B为支持资产。D主责、A按需实作、C审冻结节点；同类任务续用子Agent，独立任务再新建。新执行位优先GPT-6.1 Terra/max；缓存与上下文续接分开核实。[专家复核](results/ALFWORLD_TEXT_AGENT_20261106.md#expert-review)保留依据。
+**负责人取舍。** 多任务研究优先，4B为支持资产。D主责，A按需实作，C审冻结节点；相关任务续用子Agent，新执行位优先GPT-6.1 Terra/max，续接不承诺缓存。[专家复核](results/ALFWORLD_TEXT_AGENT_20261106.md#expert-review)保留依据。
 
-主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
+主攻候选：**保留实际进度，利用反馈判断旧经验应保留、撤回还是重建为后续上下文。** 经验选择、笔记管理、教师纠正已有近邻覆盖；独立机制尚未成立。最佳固定策略解释收益时简化或切换，不先建复杂选择器。
 
-当前已有[代码教师纠正](results/CODE_SOURCE_CORRECTIONS.md#current)，停止该题诊断。下一步真实重放[8B自然失败前缀](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)，先核clean02/03，再比较同27B恢复actor的完整/近期历史；source与actor身份分开。随后扩独立任务及经验保留/撤回/修订、摘要、观察刷新和原子续做，接口收益不算学习。
+当前已有[代码教师纠正](results/CODE_SOURCE_CORRECTIONS.md#current)，停止该题诊断。[clean02/03学生失败前缀](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)已真实重放：23动作、25公开状态一致。下一步准备四槽，以同27B、目标提醒和停止规则比较完整/近期历史；整理后串行运行。这是曝光TRAIN上的历史策略开发，不是学习收益。随后扩独立任务和经验保留/撤回/修订对照。
 
 ## 执行原则与后续顺序
 
@@ -33,15 +33,13 @@
 
 | 要解决的具体问题 | 只加载这些材料 |
 | --- | --- |
-| 新ALF训练来源 | [来源与原生资格](results/ALFWORLD_ADDITIONAL_SOURCES.md)。 |
+| 当前ALF恢复对照 | [来源与原生资格](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)。 |
+| 当前代码纠正与目标 | [教师纠正及版本边界](results/CODE_SOURCE_CORRECTIONS.md#current)。 |
 | Matplotlib 新pair及来源证据 | [新任务段落](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)；旧23562/27361的[隔离对照](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)仅按需读。 |
 | Astropy新隔离比较 | [本批合同与结果](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；[旧四臂及修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)单独保留，不混用source。 |
 | SymPy新增候选 / 旧时序 | [集合语义复现](results/ALFWORLD_LEARNING_RUNTIME.md#sympy-intersection)；[旧时序](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)。 |
-| Django 读取、前置反馈和同候选续修 | [Django](../../docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md) |
-| Sphinx 失败状态与摘要/续写 | [Sphinx](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md) |
-| Requests 参考冲突，为什么不继续 | [Requests](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md) |
-| RethinkSkill 原生反馈和门控 | [相关工作短页](IJCNN_RELATED_WORK_REFRESH_20261030.md) → 该页指定的接口记录。 |
-| 早期可视化、办公、重试或 skill 试验 | [历史主题目录](../../docs/archive/2026-11-06_agent_research_context/README.md)，先选一个主题。 |
+| RethinkSkill与其他近邻 | [相关工作短页](IJCNN_RELATED_WORK_REFRESH_20261030.md) → 指定接口记录。 |
+| Django/Sphinx/Requests与早期试验 | [历史主题目录](../../docs/archive/2026-11-06_agent_research_context/README.md)，只选一个主题；旧深链接在下方保留。 |
 | 自动记录和工具前提 | [记录器](../../scripts/graph/research_auto_record.py)、[工具检查](../../scripts/graph/research_tool_runtime.py)、对应 runner；不改变业务服务。 |
 
 ## 维护规则
