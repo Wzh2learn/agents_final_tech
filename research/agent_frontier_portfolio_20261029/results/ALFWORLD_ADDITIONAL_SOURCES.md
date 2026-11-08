@@ -47,6 +47,26 @@ D独立复算5,689 raw及92输入绑定，C另核18题/930 SSE与成本。36个�
 
 双端包`observability6_closed_v1_20261109.tar.gz` SHA `6144db07158c2889aa92beec30e3f27f5f2ce9a0055a16954d83ad2a66269297`；`observability_public_search6_closed_v1_20261109.tar.gz` SHA `ead2869129a0cbf8ea61facb6a28b816ce70d7ed674443deb949529933611326`。每包32文件，保留预算、限制及原始绑定。
 
+<a id="simple-recovery"></a>
+## 14个新失败现场：强规则已解
+
+source18全部14个未获胜前缀，不挑题；同seed重放全部成功动作，逐步六键公开状态及交接状态匹配，保留外部进度。两臂共用公开目标语法、固定搜索、合法命令和实体绑定：A重新清洗/开灯再交付；B仅在对应实例有未被可见事件否定的成功见证时省略处理，无见证同A。不是LLM、学习方法或最优规划器。
+
+| 规则 | 原生成功 | 新动作 | 重放动作 |
+| --- | ---: | ---: | ---: |
+| A 总是重做 | 14/14 | 194 | 688 |
+| B 公开见证省略 | 14/14 | 190 | 688 |
+
+只有look02/03/06/09的B各少一次`use desklamp 1`，其余10题逐动作一致。28world、1,760合法请求/动作＝1,376重放＋384新动作，最大单world95/100步，46.43秒CPU；无模型、HTTP、训练、容器或服务变动。原source形成成本另计，不能称整个流程零成本。
+
+D逐项复算全部原始native/request轨迹；C另独立核28槽。规则使用整理的全部公开成功动作历史、过滤原invalid_action，并获得完整最终状态；不等于旧actor实际收到的上下文或计量，不能直接将旧4/18与此14/14作为同信息模型对比。没有读取隐藏事实、专家、score/won来选动作，done仅作停机门。
+
+**裁决：停止在此面板训练复杂保留/撤回选择器。** 成功残差被领域规则解释，4动作差无需新算法；不推论一般记忆学习无价值。这28条可作标明规则来源的恢复资产，不能包装为教师反馈或学习收益。
+
+私有`progress_feedback_development_v1/simple_recovery_controls_v1/`：`PLAN_V2.json` SHA `947409aa5eb7874bac2b666d1e0916d46013d1f4f21b9355637c7b193c477608`，`RESULT_V2.json` SHA `b204eef6a4955a1cdbdf85a181eda02fe973266cc45444c72ad984b8c38ca74e`，`D_CHECK_V2.json` SHA `4bc997b26ceb00178582f649287eb58bae85aabc47d7897540f1d5cc7ba78317`。V1仅准备未运行，保留原字节；V2发布前10项CPU/13项fake通过，D另实跑fake，实际world结果独立记录。
+
+`C_CONTROL_CLOSEOUT_V2.json` SHA `8e8a7f0f289e730de86ea75397862f9183b2b5fa9cbc02394dd8f89fa51ae481`。双端包`simple_recovery28_closed_v2_20261109.tar.gz`，135,933bytes/72文件，SHA `241219f2925233d5e465967a6469c000fdc7273c218c41f3485fdf31b2f5e677`；输入source与game依赖沿上方两包解析。
+
 <a id="action-channel"></a>
 ## 首响应通道对照：不是任务成功
 

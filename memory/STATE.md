@@ -3,8 +3,8 @@
 > 2026-11-09 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active**：11-06用户恢复，控制面已核。主攻经验/反馈学习与变化适配，面向IJCNN及硕士论文；执行与证据路由见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
-- **当前科研**：[18新TRAIN源](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)采集已闭合，4成功、14可重放失败前缀；模型窗结束。下一步用强规则检验哪些现场仍有学习空间，不重跑旧B6。
-- **方法状态**：R是已有纠正学习基线。主攻区分应保留的执行见证与需重新取证的信息；先比较重复处理、进度清单及公开搜索，再定训练机制。算法尚未成立，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+- **当前科研**：[18源](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)已闭合；其14个失败现场被两条领域规则全部恢复，停止在此面板训练复杂选择器。模型窗结束，不重跑旧B6。
+- **方法状态**：R为已有基线。下一步复用代码资产，检验取证权限/预算改变时是否需要不同记忆表示；新机制尚未成立，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 - **Paper E**：用户已发老师，等反馈；[ICINT四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)为现役，ICDAR顺序备投，尚未投稿。学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。作者私有字段不入公开记忆。学位按2027年10月倒排。
 - **搜索**：默认宿主原生搜索，无DeepSeek/Qwen自动回退；GB10禁网实验由D提供带来源材料，不假造搜索HTTP接口。推理模型与业务RAG不因此切换。
 - **协作**：D主责，A/C按需隔离实现或固定快照复核，优先续用已有Agent。自动记录范围以runner为准，全局调度及跨机预算锁未实现；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。

@@ -11,9 +11,9 @@
 | [Skill-V](https://arxiv.org/abs/2610.11781) | skill 合同、适用范围、历史回放与非回归；“附证据/按条件修订”本身已有先例。 |
 | [SkillApt](https://arxiv.org/abs/2609.26863) | 利用有无 skill 的配对结果学习复用选择；比较获取额外反馈的真实成本。 |
 | [Skill-R1](https://arxiv.org/html/2605.09359v1) | 冻结actor、可验证奖励训练skill编辑器及代内/代际优势；正文已核，未复现成绩。 |
-| [SkillGLoW §3.3–3.4](https://arxiv.org/html/2609.02217v1) | 适用条件/程序/失败模式、退化后的scope guards、真实执行准入及冻结迁移均已覆盖；这些不能作为新意。 |
-| [SkillHEX §3.1/B.2](https://arxiv.org/html/2608.05628v1) | 假设转可执行诊断、缓存产物重测与新技能fresh执行；重测旧产物不同于改变环境后重跑策略。 |
-| [CIPO §3.3–3.4/App.B/D](https://arxiv.org/html/2610.04991v1) | 同前缀技能/原子反事实、部分结果续做已覆盖；须比较原子续做，可变world分支复原实现仍需核。 |
+| [SkillGLoW §3.3–3.4](https://arxiv.org/html/2609.02217v1) | 适用范围、程序、scope guards及真实执行准入。 |
+| [SkillHEX §3.1/B.2](https://arxiv.org/html/2608.05628v1) | 可执行诊断、缓存重测与fresh执行；产物重测不等于重跑策略。 |
+| [CIPO §3.3–3.4/App.B/D](https://arxiv.org/html/2610.04991v1) | 同前缀技能/原子分支、部分续做；world分支复原待核。 |
 | [SWE-Skills-Bench](https://arxiv.org/abs/2603.15401) | 固定仓库、有无skill、隐藏检查；区别自然issue与构造任务。 |
 | [SkillFlow](https://arxiv.org/abs/2604.17308) | 完整历史、无历史和持续skill库对照；三臂本身非新贡献。 |
 | [CFOE](https://arxiv.org/abs/2610.22984) / [CoEvoSkills](https://arxiv.org/abs/2604.01687) | 失败学习的迁移边界、验证器与经验共演化；要对齐已有反馈、额外执行和验证预算。 |
@@ -29,8 +29,6 @@ RethinkSkill原生接口已接通，提案未部署，不作方法负结果。[�
 
 - **CONFIRMED**：[Skill-V §3.3、B.5–B.6](https://arxiv.org/html/2610.11781v1)允许修订procedure，不只是rubric；保留语义约束并作历史证据回放。因此“会改步骤”不能单独作为区别。§3.4在episode开头选入技能。
 - **11-08复核**：[SkillApt §3.2–3.6/附录B](https://arxiv.org/html/2609.26863v1)已有WITH/WITHOUT配对效用及LOAD/ABSTAIN；SRA v1以题面hash表征状态，等正确率成本正/负例均标0.5。同前置状态修复与工具隔离已覆盖；未见执行中撤回经验、保留改后world续做的对照。一般定义不排除成本/丰富状态，须比较同输入强适配版。
-- **CONFIRMED**：[Skill-R1 §3](https://arxiv.org/html/2605.09359v1)已覆盖用真实rollout奖励训练循环编辑器，不能只靠换成LoRA或代码任务宣称新方法。
-
 **比较要求**：keep/drop、短历史、目标重申、笔记折叠、配对效用及冲突规则；同观察/动作/合同。打乱反馈后优势不降，撤回反馈因果解释。适配不冒充复现。
 
 **当前参照**：[Sentry](https://arxiv.org/html/2610.02994v1)失败时暴露经验；[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3](https://arxiv.org/html/2608.10502v1)依赖失效/独立支持，须对齐故障标识；[Memento §3](https://arxiv.org/html/2611.00244v1)学习笔记折叠/回退。原文已核，成绩未复现；细节查[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)。
@@ -50,6 +48,8 @@ RethinkSkill原生接口已接通，提案未部署，不作方法负结果。[�
 **11-09方法正文**：[AttriMem](https://arxiv.org/html/2607.21106v3)用记忆遮罩贡献奖励；[MemCalib](https://arxiv.org/html/2609.24259v1)用原子过用/欠用及反事实信用；[Anti-Persistence](https://arxiv.org/html/2610.27406v1)用成本bandit选择合成。因此细粒度奖励或按需改写非独立新意。
 
 [MGPO §2](https://arxiv.org/html/2609.37930v1)比较新旧记忆对当前/未来目标的边际效用；[CERL §3](https://arxiv.org/html/2606.05201v1)以同前缀保留/擦除/skip训练持久状态充分性；[CEDAR §3](https://arxiv.org/html/2608.27797v1)以已实现公开谓词、环境反例和DFA组合/LOOKUP修订控制器，非新DFA算法。均已读原文、未复现成绩；“预测状态/反例修订/加取证”均不足以单独成立新法。
+
+理论边界：[Value-directed POMDP Compression](https://cs.uwaterloo.ca/~ppoupart/publications/compression/compression.pdf)已有保持决策质量的状态压缩（§3–4已读）；[MDPs with a State Sensing Cost](https://proceedings.mlr.press/v300/kapoor26a.html)已有付费感知与盲行动联合优化（仅一手摘要）。取证条件化记忆仍需具体算法与迁移证据，不能称新原理。
 
 ## 旧章节链接
 

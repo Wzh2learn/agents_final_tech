@@ -44,6 +44,14 @@ GB10私有根为`ROOT/code_source_expansion_v1/SOURCE_ACTOR_PREPARED_V2_BASH_FIX
 
 **准备器已复用。** [现有目标驱动](../run_contextbench_target.py)新增SymPy显式分支：none与source_repair_record，固定绑定原教师失败、后验重计数及执行验证。实际执行复用既有SymPy评分器，不把修复记录称为普通成功轨迹。本机45项合成控制通过（导入替身及Windows UID适配）；GB10与ALF准备器合计97项/246个子控制通过，无替身。两臂实际CPU准备及D独立verify已完成，各1,883文件，0模型/HTTP/容器；gold/资格父目录/评分补丁不进actor挂载。私有`ROOT/sympy_refine_transfer_v1/TARGET_PROTOCOL_V1.json` SHA `698785a471942627e60b6dbeb30deb56fa66f5d7d955b21ba3dedd8984765884`及6份元数据已双端镜像；源/目标路径与manifest查同目录。普通none/修复记录两臂暂缓运行，作为新反馈机制第二环境的复用资产；尚无目标模型成绩。
 
+## 取证条件研究：已核资产与简单对照
+
+11-09只读复核后，保留两项开发来源，不重跑已有资格：上方SymPy21055→9384，以及[Django12589→34176](DJANGO_AGGREGATION_PAIR_QUALIFICATION_20261106.md)。Django的65项与219项SQLite测试指向同一退出后的候选目录、同镜像/runtime/只读挂载，后者发现一项回归；缺少两个时点的完整树hash，不能认证逐字节不变。测试扩大不等于外部环境改变，旧65项通过仍是真实局部证据；两次约1.061/0.874秒，也不支持直接把宽测试称为更贵。
+
+Django源/目标base分别为`895f28f9cbed817c00ab68770433170d83132d90`/`016bead6a23989adec5c7ee6948db7ce2fc5e89b`；目标base/gold 0/6→6/6、双方回归166/166。PG原题探针是独立PG15环境，不能混作上述SQLite范围比较。原receipt与宽检查分别以私有`django_teacher_source_20261106.tar.gz`中的`07533253…f7ac2b5`/`2e582442…50febcc`定位，完整SHA沿资格记录解析。
+
+下一开发比较须先固定实际候选hash及可见工具，改变取证权限/预算，计实际工具、token与墙时；比较固定摘要、版本/证据范围标注与按需重测，再检验条件化记忆是否有收益。这两项各是一条已曝光项目来源，尚无该配对结果或饱和证明，不能认证泛化。继续复用隔离评分，gold/隐藏检查不进actor；不连接生产数据库。
+
 ## 先前准备与故障记录（迁入原文）
 
 以下为原页面代码来源段的完整历史文本；其中“下一步”指当时状态，当前裁决只看上文。
