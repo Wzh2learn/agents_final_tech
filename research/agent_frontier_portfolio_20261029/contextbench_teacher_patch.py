@@ -102,7 +102,7 @@ def payload_for(messages, profile, thinking):
     if type(thinking) is not bool: raise ValueError('boolean thinking mode required')
     return dict(model=profile['model_id'], messages=copy.deepcopy(messages), seed=17, temperature=0.2,
                 max_tokens=8192, stream=True, stream_options=dict(include_usage=True),
-                chat_template_kwargs=dict(enable_thinking=thinking), tools=[], tool_choice='none', parallel_tool_calls=False)
+                chat_template_kwargs=dict(enable_thinking=thinking))
 
 
 def token_counter(profile):
@@ -116,7 +116,7 @@ def token_counter(profile):
                    tokenizers=importlib.metadata.version('tokenizers'))
     def count(payload):
         tokens = tokenizer.apply_chat_template(payload['messages'], chat_template=template.decode(),
-            tools=payload['tools'] or None, tokenize=True, return_dict=False, add_generation_prompt=True,
+            tools=payload.get('tools') or None, tokenize=True, return_dict=False, add_generation_prompt=True,
             **payload['chat_template_kwargs'])
         if type(tokens) is not list or not tokens or any(type(token) is not int or token < 0 for token in tokens):
             raise ValueError('serving tokenizer must return one nonempty list of integer token IDs')

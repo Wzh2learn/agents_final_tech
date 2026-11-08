@@ -222,7 +222,7 @@ def valid_usage(value):
 def exchange(core,root,payload,budget,qualify,endpoint,attempts):
     number=len(attempts)+1;tag=str(number).zfill(5);body=json.dumps(payload,separators=(',',':')).encode()
     record=dict(attempt=number,reserved=False,send_started=False,forwarded=False,response_wire_observed_bytes=0,
-                tool_contract_sha256=sha(json.dumps({k:payload[k] for k in ('tools','tool_choice','parallel_tool_calls')},separators=(',',':')).encode()),
+                tool_contract_sha256=sha(json.dumps({k:payload[k] for k in ('tools','tool_choice','parallel_tool_calls') if k in payload},separators=(',',':')).encode()),
                 request_body_bytes=len(body),request_body_sha256=sha(body),error=None)
     attempts.append(record);socket_owned=None;wire=None
     try:

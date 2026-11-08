@@ -109,6 +109,7 @@ def test_prepare_is_cpu_only_identical_messages_post_execution_source_and_no_pri
     assert source.tree(f.old) == before and not (f.root / 'false').exists()
     assert f.events == [('metadata', dict(full=False))]
     false = t.decode((f.root / 'payload_false.json').read_bytes()); true = t.decode((f.root / 'payload_true.json').read_bytes())
+    assert {'tools', 'tool_choice', 'parallel_tool_calls'}.isdisjoint(false.keys() | true.keys())
     assert t.encoded(false['messages']) == t.encoded(true['messages'])
     true['chat_template_kwargs']['enable_thinking'] = False; assert true == false
     text = str(false['messages'])
@@ -158,6 +159,7 @@ def test_tokenizer_receives_actual_kwargs_and_true_has_its_own_count(tmp_path):
     assert [p['template_input_tokens'] for p in proofs] == [2, 4]
     assert [c['enable_thinking'] for c in calls] == [False, True]
     assert all(c['return_dict'] is False for c in calls)
+    assert all(c['tools'] is None for c in calls)
     assert all(p['token_return_type'] == 'builtins.list' for p in proofs)
     assert load.call_args.kwargs == dict(local_files_only=True, trust_remote_code=False, use_fast=True)
     assert binding['template_sha256'] == t.sha(template.read_bytes())
@@ -253,6 +255,7 @@ def test_one_actual_fake_wire_post_accounting_patch_and_cleanup(synthetic, kind)
     assert source.tree(f.old) == before and f.events[-1] == 'lock_released'
     root = f.root / 'false'; bill = t.decode((root / 'receipt.json').read_bytes())['accounting']
     actual = upstream.sent[0].split(b'\r\n\r\n', 1)[1]
+    assert {'tools', 'tool_choice', 'parallel_tool_calls'}.isdisjoint(t.decode(actual))
     assert actual == (root / 'requests/00001.body').read_bytes()
     assert t.sha(actual) == t.decode((root / 'ledger/00001.json').read_bytes())['request_body_sha256']
     prepared_manifest = t.decode((f.root / 'manifest.json').read_bytes())

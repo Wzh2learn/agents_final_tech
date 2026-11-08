@@ -101,6 +101,24 @@ def test_actual_fake_wire_body_hash_billing_and_raw_receipt(tmp_path):
     assert json.loads(actual)['tools'][0]['function']['parameters']['properties']['action']['enum']==['look','inventory']
     assert json.loads(actual)['tool_choice']['function']['name']=='environment_step'
     assert json.loads(actual)['parallel_tool_calls'] is False and messages==original and connect.call_count==1
+    original_contract={k:payload[k] for k in ('tools','tool_choice','parallel_tool_calls')}
+    assert attempts[0]['tool_contract_sha256']==a.sha(json.dumps(original_contract,separators=(',',':')).encode())
+
+
+def test_toolless_fake_wire_omits_fields_and_bills_exact_body_with_empty_contract(tmp_path):
+    payload=dict(model='CPU_TEACHER',messages=[dict(role='user',content='CPU_PUBLIC_INPUT')],stream=True)
+    original=copy.deepcopy(payload);attempts=[];budget=core.Budget(max_posts=1,max_bytes=32000000,seconds=30)
+    upstream=FakeSocket(body=sse(finish='stop'))
+    with mock.patch.object(a.socket,'create_connection',return_value=upstream) as connect:
+        a.exchange(core,tmp_path,payload,budget,qualify,('CPU_FAKE',1),attempts)
+    actual=upstream.sent[0].split(b'\r\n\r\n',1)[1]
+    assert actual==(tmp_path/'requests/00001.body').read_bytes()==json.dumps(payload,separators=(',',':')).encode()
+    assert {'tools','tool_choice','parallel_tool_calls'}.isdisjoint(json.loads(actual))
+    ledger=json.loads((tmp_path/'ledger/00001.json').read_bytes())
+    assert ledger['tool_contract_sha256']==a.sha(b'{}') and ledger['request_body_sha256']==a.sha(actual)
+    assert budget.request_bytes==len(actual) and budget.response_bytes==len(upstream.raw)
+    assert a.accounting(attempts,budget)['integrity_passed'] and upstream.closed and connect.call_count==1
+    assert payload==original
 
 
 @pytest.mark.parametrize('failure',['connect','partial','HTTP400','unknown_usage'])
