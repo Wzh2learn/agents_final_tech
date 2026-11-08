@@ -154,6 +154,21 @@ D fresh逐槽复算全8通过，RESULT SHA `b4c442933afa890bee9fb5829c5aab43908f
 
 私有封存包`multitask_context_closed_v1_20261108.tar.gz`共2,312成员/8,265,261bytes，SHA `d8d0fc2ceb90a8d7e5b6160feb94aa2afa48f567ca80989085bb20cd026e4763`；manifest SHA `db604d7782e95e48b53197c27d690f93d9980edd7ca84e5d059a1a7fc0084cfe`。本机已逐项核2,311文件，原路径与归档成员映射保留。包不含权重、依赖、全量数据压缩包或OpenCode数据库；来源旧包另按SHA引用，私有评测资产不提供给actor或公开分发。
 
-下一步只用clean01冻结前缀做一次原生function-tool/合法动作诊断，保持模型、环境进度及预算，明确它同时改变工具与controller包装，不能算学习收益或单一Bash因果。实现只加新模块，不改本批绑定组件；CPU验证后由D释放一次执行。之后优先扩独立任务，补摘要、最新观察刷新与原子续做，而非围绕旧例无限加接口分支。
+随后只用clean01冻结前缀做一次原生function-tool/合法动作诊断，保持模型与环境进度。它同时改变系统提示、工具和controller包装，不能算学习收益或单一Bash因果。该诊断现已闭合，结果见下节；不再围绕旧例追加接口变体，转向实际代码来源采集及独立任务。
+
+**自然失败仍可恢复的公开信息见证。** D仅据旧公开轨迹选择动作：它已记载cloth位置、手中towel的来源及合法归还命令。重放clean01的39步逐状态相等后，归还towel、取cloth、清洗并放入drawer，新增8步即native won=true，总47步、1.689秒、模型/HTTP/训练0。不是actor成绩或隐藏专家示范，见证suffix不加入待测actor输入；它只排除了该交接现场已经不可恢复的解释。协议SHA `b2691c0691552e7c68655b1c06efd5163e7f9ea3fdc72a3f77e921f98dae4778`，RESULT SHA `8c4b60a8f9508fe9155d99f04e0caeda44bf9fc721071abff95d2480ef867cb9`，raw SHA `f9f1e225c11d5b9c545d5268c0c3399c1995312b4071fcadc6c596d57e663045`。私有8文件包SHA `40537fef69bf56f7c26cf796406f1560b07066e5c1b552b2cc1ca48717d9bb97`，本机逐字节核过；旧模型失败不覆盖。
+
+<a id="native-capability"></a>
+### 原生动作接口诊断：合法仍不足以完成任务
+
+新[原生入口](../alfworld_native_actor.py)只加独立模块，复用原动作桥、source验证、预算和SSE计量，未改上批15个绑定组件。模型仍27B/nonthinking/seed17、同39步公开前缀；旧full task只替换Bash调度说明，无D见证步骤。实际schema逐步枚举当前公开admissible动作。
+
+V1漏存witness所需initial_reset，在任何请求前停止，原生重放39步照计。V2实际1POST返回完整合法工具调用，但旧parser误拒forced named tool的正常stop结束；未执行该动作，3,945tokens照计。[官方vLLM分支](https://github.com/vllm-project/vllm/blob/main/vllm/entrypoints/serve/utils/tool_calls_utils.py)与实际raw一致。两项确定性修复均保留旧root，35项CPU检查通过；V3显式只给剩余47POST，未以修复重置48帽。
+
+V3共47次真实调用、47个合法原生动作，最终POST_CAP、world86、won=false：去countertop23次、去drawer22次、查看towel及去sink各1次，没有取走或清洗目标。已访问状态下，47份动作枚举均无take cloth或归还towel选项；这不说明其他状态不可归还，也不推翻前述8步公开恢复见证。结果说明**在这个已曝光现场，去掉非法动作并没有解决任务**；不据此推论模型永远不会恢复，亦不支持训练经验选择器。
+
+三次合计48POST，输入455,048、输出1,514、总456,562tokens，usage未知0、cache未知；117步原生重放另加47步actor动作。episode墙时合计292.437秒，不含未完整计量的研发/审阅开销；训练/judge/付费科研API为0。三个owner及原生子进程已退出，接续代码source前锁已释放，未重启共享服务。
+
+D闭合SHA `a99628142b475b53f028f55f81e6933a3f0c4ba450ab37fe17e23886fbea14da`；C独立核48个SSE/实际枚举/逐步回放及新旧提示边界，回执SHA `d594f8be6ceb2020779c37681dc324fdf25f534f0f315360525345719614cd19`。私有封存包420成员/492,835bytes，SHA `24e68cdbded5821562ad9c20a4bf4aa0c24b1ba7c5136b2c65db9d68f7e62b77`，本机逐项核419文件；旧source包另按SHA引用，未包含权重或依赖。
 
 Django12589有修好原题却引入新回归的真实代码候选，可作第二环境开发资产。SQLite回归与任务专属PG语义探针分属完整评测合同；离线准备不访问PG，正式续做不能略过PG后宣称完整成功。旧35B来源与新27B接续应分标身份，旧题不作新确认。

@@ -114,4 +114,15 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 **资源允许后已补完CPU控制。** 新根`SOURCE_SCORER_CONTROLS_V2/RESULT.json` SHA `7718efabe51be0ebedde1030652ba19af912f6f1c738bf19a6ba0ec7eac37ff7`：8个实际测试容器、30.48秒；两source均原版F2P失败、参考F2P通过、两侧PTP全通过。SymPy实际隔离表面亦PASS（Py3.8.20、项目从/workspace导入、OpenCode1.18.3、代码可写/输入只读、私有证据不可见），精确CID自动删除。汇总`SOURCE_PREPARATION_RETURN_V2.json` SHA `530dd81deae03ea69d95ec14cee9d51925f047c6d74d385c33e1a4e80d5390fd`。本次新增1表面＋8测试容器，source模型/训练仍0；旧低内存DEFERRED保留。下一步仅待主模型窗口释放后采集真实source轨迹，不能把参考控制通过当Agent经验。
 
+<a id="sympy-intersection"></a>
+## 新增代码来源：SymPy 集合语义公开复现（2026-11-08）
+
+新增开发候选为16988→16953，源/目标base分别`e727339af6dc22321b00f52d971cda39e4ce89fb`、`215b9ee31f3aa5eb31826c904674cb2ff37617ff`。[官方来源PR](https://github.com/sympy/sympy/pull/16988)的merge为`8f4999d744827bc6b29e05e8ec4e6bc1bf8a5d11`；官方compare确认它是目标base祖先，后者ahead 1,558 commits。不是从issue编号或同1.5标签推断时序。
+
+两个准确base归档已取得，复用已有Python3.8.20/依赖运行同一公开题面探针，实际导入均来自对应源码，未安装新依赖。源版`Intersection({1},{1},{x})`为EmptySet，而去掉重复集合为`{1}`；当x=1时前者错误。目标版两种符号集合相交顺序均返回`{1}`，形式一致，但x=y+1时两者都应为空集，实际均未通过。这说明**一致性通过不能单独充当语义成功反馈**，不将本地显示与题面历史显示的差异冒称参考冲突或方法失败。
+
+本次只从parquet读取公开题面/版本/时间/base等列，未读新目标的gold patch或隐藏测试；公开复现不替代完整回归及actor资格。`ROOT/sympy_intersection_adaptation_v1/D_DEVELOPMENT_STATUS_V1.json` SHA `f5e9e0cf684f5583ba7966fca8c1effe2cfb0ac848a0468d0e9560a0943c1b89`；probe SHA `3d86bdf0765ddd67895265735de9b0c3e5b889579272fbe248339f41f56f4bc7`，结果SHA `8a0c11b0eca8e3157a2be38753b3d641bdafa52044d7973886c31309799b343b`。2次CPU进程合计1.991秒，新增4次公开非模型HTTP（2元数据＋2归档）、模型/训练0。源码包及7份证据本机逐字节核过。`PUBLIC_TASKS_V1.json`含两题、仅供D索引，未来来源actor不得整体挂载它或提前接收目标16953。
+
+SymPy21055的Bash-v2开发重试现已闭合、未修复，下一步准备同输入单轮教师能力对照；不为16988另建runner。16988仅保留为新的开发素材，不是确认集或已成立学习信号。实际source准备/执行状态查[现役来源段](ALFWORLD_CORRECTION_DATA.md#source-tool-contract)。
+
 [回到现役学习记录](ALFWORLD_CORRECTION_DATA.md)。

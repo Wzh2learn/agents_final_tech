@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-当前只读[ALF多任务比较](results/ALFWORLD_ADDITIONAL_SOURCES.md#multitask-context)：两批各8槽已闭合，未出现成功交叉，不训练选择器。下一步仅一次原生合法动作接口诊断，区分当前包装与能力瓶颈；随后扩独立任务并补摘要、最新观察覆盖和原子续做。旧R和Matplotlib变体停止；[代码证据](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)按需读，尚无独立方法确认。
+当前准备[单轮教师修复对照](results/ALFWORLD_CORRECTION_DATA.md#source-tool-contract)：已曝光SymPy21055重试48POST仍无补丁，改用同一公开源码/反馈比较非thinking与thinking（各1POST）。ALF历史/原生接口诊断闭合，暂不训练选择器。随后在能完成任务的actor上比较经验保留、撤回与修订，扩独立来源并补摘要、观察刷新及原子续做；接口收益不算反馈学习。
 
 ## 执行原则与后续顺序
 
@@ -36,7 +36,7 @@
 | 新ALF训练来源 | [来源与原生资格](results/ALFWORLD_ADDITIONAL_SOURCES.md)。 |
 | Matplotlib 新pair及来源证据 | [新任务段落](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)；旧23562/27361的[隔离对照](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)仅按需读。 |
 | Astropy新隔离比较 | [本批合同与结果](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；[旧四臂及修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)单独保留，不混用source。 |
-| 真实任务时序 / SymPy | [来源和 SymPy](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md) |
+| SymPy新增候选 / 旧时序 | [集合语义复现](results/ALFWORLD_LEARNING_RUNTIME.md#sympy-intersection)；[旧时序](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)。 |
 | Django 读取、前置反馈和同候选续修 | [Django](../../docs/archive/2026-11-06_agent_research_context/contextbench_django_20261104_05.md) |
 | Sphinx 失败状态与摘要/续写 | [Sphinx](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md) |
 | Requests 参考冲突，为什么不继续 | [Requests](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md) |
