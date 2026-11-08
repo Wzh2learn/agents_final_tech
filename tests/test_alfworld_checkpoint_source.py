@@ -259,8 +259,14 @@ def test_current_policy_is_checkpoint_only_and_legacy_source_contract_stays_stri
 
 # V2 tests use synthetic files and fake external native/model surfaces only.
 @contextmanager
-def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkpoints=2):
+def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkpoints=2, *,
+               source_backend=None, source_profile=None, source_mismatch=None):
     with fixture() as f, ExitStack() as stack:
+        failure=kind in ('REAL_CLOSED_ACTOR_FAILURE','REAL_CLOSED_STUDENT8B_FAILURE')
+        source_backend=source_backend or ('student8b' if kind=='REAL_CLOSED_STUDENT8B_FAILURE' else 'teacher27b')
+        source_profile=source_profile or {'teacher27b':'9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279',
+            'student8b':'acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab6d0'}[source_backend]
+        capped=source_backend=='teacher27b';classification='POST_CAP_CLOSED' if capped else 'TASK_FAILED_CLOSED'
         h=r.checkpoint_source()
         stack.enter_context(mock.patch.object(r,'checkpoint_source',return_value=h))
         poolref=f.group['pool'];pool=json.loads(Path(poolref['path']).read_text());game=pool['games'][0]
@@ -284,10 +290,10 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
             worlds[opaque]=dict(reset=reset,steps=steps)
         f.worlds.update(worlds)
         # Original actor files are synthetic, with explicit synthetic trust anchors below.
-        src=f.private/'cases'/f.case/'collect_none'/'teacher27b'/'attempt_v1';src.mkdir(parents=True)
-        sourcecaps=dict(posts=1,seconds=900,world_actions=100,model_payload_bytes_combined=32000000)
-        original=copy.deepcopy(worlds['a']) if kind=='REAL_CLOSED_ACTOR_FAILURE' else dict(reset=reset,steps=copy.deepcopy(common[:4]))
-        if kind!='REAL_CLOSED_ACTOR_FAILURE':
+        src=f.private/'cases'/f.case/'collect_none'/source_backend/'attempt_v1';src.mkdir(parents=True)
+        sourcecaps=dict(posts=1 if capped else 2,seconds=900,world_actions=100,model_payload_bytes_combined=32000000)
+        original=copy.deepcopy(worlds['a']) if failure else dict(reset=reset,steps=copy.deepcopy(common[:4]))
+        if not failure:
             for i in (5,6,7):
                 state=public_state(i,'CPU_ORIGINAL_TEACHER_'+str(i))
                 state['admissible_commands']=['look','inventory','CPU_ORIGINAL_'+str(i+1)]
@@ -296,44 +302,56 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
         oldproto=write(src/'protocol.json',dict(experience_mode='none',case_ids=[f.case],pool_path=poolref['path'],pool_sha256=poolref['sha256'],world_seed=17,collection_caps=sourcecaps))
         for name,value in [('initial_reset.json',reset),('handoff_public.json',reset),('opencode_config.json',{})]:write(src/name,value)
         (src/'task.txt').write_text('CPU_SOURCE_PUBLIC_TASK')
-        m=dict(case_id=f.case,stage='collect_none',backend='teacher27b',world_seed=17,model_seed=17,world_step_cap=100,
+        m=dict(case_id=f.case,stage='collect_none',backend=source_backend,world_seed=17,model_seed=17,world_step_cap=100,
             source_root=None,experience_mode='none',experience_assignment={},experience_text_sha256=hashlib.sha256(b'').hexdigest(),
-            pool_binding=poolref,game=dict(sha256_game=game['game_sha256']),profile_sha256='9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279',
+            pool_binding=poolref,game=dict(sha256_game=game['game_sha256']),profile_sha256=source_profile,
             protocol_path=oldproto['path'],protocol_sha256=oldproto['sha256'],caps=sourcecaps,
             components={'CPU_OLD_COMPONENT_BYTES_NO_LONGER_CURRENT':'f'*64},
             inputs_sha256={x:r.sha(src/x) for x in ['task.txt','initial_reset.json','handoff_public.json','opencode_config.json']})
+        if source_mismatch=='manifest_backend':m['backend']='teacher27b'
+        if source_mismatch=='experience':m['experience_assignment']={'CPU_UNAPPROVED_CARRIER':True}
         mr=write(src/'manifest.json',m);reservation=write(src/'reservation.json',dict(manifest_sha256=mr['sha256'],mode='REAL_DEVELOPMENT',experience_mode='none'))
         header=dict(game_id=f.case,asset_sha256=game['game_sha256'],seed=17,step_cap=100,caps=sourcecaps,pool_manifest_sha256=poolref['sha256'])
         header['episode_sha256']=hashlib.sha256(json.dumps(header,sort_keys=True).encode()).hexdigest()
         source_trace=src/'execute_world.jsonl'
         source_trace.write_text(''.join(json.dumps(x)+'\n' for x in [dict(event='episode',**header),dict(event='reset',state=reset)]+[dict(event='step',**x) for x in original['steps']]))
         tr=dict(path=str(source_trace),sha256=r.sha(source_trace))
-        raw=src/'raw_1.jsonl';raw.write_text(json.dumps(dict(type='error',error=dict(name='APIError',data=dict(statusCode=403))))+'\n' if kind=='REAL_CLOSED_ACTOR_FAILURE' else '{"type":"step_finish"}\n')
+        raw=src/'raw_1.jsonl';raw.write_text(json.dumps(dict(type='error',error=dict(name='APIError',data=dict(statusCode=403))))+'\n' if failure and capped else '{"type":"step_finish"}\n')
         usage=dict(prompt_tokens=2,completion_tokens=1,total_tokens=3)
         response=dict(status=200,complete=True,body_bytes=1,body_sha256=hashlib.sha256(b'x').hexdigest(),usage=usage)
         (src/'responses').mkdir();(src/'responses/00001.body').write_bytes(b'x');write(src/'responses/00001.body.receipt.json',response)
-        receipt=dict(case_id=f.case,stage='collect_none',backend='teacher27b',experience_mode='none',label='MULTITASK_CONTEXT_DEVELOPMENT',manifest_sha256=mr['sha256'],
-            final_world_state=original['steps'][-1]['state'],won=kind!='REAL_CLOSED_ACTOR_FAILURE',errors=[],world_actions=len(original['steps']),total_world_action_count=len(original['steps']),
+        receipt=dict(case_id=f.case,stage='collect_none',backend=source_backend,experience_mode='none',label='MULTITASK_CONTEXT_DEVELOPMENT',manifest_sha256=mr['sha256'],
+            final_world_state=original['steps'][-1]['state'],won=not failure,errors=[],world_actions=len(original['steps']),total_world_action_count=len(original['steps']),
             real_model_calls=1,model_posts=1,forwarded_model_posts=1,unknown_usage_model_posts=0,elapsed_seconds=1,
             model_request_payload_bytes=1,model_response_wire_bytes=1,response_receipts=[response],provider_usage=usage,
-            model_relay_errors=[dict(type='ValueError',detail='episode model budget closed')] if kind=='REAL_CLOSED_ACTOR_FAILURE' else [],
-            rounds=[dict(round=1,exit=1 if kind=='REAL_CLOSED_ACTOR_FAILURE' else 0,raw_sha256=r.sha(raw))])
+            model_relay_errors=[dict(type='ValueError',detail='episode model budget closed')] if failure and capped else [],
+            rounds=[dict(round=1,exit=1 if failure and capped else 0,raw_sha256=r.sha(raw))])
+        if source_mismatch=='receipt_backend':receipt['backend']='teacher27b'
+        if source_mismatch=='unknown_usage':receipt['unknown_usage_model_posts']=1
+        if source_mismatch=='won':receipt['won']=True
+        if source_mismatch=='round_exit':receipt['rounds'][0]['exit']=137
         rr=write(src/'receipt.json',receipt)
         provenance={}
-        if kind=='REAL_CLOSED_ACTOR_FAILURE':
+        if failure:
             ac=dict(reserved_posts=1,actual_forwarded_posts=1,real_model_calls=1,unknown_usage_calls=0,unexplained_reserved_not_forwarded=0,
                 provider_usage_known=usage,request_payload_bytes=1,response_wire_bytes=1)
             files={str(p):r.sha(p) for p in src.rglob('*') if p.is_file()}
-            slot=dict(can_continue=True,task_won=False,task_won_known=True,reasons=[],classification='POST_CAP_CLOSED',accounting=ac,
+            slot=dict(can_continue=True,task_won=False,task_won_known=True,reasons=[],classification=classification,accounting=ac,
                 native_witness=dict(path=tr['path'],sha256=tr['sha256'],state=original['steps'][-1]['state'],episode_sha256=header['episode_sha256']),bindings=files)
             slotref=write(f.base/'CPU_SLOT_CLOSURE.json',slot)
-            crow=dict(root=str(src),case=f.case,backend='teacher27b',slot=1,manifest_sha256=mr['sha256'],receipt_sha256=rr['sha256'],native_sha256=tr['sha256'],
+            crow=dict(root=str(src),case=f.case,backend=source_backend,slot=1,manifest_sha256=mr['sha256'],receipt_sha256=rr['sha256'],native_sha256=tr['sha256'],
                 closure_sha256=slotref['sha256'],won=False,done=False,actions=count,posts=1,reserved_posts=1,unknown_usage_calls=0,
                 provider_usage_known=usage,request_bytes=1,response_wire_bytes=1)
+            if source_mismatch=='C_backend':crow['backend']='teacher27b'
+            if source_mismatch=='C_slot':crow['slot']=2
+            if source_mismatch=='C_native':crow['native_sha256']='0'*64
+            if source_mismatch=='C_cost':crow['provider_usage_known']=dict(prompt_tokens=3,completion_tokens=1,total_tokens=4)
             reviewref=write(f.base/'CPU_C_REVIEW.json',dict(schema='C_SOURCE_COLLECTION_RESULT_REVIEW_V1',verdict='PASS_WITH_ACCOUNTING_LIMITS',
                 blocking_findings=[],per_slot_independent_results=[crow],frozen_inputs=[dict(path='CPU_OLD_CODE_NOT_REHASHED',sha256='f'*64)]))
-            drow=dict(root=str(src),case_id=f.case,backend='teacher27b',slot=1,manifest_sha256=mr['sha256'],receipt_sha256=rr['sha256'],
-                closure_sha256=slotref['sha256'],native_won=False,native_actions=count,classification='POST_CAP_CLOSED',accounting=ac)
+            drow=dict(root=str(src),case_id=f.case,backend=source_backend,slot=1,manifest_sha256=mr['sha256'],receipt_sha256=rr['sha256'],
+                closure_sha256=slotref['sha256'],native_won=False,native_actions=count,classification=classification,accounting=ac)
+            if source_mismatch=='D_backend':drow['backend']='teacher27b'
+            if source_mismatch=='D_slot':drow['slot']=2
             batchref=write(f.base/'CPU_D_CLOSURE.json',dict(schema='D_TRAIN12_SOURCE_COLLECTION_CLOSURE_V1',status='ALL24_CLOSED_AND_RAW_RECHECKED',
                 independent_result_review=reviewref,rows=[drow]))
             # Only external frozen trust-root values are replaced for synthetic evidence.
@@ -373,7 +391,7 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
         descriptors={}
         for index,opaque in enumerate(['a','b'][:checkpoints]):
             prov=copy.deepcopy(provenance)
-            if kind!='REAL_CLOSED_ACTOR_FAILURE':
+            if not failure:
                 prov=dict(matched_control_protocol=controlref,matched_control_result=resultref,native_trace=resultrows[index]['trace'],
                     paired_native_trace=resultrows[1-index]['trace'],negative_native_trace=resultrows[2]['trace'])
             descriptors[opaque]=dict(schema='ALFWORLD_NATIVE_CHECKPOINT_V2',version=2,case_id=f.case,pool=poolref,world_seed=17,world_step_cap=100,
@@ -402,6 +420,51 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
         stack.enter_context(mock.patch.object(r.recovery().bridge(),'client_step',side_effect=step))
         f.v2=SimpleNamespace(helper=h,group=group,descriptors=descriptors,save=save,source=src,step=step,caps=caps,count=count)
         yield f
+
+
+@pytest.mark.parametrize('stage',['drop_full','goal_recent'])
+def test_v2_student_failure_parent_8b_and_recovery_27b_are_separate(stage):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1) as f:
+        original=json.loads((f.v2.source/'manifest.json').read_text())
+        before={str(p):r.sha(p) for p in f.v2.source.rglob('*') if p.is_file()}
+        root=f.root(stage,'a');m=prepare(f,stage,'a');r.verify(root,r.sha(root/'manifest.json'))
+        assert original['backend']=='student8b' and original['profile_sha256']=='acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab6d0'
+        assert m['backend']=='teacher27b' and m['profile_sha256']=='9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279'
+        assert r.load_study_profile.call_args.args[0]=='teacher27b'
+        assert m['checkpoint_source_kind']=='REAL_CLOSED_STUDENT8B_FAILURE'
+        assert m['replay_action_count']==m['visible_count']==8 and m['caps']['world_actions']==92
+        assert m['caps']['posts']==48 and original['caps']['posts']==2
+        assert len([x for x in f.replayed if x[0]==root])==8
+        text=(root/'task.txt').read_text()
+        assert 'CPU_VISIBLE_8' in text
+        if stage=='drop_full':assert all('CPU_VISIBLE_'+str(i) in text for i in range(1,9))
+        assert 'STUDENT8B' not in text and 'REAL_CLOSED_' not in text and str(f.v2.source) not in text
+        assert before=={str(p):r.sha(p) for p in f.v2.source.rglob('*') if p.is_file()}
+
+
+@pytest.mark.parametrize('kind,backend',[
+    ('REAL_CLOSED_STUDENT8B_FAILURE','teacher27b'),('REAL_CLOSED_ACTOR_FAILURE','student8b')])
+def test_v2_failure_kind_cannot_relabel_other_model_parent(kind,backend):
+    with v2_fixture(kind,8,8,1,source_backend=backend) as f:
+        with pytest.raises(ValueError,match='source is not this real none'):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+def test_v2_student_failure_requires_8b_profile_not_recovery_profile():
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,
+            source_profile='9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279') as f:
+        with pytest.raises(ValueError,match='source is not this real none/student8b'):prepare(f,'drop_full','a')
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('change',['manifest_backend','receipt_backend','D_backend','C_backend','D_slot','C_slot',
+    'unknown_usage','C_cost','C_native','won','round_exit','experience'])
+def test_v2_student_failure_requires_its_exact_closed_rows_and_known_costs(change):
+    # These mutations have consistent hashes and synthetic D/C trust roots, so rejection
+    # exercises semantic provenance checks rather than merely stale file hashes.
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,source_mismatch=change) as f:
+        with pytest.raises(ValueError):prepare(f,'drop_full','a')
+        assert not f.replayed
 
 
 @pytest.mark.parametrize('kind,count,visible,checkpoints',[

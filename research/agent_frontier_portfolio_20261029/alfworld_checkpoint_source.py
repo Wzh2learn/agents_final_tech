@@ -179,7 +179,11 @@ def _load_v1(study, case_id, run_root, model_seed, *, validate_public, private_r
 
 # V2 is a separate admission contract. The V1 validator above is deliberately unchanged.
 V2_STAGES = ('drop_full', 'goal_recent')
-SOURCE_KINDS = ('D_CONSTRUCTED_MATCHED_CONTROL', 'REAL_CLOSED_ACTOR_FAILURE')
+SOURCE_KINDS = ('D_CONSTRUCTED_MATCHED_CONTROL', 'REAL_CLOSED_ACTOR_FAILURE', 'REAL_CLOSED_STUDENT8B_FAILURE')
+FAILURE_PROFILES = {
+    'teacher27b':'9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279',
+    'student8b':'acce24743e43c205b605b8bceddd4f5eb756d93fdba5f58e28bc32ba772ab6d0',
+}
 CLOSED_BATCH_SHA = 'c017c9dfb02a8d27a7d837e2544ca47aef03d641df0c56e011b5aa0c2016b86f'
 CLOSED_REVIEW_SHA = 'cbedba3ee3260a1ca424d985a412427162008449a0ada3fa8d7b9209ada1fd44'
 METADATA_KEYS = (*REF_KEYS, 'replay_action_count', 'visible_count', 'checkpoint_version', 'checkpoint_source_kind')
@@ -274,7 +278,9 @@ def _roles(descriptor, expected):
     return {x['role']:reference({k:x[k] for k in ('path','sha256')}) for x in values}
 
 
-def _closed_failure(reader, refs, group, world, game):
+def _closed_failure(reader, refs, group, world, game, *, source_backend='teacher27b'):
+    if source_backend not in FAILURE_PROFILES:
+        raise ValueError('unsupported closed source backend')
     if refs['source_batch_closure']['sha256'] != CLOSED_BATCH_SHA or refs['source_independent_review']['sha256'] != CLOSED_REVIEW_SHA:
         raise ValueError('unapproved source closure/review')
     m,r,res,slot,batch,review = [reader.read(refs[k]) for k in (
@@ -285,8 +291,8 @@ def _closed_failure(reader, refs, group, world, game):
                       ('source_reservation','reservation.json'),('source_native_trace','execute_world.jsonl')):
         if Path(refs[role]['path']) != root/name:
             raise ValueError('source files must belong to one actual root')
-    if (root.parts[-4:-1] != (case,'collect_none','teacher27b') or
-            any(x.get('case_id') != case or x.get('stage') != 'collect_none' or x.get('backend') != 'teacher27b' for x in (m,r)) or
+    if (root.parts[-4:-1] != (case,'collect_none',source_backend) or
+            any(x.get('case_id') != case or x.get('stage') != 'collect_none' or x.get('backend') != source_backend for x in (m,r)) or
             m.get('world_seed') != 17 or m.get('model_seed') != 17 or m.get('world_step_cap') != 100 or
             m.get('source_root') is not None or m.get('experience_mode') != 'none' or m.get('experience_assignment') != {} or
             m.get('experience_text_sha256') != hashlib.sha256(b'').hexdigest() or
@@ -296,8 +302,9 @@ def _closed_failure(reader, refs, group, world, game):
             res.get('manifest_sha256') != refs['source_manifest']['sha256'] or r.get('manifest_sha256') != res['manifest_sha256'] or
             m['pool_binding']['path'] != group['pool']['path'] or m['pool_binding']['sha256'] != group['pool']['sha256'] or
             m['game']['sha256_game'] != game['game_sha256'] or
-            m.get('profile_sha256') != '9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279'):
-        raise ValueError('source is not this real none/teacher collection')
+            m.get('profile_sha256') != FAILURE_PROFILES[source_backend]):
+        raise ValueError('source is not this real none/teacher collection' if source_backend == 'teacher27b'
+                         else 'source is not this real none/student8b collection')
     old_protocol = reader.read(dict(path=m['protocol_path'],sha256=m['protocol_sha256']))
     if (old_protocol.get('experience_mode') != 'none' or old_protocol['pool_path'] != group['pool']['path'] or
             old_protocol['pool_sha256'] != group['pool']['sha256'] or case not in old_protocol['case_ids'] or
@@ -322,7 +329,7 @@ def _closed_failure(reader, refs, group, world, game):
     if len(drows) != 1 or len(crows) != 1:
         raise ValueError('source closure slot is missing or ambiguous')
     d,c = drows[0],crows[0]
-    if (d['case_id'] != case or c['case'] != case or d['backend'] != 'teacher27b' or c['backend'] != 'teacher27b' or
+    if (d['case_id'] != case or c['case'] != case or d['backend'] != source_backend or c['backend'] != source_backend or
             d['slot'] != c['slot'] or d['manifest_sha256'] != refs['source_manifest']['sha256'] or
             c['manifest_sha256'] != d['manifest_sha256'] or d['receipt_sha256'] != refs['source_receipt']['sha256'] or
             c['receipt_sha256'] != d['receipt_sha256'] or d['closure_sha256'] != refs['source_slot_closure']['sha256'] or
@@ -513,11 +520,14 @@ def load_checkpoint(study, case_id, run_root, model_seed, *, validate_public, pr
         world = reader.trajectory(reader.read(d['world_replay']),count)
         if world['reset'] != visible['reset'] or world['steps'][:visible_count] != visible['steps'] or world['steps'][-1]['state'] != current:
             raise ValueError('V2 visible history or current state differs')
-        if d['source_kind'] == 'REAL_CLOSED_ACTOR_FAILURE':
+        if d['source_kind'] in ('REAL_CLOSED_ACTOR_FAILURE','REAL_CLOSED_STUDENT8B_FAILURE'):
             provenance = _roles(d,FAILURE_ROLES)
             if count != visible_count or world != visible:
                 raise ValueError('real failure must retain all actual accepted source history')
-            _closed_failure(reader,provenance,group,world,game)
+            if d['source_kind'] == 'REAL_CLOSED_STUDENT8B_FAILURE':
+                _closed_failure(reader,provenance,group,world,game,source_backend='student8b')
+            else:
+                _closed_failure(reader,provenance,group,world,game)
             common = provenance
         else:
             provenance = _roles(d,CONTROL_ROLES)
