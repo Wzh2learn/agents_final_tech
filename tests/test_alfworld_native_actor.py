@@ -316,3 +316,58 @@ def test_http_error_with_reported_usage_keeps_known_costs(tmp_path):
     bill=a.accounting(attempts,budget)
     assert bill['provider_usage']['total_tokens']==7 and bill['known_usage_subtotal']['total_tokens']==7
     assert bill['unknown_usage_attempts']==0 and not bill['integrity_passed']
+
+
+def test_execute_saves_actual_reset_for_real_witness_and_real_replay(tmp_path):
+    """Fake native/socket I/O; production replay, trace witness and actor loop are real."""
+    rec=r.recovery();bridge=rec.bridge()
+    with admitted_fixture(tmp_path) as f,mock.patch.object(rec,'actor',return_value=core),mock.patch.object(rec,'bridge',return_value=bridge),mock.patch.object(bridge,'client_step') as client_step:
+        f.manifest['game']=dict(sha256_game='a'*64)
+        f.manifest['pool_binding']=dict(sha256='b'*64)
+        f.protocol['prior']['manifest_sha256']=ref(f.prior/'manifest.json',f.manifest)['sha256']
+        f.ref=ref(Path(f.ref['path']),f.protocol)
+        reset=state(0);source_steps=[dict(action='look',state=state(1)),dict(action='inventory',state=state(2))]
+        prefix=dict(reset=reset,steps=source_steps,visible_steps=source_steps,current=source_steps[-1]['state'],binding={})
+        prefix['public_prefix_sha256']=hashlib.sha256(json.dumps([reset,source_steps],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+        f.study.verify.return_value=(f.manifest,{},PROFILE,prefix,qualify)
+        active={}
+        def start(root,case,seed,label,caps,pool_path,pool_sha):
+            active.update(root=root,index=0)
+            header=dict(game_id=case,seed=seed,step_cap=100,bridge_sha256=core.BRIDGE_SHA,
+                asset_sha256='a'*64,pool_manifest_sha256=pool_sha,caps=dict(caps,world_actions=100))
+            header['episode_sha256']=hashlib.sha256(json.dumps(header,sort_keys=True).encode()).hexdigest()
+            path=root/'execute_world.jsonl'
+            with path.open('x') as out:
+                out.write(json.dumps(dict(event='episode',**header))+'\n')
+                out.write(json.dumps(dict(event='reset',state=reset))+'\n')
+            return (object(),tmp_path/'CPU_NATIVE_SOCKET'),reset,{}
+        def native_step(socket_path,action):
+            row=source_steps[active['index']];assert row['action']==action;active['index']+=1
+            with (active['root']/'execute_world.jsonl').open('a') as out:
+                out.write(json.dumps(dict(event='step',**row))+'\n')
+            return row['state']
+        f.study.task_pool=lambda:SimpleNamespace(start_world=start)
+        f.study.protocol=lambda *args:dict(pool_path='CPU_POOL')
+        f.study.public=r.public
+        f.study.replay_prefix=r.replay_prefix
+        f.study.native_world_witness=r.native_world_witness
+        f.study.recovery=lambda:rec
+        client_step.side_effect=native_step
+        @contextmanager
+        def lock():yield
+        with mock.patch.object(a,'resource_lock',lock),mock.patch.object(a,'check_release',return_value=dict(path='CPU_RELEASE',sha256='CPU_SHA')),\
+             mock.patch.object(core,'stop_world') as stop,\
+             mock.patch.object(a.socket,'create_connection',side_effect=[FakeSocket(sse(finish='stop')),FakeSocket(sse(finish='stop'))]) as connect:
+            result=a.execute(f.ref['path'],f.ref['sha256'],'CPU_RELEASE','CPU_SHA')
+        assert result['status']=='MODEL_STOP_UNWON',result['errors']
+        assert result['errors']==[] and result['task_won'] is False
+        assert json.loads((f.output/'initial_reset.json').read_text())==reset
+        assert result['native_witness']['state']==source_steps[-1]['state']
+        assert result['native_witness']['sha256']==hashlib.sha256((f.output/'execute_world.jsonl').read_bytes()).hexdigest()
+        assert result['source_replay_cost']['control_world_actions']==2 and result['agent_world_actions']==0
+        assert active['index']==2 and connect.call_count==2 and stop.call_count==1
+        binding=json.loads((f.output/'manifest.json').read_text())['native_binding']
+        assert r.native_world_witness(f.output,binding)['state']['action_count']==2
+        saved=(f.output/'initial_reset.json').read_bytes();(f.output/'initial_reset.json').write_text(json.dumps(state(0,['look'])))
+        with pytest.raises(ValueError,match='reset differs'):r.native_world_witness(f.output,binding)
+        (f.output/'initial_reset.json').write_bytes(saved)

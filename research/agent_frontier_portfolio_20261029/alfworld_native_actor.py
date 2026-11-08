@@ -335,6 +335,8 @@ def execute(protocol_path,protocol_sha,release_path,release_sha):
         try:
             world,reset,_=study.task_pool().start_world(root,prior['case_id'],17,'execute',CAPS,bundle['study'].protocol(
                 prior['protocol_path'],prior['protocol_sha256'])['pool_path'],prior['pool_binding']['sha256'])
+            reset=study.public(reset)
+            write_new(root/'initial_reset.json',reset)
             def step(action):
                 if time.monotonic()>=budget.deadline:raise TimeoutError('episode deadline reached')
                 return study.public(study.recovery().bridge().client_step(world[1]/'s',action))
