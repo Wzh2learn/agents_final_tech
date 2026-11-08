@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 RECOVERY_SHA = '8f2ae03ad09b4c37acdcd419b8e9a84d88d52ef035b8ad975b98b3e70c993844'
 ADDITIONAL_SOURCE_SHA = '9c617d8d35c44824e9c82c7d4549b2d374e4a5ddb9605ea5dc000c5c442ffdd3'
 RECENT_STEPS = 3
-STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent', 'ordinary_reset')
+STAGES = ('collect', 'collect_none', 'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent', 'ordinary_reset', 'checkpoint_current')
 PUBLIC_KEYS = ('observation', 'score', 'done', 'won', 'action_count', 'admissible_commands')
 CONTINUE = 'Continue the unfinished task.'
 _REC = None
@@ -339,7 +339,7 @@ def task_pool():
 
 def components():
     paths = [Path(__file__).resolve(),HERE/'alfworld_task_pool.py',
-             HERE/'alfworld_context_projection.py',HERE/'alfworld_recovery_source.py',
+             HERE/'alfworld_context_projection.py',HERE/'alfworld_recovery_source.py',HERE/'alfworld_checkpoint_source.py',
              HERE/'prepare_alfworld_experience_20261106.py',HERE/'prepare_django_aggregation_experience_20261106.py']
     return {**recovery().components(), **{str(p):sha(p) for p in paths}}
 
@@ -410,6 +410,12 @@ def stage_caps(stage: str, study: dict, prefix: dict | None) -> dict:
     if stage not in STAGES:
         raise ValueError('unsupported episode stage')
     experience_mode(study, stage)
+    if checkpoint_references(study) is not None:
+        if stage not in checkpoint_source().STAGES or prefix is None or prefix.get('actor_caps') != checkpoint_source().CAPS:
+            raise ValueError('checkpoint requires its approved phase and prefix')
+        return dict(prefix['actor_caps'])
+    if stage == 'checkpoint_current':
+        raise ValueError('checkpoint_current requires an explicit checkpoint contract')
     from_reset = stage in {'collect', 'collect_none', 'ordinary_reset'}
     if from_reset != (prefix is None):
         raise ValueError('only recovery stages require a source prefix')
@@ -480,14 +486,15 @@ def protocol(path, digest):
     experience_mode(value)
     runtime_controls(value)
     additional_source_reference(value)
+    checkpoint = checkpoint_references(value)
     core = recovery().actor()
     core.episode_caps(value['total_caps'])
     core.episode_caps(value['collection_caps'])
     if (value['recent_steps'] != RECENT_STEPS or value['ordinary_continuations'] != 1 or
             value['context_margin_tokens'] != 512 or value['world_seed'] != 17 or
             value['total_caps']['world_actions'] != 100 or value['collection_caps']['world_actions'] != 100 or
-            value['collection_caps']['posts'] >= value['total_caps']['posts'] or
-            value['collection_caps']['seconds'] >= value['total_caps']['seconds']):
+            (checkpoint is None and (value['collection_caps']['posts'] >= value['total_caps']['posts'] or
+             value['collection_caps']['seconds'] >= value['total_caps']['seconds']))):
         raise ValueError('unqualified common controller/budget contract')
     return value
 
@@ -654,7 +661,10 @@ def experience_mode(study, stage=None):
     if type(study['experience_mode']) is not str or study['experience_mode'] != 'none':
         raise ValueError('unknown experience_mode')
     reject_external_experience(study)
-    if stage is not None and stage not in {'collect_none','ordinary_reset','drop_full','drop_recent','goal_recent'}:
+    allowed = {'collect_none','ordinary_reset','drop_full','drop_recent','goal_recent'}
+    if checkpoint_references(study) is not None:
+        allowed = set(checkpoint_source().STAGES)
+    if stage is not None and stage not in allowed:
         raise ValueError('none experience mode forbids this stage')
     return 'none'
 
@@ -716,7 +726,32 @@ def additional_source_helper():
     return module(path, 'context_study_additional_source')
 
 
-def load_source_prefix(study, case_id, source_root):
+def checkpoint_source():
+    return module(HERE/'alfworld_checkpoint_source.py', 'context_study_checkpoint_source')
+
+
+def checkpoint_references(study):
+    return checkpoint_source().references(study)
+
+
+def prefix_metadata(prefix):
+    return checkpoint_source().metadata(prefix)
+
+
+def prefix_prompt(reset, prefix, current, experience, stage):
+    if 'checkpoint_reference' in prefix:
+        if stage == 'checkpoint_current':
+            return render_prompt(reset, [], current, '', False, 'recent')
+        return recovery_prompt(reset, prefix['visible_steps'], current, '', stage)
+    return recovery_prompt(reset, prefix['steps'], current, experience, stage)
+
+
+def load_source_prefix(study, case_id, source_root, *, run_root=None, model_seed=17):
+    if checkpoint_references(study) is not None:
+        if source_root is not None:
+            raise ValueError('checkpoint cannot acquire an actor source root')
+        return checkpoint_source().load_checkpoint(study, case_id, run_root, model_seed,
+            validate_public=public, private_root=QUAL/'context_study_v1')
     if experience_mode(study) == 'none':
         return load_prefix(source_root, case_id, study=study) if source_root is not None else None
     ref = additional_source_reference(study)
@@ -816,6 +851,10 @@ def replay_prefix(prefix, reset, step, log):
 
 def cohort_binding(root, prefix, protocol_sha, *, study=None):
     """One immutable prefix per case; arms cannot cherry-pick other attempts."""
+    if checkpoint_references(study or {}) is not None:
+        if prefix_metadata(prefix).get('checkpoint_group_reference') != study['checkpoint_group_reference']:
+            raise ValueError('checkpoint cohort changed')
+        return dict(study['checkpoint_group_reference'])
     path = check_root(root).parents[2] / 'RECOVERY_COHORT.json'
     expected = {'protocol_sha256':protocol_sha, 'source_root':str(prefix['root']),
                 'source_binding':prefix['binding']}
@@ -852,7 +891,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
     core = recovery().actor()
     profile, override = load_study_profile(backend, runtime_profile, runtime_profile_sha)
     game, pool, assignment, experience = read_case(study, case_id)
-    prefix = load_source_prefix(study, case_id, source_root)
+    prefix = load_source_prefix(study, case_id, source_root, run_root=root, model_seed=model_seed)
     caps = stage_caps(stage, study, prefix)
     additional = additional_source_metadata(study, prefix)
     cohort = cohort_binding(root,prefix,protocol_sha,study=study) if prefix else None
@@ -870,7 +909,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
             core.stop_world(world)
     prompt = (render_prompt(reset, prefix['steps'] if prefix else [], current, reference_text, True, 'full' if prefix else 'recent') if reference is not None else
               initial_prompt(reset, stage, assignment, experience) if prefix is None else
-              recovery_prompt(reset, prefix['steps'], current, experience, stage))
+              prefix_prompt(reset, prefix, current, experience, stage))
     (root / 'task.txt').write_bytes(prompt.encode())
     core.write_new(root / 'opencode_config.json', core.config(profile, model_seed))
     core.write_new(root / 'initial_reset.json', reset)
@@ -885,7 +924,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
             'protocol_path': str(Path(protocol_path).resolve()), 'protocol_sha256': protocol_sha,
             'pool_binding': pool, 'game': game, 'experience_assignment': assignment,
             'experience_text_sha256': hashlib.sha256(experience.encode()).hexdigest(),
-            'source_root': str(prefix['root']) if prefix else None, 'source_binding': prefix['binding'] if prefix else None,
+            'source_root': str(prefix['root']) if prefix and not prefix_metadata(prefix) else None, 'source_binding': prefix['binding'] if prefix else None,
             'cohort_binding':cohort,
             'caps': caps, 'world_step_cap': 100, 'tokenizer_binding': token_binding,
             'sampling': core.model_payload({}, backend, profile, model_seed, False if backend == 'student8b' else None),
@@ -893,6 +932,7 @@ def prepare(root, protocol_path, protocol_sha, *, source_root=None, model_seed=1
             'uid': os.getuid(), 'gid': os.getgid(), 'image_id': image,
             'inputs_sha256': {name: sha(root/name) for name in ['task.txt','opencode_config.json','initial_reset.json','handoff_public.json']},
             'development_only': True, 'ordinary_continuations': 1, 'recent_steps': RECENT_STEPS}
+    manifest.update(prefix_metadata(prefix))
     if additional is not None:
         manifest['additional_recovery_source'] = additional_source_reference(study)
         manifest['additional_recovery_metadata'] = additional
@@ -924,7 +964,10 @@ def verify(root, digest):
         raise ValueError('frozen reference context metadata changed')
     verify_runtime_controls(m,study)
     game, pool, assignment, experience = read_case(study, m['case_id'])
-    prefix = load_source_prefix(study, m['case_id'], m['source_root'])
+    prefix = load_source_prefix(study, m['case_id'], m['source_root'], run_root=root, model_seed=m['model_seed'] if checkpoint_references(study) else 17)
+    expected_checkpoint = prefix_metadata(prefix)
+    if {key:m[key] for key in (*checkpoint_source().REF_KEYS,'replay_action_count','visible_count') if key in m} != expected_checkpoint:
+        raise ValueError('checkpoint manifest references or counts changed')
     caps = stage_caps(m['stage'], study, prefix)
     additional = additional_source_metadata(study, prefix)
     if additional is None:
@@ -943,6 +986,10 @@ def verify(root, digest):
     if bound != override:
         raise ValueError('frozen runtime profile metadata changed')
     profile_sha = override['sha256'] if override else core.PROFILE_PINS[m['backend']][1]
+    if expected_checkpoint and (m.get('world_seed') != study['world_seed'] or m.get('world_step_cap') != 100 or
+            set(m['inputs_sha256']) != {'task.txt','opencode_config.json','initial_reset.json','handoff_public.json'} or
+            json.loads((root/'opencode_config.json').read_text()) != core.config(p,m['model_seed'])):
+        raise ValueError('checkpoint world seed, step cap or actor config changed')
     if (m['game'] != game or m['pool_binding'] != pool or m['caps'] != caps or
             m['experience_assignment'] != assignment or m['profile_sha256'] != profile_sha or
             m['source_binding'] != (prefix['binding'] if prefix else None) or
@@ -956,11 +1003,11 @@ def verify(root, digest):
     current = json.loads((root/'handoff_public.json').read_text())
     if prefix is None and current != reset:
         raise ValueError('from-reset stage cannot contain recovery progress')
-    if additional is not None and (reset != prefix['reset'] or current != prefix['steps'][-1]['state']):
+    if (additional is not None or expected_checkpoint) and (reset != prefix['reset'] or current != prefix['steps'][-1]['state']):
         raise ValueError('preserved source public handoff changed')
     expected = (render_prompt(reset, prefix['steps'] if prefix else [], current, reference_text, True, 'full' if prefix else 'recent') if reference is not None else
                 initial_prompt(reset, m['stage'], assignment, experience) if prefix is None else
-                recovery_prompt(reset,prefix['steps'],current,experience,m['stage']))
+                prefix_prompt(reset,prefix,current,experience,m['stage']))
     if (root/'task.txt').read_bytes() != expected.encode() or hashlib.sha256(experience.encode()).hexdigest() != m['experience_text_sha256']:
         raise ValueError('prompt or source carrier changed')
     binding, qualify = study_token_qualifier(m['backend'],p,override)
@@ -1021,6 +1068,7 @@ def run_episode(root, digest, *, fake_endpoint=None):
     if m.get('runtime_profile_override') is not None:
         reservation['runtime_identity'] = (verify_runtime_identity(m['runtime_profile_override']) if fake_endpoint is None
                                            else {'mode':'OWNED_FAKE_NO_RUNTIME_IDENTITY_CLAIM'})
+    reservation.update(prefix_metadata(prefix))
     core.write_new(root/'reservation.json',reservation)
     world = relay = model_dir = None
     started = time.monotonic()
@@ -1103,7 +1151,7 @@ def run_episode(root, digest, *, fake_endpoint=None):
         cache_values = [u.get('prompt_tokens_details',{}).get('cached_tokens')
                         if isinstance(u.get('prompt_tokens_details'),dict) else None for u in usages]
         cache_known = len(cache_values)>0 and all(type(x) is int and x>=0 for x in cache_values)
-        used_prefix = len(prefix['steps']) if prefix else 0
+        used_prefix = prefix.get('replay_action_count',len(prefix['steps'])) if prefix else 0
         receipt = {'label':'OWNED_FAKE_NOT_SCIENTIFIC' if fake_endpoint else 'MULTITASK_CONTEXT_DEVELOPMENT',
             'status':status,'case_id':m['case_id'],'stage':m['stage'],'backend':m['backend'],'manifest_sha256':digest,
             'elapsed_seconds':time.monotonic()-started,'errors':errors,'model_relay_errors':relay.errors if relay else [],
@@ -1122,6 +1170,7 @@ def run_episode(root, digest, *, fake_endpoint=None):
             'replay_control_cost':replay_cost,'experience_delivery':relay.delivery if relay else None,
             'source_binding_charge_once':m['source_binding'],'development_only':True,
             'not_independent_confirmation':True,'cached_tokens_are_input_subset':True}
+        receipt.update(prefix_metadata(prefix))
         if 'additional_recovery_source' in m:
             receipt['additional_recovery_source'] = m['additional_recovery_source']
             receipt['additional_recovery_metadata'] = m['additional_recovery_metadata']
