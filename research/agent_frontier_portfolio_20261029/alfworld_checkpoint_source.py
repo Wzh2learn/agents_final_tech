@@ -475,9 +475,17 @@ def load_checkpoint(study, case_id, run_root, model_seed, *, validate_public, pr
             set(group['checkpoints']) not in ({'a'},{'a','b'}) or group['formation_charged_once'] is not True):
         raise ValueError('invalid explicit V2 checkpoint cohort')
     count,visible_count = group['replay_action_count'],group['visible_context_action_count']
+    student_source = group['source_kind'] == 'REAL_CLOSED_STUDENT8B_FAILURE'
+    recovery_seed = 17
+    if student_source:
+        seeds = study.get('model_seeds')
+        if (type(seeds) is not list or len(seeds) != 1 or type(seeds[0]) is not int or seeds[0] not in (17,29) or
+                type(model_seed) is not int or model_seed != seeds[0]):
+            raise ValueError('student recovery requires one matching explicit model seed, 17 or 29')
+        recovery_seed = seeds[0]
     caps = dict(CAPS,world_actions=100-count)
     if (group['actor_caps'] != caps or any(type(v) is not int for v in group['actor_caps'].values()) or
-            study['case_ids'] != [case_id] or study['world_seed'] != 17 or study['model_seeds'] != [17] or model_seed != 17 or
+            study['case_ids'] != [case_id] or study['world_seed'] != 17 or study['model_seeds'] != [recovery_seed] or model_seed != recovery_seed or
             group['pool'] != dict(path=study['pool_path'],sha256=study['pool_sha256']) or
             study['collection_caps'] != dict(caps,world_actions=100) or study['total_caps'] != study['collection_caps']):
         raise ValueError('V2 pool, seed or independent phase caps differ')
@@ -504,7 +512,8 @@ def load_checkpoint(study, case_id, run_root, model_seed, *, validate_public, pr
         controls = dict(native_terminal_stop=True,recent_tool_rounds=3 if slot['stage']=='goal_recent' else None)
         key = slot['stage'],opaque
         if (key in expected or slot['id'] != slot['stage']+'_'+opaque or slot['run_root'] != str(root) or
-                slot['case_id'] != case_id or slot['backend'] != 'teacher27b' or slot['model_seed'] != 17 or
+                slot['case_id'] != case_id or slot['backend'] != 'teacher27b' or slot['model_seed'] != recovery_seed or
+                (student_source and type(slot['model_seed']) is not int) or
                 type(slot['attempt']) is not int or slot['attempt'] != attempt or slot['runtime_controls'] != controls or
                 slot['runtime_controls'].get('native_terminal_stop') is not True or
                 (slot['stage'] == 'goal_recent' and type(slot['runtime_controls'].get('recent_tool_rounds')) is not int)):

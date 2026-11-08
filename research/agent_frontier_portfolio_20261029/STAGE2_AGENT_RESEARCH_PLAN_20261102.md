@@ -10,7 +10,7 @@
 
 主攻候选：**保留实际进度，利用反馈判断旧经验应保留、撤回还是重建为后续上下文。** 经验选择、笔记管理、教师纠正已有近邻覆盖；独立机制尚未成立。最佳固定策略解释收益时简化或切换，不先建复杂选择器。
 
-当前已有[代码教师纠正](results/CODE_SOURCE_CORRECTIONS.md#current)，停止该题诊断。[clean02/03学生失败前缀](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)已真实重放：23动作、25公开状态一致。下一步准备四槽，以同27B、目标提醒和停止规则比较完整/近期历史；整理后串行运行。这是曝光TRAIN上的历史策略开发，不是学习收益。随后扩独立任务和经验保留/撤回/修订对照。
+当前[clean02/03四组恢复](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)全部成功，独立C无阻断；02近期更省、03完整更省，尚未验证重复性。下一步核其余六条TRAIN失败的接续兼容性（look01长上下文单列），扩布局并重复17/29生成种子，保留资格失败原因，不按恢复效果筛题。训练前加入更强简单策略。已有[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)停止同题诊断。
 
 ## 执行原则与后续顺序
 

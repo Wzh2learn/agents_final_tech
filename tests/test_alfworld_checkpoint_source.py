@@ -114,9 +114,9 @@ def fixture():
             caps=caps,core=core,replayed=replayed,step=step,current=current,active=active)
 
 
-def prepare(f,stage,opaque):
+def prepare(f,stage,opaque,*,model_seed=17):
     path,study=f.protocols[stage+'_'+opaque]
-    return r.prepare(f.root(stage,opaque),path,r.sha(path))
+    return r.prepare(f.root(stage,opaque),path,r.sha(path),model_seed=model_seed)
 
 
 def test_actual_prepare_replays28_but_renders_only_21_and_paired_tasks_equal():
@@ -260,7 +260,7 @@ def test_current_policy_is_checkpoint_only_and_legacy_source_contract_stays_stri
 # V2 tests use synthetic files and fake external native/model surfaces only.
 @contextmanager
 def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkpoints=2, *,
-               source_backend=None, source_profile=None, source_mismatch=None, checkpoint_attempts=None):
+               source_backend=None, source_profile=None, source_mismatch=None, checkpoint_attempts=None,recovery_seed=17):
     with fixture() as f, ExitStack() as stack:
         failure=kind in ('REAL_CLOSED_ACTOR_FAILURE','REAL_CLOSED_STUDENT8B_FAILURE')
         source_backend=source_backend or ('student8b' if kind=='REAL_CLOSED_STUDENT8B_FAILURE' else 'teacher27b')
@@ -310,6 +310,8 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
             inputs_sha256={x:r.sha(src/x) for x in ['task.txt','initial_reset.json','handoff_public.json','opencode_config.json']})
         if source_mismatch=='manifest_backend':m['backend']='teacher27b'
         if source_mismatch=='experience':m['experience_assignment']={'CPU_UNAPPROVED_CARRIER':True}
+        if source_mismatch=='source_model_seed':m['model_seed']=29
+        if source_mismatch=='source_world_seed':m['world_seed']=29
         mr=write(src/'manifest.json',m);reservation=write(src/'reservation.json',dict(manifest_sha256=mr['sha256'],mode='REAL_DEVELOPMENT',experience_mode='none'))
         header=dict(game_id=f.case,asset_sha256=game['game_sha256'],seed=17,step_cap=100,caps=sourcecaps,pool_manifest_sha256=poolref['sha256'])
         header['episode_sha256']=hashlib.sha256(json.dumps(header,sort_keys=True).encode()).hexdigest()
@@ -399,6 +401,7 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
                 replay_action_count=count,visible_context_action_count=visible,source_kind=kind,not_training_supervision=True,
                 provenance=[dict(role=k,**v) for k,v in prov.items()])
         group['approved_runs']=[x for x in group['approved_runs'] if x['stage'] in ('drop_full','goal_recent') and x['checkpoint_id'] in descriptors]
+        for slot in group['approved_runs']:slot['model_seed']=recovery_seed
         if checkpoint_attempts is not None:
             def root(stage,opaque):
                 return f.private/'cases'/f.case/stage/'teacher27b'/('attempt_v'+str(checkpoint_attempts[opaque]))
@@ -412,7 +415,7 @@ def v2_fixture(kind='D_CONSTRUCTED_MATCHED_CONTROL', count=14, visible=7, checkp
             for slot in group['approved_runs']:
                 path,study=f.protocols[slot['id']]
                 study.update(checkpoint_group_reference=gr,checkpoint_reference=group['checkpoints'][slot['checkpoint_id']],
-                    collection_caps=dict(caps,world_actions=100),total_caps=dict(caps,world_actions=100))
+                    collection_caps=dict(caps,world_actions=100),total_caps=dict(caps,world_actions=100),model_seeds=[recovery_seed])
                 write(path,study)
         save()
         def step(socket,action):
@@ -447,6 +450,78 @@ def test_v2_student_failure_parent_8b_and_recovery_27b_are_separate(stage):
         if stage=='drop_full':assert all('CPU_VISIBLE_'+str(i) in text for i in range(1,9))
         assert 'STUDENT8B' not in text and 'REAL_CLOSED_' not in text and str(f.v2.source) not in text
         assert before=={str(p):r.sha(p) for p in f.v2.source.rglob('*') if p.is_file()}
+
+
+@pytest.mark.parametrize('seed',[17,29])
+def test_v2_student_recovery_seed_reaches_manifest_config_and_payload_with_source_17(seed):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,recovery_seed=seed,
+                    checkpoint_attempts={'a':3 if seed==17 else 4}) as f:
+        source=json.loads((f.v2.source/'manifest.json').read_text())
+        assert source['model_seed']==source['world_seed']==17
+        source_files={str(p):r.sha(p) for p in f.v2.source.rglob('*') if p.is_file()}
+        assert {slot['model_seed'] for slot in f.v2.group['approved_runs']}=={seed}
+        for stage in ('drop_full','goal_recent'):
+            root=f.root(stage,'a');m=prepare(f,stage,'a',model_seed=seed)
+            r.verify(root,r.sha(root/'manifest.json'))
+            assert m['model_seed']==m['sampling']['seed']==seed and m['world_seed']==17
+            assert json.loads((root/'opencode_config.json').read_text())['agent']['build']['seed']==seed
+            assert m['replay_action_count']==8 and m['caps']['world_actions']==92
+        # A new self-hash cannot reassign the recovery seed independently of protocol/cohort.
+        root=f.root('drop_full','a');m=json.loads((root/'manifest.json').read_text());m['model_seed']=29 if seed==17 else 17
+        write(root/'manifest.json',m)
+        with pytest.raises(ValueError,match='one matching explicit model seed'):r.verify(root,r.sha(root/'manifest.json'))
+        assert source_files=={str(p):r.sha(p) for p in f.v2.source.rglob('*') if p.is_file()}
+
+
+@pytest.mark.parametrize('seeds',[None,[],[17,29],[18],[29.0],['29'],[True]])
+def test_v2_student_recovery_protocol_requires_single_integer_seed(seeds):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,recovery_seed=29,checkpoint_attempts={'a':4}) as f:
+        path,study=f.protocols['drop_full_a'];study['model_seeds']=seeds;write(path,study)
+        with pytest.raises(ValueError,match='one matching explicit model seed'):prepare(f,'drop_full','a',model_seed=29)
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('seed',[17,29.0])
+def test_v2_student_recovery_invocation_must_match_approved_integer_seed(seed):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,recovery_seed=29,checkpoint_attempts={'a':4}) as f:
+        with pytest.raises(ValueError,match='one matching explicit model seed'):prepare(f,'drop_full','a',model_seed=seed)
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('change',['other_stage','other_checkpoint','slot_float','all_slots','world_seed'])
+def test_v2_student_recovery_cohort_cannot_mix_seeds_or_change_world_seed(change):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,2,recovery_seed=29,checkpoint_attempts={'a':4,'b':5}) as f:
+        if change=='world_seed':f.v2.group['world_seed']=29
+        else:
+            for slot in f.v2.group['approved_runs']:
+                if change=='all_slots' or change=='other_checkpoint' and slot['checkpoint_id']=='b' or change in ('other_stage','slot_float') and slot['stage']=='goal_recent':
+                    slot['model_seed']=29.0 if change=='slot_float' else 17
+        f.v2.save()
+        with pytest.raises(ValueError):prepare(f,'drop_full','a',model_seed=29)
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('field',['source_model_seed','source_world_seed'])
+def test_v2_student_original_source_seeds_stay_17_when_recovery_is_29(field):
+    with v2_fixture('REAL_CLOSED_STUDENT8B_FAILURE',8,8,1,recovery_seed=29,
+                    checkpoint_attempts={'a':4},source_mismatch=field) as f:
+        with pytest.raises(ValueError,match='source is not this real none/student8b'):prepare(f,'drop_full','a',model_seed=29)
+        assert not f.replayed
+
+
+@pytest.mark.parametrize('kind,count,visible',[
+    ('REAL_CLOSED_ACTOR_FAILURE',8,8),('D_CONSTRUCTED_MATCHED_CONTROL',14,7)])
+def test_v2_old_source_roles_still_reject_recovery_seed_29(kind,count,visible):
+    with v2_fixture(kind,count,visible,1,recovery_seed=29) as f:
+        with pytest.raises(ValueError,match='pool, seed or independent phase caps'):prepare(f,'drop_full','a',model_seed=29)
+        assert not f.replayed
+
+
+def test_v1_checkpoint_still_rejects_recovery_seed_29():
+    with fixture() as f:
+        path,study=f.protocols['drop_full_a'];study['model_seeds']=[29];write(path,study)
+        with pytest.raises(ValueError):prepare(f,'drop_full','a',model_seed=29)
+        assert not f.replayed
 
 
 @pytest.mark.parametrize('kind,backend',[
