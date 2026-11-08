@@ -1468,3 +1468,5 @@ echo dispatch_log updated
 [14:44] 加载诊断收口与非代码迁移pilot → SymPy两诊断53POST/868936已知tokens加1上下文拒绝usage缺项，暂停当前执行配置；ALFWorld8题事前哈希选样和专家资格通过，源/目标先冻结。pool/caps实际传值20tests/33subtests通过，clean_1新预检0动作/0模型，准备真实源采集 → 本次pool执行提交，Goal active
 
 [2026-11-08 13:55] 结论同步与全盘neat → 教师入口49项GB10离线检查，真实长度3583/3619，旧2字段证明标无效；现役规则按需加载、同类子Agent续用；两机各101项skill无漂移，7历史worktree代码已集成而忽略产物保留；本轮neat新增科研生成/训练/服务探测0 → 本次docs提交，Goal active
+
+[2026-11-08 14:40] 教师代码纠正与学生失败接入 → nonthinking原diff行数失败，经共同Git recount后原题1/1+回归13/13；thinking600s仅推理无答案，3物理POST/4039已知tokens+2未知不填零。8B父来源与27B恢复分离，117项/239子测试；尚无真实student前缀重放或学习收益。代码来源按主题拆页、原文保留，私有1921文件双端核验 → 本次结果提交，Goal active

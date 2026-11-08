@@ -10,7 +10,7 @@
 
 主攻候选：**在保留实际任务进度的条件下，利用新反馈判断旧经验应保留、撤回还是重建为后续上下文。** 学习经验选择、笔记管理、教师纠正已有覆盖；候选独立机制尚未成立。若最佳固定策略解释收益，就简化策略或切换机制，不先建设复杂选择器。
 
-下一项为[单轮教师对照](results/ALFWORLD_CORRECTION_DATA.md#source-tool-contract)：SymPy21055未修复，同公开源码/反馈比较非thinking与thinking，各1POST。它是限额代码支持诊断；ALF已有成功来源轨迹，闭合旧面板未支持选择器训练。主线仍是扩独立任务、比较经验保留/撤回/修订及摘要、观察刷新、原子续做，接口收益不算学习。
+当前已有[代码教师纠正](results/CODE_SOURCE_CORRECTIONS.md#current)，停止该题诊断。下一步真实重放[8B自然失败前缀](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)，先核clean02/03，再比较同27B恢复actor的完整/近期历史；source与actor身份分开。随后扩独立任务及经验保留/撤回/修订、摘要、观察刷新和原子续做，接口收益不算学习。
 
 ## 执行原则与后续顺序
 

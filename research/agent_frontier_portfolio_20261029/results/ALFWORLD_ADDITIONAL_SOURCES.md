@@ -171,4 +171,15 @@ V3共47次真实调用、47个合法原生动作，最终POST_CAP、world86、wo
 
 D闭合SHA `a99628142b475b53f028f55f81e6933a3f0c4ba450ab37fe17e23886fbea14da`；C独立核48个SSE/实际枚举/逐步回放及新旧提示边界，回执SHA `d594f8be6ceb2020779c37681dc324fdf25f534f0f315360525345719614cd19`。私有封存包420成员/492,835bytes，SHA `24e68cdbded5821562ad9c20a4bf4aa0c24b1ba7c5136b2c65db9d68f7e62b77`，本机逐项核419文件；旧source包另按SHA引用，未包含权重或依赖。
 
+<a id="student-failure-recovery"></a>
+### 新接入：8B自然失败现场，保留外部进度
+
+12题来源中，clean02/03/05/06与look01/02/03/04是同初始任务下27B成功、8B失败；clean01/04两者均失败，look05/06两者均成功。27B的10条成功轨迹可作普通经验，但当时从reset独立执行，不是针对8B失败的纠正。两批旧上下文面板未出现双向成功交叉，不从它们训练选择器。
+
+现有[checkpoint入口](../alfworld_checkpoint_source.py)只增`REAL_CLOSED_STUDENT8B_FAILURE`：严格绑定student8b路径/原profile、manifest/receipt、既有D/C闭合对应行、POOL/seed、原生终态和费用；恢复actor仍为27B，旧teacher来源门不放松。不新建runner或自动注入经验。GB10联合117项/239子测试通过；首次镜像缺一个原fixture的5项保留，补入后通过，D再完整核117项。新helper SHA `7bf39c342be4b46cc2c7d63ae29a19904139140e0feed157e0527baa837bca9b`；原CPU报告SHA `35d124f66c57762cb1ea39edb9d1439b5264aeb96d8058e598ca420e3ce1f3d0`。
+
+clean02的8B来源manifest SHA `8ef124042235694f0a881844a5e7bfe33e9673ea1675e6b91955630d09f22d7a`、receipt SHA `55ea6fdef9b246ee7559d766cad9dc1d66c56ac810a50f95c2bb5f611da4cb2c`；元数据为10POST、8个world动作、won=false/done=false、未知usage0。理论剩余92步，**实际前缀重放尚未做**。本接入新增模型/原生world/容器0。
+
+下一步先用既有`load_source_prefix/replay_prefix`核clean02/03，再在相同现场、目标、模型、工具、剩余额度及停止规则下比较完整/近期历史；额外成功经验需另明输入与来源边界。本批仍是已曝光TRAIN开发，不是确认或学习收益。
+
 Django12589有修好原题却引入新回归的真实代码候选，可作第二环境开发资产。SQLite回归与任务专属PG语义探针分属完整评测合同；离线准备不访问PG，正式续做不能略过PG后宣称完整成功。旧35B来源与新27B接续应分标身份，旧题不作新确认。

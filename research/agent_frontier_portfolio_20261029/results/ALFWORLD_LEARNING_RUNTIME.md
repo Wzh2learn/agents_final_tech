@@ -123,6 +123,6 @@ Django34570已完成新自然问题准备（私有`django34570_development_v1/su
 
 本次只从parquet读取公开题面/版本/时间/base等列，未读新目标的gold patch或隐藏测试；公开复现不替代完整回归及actor资格。`ROOT/sympy_intersection_adaptation_v1/D_DEVELOPMENT_STATUS_V1.json` SHA `f5e9e0cf684f5583ba7966fca8c1effe2cfb0ac848a0468d0e9560a0943c1b89`；probe SHA `3d86bdf0765ddd67895265735de9b0c3e5b889579272fbe248339f41f56f4bc7`，结果SHA `8a0c11b0eca8e3157a2be38753b3d641bdafa52044d7973886c31309799b343b`。2次CPU进程合计1.991秒，新增4次公开非模型HTTP（2元数据＋2归档）、模型/训练0。源码包及7份证据本机逐字节核过。`PUBLIC_TASKS_V1.json`含两题、仅供D索引，未来来源actor不得整体挂载它或提前接收目标16953。
 
-SymPy21055的Bash-v2开发重试现已闭合、未修复，下一步准备同输入单轮教师能力对照；不为16988另建runner。16988仅保留为新的开发素材，不是确认集或已成立学习信号。实际source准备/执行状态查[现役来源段](ALFWORLD_CORRECTION_DATA.md#source-tool-contract)。
+SymPy21055的旧自由执行失败保留，单轮教师现已形成一条经执行验证的辅助纠正，见[代码来源](CODE_SOURCE_CORRECTIONS.md#current)。不为16988另建runner；16988仍仅是开发素材，不是确认集或学习信号。
 
 [回到现役学习记录](ALFWORLD_CORRECTION_DATA.md)。
