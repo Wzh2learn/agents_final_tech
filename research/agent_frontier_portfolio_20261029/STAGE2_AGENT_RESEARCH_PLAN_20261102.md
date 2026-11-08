@@ -10,7 +10,7 @@
 
 主攻候选：**保留实际进度，利用反馈选择旧经验的保留、撤回或上下文重建。** 近邻已覆盖经验选择、笔记管理、教师纠正，独立机制尚未成立；最佳固定策略解释收益时简化或切换。
 
-当前[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽**实际运行中**，按既有进程票据观察、不重复启动；逐槽核原生终态/实际采样/费用，窗口结束核恢复后判读。look6/clean6分报，学习优越性前补同面板普通历史，旧R只作基线。[四组27B恢复](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)交叉待重复；扩样20协议仅文件准入，look01单列。不先训练选择器，[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)停止同题诊断。
+当前[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽**闭合并独立复核**：look主比较F/O/R为4/6、4/6、6/6；all12为4、6、8，R保留为强开发基线，非独立确认。下一步补all7历史12槽及目标类型匹配6槽，clean-none复用F并照计策略费用；不增加训练。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)复用合格SymPy目标准备双臂输入，不重跑同题资格。之后才推进保留实际进度的上下文机制拆分与独立来源扩样。
 
 ## 执行原则与后续顺序
 

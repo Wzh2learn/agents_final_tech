@@ -19,7 +19,7 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 <a id="实际训练表示复核2026-11-07"></a>
 ## 训练和旧成绩：可引用到哪里
 
-同HF8B、seed17、q/v LoRA r8/alpha16/dropout0、lr2e-4、batch1，两臂各192更新；O为1,135,199序列/8,239监督tokens，R为1,135,273/8,378。实际135个唯一行中O为67行、R为68行，来自相同7组；只监督当前助手动作与EOS。可称同父模型/初始化/更新数，不能称完全等训练量。R来自失败前缀的教师接续，O从reset形成，比较的是配方整体，不是孤立反馈因果。
+同HF8B、seed17、q/v LoRA r8/alpha16/dropout0、lr2e-4、batch1，两臂各192更新；O为1,135,199序列/8,239监督tokens，R为1,135,273/8,378。实际135个唯一行中O为67行、R为68行，来自相同7组；只监督当前助手动作与EOS。同父模型/初始化/更新数，非完全等训练量；训练wall为O 1,579.4秒、R 1,600.1秒，共享GPU，不能写成GPU秒。R是失败前缀接续，O从reset形成，只比较配方整体。
 
 | 旧16题开发结果 | heat/cool/look主比较 | clean诊断 | 全部原生won |
 | --- | ---: | ---: | ---: |
@@ -31,15 +31,19 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 
 R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同、实际token更低。旧R存在原生成功后继续请求的长尾，未来三臂统一原生终态停止；工程停止控制不能算学习贡献，旧费用不扣除。[五臂完整账和C复核](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md#five-arm-results)给出全部费用、区间与旧27B参照。
 
-## 新布局比较：36槽输入已冻结，实际运行中
+## 新布局比较：36槽闭合，纠正训练保留为强基线
 
-本轮从本机已核私有包重新提取原POOL与训练来源：7组为heat4/cool2/look1/clean0，对新train12的task UID、family、layout、layout_group、game hash交集均为0。仍共享look类型、同benchmark且属于D已曝光TRAIN，不是独立确认；6个look报告同类型布局迁移，6个clean报告未训练类型诊断，all12仅次级汇总。
+7条直接监督任务为heat4/cool2/look1，无clean目标；与新12题的UID、family、layout、layout_group、game hash交集均0。R形成链另用过heat_1/clean_1经验，两祖先与新12题的UID/family/layout/game hash也均无重叠（私有D_UPSTREAM_SOURCE_SCOPE_V1）。clean只称监督目标类型留出，不能称整个形成链没见过clean。同benchmark、D已曝光TRAIN；look6主比较、clean6诊断、all12次级，非独立确认。
 
-使用现役`ordinary_reset/student8b --runtime-profile <path> --runtime-profile-sha <sha>`，三臂统一reset提示、无经验、world/模型seed、解码、终态停止、历史窗口和预算。frozen也必须显式绑定BF16 profile，否则会落回默认Q4。每臂新自有进程、admission、O/R唯一LoRA且scale1；旧PID只作历史，不作当前归属证明。
+私有根`next_train_source_v1/trained_baseline_transfer_v1/`的`RUN_V1/RESULT.json`状态为`ALL36_TRANSFER_RETURNED`，SHA `aa48994ebe77ce3b616038a1f482891d00ba72a6fab6a0b8974127b9de9c551c`。36槽均闭合，无未解释usage或未运行项。三臂显式绑定共同BF16父模型、O/R唯一LoRA且scale1；统一reset、无经验、seed17、temperature0.2、thinking=false、32K/8192、full历史、原生终态停止及最多一次普通续做。每槽128POST/1800秒/100动作/64MiB收发，旧默认Q4不作frozen替身。
 
-旧HF驱动锁定16题/五臂，不能直接替换池执行；复用其有限生命周期和恢复原语。`ordinary_reset`读取`total_caps`，旧HF为128POST/1800秒/100动作/64M收发bytes，来源采集96/900是另一合同。先冻结任务清单、共同设置与实际恢复身份，再进入新批次，不再围绕已闭合heat_2追加接口分支。
+| 臂 | look主比较 | clean诊断 | 全部原生won | 实际POST | input+output tokens |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Frozen F | 4/6 | 0/6 | 4/12 | 748 | 9,003,145 |
+| Ordinary O | 4/6 | 2/6 | 6/12 | 732 | 8,192,852 |
+| Recovery R | 6/6 | 2/6 | 8/12 | 433 | 5,166,975 |
 
-私有根`next_train_source_v1/trained_baseline_transfer_v1/`已冻结全部12题×F/O/R共36槽，最多4,608转发POST；每臂按池原顺序，首4题只查接口/计量，不按输赢缩样、换题或改帽。world/model seed17、temperature0.2、thinking=false、32K/8192、full历史、native停止及最多一次普通续做全臂相同。正常非won和已证预算封帽保留；超时/137/不明错误/未知总usage/清理不闭合停队，不自动重跑。
+共1,913 POST，input 22,280,136、output 82,836、合计22,362,972；cached input 21,849,417为input子集。R对O两题增益、零损失，对F四题增益、零损失；单seed、同benchmark且D曝光开发，不作确认或反馈因果认证。F/O在look成功身份互换，R已覆盖二者成功并集，不能仅凭该互换构造选择器收益。
 
 | 冻结输入 | SHA256 |
 | --- | --- |
@@ -47,29 +51,26 @@ R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同�
 | `PROTOCOL_V1.json` | `684f68b7f56091734c474069994734a300e2b8fb9933628161a401ec6a636e92` |
 | `SOURCE_ISOLATION_V1.json` | `fa764abde4d35bb2d1f86a1eb91281ce2318ac40f730e255a283ed6762f0de61` |
 
-V1草案有一项Windows CRLF代码摘要，V2改按Git blob并保留运输映射，当时尚无模型运行。C只读复核36槽、同条件、来源和判读范围，未发现科学输入矛盾。GB10完整`study.protocol`及代码hash/36个新root不存在检查通过；该纯读取阶段模型/world/HTTP为0。本机完整parser的旧依赖字节失败仍保留，不冒充Linux准入。
+**复核及封存。** C独立核36个原生结果、11,694条raw绑定和1,913条原SSE；所有72个owned world容器退出，原18104 Q4已恢复、锁已释放。完整raw及16份代码快照双端封存：`trained_baseline_transfer36_closed_v1_20261108.tar.gz`，90,741,393bytes/12,545文件，SHA `86b782a2f154e336ebf72fffcd33791f9e7a3a5b1e89a1a1e6f7b02879af6390`；不含模型权重或完整actor缓存。C为AI独立复核，接受上述开发性结果及边界；未重哈希完整16GB父模型。27B的登录用户/proc不可见不代表容器死亡：D另以Docker状态及1次研究health GET确认存活，无新增生成。
 
-**裁决边界。** R训练于失败前缀接续，from-reset只测配方迁移，不单独识别反馈因果；负结果不否定其恢复用途。学习优越性裁决前补同12题Frozen＋普通history_all7：Frozen复用本批合格闭合结果；在途期间只准备all7输入，待本批闭合、释放模型锁后另冻有限执行，禁止重复启动Frozen或占用当前窗口。旧16题不能替代。
+R的学生前缀、教师接续与O从reset成功执行不同，当前只支持配方整体迁移。下一步先补同12题Frozen＋普通历史/简单匹配规则，不重跑旧F、不增加训练。旧16题不能替代本批。
 
 **普通历史资产。** 旧16题共用同一份7条普通教师成功轨迹，heat4/cool2/look1，不是7条纠正。`hf_evaluation_v1/contexts/all7.txt` SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`，可直接复用内容。新12题仍须单独绑定pool、公开reset与共同配置；现役`experience_mode=none`拒绝该参考，旧驱动硬锁16题，不能直接替换输入或修改在途代码。
 
-私有`ordinary_history_train12_inputs_v1/`已准备原POOL与all7。`reference_only`候选补丁SHA `705a90bb94f3630a6c7a8681916ae114ae652b327a9e8c92fdd007694fae0e04`通过本机Python3.12的32项合成CPU控制与patch check，**未应用、未运行历史臂、未做Linux集成**。闭合后由D集成、核真实输入并释放有限批次；旧null-assignment模板仍是阻断草稿。
-
-**真实执行中。** operator SHA `83fa07e1af89197307b11c7b529b410af23cc23fc47d2a9caa05a06fe78b5b2f`；release SHA `b3823c72efd7c4eb00334ff2cddc03367ff576bcc2e81a05d1cf74c72bd0138b`。16组件、原8B身份、共享进程及锁已核，当前进度查`RUN_V1/STATE.json`，最终须`RESULT.json`和raw闭合。SSE、world归属、取消与写盘失败控制的C/D证据留在本批私有目录；旧代码与测试退出码边界保留。
-
-**第一臂闭合观察。** Frozen为look **4/6**、clean **0/6**，共748 POST；O/R未齐，尚不能裁决训练。clean6的476条完成工具调用中220次返回公共世界状态、256次为非法动作；248次非法集中在两题，另一类失败包含目标物体错绑。该后验诊断不构成因果解释。私有`D_CLEAN_FROZEN_AUTOPSY_V1.json` SHA `be9eeb756d2cf29c3d48d7094bc100f86e565de74d3c628c111a17641c132641`。
+私有`ordinary_history_train12_inputs_v1/`已备原POOL与两种参考：all7跑12槽；公开目标类型匹配top1、无匹配则none另跑look6，clean6复用F并照计策略推理费。新18槽上限2,304 POST，尚未释放；规则在F已知、H输出前设计，不是学习方法。`reference_only`批准补丁SHA `705a90bb94f3630a6c7a8681916ae114ae652b327a9e8c92fdd007694fae0e04`已集成；本机32项CPU合成控制及C对有限operator V2的静态delta复核通过，真实Linux输入准入另核。旧null-assignment模板及V1 operator均非执行入口。
 
 ## 来源形成成本：已复算组件
 
-由训练行追到原receipt及SSE，357份响应逐条重算相符；all7的BANK、源组和receipt也与O的7条来源逐一一致。
+由训练行追到原receipt，375份SSE及2份技能响应重算相符；all7的BANK、源组和receipt与O的7条来源逐一一致。
 
 | 已用来源组件 | 历史POST | provider input+output tokens |
 | --- | ---: | ---: |
 | H/all7与O共用的7次普通教师成功执行 | 75 | 500,683 |
 | R的7次学生失败前缀 | 202 | 2,295,467 |
 | R的7次教师纠正接续 | 80 | 543,819 |
+| R上游heat_1/clean_1成功执行及技能形成 | 20 | 113,981 |
 
-R上述来源组件合计282 POST/2,839,286 tokens，尚须并入祖先carrier、筛选、训练等费用；不是方法总成本。H与O按方法分别计形成费，项目事件总账只记一次共享事件。cache未知仍为null，不把不同模型的token当等价计算。此次仅历史回算，新增模型调用0。私有`D_SELECTED_SOURCE_COSTS_V3.json` SHA `b555af7517dc7d44f7bd09f5b11c5fa87346268941c8a7d9cf7224c39652ff02`；全项目与研发Agent未知账保持。
+R已用来源链合计302 POST/2,953,267 tokens，筛选/转换/训练等费用分列，非方法总成本。H与O各按策略计形成费，项目事件账只记一次共享事件；未知cache保留null，不把跨模型token当等价计算。此次历史回算无新模型调用。私有`D_SELECTED_SOURCE_COSTS_V4.json` SHA `374b4b5ae1dd5e7494c8f007ce7d9614d86bb2cc4e6b4e0db29c02ac344275a8`；未选中尝试及研发账另列。
 
 ## 历史记录按需读
 

@@ -108,8 +108,14 @@ def runtime_reference(ref):
 
 
 def load_reference_context(stage, backend, path=None, digest=None, *, study=None):
-    if experience_mode(study or {}, stage) == 'none' and (path is not None or digest is not None):
+    mode = experience_mode(study or {}, stage)
+    if mode == 'none' and (path is not None or digest is not None):
         raise ValueError('none experience mode cannot load reference context')
+    if mode == 'reference_only':
+        expected = study['reference_context']
+        if (backend != 'student8b' or path is None or digest is None or
+                str(path) != expected['path'] or digest != expected['sha256']):
+            raise ValueError('reference_only requires the exact protocol reference and student8b')
     if (path is None) != (digest is None):
         raise ValueError('reference context path and SHA must be provided together')
     additional = additional_source_reference(study or {})
@@ -486,7 +492,17 @@ def protocol(path, digest):
     path = Path(path)
     if path.is_symlink() or sha(path) != digest:
         raise ValueError('frozen study protocol changed')
-    value = json.loads(path.read_text())
+    raw = path.read_text()
+    value = json.loads(raw)
+    if isinstance(value, dict) and value.get('experience_mode') == 'reference_only':
+        def unique_object(pairs):
+            result = {}
+            for key, item in pairs:
+                if key in result:
+                    raise ValueError('reference_only protocol contains duplicate keys')
+                result[key] = item
+            return result
+        value = json.loads(raw, object_pairs_hook=unique_object)
     experience_mode(value)
     runtime_controls(value)
     additional_source_reference(value)
@@ -659,9 +675,23 @@ def reject_external_experience(value):
 
 
 def experience_mode(study, stage=None):
-    """Absence preserves legacy admission; only explicit none omits all carriers."""
+    """Absence preserves legacy admission; explicit modes constrain carriers."""
     if 'experience_mode' not in study:
         return None
+    if study['experience_mode'] == 'reference_only' and type(study['experience_mode']) is str:
+        ref = study.get('reference_context')
+        if (type(ref) is not dict or set(ref) != {'path', 'sha256'} or
+                type(ref['path']) is not str or not ref['path'] or
+                type(ref['sha256']) is not str or not re.fullmatch('[a-f0-9]{64}', ref['sha256'])):
+            raise ValueError('reference_only requires one exact path/SHA binding')
+        if ((EXTERNAL_EXPERIENCE_FIELDS - {'reference_context'}).intersection(study) or
+                'source_root' in study or
+                (study.get('intended_stage'), study.get('intended_backend')) != ('ordinary_reset', 'student8b') or
+                (stage is not None and stage != 'ordinary_reset')):
+            raise ValueError('reference_only is ordinary_reset/student8b without another carrier')
+        if checkpoint_references(study) is not None:
+            raise ValueError('reference_only cannot use a checkpoint')
+        return 'reference_only'
     if type(study['experience_mode']) is not str or study['experience_mode'] != 'none':
         raise ValueError('unknown experience_mode')
     reject_external_experience(study)
@@ -682,6 +712,16 @@ def verify_experience_mode(manifest, study):
             manifest.get('experience_text_sha256') != hashlib.sha256(b'').hexdigest() or
             (EXTERNAL_EXPERIENCE_FIELDS - {'experience_assignment'}).intersection(manifest)):
         raise ValueError('none manifest contains external experience')
+    if mode == 'reference_only':
+        ref = study['reference_context']
+        expected = {'path':ref['path'], 'sha256':ref['sha256'], 'text_sha256':ref['sha256']}
+        if (manifest.get('backend') != 'student8b' or manifest.get('reference_context') != expected or
+                manifest.get('experience_assignment') != {} or
+                manifest.get('experience_text_sha256') != hashlib.sha256(b'').hexdigest() or
+                manifest.get('source_root') is not None or manifest.get('source_binding') is not None or
+                'source_id' in manifest or
+                (EXTERNAL_EXPERIENCE_FIELDS - {'experience_assignment', 'reference_context'}).intersection(manifest)):
+            raise ValueError('reference_only manifest differs from its sole protocol reference')
 
 
 def read_case(study, case_id):
@@ -691,7 +731,7 @@ def read_case(study, case_id):
     game, binding = task_pool().select_game(study['pool_path'], study['pool_sha256'], case_id)
     pool = json.loads(Path(study['pool_path']).read_text())
     row = next(row for row in pool['games'] if row['id'] == case_id)
-    if mode == 'none':
+    if mode in {'none', 'reference_only'}:
         reject_external_experience(pool)
         reject_external_experience(row)
         return game, binding, {}, ''
@@ -754,6 +794,11 @@ def prefix_prompt(reset, prefix, current, experience, stage):
 
 
 def load_source_prefix(study, case_id, source_root, *, run_root=None, model_seed=17):
+    if study.get('experience_mode') == 'reference_only':
+        experience_mode(study)
+        if source_root is not None:
+            raise ValueError('reference_only cannot acquire a source prefix')
+        return None
     if checkpoint_references(study) is not None:
         if source_root is not None:
             raise ValueError('checkpoint cannot acquire an actor source root')
