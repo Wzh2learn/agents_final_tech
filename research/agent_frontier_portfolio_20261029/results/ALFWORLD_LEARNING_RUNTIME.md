@@ -31,13 +31,25 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 
 R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同、实际token更低。旧R存在原生成功后继续请求的长尾，未来三臂统一原生终态停止；工程停止控制不能算学习贡献，旧费用不扣除。[五臂完整账和C复核](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md#five-arm-results)给出全部费用、区间与旧27B参照。
 
-## 新布局比较：尚未运行
+## 新布局比较：36槽输入已冻结，尚未运行
 
-旧7组训练来源与新train12的task UID、family、layout、layout_group、game hash交集均为0；仍共享look类型、同benchmark且属于已曝光开发材料，不是独立确认。旧训练没有clean样本，新clean应单列任务类型迁移诊断。
+本轮从本机已核私有包重新提取原POOL与训练来源：7组为heat4/cool2/look1/clean0，对新train12的task UID、family、layout、layout_group、game hash交集均为0。仍共享look类型、同benchmark且属于D已曝光TRAIN，不是独立确认；6个look报告同类型布局迁移，6个clean报告未训练类型诊断，all12仅次级汇总。
 
 使用现役`ordinary_reset/student8b --runtime-profile <path> --runtime-profile-sha <sha>`，三臂统一reset提示、无经验、world/模型seed、解码、终态停止、历史窗口和预算。frozen也必须显式绑定BF16 profile，否则会落回默认Q4。每臂新自有进程、admission、O/R唯一LoRA且scale1；旧PID只作历史，不作当前归属证明。
 
 旧HF驱动锁定16题/五臂，不能直接替换池执行；复用其有限生命周期和恢复原语。`ordinary_reset`读取`total_caps`，旧HF为128POST/1800秒/100动作/64M收发bytes，来源采集96/900是另一合同。先冻结任务清单、共同设置与实际恢复身份，再进入新批次，不再围绕已闭合heat_2追加接口分支。
+
+私有根`next_train_source_v1/trained_baseline_transfer_v1/`已冻结全部12题×F/O/R共36槽，最多4,608转发POST；每臂按池原顺序，首4题只查接口/计量，不按输赢缩样、换题或改帽。world/model seed17、temperature0.2、thinking=false、32K/8192、full历史、native停止及最多一次普通续做全臂相同。正常非won和已证预算封帽保留；超时/137/不明错误/未知总usage/清理不闭合停队，不自动重跑。
+
+| 冻结输入 | SHA256 |
+| --- | --- |
+| `BATCH_PLAN_V2.json` | `ea4731e0b3e0c1162393350f23601f35ee57bef20f730142716f987afaec3b0c` |
+| `PROTOCOL_V1.json` | `684f68b7f56091734c474069994734a300e2b8fb9933628161a401ec6a636e92` |
+| `SOURCE_ISOLATION_V1.json` | `fa764abde4d35bb2d1f86a1eb91281ce2318ac40f730e255a283ed6762f0de61` |
+
+V1草案有一项Windows CRLF代码摘要，V2改按Git blob并保留运输映射；未发生模型运行。C只读复核36槽、同条件、来源和判读范围，未发现科学输入矛盾。GB10完整`study.protocol`及代码hash/36个新root不存在检查已通过，模型/world/HTTP为0；本机完整parser的旧依赖字节失败仍保留，未当作协议失效或Linux通过。
+
+**裁决边界。** R训练于失败前缀接续，from-reset只测配方迁移，不单独识别反馈因果；负结果也不能否定其恢复用途。任何学习优越性裁决前，先冻结并补齐同12题Frozen＋普通history_all7，旧16题不能替代。新科学批仍待自有窗口/实际加载及逐槽转发配置验收，不把文件声明当成实际采样。
 
 ## 历史记录按需读
 

@@ -10,7 +10,7 @@
 
 主攻候选：**保留实际进度，利用反馈选择旧经验的保留、撤回或上下文重建。** 近邻已覆盖经验选择、笔记管理、教师纠正，独立机制尚未成立；最佳固定策略解释收益时简化或切换。
 
-当前[四组27B恢复](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)成功且C无阻断，成本交叉待重复。下一实验为[8B frozen/O/R](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)新布局from-reset同基座比较，**尚未运行**，旧R只作基线。历史策略扩样5来源×两seed×两策略准入，look01长上下文单列；暂不训练选择器。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)停止同题诊断。
+当前[四组27B恢复](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)已闭合，交叉待重复。[F/O/R新布局](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)12题/36槽输入已冻且C无科学输入矛盾，GB10 parser通过，**尚未运行**；look6/clean6分报，学习优越性前补同面板普通历史。旧R只作基线。历史策略扩样5来源/20协议准入，look01单列；暂不训练选择器。[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)停止同题诊断。
 
 ## 执行原则与后续顺序
 
