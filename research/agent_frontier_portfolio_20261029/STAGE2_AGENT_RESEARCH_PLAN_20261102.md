@@ -10,7 +10,7 @@
 
 主攻候选：**保留实际进度，利用反馈判断旧经验应保留、撤回还是重建为后续上下文。** 经验选择、笔记管理、教师纠正已有近邻覆盖；独立机制尚未成立。最佳固定策略解释收益时简化或切换，不先建复杂选择器。
 
-当前[clean02/03四组恢复](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)全部成功，独立C无阻断；02近期更省、03完整更省，尚未验证重复性。下一步核其余六条TRAIN失败的接续兼容性（look01长上下文单列），扩布局并重复17/29生成种子，保留资格失败原因，不按恢复效果筛题。训练前加入更强简单策略。已有[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)停止同题诊断。
+当前[四组27B恢复](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)成功且C无阻断，成本交叉待重复。下一步优先复用[8B frozen/O/R](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)，冻结新布局小批from-reset同基座学习对照；旧R是基线。历史策略扩样已有5来源×两seed×两策略文件准入，look01长上下文单列。先补强简单策略和学习证据，再决定选择器；[代码纠正](results/CODE_SOURCE_CORRECTIONS.md#current)停止同题诊断。
 
 ## 执行原则与后续顺序
 
@@ -35,11 +35,9 @@
 | --- | --- |
 | 当前ALF恢复对照 | [来源与原生资格](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)。 |
 | 当前代码纠正与目标 | [教师纠正及版本边界](results/CODE_SOURCE_CORRECTIONS.md#current)。 |
-| Matplotlib 新pair及来源证据 | [新任务段落](results/MATPLOTLIB_QUALIFICATION_20261106.md#new-source-pair)；旧23562/27361的[隔离对照](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)仅按需读。 |
-| Astropy新隔离比较 | [本批合同与结果](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；[旧四臂及修正](results/ASTROPY_PROFILE_CONTROLS_20261106.md)单独保留，不混用source。 |
 | SymPy新增候选 / 旧时序 | [集合语义复现](results/ALFWORLD_LEARNING_RUNTIME.md#sympy-intersection)；[旧时序](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)。 |
 | RethinkSkill与其他近邻 | [相关工作短页](IJCNN_RELATED_WORK_REFRESH_20261030.md) → 指定接口记录。 |
-| Django/Sphinx/Requests与早期试验 | [历史主题目录](../../docs/archive/2026-11-06_agent_research_context/README.md)，只选一个主题；旧深链接在下方保留。 |
+| 已结束环境与其他试验 | [历史主题目录](../../docs/archive/2026-11-06_agent_research_context/README.md)或[总索引](../../docs/INDEX.md)，只选一个主题；旧深链接在下方保留。 |
 | 自动记录和工具前提 | [记录器](../../scripts/graph/research_auto_record.py)、[工具检查](../../scripts/graph/research_tool_runtime.py)、对应 runner；不改变业务服务。 |
 
 ## 维护规则

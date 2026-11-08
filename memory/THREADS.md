@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E 与方向沟通稿已发送；等待研究点划分、首投路线和成稿反馈。内部研究可继续，无需等待此项。 |
 | Paper E 投稿办理 | ICINT 首投、拒稿或正式撤稿后 ICDAR；作者暂定 Zhonghua Wang、Jiali Ruan、Bin Hou、Yunxiao Zu（通讯），北邮电子工程学院。团队终核、声明、许可、学校凭证与费用须在正式办理时确认。ICDAR 工作稿仍有致谢，启用前处理双盲。作者邮箱等私有字段不入 Git。 |
-| 第二篇当前比较 | ALF两题四组均成功，完整/近期历史有成本交叉，独立C无阻断；重复性未验证。扩其余TRAIN来源及生成种子，长上下文资格单列，训练前补强简单策略。SymPy纠正已闭合。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇当前比较 | 四组恢复成本交叉待重复。既有BF16 frozen/O/R可作新布局学习对照；旧16题驱动与历史PID profile不能直接套用，须重绑自有进程、统一预算。历史策略扩样5来源/20协议文件准入通过，look01长上下文单列。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
 | 公开方法参照 | RethinkSkill 仅完成协议级接入；需合格真实反馈、训练/验证/目标隔离及接受门，才能形成方法比较。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Requests 此对题面/版本/gold 行为冲突，不继续该对模型比较；Sphinx/Django/SymPy 等旧现场按[历史证据目录](../docs/archive/2026-11-06_agent_research_context/README.md)查阅。新来源先核验实际原题、base/gold、回归与时间边界。EdgeBench x86→ARM 尚未确认。 |
 | 成本及运行器 | 历史340-token差额、历史未知请求和部分权重标识保留。Requests/Astropy已有显式attempt；旧ContextBench标识仍绑定task/condition/seed，改造须迁移输出目录。跨机器预算锁未实现；当前是否在途查STATE，不能从本行推断。 |

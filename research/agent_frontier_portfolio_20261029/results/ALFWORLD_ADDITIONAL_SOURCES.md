@@ -215,4 +215,6 @@ D闭合SHA `a99628142b475b53f028f55f81e6933a3f0c4ba450ab37fe17e23886fbea14da`；
 
 **重复实验入口。** 仅新student来源的恢复协议增加单值seed17或29，协议/调用/两历史策略cohort严格同seed；原source和world仍17，旧角色仍17。当前helper SHA `acca84e7a6650d00d6e6e3981dc8d006207ecba1646b6d9a73efec3167c7d961`；GB10 CPU153项/246子测试通过，D已读完整日志并核候选字节，未改变原始normal/POST-cap准入。`BASE/student_failure_expansion_v1/SELECTION_AND_PROTOCOLS_V1.json`冻结六case×两seed共24份数据协议，SHA `d12689f7b71d12e21f4d501bfb8ec546e27bddcbe318a01fbfcd68e90e907130`；尚未实际读取准入、重放或释放模型，不把输入文件准备当新结果。
 
+随后D在发布后的GB10 main再次完整验证153项/246子测试。真实文件读取矩阵已有20/24协议准入（clean05/06、look02/03/04共5来源，17/29两seed各两策略），仅look01四份因现役reader不接纳context-reserve原始拒绝而未准入；这是reader范围，不作该来源无效或模型失败。`FILE_ADMISSION_MATRIX_V1.json` SHA `91fe3312e6be8efaba57afc24b831fd85679bfa81d3191f0699b690aa7ae3c09`，新模型/world/训练/目标root创建均0。上下文扩样保留，当前优先[复用已训练8B基线](ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)核新布局学习效果。
+
 Django12589有修好原题却引入新回归的真实代码候选，可作第二环境开发资产。SQLite回归与任务专属PG语义探针分属完整评测合同；离线准备不访问PG，正式续做不能略过PG后宣称完整成功。旧35B来源与新27B接续应分标身份，旧题不作新确认。

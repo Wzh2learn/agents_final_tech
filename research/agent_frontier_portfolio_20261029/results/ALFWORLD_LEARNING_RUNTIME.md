@@ -1,6 +1,15 @@
 # 学习研究：闭合训练、运行与来源准备
 
-> 2026-11-07按主题拆分；只在核查训练、部署、闭合成本或来源资格时加载。当前裁决和下一动作只读[现役学习记录](ALFWORLD_CORRECTION_DATA.md)。训练/部署旧片段来自拆分前 Git `685fcfd8`；后续结果和代码准备各节注明迁入来源，不改写旧数值。
+> 2026-11-08复核复用入口；只在核查训练、部署、成本或来源资格时加载。当前执行查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练/部署旧片段来自拆分前 Git `685fcfd8`，后续章节注明迁入来源，旧数值保留。
+
+<a id="trained-baselines"></a>
+## 当前复用：8B frozen / ordinary / recovery
+
+旧O/R已各训练192步、保存重载，并转换成GGUF LoRA用于旧16题实际推理；不是只有文件资格。私有`learning_comparison_v1/gguf_conversion_v1/{ordinary_v4,recovery_v4}`各约15MB文件是适配器，共同父模型为`hf_parent_bf16_v1/Qwen3-8B-HF-BOUND-BF16.gguf`。三臂须用同父BF16；旧Q4不能替代frozen基线。绑定与真实推理见同根`hf_evaluation_v1/PROTOCOL.json`、`ORDINARY_ARM_RAW_CHECK_V1.json`、`RECOVERY_ARM_RAW_CHECK_V1.json`。
+
+只读核训练计划与train12元数据：旧7训练来源对新12的task UID、family、layout、layout_group、game hash交集均0，但共享look任务类型且同属已曝光开发材料；这不是跨benchmark或预训练隔离。现有R配方也不是STeP原法复现或新方法贡献。
+
+优先用现役`ordinary_reset/student8b --runtime-profile <path> --runtime-profile-sha <sha>`做新布局小批学习对照，统一环境、提示、解码和预算，先不新训练。旧hf评价驱动硬锁16题/五臂，不能直接当train12批次；旧profile绑定历史PID也须重建。已有自有服务管理可复用，真实启动参数包含共同父模型、O/R各自`--lora` scale1；不将停止事件当作本次当前进程核验。`ordinary_reset`读取total_caps，旧来源协议的128POST/1800秒不同于collect_none的96/900，新比较须明确统一。下文保留训练/部署实际条件和旧结果，不改写历史。
 
 <a id="learning-runtime-history"></a>
 
