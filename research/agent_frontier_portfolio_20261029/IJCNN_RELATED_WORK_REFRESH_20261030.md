@@ -25,7 +25,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 ## 机制自审（2026-11-06）
 
-**Mode / Boundary**：inquiry-methods的fact-check；本次读三篇一手HTML方法段及Skill-V附录，未做完整代码复现。核查对象是候选方法与已有工作的区别，同步推进实际实验。
+**核查范围**：一手方法正文/附录，未完整复现代码；用来约束候选机制及对照。
 
 - **CONFIRMED**：[Skill-V §3.3、B.5–B.6](https://arxiv.org/html/2610.11781v1)允许修订procedure，不只是rubric；保留语义约束并作历史证据回放。因此“会改步骤”不能单独作为区别。§3.4在episode开头选入技能。
 - **11-08复核**：[SkillApt §3.2–3.6/附录B](https://arxiv.org/html/2609.26863v1)已有WITH/WITHOUT配对效用及LOAD/ABSTAIN；SRA v1以题面hash表征状态，等正确率成本正/负例均标0.5。同前置状态修复与工具隔离已覆盖；未见执行中撤回经验、保留改后world续做的对照。一般定义不排除成本/丰富状态，须比较同输入强适配版。
@@ -39,11 +39,13 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
-**11-09机制拆解（first-principles）**：已核方法正文，未复现代码。[TrustMem §3](https://aclanthology.org/2026.findings-emnlp.2419.pdf)已有同记忆状态更新偏好和转移验证；[LW2S](https://arxiv.org/html/2609.30734v1)已有组件skip信用分配。局部修订、交互loss和预算内主动学习本身不能认证新意。
+**11-09机制拆解**：[TrustMem §3](https://arxiv.org/html/2606.25161v1)已有转移覆盖/保留/忠实度奖励和同状态偏好；[LW2S](https://arxiv.org/html/2609.30734v1)已有组件skip信用分配。局部修订、交互loss和主动学习本身不足以认证新意。
 
 本轮补查最直接重叠：[JointCore §2–3](https://arxiv.org/html/2610.23266v1)以群删除搜索保留完整记忆行为的充分子集，允许冗余/联合必要性；它不等于以真实续做成功为目标。[MemHarness §3](https://arxiv.org/html/2607.28272v1)已按状态批判/重构经验，GRPO训练且评测ALFWorld/WebShop。[Value of Memory](https://arxiv.org/html/2610.31303v1)已有恢复/修订成本和组件交互理论，不能再声称首先提出价值框架。
 
 **取舍**：B-only四格仅识别现象；非零交互不保证选择收益。后续聚焦同一真实前缀、不回滚外部进度的反馈修订；必须超过上述强适配及同数据联合MLP/组合bandit，独立算法尚未定。[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)提示影响仍会残留于历史/cache，不声称精确遗忘。设计见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
+
+[MERIT §3](https://arxiv.org/html/2608.05906v1)以oracle确认修复、已观测失败及错型检索积累经验；部署比较须对齐oracle可用性。非执行/超预算是真实效用损失，但不足以反证经验前提；区分两类标签仍只是估计对象划分，候选修订必须胜过不可变bank＋弃用及同信息修复。
 
 ## 旧章节链接
 

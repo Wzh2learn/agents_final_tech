@@ -8,14 +8,14 @@
 
 主攻[反馈下的经验适用性与组合效用](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：先识别作用再设计机制，不再追加普通纠正SFT。JointCore、MemHarness及普通组合bandit须作强对照，算法尚未确定。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
 
-[五种开发基线](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合并复核：新12题F/O/R/all7/目标匹配分别4/6/8/4/4。R有开发优势但属于已有配方，不是新方法。新增H18为766 POST，Q4已恢复。SymPy普通复用双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制的第二环境验证复用。
+[五基线与四格](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R仍属已有配方。SymPy双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制第二环境复用；不为增加基线数量而单独扩跑。
 
 ## 执行原则与后续顺序
 
 1. **已完成识别。** B6为2/6、139 POST；四格实际I为`[1,0,0,-1,1,0]`，3布局达开发数值门。预测卡把O向量抄作A，已按24份receipt更正，旧卡保留；不称前瞻确认。oracle5/6在补B前已有，且R为6/6，不据此训练选择器。
-2. **下一唯一动作。** 三题B输出动作文本而未调用工具，另题达上下文帽。先以这三题真实首请求、同BF16/解码，单改`tool_choice=required`检验通道约束（最多3 POST，尚未释放）；只测调用遵从，不推任务成功。再定共同动作通道及独立进度现场的协议，seed重复不自动启用。旧格从receipt取数，不手抄摘要。
+2. **下一批采集。** [三首响应](results/ALFWORLD_ADDITIONAL_SOURCES.md#action-channel)3/3通道合规，只有1条动作在源合法列表；无任务执行。新18源拟用F共同BF16/全7历史/required取得真实反馈：每题128 POST/1800秒/100动作/64MB，合计≤2304 POST，尚未释放。先冻结输入/预算再运行，旧格由receipt取数。
 3. **学习机制。** 有重复信号后，设计反馈反证前提与保留实际进度的修订机制。普通联合效用/主动采集仅作基线，与同数据/容量MLP、组合bandit、JointCore及MemHarness强适配比较；不把交互项、多数据或更多算力说成新信息。
-4. **动态与迁移。** 扩至12–20个来源隔离任务现场，统一当前观察、目标、真实进度与预算；清理旧上下文再暴露所选片段。训练只用开发来源，测试仅执行所选策略；第二环境及未见组合验证后才定稿。heat_2/clean_2仍为曝光回归。
+4. **动态与迁移。** [新18源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)为TRAIN，134 valid_unseen保留确认。采集后按原生未成功、公开非零进度及剩余动作筛真实恢复现场；同一前缀重放后比较保留/移除/修订，actor始终见相同真实状态。第二环境/未见组合后才定稿；旧heat_2/clean_2只作回归。
 
 ## 证据和写作要求
 

@@ -1,10 +1,10 @@
 # ALFWorld 来源与恢复：当前证据
 
-> 2026-11-08 | 只保留可复用结论与入口。完整过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_sources_through_20261108.md)，原始轨迹、预算和失败未改。下一动作只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+> 2026-11-09 | 只保留可复用结论与入口。完整过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_sources_through_20261108.md)，原始轨迹、预算和失败未改。下一动作只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 ## 来源池与闭合采集
 
-12个官方TRAIN任务，clean/look各6个、12个不同布局；按预先固定的身份hash排序选择。已知训练/开发索引交集已排除，不等于全项目未曝光或预训练隔离。134个保留候选未读取正文。原生资格12/12通过，公开逐步状态可重放；专家轨迹只供评价，不向actor提供。
+旧12个官方TRAIN任务，clean/look各6个、12个不同布局，按固定身份hash排序。已排除登记的训练/开发索引，不等于全项目或预训练隔离。旧“134个保留候选”实际是官方`valid_unseen`保留项，不是TRAIN；只读元数据，继续保留确认。原生资格12/12通过，专家轨迹不向actor提供。
 
 | 从reset执行的来源模型 | Clean成功 | Look成功 | 总成功 | 实际POST | provider tokens |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -18,6 +18,24 @@
 - POOL SHA256：`24a30747b87102a7dcfe2f92c666596285f72f7cc7b3a0c52f630acc5cd75023`。
 - D闭合 SHA256：`c017c9dfb02a8d27a7d837e2544ca47aef03d641df0c56e011b5aa0c2016b86f`。
 - 私有采集包SHA：`95a1ff1b31a422a9b73f934787d4f942ae646923e7aaaf21a7932d53c02d2e79`；成员、实际路径及账本见[完整采集记录](../../../docs/archive/2026-11-06_agent_research_context/alfworld_sources_through_20261108.md#完整闭合结果与失败类型)。
+
+<a id="progress-feedback18"></a>
+## 新18个开发源：原生资格已通过
+
+新增clean9/look9均来自TRAIN；UID、family、layout/group、game hash互异，排除旧18/16/运行池、新12、7训练源、2上游源及登记的保留身份。筛后有clean55条/11布局、look103条/10布局，按冻结身份hash取18，不按结果换样。数字布局不同不证明语义独立，完整外部/预训练曝光仍未知。
+
+两份官方ZIP及36个选中成员实际hash相符；18/18专家控制通过，共247动作、串行48.59秒。核原生观察/score/done/won、reset合法动作、同seed重置/名称映射；D另逐项通过现役池读取器。无模型、HTTP、训练或容器调用。这是环境资格，尚无actor失败前缀或学习成绩；专家轨迹只在私有评价侧。
+
+私有根`progress_feedback_development_v1/native_pool_v1/`：`POOL.json` SHA `7fe85fb7564b1e0eba908e1279522a84fefce0dd61b80f2c75ad646ec992c6fe`，`qualification.json` SHA `581735ebf62a710c1a8819a8a50a3ac6f916b45129f62514ad3d149d5c9b874c`。双端包`progress_feedback18_native_qualified_v1_20261109.tar.gz`为305,768bytes/170文件，SHA `2ff52de6a5a1abdcdca89f9aca75e8270e8f1bbe07c1a4a779830545bdf7754e`；不含完整ZIP或模型。
+
+<a id="action-channel"></a>
+## 首响应通道对照：不是任务成功
+
+复用B6的01/03/05实际首请求，同BF16/解码，仅改`tool_choice: auto→required`。新3/3返回schema合规bash调用，旧3/3为无工具的stop；均无length。CLI形状正确，但01/03的动作不在各自源初始合法列表，05在；未执行任何工具或world，不能推定任务改善，也不将解码约束当纯因果工具。
+
+新增3 POST：input24,009/output155，共24,164tokens，cached6,619为input子集；窗口51.38秒，训练/judge为0。C独立核请求、3 SSE、usage/schema/字节及公开reset；D另核Q4恢复身份、35/27和锁释放。当前私有`ACTION_CHANNEL_REQUIRED_V1/D_C_CLOSEOUT_V1.json` SHA `401c0c8d112a8f0d1fade3f316c634ed9337251843c868ce78c394ab070ba6ee`。双端包`action_channel3_closed_v1_20261109.tar.gz`为365,364bytes/102文件，SHA `ef5916660ab9d0d26ee0e713633460fedf64358e55dc54f05849427b6677d7c8`。
+
+新协议以显式`action_channel=required`冻结执行采样，另记CBC构造采样；缺省/auto保留旧路径。required不替代`runtime_controls.native_terminal_stop=true`。使用新组件epoch，旧raw/评分不重算；真实episode待新采集验证。[首响应CPU准备/解析](../action_channel_probe.py)不执行工具。
 
 <a id="student-failure-recovery"></a>
 ## 四组真实学生失败恢复：已闭合
