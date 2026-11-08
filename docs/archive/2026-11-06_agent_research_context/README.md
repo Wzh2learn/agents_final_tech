@@ -28,3 +28,14 @@
 [MANIFEST.json](MANIFEST.json)保存原路径、连续分段范围、规范化原文与各段SHA-256、相对链接可逆映射。按记录去掉头尾标记（header_characters/footer_characters）并逆向映射后可逐源重建，验证没有删除历史内容。日期和旧停止判断不自动转为新授权；完整旧原文也可通过原Git基线定位。
 
 治理复验：5个原文件/18段可逆重建通过；现役7文件体量及文件链接检查通过；上下文守卫4项本机测试通过（Python3.9，有既有asyncio_mode配置warning）；docs lint 0 fail/3条已登记时效warning。skill-doctor 0 errors/134 warnings；仅变更skill的定向map 0重复/0未解析引用。宿主原生搜索已实测一次，未调用DeepSeek搜索。GB10与GitHub同步后以真实Git及安装核验为准。
+
+## 2026-11-08追加：已闭合的ALFWorld过程
+
+以下两份由`git mv`归档，原路径重建为短摘要、当前资产与兼容旧锚点。只加历史标记并重定位相对链接；逆向映射后与Git基线`1566921111ba643b43841cf4b3675a8764fefaf1`原blob逐字节相等，数值、费用和旧状态未改。既有MANIFEST仍只描述上面原5文件/18段，不冒充覆盖此次追加。
+
+| 历史主题 | 原路径（相对项目根） | 原Git blob / 原SHA256 |
+| --- | --- | --- |
+| [来源、采集、checkpoint和四组恢复](alfworld_sources_through_20261108.md) | `research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md` | `5bbda14a2007bbafefb76a4aa8fce6e8d26cf6d5` / `080b87789c7fd0f2f3e399fa5ab6111d3ede4c86dadeed1c5c34ad0c336cc318` |
+| [训练、部署、旧五臂和代码准备](alfworld_learning_through_20261108.md) | `research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md` | `d6f222ed3e7a354d29112ca158ba25f713642655` / `d05c00272f951523576e8a288621fb993f2b1956363d8b4f5505a2afc36a4573` |
+
+上述历史内的“下一步”“待C”“尚未准入”和PID均是当时事实；当前比较与运行状态回到[STATE](../../../memory/STATE.md)。不默认加载整份历史。
