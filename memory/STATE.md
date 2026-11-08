@@ -3,7 +3,7 @@
 > 2026-11-08 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active**：2026-11-06用户已明确继续，且Goal控制面恢复active。主攻 Agent 从执行与反馈形成经验、在变化任务中选择与修订技能；面向 IJCNN 和硕士论文。长期方向见[研究组合](../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，当前执行只读[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
-- **当前检查点**：[新增ALF来源](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md)24条已闭合，8B成功2/12、27B10/12；27B四策略×两现场开发对照已启动，逐例闭合后续跑。旧R和Matplotlib变体停止，raw/成本保留。
+- **当前检查点**：[ALF对照](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#checkpoint-results)8条已闭合，本例完整历史胜出，不训练选择器；新look任务的进度控制通过。正在接入独立失败来源及变量前缀，尚未释放下一模型批次。旧候选及raw保留。
 - **方法状态**：候选是在保留实际进度时，学习旧经验的保留、撤回或上下文重建；先测强固定策略与多任务选择空间，独立方法尚未成立。完整次序只在短计划维护。
 - **Paper E**：用户已发老师审阅，等待反馈。现役[ICINT 四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)，ICDAR 顺序备投；尚未正式投稿。学校要求本人一作、北邮第一单位、方向相关，会议须召开并宣读/张贴。作者信息已私有准备；不在公开记忆复制。硕士按 2027 年 10 月送审倒排。
 - **搜索**：科研联网默认使用当前 Codex 宿主原生搜索；无自动 DeepSeek/Qwen 搜索回退。GB10 禁网实验由 D 提供带来源材料，不假造宿主搜索的 HTTP API。搜索切换不改变推理模型或业务 RAG。

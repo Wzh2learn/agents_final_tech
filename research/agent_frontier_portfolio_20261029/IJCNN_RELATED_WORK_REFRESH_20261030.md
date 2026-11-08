@@ -13,7 +13,7 @@
 | [Skill-R1](https://arxiv.org/html/2605.09359v1) | 冻结任务模型，以可验证奖励训练轻量skill编辑器，使用代内/代际优势；“用RL训练一个会改skill的小模型”本身已有覆盖。方法正文已核，未复现代码/成绩。 |
 | [SkillGLoW §3.3–3.4](https://arxiv.org/html/2609.02217v1) | 适用条件/程序/失败模式、退化后的scope guards、真实执行准入及冻结迁移均已覆盖；这些不能作为新意。 |
 | [SkillHEX §3.1/B.2](https://arxiv.org/html/2608.05628v1) | 假设转可执行诊断、缓存产物重测与新技能fresh执行；重测旧产物不同于改变环境后重跑策略。 |
-| [CIPO §3.4/App.B](https://arxiv.org/html/2610.04991v1) | 已有同前缀atomic/skill反事实训练及失败时返回部分结果；仅“保留进度”不是新意。 |
+| [CIPO §3.3–3.4/App.B/D](https://arxiv.org/html/2610.04991v1) | 同前缀技能/原子反事实、部分结果续做已覆盖；须比较原子续做，可变world分支复原实现仍需核。 |
 | [SWE-Skills-Bench](https://arxiv.org/abs/2603.15401) | 固定真实仓库、有无 skill 和隐藏执行检查；构造需求、环境适配与自然 issue 必须区别报告。 |
 | [SkillFlow](https://arxiv.org/abs/2604.17308) | 完整历史、无历史和持续 skill 库对照；这三臂的比较本身不是新贡献。 |
 | [CFOE](https://arxiv.org/abs/2610.22984) / [CoEvoSkills](https://arxiv.org/abs/2604.01687) | 失败学习的迁移边界、验证器与经验共演化；要对齐已有反馈、额外执行和验证预算。 |
@@ -33,7 +33,7 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **比较要求**：固定keep/drop、滚动短历史、目标重申、Memento式笔记折叠、配对效用选择及简单冲突guard；同当前观察/合法动作/工具合同。隐藏或打乱反馈后优势不降，就撤回反馈因果解释。适配不冒充原法复现。
 
-**当前直接对标**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR](https://arxiv.org/html/2608.10502v1)已有依赖撤回，[Memento §3.2–3.6/4.2.2](https://arxiv.org/html/2611.00244v1)用SFT/RL学习静态书籍QA笔记及窗口压缩/回退。方法正文已核，未复现成绩。ACE/AgentFold/VH-GPO等重叠、剩余假设及比较条件见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**当前直接对标**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3/4/D](https://arxiv.org/html/2608.10502v1)已有依赖失效与独立证据保留，须对齐故障标识并比较最新观察覆盖；[Memento §3.2–3.6/4.2.2](https://arxiv.org/html/2611.00244v1)学习静态书籍QA笔记及窗口压缩/回退。原文已核，未复现成绩。更多重叠与假设见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 2026-11-08复核：[Agent-R §3/4.4](https://arxiv.org/html/2501.11425v3)是自生成搜索/轨迹拼接，已有失败中间前缀续做；不能概括为STeP式强教师接管。具体比较见[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)。
 

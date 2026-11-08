@@ -88,14 +88,34 @@ D在同一原生world中实际搬动物体，复用现有Episode/NativeBackend�
 
 后续若进入模型实验，必须分开完整world重放轨迹与actor可见历史，并使用相同观察、合法动作、预算和干预代价。先比较固定保留/撤回、短历史、目标重申、笔记折叠、配对效用选择和简单冲突规则；只有反馈隐藏/打乱消融与新任务验证留下残差，才投入学习选择器。本控制说明问题可执行，尚不提供新方法或新理论。
 
-## 运行中：27B checkpoint开发对照
+<a id="checkpoint-results"></a>
+## 已闭合：27B checkpoint开发对照
 
-私有`state_change_development_v1/actor_checkpoint_v1/D_MODEL_DEVELOPMENT_PLAN_V1.json` SHA `7c697126054b8a866cd2d12ff43cc667752cfcd18ea5e37eac558e3da1e266a2`，COHORT SHA `2bd0da21ffc55ad9773c41ddc2e8fed00863be7819edcbe5090d9f63256d04c8`。两种opaque现场与四种策略：完整历史、无旧历史、滚动近期历史、近期历史加目标重申。共同新会话，48 POST/900秒/72剩余原生步/32M bytes；8个开发episode最多384 POST，已按下述冻结release启动。
+私有`state_change_development_v1/actor_checkpoint_v1/`保存冻结方案、八槽raw及闭合。PLAN SHA `7c697126054b8a866cd2d12ff43cc667752cfcd18ea5e37eac558e3da1e266a2`，release SHA `0db1e12f78b05d4145ae8a13361dff86d720cbfc9a06ee84c837e9ee3d82d61e`。一个曝光TRAIN任务、单seed、A未搬动/B已搬动；共同新会话，48 POST/900秒/72剩余原生步/32M bytes，八槽最多384 POST。不是两项独立任务或学习确认。
 
-接入只重放完整28步，prompt只读21步公开历史和当前state28；隐蔽7步、条件名、新位置真相及D续做答案不进入模型。旧source合同不变；本批额外预算不从旧teacher POST余额冒算。新接口89 tests/282 subtests、私有闭合门15项和driver 10项CPU控制通过；它们不代表真实模型效果。
+接入重放完整28步，模型只读21步公开历史和当前state28；隐蔽7步、条件名、新位置及D见证不进入模型。A/B首次实际请求消息字节相同；近期策略运行中保留3轮工具历史。全部8次准备及执行已实测；原预启动证据见Git `6e2ca3ec`和私有准备文件，未覆盖旧raw。89 tests/282 subtests、gate15项及driver10项是工程控制。
 
-前两槽真实零生成预演均重放28步/29个状态逐条相等，当前状态28且剩余72步；实际task字节相同，SHA `9c39dd76f91e45edf39be275bd7a1a8a5880ef7846a2e090dbdb68efb4eba6c6`。PREPARED SHA `482e13d772c95ac95e859515411e15e97633b6370a71957ce60a399dbb01fb59`。C限定复核`LIMITED_PASS`，SHA `23140f2fdea31235dd94d603699701c5c26c2adcd2848f3e5f4f7deccbe41bc6`；余下六槽准备与全部模型行为仍待实际验证。
+| 同任务上下文策略 | A：原生成功 / POST | B：原生成功 / POST | 两条件provider total tokens |
+| --- | --- | --- | ---: |
+| 完整历史 | true / 4 | true / 10 | 91,804 |
+| 仅当前观察 | false / 48 | false / 48 | 722,162 |
+| 滚动近期历史 | true / 7 | true / 16 | 115,482 |
+| 目标重申＋近期历史 | true / 6 | true / 15 | 105,665 |
 
-D release SHA `0db1e12f78b05d4145ae8a13361dff86d720cbfc9a06ee84c837e9ee3d82d61e`绑定67份文件，check-only通过；owned driver PID `1727745`/birth `1084497627`已启动，首槽已产生真实响应。逐槽核原生won、实际POST/usage/raw和清理后才续跑，异常停止未开始项，不自动重试。是否仍在运行只查实时进程和回执，不从本段推断。代码commit `30c80250`已同步本机/GitHub/GB10；私有准备文件保留于上述同一批目录。
+完整历史在本例均成功且请求及记录输入最少，**不据此训练复杂选择器**。无历史两臂虽已获得正确goal，却先拿/清洗cloth而非soapbar，之后反复尝试被拒动作；这不是已证实的动作语法缺陷，也未执行“放下cloth即可恢复”的反事实。B完整历史能按反馈寻找新位置，但又清洗了一次；其局部额外动作不能直接证明新方法空间。
 
-此pilot只有一个曝光TRAIN任务，不作独立确认或训练。原生目标允许其他合格soapbar，不能为制造进度价值而限制actor必须使用soapbar2；最强固定策略若已解释结果，就简化或替换候选。后续扩独立任务并补摘要、配对效用与冲突规则后，才判断是否值得学习。
+全批154次真实转发/162次入口请求；差额为6次成功后的400终态拒绝、2次48-POST封顶403。154工具调用中68次推进world、86次invalid不推进；全部原始退出有对应原因。provider输入1,026,991、输出8,122、合计1,035,113 tokens，未知总usage调用0，cache全部未知。八次执行回放224步、八次预演另224步；episode墙时合计1,171.063秒，整批1,240.373秒。训练/judge/付费科研API为0，GPU-seconds及研发Agent额外用量未知；历史差额不并入。本表是新增阶段用量，来源形成成本仍见前节。
+
+D逐槽重新读取gate/raw，RESULT SHA `58066ed38f2666e3e0e1831bfa48d6e661437ea1c7be68c3ecd8956998de06c4`；C独立核154份实际响应及动作，回执SHA `b76d9572297fcdbf55f7971e8a7e4ff8f5096afc3230253131c36c7b13f65a34`。driver `1727745`已gone，8个owned容器和16个native进程均清理，锁可取得、既有8B进程未变；收尾SHA `405c5fd3022f874a2da8a93fa30526921789cbf53bdc4c6174fdf7d83ed002e7`。
+
+完整私有封存包`checkpoint_pilot_closed_v1_20261108.tar.gz`：1,197成员/2,781,463bytes，SHA `1aa5f9babc9609c7d742cd689435fb0da60e8692bac0d6dc0fd35846c5966e93`；本机逐项核1,196文件通过。包含执行代码、八槽闭合与新look控制，原12来源包另按SHA引用；后续代码升级不改变本批历史。
+
+### 独立任务筛查与下一步
+
+12条teacher来源纯文件筛查已收口，私有`NEXTDEV_SOURCE_SCREEN_V1.json` SHA `c9f947467ebef3b919f44f1115fba7f07e061812a4988e703200dfc75d864141`。除旧clean02外，clean03/05/06和look01/04共5项待原生验证；look05直接取杯即成功，不能照搬搬物模板。clean01/04是实际未完成来源，不伪装成构造成功前缀。
+
+look01已完成一次零模型匹配控制：题目为在desklamp下看报纸，真实来源前4步含开灯、发现异处报纸；公开历史7步，完整交接14步。灯开＋sham、灯开＋搬报纸到shelf1、未开灯＋同样搬动，三者六键公开交接完全相同。D同样3步取报纸回灯侧，原生终态为true/true/false；3world共51步、墙时2.057秒。D独立从原raw复算，不把功能见证当模型成功。协议SHA `7e226b2c1b82120d2981505928c53684df1a93fdb4142b8c1855d5dc41f87f44`，RESULT SHA `e7afb871f97c8c53781caa611be4d623bfae7001c0fd40c819390043f89579c3`，代码SHA `f94e606dc384b6ce636c1bab483ad4433f120faa33a30abb8245248bb01f689e`，同在`state_change_development_v1/look01_matched_v1/`。
+
+下一步以两个自然失败来源和新look任务检验固定策略是否出现异质性，先接入明确区分真实来源与D构造控制的可变前缀合同；新批尚未释放。后续须补普通摘要、最新观察覆盖、配对效用及同信息的依赖修复/原子续做。原生目标允许其他合格物体，不能限制为指定个体来制造进度价值。
+
+[DGRR §3/4/D](https://arxiv.org/html/2608.10502v1)已覆盖依赖失效和独立证据保留，也承认逻辑回滚不能撤销外部副作用；[CIPO §3.3–3.4/B/D](https://arxiv.org/html/2610.04991v1)已有同前缀技能/原子比较及部分结果续做。当前待检验的是旧观察当时正确而后过期、其他执行效果仍有效时，能否超过相同故障信息下的简单刷新和直接续做；不是将已有概念改名，也未证明两篇无法适配本场景。
