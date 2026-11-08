@@ -381,20 +381,24 @@ def render_prompt(reset, steps, current, experience, keep, window):
         'after an actual response has won=true. There is no reset, game selection or administrative operation.\n')
 
 
+def public_goal_restatement(reset):
+    # Repetition of an already supplied public goal, never a reference plan.
+    observation = public(reset)['observation']
+    marker = 'Your task is to:'
+    if observation.count(marker) != 1:
+        raise ValueError('public goal must be unambiguous for restatement')
+    goal = observation.split(marker, 1)[1].strip()
+    if not goal or '\n' in goal:
+        raise ValueError('public goal must be a single visible instruction')
+    return '\nCurrent task to finish (restated from the public reset): ' + goal + '\n'
+
+
 def recovery_prompt(reset, steps, current, experience, stage):
     if stage not in {'keep_full', 'keep_recent', 'drop_full', 'drop_recent', 'goal_recent'}:
         raise ValueError('not a recovery condition')
     text = render_prompt(reset, steps, current, experience, stage.startswith('keep_'), stage.split('_')[1])
     if stage == 'goal_recent':
-        # Repetition of an already supplied public goal, never a reference plan.
-        observation = public(reset)['observation']
-        marker = 'Your task is to:'
-        if observation.count(marker) != 1:
-            raise ValueError('public goal must be unambiguous for restatement')
-        goal = observation.split(marker, 1)[1].strip()
-        if not goal or '\n' in goal:
-            raise ValueError('public goal must be a single visible instruction')
-        text += '\nCurrent task to finish (restated from the public reset): ' + goal + '\n'
+        text += public_goal_restatement(reset)
     return text
 
 
@@ -742,7 +746,10 @@ def prefix_prompt(reset, prefix, current, experience, stage):
     if 'checkpoint_reference' in prefix:
         if stage == 'checkpoint_current':
             return render_prompt(reset, [], current, '', False, 'recent')
-        return recovery_prompt(reset, prefix['visible_steps'], current, '', stage)
+        text = recovery_prompt(reset, prefix['visible_steps'], current, '', stage)
+        if stage == 'drop_full' and prefix.get('checkpoint_source_kind') == 'REAL_CLOSED_STUDENT8B_FAILURE':
+            text += public_goal_restatement(reset)
+        return text
     return recovery_prompt(reset, prefix['steps'], current, experience, stage)
 
 

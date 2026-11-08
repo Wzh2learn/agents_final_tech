@@ -136,6 +136,86 @@ class ContextPromptTests(unittest.TestCase):
         self.assertNotIn("SOURCE_EXPERIENCE_BEGIN", plain)
         self.assertEqual(core.condition_prompt.call_args_list[1], mock.call(reset, "none"))
 
+    def test_student_checkpoint_arms_share_exactly_one_goal_suffix_and_only_history_differs(self):
+        reset, steps, current = prompt_inputs()
+        prefix = dict(steps=steps, visible_steps=steps, checkpoint_reference={"CPU_SYNTHETIC": True},
+                      checkpoint_source_kind="REAL_CLOSED_STUDENT8B_FAILURE")
+        before = copy.deepcopy((reset, prefix, current))
+        suffix = "\nCurrent task to finish (restated from the public reset): " + reset["observation"].split("Your task is to:", 1)[1].strip() + "\n"
+        self.assertEqual(r.public_goal_restatement(reset), suffix)
+        full = r.prefix_prompt(reset, prefix, current, EXPERIENCE, "drop_full")
+        recent = r.prefix_prompt(reset, prefix, current, EXPERIENCE, "goal_recent")
+        self.assertEqual(full, render(reset, steps, current, False, "full") + suffix)
+        self.assertEqual(recent, render(reset, steps, current, False, "recent") + suffix)
+        for text in (full, recent):
+            self.assertTrue(text.endswith(suffix))
+            self.assertEqual(text.count(suffix), 1)
+            self.assertIn(reset["observation"], text)
+            self.assertIn({key: current[key] for key in PUBLIC_KEYS}, list(json_objects(text)))
+            for absent in ("REAL_CLOSED_STUDENT8B_FAILURE", "SOURCE_EXPERIENCE_BEGIN", "NEVER_RENDER"):
+                self.assertNotIn(absent, text)
+        fa, fb = history_range(full); ra, rb = history_range(recent)
+        self.assertEqual(len(json.loads(full[fa:fb])), 6)
+        self.assertEqual(len(json.loads(recent[ra:rb])), 3)
+        self.assertEqual(full[:fa] + full[fb:], recent[:ra] + recent[rb:])
+        self.assertEqual((reset, prefix, current), before)
+
+    def test_other_checkpoint_full_prompts_and_legacy_goal_recent_are_byte_identical(self):
+        reset, steps, current = prompt_inputs()
+        suffix = "\nCurrent task to finish (restated from the public reset): " + reset["observation"].split("Your task is to:", 1)[1].strip() + "\n"
+        for kind in (None, "REAL_CLOSED_ACTOR_FAILURE", "D_CONSTRUCTED_MATCHED_CONTROL"):
+            prefix = dict(steps=steps, visible_steps=steps, checkpoint_reference={"CPU_SYNTHETIC": True})
+            if kind is not None: prefix["checkpoint_source_kind"] = kind
+            with self.subTest(kind=kind):
+                self.assertEqual(r.prefix_prompt(reset, prefix, current, "", "drop_full").encode(),
+                                 render(reset, steps, current, False, "full").encode())
+                self.assertEqual(r.prefix_prompt(reset, prefix, current, "", "goal_recent").encode(),
+                                 (render(reset, steps, current, False, "recent") + suffix).encode())
+        legacy = dict(steps=steps)
+        self.assertEqual(r.prefix_prompt(reset, legacy, current, "", "drop_full"),
+                         render(reset, steps, current, False, "full"))
+
+    def test_student_full_restatement_uses_only_an_unambiguous_public_reset_goal(self):
+        reset, steps, current = prompt_inputs()
+        prefix = dict(steps=steps, visible_steps=steps, checkpoint_reference={"CPU_SYNTHETIC": True},
+                      checkpoint_source_kind="REAL_CLOSED_STUDENT8B_FAILURE")
+        for observation in ("No explicit public goal.", "Your task is to:",
+                            "Your task is to: clean an object.\nExtra instruction.",
+                            "Your task is to: clean an object. Your task is to: heat another."):
+            state = dict(reset, observation=observation)
+            with self.subTest(observation=observation), self.assertRaises(ValueError):
+                r.prefix_prompt(state, prefix, current, "", "drop_full")
+            # The older full-history contract never acquired this new validation requirement.
+            old = dict(prefix, checkpoint_source_kind="REAL_CLOSED_ACTOR_FAILURE")
+            self.assertEqual(r.prefix_prompt(state, old, current, "", "drop_full"),
+                             r.render_prompt(state, steps, current, "", False, "full"))
+
+    def test_student_checkpoint_prepare_verify_render_the_same_suffix_in_both_policies(self):
+        # Existing fixture replaces only external world/model/runtime surfaces; real rendering/verify run.
+        fixture = r.module(ROOT / "tests/test_alfworld_checkpoint_source.py", "student_goal_checkpoint_fixture")
+        with fixture.v2_fixture("REAL_CLOSED_STUDENT8B_FAILURE", 8, 8, 1, checkpoint_attempts={"a": 3}) as f:
+            texts = {}; manifests = {}
+            for stage in ("drop_full", "goal_recent"):
+                root = f.root(stage, "a"); manifests[stage] = fixture.prepare(f, stage, "a")
+                _, _, _, prefix, _ = r.verify(root, r.sha(root / "manifest.json"))
+                texts[stage] = (root / "task.txt").read_text()
+            goal = prefix["reset"]["observation"].split("Your task is to:", 1)[1].strip()
+            suffix = "\nCurrent task to finish (restated from the public reset): " + goal + "\n"
+            for text in texts.values():
+                self.assertTrue(text.endswith(suffix)); self.assertEqual(text.count(suffix), 1)
+                self.assertIn(prefix["reset"]["observation"], text)
+                self.assertIn(prefix["current"]["observation"], text)
+            fa, fb = history_range(texts["drop_full"]); ra, rb = history_range(texts["goal_recent"])
+            self.assertEqual(len(json.loads(texts["drop_full"][fa:fb])), 8)
+            self.assertEqual(len(json.loads(texts["goal_recent"][ra:rb])), 3)
+            self.assertEqual(texts["drop_full"][:fa] + texts["drop_full"][fb:],
+                             texts["goal_recent"][:ra] + texts["goal_recent"][rb:])
+            root = f.root("drop_full", "a"); (root / "task.txt").write_text(texts["drop_full"][:-len(suffix)])
+            rebound = copy.deepcopy(manifests["drop_full"]); rebound["inputs_sha256"]["task.txt"] = r.sha(root / "task.txt")
+            fixture.write(root / "manifest.json", rebound)
+            with self.assertRaisesRegex(ValueError, "prompt or source carrier changed"):
+                r.verify(root, r.sha(root / "manifest.json"))
+
     def test_four_arms_preserve_full_goal_current_state_and_shared_tool_contract(self):
         reset, steps, current = prompt_inputs()
         before = copy.deepcopy((reset, steps, current))
