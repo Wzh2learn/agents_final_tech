@@ -13,6 +13,8 @@
 
 此24槽合计931 POST、9,448,685 tokens；27B缓存明细未知。教师从reset成功不自动成为针对学生失败的纠正。闭合工件位于私有`learning_comparison_v1/next_train_source_v1/source_collection_v1/`，以`D_SOURCE_COLLECTION_CLOSURE_V1.json`的逐槽实际路径为准：clean01学生attempt3、教师attempt2，其余attempt1，不能猜目录。
 
+**离线自然错误筛查。** 本轮只读旧24槽原始工具反馈，重算921次工具调用＝403个公开状态返回＋518次`invalid_action`，与原采集账一致；学生/教师分别373/145次非法动作。只在已观察的公开合法命令内，筛`put ... in/on ...`的介词别名及`move ... to ...`→`put ... in/on ...`两条精确替换，均无唯一合法替代（0/518）；不把重复循环算独立样本。私有`trained_baseline_transfer_v1/D_NATURAL_ERROR_SCREEN_V1.py/.json`保存规则、逐槽统计及源码/原包SHA。这是事后适用性筛查，未执行修复、不推任务成功，也不否定其他规则；36槽F/O/R输入不变。
+
 - POOL SHA256：`24a30747b87102a7dcfe2f92c666596285f72f7cc7b3a0c52f630acc5cd75023`。
 - D闭合 SHA256：`c017c9dfb02a8d27a7d837e2544ca47aef03d641df0c56e011b5aa0c2016b86f`。
 - 私有采集包SHA：`95a1ff1b31a422a9b73f934787d4f942ae646923e7aaaf21a7932d53c02d2e79`；成员、实际路径及账本见[完整采集记录](../../../docs/archive/2026-11-06_agent_research_context/alfworld_sources_through_20261108.md#完整闭合结果与失败类型)。

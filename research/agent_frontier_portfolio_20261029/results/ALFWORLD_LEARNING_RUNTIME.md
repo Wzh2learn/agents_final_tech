@@ -31,7 +31,7 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 
 R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同、实际token更低。旧R存在原生成功后继续请求的长尾，未来三臂统一原生终态停止；工程停止控制不能算学习贡献，旧费用不扣除。[五臂完整账和C复核](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md#five-arm-results)给出全部费用、区间与旧27B参照。
 
-## 新布局比较：36槽输入已冻结，尚未运行
+## 新布局比较：36槽输入已冻结，实际运行中
 
 本轮从本机已核私有包重新提取原POOL与训练来源：7组为heat4/cool2/look1/clean0，对新train12的task UID、family、layout、layout_group、game hash交集均为0。仍共享look类型、同benchmark且属于D已曝光TRAIN，不是独立确认；6个look报告同类型布局迁移，6个clean报告未训练类型诊断，all12仅次级汇总。
 
@@ -47,9 +47,13 @@ R-F/O主比较差的描述区间包含0；普通历史all7与F/O成功数相同�
 | `PROTOCOL_V1.json` | `684f68b7f56091734c474069994734a300e2b8fb9933628161a401ec6a636e92` |
 | `SOURCE_ISOLATION_V1.json` | `fa764abde4d35bb2d1f86a1eb91281ce2318ac40f730e255a283ed6762f0de61` |
 
-V1草案有一项Windows CRLF代码摘要，V2改按Git blob并保留运输映射；未发生模型运行。C只读复核36槽、同条件、来源和判读范围，未发现科学输入矛盾。GB10完整`study.protocol`及代码hash/36个新root不存在检查已通过，模型/world/HTTP为0；本机完整parser的旧依赖字节失败仍保留，未当作协议失效或Linux通过。
+V1草案有一项Windows CRLF代码摘要，V2改按Git blob并保留运输映射，当时尚无模型运行。C只读复核36槽、同条件、来源和判读范围，未发现科学输入矛盾。GB10完整`study.protocol`及代码hash/36个新root不存在检查通过；该纯读取阶段模型/world/HTTP为0。本机完整parser的旧依赖字节失败仍保留，不冒充Linux准入。
 
-**裁决边界。** R训练于失败前缀接续，from-reset只测配方迁移，不单独识别反馈因果；负结果也不能否定其恢复用途。任何学习优越性裁决前，先冻结并补齐同12题Frozen＋普通history_all7，旧16题不能替代。新科学批仍待自有窗口/实际加载及逐槽转发配置验收，不把文件声明当成实际采样。
+**裁决边界。** R训练于失败前缀接续，from-reset只测配方迁移，不单独识别反馈因果；负结果也不能否定其恢复用途。任何学习优越性裁决前，先冻结并补齐同12题Frozen＋普通history_all7，旧16题不能替代。逐槽仍须核实际加载、转发配置、原生终态与费用，不把文件声明或服务启动当比较结果。
+
+**真实执行已启动。** 私有`RUN_OPERATOR_V1.py` SHA `83fa07e1af89197307b11c7b529b410af23cc23fc47d2a9caa05a06fe78b5b2f`；`D_EXECUTION_RELEASE_V1.json` SHA `b3823c72efd7c4eb00334ff2cddc03367ff576bcc2e81a05d1cf74c72bd0138b`。D重新核全部16个仓库组件同Git基线、当前原8B完整身份/端口、共享模型及锁，已启动独占批次，F的共同BF16实际加载、空LoRA及首槽准备通过。当前成绩只查`RUN_V1/STATE.json`，最终需`RESULT.json`及原始回执闭合；启动不等于36槽完成。
+
+启动前C发现并关闭SSE完整性、world句柄交接及写盘失败释放锁三项缺口。控制仅在本批operator实例：复用原world参数，增加拥有资源登记及延迟取消；不改冻结pool文件或旧结果。D用真实历史SSE正例/三反例，以及GB10三个普通CPU子进程对照验证：旧mask继承需强杀、新版SIGTERM正常退出、登记时取消无残留；不是ALFWorld或模型成绩。旧代码与未保留的旧测试退出码均如实保存。
 
 ## 历史记录按需读
 
