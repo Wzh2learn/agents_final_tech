@@ -76,6 +76,15 @@ def test_strict_reply_never_repairs_or_executes_bad_calls(change):
     with pytest.raises(ValueError):a.reply_from_sse(body,state())
 
 
+def test_forced_named_function_can_finish_with_stop_but_never_length():
+    # Forced named tools report stop in vLLM; this is not an ordinary text stop.
+    body=sse().replace(b'"finish_reason": "tool_calls"',b'"finish_reason": "stop"')
+    assistant,action=a.reply_from_sse(body,state())
+    assert action=='look' and assistant['tool_calls'][0]['function']['name']=='environment_step'
+    with pytest.raises(ValueError):
+        a.reply_from_sse(body.replace(b'"finish_reason": "stop"',b'"finish_reason": "length"'),state())
+
+
 def test_actual_fake_wire_body_hash_billing_and_raw_receipt(tmp_path):
     budget=core.Budget(max_posts=48,max_bytes=32000000,seconds=900);attempts=[];upstream=FakeSocket()
     messages=[dict(role='user',content='CPU_GOAL')];original=copy.deepcopy(messages)
@@ -189,6 +198,18 @@ def test_cpu_check_only_real_sibling_profile_layout_and_readonly_hashes(tmp_path
         assert before=={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in f.prior.rglob('*') if p.is_file()}
         Path(f.ref['path']).write_text('{}')
         with pytest.raises(ValueError):a.load_inputs(f.ref['path'],f.ref['sha256'])
+
+
+@pytest.mark.parametrize('remaining_posts',[47,0,49,True])
+def test_remaining_request_allowance_is_explicit_and_bounded(tmp_path,remaining_posts):
+    with admitted_fixture(tmp_path) as f:
+        f.protocol['caps']['posts']=remaining_posts
+        f.ref=ref(Path(f.ref['path']),f.protocol)
+        if remaining_posts==47 and type(remaining_posts) is int:
+            result=a.load_inputs(f.ref['path'],f.ref['sha256'])
+            assert result['p']['caps']['posts']==47 and not f.output.exists()
+        else:
+            with pytest.raises(ValueError):a.load_inputs(f.ref['path'],f.ref['sha256'])
 
 
 def test_never_reuse_root_and_profile_exception_does_not_relax_private_inputs(tmp_path):
@@ -318,12 +339,14 @@ def test_http_error_with_reported_usage_keeps_known_costs(tmp_path):
     assert bill['unknown_usage_attempts']==0 and not bill['integrity_passed']
 
 
-def test_execute_saves_actual_reset_for_real_witness_and_real_replay(tmp_path):
+@pytest.mark.parametrize('post_cap',[48,47])
+def test_execute_saves_actual_reset_for_real_witness_and_real_replay(tmp_path,post_cap):
     """Fake native/socket I/O; production replay, trace witness and actor loop are real."""
     rec=r.recovery();bridge=rec.bridge()
     with admitted_fixture(tmp_path) as f,mock.patch.object(rec,'actor',return_value=core),mock.patch.object(rec,'bridge',return_value=bridge),mock.patch.object(bridge,'client_step') as client_step:
         f.manifest['game']=dict(sha256_game='a'*64)
         f.manifest['pool_binding']=dict(sha256='b'*64)
+        f.protocol['caps']['posts']=post_cap
         f.protocol['prior']['manifest_sha256']=ref(f.prior/'manifest.json',f.manifest)['sha256']
         f.ref=ref(Path(f.ref['path']),f.protocol)
         reset=state(0);source_steps=[dict(action='look',state=state(1)),dict(action='inventory',state=state(2))]
@@ -360,6 +383,7 @@ def test_execute_saves_actual_reset_for_real_witness_and_real_replay(tmp_path):
              mock.patch.object(a.socket,'create_connection',side_effect=[FakeSocket(sse(finish='stop')),FakeSocket(sse(finish='stop'))]) as connect:
             result=a.execute(f.ref['path'],f.ref['sha256'],'CPU_RELEASE','CPU_SHA')
         assert result['status']=='MODEL_STOP_UNWON',result['errors']
+        assert result['caps']['posts']==post_cap
         assert result['errors']==[] and result['task_won'] is False
         assert json.loads((f.output/'initial_reset.json').read_text())==reset
         assert result['native_witness']['state']==source_steps[-1]['state']

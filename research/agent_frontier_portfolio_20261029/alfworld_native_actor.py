@@ -77,8 +77,11 @@ def prompt_from_request(task,forwarded):
 def load_inputs(protocol_path,protocol_sha):
     ref=dict(path=str(Path(protocol_path)),sha256=protocol_sha);p=read_ref(ref)
     keys={'schema','prior','prior_first_request','prior_first_request_body','profile','output_root','caps','sampling'}
-    if (set(p)!=keys or p['schema']!='ALFWORLD_NATIVE_ACTOR_PROTOCOL_V1' or p['caps']!=CAPS or
-            any(type(v) is not int for v in p['caps'].values()) or p['sampling']!=SAMPLING or
+    caps=p.get('caps')
+    if (type(caps) is not dict or set(caps)!=set(CAPS) or any(type(v) is not int for v in caps.values()) or
+            not 1<=caps['posts']<=CAPS['posts'] or dict(caps,posts=CAPS['posts'])!=CAPS):
+        raise ValueError('bounded explicit remaining request allowance required')
+    if (set(p)!=keys or p['schema']!='ALFWORLD_NATIVE_ACTOR_PROTOCOL_V1' or p['sampling']!=SAMPLING or
             p['sampling']['enable_thinking'] is not False or p['profile']!=PROFILE or
             set(p['prior'])!={'root','manifest_sha256','study_source'}):
         raise ValueError('unsupported direct native actor contract')
@@ -200,7 +203,9 @@ def reply_from_sse(raw,state):
         if finish!='stop':raise ModelContractError('nonordinary model stop:'+str(finish))
         return assistant,None
     call=calls[0]
-    if finish!='tool_calls' or type(call['id']) is not str or not call['id'] or call['function']['name']!='environment_step':
+    # vLLM forced named tools legitimately finish with stop; auto tools use tool_calls.
+    # https://github.com/vllm-project/vllm/blob/main/vllm/entrypoints/serve/utils/tool_calls_utils.py
+    if finish not in ('tool_calls','stop') or type(call['id']) is not str or not call['id'] or call['function']['name']!='environment_step':
         raise ModelContractError('exact single named tool call required')
     args=decode(call['function']['arguments'])
     if type(args) is not dict or set(args)!={'action'} or type(args['action']) is not str or args['action'] not in state['admissible_commands']:
@@ -319,21 +324,21 @@ def run_session(bundle,root,budget,state_fn,step,attempts):
 
 def execute(protocol_path,protocol_sha,release_path,release_sha):
     bundle=load_inputs(protocol_path,protocol_sha);release=check_release(release_path,release_sha,bundle)
-    p=bundle['p'];root=Path(p['output_root']);core=bundle['core'];study=bundle['study'];prior=bundle['prior']
+    p=bundle['p'];caps=p['caps'];root=Path(p['output_root']);core=bundle['core'];study=bundle['study'];prior=bundle['prior']
     with resource_lock():
         if root.exists():raise FileExistsError('never reuse an output root')
         root.mkdir(parents=True)
-        budget=core.Budget(max_posts=48,max_bytes=32000000,seconds=900);attempts=[];world=None;state=None;errors=[];neutral=0
+        budget=core.Budget(max_posts=caps['posts'],max_bytes=caps['model_payload_bytes_combined'],seconds=caps['seconds']);attempts=[];world=None;state=None;errors=[];neutral=0
         started=time.monotonic();status='RUNTIME_FAULT';witness=None;replay=None
-        native_binding=dict(case_id=prior['case_id'],world_seed=17,caps=CAPS,game=prior['game'],pool_binding=prior['pool_binding'])
+        native_binding=dict(case_id=prior['case_id'],world_seed=17,caps=caps,game=prior['game'],pool_binding=prior['pool_binding'])
         write_new(root/'manifest.json',dict(schema='ALFWORLD_NATIVE_ACTOR_EXECUTION_V1',protocol=bundle['protocol_ref'],release=release,
             actor_source_sha256=sha(Path(__file__).read_bytes()),prior=p['prior'],prompt_wrapper=bundle['prompt_proof'],
-            replay_action_count=len(bundle['prefix']['steps']),visible_count=len(bundle['prefix']['visible_steps']),caps=CAPS,native_binding=native_binding))
+            replay_action_count=len(bundle['prefix']['steps']),visible_count=len(bundle['prefix']['visible_steps']),caps=caps,native_binding=native_binding))
         (root/'task.txt').write_text(bundle['prompt'],encoding='utf8')
         def interrupt(*_):raise InterruptedError('owned native actor interrupted')
         old={s:signal.signal(s,interrupt) for s in (signal.SIGTERM,signal.SIGINT)}
         try:
-            world,reset,_=study.task_pool().start_world(root,prior['case_id'],17,'execute',CAPS,bundle['study'].protocol(
+            world,reset,_=study.task_pool().start_world(root,prior['case_id'],17,'execute',caps,bundle['study'].protocol(
                 prior['protocol_path'],prior['protocol_sha256'])['pool_path'],prior['pool_binding']['sha256'])
             reset=study.public(reset)
             write_new(root/'initial_reset.json',reset)
@@ -363,7 +368,7 @@ def execute(protocol_path,protocol_sha,release_path,release_sha):
             if errors or not bill['integrity_passed']:status='RUNTIME_FAULT'
             receipt=dict(schema='ALFWORLD_NATIVE_ACTOR_RECEIPT_V1',protocol=bundle['protocol_ref'],release=release,
                 manifest_sha256=sha((root/'manifest.json').read_bytes()),actor_source_sha256=sha(Path(__file__).read_bytes()),
-                prior_manifest_sha256=p['prior']['manifest_sha256'],caps=CAPS,
+                prior_manifest_sha256=p['prior']['manifest_sha256'],caps=caps,
                 status=status,task_won=state['won'] if state is not None else None,
                 final_public_state=state,native_witness=witness,accounting=bill,attempts=attempts,errors=errors,
                 ordinary_continuation_intents=neutral,source_replay_cost=replay,source_formation_charged_again=False,
