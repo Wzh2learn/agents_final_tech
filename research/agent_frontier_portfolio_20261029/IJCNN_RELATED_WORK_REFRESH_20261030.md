@@ -1,6 +1,6 @@
 # 第二篇：近邻与实验设计参照
 
-> 2026-11-06 | 短导航；保留最接近的方法与比较要求。完整检索、来源日期和接口诊断见[历史目录](../../docs/archive/2026-11-06_agent_research_context/README.md)。不同条目的证据深度不一，摘要阅读不等于源码复现。
+> 2026-11-08 | 短导航；保留最接近的方法与比较要求。完整检索、来源日期和接口诊断见[历史目录](../../docs/archive/2026-11-06_agent_research_context/README.md)。不同条目的证据深度不一，摘要阅读不等于源码复现。
 
 ## 优先比较什么
 
@@ -28,12 +28,12 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 **Mode / Boundary**：inquiry-methods的fact-check；本次读三篇一手HTML方法段及Skill-V附录，未做完整代码复现。核查对象是候选方法与已有工作的区别，同步推进实际实验。
 
 - **CONFIRMED**：[Skill-V §3.3、B.5–B.6](https://arxiv.org/html/2610.11781v1)允许修订procedure，不只是rubric；保留语义约束并作历史证据回放。因此“会改步骤”不能单独作为区别。§3.4在episode开头选入技能。
-- **CONFIRMED**：[SkillApt §3.2–3.6](https://arxiv.org/html/2609.26863v1)已覆盖配对效用与LOAD/ABSTAIN。SRA v1使用题面哈希和固定近邻估计，正确性相同的成本正/负例都标0.5；这不等于其一般问题定义排除了成本或更丰富状态。
+- **11-08复核**：[SkillApt §3.2–3.6/附录B](https://arxiv.org/html/2609.26863v1)已有WITH/WITHOUT配对效用及LOAD/ABSTAIN；SRA v1以题面hash表征状态，等正确率成本正/负例均标0.5。同前置状态修复与工具隔离已覆盖；未见执行中撤回经验、保留改后world续做的对照。一般定义不排除成本/丰富状态，须比较同输入强适配版。
 - **CONFIRMED**：[Skill-R1 §3](https://arxiv.org/html/2605.09359v1)已覆盖用真实rollout奖励训练循环编辑器，不能只靠换成LoRA或代码任务宣称新方法。
 
-**比较要求**：增加GLoW式guard＋fresh执行及固定K重验，标明适配而非原法复现；旧主动探针想法保留为备选。
+**比较要求**：固定keep/drop、滚动短历史、目标重申、Memento式笔记折叠、配对效用选择及简单冲突guard；同当前观察/合法动作/工具合同。隐藏或打乱反馈后优势不降，就撤回反馈因果解释。适配不冒充原法复现。
 
-**当前直接对标（2026-11-07）**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR](https://arxiv.org/html/2608.10502v1)已有依赖撤回，[Memento](https://arxiv.org/html/2611.00244v1)在静态书籍QA中学习笔记/窗口重建。方法正文已核，未复现成绩。ACE/AgentFold/VH-GPO等重叠、剩余假设及比较条件见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**当前直接对标**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR](https://arxiv.org/html/2608.10502v1)已有依赖撤回，[Memento §3.2–3.6/4.2.2](https://arxiv.org/html/2611.00244v1)用SFT/RL学习静态书籍QA笔记及窗口压缩/回退。方法正文已核，未复现成绩。ACE/AgentFold/VH-GPO等重叠、剩余假设及比较条件见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行只查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 2026-11-08复核：[Agent-R §3/4.4](https://arxiv.org/html/2501.11425v3)是自生成搜索/轨迹拼接，已有失败中间前缀续做；不能概括为STeP式强教师接管。具体比较见[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)。
 
