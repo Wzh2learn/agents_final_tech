@@ -33,15 +33,17 @@ RethinkSkill源码 `8252445918ebebebce7adf9be843c90841e66810`（MIT）：原生�
 
 **比较要求**：固定keep/drop、滚动短历史、目标重申、Memento式笔记折叠、配对效用选择及简单冲突guard；同当前观察/合法动作/工具合同。隐藏或打乱反馈后优势不降，就撤回反馈因果解释。适配不冒充原法复现。
 
-**当前直接对标**：[STeP](https://arxiv.org/html/2505.20023v1)纠正训练、[Sentry](https://arxiv.org/html/2610.02994v1)失败时经验暴露、[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3/4/D](https://arxiv.org/html/2608.10502v1)已有依赖失效与独立证据保留，须对齐故障标识并比较最新观察覆盖；[Memento §3.2–3.6/4.2.2](https://arxiv.org/html/2611.00244v1)学习静态书籍QA笔记及窗口压缩/回退。原文已核，未复现成绩。更多重叠与假设见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)，执行查[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**当前参照**：[Sentry](https://arxiv.org/html/2610.02994v1)失败时暴露经验；[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3](https://arxiv.org/html/2608.10502v1)依赖失效/独立支持，须对齐故障标识；[Memento §3](https://arxiv.org/html/2611.00244v1)学习笔记折叠/回退。原文已核，成绩未复现；细节查[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)。
 
-2026-11-09定位：[STeP](https://arxiv.org/html/2505.20023v1)已有教师反思纠正及partial masking，[Agent-R §3/4.4](https://arxiv.org/html/2501.11425v3)已有自生成搜索/轨迹拼接及失败前缀续做，不能概括为强教师接管。R仅属已有纠正学习的适配强基线：O/R同7源组、192更新，但监督tokens为8,239/8,378，开发6/12与8/12不单独识别反馈因果或新颖性。采集成本也不等同。当前没有独特普适机制的证据；执行中撤回亦须超越SkillApt/Memento等强适配，组合不能自动算创新。[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)保留细节。
+**R的定位**：[STeP](https://arxiv.org/html/2505.20023v1)已有教师纠正/partial masking；[Agent-R §3](https://arxiv.org/html/2501.11425v3)是自搜索拼接及失败前缀续做，非强教师接管。O/R同7源组、192更新，监督量与采集成本不同。R为适配基线，6/12对8/12不能识别新意或反馈因果；[运行对标](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)保留细节。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
-**11-09机制拆解（first-principles）**：本轮核原文方法，未复现代码。借[CIPO §3.4](https://arxiv.org/html/2610.04991v1)的同状态分支比较；[DGRR §3](https://arxiv.org/html/2608.10502v1)已覆盖依赖修复/独立支持，要求诊断出的故障记忆ID；[TrustMem §3](https://aclanthology.org/2026.findings-emnlp.2419.pdf)已有同记忆状态更新偏好与转移验证。不能将局部修订本身当新机制。
+**11-09机制拆解（first-principles）**：已核方法正文，未复现代码。[TrustMem §3](https://aclanthology.org/2026.findings-emnlp.2419.pdf)已有同记忆状态更新偏好和转移验证；[LW2S](https://arxiv.org/html/2609.30734v1)已有组件skip信用分配。局部修订、交互loss和预算内主动学习本身不能认证新意。
 
-[LW2S](https://arxiv.org/html/2609.30734v1)已有单组件skip信用分配；[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)指出影响可残留于历史/摘要/cache。新候选检验组合干预与预算分配，不声称精确遗忘。非零四格交互不代表有选择收益，交互loss不增加观测；须比较同数据/容量联合MLP及强适配。具体设计在[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)，这些借鉴不是新颖性证明。
+本轮补查最直接重叠：[JointCore §2–3](https://arxiv.org/html/2610.23266v1)以群删除搜索保留完整记忆行为的充分子集，允许冗余/联合必要性；它不等于以真实续做成功为目标。[MemHarness §3](https://arxiv.org/html/2607.28272v1)已按状态批判/重构经验，GRPO训练且评测ALFWorld/WebShop。[Value of Memory](https://arxiv.org/html/2610.31303v1)已有恢复/修订成本和组件交互理论，不能再声称首先提出价值框架。
+
+**取舍**：B-only四格仅识别现象；非零交互不保证选择收益。后续聚焦同一真实前缀、不回滚外部进度的反馈修订；必须超过上述强适配及同数据联合MLP/组合bandit，独立算法尚未定。[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)提示影响仍会残留于历史/cache，不声称精确遗忘。设计见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
 
 ## 旧章节链接
 

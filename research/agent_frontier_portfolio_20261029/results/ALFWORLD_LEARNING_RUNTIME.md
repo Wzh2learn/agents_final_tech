@@ -63,7 +63,7 @@ H结果没有改写R的基线地位：all7对F新增2题、退化2题，对R新�
 
 双端封存`history18_closed_v1_20261109.tar.gz`：38,570,450bytes/5,083文件/16份代码快照，SHA `e44cec93720f73ede013fa7eb535a8e92e19f965a3b63df372511dcae7e08ae0`；复用F证据依赖上面的36槽包，不重抄或重计。源权重、actor缓存及生产数据不在包内。
 
-**下一机制识别。** look6已有00=F、10=单look轨迹A、11=all7；经验块外的题面、公开状态和真实首请求全部一致。A在all7字节`[9881,10689)`恰出现一次，补01=B（其余六轨迹）即可形成四格。`COMPONENT_INPUTS_V1/reference_B.txt` SHA `69d22b795c361c52683a293b4eb0c772a0ca1526e4aca845724205dc72af91bd`，协议SHA `77c04adf4224f3c9c098c387385f482f369ab4ef95f713b85ecc914af9d8aa23`；6新槽/768POST仅候选，尚未释放。只测试reset下再暴露组合效用，不称动态撤回或独立确认；学习设计见[研究组合](../AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
+**在途四格识别。** look6补01=B（其余六轨迹），配对旧00=F、10=单look轨迹A、11=all7。题面/公开状态/实际首请求在经验块外全部相同；A在all7的`[9881,10689)`恰出现一次。私有`COMPONENT_INPUTS_V1/EXECUTION_PLAN_V2.json` SHA `0e11794e6a0c4d81b32092aff8b3857bd1efe6700cda501172bd8ab5cc818221`；D释放6新槽/768POST，PID见STATE。新执行路径GB10为94测试/184子测通过；初次CPU检查误将Python源解析为JSON，已修、0模型。预测V2纠正V1错误的H0推导（旧版保留），H1阈值未改。仅reset再暴露，不认证动态撤回或新算法；设计见[研究组合](../AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
 
 ## 来源形成成本：已复算组件
 

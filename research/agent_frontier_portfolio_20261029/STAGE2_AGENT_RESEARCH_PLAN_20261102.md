@@ -6,15 +6,15 @@
 
 主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
 
-主攻[组合反事实信用分配候选](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：学习经验组合何时有用，而非再做普通纠正SFT。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
+主攻[反馈下的经验适用性与组合效用](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：先识别作用再设计机制，不再追加普通纠正SFT。JointCore、MemHarness及普通组合bandit须作强对照，算法尚未确定。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
 
 [五种开发基线](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合并复核：新12题F/O/R/all7/目标匹配分别4/6/8/4/4。R有开发优势但属于已有配方，不是新方法。新增H18为766 POST，Q4已恢复。SymPy普通复用双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制的第二环境验证复用。
 
 ## 执行原则与后续顺序
 
-1. **最小识别。** look6已有无经验00、单轨迹A的10、all7的11；核实际输入后补其余六轨迹B的01，最多6新槽/768 POST。该后验开发试验只检验组合效应，尚未释放，不冒充动态撤回。[片段与四格原语](feedback_context_policy.py)已实现，CPU通过不代表机制成立。
+1. **最小识别。** look6补其余六轨迹B的01，与已有00/10/11配对；6新槽/768 POST已释放，在途见STATE。新预测V2在生成前纠正H0加减关系，V1保留。该后验试验只识别组合效应，不冒充动态撤回。[四格原语](feedback_context_policy.py)CPU通过不代表机制成立。
 2. **明确预测。** 比较`I=V11−V10−V01+V00`及逐题最佳组合。非零I和优于最佳固定策略的上界都需存在，再在新seed/独立布局重复；若仅是更多文本、目标类型或固定短历史解释效果，停止该具体候选。
-3. **学习机制。** 有重复信号后，以同前缀续做监督联合效用，并比较随机/均匀补格与按决策价值补格。用相同数据/容量的普通联合MLP、独立片段效用、规则及近邻强适配定位增量；不把多数据、多算力或重复加权说成新信息。
+3. **学习机制。** 有重复信号后，设计反馈反证前提与保留实际进度的修订机制。普通联合效用/主动采集仅作基线，与同数据/容量MLP、组合bandit、JointCore及MemHarness强适配比较；不把交互项、多数据或更多算力说成新信息。
 4. **动态与迁移。** 扩至12–20个来源隔离任务现场，统一当前观察、目标、真实进度与预算；清理旧上下文再暴露所选片段。训练只用开发来源，测试仅执行所选策略；第二环境及未见组合验证后才定稿。heat_2/clean_2仍为曝光回归。
 
 ## 证据和写作要求
