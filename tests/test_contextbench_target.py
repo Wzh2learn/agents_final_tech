@@ -1,5 +1,6 @@
 """CPU engineering controls with synthetic assets, not target model results."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -22,7 +23,7 @@ def target_inputs(matplotlib_inputs, monkeypatch):
     result['input_sha256'] = {str(contract): contract_sha}
     src = f.receipt.parent / s.MPL_SOURCE_ID
     patch = 'diff --git a/lib/matplotlib/cbook.py b/lib/matplotlib/cbook.py\n--- a/lib/matplotlib/cbook.py\n+++ b/lib/matplotlib/cbook.py\n@@ -1 +1 @@\n-old\n+new\n'
-    (src/'reference.patch').write_text(patch)
+    (src/'reference.patch').write_bytes(patch.encode())
     result['cases'][s.MPL_SOURCE_ID]['input_sha256']['reference.patch'] = s.sha(src/'reference.patch')
     result_sha = write_json(f.receipt, result)
     evidence = f.private / 'source_evidence.json'
@@ -149,9 +150,9 @@ def test_execute_dispatch_keeps_target_identity_and_explicit_score_slot(target_i
 def test_target_mounts_no_qualification_parent_source_or_gold(target_inputs):
     f=target_inputs;out=prepare(f);_,h,actor,p=t.verify(f.root,out['manifest_sha256']);bridge=f.private/'bridge';bridge.mkdir()
     cmd=s.docker_command(f.root,actor,bridge,p,h,'CPU_TARGET',source_runtime=s.MPL_SOURCE_RUNTIME)
-    mounts=[v for v in cmd if 'type=bind' in v]
+    mounts=[v.replace('\\', '/') for v in cmd if 'type=bind' in v]
     assert any('/deps/target' in v and 'dst=/deps,readonly' in v for v in mounts)
-    assert not any(str(f.receipt.parent) in v or '/deps/source' in v or 'scoring' in v or 'evidence' in v for v in mounts)
+    assert not any(f.receipt.parent.as_posix() in v or '/deps/source' in v or 'scoring' in v or 'evidence' in v for v in mounts)
     assert '--network' in cmd and cmd[cmd.index('--network')+1]=='none'
 
 
@@ -165,7 +166,12 @@ def test_rebinding_manifest_hash_does_not_allow_prompt_or_cap_rewrite(target_inp
 def test_existing_root_and_linked_work_refused(target_inputs):
     f=target_inputs;out=prepare(f)
     with pytest.raises(ValueError,match='fresh'):prepare(f)
-    dest=f.root/'work/link';dest.symlink_to(f.private)
+    dest=f.root/'work/link'
+    try: dest.symlink_to(f.private)
+    except OSError:
+        # Windows may forbid symlinks; the same admission boundary rejects hardlinks.
+        import os
+        os.link(f.root/'work/lib/matplotlib/cbook.py', dest)
     with pytest.raises(ValueError):t.verify(f.root,out['manifest_sha256'],initial=False)
 
 
@@ -199,7 +205,9 @@ def test_fake_target_lifecycle_uses_frozen_caps_and_cannot_launder_errors(target
             seen['caps']=caps;seen['remaining']=deadline-s.time.monotonic()
         def close(self):seen['closed']=True
         def accounting(self):return dict(integrity_passed=True,actual_forwarded_posts=1)
-    monkeypatch.setattr(s.socketserver,'ThreadingUnixStreamServer',Server)
+    monkeypatch.setattr(s.socketserver,'ThreadingUnixStreamServer',Server,raising=False)
+    original_mkdtemp=s.tempfile.mkdtemp
+    monkeypatch.setattr(s.tempfile,'mkdtemp',lambda prefix,dir:original_mkdtemp(prefix=prefix,dir=f.private))
     monkeypatch.setattr(s,'Relay',Relay)
     def collected(cmd,name,cid,stdout,stderr,timeout):
         seen['timeout']=timeout
@@ -212,3 +220,217 @@ def test_fake_target_lifecycle_uses_frozen_caps_and_cannot_launder_errors(target
     assert result['status']==('ACTOR_RETURNED' if error is None else 'GENERATION_FAULT')
     assert seen['caps']==f.protocol_value['caps'] and seen['timeout']==120 and 119<seen['remaining']<=120 and seen['closed']
     assert result['scoring']['slot']=='target' and 'source_success' not in result
+
+
+@pytest.fixture
+def sympy_target_inputs(prepared_inputs, monkeypatch):
+    """Synthetic qualification and teacher repair; no benchmark or model execution."""
+    f = prepared_inputs
+    target = 'sympy__sympy-9384'; source_id = 'sympy__sympy-21055'
+    target_root = f.private / 'target_qualification' / target
+    clean = target_root / 'clean_base'; (clean / 'sympy').mkdir(parents=True)
+    (clean / 'sympy/refine.py').write_text('PUBLIC_TARGET_BASE = True\n')
+    (target_root / 'task.txt').write_text('PUBLIC_TARGET_TASK')
+    (target_root / 'test.patch').write_text('SECRET_EVALUATOR_PATCH')
+    (target_root / 'reference.patch').write_text('SECRET_TARGET_GOLD')
+    labels = {'f2p': ['sympy/tests/test_cpu.py::test_fix_' + str(i) for i in range(2)],
+              'ptp': ['sympy/tests/test_cpu.py::test_reg_' + str(i) for i in range(320)]}
+
+    def result(names, state):
+        record = dict(exit=int(state == 'failed'), result=dict(tests={n: state for n in names}, fatal=[]))
+        record['coverage'] = f.h.pool.classify(names, record)
+        return record
+
+    arms = {'base_with_tests': {'f2p': result(labels['f2p'], 'failed'), 'ptp': result(labels['ptp'], 'passed')},
+            'gold_with_tests': {'f2p': result(labels['f2p'], 'passed'), 'ptp': result(labels['ptp'], 'passed')}}
+    qualified = f.h.pool.qualification(arms['base_with_tests']['f2p'], arms['gold_with_tests']['f2p'],
+                                       arms['base_with_tests']['ptp'], arms['gold_with_tests']['ptp'])
+    spec = dict(instance_id=target, repo='sympy/sympy', base_commit='70cd4ffd093ac224fc0226c1be58f9163e2c800a',
+                dataset_file='SWEContextBench_Related_Lite.parquet')
+    case = dict(spec=spec, labels=labels, arms=arms, qualification=qualified, clean_base_sha256=s.tree(clean),
+                input_sha256={k: s.sha(target_root / k) for k in ('task.txt', 'test.patch')})
+    dep = {'path': str(f.private / 'sympy_environment.json'), 'sha256': 'a' * 64}
+    ancestry = f.private / 'ancestry.json'; ancestry_sha = write_json(ancestry, {'fixture': 'source-before-target'})
+    monkeypatch.setattr(t, 'SYMPY_ANCESTRY_SHA', ancestry_sha, raising=False)
+    contract = f.private / 'target_contract.json'
+    contract_sha = write_json(contract, {'cases': [spec], 'ancestry': {'path': str(ancestry), 'sha256': ancestry_sha},
+        'runtime': {'image': f.h.pool.IMAGE, 'sympy_dependency_manifest': dep}})
+    receipt = target_root.parent / 'receipt.json'
+    receipt_sha = write_json(receipt, {'status': 'NOT_QUALIFIED', 'model_calls': 0, 'cases': {target: case},
+                                       'input_sha256': {str(contract): contract_sha, str(ancestry): ancestry_sha}})
+    monkeypatch.setattr(t, 'SYMPY_QUALIFICATION_SHA', receipt_sha, raising=False)
+    monkeypatch.setattr(t, 'SYMPY_CONTRACT_SHA', contract_sha, raising=False)
+    monkeypatch.setattr(f.h.pool, 'dependencies', lambda kind, ref, bindings: 'CPU_SYMPY_DEPENDENCIES')
+
+    projection = json.loads((f.projection / 'manifest.json').read_text())
+    projection.update(blocked_packages=['sympy'], source_site_paths={'default': str(f.private / 'swe_contextbench_sympy_python38_env_20261104/site')})
+    f.projection_sha = write_json(f.projection / 'manifest.json', projection)
+    sources = dict(s.SOURCES); sources[source_id] = (*sources[source_id][:-1], f.projection_sha)
+    monkeypatch.setattr(s, 'SOURCES', sources)
+
+    source_dir = f.private / 'source_repair'; attempt = source_dir / 'attempt_v1'; (attempt / 'inputs').mkdir(parents=True)
+    task = attempt / 'inputs/source_task.txt'; task.write_text('PUBLIC_SOURCE_TASK')
+    teacher = source_dir / 'teacher_patch_v2'; (teacher / 'false').mkdir(parents=True)
+    diff = teacher / 'false/adapted.diff'; diff.write_text('SYNTHETIC_GENERATED_SOURCE_DIFF')
+    pair = source_dir / 'pairs.json'; pair_sha = write_json(pair, {'schema': 'qualified_source_target_pairs_v1',
+        'source_result': {'path': str(f.receipt), 'sha256': s.RESULT_SHA}, 'rows': [{'source': source_id, 'target': target}]})
+    ref = lambda path, digest: {'path': str(path), 'sha256': digest}
+    attempt_manifest = attempt / 'manifest.json'
+    attempt_sha = write_json(attempt_manifest, dict(schema='contextbench_source_v2', root=str(attempt), source=source_id,
+        repo='sympy/sympy', base='748ce73479ee2cd5c861431091001cc18943c735', public_task_sha256=s.sha(task),
+        registry=ref(pair, pair_sha), source_result={'path': str(f.receipt), 'sha256': s.RESULT_SHA}))
+    teacher_protocol = source_dir / 'teacher_protocol.json'
+    teacher_protocol_sha = write_json(teacher_protocol, {'schema': 'CONTEXTBENCH_TEACHER_PATCH_V1',
+        'source_manifest': ref(attempt_manifest, attempt_sha), 'output_root': str(teacher)})
+    teacher_manifest = teacher / 'manifest.json'
+    teacher_manifest_sha = write_json(teacher_manifest, dict(schema='CONTEXTBENCH_TEACHER_PATCH_PREPARED_V1', root=str(teacher),
+        source=source_id, source_public_task_sha256=s.sha(task), protocol=ref(teacher_protocol, teacher_protocol_sha)))
+    teacher_receipt = teacher / 'false/receipt.json'
+    teacher_receipt_sha = write_json(teacher_receipt, dict(status='GENERATION_FAULT', source=source_id, arm='false', source_success=False,
+        prepared_manifest_sha256=teacher_manifest_sha, protocol=ref(teacher_protocol, teacher_protocol_sha),
+        response={'finish_reason': 'stop'}, patch={'check_exit': 128, 'apply_exit': None}))
+    def source_score(count):
+        return {'exit': 0, 'result': {'fatal': []}, 'coverage': {'complete': True, 'reported_tests': count,
+                'labels': {'fixture_' + str(i): 'passed' for i in range(count)}}}
+    recount = teacher / 'recount_evaluation_v1/D_RESULT_V1.json'
+    recount_value = {'schema': 'D_POSTHOC_RECOUNT_RESULT_V1', 'new_model_POST': 0, 'training': 0, 'results': [dict(
+        arm='false', primary_receipt_sha256=teacher_receipt_sha, patch_sha256=s.sha(diff), generated_program_text_changed=False,
+        commands=[{'args': ['git', 'apply', '--recount', '--check', 'fixture.diff'], 'exit': 0},
+                  {'args': ['git', 'apply', '--recount', 'fixture.diff'], 'exit': 0}],
+        status='EVALUATED_AFTER_GIT_RECOUNT', source_success=True,
+        scoring={'passed': True, 'suites': {'f2p': source_score(1), 'ptp': source_score(13)}})]}
+    recount_sha = write_json(recount, recount_value)
+    closure = teacher / 'D_CLOSURE_V1.json'
+    closure_value = dict(schema='D_TEACHER_CORRECTION_CLOSURE_V1', status='ONE_ENGINEERING_ASSISTED_SOURCE_CORRECTION_QUALIFIED',
+        source=source_id, records=[dict(version='teacher_patch_v2', arm='false', receipt_sha256=teacher_receipt_sha)],
+        secondary=dict(path=str(recount), sha256=recount_sha, posthoc=True, false_f2p='1/1', false_ptp='13/13'))
+    closure_sha = write_json(closure, closure_value)
+    record = {'schema': 'contextbench_source_repair_record_v1', 'source_id': source_id, 'repo': 'sympy/sympy',
+        'source_base_commit': '748ce73479ee2cd5c861431091001cc18943c735', 'pair_registry': ref(pair, pair_sha),
+        'source_manifest': ref(attempt_manifest, attempt_sha), 'teacher_protocol': ref(teacher_protocol, teacher_protocol_sha),
+        'teacher_manifest': ref(teacher_manifest, teacher_manifest_sha), 'teacher_receipt': ref(teacher_receipt, teacher_receipt_sha),
+        'recount_result': ref(recount, recount_sha), 'closure': ref(closure, closure_sha),
+        'source_task': ref(task, s.sha(task)), 'repair_patch': ref(diff, s.sha(diff))}
+    for name, value in {'SYMPY_PAIR_REGISTRY_SHA':pair_sha, 'SYMPY_SOURCE_MANIFEST_SHA':attempt_sha,
+        'SYMPY_TEACHER_PROTOCOL_SHA':teacher_protocol_sha, 'SYMPY_TEACHER_MANIFEST_SHA':teacher_manifest_sha,
+        'SYMPY_TEACHER_RECEIPT_SHA':teacher_receipt_sha, 'SYMPY_RECOUNT_SHA':recount_sha,
+        'SYMPY_CLOSURE_SHA':closure_sha, 'SYMPY_SOURCE_TASK_SHA':s.sha(task), 'SYMPY_REPAIR_PATCH_SHA':s.sha(diff)}.items():
+        monkeypatch.setattr(t, name, value, raising=False)
+    evidence = source_dir / 'source_repair_record.json'; evidence_sha = write_json(evidence, record)
+    protocol = f.private / 'sympy_target_protocol.json'
+    value = dict(schema='contextbench_sympy_target_comparison_v1', target=target, arms=['none', 'source_repair_record'],
+        qualification=ref(receipt, receipt_sha), qualification_contract=ref(contract, contract_sha),
+        source_evidence=ref(evidence, evidence_sha), projection=ref(f.projection, f.projection_sha),
+        profile=ref(f.profile, f.profile_sha), caps=dict(posts=4, seconds=120, combined_wire_bytes=2*1024**2),
+        sampling=dict(seed=17, temperature=0.2, native_thinking=False, context=32768, output=8192))
+    f.protocol=protocol; f.protocol_value=value; f.protocol_sha=write_json(protocol,value)
+    f.record=record; f.evidence=evidence; f.recount=recount; f.recount_value=recount_value
+    f.closure=closure; f.closure_value=closure_value; f.diff=diff; f.target_root=target_root
+    f.target_receipt=receipt; f.target_result=json.loads(receipt.read_text())
+    return f
+
+
+def test_sympy_prepare_isolated_two_arms_without_starting_process(sympy_target_inputs, monkeypatch):
+    f = sympy_target_inputs
+    def forbidden(*_, **__): raise AssertionError('CPU prepare must not execute processes')
+    monkeypatch.setattr(s.subprocess, 'run', forbidden); monkeypatch.setattr(s.subprocess, 'Popen', forbidden)
+    outputs = {}
+    for arm in f.protocol_value['arms']:
+        root = f.private / ('sympy_' + arm)
+        out = t.prepare(f.protocol, f.protocol_sha, arm, root); m, _, actor, _ = t.verify(root, out['manifest_sha256'])
+        outputs[arm] = (root, m, (root / 'inputs/task.txt').read_text())
+        assert m['target'] == 'sympy__sympy-9384' and m['repo'] == 'sympy/sympy'
+        assert m['models_called'] == m['container_runs'] == 0
+        assert m['baseline'] == m['work'] and actor['sites'] == {'default': str(f.projection / 'deps/default')}
+        assert (root / 'scoring/test.patch').read_text() == 'SECRET_EVALUATOR_PATCH'
+        assert not any('patch' in p.name or 'evidence' in p.name for p in (root / 'inputs').iterdir())
+        assert all('SECRET_' not in p.read_text(errors='ignore') for p in (root / 'inputs').iterdir() if p.is_file())
+    assert 'PUBLIC_SOURCE_TASK' not in outputs['none'][2]
+    assert 'SYNTHETIC_GENERATED_SOURCE_DIFF' in outputs['source_repair_record'][2]
+    assert 'teacher-assisted' in outputs['source_repair_record'][2].lower()
+    assert outputs['source_repair_record'][2].startswith(outputs['none'][2])
+
+
+@pytest.mark.parametrize('change', ['target_base', 'target_unqualified', 'target_skip', 'target_tree', 'target_test_patch',
+                                   'unapproved_profile', 'missing_recount', 'extra_record_field', 'changed_patch'])
+def test_sympy_rejects_unqualified_or_unbound_inputs_before_copy(sympy_target_inputs, monkeypatch, change):
+    f = sympy_target_inputs
+    if change in ('target_base', 'target_unqualified', 'target_skip'):
+        case = f.target_result['cases']['sympy__sympy-9384']
+        if change == 'target_base': case['spec']['base_commit'] = '0' * 40
+        elif change == 'target_unqualified': case['qualification']['qualified'] = False
+        else: case['arms']['gold_with_tests']['ptp']['result']['tests'][case['labels']['ptp'][0]] = 'skipped'
+        digest = write_json(f.target_receipt, f.target_result)
+        monkeypatch.setattr(t, 'SYMPY_QUALIFICATION_SHA', digest, raising=False)
+        f.protocol_value['qualification']['sha256'] = digest
+    elif change == 'target_tree':
+        (f.target_root / 'clean_base/sympy/refine.py').write_text('CHANGED_TARGET_BASE')
+    elif change == 'target_test_patch':
+        (f.target_root / 'test.patch').write_text('CHANGED_EVALUATOR_PATCH')
+    elif change == 'unapproved_profile':
+        f.protocol_value['profile']['sha256'] = '0' * 64
+    elif change == 'missing_recount':
+        f.record.pop('recount_result')
+    elif change == 'extra_record_field':
+        f.record['target_gold'] = 'SHOULD_NEVER_BE_VISIBLE'
+    else:
+        f.diff.write_text('MODIFIED_SOURCE_DIFF')
+        f.record['repair_patch']['sha256'] = s.sha(f.diff)
+    if change in ('missing_recount', 'extra_record_field', 'changed_patch'):
+        f.protocol_value['source_evidence']['sha256'] = write_json(f.evidence, f.record)
+    f.protocol_sha = write_json(f.protocol, f.protocol_value)
+    with pytest.raises((ValueError, KeyError)): t.prepare(f.protocol, f.protocol_sha, 'source_repair_record', f.root)
+    assert not f.root.exists()
+
+
+def test_sympy_actor_mounts_exclude_qualification_and_scorer(sympy_target_inputs, monkeypatch):
+    f=sympy_target_inputs; out=t.prepare(f.protocol, f.protocol_sha, 'source_repair_record', f.root)
+    _,h,actor,profile=t.verify(f.root,out['manifest_sha256']); bridge=f.private/'bridge';bridge.mkdir()
+    monkeypatch.setattr(s.os,'getuid',lambda:1000,raising=False);monkeypatch.setattr(s.os,'getgid',lambda:1000,raising=False)
+    cmd=s.docker_command(f.root,actor,bridge,profile,h,'CPU_SYMPY')
+    mounts=[x for x in cmd if 'type=bind' in x]
+    assert not any(str(f.target_root.parent) in x or 'scoring' in x or str(f.evidence.parent) in x for x in mounts)
+    assert cmd[-1]=='3.8' and cmd[cmd.index('--network')+1]=='none'
+
+
+def test_sympy_rejects_rehashed_unverified_recount(sympy_target_inputs, monkeypatch):
+    f = sympy_target_inputs
+    f.recount_value['results'][0]['generated_program_text_changed'] = True
+    recount_sha = write_json(f.recount, f.recount_value)
+    monkeypatch.setattr(t, 'SYMPY_RECOUNT_SHA', recount_sha, raising=False)
+    f.record['recount_result']['sha256'] = recount_sha
+    f.closure_value['secondary']['sha256'] = recount_sha
+    closure_sha = write_json(f.closure, f.closure_value)
+    monkeypatch.setattr(t, 'SYMPY_CLOSURE_SHA', closure_sha, raising=False)
+    f.record['closure']['sha256'] = closure_sha
+    f.protocol_value['source_evidence']['sha256'] = write_json(f.evidence, f.record)
+    f.protocol_sha = write_json(f.protocol, f.protocol_value)
+    with pytest.raises(ValueError, match='recount'):
+        t.prepare(f.protocol, f.protocol_sha, 'source_repair_record', f.root)
+    assert not f.root.exists()
+
+
+def test_sympy_preparation_rejects_qualification_parent_as_output(sympy_target_inputs):
+    f = sympy_target_inputs; root = f.target_root / 'nested_actor'
+    with pytest.raises(ValueError, match='fresh disjoint'):
+        t.prepare(f.protocol, f.protocol_sha, 'none', root)
+    assert not root.exists()
+
+
+def test_sympy_execute_dispatch_uses_existing_scorer_without_running_it(sympy_target_inputs, monkeypatch):
+    f=sympy_target_inputs; out=t.prepare(f.protocol,f.protocol_sha,'none',f.root); calls=[]
+    def fake_execute(root,digest,prepared,verify_prepared,**kwargs):
+        calls.append(kwargs); return {'status':'CPU_FAKE','target_success':False}
+    monkeypatch.setattr(s,'execute_prepared',fake_execute)
+    result=t.execute(f.root,out['manifest_sha256'],f.protocol,f.protocol_sha,'none')
+    assert result['target_success'] is False and calls[0]['identity']=={'target':'sympy__sympy-9384','arm':'none'}
+    assert calls[0]['score_prepared'] is s.score
+
+
+def test_sympy_cli_prepares_only_the_explicit_arm(sympy_target_inputs, capsys):
+    f = sympy_target_inputs
+    exit_code = t.main(['--prepare', '--protocol', str(f.protocol), '--protocol-sha', f.protocol_sha,
+                        '--arm', 'source_repair_record', '--root', str(f.root)])
+    output = json.loads(capsys.readouterr().out)
+    assert exit_code == 0 and output['status'] == 'CPU_PREPARED'
+    assert output['target'] == 'sympy__sympy-9384' and output['arm'] == 'source_repair_record'
