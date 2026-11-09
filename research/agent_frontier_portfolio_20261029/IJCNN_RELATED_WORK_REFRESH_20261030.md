@@ -27,8 +27,8 @@ RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06
 **核查范围**：一手方法正文/附录，未完整复现代码；用来约束候选机制及对照。
 
 - **CONFIRMED**：[Skill-V §3.3、B.5–B.6](https://arxiv.org/html/2610.11781v1)允许修订procedure，不只是rubric；保留语义约束并作历史证据回放。因此“会改步骤”不能单独作为区别。§3.4在episode开头选入技能。
-- **11-08复核**：[SkillApt §3.2–3.6/附录B](https://arxiv.org/html/2609.26863v1)已有WITH/WITHOUT配对效用及LOAD/ABSTAIN；SRA v1以题面hash表征状态，等正确率成本正/负例均标0.5。同前置状态修复与工具隔离已覆盖；未见执行中撤回经验、保留改后world续做的对照。一般定义不排除成本/丰富状态，须比较同输入强适配版。
-**比较要求**：keep/drop、短历史、目标重申、笔记折叠、配对效用及冲突规则；同观察/动作/合同。打乱反馈后优势不降，撤回反馈因果解释。适配不冒充复现。
+- [SkillApt §3.2–3.6/附录B](https://arxiv.org/html/2609.26863v1)已有配对效用与LOAD/ABSTAIN；比较须对齐状态、工具和成本。保留改后world续做的差异待验证。
+**比较要求**：keep/drop、短历史、目标重申及冲突规则，保持观察/动作一致；适配不冒充复现。
 
 **当前参照**：[Sentry](https://arxiv.org/html/2610.02994v1)失败时暴露经验；[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3](https://arxiv.org/html/2608.10502v1)依赖失效/独立支持，须对齐故障标识；[Memento §3](https://arxiv.org/html/2611.00244v1)学习笔记折叠/回退。原文已核，成绩未复现；细节查[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)。
 
@@ -36,7 +36,7 @@ RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
-**11-09机制核查**：[TrustMem](https://arxiv.org/html/2606.25161v1)、[LW2S](https://arxiv.org/html/2609.30734v1)、[AttriMem](https://arxiv.org/html/2607.21106v3)、[MemCalib](https://arxiv.org/html/2609.24259v1)、[Anti-Persistence](https://arxiv.org/html/2610.27406v1)已覆盖转移奖励、组件信用及成本选择；局部编辑/交互loss本身不新。[MERIT](https://arxiv.org/html/2608.05906v1)用oracle确认修复，比较须对齐oracle权限。
+**机制核查**：[TrustMem](https://arxiv.org/html/2606.25161v1)、[LW2S](https://arxiv.org/html/2609.30734v1)、[AttriMem](https://arxiv.org/html/2607.21106v3)、[MemCalib](https://arxiv.org/html/2609.24259v1)、[Anti-Persistence](https://arxiv.org/html/2610.27406v1)覆盖转移奖励、组件信用及成本；局部编辑/交互loss本身不新。[MERIT](https://arxiv.org/html/2608.05906v1)用oracle，比较须对齐权限。
 
 [JointCore §2–3](https://arxiv.org/html/2610.23266v1)搜索保留原行为的充分子集；[MemHarness §3](https://arxiv.org/html/2607.28272v1)重构经验并训练；[Value of Memory](https://arxiv.org/html/2610.31303v1)覆盖恢复成本和交互。[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)提示历史/cache残留，不能声称精确遗忘。
 

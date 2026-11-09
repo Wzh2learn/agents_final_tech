@@ -16,7 +16,7 @@
 2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
 3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
 4. **采集已收口。** [26020/22711](results/CODE_SOURCE_CORRECTIONS.md#source-expansion)共42实际POST；前者超时且代码未修对，后者按用户重心调整提前停止。复用已存真实现场/成功工件，不追加来源资格；134 valid_unseen保留。
-5. **直接机制实验已收口。** 提示式DEFER停止。21055完整源码成功、局部取证失败；9384四臂及完整两文件控制均未修复，且相关上下文/行为覆盖不足，停止同例提示/预算追加。候选不在此全失败数据上训练。下一检验行动后果监督的局部经验重构，须超过同信息普通联合策略与简单重读。
+5. **直接机制实验。** 代码9384全失败且上下文/行为覆盖不足，停止同例提示追加。ALF clean02单现场局部修订与普通历史均成功、动作相同，计形成费后修订更贵；[结果](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)不足以支持收益。下一用不同现场测试行动后果监督的局部修订，并与同信息普通联合策略及简单规则比较；候选尚未训练。
 
 ## 证据和写作要求
 

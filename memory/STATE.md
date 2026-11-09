@@ -4,7 +4,7 @@
 
 - **Goal active**：11-06用户恢复，控制面已核。主攻经验/反馈学习与变化适配，面向IJCNN及硕士论文；执行与证据路由见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 - **当前科研**：停止低产来源扩跑；使用已存真实现场直接比较保留、删除与按需取证。ALF14现场已被简单规则解释，不训练复杂选择器。
-- **方法状态**：主攻行动后果监督的局部经验重构，未训练；交互loss不足以独立创新。代码筛查已闭合，不再同例调参。详细取舍见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+- **方法状态**：主攻行动后果监督的局部经验重构，未训练。clean02单现场普通与修订均成功，计形成费后修订更贵；详细取舍见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 - **Paper E**：用户已发老师，等反馈；[ICINT四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)为现役，ICDAR顺序备投，尚未投稿。学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。作者私有字段不入公开记忆。学位按2027年10月倒排。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。
 - **协作**：D主责，续用A/C做有限实现或冻结复核；全局调度/跨机预算锁未实现，见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。

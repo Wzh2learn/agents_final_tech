@@ -102,6 +102,12 @@ D逐项复算全部原始native/request轨迹；C另独立核28槽。规则使�
 
 包内代码是当时冻结版本；后续helper修订不应使旧证据被误判失效。原生公开状态重放一致不外推为全部隐藏状态等价。
 
+## 反馈后局部经验修订：单现场开发
+
+复用 clean02 的真实 8B 失败前缀与公开反馈；27B writer 将旧错误计划中 cloth 与当前 soapbar 目标的冲突写入一条修订记录，另一条记录保留。原计划来自真实历史动作的后验整理，不是已独立验证的在线记忆提取器。同一重放现场、27B、相同完整历史及其他设置下，普通历史与局部修订均原生成功，各新增 9 个动作；全部公开状态和动作序列一致。普通/修订续做分别为 37,648 / 37,027 tokens；修订生成另费 2,742，总计 39,769，较普通多 2,121。缓存未知，墙时分别 56.31 / 57.33 秒。一个已曝光现场不支持收益或泛化结论，尚未训练策略。
+
+完整批次还包含先前无改动 writer 2,587 tokens 和多轮计数器故障前已转发的 3,085 tokens；共 21 次实际模型请求、83,089 tokens，未知 usage 为 0。原始 receipt 位于 GB10 私有 `context_study_v1/learning_comparison_v1/feedback_local_revision_alf_v3/RESULT.json`，SHA `7c609424a28b40f4855c89b3c9b491bcbfca29881efeb6af9e0c14692e3c9321`；两臂 receipt 分别 `83081a9998972c20c42d2137d666264c05216b95527cdbffd29b16329acbf14f` 和 `8a802c8d9b58d817a669cdf17402fb91e913932cba4c1507d520aaafbb9b2d0d`。两世界正常退出，故障和旧 raw 均保留。双端私有包`feedback_local_revision_alf_20261109.tar.gz`含217文件，SHA `57a7741d5e93d0be9fcb5a85ec66d1bc8ad896dec92ed4351a54f0493d015e8a`；仍依赖既有来源资产。
+
 ## 尚未运行的扩样
 
 `student_failure_expansion_v1`已冻结6来源×seed17/29×两历史策略的24份协议，真实文件读取准入20/24：clean05/06、look02/03/04。look01四份受现役reader的context-reserve拒绝范围限制，保留为压力来源；不是该数据无效。新模型、world、训练和目标root均未启动。
