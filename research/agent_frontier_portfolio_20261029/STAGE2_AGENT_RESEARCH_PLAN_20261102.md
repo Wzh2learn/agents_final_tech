@@ -16,7 +16,7 @@
 2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
 3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
 4. **采集已收口。** [26020/22711](results/CODE_SOURCE_CORRECTIONS.md#source-expansion)共42实际POST；前者超时且代码未修对，后者按用户重心调整提前停止。复用已存真实现场/成功工件，不追加来源资格；134 valid_unseen保留。
-5. **方法实验。** [两项单例](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)：heat任务的固定技能未改变失败动作，手写提示成功；cool任务的条件经验只涉及合法性，四臂均失败。旧反馈梯度训练中断且监督不匹配，先不续训。下一候选把目标对象、行动阶段和公开见证绑定，与同信息目标提醒、手写提示及普通经验比较；新颖性与收益均待验证。
+5. **方法实验。** [三项单例](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)：heat固定技能未改善，cool条件经验四臂均失败，clean动态进度记录未使8B成功、原有规则成功。动态记录与旧规则/近邻高度重叠，不单独作为新方法；旧反馈梯度训练中断且监督不匹配。下一步从同公开前缀的真实成功/失败分支构建针对性反馈监督，再对照同信息普通训练和规则；确认池继续保留。
 
 ## 证据和写作要求
 
