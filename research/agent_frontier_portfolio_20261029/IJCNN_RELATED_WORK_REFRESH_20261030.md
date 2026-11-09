@@ -8,10 +8,9 @@
 | --- | --- |
 | [SWE-ContextBench](https://arxiv.org/abs/2602.08316) | 真实问题间历史/摘要复用；对齐时序、修复及回归。已取Lite来源，未复现总体成绩。 |
 | [RethinkSkill](https://arxiv.org/abs/2608.02636) | 成功/失败反馈、多轮候选与接受门；合法JSON不是方法复现。 |
-| [Skill-V](https://arxiv.org/abs/2610.11781) | skill 合同、适用范围、历史回放与非回归；“附证据/按条件修订”本身已有先例。 |
+| [Skill-V](https://arxiv.org/abs/2610.11781) / [SkillGLoW](https://arxiv.org/html/2609.02217v1) | 合同、范围、程序修订、历史回放与真实执行准入已有先例。 |
 | [SkillApt](https://arxiv.org/abs/2609.26863) | 利用有无 skill 的配对结果学习复用选择；比较获取额外反馈的真实成本。 |
-| [Skill-R1](https://arxiv.org/html/2605.09359v1) | 冻结actor、可验证奖励训练skill编辑器及代内/代际优势；正文已核，未复现成绩。 |
-| [SkillGLoW §3.3–3.4](https://arxiv.org/html/2609.02217v1) | 适用范围、程序、scope guards及真实执行准入。 |
+| [Skill-R1](https://arxiv.org/html/2605.09359v1) | 冻结actor、验证奖励训练编辑器；正文已核，未复现成绩。 |
 | [SkillHEX §3.1/B.2](https://arxiv.org/html/2608.05628v1) | 可执行诊断、缓存重测与fresh执行；产物重测不等于重跑策略。 |
 | [CIPO §3.3–3.4/App.B/D](https://arxiv.org/html/2610.04991v1) | 同前缀技能/原子分支、部分续做；world分支复原待核。 |
 | [SWE-Skills-Bench](https://arxiv.org/abs/2603.15401) | 固定仓库、有无skill、隐藏检查；区别自然issue与构造任务。 |
@@ -21,7 +20,7 @@
 
 ## 已接入到哪一步
 
-RethinkSkill原生接口已接通，提案未部署，不作方法负结果。[源码与接入](../../docs/archive/2026-11-06_agent_research_context/related_work_candidate_design_20261105.md)、[诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)按需读；正式比较仍需修订、接受门及后续执行。表中机制核查不等于成绩复现。
+RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06_agent_research_context/related_work_candidate_design_20261105.md)、[诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)按需读。比较仍需修订、接受门及执行。
 
 ## 机制自审（2026-11-06）
 
@@ -37,19 +36,19 @@ RethinkSkill原生接口已接通，提案未部署，不作方法负结果。[�
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
-**11-09机制拆解**：[TrustMem §3](https://arxiv.org/html/2606.25161v1)已有转移覆盖/保留/忠实度奖励和同状态偏好；[LW2S](https://arxiv.org/html/2609.30734v1)已有组件skip信用分配。局部修订、交互loss和主动学习本身不足以认证新意。
+**11-09机制核查**：[TrustMem](https://arxiv.org/html/2606.25161v1)、[LW2S](https://arxiv.org/html/2609.30734v1)、[AttriMem](https://arxiv.org/html/2607.21106v3)、[MemCalib](https://arxiv.org/html/2609.24259v1)、[Anti-Persistence](https://arxiv.org/html/2610.27406v1)已覆盖转移奖励、组件信用及成本选择；局部编辑/交互loss本身不新。[MERIT](https://arxiv.org/html/2608.05906v1)用oracle确认修复，比较须对齐oracle权限。
 
-本轮补查最直接重叠：[JointCore §2–3](https://arxiv.org/html/2610.23266v1)以群删除搜索保留完整记忆行为的充分子集，允许冗余/联合必要性；它不等于以真实续做成功为目标。[MemHarness §3](https://arxiv.org/html/2607.28272v1)已按状态批判/重构经验，GRPO训练且评测ALFWorld/WebShop。[Value of Memory](https://arxiv.org/html/2610.31303v1)已有恢复/修订成本和组件交互理论，不能再声称首先提出价值框架。
-
-**取舍**：非零交互不保证选择收益。聚焦不回滚外部进度的见证保留/重新取证，须超过强适配及同数据简单模型。[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)提示历史/cache残留，不声称精确遗忘；见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)。
-
-[MERIT §3](https://arxiv.org/html/2608.05906v1)以oracle确认修复、已观测失败及错型检索积累经验；部署比较须对齐oracle可用性。非执行/超预算是真实效用损失，但不足以反证经验前提；区分两类标签仍只是估计对象划分，候选修订必须胜过不可变bank＋弃用及同信息修复。
-
-**11-09方法正文**：[AttriMem](https://arxiv.org/html/2607.21106v3)用记忆遮罩贡献奖励；[MemCalib](https://arxiv.org/html/2609.24259v1)用原子过用/欠用及反事实信用；[Anti-Persistence](https://arxiv.org/html/2610.27406v1)用成本bandit选择合成。因此细粒度奖励或按需改写非独立新意。
+[JointCore §2–3](https://arxiv.org/html/2610.23266v1)搜索保留原行为的充分子集；[MemHarness §3](https://arxiv.org/html/2607.28272v1)重构经验并训练；[Value of Memory](https://arxiv.org/html/2610.31303v1)覆盖恢复成本和交互。[Forgetting Without Restarting](https://arxiv.org/html/2609.04875v1)提示历史/cache残留，不能声称精确遗忘。
 
 [MGPO §2](https://arxiv.org/html/2609.37930v1)比较新旧记忆对当前/未来目标的边际效用；[CERL §3](https://arxiv.org/html/2606.05201v1)以同前缀保留/擦除/skip训练持久状态充分性；[CEDAR §3](https://arxiv.org/html/2608.27797v1)以已实现公开谓词、环境反例和DFA组合/LOOKUP修订控制器，非新DFA算法。均已读原文、未复现成绩；“预测状态/反例修订/加取证”均不足以单独成立新法。
 
 理论边界：[Value-directed POMDP Compression](https://cs.uwaterloo.ca/~ppoupart/publications/compression/compression.pdf)已有保持决策质量的状态压缩（§3–4已读）；[MDPs with a State Sensing Cost](https://proceedings.mlr.press/v300/kapoor26a.html)已有付费感知与盲行动联合优化（仅一手摘要）。取证条件化记忆仍需具体算法与迁移证据，不能称新原理。
+
+**最直接新增对标（§3原文已读，未复现）**：[OSL-MR](https://arxiv.org/html/2606.10616v1)已建模保留/重获延迟/陈旧风险，实际用gold evidence membership加权BCE及预算解码；[Context Compression Cost](https://arxiv.org/html/2608.16370v1)已诊断固定Agent的保留/摘要/oracle恢复及自然重新取证，区分可回读与历史依赖信息。问题划分和成本思想已有先例。
+
+**候选差异**：实际删除记录、执行其补证程序，再以固定reader续做结果联合训练记忆与程序；上述两篇§3未报告此操作。需胜过同数据OSL式保留＋同恢复器及普通联合成功/成本训练；普通偏好公式和加一个query字段不算创新。共同可行预算中比较实际成功—成本，不靠禁止某臂制造翻转。原型与开发结果见[代码记录](results/CODE_SOURCE_CORRECTIONS.md#joint-development)，新方法仍未成立。
+
+**联合学习直接对标**：[AiO-Mem §3](https://arxiv.org/html/2610.21147v1#S3)联合search/add/skip/stop、过程奖励、冻结reader；skip丢弃候选，方法段未见删除已存记录后实测补证的配对训练。[CAMG §5/C.1/D.3](https://arxiv.org/html/2609.34422v1)训练文件记忆，做同状态清空/打乱干预。必须保持联合策略/奖励相同，仅消融补证训练分支；联合RL/删记忆/保留world均非新意。原文已核，成绩未复现。
 
 ## 旧章节链接
 

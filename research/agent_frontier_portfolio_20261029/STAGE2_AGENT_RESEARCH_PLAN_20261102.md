@@ -6,16 +6,16 @@
 
 主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
 
-主攻[执行见证保留与重新取证](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：先排除强规则，再设计学习机制，不再追加普通纠正SFT。JointCore、MemHarness、CEDAR及同数据简单模型作参照；算法尚未确定。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
+主攻[记忆与重新取证联合学习](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：以实际“删除→补证→续做”比较训练，不再追加普通纠正SFT。与OSL-MR式保留＋同恢复器、普通联合训练及强简单策略对照；候选未成立。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
 
 [五基线与四格](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R仍属已有配方。SymPy双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制第二环境复用；不为增加基线数量而单独扩跑。
 
 ## 执行原则与后续顺序
 
-1. **已闭合开发格。** B6四格3/6布局交互非零，受通道及上下文帽混淆；预测卡抄错向量已按raw更正。oracle5/6原已存在、R为6/6，不据此训练选择器。数字及旧卡按证据路由读取。
-2. **新来源已闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功、14未完成，930 POST；13上下文帽、1请求帽。原world已关闭，末反馈12条未转发；它们是可重放开发前缀，不是纠正监督或经验失效标签。
-3. **强规则已解释本面板。** [14个现场](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)同前缀重放，两条领域规则均14/14恢复，新动作194/190；停止在此训练复杂选择器。规则读取整理的公开成功动作及最终状态，不是与旧actor的同上下文比较。
-4. **下一机制实验。** 复用[SymPy/Django资产](results/CODE_SOURCE_CORRECTIONS.md#取证条件研究已核资产与简单对照)，固定候选hash与工具，改变取证权限/预算，检验记忆表示应否变化。比较固定摘要、证据范围/版本规则及按需重测，再小规模学习压缩—恢复；不预设宽测试更贵，不把已有POMDP成本优化当新理论。134 valid_unseen保留，第二环境/分组留出后定稿；形成与取证均计成本。
+1. **旧四格闭合。** B6受通道/预算混淆，预测向量已更正；oracle5/6、R6/6不识别新机制。
+2. **新来源闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成、930 POST；末反馈12条未转发。world已关，前缀非纠正监督。
+3. **规则反证。** [14现场](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)两规则均全恢复、新动作194/190；停止此面板复杂选择器。规则用整理后的公开历史，非与旧actor同输入。
+4. **当前机制开发。** [Django](results/CODE_SOURCE_CORRECTIONS.md#joint-development)普通控制12POST未编辑，四格已冻结并串行运行：保留/删除记录×预读/自主读取，同27B/seed17、各12POST/300秒。新回归和原SQLite合同同时评分。四次writer原始格式失败保留，整理后memory只作后验开发输入；目前无学习收益。134 valid_unseen及第二环境仍保留。
 
 ## 证据和写作要求
 

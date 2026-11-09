@@ -50,7 +50,26 @@ GB10私有根为`ROOT/code_source_expansion_v1/SOURCE_ACTOR_PREPARED_V2_BASH_FIX
 
 Django源/目标base分别为`895f28f9cbed817c00ab68770433170d83132d90`/`016bead6a23989adec5c7ee6948db7ce2fc5e89b`；目标base/gold 0/6→6/6、双方回归166/166。PG原题探针是独立PG15环境，不能混作上述SQLite范围比较。原receipt与宽检查分别以私有`django_teacher_source_20261106.tar.gz`中的`07533253…f7ac2b5`/`2e582442…50febcc`定位，完整SHA沿资格记录解析。
 
-下一开发比较须先固定实际候选hash及可见工具，改变取证权限/预算，计实际工具、token与墙时；比较固定摘要、版本/证据范围标注与按需重测，再检验条件化记忆是否有收益。这两项各是一条已曝光项目来源，尚无该配对结果或饱和证明，不能认证泛化。继续复用隔离评分，gold/隐藏检查不进actor；不连接生产数据库。
+上述两个历史时点的字节同一性仍未知；下方新增同一固定快照的复算，不追认旧时点。两项目仍属已曝光开发来源，目标与隐藏检查继续隔离。
+
+<a id="joint-development"></a>
+## 联合记忆与取证：开发现场
+
+**新固定快照复算。** 私有`ROOT/django_aggregation_agent_20261106/memory_evidence_development_v1/CURRENT_REPLAY_V1/RESULT_V1.json` SHA `e549bc3b3b05744f4570c907d10f027afa59d1145af7989d68ba295e291d2968`：候选前后树hash均`55f42bf3…42009f1`，65/65通过、219项中1失败/1跳过，分别0.837/0.938秒。公开源投影6,192文件，树hash`b1fb79d5…548dd3c`；私有16行测试overlay只进入评分端。纯公开快照单测亦已重现`3 != 2`，不是只凭带overlay的旧日志给反馈。
+
+**成功门同时保留原修复。** D复用旧测试恢复及固定SQLite环境，独立评1项原题、65项回归和219项宽检查；不接PG。原base未过原题，当前修复过原题但未过宽检查，两者65项均过。两组CPU控制支持评分器能区分“撤销旧修复”与“修复新回归”；最终门须三组全通过、宽检查保持既定1跳过，仅代表此SQLite合同。
+
+**学习原型。** [数据合同](../joint_memory_program.py)只接受有限query ID，不执行模型文本；未知/超预算结果不做训练负例，同输入成功比较成本采用Pareto规则，形成成本另记。标量偏好loss是普通参考式，尚非可训练实现或方法贡献。
+
+**四次真实提案。** 私有`ROOT/joint_memory_reacquisition_pilot_v1/RUN_V1/RESULT.json` SHA `a5fe01084594a5671e53b62268084e637bfdda77fa063182335e2e671c5cd107`，27B/非thinking，两类prompt各seed17/29：4 POST，输入5,594/输出900/合计6,494，usage齐全、cache未知。严格whole-JSON为0/4；仅去完整外围栏后的诊断中，两个joint为数组、两个summary仍为string。原始失败保留，不重复生成补格式。writer已见两份公开代码读取片段，因此空query不证明回读无用。
+
+D另删除一条生产函数记录并实际读取67bytes代码，完成算子检查，未形成偏好。独立C四提案复核SHA `f6cad8fd26d51a1e87686b153f4ebe362ba5753f5c3446c49dec9759dac5cfff`。
+
+**普通恢复已闭合。** `D_READER_RESULT_V1.json` SHA `654703efe405a11e92964073164f8df4afa72db9f630fb179f8fd5c056009db1`：27B/seed17，无memory/无预读，12实际POST、13次relay尝试（末次封顶拒绝），输入107,482/输出1,062/总108,544tokens，cache未知，151.086秒。21次bash工具均检查源码，无生产编辑；独立原题1/1、回归65/65通过，宽219仍1失败/1跳过。`GENERATION_FAULT`源于封顶403；这只说明本次有界控制未完成，不能断言模型无修复能力。
+
+**四格在途。** 同一D整理六record，交叉保留/删除生产函数记录×是否预读67bytes；所有臂仍可自主读公开repo。每臂12POST/300秒/16MiB，总最多48POST，训练0；使用[薄运行入口](../joint_memory_program_runtime.py)，原1+65+219独立评分，不访问PG。`D_FACTORIAL_RELEASE_V1.json` SHA `5b76828d2ab242a002af666b73536587728d4da25647a627a76ec55380189567`；owner PID2784551/birth1093663926，按`FACTORIAL_SPAWN_V1.json`及进程核实，不因SSH观察超时重跑。删除也改变长度/位置，预读改变交付时机；单来源/单seed后验开发不作因果或迁移确认。形成与旧CPU/模型成本不重置。
+
+已闭合提案/普通控制与公开source快照的私有包`joint_memory_development_closed_control_v1.tar.gz`已双端逐项校验：19,474,055bytes，6,369证据成员＋索引，SHA `eadc70b242754aa2fd8b6e705e33b194304483d7c728b8952c53305502c35ece`；排除在途四格、权重与依赖。新数据合同/运行器GB10定向19项及21个子控制通过；不代表方法或泛化成立。
 
 ## 先前准备与故障记录（迁入原文）
 
