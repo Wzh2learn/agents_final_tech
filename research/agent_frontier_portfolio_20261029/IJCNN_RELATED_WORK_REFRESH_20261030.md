@@ -6,6 +6,7 @@
 
 | 近邻 | 已覆盖的方向 / 本项目应对齐的比较 |
 | --- | --- |
+| [MemSkill](https://arxiv.org/html/2602.02474v2) | 学习记忆操作并利用任务反馈演化技能，已测ALFWorld；需对照其控制器及形成成本。 |
 | [SWE-ContextBench](https://arxiv.org/abs/2602.08316) | 真实问题间历史/摘要复用；对齐时序、修复及回归。已取Lite来源，未复现总体成绩。 |
 | [RethinkSkill](https://arxiv.org/abs/2608.02636) | 成功/失败反馈、多轮候选与接受门；合法JSON不是方法复现。 |
 | [Skill-V](https://arxiv.org/abs/2610.11781) / [SkillGLoW](https://arxiv.org/html/2609.02217v1) | 合同、范围、程序修订、历史回放与真实执行准入已有先例。 |
@@ -46,7 +47,7 @@ RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06
 
 **最直接新增对标（§3原文已读，未复现）**：[OSL-MR](https://arxiv.org/html/2606.10616v1)已建模保留/重获延迟/陈旧风险，实际用gold evidence membership加权BCE及预算解码；[Context Compression Cost](https://arxiv.org/html/2608.16370v1)已诊断固定Agent的保留/摘要/oracle恢复及自然重新取证，区分可回读与历史依赖信息。问题划分和成本思想已有先例。
 
-**候选取舍**：四格交互是回报的线性组合，普通联合Q可表达；仅加交互loss不足以新颖。主攻实际取证后、按续做后果学习局部经验修订，须与同数据/动作/可见反馈联合策略比较。[直接筛查](results/CODE_SOURCE_CORRECTIONS.md#direct-method)未形成可训练的新方法证据。
+**候选取舍**：四格交互可由普通联合Q表达；取证后经验修订须与同数据、动作和反馈的联合策略比较。[直接筛查](results/CODE_SOURCE_CORRECTIONS.md#direct-method)尚无可训练的新方法证据。
 
 **联合学习直接对标**：[AiO-Mem §3](https://arxiv.org/html/2610.21147v1#S3)联合search/add/skip/stop与过程奖励；[CAMG §5/C.1/D.3](https://arxiv.org/html/2609.34422v1)训练文件记忆并干预清空/打乱。保持策略动作与反馈相同，不能通过削弱联合基线证明增量。原文已核，成绩未复现。
 
