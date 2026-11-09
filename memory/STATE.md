@@ -2,8 +2,8 @@
 
 > 2026-11-10 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal active**：11-06用户恢复，控制面已核。主攻经验/反馈学习与变化适配，面向IJCNN及硕士论文；执行与证据路由见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
-- **当前科研**：本轮整理供外部专家审阅；近期已完成ALF同起点比较和Sphinx新来源实验。现役结果与下一步见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，原始记录保留。
+- **Goal paused**：2026-11-10控制面实查；当前接口不能改写目标文本，计划修改不构成恢复。执行与证据见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+- **当前科研**：吸收专家意见，主攻执行反馈驱动的经验适配；配对干预及局部修订仍待检验，详见短计划。
 - **方法状态**：第二篇尚无验证成立的新方法。ALF简单规则为强基线；Sphinx模型经真实反馈仍未完成源题。8B反馈梯度原型各8/192步后中断，无可评估模型。
 - **Paper E**：已发老师并等反馈；发送后[现役四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)曾润色，实际附件hash未核。ICINT首投、ICDAR顺序备投，尚未投稿。要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。学位按2027年10月倒排。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。

@@ -1,28 +1,27 @@
 # 第二阶段：Agent 经验学习与变化适配
 
-> 2026-11-09 | 唯一现役计划，原地更新。运行授权只查[STATE](../../memory/STATE.md)和用户最新指令；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+> 2026-11-10 | 唯一现役计划，原地更新。运行状态以宿主Goal控制面和用户最新指令为准，[STATE](../../memory/STATE.md)为快照；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
 
 ## 目标与负责人取舍
 
 主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
 
-主攻[取证后的局部经验重构](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：当前证据先返回，再决定保留、撤回或替换哪条经验。以实际续做效果训练，与同数据/动作/反馈的普通联合策略及强简单规则比较；不把增加交互loss当创新。候选未成立。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
+主攻变化环境中的经验适配。候选CCER比较有来源的经验单元在同一现场保留或移除的续做效果，以反馈决定局部更新；新颖性和有效性均未成立，首轮不先训练。近邻包括[EmbodiSkill](https://arxiv.org/abs/2605.10332v2)、[SkillApt](https://arxiv.org/abs/2609.26863v3)、[Skill-V](https://arxiv.org/abs/2610.11781)和[StateGraph](https://arxiv.org/abs/2611.02912)，须比较机制和方法；适配实现不冒称原法复现。
 
 [旧五基线](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R是已有配方；SymPy直接动作与目标四臂看[方法现场](results/CODE_SOURCE_CORRECTIONS.md#direct-method)，不从历史准备句重复启动。
 
 ## 执行原则与后续顺序
 
-1. **旧四格闭合。** B6受通道/预算混淆，预测向量已更正；oracle5/6、R6/6不识别新机制。
-2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
-3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
-4. **代码来源。** [Sphinx8282→8127](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)两题原生对照已核；8282一次Agent及反馈后两次提案仍未通过原题，8127保留迁移。旧26020/22711收口；134 valid_unseen保留。
-5. **方法实验。** [开发现场](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)：条件经验、动态进度记录未改善；两个任务同前缀行动分叉均成功、费用顺序相反，不能伪造成功/失败标签。旧反馈梯度训练中断且监督不匹配。下一步在相同取证和反馈后比较保留/局部修订的实际续做，再与同信息普通策略和规则对照；确认池继续保留。
+1. **旧结果。** B6有通道/预算混淆；[ALF训练源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成，[两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，但规则与旧actor输入不同。此面板停止复杂选择器。
+2. **代码资产。** [Sphinx8282→8127](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)源题模型及反馈修订均未通过；SymPy教师辅助、Django超时后的正向工件均不得当成完整自主成功。旧目标用于开发，不作新确认；134 valid_unseen保留。
+3. **首轮。** 少量已曝光案例核经验来源和配对干预，再扩展至不同项目的4–6对开发任务；自主、教师辅助和参考补丁经验分开报告。旧[动态记录与动作分叉](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)未形成有效训练标签；不在单题上堆变体。
+4. **对照与裁决。** 比较无经验、完整经验、简单规则、同反馈自由修订与候选；有信号再消融依赖筛选和配对干预。各臂同等公开信息与总预算，计入形成、干预、修订、执行、验证成本。留出评分和任务不得用于选择经验；简单规则、同预算重试或直接取证解释收益时调整机制。小样本只作开发判断。
 
 ## 证据和写作要求
 
-可写问题与设计，方法定稿需独立机制、两环境留出、超过强对照或同效果下的总成本收益，以及配对重复、分组区间、无害非退化和消融。规模按开发方差定，12–20例不认证论文。
+可写问题与设计；方法定稿需独立机制、两环境留出、强基线对照、完整成本、配对重复及消融。样本规模按开发方差确定。
 
-冻结来源、输入与预算；actor不读未来gold/隐藏事实，公开重放不证明隐藏等价。原生won和独立语义决定成功，普通stop未成功也是失败；接口/未知结局另记。研发、形成、推理和训练分账，cache不重复相加，未知与旧差额保留；直接27B作成本对照。
+冻结来源、输入与预算；actor不读未来gold或隐藏事实。原生环境判定成功，普通stop不等于成功；接口故障与未知结局另记。研发、形成、推理和训练分账，cache不重复相加，未知和旧差额保留；直接27B作成本对照。
 
 ## 按问题加载证据
 
@@ -37,7 +36,7 @@
 
 ## 维护规则
 
-本页只留计划及路由，STATE留定位、THREADS留未决；闭合证据按主题保存。[上下文检查](../../scripts/graph/research_context_check.py)限制启动体量，原始证据不截断。联网、运行与外部边界按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行。
+本页只留计划及路由，STATE留定位、THREADS留未决；原始证据不截断。联网与执行边界按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行。
 
 ## 旧章节链接
 
