@@ -15,7 +15,7 @@
 1. **旧四格闭合。** B6受通道/预算混淆，预测向量已更正；oracle5/6、R6/6不识别新机制。
 2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
 3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
-4. **采集已收口。** [26020/22711](results/CODE_SOURCE_CORRECTIONS.md#source-expansion)共42实际POST；前者超时且代码未修对，后者按用户重心调整提前停止。复用已存真实现场/成功工件，不追加来源资格；134 valid_unseen保留。
+4. **代码来源。** [Sphinx8282→8127](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)两题原生对照已核；8282一次Agent及反馈后两次提案仍未通过原题，8127保留迁移。旧26020/22711收口；134 valid_unseen保留。
 5. **方法实验。** [开发现场](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)：条件经验、动态进度记录未改善；两个任务同前缀行动分叉均成功、费用顺序相反，不能伪造成功/失败标签。旧反馈梯度训练中断且监督不匹配。下一步在相同取证和反馈后比较保留/局部修订的实际续做，再与同信息普通策略和规则对照；确认池继续保留。
 
 ## 证据和写作要求
