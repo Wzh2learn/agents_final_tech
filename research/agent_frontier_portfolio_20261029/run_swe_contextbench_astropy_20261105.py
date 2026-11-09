@@ -187,6 +187,7 @@ def main():
  parser.add_argument('--context-limit',type=int,default=32768);parser.add_argument('--output-limit',type=int,default=8192)
  action=parser.add_mutually_exclusive_group(required=True);action.add_argument('--task',choices=('source','target'));action.add_argument('--build-experience',action='store_true');action.add_argument('--generate-skill',action='store_true')
  parser.add_argument('--condition',choices=('none','source_history','generated_skill','feedback_card'),default='none');parser.add_argument('--experience',type=Path);parser.add_argument('--experience-sha256');parser.add_argument('--preflight-only',action='store_true')
+ parser.add_argument('--withhold-task-specific-section',action='store_true',help='development-only source-skill section ablation')
  args=parser.parse_args()
  if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}',args.attempt_id):parser.error('invalid attempt id')
  if not 0<=args.seed<2**31:parser.error('invalid seed')
@@ -194,6 +195,8 @@ def main():
  if not 4096<=args.context_limit<=65536 or not 1<=args.output_limit<args.context_limit:parser.error('context/output outside verified backend range')
  if args.source_attempt_id and not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}',args.source_attempt_id):parser.error('invalid source attempt id')
  if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}',args.input_label):parser.error('invalid input label')
+ if args.withhold_task_specific_section and (args.task!='target' or args.condition!='generated_skill' or args.preflight_only):
+  parser.error('section ablation requires a generated-skill target execution')
  root=PARENT/'attempts'/args.attempt_id
  source_root=PARENT/'attempts'/(args.source_attempt_id or args.attempt_id)
  inputs=args.inputs_dir or source_root/'source_experience'
@@ -211,8 +214,9 @@ def main():
  if args.task=='source' and args.condition!='none':parser.error('source must have no history')
  if args.task=='source' and (args.seed!=core.SEED or args.source_attempt_id or args.inputs_dir or args.input_label!='original_source_inputs'):parser.error('source seed is fixed at 7201; source reuse/profile options are target-only')
  if args.experience and (args.experience.is_symlink() or sha(args.experience)!=args.experience_sha256):raise ValueError('experience changed')
- control=preflight(args.task);code=derive(root,args.task,args.condition,args.experience,seed=args.seed,max_posts=args.max_posts,max_seconds=args.max_seconds,context_limit=args.context_limit,output_limit=args.output_limit)
+ control=preflight(args.task)
  if args.preflight_only:
+  code=derive(root,args.task,args.condition,args.experience,seed=args.seed,max_posts=args.max_posts,max_seconds=args.max_seconds,context_limit=args.context_limit,output_limit=args.output_limit)
   root.mkdir(parents=True,exist_ok=True);harness=root/('preflight_'+args.task+'.harness.py');report=root/('preflight_'+args.task+'.json')
   if any(p.exists() for p in (harness,report,root/('preflight_'+args.task))):raise FileExistsError('preflight already attempted; preserve it and use a new attempt id')
   with harness.open('x',encoding='utf8') as f:f.write(code)
@@ -238,6 +242,19 @@ def main():
   if record['source_completion_sha256']!=sha(source_root/f'source__none__seed{core.SEED}.completed.json') or record['skill_generation_ledger_sha256']!=sha(d/'skill_generation_ledger.json') or any(sha(d/n)!=v for n,v in record['artifacts'].items()):raise ValueError('source freeze changed')
   if args.experience and (args.experience.resolve().parent!=d.resolve() or record['artifacts'].get(args.experience.name)!=args.experience_sha256 or args.experience.name!={'source_history':'source_history.md','feedback_card':'feedback_card.md','generated_skill':'generated_skill.md'}[args.condition]):raise ValueError('experience outside source freeze')
   target_freeze=sha(freeze)
+ run_experience=args.experience;intervention=None
+ if args.withhold_task_specific_section:
+  if root.is_symlink() or any(root.glob(f'{args.task}__{args.condition}__seed{args.seed}*')):
+   raise FileExistsError('preserve existing target execution')
+  original=args.experience.read_text(encoding='utf8')
+  masked,removed=evidence_profiles.withhold_task_specific_section(original)
+  mask_dir=root/'intervention';mask_dir.mkdir(parents=True,exist_ok=False)
+  run_experience=mask_dir/'source_skill_masked.md'
+  with run_experience.open('x',encoding='utf8',newline='\n') as stream:stream.write(masked)
+  intervention={'kind':'withhold_task_specific_section','original_sha256':args.experience_sha256,
+                'masked_sha256':sha(run_experience),'removed_sha256':hashlib.sha256(removed.encode()).hexdigest(),
+                'original_chars':len(original),'masked_chars':len(masked),'removed_chars':len(removed)}
+ code=derive(root,args.task,args.condition,run_experience,seed=args.seed,max_posts=args.max_posts,max_seconds=args.max_seconds,context_limit=args.context_limit,output_limit=args.output_limit)
  (root/'runtime').mkdir(parents=True,exist_ok=True)
  @recorded_episode(root,args.seed)
  def run(task,condition):
@@ -248,6 +265,7 @@ def main():
   components={'core':Path(core.__file__),'requests_runner':Path(requests_runner.__file__),'qualification':Path(qual.__file__),'auto_record':Path(auto_record_module.__file__),'evidence_graph':Path(evidence_graph_module.__file__),'tool_runtime':Path(tool_runtime_module.__file__),'evidence_profiles':Path(evidence_profiles.__file__),'actor_dependencies':Path(actor_dependencies.__file__)}
   component_hashes={name:sha(path) for name,path in components.items()}
   plan={'actor_projection_sha256':ACTOR_PROJECTION_SHA,'component_sha256':component_hashes,'status':'STARTED','task':task,'condition':condition,'attempt_id':args.attempt_id,'seed':args.seed,'temperature':core.TEMPERATURE,'source_attempt_id':source_root.name,'source_reused':source_root!=root,'input_label':args.input_label,'input_profile_manifest_sha256':profile_sha if task=='target' else None,'max_posts':args.max_posts,'proxy_max_bytes':core.MAX_BYTES,'max_seconds':args.max_seconds,'context_limit':args.context_limit,'output_limit':args.output_limit,'task_identity':control['id'],'base_commit':control['base_commit'],'harness_sha256':sha(harness),'outer_runner_snapshot_sha256':sha(snapshot),'runner_sha256':sha(Path(__file__)),'qualification_sha256':QUAL_SHA,'overlay_sha256':OVERLAY_SHA,'ripgrep_sha256':RG_SHA256,'task_text_sha256':control['task_sha256'],'experience_sha256':args.experience_sha256,'target_input_freeze_sha256':target_freeze,'candidate_reference_hidden':True,'attempt_policy':'explicit isolated output; no automatic retry'}
+  if intervention is not None:plan['intervention']=intervention
   start=root/(eid+'.started.json');start.write_text(json.dumps(plan,indent=2)+'\n')
   proc=subprocess.run([sys.executable,str(harness),task,'no_skill'],stdin=subprocess.DEVNULL,capture_output=True,timeout=args.max_seconds+120)
   (root/(eid+'.runner.stdout')).write_bytes(proc.stdout);(root/(eid+'.runner.stderr')).write_bytes(proc.stderr)
@@ -261,7 +279,8 @@ def main():
    if Counter(json.dumps(x,sort_keys=True) for x in metadata)!=Counter(json.dumps(x,sort_keys=True) for x in r['sampling_metadata']):raise ValueError('sampling mismatch')
    if (case/'frozen_instructions.txt').read_bytes()!=(qual.OUT/task/'task.txt').read_text().strip().encode():raise ValueError('task mismatch')
    if args.experience and sha(args.experience)!=args.experience_sha256:raise ValueError('experience changed during run')
-   plan.update({'status':'COMPLETED','agent_exit':r['agent_exit'],'raw_sha256':r['raw_sha256'],'posts':sum(s.startswith('POST ') for s in r['model_http_requests']),'denied':[s for s in r['model_http_requests'] if s.startswith('DENIED')],'reported_tokens':sum(t.get('total',0) for t in r['step_finish_tokens']),'cache_read_included':sum(t.get('cache',{}).get('read',0) for t in r['step_finish_tokens']),'seed_and_temperature_forwarded':bool(metadata) and all(x['seed']==args.seed and x['temperature']==core.TEMPERATURE for x in metadata),'experience_read':inspect_experience_reads(raw,args.experience) if args.experience else None,'post_run_evaluation':evaluate(task,case)})
+   if intervention is not None and sha(run_experience)!=intervention['masked_sha256']:raise ValueError('masked experience changed during run')
+   plan.update({'status':'COMPLETED','agent_exit':r['agent_exit'],'raw_sha256':r['raw_sha256'],'posts':sum(s.startswith('POST ') for s in r['model_http_requests']),'denied':[s for s in r['model_http_requests'] if s.startswith('DENIED')],'reported_tokens':sum(t.get('total',0) for t in r['step_finish_tokens']),'cache_read_included':sum(t.get('cache',{}).get('read',0) for t in r['step_finish_tokens']),'seed_and_temperature_forwarded':bool(metadata) and all(x['seed']==args.seed and x['temperature']==core.TEMPERATURE for x in metadata),'experience_read':inspect_experience_reads(raw,run_experience) if run_experience else None,'post_run_evaluation':evaluate(task,case)})
   else:plan['status']='RUNNER_ERROR_REVIEW_RAW_AND_PROXY_LOG'
   complete=root/(eid+'.completed.json');complete.write_text(json.dumps(plan,indent=2)+'\n');print(json.dumps({'receipt':str(complete),'sha256':sha(complete),'result':plan}))
  run(args.task,args.condition)

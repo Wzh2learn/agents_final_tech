@@ -5,11 +5,28 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 
 TASK_START = '\n~~~~text\n'
 TASK_END = '\n~~~~\n\nSource execution record:\n~~~~json\n'
 DIFF_START = '\n~~~~\n\nObserved source diff:\n~~~~diff\n'
 END = '\n~~~~\n'
+
+
+def withhold_task_specific_section(text: str) -> tuple[str, str]:
+    """Mask exactly one source-skill section while keeping all other text unchanged."""
+    matches = list(re.finditer(r'(?m)^## Task-Specific Choices\s*\n', text))
+    if len(matches) != 1:
+        raise ValueError('expected exactly one Task-Specific Choices section')
+    start = matches[0].end()
+    following = re.search(r'(?m)^## ', text[start:])
+    if following is None:
+        raise ValueError('expected a following skill section')
+    end = start + following.start()
+    removed = text[start:end]
+    if not removed.strip():
+        raise ValueError('cannot withhold an empty section')
+    return text[:start] + '[Task-specific choices withheld for comparison.]\n\n' + text[end:], removed
 
 
 def sha(path: Path) -> str:

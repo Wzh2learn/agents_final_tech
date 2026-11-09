@@ -13,6 +13,27 @@ profiles = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(profiles)
 
 
+def test_task_specific_ablation_preserves_all_other_skill_sections():
+    skill = ('# Skill\n\n## General Steps\nKeep this.\n\n'
+             '## Task-Specific Choices\nRemove this advice.\n\n'
+             '## Observed Failures\nKeep this too.\n')
+    masked, removed = profiles.withhold_task_specific_section(skill)
+    assert removed == 'Remove this advice.\n\n'
+    assert masked.replace('[Task-specific choices withheld for comparison.]\n\n', removed) == skill
+    assert 'Remove this advice.' not in masked
+
+
+@pytest.mark.parametrize('skill', [
+    '# Skill\n## General Steps\nNothing to mask.\n',
+    '## Task-Specific Choices\nFirst\n## Task-Specific Choices\nSecond\n## Other\nEnd\n',
+    '## Task-Specific Choices\nNo following heading.\n',
+    '## Task-Specific Choices\n\n## Other\nEnd\n',
+])
+def test_task_specific_ablation_rejects_ambiguous_or_empty_sections(skill):
+    with pytest.raises(ValueError):
+        profiles.withhold_task_specific_section(skill)
+
+
 def test_exposed_source_cannot_be_reused_by_an_isolated_actor(tmp_path, monkeypatch):
     monkeypatch.syspath_prepend(str(FILE.parent))
     runner = importlib.import_module('run_swe_contextbench_astropy_20261105')
