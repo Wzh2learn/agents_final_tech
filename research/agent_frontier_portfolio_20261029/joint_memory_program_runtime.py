@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare one Django 12589 public-candidate continuation; no scorer is wired.
+"""Explicit Django continuation or Matplotlib checkpoint memory/query screen.
 
 The actor lifecycle is the existing ContextBench source lifecycle.  Its scoring
 record remains PENDING_EXTERNAL until D independently checks the frozen original
@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import shutil
 import stat
+import math
 
 import joint_memory_program as joint
 import run_contextbench_source as source
@@ -42,6 +43,189 @@ SAMPLING = dict(seed=17, temperature=0.2, native_thinking=False, context=32768, 
 SCHEMA = 'django12589_joint_memory_resume_v1'
 SOURCE_ID = 'django__django-12589'
 BASE = '895f28f9cbed817c00ab68770433170d83132d90'
+
+CHECKPOINT_SCHEMA = 'matplotlib26020_checkpoint_resume_v1'
+CHECKPOINT_SOURCE = 'matplotlib__matplotlib-26020'
+CHECKPOINT_SHA = 'bcd418cd898f3ec1474411cfdd0ec87da2eeaf3d5ee14d9f31d1e7a6e95c8714'
+CHECKPOINT_PARENT_RECEIPT_SHA = '5a20838faf9630cef712ff93e06b76c4051fc9c0dd64973c849c50bc3b848ef0'
+CHECKPOINT_CAPS = dict(posts=6, seconds=180, combined_wire_bytes=8 * 1024**2)
+
+
+def checkpoint_catalog(ref, files):
+    catalog = _ref(ref)
+    if (set(catalog) != {'schema', 'entries'} or catalog['schema'] != 'matplotlib26020_deferred_queries_v1'
+            or type(catalog['entries']) is not list or not 1 <= len(catalog['entries']) <= 8):
+        raise ValueError('finite checkpoint query catalog required')
+    result = {}
+    for q in catalog['entries']:
+        if (set(q) != {'id', 'path', 'start', 'end'} or not re.fullmatch(r'q[0-7]', q['id'])
+                or q['id'] in result or q['path'] not in files or
+                not re.fullmatch(r'lib/(?:matplotlib|mpl_toolkits)/(?:[A-Za-z_][A-Za-z0-9_]*/)*[A-Za-z_][A-Za-z0-9_]*\.py', q['path'])
+                or 'tests' in Path(q['path']).parts or Path(q['path']).name == 'conftest.py'
+                or type(q['start']) is not int or type(q['end']) is not int
+                or not 1 <= q['start'] <= q['end'] <= q['start'] + 199):
+            raise ValueError('unsafe or duplicate query span')
+        result[q['id']] = q
+    return result
+
+
+def recover_script(catalog, workspace='/workspace'):
+    """Readonly finite file client; no model-supplied code, shell or writable counter."""
+    return ('import hashlib,json,os,pathlib,stat,sys,time\nCATALOG=' + repr(catalog)
+        + '\nROOT=pathlib.Path(' + repr(str(workspace)) + ')\n' + '''started=time.monotonic()
+assert len(sys.argv)==2 and sys.argv[1] in CATALOG
+q=CATALOG[sys.argv[1]]; p=ROOT/q['path']
+assert all(not x.is_symlink() for x in (p,*p.parents))
+with p.open('rb') as f:
+ before=os.fstat(f.fileno()); assert stat.S_ISREG(before.st_mode) and before.st_nlink==1 and before.st_size<=1048576
+ data=f.read(1048577); after=os.fstat(f.fileno())
+ assert all(getattr(before,k)==getattr(after,k) for k in ('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns')) and len(data)==before.st_size
+lines=data.splitlines(keepends=True); assert q['end']<=len(lines)
+data=b''.join(lines[q['start']-1:q['end']]); assert len(data)<=65536
+print(json.dumps(dict(query=q['id'],path=q['path'],start=q['start'],end=q['end'],text=data.decode('utf-8'),bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),seconds=time.monotonic()-started),ensure_ascii=False))
+''')
+
+
+def checkpoint_data(protocol_path, protocol_sha):
+    p = _read_json(protocol_path, protocol_sha)
+    if (set(p) != {'schema','checkpoint','registry','projection','profile','catalog','context','program'}
+            or p['schema'] != CHECKPOINT_SCHEMA or p['context'] not in ('records','full_history')):
+        raise ValueError('exact checkpoint continuation protocol required')
+    c = _ref(p['checkpoint'], CHECKPOINT_SHA); cap = source.safe(p['checkpoint']['path']).parent
+    if (c['status'],c['request'],c['boundary'],c['copy_complete']) != ('READY',6,'REQUEST_RECEIVED_BEFORE_FORWARD',True):
+        raise ValueError('checkpoint is not ready')
+    parent = cap.parent
+    original = _read_json(parent/'manifest.json', c['manifest_sha256'])
+    closed = _read_json(parent/'receipt.json', CHECKPOINT_PARENT_RECEIPT_SHA)
+    if (original['source'] != CHECKPOINT_SOURCE or closed['source'] != CHECKPOINT_SOURCE
+            or closed['manifest_sha256'] != c['manifest_sha256']
+            or any(p[k] != original[k] for k in ('registry','projection','profile'))):
+        raise ValueError('checkpoint source identity differs')
+    maps = _read_json(cap/'files_sha256.json', c['files_sha256']); files = source.tree(cap/'work')
+    if set(maps) != {'before','after','copied'} or any(value != files for value in maps.values()):
+        raise ValueError('checkpoint work bytes changed')
+    incoming = _read_json(parent/'wire/00006.incoming.json', c['incoming_request_sha256'])
+    forwarded = _read_json(cap/'request.body', c['body_sha256'])
+    if incoming['messages'] != forwarded['messages']: raise ValueError('checkpoint public history differs')
+    _public_text(parent/'inputs/task.txt', original['wrapped_prompt_sha256'])
+    task = _public_text(parent/'inputs/source_task.txt', original['public_task_sha256'])
+    h = source.helpers(); reg, case, qualification = source.source_input(p['registry']['path'],p['registry']['sha256'],CHECKPOINT_SOURCE)
+    if reg['actor_projection'] != p['projection'] or source.sha(qualification/'task.txt') != original['public_task_sha256']:
+        raise ValueError('checkpoint qualified public task differs')
+    for rel, digest in case['native_overlay'].items():
+        if files.get('lib/matplotlib/'+rel) != digest: raise ValueError('checkpoint native overlay changed')
+    actor = source.projection_input(p['projection']['path'],p['projection']['sha256'],CHECKPOINT_SOURCE,h)
+    profile = source.profile_input(p['profile']['path'],p['profile']['sha256'],h)
+    catalog = checkpoint_catalog(p['catalog'],files)
+    program = joint.parse_program(json.dumps(p['program']),catalog,max_memory_chars=8192)
+    if p['context']=='full_history' and (program.memory or program.queries):
+        raise ValueError('full history baseline takes no additional memory or plan')
+    prompt = ('Continue the existing edited Matplotlib workspace in /workspace. Implement the original public task and run relevant tests. '
+              'Python 3.10 and dependencies are offline.\n\nPublic source task:\n'+task)
+    if p['context']=='full_history':
+        public = [{k:msg[k] for k in ('role','content','tool_calls','tool_call_id') if k in msg}
+                  for msg in incoming['messages'] if msg.get('role') in ('assistant','tool')]
+        prompt += '\n\nPrior public assistant/tool history (flat projection):\n'+json.dumps(public,ensure_ascii=False)
+    elif program.memory:
+        prompt += '\n\nRetained records:\n'+'\n'.join(program.memory)
+    prompt += '\n\nOptional readonly recovery queries (available to every arm; never prefetched):\n'
+    prompt += '\n'.join('/extra/bin/python -I /inputs/recover.py '+qid+' reads '+q['path']+':'+str(q['start'])+'-'+str(q['end']) for qid,q in catalog.items())
+    if program.queries: prompt += '\nProposed recovery plan (optional): '+', '.join(program.queries)
+    if len(prompt.encode())>131072: raise ValueError('checkpoint prompt exceeds bounded input')
+    return p,h,actor,profile,reg,case,qualification,files,catalog,prompt,task
+
+
+def checkpoint_metadata(path,digest,root,data):
+    p,h,actor,profile,reg,case,parent,files,catalog,prompt,task=data
+    return dict(schema=CHECKPOINT_SCHEMA,root=str(root),protocol=dict(path=str(path),sha256=digest),
+        source=CHECKPOINT_SOURCE,repo=case['spec']['repo'],base=case['spec']['base_commit'],
+        registry=p['registry'],projection=p['projection'],profile=p['profile'],checkpoint=p['checkpoint'],
+        catalog=p['catalog'],context=p['context'],program=p['program'],caps=CHECKPOINT_CAPS,sampling=SAMPLING,
+        tool_contract=source.tool_contract_policy(),source_runtime=source.MPL_SOURCE_RUNTIME,
+        scorer_dependencies=source.scoring_dependencies(reg,h),labels=case['labels'],native_overlay=case['native_overlay'],
+        work=files,baseline=source.tree(parent/'clean_base'),public_task_sha256=hashlib.sha256(task.encode()).hexdigest(),
+        wrapped_prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),test_patch_sha256=source.sha(parent/'test.patch'),
+        status='CPU_PREPARED',models_called=0,container_runs=0,
+        boundary='closed checkpoint data; nonthinking reader; query results acquired only on demand; scorer never actor-mounted')
+
+
+def checkpoint_prepare(path,digest,root):
+    data=checkpoint_data(path,digest); p,h,actor,profile,reg,case,parent,files,catalog,prompt,task=data
+    root=source.safe(root); refs=[Path(p[k]['path']) for k in ('checkpoint','registry','projection','profile','catalog')]+[parent,Path(p['checkpoint']['path']).parent.parent]
+    if (source.PRIVATE not in root.parents or root.exists()
+            or any(root==x or root in x.parents or x in root.parents for x in refs)):
+        raise ValueError('fresh disjoint checkpoint root required')
+    h.tools.ripgrep_binding(); root.mkdir(mode=0o700,parents=True)
+    shutil.copytree(parent/'clean_base',root/'baseline')
+    shutil.copytree(Path(p['checkpoint']['path']).parent/'work',root/'work')
+    for file in (root/'work').rglob('*'):
+        if file.is_file(): file.chmod(file.stat().st_mode|0o200)
+    inputs=root/'inputs'; inputs.mkdir(); (root/'scoring').mkdir()
+    (inputs/'task.txt').write_bytes(prompt.encode()); (inputs/'source_task.txt').write_bytes(task.encode())
+    (inputs/'recover.py').write_bytes(recover_script(catalog).encode())
+    (inputs/'guest.py').write_bytes(source.GUEST.encode())
+    source.new(inputs/'opencode.json',dict(h.actor.config(profile,17),compaction=dict(auto=False,prune=False)))
+    shutil.copyfile(parent/'test.patch',root/'scoring/test.patch')
+    manifest=checkpoint_metadata(path,digest,root,data)
+    manifest.update(inputs=source.tree(inputs),components=source.components(),binaries={str(source.safe(x)):source.sha(x) for x in (h.tools.OPENCODE,h.tools.RG)})
+    source.new(root/'manifest.json',manifest)
+    checkpoint_verify(root,source.sha(root/'manifest.json'))
+    return dict(status='CPU_PREPARED',root=str(root),manifest_sha256=source.sha(root/'manifest.json'))
+
+
+def checkpoint_verify(root,digest,*,initial=True):
+    root=source.safe(root); m=_read_json(root/'manifest.json',digest)
+    data=checkpoint_data(m['protocol']['path'],m['protocol']['sha256']); p,h,actor,profile,reg,case,parent,files,catalog,prompt,task=data
+    expected=checkpoint_metadata(m['protocol']['path'],m['protocol']['sha256'],root,data)
+    if set(m)!=set(expected)|{'inputs','components','binaries'} or any(m[k]!=v for k,v in expected.items()):
+        raise ValueError('checkpoint manifest policy changed')
+    for name in (('baseline','work','inputs') if initial else ('baseline','inputs')):
+        if source.tree(root/name)!=m[name]: raise ValueError('checkpoint '+name+' changed')
+    source.tree(root/'work')
+    if ((root/'inputs/task.txt').read_bytes()!=prompt.encode() or (root/'inputs/recover.py').read_bytes()!=recover_script(catalog).encode()
+            or (root/'inputs/guest.py').read_bytes()!=source.GUEST.encode() or source.sha(root/'scoring/test.patch')!=m['test_patch_sha256']
+            or (root/'inputs/source_task.txt').read_bytes()!=task.encode()
+            or json.loads((root/'inputs/opencode.json').read_text())!=dict(h.actor.config(profile,17),compaction=dict(auto=False,prune=False))
+            or source.components()!=m['components'] or m['binaries']!={str(source.safe(x)):source.sha(x) for x in (h.tools.OPENCODE,h.tools.RG)}):
+        raise ValueError('checkpoint actor inputs or implementation changed')
+    return m,h,actor,profile
+
+
+def checkpoint_query_usage(raw,catalog):
+    rows=[]; errors=[]; seen=set()
+    for line in Path(raw).read_text().splitlines():
+        event=json.loads(line); part=event.get('part',{}); state=part.get('state',{})
+        command=state.get('input',{}).get('command','')
+        if event.get('type')!='tool_use' or '/inputs/recover.py' not in command: continue
+        try:
+            qid=next(q for q in catalog if command=='/extra/bin/python -I /inputs/recover.py '+q)
+            if (part.get('tool')!='bash' or state.get('status')!='completed' or not part.get('callID') or part['callID'] in seen
+                    or state.get('metadata',{}).get('exit')!=0 or state['metadata'].get('truncated') is not False):
+                raise ValueError('query execution incomplete or repeated')
+            seen.add(part['callID']); output=state['output']
+            if state['metadata'].get('output')!=output: raise ValueError('query native output differs')
+            value=json.loads(output,object_pairs_hook=_unique); q=catalog[qid]; text=value['text'].encode()
+            if (set(value)!={'query','path','start','end','text','bytes','sha256','seconds'} or value['query']!=qid
+                    or any(value[k]!=q[k] for k in ('path','start','end')) or value['bytes']!=len(text) or len(text)>65536
+                    or value['sha256']!=hashlib.sha256(text).hexdigest() or type(value['seconds']) not in (int,float)
+                    or not math.isfinite(value['seconds']) or not 0<=value['seconds']<=180):
+                raise ValueError('query client evidence malformed')
+            timing=state['time']; elapsed=(timing['end']-timing['start'])/1000
+            if elapsed<0: raise ValueError('negative native query time')
+            rows.append(dict(query=qid,call_id=part['callID'],bytes=len(text),client_seconds=value['seconds'],native_seconds=elapsed,
+                             output_sha256=hashlib.sha256(output.encode()).hexdigest()))
+        except (ValueError,KeyError,TypeError,StopIteration) as exc: errors.append(dict(call_id=part.get('callID'),reason=str(exc)))
+    return dict(status='UNKNOWN' if errors else 'MEASURED',invocations=None if errors else len(rows),
+        bytes=None if errors else sum(r['bytes'] for r in rows),seconds=None if errors else sum(r['native_seconds'] for r in rows),
+        known_invocations=len(rows),rows=rows,errors=errors,raw_sha256=source.sha(raw))
+
+
+def checkpoint_score(root,manifest,h):
+    scored=source.score(root,manifest,h)
+    scored['deferred_queries']=checkpoint_query_usage(Path(root)/'raw.jsonl',checkpoint_catalog(manifest['catalog'],manifest['work']))
+    scored['deferred_queries'].update(client_sha256=source.sha(Path(root)/'inputs/recover.py'),catalog_sha256=manifest['catalog']['sha256'])
+    source.new(Path(root)/'deferred_query_usage.json',scored['deferred_queries'])
+    return scored
 
 
 def _unique(pairs):
@@ -278,6 +462,8 @@ def metadata(protocol_path, protocol_sha, root, p, score, task, failure, prompt,
 
 
 def prepare(protocol_path, protocol_sha, root):
+    if _read_json(protocol_path, protocol_sha).get('schema') == CHECKPOINT_SCHEMA:
+        return checkpoint_prepare(protocol_path, protocol_sha, root)
     data = admitted(protocol_path, protocol_sha)
     p, h, actor, profile, score, task, failure, prompt, query_refs, program_sha, files = data
     root = source.safe(root)
@@ -312,6 +498,8 @@ def prepare(protocol_path, protocol_sha, root):
 
 
 def verify(root, digest, *, initial=True):
+    if _read_json(Path(root) / 'manifest.json', digest).get('schema') == CHECKPOINT_SCHEMA:
+        return checkpoint_verify(root, digest, initial=initial)
     root = source.safe(root)
     m = _read_json(root / 'manifest.json', digest)
     data = admitted(m['protocol']['path'], m['protocol']['sha256'])
@@ -354,6 +542,10 @@ def execute(root, digest, protocol_path, protocol_sha):
     prepared = verify(root, digest)
     if prepared[0]['protocol'] != dict(path=str(protocol_path), sha256=protocol_sha):
         raise ValueError('CLI protocol differs from prepared input')
+    if prepared[0]['schema'] == CHECKPOINT_SCHEMA:
+        return source.execute_prepared(root, digest, prepared, verify,
+            identity=dict(source=CHECKPOINT_SOURCE, stage='JOINT_CHECKPOINT_RECOVERY'),
+            success_key='recovery_success', mode='JOINT_CHECKPOINT_RECOVERY',score_prepared=checkpoint_score)
     return source.execute_prepared(root, digest, prepared, verify,
         identity=dict(source=SOURCE_ID, stage='PUBLIC_REGRESSION_RECOVERY'),
         success_key='recovery_success', mode='DJANGO_PUBLIC_RECOVERY_EPISODE',

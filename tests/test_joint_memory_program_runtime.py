@@ -216,3 +216,136 @@ class RuntimeContracts(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class CheckpointContracts(unittest.TestCase):
+    """Synthetic filesystem/native-event controls, never model evidence."""
+    def setUp(self):
+        RuntimeContracts.setUp(self)
+        def patch(obj, key, value):
+            p = mock.patch.object(obj, key, value); p.start(); self.patches.append(p)
+        self.parent = self.private / 'closed_source'; self.parent.mkdir()
+        self.capture = self.parent / 'production_prefix_checkpoint'; self.capture.mkdir()
+        self.work = self.capture / 'work'; self.work.mkdir()
+        self.rel = 'lib/mpl_toolkits/axes_grid1/axes_grid.py'
+        file = self.work / self.rel; file.parent.mkdir(parents=True); file.write_text('line one\nline two\n')
+        (self.parent / 'inputs').mkdir(); (self.parent / 'wire').mkdir()
+        (self.parent / 'inputs/source_task.txt').write_text('Public Matplotlib change.\n')
+        (self.parent / 'inputs/task.txt').write_text('Original wrapper\n')
+        self.qual = self.private / 'qualified'; self.qual.mkdir()
+        shutil = __import__('shutil'); shutil.copytree(self.work, self.qual / 'clean_base')
+        (self.qual / 'task.txt').write_text('Public Matplotlib change.\n')
+        (self.qual / 'test.patch').write_text('private scoring overlay')
+        self.registry = self.private / 'registry.json'; reg_sha = put_json(self.registry, {'CPU': 'qualified source stub'})
+        self.body = {'messages':[{'role':'user','content':'Public Matplotlib change.'},
+                                {'role':'tool','content':'UNRETAINED RECORD'}], 'seed':17,
+                     'chat_template_kwargs':{'enable_thinking':True,'reasoning_effort':'low'}}
+        put_json(self.capture / 'request.body', self.body)
+        put_json(self.parent / 'wire/00006.incoming.json', self.body)
+        source_manifest = dict(source='matplotlib__matplotlib-26020', registry={'path':str(self.registry),'sha256':reg_sha},
+            profile={'path':str(self.profile),'sha256':m.PROFILE_SHA},
+            projection={'path':str(self.projection),'sha256':m.PROJECTION_SHA},
+            public_task_sha256=sha(self.parent/'inputs/source_task.txt'),
+            wrapped_prompt_sha256=sha(self.parent/'inputs/task.txt'))
+        source_sha = put_json(self.parent / 'manifest.json', source_manifest)
+        parent_sha = put_json(self.parent / 'receipt.json', dict(manifest_sha256=source_sha, source='matplotlib__matplotlib-26020'))
+        patch(m, 'CHECKPOINT_PARENT_RECEIPT_SHA', parent_sha)
+        files = source.tree(self.work)
+        map_sha = put_json(self.capture / 'files_sha256.json', dict(before=files, after=files, copied=files))
+        capture_sha = put_json(self.capture / 'receipt.json', dict(status='READY', request=6,
+            boundary='REQUEST_RECEIVED_BEFORE_FORWARD', copy_complete=True, manifest_sha256=source_sha,
+            body_sha256=sha(self.capture/'request.body'), files_sha256=map_sha,
+            incoming_request_sha256=sha(self.parent/'wire/00006.incoming.json')))
+        patch(m, 'CHECKPOINT_SHA', capture_sha)
+        self.catalog = self.private / 'catalog.json'
+        catalog_sha = put_json(self.catalog, dict(schema='matplotlib26020_deferred_queries_v1',
+            entries=[dict(id='q0', path=self.rel, start=1, end=1)]))
+        self.value = dict(schema='matplotlib26020_checkpoint_resume_v1',
+            checkpoint=dict(path=str(self.capture/'receipt.json'),sha256=capture_sha),
+            registry=dict(path=str(self.registry),sha256=reg_sha), projection=source_manifest['projection'],
+            profile=source_manifest['profile'],catalog=dict(path=str(self.catalog),sha256=catalog_sha),
+            context='records',program=dict(memory=['Selected progress record.'],queries=['q0']))
+        self.case = dict(spec=dict(repo='matplotlib/matplotlib',base_commit='a'*40),
+            labels=dict(f2p=['focus'],ptp=['regression']),native_overlay={})
+        self.reg = dict(actor_projection=self.value['projection'],source_result={'CPU':'qualification'})
+        patch(source, 'source_input', lambda *args: (self.reg,self.case,self.qual))
+        patch(source, 'scoring_dependencies', lambda *args: {'CPU':'frozen dependencies'})
+        patch(source, 'projection_input', lambda *args: dict(runtime=self.projection/'runtime',sites={'default':self.projection/'deps/default'}))
+
+    def prepare(self):
+        digest = put_json(self.protocol, self.value)
+        return m.prepare(self.protocol,digest,self.root), digest
+
+    def test_prepare_deferred_shared_query_and_record_boundary(self):
+        out,_=self.prepare(); manifest,_,_,_=m.verify(self.root,out['manifest_sha256'])
+        text=(self.root/'inputs/task.txt').read_text()
+        self.assertIn('Selected progress record.',text); self.assertNotIn('UNRETAINED RECORD',text)
+        self.assertNotIn('line one',text); self.assertIn('/inputs/recover.py q0',text)
+        self.assertEqual(manifest['caps'],dict(posts=6,seconds=180,combined_wire_bytes=8*1024**2))
+        self.assertFalse(manifest['sampling']['native_thinking'])
+        self.assertEqual(json.loads((self.root/'inputs/opencode.json').read_text())['compaction'],{'auto':False,'prune':False})
+        self.assertEqual(source.tree(self.root/'work'),source.tree(self.work))
+        self.assertNotIn('test.patch',source.tree(self.root/'inputs'))
+
+    def test_full_history_is_distinct_and_program_cannot_smuggle_memory(self):
+        self.value.update(context='full_history',program=dict(memory=[],queries=[]))
+        out,_=self.prepare(); text=(self.root/'inputs/task.txt').read_text()
+        self.assertIn('UNRETAINED RECORD',text); self.assertNotIn('Selected progress record.',text)
+        self.assertIn('/inputs/recover.py q0',text)
+        (self.root/'inputs/recover.py').write_text('tampered')
+        with self.assertRaises(ValueError): m.verify(self.root,out['manifest_sha256'])
+
+    def test_changed_capture_or_bad_catalog_rejected_before_root(self):
+        (self.work/self.rel).write_text('tampered')
+        with self.assertRaises(ValueError): self.prepare()
+        self.assertFalse(self.root.exists())
+
+    def test_fresh_root_cannot_be_inside_immutable_source_parent(self):
+        self.root=self.capture/'unapproved_branch'
+        with self.assertRaisesRegex(ValueError,'disjoint'): self.prepare()
+        self.assertFalse(self.root.exists())
+        (self.work/self.rel).write_text('line one\nline two\n')
+        value=json.loads(self.catalog.read_text());value['entries'][0]['path']='../test.patch'
+        self.value['catalog']['sha256']=put_json(self.catalog,value)
+        with self.assertRaises(ValueError): self.prepare()
+        self.assertFalse(self.root.exists())
+
+    def test_execute_uses_distinct_callback_not_source_identity(self):
+        out,p_sha=self.prepare()
+        def fake(root,digest,prepared,verify,**kw):
+            self.assertEqual(kw['mode'],'JOINT_CHECKPOINT_RECOVERY')
+            self.assertIs(kw['score_prepared'],m.checkpoint_score)
+            self.assertNotIn('request_policy',prepared[0])
+            return {'status':'CPU_FAKE'}
+        with mock.patch.object(source,'execute_prepared',side_effect=fake):
+            self.assertEqual(m.execute(self.root,out['manifest_sha256'],self.protocol,p_sha)['status'],'CPU_FAKE')
+
+    def test_client_reads_only_when_called_and_native_events_measure_cost(self):
+        catalog={'q0':dict(id='q0',path=self.rel,start=1,end=1)}
+        script=self.private/'recover.py'; script.write_bytes(m.recover_script(catalog,self.work).encode())
+        # Writing the client performs no query; a later workspace change is observed.
+        (self.work/self.rel).write_bytes(b'freshly acquired\nline two\n')
+        import subprocess
+        completed=subprocess.run([sys.executable,'-I',str(script),'q0'],capture_output=True,text=True)
+        self.assertEqual(completed.returncode,0,completed.stderr)
+        output=completed.stdout; value=json.loads(output)
+        self.assertEqual(value['text'],'freshly acquired\n')
+        event=dict(type='tool_use',part=dict(tool='bash',callID='native-q0',state=dict(status='completed',
+            input=dict(command='/extra/bin/python -I /inputs/recover.py q0'),output=output,
+            metadata=dict(exit=0,truncated=False,output=output),time=dict(start=1000,end=1011))))
+        raw=self.private/'raw.jsonl'; raw.write_text(json.dumps(event)+'\n')
+        usage=m.checkpoint_query_usage(raw,catalog)
+        self.assertEqual((usage['status'],usage['invocations'],usage['bytes']),('MEASURED',1,len('freshly acquired\n')))
+        self.assertEqual(usage['seconds'],.011)
+        event['part']['state']['input']['command']+='; echo forged'
+        raw.write_text(json.dumps(event)+'\n')
+        self.assertEqual(m.checkpoint_query_usage(raw,catalog)['status'],'UNKNOWN')
+        self.assertIsNone(m.checkpoint_query_usage(raw,catalog)['bytes'])
+        for qid in ('../test.patch','q9'):
+            self.assertNotEqual(subprocess.run([sys.executable,'-I',str(script),qid],capture_output=True).returncode,0)
+
+    def test_rehashed_manifest_and_scoring_never_change_admission(self):
+        out,_=self.prepare(); path=self.root/'manifest.json'; value=json.loads(path.read_text())
+        value['sampling']['native_thinking']=True
+        with self.assertRaises(ValueError): m.verify(self.root,put_json(path,value))
+        self.assertFalse((self.root/'scoring/candidate').exists())
