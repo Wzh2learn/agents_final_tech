@@ -1,0 +1,6 @@
+display_name: Humanizer
+short_description: Revise prose for clarity and natural style while preserving facts and citations.
+default_prompt: Revise the given prose for natural style while preserving its meaning, evidence, and citations.
+
+policy:
+  allow_implicit_invocation: true

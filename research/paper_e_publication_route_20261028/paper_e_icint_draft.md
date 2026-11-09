@@ -9,11 +9,11 @@ lang: en-US
 
 # I. Introduction
 
-A lower detection rate can indicate a weaker evaluator, but it can also arise when the same numerical threshold is applied to scores on different scales. Likewise, a change in benchmark score need not change the comparison for which the score was reported; and the highest mean in a leaderboard does not by itself establish that every apparent ordering is supported by the data. Such distinctions matter when researchers use evaluation results to select systems or interpret a benchmark.
+A lower detection rate can indicate a weaker evaluator, but it can also arise when the same numerical threshold is applied to scores on different scales. A benchmark score can change without reversing the comparison it was meant to support. Likewise, the highest mean on a leaderboard does not by itself establish every apparent ordering. These distinctions affect how researchers select systems and interpret benchmarks.
 
 We ask: **which interpretations remain supported when the observation surface, scoring rule and comparison procedure are made explicit?** We investigate three evaluation constructions. First, controlled changes to public financial tables probe a staged document evaluator. Second, we inspect tie handling and source identity in FinRank [1]. Third, we assess researcher-generated lexical retrieval runs on SciFact and NFCorpus from BEIR [2], with a later dense-model exploration. The BEIR runs are our own constructions, not the published benchmark leaderboard.
 
-Our contributions are three empirical findings. We explain a detection-rate difference by a positive score rescaling under a single-responsive-leaf restriction; show that a particular FinRank comparison retains its direction despite changes in absolute scores; and distinguish point-estimate rankings from comparisons supported under a specified paired statistical procedure.
+We report three empirical findings. A positive score rescaling explains a detection-rate difference under a single-responsive-leaf restriction. A particular FinRank comparison retains its direction despite changes in absolute scores. Finally, we distinguish point-estimate rankings from comparisons supported by a specified paired statistical procedure.
 
 Prior work has examined metric and construct validity [3], [4], [5]. AgentSuite [6] audits interacting components in agent benchmarks at broader scale. We complement these perspectives with artifact-level analyses of observation, score scaling and comparison in document and retrieval evaluations.
 
@@ -23,9 +23,9 @@ Document-specific work also evaluates semantic alignment and stage-level extract
 
 We distinguish three questions: whether a change is **visible** at a selected evidence surface; whether a specified predicate **detects** it; and whether it changes an outcome under a stated equivalence contract. Visibility, detection and outcome change are separate observations. We then examine score sensitivity, the stability of a named comparison and numerical reproducibility.
 
-The designs differ. Case 1 uses controlled perturbations. Case 2 inspects a released benchmark, including source-informed post-hoc identity analysis. Case 3 uses researcher-generated systems and test queries from a public benchmark; its original audit choices were not independently timestamped before the first run. We preserve fixed outputs and identify later explorations rather than treating them as prospective confirmation.
+Case 1 uses controlled perturbations. Case 2 inspects a released benchmark, including a source-informed post-hoc identity analysis. Case 3 uses researcher-generated systems and test queries from a public benchmark; its original audit choices were not independently timestamped before the first run. We preserve fixed outputs and identify later explorations without treating them as prospective confirmation.
 
-The three cases distinguish score differences from supported comparisons: a detection-rate gap need not imply a ranking gap, absolute accuracy changes need not reverse a comparison, and a higher mean need not establish every pairwise ordering. The following table summarizes these interpretations; each case specifies what is held fixed and what is varied.
+The cases distinguish score differences from supported comparisons. A detection-rate gap need not imply a ranking gap, absolute accuracy changes need not reverse a comparison, and a higher mean need not establish every pairwise ordering. Each case specifies what is held fixed and what is varied.
 
 | Case | Tempting interpretation | Supported interpretation after audit |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ In this construction the QA tree was frozen and only the field-hit-rate leaf res
 
 The flat threshold of 2.0 corresponds to 0.75 on the hierarchical scale. In a post-hoc check of saved rounded scores, these matched thresholds select the same 75/95 tables and 85/118 injections as the flat rule. A separate grid used strict greater-than thresholds of 1.0 and 0.375: in one recorded fold both selected the same 21 of 24 injections with experimental H/HI labels. The predicates must not be conflated: 12 of the 95 tables have a flat drop exactly equal to 2.0.
 
-Matching the threshold to its score scale thus recovers the same decisions in this single-leaf setting and makes the original detection-rate gap interpretable. A deployment threshold still requires calibration.
+In this single-leaf setting, matching the thresholds recovers the same decisions and explains the original detection-rate gap. A deployment threshold still requires calibration.
 
 The clean-only contrastive construction compares repeated deterministic computations on an unchanged record. All 2,382 usable clean records have zero scores, so every positive threshold has observed clean false-positive rate zero; this panel does not identify a unique deployment threshold. Across three seeds, the flat descriptive table-run ratio was 219/282 using 119 unique source-table identifiers. A post-hoc UID-cluster bootstrap gives a 95% interval of [0.7117, 0.8364]; the repeated table runs are not 282 independent source tables.
 
@@ -60,7 +60,7 @@ In a separate stage-aligned control, 72 source clusters contributed one injectio
 
 # IV. FinRank: Score Sensitivity and Decision Stability
 
-FinRank ranks evidence from financial filings [1]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. The following table shows that random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
+FinRank ranks evidence from financial filings [1]. Under tie-as-positive scoring, a score tie counts for the gold passage; under strict-win scoring, it does not. The tie comparisons and materiality threshold were fixed before pair-level outcomes. Random-negative accuracy moves by 1.084 percentage points for TF-IDF and 1.029 for BM25, exceeding the fixed 1.0-point threshold, while the random-minus-hard gap remains positive in both systems.
 
 | System | Tie policy | Hard (%) | Random (%) | Gap (pp) |
 | --- | --- | ---: | ---: | ---: |
@@ -73,7 +73,7 @@ Gaps are random accuracy minus hard accuracy, computed before display rounding. 
 
 # V. Retrieval Comparisons
 
-We built five lexical configurations on BEIR SciFact and NFCorpus [2]: TF-IDF and BM25 parameter pairs $(k_1, b)$ of (0.9, 0.4), (1.2, 0.75), (0.5, 0.3) and (1.5, 0.6). We concatenate each document's title and text, lowercase and tokenize on ASCII alphanumeric runs, use log-scaled term frequency and smoothed inverse document frequency for TF-IDF cosine, and resolve equal scores by ascending document ID unless testing the alternative order. They use the released corpora, qrels and 300/323 judged queries, respectively. The systems are our own runs, and the two datasets belong to one benchmark family. We compare system scores on the same queries so that statistical analysis is paired; each dataset has its own comparison family.
+We built five lexical configurations on BEIR SciFact and NFCorpus [2]: TF-IDF and BM25 parameter pairs $(k_1, b)$ of (0.9, 0.4), (1.2, 0.75), (0.5, 0.3) and (1.5, 0.6). We concatenate each document's title and text, lowercase and tokenize on ASCII alphanumeric runs, use log-scaled term frequency and smoothed inverse document frequency for TF-IDF cosine, and resolve equal scores by ascending document ID unless testing the alternative order. The runs use the released corpora and qrels, with 300/323 judged queries, respectively. They are our own runs, and the two datasets belong to one benchmark family. We compare system scores on the same queries so that statistical analysis is paired; each dataset has its own comparison family.
 
 Our initial scoring implementation binarized graded relevance and used a different MAP denominator. Aligning it with the trec_eval contract corrected both definitions. Under graded nDCG@10, TF-IDF moved from second to third in one NFCorpus ranking; the separate denominator correction changed TF-IDF's MAP@10 from approximately 0.2200 to 0.1162. This is a correction of our implementation, not evidence that the official leaderboard was wrong. For fixed rankings, trec_eval 10.0-rc3 agreed with 18,690 per-query values within $10^{-4}$: five systems, 623 queries and six nDCG, MAP and recall cutoff combinations. This check does not validate tie-breaking policy.
 
@@ -85,7 +85,7 @@ The supported SciFact pairs were BM25(1.5, 0.6) versus TF-IDF (mean nDCG@10 diff
 
 Reversing document-ID tie order for BM25(0.9, 0.4) on NFCorpus at k=10 changed the ordered top ten for 36.5% of queries and top-ten membership for 25.7%. Mean nDCG@10 changed from 0.30453945 to 0.30449093, approximately 0.00005. Query-level changes can therefore be hidden by the aggregate in this setting; this is not an estimated benchmark-wide failure rate.
 
-For an intentionally duplicated system and an intentionally degraded control, an exact-tie-aware point-estimate rule and the paired audit both passed both controls. The controls do not demonstrate that the audit outperforms the simpler rule. A subsequent BGE-small-en-v1.5 [11] exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for BM25(1.2, 0.75) on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an exploratory retrieval result selected after the original analysis, not evidence that the audit improved a user decision or that lexical tie findings transfer to dense models.
+An exact-tie-aware point-estimate rule and the paired audit both passed the intentionally duplicated and degraded controls. These controls do not demonstrate that the audit outperforms the simpler rule. A subsequent BGE-small-en-v1.5 [11] exploration gave mean nDCG@10 of 0.7127 versus 0.6622 for BM25(1.2, 0.75) on SciFact, and 0.3438 versus 0.3062 on NFCorpus. This is an exploratory retrieval result selected after the original analysis, not evidence that the audit improved a user decision or that lexical tie findings transfer to dense models.
 
 The BGE comparison was later included with the five lexical runs in a separate six-system family of 15 pairs per dataset. With 200,000 Monte Carlo sign flips per pair and Holm correction within each dataset, the BGE-minus-BM25(1.2, 0.75) nDCG@10 difference was +0.05049 on SciFact (unadjusted $p = 0.0064$; adjusted $p = 0.0660$) and +0.03759 on NFCorpus (adjusted $p = 0.0155$). The SciFact pair crosses the 0.05 threshold after adjustment within this same test; it is not evidence of equality. These post-hoc tests are not the original ten-pair family or independent confirmation. The saved dense outputs contain ranked document IDs rather than original dense scores, so they cannot establish dense-score tie frequencies. Numerical reproducibility of the tests does not establish their inferential assumptions.
 
@@ -93,7 +93,7 @@ The single BGE comparison originally used a paired bootstrap: the mean differenc
 
 # VI. Discussion and Conclusion
 
-The three cases show distinct ways in which an evaluation contract constrains a claim. In the staged evaluator, an apparent rate difference vanishes after matching thresholds under a restricted score rescaling. In FinRank, a tested comparison retains direction as absolute scores change. In our BEIR runs, tie handling and statistical comparison procedures affect the interpretation of rankings; correction of our own metric implementation is a separate calibration step.
+The three cases show how an evaluation contract constrains a claim. In the staged evaluator, an apparent rate difference vanishes after matching thresholds under a restricted score rescaling. In FinRank, a tested comparison retains its direction as absolute scores change. In our BEIR runs, tie handling and statistical comparison procedures affect the interpretation of rankings; correction of our own metric implementation is a separate calibration step.
 
 These findings have limited scope: the first case uses controlled table perturbations, FinRank uses lexical baselines and has an unresolved reproduction gap, and the BEIR analyses are retrospective runs over two datasets with a post-hoc dense extension. Existing validity frameworks already cover broader audit principles [3], [4], [5]. Our contribution is a reproducible set of case-specific observations and the distinction between numerical movement and supported interpretation. We recommend reporting the measurement object, scoring convention, comparison and uncertainty together; we do not claim a general audit guarantee or observed deployment benefit.
 

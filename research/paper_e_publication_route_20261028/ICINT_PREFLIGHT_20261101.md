@@ -1,5 +1,7 @@
 # ICINT 审阅稿核验：2026-11-01
 
+> 2026-11-09：英文表达润色后的[现役审阅 PDF](icint_latex/main.pdf)为 4 页，SHA-256 `93676e31d1a11846657363fa73fe5aaf2be4631953618d16c43dc014369425c7`。数字、公式、引用与 AI 声明保留；字体均嵌入，Tectonic 0.15.0 编译无 overfull，有 underfull 及 Fontconfig 提示。以下旧 hash 与“现役”只指对应日期快照；本版尚待作者团队和导师确认。
+
 > 2026-11-04 摘要与排版更新：现役[匿名 PDF](icint_latex/main.pdf)为 4 页，SHA-256 `1b52ca0f63cb9ca554f996b5b9203c34b58d9a5aa741e006c48eec3c41221c01`。摘要明确比较对象及方向，数学变量与 $p$ 值显示格式统一；文献出处与数值结论不变。使用官网 IEEEtran class（SHA-256 `c972aca108fda004c3514d63658e02816da2e54d9a1451e870b9bd970e003f55`）及 Tectonic 0.17.0 重编译并逐页检查，无 overfull，有 underfull 与 Fontconfig 提示；pypdf 检查到的 11 种字体均已嵌入。作者团队终核、AI 声明、材料许可和正式投稿仍待办理。投稿系统纯文本摘要可从[正文](paper_e_icint_draft.md)的 Abstract 段复制，去掉 Markdown 标记。
 
 > 2026-11-03 文献更新版 PDF SHA-256 `0425b9e74c7a6c18fe1f27e49149680fb48823047754cc50bf87cf39a48515a6`；三篇相关工作改用已核验的正式会议出处。下方日期条目只描述各自快照。
