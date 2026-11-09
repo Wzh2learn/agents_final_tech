@@ -16,7 +16,7 @@
 2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
 3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
 4. **采集已收口。** [26020/22711](results/CODE_SOURCE_CORRECTIONS.md#source-expansion)共42实际POST；前者超时且代码未修对，后者按用户重心调整提前停止。复用已存真实现场/成功工件，不追加来源资格；134 valid_unseen保留。
-5. **直接机制实验。** 代码9384全失败且上下文/行为覆盖不足，停止同例提示追加。ALF clean02单现场局部修订与普通历史均成功、动作相同，计形成费后修订更贵；[结果](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)不足以支持收益。下一用不同现场测试行动后果监督的局部修订，并与同信息普通联合策略及简单规则比较；候选尚未训练。
+5. **直接机制实验。** 代码9384上下文/覆盖不足，停止同例追加。ALF clean02/03普通与修订均成功、动作数相同；heat03的8B两臂均未完成，writer又产生未经证实的杯温断言。[三例结果](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)未支持收益。下一从原生反馈构造行动对应的可核验监督，对照简单反馈规则及已训练R；不把writer推断当真值，候选尚未训练。
 
 ## 证据和写作要求
 
