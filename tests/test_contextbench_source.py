@@ -193,6 +193,180 @@ def test_matplotlib_rejects_edited_native_result_even_if_qualification_boolean_i
     assert not f.root.exists()
 
 
+@pytest.fixture
+def development_inputs(matplotlib_inputs):
+    """Synthetic single-source qualification; no real task or native execution."""
+    f=matplotlib_inputs;old=f.source;source='matplotlib__matplotlib-90001'
+    (f.receipt.parent/old).rename(f.receipt.parent/source)
+    case=copy.deepcopy(f.cases[old]);spec=case['spec'];f.source=source
+    spec.update(instance_id=source,role='DEVELOPMENT_SOURCE',dataset_file='CPU_SOURCE.parquet',
+        problem_sha256=case['input_sha256']['task.txt'],archive={'path':'CPU_ARCHIVE','sha256':'a'*64},
+        dependency_slot='source',label_map={k:[dict(published=n,node=n) for n in nodes] for k,nodes in case['labels'].items()})
+    contract=Path(f.reg['qualification_contract']['path'])
+    value=dict(schema='contextbench_pool_qualification_matplotlib_source_v1',dataset_manifest={'CPU':'fixed'},
+        cases=[spec],runtime={'CPU_RUNTIME':True})
+    f.reg['qualification_contract']['sha256']=write_json(contract,value)
+    f.cases={source:case}
+    result=dict(schema='matplotlib_source_qualification_result_v1',status='QUALIFIED',model_calls=0,training=0,
+        cases=f.cases,input_sha256={str(contract):m.sha(contract)},unrun_groups=[])
+    f.reg.update(schema='qualified_matplotlib_development_source_v1',
+        rows=[dict(source=source,clean_base=str(f.receipt.parent/source/'clean_base'))])
+    f.reg['source_result']['sha256']=write_json(f.receipt,result);f.registry_sha=write_json(f.registry,f.reg)
+    return f
+
+
+def test_development_source_dynamic_identity_and_exact_coverage_without_target(development_inputs):
+    f=development_inputs;result=prepare(f);manifest,h,actor,_=m.verify(f.root,result['manifest_sha256'])
+    assert manifest['source']==f.source and manifest['source_role']=='DEVELOPMENT_SOURCE'
+    assert manifest['labels']==f.cases[f.source]['labels']
+    assert set(p.name for p in (f.root/'inputs').iterdir())=={'source_task.txt','task.txt','guest.py','opencode.json'}
+    assert not any(x in (f.root/'inputs/task.txt').read_text() for x in ('25352','CPU_EVALUATOR_ONLY_PATCH','CPU_ARCHIVE'))
+    assert manifest['sampling']['native_thinking'] is False
+    assert 'request_policy' not in manifest and 'production_prefix_capture' not in manifest
+
+
+def test_development_source_opt_in_policy_and_capture_are_manifest_bound(development_inputs):
+    f=development_inputs
+    result=m.prepare(f.registry,f.registry_sha,f.source,f.root,f.projection,f.projection_sha,f.profile,f.profile_sha,
+        request_policy='teacher27b_thinking_low_v1',capture_production_prefix=True)
+    manifest,_,_,_=m.verify(f.root,result['manifest_sha256'])
+    assert manifest['request_policy']['chat_template_kwargs']==dict(enable_thinking=True,reasoning_effort='low')
+    assert manifest['sampling']==dict(seed=17,temperature=.2,native_thinking=True,reasoning_effort='low',context=32768,output=8192)
+    assert json.loads((f.root/'inputs/opencode.json').read_text())['compaction']=={'auto':False,'prune':False}
+    for key,value in [('source_role','target'),('caps',dict(m.CAPS,posts=49)),
+            ('request_policy',{'version':'unapproved'}),('production_prefix_capture',{}),
+            ('sampling',dict(manifest['sampling'],seed=18)),('opencode_compaction',{'auto':True,'prune':False})]:
+        changed=copy.deepcopy(manifest);changed[key]=value;digest=write_json(f.root/'manifest.json',changed)
+        with pytest.raises(ValueError):m.verify(f.root,digest)
+
+
+def test_limited_qualification_metadata_and_native_recompute_are_bound(development_inputs,monkeypatch):
+    """Runtime seam control; qualifier suite tests the real origin/log verifier."""
+    f=development_inputs;case=f.cases[f.source];node=case['labels']['ptp'][0]
+    origin=f.private/'CPU_ORIGIN.json';origin_sha=write_json(origin,{'CPU_ONLY':'qualification origin'})
+    declared=dict(nodes=[node],origin_receipt=dict(path=str(origin),sha256=origin_sha),reason='CPU declared PDF skip')
+    contract=Path(f.reg['qualification_contract']['path']);value=json.loads(contract.read_text());value['expected_skips']=declared
+    f.reg['qualification_contract']['sha256']=write_json(contract,value)
+    calls=[]
+    def validated(c,labels,bindings):
+        calls.append(c['expected_skips']);assert labels==case['labels'];m.read_ref(c['expected_skips']['origin_receipt'])
+        return list(c['expected_skips']['nodes'])
+    monkeypatch.setattr(pool,'matplotlib_source_expected_skips',validated)
+    for arm in ('base_with_tests','gold_with_tests'):
+        group=case['arms'][arm]['group'];group['result']['tests'][node]='skipped'
+        log=f.receipt.parent/f.source/(arm+'.log');log.write_text(pool.MARKER+json.dumps(group['result'])+'\n');group['log_sha256']=m.sha(log)
+    case['qualification']=pool.matplotlib_qualification(case['arms']['base_with_tests']['group'],case['arms']['gold_with_tests']['group'],case['labels'],expected_skips=[node])
+    result=json.loads(f.receipt.read_text());result.update(cases=f.cases,expected_skips=declared,qualification_scope='LIMITED_RUNTIME_SCOPE',input_sha256={str(contract):m.sha(contract)})
+    f.reg['source_result']['sha256']=write_json(f.receipt,result);f.registry_sha=write_json(f.registry,f.reg)
+    digest=prepare(f)['manifest_sha256'];manifest,_,_,_=m.verify(f.root,digest)
+    assert calls and manifest['expected_skips']==declared and manifest['qualification_scope']=='LIMITED_RUNTIME_SCOPE'
+    assert case['qualification']['base_all_ptp_pass'] is False and case['qualification']['gold_all_ptp_pass'] is False
+    assert 'CPU declared PDF skip' not in (f.root/'inputs/task.txt').read_text()
+    for field in ('expected_skips','qualification_scope'):
+        changed=copy.deepcopy(manifest);changed.pop(field)
+        with pytest.raises(ValueError):m.verify(f.root,write_json(f.root/'manifest.json',changed))
+    write_json(f.root/'manifest.json',manifest)
+    origin.write_text('tampered origin')
+    with pytest.raises(ValueError,match='hash'):m.verify(f.root,digest)
+
+
+@pytest.mark.parametrize('role,slot',[('source','source'),('target','target'),('DEVELOPMENT_SOURCE','target')])
+def test_declared_skip_cannot_enter_legacy_or_target_scoring(tmp_path,role,slot):
+    manifest=dict(repo='matplotlib/matplotlib',source_role=role,source=m.MPL_SOURCE_ID,
+        expected_skips={'nodes':['ptp']},qualification_scope='LIMITED_RUNTIME_SCOPE')
+    with pytest.raises(ValueError,match='development source only'):m.score(tmp_path,manifest,None,matplotlib_slot=slot)
+    assert not (tmp_path/'scoring').exists()
+
+
+@pytest.mark.parametrize('change',['role','base','labels','task','extra_case','row_target','log','skip','projection'])
+def test_development_source_rejects_rebound_or_mixed_qualification(development_inputs,change):
+    f=development_inputs;result=json.loads(f.receipt.read_text());case=result['cases'][f.source]
+    if change=='role':case['spec']['role']='target'
+    elif change=='base':case['spec']['base_commit']='b'*40
+    elif change=='labels':case['labels']['ptp']=case['labels']['ptp'][:-1]
+    elif change=='task':case['spec']['problem_sha256']='0'*64
+    elif change=='extra_case':result['cases'][m.MPL_TARGET_ID]=copy.deepcopy(case)
+    elif change=='row_target':f.reg['rows'][0]['target']=m.MPL_TARGET_ID
+    elif change=='log':(f.receipt.parent/f.source/'gold_with_tests.log').write_text('changed native log')
+    elif change=='projection':f.projection_sha='0'*64
+    else:case['arms']['gold_with_tests']['group']['result']['tests'][case['labels']['ptp'][0]]='skipped'
+    f.reg['source_result']['sha256']=write_json(f.receipt,result);f.registry_sha=write_json(f.registry,f.reg)
+    with pytest.raises(ValueError):prepare(f)
+    assert not f.root.exists()
+
+
+def test_development_config_cannot_reenable_compaction_after_rehash(development_inputs):
+    f=development_inputs;result=prepare(f);path=f.root/'manifest.json';manifest=json.loads(path.read_text())
+    config=json.loads((f.root/'inputs/opencode.json').read_text());config['compaction']['auto']=True
+    write_json(f.root/'inputs/opencode.json',config);manifest['inputs']=m.tree(f.root/'inputs')
+    with pytest.raises(ValueError,match='config'):m.verify(f.root,write_json(path,manifest))
+
+
+def test_development_node_collection_uses_read_only_qualification_validator(development_inputs,monkeypatch):
+    f=development_inputs;collection=f.private/'CPU_COLLECTION.json';collection_sha=write_json(collection,{'CPU_ENGINEERING_ONLY':True})
+    contract=Path(f.reg['qualification_contract']['path']);value=json.loads(contract.read_text())
+    value['node_collection']=dict(path=str(collection),sha256=collection_sha)
+    f.reg['qualification_contract']['sha256']=write_json(contract,value)
+    result=json.loads(f.receipt.read_text());result['input_sha256']={str(contract):m.sha(contract)}
+    f.reg['source_result']['sha256']=write_json(f.receipt,result);f.registry_sha=write_json(f.registry,f.reg)
+    calls=[]
+    def validate(c,bindings,output,ref):
+        assert ref==f.reg['qualification_contract'] and output==f.receipt.parent
+        m.read_ref(c['node_collection']);calls.append(c['node_collection'])
+        return {'cases':[{'labels':f.cases[f.source]['labels']}]}
+    monkeypatch.setattr(pool,'load_matplotlib_source',validate)
+    prepared=prepare(f);m.verify(f.root,prepared['manifest_sha256'])
+    assert len(calls)==2 and str(collection) not in (f.root/'inputs/task.txt').read_text()
+    collection.write_text('changed actual collection receipt')
+    with pytest.raises(ValueError,match='hash'):m.verify(f.root,prepared['manifest_sha256'])
+
+
+@pytest.mark.parametrize('module',['lib/mpl_toolkits/axes_grid1/tests/test_cpu.py',
+    'lib/mpl_toolkits/../tests/test_cpu.py','lib/mpl_toolkits/axes_grid1/private/test_cpu.py',
+    'lib/mpl_toolkits/axes_grid1/tests/not_a_test.py'])
+def test_development_toolkit_nodes_are_source_only_and_path_restricted(development_inputs,module):
+    f=development_inputs;case=f.cases[f.source]
+    change=lambda n:module+'::'+n.split('::',1)[1]
+    case['labels']={k:[change(n) for n in nodes] for k,nodes in case['labels'].items()}
+    case['spec']['label_map']={k:[dict(published=n,node=n) for n in nodes] for k,nodes in case['labels'].items()}
+    for arm in ('base_with_tests','gold_with_tests'):
+        group=case['arms'][arm]['group'];group['result']['tests']={change(n):state for n,state in group['result']['tests'].items()}
+        log=f.receipt.parent/f.source/(arm+'.log');log.write_text(pool.MARKER+json.dumps(group['result'])+'\n');group['log_sha256']=m.sha(log)
+    case['qualification']=pool.matplotlib_qualification(case['arms']['base_with_tests']['group'],case['arms']['gold_with_tests']['group'],case['labels'])
+    contract=Path(f.reg['qualification_contract']['path']);value=json.loads(contract.read_text());value['cases']=[case['spec']]
+    f.reg['qualification_contract']['sha256']=write_json(contract,value)
+    result=json.loads(f.receipt.read_text());result.update(cases={f.source:case},input_sha256={str(contract):m.sha(contract)})
+    f.reg['source_result']['sha256']=write_json(f.receipt,result);f.registry_sha=write_json(f.registry,f.reg)
+    if '/axes_grid1/tests/test_cpu.py' in module:
+        prepared=prepare(f);m.verify(f.root,prepared['manifest_sha256'])
+    else:
+        with pytest.raises(ValueError,match='label'):prepare(f)
+        assert not f.root.exists()
+
+
+@pytest.mark.parametrize('kwargs',[dict(request_policy='teacher27b_thinking_low_v1'),dict(capture_production_prefix=True)])
+def test_legacy_sources_cannot_enable_new_cohort_options(prepared_inputs,kwargs):
+    f=prepared_inputs
+    with pytest.raises(ValueError):m.prepare(f.registry,f.registry_sha,f.source,f.root,f.projection,f.projection_sha,f.profile,f.profile_sha,**kwargs)
+    assert not f.root.exists()
+
+
+def test_default_source_keeps_original_sampling_and_config(prepared_inputs):
+    f=prepared_inputs;result=prepare(f);manifest,_,_,profile=m.verify(f.root,result['manifest_sha256'])
+    assert manifest['sampling']==dict(seed=17,temperature=.2,native_thinking=False,context=32768,output=8192)
+    assert json.loads((f.root/'inputs/opencode.json').read_text())==actor.config(profile,17)
+    assert not {'request_policy','production_prefix_capture','source_role','opencode_compaction'} & manifest.keys()
+
+
+def test_target_lifecycle_cannot_inject_development_source_options(tmp_path,monkeypatch):
+    called=[];monkeypatch.setattr(m,'resource_lock',lambda:called.append('FORBIDDEN_LOCK'))
+    manifest=dict(caps=m.CAPS,source='matplotlib__matplotlib-90001',source_role='DEVELOPMENT_SOURCE',request_policy=m.THINKING_LOW_POLICY)
+    with pytest.raises(ValueError,match='another actor cohort'):
+        m.execute_prepared(tmp_path,'0'*64,(manifest,None,None,None),None,
+            identity=dict(target=m.MPL_TARGET_ID),success_key='target_success',mode='REAL_TARGET_EPISODE')
+    assert not called
+
+
 def test_prepare_has_zero_process_endpoint_and_verbatim_public_input(prepared_inputs, monkeypatch):
     f = prepared_inputs
     def forbidden(*_, **__): raise AssertionError('CPU prepare crossed execution boundary')
@@ -401,6 +575,151 @@ def relay_at(tmp_path, caps=None):
         SimpleNamespace(actor=actor, agg=agg), deadline=time.monotonic()+10, caps=caps)
 
 
+def test_thinking_low_all_real_fake_wire_requests_use_frozen_nested_policy(tmp_path,monkeypatch):
+    bodies,workers=fake_upstream(monkeypatch)
+    relay=m.Relay(tmp_path,relay_at_profile(),SimpleNamespace(actor=actor,agg=agg),deadline=time.monotonic()+10,
+        request_policy=copy.deepcopy(m.THINKING_LOW_POLICY))
+    for seed in (123,456):
+        payload=synthetic_payload(seed=seed,reasoning_effort='high',chat_template_kwargs={'enable_thinking':False,'reasoning_effort':'high'})
+        assert exchange(relay,payload).startswith(b'HTTP/1.1 200')
+    for worker in workers:worker.join(5);assert not worker.is_alive()
+    for index,body in enumerate(bodies,1):
+        value=json.loads(body);incoming=json.loads((tmp_path/'wire'/f'{index:05d}.incoming.json').read_text())
+        assert value['chat_template_kwargs']=={'enable_thinking':True,'reasoning_effort':'low'}
+        assert 'reasoning_effort' not in value and (value['seed'],value['temperature'],value['max_tokens'])==(17,.2,8192)
+        assert incoming['chat_template_kwargs']['enable_thinking'] is False and incoming['seed'] in (123,456)
+        assert body==(tmp_path/'wire'/f'{index:05d}.request.json').read_bytes()
+    events=[json.loads(line) for line in (tmp_path/'forward_ledger.jsonl').read_text().splitlines()]
+    assert len([e for e in events if e['event']=='request_policy_prepared'])==2
+    assert relay.accounting()['actual_forwarded_body_bytes']==sum(map(len,bodies))
+    relay.close()
+
+
+@pytest.mark.parametrize('policy',[{},dict(m.THINKING_LOW_POLICY,version='wrong'),
+    dict(m.THINKING_LOW_POLICY,chat_template_kwargs={'enable_thinking':1,'reasoning_effort':'low'})])
+def test_unknown_request_policy_never_opens_wire_directory(tmp_path,policy):
+    with pytest.raises(ValueError):m.Relay(tmp_path,relay_at_profile(),SimpleNamespace(),deadline=time.monotonic()+10,request_policy=policy)
+    assert not (tmp_path/'wire').exists()
+
+
+def test_policy_sampling_fault_rejected_before_reservation_or_connect(tmp_path,monkeypatch):
+    def wrong(*args):return dict(actor.model_payload(*args),seed=18)
+    h=SimpleNamespace(actor=SimpleNamespace(receive_http=actor.receive_http,model_payload=wrong),agg=agg)
+    relay=m.Relay(tmp_path,relay_at_profile(),h,deadline=time.monotonic()+10,request_policy=m.THINKING_LOW_POLICY)
+    connected=[];monkeypatch.setattr(socket,'create_connection',lambda *a,**k:connected.append(True))
+    assert exchange(relay).startswith(b'HTTP/1.1 502')
+    assert not connected and relay.posts==relay.inflight==relay.used==0
+    relay.close()
+
+
+def capture_relay(tmp_path):
+    for name in ('baseline','work'):
+        for path in ('lib/matplotlib/cbook.py','lib/mpl_toolkits/axes_grid1/tool.py','lib/matplotlib/tests/test_cpu.py'):
+            p=tmp_path/name/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('CPU_PUBLIC_INITIAL = True\n')
+    write_json(tmp_path/'manifest.json',{'CPU_ENGINEERING_ONLY':True})
+    return m.Relay(tmp_path,relay_at_profile(),SimpleNamespace(actor=actor,agg=agg),deadline=time.monotonic()+30,
+        capture_production_prefix=copy.deepcopy(m.PREFIX_CAPTURE))
+
+
+@pytest.mark.parametrize('production',['lib/matplotlib/cbook.py','lib/mpl_toolkits/axes_grid1/tool.py'])
+def test_first_production_prefix_has_actual_body_and_exact_public_snapshot_once(tmp_path,monkeypatch,production):
+    bodies,workers=fake_upstream(monkeypatch);relay=capture_relay(tmp_path);folder=tmp_path/'production_prefix_checkpoint'
+    exchange(relay);assert not folder.exists()
+    (tmp_path/'work/lib/matplotlib/tests/test_cpu.py').write_text('ONLY_TEST_EDIT = True\n')
+    exchange(relay);assert not folder.exists()
+    (tmp_path/'work'/production).write_text('ACTUAL_PRODUCTION_EDIT = True\n')
+    assert exchange(relay).startswith(b'HTTP/1.1 200')
+    record=json.loads((folder/'receipt.json').read_text());frozen=(folder/'receipt.json').read_bytes()
+    assert record['status']=='READY' and record['request']==3 and record['changed_production_files']==[production]
+    assert (folder/'request.body').read_bytes()==bodies[2]
+    assert record['body_sha256']==hashlib.sha256(bodies[2]).hexdigest()
+    assert record['manifest_sha256']==m.sha(tmp_path/'manifest.json')
+    assert record['incoming_request_sha256']==m.sha(tmp_path/'wire/00003.incoming.json')
+    files=json.loads((folder/'files_sha256.json').read_text())
+    assert files['before']==files['after']==files['copied']==m.tree(folder/'work')
+    assert record['elapsed_seconds']>=0 and record['cpu_seconds']>=0
+    (tmp_path/'work'/production).write_text('LATER_EDIT = True\n');exchange(relay)
+    assert (folder/'receipt.json').read_bytes()==frozen
+    for worker in workers:worker.join(5);assert not worker.is_alive()
+    assert relay.accounting()['actual_forwarded_posts']==4
+    relay.close()
+
+
+def test_unstable_prefix_is_unknown_preserves_copy_and_never_retries(tmp_path,monkeypatch):
+    bodies,workers=fake_upstream(monkeypatch);relay=capture_relay(tmp_path)
+    source=tmp_path/'work/lib/matplotlib/cbook.py';source.write_text('FIRST_EDIT = True\n')
+    real_copy=m.shutil.copytree
+    def changing(*args,**kwargs):
+        result=real_copy(*args,**kwargs)
+        if Path(args[0])==tmp_path/'work':source.write_text('CONCURRENT_EDIT = True\n')
+        return result
+    monkeypatch.setattr(m.shutil,'copytree',changing)
+    exchange(relay);folder=tmp_path/'production_prefix_checkpoint'
+    record=json.loads((folder/'receipt.json').read_text())
+    assert record['status']=='UNKNOWN' and record['error']=='work changed during snapshot'
+    frozen=(folder/'receipt.json').read_bytes();exchange(relay);assert (folder/'receipt.json').read_bytes()==frozen
+    assert (folder/'work/lib/matplotlib/cbook.py').read_text()=='FIRST_EDIT = True\n'
+    for worker in workers:worker.join(5);assert not worker.is_alive()
+    relay.close()
+
+
+def test_capture_close_during_copy_does_not_block_send_close_lock(tmp_path,monkeypatch):
+    relay=capture_relay(tmp_path);(tmp_path/'work/lib/matplotlib/cbook.py').write_text('EDIT = True\n')
+    entered,release=threading.Event(),threading.Event();real_copy=m.shutil.copytree
+    def paused(*args,**kwargs):
+        if Path(args[0])==tmp_path/'work':entered.set();assert release.wait(3)
+        return real_copy(*args,**kwargs)
+    monkeypatch.setattr(m.shutil,'copytree',paused)
+    connected=[];monkeypatch.setattr(socket,'create_connection',lambda *a,**k:connected.append(True))
+    worker=threading.Thread(target=lambda:exchange(relay));worker.start();assert entered.wait(3)
+    closed=threading.Event();closer=threading.Thread(target=lambda:(relay.close(),closed.set()));closer.start()
+    try:assert closed.wait(1)
+    finally:release.set();worker.join(5);closer.join(5)
+    assert not worker.is_alive() and not closer.is_alive() and not connected
+    record=json.loads((tmp_path/'production_prefix_checkpoint/receipt.json').read_text())
+    assert record['status']=='UNKNOWN' and record['error']=='relay closed during snapshot'
+
+
+def test_linked_capture_is_unknown_without_copying_external_bytes(tmp_path,monkeypatch):
+    relay=capture_relay(tmp_path);secret=tmp_path/'OUTSIDE';secret.write_text('NEVER_COPY_THIS')
+    link=tmp_path/'work/lib/matplotlib/linked.py'
+    try:os.link(secret,link)
+    except OSError:pytest.skip('hardlinks unavailable')
+    new_payload=synthetic_payload();write_json(tmp_path/'wire/00001.incoming.json',new_payload)
+    relay.capture_prefix(1,json.dumps(new_payload).encode())
+    folder=tmp_path/'production_prefix_checkpoint';record=json.loads((folder/'receipt.json').read_text())
+    assert record['status']=='UNKNOWN' and record['error']['type']=='ValueError'
+    assert not (folder/'work').exists()
+    relay.close()
+
+
+def test_capture_byte_cap_preflight_precedes_hashing_and_copy(tmp_path,monkeypatch):
+    relay=capture_relay(tmp_path)
+    large=tmp_path/'work/lib/matplotlib/oversized.py'
+    with large.open('wb') as out:out.truncate(256*1024**2+1)  # Real sparse file/stat, no large allocation.
+    actual_sha=m.sha;actual_open=Path.open;copied=[]
+    def checked_open(path,*args,**kwargs):
+        assert not Path(path).is_relative_to(tmp_path/'work'), 'capacity must precede work reads'
+        assert not Path(path).is_relative_to(tmp_path/'baseline'), 'capacity must precede baseline reads'
+        return actual_open(path,*args,**kwargs)
+    def checked_sha(path):
+        assert not Path(path).is_relative_to(tmp_path/'work'), 'oversized work must not be hashed'
+        assert not Path(path).is_relative_to(tmp_path/'baseline'), 'capacity must precede all tree hashing'
+        return actual_sha(path)
+    monkeypatch.setattr(m,'sha',checked_sha)
+    monkeypatch.setattr(Path,'open',checked_open)
+    monkeypatch.setattr(m.shutil,'copytree',lambda *a,**k:copied.append(a))
+    relay.capture_prefix(1,b'CPU_ONLY_REQUEST')
+    folder=tmp_path/'production_prefix_checkpoint';record=json.loads((folder/'receipt.json').read_text())
+    assert record['status']=='UNKNOWN' and record['error']['type']=='ValueError'
+    assert 'capture capacity' in record['error']['message'] and record['policy']['max_bytes']==256*1024**2
+    assert record['policy']['max_files']==30000 and record['policy']['max_seconds']==30
+    assert not copied and not (folder/'work').exists() and record['copied_bytes']==0 and record['copy_complete'] is False
+    assert record['elapsed_seconds']>=0 and record['cpu_seconds']>=0
+    frozen=(folder/'receipt.json').read_bytes();relay.capture_prefix(2,b'NO_RETRY');assert (folder/'receipt.json').read_bytes()==frozen
+    relay.close()
+
+
 def test_fake_wire_exact_payload_and_concurrent_actual_post_cap(tmp_path, monkeypatch):
     bodies, upstreams = fake_upstream(monkeypatch); relay = relay_at(tmp_path, dict(posts=2, seconds=10, combined_wire_bytes=100000))
     responses = []; workers = [threading.Thread(target=lambda: responses.append(exchange(relay))) for _ in range(5)]
@@ -503,6 +822,48 @@ def test_candidate_scoring_never_accepts_nonpass_or_missing(tmp_path, monkeypatc
     h = SimpleNamespace(pool=SimpleNamespace(helpers=lambda: (SimpleNamespace(apply_patch=lambda *_: dict(check_exit=0, apply_exit=0)), None), RUNNER='synthetic test runner'))
     result = m.score(tmp_path, dict(repo='django/django', labels=dict(f2p=['a'], ptp=['b'])), h)
     assert result['passed'] is (state == 'passed')
+
+
+@pytest.mark.parametrize('fault',[None,'skip_passed','extra_skip','f2p_skip','regression','skip_error','missing','extra_node'])
+def test_development_scoring_keeps_all_91_ptp_and_only_declared_skip(tmp_path,monkeypatch,fault):
+    for name in ('baseline','work'):
+        (tmp_path/name/'tests').mkdir(parents=True);(tmp_path/name/'tests/test_public.py').write_text('PUBLIC_REPOSITORY_TESTS')
+    (tmp_path/'scoring').mkdir();(tmp_path/'scoring/test.patch').write_text('SCORER_ONLY')
+    labels=dict(f2p=['test_f2p1','test_f2p2'],ptp=['test_ptp'+str(i) for i in range(91)])
+    declared=dict(nodes=[labels['ptp'][0]],origin_receipt=dict(path=str(tmp_path/'origin.json'),sha256='a'*64),reason='CPU observed PDF skip')
+    contract=tmp_path/'contract.json';contract_sha=write_json(contract,dict(expected_skips=declared))
+    registry=tmp_path/'registry.json';registry_sha=write_json(registry,dict(schema=m.DEVELOPMENT_REGISTRY,qualification_contract=dict(path=str(contract),sha256=contract_sha)))
+    manifest=dict(repo='matplotlib/matplotlib',source='matplotlib__matplotlib-22711',source_role='DEVELOPMENT_SOURCE',
+        labels=labels,expected_skips=declared,qualification_scope='LIMITED_RUNTIME_SCOPE',
+        registry=dict(path=str(registry),sha256=registry_sha),scorer_dependencies=dict(matplotlib_runtime={}))
+    calls=[]
+    def tests(candidate,repo,nodes,runner,output,suite,h,**kwargs):
+        calls.append((suite,list(nodes)));states={n:'passed' for n in nodes}
+        if suite=='ptp':
+            states[declared['nodes'][0]]='skipped'
+            if fault=='skip_passed':states[declared['nodes'][0]]='passed'
+            elif fault=='extra_skip':states[nodes[1]]='skipped'
+            elif fault=='regression':states[nodes[1]]='failed'
+            elif fault=='skip_error':states[nodes[0]]='error'
+            elif fault=='missing':states.pop(nodes[-1])
+            elif fault=='extra_node':states['UNDECLARED']='passed'
+        elif fault=='f2p_skip':states[nodes[0]]='skipped'
+        record=dict(exit=0,result=dict(tests=states,fatal=[]));record['coverage']=pool.classify(nodes,record)
+        return record
+    monkeypatch.setattr(m,'scored_test',tests)
+    def expected(contract,given,bindings):
+        assert contract['expected_skips']==declared and given==labels
+        return list(declared['nodes'])  # Qualification helper itself is tested in qualifier suite.
+    h=SimpleNamespace(pool=SimpleNamespace(helpers=lambda:(SimpleNamespace(apply_patch=lambda *_:dict(check_exit=0,apply_exit=0)),None),
+        RUNNER='CPU_RUNNER',matplotlib_assets=lambda *_:{},exact_coverage=pool.exact_coverage,matplotlib_source_expected_skips=expected))
+    result=m.score(tmp_path,manifest,h)
+    assert calls==[('f2p',labels['f2p']),('ptp',labels['ptp'])]
+    assert result['passed'] is (fault is None)
+    assert result['qualification_scope']=='LIMITED_RUNTIME_SCOPE'
+    if fault is None:
+        assert result['ptp_counts']==dict(total=91,passed=90,skipped=1,other=0)
+        assert result['suites']['ptp']['coverage']['complete'] is False
+        assert result['suites']['ptp']['limited_scope_coverage']['labels'][declared['nodes'][0]]=='skipped'
 
 
 @pytest.mark.parametrize('error', [None, {'name':'UnknownError'}, {'name':'APIError', 'data':{'statusCode':409}}])

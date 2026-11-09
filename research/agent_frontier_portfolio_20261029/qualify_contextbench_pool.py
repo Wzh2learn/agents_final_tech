@@ -79,7 +79,7 @@ def matplotlib_archive(path,revision):
     if not license:raise ValueError('Matplotlib archive license missing')
 
 
-def resolve_matplotlib_nodes(module, source, published):
+def resolve_matplotlib_nodes(module, source, published, *, allow_mpl_toolkits=False):
     """Inspect one public test module; never execute or extract a function body."""
     paths=set()
     def definitions(body, classes=()):
@@ -87,7 +87,7 @@ def resolve_matplotlib_nodes(module, source, published):
             if isinstance(node,ast.ClassDef):definitions(node.body,classes+(node.name,))
             elif isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)):paths.add(classes+(node.name,))
     definitions(ast.parse(source).body);resolved=[]
-    for label in mapped_labels('matplotlib/matplotlib',published):
+    for label in mapped_labels('matplotlib/matplotlib',published,allow_mpl_toolkits=allow_mpl_toolkits):
         file,*parts=label.split('::');name=parts[-1].split('[',1)[0];suffix=parts[-1][len(name):]
         if file!=module or not re.fullmatch(r'[A-Za-z_]\w*',name) or (suffix and not suffix.endswith(']')):raise ValueError('invalid AST published node')
         exact=tuple(parts[:-1]+[name])
@@ -163,15 +163,168 @@ def load_matplotlib_pair(c,bindings,output):
     return dict(mode='matplotlib_pair',contract=c,bindings=bindings,cases=cases,helpers=(h,d),assets=assets,caps=caps,mapping_counts=mapping_counts,prior_controls=prior,limits='Frozen Python3.10 projected runtime/deps; project Python from exact archives only. Original released-wheel native extensions plus absent generated _version.py are explicitly overlaid; not a native build of either base commit.',output=output)
 
 
-def exact_coverage(labels,record):
+def matplotlib_source_collection(c,row,published,bindings):
+    """Bind a prior native collection; complete truncated parameter IDs uniquely."""
+    ref=c['node_collection'];record=checked(ref,bindings)
+    fields={'schema','status','source_contract','qualification_receipt','instance_id','repo','base_commit','modules','collection_log','execution'}
+    if type(record) is not dict or set(record)!=fields or record['schema']!='matplotlib_source_node_collection_v1' or record['status']!='COLLECTED':raise ValueError('invalid source collection receipt')
+    spec=c['cases'][0]
+    if (record['instance_id'],record['repo'],record['base_commit'])!=(spec['instance_id'],spec['repo'],spec['base_commit']):raise ValueError('collection source differs')
+    execution=record['execution']
+    required={'container_started','exit','cleanup_status'};optional={'cleanup','stdout_sha256','stderr_sha256','seconds','command_path'}
+    if (type(execution) is not dict or not required.issubset(execution) or set(execution)-required-optional or execution['container_started'] is not True or type(execution['exit']) is not int or execution['exit']!=0 or execution['cleanup_status'] not in ('ALREADY_REMOVED','REMOVED_OWNED')):raise ValueError('collection was not successfully executed and cleaned')
+    if 'cleanup' in execution and (type(execution['cleanup']) is not dict or execution['cleanup'].get('status')!=execution['cleanup_status']):raise ValueError('collection cleanup evidence differs')
+    if 'stdout_sha256' in execution and execution['stdout_sha256']!=record['collection_log']['sha256']:raise ValueError('collection stdout evidence differs')
+    if 'stderr_sha256' in execution and not re.fullmatch(r'[a-f0-9]{64}',execution['stderr_sha256']):raise ValueError('invalid collection stderr hash')
+    if 'seconds' in execution and (type(execution['seconds']) not in (int,float) or not math.isfinite(execution['seconds']) or execution['seconds']<0):raise ValueError('invalid collection timing')
+    if 'command_path' in execution:
+        command=safe(execution['command_path']);bindings[str(command)]=sha(command)
+    original=checked(record['source_contract'],bindings)
+    if (type(original) is not dict or set(original)!={'schema','dataset_manifest','cases','runtime'} or any(original[k]!=c[k] for k in ('schema','dataset_manifest','runtime')) or type(original['cases']) is not list or len(original['cases'])!=1):raise ValueError('original source contract differs')
+    old=original['cases'][0]
+    if ({k:v for k,v in old.items() if k!='label_map'}!={k:v for k,v in spec.items() if k!='label_map'} or spec.get('node_sources')):raise ValueError('collected source spec differs')
+    for suite in ('f2p','ptp'):
+        entries=old['label_map'][suite]
+        if [x['published'] for x in entries]!=published[suite] or any(x['node']!=x['published'] for x in entries):raise ValueError('original published source labels differ')
+    prior=checked(record['qualification_receipt'],bindings);oldref=record['source_contract'];identity=spec['instance_id']
+    if (prior.get('schema')!='matplotlib_source_qualification_result_v1' or prior.get('status')!='ERROR' or prior.get('model_calls')!=0 or prior.get('training')!=0 or prior.get('input_sha256',{}).get(oldref['path'])!=oldref['sha256'] or set(prior.get('cases',{}))!={identity}):raise ValueError('original qualification receipt differs')
+    prior_case=prior['cases'][identity];arm=prior_case['arms']['base_with_tests'];group=arm['group']
+    if (prior_case['spec']!=old or prior_case['labels']!={suite:[x['node'] for x in old['label_map'][suite]] for suite in ('f2p','ptp')} or prior_case['input_sha256']['test.patch']!=hashlib.sha256(row['test_patch'].encode('utf8')).hexdigest() or group.get('container_started') is not True or group.get('exit')!=4 or group.get('cleanup',{}).get('status') not in ('ALREADY_REMOVED','REMOVED_OWNED')):raise ValueError('original source base control differs')
+    all_published=published['f2p']+published['ptp'];modules={x.split('::')[0] for x in all_published}
+    if type(record['modules']) is not dict or set(record['modules'])!=modules:raise ValueError('collection module coverage differs')
+    previous=Path(record['qualification_receipt']['path']).parent/identity/'base_with_tests'
+    for module,digest in record['modules'].items():
+        file=safe(previous/module)
+        if not re.fullmatch(r'[a-f0-9]{64}',digest) or arm['tree_sha256'].get(module)!=digest or sha(file)!=digest:raise ValueError('collected test module changed')
+        bindings[str(file)]=digest
+    logref=record['collection_log']
+    if type(logref) is not dict or set(logref)!={'path','sha256'}:raise ValueError('invalid collection log reference')
+    log=safe(logref['path'])
+    if sha(log)!=logref['sha256']:raise ValueError('native collection log changed')
+    bindings[str(log)]=logref['sha256'];prefix='CONTEXTBENCH_COLLECTION='
+    markers=[line[len(prefix):] for line in log.read_text(encoding='utf8').splitlines() if line.startswith(prefix)]
+    if len(markers)!=1:raise ValueError('missing or duplicate native collection marker')
+    collected=json.loads(markers[0])
+    if type(collected) is not dict or set(collected)!={'nodeids'} or type(collected['nodeids']) is not list or not collected['nodeids'] or any(type(x) is not str for x in collected['nodeids']) or len(set(collected['nodeids']))!=len(collected['nodeids']):raise ValueError('invalid collected node IDs')
+    nodes=collected['nodeids'];resolved={}
+    for label in all_published:
+        candidates=[label] if label in nodes else ([n for n in nodes if n.startswith(label) and n.endswith(']')] if '[' in label.split('::')[-1] and not label.endswith(']') else [])
+        if len(candidates)!=1:raise ValueError('published node has no unique native completion')
+        resolved[label]=mapped_labels('matplotlib/matplotlib',candidates,allow_mpl_toolkits=True)[0]
+    if len(resolved)!=len(all_published) or len(set(resolved.values()))!=len(all_published):raise ValueError('native collection aliases published nodes')
+    return resolved,record['modules']
+
+
+def matplotlib_source_expected_skips(contract,labels,bindings):
+    """Admit only the specifically authorized, previously observed PDF skip."""
+    if 'expected_skips' not in contract:return []
+    policy=contract['expected_skips'];spec=contract['cases'][0]
+    reason='Observed PDF-comparison skip in exact native base control; underlying skip reason not independently logged'
+    node='lib/matplotlib/tests/test_widgets.py::test_rect_visibility[pdf]'
+    if (type(policy) is not dict or set(policy)!={'nodes','origin_receipt','reason'} or policy['reason']!=reason or policy['nodes']!=[node]
+            or spec['instance_id']!='matplotlib__matplotlib-22711' or spec['role']!='DEVELOPMENT_SOURCE'
+            or len(labels['f2p'])!=2 or len(labels['ptp'])!=91 or node not in labels['ptp'] or node in labels['f2p']):raise ValueError('unapproved source skip policy')
+    origin=checked(policy['origin_receipt'],bindings);identity=spec['instance_id']
+    if (origin.get('schema')!='matplotlib_source_qualification_result_v1' or origin.get('status')!='ERROR' or origin.get('model_calls')!=0 or origin.get('training')!=0 or set(origin.get('cases',{}))!={identity}):raise ValueError('invalid source skip origin receipt')
+    case=origin['cases'][identity];group=case['arms']['base_with_tests']['group'];runtime=contract['runtime']
+    refs=[contract['dataset_manifest'],runtime['projection'],*runtime['native_overlays'].values()]
+    if 'warning_compatibility' in runtime:refs.extend(runtime['warning_compatibility'][k] for k in ('origin_failure','origin_log','prior_code_snapshot'))
+    if (case['spec']!=spec or case['labels']!=labels or case['input_sha256']['task.txt']!=spec['problem_sha256']
+            or any(origin.get('input_sha256',{}).get(ref['path'])!=ref['sha256'] for ref in refs)
+            or group.get('container_started') is not True or group.get('exit')!=1 or group.get('cleanup',{}).get('status') not in ('ALREADY_REMOVED','REMOVED_OWNED')):raise ValueError('source skip origin identity/runtime differs')
+    flat=labels['f2p']+labels['ptp'];coverage=exact_coverage(flat,group,expected_skips=[node]);states=coverage['labels']
+    if (not coverage['complete'] or any(states[n]!='failed' for n in labels['f2p'])
+            or any(states[n]!=('skipped' if n==node else 'passed') for n in labels['ptp'])):raise ValueError('source skip origin has other failures or incomplete tests')
+    log=safe(Path(policy['origin_receipt']['path']).parent/identity/'base_with_tests.log')
+    if sha(log)!=group['log_sha256']:raise ValueError('source skip origin log changed')
+    markers=[line[len(MARKER):] for line in log.read_text().splitlines() if line.startswith(MARKER)]
+    if len(markers)!=1 or json.loads(markers[0])!=group['result']:raise ValueError('source skip origin log result differs')
+    bindings[str(log)]=group['log_sha256'];return [node]
+
+
+def load_matplotlib_source(c,bindings,output,contract_ref):
+    """Validate one frozen development source without requiring a future task."""
+    required={'schema','dataset_manifest','cases','runtime'};optional={'node_collection','expected_skips'}
+    if not required.issubset(c) or set(c)-required-optional or type(c['cases']) is not list or len(c['cases'])!=1:raise ValueError('Matplotlib source schema changed')
+    spec=c['cases'][0];fields={'instance_id','repo','base_commit','dataset_file','role','archive','dependency_slot','problem_sha256','label_map'}
+    if type(spec) is not dict or set(spec) not in (fields,fields|{'node_sources'}):raise ValueError('invalid Matplotlib source spec')
+    if (not re.fullmatch(r'matplotlib__matplotlib-[1-9]\d*',spec['instance_id']) or spec['repo']!='matplotlib/matplotlib'
+            or not re.fullmatch(r'[a-f0-9]{40}',spec['base_commit']) or spec['role']!='DEVELOPMENT_SOURCE'
+            or spec['dataset_file']!='SWEContextBench_Lite_Experience.parquet' or spec['dependency_slot']!='source'
+            or not re.fullmatch(r'[a-f0-9]{64}',spec['problem_sha256'])):raise ValueError('invalid Matplotlib source identity')
+    h,d=helpers();dataset=checked(c['dataset_manifest'],bindings)
+    if Path(c['dataset_manifest']['path']).parent!=h.DATA:raise ValueError('dataset helper root differs')
+    names=[]
+    for item in dataset['files']:
+        if set(item) not in ({'name','sha256'},{'name','sha256','bytes'}) or Path(item['name']).name!=item['name'] or item['name'] in names:raise ValueError('unsafe/duplicate dataset basename')
+        path=safe(h.DATA/item['name'])
+        if sha(path)!=item['sha256'] or ('bytes' in item and (type(item['bytes']) is not int or path.stat().st_size!=item['bytes'])):raise ValueError('dataset changed')
+        names.append(item['name']);bindings[str(path)]=item['sha256']
+    if spec['dataset_file'] not in names:raise ValueError('source dataset absent')
+    metadata=h.pq.read_table(h.DATA/spec['dataset_file'],columns=['instance_id','repo','base_commit']).to_pylist()
+    selected=[row for row in metadata if row['instance_id']==spec['instance_id']]
+    if len(selected)!=1 or (selected[0]['repo'],selected[0]['base_commit'])!=(spec['repo'],spec['base_commit']):raise ValueError('source dataset identity differs')
+    row=h.dataset_row(dict(id=spec['instance_id'],rev=spec['base_commit'],data=spec['dataset_file']))
+    if (row['instance_id'],row['base_commit'])!=(spec['instance_id'],spec['base_commit']) or hashlib.sha256(row['problem_statement'].encode('utf8')).hexdigest()!=spec['problem_sha256']:raise ValueError('source row/task differs')
+    mapping=spec['label_map'];labels={};published_suites={}
+    if type(mapping) is not dict or set(mapping)!={'f2p','ptp'}:raise ValueError('invalid Matplotlib source labels')
+    for suite,field in [('f2p','FAIL_TO_PASS'),('ptp','PASS_TO_PASS')]:
+        published_suites[suite]=mapped_labels('matplotlib/matplotlib',json.loads(row[field]),allow_mpl_toolkits=True)
+    published_all=published_suites['f2p']+published_suites['ptp'];resolved={};collection_modules={}
+    if 'node_collection' in c:resolved,collection_modules=matplotlib_source_collection(c,row,published_suites,bindings)
+    node_sources=spec.get('node_sources',{})
+    if type(node_sources) is not dict or not set(node_sources).issubset({n.split('::')[0] for n in published_all}):raise ValueError('invalid public test modules')
+    for module,ref in node_sources.items():
+        if type(ref) is not dict or set(ref)!={'path','sha256'}:raise ValueError('invalid public test reference')
+        file=safe(ref['path'])
+        if sha(file)!=ref['sha256']:raise ValueError('public test module changed')
+        bindings[str(file)]=ref['sha256'];published=[n for n in published_all if n.split('::')[0]==module]
+        resolved.update(zip(published,resolve_matplotlib_nodes(module,file.read_text(encoding='utf8'),published,allow_mpl_toolkits=True)))
+    for suite in ('f2p','ptp'):
+        published=published_suites[suite];entries=mapping[suite]
+        if (type(entries) is not list or any(type(e) is not dict or set(e)!={'published','node'} for e in entries)
+                or [e['published'] for e in entries]!=published or any(e['node']!=resolved.get(e['published'],e['published']) for e in entries)):raise ValueError('source labels must exactly cover published nodes')
+        labels[suite]=mapped_labels('matplotlib/matplotlib',[e['node'] for e in entries],allow_mpl_toolkits=True)
+    flat=labels['f2p']+labels['ptp']
+    if len(set(flat))!=len(flat):raise ValueError('source test nodes alias each other')
+    patched_modules={line[6:] for line in row['test_patch'].splitlines() if line.startswith('+++ b/')}
+    if any(node.split('::')[0] not in patched_modules for node in labels['f2p']):raise ValueError('source issue test module absent from test patch')
+    ref=spec['archive'];path=safe(ref['path'])
+    if set(ref)!={'path','sha256'} or sha(path)!=ref['sha256']:raise ValueError('source archive changed')
+    bindings[str(path)]=ref['sha256'];matplotlib_archive(path,spec['base_commit'])
+    if Path(c['runtime']['projection']['path']).name!='manifest.json':raise ValueError('source projection manifest path differs')
+    assets=matplotlib_assets(c['runtime'],bindings)
+    expected_skips=matplotlib_source_expected_skips(c,labels,bindings)
+    bindings[str(Path(__file__).resolve())]=sha(__file__)
+    bindings.update({str(HERE/(name+'.py')):digest for name,digest in PINS.items()})
+    return dict(mode='matplotlib_source',contract=c,contract_ref=contract_ref,bindings=bindings,
+                cases=[dict(spec=spec,row=row,labels=labels)],helpers=(h,d),assets=assets,
+                caps=dict(container_runs=2,group_seconds=600,seconds=1800),mapping_counts={},prior_controls=[],collection_modules=collection_modules,expected_skips=expected_skips,
+                limits='Frozen Python3.10 projection and cached native overlay; not a native build of this source commit.',output=output)
+
+
+def exact_coverage(labels,record,*,expected_skips=()):
+    if type(expected_skips) not in (tuple,list) or len(set(expected_skips))!=len(expected_skips) or not set(expected_skips).issubset(labels):raise ValueError('invalid expected skip nodes')
+    expected=set(expected_skips)
     value=record.get('result') or {};tests=value.get('tests') or {}
-    return dict(labels={n:tests.get(n,'missing') for n in labels},reported_tests=len(tests),extra_ids=sorted(set(tests)-set(labels)),complete=not value.get('fatal') and set(tests)==set(labels) and all(x in ('passed','failed') for x in tests.values()) and record.get('exit') in (0,1))
+    return dict(labels={n:tests.get(n,'missing') for n in labels},reported_tests=len(tests),extra_ids=sorted(set(tests)-set(labels)),complete=not value.get('fatal') and set(tests)==set(labels) and all((x=='skipped' if n in expected else x in ('passed','failed')) for n,x in tests.items()) and record.get('exit') in (0,1))
 
 
-def matplotlib_qualification(base,gold,labels):
-    flat=labels['f2p']+labels['ptp'];coverage=[exact_coverage(flat,x) for x in (base,gold)];checks={}
+def matplotlib_qualification(base,gold,labels,*,expected_skips=()):
+    flat=labels['f2p']+labels['ptp'];coverage=[exact_coverage(flat,x,expected_skips=expected_skips) for x in (base,gold)];checks={}
     for index,(name,arm,suite,state) in enumerate([('base_all_f2p_reproduced',0,'f2p','failed'),('gold_all_f2p_pass',1,'f2p','passed'),('base_all_ptp_pass',0,'ptp','passed'),('gold_all_ptp_pass',1,'ptp','passed')]):
         checks[name]=coverage[arm]['complete'] and all(coverage[arm]['labels'][n]==state for n in labels[suite])
+    if expected_skips:
+        expected=set(expected_skips)
+        if not expected.issubset(labels['ptp']) or expected.intersection(labels['f2p']):raise ValueError('expected skip is not exclusively a PTP node')
+        for i,name in enumerate(('base','gold')):
+            states=coverage[i]['labels'];counts={'total':len(labels['ptp']),'passed':sum(states[n]=='passed' for n in labels['ptp']),'skipped':sum(states[n]=='skipped' for n in labels['ptp'])}
+            counts['other']=counts['total']-counts['passed']-counts['skipped']
+            checks[name+'_ptp_counts']=counts
+            checks[name+'_all_scored_ptp_pass']=coverage[i]['complete'] and all(states[n]=='passed' for n in labels['ptp'] if n not in expected)
+            checks[name+'_expected_skips_exact']=coverage[i]['complete'] and {n for n in labels['ptp'] if states[n]=='skipped'}==expected
+        qualified=all(checks[k] for k in ('base_all_f2p_reproduced','gold_all_f2p_pass','base_all_scored_ptp_pass','gold_all_scored_ptp_pass','base_expected_skips_exact','gold_expected_skips_exact')) and base.get('exit')==1 and gold.get('exit')==0
+        return dict(qualified=qualified,**checks,runtime_scope='LIMITED_RUNTIME_SCOPE',expected_skips=list(expected_skips))
     return dict(qualified=all(checks.values()) and base.get('exit')==1 and gold.get('exit')==0,**checks)
 
 
@@ -219,9 +372,16 @@ def run_matplotlib_group(work,labels,runner,log,assets,slot,timeout):
 
 
 def execute_matplotlib_pair(c):
+    source_only=c.get('mode')=='matplotlib_source'
     out=c['output'];out.mkdir();h,_=c['helpers'];assets=c['assets'];runner=out/'qualifier.py';runner.write_text(RUNNER);started=time.monotonic();caps=c.get('caps',dict(container_runs=4,group_seconds=600,seconds=1800));deadline=started+caps['seconds']
     result=dict(status='STARTED',schema='matplotlib_pair_qualification_result_v1',input_sha256=c['bindings'],runner_sha256=sha(runner),dependency_limits=c['limits'],model_calls=0,training=0,container_runs=0,cases={},target_reference_use='EVAL_ONLY gold controls; no actor/writer/experience input')
+    if source_only:
+        result['schema']='matplotlib_source_qualification_result_v1';result['role']='DEVELOPMENT_SOURCE'
+        result['reference_use']=result.pop('target_reference_use')
+        if c.get('expected_skips'):
+            result['expected_skips']=c['contract']['expected_skips'];result['qualification_scope']='LIMITED_RUNTIME_SCOPE'
     result['caps']=caps;result['mapping_counts']=c.get('mapping_counts',{});result['prior_controls']=c.get('prior_controls',[]);result['target_task_nature']=c['contract'].get('mapping_origin',{}).get('target_task_nature')
+    if source_only:result.pop('target_task_nature')
     result['warning_compatibility']=c['contract']['runtime'].get('warning_compatibility')
     result['prior_environment_control']=assets.get('prior_environment_control')
     try:
@@ -244,7 +404,12 @@ def execute_matplotlib_pair(c):
                 if arm=='gold_with_tests':
                     a['reference_patch']=patched(h,work,row['patch'],root/'reference.patch')
                     if a['reference_patch']['apply_exit']!=0:raise ValueError('EVAL_ONLY reference patch did not apply')
-                if 'node_source' in spec:
+                if source_only:
+                    for module,digest in c.get('collection_modules',{}).items():
+                        if sha(work/module)!=digest:raise ValueError('base/gold test module differs from native collection')
+                    for module,ref in spec.get('node_sources',{}).items():
+                        if sha(work/module)!=ref['sha256']:raise ValueError('actual base/gold public test module differs from AST-bound source')
+                elif 'node_source' in spec:
                     module=MPL_CASES[spec['instance_id']][-1]
                     if sha(work/module)!=spec['node_source']['sha256']:raise ValueError('actual base/gold public test module differs from AST-bound source')
                 a['tree_sha256']=tree(work);a['group']=run_matplotlib_group(work,labels['f2p']+labels['ptp'],runner,root/(arm+'.log'),assets,spec['dependency_slot'],timeout)
@@ -252,11 +417,25 @@ def execute_matplotlib_pair(c):
                 for suite in ('f2p','ptp'):
                     tests=(a['group'].get('result') or {}).get('tests') or {};a[suite]=dict(group_exit=a['group'].get('exit'),tests={n:tests.get(n,'missing') for n in labels[suite]})
                 if a['group'].get('status')=='DEFERRED':result['status']='DEFERRED';break
-                if a['group'].get('error') or a['group'].get('cleanup_error') or not a['group'].get('coverage',exact_coverage(labels['f2p']+labels['ptp'],a['group']))['complete']:raise RuntimeError('incomplete/invalid Matplotlib group; preserve raw and stop')
+                coverage=a['group'].get('coverage',exact_coverage(labels['f2p']+labels['ptp'],a['group']))
+                if source_only and c.get('expected_skips'):
+                    coverage=exact_coverage(labels['f2p']+labels['ptp'],a['group'],expected_skips=c['expected_skips']);a['group']['limited_scope_coverage']=coverage
+                if a['group'].get('error') or a['group'].get('cleanup_error') or not coverage['complete']:raise RuntimeError('incomplete/invalid Matplotlib group; preserve raw and stop')
             if tree(base)!=clean:raise ValueError('clean source/base changed')
-            record['qualification']=matplotlib_qualification(record['arms'].get('base_with_tests',{}).get('group',{}),record['arms'].get('gold_with_tests',{}).get('group',{}),labels)
+            record['qualification']=matplotlib_qualification(record['arms'].get('base_with_tests',{}).get('group',{}),record['arms'].get('gold_with_tests',{}).get('group',{}),labels,expected_skips=c.get('expected_skips',()) if source_only else ())
             if result['status']=='DEFERRED':break
-        if result['status']!='DEFERRED':result['status']='QUALIFIED' if len(result['cases'])==2 and all(v['qualification']['qualified'] for v in result['cases'].values()) else 'NOT_QUALIFIED'
+        if source_only:
+            if any(sha(p)!=digest for p,digest in c['bindings'].items()):raise ValueError('source inputs changed after qualification')
+            if result['status']!='DEFERRED':
+                for identity,record in result['cases'].items():
+                    root=out/identity
+                    if any(sha(root/name)!=digest for name,digest in record['input_sha256'].items()):raise ValueError('source task/scorer inputs changed after qualification')
+                    for arm in ('base_with_tests','gold_with_tests'):
+                        group=record['arms'][arm]['group'];log=root/(arm+'.log')
+                        if group.get('container_started') is not True or group.get('cleanup',{}).get('status') not in ('ALREADY_REMOVED','REMOVED_OWNED'):raise ValueError('source owned test container not fully accounted')
+                        markers=[line[len(MARKER):] for line in log.read_text().splitlines() if line.startswith(MARKER)]
+                        if sha(log)!=group['log_sha256'] or len(markers)!=1 or json.loads(markers[0])!=group['result']:raise ValueError('source qualification log changed')
+        if result['status']!='DEFERRED':result['status']='QUALIFIED' if len(result['cases'])==(1 if source_only else 2) and all(v['qualification']['qualified'] for v in result['cases'].values()) else 'NOT_QUALIFIED'
     except BaseException as exc:result.update(status='ERROR',error=dict(type=type(exc).__name__,message=str(exc)))
     finally:
         result['unrun_groups']=[dict(case=x['spec']['instance_id'],arm=arm) for x in c['cases'] for arm in ('base_with_tests','gold_with_tests') if not result['cases'].get(x['spec']['instance_id'],{}).get('arms',{}).get(arm,{}).get('group',{}).get('container_started',False)]
@@ -264,6 +443,13 @@ def execute_matplotlib_pair(c):
         result['prior_controls_seconds']=sum(x['seconds'] for x in c.get('prior_controls',[]))
         result['total_container_runs_including_prior_environment_control']=result['container_runs']+(assets.get('prior_environment_control') or {}).get('container_runs',0)
         result['seconds']=time.monotonic()-started;result['total_seconds_all_attempts']=result['seconds']+result['prior_controls_seconds'];result['total_seconds_including_prior_environment_control']=result['seconds']+(assets.get('prior_environment_control') or {}).get('seconds',0);result['unrun_cases']=[x['spec']['instance_id'] for x in c['cases'] if x['spec']['instance_id'] not in result['cases']];new(out/'receipt.json',result)
+    if source_only and result['status']=='QUALIFIED':
+        identity=c['cases'][0]['spec']['instance_id'];projection=c['contract']['runtime']['projection']
+        registry=dict(schema='qualified_matplotlib_development_source_v1',
+            source_result=dict(path=str(out/'receipt.json'),sha256=sha(out/'receipt.json')),
+            qualification_contract=c['contract_ref'],actor_projection=dict(path=str(Path(projection['path']).parent),sha256=projection['sha256']),
+            rows=[dict(source=identity,clean_base=str(out/identity/'clean_base'))])
+        new(out/'registry.json',registry)
     return result
 
 
@@ -300,7 +486,7 @@ def helpers():
         if inserted:sys.path.remove(str(HERE))
 
 
-def mapped_labels(repo,items):
+def mapped_labels(repo,items,*,allow_mpl_toolkits=False):
     if type(items) is not list or not items or len(set(items))!=len(items):raise ValueError('empty/duplicate labels')
     mapped=[]
     for label in items:
@@ -310,7 +496,7 @@ def mapped_labels(repo,items):
         if repo=='django/django':
             if not parts[0].startswith('tests/') or any(not re.fullmatch('[A-Za-z_]\\w*',p) for p in parts[1:]):raise ValueError('unmapped Django label')
             mapped.append(parts[0][6:-3].replace('/','.')+'.'+'.'.join(parts[1:]))
-        elif (repo=='sympy/sympy' and parts[0].startswith('sympy/')) or (repo=='matplotlib/matplotlib' and parts[0].startswith('lib/matplotlib/tests/')):mapped.append(label)
+        elif (repo=='sympy/sympy' and parts[0].startswith('sympy/')) or (repo=='matplotlib/matplotlib' and (parts[0].startswith('lib/matplotlib/tests/') or (allow_mpl_toolkits and re.fullmatch(r'lib/mpl_toolkits/[A-Za-z_][A-Za-z0-9_]*/tests/(?:[A-Za-z_][A-Za-z0-9_]*/)*test_[A-Za-z0-9_]+\.py',parts[0])))):mapped.append(label)
         else:raise ValueError('unmapped repository/label')
     if len(set(mapped))!=len(mapped):raise ValueError('duplicate mapped labels')
     return mapped
@@ -371,6 +557,7 @@ def load_contract(path,digest,output):
     bindings={};c=checked(dict(path=str(path),sha256=digest),bindings);output=safe(output)
     if output.exists():raise FileExistsError('fresh private output required')
     if c.get('schema') in ('contextbench_pool_qualification_matplotlib_pair_v1','contextbench_pool_qualification_matplotlib_pair_v2'):return load_matplotlib_pair(c,bindings,output)
+    if c.get('schema')=='contextbench_pool_qualification_matplotlib_source_v1':return load_matplotlib_source(c,bindings,output,dict(path=str(path),sha256=digest))
     source=c.get('schema')=='contextbench_pool_qualification_source_v2';catalog=SOURCES if source else TARGETS
     keys={'schema','dataset_manifest','ancestry','cases','runtime'}|({'qualified_targets'} if source else set())
     if set(c)!=keys or c.get('schema') not in ('contextbench_pool_qualification_v1','contextbench_pool_qualification_source_v2'):raise ValueError('unknown contract schema')
@@ -533,7 +720,7 @@ def patched(h,work,content,source):
 
 
 def execute(c):
-    if c.get('mode')=='matplotlib_pair':return execute_matplotlib_pair(c)
+    if c.get('mode') in ('matplotlib_pair','matplotlib_source'):return execute_matplotlib_pair(c)
     out=c['output'];out.mkdir();h,d=c['helpers'];runner=out/'qualifier.py';runner.write_text(RUNNER)
     result=dict(status='STARTED',input_sha256=c['bindings'],runner_sha256=sha(runner),dependency_limits=c['limits'],model_calls=0,cases={})
     try:

@@ -50,6 +50,13 @@ SOURCES = {
 MPL_SOURCE_ID = 'matplotlib__matplotlib-25332'
 MPL_TARGET_ID = 'matplotlib__matplotlib-25352'
 MPL_SOURCE_RUNTIME = dict(python='3.10', pythonpath='/workspace/lib:/deps', backend='Agg')
+DEVELOPMENT_REGISTRY = 'qualified_matplotlib_development_source_v1'
+THINKING_LOW_POLICY = dict(version='teacher27b_thinking_low_v1',
+    chat_template_kwargs=dict(enable_thinking=True, reasoning_effort='low'))
+PREFIX_CAPTURE = dict(version='production_prefix_v1', enabled=True,
+    production_roots=['lib/matplotlib/', 'lib/mpl_toolkits/'], excluded_components=['tests'], excluded_filenames=['conftest.py'],
+    max_bytes=256*1024**2, max_files=30000, max_seconds=30)
+DEVELOPMENT_COMPACTION = dict(auto=False, prune=False)
 
 
 def tool_contract_policy():
@@ -182,7 +189,7 @@ def profile_input(path, digest, h):
 
 
 def projection_input(path, digest, source, h):
-    if source == MPL_SOURCE_ID:
+    if re.fullmatch(r'matplotlib__matplotlib-[1-9][0-9]*', source):
         actor = h.deps.verify_projection(safe(path), digest)
         manifest = read_ref(dict(path=str(Path(path) / 'manifest.json'), sha256=digest))
         if (manifest['python'], manifest['blocked_packages'], manifest['site_names']) != ('3.10', ['matplotlib', 'mpl_toolkits'], ['source', 'target']):
@@ -202,32 +209,64 @@ def projection_input(path, digest, source, h):
     return actor
 
 
-def matplotlib_source_input(registry, digest):
+def matplotlib_source_input(registry, digest, source=MPL_SOURCE_ID):
     reg = read_ref(dict(path=str(registry), sha256=digest))
+    development = reg.get('schema') == DEVELOPMENT_REGISTRY
     if (set(reg) != {'schema', 'source_result', 'qualification_contract', 'actor_projection', 'rows'}
-            or reg['schema'] != 'qualified_matplotlib_source_v1'):
+            or reg['schema'] not in ('qualified_matplotlib_source_v1', DEVELOPMENT_REGISTRY)):
         raise ValueError('unapproved Matplotlib source registry')
     result = read_ref(reg['source_result']); contract = read_ref(reg['qualification_contract'])
+    identities = {source} if development else {MPL_SOURCE_ID, MPL_TARGET_ID}
     if (result.get('status') != 'QUALIFIED' or result.get('model_calls') != 0
             or result.get('training') != 0 or result.get('unrun_groups')
-            or set(result.get('cases', {})) != {MPL_SOURCE_ID, MPL_TARGET_ID}
+            or set(result.get('cases', {})) != identities
             or result.get('input_sha256', {}).get(reg['qualification_contract']['path']) != reg['qualification_contract']['sha256']):
         raise ValueError('incomplete Matplotlib pair qualification')
+    if development:
+        if (result.get('schema') != 'matplotlib_source_qualification_result_v1' or
+                result.get('unrun_groups') != [] or
+                not {'schema','dataset_manifest','cases','runtime'}.issubset(contract) or
+                set(contract)-{'schema','dataset_manifest','cases','runtime','expected_skips','node_collection'} or
+                contract.get('schema') != 'contextbench_pool_qualification_matplotlib_source_v1' or
+                type(contract.get('cases')) is not list or len(contract['cases']) != 1 or not re.fullmatch(r'matplotlib__matplotlib-[1-9][0-9]*', source)):
+            raise ValueError('unqualified development source contract')
+        spec = result['cases'][source]['spec']
+        if (spec != contract['cases'][0] or spec.get('dependency_slot') != 'source' or
+                any(k in spec for k in ('target', 'related_target_id')) or
+                not re.fullmatch('[0-9a-f]{40}', spec['base_commit'])):
+            raise ValueError('development source contract identity differs')
+        expected = [(source, spec['base_commit'], 'DEVELOPMENT_SOURCE', None)]
+    else:
+        if source != MPL_SOURCE_ID: raise ValueError('legacy source identity differs')
+        expected = [(MPL_SOURCE_ID, '66ba515e671638971bd11a34cff12c107a437e0b', 'source', 181),
+                    (MPL_TARGET_ID, '3742e7e8385e70072fb2521a411a25dd69d22dbf', 'target', 60)]
     h = helpers()
-    for identity, base, role, count in [
-        (MPL_SOURCE_ID, '66ba515e671638971bd11a34cff12c107a437e0b', 'source', 181),
-        (MPL_TARGET_ID, '3742e7e8385e70072fb2521a411a25dd69d22dbf', 'target', 60),
-    ]:
+    for identity, base, role, count in expected:
         case = result['cases'][identity]; spec = case['spec']; labels = case['labels']
         if (spec['instance_id'], spec['repo'], spec['base_commit'], spec['role']) != (identity, 'matplotlib/matplotlib', base, role):
             raise ValueError('Matplotlib qualification identity differs')
-        if set(labels) != {'f2p', 'ptp'} or (len(labels['f2p']), len(labels['ptp'])) != (1, count):
+        if (set(labels) != {'f2p', 'ptp'} or (not development and (len(labels['f2p']), len(labels['ptp'])) != (1, count))
+                or not labels['f2p'] or not labels['ptp']):
             raise ValueError('Matplotlib source/target label counts differ')
+        if development and labels != {k:[entry['node'] for entry in spec['label_map'][k]] for k in ('f2p', 'ptp')}:
+            raise ValueError('development source published labels differ')
+        if development and 'node_collection' in contract:
+            loaded = h.pool.load_matplotlib_source(contract, {}, safe(reg['source_result']['path']).parent, reg['qualification_contract'])
+            if loaded['cases'][0]['labels'] != labels: raise ValueError('qualified source collection labels differ')
         flat = labels['f2p'] + labels['ptp']
-        if len(set(flat)) != len(flat) or any(not n.startswith('lib/matplotlib/tests/') for n in flat):
+        def allowed_node(node):
+            if type(node) is not str: return False
+            path = node.split('::', 1)[0]
+            if development and ('..' in path.split('/') or '\\' in node or any(ord(c)<32 for c in node)): return False
+            return node.startswith('lib/matplotlib/tests/') or development and re.fullmatch(
+                r'lib/mpl_toolkits/[A-Za-z_][A-Za-z0-9_]*/tests/(?:[A-Za-z_][A-Za-z0-9_]*/)*test_[A-Za-z0-9_]+\.py', path)
+        if len(set(flat)) != len(flat) or any(not allowed_node(n) for n in flat):
             raise ValueError('Matplotlib executable label identity differs')
         groups = [case['arms'][arm]['group'] for arm in ('base_with_tests', 'gold_with_tests')]
-        computed = h.pool.matplotlib_qualification(*groups, labels)
+        skips = h.pool.matplotlib_source_expected_skips(contract, labels, {}) if development and 'expected_skips' in contract else []
+        if development and {k:result[k] for k in ('expected_skips','qualification_scope') if k in result} != source_skip_metadata(reg):
+            raise ValueError('development source qualification scope differs')
+        computed = h.pool.matplotlib_qualification(*groups, labels, **(dict(expected_skips=skips) if skips else {}))
         if case['qualification'] != computed or computed['qualified'] is not True:
             raise ValueError('Matplotlib native source/target controls incomplete')
         parent = safe(reg['source_result']['path']).parent / identity
@@ -237,24 +276,27 @@ def matplotlib_source_input(registry, digest):
             if sha(log) != group['log_sha256'] or len(markers) != 1 or json.loads(markers[0]) != group['result']:
                 raise ValueError('Matplotlib native qualification log changed')
     rows = reg['rows']
-    if (len(rows) != 1 or set(rows[0]) != {'source', 'target', 'clean_base'}
-            or (rows[0]['source'], rows[0]['target']) != (MPL_SOURCE_ID, MPL_TARGET_ID)):
+    if (len(rows) != 1 or set(rows[0]) != ({'source', 'clean_base'} if development else {'source', 'target', 'clean_base'})
+            or rows[0]['source'] != source or (not development and rows[0]['target'] != MPL_TARGET_ID)):
         raise ValueError('Matplotlib source/target registry row differs')
-    case = result['cases'][MPL_SOURCE_ID]
-    parent = safe(reg['source_result']['path']).parent / MPL_SOURCE_ID
+    case = result['cases'][source]
+    parent = safe(reg['source_result']['path']).parent / source
     if safe(rows[0]['clean_base']) != parent / 'clean_base' or tree(parent / 'clean_base') != case['clean_base_sha256']:
         raise ValueError('Matplotlib clean source changed')
     for name in ('task.txt', 'test.patch'):
         if sha(safe(parent / name)) != case['input_sha256'][name]:
             raise ValueError('Matplotlib public source input changed')
+    if development and case['spec']['problem_sha256'] != case['input_sha256']['task.txt']:
+        raise ValueError('development source original problem hash differs')
     text = (parent / 'task.txt').read_text()
-    if any(marker in text for marker in (MPL_TARGET_ID, '/pull/25352', '/issues/25352', '#25352')):
+    if not development and any(marker in text for marker in (MPL_TARGET_ID, '/pull/25352', '/issues/25352', '#25352')):
         raise ValueError('target identity in Matplotlib source task')
     return reg, case, parent
 
 
 def source_input(registry, digest, source):
     if source == MPL_SOURCE_ID: return matplotlib_source_input(registry, digest)
+    if source not in SOURCES: return matplotlib_source_input(registry, digest, source)
     if source not in SOURCES or digest != REGISTRY_SHA: raise ValueError('unapproved source/registry')
     reg = read_ref(dict(path=str(registry), sha256=digest))
     if reg['schema'] != 'qualified_source_target_pairs_v1' or reg['source_result']['sha256'] != RESULT_SHA:
@@ -283,7 +325,7 @@ def source_input(registry, digest, source):
 
 
 def scoring_dependencies(registry, h):
-    if registry['schema'] == 'qualified_matplotlib_source_v1':
+    if registry['schema'] in ('qualified_matplotlib_source_v1', DEVELOPMENT_REGISTRY):
         contract = read_ref(registry['qualification_contract']); bindings = {}
         if contract['runtime']['projection'] != dict(path=str(Path(registry['actor_projection']['path']) / 'manifest.json'), sha256=registry['actor_projection']['sha256']):
             raise ValueError('Matplotlib actor/scorer projection differs')
@@ -298,9 +340,39 @@ def scoring_dependencies(registry, h):
     return dict(bindings=bindings, limits=limits)
 
 
-def prepare(registry, registry_sha, source, root, projection, projection_sha, profile, profile_sha):
+def source_sampling(policy=None):
+    if policy is not None and json.dumps(policy, sort_keys=True) != json.dumps(THINKING_LOW_POLICY, sort_keys=True):
+        raise ValueError('unapproved request policy')
+    value = dict(seed=17, temperature=0.2, native_thinking=policy is not None, context=32768, output=8192)
+    if policy is not None: value['reasoning_effort'] = 'low'
+    return value
+
+
+def source_skip_metadata(registry):
+    if registry['schema'] != DEVELOPMENT_REGISTRY: return {}
+    contract = read_ref(registry['qualification_contract'])
+    return (dict(expected_skips=copy.deepcopy(contract['expected_skips']), qualification_scope='LIMITED_RUNTIME_SCOPE')
+            if 'expected_skips' in contract else {})
+
+
+def source_options(reg, policy, capture):
+    source_sampling(policy)
+    if capture is not None and json.dumps(capture, sort_keys=True) != json.dumps(PREFIX_CAPTURE, sort_keys=True):
+        raise ValueError('unapproved prefix capture')
+    if (policy is not None or capture is not None) and reg['schema'] != DEVELOPMENT_REGISTRY:
+        raise ValueError('new request/capture options require development source registry')
+
+
+def prepare(registry, registry_sha, source, root, projection, projection_sha, profile, profile_sha,
+            *, request_policy=None, capture_production_prefix=False):
     h = helpers(); reg, case, parent = source_input(registry, registry_sha, source)
-    if source == MPL_SOURCE_ID and reg['actor_projection'] != dict(path=str(projection), sha256=projection_sha):
+    if request_policy not in (None, 'teacher27b_thinking_low_v1') or type(capture_production_prefix) is not bool:
+        raise ValueError('unapproved source preparation options')
+    policy = copy.deepcopy(THINKING_LOW_POLICY) if request_policy is not None else None
+    capture = dict(PREFIX_CAPTURE) if capture_production_prefix else None
+    source_options(reg, policy, capture)
+    matplotlib = case['spec']['repo'] == 'matplotlib/matplotlib'
+    if matplotlib and reg['actor_projection'] != dict(path=str(projection), sha256=projection_sha):
         raise ValueError('Matplotlib actor projection differs from registry')
     scorer = scoring_dependencies(reg, h)
     p = profile_input(profile, profile_sha, h); actor = projection_input(projection, projection_sha, source, h)
@@ -316,11 +388,13 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
     inputs = root / 'inputs'; inputs.mkdir(); (root / 'scoring').mkdir()
     shutil.copyfile(parent / 'task.txt', inputs / 'source_task.txt')
     public = (inputs / 'source_task.txt').read_bytes().decode('utf8')
-    version = '3.10' if source == MPL_SOURCE_ID else '3.8'
+    version = '3.10' if matplotlib else '3.8'
     (inputs / 'task.txt').write_text('Implement the requested source change in /workspace and run relevant tests. Python ' + version + ' and dependencies are offline. Do not ask for permission to continue. The task below is reproduced verbatim.\n\n' + public)
     shutil.copyfile(parent / 'test.patch', root / 'scoring/test.patch')
     (inputs / 'guest.py').write_text(GUEST)
-    new(inputs / 'opencode.json', h.actor.config(p, 17))
+    config = h.actor.config(p, 17)
+    if reg['schema'] == DEVELOPMENT_REGISTRY: config['compaction'] = dict(DEVELOPMENT_COMPACTION)
+    new(inputs / 'opencode.json', config)
     manifest = dict(schema='contextbench_source_v2', tool_contract=tool_contract_policy(), root=str(root), source=source,
         registry=dict(path=str(registry), sha256=registry_sha), source_result=reg['source_result'],
         repo=case['spec']['repo'], base=case['spec']['base_commit'], labels=case['labels'],
@@ -328,11 +402,17 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
         baseline=tree(root / 'baseline'), work=tree(root / 'work'), inputs=tree(inputs),
         public_task_sha256=sha(inputs / 'source_task.txt'), wrapped_prompt_sha256=sha(inputs / 'task.txt'),
         test_patch_sha256=sha(root / 'scoring/test.patch'), components=components(), binaries=binaries,
-        caps=CAPS, sampling=dict(seed=17, temperature=0.2, native_thinking=False, context=32768, output=8192),
+        caps=CAPS, sampling=source_sampling(policy),
         boundary='source clean/task only; scorer/test_patch/registry/targets/gold never actor mounts',
         dependency_limit='qualification used legacy conda libraries not wholly frozen; actor projection bytes frozen separately',
         status='CPU_PREPARED', models_called=0, container_runs=0)
-    if source == MPL_SOURCE_ID:
+    if reg['schema'] == DEVELOPMENT_REGISTRY:
+        manifest['source_role'] = 'DEVELOPMENT_SOURCE'
+        manifest['opencode_compaction'] = dict(DEVELOPMENT_COMPACTION)
+        manifest.update(source_skip_metadata(reg))
+    if policy is not None: manifest['request_policy'] = policy
+    if capture is not None: manifest['production_prefix_capture'] = capture
+    if matplotlib:
         manifest['source_runtime'] = MPL_SOURCE_RUNTIME
         manifest['native_overlay'] = case['native_overlay']
     new(root / 'manifest.json', manifest)
@@ -341,12 +421,23 @@ def prepare(registry, registry_sha, source, root, projection, projection_sha, pr
 
 def verify(root, digest, *, initial=True):
     root = safe(root); m = read_ref(dict(path=str(root / 'manifest.json'), sha256=digest)); h = helpers()
-    if m['schema'] != 'contextbench_source_v2' or m.get('tool_contract') != tool_contract_policy() or m['root'] != str(root) or m['caps'] != CAPS or m['sampling'] != dict(seed=17, temperature=0.2, native_thinking=False, context=32768, output=8192):
+    if m['schema'] != 'contextbench_source_v2' or m.get('tool_contract') != tool_contract_policy() or m['root'] != str(root) or m['caps'] != CAPS or m['sampling'] != source_sampling(m.get('request_policy')):
         raise ValueError('manifest policy differs')
     reg, case, _ = source_input(m['registry']['path'], m['registry']['sha256'], m['source'])
+    source_options(reg, m.get('request_policy'), m.get('production_prefix_capture'))
+    if {k:m[k] for k in ('expected_skips','qualification_scope') if k in m} != source_skip_metadata(reg):
+        raise ValueError('manifest source qualification scope differs')
+    development = reg['schema'] == DEVELOPMENT_REGISTRY
+    if (('request_policy' in m and m['request_policy'] is None) or ('production_prefix_capture' in m and m['production_prefix_capture'] is None)
+            or m.get('source_role') != ('DEVELOPMENT_SOURCE' if development else None)
+            or m.get('opencode_compaction') != (DEVELOPMENT_COMPACTION if development else None)):
+        raise ValueError('manifest source role/compaction policy differs')
+    if development and (json.dumps(m['sampling'], sort_keys=True) != json.dumps(source_sampling(m.get('request_policy')), sort_keys=True)
+            or json.dumps(m['opencode_compaction'], sort_keys=True) != json.dumps(DEVELOPMENT_COMPACTION, sort_keys=True)):
+        raise ValueError('development source policy types differ')
     if m['source_result'] != reg['source_result'] or (m['repo'], m['base'], m['labels']) != (case['spec']['repo'], case['spec']['base_commit'], case['labels']):
         raise ValueError('manifest source differs')
-    if m['source'] == MPL_SOURCE_ID:
+    if m['repo'] == 'matplotlib/matplotlib':
         if (reg['actor_projection'] != m['projection'] or m.get('source_runtime') != MPL_SOURCE_RUNTIME
                 or m.get('native_overlay') != case['native_overlay']):
             raise ValueError('Matplotlib source runtime differs')
@@ -356,6 +447,8 @@ def verify(root, digest, *, initial=True):
     if scoring_dependencies(reg, h) != m['scorer_dependencies']: raise ValueError('scorer dependencies changed')
     actor = projection_input(m['projection']['path'], m['projection']['sha256'], m['source'], h)
     p = profile_input(m['profile']['path'], m['profile']['sha256'], h)
+    if development and json.dumps(json.loads((root/'inputs/opencode.json').read_text()), sort_keys=True) != json.dumps(dict(h.actor.config(p, 17), compaction=DEVELOPMENT_COMPACTION), sort_keys=True):
+        raise ValueError('development source config changed')
     for name in (('baseline', 'work', 'inputs') if initial else ('baseline', 'inputs')):
         if tree(root / name) != m[name]: raise ValueError('prepared ' + name + ' changed')
     if (sha(safe(root / 'scoring/test.patch')) != m['test_patch_sha256'] or m['test_patch_sha256'] != case['input_sha256']['test.patch']
@@ -381,7 +474,13 @@ def resource_lock():
 
 class Relay:
     """One real HTTP POST per connection; engineering tests use fake socket pairs."""
-    def __init__(self, root, profile, h, *, deadline, caps=None):
+    def __init__(self, root, profile, h, *, deadline, caps=None, request_policy=None, capture_production_prefix=None):
+        source_sampling(request_policy)
+        source_options({'schema':DEVELOPMENT_REGISTRY}, request_policy, capture_production_prefix)
+        self.request_policy = copy.deepcopy(request_policy)
+        self.capture_enabled, self.capture_attempted = capture_production_prefix is not None, False
+        self.capture_lock = threading.Lock()
+        self.capture_seconds = self.capture_cpu_seconds = 0.0
         self.root, self.profile, self.h, self.deadline = Path(root), profile, h, deadline
         self.caps = CAPS if caps is None else caps
         self.lock = threading.RLock(); self.posts = self.inflight = self.unknown = self.used = self.response_bytes = 0
@@ -393,6 +492,85 @@ class Relay:
             with (self.root / 'forward_ledger.jsonl').open('a') as f:
                 f.write(json.dumps(dict(request=index, event=kind, monotonic_seconds=time.monotonic(), **extra)) + '\n'); f.flush()
 
+    def capture_prefix(self, index, body):
+        """One pre-forward snapshot; READY certifies byte stability, not repair success."""
+        if not self.capture_enabled or self.capture_attempted: return
+        started, cpu = time.monotonic(), time.process_time()
+        work, folder = self.root/'work', self.root/'production_prefix_checkpoint'
+        record = dict(policy=copy.deepcopy(PREFIX_CAPTURE), status='UNKNOWN', request=index,
+            boundary='REQUEST_RECEIVED_BEFORE_FORWARD', body_sha256=hashlib.sha256(body).hexdigest(),
+            preflight={}, copied_bytes=0, copied_files=0, copy_complete=False)
+        deadline = min(self.deadline, started + max(0, PREFIX_CAPTURE['max_seconds']-self.capture_seconds))
+        def tick():
+            if time.monotonic() >= deadline: raise TimeoutError('capture deadline exceeded')
+        def scan(path, name):
+            path = safe(path); files = []; counts = dict(files=0, directories=0, bytes=0); record['preflight'][name] = counts
+            for p in path.rglob('*'):
+                tick(); safe(p)
+                if '.git' in p.relative_to(path).parts: raise ValueError('Git history exposed')
+                if p.is_file():
+                    counts['files'] += 1; counts['bytes'] += p.stat().st_size; files.append(p)
+                elif p.is_dir(): counts['directories'] += 1
+                else: raise ValueError('special input')
+                if max(counts['files'],counts['directories']) > PREFIX_CAPTURE['max_files'] or counts['bytes'] > PREFIX_CAPTURE['max_bytes']:
+                    raise ValueError('capture capacity exceeded')
+            return files
+        def hashes(path, files):
+            result = {}; size = 0
+            for p in files:
+                tick(); safe(p); digest = hashlib.sha256()
+                with p.open('rb') as source:
+                    for chunk in iter(lambda: source.read(1024**2), b''):
+                        tick(); size += len(chunk)
+                        if size > PREFIX_CAPTURE['max_bytes']: raise ValueError('capture capacity exceeded during hash')
+                        digest.update(chunk)
+                result[p.relative_to(path).as_posix()] = digest.hexdigest()
+            return result
+        try:
+            tick()
+            work_files, baseline_files = scan(work,'work'), scan(self.root/'baseline','baseline')
+            before, baseline = hashes(work,work_files), hashes(self.root/'baseline',baseline_files)
+            production = lambda p: any(p.startswith(prefix) for prefix in PREFIX_CAPTURE['production_roots']) and p.endswith('.py') and 'tests' not in Path(p).parts and Path(p).name not in PREFIX_CAPTURE['excluded_filenames']
+            changed = sorted(p for p in before.keys() | baseline.keys() if production(p) and before.get(p) != baseline.get(p))
+            if not changed: return
+            self.capture_attempted = True
+            folder.mkdir(mode=0o700)
+            (folder/'request.body').write_bytes(body)
+            def checked_copy(src, dst):
+                tick(); safe(src); record['copied_files'] += 1
+                if record['copied_files'] > PREFIX_CAPTURE['max_files']: raise ValueError('capture capacity exceeded during copy')
+                with Path(src).open('rb') as source, Path(dst).open('xb') as target:
+                    for chunk in iter(lambda: source.read(1024**2), b''):
+                        tick()
+                        if record['copied_bytes'] + len(chunk) > PREFIX_CAPTURE['max_bytes']: raise ValueError('capture capacity exceeded during copy')
+                        target.write(chunk); record['copied_bytes'] += len(chunk)
+                shutil.copystat(src, dst, follow_symlinks=False)
+                return dst
+            shutil.copytree(work, folder/'work', symlinks=True, copy_function=checked_copy)
+            record['copy_complete'] = True
+            after_files, copied_files = scan(work,'work_after'), scan(folder/'work','copied')
+            after, copied = hashes(work,after_files), hashes(folder/'work',copied_files)
+            new(folder/'files_sha256.json', dict(before=before, after=after, copied=copied))
+            tick()
+            record.update(changed_production_files=changed, files_sha256=sha(folder/'files_sha256.json'),
+                manifest_sha256=sha(safe(self.root/'manifest.json')),
+                incoming_request_sha256=sha(self.root/'wire'/f'{index:05d}.incoming.json'),
+                status='READY' if before == after == copied else 'UNKNOWN')
+            if record['status'] != 'READY': record['error'] = 'work changed during snapshot'
+            with self.lock:
+                if self.closing: record.update(status='UNKNOWN', error='relay closed during snapshot')
+        except Exception as exc:
+            self.capture_attempted = True
+            folder.mkdir(mode=0o700, exist_ok=True)
+            record['error'] = dict(type=type(exc).__name__, message=str(exc))
+        finally:
+            self.capture_seconds += time.monotonic()-started; self.capture_cpu_seconds += time.process_time()-cpu
+            if self.capture_attempted:
+                record.update(elapsed_seconds=time.monotonic()-started, cpu_seconds=time.process_time()-cpu,
+                    cumulative_capture_seconds=self.capture_seconds, cumulative_capture_cpu_seconds=self.capture_cpu_seconds)
+                new(folder/'receipt.json', record)
+                self.event(index, 'production_prefix_checkpoint', status=record['status'], receipt_sha256=sha(folder/'receipt.json'))
+
     def handle(self, client):
         upstream = None; reserved = sent = sending = False; size = 0
         with self.lock: self.attempts += 1; index = self.attempts; self.active.add(client)
@@ -403,12 +581,26 @@ class Relay:
             client.settimeout(max(0.001, self.deadline - time.monotonic()))
             value = self.h.actor.receive_http(client, self.caps['combined_wire_bytes'])
             if not isinstance(value, dict): raise ValueError('model payload must be an object')
+            if self.request_policy is not None or self.capture_enabled:
+                new(self.root/'wire'/f'{index:05d}.incoming.json', value)
             value, contract = prepare_tool_contract(value)
             value = self.h.actor.model_payload(value, 'teacher27b', self.profile, 17)
             value.pop('max_completion_tokens', None)
+            if self.request_policy is not None:
+                value['chat_template_kwargs'] = copy.deepcopy(self.request_policy['chat_template_kwargs'])
+                value.pop('reasoning_effort', None)  # The qualified field is nested, never top-level.
+                sampling = source_sampling(self.request_policy)
+                expected = dict(model=self.profile['model_id'], seed=sampling['seed'], temperature=sampling['temperature'],
+                    max_tokens=sampling['output'], stream=True, stream_options={'include_usage':True},
+                    chat_template_kwargs=self.request_policy['chat_template_kwargs'])
+                if json.dumps({k:value.get(k) for k in expected}, sort_keys=True) != json.dumps(expected, sort_keys=True):
+                    raise ValueError('forwarded request sampling differs')
             body = json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(',', ':')).encode()
             size = len(body); path = self.root / 'wire' / f'{index:05d}.request.json'; path.write_bytes(body)
             self.event(index, 'tool_contract_prepared', **contract, body_bytes=size, body_sha256=sha(path))
+            if self.request_policy is not None:
+                self.event(index, 'request_policy_prepared', policy=self.request_policy, body_sha256=sha(path))
+            with self.capture_lock: self.capture_prefix(index, body)
             with self.lock:
                 if self.closing: raise RuntimeError('relay closed before reservation')
                 if time.monotonic() >= self.deadline: raise TimeoutError('episode deadline')
@@ -576,6 +768,16 @@ def scored_test(work, repo, labels, runner, output, suite, h, *, matplotlib_asse
 
 def score(root, manifest, h, *, matplotlib_slot='source'):
     if matplotlib_slot not in ('source', 'target'): raise ValueError('unapproved Matplotlib scoring slot')
+    skips = []
+    if any(k in manifest for k in ('expected_skips','qualification_scope')):
+        if (manifest.get('source_role') != 'DEVELOPMENT_SOURCE' or manifest['repo'] != 'matplotlib/matplotlib'
+                or matplotlib_slot != 'source' or 'source' not in manifest or 'target' in manifest):
+            raise ValueError('limited scope is development source only')
+        reg = read_ref(manifest['registry'])
+        if {k:manifest[k] for k in ('expected_skips','qualification_scope') if k in manifest} != source_skip_metadata(reg):
+            raise ValueError('scoring scope differs from source contract')
+        skips = h.pool.matplotlib_source_expected_skips(read_ref(reg['qualification_contract']), manifest['labels'], {})
+        if not skips: raise ValueError('empty limited scoring scope')
     output = root / 'scoring'; candidate = output / 'candidate'; work = root / 'work'; clean = root / 'baseline'
     tree(work)  # Reject links, including hardlinks, before candidate copying.
     shutil.copytree(work, candidate, ignore=shutil.ignore_patterns('__pycache__', '.pytest_cache'))
@@ -611,6 +813,20 @@ def score(root, manifest, h, *, matplotlib_slot='source'):
         result['suites'][suite] = r
         if r.get('status') == 'DEFERRED' or r.get('error') or r.get('cleanup_error'): break
     result['passed'] = len(result['suites']) == 2 and all(not r.get('error') and not r.get('cleanup_error') and r.get('exit') == 0 and r.get('coverage', {}).get('complete') is True and all(s == 'passed' for s in r['coverage']['labels'].values()) for r in result['suites'].values())
+    if skips:
+        ptp = result['suites'].get('ptp', {})
+        limited = h.pool.exact_coverage(manifest['labels']['ptp'], ptp, expected_skips=skips)
+        if ptp: ptp['limited_scope_coverage'] = limited  # Keep original strict coverage and raw results.
+        states = limited['labels']
+        result.update(qualification_scope='LIMITED_RUNTIME_SCOPE', expected_skips=manifest['expected_skips'],
+            ptp_counts=dict(total=len(states), passed=sum(s=='passed' for s in states.values()),
+                            skipped=sum(s=='skipped' for s in states.values()), other=sum(s not in ('passed','skipped') for s in states.values())))
+        f2p = result['suites'].get('f2p', {})
+        exact_f2p = h.pool.exact_coverage(manifest['labels']['f2p'], f2p)
+        result['passed'] = (len(result['suites']) == 2 and f2p.get('exit') == 0 and exact_f2p['complete'] is True
+            and all(s=='passed' for s in exact_f2p['labels'].values()) and not f2p.get('error') and not f2p.get('cleanup_error')
+            and ptp.get('exit') == 0 and not ptp.get('error') and not ptp.get('cleanup_error') and limited['complete'] is True
+            and all(s==('skipped' if n in skips else 'passed') for n,s in states.items()))
     if len(result['suites']) != 2 or any(r.get('error') or r.get('cleanup_error') or r.get('status') == 'DEFERRED' for r in result['suites'].values()): result['status'] = 'UNFINISHED'
     new(output / 'receipt.json', result); return result
 
@@ -654,10 +870,16 @@ def execute(root, digest, registry, registry_sha, source):
 def execute_prepared(root, digest, prepared, verify_prepared, *, identity, success_key, mode, score_prepared=None):
     """Reuse the owned lifecycle after the caller's independent admission check."""
     m, h, actor, profile = prepared; root = Path(root); caps = m['caps']
+    options = {k:m[k] for k in ('request_policy','production_prefix_capture') if k in m}
+    if (options or any(k in m for k in ('expected_skips','qualification_scope'))) and (mode != 'REAL_SOURCE_EPISODE' or success_key != 'source_success' or
+            m.get('source_role') != 'DEVELOPMENT_SOURCE' or identity != dict(source=m.get('source'))):
+        raise ValueError('development source options cannot enter another actor cohort')
+    if 'production_prefix_capture' in options: options['capture_production_prefix'] = options.pop('production_prefix_capture')
     scorer = score if score_prepared is None else score_prepared
     with resource_lock():
         new(root / 'reservation.json', dict(manifest_sha256=digest, mode=mode))
         result = dict(status='ERROR', manifest_sha256=digest, **identity); result[success_key] = False
+        if 'qualification_scope' in m: result['qualification_scope'] = m['qualification_scope']
         bridge = relay = server = thread = None
         name = 'cb-source-' + str(os.getpid()) + '-' + str(time.monotonic_ns())
         old_signal = signal.getsignal(signal.SIGTERM)
@@ -667,7 +889,7 @@ def execute_prepared(root, digest, prepared, verify_prepared, *, identity, succe
             h.teacher.validate_vllm_model_profile(m['profile']['path'], m['profile']['sha256'], full=True)
             result['backend'] = h.teacher.verify_vllm_backend(profile)
             bridge = Path(tempfile.mkdtemp(prefix='cb-src-', dir='/tmp')); bridge.chmod(0o700); bridge_identity = bridge.stat().st_ino
-            relay = Relay(root, profile, h, deadline=time.monotonic() + caps['seconds'], caps=caps)
+            relay = Relay(root, profile, h, deadline=time.monotonic() + caps['seconds'], caps=caps, **options)
             class Server(socketserver.ThreadingUnixStreamServer): daemon_threads = False; block_on_close = True
             class Handler(socketserver.BaseRequestHandler):
                 def handle(self): relay.handle(self.request)
@@ -689,6 +911,12 @@ def execute_prepared(root, digest, prepared, verify_prepared, *, identity, succe
             if relay:
                 try: result['accounting'] = relay.accounting()
                 except Exception as exc: result['accounting_error'] = str(exc)
+            if m.get('production_prefix_capture') is not None:
+                captured = root/'production_prefix_checkpoint/receipt.json'
+                result['production_prefix_checkpoint'] = (dict(status=json.loads(captured.read_text())['status'],
+                    path=str(captured), sha256=sha(captured)) if captured.exists() else dict(status='NOT_OBSERVED'))
+                result['production_prefix_checkpoint'].update(capture_seconds=relay.capture_seconds if relay else None,
+                    capture_cpu_seconds=relay.capture_cpu_seconds if relay else None)
             if bridge:
                 try:
                     if bridge.stat().st_ino != bridge_identity or set(p.name for p in bridge.iterdir()) != {'s'}: raise ValueError('UDS ownership changed')
@@ -715,16 +943,19 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__); mode = p.add_mutually_exclusive_group(required=True)
     mode.add_argument('--prepare', action='store_true'); mode.add_argument('--execute', action='store_true')
     p.add_argument('--registry', type=Path, required=True); p.add_argument('--registry-sha', required=True)
-    p.add_argument('--source', choices=(*SOURCES, MPL_SOURCE_ID), required=True); p.add_argument('--root', type=Path, required=True)
+    p.add_argument('--source', required=True); p.add_argument('--root', type=Path, required=True)
+    p.add_argument('--request-policy', choices=['teacher27b_thinking_low_v1'])
+    p.add_argument('--capture-production-prefix', action='store_true')
     for key in ('projection', 'profile'): p.add_argument('--' + key, type=Path); p.add_argument('--' + key + '-sha')
     p.add_argument('--manifest-sha'); args = p.parse_args(argv)
     if args.prepare:
         if args.manifest_sha or any(getattr(args, k) is None for k in ('projection', 'projection_sha', 'profile', 'profile_sha')): p.error('prepare requires projection/profile path+sha; no manifest-sha')
-        result = prepare(args.registry, args.registry_sha, args.source, args.root, args.projection, args.projection_sha, args.profile, args.profile_sha)
+        result = prepare(args.registry, args.registry_sha, args.source, args.root, args.projection, args.projection_sha, args.profile, args.profile_sha,
+            request_policy=args.request_policy, capture_production_prefix=args.capture_production_prefix)
     else:
-        if not args.manifest_sha or any(getattr(args, k) is not None for k in ('projection', 'projection_sha', 'profile', 'profile_sha')): p.error('execute requires manifest-sha and uses manifest projection/profile')
+        if not args.manifest_sha or args.request_policy or args.capture_production_prefix or any(getattr(args, k) is not None for k in ('projection', 'projection_sha', 'profile', 'profile_sha')): p.error('execute requires manifest-sha and uses frozen preparation options')
         result = execute(args.root, args.manifest_sha, args.registry, args.registry_sha, args.source)
-    print(json.dumps({k: result[k] for k in ('status', 'source', 'root', 'manifest_sha256', 'source_success') if k in result}))
+    print(json.dumps({k: result[k] for k in ('status', 'source', 'root', 'manifest_sha256', 'source_success', 'qualification_scope') if k in result}))
     return 0 if result['status'] in ('CPU_PREPARED', 'ACTOR_RETURNED') and not any(k in result for k in ('error', 'finalization_error', 'socket_cleanup_error', 'accounting_error')) else 1
 
 

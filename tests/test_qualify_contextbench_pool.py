@@ -424,6 +424,307 @@ class MatplotlibPairTests(unittest.TestCase):
             for case in result['cases'].values():self.assertTrue(case['qualification']['qualified'])
             self.assertEqual(sum('CPU_EVAL_ONLY_REFERENCE'==x.args[1] for x in f.shared.apply_patch.call_args_list),2)
 
+@contextmanager
+def matplotlib_source_contract_fixture(instance_id='matplotlib__matplotlib-90001'):
+    """A fake source row, archive and test outcomes; no benchmark or container."""
+    with contract_fixture() as f:
+        revision='a'*40
+        data_name='SWEContextBench_Lite_Experience.parquet'
+        (f.data/data_name).write_bytes(b'FAKE_PARQUET_NO_REAL_READER')
+        dataset=reference(f.data/'source_manifest.json',{'files':[{'name':data_name,'sha256':sha(f.data/data_name),'bytes':(f.data/data_name).stat().st_size}]})
+        source_archive=f.root/'source.tar.gz';archive(source_archive,'matplotlib/matplotlib',revision)
+        labels={'f2p':['lib/matplotlib/tests/test_fake.py::test_fix'],
+                'ptp':['lib/matplotlib/tests/test_fake.py::test_old',
+                       'lib/matplotlib/tests/test_other.py::test_old_too']}
+        row=dict(instance_id=instance_id,base_commit=revision,problem_statement='CPU_PUBLIC_TASK',
+                 test_patch='+++ b/lib/matplotlib/tests/test_fake.py\nCPU_TEST_ONLY',
+                 patch='CPU_EVALUATOR_GOLD',FAIL_TO_PASS=json.dumps(labels['f2p']),
+                 PASS_TO_PASS=json.dumps(labels['ptp']))
+        meta=dict(instance_id=instance_id,base_commit=revision,repo='matplotlib/matplotlib')
+        f.shared.dataset_row.side_effect=lambda spec:copy.deepcopy(row)
+        f.shared.pq=SimpleNamespace(read_table=mock.Mock(side_effect=lambda *a,**kw:
+            SimpleNamespace(to_pylist=lambda:[copy.deepcopy(meta)])))
+        helper=SimpleNamespace(extract=mock.Mock(),overlay=mock.Mock(return_value={}))
+        assets=dict(runtime=str(f.root/'projection/runtime'),sites={'source':str(f.root/'projection/deps/source')},
+                    native_sites={'source':'CPU_NATIVE_SOURCE'},overlays={'source':{}},helper=helper)
+        runtime={'image':r.IMAGE,'projection':{'path':str(f.root/'projection/manifest.json'),'sha256':'a'*64},
+                 'native_overlays':{'source':{'path':str(f.root/'native.json'),'sha256':'b'*64},
+                                    'target':{'path':str(f.root/'native2.json'),'sha256':'c'*64}}}
+        spec=dict(instance_id=instance_id,repo='matplotlib/matplotlib',base_commit=revision,
+                  dataset_file=data_name,role='DEVELOPMENT_SOURCE',
+                  archive={'path':str(source_archive),'sha256':sha(source_archive)},dependency_slot='source',
+                  problem_sha256=hashlib.sha256(row['problem_statement'].encode()).hexdigest(),
+                  label_map={k:[dict(published=x,node=x) for x in v] for k,v in labels.items()})
+        c=dict(schema='contextbench_pool_qualification_matplotlib_source_v1',
+               dataset_manifest=dataset,cases=[spec],runtime=runtime)
+        with mock.patch.object(r,'matplotlib_assets',return_value=assets):
+            f.c=c;f.sha=write(f.path,c);f.assets=assets;f.source_row=row;f.source_meta=meta;yield f
+
+
+@contextmanager
+def matplotlib_source_collection_fixture():
+    with matplotlib_source_contract_fixture() as f:
+        module='lib/matplotlib/tests/test_fake.py'
+        truncated=module+'::test_grid[rect0-Incorrect'
+        complete=truncated+' size]'
+        f.source_row['PASS_TO_PASS']=json.dumps([truncated])
+        f.c['cases'][0]['label_map']['ptp']=[dict(published=truncated,node=truncated)]
+        original=copy.deepcopy(f.c);original_path=f.root/'original_source_contract.json'
+        original_ref=reference(original_path,original)
+        previous=f.root/'previous';previous.mkdir();case_id=original['cases'][0]['instance_id']
+        base=previous/case_id/'base_with_tests';path=base/module;path.parent.mkdir(parents=True)
+        path.write_text('FAKE_TEST_MODULE_WITHOUT_REAL_TESTS')
+        old_case=dict(spec=copy.deepcopy(original['cases'][0]),
+            input_sha256={'test.patch':hashlib.sha256(f.source_row['test_patch'].encode()).hexdigest()},
+            labels={'f2p':[x['node'] for x in original['cases'][0]['label_map']['f2p']],
+                    'ptp':[truncated]},arms={'base_with_tests':{'tree_sha256':{module:sha(path)},
+                    'group':dict(container_started=True,exit=4,cleanup={'status':'ALREADY_REMOVED'})}})
+        origin=reference(previous/'receipt.json',dict(schema='matplotlib_source_qualification_result_v1',
+            status='ERROR',model_calls=0,training=0,input_sha256={str(original_path):original_ref['sha256']},
+            cases={case_id:old_case}))
+        collection_log=f.root/'collection.log'
+        nodeids=[original['cases'][0]['label_map']['f2p'][0]['node'],complete,module+'::unrelated']
+        collection_log.write_text('CONTEXTBENCH_COLLECTION='+json.dumps({'nodeids':nodeids})+'\n')
+        collection=dict(schema='matplotlib_source_node_collection_v1',status='COLLECTED',
+            source_contract=original_ref,qualification_receipt=origin,instance_id=case_id,
+            repo='matplotlib/matplotlib',base_commit=original['cases'][0]['base_commit'],modules={module:sha(path)},
+            collection_log={'path':str(collection_log),'sha256':sha(collection_log)},
+            execution=dict(container_started=True,exit=0,cleanup_status='ALREADY_REMOVED'))
+        collection_path=f.root/'collection.json';f.c['node_collection']=reference(collection_path,collection)
+        f.c['cases'][0]['label_map']['ptp'][0]['node']=complete
+        f.collection=collection;f.collection_path=collection_path;f.collection_log=collection_log
+        f.collection_module=path;f.collection_ids=nodeids;f.original=original;yield f
+
+
+class MatplotlibSourceOnlyTests(unittest.TestCase):
+    def test_expected_skip_keeps_full_denominator_and_never_exempts_failures(self):
+        labels={'f2p':['f'], 'ptp':['p','lib/matplotlib/tests/test_widgets.py::test_rect_visibility[pdf]']}
+        skip=labels['ptp'][1]
+        base={'exit':1,'result':{'tests':{'f':'failed','p':'passed',skip:'skipped'},'fatal':[]}}
+        gold={'exit':0,'result':{'tests':{'f':'passed','p':'passed',skip:'skipped'},'fatal':[]}}
+        self.assertFalse(r.exact_coverage(labels['f2p']+labels['ptp'],base)['complete'])
+        self.assertTrue(r.exact_coverage(labels['f2p']+labels['ptp'],base,expected_skips=[skip])['complete'])
+        result=r.matplotlib_qualification(base,gold,labels,expected_skips=[skip])
+        self.assertTrue(result['qualified']);self.assertFalse(result['base_all_ptp_pass']);self.assertFalse(result['gold_all_ptp_pass'])
+        self.assertEqual(result['base_ptp_counts'],{'total':2,'passed':1,'skipped':1,'other':0})
+        self.assertEqual(result['runtime_scope'],'LIMITED_RUNTIME_SCOPE')
+        for mode in ('other_failed','missing_skip','extra_skip','f2p_pass','gold_f2p_fail'):
+            b=copy.deepcopy(base);g=copy.deepcopy(gold)
+            if mode=='other_failed':b['result']['tests']['p']='failed'
+            elif mode=='missing_skip':g['result']['tests'][skip]='passed'
+            elif mode=='extra_skip':g['result']['tests']['p']='skipped'
+            elif mode=='f2p_pass':b['result']['tests']['f']='passed'
+            else:g['result']['tests']['f']='failed'
+            with self.subTest(mode=mode):self.assertFalse(r.matplotlib_qualification(b,g,labels,expected_skips=[skip])['qualified'])
+
+    def test_expected_skip_passes_source_group_guard_without_changing_strict_coverage(self):
+        with matplotlib_source_contract_fixture() as f:
+            loaded=r.load_contract(f.path,f.sha,f.output);skip=loaded['cases'][0]['labels']['ptp'][1]
+            policy={'nodes':[skip],'origin_receipt':{'path':'CPU_FAKE','sha256':'0'*64},'reason':'CPU_FAKE'}
+            loaded['expected_skips']=[skip];loaded['contract']['expected_skips']=policy
+            def extract(_archive,base,_revision):base.mkdir();(base/'public.py').write_text('CPU_PUBLIC');return {}
+            f.assets['helper'].extract.side_effect=extract
+            f.shared.apply_patch.side_effect=lambda *args:{'check_exit':0,'apply_exit':0}
+            def group(work,labels,_runner,log,_assets,_slot,_timeout):
+                base=work.name=='base_with_tests'
+                states={n:('skipped' if n==skip else 'failed' if base and 'test_fix' in n else 'passed') for n in labels}
+                result={'tests':states,'fatal':[]};log.write_text(r.MARKER+json.dumps(result)+'\n')
+                record=dict(exit=1 if base else 0,result=result,log_sha256=sha(log),
+                            cleanup={'status':'ALREADY_REMOVED'},container_started=True)
+                record['coverage']=r.exact_coverage(labels,record);return record
+            with mock.patch.object(r,'mem_available',return_value=8*1024**3),mock.patch.object(r,'run_matplotlib_group',side_effect=group):
+                result=r.execute(loaded)
+            case=result['cases'][f.c['cases'][0]['instance_id']]
+            self.assertEqual(result['status'],'QUALIFIED');self.assertEqual(result['expected_skips'],policy)
+            self.assertEqual(result['qualification_scope'],'LIMITED_RUNTIME_SCOPE')
+            self.assertEqual(case['qualification']['base_ptp_counts'],{'total':2,'passed':1,'skipped':1,'other':0})
+            for arm in ('base_with_tests','gold_with_tests'):
+                self.assertFalse(case['arms'][arm]['group']['coverage']['complete'])
+                self.assertTrue(case['arms'][arm]['group']['limited_scope_coverage']['complete'])
+
+    def test_toolkit_test_module_is_accepted_only_for_source_without_changing_labels(self):
+        with matplotlib_source_contract_fixture() as f:
+            module='lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py'
+            labels={'f2p':[module+'::test_fix'], 'ptp':[module+'::test_old',module+'::test_old_too']}
+            f.source_row['test_patch']='+++ b/'+module+'\nCPU_TEST_ONLY'
+            for suite,field in [('f2p','FAIL_TO_PASS'),('ptp','PASS_TO_PASS')]:
+                f.source_row[field]=json.dumps(labels[suite])
+                f.c['cases'][0]['label_map'][suite]=[dict(published=x,node=x) for x in labels[suite]]
+            with self.assertRaises(ValueError):r.mapped_labels('matplotlib/matplotlib',labels['f2p'])
+            loaded=r.load_contract(f.path,write(f.path,f.c),f.output)
+            self.assertEqual(loaded['cases'][0]['labels'],labels)
+            self.assertEqual(r.resolve_matplotlib_nodes(module,'def test_fix(): pass\n',labels['f2p'],allow_mpl_toolkits=True),labels['f2p'])
+            with self.assertRaises(ValueError):r.resolve_matplotlib_nodes(module,'def test_fix(): pass\n',labels['f2p'])
+
+    def test_toolkit_source_rejects_unsafe_paths_and_unverified_parameter_escapes(self):
+        bad=['lib/mpl_toolkits/../tests/test_x.py::test_x',
+             'lib/mpl_toolkits/axes_grid1/tests/../../test_x.py::test_x',
+             'lib/mpl_toolkits/axes_grid1/other/test_x.py::test_x',
+             'lib/mpl_toolkits/axes_grid1/tests/conftest.py::test_x',
+             '/lib/mpl_toolkits/axes_grid1/tests/test_x.py::test_x',
+             'lib/matplotlib/tests/test_axes.py::test_errors[param\\(\\)',
+             'lib/matplotlib/tests/test_axes.py::test_errors[\ninvalid]']
+        for label in bad:
+            with self.subTest(label=label),self.assertRaises(ValueError):
+                r.mapped_labels('matplotlib/matplotlib',[label],allow_mpl_toolkits=True)
+
+    def test_collection_admits_only_exact_or_unique_truncated_parameter_prefix(self):
+        with matplotlib_source_collection_fixture() as f:
+            f.collection['execution'].update(cleanup={'status':'ALREADY_REMOVED'},stdout_sha256=sha(f.collection_log),
+                                               stderr_sha256=hashlib.sha256(b'').hexdigest(),seconds=1.0)
+            f.c['node_collection']=reference(f.collection_path,f.collection)
+            loaded=r.load_contract(f.path,write(f.path,f.c),f.output)
+            self.assertEqual(loaded['cases'][0]['labels']['ptp'],[f.collection_ids[1]])
+            self.assertEqual(loaded['cases'][0]['spec']['label_map']['ptp'][0]['published'],f.original['cases'][0]['label_map']['ptp'][0]['published'])
+            self.assertFalse(f.output.exists())
+
+    def test_collection_rejects_unexecuted_tampered_ambiguous_or_aliased_evidence(self):
+        for edit in ('unexecuted','exit','cleanup','cleanup_conflict','stdout_conflict','wrong_source','wrong_base','changed_contract','changed_prior',
+                     'changed_module','changed_log','ambiguous','duplicate_native','wrong_mapping','unmatched'):
+            with self.subTest(edit=edit),matplotlib_source_collection_fixture() as f:
+                if edit=='unexecuted':f.collection['execution']['container_started']=False
+                elif edit=='exit':f.collection['execution']['exit']=1
+                elif edit=='cleanup':f.collection['execution']['cleanup_status']='UNKNOWN'
+                elif edit=='cleanup_conflict':f.collection['execution']['cleanup']={'status':'REMOVED_OWNED'}
+                elif edit=='stdout_conflict':f.collection['execution']['stdout_sha256']='0'*64
+                elif edit=='wrong_source':f.collection['instance_id']='matplotlib__matplotlib-90002'
+                elif edit=='wrong_base':f.collection['base_commit']='0'*40
+                elif edit=='changed_contract':Path(f.collection['source_contract']['path']).write_text('{}')
+                elif edit=='changed_prior':Path(f.collection['qualification_receipt']['path']).write_text('{}')
+                elif edit=='changed_module':f.collection_module.write_text('changed')
+                elif edit=='changed_log':f.collection_log.write_text('changed')
+                elif edit in ('ambiguous','duplicate_native','unmatched'):
+                    nodes=list(f.collection_ids)
+                    if edit=='ambiguous':nodes.append(f.collection_ids[1][:-1]+' other]')
+                    elif edit=='duplicate_native':nodes.append(f.collection_ids[1])
+                    else:nodes.remove(f.collection_ids[1])
+                    f.collection_log.write_text('CONTEXTBENCH_COLLECTION='+json.dumps({'nodeids':nodes})+'\n')
+                    f.collection['collection_log']['sha256']=sha(f.collection_log)
+                else:f.c['cases'][0]['label_map']['ptp'][0]['node']='lib/matplotlib/tests/test_fake.py::unrelated'
+                f.c['node_collection']=reference(f.collection_path,f.collection)
+                with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,f.c),f.output)
+                self.assertFalse(f.output.exists())
+
+    def test_new_source_contract_uses_dataset_identity_without_pair_or_container(self):
+        for instance_id in ('matplotlib__matplotlib-90001','matplotlib__matplotlib-90002'):
+            with self.subTest(instance_id=instance_id),matplotlib_source_contract_fixture(instance_id) as f, \
+                    mock.patch.object(subprocess,'Popen',side_effect=AssertionError('no container')):
+                loaded=r.load_contract(f.path,f.sha,f.output)
+                self.assertEqual(loaded['mode'],'matplotlib_source')
+                self.assertEqual(loaded['cases'][0]['spec']['instance_id'],instance_id)
+                self.assertEqual([len(loaded['cases'][0]['labels'][x]) for x in ('f2p','ptp')],[1,2])
+                self.assertFalse(f.output.exists());f.assets['helper'].extract.assert_not_called()
+
+    def test_source_identity_roles_labels_and_metadata_fail_closed(self):
+        with matplotlib_source_contract_fixture() as f:
+            for edit in ('role','source_id','revision','datafile','task','missing_ptp','empty_f2p','alias','metadata_repo','metadata_base','metadata_duplicate'):
+                c=copy.deepcopy(f.c);meta=copy.deepcopy(f.source_meta)
+                if edit=='role':c['cases'][0]['role']='target'
+                elif edit=='source_id':c['cases'][0]['instance_id']='sympy__sympy-90001'
+                elif edit=='revision':c['cases'][0]['base_commit']='0'*40
+                elif edit=='datafile':c['cases'][0]['dataset_file']='SWEContextBench_Related_Lite.parquet'
+                elif edit=='task':c['cases'][0]['problem_sha256']='0'*64
+                elif edit=='missing_ptp':c['cases'][0]['label_map']['ptp'].pop()
+                elif edit=='empty_f2p':c['cases'][0]['label_map']['f2p']=[]
+                elif edit=='alias':c['cases'][0]['label_map']['f2p'][0]['node']=c['cases'][0]['label_map']['ptp'][0]['node']
+                elif edit=='metadata_repo':meta['repo']='other/project'
+                elif edit=='metadata_base':meta['base_commit']='0'*40
+                f.shared.pq.read_table.return_value=SimpleNamespace(to_pylist=lambda:[meta,meta] if edit=='metadata_duplicate' else [meta])
+                f.shared.pq.read_table.side_effect=None
+                with self.subTest(edit=edit),self.assertRaises(ValueError):
+                    r.load_contract(f.path,write(f.path,c),f.output)
+            self.assertFalse(f.output.exists());f.assets['helper'].extract.assert_not_called()
+
+    def test_optional_ast_mapping_requires_unique_bound_module_and_preserves_parameters(self):
+        with matplotlib_source_contract_fixture() as f:
+            module='lib/matplotlib/tests/test_other.py'
+            node=f.c['cases'][0]['label_map']['ptp'][1]
+            source=f.root/'public_tests.py';source.write_text('class TestPublic:\n def test_old_too(self): pass\n')
+            f.c['cases'][0]['node_sources']={module:{'path':str(source),'sha256':sha(source)}}
+            node['node']=module+'::TestPublic::test_old_too'
+            loaded=r.load_contract(f.path,write(f.path,f.c),f.output)
+            self.assertEqual(loaded['cases'][0]['labels']['ptp'][1],node['node'])
+            bad=copy.deepcopy(f.c);bad['cases'][0]['label_map']['ptp'][1]['node']+='[invented]'
+            with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,bad),f.output)
+            source.write_text('class A:\n def test_old_too(self): pass\nclass B:\n def test_old_too(self): pass\n')
+            f.c['cases'][0]['node_sources'][module]['sha256']=sha(source)
+            with self.assertRaises(ValueError):r.load_contract(f.path,write(f.path,f.c),f.output)
+
+    def test_ast_bound_module_is_rechecked_after_each_private_overlay(self):
+        for changed in (False,True):
+            with self.subTest(gold_changes_test=changed),matplotlib_source_contract_fixture() as f:
+                module='lib/matplotlib/tests/test_other.py';code='class TestPublic:\n def test_old_too(self): pass\n'
+                source=f.root/'public_tests.py';source.write_text(code)
+                f.c['cases'][0]['node_sources']={module:{'path':str(source),'sha256':sha(source)}}
+                f.c['cases'][0]['label_map']['ptp'][1]['node']=module+'::TestPublic::test_old_too'
+                loaded=r.load_contract(f.path,write(f.path,f.c),f.output)
+                def extract(_archive,base,_revision):
+                    path=base/module;path.parent.mkdir(parents=True);path.write_text(code);return {}
+                def apply_patch(work,content):
+                    if changed and content==f.source_row['patch']:(work/module).write_text('changed by private gold')
+                    return {'check_exit':0,'apply_exit':0}
+                def group(work,labels,_runner,log,_assets,_slot,_timeout):
+                    base=work.name=='base_with_tests'
+                    record={'tests':{n:('failed' if base and 'test_fix' in n else 'passed') for n in labels},'fatal':[]}
+                    log.write_text(r.MARKER+json.dumps(record)+'\n')
+                    return dict(exit=1 if base else 0,result=record,log_sha256=sha(log),cleanup={'status':'ALREADY_REMOVED'},container_started=True)
+                f.assets['helper'].extract.side_effect=extract;f.shared.apply_patch.side_effect=apply_patch
+                with mock.patch.object(r,'mem_available',return_value=8*1024**3),mock.patch.object(r,'run_matplotlib_group',side_effect=group) as run:
+                    result=r.execute(loaded)
+                self.assertEqual(result['status'],'ERROR' if changed else 'QUALIFIED');self.assertEqual(run.call_count,1 if changed else 2)
+                self.assertEqual((f.output/'registry.json').exists(),not changed)
+
+    def test_source_qualification_emits_registry_only_for_complete_controls(self):
+        for outcome in ('qualified','base_passes','base_ptp_fail','gold_skip','gold_error','gold_extra','cleanup_failure','not_started','cleanup_missing',
+                        'input_changed_after_final_group','task_changed','testpatch_changed','log_changed'):
+            with self.subTest(outcome=outcome),matplotlib_source_contract_fixture() as f:
+                loaded=r.load_contract(f.path,f.sha,f.output)
+                def extract(_archive,base,_revision):
+                    base.mkdir();(base/'public.py').write_text('CPU_PUBLIC_BASE');return {}
+                f.assets['helper'].extract.side_effect=extract
+                def apply_patch(work,content):
+                    (work/('test_overlay.txt' if content==f.source_row['test_patch'] else 'gold_overlay.txt')).write_text(content)
+                    return {'check_exit':0,'apply_exit':0}
+                f.shared.apply_patch.side_effect=apply_patch
+                def group(work,labels,runner,log,_assets,_slot,_timeout):
+                    base=work.name=='base_with_tests'
+                    states={n:('failed' if base and 'test_fix' in n and outcome!='base_passes' else 'passed') for n in labels}
+                    if base and outcome=='base_ptp_fail':states[labels[-1]]='failed'
+                    if not base and outcome=='gold_skip':states[labels[-1]]='skipped'
+                    if not base and outcome=='gold_error':states[labels[-1]]='error'
+                    if not base and outcome=='gold_extra':states['UNREQUESTED']='passed'
+                    record={'tests':states,'fatal':[]};log.write_text(r.MARKER+json.dumps(record)+'\n')
+                    if not base and outcome=='input_changed_after_final_group':(f.data/'SWEContextBench_Lite_Experience.parquet').write_bytes(b'CHANGED')
+                    if not base and outcome=='task_changed':(work.parent/'task.txt').write_text('CHANGED')
+                    if not base and outcome=='testpatch_changed':(work.parent/'test.patch').write_text('CHANGED')
+                    if not base and outcome=='log_changed':(work.parent/'base_with_tests.log').write_text('CHANGED')
+                    returned=dict(exit=1 if 'failed' in states.values() else 0,result=record,
+                                  log_sha256=sha(log),cleanup=dict(status='ALREADY_REMOVED'),container_started=True)
+                    if not base and outcome=='cleanup_failure':returned['cleanup_error']={'type':'OWNED_FAKE'}
+                    if not base and outcome=='not_started':returned['container_started']=False
+                    if not base and outcome=='cleanup_missing':returned.pop('cleanup')
+                    return returned
+                with mock.patch.object(r,'mem_available',return_value=8*1024**3), \
+                        mock.patch.object(r,'run_matplotlib_group',side_effect=group):
+                    result=r.execute(loaded)
+                registry=f.output/'registry.json';receipt=f.output/'receipt.json'
+                self.assertEqual(result['status'],'QUALIFIED' if outcome=='qualified' else ('NOT_QUALIFIED' if outcome in ('base_passes','base_ptp_fail') else 'ERROR'))
+                self.assertEqual(registry.exists(),outcome=='qualified');self.assertTrue(receipt.exists())
+                clean=f.output/f.c['cases'][0]['instance_id']/'clean_base'
+                self.assertFalse((clean/'test_overlay.txt').exists());self.assertFalse((clean/'gold_overlay.txt').exists())
+                if outcome=='qualified':
+                    value=json.loads(registry.read_text());case=result['cases'][f.c['cases'][0]['instance_id']]
+                    self.assertEqual((result['role'],result['model_calls'],result['training']),('DEVELOPMENT_SOURCE',0,0))
+                    self.assertEqual(set(value),{'schema','source_result','qualification_contract','actor_projection','rows'})
+                    self.assertEqual(value['schema'],'qualified_matplotlib_development_source_v1')
+                    self.assertEqual(value['source_result'],{'path':str(receipt),'sha256':sha(receipt)})
+                    self.assertEqual(value['qualification_contract'],{'path':str(f.path),'sha256':f.sha})
+                    self.assertEqual(value['actor_projection'],{'path':str(f.root/'projection'),'sha256':'a'*64})
+                    self.assertEqual(value['rows'],[{'source':f.c['cases'][0]['instance_id'],'clean_base':str(clean)}])
+                    self.assertEqual(case['clean_base_sha256'],r.tree(clean))
+                    self.assertEqual(case['input_sha256']['task.txt'],f.c['cases'][0]['problem_sha256'])
+
+
 class PerTestOutcomeTests(unittest.TestCase):
     def test_full_runner_records_real_unittest_pass_assertion_failure_and_import_error(self):
         # Execute the complete wrapper in a CPU child, with synthetic public tests
