@@ -16,7 +16,7 @@
 2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
 3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
 4. **采集已收口。** [26020/22711](results/CODE_SOURCE_CORRECTIONS.md#source-expansion)共42实际POST；前者超时且代码未修对，后者按用户重心调整提前停止。复用已存真实现场/成功工件，不追加来源资格；134 valid_unseen保留。
-5. **方法实验。** 三现场局部修订未显示增益。7来源/68个实际教师行动构成同输入对照数据；[反馈位置梯度训练](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈位置梯度训练中断的开发尝试)因GB10内存压力中断，8B两臂各完成8/192更新，无可评估adapter。训练前向等价及梯度差仅单例成立；下一用受监控的轻量同模型配对比较，结果对照同模型普通SFT、简单反馈规则，8B R只作跨模型参考。
+5. **方法实验。** 三现场局部修订未显示增益。7来源/68个教师动作构成同输入数据；[反馈梯度训练](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈位置梯度训练中断的开发尝试)因GB10内存压力中断，8B两臂各8/192更新，无可评估adapter。七对状态合法性判断，8B为11/14、列表规则14/14。现有教师动作未针对追加反馈生成，先不续训旧4B配方；转查合法但对目标无效的实际行动与续做结果，建立针对性监督和强规则对照，再决定训练。
 
 ## 证据和写作要求
 
