@@ -15,7 +15,7 @@
 1. **旧四格闭合。** B6受通道/预算混淆，预测向量已更正；oracle5/6、R6/6不识别新机制。
 2. **新来源闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成、930 POST；末反馈12条未转发。world已关，前缀非纠正监督。
 3. **规则反证。** [14现场](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)两规则均全恢复、新动作194/190；停止此面板复杂选择器。规则用整理后的公开历史，非与旧actor同输入。
-4. **当前机制开发。** [Django](results/CODE_SOURCE_CORRECTIONS.md#joint-development)普通控制12POST未编辑，四格已冻结并串行运行：保留/删除记录×预读/自主读取，同27B/seed17、各12POST/300秒。新回归和原SQLite合同同时评分。四次writer原始格式失败保留，整理后memory只作后验开发输入；目前无学习收益。134 valid_unseen及第二环境仍保留。
+4. **当前机制开发已闭合。** [Django](results/CODE_SOURCE_CORRECTIONS.md#joint-development)普通及四格均无编辑/恢复，停止此单例分支；64POST/515,460tokens含writer，无学习偏好。下一按独立问题扩样，复用已成功的代码Agent及既有依赖；旧Astropy/Matplotlib目标已饱和，SymPy目标有能力阻断，均只作开发资产。先核新source元数据/时间边界，再释放小批，不新建日期runner。134 valid_unseen及分组确认仍保留。
 
 ## 证据和写作要求
 

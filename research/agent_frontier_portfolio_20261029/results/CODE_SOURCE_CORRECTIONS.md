@@ -65,9 +65,24 @@ Django源/目标base分别为`895f28f9cbed817c00ab68770433170d83132d90`/`016bead
 
 D另删除一条生产函数记录并实际读取67bytes代码，完成算子检查，未形成偏好。独立C四提案复核SHA `f6cad8fd26d51a1e87686b153f4ebe362ba5753f5c3446c49dec9759dac5cfff`。
 
-**普通恢复已闭合。** `D_READER_RESULT_V1.json` SHA `654703efe405a11e92964073164f8df4afa72db9f630fb179f8fd5c056009db1`：27B/seed17，无memory/无预读，12实际POST、13次relay尝试（末次封顶拒绝），输入107,482/输出1,062/总108,544tokens，cache未知，151.086秒。21次bash工具均检查源码，无生产编辑；独立原题1/1、回归65/65通过，宽219仍1失败/1跳过。`GENERATION_FAULT`源于封顶403；这只说明本次有界控制未完成，不能断言模型无修复能力。
+**普通恢复已闭合。** `D_READER_RESULT_V1.json` SHA `654703efe405a11e92964073164f8df4afa72db9f630fb179f8fd5c056009db1`：27B/seed17，无memory/无预读，12实际POST、13次relay尝试（末次封顶拒绝），输入107,482/输出1,062/总108,544tokens，cache未知，151.086秒。20次bash均只读/搜索，无生产编辑；独立原题1/1、回归65/65通过，宽219仍1失败/1跳过。此前摘要的21次计数经C按raw更正为20次。`GENERATION_FAULT`源于封顶403；只说明本次有界控制未完成，不能断言模型无修复能力。
 
-**四格在途。** 同一D整理六record，交叉保留/删除生产函数记录×是否预读67bytes；所有臂仍可自主读公开repo。每臂12POST/300秒/16MiB，总最多48POST，训练0；使用[薄运行入口](../joint_memory_program_runtime.py)，原1+65+219独立评分，不访问PG。`D_FACTORIAL_RELEASE_V1.json` SHA `5b76828d2ab242a002af666b73536587728d4da25647a627a76ec55380189567`；owner PID2784551/birth1093663926，按`FACTORIAL_SPAWN_V1.json`及进程核实，不因SSH观察超时重跑。删除也改变长度/位置，预读改变交付时机；单来源/单seed后验开发不作因果或迁移确认。形成与旧CPU/模型成本不重置。
+**四格已闭合。** 同一D整理六record，交叉保留/删除生产函数记录×是否预读67bytes；所有臂仍可自主读公开repo。同27B/seed17、各12POST/300秒/16MiB，使用[复用入口](../joint_memory_program_runtime.py)。实际结果：
+
+| 记忆 / 预读 | POST | provider tokens | bash | 新编辑 / 恢复 |
+| --- | --- | --- | --- | --- |
+| 保留 / 无 | 12 | 87,001 | 17 | 0 / 0 |
+| 删除 / 有 | 12 | 89,661 | 19 | 0 / 0 |
+| 删除 / 无 | 12 | 132,663 | 23 | 0 / 0 |
+| 保留 / 有 | 12 | 91,097 | 20 | 0 / 0 |
+
+四臂均在第13次relay尝试被本地帽拒绝，原题1+65保持通过、219仍同一回归。五臂共99条命令只读/搜索，未跑测试或编辑。独立参考正控1+65+219全过（既定skip1），SHA `ebe010b53b99af08f80b9f4495b2513404da738cf305d88f01917a12591426d6`；参考从未进入actor，非方法收益。
+
+批结果SHA `d8e46a6d416b23f5eb4aff7db0a517ed2768f7d9a380b0f147ffd8a58ed7ad5c`；D闭合`D_CLOSEOUT_V1.json` SHA `b87a0e67d2bb72d6e5c65525001a143bb9d89307109973f2ebca5493cd6cecc5`。连同普通控制及四writer共64实际POST、输入508,854/输出6,606/总515,460tokens，usage齐全、64条cache未知；5次本地拒绝不算模型生成。形成历史不重置，训练0；token是用量，非等价新增计算。owner已退出，5个actor容器均实查不存在。
+
+C独立核全部60条reader SSE和此前4writer，复核请求/采样/账本、99条命令及评分日志，无阻断；`C_FACTORIAL_CLOSEOUT_V1.json` SHA `4762fa8d1c8c2f5fa45f93ecb2223079684ea61ffb2034a7bbbf7213a8a65b4e`已私有双端镜像。1/65/219是相互重叠的评分集合，不相加为独立样本。四格闭合包`joint_memory_factorial_closed_v1.tar.gz`双端290成员＋索引校验，2,821,797bytes，SHA `019b201291086dff9a246ef8442795f0c898456505793056d557e5ffb776d14f`；后写C复核以独立sidecar hash绑定，不改旧包。
+
+**裁决**：停止此单例的提示/schema/预算追加，没有恢复偏好或训练方法效用证据。删除改变长度/位置、预读改变交付时机；单来源/单seed后验开发不作因果确认。下一先扩独立source，复用SymPy/Astropy/Matplotlib已成功的真实Agent资产；旧目标分别存在执行阻断或饱和，不能冒充新确认。
 
 已闭合提案/普通控制与公开source快照的私有包`joint_memory_development_closed_control_v1.tar.gz`已双端逐项校验：19,474,055bytes，6,369证据成员＋索引，SHA `eadc70b242754aa2fd8b6e705e33b194304483d7c728b8952c53305502c35ece`；排除在途四格、权重与依赖。新数据合同/运行器GB10定向19项及21个子控制通过；不代表方法或泛化成立。
 
