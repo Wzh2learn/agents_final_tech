@@ -3,7 +3,9 @@
 > 状态: 活跃 | 更新: 2026-11-09 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
 
 <a id="current"></a>
-## 当前结果
+## 已验证来源资产
+
+当前方法实验与下一动作直接读[显式控制器对照](#direct-method)；下列原始教师资产与旧四格保留作来源，不作为当前训练成绩。
 
 SymPy21055取得一条**教师辅助、经执行验证的代码纠正**。教师仅接收原公开问题、D定位的源码和实际公开复现反馈；未接收未来目标或gold。它是一条来源素材，不是学习方法或迁移收益的确认。
 
@@ -82,9 +84,46 @@ D另删除一条生产函数记录并实际读取67bytes代码，完成算子检
 
 C独立核全部60条reader SSE和此前4writer，复核请求/采样/账本、99条命令及评分日志，无阻断；`C_FACTORIAL_CLOSEOUT_V1.json` SHA `4762fa8d1c8c2f5fa45f93ecb2223079684ea61ffb2034a7bbbf7213a8a65b4e`已私有双端镜像。1/65/219是相互重叠的评分集合，不相加为独立样本。四格闭合包`joint_memory_factorial_closed_v1.tar.gz`双端290成员＋索引校验，2,821,797bytes，SHA `019b201291086dff9a246ef8442795f0c898456505793056d557e5ffb776d14f`；后写C复核以独立sidecar hash绑定，不改旧包。
 
-**裁决**：停止此单例的提示/schema/预算追加，没有恢复偏好或训练方法效用证据。删除改变长度/位置、预读改变交付时机；单来源/单seed后验开发不作因果确认。下一先扩独立source，复用SymPy/Astropy/Matplotlib已成功的真实Agent资产；旧目标分别存在执行阻断或饱和，不能冒充新确认。
+**裁决**：停止此非thinking/12POST单例分支，没有恢复偏好或训练方法效用证据。删除改变长度/位置、预读改变交付时机；单来源/单seed后验开发不作因果确认。下一扩独立source，复用已核真实Agent工件与依赖；Matplotlib25332源及25352目标已有失败，不能当未运行来源。旧目标的执行阻断或饱和不冒充新确认。
 
 已闭合提案/普通控制与公开source快照的私有包`joint_memory_development_closed_control_v1.tar.gz`已双端逐项校验：19,474,055bytes，6,369证据成员＋索引，SHA `eadc70b242754aa2fd8b6e705e33b194304483d7c728b8952c53305502c35ece`；排除在途四格、权重与依赖。新数据合同/运行器GB10定向19项及21个子控制通过；不代表方法或泛化成立。
+
+**旧正向工件补入索引。** `ROOT/django_aggregation_agent_20261106/attempts/teacher27_thinking_low_source_20261106`已有27B thinking-low修复：`source__none__seed7201.completed.json` SHA `ec4b3a362e0d50004d4ef492b3bfc1812ae01bca4451a7c9d6d0a784a5dd0449`。其`query.py`修复通过PG原题及SQLite原题1、回归65、宽检查219（既定skip1）；actor本身2400秒超时，54POST、53次完整usage共891,947tokens，末次usage未知，不能记成正常完成episode。原始请求确认nested thinking=true/low，seed7201；与上方非thinking/seed17/12POST并非同预算因果对照。退出后反馈不证明actor已见；历史包SHA `9987712bd65327a953520d8b798d06b7393eec88ad5cc899560653e16f24fdd1`已双端保留，不为重获该资产重跑。
+
+<a id="source-expansion"></a>
+**独立问题扩样。** 私有`ROOT/joint_memory_source_pool_v1`按兼容版本/回归成本事先选4道Matplotlib来源题，非随机代表样本。26020的6个截短参数名经原生collect的49个唯一节点补全；V3 base为1项原题失败/48回归通过，gold为49通过，receipt SHA `8eaf5d38dd2c2c58b0695ff316de85dae4e83cc11cf078e57984babca8354a30`。22711完整执行2原题＋91回归：base两原题失败，gold两原题通过；双方回归90通过/同1项PDF跳过。仅在新development合同事后声明该已观测skip，原严格覆盖仍为不完整，另报`LIMITED_RUNTIME_SCOPE`；receipt SHA `fe2d8915bf1618f6392910974ec9329d4587598ade604a187bddb3757fa4fa86`。23913另有真实回归失败，不放行；24149转义选择器未解，不猜测。旧pair/target/默认门不改。
+
+复用原生Python3.10 ARM依赖/扩展投影，并非各commit完整重新编译；没有安装依赖或新增warning豁免。4次archive下载、原生base/gold/collection/config共10个容器（含一次collector缓存写入失败），科研模型0。首个V3驱动缺父目录，在Docker启动前失败，保留原记录后另启；不计模型请求。新source支持显式27B thinking-low与首个生产编辑后的preforward现场：256MiB/30,000文件/累计30秒上限，失败为UNKNOWN，READY只保证字节稳定。实测安装版OpenCode接受关闭自动压缩，config receipt SHA `fadde246299e555c681ff2b7c0ba8b33f44fac33771a100113a23efef44f2924`。
+
+GB10主树新鲜联合测试197项/120子控制通过；不是原生模型结果。两个实际CPU准备已完成，manifest SHA分别`e6bf98c27e7d4d554e93970051505aa7f9cec5c64dfa826f2141aa08782058c8`、`5fb412bf17aa0c144ddcdbf5e7914bed56b57ab359a33bcbed25291f9eb18518`。后续只做至多两道新source采集，各48POST/1200秒/64MiB，固定seed17、32k/8192、串行运行；先完成固定快照复核，不重跑旧失败面板。它们仍属同项目开发来源，不是跨项目确认或训练方法证据。
+
+**采集收口。** C限域复核SHA `997725c93a9bda0e330acdd0d1fd52ffa6c1cb9fc039c7ce937b17d0b96afe8c`后真实运行：26020为26POST/407,000tokens，1200秒超时，第27次本地deadline拒绝未转发；22711按用户要求转向直接方法实验而中断，为16POST/115,834已知tokens，末次usage未知。合计42实际POST/522,834已知tokens＋1未知；不重置或隐藏该失败成本。26020首编辑checkpoint READY；22711捕获达到30秒门为UNKNOWN，不作为合格现场。
+
+独立评分原26020中途及最终工件，各为1原题失败、48回归中38通过/10失败，无缺失；两份回执SHA `d0f5f0851d06e2da1530da9a05cda1be715f710b209a652f5e9ba0c522055d88`、`74d18eada8e3f70e64a15e4da8e9360b8740abf6666cb87af26539f9a00d168a`。完整源码hash前后不变；计数相同不自动推断失败节点完全相同。停止来源扩跑及该现场的提示追加。
+
+<a id="direct-method"></a>
+## 直接方法实验：控制器显式选择
+
+**提示式DEFER已停止。** 私有`substitution_mechanism_v1`从26020同一READY现场运行KEEP/DROP/DEFER，各27B非thinking/seed17、6POST/180秒；共18POST/173,350tokens，usage齐全。三臂均无新编辑，原题仍失败、回归38/48通过。恢复client均调用0次，但三臂均用原生sed/grep回读同一源码，不能写成“没有重新取证”。它没有形成有效替代对比，不训练、不追加同例预算。结果SHA `b12aca6b406a9fe90985f057beb401e91c0e3b015d1680660506c8a799f66c0b`。
+
+**显式动作已取得真实监督。** 改用已经验证有能力的SymPy21055单轮修复；三臂同公开题目/反馈/27B非thinking/seed17，控制器实际保留/省略/读取源码，再由固定模型生成diff。统一使用事先确定的`git apply --recount`，不改变生成代码。原生评分复用既有1项原题＋13项回归，测试与参考均不进入模型。
+
+| 控制器动作 | 观测 | provider tokens |
+| --- | --- | ---: |
+| KEEP完整源码 | 补丁可应用，原题1/1及回归13/13通过 | 4,039 |
+| DROP源码 | 幻觉代码上下文，补丁在共同recount下仍无法应用；未进测试 | 959 |
+| QUERY结构＋refine_abs | 补丁可应用，但新增未定义处理器，测试在导入/收集时失败 | 1,492 |
+| QUERY结构＋refine_sign | 只替换近似等长的实际处理器片段；补丁无法应用，未进测试 | 1,762 |
+
+四次实际POST共8,252tokens，usage齐全/cache未知。KEEP请求体与旧正控逐字节相同；两种QUERY只读修复前真实源码，未虚构尚不存在的refine_arg。SIGN是在前3次结果已知后选定的一次来源开发，不是独立确认。绑定见私有`sympy_substitution_v1/INPUT_MANIFEST.json` SHA `564fc36b20a1b1e6b665984823d6a36b57432d0282daa69f505191dea6cec56c`及对应release/receipt/raw；模型token不等于新增计算，query读取时间另记。
+
+**自然版本/任务变化四臂已闭合。** 21055的真实修复记忆迁往9384后，NONE、MEMORY、QUERY、BOTH均未改变预算末源码；独立原生评分均为原题0/2、回归320/320。NONE在180秒超时、usage未知；其余三臂正常生成但补丁无法应用，分别1,489/3,395/4,080tokens。QUERY/BOTH读取当前两文件61,820bytes，只呈现11,004bytes局部结构，不能称完整源码。4实际POST、8,964已知tokens＋其中1条未知；8个评分容器移除，owner均退出，服务端取消未核实。绑定私有`sympy_transfer_utility_v1/BUDGET_ENDSTATE_RESULT_V1.json` SHA `eae9f92744fd00e9f660b5212e004772f03b7932a9711a4c5f0e7d830bc47ef6`。这检验跨任务经验复用，不是同任务执行中保留进度的确认。
+
+**最后一个上下文控制已闭合。** 无旧经验、完整提供当前refine.py与piecewise.py，模板15,720input tokens，连8192输出及512余量共24,424，小于32,768，未截短。新900秒/8MiB预算不改旧180秒合同，旧超时NONE不作公平新预算对照。实际1POST，15,720输入＋713输出＝16,433tokens，正常stop；补丁在refine.py:316无法应用，末状态仍原题0/2、回归320/320。receipt SHA `eafe6b73725e8c93c3195b6a16cb55a8497f474227fa42f3bb505aead8ad83f8`。两文件完整不等于相关上下文充分：D只读冻结gold的文件头，6个被改文件均在assumptions引擎及core/relational.py，不含上述两文件；现有两个F2P对应satask/relational，公开Piecewise行为的覆盖未充分证明。题面版本/哈希未见串换，但不能据此断言任务合同错误或模型无能力。停止9384提示/预算追加，不拿此面板训练或裁决学习方法。
+
+**方法取舍。** 21055完整源码成功、局部片段失败，说明取证内容需覆盖实际执行需求；9384没有形成有效方法监督。独立质疑指出，四格交互项是已有回报的线性组合，普通联合Q可表达它；新增交互loss不作为独立方法。主攻取证后的局部经验重构：按实际反馈，仅改动影响后续行动的经验条件/内容，保留无关经验和已发生的外部进度。训练在同前缀续做候选中，优先成功，再取最低实际修订/执行成本；不是按文本相似或一条裁判判断失效。部署只执行所选查询和修订。与同数据/动作/反馈的普通联合策略、全部保留/重读和简单失效规则比较，检验结构化局部修订的学习增量；并非仅提出新loss。候选未训练、未证明新颖或有效；134 valid_unseen保留。
+
+**闭合证据同步。** 此处source采集、提示式对照及两组SymPy筛查合计69条已确认POST、729,833已知tokens，其中2条usage未知；不是全项目成本。私有`evidence_packets_20261106/joint_memory_method_screen_v1.tar.gz`有760成员/14,393,685bytes，SHA `2d054a3885c2a589e40b8f0d9afb3039330aef7443ea9b5a44f3db3ec06b781d`，GB10与本机包hash相同并逐成员核验760/760。排除源码ZIP、整树副本、依赖与合成扫描fixture，原始完整树仍在GB10；包不是独立完整运行环境。成员索引SHA `f6e2b0d68765e60bc497c18834f4fa0e294fddf2c334a9dc3f8ed6af4c15d749`，仅私有保留。
 
 ## 先前准备与故障记录（迁入原文）
 

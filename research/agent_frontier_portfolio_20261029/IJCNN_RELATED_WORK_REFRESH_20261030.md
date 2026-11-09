@@ -46,9 +46,11 @@ RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06
 
 **最直接新增对标（§3原文已读，未复现）**：[OSL-MR](https://arxiv.org/html/2606.10616v1)已建模保留/重获延迟/陈旧风险，实际用gold evidence membership加权BCE及预算解码；[Context Compression Cost](https://arxiv.org/html/2608.16370v1)已诊断固定Agent的保留/摘要/oracle恢复及自然重新取证，区分可回读与历史依赖信息。问题划分和成本思想已有先例。
 
-**候选差异**：实际删除记录、执行其补证程序，再以固定reader续做结果联合训练记忆与程序；上述两篇§3未报告此操作。需胜过同数据OSL式保留＋同恢复器及普通联合成功/成本训练；普通偏好公式和加一个query字段不算创新。共同可行预算中比较实际成功—成本，不靠禁止某臂制造翻转。原型与开发结果见[代码记录](results/CODE_SOURCE_CORRECTIONS.md#joint-development)，新方法仍未成立。
+**候选取舍**：四格交互是回报的线性组合，普通联合Q可表达；仅加交互loss不足以新颖。主攻实际取证后、按续做后果学习局部经验修订，须与同数据/动作/可见反馈联合策略比较。[直接筛查](results/CODE_SOURCE_CORRECTIONS.md#direct-method)未形成可训练的新方法证据。
 
-**联合学习直接对标**：[AiO-Mem §3](https://arxiv.org/html/2610.21147v1#S3)联合search/add/skip/stop、过程奖励、冻结reader；skip丢弃候选，方法段未见删除已存记录后实测补证的配对训练。[CAMG §5/C.1/D.3](https://arxiv.org/html/2609.34422v1)训练文件记忆，做同状态清空/打乱干预。必须保持联合策略/奖励相同，仅消融补证训练分支；联合RL/删记忆/保留world均非新意。原文已核，成绩未复现。
+**联合学习直接对标**：[AiO-Mem §3](https://arxiv.org/html/2610.21147v1#S3)联合search/add/skip/stop与过程奖励；[CAMG §5/C.1/D.3](https://arxiv.org/html/2609.34422v1)训练文件记忆并干预清空/打乱。保持策略动作与反馈相同，不能通过削弱联合基线证明增量。原文已核，成绩未复现。
+
+**局部修订近邻（11-09原文核查，未复现）**：[StateGraph §4.2–4.5](https://arxiv.org/html/2611.02912v1#S4)从历史发现依赖，用反事实问题验证后局部撤回并检查行动前提；“有依赖图/局部撤回”已被覆盖。[When Evidence Changes §4/6.2](https://arxiv.org/html/2610.03902v1#S6.SS2)比较局部修复与当前来源重读，发现节点重算少不保证全流程tokens少。我们的待验差异只能落在实际续做后果监督、局部编辑结构和同信息学习效率上；不能先宣布新原理。
 
 ## 旧章节链接
 

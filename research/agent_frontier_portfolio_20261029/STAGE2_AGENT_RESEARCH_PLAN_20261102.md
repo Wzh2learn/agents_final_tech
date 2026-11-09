@@ -6,16 +6,17 @@
 
 主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
 
-主攻[记忆与重新取证联合学习](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：以实际“删除→补证→续做”比较训练，不再追加普通纠正SFT。与OSL-MR式保留＋同恢复器、普通联合训练及强简单策略对照；候选未成立。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
+主攻[取证后的局部经验重构](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md#可检验的机制方向)：当前证据先返回，再决定保留、撤回或替换哪条经验。以实际续做效果训练，与同数据/动作/反馈的普通联合策略及强简单规则比较；不把增加交互loss当创新。候选未成立。D/A/C按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行；4B不作前置。
 
-[五基线与四格](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R仍属已有配方。SymPy双臂[已准备](results/CODE_SOURCE_CORRECTIONS.md#current)，暂缓运行，供新机制第二环境复用；不为增加基线数量而单独扩跑。
+[旧五基线](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R是已有配方；SymPy直接动作与目标四臂看[方法现场](results/CODE_SOURCE_CORRECTIONS.md#direct-method)，不从历史准备句重复启动。
 
 ## 执行原则与后续顺序
 
 1. **旧四格闭合。** B6受通道/预算混淆，预测向量已更正；oracle5/6、R6/6不识别新机制。
-2. **新来源闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成、930 POST；末反馈12条未转发。world已关，前缀非纠正监督。
-3. **规则反证。** [14现场](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)两规则均全恢复、新动作194/190；停止此面板复杂选择器。规则用整理后的公开历史，非与旧actor同输入。
-4. **当前机制开发已闭合。** [Django](results/CODE_SOURCE_CORRECTIONS.md#joint-development)普通及四格均无编辑/恢复，停止此单例分支；64POST/515,460tokens含writer，无学习偏好。下一按独立问题扩样，复用已成功的代码Agent及既有依赖；旧Astropy/Matplotlib目标已饱和，SymPy目标有能力阻断，均只作开发资产。先核新source元数据/时间边界，再释放小批，不新建日期runner。134 valid_unseen及分组确认仍保留。
+2. **ALF闭合。** [18个TRAIN源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成；world已关，前缀非纠正监督。
+3. **规则反证。** [两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，停止此面板复杂选择器；输入与旧actor不同。
+4. **采集已收口。** [26020/22711](results/CODE_SOURCE_CORRECTIONS.md#source-expansion)共42实际POST；前者超时且代码未修对，后者按用户重心调整提前停止。复用已存真实现场/成功工件，不追加来源资格；134 valid_unseen保留。
+5. **直接机制实验已收口。** 提示式DEFER停止。21055完整源码成功、局部取证失败；9384四臂及完整两文件控制均未修复，且相关上下文/行为覆盖不足，停止同例提示/预算追加。候选不在此全失败数据上训练。下一检验行动后果监督的局部经验重构，须超过同信息普通联合策略与简单重读。
 
 ## 证据和写作要求
 
