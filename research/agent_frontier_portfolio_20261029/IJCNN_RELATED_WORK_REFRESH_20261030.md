@@ -30,9 +30,9 @@ RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06
 - [SkillApt §3.2–3.6/附录B](https://arxiv.org/html/2609.26863v1)已有配对效用与LOAD/ABSTAIN；比较须对齐状态、工具和成本。保留改后world续做的差异待验证。
 **比较要求**：keep/drop、短历史、目标重申及冲突规则，保持观察/动作一致；适配不冒充复现。
 
-**当前参照**：[Sentry](https://arxiv.org/html/2610.02994v1)失败时暴露经验；[EMG](https://arxiv.org/html/2607.13884v3)成功/失败图匹配；[DGRR §3](https://arxiv.org/html/2608.10502v1)依赖失效/独立支持，须对齐故障标识；[Memento §3](https://arxiv.org/html/2611.00244v1)学习笔记折叠/回退。原文已核，成绩未复现；细节查[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)。
+**参照**：[Sentry](https://arxiv.org/html/2610.02994v1)暴露失败经验；[EMG](https://arxiv.org/html/2607.13884v3)匹配经验图；[DGRR](https://arxiv.org/html/2608.10502v1)处理依赖失效；[Memento](https://arxiv.org/html/2611.00244v1)学习笔记折叠。原文已核，成绩未复现；见[纠正记录](results/ALFWORLD_CORRECTION_DATA.md#方法重叠与下一验证)。
 
-**R属强基线**：[STeP](https://arxiv.org/html/2505.20023v1)用教师纠正/partial masking；[Agent-R](https://arxiv.org/html/2501.11425v3)用自搜索拼接。O/R的6/12对8/12不识别新意或反馈因果；[数据/成本对齐](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)按需读。
+**R属强基线**：[STeP](https://arxiv.org/html/2505.20023v1)用教师纠正/partial masking；[Agent-R](https://arxiv.org/html/2501.11425v3)用自搜索拼接。O/R不能单独识别新意或反馈因果；见[数据与成本](results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md#recovery-literature)。
 
 检索规则见[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md#联网搜索路由)。
 
@@ -49,6 +49,8 @@ RethinkSkill仅接口接通，未部署；[接入](../../docs/archive/2026-11-06
 **候选取舍**：四格交互是回报的线性组合，普通联合Q可表达；仅加交互loss不足以新颖。主攻实际取证后、按续做后果学习局部经验修订，须与同数据/动作/可见反馈联合策略比较。[直接筛查](results/CODE_SOURCE_CORRECTIONS.md#direct-method)未形成可训练的新方法证据。
 
 **联合学习直接对标**：[AiO-Mem §3](https://arxiv.org/html/2610.21147v1#S3)联合search/add/skip/stop与过程奖励；[CAMG §5/C.1/D.3](https://arxiv.org/html/2609.34422v1)训练文件记忆并干预清空/打乱。保持策略动作与反馈相同，不能通过削弱联合基线证明增量。原文已核，成绩未复现。
+
+[TokenTune §3](https://arxiv.org/html/2501.18824v1)已对输入位置选择性反传并结合LoRA，目标是节省内存。反馈位置加权不是新反传原理；后续须对照等长随机位置及普通训练，比较任务收益与资源。
 
 **局部修订近邻（11-09原文核查，未复现）**：[StateGraph §4.2–4.5](https://arxiv.org/html/2611.02912v1#S4)从历史发现依赖，用反事实问题验证后局部撤回并检查行动前提；“有依赖图/局部撤回”已被覆盖。[When Evidence Changes §4/6.2](https://arxiv.org/html/2610.03902v1#S6.SS2)比较局部修复与当前来源重读，发现节点重算少不保证全流程tokens少。我们的待验差异只能落在实际续做后果监督、局部编辑结构和同信息学习效率上；不能先宣布新原理。
 
