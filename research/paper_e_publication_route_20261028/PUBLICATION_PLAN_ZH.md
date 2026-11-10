@@ -1,6 +1,8 @@
 # Paper E 投稿与学位成果保障计划
 
-最新路线更新：2026-11-05（Asia/Shanghai）。现役决策见“ICINT 首投、ICDAR 顺序备投”；其他带日期的评估保留为历史记录，若与现役路线冲突以现役路线为准。这是可审阅的规划，不代表已投稿、已录用或已确认学校认定。
+最新路线复核：2026-11-11（Asia/Shanghai）。ICINT首投、拒稿或正式撤稿后ICDAR顺序备投；日期与准备状态先看页首及[最新核验](ICINT_PREFLIGHT_20261101.md)。下方旧日期评估保留为历史，不代表已投稿、录用或确认学校认定。
+
+2026-11-11：官网和[ZMeeting投稿入口](https://www.zmeeting.org/submission/icint2027)仍列11-15全文截止、12-15通知；提交前需账号，参会注册截止另为12-30。公开页未找到单独摘要预注册截止或精确截止时区，不按未经确认的AoE推算最后时刻。现役匿名PDF仍为11-09同一4页工件，源TeX已重建一致；141词纯文本摘要、标题及关键词已归入现有私有作者准备文件。待导师反馈和作者团队终核，正式提交另由Owner授权。本轮未建号、上传、投稿、付款或外联。
 
 2026-11-09：按用户要求使用经审阅的 Humanizer 润色英文稿，修改引言、案例衔接和结论中的重复与含糊指代；数据、公式、引用、表格和 AI 使用声明未改。重新生成的[审阅 PDF](icint_latex/main.pdf)为 4 页，SHA-256 `93676e31d1a11846657363fa73fe5aaf2be4631953618d16c43dc014369425c7`；使用 Tectonic 0.15.0 和已核官网 IEEEtran 模板。与上一版 PDF 数字计数一致、14 项参考文献齐全、字体均嵌入，四页已目视检查。本版尚待作者团队及导师审阅；此前 11-04 版本可从 Git 历史恢复，导师实际收到的附件哈希未独立核对。
 
@@ -35,7 +37,7 @@
 
 本节为现役路线，取代以下历史筛选中“尚未确定首投”和 IJCNN 用作 Paper E 备选的安排。根据作者最新选择，Paper E 先准备 ICINT 2027，只有收到拒稿或正式撤稿确认后才考虑 ICDAR 2027；另一篇独立 Agent 研究以 IJCNN 2027 为目标，两篇应在研究问题、贡献与文本上保持实质独立。
 
-- ICINT 官网列全文 **2026-11-15** 截止、**12-15** 通知、2027-03-05 至 07 举办；ICDAR 征稿页列 **2027-01-31 摘要、02-20 全文**，其日期页却列全文 02-28，暂按较早日期规划。若按期收到 ICINT 拒稿，可在 ICDAR 截止前修订后顺序投稿；若仍在审稿则不能假定可以并行提交。日期均须临投稿时重新核验。ICINT 本届出版方、学校对线上展示及成果的认定仍待核实，不能把录用视为毕业条件已经满足。
+- ICINT当前全文截止与通知见页首11-11核验。ICDAR旧日期冲突已被页首11-05记录更新取代，备投启用时重新核官网，不沿用本节历史日期。收到ICINT拒稿或正式撤稿后才顺序转投；在审时不并投。ICINT本届出版方、学校对线上展示及成果的认定仍待核实，录用不等于学校要求的会议已召开并完成宣读/张贴。
 - 已写出独立短稿 [paper_e_icint_draft.md](paper_e_icint_draft.md)，保留三案例、原始测量单位、阈值适用范围、强基线和事后探索边界。用 [构建脚本](build_icint_latex.py)转换为 [IEEEtran TeX 源](icint_latex/main.tex)，官方模板链接来自 [ICINT 投稿说明](https://www.icint.org/submission.html)。官方下载压缩包 SHA-256 为 `f247cb6665907793d1949110f24b8a1cb262073c09b5f0026aa8d1d658cb6c1d`，编译所用 IEEEtran.cls SHA-256 为 `c972aca108fda004c3514d63658e02816da2e54d9a1451e870b9bd970e003f55`；原样第三方 class 不纳入项目 Git，精确复现应从官网模板下载并核对该 hash。Tectonic 也可自动下载 class，但未核验其字节与官网完全相同。
 - 在 Windows 使用 Tectonic 0.17.0 实际编译得到 [4 页审阅 PDF](icint_latex/main.pdf)；增加三案例“常见解读 → 审计后支持的解读”总览表，以便读者理解三案例如何服务同一问题。新表和其余 ICINT 页面已目视检查，保留两种计分下 TF-IDF/BM25 的 hard、random 与 gap 数值。日志无 overfull，但有欠满行及 Fontconfig 环境提示；Poppler 页面渲染也有字符映射路径提示。4 页不代表已完成投稿级审阅：作者须核对每项结论及引用、匿名和 PDF 元数据、AI 披露、图表排版、artifact 和论文集信息。模板下载不等于组委会已确认 2027 年的出版及索引。
 - ICDAR 备投已另以 Springer 官方 LNCS class 生成 [8 页模板可行性稿](icdar_latex/main.pdf)，源由 [脚本](build_icdar_latex.py)从同一 ICINT 工作正文生成。编译和新总览表页面检查表明页数可放入当前 17 页上限；它仍是同一篇稿件的模板预演，**不是已经完成文档分析适配和独立审稿的投稿稿**。后续如 ICINT 拒稿，应依据审稿意见、文档分析重点和当届官方要求重写与扩充。官方 [Springer 下载页](https://link.springer.com/series/558/information-for-authors-and-editors)提供的模板 ZIP SHA-256 `42afb32ed4fadc9e209134ec65dab1bd2a7ead42f9a3f8abb184f250c4a197b9`，使用的 `llncs.cls` SHA-256 `04ec99046ad9867f6cd54ffd1ef8c47c767b327d1baec77536db0528cd492fa2`，第三方 class 不提交到 Git。Tectonic 0.17.0 编译无 overfull，但存在 Windows Fontconfig 环境提示；作者和单位匿名只做了初步 PDF 元数据检查，仍须审稿前整体排查。
