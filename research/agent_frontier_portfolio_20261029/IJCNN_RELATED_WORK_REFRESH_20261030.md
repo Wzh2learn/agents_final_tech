@@ -4,7 +4,7 @@
 
 ## 当前裁决
 
-**尚无通过新颖性门的方法。**“真实执行反馈＋经验局部修订＋保留任务进度”已经与多条近邻相交；仅换软件版本场景、经验格式或评测指标不能形成新方法。暂停该候选的模型实验，但第二篇目标继续。重开前必须给出：一条旧方法和候选会作出不同动作的具体轨迹；该动作如何改变可核验的任务结果；未曝光、独立评分的任务来源；以及超过最强简单规则的可证伪预测。
+**尚无通过新颖性门的方法。**经验局部修订、进度控制和外部状态验收均有直接近邻；换版本场景、经验格式或评测指标不构成新方法。暂停这些候选的模型实验。重开前须给出与近邻动作不同的具体轨迹、可核验结果、未曝光独立任务及超过强规则的可证伪预测。
 
 ## 最直接的方法近邻
 
@@ -18,6 +18,7 @@
 | [CounterMem](https://arxiv.org/html/2609.31874v1) | 同状态反事实动作和适用条件记忆；学习使用/跳过并测有害误用。 | 配对执行和适用性选择已覆盖。 |
 | [OMCE](https://arxiv.org/html/2611.01747v1) | 用上下文 bandit 基于反馈更新经验路由，并支持失败后重试。 | 在线反馈路由不是空白。 |
 | [MemScope](https://arxiv.org/html/2610.21170) | 联合检查轨迹、运行时记忆和 provider 代码，定位并局部修改，再验证恢复/回归。 | 反馈定位＋局部修改＋验证已覆盖。 |
+| [AgentLoop](https://arxiv.org/html/2609.33315) | 根据需求槽、证据和相邻轮稳定/低收益信号，决定继续、整合或停止。 | 通用进展/停滞控制已覆盖。 |
 | [TAM](https://arxiv.org/html/2610.37482)、[SkillShift](https://arxiv.org/html/2610.33528) | TAM保存已验证进度/局部操作供后续任务复用；SkillShift按环境可行性重排固定技能。 | 保留进度或变化时调整动作本身不是新贡献。 |
 | [CORAL](https://arxiv.org/abs/2610.40350)、[Context compression](https://arxiv.org/abs/2609.29875)、[AgentRewind](https://arxiv.org/abs/2608.14380) | 分别研究经核实进度上的新推理episode、交互历史压缩、上下文与环境状态对齐恢复。 | ALFWorld新会话/轨迹投影观察不能单独证明新颖性。 |
 
@@ -27,6 +28,7 @@
 |---|---|
 | [ExecCritic](https://arxiv.org/abs/2609.09133) | 独立生成并冻结测试后再修复；区分测试质量与修复效果。 |
 | [Auditing Feedback-Driven Evolution](https://arxiv.org/abs/2608.19626) | 用外部一致性、锁定任务和等密度 placebo 审计反馈驱动测试演化；单一 oracle 可能夸大收益。 |
+| [Progress Mirage](https://arxiv.org/abs/2607.25152) | 固定 Agent/工具，改变评估信息通道，以隔离的外部状态核验进展；作者报告自评会误认停滞或退化。 | 外部验收与自评偏差已覆盖；仅加验收门不新。 |
 | [Rethinking the Value of Agent-Generated Tests](https://arxiv.org/abs/2602.07900)、[Risks of LLM-Generated Regression Tests](https://arxiv.org/abs/2610.11835) | 写更多测试不等于更好反馈；自生成测试可能固化错误行为。反馈是否独立于补丁、是否改变动作、是否改善原生目标结果必须分别验证。 |
 | [Harness Design Study](https://arxiv.org/abs/2609.20804)、[Beyond the Model](https://arxiv.org/abs/2609.32459)、[PRISM](https://arxiv.org/abs/2609.05736) | 已有多模型、多基准 harness 对照及预算约束优化；本论文须把 harness 固定或做配对消融，不能把运行器差异归给记忆方法。 |
 
