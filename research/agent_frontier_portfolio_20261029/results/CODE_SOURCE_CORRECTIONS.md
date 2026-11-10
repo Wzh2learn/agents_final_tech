@@ -166,6 +166,26 @@ inquiry模式为first-principles。本轮核到更直接近邻：CBC §2.3–4�
 
 **成本/存证。** 主批63 POST/510,040tokens；含交付控制共64 POST/515,989＝499,335输入＋16,654输出，输入含455,283缓存、44,052非缓存。64条SSE与原生账闭合，未知usage0，训练0；研发层未完整计量。首份评分因漏带一个未使用的只读挂载源而Docker exit125，补齐原文件后仅重评保存代码，两个回执保留，未重跑Actor。私有`ROOT/fcdr_async_decision_comparison_v1/`保留冻结输入、全部原始请求、9阶段轨迹、6份有效原生评分及补评；9个Actor容器均退出、探针0。ZIP 606成员/3,283,861bytes，SHA `536530d1df730f82b9339a8b630f6d9f4096d9761f1f307774d57af5770ebfa7`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`核605载荷并独立重算一致，依赖引用上一批私有包。仅一个曝光任务；没有新方法收益或泛化结论。
 
+<a id="action-state-controls"></a>
+#### 行动定义与近邻裁决：简单状态规则覆盖本面板（11-11）
+
+**问题/冻结。** 先核“取消未结束任务”和“只等待”是否真是不同动作，而不继续生成同题提示。D用同一模板构造普通`await group`与`await shield(group)`两种实现，各比较取消/等待/检查`cancelling()==0`再取消；PLAN在执行前冻结。仍用原6测试、原helper、原超时与固定Python镜像，不改评分标准。
+
+| 构造实现 | 取消未结束任务 | 只等待 | 检查取消状态 |
+|---|---:|---:|---:|
+| 普通await，取消向子任务传播 | 5/6 | 6/6 | 6/6 |
+| shield，子任务不会随父取消 | 6/6 | 5/6 | 6/6 |
+
+**事实/边界。** 行动的正确性随实现条件改变，简单API状态规则已覆盖两种控制。六程序均由D设计，不是Agent修复、两个独立任务或新方法；这里不证明自动发现前提的能力。停止该异步面板上的复杂选择器研究，保留为回归控制。
+
+**一手近邻与实际工件。** [VBL §3](https://arxiv.org/html/2610.41564v1#S3)已将前提核验、失败分类和计划状态更新耦合，且不回滚外部进度；“通用FCDR流程”不再作为独立贡献。[Grounding Agent Memory §3](https://arxiv.org/html/2609.11060#S3)已有任务后环境探测再写记忆；[BiPACE §3](https://arxiv.org/html/2606.25556#S3)已有状态/动作分组的RL信用估计，不能把分组改进本身说成空白。均为11-11定向读方法，未复现原法。
+
+**验证预算候选的便宜反证。** [Budgeted Verification](https://arxiv.org/html/2608.25553v1)明确强制关键源是oracle而非调度器。进一步实取[作者OSF Exp B包](https://osf.io/download/e4dx5/)，只读代码与设计，未执行其runner：三个活跃源日期66/68/70，按日期取最近两个选中91/73，覆盖关键源73；规则排序不输入关键源标签。仅为这一个公开前瞻设计的“路径覆盖”，不是作者实验结果、决策成功或复杂调度必要性。候选须面对新鲜度优先、约束优先与全重验；问题仍有研究可能，但此面板不能支持学习调度器。
+
+**下一决策。** 值得定向请专家判断：在无关键源标签、未知后续任务时，决策相关的复验预算分配能否形成超出上述近邻的机制；须给出具体规则/学习信号、强基线和真实环境残差，不能仅将oracle路径替换成另一个LLM选择器。该问题尚不是已确认gap，不因此开训练或新框架。
+
+**存证。** 私有`ROOT/decision_action_state_controls_v1/`包含6份程序/原生回执、验证脚本及三个公开只读工件包。6个CPU评分容器合计约93.0秒wall，新增科研模型/训练0；文献检索与研发成本另列。ZIP 58成员/171,654bytes，SHA `bb3ac4c713834139e7651fb3e528c0a68542cdc034dead28872bc9accfe5598b`，RESULT SHA `9f7d9c4268d3069b2ecfc8bda53655238d3a6fab5785252b028a1e3477c585dc`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`双端校验与独立分析一致。VBL/预算择证重合与原生控制改变的是研究取舍，不是论文方法有效性。
+
 **2026-11-10 来源元数据筛查**：对Lite中Django不同PR的关系按`sha256(source_id|target_id)`排序，只读取任务ID、base与GitHub PR merge/compare元数据，不读目标题面或补丁。前七对的source PR merge相对目标base均为`behind`：14017→32450（3提交）、14608→11776（11,880）、16910→21204（734）、15252→32012（1,554）、13220→29838（2,400）、12284→30931（294）、14787→32260（710）。它们未通过当前“源PR合并为目标base祖先”的严格时间门，不用于声称源修复已存在的向前迁移；这不排除源问题在合并前已可被Agent解决。仅7对非全体统计，无模型调用；下一步继续查不同来源，不读取留出目标答案。
 
 **可继续检查的自然任务链**：Matplotlib源PR [25332](https://github.com/matplotlib/matplotlib/pull/25332)已合并，原开发目标[25352](https://github.com/matplotlib/matplotlib/pull/25352)的base在其后；25352合并亦为候选`matplotlib__matplotlib-22482`的base祖先（compare ahead 4033、behind 0；目标对应PR [28430](https://github.com/matplotlib/matplotlib/pull/28430)）。初筛只查元数据，后续D已读[22482公开题面](https://github.com/matplotlib/matplotlib/issues/22482)，它关于含交互滑块的Figure序列化；25332来源则关于对齐标签后的weakref序列化。二者有自然任务联系，但报错并不相同，不能预设旧修复适用。目标原issue早于源PR，目标base在源修复之后，不能说问题发生时间也在之后。该目标仅用于开发，尚未核原生执行或目标金补丁，不是留出确认。25332是参考辅助源，25352的27B OpenCode三臂均搜索循环且无编辑，其失败反馈本身不能证明源经验失效。元数据回执SHA `d2c3c79539fedd04b3abee7f96a815bba1377f2a7811ecdc593fbfdd22afb78c`，位于下述Sphinx尸检私有目录。
