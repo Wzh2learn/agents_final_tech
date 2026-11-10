@@ -14,7 +14,7 @@
 
 1. **旧结果。** B6有通道/预算混淆；[ALF训练源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成，[两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，但规则与旧actor输入不同。此面板停止复杂选择器。
 2. **代码资产。** [Sphinx8282→8127](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)源题模型及反馈修订均未通过；SymPy教师辅助、Django超时后的正向工件均不得当成完整自主成功。旧目标用于开发，不作新确认；134 valid_unseen保留。
-3. **首轮。** 已曝光案例核经验来源与配对干预，再扩展至不同项目的4–6对开发任务；自主、教师辅助和参考补丁经验分开报告。[Astropy三臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md#2026-11-10-经验片段配对筛查合同新目标生成前)均未完成；同题重复采集source，成本已纠正。下一步找可将真实反馈所得修订迁往另一独立目标的组合，勿在旧题堆变体。旧[动态记录与动作分叉](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)未形成有效训练标签。
+3. **首轮。** 已曝光案例核经验来源与配对干预，再扩展不同项目的4–6对开发任务；自主、教师辅助与参考补丁分报。[Astropy三臂](results/ASTROPY_PROFILE_CONTROLS_20261106.md)未完成；[Matplotlib续修](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)有真实Agent正向结果，但普通反馈同样成功；[SymPy新题两臂](results/CODE_SOURCE_CORRECTIONS.md#current)均未编辑。先比较成功与失败轨迹从定位到修改、测试的断点，再选择可验证的新任务，勿在旧题堆提示变体。旧[动态记录与动作分叉](results/ALFWORLD_ADDITIONAL_SOURCES.md#反馈后局部经验修订单现场开发)未形成有效训练标签。
 4. **对照与裁决。** 比较无经验、完整经验、简单规则、同反馈自由修订与候选；有信号再消融依赖筛选和配对干预。各臂同等公开信息与总预算，计入形成、干预、修订、执行、验证成本。留出评分和任务不得用于选择经验；简单规则、同预算重试或直接取证解释收益时调整机制。小样本只作开发判断。
 
 ## 证据和写作要求
