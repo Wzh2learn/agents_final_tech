@@ -35,6 +35,7 @@
 | 工作 | 已覆盖 / 实验启示 |
 |---|---|
 | [ExecCritic](https://arxiv.org/abs/2609.09133) | 独立生成并冻结测试后再修复；区分测试质量与修复效果。 |
+| [ErrorProbe](https://arxiv.org/html/2604.17658) | 本轮读§4.3–4.4：工具执行核验错误假设，验证后写入经验记忆；主评估为错误归因，未复现。假设＋探针＋记忆本身不新。 |
 | [VeriHarness](https://arxiv.org/abs/2607.14167) | 本轮核摘要：比较原始反馈与位置/观测值/可行替代项，含prose/JSON对照。FCDR须排除额外修复信息及表示格式收益；实现未核。 |
 | [Validation Evidence](https://arxiv.org/abs/2607.28871) | 缺陷/候选/金补丁重放测试以测反馈区分力；报告效应低于预设阈值。测试质量有直接近邻。 |
 | [Auditing Feedback-Driven Evolution](https://arxiv.org/abs/2608.19626) | 用外部一致性、锁定任务和等密度 placebo 审计反馈驱动测试演化；单一 oracle 可能夸大收益。 |

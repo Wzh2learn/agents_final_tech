@@ -1,6 +1,6 @@
 # 第二阶段：真实反馈如何改变 Agent 决策
 
-> 2026-11-11。Goal active；节点核对闭合，下一为恢复干预筛查。inquiry：minimal-experiment；专家基准8ab61632。
+> 2026-11-11。Goal active；六臂恢复闭合，提示版本停止扩样。inquiry：minimal-experiment；专家基准8ab61632。
 
 ## 目标与裁决
 
@@ -20,7 +20,7 @@
 | ALFWorld 局部修订 | `clean02/03` 两臂均成功、动作数持平；`heat03` 两臂均失败，修订另有形成成本 | 修订提高成功率或效率 | [实验汇总](results/ALFWORLD_ADDITIONAL_SOURCES.md) |
 | Matplotlib 23562→27361 | 自写透明结果卡臂触发冻结回归；事后普通反馈重试与清单反馈都修复 | 卡片中的经验规则导致回归；清单优于普通反馈 | [隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md) |
 | Astropy 14995→15082 | 隔离四臂均完成；无历史/历史摘要目标19/10 POST、491,274/268,655 tokens。另一配置自测调用不存在方法，不能混作单因素对照 | 已有端到端净收益；FCDR有效 | [隔离四臂](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)、[另一配置](results/ASTROPY_PROFILE_CONTROLS_20261106.md) |
-| Sphinx #8282→#8127 | Agent 多轮收到任务失败反馈仍未编辑；教师提案也未解决原题 | 经验适配导致失败，或技能迁移已成功 | [纠正记录](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09) |
+| Sphinx #8282→#8127 | Agent未编辑，教师未解决原题 | 已有成功迁移来源 | [记录](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09) |
 | Matplotlib 24149→24818 | 35B＋OpenCode真实解决来源；完整卡/无经验/移除实现单元均目标0/2、回归61/61，三臂都采用None兜底 | 经验单元干预改善成功；共同错误由经验造成 | [NaN开发对照](results/CODE_SOURCE_CORRECTIONS.md#nan-transfer) |
 | SymPy 21055→21203 | 来源1/1＋13/13；目标来源卡1/3、无经验0/3，回归均124/124、各24 POST封顶。含来源形成总tokens为817,915对807,711 | 目标完成；学习/修订有效；单题可估计泛化 | [最新结果](results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result) |
 
@@ -29,8 +29,8 @@
 ## 当前执行顺序
 
 1. **尸检完成，不重开48小时整理。**[9轨迹/9节点](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)定位普通恢复与Astropy停滞；未见已证实的范围误用。
-2. **最小筛查。**[合同](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-pilot)：Astropy两个曝光现场×普通恢复/简单规则/动态反馈三臂，≤48 POST。GB10含真实harness接合的20项离线检查通过，批次冻结、恢复未跑。先一臂核实际送达，再续余臂。当前为QUERY/PIVOT提示；有修复/成本信号再扩，持平即停止本题追加。
-3. **跨项目机制检验。**在已具真实成功来源的项目递进比较，冻结两个seed、随机顺序；模型/OpenCode、公开信息、权限、状态和总预算一致。补无经验、完整历史、同预算重试及适用近邻；简化适配不称原法复现。
+2. **筛查已执行。**[六臂结果](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)：30 POST/510,751 tokens。A5动态反馈同成功、目标恢复tokens少27.95%，事后原生219项均过；A4三臂均推理截断、原题未过。合计未胜普通恢复，停止此提示版本扩样，保留局部信号。
+3. **下一机制门。**明确失效前提→具体可执行探针→后继动作，对照普通恢复/直接重跑公开原例，先核最近邻差异；不再加提醒。随后在不同项目冻结两个seed和随机顺序，统一信息/模型/权限/预算，补历史、无经验、同预算重试及近邻；适配不称原法复现。
 4. **确认与写作。**约一周作开发取舍；至少两个项目有信号，再扩未曝光目标并消融取证、范围与提醒，按方差定规模。12月中旬决定IJCNN路线；方法与结果成形后写作。可靠监督出现后按需训练，无残差及时换机制。
 
 ### 明确停止条件
