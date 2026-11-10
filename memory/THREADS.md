@@ -11,7 +11,7 @@
 | 来源与参考资格 | [Sphinx8282→8127](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)两题base/gold与回归已核；8282实际Agent和反馈提案未通过，8127未进行模型迁移实验。Requests旧对存在参考冲突；EdgeBench跨架构未确认。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 本机与GitHub main已同步。GB10 main仍在旧提交，工作树有4项未提交修改（Loop B日志、pool资格脚本、source runner及其测试）；直接push被当前检出的非裸main拒绝，且source runner在本机和GB10两边均有WIP。保留现场，后续先逐文件对照再快进，不reset、不覆盖。历史worktree独有产物和Loop B日志保留；分享前核许可和私有面。
+| 工作区与分享 | 本机、GitHub、GB10 main均为`f51d8f6a`。本机WIP：`CODE_SOURCE_CORRECTIONS.md`、`run_contextbench_source.py`；GB10 WIP：Loop B日志、同名runner。两端runner有差异，均保留，待逐段核对后再合并；不reset、不覆盖。历史worktree保留。
 | 文档与 skill 存量 | doctor 0 errors/134既有warnings；3项docs时效警告及map旧提示保留。Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
