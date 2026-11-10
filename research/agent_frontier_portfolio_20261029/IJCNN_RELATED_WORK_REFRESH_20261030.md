@@ -4,13 +4,14 @@
 
 ## 当前裁决
 
-**尚无已验证新方法，Goal active。**下表界定近邻，具体FCDR取舍见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**尚无已验证新方法，Goal active。**下表界定近邻，候选取舍见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 ## 最直接的方法近邻
 
 | 工作 | 已覆盖的机制（依原文） | 对本项目的约束 |
 |---|---|---|
 | [StateWise](https://arxiv.org/html/2610.05241v1) | 本轮补读§3、4.2–4.4：记录干预定位前提，核验后将证据绑定记录/作用域，持久修复并重规划。 | FCDR仅作前提/范围绑定已有近邻；原法未复现。 |
+| [StateGraph](https://arxiv.org/html/2611.02912) | 11-11补核§3–4.5/算法1：发现支持依赖，反事实核验；按作用域、强弱依赖和替代支持保守撤回，并约束行动。 | 图传播/不确定状态/局部撤回已覆盖；共享前提候选须检验当前执行如何区分局部与共同故障，不能预认创新。未复现。 |
 | [EmbodiSkill](https://arxiv.org/html/2605.10332) | 区分技能缺陷与执行失误；前者定向修订，后者保留有效指导。 | “修订或保留”与执行失误归因已覆盖。 |
 | [EvoMem / EvoArena](https://arxiv.org/html/2606.13681) | §4.2–4.3：记录非增量更新与证据，检索版本补丁。Terminal数据另行发布；本轮仅核两个公开链。 | 版本历史不新；不能假定整套代码/数据立即可复现。 |
 | [Repo2Skill-Evo](https://arxiv.org/html/2608.21964) | 57个仓库、105次发布转换中的仓库技能维护。 | 真实发布迁移本身不新，须有独立算法差异。 |
@@ -46,7 +47,7 @@
 
 ## 其他近邻索引
 
-MemSkill、RethinkSkill、TAM、SkillShift、VibeMemBench、StateGraph及记忆压缩研究见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。
+MemSkill、RethinkSkill、TAM、SkillShift、VibeMemBench及记忆压缩研究见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。
 
 ## 对本项目实验的直接约束
 
