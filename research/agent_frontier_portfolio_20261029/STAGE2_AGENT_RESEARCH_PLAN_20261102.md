@@ -9,7 +9,7 @@
 **当前无通过新颖性门的方法。**“配对经验干预＋局部修订＋保留进度”、通用停滞/进展控制、外部状态验收、上下文重启及测试反馈修补，均有直接近邻；暂停这些宽泛候选的模型实验。研究目标继续，不把“暂停一个候选”当成暂停 Goal。
 
 候选要重新进入实验，必须同时满足：
-1. 写清具体算法如何在已记录轨迹上作出不同于 StateWise、EvoMem、Recuris、CounterMem、OMCE、MemScope、AgentLoop、CORAL/AgentRewind、Progress Mirage、ExecCritic及强简单规则的决定。
+1. 写清具体算法如何在已记录轨迹上作出不同于 EmbodiSkill、SkillApt、Skill-V、StateGraph、StateWise、CounterMem、OMCE、MemScope、AgentLoop、Progress Mirage、Validation Evidence及强简单规则的决定。
 2. 找到未曝光、来源经验真实成功、目标任务有独立原生评分的样本；不得把同一轨迹切片当独立样本。
 3. 说明其收益不是多重试、更多信息、缩短上下文、额外教师或不同工具权限造成，并能在失败时停止。
 
