@@ -1,6 +1,8 @@
 # 代码来源：教师纠正与形成成本
 
-> 状态: 活跃 | 更新: 2026-11-09 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
+> 状态: 维护中，Goal暂停 | 更新: 2026-11-11 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
+
+**Django既有迁移现场尸检（11-10，不重跑）**：GB10私有根`research_evidence/agent_learning_20261030/swe_contextbench_django_agent_20261104/`已有7次运行，261 POST、3,703,097已报tokens；14个receipt/raw文件的SHA清单为`8756638191e6d7eca7ec861f06f67d9a4de717f7fe5e609079477e6a85075d69`。来源`django-16910`无经验运行的目标测试2项失败、35项回归通过且无源码修改；但[`build_experience()`](../run_swe_contextbench_django_20261104.py#L305)只检查评分字段存在，没有要求来源目标测试通过，故后续经验不是“已验证成功经验”。目标`django-35356`的base本身以`FieldError`失败、17项回归通过。无经验/候选重试臂修改源码后仍失败，部分另有2项回归错误；source-history与generated-skill臂未改生产源码、保留base错误和17项回归通过，后者完整读完21/21行，前者仅读73/82行。7臂目标原题均未通过。它提示“错误类型、源码改动和回归退化”应与目标成功一起看；但来源失败、单目标单seed且条件输入不同，不能证明记忆保护或迁移方法有效。本配对停止，不再追加。
 
 <a id="current"></a>
 ## 已验证来源资产
@@ -35,7 +37,7 @@
 
 **私有证据包。** 本轮Sphinx、Matplotlib与SymPy的原始请求、执行和评分日志打包用于复核，排除源码工作树、评分侧参考与补丁；GB10及本机同一包SHA-256 `046dd543f595a3daf2fbd5db0e79aaab76f77bf80dce2576c0a4df2bc3ceed66`，737个文件的清单哈希已逐项核验。它含研究原始内容，仅供私有复核，不是可独立重建环境的发布包，也不得挂入Agent输入。
 
-当前方法实验与下一动作直接读[显式控制器对照](#direct-method)；下列原始教师资产与旧四格保留作来源，不作为当前训练成绩。
+当前已闭合比较读[NaN来源与经验干预](#nan-transfer)与[SymPy强配置迁移结果](#sympy-21203-result)；[显式控制器旧对照](#direct-method)及下列教师资产保留作来源，不作为当前训练成绩。带“生成前/执行前”的历史段落记录当时合同，不构成新运行授权。
 
 SymPy21055取得一条**教师辅助、经执行验证的代码纠正**。教师仅接收原公开问题、D定位的源码和实际公开复现反馈；未接收未来目标或gold。它是一条来源素材，不是学习方法或迁移收益的确认。
 
@@ -122,6 +124,46 @@ C独立核全部60条reader SSE和此前4writer，复核请求/采样/账本、9
 
 <a id="source-expansion"></a>
 **独立问题扩样。** 私有`ROOT/joint_memory_source_pool_v1`按兼容版本/回归成本事先选4道Matplotlib来源题，非随机代表样本。26020的6个截短参数名经原生collect的49个唯一节点补全；V3 base为1项原题失败/48回归通过，gold为49通过，receipt SHA `8eaf5d38dd2c2c58b0695ff316de85dae4e83cc11cf078e57984babca8354a30`。22711完整执行2原题＋91回归：base两原题失败，gold两原题通过；双方回归90通过/同1项PDF跳过。仅在新development合同事后声明该已观测skip，原严格覆盖仍为不完整，另报`LIMITED_RUNTIME_SCOPE`；receipt SHA `fe2d8915bf1618f6392910974ec9329d4587598ade604a187bddb3757fa4fa86`。23913另有真实回归失败，不放行；24149转义选择器未解，不猜测。旧pair/target/默认门不改。
+
+<a id="nan-transfer"></a>
+**24149解阻与新开发合同（11-10，生成前）。** 定位到检查器对所有反斜杠一律拒绝；新增仅Matplotlib参数区的显式允许选项，路径、函数名及默认严格模式不变，GB10定向43测试/125子控制通过。原生collect得到832节点：原768个公布选择器中766个唯一匹配，另两个截短选择器各匹配两项；取全部匹配的并集去重后仍为1原题＋767回归，不任择其一。原版原题失败、参考通过；双方回归均697通过/68跳过/2失败，参考没有新增失败。此环境并非原发布回归全通过，不能称完整benchmark资格。CPU控制reference receipt SHA `57219506d48c0d119a21fa4c19c9d7a06b8d39d3f75ce515ce9018f0d01e61d9`；驱动漏写patch凭证造成的哈希异常保留，随后以反向check核实参考已应用，再完成评分，未重复应用或生成。
+
+该轮仅做一次开发来源采集：Qwen3.6-35B-A3B＋OpenCode原生工具、seed7201/temperature0.2、64K上下文/8192输出、24 POST/900秒；复用同一隔离依赖和原版源码。Agent仅收公开source题面与源码，不给参考、评分补丁或未来目标。生成前声明的开发成功线为正常退出、原题通过、保持原697项通过，其余既有失败/跳过及全成本单列；不是完整发布测试通过或新方法成绩。
+
+**24149真实Agent来源成功。** 19实际POST、77.059秒、正常退出；原题1/1通过，回归697通过/68跳过/2原有失败，原通过项无退化。实际6次read、7次bash、3次grep、1次glob、2次edit：在`cbook._safe_first_finite`捕获`StopIteration`并返回`None`，另加3个断言约定全NaN/Inf返回`None`。自写测试只验证其自身约定，尚未证明fallback适合其他调用方。OpenCode逐请求计数：非缓存input 17,634、cache-read 184,931、output 3,257、合计205,822；缓存是累计输入202,565的子集，训练0。私有`native_24149_escape_v1/source_agent_v1/RESULT.json`绑定actor receipt SHA `c483ca2eba29ee09341b6df85985b5b42ba13c1e00cdea0b8b54cfecbc848112`、独立评分SHA `b6c4c20183227dc3ba9c61e9086881220f7f32a0a76f564fe7961bbc3a0958e9`及raw SHA `966c942161fdf17e4e2a47828a270662b7ff61a94d336942e2b7a6325fbe8ae6`，已核对。最终参数标签边界测试为GB10 43项/126子检查通过。
+
+**24818干预合同与实际结果。** 选择自然关联的`24818`（errorbar全NaN）作为开发目标；`18294`与它共用PR25547及base，只算一个独立目标。经验卡只由24149真实轨迹、代码差异和来源反馈确定性提取，不是完整raw历史；移除臂仅删实现diff单元，保留诊断、来源与执行结果。三臂同35B/OpenCode、seed7201/temperature0.2、64K/8192、24实际POST/900秒，预定顺序完整卡→无经验→移除卡。PLAN SHA `88b412d4f09725b5c2b3f42c3b80051b7c617690b4015d1ae97ca082f2973893`；仅评分侧补齐25个遗漏所属类的公布测试名，原失败控制保留；原版2失败/61通过，参考63通过。
+
+| 24818开发臂 | 实际转发POST | 原生原题 / 回归通过 | OpenCode总tokens | 正常退出 |
+| --- | ---: | --- | ---: | --- |
+| 完整来源卡 | 15 | 0/2；61/61 | 160,417 | 是 |
+| 无经验 | 22 | 0/2；61/61 | 319,064 | 是 |
+| 移除实现单元 | 24 | 0/2；61/61 | 371,316 | 否，下一次请求被本地封顶拒绝 |
+
+**裁决与死因。** 三臂均编辑了代码，最终都采用`None`兜底；完整卡实际被读取，但无经验臂也独立选择同一语义。完整卡和无经验臂的公开errorbar复现不再抛`StopIteration`；原生两测试另外要求全NaN/Inf时返回相应数值哨兵，故仍失败。自写测试把`None`写成预期，不能补足这一合同。此题没有检出经验单元移除的成功率收益，也不能把共同错误归因为旧经验；停止同题提示变体及训练。卡片长短不同、单目标/单seed只支持开发排除，不作统计泛化。后续应先取得不同项目的可靠来源与可区分反馈，而非在此题训练保留/撤回选择器。
+
+**计量及证据闭合。** 目标共61实际POST/850,797 tokens，非缓存input 50,752、cache-read 790,280、output 9,765；加来源共80 POST/1,056,619 tokens、训练0。移除臂原RESULT的`posts=25`混入1次本地拒绝，复算为24转发＋1拒绝，原RESULT保留，修正见`DEVELOPMENT_AUDIT.json` SHA `708709bd70f5ccbbf2c5f6812f0679bf8feb942ebf7eadd87a4f4fdabea006f5`。每个raw、actor/评分receipt及评分日志已核hash并复核机器结果。私有包`native_24149_escape_v1_closed.tar.gz`共142文件/1,788,785 bytes，SHA `fd823e0e6f0d88515df10b156260f16b4ebd5748cdf08285b229eb878b5e7165`，本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`与GB10 `ROOT/joint_memory_source_pool_v1/`逐成员hash一致；无源码树、gold/test patch或权重。
+
+<a id="sympy-native35"></a>
+**跨项目自主来源补齐。** 复用SymPy21055既有源码、依赖投影及原版/参考评分控制，仅做一次35B＋OpenCode原生工具来源采集，24 POST/600秒、64K/8192、seed7201；不提供D定位、教师补丁或目标。旧27B Bash-only失败和新配置不是单因素对照，且仍是已曝光开发题。PLAN SHA `e2e42fc4123d08fdc11a0b1b2e7e6d65c976d6e997002ed4ca784e3af657fb11`，私有`ROOT/code_source_expansion_v1/source_collection_sequence_v1/sympy21055_native35_v1/`；依赖槽别名准备异常在生成前修正并保留，新增资格容器0。
+
+实际14 POST/72.470秒正常退出，原题1/1、回归13/13通过；Agent添加`refine_arg`，用`ask(Q.positive/negative(...), assumptions)`处理符号条件，并在handler表注册，附带实际测试。OpenCode非缓存input 21,452、cache-read 194,109、output 2,922，共218,483 tokens，训练0。actor receipt SHA `f304fcd1e0ab3a38253b9b41352792f569aaa86b20e3ee14c61abf4ec009c0e2`、评分SHA `b5caea4b6404662c4beffe119b4b49fc46a9da1991f66047be8c0f0d821aabd7`、raw SHA `ff3c60233565f19fce7c4216a63893619d5e767ca76e785ab65ad74632517ca4`。这将旧教师辅助资产补成一条实际自主来源，不增加独立任务计数。
+
+**21203强配置开发对照：历史冻结合同（已执行）。** 复用已合格目标环境，不重复原版/参考控制；源经验只由上述真实source题面、生成diff及1＋13评分结果提取。两臂均35B＋OpenCode原生工具、64K/8192、seed7201/temperature0.2、24 POST/900秒，固定顺序来源卡→无经验。PLAN SHA `9a68bede1c6a2f5538367777dee26a647ffd88157e2b25f918340c9c14f88fef`，私有`ROOT/sympy_21203_development_v1/native35_real_source_v1/`。它与旧27B/教师来源/32K队列不同，不能归因为单独模型效应或源经验改善；两臂内部才可作有无该来源信息的开发比较。
+
+<a id="sympy-21203-result"></a>
+**21203实际结果与记录补齐（11-11，只读核对，未重跑）。** 此前文档滞留“执行前”，GB10的两臂RESULT、raw及actor/独立评分回执已经存在；本次核实其绑定均相符。完整来源卡臂通过`test_query.py::test_relational`，其余两原题失败；无经验臂三原题均失败。两臂各124项回归均完整通过，均未解决目标。
+
+| 开发臂 | 转发POST / 本地封顶拒绝 | 原题 / 回归通过 | 非缓存输入 / 缓存读取 / 输出tokens | 总tokens | actor墙时 |
+| --- | --- | --- | --- | ---: | ---: |
+| 完整来源卡 | 24 / 1 | 1/3；124/124 | 99,510 / 492,934 / 6,988 | 599,432 | 197.747秒 |
+| 无经验 | 24 / 1 | 0/3；124/124 | 84,676 / 717,285 / 5,750 | 807,711 | 167.011秒 |
+
+每臂25次尝试中仅24次转发模型，最后一次为`DENIED_POST_LIMIT`；两臂agent退出码均1，不能按正常完成计。上述是目标运行的OpenCode累计用量，缓存是输入子集。计入一次来源形成的218,483 tokens，来源卡路线为817,915、无经验为807,711；来源成本另可报告跨任务摊销，但本次尚未测得稳定复用收益。两目标臂合计48实际POST/1,407,143 tokens，训练0。单曝光目标、单seed、固定顺序及来源信息量不同，只支持局部测试结果观察，不能确认学习/局部修订机制或泛化收益。
+
+来源/无经验两份RESULT SHA依次为`e184dece159482da0662e090b3a187965aaf95318e27b0baaca68e66ed7551ab` / `1ef6411b8d5d7754cedbf7abb2a64617bf1d0482fc67ee3559546ebc30771a57`；actor回执SHA为`999b2636ca3a598478190b94b4a17504bd5db9fcfc649209ccfa228397145adf` / `7949fb1ad790452d3a44fa9d3ff7e5e8d48b728029ae73e6f4654ff3f5789926`，评分回执SHA为`32048d801e7d45e4c21e07a739c669a10f218dda210b963ff8dc4bcf45dae234` / `431cfe15012987efd713ed25f711d587af5392a1157675f869d35304cbe7b681`。原始文件保持不变；本次同步的是摘要与代码，不公开私有raw。
+
+**运行器版本边界。** 本次一并收录两端同内容的`contextbench_source_bash_v3`：仅补充空搜索的退出状态与换查询说明，未在本轮运行模型检验效果。上述35B多工具运行以各自冻结runner/manifest为准，不能把当前文件当成历史实际执行版本。
 
 复用原生Python3.10 ARM依赖/扩展投影，并非各commit完整重新编译；没有安装依赖或新增warning豁免。4次archive下载、原生base/gold/collection/config共10个容器（含一次collector缓存写入失败），科研模型0。首个V3驱动缺父目录，在Docker启动前失败，保留原记录后另启；不计模型请求。新source支持显式27B thinking-low与首个生产编辑后的preforward现场：256MiB/30,000文件/累计30秒上限，失败为UNKNOWN，READY只保证字节稳定。实测安装版OpenCode接受关闭自动压缩，config receipt SHA `fadde246299e555c681ff2b7c0ba8b33f44fac33771a100113a23efef44f2924`。
 
