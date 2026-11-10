@@ -131,6 +131,27 @@ def test_static_baseline_also_receives_discriminating_probe_rule(tmp_path):
     assert 'distinguishing a faulty test from a faulty implementation' in controller(tmp_path, 'simple').advice()
 
 
+def test_capture_mode_records_without_policy_or_history_changes(tmp_path):
+    c = controller(tmp_path, 'capture')
+    original = payload()
+    forwarded, _ = c.augment(original)
+    assert forwarded == original
+    assert json.loads((c.wire / 'policy-001.json').read_text())['injected'] is False
+
+
+def test_sympy_snapshot_requires_explicit_admitted_prefix(tmp_path):
+    snap, work = tmp_path / 'snapshot', tmp_path / 'work'
+    (snap / 'files/sympy').mkdir(parents=True)
+    (work / 'sympy').mkdir(parents=True)
+    (work / 'sympy/example.py').write_text('before')
+    (snap / 'files/sympy/example.py').write_text('after')
+    record = {'project_prefix': 'sympy/', 'files': {'sympy/example.py': {
+        'before': m.sha(work / 'sympy/example.py'), 'after': m.sha(snap / 'files/sympy/example.py')}}}
+    m.new_json(snap / 'snapshot.json', record)
+    m.install_snapshot(snap, work, m.sha(snap / 'snapshot.json'))
+    assert (work / 'sympy/example.py').read_text() == 'after'
+
+
 def test_wire_validation_rejects_missing_delivery_and_response(tmp_path):
     c = controller(tmp_path)
     m.new_json(c.case / 'recovery_start.json', {'snapshot_sha256': 'frozen'})

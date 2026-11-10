@@ -96,7 +96,7 @@ def scope_hashes(work, command, output):
 
 class RecoveryController:
     def __init__(self, method, case, seed_feedback):
-        if method not in METHODS:
+        if method not in METHODS + ('capture',):
             raise ValueError('unknown recovery method')
         self.method, self.case = method, Path(case)
         self.work = self.case / 'work'
@@ -180,7 +180,7 @@ class RecoveryController:
                 diagnostics = self.observe(key, name, args, text) or diagnostics
             self.quiet_rounds = 0 if diagnostics else self.quiet_rounds + 1
             # Summarization requests are recorded but are not made into actor decisions.
-            injected = bool(payload.get('tools')) and self.instructions_visible
+            injected = bool(payload.get('tools')) and self.instructions_visible and self.method != 'capture'
             if injected:
                 forwarded.setdefault('messages', []).append({'role': 'user', 'content': self.advice()})
                 if forwarded['messages'][:-1] != original.get('messages', []):
@@ -212,9 +212,12 @@ def install_snapshot(directory, work, expected):
     if sha(directory / 'snapshot.json') != expected:
         raise ValueError('recovery snapshot manifest changed')
     data = json.loads((directory / 'snapshot.json').read_text())
+    prefix = data.get('project_prefix', 'astropy/')
+    if prefix not in ('astropy/', 'sympy/'):
+        raise ValueError('unadmitted project prefix')
     for rel, value in data['files'].items():
         p = PurePosixPath(rel)
-        if p.is_absolute() or '..' in p.parts or not (rel.startswith('astropy/') and rel.endswith('.py')):
+        if p.is_absolute() or '..' in p.parts or not (rel.startswith(prefix) and rel.endswith('.py')):
             raise ValueError('unsafe recovery path')
         src, dst = directory / 'files' / rel, work / rel
         if sha(src) != value['after'] or (sha(dst) if dst.is_file() else None) != value['before']:
