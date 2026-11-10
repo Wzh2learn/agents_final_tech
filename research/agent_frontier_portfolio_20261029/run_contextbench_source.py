@@ -32,14 +32,17 @@ RESULT_SHA = '576dec0cc19d342d50c8ebfd65b90dde8c123ba7e1fd199545dde209ad638ab2'
 PROFILE_SHA = '9cbb51bb6dc64583cb376f81e8f8c1c28400cb494fce2793f1fa2ce60e39a279'
 CAPS = dict(posts=48, seconds=1200, combined_wire_bytes=64 * 1024**2)
 SEND_TIMEOUT = 5.0
-TOOL_CONTRACT_VERSION = 'contextbench_source_bash_v2'
+TOOL_CONTRACT_VERSION = 'contextbench_source_bash_v3'
 BASH_DESCRIPTION = (
     'Execute shell commands in the isolated, offline code-task workspace. This is the only '
     'available tool: use shell commands directly to discover, search and read files, edit '
     'source files in /workspace, and run relevant tests. Use workdir to select a directory; '
     'the default is /workspace. Keep source changes in /workspace. Public task inputs and '
     'dependency mounts are read-only. Network access is unavailable. Inspect command output '
-    'and test results before deciding whether the requested change is complete.'
+    'and test results before deciding whether the requested change is complete. After every '
+    'grep/rg search, print its exit status immediately (for example, append `; rc=$?; echo EXIT_STATUS=$rc`). '
+    'If the status is 1 or the output is empty, treat it as no match, change the search or inspect '
+    'the candidate file directly, and do not repeat the same no-output search command.'
 )
 SOURCES = {
     'django__django-12453': ('django/django', 'b330b918e979ea39a21d47b61172d112caf432c3', 'django__django-31051', 5,
