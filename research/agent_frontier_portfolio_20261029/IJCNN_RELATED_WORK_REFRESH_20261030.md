@@ -27,7 +27,6 @@
 | [OMCE](https://arxiv.org/html/2611.01747v1) | 用上下文 bandit 基于反馈更新经验路由，并支持失败后重试。 | 在线反馈路由不是空白。 |
 | [MemScope](https://arxiv.org/html/2610.21170) | 联合检查轨迹、运行时记忆和 provider 代码，定位并局部修改，再验证恢复/回归。 | 反馈定位＋局部修改＋验证已覆盖。 |
 | [AgentLoop](https://arxiv.org/html/2609.33315) | 根据需求槽、证据和相邻轮稳定/低收益信号，决定继续、整合或停止。 | 通用进展/停滞控制已覆盖。 |
-| [TAM](https://arxiv.org/html/2610.37482)、[SkillShift](https://arxiv.org/html/2610.33528) | TAM保存已验证进度/局部操作供后续任务复用；SkillShift按环境可行性重排固定技能。 | 保留进度或变化时调整动作本身不是新贡献。 |
 | [CORAL](https://arxiv.org/abs/2610.40350)、[Context compression](https://arxiv.org/abs/2609.29875)、[AgentRewind](https://arxiv.org/abs/2608.14380) | 分别研究经核实进度上的新推理episode、交互历史压缩、上下文与环境状态对齐恢复。 | ALFWorld新会话/轨迹投影观察不能单独证明新颖性。 |
 
 ## 反馈与测试 oracle 的近邻
@@ -36,6 +35,8 @@
 |---|---|
 | [ExecCritic](https://arxiv.org/abs/2609.09133) | 独立生成并冻结测试后再修复；区分测试质量与修复效果。 |
 | [ErrorProbe](https://arxiv.org/html/2604.17658) | 本轮读§4.3–4.4：工具执行核验错误假设，验证后写入经验记忆；主评估为错误归因，未复现。假设＋探针＋记忆本身不新。 |
+| [Contract Before Code](https://aclanthology.org/2026.realm-1.72/) | REALM 2026；已读§2.3–4：失败编译为适用条件、可执行探针及计划后果，检索后运行前置门。探针＋前提检查已有直接近邻；未复现。 |
+| [Bayesian Control for Coding Agents](https://aclanthology.org/2026.emnlp-main.1548/) | EMNLP 2026；已读§3–5/A.6：以候选正确性后验和成本决定取证、修复、验证或停止，状态含预算及已查询critic。成本敏感取证本身不新；未复现。 |
 | [VeriHarness](https://arxiv.org/abs/2607.14167) | 本轮核摘要：比较原始反馈与位置/观测值/可行替代项，含prose/JSON对照。FCDR须排除额外修复信息及表示格式收益；实现未核。 |
 | [Validation Evidence](https://arxiv.org/abs/2607.28871) | 缺陷/候选/金补丁重放测试以测反馈区分力；报告效应低于预设阈值。测试质量有直接近邻。 |
 | [Auditing Feedback-Driven Evolution](https://arxiv.org/abs/2608.19626) | 用外部一致性、锁定任务和等密度 placebo 审计反馈驱动测试演化；单一 oracle 可能夸大收益。 |
@@ -45,7 +46,7 @@
 
 ## 其他近邻索引
 
-MemSkill、RethinkSkill、VibeMemBench、StateGraph、After the Fix及记忆压缩/成本研究见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。
+MemSkill、RethinkSkill、TAM、SkillShift、VibeMemBench、StateGraph及记忆压缩研究见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。
 
 ## 对本项目实验的直接约束
 

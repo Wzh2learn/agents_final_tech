@@ -6,9 +6,9 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E与方向沟通稿已发送，等待反馈。第二篇Goal已由用户恢复，按短计划推进。 |
 | Paper E 投稿办理 | ICINT首投、拒稿或撤稿后ICDAR；暂定 Zhonghua Wang、Jiali Ruan、Bin Hou、Yunxiao Zu（通讯），北邮电子工程学院，待团队终核。声明、学校凭证与费用待确认；ICDAR稿启用前处理双盲。作者邮箱不入Git。 |
-| 第二篇当前推进 | 六臂闭合；保留A5局部成本信号，停止提示版本扩样。下一明确前提/可执行探针及近邻差异，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇当前推进 | 两轮筛查闭合；下一用已有真实补丁/执行结果判别修复分歧与近邻差异，不补提醒或扩大同题。宿主Goal正文待用户替换；[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已更新。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
-| 来源与参考资格 | Matplotlib/SymPy有真实成功来源，迁移未完成；[Astropy隔离批次](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)四臂完成、普通历史有目标成本信号。均已曝光开发题，形成成本另算。Sphinx来源仍失败，Requests参考冲突/EdgeBench跨架构未决。 |
+| 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
 | 工作区与分享 | main代码/文档三端同步；恢复原型已入Git。GB10另有`logs/graph/pytest_loopb.txt`，7历史worktree保留；完整raw不在GitHub。 |
