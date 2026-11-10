@@ -99,6 +99,19 @@ inquiry模式为first-principles。本轮核到更直接近邻：CBC §2.3–4�
 <a id="current"></a>
 ## 已验证来源资产
 
+<a id="feedback-support-candidate"></a>
+### 当前机制候选与公开来源筛选（11-11，未运行新Agent）
+
+**原文支持的切口。** 补读[Skill-V](https://arxiv.org/html/2610.11781v1)附录A的Historical dependency和B.5–B.7：作者明确指出规则变化后，历史轨迹的行为标签可能过时。其回放门比较rubric预测与环境结果，已允许修订适用条件；同一观察池中的有效支持可以变化。因此不能假设原法一定阻止正确更新，或把按上下文分组回放省略出基线。[EvoMem](https://arxiv.org/html/2606.13681)§4.2–4.3已保存并检索非增量版本更新。两法未复现。
+
+**候选操作，尚非已验证方法。** 输入旧反馈及其决策前提、当前实际反馈和可执行见证。先依据当前执行把旧反馈分为仍适用、已冲突、未知，并在提出经验修订前固定验证支持集；只更新已验证冲突的范围，保留其他范围的旧经验，未知时取证或回到普通恢复。旧事件仍保留其原环境下的结果，不反向改标签，也不能根据哪个候选表现好再挑验证记录。拟检验的是“验证依据怎样随变化更新”；其与Skill-V条件化回放、StateWise范围核验及EvoMem的独立差异仍须定向审阅。
+
+**最小比较与反证。** 先找到真实成功来源及一个发生规则冲突、一个未变的现场，在同一Actor、OpenCode、信息/查询权限和总预算下比较普通修订、按当前上下文/版本筛选回放、候选支持更新；全量当前重验和时间衰减为后续强对照。若简单版本规则或原法适配同效更省，就停止本候选；若只有验证指标改善而原生任务及总成本不改善，也不算方法收益。当前还没有满足此实验的冻结来源与变更现场，不启动训练或大矩阵。
+
+**本批实际取得的素材。** 官方代码元数据固定`Aiden0526/EvoArena@17983e68eeaa26e78575566836aa679ea6b6bf80`；其Terminal子目录README指向`wufeiwu/Terminal-Bench-Evo`，数据revision `18ecf86f67ad9208eccaf195c63ceb42f4095dc0`。在读取需求前按Python/数据工作流适配选择`cancel-async-tasks`与`multi-source-data-merger`两链，随后只读各base＋EVO1–4的10份公开instruction及4份task元数据，没有读测试或solution。前者显式增加失败取消约束、工具限制及模块路径变化；后者显式变更输入/输出路径、promote步骤和JSON→YAML，合并优先级保持。可作为版本规则的开发对照，不能把这些显式变化当作隐式反馈失效，更未获得新任务成功。数据卡为`license: other`，最终下游许可未核；本批不安装或执行上游代码、不转分发数据。
+
+**存证与下一动作。** 私有`evoarena_contract_discovery_v1_posix.zip`共20成员/24,706bytes，双端SHA `689ebee8cfd4cfd3d4c19635887bc41b8bb3fdc4f0dc2f3c6cb67ef06e348f68`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`、GB10 `ROOT/`。Discovery SHA `df6f1a22b0c00520d51a3a68b1d8c0b95cf05a32a107e35bac4aca313b1b90a5`。首包manifest的Windows路径分隔符与ZIP成员不符，失败包保留；最终包改POSIX键并逐项核验。模型、训练、环境安装及原生任务运行均0，控制层阅读/搜索另计。下一先请专家定向判别上述独立机制，并寻找真实、可执行的规则冲突；不因得到新基准名字就建adapter。
+
 **2026-11-10 来源元数据筛查**：对Lite中Django不同PR的关系按`sha256(source_id|target_id)`排序，只读取任务ID、base与GitHub PR merge/compare元数据，不读目标题面或补丁。前七对的source PR merge相对目标base均为`behind`：14017→32450（3提交）、14608→11776（11,880）、16910→21204（734）、15252→32012（1,554）、13220→29838（2,400）、12284→30931（294）、14787→32260（710）。它们未通过当前“源PR合并为目标base祖先”的严格时间门，不用于声称源修复已存在的向前迁移；这不排除源问题在合并前已可被Agent解决。仅7对非全体统计，无模型调用；下一步继续查不同来源，不读取留出目标答案。
 
 **可继续检查的自然任务链**：Matplotlib源PR [25332](https://github.com/matplotlib/matplotlib/pull/25332)已合并，原开发目标[25352](https://github.com/matplotlib/matplotlib/pull/25352)的base在其后；25352合并亦为候选`matplotlib__matplotlib-22482`的base祖先（compare ahead 4033、behind 0；目标对应PR [28430](https://github.com/matplotlib/matplotlib/pull/28430)）。初筛只查元数据，后续D已读[22482公开题面](https://github.com/matplotlib/matplotlib/issues/22482)，它关于含交互滑块的Figure序列化；25332来源则关于对齐标签后的weakref序列化。二者有自然任务联系，但报错并不相同，不能预设旧修复适用。目标原issue早于源PR，目标base在源修复之后，不能说问题发生时间也在之后。该目标仅用于开发，尚未核原生执行或目标金补丁，不是留出确认。25332是参考辅助源，25352的27B OpenCode三臂均搜索循环且无编辑，其失败反馈本身不能证明源经验失效。元数据回执SHA `d2c3c79539fedd04b3abee7f96a815bba1377f2a7811ecdc593fbfdd22afb78c`，位于下述Sphinx尸检私有目录。

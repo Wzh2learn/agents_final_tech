@@ -2,8 +2,8 @@
 
 > 2026-11-11 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal active**：首批尸检已完成；本次结合专家建议更新[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，宿主目标正文待用户替换，不重做旧48小时阶段。
-- **当前科研**：[执行分歧复核](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)证实219项不触及编辑函数，廉价公开180项已能区分坏补丁。停止该面板复杂选择器；保留A5成本信号。下一定向判别近邻未覆盖的决策变量，方法尚未成立。
+- **Goal active**：首批尸检及旧原型筛查已完成，按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)迭代；不重做旧48小时阶段，修改目标正文不是执行前置。
+- **当前科研**：[历史反馈支持更新候选](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#feedback-support-candidate)已明确操作与强基线，独立性/收益待检验。两条新公开版本链仅只读需求，未跑Agent；不作为隐式失效主证据。旧选择器停止，A5成本信号保留。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **Paper E**：已发老师并等反馈；发送后[现役四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)曾润色，实际附件hash未核。ICINT首投、ICDAR顺序备投，尚未投稿。要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。学位按2027年10月倒排。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。
