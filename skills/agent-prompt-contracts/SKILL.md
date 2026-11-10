@@ -161,6 +161,7 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **对策**：新任务优先从现役已验证派生入口接续；保留`research_tool_runtime.ripgrep_binding()`及已有副本权限处理。需要编辑的宿主副本应在隔离目录中具备实际读写权限，保持可执行位；恢复prompt准确说明已有文件。历史98行base为冻结材料，不能省略后来补齐的依赖与权限。原始实验和raw不覆写，不因接入修正重置费用。
 - **验证**：新镜像原生OpenCode搜索命中`run_tasks`，无DAC override容器写入控制通过；v3真实write成功，原题仍5/6。工具可用与科研收益分开，不增加每轮全库资格流程。
 - **证据**：[异步原始反馈节点与回执](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#async-feedback-decision-node)，`research_tool_runtime.py`及现役`run_swe_contextbench_sympy_20261104.py`的副本权限处理；私有v1/v2/v3脚本及完整SSE保留。
+- **规划交付补充**：后续两个4请求规划耗于读取/空搜索，没有最终JSON；一次原生OpenCode控制内联同样公开文件并关闭工具，1请求形成合法计划，但全部假设归同一粗行动、未执行探针。格式交付与决策有效性分开，不能仅因schema合法推断无需取证；呈现/工具同时变化不作单因素归因。派生评分器须保留全部bind源，即使当前分支未用；本次缺文件只重评保存代码，原exit125保留。[对照证据](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#async-decision-comparison-result)。
 
 ## Completion and verification
 

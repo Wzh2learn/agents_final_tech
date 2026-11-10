@@ -8,7 +8,7 @@
 
 **主问题：**Agent怎样用真实反馈调整行动与经验适用范围，在任务/工具/环境变化后提高原生成功率，或以同等成功降低总成本？FCDR是候选，CCER/ECCE为组件，目标不绑定名称。
 
-**当前判断：**异步现场有可干预前提，尚无自动机制收益。下一批只检验自动取证能否超过普通恢复和强简单策略，不继续完善经验管理框架。
+**当前判断：**异步三臂未改善；停止自由原因表/粗行动标签版本。下一先核可执行行动定义与近邻增量，尚无自动机制收益。
 
 **专家原则：**真实反馈→决策变化→任务/成本收益。送达、可靠性、采纳与能力分开；自测是线索，事后评分不算在线反馈。hash定位来源，不替代语义适用性判断；源码变化不使全部旧证据失效。48小时尸检已完成，不因更新Goal重开。
 
@@ -25,10 +25,10 @@
 
 ## 当前执行顺序
 
-1. **已闭合。**[尸检](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)、[六臂](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)、[探针](results/CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[回归](results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)。A5恢复tokens少27.95%信号保留；219项未触及编辑函数。[NumPy同版本切换](results/CODE_SOURCE_CORRECTIONS.md#numpy-state-scope-screen)已确认部分失效，但当前重验足够便宜。旧提示/选择器及饱和面板不扩跑。
-2. **当前具体节点。**[异步真实反馈](results/CODE_SOURCE_CORRECTIONS.md#async-feedback-decision-node)：Agent修改后仍5/6；未结束任务可能已在取消，重复cancel破坏挂起清理。手工状态条件/TaskGroup均6/6，不能算Agent成功；该失败源不作成功经验迁移。
-3. **下一项交付。**冻结此失败状态，原型先为竞争解释写出观测预测及对应行动，再自动选取、执行区分探针并调整决策；解释同向时不额外探测。D已知修法、手工探针和参考答案不注入候选臂，不写此题专用规则。该流程本身不作新颖性论证。
-4. **配对验证。**普通恢复、先复现失败再修复＋当前API/状态检查、候选三臂；统一模型、OpenCode、初态、可用信息/权限和总预算。形成、取证与验证均计费。只拒绝弱自测已有TACR类门；前提/历史支持更新须面对Skill-V/StateWise/StateGraph。首批若简单策略已解释收益即停，不为同一失败追加提示版本。
+1. **已闭合。**[尸检](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)、[六臂](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)、[探针](results/CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[回归](results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)、[NumPy](results/CODE_SOURCE_CORRECTIONS.md#numpy-state-scope-screen)。A5局部成本信号保留；219项未触及编辑函数，NumPy重验便宜。饱和面板不扩跑。
+2. **最新对照。**[异步三臂×两seed](results/CODE_SOURCE_CORRECTIONS.md#async-decision-comparison-result)均5/6。两个规划未形成JSON；单请求交付控制虽成型，3假设全归同一宽泛行动，探针仍未执行。停止该形成版本，不将本批解读成选择公式被证伪或成功源迁移。
+3. **下一项交付。**明确哪些不同的可执行操作会导致不同后果；核对CounterMem具体动作验证与CIPO可执行粒度的机制差异，筛出一项可单独验证的增量。单凭模型原因表/行动标签不给“无需取证”结论；差异已被覆盖则转向，不为异步同题追加提示版本。
+4. **配对验证。**候选须实际执行后才比较。统一模型、OpenCode、初态、可用信息/权限和总预算，形成与验证计费；D已知修法不注入。普通恢复、复现优先强基线和近邻按实际实现标注。拒绝弱自测已有TACR；历史支持更新须面对Skill-V/StateWise/StateGraph。
 5. **扩样与定稿。**开发信号在两个项目成立后，冻结机制再用未曝光任务、重复及消融检验；关闭探针选择、打乱反馈、同预算重试排除额外信息/尝试收益。按方差定规模，可靠监督后按需训练；12月中旬裁决IJCNN路线。
 
 ### 明确停止条件

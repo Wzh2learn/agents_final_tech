@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E与方向沟通稿已发送，等待反馈。第二篇Goal已由用户恢复，按短计划推进。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇当前推进 | 异步失败已定位取消状态前提；下一冻结v3节点，比较自动取证/行动调整、普通恢复及复现优先＋状态/API检查。手工修复不是Agent收益；见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇当前推进 | 异步三臂对照已闭合，停止自由原因表/粗行动版本；下一核可执行行动及与CounterMem/CIPO的差异，再定单项机制试验。规划成型与选择机制收益分开；见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |

@@ -17,7 +17,7 @@
 | [Repo2Skill-Evo](https://arxiv.org/html/2608.21964) | 57个仓库、105次发布转换中的仓库技能维护。 | 真实发布迁移本身不新，须有独立算法差异。 |
 | [Recuris](https://arxiv.org/abs/2608.24876) | 进度记忆、轨迹定位、局部修补、留出门控及失败后适配。匹配4次尝试比较53/87对51/87，p=0.774。 | 隔离适配与重试收益；机制和成绩均未复现。 |
 | [VCE-Skill](https://arxiv.org/abs/2608.16544) | 从公开技能版本差异提炼经验，并与当前轨迹的更新提案融合。 | “从版本变化中学更新经验”不能单独作为方法。 |
-| [CounterMem](https://arxiv.org/html/2609.31874v1) | 同状态反事实动作和适用条件记忆；学习使用/跳过并测有害误用。 | 配对执行和适用性选择已覆盖。 |
+| [CounterMem](https://arxiv.org/html/2609.31874v1) | 11-11核§3.2–3.3：生成≤4个具体局部编辑，同状态执行验证。 | 具体动作验证及复用已有；未复现。 |
 | [SkillApt](https://arxiv.org/html/2609.26863v3) | 同状态WITH/WITHOUT配对结果，条件边际效用与Load/Abstain。 | 配对干预与选择性复用有直接近邻。 |
 | [RADEG](https://arxiv.org/html/2608.09168v1) | 同query技能增删替换，以rollout学效用门，再用verifier反馈更新。 | 局部干预＋反馈调整已覆盖。 |
 | [SkillRevise](https://arxiv.org/html/2606.01139v4) | 轨迹诊断、保留有效部分、局部修订、执行效用接受门。 | 须超出该流程及其普通改写基线。 |

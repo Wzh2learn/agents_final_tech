@@ -147,6 +147,25 @@ inquiry模式为first-principles。本轮核到更直接近邻：CBC §2.3–4�
 
 **复现。** GB10 `/home/testuser/wzh/research_evidence/agent_learning_20261030/evoarena_async_native_v1/`保留全部代码、实际请求/SSE、失败、原生评分与手工控制；未新增repo runner。ANALYSIS SHA `0a9ba5a1d7d4e2d710f0da83ffbdd9646863be3ef64e6237608ee5f196927fe3`。私有ZIP共856成员/3,501,786bytes，SHA `a0c176fe81707deafee9cfe39ee1e43b40919667509c98e8b2e3850e72193ba3`，本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`镜像核855载荷及独立分析。只有一个开发任务；模型精确权重hash本批未新核，数据许可/benchmark canary保留，不作训练语料或转分发。
 
+<a id="async-decision-comparison-result"></a>
+#### 异步三臂对照：形成未落实，停止粗行动标签版本（11-11）
+
+**冻结比较。** 同一v3失败代码`e2145c9d…e1a8cf`、原题/实际失败反馈/前次自测、35B＋OpenCode、64K/8192、thinking关闭、temperature0.2；seed17/7201，六组顺序预先随机。每组≤12 POST、5,688,965请求bytes及600秒恢复；候选的≤4次规划计入12次，原生评分另≤75秒。模型未见完整测试、参考修法或D的因果探针。PLAN SHA `93570937e5d1ea0014f08885469b6a8e28488086b4e265970969a39da512b1c7`。
+
+| 策略 | seed17：POST / tokens | seed7201：POST / tokens | 最终原6测试 |
+|---|---:|---:|---|
+| 普通恢复 | 10 / 77,429 | 6 / 45,666 | 各5/6 |
+| 复现优先提示＋当前状态/API检查 | 12 / 123,408 | 12 / 102,377 | 各5/6 |
+| 规划＋行动价值选探针，失败回退 | 11 / 75,190 | 12 / 85,970 | 各5/6 |
+
+**实际机制边界。** 两个规划阶段均用尽4次读取/搜索请求，没有最终JSON，按冻结规则回退；未执行自动探针。复现优先是提示基线，不是完整TACR或强制门：seed17在复现仍PASS后编辑，seed7201重复自测仍PASS而未改实现。六组运行中均有自测PASS，未必在最终编辑后；独立原测试仍失败。因此本批没有验证选择机制有效或无效，也没有完成成功源或迁移。
+
+**一次交付控制。** 另冻≤1 POST/180秒，以相同公开文件内联、规划工具关闭的原生OpenCode调用，实际1 POST/5,949tokens得到合法JSON：3假设全指向同一宽泛行动A，选择器按`1-max_a P(a)`跳过全部探针；不运行修复。控制同时改变呈现和工具面，只证明另一交付合同能形成JSON，不能单独归因于读取开销。合法schema不保证假设或行动正确；宽泛的“修好取消逻辑”不足以证明无需更多行动证据。
+
+**裁决。** 停止此自由原因表/粗行动标签版本及同题提示续验。下一先定义可执行的行动差异并核近邻增量，再决定新机制；[CounterMem §3.2–3.3](https://arxiv.org/html/2609.31874v1#S3.SS2)已有具体局部编辑的同状态验证，[CIPO §3.1–3.4](https://arxiv.org/html/2610.04991v1#S3.SS3)已有可执行原子/技能分支，不能把“改用具体动作”本身当创新。11-11定向读方法，未复现原法；Astropy普通历史及A5成本信号继续保留。
+
+**成本/存证。** 主批63 POST/510,040tokens；含交付控制共64 POST/515,989＝499,335输入＋16,654输出，输入含455,283缓存、44,052非缓存。64条SSE与原生账闭合，未知usage0，训练0；研发层未完整计量。首份评分因漏带一个未使用的只读挂载源而Docker exit125，补齐原文件后仅重评保存代码，两个回执保留，未重跑Actor。私有`ROOT/fcdr_async_decision_comparison_v1/`保留冻结输入、全部原始请求、9阶段轨迹、6份有效原生评分及补评；9个Actor容器均退出、探针0。ZIP 606成员/3,283,861bytes，SHA `536530d1df730f82b9339a8b630f6d9f4096d9761f1f307774d57af5770ebfa7`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`核605载荷并独立重算一致，依赖引用上一批私有包。仅一个曝光任务；没有新方法收益或泛化结论。
+
 **2026-11-10 来源元数据筛查**：对Lite中Django不同PR的关系按`sha256(source_id|target_id)`排序，只读取任务ID、base与GitHub PR merge/compare元数据，不读目标题面或补丁。前七对的source PR merge相对目标base均为`behind`：14017→32450（3提交）、14608→11776（11,880）、16910→21204（734）、15252→32012（1,554）、13220→29838（2,400）、12284→30931（294）、14787→32260（710）。它们未通过当前“源PR合并为目标base祖先”的严格时间门，不用于声称源修复已存在的向前迁移；这不排除源问题在合并前已可被Agent解决。仅7对非全体统计，无模型调用；下一步继续查不同来源，不读取留出目标答案。
 
 **可继续检查的自然任务链**：Matplotlib源PR [25332](https://github.com/matplotlib/matplotlib/pull/25332)已合并，原开发目标[25352](https://github.com/matplotlib/matplotlib/pull/25352)的base在其后；25352合并亦为候选`matplotlib__matplotlib-22482`的base祖先（compare ahead 4033、behind 0；目标对应PR [28430](https://github.com/matplotlib/matplotlib/pull/28430)）。初筛只查元数据，后续D已读[22482公开题面](https://github.com/matplotlib/matplotlib/issues/22482)，它关于含交互滑块的Figure序列化；25332来源则关于对齐标签后的weakref序列化。二者有自然任务联系，但报错并不相同，不能预设旧修复适用。目标原issue早于源PR，目标base在源修复之后，不能说问题发生时间也在之后。该目标仅用于开发，尚未核原生执行或目标金补丁，不是留出确认。25332是参考辅助源，25352的27B OpenCode三臂均搜索循环且无编辑，其失败反馈本身不能证明源经验失效。元数据回执SHA `d2c3c79539fedd04b3abee7f96a815bba1377f2a7811ecdc593fbfdd22afb78c`，位于下述Sphinx尸检私有目录。
