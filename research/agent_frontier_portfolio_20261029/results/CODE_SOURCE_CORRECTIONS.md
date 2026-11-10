@@ -1,6 +1,24 @@
 # 代码来源：教师纠正与形成成本
 
-> 状态: 维护中，Goal暂停 | 更新: 2026-11-11 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
+> 状态: 维护中，Goal active | 更新: 2026-11-11 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
+
+<a id="fcdr-feedback-review"></a>
+## FCDR首批：9条轨迹、9个反馈节点（11-11）
+
+用户更新并恢复Goal后，只读核对SymPy两臂、Matplotlib三臂、Astropy隔离两臂和32K失败两臂；未重跑任务、测试、模型或训练。分类是D的开发判读，不是人工金标或因果效果。
+
+| 节点 | 原始在线事件与后继动作 | 本批判断 |
+| --- | --- | --- |
+| S1/S2，SymPy来源卡raw行86/89 | `is_neq`未导入后补导入，`Q.neq`不存在后改`Q.ne` | 有正常恢复，最终1/3不表示反馈均未采纳 |
+| M1/M2，Matplotlib完整卡行38、遮蔽卡行61 | 弃用警告后调整启动；自写errorbar测试遇RuntimeWarning后改测试处理 | 模型有响应。最终失败的`test__safe_first_finite_all_inf/all_nan`属事后评分，不能倒推在线送达 |
+| A1/A2，Astropy隔离无历史行30/44 | 自测失败后改实现；mask断言失败后查实现、运行探针并改测试，最终独立合同通过 | 普通恢复有效。历史摘要臂少两轮本地测试失败；测试文件读取输出4,352字符对58,246字符，各因素作用未分离 |
+| A3/A4/A5，Astropy32K完整行32/58、遮蔽行52 | 自测调用不存在的`NDDataRef.collapse`；另有生产代码None/unit异常。后继查相关实现，末7/8次操作无进一步编辑 | 可干预停滞节点；相关取证不等于未采纳反馈，尚未证实旧反馈越范围传播 |
+
+**证据边界。** native harness仅留OpenCode事件流和采样元数据，没有完整模型HTTP消息/SSE。工具返回及具体后继修正支持在线使用观察，不等同逐请求载荷核验；新干预复用已有记录能力补足此项。静态回放不产生替代动作成绩。
+
+**裁决与下一动作。** 节点定位闭合，不扩大尸检、不先训练。FCDR纯范围/版本标签不单独作方法。下一补齐`QUERY/PIVOT`：在测试/实现故障分歧处选公开探针，与普通恢复、失败清单/API核查及全量重测对照，定义不同决策后再释放小批预算。StateWise已涉及前提归因、范围绑定、重规划；VeriHarness要求区分修复信息与表示格式的作用，见[近邻](../IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+
+**私有材料。** `ROOT/fcdr_feedback_review_v1.json`含提取程序、行号、hash及判读，SHA `65c1b7f8f3c5f94213942b8546456655a7ff8e71bfc857c69541c67b94e0ac31`，只读重提取逐字节一致。ZIP共54项（manifest核53项）/527,267bytes，SHA `abcdcc8a2d81b36b50052ed3d21e326c440933ca33bed80b8063cb52c253f64c`，GB10与本机`D:/Documents/Loop_D_assets/agent_learning_20261106/fcdr_feedback_review_v1.zip`相同。它是节点材料，非完整环境/provider请求包；不入Git。新增科研请求/训练0，控制层阅读/搜索成本未并作0。
 
 **Django既有迁移现场尸检（11-10，不重跑）**：GB10私有根`research_evidence/agent_learning_20261030/swe_contextbench_django_agent_20261104/`已有7次运行，261 POST、3,703,097已报tokens；14个receipt/raw文件的SHA清单为`8756638191e6d7eca7ec861f06f67d9a4de717f7fe5e609079477e6a85075d69`。来源`django-16910`无经验运行的目标测试2项失败、35项回归通过且无源码修改；但[`build_experience()`](../run_swe_contextbench_django_20261104.py#L305)只检查评分字段存在，没有要求来源目标测试通过，故后续经验不是“已验证成功经验”。目标`django-35356`的base本身以`FieldError`失败、17项回归通过。无经验/候选重试臂修改源码后仍失败，部分另有2项回归错误；source-history与generated-skill臂未改生产源码、保留base错误和17项回归通过，后者完整读完21/21行，前者仅读73/82行。7臂目标原题均未通过。它提示“错误类型、源码改动和回归退化”应与目标成功一起看；但来源失败、单目标单seed且条件输入不同，不能证明记忆保护或迁移方法有效。本配对停止，不再追加。
 
@@ -37,7 +55,7 @@
 
 **私有证据包。** 本轮Sphinx、Matplotlib与SymPy的原始请求、执行和评分日志打包用于复核，排除源码工作树、评分侧参考与补丁；GB10及本机同一包SHA-256 `046dd543f595a3daf2fbd5db0e79aaab76f77bf80dce2576c0a4df2bc3ceed66`，737个文件的清单哈希已逐项核验。它含研究原始内容，仅供私有复核，不是可独立重建环境的发布包，也不得挂入Agent输入。
 
-当前已闭合比较读[NaN来源与经验干预](#nan-transfer)与[SymPy强配置迁移结果](#sympy-21203-result)；[显式控制器旧对照](#direct-method)及下列教师资产保留作来源，不作为当前训练成绩。带“生成前/执行前”的历史段落记录当时合同，不构成新运行授权。
+当前读[FCDR节点](#fcdr-feedback-review)、[NaN干预](#nan-transfer)及[SymPy迁移](#sympy-21203-result)；旧教师/控制器保留作来源。带“生成前/执行前”的历史段落不构成新授权。
 
 SymPy21055取得一条**教师辅助、经执行验证的代码纠正**。教师仅接收原公开问题、D定位的源码和实际公开复现反馈；未接收未来目标或gold。它是一条来源素材，不是学习方法或迁移收益的确认。
 

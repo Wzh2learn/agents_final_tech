@@ -4,9 +4,9 @@
 
 | 事项 | 下一动作 / 边界 |
 | --- | --- |
-| 导师及作者反馈 | Paper E 与方向沟通稿已发送；等待研究点划分、首投路线和成稿反馈。当前Goal另由用户暂停，整理与Git同步不构成恢复。 |
+| 导师及作者反馈 | Paper E与方向沟通稿已发送，等待反馈。第二篇Goal已由用户恢复，按短计划推进。 |
 | Paper E 投稿办理 | ICINT首投、拒稿或撤稿后ICDAR；暂定 Zhonghua Wang、Jiali Ruan、Bin Hou、Yunxiao Zu（通讯），北邮电子工程学院，待团队终核。声明、学校凭证与费用待确认；ICDAR稿启用前处理双盲。作者邮箱不入Git。 |
-| 第二篇当前推进 | 已吸收专家FCDR建议；恢复后先定位真实在线反馈节点、补齐决策规则，再递进对照。Goal仍暂停，正文需用户在界面替换；执行以[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)为准。 |
+| 第二篇当前推进 | 9轨迹/9节点已核；下一定义FCDR取证决策相对普通恢复/失败清单的差异，再小批干预。见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Matplotlib/SymPy有真实成功来源，迁移未完成；[Astropy隔离批次](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)四臂完成、普通历史有目标成本信号。均已曝光开发题，形成成本另算。Sphinx来源仍失败，Requests参考冲突/EdgeBench跨架构未决。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |

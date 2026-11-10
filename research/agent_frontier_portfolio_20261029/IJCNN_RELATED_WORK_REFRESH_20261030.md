@@ -4,13 +4,13 @@
 
 ## 当前裁决
 
-**尚无已验证新方法，Goal暂停。**下表界定近邻，不能推断领域没有创新空间。外审任务见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**尚无已验证新方法，Goal active。**下表界定近邻，具体FCDR取舍见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 ## 最直接的方法近邻
 
 | 工作 | 已覆盖的机制（依原文） | 对本项目的约束 |
 |---|---|---|
-| [StateWise](https://arxiv.org/html/2610.05241) | 记录级反事实定位、有效性核验、带来源的局部修复、修复后行动检查；150例及跨配置评估。 | 行动归因＋核验＋局部更新已重合；成绩未复现。 |
+| [StateWise](https://arxiv.org/html/2610.05241v1) | 本轮补读§3、4.2–4.4：记录干预定位前提，核验后将证据绑定记录/作用域，持久修复并重规划。 | FCDR仅作前提/范围绑定已有近邻；原法未复现。 |
 | [EmbodiSkill](https://arxiv.org/html/2605.10332) | 区分技能缺陷与执行失误；前者定向修订，后者保留有效指导。 | “修订或保留”与执行失误归因已覆盖。 |
 | [EvoMem / EvoArena](https://arxiv.org/html/2606.13681) | 终端、软件及偏好变化任务；补丁式记忆演化，并测下游任务链表现。 | 版本化记忆、变化场景和下游成绩均已有先例。 |
 | [Repo2Skill-Evo](https://arxiv.org/html/2608.21964) | 57个仓库、105次发布转换中的仓库技能维护。 | 真实发布迁移本身不新，须有独立算法差异。 |
@@ -35,6 +35,7 @@
 | 工作 | 已覆盖 / 实验启示 |
 |---|---|
 | [ExecCritic](https://arxiv.org/abs/2609.09133) | 独立生成并冻结测试后再修复；区分测试质量与修复效果。 |
+| [VeriHarness](https://arxiv.org/abs/2607.14167) | 本轮核摘要：比较原始反馈与位置/观测值/可行替代项，含prose/JSON对照。FCDR须排除额外修复信息及表示格式收益；实现未核。 |
 | [Validation Evidence](https://arxiv.org/abs/2607.28871) | 缺陷/候选/金补丁重放测试以测反馈区分力；报告效应低于预设阈值。测试质量有直接近邻。 |
 | [Auditing Feedback-Driven Evolution](https://arxiv.org/abs/2608.19626) | 用外部一致性、锁定任务和等密度 placebo 审计反馈驱动测试演化；单一 oracle 可能夸大收益。 |
 | [Progress Mirage](https://arxiv.org/abs/2607.25152) | 固定Agent/工具改变评估通道，以外部状态核验进展；自评偏差与验收门已有研究。 |
