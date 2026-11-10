@@ -1,93 +1,76 @@
 # 第二阶段：Agent 经验学习与变化适配
 
-> 2026-11-10 | 唯一现役计划，原地更新。运行状态以宿主Goal控制面和用户最新指令为准，[STATE](../../memory/STATE.md)为快照；本页规划不恢复Goal。长期问题见[研究组合](AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法时再读[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)。
+> 更新：2026-11-10。方法发现中；下述近邻是原文核查，不代表复现。
 
-## 目标与负责人取舍
+## 目标与裁决
 
-主攻第二篇与硕士研究：Agent从执行/反馈形成经验，在变化后选择、验证和修订经验。11-06核对的[IJCNN截止](https://ijcnn.org/2027/events/regular-papers-deadline)为2027-01-31；按11月底选方法、12月确认及正文、1月审阅倒排。Paper E与学位查STATE。
+面向 IJCNN 2027 和硕士研究，寻找一个可复现、能改善真实任务结果的 Agent 方法：Agent 在任务、工具或环境变化后，如何利用执行反馈调整已有经验。复用 GB10、OpenCode、本地模型、真实执行器和现存任务证据；科研问题独立于 Paper E。
 
-主攻变化环境中的经验适配，但不预设方法成立。11-10近邻核对表明：[Recuris](https://arxiv.org/html/2608.24876)覆盖任务进度工作记忆、执行轨迹定位、经验局部修补、留出门控及失败后同题适配；Terminal-Bench匹配4次尝试时，适配53/87、冻结记忆重试51/87（7胜/5负，McNemar p=0.774），说明其总提升主要不能归给学习。[VCE-Skill](https://arxiv.org/html/2608.16544)覆盖公共技能版本差异的经验提炼及其与当前轨迹修改的自适应融合。[CounterMem](https://arxiv.org/html/2609.31874v1)、[OMCE](https://arxiv.org/html/2611.01747v1)、[MemScope](https://arxiv.org/html/2610.21170)、[Remember, Verify, or Ask?](https://arxiv.org/html/2608.19564v2)、[TAM](https://arxiv.org/html/2610.37482)、[SkillShift](https://arxiv.org/html/2610.33528)、[Skill-V](https://arxiv.org/html/2610.11781v1)及[多轮技能反馈演化研究](https://arxiv.org/html/2608.02636v1)也分别覆盖反事实适用性、在线更新/路由、局部修补、复用时核验、进度记录和环境变化适配。宽泛的“真实反馈＋局部经验修订＋保留进度”不再是可主张的新方法。
+**当前无通过新颖性门的方法。**“配对经验干预＋局部修订＋保留进度”以及上下文重启、基于测试反馈修补均已被近邻不同程度覆盖；暂停这些宽泛候选的模型实验。研究目标继续，不把“暂停一个候选”当成暂停 Goal。
 
-**当前没有通过新颖性门的方法候选；暂停该方向的模型实验。**保留的窄边界是：真实软件/API版本变化发生在任务执行中时，能否依据行为依赖而非仅版本标签，选择性重验或更新经验，同时保留不可回滚的任务进度。该交叉点目前只是应用场景，尚无算法定义或新颖性证据。现有素材也未组成合格验证集：SkillsBench所选任务是静态S3FIFO任务，Partridge是已曝光commit对且未找到历史skill；CSV/JSON/TSV任务属于合成格式变化；依赖扫描经验来源任务未成功，而确定性程序已通过源/目标7/7与8/8。其余代码迁移任务已曝光或来源资格不足。重开实验前，必须写出具体任务轨迹，说明候选算法相对Recuris、VCE-Skill、CounterMem、OMCE、MemScope及版本检查/全量回归等简单基线会作出什么不同决定，并找到未曝光、可独立评分的真实迁移任务；否则淘汰该候选、调整研究问题，不以增加模型调用补新颖性。详见[SkillsBench资格](SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md)、[依赖扫描现场](DEPENDENCY_SCOPE_AGENT_PILOT_RETURN_20261031.md)及[格式变化记录](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)。
+候选要重新进入实验，必须同时满足：
+1. 写清具体算法如何在一条已记录轨迹上作出不同于 StateWise、EvoMem、Recuris、VCE-Skill、CounterMem、OMCE、MemScope、CORAL/AgentRewind、ExecCritic 及强简单规则的决定。
+2. 找到未曝光、来源经验真实成功、目标任务有独立原生评分的样本；不得把同一轨迹切片当独立样本。
+3. 说明其收益不是多重试、更多信息、缩短上下文、额外教师或不同工具权限造成，并能在失败时停止。
 
-[旧五基线](results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)已闭合，R是已有配方；SymPy直接动作与目标四臂看[方法现场](results/CODE_SOURCE_CORRECTIONS.md#direct-method)，不从历史准备句重复启动。
+没有满足条件的决策点或任务，改研究问题，不以多跑请求填补新颖性。
 
-## 执行原则与后续顺序
+## 现有证据尸检：不可合并成一种“坏经验”
 
-1. **旧结果。** B6有通道/预算混淆；[ALF训练源](results/ALFWORLD_ADDITIONAL_SOURCES.md#progress-feedback18)4成功/14未完成，[两规则恢复14/14](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)，但规则与旧actor输入不同。此面板停止复杂选择器。
-2. **代码资产。** [Sphinx8282→8127](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)源题模型及反馈修订均未通过；SymPy教师辅助、Django超时后的正向工件均不得当成完整自主成功。旧目标用于开发，不作新确认；134 valid_unseen保留。
-3. **值得复用来设计新实验的现场，不是方法成绩。** ALFWorld同一任务的8步公开轨迹可重建相同进度，但“旧会话续做未成功/新会话轨迹投影后成功”同时改变了上下文、历史表示与模型条件；Matplotlib目标上不准确的结果卡引出回归，普通反馈与清单式反馈后来都修好了；依赖扫描迁移中生成经验臂通过既有目标检查，但来源任务未完成，确定性程序也通过源任务7/7和目标任务8/8。另有Astropy14995→15082：成功来源后的四个目标条件都完成，普通历史目标臂为10 POST/268,655 reported tokens、无历史为19 POST/491,274；单目标、固定顺序且成本口径含缓存，支持把经验成本/目标收益列为正向开发信号，不证明因果或净成本优势。详见[Astropy现场](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)。Sphinx已曝光源题上，普通/结构化反馈各24 POST均无编辑；扩大工具面后仍无编辑，原题未通过。该链显示重复搜索和执行停滞，但不支持“旧经验导致错误”的归因；按[尸检记录](results/CODE_SOURCE_CORRECTIONS.md)停止同题提示、工具面续试。按因果相关性区分，clean03是最明确的“正确的当前对象不匹配记录已送达但未改变动作”现场，然而同题纯规则成功，复杂机制没有必要性证据；Matplotlib回归出现在经验卡臂，但卡片未包含实际修复规则，不能归因于经验；Sphinx主要是搜索/编辑停滞，SymPy主要是相关源码覆盖不足。现有失败并非同一机制，不能合并成一个“旧经验导致失败”的训练标签。
-4. **先收窄，再调用模型。** Matplotlib24149→24818与SymPy21055→21203已有成功来源及实际目标运行，但目标都未显示经验收益，均仅作开发负结果；Django16910→35356来源失败、目标环境也有回归错误；SymPy9384重复探针已停止。[尸检记录](results/CODE_SOURCE_CORRECTIONS.md)。不重跑这些题。只读筛出现有材料里未曝光、评分可区分、来源成功且目标执行中会产生真实反馈的任务；不满足条件的样本不进入迁移实验。当前第一道门是方法差异，不是任务数。
-5. **方法成立后才冻结判别合同。** 若新候选通过新颖性门，至少比较：同一进度无经验、完整旧经验、Recuris式失败后局部记忆演化、VCE-Skill式版本经验辅助、CounterMem式反事实适用性、OMCE式在线路由更新、最佳简单版本/依赖规则、全量重测及候选机制；若可行，核对公开基线实现并保持模型、工具、证据与总预算一致。运行前冻结任务来源、评分和失败条件；报告目标任务成功、源任务回归、进度保留和形成/修订/执行/验证全成本。留出评分不参与更新或挑选。4–6个独立目标只用于机制筛查，不能作为论文确认证据。
-6. **裁决。** 如果静态修复经验、简单规则或直接重新取证达到相同效果，停止复杂更新机制；如果更新只改善文本、不改变后续动作或任务结果，也停止。即使开发实验有信号，仍需独立任务/环境、留出评分、配对重复和针对性消融后才能定方法。
+| 现场 | 可支持的观察 | 不能支持的结论 | 定位 |
+|---|---|---|---|
+| ALFWorld `clean03` | 当前目标对象不匹配被写入并送达，8B 仍选择错误对象；公开规则成功 | 复杂记忆选择有必要；失败由记忆造成 | [来源记录](results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery) |
+| ALFWorld 局部修订 | `clean02/03` 两臂均成功、动作数持平；`heat03` 两臂均失败，修订另有形成成本 | 修订提高成功率或效率 | [实验汇总](results/ALFWORLD_ADDITIONAL_SOURCES.md) |
+| Matplotlib 23562→27361 | 自写透明结果卡臂触发冻结回归；事后普通反馈重试与清单反馈都修复 | 卡片中的经验规则导致回归；清单优于普通反馈 | [隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md) |
+| Astropy 14995→15082 | 目标 Agent 自建测试调用不存在的方法，反馈后未产生有效修复；上游回归链不等同于本项目 Agent 引发的回归 | 经验导致上游错误；该批证明适配有效 | [批次](results/ASTROPY_PROFILE_CONTROLS_20261106.md)、[源—目标记录](results/ASTROPY_ISOLATED_CONTROLS_20261106.md) |
+| Sphinx #8282→#8127 | Agent 多轮收到任务失败反馈仍未编辑；教师提案也未解决原题 | 经验适配导致失败，或技能迁移已成功 | [纠正记录](results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09) |
 
-## 当前最有信息量的失败样本
+**尸检结论（FACT/INFERENCE）：**至少有“信息送达但不改行为”“自建 oracle 不可靠”“收到有效失败但执行停滞”三种机制。把它们合成正负训练标签会混淆反馈质量、策略采纳与任务能力。下一项只读整理应给每条轨迹标注：反馈来源及其与补丁的独立性、反馈后行为是否改变、环境进度能否回滚、来源任务是否成功、目标评分是否独立。此表只用于判断有没有新的可识别问题，不是方法结果。
 
-Astropy #14995→#15082 是**上游项目**明确记录的回归链：上游 #14995 将 `operand is None` 改为 `operand.mask is None`，后续 #15082 明确指出这移除了无 mask 对象的 collapse 行为。但我们自己的来源 Agent **没有**重现这个破坏性替换：原始编辑记录保留 `elif operand is None`，只新增 `elif operand is not None and operand.mask is None`。所以它不是“Agent 生成的经验导致后续回归”的直接样本。
+## 研究执行顺序
 
-11-10目标三臂仍都在24 POST上限内未完成。尸检显示完整skill臂自建测试调用不存在的 `NDDataRef.collapse`，其后测试反馈没有带来新编辑；遮蔽臂也是测试失败后停在读取/搜索；无经验臂的末次 `pytest | head` 没有保留最终汇总。该批最多说明测试反馈到有效修复之间有断点，不支持经验有害、局部修订有效或泛化。详见[Astropy批次](results/ASTROPY_PROFILE_CONTROLS_20261106.md)及上游 [#14995](https://github.com/astropy/astropy/pull/14995) / [#15082](https://github.com/astropy/astropy/pull/15082)。
+1. **先做证据映射。**只读检查既有成功/失败的原始请求、动作、反馈、测试来源、版本和评分。排除曝光目标、失败来源、参考答案泄漏、非独立评分及无真实变化的任务对。
+2. **提出算法差异。**从证据矛盾处提出动作级决策；逐条对照最近邻原文及版本检查、完整重测、普通重试等基线。差异必须能预测可观察的不同动作和任务结果。
+3. **过新颖性与样本门后再做开发实验。**首轮小规模、可停止；模型、工具、输入信息、反馈和总预算匹配。基线至少含无经验、完整旧经验、最强简单规则、普通反馈修订/重试和合适的最近邻适配法。训练不作为默认前置。
+4. **只在机制有信号后扩样。**跨独立任务/项目或环境；冻结确认集与原生评分；配对运行并记录目标成功、源任务回归、行为变化、失败类型，以及经验形成/检索/修订/执行/验证的全成本。开发小样本不写成最终确认。
 
-**Matplotlib 23562→27361是更强但仍不充分的开发线索**：旧目标批中透明结果卡臂出现了`get_path()`无条件返回`_original_path`的改动，并触发冻结图像回归（149/150）；无历史、来源历史和生成skill臂通过（150/150）。透明卡记录来源问题/结果/修改路径，并未给出目标修复规则；单任务单seed及不同载体信息使“经验造成回归”仍未被因果识别。随后普通真实反馈复跑与清单反馈都修好了回归，故“跑独立回归、交还失败信息、普通重试”是强且已成功的基线，清单没有已证实增益。完整边界见[Matplotlib隔离批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)。
+### 明确停止条件
 
-**Matplotlib反馈来源线索的裁决**：这条已曝光单任务只显示一次与结果卡相关的冻结回归信号，普通反馈复跑即可修复；它没有证明某条经验导致回归，也未形成区别于强基线的操作机制。自写测试价值、错误测试固化和oracle反馈审计已有直接近邻，因此该线索不作为当前方法候选，也不重跑该目标。它只保留为设计经验：候选机制必须证明它改变了实际决策和任务结果，而不只是重写经验文本。当前研究仍只检查上述真实软件/API变化边界；若现有资产找不到未曝光且具独立评分的源—目标对，则转向新问题，不追加同类模型运行。
+- 简单规则、完整重测或普通重试达到相同效果且更省：停止复杂机制。
+- 经验文字改变但动作/原生结果不变：停止当前机制。
+- 增益只来自更多尝试、更多上下文、教师信息或工具权限：不归因给方法。
+- 目标来源曝光、源经验失败或评分不独立：不进入确认集。
+- 换独立任务/环境后优势消失：不宣称泛化；收窄或换题。
 
-## 证据和写作要求
-
-可写问题与设计；方法定稿需独立机制、两环境留出、强基线对照、完整成本、配对重复及消融。样本规模按开发方差确定。
-
-冻结来源、输入与预算；actor不读未来gold或隐藏事实。原生环境判定成功，普通stop不等于成功；接口故障与未知结局另记。研发、形成、推理和训练分账，cache不重复相加，未知和旧差额保留；直接27B作成本对照。
+实验运行必须分别记模型请求、harness/tool、训练、经验形成与人工/研发成本；POST 为零不表示无计算。未知成本与历史差额保留，不补成零。原始轨迹不覆盖；环境成功以原生终态判断，普通 `stop` 不等于成功。科研运行和外部投稿/公开仍按唯一入口的授权规则。
 
 ## 按问题加载证据
 
-| 要解决的具体问题 | 只加载这些材料 |
-| --- | --- |
-| 当前ALF恢复对照 | [来源与原生资格](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)。 |
-| 任务进度与会话上下文是否可分离 | [ALFWorld续做尸检](results/ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)。 |
-| 经验误导与目标反馈修订 | [Matplotlib原题/回归结果](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)；[依赖扫描迁移](DEPENDENCY_SCOPE_AGENT_PILOT_RETURN_20261031.md)。 |
-| 已有正向成本信号 | [Astropy源—目标四臂](results/ASTROPY_ISOLATED_CONTROLS_20261106.md)；只作开发结果，不当独立确认。 |
-| 当前代码纠正与目标 | [教师纠正及版本边界](results/CODE_SOURCE_CORRECTIONS.md#current)。 |
-| SymPy新增候选 / 旧时序 | [集合语义复现](results/ALFWORLD_LEARNING_RUNTIME.md#sympy-intersection)；[旧时序](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)。 |
-| RethinkSkill与其他近邻 | [相关工作短页](IJCNN_RELATED_WORK_REFRESH_20261030.md) → 指定接口记录。 |
-| 已结束环境与其他试验 | [历史主题目录](../../docs/archive/2026-11-06_agent_research_context/README.md)或[总索引](../../docs/INDEX.md)，只选一个主题；旧深链接在下方保留。 |
-| 自动记录和工具前提 | [记录器](../../scripts/graph/research_auto_record.py)、[工具检查](../../scripts/graph/research_tool_runtime.py)、对应 runner；不改变业务服务。 |
+| 问题 | 先读 |
+|---|---|
+| ALFWorld进度、反馈、简单规则 | [实验补充](results/ALFWORLD_ADDITIONAL_SOURCES.md) |
+| 经验修订/测试反馈是否改变行为 | [Matplotlib批次](results/MATPLOTLIB_ISOLATED_CONTROLS_20261106.md)、[Astropy批次](results/ASTROPY_PROFILE_CONTROLS_20261106.md) |
+| 代码任务来源、迁移与教师修复 | [代码纠正](results/CODE_SOURCE_CORRECTIONS.md)、[依赖扫描试验](DEPENDENCY_SCOPE_AGENT_PILOT_RETURN_20261031.md) |
+| 方法新颖性与实验对照 | [近邻审计](IJCNN_RELATED_WORK_REFRESH_20261030.md) |
+| 工具、预算与版本资格 | [项目入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)、[SkillsBench资格](SKILLSBENCH_SOURCE_QUALIFICATION_AND_PLAN.md) |
 
-## 维护规则
+## 维护与兼容链接
 
-本页只留计划及路由，STATE留定位、THREADS留未决；原始证据不截断。联网与执行边界按[唯一入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)执行。
-
-## 旧章节链接
-
-按原始主题分组保留深链接；点击后只读对应历史片段。
+只维护本计划中的当前裁决和下一门；STATE 记状态，THREADS 记未决，原始证据留在结果文件。详细旧探索已归档，按需读取[历史目录](../../docs/archive/2026-11-06_agent_research_context/README.md)。
 
 <a id="当前优先级2026-11-04"></a>
 <a id="地震与板块工作流下一组开发对照2026-11-03"></a>
 <a id="两条并行问题线"></a>
 <a id="输入格式变化的可视化工作流资格与开发2026-11-04"></a>
 <a id="evoclaw-配置迁移公开反馈与独立合同2026-11-04"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/workflow_development_20261103_04.md)
-
 <a id="swe-skills-bench--aiohttp真实项目执行资格2026-11-04"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/aiohttp_development_20261104.md)
-
 <a id="swe-skills-bench--sympy第二项目资格2026-11-04"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/sympy_skill_development_20261104.md)
-
 <a id="swe-contextbench真实问题对与经验时间边界2026-11-04"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/contextbench_sympy_20261104.md)
-
 <a id="升级后目标接续2026-11-05用户已恢复"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/sphinx_recovery_20261105.md)
-
 <a id="任务组合和实验顺序"></a>
 <a id="当前来源资格skillevolbench-的-api-重试族"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/skillflow_retry_qualification_20261104.md)
-
 <a id="不同来源的连续办公任务开发2026-11-0304"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/office_workflow_20261103_04.md)
-
 <a id="恢复研究requests-自然任务对2026-11-05"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/requests_development_20261105.md)
-
 <a id="工具修复反馈接入与-astropy-批次2026-11-05"></a>
 <a id="与-paper-e-并行"></a>
-[原记录](../../docs/archive/2026-11-06_agent_research_context/astropy_pre_neat_20261105_06.md)
+[旧探索归档](../../docs/archive/2026-11-06_agent_research_context/README.md)。
