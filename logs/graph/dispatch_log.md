@@ -1480,3 +1480,5 @@ echo dispatch_log updated
 [2026-11-09 11:30] 四格闭合 → 48POST/400422tokens，四臂均只读无编辑、无恢复；加普通控制与writer共64POST/515460tokens，cache均未知，训练0。参考仅评分正控全过，C独立核60 reader SSE＋4 writer/99命令，无阻断，普通bash21更正20。5actor及owner已退出，两闭合私有包双机校验；停止本单例追加，下一扩独立source而非复用饱和旧目标 → 本次结果同步，Goal active
 
 [2026-11-11 02:46] FCDR六臂真实恢复闭合 → 30POST/510751tokens，30条SSE usage逐臂对账；A5同成功5对6POST、恢复tokens少27.95%，三臂额外原生219项均过；A4三臂8192推理截断且原题未过。停止提示版本扩样，下一明确可执行前提/探针机制。私有284成员包本机/GB10校验一致，训练0 → 本次结果同步提交，Goal active
+
+[2026-11-11] NumPy同版本反馈范围开发控制 → 三隔离CPU容器legacy/weak/legacy，6/6→3/6→6/6；版本/模块/C扩展hash相同。当前全重验约0.0000817秒、含启动0.366秒，简单规则足够，停止本面板复杂选择；模型/HTTP/训练0。私有12成员包双端核验、Windows独立分析一致 → 本次docs提交，Goal active

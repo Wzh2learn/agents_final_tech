@@ -114,6 +114,17 @@ inquiry模式为first-principles。本轮核到更直接近邻：CBC §2.3–4�
 
 **inquiry追审（11-11，分析而非新实验）。** 完整重读专家8ab61632评审，按first-principles区分实际收益与既有流程，随后以minimal-experiment约束下一步。本次补核[StateGraph](https://arxiv.org/html/2611.02912)§3–4.5/算法1：它已经保留独立支持、处理作用域及不确定状态，并作保守级联撤回；不能把共享前提、依赖图或部分失效当作新空白。[Bayesian Control](https://arxiv.org/html/2606.24453)§4–5还已按证据与预算选择取证/修复/验证。由此推断：候选须明确当前真实反馈使哪两项可执行选择分歧，并先检验普通恢复、条件化回放/状态版本规则及适用原法是否已解决；只改善支持标签不算增量。尚无新冻结现场，不能从本次阅读推导方法有效或无效。下一按[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)定位一个这样的现场；新模型调用/CPU任务/训练均0，不新增runner。
 
+<a id="numpy-state-scope-screen"></a>
+#### 同版本真实规则变化：NumPy开发控制（11-11，已闭合）
+
+**假设及冻结。** 版本与文件hash不变时，当前执行规则仍可能改变部分旧反馈的适用性；先检验直接读取规则和全量重验能否解决，再决定是否需要学习型支持更新。依据官方[NEP50](https://numpy.org/neps/nep-0050-scalar-promotion.html)固定6个表达式及3个条件：`legacy→weak→legacy`，各独立只读、无网络容器；全部使用已有Python3.10.19、NumPy1.24.3、同一镜像/依赖。PLAN SHA `892a3ca5c1513e060471dc1ef667cc0809715308f3de01ffd0f99e27d3d96bac`，在执行前冻结，最多3容器/每次30秒，无模型或训练。它使用NumPy公开文档所列实验开关，不是实际升级到NumPy2，也不是自然未知变化。
+
+**实际结果。** 旧规则6/6断言成立；`weak`下，`float32(16777216)+1.0`由16777217变16777216，`uint8(200)+100`由300变44并发溢出警告，`uint8`数组加300由[301]变OverflowError；float64/int64/显式Python-int三控制保持。恢复旧规则又6/6。Python、NumPy版本、Python模块及C扩展hash、probe代码hash三条件相同，当前规则查询明确返回不同模式。
+
+**强基线与裁决。** 仅凭版本号保留全部旧断言会错3/6；发现规则改变就全部撤回又会放弃3条仍有效记录。直接读取`_get_promotion_state()`并全量执行6项已给出正确分组：目标表达式总执行约0.0000817秒，含容器启动0.366秒，3容器合计1.193秒；模式查询未单独计时。六表达式不是六个独立Agent任务，更不是实际成功源经验。这个现场确认元数据匹配不充分，但没有给复杂选择器留下成本/任务收益证据：保留作原生回归控制，停止本面板学习型/图选择器扩跑。下一找普通恢复及低成本当前重验尚未解决的行动分歧，不把更多环境标签当方法。
+
+**存证。** 私有`ROOT/numpy_promotion_scope_v1/`保存冻结probe、PLAN、3组原始stdout/stderr及命令、RESULT和ANALYZE。RESULT SHA `85f5cfa79999a4e034f03b450c1a705dab5e47498373f4c4600b8916cd6a595c`，ANALYSIS SHA `e36cd979880da4621493dfc6a97e7a1cff87aa5dc34165154bf1711a0ac15ca3`。ZIP 12成员/8,909bytes，SHA `b8d4efe0a541e508aee814efe8621e13413a736a7d87e7ad6db352afcdec4e9d`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/numpy_promotion_scope_v1.zip`核11个载荷，并独立执行ANALYZE所得JSON完全一致。新增模型/HTTP/训练0，科研CPU容器3；研发搜索/阅读成本另列。未新增repo runner、依赖安装或共享服务变更。
+
 **2026-11-10 来源元数据筛查**：对Lite中Django不同PR的关系按`sha256(source_id|target_id)`排序，只读取任务ID、base与GitHub PR merge/compare元数据，不读目标题面或补丁。前七对的source PR merge相对目标base均为`behind`：14017→32450（3提交）、14608→11776（11,880）、16910→21204（734）、15252→32012（1,554）、13220→29838（2,400）、12284→30931（294）、14787→32260（710）。它们未通过当前“源PR合并为目标base祖先”的严格时间门，不用于声称源修复已存在的向前迁移；这不排除源问题在合并前已可被Agent解决。仅7对非全体统计，无模型调用；下一步继续查不同来源，不读取留出目标答案。
 
 **可继续检查的自然任务链**：Matplotlib源PR [25332](https://github.com/matplotlib/matplotlib/pull/25332)已合并，原开发目标[25352](https://github.com/matplotlib/matplotlib/pull/25352)的base在其后；25352合并亦为候选`matplotlib__matplotlib-22482`的base祖先（compare ahead 4033、behind 0；目标对应PR [28430](https://github.com/matplotlib/matplotlib/pull/28430)）。初筛只查元数据，后续D已读[22482公开题面](https://github.com/matplotlib/matplotlib/issues/22482)，它关于含交互滑块的Figure序列化；25332来源则关于对齐标签后的weakref序列化。二者有自然任务联系，但报错并不相同，不能预设旧修复适用。目标原issue早于源PR，目标base在源修复之后，不能说问题发生时间也在之后。该目标仅用于开发，尚未核原生执行或目标金补丁，不是留出确认。25332是参考辅助源，25352的27B OpenCode三臂均搜索循环且无编辑，其失败反馈本身不能证明源经验失效。元数据回执SHA `d2c3c79539fedd04b3abee7f96a815bba1377f2a7811ecdc593fbfdd22afb78c`，位于下述Sphinx尸检私有目录。

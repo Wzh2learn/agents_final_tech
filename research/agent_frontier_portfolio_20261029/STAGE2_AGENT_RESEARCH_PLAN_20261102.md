@@ -25,7 +25,7 @@
 
 ## 当前执行顺序
 
-1. **旧循环关闭。**[尸检](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)、[六臂](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)、[探针](results/CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[回归](results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)已闭合。保留A5恢复tokens少27.95%信号；219项未触及编辑函数。旧提示/选择器与ALF饱和面板不扩跑。
+1. **已闭合。**[尸检](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)、[六臂](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)、[探针](results/CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[回归](results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)。A5恢复tokens少27.95%信号保留；219项未触及编辑函数。[NumPy同版本切换](results/CODE_SOURCE_CORRECTIONS.md#numpy-state-scope-screen)已确认部分失效，但当前重验足够便宜。旧提示/选择器及饱和面板不扩跑。
 2. **先明确机制差异。**[支持更新候选](results/CODE_SOURCE_CORRECTIONS.md#feedback-support-candidate)须给出不同于普通恢复/条件化回放的具体行动及预期收益。Skill-V、StateWise与本次补核StateGraph已覆盖适用条件、范围及保守撤回，不能只增加图或标签。
 3. **下一项交付。**找一个旧反馈与当前证据分歧的可执行现场，固定可见输入、范围和竞争行动；先检验普通恢复/状态版本规则是否已解决。迁移须有真实成功来源。两公开链只作显式变化开发对照。没有差异就改机制，不为凑样本建adapter。
 4. **配对验证。**先三臂：普通恢复、最强简单策略、候选；按假设补历史/重试/最近邻。统一模型、harness、初态、信息、权限和总预算。修订前固定验证依据；额外取证计费。共享前提失效仍是假设，不默认跨经验传播。
