@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E与方向沟通稿已发送，等待反馈。第二篇Goal已由用户恢复，按短计划推进。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇当前推进 | 异步面板规则已足够，VBL覆盖通用FCDR流程；下一定向核无关键源标签的复验预算分配，可请专家指导。新鲜度/约束优先和全重验须作强基线；候选gap未确认，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇当前推进 | 只裁决复验预算候选：真实基线残差、具体行动差异、最近邻增量；成立才做普通恢复/强简单策略/候选三臂。旧尸检已完成，通用FCDR停止作贡献；宿主正文待更新，按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |

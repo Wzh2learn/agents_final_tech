@@ -2,7 +2,7 @@
 
 > 2026-11-11 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal active**：专家建议已结合后续实测收进[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)；目标固定为反馈带来的决策及任务/成本收益。48小时尸检已完成，不重做；人工改Goal不是执行前置。
+- **Goal active**：完整专家评审及后续证据已收进[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。主问题保留，旧尸检/FCDR优先不再执行；宿主Goal正文尚未改，当前接口仅支持改状态，不阻断接续。
 - **当前科研**：[行动控制/近邻裁决](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#action-state-controls)：简单API规则覆盖本面板，VBL已有通用前提恢复；FCDR流程不再作独立贡献。下一定向裁决无关键源标签的复验预算选择，gap未定；无新方法收益，A5信号保留。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **Paper E**：等导师/作者确认；[四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)未变，11-11已核[投稿入口与填报准备](../research/paper_e_publication_route_20261028/ICINT_PREFLIGHT_20261101.md)。ICINT首投、ICDAR顺序备投，未投稿。本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴，学位按2027年10月倒排。老师所收附件hash未核。
