@@ -48,6 +48,26 @@ class MappedLabelTests(unittest.TestCase):
         self.assertEqual(r.mapped_labels('sympy/sympy',labels),before)
         self.assertEqual(labels,before)
 
+    def test_matplotlib_parameter_escapes_require_explicit_opt_in_and_remain_exact(self):
+        labels=[r'lib/matplotlib/tests/test_axes.py::test_axis_errors[TypeError-args0-axis\\(\\)',
+                r"lib/matplotlib/tests/test_axes.py::test_plot_format_errors[None-o+-'o\\+'"]
+        with self.assertRaises(ValueError):
+            r.mapped_labels('matplotlib/matplotlib',labels)
+        self.assertEqual(r.mapped_labels('matplotlib/matplotlib',labels,
+                         allow_parameter_escapes=True),labels)
+
+    def test_parameter_escape_opt_in_does_not_allow_path_or_function_escapes(self):
+        for repo,label in [
+            ('matplotlib/matplotlib',r'lib/matplotlib/tests\test_axes.py::test_a[x]'),
+            ('matplotlib/matplotlib',r'lib/matplotlib/tests/name[x\y]/test_axes.py::test_a[x]'),
+            ('matplotlib/matplotlib',r'lib/matplotlib/tests/test_axes.py::test\_a[x]'),
+            ('matplotlib/matplotlib',r'lib/matplotlib/../tests/test_axes.py::test_a[x\\y]'),
+            ('matplotlib/matplotlib','lib/matplotlib/tests/test_axes.py::test_a[x\ny]'),
+            ('sympy/sympy',r'sympy/core/tests/test_basic.py::test_a[x\\y]'),
+        ]:
+            with self.subTest(repo=repo,label=label),self.assertRaises(ValueError):
+                r.mapped_labels(repo,[label],allow_parameter_escapes=True)
+
     def test_duplicates_escapes_and_unmapped_labels_are_rejected(self):
         invalid=[('django/django',['tests/app/tests.py::Case::test_a']*2),
                  ('sympy/sympy',['sympy/core/tests/test_basic.py::test_has']*2),

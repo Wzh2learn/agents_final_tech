@@ -210,7 +210,7 @@ def matplotlib_source_collection(c,row,published,bindings):
     for label in all_published:
         candidates=[label] if label in nodes else ([n for n in nodes if n.startswith(label) and n.endswith(']')] if '[' in label.split('::')[-1] and not label.endswith(']') else [])
         if len(candidates)!=1:raise ValueError('published node has no unique native completion')
-        resolved[label]=mapped_labels('matplotlib/matplotlib',candidates,allow_mpl_toolkits=True)[0]
+        resolved[label]=mapped_labels('matplotlib/matplotlib',candidates,allow_mpl_toolkits=True,allow_parameter_escapes=True)[0]
     if len(resolved)!=len(all_published) or len(set(resolved.values()))!=len(all_published):raise ValueError('native collection aliases published nodes')
     return resolved,record['modules']
 
@@ -269,7 +269,7 @@ def load_matplotlib_source(c,bindings,output,contract_ref):
     mapping=spec['label_map'];labels={};published_suites={}
     if type(mapping) is not dict or set(mapping)!={'f2p','ptp'}:raise ValueError('invalid Matplotlib source labels')
     for suite,field in [('f2p','FAIL_TO_PASS'),('ptp','PASS_TO_PASS')]:
-        published_suites[suite]=mapped_labels('matplotlib/matplotlib',json.loads(row[field]),allow_mpl_toolkits=True)
+        published_suites[suite]=mapped_labels('matplotlib/matplotlib',json.loads(row[field]),allow_mpl_toolkits=True,allow_parameter_escapes=True)
     published_all=published_suites['f2p']+published_suites['ptp'];resolved={};collection_modules={}
     if 'node_collection' in c:resolved,collection_modules=matplotlib_source_collection(c,row,published_suites,bindings)
     node_sources=spec.get('node_sources',{})
@@ -284,7 +284,7 @@ def load_matplotlib_source(c,bindings,output,contract_ref):
         published=published_suites[suite];entries=mapping[suite]
         if (type(entries) is not list or any(type(e) is not dict or set(e)!={'published','node'} for e in entries)
                 or [e['published'] for e in entries]!=published or any(e['node']!=resolved.get(e['published'],e['published']) for e in entries)):raise ValueError('source labels must exactly cover published nodes')
-        labels[suite]=mapped_labels('matplotlib/matplotlib',[e['node'] for e in entries],allow_mpl_toolkits=True)
+        labels[suite]=mapped_labels('matplotlib/matplotlib',[e['node'] for e in entries],allow_mpl_toolkits=True,allow_parameter_escapes=True)
     flat=labels['f2p']+labels['ptp']
     if len(set(flat))!=len(flat):raise ValueError('source test nodes alias each other')
     patched_modules={line[6:] for line in row['test_patch'].splitlines() if line.startswith('+++ b/')}
@@ -486,11 +486,17 @@ def helpers():
         if inserted:sys.path.remove(str(HERE))
 
 
-def mapped_labels(repo,items,*,allow_mpl_toolkits=False):
+def mapped_labels(repo,items,*,allow_mpl_toolkits=False,allow_parameter_escapes=False):
     if type(items) is not list or not items or len(set(items))!=len(items):raise ValueError('empty/duplicate labels')
     mapped=[]
     for label in items:
-        if type(label) is not str or any(ord(c)<32 for c in label) or '\\' in label:raise ValueError('invalid label')
+        if type(label) is not str or any(ord(c)<32 for c in label):raise ValueError('invalid label')
+        if '\\' in label:
+            filepath,separator,testname=label.partition('::')
+            prefix,parameter,_=testname.partition('[')
+            if not (allow_parameter_escapes and repo=='matplotlib/matplotlib' and separator and parameter
+                    and '\\' not in filepath and '\\' not in prefix):
+                raise ValueError('invalid label')
         parts=label.split('::');path=PurePosixPath(parts[0])
         if path.is_absolute() or '..' in path.parts or '.' in parts[0].split('/') or len(parts)<2 or any(not p for p in parts) or not parts[0].endswith('.py'):raise ValueError('unmapped path label')
         if repo=='django/django':
