@@ -34,15 +34,15 @@
 | 工作 | 已覆盖 / 实验启示 |
 |---|---|
 | [ExecCritic](https://arxiv.org/abs/2609.09133) | 独立生成并冻结测试后再修复；区分测试质量与修复效果。 |
+| [Teaching Agents to Code Reliably](https://arxiv.org/html/2610.03984) | 已读§2.1–2.3：补丁/回退差分执行、改动行覆盖、候选/变体区分、加权轨迹和断言奖励。执行矩阵与覆盖门不能单独作创新；未复现。 |
+| [CodeT](https://arxiv.org/abs/2207.10397) | 仅核原始摘要：生成测试与多程序执行一致性选择。多候选×探针矩阵已有先例。 |
 | [ErrorProbe](https://arxiv.org/html/2604.17658) | 本轮读§4.3–4.4：工具执行核验错误假设，验证后写入经验记忆；主评估为错误归因，未复现。假设＋探针＋记忆本身不新。 |
 | [Contract Before Code](https://aclanthology.org/2026.realm-1.72/) | REALM 2026；已读§2.3–4：失败编译为适用条件、可执行探针及计划后果，检索后运行前置门。探针＋前提检查已有直接近邻；未复现。 |
 | [Bayesian Control for Coding Agents](https://aclanthology.org/2026.emnlp-main.1548/) | EMNLP 2026；已读§3–5/A.6：以候选正确性后验和成本决定取证、修复、验证或停止，状态含预算及已查询critic。成本敏感取证本身不新；未复现。 |
 | [VeriHarness](https://arxiv.org/abs/2607.14167) | 本轮核摘要：比较原始反馈与位置/观测值/可行替代项，含prose/JSON对照。FCDR须排除额外修复信息及表示格式收益；实现未核。 |
 | [Validation Evidence](https://arxiv.org/abs/2607.28871) | 缺陷/候选/金补丁重放测试以测反馈区分力；报告效应低于预设阈值。测试质量有直接近邻。 |
 | [Auditing Feedback-Driven Evolution](https://arxiv.org/abs/2608.19626) | 用外部一致性、锁定任务和等密度 placebo 审计反馈驱动测试演化；单一 oracle 可能夸大收益。 |
-| [Progress Mirage](https://arxiv.org/abs/2607.25152) | 固定Agent/工具改变评估通道，以外部状态核验进展；自评偏差与验收门已有研究。 |
 | [Rethinking the Value of Agent-Generated Tests](https://arxiv.org/abs/2602.07900)、[Risks of LLM-Generated Regression Tests](https://arxiv.org/abs/2610.11835) | 写更多测试不等于更好反馈；自生成测试可能固化错误行为。反馈是否独立于补丁、是否改变动作、是否改善原生目标结果必须分别验证。 |
-| [Harness Design Study](https://arxiv.org/abs/2609.20804)、[Beyond the Model](https://arxiv.org/abs/2609.32459)、[PRISM](https://arxiv.org/abs/2609.05736) | 已有多模型、多基准 harness 对照及预算约束优化；本论文须把 harness 固定或做配对消融，不能把运行器差异归给记忆方法。 |
 
 ## 其他近邻索引
 
