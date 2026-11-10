@@ -125,6 +125,28 @@ inquiry模式为first-principles。本轮核到更直接近邻：CBC §2.3–4�
 
 **存证。** 私有`ROOT/numpy_promotion_scope_v1/`保存冻结probe、PLAN、3组原始stdout/stderr及命令、RESULT和ANALYZE。RESULT SHA `85f5cfa79999a4e034f03b450c1a705dab5e47498373f4c4600b8916cd6a595c`，ANALYSIS SHA `e36cd979880da4621493dfc6a97e7a1cff87aa5dc34165154bf1711a0ac15ca3`。ZIP 12成员/8,909bytes，SHA `b8d4efe0a541e508aee814efe8621e13413a736a7d87e7ad6db352afcdec4e9d`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/numpy_promotion_scope_v1.zip`核11个载荷，并独立执行ANALYZE所得JSON完全一致。新增模型/HTTP/训练0，科研CPU容器3；研发搜索/阅读成本另列。未新增repo runner、依赖安装或共享服务变更。
 
+<a id="async-feedback-decision-node"></a>
+#### 新异步任务：反馈已改变代码，错误决策前提仍可定位（11-11，开发批次闭合）
+
+**实际对象。** `wufeiwu/Terminal-Bench-Evo@18ecf86f67ad9208eccaf195c63ceb42f4095dc0`的`cancel-async-tasks`。35B服务标识＋原生OpenCode，64K/8192、temperature0.2/seed7201，36条实际请求均关闭thinking且SSE reasoning字符0。Actor仅见原任务、已有代码及后来明确送达的原测试失败反馈，未见完整测试、solution或EVO-2题面。Python3.13.18/ARM镜像固定，离线运行原pytest8.4.1测试文件，未运行上游联网安装脚本。源任务仍未合格，未形成成功经验或执行迁移。
+
+| 阶段 | 实际POST / provider tokens | 实际动作与原测试 |
+|---|---:|---|
+| 首轮 | 6 / 37,016 | 写出实现，5/6；排队任务中断时清理计数0/2 |
+| 普通恢复v1 | 6 / 40,082 | 4次glob因缺rg失败，无编辑；未重复评分 |
+| 工具补齐v2 | 12 / 87,472 | 已提出修复，但宿主复制文件不可写，write被拒；未重复评分 |
+| 可写副本v3 | 12 / 90,839 | 真实写入、执行自测；原测试仍5/6 |
+
+**接入与预算边界。** D误用了缺少已验证rg挂载/副本权限处理的旧模板；v1/v2失败和费用保留。补齐现有`ripgrep_binding`并将需编辑副本设为可写后，原生搜索/写入均实测可用。最初12次额度实际用6＋6，之后分别冻结v2/v3各≤12的新额度，累计36/36，不能声称全批仍在初始12次内。恢复为新会话＋当前文件，非原会话恢复；改工具、权限与提示的阶段不作单因素方法对照。v3最后因请求帽退出，原生评分独立判定。
+
+**已找到可干预前提。** v3用`not task.done()`判断是否再次取消。原生状态跟踪记录两个任务`done=False, cancelling=1`时，在`run.py`再次收到cancel；它们已进入异步清理却未完成。研究者仅加`cancelling()==0`条件，原6测试全过；已有手写TaskGroup控制也6/6。两者是可恢复性/强简单控制，不是Agent成功或新方法效果。
+
+**反事实诊断。** 重放实际Agent自测，保持程序、任务数、并发度、SIGINT时刻和成功谓词不变；只在清理中加入真正挂起的`await asyncio.sleep(1)`，结果为PASS→FAIL（0/2清理）→恢复PASS。原自测的`async with Lock`并不保证实际挂起。该自测在初始坏程序上也PASS，所以“先复现失败再验证修复”的普通门已能拒绝它；[TACR近邻](../IJCNN_RELATED_WORK_REFRESH_20261030.md)必须进入强基线，不能把此门改名为创新。配对与状态跟踪是D设计的开发控制，未由模型自动发现，未改变Actor原评分。
+
+**成本与下一门。** 36实际POST，255,409 tokens＝249,404输入＋6,005输出；输入含236,141 cache-read、13,263非缓存输入。36条原始SSE与OpenCode账逐项闭合，未知usage0；训练0。4个Actor容器、14个独立CPU控制均已退出；研发Agent用量未完整计量，不填0。下一冻结v3失败节点，比较自动前提取证/行动调整与普通恢复、复现优先＋当前API/状态检查；只拒绝弱自测不足以形成独立贡献。
+
+**复现。** GB10 `/home/testuser/wzh/research_evidence/agent_learning_20261030/evoarena_async_native_v1/`保留全部代码、实际请求/SSE、失败、原生评分与手工控制；未新增repo runner。ANALYSIS SHA `0a9ba5a1d7d4e2d710f0da83ffbdd9646863be3ef64e6237608ee5f196927fe3`。私有ZIP共856成员/3,501,786bytes，SHA `a0c176fe81707deafee9cfe39ee1e43b40919667509c98e8b2e3850e72193ba3`，本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`镜像核855载荷及独立分析。只有一个开发任务；模型精确权重hash本批未新核，数据许可/benchmark canary保留，不作训练语料或转分发。
+
 **2026-11-10 来源元数据筛查**：对Lite中Django不同PR的关系按`sha256(source_id|target_id)`排序，只读取任务ID、base与GitHub PR merge/compare元数据，不读目标题面或补丁。前七对的source PR merge相对目标base均为`behind`：14017→32450（3提交）、14608→11776（11,880）、16910→21204（734）、15252→32012（1,554）、13220→29838（2,400）、12284→30931（294）、14787→32260（710）。它们未通过当前“源PR合并为目标base祖先”的严格时间门，不用于声称源修复已存在的向前迁移；这不排除源问题在合并前已可被Agent解决。仅7对非全体统计，无模型调用；下一步继续查不同来源，不读取留出目标答案。
 
 **可继续检查的自然任务链**：Matplotlib源PR [25332](https://github.com/matplotlib/matplotlib/pull/25332)已合并，原开发目标[25352](https://github.com/matplotlib/matplotlib/pull/25352)的base在其后；25352合并亦为候选`matplotlib__matplotlib-22482`的base祖先（compare ahead 4033、behind 0；目标对应PR [28430](https://github.com/matplotlib/matplotlib/pull/28430)）。初筛只查元数据，后续D已读[22482公开题面](https://github.com/matplotlib/matplotlib/issues/22482)，它关于含交互滑块的Figure序列化；25332来源则关于对齐标签后的weakref序列化。二者有自然任务联系，但报错并不相同，不能预设旧修复适用。目标原issue早于源PR，目标base在源修复之后，不能说问题发生时间也在之后。该目标仅用于开发，尚未核原生执行或目标金补丁，不是留出确认。25332是参考辅助源，25352的27B OpenCode三臂均搜索循环且无编辑，其失败反馈本身不能证明源经验失效。元数据回执SHA `d2c3c79539fedd04b3abee7f96a815bba1377f2a7811ecdc593fbfdd22afb78c`，位于下述Sphinx尸检私有目录。

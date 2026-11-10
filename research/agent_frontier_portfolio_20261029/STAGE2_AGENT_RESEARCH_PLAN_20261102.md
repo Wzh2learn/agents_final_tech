@@ -8,7 +8,7 @@
 
 **主问题：**Agent怎样用真实反馈调整行动与经验适用范围，在任务/工具/环境变化后提高原生成功率，或以同等成功降低总成本？FCDR是候选，CCER/ECCE为组件，目标不绑定名称。
 
-**当前判断：**旧提醒/探针未建立独立收益；历史反馈支持更新仍待检验。
+**当前判断：**异步新现场已核可干预前提；旧提醒/选择器停止，尚无独立方法收益。
 
 **专家原则：**真实反馈→决策变化→任务/成本收益。送达、可靠性、采纳与能力分开；自测可作线索，事后评分不算在线反馈，源码变化不使旧证据全部过期。48小时尸检已完成。
 
@@ -26,9 +26,9 @@
 ## 当前执行顺序
 
 1. **已闭合。**[尸检](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)、[六臂](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)、[探针](results/CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[回归](results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)。A5恢复tokens少27.95%信号保留；219项未触及编辑函数。[NumPy同版本切换](results/CODE_SOURCE_CORRECTIONS.md#numpy-state-scope-screen)已确认部分失效，但当前重验足够便宜。旧提示/选择器及饱和面板不扩跑。
-2. **先明确机制差异。**[支持更新候选](results/CODE_SOURCE_CORRECTIONS.md#feedback-support-candidate)须给出不同于普通恢复/条件化回放的具体行动及预期收益。Skill-V、StateWise与本次补核StateGraph已覆盖适用条件、范围及保守撤回，不能只增加图或标签。
-3. **下一项交付。**找一个旧反馈与当前证据分歧的可执行现场，固定可见输入、范围和竞争行动；先检验普通恢复/状态版本规则是否已解决。迁移须有真实成功来源。两公开链只作显式变化开发对照。没有差异就改机制，不为凑样本建adapter。
-4. **配对验证。**先三臂：普通恢复、最强简单策略、候选；按假设补历史/重试/最近邻。统一模型、harness、初态、信息、权限和总预算。修订前固定验证依据；额外取证计费。共享前提失效仍是假设，不默认跨经验传播。
+2. **当前具体节点。**[异步真实反馈](results/CODE_SOURCE_CORRECTIONS.md#async-feedback-decision-node)：Agent修改后仍5/6；未结束任务可能已在取消，重复cancel破坏挂起清理。手工状态条件/TaskGroup均6/6，不能算Agent成功；该失败源不作成功经验迁移。
+3. **下一项交付。**冻结此失败状态，明确自动取证怎样改变取消/等待决策，对照普通恢复、先复现再修复＋当前API/状态检查。拒绝不复现原失败的自测已有TACR类门；历史支持更新也须面对Skill-V/StateWise/StateGraph，不将组件改名为创新。
+4. **配对验证。**先普通恢复、最强简单策略、候选三臂。统一模型、harness、初态、信息、权限和总预算；固定验证依据，所选探针须真实执行并改变后继行动。额外取证计费，再按需补历史/重试/近邻。
 5. **扩样与定稿。**两项目有一致信号后再做未曝光任务、重复及消融；关闭机制/打乱反馈/仅截短上下文排除替代解释。按方差定规模，可靠监督后按需训练；12月中旬裁决IJCNN路线。
 
 ### 明确停止条件

@@ -35,7 +35,7 @@
 | 工作 | 已覆盖 / 实验启示 |
 |---|---|
 | [ExecCritic](https://arxiv.org/abs/2609.09133) | 独立生成并冻结测试后再修复；区分测试质量与修复效果。 |
-| [Teaching Agents to Code Reliably](https://arxiv.org/html/2610.03984) | 已读§2.1–2.3：补丁/回退差分执行、改动行覆盖、候选/变体区分、加权轨迹和断言奖励。执行矩阵与覆盖门不能单独作创新；未复现。 |
+| [Teaching Agents to Code Reliably](https://arxiv.org/html/2610.03984) | 已读§2.1–2.3：补丁/回退差分执行、改动行覆盖、候选/变体区分、加权轨迹和断言奖励。异步坏前态自测同PASS，复现门须作强基线，不能改名为创新；未复现原法。 |
 | [CodeT](https://arxiv.org/abs/2207.10397) | 仅核原始摘要：生成测试与多程序执行一致性选择。多候选×探针矩阵已有先例。 |
 | [ErrorProbe](https://arxiv.org/html/2604.17658) | 本轮读§4.3–4.4：工具执行核验错误假设，验证后写入经验记忆；主评估为错误归因，未复现。假设＋探针＋记忆本身不新。 |
 | [Contract Before Code](https://aclanthology.org/2026.realm-1.72/) | REALM 2026；已读§2.3–4：失败编译为适用条件、可执行探针及计划后果，检索后运行前置门。探针＋前提检查已有直接近邻；未复现。 |

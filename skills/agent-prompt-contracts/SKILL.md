@@ -155,6 +155,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证边界**：假socket核实际forward body、字节帽/hash顺序、深拷贝及非法工具零转发，GB10聚焦57项通过。另一次独立4POST/120秒/2MiB接口控制实际用2POST/25.77秒/56,724bytes，原生bash写入读回28bytes完全匹配；D再核19绑定、两份原SSE费用和容器清理。只证明本次写入通路，未证明合同冲突是旧循环原因，未重跑SWE题目。旧96POST及失败费不重置；新接口控制5,494tokens另账，cache未知。
 - **证据**：[现役source工具合同记录](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_CORRECTION_DATA.md#source-tool-contract)；私有尸检SHA `52b958f5b39914c37017824e356ba9d56555a9b37907d7f30ad26311ebdb5727`、`TOOL_CONTRACT_V2_CANARY_V1/receipt.json` SHA `b8e914788bcaccf6aab7cc4dd639787993095b1648e1c28b9d41dd733d73ecaa`，以及`run_contextbench_source.py`与其测试。仓库版本为权威，安装分发另核，不由Git同步推断。
 
+## C-10 新任务派生须保留工具与副本可写性（2026-11-11）
+
+- **已实测失败**：异步任务恢复v1的4次glob因未挂载既有rg失败；v2已生成write动作，却因宿主复制的0644文件不可写而被拒。root在`--cap-drop ALL`容器中不自动拥有宿主文件写权限。两次失败与费用均保留，不算模型或经验方法失败。
+- **对策**：新任务优先从现役已验证派生入口接续；保留`research_tool_runtime.ripgrep_binding()`及已有副本权限处理。需要编辑的宿主副本应在隔离目录中具备实际读写权限，保持可执行位；恢复prompt准确说明已有文件。历史98行base为冻结材料，不能省略后来补齐的依赖与权限。原始实验和raw不覆写，不因接入修正重置费用。
+- **验证**：新镜像原生OpenCode搜索命中`run_tasks`，无DAC override容器写入控制通过；v3真实write成功，原题仍5/6。工具可用与科研收益分开，不增加每轮全库资格流程。
+- **证据**：[异步原始反馈节点与回执](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#async-feedback-decision-node)，`research_tool_runtime.py`及现役`run_swe_contextbench_sympy_20261104.py`的副本权限处理；私有v1/v2/v3脚本及完整SSE保留。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
