@@ -760,10 +760,7 @@ def scored_test(work, repo, labels, runner, output, suite, h, *, matplotlib_asse
     new(output / (suite + '.command.json'), dict(argv=cmd, name=name, timeout_seconds=240))
     log, errors = output / (suite + '.log'), output / (suite + '.stderr')
     started = time.monotonic(); record = run_owned(cmd, name, cid, log, errors, 240)
-    lines = (log.read_bytes() + errors.read_bytes()).decode('utf8', errors='replace').splitlines()
-    markers = [s[len(h.pool.MARKER):] for s in lines if s.startswith(h.pool.MARKER)]
-    try: payload = json.loads(markers[0]) if len(markers) == 1 else {'fatal': ['missing/duplicate machine result']}
-    except ValueError: payload = {'fatal': ['invalid machine result']}
+    payload = h.pool.parse_machine_result(log.read_bytes() + errors.read_bytes())
     record.update(result=payload, seconds=time.monotonic() - started, MemAvailable=available)
     record['coverage'] = h.pool.classify(labels, record)
     return record

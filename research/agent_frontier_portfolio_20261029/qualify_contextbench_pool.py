@@ -12,6 +12,23 @@ QUALIFIED_TARGETS_SHA='01493c013446b832b084aa914a578d4a0b0fe5b2645665792d59f43a7
 PINS={'qualify_swe_contextbench_sympy_20261104':'98e20dc49a8b01dd956aed5035b09e7aeeeba11a454fdaf9a17d1d315a61e085','qualify_swe_contextbench_django_20261104':'d232272dd6538cebe67b7867ce0b9fc133b7af9800cf6d64d57569aea71cb078'}
 MARKER='CONTEXTBENCH_RESULT='
 
+
+def parse_machine_result(raw):
+    """Unittest progress on stderr may precede the stdout marker on one line.
+
+    The runner owns this marker. Keep missing, repeated, and malformed records
+    invalid; do not infer test outcomes from human-readable progress messages.
+    """
+    text=raw.decode('utf8',errors='replace') if isinstance(raw,bytes) else raw
+    if text.count(MARKER)!=1:
+        return {'fatal':['missing/duplicate machine result']}
+    value=text.partition(MARKER)[2].partition('\n')[0]
+    try:
+        result=json.loads(value)
+    except ValueError:
+        return {'fatal':['invalid machine result']}
+    return result if type(result) is dict else {'fatal':['invalid machine result']}
+
 MPL_CASES={
  'matplotlib__matplotlib-25332':('66ba515e671638971bd11a34cff12c107a437e0b','source','SWEContextBench_Lite_Experience.parquet',1,181,'lib/matplotlib/tests/test_pickle.py'),
  'matplotlib__matplotlib-25352':('3742e7e8385e70072fb2521a411a25dd69d22dbf','target','SWEContextBench_Related_Lite.parquet',1,60,'lib/matplotlib/tests/test_cbook.py')}
@@ -699,9 +716,7 @@ def run_tests(work,repo,labels,runner_path,log):
             cleanup['exit']=done.returncode;cleanup_raw=done.stdout or b''
         except Exception as error:cleanup.update(exit=None,error=type(error).__name__);cleanup_raw=getattr(error,'stdout',None) or b''
         cleanup_log=log.with_suffix('.cleanup.log');cleanup_log.write_bytes(cleanup_raw);cleanup['log_sha256']=sha(cleanup_log)
-    log.write_bytes(raw);markers=[s[len(MARKER):] for s in raw.decode('utf8',errors='replace').splitlines() if s.startswith(MARKER)]
-    try:result=json.loads(markers[0]) if len(markers)==1 else {'fatal':['missing/duplicate machine result']}
-    except ValueError:result={'fatal':['invalid machine result']}
+    log.write_bytes(raw);result=parse_machine_result(raw)
     record=dict(exit=code,result=result,seconds=time.monotonic()-started,log_sha256=sha(log),MemAvailable=available,cleanup=cleanup)
     if cleanup is not None and cleanup['exit']!=0:record['status']='CLEANUP_FAILED'
     record['coverage']=classify(labels,record);return record

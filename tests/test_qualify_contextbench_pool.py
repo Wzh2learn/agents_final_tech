@@ -81,6 +81,19 @@ class MappedLabelTests(unittest.TestCase):
                 r.mapped_labels(repo,labels)
 
 
+class MachineResultTests(unittest.TestCase):
+    def test_result_after_unterminated_unittest_progress_is_not_lost(self):
+        payload={'tests': {'app.Case.test_x':'failed'}, 'fatal':[]}
+        raw=('test_x (app.Case) ... '+r.MARKER+json.dumps(payload)+'\nERROR\n').encode()
+        self.assertEqual(r.parse_machine_result(raw),payload)
+
+    def test_missing_duplicate_invalid_or_non_object_results_fail_closed(self):
+        for raw in [b'no result', r.MARKER.encode(), (r.MARKER+'{}\n'+r.MARKER+'{}\n').encode(),
+                    (r.MARKER+'{broken\n').encode(), (r.MARKER+'[]\n').encode()]:
+            with self.subTest(raw=raw):
+                self.assertTrue(r.parse_machine_result(raw)['fatal'])
+
+
 def reference(path,value):
     return {'path':str(path),'sha256':write(path,value)}
 

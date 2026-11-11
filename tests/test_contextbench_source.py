@@ -180,7 +180,8 @@ def test_matplotlib_candidate_scorer_uses_only_qualified_source_dependencies(tmp
         assert cmd==['CPU_ONLY_COMMAND'];stdout.write_text(pool.MARKER+json.dumps(dict(tests={labels[0]:'passed'},fatal=[]))+'\n');stderr.write_bytes(b'')
         return dict(exit=0,cleanup=dict(status='CPU_NO_CONTAINER'))
     monkeypatch.setattr(m,'run_owned',owned)
-    h=SimpleNamespace(pool=SimpleNamespace(mem_available=lambda:8*1024**3,matplotlib_command=command,MARKER=pool.MARKER,classify=pool.classify))
+    h=SimpleNamespace(pool=SimpleNamespace(mem_available=lambda:8*1024**3,matplotlib_command=command,
+        MARKER=pool.MARKER,classify=pool.classify,parse_machine_result=pool.parse_machine_result))
     record=m.scored_test(tmp_path,'matplotlib/matplotlib',labels,tmp_path/'runner.py',tmp_path,'f2p',h,matplotlib_assets=assets)
     assert record['coverage']['complete'] is True and calls==['source']
     with pytest.raises(ValueError,match='assets'):m.scored_test(tmp_path,'matplotlib/matplotlib',labels,tmp_path/'runner.py',tmp_path,'other',h)
