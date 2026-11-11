@@ -21,6 +21,8 @@
 | [SkillRevise](https://arxiv.org/html/2606.01139v4) | 轨迹诊断、保留有效部分、局部修订、执行效用接受门。 | 须超出该流程及普通改写。 |
 | [Skill-V](https://arxiv.org/html/2610.11781v1) | 附录A/B.5–B.7：条件化回放非回归门；作者明确规则变化可使历史标签过期。 | 不能将原法简化为无条件遵守旧反馈。 |
 | [Grounding Agent Memory](https://arxiv.org/html/2609.11060) | 11-11读§3.1–3.3/4：任务后只读环境propose–probe–commit，验证范围与漂移；任务/整理成本分报。 | 环境取证后写记忆不新；比较须计整理与使用总成本，不说原法未记整理费用。 |
+| [SkillGLoW](https://arxiv.org/html/2609.02217v1) | 11-11补读§3.1–3.5：程序族先验、每任务局部再生及整库实执行接受门；测试时先验召回固定。 | 分离通用过程/实例细节、执行接受门已有近邻；未复现。 |
+| [CL-Bench](https://arxiv.org/html/2606.05661v1) | §3.1/4/附录A.4及代码5f8c50eb、两官方DB；[本项目原生helper控制](results/CODE_SOURCE_CORRECTIONS.md#clbench-budget-screen)。 | 非完整复现；当前迁移有通知、schema一查询、1%容差接受Q101旧绑定，不能凭事实变化生成失败标签。 |
 | [Budgeted Verification](https://arxiv.org/html/2608.25553v1) | 11-11读§2–3/6及附录B；强制关键路径为oracle，非调度器。另核[OSF](https://osf.io/axsnm/)三包，未执行作者代码。 | Exp B为公开的前瞻设计，不能当已执行结果；其日期结构下最近两个活跃源覆盖关键路径，仅为分配覆盖筛查，非决策成功。 |
 | [EFC](https://arxiv.org/html/2605.29682) | 分析反馈有效性、信息、冗余与后续决策保留。 | 反馈链分解仅作诊断，须有真实任务增益。 |
 
