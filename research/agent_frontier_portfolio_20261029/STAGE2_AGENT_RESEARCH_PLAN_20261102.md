@@ -10,7 +10,7 @@
 
 **近期优先：**有限预算下，依据真实反馈及固定Agent的实际纠正能力，选择最值得重新核验的经验或证据。这是待检验候选；先明确一个简单策略尚未解决的决策节点，以及相对最近邻的可执行规则差异。
 
-**当前判断：**尚无成立的新方法。[有偿配对审计原型](results/CODE_SOURCE_CORRECTIONS.md#paid-paired-audit-prototype)已有单/两步参考及独立数学核验；单步存在过早停学反例。通用接续值、未来使用计价及两步取证均列强基线；旧面板闭合，不把原型通过当Agent收益。
+**当前判断：**[新原生16946](results/CODE_SOURCE_CORRECTIONS.md#paired-utility-native-pilot)三组均0/6；把当前任务放末改变编辑方向，未改善评分。本题闭合。EVSI只保留参考；下一先核27B＋OpenCode普通能力基线，获得可完成任务及效用差异后再筛主动取证增量。尚无成立新方法。
 
 **inquiry裁决。**事实：规则已解决ALF旧面板，普通历史在Astropy有成本信号，多个代码失败尚不能归因为坏经验。推断：主攻反馈如何改变有价值的决策，不预设经验修订有效。待证：主动付费取证能否超过同预算简单策略。采纳专家的问题分解与反证，不照搬FCDR或六臂日程；48小时尸检已闭合。自测作线索、事后评分不作在线反馈，hash不代替语义适用性。
 
@@ -31,7 +31,7 @@
 
 1. **已闭合。**[尸检](results/CODE_SOURCE_CORRECTIONS.md#fcdr-feedback-review)、[六臂](results/CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result)、[探针](results/CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[回归](results/CODE_SOURCE_CORRECTIONS.md#branch-scope-result)、[NumPy](results/CODE_SOURCE_CORRECTIONS.md#numpy-state-scope-screen)。A5局部成本信号保留；219项未触及编辑函数，NumPy重验便宜。饱和面板不扩跑。
 2. **普通基线现场已闭合。**[SQL](results/CODE_SOURCE_CORRECTIONS.md#clbench-agent-pilot)与[SymPy16988](results/CODE_SOURCE_CORRECTIONS.md#sympy-source-continuation-result)已保留普通历史/接续、全成本及接口/语义边界。失败来源不包装为成功，16953不合格目标不迁移，不扩本题提示或来源。
-3. **当前唯一候选/下一动作。**按后续复用策略的预期改变量购买配对效用审计，区别经验负迁移与共同失败；[原型](paired_audit_policy.py)是经典EVSI参考，不称新公式。SkillApt已有配对更新，ERRAND已有未来使用计价；先找真实原生决策节点，冻结主动审计对固定/随机/不确定性及两步参考的比较，再判断独立增量。没有官方逐题数据或在途外审，不伪造重放，也不以等待代替研究。
+3. **候选与唯一下一动作。**仍筛有限预算下的配对效用取证，但暂停扩同分布成功率原型；本批共同失败不形成成功/失败偏好。下一复用现有27B/OpenCode入口，在一个不同且合格的任务做普通能力基线，先建立可完成目标与反馈决策空间。SkillApt已有配对更新、ERRAND已有未来使用计价，须有新的执行规则和实际收益才继续。
 4. **最小配对批次。**四问成立后，共享可购池/学习器，比等全成本并补等配对数；未购买标签不可读取。保留普通恢复、固定开发指导＋同预算重试及无经验/历史。同模型/OpenCode、初态、信息/权限，先冻结请求/token/墙时帽、顺序、预期复用次数来源及反证；执行成本报价与实际成本分报。原型只在同作用域建模，跨变化泛化未证。
 5. **确认与写作。**两个独立项目出现开发信号后，冻结机制，扩未曝光任务、重复和关键消融；用匹配近邻排除替代解释。可靠监督及收益明确后再训练，同数据/训练量并做反馈打乱。主结果、全成本和非退化齐备后写有效性结论；12月中旬裁决IJCNN。
 
