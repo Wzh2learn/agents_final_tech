@@ -17,6 +17,7 @@
 | [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化配对效用、Load/Abstain。 | 条件效用本身不新。作者公开包为guoshaung/SkillApt，`73db0b54`；旧404不能外推无代码。 |
 | [CIPO](https://arxiv.org/html/2610.04991v1) | 可执行原子/技能、同前缀分支、结果差偏好信号。 | 可执行粒度、配对偏好损失不是差异；须识别反馈×环境条件的迁移增量。 |
 | [StateGraph](https://arxiv.org/html/2611.02912) / [Skill-V](https://arxiv.org/html/2610.11781v1) | 依赖失效/局部撤回，以及可验证技能合同、反馈更新和回放非回归。 | 保留约束和验证门已有；不能只组合这两种机制。 |
+| [Getafix](https://arxiv.org/abs/1902.06111) / [CEGIS agents](https://arxiv.org/abs/2606.11521) / [CESS](https://arxiv.org/abs/2607.15854) | 历史修复模式与上下文选择；验证器反例驱动纠正；锚点、回归约束与反例增补。 | 当前代码守卫归纳属复用部件；须证明来源反馈改变新任务的Agent工具动作选择及任务后果，不能用程序分支条件替代Agent策略学习。 |
 
 ## 反馈与测试 oracle 的近邻
 
