@@ -870,13 +870,16 @@ def execute(root, digest, registry, registry_sha, source):
         identity=dict(source=source), success_key='source_success', mode='REAL_SOURCE_EPISODE')
 
 
-def execute_prepared(root, digest, prepared, verify_prepared, *, identity, success_key, mode, score_prepared=None):
+def execute_prepared(root, digest, prepared, verify_prepared, *, identity, success_key, mode, score_prepared=None, backend=None):
     """Reuse the owned lifecycle after the caller's independent admission check."""
     m, h, actor, profile = prepared; root = Path(root); caps = m['caps']
     options = {k:m[k] for k in ('request_policy','production_prefix_capture') if k in m}
     if (options or any(k in m for k in ('expected_skips','qualification_scope'))) and (mode != 'REAL_SOURCE_EPISODE' or success_key != 'source_success' or
             m.get('source_role') != 'DEVELOPMENT_SOURCE' or identity != dict(source=m.get('source'))):
         raise ValueError('development source options cannot enter another actor cohort')
+    if backend is not None and (mode != 'REAL_SOURCE_EPISODE' or success_key != 'source_success' or
+            m.get('source_role') != 'DEVELOPMENT_SOURCE' or identity != dict(source=m.get('source')) or options):
+        raise ValueError('external backend is restricted to an explicitly admitted development source')
     if 'production_prefix_capture' in options: options['capture_production_prefix'] = options.pop('production_prefix_capture')
     scorer = score if score_prepared is None else score_prepared
     with resource_lock():
@@ -889,10 +892,14 @@ def execute_prepared(root, digest, prepared, verify_prepared, *, identity, succe
         def interrupted(*_): raise InterruptedError('SIGTERM')
         signal.signal(signal.SIGTERM, interrupted)
         try:
-            h.teacher.validate_vllm_model_profile(m['profile']['path'], m['profile']['sha256'], full=True)
-            result['backend'] = h.teacher.verify_vllm_backend(profile)
+            if backend is None:
+                h.teacher.validate_vllm_model_profile(m['profile']['path'], m['profile']['sha256'], full=True)
+                result['backend'] = h.teacher.verify_vllm_backend(profile)
+            else:
+                result['backend'] = backend.verify(profile)
             bridge = Path(tempfile.mkdtemp(prefix='cb-src-', dir='/tmp')); bridge.chmod(0o700); bridge_identity = bridge.stat().st_ino
-            relay = Relay(root, profile, h, deadline=time.monotonic() + caps['seconds'], caps=caps, **options)
+            relay = (Relay if backend is None else backend.make_relay)(root, profile, h,
+                deadline=time.monotonic() + caps['seconds'], caps=caps, **options)
             class Server(socketserver.ThreadingUnixStreamServer): daemon_threads = False; block_on_close = True
             class Handler(socketserver.BaseRequestHandler):
                 def handle(self): relay.handle(self.request)

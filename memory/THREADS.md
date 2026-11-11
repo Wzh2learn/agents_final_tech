@@ -6,14 +6,14 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇当前推进 | [27B批次](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#native27-capability)公开原例已修、完整1/2，不作方法收益；与23117同参考修复，不作独立迁移。下一请专家指导有限预算选证的算法增量及最小对照；用户拟暂停，实际状态仍以Goal为准。 |
+| 第二篇当前推进 | FCCL：一条可执行纠正技能的形成、绑定与真实成败条件学习；[首批24POST](../research/agent_frontier_portfolio_20261029/results/SCHOOL_MODEL_CAPABILITY.md)闭合。下一来源形成/片段对照，拟64POST/2M tokens；单来源完整预算32POST，不继续16689单题提示。轻量选择器已实现，未接完整学习执行闭环。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | main代码/文档三端同步；恢复原型已入Git。GB10另有`logs/graph/pytest_loopb.txt`，7历史worktree保留；完整raw不在GitHub。 |
+| 工作区与分享 | 现役main按本轮提交核三端；校内接入与学习原型纳入本轮同步。GB10另有`logs/graph/pytest_loopb.txt`，7历史worktree保留；完整raw不在GitHub。 |
 | 文档与 skill 存量 | doctor 0 errors/134既有warnings；3项docs时效警告及map旧提示保留。Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 

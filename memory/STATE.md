@@ -2,8 +2,8 @@
 
 > 2026-11-11 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal active**：用户已更新正文；专家评审按inquiry收进[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。近期优先有限预算的经验/证据复验；旧尸检已闭合、FCDR不预设有效。
-- **当前科研**：[27B能力批次](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#native27-capability)已修公开数组赋值问题，完整原生1/2、回归3/3；32POST/210,952已知tokens＋1未知usage，训练0。本题闭合，16946旧配对仍失败。下一请专家定向指导机制与形式化；尚无成立新方法或在途外审。
+- **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已明确第一条技能、学习规则和近邻差异，常规轻量选择器不单独算新方法。
+- **当前科研**：[校内模型首批](../research/agent_frontier_portfolio_20261029/results/SCHOOL_MODEL_CAPABILITY.md)接通真实工具及OpenCode；24POST / 129,976 tokens闭合，无未知usage。新SymPy16689首轮/一次接续均未完成，原题0/1、回归52/55；不再加同题提示。下一将预算转向来源纠正片段和成败对照，拟64POST/2M tokens，未启动；不要求无经验先成功才允许比较。原27B批次闭合。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **导师 / Paper E**：11-11用户反馈老师先审后提交，开题优先；独立对话处理稿件和开题。方法须明确问题、机制、形式化和假设，再用实验验证；不要求榜单最优。[四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)未变，ICINT首投、ICDAR顺序备投，未投稿。本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴，附件hash未核。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。

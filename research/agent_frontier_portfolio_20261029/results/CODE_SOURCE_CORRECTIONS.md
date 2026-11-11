@@ -590,3 +590,9 @@ D核全部48原SSE/实际工具合同/请求hash/封顶账及容器清理；clos
 报告保留两项byte差：每题wire计数比原SSE body多6,720bytes。冻结relay明确wire另计HTTP响应头，body文件不含头；单位不同，不据此判断token丢失或超帽。动态头原文未归档，未声称独立重建每字节。两源闭合私有包349成员/2,068,583bytes已双端核验，SHA `3d3ac3fa60fcc0ac078204f96113e43397863a0aa67eb6e2e7d44e6399c2de63`，本机check SHA `973a88f07660ea1d4efdf6b7cf2091d22090b9942b6bd861007b9c05514c8d8a`；尸检报告随后单独镜像，不重打原包。
 
 [Current result](#current)
+
+<a id="school-gateway"></a>
+
+## 校内模型接入与代码能力
+
+新资源单独记入[校内模型批次](SCHOOL_MODEL_CAPABILITY.md)，不继续扩长本记录。首批24POST/129,976tokens已闭合，FCCL效果未测。
