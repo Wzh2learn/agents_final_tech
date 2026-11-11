@@ -10,4 +10,4 @@
 - **协作**：D主责，续用A/C做有限实现或冻结复核；全局调度/跨机预算锁未实现，见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。
 - **Git与运行面**：现役代码/文档以main同步；实验原型及停止结论版本化，raw私有双端保存。GB10自动日志、历史worktree保留，见[THREADS](THREADS.md)。
 
-较长的旧状态已移入[2026-11-06 快照](archive/STATE_2026-11-06_pre_context_neat.md)；它是历史，不作为现役待办。投稿、付款、公开、外部联系及生产操作仍按用户明确授权办理。
+历史状态见[2026-11-06 快照](archive/STATE_2026-11-06_pre_context_neat.md)与[2026-09-22 治理前快照](archive/STATE_2026-09-22_pre_governance.md)，均不作现役待办。投稿、付款、公开、外部联系及生产操作仍按用户明确授权办理。
