@@ -162,6 +162,7 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证**：新镜像原生OpenCode搜索命中`run_tasks`，无DAC override容器写入控制通过；v3真实write成功，原题仍5/6。工具可用与科研收益分开，不增加每轮全库资格流程。
 - **证据**：[异步原始反馈节点与回执](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#async-feedback-decision-node)，`research_tool_runtime.py`及现役`run_swe_contextbench_sympy_20261104.py`的副本权限处理；私有v1/v2/v3脚本及完整SSE保留。
 - **规划交付补充**：后续两个4请求规划耗于读取/空搜索，没有最终JSON；一次原生OpenCode控制内联同样公开文件并关闭工具，1请求形成合法计划，但全部假设归同一粗行动、未执行探针。格式交付与决策有效性分开，不能仅因schema合法推断无需取证；呈现/工具同时变化不作单因素归因。派生评分器须保留全部bind源，即使当前分支未用；本次缺文件只重评保存代码，原exit125保留。[对照证据](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#async-decision-comparison-result)。
+- **Python入口补充**：SymPy16988源预检误用镜像默认Python而缺distutils；同一镜像内已有的资格运行实际依赖Python3.8挂载、PATH和入口三者。派生时一并继承，不从镜像名推断解释器；修正前后CPU预检及旧脚本保留，预检零模型。后续普通接续通过既定2+72项，不代表更广符号语义正确或新方法有效。[来源/接续证据](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-source-continuation)。
 
 ## Completion and verification
 
