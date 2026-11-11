@@ -46,6 +46,28 @@ class Segment:
 
 
 @dataclass(frozen=True)
+class FamilyProposal:
+    """Rank-equivalent alternatives, not a certificate of equal behavior.
+
+    The caller binds and executes one member, then checks its actual outcome.
+    Snapshot identity is an execution guard, never a prediction feature.
+    """
+
+    snapshot: str
+    family: str
+    alternatives: tuple[Segment, ...]
+    score: float
+
+    def select(self, identifier, *, snapshot):
+        if snapshot != self.snapshot:
+            raise ValueError("proposal does not bind the current snapshot")
+        for segment in self.alternatives:
+            if segment.identifier == identifier:
+                return segment
+        raise ValueError("selected segment is outside the proposal")
+
+
+@dataclass(frozen=True)
 class Outcome:
     snapshot: str
     model: str
@@ -164,3 +186,24 @@ class ConditionalRepairPolicy:
         if len(scored) > 1 and abs(scored[0][0] - scored[1][0]) < 1e-12:
             return None
         return scored[0][1]
+
+    def propose(self, context, candidates, *, heldout=False):
+        """Select a family while preserving its concrete execution alternatives.
+
+        This reuses the scalar reference's support, provenance and family scores.
+        A tie across different families still falls back to ordinary correction.
+        Presentation order within a family does not imply an outcome preference.
+        """
+        grouped = {}
+        identifiers = set()
+        for segment in candidates:
+            if segment.identifier in identifiers:
+                raise ValueError("ambiguous segment identifier")
+            identifiers.add(segment.identifier)
+            grouped.setdefault(segment.family, []).append(segment)
+        representatives = [members[0] for members in grouped.values()]
+        selected = self.choose(context, representatives, heldout=heldout)
+        if selected is None:
+            return None
+        alternatives = tuple(sorted(grouped[selected.family], key=lambda s: s.identifier))
+        return FamilyProposal(context.snapshot, selected.family, alternatives, self.score(context, selected))

@@ -67,5 +67,36 @@ class PolicyTest(unittest.TestCase):
         self.assertEqual(p.choose(c,[A,B]),p.choose(changed,[A,B]))
         self.assertIsNotNone(p.choose(changed,[A,B]))
 
+    def test_family_proposal_retains_two_bound_alternatives_without_a_fake_winner(self):
+        c=context('2');p=ConditionalRepairPolicy()
+        alternate=replace(A,identifier='alternate-binding',commands=(('python other_binding.py','/workspace'),))
+        p.update(c,A,B,outcome(c,True),outcome(c,False))
+        self.assertIsNone(p.choose(c,[A,alternate,B]))
+        proposal=p.propose(c,[B,alternate,A])
+        self.assertEqual(proposal.family,A.family)
+        self.assertEqual(set(proposal.alternatives),{A,alternate})
+        self.assertEqual(proposal.select(A.identifier,snapshot=c.snapshot),A)
+        with self.assertRaisesRegex(ValueError,'proposal'):
+            proposal.select(B.identifier,snapshot=c.snapshot)
+        with self.assertRaisesRegex(ValueError,'snapshot'):
+            proposal.select(A.identifier,snapshot='changed-workspace')
+
+    def test_family_proposal_preserves_scope_and_does_not_break_a_family_tie(self):
+        c=context('2');p=ConditionalRepairPolicy()
+        self.assertIsNone(p.propose(c,[A,B]))
+        p.update(c,A,B,outcome(c,True),outcome(c,False))
+        with self.assertRaisesRegex(ValueError,'source group'):
+            p.propose(c,[A,B],heldout=True)
+        self.assertIsNone(p.propose(context('unseen'),[A,B]))
+        p.weights={}
+        self.assertIsNone(p.propose(c,[A,B]))
+
+    def test_family_proposal_rejects_ambiguous_identifiers_before_actor_execution(self):
+        c=context('2');p=ConditionalRepairPolicy()
+        p.update(c,A,B,outcome(c,True),outcome(c,False))
+        collision=replace(A,commands=(('python a_different_program.py','/workspace'),))
+        with self.assertRaisesRegex(ValueError,'identifier'):
+            p.propose(c,[A,collision,B])
+
 
 if __name__=='__main__': unittest.main()
