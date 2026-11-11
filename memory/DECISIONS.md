@@ -280,3 +280,9 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 
 结论：本地只读复核接受38/85分类与24个receipt改名，纠正起点分叉为5/7；旧manifest在路径映射后84/86匹配，两份学位稿保留合并前后身份。typed UNKNOWN的numeric_value违反精确keys；D/T/M机制仍未识别，不能只加大token重跑。唯一prompt原地更新为D直接完成Paper E内部修订、冻结后最多一次C（拟28→29），科研生成/训练为0。Owner转发前维持暂停，本会话未派发。
 理由：避免又一轮全景治理和Paper E/实验二选一；D主导与A/C按需是工作分工，不改现役harness/路由。当前hash链只证明身份，非投稿质量。根.env忽略且未跟踪的元数据不构成泄露证据；本次未读取凭据或历史、未清理文件。范围与复放见docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json。
+
+## [2026-11-11] 吸收专家原则，Goal不再绑定旧候选或重复尸检
+
+inquiry采用first-principles→minimal-experiment，完整读取固定快照8ab61632的1082行外审，并与后续原生结果核对。保留“真实反馈→决策→任务及全成本收益”，CCER/FCDR不预设新颖或有效；旧48小时尸检已闭合。下一候选必须明确强基线残差、最近邻机制差异及可反驳预测，再做一个小配对批次；普通规则已解释的面板停止。训练须有可靠监督、具体目标及同数据/训练量对照。
+
+理由：SQL普通历史已真实完成目标，刷新臂的未提交由零模型原生控制解释；不能把接口差异转写成学习收益。现有正向信号继续保留，不把无新方法等同于无有用资产。用户随后已更新宿主Goal，近期优先有限预算的经验/证据复验；按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续，状态active。此次只重核既有raw、归位私有包和更新现有文档，新增科研模型/训练0。

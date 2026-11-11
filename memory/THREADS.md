@@ -6,7 +6,8 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E与方向沟通稿已发送，等待反馈。第二篇Goal已由用户恢复，按短计划推进。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇当前推进 | CL-Bench控制未给新调度器必要性证据；下一在可区分原生结果的任务核普通Agent/元数据刷新，明确真实断点和最近邻增量后再做候选。旧尸检已完成，通用FCDR停止作贡献；按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续。 |
+| 第二篇当前推进 | 用户已更新Goal，近期优先预算复验。SQL批次已闭合，不跑本题变体；按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确一个候选的基线残差、行动差异及近邻增量，再做配对执行；旧尸检不重做。 |
+| 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
 | 成本及运行器 | 保留历史340-token差额、未知请求和权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |

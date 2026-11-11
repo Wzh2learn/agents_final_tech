@@ -5,7 +5,7 @@
 | 当前需要 | 最小入口 |
 | --- | --- |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
-| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [CL-Bench原生SQL控制](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#clbench-budget-screen)；旧批次见同页。运行以Goal/用户指令为准。 |
+| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [SQL真实Agent与提交控制](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#clbench-agent-pilot)；旧批次见同页。运行以Goal/用户指令为准。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 近邻 | 分别按需读[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[相关工作](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 导师反馈 / Paper E | 用户已发送[沟通稿](../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)和审阅稿；现役[ICINT四页PDF](../../research/paper_e_publication_route_20261028/icint_latex/main.pdf)在发送后曾润色，实际附件哈希未核实。[正文](../../research/paper_e_publication_route_20261028/paper_e_icint_draft.md)、[投稿计划](../../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。 |
