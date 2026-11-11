@@ -286,3 +286,5 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 inquiry采用first-principles→minimal-experiment，完整读取固定快照8ab61632的1082行外审，并与后续原生结果核对。保留“真实反馈→决策→任务及全成本收益”，CCER/FCDR不预设新颖或有效；旧48小时尸检已闭合。下一候选必须明确强基线残差、最近邻机制差异及可反驳预测，再做一个小配对批次；普通规则已解释的面板停止。训练须有可靠监督、具体目标及同数据/训练量对照。
 
 理由：SQL普通历史已真实完成目标，刷新臂的未提交由零模型原生控制解释；不能把接口差异转写成学习收益。现有正向信号继续保留，不把无新方法等同于无有用资产。用户随后已更新宿主Goal，近期优先有限预算的经验/证据复验；按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)接续，状态active。此次只重核既有raw、归位私有包和更新现有文档，新增科研模型/训练0。
+
+同日方法筛查：新核AMV-Guard、ERRAND、ATR，否决将通用行动VOI、预算工资门或版本/决策区分单列为创新；联合行动解析控制亦被简单或经典决策解释。下一问题收窄为实际Agent的反馈条件接续价值；标准Q价值式本身不算机制增量，立项前须对照条件化价值强基线，可请专家定向复核。控制是已知分布的数学开发材料，不是新Agent实验；证据见[方法筛查](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#revalidation-neighbor-screen)。
