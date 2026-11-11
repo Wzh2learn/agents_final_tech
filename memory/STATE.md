@@ -3,7 +3,7 @@
 > 2026-11-11 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active**：用户已更新正文；专家评审按inquiry收进[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。近期优先有限预算的经验/证据复验；旧尸检已闭合、FCDR不预设有效。
-- **当前科研**：[机制复核](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#repair-value-mechanism-screen)核官方修复转移/在线校准，单纯条件化接续价值列强基线；新增固定指导＋同预算重试。下一明确可执行修订的学习机制、真实节点及反例，重大增量可请专家；无在途外审。本轮零科研模型/训练，旧现场保持闭合。
+- **当前科研**：[有偿配对审计原型](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#paid-paired-audit-prototype)已有单/两步参考，GB10 22项及2,916个独立数学控制一致；单步过早停学反例已记。当前只推进主动效用审计，下一冻结真实原生节点及等全成本强基线。新方法/跨项目收益未证，科研模型/神经训练0；旧现场闭合，无在途外审。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **Paper E**：等导师/作者确认；[四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)未变，11-11已核[投稿入口与填报准备](../research/paper_e_publication_route_20261028/ICINT_PREFLIGHT_20261101.md)。ICINT首投、ICDAR顺序备投，未投稿。本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴，学位按2027年10月倒排。老师所收附件hash未核。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。

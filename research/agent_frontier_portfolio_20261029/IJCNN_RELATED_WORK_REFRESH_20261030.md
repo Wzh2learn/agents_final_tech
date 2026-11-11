@@ -4,7 +4,7 @@
 
 ## 当前裁决
 
-**尚无已验证新方法，Goal active。**通用预算复验及单纯条件化接续价值均列强基线；本轮核官方转移/在线校准代码并新增固定指导对照，见[机制复核](results/CODE_SOURCE_CORRECTIONS.md#repair-value-mechanism-screen)及[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**尚无已验证新方法，Goal active。**当前只筛主动配对效用复验；EVSI、两步计价、在线更新均列参考机制，见[原型](results/CODE_SOURCE_CORRECTIONS.md#paid-paired-audit-prototype)及[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。须有真实决策残差，不把机制组合或检查通过当贡献。
 
 ## 最直接的方法近邻
 
