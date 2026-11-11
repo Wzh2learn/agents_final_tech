@@ -4,7 +4,7 @@
 
 ## 当前裁决
 
-**尚无已验证新方法，Goal active。**AMV-Guard、ERRAND与ATR直接覆盖通用预算复验/行动范围；联合行动选择亦有经典决策参照。下一只审“复验后的实际Agent接续价值”能否产生机制增量，见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+**尚无已验证新方法，Goal active。**通用预算复验及单纯条件化接续价值均列强基线；本轮核官方转移/在线校准代码并新增固定指导对照，见[机制复核](results/CODE_SOURCE_CORRECTIONS.md#repair-value-mechanism-screen)及[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 ## 最直接的方法近邻
 
@@ -29,7 +29,8 @@
 | 工作 | 已核范围 / 实验约束 |
 |---|---|
 | [Teaching Agents to Code Reliably](https://arxiv.org/html/2610.03984) | §2.1–2.3：补丁/回退差分执行、覆盖与变体区分。复现优先须是强基线；提示基线不称完整TACR。 |
-| [Bayesian Control for Coding Agents](https://aclanthology.org/2026.emnlp-main.1548/) | §3–5/A.6：正确性后验与成本驱动取证、修复、验证、停止；状态含预算和已查询critic。成本敏感取证本身不新。 |
+| [Bayesian Control for Coding Agents](https://aclanthology.org/2026.emnlp-main.1548/) | §3–5/A.6及官方`2a3de1dc`的kernel/controller/校准模块：修好/修坏转移及在线Beta均值已有实现。普通条件化转移也是强基线，不将修复概率改名为创新。 |
+| [Rethinking Self-Repair](https://arxiv.org/html/2611.06863v1) | §3–5/A/B：机器人reset-and-retry，固定指导和不同标签反馈与动态模板点估计相近，未检出其优势。补固定开发指导＋同预算重试；未测保留失败现场的恢复。 |
 | [VeriHarness](https://arxiv.org/abs/2607.14167) | 仅核摘要：原始反馈与位置/观测值/替代项，含prose/JSON对照。须排除额外信息与呈现收益。 |
 
 ## 其他近邻索引

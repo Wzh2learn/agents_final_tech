@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师及作者反馈 | Paper E与方向沟通稿已发送，等待反馈。第二篇Goal已由用户恢复，按短计划推进。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇当前推进 | 按[短计划四问](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)先明确一个决策节点及近邻规则增量，再冻结最小配对；不预设FCDR或调度器有效。SymPy16988普通接续既定测试过，更广语义未解；16953仍未合格，不启动迁移。重大增量不明时定向请专家，无外部运行handle。 |
+| 第二篇当前推进 | [机制复核](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#repair-value-mechanism-screen)把单纯条件化接续值列强基线，补固定开发指导＋同预算重试。下一仅明确可执行修订的机制增量、节点及反例，再过短计划四问；可请专家定向裁决，无在途外审。16953未合格不迁移，旧现场不扩跑。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
