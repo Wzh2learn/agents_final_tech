@@ -1,6 +1,6 @@
 # 纠正技能来源形成与最小闭环
 
-> 2026-11-11。开发来源；原始请求、轨迹和评分保存在私有证据根的 `fccl_formation_v1/`。本页记录形成证据，方法主线及下一步以[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)为准。
+> 更新至2026-11-12。开发来源；原始请求、轨迹和评分保存在私有证据根的 `fccl_formation_v1/`。本页记录形成证据，方法主线及下一步以[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)为准。
 
 ## 已得到什么
 
@@ -61,9 +61,28 @@ SymPy 扩展公开检查为 7/8。未通过的正常 `col_insert` 数值检查�
 
 补充独立核验确认：`outer_runner.py` 第 143–165 行在候选副本中删除并重建整个测试目录，再应用冻结测试补丁。`completed.json/post_run_evaluation.test_source=FROZEN_BASE`、两次补丁 exit0 及固定节点数均闭合；自测修改不能影响独立 **3/3＋132/132**。
 
-源卡位于 `fccl_formation_v1/source_demonstrations/astropy_none_mask_recovery.json`，SHA-256 `4c751a331ba2ab58303ceb811463c7effafa636d406f56aaf895ed134d8a2fc3`，双端保存。本次提取 0 新模型请求，历史形成成本仍非零；Bash 翻译尚待重放。
+源卡位于 `fccl_formation_v1/source_demonstrations/astropy_none_mask_recovery.json`，SHA-256 `4c751a331ba2ab58303ceb811463c7effafa636d406f56aaf895ed134d8a2fc3`，双端保存。提取时新增模型请求为0，历史形成成本仍非零；下节记录后续Bash重放。
 
-下一待验机制：依据反馈和已完成进度，学习哪些生产修复单元组成最小充分纠正片段。先固定权威验收，对两个操作的完整子集执行，验证每步是否必要；不把示范顺序当因果标签，不把 4 个来源干预算 4 个独立任务。与 CIPO/SkillRevise 及幂等全量回放对照，核差异后再到新 DEV。当前仍未形成已验证的新方法。
+### 11-12：完整纠正操作的重放与互补性
+
+按运行前计划，对同一冻结源码执行两个真实生产修复操作的全部子集，排除自测修改。实际隔离Bash执行后，评分器重建相同冻结测试：
+
+| 完整操作集合 | 原题通过 | 回归通过 |
+|---|---:|---:|
+| 不修复 | 0/3 | 132/132 |
+| 仅数据/单位修复 | 0/3 | 132/132 |
+| 仅掩码修复 | 2/3 | 132/132 |
+| 两者都执行 | 3/3 | 132/132 |
+
+在此候选集合中，以整个原生合同通过为V，数据修复的增量为V(data)−V(空)=0，但V(data+mask)−V(mask)=1。这是一个来源内的纠正互补性实例：单独执行不提高最终通过数，不能据此把该操作标成无用。它支持以完整纠正片段及后续执行作监督；不证明跨任务条件策略已经有效，也不把4次干预计成4个独立任务。
+
+全量幂等回放同样达到最终修复，并在再次执行时跳过已应用操作、保持源码逐字节不变。因此本来源不训练复杂选择器；完整片段保留为静态技能及强基线。当前0偏好策略更新。首次翻译执行因容器root在移除权限后不能写uid1001文件而无效；所有臂统一绑定宿主uid/gid后重跑，原无效记录保留，不作方法负例。现有原生扩展ABI警告照录。
+
+另从SymPy真实接续提取并重放第32行Bash：一次全局替换实际命中`row_join`和`col_insert`两处，输出与原候选`common.py`逐字节一致；先前MatMul修改保持不变。两处修改属于同一次工具动作，不能拆成两条独立经验。早期请求了不存在的测试节点，工具completed不代表测试通过；后续公开检查与独立原生2/2＋98/98分开记录，原episode仍为请求帽退出。
+
+两份来源卡目前各绑定具体文件与源码，尚未自动泛化为新任务操作。SymPy卡`fccl_formation_v1/source_demonstrations/sympy_matrix_recovery.json`，SHA-256 `177a46f72f4daa8149742cc26c58817c5add62fb69a3f96f9f825915375b7f60`。本节新增模型请求和训练均为0；SymPy形成成本已计校内账，Astropy历史用量仍按旧记录边界，不填零。
+
+定向重读CIPO §3.3–3.4及SkillRevise §3.1–3.4：同前缀分叉、可执行锚点、保留约束及重执行已有；SkillRevise允许最新候选继续搜索，不能用本例声称其被中间零收益卡住。[近邻表](../IJCNN_RELATED_WORK_REFRESH_20261030.md)已同步。下一到新DEV验证反馈/进度条件是否需要不同完整纠正片段，比较普通纠正、静态技能和幂等全量回放；无额外收益时停止当前条件选择实现。
 
 此外修复了原生结果读取：unittest 的 stderr 进度可能使 stdout 机器标记出现在行中，旧逻辑漏读。以原日志重新解析并保留旧回执；缺失、重复或无效机器结果仍判无效，不从人类可读日志猜通过。
 
@@ -80,7 +99,9 @@ SymPy 扩展公开检查为 7/8。未通过的正常 `col_insert` 数值检查�
 
 私有根：`/home/testuser/wzh/research_evidence/agent_learning_20261030/`。
 
-本轮原件包 `fccl_formation_development_v1_review.tar.gz` 已双端保存，SHA-256 `b93ffa972c06c933c970e3dfaa0000a639155aa5ed32167450c2caba54861249`。本机复核包内新增 125 个物理请求的请求/响应/usage绑定、15 个源码版本及源卡哈希；1 次未知保留，首批另见接入记录。完整原件不进入 GitHub。
+前一批原件包 `fccl_formation_development_v1_review.tar.gz` 已双端保存，SHA-256 `b93ffa972c06c933c970e3dfaa0000a639155aa5ed32167450c2caba54861249`。本机复核包内新增 125 个物理请求的请求/响应/usage绑定、15 个源码版本及源卡哈希；1 次未知保留，首批另见接入记录。完整原件不进入 GitHub。
+
+本次紧凑原件包`fccl_corrective_segments_v1_review.tar.gz`双端同SHA-256 `4bb75e534def1454178f70aca15ce5907a5ecb80c4f2534aa934493abeda550c`。本机独立核115项载荷哈希、完整节点/通过数、两份来源卡及运行代码快照；`fccl_necessity_source_v1/`保存全部干预与首次无效记录。幂等基线从初始源码运行后，1,800个文件与已评分的全量修复工作区逐字节一致。
 
 - `fccl_formation_v1/PLAN.json`、`TRAIN_ROWS.json`、`SUMMARY.json`：Astropy 来源组成与检查。
 - `fccl_formation_v1/source_sympy12950/{episode,correction}/receipt.json`：实际两阶段 Agent 与成本；`sympy_guard/` 保存归纳控制及额外失败。
@@ -88,4 +109,4 @@ SymPy 扩展公开检查为 7/8。未通过的正常 `col_insert` 数值检查�
 - `fccl_formation_v1/api/gateway_ledger.json`：62 次逐请求账本；旧源码字节另存 `source_snapshots/`，不拿新工作树字节覆盖旧绑定。
 - `fccl_development_v1/PAIR_WORKSPACE_RESULT.json`：修正后逐臂原生结果；`PAIR_DELIVERY_REVIEW.json` 保留旧对照的交付缺陷；`source_action_skill/SOURCE_BINDING_REVIEW.json` 为来源绑定残差。
 
-仍待完成：从完整轨迹形成可执行片段并实际调用、取得完整同起点对照、第二个适用 DEV及来源隔离验证。尚无 FCCL 方法优越性结果。
+仍待完成：新任务自动绑定与真实Agent调用、完整同起点四方法对照、第二个适用DEV及来源隔离验证。现已闭合的是具体源码上的操作重放，尚无FCCL方法优越性结果。

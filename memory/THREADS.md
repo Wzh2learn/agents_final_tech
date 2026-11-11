@@ -1,12 +1,12 @@
 # Open Decisions And Blockers
 
-> 2026-11-11 | 只留未决与下一动作；当前实验数值见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不在这里重抄实验日志。
+> 2026-11-12 | 只留未决与下一动作；当前实验数值见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不在这里重抄实验日志。
 
 | 事项 | 下一动作 / 边界 |
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇当前推进 | [本轮收束](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md)：Django两臂0偏好，同题停止；旧Astropy成功段已提取，独立评分排除自测修改影响。下一核CIPO/SkillRevise重合并验证2操作完整子集；源Bash翻译未重放，4干预不是4任务。不重开16689，未证明方法收益。 |
+| 第二篇当前推进 | [本轮收束](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md)：Django两臂0偏好，同题停止；Astropy完整子集重放及SymPy实际Bash重放已闭合，来源卡绑定源码；当前固定全量回放已足够。下一到新独立DEV比较完整纠正片段；不把来源4干预算4任务。不重开16689，未证明方法收益。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | RethinkSkill仅协议接通；真实反馈、隔离和接受门仍待验证。[相关工作](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
