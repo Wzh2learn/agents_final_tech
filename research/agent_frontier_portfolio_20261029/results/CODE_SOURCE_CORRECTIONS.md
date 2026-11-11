@@ -2,6 +2,26 @@
 
 > 状态: 维护中，Goal active | 更新: 2026-11-11 | 取代/被取代: 从ALFWORLD_CORRECTION_DATA按主题拆出代码来源；历史锚点保留。
 
+<a id="native27-capability"></a>
+## 27B真实修复能力与评分范围（11-11，已闭合）
+
+**问题与合同。** 在不同的曝光开发题`SymPy23852`，复用原生OpenCode、27B FP8、本地隔离Python3.8和现有runner；公开目标为一维`MutableDenseNDimArray`整数下标赋值。原生评分先核base两项失败、reference两项通过，三项回归两者均过。固定seed17、temperature0.2、32K/8192，每次上限24 POST/600秒/32MiB；第二次是事后能力诊断，不是新独立任务或经验方法对照。
+
+| 请求策略 | 实际POST | 原始运行状态 | 原生原题 / 回归 | 已知provider tokens |
+| --- | ---: | --- | --- | ---: |
+| `enable_thinking=false` | 16 | 600秒超时，原receipt保持RUNTIME_ERROR | 补评0/2、3/3；未编辑 | 90,369，另1请求usage未知 |
+| `enable_thinking=true, reasoning_effort=low` | 16 | 正常退出，integrity通过 | 1/2、3/3 | 120,583 |
+
+两次首个实际请求除`chat_template_kwargs`外逐字段相同。低思考请求策略下，Agent实际修改`ndim_array.py`；独立执行公开原例得到`[2,0,0]`，clean base及未思考候选仍抛ValueError，reference通过。原生`test_issue_and_18715`通过，空数组相关`test_issue_17851`仍失败，因此完整基准仍判未完成。公开问题已修复与完整评分未过分别报告，不修改测试或补计成功。provider未报告reasoning/cache细分，解析未见独立reasoning字段；请求开关不证明内部推理机制或一般因果优势。
+
+**成本与证据。** 两次合计32实际POST，31份完整usage：206,931输入＋4,021输出＝210,952已知tokens，另1未知不能填0。运行约600.33/421.89秒；形成/预检未完整计时，训练0。本轮收拢没有新增生成或任务重跑。原receipt SHA分别`1b50fb2b9118e1a1d50dfa39b484c45bde0308fad90b47936077da80c3d40b90`、`1f1e8d17b6580c0982103b756a5472bc6f0312c90f76328080029a62057adf95`；私有`ROOT/native27_capability_v1/ANALYSIS.json` SHA `9c03ec7854929798de0a0956cf1fee476508ddb0f0ae9f922fc73545303a9da0`。
+
+薄包`ROOT/native27_capability_v1_review.tar.gz`有4,125成员/4,124载荷、23,969,423bytes，SHA `826e536032ac6295a4f66ad1c56d0c9612587eb0e8cd83b7f9a7c651eb1ddbc1`；本机`D:/Documents/Loop_D_assets/agent_learning_20261106/`逐项hash及32请求usage独立解析一致。包保存两次原始请求/响应、评分、候选源码、准备文件和公开原例；共享环境、镜像及完整源码按既有绑定定位，不称完整离线环境包。
+
+**素材身份。** Lite关系中的源`23117`与目标`23852`共享PR23117、同base，production增删行签名相同，但题面和测试不同。此对可说明不同公开问题共用修复，不作为独立修复的泛化证据。`RELATION_AUDIT.json` SHA `2a84b16c1e69ac0080f1d3d350ed9280196cb172d360fc34d599b96a81458a26`已修正最初空的selected字段，且将same-PR排除标为元数据筛查，不当资格结论；未向Agent输入参考补丁。
+
+**裁决。** 得到可完成公开任务的27B/OpenCode路径；完整基准未过，尚无经验机制收益。本题不再加提示或配置分支。下一将“如何按预算只购买有决策价值的缺失对照”作为候选问题交专家定向判断，再冻结最小前后对照，不扩同分布EVSI原型或训练。SkillApt已有配对更新、ERRAND已有付费复验与免费观察；主动选证和选择偏差处理尚须明确增量，不能靠组合命名宣布创新。
+
 <a id="fcdr-feedback-review"></a>
 ## FCDR首批：9条轨迹、9个反馈节点（11-11）
 
