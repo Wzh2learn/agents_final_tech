@@ -1,12 +1,12 @@
 # Open Decisions And Blockers
 
-> 2026-11-12 | 只留未决与下一动作；当前实验数值见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不在这里重抄实验日志。
+> 2026-11-13 | 只留未决与下一动作；当前实验数值见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不在这里重抄实验日志。
 
 | 事项 | 下一动作 / 边界 |
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇唯一下一步 | [新来源尸检](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#new-source-v2)代码过、Actor触帽，预测组件停止。按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)实现/验证可执行协作纠正候选；tau2只读版本已核，未接入。必须超过能按已报告进度继续的官方流程，不把角色标签或新环境当创新。 |
+| 第二篇唯一下一步 | [tau2普通流程](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#tau2-workflow-v1)三开发源均通过；未运行留出题。按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)用真实轨迹学习程序，检验新任务总成本/适配增量；须补静态流程程序与同信息短历史，不把3/3来源或角色标签当方法收益。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)补入HASP；可执行触发、动作改写、技能更新及配对本身已有。完整同预算近邻比较未完成；RethinkSkill仅协议接通。 |
@@ -14,7 +14,7 @@
 | 成本及运行器 | 2次历史响应/用量未知共预留524,288，不视为零或确认取消；最新批无新未知。保留历史340-token差额及权重标识。旧ContextBench标识绑定task/condition/seed，改造须迁移输出；跨机预算锁未实现。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
 | 工作区与分享 | 现役main按本轮提交核三端；校内接入与学习原型纳入本轮同步。GB10另有`logs/graph/pytest_loopb.txt`，7历史worktree保留；完整raw不在GitHub。 |
-| 文档与 skill 存量 | 本次doctor 1 error/135 warnings：新增项均在独立开题对话的未提交skill中，保留给该对话处理；其余134既有warning不扩修。map为1组pdf重复/27提示，3项docs时效警告保留。Windows CLAUDE加载未验。 |
+| 文档与 skill 存量 | 11-12快照doctor 1 error/135 warnings：新增项在独立开题对话的未提交skill，保留给该对话；其余134既有warning不扩修。map为1组pdf重复/27提示；11-13 docs为4项时效提醒，路由件自然到龄已入基线。本批未改skill。Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
 科研运行状态以宿主Goal控制面及用户最新明确指令为准；[STATE](STATE.md)是状态快照。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)；停止具体候选不等于关闭新来源研究。2027 年 10 月具体送审日仍待学校确定。

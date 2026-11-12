@@ -1,6 +1,6 @@
 # 第二篇：近邻、重合与实验判别
 
-> 更新至2026-11-12。D定向读方法，未复现原法；前表及删减细节见`bdb85edb`本文件Git blob，早期见`89ca0dbd`。按问题加载。
+> 更新至2026-11-13。D定向读方法，未复现原法；前表及删减细节见`bdb85edb`本文件Git blob，早期见`89ca0dbd`。按问题加载。
 
 ## 当前裁决
 
@@ -34,7 +34,7 @@
 
 ## 其他近邻索引
 
-[tau2原文](https://arxiv.org/html/2506.07982v1)§3已提出双侧工具协作/共享环境及官方进度流程。只读代码v1.0.1 `fc0055dc`：分支须恢复两侧历史与数据库；环境写操作重放不等于会话恢复。它是待接入载体，不是方法或第二独立来源。
+[tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入，三开发源普通流程通过，见[结果](results/FCCL_FORMATION.md#tau2-workflow-v1)。分支须恢复双侧历史/数据库，写操作重放不等于会话恢复；不同领域仍属同一benchmark。
 
 旧blob保留StateGraph/Skill-V、SymC、VeriHarness、VBL、BiPACE、Grounding/SkillGLoW、Budgeted Verification、CodeT、ErrorProbe、CBC等；其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。不在活表不代表失效。
 
