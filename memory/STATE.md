@@ -3,9 +3,9 @@
 > 2026-11-13 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
-- **研究阶段**：[效果条件更新v2](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#effect-conditioned-v2)已实现并实际生成程序；新题通过，但普通Agent同过且更省，关键正充值分支未激活。末端编辑v1补跑失败，停止扩跑；尚无方法优势。
-- **实际运行 / 预算**：本次379请求/4,219,218已知tokens，新增未知0；[累计](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)1,200请求/11,770,035已知，8未知预留2,097,152，保守占额约1.387%。当前作业结束，训练0。
-- **下一交付**：[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已冻结一项能触发充值后判断的新题及一函数消融，尚未运行。数量探针已暴露“充值过≠额度足够”；不扩大训练。
+- **研究阶段**：[激活/消融已收束](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#activation-v2)：新规则避免重复充值，但忽略移动数据关闭、转人工后原生失败；普通Agent和强简单均过。v1/v2停止扩跑，尚无方法优势。
+- **实际运行 / 预算**：本批231请求/2,241,365已知tokens、新未知0；[累计](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)1,431请求/14,011,400已知＋8旧未知预留2,097,152。无运行中实验，训练0。
+- **下一交付**：按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)先离线修正纠正片段的学习、退出与切换规则，明确强简单和近邻差异，再冻结最小验证。不扩大训练或重跑本题。
 - **历史资产**：旧Django四组、效果预测、ALF规则等按[主题入口](../docs/archive/2026-11-06_agent_research_context/README.md)读取，均不重跑；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按机制核查。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。
