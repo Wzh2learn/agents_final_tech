@@ -6,12 +6,12 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | [激活/消融收束](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#activation-v2)：局部修复生效、完整任务失败，v2停扩跑。按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)先提出纠正片段学习及退出/切换规则，区别于固定交还和近邻，再冻结验证；留出未启用。 |
+| 第二篇唯一下一步 | [v3新题五组已收束](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#residual-option-v3)：普通Agent/历史成功，三程序失败；纠正入口不可达、公开状态记忆不足。当前版停扩跑，按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)重设学习规则并说明近邻增量；两预留ID/留出未启用。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
-| 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)补入HASP；可执行触发、动作改写、技能更新及配对本身已有。完整同预算近邻比较未完成；RethinkSkill仅协议接通。 |
+| 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)已含HASP/SkillCAT/SCOPE：可执行干预、成败分歧和局部技能组链已有。匹配近邻比较未完成；一步选项不另算新方法。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
-| 成本及运行器 | 8旧未知共预留2,097,152；最新231请求无新未知，节流已在线使用。缓存异常不用于推算非缓存费。历史340-token差额、权重及旧ContextBench输出迁移保留；跨机预算锁未实现。 |
+| 成本及运行器 | 8旧未知共预留2,097,152；最新173请求无新未知，节流在线使用。缓存异常不用于推算非缓存费。历史340-token差额、权重及旧ContextBench输出迁移保留；跨机预算锁未实现。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
 | 工作区与分享 | 本轮本机HTTPS推送成功，GB10经验证bundle对齐；SSH22/443为网络超时，先用HTTPS，GB10网络失败时用bundle，不重配密钥。保留LoopB日志/7历史worktree，完整raw不在GitHub。 |
 | 文档与 skill 存量 | 11-13复核doctor仍1 error/135 warnings：error在开题对话未提交skill，不代改；map仍1组pdf重复/27提示，docs仍4项时效提醒。退出契约已在7836c893分发，本批未改skill。Windows CLAUDE加载未验。 |

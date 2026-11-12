@@ -102,6 +102,19 @@ class GatewayTest(unittest.TestCase):
                 gateway.BatchBudget(root)
             self.assertFalse((Path(root) / "gateway_owner.lock").exists())
 
+    def test_64k_formation_cap_is_explicit_and_does_not_change_actor_default(self):
+        with tempfile.TemporaryDirectory() as root:
+            budget = gateway.BatchBudget(root)
+            try:
+                self.assertEqual(gateway.SchoolGateway('test-credential', budget).output_ceiling, 8192)
+                self.assertEqual(gateway.SchoolGateway('test-credential', budget, output_ceiling=65536).output_ceiling, 65536)
+                for cap in (65537, 262144, True):
+                    with self.assertRaisesRegex(ValueError, 'explicitly admitted'):
+                        gateway.SchoolGateway('test-credential', budget, output_ceiling=cap)
+                self.assertEqual(budget.rows, [])
+            finally:
+                budget.close()
+
     def test_secret_stays_out_of_ledger_and_unsupported_options_never_send(self):
         class FakeSocket:
             def sendall(self, packet):

@@ -23,6 +23,120 @@ def test_program_receives_copies_and_emits_a_public_operation():
     assert result['memory']['node']=='wait' and result['name']=='say'
 
 
+def test_corrective_option_uses_prior_memory_and_can_execute_a_complete_fragment():
+    base="def step(o,m):\n m['node']='transferred'\n return {'kind':'act','name':'transfer','arguments':{},'memory':m}\n"
+    option='''def option_step(o,m,p):
+    if m.get('option_phase')=='verify':
+        return {'kind':'yield','reason':'scope complete; inspect remaining task','memory':m}
+    if o.get('blocked'):
+        m['option_phase']='verify'
+        return {'kind':'act','name':'repair','arguments':{},'memory':m}
+    return None
+'''
+    revised,meta=CP.weave_corrective_option(base,option)
+    p=CP.load_program(revised)
+    first=CP.public_step(p,{'blocked':True,'done':False},{'node':'before'},['repair','transfer'])
+    assert first['name']=='repair' and first['memory']['node']=='before'
+    second=CP.public_step(p,{'blocked':False,'done':False},first['memory'],['repair','transfer'])
+    assert second['kind']=='yield' and second['memory']['node']=='before'
+    assert meta['base_bodies_preserved']
+
+
+def test_noop_option_cannot_mutate_the_retained_decision_or_nested_memory():
+    base="def step(o,m):\n return {'kind':'act','name':'query','arguments':{'n':1},'memory':m}\n"
+    option="def option_step(o,m,p):\n o['bad']=True\n m['nested']['x']=9\n p['arguments']['n']=99\n return None\n"
+    revised,_=CP.weave_corrective_option(base,option)
+    memory={'nested':{'x':1}}
+    decision=CP.public_step(CP.load_program(revised),{'done':False},memory,['query'])
+    assert decision['arguments']=={'n':1} and decision['memory']==memory
+
+
+def test_option_constants_cannot_change_existing_base_globals():
+    base="OPTION_MODE='query'\ndef step(o,m):\n return {'kind':'act','name':OPTION_MODE,'arguments':{},'memory':m}\n"
+    option="OPTION_MODE='transfer'\ndef option_step(o,m,p):\n return None\n"
+    with pytest.raises(ValueError):CP.weave_corrective_option(base,option)
+
+
+def test_terminal_world_never_enters_option_and_illegal_corrections_are_rejected():
+    base="def step(o,m):\n return {'kind':'stop','memory':m} if o.get('done') else {'kind':'yield','memory':m}\n"
+    option="def option_step(o,m,p):\n return {'kind':'act','name':'private_user_tool','arguments':{},'memory':m}\n"
+    revised,_=CP.weave_corrective_option(base,option);p=CP.load_program(revised)
+    assert CP.public_step(p,{'done':True},{},[])['kind']=='stop'
+    with pytest.raises(ValueError):CP.public_step(p,{'done':False},{},[])
+
+
+@pytest.mark.parametrize('option',[
+    'import os\ndef option_step(o,m,p):return None',
+    'def node_start(o,m,p):return None',
+    'def option_step(o,m,p):return None\nx=1',
+    'def option_step(o,m,p):return None\ndef step(o,m):return None',
+    'def option_step(o,m):return None',
+])
+def test_option_cannot_add_io_collisions_or_unscoped_globals(option):
+    with pytest.raises(ValueError):CP.weave_corrective_option(SOURCE,option)
+
+
+def test_matched_preferences_preserve_failure_ties_and_do_not_fake_unknown_costs():
+    common=dict(checkpoint={'public':'same'},model='fixed',caps={'posts':12},public_files={'experience':'same'})
+    a=dict(common,native_reward=0,known_tokens=100,unknown=0)
+    b=dict(common,native_reward=0,known_tokens=1,unknown=0)
+    assert CP.matched_continuation_preference(a,b)=='UNRESOLVED'
+    b['native_reward']=1
+    assert CP.matched_continuation_preference(a,b)=='CORRECTION'
+    a['native_reward']=1;b['unknown']=1
+    assert CP.matched_continuation_preference(a,b)=='UNRESOLVED'
+    b.update(unknown=0,known_tokens=90)
+    assert CP.matched_continuation_preference(a,b)=='TIE'
+    b['known_tokens']=70
+    assert CP.matched_continuation_preference(a,b)=='CORRECTION'
+    b['caps']={'posts':13}
+    with pytest.raises(ValueError):CP.matched_continuation_preference(a,b)
+
+
+def test_frontier_selection_abstains_when_user_feedback_diverged_before_action():
+    common=dict(checkpoint={'public':'same'},model='fixed',caps={'posts':12},public_files={})
+    a=dict(common,native_reward=0,known_tokens=10,unknown=0,
+        public_continuation=[{'role':'user','content':'first state'},{'role':'assistant','content':'retry'}])
+    b=dict(common,native_reward=1,known_tokens=10,unknown=0,
+        public_continuation=[{'role':'user','content':'different state'},{'role':'assistant','content':'repair'}])
+    assert CP.corrective_frontier(a,b) is None
+    b['public_continuation'][0]={'role':'user','content':'first state'}
+    selected=CP.corrective_frontier(a,b)
+    assert selected['preference']=='CORRECTION' and selected['preferred_first_decision']['content']=='repair'
+    assert len(selected['common_public_suffix'])==1
+
+
+def test_option_request_retains_both_complete_suffixes_and_abstains_on_failed_pair():
+    common=dict(checkpoint={'public':'same'},model='fixed',caps={'posts':12},public_files={})
+    a=dict(common,native_reward=0,known_tokens=10,unknown=0,
+        public_continuation=[{'role':'assistant','content':'give up'}])
+    b=dict(common,native_reward=1,known_tokens=10,unknown=0,
+        public_continuation=[{'role':'assistant','content':'repair'},{'role':'user','content':'resolved'}])
+    materials=dict(matched_pair={'continuation':a,'correction':b},program=SOURCE)
+    request,selected=CP.option_learning_request(materials,'fixed')
+    assert request['tool_choice']['function']['name']=='emit_corrective_option'
+    assert 'resolved' in request['messages'][1]['content'] and 'give up' in request['messages'][1]['content']
+    b['native_reward']=0
+    with pytest.raises(ValueError):CP.option_learning_request(materials,'fixed')
+
+
+def test_frontier_ignores_wire_ids_but_never_learns_from_private_user_tools():
+    common=dict(checkpoint={'public':'same'},model='fixed',caps={'posts':12},public_files={})
+    a=dict(common,native_reward=0,known_tokens=10,unknown=0,public_continuation=[
+        {'role':'assistant','tool_calls':[{'id':'a','name':'query','arguments':{}}]},
+        {'role':'tool','id':'a','requestor':'assistant','content':'same'},
+        {'role':'assistant','content':'give up'}])
+    b=dict(common,native_reward=1,known_tokens=10,unknown=0,public_continuation=[
+        {'role':'assistant','tool_calls':[{'id':'different','name':'query','arguments':{}}]},
+        {'role':'tool','id':'different','requestor':'assistant','content':'same'},
+        {'role':'assistant','content':'repair'}])
+    selected=CP.corrective_frontier(a,b)
+    assert len(selected['common_public_suffix'])==2
+    assert selected['preferred_first_decision']['content']=='repair'
+    b['public_continuation'][1]['requestor']='user'
+    with pytest.raises(ValueError):CP.corrective_frontier(a,b)
+
+
 def test_already_bound_standard_imports_and_reverse_iteration_do_not_need_io():
     source="import json, re\ndef step(o,m):\n    m['last']=list(reversed(o['values']))[0]\n    return {'kind':'yield','memory':m}\n"
     result=CP.public_step(CP.load_program(source),{'values':[1,2]},{},[])

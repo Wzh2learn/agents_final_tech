@@ -5,7 +5,7 @@
 | 当前需要 | 最小入口 |
 | --- | --- |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
-| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [激活/消融尸检](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#activation-v2)。局部避免重复充值，但完整任务失败，v2停止扩跑；下一先修正纠正片段的学习、退出与切换。 |
+| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [新题五策略与尸检](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#residual-option-v3)。来源纠正能学到，新题入口不可达、记忆不足；当前版停扩跑，尚无方法优势。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 近邻 | 分别按需读[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[相关工作](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 导师反馈 / Paper E | 11-11用户反馈：老师先审后提交，开题与答辩优先，由独立对话处理。已发[沟通稿](../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)和审阅稿；现役[四页PDF](../../research/paper_e_publication_route_20261028/icint_latex/main.pdf)与实际附件hash未核。[投稿计划](../../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。 |

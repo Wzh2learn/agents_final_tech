@@ -93,6 +93,172 @@ def public_step(program, observation, memory, tool_names):
     return value
 
 
+def weave_corrective_option(source, option_source):
+    """Attach a learned corrective option while preserving the base policy.
+
+    option_step(public_observation, prior_memory, proposed_decision) returns
+    None to retain the base decision, or a complete act/yield decision. A
+    multi-step option stores its phase in ordinary JSON memory. It can return
+    control when its observed scope ends instead of finishing the whole task.
+    Native outcome/cost evidence, not this compiler, decides learned utility.
+    """
+    parent = check_source(source)
+    if not isinstance(option_source, str) or len(option_source.encode('utf-8')) > 16000:
+        raise ValueError('invalid corrective option source length')
+    # Reuse exactly the existing pure-definition checks; this is not a sandbox.
+    check_source(option_source + "\ndef step(o,m):\n    return {'kind':'yield','memory':m}\n")
+    option = ast.parse(option_source)
+    functions = [n.name for n in option.body if isinstance(n, ast.FunctionDef)]
+    if functions.count('option_step') != 1 or any(not n.startswith('option_') for n in functions):
+        raise ValueError('option functions require an option_ namespace and option_step')
+    entry = next(n for n in option.body if isinstance(n, ast.FunctionDef) and n.name == 'option_step')
+    if (len(entry.args.posonlyargs + entry.args.args) != 3 or entry.args.vararg
+            or entry.args.kwarg or entry.args.kwonlyargs):
+        raise ValueError('option_step requires exactly three positional inputs')
+    for node in option.body:
+        if isinstance(node, ast.Assign):
+            if any(not isinstance(t, ast.Name) or not t.id.startswith('OPTION_') for t in node.targets):
+                raise ValueError('option constants require an OPTION_ namespace')
+    names = {n.name for n in parent.body if isinstance(n, ast.FunctionDef)}
+    names.update(n.id for a in parent.body if isinstance(a, ast.Assign)
+                 for target in a.targets for n in ast.walk(target) if isinstance(n, ast.Name))
+    option_names = set(functions)
+    option_names.update(t.id for n in option.body if isinstance(n, ast.Assign) for t in n.targets)
+    if names.intersection(option_names) or 'base_controller_step' in names:
+        raise ValueError('corrective option collides with the base controller')
+    if any(isinstance(n, ast.Name) and n.id == 'step' for n in ast.walk(parent)):
+        raise ValueError('a referenced source step cannot be renamed safely')
+    base_step = next(n for n in parent.body if isinstance(n, ast.FunctionDef) and n.name == 'step')
+    base_step.name = 'base_controller_step'
+    wrapper = ast.parse('''
+def step(observation, memory):
+    before = json.loads(json.dumps(memory))
+    proposal = base_controller_step(observation, memory)
+    if observation.get('done'):
+        return proposal
+    correction = option_step(
+        json.loads(json.dumps(observation)),
+        before,
+        json.loads(json.dumps(proposal)))
+    if correction is None:
+        return proposal
+    return correction
+''')
+    combined = ast.Module(body=parent.body + option.body + wrapper.body, type_ignores=[])
+    revised = ast.unparse(ast.fix_missing_locations(combined)) + '\n'
+    check_source(revised)
+    return revised, dict(parent_sha256=hashlib.sha256(source.encode('utf-8')).hexdigest(),
+        option_sha256=hashlib.sha256(option_source.encode('utf-8')).hexdigest(),
+        option_functions=functions, base_bodies_preserved=True)
+
+
+def matched_continuation_preference(continuation, correction, cost_margin=0.15):
+    """An empirical *whole-suffix* training target, never a single-action label.
+
+    Native success takes priority. Cost comparisons require two successful
+    suffixes and completely known use. Failed/failed pairs stay unresolved;
+    cheaper failure does not manufacture a positive corrective example.
+    """
+    if type(cost_margin) not in (int, float) or not 0 <= cost_margin < 1:
+        raise ValueError('invalid cost margin')
+    for key in ('checkpoint', 'model', 'caps', 'public_files'):
+        if key not in continuation or key not in correction:
+            raise ValueError('missing matched context: ' + key)
+        if json.dumps(continuation[key], sort_keys=True, allow_nan=False) != json.dumps(correction[key], sort_keys=True, allow_nan=False):
+            raise ValueError('unmatched continuation context: ' + key)
+    scores = [x.get('native_reward') for x in (continuation, correction)]
+    if any(type(x) not in (int, float) or x not in (0, 1) for x in scores):
+        raise ValueError('complete binary native outcomes are required')
+    if scores == [0, 1]:
+        return 'CORRECTION'
+    if scores == [1, 0]:
+        return 'CONTINUE'
+    if scores == [0, 0]:
+        return 'UNRESOLVED'
+    uses = [x.get('known_tokens') for x in (continuation, correction)]
+    if any(x.get('unknown', 0) for x in (continuation, correction)) or any(type(x) is not int or x < 0 for x in uses):
+        return 'UNRESOLVED'
+    if uses[1] < uses[0] * (1 - cost_margin):
+        return 'CORRECTION'
+    if uses[0] < uses[1] * (1 - cost_margin):
+        return 'CONTINUE'
+    return 'TIE'
+
+
+def corrective_frontier(continuation, correction):
+    """Select a complete empirically preferred suffix at a matched frontier.
+
+    Do not align through already-divergent user feedback. In that case the
+    apparent next-action difference is not at a common observed state.
+    """
+    preference = matched_continuation_preference(continuation, correction)
+    if preference not in {'CORRECTION', 'CONTINUE'}:
+        return None
+    left = continuation.get('public_continuation')
+    right = correction.get('public_continuation')
+    if type(left) is not list or type(right) is not list:
+        raise ValueError('complete public continuations are required')
+    def observed(message):
+        if type(message) is not dict or message.get('role') not in {'assistant','user','tool'}:
+            raise ValueError('invalid public continuation message')
+        if ((message['role'] == 'user' and message.get('tool_calls'))
+                or (message['role'] == 'tool' and message.get('requestor') != 'assistant')):
+            raise ValueError('private user-tool history is not a learning input')
+        value = copy.deepcopy(message)
+        if value['role'] == 'tool':
+            value.pop('id', None)
+        for call in value.get('tool_calls') or []:
+            call.pop('id', None)
+        return value
+    normalized_left = [observed(x) for x in left]
+    normalized_right = [observed(x) for x in right]
+    common = []
+    for index, (old, new) in enumerate(zip(left, right)):
+        if normalized_left[index] == normalized_right[index]:
+            common.append(copy.deepcopy(old))
+            continue
+        if old.get('role') != 'assistant' or new.get('role') != 'assistant':
+            return None
+        preferred = correction if preference == 'CORRECTION' else continuation
+        rejected = continuation if preference == 'CORRECTION' else correction
+        return dict(preference=preference, common_public_suffix=common,
+            preferred_first_decision=copy.deepcopy(new if preference == 'CORRECTION' else old),
+            rejected_first_decision=copy.deepcopy(old if preference == 'CORRECTION' else new),
+            preferred_public_continuation=copy.deepcopy(preferred['public_continuation']),
+            rejected_public_continuation=copy.deepcopy(rejected['public_continuation']),
+            evidence='One matched whole-suffix comparison, not isolated action credit')
+    return None
+
+
+def option_learning_request(materials, model):
+    """Induce a bounded corrective option from real matched suffix outcomes.
+
+    Frontier selection abstains before generation if outcomes or the observed
+    decision state do not justify a preference. This request is a candidate
+    learning rule; source replay and new-task native utility must still test it.
+    """
+    pair = materials.get('matched_pair')
+    if type(pair) is not dict:
+        raise ValueError('matched corrective evidence is required')
+    selected = corrective_frontier(pair['continuation'], pair['correction'])
+    if selected is None:
+        raise ValueError('no matched preferred frontier; abstain before generation')
+    instruction = '''Learn a reusable, bounded corrective option from the supplied real executions. The selected comparison supervises an entire corrective continuation; it does not prove that one action caused success. All evidence is past development data. The ordinary whole-controller updater receives exactly the same underlying material.
+Output emit_corrective_option with source defining option_step(observation, memory, proposed_decision), optional pure option_* helpers and OPTION_* literal constants, rationale and evidence. At most 16000 UTF-8 source bytes. json/re/math and basic builtins are already bound. No imports other than these, IO, hidden state, source IDs, fixed source quantities, oracle labels, or future task information.
+The compiler leaves the original controller bodies intact. At each actual public step, option_step receives the public observation, memory BEFORE the proposed base step, and the proposed decision. Return None to retain the proposal; or return a complete {kind: act|yield, name/arguments where needed, memory: object, reason: optional}. Legal assistant tools and say only. Never execute customer-only tools. Use memory for an actual multi-step corrective fragment when justified. End the fragment by yielding when its local scope is complete or unsupported; terminal stop is allowed only for a terminal world.
+Learning rule: use the matched preferred continuation to identify a corrective fragment and its observable entry conditions. Preserve effects already established in that prefix. Bind entity/tool parameters from current public values. Use the supplied successful preservation contexts to constrain over-broad correction, and return control on observations not justified by the learned fragment. Learn concrete corrective actions, not only a new failure explanation. Do not simply prohibit all transfers, assume positive quota is sufficient, or declare a task complete from one positive word. A single-step intervention is an explicit strong comparator, not automatically an innovation. Native new-task success, regressions and full formation-plus-use cost will decide acceptance.'''
+    tool = dict(type='function', function=dict(name='emit_corrective_option',
+        description='Propose an executable feedback-conditioned corrective option.',
+        parameters=dict(type='object', properties={k:dict(type='string') for k in ('source','rationale','evidence')},
+                        required=['source','rationale','evidence'])))
+    payload = dict(materials=materials, selected_frontier=selected)
+    request = dict(model=model, messages=[dict(role='system',content=instruction),
+        dict(role='user',content=json.dumps(payload,ensure_ascii=False))],
+        tools=[tool],tool_choice=dict(type='function',function=dict(name='emit_corrective_option')),
+        temperature=0,max_tokens=32768,stream=True,stream_options=dict(include_usage=True))
+    return request, selected
+
+
 def effect_counterexamples(source, trace):
     """Find repeated decisions ignoring a changed, publicly witnessed effect.
 

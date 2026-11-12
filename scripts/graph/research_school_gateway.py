@@ -121,7 +121,7 @@ class SchoolGateway:
     def __init__(self, api_key, budget, *, output_ceiling=8192):
         if not api_key or any(c in api_key for c in "\r\n"):
             raise ValueError("missing or invalid credential")
-        if type(output_ceiling) is not int or output_ceiling not in (8192,16384,32768):
+        if type(output_ceiling) is not int or output_ceiling not in (8192,16384,32768,65536):
             raise ValueError("output ceiling must be explicitly admitted for this batch")
         self._api_key, self.budget = api_key, budget
         self.output_ceiling = output_ceiling
