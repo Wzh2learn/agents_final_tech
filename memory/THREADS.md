@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | ICINT账号需建好；标题/纯文本摘要/关键词已归入现有私有文件。等导师及全体作者终核、联系邮箱/声明和Owner提交授权；暂定王/阮/侯/俎顺序、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR并核双盲；邮箱不入Git。 |
-| 第二篇唯一下一步 | 旧四组/源内闭环/新任务对照已做。[效果预测六请求](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#effect-forecast-v1)未显示额外选择收益，不扩建此组件。按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)提出能生成并实际执行纠正续行的学习规则，与同信息普通归纳/反馈比较；新方案未冻结，收益未立不扩训练。 |
+| 第二篇唯一下一步 | [新来源尸检](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#new-source-v2)代码过、Actor触帽，预测组件停止。按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)实现/验证可执行协作纠正候选；tau2只读版本已核，未接入。必须超过能按已报告进度继续的官方流程，不把角色标签或新环境当创新。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)补入HASP；可执行触发、动作改写、技能更新及配对本身已有。完整同预算近邻比较未完成；RethinkSkill仅协议接通。 |
