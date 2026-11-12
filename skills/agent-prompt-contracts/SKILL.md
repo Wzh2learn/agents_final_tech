@@ -120,6 +120,7 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **教师续修**：35B修对原题后扩大原有公开测试发现SELECT计数回归。教师续修从真实work冻结候选，绑定父源、实际diff与新增回执/hash；该公开测试原本在actor base中，可提供真实失败栈和自身前次删改，不能附gold修法。隐藏测试的反馈边界不因此放宽；原题/局部通过与更广非回归分报，续修不是新方法确认。
 - **联合目标对照**：单项反馈续修恢复原bug后，联合基线仍从同一父候选出发，再明确须保持其已通过的原题/关键检查。原题probe捕获异常后可exit0，必须检查observed语义结果。该对照属于强简单基线，不能把“提醒两个目标”包装成新方法。
 - **长输出与客户端等待**：教师联合首启13POST但只有12个usage步骤，第13次在300秒客户端期限退出、没有完成编辑。教师隔离harness等待设900秒，仍受1200秒episode与48POST总门约束；同题面/反馈/候选重跑，未知usage单列。该工程故障不裁决方法；不改共享模型服务，8B计时不变。
+- **反馈可执行性**：源训练反馈引用的检查须在隔离副本中可定位/运行，目标隐藏评分不因此公开。[Django源纠正](../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#formset-source-v1)6请求耗于搜索未挂载测试；按源训练方案交付同一可执行检查后12请求完成3/3＋49/49。提示/预算共同改变，全成本保留，不作单因素收益。旧Django入口不支持`--parallel=1`时沿实际版本去掉该参数，保留原失败。
 - **证据**：[Django本批记录](../../research/agent_frontier_portfolio_20261029/results/DJANGO_AGGREGATION_AGENT_20261106.md)、`2b01d3d8`源代码及私有`runtime_ready_8b_20261106`的原始raw/独立评测；后续结果在同一批次原地更新。
 
 ## C-7 复用现有教师与固定迁移输入（2026-11-06）
