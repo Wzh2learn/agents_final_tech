@@ -17,7 +17,10 @@
 | [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化配对效用、Load/Abstain。 | 条件效用本身不新。作者公开包为guoshaung/SkillApt，`73db0b54`；旧404不能外推无代码。 |
 | [CIPO](https://arxiv.org/html/2610.04991v1) | §3.3–3.4：参数绑定、软中断；首个可行粒度决策同前缀分叉，同策略续行，结果差辅助GRPO。 | 当前候选关注纠正片段内部条件效用；这是待验范围差异。配对、参数化及执行粒度本身已有。 |
 | [StateGraph](https://arxiv.org/html/2611.02912) / [Skill-V](https://arxiv.org/html/2610.11781v1) | 依赖失效/局部撤回，以及可验证技能合同、反馈更新和回放非回归。 | 保留约束和验证门已有；不能只组合这两种机制。 |
-| [Getafix](https://arxiv.org/abs/1902.06111) / [CEGIS agents](https://arxiv.org/abs/2606.11521) / [CESS](https://arxiv.org/abs/2607.15854) | 历史修复模式与上下文选择；验证器反例驱动纠正；锚点、回归约束与反例增补。 | 当前代码守卫归纳属复用部件；须证明来源反馈改变新任务的Agent工具动作选择及任务后果，不能用程序分支条件替代Agent策略学习。 |
+| [Getafix](https://arxiv.org/abs/1902.06111) / [CEGIS agents](https://arxiv.org/abs/2606.11521) / [CESS](https://arxiv.org/abs/2607.15854) | 历史修复模式与上下文选择；验证器反例驱动纠正；锚点、回归约束与反例增补。 | 守卫归纳属复用部件。条件程序可作为Agent策略组件，无需相反外层标签；须在相同harness实际执行后证明来源反馈改变新任务表现，单独分支通过不足。 |
+| [SkillMorph](https://arxiv.org/html/2610.11858v1) | §2/4：跨重复、任务和演化轮的动作覆盖定位，再关联技能中的指令/脚本编辑位置并协调修订；固定模型/harness、留出任务评估。 | 失败轨迹定位和执行证据驱动技能修订已有，不能说它只看文本或没有实际行为。 |
+| [SkillComposer](https://arxiv.org/html/2606.06079v1) | §3：create/improve/merge，delta pass rate拒绝采样训练；技能正文为主要表示，包含在线、离线与混合部署。 | 归纳、泛化和反馈修订已有；须比较同预算的一次归纳与普通修订，而非只比无记忆。 |
+| [SymC](https://arxiv.org/html/2308.03312v3) | 代码对称性、等变表示及不变预测。 | 绑定随角色变换一致的原则有先例；迁移到纠正程序学习仅为待验候选，不称新等变理论。 |
 
 ## 反馈与测试 oracle 的近邻
 

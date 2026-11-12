@@ -3,7 +3,7 @@
 > 2026-11-12 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已明确第一条技能、学习规则和近邻差异，常规轻量选择器不单独算新方法。
-- **当前科研**：[两题四组＋全量基线](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#transfer-v1)已执行，当前布尔效果/文字卡片实现No-Go，FCCL仅一题实际调用规划器。D14017普通反馈/全量正常通过，FCCL1/2；D30651五组均1/10。静态可执行守卫匹配零模型升至9/10＋355回归。下一找独立的相反绑定偏好，再研究可执行程序的条件绑定/范围；不扩当前选择器。校内325POST、2,742,576已知tokens＋1旧未知预留262,144；无在途任务。
+- **当前科研**：[两题对照](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#transfer-v1)不支持布尔效果/文字卡片实现，停止扩样；静态绑定零模型升至9/10＋355回归。[条件程序来源](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#program-sources-v1)已整理2项目4段真实程序，尚未学习/新评测。下一做同预算的可执行程序形成对照；条件允许在程序内部，不强求相反外层标签。校内325POST、2,742,576已知tokens＋1旧未知预留262,144；无在途任务。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **导师 / Paper E**：11-11用户反馈老师先审后提交，开题优先；独立对话处理稿件和开题。方法须明确问题、机制、形式化和假设，再用实验验证；不要求榜单最优。[四页稿](../research/paper_e_publication_route_20261028/icint_latex/main.pdf)未变，ICINT首投、ICDAR顺序备投，未投稿。本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴，附件hash未核。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。
