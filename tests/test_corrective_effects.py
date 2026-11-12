@@ -75,3 +75,41 @@ def test_invalid_execution_and_changed_empty_intervention_do_not_train():
         policy.update('source', {'x': False}, (), {'x': True}, execution_valid=True)
     with pytest.raises(ValueError, match='booleans'):
         policy.update('source', {'x': False}, ('edit',), {'x': 1}, execution_valid=True)
+
+
+def test_contract_guards_preserve_unknowns_and_match_strong_positive_only_rule():
+    learner = module.ContractGuards(('distinct', 'lazy'))
+    for x, y in [((False, False), {'native': False, 'legacy': None}),
+                 ((True, False), {'native': True, 'legacy': False}),
+                 ((True, True), {'native': True, 'legacy': True})]:
+        learner.update(dict(zip(learner.features, x)), y)
+    unseen = {'distinct': False, 'lazy': True}
+    assert learner.predict(unseen, ('native', 'legacy')) is False
+    assert learner.positive_only(unseen, ('native', 'legacy')) is False
+    # Collapsing all outcomes loses which native constraint failed. This is a
+    # hypothesis comparison, not an observed execution label for the new row.
+    scalar = module.ContractGuards(learner.features)
+    for x, y in learner.rows:
+        scalar.update(x, {'joint': module.joint_outcome(y.values())})
+    assert scalar.predict(unseen, ('joint',)) is True
+    assert module.joint_outcome([True, None]) is None
+    assert module.joint_outcome([False, None]) is False
+
+
+def test_guard_ambiguity_conflicts_and_feedback_update_do_not_invent_certainty():
+    learner = module.ContractGuards(('a', 'b'))
+    learner.update({'a': False, 'b': False}, {'ok': False})
+    learner.update({'a': True, 'b': True}, {'ok': True})
+    assert learner.predict({'a': True, 'b': False}, ('ok',)) is None
+    learner.update({'a': True, 'b': False}, {'ok': False})
+    assert learner.guards('ok') == ((('b', True),),)
+    assert learner.predict({'a': None, 'b': True}, ('ok',)) is True
+    assert learner.predict({'a': True, 'b': None}, ('ok',)) is None
+    learner.update({'a': True, 'b': True}, {'ok': False})
+    assert learner.guards('ok') == ()
+    assert learner.predict({'a': True, 'b': True}, ('ok',)) is None
+    assert learner.predict({'a': True, 'b': True}, ('unobserved',)) is None
+    with pytest.raises(ValueError):
+        learner.update({'a': True, 'b': 1}, {'ok': True})
+    with pytest.raises(ValueError):
+        learner.update({'a': True, 'b': False, 'source_id': 'leak'}, {'ok': True})

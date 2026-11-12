@@ -8,6 +8,7 @@ are admission metadata and are deliberately absent from the feature map.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from itertools import combinations, product
 import math
 
 
@@ -282,3 +283,89 @@ class CorrectiveEffects:
         choices.sort(key=lambda row: (row[0], row[1]))
         _, steps, predicted, support = choices[0]
         return dict(steps=steps, terminal=False, predicted=predicted, support=support)
+
+
+def joint_outcome(values):
+    """Conjoin measured requirements without turning missing evidence into success."""
+    values = tuple(values)
+    if not values or any(v is not None and type(v) is not bool for v in values):
+        raise ValueError('outcomes must be booleans or unknown')
+    return False if False in values else (None if None in values else True)
+
+
+class ContractGuards:
+    """Finite conjunction-learning reference, not a new learning method.
+
+    A row describes one executed whole program and separate observed outcomes.
+    The caller supplies a small structural predicate grammar; it is not learned
+    here. Keep every shortest consistent conjunction, abstaining on disagreement
+    or contradictory evidence. ``positive_only`` is the strong Find-S control.
+    No test execution, program synthesis or deployment success is implied.
+    """
+
+    def __init__(self, features):
+        self.features = tuple(features)
+        if (not 1 <= len(self.features) <= 8 or
+                len(set(self.features)) != len(self.features) or
+                any(not isinstance(k, str) or not k for k in self.features)):
+            raise ValueError('provide one to eight distinct predicate names')
+        self.rows = []
+
+    def _validate(self, features, *, unknown):
+        if set(features) != set(self.features) or any(
+                type(v) is not bool and not (unknown and v is None)
+                for v in features.values()):
+            raise ValueError('only declared boolean predicates are admitted')
+
+    @staticmethod
+    def _matches(features, guard):
+        if any(features[k] is not None and features[k] != v for k, v in guard):
+            return False
+        return None if any(features[k] is None for k, _ in guard) else True
+
+    def update(self, features, outcomes):
+        self._validate(features, unknown=False)
+        if (not outcomes or any(not isinstance(k, str) or not k for k in outcomes)
+                or any(v is not None and type(v) is not bool for v in outcomes.values())):
+            raise ValueError('measurements must be named booleans or unknown')
+        self.rows.append((dict(features), dict(outcomes)))
+
+    def guards(self, contract):
+        measured = [(x, y[contract]) for x, y in self.rows if y.get(contract) is not None]
+        if not measured:
+            return ()
+        for size in range(len(self.features) + 1):
+            consistent = []
+            for keys in combinations(self.features, size):
+                for values in product((False, True), repeat=size):
+                    guard = tuple(zip(keys, values))
+                    if all(self._matches(x, guard) == y for x, y in measured):
+                        consistent.append(guard)
+            if consistent:
+                return tuple(consistent)
+        return ()
+
+    def predict(self, features, required):
+        self._validate(features, unknown=True)
+        required = tuple(required)
+        if not required:
+            raise ValueError('specify required observed contracts')
+        decisions = []
+        for contract in required:
+            votes = {self._matches(features, g) for g in self.guards(contract)}
+            decisions.append(next(iter(votes)) if len(votes) == 1 else None)
+        return joint_outcome(decisions)
+
+    def positive_only(self, features, required):
+        """Most specific conjunction shared by complete positive examples (Find-S)."""
+        self._validate(features, unknown=True)
+        required = tuple(required)
+        if not required:
+            raise ValueError('specify required observed contracts')
+        positives = [x for x, y in self.rows
+                     if joint_outcome(y.get(k) for k in required) is True]
+        if not positives:
+            return None
+        guard = tuple((k, positives[0][k]) for k in self.features
+                      if all(x[k] == positives[0][k] for x in positives))
+        return self._matches(features, guard)

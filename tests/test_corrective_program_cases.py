@@ -25,6 +25,41 @@ ITERABLE = '''def resolve_lookup_value(self, value, can_reuse, allow_joins):
 '''
 
 
+def test_accessor_relations_are_extracted_from_actual_scope_not_method_name():
+    original = PLOT + '\nclass Other:\n    def get_path(self):\n        return self._cache\n'
+    eager = original.replace('return self._original_path',
+                             "return getattr(self, '_path2d', self._original_path)")
+    lazy = original.replace('return self._original_path',
+                            "if hasattr(self, '_path2d'):\n            return self._path2d\n        return self._original_path")
+    wrong = original.replace('return self._cache',
+                             "return getattr(self, '_cache', self._cache)")
+    assert cases.accessor_relations(original, eager) == {'distinct': True, 'lazy': False}
+    assert cases.accessor_relations(original, lazy) == {'distinct': True, 'lazy': True}
+    assert cases.accessor_relations(original, wrong) == {'distinct': False, 'lazy': False}
+    with pytest.raises(ValueError, match='one method'):
+        cases.accessor_relations(original, eager.replace('self._cache', 'self._other'))
+
+
+def test_protocol_relations_read_both_hook_bodies_without_execution():
+    before = '''class Arithmetic:
+    def __matmul__(self, other):
+        if not getattr(other, 'is_Matrix', False):
+            raise TypeError('unsupported')
+        return self.__mul__(other)
+    def __rmatmul__(self, other):
+        if not getattr(other, 'is_Matrix', False):
+            raise TypeError('unsupported')
+        return self.__mul__(other)
+'''
+    decline = before.replace("raise TypeError('unsupported')", 'return NotImplemented')
+    both = 'self.__rmul__(other)'.join(decline.rsplit('self.__mul__(other)', 1))
+    assert cases.protocol_relations(before) == {'declines': False, 'reflected': False}
+    assert cases.protocol_relations(decline) == {'declines': True, 'reflected': False}
+    assert cases.protocol_relations(both) == {'declines': True, 'reflected': True}
+    with pytest.raises(ValueError):
+        cases.protocol_relations(before.replace('raise TypeError', 'print'))
+
+
 @pytest.mark.parametrize('view', cases.VIEWS)
 def test_plot_probe_retains_legacy_eager_default_counterexample(tmp_path, view):
     text, metadata = cases.source_view({'before_class': PLOT}, 'plot', view)

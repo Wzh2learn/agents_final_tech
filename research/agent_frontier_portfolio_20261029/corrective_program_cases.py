@@ -21,6 +21,111 @@ VIEWS = {
 }
 
 
+def accessor_relations(before, after):
+    """Read two declared AST relations from a single changed accessor.
+
+    This researcher-specified grammar recognizes eager getattr or a guarded
+    access. It does not discover predicates, infer object compatibility, or run
+    either file. Class/function names locate the actual edit, not a prediction
+    feature; changes elsewhere cause refusal rather than a guessed binding.
+    """
+    old, new = ast.parse(before), ast.parse(after)
+
+    def methods(tree):
+        return {(cls.name, f.name): f for cls in tree.body
+                if isinstance(cls, ast.ClassDef) for f in cls.body
+                if isinstance(f, ast.FunctionDef)}
+
+    a, b = methods(old), methods(new)
+    changed = [k for k in a.keys() & b.keys() if ast.dump(a[k]) != ast.dump(b[k])]
+    if a.keys() != b.keys() or len(changed) != 1:
+        raise ValueError('expected exactly one method change')
+    key = changed[0]
+    restored = copy.deepcopy(new)
+    cls = next(c for c in restored.body if isinstance(c, ast.ClassDef) and c.name == key[0])
+    cls.body = [copy.deepcopy(a[key]) if isinstance(f, ast.FunctionDef) and f.name == key[1]
+                else f for f in cls.body]
+    if ast.dump(restored) != ast.dump(old):
+        raise ValueError('expected exactly one method change without other edits')
+    original, candidate = a[key], b[key]
+    if ast.dump(original.args) != ast.dump(candidate.args) or not original.args.args:
+        raise ValueError('accessor signature changed')
+    receiver = original.args.args[0].arg
+
+    def attribute(node):
+        if (isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name)
+                and node.value.id == receiver):
+            return node.attr
+        raise ValueError('accessor outside declared receiver grammar')
+
+    if len(original.body) != 1 or not isinstance(original.body[0], ast.Return):
+        raise ValueError('expected a direct original accessor')
+    fallback = attribute(original.body[0].value)
+    body = candidate.body
+    if len(body) == 1 and isinstance(body[0], ast.Return):
+        call = body[0].value
+        if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+                and call.func.id == 'getattr' and len(call.args) == 3 and not call.keywords
+                and isinstance(call.args[0], ast.Name) and call.args[0].id == receiver
+                and isinstance(call.args[1], ast.Constant) and isinstance(call.args[1].value, str)
+                and attribute(call.args[2]) == fallback):
+            raise ValueError('expected eager getattr with the original fallback')
+        preferred, lazy = call.args[1].value, False
+    elif len(body) == 2 and isinstance(body[0], ast.If) and isinstance(body[1], ast.Return):
+        branch, test = body[0], body[0].test
+        if not (isinstance(test, ast.Call) and isinstance(test.func, ast.Name)
+                and test.func.id == 'hasattr' and len(test.args) == 2 and not test.keywords
+                and isinstance(test.args[0], ast.Name) and test.args[0].id == receiver
+                and isinstance(test.args[1], ast.Constant) and isinstance(test.args[1].value, str)
+                and len(branch.body) == 1 and isinstance(branch.body[0], ast.Return)
+                and not branch.orelse and attribute(body[1].value) == fallback
+                and attribute(branch.body[0].value) == test.args[1].value):
+            raise ValueError('expected guarded access with the original fallback')
+        preferred, lazy = test.args[1].value, True
+    else:
+        raise ValueError('unrecognized accessor edit')
+    return dict(distinct=preferred != fallback, lazy=lazy)
+
+
+def protocol_relations(program):
+    """Restricted matmul-source predicates, not universal operator-correctness rules.
+
+    Read rejection branches and the relation between delegate names. Whether
+    those relations matter is supplied by actual execution outcomes, not by
+    this extractor. Commutative operators are outside this source grammar.
+    """
+    tree = ast.parse(program)
+    pairs = []
+    for cls in tree.body:
+        if isinstance(cls, ast.ClassDef):
+            methods = {f.name: f for f in cls.body if isinstance(f, ast.FunctionDef)}
+            if {'__matmul__', '__rmatmul__'} <= methods.keys():
+                pairs.append((methods['__matmul__'], methods['__rmatmul__']))
+    if len(pairs) != 1:
+        raise ValueError('expected one source matrix-hook pair')
+    declines, delegates = [], []
+    for fn in pairs[0]:
+        guards = [n for n in fn.body if isinstance(n, ast.If)]
+        if len(guards) != 1 or len(guards[0].body) != 1:
+            raise ValueError('unrecognized source rejection guard')
+        rejection = guards[0].body[0]
+        if isinstance(rejection, ast.Return) and isinstance(rejection.value, ast.Name) and rejection.value.id == 'NotImplemented':
+            declines.append(True)
+        elif (isinstance(rejection, ast.Raise) and isinstance(rejection.exc, ast.Call)
+              and isinstance(rejection.exc.func, ast.Name) and rejection.exc.func.id == 'TypeError'):
+            declines.append(False)
+        else:
+            raise ValueError('unrecognized rejection branch')
+        last = fn.body[-1]
+        if not (isinstance(last, ast.Return) and isinstance(last.value, ast.Call)
+                and isinstance(last.value.func, ast.Attribute)
+                and isinstance(last.value.func.value, ast.Name)
+                and last.value.func.value.id == fn.args.args[0].arg):
+            raise ValueError('unrecognized delegation')
+        delegates.append(last.value.func.attr)
+    return dict(declines=all(declines), reflected=delegates[1] == '__r' + delegates[0][2:])
+
+
 def source_view(source, kind, view):
     """Change local representation, keeping public method signatures intact."""
     class_name, projected, original, alias = VIEWS[view]
