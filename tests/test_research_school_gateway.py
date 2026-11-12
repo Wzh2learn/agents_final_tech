@@ -126,6 +126,17 @@ class GatewayTest(unittest.TestCase):
                 self.assertIn(b"Authorization: Bearer unit-test-credential\r\n", fake.packet)
                 b.finish(body=response(), status=200)
                 self.assertNotIn("unit-test-credential", b.path.read_text())
+                # Old profiles keep their cap; a new formation batch may opt in.
+                with self.assertRaisesRegex(ValueError, 'output cap'):
+                    g.open(json.dumps(dict(payload,max_tokens=32768)).encode())
+                larger = gateway.SchoolGateway('unit-test-credential',b,output_ceiling=32768)
+                with patch.object(gateway.socket, 'create_connection', return_value=fake), patch.object(
+                        gateway.ssl, 'create_default_context', return_value=Context()):
+                    larger.open(json.dumps(dict(payload,max_tokens=32768)).encode())
+                self.assertIn(b'"max_tokens": 32768',fake.packet)
+                b.finish(body=response(),status=200)
+                with self.assertRaisesRegex(ValueError,'output cap'):
+                    larger.open(json.dumps(dict(payload,max_tokens=32769)).encode())
                 with patch.object(gateway.socket, "create_connection", return_value=fake), patch.object(
                         gateway.ssl, "create_default_context", return_value=Context()):
                     def refuse(_):

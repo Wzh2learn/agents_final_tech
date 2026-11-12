@@ -87,9 +87,10 @@ def task_at(index):
     return api, plan, api['Task'].model_validate(next(t for t in tasks if t['id']==selected))
 
 
-def qualify(index):
-    api, plan, task = task_at(index)
-    out = ROOT / f'dev{index}' / 'qualification'; out.mkdir(parents=True, exist_ok=False)
+def qualify(index, *, prepared=None, root_override=None):
+    api, plan, task = prepared if prepared is not None else task_at(index)
+    out = Path(root_override) if root_override is not None else ROOT / f'dev{index}' / 'qualification'
+    out.mkdir(parents=True, exist_ok=False)
     assert not task.evaluation_criteria.nl_assertions
     now = '2026-11-12T00:00:00'
     initial = task.initial_state
@@ -116,16 +117,34 @@ def qualify(index):
 
 class Provider:
     def __init__(self, key, root, plan):
+        interval=plan.get('request_interval_seconds',0)
+        cooldown=plan.get('initial_cooldown_seconds',0)
+        if any(type(x) not in (int,float) or not 0<=x<=120 for x in (interval,cooldown)):
+            raise ValueError('invalid declared request pacing')
         self.budget = BatchBudget(root/'budget',posts=plan['total_post_cap'],tokens=plan['token_cap'])
         self.gateway = SchoolGateway(key,self.budget)
         self.root, self.lock, self.counts = root, threading.Lock(), {'actor':0,'user':0}
         self.deadline = time.monotonic()+plan['seconds']
         self.actor_cap = plan['actor_post_cap']
+        self.request_interval=interval;self.next_send=time.monotonic()+cooldown
+        self.failed_status=None
+
+    def wait_request_slot(self):
+        # Called under the shared actor/user lock, before budget reservation.
+        pause=max(0,self.next_send-time.monotonic())
+        if time.monotonic()+pause>=self.deadline:
+            raise TimeoutError('episode deadline before paced request')
+        if pause:time.sleep(pause)
+        if time.monotonic()>=self.deadline:raise TimeoutError('episode deadline')
+        self.next_send=time.monotonic()+self.request_interval
 
     def call(self, payload, role):
         with self.lock:
+            if self.failed_status is not None:
+                raise RuntimeError('provider paused after HTTP '+str(self.failed_status))
             if time.monotonic()>=self.deadline: raise TimeoutError('episode deadline')
             if role=='actor' and self.counts[role]>=self.actor_cap: raise RuntimeError('actor post cap')
+            self.wait_request_slot()
             assert payload['model']==MODEL
             for k in ('seed','thinking','reasoning_effort','chat_template_kwargs','max_completion_tokens'):
                 payload.pop(k,None)
@@ -145,7 +164,9 @@ class Provider:
                 self.budget.finish(status=response.status,body=raw)
                 write(req.with_suffix('.receipt.json'),dict(index=idx,role=role,status=response.status,usage=usage_from_body(raw)))
                 if len(raw)>8*1024**2:raise RuntimeError('response byte cap')
-                if response.status!=200:raise RuntimeError('provider HTTP '+str(response.status))
+                if response.status!=200:
+                    self.failed_status=response.status
+                    raise RuntimeError('provider HTTP '+str(response.status))
                 return raw,response.getheader('Content-Type','application/json')
             except BaseException:
                 if self.budget.pending is not None:self.budget.finish()
@@ -154,7 +175,20 @@ class Provider:
                 if conn is not None:conn.close()
 
 
-def make_world(api, task, provider, root, plan):
+def project_message(message):
+    """Stable public projection; native metadata/private user tools stay on host."""
+    role=message.role
+    calls=getattr(message,'tool_calls',None)
+    if (role=='tool' and message.requestor!='assistant') or (role=='user' and calls):
+        raise ValueError('private user tool history cannot enter actor context')
+    value={'role':role}
+    if message.content is not None:value['content']=message.content
+    if calls:value['tool_calls']=[dict(id=c.id,name=c.name,arguments=c.arguments) for c in calls]
+    if role=='tool':value.update(id=message.id,requestor='assistant',error=message.error)
+    return value
+
+
+def make_world(api, task, provider, root, plan, evaluation_task=None):
     LLMAgent=api['LLMAgent']; AM=api['AssistantMessage']; MT=api['MultiToolMessage']; TC=api['ToolCall']
     class QueueAgent(LLMAgent):
         def __init__(self, **kwargs):
@@ -163,7 +197,7 @@ def make_world(api, task, provider, root, plan):
         def _generate_next_message(self,message,state):
             new=message.tool_messages if isinstance(message,MT) else [message]
             state.messages.extend(new);self.turn+=1
-            observation=dict(done=False,turn=self.turn,messages=[m.model_dump(mode='json') for m in (state.messages if self.turn==1 else new)])
+            observation=dict(done=False,turn=self.turn,messages=[project_message(m) for m in (state.messages if self.turn==1 else new)])
             # QueueAgent receives only the official agent-visible projection.
             assert all(not (m.role=='tool' and m.requestor=='user') for m in state.messages)
             self.observations.put(observation)
@@ -189,7 +223,7 @@ def make_world(api, task, provider, root, plan):
     def run():
         try:
             sim=world.run();write(root/'simulation.json',sim.model_dump(mode='json'))
-            reward=api['evaluate_simulation'](sim,task,api['EvaluationType'].ALL,False,'telecom-workflow')
+            reward=api['evaluate_simulation'](sim,evaluation_task or task,api['EvaluationType'].ALL,False,'telecom-workflow')
             write(root/'native_reward.json',reward.model_dump(mode='json'))
             write(root/'world_final.json',dict(termination=str(sim.termination_reason),agent_db=env.get_db_hash(),user_db=env.get_user_db_hash()))
             agent.observations.put(dict(done=True,termination=sim.termination_reason.value))
@@ -262,10 +296,18 @@ def smoke(index):
     write(root/'SMOKE.json',result);print(json.dumps(result))
 
 
-def run_one(index):
-    api,plan,task=task_at(index)
-    root=ROOT/f'dev{index}'/'ordinary_workflow_v2';root.mkdir(parents=True,exist_ok=False)
-    write(root/'reservation.json',dict(plan_sha256=sha(ROOT/'PLAN.json'),code_sha256=sha(__file__),task_id=task.id,kind='development ordinary workflow, not FCCL arm'))
+def run_one(index, *, prepared=None, root_override=None, plan_path=None,
+            extra_files=None, extra_instruction='', condition='ordinary_workflow',
+            evaluation_task=None, checkpoint=None):
+    api,plan,task=prepared if prepared is not None else task_at(index)
+    root=Path(root_override) if root_override is not None else ROOT/f'dev{index}'/'ordinary_workflow_v2'
+    root.mkdir(parents=True,exist_ok=False)
+    allowed={'experience.txt','program.py','continuation_program.py','continuation_client.py','program_memory.json'}
+    if extra_files is not None and (type(extra_files) is not dict or not set(extra_files)<=allowed
+            or any(type(v) is not bytes for v in extra_files.values())):
+        raise ValueError('only explicit public experience/program payloads may enter the actor')
+    write(root/'reservation.json',dict(plan_sha256=sha(plan_path or ROOT/'PLAN.json'),
+        code_sha256=sha(__file__),task_id=task.id,kind='development '+condition))
     key=sys.stdin.readline().rstrip('\r\n')
     if not key:raise ValueError('missing stdin credential')
     # Reuse the existing owned Docker/OpenCode guest and read-only runtime.
@@ -282,16 +324,43 @@ def run_one(index):
     write(root/'zero_model_runtime.json',dict(argv=probe,exit=preflight.returncode,stdout=preflight.stdout,stderr=preflight.stderr,model_calls=0))
     preflight.check_returncode()
     provider=Provider(key,root,plan);del key
-    env,agent,world,thread=make_world(api,task,provider,root,plan)
+    env,agent,world,thread=make_world(api,task,provider,root,plan,evaluation_task=evaluation_task)
     (world_dir/'client.py').write_text(CLIENT)
     public_tools=[t.openai_schema for t in env.get_tools()]
     (work/'tools.json').write_text(json.dumps(public_tools,ensure_ascii=False,indent=2))
     (work/'policy.txt').write_text(env.get_policy())
-    (work/'guest.py').write_text(actor.GUEST.replace('alfworld-no-history','telecom-workflow-development'))
+    guest=actor.GUEST.replace('alfworld-no-history','telecom-workflow-development')
+    if plan.get('continue_unfinished_once'):
+        continuation=r'''
+if result.returncode==0:
+ try:
+  s=socket.socket(socket.AF_UNIX);s.settimeout(10);s.connect('/world/s');s.sendall(b'{"op":"observe"}\n');buf=b''
+  while b'\n' not in buf:
+   part=s.recv(65536)
+   if not part:break
+   buf+=part
+  s.close();current=json.loads(buf)
+ except Exception:current=None
+ if current is not None and not current.get('done') and not current.get('error'):
+  print(json.dumps({'type':'shared_continuation','count':1}),flush=True)
+  reminder='Continue the same task from the current public observation using the actual world client. A final prose reply does not send a message to the customer. Preserve existing progress. Current public observation:\n'+json.dumps(current)
+  result=subprocess.run(['/opt/opencode','run','--pure','--format','json','-m',sys.argv[1],'--continue',reminder],stdin=subprocess.DEVNULL)
+raise SystemExit(result.returncode)
+'''
+        guest=guest.replace('raise SystemExit(result.returncode)',continuation)
+    (work/'guest.py').write_text(guest)
+    for name,raw in (extra_files or {}).items():
+        with (work/name).open('xb') as f:f.write(raw)
     profile=dict(model_id=MODEL,context=262144,output=8192)
     cfg=actor.config(profile,0);cfg['agent']['build'].pop('seed',None)
     (work/'opencode.json').write_text(json.dumps(cfg))
     current={'value':agent.observations.get(timeout=120),'pending':True}
+    if checkpoint is not None:
+        observed=dict(agent_db=env.get_db_hash(),user_db=env.get_user_db_hash(),
+            public_sha256=hashlib.sha256(json.dumps(current['value']['messages'],ensure_ascii=False,separators=(',',':')).encode()).hexdigest())
+        if observed!=checkpoint:
+            raise ValueError('reconstructed world or public prefix differs from the frozen checkpoint')
+        write(root/'checkpoint_verified.json',observed)
     class WorldHandler(socketserver.StreamRequestHandler):
         def handle(self):
             try:
@@ -330,10 +399,12 @@ def run_one(index):
             'To speak to the customer, use name="say", arguments={"message":"your words"}. The customer simulator performs its own actions; you cannot call customer-only tools. '
             'Read actual responses, retain reported progress, and follow the workflow at the appropriate current step. Continue until done=true, then give a short final response. No other environment, reset or status API exists. '
             'A normal final answer alone does not interact with the customer.\nInitial public observation:\n'+json.dumps(current['value'],ensure_ascii=False))
+    if extra_instruction:prompt+='\n'+extra_instruction
     (work/'task.txt').write_text(prompt)
     name='fccl-tau2-dev'+str(index)+'-'+str(os.getpid())
     argv=actor.docker_command(work,world_dir,model_dir,manifest,name)
-    write(root/'actor_manifest.json',dict(argv=argv,image=image,opencode_sha256=sha(actor.BINARY),prompt_sha256=sha(work/'task.txt'),policy_sha256=sha(work/'policy.txt'),tools_sha256=sha(work/'tools.json'),private_task_mounted=False))
+    write(root/'actor_manifest.json',dict(argv=argv,image=image,opencode_sha256=sha(actor.BINARY),prompt_sha256=sha(work/'task.txt'),policy_sha256=sha(work/'policy.txt'),tools_sha256=sha(work/'tools.json'),
+        extra_sha256={n:hashlib.sha256(v).hexdigest() for n,v in (extra_files or {}).items()},private_task_mounted=False))
     try:
         with (root/'actor.raw.jsonl').open('xb') as out,(root/'actor.stderr').open('xb') as err:
             run=subprocess.run(argv,stdout=out,stderr=err,timeout=max(1,provider.deadline-time.monotonic()+5))
@@ -350,7 +421,7 @@ def run_one(index):
     result=dict(task_id=task.id,actor_exit=code,counts=provider.counts,physical_posts=len(charged),
                 known_tokens=sum(r.get('usage',{}).get('total_tokens',0) for r in charged),
                 unknown=sum('usage' not in r for r in charged),world_thread_alive=thread.is_alive(),
-                phase='ordinary workflow feasibility, no learned mechanism')
+                phase='development '+condition)
     write(root/'RESULT.json',result);print(json.dumps(result))
 
 

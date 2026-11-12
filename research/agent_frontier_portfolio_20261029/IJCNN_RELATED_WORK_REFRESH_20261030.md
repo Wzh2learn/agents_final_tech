@@ -34,7 +34,7 @@
 
 ## 其他近邻索引
 
-[tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入，三开发源普通流程通过，见[结果](results/FCCL_FORMATION.md#tau2-workflow-v1)。分支须恢复双侧历史/数据库，写操作重放不等于会话恢复；不同领域仍属同一benchmark。
+[tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入；[程序学习尸检](results/CONTINUATION_PROGRAM.md)未显示方法优势，下一比较效果保持与简单防重复规则。分支恢复双侧历史/DB；不同领域仍属同一benchmark。
 
 旧blob保留StateGraph/Skill-V、SymC、VeriHarness、VBL、BiPACE、Grounding/SkillGLoW、Budgeted Verification、CodeT、ErrorProbe、CBC等；其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。不在活表不代表失效。
 

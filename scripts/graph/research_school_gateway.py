@@ -118,10 +118,13 @@ class BatchBudget:
 class SchoolGateway:
     """TLS transport; the only credential-bearing data is the outgoing header."""
 
-    def __init__(self, api_key, budget):
+    def __init__(self, api_key, budget, *, output_ceiling=8192):
         if not api_key or any(c in api_key for c in "\r\n"):
             raise ValueError("missing or invalid credential")
+        if type(output_ceiling) is not int or output_ceiling not in (8192,16384,32768):
+            raise ValueError("output ceiling must be explicitly admitted for this batch")
         self._api_key, self.budget = api_key, budget
+        self.output_ceiling = output_ceiling
 
     def open(self, body, *, timeout=60, send_lock=None, admit=None):
         value = json.loads(body)
@@ -130,7 +133,7 @@ class SchoolGateway:
         forbidden = {"thinking", "reasoning_effort", "chat_template_kwargs", "max_completion_tokens"}
         if forbidden.intersection(value):
             raise ValueError("unsupported provider fields")
-        if type(value.get("max_tokens")) is not int or not 1 <= value["max_tokens"] <= 8192:
+        if type(value.get("max_tokens")) is not int or not 1 <= value["max_tokens"] <= self.output_ceiling:
             raise ValueError("explicit output cap required")
         index = self.budget.reserve(body)
         parsed = urlsplit(BASE_URL)

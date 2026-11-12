@@ -172,6 +172,8 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证与边界**：条件修订和退出说明同时更新后，新会话3次实际请求正常结束，原题1/1、回归54/54；两轮全部11次费用保留，不把8→3归因于单一改动或独立迁移收益。
 - **证据**：[生成、反馈更新与OpenCode实际调用](../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#execution-fragment-v1)。
 
+**11-13协作环境补充**：OpenCode最终文字不会自动发送给世界中的用户；DEV无历史组虽exit0，原生会话仍未终止。后续各组统一允许一次同会话续行，包含在原预算内；不能只给新方法额外重试。续做三组均原生通过，但不是该退出修正的独立因果对照。另，“第一条工具操作运行程序”只是提示：三程序组实际先读文件，再执行程序；未逐动作核验前不能写成硬执行保证。证据：[实际轨迹、统一续行与未完成组](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md)。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
