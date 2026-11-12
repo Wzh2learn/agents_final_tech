@@ -2,8 +2,8 @@
 
 > 2026-11-12 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)已明确第一条技能、学习规则和近邻差异，常规轻量选择器不单独算新方法。
-- **当前科研**：[新两源批次](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#counterexample-dev-v1)已执行：格式不满足、未编辑及响应未知分列；公开构造器对照定位数组维度丢失。下一自动提取/绑定成功执行片段，先做CPU学习原型，面对CodePhage/ReGAL及静态参照。尚无新方法/独立迁移收益。校内396次请求、3,441,083已知tokens＋2未知预留524,288；本地无在途，上游1条未确认响应。
+- **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
+- **当前科研**：[四态角色见证](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#donor-role-v1)已补齐调用范围/别名，并暴露IndexedBase归一化。下一直接实现受限程序学习器，自动提取/绑定成功片段并原生重放，面对静态穷举及CodePhage/ReGAL参照。尚无新程序/独立迁移收益。校内396次请求、3,441,083已知tokens＋2未知预留524,288；本地无在途，上游1条响应未确认。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **导师 / Paper E**：11-11反馈老师先审后提交，开题优先；稿件与开题由独立对话维护，本Goal不重复确认其版本。方法须明确问题、机制、形式化及假设，再实验验证；不要求榜单最优。ICINT首投、ICDAR顺序备投，未投稿；本人一作、北邮第一单位、方向相关，会议须召开并宣读/张贴。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。
