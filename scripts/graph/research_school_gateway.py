@@ -169,11 +169,17 @@ class SchoolBackend:
         self.core = core
 
     def verify(self, profile):
-        if profile != dict(provider="bupt_chat_v1", base_url=BASE_URL, model_id=MODEL,
-                           context=262144, output=4096):
+        # Reasoning shares the completion cap. A 4K response exhausted its cap
+        # before emitting a corrective program; new protocols may declare 8K.
+        # Existing manifests keep their original cap rather than changing it.
+        output = profile.get("output") if isinstance(profile, dict) else None
+        if (type(output) is not int or output not in (4096, 8192)
+                or profile != dict(provider="bupt_chat_v1", base_url=BASE_URL,
+                                   model_id=MODEL, context=262144, output=output)):
             raise ValueError("school backend profile differs from the admitted configuration")
         return dict(kind="external_chat_gateway", base_url=BASE_URL, model_id=MODEL,
-                    weights_precision="provider_managed_unknown", verification="configuration_only")
+                    weights_precision="provider_managed_unknown", verification="configuration_only",
+                    context_limit=262144, output_limit=output)
 
     def make_relay(self, root, profile, h, *, deadline, caps, **options):
         core, gateway = self.core, self.gateway

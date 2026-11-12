@@ -18,6 +18,26 @@ def response(tokens=10):
 
 
 class GatewayTest(unittest.TestCase):
+    def test_declared_program_generation_profile_can_use_8192_output_tokens(self):
+        backend = gateway.SchoolBackend('dummy', object(), object())
+        for output in (4096, 8192):
+            with self.subTest(output=output):
+                profile = dict(provider='bupt_chat_v1', base_url=gateway.BASE_URL,
+                               model_id=gateway.MODEL, context=262144, output=output)
+                result = backend.verify(profile)
+                self.assertEqual(result['output_limit'], output)
+                self.assertEqual(result['context_limit'], 262144)
+
+    def test_profile_admission_still_rejects_undeclared_caps_or_model(self):
+        backend = gateway.SchoolBackend('dummy', object(), object())
+        valid = dict(provider='bupt_chat_v1', base_url=gateway.BASE_URL,
+                     model_id=gateway.MODEL, context=262144, output=4096)
+        for change in (dict(output=8193), dict(output=8192.0), dict(context=131072),
+                       dict(model_id='other'), dict(thinking=False)):
+            with self.subTest(change=change):
+                with self.assertRaises(ValueError):
+                    backend.verify({**valid, **change})
+
     def test_external_backend_cannot_enter_existing_target_cohort(self):
         here = _path.parents[2] / 'research/agent_frontier_portfolio_20261029'
         sys.path.insert(0, str(here))
