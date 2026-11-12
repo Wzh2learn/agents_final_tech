@@ -3,8 +3,8 @@
 > 2026-11-12 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
-- **研究阶段**：方法发现；[SymPy源内技能闭环](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#execution-fragment-v1)已过。[新Django源经验](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#formset-source-v1)经普通反馈纠正达到3/3目标＋49/49回归，保存程序从失败初态重放一致；尚无新任务FCCL收益。下一只做[可迁移策略与公平对照](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，不再扩源题提示。
-- **实际运行 / 预算**：最近26次校内DeepSeek＋GB10/OpenCode、240,269tokens、未知0。累计433次、3,735,906已知＋2历史未知预留524,288，保守占额约0.426%。本次检查无相关运行中作业；旧上游未知保留。额度/权限不阻塞。
+- **研究阶段**：方法发现；[新任务四策略已实跑](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#formset-target-v1)，四份补丁均2/2目标＋157/157回归。普通反馈6次正常完成；旧程序重绑定12次触帽且漏做源程序试用，当前实现No-Go。源内闭环已有，不代表纠正策略迁移成立。下一按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)寻找普通纠正之外的条件决策残差，不重跑此题。
+- **实际运行 / 预算**：本批42次校内DeepSeek＋GB10/OpenCode、247,932tokens、未知0。累计475次、3,983,838已知＋2历史未知预留524,288，保守占额约0.451%。本批已终止；旧上游未知保留。额度/权限不阻塞。
 - **已有信号**：[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史摘要完成目标且目标成本较低；[SymPy](../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-21203-result)仅1/3对0/3测试差异。均为开发观察，全成本/泛化待检验；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按具体机制核查。
 - **导师 / Paper E**：11-11反馈老师先审后提交，开题优先；稿件与开题由独立对话维护，本Goal不重复确认其版本。方法须明确问题、机制、形式化及假设，再实验验证；不要求榜单最优。ICINT首投、ICDAR顺序备投，未投稿；本人一作、北邮第一单位、方向相关，会议须召开并宣读/张贴。
 - **搜索**：宿主原生搜索；GB10由D提供带来源材料，不自动回退旧搜索CLI。
