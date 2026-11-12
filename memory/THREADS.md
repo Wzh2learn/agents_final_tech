@@ -13,7 +13,7 @@
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
 | 成本及运行器 | 8旧未知共预留2,097,152；新节流批379请求无新未知，节流已在线使用。缓存异常不用于推算非缓存费。历史340-token差额、权重及旧ContextBench输出迁移保留；跨机预算锁未实现。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 现役main按本轮提交核三端；校内接入与学习原型纳入本轮同步。GB10另有`logs/graph/pytest_loopb.txt`，7历史worktree保留；完整raw不在GitHub。 |
+| 工作区与分享 | 本轮本机HTTPS推送成功，GB10经验证bundle对齐；SSH22/443为网络超时，先用HTTPS，GB10网络失败时用bundle，不重配密钥。保留LoopB日志/7历史worktree，完整raw不在GitHub。 |
 | 文档与 skill 存量 | 11-13复核doctor仍1 error/135 warnings：error在开题对话未提交skill，不代改；map仍1组pdf重复/27提示，docs仍4项时效提醒。退出契约已在7836c893分发，本批未改skill。Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
