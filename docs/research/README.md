@@ -1,11 +1,11 @@
 # 研究入口
 
-> 2026-11-11 | 本页负责导航。先读[STATE](../../memory/STATE.md)，按任务选一个入口；不把下表全部加载。未决见[THREADS](../../memory/THREADS.md)。
+> 2026-11-12 | 本页负责导航。先读[STATE](../../memory/STATE.md)，按任务选一个入口；不把下表全部加载。未决见[THREADS](../../memory/THREADS.md)。
 
 | 当前需要 | 最小入口 |
 | --- | --- |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
-| 当前研究 / 最新结果 | [短计划与导师要求](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [纠正来源形成与最小闭环](../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md)。主线为反馈条件化纠正技能学习；程序归纳部件与Agent学习收益分报。旧批次按需，运行以Goal/用户指令为准。 |
+| 当前研究 / 最新结果 | [短计划的进度表与下一步](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [最新执行批次](../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#counterexample-dev-v1)或[角色线索](../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#donor-role-v1)。FCCL仍在方法发现；旧程序已形成，新受限学习器未实现，尚无独立方法收益。只读一个指定锚点，勿重载整页。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 近邻 | 分别按需读[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[相关工作](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 导师反馈 / Paper E | 11-11用户反馈：老师先审后提交，开题与答辩优先，由独立对话处理。已发[沟通稿](../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)和审阅稿；现役[四页PDF](../../research/paper_e_publication_route_20261028/icint_latex/main.pdf)与实际附件hash未核。[投稿计划](../../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。 |
