@@ -207,3 +207,78 @@ class ConditionalRepairPolicy:
             return None
         alternatives = tuple(sorted(grouped[selected.family], key=lambda s: s.identifier))
         return FamilyProposal(context.snapshot, selected.family, alternatives, self.score(context, selected))
+
+
+class CorrectiveEffects:
+    """Nonparametric reference for transferring observed corrective effects.
+
+    A training row is one complete, executed subset of corrective steps and its
+    public before/after behavior vector. Step definitions and behavior alignment
+    are supplied by the experiment, not automatically discovered here. Predictions
+    transfer observed changes to a new public progress vector; they are hypotheses,
+    not calibrated success probabilities or certificates of safe edits.
+    """
+
+    def __init__(self):
+        self.rows = []
+        self.training_sources = set()
+
+    def update(self, source_group, before, steps, after, *, execution_valid):
+        if not source_group:
+            raise ValueError("missing source group")
+        if not before or set(before) != set(after):
+            raise ValueError("before and after must measure the same public behaviors")
+        if any(type(v) is not bool for v in (*before.values(), *after.values())):
+            raise ValueError("observations must be booleans, not labels or unknowns")
+        steps = tuple(sorted(steps))
+        if len(set(steps)) != len(steps) or any(not isinstance(s, str) or not s for s in steps):
+            raise ValueError("invalid corrective step identifiers")
+        if not steps and before != after:
+            raise ValueError("empty intervention changed the observed environment")
+        if not execution_valid:
+            return False
+        self.rows.append((source_group, dict(before), steps, dict(after)))
+        self.training_sources.add(source_group)
+        return True
+
+    def choose(self, current, required, *, source_group, heldout=False):
+        """Choose a supported complete subset; an actor still binds and executes it.
+
+        Favor a plan predicted to satisfy the required behaviors without undoing
+        any currently passed behavior, then use fewer steps. Unknown behavior
+        schemas, conflicting effects and unsupported combinations cause fallback.
+        No deployment candidates are executed to make this decision.
+        """
+        if not source_group:
+            raise ValueError("missing deployment provenance")
+        if heldout and source_group in self.training_sources:
+            raise ValueError("source group was already used for learning")
+        required = frozenset(required)
+        if not required or not required <= current.keys():
+            raise ValueError("required public behaviors must be observed")
+        if any(type(v) is not bool for v in current.values()):
+            raise ValueError("current public observations must be booleans")
+        if all(current[k] for k in required):
+            return dict(steps=(), terminal=True, predicted=dict(current), support=0)
+        grouped = {}
+        for _, before, steps, after in self.rows:
+            if not current.keys() <= before.keys():
+                continue
+            effect = tuple(sorted((k, int(after[k]) - int(before[k])) for k in current))
+            grouped.setdefault(steps, []).append(effect)
+        choices = []
+        for steps, effects in grouped.items():
+            if not steps or len(set(effects)) != 1:
+                continue
+            effect = dict(effects[0])
+            predicted = {k: bool(max(0, min(1, int(v) + effect[k]))) for k, v in current.items()}
+            if any(v and not predicted[k] for k, v in current.items()):
+                continue
+            if not all(predicted[k] for k in required):
+                continue
+            choices.append((len(steps), steps, predicted, len(effects)))
+        if not choices:
+            return None
+        choices.sort(key=lambda row: (row[0], row[1]))
+        _, steps, predicted, support = choices[0]
+        return dict(steps=steps, terminal=False, predicted=predicted, support=support)
