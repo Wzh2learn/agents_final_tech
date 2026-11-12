@@ -164,6 +164,13 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **规划交付补充**：后续两个4请求规划耗于读取/空搜索，没有最终JSON；一次原生OpenCode控制内联同样公开文件并关闭工具，1请求形成合法计划，但全部假设归同一粗行动、未执行探针。格式交付与决策有效性分开，不能仅因schema合法推断无需取证；呈现/工具同时变化不作单因素归因。派生评分器须保留全部bind源，即使当前分支未用；本次缺文件只重评保存代码，原exit125保留。[对照证据](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#async-decision-comparison-result)。
 - **Python入口补充**：SymPy16988源预检误用镜像默认Python而缺distutils；同一镜像内已有的资格运行实际依赖Python3.8挂载、PATH和入口三者。派生时一并继承，不从镜像名推断解释器；修正前后CPU预检及旧脚本保留，预检零模型。后续普通接续通过既定2+72项，不代表更广符号语义正确或新方法有效。[来源/接续证据](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sympy-source-continuation)。
 
+## C-11 可调用纠正技能的验收与退出（2026-11-12）
+
+- **实测失败**：源内技能调用和公开检查均通过后，Actor继续读源码并尝试不可用的编译依赖，8次请求触帽；保存的候选原题/回归通过，不改计为正常完成。
+- **对策**：技能返回绑定到既定公开验收的退出信号（如`next_operation=STOP`），任务说明验收后应结束；编译不在当前合同内时不额外要求编译。此退出规则也须给简单基线，不作为学习方法独有优势。
+- **验证与边界**：条件修订和退出说明同时更新后，新会话3次实际请求正常结束，原题1/1、回归54/54；两轮全部11次费用保留，不把8→3归因于单一改动或独立迁移收益。
+- **证据**：[生成、反馈更新与OpenCode实际调用](../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#execution-fragment-v1)。
+
 ## Completion and verification
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
