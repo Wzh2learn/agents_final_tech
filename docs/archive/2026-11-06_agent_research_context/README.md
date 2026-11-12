@@ -39,3 +39,9 @@
 | [训练、部署、旧五臂和代码准备](alfworld_learning_through_20261108.md) | `research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md` | `d6f222ed3e7a354d29112ca158ba25f713642655` / `d05c00272f951523576e8a288621fb993f2b1956363d8b4f5505a2afc36a4573` |
 
 上述历史内的“下一步”“待C”“尚未准入”和PID均是当时事实；当前比较与运行状态回到[STATE](../../../memory/STATE.md)。不默认加载整份历史。
+
+## 2026-11-12追加：纠正技能形成与已闭合对照
+
+[完整历史](fccl_formation_through_20261112.md)由`git mv`归档，基线为`f473e61b`的`research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md`，原blob SHA-256为`8a7e09ebeffeec30f870915c880d1381fe59df2420245ff0129c351e3115e6d6`。只加历史标记并重定位8种相对链接；本轮逆向恢复与52,290字节原blob完全相等，数值及原始费用未改。既有MANIFEST不覆盖此次追加。
+
+现役[结果页](../../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#current-summary)收为15,899字节，保留最新闭环/源/目标、总账和9个旧锚点的历史跳转。当前下一动作只看[短计划](../../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，历史“下一步”不作待办。

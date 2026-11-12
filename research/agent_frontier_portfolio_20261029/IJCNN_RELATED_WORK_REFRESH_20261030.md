@@ -12,6 +12,7 @@
 |---|---|---|
 | [Agent-R](https://arxiv.org/html/2501.11425v1) | §3：MCTS构造共享前缀的纠正轨迹，过渡点及迭代SFT。 | 从失败续做/成功纠正学习已有；需检验跨执行条件的片段选择收益。 |
 | [STeP](https://arxiv.org/html/2505.20023v1) | §3.3–3.4：教师合成反思轨迹，错误动作部分mask。 | 不能把教师反馈或仅训练正确片段当创新。 |
+| [HASP](https://arxiv.org/html/2605.17734v2) / [官方代码](https://github.com/HolaYan/ExecutableSkills-HASP) | §2/A/B：should_activate/intervene可执行触发、动作改写/上下文/弃权，执行过滤及技能更新；所读官方`2a0e859e`亦含配对重生成。 | 可执行纠正、条件触发、反馈更新、配对本身均已有。当前实现没有超越它的证据；单个训练函数用本轨迹信号，不代表整篇无配对。 |
 | [SkillRevise](https://arxiv.org/html/2606.01139v4) | §3.1–3.4：诊断/原则绑定、执行锚点、保留约束、重执行、效用门；搜索继续自最新候选，返回最佳候选。 | 已覆盖有锚点的纠正；不能用中间零收益推断它无法越过。需同信息/候选/总成本适配比较。 |
 | [AdaMEM](https://arxiv.org/html/2606.05684v1) | §3.1–3.2：动态策略记忆，成功/动作改变筛选；反事实动作不实际执行。 | 条件策略须由实际片段及续行后果支持，动作变化本身不是收益。 |
 | [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化配对效用、Load/Abstain。 | 条件效用本身不新。作者公开包为guoshaung/SkillApt，`73db0b54`；旧404不能外推无代码。 |
@@ -31,6 +32,7 @@
 | [Bayesian Control for Coding Agents](https://aclanthology.org/2026.emnlp-main.1548/) | §3–5/A.6及官方`2a3de1dc`的kernel/controller/校准模块：修好/修坏转移及在线Beta均值已有实现。普通条件化转移也是强基线，不将修复概率改名为创新。 |
 | [Rethinking Self-Repair](https://arxiv.org/html/2611.06863v1) | §3–5/A/B：机器人reset-and-retry，固定指导和不同标签反馈与动态模板点估计相近，未检出其优势。补固定开发指导＋同预算重试；未测保留失败现场的恢复。 |
 | [PracRepair](https://arxiv.org/html/2606.17612v1) | §III-C：静态/动态背景和修复假设指导补丁，以验证结果及前后行为差异再次诊断，最多3轮。动态证据、定位及重试已有，不能把输入整理收益当新方法。 |
+| [World Model Predictive Paths](https://arxiv.org/abs/2610.28945) | 本轮仅核摘要：多候选动作、世界模型预测、MPPI式选择及双支经验记忆。正文/代码未核，不作完整比较；“预测后果再决策”本身不能当创新。WorldRepair原始PDF访问受验证页阻挡，方法差异仍待核。 |
 
 ## 其他近邻索引
 
