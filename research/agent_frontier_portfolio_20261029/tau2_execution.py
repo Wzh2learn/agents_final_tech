@@ -188,6 +188,22 @@ def project_message(message):
     return value
 
 
+def committed_operation_result(command,current,confirmed_operations):
+    """Exact-operation baseline, not an intent-aware or learned intervention.
+
+    Caller supplies only actual public successful receipts. It deliberately
+    cannot distinguish a later new authorization for identical arguments.
+    Call only after normal role/turn validation; rejection leaves the world
+    waiting at the same decision and exposes no private state.
+    """
+    for previous in confirmed_operations or ():
+        if command['name']==previous['name'] and command['arguments']==previous['arguments']:
+            return dict(current,error='previously_committed_operation',
+                confirmed_receipt=previous['receipt'],
+                instruction='This exact operation already has a successful public receipt in the supplied history. The simple receipt guard refused to repeat it. Inspect that history and continue the remaining task without resetting completed progress.')
+    return None
+
+
 def make_world(api, task, provider, root, plan, evaluation_task=None):
     LLMAgent=api['LLMAgent']; AM=api['AssistantMessage']; MT=api['MultiToolMessage']; TC=api['ToolCall']
     class QueueAgent(LLMAgent):
@@ -298,7 +314,7 @@ def smoke(index):
 
 def run_one(index, *, prepared=None, root_override=None, plan_path=None,
             extra_files=None, extra_instruction='', condition='ordinary_workflow',
-            evaluation_task=None, checkpoint=None):
+            evaluation_task=None, checkpoint=None, confirmed_operations=None):
     api,plan,task=prepared if prepared is not None else task_at(index)
     root=Path(root_override) if root_override is not None else ROOT/f'dev{index}'/'ordinary_workflow_v2'
     root.mkdir(parents=True,exist_ok=False)
@@ -370,8 +386,13 @@ raise SystemExit(result.returncode)
                 if cmd=={'op':'observe'}:result=current['value']
                 else:
                     validate_action(cmd,current['value'],public_tools)
-                    agent.actions.put(cmd); result=agent.observations.get(timeout=max(.01,provider.deadline-time.monotonic()))
-                    current['value']=result
+                    result=committed_operation_result(cmd,current['value'],confirmed_operations)
+                    if result is not None:
+                        with (root/'guard_events.jsonl').open('a') as f:
+                            f.write(json.dumps(dict(command=cmd,result=result),ensure_ascii=False)+'\n')
+                    else:
+                        agent.actions.put(cmd); result=agent.observations.get(timeout=max(.01,provider.deadline-time.monotonic()))
+                        current['value']=result
                 self.wfile.write(json.dumps(result,ensure_ascii=False).encode()+b'\n')
             except BaseException:
                 self.wfile.write(b'{"error":"invalid_or_failed_operation"}\n')

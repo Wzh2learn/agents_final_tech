@@ -12,6 +12,7 @@
 |---|---|---|
 | [Agent-R](https://arxiv.org/html/2501.11425v1) / [STeP](https://arxiv.org/html/2505.20023v1) | 共享前缀纠正/MCTS及迭代SFT；教师反思轨迹、错误动作部分mask。 | 从失败续做/正确片段学习已有，须证明条件纠正的额外收益。 |
 | [HASP](https://arxiv.org/html/2605.17734v2) / [官方代码](https://github.com/HolaYan/ExecutableSkills-HASP) | §2/A/B：should_activate/intervene可执行触发、动作改写/上下文/弃权，执行过滤及技能更新；所读官方`2a0e859e`亦含配对重生成。 | 可执行纠正、条件触发、反馈更新、配对本身均已有。当前实现没有超越它的证据；单个训练函数用本轨迹信号，不代表整篇无配对。 |
+| [StateGraph](https://arxiv.org/html/2611.02912v1) | §4.3–4.5：反事实依赖核验、保留历史、失效前提触发动作重规划。 | 效果记账/改触发条件本身不足；[v2](results/CONTINUATION_PROGRAM.md#effect-conditioned-v2)须以实际规则和任务收益判别，不能只用一步动作反例。 |
 | [SkillRevise](https://arxiv.org/html/2606.01139v4) | §3.1–3.4：诊断/原则绑定、执行锚点、保留约束、重执行、效用门；搜索继续自最新候选，返回最佳候选。 | 已覆盖有锚点的纠正；不能用中间零收益推断它无法越过。需同信息/候选/总成本适配比较。 |
 | [AdaMEM](https://arxiv.org/html/2606.05684v1) | §3.1–3.2：动态策略记忆，成功/动作改变筛选；反事实动作不实际执行。 | 条件策略须由实际片段及续行后果支持，动作变化本身不是收益。 |
 | [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化配对效用、Load/Abstain。 | 条件效用本身不新。作者公开包为guoshaung/SkillApt，`73db0b54`；旧404不能外推无代码。 |

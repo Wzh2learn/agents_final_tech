@@ -89,3 +89,39 @@ def test_rejects_non_controller_top_level_execution(source):
 def test_patch_cannot_replace_multiple_or_existing_state_functions():
     with pytest.raises(ValueError):CP.refine_state(SOURCE,'node_start','def node_start(o,m):return {}\ndef step(o,m):return {}')
     with pytest.raises(ValueError):CP.refine_state(SOURCE,'node_start','def node_start(o,m):return {}',['def step(o,m):return {}'])
+
+
+def test_effect_counterexample_locates_an_unread_committed_field():
+    source="def node_quota(o,m):\n d=json.loads(o['messages'][-1]['content'])\n return d.get('used',0)>d.get('limit',0)\ndef step(o,m):return {}\n"
+    def entry(node,data,decision):
+        import json
+        return {'memory_before':{'node':node},'observation':{'messages':[{'role':'tool','requestor':'assistant','error':False,'content':json.dumps(data)}]},'decision':decision}
+    offer={'kind':'act','name':'say','arguments':{'message':'Buy more?'},'memory':{}}
+    trace=[entry('quota',{'used':11,'limit':10,'credit':0},offer),
+           entry('committed',{'new_credit':2},{'kind':'act','name':'say','arguments':{'message':'Check again'},'memory':{}}),
+           entry('quota',{'used':11,'limit':10,'credit':2},offer)]
+    cases=CP.effect_counterexamples(source,trace)
+    assert len(cases)==1 and cases[0]['target']=='node_quota'
+    assert cases[0]['unread_effect_fields']==['credit']
+    assert cases[0]['before_index']==0 and cases[0]['after_index']==2
+    assert cases[0]['effect_receipt_indices']==[1]
+
+
+def test_metadata_change_without_a_matching_effect_witness_is_not_a_counterexample():
+    source="def node_quota(o,m):return o.get('used',0)\ndef step(o,m):return {}\n"
+    trace=[]
+    for label in ['old','new']:
+        import json
+        trace.append({'memory_before':{'node':'quota'},'observation':{'messages':[{'role':'tool','content':json.dumps({'used':1,'description':label})}]},'decision':{'kind':'yield','memory':{}}})
+    assert CP.effect_counterexamples(source,trace)==[]
+    with pytest.raises(ValueError,match='abstain'):
+        CP.feedback_update_request({'program':source,'failure_trace':trace},localized=True,model='test-model')
+
+
+def test_feedback_writer_uses_only_the_supplied_public_material_and_declared_cap():
+    material={'program':SOURCE,'failure_trace':[],'public_success':{'outcome':1}}
+    request,selected=CP.feedback_update_request(material,localized=False,model='test-model')
+    import json
+    assert json.loads(request['messages'][1]['content'])==material
+    assert request['model']=='test-model' and request['max_tokens']==32768
+    assert request['tool_choice']['function']['name']=='emit_revision' and selected is None

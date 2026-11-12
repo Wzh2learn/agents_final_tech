@@ -81,3 +81,22 @@ def test_provider_failure_refuses_both_roles_without_another_post(monkeypatch):
     for role in ['actor','user']:
         with pytest.raises(RuntimeError,match='paused after HTTP 429'):
             provider.call({},role)
+
+
+def test_exact_receipt_guard_returns_public_feedback_without_advancing_world():
+    previous=dict(name='refuel_data',arguments={'line_id':'L1','gb_amount':2},receipt='Successfully added 2 GB')
+    cmd=action(name='refuel_data',arguments=dict(previous['arguments']))
+    before=repr((cmd,CURRENT,previous))
+    result=ADAPTER.committed_operation_result(cmd,CURRENT,[previous])
+    assert result['error']=='previously_committed_operation'
+    assert result['turn']==CURRENT['turn'] and not result['done']
+    assert result['confirmed_receipt']==previous['receipt']
+    assert repr((cmd,CURRENT,previous))==before
+
+
+def test_exact_receipt_guard_allows_other_bindings_and_is_disabled_by_default():
+    previous=dict(name='refuel_data',arguments={'line_id':'L1','gb_amount':2},receipt='Successfully added 2 GB')
+    for cmd in [action(),action(name='refuel_data',arguments={'line_id':'L2','gb_amount':2}),
+                action(name='refuel_data',arguments={'line_id':'L1','gb_amount':1})]:
+        assert ADAPTER.committed_operation_result(cmd,CURRENT,[previous]) is None
+    assert ADAPTER.committed_operation_result(action(),CURRENT,[]) is None

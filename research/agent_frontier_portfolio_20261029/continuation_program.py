@@ -93,6 +93,81 @@ def public_step(program, observation, memory, tool_names):
     return value
 
 
+def effect_counterexamples(source, trace):
+    """Find repeated decisions ignoring a changed, publicly witnessed effect.
+
+    This is a bounded localization heuristic for learning an edit, not proof
+    of causal responsibility. It recognizes JSON `new_<field>` receipts and
+    direct/subscript reads in the handler and its non-state helpers. An empty
+    result means abstain; it must not default to the last controller state.
+    """
+    functions={n.name:n for n in check_source(source).body if isinstance(n,ast.FunctionDef)}
+    def reads(name,visited=None):
+        visited=set() if visited is None else visited
+        if name in visited or name not in functions:return set()
+        visited.add(name);fields=set()
+        for n in ast.walk(functions[name]):
+            if isinstance(n,ast.Call):
+                if isinstance(n.func,ast.Attribute) and n.func.attr=='get' and n.args:
+                    if isinstance(n.args[0],ast.Constant) and isinstance(n.args[0].value,str):fields.add(n.args[0].value)
+                if isinstance(n.func,ast.Name) and not n.func.id.startswith('node_'):
+                    fields.update(reads(n.func.id,visited))
+            if isinstance(n,ast.Subscript) and isinstance(n.slice,ast.Constant) and isinstance(n.slice.value,str):
+                fields.add(n.slice.value)
+        return fields
+    payloads=[];previous={};cases=[]
+    for i,item in enumerate(trace):
+        messages=item.get('observation',{}).get('messages') or []
+        message=messages[-1] if messages else {}
+        data=None
+        if message.get('role')=='tool' and message.get('requestor','assistant')=='assistant' and not message.get('error'):
+            try:data=json.loads(message.get('content',''))
+            except (TypeError,ValueError):pass
+        payloads.append(data if type(data) is dict else {})
+        target='node_'+str(item.get('memory_before',{}).get('node',''))
+        if target not in functions or type(data) is not dict:continue
+        decision=item.get('decision',{})
+        operation={k:decision.get(k) for k in ['kind','name','arguments']}
+        key=(target,json.dumps(operation,sort_keys=True,allow_nan=False))
+        if key in previous:
+            before_index,before=previous[key]
+            changed={k for k in data.keys() & before.keys() if data[k]!=before[k]}
+            unread=changed-reads(target);witnesses={}
+            for j in range(before_index+1,i):
+                for field in unread:
+                    if 'new_'+field in payloads[j] and payloads[j]['new_'+field]==data[field]:
+                        witnesses.setdefault(field,[]).append(j)
+            if witnesses:
+                cases.append(dict(target=target,before_index=before_index,after_index=i,
+                    unread_effect_fields=sorted(witnesses),effect_receipt_indices=sorted({j for indexes in witnesses.values() for j in indexes}),
+                    before=copy.deepcopy(before),after=copy.deepcopy(data),repeated_operation=copy.deepcopy(operation)))
+        previous[key]=(i,copy.deepcopy(data))
+    return cases
+
+
+def feedback_update_request(materials, *, localized, model):
+    """Same public evidence/model/cap; optionally select an effect counterexample.
+
+    The derived location adds no observation or oracle label. It constrains
+    a proposed edit; actual continuation and transfer must decide utility.
+    """
+    if type(localized) is not bool:raise ValueError('explicit update rule required')
+    instruction='''Revise the supplied executable corrective controller using the complete real public failure and success continuations. Their outcome labels supervise whole continuations, not an isolated action. The current original controller, tools, policy and all public evidence are supplied equally to both update rules. Do not invent hidden state or a reference solution.
+Return emit_revision with edits=[{target:existing_function_name,replacement:complete_Python_def}], additions=[complete definitions of fresh pure helpers or node_<state> handlers], rationale and evidence. At most eight existing functions may be edited. Empty edits/additions are permitted if the feedback does not justify an update. Use compact edits, not a full rewrite. Preserve entity/parameter bindings, legal assistant versus customer actions, consent and completed progress. No hardcoded source IDs, quantities or outcomes; use runtime observations. The functions see observation and JSON memory. json/re/math and ordinary basic builtins are already bound; no IO, private names or other imports. Full task success and formation plus execution cost will decide acceptance, not syntax or wording. Explain which observed continuation supports any replacement and when it should abstain.'''
+    selected=None
+    if localized:
+        cases=effect_counterexamples(materials['program'],materials['failure_trace'])
+        if not cases:raise ValueError('no effect counterexample: abstain before a model request')
+        selected=cases[0]
+        instruction+='\nEffect-conditioned refinement rule: the deterministic public-trace/read-footprint analysis below located a repeated decision that ignores a changed witnessed effect. If you propose any edit, it must include '+selected['target']+'. Learn an appropriate condition and remaining continuation from the supplied real success/failure evidence, rather than merely blocking all later use or editing the final yield. Other justified edits remain allowed within the same eight-function cap. The proposed location is a heuristic, not a causal fact.\nDerived location: '+json.dumps(selected,ensure_ascii=False)
+    else:
+        instruction+='\nOrdinary feedback-edit rule: choose the most effective repairs anywhere in the controller from the same complete public traces; no location restriction is imposed. You may revise guards, continuation logic or stopping behavior.'
+    props=dict(edits=dict(type='array',items=dict(type='object',properties=dict(target=dict(type='string'),replacement=dict(type='string')),required=['target','replacement'])),additions=dict(type='array',items=dict(type='string')),rationale=dict(type='string'),evidence=dict(type='string'))
+    tool=dict(type='function',function=dict(name='emit_revision',description='Propose an executable feedback update.',parameters=dict(type='object',properties=props,required=list(props))))
+    request=dict(model=model,messages=[dict(role='system',content=instruction),dict(role='user',content=json.dumps(materials,ensure_ascii=False))],tools=[tool],tool_choice=dict(type='function',function=dict(name='emit_revision')),temperature=0,max_tokens=32768,stream=True,stream_options=dict(include_usage=True))
+    return request,selected
+
+
 def refine_state(source, target, replacement, additions=()):
     """Replace one named decision handler and add new handlers, leaving others intact.
 
