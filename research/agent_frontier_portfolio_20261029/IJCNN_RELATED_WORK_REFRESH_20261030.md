@@ -6,12 +6,14 @@
 
 **FCCL主线：从执行反馈学习可复用纠正策略。** 尚无成立新方法。当前跨角色续行程序仅为候选；角色标签、可执行程序、配对执行和反馈更新本身已有，不以新载体替代增量。
 
-11-14：普通继续已覆盖旧现场。当前复用O/R做平均/差分探针；参数算术、对比反馈、同前缀信用均有近邻，不改名为新方法。
+11-14：固定差分停扩；当前检验原生反馈—纠正收益交互的生成策略更新。来源反转不等于方法收益。
 
 ## 最直接的方法近邻
 
 | 工作 | 已核机制 | 当前必须解决的区别 |
 |---|---|---|
+| [REBEL](https://arxiv.org/abs/2404.16767) | 已核摘要/作者论文：以策略相对奖励回归做优化；相对奖励回归本身已有。 | 当前逐行项须按其已知骨架解释，并作同四格数据的强基线；跨上下文中心化不自动构成新算法。 |
+| [InfoPO](https://arxiv.org/html/2603.00656) / [Embodied-Corrector](https://arxiv.org/html/2611.15651v1) | C核前者§4.1–4.2：真实/遮蔽反馈下动作LL差；D核后者§3.2：准确/自生成诊断的token概率差及OPD/NEPO。 | 反馈敏感性、诊断蒸馏已有。当前候选以原生四格结果监督生成更新；仍须同预算DPO/逐行回归验证。 |
 | [UniSkill](https://arxiv.org/html/2610.10164v1) / [CaPE](https://aclanthology.org/2023.findings-acl.685/) | 分别读§3.3/实现及原文：前者以冻结actor在同题成败参考上的token归一似然增量差学习技能，并联合GRPO；后者用expert−anti-expert参数差。 | 成败对比与R−O算术已有；当前仅检验旧训练信号，条件更新及独立任务收益仍须另证。 |
 | [PEAM v2](https://arxiv.org/html/2605.27762v2) | 读§3.1–3.4：同上下文失败/纠正对以BC＋DPO更新类别隔离LoRA，执行验证失败回退慢模型，按效用及失败统计触发巩固。 | 从失败学适配器、条件路由/回退已有；不把参数化记忆本身主张为独立创新。未复现代码/结果。 |
 | [Agent-R](https://arxiv.org/html/2501.11425v1) / [STeP](https://arxiv.org/html/2505.20023v1) | 共享前缀纠正/MCTS及迭代SFT；教师反思轨迹、错误动作部分mask。 | 从失败续做/正确片段学习已有，须证明条件纠正的额外收益。 |
@@ -25,8 +27,6 @@
 | [SkillMorph](https://arxiv.org/html/2610.11858v1) | §2/4：跨重复、任务和演化轮的动作覆盖定位，再关联技能中的指令/脚本编辑位置并协调修订；固定模型/harness、留出任务评估。 | 失败轨迹定位和执行证据驱动技能修订已有，不能说它只看文本或没有实际行为。 |
 | [SCOPE](https://arxiv.org/html/2611.03116v1) | §3.1–3.4：从全局失败轨迹挖局部技能/失败经验，组链；同探索前沿教师/自干预，完整轨迹蒸馏。 | 挖失败、保留进度与拼局部成功已有；不能把当前两种失败的互补目标直接称新机制。 |
 | [SkillCAT](https://arxiv.org/html/2606.13317v1) | CCE同题成败对找首次有意义分歧；AAE源副本重放，0→1/1→1优先，阈值后层级合并。 | 首分歧学习已有；整体0→0的互补修复可能被筛除，但盲合并是必要强基线。正文已读，代码未独立核查。 |
-| [WER](https://arxiv.org/html/2608.17587v1) / [代码](https://github.com/littlepkk/WER4skill-optimizer-training) | §3.1–3.4：冻结执行器，执行技能文档；同任务/技能成败轨迹驱动下一阶段技能优化及组相对RL。 | 真实成败驱动技能更新已有且覆盖tau2；须检验具体续行程序编辑收益。 |
-| [Skill-α](https://arxiv.org/html/2608.01678v1) / [代码](https://github.com/ejhshen/skill-alpha) | §4.1–4.3：Create/Update/Merge/Prune/Noop；锚定query旧/新技能执行回滚奖励＋GRPO。 | 编辑信用与反事实奖励已有。可参考固定worker、短轨迹经验批设置，不将其称新学习规则。 |
 
 ## 反馈与测试 oracle 的近邻
 
@@ -40,7 +40,7 @@
 
 [tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入；[反应式先导](results/CONTINUATION_PROGRAM.md#reactive-v1)三组均成功，唯一自动介入把正确Say回执误当重复写。HASP式适配/一步执行不算独立方法。分支恢复双侧历史/DB；不同领域仍属同一benchmark。
 
-`17d4885f`本文件保留ReGAL §3.2/A.2：执行成败更新/修剪程序库已有；`6a2b8382`保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE。其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)，移出不表示失效。
+`e920668f`保留WER/Skill-α的成败/反事实技能更新；`17d4885f`保留ReGAL程序库更新；`6a2b8382`保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE。其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)，移出不表示失效。
 
 ## 对本项目实验的直接约束
 
