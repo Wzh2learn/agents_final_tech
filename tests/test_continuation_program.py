@@ -1,6 +1,7 @@
 """Execution/patch boundaries; these checks do not establish learned utility."""
 import ast
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,79 @@ import pytest
 PATH=Path(__file__).resolve().parents[1]/'research/agent_frontier_portfolio_20261029/continuation_program.py'
 SPEC=importlib.util.spec_from_file_location('continuation_program',PATH)
 CP=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(CP)
+
+
+def test_partial_effect_frontier_retains_complementary_failed_programs():
+    common = dict(group='same_task', model='fixed', caps={'posts': 24})
+    rows = [dict(common, id='network', native_reward=0,
+                 components={'network': True, 'credit': False}),
+            dict(common, id='credit', native_reward=0,
+                 components={'network': False, 'credit': True}),
+            dict(common, id='neither', native_reward=0,
+                 components={'network': False, 'credit': False})]
+    result = CP.partial_effect_frontier(rows)
+    assert result['retained_ids'] == ['network', 'credit']
+    assert result['dominated_ids'] == ['neither']
+    assert rows[0]['native_reward'] == 0
+
+
+def test_partial_effect_frontier_does_not_compare_different_tasks_or_unknowns():
+    common = dict(model='fixed', caps={'posts': 24}, native_reward=0)
+    rows = [dict(common, id='a', group='task_a', components={'x': False}),
+            dict(common, id='b', group='task_b', components={'x': True}),
+            dict(common, id='unknown', group='task_a', components={'x': None})]
+    assert CP.partial_effect_frontier(rows)['retained_ids'] == ['a', 'b', 'unknown']
+
+
+def test_partial_effect_frontier_rejects_mismatched_within_task_measurement():
+    a = dict(id='a', group='t', model='fixed', caps={'posts': 2},
+             native_reward=0, components={'x': True})
+    for key, value in [('model', 'other'), ('caps', {'posts': 3}),
+                       ('components', {'y': False})]:
+        b = dict(a, id='b', **{key: value})
+        with pytest.raises(ValueError):
+            CP.partial_effect_frontier([a, b])
+
+
+def test_partial_effect_learning_request_keeps_evidence_and_model_budget_equal():
+    common = dict(group='task', model='fixed', caps={'posts': 12}, native_reward=0)
+    material = dict(donor_records=[dict(common,id='d0',components={'x':True,'y':False}),
+                                   dict(common,id='d1',components={'x':False,'y':True})],
+                    donor_programs=['first source','second source'], sources=['past real outcomes'])
+    ordinary = CP.partial_effect_learning_request(material, compose=False, model='fixed')
+    retained = CP.partial_effect_learning_request(material, compose=True, model='fixed')
+    assert ordinary['messages'][1] == retained['messages'][1]
+    assert json.loads(ordinary['messages'][1]['content']) == material
+    for key in ['model','temperature','max_tokens','tools','tool_choice','stream','stream_options']:
+        assert ordinary[key] == retained[key]
+    assert 'call_fragment' in retained['messages'][0]['content']
+    assert 'Observed component frontier' in retained['messages'][0]['content']
+
+
+def test_fragment_library_preserves_donor_globals_and_actual_calls():
+    donors = ["VALUE='query'\ndef node_go(o,m):\n return {'kind':'act','name':VALUE,'arguments':{},'memory':m}\ndef step(o,m):\n return node_go(o,m)\n",
+              "VALUE='repair'\ndef node_go(o,m):\n return {'kind':'act','name':VALUE,'arguments':{},'memory':m}\ndef step(o,m):\n return node_go(o,m)\n"]
+    bridge = "def step(o,m):\n return call_fragment('d1.node_go',o,m)\n"
+    source, meta = CP.compose_fragment_library(donors, bridge)
+    result = CP.public_step(CP.load_program(source), {'done': False}, {}, ['query', 'repair'])
+    assert result['name'] == 'repair'
+    assert result['memory']['fccl_fragment_calls'] == ['d1.node_go']
+    assert meta['donor_bodies_preserved'] is True
+    assert len(meta['donor_sha256']) == 2
+    first, _ = CP.compose_fragment_library(donors, bridge.replace('d1.node_go', 'd0.node_go'))
+    assert CP.public_step(CP.load_program(first), {'done': False}, {}, ['query'])['name'] == 'query'
+
+
+def test_fragment_library_rejects_namespace_overwrites_and_unsupported_calls():
+    donor = "def step(o,m):\n return {'kind':'yield','memory':m}\n"
+    for bridge in ["def call_fragment(a,b,c):return None\ndef step(o,m):return None",
+                   "def step(o,m):return None\nd0_step=0"]:
+        with pytest.raises(ValueError):
+            CP.compose_fragment_library([donor], bridge)
+    source, _ = CP.compose_fragment_library([donor],
+        "def step(o,m):return call_fragment('unknown',o,m)")
+    with pytest.raises(ValueError):
+        CP.public_step(CP.load_program(source), {'done': False}, {}, [])
 SOURCE='''def node_start(o,m):
     m['node']='wait'
     return {'kind':'act','name':'say','arguments':{'message':'Please check the signal.'},'memory':m}

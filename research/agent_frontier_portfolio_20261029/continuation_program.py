@@ -152,6 +152,187 @@ def step(observation, memory):
         option_functions=functions, base_bodies_preserved=True)
 
 
+def partial_effect_frontier(records):
+    """Retain observed complementary effects, including globally failed runs.
+
+    This is an empirical multi-objective admission rule, not causal credit for
+    individual actions. Unknown effects cannot dominate or be dominated. Costs
+    do not make an unsuccessful but shorter trajectory a better skill.
+    """
+    groups, ids = {}, set()
+    for record in records:
+        identity, group = record['id'], record['group']
+        components, reward = record['components'], record['native_reward']
+        if (not isinstance(identity, str) or not identity or identity in ids
+                or not isinstance(group, str) or not group
+                or type(components) is not dict or not components
+                or any(not isinstance(k, str) or not k for k in components)
+                or any(v is not None and type(v) is not bool for v in components.values())
+                or type(reward) not in (int, float) or not math.isfinite(reward)
+                or not 0 <= reward <= 1):
+            raise ValueError('invalid or duplicate partial-effect record')
+        ids.add(identity)
+        peers = groups.setdefault(group, [])
+        for peer in peers:
+            if (peer['model'] != record['model'] or peer['caps'] != record['caps']
+                    or set(peer['components']) != set(components)):
+                raise ValueError('incomparable measurements inside one source group')
+        peers.append(record)
+
+    def dominates(a, b):
+        if any(v is None for r in (a, b) for v in r['components'].values()):
+            return False
+        keys = sorted(a['components'])
+        av = [a['native_reward']] + [int(a['components'][k]) for k in keys]
+        bv = [b['native_reward']] + [int(b['components'][k]) for k in keys]
+        return all(x >= y for x, y in zip(av, bv)) and any(x > y for x, y in zip(av, bv))
+
+    dominated = {r['id'] for peers in groups.values() for r in peers
+                 if any(dominates(p, r) for p in peers if p is not r)}
+    return dict(retained_ids=[r['id'] for r in records if r['id'] not in dominated],
+                dominated_ids=[r['id'] for r in records if r['id'] in dominated],
+                scope='Observed whole-run component feedback; not independent action credit')
+
+
+def partial_effect_learning_request(materials, *, compose, model):
+    """Build the exact two-writer preservation-v1 training inputs.
+
+    Both writers see identical past executions and have the same model budget.
+    The experimental requests are archived privately; this pure builder makes
+    their update rule reviewable without executing any generated code.
+    """
+    instruction = (
+        'Form a reusable corrective policy from the supplied actual public executions. Use only public '
+        'history, feedback and runtime memory. observation is a DICTIONARY: '
+        "observation.get('messages',[]) is the full actual public history; proposed_operation is a "
+        'pending Actor command or None; done/turn are dictionary keys. The Actor handles the task '
+        'outside your supported local scope. Preserve consent and parameter bindings from current '
+        'history; never call customer-only tools or hardcode source line IDs, quantities, task IDs or '
+        'expected outcomes. Do not mistake a normal Say receipt for a repeated write, stale '
+        'observations for current status, or any positive refuel for sufficient quota.\nReturn '
+        'emit_policy with source, rationale, evidence. Define pure step(observation,memory), optional '
+        'pure helpers/literal constants. Return '
+        "{kind:'act',name:assistant_tool_or_say,arguments:object,memory:object} or "
+        "{kind:'yield',memory:object,reason:string}. say arguments exactly {message:string}. Stop only "
+        'if done is already true. No imports/IO/private attributes. json/re/math and basic builtins are '
+        'bound. No greeting/reset/whole-task declaration. Common client can execute up to four local '
+        'actions per Actor operation and then replans any displaced proposal. Learn concrete '
+        'feedback-conditioned corrections, not merely warnings. Empty scope yields to Actor.\nPast '
+        'component feedback is training evidence only. Full native success, regressions and total '
+        'formation-plus-use costs matter; failed task suffix cost alone is not benefit.\n'
+    )
+    if compose:
+        instruction += (
+            'Learning rule: retain both nondominated partially successful donors selected below. Emit a '
+            '<=4000 UTF-8 byte routing bridge defining step. Their pure bodies remain frozen under d0_/d1_ '
+            'namespaces. Prefer reusing a supported concrete action node with '
+            "call_fragment('d0.node_name',observation,child_memory), or d1 analog, rather than replaying a "
+            'whole stopped controller. The complete source and callable names are supplied. call_fragment '
+            "returns the original node's act/yield and records actual dispatch in returned memory. "
+            'Preserve/extend that memory when keeping the decision; use your own phase to continue locally '
+            'and yield when support ends. Learn the runtime conditions and node/memory bindings from public '
+            'trajectories and complementary effects. Do not follow a node whose stale control state blocks '
+            'the needed correction. Direct new corrective actions are allowed when necessary, but explain '
+            'unsupported reuse. Do not overwrite frozen donor/dispatcher definitions.\nObserved component '
+            'frontier: '
+            + json.dumps(partial_effect_frontier(materials['donor_records'])))
+    else:
+        instruction += (
+            'Ordinary feedback-update comparator: write the best <=16000 UTF-8 byte complete local policy '
+            'from the same supplied code, full histories and outcomes. You may rewrite guards, actions, '
+            'memory and continuation freely; there is no donor-preservation or Pareto constraint. Supplied '
+            'donor programs are evidence, not runtime globals. This is a same-information rewrite baseline '
+            'inspired by execution-anchored revision, not a reproduction claim.'
+        )
+    request = {'tools': [{'type': 'function',
+                'function': {'name': 'emit_policy',
+                             'description': 'Return an executable public-feedback corrective '
+                                            'policy.',
+                             'parameters': {'type': 'object',
+                                            'properties': {'source': {'type': 'string'},
+                                                           'rationale': {'type': 'string'},
+                                                           'evidence': {'type': 'string'}},
+                                            'required': ['source', 'rationale', 'evidence']}}}],
+     'tool_choice': {'type': 'function', 'function': {'name': 'emit_policy'}},
+     'temperature': 0,
+     'max_tokens': 65536,
+     'stream': True,
+     'stream_options': {'include_usage': True}}
+    request['model'] = model
+    request['messages'] = [dict(role='system', content=instruction),
+                           dict(role='user', content=json.dumps(materials, ensure_ascii=False))]
+    return request
+
+
+def compose_fragment_library(sources, bridge_source):
+    """Namespace frozen donor bodies and learn their public-state routing.
+
+    The bridge may add actions or yield to the Actor. call_fragment executes
+    an existing two-input node or step with copied public data, recording the
+    actual dispatch in returned memory. Generated code runs in the guest only.
+    """
+    if not sources or len(sources) > 8:
+        raise ValueError('expected a small nonempty donor library')
+    bodies, entries, reserved, hashes = [], [], {'call_fragment'}, []
+    for index, source in enumerate(sources):
+        tree = check_source(source)
+        names = {n.name for n in tree.body if isinstance(n, ast.FunctionDef)}
+        for node in tree.body:
+            if isinstance(node, ast.Assign):
+                if any(not isinstance(t, ast.Name) for t in node.targets):
+                    raise ValueError('donor globals must have simple names')
+                names.update(t.id for t in node.targets)
+        # Refuse ambiguous shadowing rather than silently changing its meaning.
+        for fn in [n for n in tree.body if isinstance(n, ast.FunctionDef)]:
+            local = {a.arg for a in fn.args.posonlyargs + fn.args.args + fn.args.kwonlyargs}
+            local.update(n.id for n in ast.walk(fn) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store))
+            local.update(n.name for n in ast.walk(fn) if isinstance(n, ast.FunctionDef) and n is not fn)
+            if local.intersection(names):
+                raise ValueError('donor local/global shadowing needs a scoped adapter')
+        mapping = {name: 'd' + str(index) + '_' + name for name in names}
+        for fn in [n for n in tree.body if isinstance(n, ast.FunctionDef)]:
+            if ((fn.name == 'step' or fn.name.startswith('node_'))
+                    and len(fn.args.posonlyargs + fn.args.args) == 2
+                    and not fn.args.vararg and not fn.args.kwarg and not fn.args.kwonlyargs):
+                entries.append(('d' + str(index) + '.' + fn.name, mapping[fn.name]))
+
+        class Namespace(ast.NodeTransformer):
+            def visit_Name(self, node):
+                if node.id in mapping:
+                    node.id = mapping[node.id]
+                return node
+
+            def visit_FunctionDef(self, node):
+                if node.name in mapping:
+                    node.name = mapping[node.name]
+                return self.generic_visit(node)
+
+        bodies.extend(Namespace().visit(tree).body)
+        reserved.update(mapping.values())
+        hashes.append(hashlib.sha256(source.encode('utf-8')).hexdigest())
+    bridge = check_source(bridge_source)
+    declared = {n.name for n in bridge.body if isinstance(n, ast.FunctionDef)}
+    declared.update(t.id for n in bridge.body if isinstance(n, ast.Assign)
+                    for t in n.targets if isinstance(t, ast.Name))
+    if declared.intersection(reserved):
+        raise ValueError('bridge cannot replace frozen donor definitions')
+    dispatch = "def call_fragment(name, observation, memory):\n"
+    dispatch += "    child = json.loads(json.dumps(memory))\n"
+    for i, (public, internal) in enumerate(entries):
+        dispatch += "    " + ('if' if i == 0 else 'elif') + " name == " + repr(public) + ":\n"
+        dispatch += "        decision = " + internal + "(json.loads(json.dumps(observation)), child)\n"
+    dispatch += "    else:\n        raise ValueError('unknown corrective fragment')\n"
+    dispatch += "    decision['memory']['fccl_fragment_calls'] = memory.get('fccl_fragment_calls', [])[-15:] + [name]\n"
+    dispatch += "    return decision\n"
+    combined = ast.Module(body=bodies + ast.parse(dispatch).body + bridge.body, type_ignores=[])
+    output = ast.unparse(ast.fix_missing_locations(combined)) + '\n'
+    check_source(output)
+    return output, dict(donor_sha256=hashes, donor_bodies_preserved=True,
+                        preservation_scope='AST bodies under namespace renaming; common dispatch adds call evidence',
+                        fragment_names=[name for name, _ in entries],
+                        bridge_sha256=hashlib.sha256(bridge_source.encode('utf-8')).hexdigest())
+
+
 def matched_continuation_preference(continuation, correction, cost_margin=0.15):
     """An empirical *whole-suffix* training target, never a single-action label.
 

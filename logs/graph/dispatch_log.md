@@ -1537,3 +1537,5 @@ echo dispatch_log updated
 [08:49] reactive-v1: 1 new task x3 -> native 1/1/1; one false trigger, no extra benefit; 149 POST / 1450383 known / 0 unknown; 3/3 strict replay, 558 payloads rechecked; stop this policy, retain common client; base 0d09bc14, see batch commit.
 
 [09:46] D cross-batch autopsy -> 19 report index; 36 receipt bindings + 30 fork SSE rechecked; preserve learning/cost/partial-repair signals, 0 new model calls -> this commit (parent 0954279f)
+
+[2026-11-13 11:49] 第二篇跨批次尸检→保留14类成败信号；冻结节点/路由学习两DEV闭合，385POST/4,401,126tokens，GB10定向49通过；并发缓存修复，1原生评分缺失保留；证据双端，当前提交。

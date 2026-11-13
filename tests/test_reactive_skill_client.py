@@ -1,8 +1,12 @@
 """Real operation/state contracts, not evidence of learned-policy effectiveness."""
 import copy
 import importlib.util
+import json
+import os
 from pathlib import Path
+import subprocess
 import sys
+import time
 
 import pytest
 
@@ -10,6 +14,59 @@ ROOT = Path(__file__).resolve().parents[1] / 'research/agent_frontier_portfolio_
 sys.path.insert(0, str(ROOT))
 SPEC = importlib.util.spec_from_file_location('reactive_skill_client', ROOT / 'reactive_skill_client.py')
 C = importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(C)
+
+
+@pytest.mark.skipif(os.name == 'nt', reason='Owned Linux guest uses fcntl file locks')
+def test_parallel_cli_cannot_overwrite_a_completed_world_operation(tmp_path):
+    """Reproduce a delayed stale writer, with no network or real model."""
+    (tmp_path/'program_memory.json').write_text(json.dumps(dict(mode=0, memory={})))
+    (tmp_path/'program.py').write_text("def step(o,m):return {'kind':'yield','memory':m}\n")
+    (tmp_path/'tools.json').write_text(json.dumps([dict(function=dict(name='query'))]))
+    (tmp_path/'world.json').write_text(json.dumps(dict(done=False, turn=1,
+        messages=[dict(role='user', content='initial')], accepted=[])))
+    child = r'''
+import fcntl, importlib.util, json, sys, time
+from pathlib import Path
+sys.path.insert(0, sys.argv[1]); root=Path(sys.argv[2]); who=sys.argv[3]
+import reactive_skill_client as c
+def rpc(request):
+    with (root/'world.lock').open('a') as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX)
+        value=json.loads((root/'world.json').read_text())
+        if request['op']=='act':
+            if request['turn']!=value['turn']:return {'error':'stale_native_operation'}
+            value['accepted'].append(request['arguments']['worker']);value['turn']+=1
+            value['messages']=[dict(role='tool',content='accepted',requestor='assistant',error=False)]
+            (root/'world.json').write_text(json.dumps(value))
+    if request['op']=='observe' and who=='A':
+        (root/'a_observed').write_text('ready')
+        until=time.monotonic()+1
+        while not (root/'b_finished').exists() and time.monotonic()<until:time.sleep(.01)
+    return value
+c.rpc=rpc
+sys.argv=['client',json.dumps(dict(op='act',turn=1,name='query',arguments=dict(worker=who))),'--root',str(root)]
+c.main()
+if who=='B':(root/'b_finished').write_text('done')
+'''
+    args=[sys.executable,'-c',child,str(ROOT),str(tmp_path)]
+    a=subprocess.Popen(args+['A'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+    b=None
+    try:
+        until=time.monotonic()+5
+        while not (tmp_path/'a_observed').exists() and time.monotonic()<until:time.sleep(.01)
+        assert (tmp_path/'a_observed').exists()
+        b=subprocess.Popen(args+['B'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+        aout,aerr=a.communicate(timeout=5);bout,berr=b.communicate(timeout=5)
+        assert a.returncode==b.returncode==0,(aout,aerr,bout,berr)
+        state=json.loads((tmp_path/'program_memory.json').read_text())
+        world=json.loads((tmp_path/'world.json').read_text())
+        accepted=[m for m in state['history'] if m['role']=='assistant']
+        assert len(world['accepted'])==len(accepted)==1
+        assert state['last_turn']==world['turn']==2
+        assert accepted[0]['tool_calls'][0]['arguments']['worker']==world['accepted'][0]
+    finally:
+        for p in [a,b]:
+            if p is not None and p.poll() is None:p.kill();p.wait()
 
 
 class World:

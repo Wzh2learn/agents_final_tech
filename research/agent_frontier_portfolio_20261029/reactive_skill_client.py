@@ -151,20 +151,30 @@ def rpc(request):
 
 
 def main():
+    # OpenCode may launch concurrent Bash tools. The world serializes turns;
+    # its public-history cache must serialize the complete read/act/write too.
+    import fcntl
     parser = argparse.ArgumentParser()
     parser.add_argument('request', help='Same public JSON operation as world_client.py')
     parser.add_argument('--root', type=Path, default=Path('/workspace'))
     args = parser.parse_args(); root = args.root
-    state_path = root / 'program_memory.json'
-    state = json.loads(state_path.read_text())
-    program = load_program((root / 'program.py').read_text())
-    names = [x['function']['name'] for x in json.loads((root / 'tools.json').read_text())]
-    def trace(value):
-        with (root / 'reactive_skill.trace.jsonl').open('a') as handle:
-            handle.write(json.dumps(value, allow_nan=False) + '\n')
-    result, state = execute(json.loads(args.request), rpc, program, state, names, trace)
-    state_path.write_text(json.dumps(state, allow_nan=False))
-    print(json.dumps(result, allow_nan=False))
+    with (root / 'program_memory.lock').open('a') as guard:
+        fcntl.flock(guard, fcntl.LOCK_EX)
+        try:
+            state_path = root / 'program_memory.json'
+            state = json.loads(state_path.read_text())
+            program = load_program((root / 'program.py').read_text())
+            names = [x['function']['name'] for x in json.loads((root / 'tools.json').read_text())]
+            def trace(value):
+                with (root / 'reactive_skill.trace.jsonl').open('a') as handle:
+                    handle.write(json.dumps(value, allow_nan=False) + '\n')
+            result, state = execute(json.loads(args.request), rpc, program, state, names, trace)
+            temporary = state_path.with_suffix('.tmp')
+            temporary.write_text(json.dumps(state, allow_nan=False))
+            temporary.replace(state_path)
+            print(json.dumps(result, allow_nan=False))
+        finally:
+            fcntl.flock(guard, fcntl.LOCK_UN)
 
 
 if __name__ == '__main__':
