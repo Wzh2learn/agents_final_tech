@@ -1,17 +1,22 @@
 # 纠正技能研究：跨批次归因与可复用信号
 
-> 2026-11-13｜[自动反馈修订](#local-edits-v1)已闭合；[原型](#phase-v1)、[旧十组](#normalized-v1)及[全面归因](#cross-batch-autopsy)保留。下一查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+> 2026-11-13｜[新任务五组](#feedback-transfer-v1)在跑；[自动修订](#local-edits-v1)已闭合；[原型](#phase-v1)、[旧十组](#normalized-v1)及[全面归因](#cross-batch-autopsy)保留。下一查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+
+<a id="feedback-transfer-v1"></a>
+## 新任务五组：GB10原生验证在跑
+
+从full任务池按既有hash顺序选两条未曝光的三故障组合：飞行模式＋额度＋境外漫游；VPN＋省流＋额度。排除所有已计划/执行的故障族及官方TEST族，未消费TEST。先冻结代码和ID，再开任务正文；host原生base/reference均0/1，只是评分完整性检查，不计Agent成功。
+
+实际五组为基础Agent、普通历史、收据额度规则、原兼容更新、自动反馈更新。非冷启动组获得相同完整来源、代码执行反馈及共同候选池。post-only简单参考与自动反馈更新选中相同程序/输入，作为同策略参照，不另算独立样本或HASP复现。
+
+复用原carrier、OpenCode `915ca1cd`与校内DeepSeek；每组24 Actor/72总POST、2M tokens、900秒、160原生步，普通终答未成功统一续一次；总10组≤720POST/20M。顺序冻结，seed不可控。当前首个额度规则原生0（40POST/491,472，Actor24触帽），无自动介入/代码变更；其余在跑，不据首例裁决方法。父PID32374/start_ticks208123，宿主会话90121；核实际存活，勿重启。
+
+私有`fccl_continuation_program_v1/feedback_transfer_v1/PLAN.json` SHA `88b2e7f4e60cc0081a1714c1c283812f9ab9df434ac09336f07ba964af4fb0f4`。本批无新形成/训练；复用形成费用与历史失败费保留，完成后按原生成功、目标状态诊断和全成本比较。
 
 <a id="local-edits-v1"></a>
-## 执行反馈修订：保护已自动修正，待原生验证
+## 源内自动反馈修订：已闭合
 
-64K两组闭合：阶段writer1803.48秒上游断流，无交付/usage；普通writer509.64秒交付一函数编辑、29,650tokens，但保护首次命中旧0GB回执即break，漏掉后续2GB。两请求一未知预留262,144；16K旧失败费保留。宿主未执行生成函数，本机68检查/1平台跳过不是原生收益。
-
-随后只给原提案、2条公开见证和客体实际yield反馈，不给人工修补，模型在145.95秒/1POST/12,230tokens内自行改为使用后来的usage。[保留的开发程序](../feedback_corrective_policy.py)未部署；读取条件、真实纠正与退出仍须新题验证。
-
-隔离Linux中，同一池含初始程序、原提案、自动修订，回查62个既有见证/两来源：已知坏pending重放1→0，已有正例兼容不退；早期VPN正例仍未覆盖。原兼容选择留旧程序，阶段选择与post-only简单参考均选自动修订；复制正则置0同结果。这里支持代码反馈形成有效保护，尚无阶段正则相对简单参考的独立增益；替代动作结果未知，不能补计新原生成功。
-
-本轮0新原生任务/训练；普通响应cache细节两次大于input，原值保留、不扣减，核心输入输出自洽。[总账](FCCL_FORMATION.md#成本与证据定位)统一更新。私有`recency_feedback_v1/CLOSEOUT.json` SHA `ceaa1fe9b90fffe1d118fcc4589e82e618cc974a8ec001f206201acdbd49853d`绑定自动提案、隔离结果及前批输入。GB10仍连接超时，用户查验中；下一复用原OpenCode在新题验证，不再同场追加writer。早期配置见f484c779本文件blob。
+[开发程序](../feedback_corrective_policy.py)：1POST/12,230tokens，62源见证坏pending1→0、正例兼容不退；post-only参考同选，未计新原生收益。详见2f3f0082本文件blob。
 
 <a id="phase-v1"></a>
 ## 早期阶段化原型
