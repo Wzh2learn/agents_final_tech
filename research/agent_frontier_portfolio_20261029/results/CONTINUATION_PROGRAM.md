@@ -1,84 +1,72 @@
-# 反应式纠正先导：介入成功不等于触发正确
+# 纠正技能研究：跨批次归因与可复用信号
 
-> 2026-11-13｜单新题三组已完成并停止本版扩跑。三组原生均成功，一步策略的唯一介入是误触发，未显示额外收益。无运行中实验、训练0。累计见[FCCL总账](FCCL_FORMATION.md#成本与证据定位)，下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+> 2026-11-13｜综合尸检；本轮新增模型/任务/训练0。已有正向学习、局部修复和成本信号；FCCL独立增量尚待验证。执行只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+
+<a id="cross-batch-autopsy"></a>
+## 修正判断方式
+
+**“有没有效果”“为什么有效”“是否超过近邻”分开回答。** 后两项未成立，不能抹掉第一项；整题失败不自动否定有效片段。原生分数保留，局部信号另记，不补计整题成功。停止对象限定为具体配置、实现或饱和面板。
+
+本轮inquiry为first-principles。建立19份现役结果记录的定位，按机制复读相关章节及历史链接；不是重跑所有历史实验。下表最后一列包含研究推断，不冒充已识别因果。
+
+## 历次结果与可用素材
+
+| 实验族 / 原件 | 实际信号 | 归因与素材用途 |
+|---|---|---|
+| [8B纠正训练→12新布局](ALFWORLD_LEARNING_RUNTIME.md#trained-baselines) | 同BF16父模型F/O/R为4/12、6/12、8/12；R对O新增2题、未丢题，执行8,192,852→5,166,975tokens。 | **正向开发信号**：保留适配器与7组监督。训练配方有效信号与新算法贡献分开；内容/上下文因素仍未分离。 |
+| [Astropy隔离四组](ASTROPY_ISOLATED_CONTROLS_20261106.md) | 四组均3/3目标＋132/132回归；普通历史19→10 POST、491,274→268,655tokens，普通skill未超过历史。 | **历史有用，压成skill未必更好**。可定位有效执行细节，不能把“没有新方法”写成“经验没收益”。单次结果待重复。 |
+| [Astropy A4/A5恢复](CODE_SOURCE_CORRECTIONS.md#fcdr-recovery-result) | A5动态/普通同为3/3＋132/132，71,472 vs99,200tokens；A4均0/3，最后请求均length。 | 保留A5条件性正向；A4有交付瓶颈。两现场合计动态多60,915tokens，不能只留好例，也不能用合计抹掉A5。 |
+| [ALF恢复](ALFWORLD_CONTEXT_STUDY.md)及[full/recent](ALFWORLD_ADDITIONAL_SOURCES.md) | 旧heat原会话失败、新会话成功；clean02近期更省、03完整更省。 | 上下文条件效用候选；会话格式/历史/提示共变，不能单归因清空。逐题oracle只是上界。 |
+| [早期SymPy加载](SYMPY_LATEX_TRANSFER_20261106.md)、[ALF通道](ALFWORLD_TEXT_AGENT_20261106.md) | 三经验正文未进实际请求；inline后溢出；旧8B动作仅在reasoning未执行。 | **机制未暴露**，不能作经验语义负例。用于修正送达、上下文与工具通道，保留失败费用。 |
+| [旧Astropy可读依赖](ASTROPY_PROFILE_CONTROLS_20261106.md)、[参考辅助来源](MATPLOTLIB_QUALIFICATION_20261106.md) | 旧wheel可读面含未来修复，故不能当参考隐藏证据；另有明确标注的source参考补丁＋真实执行。 | **来源身份决定用途，不等于全作废**。污染旧成绩不作干净迁移结论；参考辅助可作教师材料并给强基线同信息，不能冒充Agent自主成功。 |
+| [27B能力](CODE_SOURCE_CORRECTIONS.md#native27-capability)、Sphinx | 不推理档未编辑，低thinking档修好公开数组赋值但完整1/2；Sphinx多次读取不编辑，换工具仍未修好。 | 能力/动作落实瓶颈。不能一概归因4bit：旧分叉请求标识27B FP8，最新DeepSeek程序亦有逻辑错误；实际模型配置分批绑定。 |
+| [绘图公开复现](CODE_SOURCE_CORRECTIONS.md#probe-choice-screen)、[SymPy12481](FCCL_FORMATION.md#new-source-v2) | 三候选均解除原公开崩溃，较强辅助验收未过；12481为1/1＋7/7，额外两失败在base也存在。 | **整段失败中有真实修复**。公开行为、既定评分、新增退化分报，共同既有失败不算方法新增错误。 |
+| [源内程序学习](FCCL_FORMATION.md#execution-fragment-v1)、[Django源](FCCL_FORMATION.md#formset-source-v1) | 参数溯源＋非空前提使公开控制6/9→9/9；Django纠正达3/3＋49/49。 | **真实更新闭环已有**，保留反例、守卫、绑定和程序。可由经典候选消除/普通修复解释，不等于没有可用学习部件。 |
+| [Django新任务四组](FCCL_FORMATION.md#formset-target-v1) | 四份补丁全过2/2＋157/157；普通反馈6 POST/23,244tokens，候选12/107,282，且未试用原程序。 | 补丁正确、当前重绑定无收益、协议未完整落实分别记。触帽不改称代码失败；停止本版同题追提示。 |
+| [ALF进度与文字修订](ALFWORLD_ADDITIONAL_SOURCES.md) | soapbar/soapbottle冲突已送达仍做错；heat任务指导成功、普通/固定skill失败；文字修订未改善已测续做。 | **信息未连到行动**。可执行纠正是合理研究对象；手写指导有额外领域信息，保留作强对照。 |
+| [ALF14规则恢复](ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)、异步状态控制 | 领域规则14/14；两个async实现的相反取消选择被API状态规则覆盖。 | **本面板残差已解释**。冻结复杂选择器，规则作参照/回归；不外推所有任务，人工规则研发也非零成本。 |
+| [tau2 v2/v3/反应式](#activation-v2) | v2避免重复充值却不修网络，普通编辑修网络却充4GB；v3旧流程阻塞；最新把正常Say回执误当充值写入。 | **局部正确效果＋范围/续行失配**。可学效果保留、参数和退出，不能全题0分丢掉互补片段；也不能称盲合并已成功。 |
+| [形成/训练中断](CODE_SOURCE_CORRECTIONS.md)、[梯度试验](ALFWORLD_ADDITIONAL_SOURCES.md) | 规划耗完读取预算无计划；reasoning耗尽输出；4B接入OOM、8B梯度试验无可评估终版。 | 是交付/资源失败，未测到机制收益。O/R另一批已各完成192更新，不能混写成“从未训成”。 |
+
+## 本轮挖出的三个重点
+
+**纠正训练可能有摊销价值。** 新核36个receipt及72项receipt/manifest绑定，F/O/R仍为4/6/8题成功。此前已核来源组件＋本批执行：R为2,953,267＋5,166,975＝**8,120,242**，O为500,683＋8,192,852＝**8,693,535**tokens，R少573,293。此处未完整纳入训练/筛选/研发/硬件，不是全成本胜出；但不能因形成较贵便排除它。保留为正向学习参照。
+
+**双方成功仍能提供效用候选。** 新核两组分叉30份请求/SSE、参数及原生日志hash：heat先取杯/先去炉灶都成功，24,234 vs47,984tokens；cool先去冰箱/先加热苹果都成功，131,971 vs116,726。按现有15%成本带作**本轮后验筛查**，heat为49.50%成本候选，cool的11.55%保留TIE；旧“没有成败偏好”不变。只一臂一次、自定义environment_step而非OpenCode，不推期望效用，不把整段信用全给首动作，不能跨题训练A/B字母。
+
+**全题失败中的正确效果值得学习。** v2“只充2GB”和普通编辑“恢复网络”，Sphinx“隐藏类型但新增重复签名”，可产生“保持已实现效果、修正剩余问题”的监督。需实际执行验证，不用生成说明充当真值；当前盲合并只有局部探针，没有完整联合原生结果。
+
+## 放宽开发门槛，保留事实标准
+
+1. **分开发、扩样、论文结论。** 单题局部信号足以产生下一候选，重复与跨题放在扩样阶段；不先要求独立统计确认才准尝试。
+2. **不要求每题每指标全胜。** 比较条件性成功率—成本和回归；无显著不等于无效，单次省token也不等于已证明省钱。一次负结果停实现，不关主问题。
+3. **来源不必整段完美。** 失败轨迹中的真实有效片段可训练，连同失效条件、未解目标保存；Actor退出与环境/代码成功分报。单步纠正也能有价值，不强行多步求复杂。
+4. **成本按实际部署计。** 全项目物理总账保留；方法比较分共同来源、额外形成/搜索/训练、执行，在明示N个后续任务下摊销。不重复收整笔历史研发，也不删失败形成费；token不等价计算/货币。
+5. **资格只约束相应主张。** 源PR已合入目标base只对特定历史迁移主张必需，不是所有经验复用的必要条件。base/reference共有既有回归失败可在新协议单列、比较新增退化；参考辅助材料标为教师来源而非自动废弃。旧分数不回改。
+6. **从真实失败生成候选，再配对取得监督。** 不必先在档案凑齐完美四格。g未触发时不评价未执行π；同信息、同预算和明确反例足以启动开发小试。
+
+## 下一动作
+
+优先从**已实现效果保留＋剩余纠正的局部续行**形成学习规则：用真实部分修复的前提、动作、效果和后继反馈生成局部更新；比较同信息普通整模块修订及类型/回执规则＋原策略。g/π作为诊断分解，不再设完美因子实验为前置；不重跑饱和面板或旧四组。
+
+局部修订、执行程序、组链均有[近邻](../IJCNN_RELATED_WORK_REFRESH_20261030.md)。下一用具体更新与新任务收益判别增量，无须先声称通用新理论。训练适配器、普通历史与真实部分修复均是可用资源，方法仍随证据调整。
+
+## 本轮证据范围
+
+新核19份结果文档的定位/hash，36条训练迁移receipt/manifest及所存终态，Astropy两份completed和所存评分，分叉30份请求/SSE的hash/usage/参数及world日志hash。未重跑环境、未重核所有历史SSE/模型权重，未重新全面外查文献；其余为项目记录支持，不升级成本轮独立复现。
+
+私有双端 `autopsy_reuse_20261113/RECHECK.json` SHA-256 `959566614a474dce648fe3b0ee6fc865e874f2e47d7f6d08b8c3cbd257aaf71b`；脚本同目录。GB10前缀 `/home/testuser/wzh/research_evidence/agent_learning_20261030/`，本机前缀 `D:/Documents/Loop_D_assets/agent_learning_20261106/`。校园累计仍**1,753请求/17,446,160已知＋8旧未知预留2,097,152**；本地历史调用不是该校园账。本轮0新增科研调用。
 
 <a id="reactive-v1"></a>
-## 当前裁决
+## 最近先导与固定历史
 
-**普通Actor保持决策权、技能只做局部纠正的接口已真实跑通；当前关键词策略没有方法收益。** 它确实执行1次，但把正确的充值完成回执误判成再次充值，还要求用户重新开启已经开启的移动数据。行为改变不能直接当有效纠正。
-
-保留共同客户端作为强简单/近邻参照，停止此策略、取消多步与大批扩跑。FCCL的学习机制及独立新任务优势仍未成立；不以可执行包装或这个接口作新方法。
-
-## 问题与最小比较
-
-前版被冻结整份旧流程：纠正入口到不了、旧分支提前转人工。本次将局部策略放在持续运行的OpenCode Actor旁：覆盖不了时交还Actor；每次真实动作及反馈写入公开历史。技能若先行动，原本尚未执行的Actor提案不再提交，以新turn重新决策；host原生角色/参数/时序约束保持。
-
-三组使用逐字节相同客户端、模型和执行帽：24 Actor / 72全角色请求、2M tokens、900秒、160原生步，统一未完成续行一次和节流。两个有经验组有相同完整过去材料和生成程序，仅自动执行开关0/1不同；普通Actor无过去材料、使用空策略。既有[HASP/CIPO](../IJCNN_RELATED_WORK_REFRESH_20261030.md)覆盖相邻机制，当前是匹配控制适配，不是原法成绩复现。
-
-## 来源与形成
-
-共同writer使用6条真实公开成败轨迹，来自**两个已曝光任务**，不是6个独立来源。Actor可见政策、工具、公开轨迹与过去原生子目标布尔奖励；私有用户工具/状态、评分定义、新题内容和参考动作不提供。源记录的执行用量合计2,506,540tokens，非免费材料；其更早程序/前缀形成成本已在项目总账，不能仅将新writer计为全流程。
-
-形成1请求：25,129输入＋30,402输出＝**55,531tokens**，reasoning为输出子集。返回程序只含三类一步Say纠正，并没有生成可检验的多步动作策略。原代码对字典使用`observation.done/messages/proposed_operation`而报错；只机械改三处读取为字典下标，条件、动作和记忆逻辑未改。原件、错误与费用保留，派生代码仅在隔离Docker调用，host只处理JSON/AST。
-
-Docker公开夹具中，该派生策略能在原VPN和更早额度现场提出开启移动数据，在必要SIM转人工上下文弃权；这只是决策重放，不是完整任务成功。它的结构仍可由一步干预解释，所以在任何新题运行之前取消了原拟两题四组：两个原预留ID不含移动数据关闭，仅适合非退化控制，均未启用。
-
-改为按既定ID哈希次序选首个尚未使用的官方TRAIN移动数据关闭题，**选在writer之后、打开目标内容/分数之前**。这是针对激活的适应性开发选择，不是确认集。目标还含额度不足、漫游、网络模式和Data Saver问题。完整ID及源码绑定见私有`transfer/PLAN.json`，SHA-256 `55ba63994e6c63719d6df1883d3c1a3441724198b0119d8a2c2e0d6b12c126e4`。
-
-## 单新题、三组真实结果
-
-| 策略（实际顺序） | Actor / 用户请求 | 全请求 | 执行tokens | 原生成功 | 技能介入 |
-|---|---:|---:|---:|---:|---:|
-| 普通Actor，无过去材料 | 24 / 26 | 50 | 488,656 | 1 | 0 |
-| 同信息历史＋相同程序，自动执行关闭 | 23 / 26 | 49 | 441,298 | 1 | 0 |
-| 相同材料/程序，一步自动纠正 | 24 / 25 | 49 | 464,898 | 1 | 1 |
-
-三组均通过移动数据、优秀网速和正确充值额三项原生断言，均`user_stop`。普通Actor的exit1发生在原生成功后触及Actor请求帽，不能改计任务失败；其他两组exit0。每策略仅一次随机实现，数字为描述性结果。
-
-一步组执行用量比同信息无自动组多23,600tokens。共同writer计入后为**520,429**与**496,829**；前者亦高于普通Actor的488,656。共享源执行2,506,540及更早形成成本仍须保留，不能借来源复用抹除。当前没有执行或端到端成本优势。
-
-## 死因：把操作意图与回执词面混同
-
-实际介入turn14，Actor原提案是：
-
-> Done! I have refueled 2.0 GB of data to your line. Please rerun the speed test now and let me know the result.
-
-它是Say回执，**不是第二次`refuel_data`调用**。用户在此之前已经明确说同时打开了移动数据和数据漫游，并授权了2GB充值。最新工具回执确认充值完成。
-
-生成的`_refuel_proposal`却将任何含`refuel`的Say都当作充值提案；看到任意过去正充值回执后，替换成“已充值，继续排查，请开启移动数据再测速”。这条分支也没检查移动数据已经开启。原生最终成功由后续完整流程支持，不能反推本次触发有用，更不能宣称它防住了重复充值。
-
-本题强简单反例已经很清楚：区分真正的写入工具名/参数与正常客户回复，再核相同对象、请求和回执。复杂触发学习必须超过该规则；当前没有这个证据。
-
-## 保留什么、接下来缺什么
-
-1. **保留接口**：[共同客户端](../reactive_skill_client.py)及66项定向测试＋7 subtests。三个缓存公开序列均与原生公开轨迹前缀相同，覆盖全部实际助手操作；只缺终止后的最后用户消息。冻结程序/客户端未被Actor改写。完整历史可取与反应式操作在真实世界中均已验证，不等于学习方法成立。
-2. **停止当前策略**：不改这个新题的词表追成功，不启用固定四步/学习退出模型，不再追加同类先导。新旧策略、语料和接口都变过，不能跨不同任务把结果差异单归因于某一项接口修复。
-3. **下一研究对象**：分清触发错误与纠正程序错误。可检验的候选是分别更新触发`g`和程序`π`，通过真实续行选择局部更新，避免错改已有效部分；这只是经典因子搜索在本问题中的候选，不主张首创理论。当前仅有gate错误，直接跑旧/新两头四组合不能识别未执行的π；先需要固定触发、同公开状态下两个实际纠正程序及完整后果可区分的自然来源。
-4. **强对照**：类型/回执规则＋原纠正、固定技能条件选择、同信息普通修订和相同形成/执行预算。HASP已有两函数与演化、SkillApt已有条件加载、SkillRevise已有锚定修订。四臂采样本身不是贡献；若简单gate已解释全部则不扩此候选。
-
-独立方法复核沿用现有C上下文，限定文档和两篇一手近邻，无实验模型调用。其组合衔接候选缺匹配联合效用与SCOPE差异，未纳入已成立方法；不采纳“必须Actor失败”的过严门槛，本Goal也允许同成功下全成本降低。
-
-## 旧失败素材的零模型复核
-
-将v2普通/效果修订的4个不重叠函数机械合并，未加新条件。记录上下文的Docker探针显示：充值后它保留避免重复的行为，但原VPN和新题正常额度两处仍转人工。**未运行完整原生联合续行**，不能把探针称联合整题失败。首次取了充值前记录却标“已充值”，已保留并另选真实正充值记录复核，没有覆盖旧输出。
-
-这排除了“文字上互补即可假设合并成功”的捷径，但不证明组合学习不可能；旧SCOPE/SkillCAT等边界仍见近邻表。
-
-## 费用、验证与定位
-
-本增量**149请求 / 1,450,383已知tokens / 未知0**：共同形成1/55,531，三组执行148/1,394,852；两次静态探针、字段适配和复核均0模型。累计**1,753请求 / 17,446,160已知＋8旧未知预留2,097,152**，保守占额19,543,312/10亿，约1.954%。缓存和reasoning不重复加，异常缓存明细不用于推算真实非缓存算力/货币费用；研发Agent、CPU和人力不声称零成本。
-
-官方环境严格CPU重放**3/3一致**；本机复核全部558载荷、149项原始请求/响应哈希和usage。它不是Windows重跑原生环境或独立统计审稿。
-
-私有包`fccl_reactive_v1_review.tar.gz`双端SHA-256 `6b308e7f8e3c8f7e08f992b4e3a7806815f18f1bb70c883f395df1818aa456ec`。GB10根`/home/testuser/wzh/research_evidence/agent_learning_20261030/fccl_continuation_program_v1/reactive_v1`；本机根`D:/Documents/Loop_D_assets/agent_learning_20261106/fccl_reactive_v1_review/fccl_continuation_program_v1/reactive_v1`。`REACTIVE_RECONCILIATION.json`汇总，`PORTABLE_MANIFEST.json`定位数据及执行代码；0模型合并探针同包保存，raw不入Git。
+[0954279f反应式完整记录](https://github.com/Wzh2learn/agents_final_tech/blob/0954279fdfe88414f730ad350dd3dbb256016f6c/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#reactive-v1)：三组原生均成功，唯一介入为回执误触发；执行464,898 vs同信息历史441,298tokens。当前关键词策略停扩，接口保留。149请求/1,450,383tokens已计；558载荷包SHA `6b308e7f8e3c8f7e08f992b4e3a7806815f18f1bb70c883f395df1818aa456ec`。
 
 <a id="residual-option-v3"></a>
-## 前版v3（已停止）
-
-[固定0d09bc14完整记录](https://github.com/Wzh2learn/agents_final_tech/blob/0d09bc14dac2793c3bbafdecc7c5bafdea41aae2/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#residual-option-v3)：同源继续程序0、交还Actor1；学到一步纠正后，新题五组原生0/0/1/0/1。入口不可达、公开状态记忆不足；173请求/1,984,377tokens已含累计。原包SHA-256 `62d1d907f30cbb27c854a36b286c96b6879d180b4231dbc4f33083356a125b4c`，729载荷保留。
+[v3完整记录](https://github.com/Wzh2learn/agents_final_tech/blob/0d09bc14dac2793c3bbafdecc7c5bafdea41aae2/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#residual-option-v3)：旧流程阻塞后继纠正，173请求/1,984,377tokens已计。
 
 <a id="activation-v2"></a>
-[v2激活/消融固定历史](https://github.com/Wzh2learn/agents_final_tech/blob/6a2b838236ff36b430e180b762091dbe453c10d7/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#activation-v2)：231请求/2,241,365tokens，已含累计；局部修复未完成全题。
+[v2激活/消融](https://github.com/Wzh2learn/agents_final_tech/blob/6a2b838236ff36b430e180b762091dbe453c10d7/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#activation-v2)：重复充值与网络恢复的互补失败，231请求/2,241,365tokens已计。
 
 <a id="effect-conditioned-v2"></a>
-[更早v2来源及数量探针](https://github.com/Wzh2learn/agents_final_tech/blob/f8cd77729665eb8cf8491ec78c716aa63c037b40/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#effect-conditioned-v2)及[v1](https://github.com/Wzh2learn/agents_final_tech/blob/7836c893c3926ea97f2d337b6790b097f63c59f7/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md)按需读，旧包未覆盖。未投稿、付款、外部联系或生产操作。
+[v2来源/数量反例](https://github.com/Wzh2learn/agents_final_tech/blob/f8cd77729665eb8cf8491ec78c716aa63c037b40/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#effect-conditioned-v2)及[v1](https://github.com/Wzh2learn/agents_final_tech/blob/7836c893c3926ea97f2d337b6790b097f63c59f7/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md)。原件未改；未投稿、付款、外部联系或生产操作。

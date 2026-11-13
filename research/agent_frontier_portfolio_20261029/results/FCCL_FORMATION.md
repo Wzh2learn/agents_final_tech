@@ -1,6 +1,6 @@
 # 纠正技能来源形成与最小闭环
 
-> 更新至2026-11-13。最新[反应式三组](CONTINUATION_PROGRAM.md#reactive-v1)已收束，唯一介入为误触发，尚无方法优势；本页保留来源形成史和总账。下一步见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，raw私有。
+> 更新至2026-11-13。[综合尸检](CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史成本与局部修复的正向信号；最新反应式策略无额外收益而停扩。本页保留来源形成史和校园总账，执行只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，raw私有。
 
 <a id="current-summary"></a>
 ## 当前结论：已跑闭环，未验证方法优势

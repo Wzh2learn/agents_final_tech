@@ -1535,3 +1535,5 @@ echo dispatch_log updated
 [07:21] FCCL v3来源成败/候选形成/新题五组 → 173 POST、1,984,377 known、未知0；三程序失败，普通Agent/历史成功；尸检入口不可达及记忆不足，停止此版；7/7 CPU重放，729载荷双端复核；neat/三端同步 → base 6a2b8382，提交见本批Git记录。
 
 [08:49] reactive-v1: 1 new task x3 -> native 1/1/1; one false trigger, no extra benefit; 149 POST / 1450383 known / 0 unknown; 3/3 strict replay, 558 payloads rechecked; stop this policy, retain common client; base 0d09bc14, see batch commit.
+
+[09:46] D cross-batch autopsy -> 19 report index; 36 receipt bindings + 30 fork SSE rechecked; preserve learning/cost/partial-repair signals, 0 new model calls -> this commit (parent 0954279f)
