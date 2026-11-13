@@ -1,15 +1,17 @@
 # 纠正技能研究：跨批次归因与可复用信号
 
-> 2026-11-13｜[局部编辑与64K形成](#local-edits-v1)进行中；[原型](#phase-v1)、[旧十组](#normalized-v1)及[全面归因](#cross-batch-autopsy)保留。下一查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+> 2026-11-13｜[自动反馈修订](#local-edits-v1)已闭合；[原型](#phase-v1)、[旧十组](#normalized-v1)及[全面归因](#cross-batch-autopsy)保留。下一查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 <a id="local-edits-v1"></a>
-## 局部编辑：形成预算与方法效果分开
+## 执行反馈修订：保护已自动修正，待原生验证
 
-函数编辑器允许两函数替换＋一个新helper，保留共同step入口和未改函数AST；本机Python3.12为68通过/1个Linux锁测试跳过，尚无新原生收益。两组输入由约192KB缩至57KB，同五条实际效果、两来源及相同初始程序；16K形成各触length、无emit_edit，合计2POST/62,014tokens（思考16,082/15,857），不能比较尚未交付的策略。
+64K两组闭合：阶段writer1803.48秒上游断流，无交付/usage；普通writer509.64秒交付一函数编辑、29,650tokens，但保护首次命中旧0GB回执即break，漏掉后续2GB。两请求一未知预留262,144；16K旧失败费保留。宿主未执行生成函数，本机68检查/1平台跳过不是原生收益。
 
-再核旧四份原始SSE：成功输出分别30,736、25,476、4,917；16K低于其中两次自然长度。[官方思考接口](https://api-docs.deepseek.com/api/create-chat-completion/)默认64K仅作配置参照，校内仍按256K输入输出总帽，不发送不支持的thinking/effort字段。共同补清gained为false→true、lost为true→false，先修一处有害重放，不要求单次补齐所有覆盖缺口。
+随后只给原提案、2条公开见证和客体实际yield反馈，不给人工修补，模型在145.95秒/1POST/12,230tokens内自行改为使用后来的usage。[保留的开发程序](../feedback_corrective_policy.py)未部署；读取条件、真实纠正与退出仍须新题验证。
 
-新私有批次`phase_local_edits_64k_v1`正在串行形成：两组同64K输出/2400秒/一次提案，总帽2请求/800,000tokens；不重启旧失败。新生成函数只作AST拼接，待GB10隔离及新题OpenCode续行；GB10仍握手超时，本机Docker引擎未启动，不启动服务。原件暂在本机，实时进程/用量查私有RUN_HANDLE和gateway_ledger并核实际存活；marker不替代存活证明。当前无新原生任务或训练。
+隔离Linux中，同一池含初始程序、原提案、自动修订，回查62个既有见证/两来源：已知坏pending重放1→0，已有正例兼容不退；早期VPN正例仍未覆盖。原兼容选择留旧程序，阶段选择与post-only简单参考均选自动修订；复制正则置0同结果。这里支持代码反馈形成有效保护，尚无阶段正则相对简单参考的独立增益；替代动作结果未知，不能补计新原生成功。
+
+本轮0新原生任务/训练；普通响应cache细节两次大于input，原值保留、不扣减，核心输入输出自洽。[总账](FCCL_FORMATION.md#成本与证据定位)统一更新。私有`recency_feedback_v1/CLOSEOUT.json` SHA `ceaa1fe9b90fffe1d118fcc4589e82e618cc974a8ec001f206201acdbd49853d`绑定自动提案、隔离结果及前批输入。GB10仍连接超时，用户查验中；下一复用原OpenCode在新题验证，不再同场追加writer。早期配置见f484c779本文件blob。
 
 <a id="phase-v1"></a>
 ## 早期阶段化原型

@@ -5,7 +5,7 @@
 | 当前需要 | 最小入口 |
 | --- | --- |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
-| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [局部编辑与形成状态](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#local-edits-v1)；[全面尸检](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史、条件性成本收益及部分正确动作。 |
+| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [自动反馈修订与保护归因](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#local-edits-v1)；[全面尸检](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史、条件性成本收益及部分正确动作。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 近邻 | 分别按需读[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[相关工作](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 导师反馈 / Paper E | 由独立对话维护；办理现状只查[THREADS](../../memory/THREADS.md)。本Goal继续经验学习，不重复办理投稿或开题。 |

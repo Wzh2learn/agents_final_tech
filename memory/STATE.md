@@ -2,10 +2,10 @@
 
 > 2026-11-13 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
-- **研究阶段**：[局部编辑](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#local-edits-v1)接口与阶段更新已实现，本机68通过/1跳过；16K两组无交付，未验新原生收益。R搜索/循环收益及[全面归因](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留。
-- **实际运行 / 预算**：64K匹配形成批次在本机运行，最多2请求/800,000；按实际进程及私有gateway账本核验，不从marker重启。已闭合3,723请求/37,724,629已知，9未知预留2,359,296；[总账](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)闭合占额40,083,925/10亿。
-- **下一交付**：跟进64K两组形成；有提案后按原计划做GB10隔离及新题原生比较。保留失败费，不执行思考文本，不在宿主调用新生成函数。阶段视图仅监督，复用R并保留便宜规则对照。
+- **Goal / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
+- **研究阶段**：[自动反馈修订](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#local-edits-v1)已在62个源见证上触发保护，坏pending重放1→0、正例兼容不退；post-only参考同选，未验新原生收益。R资产与[全面归因](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留。
+- **实际运行 / 预算**：当前0在跑。[总账](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)累计3,726请求/37,766,509已知，10未知预留2,621,440，合占40,387,949/10亿。cache细节异常保留，不扣减。
+- **下一交付**：GB10恢复连接后，用保留的自动修订在新题OpenCode比较完整任务及总成本；不把人工诊断或派生视图当新原生收益。当前仍连接超时，用户查验中；原件仅本机待同步，不追加同场writer。
 - **历史资产**：旧Django四组、效果预测、ALF规则等按[主题入口](../docs/archive/2026-11-06_agent_research_context/README.md)读取，均不重跑；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按机制核查。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。
