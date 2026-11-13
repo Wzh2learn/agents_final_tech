@@ -1,41 +1,40 @@
 # 纠正技能研究：跨批次归因与可复用信号
 
-> 2026-11-14｜[完整片段](#fragment-transfer-v1)形成闭合，两个新故障任务×四策略原生对照运行中；部分覆盖与强简单基线均保留。[全面归因](#cross-batch-autopsy)按需加载。
+> 2026-11-14｜[完整片段八组](#fragment-transfer-v1)闭合：保留实际可执行修复，未见总体增益；先控制读取面与交还后的继续策略。[全面归因](#cross-batch-autopsy)按需加载。
 
 <a id="fragment-transfer-v1"></a>
-## 完整纠正片段：形成闭合，两新任务原生对照运行中
+## 完整纠正片段：两新任务八组闭合，局部修复未带来总体增益
 
-[实现](../binding_update.py)从真实局部成功的取价—报价—确认—执行段修订策略，ENV增益与即时动作许可分开。1共享形成/42,472tokens；自动候选阶段覆盖8/10，双方使用同一手写实体关联后9/10，手写流程10/10。关联不冒充学得；剩余cost关键词误认免费漫游为已报价，选择yield交还Actor，未篡改为成功。旧有害重放0，原正效果除未报价末端外保留。8项隔离检查通过。普通完整反馈得到相同阶段材料和候选，可同选该策略；当前没有独立更新规则增益。
+1共享形成/42,472tokens修订取价—报价—确认—执行，原候选覆盖8/10阶段，共享手写关联后9/10，简单流程10/10；关联不冒充学得。剩余cost关键词误认免费漫游为报价而yield，作为覆盖缺口保留。8项隔离检查通过，旧有害重放0。普通完整反馈同材料/候选可同选该策略，仅作别名，没有独立更新规则收益。
 
-**进入原生开发比较。** 比较Actor、普通历史、强简单流程、片段；普通反馈同策略作等价参照。选择前按ID冻结：full池排除21已计划/执行故障族及40官方TEST族，从66候选中hash选择一条4故障漫游族、一条3故障VPN族。base/reference的0/1只是完整性检查。2题×4组、24 Actor/72总请求、2M tokens/900秒/160步，单并发，初始冷却和未完成续一次均相同。覆盖缺口及手写预处理在新任务前登记，零训练。
+full池排除21已用故障族及40官方TEST族，从66候选按ID hash选2条新故障组合；4策略/同模型、信息及caps。完整冻结协议、部分覆盖登记见[cf205ad0](https://github.com/Wzh2learn/agents_final_tech/blob/cf205ad05a8df17ff9a2b1af8531882f74f50db0/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#fragment-transfer-v1)。两新组合仍只一个环境，不是两项目或独立确认。
 
-GB10私有fragment_transfer_v1，PLAN SHA 2a1ec749c8e7faeee681f6aa6a9f5a0ee45b8f1cb1e9e8be1ec678fd61a1fbc4；会话8416/PID186354/start_ticks1715374，以RUN_HANDLE和实际/proc判活，不重启不确定现场。原生效果/活跃费用尚待闭合，不从源阶段覆盖率推断方法收益。后续按[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)裁决；两新故障组合仍仅一个环境，不是两项目或独立确认。
+| 策略 | 原生成功 | Actor请求 | Actor tokens | 全角色tokens |
+|---|---:|---:|---:|---:|
+| Actor | 2/2 | 42 | 590,417 | 751,952 |
+| 普通历史 | 2/2 | 45 | 693,217 | 885,667 |
+| 简单流程 | 1/2 | 38 | 550,115 | 675,336 |
+| 学得片段 | 2/2 | 40 | 760,354 | 955,010 |
 
-形成原件40文件已双端验hash，fccl_complete_fragment_v1_closed_review.tar.gz SHA 2c78c73507ffa56370fbc317425957e73e61f89b675fef733ee96c8374d2073e。cache 40,960>input 30,546的异常保留，核心42,472不重复加。当前研究累计/活跃分账见[总账](FCCL_FORMATION.md#成本与证据定位)。
+Actor/User按wire请求SHA回连账本并对齐counts。学得片段较Actor多27.00%执行tokens、较历史多7.83%；新增形成后边际997,482仍未含共同历史获取费用，完整研究成本另见总账。题1较历史少14.09%，但较Actor只少334tokens（0.083%），不是稳健收益。Actor调用少2次却输入更多；User模拟费用已含全角色列，不能只按调用数或失败组低费用称优。缓存为input子集，不作额外token或等价新算力。
+
+**失败与开销。** 两种流程各实际自动报价/充值4次。简单题0的充值分项满足，连接/速度仍不满足；测速No Connection后转人工。学得流程2/2成功但周边Actor轨迹不同，不能把这一对结果当成学习触发的因果改善。题0学得Actor输入456,016对历史335,665，输出反少448；实际读取experience全文返回32,611字符，对照只读2,000字符及部分代码。读取面与交还后继续策略均须控制，不据此宣判纠正技能无效，也不再追加同题writer。
+
+318 POST/3,267,965已知，未知0，8项官方ENV重放/原始usage/最终mode及冻结代码匹配。会话8416/PID186354已结束，不重启。双端包1,152文件/4,019,545bytes，SHA f652bcd90e3e69a2c7798b3805a3d0a45c52d18f7d7f1a2b775b6013bee0ee68。形成40文件包SHA 2c78c73507ffa56370fbc317425957e73e61f89b675fef733ee96c8374d2073e。下一复用既有checkpoint做同现场/同读取面的继续策略对照；HASP已有corrective context、CIPO已有部分轨迹返回/同前缀续行，摘要或分叉本身不作创新。
 
 <a id="binding-update-v1"></a>
 ## 绑定修订：两类互补，独立一致性配方停止
 
-64源见证/4条曝光轨迹：原程序漏2个正效果，自动触发修订与简单关联各补中一处；诊断组合漏0但有4项中性处未验证改动，未入自动候选池。三种选择规则同选，无独立正则增益。第一新增前缀虽有ENV收益，却未先报价；另一前缀已确认价格但回执未关联。保留互补修复，停止把末端效果直接当即时动作标签，转向完整片段。
+64源见证/4条曝光轨迹：原程序漏2个正效果，自动触发修订与简单关联各补中一处；诊断组合漏0但有4项中性处未验证改动，未入自动候选池。三种选择规则同选，无独立正则增益。报价前提与回执关联是不同缺口；细节保留于冻结记录。
 
 2 POST/85,784已知（首交付拒绝39,555仍计），0未知/训练/新原生任务；6项检查通过，普通候选不受视图资格门牵连。两响应cache异常不扣减。完整表格、实现及前提归因见[1750ee9a冻结记录](https://github.com/Wzh2learn/agents_final_tech/blob/1750ee9ad1d3605017ce35fa68633723eae9c924/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#binding-update-v1)。双端37文件包SHA 7a2cdff535766975ed6e46b3402ff1b3c9904341d26c6b9a1f390ca6304dc5d9。
 
 <a id="deployment-timing-v1"></a>
-## 同程序部署时点：12组闭合，保留条件收益
+## 部署时点12组：保留条件收益，停止扩跑
 
-同一程序仅变一个等长常量，pre/post/both各两次×两曝光开发题，非4个独立任务；0新形成/训练。三份各5,044字节、其余AST一致，隔离3项单测及372项派生检查匹配。完整协议、逐项归因及原包定位见[db9f9be9冻结记录](https://github.com/Wzh2learn/agents_final_tech/blob/db9f9be9aa1e37f8b2fa9245640511065d5c82cc/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#deployment-timing-v1)。
+同一程序仅变等长常量，2曝光题×pre/post/both×2重复。pre/post/both成功3/4、4/4、4/4；tokens 1,232,342/1,781,850/1,569,751；POST 124/152/156。题1 pre两次成功且少24.16%tokens；both较post少11.90%tokens，却多4POST及7.84%轨迹时间，非全局最优。4次介入均为提议前充值，新增保护未触发。
 
-| 时点 | 题0/题1成功 | 总成功 | 执行tokens | POST | 介入 |
-|---|---:|---:|---:|---:|---:|
-| pre | 1/2、2/2 | 3/4 | 1,232,342 | 124 | 3 |
-| post | 2/2、2/2 | 4/4 | 1,781,850 | 152 | 0 |
-| both | 2/2、2/2 | 4/4 | 1,569,751 | 156 | 1 |
-
-题1 pre两次成功、实际充值，687,177对post 906,061，少24.16%tokens。both较post少11.90%tokens，却多4POST、轨迹时间多7.84%；不作全局最优。4次均为Actor提议前充值，新增坏pending保护未触发，上一轮7.91%差额未识别更新增益。
-
-实际死因：首both明确要2GB但字面门yield；pre唯一失败已正确充值却漏查飞行模式，其用量/套餐上限又分属关联回执；两个0介入post重复因材料读取及更多调用相差344,997tokens，非时点的孤立因果效果。FIRST_DRAW_DIAGNOSTIC.json保留完整证据，下一绑定修订见[上节](#binding-update-v1)。停扩时点旋钮。
-
-432 POST/4,583,943已知、未知0；12项官方重放、原始usage与冻结代码匹配。双端包SHA 7f2a6f67a2dad67d5cba99f76c47f3a3fad9212448042cec124b220d79878416；PID80535/会话70353已结束，不重启。
+首both漏接明确请求；pre失败已充值却漏查飞行模式，回执绑定亦缺失；两个0介入post因读取面/调用差别相差344,997tokens，不是时点的孤立因果作用。432请求/4,583,943全部核验、0形成/训练。完整表、归因及包hash见[db9f9be9](https://github.com/Wzh2learn/agents_final_tech/blob/db9f9be9aa1e37f8b2fa9245640511065d5c82cc/research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#deployment-timing-v1)，该冻结记录保留全部旧细节。
 
 <a id="feedback-transfer-v1"></a>
 ## 新任务五组：成功保留与执行成本信号

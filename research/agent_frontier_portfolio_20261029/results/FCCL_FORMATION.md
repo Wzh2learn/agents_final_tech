@@ -1,6 +1,6 @@
 # 纠正技能来源形成与最小闭环
 
-> 更新至2026-11-14。[完整片段](CONTINUATION_PROGRAM.md#fragment-transfer-v1)形成闭合，新任务原生对照运行中；[综合归因](CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史及部分修复。本页维护来源史与校园总账，执行只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，raw私有。
+> 更新至2026-11-14。[完整片段](CONTINUATION_PROGRAM.md#fragment-transfer-v1)原生八组闭合，尚无总体增益；[综合归因](CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史及部分修复。本页维护来源史与校园总账，执行只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，raw私有。
 
 <a id="current-summary"></a>
 ## 当前结论：已有开发收益，继续隔离方法增量
@@ -196,13 +196,14 @@ dev2的合同要求`no_service`保持且执行人工转接，不是恢复网络�
 | 同程序部署时点12组 | 432 | 4,583,943，未知0；[条件收益与绑定缺口](CONTINUATION_PROGRAM.md#deployment-timing-v1) |
 | 绑定/触发共享形成 | 2 | 85,784，未知0；首交付拒绝保留，第二次局部修订；[互补修复与监督死因](CONTINUATION_PROGRAM.md#binding-update-v1) |
 | 完整纠正片段形成 | 1 | 42,472，未知0；[阶段覆盖与新任务协议](CONTINUATION_PROGRAM.md#fragment-transfer-v1) |
-| 累计（已闭合） | 4,559 | 46,512,890 已知，另10次未知 |
+| 完整片段两新任务×四策略 | 318 | 3,267,965，未知0；[成功、全角色/Actor成本与失败](CONTINUATION_PROGRAM.md#fragment-transfer-v1) |
+| 累计（已闭合） | 4,877 | 49,780,855 已知，另10次未知 |
 
 新任务五组10/10已闭合，全部计入；该批未新增形成或训练。共享普通＋反馈提案41,880另按来源摊销，不再重复计物理支出。
 
-[完整片段形成](CONTINUATION_PROGRAM.md#fragment-transfer-v1)1请求已闭合计入，0训练；fragment_transfer_v1八组正在运行，其实时费用另记，未混入已闭合行。该批帽576请求/16M，预算不作支出。
+[完整片段](CONTINUATION_PROGRAM.md#fragment-transfer-v1)形成及8原生组全部闭合计入，0训练；318条原始usage和8项官方重放匹配，native cache异常0，无在跑任务。源码阶段检查不作任务收益。
 
-十次未知预留2,621,440，已闭合已知加占额为**49,134,330/10亿**，不是实际用量。64K及自动反馈形成已闭合，无自动重试。普通响应cached=28,160大于prompt=14,686，字段异常原样保留，不作扣减或加入总量；核心prompt＋completion=29,650成立。其余缓存/推理不重复加，未知不填0；三次隔离Python探针0模型/原生任务/训练；共享自动修订cache=11,008亦大于input=7,933，核心总12,230成立。两批新原生共830请求usage与原件逐项匹配、cache异常0。新形成两条原始usage亦核对；cache=38,912/44,544分别大于input=31,841/32,840，异常保留，核心total=39,555/46,229成立，不扣减也不重复加。完整片段形成cache=40,960>input=30,546，核心42,472成立，同样保留异常。共享旧来源执行3,901,392及先前两writer116,770不重复计物理支出。历史本地模型/研发Agent、人力/CPU及340-token差额保留原口径。
+十次未知预留2,621,440，已闭合已知加占额为**52,402,295/10亿**，不是实际用量。64K及自动反馈形成已闭合，无自动重试。普通响应cached=28,160大于prompt=14,686，字段异常原样保留，不作扣减或加入总量；核心prompt＋completion=29,650成立。其余缓存/推理不重复加，未知不填0；三次隔离Python探针0模型/原生任务/训练；共享自动修订cache=11,008亦大于input=7,933，核心总12,230成立。两批新原生共830请求usage与原件逐项匹配、cache异常0。新形成两条原始usage亦核对；cache=38,912/44,544分别大于input=31,841/32,840，异常保留，核心total=39,555/46,229成立，不扣减也不重复加。完整片段形成cache=40,960>input=30,546，核心42,472成立，同样保留异常。共享旧来源执行3,901,392及先前两writer116,770不重复计物理支出。历史本地模型/研发Agent、人力/CPU及340-token差额保留原口径。
 
 原始证据根与完整包定位见[历史快照](../../../docs/archive/2026-11-06_agent_research_context/fccl_formation_through_20261112.md)；新批私有包及本机复核定位见各批证据记录。
 
