@@ -336,6 +336,92 @@ def score_effect_witnesses(source, examples, tool_names, *, positive_weight=1.0,
     return report
 
 
+def score_phase_witnesses(source, examples, tool_names, *, redundant_weight=0.1,
+                          **compatibility_weights):
+    """Grouped pre/post-proposal supervision for corrective program updates.
+
+    Each *observed* macro witness has two metadata views: before an Actor
+    proposal exists, and with that same observed command pending. A positive
+    command can be reused early; once already proposed it should be retained
+    without another dispatch. A known harmful proposal must not get a free
+    pass just because it came from the Actor. No outcome is assigned to a
+    different command, nor is an avoided bad replay called a successful repair.
+
+    The compatibility terms average over two views per original unit, so this
+    does not double the number of outcomes or independent tasks. Mixed gains
+    and losses are left unranked rather than forcing contradictory labels.
+    This is a training proxy, not a measured marginal execution advantage.
+    Native continuation outcomes and formation-plus-use cost decide utility.
+    """
+    if (type(redundant_weight) not in (int, float)
+            or not math.isfinite(redundant_weight) or redundant_weight < 0):
+        raise ValueError('finite nonnegative redundant-copy weight required')
+    # Reuse the existing public-input validation, including mixed rows which
+    # are not admitted to this objective. Do not silently clean leaked fields.
+    original = score_effect_witnesses(source, examples, tool_names, **compatibility_weights)
+    views, phases, mixed = [], [], []
+    for row in examples:
+        if row['gained'] and row['lost']:
+            mixed.append(row['id'])
+            continue
+        for phase in ('pre', 'post'):
+            view = copy.deepcopy(row)
+            view['id'] = row['id'] + '::' + phase
+            observation = view['observation']
+            observation.pop('proposed_operation', None)
+            if phase == 'post':
+                observation['proposed_operation'] = dict(
+                    op='act', turn=observation['turn'],
+                    name=row['command']['name'], arguments=copy.deepcopy(row['command']['arguments']))
+            views.append(view)
+            phases.append(phase)
+    report = dict(eligible=False, objective=None, witness_units=len(views) // 2,
+                  derived_views=len(views), mixed_effect_ids=mixed,
+                  source_groups=len({str(r.get('source')) for r in examples}),
+                  redundant_copies=0, retained_known_good_proposals=0,
+                  unverified_replacements=0, redundant_weight=redundant_weight,
+                  scope='Derived interface views of observed effects; not new executions or task utility')
+    if not original['eligible']:
+        report['compatibility'] = original
+        return report
+    compatibility = score_effect_witnesses(source, views, tool_names, **compatibility_weights)
+    report['compatibility'] = compatibility
+    if not compatibility['eligible']:
+        return report
+    for view, phase, scored in zip(views, phases, compatibility['rows']):
+        positive = bool(view['gained'])
+        intervention = scored['action']['kind'] == 'act'
+        same = scored['matched_observed_action']
+        report['redundant_copies'] += phase == 'post' and positive and intervention and same
+        report['retained_known_good_proposals'] += phase == 'post' and positive and not intervention and same
+        report['unverified_replacements'] += bool(view['lost']) and intervention and not same
+    report['eligible'] = True
+    if compatibility['objective'] is not None:
+        positives = sum(bool(r['gained']) and not r['lost'] for r in examples)
+        report['objective'] = (compatibility['objective']
+            + redundant_weight * report['redundant_copies'] / max(1, positives))
+    return report
+
+
+def select_phase_update(incumbent_source, candidate_sources, examples, tool_names, **weights):
+    """Use grouped phase counterexamples to select a bounded content update.
+
+    Candidate formation must see the same raw witnesses and view diagnostics
+    in matched comparisons. This rule is opt-in; historical selectors and
+    deployed policies remain unchanged. Retaining a candidate is not a claim
+    of native success or superiority to published correction methods.
+    """
+    sources = [incumbent_source] + list(candidate_sources)
+    scores = [score_phase_witnesses(s, examples, tool_names, **weights) for s in sources]
+    eligible = [i for i, s in enumerate(scores) if s['eligible'] and s['objective'] is not None]
+    if not eligible:
+        return dict(source=incumbent_source, selected_index=0, scores=scores,
+                    reason='no_rankable_phase_effects')
+    selected = min(eligible, key=lambda i: (scores[i]['objective'], i))
+    return dict(source=sources[selected], selected_index=selected, scores=scores,
+                reason='grouped_phase_compatibility_and_redundant_copy_penalty')
+
+
 def select_witness_update(incumbent_source, candidate_sources, examples, tool_names, **weights):
     """Bounded signed-witness revision; retain the incumbent on a loss tie.
 
@@ -373,6 +459,25 @@ Labels describe observed macro spans containing intervening customer/environment
         dict(role='user', content=json.dumps(data, ensure_ascii=False))], tools=[tool],
         tool_choice=dict(type='function', function=dict(name='emit_policy')),
         temperature=0, max_tokens=32768, stream=True, stream_options=dict(include_usage=True))
+
+
+def phase_learning_request(materials, diagnostics, *, constrained, model):
+    """Matched proposal inputs; the phase-aware selection objective is opt-in.
+
+    Both arms receive the same raw material, phase diagnostics and semantics.
+    Only the update objective differs. Actual formation, source probes and
+    native continuation remain separate, fully accounted operations.
+    """
+    request = witness_learning_request(materials, diagnostics, constrained=constrained, model=model)
+    marker = '\nUpdate rule:' if constrained else '\nOrdinary feedback revision:'
+    common = request['messages'][0]['content'].split(marker, 1)[0]
+    common += '''\nThe host also examines two interface views of each observed macro witness: the original public prefix without a pending proposal, and that same prefix with the observed command pending. These are derived inputs, not new executed alternatives. Yield passes an existing pending command unchanged; it does NOT veto a harmful proposal. Positive early reuse and preservation of an already-correct proposal are different cases. A different replacement has unknown native effects until actually executed. Mixed gains and losses are not forced into positive/negative labels. All phase diagnostics and original feedback below are shared by both arms; no target outcomes are supplied.'''
+    if constrained:
+        common += '''\nUpdate objective: minimize signed action-compatibility loss averaged over the two views of each original witness, plus 0.1 times the fraction of positive post-proposal views needlessly copied by an intervention. Retain useful early correction content, repair contextual guards that pass known harmful proposals, and pass through already-correct proposals. Keep the same small unsupported-intervention and code-size priors. The host selects between the incumbent and this bounded proposal using this grouped phase objective. This is training supervision, not a claim of counterfactual task advantage.'''
+    else:
+        common += '''\nOrdinary feedback update: freely revise the incumbent policy using all the same observed outcomes and phase diagnostics to improve practical continuation. The host uses the original signed observed-action compatibility objective with the same unsupported-intervention and code-size priors to select between incumbent and this bounded proposal. No specific edit location or phase penalty is imposed. This is a matched adaptation baseline, not an original-method reproduction.'''
+    request['messages'][0]['content'] = common
+    return request
 
 
 def partial_effect_learning_request(materials, *, compose, model):

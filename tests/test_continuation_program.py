@@ -43,6 +43,95 @@ def test_signed_witnesses_distinguish_same_action_in_different_contexts():
     assert rows == effect_examples()
 
 
+def test_phase_views_expose_presence_only_abstention_without_new_outcome_labels():
+    rows = effect_examples()
+    shortcut = """def step(o,m):
+    if o.get('proposed_operation') or 'already credited' in o['messages'][-1]['content']:
+        return {'kind':'yield','memory':m}
+    return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+"""
+    phase_policy = """def step(o,m):
+    text=o['messages'][-1]['content']
+    proposal=o.get('proposed_operation')
+    if 'already credited' in text:
+        if proposal and proposal['name']=='credit':
+            return {'kind':'act','name':'inspect','arguments':{},'memory':m}
+        return {'kind':'yield','memory':m}
+    if 'Please add two' in text and not proposal:
+        return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+    return {'kind':'yield','memory':m}
+"""
+    assert CP.score_effect_witnesses(shortcut, rows, ['credit', 'inspect'])['negative_repeats'] == 0
+    bad = CP.score_phase_witnesses(shortcut, rows, ['credit', 'inspect'])
+    good = CP.score_phase_witnesses(phase_policy, rows, ['credit', 'inspect'])
+    assert bad['compatibility']['negative_repeats'] == 1
+    assert good['compatibility']['negative_repeats'] == 0
+    assert good['retained_known_good_proposals'] == 1
+    assert good['unverified_replacements'] == 1
+    assert good['objective'] < bad['objective']
+    assert good['witness_units'] == 3 and good['derived_views'] == 6
+    assert good['source_groups'] == 1
+    assert rows == effect_examples()
+
+
+def test_phase_objective_distinguishes_early_reuse_from_redundant_late_copy():
+    row = effect_examples()[:1]
+    copying = CP.score_phase_witnesses(ALWAYS_CREDIT, row, ['credit'])
+    preserving = """def step(o,m):
+    if o.get('proposed_operation'):
+        return {'kind':'yield','memory':m}
+    return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+"""
+    retained = CP.score_phase_witnesses(preserving, row, ['credit'])
+    assert copying['compatibility']['positive_misses'] == 0
+    assert retained['compatibility']['positive_misses'] == 0
+    assert copying['redundant_copies'] == 1 and retained['redundant_copies'] == 0
+    assert retained['objective'] < copying['objective']
+    no_redundancy = CP.score_phase_witnesses(ALWAYS_CREDIT, row, ['credit'], redundant_weight=0)
+    assert no_redundancy['objective'] == copying['compatibility']['objective']
+
+
+def test_mixed_effects_remain_unranked_in_phase_supervision():
+    rows = effect_examples()[:1]
+    rows[0]['lost'] = ['another_obligation']
+    result = CP.score_phase_witnesses(ALWAYS_CREDIT, rows, ['credit'])
+    assert result['mixed_effect_ids'] == ['first']
+    assert result['witness_units'] == 0 and result['derived_views'] == 0
+    assert result['objective'] is None
+    assert rows[0]['gained'] == ['quota'] and rows[0]['lost'] == ['another_obligation']
+
+
+def test_phase_update_exposes_loss_ablation_and_keeps_incumbent_on_tie():
+    row = effect_examples()[:1]
+    preserving = """def step(o,m):
+    if o.get('proposed_operation'):
+        return {'kind':'yield','memory':m}
+    return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+"""
+    selected = CP.select_phase_update(ALWAYS_CREDIT, [preserving], row, ['credit'])
+    assert selected['selected_index'] == 1
+    tied = CP.select_phase_update(preserving, [preserving], row, ['credit'])
+    assert tied['selected_index'] == 0
+    ablated = CP.select_phase_update(ALWAYS_CREDIT, [preserving], row, ['credit'], redundant_weight=0)
+    assert ablated['selected_index'] == 0
+
+
+def test_phase_proposal_arms_share_feedback_and_interface_information():
+    material = {'raw_witnesses': effect_examples()}
+    diagnostics = {'same_source_diagnostics': ['pre', 'post']}
+    requests = [CP.phase_learning_request(material, diagnostics, constrained=c, model='fixed-model')
+                for c in [False, True]]
+    left, right = requests
+    assert left['messages'][1] == right['messages'][1]
+    for key in ['model','tools','tool_choice','max_tokens','temperature']:
+        assert left[key] == right[key]
+    assert all('Yield passes an existing pending command unchanged' in r['messages'][0]['content']
+               for r in requests)
+    assert '0.1 times' not in left['messages'][0]['content']
+    assert '0.1 times' in right['messages'][0]['content']
+    assert material == {'raw_witnesses': effect_examples()}
+
+
 def test_witness_update_keeps_incumbent_on_regression_and_ablation_is_testable():
     rows = effect_examples()
     update = CP.select_witness_update(ALWAYS_CREDIT, [CONDITIONAL_CREDIT], rows, ['credit'])

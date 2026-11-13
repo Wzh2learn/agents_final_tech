@@ -47,6 +47,8 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 
 all7对F新增2题/退化2题，对R新增1题/退化5题；目标匹配与F逐题向量相同。R仍是已有配方，不追加普通SFT变体。
 
+**11-13追到两题新增成功的实际行为。** 重新读取上述36槽原包，核4份receipt/manifest及原始OpenCode日志：look04的O为76请求、58次环境动作、18次非法调用，后期在shelf9/drawer6往返；R为22请求/22动作、0非法调用，发现dresser处灯具后开启并取笔完成。look06的O为128请求，仅3次环境动作，随后125次重复非法`go to desk 1`；R取物后去shelf并开灯，4请求/4动作成功。收益至少包含避免无效循环与继续搜索，不能只说“更多数据”，也未识别纯反馈因果。两条路径不同，不把首个分歧冒充同现场反事实；合法动作/循环控制应作为后续预先冻结的便宜对照。私有`phase_update_v1/RECOVERY_GAIN_MECHANISM.json`绑定原包、4份raw及world哈希，0新模型/重放。
+
 **历史资产。** `hf_evaluation_v1/contexts/all7.txt`为7条普通教师成功轨迹（heat4/cool2/look1），非纠正；SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`。复用需绑定新pool/reset/配置；`experience_mode=none`不接受参考，旧16题驱动不能换输入重跑。
 
 私有`ordinary_history_train12_inputs_v1/RUN_V1/RESULT.json`为`ALL18_HISTORY_RETURNED`，SHA `45d7351f3b070bc30e65eb352fbcaba651d24fdc72fdda9f83e20b6b4094663a`。C核18槽、766 SSE及4,702绑定；Q4恢复/解锁。PID2349435已退出，不重启；先前零调用准入失败随包保留。
