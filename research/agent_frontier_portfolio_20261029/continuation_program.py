@@ -210,6 +210,9 @@ def compile_history_policy(source):
     next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'step').name = 'history_candidate_step'
     wrapper = ast.parse('''
 def step(observation, memory):
+    for message in observation.get('messages', []):
+        if message.get('content') is None:
+            message.pop('content', None)
     decision = history_candidate_step(observation, {})
     decision['memory'] = {}
     return decision

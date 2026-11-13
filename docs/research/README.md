@@ -5,10 +5,10 @@
 | 当前需要 | 最小入口 |
 | --- | --- |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
-| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [四配置20组](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#expansion-v1)；[全面尸检](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史、条件性成本收益及部分正确动作。 |
+| 当前研究 / 最新结果 | [短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → [最新先导与修复](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#witness-v1)；[全面尸检](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史、条件性成本收益及部分正确动作。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 近邻 | 分别按需读[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[相关工作](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
-| 导师反馈 / Paper E | 11-11用户反馈：老师先审后提交，开题与答辩优先，由独立对话处理。已发[沟通稿](../../research/advisor_direction_review_20261102/ADVISOR_BRIEF_20261102.md)和审阅稿；现役[四页PDF](../../research/paper_e_publication_route_20261028/icint_latex/main.pdf)与实际附件hash未核。[投稿计划](../../research/paper_e_publication_route_20261028/PUBLICATION_PLAN_ZH.md)。 |
+| 导师反馈 / Paper E | 由独立对话维护；办理现状只查[THREADS](../../memory/THREADS.md)。本Goal继续经验学习，不重复办理投稿或开题。 |
 | 研究框架 / 工具 | [Graph Loop与记忆](../17_Graph_Engineering_多层Loop设计.md)；当前科研搜索默认宿主原生搜索，不调用旧DeepSeek/Qwen搜索CLI。 |
 | 历史实验 / 挖宝 | [第二篇主题归档](../archive/2026-11-06_agent_research_context/README.md)先选主题；[资产复核](../../research/asset_revalidation_20261029_v1/REVALIDATION_AND_AUTOPSY.md)；[更早研究入口](../archive/2026-10-29_research_neat/)。 |
 

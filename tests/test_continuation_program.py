@@ -110,6 +110,20 @@ def test_history_only_compilation_matches_empty_memory_at_every_runtime_call():
         memory = decision['memory']
 
 
+def test_history_policy_optional_text_has_same_meaning_in_source_and_runtime():
+    source = """def step(o,m):
+    text=' '.join(x.get('content','').lower() for x in o['messages'])
+    return {'kind':'yield','memory':m,'reason':text}
+"""
+    program = CP.load_program(CP.compile_history_policy(source))
+    tool_call = dict(role='assistant', tool_calls=[dict(id='q1', name='query', arguments={})])
+    source_view = dict(done=False, messages=[dict(role='user',content='Check'),tool_call])
+    runtime_view = dict(done=False, messages=[dict(role='user',content='Check'),dict(tool_call,content=None)])
+    expected = CP.public_step(program, source_view, {}, ['query'])
+    assert CP.public_step(program, runtime_view, {}, ['query']) == expected
+    assert runtime_view['messages'][1]['content'] is None
+
+
 def test_witness_proposals_share_feedback_tools_model_and_budget():
     data = dict(public_stories=['actual history'], examples=effect_examples())
     diagnostics = dict(observed='same computation')
