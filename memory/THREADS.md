@@ -6,14 +6,14 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | [新题五组](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#feedback-transfer-v1)10/10闭合，有复用成本信号；冻结同程序推理前/提议后部署消融及重复。新增保护未触发，不将单抽差额归功于更新。官方TEST未用，0新writer/训练。 |
+| 第二篇唯一下一步 | [部署时点12组](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#deployment-timing-v1)在跑，追PID80535/start_ticks682302或会话70353；结束后拆覆盖/时点/成本。首both成功、0介入且历史完整；不改策略，0新writer/训练，官方TEST未用。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)已含HASP/SkillCAT/SCOPE：可执行干预、成败分歧和局部技能组链已有。匹配近邻比较未完成；一步选项不另算新方法。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
-| 成本及运行器 | 已闭合4,124请求/41,800,691已知；10未知预留2,621,440，合44,422,131/10亿。当前无在跑任务。旧cache异常、340-token差额、研发Agent总费用及跨机预算锁仍未闭合。 |
+| 成本及运行器 | 闭合4,124请求/41,800,691已知，10未知预留2,621,440，合44,422,131/10亿；另时点live≤864POST/24M。旧cache异常、340-token差额及研发费用未闭合。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | GB10已连通；本批执行代码2f3f0082，研究状态随本轮main提交同步三端。新原生包1,436载荷及R尸检均已双端验hash；LoopB日志/7历史worktree保留。 |
+| 工作区与分享 | GB10已连通，执行代码7d672cca，状态随main同步；旧原生包/R尸检双端，时点初始计划已双端、live raw待闭合。LoopB日志/7历史worktree保留。 |
 | 文档与 skill 存量 | 11-13复核doctor仍1 error/135 warnings：error在开题对话未提交skill，不代改；map仍1组pdf重复/27提示，docs仍4项时效提醒。形成契约两机Codex/Claude均已同步0e8cc2d2。Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 

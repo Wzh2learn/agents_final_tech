@@ -6,7 +6,7 @@
 
 **FCCL主线：从执行反馈学习可复用纠正策略。** 尚无成立新方法。当前跨角色续行程序仅为候选；角色标签、可执行程序、配对执行和反馈更新本身已有，不以新载体替代增量。
 
-11-13：已有失败局部技能、保留约束及程序编译近邻。[最新十组](results/CONTINUATION_PROGRAM.md#normalized-v1)保留动作与条件收益；下一检验同源反馈的阶段化更新，比较推理前复用与提议后纠错，不把编译、保留或新命名算独立贡献。
+11-13：复核HASP§2.1先提议再干预、SkillCompiler已有编译省推理、SkillRevise§3已有保留及效用择优。[时点12组](results/CONTINUATION_PROGRAM.md#deployment-timing-v1)定位成本来源；预先执行省tokens本身不是新学习机制。
 
 ## 最直接的方法近邻
 

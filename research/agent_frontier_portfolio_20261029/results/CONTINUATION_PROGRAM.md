@@ -1,6 +1,17 @@
 # 纠正技能研究：跨批次归因与可复用信号
 
-> 2026-11-13｜[新任务五组](#feedback-transfer-v1)10/10闭合，有程序复用成本信号；[自动修订](#local-edits-v1)、[旧十组](#normalized-v1)及[全面归因](#cross-batch-autopsy)保留。下一查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+> 2026-11-13｜[部署时点消融](#deployment-timing-v1)12组在跑；[新任务五组](#feedback-transfer-v1)闭合、有复用成本信号；[全面归因](#cross-batch-autopsy)保留。下一查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+
+<a id="deployment-timing-v1"></a>
+## 同程序部署时点：12组在跑
+
+固定同一已学程序，仅以一个等长常量控制both/pre/post；三份各5,044字节，其余AST完全一致。pre指无pending Actor操作，post指Actor已提出操作；yield保留该提议。终态与记忆语义不改。[控制实现](../policy_deployment.py)经GB10隔离Python 3.12的3项单测及62见证单位（两条来源）×双视图×三时点=372项接口检查通过；这些检查不是新执行成绩。
+
+重复上一批两道已曝光开发题，每题每时点两次，共12episode，不算4个独立任务或seed复现。完整来源/候选池、OpenCode、模型、指令、24 Actor/72总POST、2M/900秒/160步帽不变；6个臂同mode4，顺序冻结，0新writer/训练。上限864 POST/24M；闭合总账与本批live用量分报，已知＋旧预留＋批次上限≤68,422,131/10亿。
+
+预测pre/both较post省Actor请求与tokens；没有错误提议时both与pre可相同。首both_r0原生1、36POST/358,150tokens、自动动作0；历史完整、mode4、无程序异常。隔离重算同公开前缀：用量15.1>15、未充值，用户明确请求2GB，但未命中字面确认门而yield；`FIRST_DRAW_DIAGNOSTIC.json`仅作归因，不是新原生执行。保留此重复，不调提示/条件；最终按全部重复、动作机会和成本裁决，时点开关本身不作新方法。
+
+父PID80535/start_ticks682302、会话70353，终态`BATCH_RESULT.json`；核实际存活，观察超时不重启。私有`fccl_continuation_program_v1/deployment_timing_v1/PLAN.json` SHA `0724ce9f79d395ee20795f2d260ca11119d931b2cef77f672c9345ebac6c493a`。初始计划/三程序与运行handle已双端；原件在GB10。本批冻结执行代码7d672cca，旧五组不重跑。
 
 <a id="feedback-transfer-v1"></a>
 ## 新任务五组：成功保留与执行成本信号
