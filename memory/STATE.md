@@ -3,9 +3,9 @@
 > 2026-11-13 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
 - **Goal active / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
-- **研究阶段**：[v3新题五策略已收束](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#residual-option-v3)：来源学到一步纠正，但入口绑定后续节点，新题提前转人工；普通Agent/历史成功，三程序失败。v1/v2/v3停扩跑，尚无方法优势。
-- **实际运行 / 预算**：本增量173请求/1,984,377已知tokens、新未知0；[累计](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)1,604请求/15,995,777已知＋8旧未知预留2,097,152。无运行中实验，训练0。
-- **下一交付**：按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)重设可迁移的纠正条件、公开状态记忆及退出规则，明确相对近邻的独立增量再冻结验证。不重跑当前题，两个预留ID未启用。
+- **研究阶段**：[反应式三组先导](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#reactive-v1)均原生成功，自动策略唯一介入把正确回执当重复写，未显示收益。保留共同接口、停止当前关键词策略，不计为新方法。
+- **实际运行 / 预算**：[累计](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)1,753请求/17,446,160已知＋8旧未知预留2,097,152；本增量149请求/1,450,383、未知0。无运行中实验、训练0。
+- **下一交付**：按[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)分别识别触发g与纠正程序π的学习监督。先核自然同前缀的真实程序后果；动作未运行不标其好坏，简单规则同效则不扩复杂更新。
 - **历史资产**：旧Django四组、效果预测、ALF规则等按[主题入口](../docs/archive/2026-11-06_agent_research_context/README.md)读取，均不重跑；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按机制核查。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。

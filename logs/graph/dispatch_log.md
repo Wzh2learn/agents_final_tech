@@ -1533,3 +1533,5 @@ echo dispatch_log updated
 [2026-11-13 05:28] 冻结激活/一函数消融及死因收束 → 五组原生1/0/0/1/0；效果条件修改在正充值状态实际激活，避免重复充值，但旧后续流程忽略移动数据关闭、转人工后全题失败；普通编辑修网络却多充值，强简单拦截实际1次且完成，普通Agent完成后触Actor帽分报。231POST/2241365tokens，新未知0；累计1431/14011400＋8旧未知预留2097152。800载荷私有包双端逐哈希/原始usage复核，官方环境严格CPU重放5/5一致，0复核模型调用。停止v2及本面板扩跑，下一先明确纠正片段学习/退出/切换及强简单差异，不扩训练。现役结果页收短并指固定f8cd7772历史，41测试＋7subtests通过；文档/技能旧告警与其他对话WIP保留，Goal active → 本轮提交
 
 [07:21] FCCL v3来源成败/候选形成/新题五组 → 173 POST、1,984,377 known、未知0；三程序失败，普通Agent/历史成功；尸检入口不可达及记忆不足，停止此版；7/7 CPU重放，729载荷双端复核；neat/三端同步 → base 6a2b8382，提交见本批Git记录。
+
+[08:49] reactive-v1: 1 new task x3 -> native 1/1/1; one false trigger, no extra benefit; 149 POST / 1450383 known / 0 unknown; 3/3 strict replay, 558 payloads rechecked; stop this policy, retain common client; base 0d09bc14, see batch commit.

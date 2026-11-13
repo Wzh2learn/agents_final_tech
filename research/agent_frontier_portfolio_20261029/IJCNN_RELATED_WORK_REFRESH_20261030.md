@@ -34,7 +34,7 @@
 
 ## 其他近邻索引
 
-[tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入；[v3尸检](results/CONTINUATION_PROGRAM.md#residual-option-v3)中普通Agent/历史通过，程序因入口/记忆未迁移而失败。一步选项仅作简单参照。分支恢复双侧历史/DB；不同领域仍属同一benchmark。
+[tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入；[反应式先导](results/CONTINUATION_PROGRAM.md#reactive-v1)三组均成功，唯一自动介入把正确Say回执误当重复写。HASP式适配/一步执行不算独立方法。分支恢复双侧历史/DB；不同领域仍属同一benchmark。
 
 `6a2b8382`本文件保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE机制与链接。更早blob及[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)保留其余近邻。移出活表不表示失效。
 
