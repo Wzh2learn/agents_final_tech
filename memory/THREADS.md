@@ -6,14 +6,14 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | [完整片段八组](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#fragment-transfer-v1)闭合，尚无总体增益；保留技能，先固定同现场和读取面检验交还后的继续策略。HASP/CIPO已有上下文与续行对照，不能改名作创新。 |
+| 第二篇唯一下一步 | [同现场四次](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#fragment-continuation-v1)普通继续/提醒均2/2，停止复杂继续选择器。保留技能与局部收益；下步明确由真实成败更新的纠正规则，排除普通反馈、强规则及HASP/CIPO等同配方，再定有限新任务比较。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)已含HASP/SkillCAT/SCOPE：可执行干预、成败分歧和局部技能组链已有。匹配近邻比较未完成；一步选项不另算新方法。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
-| 成本及运行器 | 闭合4,877请求/49,780,855已知，10未知预留2,621,440，合52,402,295/10亿；无在跑。318原生请求/3,267,965与1形成42,472已计。缓存/340差额及研发费用保留。 |
+| 成本及运行器 | 闭合4,969请求/50,663,441已知，10未知预留2,621,440，合53,284,881/10亿；无在跑。新增92原生请求/882,586，0形成/训练。缓存/340差额及研发费用保留。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 会话8416/PID186354已终止，禁止重启旧批；原生1,152文件/形成40文件均已双端验hash。代码/状态随main同步。LoopB/7历史worktree及其他对话WIP保留。 |
+| 工作区与分享 | GB10重连正常；会话24546/PID235242已终止，不重启闭合批。新增399文件包双端验hash，旧包保留；代码/状态随main同步。LoopB/7历史worktree及其他对话WIP保留。 |
 | 文档与 skill 存量 | 不追加全库治理；本轮仅补录并定点分发形成交付合同。上轮doctor的开题WIP error/135 warnings、map重复及docs 4项提醒保留，不代改；Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
