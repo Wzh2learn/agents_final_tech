@@ -119,6 +119,45 @@ class BindingUpdateTests(unittest.TestCase):
         self.assertEqual(calls, {0:dict(name='emit_edit', arguments='{"edits":[]}')})
         self.assertNotIn('private analysis', str(calls))
 
+    def test_complete_fragment_request_keeps_delivery_and_endpoint_label_boundary(self):
+        request = B.fragment_edit_request(dict(program=SOURCE), model='test-model')
+        system = request['messages'][0]['content']
+        self.assertIn('exactly one complete function definition', system)
+        self.assertIn('not unconditional instructions to replay the final action', system)
+        self.assertEqual(request['tool_choice']['function']['name'], 'emit_edit')
+
+    def test_simple_protocol_quotes_then_preserves_amount_on_confirmation(self):
+        source = '''def extract_phone(text):
+    return text if text == 'target' else ''
+def last_user(o):
+    return [m['content'] for m in o['messages'] if m['role']=='user'][-1]
+def last_assistant_say(o):
+    rows=[m.get('content','') for m in o['messages'] if m['role']=='assistant' and m.get('content')]
+    return rows[-1] if rows else ''
+def tool_results(o):
+    return [json.loads(m['content']) for m in o['messages'] if m['role']=='tool']
+def assistant_calls(o):
+    return [c for m in o['messages'] for c in m.get('tool_calls',[])]
+def history_candidate_step(o,m):
+    return {'kind':'yield','memory':m}
+def step(o,m):
+    return history_candidate_step(o,m)
+'''
+        records = [dict(customer_id='customer', line_ids=['line-B']), combined(),
+                   dict(plan_id='plan-B', data_refueling_price_per_gb=2)]
+        obs = observation(records)
+        obs['messages'].append(dict(role='assistant', content='Roaming is enabled at no cost. Would you like to refuel data?'))
+        obs['messages'].append(dict(role='user', content="I don't want to change my plan. Please refuel 1.5 GB."))
+        policy = CP.load_program(B.simple_prerequisite_baseline(source))
+        quote = CP.public_step(policy, obs, {}, ['refuel_data', 'get_details_by_id'])
+        self.assertEqual(quote['name'], 'say')
+        self.assertIn('$3.0', quote['arguments']['message'])
+        obs['messages'] += [dict(role='assistant', content=quote['arguments']['message']),
+                            dict(role='user', content='Yes, go ahead.')]
+        action = CP.public_step(policy, obs, {}, ['refuel_data', 'get_details_by_id'])
+        self.assertEqual(action['name'], 'refuel_data')
+        self.assertEqual(action['arguments'],dict(customer_id='customer',line_id='line-B',gb_amount=1.5))
+
 
 if __name__ == '__main__':
     unittest.main()

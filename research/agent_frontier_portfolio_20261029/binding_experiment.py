@@ -180,7 +180,9 @@ def form(args):
             if (prior / 'proposal.json').exists():
                 material['previous_shared_proposal'] = read(prior / 'proposal.json')
             material['search_instruction'] = 'Offer one compact alternative repair using the same sources; no extra task information.'
-        request = B.binding_edit_request(material, model=plan['model'], output_cap=plan['output_cap'])
+        builder = (B.fragment_edit_request if plan.get('learning_mode') == 'prerequisite_fragment'
+                   else B.binding_edit_request)
+        request = builder(material, model=plan['model'], output_cap=plan['output_cap'])
         body = json.dumps(request, ensure_ascii=False, separators=(',', ':')).encode()
         if len(body) + plan['output_cap'] + 8192 > 262144:
             raise ValueError('conservative input byte ceiling exceeded')
