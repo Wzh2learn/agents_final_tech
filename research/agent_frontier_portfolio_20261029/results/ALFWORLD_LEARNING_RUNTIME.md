@@ -1,6 +1,6 @@
 # 已训练8B基线：复用入口
 
-> 2026-11-09 | 本页索引复用资产与当前批次，下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练、部署及旧五臂过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md)。
+> 2026-11-13 | 本页索引复用资产与当前批次，下一动作见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。训练、部署及旧五臂过程已[归档](../../../docs/archive/2026-11-06_agent_research_context/alfworld_learning_through_20261108.md)。
 
 <a id="trained-baselines"></a>
 ## 当前复用：同BF16父模型的 frozen / ordinary / recovery
@@ -48,6 +48,17 @@ O/R均已真实训练、保存重载、转为GGUF LoRA并实际推理，现成�
 all7对F新增2题/退化2题，对R新增1题/退化5题；目标匹配与F逐题向量相同。R仍是已有配方，不追加普通SFT变体。
 
 **11-13追到两题新增成功的实际行为。** 重新读取上述36槽原包，核4份receipt/manifest及原始OpenCode日志：look04的O为76请求、58次环境动作、18次非法调用，后期在shelf9/drawer6往返；R为22请求/22动作、0非法调用，发现dresser处灯具后开启并取笔完成。look06的O为128请求，仅3次环境动作，随后125次重复非法`go to desk 1`；R取物后去shelf并开灯，4请求/4动作成功。收益至少包含避免无效循环与继续搜索，不能只说“更多数据”，也未识别纯反馈因果。两条路径不同，不把首个分歧冒充同现场反事实；合法动作/循环控制应作为后续预先冻结的便宜对照。私有`phase_update_v1/RECOVERY_GAIN_MECHANISM.json`绑定原包、4份raw及world哈希，0新模型/重放。
+
+<a id="paired-autopsy"></a>
+**11-13全36槽再归因：训练收益不只看总成功。** 本轮读取已封存原包并核全部receipt/manifest、各round原始OpenCode日志及world终态，未运行模型或环境：
+
+| 拆分 | 已观察到的结果 | 对后续机制的意义 |
+| --- | --- | --- |
+| 保留与新增能力 | O对F新增4题、丢失2题；R为8/12，恰覆盖此次F/O成功并集，对O新增2题且未丢题。 | 纠正配方有“保留旧能力＋获得新增能力”的开发信号；并集是事后描述，不是部署oracle或纯反馈因果。 |
+| 执行合法性 | O/R的`invalid_action`工具回执为412/13；clean中263/11，而clean成功均2/6。 | 已学到的合法执行改进应保留；clean剩余瓶颈须看目标语义、搜索及退出，不能只继续教合法动作。 |
+| 收益分布 | R在8题少用tokens、4题多用；总少3,025,877，其中新增成功的两题贡献2,182,370（72.12%），其余10题净少843,507。 | 优先分析昂贵失败的循环与纠正，不要求逐题更省；仍保留全12题总账，不能只挑正例。 |
+
+本轮私有`autopsy_reuse_20261113/RECOVERY_PAIR_AUTOPSY.json` SHA `005dfe0fa58711c99ea241a6dd4b4aa3b4307f98c97371b6c3c58f1de477e00c`，脚本`recovery_pair_autopsy.py`可复算。非法回执不是全部语义错误；单seed、不同路径及内容/上下文混淆不变。这里只细化已成立的配方收益，不把它自动升级为独立新算法。
 
 **历史资产。** `hf_evaluation_v1/contexts/all7.txt`为7条普通教师成功轨迹（heat4/cool2/look1），非纠正；SHA `d19c16440cc7d7cc6d77c07248a37b7fde2a3142e28db7a68255ae0cc31a662b`。复用需绑定新pool/reset/配置；`experience_mode=none`不接受参考，旧16题驱动不能换输入重跑。
 

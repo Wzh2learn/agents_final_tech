@@ -82,6 +82,8 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 - **验证方式**：只读固定Git blob；确定性合法/非法key集合控制及字节/hash负例通过。该反例证明合同不一致，不证明它导致旧24条中的具体模型失败，不声称已运行新模型。科研C可读取固定raw和参考，不受业务summary-only限制。
 - **证据**：`docs/governance/audit/loop_d_control_review/NEW_LOOP_D_HANDOFF_REVIEW_20261028.json`的`contract_probe`；同目录`review_loop_d_handoff_20261028.py --self-test`；现役`docs/research/LOOP_D_RESEARCH_PROMPT.md`第6节。版本化技能源与本机两份既有安装受控同步，未安装新技能或改harness配置。
 
+**2026-11-13形成补充**：局部编辑两组各16,384输出、均length且无工具交付；旧成功形成实际用过25,476/30,736输出。不能从代码/输入变短推断思考预算足够，更不能据未交付裁决方法。两组共同声明形成输出/时间帽，先说明gained=false→true、lost=true→false；单次修订可先处理一处有害重放，不要求补齐所有覆盖。局部编辑/显式额度/标签契约本机68通过、1个Linux锁测试跳过；64K实际交付仍在跑，未证明这组工程修订的独立因果效应或原生收益。证据：[形成记录](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#local-edits-v1)、`test_local_editor_admits_declared_thinking_budget_and_explicit_label_direction`；旧raw与费用不回改。
+
 ## C-3补充：字段存在、接口资格与方法效应分层（2026-10-28）
 
 - **失败模式（固定参考复算）**：D/T/M决策卡把不存在的`unit_reference`全None解释为8条参考都缺单位，实际8/8含`unit`；另把格式合规率持平作为停止M的语义方法判据。C额度耗尽被错误延伸为D不能继续已授权的内部图像修订。

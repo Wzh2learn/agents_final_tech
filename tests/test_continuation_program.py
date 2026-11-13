@@ -132,6 +132,64 @@ def test_phase_proposal_arms_share_feedback_and_interface_information():
     assert material == {'raw_witnesses': effect_examples()}
 
 
+def test_local_function_edits_preserve_unrelated_helpers_and_runtime_wrapper():
+    base = CP.compile_history_policy("""def helper(text):
+    return 'ok' in text
+def step(o,m):
+    return {'kind':'yield','memory':m}
+""")
+    edited, record = CP.apply_function_edits(base, [dict(name='history_candidate_step', source="""def history_candidate_step(o,m):
+    if helper(o['messages'][-1]['content']):
+        return {'kind':'act','name':'inspect','arguments':{},'memory':m}
+    return {'kind':'yield','memory':m}
+""")])
+    assert record['replaced_functions'] == ['history_candidate_step']
+    assert {'helper','step'} <= set(record['unchanged_functions'])
+    result = CP.public_step(CP.load_program(edited), dict(messages=[dict(role='user',content='ok')], done=False), {}, ['inspect'])
+    assert result['kind'] == 'act' and result['name'] == 'inspect'
+    original = ast.parse(base)
+    following = ast.parse(edited)
+    for name in ['helper','step']:
+        before = next(n for n in original.body if isinstance(n,ast.FunctionDef) and n.name == name)
+        after = next(n for n in following.body if isinstance(n,ast.FunctionDef) and n.name == name)
+        assert ast.dump(before,include_attributes=False) == ast.dump(after,include_attributes=False)
+
+
+@pytest.mark.parametrize('edit', [
+    [dict(name='step', source="def step(o,m): return None")],
+    [dict(name='history_candidate_step', source="def other(o,m): return None")],
+    [dict(name='history_candidate_step', source="def history_candidate_step(o): return None")],
+    [dict(name='history_candidate_step', source="import os\ndef history_candidate_step(o,m): return None")],
+])
+def test_local_edits_reject_wrapper_changes_and_invalid_patch_shape(edit):
+    base = CP.compile_history_policy("def step(o,m): return {'kind':'yield','memory':m}")
+    with pytest.raises(ValueError):
+        CP.apply_function_edits(base, edit)
+
+
+def test_local_edit_formation_keeps_both_arms_matched_and_bounded():
+    requests = [CP.local_edit_request({'same':'public inputs'}, constrained=c, model='fixed')
+                for c in [False,True]]
+    a,b = requests
+    assert a['messages'][1] == b['messages'][1]
+    assert a['tools'] == b['tools'] and a['tool_choice'] == b['tool_choice']
+    assert a['max_tokens'] == b['max_tokens'] == 16384
+    assert a['tools'][0]['function']['name'] == 'emit_edit'
+    assert all('Yield passes the pending operation' in r['messages'][0]['content'] for r in requests)
+
+
+def test_local_editor_admits_declared_thinking_budget_and_explicit_label_direction():
+    for flag in [False,True]:
+        request=CP.local_edit_request({},constrained=flag,model='fixed',output_cap=65536)
+        assert request['max_tokens']==65536
+        instruction=request['messages'][0]['content']
+        assert 'gained means false-to-true' in instruction
+        assert 'lost means true-to-false' in instruction
+    for invalid in [True,0,262144]:
+        with pytest.raises(ValueError):
+            CP.local_edit_request({},constrained=True,model='fixed',output_cap=invalid)
+
+
 def test_witness_update_keeps_incumbent_on_regression_and_ablation_is_testable():
     rows = effect_examples()
     update = CP.select_witness_update(ALWAYS_CREDIT, [CONDITIONAL_CREDIT], rows, ['credit'])

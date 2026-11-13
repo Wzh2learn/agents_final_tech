@@ -223,6 +223,61 @@ def step(observation, memory):
     return result
 
 
+def apply_function_edits(source, edits):
+    """Apply bounded local skill edits without changing the shared wrapper.
+
+    This constructs an AST only. Generated functions still require isolated
+    execution and native validation. Unedited definitions retain their AST;
+    this does not guarantee that changed callees preserve their behaviour.
+    """
+    tree = check_source(source)
+    functions = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
+    if (len(functions) != sum(isinstance(n, ast.FunctionDef) for n in tree.body)
+            or type(edits) is not list or len(edits) > 3):
+        raise ValueError('unambiguous functions and at most three local edits required')
+    replacements, additions = {}, {}
+
+    def call_shape(args):
+        return (len(args.posonlyargs), len(args.args), tuple(a.arg for a in args.kwonlyargs),
+                args.vararg is not None, args.kwarg is not None, len(args.defaults),
+                tuple(v is None for v in args.kw_defaults))
+
+    size = 0
+    for edit in edits:
+        if (type(edit) is not dict or set(edit) != {'name', 'source'}
+                or type(edit['name']) is not str or type(edit['source']) is not str):
+            raise ValueError('local edit must name one complete function')
+        name, body = edit['name'], edit['source']
+        size += len(body.encode('utf-8'))
+        if (name == 'step' or name in replacements or name in additions or size > 12000
+                or name in SAFE_BUILTINS or name in {'json', 're', 'math'}):
+            raise ValueError('invalid, duplicate or excessive local edit')
+        try:
+            nodes = ast.parse(body).body
+        except SyntaxError as exc:
+            raise ValueError('invalid local function syntax') from exc
+        if len(nodes) != 1 or not isinstance(nodes[0], ast.FunctionDef) or nodes[0].name != name:
+            raise ValueError('each edit must contain only its named function definition')
+        if name in functions:
+            if call_shape(nodes[0].args) != call_shape(functions[name].args):
+                raise ValueError('existing function call shape must be retained')
+            replacements[name] = nodes[0]
+        else:
+            additions[name] = nodes[0]
+    if len(replacements) > 2 or len(additions) > 1:
+        raise ValueError('at most two replacements and one new helper are admitted')
+    tree.body = [replacements.get(n.name, n) if isinstance(n, ast.FunctionDef) else n
+                 for n in tree.body] + list(additions.values())
+    result = ast.unparse(ast.fix_missing_locations(tree)) + '\n'
+    check_source(result)
+    if len(result.encode('utf-8')) > 16000:
+        raise ValueError('edited history policy exceeds the common bound')
+    return result, dict(replaced_functions=list(replacements), added_functions=list(additions),
+        unchanged_functions=[n for n in functions if n not in replacements],
+        base_sha256=hashlib.sha256(source.encode('utf-8')).hexdigest(),
+        source_sha256=hashlib.sha256(result.encode('utf-8')).hexdigest(), execution='AST only')
+
+
 def score_effect_witnesses(source, examples, tool_names, *, positive_weight=1.0,
                            negative_weight=1.0, unsupported_weight=0.05,
                            size_weight=0.01):
@@ -478,6 +533,30 @@ def phase_learning_request(materials, diagnostics, *, constrained, model):
         common += '''\nOrdinary feedback update: freely revise the incumbent policy using all the same observed outcomes and phase diagnostics to improve practical continuation. The host uses the original signed observed-action compatibility objective with the same unsupported-intervention and code-size priors to select between incumbent and this bounded proposal. No specific edit location or phase penalty is imposed. This is a matched adaptation baseline, not an original-method reproduction.'''
     request['messages'][0]['content'] = common
     return request
+
+
+def local_edit_request(materials, *, constrained, model, output_cap=16384):
+    """Short matched repair delivery instead of unconstrained full synthesis."""
+    if type(output_cap) is not int or output_cap not in (16384,32768,65536):
+        raise ValueError('declare a supported common formation output cap')
+    instruction = '''Repair the supplied pure Python corrective skill using the observed execution feedback. Return one emit_edit call. Replace at most two existing functions and optionally add one helper; each source is one complete function definition. Preserve the shared step wrapper and existing call shapes. Return the smallest useful patch, not a redesigned controller or a catalogue of alternatives.
+Runtime inputs are public messages, turn, done and proposed_operation; memory is reset on each call. Yield passes the pending operation unchanged: it does not veto a harmful proposal. Retain an already-correct proposal; correct a known harmful one through a supported legal operation. Stop only when done. Use runtime values and public feedback; do not embed source identities, fixed source amounts, effect labels, imports or IO in code. Helpers and allowed tool signatures are supplied. Observed macro effects include customer/environment actions; alternatives have unknown outcomes. Derived pre/post views are not extra executions. Both update arms receive identical material. Native tasks, not this source proxy, decide usefulness.
+Feedback direction: gained means false-to-true constraint changes; lost means true-to-false constraint changes. A lost witness is a harmful replay in that recorded context, not an instruction to perform more of that command. Prioritize one concrete harmful-replay repair while retaining useful behaviour; a single patch need not fill every positive-coverage gap.'''
+    if constrained:
+        instruction += '''\nUpdate rule: repair the shown pre/post counterexamples while retaining supported useful behaviour. The host selects between incumbent and candidate using grouped two-view signed compatibility plus a 0.1 redundant-copy regularizer and the existing small size/intervention priors. Do not optimize unrelated branches; deliver one concrete local repair.'''
+    else:
+        instruction += '''\nOrdinary feedback revision: choose the most useful local repairs anywhere allowed, using all the same feedback. The host selects between incumbent and candidate using original signed compatibility and the same size/intervention priors, without a prescribed phase penalty. Deliver one concrete local repair.'''
+    edit = dict(type='object', properties=dict(name=dict(type='string'), source=dict(type='string', maxLength=12000)),
+                required=['name','source'], additionalProperties=False)
+    parameters = dict(type='object', properties=dict(edits=dict(type='array', items=edit, maxItems=3),
+        rationale=dict(type='string', maxLength=1200), evidence_ids=dict(type='array', items=dict(type='string'))),
+        required=['edits','rationale','evidence_ids'], additionalProperties=False)
+    tool = dict(type='function', function=dict(name='emit_edit',
+        description='Return bounded function edits to the supplied skill.', parameters=parameters))
+    return dict(model=model, messages=[dict(role='system',content=instruction),
+        dict(role='user',content=json.dumps(materials,ensure_ascii=False))], tools=[tool],
+        tool_choice=dict(type='function',function=dict(name='emit_edit')), temperature=0,
+        max_tokens=output_cap, stream=True, stream_options=dict(include_usage=True))
 
 
 def partial_effect_learning_request(materials, *, compose, model):
