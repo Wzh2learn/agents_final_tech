@@ -1,6 +1,6 @@
 # 纠正技能来源形成与最小闭环
 
-> 更新至2026-11-13。[综合尸检](CONTINUATION_PROGRAM.md#cross-batch-autopsy)回收训练、历史成本与部分修复；[最新10组](CONTINUATION_PROGRAM.md#normalized-v1)已闭合；正确动作与时间—用量权衡保留，当前配方停扩。本页保留来源史和校园总账，执行只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，raw私有。
+> 更新至2026-11-14。[时点12组](CONTINUATION_PROGRAM.md#deployment-timing-v1)已闭合，保留条件收益，下一学习绑定与适用条件；[综合归因](CONTINUATION_PROGRAM.md#cross-batch-autopsy)保留训练、历史及部分修复。本页维护来源史与校园总账，执行只查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，raw私有。
 
 <a id="current-summary"></a>
 ## 当前结论：已有开发收益，继续隔离方法增量
@@ -193,13 +193,14 @@ dev2的合同要求`no_service`保持且执行人工转接，不是恢复网络�
 | 64K局部编辑匹配形成 | 2 | 29,650，另1次未知；普通交付、阶段上游断流；[保护归因](CONTINUATION_PROGRAM.md#local-edits-v1) |
 | 代码执行反馈后的共享自动修订 | 1 | 12,230，未知0；[自动保护与简单参考](CONTINUATION_PROGRAM.md#local-edits-v1) |
 | 新任务五组原生比较 | 398 | 4,034,182，未知0；[成功、成本与部分完成](CONTINUATION_PROGRAM.md#feedback-transfer-v1) |
-| 累计（已闭合） | 4,124 | 41,800,691 已知，另10次未知 |
+| 同程序部署时点12组 | 432 | 4,583,943，未知0；[条件收益与绑定缺口](CONTINUATION_PROGRAM.md#deployment-timing-v1) |
+| 累计（已闭合） | 4,556 | 46,384,634 已知，另10次未知 |
 
 新任务五组10/10已闭合，全部计入；该批未新增形成或训练。共享普通＋反馈提案41,880另按来源摊销，不再重复计物理支出。
 
-另[部署时点12组](CONTINUATION_PROGRAM.md#deployment-timing-v1)已启动，≤864POST/24M，0新形成/训练；该live批次闭合前不并入上表。
+[部署时点12组](CONTINUATION_PROGRAM.md#deployment-timing-v1)全部闭合并计入，当前无在跑批次；新候选形成尚未启动，预算不能当支出。
 
-十次未知预留2,621,440，已闭合已知加占额为**44,422,131/10亿**，不是实际用量。64K及自动反馈形成已闭合，无自动重试。普通响应cached=28,160大于prompt=14,686，字段异常原样保留，不作扣减或加入总量；核心prompt＋completion=29,650成立。其余缓存/推理不重复加，未知不填0；三次隔离Python探针0模型/原生任务/训练；共享自动修订cache=11,008亦大于input=7,933，核心总12,230成立。新原生批398请求usage与原件逐项匹配、cache异常0。共享旧来源执行3,901,392及先前两writer116,770不重复计物理支出。历史本地模型/研发Agent、人力/CPU及340-token差额保留原口径。
+十次未知预留2,621,440，已闭合已知加占额为**49,006,074/10亿**，不是实际用量。64K及自动反馈形成已闭合，无自动重试。普通响应cached=28,160大于prompt=14,686，字段异常原样保留，不作扣减或加入总量；核心prompt＋completion=29,650成立。其余缓存/推理不重复加，未知不填0；三次隔离Python探针0模型/原生任务/训练；共享自动修订cache=11,008亦大于input=7,933，核心总12,230成立。两批新原生共830请求usage与原件逐项匹配、cache异常0。共享旧来源执行3,901,392及先前两writer116,770不重复计物理支出。历史本地模型/研发Agent、人力/CPU及340-token差额保留原口径。
 
 原始证据根与完整包定位见[历史快照](../../../docs/archive/2026-11-06_agent_research_context/fccl_formation_through_20261112.md)；新批私有包及本机复核定位见各批证据记录。
 
