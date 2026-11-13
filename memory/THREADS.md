@@ -6,14 +6,14 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | [先导与归因](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#witness-v1)已闭合；共享输入修复后复用提案，2任务×5组准备未运行。先比较局部纠正成功/成本，不增writer、训练或同题提示。 |
+| 第二篇唯一下一步 | [10组闭合及机制诊断](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#normalized-v1)：保留实际纠正/条件差别，下一定义相对Actor的纠正必要性及具体更新，核对HASP/SkillRevise增量，再小批验证；不扩原配方。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)已含HASP/SkillCAT/SCOPE：可执行干预、成败分歧和局部技能组链已有。匹配近邻比较未完成；一步选项不另算新方法。 |
 | 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
-| 成本及运行器 | 最新194请求无新未知，累计8旧未知保留占额；4份原生重放匹配、720载荷本机新核。预算中断前缀部分效果只作诊断，不补全题成功；异常缓存不推算非缓存费，历史340-token差额及跨机预算锁未闭合。 |
+| 成本及运行器 | 最新447请求无新未知，10份官方重放匹配，1,596载荷/447usage本机核；原生结束与目标满足分报。累计8旧未知保留占额；缓存/推理不重复加。历史340-token差额、完整研发Agent费用及跨机预算锁未闭合。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 本轮本机HTTPS推送成功，GB10经验证bundle对齐；SSH22/443为网络超时，先用HTTPS，GB10网络失败时用bundle，不重配密钥。保留LoopB日志/7历史worktree，完整raw不在GitHub。 |
+| 工作区与分享 | 本机使用HTTPS推送；GB10代码上次对齐693f1a04，新批raw/复核已双端保存。当前SSH在banner交换超时，研究文档新提交待恢复后bundle快进；不是公钥拒绝，不重配密钥、不重跑实验。保留LoopB日志/7历史worktree。 |
 | 文档与 skill 存量 | 11-13复核doctor仍1 error/135 warnings：error在开题对话未提交skill，不代改；map仍1组pdf重复/27提示，docs仍4项时效提醒。退出契约已在7836c893分发，本批未改skill。Windows CLAUDE加载未验。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
