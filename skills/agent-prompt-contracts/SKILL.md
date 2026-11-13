@@ -84,6 +84,8 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 **2026-11-13形成补充**：局部编辑两组各16,384输出、均length且无工具交付；旧成功形成实际用过25,476/30,736输出。不能从代码/输入变短推断思考预算足够，更不能据未交付裁决方法。两组共同声明形成输出/时间帽，先说明gained=false→true、lost=true→false；单次修订可先处理一处有害重放，不要求补齐所有覆盖。局部编辑/显式额度/标签契约本机68通过、1个Linux锁测试跳过；64K一臂上游断流，一臂交付但保护读旧回执未触发；须核实际行为，预算提高本身不证明修复或原生收益。证据：[形成记录](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#local-edits-v1)、`test_local_editor_admits_declared_thinking_budget_and_explicit_label_direction`；旧raw与费用不回改。
 
+**2026-11-14交付补充**：绑定修订首提案将helper和目标函数塞进同一`source`，完整工具交付仍被编译器拒绝。重写system指令时须保留“一项只含与name同名的一个完整函数”，helper单列、合计12,000字节/整程序16,000字节；不能只保留“至多两函数＋一helper”。原请求、提案、拒绝及39,555tokens保留，非机制效果失败；剩余一次共享形成前明确修订，不无限重试。证据：[绑定形成](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#binding-update-v1)、`test_request_preserves_materials_and_uses_supported_structured_delivery`。
+
 ## C-3补充：字段存在、接口资格与方法效应分层（2026-10-28）
 
 - **失败模式（固定参考复算）**：D/T/M决策卡把不存在的`unit_reference`全None解释为8条参考都缺单位，实际8/8含`unit`；另把格式合规率持平作为停止M的语义方法判据。C额度耗尽被错误延伸为D不能继续已授权的内部图像修订。
