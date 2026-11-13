@@ -1,6 +1,6 @@
 # 第二阶段：反馈条件化的可复用纠正技能学习
 
-> 2026-11-13。Goal active。已完成[综合尸检](results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)、[两题DEV](results/CONTINUATION_PROGRAM.md#preservation-v1)及[同前缀三组续做](results/CONTINUATION_PROGRAM.md#prefix-v1)。下一测试新配置，训练0。
+> 2026-11-13。Goal active。已完成[综合尸检](results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)、[两题DEV](results/CONTINUATION_PROGRAM.md#preservation-v1)及[同前缀三组续做](results/CONTINUATION_PROGRAM.md#prefix-v1)。四新配置五组运行中，0新形成/训练。
 
 ## 问题与学习对象
 
