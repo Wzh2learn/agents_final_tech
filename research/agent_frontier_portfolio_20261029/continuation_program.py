@@ -194,6 +194,184 @@ def partial_effect_frontier(records):
                 scope='Observed whole-run component feedback; not independent action credit')
 
 
+def compile_history_policy(source):
+    """Match offline and deployed state: generated policy uses public history.
+
+    Both update arms use this same wrapper. Public history carries past actions
+    and receipts; old controller node memory is neither replayed nor invented.
+    """
+    tree = check_source(source)
+    if len(source.encode('utf-8')) > 16000:
+        raise ValueError('history-conditioned policy exceeds proposal bound')
+    if any(isinstance(n, ast.Name) and n.id in {'step', 'history_candidate_step'}
+           for n in ast.walk(tree)) or any(isinstance(n, ast.FunctionDef)
+           and n.name == 'history_candidate_step' for n in tree.body):
+        raise ValueError('history entry namespace collision or referenced entry')
+    next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'step').name = 'history_candidate_step'
+    wrapper = ast.parse('''
+def step(observation, memory):
+    decision = history_candidate_step(observation, {})
+    decision['memory'] = {}
+    return decision
+''')
+    result = ast.unparse(ast.fix_missing_locations(ast.Module(
+        body=tree.body + wrapper.body, type_ignores=[]))) + '\n'
+    check_source(result)
+    return result
+
+
+def score_effect_witnesses(source, examples, tool_names, *, positive_weight=1.0,
+                           negative_weight=1.0, unsupported_weight=0.05,
+                           size_weight=0.01):
+    """Score conditional actions using signed, observed macro-effect witnesses.
+
+    Native labels and executor identity are host-side supervision only. A
+    policy receives a public prefix and fresh memory, never the old program's
+    private control state. Preserving an observed positive action and avoiding
+    a known harmful replay are separate objectives, including globally failed
+    source runs. Neutral transitions carry no effect label; deviations on them
+    incur only the explicitly weighted intervention prior.
+
+    This is an offline compatibility objective, not counterfactual environment
+    evaluation. Exact tool arguments and whitespace-normalized Say text are
+    used; paraphrases are not silently certified as semantically equivalent.
+    """
+    weights = dict(positive=positive_weight, negative=negative_weight,
+                   unsupported=unsupported_weight, size=size_weight)
+    if (type(examples) is not list or any(type(v) not in (int, float)
+            or not math.isfinite(v) or v < 0 for v in weights.values())):
+        raise ValueError('finite nonnegative weights and explicit witnesses required')
+    identities = set()
+    for row in examples:
+        observation = row['observation']
+        if (not isinstance(row['id'], str) or row['id'] in identities
+                or row.get('executor') not in {'actor', 'program'}
+                or type(observation) is not dict
+                or set(observation) - {'messages', 'turn', 'done', 'proposed_operation', 'error'}
+                or type(observation.get('messages')) is not list
+                or type(row['command']) is not dict
+                or set(row['command']) != {'name', 'arguments'}
+                or type(row['command']['arguments']) is not dict
+                or any(type(row[k]) is not list or any(not isinstance(x, str) for x in row[k])
+                       for k in ['gained', 'lost'])):
+            raise ValueError('invalid witness or non-public policy observation')
+        for message in observation['messages']:
+            if (type(message) is not dict or message.get('role') not in {'user', 'assistant', 'tool'}
+                    or set(message) - {'role', 'content', 'tool_calls', 'id', 'requestor', 'error'}
+                    or (message.get('content') is not None and type(message['content']) is not str)
+                    or (message['role'] == 'user' and message.get('tool_calls'))
+                    or (message['role'] == 'tool' and message.get('requestor') != 'assistant')):
+                raise ValueError('message is not the public agent projection')
+            for call in message.get('tool_calls') or []:
+                if (type(call) is not dict or set(call) - {'id', 'name', 'arguments'}
+                        or not isinstance(call.get('name'), str) or type(call.get('arguments')) is not dict):
+                    raise ValueError('invalid public tool call')
+        proposal = observation.get('proposed_operation')
+        if proposal is not None and (type(proposal) is not dict
+                or set(proposal) - {'op', 'turn', 'name', 'arguments'}
+                or proposal.get('op') != 'act'
+                or proposal.get('turn') != observation.get('turn')
+                or proposal.get('name') not in set(tool_names) | {'say'}
+                or type(proposal.get('arguments')) is not dict):
+            raise ValueError('pending operation is not a recorded legal Actor command')
+        identities.add(row['id'])
+
+    report = dict(eligible=False, objective=None, positive_misses=0, negative_repeats=0,
+                  positive_examples=sum(bool(r['gained']) for r in examples),
+                  negative_examples=sum(bool(r['lost']) for r in examples),
+                  neutral_examples=sum(not r['gained'] and not r['lost'] for r in examples),
+                  observed_effects=sum(bool(r['gained'] or r['lost']) for r in examples),
+                  unsupported_dispatches=0, retained_actor_positives=0,
+                  positive_interventions=0, unknown_continuations=0,
+                  rows=[], weights=weights, errors=[])
+    try:
+        program = load_program(source)
+    except Exception as exc:
+        report['errors'].append(dict(kind=type(exc).__name__, message=str(exc)[:200]))
+        return report
+
+    for row in examples:
+        try:
+            decision = public_step(program, row['observation'], {}, tool_names)
+            actual = row['command']
+            intervention = decision['kind'] == 'act'
+            effective = decision if intervention else row['observation'].get('proposed_operation')
+            same = bool(effective and effective['name'] == actual['name']
+                        and effective['arguments'] == actual['arguments'])
+            if effective and effective['name'] == actual['name'] == 'say':
+                same = (' '.join(effective['arguments']['message'].split())
+                        == ' '.join(actual['arguments']['message'].split()))
+            missed = bool(row['gained']) and not same
+            repeated = bool(row['lost']) and same
+            unsupported = (not row['gained'] and not row['lost']
+                           and intervention and not same)
+            report['positive_misses'] += missed
+            report['negative_repeats'] += repeated
+            report['unsupported_dispatches'] += unsupported
+            report['retained_actor_positives'] += bool(row['gained']) and same and not intervention
+            report['positive_interventions'] += bool(row['gained']) and same and intervention
+            report['unknown_continuations'] += effective is None
+            report['rows'].append(dict(id=row['id'], source=row.get('source'),
+                executor=row['executor'], matched_observed_action=same,
+                missed_positive=missed, repeated_negative=repeated,
+                effective_executor='program' if intervention else 'actor' if effective else 'unknown',
+                abstention_is_not_verified_correction=effective is None,
+                action={k: decision[k] for k in ['kind', 'name', 'arguments'] if k in decision}))
+        except Exception as exc:
+            report['errors'].append(dict(id=row['id'], kind=type(exc).__name__, message=str(exc)[:200]))
+    if report['errors']:
+        return report
+    report['eligible'] = True
+    report['source_sha256'] = hashlib.sha256(source.encode('utf-8')).hexdigest()
+    if not report['observed_effects']:
+        return report
+    report['objective'] = (
+        positive_weight * report['positive_misses'] / max(1, report['positive_examples'])
+        + negative_weight * report['negative_repeats'] / max(1, report['negative_examples'])
+        + unsupported_weight * report['unsupported_dispatches'] / max(1, report['neutral_examples'])
+        + size_weight * len(source.encode('utf-8')) / 16000)
+    return report
+
+
+def select_witness_update(incumbent_source, candidate_sources, examples, tool_names, **weights):
+    """Bounded signed-witness revision; retain the incumbent on a loss tie.
+
+    Candidate formation and real task execution are accounted elsewhere. This
+    selector cannot establish a native gain, and it does not discard a failed
+    source merely because its terminal reward is zero.
+    """
+    sources = [incumbent_source] + list(candidate_sources)
+    scores = [score_effect_witnesses(s, examples, tool_names, **weights) for s in sources]
+    if not any(s['observed_effects'] for s in scores):
+        return dict(source=incumbent_source, selected_index=0, scores=scores, reason='no_observed_effects')
+    eligible = [i for i, s in enumerate(scores) if s['eligible'] and s['objective'] is not None]
+    if not eligible:
+        return dict(source=incumbent_source, selected_index=0, scores=scores, reason='no_valid_update')
+    selected = min(eligible, key=lambda i: (scores[i]['objective'], i))
+    return dict(source=sources[selected], selected_index=selected, scores=scores,
+                reason='signed_observed_effects_and_intervention_prior')
+
+
+def witness_learning_request(materials, diagnostics, *, constrained, model):
+    """Matched bounded proposals; only the update/retention instruction differs."""
+    instruction = '''Learn a compact reusable local corrective skill from the supplied real public histories and observed macro-effect feedback, including failed whole tasks and actions actually executed by the Actor. Return emit_policy with source, rationale and evidence. Define pure step(observation,memory) with optional pure helpers/literal constants, at most 16000 UTF-8 bytes. observation is a dictionary: messages contains complete public history, proposed_operation is a pending Actor command or None, turn/done are public keys. Each decision is {kind:'act',name:assistant_tool_or_say,arguments:object,memory:object} or {kind:'yield',memory:object,reason:string}. say has exactly {message:string}. Stop only after done=true. json/re/math and basic builtins are bound; no imports/IO/private fields.
+Use runtime entity IDs, current requested quantities, public receipts and actual feedback; never hardcode source IDs, quantities, task IDs or native labels. Check consent, prior successful writes, available resources, current rather than obsolete feedback and remaining obligations. Both arms are wrapped as history-only policies: each call receives empty own memory, and returned memory is reset; derive progress from complete public history and actual receipts. Automate only a supported local correction, then yield to the Actor for remaining diagnosis. Do not greet, reset, declare whole-task success, or transfer the entire conversation. Retain an already-correct recorded Actor proposal by yielding; copying it is no additional skill contribution. Distinguish requested from observed results. A candidate can change conditions, action bodies and return behavior; no donor body is immutable.
+Labels describe observed macro spans containing intervening customer/environment actions, not independent causal credit. The host evaluates exact tool arguments and whitespace-normalized Say text; wording matches are only a conservative offline proxy. Neutral spans are unlabelled for effects. Full native success and formation-plus-use cost on new tasks decide usefulness. All supplied feedback and diagnostics are available to both update rules.'''
+    if constrained:
+        instruction += '''\nUpdate rule: minimize missed positive-action witnesses plus harmful-action replays in negative contexts, with a small unsupported-intervention prior and source-size penalty. Diagnose the supplied executable counterexamples, keep supported conditional behavior softly, revise conflicting guards/parameters/continuations, and yield outside learned support. The host retains the lowest observed compatibility objective within the same bounded proposal budget; this is not proof of task utility.'''
+    else:
+        instruction += '''\nOrdinary feedback revision: freely write the best local policy from all the same histories, effect labels, code and diagnostics. Revise your preceding proposal using the supplied feedback; no particular repair location or edit restriction is imposed. As in the constrained arm, the host returns the lowest observed compatibility objective among the same number of candidates, not automatically the last revision. This is an adaptation baseline, not a reproduction of a published method.'''
+    tool = dict(type='function', function=dict(name='emit_policy',
+        description='Return an executable public-feedback corrective skill.',
+        parameters=dict(type='object', properties={k: dict(type='string')
+            for k in ['source', 'rationale', 'evidence']}, required=['source', 'rationale', 'evidence'])))
+    data = dict(materials=materials, candidate_diagnostics=diagnostics)
+    return dict(model=model, messages=[dict(role='system', content=instruction),
+        dict(role='user', content=json.dumps(data, ensure_ascii=False))], tools=[tool],
+        tool_choice=dict(type='function', function=dict(name='emit_policy')),
+        temperature=0, max_tokens=32768, stream=True, stream_options=dict(include_usage=True))
+
+
 def partial_effect_learning_request(materials, *, compose, model):
     """Build the exact two-writer preservation-v1 training inputs.
 

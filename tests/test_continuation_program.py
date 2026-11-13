@@ -11,6 +11,117 @@ SPEC=importlib.util.spec_from_file_location('continuation_program',PATH)
 CP=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(CP)
 
 
+def effect_examples():
+    rows = []
+    for identity, content, gained, lost in [
+            ('first', 'Please add two; no prior receipt.', ['quota'], []),
+            ('repeat', 'Two already credited; receipt exists.', [], ['quota']),
+            ('unknown', 'Please inspect the account.', [], [])]:
+        rows.append(dict(id=identity, source='failed_run', executor='actor',
+            observation=dict(messages=[dict(role='user', content=content)], turn=1, done=False),
+            command=dict(name='credit', arguments={'amount': 2}), gained=gained, lost=lost))
+    return rows
+
+
+ALWAYS_CREDIT = "def step(o,m):\n return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}\n"
+CONDITIONAL_CREDIT = """def step(o,m):
+    if 'already credited' in o['messages'][-1]['content']:
+        return {'kind':'yield','memory':m}
+    return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+"""
+
+
+def test_signed_witnesses_distinguish_same_action_in_different_contexts():
+    rows = effect_examples()
+    bad = CP.score_effect_witnesses(ALWAYS_CREDIT, rows, ['credit'])
+    good = CP.score_effect_witnesses(CONDITIONAL_CREDIT, rows, ['credit'])
+    assert bad['positive_misses'] == 0 and bad['negative_repeats'] == 1
+    assert good['positive_misses'] == good['negative_repeats'] == 0
+    assert good['objective'] < bad['objective']
+    assert good['neutral_examples'] == 1 and good['observed_effects'] == 2
+    assert good['rows'][0]['executor'] == 'actor'
+    assert rows == effect_examples()
+
+
+def test_witness_update_keeps_incumbent_on_regression_and_ablation_is_testable():
+    rows = effect_examples()
+    update = CP.select_witness_update(ALWAYS_CREDIT, [CONDITIONAL_CREDIT], rows, ['credit'])
+    assert update['selected_index'] == 1
+    assert update['source'] == CONDITIONAL_CREDIT
+    rejected = CP.select_witness_update(CONDITIONAL_CREDIT, [ALWAYS_CREDIT], rows, ['credit'])
+    assert rejected['selected_index'] == 0
+    unsigned = CP.select_witness_update(ALWAYS_CREDIT, [CONDITIONAL_CREDIT], rows, ['credit'], negative_weight=0)
+    assert unsigned['selected_index'] == 0
+
+
+def test_unknown_effects_and_invalid_policy_do_not_fabricate_utility():
+    rows = [effect_examples()[2]]
+    result = CP.select_witness_update(ALWAYS_CREDIT, [CONDITIONAL_CREDIT], rows, ['credit'])
+    assert result['selected_index'] == 0 and result['reason'] == 'no_observed_effects'
+    invalid = CP.score_effect_witnesses('def step(o,m): return None', effect_examples(), ['credit'])
+    assert not invalid['eligible'] and invalid['objective'] is None
+    assert CP.select_witness_update(CONDITIONAL_CREDIT, ['broken'], effect_examples(), ['credit'])['selected_index'] == 0
+
+
+def test_witness_labels_never_become_policy_observation_or_old_controller_memory():
+    source = """def step(o,m):
+    if m or 'gained' in o or 'lost' in o or 'executor' in o:
+        return None
+    return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+"""
+    report = CP.score_effect_witnesses(source, effect_examples(), ['credit'])
+    assert report['eligible']
+    poisoned = effect_examples()
+    poisoned[0]['observation']['native_reward'] = 1
+    with pytest.raises(ValueError):
+        CP.score_effect_witnesses(source, poisoned, ['credit'])
+    for message in [dict(role='tool', requestor='user', content='private state'),
+                    dict(role='user', content='text', native_reward=1)]:
+        poisoned = effect_examples()
+        poisoned[0]['observation']['messages'] = [message]
+        with pytest.raises(ValueError):
+            CP.score_effect_witnesses(source, poisoned, ['credit'])
+
+
+def test_effective_pending_actor_action_is_retained_without_claimed_intervention():
+    rows = effect_examples()[:2]
+    for row in rows:
+        row['observation']['proposed_operation'] = dict(op='act', turn=1, **row['command'])
+    noop = "def step(o,m): return {'kind':'yield','memory':m}"
+    report = CP.score_effect_witnesses(noop, rows, ['credit'])
+    assert report['positive_misses'] == 0 and report['retained_actor_positives'] == 1
+    assert report['positive_interventions'] == 0
+    assert report['negative_repeats'] == 1
+    assert report['rows'][1]['effective_executor'] == 'actor'
+
+
+def test_history_only_compilation_matches_empty_memory_at_every_runtime_call():
+    source = """def step(o,m):
+    if m.get('once'):
+        return {'kind':'yield','memory':m}
+    m['once']=True
+    return {'kind':'act','name':'credit','arguments':{'amount':2},'memory':m}
+"""
+    program = CP.load_program(CP.compile_history_policy(source))
+    memory = {}
+    for _ in range(3):
+        decision = CP.public_step(program, {'done':False}, memory, ['credit'])
+        assert decision['kind'] == 'act' and decision['memory'] == {}
+        memory = decision['memory']
+
+
+def test_witness_proposals_share_feedback_tools_model_and_budget():
+    data = dict(public_stories=['actual history'], examples=effect_examples())
+    diagnostics = dict(observed='same computation')
+    ordinary = CP.witness_learning_request(data, diagnostics, constrained=False, model='fixed')
+    candidate = CP.witness_learning_request(data, diagnostics, constrained=True, model='fixed')
+    assert ordinary['messages'][1] == candidate['messages'][1]
+    for key in ['model', 'tools', 'tool_choice', 'temperature', 'max_tokens', 'stream', 'stream_options']:
+        assert ordinary[key] == candidate[key]
+    assert 'lowest observed compatibility objective' in ordinary['messages'][0]['content']
+    assert 'lowest observed compatibility objective' in candidate['messages'][0]['content']
+
+
 def test_partial_effect_frontier_retains_complementary_failed_programs():
     common = dict(group='same_task', model='fixed', caps={'posts': 24})
     rows = [dict(common, id='network', native_reward=0,

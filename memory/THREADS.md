@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | [20组已闭合](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#expansion-v1)，当前整体控制器停扩；[尸检](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#cross-batch-autopsy)回收条件动作及Actor续行。下一实现见证约束修订，同信息普通更新/简单规则对照，先新DEV再决定扩样，不先训练。 |
+| 第二篇唯一下一步 | [见证约束原型](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#witness-v1)与2新TRAIN协议已准备，下一形成＋原生比较。保留Actor信用、统一历史条件执行，普通更新同预算择优；proxy不证明原生收益。旧控制器停扩，不先训练。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)已含HASP/SkillCAT/SCOPE：可执行干预、成败分歧和局部技能组链已有。匹配近邻比较未完成；一步选项不另算新方法。 |
