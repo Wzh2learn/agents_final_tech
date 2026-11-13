@@ -225,7 +225,7 @@ def load_study_profile(backend, path=None, digest=None):
             'gguf_path','gguf_sha256','server_executable','server_executable_sha256',
             'parent_hf_binding','runtime_admission'}
     if (set(profile) != keys or profile['schema'] != 'alfworld_owned_8b_runtime_profile_v1' or
-            profile['variant'] not in {'frozen','ordinary','recovery'} or
+            profile['variant'] not in {'frozen','ordinary','recovery','mixed_average','recovery_residual'} or
             (profile['host'],profile['port'],profile['model_id'],profile['context'],profile['output']) !=
             ('127.0.0.1',18104,'qwen3-8b-qual',32768,8192) or profile['enable_thinking'] is not False):
         raise ValueError('unexpected owned8B runtime profile')

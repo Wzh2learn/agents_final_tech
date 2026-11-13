@@ -208,6 +208,8 @@ dev2的合同要求`no_service`保持且执行人工转接，不是恢复网络�
 
 原始证据根与完整包定位见[历史快照](../../../docs/archive/2026-11-06_agent_research_context/fccl_formation_through_20261112.md)；新批私有包及本机复核定位见各批证据记录。
 
+**本地模型另账。** [O/R/平均/差分八组](CONTINUATION_PROGRAM.md#feedback-residual-v2)新增97本地POST/576,853tokens、未知0，0校园调用/新优化/教师；不并入以上校园额度。复用O/R来源和训练费用仍归属，CPU组合及模型启动另记；本地原始usage/cache与原生结果已核。
+
 ## 更早闭合批次（按锚点读取）
 
 <a id="newdev-v1"></a>

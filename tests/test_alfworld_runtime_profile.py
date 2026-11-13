@@ -103,6 +103,27 @@ class RuntimeProfileTests(unittest.TestCase):
     def load(self):
         return r.load_study_profile('student8b', self.profile_path, self.digest)
 
+    def test_composed_controls_still_require_one_bound_scale_one_adapter(self):
+        adapter = self.private / 'composed.gguf'
+        adapter.write_bytes(b'CPU_SYNTHETIC_ADAPTER_NOT_MODEL_WEIGHTS')
+        for variant in ('mixed_average', 'recovery_residual'):
+            self.profile['variant'] = variant
+            self.save()
+            with self.assertRaisesRegex(ValueError, 'explicit scale1'):
+                self.load()
+            self.admission['active_lora'] = dict(path=str(adapter), sha256=r.sha(adapter), scale=1)
+            argv = self.admission['process']['argv']
+            if '--lora' not in argv:
+                argv.extend(['--lora', str(adapter)])
+            self.save()
+            self.assertEqual(self.load()[0]['variant'], variant)
+            self.admission['active_lora'] = None
+            self.admission['process']['argv'] = argv[:-2]
+        self.profile['variant'] = 'undeclared_control'
+        self.save()
+        with self.assertRaisesRegex(ValueError, 'unexpected owned8B'):
+            self.load()
+
     def readonly_gguf(self):
         self.gguf.chmod(0o444)
         self.addCleanup(lambda:self.gguf.chmod(0o644) if self.gguf.exists() else None)

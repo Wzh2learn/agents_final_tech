@@ -1,17 +1,19 @@
 # 第二篇：近邻、重合与实验判别
 
-> 更新至2026-11-14。D定向读方法，未复现原法；前表及删减细节见`bdb85edb`本文件Git blob，早期见`89ca0dbd`。按问题加载。
+> 更新至2026-11-14。定向读方法，未复现原法；旧表见`bdb85edb`本文件blob，早期见`89ca0dbd`。
 
 ## 当前裁决
 
 **FCCL主线：从执行反馈学习可复用纠正策略。** 尚无成立新方法。当前跨角色续行程序仅为候选；角色标签、可执行程序、配对执行和反馈更新本身已有，不以新载体替代增量。
 
-11-14：完整片段八组闭合，尚无总体增益；保留技能，下一同现场区分读取面和交还后的行为。重读HASP §2.1–2.2、SkillCompiler §III、CIPO §3.3–3.4/B：corrective context、部分返回及同前缀延续收益已有，不能将摘要/分叉改名为新机制。
+11-14：普通继续已覆盖旧现场。当前复用O/R做平均/差分探针；参数算术、对比反馈、同前缀信用均有近邻，不改名为新方法。
 
 ## 最直接的方法近邻
 
 | 工作 | 已核机制 | 当前必须解决的区别 |
 |---|---|---|
+| [UniSkill](https://arxiv.org/html/2610.10164v1) / [CaPE](https://aclanthology.org/2023.findings-acl.685/) | 分别读§3.3/实现及原文：前者以冻结actor在同题成败参考上的token归一似然增量差学习技能，并联合GRPO；后者用expert−anti-expert参数差。 | 成败对比与R−O算术已有；当前仅检验旧训练信号，条件更新及独立任务收益仍须另证。 |
+| [PEAM v2](https://arxiv.org/html/2605.27762v2) | 读§3.1–3.4：同上下文失败/纠正对以BC＋DPO更新类别隔离LoRA，执行验证失败回退慢模型，按效用及失败统计触发巩固。 | 从失败学适配器、条件路由/回退已有；不把参数化记忆本身主张为独立创新。未复现代码/结果。 |
 | [Agent-R](https://arxiv.org/html/2501.11425v1) / [STeP](https://arxiv.org/html/2505.20023v1) | 共享前缀纠正/MCTS及迭代SFT；教师反思轨迹、错误动作部分mask。 | 从失败续做/正确片段学习已有，须证明条件纠正的额外收益。 |
 | [HASP](https://arxiv.org/html/2605.17734v2) / [官方代码](https://github.com/HolaYan/ExecutableSkills-HASP) | §2.1–2.3/D：触发/改写及corrective context注入，时机/模式/正确/费用后续结果四信号，RS/SFT；`2a0e859e`含配对重生成。 | 纠正、上下文和后续结果信用均已有。须具体区分学习机制，不能把交还提醒或宏效果命名当增量。 |
 | [SkillCompiler](https://arxiv.org/html/2610.39508) / [SkillSmith](https://arxiv.org/html/2605.15215) / [TraceCompiler](https://arxiv.org/html/2608.02680) | 分别核§III、§3、§3：操作级编译/修订，边界接口与回退，轨迹去噪及有证据依赖。 | 程序化、混合执行和去除偶然先后已有；当前阶段化反馈目标仍须匹配编译/普通更新比较，不能仅凭组合主张新方法。 |
@@ -20,7 +22,6 @@
 | [AdaMEM](https://arxiv.org/html/2606.05684v1) | §3.1–3.2：动态策略记忆，成功/动作改变筛选；反事实动作不实际执行。 | 条件策略须由实际片段及续行后果支持，动作变化本身不是收益。 |
 | [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化配对效用、Load/Abstain。 | 条件效用本身不新。作者公开包为guoshaung/SkillApt，`73db0b54`；旧404不能外推无代码。 |
 | [CIPO](https://arxiv.org/html/2610.04991v1) | §3.3–3.4/B：参数绑定，软中断返回部分轨迹/结果；首个可行粒度同前缀分叉、同策略续行，结果差辅助GRPO。 | 返回部分进度及续行结果监督已有；下一须检验不同学习规则，不把分叉或交还本身称新方法。 |
-| [ReGAL](https://arxiv.org/html/2401.16467v2) | 11-12读§3.2/A.2：从query–program重构函数库；执行核验、保留失败、反馈重试、用成败测试更新/修剪helper。 | 执行反馈驱动程序抽象和更新已有。我们的固定谓词分类亦未超过Find-S；须检验自动程序/关系学习的额外机制，不将程序化、负例或更新循环换名。 |
 | [SkillMorph](https://arxiv.org/html/2610.11858v1) | §2/4：跨重复、任务和演化轮的动作覆盖定位，再关联技能中的指令/脚本编辑位置并协调修订；固定模型/harness、留出任务评估。 | 失败轨迹定位和执行证据驱动技能修订已有，不能说它只看文本或没有实际行为。 |
 | [SCOPE](https://arxiv.org/html/2611.03116v1) | §3.1–3.4：从全局失败轨迹挖局部技能/失败经验，组链；同探索前沿教师/自干预，完整轨迹蒸馏。 | 挖失败、保留进度与拼局部成功已有；不能把当前两种失败的互补目标直接称新机制。 |
 | [SkillCAT](https://arxiv.org/html/2606.13317v1) | CCE同题成败对找首次有意义分歧；AAE源副本重放，0→1/1→1优先，阈值后层级合并。 | 首分歧学习已有；整体0→0的互补修复可能被筛除，但盲合并是必要强基线。正文已读，代码未独立核查。 |
@@ -39,7 +40,7 @@
 
 [tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入；[反应式先导](results/CONTINUATION_PROGRAM.md#reactive-v1)三组均成功，唯一自动介入把正确Say回执误当重复写。HASP式适配/一步执行不算独立方法。分支恢复双侧历史/DB；不同领域仍属同一benchmark。
 
-`6a2b8382`本文件保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE机制与链接。更早blob及[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)保留其余近邻。移出活表不表示失效。
+`17d4885f`本文件保留ReGAL §3.2/A.2：执行成败更新/修剪程序库已有；`6a2b8382`保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE。其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)，移出不表示失效。
 
 ## 对本项目实验的直接约束
 
