@@ -1,6 +1,8 @@
 """Actor-to-world role and turn boundaries; no tau2 dependency or model access."""
 import importlib.util
+import json
 from pathlib import Path
+from enum import Enum
 
 import pytest
 from types import SimpleNamespace
@@ -12,6 +14,52 @@ ADAPTER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(ADAPTER)
 TOOLS = [{'function': {'name': 'get_customer_by_phone'}}]
 CURRENT = {'turn': 4, 'done': False}
+
+
+@pytest.mark.parametrize('reward', [0, 1])
+def test_interrupted_world_preserves_native_prefix_and_scores_actual_progress(tmp_path, reward):
+    class Reasons(Enum):
+        TIMEOUT = 'timeout'
+        UNEXPECTED_ERROR = 'unexpected_error'
+    class Dump:
+        def __init__(self, **values): self.values = values
+        def model_dump(self, mode):
+            return {k: v.value if isinstance(v, Enum) else v for k,v in self.values.items()}
+    messages = [{'role': 'user', 'content': 'pending request'},
+                {'role': 'tool', 'requestor': 'user', 'content': 'actual private device action'}]
+    world = SimpleNamespace(get_messages=lambda:messages, simulation_id='fixed-world')
+    env = SimpleNamespace(get_db_hash=lambda:'account-hash', get_user_db_hash=lambda:'device-hash')
+    task = SimpleNamespace(id='t', evaluation_criteria=SimpleNamespace(nl_assertions=[]))
+    calls = []
+    def grade(sim, original, *args):
+        assert (tmp_path/'simulation.json').exists()
+        assert sim.values['messages'] == messages and original is task
+        calls.append('deterministic-native-grade')
+        return Dump(reward=reward)
+    api = dict(SimulationRun=Dump, TerminationReason=Reasons,
+               evaluate_simulation=grade, EvaluationType=SimpleNamespace(ALL='all'))
+    ADAPTER.persist_interrupted_world(api, world, task, env, tmp_path,
+        TimeoutError('actor stopped'), start_time='start', duration=3)
+    assert json.loads((tmp_path/'simulation.json').read_text())['termination_reason'] == 'timeout'
+    assert json.loads((tmp_path/'native_reward.json').read_text())['reward'] == reward
+    assert json.loads((tmp_path/'interrupted.json').read_text())['interrupted'] is True
+    assert calls == ['deterministic-native-grade']
+
+
+def test_interruption_snapshot_never_triggers_a_generation_based_judge(tmp_path):
+    class Dump:
+        def __init__(self, **values): self.values = values
+        def model_dump(self, mode): return self.values
+    task = SimpleNamespace(id='t', evaluation_criteria=SimpleNamespace(nl_assertions=['needs judge']))
+    api = dict(SimulationRun=Dump, TerminationReason=SimpleNamespace(TIMEOUT='timeout'),
+               evaluate_simulation=lambda *a:pytest.fail('no model-based grading on interruption'))
+    world = SimpleNamespace(get_messages=lambda:[], simulation_id='world')
+    env = SimpleNamespace(get_db_hash=lambda:'a',get_user_db_hash=lambda:'u')
+    ADAPTER.persist_interrupted_world(api, world, task, env, tmp_path,
+        TimeoutError('actor stopped'), start_time='start', duration=1)
+    assert (tmp_path/'simulation.json').exists()
+    assert not (tmp_path/'native_reward.json').exists()
+    assert json.loads((tmp_path/'interrupted.json').read_text())['score_status'] == 'generation_based_criteria_skipped'
 
 
 def action(**changes):

@@ -9,6 +9,7 @@ The original executed snapshot is preserved in its evidence package.
 from __future__ import annotations
 import argparse
 import copy
+from datetime import datetime, timezone
 import hashlib
 import http.client
 import http.server
@@ -204,6 +205,36 @@ def committed_operation_result(command,current,confirmed_operations):
     return None
 
 
+def persist_interrupted_world(api, world, task, env, root, exc, *, start_time,
+                              duration, evaluation_task=None):
+    """Save observed native progress on interruption; never fabricate user stop.
+
+    The official trajectory includes private user tool results for host scoring,
+    not for the Actor. This path never invokes a generation-based evaluator.
+    Existing normal-run artifacts are immutable, including a grading failure.
+    """
+    root = Path(root)
+    if (root/'simulation.json').exists():
+        return
+    reason = (api['TerminationReason'].TIMEOUT if isinstance(exc, (TimeoutError, queue.Empty))
+              else api['TerminationReason'].UNEXPECTED_ERROR)
+    sim = api['SimulationRun'](id=world.simulation_id, task_id=task.id,
+        start_time=start_time, end_time=datetime.now(timezone.utc).isoformat(),
+        duration=max(0, duration), termination_reason=reason, messages=world.get_messages())
+    write(root/'simulation.json', sim.model_dump(mode='json'))
+    status = dict(interrupted=True, cause=type(exc).__name__,
+                  score_status='generation_based_criteria_skipped')
+    scoring_task = evaluation_task or task
+    if not scoring_task.evaluation_criteria.nl_assertions:
+        reward = api['evaluate_simulation'](sim, scoring_task, api['EvaluationType'].ALL,
+                                            False, 'telecom-workflow')
+        write(root/'native_reward.json', reward.model_dump(mode='json'))
+        status['score_status'] = 'deterministic_native_prefix_scored'
+    write(root/'world_final.json', dict(termination=str(reason), interrupted=True,
+        agent_db=env.get_db_hash(), user_db=env.get_user_db_hash()))
+    write(root/'interrupted.json', status)
+
+
 def make_world(api, task, provider, root, plan, evaluation_task=None):
     LLMAgent=api['LLMAgent']; AM=api['AssistantMessage']; MT=api['MultiToolMessage']; TC=api['ToolCall']
     class QueueAgent(LLMAgent):
@@ -237,6 +268,7 @@ def make_world(api, task, provider, root, plan, evaluation_task=None):
     world=api['Orchestrator'](domain='telecom-workflow',agent=agent,user=user,environment=env,task=task,
                               max_steps=plan['native_steps'],max_errors=10,timeout=plan['seconds'])
     def run():
+        started = datetime.now(timezone.utc).isoformat(); clock = time.monotonic()
         try:
             sim=world.run();write(root/'simulation.json',sim.model_dump(mode='json'))
             reward=api['evaluate_simulation'](sim,evaluation_task or task,api['EvaluationType'].ALL,False,'telecom-workflow')
@@ -245,6 +277,13 @@ def make_world(api, task, provider, root, plan, evaluation_task=None):
             agent.observations.put(dict(done=True,termination=sim.termination_reason.value))
         except BaseException as exc:
             write(root/'world_failure.json',dict(type=type(exc).__name__,message=str(exc)))
+            try:
+                persist_interrupted_world(api, world, task, env, root, exc,
+                    start_time=started, duration=time.monotonic()-clock,
+                    evaluation_task=evaluation_task)
+            except BaseException as snapshot_exc:
+                write(root/'snapshot_failure.json',dict(type=type(snapshot_exc).__name__,
+                    message=str(snapshot_exc)))
             agent.observations.put(dict(done=True,error='world_failure'))
     thread=threading.Thread(target=run,daemon=True);thread.start()
     return env,agent,world,thread

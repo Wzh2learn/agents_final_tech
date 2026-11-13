@@ -1539,3 +1539,5 @@ echo dispatch_log updated
 [09:46] D cross-batch autopsy -> 19 report index; 36 receipt bindings + 30 fork SSE rechecked; preserve learning/cost/partial-repair signals, 0 new model calls -> this commit (parent 0954279f)
 
 [2026-11-13 11:49] 第二篇跨批次尸检→保留14类成败信号；冻结节点/路由学习两DEV闭合，385POST/4,401,126tokens，GB10定向49通过；并发缓存修复，1原生评分缺失保留；证据双端，当前提交。
+
+[2026-11-13 12:32] 同前缀三组续做→均原生1，历史/回跳关/开473214/290287/269054tokens；96POST/1032555tokens已闭合，67项GB10检查通过，预算停轨迹保存修复；四新配置五策略已先冻结并零模型核验；当前提交。
