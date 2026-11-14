@@ -113,34 +113,74 @@ def prepare():
                           negatives=sum(e['semantic_negative'] for x in diagnostics for e in x['edits']))))
 
 
-def prepare_firstpass():
-    output=ROOT/'firstpass_v1'
+def prepare_firstpass(formation=False):
+    output=ROOT/('formation_student_v1' if formation else 'firstpass_v1')
     if output.exists():raise ValueError('first-pass attempt already exists')
     selection=read(ROOT/'SELECTION.json')
     if sha(ROOT/'SELECTION.json')!=read(ROOT/'PLAN.json')['selection_sha256']:raise ValueError('selection changed')
     records={r['id']:r for r in read(study.DATA)};episodes=[];labels=[]
-    for index,item in enumerate(selection['evaluation']):
+    arm='token_mean' if formation else 'uniform_recovery'
+    for index,item in enumerate(selection['train' if formation else 'evaluation']):
         record=records[item['id']];public=task.public_record(record)
-        folder=output/'uniform_recovery'/f'{index:03d}';inputs=folder/'inputs';inputs.mkdir(parents=True)
+        if not task.grade(record['qa']['program'],public,record['qa']['exe_ans'])['execution_correct']:
+            raise ValueError('selected task reference does not satisfy the executor contract')
+        folder=output/arm/f'{index:03d}';inputs=folder/'inputs';inputs.mkdir(parents=True)
         (folder/'work').mkdir();(folder/'dependencies').mkdir()
         (inputs/'public.json').write_text(json.dumps(public,ensure_ascii=False)+'\n')
         (inputs/'task.txt').write_text(study.prompt(public))
         (inputs/'finqa_tool.py').write_bytes(Path(task.__file__).read_bytes())
         (inputs/'executor.py').write_bytes(Path(task.executor().__file__).read_bytes())
         (inputs/'guest.py').write_text(study.core.GUEST)
-        episodes.append(dict(arm='uniform_recovery',index=index,id=record['id'],report=record['filename'],folder=str(folder),public_sha256=sha(inputs/'public.json'),task_sha256=sha(inputs/'task.txt')))
+        episodes.append(dict(arm=arm,index=index,id=record['id'],report=record['filename'],folder=str(folder),public_sha256=sha(inputs/'public.json'),task_sha256=sha(inputs/'task.txt')))
         labels.append(dict(index=index,id=record['id'],report=record['filename'],exe_ans=record['qa']['exe_ans']))
     new(output/'LABELS_PRIVATE.json',labels)
     template=read(learning.PAIRED/'native_v1/PLAN.json')
     for key in ('source_episodes','parent_review_plan_sha256','training_plan_sha256'):template.pop(key,None)
-    template.update(schema='finqa_semantic_common_firstpass_v1',episodes=episodes,arm_order=['uniform_recovery'],arms=['uniform_recovery'],
-                    training_root=str(learning.ROOT),training_result_sha256=sha(learning.ROOT/'RESULT.json'),
-                    required_training_status='TRAINED_TWO_DEVELOPMENT_ARMS',terminal_status='SEMANTIC_COMMON_FIRSTPASS_RETURNED',
+    training=learning.PAIRED if formation else learning.ROOT
+    template.update(schema='finqa_formation_sources_v1' if formation else 'finqa_semantic_common_firstpass_v1',episodes=episodes,arm_order=[arm],arms=[arm],
+                    training_root=str(training),training_result_sha256=sha(training/'RESULT.json'),
+                    required_training_status='TRAINED_PAIRED_DECISION_ARMS' if formation else 'TRAINED_TWO_DEVELOPMENT_ARMS',
+                    terminal_status='FORMATION_STUDENT_RETURNED' if formation else 'SEMANTIC_COMMON_FIRSTPASS_RETURNED',
                     private_labels_sha256=sha(output/'LABELS_PRIVATE.json'),max_posts=len(episodes)*study.CAPS['posts'],
                     selection_sha256=sha(ROOT/'SELECTION.json'),components={str(p):sha(p) for p in [Path(__file__),Path(native.__file__),Path(study.__file__),Path(task.__file__)]},
-                    scope='Eight preselected report-disjoint TRAIN development tasks, common first pass before every reviewer.')
+                    scope='Twenty preselected filing-disjoint TRAIN formation sources, ordinary closed-SFT student; retain all outcomes.' if formation else 'Eight preselected report-disjoint TRAIN development tasks, common first pass before every reviewer.')
     new(output/'PLAN.json',template)
     print(json.dumps(dict(plan_sha256=sha(output/'PLAN.json'),episodes=len(episodes),max_posts=template['max_posts'])))
+
+
+def prepare_positive_fusion():
+    """Matched alpha=.5 retention control; no grid or additional training."""
+    from safetensors.torch import load_file,save_file
+    root=ROOT/'fusion_positive_v1'
+    if root.exists():raise ValueError('fusion control already prepared')
+    arm='mean_positive';target=root/arm;target.mkdir(parents=True)
+    donors=[ROOT/'token_mean',ROOT/'edit_positive']
+    configs=[read(p/'adapter_config.json') for p in donors]
+    if configs[0]!=configs[1]:raise ValueError('adapter configurations differ')
+    weights=[load_file(p/'adapter_model.safetensors',device='cpu') for p in donors]
+    save_file(learning.mean_adapter_parameters(*weights),str(target/'adapter_model.safetensors'))
+    shutil.copy2(donors[0]/'adapter_config.json',target/'adapter_config.json')
+    new(root/'PLAN.json',dict(schema='finqa_positive_adapter_parameter_mean_v1',alpha=.5,
+                            operation='Mean matching LoRA A/B parameters, unchanged rank/scaling; not effective BA matrix averaging',
+                            donors={str(p/'adapter_model.safetensors'):sha(p/'adapter_model.safetensors') for p in donors},
+                            comparison='Matched control for the same alpha=.5 closed-SFT plus edit-contrast parameter mean',optimizer_updates=0))
+    new(root/'RESULT.json',dict(status='ADAPTER_PARAMETERS_AVERAGED',optimizer_updates=0,forward_calls=0,
+                              arms={arm:dict(adapter_files={p.name:sha(p) for p in target.iterdir() if p.is_file()})}))
+    template=read(ROOT/'native_v1/PLAN.json');output=root/'native_v1';episodes=[]
+    for ep in template['episodes']:
+        if ep['arm']!='token_mean':continue
+        folder=output/arm/f"{ep['index']:03d}";folder.mkdir(parents=True)
+        shutil.copytree(Path(ep['folder'])/'inputs',folder/'inputs');(folder/'dependencies').mkdir()
+        shutil.copytree(ROOT/'firstpass_v1/uniform_recovery'/f"{ep['index']:03d}"/'work',folder/'work')
+        episodes.append(dict(ep,arm=arm,folder=str(folder)))
+    shutil.copy2(ROOT/'native_v1/LABELS_PRIVATE.json',output/'LABELS_PRIVATE.json')
+    template.update(schema='finqa_positive_fusion_native_v1',episodes=episodes,arms=[arm],arm_order=[arm],
+                    training_root=str(root),training_plan_sha256=sha(root/'PLAN.json'),required_training_status='ADAPTER_PARAMETERS_AVERAGED',
+                    terminal_status='POSITIVE_FUSION_REVIEW_RETURNED',private_labels_sha256=sha(output/'LABELS_PRIVATE.json'),max_posts=96,
+                    components={str(p):sha(p) for p in [Path(__file__),Path(native.__file__),Path(study.__file__),Path(task.__file__)]},
+                    scope='One post-hoc alpha=.5 positive-only retention control on the same eight exposed development tasks')
+    new(output/'PLAN.json',template)
+    print(json.dumps(dict(plan_sha256=sha(output/'PLAN.json'),episodes=8,max_posts=96)))
 
 
 def prepare_review():
@@ -180,9 +220,11 @@ def prepare_review():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     elif args.mode=='prepare-firstpass':prepare_firstpass()
     elif args.mode=='prepare-review':prepare_review()
-    else:native.run(args.plan_sha,ROOT/('firstpass_v1' if args.mode=='firstpass' else 'native_v1'))
+    elif args.mode=='prepare-positive-fusion':prepare_positive_fusion()
+    elif args.mode=='prepare-sources':prepare_firstpass(True)
+    else:native.run(args.plan_sha,ROOT/({'firstpass':'firstpass_v1','positive-fusion':'fusion_positive_v1/native_v1','sources':'formation_student_v1'}.get(args.mode,'native_v1')))

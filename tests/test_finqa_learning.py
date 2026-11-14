@@ -79,6 +79,13 @@ class FinQALearningTests(unittest.TestCase):
         negative['input_ids'][0]=7
         with self.assertRaises(ValueError):m.first_edit_decision(positive,negative)
 
+    def test_adapter_mean_preserves_inputs_and_rejects_mismatched_shapes(self):
+        import torch
+        a={'lora_A':torch.tensor([[1.,3.]])};b={'lora_A':torch.tensor([[5.,7.]])}
+        self.assertTrue(torch.equal(m.mean_adapter_parameters(a,b)['lora_A'],torch.tensor([[3.,5.]])))
+        self.assertTrue(torch.equal(a['lora_A'],torch.tensor([[1.,3.]])))
+        with self.assertRaises(ValueError):m.mean_adapter_parameters(a,{'lora_A':torch.ones(2,1)})
+
     def test_paired_mode_only_differentiates_after_state_and_matches_native_branch_odds(self):
         import torch
         before=torch.tensor(1.,requires_grad=True)

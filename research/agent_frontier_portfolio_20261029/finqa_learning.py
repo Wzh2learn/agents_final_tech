@@ -224,6 +224,13 @@ def edit_contrast_loss(logits,decisions,margin,positive_only=False):
     return torch.stack(losses).mean()
 
 
+def mean_adapter_parameters(first,second):
+    """Mean matching LoRA parameters, not effective BA weight matrices."""
+    if first.keys()!=second.keys() or any(first[k].shape!=second[k].shape for k in first):
+        raise ValueError('adapter parameters differ')
+    return {k:((first[k].float()+second[k].float())*.5).to(first[k].dtype) for k in first}
+
+
 def prepare_paired():
     if (PAIRED/'PLAN.json').exists():raise ValueError('paired attempt already frozen')
     data=read(PAIRED/'DATA.json');rows=data['rows'];pairs=[]
