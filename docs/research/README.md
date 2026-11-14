@@ -1,6 +1,6 @@
 # 研究入口
 
-> 2026-11-14 | Goal paused；本轮仅知识/计划整理。先读[STATE](../../memory/STATE.md)，按任务选一个入口；不把下表全部加载。未决见[THREADS](../../memory/THREADS.md)。
+> 2026-11-14 | Goal active；推进FinQA纠正学习开发。先读[STATE](../../memory/STATE.md)，按任务选一个入口；不把下表全部加载。未决见[THREADS](../../memory/THREADS.md)。
 
 | 当前需要 | 最小入口 |
 | --- | --- |

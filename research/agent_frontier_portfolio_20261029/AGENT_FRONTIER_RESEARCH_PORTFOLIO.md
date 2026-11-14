@@ -1,6 +1,6 @@
 # 第二篇与硕士论文：长期研究组合
 
-> 2026-11-14 | 三轮讨论后修正。当前Goal paused，状态和新版目标见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，机制来源见[知识索引](results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。这里保留长期分工，不积累逐轮回执。
+> 2026-11-14 | 三轮讨论后修正。当前Goal active，金融开发计划见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，机制来源见[知识索引](results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。这里保留长期分工，不积累逐轮回执。
 
 ## 长期目标
 
