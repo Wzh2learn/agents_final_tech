@@ -21,6 +21,8 @@
 
 11-15追加恢复：监督从启动前持有权重锁，修复Docker小写“no such object”导致的误判；GB10守护定点检查7项通过。Docker/PG、OpenCode及CUDA环境均实测可用；OpenCode→27B禁工具回复OK，本次运维18,981tokens另账。运行证据保存在私有research_services/restore_1794684466/。
 
+11-15再次核验：必要服务已在线，保留运行实例而未重启。OpenCode→27B新会话禁工具回复OK，新增本地运维18,981tokens（累计55,809，独立于科研账）；PG接受连接、校园登录服务active。可用内存73.4GiB，守护心跳与权重锁均已实测，仍为32K/单并发/32GiB余量。回执research_services/verify_1794694439/SERVICE_VERIFICATION.json；校内地址返回401，当前未恢复带凭证调用。无新科研训练或评估。
+
 ## 历史 CLI 路由（2026-10-09，不代表当前宿主子Agent）
 
 - Loop A (Codex CLI): `mimo-v2.6-flash` via `Xiaomi_Token_Plan`，执行 profile `~/.codex/loopa-exec.config.toml`；诊断 profile 使用 `mimo-v2.6-pro`。
