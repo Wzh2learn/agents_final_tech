@@ -65,6 +65,28 @@ class CandidateArtifactTests(unittest.TestCase):
         self.assertIsNone(report['excluded_root'])
         self.assertEqual(report['unresolved_symlinks'][0]['path'], 'result_images')
 
+    def test_workspace_generated_image_link_is_the_same_test_artifact(self):
+        image = self.work / 'result_images/test/plot-expected.png'
+        image.parent.mkdir(parents=True)
+        target = '/workspace/lib/mpl_toolkits/tests/baseline_images/test/plot.png'
+        self.make_symlink(image, target)
+        report = runner.inspect_candidate_artifacts(self.work, self.clean)
+        self.assertEqual(report['unresolved_symlinks'], [])
+        self.assertEqual(report['excluded_symlinks'], [
+            {'path': 'result_images/test/plot-expected.png', 'target': target}])
+
+    def test_workspace_name_does_not_hide_other_links(self):
+        image = self.work / 'result_images/test/plot-expected.png'
+        image.parent.mkdir(parents=True)
+        for target in ('/workspace/private/baseline_images/test.png',
+                       '/workspace/lib/mpl_toolkits/../private/baseline_images/test.png'):
+            with self.subTest(target=target):
+                self.make_symlink(image, target)
+                report = runner.inspect_candidate_artifacts(self.work, self.clean)
+                self.assertEqual(report['excluded_symlinks'], [])
+                self.assertEqual(report['unresolved_symlinks'][0]['target'], target)
+                image.unlink()
+
     def test_source_revision_is_bound_to_frozen_raw_and_manifest(self):
         case = self.root / 'source__none__seed7'
         case.mkdir()

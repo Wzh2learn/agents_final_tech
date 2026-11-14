@@ -160,7 +160,7 @@ def inspect_candidate_artifacts(work,clean):
    rel=path.relative_to(work).as_posix()
    if path.is_symlink():
     entry={'path':rel,'target':os.readlink(path)}
-    if eligible and rel.startswith('result_images/') and path.name.endswith('-expected.png') and entry['target'].startswith('/root/lib/mpl_toolkits/') and '/baseline_images/' in entry['target'] and '..' not in PurePosixPath(entry['target']).parts:excluded.append(entry)
+    if eligible and rel.startswith('result_images/') and path.name.endswith('-expected.png') and entry['target'].startswith(('/root/lib/mpl_toolkits/','/workspace/lib/mpl_toolkits/')) and '/baseline_images/' in entry['target'] and '..' not in PurePosixPath(entry['target']).parts:excluded.append(entry)
     else:unresolved.append(entry)
    elif eligible and rel.startswith('result_images/') and path.is_file() and path.suffix=='.png':excluded_files.append(rel)
  return {'excluded_root':'result_images' if eligible else None,'excluded_symlinks':excluded,'excluded_files':excluded_files,'unresolved_symlinks':unresolved,'frozen_root_absent':not os.path.lexists(frozen)}
