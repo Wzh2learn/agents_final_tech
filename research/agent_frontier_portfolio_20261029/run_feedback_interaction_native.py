@@ -148,13 +148,13 @@ def server_start(plan,arm,lora):
   except subprocess.TimeoutExpired:process.kill();process.wait()
   log.close();raise
 
-def episode(plan,ep,h,profile):
+def episode(plan,ep,h,profile,*,relay_factory=None):
  folder=Path(ep['folder'])
  assert source.tree(folder/'inputs')==ep['inputs']
  assert source.tree(folder/'work')==ep['initial_work']
  new(folder/'STARTED.json',dict(pid=os.getpid(),unix=time.time(),plan_sha256=sha(OUT/'PLAN.json')))
  bridge=Path(tempfile.mkdtemp(prefix='fccl-policy-',dir='/tmp'));bridge.chmod(0o700)
- relay=source.Relay(folder,profile,h,deadline=time.monotonic()+plan['caps']['seconds'],caps=plan['caps'])
+ relay=(source.Relay if relay_factory is None else relay_factory)(folder,profile,h,deadline=time.monotonic()+plan['caps']['seconds'],caps=plan['caps'])
  class Server(socketserver.ThreadingUnixStreamServer):daemon_threads=False;block_on_close=True
  class Handler(socketserver.BaseRequestHandler):
   def handle(self):relay.handle(self.request)
