@@ -86,6 +86,17 @@ class FinQALearningTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['lora_A'],torch.tensor([[1.,3.]])))
         with self.assertRaises(ValueError):m.mean_adapter_parameters(a,{'lora_A':torch.ones(2,1)})
 
+    def test_semantic_boundary_does_not_amplify_a_structural_first_divergence(self):
+        import torch
+        structural={'target_position':2,'good_token':1,'bad_token':2}
+        operand={'target_position':4,'good_token':3,'bad_token':5}
+        selected=m.semantic_edit_decisions([False,False,False,False,True],[structural,operand])
+        self.assertEqual(selected,[operand])
+        logits=torch.zeros(1,5,8,requires_grad=True)
+        m.edit_contrast_loss(logits,selected,1.).backward()
+        self.assertEqual(float(logits.grad[0,1].abs().sum()),0)
+        self.assertGreater(float(logits.grad[0,3].abs().sum()),0)
+
     def test_paired_mode_only_differentiates_after_state_and_matches_native_branch_odds(self):
         import torch
         before=torch.tensor(1.,requires_grad=True)
@@ -119,6 +130,16 @@ class FinQALearningTests(unittest.TestCase):
         for bad in [{**timed,'uncertain_partial_sends':1},{**timed,'failures':[{'type':'OSError','message':'connection refused'}]},
                     {**timed,'failures':[{'type':'TimeoutError','message':'unclassified'}]}, {'uncertain_partial_sends':0,'failures':[]}]:
             with self.subTest(accounting=bad):self.assertFalse(native.expected_episode_deadline(bad))
+
+    def test_report_holdout_excludes_other_pages_from_an_exposed_company_year(self):
+        import run_finqa_learning_native as native
+        def row(report):return {'filename':report,'id':report+'-0','qa':{'program':'add(2, 3), divide(#0, 2)'}}
+        records=[row(x) for x in ['OLD/2020/page2.pdf','NEW/2021/page1.pdf','NEW/2021/page2.pdf','OTHER/2021/page1.pdf']]
+        first=native.select_report_disjoint(records,{('OLD','2020')},2,'test')
+        second=native.select_report_disjoint(list(reversed(records)),{('OLD','2020')},2,'test')
+        self.assertEqual([r['id'] for r in first],[r['id'] for r in second])
+        self.assertEqual({tuple(r['filename'].split('/')[:2]) for r in first},{('NEW','2021'),('OTHER','2021')})
+        with self.assertRaises(ValueError):native.select_report_disjoint(records,{('OLD','2020')},3,'test')
 
 
 if __name__=='__main__':unittest.main()

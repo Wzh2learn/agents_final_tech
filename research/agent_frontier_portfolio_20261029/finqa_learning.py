@@ -231,6 +231,32 @@ def mean_adapter_parameters(first,second):
     return {k:((first[k].float()+second[k].float())*.5).to(first[k].dtype) for k in first}
 
 
+def semantic_field_mask(tokenizer,row,program):
+    """Locate operator/operand tokens in the exact previously encoded target."""
+    rendered=tokenizer.decode(row['input_ids'],skip_special_tokens=False,clean_up_tokenization_spaces=False)
+    if hashlib.sha256(rendered.encode()).hexdigest()!=row['rendered_full_sha256']:
+        raise ValueError('native rendered target cannot be recovered exactly')
+    prefix=tokenizer.decode(row['input_ids'][:row['prompt_token_count']],skip_special_tokens=False,clean_up_tokenization_spaces=False)
+    if rendered[len(prefix):].count(program)!=1:raise ValueError('program target not unique')
+    encoded=tokenizer(rendered,add_special_tokens=False,return_offsets_mapping=True)
+    if encoded['input_ids']!=row['input_ids']:raise ValueError('offset tokenization changed')
+    start=rendered.index(program,len(prefix));cursor=0;spans=[]
+    for step in task.executor().parse_program(program):
+        value=f'{step.op}({step.arg1}, {step.arg2})'
+        if not program[cursor:].startswith(value):raise ValueError('noncanonical program fields')
+        at=start+cursor
+        spans.extend([(at,at+len(step.op)),(at+len(step.op)+1,at+len(step.op)+1+len(step.arg1)),
+                      (at+len(step.op)+len(step.arg1)+3,at+len(step.op)+len(step.arg1)+3+len(step.arg2))])
+        cursor+=len(value)+2
+    return [label!=-100 and any(a<end and b>begin for begin,end in spans)
+            for label,(a,b) in zip(row['labels'],encoded['offset_mapping'])]
+
+
+def semantic_edit_decisions(mask,decisions):
+    """Drop structural first divergences; never compare after prefixes differ."""
+    return [d for d in decisions if mask[d['target_position']]]
+
+
 def prepare_paired():
     if (PAIRED/'PLAN.json').exists():raise ValueError('paired attempt already frozen')
     data=read(PAIRED/'DATA.json');rows=data['rows'];pairs=[]
@@ -482,7 +508,8 @@ def train(digest, root=None):
                         value=coefficient*weighted_loss(logits,y,w)
                         decisions=row.get('edit_contrasts',{}).get(arm,[])
                         if decisions:
-                            contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],positive_only=arm=='edit_positive')
+                            contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],
+                                                       positive_only=arm in plan.get('positive_only_arms',['edit_positive']))
                             edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach())))
                             value=value+plan['edit_weight']*contrast
                             del contrast

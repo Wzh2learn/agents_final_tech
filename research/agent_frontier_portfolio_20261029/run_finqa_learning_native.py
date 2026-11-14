@@ -119,6 +119,7 @@ def _start_server_with_lease(plan,arm,lora,output_root,allocation):
     log=(output/arm/'server.log').open('xb')
     argv=[plan['server'],'-m',plan['parent'],'--host','127.0.0.1','--port','18104','--alias','qwen3-8b-qual',
           '-c','32768','-n','8192','-np','1','--no-context-shift','--jinja','-ngl','999','--no-mmap']
+    if 'server_seed' in plan:argv+=['--seed',str(plan['server_seed'])]
     if lora is not None:argv+=['--lora',str(lora)]
     process=subprocess.Popen(argv,stdout=log,stderr=subprocess.STDOUT)
     process.gpu_weights_lease=allocation
@@ -310,12 +311,17 @@ def prepare_recovery():
     print(json.dumps(dict(plan_sha256=sha(target/'PLAN.json'),episodes=len(episodes),max_posts=plan['max_posts'])))
 
 
-def run_strong(digest, name='teacher27b_blind_v1'):
-    target=OUT/name
+def run_strong(digest, name='teacher27b_blind_v1', output_root=None):
+    base=OUT if output_root is None else Path(output_root)
+    target=base/name
     if sha(target/'PLAN.json')!=digest or (target/'LIVE.json').exists():raise ValueError('strong plan/attempt')
     plan=read(target/'PLAN.json')
-    assert sha(OUT/'PLAN.json')==plan['parent_plan_sha256']
-    label_path=Path(plan.get('private_labels_path',str(OUT/'LABELS_PRIVATE.json')))
+    assert sha(base/'PLAN.json')==plan['parent_plan_sha256']
+    if 'source_result_sha256' in plan:assert sha(base/'RESULT.json')==plan['source_result_sha256']
+    for source in plan.get('source_episodes',[]):
+        folder=Path(source['folder'])
+        assert sha(folder/'RESULT.json')==source['result_sha256'] and study.core.tree(folder/'work')==source['work_tree']
+    label_path=Path(plan.get('private_labels_path',str(base/'LABELS_PRIVATE.json')))
     assert sha(label_path)==plan['private_labels_sha256']
     for name,value in plan['components'].items():
         if sha(name)!=value:raise ValueError('strong component changed')
@@ -323,7 +329,8 @@ def run_strong(digest, name='teacher27b_blind_v1'):
     conn.request('GET','/v1/models');response=conn.getresponse();catalog=json.loads(response.read());conn.close()
     if response.status!=200 or plan['model']['model_id'] not in {m['id'] for m in catalog['data']}:
         raise ValueError('ready model identity differs')
-    state=dict(status='RUNNING',pid=os.getpid(),episodes=[],plan_sha256=digest,service_borrowed=True)
+    state=dict(status='RUNNING',pid=os.getpid(),episodes=[],plan_sha256=digest,service_borrowed=True,
+               role=plan.get('role','blind_strong_model'))
     started=time.monotonic();study.publish(target/'LIVE.json',state)
     try:
         with study.core.resource_lock():
@@ -336,7 +343,10 @@ def run_strong(digest, name='teacher27b_blind_v1'):
                 state['episodes'].append(value);study.publish(target/'LIVE.json',state)
                 print(json.dumps(dict(index=ep['index'],correct=value['execution_correct'],
                                       posts=value['accounting']['actual_forwarded_posts'])),flush=True)
-                if not value['accounting']['integrity_passed']:raise RuntimeError('strong interface integrity')
+                if not value['accounting']['integrity_passed']:
+                    if plan.get('episode_deadline_is_bounded_failure') and expected_episode_deadline(value['accounting']):
+                        value['bounded_episode_deadline']=True;study.publish(target/'LIVE.json',state)
+                    else:raise RuntimeError('strong interface integrity')
             state['status']=plan.get('terminal_status','BLIND_STRONG_MODEL_RETURNED')
     except BaseException:
         state.update(status='FAILED',error=traceback.format_exc());raise
@@ -395,6 +405,102 @@ def prepare_review(count):
     for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
     study.new(REVIEW/'PLAN.json',plan)
     print(json.dumps(dict(plan_sha256=sha(REVIEW/'PLAN.json'),tasks=count,review_arms=arms,max_posts=plan['max_posts'])))
+
+
+def select_report_disjoint(records,excluded,count,salt):
+    """A page from an exposed company/year is not a new independent report."""
+    if not 1<=count<=64:raise ValueError('finite report batch required')
+    used=set(excluded);selected=[]
+    ordered=sorted(records,key=lambda r:hashlib.sha256((salt+'|'+r['filename']+'|'+r['id']).encode()).hexdigest())
+    for record in ordered:
+        group=tuple(record['filename'].split('/')[:2])
+        if group in used or len(task.executor().parse_program(record['qa']['program']))<2:continue
+        selected.append(record);used.add(group)
+        if len(selected)==count:return selected
+    raise ValueError('insufficient distinct filing groups')
+
+
+def expanded_runtime():
+    return dict(converter=str(CONVERTER),converter_sha256=sha(CONVERTER),base_config=str(CONFIG),
+                parent=str(study.PARENT),parent_sha256='505618debb4e6ff112a8724f22853f09d4a6dd7ba0e32123d404fe9a4da8f5e3',
+                server=str(study.SERVER),server_sha256=sha(study.SERVER),server_seed=17,
+                components={str(p):sha(p) for p in [Path(__file__),Path(study.__file__),Path(task.__file__),Path(study.core.__file__)]},
+                caps=study.CAPS,sampling=dict(temperature=.2,context=32768,output=8192,server_seed=17),
+                episode_deadline_is_bounded_failure=True,local_unknown_usage_reserve_per_request=32768)
+
+
+def prepare_expanded_eval(count):
+    """Freeze official-dev inputs before running any expanded-adapter outcome."""
+    training=learning.ROOT/'semantic_correction_v1/expanded_v1';target=training/'dev_firstpass_v1'
+    if target.exists():raise ValueError('expanded evaluation already frozen')
+    selection=read(training.parent/'SELECTION.json');excluded=set()
+    for path,digest in selection['exposure_files'].items():
+        if sha(path)!=digest:raise ValueError('earlier exposure manifest changed')
+        excluded.update(tuple(r['report'].split('/')[:2]) for r in read(path))
+    for key in ('train','evaluation'):
+        excluded.update(tuple(r['report'].split('/')[:2]) for r in selection[key])
+    data=study.DATA.with_name('dev.json')
+    if sha(data)!='a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51':
+        raise ValueError('official dev source changed')
+    records=select_report_disjoint(read(data),excluded,count,'finqa-expanded-dev-v1')
+    for record in records:
+        if not task.grade(record['qa']['program'],task.public_record(record),record['qa']['exe_ans'])['execution_correct']:
+            raise ValueError('selected reference does not satisfy the declared executor')
+    target.mkdir(mode=0o700);episodes=[]
+    labels=[dict(index=i,id=r['id'],report=r['filename'],exe_ans=r['qa']['exe_ans']) for i,r in enumerate(records)]
+    study.new(target/'LABELS_PRIVATE.json',labels)
+    for i,record in enumerate(records):
+        folder=target/'closed_sft'/f'{i:03d}';inputs=folder/'inputs';inputs.mkdir(parents=True)
+        (folder/'work').mkdir(mode=0o755);(folder/'dependencies').mkdir()
+        public=task.public_record(record)
+        (inputs/'public.json').write_text(json.dumps(public,ensure_ascii=False)+'\n')
+        (inputs/'task.txt').write_text(study.prompt(public))
+        for name,path in [('finqa_tool.py',Path(task.__file__)),('executor.py',Path(task.executor().__file__))]:
+            (inputs/name).write_bytes(path.read_bytes())
+        (inputs/'guest.py').write_text(study.core.GUEST)
+        episodes.append(dict(index=i,id=record['id'],report=record['filename'],arm='closed_sft',folder=str(folder),
+                             public_sha256=sha(inputs/'public.json'),task_sha256=sha(inputs/'task.txt')))
+    plan=dict(schema='finqa_expanded_official_dev_firstpass_v1',episodes=episodes,arm_order=['closed_sft'],
+              training_root=str(training),training_plan_sha256=sha(training/'PLAN.json'),
+              required_training_status='TRAINED_EXPANDED_SEMANTIC_ARMS',terminal_status='FINQA_EXPANDED_DEV_FIRSTPASS_RETURNED',
+              private_labels_sha256=sha(target/'LABELS_PRIVATE.json'),source_split='dev',source_sha256=sha(data),
+              selection_sha256=sha(training.parent/'SELECTION.json'),excluded_filing_groups=sorted('/'.join(g) for g in excluded),
+              selection='Fixed hash order, >=2 reference operations, one task per company/year, excludes all 44 previously exposed filing groups; selected reference execution checked before model outcomes',
+              scope='Model-unseen report-disjoint official-dev subset; historical CPU reference checks are not model exposure. This is a method-development comparison, not a final full-benchmark claim.',
+              deployment='One common ordinary closed-SFT Agent first pass; subsequently review every state in all four arms without a hidden-answer trigger.',
+              max_posts=count*study.CAPS['posts'],**expanded_runtime())
+    study.new(target/'PLAN.json',plan);snapshot=target/'executed_sources';snapshot.mkdir()
+    for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(target/'PLAN.json'),tasks=count,excluded_groups=len(excluded),max_posts=plan['max_posts'])))
+
+
+def prepare_expanded_review():
+    """All trained reviewers continue the same public workspaces, including successes."""
+    training=learning.ROOT/'semantic_correction_v1/expanded_v1';parent=training/'dev_firstpass_v1';target=training/'dev_review_v1'
+    if target.exists():raise ValueError('expanded review already frozen')
+    original=read(parent/'PLAN.json');first=read(parent/'RESULT.json')
+    if first['status']!='FINQA_EXPANDED_DEV_FIRSTPASS_RETURNED' or len(first['episodes'])!=len(original['episodes']):
+        raise ValueError('complete common first pass required')
+    arms=list(read(training/'PLAN.json')['arms']);random.Random(17).shuffle(arms)
+    target.mkdir(mode=0o700);shutil.copyfile(parent/'LABELS_PRIVATE.json',target/'LABELS_PRIVATE.json');episodes=[];sources=[]
+    for ep in original['episodes']:
+        folder=Path(ep['folder']);text=study.recovery_prompt(read(folder/'inputs/public.json'),study.recent_actions(folder))
+        sources.append(dict(ep,result_sha256=sha(folder/'RESULT.json'),work_tree=study.core.tree(folder/'work')))
+        for arm in arms:
+            output=target/arm/f"{ep['index']:03d}";output.mkdir(parents=True)
+            shutil.copytree(folder/'inputs',output/'inputs');shutil.copytree(folder/'work',output/'work')
+            (output/'dependencies').mkdir();(output/'inputs/task.txt').write_text(text)
+            episodes.append(dict(ep,arm=arm,folder=str(output),task_sha256=sha(output/'inputs/task.txt'),source_result_sha256=sha(folder/'RESULT.json')))
+    plan=dict(schema='finqa_expanded_official_dev_review_v1',episodes=episodes,arm_order=arms,arms=arms,
+              training_root=str(training),training_plan_sha256=sha(training/'PLAN.json'),training_result_sha256=sha(training/'RESULT.json'),
+              required_training_status='TRAINED_EXPANDED_SEMANTIC_ARMS',terminal_status='FINQA_EXPANDED_DEV_REVIEW_RETURNED',
+              source_episodes=sources,parent_plan_sha256=sha(parent/'PLAN.json'),private_labels_sha256=sha(target/'LABELS_PRIVATE.json'),
+              max_posts=len(original['episodes'])*len(arms)*study.CAPS['posts'],
+              scope=original['scope'],comparison='Identical real first-pass states, public feedback, actor, model, information and budgets; only the matched training rule differs.',
+              accounting='Count the common first pass once physically and include it in each whole-policy cost. Report recovery, retention and native success separately.',**expanded_runtime())
+    study.new(target/'PLAN.json',plan);snapshot=target/'executed_sources';snapshot.mkdir()
+    for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(target/'PLAN.json'),episodes=len(episodes),arm_order=arms,max_posts=plan['max_posts'])))
 
 
 def run_review(digest):
@@ -457,7 +563,7 @@ def run_review(digest):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review']);p.add_argument('--count',type=int,default=4)
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review','prepare-expanded-eval','expanded-firstpass','prepare-expanded-review','expanded-review']);p.add_argument('--count',type=int,default=4)
     p.add_argument('--plan-sha');a=p.parse_args()
     if a.mode=='prepare':prepare(a.count)
     elif a.mode=='prepare-strong':prepare_strong()
@@ -468,4 +574,8 @@ if __name__=='__main__':
     elif a.mode=='review':run_review(a.plan_sha)
     elif a.mode=='prepare-paired-review':prepare_paired_review()
     elif a.mode=='paired-review':run(a.plan_sha,PAIRED_REVIEW)
+    elif a.mode=='prepare-expanded-eval':prepare_expanded_eval(a.count)
+    elif a.mode=='expanded-firstpass':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/dev_firstpass_v1')
+    elif a.mode=='prepare-expanded-review':prepare_expanded_review()
+    elif a.mode=='expanded-review':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/dev_review_v1')
     else:run(a.plan_sha)

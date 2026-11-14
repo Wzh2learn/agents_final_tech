@@ -1,6 +1,6 @@
 # 纠正学习：机制知识与经验索引
 
-> 2026-11-15｜Goal active；闭合片段批次已闭合，当前检验执行错误分叉的纠正学习。这里解释已有证据怎样支持方案，当前计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，金融批次见本页，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。原始结果、失败及成本保留；历史过程按锚点读取。
+> 2026-11-15｜Goal active；这里解释已有证据怎样支持方案。当前计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，金融批次见[FinQA当前记录](FINQA_CORRECTION_LEARNING.md)，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。原始结果、失败及成本保留；历史过程按锚点读取。
 
 <a id="mechanism-knowledge"></a>
 ## 一条研究主线，三个知识来源阶段
@@ -33,6 +33,7 @@
 | K10 模型/入口：未见学习收益 | BC/DPO/逐行/耦合真实训练后，两个代码任务六组均0/2无编辑；直接给源码报错的8B三组也0/2。DeepSeek修一题＋179回归 | 训练入口、任务难度与模型能力共同匹配；代码负结果不否定K01，金融主线选学生可执行的任务 | 固定请求帽；只停当前配方，强模型成功不是方法收益。[训练/能力](FEEDBACK_INTERACTION_LEARNING.md) |
 | K11 简单策略：本面板无残差 | 14个历史失败现场两规则均14/14；同现场普通继续与提醒均2/2 | 规则与普通接续进入强基线；方法可在其他错误族发挥，不在已饱和面板训练复杂选择器 | 规则的信息面不同于早期Actor，不能把历史分数直接做同信息比较。[规则](ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)、[接续](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#fragment-continuation-v1) |
 | K12 旧失效：未暴露 | 经验未进入请求、长行截断、动作只在reasoning、原wheel含未来修复、4B接入OOM、训练无最终可评估adapter | 区分传输/交付/来源问题与语义方法失败；有效局部、接口修正和已完成O/R训练均保留 | 缺口标明用途，不伪补成功/费用；不增加每轮资格层。[代码素材](CODE_SOURCE_CORRECTIONS.md)、[ALF运行](ALFWORLD_TEXT_AGENT_20261106.md) |
+| K13 金融训练：局部正向 | 新8报告普通/正加权/负方向为1/8、1/8、2/8，负方向纠正方向/分母及年份；两个局部组均改错原正确尺度。匹配正/负融合均3/8且程序全同 | 保留真实错误分叉信号，限制额外偏好只到算子/操作数，加入正确保持样本；融合收益不能替代负方向增量 | 30对/60行已形成，四组同数据训练；32新报告已冻结待执行。[机制、保留与新对照](FINQA_CORRECTION_LEARNING.md#expanded-boundary-v1) |
 
 <a id="mechanism-candidates"></a>
 ## 从知识提出可执行的候选
@@ -62,101 +63,18 @@
 知识库使用成本口径：执行tokens含缓存，不能直接等价钱或新增算力；另计教师/失败采集、经验形成、训练和使用。既有来源共享费用只记一次，缺失研发/硬件用量保留未知。与普通基法的比较先控制来源、学生与预算，训练内容和监督位置的变化可以是要研究的机制。
 
 <a id="finqa-current"></a>
-### FinQA：形成、训练与原生验证（开发，11-14）
+### FinQA当前记录（按需加载）
 
-8个不同报告的多步train题按hash预选，学生8B BF16＋原生OpenCode：执行正确1/8、有效程序2/8、正常结束2/8；78POST/352,292tokens，未知0。合法但错的数值/引用与未交付/语法循环分开保留。8条参考程序及学生评分已重算，官方dev未启用。
-
-27B FP8首次冷启动在编译阶段触达240秒等待帽，0模型POST；自有容器已退出，不算方法失败。改用已有35B Q4教师原生接续7个实际失败，6/7成功、15POST/75,818tokens、未知0。教师有训练参考，不能将6/7当作盲测能力或学生方法增益。首批本地形成合计93POST/428,110tokens；启动/health及墙时另列，校内支出不变。
-
-所有成功恢复的步骤级影响区都覆盖整个目标程序，因此首版改为参数/操作和引用字段定位：不可解析的源退回均匀恢复监督，协议/EOS保持权重1，程序字段权重均值归一。规则与两组训练已完成。7条成功恢复中3条可定位，恰好选中全部操作数字段；其余4条回退均匀监督。因此此批不能分离依赖定位与简单操作数加权，二者同权重时共用一次训练。先以真实纠正监督训练可用学生，再从新报告采集其真实局部错误，比较普通恢复/全参数加权/字段定位；不重复训练相同权重。
-
-私有双端证据根为finqa_correction_v1，学生RESULT SHA 25ad8a6a2bb0b701ceab22b70dd2d54d0a017a967116b8b4e69373ec8a8ae7de，教师v2 RESULT SHA 32390218c5db534b39773fda4bc3988e7cea50524012db6ce2b7f71a4b1e943f；完整原始输入/输出、实际工具、评分和已执行源码保留。学生导出必须重建无参考答案的公开恢复上下文，检查教师后继消息是否再次带入参考标签，保持各学习组输入完全相同。
-
-用户确认按GB10重启恢复处理。27B FP8研究服务在:8006恢复READY（新容器/启动记录单独保留，旧身份快照不覆盖）。校内凭证复用原授权的内存注入，原生OpenCode对剩余第7题使用3POST/15,125tokens成功、未知0；7个失败均有成功教师轨迹，来源为35B六题＋校内一题，不混写为同配置7/7盲测。Campus RESULT SHA 279e98c4fb57a6cfca9bbede883e7390970d20a69fa59e514ae290fc56f0d054，93本地及3校园请求分账；校园累计随唯一总账更新。
-
-学生监督编译完成：7条/7报告，共440监督tokens，序列3,952—5,218tokens；按原生CLI引用形式替换受控教师任务，保留公开后继反馈，排除参考标签泄露。普通恢复与字段加权各24更新、同初始化/顺序/lr/rank，未解析源均匀回退，协议/EOS权重1且总权重质量相同。PLAN SHA 2ad2555e73576bab8b7f82253a1983d2bed1661e7d2ef749fcc30a8cf57aae43；GB10 learning_v1两组均完成24更新，共222,544序列tokens/3,036重复监督tokens/381.7秒，13项定向测试通过。RESULT SHA 19f3df58338a3abe9a2665f0dab52761ec09ab7d693d65263812f242fbaef6c9；适配器及形成/训练证据私有双端包SHA a369e3ec49d0a003c1b242c7b1bfda8d32f228185aa83aa62f62aee0bb8788f4。4个新报告按预选hash取题，各组公开输入相同，与全部8个形成报告无重叠；基础/普通/加权12组原生验证已闭合，见下表。训练损失只作运行诊断，官方dev未启用。
-
-**新报告验证与死因。** 4个新报告的12组原生执行已闭合（46POST/193,831tokens，未知0）；全部评分从实际candidate重算，92份请求/响应hash匹配，三个临时8B服务均退出。另用已恢复的27B做全部4题的无参考盲测（9POST/37,871tokens，未知0；4项评分/18份wire复核）。均是开发证据。
-
-| 同4个新报告 | 答案正确 | 有效程序 / 正常结束 | POST | 执行tokens |
-|---|---:|---:|---:|---:|
-| 基础8B | 0/4 | 2/4 / 2/4 | 30 | 131,686 |
-| 普通纠正LoRA | 0/4 | 4/4 / 4/4 | 8 | 31,027 |
-| 操作数字段加权LoRA | 0/4 | 4/4 / 4/4 | 8 | 31,118 |
-| 27B FP8，无参考 | 0/4 | 4/4 / 4/4 | 9 | 37,871 |
-
-普通纠正已学习工具交付与退出，执行tokens少76.44%，可保留作下一轮学生；答案仍错。两适配器四题程序逐字相同，当前额外加权未见收益；不据此否定所有局部监督。残差具体为：正确差值却除以const_m1、选错年份列、把“余额增加”当成当前期增加、引用/百分比尾步骤错误。27B两题除100后与官方终值相符，说明部分失败是输出口径；另两题仍有公式/方向问题。诊断不改主评分，不补计成功。
-
-下一机制据这些真实错误深化：沿用可执行学生，在实际纠正中定位具体分母/年份/引用/单位字段；此时可与“所有操作数加权”产生不同监督。通过同轨迹普通恢复、全部操作数及新增规则对比，检验是否提高新报告执行正确率或合理节费。保留整题成功/失败与固定公开复查规则，避免隐藏答案驱动部署调用。
-
-原生RESULT SHA 7c13a552de0e5f12531e53cc14e4f30d175613626a35869ec19ba49090c2f18b；27B盲测RESULT SHA c7412497bb0b256a40474dacc8b4cffdc1035b7712678dec353b49f87dead32b。learning_v1/native_v1的ANALYSIS/RECHECK保存逐项依据；原生证据双端包SHA a22ab7b607d4a4454478d608363b0761394df88a462dff4b4f2487b87cd30e87。原始请求与已执行源码留私有证据根。
-
-**第二轮：局部字段纠正与固定复查。** 27B已接续普通纠正学生的全部4个残差并执行成功（8POST/35,950tokens，未知0；使用TRAIN参考，不作盲测收益）。新4条与旧7条组成11条监督；教师参考整段替换为部署也使用的公开复查提示。实际定位分别为：单个错误分母；年份及其引用；余额增加的参数与引用；新增百分比尾步骤。其中3/4局部权重区别于全部操作数，已形成可辨别的规则对照。
-
-训练共用首轮普通纠正适配器作为起点：普通恢复、全部操作数、局部字段三组，每组32更新，旧/新监督交替16/16；旧7条均匀回放一致。新恢复只重分配程序字段权重，协议/EOS权重1，总监督权重相同。局部字段来自教师修复差异与引用传播，是训练启发式，不冒充必要错误位置的人工金标。
-
-形式化：令F为正确恢复中的程序字段token，C为修订字段及其引用影响区；字段权重为w_j=(1+2·1[j∈C])/mean_F(1+2·1[j∈C])，其他被监督token权重1，输入/工具反馈权重0。优化同一份正确恢复的加权因果CE。差异在正确动作内部的学习分配；普通恢复与全部操作数加权为直接控制。
-
-[STeP §3.4](https://arxiv.org/html/2505.20023v1#S3.SS4)已屏蔽错误步骤并混合正确轨迹；[Agent-R §3](https://arxiv.org/html/2501.11425v1#S3)已有纠正转接与迭代训练。这里沿用错误前缀不监督/正确恢复训练，考察结构化工具动作内部的字段分配；不把暖启动、回放或迭代采集本身称新贡献，也未宣称复现两篇原法。
-
-11-15重核近邻：STeP在步骤层屏蔽错误；[Agent-R §3](https://arxiv.org/html/2501.11425v1#S3)学习从失败转入正确轨迹。当前增量落在正确工具动作内部：按学生/教师程序差异及引用传播分配字段监督，保持协议/EOS和总监督权重。4条新恢复每条55—59监督tokens，局部规则有3条区别于全操作数；0号只定位错误分母，3号定位新增百分比尾步骤。当前对照据此直接检验定位是否优于普通恢复及普遍增强操作数。[SCALE §2/5](https://arxiv.org/html/2609.33463v1#S2)另核：通用token重加权和训练后冻结增量门控已有，供区分规则及后续融合借鉴；本轮不扩成门控方法实验。
-
-**refinement_v2重新执行。** 用户恢复Goal后，保留v1的88次已记录更新；同11条数据、暖启动、seed17和日程重训三组各32次，额外96次更新另记。训练PLAN SHA 5875edc0aee79ef8f0bdc76f1af1e410a53b04285d33dabe1667b6eb5872adee；复查PLAN SHA 6fbf3475f63b33ae22f678f5dff63615016b8785402846fc22f15a8bda35de8c。4个报告及随机臂序与v1预选完全相同；已核公司/年度组4/4不同，且与前12组无重叠。0新校内POST，原生复查最多240本地POST；单权重所有者、32GiB余量保护。
-
-
-新4报告已按固定hash预选，与前12报告不重叠，官方dev未启用。共同首轮使用首轮普通纠正学生；无论私有评分对错，每题都复查一次。未更新的普通复查与三组学习复查得到相同公开任务、候选与真实工具反馈。测试恢复模块的匹配使用位置，另计首轮加复查的整体表现/成本及原正确题退化；上一轮从头执行仍是有效的整Agent迁移结果，不追认改分。refinement_v1 PLAN SHA b951a242638e8bd9388e41f51a6896ec4d030d63bf154b2d93803012634e6bed；新复查PLAN SHA 9a4383f0093f2b3877ea58099ad4c6dadcb2060ad4b52f32a248c49d1a3204e0。断网前确认79/96；重启后磁盘LIVE显示88/96（普通32、全部操作数32、局部字段24），前两组适配器已存、第三组无最终版/总RESULT，原PID678865已结束。按关机中断保留原件，不补记完整训练或收益。复查尚未启动。前12题对应12个公司/年度组已从本机私有包核对，无年度组重复；新4组仍需取回核对。
-
-**重启后的运维封口（11-15，非研究实验）。** 新boot b4166d98，SSH新地址见CORE；必要服务及单驻留27B已恢复。额外运维消耗为OpenCode本地17,847tokens（禁工具回复OK）、校内1POST/24tokens；不计作任务成功或训练收益。原训练的LIVE哈希6855db352121dba010f3d72508d32ef33f412234e3cfa7daccda5dba2f5b143f及中断观察保存在私有research_services/recovery_b4166d98/PRIOR_TRAINING_INTERRUPTED.json。新的权重互斥修改了运行器；恢复研究时必须新绑定代码/续跑批次，不能绕过旧PLAN哈希或覆盖中断原件。
-
-
-**v2闭合结果及边界修正（11-15）。** 三组96更新完成（627.35秒、418,530序列tokens、5,802重复监督tokens），初始化SHA与v1相同；原中断88更新另计。以下均为4个原预选开发报告，首轮8B为1/4、11POST/39,656tokens。表中本地复查费用仅为追加部分；整体Agent费用还需加这份共同首轮。
-
-| 追加策略 | 答案正确 | 正确且正常退出 | 追加POST / 已知tokens |
-|---|---:|---:|---:|
-| 不再训练的普通复查 | 1/4 | 1/4 | 19 / 85,634 |
-| 普通纠正SFT复查 | 1/4 | 0/4 | 38 / 182,711 |
-| 全操作数字段加权 | 0/4 | 0/4 | 23 / 106,756 |
-| 局部字段加权 | 0/4 | 0/4 | 14 / 54,303＋1未知 |
-| DeepSeek独立首轮（无参考，非追加复查） | 3/4 | 3/4 | 8 / 34,717（校内） |
-
-本地20组共105POST/469,060已知tokens、1次未知用量（按32K窗口预留32,768），请求/响应哈希及已知usage逐项复核；不把未知填0。局部组首题达到300秒期限、一次响应缺最终usage，原总批次据既定接口守卫停止；核对无不确定发送后，仅对剩余3个未启动预选任务另批收齐，模型/输入/预算/评分不变，原失败不重跑。该补充规则与原终态均保留，不改写为原批正常结束。ANALYSIS SHA见私有refinement_v2/native_v1/ANALYSIS.json；补充PLAN 944bdf5a，DeepSeek PLAN 977e13b3。
-
-**尸检与可用信号。** 普通纠正有正确程序但反复执行直至触帽；其首个新程序正确数也为1/4。两个加权版本的首个新程序均0/4，没有被退出规则隐藏的新增正确题。正确的租赁费用增长率原为负值，加权组把减数顺序反转；字段权重确实形成不同参数更新，但当前规则未改善语义选择。保留早期协议/节费正向，不继续在本面板调字段强度。DeepSeek相同公开输入3/4，说明更强模型能解其中另外两题，为后续纠正经验形成提供真实来源；不把它当学生收益。
-
-**下一具体假设：纠正与收尾的成对决策监督。** 当前11条样本只教真实纠正动作；从同一轨迹找回全部11个成功执行后的真实终答，按原请求/SSE重建22行，旧修复输入及mask逐项相同、私有教师提示仍移除。修复669监督tokens、收尾1,413，共2,082；不同pair的收尾长90—210tokens，完整token平均会给较长终答更多权重。下一对照共用这22行、同一暖启动/32个pair日程/每步2次前向：普通token平均的pair损失，与修复/收尾各占1/2的决策平均。设两段平均CE为l_r/l_c、监督长度为n_r/n_c，则L_tok=(n_r·l_r+n_c·l_c)/(n_r+n_c)，L_dec=(l_r+l_c)/2；两臂使用同一对样本，分两次前向/反传累积一次更新，避免同时保留两份计算图。关键增量比较为L_dec对L_tok，优于旧action-only本身不足以排除补齐数据的作用。分别检验答案正确、正常退出、正确题保持及总成本；先用原4现场作明确的开发回归，再扩新报告。该候选是对恢复边界与损失分配的具体改进假设，尚未训练或证明有效；不是把缺失收尾的修复单独称新理论。闭合数据SHA 0eb795a911c33392fa77d1acb8573eecf7a28a1c8ae4f1a5e186ee520a30fe59，原11报告不变，0新教师调用。
+当前只读[FinQA机制、对照和形成源](FINQA_CORRECTION_LEARNING.md)；本页保留跨阶段知识，不重复逐轮实验。新8报告的纠正/保持、固定平均与20个来源的全部结果均在该页。
 
 
 <a id="paired-decision-v1"></a>
-**闭合片段三组已闭合。** TurnOPD已有turn-normalized loss，PG-SFT已有turn-level监督调整，故两种平均仅为适配对照。候选L_dec＋0.1·softplus(1＋o_after−sg(o_before))为单侧调用倾向约束，非对称对比。三组同22行、暖启动及32个pair日程，总96更新/192前向、865,278序列/18,165重复监督tokens、1,183.31秒。
-
-12组真实复查均为答案1/4、正确且正常退出1/4、全部正常退出4/4，每题2POST。token平均、阶段平均、配对约束分别为8POST/32,322、32,297、32,343tokens；物理合计24POST/96,962，未知0，48份wire哈希及原生评分重算一致（ANALYSIS SHA 2825400f）。共同首轮11POST/39,656计入各完整策略但不重复物理计账。相较动作-only训练，闭合监督解决了循环；新增平均/约束未增加正确题。token平均训练的最小前后调用log-odds差已4.097，候选辅助损失总和仅0.0561，说明它主要约束了已满足的方向。保留完整片段基线，停止此调用倾向变体。
-
-**CPU诊断修正。** 旧单字段检查中“非语义负例”包含不可执行程序，不能据此称为等价正确改写。重新按可执行/正确性拆分，当前19个原源程序回填中13个可执行且答案错误、6个无效，没有观测到等价正确候选。等价程序过滤只经合成控制验证，不作为真实样本发现。
-
 <a id="semantic-edit-v1"></a>
-**下一机制：在执行验证的纠正分叉学习负方向。** 将学生旧字段或缺失尾链回填到教师正确程序，只有实际可执行且改变TRAIN答案的候选提供负方向；同一公开前缀，在正负补全首次分叉位置i使用softplus(1＋z_bad−z_good)，加在完整恢复/收尾CE上（权重0.1）。不新增负例模型前向，部署仍为普通Agent及统一一次公开复查。目标不是新造一种margin loss，而是检验真实恢复经验中的可执行错误分叉能否补足只强调正确片段的监督。
+旧链接接续：[形成/训练与原生执行](FINQA_CORRECTION_LEARNING.md#finqa-current)、[闭合监督对照](FINQA_CORRECTION_LEARNING.md#paired-decision-v1)、[错误分叉机制](FINQA_CORRECTION_LEARNING.md#semantic-edit-v1)。早期FinQA全过程保存在[11-15快照](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261115.md#finqa-current)，不作现役待办。
 
-三对照为普通闭合SFT、同位置正token CE加权、同位置正负token margin。均复用22行、相同暖启动/日程；普通SFT直接复用原token平均适配器，另两组各32更新/64前向。两组拿到同样13个已验证分叉；原拟文字/执行筛选在此数据上相同，未启动重复训练，准备稿留私有preparation_v1_no_run。新训练PLAN d7751c78，公共首轮PLAN fdfbc2df；8个预选公司/年份组排除旧16组及候选形成20组，官方dev未启用。8次共同首轮＋24次复查，最多384本地POST，校内新增0；同时看答案、原正确题保持、收尾与完整成本。若负方向未超过同位置正加权，则未证明候选增量；不把普通闭合监督的收益归给候选。
+## 既有20份主题记录的用途
 
-11-15补核一手对标：[PaD摘要](https://aclanthology.org/2024.naacl-long.142/)已结合程序蒸馏、错误注入及自修正；[Step-DPO摘要](https://arxiv.org/abs/2406.18629)已有步骤偏好；[SFS-DPO §3](https://arxiv.org/html/2608.11573v1#S3)已有错误步骤后的纠正偏好。因此程序验证、局部偏好和margin均属已有基础。本候选具体检验“真实错误回填＋执行验证＋共享前缀首次分叉”的低开销适配，不能据损失形式主张原创。分叉token表示一对具体程序的局部选择，并非断言所有以该token开头的续写都错误；扩样前后需补一项匹配的步骤偏好或错误注入适配。
-
-**新8报告的已闭合结果（11-15）。** 公共首轮1/8正确、7/8正常退出，28POST/128,034tokens。三个追加组均正常退出8/8：
-
-| 追加策略 | 正确 / 8 | 从原错误恢复 | 原正确保持 | POST / tokens |
-|---|---:|---:|---:|---:|
-| 普通闭合SFT | 1 | 0/7 | 1/1 | 16 / 72,201 |
-| 同位置正token加权 | 1 | 1/7 | 0/1 | 17 / 76,989 |
-| 执行错误分叉正负对比 | 2 | 2/7 | 0/1 | 17 / 77,122 |
-
-负方向组新增成功为索引0/1：分别修正增减方向及分母、选中正确年份数值；两种局部学习都在原正确索引6多乘100。增量并非只有合法性或退出差别；同时存在尺度保持问题。负方向相对正加权净增1/8，单次开发执行的配对bootstrap区间较宽，下一扩样，不将此作最终验证。物理32次执行共78POST/354,346tokens、未知0，156份wire及评分逐项重算；ANALYSIS SHA 2a87f4f6。新增训练64更新/128前向、576,852序列/12,110重复监督tokens、816.76秒，初始化SHA与三组旧基线相同。
-
-**回收K02的适配器平均。** 固定alpha=.5对普通闭合SFT与负方向适配器做A/B参数平均，秩和缩放不变（不是有效BA矩阵的精确平均）。事后探针得到3/8，正确索引0/6/7、原正确1/1保持，正常退出7/8；追加26POST/127,628tokens、未知0，52份wire重算，ANALYSIS SHA 7df02ee8。完整策略需加共同首轮，不能把26次当成更便宜；其中一题重新出现预算内循环。该已知融合部件服务能力保留，不主张融合本身新颖。相同alpha的正加权融合对照已准备，最多96本地POST，0训练；未做alpha网格搜索。
-
-20个预选新TRAIN报告的普通闭合SFT学生采集已准备（PLAN 35b4f5ee，最多240本地POST），与旧16个公司/年份及当前8报告隔离，官方dev未启用。下一从真实错误与正确保持现场形成更丰富监督，再以同数据/初始化/预算扩展方法与强基线；不能把新增数据带来的共同收益全归给负方向机制。
-
-## 20份主题记录的用途清点
-
-| 记录组（完整枚举当前20份结果页） | 保留位置与用途 |
+| 记录组（原20份结果页；金融新记录另列） | 保留位置与用途 |
 |---|---|
 | ALFWORLD_LEARNING_RUNTIME；CONTINUATION_PROGRAM | 当前训练资产和机制知识；优先K01—K03 |
 | ALFWORLD_CORRECTION_DATA；ALFWORLD_RUNTIME_CONTEXT_COMPARISON | 监督形成、96＋32及恢复对照历史；不按旧“下一批”执行 |
@@ -172,154 +90,52 @@
 
 ## 先前整理的证据范围（启动FinQA前）
 
-机械盘点科研目录319份md/py/json/jsonl、20份结果页；主题结论按上表归位。36槽原生结果、36份receipt/manifest与11,694项绑定本轮离线匹配，4/6/8成功及成本相符；既有成对尸检hash匹配。能力116和入口186载荷包重新逐项验hash。未重跑任何模型、训练、环境或原生测试；并非所有历史raw的全量独立重演。
-
-本次审稿人视角复核与机械核验均由D完成，无新增独立C或外部专家审阅。机制仍为候选，现役计划与运行状态见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。完整过程/成本快照见[历史原文](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md)。
-
-### 11-14追加自问：从目标反推，再核事实
-
-模式为 first-principles → fact-check；读取当前计划、训练/尸检记录，并重核上述两篇原文。只分析与修正文档，未复现原法、未新增科研运行；其他对话工件和历史原文不变。
-
-| 自问 | 证据判断与修正 |
-|---|---|
-| 是否又在做审计框架？ | VALUE：交付是学到纠正能力并改善金融任务；日志/核验只支持验证，不作为方法贡献。 |
-| 正向是否已说明机制？ | FACT：R配方有单seed任务/成本收益；INFERENCE：失败接续值得深化。未分离内容/上下文/合法动作效应，继续从这里设计，不丢弃收益。 |
-| 首个候选是否已具体？ | UNVERIFIED：M1还需明确一条边界或权重规则。恢复后先用少量开发轨迹完成定义，和普通恢复/部分mask比较；不直接扩训。 |
-| 换到金融领域就一定有效？ | UNVERIFIED：原数据与执行器可复用，效果尚未验证。先选一个可运行主集，公共反馈与隐藏评分分开；不要求跨领域全胜。 |
-| 新旧待办是否冲突？ | FACT：近邻表原有“四格/逐行仍待验证”已改为历史闭合，不会再当当前队列。 |
-| 何时停止具体变体？ | 风险是收益仅由廉价规则或额外信息解释；同效更贵则停该变体，保留有效基础与素材。若成功率/成本取舍改善，完整报告后继续。 |
-
-下一步仍为恢复后的一项具体学习改进＋金融主集小开发验证；本轮完成的是自问与核查，没有产生新的方法有效性结果。
+较早的零调用整理、暂停现场和旧来源清点已原文保存在[11-15历史快照](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261115.md)。它们是素材索引，不是当前执行许可或当前方法成绩。
 
 ## 兼容旧锚点
 
-旧链接仍可找到原批次；以下跳转不产生当前待办。
+以下仅保留历史链接入口。旧上下文、候选及回执叙述查[原文快照](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261115.md#兼容旧锚点)，当前实验查[FinQA记录](FINQA_CORRECTION_LEARNING.md)。
 
 <a id="feedback-interaction-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#feedback-interaction-v1)
-
 <a id="feedback-policy-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#feedback-policy-v1)
-
 <a id="feedback-residual-v2"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#feedback-residual-v2)
-
 <a id="fragment-continuation-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#fragment-continuation-v1)
-
 <a id="fragment-transfer-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#fragment-transfer-v1)
-
 <a id="binding-update-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#binding-update-v1)
-
 <a id="deployment-timing-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#deployment-timing-v1)
-
 <a id="feedback-transfer-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#feedback-transfer-v1)
-
 <a id="local-edits-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#local-edits-v1)
-
 <a id="phase-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#phase-v1)
-
 <a id="normalized-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#normalized-v1)
-
 <a id="witness-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#witness-v1)
-
 <a id="expansion-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#expansion-v1)
-
 <a id="prefix-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#prefix-v1)
-
 <a id="effect-witness-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#effect-witness-v1)
-
 <a id="preservation-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#preservation-v1)
-
 <a id="cross-batch-autopsy"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#cross-batch-autopsy)
-
 <a id="reactive-v1"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#reactive-v1)
-
 <a id="residual-option-v3"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#residual-option-v3)
-
 <a id="activation-v2"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#activation-v2)
-
 <a id="effect-conditioned-v2"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#effect-conditioned-v2)
-
 <a id="反馈交互学习已按主题分离"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#反馈交互学习已按主题分离)
-
 <a id="复用or训练两条新任务检验平均与差分"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#复用or训练两条新任务检验平均与差分)
-
 <a id="同现场续做普通继续已足够固定提醒未见增益"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#同现场续做普通继续已足够固定提醒未见增益)
-
 <a id="完整纠正片段两新任务八组闭合局部修复未带来总体增益"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#完整纠正片段两新任务八组闭合局部修复未带来总体增益)
-
 <a id="绑定修订两类互补独立一致性配方停止"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#绑定修订两类互补独立一致性配方停止)
-
 <a id="部署时点12组保留条件收益停止扩跑"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#部署时点12组保留条件收益停止扩跑)
-
 <a id="新任务五组成功保留与执行成本信号"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#新任务五组成功保留与执行成本信号)
-
 <a id="源内自动反馈修订已闭合"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#源内自动反馈修订已闭合)
-
 <a id="早期阶段化原型"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#早期阶段化原型)
-
 <a id="旧标准化十组保留条件差别及完整费用"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#旧标准化十组保留条件差别及完整费用)
-
 <a id="原先导输入错误保留形成产物复用"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#原先导输入错误保留形成产物复用)
-
 <a id="旧四配置20组停止整流程接管保留局部价值"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#旧四配置20组停止整流程接管保留局部价值)
-
 <a id="旧同一现场续做保留复用与路由收益"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#旧同一现场续做保留复用与路由收益)
-
 <a id="旧失败进一步变成条件纠正监督局部效果与执行归属"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#旧失败进一步变成条件纠正监督局部效果与执行归属)
-
 <a id="旧部分保留与控制流程修补已完成停止整节点冻结"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#旧部分保留与控制流程修补已完成停止整节点冻结)
-
 <a id="修正判断方式"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#修正判断方式)
-
 <a id="历次结果与可用素材"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#历次结果与可用素材)
-
 <a id="最值得挖的三类资产与复用收益"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#最值得挖的三类资产与复用收益)
-
 <a id="放宽开发门槛保留事实标准"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#放宽开发门槛保留事实标准)
-
 <a id="尸检导出的方向"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#尸检导出的方向)
-
 <a id="证据范围与当前状态"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#证据范围与当前状态)
-
 <a id="最近先导与固定历史"></a>
-[原批次](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261114.md#最近先导与固定历史)
