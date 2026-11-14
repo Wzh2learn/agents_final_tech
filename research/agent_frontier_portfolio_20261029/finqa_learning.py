@@ -23,6 +23,7 @@ import run_finqa_correction as study
 import alfworld_supervision_tokens as tokens
 
 ROOT=study.ROOT/'learning_v1'
+REFINEMENT=ROOT/'refinement_v1'
 MODEL=Path('/home/testuser/wzh/models/hf/Qwen3-8B')
 
 
@@ -71,7 +72,7 @@ def project_request(request, teacher_text, public_text):
     return dict(messages=request['messages'],tools=request['tools'])
 
 
-def field_annotation(tokenizer,request,assistant,row,program,selected):
+def field_annotation(tokenizer,request,assistant,row,program,selected,*,return_fields=False):
     opts=dict(tools=request['tools'],enable_thinking=False,truncation=False,return_dict=False)
     prefix=tokenizer.apply_chat_template(request['messages'],tokenize=False,add_generation_prompt=True,**opts)
     full=tokenizer.apply_chat_template(request['messages']+[assistant],tokenize=False,add_generation_prompt=False,**opts)
@@ -96,7 +97,7 @@ def field_annotation(tokenizer,request,assistant,row,program,selected):
     if selected and not any(keep and field in selected for keep,field in zip(supervised,field_ids)):
         raise ValueError('selected fields have no supervised tokens')
     if abs(sum(weights)-sum(supervised))>1e-6:raise ValueError('supervised weight mass changed')
-    return weights
+    return (weights,field_ids) if return_fields else weights
 
 
 def prepare():
@@ -169,16 +170,93 @@ def weighted_loss(logits,labels,weights):
     return (losses.reshape_as(target)*mass).sum()/mass.sum()
 
 
-def train(digest):
+def prepare_refinement():
+    if REFINEMENT.exists():raise ValueError('refinement attempt already exists')
+    folder=ROOT/'native_v1/recovery_training_v1'
+    state=read(folder/'RESULT.json');teacher_plan=read(folder/'PLAN.json')
+    assert state['status']=='PRIVILEGED_RECOVERY_RETURNED'
+    arms=['uniform_recovery','all_operands','localized_fields']
+    original=read(ROOT/'DATA.json');rows=[];sources=dict(original['sources'])
+    # Identical replay preserves the already learned execution protocol.
+    # Only the new on-policy residuals carry alternative field supervision.
+    for row in original['rows']:
+        row=copy.deepcopy(row);uniform=[float(t!=-100) for t in row['labels']]
+        row['weights_by_arm']={arm:list(uniform) for arm in arms};row['phase']='replay'
+        rows.append(row)
+    tok=tokens.load_tokenizer(MODEL);diagnostics=[]
+    for entry in state['episodes']:
+        ep=next(e for e in teacher_plan['episodes'] if e['index']==entry['index'])
+        parent=Path(ep['source_folder']);source=read(parent/'RESULT.json')
+        if sha(parent/'RESULT.json')!=ep['source_result_sha256']:raise ValueError('residual source changed')
+        if not entry['native_success']:raise ValueError('all four teacher recoveries required before compiling')
+        episode=Path(ep['folder']);public=read(episode/'inputs/public.json')
+        label=read(folder/'LABELS_PRIVATE.json')[entry['index']]
+        public_text=study.recovery_prompt(public,study.recent_actions(parent))
+        teacher_text=(episode/'inputs/task.txt').read_text()
+        for rec in entry['accounting']['requests']:
+            request_path=episode/'wire'/f"{rec['request']:05d}.request.json"
+            response_path=request_path.with_suffix('.response')
+            assert sha(request_path)==rec['request_sha256']
+            assert sha(response_path)==rec['response']['body_sha256']
+            assistant=sse_assistant(response_path.read_bytes());calls=assistant.get('tool_calls') or []
+            if len(calls)!=1 or calls[0]['function']['name']!='bash':continue
+            argv=shlex.split(json.loads(calls[0]['function']['arguments'])['command'])
+            if '--program' not in argv:continue
+            program=argv[argv.index('--program')+1]
+            if not task.grade(program,public,label['exe_ans'])['execution_correct']:continue
+            projected=project_request(read(request_path),teacher_text,public_text)
+            if program in json.dumps(projected['messages'],ensure_ascii=False):
+                raise ValueError('correct target already present in recovery conditioning')
+            encoded=tokens.encode_completion(projected,assistant,tok,16384)
+            region=task.correction_fields(source['submitted_program'],program)
+            local,fields=field_annotation(tok,projected,assistant,encoded,program,region['fields'],return_fields=True)
+            uniform=[float(t!=-100) for t in encoded['labels']]
+            operands={field for field in fields if field is not None and not field.endswith(':op')}
+            all_operands=task.field_token_weights(fields,operands,[t!=-100 for t in encoded['labels']])
+            weights=dict(uniform_recovery=uniform,all_operands=all_operands,localized_fields=local)
+            row=dict(**encoded,source_index=entry['index'],report=ep['report'],phase='residual',region=region,
+                     assistant=assistant,weights_by_arm=weights,teacher_attempt='on_policy_27b_train_recovery',
+                     projection='privileged teacher task replaced with the same public fixed-review prompt used for deployment')
+            rows.append(row);sources[str(request_path)]=sha(request_path);sources[str(response_path)]=sha(response_path)
+            diagnostics.append(dict(index=entry['index'],fields=region['fields'],fallback=region['fallback'],
+                                    differs_from_all_operands=any(abs(a-b)>1e-6 for a,b in zip(local,all_operands)),
+                                    supervised_tokens=encoded['supervised_tokens']))
+            break
+        else:raise ValueError('no correct native teacher tool action for residual '+str(entry['index']))
+    assert len(rows)==11 and len({r['report'] for r in rows})==11
+    assert any(d['differs_from_all_operands'] for d in diagnostics),'need an actual supervision contrast'
+    REFINEMENT.mkdir()
+    new(REFINEMENT/'DATA.json',dict(rows=rows,sources=sources,tokenizer=tokens.tokenizer_binding(MODEL,tok),diagnostics=diagnostics))
+    warm=ROOT/'uniform_recovery'
+    warm_files=read(ROOT/'RESULT.json')['arms']['uniform_recovery']['adapter_files']
+    for name,digest in warm_files.items():assert sha(warm/name)==digest
+    schedule=[(i//2)%7 if i%2==0 else 7+(i//2)%4 for i in range(32)]
+    plan=dict(model_path=str(MODEL),data_sha256=sha(REFINEMENT/'DATA.json'),seed=17,arms=arms,
+              updates_per_arm=32,schedule=schedule,learning_rate=2e-4,rank=8,alpha=16,wall_seconds=3600,
+              resource_lock=str(study.core.LOCK),warm_start=str(warm),warm_files=warm_files,
+              parent_training_result_sha256=sha(ROOT/'RESULT.json'),teacher_result_sha256=sha(folder/'RESULT.json'),
+              components={str(p):sha(p) for p in [Path(__file__),Path(task.__file__),Path(tokens.__file__),Path(study.__file__)]},
+              scope='TRAIN-only development. Four former development reports now join training; exclude all 12 formation/exposed reports from the next task set.',
+              comparison='Same warm adapter, replay, new recoveries, schedule and token mass; only residual-field weights differ',
+              deployment='Common first-pass Agent, then one fixed public review for every task; no hidden-answer trigger',
+              next='Native report-disjoint review comparison against ordinary fixed review; include common first-pass and formation/training costs')
+    snapshot=REFINEMENT/'executed_sources';snapshot.mkdir()
+    for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    new(REFINEMENT/'PLAN.json',plan)
+    print(json.dumps(dict(plan_sha256=sha(REFINEMENT/'PLAN.json'),rows=len(rows),diagnostics=diagnostics)))
+
+
+def train(digest, root=None):
     import fcntl
     import torch
     from transformers import AutoModelForCausalLM
-    from peft import LoraConfig,get_peft_model
-    if sha(ROOT/'PLAN.json')!=digest or (ROOT/'LIVE.json').exists():raise ValueError('training plan/attempt')
-    plan=read(ROOT/'PLAN.json');assert sha(ROOT/'DATA.json')==plan['data_sha256']
+    from peft import LoraConfig,get_peft_model,PeftModel
+    root=ROOT if root is None else Path(root)
+    if sha(root/'PLAN.json')!=digest or (root/'LIVE.json').exists():raise ValueError('training plan/attempt')
+    plan=read(root/'PLAN.json');assert sha(root/'DATA.json')==plan['data_sha256']
     for path,value in plan['components'].items():
         if sha(path)!=value:raise ValueError('training component changed')
-    rows=read(ROOT/'DATA.json')['rows'];started=time.monotonic()
+    rows=read(root/'DATA.json')['rows'];started=time.monotonic()
     state=dict(status='RUNNING',pid=__import__('os').getpid(),optimizer_updates=0,forward_calls=0,
                training_sequence_tokens=0,supervised_tokens=0,arms={},http_model_requests=0)
     model=None
@@ -186,12 +264,20 @@ def train(digest):
         with Path(plan['resource_lock']).open('r+') as lease:
             fcntl.flock(lease,fcntl.LOCK_EX|fcntl.LOCK_NB)
             torch.manual_seed(plan['seed'])
-            study.publish(ROOT/'LIVE.json',state)
+            study.publish(root/'LIVE.json',state)
             model=AutoModelForCausalLM.from_pretrained(plan['model_path'],dtype=torch.bfloat16,
                 device_map={'':0},attn_implementation='sdpa',local_files_only=True,trust_remote_code=False)
-            model=get_peft_model(model,LoraConfig(r=8,lora_alpha=16,lora_dropout=0.,target_modules=['q_proj','v_proj'],task_type='CAUSAL_LM',bias='none'))
+            if plan.get('warm_start'):
+                for name,value in plan['warm_files'].items():
+                    if sha(Path(plan['warm_start'])/name)!=value:raise ValueError('warm adapter changed')
+                model=PeftModel.from_pretrained(model,plan['warm_start'],is_trainable=True)
+            else:
+                model=get_peft_model(model,LoraConfig(r=8,lora_alpha=16,lora_dropout=0.,target_modules=['q_proj','v_proj'],task_type='CAUSAL_LM',bias='none'))
             initial={n:p.detach().clone() for n,p in model.named_parameters() if p.requires_grad}
             state['trainable_parameters']=sum(p.numel() for p in initial.values())
+            state['initial_adapter_sha256']=hashlib.sha256(b''.join(
+                name.encode()+value.detach().cpu().contiguous().view(torch.uint8).numpy().tobytes()
+                for name,value in sorted(initial.items()))).hexdigest()
             model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False});model.enable_input_require_grads()
             for arm in plan['arms']:
                 with torch.no_grad():
@@ -201,9 +287,11 @@ def train(digest):
                 model.train();losses=[];arm_start=time.monotonic()
                 for update in range(plan['updates_per_arm']):
                     if time.monotonic()-started>plan['wall_seconds']:raise TimeoutError('finite training wall cap')
-                    row=rows[update%len(rows)]
+                    row=rows[plan['schedule'][update] if 'schedule' in plan else update%len(rows)]
                     x=torch.tensor([row['input_ids']],device='cuda');y=torch.tensor([row['labels']],device='cuda')
-                    w=torch.tensor([row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']]],device='cuda')
+                    weights=(row['weights_by_arm'][arm] if 'weights_by_arm' in row else
+                             row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']])
+                    w=torch.tensor([weights],device='cuda')
                     optimizer.zero_grad(set_to_none=True)
                     value=weighted_loss(model(input_ids=x,use_cache=False).logits,y,w)
                     if not torch.isfinite(value):raise ValueError('nonfinite loss')
@@ -211,21 +299,23 @@ def train(digest):
                     optimizer.step();losses.append(float(value.detach()))
                     state['optimizer_updates']+=1;state['forward_calls']+=1
                     state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
-                    study.publish(ROOT/'LIVE.json',state)
+                    study.publish(root/'LIVE.json',state)
                     del x,y,w,value
-                output=ROOT/arm;model.save_pretrained(output)
+                output=root/arm;model.save_pretrained(output)
                 state['arms'][arm]=dict(updates=len(losses),losses=losses,seconds=time.monotonic()-arm_start,
                                        adapter_files={p.name:sha(p) for p in output.iterdir() if p.is_file()})
                 del optimizer;gc.collect();torch.cuda.empty_cache()
-                study.publish(ROOT/'LIVE.json',state)
-            state['status']='TRAINED_TWO_DEVELOPMENT_ARMS'
+                study.publish(root/'LIVE.json',state)
+            state['status']='TRAINED_REFINEMENT_ARMS' if plan.get('warm_start') else 'TRAINED_TWO_DEVELOPMENT_ARMS'
     except BaseException:
         state.update(status='FAILED',error=traceback.format_exc());raise
     finally:
         state['seconds']=time.monotonic()-started
-        study.publish(ROOT/'LIVE.json',state);new(ROOT/'RESULT.json',state)
+        study.publish(root/'LIVE.json',state);new(root/'RESULT.json',state)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','train']);p.add_argument('--plan-sha');args=p.parse_args()
-    prepare() if args.mode=='prepare' else train(args.plan_sha)
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','train','prepare-refinement','train-refinement']);p.add_argument('--plan-sha');args=p.parse_args()
+    if args.mode=='prepare':prepare()
+    elif args.mode=='prepare-refinement':prepare_refinement()
+    else:train(args.plan_sha,REFINEMENT if args.mode=='train-refinement' else ROOT)

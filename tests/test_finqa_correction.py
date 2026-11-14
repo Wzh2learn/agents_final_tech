@@ -102,6 +102,22 @@ class FinQACorrectionTests(unittest.TestCase):
         self.assertEqual(m.field_token_weights([None, "0:arg1", None], [], [False, True, True]),
                          [0, 1, 1])
 
+    def test_residual_denominator_edit_is_smaller_than_all_operands(self):
+        old = "subtract(344000, 43000), divide(#0, const_m1)"
+        fixed = "subtract(344000, 43000), divide(#0, 43000)"
+        region = m.correction_fields(old, fixed)
+        self.assertEqual(region["fields"], ["1:arg2"])
+        ids = [None, "0:op", "0:arg1", "0:arg2", "1:op", "1:arg1", "1:arg2", None]
+        keep = [True]*len(ids)
+        local = m.field_token_weights(ids, region["fields"], keep)
+        operands = {f for f in ids if f and not f.endswith(":op")}
+        broad = m.field_token_weights(ids, operands, keep)
+        self.assertNotEqual(local, broad)
+        self.assertGreater(local[6], local[2])
+        self.assertAlmostEqual(sum(local), len(ids))
+        self.assertEqual(local[0], broad[0])
+        self.assertEqual(local[-1], broad[-1])
+
 
 if __name__ == "__main__":
     unittest.main()

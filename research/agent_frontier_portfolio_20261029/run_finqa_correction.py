@@ -64,6 +64,26 @@ def prompt(public):
             + json.dumps(public, ensure_ascii=False))
 
 
+def recent_actions(folder):
+    """Actual public tool operations, not a model-written reconstruction."""
+    actions=[]
+    for line in (Path(folder)/'raw.jsonl').read_text().splitlines():
+        part=json.loads(line).get('part',{})
+        if part.get('type')=='tool':
+            state=part.get('state',{})
+            actions.append(dict(input=state.get('input'),output=state.get('output')))
+    return actions[-6:]
+
+
+def recovery_prompt(public, actions):
+    """Use identically for recovery training and fixed-review deployment."""
+    return (prompt(public)+'\n\nReview the existing student workspace and its most recent program. '
+            'Use the supplied report, question and actual operations below to check its operands, '
+            'references and requested quantity. Correct and execute the program if needed, or retain '
+            'it if it is consistent. No reference answer is available.\n'
+            +json.dumps({'student_actions':actions},ensure_ascii=False))
+
+
 def prepare(count=8):
     if not 1 <= count <= 24:
         raise ValueError('finite development sample required')
