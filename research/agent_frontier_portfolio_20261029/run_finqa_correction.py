@@ -152,13 +152,16 @@ def start_model():
         raise
 
 
-def episode(ep, h, runtime, profile):
+def episode(ep, h, runtime, profile, relay_factory=None):
     folder=Path(ep['folder'])
     new(folder/'STARTED.json',{'pid':os.getpid(),'unix':time.time()})
-    (folder/'inputs/opencode.json').write_text(json.dumps(h.actor.config(profile,17)))
+    config=h.actor.config(profile,17)
+    if profile.get('provider')=='bupt_chat_v1':config['agent']['build'].pop('seed',None)
+    (folder/'inputs/opencode.json').write_text(json.dumps(config))
     inputs=core.tree(folder/'inputs')
     bridge=Path(tempfile.mkdtemp(prefix='finqa-',dir='/tmp'));bridge.chmod(0o700)
-    relay=core.Relay(folder,profile,h,deadline=time.monotonic()+CAPS['seconds'],caps=CAPS)
+    factory=core.Relay if relay_factory is None else relay_factory
+    relay=factory(folder,profile,h,deadline=time.monotonic()+CAPS['seconds'],caps=CAPS)
     class Server(socketserver.ThreadingUnixStreamServer):
         daemon_threads=False
         block_on_close=True
@@ -231,20 +234,24 @@ def run(digest):
         publish(ROOT/'LIVE.json',state);new(ROOT/'RESULT.json',state)
 
 
-def prepare_teacher(backend='fp8', attempt=1):
+def prepare_teacher(backend='fp8', attempt=1, indices=None):
     """Continue actual student workspaces; references are privileged train labels."""
     source=json.loads((ROOT/'RESULT.json').read_text())
     if source['status']!='STUDENT_BATCH_RETURNED' or not source['owned_model_stopped']:
         raise ValueError('student collector must be terminal and its model stopped')
-    if backend not in ('fp8','gguf') or attempt<1:raise ValueError('teacher backend/attempt')
+    if backend not in ('fp8','gguf','campus') or attempt<1:raise ValueError('teacher backend/attempt')
     target=ROOT/f'teacher_v{attempt}';target.mkdir()
     labels=json.loads((ROOT/'LABELS_PRIVATE.json').read_text())
     original=json.loads((ROOT/'PLAN.json').read_text())
     episodes=[]
     profile=dict(host='127.0.0.1',port=18105,model_id='qwen38-27b-fp8',context=32768,output=8192)
     if backend=='gguf':profile['model_id']='qwen36-35b-q4'
+    if backend=='campus':
+        from scripts.graph.research_school_gateway import MODEL,BASE_URL
+        profile=dict(provider='bupt_chat_v1',base_url=BASE_URL,model_id=MODEL,context=262144,output=8192)
     for result in source['episodes']:
         if result['native_success']:continue
+        if indices is not None and result['index'] not in indices:continue
         index=result['index'];label=labels[index];old=Path(original['episodes'][index]['folder'])
         core.tree(old/'work')  # Reject links/special files before copying an actor output.
         folder=target/f'{index:03d}';folder.mkdir()
@@ -271,7 +278,8 @@ def prepare_teacher(backend='fp8', attempt=1):
         episodes.append(dict(index=index,id=label['id'],folder=str(folder),student_result_sha256=sha(old/'RESULT.json')))
     plan=dict(schema='finqa_train_teacher_recovery_v1',episodes=episodes,model=profile,caps=CAPS,backend=backend,
               parent_student_result_sha256=sha(ROOT/'RESULT.json'),max_posts=len(episodes)*CAPS['posts'],
-              teacher='Local teacher recovery with train labels; exact backend below, new owned server only',
+              teacher='Train-label teacher recovery; exact backend below, local owned server or authorized campus gateway',
+              campus_token_cap=4_000_000,
               model_root='/home/testuser/wzh/models/hf/Qwen3.8-27B-FP8',
               gguf='/home/testuser/.lmstudio/models/lmstudio-community/Qwen3.6-35B-A3B-GGUF/Qwen3.6-35B-A3B-Q4_K_M.gguf',
               image='sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f',
@@ -280,8 +288,45 @@ def prepare_teacher(backend='fp8', attempt=1):
               components={str(p):sha(p) for p in [Path(__file__),Path(task.__file__),REPO/'scripts/vllm_probe_serve.sh']},
               budget='local teacher formation, separate from campus API and from deployment cost',
               scope='Privileged-label training recovery, not a blind strong-model task baseline or learned-method gain')
+    if backend=='campus':
+        gateway=REPO/'scripts/graph/research_school_gateway.py'
+        plan['components'][str(gateway)]=sha(gateway)
     new(target/'PLAN.json',plan)
     print(json.dumps({'teacher_episodes':len(episodes),'plan_sha256':sha(target/'PLAN.json')}))
+
+
+def run_campus_teacher(digest, attempt, key):
+    """Existing TLS gateway + native OpenCode, credential only in process memory."""
+    from scripts.graph.research_school_gateway import BatchBudget,SchoolBackend,REQUEST_TOKEN_CEILING
+    if not key:raise ValueError('campus credential not loaded')
+    target=ROOT/f'teacher_v{attempt}'
+    if sha(target/'PLAN.json')!=digest or (target/'LIVE.json').exists():raise ValueError('campus plan/attempt')
+    plan=json.loads((target/'PLAN.json').read_text());assert plan['backend']=='campus'
+    for path,value in plan['components'].items():
+        if sha(path)!=value:raise ValueError('campus component changed')
+    budget=BatchBudget(target/'budget',posts=plan['max_posts'],tokens=plan['campus_token_cap'])
+    backend=SchoolBackend(key,budget,core);backend.verify(plan['model'])
+    state=dict(status='RUNNING',pid=os.getpid(),episodes=[],plan_sha256=digest,training=0,
+               role='privileged train teacher; no campus seed/thinking guarantee')
+    publish(target/'LIVE.json',state)
+    try:
+        with core.resource_lock():
+            h=core.helpers();runtime=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
+            for ep in plan['episodes']:
+                value=episode(ep,h,runtime,plan['model'],relay_factory=backend.make_relay)
+                state['episodes'].append(value);publish(target/'LIVE.json',state)
+                if not value['accounting']['integrity_passed']:
+                    state['status']='STOPPED_INTERFACE';break
+            else:state['status']='CAMPUS_TEACHER_RETURNED'
+    except BaseException:
+        state.update(status='FAILED',error=traceback.format_exc());raise
+    finally:
+        if budget.pending is not None:budget.finish()
+        state['campus_posts']=sum(r['state']!='not_sent' for r in budget.rows)
+        state['known_tokens']=sum(r.get('usage',{}).get('total_tokens',0) for r in budget.rows)
+        state['unknown_usage']=sum(r['state']=='unknown' for r in budget.rows)
+        state['unknown_reserved_tokens']=state['unknown_usage']*REQUEST_TOKEN_CEILING
+        budget.close();publish(target/'LIVE.json',state);new(target/'RESULT.json',state)
 
 
 def run_teacher(digest, attempt=1):
@@ -358,10 +403,16 @@ def run_teacher(digest, attempt=1):
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','run','prepare-teacher','teacher'])
     parser.add_argument('--count',type=int,default=8);parser.add_argument('--plan-sha')
-    parser.add_argument('--teacher-backend',choices=['fp8','gguf'],default='fp8')
+    parser.add_argument('--teacher-backend',choices=['fp8','gguf','campus'],default='fp8')
     parser.add_argument('--teacher-attempt',type=int,default=1)
+    parser.add_argument('--indices',help='Explicit development task indices, not a test-set filter')
+    parser.add_argument('--key-stdin',action='store_true')
     args=parser.parse_args()
     if args.mode=='prepare':prepare(args.count)
     elif args.mode=='run':run(args.plan_sha)
-    elif args.mode=='prepare-teacher':prepare_teacher(args.teacher_backend,args.teacher_attempt)
+    elif args.mode=='prepare-teacher':prepare_teacher(args.teacher_backend,args.teacher_attempt,
+        None if args.indices is None else {int(x) for x in args.indices.split(',')})
+    elif args.teacher_backend=='campus':
+        key=sys.stdin.readline().rstrip('\r\n') if args.key_stdin else os.environ.get('BUPT_API_KEY')
+        run_campus_teacher(args.plan_sha,args.teacher_attempt,key)
     else:run_teacher(args.plan_sha,args.teacher_attempt)
