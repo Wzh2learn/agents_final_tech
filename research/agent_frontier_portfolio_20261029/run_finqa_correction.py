@@ -152,7 +152,7 @@ def start_model():
         raise
 
 
-def episode(ep, h, runtime, profile, relay_factory=None):
+def episode(ep, h, runtime, profile, relay_factory=None, private_labels=None):
     folder=Path(ep['folder'])
     new(folder/'STARTED.json',{'pid':os.getpid(),'unix':time.time()})
     config=h.actor.config(profile,17)
@@ -186,7 +186,10 @@ def episode(ep, h, runtime, profile, relay_factory=None):
     if candidate.exists():
         value=json.loads(candidate.read_text())
         if isinstance(value,dict) and set(value)=={'program'}:program=value['program']
-    gold=json.loads((ROOT/'LABELS_PRIVATE.json').read_text())[ep['index']]
+    # Host-only grading can bind a new report-isolated batch without changing
+    # the actor, its mounts, prompt, tool feedback, or execution budget.
+    label_path=ROOT/'LABELS_PRIVATE.json' if private_labels is None else Path(private_labels)
+    gold=json.loads(label_path.read_text())[ep['index']]
     result=task.grade(program,json.loads((folder/'inputs/public.json').read_text()),gold['exe_ans'])
     result.update(index=ep['index'],id=ep['id'],actor=returned,accounting=accounting,
                   agent_completed=returned.get('exit')==0,

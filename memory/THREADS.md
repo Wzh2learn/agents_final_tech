@@ -6,14 +6,14 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | Goal active；FinQA 8题/7失败的教师接续已闭合；7条无参考标签的恢复监督已编译，普通/字段加权各24更新正在训练。完成后保存/转换并做新报告原生验证，见[计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇唯一下一步 | Goal active；FinQA纠正训练与新4报告验证闭合。普通训练改善程序有效率/成本，当前字段加权无增量；利用可执行学生的真实残差细化纠正监督，保持公开反馈与固定调用条件，见[计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)用于借鉴与比较；恢复SFT、片段监督、能力保留可组合。需确定一条具体差异与消融，匹配近邻实验尚未完成。 |
 | 来源与参考资格 | 历史代码与客服按[知识索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)保留。新增Astropy14182仅CPU控制完成，Matplotlib25079收集警告未解，无Agent/训练；不作金融主线前置。 |
-| 成本及运行器 | 校内累计4,996POST/50,830,342已知＋2,621,440未知预留；新FinQA本地93POST/428,110tokens，未知0；27B启动失败0POST及240次自有health GET另列。既有本地216/1,496,913及96更新不混计。 |
+| 成本及运行器 | 校内累计4,996POST/50,830,342已知＋2,621,440未知预留；FinQA本地形成/验证148POST/659,812tokens，未知0；训练48前向/更新另计；27B启动失败0POST及240次自有health GET另列。既有本地216/1,496,913及96更新不混计。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | FinQA采集闭合，27B:8006恢复、两组8B LoRA训练运行，原始证据保留。提交本轮研究代码/状态；其他对话Paper E/开题WIP、LoopB/历史worktree保持原位。 |
+| 工作区与分享 | FinQA采集/训练/16组验证闭合，27B:8006恢复并已实际原生调用，两组8B LoRA保留。提交本轮研究代码/状态；其他对话Paper E/开题WIP、LoopB/历史worktree保持原位。 |
 | 文档与 skill 存量 | 机制知识和现役入口已收敛；本次仅只读doctor/map，不安装/分发新skill。既有WIP缺陷与历史warning单列；不让存量全库治理阻塞后续机制研究。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
