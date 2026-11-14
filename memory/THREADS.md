@@ -6,15 +6,15 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | [本批](../research/agent_frontier_portfolio_20261029/results/FEEDBACK_INTERACTION_LEARNING.md#capability-entry-v1)DeepSeek成功一题，匹配入口8B三组仍0/2。停止该损失配方；用强Actor验证既有条件化纠正学习，同模型/信息/总成本比较，先固定新任务。 |
+| 第二篇唯一下一步 | Goal暂停，仅整理。恢复后按[新计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)深化正向→选一项规则→金融主集验证；不续旧代码资格矩阵。新版Goal在计划中，宿主旧文案未改。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
-| 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)已含HASP/SkillCAT/SCOPE：可执行干预、成败分歧和局部技能组链已有。匹配近邻比较未完成；一步选项不另算新方法。 |
-| 来源与参考资格 | Matplotlib公开崩溃已解除，辅助函数较强验收未过；SymPy迁移未完成。[Astropy](../research/agent_frontier_portfolio_20261029/results/ASTROPY_ISOLATED_CONTROLS_20261106.md)普通历史有目标成本信号。均为曝光开发题，形成成本另算；Sphinx失败源及Requests/EdgeBench旧未决保留。 |
-| 成本及运行器 | 本批校园24/151,776、本地24/147,273，未知0；旧192POST/1,349,640及训练另列不重计。校园累计50,815,217已知＋2,621,440未知预留。下批另定有限帽，不自动重试本批。 |
+| 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)用于借鉴与比较；恢复SFT、片段监督、能力保留可组合。需确定一条具体差异与消融，匹配近邻实验尚未完成。 |
+| 来源与参考资格 | 历史代码与客服按[知识索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)保留。新增Astropy14182仅CPU控制完成，Matplotlib25079收集警告未解，无Agent/训练；不作金融主线前置。 |
+| 成本及运行器 | 本轮整理0科研请求，校园累计50,815,217已知＋2,621,440未知预留不变；既有本地216请求/1,496,913及96更新另列，不混入校园。恢复后才声明新批帽。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 本批全部进程结束，18104释放；校内116/入口186载荷包双端验hash，原训练46/原生787保留。VPN恢复、SSH可连；LoopB/7历史worktree及其他对话WIP不动。 |
-| 文档与 skill 存量 | 不追加全库治理；本轮仅补录并定点分发形成交付合同。上轮doctor的开题WIP error/135 warnings、map重复及docs 4项提醒保留，不代改；Windows CLAUDE加载未验。 |
+| 工作区与分享 | 科研进程已结束；代码/续行原文归档可逆核验，19载荷暂停现场薄包双端保留。当前只提交本轮整理；其他对话Paper E/开题WIP、LoopB/历史worktree保持原位。 |
+| 文档与 skill 存量 | 机制知识和现役入口已收敛；本次仅只读doctor/map，不安装/分发新skill。既有WIP缺陷与历史warning单列；不让存量全库治理阻塞后续机制研究。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
 科研运行状态以宿主Goal控制面及用户最新明确指令为准；[STATE](STATE.md)是状态快照。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)；停止具体候选不等于关闭新来源研究。2027 年 10 月具体送审日仍待学校确定。

@@ -1,6 +1,6 @@
 # ALFWorld：执行纠正与学习开发
 
-> 2026-11-08更新，批次始于11月6日 | 本页为已闭合监督/学习记录，按段加载；当前恢复查[新增来源](ALFWORLD_ADDITIONAL_SOURCES.md#student-failure-recovery)。96条、补充32条及8现场四臂均闭合；同7来源恢复配方停止，尚无独立方法贡献。
+> 历史批次2026-11-06至08，2026-11-14整理路由。本页保留已闭合监督/学习记录，96＋32及8现场四臂均闭合，旧“下一批”不作待办。后续R训练正向见[训练资产](ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)，现役机制与暂停状态见[知识索引](CONTINUATION_PROGRAM.md#mechanism-knowledge)及短计划。
 
 四现场诊断与旧分账见[先导实验](ALFWORLD_CONTEXT_STUDY.md#teacher-pilot)；本页旧“下一步”保留当时上下文，现役行动以短计划为准。
 

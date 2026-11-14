@@ -1,18 +1,18 @@
 # Loop D 科研协作入口
 
-> 2026-11-10 | 唯一可原地维护的执行入口。运行状态以宿主Goal控制面及用户最新明确指令为准，[STATE](../../memory/STATE.md)为快照；评审与计划更新不构成恢复授权。旧prompt与旧预算是历史，不自动成为新授权。
+> 2026-11-14 | 唯一可原地维护的执行入口。当前Goal paused，仅获准整理。运行状态以宿主Goal控制面及用户最新明确指令为准，[STATE](../../memory/STATE.md)为快照；计划更新不构成恢复授权。
 
 ## 最小接续
 
 1. 读[STATE](../../memory/STATE.md)，从[THREADS](../../memory/THREADS.md)只核对本任务未决。
-2. 科研执行读[第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)；只按它的链接加载一个相关批次。方向取舍再读[长期组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)，选方法再读[近邻](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。不默认全读历史报告、raw或长索引。
+2. 科研执行读[第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)；提炼机制读[知识索引](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)，再按问题读一个来源。方向取舍读长期组合、方法对标读近邻；不预加载历史报告或raw。
 3. 核对实际 git status/HEAD、工作树和相关原始回执；摘要提供定位，结论回到具体证据。只有运行环境或接口任务才追加[CORE](../../memory/CORE.md)与[架构](../17_Graph_Engineering_多层Loop设计.md)。
 
 ## 目标与执行边界
 
-第二阶段持续研究真实执行/反馈形成经验及变化下的技能适配，面向 IJCNN 与硕士论文。是否可运行以宿主Goal控制面和用户最新指令为准，不能从历史“恢复”叙述推断。训练、蒸馏、记忆、规划协作和工具恢复均可按证据选择，不限于金融任务或 Paper E。
+第二阶段面向IJCNN与硕士论文，近期以Paper E相关金融文档/表文问答的纠正学习为主，变化下的跨场景适配留作后续候选。先深化正向结果，参考已有方法提出具体改进并验证；允许组合优化，不要求全场景领先。执行仍须宿主Goal及用户明确恢复。
 
-文档/记忆已分层、搜索已切换；按短计划接续真实经验学习与迁移开发。旧可读面结果降级保留，依赖与模型资格按具体批次核验。完整状态与下一动作只在短计划维护，不在本prompt追加日志。已有任务仍属开发，尚无跨来源稳定新方法。
+状态和下一动作只在短计划维护。经验使用、可执行纠正、训练/融合各阶段的有效片段与死因均入知识索引；局部或小规模信号可以启动候选，近邻重合不自动停止。模型资格只按当前必要条件核验，不把更多资格/治理当方法进展。
 
 Paper E、导师材料和开题由独立对话维护，办理状态只查[THREADS](../../memory/THREADS.md)，本Goal不重复核验。学校要求本人第一作者、北邮第一单位、方向相关；会议需召开并完成宣读/张贴。学位按2027年10月倒排，具体日期待学校确认，后两研究点仍为候选。
 

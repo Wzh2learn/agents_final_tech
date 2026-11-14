@@ -2,13 +2,13 @@
 
 > 2026-11-14 | 项目维护记忆，只保留当前答案。任务入口见[研究导航](../docs/research/README.md)，未决见[THREADS](THREADS.md)。
 
-- **Goal / FCCL**：用户确认反馈条件化的可复用纠正技能学习；配对审计仅作监督工具。[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)明确第一条技能、候选更新规则与近邻边界，常规选择器不单独算新方法。
-- **研究阶段**：[能力与入口](../research/agent_frontier_portfolio_20261029/results/FEEDBACK_INTERACTION_LEARNING.md#capability-entry-v1)闭合：DeepSeek修好Astropy＋179项回归；8B基础/逐行/耦合同源码报错仍无修改，停止该训练配方扩展，未建立独立方法收益。
-- **实际运行 / 预算**：无在跑。本批校园24请求/151,776、本地入口24/147,273；训练另列。[校内总账](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)4,993请求/50,815,217已知＋10未知预留2,621,440，合53,436,657/10亿。
-- **下一交付**：以已验证能力的DeepSeek＋OpenCode及真实成功纠正来源，开展同模型/信息/总预算的技能学习比较；先固定新任务与更新规则，保留最强简单及近邻，不扩旧8B损失。完整任务独立收益、两项目4—6题及留出仍未完成。
-- **历史资产**：旧Django四组、效果预测、ALF规则等按[主题入口](../docs/archive/2026-11-06_agent_research_context/README.md)读取，均不重跑；[近邻](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)按机制核查。
+- **Goal / FCCL**：宿主Goal为paused；用户本轮只授权整理。三轮讨论已写入[短计划/新版目标](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，宿主旧文案尚未替换，等待用户明确恢复。
+- **研究阶段**：优先深化恢复训练8/12对普通6/12、适配器平均及有效片段；[机制知识K01—K12](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)关联正向/局部/死因。当前没有已验证的金融领域新方法。
+- **实际运行 / 预算**：无在跑，本次整理0模型/训练/原生任务；校内[总账](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)4,993请求/50,815,217已知＋10未知预留2,621,440，合53,436,657/10亿。本地推理、训练与研发另列。
+- **下一交付**：恢复后，从正向资产选一项具体改进，以金融文档/表文问答一个主benchmark比较普通蒸馏、普通纠正及强基线。FinQA/TAT-QA待选；允许借鉴组合，不要求跨领域全胜。跨场景LoRA留后续候选。
+- **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。
-- **Git与运行面**：VPN恢复后GB10可连，本批均已结束，自有18104释放；校园116/入口186载荷双端验hash，旧训练46/原生787保留。其他对话、LoopB及7历史worktree不动。
+- **Git与运行面**：本机main单worktree，GB10可连、科研批次均终止；19载荷暂停代码素材包双端保留，非Agent成绩。其他对话WIP、LoopB及历史worktree不动；不把Git一致当运行验证。
 
 历史状态见[2026-11-06 快照](archive/STATE_2026-11-06_pre_context_neat.md)与[2026-09-22 治理前快照](archive/STATE_2026-09-22_pre_governance.md)，均不作现役待办。投稿、付款、公开、外部联系及生产操作仍按用户明确授权办理。

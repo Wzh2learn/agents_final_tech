@@ -45,3 +45,14 @@
 [完整历史](fccl_formation_through_20261112.md)由`git mv`归档，基线为`f473e61b`的`research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md`，原blob SHA-256为`8a7e09ebeffeec30f870915c880d1381fe59df2420245ff0129c351e3115e6d6`。只加历史标记并重定位8种相对链接；本轮逆向恢复与52,290字节原blob完全相等，数值及原始费用未改。既有MANIFEST不覆盖此次追加。
 
 现役[结果页](../../../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#current-summary)收为15,899字节，保留最新闭环/源/目标、总账和9个旧锚点的历史跳转。当前下一动作只看[短计划](../../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，历史“下一步”不作待办。
+
+## 2026-11-14追加：三轮讨论后的知识归并
+
+[现役机制知识](../../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)把经验使用、片段执行与训练/融合按K01—K12关联；[短计划](../../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)记录金融主集范围与新版Goal建议。宿主Goal暂停，历史active/下一步均不作当前许可。此处不改既有归档或旧MANIFEST的覆盖声明。
+
+| 新历史快照（git mv，原基线36b68e0d） | 原路径 | 规范化原文SHA-256 | 链接重定位 |
+|---|---|---|---:|
+| [continuation_through_20261114](continuation_through_20261114.md) | research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md | 5611df97e3911bd89c2b6602a38c33c28ccb4616ce2e4cdb41f044dbd21aa70d | 24 |
+| [code_sources_through_20261114](code_sources_through_20261114.md) | research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md | 37534aad284dddf88f2524300c44247e3c732392f22750ad7a192942275bd09c | 15 |
+
+去掉新增历史标记并按逐项链接映射逆变换，两份快照与原规范化正文逐字节相同；原日期、数值、费用和失败保留。代码原文含CRLF，规范化只统一行尾。现役原路径保留旧显式及标题锚点跳转。完整可逆映射与本轮盘点/证据复核私有保存；本轮复核含36任务回执/清单和11,694绑定，未新跑模型、训练或原生任务。

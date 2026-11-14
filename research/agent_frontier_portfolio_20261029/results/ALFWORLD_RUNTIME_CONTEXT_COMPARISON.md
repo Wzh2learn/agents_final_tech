@@ -1,6 +1,6 @@
 # ALFWorld：六组上下文与学习对照
 
-> 2026-11-08 | 原96及完整历史补充32的协议、修正链与闭合证据。当前进度及下一动作只读[现役学习与评价](ALFWORLD_CORRECTION_DATA.md)。各段按当时闭合次序保留，不把早期“仍运行”当最新状态；原始raw/账本未改。
+> 历史批次2026-11-08，2026-11-14整理路由。原96＋32的协议、修正链与闭合证据保留；早期“仍运行/下一批”不是现状。当前进度只读[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，知识关联见[机制索引](CONTINUATION_PROGRAM.md#mechanism-knowledge)；raw/账本未改。
 
 从Git `5e0c7d5bcacccc47aba32b31ecbd9f1d406345fe` 的原现役页移入；规范换行后协议/逐臂段SHA `9bedffaabcc2012673831e8e68aaf810de9c8e3ca92e6c117593dd4821dba78b`，闭合成本段SHA `e94622fc930d576cf752c1c38d28860a4f49ab8c0edbb7770508d97350c6919e`。两段均逐字相同，后续完整批次结果另行追加。
 
