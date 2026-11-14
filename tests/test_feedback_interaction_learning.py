@@ -94,5 +94,38 @@ class InteractionLearningTests(unittest.TestCase):
         self.assertTrue(torch.equal(p.grad, torch.zeros_like(p.grad)))
 
 
+class CompleteFragmentScoringTests(unittest.TestCase):
+    def scorer(self):
+        path = PATH.with_name('train_feedback_interaction.py')
+        spec = importlib.util.spec_from_file_location('train_feedback_interaction', path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.sequence_score
+
+    def test_causal_alignment_includes_eos_and_excludes_context_and_trailer(self):
+        class SparseModel(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.values = torch.nn.Parameter(torch.arange(30, dtype=torch.float32).reshape(1, 6, 5) / 10)
+            def forward(self, **kwargs):
+                from types import SimpleNamespace
+                return SimpleNamespace(logits=self.values[:, kwargs['logits_to_keep']])
+        model = SparseModel()
+        row = dict(input_ids=[1, 2, 3, 4, 0, 2], labels=[-100, -100, 3, 4, 0, -100])
+        score, length = self.scorer()(model, row, 'cpu')
+        expected = sum(model.values[0, i - 1].log_softmax(-1)[row['input_ids'][i]] for i in [2, 3, 4])
+        self.assertEqual(length, 3)
+        self.assertAlmostEqual(float(score.detach()), float(expected.detach()), places=6)
+        score.backward()
+        self.assertTrue(torch.equal(model.values.grad[:, [0, 4, 5]], torch.zeros_like(model.values.grad[:, [0, 4, 5]])))
+        self.assertGreater(float(model.values.grad[:, 3].abs().sum()), 0.)
+
+    def test_malformed_fragment_cannot_train_on_prompt_or_changed_targets(self):
+        score = self.scorer()
+        for labels in ([1, 2, -100], [-100, 1, -100], [-100, -100, -100]):
+            with self.assertRaises(ValueError):
+                score(None, dict(input_ids=[1, 2, 3], labels=labels), 'cpu')
+
+
 if __name__ == '__main__':
     unittest.main()
