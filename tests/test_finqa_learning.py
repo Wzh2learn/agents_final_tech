@@ -141,5 +141,22 @@ class FinQALearningTests(unittest.TestCase):
         self.assertEqual({tuple(r['filename'].split('/')[:2]) for r in first},{('NEW','2021'),('OTHER','2021')})
         with self.assertRaises(ValueError):native.select_report_disjoint(records,{('OLD','2020')},3,'test')
 
+    def test_step_preference_uses_causal_span_and_frozen_reference(self):
+        import torch
+        import finqa_learning_controls as control
+        logits=torch.zeros(1,6,8,requires_grad=True)
+        rejected=torch.zeros(1,6,8,requires_grad=True)
+        reference=torch.tensor(0.,requires_grad=True)
+        good=control.selected_logprob(logits,[0,1,2,3,4,5],[3,4])
+        bad=control.selected_logprob(rejected,[0,1,2,7,6,5],[3,4])
+        loss=control.step_dpo_loss(good,bad,reference,.1)
+        self.assertTrue(torch.allclose(loss,torch.tensor(2.).log()))
+        loss.backward()
+        self.assertIsNone(reference.grad)
+        self.assertEqual(float(logits.grad[0,:2].abs().sum()),0.)
+        self.assertEqual(float(logits.grad[0,4:].abs().sum()),0.)
+        self.assertLess(float(logits.grad[0,2,3]),0.)
+        self.assertGreater(float(rejected.grad[0,2,7]),0.)
+
 
 if __name__=='__main__':unittest.main()
