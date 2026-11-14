@@ -9,7 +9,7 @@
 | :5050 | FastAPI 主 harness (main:app, uvicorn workers=2) | M1 解析 / M2 RAG 问答 / UI (/m1) |
 | :8004 | llama-server Qwen3.6-35B-A3B + mmproj | 按需停用；需视觉/35B时先卸载驻留27B |
 | :8005 | RETIRED (Qwen3-14B, 08-17 退位) | Loop B 断言 down; 权重保留 |
-| :8006 | vLLM Qwen3.8-27B-FP8（研究别名） | 当前唯一驻留LLM；loopback，32K上下文、单并发、4GiB KV，:8008未启动 |
+| :8006 | vLLM Qwen3.8-27B-FP8（研究别名） | 恢复配置：loopback，32K/单并发/4GiB KV；研究训练时卸载，当前是否驻留查私有*_current.json |
 | :4096 | OpenCode 1.18.3（scripts/sidecar_launch.sh） | 默认/小模型均gb10v/qwen38-27b-fp8→:8006；禁工具实际回复OK已核验 |
 | :8100 | responses2chat proxy v2 | Responses API → Chat API（Chat-only 模型用） |
 | :15432 | PostgreSQL + PGVector (docker) | 已运行，pg_isready通过；未变更库或数据 |

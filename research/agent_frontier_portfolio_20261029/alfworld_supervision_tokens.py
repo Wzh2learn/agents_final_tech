@@ -76,13 +76,20 @@ def token_ids(value):
     return value
 
 
-def encode_completion(request,assistant,tokenizer,max_length):
+def encode_completion(request,assistant,tokenizer,max_length,*,completion_kind='action'):
     if type(max_length) is not int or max_length<=0:raise IntegrityError('max_length must be a positive integer')
-    if assistant.get('role')!='assistant' or len(assistant.get('tool_calls') or [])!=1 or any(key in assistant for key in ['reasoning_content','reasoning','analysis']):raise IntegrityError('target is not one public assistant action completion')
+    if completion_kind not in ('action','closure'):raise IntegrityError('unsupported completion kind')
+    calls=assistant.get('tool_calls') or []
+    if assistant.get('role')!='assistant' or any(key in assistant for key in ['reasoning_content','reasoning','analysis']):raise IntegrityError('target is not one public assistant action completion')
+    if completion_kind=='action' and len(calls)!=1:raise IntegrityError('target is not one public assistant action completion')
+    if completion_kind=='closure' and (calls or not isinstance(assistant.get('content'),str) or not assistant['content'].strip()
+                                     or not any(m.get('role')=='tool' for m in request['messages'])):
+        raise IntegrityError('closure requires public execution feedback and a text-only assistant completion')
     # The frozen Qwen template directly accepts JSON argument strings. Validate,
     # but retain those strings and all actual context/tool schema dictionary order.
-    name=assistant['tool_calls'][0]['function']['name']
-    if name not in {tool['function']['name'] for tool in request.get('tools',[])}:raise IntegrityError('target tool was not exposed')
+    if completion_kind=='action':
+        name=calls[0]['function']['name']
+        if name not in {tool['function']['name'] for tool in request.get('tools',[])}:raise IntegrityError('target tool was not exposed')
     for message in request['messages']+[assistant]:
         for call in message.get('tool_calls') or []:
             arg=call['function']['arguments']

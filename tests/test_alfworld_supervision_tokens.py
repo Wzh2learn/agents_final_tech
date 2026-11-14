@@ -86,6 +86,22 @@ class TokenTests(unittest.TestCase):
     def test_tool_not_exposed_rejected(self):
         req,target=self.request_target();req['tools']=[]
         with self.assertRaisesRegex(x.IntegrityError,'not exposed'):x.encode_completion(req,target,FakeTokenizer(),100000)
+    def test_explicit_closure_masks_feedback_and_supervises_text_through_EOS(self):
+        req,_=self.request_target();req['messages'].append({'role':'tool','content':'Program executed: 42'})
+        final={'role':'assistant','content':'The result is 42.','tool_calls':[]};tok=FakeTokenizer()
+        row=x.encode_completion(req,final,tok,100000,completion_kind='closure')
+        n=row['prompt_token_count'];end=row['assistant_end_index']
+        self.assertEqual(row['labels'][:n],[-100]*n)
+        self.assertIn('The result is 42.',tok.decode(row['labels'][n:end+1]))
+        self.assertEqual(row['labels'][end],tok.eos_token_id)
+        with self.assertRaises(x.IntegrityError):x.encode_completion(req,final,tok,100000)
+    def test_closure_rejects_missing_feedback_tool_calls_and_private_reasoning(self):
+        req,target=self.request_target();final={'role':'assistant','content':'Done.','tool_calls':[]}
+        req['messages']=[m for m in req['messages'] if m.get('role')!='tool']
+        with self.assertRaises(x.IntegrityError):x.encode_completion(req,final,FakeTokenizer(),100000,completion_kind='closure')
+        req['messages'].append({'role':'tool','content':'executed'})
+        for bad in [target,{**final,'content':''},{**final,'reasoning_content':'private'}]:
+            with self.subTest(target=bad),self.assertRaises(x.IntegrityError):x.encode_completion(req,bad,FakeTokenizer(),100000,completion_kind='closure')
     def test_rows_not_direct_old_runner_input_and_output_refuses_overwrite(self):
         b=self.compile();out=self.base/'tokens';r=x.export_tokens(b,out);self.assertEqual(r['rows'],2);self.assertFalse(b['manifest']['old_single_completion_trainrunner_adapted']);self.assertEqual(len(x.read(out/'formation_ledger.json')['collector_sources_once']),1)
         with self.assertRaises(FileExistsError):x.export_tokens(b,out)

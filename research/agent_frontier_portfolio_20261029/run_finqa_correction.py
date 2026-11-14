@@ -330,7 +330,7 @@ def run_campus_teacher(digest, attempt, key):
     budget=BatchBudget(target/'budget',posts=plan['max_posts'],tokens=plan['campus_token_cap'])
     backend=SchoolBackend(key,budget,core);backend.verify(plan['model'])
     state=dict(status='RUNNING',pid=os.getpid(),episodes=[],plan_sha256=digest,training=0,
-               role='privileged train teacher; no campus seed/thinking guarantee')
+               role=plan.get('role','privileged train teacher; no campus seed/thinking guarantee'))
     publish(target/'LIVE.json',state)
     try:
         with core.resource_lock():

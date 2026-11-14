@@ -170,6 +170,86 @@ def weighted_loss(logits,labels,weights):
     return (losses.reshape_as(target)*mass).sum()/mass.sum()
 
 
+def prepare_closed():
+    """Reuse actual post-execution teacher completions, paired with each repair.
+
+    The action row is reconstructed exactly before adding closure supervision;
+    no fresh generation, new reports, or privileged student conditioning.
+    """
+    source=ROOT/'refinement_v2';target=ROOT/'closed_recovery_v1'
+    if target.exists():raise ValueError('closed-recovery candidate already exists')
+    original=read(source/'DATA.json');tok=tokens.load_tokenizer(MODEL)
+    requests=[Path(p) for p in original['sources'] if p.endswith('.request.json')]
+    rows=[];bindings=dict(original['sources']);diagnostics=[]
+    def call_binding(call):
+        function=call['function'];arguments=function['arguments']
+        return (call['id'],function['name'],json.loads(arguments) if isinstance(arguments,str) else arguments)
+    for row in original['rows']:
+        name=row['teacher_attempt'] if row['phase']=='replay' else 'recovery_training_v1'
+        candidates=[p for p in requests if p.parent.parent.name==f"{row['source_index']:03d}" and p.parents[2].name==name]
+        if len(candidates)!=1:raise ValueError('repair request not uniquely bound')
+        action_request=candidates[0];episode=action_request.parent.parent
+        public=read(episode/'inputs/public.json');teacher_text=(episode/'inputs/task.txt').read_text()
+        if row['phase']=='replay':
+            public_text=(study.prompt(public)+'\n\nContinue the existing student workspace. Use the public task and actual '
+                         'failed operations below to repair its latest program with the same execution tool. '
+                         'No reference answer is available.\n'+json.dumps({'student_actions':study.recent_actions(study.ROOT/'student'/f"{row['source_index']:03d}")},ensure_ascii=False))
+        else:
+            ep=next(x for x in read(episode.parent/'PLAN.json')['episodes'] if x['index']==row['source_index'])
+            public_text=study.recovery_prompt(public,study.recent_actions(Path(ep['source_folder'])))
+        projected=project_request(read(action_request),teacher_text,public_text)
+        reconstructed=tokens.encode_completion(projected,row['assistant'],tok,16384)
+        if any(reconstructed[k]!=row[k] for k in ['input_ids','labels']):
+            raise ValueError('reconstructed repair differs from the executed training row')
+        pair_id=name+'/'+str(row['source_index'])
+        repair=copy.deepcopy(row);repair.update(boundary_role='repair',pair_id=pair_id)
+        teacher_result=read(episode/'RESULT.json')
+        if not teacher_result['native_success']:raise ValueError('teacher did not complete the recovery')
+        receipts={r['request']:r for r in teacher_result['accounting']['requests']}
+        current=int(action_request.name.split('.')[0])
+        for request in sorted(action_request.parent.glob('*.request.json')):
+            index=int(request.name.split('.')[0])
+            if index<=current:continue
+            response=request.with_suffix('.response');receipt=receipts[index]
+            if sha(request)!=receipt['request_sha256'] or sha(response)!=receipt['response']['body_sha256']:
+                raise ValueError('closure wire binding changed')
+            if not receipt['response']['complete']:continue
+            stopped=any(c.get('finish_reason')=='stop'
+                        for line in response.read_bytes().splitlines()
+                        if line.startswith(b'data:') and line[5:].strip()!=b'[DONE]'
+                        for c in json.loads(line[5:]).get('choices',[]))
+            if not stopped:continue
+            assistant=sse_assistant(response.read_bytes())
+            if assistant['tool_calls'] or not assistant['content']:continue
+            final=project_request(read(request),teacher_text,public_text)
+            # OpenCode may merge calls and reserialize JSON arguments; the
+            # actual ID, function and argument object must still agree.
+            if not any(call_binding(call)==call_binding(row['assistant']['tool_calls'][0])
+                       for m in final['messages'] if m.get('role')=='assistant'
+                       for call in m.get('tool_calls') or []):
+                raise ValueError('closure does not follow the actual supervised repair: '+pair_id)
+            if not any(m.get('role')=='tool' for m in final['messages']):raise ValueError('closure has no execution feedback')
+            encoded=tokens.encode_completion(final,assistant,tok,16384,completion_kind='closure')
+            uniform=[float(t!=-100) for t in encoded['labels']]
+            closure=dict(**encoded,weights_by_arm={arm:list(uniform) for arm in row['weights_by_arm']},
+                         phase='closure',source_phase=row['phase'],boundary_role='closure',pair_id=pair_id,
+                         report=row['report'],source_index=row['source_index'],assistant=assistant,
+                         source_request=str(request),source_response=str(response),
+                         projection='actual post-repair teacher completion; privileged user task replaced, public execution retained')
+            rows.extend([repair,closure]);bindings[str(request)]=sha(request);bindings[str(response)]=sha(response)
+            diagnostics.append(dict(pair_id=pair_id,repair_tokens=row['supervised_tokens'],closure_tokens=encoded['supervised_tokens']))
+            break
+        else:raise ValueError('no linked actual teacher closure for '+pair_id)
+    if len(rows)!=22:raise ValueError('expected eleven linked repair/closure pairs')
+    target.mkdir(mode=0o700)
+    data=dict(rows=rows,sources=bindings,tokenizer=original['tokenizer'],diagnostics=diagnostics,
+              parent_data_sha256=sha(source/'DATA.json'),compiler_sha256=sha(Path(__file__)),
+              components={str(p):sha(p) for p in [Path(__file__),Path(tokens.__file__),Path(study.__file__)]},
+              scope='Same eleven TRAIN reports; closed-recovery candidate data, no training/effect claim; new evaluation reports excluded')
+    new(target/'DATA.json',data)
+    print(json.dumps(dict(rows=len(rows),pairs=len(diagnostics),diagnostics=diagnostics,data_sha256=sha(target/'DATA.json'))))
+
+
 def prepare_refinement():
     if REFINEMENT.exists():raise ValueError('refinement attempt already exists')
     folder=ROOT/'native_v1/recovery_training_v1'
@@ -316,7 +396,8 @@ def train(digest, root=None):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','train','prepare-refinement','train-refinement']);p.add_argument('--plan-sha');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','train','prepare-refinement','train-refinement','prepare-closed']);p.add_argument('--plan-sha');args=p.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='prepare-refinement':prepare_refinement()
+    elif args.mode=='prepare-closed':prepare_closed()
     else:train(args.plan_sha,REFINEMENT if args.mode=='train-refinement' else ROOT)
