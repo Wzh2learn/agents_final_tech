@@ -46,6 +46,22 @@ class FinQACorrectionTests(unittest.TestCase):
         self.assertFalse(invalid["program_valid"])
         self.assertFalse(invalid["execution_correct"])
 
+    def test_backslides_distinguish_wrong_equivalent_and_invalid_edits(self):
+        correct='add(10, 20), divide(#0, 100)'
+        rows=m.execution_backslides('add(10, 20), divide(#0, const_100)',correct,self.public,.3)
+        self.assertTrue(rows)
+        self.assertTrue(all(r['program_valid'] and not r['semantic_negative'] for r in rows))
+        rows=m.execution_backslides('add(10, 20), divide(#0, 0)',correct,self.public,.3)
+        self.assertTrue(any(not r['program_valid'] for r in rows))
+        rows=m.execution_backslides('add(10, 20), divide(#0, const_10)',correct,self.public,.3)
+        self.assertTrue(any(r['semantic_negative'] for r in rows))
+
+    def test_backslide_includes_missing_tail_and_rejects_wrong_teacher(self):
+        rows=m.execution_backslides('add(10, 20)','add(10, 20), divide(#0, const_10)',self.public,3)
+        self.assertTrue(any(r['kind']=='missing_tail' and r['semantic_negative'] for r in rows))
+        with self.assertRaises(ValueError):
+            m.execution_backslides('add(1, 2)','add(1, 3)',self.public,3)
+
     def test_reference_result_and_table_operation(self):
         result = m.grade("table_sum(revenue, none), divide(#0, const_10)", self.public, 3)
         self.assertTrue(result["execution_correct"])

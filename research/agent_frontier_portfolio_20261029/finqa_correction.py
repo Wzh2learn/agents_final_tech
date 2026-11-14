@@ -168,6 +168,46 @@ def correction_fields(before, after, module=None):
     return {"fields": sorted(fields), "fallback": None}
 
 
+def execution_backslides(before, after, public, gold_execution_answer, module=None):
+    """TRAIN-only single-edit interventions, classified by actual execution.
+
+    Text differences alone are not negative labels: equivalent and invalid
+    interventions remain distinguishable from executable wrong answers.
+    """
+    module=module or executor()
+    if not grade(after,public,gold_execution_answer,module)['execution_correct']:
+        raise ValueError('a successful teacher repair is required')
+    target=module.parse_program(after)
+    try:original=module.parse_program(before)
+    except module.ExecutorContractError:return []
+    mapping={}
+    for tag,a,b,c,d in SequenceMatcher(a=[s.op for s in original],b=[s.op for s in target],autojunk=False).get_opcodes():
+        if tag in ('equal','replace'):
+            mapping.update({new:old for old,new in zip(range(a,b),range(c,d))})
+    values=[[s.op,s.arg1,s.arg2] for s in target]
+    render=lambda rows:', '.join(f'{op}({a}, {b})' for op,a,b in rows)
+    candidates=[];seen={after}
+    for step in target:
+        if step.index not in mapping:
+            if step.index:
+                candidates.append(('missing_tail',f'{step.index}:tail',render(values[:step.index])))
+            continue
+        old=original[mapping[step.index]]
+        for field_index,field in enumerate(('op','arg1','arg2')):
+            if getattr(step,field)==getattr(old,field):continue
+            changed=[list(row) for row in values]
+            changed[step.index][field_index]=getattr(old,field)
+            candidates.append(('field',f'{step.index}:{field}',render(changed)))
+    result=[]
+    for kind,field,program in candidates:
+        if program in seen:continue
+        seen.add(program)
+        scored=grade(program,public,gold_execution_answer,module)
+        result.append(dict(kind=kind,field=field,program=program,**scored,
+                           semantic_negative=scored['program_valid'] and not scored['execution_correct']))
+    return result
+
+
 def field_token_weights(field_ids, selected, supervised, strength=2.0):
     """Preserve protocol/EOS weights exactly; redistribute only program fields."""
     if len(field_ids) != len(supervised) or strength < 0 or not any(supervised):

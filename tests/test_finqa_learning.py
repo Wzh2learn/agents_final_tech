@@ -53,5 +53,65 @@ class FinQALearningTests(unittest.TestCase):
         actual.backward()
         self.assertEqual(float(logits.grad[0,0].abs().sum()),0)
 
+    def test_pair_normalizations_distinguish_token_mass_from_decisions(self):
+        self.assertEqual(m.pair_coefficients(2,6,'token_mean'),[.25,.75])
+        self.assertEqual(m.pair_coefficients(2,6,'decision_mean'),[.5,.5])
+        self.assertEqual(m.pair_coefficients(2,6,'paired_mode'),[.5,.5])
+        self.assertEqual(m.pair_coefficients(2,12,'decision_mean'),[.5,.5])
+        for sizes in [(0,2),(True,2),(-1,2)]:
+            with self.assertRaises(ValueError):m.pair_coefficients(*sizes,'token_mean')
+
+    def test_edit_contrast_uses_shared_causal_prefix_and_opposite_gradients(self):
+        import torch
+        positive={'input_ids':[8,9,2,3,4], 'labels':[-100,-100,2,3,4], 'prompt_token_count':2}
+        negative={'input_ids':[8,9,2,5,4], 'labels':[-100,-100,2,5,4], 'prompt_token_count':2}
+        point=m.first_edit_decision(positive,negative)
+        self.assertEqual(point,{'target_position':3,'good_token':3,'bad_token':5})
+        logits=torch.zeros(1,5,10,requires_grad=True)
+        loss=m.edit_contrast_loss(logits,[point],1.)
+        loss.backward()
+        self.assertLess(float(logits.grad[0,2,3]),0)
+        self.assertGreater(float(logits.grad[0,2,5]),0)
+        self.assertEqual(float(logits.grad[0,3:].abs().sum()),0)
+        self.assertEqual(float(logits.grad[0,:2].abs().sum()),0)
+        expected=torch.nn.functional.cross_entropy(logits[0,2:3],torch.tensor([3]))
+        self.assertTrue(torch.allclose(m.edit_contrast_loss(logits,[point],1.,positive_only=True),expected))
+        negative['input_ids'][0]=7
+        with self.assertRaises(ValueError):m.first_edit_decision(positive,negative)
+
+    def test_paired_mode_only_differentiates_after_state_and_matches_native_branch_odds(self):
+        import torch
+        before=torch.tensor(1.,requires_grad=True)
+        logits=torch.tensor([[[0.,1.,2.],[10.,-10.,0.]]],requires_grad=True)
+        after=m.tool_log_odds(logits,1,2)
+        self.assertTrue(torch.allclose(after,torch.tensor(2.)-torch.logsumexp(torch.tensor([0.,1.]),0)))
+        loss=m.paired_mode_loss(before,after,1.)
+        loss.backward()
+        self.assertIsNone(before.grad)
+        self.assertEqual(float(logits.grad[0,1].abs().sum()),0)
+        self.assertGreater(float(logits.grad[0,0,2]),0)
+        self.assertLess(float(m.paired_mode_loss(torch.tensor(1.),torch.tensor(-3.),1.)),float(loss.detach()))
+
+    def test_sequential_pair_gradient_equals_joint_token_mean_ce(self):
+        import torch
+        import torch.nn.functional as F
+        theta=torch.tensor([.2,-.3,.7],requires_grad=True)
+        targets=[torch.tensor([[-100,0,1]]),torch.tensor([[-100,2,0,1,2]])]
+        for scale,y,c in zip([1.,2.],targets,m.pair_coefficients(2,4,'token_mean')):
+            logits=(theta*scale).view(1,1,3).expand(1,y.shape[1],3)
+            (c*m.weighted_loss(logits,y,(y!=-100).float())).backward()
+        reference=theta.detach().clone().requires_grad_()
+        logits=torch.cat([reference.view(1,3).expand(2,3),(reference*2).view(1,3).expand(4,3)])
+        F.cross_entropy(logits,torch.tensor([0,1,2,0,1,2])).backward()
+        self.assertTrue(torch.allclose(theta.grad,reference.grad,atol=1e-6))
+
+    def test_only_exact_bounded_deadline_can_continue_to_next_task(self):
+        import run_finqa_learning_native as native
+        timed={'uncertain_partial_sends':0,'failures':[{'type':'TimeoutError','message':'episode deadline'}]}
+        self.assertTrue(native.expected_episode_deadline(timed))
+        for bad in [{**timed,'uncertain_partial_sends':1},{**timed,'failures':[{'type':'OSError','message':'connection refused'}]},
+                    {**timed,'failures':[{'type':'TimeoutError','message':'unclassified'}]}, {'uncertain_partial_sends':0,'failures':[]}]:
+            with self.subTest(accounting=bad):self.assertFalse(native.expected_episode_deadline(bad))
+
 
 if __name__=='__main__':unittest.main()

@@ -24,6 +24,7 @@ from scripts.graph.research_gpu_guard import acquire_gpu_lease
 
 OUT=learning.ROOT/'native_v1'
 REVIEW=learning.REFINEMENT/'native_v1'
+PAIRED_REVIEW=learning.PAIRED/'native_v1'
 CONVERTER=study.PRIVATE/'tools/llama_cpp/954de248ac6907dd05dc19f0f511ab18f2807a54/convert_lora_to_gguf.py'
 CONFIG=study.PRIVATE/'alfworld_text_qualification_20261106/context_study_v1/learning_comparison_v1/gguf_conversion_v1/recovery_v4/BASE_CONFIG_ONLY'
 ARMS=['frozen','uniform_recovery','operand_repair']
@@ -148,44 +149,102 @@ def stop_server(process,log):
     if allocation is not None:allocation.close()
 
 
-def run(digest):
-    if sha(OUT/'PLAN.json')!=digest or (OUT/'LIVE.json').exists():raise ValueError('native plan/attempt')
-    plan=read(OUT/'PLAN.json')
-    assert sha(learning.ROOT/'RESULT.json')==plan['training_result_sha256']
+def expected_episode_deadline(accounting):
+    failures=accounting.get('failures',[])
+    return (accounting.get('uncertain_partial_sends')==0 and bool(failures)
+            and all(f.get('type')=='TimeoutError' and f.get('message')=='episode deadline' for f in failures))
+
+
+def run(digest,out=None):
+    output=OUT if out is None else Path(out)
+    if sha(output/'PLAN.json')!=digest or (output/'LIVE.json').exists():raise ValueError('native plan/attempt')
+    plan=read(output/'PLAN.json');training=Path(plan.get('training_root',str(learning.ROOT)))
+    if 'training_result_sha256' in plan:assert sha(training/'RESULT.json')==plan['training_result_sha256']
+    if 'training_plan_sha256' in plan:assert sha(training/'PLAN.json')==plan['training_plan_sha256']
+    if 'required_training_status' in plan:assert read(training/'RESULT.json')['status']==plan['required_training_status']
+    if 'private_labels_sha256' in plan:assert sha(output/'LABELS_PRIVATE.json')==plan['private_labels_sha256']
+    for source in plan.get('source_episodes',[]):
+        folder=Path(source['folder'])
+        assert sha(folder/'RESULT.json')==source['result_sha256']
+        assert study.core.tree(folder/'work')==source['work_tree']
     assert sha(plan['converter'])==plan['converter_sha256']
     assert sha(plan['server'])==plan['server_sha256']
     assert sha(plan['parent'])==plan['parent_sha256']
     for name,value in plan['components'].items():
         if sha(name)!=value:raise ValueError('native component changed: '+name)
-    state=dict(status='RUNNING',pid=os.getpid(),episodes=[],plan_sha256=digest,owned_model_stopped=True)
-    started=time.monotonic();study.publish(OUT/'LIVE.json',state)
+    state=dict(status='RUNNING',pid=os.getpid(),episodes=[],plan_sha256=digest,owned_model_stopped=True,
+               training_result_sha256=sha(training/'RESULT.json'))
+    started=time.monotonic();study.publish(output/'LIVE.json',state)
     try:
         with study.core.resource_lock():
             h=study.core.helpers();runtime=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
             for arm in plan['arm_order']:
-                lora=convert(plan,arm);process=None;log=None
+                lora=convert(plan,arm,output);process=None;log=None
                 try:
-                    process,log=start_server(plan,arm,lora);state['owned_model_stopped']=False
+                    process,log=start_server(plan,arm,lora,output);state['owned_model_stopped']=False
                     for ep in plan['episodes']:
                         if ep['arm']!=arm:continue
                         folder=Path(ep['folder'])
                         assert sha(folder/'inputs/public.json')==ep['public_sha256']
                         assert sha(folder/'inputs/task.txt')==ep['task_sha256']
-                        result=study.episode(ep,h,runtime,study.MODEL,private_labels=OUT/'LABELS_PRIVATE.json')
+                        result=study.episode(ep,h,runtime,study.MODEL,private_labels=output/'LABELS_PRIVATE.json')
                         result['arm']=arm;state['episodes'].append(result)
-                        study.publish(OUT/'LIVE.json',state)
+                        study.publish(output/'LIVE.json',state)
                         print(json.dumps(dict(arm=arm,index=ep['index'],correct=result['execution_correct'],
                                               posts=result['accounting']['actual_forwarded_posts'])),flush=True)
-                        if not result['accounting']['integrity_passed']:raise RuntimeError('native interface integrity')
+                        if not result['accounting']['integrity_passed']:
+                            if plan.get('episode_deadline_is_bounded_failure') and expected_episode_deadline(result['accounting']):
+                                result['bounded_episode_deadline']=True;study.publish(output/'LIVE.json',state)
+                            else:raise RuntimeError('native interface integrity')
                 finally:
                     if process is not None:stop_server(process,log)
-                    state['owned_model_stopped']=True;study.publish(OUT/'LIVE.json',state)
-            state['status']='NATIVE_DEVELOPMENT_BATCH_RETURNED'
+                    state['owned_model_stopped']=True;study.publish(output/'LIVE.json',state)
+            state['status']=plan.get('terminal_status','NATIVE_DEVELOPMENT_BATCH_RETURNED')
     except BaseException:
         state.update(status='FAILED',error=traceback.format_exc());raise
     finally:
         state['seconds']=time.monotonic()-started
-        study.publish(OUT/'LIVE.json',state);study.new(OUT/'RESULT.json',state)
+        study.publish(output/'LIVE.json',state);study.new(output/'RESULT.json',state)
+
+
+def prepare_paired_review():
+    """Reuse all four actual first-pass states, without regenerating or filtering."""
+    target=PAIRED_REVIEW
+    if target.exists():raise ValueError('paired review attempt already exists')
+    parent=learning.ROOT/'refinement_v2/native_v1'
+    original=read(parent/'PLAN.json');source=read(parent/'RESULT.json')['source']
+    if len(source)!=4:raise ValueError('complete common first-pass source required')
+    arms=list(read(learning.PAIRED/'PLAN.json')['arms']);random.Random(17).shuffle(arms)
+    target.mkdir(mode=0o700);shutil.copyfile(parent/'LABELS_PRIVATE.json',target/'LABELS_PRIVATE.json')
+    episodes=[];sources=[]
+    for ep in original['source_episodes']:
+        folder=Path(ep['folder']);study.core.tree(folder/'work')
+        text=study.recovery_prompt(read(folder/'inputs/public.json'),study.recent_actions(folder))
+        if text!=(parent/'ordinary_review'/f"{ep['index']:03d}"/'inputs/task.txt').read_text():
+            raise ValueError('the fixed public review packet changed')
+        sources.append(dict(ep,result_sha256=sha(folder/'RESULT.json'),work_tree=study.core.tree(folder/'work')))
+        for arm in arms:
+            output=target/arm/f"{ep['index']:03d}";output.mkdir(parents=True)
+            shutil.copytree(folder/'inputs',output/'inputs');shutil.copytree(folder/'work',output/'work')
+            (output/'dependencies').mkdir();(output/'inputs/task.txt').write_text(text)
+            episodes.append(dict(ep,arm=arm,folder=str(output),task_sha256=sha(output/'inputs/task.txt'),
+                                 source_result_sha256=sha(folder/'RESULT.json')))
+    plan=dict(schema='finqa_paired_decision_native_review_v1',episodes=episodes,arm_order=arms,arms=arms,
+              training_root=str(learning.PAIRED),training_plan_sha256=sha(learning.PAIRED/'PLAN.json'),
+              required_training_status='TRAINED_PAIRED_DECISION_ARMS',terminal_status='FINQA_PAIRED_REVIEW_RETURNED',
+              parent_review_plan_sha256=sha(parent/'PLAN.json'),source_episodes=sources,
+              private_labels_sha256=sha(target/'LABELS_PRIVATE.json'),caps=study.CAPS,max_posts=4*len(arms)*study.CAPS['posts'],
+              converter=str(CONVERTER),converter_sha256=sha(CONVERTER),base_config=str(CONFIG),
+              parent=str(study.PARENT),parent_sha256=original['parent_sha256'],server=str(study.SERVER),server_sha256=sha(study.SERVER),
+              components={str(p):sha(p) for p in [Path(__file__),Path(study.__file__),Path(task.__file__),Path(study.core.__file__)]},
+              episode_deadline_is_bounded_failure=True,local_unknown_usage_reserve_per_request=32768,
+              scope='Post-hoc development regression on the same four exposed reports; no independent confirmation claim',
+              comparison='Same real first-pass workspaces, public review requests, actor, model, caps and private scoring labels; adapter training objective differs',
+              accounting='Charge the previously executed common first pass when reporting whole-agent cost; do not bill it twice as a new physical run')
+    new=study.new;new(target/'PLAN.json',plan)
+    snapshot=target/'executed_sources';snapshot.mkdir()
+    for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(target/'PLAN.json'),episodes=len(episodes),arm_order=arms,max_posts=plan['max_posts'])))
 
 
 def prepare_strong():
@@ -398,7 +457,7 @@ def run_review(digest):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review']);p.add_argument('--count',type=int,default=4)
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review']);p.add_argument('--count',type=int,default=4)
     p.add_argument('--plan-sha');a=p.parse_args()
     if a.mode=='prepare':prepare(a.count)
     elif a.mode=='prepare-strong':prepare_strong()
@@ -407,4 +466,6 @@ if __name__=='__main__':
     elif a.mode=='recover':run_strong(a.plan_sha,'recovery_training_v1')
     elif a.mode=='prepare-review':prepare_review(a.count)
     elif a.mode=='review':run_review(a.plan_sha)
+    elif a.mode=='prepare-paired-review':prepare_paired_review()
+    elif a.mode=='paired-review':run(a.plan_sha,PAIRED_REVIEW)
     else:run(a.plan_sha)

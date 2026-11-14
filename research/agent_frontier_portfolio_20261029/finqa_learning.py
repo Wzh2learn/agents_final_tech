@@ -24,6 +24,7 @@ import alfworld_supervision_tokens as tokens
 
 ROOT=study.ROOT/'learning_v1'
 REFINEMENT=ROOT/'refinement_v1'
+PAIRED=ROOT/'closed_recovery_v1'
 MODEL=Path('/home/testuser/wzh/models/hf/Qwen3-8B')
 
 
@@ -168,6 +169,92 @@ def weighted_loss(logits,labels,weights):
     scores=logits[:,:-1,:].float();target=labels[:,1:];mass=weights[:,1:]
     losses=F.cross_entropy(scores.reshape(-1,scores.shape[-1]),target.reshape(-1),ignore_index=-100,reduction='none')
     return (losses.reshape_as(target)*mass).sum()/mass.sum()
+
+
+def pair_coefficients(repair_tokens,closure_tokens,objective):
+    if any(type(n) is not int or n<=0 for n in [repair_tokens,closure_tokens]):raise ValueError('positive target lengths required')
+    if objective=='token_mean':
+        total=repair_tokens+closure_tokens;return [repair_tokens/total,closure_tokens/total]
+    if objective in ('decision_mean','paired_mode'):return [.5,.5]
+    raise ValueError('unknown paired objective')
+
+
+def tool_log_odds(logits,prompt_tokens,tool_token_id):
+    import torch
+    scores=logits[0,prompt_tokens-1,:].float()
+    others=torch.cat((scores[:tool_token_id],scores[tool_token_id+1:]))
+    return scores[tool_token_id]-torch.logsumexp(others,dim=0)
+
+
+def paired_mode_loss(before,after,margin):
+    """One-sided calibration: the pre-update repair state's odds are detached.
+
+    Sequential backward passes need no second retained activation graph.
+    This is an asymmetric auxiliary objective, not a symmetric contrast loss.
+    """
+    import torch.nn.functional as F
+    return F.softplus(margin+after-before.detach())
+
+
+def first_edit_decision(positive,negative):
+    """Return a contrast only where both completions share the causal prefix."""
+    a,b=positive['input_ids'],negative['input_ids'];start=positive['prompt_token_count']
+    if start!=negative['prompt_token_count'] or a[:start]!=b[:start]:
+        raise ValueError('counterfactual prompt differs')
+    for at,(good,bad) in enumerate(zip(a,b)):
+        if good==bad:continue
+        if at<start or positive['labels'][at]!=good or negative['labels'][at]!=bad:
+            raise ValueError('edit is outside verified supervised completion')
+        return dict(target_position=at,good_token=good,bad_token=bad)
+    raise ValueError('no contrasted supervised decision')
+
+
+def edit_contrast_loss(logits,decisions,margin,positive_only=False):
+    """Pairwise token margin at verified shared prefixes; no negative forward."""
+    import torch
+    import torch.nn.functional as F
+    points=sorted({(d['target_position'],d['good_token'],d['bad_token']) for d in decisions})
+    if not points:return logits[0,0,0]*0
+    losses=[]
+    for position,good,bad in points:
+        if not 1<=position<logits.shape[1] or not 0<=good<logits.shape[-1] or not 0<=bad<logits.shape[-1] or good==bad:
+            raise ValueError('invalid edit contrast')
+        scores=logits[0,position-1].float()
+        losses.append(-F.log_softmax(scores,dim=-1)[good] if positive_only else F.softplus(margin+scores[bad]-scores[good]))
+    return torch.stack(losses).mean()
+
+
+def prepare_paired():
+    if (PAIRED/'PLAN.json').exists():raise ValueError('paired attempt already frozen')
+    data=read(PAIRED/'DATA.json');rows=data['rows'];pairs=[]
+    for i in range(0,len(rows),2):
+        repair,closure=rows[i:i+2]
+        if repair['boundary_role']!='repair' or closure['boundary_role']!='closure' or repair['pair_id']!=closure['pair_id']:
+            raise ValueError('actual repair/closure pairing differs')
+        pairs.append([i,i+1])
+    if len(pairs)!=11 or len({r['report'] for r in rows})!=11:raise ValueError('eleven source pairs required')
+    tok=tokens.load_tokenizer(MODEL);tool_id=tok.encode('<tool_call>',add_special_tokens=False)
+    if len(tool_id)!=1:raise ValueError('native tool branch is not a single token')
+    tool_id=tool_id[0]
+    for a,b in pairs:
+        if next(t for t in rows[a]['labels'] if t!=-100)!=tool_id or next(t for t in rows[b]['labels'] if t!=-100)==tool_id:
+            raise ValueError('native branch targets differ from the paired roles')
+    parent=read(ROOT/'refinement_v2/PLAN.json');warm=Path(parent['warm_start'])
+    for name,digest in parent['warm_files'].items():
+        if sha(warm/name)!=digest:raise ValueError('shared warm start changed')
+    plan=dict(schema='finqa_paired_decision_learning_v1',model_path=str(MODEL),data_sha256=sha(PAIRED/'DATA.json'),
+              seed=17,arms=['token_mean','decision_mean','paired_mode'],updates_per_arm=32,
+              paired_rows=pairs,schedule=parent['schedule'],learning_rate=2e-4,rank=8,alpha=16,wall_seconds=3600,
+              warm_start=str(warm),warm_files=parent['warm_files'],resource_lock=str(study.core.LOCK),
+              tool_token_id=tool_id,mode_margin=1.,mode_weight=.1,expected_forward_calls=192,
+              components={str(p):sha(p) for p in [Path(__file__),Path(task.__file__),Path(tokens.__file__),Path(study.__file__),HERE.parents[1]/'scripts/graph/research_gpu_guard.py']},
+              comparison='Identical 22 rows, pair schedule, warm start, 32 updates and 64 sequential forwards per arm; only loss changes. Paired-mode adds asymmetric post-execution branch calibration to decision-mean CE.',
+              scope='Eleven TRAIN sources, 0 new formation. Previous four review reports remain development regression only.',
+              deployment='Unchanged native OpenCode reviewer, no branch threshold or hidden-answer trigger at deployment')
+    new(PAIRED/'PLAN.json',plan)
+    snapshot=PAIRED/'training_sources';snapshot.mkdir()
+    for name in plan['components']:(snapshot/Path(name).name).write_bytes(Path(name).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(PAIRED/'PLAN.json'),pairs=len(pairs),arms=plan['arms'],updates=96,forwards=192)))
 
 
 def prepare_closed():
@@ -338,8 +425,14 @@ def train(digest, root=None):
     for path,value in plan['components'].items():
         if sha(path)!=value:raise ValueError('training component changed')
     rows=read(root/'DATA.json')['rows'];started=time.monotonic()
+    inherited=copy.deepcopy(plan.get('inherited_arms',{}))
+    if set(inherited)&set(plan['arms']):raise ValueError('inherited arm cannot be retrained')
+    for arm,item in inherited.items():
+        for name,value in item['adapter_files'].items():
+            if sha(root/arm/name)!=value:raise ValueError('inherited adapter changed')
     state=dict(status='RUNNING',pid=__import__('os').getpid(),optimizer_updates=0,forward_calls=0,
-               training_sequence_tokens=0,supervised_tokens=0,arms={},http_model_requests=0)
+               training_sequence_tokens=0,supervised_tokens=0,arms=inherited,http_model_requests=0,
+               inherited_arm_names=list(inherited))
     model=None
     try:
         with gpu_lease(), Path(plan['resource_lock']).open('r+') as lease:
@@ -365,29 +458,50 @@ def train(digest, root=None):
                     for name,param in model.named_parameters():
                         if name in initial:param.copy_(initial[name])
                 optimizer=torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],lr=plan['learning_rate'])
-                model.train();losses=[];arm_start=time.monotonic()
+                model.train();losses=[];mode_diagnostics=[];edit_diagnostics=[];arm_start=time.monotonic()
                 for update in range(plan['updates_per_arm']):
                     if time.monotonic()-started>plan['wall_seconds']:raise TimeoutError('finite training wall cap')
-                    row=rows[plan['schedule'][update] if 'schedule' in plan else update%len(rows)]
-                    x=torch.tensor([row['input_ids']],device='cuda');y=torch.tensor([row['labels']],device='cuda')
-                    weights=(row['weights_by_arm'][arm] if 'weights_by_arm' in row else
-                             row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']])
-                    w=torch.tensor([weights],device='cuda')
+                    index=plan['schedule'][update] if 'schedule' in plan else update%len(rows)
+                    batch=[rows[i] for i in plan['paired_rows'][index]] if plan.get('paired_rows') else [rows[index]]
+                    coefficients=pair_coefficients(*(r['supervised_tokens'] for r in batch),plan.get('pair_objective',arm)) if plan.get('paired_rows') else [1.]
                     optimizer.zero_grad(set_to_none=True)
-                    value=weighted_loss(model(input_ids=x,use_cache=False).logits,y,w)
-                    if not torch.isfinite(value):raise ValueError('nonfinite loss')
-                    value.backward();torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],1.)
-                    optimizer.step();losses.append(float(value.detach()))
-                    state['optimizer_updates']+=1;state['forward_calls']+=1
-                    state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
+                    total=0.;odds_values=[];before=None;auxiliary=0.
+                    for at,(row,coefficient) in enumerate(zip(batch,coefficients)):
+                        x=torch.tensor([row['input_ids']],device='cuda');y=torch.tensor([row['labels']],device='cuda')
+                        weights=([float(t!=-100) for t in row['labels']] if plan.get('paired_rows') else
+                                 row['weights_by_arm'][arm] if 'weights_by_arm' in row else
+                                 row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']])
+                        w=torch.tensor([weights],device='cuda');logits=model(input_ids=x,use_cache=False).logits
+                        value=coefficient*weighted_loss(logits,y,w)
+                        decisions=row.get('edit_contrasts',{}).get(arm,[])
+                        if decisions:
+                            contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],positive_only=arm=='edit_positive')
+                            edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach())))
+                            value=value+plan['edit_weight']*contrast
+                            del contrast
+                        if plan.get('paired_rows'):
+                            odds=tool_log_odds(logits,row['prompt_token_count'],plan['tool_token_id'])
+                            odds_values.append(float(odds.detach()))
+                            if at==0:before=odds.detach()
+                            elif arm=='paired_mode':
+                                penalty=paired_mode_loss(before,odds,plan['mode_margin'])
+                                auxiliary=float(penalty.detach());value=value+plan['mode_weight']*penalty
+                            del odds
+                        if not torch.isfinite(value):raise ValueError('nonfinite loss')
+                        total+=float(value.detach());value.backward()
+                        state['forward_calls']+=1;state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
+                        del x,y,w,value,logits
+                        if at==1 and arm=='paired_mode':del penalty
+                    torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],1.)
+                    optimizer.step();losses.append(total);state['optimizer_updates']+=1
+                    if odds_values:mode_diagnostics.append(dict(before=odds_values[0],after=odds_values[1],auxiliary=auxiliary))
                     study.publish(root/'LIVE.json',state)
-                    del x,y,w,value
                 output=root/arm;model.save_pretrained(output)
-                state['arms'][arm]=dict(updates=len(losses),losses=losses,seconds=time.monotonic()-arm_start,
+                state['arms'][arm]=dict(updates=len(losses),losses=losses,mode_diagnostics=mode_diagnostics,edit_diagnostics=edit_diagnostics,seconds=time.monotonic()-arm_start,
                                        adapter_files={p.name:sha(p) for p in output.iterdir() if p.is_file()})
                 del optimizer;gc.collect();torch.cuda.empty_cache()
                 study.publish(root/'LIVE.json',state)
-            state['status']='TRAINED_REFINEMENT_ARMS' if plan.get('warm_start') else 'TRAINED_TWO_DEVELOPMENT_ARMS'
+            state['status']=plan.get('terminal_status') or ('TRAINED_PAIRED_DECISION_ARMS' if plan.get('paired_rows') else 'TRAINED_REFINEMENT_ARMS' if plan.get('warm_start') else 'TRAINED_TWO_DEVELOPMENT_ARMS')
     except BaseException:
         state.update(status='FAILED',error=traceback.format_exc());raise
     finally:
@@ -396,8 +510,9 @@ def train(digest, root=None):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','train','prepare-refinement','train-refinement','prepare-closed']);p.add_argument('--plan-sha');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','train','prepare-refinement','train-refinement','prepare-closed','prepare-paired','train-paired']);p.add_argument('--plan-sha');args=p.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='prepare-refinement':prepare_refinement()
     elif args.mode=='prepare-closed':prepare_closed()
-    else:train(args.plan_sha,REFINEMENT if args.mode=='train-refinement' else ROOT)
+    elif args.mode=='prepare-paired':prepare_paired()
+    else:train(args.plan_sha,PAIRED if args.mode=='train-paired' else REFINEMENT if args.mode=='train-refinement' else ROOT)
