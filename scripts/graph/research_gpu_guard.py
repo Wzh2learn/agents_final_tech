@@ -57,7 +57,8 @@ def container_info(identity):
     except subprocess.TimeoutExpired as exc:
         raise RuntimeError('Docker state timed out; keep the GPU lease held') from exc
     if result.returncode:
-        if 'No such object' in result.stderr or 'No such container' in result.stderr:return None
+        error=result.stderr.lower()
+        if 'no such object' in error or 'no such container' in error:return None
         raise RuntimeError('Docker state unavailable; keep the GPU lease held')
     cid,image,running=result.stdout.strip().splitlines()
     return dict(id=cid,image=image,running=running=='true')

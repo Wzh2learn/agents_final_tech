@@ -13,7 +13,7 @@
 | 来源与参考资格 | 历史代码与客服按[知识索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)保留。新增Astropy14182仅CPU控制完成，Matplotlib25079收集警告未解，无Agent/训练；不作金融主线前置。 |
 | 成本及运行器 | 校内累计5,005POST/50,865,083已知＋2,621,440未知预留；本轮盲基线8POST/34,717。FinQA本地261POST/1,164,822已知＋1未知（32,768预留）；新训练96更新，原88中断不抹除；运维另账。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 本轮全部进程终态，GPU研究服务已卸载；原17组含1个期限失败，剩余3个预选任务单独收齐、未重跑失败题。同步代码/原始回执索引及闭合结果；其他对话Paper E/开题WIP、LoopB/历史worktree保留。 |
+| 工作区与分享 | 12组开发评估已返回，结果待对账。GB10基础服务在线，单驻留27B＋内存守护；下轮训练先卸载。其他对话Paper E/开题WIP、LoopB/历史worktree保留。 |
 | 文档与 skill 存量 | 机制知识和现役入口已收敛；本次仅只读doctor/map，不安装/分发新skill。既有WIP缺陷与历史warning单列；不让存量全库治理阻塞后续机制研究。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 

@@ -51,6 +51,16 @@ class GPUWeightsLeaseTests(unittest.TestCase):
         with patch.object(m.subprocess,'run',side_effect=subprocess.TimeoutExpired('docker',8)):
             with self.assertRaisesRegex(RuntimeError,'lease held'):m.container_info('original-id')
 
+    def test_missing_container_is_recognized_with_lowercase_docker_error(self):
+        result=SimpleNamespace(returncode=1,stdout='\n',stderr='error: no such object: research-qwen27b-current\n')
+        with patch.object(m.subprocess,'run',return_value=result):
+            self.assertIsNone(m.container_info('research-qwen27b-current'))
+
+    def test_other_docker_errors_keep_the_lease(self):
+        result=SimpleNamespace(returncode=1,stdout='',stderr='permission denied while connecting to Docker')
+        with patch.object(m.subprocess,'run',return_value=result):
+            with self.assertRaisesRegex(RuntimeError,'lease held'):m.container_info('original-id')
+
     def test_stop_timeout_keeps_lease_until_stop_succeeds(self):
         with tempfile.TemporaryDirectory() as folder,patch.object(m,'available_gib',return_value=80):
             root=Path(folder);lock=root/'gpu.lock';output=root/'state.json'

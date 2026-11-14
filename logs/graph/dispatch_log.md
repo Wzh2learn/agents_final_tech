@@ -1557,3 +1557,5 @@ echo dispatch_log updated
 [2026-11-15] GB10重启恢复：Docker/PG、OpenCode→单驻留27B；35B按需停用，GPU权重互斥及32GiB余量守护；19项定点测试通过。校内运维1POST/24tokens、本地OpenCode运维17,847tokens另账；原训练88/96中断，Goal paused、无补训/复查 → 本次服务恢复提交
 
 [2026-11-15] Goal恢复：FinQA三组96更新＋20组原生开发复查闭合（局部期限失败保留、只收齐3个未跑预选题）；校内DeepSeek同题盲基线3/4，8POST/34,717tokens。字段权重无新增正确题，回收11对真实纠正/执行后收尾，22行/2,082监督tokens、0新形成；47 tests＋19 subtests通过，下一同数据token均值/决策均值比较 → 本次研究提交
+
+[2026-11-15] 按用户要求恢复必要服务：Docker/PG/OpenCode已在线，研究评估结束后恢复单驻留27B；32K/单并发/4GiB KV、启动前权重锁和32GiB守护。修复Docker小写缺失容器误判，GB10定点7项通过；OpenCode禁工具回复OK，本地运维18,981tokens，校内0新调用、TLS已通但本轮未认证 → 本次服务恢复提交

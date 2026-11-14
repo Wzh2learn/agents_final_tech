@@ -9,15 +9,17 @@
 | :5050 | FastAPI 主 harness (main:app, uvicorn workers=2) | M1 解析 / M2 RAG 问答 / UI (/m1) |
 | :8004 | llama-server Qwen3.6-35B-A3B + mmproj | 按需停用；需视觉/35B时先卸载驻留27B |
 | :8005 | RETIRED (Qwen3-14B, 08-17 退位) | Loop B 断言 down; 权重保留 |
-| :8006 | vLLM Qwen3.8-27B-FP8（研究别名） | 恢复配置：loopback，32K/单并发/4GiB KV；研究训练时卸载，当前是否驻留查私有*_current.json |
+| :8006 | vLLM Qwen3.8-27B-FP8（研究别名） | 11-15用户要求恢复驻留：loopback，32K/单并发/4GiB KV；下轮训练先卸载，当前实况查私有*_current.json |
 | :4096 | OpenCode 1.18.3（scripts/sidecar_launch.sh） | 默认/小模型均gb10v/qwen38-27b-fp8→:8006；禁工具实际回复OK已核验 |
 | :8100 | responses2chat proxy v2 | Responses API → Chat API（Chat-only 模型用） |
 | :15432 | PostgreSQL + PGVector (docker) | 已运行，pg_isready通过；未变更库或数据 |
 | :8090 | ZhikunCode (docker) | Multi-Agent 平台，可选扩展面 |
 
-本次只恢复必要研究环境，未探测/启动:5050、:8005、72B或历史可选容器；未新增开机自启。校园网络登录由既有bupt-login.service管理。校内DeepSeek入口单次24tokens检查通过，凭证不落库。
+本次只恢复必要研究环境，未探测/启动:5050、:8005、72B或历史可选容器；未新增开机自启。校园网络登录由既有bupt-login.service管理。校内DeepSeek历史24tokens检查保留；本轮TLS通达、未认证查询返回401，当前进程未驻留凭证，未新增校内模型调用。
 
 内存保护：research_gpu_guard.py持有~/wzh/.gpu_lock，3秒检查MemAvailable，低于32GiB只停止其持有的不可变研究容器ID；Docker状态超时或停止失败继续持锁重试。FinQA权重加载器也取同锁，加载前至少48GiB可用。RPC使用另一个任务锁；训练/换模必须先卸载驻留模型。当前运行身份与日志在私有research_services/*_current.json；不是全机或任意手工进程的绝对OOM保证。
+
+11-15追加恢复：监督从启动前持有权重锁，修复Docker小写“no such object”导致的误判；GB10守护定点检查7项通过。Docker/PG、OpenCode及CUDA环境均实测可用；OpenCode→27B禁工具回复OK，本次运维18,981tokens另账。运行证据保存在私有research_services/restore_1794684466/。
 
 ## 历史 CLI 路由（2026-10-09，不代表当前宿主子Agent）
 
