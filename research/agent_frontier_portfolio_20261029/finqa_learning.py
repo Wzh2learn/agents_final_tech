@@ -251,6 +251,7 @@ def train(digest, root=None):
     import torch
     from transformers import AutoModelForCausalLM
     from peft import LoraConfig,get_peft_model,PeftModel
+    from scripts.graph.research_gpu_guard import gpu_lease
     root=ROOT if root is None else Path(root)
     if sha(root/'PLAN.json')!=digest or (root/'LIVE.json').exists():raise ValueError('training plan/attempt')
     plan=read(root/'PLAN.json');assert sha(root/'DATA.json')==plan['data_sha256']
@@ -261,7 +262,7 @@ def train(digest, root=None):
                training_sequence_tokens=0,supervised_tokens=0,arms={},http_model_requests=0)
     model=None
     try:
-        with Path(plan['resource_lock']).open('r+') as lease:
+        with gpu_lease(), Path(plan['resource_lock']).open('r+') as lease:
             fcntl.flock(lease,fcntl.LOCK_EX|fcntl.LOCK_NB)
             torch.manual_seed(plan['seed'])
             study.publish(root/'LIVE.json',state)

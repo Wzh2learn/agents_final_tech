@@ -1,6 +1,6 @@
 {
  "$schema": "https://opencode.ai/config.json",
- "model": "gb10/qwen3.6-35b-a3b",
+ "model": "gb10v/qwen38-27b-fp8",
  "provider": {
   "gb10": {
    "npm": "@ai-sdk/openai-compatible",
@@ -21,7 +21,7 @@
    "name": "Local GB10 vLLM (Qwen3.8-27B-FP8)",
    "options": {
     "apiKey": "local",
-    "baseURL": "http://127.0.0.1:8008/v1",
+    "baseURL": "http://127.0.0.1:8006/v1",
     "timeout": 600000
    },
    "models": {
@@ -157,5 +157,6 @@
   "paths": [
    "skills"
   ]
- }
+ },
+ "small_model": "gb10v/qwen38-27b-fp8"
 }

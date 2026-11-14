@@ -20,6 +20,7 @@ sys.path[:0]=[str(HERE),str(HERE.parents[1])]
 import finqa_learning as learning
 import finqa_correction as task
 import run_finqa_correction as study
+from scripts.graph.research_gpu_guard import acquire_gpu_lease
 
 OUT=learning.ROOT/'native_v1'
 REVIEW=learning.REFINEMENT/'native_v1'
@@ -104,6 +105,13 @@ def convert(plan,arm,output_root=None):
 
 
 def start_server(plan,arm,lora,output_root=None):
+    allocation=acquire_gpu_lease()
+    try:return _start_server_with_lease(plan,arm,lora,output_root,allocation)
+    except BaseException:
+        allocation.close();raise
+
+
+def _start_server_with_lease(plan,arm,lora,output_root,allocation):
     output=OUT if output_root is None else Path(output_root)
     with socket.socket() as sock:
         sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1);sock.bind(('127.0.0.1',18104))
@@ -112,6 +120,7 @@ def start_server(plan,arm,lora,output_root=None):
           '-c','32768','-n','8192','-np','1','--no-context-shift','--jinja','-ngl','999','--no-mmap']
     if lora is not None:argv+=['--lora',str(lora)]
     process=subprocess.Popen(argv,stdout=log,stderr=subprocess.STDOUT)
+    process.gpu_weights_lease=allocation
     proof=dict(pid=process.pid,start_ticks=Path(f'/proc/{process.pid}/stat').read_text().split()[21],argv=argv,health_gets=0)
     try:
         for _ in range(120):
@@ -135,6 +144,8 @@ def stop_server(process,log):
         try:process.wait(timeout=20)
         except subprocess.TimeoutExpired:process.kill();process.wait()
     log.close()
+    allocation=getattr(process,'gpu_weights_lease',None)
+    if allocation is not None:allocation.close()
 
 
 def run(digest):

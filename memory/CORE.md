@@ -1,19 +1,23 @@
 # memory/CORE.md — 架构与历史运行基线（按需加载）
 
-更新: 2026-11-08。下列服务、CLI配置和质量数字是标注日期的历史基线，本次neat没有探测服务；当前任务、授权与研究actor以STATE、短计划和实际批次为准。
+更新: 2026-11-15。Docker/PG、27B及OpenCode为本次恢复实测；其他服务、CLI配置和质量数字仍是注明日期的历史基线。当前任务与授权以Goal、用户指令及STATE为准。
 
-## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.129.237.26, ARM64）
+## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.112.19.179, ARM64）
 
 | 端口 | 服务 | 说明 |
 |---|---|---|
 | :5050 | FastAPI 主 harness (main:app, uvicorn workers=2) | M1 解析 / M2 RAG 问答 / UI (/m1) |
-| :8004 | llama-server Qwen3.6-35B-A3B + mmproj | 主力模型 + 视觉 OCR (vision-8004) |
+| :8004 | llama-server Qwen3.6-35B-A3B + mmproj | 按需停用；需视觉/35B时先卸载驻留27B |
 | :8005 | RETIRED (Qwen3-14B, 08-17 退位) | Loop B 断言 down; 权重保留 |
-| :8006/:8008 | vLLM Qwen3.8-27B-FP8 (GB10 镜像) | M2 agent 验证链 / judge / 深度问答（thinking 档位控制） |
-| :4096 | opencode 侧车 (启动器 scripts/sidecar_launch.sh) | M2 agent 路交付链 |
+| :8006 | vLLM Qwen3.8-27B-FP8（研究别名） | 当前唯一驻留LLM；loopback，32K上下文、单并发、4GiB KV，:8008未启动 |
+| :4096 | OpenCode 1.18.3（scripts/sidecar_launch.sh） | 默认/小模型均gb10v/qwen38-27b-fp8→:8006；禁工具实际回复OK已核验 |
 | :8100 | responses2chat proxy v2 | Responses API → Chat API（Chat-only 模型用） |
-| :15432 | PostgreSQL + PGVector (docker) | vector_db, collection m1_parsed_statements |
+| :15432 | PostgreSQL + PGVector (docker) | 已运行，pg_isready通过；未变更库或数据 |
 | :8090 | ZhikunCode (docker) | Multi-Agent 平台，可选扩展面 |
+
+本次只恢复必要研究环境，未探测/启动:5050、:8005、72B或历史可选容器；未新增开机自启。校园网络登录由既有bupt-login.service管理。校内DeepSeek入口单次24tokens检查通过，凭证不落库。
+
+内存保护：research_gpu_guard.py持有~/wzh/.gpu_lock，3秒检查MemAvailable，低于32GiB只停止其持有的不可变研究容器ID；Docker状态超时或停止失败继续持锁重试。FinQA权重加载器也取同锁，加载前至少48GiB可用。RPC使用另一个任务锁；训练/换模必须先卸载驻留模型。当前运行身份与日志在私有research_services/*_current.json；不是全机或任意手工进程的绝对OOM保证。
 
 ## 历史 CLI 路由（2026-10-09，不代表当前宿主子Agent）
 
