@@ -275,5 +275,36 @@ class FinQALearningTests(unittest.TestCase):
         row['conditioning_by_arm']['clean']['labels'][-1]=4
         with self.assertRaises(ValueError):m.conditioning_row(row,'clean',allow_repair=True)
 
+    def test_new_training_control_plan_does_not_inherit_parent_result_binding(self):
+        import copy
+        import tempfile
+        from unittest.mock import patch
+        import finqa_learning_controls as c
+        import run_finqa_learning_native as native
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);(root/'controls_v1').mkdir()
+            row=dict(boundary_role='repair',input_ids=[8,2,3],labels=[-100,2,3],supervised_tokens=2)
+            def put(path,value):
+                path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_text(json.dumps(value))
+            put(root/'DATA.json',dict(rows=[copy.deepcopy(row)]))
+            put(root/'PLAN.json',dict(data_sha256=c.sha(root/'DATA.json'),paired_rows=[[0]],schedule=[0],edit_weight=.1,edit_margin=1.))
+            put(root/'controls_v1/SUCCESS_CONTEXT_DATA.json',dict(source_data_sha256=c.sha(root/'DATA.json'),rows=[copy.deepcopy(row)]))
+            put(root/'controls_v1/STEP_PREFERENCE_DATA.json',dict(source_data_sha256=c.sha(root/'DATA.json'),preferences=[dict(row_index=0,reference_gap=None) for _ in range(35)]))
+            source=root/'dev_firstpass_v1/closed_sft/000'
+            put(source/'inputs/public.json',{})
+            (source/'work').mkdir();put(source/'RESULT.json',{})
+            put(root/'dev_firstpass_v1/PLAN.json',dict(episodes=[dict(index=0,folder=str(source))]))
+            put(root/'dev_firstpass_v1/LABELS_PRIVATE.json',[])
+            put(root/'dev_review_v1/PLAN.json',dict(training_root='old-training',training_result_sha256='old-result'))
+            with patch.object(c,'ROOT',root),patch.object(c.study,'recovery_prompt',return_value='public recovery'),patch.object(c.study,'recent_actions',return_value=[]),patch.object(native,'expanded_runtime',return_value=dict(components={})):
+                c.prepare_training_controls()
+            target=root/'controls_v1/matched_training_v1'
+            plan=c.read(target/'native_v1/PLAN.json')
+            self.assertEqual(plan['training_root'],str(target))
+            self.assertEqual(plan['training_plan_sha256'],c.sha(target/'PLAN.json'))
+            self.assertEqual(plan['required_training_status'],'TRAINED_MATCHED_CONTROL_ARMS')
+            self.assertNotIn('training_result_sha256',plan)
+
 
 if __name__=='__main__':unittest.main()

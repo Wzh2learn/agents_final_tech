@@ -6,14 +6,14 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | 2对照192更新已完成；监督712041/执行712383，按新计划e98245f2各跑32现场。旧计划在请求前误带旧结果hash，失败保留、不重训。之后固定主规则做64报告确认，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇唯一下一步 | 本32报告对照已闭合：主负方向/成功上下文14、普通11、步骤偏好10；保留固定方案，下一步启用预留64报告，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。不在开发32题继续加门控。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)用于借鉴与比较；恢复SFT、片段监督、能力保留可组合。需确定一条具体差异与消融，匹配近邻实验尚未完成。 |
 | 来源与参考资格 | 历史代码与客服按[知识索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)保留。新增Astropy14182仅CPU控制完成，Matplotlib25079收集警告未解，无Agent/训练；不作金融主线前置。 |
-| 成本及运行器 | 已闭合费用不变；新647前向含参考49、拒例预读/反传214、正目标384，预读的实现开销单列。原生执行帽768本地POST、校内0，见[金融成本](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#成本与证据位置)。 |
+| 成本及运行器 | 本批134POST/572,707tokens、268份wire复算；训练647前向含49参考及214拒例计算。旧计划0调用拦停，结果绑定修复及65项通过；候选/对照的额外计算按[金融成本](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#成本与证据位置)分账。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 终止位置完整raw/权重已双份，方法及当前结果按本批同步三端；单权重/32GiB守护。其他对话Paper E/开题WIP、LoopB与历史worktree保留。 |
+| 工作区与分享 | 匹配对照完整raw/权重双份包d25dd934已核对；27B731036恢复就绪，单权重/32GiB保护。研究改动按本批同步三端；其他对话Paper E/开题WIP、LoopB与历史worktree保留。 |
 | 文档与 skill 存量 | 机制知识和现役入口已收敛；本次仅只读doctor/map，不安装/分发新skill。既有WIP缺陷与历史warning单列；不让存量全库治理阻塞后续机制研究。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 

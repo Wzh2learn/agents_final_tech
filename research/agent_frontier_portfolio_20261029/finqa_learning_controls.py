@@ -361,6 +361,8 @@ def prepare_training_controls():
             shutil.copytree(original/'inputs',folder/'inputs');shutil.copytree(original/'work',folder/'work');(folder/'dependencies').mkdir()
             (folder/'inputs/task.txt').write_text(text);episodes.append(dict(ep,arm=arm,folder=str(folder),task_sha256=sha(folder/'inputs/task.txt')))
     shutil.copyfile(parent/'LABELS_PRIVATE.json',target/'LABELS_PRIVATE.json');order=list(plan['arms']);random.Random(17).shuffle(order)
+    # This plan precedes the new training run; a parent's result is not its result.
+    template.pop('training_result_sha256',None)
     template.update(schema='finqa_matched_controls_native_v1',episodes=episodes,arms=plan['arms'],arm_order=order,source_episodes=sources,
                     training_root=str(out),training_plan_sha256=sha(out/'PLAN.json'),required_training_status=plan['terminal_status'],
                     terminal_status='FINQA_MATCHED_CONTROLS_RETURNED',max_posts=len(episodes)*study.CAPS['posts'],
