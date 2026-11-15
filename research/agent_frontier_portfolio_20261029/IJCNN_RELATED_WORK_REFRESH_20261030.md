@@ -50,5 +50,7 @@
 4. 独立原生评分，形成/整理/取证/执行全成本；自写测试、AI检查、模式合法均不作任务成功。
 5. 当前状态和授权见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)及[入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)。
 
+Token负学习补充：[CRINGE（ACL 2023）](https://aclanthology.org/2023.acl-long.493/)已有CE＋token对比；程序负例/首分叉差异记在FinQA记录。
+
 <a id="可执行候选反馈与经验的适用性而非又一个技能库"></a>
 [历史候选诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)
