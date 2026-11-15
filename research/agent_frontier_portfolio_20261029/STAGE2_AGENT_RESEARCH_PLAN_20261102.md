@@ -45,7 +45,7 @@
 3. 先CPU编译检查，再做两组开发训练和同32题原生执行。若保持改善但语义修复消失，继续分析条件冲突；不把只会停止当成功。若不改善，停止该表示版本，保留有效修复部件。
 4. 新64题已用于下一规则设计，不再称独立确认；后续选未启用FinQA来源和TAT-QA相关任务。先证明主集机制，不因新增adapter而开全矩阵。
 
-两臂已完成CPU编译：PLAN c4e14375、原生PLAN d869106c；30组/51目标、每臂96更新/8,283重复监督tokens，预计192更新/322前向。GB10 47项/34子测试通过，尚未训练；准备包77816ca5双份。[冻结输入](results/FINQA_CORRECTION_LEARNING.md#terminal-state-v1)。
+两臂已完成CPU编译：PLAN c4e14375、原生PLAN d869106c；30组/51目标、每臂96更新/8,283重复监督tokens，预计192更新/322前向。GB10 47项/34子测试通过，真实训练已启动；准备包77816ca5双份。[冻结输入](results/FINQA_CORRECTION_LEARNING.md#terminal-state-v1)。
 
 训练可用TRAIN标注；部署只用任务、程序、可见执行与反馈。主要判据为原生成功、正确保持、语义恢复及全流程成本；同效更贵或仅文本变好时调整具体规则。
 
@@ -55,7 +55,7 @@
 
 FinQA累计2,481POST/10,681,537已知＋6未知预留196,608；HF训练/离线评分另账。校内仍5,005POST/50,865,083已知＋10未知预留2,621,440，合53,486,523/10亿，见[总账](results/FCCL_FORMATION.md#成本与证据定位)。运维55,809独立。
 
-27B守护840886/tick6481753已恢复就绪；单权重、48GiB加载门/32GiB守护。完整结果包49505e8f、本批准备包6e72d21c和TAT-QA准备包97f8521c均双份。TAT-QA32原始算术题、官方评分/CPU检查已备好，尚无Agent/神经运行，见[组件](tatqa_correction.py)和[知识](results/CONTINUATION_PROGRAM.md#tatqa-related-prep-v1)。其他对话与LoopB保留。
+当前监督927675/tick7190176、训练927771/tick7190380已核存活；27B为训练暂卸，批后恢复。单权重、48GiB加载门/32GiB守护。完整结果包49505e8f、本批准备包6e72d21c和TAT-QA准备包97f8521c均双份。TAT-QA32原始算术题、官方评分/CPU检查已备好，尚无Agent/神经运行，见[组件](tatqa_correction.py)和[知识](results/CONTINUATION_PROGRAM.md#tatqa-related-prep-v1)。其他对话与LoopB保留。
 
 <a id="当前优先级2026-11-04"></a>
 <a id="地震与板块工作流下一组开发对照2026-11-03"></a>
