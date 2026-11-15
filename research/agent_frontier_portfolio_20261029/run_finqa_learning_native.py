@@ -503,6 +503,37 @@ def prepare_expanded_review():
     print(json.dumps(dict(plan_sha256=sha(target/'PLAN.json'),episodes=len(episodes),arm_order=arms,max_posts=plan['max_posts'])))
 
 
+def prepare_identity_review():
+    """Replay both terminal-placement learners on the existing dev states."""
+    training=learning.ROOT/'semantic_correction_v1/expanded_v1/controls_v1/identity_fold_v1'
+    parent=training.parents[1]/'dev_firstpass_v1';out=training/'native_v1'
+    if out.exists():raise ValueError('identity review already prepared')
+    source_plan=read(parent/'PLAN.json');first=read(parent/'RESULT.json');trained=read(training/'PLAN.json')
+    if first['status']!='FINQA_EXPANDED_DEV_FIRSTPASS_RETURNED' or len(first['episodes'])!=32:
+        raise ValueError('complete shared source states required')
+    arms=list(trained['arms']);random.Random(17).shuffle(arms);episodes=[];sources=[];out.mkdir()
+    for ep in source_plan['episodes']:
+        source=Path(ep['folder']);public=read(source/'inputs/public.json')
+        text=study.recovery_prompt(public,study.recent_actions(source))
+        sources.append(dict(ep,result_sha256=sha(source/'RESULT.json'),work_tree=study.core.tree(source/'work')))
+        for arm in arms:
+            folder=out/arm/f"{ep['index']:03d}";folder.mkdir(parents=True)
+            shutil.copytree(source/'inputs',folder/'inputs');shutil.copytree(source/'work',folder/'work')
+            (folder/'dependencies').mkdir();(folder/'inputs/task.txt').write_text(text)
+            episodes.append(dict(ep,arm=arm,folder=str(folder),task_sha256=sha(folder/'inputs/task.txt')))
+    shutil.copyfile(parent/'LABELS_PRIVATE.json',out/'LABELS_PRIVATE.json')
+    plan=dict(schema='finqa_identity_placement_native_review_v1',episodes=episodes,arm_order=arms,arms=arms,
+              training_root=str(training),training_plan_sha256=sha(training/'PLAN.json'),
+              required_training_status='TRAINED_IDENTITY_TERMINAL_ARMS',terminal_status='FINQA_IDENTITY_REVIEW_RETURNED',
+              source_episodes=sources,parent_plan_sha256=sha(parent/'PLAN.json'),private_labels_sha256=sha(out/'LABELS_PRIVATE.json'),
+              max_posts=len(episodes)*study.CAPS['posts'],
+              comparison='Same existing 32 dev workspaces and original public review prompt, all reviewed regardless of answer. Only the matched terminal-target conditioning changes during training.',
+              scope='Already exposed method-development cohort; not an independent confirmation set.',**expanded_runtime())
+    study.new(out/'PLAN.json',plan);snapshot=out/'executed_sources';snapshot.mkdir()
+    for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),episodes=len(episodes),max_posts=plan['max_posts'])))
+
+
 def run_review(digest):
     if sha(REVIEW/'PLAN.json')!=digest or (REVIEW/'LIVE.json').exists():raise ValueError('review plan/attempt')
     plan=read(REVIEW/'PLAN.json');training=Path(plan['training_root'])
@@ -563,7 +594,7 @@ def run_review(digest):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review','prepare-expanded-eval','expanded-firstpass','prepare-expanded-review','expanded-review']);p.add_argument('--count',type=int,default=4)
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review','prepare-expanded-eval','expanded-firstpass','prepare-expanded-review','expanded-review','prepare-identity-review','identity-review']);p.add_argument('--count',type=int,default=4)
     p.add_argument('--plan-sha');a=p.parse_args()
     if a.mode=='prepare':prepare(a.count)
     elif a.mode=='prepare-strong':prepare_strong()
@@ -577,5 +608,7 @@ if __name__=='__main__':
     elif a.mode=='prepare-expanded-eval':prepare_expanded_eval(a.count)
     elif a.mode=='expanded-firstpass':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/dev_firstpass_v1')
     elif a.mode=='prepare-expanded-review':prepare_expanded_review()
+    elif a.mode=='prepare-identity-review':prepare_identity_review()
+    elif a.mode=='identity-review':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/controls_v1/identity_fold_v1/native_v1')
     elif a.mode=='expanded-review':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/dev_review_v1')
     else:run(a.plan_sha)

@@ -345,6 +345,99 @@ def prepare_expanded_train():
     print(json.dumps(dict(plan_sha256=sha(root/'PLAN.json'),pairs=len(pairs),arms=plan['arms'],updates=384,forwards=768)))
 
 
+def identity_execution(source,teacher_program,teacher_execution,witnesses):
+    """Only fold a repeated action with an existing public execution witness.
+
+    TRAIN answer labels decide which examples teach retention; they are not an
+    inference-time trigger. This predicate itself checks public state identity.
+    """
+    if not source['program_valid'] or source['submitted_program']!=teacher_program:
+        raise ValueError('teacher action is not an executable identity')
+    execution=source['public_execution']
+    if execution.get('status')!='executed' or execution!=teacher_execution:
+        raise ValueError('task-relevant execution state changed')
+    if not any(w.get('program')==teacher_program and w.get('execution')==execution for w in witnesses):
+        raise ValueError('existing source has no matching real execution')
+    # Factual public result only: do not distill claims of consulting a reference,
+    # nor claim the now-removed teacher action was executed by the student.
+    return dict(role='assistant',content='Final program: '+teacher_program+'\nExecution result: '+
+                json.dumps(execution['terminal_execution_answer'])+'.',tool_calls=[])
+
+
+def prepare_identity_fold():
+    """Matched terminal targets before/after a redundant identity action."""
+    import finqa_learning_controls as controls
+    parent=ROOT/'expanded_v1';out=parent/'controls_v1/identity_fold_v1'
+    if out.exists():raise ValueError('identity-fold attempt already prepared')
+    if sha(parent/'DATA.json')!='486ffcf4fb1d28d211d764780738ebb6bf0096ebe73da84110132ba5e3a27b98':
+        raise ValueError('expanded supervision source changed')
+    data=read(parent/'DATA.json');tokenizer=tokens.load_tokenizer(learning.MODEL)
+    rows=[];groups=[];proofs=[];sources=dict(data['sources'])
+    arms=['terminal_mask_control','terminal_identity_fold']
+    for a,b in data['paired_rows']:
+        repair,closure=copy.deepcopy(data['rows'][a]),copy.deepcopy(data['rows'][b])
+        if repair['pair_id']!=closure['pair_id']:raise ValueError('training group differs')
+        group=[]
+        if not repair['source_correct']:
+            points=repair.get('edit_contrasts',{}).get('edit_all_negative',[])
+            repair['edit_contrasts']={arm:copy.deepcopy(points) for arm in arms}
+            group.append(len(rows));rows.append(repair)
+        else:
+            requests=controls.source_requests(repair,closure);folder=requests[0].parent.parent
+            entry=next(e for e in read(folder.parent/'PLAN.json')['episodes'] if e['index']==repair['source_index'])
+            source=Path(entry['source_folder']);before=read(source/'RESULT.json');after=read(folder/'RESULT.json')
+            witnesses=[json.loads(line) for line in (source/'work/executions.jsonl').read_text().splitlines()]
+            target=identity_execution(before,controls.program_of(repair['assistant']),after['public_execution'],witnesses)
+            public=read(folder/'inputs/public.json');private=(folder/'inputs/task.txt').read_text()
+            text=controls.recovery_text(repair,folder,public);encodings=[]
+            for row,request in zip((repair,closure),requests):
+                if data['sources'].get(str(request))!=sha(request):raise ValueError('teacher request changed')
+                original=learning.project_request(read(request),private,text)
+                old_target=repair['assistant'] if row['boundary_role']=='repair' else learning.sse_assistant(Path(closure['source_response']).read_bytes())
+                check=tokens.encode_completion(original,old_target,tokenizer,16384,
+                                               completion_kind='action' if row['boundary_role']=='repair' else 'closure')
+                if any(check[k]!=row[k] for k in ('input_ids','labels')):raise ValueError('original conditioning differs')
+                # Before the identity action, actual source feedback is in the
+                # user-projected student_actions, not a native tool-role turn.
+                # identity_execution above binds that evidence; the generic
+                # text encoder only masks the prefix and preserves target EOS.
+                encodings.append(tokens.encode_completion(original,target,tokenizer,16384,completion_kind='text'))
+            folded,masked=encodings
+            if [v for v in folded['labels'] if v!=-100]!=[v for v in masked['labels'] if v!=-100]:
+                raise ValueError('paired terminal targets differ')
+            closure.update(masked,assistant=target,edit_contrasts={},
+                           conditioning_by_arm={'terminal_identity_fold':folded},
+                           projection='Public execution-result terminal target; matched post-action context versus identity-folded pre-action context')
+            proof_paths=[source/'RESULT.json',source/'work/executions.jsonl',folder/'RESULT.json']
+            for path in proof_paths:sources[str(path)]=sha(path)
+            proofs.append(dict(pair_id=repair['pair_id'],source_folder=str(source),teacher_folder=str(folder),
+                               program=before['submitted_program'],execution=before['public_execution'],
+                               removed_action_tokens=repair['supervised_tokens'],terminal_tokens=masked['supervised_tokens'],
+                               before_prompt_tokens=folded['prompt_token_count'],after_prompt_tokens=masked['prompt_token_count']))
+        group.append(len(rows));rows.append(closure);groups.append(group)
+    if len(proofs)!=9 or len(rows)!=51 or len(groups)!=30:raise ValueError('identity fold cohort differs')
+    out.mkdir()
+    new(out/'DATA.json',dict(schema='finqa_identity_terminal_targets_v1',rows=rows,paired_rows=groups,
+                            sources=sources,tokenizer=data['tokenizer'],identity_proofs=proofs,
+                            parent_data_sha256=sha(parent/'DATA.json'),
+                            scope='Same 30 TRAIN groups and wrong-program contrasts. Nine factual terminal targets normalized from public execution; only their conditioning position differs between arms.'))
+    plan=read(parent/'PLAN.json');components=[Path(__file__),Path(learning.__file__),Path(controls.__file__),
+                 Path(tokens.__file__),Path(study.__file__),Path(task.__file__),study.REPO/'scripts/graph/research_gpu_guard.py']
+    plan.update(schema='finqa_identity_terminal_placement_learning_v1',arms=arms,paired_rows=groups,
+                data_sha256=sha(out/'DATA.json'),expected_forward_calls=2*sum(len(groups[i]) for i in plan['schedule']),
+                positive_only_arms=[],terminal_status='TRAINED_IDENTITY_TERMINAL_ARMS',
+                components={str(p):sha(p) for p in components},
+                comparison='Identical 51 target rows, 30 groups, negative points, warm start, 96 updates and target-token exposure per arm. Only nine terminal targets move from after to before an observed identity action.',
+                prediction='Pre-action retention supervision should reduce wrong edits and repeated execution, while preserving recoveries from negative learning, versus the matched mask-only placement control.',
+                next='Compare both on the same 32 already-exposed dev states, original review prompt. Require gains beyond prompt clarification and syntax gating before confirmation; do not treat mixed retention alone as novel.')
+    new(out/'PLAN.json',plan);snapshot=out/'compilation_sources';snapshot.mkdir()
+    for p in components:(snapshot/p.name).write_bytes(p.read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),data_sha256=sha(out/'DATA.json'),rows=len(rows),groups=len(groups),
+                          normalized_retention_targets=len(proofs),supervised_tokens=sum(r['supervised_tokens'] for r in rows),
+                          repeated_supervised_tokens_per_arm=sum(sum(rows[j]['supervised_tokens'] for j in groups[i]) for i in plan['schedule']),
+                          expected_forwards=plan['expected_forward_calls'],model_requests=0)))
+
+
 def prepare_review():
     source=ROOT/'firstpass_v1';output=ROOT/'native_v1'
     if output.exists():raise ValueError('review attempt already exists')
@@ -382,7 +475,7 @@ def prepare_review():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources','prepare-teacher','teacher','compile-expanded','prepare-expanded-train','train-expanded']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources','prepare-teacher','teacher','compile-expanded','prepare-expanded-train','train-expanded','prepare-identity-fold','train-identity-fold']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     elif args.mode=='prepare-firstpass':prepare_firstpass()
@@ -394,4 +487,6 @@ if __name__=='__main__':
     elif args.mode=='compile-expanded':compile_expanded()
     elif args.mode=='prepare-expanded-train':prepare_expanded_train()
     elif args.mode=='train-expanded':learning.train(args.plan_sha,ROOT/'expanded_v1')
+    elif args.mode=='prepare-identity-fold':prepare_identity_fold()
+    elif args.mode=='train-identity-fold':learning.train(args.plan_sha,ROOT/'expanded_v1/controls_v1/identity_fold_v1')
     else:native.run(args.plan_sha,ROOT/({'firstpass':'firstpass_v1','positive-fusion':'fusion_positive_v1/native_v1','sources':'formation_student_v1'}.get(args.mode,'native_v1')))

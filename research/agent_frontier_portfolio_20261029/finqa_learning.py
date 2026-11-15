@@ -179,6 +179,29 @@ def pair_coefficients(repair_tokens,closure_tokens,objective):
     raise ValueError('unknown paired objective')
 
 
+def group_coefficients(lengths,objective):
+    """A retained state can have just a terminal target, not a fake repair."""
+    if len(lengths)==2:return pair_coefficients(*lengths,objective)
+    if (len(lengths)==1 and type(lengths[0]) is int and lengths[0]>0
+            and objective in ('token_mean','decision_mean')):return [1.]
+    raise ValueError('one terminal or two repair/closure targets required')
+
+
+def conditioning_row(row,arm):
+    """Change only a closure's conditioning, preserving every target token."""
+    alternate=row.get('conditioning_by_arm',{}).get(arm)
+    if alternate is None:return row
+    allowed={'input_ids','attention_mask','labels','prompt_token_count','sequence_length','supervised_tokens',
+             'assistant_end_index','prefix_token_alignment_verified','rendered_prefix_sha256',
+             'rendered_full_sha256','template_adaptations','loss_scope'}
+    if (row.get('boundary_role')!='closure' or any(row.get('edit_contrasts',{}).values())
+            or not set(alternate)<=allowed):raise ValueError('only terminal conditioning may move')
+    if ([v for v in row['labels'] if v!=-100]!=[v for v in alternate['labels'] if v!=-100]
+            or row['supervised_tokens']!=alternate['supervised_tokens']):
+        raise ValueError('conditioning control changed supervised targets')
+    return {**row,**alternate}
+
+
 def tool_log_odds(logits,prompt_tokens,tool_token_id):
     import torch
     scores=logits[0,prompt_tokens-1,:].float()
@@ -496,7 +519,8 @@ def train(digest, root=None):
                     if time.monotonic()-started>plan['wall_seconds']:raise TimeoutError('finite training wall cap')
                     index=plan['schedule'][update] if 'schedule' in plan else update%len(rows)
                     batch=[rows[i] for i in plan['paired_rows'][index]] if plan.get('paired_rows') else [rows[index]]
-                    coefficients=pair_coefficients(*(r['supervised_tokens'] for r in batch),plan.get('pair_objective',arm)) if plan.get('paired_rows') else [1.]
+                    batch=[conditioning_row(row,arm) for row in batch]
+                    coefficients=group_coefficients([r['supervised_tokens'] for r in batch],plan.get('pair_objective',arm)) if plan.get('paired_rows') else [1.]
                     optimizer.zero_grad(set_to_none=True)
                     total=0.;odds_values=[];before=None;auxiliary=0.
                     for at,(row,coefficient) in enumerate(zip(batch,coefficients)):
@@ -513,7 +537,7 @@ def train(digest, root=None):
                             edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach())))
                             value=value+plan['edit_weight']*contrast
                             del contrast
-                        if plan.get('paired_rows'):
+                        if plan.get('paired_rows') and len(batch)==2:
                             odds=tool_log_odds(logits,row['prompt_token_count'],plan['tool_token_id'])
                             odds_values.append(float(odds.detach()))
                             if at==0:before=odds.detach()

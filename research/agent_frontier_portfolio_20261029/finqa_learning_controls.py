@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 import random
 import shlex
+import shutil
 
 import finqa_learning as learning
 
@@ -21,6 +22,14 @@ tokens=learning.tokens
 read=learning.read
 sha=learning.sha
 ROOT=learning.ROOT/'semantic_correction_v1/expanded_v1'
+
+REVIEW_ONLY_INSTRUCTION=(
+    '\n\nThis is a review of an already executed candidate, not a fresh task. '
+    'Check the question, evidence, current program and its saved execution feedback. '
+    'If you retain the program, finish directly using that feedback; do not rerun an '
+    'unchanged program merely to submit it again. If you change the program, execute '
+    'the changed program before finishing. Executability alone does not establish '
+    'that the program answers the question. No reference answer is available.')
 
 
 def program_of(assistant):
@@ -173,6 +182,51 @@ def paired_difference(first,second,draws=20000,seed=17):
                 first_only=values.count(1),second_only=values.count(-1),ties=values.count(0),draws=draws,seed=seed)
 
 
+def syntax_gated_replay(source,review):
+    """Offline public-validity policy; neither correctness label selects an arm."""
+    before={r['index']:r for r in source};after={r['index']:r for r in review}
+    if len(before)!=len(source) or len(after)!=len(review) or before.keys()!=after.keys():
+        raise ValueError('complete unique paired states required')
+    decisions={i:after[i] if not row['valid'] else row for i,row in before.items()}
+    invoked=[i for i,row in before.items() if not row['valid']]
+    return dict(native_success=sum(r['native_success'] for r in decisions.values()),
+                selected_review_indices=invoked,
+                posts=sum(r['posts'] for r in source)+sum(after[i]['posts'] for i in invoked),
+                known_tokens=sum(r['known_tokens'] for r in source)+sum(after[i]['known_tokens'] for i in invoked),
+                scope='Deterministic offline policy replay on actual paired continuations; not an additional online run or the physical research bill.')
+
+
+def prepare_prompt_review():
+    """Strong simple prompt control, on all 32 fixed public first-pass states."""
+    import run_finqa_learning_native as native
+    out=ROOT/'controls_v1/review_prompt_v1'
+    if out.exists():raise ValueError('prompt-control attempt already exists')
+    original=read(ROOT/'dev_review_v1/PLAN.json')
+    if read(ROOT/'dev_review_v1/RESULT.json')['status']!='FINQA_EXPANDED_DEV_REVIEW_RETURNED':
+        raise ValueError('original comparison must be terminal')
+    out.mkdir();episodes=[];arms=['closed_sft','edit_all_negative']
+    order=list(arms);random.Random(17).shuffle(order)
+    for ep in read(ROOT/'dev_firstpass_v1/PLAN.json')['episodes']:
+        source=Path(ep['folder'])
+        public=read(source/'inputs/public.json')
+        text=study.recovery_prompt(public,study.recent_actions(source))+REVIEW_ONLY_INSTRUCTION
+        for arm in arms:
+            target=out/arm/f"{ep['index']:03d}";target.mkdir(parents=True)
+            shutil.copytree(source/'inputs',target/'inputs');shutil.copytree(source/'work',target/'work')
+            (target/'dependencies').mkdir();(target/'inputs/task.txt').write_text(text)
+            episodes.append(dict(ep,arm=arm,folder=str(target),task_sha256=sha(target/'inputs/task.txt')))
+    shutil.copyfile(ROOT/'dev_firstpass_v1/LABELS_PRIVATE.json',out/'LABELS_PRIVATE.json')
+    plan=dict(original)
+    plan.update(schema='finqa_review_instruction_control_v1',episodes=episodes,arms=arms,arm_order=order,
+                terminal_status='FINQA_CLEAR_REVIEW_RETURNED',max_posts=len(episodes)*study.CAPS['posts'],
+                components={**native.expanded_runtime()['components'],str(Path(__file__)):sha(__file__)},
+                comparison='Same 32 source states, weights and original recovery prompt plus one shared review-only clarification; two unchanged trained adapters. Review all states without a hidden-answer trigger.',
+                prediction='Clarifying that an unchanged, already executed program may terminate can reduce repeated execution and wrong edits. Any improvement here is a prompt baseline, not a new training mechanism.')
+    learning.new(out/'PLAN.json',plan);snapshot=out/'executed_sources';snapshot.mkdir()
+    for path in plan['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),episodes=len(episodes),max_posts=plan['max_posts'])))
+
+
 def inspect_batch(folder,status):
     """Re-grade saved programs and reconcile actual request/response evidence."""
     from scripts.graph.research_school_gateway import usage_from_body
@@ -268,5 +322,7 @@ def analyze():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','analyze']);args=p.parse_args()
-    prepare() if args.mode=='prepare' else analyze()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','analyze','prepare-prompt-review']);args=p.parse_args()
+    if args.mode=='prepare':prepare()
+    elif args.mode=='prepare-prompt-review':prepare_prompt_review()
+    else:analyze()

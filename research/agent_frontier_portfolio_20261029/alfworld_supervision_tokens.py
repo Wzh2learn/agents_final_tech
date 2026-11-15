@@ -77,11 +77,15 @@ def token_ids(value):
 
 
 def encode_completion(request,assistant,tokenizer,max_length,*,completion_kind='action'):
+    # 'text' only encodes a plain completion. It does not certify task success
+    # or execution provenance; callers must bind their evidence separately.
     if type(max_length) is not int or max_length<=0:raise IntegrityError('max_length must be a positive integer')
-    if completion_kind not in ('action','closure'):raise IntegrityError('unsupported completion kind')
+    if completion_kind not in ('action','closure','text'):raise IntegrityError('unsupported completion kind')
     calls=assistant.get('tool_calls') or []
     if assistant.get('role')!='assistant' or any(key in assistant for key in ['reasoning_content','reasoning','analysis']):raise IntegrityError('target is not one public assistant action completion')
     if completion_kind=='action' and len(calls)!=1:raise IntegrityError('target is not one public assistant action completion')
+    if completion_kind=='text' and (calls or not isinstance(assistant.get('content'),str) or not assistant['content'].strip()):
+        raise IntegrityError('plain text completion required')
     if completion_kind=='closure' and (calls or not isinstance(assistant.get('content'),str) or not assistant['content'].strip()
                                      or not any(m.get('role')=='tool' for m in request['messages'])):
         raise IntegrityError('closure requires public execution feedback and a text-only assistant completion')

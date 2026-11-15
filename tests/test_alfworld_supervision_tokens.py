@@ -105,6 +105,17 @@ class TokenTests(unittest.TestCase):
     def test_rows_not_direct_old_runner_input_and_output_refuses_overwrite(self):
         b=self.compile();out=self.base/'tokens';r=x.export_tokens(b,out);self.assertEqual(r['rows'],2);self.assertFalse(b['manifest']['old_single_completion_trainrunner_adapted']);self.assertEqual(len(x.read(out/'formation_ledger.json')['collector_sources_once']),1)
         with self.assertRaises(FileExistsError):x.export_tokens(b,out)
+    def test_plain_text_masks_user_projection_without_relaxing_executed_closure_contract(self):
+        req,action=self.request_target();req['messages']=[m for m in req['messages'] if m['role']!='tool']
+        final={'role':'assistant','content':'Saved execution result: 42.','tool_calls':[]};tok=FakeTokenizer()
+        row=x.encode_completion(req,final,tok,100000,completion_kind='text')
+        n=row['prompt_token_count'];end=row['assistant_end_index']
+        self.assertEqual(row['labels'][:n],[-100]*n)
+        self.assertEqual(row['labels'][end],tok.eos_token_id)
+        self.assertIn('Saved execution result: 42.',tok.decode(row['labels'][n:end+1]))
+        with self.assertRaises(x.IntegrityError):x.encode_completion(req,final,tok,100000,completion_kind='closure')
+        for bad in [action,{**final,'content':''},{**final,'reasoning':'private'}]:
+            with self.subTest(target=bad),self.assertRaises(x.IntegrityError):x.encode_completion(req,bad,tok,100000,completion_kind='text')
     def test_tokenizer_template_hash_and_model_type_bound(self):
         fixtures.write(self.model/'tokenizer_config.json',{'chat_template':'changed'})
         with self.assertRaisesRegex(x.IntegrityError,'Qwen3'):self.compile()

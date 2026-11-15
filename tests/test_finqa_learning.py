@@ -168,5 +168,48 @@ class FinQALearningTests(unittest.TestCase):
         self.assertEqual(r['mean_difference'],.25)
         with self.assertRaises(ValueError):control.paired_difference([1,0],[0],draws=100)
 
+    def test_syntax_policy_cannot_use_correctness_to_choose_review(self):
+        import copy
+        import finqa_learning_controls as control
+        source=[dict(index=0,valid=True,native_success=False,posts=2,known_tokens=10),
+                dict(index=1,valid=False,native_success=False,posts=3,known_tokens=20)]
+        review=[dict(index=0,valid=True,native_success=True,posts=2,known_tokens=8),
+                dict(index=1,valid=True,native_success=True,posts=2,known_tokens=9)]
+        r=control.syntax_gated_replay(source,review)
+        self.assertEqual(r['selected_review_indices'],[1])
+        self.assertEqual((r['native_success'],r['posts'],r['known_tokens']),(1,7,39))
+        changed=copy.deepcopy(source);changed[0]['native_success']=True
+        self.assertEqual(control.syntax_gated_replay(changed,review)['selected_review_indices'],[1])
+        with self.assertRaises(ValueError):control.syntax_gated_replay(source,review[:1])
+
+    def test_identity_fold_requires_prior_real_execution_and_unchanged_public_result(self):
+        import copy
+        import finqa_semantic_learning as semantic
+        execution=dict(status='executed',terminal_execution_answer=.25)
+        source=dict(program_valid=True,submitted_program='divide(1, 4)',public_execution=execution)
+        witnesses=[dict(program='divide(1, 4)',execution=copy.deepcopy(execution))]
+        target=semantic.identity_execution(source,'divide(1, 4)',copy.deepcopy(execution),witnesses)
+        self.assertIn('0.25',target['content'])
+        self.assertNotIn('reference',target['content'])
+        self.assertFalse(target['tool_calls'])
+        for program,result,trace in [('divide(1, 5)',execution,witnesses),
+                                     ('divide(1, 4)',dict(status='executed',terminal_execution_answer=.2),witnesses),
+                                     ('divide(1, 4)',execution,[])]:
+            with self.subTest(program=program,result=result,trace=trace):
+                with self.assertRaises(ValueError):semantic.identity_execution(source,program,result,trace)
+
+    def test_terminal_conditioning_moves_prefix_without_changing_targets_or_source(self):
+        import copy
+        row=dict(boundary_role='closure',input_ids=[8,8,2,3],labels=[-100,-100,2,3],supervised_tokens=2,
+                 edit_contrasts={},conditioning_by_arm={'fold':dict(input_ids=[8,2,3],labels=[-100,2,3],supervised_tokens=2)})
+        old=copy.deepcopy(row);fold=m.conditioning_row(row,'fold')
+        self.assertEqual(fold['input_ids'],[8,2,3]);self.assertEqual(row,old)
+        self.assertEqual(m.conditioning_row(row,'mask')['input_ids'],[8,8,2,3])
+        self.assertEqual(m.group_coefficients([2],'token_mean'),[1.])
+        self.assertEqual(m.group_coefficients([2,6],'token_mean'),[.25,.75])
+        with self.assertRaises(ValueError):m.group_coefficients([2],'paired_mode')
+        row['conditioning_by_arm']['fold']['labels'][-1]=4
+        with self.assertRaises(ValueError):m.conditioning_row(row,'fold')
+
 
 if __name__=='__main__':unittest.main()
