@@ -1,6 +1,6 @@
 # FinQA纠正学习：现役机制、结果与下一验证
 
-> 2026-11-15｜Goal active。计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，跨阶段经验见[机制知识](CONTINUATION_PROGRAM.md#mechanism-knowledge)。本页按阶段收敛；此前逐项过程、公式推导和旧费用保存在[固定Git快照](https://github.com/Wzh2learn/agents_final_tech/blob/82f2c5aa5064075a68e373f332b4d13f27e884c6/research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md)，raw/权重/失败未覆盖。
+> 2026-11-16｜Goal active。计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，跨阶段经验见[机制知识](CONTINUATION_PROGRAM.md#mechanism-knowledge)。本页按阶段收敛；此前逐项过程、公式推导和旧费用保存在[固定Git快照](https://github.com/Wzh2learn/agents_final_tech/blob/82f2c5aa5064075a68e373f332b4d13f27e884c6/research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md)，raw/权重/失败未覆盖。
 
 <a id="finqa-current"></a>
 ## 当前判断
@@ -147,11 +147,24 @@ PLAN454eff32、RESULT05d81cd0、ANALYSIS92e25250均已闭合。实际100本地PO
 
 准备包4a529ade双份核SHA，751,672字节，含44输入/工作区、20成功见证、冻结计划与代码/等待回执，不含教师结果。旧父raw仍在e5358889，不覆盖。
 
-完整教师包28a7169b双份，1,376,310字节/973文件，含全44回执/轨迹、角色与成本、源结构尸检及代码。形成进程1048806已结束；27B守护1077304/tick8260429、boot b4166d98继续就绪。下步编译90组共享训练来源，再启动匹配训练，不把40次教师恢复写成学生方法收益。
+完整教师包28a7169b双份，1,376,310字节/973文件，含全44回执/轨迹、角色与成本、源结构尸检及代码。形成进程1048806已结束。原计划90组中的两条冲突监督按下节暂挂，未重写40次原生恢复回执，也不将其写成学生方法收益。
 
 对42个可执行错误与各自一个TRAIN参考程序作结构尸检：首次差异为操作符19、参数19、共同前缀后长短不同4；其中11个错误保持了相同操作符序列。20个正确源中有5个程序形式不同于参考，继续作正向保持，不按字符串差异标负。这些是结构描述，不自动等同于期间/单位等语义死因；负例仍须实际执行答错。零模型调用，独立JSON 39e4f2f8已双份，不在更早准备包内。
 
 TAT-QA原始32个算术题/32表上下文仅CPU准备，官方评分固定commit870accc4，标量/尺度及0值控制已验；输入无金标，评分在宿主。准备包97f8521c双份，无TAT-QA Agent/神经训练。详情见[相关资产](CONTINUATION_PROGRAM.md#tatqa-related-prep-v1)，本轮不启动TAT矩阵或冻结TAT-DQA。
+
+<a id="expanded-state-v1"></a>
+## 88组扩样：共享数据已准备，三臂尚未训练
+
+同一原始TRAIN问题/程序传递已核对，没有传错题。JPM/2003/page_44.pdf-1的原qa.answer为157.85%，exe_ans却为20452.85，且参考使用earnings而题问revenue；MMM/2007/page_66.pdf-2题问January 1，参考把两时点interest/penalties相加。教师终答也明确提出这两处冲突，因此仅在本次训练材料中暂挂两组，不改原标注和40/44原生回执。所有学习方案使用相同筛选，不按dev表现挑数据。
+
+合旧30组、38个新恢复和20个原成功，得到88个公司/年份训练来源。普通状态SFT/分叉候选共用147条目标，监督tokens逐项相同。干净成功蒸馏用同88组、相同程序与闭合目标，再补29个从空工作区提交所需的真实动作，共176目标；不是给它增加新题或教师标签。323个输入前缀未含私有正确性字段，147共享目标与成功蒸馏对应目标逐token相等；与既有96个dev报告组重叠0。
+
+新增执行反例116个有效分叉，加旧40个共156；另3个无效、4个等价正确改写不作负例。完整程序、执行值及分叉绑定已保存在NEGATIVE_WITNESSES.json；这是相同确定性执行器的反事实程序执行，不计作新增Agent任务或模型请求。多请求教师轨迹选最后实际成功调用及其真实反馈，未把前一次错误动作当成功目标；成功蒸馏只保留成功调用/工具反馈的历史。
+
+主计划7195d069、成功计划686deb77，各臂264更新、三个报告均衡轮次，同40e277b0暖启动、学习率2e-4、原margin/系数。普通/候选各42,699监督tokens、441前向；成功蒸馏47,538/528，额外剂量明确报告。合计划792更新/1,410前向，尚未计为实际训练。53项/34子测试通过，包含新多请求选择、缺见证拒绝及去私有标签/失败历史的回归。
+
+私有根expanded_v1/state_learning_expanded_v1，成功基线在其clean_success。准备包3e16186b双份，3,100,478字节/28文件，含两套数据/计划、323前缀/共享目标核验、负例执行见证、冻结代码及监督器。训练监督器ecb950dd采用单权重、48GiB加载门/32GiB守护，依次训练两主臂与成功基线；无新教师/校内调用。下一步按冻结计划训练，再启用新报告评估。
 
 ## 累计成本与可定位证据
 
@@ -176,6 +189,7 @@ GB10私有根为/home/testuser/wzh/research_evidence/agent_learning_20261030/fin
 | finqa_state_view_results_20261115_v2 | 96原生raw/分析/恢复，2,704,563字节/1,791文件；权重另链训练包 | 27ed19ec |
 | finqa_additional_teacher_preparation_20261115_v1 | 44教师续做输入/20保持见证及等待回执，751,672字节 | 4a529ade |
 | finqa_additional_teacher_results_20261115_v1 | 全44教师raw/回执/分析/尸检，1,376,310字节/973文件 | 28a7169b |
+| finqa_expanded_state_preparation_20261116_v1 | 88组两套数据/计划、代码、323前缀检查与负例见证，3,100,478字节/28文件 | 3e16186b |
 | tatqa_related_preparation_20261115_v1 | 32原题/原始dev/官方评分源码及CPU验证 | 97f8521c |
 
 最新完整结果包SHA256 f4e0feeeb656fae2bfbab89682c9ea97d7cf7a82b7b80558e0a68ad2c51e4048；新增TRAIN准备包SHA256 dbd99cbe7307580c9dbcd2a658680deee2fb8d4c282b42c3201a3a1de2951589。旧结果、失败和真实费用均保留，具体候选停止不关闭金融纠正主线。

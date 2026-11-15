@@ -10,6 +10,37 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def test_verified_teacher_pair_selects_last_real_correct_call_after_an_extra_attempt(self):
+        import finqa_state_learning as state
+        def action(program,call_id):
+            return dict(role='assistant',content='',tool_calls=[dict(id=call_id,type='function',
+                function=dict(name='bash',arguments=json.dumps(dict(command="/extra/bin/python /inputs/finqa_tool.py --program '"+program+"'"))))])
+        wrong=action('subtract(2, 3)','bad');good=action('add(2, 3)','good')
+        closing=dict(messages=[good,dict(role='tool',tool_call_id='good',content='5')],tools=[])
+        rows=[dict(request=dict(messages=[],tools=[]),assistant=wrong),
+              dict(request=dict(messages=[],tools=[]),assistant=good),
+              dict(request=closing,assistant=dict(role='assistant',content='The result is 5.',tool_calls=[]))]
+        witnesses=[dict(program='add(2, 3)',execution=dict(status='executed',terminal_execution_answer=5))]
+        self.assertEqual(state.verified_teacher_pair(rows,'add(2, 3)',witnesses,0),(1,2))
+        with self.assertRaises(ValueError):state.verified_teacher_pair(rows,'add(2, 3)',witnesses,1)
+        rows[-1]['request']['messages']=[]
+        with self.assertRaises(ValueError):state.verified_teacher_pair(rows,'add(2, 3)',witnesses,0)
+
+    def test_clean_success_projection_keeps_only_the_actual_good_call_and_its_tool_feedback(self):
+        import finqa_state_learning as state
+        action=dict(role='assistant',content='',tool_calls=[dict(id='good',type='function',
+            function=dict(name='bash',arguments=json.dumps(dict(command="/extra/bin/python /inputs/finqa_tool.py --program 'add(2, 3)'"))))])
+        private='TRAIN training_reference_program=add(2, 3)'
+        request=dict(messages=[dict(role='system',content='rules'),dict(role='user',content=private),
+            dict(role='assistant',content='old unsuccessful trial'),dict(role='tool',tool_call_id='bad',content='-1'),
+            action,dict(role='tool',tool_call_id='good',content='5')],tools=[])
+        projected=state.clean_success_request(request,private,'public question',action)
+        self.assertEqual([x['role'] for x in projected['messages']],['system','user','assistant','tool'])
+        self.assertEqual(projected['messages'][1]['content'],'public question')
+        self.assertEqual(projected['messages'][-1]['tool_call_id'],'good')
+        self.assertNotIn('training_reference',json.dumps(projected))
+        self.assertNotIn('unsuccessful',json.dumps(projected))
+
     def test_current_state_requires_a_witness_for_a_submitted_program(self):
         import finqa_state_learning as semantic
         execution={'status':'executed','terminal_execution_answer':.5}

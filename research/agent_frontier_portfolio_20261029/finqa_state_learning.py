@@ -23,6 +23,51 @@ tokens=controls.tokens
 read=controls.read
 sha=controls.sha
 ROOT=controls.ROOT/'controls_v1/state_view_v2'
+EXPANDED=controls.ROOT/'state_learning_expanded_v1'
+
+
+def call_binding(call):
+    args=call['function']['arguments']
+    return call['id'],call['function']['name'],json.loads(args) if isinstance(args,str) else args
+
+
+def verified_teacher_pair(records,program,witnesses,prior_count):
+    """Select a witnessed correct action and its real later closing request.
+
+    An earlier unsuccessful or inspection request is not silently treated as
+    the recovery target. Retention and repair both keep their actual tool IDs.
+    """
+    if not any(w.get('program')==program and w.get('execution',{}).get('status')=='executed'
+               for w in witnesses[prior_count:]):raise ValueError('no newly executed final program')
+    last=len(records)-1;final=records[last]['assistant']
+    if final.get('tool_calls') or not final.get('content','').strip():raise ValueError('no final text response')
+    candidates=[]
+    for index,row in enumerate(records[:last]):
+        try:matches=controls.program_of(row['assistant'])==program
+        except (KeyError,ValueError,IndexError):continue
+        if matches:candidates.append(index)
+    if not candidates:raise ValueError('no actual final-program tool call')
+    index=candidates[-1];call=records[index]['assistant']['tool_calls'][0];messages=records[last]['request']['messages']
+    if not any(call_binding(c)==call_binding(call) for m in messages for c in m.get('tool_calls') or []):
+        raise ValueError('closing request lost the actual successful call')
+    if not any(m.get('role')=='tool' and m.get('tool_call_id')==call['id'] for m in messages):
+        raise ValueError('closing request lacks its returned feedback')
+    return index,last
+
+
+def clean_success_request(request,private_text,public_text,action):
+    """A fresh success trajectory contains the verified call and its feedback."""
+    fresh=fresh_request(request,private_text,public_text);call=action['tool_calls'][0]
+    messages=request['messages'];matched=[]
+    for i,message in enumerate(messages):
+        if any(call_binding(c)==call_binding(call) for c in message.get('tool_calls') or []):matched.append(i)
+    if len(matched)!=1:raise ValueError('successful call history is not unique')
+    returned=[m for m in messages[matched[0]+1:] if m.get('role')=='tool' and m.get('tool_call_id')==call['id']]
+    if len(returned)!=1:raise ValueError('successful call feedback is not unique')
+    fresh['messages']+=copy.deepcopy([messages[matched[0]],returned[0]])
+    if any(k in json.dumps(fresh['messages']) for k in ('training_reference_program','training_reference_execution_answer')):
+        raise ValueError('privileged labels in success conditioning')
+    return fresh
 
 
 def public_execution_state(program,execution,witnesses,actions):
@@ -179,8 +224,162 @@ def prepare_native(arms):
     for p in plan['components']:(snapshot/Path(p).name).write_bytes(Path(p).read_bytes())
 
 
+def prepare_expanded():
+    """Compile the additional real TRAIN recoveries for matched learning.
+
+    The ordinary state and contrast arms have identical targets. A separate
+    success-distillation dataset restores the real submission actions needed
+    in an empty workspace; its additional action dose is reported explicitly.
+    """
+    import finqa_semantic_learning as semantic
+    if EXPANDED.exists():raise ValueError('expanded state study already prepared')
+    parent=read(ROOT/'DATA.json');original=read(controls.ROOT/'DATA.json')
+    formed=controls.ROOT/'formation_sources_v2';teacher=formed/'teacher_v1'
+    result=read(teacher/'RESULT.json');teacher_plan=read(teacher/'PLAN.json')
+    if result['status']!='TEACHER_EXPANSION_RETURNED' or result.get('analysis_error'):
+        raise ValueError('bound completed teacher formation required')
+    analysis=read(teacher/'ANALYSIS.json')
+    if sha(teacher/'ANALYSIS.json')!=result['analysis_sha256'] or analysis['summary']['native_success']!=40:
+        raise ValueError('teacher formation receipt changed')
+    source_plan=read(formed/'PLAN.json');source_result=read(formed/'RESULT.json')
+    source_rows={r['index']:r for r in source_result['episodes']}
+    source_episodes={r['index']:r for r in source_plan['episodes']}
+    labels=read(formed/'LABELS_PRIVATE.json');sources=dict(parent['sources'])
+    for path,digest in sources.items():
+        if sha(path)!=digest:raise ValueError('parent teacher evidence changed')
+    quarantine={
+        'JPM/2003/page_44.pdf-1':'Teacher explicitly reports reference/question conflict; raw qa.answer=157.85% while exe_ans=20452.85 and the selected reference uses earnings rather than the revenue question.',
+        'MMM/2007/page_66.pdf-2':'Teacher explicitly reports period conflict; question asks January 1 while the reference adds January 1 and December 31 interest/penalties.'}
+    rows=copy.deepcopy(parent['rows']);groups=copy.deepcopy(parent['paired_rows'])
+    clean_rows=[];clean_groups=[];proofs=[];excluded=[]
+    tokenizer=tokens.load_tokenizer(learning.MODEL)
+    def remember(*paths):
+        for path in paths:
+            path=Path(path)
+            if path.exists():sources[str(path)]=sha(path)
+    def load_records(folder,item):
+        result=[]
+        for q in item['accounting']['requests']:
+            request=folder/'wire'/f"{q['request']:05d}.request.json";response=request.with_suffix('.response')
+            if sha(request)!=q['request_sha256'] or sha(response)!=q['response']['body_sha256']:
+                raise ValueError('formation wire binding changed')
+            result.append(dict(request=read(request),assistant=learning.sse_assistant(response.read_bytes()),
+                               source_request=str(request),source_response=str(response)))
+            remember(request,response)
+        return result
+    def encoded(request,target,kind,pair_id,report,role,source_record):
+        row=tokens.encode_completion(request,target,tokenizer,16384,completion_kind=kind)
+        row.update(boundary_role=role,pair_id=pair_id,report=report,assistant=copy.deepcopy(target),
+                   source_request=source_record['source_request'],source_response=source_record['source_response'],
+                   edit_contrasts={'state_sft':[],'state_branch':[]},phase='additional_train')
+        return row
+    def success_pair(action_request,closure_request,private_text,public,action,closure,pair_id,report,first,last):
+        a=encoded(fresh_request(action_request,private_text,study.prompt(public)),action,'action',pair_id,report,'repair',first)
+        b=encoded(clean_success_request(closure_request,private_text,study.prompt(public),action),closure,'closure',pair_id,report,'closure',last)
+        clean_groups.append([len(clean_rows),len(clean_rows)+1]);clean_rows.extend([a,b])
+    # The old 30 groups keep their proven targets. Success distillation also
+    # receives the nine real identity submissions removed by the state recipe.
+    for group,(a,b) in zip(groups,original['paired_rows'],strict=True):
+        repair,closing=original['rows'][a],original['rows'][b]
+        first,last=controls.source_requests(repair,closing);folder=last.parent.parent
+        public=read(folder/'inputs/public.json');private_text=(folder/'inputs/task.txt').read_text()
+        target=next(rows[i]['assistant'] for i in group if rows[i]['boundary_role']=='closure')
+        success_pair(read(first),read(last),private_text,public,repair['assistant'],target,repair['pair_id'],repair['report'],
+                     dict(source_request=str(first),source_response=str(first.with_suffix('.response'))),
+                     dict(source_request=str(last),source_response=str(last.with_suffix('.response'))))
+        remember(first,first.with_suffix('.response'),last,last.with_suffix('.response'))
+    actual_teachers={r['index']:r for r in result['episodes']}
+    keep_manifest={r['index']:r for r in read(teacher/'KEEP_SOURCES.json')}
+    for index,source_item in sorted(source_rows.items()):
+        ep=source_episodes[index];source=Path(ep['folder']);public=read(source/'inputs/public.json')
+        task.check_public(public)
+        if public['id']!=labels[index]['id']:raise ValueError('source/label identity differs')
+        is_keep=source_item['native_success'];item=source_item if is_keep else actual_teachers[index]
+        if not item['native_success']:
+            excluded.append(dict(index=index,id=ep['id'],reason='teacher_native_incomplete'));continue
+        if ep['id'] in quarantine:
+            excluded.append(dict(index=index,id=ep['id'],reason='conflicting_training_supervision',evidence=quarantine[ep['id']]));continue
+        folder=source if is_keep else Path(next(e['folder'] for e in teacher_plan['episodes'] if e['index']==index))
+        if is_keep and study.core.tree(source/'work')!=keep_manifest[index]['source_work_tree']:
+            raise ValueError('successful source workspace changed')
+        if not task.grade(item['submitted_program'],public,labels[index]['exe_ans'])['execution_correct']:
+            raise ValueError('positive program no longer matches TRAIN target')
+        records=load_records(folder,item);before_log=source/'work/executions.jsonl'
+        prior=read_lines(before_log) if before_log.exists() else []
+        witnesses=read_lines(folder/'work/executions.jsonl')
+        if not is_keep and witnesses[:len(prior)]!=prior:raise ValueError('source execution prefix changed')
+        action_at,closure_at=verified_teacher_pair(records,item['submitted_program'],witnesses,0 if is_keep else len(prior))
+        first,last=records[action_at],records[closure_at];action=first['assistant']
+        private_text=(folder/'inputs/task.txt').read_text();before=state_from_folder(source);after=state_from_folder(folder)
+        closure=semantic.identity_execution(source_item,item['submitted_program'],item['public_execution'],witnesses) if is_keep else last['assistant']
+        pair_id='additional_train/'+str(index);group=[]
+        if not is_keep:
+            request=fresh_request(first['request'],private_text,review_prompt(public,before))
+            row=encoded(request,action,'action',pair_id,ep['report'],'repair',first);points=[]
+            edits=task.execution_backslides(source_item['submitted_program'],item['submitted_program'],public,labels[index]['exe_ans'])
+            args=action['tool_calls'][0]['function']['arguments'];escaped=json.dumps(item['submitted_program'],ensure_ascii=False)[1:-1]
+            if args.count(escaped)!=1:raise ValueError('positive program not unique in real call')
+            for edit in edits:
+                if not edit['semantic_negative']:continue
+                negative=copy.deepcopy(action)
+                negative['tool_calls'][0]['function']['arguments']=args.replace(escaped,json.dumps(edit['program'],ensure_ascii=False)[1:-1],1)
+                alt=tokens.encode_completion(request,negative,tokenizer,16384)
+                points.append(learning.first_edit_decision(row,alt))
+            unique={tuple(p[k] for k in ('target_position','good_token','bad_token')):p for p in points}
+            row['edit_contrasts']['state_branch']=list(unique.values())
+            row['source_correct']=False;group.append(len(rows));rows.append(row)
+        row=encoded(fresh_request(last['request'],private_text,review_prompt(public,after)),closure,'text',pair_id,ep['report'],'closure',last)
+        row['source_correct']=is_keep;group.append(len(rows));rows.append(row);groups.append(group)
+        success_pair(first['request'],last['request'],private_text,public,action,closure,pair_id,ep['report'],first,last)
+        proofs.append(dict(index=index,id=ep['id'],report=ep['report'],kind='keep' if is_keep else 'repair',
+                           actual_requests=len(records),action_request=action_at,closure_request=closure_at,
+                           source_folder=str(source),teacher_folder=str(folder),before=before,after=after))
+        for endpoint in {source,folder}:remember(endpoint/'RESULT.json',endpoint/'raw.jsonl',endpoint/'inputs/public.json',
+                                               endpoint/'inputs/task.txt',endpoint/'work/executions.jsonl')
+    if (len(groups),len(rows),len(clean_groups),len(clean_rows),len(proofs))!=(88,147,88,176,58):
+        raise ValueError('unexpected accepted formation scope')
+    filings=[tuple(rows[g[0]]['report'].split('/')[:2]) for g in groups]
+    if len(set(filings))!=88:raise ValueError('training source filings overlap')
+    for path in [ROOT/'DATA.json',teacher/'RESULT.json',teacher/'PLAN.json',teacher/'ANALYSIS.json',
+                 teacher/'KEEP_SOURCES.json',formed/'RESULT.json',formed/'PLAN.json',formed/'LABELS_PRIVATE.json']:
+        remember(path)
+    components=[Path(__file__),Path(semantic.__file__),Path(learning.__file__),Path(controls.__file__),Path(tokens.__file__),
+                Path(study.__file__),Path(task.__file__),Path(native.__file__),Path(study.core.__file__),
+                study.REPO/'scripts/graph/research_gpu_guard.py']
+    EXPANDED.mkdir();success_root=EXPANDED/'clean_success';success_root.mkdir()
+    def freeze(root,data_rows,paired,arms,status):
+        study.new(root/'DATA.json',dict(schema='finqa_expanded_witnessed_state_training_v1',rows=data_rows,paired_rows=paired,
+            sources=sources,tokenizer=parent['tokenizer'],formation_proofs=proofs,excluded_teachers=excluded,
+            quarantine=quarantine,parent_data_sha256=sha(ROOT/'DATA.json'),scope='TRAIN only. Forty native teacher successes remain in receipts; two conflicting references are held out from every training arm.'))
+        order=list(range(len(paired)));random.Random(17).shuffle(order);plan=copy.deepcopy(read(ROOT/'PLAN.json'))
+        for key in ['inherited_arms','same_target_context_arms','initial_decision_coefficient','parent_training_result_sha256','teacher_result_sha256']:plan.pop(key,None)
+        plan.update(schema='finqa_expanded_state_learning_plan_v1',arms=arms,paired_rows=paired,schedule=order*3,
+            updates_per_arm=3*len(paired),wall_seconds=14400,data_sha256=sha(root/'DATA.json'),
+            expected_forward_calls=len(arms)*3*len(data_rows),positive_only_arms=[],terminal_status=status,
+            components={str(p):sha(p) for p in components},
+            comparison='Same 88 verified source filings, warm adapter and three group-balanced passes. State SFT versus branch share every target token. Clean success additionally learns 29 necessary submission actions for fresh workspaces; report its extra target/forward dose.',
+            scope='Thirty old TRAIN groups plus 38 referenced native recoveries and 20 native successes. Two explicit reference conflicts and four unresolved teachers are excluded uniformly; no dev inputs or answers are training targets.')
+        study.new(root/'PLAN.json',plan);snapshot=root/'compilation_sources';snapshot.mkdir()
+        for p in components:(snapshot/p.name).write_bytes(p.read_bytes())
+        return dict(root=str(root),groups=len(paired),targets=len(data_rows),arms=arms,updates_per_arm=plan['updates_per_arm'],
+                    forwards=plan['expected_forward_calls'],supervised_tokens_per_arm=3*sum(r['supervised_tokens'] for r in data_rows),plan_sha256=sha(root/'PLAN.json'))
+    main=freeze(EXPANDED,rows,groups,['state_sft','state_branch'],'TRAINED_EXPANDED_STATE_ARMS')
+    success=freeze(success_root,clean_rows,clean_groups,['success_sft'],'TRAINED_EXPANDED_SUCCESS_ARM')
+    study.new(EXPANDED/'PREPARATION.json',dict(status='CPU_PREPARED_NOT_TRAINED',main=main,clean_success=success,
+        old_negative_points=40,new_negative_points=sum(len(r['edit_contrasts']['state_branch']) for r in rows[51:]),
+        excluded=excluded,model_requests=0,neural_forwards=0,training_updates=0))
+    print(json.dumps(dict(main=main,success=success,excluded=excluded,model_requests=0)))
+
+
+def read_lines(path):
+    return [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','native']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','native','expand','expand-train','success-train']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
+    elif args.mode=='expand':prepare_expanded()
+    elif args.mode=='expand-train':learning.train(args.plan_sha,EXPANDED)
+    elif args.mode=='success-train':learning.train(args.plan_sha,EXPANDED/'clean_success')
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     else:native.run(args.plan_sha,ROOT/'native_v1')
