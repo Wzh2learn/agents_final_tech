@@ -154,7 +154,7 @@ PLAN454eff32、RESULT05d81cd0、ANALYSIS92e25250均已闭合。实际100本地PO
 TAT-QA原始32个算术题/32表上下文仅CPU准备，官方评分固定commit870accc4，标量/尺度及0值控制已验；输入无金标，评分在宿主。准备包97f8521c双份，无TAT-QA Agent/神经训练。详情见[相关资产](CONTINUATION_PROGRAM.md#tatqa-related-prep-v1)，本轮不启动TAT矩阵或冻结TAT-DQA。
 
 <a id="expanded-state-v1"></a>
-## 88组扩样：共享数据已准备，三臂尚未训练
+## 88组扩样：共享数据已准备，首试被内存保护中止
 
 同一原始TRAIN问题/程序传递已核对，没有传错题。JPM/2003/page_44.pdf-1的原qa.answer为157.85%，exe_ans却为20452.85，且参考使用earnings而题问revenue；MMM/2007/page_66.pdf-2题问January 1，参考把两时点interest/penalties相加。教师终答也明确提出这两处冲突，因此仅在本次训练材料中暂挂两组，不改原标注和40/44原生回执。所有学习方案使用相同筛选，不按dev表现挑数据。
 
@@ -164,7 +164,9 @@ TAT-QA原始32个算术题/32表上下文仅CPU准备，官方评分固定commit
 
 主计划7195d069、成功计划686deb77，各臂264更新、三个报告均衡轮次，同40e277b0暖启动、学习率2e-4、原margin/系数。普通/候选各42,699监督tokens、441前向；成功蒸馏47,538/528，额外剂量明确报告。合计划792更新/1,410前向，尚未计为实际训练。53项/34子测试通过，包含新多请求选择、缺见证拒绝及去私有标签/失败历史的回归。
 
-私有根expanded_v1/state_learning_expanded_v1，成功基线在其clean_success。准备包3e16186b双份，3,100,478字节/28文件，含两套数据/计划、323前缀/共享目标核验、负例执行见证、冻结代码及监督器。训练监督器ecb950dd采用单权重、48GiB加载门/32GiB守护，依次训练两主臂与成功基线；无新教师/校内调用。下一步按冻结计划训练，再启用新报告评估。
+私有根expanded_v1/state_learning_expanded_v1，成功基线在其clean_success。准备包3e16186b双份，3,100,478字节/28文件，含两套数据/计划、323前缀/共享目标核验、负例执行见证、冻结代码及监督器。训练监督器ecb950dd采用单权重、48GiB加载门/32GiB守护，依次训练两主臂与成功基线；无新教师/校内调用。代码00931098对齐后启动的首试，在可用31.9605GiB时被守护SIGTERM，主训练退出-15，PIPELINE_RESULT已FAILED；旧LIVE的RUNNING是中断前快照。完成下界28更新/45前向、170,730序列tokens及4,086监督tokens，另有在途计算未知；无完整新适配器，不能判断方法效果。原计划、数据、代码、日志和回执保留，后续重试另设目录。27B守护1169995/tick8953808、boot b4166d98已恢复，GET模型200。
+
+下一步先检查只投影参与损失的完成片段，验证CE、首分叉及决策项的损失与梯度等价，再按原数据、暖启动和日程重试；不靠缩短金融证据或降低32GiB保护线续跑。该内存优化不算方法贡献。
 
 ## 累计成本与可定位证据
 
@@ -190,6 +192,7 @@ GB10私有根为/home/testuser/wzh/research_evidence/agent_learning_20261030/fin
 | finqa_additional_teacher_preparation_20261115_v1 | 44教师续做输入/20保持见证及等待回执，751,672字节 | 4a529ade |
 | finqa_additional_teacher_results_20261115_v1 | 全44教师raw/回执/分析/尸检，1,376,310字节/973文件 | 28a7169b |
 | finqa_expanded_state_preparation_20261116_v1 | 88组两套数据/计划、代码、323前缀检查与负例见证，3,100,478字节/28文件 | 3e16186b |
+| finqa_expanded_state_interruption_20261116_v1 | 原88组首试完整现场、冻结代码、训练/守护终态与日志，3,103,700字节/34文件 | cb8650aa |
 | tatqa_related_preparation_20261115_v1 | 32原题/原始dev/官方评分源码及CPU验证 | 97f8521c |
 
 最新完整结果包SHA256 f4e0feeeb656fae2bfbab89682c9ea97d7cf7a82b7b80558e0a68ad2c51e4048；新增TRAIN准备包SHA256 dbd99cbe7307580c9dbcd2a658680deee2fb8d4c282b42c3201a3a1de2951589。旧结果、失败和真实费用均保留，具体候选停止不关闭金融纠正主线。
