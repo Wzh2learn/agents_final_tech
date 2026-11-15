@@ -50,7 +50,7 @@
 4. 独立原生评分，形成/整理/取证/执行全成本；自写测试、AI检查、模式合法均不作任务成功。
 5. 当前状态和授权见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)及[入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)。
 
-Token对比：[CRINGE](https://aclanthology.org/2023.acl-long.493/)、[UniSDv3](https://arxiv.org/html/2605.06597v3)；执行反例差异见[FinQA](results/FINQA_CORRECTION_LEARNING.md#branch-neighbors)。
+Token对比：[CRINGE](https://aclanthology.org/2023.acl-long.493/)、[UniSDv3](https://arxiv.org/html/2605.06597v3)；执行反例差异见[FinQA](results/FINQA_CORRECTION_METHOD.md#branch-neighbors)。
 
 <a id="可执行候选反馈与经验的适用性而非又一个技能库"></a>
 [历史候选诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)
