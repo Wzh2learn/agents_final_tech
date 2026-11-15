@@ -10,6 +10,40 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def test_current_state_requires_a_witness_for_a_submitted_program(self):
+        import finqa_state_learning as semantic
+        execution={'status':'executed','terminal_execution_answer':.5}
+        state=semantic.public_execution_state('divide(1, 2)',execution,
+            [{'program':'divide(1, 2)','execution':execution}],[])
+        self.assertEqual(state,{'current_program':'divide(1, 2)','execution_feedback':execution})
+        with self.assertRaises(ValueError):semantic.public_execution_state('divide(1, 2)',execution,[],[])
+
+    def test_missing_submission_retains_real_error_without_inventing_execution(self):
+        import finqa_state_learning as semantic
+        action={'input':{'command':'broken quoting'},'output':'actual shell error'}
+        state=semantic.public_execution_state(None,{'status':'error','code':'PROGRAM_REQUIRED_OR_TOO_LONG'},[],[action])
+        self.assertIsNone(state['current_program'])
+        self.assertIsNone(state['execution_feedback'])
+        self.assertEqual(state['last_tool_feedback'],'actual shell error')
+        self.assertNotIn('PROGRAM_REQUIRED_OR_TOO_LONG',json.dumps(state))
+
+    def test_public_execution_state_rejects_hidden_correctness_fields(self):
+        import finqa_state_learning as semantic
+        execution={'status':'executed','terminal_execution_answer':.5,'execution_correct':True}
+        with self.assertRaises(ValueError):
+            semantic.public_execution_state('divide(1, 2)',execution,[{'program':'divide(1, 2)','execution':execution}],[])
+
+    def test_reconditioning_rebinds_contrasts_without_changing_targets(self):
+        import finqa_state_learning as semantic
+        old={'prompt_token_count':2,'input_ids':[1,2,10,11,9],'labels':[-100,-100,10,11,9]}
+        new={'prompt_token_count':4,'input_ids':[3,4,5,6,10,11,9],'labels':[-100,-100,-100,-100,10,11,9]}
+        points=[{'target_position':2,'good_token':10,'bad_token':17}]
+        self.assertEqual(semantic.rebind_state_contrasts(points,old,new),
+                         [{'target_position':4,'good_token':10,'bad_token':17}])
+        self.assertEqual(points[0]['target_position'],2)
+        with self.assertRaises(ValueError):semantic.rebind_state_contrasts(points,old,dict(new,labels=[-100]*4+[12,11,9]))
+        with self.assertRaises(ValueError):semantic.rebind_state_contrasts([dict(points[0],target_position=1)],old,new)
+
     def terminal_state_fixture(self):
         import finqa_semantic_learning as semantic
         public={'question':'What is the sum?', 'table':[['a','1'],['b','2']]}
