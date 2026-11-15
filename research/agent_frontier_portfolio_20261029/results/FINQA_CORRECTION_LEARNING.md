@@ -104,13 +104,15 @@
 本小试物理131POST/547,254已知（输入540,976、输出6,278，缓存425,840为输入子集）＋1未知，262份wire核对，Actor948.48秒；共同首轮为历史费用，不重计。ANALYSIS SHA 3526ef54032b6771574f3d7d860668071682618b5ccd3ff13b3304376da9c4e3；PIPELINE RESULT4966f4df，全部阶段闭合。27B守护961887/tick7474713、boot b4166d98已恢复，GET模型200。该批已结束；后续运行状态看STATE。
 
 <a id="state-view-v2"></a>
-## 保留原目标的统一状态学习v2：CPU准备完成
+## 保留原目标的统一状态学习v2：训练运行中
 
 [方法组件](../finqa_state_learning.py)直接复用旧终止前移51条目标及原token均值系数：30组、4,362监督tokens、每臂96更新/13,633重复监督tokens。21条真实恢复解释和9条公共保持终答逐token不变，不再加入首决策重配。输入统一为当前程序及其有实际见证的执行反馈；未提交的两例只给真实最后错误，不把宿主重评分错误冒充已执行反馈。首次分叉随前缀长度变化重绑定，40个good/bad token逐项核对。
 
 新训练两臂state_sft（普通状态纠正SFT/CCT式适配）和state_branch（相同数据加执行错误首分叉项），预期合192更新/322前向/27,266监督tokens。旧terminal_identity_fold权重作为retention_reference复用，0新增训练；三者在同一公共状态提示下各跑旧32题，共96次执行、32独立报告，上限1,152本地POST、校内0。主比较branch−SFT，冻结保持参照检验是否只是换提示的收益；原14/32强规则也继续比较。没有新教师调用，不称方法已有效。
 
 DATA e2821f33、训练PLAN cb496dd9、原生PLAN dbdb2c32已冻结。GB10反例先失败，实作后51项/34子测试通过，96个输入无私有参考字段。准备包c69ea8a2双份，包含数据/输入/冻结代码及复用权重，不含后续结果；分析/监督脚本另受启动回执绑定。
+
+三端c8c472d8对齐后已启动：监督1035837/tick7966848，训练1036085/tick7967454，boot b4166d98。启动回执绑定监督脚本54bd92e7、分析4455fba2；27B先卸载，训练加载时可用88.77GiB，32GiB外部保护持续检查。实际结果及费用待批次闭合，计划数不冒充已完成数。
 
 ## 新TRAIN来源与相关增强
 
@@ -137,6 +139,8 @@ GB10私有根为/home/testuser/wzh/research_evidence/agent_learning_20261030/fin
 | finqa_terminal_state_training_20261115_v1 | 本小试完成训练/权重，不含评估结果 | 2126cb89 |
 | finqa_terminal_state_results_20261115_v1 | 本小试完整权重/64raw/分析/尸检，31,525,537字节/1,729文件 | f4e0feee |
 | finqa_additional_train_preparation_20261115_v1 | 新64TRAIN输入及原始数据，16,060,209字节 | dbd99cbe |
-| finqa_additional_train_sources_20261115_v1 | 新64TRAIN的真实源执行/分析，2,496,817字节 | e5358889 |\n| finqa_state_view_preparation_20261115_v2 | 原目标状态学习数据/96输入/复用参照，16,302,127字节 | c69ea8a2 |\n| tatqa_related_preparation_20261115_v1 | 32原题/原始dev/官方评分源码及CPU验证 | 97f8521c |
+| finqa_additional_train_sources_20261115_v1 | 新64TRAIN的真实源执行/分析，2,496,817字节 | e5358889 |
+| finqa_state_view_preparation_20261115_v2 | 原目标状态学习数据/96输入/复用参照，16,302,127字节 | c69ea8a2 |
+| tatqa_related_preparation_20261115_v1 | 32原题/原始dev/官方评分源码及CPU验证 | 97f8521c |
 
 最新完整结果包SHA256 f4e0feeeb656fae2bfbab89682c9ea97d7cf7a82b7b80558e0a68ad2c51e4048；新增TRAIN准备包SHA256 dbd99cbe7307580c9dbcd2a658680deee2fb8d4c282b42c3201a3a1de2951589。旧结果、失败和真实费用均保留，具体候选停止不关闭金融纠正主线。
