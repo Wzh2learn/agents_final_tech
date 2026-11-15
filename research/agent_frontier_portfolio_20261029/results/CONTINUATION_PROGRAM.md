@@ -60,7 +60,7 @@
 |---|---|---|
 | FinQA原数据 | GB10暂存train/dev两文件已重新读hash并匹配[既有执行器绑定](../../finqa_causal_exposure_20261010/executor_contract_v1/finqa_executor_contract_v1.py)：6,251/883例，共7,134；没有新下载或模型调用 | 可优先评估主benchmark的失败采集与恢复监督；还需查既有曝光及报告级划分，不把历史曝光样本当独立确认 |
 | FinQA终值执行器 | [既有决定](../../../docs/decisions/001-finqa-executor-scope.md)记录7,134例终值精确回放，但不支持旧qa.steps.res/answer的因果映射；本轮只读代码/历史记录，未重跑执行器 | 复用官方算子和终值执行，在新Agent任务命名空间评价实际程序/答案；无需为新主线重建旧D字段映射。旧0/89探针不当纠正样本 |
-| TAT-QA与Paper E表格素材 | 已有[许可记录](../../../docs/datasets/tatqa_licence_record_v1.md)与表格来源；本轮未重新哈希完整原数据 | 候选主集或相关集，用于证据/表文绑定及泛化；不重开冻结TAT-DQA实验。原始数据、过程反馈和派生表头任务分别标明 |
+| TAT-QA原始问题与旧WP素材 | GB10 `data/research/tatqa_raw_2026/`两文件重读hash，匹配[既有WP记录](../../tatqa_wp0_2026/README.md)：train/dev为2,201/278条记录、5,543/718个算术问题，SHA前缀2df6e722/8da095a8。另有[许可记录](../../../docs/datasets/tatqa_licence_record_v1.md) | 原数据可作第二相关集；旧WP的60个期差题是派生任务，不能当官方TAT-QA测试。复用原始问句及表文、冻结数值/尺度合同后再执行，不重开TAT-DQA；本轮只读、0模型调用 |
 
 知识库使用成本口径：执行tokens含缓存，不能直接等价钱或新增算力；另计教师/失败采集、经验形成、训练和使用。既有来源共享费用只记一次，缺失研发/硬件用量保留未知。与普通基法的比较先控制来源、学生与预算，训练内容和监督位置的变化可以是要研究的机制。
 
