@@ -64,6 +64,13 @@
 | FinQA终值执行器 | [既有决定](../../../docs/decisions/001-finqa-executor-scope.md)记录7,134例终值精确回放，但不支持旧qa.steps.res/answer的因果映射；本轮只读代码/历史记录，未重跑执行器 | 复用官方算子和终值执行，在新Agent任务命名空间评价实际程序/答案；无需为新主线重建旧D字段映射。旧0/89探针不当纠正样本 |
 | TAT-QA原始问题与旧WP素材 | GB10 `data/research/tatqa_raw_2026/`两文件重读hash，匹配[既有WP记录](../../tatqa_wp0_2026/README.md)：train/dev为2,201/278条记录、5,543/718个算术问题，SHA前缀2df6e722/8da095a8。另有[许可记录](../../../docs/datasets/tatqa_licence_record_v1.md) | 可作第二相关集；旧WP60个期差题是派生任务。[原评估器](https://github.com/NExTplusplus/TAT-QA/blob/master/tatqa_metric.py)及[测试](https://github.com/NExTplusplus/TAT-QA/blob/master/tatqa_metric_test.py)已读：算术评分处理答案与scale，不能直接替用FinQA小数相等口径。冻结输出单位/官方评分后用原问句及表文执行，不重开TAT-DQA；本轮0模型调用 |
 
+<a id="tatqa-related-prep-v1"></a>
+**TAT-QA相关原始算术题：CPU准备完成，Agent未运行。** [组件](../tatqa_correction.py)复用既有数值执行器，公开输入仅保留原问句、完整表格及段落；工具保存程序和模型自报scale，只返回执行反馈。私有主机评分使用[固定上游870accc](https://github.com/NExTplusplus/TAT-QA/tree/870accc41953dcde885aabeb963d94aabdc0fbc3)未改代码的算术EM/F1，另记scale准确率；测试包含零值、符号、等价尺度和重复百分比换算。
+
+GB10 `tatqa_correction_v1/related_dev_v1/PREPARATION.json` SHA 0d662423：在原始dev算术题中按固定UID哈希取32个不同表文上下文，不按答案值、scale或模型成绩筛题；尺度分布million/无/percent/thousand为12/4/7/9，最大任务文本6,704字节。这是相关开发集，不将表UID称公司/年份分组。当前仅组件与数据准备；待FinQA固定批次结束后，再接入既有episode的候选/评分回调，不额外建设runner。
+
+本批GB10定点73项/40子测试通过，包含新组件5项、两个未改动的上游评分测试及既有66项；孤立工具的`subtract(2, 2)`仅作接口检查，不记原题成功。0模型POST/神经前向/训练更新。双份包`tatqa_related_preparation_20261115_v1.tgz`为834,633字节、SHA256 `97f8521cf1309204607cf04ab95a473c504c04b94ec29c7cf8ed33ea22c7ca15`，含32个公共输入、私有标签、原始dev文件、源码/测试、上游许可/代码及准备脚本。
+
 知识库使用成本口径：执行tokens含缓存，不能直接等价钱或新增算力；另计教师/失败采集、经验形成、训练和使用。既有来源共享费用只记一次，缺失研发/硬件用量保留未知。与普通基法的比较先控制来源、学生与预算，训练内容和监督位置的变化可以是要研究的机制。
 
 <a id="finqa-current"></a>
