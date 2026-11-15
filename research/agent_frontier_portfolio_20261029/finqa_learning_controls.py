@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import math
 from pathlib import Path
 import random
 import shlex
@@ -101,6 +102,93 @@ def step_dpo_loss(chosen,rejected,reference_gap,beta):
     if beta<=0:raise ValueError('positive DPO beta required')
     reference=torch.as_tensor(reference_gap,device=chosen.device,dtype=chosen.dtype).detach()
     return F.softplus(-beta*(chosen-rejected-reference))
+
+
+def preference_weight(beta,edit_weight,mean_initial_slope):
+    """Match the TRAIN initial first-divergence derivative, not parameter norms."""
+    if not math.isfinite(beta) or beta<=0 or edit_weight<=0 or not 0<mean_initial_slope<=1:
+        raise ValueError('finite positive preference calibration required')
+    return 2*edit_weight*mean_initial_slope/beta
+
+
+class StepPreference:
+    """A fixed warm reference and sequential branches for bounded GPU memory."""
+    def __init__(self,model,rows,plan,root,state):
+        import torch
+        self.root=root;self.state=state;self.config=plan['step_preference'];self.beta=self.config['beta'];self.references={}
+        if any(isinstance(x,torch.nn.Dropout) and x.p for x in model.modules()) or getattr(model.config,'attention_dropout',0):
+            raise ValueError('split-gradient control requires deterministic zero-dropout forwards')
+        model.eval()
+        with torch.no_grad():
+            for row in rows:
+                prefs=row.get('step_preferences',[])
+                if not prefs:continue
+                logits=self.forward(model,row,'reference');chosen={}
+                for pref in prefs:
+                    value=selected_logprob(logits,row['input_ids'],pref['chosen_positions'])
+                    at=pref['shared_prefix_tokens'];good=row['input_ids'][at];bad=pref['rejected']['input_ids'][at]
+                    slope=torch.sigmoid(self.config['edit_margin']+logits[0,at-1,bad].float()-logits[0,at-1,good].float())
+                    chosen[pref['uid']]=(float(value),float(slope))
+                del logits,value,slope
+                for pref in prefs:
+                    rejected=pref['rejected'];logits=self.forward(model,rejected,'reference')
+                    value=selected_logprob(logits,rejected['input_ids'],pref['rejected_positions'])
+                    positive,slope=chosen[pref['uid']]
+                    self.references[pref['uid']]=dict(gap=positive-float(value),chosen=positive,rejected=float(value),initial_slope=slope)
+                    del logits,value
+        slopes=[]
+        for group in plan['schedule']:
+            for index in plan['paired_rows'][group]:
+                prefs=rows[index].get('step_preferences',[])
+                if prefs:slopes.append(sum(self.references[p['uid']]['initial_slope'] for p in prefs)/len(prefs))
+        self.weight=preference_weight(self.beta,self.config['edit_weight'],sum(slopes)/len(slopes))
+        learning.new(root/'REFERENCE.json',dict(references=self.references,beta=self.beta,weight=self.weight,
+                     mean_initial_slope=sum(slopes)/len(slopes),scope='TRAIN-only fixed warm model; schedule-weighted initial local slope, not a match of full parameter-gradient norms.'))
+        state['step_preference_weight']=self.weight;state['reference_sha256']=sha(root/'REFERENCE.json')
+
+    def forward(self,model,row,phase):
+        import torch
+        self.state['preference_attempted_forwards']=self.state.get('preference_attempted_forwards',0)+1
+        learning.study.publish(self.root/'LIVE.json',self.state)
+        logits=model(input_ids=torch.tensor([row['input_ids']],device='cuda'),use_cache=False).logits
+        self.state['forward_calls']+=1
+        key=phase+'_forward_calls';self.state[key]=self.state.get(key,0)+1
+        key='reference_sequence_tokens' if phase=='reference' else 'training_sequence_tokens'
+        self.state[key]=self.state.get(key,0)+len(row['input_ids'])
+        return logits
+
+    def before_row(self,model,row,arm):
+        import torch
+        work=[]
+        if arm!=self.config['arm']:return work
+        with torch.no_grad():
+            for pref in row.get('step_preferences',[]):
+                logits=self.forward(model,pref['rejected'],'preference_nograd')
+                value=selected_logprob(logits,pref['rejected']['input_ids'],pref['rejected_positions'])
+                work.append(dict(pref=pref,rejected=float(value)))
+                del logits,value
+        return work
+
+    def positive(self,logits,row,work):
+        import torch
+        terms=[]
+        for item in work:
+            pref=item['pref'];chosen=selected_logprob(logits,row['input_ids'],pref['chosen_positions'])
+            gap=self.references[pref['uid']]['gap'];rejected=torch.as_tensor(item['rejected'],device=chosen.device)
+            terms.append(step_dpo_loss(chosen,rejected,gap,self.beta))
+            item['negative_scale']=self.weight/len(work)*self.beta*float(torch.sigmoid(-self.beta*(chosen.detach()-rejected-gap)))
+        return self.weight*torch.stack(terms).mean()
+
+    def backward_rejected(self,model,work):
+        for item in work:
+            pref=item['pref'];row=pref['rejected'];logits=self.forward(model,row,'preference_grad')
+            value=selected_logprob(logits,row['input_ids'],pref['rejected_positions'])
+            # The coefficient is detached at the same pre-update policy. This
+            # is the rejected branch of the joint DPO gradient, counted once.
+            (item['negative_scale']*value).backward()
+            self.state['preference_chosen_tokens']=self.state.get('preference_chosen_tokens',0)+len(pref['chosen_positions'])
+            self.state['preference_rejected_tokens']=self.state.get('preference_rejected_tokens',0)+len(pref['rejected_positions'])
+            del logits,value
 
 
 def prepare():
@@ -227,6 +315,60 @@ def prepare_prompt_review():
     print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),episodes=len(episodes),max_posts=plan['max_posts'])))
 
 
+def prepare_training_controls():
+    """Same positive targets and warm start; clean context vs step preferences."""
+    import run_finqa_learning_native as native
+    out=ROOT/'controls_v1/matched_training_v1'
+    if out.exists():raise ValueError('matched controls already prepared')
+    old=read(ROOT/'PLAN.json');data=read(ROOT/'DATA.json')
+    clean_path=out.parent/'SUCCESS_CONTEXT_DATA.json';pref_path=out.parent/'STEP_PREFERENCE_DATA.json'
+    clean=read(clean_path);preferences=read(pref_path)
+    if sha(ROOT/'DATA.json')!=old['data_sha256'] or clean['source_data_sha256']!=sha(ROOT/'DATA.json') or preferences['source_data_sha256']!=sha(ROOT/'DATA.json'):
+        raise ValueError('compiled control sources changed')
+    if len(clean['rows'])!=len(data['rows']) or len(preferences['preferences'])!=35:raise ValueError('matched control counts differ')
+    fields={'input_ids','attention_mask','labels','prompt_token_count','sequence_length','supervised_tokens','assistant_end_index',
+            'prefix_token_alignment_verified','rendered_prefix_sha256','rendered_full_sha256','template_adaptations','loss_scope'}
+    for row,target in zip(data['rows'],clean['rows']):
+        row['edit_contrasts']={};row['conditioning_by_arm']={'success_context_sft':{k:v for k,v in target.items() if k in fields}}
+        learning.conditioning_row(row,'success_context_sft',allow_repair=True)
+    for index,pref in enumerate(preferences['preferences']):
+        if pref['reference_gap'] is not None:raise ValueError('unexpected precomputed reference')
+        data['rows'][pref['row_index']].setdefault('step_preferences',[]).append(dict(pref,uid=f'p{index:04d}'))
+    refs=len({p['row_index'] for p in preferences['preferences']})+len(preferences['preferences'])
+    repeated=sum(sum(len(data['rows'][i].get('step_preferences',[])) for i in old['paired_rows'][g]) for g in old['schedule'])
+    data.update(scope='Same 60 teacher targets; clean public context only for success_context_sft; original recovery prefix plus 35 step preferences for step_dpo. No new formation calls.')
+    out.mkdir(mode=0o700);learning.new(out/'DATA.json',data)
+    components=[Path(__file__),Path(learning.__file__),Path(learning.tokens.__file__),Path(task.__file__),Path(study.__file__),study.REPO/'scripts/graph/research_gpu_guard.py']
+    plan=dict(old, schema='finqa_matched_training_controls_v1',arms=['success_context_sft','step_dpo'],data_sha256=sha(out/'DATA.json'),
+              same_target_context_arms=['success_context_sft'],expected_forward_calls=384+2*repeated+refs,wall_seconds=10800,
+              step_preference=dict(arm='step_dpo',beta=.4,edit_weight=old['edit_weight'],edit_margin=old['edit_margin'],
+                                   weight_rule='2 * edit_weight * TRAIN schedule-mean initial sigmoid(edit_margin - local_good_minus_bad) / beta',
+                                   backward='Sequential exact first derivatives with a rejected no-grad prepass; extra forwards are implementation cost, not intrinsic Step-DPO cost.'),
+              source_control_data_sha256={str(p):sha(p) for p in (clean_path,pref_path)},
+              terminal_status='TRAINED_MATCHED_CONTROL_ARMS',components={str(p):sha(p) for p in components},
+              comparison='Two controls, each with the same 30 groups, 60 positive targets, warm adapter and 96-update schedule as original recovery/negative training. Success-context SFT changes conditioning. Step-DPO core is adapted with the shared positive-CE anchor, fixed warm reference and beta .4; not the original paper data pipeline.',
+              scope='TRAIN-only, one predetermined recipe; positive supervised targets match, step negatives and reference compute are reported separately.',
+              next='Freeze the execution-negative primary candidate and necessary controls before enabling reserved confirmation filings.')
+    learning.new(out/'PLAN.json',plan);snapshot=out/'training_sources';snapshot.mkdir()
+    for p in components:(snapshot/p.name).write_bytes(p.read_bytes())
+    parent=ROOT/'dev_firstpass_v1';target=out/'native_v1';target.mkdir()
+    source=read(parent/'PLAN.json');template=read(ROOT/'dev_review_v1/PLAN.json');episodes=[];sources=[]
+    for ep in source['episodes']:
+        original=Path(ep['folder']);text=study.recovery_prompt(read(original/'inputs/public.json'),study.recent_actions(original))
+        sources.append(dict(ep,result_sha256=sha(original/'RESULT.json'),work_tree=study.core.tree(original/'work')))
+        for arm in plan['arms']:
+            folder=target/arm/f"{ep['index']:03d}";folder.mkdir(parents=True)
+            shutil.copytree(original/'inputs',folder/'inputs');shutil.copytree(original/'work',folder/'work');(folder/'dependencies').mkdir()
+            (folder/'inputs/task.txt').write_text(text);episodes.append(dict(ep,arm=arm,folder=str(folder),task_sha256=sha(folder/'inputs/task.txt')))
+    shutil.copyfile(parent/'LABELS_PRIVATE.json',target/'LABELS_PRIVATE.json');order=list(plan['arms']);random.Random(17).shuffle(order)
+    template.update(schema='finqa_matched_controls_native_v1',episodes=episodes,arms=plan['arms'],arm_order=order,source_episodes=sources,
+                    training_root=str(out),training_plan_sha256=sha(out/'PLAN.json'),required_training_status=plan['terminal_status'],
+                    terminal_status='FINQA_MATCHED_CONTROLS_RETURNED',max_posts=len(episodes)*study.CAPS['posts'],
+                    components={**native.expanded_runtime()['components'],str(Path(learning.__file__)):sha(learning.__file__)})
+    learning.new(target/'PLAN.json',template)
+    print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),data_sha256=sha(out/'DATA.json'),updates=192,forwards=plan['expected_forward_calls'],reference_forwards=refs,rejected_prepass_and_backward=2*repeated,positive_supervised_tokens=33710,review_plan_sha256=sha(target/'PLAN.json'),review_episodes=len(episodes),max_posts=template['max_posts'])))
+
+
 def planned_result_key(result,expected):
     """The older strong-model runner omits arm; bind its unique frozen role."""
     if 'arm' in result:return result['arm'],result['index']
@@ -333,7 +475,9 @@ def analyze():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','analyze','prepare-prompt-review']);args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','analyze','prepare-prompt-review','prepare-training-controls','train-controls']);p.add_argument('--plan-sha');args=p.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='prepare-prompt-review':prepare_prompt_review()
+    elif args.mode=='prepare-training-controls':prepare_training_controls()
+    elif args.mode=='train-controls':learning.train(args.plan_sha,ROOT/'controls_v1/matched_training_v1')
     else:analyze()

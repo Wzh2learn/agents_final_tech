@@ -187,14 +187,14 @@ def group_coefficients(lengths,objective):
     raise ValueError('one terminal or two repair/closure targets required')
 
 
-def conditioning_row(row,arm):
-    """Change only a closure's conditioning, preserving every target token."""
+def conditioning_row(row,arm,*,allow_repair=False):
+    """Preserve target tokens; moving repair context requires explicit opt-in."""
     alternate=row.get('conditioning_by_arm',{}).get(arm)
     if alternate is None:return row
     allowed={'input_ids','attention_mask','labels','prompt_token_count','sequence_length','supervised_tokens',
              'assistant_end_index','prefix_token_alignment_verified','rendered_prefix_sha256',
              'rendered_full_sha256','template_adaptations','loss_scope'}
-    if (row.get('boundary_role')!='closure' or any(row.get('edit_contrasts',{}).values())
+    if ((row.get('boundary_role')!='closure' and not (allow_repair and row.get('boundary_role')=='repair')) or any(row.get('edit_contrasts',{}).values())
             or not set(alternate)<=allowed):raise ValueError('only terminal conditioning may move')
     if ([v for v in row['labels'] if v!=-100]!=[v for v in alternate['labels'] if v!=-100]
             or row['supervised_tokens']!=alternate['supervised_tokens']):
@@ -539,6 +539,10 @@ def train(digest, root=None):
                 name.encode()+value.detach().cpu().contiguous().view(torch.uint8).numpy().tobytes()
                 for name,value in sorted(initial.items()))).hexdigest()
             model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False});model.enable_input_require_grads()
+            preference=None
+            if plan.get('step_preference'):
+                from finqa_learning_controls import StepPreference
+                preference=StepPreference(model,rows,plan,root,state)
             for arm in plan['arms']:
                 with torch.no_grad():
                     for name,param in model.named_parameters():
@@ -549,17 +553,22 @@ def train(digest, root=None):
                     if time.monotonic()-started>plan['wall_seconds']:raise TimeoutError('finite training wall cap')
                     index=plan['schedule'][update] if 'schedule' in plan else update%len(rows)
                     batch=[rows[i] for i in plan['paired_rows'][index]] if plan.get('paired_rows') else [rows[index]]
-                    batch=[conditioning_row(row,arm) for row in batch]
+                    batch=[conditioning_row(row,arm,allow_repair=arm in plan.get('same_target_context_arms',[])) for row in batch]
                     coefficients=group_coefficients([r['supervised_tokens'] for r in batch],plan.get('pair_objective',arm)) if plan.get('paired_rows') else [1.]
                     optimizer.zero_grad(set_to_none=True)
                     total=0.;odds_values=[];before=None;auxiliary=0.
                     for at,(row,coefficient) in enumerate(zip(batch,coefficients)):
+                        work=preference.before_row(model,row,arm) if preference else []
                         x=torch.tensor([row['input_ids']],device='cuda');y=torch.tensor([row['labels']],device='cuda')
                         weights=([float(t!=-100) for t in row['labels']] if plan.get('paired_rows') else
                                  row['weights_by_arm'][arm] if 'weights_by_arm' in row else
                                  row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']])
                         w=torch.tensor([weights],device='cuda');logits=model(input_ids=x,use_cache=False).logits
                         value=coefficient*weighted_loss(logits,y,w)
+                        if work:
+                            term=preference.positive(logits,row,work)
+                            edit_diagnostics.append(dict(update=update,decisions=len(work),loss=float(term.detach())))
+                            value=value+term;del term
                         if at==0 and 'initial_decision_coefficient' in plan:
                             value=value+initial_decision_adjustment(logits,y,row['prompt_token_count'],
                                 coefficient/row['supervised_tokens'],plan['initial_decision_coefficient'])
@@ -582,6 +591,7 @@ def train(digest, root=None):
                         total+=float(value.detach());value.backward()
                         state['forward_calls']+=1;state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
                         del x,y,w,value,logits
+                        if work:preference.backward_rejected(model,work)
                         if at==1 and arm=='paired_mode':del penalty
                     torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],1.)
                     optimizer.step();losses.append(total);state['optimizer_updates']+=1
@@ -592,6 +602,8 @@ def train(digest, root=None):
                                        adapter_files={p.name:sha(p) for p in output.iterdir() if p.is_file()})
                 del optimizer;gc.collect();torch.cuda.empty_cache()
                 study.publish(root/'LIVE.json',state)
+            if plan.get('step_preference') and state['forward_calls']!=plan['expected_forward_calls']:
+                raise ValueError('matched preference forward count differs')
             state['status']=plan.get('terminal_status') or ('TRAINED_PAIRED_DECISION_ARMS' if plan.get('paired_rows') else 'TRAINED_REFINEMENT_ARMS' if plan.get('warm_start') else 'TRAINED_TWO_DEVELOPMENT_ARMS')
     except BaseException:
         state.update(status='FAILED',error=traceback.format_exc());raise

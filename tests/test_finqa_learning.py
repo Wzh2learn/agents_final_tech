@@ -253,5 +253,27 @@ class FinQALearningTests(unittest.TestCase):
             labels.write_text('[{}]')
             with self.assertRaisesRegex(ValueError,'labels changed'):control.inspect_batch(folder,'DONE')
 
+    def test_step_preference_split_gradient_and_temperature_calibration(self):
+        import torch
+        import finqa_learning_controls as c
+        chosen=torch.tensor(-2.,requires_grad=True);rejected=torch.tensor(-1.,requires_grad=True)
+        weight=c.preference_weight(.4,.1,.7)
+        self.assertAlmostEqual(weight,.35)
+        joint=weight*c.step_dpo_loss(chosen,rejected,-.3,.4)
+        expected=torch.autograd.grad(joint,(chosen,rejected))
+        positive=weight*c.step_dpo_loss(chosen,rejected.detach(),-.3,.4)
+        scale=weight*.4*torch.sigmoid(-.4*(chosen.detach()-rejected.detach()+.3))
+        actual=(torch.autograd.grad(positive,chosen)[0],torch.autograd.grad(scale*rejected,rejected)[0])
+        for first,second in zip(expected,actual):self.assertTrue(torch.allclose(first,second))
+        with self.assertRaises(ValueError):c.preference_weight(0.,.1,.7)
+
+    def test_same_target_action_context_requires_explicit_opt_in(self):
+        row=dict(boundary_role='repair',input_ids=[8,2,3],labels=[-100,2,3],supervised_tokens=2,edit_contrasts={},
+                 conditioning_by_arm={'clean':dict(input_ids=[9,2,3],labels=[-100,2,3],supervised_tokens=2)})
+        with self.assertRaises(ValueError):m.conditioning_row(row,'clean')
+        self.assertEqual(m.conditioning_row(row,'clean',allow_repair=True)['input_ids'],[9,2,3])
+        row['conditioning_by_arm']['clean']['labels'][-1]=4
+        with self.assertRaises(ValueError):m.conditioning_row(row,'clean',allow_repair=True)
+
 
 if __name__=='__main__':unittest.main()
