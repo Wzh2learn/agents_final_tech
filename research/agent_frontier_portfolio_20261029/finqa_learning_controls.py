@@ -10,6 +10,7 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import random
 import shlex
 
 import finqa_learning as learning
@@ -160,5 +161,112 @@ def prepare():
                           model_requests=0,supervised_tokens=sum(r['supervised_tokens'] for r in success))))
 
 
+def paired_difference(first,second,draws=20000,seed=17):
+    """Resample paired independent filing groups, not their individual requests."""
+    if not first or len(first)!=len(second) or draws<2:raise ValueError('complete matched outcomes required')
+    values=[int(a)-int(b) for a,b in zip(first,second)];rng=random.Random(seed);n=len(values)
+    sampled=sorted(sum(rng.choice(values) for _ in range(n))/n for _ in range(draws))
+    def quantile(q):
+        x=q*(draws-1);i=int(x)
+        return sampled[i]+(sampled[min(i+1,draws-1)]-sampled[i])*(x-i)
+    return dict(n=n,mean_difference=sum(values)/n,ci95=[quantile(.025),quantile(.975)],
+                first_only=values.count(1),second_only=values.count(-1),ties=values.count(0),draws=draws,seed=seed)
+
+
+def inspect_batch(folder,status):
+    """Re-grade saved programs and reconcile actual request/response evidence."""
+    from scripts.graph.research_school_gateway import usage_from_body
+    folder=Path(folder);plan=read(folder/'PLAN.json');result=read(folder/'RESULT.json')
+    if result['status']!=status or result['plan_sha256']!=sha(folder/'PLAN.json'):
+        raise ValueError('complete bound native result required')
+    labels=read(folder/'LABELS_PRIVATE.json')
+    if sha(folder/'LABELS_PRIVATE.json')!=plan['private_labels_sha256']:raise ValueError('labels changed')
+    expected={(e['arm'],e['index']):e for e in plan['episodes']};seen=set();rows=[]
+    if len(expected)!=len(plan['episodes']):raise ValueError('duplicate planned task')
+    for r in result['episodes']:
+        key=r['arm'],r['index']
+        if key in seen or key not in expected:raise ValueError('duplicate/unplanned result')
+        seen.add(key);ep=expected[key];case=Path(ep['folder']);label=labels[r['index']]
+        if label['id']!=r['id'] or sha(case/'inputs/public.json')!=ep['public_sha256']:
+            raise ValueError('case identity changed')
+        graded=task.grade(r['submitted_program'],read(case/'inputs/public.json'),label['exe_ans'])
+        if any(graded[k]!=r[k] for k in ('execution_correct','program_valid')):
+            raise ValueError('saved program grade changed')
+        if r['native_success']!=(graded['execution_correct'] and r['agent_completed']):
+            raise ValueError('native completion predicate changed')
+        ac=r['accounting'];total=known=unknown=prompt=completion=cached=cache_unknown=0
+        for request in ac['requests']:
+            prefix=case/'wire'/f"{request['request']:05d}.request"
+            q=prefix.with_suffix('.request.json');response=prefix.with_suffix('.request.response')
+            if sha(q)!=request['request_sha256'] or sha(response)!=request['response']['body_sha256']:
+                raise ValueError('wire evidence changed')
+            usage=usage_from_body(response.read_bytes());total+=1
+            if usage is None:unknown+=1
+            else:
+                if usage!=request['response']['usage']:raise ValueError('usage disagrees with raw response')
+                known+=usage['total_tokens'];prompt+=usage['prompt_tokens'];completion+=usage['completion_tokens']
+                details=usage.get('prompt_tokens_details') or {}
+                cache=details.get('cached_tokens',usage.get('prompt_cache_hit_tokens'))
+                if type(cache) is int and 0<=cache<=usage['prompt_tokens']:cached+=cache
+                else:cache_unknown+=1
+        prior_unknown=ac['unknown_usage_requests']
+        if (total!=ac['actual_forwarded_posts'] or known!=ac['provider_total_tokens_known']
+                or unknown!=(len(prior_unknown) if isinstance(prior_unknown,list) else prior_unknown)):
+            raise ValueError('request accounting does not reconcile')
+        witness=case/'work/executions.jsonl'
+        executions=[json.loads(x) for x in witness.read_text().splitlines()] if witness.exists() else []
+        observed=any(x['program']==r['submitted_program'] and x['execution']['status']=='executed' for x in executions)
+        rows.append(dict(arm=key[0],index=key[1],id=r['id'],report=ep['report'],answer_correct=r['execution_correct'],
+                         native_success=r['native_success'],normal_exit=r['agent_completed'],valid=r['program_valid'],
+                         execution_witness=observed,posts=total,known_tokens=known,unknown_requests=unknown,
+                         prompt_tokens_known=prompt,completion_tokens_known=completion,cached_input_known=cached,
+                         cache_unknown_requests=cache_unknown+unknown,
+                         noncached_input_tokens=prompt-cached if not cache_unknown and not unknown else None,
+                         actor_seconds=r['actor']['seconds'],wire_hashes=total*2))
+    if seen!=set(expected):raise ValueError('unexecuted planned cases must not disappear from final analysis')
+    return dict(plan_sha256=sha(folder/'PLAN.json'),result_sha256=sha(folder/'RESULT.json'),rows=rows)
+
+
+def analyze():
+    source=inspect_batch(ROOT/'dev_firstpass_v1','FINQA_EXPANDED_DEV_FIRSTPASS_RETURNED')
+    review=inspect_batch(ROOT/'dev_review_v1','FINQA_EXPANDED_DEV_REVIEW_RETURNED')
+    before={r['index']:r for r in source['rows']}
+    if len({tuple(r['report'].split('/')[:2]) for r in before.values()})!=len(before):
+        raise ValueError('bootstrap units must be independent filing groups')
+    names=read(ROOT/'PLAN.json')['arms'];groups={name:sorted([r for r in review['rows'] if r['arm']==name],key=lambda r:r['index']) for name in names}
+    result={};vectors={};indices=sorted(before)
+    for name,rows in groups.items():
+        if [r['index'] for r in rows]!=indices:raise ValueError('review cohorts differ')
+        correct=[before[r['index']]['answer_correct'] for r in rows]
+        native=[before[r['index']]['native_success'] for r in rows]
+        n=len(rows);vectors[name]=[r['native_success'] for r in rows]
+        result[name]=dict(n=n,answer_correct=sum(r['answer_correct'] for r in rows),native_success=sum(vectors[name]),
+                          normal_exit=sum(r['normal_exit'] for r in rows),valid=sum(r['valid'] for r in rows),
+                          native_with_execution_witness=sum(r['native_success'] and r['execution_witness'] for r in rows),
+                          source_correct=sum(correct),correct_retained=sum(c and r['answer_correct'] for c,r in zip(correct,rows)),
+                          original_wrong_recovered=sum(not c and r['answer_correct'] for c,r in zip(correct,rows)),
+                          source_native=sum(native),native_recovered=sum(not c and r['native_success'] for c,r in zip(native,rows)),
+                          posts=sum(r['posts'] for r in rows),known_tokens=sum(r['known_tokens'] for r in rows),
+                          unknown_requests=sum(r['unknown_requests'] for r in rows),actor_seconds=sum(r['actor_seconds'] for r in rows),
+                          prompt_tokens_known=sum(r['prompt_tokens_known'] for r in rows),completion_tokens_known=sum(r['completion_tokens_known'] for r in rows),
+                          cached_input_known=sum(r['cached_input_known'] for r in rows),cache_unknown_requests=sum(r['cache_unknown_requests'] for r in rows))
+        result[name]['whole_policy_posts']=result[name]['posts']+sum(r['posts'] for r in before.values())
+        result[name]['whole_policy_known_tokens']=result[name]['known_tokens']+sum(r['known_tokens'] for r in before.values())
+    contrasts={name+' minus closed_sft':paired_difference(vectors[name],vectors['closed_sft']) for name in names if name!='closed_sft'}
+    for name in ('edit_field_positive','edit_all_negative'):
+        contrasts['edit_field_negative minus '+name]=paired_difference(vectors['edit_field_negative'],vectors[name])
+    physical=source['rows']+review['rows']
+    output=dict(schema='finqa_expanded_native_comparison_v1',source=source,review=review,arms=result,paired_native_differences=contrasts,
+                physical=dict(episodes=len(physical),posts=sum(r['posts'] for r in physical),known_tokens=sum(r['known_tokens'] for r in physical),
+                              unknown_requests=sum(r['unknown_requests'] for r in physical),wire_hashes=sum(r['wire_hashes'] for r in physical)),
+                scope='Exploratory fixed 32-filing cohort, one sampling seed; intervals resample filing groups and do not measure repeated-model-seed variability. No multiplicity-adjusted significance claim. Common first pass billed once physically.')
+    path=ROOT/'ANALYSIS.json'
+    if path.exists():
+        if read(path)!=output:raise ValueError('existing analysis differs; preserve it and name an amendment')
+    else:learning.new(path,output)
+    print(json.dumps(dict(arms=result,paired_native_differences=contrasts,physical=output['physical'],analysis_sha256=sha(path))))
+
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare']);p.parse_args();prepare()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','analyze']);args=p.parse_args()
+    prepare() if args.mode=='prepare' else analyze()

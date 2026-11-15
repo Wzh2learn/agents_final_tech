@@ -158,5 +158,15 @@ class FinQALearningTests(unittest.TestCase):
         self.assertLess(float(logits.grad[0,2,3]),0.)
         self.assertGreater(float(rejected.grad[0,2,7]),0.)
 
+    def test_paired_report_summary_preserves_both_discordance_directions(self):
+        import finqa_learning_controls as control
+        same=control.paired_difference([1,0,1],[1,0,1],draws=100)
+        self.assertEqual(same['mean_difference'],0.)
+        self.assertEqual(same['ci95'],[0.,0.])
+        r=control.paired_difference([1,1,0,1],[0,1,1,0],draws=100)
+        self.assertEqual((r['first_only'],r['second_only'],r['ties']),(2,1,1))
+        self.assertEqual(r['mean_difference'],.25)
+        with self.assertRaises(ValueError):control.paired_difference([1,0],[0],draws=100)
+
 
 if __name__=='__main__':unittest.main()

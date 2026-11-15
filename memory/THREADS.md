@@ -6,12 +6,12 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇唯一下一步 | 30对/60行同数据四组训练后，对32新报告做统一首轮及全部复查，检验负方向的语义边界；再补成功蒸馏、匹配步骤偏好及必要消融，见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
+| 第二篇唯一下一步 | 四组训练已完成；32源首轮13/32，继续128次同现场复查与完整归因。成功上下文/步骤偏好数据已准备但未训练；补齐继续/停止方向为后续候选，当前不切换协议。见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | [近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)用于借鉴与比较；恢复SFT、片段监督、能力保留可组合。需确定一条具体差异与消融，匹配近邻实验尚未完成。 |
 | 来源与参考资格 | 历史代码与客服按[知识索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)保留。新增Astropy14182仅CPU控制完成，Matplotlib25079收集警告未解，无Agent/训练；不作金融主线前置。 |
-| 成本及运行器 | 形成已闭合，校内总账不重置；当前训练384/768按LIVE计入，评估帽1920本地POST、校内0。运维/未知用量分账，见[金融成本](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#成本与证据位置)。 |
+| 成本及运行器 | 四组384/768及32首轮已闭合，复查按LIVE计入；本地执行帽1920POST、校内0新增。缓存是输入子集，运维/未知用量分账，见[金融成本](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#成本与证据位置)。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
 | 工作区与分享 | 当前方法与分段归档按本批提交同步三端；研究训练/学生评估单权重驻留、32GiB守护，结束恢复27B；其他对话Paper E/开题WIP、LoopB/历史worktree保留。 |
 | 文档与 skill 存量 | 机制知识和现役入口已收敛；本次仅只读doctor/map，不安装/分发新skill。既有WIP缺陷与历史warning单列；不让存量全库治理阻塞后续机制研究。 |
