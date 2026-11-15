@@ -5,7 +5,7 @@
 - **Goal / FCCL**：active；新64报告验证全部闭合。普通纠正/全负方向/成功上下文均25/64，步骤偏好19/64，共同首轮27/64。主候选多修复2题、也多改坏2题；深化修复与正确保持。
 - **研究阶段**：保留执行错误分叉的修复信号；下一小试只改收尾监督的条件表示，同目标/日程比较真实工具历史与同一执行状态的公开投影，不加推理门控。[完整结果](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#confirmation-primary-v1)。
 - **实际运行 / 预算**：FinQA累计2,481POST/10,681,537已知＋6未知（196,608预留），本批663POST/2,714,901已知＋4未知。校内仍5,005POST/50,865,083已知＋2,621,440预留，见[总账](../research/agent_frontier_portfolio_20261029/results/FCCL_FORMATION.md#成本与证据定位)；运维55,809另账。
-- **下一交付**：先编译同目标收尾条件对照、核对实际执行见证与监督量，再小规模训练/原生验证。新64题现已曝光，不再充当新规则独立确认。TAT-QA32题CPU准备完成，尚无Agent/训练。
+- **下一交付**：收尾条件两臂已CPU编译，PLAN c4e14375/原生d869106c，47项/34子测试通过；接续同30组训练及旧32题原生比较。准备包77816ca5双份；新64题已曝光，TAT-QA仅CPU准备。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。

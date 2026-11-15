@@ -620,9 +620,9 @@ def prepare_confirmation_reviews():
     print(json.dumps(dict(jobs=[dict(folder=str(p),plan_sha256=sha(p/'PLAN.json')) for p in targets])))
 
 
-def prepare_identity_review():
+def prepare_identity_review(training=None):
     """Replay both terminal-placement learners on the existing dev states."""
-    training=learning.ROOT/'semantic_correction_v1/expanded_v1/controls_v1/identity_fold_v1'
+    training=Path(training) if training is not None else learning.ROOT/'semantic_correction_v1/expanded_v1/controls_v1/identity_fold_v1'
     parent=training.parents[1]/'dev_firstpass_v1';out=training/'native_v1'
     if out.exists():raise ValueError('identity review already prepared')
     source_plan=read(parent/'PLAN.json');first=read(parent/'RESULT.json');trained=read(training/'PLAN.json')
@@ -641,7 +641,7 @@ def prepare_identity_review():
     shutil.copyfile(parent/'LABELS_PRIVATE.json',out/'LABELS_PRIVATE.json')
     plan=dict(schema='finqa_identity_placement_native_review_v1',episodes=episodes,arm_order=arms,arms=arms,
               training_root=str(training),training_plan_sha256=sha(training/'PLAN.json'),
-              required_training_status='TRAINED_IDENTITY_TERMINAL_ARMS',terminal_status='FINQA_IDENTITY_REVIEW_RETURNED',
+              required_training_status=trained['terminal_status'],terminal_status='FINQA_IDENTITY_REVIEW_RETURNED',
               source_episodes=sources,parent_plan_sha256=sha(parent/'PLAN.json'),private_labels_sha256=sha(out/'LABELS_PRIVATE.json'),
               max_posts=len(episodes)*study.CAPS['posts'],
               comparison='Same existing 32 dev workspaces and original public review prompt, all reviewed regardless of answer. Only the matched terminal-target conditioning changes during training.',

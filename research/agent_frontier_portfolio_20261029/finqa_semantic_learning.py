@@ -364,6 +364,106 @@ def identity_execution(source,teacher_program,teacher_execution,witnesses):
                 json.dumps(execution['terminal_execution_answer'])+'.',tool_calls=[])
 
 
+def project_terminal_state(request,before_text,public,actions,program,execution,witnesses):
+    """Re-present a witnessed program state using the unchanged review prompt.
+
+    The task's reference answer is not an input. This checks execution provenance,
+    not answer correctness; TRAIN selection is checked separately by the compiler.
+    """
+    if execution.get('status')!='executed' or 'terminal_execution_answer' not in execution:
+        raise ValueError('executed terminal state required')
+    if not any(w.get('program')==program and w.get('execution')==execution for w in witnesses):
+        raise ValueError('terminal state lacks an actual execution witness')
+    if not actions:raise ValueError('actual public tool operation required')
+    try:
+        argv=shlex.split(actions[-1]['input']['command'])
+        actual=argv[argv.index('--program')+1]
+        feedback=json.loads(actions[-1]['output'])
+    except (KeyError,IndexError,ValueError,TypeError) as exc:
+        raise ValueError('terminal operation is not a bound program execution') from exc
+    if actual!=program or feedback!=execution:raise ValueError('terminal operation and witness differ')
+    after_text=study.recovery_prompt(public,actions)
+    # Inspect the complete history before dropping roles: a leaked reference
+    # must fail instead of disappearing unnoticed during the projection.
+    fresh=learning.project_request(request,before_text,after_text)
+    users=[m for m in fresh['messages'] if m.get('role')=='user' and
+           m.get('content') in (after_text,'"'+after_text.replace('"',chr(92)+'"')+'"')]
+    if len(users)!=1:raise ValueError('public state user turn is not unique')
+    fresh['messages']=[m for m in fresh['messages'] if m.get('role')=='system']+users
+    target=dict(role='assistant',content='Final program: '+program+'\nExecution result: '+
+                json.dumps(execution['terminal_execution_answer'])+'.',tool_calls=[])
+    return fresh,target
+
+
+def prepare_terminal_state():
+    """Same targets and negatives; vary all terminal conditioning, not its dose."""
+    import finqa_learning_controls as controls
+    parent=ROOT/'expanded_v1';out=parent/'controls_v1/terminal_state_v1'
+    if out.exists():raise ValueError('terminal-state attempt already prepared')
+    if sha(parent/'DATA.json')!='486ffcf4fb1d28d211d764780738ebb6bf0096ebe73da84110132ba5e3a27b98':
+        raise ValueError('expanded supervision source changed')
+    data=read(parent/'DATA.json');sources=dict(data['sources'])
+    for path,digest in sources.items():
+        if sha(path)!=digest:raise ValueError('teacher source changed')
+    tokenizer=tokens.load_tokenizer(learning.MODEL);arms=['terminal_history','terminal_public_state']
+    rows=[];groups=[];proofs=[]
+    for a,b in data['paired_rows']:
+        repair,closure=copy.deepcopy(data['rows'][a]),copy.deepcopy(data['rows'][b])
+        if repair['pair_id']!=closure['pair_id']:raise ValueError('training pair differs')
+        first,last=controls.source_requests(repair,closure);folder=last.parent.parent
+        public=read(folder/'inputs/public.json');before=controls.recovery_text(repair,folder,public)
+        request=learning.project_request(read(last),(folder/'inputs/task.txt').read_text(),before)
+        old_target=learning.sse_assistant(Path(closure['source_response']).read_bytes())
+        check=tokens.encode_completion(request,old_target,tokenizer,16384,completion_kind='closure')
+        if any(check[k]!=closure[k] for k in ('input_ids','labels')):raise ValueError('original terminal preimage differs')
+        result=read(folder/'RESULT.json');program=controls.program_of(repair['assistant'])
+        if result['submitted_program']!=program or not result['native_success']:
+            raise ValueError('completed actual teacher recovery required')
+        execution=result['public_execution']
+        witnesses=[json.loads(line) for line in (folder/'work/executions.jsonl').read_text().splitlines()]
+        actions=json.loads(before.rsplit('\n',1)[-1])['student_actions']+study.recent_actions(folder)
+        fresh,target=project_terminal_state(request,before,public,actions,program,execution,witnesses)
+        original=tokens.encode_completion(request,target,tokenizer,16384,completion_kind='closure')
+        projected=tokens.encode_completion(fresh,target,tokenizer,16384,completion_kind='text')
+        closure.update(original,assistant=target,edit_contrasts={},
+                       conditioning_by_arm={'terminal_public_state':projected},
+                       projection='Same factual terminal target, actual history versus public executed-state projection')
+        learning.conditioning_row(closure,'terminal_public_state')
+        group=[]
+        if not repair['source_correct']:
+            points=repair.get('edit_contrasts',{}).get('edit_all_negative',[])
+            repair['edit_contrasts']={arm:copy.deepcopy(points) for arm in arms}
+            group.append(len(rows));rows.append(repair)
+        group.append(len(rows));rows.append(closure);groups.append(group)
+        paths=[first,last,folder/'RESULT.json',folder/'raw.jsonl',folder/'work/executions.jsonl']
+        for path in paths:sources[str(path)]=sha(path)
+        proofs.append(dict(pair_id=repair['pair_id'],program=program,execution=execution,
+                           source_correct=repair['source_correct'],teacher_folder=str(folder),
+                           original_prompt_tokens=original['prompt_token_count'],projected_prompt_tokens=projected['prompt_token_count'],
+                           target_tokens=original['supervised_tokens'],public_actions=len(actions)))
+    if len(rows)!=51 or len(groups)!=30 or sum(p['source_correct'] for p in proofs)!=9:
+        raise ValueError('same thirty-pair cohort required')
+    out.mkdir();new(out/'DATA.json',dict(schema='finqa_terminal_state_conditioning_targets_v1',rows=rows,
+        paired_rows=groups,sources=sources,tokenizer=data['tokenizer'],execution_proofs=proofs,
+        parent_data_sha256=sha(parent/'DATA.json'),scope='Same TRAIN pairs and actual executions; no new teacher calls.'))
+    plan=read(parent/'PLAN.json')
+    for key in ('inherited_arms','parent_training_result_sha256','teacher_result_sha256'):plan.pop(key,None)
+    components=[Path(__file__),Path(learning.__file__),Path(controls.__file__),Path(tokens.__file__),Path(study.__file__),
+                Path(task.__file__),study.REPO/'scripts/graph/research_gpu_guard.py']
+    plan.update(schema='finqa_terminal_state_conditioning_learning_v1',arms=arms,paired_rows=groups,
+                data_sha256=sha(out/'DATA.json'),expected_forward_calls=2*sum(len(groups[i]) for i in plan['schedule']),
+                initial_decision_coefficient=learning.initial_decision_coefficient(rows,groups,plan['schedule']),
+                positive_only_arms=[],terminal_status='TRAINED_TERMINAL_STATE_ARMS',components={str(p):sha(p) for p in components},
+                comparison='Same 51 factual targets, 30 TRAIN groups, 40 executed-error branches, warm start, schedule, updates and first-decision coefficients. Only thirty terminal prefixes change from actual tool history to a fresh public projection of that executed state.',
+                prediction='Public-state terminal conditioning should reduce damaging revisions without removing semantic repair. Compare the paired arms and completed simple policies on the already-exposed 32 development tasks.',
+                next='Use original native review prompts for both arms. New64 is exposed to method design; no confirmation claim for this rule.')
+    new(out/'PLAN.json',plan);snapshot=out/'compilation_sources';snapshot.mkdir()
+    for path in components:(snapshot/path.name).write_bytes(path.read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),data_sha256=sha(out/'DATA.json'),groups=len(groups),rows=len(rows),
+                          repeated_supervised_tokens_per_arm=sum(sum(rows[j]['supervised_tokens'] for j in groups[i]) for i in plan['schedule']),
+                          expected_forwards=plan['expected_forward_calls'],model_requests=0)))
+
+
 def prepare_identity_fold():
     """Matched terminal targets before/after a redundant identity action."""
     import finqa_learning_controls as controls
@@ -518,7 +618,7 @@ def prepare_review():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources','prepare-teacher','teacher','compile-expanded','prepare-expanded-train','train-expanded','prepare-identity-fold','train-identity-fold','prepare-initial-decision','train-initial-decision']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources','prepare-teacher','teacher','compile-expanded','prepare-expanded-train','train-expanded','prepare-identity-fold','train-identity-fold','prepare-initial-decision','train-initial-decision','prepare-terminal-state','train-terminal-state']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     elif args.mode=='prepare-firstpass':prepare_firstpass()
@@ -530,6 +630,8 @@ if __name__=='__main__':
     elif args.mode=='compile-expanded':compile_expanded()
     elif args.mode=='prepare-expanded-train':prepare_expanded_train()
     elif args.mode=='train-expanded':learning.train(args.plan_sha,ROOT/'expanded_v1')
+    elif args.mode=='prepare-terminal-state':prepare_terminal_state()
+    elif args.mode=='train-terminal-state':learning.train(args.plan_sha,ROOT/'expanded_v1/controls_v1/terminal_state_v1')
     elif args.mode=='prepare-identity-fold':prepare_identity_fold()
     elif args.mode=='train-identity-fold':learning.train(args.plan_sha,ROOT/'expanded_v1/controls_v1/identity_fold_v1')
     elif args.mode=='prepare-initial-decision':prepare_initial_decision()

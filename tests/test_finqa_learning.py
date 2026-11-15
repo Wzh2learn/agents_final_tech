@@ -10,6 +10,53 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def terminal_state_fixture(self):
+        import finqa_semantic_learning as semantic
+        public={'question':'What is the sum?', 'table':[['a','1'],['b','2']]}
+        before=semantic.study.recovery_prompt(public,[])
+        execution={'status':'executed','terminal_execution_answer':3.0}
+        action={'input':{'command':"/extra/bin/python /inputs/finqa_tool.py --program 'add(1, 2)'"},
+                'output':json.dumps(execution)}
+        request={'messages':[{'role':'system','content':'same native system'},
+                 {'role':'user','content':before}, {'role':'assistant','content':'tool history'},
+                 {'role':'tool','content':action['output']}], 'tools':[{'type':'function','function':{'name':'bash'}}]}
+        return semantic,public,before,execution,action,request
+
+    def test_terminal_state_projection_preserves_real_feedback_without_tool_role(self):
+        import copy
+        semantic,public,before,execution,action,request=self.terminal_state_fixture()
+        original=copy.deepcopy(request)
+        for wrapped in (False,True):
+            with self.subTest(wrapped=wrapped):
+                current=copy.deepcopy(request)
+                if wrapped:current['messages'][1]['content']='"'+before.replace('"',chr(92)+'"')+'"'
+                fresh,target=semantic.project_terminal_state(current,before,public,[action],
+                    'add(1, 2)',execution,[{'program':'add(1, 2)','execution':execution}])
+                self.assertEqual([m['role'] for m in fresh['messages']],['system','user'])
+                self.assertEqual(fresh['tools'],request['tools'])
+                self.assertIn('add(1, 2)',fresh['messages'][1]['content'])
+                self.assertIn('Execution result: 3.0',target['content'])
+                self.assertEqual(target['tool_calls'],[])
+        self.assertEqual(request,original)
+
+    def test_terminal_state_projection_rejects_unwitnessed_or_mismatched_feedback(self):
+        import copy
+        semantic,public,before,execution,action,request=self.terminal_state_fixture()
+        witness={'program':'add(1, 2)','execution':execution}
+        for actions,trace in [([action],[]),([action],[dict(witness,program='subtract(1, 2)')]),
+                              ([dict(action,output='{"status":"executed","terminal_execution_answer":4}')],[witness]),
+                              ([dict(action,input={'command':"python x --program 'subtract(1, 2)'"})],[witness])]:
+            with self.subTest(actions=actions,trace=trace):
+                with self.assertRaises(ValueError):
+                    semantic.project_terminal_state(copy.deepcopy(request),before,public,actions,'add(1, 2)',execution,trace)
+
+    def test_terminal_state_projection_does_not_silently_drop_privileged_history(self):
+        semantic,public,before,execution,action,request=self.terminal_state_fixture()
+        request['messages'][-1]['content']='training_reference_execution_answer=3'
+        with self.assertRaises(ValueError):
+            semantic.project_terminal_state(request,before,public,[action],'add(1, 2)',execution,
+                                             [{'program':'add(1, 2)','execution':execution}])
+
     def test_sse_target_uses_actual_tool_arguments_not_reasoning(self):
         frames=[{'choices':[{'delta':{'reasoning_content':'do not train this',
                  'tool_calls':[{'index':0,'id':'a','function':{'name':'bash','arguments':'{"command":'}}]}}]},
