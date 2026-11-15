@@ -51,17 +51,58 @@ def publish(path, value):
     temp.replace(path)
 
 
-def prompt(public):
-    return ('Solve this financial question from its supplied report. Submit a FinQA program using the only bash tool. '
+def prompt(public, *, terminal_program=False):
+    submission = ('Use bash for calculations or program execution as needed. '
+                  'Finish with exactly one plain-text line Final program: PROGRAM containing your complete program on that line. '
+                  'The execution layer will submit that declaration through the same public tool after normal completion; '
+                  'unchanged declared programs are also executed. Put any explanation outside the declaration line. '
+                  if terminal_program else 'Submit a FinQA program using the only bash tool. ')
+    closing = ('End with the complete Final program: declaration. ' if terminal_program else
+               'Then finish with a short explanation. ')
+    return ('Solve this financial question from its supplied report. ' + submission +
             'Run /extra/bin/python /inputs/finqa_tool.py --program followed by one quoted program string. '
             'This executes the program and saves the latest submission; repair it if the returned execution indicates an error. '
-            'Then finish with a short explanation. Do not edit files in /inputs. The tool never reports answer correctness. '
+            + closing + 'Do not edit files in /inputs. The tool never reports answer correctness. '
             'Allowed operators: add, subtract, multiply, divide, exp, greater, table_sum, table_average, table_max, table_min. '
             'Steps have two arguments and are separated by commas; #0 references step zero. Numbers may use commas/percent signs; '
             'const_100 denotes 100 and const_m1 denotes -1. For table operations use the exact row label and none as the second argument. '
             'Example tool command: /extra/bin/python /inputs/finqa_tool.py --program "add(10, 5), divide(#0, const_100)". '
             'Use the program execution value as the answer; do not invent an independent answer field.\n\n'
             + json.dumps(public, ensure_ascii=False))
+
+
+def guest_source(*, terminal_program=False):
+    """Opt-in public declaration committer; retain the original actor environment."""
+    if not terminal_program:
+        return core.GUEST
+    tail = """result=subprocess.run(['/opt/opencode','run','--pure','--format','json','-m',sys.argv[1],
+ '--title','contextbench-source',prompt],stdin=subprocess.DEVNULL)
+raise SystemExit(result.returncode)
+"""
+    if not core.GUEST.endswith(tail) or core.GUEST.count(tail) != 1:
+        raise ValueError('review the changed OpenCode guest before enabling terminal submission')
+    return core.GUEST[:-len(tail)] + r'''import tempfile
+with tempfile.NamedTemporaryFile(prefix='finqa-final-',suffix='.jsonl',dir='/tmp') as capture:
+ actor=subprocess.Popen(['/opt/opencode','run','--pure','--format','json','-m',sys.argv[1],
+  '--title','contextbench-source',prompt],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE)
+ try:
+  for line in iter(actor.stdout.readline,b''):
+   sys.stdout.buffer.write(line);sys.stdout.buffer.flush();capture.write(line)
+  code=actor.wait()
+ finally:
+  if actor.poll() is None:actor.terminate();actor.wait(timeout=10)
+  actor.stdout.close()
+ if code==0:
+  capture.flush()
+  commit=subprocess.run(['/extra/bin/python','/inputs/finqa_tool.py','--final-jsonl',capture.name],
+   capture_output=True,timeout=20)
+  event=dict(type='terminal_commit',origin='execution_layer',helper_exit=commit.returncode)
+  if commit.returncode==0:event['receipt']=json.loads(commit.stdout)
+  else:event['stderr']=commit.stderr.decode('utf8',errors='replace')[:2048]
+  print(json.dumps(event,ensure_ascii=False),flush=True)
+  if commit.returncode:code=commit.returncode
+ raise SystemExit(code)
+'''
 
 
 def recent_actions(folder):

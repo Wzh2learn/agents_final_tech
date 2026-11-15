@@ -94,11 +94,15 @@ def state_from_folder(folder):
                                   witnesses,study.recent_actions(folder))
 
 
-def review_prompt(public,state):
-    return (study.prompt(public)+'\n\nReview the existing submitted program using the public state snapshot below. '
+def review_prompt(public,state, *, terminal_program=False):
+    decision = ('Retain the current program by declaring it unchanged, or declare a corrected replacement before finishing. '
+                if terminal_program else
+                'Retain the current program if appropriate and finish, or correct and execute it before finishing. ')
+    initial = study.prompt(public,terminal_program=True) if terminal_program else study.prompt(public)
+    return (initial+'\n\nReview the existing submitted program using the public state snapshot below. '
             'The execution feedback is the observed result of that program, not an answer-correctness label. '
             'Check its quantities, periods, operands and references against the question and report. '
-            'Retain the current program if appropriate and finish, or correct and execute it before finishing. '
+            +decision+
             'No reference answer is available.\n'+json.dumps(state,ensure_ascii=False))
 
 

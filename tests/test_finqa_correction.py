@@ -1,7 +1,10 @@
 """Scientific controls for public feedback, native grading and correction weights."""
 import importlib.util
+import json
 from pathlib import Path
+import subprocess
 import sys
+import tempfile
 import unittest
 
 PATH = Path(__file__).resolve().parents[1] / "research/agent_frontier_portfolio_20261029/finqa_correction.py"
@@ -133,6 +136,87 @@ class FinQACorrectionTests(unittest.TestCase):
         self.assertAlmostEqual(sum(local), len(ids))
         self.assertEqual(local[0], broad[0])
         self.assertEqual(local[-1], broad[-1])
+
+
+class FinQATerminalSubmissionTests(unittest.TestCase):
+    def setUp(self):
+        self.public = {"id": "fixture", "report": "fixture", "question": "Compute the difference",
+                       "table": [["year", "2020", "2021"], ["value", "10", "20"]],
+                       "pre_text": [], "post_text": []}
+
+    @staticmethod
+    def event(text, message="last", part="text"):
+        return {"type": "text", "part": {"type": "text", "messageID": message,
+                "id": part, "text": text}}
+
+    def test_declared_change_is_committed_by_actual_public_cli(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp);public = root / "public.json";events = root / "actor.jsonl"
+            public.write_text(json.dumps(self.public))
+            (root / "candidate.json").write_text(json.dumps({"program": "divide(20, 10)"}))
+            events.write_text(json.dumps(self.event("Final program: subtract(20, 10)")) + "\n")
+            result = subprocess.run([sys.executable, str(PATH), "--final-jsonl", str(events),
+                "--public", str(public), "--work", str(root), "--executor", str(m.executor().__file__)],
+                capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            receipt = json.loads(result.stdout)
+            self.assertEqual(receipt["status"], "submitted")
+            self.assertEqual(receipt["execution"]["terminal_execution_answer"], 10)
+            self.assertEqual(json.loads((root / "candidate.json").read_text()),
+                             {"program": "subtract(20, 10)"})
+            trace = json.loads((root / "executions.jsonl").read_text())
+            self.assertEqual(trace["origin"], "terminal_declaration")
+            self.assertNotIn("execution_correct", json.dumps(receipt))
+
+    def test_only_latest_assistant_text_is_used_and_updated_parts_are_not_duplicated(self):
+        events = [self.event("Final program: add(1, 2)", "old"),
+                  self.event("The program", "last", "a"),
+                  self.event("The program follows.", "last", "a"),
+                  self.event("Final program: subtract(20, 10)", "last", "b")]
+        self.assertEqual(m.terminal_proposal(events)["program"], "subtract(20, 10)")
+        events.append({"type": "tool_use", "part": {"type": "tool", "messageID": "new",
+                      "id": "tool", "text": "Final program: multiply(1, 9)"}})
+        self.assertEqual(m.terminal_proposal(events)["status"], "absent")
+
+    def test_absent_and_ambiguous_declarations_leave_the_workspace_unchanged(self):
+        for text in ["No declaration.", "Final program: add(1, 2)\nFinal program: add(1, 3)"]:
+            with self.subTest(text=text), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp);candidate = root / "candidate.json"
+                candidate.write_text('{"program":"divide(20, 10)"}\n');before = candidate.read_bytes()
+                result = m.submit_terminal_response([self.event(text)], self.public, root, m.executor())
+                self.assertEqual(result["status"], "not_submitted")
+                self.assertEqual(candidate.read_bytes(), before)
+                self.assertFalse((root / "executions.jsonl").exists())
+
+    def test_unchanged_program_still_has_a_real_execution_receipt(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp);(root / "candidate.json").write_text('{"program":"subtract(20, 10)"}')
+            result = m.submit_terminal_response([self.event("Final program: subtract(20, 10)")],
+                                               self.public, root, m.executor())
+            self.assertEqual(result["status"], "submitted")
+            self.assertFalse(result["changed"])
+            self.assertEqual(result["execution"]["terminal_execution_answer"], 10)
+            self.assertEqual(json.loads((root / "executions.jsonl").read_text())["origin"],
+                             "terminal_declaration")
+
+    def test_execution_failure_is_retained_as_a_real_failed_submission(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            result = m.submit_terminal_response([self.event("Final program: divide(20, 0)")],
+                                               self.public, root, m.executor())
+            self.assertEqual(result["status"], "submitted")
+            self.assertEqual(result["execution"]["status"], "error")
+            self.assertEqual(json.loads((root / "candidate.json").read_text())["program"], "divide(20, 0)")
+            self.assertNotIn("execution_correct", json.dumps(result))
+
+    def test_program_text_is_never_executed_as_a_shell_command(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp);marker = root / "should_not_exist"
+            program = "add(1, 2); touch " + str(marker)
+            result = m.submit_terminal_response([self.event("Final program: " + program)],
+                                               self.public, root, m.executor())
+            self.assertEqual(result["execution"]["status"], "error")
+            self.assertFalse(marker.exists())
 
 
 if __name__ == "__main__":

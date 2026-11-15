@@ -225,23 +225,94 @@ def field_token_weights(field_ids, selected, supervised, strength=2.0):
     return weights
 
 
+def submit_program(program, public, work, module=None, *, origin=None):
+    """Apply the public tool semantics, including unsuccessful submissions."""
+    check_public(public)
+    work = Path(work).resolve()
+    candidate = {"program": program}
+    # Every submission is retained, including invalid programs and later repairs.
+    path = work / "candidate.json"
+    path.write_text(json.dumps(candidate, ensure_ascii=False) + "\n")
+    result = execute_public(program, public, module)
+    record = {"program": program, "execution": result}
+    if origin is not None:
+        record["origin"] = origin
+    with (work / "executions.jsonl").open("a") as stream:
+        stream.write(json.dumps(record, ensure_ascii=False) + "\n")
+    return result
+
+
+def terminal_proposal(events, *, max_program_chars=8192):
+    """Read one explicit declaration from the latest assistant message only."""
+    latest = None
+    parts = {}
+    for event in events:
+        if not isinstance(event, dict):
+            raise ValueError("actor events must be JSON objects")
+        part = event.get("part")
+        if not isinstance(part, dict) or "messageID" not in part:
+            continue
+        message = part["messageID"]
+        if not isinstance(message, str) or not message:
+            raise ValueError("invalid actor message identity")
+        if message != latest:
+            latest = message
+            parts = {}
+        if event.get("type") == "text" and part.get("type") == "text":
+            if not isinstance(part.get("id"), str) or not isinstance(part.get("text"), str):
+                raise ValueError("invalid assistant text part")
+            parts[part["id"]] = part["text"]
+    matches = re.findall(r"^Final program:[ \t]*([^\r\n]+)$", "\n".join(parts.values()), re.M)
+    if len(matches) != 1:
+        return {"status": "ambiguous" if matches else "absent", "program": None}
+    program = matches[0].strip()
+    if not program or len(program) > max_program_chars:
+        return {"status": "invalid_declaration", "program": None}
+    return {"status": "proposal", "program": program}
+
+
+def submit_terminal_response(events, public, work, module=None):
+    """Commit a public declaration; no answer reference or model call is used."""
+    check_public(public)
+    proposal = terminal_proposal(events)
+    if proposal["status"] != "proposal":
+        return {"status": "not_submitted", "reason": proposal["status"],
+                "origin": "terminal_declaration"}
+    previous = None
+    path = Path(work) / "candidate.json"
+    if path.exists():
+        try:
+            value = json.loads(path.read_text())
+        except json.JSONDecodeError:
+            value = None
+        if isinstance(value, dict) and set(value) == {"program"}:
+            previous = value["program"]
+    program = proposal["program"]
+    execution = submit_program(program, public, work, module, origin="terminal_declaration")
+    return {"status": "submitted", "origin": "terminal_declaration", "program": program,
+            "changed": program != previous, "execution": execution}
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--program", required=True)
+    delivery = parser.add_mutually_exclusive_group(required=True)
+    delivery.add_argument("--program")
+    delivery.add_argument("--final-jsonl", type=Path)
     parser.add_argument("--public", type=Path, default=Path("/inputs/public.json"))
     parser.add_argument("--work", type=Path, default=Path("/workspace"))
     parser.add_argument("--executor", type=Path, default=Path("/inputs/executor.py"))
     args = parser.parse_args()
     public = json.loads(args.public.read_text())
     check_public(public)
-    work = args.work.resolve()
-    candidate = {"program": args.program}
-    # Every submission is retained, including invalid programs and later repairs.
-    path = work / "candidate.json"
-    path.write_text(json.dumps(candidate, ensure_ascii=False) + "\n")
-    result = execute_public(args.program, public, executor(args.executor))
-    with (work / "executions.jsonl").open("a") as stream:
-        stream.write(json.dumps({"program": args.program, "execution": result}, ensure_ascii=False) + "\n")
+    module = executor(args.executor)
+    if args.final_jsonl is not None:
+        if args.final_jsonl.stat().st_size > 16 * 1024**2:
+            raise ValueError("actor output exceeds the terminal submission bound")
+        with args.final_jsonl.open() as stream:
+            events = (json.loads(line) for line in stream if line.strip())
+            result = submit_terminal_response(events, public, args.work, module)
+    else:
+        result = submit_program(args.program, public, args.work, module)
     print(json.dumps(result, ensure_ascii=False, allow_nan=False))
 
 
