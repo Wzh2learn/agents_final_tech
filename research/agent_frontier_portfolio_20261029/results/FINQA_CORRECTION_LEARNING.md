@@ -3,7 +3,7 @@
 > 2026-11-15｜研究目标与授权查STATE；本页只维护金融实验，跨阶段经验查[知识索引](CONTINUATION_PROGRAM.md)。旧形成/字段权重过程见[固定历史快照](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261115.md#finqa-current)。
 
 <a id="finqa-current"></a>
-11份旧教师恢复与19份新教师执行形成30组监督。32报告四组、指令及终止位置对照已完成；当前补齐原始8B和盲27B参照。首决策系数对齐候选已冻结、未训练。代码：[学习器](../finqa_learning.py)、[形成](../finqa_semantic_learning.py)、[OpenCode执行](../run_finqa_learning_native.py)。
+11份旧教师恢复与19份新教师执行形成30组监督。32报告四组、指令、终止位置及3个能力参照已完成；首决策系数对齐正在训练。代码：[学习器](../finqa_learning.py)、[形成](../finqa_semantic_learning.py)、[OpenCode执行](../run_finqa_learning_native.py)。
 
 <a id="paired-decision-v1"></a>
 <a id="semantic-edit-v1"></a>
@@ -60,9 +60,13 @@
 
 令第g组全部目标长度为N_g、其初始决策CE为ell_first。新规则只将`L_g`改为`L_g + (c - 1/N_g) * ell_first`，其中`c = mean_schedule(1/N_g) = 0.01232445307118044`。日程上初始决策系数总和仍1.1831474948333223，其余目标系数及40个执行负分叉不变；不加样本、更新或前向。实际初始目标为21个`<tool_call>`与9个`Final`，不增加部署分类器。梯度测试验证净系数为正、其他token梯度保持。
 
-PLAN 5598000c、评估85314d3a已准备，路径`controls_v1/initial_decision_v1/`：沿用同DATA 01af4ad5、暖启动和日程，96更新/161前向，13,633重复监督tokens；仍用原32现场。**尚未启动**，先完成下列参照。若获增量，再补简单整组重加权控制，区分位置与一般样本剂量。
+PLAN 5598000c、评估85314d3a，路径`controls_v1/initial_decision_v1/`：沿用同DATA 01af4ad5、暖启动和日程，96更新/161前向，13,633重复监督tokens；仍用原32现场。**运行中**：监督615892/启动tick4787574、训练615989，同boot b4166d98；27B按所有权卸载，外部32GiB守护，内存实测82.9GiB。最多384本地POST、校内0。若获增量，再补简单整组重加权控制，区分位置与一般样本剂量。
 
-**正在补齐的能力/成本参照。** 32题裸8B首轮（PLAN e24c820d）、裸8B作为共同现场的纠正器（14eeff3a）、27B FP8盲测直接解题（e7b33d6d）；均同公开输入及每题12POST/300秒，前两者共享基础GGUF但无LoRA，27B不带参考程序/答案。监督555160串行执行，帽1,152本地POST、校内0；进度见`expanded_v1/BASELINES_PIPELINE_LIVE.json`。共同现场的基础纠正器仍需计入原首轮费用，独立直接解题不加那份费用。
+**能力/成本参照。** 同32题、每题12POST/300秒；裸8B不加载LoRA，27B FP8不带参考程序/答案。裸8B首轮（PLAN e24c820d）已完成：0/32正确、4/32正常退出、4/32可执行，348POST/1,590,311tokens、未知0，ANALYSIS 1a2f5887；主要为程序结构、引用及提交问题，不等同于数学能力为零。共同现场裸8B纠正器（14eeff3a）为13/32、保持12/13、恢复1题、正常29/32，94POST/422,920tokens、未知0，ANALYSIS b095fc84。这一条件已有源程序；完整策略另加共同首轮，不能和空现场的裸模型首轮混为一谈。
+
+27B盲测（e7b33d6d）已闭合：**12/32原生成功、30/32正常/可执行**，93POST/400,396tokens（输入392,725、输出7,671）、未知0，Actor累计1,146.01秒。32题输入逐项等于公开prompt，无参考程序/答案；请求temp .2、seed17、输出8192、thinking=false。186份wire、程序及执行见证复核，ANALYSIS d02a19fb、RESULT 00969d06；93响应未报告缓存细项，不能填0。18题可执行但答错、2题结构无效（AUTOPSY 5a4c5dcd）。训练Actor首轮13/32、最高纠正策略14/32；保留直接强模型成本参照，不把不同流程的裸分数当匹配方法对比。
+
+旧监督555160在前两项完成后因240秒就绪窗退出，模型随后正常就绪；复用守护584914，由591584完成盲测，未重跑前两项。原FAILED及`BASELINES_RECOVERY.json`保留，无本次OOM。3参照共96次执行、535POST/2,413,627tokens、未知0，当前已转入首决策规则训练。
 
 [CCT §6](https://aclanthology.org/2025.acl-long.203.pdf)已有正确保持与错误纠正混合SFT；[SCoRe §4–5](https://arxiv.org/html/2409.12917v1)已有保持/纠正坍缩及离线分布偏差分析。不能主张“加入保持样本”本身新颖；待测差异是**任务状态等价时的工具恢复片段折叠及终止监督位置**，与执行验证的错误分叉负方向结合。若仅澄清指令已解释收益，训练规则必须另证增量；本轮不新增选择器或框架。
 
@@ -84,7 +88,7 @@ PLAN 5598000c、评估85314d3a已准备，路径`controls_v1/initial_decision_v1
 
 ## 成本与证据位置
 
-FinQA截至终止位置对照闭合1,089POST/4,727,034已知tokens，2次未知预留65,536；3个参照按LIVE另计。校内总账不变（5,005POST/50,865,083已知＋2,621,440历史预留）。本批192/322训练已闭合，旧中断与探索成本保留；HTTP为0不代表无训练计算。运维55,809tokens独立记账，缓存不重复相加。共同首轮只计一次物理账，完整策略要加首轮。
+FinQA截至3参照闭合1,624POST/7,140,661已知tokens，2次未知预留65,536；新候选LIVE及训练计算另计。校内总账不变（5,005POST/50,865,083已知＋2,621,440历史预留）。终止位置192/322训练闭合，旧中断/探索保留；HTTP为0不代表无训练计算。运维55,809tokens独立记账，就绪查询不产生生成tokens。共同首轮只计一次物理账，完整策略要加首轮。
 
 GB10私有证据根为 `finqa_correction_v1/learning_v1/`，本轮依次为 `closed_recovery_v1`、`semantic_correction_v1`（含 `fusion_v1`、`fusion_positive_v1`、`formation_student_v1`）。已核对本地快照 `finqa_semantic_20261115_v1.tgz`（246,966,719字节，SHA256 `5e2d07086d37e495abb9eb33944b87f923b0433cb91705f2494c76f9eab36bbc`）；其范围截止主试验/负融合及后续协议，正融合/20源原始回执另补后续包。GitHub只放代码、协议说明和摘要，不放原始数据及权重。
 
@@ -96,4 +100,6 @@ GB10私有证据根为 `finqa_correction_v1/learning_v1/`，本轮依次为 `clo
 
 指令基线raw与终止位置冻结输入双份包`finqa_identity_preparation_20261115_v1.tgz`：3,181,556字节，SHA256 `6db2c62e59437459f5e65c37857f71322845f4848c777e8d24bce271c16d4b24`；准备时不含后续训练/复查输出，完整结果由下一包补齐。确认来源JSON已另行双份校验。
 
-终止位置完整结果双份包`finqa_identity_results_20261115_v1.tgz`：31,279,835字节，SHA256 `dd71352cc1df08d8789f5cf75bf6245f7c86668cc443be4424882d7347591e5a`，含两组权重、64次raw、分析及尸检。该批已结束，当前运行由BASELINES监督接续，不重启历史任务。
+终止位置完整结果双份包`finqa_identity_results_20261115_v1.tgz`：31,279,835字节，SHA256 `dd71352cc1df08d8789f5cf75bf6245f7c86668cc443be4424882d7347591e5a`，含两组权重、64次raw、分析及尸检。历史批次均已结束，不重启。
+
+3参照原始证据、完成/中断回执及分析器双份包`finqa_base_references_20261115_v1.tgz`：6,355,044字节，SHA256 `38a90d52034188a12a6cef2c0f0472acdaf77422079e658b91277cbe2f79eca0`。本机/GB10哈希一致，不含GGUF及活动候选输出。

@@ -229,5 +229,29 @@ class FinQALearningTests(unittest.TestCase):
         with self.assertRaises(ValueError):m.initial_decision_adjustment(logits,labels,0,.5,c)
         with self.assertRaises(ValueError):m.initial_decision_coefficient(rows,[[0]],[])
 
+    def test_missing_result_arm_requires_unique_predeclared_role(self):
+        import finqa_learning_controls as control
+        row=dict(index=0,id='fixed-case')
+        self.assertEqual(control.planned_result_key(row,{('blind',0):{}}),('blind',0))
+        self.assertNotIn('arm',row)
+        with self.assertRaises(ValueError):control.planned_result_key(row,{('a',0):{},('b',0):{}})
+        with self.assertRaises(ValueError):control.planned_result_key(dict(index=1),{('a',0):{}})
+        self.assertEqual(control.planned_result_key(dict(index=0,arm='b'),{('a',0):{},('b',0):{}}),('b',0))
+
+    def test_batch_inspection_uses_hash_bound_external_labels(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        import finqa_learning_controls as control
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);folder=root/'blind';folder.mkdir()
+            labels=root/'LABELS_PRIVATE.json';labels.write_text('[]')
+            plan=dict(episodes=[],private_labels_path=str(labels),private_labels_sha256=control.sha(labels))
+            (folder/'PLAN.json').write_text(json.dumps(plan))
+            (folder/'RESULT.json').write_text(json.dumps(dict(status='DONE',episodes=[],plan_sha256=control.sha(folder/'PLAN.json'))))
+            self.assertEqual(control.inspect_batch(folder,'DONE')['rows'],[])
+            labels.write_text('[{}]')
+            with self.assertRaisesRegex(ValueError,'labels changed'):control.inspect_batch(folder,'DONE')
+
 
 if __name__=='__main__':unittest.main()

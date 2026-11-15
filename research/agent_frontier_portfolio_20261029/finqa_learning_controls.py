@@ -227,18 +227,27 @@ def prepare_prompt_review():
     print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),episodes=len(episodes),max_posts=plan['max_posts'])))
 
 
+def planned_result_key(result,expected):
+    """The older strong-model runner omits arm; bind its unique frozen role."""
+    if 'arm' in result:return result['arm'],result['index']
+    matches=[key for key in expected if key[1]==result['index']]
+    if len(matches)!=1:raise ValueError('missing result role is ambiguous in PLAN')
+    return matches[0]
+
+
 def inspect_batch(folder,status):
     """Re-grade saved programs and reconcile actual request/response evidence."""
     from scripts.graph.research_school_gateway import usage_from_body
     folder=Path(folder);plan=read(folder/'PLAN.json');result=read(folder/'RESULT.json')
     if result['status']!=status or result['plan_sha256']!=sha(folder/'PLAN.json'):
         raise ValueError('complete bound native result required')
-    labels=read(folder/'LABELS_PRIVATE.json')
-    if sha(folder/'LABELS_PRIVATE.json')!=plan['private_labels_sha256']:raise ValueError('labels changed')
-    expected={(e['arm'],e['index']):e for e in plan['episodes']};seen=set();rows=[]
+    label_path=Path(plan.get('private_labels_path',folder/'LABELS_PRIVATE.json'))
+    if sha(label_path)!=plan['private_labels_sha256']:raise ValueError('labels changed')
+    labels=read(label_path)
+    expected={(e['arm'],e['index']):e for e in plan['episodes']};seen=set();rows=[];inferred_roles=0
     if len(expected)!=len(plan['episodes']):raise ValueError('duplicate planned task')
     for r in result['episodes']:
-        key=r['arm'],r['index']
+        key=planned_result_key(r,expected);inferred_roles+='arm' not in r
         if key in seen or key not in expected:raise ValueError('duplicate/unplanned result')
         seen.add(key);ep=expected[key];case=Path(ep['folder']);label=labels[r['index']]
         if label['id']!=r['id'] or sha(case/'inputs/public.json')!=ep['public_sha256']:
@@ -278,7 +287,9 @@ def inspect_batch(folder,status):
                          noncached_input_tokens=prompt-cached if not cache_unknown and not unknown else None,
                          actor_seconds=r['actor']['seconds'],wire_hashes=total*2))
     if seen!=set(expected):raise ValueError('unexecuted planned cases must not disappear from final analysis')
-    return dict(plan_sha256=sha(folder/'PLAN.json'),result_sha256=sha(folder/'RESULT.json'),rows=rows)
+    output=dict(plan_sha256=sha(folder/'PLAN.json'),result_sha256=sha(folder/'RESULT.json'),rows=rows)
+    if inferred_roles:output['roles_from_unique_plan']=inferred_roles
+    return output
 
 
 def analyze():
