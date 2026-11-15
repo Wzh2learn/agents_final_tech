@@ -212,6 +212,35 @@ def project_auxiliary_gradient(auxiliary,retention):
     return projected,info
 
 
+def flat_parameter_gradients(parameters,gradients=None):
+    """FP32 copy; absent gradients remain zero without activating AdamW decay."""
+    import torch
+    parameters=tuple(parameters)
+    gradients=tuple(p.grad for p in parameters) if gradients is None else tuple(gradients)
+    if not parameters or len(parameters)!=len(gradients):raise ValueError('gradient alignment')
+    if any(g is not None and g.shape!=p.shape for p,g in zip(parameters,gradients)):
+        raise ValueError('gradient shape alignment')
+    return torch.cat([(torch.zeros_like(p,dtype=torch.float32) if g is None else g.detach().float()).reshape(-1)
+                      for p,g in zip(parameters,gradients)])
+
+
+def apply_paired_auxiliary_gradient(parameters,auxiliary,before_retention):
+    """Add a projected auxiliary gradient after both ordinary CE backprops."""
+    import torch
+    parameters=tuple(parameters);base=flat_parameter_gradients(parameters)
+    if auxiliary.shape!=base.shape or before_retention.shape!=base.shape:
+        raise ValueError('paired gradient alignment')
+    projected,info=project_auxiliary_gradient(auxiliary,base-before_retention)
+    offset=0
+    with torch.no_grad():
+        for parameter in parameters:
+            value=projected[offset:offset+parameter.numel()].reshape_as(parameter).to(parameter.dtype)
+            offset+=parameter.numel()
+            if parameter.grad is not None:parameter.grad.add_(value)
+            elif bool(value.any()):parameter.grad=value.clone()
+    return info
+
+
 def pair_coefficients(repair_tokens,closure_tokens,objective):
     if any(type(n) is not int or n<=0 for n in [repair_tokens,closure_tokens]):raise ValueError('positive target lengths required')
     if objective=='token_mean':
@@ -550,6 +579,10 @@ def train(digest, root=None):
     root=ROOT if root is None else Path(root)
     if sha(root/'PLAN.json')!=digest or (root/'LIVE.json').exists():raise ValueError('training plan/attempt')
     plan=read(root/'PLAN.json');assert sha(root/'DATA.json')==plan['data_sha256']
+    projected_arms=set(plan.get('retention_projection_arms',[]))
+    if (not projected_arms.issubset(plan['arms']) or projected_arms and
+            (not plan.get('paired_rows') or plan.get('step_preference') or 'initial_decision_coefficient' in plan)):
+        raise ValueError('retention projection requires isolated paired-state CE and contrast')
     if plan.get('completion_logits_only') and plan.get('step_preference'):
         raise ValueError('completion-only head is not implemented for rejected preference forwards')
     for path,value in plan['components'].items():
@@ -562,7 +595,7 @@ def train(digest, root=None):
             if sha(root/arm/name)!=value:raise ValueError('inherited adapter changed')
     state=dict(status='RUNNING',pid=__import__('os').getpid(),optimizer_updates=0,forward_calls=0,
                training_sequence_tokens=0,supervised_tokens=0,arms=inherited,http_model_requests=0,
-               inherited_arm_names=list(inherited))
+               inherited_arm_names=list(inherited),backward_calls=0,auxiliary_gradient_calls=0)
     if plan.get('completion_logits_only'):
         state.update(completion_logits_only=True,vocabulary_logit_positions=0)
     model=None
@@ -585,6 +618,7 @@ def train(digest, root=None):
                 name.encode()+value.detach().cpu().contiguous().view(torch.uint8).numpy().tobytes()
                 for name,value in sorted(initial.items()))).hexdigest()
             model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False});model.enable_input_require_grads()
+            parameters=[p for p in model.parameters() if p.requires_grad]
             preference=None
             if plan.get('step_preference'):
                 from finqa_learning_controls import StepPreference
@@ -593,8 +627,11 @@ def train(digest, root=None):
                 with torch.no_grad():
                     for name,param in model.named_parameters():
                         if name in initial:param.copy_(initial[name])
-                optimizer=torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],lr=plan['learning_rate'])
+                optimizer=torch.optim.AdamW(parameters,lr=plan['learning_rate'])
                 model.train();losses=[];mode_diagnostics=[];edit_diagnostics=[];arm_start=time.monotonic()
+                projection_diagnostics=[];project=arm in projected_arms
+                backward_start=state['backward_calls'];auxiliary_start=state['auxiliary_gradient_calls']
+                forward_start=state['forward_calls'];sequence_start=state['training_sequence_tokens'];supervised_start=state['supervised_tokens']
                 for update in range(plan['updates_per_arm']):
                     if time.monotonic()-started>plan['wall_seconds']:raise TimeoutError('finite training wall cap')
                     index=plan['schedule'][update] if 'schedule' in plan else update%len(rows)
@@ -603,6 +640,7 @@ def train(digest, root=None):
                     coefficients=group_coefficients([r['supervised_tokens'] for r in batch],plan.get('pair_objective',arm)) if plan.get('paired_rows') else [1.]
                     optimizer.zero_grad(set_to_none=True)
                     total=0.;odds_values=[];before=None;auxiliary=0.
+                    pending_auxiliary=None;retention_before=None
                     for at,(row,coefficient) in enumerate(zip(batch,coefficients)):
                         work=preference.before_row(model,row,arm) if preference else []
                         offset,kept=completion_logit_window(row) if plan.get('completion_logits_only') else (0,row['sequence_length'])
@@ -614,6 +652,7 @@ def train(digest, root=None):
                         w=torch.tensor([weights[offset:]],device='cuda')
                         head={'logits_to_keep':kept} if plan.get('completion_logits_only') else {}
                         logits=model(input_ids=x,use_cache=False,**head).logits
+                        state['forward_calls']+=1;state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
                         prompt_count=row['prompt_token_count']-offset
                         value=coefficient*weighted_loss(logits,y,w)
                         if work:
@@ -628,8 +667,19 @@ def train(digest, root=None):
                             contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],
                                                        positive_only=arm in plan.get('positive_only_arms',['edit_positive']),logit_offset=offset)
                             edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach())))
-                            value=value+plan['edit_weight']*contrast
-                            del contrast
+                            weight=plan.get('edit_weight_by_arm',{}).get(arm,plan['edit_weight'])
+                            weighted=weight*contrast
+                            if project:
+                                if (at!=0 or len(batch)!=2 or row.get('boundary_role')!='repair'
+                                        or batch[1].get('boundary_role')!='closure'
+                                        or row.get('pair_id')!=batch[1].get('pair_id')):
+                                    raise ValueError('contrast must have its paired successful closure')
+                                captured=torch.autograd.grad(weighted,parameters,retain_graph=True,allow_unused=True)
+                                pending_auxiliary=flat_parameter_gradients(parameters,captured)
+                                total+=float(weighted.detach());state['auxiliary_gradient_calls']+=1
+                                del captured
+                            else:value=value+weighted
+                            del contrast,weighted
                         if plan.get('paired_rows') and len(batch)==2:
                             odds=tool_log_odds(logits,prompt_count,plan['tool_token_id'])
                             odds_values.append(float(odds.detach()))
@@ -639,19 +689,33 @@ def train(digest, root=None):
                                 auxiliary=float(penalty.detach());value=value+plan['mode_weight']*penalty
                             del odds
                         if not torch.isfinite(value):raise ValueError('nonfinite loss')
+                        if project and pending_auxiliary is not None and at==1:
+                            retention_before=flat_parameter_gradients(parameters)
                         total+=float(value.detach());value.backward()
-                        state['forward_calls']+=1;state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
+                        state['backward_calls']+=1
                         if plan.get('completion_logits_only'):state['vocabulary_logit_positions']+=logits.shape[1]
                         del x,y,w,value,logits
                         if work:preference.backward_rejected(model,work)
                         if at==1 and arm=='paired_mode':del penalty
-                    torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],1.)
+                    if pending_auxiliary is not None:
+                        if retention_before is None:raise ValueError('missing retention gradient boundary')
+                        diagnostic=apply_paired_auxiliary_gradient(parameters,pending_auxiliary,retention_before)
+                        projection_diagnostics.append(dict(update=update,pair_id=batch[0]['pair_id'],**diagnostic))
+                        del pending_auxiliary,retention_before
+                    torch.nn.utils.clip_grad_norm_(parameters,1.)
                     optimizer.step();losses.append(total);state['optimizer_updates']+=1
                     if odds_values:mode_diagnostics.append(dict(before=odds_values[0],after=odds_values[1],auxiliary=auxiliary))
                     study.publish(root/'LIVE.json',state)
                 output=root/arm;model.save_pretrained(output)
                 state['arms'][arm]=dict(updates=len(losses),losses=losses,mode_diagnostics=mode_diagnostics,edit_diagnostics=edit_diagnostics,seconds=time.monotonic()-arm_start,
                                        adapter_files={p.name:sha(p) for p in output.iterdir() if p.is_file()})
+                state['arms'][arm].update(backward_calls=state['backward_calls']-backward_start,
+                    forward_calls=state['forward_calls']-forward_start,
+                    training_sequence_tokens=state['training_sequence_tokens']-sequence_start,
+                    supervised_tokens=state['supervised_tokens']-supervised_start,
+                    auxiliary_gradient_calls=state['auxiliary_gradient_calls']-auxiliary_start,
+                    projection_diagnostics=projection_diagnostics,
+                    loss_reporting='unprojected scalar objective; projected gradient applied separately' if project else 'ordinary scalar objective')
                 del optimizer;gc.collect();torch.cuda.empty_cache()
                 study.publish(root/'LIVE.json',state)
             if plan.get('step_preference') and state['forward_calls']!=plan['expected_forward_calls']:

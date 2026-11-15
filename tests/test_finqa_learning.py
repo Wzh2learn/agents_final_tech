@@ -10,6 +10,70 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def test_checkpointed_model_supports_split_auxiliary_and_retention_backprops(self):
+        import torch
+        from transformers import Qwen3Config,Qwen3ForCausalLM
+        from peft import LoraConfig,get_peft_model
+        torch.manual_seed(17)
+        model=get_peft_model(Qwen3ForCausalLM(Qwen3Config(vocab_size=23,hidden_size=16,
+            intermediate_size=32,num_hidden_layers=1,num_attention_heads=2,num_key_value_heads=1,
+            head_dim=8,attention_dropout=0.,pad_token_id=0)),
+            LoraConfig(r=2,lora_alpha=4,lora_dropout=0.,target_modules=['q_proj','v_proj'],task_type='CAUSAL_LM'))
+        model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False})
+        model.enable_input_require_grads();model.train()
+        parameters=[p for p in model.parameters() if p.requires_grad]
+        row=dict(input_ids=[1,2,3,4,5,6,7,8],labels=[-100]*4+[5,6,7,8],prompt_token_count=4)
+        offset,kept=m.completion_logit_window(row)
+        labels=torch.tensor([row['labels'][offset:]])
+        weights=(labels!=-100).float()
+        logits=model(input_ids=torch.tensor([row['input_ids']]),use_cache=False,logits_to_keep=kept).logits
+        auxiliary=.1*m.edit_contrast_loss(logits,[dict(target_position=4,good_token=5,bad_token=12)],1.,logit_offset=offset)
+        captured=torch.autograd.grad(auxiliary,parameters,retain_graph=True,allow_unused=True)
+        auxiliary_vector=m.flat_parameter_gradients(parameters,captured)
+        (.4*m.weighted_loss(logits,labels,weights)).backward()
+        before=m.flat_parameter_gradients(parameters)
+        logits=model(input_ids=torch.tensor([[1,9,3,4,5,6,7,8]]),use_cache=False,logits_to_keep=kept).logits
+        (.6*m.weighted_loss(logits,labels,weights)).backward()
+        base=m.flat_parameter_gradients(parameters)
+        expected,_=m.project_auxiliary_gradient(auxiliary_vector,base-before)
+        info=m.apply_paired_auxiliary_gradient(parameters,auxiliary_vector,before)
+        torch.testing.assert_close(m.flat_parameter_gradients(parameters),base+expected)
+        self.assertGreater(info['auxiliary_norm'],0.)
+        self.assertGreaterEqual(info['after_dot'],-1e-6)
+        self.assertTrue(torch.isfinite(m.flat_parameter_gradients(parameters)).all())
+
+    def test_paired_auxiliary_backward_keeps_the_ordinary_supervised_gradient(self):
+        import torch
+        parameters=[torch.nn.Parameter(torch.tensor([.3,-.4])),torch.nn.Parameter(torch.tensor([.2]))]
+        repair=(parameters[0][0]-1).square()+parameters[1][0].square()
+        retention=(parameters[0][0]+parameters[0][1]).square()+parameters[1][0].square()
+        auxiliary=.1*torch.nn.functional.softplus(1+parameters[0][1]-parameters[0][0])
+        captured=torch.autograd.grad(auxiliary,parameters,retain_graph=True,allow_unused=True)
+        auxiliary_vector=m.flat_parameter_gradients(parameters,captured)
+        (.4*repair).backward()
+        prior=m.flat_parameter_gradients(parameters)
+        (.6*retention).backward()
+        base=m.flat_parameter_gradients(parameters)
+        reference=base-prior
+        projected,_=m.project_auxiliary_gradient(auxiliary_vector,reference)
+        info=m.apply_paired_auxiliary_gradient(parameters,auxiliary_vector,prior)
+        torch.testing.assert_close(m.flat_parameter_gradients(parameters),base+projected)
+        self.assertGreaterEqual(info['after_dot'],-1e-8)
+        self.assertGreater(info['retention_norm'],0.)
+
+    def test_paired_auxiliary_preserves_missing_zero_gradients_and_rejects_bad_alignment(self):
+        import torch
+        parameters=[torch.nn.Parameter(torch.tensor([1.,2.])),torch.nn.Parameter(torch.tensor([3.]))]
+        parameters[0].grad=torch.tensor([.2,.4])
+        before=m.flat_parameter_gradients(parameters)
+        self.assertEqual(before.tolist(),[parameters[0].grad[0].item(),parameters[0].grad[1].item(),0.])
+        m.apply_paired_auxiliary_gradient(parameters,torch.zeros(3),before)
+        self.assertIsNone(parameters[1].grad)
+        torch.testing.assert_close(m.flat_parameter_gradients(parameters),before)
+        with self.assertRaises(ValueError):
+            m.apply_paired_auxiliary_gradient(parameters,torch.zeros(2),before)
+        with self.assertRaises(ValueError):m.flat_parameter_gradients(parameters,[None])
+
     def test_retention_projection_preserves_the_base_update_and_orthogonal_correction(self):
         import torch
         auxiliary=torch.tensor([-3.,2.],dtype=torch.float64)
