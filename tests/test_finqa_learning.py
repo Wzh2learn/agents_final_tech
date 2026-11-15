@@ -211,5 +211,23 @@ class FinQALearningTests(unittest.TestCase):
         row['conditioning_by_arm']['fold']['labels'][-1]=4
         with self.assertRaises(ValueError):m.conditioning_row(row,'fold')
 
+    def test_initial_decision_equalization_preserves_total_dose_and_other_token_gradients(self):
+        import torch
+        import torch.nn.functional as F
+        rows=[dict(supervised_tokens=2),dict(supervised_tokens=2),dict(supervised_tokens=6)]
+        c=m.initial_decision_coefficient(rows,[[0],[1,2]],[0,1])
+        self.assertEqual(c,.3125);self.assertEqual(2*c,1/2+1/8)
+        logits=torch.randn(1,3,5,requires_grad=True);labels=torch.tensor([[-100,1,2]])
+        base=m.weighted_loss(logits,labels,(labels!=-100).float())
+        adjusted=base+m.initial_decision_adjustment(logits,labels,1,.5,c)
+        manual=c*F.cross_entropy(logits[:,0],labels[:,1])+.5*F.cross_entropy(logits[:,1],labels[:,2])
+        self.assertTrue(torch.allclose(adjusted,manual))
+        actual=torch.autograd.grad(adjusted,logits,retain_graph=True)[0]
+        expected=torch.autograd.grad(manual,logits)[0]
+        self.assertTrue(torch.allclose(actual,expected))
+        self.assertTrue(torch.allclose(actual[:,2],torch.zeros_like(actual[:,2])))
+        with self.assertRaises(ValueError):m.initial_decision_adjustment(logits,labels,0,.5,c)
+        with self.assertRaises(ValueError):m.initial_decision_coefficient(rows,[[0]],[])
+
 
 if __name__=='__main__':unittest.main()

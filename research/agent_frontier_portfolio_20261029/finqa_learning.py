@@ -202,6 +202,36 @@ def conditioning_row(row,arm):
     return {**row,**alternate}
 
 
+def initial_decision_coefficient(rows,groups,schedule):
+    """Equalize initial-decision coefficients, preserving their scheduled sum.
+
+    The existing token-mean objective gives the first token coefficient 1/N,
+    where N counts ALL targets in that group, including the later closure.
+    No correctness labels or evaluation outcomes enter this normalization.
+    """
+    if not schedule:raise ValueError('nonempty fixed schedule required')
+    original=[]
+    for index in schedule:
+        lengths=[rows[i]['supervised_tokens'] for i in groups[index]]
+        group_coefficients(lengths,'token_mean')
+        original.append(1/sum(lengths))
+    return sum(original)/len(original)
+
+
+def initial_decision_adjustment(logits,labels,prompt_count,existing_coefficient,target_coefficient):
+    """Replace one CE coefficient without renormalizing the other targets.
+
+    This adjustment may be negative; the resulting coefficient remains positive.
+    It uses the already computed causal logits, with no extra model forward.
+    """
+    import torch.nn.functional as F
+    if (not 1<=prompt_count<labels.shape[1] or int(labels[0,prompt_count])<0
+            or not all(math.isfinite(x) and x>0 for x in [existing_coefficient,target_coefficient])):
+        raise ValueError('positive coefficients and supervised initial decision required')
+    first=F.cross_entropy(logits[:,prompt_count-1].float(),labels[:,prompt_count])
+    return (target_coefficient-existing_coefficient)*first
+
+
 def tool_log_odds(logits,prompt_tokens,tool_token_id):
     import torch
     scores=logits[0,prompt_tokens-1,:].float()
@@ -530,6 +560,9 @@ def train(digest, root=None):
                                  row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']])
                         w=torch.tensor([weights],device='cuda');logits=model(input_ids=x,use_cache=False).logits
                         value=coefficient*weighted_loss(logits,y,w)
+                        if at==0 and 'initial_decision_coefficient' in plan:
+                            value=value+initial_decision_adjustment(logits,y,row['prompt_token_count'],
+                                coefficient/row['supervised_tokens'],plan['initial_decision_coefficient'])
                         decisions=row.get('edit_contrasts',{}).get(arm,[])
                         if decisions:
                             contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],

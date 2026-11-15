@@ -438,6 +438,49 @@ def prepare_identity_fold():
                           expected_forwards=plan['expected_forward_calls'],model_requests=0)))
 
 
+def prepare_initial_decision():
+    """Keep the existing supervision, equalize only its first-decision dose."""
+    parent=ROOT/'expanded_v1/controls_v1/identity_fold_v1'
+    out=parent.parent/'initial_decision_v1'
+    if out.exists():raise ValueError('initial-decision attempt already prepared')
+    data=read(parent/'DATA.json');old=read(parent/'PLAN.json')
+    if sha(parent/'DATA.json')!=old['data_sha256']:raise ValueError('matched source DATA changed')
+    if read(parent/'RESULT.json')['status']!='TRAINED_IDENTITY_TERMINAL_ARMS':
+        raise ValueError('completed placement comparison required')
+    coefficient=learning.initial_decision_coefficient(data['rows'],old['paired_rows'],old['schedule'])
+    out.mkdir();shutil.copyfile(parent/'DATA.json',out/'DATA.json')
+    components=[Path(__file__),Path(learning.__file__),Path(tokens.__file__),Path(study.__file__),
+                Path(task.__file__),study.REPO/'scripts/graph/research_gpu_guard.py']
+    plan=dict(old)
+    plan.update(schema='finqa_initial_decision_length_compensation_v1',arms=['terminal_identity_fold'],
+                initial_decision_coefficient=coefficient,
+                expected_forward_calls=sum(len(old['paired_rows'][i]) for i in old['schedule']),
+                terminal_status='TRAINED_INITIAL_DECISION_ARM',components={str(p):sha(p) for p in components},
+                comparison='Identical DATA, 30 groups, warm start, 96 updates, 161 forwards and target tokens as the completed identity-fold arm. Only the initial review-decision CE coefficient changes; its scheduled total is preserved. Other tokens and execution-negative contrast are unchanged.',
+                prediction='More semantic repair activation than the syntax-like identity-fold behavior, while retaining its correct-state supervision. Compare with the completed fold arm and strong simple baselines.',
+                next='If initial-decision equalization improves actual execution, test a simple group-reweighting control before crediting localization; then expand frozen confirmation and related dataset.')
+    new(out/'PLAN.json',plan);snapshot=out/'training_sources';snapshot.mkdir()
+    for path in components:(snapshot/path.name).write_bytes(path.read_bytes())
+    source=ROOT/'expanded_v1/dev_firstpass_v1';review=out/'native_v1';review.mkdir()
+    template=read(parent/'native_v1/PLAN.json');episodes=[]
+    for ep in read(source/'PLAN.json')['episodes']:
+        original=Path(ep['folder']);target=review/'terminal_identity_fold'/f"{ep['index']:03d}";target.mkdir(parents=True)
+        shutil.copytree(original/'inputs',target/'inputs');shutil.copytree(original/'work',target/'work');(target/'dependencies').mkdir()
+        (target/'inputs/task.txt').write_text(study.recovery_prompt(read(original/'inputs/public.json'),study.recent_actions(original)))
+        episodes.append(dict(ep,arm='terminal_identity_fold',folder=str(target),task_sha256=sha(target/'inputs/task.txt')))
+    shutil.copyfile(source/'LABELS_PRIVATE.json',review/'LABELS_PRIVATE.json')
+    template.update(schema='finqa_initial_decision_native_review_v1',episodes=episodes,arms=plan['arms'],arm_order=plan['arms'],
+                    training_root=str(out),training_plan_sha256=sha(out/'PLAN.json'),required_training_status=plan['terminal_status'],
+                    terminal_status='FINQA_INITIAL_DECISION_REVIEW_RETURNED',max_posts=len(episodes)*study.CAPS['posts'],
+                    components={**native.expanded_runtime()['components'],str(Path(learning.__file__)):sha(learning.__file__)},
+                    comparison='Same 32 already-exposed development states and original recovery prompt; only the matched training objective differs from the completed identity-fold arm.')
+    new(review/'PLAN.json',template);snap=review/'executed_sources';snap.mkdir()
+    for path in template['components']:(snap/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(plan_sha256=sha(out/'PLAN.json'),data_sha256=sha(out/'DATA.json'),
+                          initial_decision_coefficient=coefficient,initial_decision_mass=coefficient*len(plan['schedule']),
+                          updates=96,forwards=161,review_plan_sha256=sha(review/'PLAN.json'),model_requests=0)))
+
+
 def prepare_review():
     source=ROOT/'firstpass_v1';output=ROOT/'native_v1'
     if output.exists():raise ValueError('review attempt already exists')
@@ -475,7 +518,7 @@ def prepare_review():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources','prepare-teacher','teacher','compile-expanded','prepare-expanded-train','train-expanded','prepare-identity-fold','train-identity-fold']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','prepare-firstpass','firstpass','prepare-review','review','prepare-positive-fusion','positive-fusion','prepare-sources','sources','prepare-teacher','teacher','compile-expanded','prepare-expanded-train','train-expanded','prepare-identity-fold','train-identity-fold','prepare-initial-decision','train-initial-decision']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     elif args.mode=='prepare-firstpass':prepare_firstpass()
@@ -489,4 +532,6 @@ if __name__=='__main__':
     elif args.mode=='train-expanded':learning.train(args.plan_sha,ROOT/'expanded_v1')
     elif args.mode=='prepare-identity-fold':prepare_identity_fold()
     elif args.mode=='train-identity-fold':learning.train(args.plan_sha,ROOT/'expanded_v1/controls_v1/identity_fold_v1')
+    elif args.mode=='prepare-initial-decision':prepare_initial_decision()
+    elif args.mode=='train-initial-decision':learning.train(args.plan_sha,ROOT/'expanded_v1/controls_v1/initial_decision_v1')
     else:native.run(args.plan_sha,ROOT/({'firstpass':'firstpass_v1','positive-fusion':'fusion_positive_v1/native_v1','sources':'formation_student_v1'}.get(args.mode,'native_v1')))
