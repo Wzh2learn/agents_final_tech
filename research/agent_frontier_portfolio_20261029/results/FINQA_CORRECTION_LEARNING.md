@@ -118,7 +118,16 @@ DATA e2821f33、训练PLAN cb496dd9、原生PLAN dbdb2c32已冻结。GB10反例�
 
 新增64个TRAIN公司/年份来源已真实执行：**20/64原生成功、64正常、62可执行，42个可执行语义错误和2个未有效提交**。这些是训练形成来源，不是候选方法成绩。固定hash选择排除官方dev全部报告组及历史来源共249组；SOURCE PLAN935a69a3、SELECTION589bef40，无按模型成绩/答案值挑题。普通纠正/候选将共享新增数据。
 
-本次143POST/550,040已知tokens（输入538,665、输出11,375，缓存451,446为输入子集），未知0，286份wire复核，Actor997.71秒。ANALYSIS5d6d4551；完整源包e5358889双份，2,496,817字节。原数据/准备包dbd99cbe保留；下一步对真实失败形成教师恢复，原成功来源也可提供保持监督，目前没有新教师或训练。旧32/64 dev不转作新增训练；后续确认仍需未启用来源。
+本次143POST/550,040已知tokens（输入538,665、输出11,375，缓存451,446为输入子集），未知0，286份wire复核，Actor997.71秒。ANALYSIS5d6d4551；完整源包e5358889双份，2,496,817字节。原数据/准备包dbd99cbe保留。旧32/64 dev不转作新增训练；后续确认仍需未启用来源。
+
+<a id="train-teacher-expansion-v1"></a>
+### 新来源教师恢复：准备与等待
+
+44个实际失败工作区已复制为TRAIN教师续做，20个成功来源保留真实程序/执行见证，不新增保持教师调用。教师使用TRAIN参考监督，必须在原工作区真实修改并执行；这不是盲测强模型或方法效果。新数据由普通训练与候选共享。
+
+PLAN454eff3203feb208a608dfe830c60fbf71231b642338cf2be6b218a2fccec0aa；等待器1048806/tick8081010、boot b4166d98，脚本bb909f98。只有固定v2监督1035837正常闭合且27B恢复后才开始，单权重，不自动重跑前置任务。上限528本地POST、4M本地tokens含未知预留；校内0、当前教师0调用。复用既有OpenCode/episode/资源锁，不改变正运行代码。准备时发现父回执多一个arm包装字段，核实后仅排除该字段，其余原始回执逐项相等。
+
+准备包4a529ade双份核SHA，751,672字节，含44输入/工作区、20成功见证、冻结计划与代码/等待回执，不含教师结果。旧父raw仍在e5358889，不覆盖。
 
 TAT-QA原始32个算术题/32表上下文仅CPU准备，官方评分固定commit870accc4，标量/尺度及0值控制已验；输入无金标，评分在宿主。准备包97f8521c双份，无TAT-QA Agent/神经训练。详情见[相关资产](CONTINUATION_PROGRAM.md#tatqa-related-prep-v1)，本轮不启动TAT矩阵或冻结TAT-DQA。
 
@@ -141,6 +150,7 @@ GB10私有根为/home/testuser/wzh/research_evidence/agent_learning_20261030/fin
 | finqa_additional_train_preparation_20261115_v1 | 新64TRAIN输入及原始数据，16,060,209字节 | dbd99cbe |
 | finqa_additional_train_sources_20261115_v1 | 新64TRAIN的真实源执行/分析，2,496,817字节 | e5358889 |
 | finqa_state_view_preparation_20261115_v2 | 原目标状态学习数据/96输入/复用参照，16,302,127字节 | c69ea8a2 |
+| finqa_additional_teacher_preparation_20261115_v1 | 44教师续做输入/20保持见证及等待回执，751,672字节 | 4a529ade |
 | tatqa_related_preparation_20261115_v1 | 32原题/原始dev/官方评分源码及CPU验证 | 97f8521c |
 
 最新完整结果包SHA256 f4e0feeeb656fae2bfbab89682c9ea97d7cf7a82b7b80558e0a68ad2c51e4048；新增TRAIN准备包SHA256 dbd99cbe7307580c9dbcd2a658680deee2fb8d4c282b42c3201a3a1de2951589。旧结果、失败和真实费用均保留，具体候选停止不关闭金融纠正主线。
