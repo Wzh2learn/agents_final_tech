@@ -10,6 +10,41 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def test_retention_projection_preserves_the_base_update_and_orthogonal_correction(self):
+        import torch
+        auxiliary=torch.tensor([-3.,2.],dtype=torch.float64)
+        retention=torch.tensor([1.,0.],dtype=torch.float64)
+        original=auxiliary.clone();base=torch.tensor([.4,.7],dtype=torch.float64)
+        projected,info=m.project_auxiliary_gradient(auxiliary,retention)
+        torch.testing.assert_close(projected,torch.tensor([0.,2.],dtype=torch.float64))
+        torch.testing.assert_close(auxiliary,original)
+        torch.testing.assert_close(base+projected,torch.tensor([.4,2.7],dtype=torch.float64))
+        self.assertTrue(info['conflict'])
+        self.assertGreaterEqual(info['after_dot'],0.)
+
+    def test_retention_projection_leaves_aligned_and_zero_reference_gradients_unchanged(self):
+        import torch
+        for reference in [torch.tensor([1.,0.]),torch.zeros(2)]:
+            auxiliary=torch.tensor([1.,2.])
+            projected,info=m.project_auxiliary_gradient(auxiliary,reference)
+            torch.testing.assert_close(projected,auxiliary)
+            self.assertFalse(info['conflict'])
+        torch.manual_seed(17)
+        for _ in range(20):
+            auxiliary=torch.randn(15,dtype=torch.float64);reference=torch.randn(15,dtype=torch.float64)
+            projected,info=m.project_auxiliary_gradient(auxiliary,reference)
+            self.assertGreaterEqual(float(torch.dot(projected,reference)),-1e-10)
+            self.assertLessEqual(float(projected.norm()),float(auxiliary.norm())+1e-10)
+
+    def test_retention_projection_rejects_misaligned_or_nonfinite_vectors(self):
+        import torch
+        for auxiliary,reference in [(torch.ones(2),torch.ones(3)),(torch.ones(1,2),torch.ones(1,2)),
+                                    (torch.empty(0),torch.empty(0)),
+                                    (torch.tensor([float('nan')]),torch.ones(1)),
+                                    (torch.ones(1),torch.tensor([float('inf')]))]:
+            with self.subTest(auxiliary=auxiliary,reference=reference),self.assertRaises(ValueError):
+                m.project_auxiliary_gradient(auxiliary,reference)
+
     def test_completion_logit_window_preserves_the_first_causal_prediction(self):
         row=dict(input_ids=[1,2,3,4,5,6],labels=[-100,-100,-100,4,5,6],prompt_token_count=3)
         self.assertEqual(m.completion_logit_window(row),(2,4))

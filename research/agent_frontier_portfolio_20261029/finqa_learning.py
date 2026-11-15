@@ -186,6 +186,32 @@ def completion_logit_window(row):
     return offset,len(labels)-offset
 
 
+def project_auxiliary_gradient(auxiliary,retention):
+    """Project only an auxiliary update; ordinary supervised gradients stay intact.
+
+    This is the standard half-space projection used by gradient-surgery and
+    episodic-memory methods. Here its reference is the paired successful state.
+    The dot-product property concerns gradient space, not an AdamW success bound.
+    """
+    import torch
+    if (auxiliary.ndim!=1 or retention.ndim!=1 or auxiliary.shape!=retention.shape
+            or not auxiliary.numel() or auxiliary.device!=retention.device
+            or not torch.is_floating_point(auxiliary) or not torch.is_floating_point(retention)
+            or not torch.isfinite(auxiliary).all() or not torch.isfinite(retention).all()):
+        raise ValueError('finite aligned nonempty gradient vectors required')
+    a=auxiliary.detach();r=retention.detach()
+    dot=float(torch.dot(a.double(),r.double()))
+    reference_norm=float(torch.dot(r.double(),r.double()))
+    norm_before=float(torch.linalg.vector_norm(a.double()))
+    projected=a.clone();conflict=dot<0 and reference_norm>0
+    if conflict:projected.add_(r.to(projected.dtype),alpha=-dot/reference_norm)
+    info=dict(conflict=conflict,before_dot=dot,
+              after_dot=float(torch.dot(projected.double(),r.double())),
+              auxiliary_norm=norm_before,projected_norm=float(torch.linalg.vector_norm(projected.double())),
+              retention_norm=reference_norm**.5)
+    return projected,info
+
+
 def pair_coefficients(repair_tokens,closure_tokens,objective):
     if any(type(n) is not int or n<=0 for n in [repair_tokens,closure_tokens]):raise ValueError('positive target lengths required')
     if objective=='token_mean':
