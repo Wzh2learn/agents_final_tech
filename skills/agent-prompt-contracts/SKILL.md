@@ -180,6 +180,6 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 ## Completion and verification
 
-**11-16程序提交补充**：FinQA两训练臂84次复查均有bash可用，却只声明`Final program:`、未实际提交。全部保存方案经公共工具执行后候选14/42、普通13/42，原生仍同13/42。新增可选接口仅将末次助手唯一明确声明在正常退出后提交，普通/候选/简单复查共用；不从reasoning或工具输出提取，不读隐藏答案，失败执行也保留。执行层提交标为`terminal_declaration`，不冒充模型工具调用。旧默认prompt/guest保持；GB10相关59项、29子检查通过，2项跳过，42个旧状态默认提示逐字一致。四次已曝光题目的原生接入检查尚待运行；该接口不计学习创新。[结果与接入状态](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#terminal-interface-v1)。
+**11-16程序提交补充**：FinQA两训练臂84次复查均有bash可用，却只声明`Final program:`、未实际提交。全量保存方案执行后候选14/42、普通13/42，原生仍同13/42。可选接口将末次助手唯一明确声明在正常退出后提交，各组共用；不从reasoning/工具输出提取，不读答案，失败也保留，来源标为`terminal_declaration`。首轮提示含`PROGRAM`占位词，4次均被照抄而执行失败；改为无包装的表达式说明后，同4次均真实提交/有效执行，未按题目答案调提示。8次费用均保留。旧默认prompt/guest及42状态提示保持；GB10相关59项/29子检查通过、2跳过。接口不计学习创新，已曝光接入题不当独立确认。[证据](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#terminal-interface-v1)。
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

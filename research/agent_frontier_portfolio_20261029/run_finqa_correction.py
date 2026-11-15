@@ -53,7 +53,9 @@ def publish(path, value):
 
 def prompt(public, *, terminal_program=False):
     submission = ('Use bash for calculations or program execution as needed. '
-                  'Finish with exactly one plain-text line Final program: PROGRAM containing your complete program on that line. '
+                  'Finish with exactly one plain-text line beginning Final program: followed by the complete program expression. '
+                  'Write only the expression after the colon, without wrappers, quotation marks or code fences. '
+                  'Example format (illustrative arithmetic only):\nFinal program: add(10, 5), divide(#0, const_100)\n'
                   'The execution layer will submit that declaration through the same public tool after normal completion; '
                   'unchanged declared programs are also executed. Put any explanation outside the declaration line. '
                   if terminal_program else 'Submit a FinQA program using the only bash tool. ')
