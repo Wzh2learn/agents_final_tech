@@ -13,7 +13,7 @@
 | 来源与参考资格 | 历史代码与客服按[知识索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)保留。新增Astropy14182仅CPU控制完成，Matplotlib25079收集警告未解，无Agent/训练；不作金融主线前置。 |
 | 成本及运行器 | 扩样训练被32GiB保护中止，未形成新适配器；旧LIVE的RUNNING已过时，以PIPELINE_RESULT的FAILED及进程退出为准。已完成28更新/45前向/170,730序列tokens，未完成计算未知。27B已恢复；等价节省内存后用新目录重试，不覆盖中断现场。 |
 | 记忆和自动调度 | 反思游标只验单进程；统一八层记忆、恢复队列和自动唤醒未实现。个人会话接入与生产调用另按授权；见[架构](../docs/17_Graph_Engineering_多层Loop设计.md)。 |
-| 工作区与分享 | 新准备3e16186b、旧权重3f4a6742/原生27ed19ec/教师28a7169b均双份。仅维护原文档和已有方法模块；Paper E/开题WIP及LoopB保留。 |
+| 工作区与分享 | 扩样首试完整包cb8650aa、等价投影重试准备fb7594d1双份；旧权重/原生/教师包保留。仅维护原文档和已有方法模块；Paper E/开题WIP及LoopB保留。 |
 | 文档与 skill 存量 | 机制知识和现役入口已收敛；本次仅只读doctor/map，不安装/分发新skill。既有WIP缺陷与历史warning单列；不让存量全库治理阻塞后续机制研究。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 

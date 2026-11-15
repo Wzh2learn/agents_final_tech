@@ -171,6 +171,21 @@ def weighted_loss(logits,labels,weights):
     return (losses.reshape_as(target)*mass).sum()/mass.sum()
 
 
+def completion_logit_window(row):
+    """Skip only masked-prefix vocabulary projections, keeping all input tokens.
+
+    The token immediately before the completion predicts its first token, so
+    its logit must remain. Labels and auxiliary positions use the same offset.
+    """
+    labels=row['labels'];prompt=row['prompt_token_count']
+    if (type(prompt) is not int or not 1<=prompt<len(labels)
+            or len(row['input_ids'])!=len(labels)
+            or any(value!=-100 for value in labels[:prompt]) or labels[prompt]<0):
+        raise ValueError('a masked prefix and supervised first completion token are required')
+    offset=prompt-1
+    return offset,len(labels)-offset
+
+
 def pair_coefficients(repair_tokens,closure_tokens,objective):
     if any(type(n) is not int or n<=0 for n in [repair_tokens,closure_tokens]):raise ValueError('positive target lengths required')
     if objective=='token_mean':
@@ -262,11 +277,12 @@ def first_edit_decision(positive,negative):
     raise ValueError('no contrasted supervised decision')
 
 
-def edit_contrast_loss(logits,decisions,margin,positive_only=False):
+def edit_contrast_loss(logits,decisions,margin,positive_only=False,logit_offset=0):
     """Pairwise token margin at verified shared prefixes; no negative forward."""
     import torch
     import torch.nn.functional as F
-    points=sorted({(d['target_position'],d['good_token'],d['bad_token']) for d in decisions})
+    if type(logit_offset) is not int or logit_offset<0:raise ValueError('invalid logit offset')
+    points=sorted({(d['target_position']-logit_offset,d['good_token'],d['bad_token']) for d in decisions})
     if not points:return logits[0,0,0]*0
     losses=[]
     for position,good,bad in points:
@@ -508,6 +524,8 @@ def train(digest, root=None):
     root=ROOT if root is None else Path(root)
     if sha(root/'PLAN.json')!=digest or (root/'LIVE.json').exists():raise ValueError('training plan/attempt')
     plan=read(root/'PLAN.json');assert sha(root/'DATA.json')==plan['data_sha256']
+    if plan.get('completion_logits_only') and plan.get('step_preference'):
+        raise ValueError('completion-only head is not implemented for rejected preference forwards')
     for path,value in plan['components'].items():
         if sha(path)!=value:raise ValueError('training component changed')
     rows=read(root/'DATA.json')['rows'];started=time.monotonic()
@@ -519,6 +537,8 @@ def train(digest, root=None):
     state=dict(status='RUNNING',pid=__import__('os').getpid(),optimizer_updates=0,forward_calls=0,
                training_sequence_tokens=0,supervised_tokens=0,arms=inherited,http_model_requests=0,
                inherited_arm_names=list(inherited))
+    if plan.get('completion_logits_only'):
+        state.update(completion_logits_only=True,vocabulary_logit_positions=0)
     model=None
     try:
         with gpu_lease(), Path(plan['resource_lock']).open('r+') as lease:
@@ -559,28 +579,33 @@ def train(digest, root=None):
                     total=0.;odds_values=[];before=None;auxiliary=0.
                     for at,(row,coefficient) in enumerate(zip(batch,coefficients)):
                         work=preference.before_row(model,row,arm) if preference else []
-                        x=torch.tensor([row['input_ids']],device='cuda');y=torch.tensor([row['labels']],device='cuda')
+                        offset,kept=completion_logit_window(row) if plan.get('completion_logits_only') else (0,row['sequence_length'])
+                        x=torch.tensor([row['input_ids']],device='cuda');y=torch.tensor([row['labels'][offset:]],device='cuda')
                         weights=([float(t!=-100) for t in row['labels']] if plan.get('paired_rows') else
                                  row['weights_by_arm'][arm] if 'weights_by_arm' in row else
                                  row['weights'] if arm=='operand_repair' else [float(t!=-100) for t in row['labels']])
-                        w=torch.tensor([weights],device='cuda');logits=model(input_ids=x,use_cache=False).logits
+                        if offset and any(weight!=0 for weight in weights[:offset]):raise ValueError('unmasked prefix weights')
+                        w=torch.tensor([weights[offset:]],device='cuda')
+                        head={'logits_to_keep':kept} if plan.get('completion_logits_only') else {}
+                        logits=model(input_ids=x,use_cache=False,**head).logits
+                        prompt_count=row['prompt_token_count']-offset
                         value=coefficient*weighted_loss(logits,y,w)
                         if work:
                             term=preference.positive(logits,row,work)
                             edit_diagnostics.append(dict(update=update,decisions=len(work),loss=float(term.detach())))
                             value=value+term;del term
                         if at==0 and 'initial_decision_coefficient' in plan:
-                            value=value+initial_decision_adjustment(logits,y,row['prompt_token_count'],
+                            value=value+initial_decision_adjustment(logits,y,prompt_count,
                                 coefficient/row['supervised_tokens'],plan['initial_decision_coefficient'])
                         decisions=row.get('edit_contrasts',{}).get(arm,[])
                         if decisions:
                             contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],
-                                                       positive_only=arm in plan.get('positive_only_arms',['edit_positive']))
+                                                       positive_only=arm in plan.get('positive_only_arms',['edit_positive']),logit_offset=offset)
                             edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach())))
                             value=value+plan['edit_weight']*contrast
                             del contrast
                         if plan.get('paired_rows') and len(batch)==2:
-                            odds=tool_log_odds(logits,row['prompt_token_count'],plan['tool_token_id'])
+                            odds=tool_log_odds(logits,prompt_count,plan['tool_token_id'])
                             odds_values.append(float(odds.detach()))
                             if at==0:before=odds.detach()
                             elif arm=='paired_mode':
@@ -590,6 +615,7 @@ def train(digest, root=None):
                         if not torch.isfinite(value):raise ValueError('nonfinite loss')
                         total+=float(value.detach());value.backward()
                         state['forward_calls']+=1;state['training_sequence_tokens']+=row['sequence_length'];state['supervised_tokens']+=row['supervised_tokens']
+                        if plan.get('completion_logits_only'):state['vocabulary_logit_positions']+=logits.shape[1]
                         del x,y,w,value,logits
                         if work:preference.backward_rejected(model,work)
                         if at==1 and arm=='paired_mode':del penalty

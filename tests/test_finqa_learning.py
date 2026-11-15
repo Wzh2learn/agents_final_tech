@@ -10,6 +10,44 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def test_completion_logit_window_preserves_the_first_causal_prediction(self):
+        row=dict(input_ids=[1,2,3,4,5,6],labels=[-100,-100,-100,4,5,6],prompt_token_count=3)
+        self.assertEqual(m.completion_logit_window(row),(2,4))
+        self.assertEqual(m.completion_logit_window(dict(row,prompt_token_count=1,labels=[-100,2,3,4,5,6])),(0,6))
+        for bad in [dict(row,prompt_token_count=0),dict(row,prompt_token_count=6),
+                    dict(row,labels=[-100,2,-100,4,5,6]),dict(row,labels=[-100]*4+[5,6]),
+                    dict(row,input_ids=[1,2])]:
+            with self.subTest(bad=bad),self.assertRaises(ValueError):m.completion_logit_window(bad)
+
+    def test_completion_only_qwen_head_preserves_losses_and_all_parameter_gradients(self):
+        import torch
+        from transformers import Qwen3Config,Qwen3ForCausalLM
+        torch.manual_seed(17)
+        model=Qwen3ForCausalLM(Qwen3Config(vocab_size=23,hidden_size=16,intermediate_size=32,
+            num_hidden_layers=1,num_attention_heads=2,num_key_value_heads=1,head_dim=8,
+            attention_dropout=0.,pad_token_id=0)).eval()
+        row=dict(input_ids=[1,2,3,4,5,6,7,8],labels=[-100]*4+[5,6,7,8],prompt_token_count=4)
+        x=torch.tensor([row['input_ids']]);labels=torch.tensor([row['labels']])
+        weights=torch.tensor([[0.,0.,0.,0.,1.,2.,1.,1.]])
+        points=[dict(target_position=4,good_token=5,bad_token=12),dict(target_position=6,good_token=7,bad_token=13)]
+        offset,kept=m.completion_logit_window(row)
+        full=model(input_ids=x,use_cache=False).logits
+        short=model(input_ids=x,use_cache=False,logits_to_keep=kept).logits
+        torch.testing.assert_close(short,full[:,offset:])
+        def objective(logits,y,w,prompt,shift):
+            return (m.weighted_loss(logits,y,w)+.1*m.edit_contrast_loss(logits,points,1.,logit_offset=shift)
+                +m.initial_decision_adjustment(logits,y,prompt,1/5,.3)
+                +.1*m.paired_mode_loss(torch.tensor(.4),m.tool_log_odds(logits,prompt,5),1.))
+        expected=objective(full,labels,weights,4,0)
+        actual=objective(short,labels[:,offset:],weights[:,offset:],4-offset,offset)
+        torch.testing.assert_close(actual,expected)
+        parameters=list(model.parameters())
+        first=torch.autograd.grad(expected,parameters);second=torch.autograd.grad(actual,parameters)
+        for a,b in zip(first,second):torch.testing.assert_close(a,b,rtol=1e-5,atol=1e-6)
+        self.assertGreater(float(second[0][1].norm()),0.)  # The unlabelled prompt still backpropagates.
+        with self.assertRaises(ValueError):
+            m.edit_contrast_loss(short,[dict(points[0],target_position=offset)],1.,logit_offset=offset)
+
     def test_verified_teacher_pair_selects_last_real_correct_call_after_an_extra_attempt(self):
         import finqa_state_learning as state
         def action(program,call_id):
