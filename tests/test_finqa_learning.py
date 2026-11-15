@@ -306,5 +306,25 @@ class FinQALearningTests(unittest.TestCase):
             self.assertEqual(plan['required_training_status'],'TRAINED_MATCHED_CONTROL_ARMS')
             self.assertNotIn('training_result_sha256',plan)
 
+    def test_reserved_confirmation_preserves_order_and_rejects_exposed_or_duplicate_filings(self):
+        import copy
+        import run_finqa_learning_native as native
+        records=[dict(id='a',filename='A/2020/page.pdf',qa=dict(program='add(1, 2), divide(#0, const_100)')),
+                 dict(id='b',filename='B/2021/page.pdf',qa=dict(program='add(1, 3), divide(#0, const_100)'))]
+        reservation=dict(status='RESERVED_NOT_EXECUTED',excluded_groups=['OLD/2020'],
+                         tasks=[dict(id=r['id'],report=r['filename']) for r in reversed(records)])
+        self.assertEqual([r['id'] for r in native.reserved_confirmation_records(records,reservation,2)],['b','a'])
+        self.assertEqual([r['id'] for r in native.reserved_confirmation_records(list(reversed(records)),reservation,2)],['b','a'])
+        for kind in ('exposed','duplicate','changed_report','ambiguous','short_program','inactive'):
+            cases=copy.deepcopy(records);plan=copy.deepcopy(reservation)
+            if kind=='exposed':plan['excluded_groups'].append('A/2020')
+            elif kind=='duplicate':plan['tasks'][1]=copy.deepcopy(plan['tasks'][0])
+            elif kind=='changed_report':plan['tasks'][0]['report']='OTHER/2021/page.pdf'
+            elif kind=='ambiguous':cases.append(copy.deepcopy(cases[0]))
+            elif kind=='short_program':cases[0]['qa']['program']='add(1, 2)'
+            else:plan['status']='ALREADY_EXECUTED'
+            with self.subTest(kind=kind):
+                with self.assertRaises(ValueError):native.reserved_confirmation_records(cases,plan,2)
+
 
 if __name__=='__main__':unittest.main()

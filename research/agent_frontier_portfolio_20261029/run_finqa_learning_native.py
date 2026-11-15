@@ -160,6 +160,7 @@ def run(digest,out=None):
     output=OUT if out is None else Path(out)
     if sha(output/'PLAN.json')!=digest or (output/'LIVE.json').exists():raise ValueError('native plan/attempt')
     plan=read(output/'PLAN.json');training=Path(plan.get('training_root',str(learning.ROOT)))
+    if 'protocol_path' in plan:assert sha(plan['protocol_path'])==plan['protocol_sha256']
     if 'training_result_sha256' in plan:assert sha(training/'RESULT.json')==plan['training_result_sha256']
     if 'training_plan_sha256' in plan:assert sha(training/'PLAN.json')==plan['training_plan_sha256']
     if 'required_training_status' in plan:assert read(training/'RESULT.json')['status']==plan['required_training_status']
@@ -503,6 +504,122 @@ def prepare_expanded_review():
     print(json.dumps(dict(plan_sha256=sha(target/'PLAN.json'),episodes=len(episodes),arm_order=arms,max_posts=plan['max_posts'])))
 
 
+def reserved_confirmation_records(records,reservation,count=64):
+    """Use the preselected order; never replace a filing after seeing outcomes."""
+    if not 1<=count<=64 or reservation.get('status')!='RESERVED_NOT_EXECUTED':
+        raise ValueError('inactive or unbounded confirmation reservation')
+    tasks=reservation['tasks'];excluded=set(reservation['excluded_groups'])
+    if len(tasks)!=count:raise ValueError('reserved task count differs')
+    selected=[];ids=set();groups=set()
+    for item in tasks:
+        matches=[r for r in records if r['id']==item['id']]
+        if len(matches)!=1 or matches[0]['filename']!=item['report']:
+            raise ValueError('reserved task is missing, ambiguous or changed')
+        record=matches[0];group='/'.join(record['filename'].split('/')[:2])
+        if item['id'] in ids or group in groups or group in excluded:
+            raise ValueError('duplicate or exposed confirmation filing')
+        if len(task.executor().parse_program(record['qa']['program']))<2:
+            raise ValueError('reserved task no longer satisfies the multi-step scope')
+        selected.append(record);ids.add(item['id']);groups.add(group)
+    return selected
+
+
+def prepare_confirmation():
+    """Freeze all four checkpoint comparisons before any of the 64 outcomes."""
+    training=learning.ROOT/'semantic_correction_v1/expanded_v1';root=training/'confirmation_v1'
+    if root.exists():raise ValueError('confirmation already prepared')
+    reservation=training/'CONFIRMATION_RESERVATION_V1.json'
+    if sha(reservation)!='2d6ae0670332732af53204a8e8713cfae4e76e4718cd0ecd3d36438663dac442':
+        raise ValueError('pre-outcome reservation changed')
+    reserved=read(reservation);data=study.DATA.with_name('dev.json')
+    if sha(data)!=reserved['dev_source_sha256']:raise ValueError('dev source changed')
+    records=reserved_confirmation_records(read(data),reserved)
+    for record in records:
+        if not task.grade(record['qa']['program'],task.public_record(record),record['qa']['exe_ans'])['execution_correct']:
+            raise ValueError('reserved reference does not meet the executor contract; do not replace the task')
+    bindings={}
+    for name,folder,arms,status in [
+        ('original',training,['closed_sft','edit_all_negative'],'TRAINED_EXPANDED_SEMANTIC_ARMS'),
+        ('controls',training/'controls_v1/matched_training_v1',['success_context_sft','step_dpo'],'TRAINED_MATCHED_CONTROL_ARMS')]:
+        receipt=read(folder/'RESULT.json')
+        if receipt['status']!=status:raise ValueError('training incomplete')
+        for arm in arms:
+            for filename,digest in receipt['arms'][arm]['adapter_files'].items():
+                if sha(folder/arm/filename)!=digest:raise ValueError('trained checkpoint changed')
+        bindings[name]=dict(training_root=str(folder),training_plan_sha256=sha(folder/'PLAN.json'),
+                            training_result_sha256=sha(folder/'RESULT.json'),required_training_status=status,arms=arms)
+    jobs=[dict(name=name,arms=list(value['arms'])) for name,value in bindings.items()]
+    rng=random.Random(17);rng.shuffle(jobs)
+    for job in jobs:rng.shuffle(job['arms'])
+    runtime=expanded_runtime();root.mkdir(mode=0o700)
+    protocol=dict(schema='finqa_reserved_filing_validation_v1',reservation_path=str(reservation),reservation_sha256=sha(reservation),
+                  source_sha256=sha(data),tasks=reserved['tasks'],excluded_groups=reserved['excluded_groups'],bindings=bindings,
+                  review_jobs=jobs,primary='edit_all_negative minus closed_sft native success, paired by filing',
+                  secondary='Success-context SFT, step-preference adaptation, source retention, valid-wrong recovery and complete costs; no selection on target labels.',
+                  scope='64 new project-training/development-unseen company/year groups; fixed checkpoints and one inference seed. Not full-benchmark or pretraining-independence evidence.',
+                  inference='One common closed-SFT first pass; all four reviewers receive all identical public states, including successes. Same native OpenCode runtime and budgets.',
+                  simple_baseline='Prespecified offline replay: retain every executable source program; otherwise use its closed-SFT review. No hidden labels in this trigger; count only selected requests as policy cost.',
+                  statistics=dict(primary='paired filing bootstrap difference, 20000 draws, seed 17, percentile 95% interval',
+                                  secondary='Report paired point differences and intervals descriptively, without treating non-significance as equality.'),
+                  decision='Retain all outcomes. Do not tune the rule, prompt, gate or threshold on these filings; changes require new development designation and a fresh evaluation source.',
+                  max_local_posts=64*5*study.CAPS['posts'],campus_posts=0,**runtime)
+    study.new(root/'PROTOCOL.json',protocol)
+    target=root/'firstpass_v1';target.mkdir();episodes=[]
+    study.new(target/'LABELS_PRIVATE.json',[dict(index=i,id=r['id'],report=r['filename'],exe_ans=r['qa']['exe_ans']) for i,r in enumerate(records)])
+    for i,record in enumerate(records):
+        folder=target/'closed_sft'/f'{i:03d}';inputs=folder/'inputs';inputs.mkdir(parents=True)
+        (folder/'work').mkdir(mode=0o755);(folder/'dependencies').mkdir()
+        public=task.public_record(record)
+        (inputs/'public.json').write_text(json.dumps(public,ensure_ascii=False)+'\n')
+        (inputs/'task.txt').write_text(study.prompt(public))
+        for filename,path in [('finqa_tool.py',Path(task.__file__)),('executor.py',Path(task.executor().__file__))]:
+            (inputs/filename).write_bytes(path.read_bytes())
+        (inputs/'guest.py').write_text(study.core.GUEST)
+        episodes.append(dict(index=i,id=record['id'],report=record['filename'],arm='closed_sft',folder=str(folder),
+                             public_sha256=sha(inputs/'public.json'),task_sha256=sha(inputs/'task.txt')))
+    plan=dict(schema='finqa_reserved_confirmation_firstpass_v1',episodes=episodes,arms=['closed_sft'],arm_order=['closed_sft'],
+              **{k:v for k,v in bindings['original'].items() if k!='arms'},
+              protocol_path=str(root/'PROTOCOL.json'),protocol_sha256=sha(root/'PROTOCOL.json'),
+              private_labels_sha256=sha(target/'LABELS_PRIVATE.json'),terminal_status='FINQA_CONFIRMATION_FIRSTPASS_RETURNED',
+              source_split='dev',scope=protocol['scope'],max_posts=64*study.CAPS['posts'],**runtime)
+    study.new(target/'PLAN.json',plan);snapshot=root/'executed_sources';snapshot.mkdir()
+    for path in runtime['components']:(snapshot/Path(path).name).write_bytes(Path(path).read_bytes())
+    print(json.dumps(dict(protocol_sha256=sha(root/'PROTOCOL.json'),plan_sha256=sha(target/'PLAN.json'),tasks=64,max_posts=protocol['max_local_posts'])))
+
+
+def prepare_confirmation_reviews():
+    """Materialize every fixed reviewer from the same completed public states."""
+    root=learning.ROOT/'semantic_correction_v1/expanded_v1/confirmation_v1';parent=root/'firstpass_v1'
+    original=read(parent/'PLAN.json');first=read(parent/'RESULT.json');protocol=read(root/'PROTOCOL.json')
+    if sha(root/'PROTOCOL.json')!=original['protocol_sha256']:raise ValueError('confirmation protocol changed')
+    if first['status']!='FINQA_CONFIRMATION_FIRSTPASS_RETURNED' or len(first['episodes'])!=64:
+        raise ValueError('complete common first pass required')
+    if first['plan_sha256']!=sha(parent/'PLAN.json'):raise ValueError('first-pass binding changed')
+    runtime={k:protocol[k] for k in expanded_runtime()}
+    for path,digest in runtime['components'].items():
+        if sha(path)!=digest:raise ValueError('frozen runtime changed')
+    targets=[root/('review_'+job['name']) for job in protocol['review_jobs']]
+    if any(p.exists() for p in targets):raise ValueError('review preparation already attempted')
+    for job,target in zip(protocol['review_jobs'],targets):
+        binding=protocol['bindings'][job['name']];training=Path(binding['training_root'])
+        if sha(training/'RESULT.json')!=binding['training_result_sha256']:raise ValueError('training result changed')
+        target.mkdir();shutil.copyfile(parent/'LABELS_PRIVATE.json',target/'LABELS_PRIVATE.json');episodes=[];sources=[]
+        for ep in original['episodes']:
+            source=Path(ep['folder']);text=study.recovery_prompt(read(source/'inputs/public.json'),study.recent_actions(source))
+            sources.append(dict(ep,result_sha256=sha(source/'RESULT.json'),work_tree=study.core.tree(source/'work')))
+            for arm in job['arms']:
+                folder=target/arm/f"{ep['index']:03d}";folder.mkdir(parents=True)
+                shutil.copytree(source/'inputs',folder/'inputs');shutil.copytree(source/'work',folder/'work');(folder/'dependencies').mkdir()
+                (folder/'inputs/task.txt').write_text(text)
+                episodes.append(dict(ep,arm=arm,folder=str(folder),task_sha256=sha(folder/'inputs/task.txt'),source_result_sha256=sha(source/'RESULT.json')))
+        plan=dict(schema='finqa_reserved_confirmation_review_v1',**binding,arm_order=job['arms'],episodes=episodes,source_episodes=sources,
+                  protocol_path=str(root/'PROTOCOL.json'),protocol_sha256=sha(root/'PROTOCOL.json'),parent_plan_sha256=sha(parent/'PLAN.json'),
+                  private_labels_sha256=sha(target/'LABELS_PRIVATE.json'),max_posts=128*study.CAPS['posts'],
+                  terminal_status='FINQA_CONFIRMATION_REVIEW_RETURNED',scope=protocol['scope'],**runtime)
+        study.new(target/'PLAN.json',plan)
+    print(json.dumps(dict(jobs=[dict(folder=str(p),plan_sha256=sha(p/'PLAN.json')) for p in targets])))
+
+
 def prepare_identity_review():
     """Replay both terminal-placement learners on the existing dev states."""
     training=learning.ROOT/'semantic_correction_v1/expanded_v1/controls_v1/identity_fold_v1'
@@ -594,7 +711,7 @@ def run_review(digest):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review','prepare-expanded-eval','expanded-firstpass','prepare-expanded-review','expanded-review','prepare-identity-review','identity-review']);p.add_argument('--count',type=int,default=4)
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=['prepare','run','prepare-strong','strong','prepare-recovery','recover','prepare-review','review','prepare-paired-review','paired-review','prepare-expanded-eval','expanded-firstpass','prepare-expanded-review','expanded-review','prepare-identity-review','identity-review','prepare-confirmation','confirmation-firstpass','prepare-confirmation-reviews']);p.add_argument('--count',type=int,default=4)
     p.add_argument('--plan-sha');a=p.parse_args()
     if a.mode=='prepare':prepare(a.count)
     elif a.mode=='prepare-strong':prepare_strong()
@@ -608,6 +725,9 @@ if __name__=='__main__':
     elif a.mode=='prepare-expanded-eval':prepare_expanded_eval(a.count)
     elif a.mode=='expanded-firstpass':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/dev_firstpass_v1')
     elif a.mode=='prepare-expanded-review':prepare_expanded_review()
+    elif a.mode=='prepare-confirmation':prepare_confirmation()
+    elif a.mode=='prepare-confirmation-reviews':prepare_confirmation_reviews()
+    elif a.mode=='confirmation-firstpass':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/confirmation_v1/firstpass_v1')
     elif a.mode=='prepare-identity-review':prepare_identity_review()
     elif a.mode=='identity-review':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/controls_v1/identity_fold_v1/native_v1')
     elif a.mode=='expanded-review':run(a.plan_sha,learning.ROOT/'semantic_correction_v1/expanded_v1/dev_review_v1')
