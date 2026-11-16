@@ -11,6 +11,7 @@ import copy
 import json
 from pathlib import Path
 import random
+import re
 import shutil
 
 import finqa_learning_controls as controls
@@ -24,6 +25,7 @@ read=controls.read
 sha=controls.sha
 ROOT=controls.ROOT/'controls_v1/state_view_v2'
 EXPANDED=controls.ROOT/'state_learning_expanded_v1'
+PAIRED_STATES=EXPANDED/'completion_head_v1/paired_state_negatives_v1'
 
 
 def call_binding(call):
@@ -126,6 +128,35 @@ def program_declaration(program):
     if task.terminal_proposal([event])!=dict(status='proposal',program=program):
         raise ValueError('derived target differs from deployment declaration')
     return target
+
+
+def declaration_target(assistant,program):
+    """Align transport while preserving the complete original explanation."""
+    declaration=program_declaration(program)
+    content=assistant.get('content')
+    if assistant.get('role')!='assistant' or not isinstance(content,str):
+        raise ValueError('actual assistant content required')
+    event=dict(type='text',part=dict(type='text',messageID='aligned',id='text',text=content))
+    existing=task.terminal_proposal([event])
+    if existing['status']=='absent':
+        content=content+('\n\n' if content else '')+declaration['content']
+    elif existing!=dict(status='proposal',program=program):
+        raise ValueError('original declaration conflicts with verified execution')
+    return dict(role='assistant',content=content,tool_calls=[])
+
+
+def declaration_counterfactual(positive,good_program,bad_program):
+    """Change only the submitted expression, retaining its causal text prefix."""
+    program_declaration(bad_program)
+    if declaration_target(positive,good_program)!=positive:
+        raise ValueError('positive must already declare its verified program')
+    matches=list(re.finditer(r'^Final program:[ \t]*([^\r\n]+)$',positive['content'],re.M))
+    if len(matches)!=1 or matches[0].group(1).strip()!=good_program or good_program==bad_program:
+        raise ValueError('one distinct counterfactual program required')
+    begin,end=matches[0].span(1)
+    negative=copy.deepcopy(positive)
+    negative['content']=positive['content'][:begin]+bad_program+positive['content'][end:]
+    return negative
 
 
 def action_conditioning(request,original_task,public,state):
@@ -409,15 +440,146 @@ def prepare_expanded():
     print(json.dumps(dict(main=main,success=success,excluded=excluded,model_requests=0)))
 
 
+def prepare_paired_states():
+    """Reuse frozen TRAIN witnesses; align transport and split one contrast budget.
+
+    The native request is a system/tool template only. Its dev user task is
+    replaced exactly before encoding any TRAIN example. All original assistant
+    explanations survive verbatim; no new teacher or model generation is used.
+    """
+    parent=PAIRED_STATES.parent
+    if PAIRED_STATES.exists():raise ValueError('paired-state attempt already exists')
+    if sha(parent/'DATA.json')!='cf187ad67f555f18c604c694da4b3a55957c1cea3bd224bd1524331b3355285a':
+        raise ValueError('frozen TRAIN source changed')
+    original=read(parent/'DATA.json');old=read(controls.ROOT/'DATA.json')
+    groups=original['paired_rows'];sources=dict(original['sources'])
+    for path,digest in sources.items():
+        if sha(path)!=digest:raise ValueError('original TRAIN witness changed: '+path)
+    template_folder=parent/'test_execution_v1/state_reviews/state_sft/000'
+    template_path=template_folder/'wire/00001.request.json'
+    template=read(template_path);original_task=(template_folder/'inputs/task.txt').read_text()
+    tokenizer=tokens.load_tokenizer(learning.MODEL)
+    binding=tokens.tokenizer_binding(learning.MODEL,tokenizer)
+    if binding['files_sha256']!=original['tokenizer']['files_sha256']:
+        raise ValueError('TRAIN tokenizer files changed')
+    proofs={p['index']:p for p in original['formation_proofs']}
+    arms=['aligned_sft','aligned_one_sided','paired_state_branch'];rows=[];bindings=[]
+    def remember(*paths):
+        for path in paths:sources[str(path)]=sha(path)
+    remember(parent/'DATA.json',parent/'PLAN.json',controls.ROOT/'DATA.json',
+             template_path,template_folder/'inputs/task.txt')
+    for number,group in enumerate(groups):
+        base=[original['rows'][i] for i in group]
+        closing=next(r for r in base if r['boundary_role']=='closure')
+        if number<30:
+            a,b=old['paired_rows'][number];repair=old['rows'][a]
+            _,last=controls.source_requests(repair,old['rows'][b]);teacher=last.parent.parent
+            source=source_folder(repair,teacher)
+        else:
+            proof=proofs[int(closing['pair_id'].split('/')[-1])]
+            source,teacher=Path(proof['source_folder']),Path(proof['teacher_folder'])
+        public=read(teacher/'inputs/public.json');task.check_public(public)
+        if public['report']!=closing['report']:raise ValueError('TRAIN report binding changed')
+        before,after=state_from_folder(source),state_from_folder(teacher)
+        actual=read(teacher/'RESULT.json');program=after['current_program']
+        if not actual['native_success'] or not actual['execution_correct']:
+            raise ValueError('a real successful TRAIN teacher is required')
+        if program!=actual['submitted_program'] or after['execution_feedback']!=actual['public_execution']:
+            raise ValueError('after-state differs from successful execution')
+        edits=(task.execution_backslides(before['current_program'],program,public,
+                                       after['execution_feedback']['terminal_execution_answer'])
+               if len(group)==2 else [])
+        negatives=[e for e in edits if e['semantic_negative']]
+        diagnostics=[]
+        for old_index,base_row in zip(group,base,strict=True):
+            role=base_row['boundary_role'];snapshot=before if role=='repair' else after
+            request=action_conditioning(template,original_task,public,snapshot)
+            target=declaration_target(base_row['assistant'],program)
+            encoded=tokens.encode_completion(request,target,tokenizer,16384,completion_kind='text')
+            points=[]
+            for edit in negatives:
+                alternate=declaration_counterfactual(target,program,edit['program'])
+                other=tokens.encode_completion(request,alternate,tokenizer,16384,completion_kind='text')
+                points.append(learning.first_edit_decision(encoded,other))
+            unique={tuple(p[k] for k in ('target_position','good_token','bad_token')):p for p in points}
+            contrasts={'aligned_sft':[],
+                       'aligned_one_sided':list(unique.values()) if role=='repair' else [],
+                       'paired_state_branch':list(unique.values())}
+            encoded.update(boundary_role=role,pair_id=base_row['pair_id'],report=base_row['report'],
+                           assistant=target,edit_contrasts=contrasts,parent_row=old_index,
+                           source_correct=base_row['source_correct'],phase='paired_state_train',
+                           original_content_sha256=tokens.text_sha(base_row['assistant']['content']),
+                           public_state=snapshot,negative_programs=[e['program'] for e in negatives])
+            rows.append(encoded)
+            diagnostics.append(dict(role=role,supervised_tokens=encoded['supervised_tokens'],
+                                    contrast_points=len(unique),original_content_preserved=True,
+                                    rendered_prefix_sha256=encoded['rendered_prefix_sha256']))
+        if [r['parent_row'] for r in rows[-len(group):]]!=group:
+            raise ValueError('group order changed')
+        bindings.append(dict(group=number,pair_id=closing['pair_id'],report=closing['report'],
+                             source_folder=str(source),teacher_folder=str(teacher),
+                             before=before,after=after,negative_executions=edits,rows=diagnostics,
+                             absent_execution_logs=[]))
+        for folder in {source,teacher}:
+            remember(folder/'RESULT.json',folder/'inputs/public.json')
+            execution_log=folder/'work/executions.jsonl'
+            if execution_log.exists():remember(execution_log)
+            elif read(folder/'RESULT.json')['submitted_program'] is None:
+                bindings[-1]['absent_execution_logs'].append(str(execution_log))
+            else:raise ValueError('submitted program lost its execution witness')
+    if len(rows)!=147 or len(groups)!=88:raise ValueError('paired-state source scope changed')
+    old_negative_groups=sum(any(original['rows'][i]['edit_contrasts']['state_branch'] for i in g) for g in groups)
+    new_negative_groups=sum(bool(rows[g[0]]['negative_programs']) for g in groups)
+    if old_negative_groups!=new_negative_groups or old_negative_groups!=54:
+        raise ValueError('executed-negative source coverage changed')
+    plan=copy.deepcopy(read(parent/'PLAN.json'))
+    for key in ['parent_interrupted_attempt','parent_plan_sha256','retention_projection_arms',
+                'edit_weight_by_arm','inherited_arms','initial_decision_coefficient']:
+        plan.pop(key,None)
+    components={str(Path(p)):sha(p) for p in plan['components']}
+    coefficients={role:0. for role in ['repair','closure']}
+    for group in groups:
+        for i,weight in zip(group,learning.group_coefficients([rows[j]['supervised_tokens'] for j in group],'token_mean'),strict=True):
+            coefficients[rows[i]['boundary_role']]+=weight
+    preparation=dict(status='CPU_PREPARED_NOT_TRAINED',source_groups=88,positive_targets=147,
+        negative_source_groups=new_negative_groups,supervised_tokens_per_arm=3*sum(r['supervised_tokens'] for r in rows),
+        sequence_tokens_per_arm=3*sum(r['sequence_length'] for r in rows),ce_role_coefficients=coefficients,
+        old_points=sum(len(r['edit_contrasts']['state_branch']) for r in original['rows']),
+        paired_points_by_role={role:sum(len(r['edit_contrasts']['paired_state_branch']) for r in rows if r['boundary_role']==role)
+                               for role in ['repair','closure']},
+        model_requests=0,neural_forwards=0,training_updates=0,
+        transform='Preserve original assistant content verbatim; normalize only program delivery; reuse native system/tools and replace its complete task before encoding TRAIN.',
+        template_scope='The exposed dev task is used only as an exact replacement preimage, never as a TRAIN question or target.')
+    PAIRED_STATES.mkdir(mode=0o700)
+    study.new(PAIRED_STATES/'DATA.json',dict(schema='finqa_paired_execution_states_v1',rows=rows,
+        paired_rows=groups,sources=sources,tokenizer=binding,bindings=bindings,
+        parent_data_sha256=sha(parent/'DATA.json'),scope='The same 88 TRAIN filings; no dev labels or new teacher targets.'))
+    plan.update(schema='finqa_paired_execution_states_plan_v1',arms=arms,data_sha256=sha(PAIRED_STATES/'DATA.json'),
+        components=components,expected_forward_calls=3*3*len(rows),wall_seconds=21600,
+        edit_weight=.1,edit_state_fraction_by_arm={'paired_state_branch':{'repair':.5,'closure':.5}},
+        terminal_status='TRAINED_PAIRED_EXECUTION_STATE_ARMS',
+        comparison='Identical positive content, token masks, native public-state conditioning, schedule, warm start and updates. Single-state versus paired-state execution negatives share total auxiliary weight 0.1 per eligible source.',
+        prediction='Paired-state negatives should reduce harmful revisions while retaining useful repairs, improving net native success over both aligned references.',
+        next='Reuse all 64 fixed development states; if gains survive, add half-weight and coverage controls before untouched confirmation.')
+    study.new(PAIRED_STATES/'PLAN.json',plan)
+    preparation['plan_sha256']=sha(PAIRED_STATES/'PLAN.json')
+    study.new(PAIRED_STATES/'PREPARATION.json',preparation)
+    snapshot=PAIRED_STATES/'compilation_sources';snapshot.mkdir()
+    for p in components:(snapshot/Path(p).name).write_bytes(Path(p).read_bytes())
+    print(json.dumps(preparation))
+
+
 def read_lines(path):
     return [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','native','expand','expand-train','success-train']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','native','expand','expand-train','success-train','paired-states-prepare','paired-states-train']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='expand':prepare_expanded()
     elif args.mode=='expand-train':learning.train(args.plan_sha,EXPANDED)
     elif args.mode=='success-train':learning.train(args.plan_sha,EXPANDED/'clean_success')
+    elif args.mode=='paired-states-prepare':prepare_paired_states()
+    elif args.mode=='paired-states-train':learning.train(args.plan_sha,PAIRED_STATES)
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     else:native.run(args.plan_sha,ROOT/'native_v1')

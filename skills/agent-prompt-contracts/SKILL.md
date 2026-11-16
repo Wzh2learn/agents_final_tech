@@ -182,6 +182,6 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 **11-16程序提交补充**：FinQA两训练臂84次复查均有bash可用，却只声明`Final program:`、未实际提交。全量保存方案执行后候选14/42、普通13/42，原生仍同13/42。可选接口将末次助手唯一明确声明在正常退出后提交，各组共用；不从reasoning/工具输出提取，不读答案，失败也保留，来源标为`terminal_declaration`。首轮提示含`PROGRAM`占位词，4次均被照抄而执行失败；改为无包装的表达式说明后，同4次均真实提交/有效执行，未按题目答案调提示。8次费用均保留。旧默认prompt/guest及42状态提示保持；GB10相关59项/29子检查通过、2跳过。接口不计学习创新，已曝光接入题不当独立确认。[证据](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#terminal-interface-v1)。
 
-**训练提交形式与语义内容补充**：128次新纠正均走终答声明，但原147目标仅29条可直接提交，59条修复为工具调用；规范训练输入/输出时须核对实际部署模板、引号和同一解析器。保留原金融数量、单位与期间解释，协议对齐不得顺手删成裸答案；旧裸目标与权重共同变化曾4/32，不能作单因素归因。新格式辅助已验证声明原样往返、包装/换行拒绝、精确任务替换与私有状态拒绝，完整新数据/方法效果仍待执行。重编译后报告实际tokens、角色系数和来源，不以格式修复宣称学习创新。[尸检](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#retention-projection-v1)、[跨实验机制](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#compounding-synthesis-v1)。
+**训练提交形式与语义内容补充**：128次新纠正均走终答声明，但原147目标仅29条可直接提交，59条修复为工具调用；规范训练输入/输出时须核对实际部署模板、引号和同一解析器。保留原金融数量、单位与期间解释，协议对齐不得顺手删成裸答案；旧裸目标与权重共同变化曾4/32，不能作单因素归因。完整重编译已逐项核147条原解释保留、声明往返及私有状态拒绝；反例只改声明中的程序，保留其余因果前缀。新tokens/角色系数与旧版不同，三臂共同匹配；70项/44子检查过、2跳过，实际训练/原生效果待返回。不能以格式修复宣称学习创新。[编译与执行](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#paired-state-negatives-v1)、[跨实验机制](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#compounding-synthesis-v1)。
 
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

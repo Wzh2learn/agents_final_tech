@@ -348,6 +348,19 @@ def edit_contrast_loss(logits,decisions,margin,positive_only=False,logit_offset=
     return torch.stack(losses).mean()
 
 
+def contrast_weight(plan,arm,role):
+    """Split one per-source auxiliary budget across witnessed before/after states."""
+    weight=plan.get('edit_weight_by_arm',{}).get(arm,plan['edit_weight'])
+    fractions=plan.get('edit_state_fraction_by_arm',{}).get(arm)
+    if not math.isfinite(weight) or weight<0:raise ValueError('invalid contrast weight')
+    if fractions is None:return weight
+    if (set(fractions)!={'repair','closure'} or role not in fractions
+            or any(not math.isfinite(v) or not 0<=v<=1 for v in fractions.values())
+            or not math.isclose(sum(fractions.values()),1.,rel_tol=0.,abs_tol=1e-12)):
+        raise ValueError('state fractions must allocate one auxiliary budget')
+    return weight*fractions[role]
+
+
 def mean_adapter_parameters(first,second):
     """Mean matching LoRA parameters, not effective BA weight matrices."""
     if first.keys()!=second.keys() or any(first[k].shape!=second[k].shape for k in first):
@@ -666,8 +679,9 @@ def train(digest, root=None):
                         if decisions:
                             contrast=edit_contrast_loss(logits,decisions,plan['edit_margin'],
                                                        positive_only=arm in plan.get('positive_only_arms',['edit_positive']),logit_offset=offset)
-                            edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach())))
-                            weight=plan.get('edit_weight_by_arm',{}).get(arm,plan['edit_weight'])
+                            weight=contrast_weight(plan,arm,row.get('boundary_role'))
+                            edit_diagnostics.append(dict(update=update,decisions=len(decisions),loss=float(contrast.detach()),
+                                                         role=row.get('boundary_role'),weight=weight))
                             weighted=weight*contrast
                             if project:
                                 if (at!=0 or len(batch)!=2 or row.get('boundary_role')!='repair'

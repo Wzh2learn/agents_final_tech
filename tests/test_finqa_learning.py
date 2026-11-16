@@ -10,6 +10,42 @@ import finqa_learning as m
 
 
 class FinQALearningTests(unittest.TestCase):
+    def test_declaration_alignment_preserves_explanation_and_rejects_conflicting_actions(self):
+        import copy
+        import finqa_state_learning as state
+        source=dict(role='assistant',content='The 2011 base is 80, so (100 - 80) / 80 = 0.25.',
+                    tool_calls=[dict(id='actual-call',function=dict(name='bash',arguments='{}'))])
+        saved=copy.deepcopy(source);program='subtract(100, 80), divide(#0, 80)'
+        aligned=state.declaration_target(source,program)
+        self.assertEqual(source,saved)
+        self.assertTrue(aligned['content'].startswith(source['content']+'\n\n'))
+        self.assertEqual(aligned['tool_calls'],[])
+        self.assertEqual(state.declaration_target(aligned,program),aligned)
+        for content in ['Final program: add(1, 2)',aligned['content']+'\nFinal program: '+program]:
+            with self.subTest(content=content),self.assertRaises(ValueError):
+                state.declaration_target(dict(role='assistant',content=content,tool_calls=[]),program)
+
+    def test_execution_negative_replaces_only_the_declared_program(self):
+        import finqa_state_learning as state
+        good='divide(100, 80)';bad='divide(100, 100)'
+        original=dict(role='assistant',content='Use divide(100, 80), based on the 2011 denominator.',tool_calls=[])
+        positive=state.declaration_target(original,good)
+        negative=state.declaration_counterfactual(positive,good,bad)
+        self.assertTrue(negative['content'].startswith(original['content']+'\n\n'))
+        self.assertEqual(negative['content'].splitlines()[-1],'Final program: '+bad)
+        self.assertEqual(positive['content'].splitlines()[-1],'Final program: '+good)
+        with self.assertRaises(ValueError):state.declaration_counterfactual(positive,bad,good)
+
+    def test_paired_state_contrast_allocates_one_budget_without_changing_legacy_weight(self):
+        plan=dict(edit_weight=.1,edit_state_fraction_by_arm={'paired':{'repair':.5,'closure':.5}})
+        self.assertAlmostEqual(m.contrast_weight(plan,'paired','repair')+
+                               m.contrast_weight(plan,'paired','closure'),.1)
+        self.assertEqual(m.contrast_weight(plan,'legacy','repair'),.1)
+        for fractions in [dict(repair=1.,closure=1.),dict(repair=-.5,closure=1.5),
+                          dict(repair=.5),dict(repair=float('nan'),closure=.5)]:
+            with self.subTest(fractions=fractions),self.assertRaises(ValueError):
+                m.contrast_weight(dict(plan,edit_state_fraction_by_arm={'paired':fractions}),'paired','repair')
+
     def test_checkpointed_model_supports_split_auxiliary_and_retention_backprops(self):
         import torch
         from transformers import Qwen3Config,Qwen3ForCausalLM
