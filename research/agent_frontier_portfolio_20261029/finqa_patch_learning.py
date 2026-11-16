@@ -56,7 +56,7 @@ def commit(patches,origin):
  public=json.loads(Path('/inputs/public.json').read_text())
  state=json.loads(Path('/inputs/initial_state.json').read_text())
  program=apply_patches(state['current_program'],patches)
- execution=task.submit_program(program,public,Path('/work'),origin=origin)
+ execution=task.submit_program(program,public,Path('/workspace'),origin=origin)
  return dict(program=program,execution=execution)
 def final(events):
  latest=None;parts={}
