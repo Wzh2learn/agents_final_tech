@@ -1,6 +1,6 @@
 # FinQA纠正学习：方法定义与近邻
 
-> 2026-11-16｜当前冻结实现的学习定义、算法和机制对标。运行句柄与效果只查[STATE](../../../memory/STATE.md)和[结果记录](FINQA_CORRECTION_LEARNING.md#expanded-state-v1)；本页不维护实验流水。
+> 2026-11-17｜历史首分叉学习定义与近邻，保留但停止扩展该线。当前四算子候选见[运行入口](../finqa_patch_learning.py)及[Step1/2结果](FINQA_CORRECTION_LEARNING.md#structural-patch-step1)；运行句柄查[STATE](../../../memory/STATE.md)，本页不维护新实验。
 
 ## 任务与学习规则
 

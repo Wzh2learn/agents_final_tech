@@ -1,23 +1,25 @@
 # FinQA纠正学习：现役机制、结果与下一验证
 
-> 2026-11-17｜Goal paused；独立授权的零训练探针已闭合。计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，跨阶段经验见[机制知识](CONTINUATION_PROGRAM.md#mechanism-knowledge)。此前逐项过程见[固定Git快照](https://github.com/Wzh2learn/agents_final_tech/blob/82f2c5aa5064075a68e373f332b4d13f27e884c6/research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md)，原始记录未覆盖。
+> 2026-11-17｜Goal active；用户已授权结构化修复Step1/2，首分叉微调线封存。计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，跨阶段经验见[机制知识](CONTINUATION_PROGRAM.md#mechanism-knowledge)。此前逐项过程见[固定Git快照](https://github.com/Wzh2learn/agents_final_tech/blob/82f2c5aa5064075a68e373f332b4d13f27e884c6/research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md)，原始记录未覆盖。
 
 <a id="finqa-current"></a>
 ## 当前判断
 
-最新零训练探针普通SFT恢复0/12、保持8/8；DeepSeek盲测恢复5/12、保持8/8。学生未响应诊断格式，不能据此判容量不足。三臂loss小试未启动，转轻量探索。旧开发成对37/普通33、确认53均30以及所有训练材料保留。
+主攻四算子结构化修复＋121组回放，接管效用路由为强备选；旧三臂loss小试未启动。Step1已完成，30个新TRAIN修复通过执行评分，Step2单候选已接续；尚无该候选DEV分数。旧开发成对37/普通33、确认53均30以及所有训练材料保留。
 
 旧负方向在32题和新64题均多修复2题，但后一批额外错改抵消收益；该修复部件继续保留。全部重写收尾/重配首步的4/32版本已停止，v2保留原有效监督；不能将旧版本退化单独归给输入投影。
 
 <a id="zero-training-alignment-probe"></a>
 ## 11-17零训练探针：12错＋8对
 
-当前普通SFT的固定DEV错题索引6/8/9/10/15/19/20/24/29/38/39/47，正确题26/34/36/5/56/55/1/59。两模型都从相同缓存SFT工作区继续，提供完整证据、真实分步值及操作数的字面证据候选；没有隐藏答案。明确KEEP时执行层保留原程序，缺ACTION仍按原Final program接口提交。
+当前普通SFT的固定DEV错题索引6/8/9/10/15/19/20/24/29/38/39/47，正确题26/34/36/5/56/55/1/59。四模型均从相同缓存SFT工作区继续，提供完整证据、真实分步值及操作数的字面证据候选；没有隐藏答案。明确KEEP时执行层保留原程序，缺ACTION仍按原Final program接口提交。旧37与27B为Step1追加的真实OpenCode补测，各题同为6POST/90秒上限。
 
 | 模型 | 恢复/12 | 保持/8 | 总成功/20 | 本次有效接续POST/tokens |
 |---|---:|---:|---:|---|
 | 普通SFT 8B | 0 | 8 | 8 | 20 / 87,770 |
 | DeepSeek盲测 | 5 | 8 | 13 | 29 / 146,114 |
+| 旧成对37模型 | 1 | 8 | 9 | 20 / 89,866 |
+| 本地27B | 7 | 8 | 15 | 51 / 249,226 |
 
 学生20次无最终ACTION，未产生诊断；教师修复三年平均、百万单位、年份绑定、税后口径和嵌套DSL。教师也曾为错误利息公式给出KEEP理由，故“引用证据”不等于正确诊断。12错题为事后选取，不能外推全64收益；这20题及教师输出不回流TRAIN。
 
@@ -25,9 +27,20 @@
 
 证据在completion_head_v1/zero_train_alignment_probe_v1及v2；本机短结果FINQA_ZERO_TRAIN_ALIGNMENT_PROBE_SUMMARY.json。无训练、未用新64留出、未打包。事后完美路由上界可只接管5个受益现场追平13/20，但用了结果标签，不是可部署路由成绩。
 
+<a id="structural-patch-step1"></a>
+### Step1：新TRAIN失败与最小补丁形成
+
+两个追加模型基准及TRAIN采集在structural_patch_step1_v1留存。按固定顺序从153个可用来源执行96组，得到40个原生失败和56个成功；40个失败中36个程序可执行。新采集实际190POST/735,036tokens，未知0；正确源用于KEEP，教师补丁必须实际执行并通过TRAIN评分后才形成修复/修后KEEP对。预留64不参与。
+
+formation_v2已覆盖96/96来源及40/40失败，78次教师请求/392,428tokens、未知0；30个修复通过评分（18盲提案、12一次TRAIN参考辅助），其中29个原程序本已可执行，全部30个原执行结果均错。算子使用含54次rebind、8次scale、10次prepend；修后KEEP另30条。正常16现场中教师错改10次，采用原生正确程序形成KEEP监督。冻结提案空格规整回放额外恢复0，非模型新运行。
+
+首版提示含旧DEV具体示例数字，已中止，该版输出全部排除训练，13POST/49,440已知＋1未知仍计费。新版仅用通用算术示例；形成进程提前读到旧事件快照后，从35/96原地接续至96/96，未重复旧请求。原始回执与失败保留。
+
+单候选从普通33权重继续学习四算子JSON和公开字面操作数证据候选：121组/195目标回放＋30修复/30修后KEEP/16正常KEEP，共计划501更新、813显式前向；训练正在进行。DEV64使用与33/37相同的原始首轮现场及12POST/300秒预算，不沿用本20题的追加接续现场；只跑候选单臂。现役运行入口[finqa_patch_learning.py](../finqa_patch_learning.py)，四算子[finqa_minimal_patches.py](../finqa_minimal_patches.py)。
+
 ## 方法入口
 
-[学习目标与算法](FINQA_CORRECTION_METHOD.md#branch-algorithm)与[近邻对照](FINQA_CORRECTION_METHOD.md#branch-neighbors)单独维护；本页保留结果、来源与成本，按阶段锚点选读。
+当前四算子实现见[运行入口](../finqa_patch_learning.py)与[补丁算子](../finqa_minimal_patches.py)。历史首分叉[算法](FINQA_CORRECTION_METHOD.md#branch-algorithm)与[近邻对照](FINQA_CORRECTION_METHOD.md#branch-neighbors)保留但不再扩展；本页按阶段记录结果、来源与成本。
 
 <a id="paired-decision-v1"></a>
 <a id="semantic-edit-v1"></a>
@@ -478,6 +491,8 @@ DATA2602a29c、正向RESULT91c96327、反向e8b41f12、复核ba24135f。完整�
 双向目标材料新增12校内POST/53,425已知、未知0；累计校内5,273POST/52,090,558已知＋10未知预留2,621,440，合54,711,998/10亿。本地FinQA/TAT及训练账不变；教师材料的输入50,065、输出3,360，缓存35,584不另加。全部6次任务和原始失败/参考分歧均计费，视图编码及测试不作模型推理。
 
 11-17探针含修正前学生20次及真实重跑20次：新增本地40POST/175,540，校内29POST/146,114，未知0；另20次冻结教师声明CPU提交回放不作模型调用。累计FinQA本地4,832POST/20,417,440＋9未知294,912，校内5,302POST/52,236,672＋10未知2,621,440，合54,858,112/10亿；TAT及训练账不变。
+
+Step1补测与96个TRAIN采集新增本地261POST/1,074,128tokens、未知0；两版教师形成合91POST/441,868已知＋1未知，排除训练的首版照计。累计FinQA本地5,093POST/21,491,568＋9未知294,912；校内5,393POST/52,678,540＋11未知2,883,584，合55,562,124/10亿。30个修复的执行验收及冻结提案回放为CPU，不另作模型调用；当前单候选训练和随后DEV在途另据LIVE记账，未计作已完成更新。
 
 此前88组三臂训练792更新/1,410前向、132,936监督/5,491,452序列tokens另账；原中断完成下界28更新/45前向、在途计算未知保留。84次公共工具提交回放为CPU执行，无新增HTTP；旧训练/形成/运维55,809不重计，研发控制层未知不填0。
 
