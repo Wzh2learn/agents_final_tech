@@ -215,7 +215,7 @@ def start_model():
         raise
 
 
-def episode(ep, h, runtime, profile, relay_factory=None, private_labels=None):
+def episode(ep, h, runtime, profile, relay_factory=None, private_labels=None, *, submission_grader=None):
     folder=Path(ep['folder'])
     new(folder/'STARTED.json',{'pid':os.getpid(),'unix':time.time()})
     config=h.actor.config(profile,17)
@@ -244,7 +244,7 @@ def episode(ep, h, runtime, profile, relay_factory=None, private_labels=None):
     accounting=relay.accounting()
     if core.tree(folder/'inputs')!=inputs:
         raise RuntimeError('read-only inputs changed')
-    program=None
+    program=None;value=None
     candidate=folder/'work/candidate.json'
     if candidate.exists():
         value=json.loads(candidate.read_text())
@@ -253,7 +253,14 @@ def episode(ep, h, runtime, profile, relay_factory=None, private_labels=None):
     # the actor, its mounts, prompt, tool feedback, or execution budget.
     label_path=ROOT/'LABELS_PRIVATE.json' if private_labels is None else Path(private_labels)
     gold=json.loads(label_path.read_text())[ep['index']]
-    result=task.grade(program,json.loads((folder/'inputs/public.json').read_text()),gold['exe_ans'])
+    public=json.loads((folder/'inputs/public.json').read_text())
+    if submission_grader is None:
+        result=task.grade(program,public,gold['exe_ans'])
+    else:
+        # Dataset-specific units and references remain on the host. Neither
+        # this callback nor the private label is sent to the actor or tool.
+        result=submission_grader(value,public,gold)
+        program=value.get('program') if isinstance(value,dict) else None
     result.update(index=ep['index'],id=ep['id'],actor=returned,accounting=accounting,
                   agent_completed=returned.get('exit')==0,
                   submitted_program=program,inputs=inputs)

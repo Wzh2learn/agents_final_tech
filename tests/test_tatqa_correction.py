@@ -1,11 +1,14 @@
 import json
 import os
+from contextlib import ExitStack, nullcontext
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
 CODE = Path(__file__).resolve().parents[1] / 'research/agent_frontier_portfolio_20261029'
 sys.path.insert(0, str(CODE))
@@ -171,6 +174,109 @@ class TATQAOfficialScoringTests(unittest.TestCase):
                 result = task.grade(saved, fixture(), gold, metric_dir=self.metric_dir)
                 self.assertEqual(result['official_em'], 1.)
                 self.assertEqual(result['official_f1'], 1.)
+
+    def native_result(self, submission, *, use_tatqa=False, batch=False, exit_code=0):
+        """Exercise real host grading with offline actor I/O, never a model score."""
+        import run_finqa_correction as study
+        import run_finqa_learning_native as native
+        public = fixture();order = []
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp);folder = root / 'case'
+            for name in ('inputs', 'work', 'dependencies'):
+                (folder / name).mkdir(parents=True)
+            (folder / 'inputs/public.json').write_text(json.dumps(public))
+            (folder / 'inputs/task.txt').write_text('Public test task')
+            gold = (dict(answer_type='arithmetic', answer=22.12, scale='percent')
+                    if use_tatqa else dict(exe_ans=22.12))
+            labels = root / 'LABELS_PRIVATE.json';labels.write_text(json.dumps([gold]))
+
+            class Relay:
+                def __init__(self, *args, **kwargs):pass
+                def close(self):pass
+                def accounting(self):return dict(integrity_passed=True, actual_forwarded_posts=0)
+
+            def actor(*args, **kwargs):
+                order.append('actor')
+                if set(submission) == {'program', 'scale'}:
+                    task.submit_program(submission['program'], submission['scale'], public, folder / 'work')
+                else:
+                    task.arithmetic.submit_program(submission['program'], public, folder / 'work')
+                return dict(exit=exit_code, seconds=0.)
+
+            def grade(candidate, observed, private):
+                order.append('grade')
+                self.assertEqual(observed, public)
+                self.assertEqual(private, gold)
+                return task.grade(candidate, observed, private, metric_dir=self.metric_dir)
+
+            h = SimpleNamespace(
+                actor=SimpleNamespace(config=lambda *a: {'agent': {'build': {}}},
+                                      RUNTIME_ROOT='unused', RUNTIME_SHA='unused'),
+                deps=SimpleNamespace(verify_projection=lambda *a: {'runtime': 'offline-runtime'}))
+            ep = dict(index=0, id=public['id'], report=public['report'], folder=str(folder),
+                      arm='fixed', public_sha256=study.sha(folder / 'inputs/public.json'),
+                      task_sha256=study.sha(folder / 'inputs/task.txt'))
+            options = dict(submission_grader=grade) if use_tatqa else {}
+            with ExitStack() as stack:
+                stack.enter_context(patch.object(study.core, 'docker_command', return_value=['offline-actor']))
+                stack.enter_context(patch.object(study.core, 'run_owned', side_effect=actor))
+                stack.enter_context(patch.object(study.core, 'Relay', Relay))
+                if batch:
+                    training = root / 'training';training.mkdir()
+                    (training / 'RESULT.json').write_text('{}')
+                    bound = root / 'bound';bound.write_text('offline resource binding')
+                    plan = dict(episodes=[ep], arm_order=['fixed'], training_root=str(training),
+                                components={}, terminal_status='OFFLINE_HOST_TEST_RETURNED')
+                    for key in ('parent', 'server', 'converter'):
+                        plan[key] = str(bound);plan[key + '_sha256'] = study.sha(bound)
+                    (root / 'PLAN.json').write_text(json.dumps(plan))
+                    stack.enter_context(patch.object(study.core, 'resource_lock', nullcontext))
+                    stack.enter_context(patch.object(study.core, 'helpers', return_value=h))
+                    stack.enter_context(patch.object(native, 'convert', return_value=None))
+                    stack.enter_context(patch.object(native, 'start_server', return_value=(object(), None)))
+                    stack.enter_context(patch.object(native, 'stop_server'))
+                    native.run(study.sha(root / 'PLAN.json'), root, **options)
+                    result = json.loads((root / 'RESULT.json').read_text())['episodes'][0]
+                else:
+                    result = study.episode(ep, h, {'runtime': 'offline-runtime'}, {},
+                                           private_labels=labels, **options)
+            for path in (folder / 'inputs').iterdir():
+                self.assertNotIn('"official_em"', path.read_text())
+                self.assertNotIn('"answer_type"', path.read_text())
+            self.assertNotIn('execution_correct', (folder / 'work/executions.jsonl').read_text())
+            return result, order
+
+    @unittest.skipUnless(os.name == 'posix', 'native host uses Unix relay sockets')
+    def test_native_episode_accepts_scale_only_through_the_explicit_host_grader(self):
+        submission = dict(program='add(10, 12.12)', scale='percent')
+        legacy, _ = self.native_result(submission)
+        self.assertFalse(legacy['native_success'])
+        self.assertIsNone(legacy['submitted_program'])
+        result, order = self.native_result(submission, use_tatqa=True)
+        self.assertEqual(order, ['actor', 'grade'])
+        self.assertEqual(result['submitted_program'], submission['program'])
+        self.assertTrue(result['native_success'])
+        self.assertEqual(result['official_em'], 1.)
+        plain, _ = self.native_result(dict(program='add(10, 12.12)'))
+        self.assertTrue(plain['native_success'])
+
+    @unittest.skipUnless(os.name == 'posix', 'native host uses Unix relay sockets')
+    def test_native_grading_retains_invalid_units_and_failed_completion(self):
+        invalid, _ = self.native_result(dict(program='add(10, 12.12)', scale='trillion'), use_tatqa=True)
+        self.assertFalse(invalid['native_success'])
+        self.assertFalse(invalid['program_valid'])
+        failed, _ = self.native_result(dict(program='add(10, 12.12)', scale='percent'),
+                                      use_tatqa=True, exit_code=1)
+        self.assertEqual(failed['official_em'], 1.)
+        self.assertFalse(failed['native_success'])
+
+    @unittest.skipUnless(os.name == 'posix', 'native host uses Unix relay sockets')
+    def test_native_batch_passes_the_host_grader_to_every_episode(self):
+        result, order = self.native_result(dict(program='divide(22.12, const_100)', scale=''),
+                                          use_tatqa=True, batch=True)
+        self.assertEqual(order, ['actor', 'grade'])
+        self.assertTrue(result['native_success'])
+        self.assertEqual(result['official_em'], 1.)
 
 
 if __name__ == '__main__':

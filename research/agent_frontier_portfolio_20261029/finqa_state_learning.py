@@ -26,6 +26,7 @@ sha=controls.sha
 ROOT=controls.ROOT/'controls_v1/state_view_v2'
 EXPANDED=controls.ROOT/'state_learning_expanded_v1'
 PAIRED_STATES=EXPANDED/'completion_head_v1/paired_state_negatives_v1'
+SOURCE_COVERAGE=PAIRED_STATES.parent/'source_decision_coverage_v1'
 
 
 def call_binding(call):
@@ -569,17 +570,101 @@ def prepare_paired_states():
     print(json.dumps(preparation))
 
 
+def prepare_source_coverage():
+    """Cover actual witnessed source decisions missed by aligned local reversions.
+
+    Positive targets and the total per-group contrast budget remain unchanged.
+    A missing whole program alone is not a reason to add another loss term.
+    """
+    if SOURCE_COVERAGE.exists():raise ValueError('source-coverage attempt already exists')
+    parent=read(PAIRED_STATES/'DATA.json');old_plan=read(PAIRED_STATES/'PLAN.json')
+    if sha(PAIRED_STATES/'DATA.json')!='bd8db89a22fe8927a8d857b831d688582186d4464d62b4b5e431700f8aab5b53':
+        raise ValueError('fixed positive/negative parent changed')
+    for path,digest in parent['sources'].items():
+        if sha(path)!=digest:raise ValueError('TRAIN evidence changed: '+path)
+    template_folder=PAIRED_STATES.parent/'test_execution_v1/state_reviews/state_sft/000'
+    template_path=template_folder/'wire/00001.request.json'
+    template=read(template_path);original_task=(template_folder/'inputs/task.txt').read_text()
+    tokenizer=tokens.load_tokenizer(learning.MODEL)
+    bindings={b['pair_id']:b for b in parent['bindings']}
+    rows=copy.deepcopy(parent['rows']);arm='source_covered_pair';diagnostics=[]
+    for row,old in zip(rows,parent['rows'],strict=True):
+        points=copy.deepcopy(old['edit_contrasts']['paired_state_branch'])
+        row['edit_contrasts']={arm:points};row['phase']='source_decision_coverage_train'
+        binding=bindings[row['pair_id']];before=binding['before'];after=binding['after']
+        if not any(v['role']=='repair' for v in binding['rows']):continue
+        if not before['execution_feedback'] or before['execution_feedback']['status']!='executed':continue
+        public=read(Path(binding['teacher_folder'])/'inputs/public.json')
+        steps=task.executor().parse_program(before['current_program'])
+        bad=', '.join(f'{s.op}({s.arg1}, {s.arg2})' for s in steps)
+        scored=task.grade(bad,public,after['execution_feedback']['terminal_execution_answer'])
+        if not scored['program_valid'] or scored['execution_correct']:continue
+        request=action_conditioning(template,original_task,public,row['public_state'])
+        checked=tokens.encode_completion(request,row['assistant'],tokenizer,16384,completion_kind='text')
+        if checked['input_ids']!=row['input_ids'] or checked['labels']!=row['labels']:
+            raise ValueError('positive TRAIN conditioning changed')
+        alternate=declaration_counterfactual(row['assistant'],after['current_program'],bad)
+        encoded=tokens.encode_completion(request,alternate,tokenizer,16384,completion_kind='text')
+        point=learning.first_edit_decision(checked,encoded)
+        keys=('target_position','good_token','bad_token')
+        covered=tuple(point[k] for k in keys) in {tuple(p[k] for k in keys) for p in points}
+        if not covered:
+            points.append(point)
+            row['negative_programs'].append(bad)
+        diagnostics.append(dict(pair_id=row['pair_id'],role=row['boundary_role'],added=not covered,
+            actual_source_program=bad,actual_source_execution=scored['public_execution'],decision=point))
+    for row,old in zip(rows,parent['rows'],strict=True):
+        for field in ('input_ids','labels','assistant','supervised_tokens','sequence_length','public_state'):
+            if row[field]!=old[field]:raise ValueError('positive target or public state changed: '+field)
+    added={d['pair_id'] for d in diagnostics if d['added']}
+    counts={role:sum(d['added'] for d in diagnostics if d['role']==role) for role in ('repair','closure')}
+    if len(added)!=9 or counts!={'repair':9,'closure':9}:
+        raise ValueError('unexpected source decision coverage; inspect before training')
+    SOURCE_COVERAGE.mkdir(mode=0o700)
+    sources=dict(parent['sources'])
+    for path in (PAIRED_STATES/'DATA.json',PAIRED_STATES/'PLAN.json',template_path):sources[str(path)]=sha(path)
+    study.new(SOURCE_COVERAGE/'DATA.json',dict(schema='finqa_source_decision_coverage_data_v1',
+        rows=rows,paired_rows=parent['paired_rows'],sources=sources,tokenizer=parent['tokenizer'],
+        bindings=parent['bindings'],source_decisions=diagnostics,parent_data_sha256=sha(PAIRED_STATES/'DATA.json'),
+        scope='Same 88 TRAIN groups and 147 positive targets. Actual executable wrong source decisions fill missing loss sites; no new teacher, DEV or confirmation targets.'))
+    shutil.copyfile(PAIRED_STATES/'TRAIN_ENTRY.py',SOURCE_COVERAGE/'TRAIN_ENTRY.py')
+    components={path:sha(path) for path in old_plan['components']}
+    for path in (Path(__file__),SOURCE_COVERAGE/'TRAIN_ENTRY.py'):components[str(path)]=sha(path)
+    plan=copy.deepcopy(old_plan)
+    plan.update(schema='finqa_source_decision_coverage_plan_v1',arms=[arm],
+        data_sha256=sha(SOURCE_COVERAGE/'DATA.json'),components=components,expected_forward_calls=441,
+        wall_seconds=10800,edit_state_fraction_by_arm={arm:{'repair':.5,'closure':.5}},
+        terminal_status='TRAINED_SOURCE_DECISION_COVERAGE_ARM',
+        comparison='Same positives, warm start, schedule, updates, forward count and total contrast weight as paired-state v1. Only actual witnessed source branches at previously missing loss sites are added.',
+        prediction='Filling missed initial-operator decisions should improve executed repairs without increasing harmful revisions relative to the fixed paired-state control.',
+        next='Evaluate all 64 DEV first-pass worlds. Keep the 53-task v1 confirmation unchanged; do not tune this candidate on its labels.')
+    study.new(SOURCE_COVERAGE/'PLAN.json',plan)
+    proof=dict(status='CPU_SOURCE_COVERAGE_PREPARED_NOT_TRAINED',data_sha256=sha(SOURCE_COVERAGE/'DATA.json'),
+        plan_sha256=sha(SOURCE_COVERAGE/'PLAN.json'),positive_targets=147,source_groups=88,
+        new_decision_groups=len(added),new_points_by_role=counts,
+        points_by_role={role:sum(len(r['edit_contrasts'][arm]) for r in rows if r['boundary_role']==role)
+                       for role in ('repair','closure')},
+        expected_updates=264,expected_forwards=441,expected_supervised_tokens=3*sum(r['supervised_tokens'] for r in rows),
+        positive_targets_identical=True,total_contrast_weight=.1,model_posts=0,neural_forwards=0)
+    study.new(SOURCE_COVERAGE/'PREPARATION.json',proof)
+    snapshot=SOURCE_COVERAGE/'compilation_sources';snapshot.mkdir()
+    for path,digest in components.items():shutil.copyfile(path,snapshot/(digest[:12]+'_'+Path(path).name))
+    print(json.dumps(proof))
+
+
 def read_lines(path):
     return [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','native','expand','expand-train','success-train','paired-states-prepare','paired-states-train']);parser.add_argument('--plan-sha');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','native','expand','expand-train','success-train','paired-states-prepare','paired-states-train','source-coverage-prepare','source-coverage-train']);parser.add_argument('--plan-sha');args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='expand':prepare_expanded()
     elif args.mode=='expand-train':learning.train(args.plan_sha,EXPANDED)
     elif args.mode=='success-train':learning.train(args.plan_sha,EXPANDED/'clean_success')
     elif args.mode=='paired-states-prepare':prepare_paired_states()
     elif args.mode=='paired-states-train':learning.train(args.plan_sha,PAIRED_STATES)
+    elif args.mode=='source-coverage-prepare':prepare_source_coverage()
+    elif args.mode=='source-coverage-train':learning.train(args.plan_sha,SOURCE_COVERAGE)
     elif args.mode=='train':learning.train(args.plan_sha,ROOT)
     else:native.run(args.plan_sha,ROOT/'native_v1')

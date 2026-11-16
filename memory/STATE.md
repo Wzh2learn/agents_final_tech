@@ -5,7 +5,7 @@
 - **Goal / FCCL**：active；成对反例v1确认闭合，继续从实际恢复与死因改进训练规则；动作对齐为共同控制。
 - **研究阶段**：开发64成对37/普通33；确认53成对30/普通30/均衡25，共同首轮30。DeepSeek35、修10/误改5。主比较持平，已有修复与保持部件继续保留。[确认与尸检](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#remaining53-confirmation-v1)。
 - **实际运行 / 预算**：FinQA本地4,536POST/19,243,406已知＋9未知预留294,912；五臂训练1,320更新/2,205前向/217,275监督tokens另账。校内累计5,225POST/51,855,529已知＋2,621,440预留，合54,476,969/10亿。[完整账](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#finqa-costs)。
-- **下一交付**：TRAIN48个合法错误源的实际首分叉覆盖39，9个起始操作符遗漏；检验补齐源错误决策的成对训练，正目标/总权重/日程不变，先用DEV判断。先接TAT宿主评分回调再冻结新批，避免运行中改共享组件；确认轨迹不回流TRAIN。
+- **下一交付**：TAT宿主评分接入77项/55子检查过；源覆盖DATA a1d6936f、训练75bddca5、64原生1f28ab51已冻结，147正目标不变、两状态各新增9个分叉。准备包fa4f964e双份536文件已核，下一训练264更新/441前向并验证DEV；确认轨迹不回流TRAIN。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。

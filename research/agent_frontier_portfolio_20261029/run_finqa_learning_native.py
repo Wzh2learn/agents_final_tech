@@ -156,7 +156,7 @@ def expected_episode_deadline(accounting):
             and all(f.get('type')=='TimeoutError' and f.get('message')=='episode deadline' for f in failures))
 
 
-def run(digest,out=None):
+def run(digest,out=None, *, submission_grader=None):
     output=OUT if out is None else Path(out)
     if sha(output/'PLAN.json')!=digest or (output/'LIVE.json').exists():raise ValueError('native plan/attempt')
     plan=read(output/'PLAN.json');training=Path(plan.get('training_root',str(learning.ROOT)))
@@ -189,7 +189,8 @@ def run(digest,out=None):
                         folder=Path(ep['folder'])
                         assert sha(folder/'inputs/public.json')==ep['public_sha256']
                         assert sha(folder/'inputs/task.txt')==ep['task_sha256']
-                        result=study.episode(ep,h,runtime,study.MODEL,private_labels=output/'LABELS_PRIVATE.json')
+                        result=study.episode(ep,h,runtime,study.MODEL,private_labels=output/'LABELS_PRIVATE.json',
+                                             submission_grader=submission_grader)
                         result['arm']=arm;state['episodes'].append(result)
                         study.publish(output/'LIVE.json',state)
                         print(json.dumps(dict(arm=arm,index=ep['index'],correct=result['execution_correct'],

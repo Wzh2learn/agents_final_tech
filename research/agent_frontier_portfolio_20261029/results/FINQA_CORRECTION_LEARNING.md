@@ -364,6 +364,8 @@ PLAN585bacac、首轮cc94748c；沿原58db3ef3协议的117个合格公司/年份
 
 这产生一个有限的[源错误决策覆盖候选](FINQA_CORRECTION_METHOD.md#source-decision-coverage-v2)：当实际源程序合法错误且首分叉缺失时，补入其错误分支并在恢复前后共享；147正目标、总辅助权重和训练日程均保持。该缺口尚未证明是53持平的原因，先在DEV检验，不新增确认标签训练或扩大系数搜索。仅只读清点另有303个未曝光TRAIN公司年份/884个多步问题，未创建新Agent任务；更多真实恢复作为后备扩样，不能当已完成训练。
 
+**源覆盖候选已准备。** DATA a1d6936f、训练PLAN75bddca5、原生PLAN1f28ab51。逐项验证147个输入/label/助手解释/公开状态与v1相同，88组/同264更新日程；每状态反例156→165，新增方向仅9个来源的18个状态决策。所有96个实际合法错误源分叉现均被覆盖，无重复loss位置；总λ=.1、ρ=.5不变，预期441前向/43,455正监督tokens。全64 DEV任务与原工作区、提示逐字节一致；不运行53确认或训练其轨迹。准备包fa4f964e双份2,610,736字节/536文件，含冻结代码与77项/55子检查回执，准备时无模型请求或训练。
+
 监督1905735、首轮1905831、CPU1913451、教师1936420及CPU1943482均退出；27B由1947225/tick14653012恢复ready，boot b4166d98、32GiB保护。完整旧失败和费用保留。
 
 <a id="tatqa-terminal-contract-v1"></a>
@@ -372,6 +374,8 @@ PLAN585bacac、首轮cc94748c；沿原58db3ef3协议的117个合格公司/年份
 FinQA已验证的终答声明执行方式需用于TAT-QA，否则当前学生即使给出程序也可能没有实际提交。旧TAT工具只接受--program，新终答CLI测试先实测拒绝；随后仅在独立tatqa_correction模块增加可选--final-jsonl，复用末次助手明确程序声明，支持显式预测scale、缺省沿用已提交公共scale（初始为空），显式none清空。实际程序/尺度与错误均落入候选和执行日志，不读金标，不从reasoning/旧消息猜程序。所有未来策略共用，未修改运行中的FinQA组件或原评分器。
 
 GB10真实执行器/官方评分回归28项及16子检查通过，0跳过；上游固定评分源码的3个SyntaxWarning保留。官方EM/F1正确处理percent与无scale的等价数值，未知scale仍失败。旧32个TAT公共任务默认prompt逐字节保持，旧--program接口保留；新终答提示只在新批显式启用。该检查是CPU接口验证，尚无TAT-QA Agent结果。JUnit与固定870accc4评分源码留在均衡批私有目录。
+
+宿主接入随后先以三个失败集成测试复现：原生episode及批次不接受TAT评分回调，默认FinQA路径会拒绝带scale的候选。现仅增加显式宿主submission_grader；默认FinQA严格program schema保留，TAT官方EM/F1在真实工具执行后于宿主评分，正常退出仍是native_success必要条件。GB10相关77项/55子检查通过，0跳过；测试替代actor I/O并真实执行算式/官方评分，不是TAT Agent研究成绩。新批组件冻结前完成该修复，未改已结束实验的raw或分数。
 
 <a id="finqa-costs"></a>
 
@@ -396,6 +400,7 @@ GB10私有根为/home/testuser/wzh/research_evidence/agent_learning_20261030/fin
 | finqa_deepseek_confirmation_preparation_20261116_v1 | 同53现场教师协议/输入及源码；960,590字节/436文件，无模型请求 | af07bb96 |
 | finqa_deepseek_confirmation_reference_20261116_v1 | 全53教师接续、92原始请求/评分/账本与复算；1,854,233字节/1,099文件 | c6f68cd9 |
 | finqa_confirmation_autopsy_20261116_v1 | TRAIN实际错误首分叉39/48覆盖复算、源码和后续机制假设；4,047字节/4文件，无神经计算 | 419ea5a1 |
+| finqa_source_decision_coverage_preparation_20261116_v1 | 同147正目标、补18状态决策、264更新计划及64 DEV原生输入；2,610,736字节/536文件，无训练/模型请求 | fa4f964e |
 | finqa_retention_projection_preparation_20261116_v1 | 同数据两臂训练/128开发输入、冻结代码及监督器；3,581,305字节/1,045文件 | 5b63c079 |
 | finqa_retention_projection_training_20261116_v1 | 两臂实际训练权重、计量/参数核验及CPU残差/公开门控回放；30,014,162字节/36文件 | 66d6579d |
 | finqa_retention_projection_results_20261116_v1 | 全128原生、全量复算/训练动作尸检/恢复及源码，权重另链训练包；5,194,510字节/2,354文件 | 1f9cd322 |
