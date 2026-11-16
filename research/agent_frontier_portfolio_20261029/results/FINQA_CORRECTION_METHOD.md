@@ -1,8 +1,31 @@
 # FinQA纠正学习：方法定义与近邻
 
-> 2026-11-17｜历史首分叉学习定义与近邻，保留但停止扩展该线。当前四算子候选见[运行入口](../finqa_patch_learning.py)及[Step1/2结果](FINQA_CORRECTION_LEARNING.md#structural-patch-step1)；运行句柄查[STATE](../../../memory/STATE.md)，本页不维护新实验。
+> 2026-11-17｜现役纠正价值路由DEV36/64，首分叉学习保留为冻结历史。实验数值见[结果](FINQA_CORRECTION_LEARNING.md#correction-value-router-v1)，运行句柄查[STATE](../../../memory/STATE.md)。
 
-## 任务与学习规则
+<a id="correction-value-algorithm"></a>
+## 现役候选：从执行经验学习纠正的增量效用
+
+输入状态为 \(s=(x,p,E(p,x))\)：公开问题/表文、原程序及真实执行反馈。固定强纠正器从该状态提出四算子补丁，执行后得到成功状态 \(C'\)；原成功状态记为 \(C\)。训练标签 \(r=C'-C\in\{-1,0,1\}\)，分别对应错改、中性与恢复。成功标签仅用于离线TRAIN监督，部署输入不含它们。
+
+冻结BGE编码器提取状态/证据表示，32隐藏单元网络用三类交叉熵学习 \(\hat p_+(s),\hat p_0(s),\hat p_-(s)\)。净收益分数为 \(g_\theta(s)=\hat p_+(s)-\hat p_-(s)\)。在TRAIN公司年份四折交叉拟合结果上，从固定阈值表选择
+
+$$
+\tau^\star=\arg\max_\tau\sum_i
+\mathbf 1[g_{\theta,-i}(s_i)>\tau]\,(r_i-0.02).
+$$
+
+0.02是本轮每次调用的项目成本权重。部署时，\(g_\theta(s)>\tau^\star\)才调用27B；否则KEEP并执行原程序。27B为单次JSON提案、输出上限1,024tokens；Apply仅使用rebind_operand、scale_output、prepend_step及KEEP，沿用原解析器。当前选出的阈值为0，全部DEV决策先于评分冻结。实现：[路由](../finqa_correction_router.py)、[提案](../finqa_patch_proposals.py)、[算子](../finqa_minimal_patches.py)。
+
+当前证据是同64个缓存首轮现场上的开发增量：33→36，恢复3、错改0、18次接管。完整27B为37；同18次调用的错误风险/固定随机也36，仅问题35。该路由保留为预算部件；下一机制比较落在联合修复学习，而不是三类MLP本身。
+
+<a id="joint-repair-credit"></a>
+## 下一机制线索：联合补丁的执行信用
+
+30个TRAIN成功修复产生296个实际执行的子集，其中258个执行成功但数值仍错；无效子集为0。为避免删前置步骤引起引用重排伪影，检查时固定全部prepend_step。29个原可执行错例中，19个至少需要两个其余改动联合出现，其中15个不含前置步骤。
+
+这给出联合建模的直接依据：存在状态使每个单独改动的增量奖励均为0，而联合改动奖励为1；仅相加单项已观测奖励无法还原该联合收益。下一候选抽象操作数角色/证据绑定模板，用完整修复与可执行错误子集监督补丁组合价值，同时保留正确状态的错改负例。比较固定来源、候选与样本预算，定位组合信用的作用。联合价值模型尚未开训，原生正向材料保留，DEV修复输出不转入TRAIN。
+
+## 历史首分叉学习：冻结定义与规则
 
 实现：[学习器](../finqa_learning.py)、[状态与成对编译](../finqa_state_learning.py)、[历史语义编译](../finqa_semantic_learning.py)、[原生执行](../run_finqa_learning_native.py)、[匹配对照及复算](../finqa_learning_controls.py)。
 

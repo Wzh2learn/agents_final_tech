@@ -125,6 +125,58 @@ def collect(backend):
         print(json.dumps({k:v for k,v in state.items() if k!='episodes'}),flush=True)
 
 
+def bundle_credit(output=None):
+    """Native TRAIN subset rewards, keeping prefix numbering unchanged."""
+    import itertools
+    from finqa_minimal_patches import apply_patches
+    source=c.step1/'formation_v2';out=Path(output) if output else source/'bundle_credit_autopsy'
+    out.mkdir();started=time.monotonic();labels=m.read(c.step1/'TRAIN_LABELS_PRIVATE.json')
+    repairs=[row for row in m.read_lines(source/'COMBINED_PATCH_SAMPLES.jsonl') if row['phase']=='repair']
+    rows=[];examples=[]
+    for sample in repairs:
+        public=sample['public'];state=sample['state'];label=labels[sample['source_index']]
+        assert public['id']==label['id']
+        patches=sample['target']['patches'];prefix=[i for i,p in enumerate(patches) if p['op']=='prepend_step']
+        mutable=[i for i,p in enumerate(patches) if p['op']!='prepend_step']
+        assert m.task.grade(apply_patches(state['current_program'],patches),public,label['exe_ans'])['execution_correct']
+        before=m.task.grade(state['current_program'],public,label['exe_ans']);assert not before['execution_correct']
+        outcomes=[]
+        for flags in itertools.product([False,True],repeat=len(mutable)):
+            chosen=set(prefix+[i for i,flag in zip(mutable,flags) if flag])
+            subset=[patch for i,patch in enumerate(patches) if i in chosen] or [dict(op='KEEP')]
+            try:
+                program=apply_patches(state['current_program'],subset);grade=m.task.grade(program,public,label['exe_ans'])
+                value=dict(selected_mutable=sum(flags),valid=grade['program_valid'],success=grade['execution_correct'],
+                    patches=subset,program=program,execution=grade['public_execution'])
+            except Exception as error:
+                value=dict(selected_mutable=sum(flags),valid=False,success=False,patches=subset,error=str(error))
+            outcomes.append(value)
+            examples.append(dict(id=public['id'],source_index=sample['source_index'],public=public,state=state,
+                proposal_patches=subset,proposed_program=value.get('program'),public_execution=value.get('execution'),
+                native_utility=int(value['success']),valid=value['valid']))
+        minimum=min(row['selected_mutable'] for row in outcomes if row['success'])
+        rows.append(dict(index=sample['source_index'],id=public['id'],original_valid=before['program_valid'],
+            prefix_operations=len(prefix),mutable_operations=len(mutable),minimum_mutable_for_success=minimum,
+            counterfactuals=len(outcomes),executed_wrong=sum(row['valid'] and not row['success'] for row in outcomes),
+            invalid=sum(not row['valid'] for row in outcomes),full_patch=patches,outcomes=outcomes))
+    summary=dict(status='RETURNED',repairs=len(rows),original_valid=sum(row['original_valid'] for row in rows),
+        counterfactuals=len(examples),pure_no_prefix=sum(row['prefix_operations']==0 for row in rows),
+        joint_nonprefix_needed=sum(row['original_valid'] and row['minimum_mutable_for_success']>=2 for row in rows),
+        pure_joint_needed=sum(row['original_valid'] and not row['prefix_operations'] and row['minimum_mutable_for_success']>=2 for row in rows),
+        executed_wrong=sum(row['executed_wrong'] for row in rows),invalid=sum(row['invalid'] for row in rows),
+        seconds=time.monotonic()-started,model_calls=0,
+        scope='TRAIN subset outcomes; prefix steps remain together to avoid reference-index artifacts. Utility labels are not deployment inputs.')
+    m.study.new(out/'RESULT.json',summary)
+    for name,items in [('ROWS.jsonl',rows),('CREDIT_EXAMPLES_TRAIN.jsonl',examples)]:
+        with (out/name).open('x') as file:
+            for row in items:file.write(json.dumps(row,ensure_ascii=False)+'\n')
+    print(json.dumps(summary),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--backend',choices=['8b','27b'],required=True)
-    collect(parser.parse_args().backend)
+    parser=argparse.ArgumentParser();mode=parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument('--backend',choices=['8b','27b']);mode.add_argument('--bundle-credit',action='store_true')
+    parser.add_argument('--credit-output',type=Path);args=parser.parse_args()
+    if args.bundle_credit:bundle_credit(args.credit_output)
+    elif args.credit_output:parser.error('--credit-output requires --bundle-credit')
+    else:collect(args.backend)

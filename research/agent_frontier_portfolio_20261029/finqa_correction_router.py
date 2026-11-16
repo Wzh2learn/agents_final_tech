@@ -92,9 +92,21 @@ def probability(saved,model,x):
         return model(value).softmax(-1).numpy()
 
 
+def frozen_probability(x):
+    """Reload this project's own frozen checkpoint, without optimizer updates."""
+    import torch
+    saved=torch.load(ROOT/'POLICY.pt',map_location='cpu',weights_only=False)
+    model=torch.nn.Sequential(torch.nn.Linear(saved['input_size'],32),torch.nn.ReLU(),
+        torch.nn.Dropout(.1),torch.nn.Linear(32,3))
+    model.load_state_dict(saved['weights'],strict=True);model.eval()
+    return probability(saved,model,x)
+
+
 def train():
     import torch
     from sklearn.model_selection import GroupKFold
+    if (ROOT/'POLICY.pt').exists() or (ROOT/'PREDICTIONS.json').exists():
+        raise RuntimeError('policy is already frozen; do not retrain in this output directory')
     torch.set_num_threads(4)
     result=m.read(SOURCE/'RESULT.json');assert result['status']=='RETURNED'
     rows=result['episodes'];assert len(rows)>=32 and any(row['utility']>0 for row in rows)
@@ -130,6 +142,7 @@ def train():
 def evaluate():
     """KEEP executes the saved program; selected cases use real OpenCode/27B."""
     from finqa_patch_proposals import proposal_relay
+    if (ROOT/'DEV_LIVE.json').exists():raise RuntimeError('native DEV already started; inspect its receipt')
     decisions=m.read(ROOT/'PREDICTIONS.json')['decisions']
     features=m.read(ROOT/'FEATURE_PLAN.json');sources=features['dev']
     # Expected answers are opened only after the TRAIN-only decisions are saved.
@@ -193,6 +206,137 @@ def evaluate():
         print(json.dumps({k:v for k,v in state.items() if k!='episodes'}),flush=True)
 
 
+def expert_reference():
+    """Complete the fixed 27B reference, reusing the 18 actual routed calls."""
+    from finqa_patch_proposals import proposal_relay
+    routed=m.read(ROOT/'DEV_RESULT.json');assert routed['status']=='RETURNED'
+    assert routed['summary']['success']>=36
+    target=ROOT/'expert_reference';target.mkdir()
+    sources=m.read(ROOT/'FEATURE_PLAN.json')['dev']
+    labels_path=Path(sources[0]['folder']).parent.parent/'LABELS_PRIVATE.json'
+    old={row['index']:row for row in routed['episodes']}
+    prior=m.read(c.root/'PLAN.json');profile=dict(host='127.0.0.1',port=8006,
+        model_id='qwen38-27b-fp8',context=32768,output=8192)
+    state=dict(status='RUNNING',episodes=[],reused_calls=18,new_posts=0,new_tokens=0)
+    m.study.publish(target/'LIVE.json',state);started=time.monotonic()
+    try:
+        with m.study.core.resource_lock():
+            h=m.study.core.helpers();checked=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
+            m.study.CAPS.clear();m.study.CAPS.update(prior['caps'])
+            for source_ep in sources:
+                index=source_ep['index']
+                if old[index]['decision']=='ESCALATE':
+                    row=dict(old[index],reused=True,evidence_folder=str(ROOT/'dev'/f'{index:03d}'))
+                else:
+                    source=Path(source_ep['folder']);folder=target/'dev'/f'{index:03d}';inputs=folder/'inputs'
+                    inputs.mkdir(parents=True)
+                    for name in ['work','dependencies']:shutil.copytree(source/name,folder/name)
+                    public=m.read(source/'inputs/public.json');snapshot=m.state_from_folder(source)
+                    for name,value in [('public.json',public),('initial_state.json',snapshot)]:
+                        (inputs/name).write_text(json.dumps(value,ensure_ascii=False))
+                    (inputs/'task.txt').write_text(c.prompt(public,snapshot))
+                    for name,text in [('finqa_correction.py',Path(m.task.__file__).read_text()),
+                            ('executor.py',Path(m.task.executor().__file__).read_text()),
+                            ('finqa_minimal_patches.py',Path(__file__).with_name('finqa_minimal_patches.py').read_text()),
+                            ('finqa_tool.py',c.TOOL),('guest.py',m.study.guest_source(terminal_program=True))]:
+                        (inputs/name).write_text(text)
+                    ep=dict(index=index,id=source_ep['id'],report=source_ep['report'],folder=str(folder))
+                    value=m.study.episode(ep,h,checked,profile,private_labels=labels_path,relay_factory=proposal_relay)
+                    row=dict(index=index,id=source_ep['id'],before_success=old[index]['before_success'],
+                        success=value['native_success'],utility=int(value['native_success'])-int(old[index]['before_success']),
+                        program=value['submitted_program'],posts=value['accounting']['actual_forwarded_posts'],
+                        tokens=value['accounting']['provider_total_tokens_known'],unknown=len(value['accounting']['unknown_usage_requests']),
+                        seconds=value['actor']['seconds'],reused=False,evidence_folder=str(folder))
+                    state['new_posts']+=row['posts'];state['new_tokens']+=row['tokens']
+                state['episodes'].append(row);m.study.publish(target/'LIVE.json',state)
+                print(json.dumps(row),flush=True)
+        rows=state['episodes'];state.update(status='RETURNED',summary=dict(tasks=len(rows),
+            success=sum(row['success'] for row in rows),recovered=sum(row['utility']>0 for row in rows),
+            damaged=sum(row['utility']<0 for row in rows),policy_posts=sum(row['posts'] for row in rows),
+            policy_tokens=sum(row['tokens'] for row in rows),actor_seconds=sum(row['seconds'] for row in rows),
+            reused=sum(row['reused'] for row in rows),new_posts=state['new_posts'],new_tokens=state['new_tokens']))
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc())
+    finally:
+        state['seconds']=time.monotonic()-started
+        m.study.publish(target/'LIVE.json',state);m.study.new(target/'RESULT.json',state)
+        print(json.dumps({k:v for k,v in state.items() if k!='episodes'}),flush=True)
+
+
+def routing_controls():
+    """Freeze budget-matched controls from TRAIN, before reference completion."""
+    import torch
+    from sentence_transformers import SentenceTransformer
+    target=ROOT/'routing_controls';target.mkdir();torch.set_num_threads(4);started=time.monotonic()
+    plan=m.read(ROOT/'FEATURE_PLAN.json');training=m.read(SOURCE/'RESULT.json')['episodes']
+    indexes=np.array([row['index'] for row in training]);utility=np.array([row['utility'] for row in training])
+    y=np.where(utility==1,1,np.where(utility==-1,2,0))
+    difficulty=np.array([int(not row['before_success']) for row in training])
+    features=np.load(ROOT/'FEATURES.npz');budget=sum(row['decision']=='ESCALATE'
+        for row in m.read(ROOT/'PREDICTIONS.json')['decisions'])
+    encoder=SentenceTransformer(plan['encoder'],device='cpu',local_files_only=True);encoder.max_seq_length=384
+    texts=[m.read(Path(ep.get('source_folder',ep['folder']))/'inputs/public.json')['question']
+        for ep in plan['train']+plan['dev']]
+    vectors=np.asarray(encoder.encode(texts,batch_size=16,show_progress_bar=False,normalize_embeddings=True))
+    question_train=vectors[:len(plan['train'])][indexes];question_dev=vectors[len(plan['train']):]
+    predictions={}
+    for name,x,labels,test in [('question_only',question_train,y,question_dev),
+            ('error_risk',features['train'][indexes],difficulty,features['dev'])]:
+        saved,model=fit_once(x,labels,21);prob=probability(saved,model,test)
+        scores=prob[:,1]-prob[:,2] if name=='question_only' else prob[:,1]
+        chosen=set(sorted(range(64),key=lambda i:(-float(scores[i]),i))[:budget])
+        predictions[name]=[dict(index=ep['index'],score=float(score),selected=i in chosen)
+            for i,(ep,score) in enumerate(zip(plan['dev'],scores,strict=True))]
+    rng=np.random.default_rng(20261117);chosen=set(map(int,rng.choice(64,budget,replace=False)))
+    predictions['random_fixed']=[dict(index=ep['index'],selected=i in chosen) for i,ep in enumerate(plan['dev'])]
+    predictions['execution_error_only']=[dict(index=ep['index'],selected=
+        (m.state_from_folder(ep['folder']).get('execution_feedback') or {}).get('status')!='executed') for ep in plan['dev']]
+    m.study.new(target/'PREDICTIONS.json',dict(budget=budget,predictions=predictions,
+        model_seed=21,random_seed=20261117,optimizer_updates=400,head_training_forwards=400,
+        seconds=time.monotonic()-started,scope='Same TRAIN/public features and model architecture; top18 matches the frozen primary call count. No DEV labels used.'))
+    print('Routing control decisions frozen',flush=True)
+
+
+def compare_routing():
+    expert=m.read(ROOT/'expert_reference/RESULT.json');assert expert['status']=='RETURNED'
+    rows=sorted(expert['episodes'],key=lambda row:row['index']);assert len(rows)==64
+    controls=m.read(ROOT/'routing_controls/PREDICTIONS.json')
+    routed=m.read(ROOT/'PREDICTIONS.json')['decisions'];before=sum(row['before_success'] for row in rows)
+    policies={'keep_all':[False]*64,'always_27b':[True]*64,
+        'learned_value':[row['decision']=='ESCALATE' for row in routed]}
+    policies.update({name:[row['selected'] for row in choices] for name,choices in controls['predictions'].items()})
+    table={}
+    for name,selection in policies.items():
+        chosen=[row for row,active in zip(rows,selection,strict=True) if active]
+        table[name]=dict(success=before+sum(row['utility'] for row in chosen),
+            recovered=sum(row['utility']>0 for row in chosen),damaged=sum(row['utility']<0 for row in chosen),
+            calls=len(chosen),posts=sum(row['posts'] for row in chosen),tokens=sum(row['tokens'] for row in chosen),
+            actor_seconds=sum(row['seconds'] for row in chosen))
+    assert table['learned_value']['success']==m.read(ROOT/'DEV_RESULT.json')['summary']['success']
+    rng=np.random.default_rng(20261117);samples=[]
+    for _ in range(2000):
+        chosen=rng.choice(64,controls['budget'],replace=False)
+        samples.append(before+sum(rows[int(i)]['utility'] for i in chosen))
+    result=dict(status='RETURNED',policies=table,random_allocation=dict(draws=2000,seed=20261117,
+        mean_success=float(np.mean(samples)),p05=float(np.quantile(samples,.05)),p95=float(np.quantile(samples,.95))),
+        scope='Routing controls replay one actual fixed OpenCode/27B response per state; not new independent actor runs. Reused18 calls are not charged twice.')
+    m.study.new(ROOT/'routing_controls/COMPARISON.json',result);print(json.dumps(result),flush=True)
+
+
+def reference_check():
+    import os
+    live=ROOT/'REFERENCE_CHECK_LIVE.json'
+    state=dict(status='RUNNING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],phase='CONTROL_TRAIN')
+    m.study.publish(live,state)
+    try:
+        routing_controls();state['phase']='WAIT_REFERENCE';m.study.publish(live,state);started=time.monotonic()
+        while not (ROOT/'expert_reference/RESULT.json').exists():
+            if time.monotonic()-started>3600:raise TimeoutError('reference wait cap')
+            time.sleep(10)
+        compare_routing();state.update(status='RETURNED',phase='FINISHED')
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc())
+    finally:m.study.publish(live,state)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','evaluate']);args=parser.parse_args()
-    {'prepare':prepare,'train':train,'evaluate':evaluate}[args.mode]()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','evaluate','expert-reference','reference-check']);args=parser.parse_args()
+    {'prepare':prepare,'train':train,'evaluate':evaluate,'expert-reference':expert_reference,'reference-check':reference_check}[args.mode]()
