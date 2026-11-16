@@ -20,6 +20,10 @@ def fixture():
     return task.public_record(record, question)
 
 
+def actor_text(text, message='final', part='text-1'):
+    return dict(type='text', part=dict(type='text', messageID=message, id=part, text=text))
+
+
 class TATQAExecutionTests(unittest.TestCase):
     def test_projection_keeps_full_evidence_without_gold_or_relevance_annotations(self):
         public = fixture();text = json.dumps(public)
@@ -49,6 +53,71 @@ class TATQAExecutionTests(unittest.TestCase):
                 self.assertEqual(json.loads((folder / 'candidate.json').read_text()), dict(program=program, scale='percent'))
             entries = [json.loads(x) for x in (folder / 'executions.jsonl').read_text().splitlines()]
             self.assertEqual([x['execution']['status'] for x in entries], ['executed', 'error'])
+
+    def test_terminal_cli_submits_declared_program_and_scale_through_real_executor(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp);public = folder / 'public.json';public.write_text(json.dumps(fixture()))
+            events = [actor_text('Final program: add(999, 1)', 'old'),
+                      actor_text('The report supplies the two quantities.\nFinal program: add(10, 12.12)\nFinal scale: percent')]
+            output = folder / 'actor.jsonl';output.write_text('\n'.join(json.dumps(e) for e in events))
+            returned = subprocess.run([sys.executable, str(CODE / 'tatqa_correction.py'),
+                '--final-jsonl', str(output), '--public', str(public), '--work', str(folder),
+                '--executor', str(task.arithmetic.executor().__file__)], capture_output=True, text=True)
+            self.assertEqual(returned.returncode, 0, returned.stderr)
+            response = json.loads(returned.stdout)
+            self.assertEqual(response['status'], 'submitted')
+            self.assertEqual(response['execution']['status'], 'executed')
+            self.assertAlmostEqual(response['execution']['terminal_execution_answer'], 22.12)
+            self.assertEqual(json.loads((folder / 'candidate.json').read_text()),
+                             dict(program='add(10, 12.12)', scale='percent'))
+            log = [json.loads(line) for line in (folder / 'executions.jsonl').read_text().splitlines()]
+            self.assertEqual(len(log), 1)
+            self.assertEqual(log[0]['origin'], 'terminal_declaration')
+            self.assertNotIn('execution_correct', response['execution'])
+
+    def test_terminal_rejects_absent_or_ambiguous_declarations_without_guessing(self):
+        reasoning = dict(type='reasoning', part=dict(type='reasoning', messageID='new', id='r',
+                                                    text='Final program: add(1, 2)'))
+        cases = [
+            [actor_text('Final program: add(2, 2)', 'old'), reasoning],
+            [actor_text('Final program: add(1, 2)\nFinal program: add(2, 2)')],
+            [actor_text('Final program: add(1, 2)\nFinal scale: percent\nFinal scale: million')],
+        ]
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp);before = json.dumps(dict(program='add(3, 3)', scale='percent'))
+            (folder / 'candidate.json').write_text(before)
+            for events in cases:
+                with self.subTest(events=events):
+                    result = task.submit_terminal_response(events, fixture(), folder)
+                    self.assertEqual(result['status'], 'not_submitted')
+                    self.assertEqual((folder / 'candidate.json').read_text(), before)
+                    self.assertFalse((folder / 'executions.jsonl').exists())
+
+    def test_terminal_omitted_scale_retains_public_scale_and_explicit_none_clears_it(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            (folder / 'candidate.json').write_text(json.dumps(dict(program='add(1, 2)', scale='percent')))
+            result = task.submit_terminal_response([actor_text('Final program: add(10, 12.12)')], fixture(), folder)
+            self.assertEqual(result['scale'], 'percent')
+            self.assertTrue(result['changed'])
+            result = task.submit_terminal_response([actor_text(
+                'Final program: divide(22.12, const_100)\nFinal scale: none')], fixture(), folder)
+            self.assertEqual(result['scale'], '')
+            self.assertEqual(json.loads((folder / 'candidate.json').read_text())['scale'], '')
+            self.assertAlmostEqual(result['execution']['terminal_execution_answer'], .2212)
+
+    def test_terminal_invalid_predicted_scale_remains_a_failed_submission(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            result = task.submit_terminal_response([actor_text(
+                'Final program: add(10, 12.12)\nFinal scale: trillion')], fixture(), folder)
+            self.assertEqual(result['execution']['code'], 'UNSUPPORTED_PREDICTED_SCALE')
+            saved = json.loads((folder / 'candidate.json').read_text())
+            self.assertEqual(saved['scale'], 'trillion')
+            grade = task.grade(saved, fixture(), dict(answer_type='arithmetic', answer=22.12, scale='percent'),
+                               metric_dir=folder / 'not-mounted')
+            self.assertFalse(grade['execution_correct'])
+            self.assertFalse(grade['program_valid'])
 
 
 class TATQAOfficialScoringTests(unittest.TestCase):
@@ -90,6 +159,18 @@ class TATQAOfficialScoringTests(unittest.TestCase):
                 stream.write('\n# changed\n')
             with self.assertRaisesRegex(ValueError, 'source changed'):
                 task.official_metric_type(folder)
+
+    def test_terminal_submissions_use_the_unchanged_official_scale_scoring(self):
+        gold = dict(answer_type='arithmetic', answer=22.12, scale='percent')
+        for program, scale in [('add(10, 12.12)', 'percent'), ('divide(22.12, const_100)', 'none')]:
+            with self.subTest(program=program, scale=scale), tempfile.TemporaryDirectory() as temp:
+                folder = Path(temp)
+                task.submit_terminal_response([actor_text(
+                    f'Final program: {program}\nFinal scale: {scale}')], fixture(), folder)
+                saved = json.loads((folder / 'candidate.json').read_text())
+                result = task.grade(saved, fixture(), gold, metric_dir=self.metric_dir)
+                self.assertEqual(result['official_em'], 1.)
+                self.assertEqual(result['official_f1'], 1.)
 
 
 if __name__ == '__main__':

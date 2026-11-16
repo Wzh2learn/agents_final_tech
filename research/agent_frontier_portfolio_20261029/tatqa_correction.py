@@ -11,6 +11,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import re
 import sys
 
 import finqa_correction as arithmetic
@@ -32,11 +33,21 @@ def public_record(record, question):
     return value
 
 
-def prompt(public):
+def prompt(public, *, terminal_program=False):
     arithmetic.check_public(public)
+    delivery = ('You may execute a candidate with the bash tool: ' if terminal_program else
+                'Submit a program with the bash tool: ')
+    closing = (
+        'Repair execution errors. Finish with exactly one plain-text line beginning Final program: '
+        'followed by the complete expression, without wrappers, quotes or code fences. '
+        'You may add one Final scale: line with none, thousand, million, billion or percent. '
+        'An omitted final scale retains your last submitted scale, or none when there is no prior submission. '
+        'The execution layer submits the declaration after normal completion. '
+        'Keep explanations outside the declaration lines. '
+        if terminal_program else 'Repair execution errors and then finish with a short explanation. ')
     return (
         'Solve this numeric question from the supplied TAT-QA table and paragraphs. '
-        'Submit a program with the bash tool: /extra/bin/python /inputs/finqa_tool.py '
+        + delivery + '/extra/bin/python /inputs/finqa_tool.py '
         '--program followed by one quoted FinQA program string. You may also supply '
         '--scale with one of thousand, million, billion or percent; omitted scale means no scale. '
         'The numerical result and this predicted scale together represent your answer. '
@@ -47,7 +58,7 @@ def prompt(public):
         '#0 for the result of step zero. const_100 means 100; const_m1 means -1. '
         'For table operations use the exact row label and none as the second argument. '
         'The tool saves the latest program and scale, and reports execution feedback, never answer '
-        'correctness. Repair execution errors and then finish with a short explanation. '
+        'correctness. ' + closing +
         'Do not edit /inputs or invent a separate answer field.\n\n'
         + json.dumps(public, ensure_ascii=False))
 
@@ -102,9 +113,63 @@ def grade(submission, public, gold, *, metric_dir):
                 scale_exact=predicted_scale == gold['scale'], predicted_scale=predicted_scale)
 
 
+def submit_program(program, scale, public, work, module=None, *, origin=None):
+    """Persist each actual submission; units are predictions, never gold metadata."""
+    arithmetic.check_public(public)
+    work = Path(work).resolve()
+    candidate = dict(program=program, scale=scale)
+    (work / 'candidate.json').write_text(json.dumps(candidate, ensure_ascii=False) + '\n')
+    execution = execute_public(program, public, scale, module)
+    record = {**candidate, 'execution': execution}
+    if origin is not None:
+        record['origin'] = origin
+    with (work / 'executions.jsonl').open('a') as stream:
+        stream.write(json.dumps(record, ensure_ascii=False) + '\n')
+    return execution
+
+
+def submit_terminal_response(events, public, work, module=None):
+    """Submit an explicit latest-message program and optional predicted scale."""
+    arithmetic.check_public(public)
+    events = list(events)
+    proposal = arithmetic.terminal_proposal(events)
+    if proposal['status'] != 'proposal':
+        return dict(status='not_submitted', reason=proposal['status'], origin='terminal_declaration')
+    latest, parts = None, {}
+    for event in events:
+        part = event.get('part')
+        if not isinstance(part, dict) or 'messageID' not in part:
+            continue
+        if part['messageID'] != latest:
+            latest, parts = part['messageID'], {}
+        if event.get('type') == 'text' and part.get('type') == 'text':
+            parts[part['id']] = part['text']
+    scales = re.findall(r'^Final scale:[ \t]*([^\r\n]*)$', '\n'.join(parts.values()), re.M)
+    if len(scales) > 1:
+        return dict(status='not_submitted', reason='ambiguous_scale', origin='terminal_declaration')
+    previous = None
+    candidate = Path(work) / 'candidate.json'
+    if candidate.exists():
+        try:
+            value = json.loads(candidate.read_text())
+        except json.JSONDecodeError:
+            value = None
+        if isinstance(value, dict) and set(value) == {'program', 'scale'} and isinstance(value['scale'], str):
+            previous = value
+    scale = scales[0].strip() if scales else previous['scale'] if previous else ''
+    if scale == 'none':
+        scale = ''
+    program = proposal['program']
+    execution = submit_program(program, scale, public, work, module, origin='terminal_declaration')
+    return dict(status='submitted', origin='terminal_declaration', program=program, scale=scale,
+                changed=previous != dict(program=program, scale=scale), execution=execution)
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--program', required=True)
+    delivery = parser.add_mutually_exclusive_group(required=True)
+    delivery.add_argument('--program')
+    delivery.add_argument('--final-jsonl', type=Path)
     parser.add_argument('--scale', choices=SCALES, default='')
     parser.add_argument('--public', type=Path, default=Path('/inputs/public.json'))
     parser.add_argument('--work', type=Path, default=Path('/workspace'))
@@ -112,12 +177,17 @@ def main():
     args = parser.parse_args()
     public = json.loads(args.public.read_text())
     arithmetic.check_public(public)
-    candidate = dict(program=args.program, scale=args.scale)
-    work = args.work.resolve()
-    (work / 'candidate.json').write_text(json.dumps(candidate, ensure_ascii=False) + '\n')
-    result = execute_public(args.program, public, args.scale, arithmetic.executor(args.executor))
-    with (work / 'executions.jsonl').open('a') as stream:
-        stream.write(json.dumps({**candidate, 'execution': result}, ensure_ascii=False) + '\n')
+    module = arithmetic.executor(args.executor)
+    if args.final_jsonl is not None:
+        if args.scale:
+            parser.error('--scale belongs to --program; final output declares its own scale')
+        if args.final_jsonl.stat().st_size > 16 * 1024**2:
+            raise ValueError('actor output exceeds the terminal submission bound')
+        with args.final_jsonl.open() as stream:
+            events = (json.loads(line) for line in stream if line.strip())
+            result = submit_terminal_response(events, public, args.work, module)
+    else:
+        result = submit_program(args.program, args.scale, public, args.work, module)
     print(json.dumps(result, ensure_ascii=False, allow_nan=False))
 
 
