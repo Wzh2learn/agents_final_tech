@@ -1,6 +1,6 @@
 # 纠正学习：机制知识与经验索引
 
-> 2026-11-16｜Goal active；这里解释已有证据怎样支持方案。当前计划见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，金融批次见[FinQA当前记录](FINQA_CORRECTION_LEARNING.md)，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。原始结果、失败及成本保留；历史过程按锚点读取。
+> 2026-11-17｜知识索引，历史推理不作现役待办。三版角色选择器、新DeepSeek路由及强制提案已闭合；下一候选分开学提案与采纳。执行见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，结果见[FinQA记录](FINQA_CORRECTION_LEARNING.md)，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。
 
 <a id="mechanism-knowledge"></a>
 ## 一条研究主线，三个知识来源阶段
@@ -62,12 +62,19 @@
 | K39 同分也有可深化的学习 | 旧普通39是错误差值比率，新普通39是正确关系但嵌套写法；旧普通9错误扣除股数，新普通9直接用正确股数乘价格、剩单位换算；两版原生均33 | 分离取量、关系、单位和交付，保留局部改善来设计后续纠正；共同数据/过滤/日程变动，不将版本差异归因给单个因素 | 旧/新aligned_sft的009/039原始RESULT、c27a50b2/739f93a5权重；新输出另有b39c7ead尸检。[本次自问](FINQA_CORRECTION_METHOD.md#goal-conditioned-correction-v1) |
 | K40 同状态不同目标的学习材料 | 准备阶段从84个已成功TRAIN来源的150候选对固定选4对，只改question/保持ID；实际CLI确认旧程序仍合法却不答新目标 | 形成真实目标反转样本，普通SFT和目标差分共用；前缀修补后置。该准备阶段0模型调用，后续实际接续见K41 | d026b3b7/47afca4d保留；新64留出未使用。[机制](FINQA_CORRECTION_METHOD.md#goal-conditioned-correction-v1) |
 | K41 双向纠正进入具体学习规则 | 初始教师4/4原生成功，冲突0/歧义2不进本原型；ADBE/GS又实际反向恢复2/2，形成2来源/8正视图。新12POST/53,425tokens | 程序前置、完整解释保留为共同格式控制；具体比较同数据SFT、独立偏好与目标差分。真实纠正已形成，学生效果尚未验证；不要求全部候选有效才深化可用部分 | DATA2602a29c/核验ba24135f、包f530e7d8双份166文件；6测试/9子检查通过、0新训练。[材料与全成本](FINQA_CORRECTION_LEARNING.md#goal-correction-materials-v1) |
+| K42 联合改动有互补性 | 29个原可执行错例中19个需至少两个非前置改动联合生效，15个无前置步骤；296子集均可执行 | 保存完整补丁及失败子集的联合信用；不把每个教师动作都当必要，不把子集当独立任务 | TRAIN反馈，不是已实现策略。[结果](FINQA_CORRECTION_LEARNING.md#joint-patch-autopsy) |
+| K43 接管有真实预算收益 | 27B路由36/64、恢复3/错改0，18调用；完整27B37/64 | 保留纠正价值学习与缓存原程序；同预算错误风险也36，普通MLP门控尚非独立方法贡献 | 三个恢复均为语义绑定，DEV不转TRAIN。[结果](FINQA_CORRECTION_LEARNING.md#correction-value-router-v1) |
+| K44 拟合改善未转为可用修复 | 同13个有正确候选的TRAIN错例，三版头恢复2→4→9；DEV均33，无恢复 | 完整新旧证据向量有学习信号，当前正例/候选与选择器不足以外推；停止这三版，不继续扫门槛，也不丢弃联合修复素材 | 公司年份校准及固定零阈值结果均保留。[闭合](FINQA_CORRECTION_LEARNING.md#role-repair-pilot) |
+| K45 教师恢复集合互补 | 同96个TRAIN，27B与DeepSeek各恢复7、错改4；恢复仅重合3个，合并11个不同现场 | 合并真实成功片段，保留教师独有恢复；模型更强不能自动保证每个补丁更好。校内路由DEV33、21调用无恢复，停止该版 | 单次提案设置，DeepSeek含14份非JSON；不按教师名称填能力结论。[原生结果](FINQA_CORRECTION_LEARNING.md#campus-value-pilot) |
+| K46 强制出手未释放修复 | 冻结8B、空诊断约束下，屏蔽KEEP后TRAIN32从16成功降至7，恢复0/错改9 | 仅改变解码不够；下一候选显式训练提案、另学采纳，保留原Actor及121回放。先真实出分，不能把分解本身算有效 | 32POST/120,411tokens，零新训练；已停止。[下一机制](FINQA_CORRECTION_METHOD.md#separate-proposal-acceptance) |
 
 <a id="mechanism-candidates"></a>
 ## 从知识提出可执行的候选
 
 <a id="compounding-synthesis-v1"></a>
 ### 跨实验提炼：让已经学到的修复转化为整体收益
+
+本小节保留11-16提出成对学习的历史推理，其所述训练和对照均已闭合；不作为当前启动命令。现役取舍只读上方知识行与短计划。
 
 2026-11-16此前提炼，已导向成对v1；现役下一动作查[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。模式为portfolio-triage，再做minimal-experiment。范围为K01—K26及其已存结果，重新复算同64题的修复集合、误改集合与88组训练信号；ALF/融合旧数字引用已有核验记录，未重跑。量化复算99c8a0ef与图表包3bdb503b双份，新增科研模型调用0。
 
