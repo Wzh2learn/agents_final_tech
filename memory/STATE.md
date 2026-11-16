@@ -4,11 +4,11 @@
 
 - **Goal / FCCL**：active；成对反例v1确认闭合，继续从实际恢复与死因改进训练规则；动作对齐为共同控制。
 - **研究阶段**：开发64成对37/普通33；确认53成对30/普通30/均衡25，共同首轮30。DeepSeek35、修10/误改5。主比较持平，已有修复与保持部件继续保留。[确认与尸检](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#remaining53-confirmation-v1)。
-- **实际运行 / 预算**：FinQA本地4,600POST/19,495,081已知＋9未知预留294,912；TAT另228POST/824,488＋2未知预留65,536。六臂训练1,584更新/2,646前向/260,730监督tokens另账。校内累计5,233POST/51,902,944已知＋2,621,440预留，合54,524,384/10亿。[完整账](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#finqa-costs)。
-- **下一交付**：DeepSeek对4个未恢复TRAIN现场全部成功，8POST/47,415tokens，真实动作/收尾及去参考条件已核。下一固定32个未用TRAIN来源，形成学生失败→教师恢复/正确保持，供普通与候选共享；新增4组尚未训练。TAT各策略0/32，首轮0个合法程序，先定位共同语法迁移问题，不扩大此配置。
+- **实际运行 / 预算**：FinQA本地4,664POST/19,738,584已知＋9未知预留294,912；TAT另228POST/824,488＋2未知65,536。校内5,261POST/52,037,133已知＋10未知2,621,440，合54,658,573/10亿。六臂训练完成账1,584更新/2,646前向/260,730监督tokens；新双臂运行中，不将预计量记实耗。[完整账](../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#finqa-costs)。
+- **下一交付**：32个未用TRAIN源学生18成功、14个合法但原生未通过的现场，DeepSeek原生恢复13。合前4条形成后，隔离SNA/DVN参考冲突，121组/195目标双臂训练已启动；同363更新/585前向/臂，λ=.1、ρ=.5。随后对固定64 DEV做128题次；不训练或重复53确认。TAT共同语法问题留待单独处理。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。
-- **Git与运行面**：源覆盖、TAT及教师均已退出；完整包339f8b81/89ef02c7/ef81f3f0双份，分别1203/2809/100文件。27B守护2076185/tick15544857恢复ready，boot b4166d98、32GiB保护。教师凭证随进程清除；其他WIP保留。
+- **Git与运行面**：新监督2143213/tick16007434、训练2143322/tick16007840、CPU2146003/tick16034739；boot b4166d98、32GiB保护。实跑观察≥41更新/69前向，约91GiB可用。STUDY96c68bce、DATA bc05abf4；准备e6f6c622双份1051文件，形成becd8185双份1014文件。教师已退出、凭证清除，其他WIP保留。
 
 历史状态见[2026-11-06 快照](archive/STATE_2026-11-06_pre_context_neat.md)与[2026-09-22 治理前快照](archive/STATE_2026-09-22_pre_governance.md)，均不作现役待办。投稿、付款、公开、外部联系及生产操作仍按用户明确授权办理。
