@@ -28,6 +28,36 @@ def actor_text(text, message='final', part='text-1'):
 
 
 class TATQAExecutionTests(unittest.TestCase):
+    def test_review_state_uses_actual_submission_units_without_host_correctness(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            task.submit_program('add(10, 12.12)', 'percent', fixture(), folder)
+            (folder / 'RESULT.json').write_text('{"official_em":1,"exe_ans":"HIDDEN"}')
+            state = task.saved_state(fixture(), folder)
+            self.assertEqual(state['current_program'], 'add(10, 12.12)')
+            self.assertEqual(state['predicted_scale'], 'percent')
+            self.assertEqual(state['execution_feedback']['terminal_execution_answer'], 22.12)
+            text = task.review_prompt(fixture(), state)
+            self.assertNotIn('HIDDEN', text)
+            self.assertNotIn('official_em', text)
+            self.assertIn('Final scale:', text)
+            with self.assertRaises(ValueError):
+                task.review_prompt(fixture(), {**state, 'native_success': True})
+
+    def test_unexecuted_replacement_has_no_fabricated_feedback_and_invalid_scale_is_visible(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            self.assertIsNone(task.saved_state(fixture(), folder)['current_program'])
+            task.submit_program('add(10, 12.12)', 'percent', fixture(), folder)
+            (folder / 'candidate.json').write_text('{"program":"add(10, 20)","scale":"percent"}')
+            state = task.saved_state(fixture(), folder)
+            self.assertEqual(state['current_program'], 'add(10, 20)')
+            self.assertIsNone(state['execution_feedback'])
+            task.submit_program('add(10, 12.12)', 'trillion', fixture(), folder)
+            state = task.saved_state(fixture(), folder)
+            self.assertEqual(state['predicted_scale'], 'trillion')
+            self.assertEqual(state['execution_feedback']['code'], 'UNSUPPORTED_PREDICTED_SCALE')
+
     def test_projection_keeps_full_evidence_without_gold_or_relevance_annotations(self):
         public = fixture();text = json.dumps(public)
         self.assertEqual(public['pre_text'], ['Public financial context'])

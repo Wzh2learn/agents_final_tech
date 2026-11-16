@@ -71,6 +71,44 @@ def execute_public(program, public, scale='', module=None):
     return {**result, 'predicted_scale': scale}
 
 
+def saved_state(public, work):
+    """Project a submitted program, its predicted units and witnessed feedback."""
+    arithmetic.check_public(public)
+    work = Path(work)
+    state = dict(current_program=None, predicted_scale=None, execution_feedback=None)
+    path = work / 'candidate.json'
+    if not path.exists():
+        return state
+    candidate = json.loads(path.read_text())
+    if not isinstance(candidate, dict) or set(candidate) != {'program', 'scale'}:
+        return state
+    state.update(current_program=candidate['program'], predicted_scale=candidate['scale'])
+    expected = execute_public(candidate['program'], public, candidate['scale'])
+    trace = work / 'executions.jsonl'
+    for line in trace.read_text().splitlines() if trace.exists() else []:
+        recorded = json.loads(line)
+        if (recorded.get('program') == candidate['program'] and recorded.get('scale') == candidate['scale']
+                and recorded.get('execution') == expected):
+            state['execution_feedback'] = expected
+    return state
+
+
+def review_prompt(public, state):
+    """Use the same visible program state for every related-task corrector."""
+    if set(state) != {'current_program', 'predicted_scale', 'execution_feedback'}:
+        raise ValueError('only public TAT-QA submission state is allowed')
+    if any(key in json.dumps(state) for key in (
+            'execution_correct', 'native_success', 'official_em', 'training_reference', 'exe_ans')):
+        raise ValueError('private correctness cannot enter the review prompt')
+    return (prompt(public, terminal_program=True) +
+            '\n\nReview the existing program and predicted scale below using the original question, '
+            'table, paragraphs and actual execution feedback. Keep them if they answer the question; '
+            'otherwise correct and execute the revised program. An executable program may still '
+            'use the wrong quantity, period or unit. No reference answer is available. '
+            'Finish with Final program: and, when choosing units, Final scale: as specified above.\n'
+            + json.dumps(state, ensure_ascii=False))
+
+
 def official_metric_type(directory):
     """Load only the verified upstream files; never download during evaluation."""
     directory = Path(directory)
