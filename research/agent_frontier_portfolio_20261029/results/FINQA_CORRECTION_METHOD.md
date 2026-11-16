@@ -4,9 +4,9 @@
 
 ## 任务与学习规则
 
-实现：[学习器](../finqa_learning.py)、[数据编译](../finqa_semantic_learning.py)、[原生执行](../run_finqa_learning_native.py)、[匹配对照及复算](../finqa_learning_controls.py)。
+实现：[学习器](../finqa_learning.py)、[状态与成对编译](../finqa_state_learning.py)、[历史语义编译](../finqa_semantic_learning.py)、[原生执行](../run_finqa_learning_native.py)、[匹配对照及复算](../finqa_learning_controls.py)。
 
-学生为HF绑定的Qwen3-8B，经BF16训练及GGUF/LoRA原生OpenCode执行；教师为本地27B FP8。API别名不作为公开模型版本证明。全部任务以真实工具执行、工作区程序和原生终止评分，不以终答自称完成代替成功。
+学生为HF绑定的Qwen3-8B，经BF16训练及GGUF/LoRA原生OpenCode执行；当前88组的纠正教师为本地27B FP8。校内DeepSeek无参考恢复另作经验探索，尚未并入这批训练。全部任务以真实工具执行、工作区程序和原生终止评分。
 
 
 
@@ -91,7 +91,7 @@ $$
 
 **最小识别。** 三臂共享同88组/147个正目标的原金融内容、动作对齐、新token掩码、暖启动与更新；只改附加项的状态分配。先用同64个开发现场看修复与误改的联合变化，防止退化为一律保留。若有效，再补中间负反馈覆盖或固定半权重对照，排除额外剂量解释；确认集53组暂不启用。动作格式辅助仅负责构造可提交声明，编译不得用裸声明替换全部真实解释。
 
-**执行绑定。** 新DATA bd8db89a保留147条原解释，54组反例在两类状态各156分叉；三臂每组总辅助权重0/0.1/0.1，成对两项各0.05。相同264更新/43,455正监督tokens；CE角色系数因共用动作变换而变化，全部重训匹配。训练PLAN cd5c15b2已启动，真实效果待[原生结果](FINQA_CORRECTION_LEARNING.md#paired-state-negatives-v1)，不是已验证机制。
+**执行绑定。** DATA bd8db89a保留147条原解释，54组反例在两类状态各156分叉；三臂每组总辅助权重0/0.1/0.1，成对两项各0.05。相同264更新/43,455正监督tokens；CE角色系数因共用动作变换而变化，全部重训匹配。三臂已完成同64现场原生比较：普通33、单侧29、成对37；成对保留33并修4、无误改。当前以半权重同设消融识别新增保持项，开发结果与因果归因分开，[完整结果](FINQA_CORRECTION_LEARNING.md#paired-state-negatives-v1)。
 
 **已有工作边界。** [CCT §6](https://aclanthology.org/2025.acl-long.203.pdf)已有正确保持/错误纠正的正样本混合；[SCoRe §5](https://arxiv.org/html/2409.12917v1)已有纠正行为偏置和在线反馈优化；[CRINGE §3](https://aclanthology.org/2023.acl-long.493/)已有token负监督。因此不将“保持与纠正都重要”或margin本身当创新。待验证的具体增量是：用实际执行定义的同一批错误分支，覆盖同一恢复前后的状态，并在相同总辅助权重下改变学习信号的覆盖。
 
