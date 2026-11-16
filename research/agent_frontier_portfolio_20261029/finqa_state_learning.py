@@ -106,6 +106,40 @@ def review_prompt(public,state, *, terminal_program=False):
             'No reference answer is available.\n'+json.dumps(state,ensure_ascii=False))
 
 
+def program_declaration(program):
+    """Render a derived TRAIN action using the unchanged deployment grammar.
+
+    This checks representation only; callers must bind the program to its
+    actual successful execution before using it as a supervision target.
+    """
+    if (not isinstance(program,str) or not program.strip() or len(program)>8192
+            or '\n' in program or '\r' in program or program!=program.strip()
+            or program.startswith(('"',"'",'`'))):
+        raise ValueError('one unwrapped program expression required')
+    module=task.executor()
+    try:module.parse_program(program)
+    except module.ExecutorContractError as exc:
+        raise ValueError('invalid declaration program') from exc
+    target=dict(role='assistant',content='Final program: '+program,tool_calls=[])
+    event=dict(type='text',part=dict(type='text',messageID='derived-target',
+                                   id='program',text=target['content']))
+    if task.terminal_proposal([event])!=dict(status='proposal',program=program):
+        raise ValueError('derived target differs from deployment declaration')
+    return target
+
+
+def action_conditioning(request,original_task,public,state):
+    """Replace the task exactly, preserving native system/tools and quoting."""
+    task.check_public(public)
+    if not isinstance(state,dict) or set(state)-{
+            'current_program','execution_feedback','last_tool_feedback'}:
+        raise ValueError('only public execution state fields are allowed')
+    if any(k in json.dumps(state) for k in (
+            'execution_correct','native_success','source_correct','training_reference','exe_ans')):
+        raise ValueError('private correctness field in action conditioning')
+    return fresh_request(request,original_task,review_prompt(public,state,terminal_program=True))
+
+
 def rebind_state_contrasts(points,before,after):
     """Shift only prefix-relative positions; keep the supervised token stream."""
     if [x for x in before['labels'] if x!=-100]!=[x for x in after['labels'] if x!=-100]:

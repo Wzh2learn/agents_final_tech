@@ -147,6 +147,41 @@ class FinQALearningTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             m.edit_contrast_loss(short,[dict(points[0],target_position=offset)],1.,logit_offset=offset)
 
+    def test_declaration_target_uses_the_deployed_parser_and_preserves_the_program(self):
+        import finqa_state_learning as state
+        program='add(2, 3), divide(#0, const_100)'
+        target=state.program_declaration(program)
+        self.assertEqual(target,dict(role='assistant',content='Final program: '+program,tool_calls=[]))
+        proposal=state.task.terminal_proposal([dict(type='text',part=dict(type='text',
+            messageID='target',id='one',text=target['content']))])
+        self.assertEqual(proposal,dict(status='proposal',program=program))
+        for invalid in ['',None,'add(2, 3)\nFinal program: subtract(2, 3)','"add(2, 3)"']:
+            with self.subTest(invalid=invalid),self.assertRaises(ValueError):
+                state.program_declaration(invalid)
+
+    def test_deployment_action_conditioning_replaces_only_the_public_task_and_quotes(self):
+        import copy
+        import finqa_state_learning as state
+        public=dict(id='TRAIN/1',report='TRAIN/one.pdf',question='What fraction is five of one hundred?',
+                    pre_text=[],post_text=[],table=[['value','amount'],['total','100']])
+        snapshot=dict(current_program='divide(5, const_100)',
+                      execution_feedback=dict(status='executed',terminal_execution_answer=.05))
+        original='A different task used to obtain the harness template.'
+        request=dict(messages=[dict(role='system',content='fixed rules'),
+            dict(role='user',content='"'+original+'"'),dict(role='assistant',content='old answer')],
+            tools=[dict(type='function',function=dict(name='bash',parameters={}))])
+        frozen=copy.deepcopy(request)
+        actual=state.action_conditioning(request,original,public,snapshot)
+        expected=state.review_prompt(public,snapshot,terminal_program=True)
+        self.assertEqual(request,frozen)
+        self.assertEqual([m['role'] for m in actual['messages']],['system','user'])
+        self.assertEqual(actual['messages'][1]['content'],'"'+expected.replace('"','\\"')+'"')
+        self.assertEqual(actual['tools'],request['tools'])
+        self.assertIn('Final program:',actual['messages'][1]['content'])
+        self.assertNotIn('old answer',json.dumps(actual))
+        with self.assertRaises(ValueError):
+            state.action_conditioning(request,original,public,dict(snapshot,source_correct=True))
+
     def test_verified_teacher_pair_selects_last_real_correct_call_after_an_extra_attempt(self):
         import finqa_state_learning as state
         def action(program,call_id):
