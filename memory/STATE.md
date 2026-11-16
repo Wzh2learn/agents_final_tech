@@ -9,6 +9,6 @@
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。
 - **行事规则**：D主责，按需复核；搜索/执行边界见[唯一入口](../docs/research/LOOP_D_RESEARCH_PROMPT.md)。全局调度与跨机预算锁未实现。
-- **Git与运行面**：旧包保留，新准备2cd7e67c双份逐文件核SHA。监督1666180/tick12562263、训练1666296/tick12562673，boot b4166d98；27B已卸载，训练载入8B时余96.1GiB。单权重/32GiB保护，完成/失败后恢复27B，保留其他对话及LoopB。
+- **Git与运行面**：新准备2cd7e67c双份，旧包保留。监督1666180/tick12562263、训练1666296/tick12562673，boot b4166d98；实测130更新、余90.4GiB，27B暂停。CPU后处理1675046/tick12655963等同一进程完成后复算归包，不启动模型。单权重/32GiB保护及自动恢复，保留其他对话及LoopB。
 
 历史状态见[2026-11-06 快照](archive/STATE_2026-11-06_pre_context_neat.md)与[2026-09-22 治理前快照](archive/STATE_2026-09-22_pre_governance.md)，均不作现役待办。投稿、付款、公开、外部联系及生产操作仍按用户明确授权办理。
