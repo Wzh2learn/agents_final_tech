@@ -160,20 +160,25 @@ def prepare_single():
     print(json.dumps(dict(variant=VARIANT,sources=len(groups),unique_states=96,forward_rows=252,targets=dict(counts))),flush=True)
 
 
-def predict():
+def predict(*,sources=None,cheap=None,output=None,strong_budget=None,fixed_threshold=None):
     import torch
     from peft import PeftModel
     from transformers import AutoModelForCausalLM
     from scripts.graph.research_gpu_guard import gpu_lease
-    plan=m.read(ROOT/'PLAN.json');features=m.read(router.ROOT/'FEATURE_PLAN.json')
-    cached=m.read(ROOT.parent/'paired_state_negatives_v1/native_v1/PLAN.json')
-    cheap={ep['index']:ep for ep in cached['episodes'] if ep['arm']=='paired_state_branch'}
+    plan=m.read(ROOT/'PLAN.json')
+    if sources is None:
+        sources=m.read(router.ROOT/'FEATURE_PLAN.json')['dev']
+        cached=m.read(ROOT.parent/'paired_state_negatives_v1/native_v1/PLAN.json')
+        cheap={ep['index']:ep for ep in cached['episodes'] if ep['arm']=='paired_state_branch'}
+    assert cheap is not None
+    budget=plan['strong_budget'] if strong_budget is None else strong_budget
+    threshold=plan['fixed_threshold'] if fixed_threshold is None else fixed_threshold
     tokenizer=m.tokens.load_tokenizer(m.learning.MODEL);started=time.monotonic();rows=[];total_tokens=0;forward_seconds=0
     with gpu_lease():
         base=AutoModelForCausalLM.from_pretrained(plan['model'],dtype=torch.bfloat16,device_map={'':0},
             attn_implementation='sdpa',local_files_only=True,trust_remote_code=False)
         model=PeftModel.from_pretrained(base,str(ROOT/'value_policy'));model.eval()
-        for source in features['dev']:
+        for source in sources:
             public=m.read(Path(source['folder'])/'inputs/public.json');initial=m.state_from_folder(Path(source['folder']))
             current=m.state_from_folder(Path(cheap[source['index']]['folder']))
             encoded=[m.tokens.encode_completion(request(public,initial,current),dict(role='assistant',content=json.dumps(dict(outcome=label))),
@@ -195,9 +200,9 @@ def predict():
                 score=probability[1]-probability[0],input_tokens=len(prefix)))
             del batch,logits
     ranked=sorted(rows,key=lambda row:(-row['score'],row['index']))
-    chosen={row['index'] for row in ranked[:plan['strong_budget']] if row['score']>plan['fixed_threshold']}
+    chosen={row['index'] for row in ranked[:budget] if row['score']>threshold}
     for row in rows:row['decision']='TEACHER' if row['index'] in chosen else 'CHEAP'
-    m.study.new(ROOT/'PREDICTIONS.json',dict(decisions=rows,strong_budget=plan['strong_budget'],
+    m.study.new(output or ROOT/'PREDICTIONS.json',dict(decisions=rows,strong_budget=budget,
         variant=VARIANT,
         forward_calls=len(rows),input_tokens_processed=total_tokens,generated_tokens=0,http_posts=0,
         forward_seconds=forward_seconds,seconds=time.monotonic()-started,
@@ -471,8 +476,37 @@ def compare_matched_risk():
     print(json.dumps(dict(pools={k:v['policies'] for k,v in pools.items()},cheap_common=result['cheap_common'],classifiers=result['classifiers'])),flush=True)
 
 
+def fusion_probe():
+    """One fixed interleaving probe; no training, new teacher calls or alpha search."""
+    assert VARIANT=='value'
+    target=ROOT.parent/'acquisition_fusion_probe_v1';target.mkdir()
+    predictions={name:m.read(folder/'PREDICTIONS.json') for name,folder in
+        [('value',ROOT),('risk',ROOT.parent/'acquisition_risk_control_v1')]}
+    orders={name:sorted(pred['decisions'],key=lambda r:(-r['score'],r['index'])) for name,pred in predictions.items()}
+    order=[]
+    for a,b in zip(orders['value'],orders['risk'],strict=True):
+        for row in [a,b]:
+            if row['index'] not in order:order.append(row['index'])
+    m.study.new(target/'PREDICTIONS.json',dict(order=order,selected=order[:18],
+        rule='Equal alternating ranks, value first, deduplicate; fixed18 tasks. One post-hoc DEV probe, no weights or threshold search.'))
+    reference=m.read(ROOT.parent/'acquisition_single_state_v1/MATCHED_COMPARISON.json');pools={}
+    for name,pool in reference['pools'].items():
+        outcomes=pool['outcomes'];base=sum(r['before'] for r in outcomes);points=[]
+        for k in [4,8,12,18]:
+            chosen=[outcomes[i] for i in order[:k]]
+            points.append(dict(teacher_episodes=k,success=base+sum(r['utility'] for r in chosen),
+                recovered=sum(r['utility']>0 for r in chosen),damaged=sum(r['utility']<0 for r in chosen),
+                teacher_posts=sum(r['posts'] for r in chosen),teacher_tokens=sum(r['tokens'] for r in chosen)))
+        pools[name]=points
+    result=dict(status='RETURNED',pools=pools,new_http_posts=0,optimizer_updates=0,
+        classifier_cost=dict(forward_calls=sum(p['forward_calls'] for p in predictions.values()),
+            input_tokens=sum(p['input_tokens_processed'] for p in predictions.values()),seconds=sum(p['seconds'] for p in predictions.values())),
+        scope='Common native teacher response replay, not a fresh agent arm. Uses both classifiers: their costs add. Only a mechanism probe; no DEV output or labels enter TRAIN.')
+    m.study.new(target/'RESULT.json',result);print(json.dumps(result),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate','controls','matched'])
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate','controls','matched','fusion'])
     parser.add_argument('--variant',choices=['value','risk','single'],default='value');args=parser.parse_args()
     VARIANT=args.variant
     if VARIANT=='risk':ROOT=ROOT.parent/'acquisition_risk_control_v1'
@@ -483,4 +517,5 @@ if __name__=='__main__':
     elif args.mode=='evaluate':launch_evaluation()
     elif args.mode=='controls':cached_controls()
     elif args.mode=='matched':compare_matched_risk()
+    elif args.mode=='fusion':fusion_probe()
     else:train_and_predict()
