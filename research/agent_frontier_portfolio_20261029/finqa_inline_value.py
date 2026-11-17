@@ -128,6 +128,101 @@ def gate_score(folder,submitted):
     return found or dict(score=None,observed_classes=0,declared=None,reason='missing aligned native outcome probabilities')
 
 
+def program_confidence(folder,program):
+    """Read probabilities on the declared program, excluding prose and gate tokens."""
+    found=None
+    atoms=re.compile(r'(?P<operator>[A-Za-z_]\w*)\s*\(|(?P<reference>#\d+)|'
+        r'(?P<operand>const_[A-Za-z0-9_.]+|(?<![\w.])[+-]?(?:\d+(?:\.\d+)?|\.\d+))')
+    for path in sorted((Path(folder)/'wire').glob('*.response')):
+        parts=[]
+        for line in path.read_bytes().splitlines():
+            if not line.startswith(b'data:'):continue
+            try:item=json.loads(line[5:].strip())
+            except (ValueError,UnicodeError):continue
+            for choice in item.get('choices',[]):
+                parts.extend((choice.get('logprobs') or {}).get('content') or [])
+        text=''.join(part.get('token','') for part in parts)
+        for match in re.finditer(r'(?:^|\n)Final program:[ \t]*([^\n]+)',text):
+            declared=match[1].strip()
+            if declared!=program:continue
+            start=match.start(1)+len(match[1])-len(match[1].lstrip())
+            spans=[];offset=0
+            for part in parts:
+                token=part.get('token','');end=offset+len(token)
+                if end>offset and part.get('logprob') is not None:
+                    spans.append((offset,end,-float(part['logprob'])))
+                offset=end
+            def surprise(a,b):
+                total=weight=0.
+                for left,right,nll in spans:
+                    overlap=max(0,min(b,right)-max(a,left))/(right-left)
+                    total+=overlap*nll;weight+=overlap
+                return total/weight if weight else None
+            values=[]
+            for atom in atoms.finditer(program):
+                category=atom.lastgroup
+                # Do not include the opening parenthesis in an operator's score.
+                a,b=atom.span(category);value=surprise(start+a,start+b)
+                if value is not None:values.append(dict(kind=category,text=atom[category],nll=value))
+            found=dict(program_mean=surprise(start,start+len(program)),
+                semantic_max=max((row['nll'] for row in values),default=None),atoms=values,
+                wire=path.name,scope='Actual declared-program tokens only; no labels or gate probabilities')
+    return found or dict(program_mean=None,semantic_max=None,atoms=[],reason='No aligned program probabilities')
+
+
+def confidence_probe():
+    """Zero-model comparison on existing DEV outputs; never read confirmation64."""
+    native=ROOT/'native_nonstream_v1';target=ROOT/'confidence_probe_v1';target.mkdir()
+    dev=m.read(native/'DEV_RESULT.json');sources=m.read(native/'DEV_PLAN.json')['episodes']
+    assert dev['status']=='RETURNED' and len(dev['episodes'])==len(sources)==64
+    features=[]
+    for row,source in zip(dev['episodes'],sources,strict=True):
+        assert row['id']==source['id']
+        public=m.read(Path(source['folder'])/'inputs/public.json')
+        execution=m.task.execute_public(row['program'],public)
+        features.append(dict(index=row['index'],id=row['id'],
+            valid=execution['status']=='executed',**program_confidence(source['folder'],row['program'])))
+    # Primary and baseline rules are fixed before any teacher outcomes or labels.
+    orders={key:[r['index'] for r in sorted(features,key=lambda r:
+        (r['valid'],r[key] is not None,-r[key] if r[key] is not None else 0,r['index']))]
+        for key in ['semantic_max','program_mean']}
+    m.study.new(target/'POLICIES.json',dict(primary='semantic_max',baseline='program_mean',
+        orders=orders,budgets=[8,12,18],features=features,
+        definition='Higher mean token surprisal indicates risk. Primary uses the worst numeric/operator/reference atom. Invalid programs and missing probabilities are selected first; ties use input index.',
+        scope='Post-hoc DEV diagnostic, fixed actor outputs and fixed teacher pool. No new model requests or tuning on confirmation64.'))
+    labels=m.read(native/'DEV_LABELS_PRIVATE.json')
+    legacy=m.read(BASE/'deepseek_development_reference_v1/RESULT.json')['episodes'];outcomes=[]
+    for row,source,label in zip(dev['episodes'],sources,labels,strict=True):
+        i=row['index'];teacher=legacy[i]
+        for name in ['acquisition_value_v1','acquisition_risk_control_v1','acquisition_single_state_v1']:
+            path=BASE/name/'teacher_dev'/f'{i:03d}'/'RESULT.json'
+            if path.exists():teacher=m.read(path);break
+        assert row['id']==source['id']==label['id']==teacher['id']
+        public=m.read(Path(source['folder'])/'inputs/public.json')
+        program,keep=acquisition.guarded_program(row['program'],teacher['submitted_program'],public,teacher['agent_completed'])
+        normal=row['normal'] if keep else teacher['agent_completed']
+        correct=bool(m.task.grade(program,public,label['exe_ans'])['execution_correct'] and normal)
+        outcomes.append(dict(index=i,program=program,success=correct,utility=int(correct)-int(row['success']),
+            posts=teacher['accounting']['actual_forwarded_posts'],tokens=teacher['accounting']['provider_total_tokens_known']))
+    table={}
+    for key,order in orders.items():
+        table[key]={}
+        for k in [8,12,18]:
+            chosen=set(order[:k]);selected=[row for row in outcomes if row['index'] in chosen]
+            final=[outcome['success'] if row['index'] in chosen else row['success']
+                for row,outcome in zip(dev['episodes'],outcomes,strict=True)]
+            table[key][str(k)]=dict(success=sum(final),recovered=sum(r['utility']>0 for r in selected),
+                damaged=sum(r['utility']<0 for r in selected),selected=order[:k],
+                teacher_posts=sum(r['posts'] for r in selected),teacher_tokens=sum(r['tokens'] for r in selected))
+    result=dict(status='RETURNED',native_baseline=sum(r['success'] for r in dev['episodes']),
+        tasks=64,coverage=sum(r['program_mean'] is not None for r in features),
+        primary='semantic_max',budgets=table,new_model_posts=0,new_training_updates=0,
+        cpu_teacher_outcomes=outcomes,
+        scope='Offline policy replay on actual fixed native programs and teacher completions, not new OpenCode episodes. Existing generation and teacher costs remain charged at their original executions.')
+    m.study.new(target/'RESULT.json',result)
+    print(json.dumps({k:v for k,v in result.items() if k!='cpu_teacher_outcomes'}),flush=True)
+
+
 def nonstream_response(client,upstream,response_path):
     """Retain actual JSON/usage, and expose the same message as SSE to OpenCode."""
     upstream.settimeout(900)  # The caller bounds this by the episode deadline.
@@ -340,6 +435,6 @@ def value_followup():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','run','compare','native_retry','prompt_probe','value_followup']);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','run','compare','native_retry','prompt_probe','value_followup','confidence_probe']);args=parser.parse_args()
     if args.mode=='train':c.root=ROOT;c.train()
     else:globals()[args.mode]()
