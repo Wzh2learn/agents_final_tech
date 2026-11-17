@@ -1,4 +1,4 @@
-"""Forward development on unused TRAIN sources, before learning from this batch."""
+"""Frozen-cohort evaluation using the existing native actors and value readouts."""
 from pathlib import Path
 import argparse,json,os,random,shutil,subprocess,time,traceback
 import finqa_patch_learning as c
@@ -7,10 +7,12 @@ import finqa_acquisition_learning as av
 
 m=c.m
 ROOT=c.root.parent/'forward_sources57_v1'
+COHORT='forward'
 POLICIES=dict(value='acquisition_value_v1',risk='acquisition_risk_control_v1',single='acquisition_single_state_v1')
 
 
 def prepare():
+    if COHORT=='confirmation':prepare_confirmation();return
     original=m.read(c.step1/'TRAIN_PLAN.json');prior=m.read(c.step1/'PLAN.json')
     used={r['index'] for r in m.read_lines(c.step1/'source_events.jsonl')}
     remaining=[r for r in original['episodes'] if r['index'] not in used]
@@ -45,6 +47,50 @@ def prepare():
     print(json.dumps(dict(prepared=57,unique_groups=len(groups),reserved_overlap=0,prior_result_files=0)),flush=True)
 
 
+def prepare_confirmation():
+    reservation_path=c.step1.parents[2]/'filing_confirmation_reservation_v2/RESERVATION.json'
+    reservation=m.read(reservation_path);assert reservation['status']=='RESERVED_NOT_EXECUTED'
+    tasks=reservation['tasks'];training={r['group'] for r in m.read(c.step1/'TRAIN_SELECTION.json')}
+    assert len(tasks)==len({r['group'] for r in tasks})==64
+    assert not {r['group'] for r in tasks}&(training|set(reservation['excluded_groups']))
+    prior=m.read(c.step1/'PLAN.json');source_plan=m.read(c.step1/'TRAIN_PLAN.json')
+    adapters=dict(firstpass=prior['sampler_adapter'],ordinary=str(Path(prior['old37_adapter']).parent.parent/'aligned_sft/adapter.gguf'),
+        cheap37=prior['old37_adapter']);assert all(Path(path).is_file() for path in adapters.values())
+    checkpoints={}
+    for name,folder in POLICIES.items():
+        path=ROOT.parent/folder;train=m.read(path/'TRAIN_RESULT.json');plan=m.read(path/'PLAN.json')
+        assert train['status']=='TRAINED' and train['optimizer_updates']==434 and plan['value_source_groups']==96
+        checkpoints[name]=dict(folder=str(path/'value_policy'),train_result=str(path/'TRAIN_RESULT.json'),updates=434)
+    revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=c.repo,text=True).strip()
+    ROOT.mkdir()
+    protocol=dict(status='FROZEN_BEFORE_HELDOUT_PAYLOAD',cohort='confirmation',tasks=tasks,checkpoints=checkpoints,
+        code_revision=revision,adapters=adapters,runtime=prior['runtime'],caps=source_plan['caps'],review_caps=prior['caps'],
+        teacher_task_budget=18,secondary_task_budgets=[8,12,18],random_seed=20261117,
+        reservation=str(reservation_path),source='/home/testuser/wzh/phase1a_staging_20260925/finqa/train.json',
+        scope='One fixed-method confirmation on64 reserved company/year groups from official TRAIN, not official test. '
+            'Old96-source value/risk/single models chosen before payload access; expanded153 variant stopped on DEV. '
+            'Keep all64 tasks; no reroll, outcome filtering, further tuning or training on this cohort. '
+            'Main18 and secondary8/12 teacher tasks; all policies share one actual teacher realization per original state.')
+    m.study.new(ROOT/'PROTOCOL.json',protocol)
+    records={r['id']:r for r in m.read(protocol['source'])};episodes=[];labels=[]
+    template=Path(source_plan['episodes'][96]['folder'])/'inputs'
+    for i,selected in enumerate(tasks):
+        record=records[selected['id']];assert record['filename']==selected['report'] and '/'.join(record['filename'].split('/')[:2])==selected['group']
+        public=m.task.public_record(record);folder=ROOT/'firstpass'/f'{i:03d}';inputs=folder/'inputs';inputs.mkdir(parents=True)
+        (folder/'work').mkdir();(folder/'dependencies').mkdir()
+        for name in ['finqa_tool.py','executor.py','guest.py']:shutil.copyfile(template/name,inputs/name)
+        (inputs/'public.json').write_text(json.dumps(public,ensure_ascii=False))
+        (inputs/'task.txt').write_text(m.study.prompt(public,terminal_program=True))
+        episodes.append(dict(index=i,id=record['id'],report=record['filename'],group=selected['group'],folder=str(folder)))
+        labels.append(dict(index=i,id=record['id'],report=record['filename'],exe_ans=record['qa']['exe_ans'],program=record['qa']['program']))
+    m.study.new(ROOT/'LABELS_PRIVATE.json',labels)
+    plan=dict(protocol,episodes=episodes,reference_template=m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['reference_template'],wall_seconds=7200)
+    m.study.new(ROOT/'PLAN.json',plan)
+    reservation.update(status='CONFIRMATION_PREPARED_NOT_EXECUTED',confirmation_root=str(ROOT),frozen_code_revision=revision)
+    m.study.publish(reservation_path,reservation)
+    print(json.dumps(dict(prepared=64,unique_groups=64,training_overlap=0,protocol_frozen_before_payload=True)),flush=True)
+
+
 def prepare_reviews(arm,plan):
     episodes=[];template=Path(plan['reference_template'])
     for first in plan['episodes']:
@@ -62,6 +108,9 @@ def collect():
     if not (ROOT/'PLAN.json').exists():prepare()
     if (ROOT/'LOCAL_LIVE.json').exists():raise RuntimeError('inspect the existing local attempt')
     plan=m.read(ROOT/'PLAN.json');started=time.monotonic();process=log=None;unloaded=False
+    if COHORT=='confirmation':
+        reservation=m.read(plan['reservation']);assert reservation['status']=='CONFIRMATION_PREPARED_NOT_EXECUTED'
+        reservation['status']='CONFIRMATION_IN_PROGRESS';m.study.publish(Path(plan['reservation']),reservation)
     state=dict(status='RUNNING',phase='START',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],arms={})
     m.study.new(ROOT/'LOCAL_LIVE.json',state)
     try:
@@ -102,7 +151,7 @@ def collect():
 
 def predict(variant):
     plan=m.read(ROOT/'PLAN.json');local=m.read(ROOT/'LOCAL_RESULT.json')
-    assert local['status']=='RETURNED' and all(len(rows)==57 for rows in local['arms'].values())
+    assert local['status']=='RETURNED' and all(len(rows)==len(plan['episodes']) for rows in local['arms'].values())
     assert not (ROOT/'TEACHER_LIVE.json').exists()
     av.VARIANT=variant;av.ROOT=ROOT.parent/POLICIES[variant]
     cheap={row['index']:row for row in local['arms']['cheap37']}
@@ -127,7 +176,7 @@ def predict_all():
         unloaded=c.stop27()
         for variant in POLICIES:
             with (ROOT/(variant+'_predict.log')).open('xb') as log:
-                child=subprocess.Popen([str(c.repo/'venv/bin/python'),'-u','-B',__file__,'predict','--variant',variant],
+                child=subprocess.Popen([str(c.repo/'venv/bin/python'),'-u','-B',__file__,'predict','--variant',variant,'--cohort',COHORT],
                     cwd=c.repo,stdout=log,stderr=subprocess.STDOUT)
                 state.update(variant=variant,child_pid=child.pid);m.study.publish(ROOT/'PREDICT_LIVE.json',state)
                 code=child.wait(timeout=1800)
@@ -148,25 +197,25 @@ def predict_all():
 def freeze_policies():
     plan=m.read(ROOT/'PLAN.json');predictions={name:m.read(ROOT/(name+'_PREDICTIONS.json')) for name in POLICIES}
     for pred in predictions.values():
-        assert len(pred['decisions'])==57 and all(row['id']==source['id'] and row['index']==source['index']
+        assert len(pred['decisions'])==len(plan['episodes']) and all(row['id']==source['id'] and row['index']==source['index']
             for row,source in zip(pred['decisions'],plan['episodes'],strict=True))
     assert not (ROOT/'TEACHER_LIVE.json').exists()
     orders={name:[r['index'] for r in sorted(pred['decisions'],key=lambda row:(-row['score'],row['index']))]
         for name,pred in predictions.items()}
-    order=list(range(57));random.Random(plan['random_seed']).shuffle(order);orders['random_fixed']=order
+    order=list(range(len(plan['episodes'])));random.Random(plan['random_seed']).shuffle(order);orders['random_fixed']=order
     m.study.new(ROOT/'POLICIES.json',dict(orders=orders,budget=plan['teacher_task_budget'],
         secondary_budgets=plan['secondary_task_budgets'],classifiers={name:{k:pred[k] for k in
             ['forward_calls','input_tokens_processed','forward_seconds','seconds']} for name,pred in predictions.items()},
-        teacher_pool='All57 original first-pass snapshots, one shared realization, no outcome-based selection',
-        scope='Frozen models, prompts and budgets. No learning from57 sources before closing this forward-development comparison.'))
+        teacher_pool='All original first-pass snapshots, one shared realization, no outcome-based selection',
+        scope=plan['scope']))
 
 
 def teacher(key):
     from scripts.graph.research_school_gateway import BatchBudget,SchoolBackend,BASE_URL,MODEL,REQUEST_TOKEN_CEILING
     plan=m.read(ROOT/'PLAN.json');policies=m.read(ROOT/'POLICIES.json')
-    assert m.read(ROOT/'PREDICT_RESULT.json')['status']=='RETURNED' and len(policies['orders']['value'])==57
+    assert m.read(ROOT/'PREDICT_RESULT.json')['status']=='RETURNED' and len(policies['orders']['value'])==len(plan['episodes'])
     reference=m.read(av.TEACHER/'PLAN.json');profile=reference['model'];assert profile['model_id']==MODEL
-    budget=BatchBudget(ROOT/'teacher_budget',posts=342,tokens=2_000_000);backend=SchoolBackend(key,budget,m.study.core)
+    budget=BatchBudget(ROOT/'teacher_budget',posts=6*len(plan['episodes']),tokens=2_000_000);backend=SchoolBackend(key,budget,m.study.core)
     backend.verify(profile);episodes=prepare_reviews('teacher',plan)
     started=time.monotonic();state=dict(status='RUNNING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],episodes=[])
     def persist():
@@ -213,10 +262,33 @@ def launch_teacher():
     finally:os._exit(0)
 
 
+def progress_control():
+    """Hold selected tasks/teacher fixed; vary only the retained local program."""
+    plan=m.read(ROOT/'PLAN.json');local=m.read(ROOT/'LOCAL_RESULT.json');teacher_rows=m.read(ROOT/'TEACHER_RESULT.json')['episodes']
+    assert m.read(ROOT/'COMPARISON.json')['status']=='RETURNED'
+    labels=m.read(ROOT/'LABELS_PRIVATE.json');order=m.read(ROOT/'POLICIES.json')['orders']['value'];results={}
+    for arm,programs in local['arms'].items():
+        outcomes=[]
+        for source,current,teacher_row,label in zip(plan['episodes'],programs,teacher_rows,labels,strict=True):
+            assert source['id']==current['id']==teacher_row['id']==label['id']
+            public=m.read(Path(source['folder'])/'inputs/public.json')
+            program,keep=av.guarded_program(current['program'],teacher_row['program'],public,teacher_row['normal'])
+            correct=m.task.grade(program,public,label['exe_ans'])['execution_correct']
+            outcomes.append(dict(index=source['index'],before=current['native_success'],after=correct,guard_keep=keep))
+        results[arm]={}
+        for k in [7,10,16,57]:
+            selected=set(order[:k]);results[arm][str(k)]=sum(row['after'] if row['index'] in selected else row['before'] for row in outcomes)
+    result=dict(status='RETURNED',tables=results,new_http_posts=0,new_model_forwards=0,
+        scope='CPU execution/replay of existing actual programs. Value choices were frozen on cheap37 states and remain fixed here. '
+            'This isolates retained-program contribution at identical selected teacher tasks, not a newly scored selector on firstpass/ordinary inputs. '
+            'At57 all tasks use the teacher/controller. Firstpass is common; ordinary or cheap37 stages cost extra.')
+    m.study.new(ROOT/'STAGE_PROGRESS_CONTROL.json',result);print(json.dumps(result),flush=True)
+
+
 def compare():
     plan=m.read(ROOT/'PLAN.json');local=m.read(ROOT/'LOCAL_RESULT.json');native=m.read(ROOT/'TEACHER_RESULT.json')
     policies=m.read(ROOT/'POLICIES.json');labels=m.read(ROOT/'LABELS_PRIVATE.json')
-    assert local['status']==native['status']=='RETURNED' and len(native['episodes'])==57
+    assert local['status']==native['status']=='RETURNED' and len(native['episodes'])==len(plan['episodes'])
     rows=[]
     for source,cheap,teacher_row,label in zip(plan['episodes'],local['arms']['cheap37'],native['episodes'],labels,strict=True):
         i=source['index'];assert i==cheap['index']==teacher_row['index']==label['index']
@@ -226,8 +298,14 @@ def compare():
         final=ROOT/'final'/f'{i:03d}';final.mkdir(parents=True)
         m.task.submit_program(program,public,final,origin='frozen_forward_teacher_with_scale_guard')
         after=m.task.grade(program,public,label['exe_ans'])['execution_correct']
+        original_program,_=av.guarded_program(local['arms']['firstpass'][i]['program'],teacher_row['program'],public,teacher_row['normal'])
+        original_after=m.task.grade(original_program,public,label['exe_ans'])['execution_correct']
+        if COHORT=='confirmation':
+            original_final=ROOT/'original_guard_final'/f'{i:03d}';original_final.mkdir(parents=True)
+            m.task.submit_program(original_program,public,original_final,origin='full_teacher_guarding_original_program')
         rows.append(dict(index=i,before=cheap['native_success'],after=after,utility=int(after)-int(cheap['native_success']),
             teacher=teacher_row['native_success'],guard_keep=keep,semantic=m.task.execute_public(cheap['program'],public)['status']=='executed',
+            guarded_program=program,original_guard_after=original_after,
             posts=teacher_row['posts'],tokens=teacher_row['tokens'],actor_seconds=teacher_row['actor_seconds']))
     base=sum(r['before'] for r in rows);tables={}
     for k in policies['secondary_budgets']:
@@ -244,25 +322,63 @@ def compare():
         for arm,rr in local['arms'].items()}
     costs['teacher_full']=dict(posts=native['posts'],tokens=native['known_tokens'],
         actor_seconds=sum(r['actor_seconds'] for r in native['episodes']),unknown=native['unknown'])
-    result=dict(status='RETURNED',tasks=57,local=local['summary'],teacher_native=sum(r['teacher'] for r in rows),
+    if COHORT=='confirmation':
+        for name,order in policies['orders'].items():
+            selected=set(order[:policies['budget']]);successes=0
+            for source,row,label in zip(plan['episodes'],rows,labels,strict=True):
+                i=source['index'];program=row['guarded_program'] if i in selected else local['arms']['cheap37'][i]['program']
+                public=m.read(Path(source['folder'])/'inputs/public.json');final=ROOT/'policy_final'/name/f'{i:03d}';final.mkdir(parents=True)
+                m.task.submit_program(program,public,final,origin='frozen_confirmation_'+name)
+                successes+=m.task.grade(program,public,label['exe_ans'])['execution_correct']
+            assert successes==tables[str(policies['budget'])][name]['success']
+    result=dict(status='RETURNED',tasks=len(plan['episodes']),local=local['summary'],teacher_native=sum(r['teacher'] for r in rows),
         all_teacher_guard=sum(r['after'] for r in rows),tables=tables,outcomes=rows,classifiers=policies['classifiers'],
+        teacher_guard_original=sum(r['original_guard_after'] for r in rows),
         stage_costs=costs,cost_rule='Firstpass is common; selective policies add cheap37, their own classifier and selected teacher. '
-            'Raw direct teacher adds only teacher_full to firstpass; all_teacher_guard also adds cheap37. '
+            'Raw direct teacher and teacher_guard_original add only teacher_full to firstpass; all_teacher_guard also adds cheap37. '
             'Actor seconds are not end-to-end wall time; HF inputs are separate from provider tokens.',
         physical_new_campus=dict(posts=native['posts'],tokens=native['known_tokens'],unknown=native['unknown'],seconds=native['seconds']),
-        scope='57 previously unused TRAIN sources; frozen selectors; all common teacher trajectories ran through OpenCode. '
+        scope=plan['scope']+' All common teacher trajectories ran through OpenCode. '
             'Selected-policy totals replay common native candidates. All guarded finals submitted through the task executor. '
-            'Forward development, not the untouched final reserved64; teacher and local formation costs charged physically once.')
+            'Teacher and local formation costs charged physically once.')
     m.study.new(ROOT/'COMPARISON.json',result)
+    if COHORT=='confirmation':
+        reservation=m.read(plan['reservation']);reservation['status']='CONFIRMATION_EXECUTED_FROZEN_V1'
+        m.study.publish(Path(plan['reservation']),reservation)
     print(json.dumps({k:v for k,v in result.items() if k!='outcomes'}),flush=True)
 
 
+def launch_run():
+    import getpass
+    assert (ROOT/'PROTOCOL.json').exists() and not (ROOT/'LOCAL_LIVE.json').exists()
+    print('CREDENTIAL_INPUT_READY',flush=True)
+    key=os.environ.get('BUPT_API_KEY') or getpass.getpass('Campus credential (hidden): ')
+    output=(ROOT/'driver.log').open('xb');pid=os.fork()
+    if pid:output.close();print('COHORT_WORKER_PID='+str(pid),flush=True);return
+    os.setsid();os.dup2(output.fileno(),1);os.dup2(output.fileno(),2)
+    null=os.open(os.devnull,os.O_RDONLY);os.dup2(null,0);os.close(null)
+    state=dict(status='RUNNING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],phase='LOCAL')
+    try:
+        collect();assert m.read(ROOT/'LOCAL_RESULT.json')['status']=='RETURNED'
+        state['phase']='PREDICT'
+        predict_all();assert m.read(ROOT/'PREDICT_RESULT.json')['status']=='RETURNED'
+        state['phase']='TEACHER'
+        teacher(key);assert m.read(ROOT/'TEACHER_RESULT.json')['status']=='RETURNED'
+        state['phase']='COMPARE';compare();state.update(status='RETURNED',phase='CLOSED')
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc());traceback.print_exc()
+    finally:m.study.new(ROOT/'RUN_RESULT.json',state);os._exit(0)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','collect','predict','predict-all','teacher','compare'])
-    parser.add_argument('--variant',choices=list(POLICIES),default='value');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','collect','predict','predict-all','teacher','compare','progress-control','run'])
+    parser.add_argument('--variant',choices=list(POLICIES),default='value');parser.add_argument('--cohort',choices=['forward','confirmation'],default='forward');args=parser.parse_args()
+    COHORT=args.cohort
+    if COHORT=='confirmation':ROOT=c.root.parent/'confirmation64_v1'
     if args.mode=='prepare':prepare()
     elif args.mode=='collect':collect()
     elif args.mode=='predict':predict(args.variant)
     elif args.mode=='predict-all':predict_all()
     elif args.mode=='teacher':launch_teacher()
+    elif args.mode=='progress-control':progress_control()
+    elif args.mode=='run':launch_run()
     else:compare()
