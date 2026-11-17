@@ -21,22 +21,28 @@ def neutral_schema(allow_keep=True):
         required=['diagnosis','evidence','patches'],additionalProperties=False)
 
 
-def proposal_relay(folder,profile,helpers,force_repair=False,**kwargs):
+def format_proposal_request(value,profile,force_repair=False,rationale=False):
+    """Shared training/inference shape: final JSON, no advertised tool schema."""
+    value=dict(value);schema=neutral_schema(allow_keep=not force_repair)
+    if profile['model_id']=='qwen38-27b-fp8' or rationale:
+        schema['properties']['diagnosis']=dict(type='string',maxLength=180)
+        schema['properties']['evidence']=dict(type='array',items=dict(type='string'),maxItems=3)
+        value['response_format']=(dict(type='json_schema',json_schema=dict(name='bounded_patch',schema=schema))
+            if profile['model_id']=='qwen38-27b-fp8' else dict(type='json_object',schema=schema))
+        value['max_tokens']=1024
+    else:value['response_format']=dict(type='json_object',schema=schema)
+    value.pop('tools',None);value.pop('tool_choice',None)
+    return value
+
+
+def proposal_relay(folder,profile,helpers,force_repair=False,rationale=False,**kwargs):
     class ActorProxy:
         def __getattr__(self,name):return getattr(helpers.actor,name)
         def model_payload(self,*args,**options):
             value=helpers.actor.model_payload(*args,**options)
             # This installed server accepts json_object+schema. Its legacy
             # json_schema+schema form silently left the rationale unconstrained.
-            schema=neutral_schema(allow_keep=not force_repair)
-            if profile['model_id']=='qwen38-27b-fp8':
-                schema['properties']['diagnosis']=dict(type='string',maxLength=180)
-                schema['properties']['evidence']=dict(type='array',items=dict(type='string'),maxItems=3)
-                value['response_format']=dict(type='json_schema',json_schema=dict(name='bounded_patch',schema=schema))
-                value['max_tokens']=1024
-            else:value['response_format']=dict(type='json_object',schema=schema)
-            value.pop('tools',None);value.pop('tool_choice',None)
-            return value
+            return format_proposal_request(value,profile,force_repair,rationale)
     class HelpersProxy:
         actor=ActorProxy()
         def __getattr__(self,name):return getattr(helpers,name)

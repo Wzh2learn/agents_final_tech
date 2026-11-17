@@ -104,6 +104,17 @@ DeepSeek采集复用同96个TRAIN首轮现场、公开提示及四算子，每�
 
 正向材料仍保留：27B恢复TRAIN{3,25,26,52,75,82,95}，DeepSeek恢复{2,3,6,60,75,82,91}，重合3个、合并11个不同现场，各有4个独有恢复。这支持合并成功经验，而非选择一个教师丢掉另一个。下一候选分离提案训练与KEEP/采纳训练，利用原生完整修复及错误子集，不继续门槛扫参。原始证据在correction_value_campus_v2、correction_router_campus_v2及correction_value_forced_v1；新64未用，全部批次RETURNED。
 
+<a id="proposal-acceptance-v1"></a>
+### 独立提案与采纳：实际训练中
+
+[实现](../finqa_proposal_acceptance.py)保留121组正常回放，另用31来源的66个已验证恢复目标（30原修复、35剩余修复、1新盲修复），计划456更新/783前向。剩余修复来自已执行错误子集，逐条验证“当前错→补丁后对”；提案任务不混KEEP目标，采纳任务另学原生恢复减错改。训练后自动执行TRAIN96、来源分组采纳校准及DEV64；新64未用。
+
+旧强制探针复核发现：source2原训练前缀4,911tokens，实际强制解码请求4,486，首差1871处是工具说明；去掉训练请求的工具定义后，余下4,486tokens与实际逐token相同。新候选的训练和运行复用同一请求整理函数，保留短诊断/证据输出。旧0恢复/9错改结果不回改，也不据此否定模型修复能力。
+
+采纳接线使用旧DeepSeek TRAIN回放验证：908对（96实际提案、296子集、258剩余恢复、258有害反向），额外1000次CPU更新/227编码前向/269秒；临时权重已丢弃，不作本候选成绩。采纳菜单包含固定KEEP与全采纳，按TRAIN净效用选择；运行中的旧父进程在ACCEPTANCE_TRAIN生成后执行calibrate补全采纳选项，校准不读取DEV。
+
+私有根proposal_acceptance_v1；父3309591/20464326、训练子3309762/20464933已核存活。原生新分数尚未产生，训练/推理/CPU费用分别累计。
+
 ## 方法入口
 
 当前四算子实现见[运行入口](../finqa_patch_learning.py)与[补丁算子](../finqa_minimal_patches.py)。历史首分叉[算法](FINQA_CORRECTION_METHOD.md#branch-algorithm)与[近邻对照](FINQA_CORRECTION_METHOD.md#branch-neighbors)保留但不再扩展；本页按阶段记录结果、来源与成本。

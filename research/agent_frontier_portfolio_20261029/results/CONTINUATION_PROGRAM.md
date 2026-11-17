@@ -67,6 +67,7 @@
 | K44 拟合改善未转为可用修复 | 同13个有正确候选的TRAIN错例，三版头恢复2→4→9；DEV均33，无恢复 | 完整新旧证据向量有学习信号，当前正例/候选与选择器不足以外推；停止这三版，不继续扫门槛，也不丢弃联合修复素材 | 公司年份校准及固定零阈值结果均保留。[闭合](FINQA_CORRECTION_LEARNING.md#role-repair-pilot) |
 | K45 教师恢复集合互补 | 同96个TRAIN，27B与DeepSeek各恢复7、错改4；恢复仅重合3个，合并11个不同现场 | 合并真实成功片段，保留教师独有恢复；模型更强不能自动保证每个补丁更好。校内路由DEV33、21调用无恢复，停止该版 | 单次提案设置，DeepSeek含14份非JSON；不按教师名称填能力结论。[原生结果](FINQA_CORRECTION_LEARNING.md#campus-value-pilot) |
 | K46 强制出手未释放修复 | 冻结8B、空诊断约束下，屏蔽KEEP后TRAIN32从16成功降至7，恢复0/错改9 | 仅改变解码不够；下一候选显式训练提案、另学采纳，保留原Actor及121回放。先真实出分，不能把分解本身算有效 | 32POST/120,411tokens，零新训练；已停止。[下一机制](FINQA_CORRECTION_METHOD.md#separate-proposal-acceptance) |
+| K47 原探针有输入格式混杂 | source2训练前缀4911、强制推理4486，首差是工具说明；移除训练工具定义后逐token相等 | 新提案训练/运行共用请求整理，保留短诊断；旧强制失败不支持能力上限判断。31来源66恢复目标＋121回放已开训，原生增量待出分 | 不回改旧分数，不把接口修正作为方法增量。[本批](FINQA_CORRECTION_LEARNING.md#proposal-acceptance-v1) |
 
 <a id="mechanism-candidates"></a>
 ## 从知识提出可执行的候选

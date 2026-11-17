@@ -88,6 +88,8 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 ## C-3补充：字段存在、接口资格与方法效应分层（2026-10-28）
 
+**2026-11-17提案补充**：FinQA旧结构化训练暴露工具定义，强制最终JSON请求删了工具；source2前缀4911/4486tokens、首差1871，移除训练工具后逐token相同。新提案训练与推理必须复用同一请求整理函数，并同步诊断/证据约束；格式对齐不计方法收益。证据：[实测与新候选](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#proposal-acceptance-v1)。
+
 - **失败模式（固定参考复算）**：D/T/M决策卡把不存在的`unit_reference`全None解释为8条参考都缺单位，实际8/8含`unit`；另把格式合规率持平作为停止M的语义方法判据。C额度耗尽被错误延伸为D不能继续已授权的内部图像修订。
 - **对策**：先验证schema字段存在再判断缺失，UNKNOWN与缺字段分列；接口资格和语义/风险/成本增量分开；审阅派发额度不代替已授权实作范围。科学总output与reasoning细分不重复记账。
 - **验证方式**：冻结JSON字段控制为unit=8/8、unit_reference=0/8，单位分布3/1/4；核现役指令明确D可继续修图、29/29不追加派发、新科研生成仍为0。仅静态与离线复算，不代表新模型比较或论文图像已修完。
