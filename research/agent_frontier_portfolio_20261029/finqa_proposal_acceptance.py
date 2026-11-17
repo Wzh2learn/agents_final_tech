@@ -141,7 +141,14 @@ def prepare():
 
 def inputs(folder,source):
     public=m.read(source/'inputs/public.json');state=m.state_from_folder(source)
-    target=folder/'inputs';target.mkdir(parents=True)
+    target=folder/'inputs'
+    if target.exists():
+        if (folder/'raw.jsonl').exists() or (folder/'wire').exists():
+            raise RuntimeError('inspect the incomplete native attempt before any retry')
+        assert m.read(target/'public.json')==public and m.read(target/'initial_state.json')==state
+        assert (target/'task.txt').read_text()==proposal_prompt(public,state)
+        return public,state
+    target.mkdir(parents=True)
     for name in ['work','dependencies']:shutil.copytree(source/name,folder/name)
     for name,value in [('public.json',public),('initial_state.json',state)]:
         (target/name).write_text(json.dumps(value,ensure_ascii=False))
@@ -163,7 +170,8 @@ def collect(phase,h,checked):
     for source_ep in sources:
         source=Path(source_ep['folder']);folder=ROOT/phase/f"{source_ep['index']:03d}"
         public,state=inputs(folder,source)
-        ep=dict(index=source_ep['index'],id=source_ep['id'],report=public['report'],folder=str(folder))
+        assert source_ep.get('id',public['id'])==public['id']
+        ep=dict(index=source_ep['index'],id=public['id'],report=public['report'],folder=str(folder))
         def relay(folder,profile,helpers,**kwargs):
             return proposal_relay(folder,profile,helpers,force_repair=True,rationale=True,**kwargs)
         result=m.study.episode(ep,h,checked,m.study.MODEL,private_labels=labels_path,relay_factory=relay)
@@ -307,29 +315,41 @@ def evaluate_acceptance(rows):
     m.study.new(ROOT/'DEV_FINAL_RESULT.json',dict(status='RETURNED',summary=summary,episodes=final));print(json.dumps(summary),flush=True)
 
 
-def run():
+def run(resume=False):
     if not (ROOT/'PLAN.json').exists():prepare()
-    if (ROOT/'RUN_LIVE.json').exists():raise RuntimeError('inspect the existing attempt instead of restarting')
+    previous=m.read(ROOT/'RUN_LIVE.json') if (ROOT/'RUN_LIVE.json').exists() else None
+    if previous is not None and not resume:raise RuntimeError('inspect the existing attempt instead of restarting')
+    if resume:
+        assert previous is not None and previous['status']=='FAILED'
+        assert m.read(ROOT/'TRAIN_RESULT.json')['status']=='TRAINED'
+        assert (ROOT/'patch_policy/adapter.gguf').exists()
+        assert not (ROOT/'PROPOSAL_TRAIN_RESULT.json').exists(), 'resume here is only for pre-request preparation failures'
+        stat=Path('/proc',str(previous['pid']),'stat')
+        assert not stat.exists() or stat.read_text().split()[21]!=previous['start_ticks']
     state=dict(status='RUNNING',phase='TRAIN',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21])
+    if resume:state['previous_pre_request_failure']=previous
     m.study.publish(ROOT/'RUN_LIVE.json',state);unloaded=c.stop27();process=log=trained=None
     try:
-        with (ROOT/'training.log').open('x') as output:
-            trained=subprocess.Popen([str(c.repo/'venv/bin/python'),'-u','-B',__file__,'train'],cwd=c.repo,stdout=output,stderr=subprocess.STDOUT)
-            state['training_pid']=trained.pid;m.study.publish(ROOT/'RUN_LIVE.json',state)
-            returncode=trained.wait(timeout=15000)
-        if returncode:raise RuntimeError('proposal training failed; inspect TRAIN_RESULT and training.log')
+        if not resume:
+            with (ROOT/'training.log').open('x') as output:
+                trained=subprocess.Popen([str(c.repo/'venv/bin/python'),'-u','-B',__file__,'train'],cwd=c.repo,stdout=output,stderr=subprocess.STDOUT)
+                state['training_pid']=trained.pid;m.study.publish(ROOT/'RUN_LIVE.json',state)
+                returncode=trained.wait(timeout=15000)
+            if returncode:raise RuntimeError('proposal training failed; inspect TRAIN_RESULT and training.log')
         plan=m.read(ROOT/'PLAN.json');runtime=plan['runtime'];target=ROOT/'patch_policy/adapter.gguf'
         env=dict(os.environ,CUDA_VISIBLE_DEVICES='',HF_HUB_OFFLINE='1',PYTHONDONTWRITEBYTECODE='1',
             PYTHONPATH=str(Path(runtime['converter']).parent/'gguf-py')+':'+str(Path(runtime['converter']).parent))
-        converted=subprocess.run([str(c.repo/'venv/bin/python'),'-B',runtime['converter'],'--outtype','f32',
-            '--base',runtime['base_config'],'--outfile',str(target),str(ROOT/'patch_policy')],capture_output=True,env=env,timeout=180)
-        (ROOT/'conversion.stdout').write_bytes(converted.stdout);(ROOT/'conversion.stderr').write_bytes(converted.stderr)
-        if converted.returncode:raise RuntimeError('adapter conversion failed')
+        if not resume:
+            converted=subprocess.run([str(c.repo/'venv/bin/python'),'-B',runtime['converter'],'--outtype','f32',
+                '--base',runtime['base_config'],'--outfile',str(target),str(ROOT/'patch_policy')],capture_output=True,env=env,timeout=180)
+            (ROOT/'conversion.stdout').write_bytes(converted.stdout);(ROOT/'conversion.stderr').write_bytes(converted.stderr)
+            if converted.returncode:raise RuntimeError('adapter conversion failed')
         with m.study.core.resource_lock():
             h=m.study.core.helpers();checked=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
             m.study.CAPS.clear();m.study.CAPS.update(plan['caps'])
-            (ROOT/'proposal_model').mkdir(exist_ok=True)
-            process,log=c.native.start_server(runtime,'proposal_model',target,ROOT)
+            server_arm='proposal_model_'+str(os.getpid())
+            (ROOT/server_arm).mkdir()
+            process,log=c.native.start_server(runtime,server_arm,target,ROOT)
             state['phase']='PROPOSE_TRAIN';m.study.publish(ROOT/'RUN_LIVE.json',state)
             collect('train',h,checked)
             state['phase']='ACCEPTANCE_AND_DEV';m.study.publish(ROOT/'RUN_LIVE.json',state)
@@ -344,13 +364,13 @@ def run():
             except subprocess.TimeoutExpired:trained.kill();trained.wait()
         if process is not None:c.native.stop_server(process,log)
         if unloaded:state['restoration']=c.restore27()
-        m.study.publish(ROOT/'RUN_LIVE.json',state);m.study.new(ROOT/'RUN_RESULT.json',state)
+        m.study.publish(ROOT/'RUN_LIVE.json',state);m.study.publish(ROOT/'RUN_RESULT.json',state)
         print(json.dumps(state),flush=True)
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','run','calibrate']);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','run','resume','calibrate']);args=parser.parse_args()
     if args.mode=='prepare':prepare()
     elif args.mode=='train':c.root=ROOT;c.train()
     elif args.mode=='calibrate':calibrate_with_fixed_baselines()
-    else:run()
+    else:run(resume=args.mode=='resume')
