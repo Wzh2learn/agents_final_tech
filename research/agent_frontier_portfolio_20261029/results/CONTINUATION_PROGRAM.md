@@ -1,6 +1,6 @@
 # 纠正学习：机制知识与经验索引
 
-> 2026-11-17｜知识索引，历史推理不作现役待办。独立提案/采纳已闭合33/64，下一复用旧37与强专家学习接管净收益。执行见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，结果见[FinQA记录](FINQA_CORRECTION_LEARNING.md)，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。
+> 2026-11-17｜知识索引，历史推理不作现役待办。完整教师TRAIN96已形成，当前训练共享教师的状态效用模型；旧值头/生成器停止扩训。执行见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，结果见[FinQA记录](FINQA_CORRECTION_LEARNING.md)，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。
 
 <a id="mechanism-knowledge"></a>
 ## 一条研究主线，三个知识来源阶段
@@ -70,6 +70,8 @@
 | K47 原探针有输入格式混杂 | source2训练前缀4911、强制推理4486，首差为工具说明；新输入4491tokens、仅日期2token变化 | 旧强制失败不支持能力上限判断；新输入已对齐，本候选仍33，不能继续以旧格式问题解释当前失败 | 不回改旧分数，不把接口修正作为方法增量。[本批](FINQA_CORRECTION_LEARNING.md#proposal-acceptance-v1) |
 | K48 强制提案与采纳分开仍无整体增量 | 31来源66目标＋121回放、456更新；TRAIN96恢复4/错改45，校准选全KEEP，最终64原程序执行33成功 | 停止本版扩训与阈值微调，优先复用旧37和已有效强专家；少量真实正例及过改仍约束选择学习 | DEV提案仅34完整0恢复/15错改，另1中断费用未知，不能写完整64提案。[结果](FINQA_CORRECTION_LEARNING.md#proposal-acceptance-v1) |
 | K49 已执行的部分修复有真实局部信用 | TRAIN11/20/24/35/83各输出正确补丁真子集，补齐教师已知剩余编辑均能恢复；四题各需2改动，一题需7改动 | 保留局部动作及剩余修复条件；只以立即整题成功定义信用时，这些中间步骤得0，不能据0丢弃。多轮是否可累积尚未实测 | CPU教师剩余补丁见证不是学生多轮收益，不因此延长本版训练。[尸检](FINQA_CORRECTION_LEARNING.md#proposal-acceptance-v1) |
+| K50 强教师的单位退化可被简单控制修复 | 完整DeepSeek同TRAIN96原63成功，单位保护/公开失败回退后74，本地61；DEV两候选上限44、简单尺度保护缓存回放43 | 保留完整工具版教师及便宜单位控制作为强参照；新方法优先减少教师获取成本，不为只剩1题的离线选择余量训练复杂验证器 | 保护会漏掉一个真实DEV修复；43是缓存回放，非新学习分数。[形成/回放](FINQA_CORRECTION_LEARNING.md#shared-teacher-value-v1) |
+| K51 同一教师结果可监督不同执行进度的效用 | 96教师轨迹支持252个已执行状态视图；B68/A13/N171，45来源标签随当前状态变化 | 教师输入固定为原始快照时，重用实测结果，按来源平均，学习条件化接管；旧失败提案及部分修复都成为有用状态。8B完整上下文模型＋121回放已开训 | BGE相对路由35，零训练选择10/16均停；新模型待原生DEV，不将视图数当来源数。[当前机制](FINQA_CORRECTION_METHOD.md#shared-teacher-value) |
 
 <a id="mechanism-candidates"></a>
 ## 从知识提出可执行的候选

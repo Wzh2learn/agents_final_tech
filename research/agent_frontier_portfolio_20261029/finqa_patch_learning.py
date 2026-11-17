@@ -176,7 +176,7 @@ def train():
     gradient=torch.nn.utils.clip_grad_norm_(parameters,1.,error_if_nonfinite=True);optimizer.step()
     state.update(optimizer_updates=state['optimizer_updates']+1,last_kind=item['kind'],last_loss=loss_value,gradient_norm=float(gradient.detach()))
     m.study.publish(root/'TRAIN_LIVE.json',state)
-   output=root/'patch_policy';model.save_pretrained(output);state['status']='TRAINED'
+   output=root/plan.get('adapter_folder','patch_policy');model.save_pretrained(output);state['status']='TRAINED'
  except BaseException:state.update(status='FAILED',error=traceback.format_exc());raise
  finally:
   state['seconds']=time.monotonic()-started;m.study.publish(root/'TRAIN_LIVE.json',state);m.study.new(root/'TRAIN_RESULT.json',state)
