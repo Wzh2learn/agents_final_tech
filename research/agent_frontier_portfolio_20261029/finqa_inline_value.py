@@ -1,13 +1,14 @@
 """One-pass correction and teacher-value readout; reuse the existing native actor."""
 from pathlib import Path
 from types import SimpleNamespace
-import argparse, collections, copy, json, math, os, re, shutil, subprocess, time, traceback
+import argparse, collections, copy, hashlib, http.client, json, math, os, re, shutil, subprocess, time, traceback
 
 import finqa_acquisition_learning as acquisition
 
 c=acquisition.c
 m=c.m
-ROOT=acquisition.ROOT.parent/'inline_acquisition_v2'
+BASE=acquisition.ROOT.parent
+ROOT=BASE/'inline_acquisition_v2'
 MARKER='Escalation outcome: '
 
 
@@ -76,8 +77,9 @@ def prepare():
         program_tokens_supervised_in_value_rows=0,replay_groups=121)),flush=True)
 
 
-def prepare_dev():
-    sources=m.read(c.replay/'native_v1/PLAN.json')['source_episodes'];assert len(sources)==64
+def prepare_dev(sources=None,use_inline=True):
+    if sources is None:
+        sources=m.read(c.replay/'native_v1/PLAN.json')['source_episodes'];assert len(sources)==64
     labels=m.read(Path(sources[0]['folder']).parent.parent/'LABELS_PRIVATE.json')
     m.study.new(ROOT/'DEV_LABELS_PRIVATE.json',labels)
     template=Path(m.read(acquisition.router.RELATIVE_ROOT/'CHEAP_PLAN.json')['reference_template'])
@@ -88,7 +90,8 @@ def prepare_dev():
         for name in ['finqa_tool.py','executor.py']:shutil.copyfile(template/name,inputs/name)
         public=m.read(source/'inputs/public.json')
         (inputs/'public.json').write_text(json.dumps(public,ensure_ascii=False))
-        (inputs/'task.txt').write_text(prompt(public,m.state_from_folder(source)))
+        initial=m.state_from_folder(source)
+        (inputs/'task.txt').write_text(prompt(public,initial) if use_inline else m.review_prompt(public,initial,terminal_program=True))
         (inputs/'guest.py').write_text(m.study.guest_source(terminal_program=True))
         episodes.append(dict(index=ep['index'],id=ep['id'],report=ep['report'],folder=str(folder)))
     m.study.new(ROOT/'DEV_PLAN.json',dict(episodes=episodes,source='Same original64 development firstpass workspaces, no confirmation64'))
@@ -125,14 +128,48 @@ def gate_score(folder,submitted):
     return found or dict(score=None,observed_classes=0,declared=None,reason='missing aligned native outcome probabilities')
 
 
-def evaluate():
-    plan=m.read(ROOT/'PLAN.json');runtime=plan['runtime'];output=ROOT/'inline_policy';target=output/'adapter.gguf'
+def nonstream_response(client,upstream,response_path):
+    """Retain actual JSON/usage, and expose the same message as SSE to OpenCode."""
+    upstream.settimeout(900)  # The caller bounds this by the episode deadline.
+    response=http.client.HTTPResponse(upstream);response.begin()
+    try:raw=response.read(32*1024**2+1);status=response.status
+    finally:response.close()
+    path=Path(response_path);path.with_name(path.name+'.upstream.json').write_bytes(raw)
+    if len(raw)>32*1024**2:raise RuntimeError('nonstream response exceeds native wire bound')
+    obj=json.loads(raw);usage=obj.get('usage');events=[]
+    if status==200:
+        for choice in obj['choices']:
+            delta=dict(choice['message'])
+            if delta.get('tool_calls'):
+                delta['tool_calls']=[dict(call,index=i) for i,call in enumerate(delta['tool_calls'])]
+            events.append(dict(id=obj.get('id'),object='chat.completion.chunk',model=obj.get('model'),
+                choices=[dict(index=choice.get('index',0),delta=delta,logprobs=choice.get('logprobs'),finish_reason=None)]))
+            events.append(dict(id=obj.get('id'),object='chat.completion.chunk',model=obj.get('model'),
+                choices=[dict(index=choice.get('index',0),delta={},finish_reason=choice['finish_reason'])]))
+        events.append(dict(choices=[],usage=usage))
+        body=b''.join(b'data: '+json.dumps(event,ensure_ascii=False).encode()+b'\n\n' for event in events)+b'data: [DONE]\n\n'
+        content_type='text/event-stream'
+    else:body=raw;content_type='application/json'
+    path.write_bytes(body)
+    receipt=dict(status=status,complete=True,body_bytes=len(body),body_sha256=hashlib.sha256(body).hexdigest(),usage=usage,
+        transport='Actual nonstream JSON converted to SSE; no additional generation',upstream_body_path=path.name+'.upstream.json',upstream_body_bytes=len(raw))
+    path.with_name(path.name+'.receipt.json').write_text(json.dumps(receipt,indent=2))
+    header=f'HTTP/1.1 {status} response\r\nContent-Type: {content_type}\r\nContent-Length: {len(body)}\r\nConnection: close\r\n\r\n'.encode()
+    client.sendall(header);client.sendall(body)
+    return dict(status=status,body_bytes=len(body),complete=True)
+
+
+def evaluate(trained_root=None,adapter_path=None):
+    plan=m.read(ROOT/'PLAN.json');runtime=plan['runtime'];output=ROOT/'inline_policy';output.mkdir(exist_ok=True)
+    target=Path(adapter_path) if adapter_path is not None else (ROOT if trained_root is None else trained_root)/'inline_policy/adapter.gguf'
     env=dict(os.environ,CUDA_VISIBLE_DEVICES='',HF_HUB_OFFLINE='1',PYTHONDONTWRITEBYTECODE='1',
         PYTHONPATH=str(Path(runtime['converter']).parent/'gguf-py')+':'+str(Path(runtime['converter']).parent))
-    conversion=subprocess.run([str(c.repo/'venv/bin/python'),'-B',runtime['converter'],'--outtype','f32',
-        '--base',runtime['base_config'],'--outfile',str(target),str(output)],capture_output=True,timeout=180,env=env)
-    (output/'conversion.stdout').write_bytes(conversion.stdout);(output/'conversion.stderr').write_bytes(conversion.stderr)
-    if conversion.returncode:raise RuntimeError('inline adapter conversion failed')
+    if trained_root is None:
+        conversion=subprocess.run([str(c.repo/'venv/bin/python'),'-B',runtime['converter'],'--outtype','f32',
+            '--base',runtime['base_config'],'--outfile',str(target),str(output)],capture_output=True,timeout=180,env=env)
+        (output/'conversion.stdout').write_bytes(conversion.stdout);(output/'conversion.stderr').write_bytes(conversion.stderr)
+        if conversion.returncode:raise RuntimeError('inline adapter conversion failed')
+    else:assert target.is_file(), 'reuse the completed candidate, never retrain for a transport repair'
     dev=m.read(ROOT/'DEV_PLAN.json');state=dict(status='RUNNING',pid=os.getpid(),phase='DEV',
         start_ticks=Path('/proc/self/stat').read_text().split()[21],episodes=[])
     m.study.publish(ROOT/'DEV_LIVE.json',state);process=log=None;started=time.monotonic()
@@ -140,8 +177,12 @@ def evaluate():
         with m.study.core.resource_lock():
             h=m.study.core.helpers();wrapped=copy.copy(h);wrapped.actor=SimpleNamespace(**vars(h.actor))
             def payload(*args,**kwargs):
-                value=h.actor.model_payload(*args,**kwargs);value.update(logprobs=True,top_logprobs=20);return value
+                value=h.actor.model_payload(*args,**kwargs);value.update(logprobs=True,top_logprobs=20)
+                if trained_root is not None:value.update(stream=False);value.pop('stream_options',None)
+                return value
             wrapped.actor.model_payload=payload
+            if trained_root is not None:
+                wrapped.agg=SimpleNamespace(**vars(h.agg));wrapped.agg.relay_one_model_response=nonstream_response
             checked=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
             m.study.CAPS.clear();m.study.CAPS.update(plan['caps'])
             process,log=c.native.start_server(runtime,'inline_policy',target,ROOT)
@@ -153,6 +194,8 @@ def evaluate():
                     gate=gate_score(ep['folder'],result['submitted_program']))
                 state['episodes'].append(row);m.study.publish(ROOT/'DEV_LIVE.json',state)
                 print(json.dumps(dict(index=row['index'],success=row['success'],score=row['gate']['score'],posts=row['posts'],tokens=row['tokens'])),flush=True)
+                receipts=[m.read(p) for p in (Path(ep['folder'])/'wire').glob('*.receipt.json')]
+                if any(item['status']!=200 for item in receipts):raise RuntimeError('native service rejected the request; stop before repeating an interface failure')
         state['status']='RETURNED'
     except BaseException:state.update(status='FAILED',error=traceback.format_exc());raise
     finally:
@@ -160,18 +203,18 @@ def evaluate():
         state['seconds']=time.monotonic()-started;m.study.publish(ROOT/'DEV_LIVE.json',state);m.study.new(ROOT/'DEV_RESULT.json',state)
 
 
-def compare():
+def compare(extra_classifier_forwards=0):
     # Freeze inline choices before loading teacher outcomes or private labels here.
     dev=m.read(ROOT/'DEV_RESULT.json');assert dev['status']=='RETURNED' and len(dev['episodes'])==64
     rows=dev['episodes'];ranked=sorted(rows,key=lambda x:(-(x['gate']['score'] if x['gate']['score'] is not None else -math.inf),x['index']))
     orders=[r['index'] for r in ranked if r['gate']['score'] is not None]
     m.study.new(ROOT/'POLICIES.json',dict(order=orders,budgets=[8,12,18],teacher_pool='Same-input shared_union from frozen earlier DEV controls, no new teacher calls'))
-    legacy=m.read(ROOT.parent/'deepseek_development_reference_v1/RESULT.json')['episodes']
+    legacy=m.read(BASE/'deepseek_development_reference_v1/RESULT.json')['episodes']
     labels=m.read(ROOT/'DEV_LABELS_PRIVATE.json');sources=m.read(ROOT/'DEV_PLAN.json')['episodes'];outcomes=[]
     for row,source,label in zip(rows,sources,labels,strict=True):
         i=row['index'];teacher=legacy[i]
         for name in ['acquisition_value_v1','acquisition_risk_control_v1','acquisition_single_state_v1']:
-            f=ROOT.parent/name/'teacher_dev'/f'{i:03d}'/'RESULT.json'
+            f=BASE/name/'teacher_dev'/f'{i:03d}'/'RESULT.json'
             if f.exists():teacher=m.read(f);break
         assert row['id']==teacher['id']==label['id']==source['id']
         public=m.read(Path(source['folder'])/'inputs/public.json')
@@ -195,7 +238,7 @@ def compare():
     result=dict(status='RETURNED',cheap_success=baseline,tasks=64,inline_coverage=len(orders),
         all_three_class_coverage=sum(r['gate']['observed_classes']==3 for r in rows),budgets=table,
         actual_new_local=dict(posts=sum(r['posts'] for r in rows),tokens=sum(r['tokens'] for r in rows),unknown=sum(r['unknown'] for r in rows)),
-        new_campus_posts=0,extra_classifier_forwards=0,scope='One native correction arm, inline token readout. Fixed actual teacher replay, not new teacher-policy episodes.')
+        new_campus_posts=0,extra_classifier_forwards=extra_classifier_forwards,scope='Native correction with inline readout, optionally public missing-tag followups. Fixed actual teacher replay, not new teacher-policy episodes; extra followups are explicitly counted.')
     m.study.new(ROOT/'COMPARISON.json',result);print(json.dumps(result),flush=True)
 
 
@@ -217,7 +260,86 @@ def run():
         m.study.publish(ROOT/'RUN_LIVE.json',state);m.study.new(ROOT/'RUN_RESULT.json',state)
 
 
+def native_retry():
+    global ROOT
+    trained=ROOT;assert m.read(trained/'TRAIN_RESULT.json')['status']=='TRAINED'
+    assert m.read(trained/'RUN_RESULT.json')['status'] in ['RETURNED','FAILED']
+    ROOT=trained/'native_nonstream_v1';ROOT.mkdir()
+    plan=m.read(trained/'PLAN.json');plan.update(training_source=str(trained),
+        transport='Nonstream upstream with tools/logprobs; actual raw JSON and usage retained, SSE conversion for unchanged OpenCode.')
+    m.study.new(ROOT/'PLAN.json',plan)
+    state=dict(status='RUNNING',phase='DEV',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21])
+    m.study.new(ROOT/'RUN_LIVE.json',state);unloaded=False
+    try:
+        unloaded=c.stop27();prepare_dev();evaluate(trained_root=trained);compare();state.update(status='RETURNED',phase='CLOSED')
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc());raise
+    finally:
+        if unloaded:state['restoration']=c.restore27()
+        m.study.publish(ROOT/'RUN_LIVE.json',state);m.study.new(ROOT/'RUN_RESULT.json',state)
+
+
+def prompt_probe():
+    """Post-hoc three-case diagnosis; never a new generalization estimate."""
+    global ROOT
+    trained=ROOT;top=trained/'prompt_probe_v1';top.mkdir()
+    sources=[e for e in m.read(c.replay/'native_v1/PLAN.json')['source_episodes'] if e['index'] in [8,10,39]]
+    old=Path(m.read(acquisition.router.RELATIVE_ROOT/'CHEAP_PLAN.json')['adapter']);assert old.is_file()
+    candidate=trained/'inline_policy/adapter.gguf';assert candidate.is_file()
+    arms=[('new_oldprompt',candidate,False),('old_oldprompt',old,False),('old_inlineprompt',old,True)]
+    state=dict(status='RUNNING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],arms={})
+    m.study.new(top/'RUN_LIVE.json',state);unloaded=False
+    try:
+        unloaded=c.stop27()
+        for name,adapter,inline in arms:
+            ROOT=top/name;ROOT.mkdir();m.study.new(ROOT/'PLAN.json',m.read(trained/'PLAN.json'))
+            state['phase']=name;m.study.publish(top/'RUN_LIVE.json',state)
+            prepare_dev(sources=sources,use_inline=inline);evaluate(trained_root=trained,adapter_path=adapter)
+            rows=m.read(ROOT/'DEV_RESULT.json')['episodes']
+            state['arms'][name]=dict(success=sum(r['success'] for r in rows),episodes=rows,
+                posts=sum(r['posts'] for r in rows),tokens=sum(r['tokens'] for r in rows),unknown=sum(r['unknown'] for r in rows))
+            m.study.publish(top/'RUN_LIVE.json',state)
+        state.update(status='RETURNED',phase='CLOSED',scope='Three post-hoc DEV losses, fixed original starting workspaces; parameters x prompt diagnosis. New-inline cell is cached from the completed64. Not nine independent tasks.')
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc());raise
+    finally:
+        if unloaded:state['restoration']=c.restore27()
+        m.study.publish(top/'RUN_LIVE.json',state);m.study.new(top/'RUN_RESULT.json',state)
+
+
+def value_followup():
+    """One bounded retry for each publicly missing tag; all programs stay fixed."""
+    global ROOT
+    trained=ROOT;native=trained/'native_nonstream_v1';top=trained/'value_followup_v1';top.mkdir()
+    base=m.read(native/'DEV_RESULT.json');missing={r['index'] for r in base['episodes'] if r['gate']['score'] is None}
+    original={r['index']:r for r in base['episodes']}
+    sources=[e for e in m.read(c.replay/'native_v1/PLAN.json')['source_episodes'] if e['index'] in missing]
+    state=dict(status='RUNNING',phase='FOLLOWUP',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21])
+    m.study.new(top/'RUN_LIVE.json',state);unloaded=False
+    try:
+        unloaded=c.stop27();ROOT=top/'native';ROOT.mkdir();m.study.new(ROOT/'PLAN.json',m.read(trained/'PLAN.json'));prepare_dev(sources=sources)
+        for ep in m.read(ROOT/'DEV_PLAN.json')['episodes']:
+            f=Path(ep['folder']);public=m.read(f/'inputs/public.json');program=original[ep['index']]['program']
+            execution=m.task.submit_program(program,public,f/'work',origin='freeze_actual_native_program_for_value_only_followup')
+            with (f/'inputs/task.txt').open('a') as out:
+                out.write('\nThis is a value-only followup. Your already submitted program is FROZEN. Copy it unchanged on the Final program line and add the missing Escalation outcome line. Do not repair or replace it. The fixed teacher still starts from the ORIGINAL snapshot above. Current frozen program and its real execution: '+json.dumps(dict(program=program,execution=execution),ensure_ascii=False))
+        evaluate(trained_root=trained);follow=m.read(ROOT/'DEV_RESULT.json');by_index={r['index']:r for r in follow['episodes']}
+        ROOT=top;m.study.new(ROOT/'PLAN.json',dict(m.read(trained/'PLAN.json'),scope='Exploratory missing-tag retry, no training. Original64 correction programs fixed; only gate scores may change.'))
+        combined=copy.deepcopy(base)
+        for row in combined['episodes']:
+            if row['index'] not in by_index:continue
+            extra=by_index[row['index']];valid=extra['normal'] and extra['program']==row['program']
+            if valid and extra['gate']['score'] is not None:row['gate']=extra['gate']
+            for key in ['posts','tokens','unknown','seconds']:row[key]+=extra[key]
+        added=dict(posts=sum(r['posts'] for r in follow['episodes']),tokens=sum(r['tokens'] for r in follow['episodes']),unknown=sum(r['unknown'] for r in follow['episodes']))
+        combined.update(scope='Composed real64 correction episodes plus publicly triggered value-only followups. No new64 runs; no program replacements.',physical_new_followup=added)
+        m.study.new(ROOT/'DEV_RESULT.json',combined);m.study.new(ROOT/'DEV_PLAN.json',m.read(native/'DEV_PLAN.json'));m.study.new(ROOT/'DEV_LABELS_PRIVATE.json',m.read(native/'DEV_LABELS_PRIVATE.json'))
+        compare(extra_classifier_forwards=added['posts']);state.update(status='RETURNED',phase='CLOSED',physical_new_followup=added)
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc());raise
+    finally:
+        if unloaded:state['restoration']=c.restore27()
+        m.study.publish(top/'RUN_LIVE.json',state);m.study.new(top/'RUN_RESULT.json',state)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','run','compare']);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','run','compare','native_retry','prompt_probe','value_followup']);args=parser.parse_args()
     if args.mode=='train':c.root=ROOT;c.train()
     else:globals()[args.mode]()
