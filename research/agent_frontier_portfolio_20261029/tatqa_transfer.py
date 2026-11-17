@@ -1,7 +1,7 @@
 """Zero-training transfer of the frozen FinQA correction/acquisition pipeline."""
 from pathlib import Path
 from types import SimpleNamespace
-import argparse,copy,getpass,json,os,shutil,subprocess,sys,time,traceback
+import argparse,copy,getpass,hashlib,json,os,shutil,subprocess,sys,time,traceback
 import finqa_patch_learning as c
 import finqa_acquisition_learning as av
 import tatqa_correction as task
@@ -9,7 +9,53 @@ import tatqa_correction as task
 m=c.m
 BASE=m.study.PRIVATE/'tatqa_correction_v1'
 OLD=BASE/'native_related_v1'
-ROOT=BASE/'flat_dsl_transfer_v1'
+ORIGINAL=BASE/'flat_dsl_transfer_v1'
+ROOT=ORIGINAL
+
+
+def prepare_forward():
+    """Freeze unchanged settings and unseen table contexts before model execution."""
+    if ROOT.exists():raise RuntimeError('forward attempt exists; inspect rather than restart')
+    prior=m.read(ORIGINAL/'PLAN.json');prep=m.read(BASE/'related_dev_v1/PREPARATION.json')
+    original=prior['episodes'][0];old_public=m.read(packet_at(ORIGINAL,'firstpass',original['index'])/'inputs/public.json')
+    assert task.prompt(old_public,terminal_program=True)==(packet_at(ORIGINAL,'firstpass',original['index'])/'inputs/task.txt').read_text()
+    excluded=set()
+    for path in BASE.rglob('public.json'):
+        public=m.read(path)
+        if str(public.get('report','')).startswith('TAT-QA/'):excluded.add(public['report'].split('/',1)[1])
+    candidates=[]
+    for record in m.read(prep['source_path']):
+        uid=record['table']['uid']
+        if uid in excluded:continue
+        for question in record['questions']:
+            if question['answer_type']=='arithmetic':
+                key=hashlib.sha256(('tatqa-forward-frozen-v1|'+question['uid']).encode()).hexdigest()
+                candidates.append((key,uid,record,question))
+    chosen=[];seen=set()
+    for item in sorted(candidates,key=lambda item:item[0]):
+        if item[1] in seen:continue
+        seen.add(item[1]);chosen.append(item)
+        if len(chosen)==32:break
+    assert len(chosen)==32 and not seen&excluded
+    ROOT.mkdir();episodes=[];labels=[]
+    template=packet_at(ORIGINAL,'firstpass',original['index'])/'inputs'
+    for index,(_,uid,record,question) in enumerate(chosen):
+        public=task.public_record(record,question);folder=packet('firstpass',index);inputs=folder/'inputs'
+        inputs.mkdir(parents=True);(folder/'work').mkdir();(folder/'dependencies').mkdir()
+        (inputs/'public.json').write_text(json.dumps(public,ensure_ascii=False))
+        (inputs/'task.txt').write_text(task.prompt(public,terminal_program=True))
+        for name in ['finqa_tool.py','finqa_correction.py','executor.py','guest.py']:shutil.copyfile(template/name,inputs/name)
+        episodes.append(dict(index=index,id=public['id'],report=public['report'],table_uid=uid))
+        # Reference annotations are extracted only after selection and remain host-only.
+        labels.append(dict(index=index,id=public['id'],report=public['report'],exe_ans=copy.deepcopy(question)))
+    plan=copy.deepcopy(prior)
+    plan.update(episodes=episodes,selection='Fixed public-UID hash order, arithmetic type, one question per previously unused table context; no answer/scale/value/outcome filtering.',
+        excluded_previous_tables=sorted(excluded),source_path=prep['source_path'],source_split='official dev, new Agent-evaluation contexts',
+        frozen_from=str(ORIGINAL),code_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=c.repo,text=True).strip(),
+        prospective_complete=True,stop='Complete all32 regardless of interim accuracy/format counts; infrastructure, memory and wall caps still apply.',
+        scope='Prospective frozen-setting32-context transfer check. All original prompts, checkpoints, controller, caps and K9/secondary budgets unchanged. No training or heldout FinQA64 access.')
+    m.study.new(ROOT/'LABELS_PRIVATE.json',labels);m.study.new(ROOT/'PLAN.json',plan)
+    print(json.dumps(dict(prepared=32,excluded_tables=len(excluded),unique_new_tables=32,primary_K=9,training=0)),flush=True)
 
 
 def prepare():
@@ -41,6 +87,9 @@ def prepare():
 
 
 def packet(arm,index):return ROOT/arm/f'{index:03d}'
+
+
+def packet_at(root,arm,index):return Path(root)/arm/f'{index:03d}'
 
 
 def prepare_reviews(arm):
@@ -76,7 +125,7 @@ def collect():
                     m.study.publish(ROOT/'LOCAL_LIVE.json',state)
                     print(json.dumps(dict(arm=arm,done=len(rows[arm]),success=sum(r['success'] for r in rows[arm]),valid=sum(r['valid'] for r in rows[arm]))),flush=True)
                     if not raw['accounting']['integrity_passed']:raise RuntimeError('transport failure retained')
-                    if arm=='firstpass' and len(rows[arm])==4 and not any(r['valid'] for r in rows[arm]):raise RuntimeError('all first4 programs invalid; stop rather than repeat32 failures')
+                    if not plan.get('prospective_complete',False) and arm=='firstpass' and len(rows[arm])==4 and not any(r['valid'] for r in rows[arm]):raise RuntimeError('all first4 programs invalid; stop rather than repeat32 failures')
             finally:
                 if process is not None:c.native.stop_server(process,log)
     state.update(status='RETURNED',phase='CLOSED',seconds=time.monotonic()-started)
@@ -239,5 +288,8 @@ def launch_teacher():
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','local','teacher','compare','autopsy']);args=parser.parse_args()
-    {'prepare':prepare,'local':local_run,'teacher':launch_teacher,'compare':compare,'autopsy':autopsy}[args.mode]()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','local','teacher','compare','autopsy'])
+    parser.add_argument('--cohort',choices=['original','forward'],default='original');args=parser.parse_args()
+    if args.cohort=='forward':ROOT=BASE/'flat_dsl_forward_v1'
+    {'prepare':prepare_forward if args.cohort=='forward' else prepare,'local':local_run,
+        'teacher':launch_teacher,'compare':compare,'autopsy':autopsy}[args.mode]()
