@@ -8,6 +8,7 @@ from finqa_minimal_patches import apply_patches
 m=c.m
 ROOT=c.root.parent/'acquisition_value_v1'
 TEACHER=router.RELATIVE_ROOT/'full_teacher_train'
+VARIANT='value'
 
 
 def percent_scale_only(first,second):
@@ -44,11 +45,18 @@ def request(public,initial,current):
         'B means the teacher/controller repairs a wrong local answer; A means it damages a correct local answer; '
         'N means unchanged correctness, including both wrong. Execution values are observed computations, not correctness labels. '
         'Return exactly one JSON object with the single key outcome and one letter A, B or N.')
+    if VARIANT=='risk':
+        system=('You estimate whether the local financial agent has submitted an incorrect program. '
+            'Compare the current program with the question and public report. '
+            'B means the current program gives an incorrect answer; N means it gives a correct answer. '
+            'Execution values are observed computations, not correctness labels. '
+            'Return exactly one JSON object with the single key outcome and one letter B or N.')
     return dict(messages=[dict(role='system',content=system),dict(role='user',content=json.dumps(
         dict(public_task=public,initial_state=initial,local_state=current),ensure_ascii=False))])
 
 
 def prepare():
+    if VARIANT=='risk':prepare_risk();return
     study=m.read(TEACHER/'RESULT.json');assert study['status']=='RETURNED' and len(study['episodes'])==96
     labels=m.read(c.step1/'TRAIN_LABELS_PRIVATE.json')
     sources={row['index']:row for row in m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['episodes']}
@@ -103,6 +111,33 @@ def prepare():
         targets=dict(collections.Counter(row['target'] for row in views)))),flush=True)
 
 
+def prepare_risk():
+    """Same sources, executed views, replay and schedule; only learn local error risk."""
+    reference=ROOT.parent/'acquisition_value_v1';plan=m.read(reference/'PLAN.json')
+    views=m.read(reference/'TRAIN_VIEWS.json')['views'];data=m.read(reference/'DATA.json')
+    labels=m.read(c.step1/'TRAIN_LABELS_PRIVATE.json')
+    sources={r['index']:r for r in m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['episodes']}
+    tokenizer=m.tokens.load_tokenizer(m.learning.MODEL);grouped=collections.defaultdict(list);targets=collections.Counter()
+    for view in views:
+        index=view['index'];source=Path(sources[index]['source_folder']);public=m.read(source/'inputs/public.json')
+        initial=m.state_from_folder(source);program=view['program']
+        current=dict(current_program=program,execution_feedback=m.task.execute_public(program,public))
+        correct=m.task.grade(program,public,labels[index]['exe_ans'])['execution_correct']
+        target='N' if correct else 'B';targets[target]+=1
+        row=m.tokens.encode_completion(request(public,initial,current),dict(role='assistant',content=json.dumps(dict(outcome=target))),
+            tokenizer,16384,completion_kind='text')
+        row.update(source_index=index,view_kind=view['kind']);grouped[index].append(row)
+    assert len(grouped)==96 and len(views)==252
+    groups=[grouped[i] for i in range(96)]
+    assert [len(g) for g in groups]==[len(g) for g in data['patch_groups']]
+    plan.pop('source_groups_with_changed_value',None)
+    plan.update(target_counts=dict(targets),objective='Local execution error risk, not teacher acquisition value',
+        scope='Matched old37 warm start,96 TRAIN sources/252 identical executed views,121 replay groups,434 updates. No new sources or DEV targets.')
+    ROOT.mkdir();m.study.new(ROOT/'DATA.json',dict(anchor_groups=data['anchor_groups'],patch_groups=groups))
+    m.study.new(ROOT/'PLAN.json',plan)
+    print(json.dumps(dict(variant=VARIANT,sources=len(groups),views=len(views),targets=dict(targets),updates=len(plan['schedule']))),flush=True)
+
+
 def predict():
     import torch
     from peft import PeftModel
@@ -131,6 +166,8 @@ def predict():
             with torch.inference_mode():
                 logits=model(input_ids=batch,use_cache=False,logits_to_keep=1).logits[0,-1,classes].float()
                 probability=logits.softmax(-1).cpu().tolist()
+                if VARIANT=='risk':
+                    binary=logits[1:].softmax(-1).cpu().tolist();probability=[0.,*binary]
             forward_seconds+=time.monotonic()-clock
             rows.append(dict(index=source['index'],id=source['id'],probabilities=dict(zip(['A','B','N'],probability)),
                 score=probability[1]-probability[0],input_tokens=len(prefix)))
@@ -139,6 +176,7 @@ def predict():
     chosen={row['index'] for row in ranked[:plan['strong_budget']] if row['score']>plan['fixed_threshold']}
     for row in rows:row['decision']='TEACHER' if row['index'] in chosen else 'CHEAP'
     m.study.new(ROOT/'PREDICTIONS.json',dict(decisions=rows,strong_budget=plan['strong_budget'],
+        variant=VARIANT,
         forward_calls=len(rows),input_tokens_processed=total_tokens,generated_tokens=0,http_posts=0,
         forward_seconds=forward_seconds,seconds=time.monotonic()-started,
         scope='Actual neural classifier forwards, not free compute or language generation. Predictions frozen before any DEV teacher result/label is read.'))
@@ -153,7 +191,7 @@ def train_and_predict():
         for mode in ['train','predict']:
             state['phase']=mode
             with (ROOT/(mode+'.log')).open('xb') as log:
-                child=subprocess.Popen([str(c.repo/'venv/bin/python'),'-u','-B',__file__,mode],cwd=c.repo,stdout=log,stderr=subprocess.STDOUT)
+                child=subprocess.Popen([str(c.repo/'venv/bin/python'),'-u','-B',__file__,mode,'--variant',VARIANT],cwd=c.repo,stdout=log,stderr=subprocess.STDOUT)
                 state['child_pid']=child.pid;m.study.publish(ROOT/'PIPELINE_LIVE.json',state)
                 code=child.wait(timeout=7800 if mode=='train' else 1800)
             if code:raise RuntimeError(mode+' failed; inspect its unchanged log and receipt')
@@ -258,10 +296,73 @@ def launch_evaluation():
     finally:os._exit(0)
 
 
+def cached_controls():
+    """Compare frozen selections on common native teacher responses; no new calls."""
+    if (ROOT/'CONTROL_PREDICTIONS.json').exists():raise RuntimeError('control decisions already exist; inspect their saved comparison')
+    import numpy as np
+    import torch
+    assert VARIANT=='value'
+    torch.set_num_threads(4);started=time.monotonic()
+    feature=m.read(router.ROOT/'FEATURE_PLAN.json');x=np.load(router.ROOT/'FEATURES.npz')
+    train=m.read(router.RELATIVE_ROOT/'CHEAP_RESULT.json')['episodes']
+    assert len(train)==96 and all(row['index']==i for i,row in enumerate(train))
+    saved,model=router.fit_once(x['train'],np.asarray([int(not row['success']) for row in train]),21)
+    risk=router.probability(saved,model,x['dev'])[:,1]
+    budget=m.read(ROOT/'PLAN.json')['strong_budget']
+    ranked=sorted(range(64),key=lambda i:(-float(risk[i]),i));selected=set(ranked[:budget])
+    prior=m.read(router.ROOT/'routing_controls/PREDICTIONS.json')
+    controls=dict(error_risk37=[dict(index=i,selected=i in selected,score=float(risk[i])) for i in range(64)],
+        random_fixed=prior['predictions']['random_fixed'])
+    assert prior['budget']==budget==18 and all(sum(row['selected'] for row in rows)==budget for rows in controls.values())
+    m.study.new(ROOT/'CONTROL_PREDICTIONS.json',dict(controls=controls,head_updates=200,encoder_forwards=0,
+        seconds=time.monotonic()-started,scope='Post-primary controls; TRAIN cheap37 error labels only. Prior random seed reused unchanged; no DEV outcome tuning. BGE inputs are original public states, not matched-capacity/full-current-state controls.'))
+    # Teacher responses and DEV labels are read only after the control decisions.
+    predictions=m.read(ROOT/'PREDICTIONS.json');actual=m.read(ROOT/'DEV_RESULT.json')
+    legacy=m.read(ROOT.parent/'deepseek_development_reference_v1/RESULT.json')['episodes']
+    assert len(legacy)==len(actual['episodes'])==64 and actual['status']=='RETURNED'
+    cached=m.read(ROOT.parent/'paired_state_negatives_v1/native_v1/PLAN.json')
+    cheap={row['index']:row for row in cached['episodes'] if row['arm']=='paired_state_branch'}
+    labels=m.read(Path(feature['dev'][0]['folder']).parent.parent/'LABELS_PRIVATE.json')
+    policy=dict(keep_all=set(),all_teacher=set(range(64)),
+        learned_value={r['index'] for r in predictions['decisions'] if r['decision']=='TEACHER'})
+    policy.update({name:{r['index'] for r in rows if r['selected']} for name,rows in controls.items()})
+    pools={};rng=np.random.default_rng(prior['random_seed'])
+    allocations=[rng.choice(64,budget,replace=False) for _ in range(2000)]
+    for name in ['legacy_common','fresh_selected_common']:
+        outcomes=[]
+        for i,(source,teacher) in enumerate(zip(feature['dev'],legacy,strict=True)):
+            if name=='fresh_selected_common' and actual['episodes'][i]['decision']=='TEACHER':
+                teacher=m.read(ROOT/'teacher_dev'/f'{i:03d}'/'RESULT.json')
+            public=m.read(Path(source['folder'])/'inputs/public.json');local=m.state_from_folder(Path(cheap[i]['folder']))
+            assert source['id']==teacher['id']==cheap[i]['id']
+            program,kept=guarded_program(local['current_program'],teacher['submitted_program'],public,teacher['agent_completed'])
+            before=actual['episodes'][i]['cheap'];after=m.task.grade(program,public,labels[i]['exe_ans'])['execution_correct']
+            outcomes.append(dict(index=i,before=before,after=after,utility=int(after)-int(before),guard_keep=kept,
+                posts=teacher['accounting']['actual_forwarded_posts'],tokens=teacher['accounting']['provider_total_tokens_known']))
+        table={};base=sum(row['before'] for row in outcomes)
+        for pname,selection in policy.items():
+            chosen=[r for r in outcomes if r['index'] in selection]
+            table[pname]=dict(success=base+sum(r['utility'] for r in chosen),recovered=sum(r['utility']>0 for r in chosen),
+                damaged=sum(r['utility']<0 for r in chosen),teacher_episodes=len(chosen),
+                teacher_posts=sum(r['posts'] for r in chosen),teacher_tokens=sum(r['tokens'] for r in chosen))
+        random_scores=[base+sum(outcomes[int(i)]['utility'] for i in chosen) for chosen in allocations]
+        pools[name]=dict(policies=table,random_allocation=dict(draws=2000,mean=float(np.mean(random_scores)),
+            p05=float(np.quantile(random_scores,.05)),p95=float(np.quantile(random_scores,.95))),outcomes=outcomes)
+    assert pools['fresh_selected_common']['policies']['learned_value']['success']==actual['summary']['success']
+    result=dict(status='RETURNED',pools=pools,new_http_posts=0,head_updates=200,encoder_forwards=0,
+        scope='CPU replay of actual native teacher candidates, not fresh policy runs. Each pool shares identical per-source teacher responses across policies; fresh-selected pool mixes timepoints, so legacy common pool is also reported. Same18 episode cap, actual teacher POST/tokens vary. Cheap37 and classifier costs are additional.')
+    m.study.new(ROOT/'CONTROL_COMPARISON.json',result)
+    print(json.dumps({name:{k:v for k,v in pool.items() if k!='outcomes'} for name,pool in pools.items()}),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate']);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate','controls'])
+    parser.add_argument('--variant',choices=['value','risk'],default='value');args=parser.parse_args()
+    VARIANT=args.variant
+    if VARIANT=='risk':ROOT=ROOT.parent/'acquisition_risk_control_v1'
     if args.mode=='prepare':prepare()
     elif args.mode=='train':c.root=ROOT;c.train()
     elif args.mode=='predict':predict()
     elif args.mode=='evaluate':launch_evaluation()
+    elif args.mode=='controls':cached_controls()
     else:train_and_predict()
