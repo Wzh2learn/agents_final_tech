@@ -111,10 +111,19 @@ def predict(variant):
 
 
 def predict_all():
-    assert m.read(ROOT/'LOCAL_RESULT.json')['status']=='RETURNED'
+    plan=m.read(ROOT/'PLAN.json');local=m.read(ROOT/'LOCAL_RESULT.json');assert local['status']=='RETURNED'
     state=dict(status='RUNNING',phase='PREDICT',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21])
     m.study.new(ROOT/'PREDICT_LIVE.json',state);unloaded=False;child=None
     try:
+        restored=local.get('restoration')
+        if restored:
+            deadline=time.monotonic()+90
+            while True:
+                owner=m.read(m.study.PRIVATE/'research_services/gpu_guard_current.json')
+                stat=Path('/proc',str(restored['pid']),'stat')
+                if owner['pid']==restored['pid'] or not stat.exists() or stat.read_text().split()[2] in ['Z','X']:break
+                if time.monotonic()>deadline:raise TimeoutError('restored GPU owner has not registered; refusing a second model')
+                time.sleep(1)
         unloaded=c.stop27()
         for variant in POLICIES:
             with (ROOT/(variant+'_predict.log')).open('xb') as log:
@@ -123,15 +132,7 @@ def predict_all():
                 state.update(variant=variant,child_pid=child.pid);m.study.publish(ROOT/'PREDICT_LIVE.json',state)
                 code=child.wait(timeout=1800)
             if code:raise RuntimeError(variant+' prediction failed; retain the same attempt')
-        predictions={name:m.read(ROOT/(name+'_PREDICTIONS.json')) for name in POLICIES}
-        orders={name:[r['index'] for r in sorted(pred['decisions'],key=lambda row:(-row['score'],row['index']))]
-            for name,pred in predictions.items()}
-        order=list(range(57));random.Random(plan['random_seed']).shuffle(order);orders['random_fixed']=order
-        m.study.new(ROOT/'POLICIES.json',dict(orders=orders,budget=plan['teacher_task_budget'],
-            secondary_budgets=plan['secondary_task_budgets'],classifiers={name:{k:pred[k] for k in
-                ['forward_calls','input_tokens_processed','forward_seconds','seconds']} for name,pred in predictions.items()},
-            teacher_pool='All57 original first-pass snapshots, one shared realization, no outcome-based selection',
-            scope='Frozen models, prompts and budgets. No learning from57 sources before closing this forward-development comparison.'))
+        freeze_policies()
         state.update(status='RETURNED',phase='READY_FOR_TEACHER')
     except BaseException:state.update(status='FAILED',error=traceback.format_exc())
     finally:
@@ -142,6 +143,22 @@ def predict_all():
         if unloaded:state['restoration']=c.restore27()
         m.study.publish(ROOT/'PREDICT_LIVE.json',state);m.study.new(ROOT/'PREDICT_RESULT.json',state)
         print(json.dumps(state),flush=True)
+
+
+def freeze_policies():
+    plan=m.read(ROOT/'PLAN.json');predictions={name:m.read(ROOT/(name+'_PREDICTIONS.json')) for name in POLICIES}
+    for pred in predictions.values():
+        assert len(pred['decisions'])==57 and all(row['id']==source['id'] and row['index']==source['index']
+            for row,source in zip(pred['decisions'],plan['episodes'],strict=True))
+    assert not (ROOT/'TEACHER_LIVE.json').exists()
+    orders={name:[r['index'] for r in sorted(pred['decisions'],key=lambda row:(-row['score'],row['index']))]
+        for name,pred in predictions.items()}
+    order=list(range(57));random.Random(plan['random_seed']).shuffle(order);orders['random_fixed']=order
+    m.study.new(ROOT/'POLICIES.json',dict(orders=orders,budget=plan['teacher_task_budget'],
+        secondary_budgets=plan['secondary_task_budgets'],classifiers={name:{k:pred[k] for k in
+            ['forward_calls','input_tokens_processed','forward_seconds','seconds']} for name,pred in predictions.items()},
+        teacher_pool='All57 original first-pass snapshots, one shared realization, no outcome-based selection',
+        scope='Frozen models, prompts and budgets. No learning from57 sources before closing this forward-development comparison.'))
 
 
 def teacher(key):
@@ -189,7 +206,9 @@ def launch_teacher():
     if pid:output.close();print('CAMPUS_WORKER_PID='+str(pid),flush=True);return
     os.setsid();os.dup2(output.fileno(),1);os.dup2(output.fileno(),2)
     null=os.open(os.devnull,os.O_RDONLY);os.dup2(null,0);os.close(null)
-    try:teacher(key)
+    try:
+        teacher(key)
+        if m.read(ROOT/'TEACHER_RESULT.json')['status']=='RETURNED':compare()
     except BaseException:traceback.print_exc()
     finally:os._exit(0)
 
@@ -201,6 +220,7 @@ def compare():
     rows=[]
     for source,cheap,teacher_row,label in zip(plan['episodes'],local['arms']['cheap37'],native['episodes'],labels,strict=True):
         i=source['index'];assert i==cheap['index']==teacher_row['index']==label['index']
+        assert source['id']==cheap['id']==teacher_row['id']==label['id']
         public=m.read(Path(source['folder'])/'inputs/public.json')
         program,keep=av.guarded_program(cheap['program'],teacher_row['program'],public,teacher_row['normal'])
         final=ROOT/'final'/f'{i:03d}';final.mkdir(parents=True)
@@ -219,8 +239,16 @@ def compare():
                 acquisitions=k,teacher_posts=sum(r['posts'] for r in rr),teacher_tokens=sum(r['tokens'] for r in rr),
                 teacher_actor_seconds=sum(r['actor_seconds'] for r in rr))
         tables[str(k)]=table
+    costs={arm:dict(posts=sum(r['posts'] for r in rr),tokens=sum(r['tokens'] for r in rr),
+        actor_seconds=sum(r['actor_seconds'] for r in rr),unknown=sum(r['unknown'] for r in rr))
+        for arm,rr in local['arms'].items()}
+    costs['teacher_full']=dict(posts=native['posts'],tokens=native['known_tokens'],
+        actor_seconds=sum(r['actor_seconds'] for r in native['episodes']),unknown=native['unknown'])
     result=dict(status='RETURNED',tasks=57,local=local['summary'],teacher_native=sum(r['teacher'] for r in rows),
         all_teacher_guard=sum(r['after'] for r in rows),tables=tables,outcomes=rows,classifiers=policies['classifiers'],
+        stage_costs=costs,cost_rule='Firstpass is common; selective policies add cheap37, their own classifier and selected teacher. '
+            'Raw direct teacher adds only teacher_full to firstpass; all_teacher_guard also adds cheap37. '
+            'Actor seconds are not end-to-end wall time; HF inputs are separate from provider tokens.',
         physical_new_campus=dict(posts=native['posts'],tokens=native['known_tokens'],unknown=native['unknown'],seconds=native['seconds']),
         scope='57 previously unused TRAIN sources; frozen selectors; all common teacher trajectories ran through OpenCode. '
             'Selected-policy totals replay common native candidates. All guarded finals submitted through the task executor. '

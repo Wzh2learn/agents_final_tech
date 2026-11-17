@@ -58,6 +58,7 @@ def request(public,initial,current):
 def prepare():
     if VARIANT=='risk':prepare_risk();return
     if VARIANT=='single':prepare_single();return
+    if VARIANT=='expanded':prepare_expanded();return
     study=m.read(TEACHER/'RESULT.json');assert study['status']=='RETURNED' and len(study['episodes'])==96
     labels=m.read(c.step1/'TRAIN_LABELS_PRIVATE.json')
     sources={row['index']:row for row in m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['episodes']}
@@ -158,6 +159,50 @@ def prepare_single():
         scope='Matched sources,teacher evidence,old37 warm start,121 replay,434 updates/894 forwards. Repeat one local state per source instead of adding executed state views; no extra teacher calls or DEV targets.')
     ROOT.mkdir();m.study.new(ROOT/'DATA.json',dict(anchor_groups=data['anchor_groups'],patch_groups=groups));m.study.new(ROOT/'PLAN.json',plan)
     print(json.dumps(dict(variant=VARIANT,sources=len(groups),unique_states=96,forward_rows=252,targets=dict(counts))),flush=True)
+
+
+def prepare_expanded():
+    """Reuse the now-closed57-source forward batch; unchanged learning rule/replay."""
+    reference=ROOT.parent/'acquisition_value_v1';forward=ROOT.parent/'forward_sources57_v1'
+    baseline=m.read(reference/'DATA.json');old_views=m.read(reference/'TRAIN_VIEWS.json')
+    plan=m.read(reference/'PLAN.json');source_plan=m.read(forward/'PLAN.json')
+    local=m.read(forward/'LOCAL_RESULT.json');teachers=m.read(forward/'TEACHER_RESULT.json')
+    assert m.read(forward/'COMPARISON.json')['status']==local['status']==teachers['status']=='RETURNED'
+    labels=m.read(forward/'LABELS_PRIVATE.json');tokenizer=m.tokens.load_tokenizer(m.learning.MODEL)
+    groups=list(baseline['patch_groups']);views=list(old_views['views']);base_rows=list(old_views['cheap_actual'])
+    contrasts=plan['source_groups_with_changed_value']
+    for source,teacher,label in zip(source_plan['episodes'],teachers['episodes'],labels,strict=True):
+        i=source['index'];index=96+i;assert source['id']==teacher['id']==label['id']
+        original=Path(source['folder']);public=m.read(original/'inputs/public.json');initial=m.state_from_folder(original)
+        encoded=[];targets=set();seen=set()
+        for arm,kind in [('cheap37','cheap_actual'),('firstpass','original_actual'),('ordinary','ordinary_actual')]:
+            row=local['arms'][arm][i];assert row['index']==i and row['id']==source['id']
+            program=row['program']
+            if program in seen:continue
+            seen.add(program);current=dict(current_program=program,execution_feedback=m.task.execute_public(program,public))
+            selected,kept=guarded_program(program,teacher['program'],public,teacher['normal'])
+            before=m.task.grade(program,public,label['exe_ans'])['execution_correct']
+            after=m.task.grade(selected,public,label['exe_ans'])['execution_correct'];utility=int(after)-int(before)
+            target='B' if utility>0 else ('A' if utility<0 else 'N');targets.add(target)
+            item=m.tokens.encode_completion(request(public,initial,current),dict(role='assistant',content=json.dumps(dict(outcome=target))),
+                tokenizer,16384,completion_kind='text')
+            item.update(source_index=index,view_kind=kind);encoded.append(item)
+            views.append(dict(index=index,id=source['id'],kind=kind,program=program,utility=utility,target=target,guard_keep=kept))
+            if arm=='cheap37':base_rows.append(dict(index=index,before=before,after=after,utility=utility,guard_keep=kept))
+        groups.append(encoded);contrasts+=int(len(targets)>1)
+    assert len(groups)==len(base_rows)==153 and len(baseline['anchor_groups'])==121
+    schedule=[dict(kind='replay',index=i) for i in range(121)]+[dict(kind='value',index=i) for i in range(153)]
+    random.Random(plan['seed']).shuffle(schedule);schedule*=plan['epochs']
+    plan.update(schedule=schedule,value_source_groups=153,value_views=len(views),
+        target_counts=dict(collections.Counter(row['target'] for row in views)),source_groups_with_changed_value=contrasts,
+        scope='Original96 TRAIN+all57 closed forward-development TRAIN sources, without outcome selection. '
+            'Same121 replay,old37 warmstart,source weighting,target,LR,epochs. No DEV targets/reserved64. '
+            '57-source comparison is now development history, never a test of this expanded model.')
+    ROOT.mkdir();m.study.new(ROOT/'DATA.json',dict(anchor_groups=baseline['anchor_groups'],patch_groups=groups))
+    m.study.new(ROOT/'TRAIN_VIEWS.json',dict(views=views,cheap_actual=base_rows))
+    m.study.new(ROOT/'PLAN.json',plan)
+    print(json.dumps(dict(sources=153,views=len(views),changed_value_groups=contrasts,updates=len(schedule),
+        forwards=plan['epochs']*(sum(map(len,baseline['anchor_groups']))+sum(map(len,groups))),targets=plan['target_counts'])),flush=True)
 
 
 def predict(*,sources=None,cheap=None,output=None,strong_budget=None,fixed_threshold=None):
@@ -323,8 +368,9 @@ def evaluate(key=None):
 
 def cached_control_teacher(index):
     """Common teacher realization for matched controls; never called by predict."""
-    if VARIANT not in ['risk','single']:return None
-    names=['acquisition_value_v1']+(['acquisition_risk_control_v1'] if VARIANT=='single' else [])
+    if VARIANT not in ['risk','single','expanded']:return None
+    names=['acquisition_value_v1']+(['acquisition_risk_control_v1'] if VARIANT in ['single','expanded'] else [])
+    if VARIANT=='expanded':names.append('acquisition_single_state_v1')
     for name in names:
         folder=ROOT.parent/name/'teacher_dev'/f'{index:03d}'
         if (folder/'RESULT.json').exists():return folder
@@ -409,11 +455,12 @@ def cached_controls():
 
 def compare_matched_risk():
     """Hold teacher outcomes common while comparing the trained selectors."""
-    assert VARIANT in ['risk','single']
+    assert VARIANT in ['risk','single','expanded']
     value_root=ROOT.parent/'acquisition_value_v1';out=ROOT/'MATCHED_COMPARISON.json'
     if out.exists():raise RuntimeError('matched comparison already exists')
     folders=dict(value=value_root,risk=ROOT.parent/'acquisition_risk_control_v1')
-    if VARIANT=='single':folders['single']=ROOT
+    if VARIANT in ['single','expanded']:folders['single']=ROOT.parent/'acquisition_single_state_v1'
+    if VARIANT=='expanded':folders['expanded']=ROOT
     native={name:m.read(folder/'DEV_RESULT.json') for name,folder in folders.items()}
     assert all(row['status']=='RETURNED' and len(row['episodes'])==64 for row in native.values())
     predictions={name:m.read(folder/'PREDICTIONS.json') for name,folder in folders.items()}
@@ -507,10 +554,11 @@ def fusion_probe():
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate','controls','matched','fusion'])
-    parser.add_argument('--variant',choices=['value','risk','single'],default='value');args=parser.parse_args()
+    parser.add_argument('--variant',choices=['value','risk','single','expanded'],default='value');args=parser.parse_args()
     VARIANT=args.variant
     if VARIANT=='risk':ROOT=ROOT.parent/'acquisition_risk_control_v1'
     elif VARIANT=='single':ROOT=ROOT.parent/'acquisition_single_state_v1'
+    elif VARIANT=='expanded':ROOT=ROOT.parent/'acquisition_value_expanded_v1'
     if args.mode=='prepare':prepare()
     elif args.mode=='train':c.root=ROOT;c.train()
     elif args.mode=='predict':predict()
