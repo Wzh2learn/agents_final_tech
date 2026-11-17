@@ -1,6 +1,6 @@
 # 纠正学习：机制知识与经验索引
 
-> 2026-11-17｜知识索引，历史推理不作现役待办。固定64确认普通34、旧成对39、效用42/风险43；保留纠正收益，下一只在TRAIN提炼互补编辑。执行见[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)，结果见[FinQA记录](FINQA_CORRECTION_LEARNING.md)，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。
+> 2026-11-18｜知识索引，历史推理不作现役待办。三问/八律、冻结新TAT及T₀/T₁对照按[短计划](../STAGE2_AGENT_RESEARCH_PLAN_20261102.md)执行；[论文实验表](IJCNN_EXPERIMENT_TABLES.md)汇总当前证据，[FinQA记录](FINQA_CORRECTION_LEARNING.md)保留原始正负结果，旧训练/能力见[专题](FEEDBACK_INTERACTION_LEARNING.md)。
 
 <a id="mechanism-knowledge"></a>
 ## 一条研究主线，三个知识来源阶段
@@ -85,6 +85,8 @@
 | K62 概率和轻量表征不能直接替代执行效用 | inline固定程序的整段/最差语义片段主18均39，已学价值40；冻结旧37后，153来源323状态CPU头38、修1误0。部分可恢复错误仍高置信 | 保留已有纠正/价值模型，停止这两版替代；4B原计划未开训即取消，转TAT增强和论文闭合，不扫聚合/BGE特征 | 0新HTTP/GPU训练；CPU183优化迭代/34.10秒，编码神经计数未知。缩小模型不作新贡献。[结果](FINQA_CORRECTION_LEARNING.md#cheap-value-closed-v1) |
 | K63 价值学习的优势在预算区间及可恢复性 | 全K复算：统一K8价值/风险39/38、35/33、41/40；K18为41/41、36/32、42/43。确认18差1来自风险独有多恢复1题，双方各误1 | 报告完整曲线与原主预算，保留低预算收益、交叉及随机控制，不按确认曲线挑新K。生成、分类与教师成本分账，α仅敏感性 | 0新模型/训练，冻结排序和真实公共教师池；含选择交集/差集归因。[完整曲线](FINQA_CORRECTION_LEARNING.md#frozen-budget-curves) |
 | K64 跨集纠正有效，接管优势依赖新错误分布 | TAT32首轮1/普通5/成对7；对普通修3误1，2语义恢复。主K9价值/风险/随机11/13/13，次级16为16/14/16；全教师15修3误，最终19 | 不再将0/32当方法失败；保持零训练迁移，原主预算不换。教师会损伤已正确进度，生成、保持和可恢复性须分别理解 | 新144本地POST、59校内POST、64HF前向，0训练；全部真实原生/公共池回放，官方算术尺度评分。[TAT结果](FINQA_CORRECTION_LEARNING.md#tatqa-flat-dsl-transfer-v1) |
+| K65 冻结跨集复核暴露单位绑定边界 | 新TAT32首轮4、普通12、成对9；成对R2/H5，3损失算式相同而percent/none不同。主9价值11/风险10/随机12，全教师15 | 不将旧TAT5→7推广成稳定跨集增益；合法DSL与单位语义须分别理解，0训练、原主预算不换 | 新136本地POST、66教师POST、64HF前向；全32均保留。[前向](FINQA_CORRECTION_LEARNING.md#tatqa-frozen-forward-v1) |
+| K66 教师利用当前进度也会锚定错误 | 同旧TAT32新配对T0/T1：主9为11/9，全32为17/15；恢复14→9、错改4→1，5胜7负。3失分例原样复用错误本地候选 | 离线共享与在线信息利用可解耦；多看进度并非免费收益，a下降可超过b下降，本轮保留T0，不重训路由器 | 新64教师题次/114POST/471,073tokens，未知0；固定当前状态/集合/G，实际新执行而非缓存。[配对](FINQA_CORRECTION_LEARNING.md#state-aware-teacher-v1) |
 
 <a id="mechanism-candidates"></a>
 ## 从知识提出可执行的候选
