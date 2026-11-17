@@ -1,6 +1,6 @@
 # 第二阶段：执行反馈驱动的纠正学习
 
-> 2026-11-17｜Goal active。DEV41/41/40，新57保留局部信号；扩样40未改善，停止本版。冻结原96模型，转预留64一次确认，当前尚未执行。
+> 2026-11-17｜Goal active。DEV41/41/40，新57保留局部信号；扩样40已停。预留64固定方法确认已启动，尚无完整结果，不再调模型。
 
 ## 当前候选与交付
 
@@ -23,16 +23,16 @@
 ## 当前唯一下一批：预留64固定方法确认
 
 1. 原96来源效用/风险/单状态三个434更新模型固定。主18、次级8/12接管，固定随机seed20261117；完整比较包括首轮、普通SFT、旧37、三个选择器、随机、直接教师及保护首轮的全教师参照。
-2. 复用[runner](finqa_forward_transfer.py)的--cohort confirmation：代码提交后，先冻结模型/提示/运行预算/比较族，再载入原预约64题。一个有限父流程顺序执行本地三臂、三HF头、公共教师池和最终程序提交，无额外调度框架。
+2. 复用[runner](finqa_forward_transfer.py)的--cohort confirmation：fd35576c先冻结模型/提示/运行预算/比较族，再载入64题。父174666/23872327正在首轮，随后顺序本地三臂、三HF头、公共教师池及最终程序提交，不重复启动。
 3. 预约成员不变，与153 TRAIN及所有更早来源隔离。64不用于选模型、训练或剔题，不因错误重选；同原始现场教师结果在预测冻结后共享。保留成功、错改、原始失败及完整成本。
 
-当前确认尚未执行。单GPU、32GiB保护，各模型阶段退出后恢复27B；原扩样全部PID已终结，不重启。
+确认已开始，按LOCAL/PREDICT/TEACHER_LIVE及最终RUN_RESULT接续；单GPU、32GiB保护，各模型阶段退出后恢复27B。原扩样全部PID已终结，不重启。
 
 ## 判断与边界
 
 一个候选先真实出分，对缓存33/37及同预算简单策略。净增至少3题后补齐对照；复用旧37本身的增量不算新贡献，需要新增修复或有意义的成本改善。不要求所有任务领先；12月中旬按机制、确认效果和成本判断IJCNN条件。
 
-原64开发/53一次确认均已用；另64个公司年份来源仍RESERVED_NOT_EXECUTED，现转固定方法确认，始终不进形成/训练。DEV教师输出不转TRAIN。[预约](results/FINQA_CORRECTION_LEARNING.md#project-filing-reservation-v2)。首分叉/四算子生成器/旧小值头停止，历史负结果不重跑。[知识索引](results/CONTINUATION_PROGRAM.md#mechanism-knowledge)
+原64开发/53一次确认均已用；预约64现为CONFIRMATION_IN_PROGRESS，始终不进形成/训练。DEV教师输出不转TRAIN。[预约](results/FINQA_CORRECTION_LEARNING.md#project-filing-reservation-v2)。首分叉/四算子生成器/旧小值头停止，历史负结果不重跑。[知识索引](results/CONTINUATION_PROGRAM.md#mechanism-knowledge)
 
 单GPU、32GiB保护；不扩编译器/调度/治理，不制包、不逐文件核SHA，不并行全套消融。原始失败保留，状态只维护当前答案。正向与死因按[机制知识](results/CONTINUATION_PROGRAM.md#mechanism-knowledge)和[近邻](IJCNN_RELATED_WORK_REFRESH_20261030.md)按需加载。
 

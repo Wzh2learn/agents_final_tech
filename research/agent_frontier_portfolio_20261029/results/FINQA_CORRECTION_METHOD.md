@@ -1,6 +1,6 @@
 # FinQA纠正学习：方法定义与近邻
 
-> 2026-11-17｜主配置为96来源模型：DEV效用/风险41、单状态40，新57保留局部迁移信号。153扩样40已停，转预留64固定方法确认，尚未执行。数值见[结果](FINQA_CORRECTION_LEARNING.md#forward-sources57-v1)，运行句柄查[STATE](../../../memory/STATE.md)。
+> 2026-11-17｜主配置为96来源模型：DEV效用/风险41、单状态40，新57保留局部迁移信号。153扩样40已停；预约64固定方法确认已开始，尚无完整结果。数值见[结果](FINQA_CORRECTION_LEARNING.md#forward-sources57-v1)，运行句柄查[STATE](../../../memory/STATE.md)。
 
 <a id="shared-teacher-value"></a>
 ## 当前候选：共享教师结果的状态条件化接管价值
