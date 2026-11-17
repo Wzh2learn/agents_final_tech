@@ -39,7 +39,7 @@ def prompt(public, *, terminal_program=False):
                 'Submit a program with the bash tool: ')
     closing = (
         'Repair execution errors. Finish with exactly one plain-text line beginning Final program: '
-        'followed by the complete expression, without wrappers, quotes or code fences. '
+        'followed by the complete flat function-call DSL program, without wrappers, quotes or code fences. '
         'You may add one Final scale: line with none, thousand, million, billion or percent. '
         'An omitted final scale retains your last submitted scale, or none when there is no prior submission. '
         'The execution layer submits the declaration after normal completion. '
@@ -56,6 +56,11 @@ def prompt(public, *, terminal_program=False):
         'Allowed operators: add, subtract, multiply, divide, exp, greater, table_sum, table_average, '
         'table_max, table_min. Each step has two arguments; separate steps with commas and use '
         '#0 for the result of step zero. const_100 means 100; const_m1 means -1. '
+        'REQUIRED PROGRAM SYNTAX: op(arg1, arg2), op(arg1, arg2), ... . '
+        'For example: divide(12, 4). A two-step example is subtract(12, 4), divide(#0, 4). '
+        'Write every arithmetic operation as a function call with parentheses and two comma-separated '
+        'arguments. Plain expressions such as 12 / 4 or subtract 12 4 are invalid. '
+        'Do not nest function calls: flatten them into steps and reference only earlier results with #i. '
         'For table operations use the exact row label and none as the second argument. '
         'The tool saves the latest program and scale, and reports execution feedback, never answer '
         'correctness. ' + closing +

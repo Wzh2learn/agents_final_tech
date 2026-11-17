@@ -188,4 +188,6 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 **TAT-QA提交模式补充**：旧工具只有--program，终答--final-jsonl控制先实测拒绝。新模式复用末次助手唯一明确程序声明，另读可选Final scale；缺省沿用已有公共预测scale，none显式清空，未知scale记录为失败，不从金标补单位。旧Bash与32个默认任务prompt保持，新提示只在新批启用且各模型共用。GB10官方评分/真实执行器28项及16子检查过、0跳过；这是CPU接口证据，尚非TAT模型效果。[接口与证据](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_LEARNING.md#tatqa-terminal-contract-v1)、`tests/test_tatqa_correction.py`。
 
+**11-17跨数据集DSL补充**：TAT-QA的“complete expression”不足以约束函数式语法；新批显式给出`op(arg1, arg2)`、平铺步骤与`#i`引用及通用正反例，既不填金标数字也不从答案补scale。真实32首轮已13个合法、1题正确；普通纠正26合法/5正确，成对25合法/7正确。故语法交付与语义成功分别统计，修复提示不作为学习创新，也不将所有零分归因语法。原0/32与新wire保留，TAT答案/教师输出禁入训练。[组件](../../research/agent_frontier_portfolio_20261029/tatqa_correction.py)、[原生迁移](../../research/agent_frontier_portfolio_20261029/tatqa_transfer.py)。
+
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。

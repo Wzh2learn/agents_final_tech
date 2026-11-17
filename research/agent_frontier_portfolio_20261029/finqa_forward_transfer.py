@@ -348,6 +348,125 @@ def compare():
     print(json.dumps({k:v for k,v in result.items() if k!='outcomes'}),flush=True)
 
 
+def budget_curves():
+    """Descriptive full-K replay of frozen rankings, never a new model evaluation."""
+    import csv
+    base=c.root.parent;target=base/'FROZEN_BUDGET_CURVES.json'
+    if target.exists():raise RuntimeError('curves already exist; inspect rather than regenerate')
+    dev=m.read(base/'acquisition_single_state_v1/MATCHED_COMPARISON.json')
+    pool=dev['pools']['shared_union']
+    specifications=[('DEV64',pool['outcomes'],
+        {name:[r['index'] for r in sorted(m.read(base/POLICIES[name]/'PREDICTIONS.json')['decisions'],
+            key=lambda r:(-r['score'],r['index']))] for name in POLICIES},
+        dev['classifiers'],dev['cheap_common'],dict(native=None,guarded=pool['policies']['all_teacher']['success']))]
+    for name,folder in [('FORWARD57','forward_sources57_v1'),('CONFIRM64','confirmation64_v1')]:
+        result=m.read(base/folder/'COMPARISON.json');policies=m.read(base/folder/'POLICIES.json')
+        specifications.append((name,result['outcomes'],policies['orders'],result['classifiers'],
+            result['stage_costs']['cheap37'],dict(native=result['teacher_native'],guarded=result['all_teacher_guard'])))
+    panels={};flat=[]
+    for name,rows,orders,classifiers,local_cost,reference in specifications:
+        n=len(rows);assert sorted(r['index'] for r in rows)==list(range(n))
+        baseline=sum(r['before'] for r in rows);by_index={r['index']:r for r in rows};curves={}
+        for policy,order in orders.items():
+            assert sorted(order)==list(range(n))
+            points=[];success=baseline;recovered=damaged=posts=tokens=0;seconds=0.
+            for k in range(n+1):
+                if k:
+                    r=by_index[order[k-1]];success+=r['utility'];recovered+=r['utility']>0;damaged+=r['utility']<0
+                    posts+=r['posts'];tokens+=r['tokens'];seconds+=r.get('actor_seconds',r.get('seconds',0.))
+                point=dict(panel=name,policy=policy,K=k,success=success,rate=success/n,
+                    recovered=int(recovered),damaged=int(damaged),teacher_posts=posts,teacher_tokens=tokens,
+                    teacher_actor_seconds=seconds,classifier_forward_seconds=classifiers.get(policy,{}).get('forward_seconds',0.),
+                    classifier_input_tokens=classifiers.get(policy,{}).get('input_tokens_processed',0))
+                points.append(point);flat.append(point)
+            assert points[-1]['success']==reference['guarded'];curves[policy]=points
+        curves['random_expectation']=[dict(K=k,success=baseline+k/n*sum(r['utility'] for r in rows),
+            teacher_tokens=k/n*sum(r['tokens'] for r in rows),teacher_actor_seconds=k/n*sum(r.get('actor_seconds',r.get('seconds',0.)) for r in rows)) for k in range(n+1)]
+        differences=[curves['value'][k]['success']-curves['risk'][k]['success'] for k in range(n+1)]
+        def runs(sign):
+            selected=[k for k,d in enumerate(differences) if (d>0 if sign>0 else d<0)];groups=[]
+            for k in selected:
+                if groups and groups[-1][1]+1==k:groups[-1][1]=k
+                else:groups.append([k,k])
+            return groups
+        panels[name]=dict(tasks=n,baseline=baseline,teacher_reference=reference,local_stage=local_cost,
+            classifiers=classifiers,curves=curves,value_minus_risk=differences,
+            value_better_K_ranges=runs(1),risk_better_K_ranges=runs(-1),
+            equal_K=[k for k,d in enumerate(differences) if d==0])
+    result=dict(status='RETURNED',panels=panels,new_model_posts=0,new_training_updates=0,
+        scope='Post-hoc descriptive analysis of every K using frozen rankings and common actual native teacher candidates. No new confirmation evaluation, no policy/model change, no selection of a new operating budget.',
+        cost_rule='Report local generation, classifier forwards/seconds, and teacher tokens/actor-seconds separately. No equal-cost token summation; actor work is not end-to-end wall time. Confirmation classifier timings retain the previously disclosed residency overlap.',
+        random_rule='Uniform-random expected utility at every K. Forward/confirmation also retain their original complete fixed random order; DEV original random control exists only at its frozen primary budget.')
+    m.study.new(target,result)
+    with target.with_suffix('.csv').open('x',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=list(flat[0]));writer.writeheader();writer.writerows(flat)
+    for name,panel in panels.items():
+        ks=sorted({k for k in [0,4,7,8,10,12,16,18,24,panel['tasks']] if k<=panel['tasks']})
+        print(json.dumps(dict(panel=name,value_better=panel['value_better_K_ranges'],risk_better=panel['risk_better_K_ranges'],
+            selected=[dict(K=k,**{policy:panel['curves'][policy][k]['success'] for policy in POLICIES},
+                value_teacher_tokens=panel['curves']['value'][k]['teacher_tokens']) for k in ks])),flush=True)
+
+
+def budget_difference_cases():
+    """Explain curve crossings by exclusive selections, without changing policies."""
+    base=c.root.parent;output=base/'FROZEN_BUDGET_CASES.json'
+    if output.exists():raise RuntimeError('case analysis already exists')
+    cases={}
+    for name,folder in [('DEV64',None),('FORWARD57','forward_sources57_v1'),('CONFIRM64','confirmation64_v1')]:
+        if folder is None:
+            rows=m.read(base/'acquisition_single_state_v1/MATCHED_COMPARISON.json')['pools']['shared_union']['outcomes']
+            orders={p:[r['index'] for r in sorted(m.read(base/POLICIES[p]/'PREDICTIONS.json')['decisions'],
+                key=lambda r:(-r['score'],r['index']))] for p in ['value','risk']}
+        else:
+            rows=m.read(base/folder/'COMPARISON.json')['outcomes'];orders=m.read(base/folder/'POLICIES.json')['orders']
+        by={r['index']:r for r in rows};cases[name]={}
+        for k in [4,8,12,16,18,24]:
+            a,b=set(orders['value'][:k]),set(orders['risk'][:k]);parts={}
+            for label,selected in [('common',a&b),('value_only',a-b),('risk_only',b-a)]:
+                detail=[dict(index=i,local_correct=by[i]['before'],after_guard=bool(by[i].get('after',by[i].get('success'))),
+                    utility=by[i]['utility'],teacher_tokens=by[i]['tokens'],teacher_native_correct=by[i].get('teacher')) for i in sorted(selected)]
+                parts[label]=dict(recovered=sum(r['utility']>0 for r in detail),damaged=sum(r['utility']<0 for r in detail),
+                    still_wrong=sum(not r['local_correct'] and not r['after_guard'] for r in detail),details=detail)
+            parts['value_minus_risk']=sum(by[i]['utility'] for i in a)-sum(by[i]['utility'] for i in b)
+            cases[name][str(k)]=parts
+    m.study.new(output,dict(status='RETURNED',cases=cases,new_model_posts=0,
+        scope='Descriptive matched-pool attribution. Exclusive selection outcomes explain observed differences, not unobserved teacher sampling or a universally optimal K.'))
+    print(json.dumps({name:{k:{label:{a:b for a,b in d.items() if a!='details'} if isinstance(d,dict) else d
+        for label,d in case.items()} for k,case in rr.items() if k in ['8','18']} for name,rr in cases.items()}),flush=True)
+
+
+def plot_budget_curves(source,destination):
+    """Export full frozen curves with teacher cost separate from local compute."""
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    result=m.read(source);destination=Path(destination);destination.parent.mkdir(parents=True,exist_ok=True)
+    fig,axes=plt.subplots(2,3,figsize=(12.2,7.1),layout='constrained')
+    styles=dict(value=('#0072B2','-'),risk=('#D55E00','--'),single=('#009E73','-.'),random_fixed=('#999999',':'),random_expectation=('#333333',':'))
+    names=dict(value='Multi-state value',risk='Error risk',single='Single-state value',random_fixed='Fixed random',random_expectation='Random expectation')
+    for column,(name,panel) in enumerate(result['panels'].items()):
+        primary=16 if name=='FORWARD57' else 18
+        for policy,points in panel['curves'].items():
+            color,style=styles[policy]
+            for row in range(2):
+                x=[p['K'] if not row else p['teacher_tokens']/1000 for p in points]
+                axes[row,column].plot(x,[p['success'] for p in points],color=color,linestyle=style,
+                    linewidth=1.7 if policy in ['value','risk'] else 1.1,label=names[policy])
+                if policy in POLICIES:
+                    p=points[primary];axes[row,column].scatter(p['K'] if not row else p['teacher_tokens']/1000,
+                        p['success'],s=24,color=color,zorder=4)
+        for row in range(2):
+            axes[row,column].grid(alpha=.2);axes[row,column].set_xlabel('Teacher task budget K' if not row else 'Teacher tokens (thousands)')
+            axes[row,column].set_ylabel('Successful tasks');axes[row,column].set_title(name+' (n='+str(panel['tasks'])+')')
+            axes[row,column].tick_params(labelsize=8)
+        axes[0,column].axvline(primary,color='#777777',alpha=.4,linewidth=.8)
+    handles,labels=axes[0,1].get_legend_handles_labels()
+    fig.legend(handles,labels,loc='outside lower center',ncol=5,fontsize=8,frameon=False)
+    fig.suptitle('Frozen FinQA rankings: full-budget replay; dots mark original primary budgets',fontsize=11)
+    for extension in ['png','pdf']:fig.savefig(destination.with_suffix('.'+extension),dpi=180)
+    plt.close(fig)
+
+
 def launch_run():
     import getpass
     assert (ROOT/'PROTOCOL.json').exists() and not (ROOT/'LOCAL_LIVE.json').exists()
