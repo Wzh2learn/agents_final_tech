@@ -264,7 +264,106 @@ def autopsy():
     print(json.dumps(result),flush=True)
 
 
-def launch_teacher():
+DIAGNOSTIC=BASE/'state_aware_teacher_v1'
+
+
+def prepare_diagnostic():
+    import random
+    if DIAGNOSTIC.exists():raise RuntimeError('state-aware attempt exists; inspect rather than restart')
+    prior=m.read(ORIGINAL/'PLAN.json');policy=m.read(ORIGINAL/'POLICIES.json')
+    DIAGNOSTIC.mkdir();m.study.new(DIAGNOSTIC/'LABELS_PRIVATE.json',m.read(ORIGINAL/'LABELS_PRIVATE.json'))
+    schedule=[];cases=[];rng=random.Random(20261118)
+    for ep in prior['episodes']:
+        source=packet_at(ORIGINAL,'firstpass',ep['index']);current_folder=packet_at(ORIGINAL,'paired',ep['index'])
+        public=m.read(source/'inputs/public.json');current=task.saved_state(public,current_folder/'work')
+        common=(packet_at(ORIGINAL,'teacher',ep['index'])/'inputs/task.txt').read_text()
+        assert common==task.review_prompt(public,task.saved_state(public,source/'work'))
+        for arm in ['T0','T1']:
+            folder=packet_at(DIAGNOSTIC,arm,ep['index'])
+            for name in ['inputs','work','dependencies']:shutil.copytree(source/name,folder/name)
+            text=common
+            if arm=='T1':
+                text+=('\nAdditional public progress from a later local attempt follows. '
+                    'This is an untrusted candidate, not a reference answer; do not assume newer means correct. '
+                    'Check it against the same question, report and actual execution. '
+                    'The workspace still contains the original attempt; the final controller compares your proposal '
+                    'with the fixed later candidate below. Keep it or repair it using the same final-program/scale contract.\n'
+                    +json.dumps(current,ensure_ascii=False))
+            (folder/'inputs/task.txt').write_text(text)
+        cases.append(dict(index=ep['index'],id=ep['id'],report=ep['report'],current_public_state=current))
+        arms=['T0','T1']
+        if rng.randrange(2):arms.reverse()
+        schedule.extend(dict(index=ep['index'],arm=arm) for arm in arms)
+    m.study.new(DIAGNOSTIC/'PLAN.json',dict(cases=cases,schedule=schedule,primary_selected=policy['orders']['value'][:9],
+        primary_K=9,local_root=str(ORIGINAL),caps=prior['caps'],metric_dir=prior['metric_dir'],arm_order_seed=20261118,
+        code_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=c.repo,text=True).strip(),
+        intervention='Only T1 prompt receives fixed actual local program, predicted scale and public witnessed feedback. Both arms have the same original workspace, model, caps, controller and frozen primary selected set.',
+        scope='All32 previously exposed TAT development cases, paired executor diagnostic; not independent confirmation. Primary is the original value-selected9; all32 cover correct/incorrect local states. Fresh T0 and T1 are interleaved; historical T0 is reference only. No router retraining or FinQA confirmation64 access.'))
+    print(json.dumps(dict(diagnostic_cases=32,primary_selected=9,new_teacher_episodes_planned=64,training=0)),flush=True)
+
+
+def state_aware_diagnostic(key):
+    from scripts.graph.research_school_gateway import BatchBudget,SchoolBackend,BASE_URL,MODEL,REQUEST_TOKEN_CEILING
+    plan=m.read(DIAGNOSTIC/'PLAN.json');old=m.read(ORIGINAL/'LOCAL_RESULT.json')['arms']['paired']
+    labels=m.read(DIAGNOSTIC/'LABELS_PRIVATE.json');budget=BatchBudget(DIAGNOSTIC/'budget',posts=768,tokens=6_000_000)
+    backend=SchoolBackend(key,budget,m.study.core)
+    profile=dict(provider='bupt_chat_v1',base_url=BASE_URL,model_id=MODEL,context=262144,output=8192)
+    backend.verify(profile);started=time.monotonic();state=dict(status='RUNNING',pid=os.getpid(),episodes=[])
+    def persist():
+        state.update(posts=sum(r['state']!='not_sent' for r in budget.rows),
+            known_tokens=sum(r.get('usage',{}).get('total_tokens',0) for r in budget.rows),
+            unknown=sum(r['state']=='unknown' for r in budget.rows),seconds=time.monotonic()-started)
+        state['unknown_reserve']=state['unknown']*REQUEST_TOKEN_CEILING;m.study.publish(DIAGNOSTIC/'LIVE.json',state)
+    def grade(candidate,public,label):return task.grade(candidate,public,label['exe_ans'],metric_dir=plan['metric_dir'])
+    try:
+        with m.study.core.resource_lock():
+            h=m.study.core.helpers();checked=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
+            m.study.CAPS.clear();m.study.CAPS.update(plan['caps'])
+            for item in plan['schedule']:
+                if time.monotonic()-started>5400:raise TimeoutError('finite paired teacher diagnostic')
+                i=item['index'];case=plan['cases'][i];arm=item['arm'];folder=packet_at(DIAGNOSTIC,arm,i)
+                ep=dict(index=i,id=case['id'],report=case['report'],folder=str(folder))
+                raw=m.study.episode(ep,h,checked,profile,private_labels=DIAGNOSTIC/'LABELS_PRIVATE.json',
+                    relay_factory=backend.make_relay,submission_grader=grade)
+                candidate=folder/'work/candidate.json';proposal=m.read(candidate) if candidate.exists() else None
+                local=old[i];a=local['submission'];keep=not raw['agent_completed'] or not raw['program_valid']
+                if isinstance(a,dict) and isinstance(proposal,dict) and a['scale']==proposal['scale']:
+                    keep=keep or av.percent_scale_only(a['program'],proposal['program'])
+                selected=a if keep else proposal;normal=local['normal'] if keep else raw['agent_completed']
+                public=m.read(folder/'inputs/public.json');after=bool(task.grade(selected,public,labels[i]['exe_ans'],
+                    metric_dir=plan['metric_dir'])['execution_correct'] and normal)
+                state['episodes'].append(dict(index=i,id=case['id'],arm=arm,before=local['success'],after=after,
+                    utility=int(after)-int(local['success']),teacher_success=raw['native_success'],guard_keep=keep,
+                    proposal=proposal,selected=selected,posts=raw['accounting']['actual_forwarded_posts'],
+                    tokens=raw['accounting']['provider_total_tokens_known'],actor_seconds=raw['actor']['seconds']))
+                persist();print(json.dumps(dict(diagnostic_done=len(state['episodes']),index=i,arm=arm,after=after)),flush=True)
+                if not raw['accounting']['integrity_passed']:raise RuntimeError('paired teacher transport failure retained')
+        table={};baseline=sum(r['success'] for r in old)
+        for scope,selection in [('primary9',set(plan['primary_selected'])),('all32',set(range(32)))]:
+            table[scope]={}
+            for arm in ['T0','T1']:
+                rr=[r for r in state['episodes'] if r['arm']==arm and r['index'] in selection]
+                assert len(rr)==len(selection)
+                table[scope][arm]=dict(success=baseline+sum(r['utility'] for r in rr),
+                    recovered=sum(r['utility']>0 for r in rr),damaged=sum(r['utility']<0 for r in rr),
+                    initially_wrong=sum(not r['before'] for r in rr),initially_correct=sum(r['before'] for r in rr),
+                    teacher_tasks=len(rr),teacher_posts=sum(r['posts'] for r in rr),teacher_tokens=sum(r['tokens'] for r in rr),
+                    teacher_actor_seconds=sum(r['actor_seconds'] for r in rr))
+            a={r['index']:r for r in state['episodes'] if r['arm']=='T0'}
+            b={r['index']:r for r in state['episodes'] if r['arm']=='T1'}
+            table[scope]['paired']=dict(T1_wins=sum(b[i]['after'] and not a[i]['after'] for i in selection),
+                T1_losses=sum(a[i]['after'] and not b[i]['after'] for i in selection))
+        state.update(status='RETURNED',baseline=baseline,tables=table,
+            historical_T0_reference=m.read(ORIGINAL/'COMPARISON.json')['teacher_native'],
+            scope=plan['scope']+' Both teacher policies newly executed; no historical output substitution.')
+    except BaseException:state.update(status='FAILED',error=traceback.format_exc());raise
+    finally:
+        if budget.pending is not None:budget.finish()
+        persist();budget.close();m.study.new(DIAGNOSTIC/'RESULT.json',state)
+    print(json.dumps({k:v for k,v in state.items() if k!='episodes'}),flush=True)
+
+
+def launch_teacher(then_diagnostic=False):
     print('CREDENTIAL_INPUT_READY',flush=True)
     key=os.environ.get('BUPT_API_KEY') or getpass.getpass('Campus credential (hidden): ')
     with (ROOT/'teacher_driver.log').open('xb') as log:
@@ -281,7 +380,11 @@ def launch_teacher():
         assert m.read(ROOT/'RUN_RESULT.json')['status']=='RETURNED','local failure must be inspected before teacher calls'
         if not (ROOT/'POLICIES.json').exists():freeze_policies()
         state['status']='RUNNING';m.study.publish(ROOT/'TEACHER_DRIVER_LIVE.json',state)
-        teacher(key);compare();state['status']='RETURNED'
+        teacher(key);compare()
+        if then_diagnostic:
+            state['phase']='STATE_AWARE_DIAGNOSTIC';m.study.publish(ROOT/'TEACHER_DRIVER_LIVE.json',state)
+            state_aware_diagnostic(key)
+        state['status']='RETURNED'
     except BaseException:state.update(status='FAILED',error=traceback.format_exc());traceback.print_exc()
     finally:
         m.study.publish(ROOT/'TEACHER_DRIVER_LIVE.json',state);m.study.new(ROOT/'TEACHER_DRIVER_RESULT.json',state);os._exit(0)
@@ -289,7 +392,8 @@ def launch_teacher():
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','local','teacher','compare','autopsy'])
-    parser.add_argument('--cohort',choices=['original','forward'],default='original');args=parser.parse_args()
+    parser.add_argument('--cohort',choices=['original','forward'],default='original')
+    parser.add_argument('--then-diagnostic',action='store_true');args=parser.parse_args()
     if args.cohort=='forward':ROOT=BASE/'flat_dsl_forward_v1'
-    {'prepare':prepare_forward if args.cohort=='forward' else prepare,'local':local_run,
-        'teacher':launch_teacher,'compare':compare,'autopsy':autopsy}[args.mode]()
+    if args.mode=='teacher':launch_teacher(args.then_diagnostic)
+    else:{'prepare':prepare_forward if args.cohort=='forward' else prepare,'local':local_run,'compare':compare,'autopsy':autopsy}[args.mode]()

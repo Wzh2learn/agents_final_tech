@@ -190,4 +190,6 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 
 **11-17跨数据集DSL补充**：TAT-QA的“complete expression”不足以约束函数式语法；新批显式给出`op(arg1, arg2)`、平铺步骤与`#i`引用及通用正反例，既不填金标数字也不从答案补scale。真实32首轮已13个合法、1题正确；普通纠正26合法/5正确，成对25合法/7正确。故语法交付与语义成功分别统计，修复提示不作为学习创新，也不将所有零分归因语法。原0/32与新wire保留，TAT答案/教师输出禁入训练。[组件](../../research/agent_frontier_portfolio_20261029/tatqa_correction.py)、[原生迁移](../../research/agent_frontier_portfolio_20261029/tatqa_transfer.py)。
 
+**11-18状态感知教师对照**：新TAT开发诊断固定原工作区、当前本地候选、调用集合、模型、预算和G；T1仅追加实际本地程序/预测scale/公共执行反馈，明确候选非参考、较新不代表正确。T0/T1均新执行并交错顺序，历史T0仅作参照；金标只供宿主评分，不进入提示。固定T0监督的路由器可比较两种教师执行策略，但不据此声称其对T1最优或已校准。原生效果待本批实测，入口为`tatqa_transfer.py`的`prepare_diagnostic/state_aware_diagnostic`。
+
 修改prompt后交付变更原因、实际核验命令/结果和仍未验证的边界；引用固定证据版本。静态控制通过不代表真实模型或harness运行通过，未授权工作保持未执行身份。
