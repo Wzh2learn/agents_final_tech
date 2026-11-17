@@ -185,6 +185,8 @@ def collect(phase,h,checked):
             unknown=len(result['accounting']['unknown_usage_requests']),seconds=result['actor']['seconds'])
         rows.append(row);m.study.publish(ROOT/('PROPOSAL_'+phase.upper()+'_LIVE.json'),dict(status='RUNNING',episodes=rows))
         print(json.dumps(dict(phase=phase,index=ep['index'],utility=row['utility'],tokens=row['tokens'])),flush=True)
+        if (result['actor'].get('error') or {}).get('type')=='KeyboardInterrupt':
+            raise KeyboardInterrupt('native actor interrupted; stop the batch after retaining its cost')
     summary=dict(tasks=len(rows),before=sum(r['before_success'] for r in rows),success=sum(r['success'] for r in rows),
         recovered=sum(r['utility']>0 for r in rows),damaged=sum(r['utility']<0 for r in rows),
         posts=sum(r['posts'] for r in rows),tokens=sum(r['tokens'] for r in rows),unknown=sum(r['unknown'] for r in rows))
@@ -315,6 +317,31 @@ def evaluate_acceptance(rows):
     m.study.new(ROOT/'DEV_FINAL_RESULT.json',dict(status='RETURNED',summary=summary,episodes=final));print(json.dumps(summary),flush=True)
 
 
+def evaluate_constant_keep():
+    """Exact shortcut when the TRAIN-frozen threshold exceeds every gain score."""
+    started=time.monotonic();threshold=m.read(ROOT/'ACCEPTANCE_TRAIN.json')['selected']['threshold']
+    assert threshold>1, 'softmax p(recovery)-p(damage) is bounded by one'
+    sources=m.read(c.replay/'native_v1/PLAN.json')['source_episodes']
+    decisions=[dict(index=row['index'],id=row['id'],accept=False) for row in sources]
+    m.study.new(ROOT/'ACCEPTANCE_PREDICTIONS.json',dict(threshold=threshold,decisions=decisions,
+        rule='TRAIN-selected constant KEEP; no candidate or DEV label is needed to decide.'))
+    labels=m.read(Path(sources[0]['folder']).parent.parent/'LABELS_PRIVATE.json');final=[]
+    for row in sources:
+        source=Path(row['folder']);public=m.read(source/'inputs/public.json');state=m.state_from_folder(source)
+        before=m.read(source/'RESULT.json')['native_success'];folder=ROOT/'final'/f"{row['index']:03d}"
+        folder.mkdir(parents=True);m.task.submit_program(state['current_program'],public,folder,origin='TRAIN_frozen_constant_KEEP')
+        success=m.task.grade(state['current_program'],public,labels[row['index']]['exe_ans'])['execution_correct']
+        assert success==before
+        final.append(dict(index=row['index'],id=row['id'],before_success=before,success=success,
+            utility=int(success)-int(before),accept=False,program=state['current_program']))
+    summary=dict(tasks=len(final),before=sum(x['before_success'] for x in final),success=sum(x['success'] for x in final),
+        recovered=0,damaged=0,accepted=0,posts=0,tokens=0,unknown=0,actor_seconds=0,
+        keep_execution_seconds=time.monotonic()-started)
+    m.study.new(ROOT/'DEV_FINAL_RESULT.json',dict(status='RETURNED',summary=summary,episodes=final,
+        scope='All64 saved OpenCode first-pass programs executed through native KEEP. Exploratory proposals and training costs remain separate.'))
+    print(json.dumps(summary),flush=True)
+
+
 def run(resume=False):
     if not (ROOT/'PLAN.json').exists():prepare()
     previous=m.read(ROOT/'RUN_LIVE.json') if (ROOT/'RUN_LIVE.json').exists() else None
@@ -354,7 +381,9 @@ def run(resume=False):
             collect('train',h,checked)
             state['phase']='ACCEPTANCE_AND_DEV';m.study.publish(ROOT/'RUN_LIVE.json',state)
             fit_acceptance()
-            dev=collect('dev',h,checked);evaluate_acceptance(dev)
+            if m.read(ROOT/'ACCEPTANCE_TRAIN.json')['selected']['threshold']>1:evaluate_constant_keep()
+            else:
+                dev=collect('dev',h,checked);evaluate_acceptance(dev)
         state.update(status='RETURNED',phase='FINISHED')
     except BaseException:state.update(status='FAILED',error=traceback.format_exc())
     finally:
