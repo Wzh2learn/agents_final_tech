@@ -103,7 +103,7 @@ def watch(metadata,reserve_gib=32,interval=5):
         nonlocal requested_stop
         requested_stop=True
     for sig in [signal.SIGTERM,signal.SIGINT]:signal.signal(sig,stop_request)
-    state=dict(status='STARTING',pid=os.getpid(),boot_id=boot,container_id=identity,
+    state=dict(status='STARTING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],boot_id=boot,container_id=identity,
                reserve_gib=reserve_gib,lock_path=str(LOCK),interval_seconds=interval,
                service_metadata=str(metadata),started_unix=time.time())
     output=RUNTIME/'gpu_guard_current.json'

@@ -123,15 +123,38 @@ def prepare():
   former_prompt_run_excluded=True))
  print(json.dumps(dict(prepared=True,replay_groups=len(anchors),patch_groups=len(groups),patch_targets=len(rows),updates=len(schedule))),flush=True)
 def stop27():
+ from scripts.graph import research_gpu_guard as guard
  services=m.study.PRIVATE/'research_services';owner=m.read(services/'gpu_guard_current.json')
+ boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip()
  stat=Path('/proc',str(owner['pid']),'stat')
- if not stat.exists() or stat.read_text().split()[2] in ['Z','X']:return False
- assert owner['boot_id']==Path('/proc/sys/kernel/random/boot_id').read_text().strip() and stat.read_text().split()[21]==owner['start_ticks']
- os.kill(owner['pid'],signal.SIGTERM);deadline=time.monotonic()+120
- while stat.exists() and stat.read_text().split()[2] not in ['Z','X']:
-  if time.monotonic()>deadline:raise TimeoutError('prior model service did not stop')
-  time.sleep(2)
- return True
+ def live():return stat.exists() and stat.read_text().split()[2] not in ['Z','X']
+ changed=live()
+ if changed:
+  assert owner['boot_id']==boot and stat.read_text().split()[21]==owner['start_ticks']
+  deadline=time.monotonic()+90
+  # A startup guard must know the container ID before a stop request. Otherwise
+  # terminating its launcher can leave a detached model outside the GPU lease.
+  while live() and not owner.get('container_id'):
+   if time.monotonic()>deadline:raise TimeoutError('model guard has not registered its container; refusing another model')
+   time.sleep(1);latest=m.read(services/'gpu_guard_current.json')
+   assert latest['pid']==owner['pid'] and latest['boot_id']==boot
+   owner=latest
+  if live():os.kill(owner['pid'],signal.SIGTERM)
+  deadline=time.monotonic()+120
+  while live():
+   if time.monotonic()>deadline:raise TimeoutError('prior model service did not stop')
+   time.sleep(2)
+ # Reconcile a previously orphaned owned container before allowing new weights.
+ # The lease prevents a replacement owner racing this final container check.
+ with guard.gpu_lease(min_available_gib=0):
+  info=guard.container_info('research-qwen27b-current')
+  if info and info['running']:
+   service=m.read(services/'qwen27b_current.json')
+   assert service['boot_id']==boot and service['container_name']=='research-qwen27b-current'
+   assert info['image']==service['settings']['VLLM_IMAGE']
+   state=dict(owner,status='STOPPED_UNGUARDED_RESIDENT',container_id=info['id'])
+   guard.stop_owned(info['id'],state,services/'gpu_guard_current.json',3);changed=True
+ return changed
 def restore27():
  services=m.study.PRIVATE/'research_services';folder=services/('restore_patch_candidate_'+str(int(time.time())));folder.mkdir()
  shutil.copyfile(services/'restore_1794836679/restore.py',folder/'restore.py')
