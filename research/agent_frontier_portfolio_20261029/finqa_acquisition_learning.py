@@ -57,6 +57,7 @@ def request(public,initial,current):
 
 def prepare():
     if VARIANT=='risk':prepare_risk();return
+    if VARIANT=='single':prepare_single();return
     study=m.read(TEACHER/'RESULT.json');assert study['status']=='RETURNED' and len(study['episodes'])==96
     labels=m.read(c.step1/'TRAIN_LABELS_PRIVATE.json')
     sources={row['index']:row for row in m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['episodes']}
@@ -138,6 +139,27 @@ def prepare_risk():
     print(json.dumps(dict(variant=VARIANT,sources=len(groups),views=len(views),targets=dict(targets),updates=len(plan['schedule']))),flush=True)
 
 
+def prepare_single():
+    """One actual cheap state per source, repeated to match forward/update budgets."""
+    reference=ROOT.parent/'acquisition_value_v1';plan=m.read(reference/'PLAN.json');data=m.read(reference/'DATA.json')
+    views={r['index']:r for r in m.read(reference/'TRAIN_VIEWS.json')['views'] if r['kind']=='cheap_actual'}
+    sources={r['index']:r for r in m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['episodes']}
+    tokenizer=m.tokens.load_tokenizer(m.learning.MODEL);groups=[];counts=collections.Counter()
+    for i,old_group in enumerate(data['patch_groups']):
+        source=Path(sources[i]['source_folder']);public=m.read(source/'inputs/public.json');initial=m.state_from_folder(source)
+        view=views[i];current=dict(current_program=view['program'],execution_feedback=m.task.execute_public(view['program'],public))
+        row=m.tokens.encode_completion(request(public,initial,current),dict(role='assistant',content=json.dumps(dict(outcome=view['target']))),
+            tokenizer,16384,completion_kind='text')
+        row.update(source_index=i,view_kind='cheap_actual_repeated')
+        groups.append([dict(row) for _ in old_group]);counts[view['target']]+=len(old_group)
+    assert len(groups)==96 and sum(map(len,groups))==252
+    plan.update(value_views=96,training_view_rows=252,source_groups_with_changed_value=0,target_counts=dict(counts),
+        fixed_threshold=-1.01,objective='Single actual local state per source, same value target; top18 budget',
+        scope='Matched sources,teacher evidence,old37 warm start,121 replay,434 updates/894 forwards. Repeat one local state per source instead of adding executed state views; no extra teacher calls or DEV targets.')
+    ROOT.mkdir();m.study.new(ROOT/'DATA.json',dict(anchor_groups=data['anchor_groups'],patch_groups=groups));m.study.new(ROOT/'PLAN.json',plan)
+    print(json.dumps(dict(variant=VARIANT,sources=len(groups),unique_states=96,forward_rows=252,targets=dict(counts))),flush=True)
+
+
 def predict():
     import torch
     from peft import PeftModel
@@ -217,7 +239,8 @@ def evaluate(key=None):
     reference=m.read(TEACHER/'PLAN.json');template=Path(m.read(router.RELATIVE_ROOT/'CHEAP_PLAN.json')['reference_template'])
     profile=dict(provider='bupt_chat_v1',base_url=BASE_URL,model_id=MODEL,context=262144,output=8192)
     assert reference['model']==profile and len(decisions)==len(sources)==64
-    if any(row['decision']=='TEACHER' for row in decisions) and not key:raise ValueError('campus credential required')
+    if any(row['decision']=='TEACHER' and cached_control_teacher(row['index']) is None for row in decisions) and not key:
+        raise ValueError('campus credential required for missing teacher episodes')
     budget=BatchBudget(ROOT/'eval_budget',posts=216,tokens=1_200_000)
     backend=SchoolBackend(key,budget,m.study.core) if key else None
     if backend:backend.verify(profile)
@@ -240,15 +263,24 @@ def evaluate(key=None):
                 cheap_folder=Path(cheap[index]['folder']);local=m.read(cheap_folder/'RESULT.json');current=m.state_from_folder(cheap_folder)
                 assert (cheap_folder/'inputs/task.txt').read_text()==m.review_prompt(public,initial,terminal_program=True)
                 guard_keep=False;teacher_program=None;teacher_success=None
+                reused_teacher=False;teacher_posts=teacher_tokens=0;teacher_seconds=0
                 if decision['decision']=='TEACHER':
-                    folder=ROOT/'teacher_dev'/f'{index:03d}';target=folder/'inputs';target.mkdir(parents=True)
-                    for name in ['work','dependencies']:shutil.copytree(original/name,folder/name)
-                    for name in ['finqa_tool.py','executor.py','guest.py']:shutil.copyfile(template/name,target/name)
-                    (target/'public.json').write_text(json.dumps(public,ensure_ascii=False))
-                    (target/'task.txt').write_text(m.review_prompt(public,initial,terminal_program=True))
-                    ep=dict(index=index,id=source['id'],report=public['report'],folder=str(folder))
-                    raw=m.study.episode(ep,h,checked,profile,private_labels=original.parent.parent/'LABELS_PRIVATE.json',relay_factory=backend.make_relay)
+                    folder=cached_control_teacher(index)
+                    if folder is not None:
+                        assert m.read(folder/'inputs/public.json')==public
+                        assert (folder/'inputs/task.txt').read_text()==m.review_prompt(public,initial,terminal_program=True)
+                        raw=m.read(folder/'RESULT.json');assert raw['id']==source['id'];reused_teacher=True
+                    else:
+                        folder=ROOT/'teacher_dev'/f'{index:03d}';target=folder/'inputs';target.mkdir(parents=True)
+                        for name in ['work','dependencies']:shutil.copytree(original/name,folder/name)
+                        for name in ['finqa_tool.py','executor.py','guest.py']:shutil.copyfile(template/name,target/name)
+                        (target/'public.json').write_text(json.dumps(public,ensure_ascii=False))
+                        (target/'task.txt').write_text(m.review_prompt(public,initial,terminal_program=True))
+                        ep=dict(index=index,id=source['id'],report=public['report'],folder=str(folder))
+                        raw=m.study.episode(ep,h,checked,profile,private_labels=original.parent.parent/'LABELS_PRIVATE.json',relay_factory=backend.make_relay)
                     teacher_program=raw['submitted_program'];teacher_success=raw['native_success']
+                    teacher_posts=raw['accounting']['actual_forwarded_posts'];teacher_tokens=raw['accounting']['provider_total_tokens_known']
+                    teacher_seconds=raw['actor']['seconds']
                     program,guard_keep=guarded_program(current['current_program'],teacher_program,public,raw['agent_completed'])
                     if not raw['accounting']['integrity_passed']:
                         persist();raise RuntimeError('native transport failure retained; no automatic retry')
@@ -262,6 +294,7 @@ def evaluate(key=None):
                     before=before,cheap=local['native_success'],success=success,
                     utility=int(success)-int(local['native_success']),program=program,guard_keep=guard_keep,
                     cheap_executed=current['execution_feedback']['status']=='executed',
+                    reused_teacher=reused_teacher,teacher_posts=teacher_posts,teacher_tokens=teacher_tokens,teacher_seconds=teacher_seconds,
                     teacher_program=teacher_program,teacher_success=teacher_success))
                 persist();print(json.dumps(dict(index=index,decision=decision['decision'],success=success)),flush=True)
         rows=state['episodes'];state.update(status='RETURNED',summary=dict(tasks=len(rows),success=sum(row['success'] for row in rows),
@@ -271,8 +304,11 @@ def evaluate(key=None):
             recovered=sum(row['success'] and not row['before'] for row in rows),
             damaged=sum(row['before'] and not row['success'] for row in rows),
             acquisitions=sum(row['decision']=='TEACHER' for row in rows),guard_kept=sum(row['guard_keep'] for row in rows),
+            reused_teacher=sum(row['reused_teacher'] for row in rows),
+            policy_teacher_posts=sum(row['teacher_posts'] for row in rows),policy_teacher_tokens=sum(row['teacher_tokens'] for row in rows),
+            policy_teacher_actor_seconds=sum(row['teacher_seconds'] for row in rows),
             classifier_forward_calls=predictions['forward_calls'],classifier_input_tokens=predictions['input_tokens_processed'],
-            scope='Actual selected full native DeepSeek episodes plus native final execution. All64 cheap outputs cached; their deployment and formation costs remain separate.'))
+            scope='Selected full native DeepSeek episodes plus native final execution. Matched controls reuse same-input teacher responses on overlap after predictions freeze; only missing branches add calls. Full selected teacher costs and64 cached cheap outputs remain deployment costs.'))
     except BaseException:state.update(status='FAILED',error=traceback.format_exc())
     finally:
         if budget.pending is not None:budget.finish()
@@ -280,11 +316,22 @@ def evaluate(key=None):
         print(json.dumps({k:v for k,v in state.items() if k!='episodes'}),flush=True)
 
 
+def cached_control_teacher(index):
+    """Common teacher realization for matched controls; never called by predict."""
+    if VARIANT not in ['risk','single']:return None
+    names=['acquisition_value_v1']+(['acquisition_risk_control_v1'] if VARIANT=='single' else [])
+    for name in names:
+        folder=ROOT.parent/name/'teacher_dev'/f'{index:03d}'
+        if (folder/'RESULT.json').exists():return folder
+    return None
+
+
 def launch_evaluation():
     import getpass
     predictions=m.read(ROOT/'PREDICTIONS.json')
     if (ROOT/'DEV_LIVE.json').exists():raise RuntimeError('inspect the existing native attempt')
-    if not any(row['decision']=='TEACHER' for row in predictions['decisions']):evaluate();return
+    if not any(row['decision']=='TEACHER' and cached_control_teacher(row['index']) is None for row in predictions['decisions']):
+        evaluate();return
     print('CREDENTIAL_INPUT_READY',flush=True)
     key=os.environ.get('BUPT_API_KEY') or getpass.getpass('Campus credential (hidden): ')
     output=(ROOT/'evaluation.log').open('xb');pid=os.fork()
@@ -355,14 +402,85 @@ def cached_controls():
     print(json.dumps({name:{k:v for k,v in pool.items() if k!='outcomes'} for name,pool in pools.items()}),flush=True)
 
 
+def compare_matched_risk():
+    """Hold teacher outcomes common while comparing the trained selectors."""
+    assert VARIANT in ['risk','single']
+    value_root=ROOT.parent/'acquisition_value_v1';out=ROOT/'MATCHED_COMPARISON.json'
+    if out.exists():raise RuntimeError('matched comparison already exists')
+    folders=dict(value=value_root,risk=ROOT.parent/'acquisition_risk_control_v1')
+    if VARIANT=='single':folders['single']=ROOT
+    native={name:m.read(folder/'DEV_RESULT.json') for name,folder in folders.items()}
+    assert all(row['status']=='RETURNED' and len(row['episodes'])==64 for row in native.values())
+    predictions={name:m.read(folder/'PREDICTIONS.json') for name,folder in folders.items()}
+    policies={name:{r['index'] for r in pred['decisions'] if r['decision']=='TEACHER'} for name,pred in predictions.items()}
+    simple=m.read(value_root/'CONTROL_PREDICTIONS.json')['controls']
+    policies.update({name:{r['index'] for r in rows if r['selected']} for name,rows in simple.items()})
+    policies.update(keep_all=set(),all_teacher=set(range(64)))
+    sources=m.read(router.ROOT/'FEATURE_PLAN.json')['dev']
+    labels=m.read(Path(sources[0]['folder']).parent.parent/'LABELS_PRIVATE.json')
+    plan=m.read(ROOT.parent/'paired_state_negatives_v1/native_v1/PLAN.json')
+    cheap={r['index']:r for r in plan['episodes'] if r['arm']=='paired_state_branch'}
+    legacy=m.read(ROOT.parent/'deepseek_development_reference_v1/RESULT.json')['episodes']
+    pools={}
+    for pool in ['legacy_common','shared_union']:
+        outcomes=[]
+        for i,source in enumerate(sources):
+            teacher=legacy[i];origin='legacy'
+            if pool=='shared_union':
+                for name,folder in folders.items():
+                    candidate=folder/'teacher_dev'/f'{i:03d}'/'RESULT.json'
+                    if candidate.exists():teacher=m.read(candidate);origin=name;break
+            assert teacher['id']==source['id']==cheap[i]['id']
+            public=m.read(Path(source['folder'])/'inputs/public.json');current=m.state_from_folder(Path(cheap[i]['folder']))
+            program,kept=guarded_program(current['current_program'],teacher['submitted_program'],public,teacher['agent_completed'])
+            before=native['value']['episodes'][i]['cheap'];correct=m.task.grade(program,public,labels[i]['exe_ans'])['execution_correct']
+            outcomes.append(dict(index=i,teacher_origin=origin,before=before,success=correct,utility=int(correct)-int(before),
+                semantic=current['execution_feedback']['status']=='executed',posts=teacher['accounting']['actual_forwarded_posts'],
+                tokens=teacher['accounting']['provider_total_tokens_known'],seconds=teacher['actor']['seconds']))
+        table={};baseline=sum(row['before'] for row in outcomes)
+        for name,selection in policies.items():
+            chosen=[r for r in outcomes if r['index'] in selection]
+            table[name]=dict(success=baseline+sum(r['utility'] for r in chosen),recovered=sum(r['utility']>0 for r in chosen),
+                damaged=sum(r['utility']<0 for r in chosen),semantic_recovered=sum(r['utility']>0 and r['semantic'] for r in chosen),
+                teacher_episodes=len(chosen),teacher_posts=sum(r['posts'] for r in chosen),teacher_tokens=sum(r['tokens'] for r in chosen),
+                teacher_actor_seconds=sum(r['seconds'] for r in chosen))
+        curves={}
+        for name,pred in predictions.items():
+            order=[r['index'] for r in sorted(pred['decisions'],key=lambda r:(-r['score'],r['index']))]
+            points=[]
+            for k in [0,4,8,12,18]:
+                chosen=[outcomes[i] for i in order[:k]]
+                points.append(dict(teacher_episodes=k,success=baseline+sum(r['utility'] for r in chosen),
+                    teacher_posts=sum(r['posts'] for r in chosen),teacher_tokens=sum(r['tokens'] for r in chosen)))
+            curves[name]=points
+        curves['random_expectation']=[dict(teacher_episodes=k,success=baseline+k/64*sum(r['utility'] for r in outcomes),
+            teacher_tokens=k/64*sum(r['tokens'] for r in outcomes)) for k in [0,4,8,12,18]]
+        pools[pool]=dict(policies=table,outcomes=outcomes,budget_curves=curves)
+    for name in folders:
+        assert pools['shared_union']['policies'][name]['success']==native[name]['summary']['success']
+    local=[]
+    for row in cheap.values():
+        actual=m.read(Path(row['folder'])/'RESULT.json');local.append(actual)
+    result=dict(status='RETURNED',pools=pools,new_http_posts=0,
+        control_variant=VARIANT,physical_new_control_posts=native[VARIANT]['posts'],physical_new_control_tokens=native[VARIANT]['known_tokens'],
+        cheap_common=dict(posts=sum(r['accounting']['actual_forwarded_posts'] for r in local),
+            tokens=sum(r['accounting']['provider_total_tokens_known'] for r in local),actor_seconds=sum(r['actor']['seconds'] for r in local)),
+        classifiers={name:{k:pred[k] for k in ['forward_calls','input_tokens_processed','forward_seconds','seconds']} for name,pred in predictions.items()},
+        scope='Both native selectors share same-input teacher responses on overlap. The shared union reproduces both native totals; legacy common is a second fixed pool. Simple/all-teacher entries are CPU replays, not new full native arms. Add common cheap generation, each classifier, training/formation and service costs separately.')
+    m.study.new(out,result)
+    print(json.dumps(dict(pools={k:v['policies'] for k,v in pools.items()},cheap_common=result['cheap_common'],classifiers=result['classifiers'])),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate','controls'])
-    parser.add_argument('--variant',choices=['value','risk'],default='value');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','train','predict','run','evaluate','controls','matched'])
+    parser.add_argument('--variant',choices=['value','risk','single'],default='value');args=parser.parse_args()
     VARIANT=args.variant
     if VARIANT=='risk':ROOT=ROOT.parent/'acquisition_risk_control_v1'
+    elif VARIANT=='single':ROOT=ROOT.parent/'acquisition_single_state_v1'
     if args.mode=='prepare':prepare()
     elif args.mode=='train':c.root=ROOT;c.train()
     elif args.mode=='predict':predict()
     elif args.mode=='evaluate':launch_evaluation()
     elif args.mode=='controls':cached_controls()
+    elif args.mode=='matched':compare_matched_risk()
     else:train_and_predict()
