@@ -1,59 +1,58 @@
 # 第二篇：近邻、重合与实验判别
 
-> 2026-11-17｜方法近邻，未复现原法；旧表见`bdb85edb`/`89ca0dbd`。当前路由DEV36/64，最近对标补RouteLLM、SCoRe、LEVER。
+> 2026-11-17｜已读机制不等于复现成绩。旧详表见Git bdb85edb/89ca0dbd。当前执行只读[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 ## 当前裁决
 
-**FCCL主线：从执行反馈学习可复用纠正能力。** 优先深化R训练/融合与片段执行正向，再在金融主集验证一项具体改进。已有恢复训练、蒸馏、技能修订可直接作基础；用对照和消融定位改进，不要求所有组件全新。
-
-11-14三轮对齐：固定差分、旧耦合配方停扩；机制取材见知识索引。近邻重合用于借鉴/比较，不自动终止候选；只选实际采用机制的最近邻对照，不全表扩跑。跨领域领先不作启动门槛。
+从执行反馈学习可复用纠正能力；优先金融主集上的具体改进。近邻用于借鉴与对照，不要求全部组件原创或跨领域领先。旧固定差分/首分叉配方停扩；下一候选分开学习修复提案和KEEP/采纳，只选实际采用的最近机制比较。
 
 ## 最直接的方法近邻
 
-| 工作 | 已核机制 | 对当前主线的用途 / 历史裁决 |
+| 工作 | 已核机制 | 当前用途 |
 |---|---|---|
-| [RouteLLM](https://arxiv.org/abs/2406.18665) | 11-17核原文v1与元数据v4：偏好监督的强弱模型路由，含相似度、矩阵分解、BERT等路由器。 | 直接复用其低成本选择框架；当前需检验执行后状态及恢复减错改效用，超出仅问题/错误风险路由的增量。不能把三类MLP或按需接管本身当新机制。 |
-| [SCoRe](https://arxiv.org/html/2409.12917v1) | 11-17核§4–5：离线SFT可偏向不修改；在自身分布上用两阶段RL与改善奖励规避模式坍缩。 | 当前全KEEP与其已知问题相符，但不是已证明同因；借鉴增量奖励和反坍缩思路。下一联合补丁信用来自本项目真实子集反馈，不再只扫首分叉系数。 |
-| [LEVER](https://arxiv.org/abs/2302.08468) | 核原文：以问题、程序和执行结果学习正确性验证，结合生成概率和相同执行结果聚合重排。 | 执行后评分/选候选已有。当前先比较KEEP与纠正的增量效用，进一步区分单改动与联合改动信用；若做补丁价值模型，须纳入此近邻适配对照。 |
-| [REBEL](https://arxiv.org/abs/2404.16767) | 已核摘要/作者论文：策略相对奖励回归。 | 旧逐行配方已闭合；若再选奖励回归，复用其骨架作对照。 |
-| [InfoPO](https://arxiv.org/html/2603.00656) / [Embodied-Corrector](https://arxiv.org/html/2611.15651v1) | 历史C/D核§4.1–4.2/§3.2：真实或遮蔽反馈、诊断条件下的动作概率差。 | 四格/DPO/逐行旧批已闭合；反馈对比作为候选部件，不是当前待跑队列。 |
-| [UniSkill](https://arxiv.org/html/2610.10164v1) / [CaPE](https://aclanthology.org/2023.findings-acl.685/) | 历史核§3.3/实现及原文：成败参考似然差＋GRPO；expert−anti-expert参数差。 | 固定R−O配方停扩；成败对比可借鉴，收益回到实际执行。 |
-| [PEAM v2](https://arxiv.org/html/2605.27762v2) | 读§3.1–3.4：同上下文失败/纠正对以BC＋DPO更新类别隔离LoRA，执行验证失败回退慢模型，按效用及失败统计触发巩固。 | 从失败学适配器、条件路由/回退已有；不把参数化记忆本身主张为独立创新。未复现代码/结果。 |
-| [Agent-R](https://arxiv.org/html/2501.11425v1) / [STeP](https://arxiv.org/html/2505.20023v1) | 11-14重核原文§3.1/§3.4：模型选择纠正转接点；教师反思轨迹、错误步骤mask并混合成功轨迹训练。 | 直接借鉴；首版须明确片段边界/权重如何改进普通纠正训练及部分mask。 |
-| [HASP](https://arxiv.org/html/2605.17734v2) / [官方代码](https://github.com/HolaYan/ExecutableSkills-HASP) | §2.1–2.3/D：触发/改写及corrective context注入，时机/模式/正确/费用后续结果四信号，RS/SFT；`2a0e859e`含配对重生成。 | 纠正、上下文和后续结果信用均已有。须具体区分学习机制，不能把交还提醒或宏效果命名当增量。 |
-| [SkillCompiler](https://arxiv.org/html/2610.39508) / [SkillSmith](https://arxiv.org/html/2605.15215) / [TraceCompiler](https://arxiv.org/html/2608.02680) | 分别核§III、§3、§3：操作级编译/修订，边界接口与回退，轨迹去噪及有证据依赖。 | 程序化、混合执行和去除偶然先后已有；当前阶段化反馈目标仍须匹配编译/普通更新比较，不能仅凭组合主张新方法。 |
-| [StateGraph](https://arxiv.org/html/2611.02912v1) | §4.3–4.5：依赖核验、保留历史、失效前提触发重规划。 | [旧v2](results/CONTINUATION_PROGRAM.md#effect-conditioned-v2)已归档；依赖更新可借鉴，不作为现役执行队列。 |
-| [SkillRevise](https://arxiv.org/html/2606.01139v4) | §3.1–3.4：诊断/原则绑定、执行锚点、保留约束、重执行、效用门；搜索继续自最新候选，返回最佳候选。 | 已覆盖有锚点的纠正；不能用中间零收益推断它无法越过。需同信息/候选/总成本适配比较。 |
-| [AdaMEM](https://arxiv.org/html/2606.05684v1) | §3.1–3.2：动态策略记忆，成功/动作改变筛选；反事实动作不实际执行。 | 条件策略须由实际片段及续行后果支持，动作变化本身不是收益。 |
-| [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化配对效用、Load/Abstain。 | 条件效用本身不新。作者公开包为guoshaung/SkillApt，`73db0b54`；旧404不能外推无代码。 |
-| [CIPO](https://arxiv.org/html/2610.04991v1) | §3.3–3.4/B：参数绑定，软中断返回部分轨迹/结果；首个可行粒度同前缀分叉、同策略续行，结果差辅助GRPO。 | 返回部分进度及续行结果监督已有；下一须检验不同学习规则，不把分叉或交还本身称新方法。 |
-| [SkillMorph](https://arxiv.org/html/2610.11858v1) | §2/4：跨重复、任务和演化轮的动作覆盖定位，再关联技能中的指令/脚本编辑位置并协调修订；固定模型/harness、留出任务评估。 | 失败轨迹定位和执行证据驱动技能修订已有，不能说它只看文本或没有实际行为。 |
-| [SCOPE](https://arxiv.org/html/2611.03116v1) | §3.1–3.4：从全局失败轨迹挖局部技能/失败经验，组链；同探索前沿教师/自干预，完整轨迹蒸馏。 | 挖失败、保留进度与拼局部成功已有；不能把当前两种失败的互补目标直接称新机制。 |
-| [SkillCAT](https://arxiv.org/html/2606.13317v1) | CCE同题成败对找首次有意义分歧；AAE源副本重放，0→1/1→1优先，阈值后层级合并。 | 首分歧学习已有；整体0→0的互补修复可能被筛除，但盲合并是必要强基线。正文已读，代码未独立核查。 |
+| [RouteLLM](https://arxiv.org/abs/2406.18665) | 11-17核v1及v4元数据：偏好监督强弱模型路由，相似度/矩阵分解/BERT等 | 路由骨架可借鉴；比较执行后恢复减错改效用与仅问题/错误风险，不把MLP门控当新机制 |
+| [SCoRe](https://arxiv.org/html/2409.12917v1) | §4–5：离线SFT可偏向不修改；自身分布两阶段RL与改善奖励 | 对照KEEP坍缩及增量奖励；本项目全KEEP尚未证明同因 |
+| [LEVER](https://arxiv.org/abs/2302.08468) | 问题/程序/执行结果验证，结合生成概率和等结果聚合重排 | 补丁价值须与此类正确性验证适配比较，检验相对原程序的增量和联合编辑信用 |
+| [Agent-R](https://arxiv.org/html/2501.11425v1) / [STeP](https://arxiv.org/html/2505.20023v1) | 11-14重核§3.1/§3.4：选择纠正转接点；教师反思、错误mask及成功轨迹混训 | 直接借鉴，比较普通纠正与具体片段/条件规则 |
+| [PEAM v2](https://arxiv.org/html/2605.27762v2) | §3.1–3.4：失败/纠正对BC+DPO、隔离LoRA、执行失败回退、效用巩固 | 失败适配和条件回退已有；未复现代码/成绩 |
+| [SkillApt](https://arxiv.org/html/2609.26863v3) | 条件化WITH/WITHOUT效用、Load/Abstain | 条件效用已有；公开包guoshaung/SkillApt，73db0b54，旧404不代表无代码 |
+| [SkillRevise](https://arxiv.org/html/2606.01139v4) | §3.1–3.4：诊断/原则绑定、执行锚点、保留约束、重执行及效用门 | 同信息/候选/成本适配；自最新候选续搜并返回最佳，不能以中间零收益推断无法越过 |
+| [HASP](https://arxiv.org/html/2605.17734v2) / [代码](https://github.com/HolaYan/ExecutableSkills-HASP) | §2.1–2.3/D：触发/改写、corrective context、四信号RS/SFT；2a0e859e含配对重生成 | 纠正上下文和后续结果信用已有，改进须落到具体规则 |
+
+## 历史机制近邻：按需展开
+
+| 机制 / 来源 | 已核内容与使用边界 |
+|---|---|
+| [REBEL](https://arxiv.org/abs/2404.16767) | 策略相对奖励回归；旧逐行配方已闭合，再用时作为骨架对照 |
+| [InfoPO](https://arxiv.org/html/2603.00656) / [Embodied-Corrector](https://arxiv.org/html/2611.15651v1) | 历史核§4.1–4.2/§3.2：真实/遮蔽反馈及诊断下动作概率差；旧四格/DPO停扩 |
+| [UniSkill](https://arxiv.org/html/2610.10164v1) / [CaPE](https://aclanthology.org/2023.findings-acl.685/) | 成败参考似然差+GRPO、expert−anti-expert参数差；固定R−O停扩 |
+| [SkillCompiler](https://arxiv.org/html/2610.39508) / [SkillSmith](https://arxiv.org/html/2605.15215) / [TraceCompiler](https://arxiv.org/html/2608.02680) | 分别核§III/§3/§3：操作编译/修订、边界回退、轨迹去噪与依赖；程序化组合不是独立增量 |
+| [StateGraph](https://arxiv.org/html/2611.02912v1) | §4.3–4.5：依赖核验、历史与失效重规划；[旧v2](results/CONTINUATION_PROGRAM.md#effect-conditioned-v2)仅历史 |
+| [AdaMEM](https://arxiv.org/html/2606.05684v1) | §3.1–3.2：成功/动作改变筛选动态策略记忆，反事实动作未实际执行；区分动作改变和任务收益 |
+| [CIPO](https://arxiv.org/html/2610.04991v1) | §3.3–3.4/B：参数绑定、部分进度返回、同前缀分叉续行与结果差GRPO；交还和分叉已有 |
+| [SkillMorph](https://arxiv.org/html/2610.11858v1) | §2/4：跨轮动作覆盖定位技能编辑、协调修订，固定模型/harness及留出评估；已看实际行为 |
+| [SCOPE](https://arxiv.org/html/2611.03116v1) | §3.1–3.4：失败轨迹挖局部技能/经验、组链、同前沿干预与完整蒸馏；局部成功拼接已有 |
+| [SkillCAT](https://arxiv.org/html/2606.13317v1) | 同题成败分歧、源副本回放、0→1/1→1及层级合并；盲合并作基线，代码未独立核查 |
 
 ## 反馈与测试 oracle 的近邻
 
-| 工作 | 已核范围 / 实验约束 |
+| 来源 | 已核范围 / 约束 |
 |---|---|
-| [TACR](https://arxiv.org/html/2610.03984) / [Bayesian Control](https://aclanthology.org/2026.emnlp-main.1548/) | 差分执行/覆盖；修好与修坏转移、在线Beta均值（已核官方`2a3de1dc`）。普通差分诊断与条件转移须作强基线，提示适配不称原法复现。 |
-| [Rethinking Self-Repair](https://arxiv.org/html/2611.06863v1) / [PracRepair](https://arxiv.org/html/2606.17612v1) | 固定指导/同预算重试；执行差异诊断和最多3轮修复。动态反馈或整理输入本身不是新机制；前者未测保留失败现场恢复。 |
-| [World Model Predictive Paths](https://arxiv.org/abs/2610.28945) | 本轮仅核摘要：多候选动作、世界模型预测、MPPI式选择及双支经验记忆。正文/代码未核，不作完整比较；“预测后果再决策”本身不能当创新。WorldRepair原始PDF访问受验证页阻挡，方法差异仍待核。 |
+| [TACR](https://arxiv.org/html/2610.03984) / [Bayesian Control](https://aclanthology.org/2026.emnlp-main.1548/) | 差分执行/覆盖、修好修坏转移、Beta均值；核官方2a3de1dc。普通诊断/条件转移为强基线 |
+| [Rethinking Self-Repair](https://arxiv.org/html/2611.06863v1) / [PracRepair](https://arxiv.org/html/2606.17612v1) | 固定指导/同预算重试、执行差异及至多3轮修复；整理反馈本身不是新机制 |
+| [World Model Predictive Paths](https://arxiv.org/abs/2610.28945) | 仅摘要：候选动作、世界模型、MPPI选择及双支记忆。正文/代码未核；WorldRepair原PDF受验证页阻挡 |
 
 ## 其他近邻索引
 
-[tau2原文](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作及官方进度流程。v1.0.1 `fc0055dc`已接入；[反应式先导](results/CONTINUATION_PROGRAM.md#reactive-v1)三组均成功，唯一自动介入把正确Say回执误当重复写。HASP式适配/一步执行不算独立方法。分支恢复双侧历史/DB；不同领域仍属同一benchmark。
+[tau2](https://arxiv.org/html/2506.07982v1)§3已有双侧工具协作/进度；v1.0.1 fc0055dc已接入。[反应式先导](results/CONTINUATION_PROGRAM.md#reactive-v1)三组成功，自动介入曾误判正确Say；不同领域仍是同benchmark。
 
-`e920668f`保留WER/Skill-α的成败/反事实技能更新；`17d4885f`保留ReGAL程序库更新；`6a2b8382`保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE。其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)，移出不表示失效。
+Git e920668f保留WER/Skill-α，17d4885f保留ReGAL，6a2b8382保留CodePhage/Getafix/CEGIS/CESS、SkillComposer、ASPIRE；其余见[历史索引](../../docs/archive/2026-11-06_agent_research_context/README.md)。
 
 ## 对本项目实验的直接约束
 
-1. 反馈可靠性、送达、采纳与能力分开；通用流程不是新机制。
-2. 同任务/公开信息/工具与预算，比较普通纠正、合法动作/循环规则及匹配近邻。
-3. 用同一失败轨迹比较普通恢复SFT与新增监督规则；记录实际监督tokens/更新/形成成本，必要时再配等token对照。
-4. 独立原生评分，形成/整理/取证/执行全成本；自写测试、AI检查、模式合法均不作任务成功。
-5. 当前状态和授权见[短计划](STAGE2_AGENT_RESEARCH_PLAN_20261102.md)及[入口](../../docs/research/LOOP_D_RESEARCH_PROMPT.md)。
+同任务、公开信息、工具和预算比较普通纠正/规则及最近机制；按失败来源分组，训练子集不当独立确认。原生结果区分恢复与错改，形成/训练/执行及未知成本保留。提示适配不称完整复现，合法格式或AI检查不作任务成功；全表重跑不是启动门槛。
 
-Token对比：[CRINGE](https://aclanthology.org/2023.acl-long.493/)、[UniSDv3](https://arxiv.org/html/2605.06597v3)；执行反例差异见[FinQA](results/FINQA_CORRECTION_METHOD.md#branch-neighbors)。
+Token对比：[CRINGE](https://aclanthology.org/2023.acl-long.493/)、[UniSDv3](https://arxiv.org/html/2605.06597v3)；[首分叉历史](results/FINQA_CORRECTION_METHOD.md#branch-neighbors)。
 
 <a id="可执行候选反馈与经验的适用性而非又一个技能库"></a>
 [历史候选诊断](../../docs/archive/2026-11-06_agent_research_context/rethinkskill_interface_diagnostics_20261105.md)
