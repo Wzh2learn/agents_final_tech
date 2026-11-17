@@ -488,8 +488,72 @@ def launch_run():
     finally:m.study.new(ROOT/'RUN_RESULT.json',state);os._exit(0)
 
 
+def manuscript_evidence():
+    """Summarize frozen native outcomes; no inference, regrading or policy selection."""
+    import numpy as np
+    base=c.root.parent;target=base/'PAPER_DRAFT_EVIDENCE_V1.json'
+    if target.exists():raise RuntimeError('manuscript evidence exists; inspect rather than overwrite')
+    comparisons=[];rng=np.random.default_rng(171118);draws=20000
+    def paired(panel,name,first,second):
+        assert len(first)==len(second) and len(first)>0
+        d=np.asarray(first,dtype=np.int8)-np.asarray(second,dtype=np.int8)
+        boot=rng.choice(d,size=(draws,len(d)),replace=True).mean(axis=1)
+        comparisons.append(dict(panel=panel,comparison=name,n=len(d),first_success=sum(first),
+            second_success=sum(second),first_only=int((d==1).sum()),second_only=int((d==-1).sum()),
+            difference=float(d.mean()),ci95=np.quantile(boot,[.025,.975]).tolist()))
+    native=m.read(base/'paired_state_negatives_v1/native_v1/PLAN.json')
+    arms={}
+    for name in ['aligned_sft','paired_state_branch']:
+        episodes=sorted([e for e in native['episodes'] if e['arm']==name],key=lambda e:e['index'])
+        assert [e['index'] for e in episodes]==list(range(64))
+        arms[name]=[m.read(Path(e['folder'])/'RESULT.json')['native_success'] for e in episodes]
+    paired('FinQA DEV64','paired - ordinary',arms['paired_state_branch'],arms['aligned_sft'])
+    d=m.read(base/'acquisition_single_state_v1/MATCHED_COMPARISON.json')['pools']['shared_union']
+    before=[r['before'] for r in d['outcomes']]
+    def outcomes(rows,selection):
+        selected=set(selection)
+        return [bool(r.get('after',r.get('success'))) if r['index'] in selected else bool(r['before']) for r in rows]
+    chosen={name:[r['index'] for r in m.read(base/POLICIES[name]/'PREDICTIONS.json')['decisions'] if r['decision']=='TEACHER'] for name in POLICIES}
+    finals={name:outcomes(d['outcomes'],indices) for name,indices in chosen.items()}
+    for name in ['risk','single']:paired('FinQA DEV64','value - '+name,finals['value'],finals[name])
+    paired('FinQA DEV64','value - ordinary',finals['value'],arms['aligned_sft'])
+    for panel,folder,k in [('FinQA FORWARD57','forward_sources57_v1',16),('FinQA CONFIRM64','confirmation64_v1',18),
+                           ('TAT-QA DEV32','flat_dsl_transfer_v1',9),('TAT-QA FORWARD32','flat_dsl_forward_v1',9)]:
+        root=base/folder if folder.startswith(('forward','confirmation')) else m.study.PRIVATE/'tatqa_correction_v1'/folder
+        d=m.read(root/'COMPARISON.json');local=m.read(root/'LOCAL_RESULT.json')['arms'];pol=m.read(root/'POLICIES.json')['orders']
+        key='cheap37' if 'cheap37' in local else 'paired'
+        def success(row):return bool(row['native_success'] if 'native_success' in row else row['success'])
+        a=[success(x) for x in local[key]];b=[success(x) for x in local['ordinary']]
+        paired(panel,'paired - ordinary',a,b)
+        final={name:outcomes(d['outcomes'],order[:k]) for name,order in pol.items()}
+        for name,result in final.items():assert sum(result)==d['tables'][str(k)][name]['success']
+        for name in ['risk','single']:
+            if name in final:paired(panel,'value - '+name,final['value'],final[name])
+        paired(panel,'value - ordinary',final['value'],b)
+    early=m.read(base/'confirmation53_v1/ANALYSIS.json')['paired_comparisons']['primary_paired_minus_sft']
+    comparisons.append(dict(panel='FinQA EARLY53',comparison='paired - ordinary',n=early['n'],
+        first_success=30,second_success=30,first_only=early['first_only'],second_only=early['second_only'],
+        difference=early['mean_difference'],ci95=early['ci95'],source='Existing frozen 20,000-draw source bootstrap, seed17053; not recomputed.'))
+    root=m.study.PRIVATE/'tatqa_correction_v1';d=m.read(root/'state_aware_teacher_v1/RESULT.json')
+    initial=[r['success'] for r in m.read(root/'flat_dsl_transfer_v1/LOCAL_RESULT.json')['arms']['paired']]
+    plan=m.read(root/'state_aware_teacher_v1/PLAN.json')
+    for scope,selection in [('primary9',set(plan['primary_selected'])),('all32',set(range(32)))]:
+        final={}
+        for name in ['T0','T1']:
+            rr={r['index']:r for r in d['episodes'] if r['arm']==name}
+            final[name]=[bool(rr[i]['after']) if i in selection else bool(initial[i]) for i in range(32)]
+            assert sum(final[name])==d['tables'][scope][name]['success']
+        paired('TAT-QA TEACHER32 '+scope,'T1 - T0',final['T1'],final['T0'])
+    result=dict(status='RETURNED',comparisons=comparisons,draws=draws,seed=171118,
+        method='Paired percentile bootstrap of one frozen binary outcome difference per source; 95% intervals are conditional on the fixed training fit and realized teacher pool, unadjusted across comparisons.',
+        scope='Descriptive manuscript analysis of existing outputs only. Confirmation models, policies, budgets, scores and reservations unchanged; no new grading, training, inference or HTTP.',
+        new_model_posts=0,new_neural_forwards=0,new_training_updates=0)
+    m.study.new(target,result)
+    print(json.dumps(result),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','collect','predict','predict-all','teacher','compare','progress-control','run'])
+    parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['prepare','collect','predict','predict-all','teacher','compare','progress-control','manuscript-evidence','run'])
     parser.add_argument('--variant',choices=list(POLICIES),default='value');parser.add_argument('--cohort',choices=['forward','confirmation'],default='forward');args=parser.parse_args()
     COHORT=args.cohort
     if COHORT=='confirmation':ROOT=c.root.parent/'confirmation64_v1'
@@ -499,5 +563,6 @@ if __name__=='__main__':
     elif args.mode=='predict-all':predict_all()
     elif args.mode=='teacher':launch_teacher()
     elif args.mode=='progress-control':progress_control()
+    elif args.mode=='manuscript-evidence':manuscript_evidence()
     elif args.mode=='run':launch_run()
     else:compare()
