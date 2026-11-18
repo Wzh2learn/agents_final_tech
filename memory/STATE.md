@@ -2,9 +2,9 @@
 
 > 2026-11-19 | 当前状态见本页。接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。
 
-- **第二篇论文 v2｜封盘待导师/用户审阅（Paused for Advisor Review）**：英文稿已合入恢复后单侧反例对照。成对纠正与原三状态接管为主方法，FinQA 确认64保持封存。后续论文打磨或排版等用户指令，模型实验和新数据集探针暂停。[英文稿](../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)。
+- **第二篇论文 v2／C3 实验进行中**：用户已恢复路径 A。FinQA 确认64继续封存。TAT-QA 已锁定96个TRAIN表和64个新DEV表，GB10正在采集原生第一轮和成对纠正轨迹。状态与条件见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#c3-scale-study)。
 - **本地纠正**：FinQA DEV64普通／恢复前单侧／恢复后单侧／成对为33／29／34／37。成对与恢复后单侧均保住原33题。封存确认64仍为普通34、成对39。接管预算结果见[总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)。
-- **预算**：本轮三批引用探针新增103次本地请求、273,196已知tokens、2次未知，新增校内调用0。校内累计含未知预留59,497,156／10亿。分批记录见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#边界预算与恢复位置)。
+- **预算**：此前校内累计含未知预留59,497,156／10亿。C3 先走本地数据形成与训练，目前新增校内调用0。原生请求及训练量随批次闭合入账。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。
 - **导师 / Paper E**：稿件、开题与办理由独立对话维护，本Goal不复核其现役版本/提交状态。研究按问题、机制、形式化及假设再验证，不要求榜单最优。已知学校要求本人一作、北邮第一单位、方向相关；会议须召开并宣读/张贴。

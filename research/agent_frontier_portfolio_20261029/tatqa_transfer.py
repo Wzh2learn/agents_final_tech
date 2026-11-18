@@ -100,7 +100,7 @@ def prepare_reviews(arm):
         (folder/'inputs/task.txt').write_text(task.review_prompt(public,task.saved_state(public,source/'work')))
 
 
-def collect():
+def collect(*, arms=('firstpass','ordinary','paired')):
     plan=m.read(ROOT/'PLAN.json');runtime=plan['runtime'];rows={};started=time.monotonic()
     state=dict(status='RUNNING',pid=os.getpid(),phase='LOCAL',arms=rows)
     m.study.publish(ROOT/'LOCAL_LIVE.json',state)
@@ -108,7 +108,7 @@ def collect():
     with m.study.core.resource_lock():
         h=m.study.core.helpers();checked=h.deps.verify_projection(h.actor.RUNTIME_ROOT,h.actor.RUNTIME_SHA)
         m.study.CAPS.clear();m.study.CAPS.update(plan['caps'])
-        for arm in ['firstpass','ordinary','paired']:
+        for arm in arms:
             if arm!='firstpass':prepare_reviews(arm)
             rows[arm]=[];process=log=None
             try:
