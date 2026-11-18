@@ -1,11 +1,11 @@
 # 研究入口
 
-> 2026-11-18 | 授权/运行状态只读[STATE](../../memory/STATE.md)；按短计划明确的收官批次推进，不从历史方案自行开支线。按任务选一个入口，不把下表全部加载；未决见[THREADS](../../memory/THREADS.md)。
+> 2026-11-19 | 从[STATE](../../memory/STATE.md)接续。按下表选择当前任务入口，未决见[THREADS](../../memory/THREADS.md)。
 
 | 当前需要 | 最小入口 |
 | --- | --- |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
-| 论文写作 / 当前研究 | [英文正文](../../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)与[实验总表](../../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，按章节读取。[定义](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_METHOD.md)和[机制知识](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)按需加载。 |
+| 论文写作 | [英文正文](../../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)与[实验总表](../../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，按章节读取。[定义](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_METHOD.md)和[机制知识](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)按需加载。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 近邻 | 分别按需读[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)或[相关工作](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 导师反馈 / Paper E | 由独立对话维护；办理现状只查[THREADS](../../memory/THREADS.md)。本Goal继续经验学习，不重复办理投稿或开题。 |
