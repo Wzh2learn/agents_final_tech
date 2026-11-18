@@ -132,7 +132,7 @@ def collect():
     m.study.new(ROOT/'LOCAL_RESULT.json',state)
 
 
-def predict():
+def predict(*, strong_budget=9, freeze=True):
     plan=m.read(ROOT/'PLAN.json');av.m=SimpleNamespace(**vars(m))
     av.m.state_from_folder=lambda folder:task.saved_state(m.read(Path(folder)/'inputs/public.json'),Path(folder)/'work')
     sources=[dict(ep,folder=str(packet('firstpass',ep['index']))) for ep in plan['episodes']]
@@ -140,8 +140,8 @@ def predict():
     try:
         for variant,folder in [('value','acquisition_value_v1'),('risk','acquisition_risk_control_v1')]:
             av.VARIANT=variant;av.ROOT=c.root.parent/folder
-            av.predict(sources=sources,cheap=cheap,output=ROOT/(variant+'_PREDICTIONS.json'),strong_budget=9,fixed_threshold=-1.01)
-        freeze_policies()
+            av.predict(sources=sources,cheap=cheap,output=ROOT/(variant+'_PREDICTIONS.json'),strong_budget=strong_budget,fixed_threshold=-1.01)
+        if freeze:freeze_policies()
     finally:
         av.m=m
         import gc,torch
@@ -159,13 +159,14 @@ def freeze_policies():
         scope='Frozen before new teacher responses; TAT-QA is zero-training transfer, not a new training source.'))
 
 
-def local_run():
+def local_run(*, strong_budget=9, freeze=True):
     if not (ROOT/'PLAN.json').exists():prepare()
     state=dict(status='RUNNING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],phase='LOCAL')
     m.study.new(ROOT/'RUN_LIVE.json',state);unloaded=False
     try:
         unloaded=c.stop27();collect();state['phase']='PREDICT';m.study.publish(ROOT/'RUN_LIVE.json',state)
-        predict();state.update(status='RETURNED',phase='READY_FOR_TEACHER')
+        predict(strong_budget=strong_budget,freeze=freeze)
+        state.update(status='RETURNED',phase='READY_FOR_TEACHER' if freeze else 'AWAITING_POLICY_FREEZE')
     except BaseException:state.update(status='FAILED',error=traceback.format_exc());traceback.print_exc()
     finally:
         if unloaded:state['restoration']=c.restore27()
