@@ -191,6 +191,14 @@ tau2单决策探针中，普通Qwen 27B FP8经OpenCode在四个起点均主动�
 
 可保留显式引用记录用于纠正数据形成。当前停止在字面匹配或受控二选一上训练新适配器。后续优先看自然多步任务中规则和直接27B复核仍会错、且可由原文或实际来源轨迹裁决的现场。对标已有数值／绑定／证据分离及操作数核验。 [NumTrace](https://arxiv.org/html/2610.34887) · [FinVerify](https://arxiv.org/html/2611.20423)
 
+### MultiHiertt 原题与合法等价引用
+
+作者发布的dev revision `f18473da`共1,044条，筛得46个同值角色候选、32个原题、23组不同表集合。入选算式均为多步、已标注的运算证据在单表。取10组原表形成16个现场，原题干不改，固定可重执行算式和其余操作数的已有来源。6个错引、6个正确初始引用、4个期末／次年期初结转等价初始引用。结转对照逐表核过余额行和相邻期间，不以官方坐标是否列出直接区分对错。
+
+题词／期间匹配支持10/16、弃权6；加同表同伴角色和结转关系为16/16，修复6、保留10。27B＋OpenCode在256输出上限下，直接复核与附结构提示分别支持11/16与12/16，9次均截断于交付前。受影响的6个起点两臂同升至768复测，直接6/6、附提示5/6（1超时）。用复测替换同一批受影响双臂后，支持数16/16与15/16，保留原合法等价引用分别2/4与0/4。等价改引用仍计支持。实际44本地POST／108,072已知tokens／1未知，校内和训练为0。完整试验与替换回放分别记录。
+
+对候选的47次单锚同值替换，6次改变另一操作数的唯一首选，其中也有合法结转变化，属于规则敏感性。货币市场基金例中，2012锚从总额换为同值Level 1子项，2013选择随之由总额转为子项。下一步优先核实用于约束其他步骤的引用，在多个锚点可能同值错引时比较独立核实与单纯角色一致性。此批记录固定算式下的引用选择，材料存于私有 `multihiertt_binding_probe_v1/`。 [MultiHiertt 原论文](https://aclanthology.org/2022.acl-long.454/) · [作者数据](https://huggingface.co/datasets/yilunzhao/MultiHiertt/tree/f18473da528dede3d9ce2274366d9ee8102ea0fd/multihiertt_data)
+
 <a id="paired-decision-v1"></a>
 <a id="semantic-edit-v1"></a>
 旧链接接续：[形成/训练与原生执行](FINQA_CORRECTION_LEARNING.md#finqa-current)、[闭合监督对照](FINQA_CORRECTION_LEARNING.md#paired-decision-v1)、[错误分叉机制](FINQA_CORRECTION_LEARNING.md#semantic-edit-v1)。早期FinQA全过程保存在[11-15快照](../../../docs/archive/2026-11-06_agent_research_context/continuation_through_20261115.md#finqa-current)，不作现役待办。
