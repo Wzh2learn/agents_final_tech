@@ -6,8 +6,8 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇论文 | [正文v2](../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)以成对纠正与原三状态接管为主。写作复核优先纳入恢复后单侧对照；跨数据集披露的结果见[总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)。 |
-| 后续研究 | 选可独立裁决引用语义的自然多步题，固定一次原表读取，比较题意优先与结合下游影响的核验规则。分别计引用修复、原有正确或等价引用的保持。[实验依据](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#evidence-binding)。 |
+| 第二篇论文 | 等导师或用户反馈。成对纠正的四臂分配对照已合入[英文正文 v2](../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)。[总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)供审阅核对。 |
+| 后续研究 | 跨场景实验暂停。MultiHiertt 同值引用及 tau2／ALFWorld 进度配对留在[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | 已有普通纠正、成功上下文和步骤偏好的核心适配对照；新增来源后继续同条件比较，不扩整张文献矩阵，不称完整原法复现。差异与消融按[近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)核对。 |
@@ -18,4 +18,4 @@
 | 文档与 skill 存量 | 知识入口见[研究导航](../docs/research/README.md)。存量提醒按相关任务处理。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
-科研运行状态以宿主Goal控制面及用户最新明确指令为准；[STATE](STATE.md)是状态快照。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)；停止具体候选不等于关闭新来源研究。2027 年 10 月具体送审日仍待学校确定。
+科研运行状态见[STATE](STATE.md)，恢复实验须有用户后续明确指令。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)。2027 年 10 月具体送审日仍待学校确定。
