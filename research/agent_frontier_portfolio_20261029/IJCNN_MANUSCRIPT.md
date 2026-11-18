@@ -1,10 +1,10 @@
 # Learning to Correct and Escalate from Shared Execution-State Feedback
 
-> Writing draft v0 · 2026-11-18. Quantitative claims use frozen native executions and cached paired analyses. [Complete experiment tables](results/IJCNN_EXPERIMENT_TABLES.md) · [Implementation and historical evidence](results/FINQA_CORRECTION_METHOD.md). This is the current manuscript; the longer method record remains an evidence source.
+> Writing draft v1 · 2026-11-18. [Complete experiment tables](results/IJCNN_EXPERIMENT_TABLES.md) · [Implementation and historical evidence](results/FINQA_CORRECTION_METHOD.md).
 
 ## Abstract
 
-Execution feedback can confirm that a program runs without establishing that it uses the correct quantities, periods or units. A correction agent must therefore learn both how to repair an answer and when to preserve existing progress. We study these decisions in a two-stage framework for financial document question answering. First, execution-validated program counterexamples supervise the same task before and after a successful recovery, with a fixed auxiliary-loss budget. Second, a separate utility predictor learns the gain or harm of teacher escalation by pairing one fixed-input teacher trajectory with multiple executed local states. On a source-isolated FinQA confirmation cohort, local correction improves ordinary supervised fine-tuning from 34/64 to 39/64 native successes; 18 teacher acquisitions reach 42/64. Eight acquisitions match the 41/64 successes of always invoking the raw teacher while using 84.0% fewer teacher tokens. Matched state-diversity controls show small gains, while an earlier confirmation cohort and prospective TAT-QA transfer expose limits. A paired teacher-information diagnostic further shows that fewer harmful revisions can coincide with fewer recoveries. The results connect correction learning, preservation and budgeted intervention through realized execution outcomes.
+Financial document agents must repair executable but semantically wrong programs, preserve correct answers, and decide when a stronger teacher is worth calling. We present a two-stage approach that learns these decisions from executed programs. The local corrector allocates a fixed auxiliary loss across execution-validated counterexamples before and after recovery. The escalation predictor shares one fixed-input teacher trajectory across multiple executed local states and learns whether intervention will restore or damage the current answer. On a source-isolated FinQA cohort, paired-state correction raises native successes from 34/64 to 39/64. Eight and 18 teacher acquisitions reach 41/64 and 42/64 using 84.0% and 64.3% fewer teacher tokens than full raw-teacher execution, which reaches 41/64. A paired teacher comparison exposes a recovery–preservation tradeoff: disclosing local progress reduces damage from 4/7 to 1/7 while reducing recovery from 14/25 to 9/25. On prospective TAT-QA transfer, a public scale-completion rule recovers three correct calculations whose percentage labels were missing. These results show how executed states can supervise correction and guide selective intervention in financial reasoning.
 
 ## I. Introduction
 
@@ -14,7 +14,7 @@ Correction also creates a preservation problem. Additional reasoning or a strong
 
 We use two separately optimized components. A local corrector receives execution-validated counterexamples in paired pre-recovery and post-recovery contexts. A utility predictor then estimates the correctness change from acquiring a teacher answer relative to retaining that local result. Teacher labeling uses a deliberately fixed original snapshot. One realized teacher trajectory can consequently label multiple executed local states of the same source, with source-level averaging preventing a source with more views from receiving more optimizer updates.
 
-The contribution lies in these supervision rules and their controlled evaluation. We compare the paired-state corrector with positive-only and one-sided controls, and compare multi-state utility supervision with repeated single-state supervision under the same teacher sources, optimizer updates and forward-pass counts. Frozen budget curves, prospective transfer and a teacher-information intervention locate where the learned policies help and where they fail. The resulting argument centers on learned correction and intervention, with successful task execution as the outcome.
+We make three contributions. First, we allocate the same executed wrong-program counterexamples across pre-recovery and post-recovery states to teach both repair and preservation. Second, we share teacher outcomes across executed local states and compare this supervision with repeated single-state examples under matched teacher sources, optimizer updates and forward-pass counts. Third, we decompose intervention value into local error, teacher recovery and damage to correct local answers. The frozen budget comparisons and paired disclosure experiment show how this tradeoff changes as the teacher receives more information about the current program.
 
 ## II. Related Work
 
@@ -104,7 +104,7 @@ $$
 \tag{7}
 $$
 
-The labeling pool has 96 teacher trajectories and 252 distinct local-state views; 45 sources change outcome label across their views. Training also retains 121 replay groups. Source-group gradient accumulation gives 434 updates and 894 forward passes over two epochs. The single-state control repeats its one actual local view according to the original group size, matching these counts. Existing state formation and replay costs remain part of the recorded upstream work; sharing the labeling trajectory does not make those states free.
+The labeling pool has 96 teacher trajectories and 252 distinct local-state views. Forty-five sources change outcome label across their views. Training also retains 121 replay groups. Source-group gradient accumulation gives 434 updates and 894 forward passes over two epochs. The single-state control repeats its one actual local view according to the original group size, matching these counts. The study accounts separately for forming the local states, collecting teacher labels and training the adapters.
 
 The utility adapter starts from the paired corrector but is optimized separately. At inference, one neural prefill reads logits at the common JSON class position. Renormalizing the A/B/N logits gives
 
@@ -159,7 +159,7 @@ For TAT-QA, we evaluate 32 development table contexts and then 32 previously une
 
 Native success requires normal agent completion, a valid final program and a correct executed answer. FinQA compares the executor result with the supplied execution answer after five-decimal canonicalization. TAT-QA uses official arithmetic exact match with the predicted scale; scale exactness is recorded separately. The actors observe their actual execution results, not correctness flags. The shared functional DSL permits earlier-step references and rejects nested function calls.
 
-**Controls and costs.** We report ordinary SFT, one-sided counterexamples, paired-state correction, equal-weight positive-state SFT, and the half-weight one-sided control for stage A. Escalation controls use matched error-risk supervision, repeated single-state utility supervision, a frozen random allocation, raw always-teacher output, and always-teacher with G. Learned risk controls are mechanistic adaptations, rather than full reproductions of published routing pipelines.
+**Controls and costs.** We report ordinary SFT, one-sided counterexamples, paired-state correction, equal-weight positive-state SFT, and the half-weight one-sided control for stage A. Escalation controls use an error-risk predictor with the same backbone and executed states, repeated single-state utility supervision, uniform random allocation, raw always-teacher output, and always-teacher with G. The risk arm uses task instructions and a binary readout specific to local error prediction. We report the exact expectation of a uniform draw and the original fixed-seed allocation.
 
 Primary budgets are 18/16/18 for the three stage-B FinQA cohorts and 9 for each TAT cohort. The FinQA budget curves include every $K$, with original primary points retained. Selected policies share identical-input realized teacher responses, so their comparisons do not depend on separate teacher samples for overlapping tasks. Actual new teacher acquisition cost is charged once; each policy's deployment cost uses its selected subset.
 
@@ -169,28 +169,40 @@ Paired intervals resample one frozen outcome difference per source, using 20,000
 
 ## V. Results
 
-**Table 1. Native successes at the frozen primary task budgets.** SFT is ordinary correction, Pair is paired-state correction, and Value/Risk/Single/Random retain Pair on unselected tasks. Teacher columns use the same realized pool as the corresponding policy comparisons. A dash denotes an unmeasured condition.
+**Table 1. Native successes at low and primary teacher budgets.** Bold budgets mark the original primary points. SFT is ordinary correction and Pair is paired-state correction. Selective policies retain Pair on unselected tasks and share a pool of native teacher trajectories. All T0+G applies the controller to Pair on every task.
 
-| Panel (N) | K | SFT | Pair | Value | Risk | Single | Random | All T0 | All T0+G |
+| Panel (N) | K | SFT | Pair | Value | Risk | Single | E[Random] | All T0 | All T0+G |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| FinQA development (64) | 18 | 33 | 37 | 41 | 41 | 40 | 41 | 40 | 44 |
+| FinQA development (64) | 8 | 33 | 37 | 39 | 38 | 39 | 37.9 | 40 | 44 |
+| FinQA development (64) | **18** | 33 | 37 | 41 | 41 | 40 | 39.0 | 40 | 44 |
 | FinQA early confirmation (53) | — | 30 | 30 | — | — | — | — | — | — |
-| FinQA prospective (57) | 16 | 32 | 32 | 35 | 33 | 33 | 35 | 32 | 37 |
-| FinQA final confirmation (64) | 18 | 34 | 39 | 42 | 43 | 41 | 41 | 41 | 44 |
-| TAT-QA development transfer (32) | 9 | 5 | 7 | 11 | 13 | — | 13 | 19 | 19 |
-| TAT-QA prospective transfer (32) | 9 | 12 | 9 | 11 | 10 | — | 12 | 15 | 15 |
+| FinQA prospective (57) | 7 | 32 | 32 | 35 | 33 | 35 | 32.6 | 32 | 37 |
+| FinQA prospective (57) | **16** | 32 | 32 | 35 | 33 | 33 | 33.4 | 32 | 37 |
+| FinQA final confirmation (64) | 8 | 34 | 39 | 41 | 40 | 40 | 39.6 | 41 | 44 |
+| FinQA final confirmation (64) | **18** | 34 | 39 | 42 | 43 | 41 | 40.4 | 41 | 44 |
+| TAT-QA development transfer (32) | **9** | 5 | 7 | 11 | 13 | — | 10.4 | 19 | 19 |
+| TAT-QA prospective transfer (32) | **9** | 12 | 9 | 11 | 10 | — | 10.7 | 15 | 15 |
 
-**Local correction.** On DEV64, ordinary SFT, one-sided counterexamples and paired-state counterexamples obtain 33, 29 and 37 successes. The half-weight one-sided and equal-weight positive-state controls obtain 32 and 31. With fixed positive content and auxiliary weight, the results support changing where counterexample supervision is applied. On confirmation64, the paired corrector reaches 39 versus ordinary SFT's 34, with six paired-only successes and one ordinary-only success. The difference is 7.8 percentage points, with a conditional paired interval of [0.0, 15.6]. Earlier confirmation53 gives 30 versus 30; prospective57 gives 32 versus 32. The effect is therefore not consistent across all source cohorts.
+For a frozen pool with $R$ recoveries, $H$ harmful revisions and $B$ locally correct tasks, $E[\mathrm{Random}]=B+K(R-H)/N$. The central 95% intervals from the exact multivariate hypergeometric distribution are, in table order for the eight escalation rows, [37, 40], [37, 41], [31, 35], [31, 36], [37, 42], [37, 44], [7, 13] and [8, 14]. The corresponding original fixed draws are —, 41, 33, 35, 41, 41, 13 and 12. The intervals describe variability across random selections from each observed pool.
 
-**Utility learning and budget.** At the frozen primary budgets, multi-state utility yields 41/64, 35/57 and 42/64, compared with repeated single-state supervision's 40/64, 33/57 and 41/64. The confirmation difference of one task has interval [-4.7, 7.8] percentage points. Against ordinary SFT, the complete confirmation pipeline has eight paired-only successes and no ordinary-only success: +12.5 points [4.7, 21.9].
+**Local correction.** Pairing the recovery and preservation states raises DEV64 successes from 33 to 37 and preserves all 33 correct ordinary-SFT answers. A one-sided counterexample loss reaches 29, its half-weight variant reaches 32, and equal-weight positive-state SFT reaches 31. On confirmation64, Pair improves 34 to 39 with six recoveries and one harmful revision relative to ordinary SFT, a gain of 7.8 percentage points with a conditional paired interval of [0.0, 15.6]. Earlier confirmation53 and prospective57 show equal totals at 30 and 32, respectively.
 
-Matched error-risk escalation obtains 41, 33 and 43 at these primary points. Multi-state utility leads risk on all three FinQA panels at the common secondary $K=8$, but the full curves cross. At confirmation $K=18$, risk restores one additional task and reaches 43 versus 42. A fixed random allocation also sometimes ties the learned policy. The evidence supports budget-dependent benefits and small state-diversity gains, rather than uniform dominance over error risk or random allocation.
+**Utility learning and budget.** At the low budgets in Table 1, Value exceeds Risk by 1, 2 and 1 tasks across the three FinQA panels. It exceeds the random expectation by 1.1, 2.4 and 1.4 tasks. Value ties Single on development and prospective cohorts and leads by one task on confirmation64. At the original primary budgets, Value reaches 41/64, 35/57 and 42/64, gaining 1, 2 and 1 tasks over Single. The confirmation difference has an interval of [-4.7, 7.8] percentage points. Relative to ordinary SFT, the full confirmation pipeline yields eight paired-only successes, a gain of 12.5 points [4.7, 21.9].
 
-**Acquisition cost.** On confirmation64, eight acquisitions reach 41 successes using 85,971 teacher tokens; 18 acquisitions reach 42 using 192,213. Always invoking raw T0 reaches 41 using 538,488 teacher tokens, while T0 with G reaches 44. The selected policies reduce teacher tokens by 84.0% and 64.3% relative to the raw full-teacher reference. Their additional local computation remains explicit: paired correction uses 64 POST/262,576 tokens and 374.41 summed actor-seconds, while utility classification uses 64 prefills/107,988 input tokens and 41.25 neural-forward seconds, or 129.92 seconds for the complete classification stage. These quantities are not equated across models or summed into a measured wall-clock speedup.
+The budget curves cross. At confirmation $K=18$, Risk restores one additional task and reaches 43 versus Value's 42. A few original fixed random draws equal the learned policy, including confirmation $K=8$. The analytic expectation provides the mean reference, while the original draws and their distribution show the spread at each budget.
 
-**Transfer.** On the original TAT32, ordinary and paired correction reach 5 and 7; on the prospective frozen panel they reach 12 and 9. The new panel contains two paired-only successes and five ordinary-only successes. Three losses have identical arithmetic programs but omit the percent scale, one changes the formula, and one introduces invalid syntax. At primary $K=9$, multi-state utility, risk and fixed random allocation reach 11, 10 and 12; the full teacher reaches 15. The frozen transfer check therefore does not reproduce the original local-correction advantage. Legal DSL syntax and correct numerical-unit binding remain distinct learning requirements.
+**Acquisition cost.** On confirmation64, Value matches the raw full teacher's 41 successes at $K=8$ using 85,971 of its 538,488 teacher tokens (16.0%). At $K=18$, Value reaches 42 with 192,213 teacher tokens (35.7%). The fixed random draw at $K=8$ reaches 41 with 92,790 teacher tokens and requires no classifier. Full teacher with G reaches 44. The shared first pass uses 128 POST and 513,140 local tokens. Pair uses a further 64 POST, 262,576 tokens and 374.41 summed actor-seconds. Value classification processes 107,988 input tokens across 64 prefills, with 41.25 seconds of neural forwards and 129.92 seconds for the complete classification stage. Teacher tokens and local computation are reported in their own units.
 
-The [complete primary table](results/IJCNN_EXPERIMENT_TABLES.md) retains all measured controls, full-teacher/G references and the budget curves. No new checkpoint or primary budget is evaluated on sealed confirmation64.
+**Transfer and scale compatibility.** On the prospective TAT-QA panel, Pair records two recoveries and five harmful revisions relative to ordinary SFT under official EM. Three of the five use the exact same arithmetic program as SFT, with a blank scale in place of the percent label. The other two change the formula or introduce invalid syntax. Isolating the three label-only cases leaves two recoveries and two losses in the remaining cases. Official EM can also accept an equivalent unscaled fraction.
+
+We checked this explanation by replaying the saved programs with the official scorer. The structured rule fills a blank scale with percent when the question contains an explicit percentage cue and the parsed program multiplies its previous result by 100 at the last step. For average-percentage questions, it also accepts a table average or a sum divided by a numeric literal, with no percentage operands in the latter case. The rule excludes percentage-point questions and runs on final submissions after the frozen policy and G. The keyword-only control uses the same cue for parseable programs without checking the program shape.
+
+| TAT-QA panel (32 each) | Official EM, SFT / Pair / Value K=9 | Official EM after structured completion | Official EM after keyword-only completion |
+|---|---:|---:|---:|
+| Development transfer | 5 / 7 / 11 | 6 / 8 / 12 | 3 / 3 / 8 |
+| Prospective transfer | 12 / 9 / 11 | 13 / 12 / 14 | 8 / 6 / 8 |
+
+Structured completion restores all three isolated label losses on the prospective panel without changing their programs. It also repairs one SFT submission, leaving prospective local correction at 13 for SFT and 12 for Pair. The keyword-only rule often turns an already correct fraction into an incorrect percentage. The replay distinguishes a scale-interface gap from genuine changes in arithmetic. Table 1 reports the original official scores. [Detailed replay and costs](results/IJCNN_EXPERIMENT_TABLES.md).
 
 ## VI. Mechanism Analysis
 
@@ -210,7 +222,7 @@ A constrained execution study on 29 valid TRAIN errors found that 19 require at 
 
 An inline variant jointly trains correction generation and utility output using the same 96-source/252-view utility supervision and 121 replay groups. It reaches 34 local and 40 post-escalation successes on DEV64, versus 37 and 41 for the separated system. Selected-case cross-prompt diagnostics show both parameter and instruction effects. The observed generation tradeoff supports the separate-adapter design in this setting.
 
-### B. Offline sharing and online teacher information
+### B. The Anchoring–Preservation Tradeoff of State-Informed Escalation
 
 Shared labels have an informative boundary. If G adopts the same teacher candidate for two views, their difference satisfies
 
@@ -221,11 +233,22 @@ $$
 
 The teacher term cancels within that source. Additional views can consequently improve recognition of the local program's condition without adding independent evidence about teacher recoverability. Absolute utility still depends on the teacher outcome across sources. This property motivates the matched error-risk control and helps interpret its competitive budget curves.
 
-Offline teacher sharing and online access to current progress are separable design choices. We fix the router, local results, selected set, teacher identifier, budget and G, then compare new executions of T0 with $T_1(x,p^0,L,E(L,x))$. T1 receives the actual current program, predicted scale and public execution feedback, explicitly described as an untrusted candidate. Both arms begin with the same original workspace. Arm order is interleaved according to a fixed random schedule.
+Offline outcome sharing and online state disclosure are separate choices. To isolate the effect of disclosure within the implemented protocol, we hold the router, local results, selected set, teacher identifier, budget, workspace and G fixed. T1 adds the current program, predicted scale and public execution feedback to T0's input, with instructions to treat local progress as provisional. Both teachers run anew on the original TAT-QA development panel, with one trajectory per task and interleaved arm order.
 
-On the original TAT panel's fixed nine selected tasks, T0 and T1 yield 11/32 and 9/32 overall successes. Across all 32 diagnostic tasks, T0 restores 14 wrong local states and damages four correct ones, while T1 restores nine and damages one. The resulting totals are 17 and 15. T1 wins five paired cases and loses seven; its difference interval is [-28.1, 15.6] percentage points. Each arm has one trajectory per task; the historical 19/32 teacher result is not substituted for the new T0 execution.
+Across all 32 tasks, T0 restores 14 of 25 wrong local answers and damages four of seven correct ones. T1 restores nine and damages one. Equation (3) gives the difference in gain under disclosure as $q(s)(a_1(s)-a_0(s))+(1-q(s))(b_0(s)-b_1(s))$. The two terms favor different choices: disclosure costs five potential recoveries and saves three correct answers in this pool. Overall success is 17 for T0 and 15 for T1, with five paired wins and seven losses for T1 and an interval of [-28.1, 15.6] percentage points. At the original fixed $K=9$, the two options yield 11/32 and 9/32.
 
-The decomposition in (3) makes the tradeoff explicit. With 25 wrong and seven correct local states, recovery changes from 14/25 to 9/25 and damage from 4/7 to 1/7. Three lost cases reproduce the wrong local candidate exactly. For example, both teachers use subtract(44.1, 56.7), but only T0 supplies the required million scale. In another case, T1 removes program backticks while T0 also repairs the sign and unit. This behavior is consistent with anchoring to incomplete local progress. We retain T0 for the main policy.
+We split the panel at the median of the cached risk ranking, which uses public states and was produced before the teacher comparison. The lower half has 12 wrong and four correct local programs, and the upper half has 13 wrong and three correct ones.
+
+| Cached risk rank | N | T0 recovery / damage | T1 recovery / damage | Success with T0 / T1 |
+|---|---:|---:|---:|---:|
+| Lower half | 16 | 6/12 · 3/4 | 6/12 · 0/4 | 7 / 10 |
+| Upper half | 16 | 8/13 · 1/3 | 3/13 · 1/3 | 10 / 5 |
+
+Program validity supplies a coarser diagnostic. Among seven invalid or missing local programs, T0 recovers six and T1 recovers three. In the 24 valid programs with a blank scale, T0 and T1 achieve 10 and 11 successes. The remaining one program carries an explicit scale and both teachers solve it. An explicit scale is too rare on this panel to establish it as a reliable indicator of unit binding.
+
+Three of T1's seven paired losses exactly reproduce the wrong local candidate. For example, both teachers use subtract(44.1, 56.7), and T1 repeats the local blank scale while T0 adds million. In another case T1 removes program backticks, while T0 also repairs the sign and unit. These examples are consistent with anchoring to incomplete progress.
+
+Retrospectively combining T1 in the lower-risk half with T0 in the upper half produces 20/32 on complete coverage (14 recoveries and one harmful revision). At the original selected nine it yields 11/32, the same as T0. This replay uses the already observed paired outcomes and serves as a hypothesis for state-dependent disclosure. The primary policy retains T0 pending validation of a mixed rule on fresh sources.
 
 ### C. Quantities, periods and financial definitions
 
@@ -249,7 +272,7 @@ The repository preserves code, protocols, summaries and the complete experiment 
 
 ## VIII. Conclusion
 
-Execution experience can supervise both correction and the decision to seek further correction. Pairing the same wrong-program counterexamples with witnessed pre-recovery and post-recovery states improves the chosen FinQA corrector, while shared-teacher supervision learns intervention outcomes over multiple local states. The gains depend on source cohort and acquisition budget. Prospective transfer and teacher-information diagnostics identify unit binding and anchoring as concrete boundaries. These results support evaluating learned correction and escalation together through recoveries, harmful revisions and separately measured computation costs.
+Execution experience can supervise both correction and the decision to seek further correction. Paired execution states teach the FinQA corrector to restore answers while preserving correct progress. Sharing a teacher trajectory across local states provides a practical utility target for allocating a small intervention budget. The disclosure experiment identifies two different effects of showing the teacher local progress: it can help preserve an answer and it can also anchor the teacher to an error. The prospective TAT-QA replay identifies percentage-scale completion as a concrete transfer requirement. Together these findings explain when extra computation helps and which information it needs.
 
 ## References
 
@@ -273,4 +296,4 @@ Execution experience can supervise both correction and the decision to seek furt
 
 ## Writing provenance
 
-Equations (4)–(5) follow finqa_state_learning.prepare_paired_states and finqa_learning.edit_contrast_loss/contrast_weight; (6)–(8) follow finqa_acquisition_learning.prepare/request/predict and its source-grouped trainer. Main counts use the common teacher pools in the linked experiment tables. Early53 uses confirmation53_v1/ANALYSIS.json, whose training root is the same paired-state checkpoint. Inline34/40 uses inline_acquisition_v2/native_nonstream_v1/COMPARISON.json; the parent directory's zero-result receipt records the earlier rejected interface configuration and is retained separately. Intervals use PAPER_DRAFT_EVIDENCE_V1.json from frozen native outcomes, with zero model requests, neural forwards or training updates. The tax diagnostic uses FINQA_ZERO_TRAIN_ALIGNMENT_PROBE_SUMMARY.json and its original raw episode; it is separate from the scored method gains. Final author metadata, conference typesetting and a complete bibliographic export belong to the later submission pass.
+Equations (4)–(5) follow finqa_state_learning.prepare_paired_states and finqa_learning.edit_contrast_loss/contrast_weight. Equations (6)–(8) follow finqa_acquisition_learning.prepare/request/predict and its source-grouped trainer. Main counts use the common teacher pools in the linked experiment tables. Early53 uses confirmation53_v1/ANALYSIS.json from the same paired-state checkpoint. Inline34/40 uses inline_acquisition_v2/native_nonstream_v1/COMPARISON.json. The parent directory retains the earlier rejected interface configuration. Intervals use PAPER_DRAFT_EVIDENCE_V1.json from frozen native outcomes. Scale and risk-stratified disclosure replays use TATQA_MANUSCRIPT_FOLLOWUP.py and MANUSCRIPT_FOLLOWUP_CPU_V1.json in the private evidence store. Both analyses use saved submissions and have zero model requests or updates. The tax diagnostic uses FINQA_ZERO_TRAIN_ALIGNMENT_PROBE_SUMMARY.json and its original raw episode. Final author metadata, conference typesetting and a complete bibliographic export belong to the submission pass.
