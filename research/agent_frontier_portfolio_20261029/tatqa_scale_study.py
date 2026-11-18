@@ -132,7 +132,7 @@ def training_pair(case):
     preserve = example(case, source, good)
     preserve.update(ordinary=gold, paired=KEEP, negative=bad)
     repair = example(case, source, bad)
-    repair.update(ordinary=gold, paired=good, negative=KEEP)
+    repair.update(ordinary=gold, paired=good, negative=bad)
     return [preserve, repair], "actual_pass" if actual in passed else "actual_failure"
 
 
