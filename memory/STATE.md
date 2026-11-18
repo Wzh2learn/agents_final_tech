@@ -2,7 +2,7 @@
 
 > 2026-11-19 | 当前状态见本页。接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。
 
-- **第二篇论文 v2／C3 实验进行中**：用户已恢复路径 A。FinQA 确认64继续封存。TAT-QA 已锁定96个TRAIN表和64个新DEV表，GB10正在采集原生第一轮和成对纠正轨迹。状态与条件见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#c3-scale-study)。
+- **第二篇论文 v2／C3 实验进行中**：用户已恢复路径 A。FinQA 确认64继续封存。TAT-QA TRAIN 96表原生采集闭合，32／64／96表形成11／30／49个配对来源。匹配训练已启动，64个新DEV表按冻结方案等待执行。状态与条件见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#c3-scale-study)。
 - **本地纠正**：FinQA DEV64普通／恢复前单侧／恢复后单侧／成对为33／29／34／37。成对与恢复后单侧均保住原33题。封存确认64仍为普通34、成对39。接管预算结果见[总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)。
 - **预算**：此前校内累计含未知预留59,497,156／10亿。C3 先走本地数据形成与训练，目前新增校内调用0。原生请求及训练量随批次闭合入账。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
