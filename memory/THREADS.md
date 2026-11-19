@@ -6,7 +6,7 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇论文 | v5 已吸收专家意见并加入前向57四臂；新64锁定K8/K18并在GB10执行。结果回写前按 [v5 短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#v5-factorial-goal) 接续。导师审阅 v4 保存在 `79000372`。 |
+| 第二篇论文 | v5 已纳入前向57与预定新64四臂。下一次修改以新论文的作者审阅意见为准。导师审阅 v4 保存在 `79000372`。[v5 短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#v5-factorial-goal)。 |
 | v4 后续干预 | 同状态路由与同算式尺度补验已完成。下一版引言先标明 CCT/CARE、CIR、TAGOP/FinNLP 的方法边界，并按补验收紧归因。[写作依据](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)。 |
 | 后续研究 | 路径 B/C 保留为研究材料。MultiHiertt、tau2 和 ALFWorld 见[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。成熟后按导师意见另行决定。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
