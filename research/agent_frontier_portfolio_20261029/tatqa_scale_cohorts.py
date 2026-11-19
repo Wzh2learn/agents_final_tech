@@ -67,7 +67,7 @@ def select(records, split, size, excluded_ids, excluded_signatures):
     raise ValueError(f'{split} has only {len(selected)} admissible unique table contexts')
 
 
-def write_panel(root, chosen, source, prior, template, excluded_ids, split):
+def write_panel(root, chosen, source, prior, template, excluded_ids, split, *, prefixes=PREFIXES):
     root.mkdir(mode=0o700)
     episodes, labels = [], []
     for index, (uid, sig, record, question) in enumerate(chosen):
@@ -89,7 +89,7 @@ def write_panel(root, chosen, source, prior, template, excluded_ids, split):
                 selection='Fixed public question UID hash order, one arithmetic question per unused table UID '
                           'and normalized table content.', local_arms=list(ARMS))
     if split == 'train':
-        plan['prefixes'] = list(PREFIXES)
+        plan['prefixes'] = list(prefixes)
     else:
         plan.update(primary_K=PRIMARY_K, teacher_gate={'required_net_gain': 3,
                     'comparators': ['same-data ordinary', 'joint rule'], 'teacher_before_gate': False})

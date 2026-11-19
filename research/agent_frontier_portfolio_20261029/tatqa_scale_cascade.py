@@ -14,6 +14,10 @@ import time
 SIZE = 64
 K = 18
 DOSES = ("032", "064", "096")
+EXTENSION_DOSES = ("128", "160")
+EXTENSION = "adaptive_extension_v1"
+EXTENSION_CAP = 500_000
+EXTENSION_MIN_SUCCESS = 23
 POLICIES = ("value", "risk")
 GATE_MARGIN = 3
 CASCADE = "cascade_k18_v1"
@@ -26,15 +30,7 @@ def complete_rows(rows, size=SIZE):
     return by_index
 
 
-def read_gate(root, transfer):
-    m = transfer.m
-    freeze_path = root / "TRAINING_FREEZE.json"
-    freeze = m.read(freeze_path)
-    dose = freeze["selected"]
-    if dose not in DOSES or (freeze["K"], freeze["gate"]) != (K, GATE_MARGIN):
-        raise ValueError("unexpected C3 training freeze")
-    score_path = root / f"ALL_{dose}.json"
-    score = m.read(score_path)["confirmation64"]
+def checked_scores(score):
     rows = complete_rows(score["rows"])
     successes = {}
     for method in ("raw", "paired", "joint", "ordinary"):
@@ -46,6 +42,46 @@ def read_gate(root, transfer):
         if (reported["n"], reported["success"]) != (SIZE, successes[method]):
             raise ValueError(f"{method} score summary disagrees with case outputs")
     margins = {method: successes["paired"] - successes[method] for method in ("joint", "ordinary")}
+    return rows, successes, margins
+
+
+def read_extension_gate(root, transfer):
+    m = transfer.m
+    manifest_path = root / "EXTENSION_PLAN.json"
+    manifest = m.read(manifest_path)
+    confirmation_plan = root.parent / "confirmation" / "PLAN.json"
+    if (manifest["K"], manifest["min_margin"], manifest["min_pair_success"], manifest["teacher_token_cap"]) != (
+            K, GATE_MARGIN, EXTENSION_MIN_SUCCESS, EXTENSION_CAP):
+        raise ValueError("unexpected extension teacher gate")
+    if manifest["confirmation_plan_sha256"] != m.sha(confirmation_plan):
+        raise ValueError("locked TAT-QA confirmation plan differs")
+    candidates, reports = {}, {}
+    for dose in EXTENSION_DOSES:
+        path = root / f"ALL_{dose}.json"
+        rows, successes, margins = checked_scores(m.read(path)["confirmation64"])
+        eligible = successes["paired"] >= EXTENSION_MIN_SUCCESS and min(margins.values()) >= GATE_MARGIN
+        candidates[dose] = rows
+        reports[dose] = dict(successes=successes, margins=margins, eligible=eligible, score_sha256=m.sha(path))
+    eligible = [dose for dose in EXTENSION_DOSES if reports[dose]["eligible"]]
+    selected = max(eligible, key=lambda dose: (reports[dose]["successes"]["paired"], -int(dose))) if eligible else None
+    gate = dict(status="OPEN" if selected else "CLOSED", selected=selected, K=K, dose_results=reports,
+                teacher_token_cap=EXTENSION_CAP, freeze_sha256=m.sha(manifest_path),
+                scope="Adaptive follow-up on the previously scored locked TAT-QA cohort")
+    return gate, candidates[selected] if selected else {}
+
+
+def read_gate(root, transfer):
+    if root.name == EXTENSION:
+        return read_extension_gate(root, transfer)
+    m = transfer.m
+    freeze_path = root / "TRAINING_FREEZE.json"
+    freeze = m.read(freeze_path)
+    dose = freeze["selected"]
+    if dose not in DOSES or (freeze["K"], freeze["gate"]) != (K, GATE_MARGIN):
+        raise ValueError("unexpected C3 training freeze")
+    score_path = root / f"ALL_{dose}.json"
+    score = m.read(score_path)["confirmation64"]
+    rows, successes, margins = checked_scores(score)
     open_gate = score["stage_b_gate"] is True and min(margins.values()) >= GATE_MARGIN
     gate = dict(status="OPEN" if open_gate else "CLOSED", selected=dose, K=K, successes=successes,
                 paired_margins=margins, stored_gate=score["stage_b_gate"],
@@ -76,7 +112,7 @@ def prepare(root, transfer):
     if gate["status"] == "CLOSED":
         return
 
-    panel = root / "confirmation"
+    panel = (root.parent if root.name == EXTENSION else root) / "confirmation"
     plan = m.read(panel / "PLAN.json")
     local = m.read(panel / "LOCAL_RESULT.json")
     if plan["primary_K"] != K or not plan["prospective_complete"] or local["status"] != "RETURNED":
@@ -160,7 +196,10 @@ def freeze(root, transfer):
     for index in selected:
         copy_packet(transfer.packet_at(output, "firstpass", index), transfer.packet_at(pool, "firstpass", index))
     shutil.copyfile(output / "LABELS_PRIVATE.json", pool / "LABELS_PRIVATE.json")
-    m.study.new(pool / "PLAN.json", dict(plan, episodes=[sources[index] for index in selected]))
+    teacher_pool = dict(plan, episodes=[sources[index] for index in selected])
+    if root.name == EXTENSION:
+        teacher_pool["teacher_token_cap"] = EXTENSION_CAP
+    m.study.new(pool / "PLAN.json", teacher_pool)
     m.study.new(pool / "POLICIES.json", dict(orders=orders, primary_K=K, union=selected, classifiers=classifiers,
                     pool_plan_sha256=m.sha(pool / "PLAN.json"), gate_sha256=m.sha(output / "GATE.json")))
     m.study.new(pool / "RUN_RESULT.json", dict(status="RETURNED", phase="AWAITING_T0",
@@ -196,7 +235,13 @@ def teacher(root, transfer):
     m.study.new(pool / "TEACHER_ATTEMPT.json", dict(status="STARTED", started_at=time.time(),
                 policy_sha256=m.sha(pool / "POLICIES.json")))
     transfer.ROOT = pool
-    transfer.teacher(key)
+    if root.name == EXTENSION:
+        token_cap = m.read(pool / "PLAN.json")["teacher_token_cap"]
+        if token_cap != EXTENSION_CAP:
+            raise ValueError("extension teacher budget differs")
+        transfer.teacher(key, token_cap=token_cap)
+    else:
+        transfer.teacher(key)
 
 
 def cost(rows):
@@ -217,6 +262,9 @@ def score(root, transfer):
     local = m.read(output / "LOCAL_RESULT.json")["arms"]
     paired = complete_rows(local["paired"])
     teacher_result = m.read(pool / "TEACHER_RESULT.json")
+    if root.name == EXTENSION and (teacher_result["token_cap"] != EXTENSION_CAP
+                                  or teacher_result["known_tokens"] + teacher_result["unknown_reserve"] > EXTENSION_CAP):
+        raise ValueError("extension teacher ledger exceeded its frozen token cap")
     teachers = {row["index"]: row for row in teacher_result["episodes"]}
     if (teacher_result["status"] != "RETURNED" or sorted(teachers) != policy["union"]
             or len(teachers) != len(teacher_result["episodes"])):
@@ -253,7 +301,8 @@ def score(root, transfer):
     report = dict(status="RETURNED", tasks=SIZE, K=K, local_success=baseline, arms=arms,
                   common_local={name: cost(rows) for name, rows in local.items()},
                   scale_adapter=dict(valid_states=sum(row["valid"] and row["normal"] for row in paired.values()),
-                      shared_experiment_predictions=str(root / "ALL_PREDICTIONS.json"),
+                      shared_experiment_predictions=str(root / (
+                          "PREDICTIONS.json" if root.name == EXTENSION else "ALL_PREDICTIONS.json")),
                       scope="Aggregate counters span old/new panels and candidate adapters; per-arm timing unavailable."),
                   physical_union={key: teacher_result[key] for key in ("posts", "known_tokens", "unknown", "unknown_reserve", "seconds")},
                   union_tasks=len(teachers), shared_tasks=2 * K - len(teachers),
@@ -266,10 +315,13 @@ def score(root, transfer):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=("prepare", "rank", "freeze", "teacher", "score"))
+    parser.add_argument("--extension", action="store_true", help="use the frozen 128/160-table follow-up")
     args = parser.parse_args()
     import tatqa_transfer as transfer
 
     root = transfer.BASE / "scale_adaptation_c3_v1"
+    if args.extension:
+        root = root / EXTENSION
     command = {"prepare": prepare, "rank": rank, "freeze": freeze, "teacher": teacher, "score": score}
     command[args.mode](root, transfer)
 

@@ -173,15 +173,15 @@ def local_run(*, strong_budget=9, freeze=True):
         m.study.publish(ROOT/'RUN_LIVE.json',state);m.study.new(ROOT/'RUN_RESULT.json',state)
 
 
-def teacher(key):
+def teacher(key, *, token_cap=3_000_000):
     from scripts.graph.research_school_gateway import BatchBudget,SchoolBackend,BASE_URL,MODEL,REQUEST_TOKEN_CEILING
     assert m.read(ROOT/'RUN_RESULT.json')['status']=='RETURNED' and (ROOT/'POLICIES.json').exists()
     plan=m.read(ROOT/'PLAN.json');prepare_reviews('teacher')
-    budget=BatchBudget(ROOT/'teacher_budget',posts=384,tokens=3_000_000)
+    budget=BatchBudget(ROOT/'teacher_budget',posts=384,tokens=token_cap)
     backend=SchoolBackend(key,budget,m.study.core)
     profile=dict(provider='bupt_chat_v1',base_url=BASE_URL,model_id=MODEL,context=262144,output=8192)
     backend.verify(profile);started=time.monotonic()
-    state=dict(status='RUNNING',pid=os.getpid(),episodes=[])
+    state=dict(status='RUNNING',pid=os.getpid(),episodes=[],token_cap=token_cap)
     def persist():
         state.update(posts=sum(r['state']!='not_sent' for r in budget.rows),
             known_tokens=sum(r.get('usage',{}).get('total_tokens',0) for r in budget.rows),
