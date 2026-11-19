@@ -32,4 +32,12 @@
 
 以官方全集为比较分母，同时保留分组结果。FinQA 的 1,147 题包括 200 道探针题、337 道同报告或同表题、155 道同公司同年题、15 道与官方训练集同表题，余 440 道未检出上述重叠。TAT-QA 的 718 道算术题包括 200 道探针题、186 道同表题、165 道来自旧 C3 确认表的题，余 167 道未检出上述重叠。GB10 `full_eval_exposure.json` 保存题级归属。现有核查范围为本探针及已登记排除项。
 
+## 同预算对标准备
+
+- CAR 按论文适配。每题计入一次五类诊断，使用官方训练集拟合遗漏率并校准恢复与错改。门控后用相近校准题的错误亚型选检查，再按公开证据指针作有界修订。 [CAR 方法与附录](https://arxiv.org/html/2611.05166v1#S4)
+- BudgetVerify 按论文适配。保留首答、局部复查、独立解答后再比较三个固定动作。在官方训练集取得三个动作的成败与实付成本，再训练分档路由器。 [BudgetVerify 方法](https://arxiv.org/html/2609.33052v1#S3)
+- Cascade Routing 复用作者代码。在官方训练集上以同版 8B、27B 和 DeepSeek 的真实匹配结果拟合质量、费用与协方差。作者路由可选择起始模型和跳过级别，固定从 8B 开始的级联另列。无 token logprobs 的模型端使用已记录的公开执行与回答一致性特征，并标明特征适配。 [Cascade Routing 作者实现](https://github.com/eth-sri/cascade-routing/tree/9da6cf7da39c42148eae0178635e9211e5b67742)
+
+共享相同设置的首答、证据和评分。探针的 27B 独立重解只覆盖首答错题。端到端比较另行记录正确首答上的保持和错改，以及本地生成、核验和教师的实际 tokens 与墙时。
+
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
