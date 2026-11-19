@@ -91,9 +91,15 @@ def prepare_confirmation():
     print(json.dumps(dict(prepared=64,unique_groups=64,training_overlap=0,protocol_frozen_before_payload=True)),flush=True)
 
 
-def prepare_reviews(arm,plan):
+def prepare_reviews(arm,plan,*,indices=None):
     episodes=[];template=Path(plan['reference_template'])
-    for first in plan['episodes']:
+    firstpass=plan['episodes']
+    if indices is not None:
+        by_index={row['index']:row for row in firstpass}
+        if len(set(indices))!=len(indices) or any(type(index) is not int or index not in by_index for index in indices):
+            raise ValueError('Expected a unique sequence of planned task indices')
+        firstpass=[by_index[index] for index in indices]
+    for first in firstpass:
         source=Path(first['folder']);folder=ROOT/arm/f"{first['index']:03d}";inputs=folder/'inputs';inputs.mkdir(parents=True)
         for name in ['work','dependencies']:shutil.copytree(source/name,folder/name)
         for name in ['finqa_tool.py','executor.py','guest.py']:shutil.copyfile(template/name,inputs/name)
@@ -210,13 +216,14 @@ def freeze_policies():
         scope=plan['scope']))
 
 
-def teacher(key):
+def teacher(key,*,indices=None,token_cap=2_000_000):
     from scripts.graph.research_school_gateway import BatchBudget,SchoolBackend,BASE_URL,MODEL,REQUEST_TOKEN_CEILING
     plan=m.read(ROOT/'PLAN.json');policies=m.read(ROOT/'POLICIES.json')
     assert m.read(ROOT/'PREDICT_RESULT.json')['status']=='RETURNED' and len(policies['orders']['value'])==len(plan['episodes'])
     reference=m.read(av.TEACHER/'PLAN.json');profile=reference['model'];assert profile['model_id']==MODEL
-    budget=BatchBudget(ROOT/'teacher_budget',posts=6*len(plan['episodes']),tokens=2_000_000);backend=SchoolBackend(key,budget,m.study.core)
-    backend.verify(profile);episodes=prepare_reviews('teacher',plan)
+    count=len(plan['episodes']) if indices is None else len(indices)
+    budget=BatchBudget(ROOT/'teacher_budget',posts=6*count,tokens=token_cap);backend=SchoolBackend(key,budget,m.study.core)
+    backend.verify(profile);episodes=prepare_reviews('teacher',plan,indices=indices)
     started=time.monotonic();state=dict(status='RUNNING',pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().split()[21],episodes=[])
     def persist():
         state.update(posts=sum(row['state']!='not_sent' for row in budget.rows),

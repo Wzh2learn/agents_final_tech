@@ -35,9 +35,10 @@ TABLE_FORMATS = {
     "1": ("lrr", False),
     "2": ("lrrrrrrrrr", True),
     "3": ("lrrr", False),
+    "4": ("lrrrr", False),
 }
 TABLE = re.compile(r"(?m)^\*\*Table (\d+)\. ([^\n]+)\*\*\n\n((?:\|[^\n]+\|\n?)+)")
-CITATION = re.compile(r"\[((?:10|[1-9])(?:,\s*(?:10|[1-9]))*)\]")
+CITATION = re.compile(r"\[([1-9]\d*(?:,\s*[1-9]\d*)*)\]")
 
 
 def latex(source, *, shift_heading=False):
@@ -107,18 +108,19 @@ def create_tex():
     body, references = body.split("\n## References\n", 1)
     references, _ = references.split("\n## Writing provenance\n", 1)
     body = "## Introduction\n" + body
-    body = re.sub(r"(?m)^(### )([ABC]\. )", r"\1", body)
+    body = re.sub(r"(?m)^(### )[A-Z]\. ", r"\1", body)
     body = body.replace("## Acknowledgment\n", "\\section*{Acknowledgment}\n")
     body = TABLE.sub(one_table, body)
     pattern = r"(?m)^!\[[^\n]+\]\(ijcnn_ieee/figures/([a-z_]+)\.png\)$"
     if sorted(re.findall(pattern, body)) != sorted(FIGURES):
         raise ValueError("Expected exactly one image for each manuscript figure")
     body = re.sub(pattern, one_figure, body)
-    body = CITATION.sub(citations, body)
-
     references = re.findall(r"(?m)^\[(\d+)\]\s+(.+)$", references)
+    known_keys = {number for number, _ in references}
+    body = CITATION.sub(lambda match: citations(match) if
+                        set(re.split(r",\s*", match.group(1))) <= known_keys else match.group(0), body)
     cited = {key.removeprefix("r") for item in re.findall(r"\\cite\{([^{}]+)\}", body) for key in item.split(",")}
-    if cited != {number for number, _ in references}:
+    if cited != known_keys:
         raise ValueError("Cited identifiers and bibliography entries must match")
     bib = "\n".join(rf"\bibitem{{r{number}}} " + latex(item) for number, item in references)
     return "\n".join((

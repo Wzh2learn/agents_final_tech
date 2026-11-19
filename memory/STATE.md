@@ -2,7 +2,8 @@
 
 > 2026-11-19 | 当前状态见本页。接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。
 
-- **第二篇论文 v4／封盘待审**：FinQA 封存确认 34→39→42。TAT-QA 同面板扩容 128 表成对29/64（R16/H0）对普通22，160 表28对23。选128后 K18 价值35、风险37，均无错改。[双栏审阅稿](../research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf) · [结果](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#c3-adaptive-dose-extension)。
+- **v5 论文工作稿**：已重写摘要、引言与近邻归因，前向57四臂入稿。完整方案对普通＋风险 K7 35对33（教师 tokens 少36.1%），K16 35对34。另行锁定的 FinQA 新64以 K8 为主、K18 为次，运行状态查私有 `forward64_factorial_fresh_v1`。[v5 PDF](../research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf) · [四臂结果](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#factorial-combination)。
+- **第二篇导师审阅 v4**：Git 冻结 `79000372`。FinQA 封存确认 34→39→42。TAT-QA 同面板扩容128表成对29对普通22，选128后K18价值35、风险37，均无错改。[v4 PDF](https://github.com/Wzh2learn/agents_final_tech/blob/7900037223d357bb56e08bbc550bda46dd3d1ee6/research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)。
 - **本地纠正**：FinQA DEV64普通／恢复前单侧／恢复后单侧／成对为33／29／34／37。成对与恢复后单侧均保住原33题。封存确认64仍为普通34、成对39。接管预算结果见[总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)。
 - **v4 后续干预**：新TAT32尺度门槛12→13，Pair128同为13且R5/H0；证据卡配对10→9，校内291,116 tokens；固定Pair128+Risk保留为路由参照。[结果](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#post-v4-intervention-results)。
 - **教师尺度复验**：旧两组固定 K9 回放40→45/64（R5/H0）。新 TAT-QA 32 表，K6 教师尺度检查21/32 对 K9 原输出18/32（R3/H0，教师 tokens 少36.9%），K9 同预算复验22/32。校内新增77,045，累计含未知预留60,106,846／10亿。[新表结果](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#teacher-scale-budget-new32)。
