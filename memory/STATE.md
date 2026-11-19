@@ -6,6 +6,7 @@
 - **本地纠正**：FinQA DEV64普通／恢复前单侧／恢复后单侧／成对为33／29／34／37。成对与恢复后单侧均保住原33题。封存确认64仍为普通34、成对39。接管预算结果见[总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)。
 - **v4 后续干预**：新TAT32尺度门槛12→13，Pair128同为13且R5/H0；证据卡配对10→9，校内291,116 tokens；固定Pair128+Risk保留为路由参照。[结果](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#post-v4-intervention-results)。
 - **教师尺度复验**：旧两组固定 K9 回放40→45/64（R5/H0）。新 TAT-QA 32 表，K6 教师尺度检查21/32 对 K9 原输出18/32（R3/H0，教师 tokens 少36.9%），K9 同预算复验22/32。校内新增77,045，累计含未知预留60,106,846／10亿。[新表结果](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#teacher-scale-budget-new32)。
+- **同条件补验**：同一四状态模型内，前向57 K16 效用比风险多恢复1–2题，DEV主预算逐题相同。固定教师算式，普通／成对尺度适配在新32表同为 K6 21、K9 22。新增校内0。[补充消融](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#matched-teacher-scale-adapters)。
 - **预算**：C3累计912次本地请求、3,390,227已知tokens、1次未知。新增接管56次校内POST、241,529 tokens、0未知。校内累计含未知预留59,738,685／10亿。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。

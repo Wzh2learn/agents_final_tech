@@ -11,6 +11,8 @@
 1. **本地纠正先补恢复后单侧对照。** CCT 已用错答修复和正确保持共同训练，CARE 已通过可验证结果构造与正例接近的困难负例。本文的问题是，对同一条实际执行后仍错误的反例，在真实恢复前和恢复后都施加监督，能否比仅一侧监督更好地保住正确结果。现有恢复前单侧与成对结果支持继续拆解。先配对检查既有模型面对同题正确与错误起态时的原生恢复和错改，再补恢复后单侧训练，固定正例、反例、累计负监督权重与优化预算。若恢复后单侧已经达到成对效果，将贡献归于恢复后反例监督。 [CCT §6](https://aclanthology.org/2025.acl-long.203/) · [CARE](https://openaccess.thecvf.com/content/CVPR2026/html/Wang_CARE_What_Fails_Contrastive_Anchored-REflection_for_Verifiable_Multimodal_Reasoning_CVPR_2026_paper.html)
 2. **接管先区分监督复用和教师可恢复性。** CIR 已通过同状态的继续与干预分支学习恢复净收益，RASER 已学习何时追加检索。本文固定同题教师输出，将其与多个实际本地程序配对。训练缓存中，96 条教师轨迹得到 252 个视图，210 个视图采纳教师，42 个视图保留本地。45 个效用标签随视图改变的来源中，41 个在所有视图均采纳同一教师。这 41 个来源的效用标签差异由本地正确性变化解释。优先用同一批教师轨迹比较联合效用与分开预测本地正确、教师成功的基线，统一保护器、输入可见性与调用预算，单列本地错题上的教师成功区分及低预算净恢复。分析先用训练缓存与既有开发、前向结果，封存确认集维持原协议。 [CIR §3–4](https://arxiv.org/html/2610.00372) · [RASER](https://aclanthology.org/2026.findings-aacl.219.pdf) · [现有对照](results/IJCNN_EXPERIMENT_TABLES.md)
 
+**下一版引言与方法归因。** 先说明已有研究分别处理了纠错／保持、有限预算介入和金融尺度后处理。本文的统一问题是在固定本地模型与教师预算下，怎样把已执行的进度转成可重复利用的训练监督。在 A 对照 CCT 的保持／修正训练与 CARE 的执行筛选难反例，明确本文比较真实恢复前后固定负监督的放置；在 B 净效用定义附近引用 CIR 的配对恢复收益，注明本文复用一条原快照教师轨迹来监督多个本地结果；在 C 对照 TAGOP 尺度预测和 Thokal 的确定性尺度规则，报告接管后两种学习适配器在新表打平，再把成对适配的优势限定到已有证据。详见[同模型排序](results/IJCNN_EXPERIMENT_TABLES.md#same-head-routing-readout)与[同算式尺度对照](results/IJCNN_EXPERIMENT_TABLES.md#matched-teacher-scale-adapters)。 [CCT §6](https://aclanthology.org/2025.acl-long.203.pdf) · [CARE](https://arxiv.org/html/2512.19554) · [CIR §3–4](https://arxiv.org/html/2610.00372) · [TAGOP §3.3](https://aclanthology.org/2021.acl-long.254.pdf) · [Thokal, FinNLP 2026](https://aclanthology.org/2026.finnlp-1.16/)。
+
 ## 最直接的方法近邻
 
 | 工作 | 已核机制 | 当前用途 |
