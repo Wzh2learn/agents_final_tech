@@ -6,8 +6,8 @@
 | --- | --- |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
-| 第二篇论文 | 路径 A 实验闭合。v3纳入统一净收益公式、新TAT64主结果、剂量敏感性和FinQA源域回归。K18门槛关闭。[英文稿](../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md) · [总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#c3-scale-adaptation)。 |
-| 后续研究 | 路径 B/C 保留为研究材料。当前只推进 TAT-QA 尺度契约适配，MultiHiertt、tau2 和 ALFWorld 结果见[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。 |
+| 第二篇论文 | v4 封盘待导师／用户审阅。已交付匿名 IEEE 双栏稿、LaTeX 与三张图。扩容和 K18 级联结果已锁定。[审阅 PDF](../research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf) · [总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md#c3-adaptive-dose-extension)。 |
+| 后续研究 | 路径 B/C 保留为研究材料。MultiHiertt、tau2 和 ALFWorld 见[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。成熟后按导师意见另行决定。 |
 | GB10教学沉淀 | 开题答辩后，复用既有GB10/OpenCode、微调/蒸馏/优化和评估资料，为学弟学妹整理可复用教程及经典文献。当前仅登记，不建设新框架。 |
 | 必要接入修复 | SQL源任务长行读取截断、正常终答未提交已定位；未来同类适配须统一完整输入/原生终答接口并先离线验证，保留本轮原始失败，不据此声称学习无效或补计成功。 |
 | 公开方法参照 | 已有普通纠正、成功上下文和步骤偏好的核心适配对照；新增来源后继续同条件比较，不扩整张文献矩阵，不称完整原法复现。差异与消融按[近邻表](../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md)核对。 |

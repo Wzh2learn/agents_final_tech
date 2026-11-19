@@ -1,6 +1,6 @@
 # 第二阶段：执行反馈驱动的纠正学习
 
-> 2026-11-19｜C3 路径 A 本批闭合，稿件更新至 v3。FinQA 主结果维持，TAT-QA 报告尺度适配和保持的净收益边界。
+> 2026-11-19｜第二篇 v4 封盘待导师／用户审阅。[IEEE 双栏稿](ijcnn_ieee/main.pdf)与[实验总表](results/IJCNN_EXPERIMENT_TABLES.md)。
 
 ## 科研自治：每次立项必查
 
@@ -36,7 +36,7 @@ FinQA DEV普通33/成对37/主18价值41；前向57普通/成对32，主16价值
 3. TAT48按原价值选K14，K内最低风险7题分配T₁、最高7题分配T₀，同分按题号。名单先于首次教师请求，14题均交错配对执行。首轮／普通／成对为1/10/9；全T₀／全T₁／混合为14/14/13。低风险T₁少恢复1题，高风险T₁多恢复1题，选中两道本地对题均保留。[完整结果](results/IJCNN_EXPERIMENT_TABLES.md#tat-qa-48题预算内披露复核)。
 4. DEV64恢复后单侧34/64，成对37/64，均保住原33对题。成对额外修复的三题包含期数、单位和基期取值。接管分开估计在前向K16完成34/57（风险33、原效用35），节省部分教师成本。将单侧比较用于本地纠正的机制论证，接管维持原方法并报告成本折中。[本地反例对照](results/IJCNN_EXPERIMENT_TABLES.md#恢复后单侧反例对照) · [成本折中](results/IJCNN_EXPERIMENT_TABLES.md#分开预测本地错误与接管后成功)。
 
-[英文正文 v2](IJCNN_MANUSCRIPT.md)已纳入恢复后单侧对照及成对相对该臂的 +4.7 个百分点 [0.0, 10.9]。[实验总表](results/IJCNN_EXPERIMENT_TABLES.md)保留原始对照、成本和 TAT-QA 复核。Paper E/开题由独立对话负责。
+[英文正文](IJCNN_MANUSCRIPT.md)已纳入恢复后单侧对照及成对相对该臂的 +4.7 个百分点 [0.0, 10.9]。[实验总表](results/IJCNN_EXPERIMENT_TABLES.md)保留原始对照、成本和 TAT-QA 复核。Paper E/开题由独立对话负责。
 
 <a id="c3-scale-study"></a>
 ## C3 路径 A：少样本尺度适配
@@ -47,6 +47,8 @@ FinQA DEV普通33/成对37/主18价值41；前向57普通/成对32，主16价值
 - 三档匹配拟合闭合，每臂22／60／98次更新。旧112表最大最小净优势−5／+1／−2，冻结64表主档。新64表原／规则／普通／成对为13／17／23／21，主档R18/H10。K18门槛关闭，96表次要档的成对23/64保留为敏感性结果。
 - FinQA DEV64 模块旁路保留原37/64。121组回放联合适配同权重实跑34/64、R0/H3。冻结确认64继续隔离。当前记录见[实验总表](results/IJCNN_EXPERIMENT_TABLES.md#c3-scale-adaptation)和[英文稿](IJCNN_MANUSCRIPT.md)。
 - 私有回执在 GB10 的 `tatqa_correction_v1/scale_adaptation_c3_v1/`。确认结果见 `ALL_*.json`，门槛见 `cascade_k18_v1/GATE.json`，源域回归见 `finqa_dev64_v2/RETENTION.json`。原转换失败回执保留。
+
+- **收官扩容**：追加64个TRAIN表，两档形成68／87对。同锁定TAT64面板，128表普通22、成对29（R16/H0），160表23／28（R21/H6）。两档达门槛，选128。共享教师K18价值35、风险37，R/H为6/0、8/0。校内56次／241,529 tokens，最后一题预算回退。原主档与适应性扩容分开标注。[明细](results/IJCNN_EXPERIMENT_TABLES.md#c3-adaptive-dose-extension)。
 
 ## 后续研究：同值引用与预算内核验
 

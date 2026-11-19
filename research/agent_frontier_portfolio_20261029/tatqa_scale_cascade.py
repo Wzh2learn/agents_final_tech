@@ -250,6 +250,24 @@ def cost(rows):
                 unknown_requests=sum(row.get("unknown", 0) for row in rows))
 
 
+def censored_final_task(root, teacher_result, teachers, transfer, pool):
+    """Keep the local answer when the last attempted case hits the batch cap."""
+    from scripts.graph.research_school_gateway import REQUEST_TOKEN_CEILING
+
+    if (root.name != EXTENSION or teacher_result["status"] != "FAILED" or teacher_result["unknown"]
+            or teacher_result["known_tokens"] + REQUEST_TOKEN_CEILING <= EXTENSION_CAP):
+        raise ValueError("native teacher pool did not return normally")
+    last = teacher_result["episodes"][-1]["index"]
+    raw = transfer.m.read(transfer.packet_at(pool, "teacher", last) / "RESULT.json")
+    accounting = raw["accounting"]
+    failures = accounting["failures"]
+    if (last != max(teachers) or accounting["integrity_passed"] or not failures
+            or any(row["message"] != "batch hard cap: cannot reserve the complete request ceiling"
+                   for row in failures)):
+        raise ValueError("teacher interruption is not a verified final-task budget refusal")
+    return last
+
+
 def score(root, transfer):
     output, pool, policy = frozen_pool(root, transfer)
     m, task = transfer.m, transfer.task
@@ -266,9 +284,11 @@ def score(root, transfer):
                                   or teacher_result["known_tokens"] + teacher_result["unknown_reserve"] > EXTENSION_CAP):
         raise ValueError("extension teacher ledger exceeded its frozen token cap")
     teachers = {row["index"]: row for row in teacher_result["episodes"]}
-    if (teacher_result["status"] != "RETURNED" or sorted(teachers) != policy["union"]
-            or len(teachers) != len(teacher_result["episodes"])):
-        raise ValueError("native teacher pool did not return every frozen union task exactly once")
+    if sorted(teachers) != policy["union"] or len(teachers) != len(teacher_result["episodes"]):
+        raise ValueError("teacher receipt did not cover every frozen union task exactly once")
+    censored = None
+    if teacher_result["status"] != "RETURNED":
+        censored = censored_final_task(root, teacher_result, teachers, transfer, pool)
 
     outcomes = {}
     for index, row in teachers.items():
@@ -276,7 +296,7 @@ def score(root, transfer):
         if sources[index]["id"] != paired[index]["id"] or row["id"] != sources[index]["id"] or row["id"] != labels[index]["id"]:
             raise ValueError("native T0, local and scorer IDs disagree")
         public = m.read(transfer.packet_at(output, "firstpass", index) / "inputs/public.json")
-        keep = not row["normal"] or not row["valid"]
+        keep = index == censored or not row["normal"] or not row["valid"]
         if isinstance(candidate, dict) and isinstance(teacher_candidate, dict) and candidate["scale"] == teacher_candidate["scale"]:
             keep = keep or transfer.av.percent_scale_only(candidate["program"], teacher_candidate["program"])
         final = candidate if keep else teacher_candidate
@@ -296,6 +316,7 @@ def score(root, transfer):
         damaged = sum(row["before"] and not row["after"] for row in chosen)
         arms[name] = dict(success=baseline + recovered - damaged, recovered=recovered, damaged=damaged,
                           teacher_tasks=K, selected=indices, teacher=cost([teachers[index] for index in indices]),
+                          budget_fallbacks=int(censored in indices),
                           classifier=policy["classifiers"][name])
 
     report = dict(status="RETURNED", tasks=SIZE, K=K, local_success=baseline, arms=arms,
@@ -306,6 +327,8 @@ def score(root, transfer):
                       scope="Aggregate counters span old/new panels and candidate adapters; per-arm timing unavailable."),
                   physical_union={key: teacher_result[key] for key in ("posts", "known_tokens", "unknown", "unknown_reserve", "seconds")},
                   union_tasks=len(teachers), shared_tasks=2 * K - len(teachers),
+                  teacher_status="BUDGET_CENSORED" if censored is not None else "RETURNED",
+                  budget_fallback_tasks=int(censored is not None),
                   gate=m.read(output / "GATE.json"), outcomes=list(outcomes.values()),
                   scope="A new K18 lookup on C3 confirmation states. T0 receives the original first-pass snapshot.")
     m.study.new(output / "COMPARISON.json", report)
