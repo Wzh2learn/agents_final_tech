@@ -87,6 +87,85 @@ def grounding_lift(examples):
             for name, (pairs, labels) in panels.items()}
 
 
+def recovery_panel(examples, signals):
+    from run_pilot import rank_auc
+
+    def auc(rows, signal):
+        labels = [case['recovered'] for case in rows]
+        return {'n': len(rows), 'positives': sum(labels),
+                'auc': rank_auc([case['scores'][signal] for case in rows], labels)}
+
+    common = [case for case in examples if all(case['scores'][signal] is not None for signal in signals)]
+    return {
+        'n': len(examples),
+        'recovered': sum(case['recovered'] for case in examples),
+        'covered': {signal: auc([case for case in examples if case['scores'][signal] is not None], signal)
+                    for signal in signals},
+        'common': {signal: auc(common, signal) for signal in signals},
+    }
+
+
+def teacher_recovery_sensitivity(root, public, outcomes):
+    """Keep failed teacher attempts in the end-to-end panel, then condition on delivery."""
+    indexed = {(row['dataset'], row['id']): row for row in outcomes}
+    cases = defaultdict(list)
+    wrong = Counter()
+    signals = ('reverse_risk', 'representation_disagreement', 'legacy_risk', 'legacy_value')
+    for idx, public_row in enumerate(public):
+        dataset = public_row['dataset']
+        wrong.setdefault(dataset, 0)
+        row = indexed[dataset, public_row['id']]
+        if row['dsl']['strict']:
+            continue
+        wrong[dataset] += 1
+        path = root / 'calls' / dataset / f'{idx:03d}' / 'teacher/call.json'
+        teacher = row.get('teacher')
+        if path.is_file() != (teacher is not None):
+            raise ValueError(f'teacher receipt/outcome mismatch for {dataset}:{idx}')
+        if teacher is None:
+            continue
+        receipt = read(path)
+        call_error = bool(receipt['exit_code'] or receipt['errors'])
+        error_text = json.dumps(receipt['errors']).casefold()
+        timed_out = receipt['exit_code'] == 124 or 'timed out' in error_text or 'timeouterror' in error_text
+        has_text = bool(receipt['text'].strip())
+        delivered = has_text and not call_error
+        scores = {signal: row.get(signal) for signal in signals}
+        scores['initial_nonexecution'] = int(not row['dsl']['executable'])
+        cases[dataset].append({
+            'scores': scores,
+            'recovered': delivered and bool(teacher['strict']),
+            'recorded_strict': bool(teacher['strict']),
+            'call_error': call_error,
+            'timeout': timed_out,
+            'has_text': has_text,
+            'delivered': delivered,
+            'executable': delivered and bool(teacher['executable']),
+        })
+    result = {}
+    for dataset in sorted(wrong):
+        attempts = cases[dataset]
+        active = ('initial_nonexecution', *(signal for signal in signals
+                                              if any(case['scores'][signal] is not None for case in attempts)))
+        result[dataset] = {
+            'all_initial_strict_errors': wrong[dataset],
+            'unattempted_errors': wrong[dataset] - len(attempts),
+            'call_errors': sum(case['call_error'] for case in attempts),
+            'timeouts': sum(case['timeout'] for case in attempts),
+            'no_final_text': sum(not case['has_text'] for case in attempts),
+            'recorded_strict_matches': sum(case['recorded_strict'] for case in attempts),
+            'all_attempted': recovery_panel(attempts, active),
+            'delivered_without_call_error': recovery_panel([case for case in attempts if case['delivered']], active),
+            'executable_teacher': recovery_panel([case for case in attempts if case['executable']], active),
+        }
+    return {
+        'outcome': 'Teacher official match with delivered text, zero exit status and no recorded call error.',
+        'conditioning': 'All attempted retains call failures and nonexecutable replies. The other panels require delivery without call error or additionally a teacher program that executes.',
+        'auc_direction': 'Larger scores predict teacher recovery. Initial nonexecution is 1 for an initial DSL program that did not execute.',
+        'datasets': result,
+    }
+
+
 def contrasts(public, outcomes, draws):
     reports = {(row['dataset'], row['id']): row['report'] for row in public}
     if set(reports) != {(row['dataset'], row['id']) for row in outcomes} or len(reports) != len(outcomes):
@@ -118,7 +197,9 @@ def main():
     result = {'receipts': receipt_counts(args.root, public)}
     if not args.receipts_only:
         result['cluster_bootstrap_draws'] = 10000
-        result['contrasts'] = contrasts(public, read(args.root / 'outcomes.json'), result['cluster_bootstrap_draws'])
+        outcomes = read(args.root / 'outcomes.json')
+        result['contrasts'] = contrasts(public, outcomes, result['cluster_bootstrap_draws'])
+        result['teacher_recovery_sensitivity'] = teacher_recovery_sensitivity(args.root, public, outcomes)
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
 
 
