@@ -398,7 +398,8 @@ def run(args):
         write_json(root / 'oda_cost.json', {'wall_seconds': time.monotonic()-started,
                                            'cost': aggregate_cost(root)})
         return
-    wait_service(args.teacher_base, args.teacher_model, 240)
+    # The recorded GB10 cold starts took over four minutes before serving /models.
+    wait_service(args.teacher_base, args.teacher_model, 600)
     finish_batch([item for item in prepared if not item[4]['strict']], 'teacher', independent_teacher, 1)
     legacy_path = root / 'legacy_heads.json'
     legacy = json.loads(legacy_path.read_text(encoding='utf-8')) if legacy_path.is_file() else None
