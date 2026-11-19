@@ -9,4 +9,6 @@
 
 路线 A 的开发门槛为规则后差距 ≥6 pp 或格式差 ≥8 pp。若差距较小且排序 AUC ≥0.72，进入路线 B 的交接对照。路线 C 还要求严格成绩高、教师恢复有限且排序 AUC <0.62。开放测试的 200 题用于选方向，后续全量比较记录经过探索的题号。
 
+`diagnose.py --root <运行目录> --receipts-only` 可直接核对回执。全批结束后省略该参数，按报告或表上下文计算同题分差区间。它也用同一批操作数回映复算纯规则 AUC，量化 8B 反查的增量，无需新增调用。
+
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
