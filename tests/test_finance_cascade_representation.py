@@ -125,7 +125,7 @@ def test_compiler_refuses_wrong_role_or_unreconciled_receipt(runs):
 
 
 def test_nonexecution_route_stops_at_first_executable_and_charges_only_queried_arms(runs):
-    from cascade_benchmark import ARMS, NonexecutionCascade, realized
+    from cascade_benchmark import ARMS, NonexecutionCascade, prepend_tradeoff, realized
 
     def answer(executable):
         return ((1, executable), None)
@@ -144,6 +144,24 @@ def test_nonexecution_route_stops_at_first_executable_and_charges_only_queried_a
     reverse = realized(NonexecutionCascade((2, 1)), pool)
     assert [row['selected'] for row in reverse] == [ARMS[2], ARMS[2], ARMS[1]]
     assert [row['known_tokens'] for row in reverse] == [30, 30, 50]
+
+    charges[2][0]['unknown_usage_calls'] = 1
+    managed = realized(NonexecutionCascade((1, 2)), pool)
+    prepended = realized(NonexecutionCascade((0, 1, 2)), pool)
+    decomposition = prepend_tradeoff(realized(None, pool, 0), managed, prepended)
+    assert decomposition['groups']['all']['n'] == 3
+    assert decomposition['groups']['all']['complete_token_n'] == 2
+    assert decomposition['groups']['all']['token_delta'] == 0
+    assert decomposition['groups']['all']['serial_call_delta_seconds'] == 2
+    assert decomposition['groups']['stop_at_8b']['avoided_managed_tokens'] == 20
+    assert decomposition['groups']['stop_at_8b']['harms'] == 1
+    assert decomposition['groups']['forwarded']['token_delta'] == 10
+    assert decomposition['known_token_pairs'] == {'cheaper': 1, 'cheaper_without_harm': 0,
+                                                  'cheaper_and_more_accurate': 0}
+
+    prepended[1]['known_tokens'] -= 1
+    with pytest.raises(ValueError, match='matched execution gate or selected charges'):
+        prepend_tradeoff(realized(None, pool, 0), managed, prepended)
 
 
 def test_author_routes_are_all_fitted_before_opening_evaluation(runs, monkeypatch):

@@ -451,6 +451,8 @@ def build_report(args):
             'strata': result}
     if (sensitivity := literal_ratio_sensitivity(compiled, policies, result)) is not None:
         report['literal_ratio_sensitivity'] = sensitivity
+    if 'oda_prepend_tradeoff' in compiled:
+        report['oda_prepend_tradeoff'] = compiled['oda_prepend_tradeoff']
     return report
 
 

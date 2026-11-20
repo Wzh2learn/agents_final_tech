@@ -387,6 +387,43 @@ class NonexecutionCascade:
         return selected
 
 
+def prepend_tradeoff(local, managed, prepended):
+    """Attribute the cost and correctness change of trying ODA before the same managed order."""
+    groups = {name: Counter() for name in ('all', 'stop_at_8b', 'forwarded')}
+    signs = Counter()
+    for low, peers, new in zip(local, managed, prepended, strict=True):
+        stopped = low['executable']
+        selected = low if stopped else peers
+        charged = (low,) if stopped else (low, peers)
+        if (low['id'] != peers['id'] or new['id'] != low['id']
+                or any(new[key] != selected[key] for key in ('strict', 'selected', 'executable'))
+                or set(new['queried']) != {model for path in charged for model in path['queried']}
+                or any(new[key] != sum(path[key] for path in charged)
+                       for key in ('known_tokens', 'unknown_usage_calls'))):
+            raise ValueError('Fixed ODA prepend differs from its matched execution gate or selected charges')
+        complete = not (low['unknown_usage_calls'] or peers['unknown_usage_calls'])
+        difference = int(new['strict']) - int(peers['strict'])
+        avoided = peers['known_tokens'] if stopped else 0
+        for row in (groups['all'], groups['stop_at_8b' if stopped else 'forwarded']):
+            row.update(n=1, managed_correct=peers['strict'], prepend_correct=new['strict'],
+                       gains=difference > 0, harms=difference < 0,
+                       avoided_managed_calls=len(peers['queried']) if stopped else 0,
+                       serial_call_delta_seconds=new['summed_call_seconds'] - peers['summed_call_seconds'],
+                       complete_token_n=complete)
+            if complete:
+                row.update(local_tokens=low['known_tokens'], avoided_managed_tokens=avoided,
+                           token_delta=low['known_tokens'] - avoided)
+        if complete:
+            delta = low['known_tokens'] - avoided
+            if delta < 0:
+                signs['cheaper'] += 1
+                signs['cheaper_without_harm'] += difference >= 0
+                signs['cheaper_and_more_accurate'] += difference > 0
+    return {'groups': {name: dict(row) for name, row in groups.items()},
+            'known_token_pairs': {key: signs[key] for key in ('cheaper', 'cheaper_without_harm',
+                                                             'cheaper_and_more_accurate')}}
+
+
 def summarize(decisions):
     usage = sum(row['unknown_usage_calls'] for row in decisions)
     known = sum(row['known_tokens'] for row in decisions)
@@ -536,6 +573,17 @@ def compare(args):
               'policies': policies}
     if fixed_sensitivity is not None:
         report['literal_ratio_sensitivity'] = fixed_sensitivity
+    if representation == 'compiled':
+        local = policies['always_oda-8b']['items']
+        prepend = {}
+        for managed_order in ('qwen_deepseek', 'deepseek_qwen'):
+            managed = policies[f'nonexecution_{managed_order}']['items']
+            with_oda = policies[f'nonexecution_8b_{managed_order}']['items']
+            prepend[managed_order] = prepend_tradeoff(local, managed, with_oda)
+        report['oda_prepend_tradeoff'] = {'comparisons': prepend,
+                                         'scope': 'Same compiled managed order and official cases. '
+                                                  'Token deltas require measured usage in both paths. '
+                                                  'Casewise savings are retrospective, not a routing policy.'}
     if campus_rows is not None:
         report['representation'] = representation
         report['campus_ledger_sha256'] = sha256(ledger).hexdigest()
