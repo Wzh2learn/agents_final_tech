@@ -12,8 +12,8 @@ old_restore=$3
 benchmark=${4:-}
 benchmark_split=${5:-fit}
 case $benchmark_split in
-    fit|calibration|eval) ;;
-    *) echo 'Expected benchmark split fit, calibration or eval.' >&2; exit 2 ;;
+    fit|calibration|eval|timing) ;;
+    *) echo 'Expected benchmark split fit, calibration, eval or timing.' >&2; exit 2 ;;
 esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
@@ -54,6 +54,31 @@ car_run () {
     done
 }
 
+timing_run () {
+    local dataset namespace
+    local sources="$HOME/wzh/external_research_sources/finance_frontier"
+    local driver="$repo/research/finance_frontier_pilot"
+    export PYTHONPATH="$sources/budgetverify-tabfm-deps-v1:$driver:$PYTHONPATH"
+    for dataset in finqa tatqa; do
+        namespace="matched_live_policy_${dataset}_v2"
+        printf '%s starting isolated matched official timing for %s\n' "$(date -Is)" "$dataset"
+        "$repo/venv/bin/python" -B -u "$driver/live_policy_timing.py" \
+            --benchmark "$work" --namespace "$namespace" --stage eval --dataset "$dataset" \
+            --cases 18 --max-posts 180 --token-cap 2000000 --metric-dir "$metric_dir" \
+            --compare-baselines --upstream "$sources/cascade-routing" --author-deps "$sources/cascade-router-deps" \
+            --tabfm-checkpoint "$HOME/wzh/models/hf/tabfm-1.0.0-pytorch"
+        "$repo/venv/bin/python" -B - "$work/$namespace/collection.json" <<'PY'
+import json
+from pathlib import Path
+import sys
+
+record = json.loads(Path(sys.argv[1]).read_bytes())
+if record['complete_paired_questions'] != record['planned_questions'] or record['planned_questions'] != 18:
+    raise SystemExit('Matched online timing stopped with an incomplete block')
+PY
+    done
+}
+
 cd "$root"
 test -r panel/manifest.json
 test -s smoke/teacher/call.json
@@ -65,7 +90,16 @@ if [[ -n $benchmark ]]; then
     work=$(cd "$benchmark" && pwd)
     [[ $work == "$HOME/wzh/research_evidence/finance_frontier_benchmark_"* ]]
     run_car=0
-    if [[ $benchmark_split != fit && -e $work/compare_car.enabled ]]; then
+    if [[ $benchmark_split == timing ]]; then
+        test -n "${BUPT_API_KEY:-}"
+        test "$(wc -l < "$work/oda_eval_v1/outcomes.jsonl")" -eq 1865
+        for dataset in finqa tatqa; do
+            test -s "$work/car_oda_4096_v1/$dataset/frozen_policy.json"
+            test -s "$work/car_oda_4096_v1/$dataset/eval/outcomes.jsonl"
+            test ! -e "$work/matched_live_policy_${dataset}_v2"
+        done
+    fi
+    if [[ ( $benchmark_split == calibration || $benchmark_split == eval ) && -e $work/compare_car.enabled ]]; then
         if [[ ! -f $work/compare_car.enabled || -s $work/compare_car.enabled ]]; then
             echo 'CAR opt-in requires an empty compare_car.enabled file in the benchmark directory.' >&2
             exit 2
@@ -106,8 +140,12 @@ for dataset in ('finqa', 'tatqa'):
 PY
         fi
     fi
-    test -s "$work/panel/$benchmark_split/public.jsonl"
-    test -s "$work/panel/$benchmark_split/references.jsonl"
+    panel_split=$benchmark_split
+    if [[ $benchmark_split == timing ]]; then
+        panel_split=eval
+    fi
+    test -s "$work/panel/$panel_split/public.jsonl"
+    test -s "$work/panel/$panel_split/references.jsonl"
     if [[ -e $work/oda_${benchmark_split}_v1/outcomes.jsonl && $run_car == 0 ]]; then
         echo 'Existing finalized outcomes are inputs to downstream baselines. Preserve them before any explicit repair.' >&2
         exit 1
@@ -122,6 +160,9 @@ with open(sys.argv[1]) as source:
     rows = json.load(source)
 assert len(rows) == 400 and sum('teacher' in row for row in rows) == 220
 PY
+elif [[ $benchmark_split == timing ]]; then
+    echo 'Matched timing requires the finalized benchmark directory.' >&2
+    exit 2
 fi
 lslocks -rn -o PID,PATH | awk -v guard="$guard_pid" -v lock="$HOME/wzh/.gpu_lock" \
     '$1==guard && $2==lock {owner=1} END {exit !owner}'
@@ -227,6 +268,10 @@ else:
 PY
     PYTHONPATH="$repo/research/finance_frontier_pilot:$PYTHONPATH" "$python" -c \
         'from run_pilot import wait_service; wait_service("http://127.0.0.1:18157/v1", "oda-fin-rl-8b", 300)'
+    if [[ $benchmark_split == timing ]]; then
+        timing_run
+        exit 0
+    fi
     if [[ ! -e $work/oda_${benchmark_split}_v1/outcomes.jsonl ]]; then
         "$python" -u "$repo/research/finance_frontier_pilot/benchmark_actions.py" \
             --panel "$work/panel/$benchmark_split" --run-dir "$work" --namespace "oda_${benchmark_split}_v1" \

@@ -124,3 +124,61 @@ def test_loader_only_fits_train_and_uses_known_calibration_costs(live_cascade, m
     assert set(metadata['matched_input_sha256']) == {'fit', 'calibration'}
     assert len(metadata['campus_ledger_sha256']) == 64
     json.dumps(metadata, allow_nan=False)
+
+
+def test_isolated_selector_uses_one_worker_and_sends_only_public_features(live_cascade, monkeypatch, tmp_path):
+    live = live_cascade
+    script = tmp_path / 'research' / 'finance_frontier_pilot' / 'live_author_cascade.py'
+    script.parent.mkdir(parents=True)
+    deps = tmp_path / 'author-deps'
+    deps.mkdir()
+    script.write_text('''\
+import json
+import os
+from pathlib import Path
+import sys
+
+assert os.environ['PYTHONPATH'].split(os.pathsep)[0] == sys.argv[1]
+assert 'tabfm-only' not in os.environ['PYTHONPATH']
+setup = json.loads(sys.stdin.readline())
+assert setup['args']['dataset'] == 'finqa'
+print(json.dumps({'result': {'author_ready': True}}), flush=True)
+count = 0
+for line in sys.stdin:
+    request = json.loads(line)
+    assert set(request) == {'operation', 'questions', 'answers'}
+    ident, features = request['questions'][0]
+    assert ident == 'timed-test' and len(features) == 6
+    seen, = request['answers']
+    assert len(seen) == 3 and seen[0] is None and seen[2] is None
+    if request['operation'] == 'predict':
+        result = 'qwen-27b' if seen[1] is None else None
+    else:
+        assert request['operation'] == 'select_answer' and seen[1][1] == 5.0
+        result = 'qwen-27b'
+        count += 1
+    print(json.dumps({'result': [result]}), flush=True)
+Path(setup['benchmark'], 'worker-exited').write_text(str(count))
+''', encoding='utf-8')
+    monkeypatch.setattr(live, '__file__', str(script))
+    monkeypatch.setenv('PYTHONPATH', str(tmp_path / 'tabfm-only'))
+    row = {'dataset': 'finqa', 'id': 'timed-test', 'report': 'not-sent', 'question': 'What is the total?',
+           'table': [['label', 'value'], ['left', '2'], ['right', '3']], 'pre_text': [], 'post_text': []}
+    calls = []
+
+    def call(name, role, prompt):
+        assert role == 'solve' and prompt == live.paired_prompt(row, 'dsl')
+        calls.append(name)
+        return {'text': 'Final program: add(2, 3)', 'exit_code': 0, 'errors': [], 'finish': ['stop']}
+
+    args = SimpleNamespace(author_dependency_path=deps, dataset='finqa', base='local')
+    with live.load_isolated_author_cascade(args, tmp_path, tmp_path / 'serve.json',
+                                          tmp_path / 'ledger.json') as (select, metadata):
+        assert metadata == {'author_ready': True}
+        for _ in range(2):
+            selected, _ = select(row, call)
+            assert selected['calls'] == [live.MODELS[1]]
+    assert calls == [live.MODELS[1]] * 2
+    assert (tmp_path / 'worker-exited').read_text() == '2'
+    with pytest.raises(RuntimeError, match='worker is closed'):
+        select(row, call)

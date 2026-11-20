@@ -47,6 +47,13 @@ def test_fixed_policies_use_numeric_and_execution_gates(timing, question):
     replies.update({qwen: 'Final program: add(1, 2)', deepseek: 'invalid'})
     action, _ = timing.select_policy(question, 'ds-first', call)
     assert calls == [deepseek, qwen] and action['selected_model'] == qwen
+    calls.clear()
+    action, _ = timing.select_policy(question, 'qwen-first', call)
+    assert calls == [qwen] and action['selected_model'] == qwen
+    calls.clear()
+    replies.update({qwen: 'invalid', deepseek: 'Final program: add(1, 2)'})
+    action, _ = timing.select_policy(question, 'qwen-first', call)
+    assert calls == [qwen, deepseek] and action['selected_model'] == deepseek
 
 
 def test_train_order_seed_balances_six_permutations(timing, question):
@@ -57,15 +64,17 @@ def test_train_order_seed_balances_six_permutations(timing, question):
 
 
 def test_matched_block_balances_positions_and_keeps_shard_order(timing, question):
-    rows = [dict(question, id=str(index)) for index in range(14)]
     policies = timing.MATCHED_POLICIES
+    n = len(policies)
+    assert n == 9 and {'qwen-first', 'ds-first'} <= set(policies)
+    rows = [dict(question, id=str(index)) for index in range(2 * n)]
     all_cases = timing.frozen_cases(rows, len(rows), policies)
-    for position in range(len(policies)):
-        assert {order[position] for _, order in all_cases[:len(policies)]} == set(policies)
+    for position in range(n):
+        assert {order[position] for _, order in all_cases[:n]} == set(policies)
     adjacent = Counter(pair for _, sequence in all_cases for pair in zip(sequence, sequence[1:]))
-    assert len(adjacent) == len(policies) * (len(policies) - 1)
+    assert len(adjacent) == n * (n - 1)
     assert set(adjacent.values()) == {2}
-    assert timing.frozen_cases(rows, 7, policies, offset=7) == all_cases[7:]
+    assert timing.frozen_cases(rows, n, policies, offset=n) == all_cases[n:]
 
 
 def test_direct_compiled_uses_only_the_named_model(timing, question):

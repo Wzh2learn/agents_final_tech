@@ -1,6 +1,7 @@
 """Measure fresh, interleaved policy wall time with official grading outside the timer."""
 
 import argparse
+from contextlib import ExitStack
 from hashlib import sha256
 from itertools import permutations
 import json
@@ -22,11 +23,12 @@ from table_scope_replay import public_contract
 
 POLICIES = ('oda-local', 'contract', 'ds-first')
 MANAGED = (school.campus.QWEN_MODEL, school.campus.MODEL)
+MANAGED_ORDERS = {'qwen-first': MANAGED, 'ds-first': MANAGED[::-1]}
 ODA = 'oda-fin-rl-8b'
 ODA_CHECKPOINT = '948c22ea48f9bf93e5747f4211657fcad9cb0295'
 ORDER_SEED = 20261120
 DIRECT_MODELS = dict(zip(('oda-direct', 'qwen-direct', 'deepseek-direct'), (ODA, *MANAGED), strict=True))
-MATCHED_POLICIES = ('contract', 'car', 'budgetverify', 'author-cascade', *DIRECT_MODELS)
+MATCHED_POLICIES = ('contract', 'car', 'budgetverify', 'author-cascade', *DIRECT_MODELS, *MANAGED_ORDERS)
 
 
 class TimingBudgetExhausted(Exception):
@@ -44,10 +46,10 @@ def select_policy(row, policy, call):
             row, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
         return {'submission': submission, 'decision': decision, 'source_cells': cells, 'calls': [name],
                 'selected_model': model, 'selected_stage': f'compiled_{model}'}, projected
-    if policy not in POLICIES:
+    if policy not in POLICIES and policy not in MANAGED_ORDERS:
         raise ValueError(f'unknown timed policy {policy}')
     calls = []
-    if policy != 'ds-first':
+    if policy not in MANAGED_ORDERS:
         outputs, projections = select_case(row, ['compiled_fallback'], call)
         draft = outputs['compiled_fallback']
         projected = projections.get('compiled_fallback', row)
@@ -58,7 +60,7 @@ def select_policy(row, policy, call):
             stage = 'compiled_oda' if executable else 'free_oda'
             return {**draft, 'selected_stage': stage, 'selected_model': ODA}, projected
 
-    order = MANAGED if policy == 'contract' else tuple(reversed(MANAGED))
+    order = MANAGED_ORDERS.get(policy, MANAGED)
     for model in order:
         receipt = call(model, 'solve', paired_prompt(row, 'dsl'))
         calls.append(model)
@@ -132,6 +134,9 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
                     fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
                     receipts[name] = {**{item: result[item] for item in fields if item in result},
                                       'path': receipt_path.relative_to(root).as_posix()}
+                    if (getattr(args, 'compare_baselines', False) and name not in profiles
+                            and (result['exit_code'] or result['errors'])):
+                        wait_service(args.base, ODA, 10)
                     return result
 
                 begin = monotonic()
@@ -208,7 +213,8 @@ def run(args, benchmark, ledger_root):
         raise ValueError('BUPT_API_KEY must be available in the authorized process environment')
 
     budget = school.campus.BatchBudget(ledger_root)
-    try:
+    with ExitStack() as resources:
+        resources.callback(budget.close)
         freeze(ledger_root / 'opening.json', {'project_cap': school.PROJECT_CAP,
                                              'historical_charged_tokens': args.prior_charged_tokens})
         opening_posts, opening_tokens = school.charged(budget.rows)
@@ -219,17 +225,19 @@ def run(args, benchmark, ledger_root):
         selectors, baseline_metadata = None, {}
         roles = ('solve',)
         if args.compare_baselines:
-            from live_author_cascade import load_author_cascade
+            from live_author_cascade import load_isolated_author_cascade
             from live_local_baselines import load_local_baselines
 
             local, local_metadata = load_local_baselines(args, benchmark, serve_path)
-            author, author_metadata = load_author_cascade(args, benchmark, serve_path, ledger_root / 'gateway_ledger.json')
+            author, author_metadata = resources.enter_context(load_isolated_author_cascade(
+                args, benchmark, serve_path, ledger_root / 'gateway_ledger.json'))
             selector_by_name = {**local, 'author-cascade': author}
-            for name in ('contract', *DIRECT_MODELS):
+            for name in ('contract', *DIRECT_MODELS, *MANAGED_ORDERS):
                 selector_by_name[name] = lambda row, call, policy=name: select_policy(row, policy, call)
             selectors = {name: selector_by_name[name] for name in MATCHED_POLICIES}
             baseline_metadata = {**local_metadata, 'author-cascade': author_metadata,
-                                 'direct_reference': 'One compiled response from the indicated model.'}
+                                 'direct_reference': 'One compiled response from the indicated model.',
+                                 'managed_nonexecution_orders': MANAGED_ORDERS}
             roles = ('solve', 'verify', 'probe', 'repair')
         public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
         cases = frozen_cases(public, args.cases, tuple(selectors) if selectors else POLICIES, args.offset)
@@ -257,8 +265,6 @@ def run(args, benchmark, ledger_root):
             actor.initialize_session_store()
         wait_service(args.base, ODA, 90)
         collect_cases(args, root, cases, gold, actors, providers, budget, key, digest_file(contract), selectors)
-    finally:
-        budget.close()
 
 
 def main():
@@ -279,6 +285,7 @@ def main():
     parser.add_argument('--metric-dir', type=Path)
     parser.add_argument('--compare-baselines', action='store_true')
     parser.add_argument('--upstream', type=Path)
+    parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
     parser.add_argument('--tabfm-checkpoint', type=Path)
     parser.add_argument('--opencode', type=Path, default=Path.home() / '.opencode/bin/opencode')
     args = parser.parse_args()
@@ -292,6 +299,8 @@ def main():
         parser.error('the matched baseline batch requires the official eval panel and frozen training policies')
     if args.compare_baselines and (args.upstream is None or not args.upstream.is_dir()):
         parser.error('the matched baseline batch requires the pinned author Cascade checkout')
+    if args.compare_baselines and (args.author_dependency_path is None or not args.author_dependency_path.is_dir()):
+        parser.error('the matched baseline batch requires isolated author Cascade dependencies')
     private = (Path.home() / 'wzh/research_evidence').resolve()
     benchmark = args.benchmark.resolve()
     if (sys.platform != 'linux' or not benchmark.is_relative_to(private)

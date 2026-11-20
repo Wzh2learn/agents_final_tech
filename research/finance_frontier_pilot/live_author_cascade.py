@@ -1,7 +1,14 @@
 """Fit one official-grid Cascade Router point and dispatch its live choices."""
 
+from contextlib import contextmanager, redirect_stdout
+from functools import partial
 from hashlib import sha256
 import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -67,7 +74,7 @@ def check_live_profiles(args, benchmark, serving_profile_path, profiles, oda_run
             raise ValueError(f'Live {model} profile differs from the author Cascade fit/calibration profile')
 
 
-def load_author_cascade(args, benchmark, serving_profile_path, campus_ledger_path):
+def fit_author_cascade(args, benchmark, serving_profile_path, campus_ledger_path):
     """Bind live identities and fit the compiled, adaptive-start 1.5x policy on TRAIN only."""
     ledger = campus_ledger_path.read_bytes()
     campus_rows = json.loads(ledger)
@@ -115,18 +122,6 @@ def load_author_cascade(args, benchmark, serving_profile_path, campus_ledger_pat
     finally:
         np.random.set_state(caller_state)
 
-    def select(row, call):
-        nonlocal prediction_state
-        if row['dataset'] != args.dataset:
-            raise ValueError('Live question dataset differs from the fitted author Cascade')
-        caller_state = np.random.get_state()
-        np.random.set_state(prediction_state)
-        try:
-            return select_author_cascade(row, call, router)
-        finally:
-            prediction_state = np.random.get_state()
-            np.random.set_state(caller_state)
-
     input_digests = {}
     for split, pool in pools.items():
         evidence = {'questions': pool[0], 'charges': pool[3],
@@ -139,4 +134,128 @@ def load_author_cascade(args, benchmark, serving_profile_path, campus_ledger_pat
                 'fit_n': len(fit[0]), 'calibration_n': len(cq), 'calibration_excluded_unknown': int(sum(~keep)),
                 'profiles': profiles, 'matched_input_sha256': input_digests,
                 'campus_ledger_sha256': sha256(ledger).hexdigest()}
+    return router, prediction_state, metadata
+
+
+def load_author_cascade(args, benchmark, serving_profile_path, campus_ledger_path):
+    """Run directly in an environment that already has the author dependencies."""
+    router, prediction_state, metadata = fit_author_cascade(args, benchmark, serving_profile_path, campus_ledger_path)
+
+    def select(row, call):
+        nonlocal prediction_state
+        if row['dataset'] != args.dataset:
+            raise ValueError('Live question dataset differs from the fitted author Cascade')
+        caller_state = np.random.get_state()
+        np.random.set_state(prediction_state)
+        try:
+            return select_author_cascade(row, call, router)
+        finally:
+            prediction_state = np.random.get_state()
+            np.random.set_state(caller_state)
+
     return select, metadata
+
+
+def write_message(stream, message):
+    stream.write(json.dumps(message, allow_nan=False) + '\n')
+    stream.flush()
+
+
+def author_worker(dependency_path, source, sink):
+    """Fit once and answer requests containing only question/observed-answer features."""
+    try:
+        with redirect_stdout(sys.stderr):
+            import scipy
+            import sklearn
+
+            libraries = (np, scipy, sklearn)
+            if any(not Path(module.__file__).resolve().is_relative_to(dependency_path) for module in libraries):
+                raise ValueError('NumPy, SciPy and scikit-learn must load from the author dependency directory')
+            setup = json.loads(source.readline())
+            params = setup['args']
+            for name in ('metric_dir', 'opencode', 'upstream', 'qwen_api_profile', 'deepseek_api_profile'):
+                if params[name] is not None:
+                    params[name] = Path(params[name])
+            router, prediction_state, metadata = fit_author_cascade(
+                SimpleNamespace(**params), Path(setup['benchmark']), Path(setup['serving_profile']), Path(setup['ledger']))
+            np.random.set_state(prediction_state)
+        write_message(sink, {'result': {**metadata, 'dependency_versions': {
+            module.__name__: module.__version__ for module in libraries}, 'transport': 'isolated_json_lines'}})
+        methods = {'predict': router.predict, 'select_answer': router.select_answer}
+        for line in source:
+            request = json.loads(line)
+            questions = [(ident, tuple(features)) for ident, features in request['questions']]
+            answers = [[None if answer is None else (tuple(answer[0]), answer[1]) for answer in row]
+                       for row in request['answers']]
+            with redirect_stdout(sys.stderr):
+                result = methods[request['operation']](questions, answers)
+            write_message(sink, {'result': result})
+    except Exception as error:
+        write_message(sink, {'error': f'{type(error).__name__}: {error}'})
+        raise
+
+
+@contextmanager
+def load_isolated_author_cascade(args, benchmark, serving_profile_path, campus_ledger_path):
+    """Start the author worker in its pinned stack while retaining live calls in the parent."""
+    dependency_path = Path(args.author_dependency_path).resolve(strict=True)
+    if not dependency_path.is_dir():
+        raise ValueError('Author dependencies must point to a directory')
+    script = Path(__file__).resolve()
+    repo = script.parents[2]
+    env = {key: os.environ[key] for key in os.environ if key != 'BUPT_API_KEY'}
+    env['PYTHONPATH'] = os.pathsep.join(str(path) for path in (
+        dependency_path, script.parent, repo / 'research/agent_frontier_portfolio_20261029', repo))
+    env['PYTHONNOUSERSITE'] = '1'
+    params = {'dataset': args.dataset, 'base': args.base}
+    for name in ('metric_dir', 'opencode', 'upstream', 'qwen_api_profile', 'deepseek_api_profile'):
+        value = getattr(args, name, None)
+        params[name] = str(value) if value is not None else None
+
+    with subprocess.Popen([sys.executable, '-B', '-u', str(script), str(dependency_path)],
+                          stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8',
+                          env=env, close_fds=True) as worker:
+        def exchange(message):
+            if worker.stdin.closed:
+                raise RuntimeError('Author Cascade worker is closed')
+            try:
+                write_message(worker.stdin, message)
+            except BrokenPipeError as error:
+                raise RuntimeError('Author Cascade worker closed before the next request') from error
+            line = worker.stdout.readline()
+            if not line:
+                raise RuntimeError('Author Cascade worker exited without a response')
+            response = json.loads(line)
+            if 'error' in response:
+                raise RuntimeError(f'Author Cascade worker: {response["error"]}')
+            return response['result']
+
+        try:
+            metadata = exchange({'args': params, 'benchmark': str(benchmark), 'serving_profile': str(serving_profile_path),
+                                 'ledger': str(campus_ledger_path)})
+
+            def route(operation, questions, answers):
+                return exchange({'operation': operation, 'questions': questions, 'answers': answers})
+
+            router = SimpleNamespace(predict=partial(route, 'predict'), select_answer=partial(route, 'select_answer'))
+
+            def select(row, call):
+                if row['dataset'] != args.dataset:
+                    raise ValueError('Live question dataset differs from the fitted author Cascade')
+                return select_author_cascade(row, call, router)
+
+            yield select, metadata
+        finally:
+            try:
+                worker.stdin.close()
+            except BrokenPipeError:
+                pass
+            try:
+                worker.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                worker.kill()
+                worker.wait()
+
+
+if __name__ == '__main__':
+    author_worker(Path(sys.argv[1]), sys.stdin, sys.stdout)
