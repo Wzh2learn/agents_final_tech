@@ -41,3 +41,11 @@
 共享相同设置的首答、证据和评分。探针的 27B 独立重解只覆盖首答错题。端到端比较另行记录正确首答上的保持和错改，以及本地生成、核验和教师的实际 tokens 与墙时。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
+
+### 对标权重与推理精度
+
+- CAR 使用 Qwen3-8B BF16、官方模板和 32,768 上下文，关闭 Qwen 思考。GB10 已有通过静态验收的 `~/wzh/models/hf/Qwen3-8B`，固定版本 `b968826d`。复测分别记录 CAR 的百分比归一口径及各臂统一的严格执行分。[CAR 实验配置与评分](https://arxiv.org/html/2611.05166v1#A5.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218)
+- BudgetVerify 对标补 Qwen3.5-9B 原版 `c2022362`，在同一权重上比较首答、局部复查和独立重解。论文公开了模型家族，未给出量化精度或权重版本。[BudgetVerify 实验](https://arxiv.org/html/2609.33052v1#S4.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3.5-9B/tree/c202236235762e1c871ad0ccb60c8ee5ba337b9a)
+- 当前 220 题教师批次实际使用 Qwen3.8-27B FP8。另补官方 Qwen3.8-27B BF16 `37561816`，用于在相同题目、提示模板、执行器和生成预算下比较两种发布版本。若缺少 FP8 对应源版本的证明，将差异归于发布版本，量化效应单独留待核实。[BF16 版本](https://huggingface.co/Qwen/Qwen3.8-27B/tree/37561816e66b5b9153b1b64c10968c18c1e6f4a0) · [FP8 模型卡](https://huggingface.co/Qwen/Qwen3.8-27B-FP8)
+
+GB10 在 2026-11-20 启动 9B、27B BF16 的串行权重下载。固定版本目录各自保存 `DOWNLOAD_STATUS.json`，进度见 `~/wzh/model_sync_logs/finance_frontier_weights_20261120.log`。下载阶段只暂存权重。加载验证使用既有研究 GPU 租约，安排在 FP8 批次结束后。
