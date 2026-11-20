@@ -313,6 +313,9 @@ def collect(args, root):
 
     finqa.executor()  # The native executor publishes its module during first import.
     started = time.monotonic()
+    if args.workers > 1:
+        for actor in actors.values():
+            actor.initialize_session_store()
     temporary = root / 'outcomes.jsonl.tmp'
     new_calls = 0
     with ThreadPoolExecutor(max_workers=args.workers) as pool, temporary.open('w', encoding='utf-8') as stream:

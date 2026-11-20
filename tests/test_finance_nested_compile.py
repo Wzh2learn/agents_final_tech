@@ -1,3 +1,5 @@
+from hashlib import sha256
+import json
 from pathlib import Path
 
 import pytest
@@ -96,3 +98,106 @@ def test_rejects_invalid_or_ambiguous_declarations(pilot, report, reply):
     assert decision == 'nested_rejected'
     assert prediction['program'] is None
     assert cells == []
+
+
+@pytest.fixture
+def paired_runs(tmp_path, pilot, report):
+    from benchmark_actions import action_cost, digest_file
+    from run_pilot import usage_from, write_json
+
+    collect_case, _, _ = pilot
+    public = [dict(report, id='percent', question='What percentage of the total?'),
+              dict(report, id='absolute', report='other report')]
+    gold = {'percent': {'exe_ans': .5}, 'absolute': {'exe_ans': 3.0}}
+    panel = tmp_path / 'panel'
+    panel.mkdir()
+    public_path, ref_path = panel / 'public.jsonl', panel / 'references.jsonl'
+
+    def write_lines(path, rows):
+        path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+
+    write_lines(public_path, public)
+    write_lines(ref_path, ({'dataset': 'finqa', 'id': key, 'gold': value} for key, value in gold.items()))
+    panel_identity = {path.name: digest_file(path) for path in (public_path, ref_path)}
+    profile = {'schema': 'finance-benchmark-actions-v1', 'panel': panel_identity,
+               'model': 'oda-fin-rl-8b', 'checkpoint': 'fixture', 'endpoint': 'http://127.0.0.1:18157/v1',
+               'serve_sha256': 'fixture', 'opencode_sha256': 'fixture',
+               'seed': 17, 'context': 16384, 'output': {'solve': 4096}, 'temperature': .6}
+    for action, replies in (
+        ('contract_compile', ['divide(10, 20), multiply(#0, const_100)', 'add(1, 2)']),
+        ('nested_compile', ['divide(10, 20)', None]),
+    ):
+        run = tmp_path / action
+        run.mkdir()
+        contract_path = run / 'run.json'
+        write_json(contract_path, dict(profile, namespace=action, actions=[action],
+                                       dataset=None if action == 'contract_compile' else 'finqa'))
+        digest = digest_file(contract_path)
+        outcomes = []
+        for row, program in zip(public, replies):
+            saved_calls = {}
+
+            def capture(name, actor, prompt):
+                relative = Path('calls/finqa') / sha256(row['id'].encode()).hexdigest()[:24] / name
+                target = run / relative
+                target.mkdir(parents=True)
+                text = f'Final program: {program}' if program is not None else ''
+                events = [{'type': 'text', 'part': {'text': text}},
+                          {'type': 'step_finish', 'part': {'reason': 'stop',
+                                                           'tokens': {'input': 5, 'output': 9, 'total': 14}}}
+                          ] if program is not None else []
+                receipt = {'text': text, 'usage': usage_from(events), 'elapsed_seconds': 1.25,
+                           'exit_code': 0 if events else 124, 'finish': ['stop'] if events else [], 'errors': []}
+                write_json(target / 'request.json', {'actor': actor, 'run_contract': digest,
+                                                     'prompt_sha256': sha256(prompt.encode()).hexdigest()})
+                (target / 'prompt.txt').write_bytes((prompt + '\n').encode())
+                write_lines(target / 'raw.jsonl', events)
+                write_json(target / 'call.json', receipt)
+                saved_calls[name] = {k: v for k, v in receipt.items() if k != 'text'}
+                saved_calls[name]['path'] = (relative / 'call.json').as_posix()
+                return receipt
+
+            actions = collect_case(row, gold[row['id']], [action], capture, None)
+            for output in actions.values():
+                output['cost'] = action_cost([saved_calls[name] for name in output['calls']])
+            outcomes.append(dict(dataset='finqa', id=row['id'], report=row['report'],
+                                 actions=actions, calls=saved_calls))
+        write_lines(run / 'outcomes.jsonl', reversed(outcomes) if action == 'nested_compile' else outcomes)
+    return panel, tmp_path / 'contract_compile', tmp_path / 'nested_compile'
+
+
+def test_paired_replay_preserves_failures_and_computes_matched_differences(paired_runs):
+    from diagnose import compare_nested
+
+    result = compare_nested(*paired_runs, 'finqa')
+    assert result['arms']['low']['strict_correct'] == 1
+    assert result['arms']['contract_compile']['strict_correct'] == 2
+    assert result['arms']['low']['known_tokens'] == result['arms']['contract_compile']['known_tokens'] == 28
+    assert result['arms']['nested_compile'] == {
+        'n': 2, 'strict_correct': 1, 'executable': 1, 'delivered': 1, 'call_errors': 1, 'output_cap': 0,
+        'known_tokens': 14, 'unknown_usage_calls': 1, 'summed_call_seconds': 2.5,
+    }
+    assert result['comparisons']['nested_minus_low']['gains'] == 1
+    assert result['comparisons']['nested_minus_low']['losses'] == 1
+    assert result['comparisons']['nested_minus_contract_compile']['net_pp'] == -50
+    assert result['comparisons']['nested_minus_contract_compile']['paired_cluster_percentile_95_pp'] == [-100, 0]
+
+
+@pytest.mark.parametrize(('file', 'old', 'new', 'message'), [
+    ('run.json', '"temperature": 0.6', '"temperature": 0.7', 'serving profiles differ'),
+    ('outcomes.jsonl', '"other report"', '"new report"', 'frozen IDs and reports'),
+    ('outcomes.jsonl', '"known_tokens": 14', '"known_tokens": 15', 'recorded score or cost'),
+    ('prompt.txt', 'nested', 'flat', 'recorded prompt or request'),
+    ('request.json', '"actor": "solve"', '"actor": "probe"', 'recorded prompt or request'),
+    ('raw.jsonl', '"total": 14', '"total": 15', 'raw events, call receipt or recorded usage'),
+])
+def test_paired_replay_refuses_record_drift(paired_runs, file, old, new, message):
+    from diagnose import compare_nested
+
+    _, _, nested = paired_runs
+    candidates = sorted(p for p in nested.rglob(file) if old in p.read_text(encoding='utf-8'))
+    assert candidates
+    path = candidates[0]
+    path.write_bytes(path.read_text(encoding='utf-8').replace(old, new, 1).encode())
+    with pytest.raises(ValueError, match=message):
+        compare_nested(*paired_runs, 'finqa')

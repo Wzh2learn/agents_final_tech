@@ -152,6 +152,15 @@ class OpenCode:
             'OPENCODE_DISABLE_PROJECT_CONFIG': '1', 'OPENCODE_DISABLE_AUTO_COMPACT': '1',
         }
 
+    def initialize_session_store(self):
+        # Several OpenCode processes can otherwise race on initial SQLite migrations.
+        command = [str(self.executable), 'session', 'list', '--pure', '--format', 'json', '--max-count', '1']
+        result = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, cwd=self.root / 'workspace', env=self.env, timeout=30)
+        if result.returncode:
+            raise RuntimeError(f'OpenCode session setup failed for {self.root.name}: '
+                               f'{result.stderr.decode("utf-8", errors="replace")[:2000]}')
+
     def call(self, prompt, destination):
         destination.mkdir(parents=True, exist_ok=True)
         result_path = destination / 'call.json'

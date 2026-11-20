@@ -2,6 +2,7 @@
 
 import argparse
 from collections import Counter, defaultdict
+from hashlib import sha256
 import json
 from pathlib import Path
 from random import Random
@@ -272,11 +273,147 @@ def contrasts(public, outcomes, draws):
     return results
 
 
+def read_paired_run(directory, panel_digest, reports, dataset, action):
+    from benchmark_actions import digest_file
+    from run_pilot import load_lines
+
+    contract_path = directory / 'run.json'
+    contract = read(contract_path)
+    if (contract['schema'] != 'finance-benchmark-actions-v1'
+            or contract['dataset'] not in (None, dataset)
+            or action not in contract['actions']
+            or contract['panel'] != panel_digest):
+        raise ValueError(f'{directory}: action run does not match the frozen panel')
+
+    outcomes_path = directory / 'outcomes.jsonl'
+    completed = load_lines(outcomes_path)
+    selected = [row for row in completed if row['dataset'] == dataset]
+    indexed = {row['id']: row for row in selected}
+    if (len(indexed) != len(selected) or indexed.keys() != reports.keys()
+            or any(row['report'] != reports[ident] for ident, row in indexed.items())
+            or (contract['dataset'] == dataset and len(selected) != len(completed))):
+        raise ValueError(f'{directory}: completed outcomes must cover frozen IDs and reports exactly once')
+
+    profile = {key: value for key, value in contract.items()
+               if key not in ('namespace', 'panel', 'dataset', 'actions')}
+    required = {'model', 'checkpoint', 'endpoint', 'serve_sha256', 'opencode_sha256',
+                'seed', 'context', 'output', 'temperature'}
+    if not required <= profile.keys() or 'solve' not in profile['output']:
+        raise ValueError(f'{directory}: incomplete serving profile')
+    return profile, indexed, {path.name: digest_file(path) for path in (contract_path, outcomes_path)}
+
+
+def read_replay_call(directory, row, name, actor, prompt, run_digest, metadata):
+    from run_pilot import usage_from
+
+    case = sha256(row['id'].encode('utf-8')).hexdigest()[:24]
+    relative = Path('calls') / row['dataset'] / case / name
+    expected_request = {'prompt_sha256': sha256(prompt.encode('utf-8')).hexdigest(),
+                        'run_contract': run_digest, 'actor': actor}
+    target = directory / relative
+    if (metadata['path'] != (relative / 'call.json').as_posix()
+            or read(target / 'request.json') != expected_request
+            or (target / 'prompt.txt').read_bytes() != (prompt + '\n').encode('utf-8')):
+        raise ValueError(f'{target}: recorded prompt or request differs from the frozen arm')
+    receipt = read(target / 'call.json')
+    events = []
+    for line in (target / 'raw.jsonl').read_bytes().decode('utf-8', errors='replace').splitlines():
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue  # Match OpenCode.call's extraction of JSON events from stdout.
+    replayed = {
+        'text': '\n'.join(event.get('part', {}).get('text', '') for event in events if event.get('type') == 'text'),
+        'finish': [event.get('part', {}).get('reason') for event in events if event.get('type') == 'step_finish'],
+        'errors': [event.get('error') for event in events if event.get('type') == 'error'],
+        'usage': usage_from(events),
+    }
+    if (any(receipt[key] != value for key, value in replayed.items())
+            or any(metadata[key] != receipt[key]
+                   for key in ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors'))):
+        raise ValueError(f'{target}: raw events, call receipt or recorded usage disagree')
+    return receipt
+
+
+def compare_nested(panel: Path, flat_run: Path, nested_run: Path, dataset: str,
+                   metric_dir: Path | None = None) -> dict:
+    """Rescore two matched one-call representations from frozen local receipts."""
+    from benchmark_actions import action_cost, collect_case, deliver, read_panel
+
+    if flat_run.resolve() == nested_run.resolve():
+        raise ValueError('Flat and nested receipts require separate run directories')
+    if dataset == 'tatqa' and metric_dir is None:
+        raise ValueError('TAT-QA requires the official metric directory')
+    public, gold, panel_digest = read_panel(panel, dataset)
+    reports = {row['id']: row['report'] for row in public}
+    specs = ((flat_run, 'contract_compile', 'low'), (nested_run, 'nested_compile', 'nested_compile'))
+    runs = [read_paired_run(run, panel_digest, reports, dataset, action) for run, action, _ in specs]
+    if runs[0][0] != runs[1][0]:
+        raise ValueError('Flat and nested serving profiles differ')
+
+    summaries = defaultdict(Counter)
+    paired = []
+    for row in public:
+        outcomes = {}
+        for (run, action, expected_call), (_, indexed, provenance) in zip(specs, runs):
+            saved = indexed[row['id']]
+            receipts = {}
+
+            def call(name, actor, prompt):
+                if name != expected_call or actor != 'solve' or receipts:
+                    raise ValueError(f'{run}: unexpected call plan for {row["id"]}')
+                receipts[name] = read_replay_call(run, row, name, actor, prompt,
+                                                  provenance['run.json'], saved['calls'][name])
+                return receipts[name]
+
+            replayed = collect_case(row, gold[dataset, row['id']], [action], call, metric_dir)
+            receipt = receipts[expected_call]
+            for arm, output in replayed.items():
+                if output['calls'] != [expected_call]:
+                    raise ValueError(f'{run}: {arm} must charge only its single solve call')
+                cost = action_cost([receipt])
+                if saved['actions'][arm] != {**output, 'cost': cost}:
+                    raise ValueError(f'{run}: recorded score or cost differs for {row["id"]} {arm}')
+                summaries[arm].update(n=1, strict_correct=output['strict'], executable=output['executable'],
+                                      delivered=bool(deliver(receipt).strip()),
+                                      call_errors=bool(receipt['exit_code'] or receipt['errors']),
+                                      output_cap='length' in receipt['finish'],
+                                      known_tokens=cost['known_tokens'], unknown_usage_calls=cost['unknown_usage_calls'],
+                                      summed_call_seconds=cost['summed_call_seconds'])
+            outcomes.update(replayed)
+        paired.append((row['report'], outcomes))
+
+    draws = 10000
+    return {
+        'scope': 'One solve attempt per representation. Raw and compiled share the flat receipt. '
+                 'Elapsed values sum per-question call duration, without estimating batch wall time.',
+        'dataset': dataset, 'panel': panel_digest, 'profile': runs[0][0],
+        'provenance': {'flat': runs[0][2], 'nested': runs[1][2]},
+        'arms': summaries, 'cluster_bootstrap_draws': draws,
+        'comparisons': {
+            f'nested_minus_{baseline}': paired_effect(paired, (('nested_compile', 'strict'), (baseline, 'strict')), draws)
+            for baseline in ('low', 'contract_compile')
+        },
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--receipts-only', action='store_true')
+    parser.add_argument('--compare-nested', type=Path, nargs=2, metavar=('FLAT_RUN', 'NESTED_RUN'),
+                        help='Compare completed runs on the frozen panel directory given by --root')
+    parser.add_argument('--dataset', choices=('finqa', 'tatqa'))
+    parser.add_argument('--metric-dir', type=Path)
     args = parser.parse_args()
+    if args.compare_nested:
+        if args.receipts_only or args.dataset is None or (args.dataset == 'tatqa' and args.metric_dir is None):
+            parser.error('nested comparison requires --dataset, --metric-dir for tatqa, and scoring enabled')
+        result = compare_nested(args.root, *args.compare_nested, args.dataset, args.metric_dir)
+        print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        return
+    if args.dataset or args.metric_dir:
+        parser.error('--dataset and --metric-dir apply only to nested comparison')
     public = [json.loads(line) for line in (args.root / 'panel/public.jsonl').read_text(encoding='utf-8').splitlines()]
     result = {'receipts': receipt_counts(args.root, public)}
     if not args.receipts_only:
