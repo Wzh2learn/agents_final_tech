@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import re
 
-from cohorts import exclusion_lists, read_source, table_signature
+from cohorts import exclusion_lists, read_source, table_signature, tatqa_reserved_overlap
 
 
 SEED = 'finance-frontier-benchmark-v1'
@@ -117,7 +117,32 @@ def evaluation_exposure(path, target_metadata, target):
     return labels
 
 
-def prepare(sources, exclude_train_ids, fit_size, calibration_size, exposure_path=None, *, allow_train_ids=None):
+def split_tatqa_exposure(labels, target, table_membership):
+    tatqa = [row for row in target if row[0]['dataset'] == 'tatqa']
+    reserved, audit = tatqa_reserved_overlap(tatqa, table_membership)
+    tagged = {row['id'] for row in labels if row['dataset'] == 'tatqa' and row['exposure'] == 'reserved_C3_table'}
+    if tagged != reserved or audit['matching_contexts'] != audit['reserved_tables']:
+        raise ValueError('C3 table projection differs from the published evaluation exposure')
+    by_table = defaultdict(list)
+    for row, _, _ in tatqa:
+        if row['id'] in reserved:
+            by_table[row['report']].append(row['id'])
+
+    def c3_priority(ident):
+        return hashlib.sha256(f'tatqa-scale-c3-v1|dev|{ident}'.encode()).hexdigest()
+
+    exact = {min(ids, key=c3_priority) for ids in by_table.values()}
+    if len(exact) != audit['reserved_tables']:
+        raise ValueError('cannot reconstruct one C3 question per validated official table')
+    return [
+        {**row, 'exposure': 'reserved_C3_exact' if row['id'] in exact else 'reserved_C3_same_table'}
+        if row['dataset'] == 'tatqa' and row['id'] in reserved else row
+        for row in labels
+    ]
+
+
+def prepare(sources, exclude_train_ids, fit_size, calibration_size, exposure_path=None, *, allow_train_ids=None,
+            tatqa_reserved=None):
     rows = {split: [] for split in ('fit', 'calibration', 'eval')}
     allow_train_ids = allow_train_ids or {}
     summary = {'seed': SEED, 'datasets': {},
@@ -148,6 +173,8 @@ def prepare(sources, exclude_train_ids, fit_size, calibration_size, exposure_pat
         exposure = evaluation_exposure(exposure_path,
                                        {dataset: info['eval'] for dataset, info in summary['datasets'].items()},
                                        rows['eval'])
+        if tatqa_reserved is not None:
+            exposure = split_tatqa_exposure(exposure, rows['eval'], tatqa_reserved)
         summary['eval_exposure'] = {'rows': len(exposure), 'path': str(exposure_path.resolve()),
                                     'sha256': hashlib.sha256(exposure_path.read_bytes()).hexdigest()}
     return rows, summary, exposure
@@ -179,6 +206,8 @@ def main():
     parser.add_argument('--allow-train-ids', type=Path,
                         help='Certified disjoint train-pool JSON {"finqa": [IDs]}. Omitted datasets are unrestricted.')
     parser.add_argument('--eval-exposure', type=Path, help='Optional full_eval_exposure.json for reporting only')
+    parser.add_argument('--tatqa-reserved', type=Path,
+                        help='Public C3 table projection for separating exact questions from same-table items')
     parser.add_argument('--fit-size', type=int, default=96, help='Independent TRAIN sources per dataset')
     parser.add_argument('--calibration-size', type=int, default=48, help='Independent TRAIN sources per dataset')
     parser.add_argument('--output', type=Path, help='Fresh output directory')
@@ -186,6 +215,8 @@ def main():
     args = parser.parse_args()
     if not args.dry_run and args.output is None:
         parser.error('--output is required unless --dry-run is used')
+    if args.tatqa_reserved is not None and args.eval_exposure is None:
+        parser.error('--tatqa-reserved also requires --eval-exposure')
     exclusions = exclusion_lists(args.exclude_train_ids)
     allowed = exclusion_lists(args.allow_train_ids)
     if not (exclusions.get('finqa') or allowed.get('finqa')):
@@ -194,10 +225,12 @@ def main():
         {'finqa': (args.finqa_train, args.finqa_test), 'tatqa': (args.tatqa_train, args.tatqa_dev)},
         {dataset: exclusions.get(dataset, set()) for dataset in TRAIN},
         args.fit_size, args.calibration_size, args.eval_exposure, allow_train_ids=allowed,
+        tatqa_reserved=args.tatqa_reserved,
     )
     manifest['membership_inputs'] = {
         name: {'path': str(path.resolve()), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
-        for name, path in [('protected', args.exclude_train_ids), ('allowed', args.allow_train_ids)]
+        for name, path in [('protected', args.exclude_train_ids), ('allowed', args.allow_train_ids),
+                           ('tatqa_c3_public_tables', args.tatqa_reserved)]
         if path is not None
     }
     if not args.dry_run:
