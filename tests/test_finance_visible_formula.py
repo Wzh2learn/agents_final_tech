@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -35,3 +36,18 @@ def test_free_formula_rejects_mismatch_ambiguous_sources_and_multiple_programs(r
     _, candidate, counts = recover(public(*numbers), worked_answer)
     assert candidate is None
     assert counts['grounded_equal_programs'] == grounded
+
+
+def test_reasoning_events_can_supply_a_program_without_overwriting_the_answer(recover, tmp_path):
+    from visible_formula import recorded_reasoning, recover_from_text
+
+    raw = tmp_path / 'raw.jsonl'
+    events = [{'type': 'reasoning', 'part': {'text': '11 - 7 = 4\nFinal answer: 5'}},
+              {'type': 'text', 'part': {'text': '14 - 10 = 4'}},
+              {'type': 'reasoning', 'part': None}, None]
+    raw.write_text('unformatted\n' + '\n'.join(map(json.dumps, events)), encoding='utf-8')
+    row = public('11', '7', '14', '10')
+    free, visible, _ = recover(row, 'Final answer: 4')
+    candidate, counts = recover_from_text(row, free, recorded_reasoning(raw))
+    assert visible is None and free['answer'] == 4
+    assert candidate['program'] == 'subtract(11, 7)' and counts['grounded_equal_programs'] == 1

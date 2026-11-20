@@ -3,6 +3,7 @@
 import argparse
 import ast
 from collections import Counter
+import json
 from pathlib import Path
 import re
 
@@ -62,8 +63,14 @@ def recover_formula(row, reply):
     if row['dataset'] != 'finqa':
         raise ValueError('Visible equation recovery is defined here for FinQA')
     free = parse_free(reply)
+    accepted, coverage = recover_from_text(row, free, _reply_text(reply))
+    return free, accepted, coverage
+
+
+def recover_from_text(row, free, text):
+    """Recover a formula while holding the delivered answer and scale fixed."""
     declared = free['answer']
-    candidates = expressions(_reply_text(reply))
+    candidates = expressions(text)
     matching, grounded = set(), {}
     if type(declared) in (int, float):
         value = _canonical('finqa', declared, free['scale'])
@@ -85,11 +92,27 @@ def recover_formula(row, reply):
                                     and not binding['explicit_conflicts'] for binding in bindings):
                     grounded[program] = candidate
     accepted = next(iter(grounded.values())) if len(grounded) == 1 else None
-    return free, accepted, {'equations': len(candidates), 'equal_programs': len(matching),
-                            'grounded_equal_programs': len(grounded)}
+    return accepted, {'equations': len(candidates), 'equal_programs': len(matching),
+                      'grounded_equal_programs': len(grounded)}
 
 
-def replay(panel, run):
+def recorded_reasoning(path):
+    """Read the model's reasoning events without copying the trace into results."""
+    chunks = []
+    for line in path.read_bytes().decode('utf-8', errors='replace').splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue  # Match extraction of JSON events in the native harness.
+        if not isinstance(event, dict) or event.get('type') != 'reasoning':
+            continue
+        part = event.get('part')
+        if isinstance(part, dict) and isinstance(part.get('text'), str):
+            chunks.append(part['text'])
+    return '\n'.join(chunks)
+
+
+def replay(panel, run, *, include_recorded_trace=False):
     public, references, panel_digest = read_panel(panel, 'finqa')
     reports = {row['id']: row['report'] for row in public}
     _, entries, provenance = read_paired_run(run, panel_digest, reports, 'finqa', 'compiled_fallback')
@@ -116,8 +139,20 @@ def replay(panel, run):
         correct = score(row, free, gold=gold)['strict']
         if free != baseline['submission'] or correct != baseline['strict']:
             raise ValueError(f'{ident}: numeric fallback differs from its frozen receipt')
-        if candidate:
-            grade = score(row, candidate, gold=gold)
+        trace_fields = {}
+        chosen = candidate
+        if include_recorded_trace:
+            raw = (run / entry['calls']['free']['path']).with_name('raw.jsonl')
+            trace = recorded_reasoning(raw)
+            trace_candidate, trace_coverage = recover_from_text(row, free, trace)
+            trace_only = candidate is None and trace_candidate is not None
+            chosen = trace_candidate if trace_only else candidate
+            counts.update(fallbacks_with_recorded_trace=bool(trace),
+                          correct_fallback_with_trace_only_certificate=correct and trace_only)
+            trace_fields = {'trace_grounded_equal_programs': trace_coverage['grounded_equal_programs'],
+                            'extra_certificate_from_trace': trace_only}
+        if chosen:
+            grade = score(row, chosen, gold=gold)
             if not grade['executable'] or grade['strict'] != correct:
                 raise ValueError(f'{ident}: formula did not preserve strict numeric scoring')
         counts.update(fallbacks=1, correct_fallbacks=correct,
@@ -125,8 +160,11 @@ def replay(panel, run):
                       fallback_with_equal_formula=coverage['equal_programs'] > 0,
                       fallback_with_certificate=candidate is not None,
                       correct_fallback_with_certificate=correct and candidate is not None)
-        fallback_cases.append({'id': ident, 'strict': correct, 'certificate': candidate is not None, **coverage})
+        fallback_cases.append({'id': ident, 'strict': correct, 'certificate': candidate is not None,
+                               **coverage, **trace_fields})
     counts['joint_after'] = counts['joint_before'] + counts['correct_fallback_with_certificate']
+    if include_recorded_trace:
+        counts['joint_after_trace'] = counts['joint_after'] + counts['correct_fallback_with_trace_only_certificate']
     return {'dataset': 'finqa', 'panel': panel_digest, 'source': provenance,
             'additional_model_calls': 0, 'unchanged_model_cost': action_cost(selected_receipts),
             'counts': dict(counts), 'fallback_cases': fallback_cases}
@@ -137,10 +175,12 @@ def main():
     parser.add_argument('--panel', type=Path, required=True)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--include-recorded-trace', action='store_true',
+                        help='Try the native reasoning-event text after abstaining on the delivered reply')
     args = parser.parse_args()
     if args.output.exists():
         parser.error('Use a new results file')
-    write_json(args.output, replay(args.panel, args.run))
+    write_json(args.output, replay(args.panel, args.run, include_recorded_trace=args.include_recorded_trace))
 
 
 if __name__ == '__main__':
