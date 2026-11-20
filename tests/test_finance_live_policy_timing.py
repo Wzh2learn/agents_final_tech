@@ -167,6 +167,9 @@ def test_wall_counts_fresh_routes_and_excludes_grading(timing, question, monkeyp
     assert summary['all_attempt_cost']['known_tokens'] == 64
     assert summary['strict_wall_frontier'] == ['contract', 'oda-local']
     assert summary['strict_and_executable_wall_frontier'] == ['contract', 'oda-local']
+    paired = summary['paired_online_wall']['comparisons']['ds-first']
+    assert (paired['strict']['n'], paired['strict']['mean_online_wall_seconds_delta']) == (1, -4)
+    assert paired['strict']['strict_delta_pp'] == paired['strict_and_executable']['strict_and_executable_delta_pp'] == 0
 
 
 def test_budget_stop_preserves_costs_and_excludes_incomplete_pair(timing, question, monkeypatch, tmp_path):
@@ -187,3 +190,5 @@ def test_budget_stop_preserves_costs_and_excludes_incomplete_pair(timing, questi
     assert summary['all_attempt_cost']['calls'] == summary['all_attempt_cost']['unknown_usage_calls'] == 4
     assert summary['all_attempt_cost']['total_tokens'] is None
     assert all(not row['n'] for row in summary['complete_pair_policies'].values())
+    paired = summary['paired_online_wall']['comparisons']['ds-first']['strict']
+    assert paired['n'] == 0 and paired['mean_online_wall_seconds_delta'] is None

@@ -12,9 +12,11 @@ import re
 from statistics import median, quantiles
 import sys
 from time import monotonic
+from types import SimpleNamespace
 
 from benchmark_actions import action_cost, deliver, digest_file, freeze, grade_case, read_panel, recorded_call, select_case
-from frontier_report import frontier
+from frontier_report import BOOTSTRAP_DRAWS, frontier
+from paired_tradeoff import contrast
 from run_pilot import OpenCode, local_endpoint, paired_prompt, wait_service, write_json
 from scoring import _metric_type, public_execution
 import school_benchmark as school
@@ -102,6 +104,26 @@ def summed_cost(costs):
             'summed_call_seconds': sum(item['summed_call_seconds'] for item in costs)}
 
 
+def paired_online_wall(pair_records, reports):
+    """Compare measured response-path wall time on the same complete questions."""
+    if 'contract' not in pair_records:
+        return {}
+    ids = list(reports)
+    outcomes = {
+        name: {ident: SimpleNamespace(strict=entry['result']['strict'], executable=entry['result']['executable'],
+                                     wall_seconds=entry['wall_seconds'])
+               for ident, entry in zip(ids, records, strict=True)} for name, records in pair_records.items()
+    }
+
+    def wall_delta(proposed, baseline):
+        return proposed.wall_seconds - baseline.wall_seconds
+
+    return {name: {metric: contrast(outcomes['contract'], baseline, ids, reports, 'mean_online_wall_seconds_delta',
+                                    wall_delta, BOOTSTRAP_DRAWS, 0, require_execution)
+                   for metric, require_execution in (('strict', False), ('strict_and_executable', True))}
+            for name, baseline in outcomes.items() if name != 'contract'}
+
+
 def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None):
     completed = 0
     started = monotonic()
@@ -109,6 +131,7 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
     stopped = False
     paired_policies = tuple(selectors) if selectors is not None else POLICIES
     pair_records = {name: [] for name in paired_policies}
+    reports = {}
     all_costs = []
     with (root / 'outcomes.jsonl').open('x', encoding='utf-8') as stream:
         for row, order in cases:
@@ -165,6 +188,7 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
             all_costs.extend(record['cost'] for record in measured.values())
             if stopped:
                 break
+            reports[row['id']] = row['report']
             for name, record in measured.items():
                 pair_records[name].append(record)
             completed += 1
@@ -188,6 +212,13 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
         'complete_pair_policies': policies, 'all_attempt_cost': summed_cost(all_costs),
         'strict_wall_frontier': frontier(policies, 'mean_wall_seconds'),
         'strict_and_executable_wall_frontier': frontier(policies, 'mean_wall_seconds', 'strict_and_executable'),
+        'paired_online_wall': {
+            'proposed': 'contract',
+            'scope': 'Fresh measured wall, using complete paired questions even when token usage is missing.',
+            'interval_method': 'Report-cluster bootstrap with simultaneous 95% coverage of each contrast’s two axes. '
+                               'Intervals are per comparison and describe the timed block.',
+            'comparisons': paired_online_wall(pair_records, reports),
+        },
         'collection_wall_seconds': monotonic() - started,
     })
 
