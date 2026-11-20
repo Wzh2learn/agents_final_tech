@@ -200,7 +200,7 @@ TAT-QA 对两个校内模型的 96 题拟合集和 48 题校准集复算固定�
 
 16 题已全部完成。原提示原答 2/16，同一回复经编译 7/16；显式约定原答 9/16，同一批新回复经编译 10/16。显式约定相对旧提示加编译净增 12.5 pp，报告簇区间为 [−12.5, 37.5] pp。新回复没有触发比例修复，编译另救回 1 题；两批模型调用分别计 70,069 与 64,998 tokens。结果将提示中声明约定列为强对照，作用范围限于这批预选百分比拟合题。见 GB10 `oda_ratio_prompt_v1_matched_compiler_replay.json`。
 
-已冻结独立校准的复核样本，纳入 48 道 FinQA TRAIN 校准题中所有含公开百分比措辞的 25 题。等同配置的首答回执齐全后，在既有 ODA 正式服务上以单 worker 运行同一显式约定。四格对照沿用同一编译器和官方评分，另报配对区间与用量。GB10 `oda_cal_finqa_ratio_prompt_v2` 已排队，按独立命名空间计费。
+已冻结独立校准的复核样本，纳入 48 道 FinQA TRAIN 校准题中所有含公开百分比措辞的 25 题。原首答回执齐全后，GB10 `oda_cal_finqa_ratio_prompt_v2` 已在同一 ODA 服务上提前以单 worker 采集，继续用原运行配置和独立命名空间。正式队列复用采集回执。四格对照沿用同一编译器和官方评分，另报配对区间与用量。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 

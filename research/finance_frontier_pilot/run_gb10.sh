@@ -262,7 +262,12 @@ profile = {'model': 'oda-fin-rl-8b', 'checkpoint': metadata['revision'],
            'mounts': [{k: item[k] for k in ('Source', 'Destination', 'RW')} for item in container['Mounts']]}
 target = Path('oda_serving_profile.json')
 if target.exists():
-    if json.loads(target.read_text()) != profile:
+    def comparable(record):
+        mounts = sorted(record['mounts'], key=lambda item: (item['Destination'], item['Source'], item['RW']))
+        return {**record, 'mounts': mounts}
+
+    # Docker may enumerate the same mounts in a different order on each inspect.
+    if comparable(json.loads(target.read_text())) != comparable(profile):
         raise ValueError('ODA serving profile differs from the frozen benchmark profile')
 else:
     with target.open('x') as out:
