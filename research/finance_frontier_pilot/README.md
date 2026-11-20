@@ -95,13 +95,15 @@ DeepSeek 的首次正式交接沿用了两个合成请求之后建立的批次�
 
 对校内 Qwen 的全部 96 个 FinQA 拟合来源做同调用复算。原答 27/96，公开编译后 59/96，救回 34、错改 2，报告簇配对区间为 [22.9, 43.8] pp。两臂共用原有 96 次请求、316,947 tokens，可执行均为 84/96。已载入回复后的 GB10 CPU 编译逐题中位 0.084 ms。41 题触发比例规则，两个错改的官方参考程序也以乘 100 结尾。复算证据为 GB10 `campus_qwen_finqa96_compile_replay.json`，这些题用于拟合和诊断。
 
-两校内模型的 192 道拟合题均已完成。Qwen 的 96 道独立校准题已完成，DeepSeek 的校准正在执行。TAT-QA 的全部 96 个拟合来源，Qwen 原答与公开编译均为 77/96，DeepSeek 从 78 到 80/96，新增的两次命中来自回复格式修复。各模型已知用量分别为 231,894 与 124,072 tokens，各有 1 次未知。复算见 GB10 `campus_tatqa96_compiler_cross_model_replay.json`。
+两校内模型各 192 道拟合题和各 96 道独立校准题均已完成。TAT-QA 的全部 96 个拟合来源，Qwen 原答与公开编译均为 77/96，DeepSeek 从 78 到 80/96，新增的两次命中来自回复格式修复。各模型已知用量分别为 231,894 与 124,072 tokens，各有 1 次未知。复算见 GB10 `campus_tatqa96_compiler_cross_model_replay.json`。
 
 两校内模型共同的 96 个 FinQA 拟合来源上，Qwen 从 27 到 59/96，DeepSeek 从 28 到 59/96。两者错改的是同 2 题。编译后共同答对 51 题，各自独有 8 题。逐模型复用原请求，完整计费分别为 316,947、191,204 tokens，逐请求时长之和分别为 2,269.0、1,047.0 s。保留单模型直跑和预定顺序级联，以正式成本曲线比较。复算见 GB10 `campus_finqa96_compiler_cross_model_replay.json`。
 
-校内官方直跑已排在拟合和校准之后。每个模型采集 FinQA 1,147 与 TAT-QA 718，最多 1,865 次请求与 15M tokens。继续用相同的上下文、输出和评分设置。路由拟合与选参只使用拟合和校准分区。
+校内官方直跑已从 DeepSeek 开始，Qwen 随后。每个模型采集 FinQA 1,147 与 TAT-QA 718，最多 1,865 次请求与 15M tokens。ODA 官方直跑已排队，等待 96 道校准题完整落盘并取得同一研究 GPU 租约。继续用相同的上下文、输出和评分设置。路由拟合与选参只使用拟合和校准分区。
 
 两校内模型的已配对拟合集上，仅在首答编译后仍未执行时接管。FinQA 从 DeepSeek 的 59 到 64/96，接管 9 次；从 Qwen 的 59 到 66/96，接管 12 次。TAT-QA 从 DeepSeek 的 80 到 80/96，接管 5 次；从 Qwen 的 77 到 83/96，接管 11 次。四个方向均无错改。加入显式来源冲突与未匹配数值会额外调用 7、6、5、5 次，其中只有 TAT-QA 的 Qwen 起步多救回 1 题。这些是已收齐的同调用拟合复算，见 `campus_{finqa,tatqa}96_grounded_handoff_replay.json`。正式曲线加入固定顺序和 DeepSeek 起步的未执行回退对照。
+
+独立校准复算中，DeepSeek 起步的未执行回退将 FinQA 从 24 提到 25/48，接管 4 次、共 105,120 tokens；扩大到显式冲突触发多调用 7 次并错改 1 题。Qwen 起步的同一回退将 TAT-QA 从 41 提到 45/48，接管 6 次、共 148,997 tokens，继续扩大触发未增加成功数。两处未执行回退无错改。所有方向与已知用量见 GB10 `campus_{finqa,tatqa}48_calibration_grounded_handoff_replay.json`。保留两个起步方向进入正式评测。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
