@@ -18,6 +18,7 @@ CONTRACT = 'cascade/compiled/contract_8b_free_qwen_deepseek'
 FIXED_ANCHORS = {
     'cascade/compiled/always_deepseek': ('DeepSeek direct', -13),
     'cascade/compiled/nonexecution_deepseek_qwen': ('DeepSeek → Qwen', 11),
+    'cascade/compiled/nonexecution_qwen_deepseek': ('Qwen → DeepSeek', 11),
     'cascade/compiled/nonexecution_8b_qwen_deepseek': ('8B → Qwen → DeepSeek', -17),
 }
 STYLES = {

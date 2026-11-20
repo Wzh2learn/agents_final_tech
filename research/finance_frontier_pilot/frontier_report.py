@@ -22,6 +22,7 @@ FLAGSHIP = f'cascade/compiled/{CONTRACT_CASCADE}'
 INTERVAL_ANCHORS = ('cascade/compiled/nonexecution_8b_qwen_deepseek',
                     'cascade/compiled/nonexecution_deepseek_qwen', 'oda/compiled_fallback', 'car')
 TRADEOFF_BASELINES = (*INTERVAL_ANCHORS, 'cascade/compiled/cascade_routing_1.5',
+                      'cascade/compiled/nonexecution_qwen_deepseek', 'cascade/compiled/nonexecution_8b_deepseek_qwen',
                       *(f'cascade/compiled/always_{model}' for model in MODELS))
 BOOTSTRAP_DRAWS = 10000
 ODA_METHODS = ('low', 'free', 'dsl_fallback', 'contract_compile', 'compiled_fallback')

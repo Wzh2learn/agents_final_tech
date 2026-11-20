@@ -191,14 +191,18 @@ def test_author_routes_are_all_fitted_before_opening_evaluation(runs, monkeypatc
     (root / 'eval/exposure.json').write_text(json.dumps([
         {'dataset': 'finqa', 'id': f'eval_{i}', 'exposure': 'independent'} for i in range(2)
     ]), encoding='utf-8')
+    ledger = root / 'campus_ledger.json'
+    ledger.write_text('[]', encoding='utf-8')
     monkeypatch.setattr(benchmark, 'read_pool', split)
     monkeypatch.setattr(benchmark, 'fit_estimators', estimators)
     monkeypatch.setattr(benchmark, 'upstream', lambda _path: (
         None, None, SimpleNamespace(CascadeRouter=Router), SimpleNamespace(ConstantStrategy=lambda *_a, **_k: None)))
     report = benchmark.compare(SimpleNamespace(panels=root, dataset='finqa', upstream=root,
-                                               fit=[], calibration=[], eval=[], budgets=(1.25, 2.)))
+                                               campus_ledger=ledger, fit=[], calibration=[], eval=[], budgets=(1.25, 2.)))
     assert events == ['fit', 'calibration', 'estimators_fitted', *['route_fitted'] * 4, 'eval']
     assert report['policies']['cascade_routing_1.25']['all']['strict'] == 2
+    assert report['policies']['nonexecution_qwen_deepseek']['items'][0]['queried'] == ['qwen-27b']
+    assert report['policies']['nonexecution_8b_deepseek_qwen']['items'][0]['queried'] == ['oda-8b']
 
 
 def test_contract_cascade_checks_public_output_before_using_teacher(runs):

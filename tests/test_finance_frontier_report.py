@@ -121,6 +121,8 @@ def matched_runs(tmp_path, monkeypatch):
                             'strict': 1, 'executable': True, **action_cost([call(10, 1), call(40, 3)])},
             ])
             policies['nonexecution_deepseek_qwen'] = policies['always_deepseek']
+            policies['nonexecution_qwen_deepseek'] = policies['always_qwen-27b']
+            policies['nonexecution_8b_deepseek_qwen'] = policies['nonexecution_8b_qwen_deepseek']
             policies['cascade_routing_1.5'] = {**policies['always_qwen-27b'], 'target_mean_tokens': 15}
         write(path, {'dataset': 'finqa', 'representation': representation, 'policies': policies,
                      'profiles': [], 'author_revision': 'pinned',
@@ -171,6 +173,8 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert 'budgetverify/tabfm/lambda_0.1' in tradeoff['anchors']
     assert 'budgetverify/tabfm/lambda_0.3' not in tradeoff['anchors']
     assert 'cascade/compiled/cascade_routing_1.5' in tradeoff['anchors']
+    assert 'cascade/compiled/nonexecution_qwen_deepseek' in tradeoff['anchors']
+    assert 'cascade/compiled/nonexecution_8b_deepseek_qwen' in tradeoff['anchors']
     deepseek = tradeoff['by_stratum']['all']['cascade/compiled/always_deepseek']
     assert deepseek['tokens']['n'] == deepseek['tokens']['excluded_n'] == 1
     assert deepseek['tokens']['interval_95'] is None

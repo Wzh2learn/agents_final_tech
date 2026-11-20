@@ -20,6 +20,12 @@ from scoring import _canonical
 
 REVISION = '9da6cf7da39c42148eae0178635e9211e5b67742'
 ARMS = ('oda-8b', 'qwen-27b', 'deepseek')
+FIXED_NONEXECUTION_ORDERS = {
+    'nonexecution_8b_qwen_deepseek': (0, 1, 2),
+    'nonexecution_8b_deepseek_qwen': (0, 2, 1),
+    'nonexecution_qwen_deepseek': (1, 2),
+    'nonexecution_deepseek_qwen': (2, 1),
+}
 NO_DETECTED_OVERLAP = 'no_pilot_or_reserved_context_detected'
 
 
@@ -508,8 +514,7 @@ def compare(args):
 
     policies = {f'always_{arm}': record(realized(None, evaluation, idx)) for idx, arm in enumerate(ARMS)}
     if campus_rows is not None:
-        for name, order in (('nonexecution_8b_qwen_deepseek', (0, 1, 2)),
-                            ('nonexecution_deepseek_qwen', (2, 1))):
+        for name, order in FIXED_NONEXECUTION_ORDERS.items():
             policies[name] = record(realized(NonexecutionCascade(order), evaluation))
     if representation == 'compiled':
         local_fallbacks = read_oda_fallbacks(args.panels / 'eval', args.dataset, args.eval[0], metric_dir)
