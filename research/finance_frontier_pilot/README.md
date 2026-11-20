@@ -45,6 +45,10 @@
 
 共享相同设置的首答、证据和评分。探针的 27B 独立重解只覆盖首答错题。端到端比较另行记录正确首答上的保持和错改，以及本地生成、核验和教师的实际 tokens 与墙时。
 
+`benchmark_panels.py` 固定官方 TRAIN 中独立来源的拟合与校准面板，各数据集预备 96/48 个来源。FinQA 从以往证实与封存组分离的 153 个 TRAIN 来源取样。按题号、报告、公司年份和表内容排除与官方评测的重叠，独立保存公开题面和答案。完整评测索引的既有暴露标记仅用于分组报告。
+
+`benchmark_actions.py` 复用 OpenCode 和官方评分器。它采集固定三档动作、同提示独立解答与 CAR 的逐题五类诊断。High 档的盲解和比较分开计费。缓存要求同一面板、权重、推理配置和确切提示。CAR 后续修订、各策略拟合及完整评测还需实测。
+
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
 ### 对标权重与推理精度

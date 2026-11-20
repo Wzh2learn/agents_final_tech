@@ -25,10 +25,10 @@ UPSTREAM = {
 }
 
 
-def read_source(dataset, path):
+def read_source(dataset, path, *, upstream=UPSTREAM):
     raw = path.read_bytes()
     digest = hashlib.sha256(raw).hexdigest()
-    split, url, expected_sha256, expected_items = UPSTREAM[dataset]
+    split, url, expected_sha256, expected_items = upstream[dataset]
     if digest != expected_sha256:
         raise ValueError(f'{dataset}: expected canonical {split} snapshot, got SHA-256 {digest}')
     data = json.loads(raw)
