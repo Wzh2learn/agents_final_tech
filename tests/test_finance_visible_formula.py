@@ -51,3 +51,12 @@ def test_reasoning_events_can_supply_a_program_without_overwriting_the_answer(re
     candidate, counts = recover_from_text(row, free, recorded_reasoning(raw))
     assert visible is None and free['answer'] == 4
     assert candidate['program'] == 'subtract(11, 7)' and counts['grounded_equal_programs'] == 1
+
+
+def test_tatqa_formula_preserves_official_prediction_text_and_scale(recover):
+    row = dict(public('12.34', '0.001'), dataset='tatqa')
+    free, candidate, _ = recover(row, '12.34 + 0.001 = 12.341\nFinal answer: 12.341 million')
+    assert candidate['program'] == 'add(12.34, 0.001)'
+    assert candidate['scale'] == free['scale'] == 'million'
+    _, rounded, counts = recover(row, '12.34 + 0.001 = 12.341\nFinal answer: 12.34 million')
+    assert rounded is None and counts['equal_programs'] == 0

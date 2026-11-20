@@ -1,4 +1,4 @@
-"""Recover executable certificates from already-delivered FinQA free answers."""
+"""Recover executable certificates from already-delivered finance free answers."""
 
 import argparse
 import ast
@@ -60,8 +60,6 @@ def lower(expression, *, declared_constants):
 
 def recover_formula(row, reply):
     """Accept exactly one grounded program that reproduces the reported number and scale."""
-    if row['dataset'] != 'finqa':
-        raise ValueError('Visible equation recovery is defined here for FinQA')
     free = parse_free(reply)
     accepted, coverage = recover_from_text(row, free, _reply_text(reply))
     return free, accepted, coverage
@@ -73,7 +71,13 @@ def recover_from_text(row, free, text):
     candidates = expressions(text)
     matching, grounded = set(), {}
     if type(declared) in (int, float):
-        value = _canonical('finqa', declared, free['scale'])
+        dataset, scale = row['dataset'], free['scale']
+        # TAT-QA scores the rendered prediction and its scale, including for zero.
+        # Exact text equality preserves the input to every official normalization path.
+        def value_key(answer):
+            return str(answer) if dataset == 'tatqa' else _canonical(dataset, answer, scale)
+
+        value = value_key(declared)
         for expr in candidates:
             for declared_constants in (False, True):
                 try:
@@ -84,7 +88,7 @@ def recover_from_text(row, free, text):
                              'parse_mode': 'visible_formula'}
                 native = public_execution(row, candidate)
                 if (native['status'] != 'executed'
-                        or _canonical('finqa', native['terminal_execution_answer'], free['scale']) != value):
+                        or value_key(native['terminal_execution_answer']) != value):
                     continue
                 matching.add(program)
                 bindings = ground(row, program)
@@ -112,10 +116,12 @@ def recorded_reasoning(path):
     return '\n'.join(chunks)
 
 
-def replay(panel, run, *, include_recorded_trace=False):
-    public, references, panel_digest = read_panel(panel, 'finqa')
+def replay(panel, run, *, dataset='finqa', metric_dir=None, include_recorded_trace=False):
+    if dataset == 'tatqa' and metric_dir is None:
+        raise ValueError('Official TAT-QA metric directory required')
+    public, references, panel_digest = read_panel(panel, dataset)
     reports = {row['id']: row['report'] for row in public}
-    _, entries, provenance = read_paired_run(run, panel_digest, reports, 'finqa', 'compiled_fallback')
+    _, entries, provenance = read_paired_run(run, panel_digest, reports, dataset, 'compiled_fallback')
     counts = Counter()
     fallback_cases = []
     selected_receipts = []
@@ -135,8 +141,8 @@ def replay(panel, run, *, include_recorded_trace=False):
         receipt = read_replay_call(run, row, 'free', 'solve', paired_prompt(row, 'free'), provenance['run.json'],
                                    entry['calls']['free'])
         free, candidate, coverage = recover_formula(row, deliver(receipt))
-        gold = references['finqa', ident]
-        correct = score(row, free, gold=gold)['strict']
+        gold = references[dataset, ident]
+        correct = score(row, free, gold=gold, metric_dir=metric_dir)['strict']
         if free != baseline['submission'] or correct != baseline['strict']:
             raise ValueError(f'{ident}: numeric fallback differs from its frozen receipt')
         trace_fields = {}
@@ -152,7 +158,7 @@ def replay(panel, run, *, include_recorded_trace=False):
             trace_fields = {'trace_grounded_equal_programs': trace_coverage['grounded_equal_programs'],
                             'extra_certificate_from_trace': trace_only}
         if chosen:
-            grade = score(row, chosen, gold=gold)
+            grade = score(row, chosen, gold=gold, metric_dir=metric_dir)
             if not grade['executable'] or grade['strict'] != correct:
                 raise ValueError(f'{ident}: formula did not preserve strict numeric scoring')
         counts.update(fallbacks=1, correct_fallbacks=correct,
@@ -165,7 +171,7 @@ def replay(panel, run, *, include_recorded_trace=False):
     counts['joint_after'] = counts['joint_before'] + counts['correct_fallback_with_certificate']
     if include_recorded_trace:
         counts['joint_after_trace'] = counts['joint_after'] + counts['correct_fallback_with_trace_only_certificate']
-    return {'dataset': 'finqa', 'panel': panel_digest, 'source': provenance,
+    return {'dataset': dataset, 'panel': panel_digest, 'source': provenance,
             'additional_model_calls': 0, 'unchanged_model_cost': action_cost(selected_receipts),
             'counts': dict(counts), 'fallback_cases': fallback_cases}
 
@@ -175,12 +181,15 @@ def main():
     parser.add_argument('--panel', type=Path, required=True)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--dataset', choices=('finqa', 'tatqa'), default='finqa')
+    parser.add_argument('--metric-dir', type=Path)
     parser.add_argument('--include-recorded-trace', action='store_true',
                         help='Try the native reasoning-event text after abstaining on the delivered reply')
     args = parser.parse_args()
     if args.output.exists():
         parser.error('Use a new results file')
-    write_json(args.output, replay(args.panel, args.run, include_recorded_trace=args.include_recorded_trace))
+    write_json(args.output, replay(args.panel, args.run, dataset=args.dataset, metric_dir=args.metric_dir,
+                                   include_recorded_trace=args.include_recorded_trace))
 
 
 if __name__ == '__main__':
