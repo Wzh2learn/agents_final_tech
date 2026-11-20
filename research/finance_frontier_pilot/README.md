@@ -121,6 +121,8 @@ DeepSeek 的首次正式交接沿用了两个合成请求之后建立的批次�
 
 正式 FinQA 编译级联另报 `literal_ratio_sensitivity`。按上述条件复算三个直跑与三条固定接管路径，检查题目、模型、可执行性和计费一致，报告预测值变化、救回与错改。规则只改变已选可执行程序的数值，自由回答与原有接管顺序照常。最终 JSON 单列这一结果，覆盖全量和未检出重叠组。
 
+GB10 用新入口复算前 80 道 FinQA TRAIN 拟合题。护栏使 ODA 直跑由 37 到 38/80，Qwen 由 50 到 52/80，DeepSeek 由 48 到 50/80，三者都没有新增错改。完整编译级联由 54 到 55/80，DeepSeek 起步由 53 到 55/80；两条路径各自保持原有调用，共 435,164 与 173,957 tokens。此结果仍属拟合集，见 `oda_finqa80_literal_ratio_fixed_sensitivity.json`。
+
 原 FinQA DSL 提示给出语法，百分比终值约定由编译器执行。`finqa_ratio_prompt` 只在原提示追加显式小数比例约定，仍以原生执行器评分。预先用题目公开措辞和固定哈希，从已有前 64 道 TRAIN 拟合题中选 16 道显式百分比题。逐题对比原提示原答、原提示编译答和新提示原答，衡量显式提示能替代多少后置编译。正式面板原运行保持固定协议。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
