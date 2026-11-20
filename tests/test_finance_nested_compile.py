@@ -1,6 +1,7 @@
 from hashlib import sha256
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -133,6 +134,25 @@ def test_high_envelope_replay_keeps_public_guards_and_call_plan(pilot, report):
     replies['high_solve'] = 'Final program: add(9, const_0)'
     assert collect_case(report, {'exe_ans': 9}, ['high'], call, None,
                         decode_verifier_answer=True)['high']['decision'] == 'keep'
+
+
+def test_fresh_timing_measures_the_conditional_calls_before_gold_grading(pilot, report, monkeypatch):
+    import benchmark_actions as benchmark
+
+    ticks = iter((5., 8.))
+    calls = []
+    monkeypatch.setattr(benchmark, 'time', SimpleNamespace(monotonic=lambda: next(ticks)))
+
+    def call(action, _actor, _prompt):
+        calls.append(action)
+        reply = 'Final program: unknown(2, 3)' if action == 'low' else 'Final answer: 3'
+        return {'text': reply, 'exit_code': 0, 'errors': [], 'finish': ['stop']}
+
+    outputs, grading_rows, elapsed = benchmark.timed_selection(report, 'compiled_fallback', call)
+    assert elapsed == 3. and calls == ['low', 'free']
+    assert 'strict' not in outputs['compiled_fallback']
+    scored = benchmark.grade_case(report, {'exe_ans': 3}, outputs, grading_rows, None)
+    assert scored['compiled_fallback']['strict'] and not scored['compiled_fallback']['executable']
 
 
 @pytest.fixture

@@ -22,6 +22,38 @@ args=(--root "$root" --metric-dir "$metric_dir"
       --rule-dir "$private/tatqa_correction_v1")
 export PYTHONPATH="$repo/research/agent_frontier_portfolio_20261029:$repo"
 
+car_collect () {
+    local stage=$1 dataset=$2 drafts=$3 output=$4
+    shift 4
+    if [[ -e $output/outcomes.jsonl ]]; then
+        test -s "$output/outcomes.jsonl"
+        test -s "$output/run.json"
+        return
+    fi
+    "$car_python" -u "$car_adapter" collect "$stage" --dataset "$dataset" --panel-root "$work/panel" \
+        --drafts "$drafts" --output "$output" --base http://127.0.0.1:18157/v1 \
+        --serving-profile "$work/oda_serving_profile.json" --metric-dir "$metric_dir" \
+        --workers 4 --repair-output 4096 "$@"
+}
+
+car_run () {
+    local dataset output fit_policy
+    for dataset in finqa tatqa; do
+        output="$car_root/$dataset"
+        if [[ $benchmark_split == calibration ]]; then
+            fit_policy="$output/fit_policy.json"
+            car_collect fit "$dataset" "$car_fit_drafts" "$output/fit"
+            "$car_python" -u "$car_adapter" fit --dataset "$dataset" --panel-root "$work/panel" \
+                --collection "$output/fit" --output "$fit_policy"
+            car_collect calibration "$dataset" "$work/oda_calibration_v1" "$output/calibration" --policy "$fit_policy"
+            "$car_python" -u "$car_adapter" freeze --dataset "$dataset" --panel-root "$work/panel" \
+                --collection "$output/calibration" --policy "$fit_policy" --output "$output/frozen_policy.json"
+        else
+            car_collect eval "$dataset" "$work/oda_eval_v1" "$output/eval" --policy "$output/frozen_policy.json"
+        fi
+    done
+}
+
 cd "$root"
 test -r panel/manifest.json
 test -s smoke/teacher/call.json
@@ -32,9 +64,51 @@ tr '\0' '\n' <"/proc/$guard_pid/cmdline" | grep -Fxq "$old_restore"
 if [[ -n $benchmark ]]; then
     work=$(cd "$benchmark" && pwd)
     [[ $work == "$HOME/wzh/research_evidence/finance_frontier_benchmark_"* ]]
+    run_car=0
+    if [[ $benchmark_split != fit && -e $work/compare_car.enabled ]]; then
+        if [[ ! -f $work/compare_car.enabled || -s $work/compare_car.enabled ]]; then
+            echo 'CAR opt-in requires an empty compare_car.enabled file in the benchmark directory.' >&2
+            exit 2
+        fi
+        run_car=1
+        car_fit_drafts="$work/reconciled_fit_v1/oda_fit_v1"
+        car_root="$work/car_oda_4096_v1"
+        car_python="$repo/venv/bin/python"
+        car_adapter="$repo/research/finance_frontier_pilot/car_adapter.py"
+        "$car_python" -c 'import numpy, sklearn'
+        if [[ $benchmark_split == calibration && ! -e $car_fit_drafts/outcomes.jsonl ]]; then
+            test -s "$work/oda_fit_v1/outcomes.jsonl"
+            test -s "$work/oda_nested_fit_finqa_v1/outcomes.jsonl"
+            (cd "$work" && PYTHONPATH="$repo/research/finance_frontier_pilot:$PYTHONPATH" \
+                "$car_python" -u "$work/oda_startup_repair_v1/publish_reconciled.py")
+        fi
+        test -s "$car_fit_drafts/run.json"
+        test -s "$car_fit_drafts/outcomes.jsonl"
+        if [[ $benchmark_split == eval ]]; then
+            "$car_python" - "$car_root" <<'PY'
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+for dataset in ('finqa', 'tatqa'):
+    root = Path(sys.argv[1]) / dataset
+    policy = json.loads((root / 'frozen_policy.json').read_text(encoding='utf-8'))
+    if (policy['schema'], policy['stage'], policy['dataset'], policy['repair_output']) != (
+        'finance-car-v1', 'frozen', dataset, 4096
+    ):
+        raise ValueError(f'{dataset}: a matching frozen CAR policy is required for evaluation')
+    for stage in ('fit', 'calibration'):
+        with (root / stage / 'outcomes.jsonl').open('rb') as source:
+            digest = hashlib.file_digest(source, 'sha256').hexdigest()
+        if policy[f'{stage}_outcomes_sha256'] != digest:
+            raise ValueError(f'{dataset}: {stage} outcomes differ from the frozen CAR policy')
+PY
+        fi
+    fi
     test -s "$work/panel/$benchmark_split/public.jsonl"
     test -s "$work/panel/$benchmark_split/references.jsonl"
-    if [[ -e $work/oda_${benchmark_split}_v1/outcomes.jsonl ]]; then
+    if [[ -e $work/oda_${benchmark_split}_v1/outcomes.jsonl && $run_car == 0 ]]; then
         echo 'Existing finalized outcomes are inputs to downstream baselines. Preserve them before any explicit repair.' >&2
         exit 1
     fi
@@ -146,13 +220,18 @@ else:
 PY
     PYTHONPATH="$repo/research/finance_frontier_pilot:$PYTHONPATH" "$python" -c \
         'from run_pilot import wait_service; wait_service("http://127.0.0.1:18157/v1", "oda-fin-rl-8b", 300)'
-    "$python" -u "$repo/research/finance_frontier_pilot/benchmark_actions.py" \
-        --panel "$work/panel/$benchmark_split" --run-dir "$work" --namespace "oda_${benchmark_split}_v1" \
-        --base http://127.0.0.1:18157/v1 --model oda-fin-rl-8b \
-        --checkpoint 948c22ea48f9bf93e5747f4211657fcad9cb0295 \
-        --serving-profile "$work/oda_serving_profile.json" --metric-dir "$metric_dir" \
-        --actions low free dsl_fallback contract_compile compiled_fallback mid high independent car_probe \
-        --workers 8 --context 16384 --solve-output 4096 --verify-output 4096 --probe-output 4096 --temperature .6
+    if [[ ! -e $work/oda_${benchmark_split}_v1/outcomes.jsonl ]]; then
+        "$python" -u "$repo/research/finance_frontier_pilot/benchmark_actions.py" \
+            --panel "$work/panel/$benchmark_split" --run-dir "$work" --namespace "oda_${benchmark_split}_v1" \
+            --base http://127.0.0.1:18157/v1 --model oda-fin-rl-8b \
+            --checkpoint 948c22ea48f9bf93e5747f4211657fcad9cb0295 \
+            --serving-profile "$work/oda_serving_profile.json" --metric-dir "$metric_dir" \
+            --actions low free dsl_fallback contract_compile compiled_fallback mid high independent car_probe \
+            --workers 8 --context 16384 --solve-output 4096 --verify-output 4096 --probe-output 4096 --temperature .6
+    fi
+    if [[ $run_car == 1 ]]; then
+        car_run
+    fi
     exit 0
 fi
 "$python" -u run_pilot.py "${args[@]}" --phase oda --smoke

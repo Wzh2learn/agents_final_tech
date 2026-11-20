@@ -166,8 +166,8 @@ def parse_car(reply, *, unwrap_answer=False):
     return {family: judgments[family] for family in FAMILIES}
 
 
-def collect_case(row, gold, actions, call, metric_dir, *, decode_verifier_answer=False):
-    """Select unscored programs and only then attach strict outcome labels."""
+def select_case(row, actions, call, *, decode_verifier_answer=False):
+    """Choose outputs using public evidence and model replies only."""
     outputs = {}
     grading_rows = {}
     if set(actions) - {'independent', 'free', 'nested_compile'}:
@@ -241,11 +241,29 @@ def collect_case(row, gold, actions, call, metric_dir, *, decode_verifier_answer
             outputs[name] = dict(outputs[base])
             if base in grading_rows:
                 grading_rows[name] = grading_rows[base]
+    return outputs, grading_rows
+
+
+def grade_case(row, gold, outputs, grading_rows, metric_dir):
     for name, action in outputs.items():
         if 'submission' in action:
             scored = score(grading_rows.get(name, row), action['submission'], metric_dir=metric_dir, gold=gold)
             action.update(strict=bool(scored['strict']), executable=bool(scored['executable']))
     return outputs
+
+
+def collect_case(row, gold, actions, call, metric_dir, *, decode_verifier_answer=False):
+    """Select unscored programs and only then attach strict outcome labels."""
+    outputs, grading_rows = select_case(row, actions, call, decode_verifier_answer=decode_verifier_answer)
+    return grade_case(row, gold, outputs, grading_rows, metric_dir)
+
+
+def timed_selection(row, name, call):
+    """Measure one public-only route through model calls and terminal execution."""
+    started = time.monotonic()
+    outputs, grading_rows = select_case(row, [name], call, decode_verifier_answer=True)
+    public_execution(grading_rows.get(name, row), outputs[name]['submission'])
+    return outputs, grading_rows, time.monotonic() - started
 
 
 def action_cost(calls):
@@ -290,13 +308,18 @@ def collect(args, root):
         raise ValueError('Serving profile must identify the requested model alias and checkpoint')
     outputs = {'solve': args.solve_output, 'verify': args.verify_output, 'probe': args.probe_output}
     profile_digest = digest_file(args.serving_profile)
-    freeze(root / 'run.json', {
+    contract = {
         'schema': 'finance-benchmark-actions-v1', 'namespace': args.namespace,
         'panel': panel, 'dataset': args.dataset, 'actions': sorted(set(args.actions)),
         'model': args.model, 'checkpoint': args.checkpoint, 'endpoint': args.base,
         'serve_sha256': profile_digest, 'opencode_sha256': digest_file(args.opencode),
         'seed': 17, 'context': args.context, 'output': outputs, 'temperature': args.temperature,
-    })
+    }
+    if args.measure_wall:
+        contract['timing_protocol'] = 'fresh_serial_action_until_execution_v1'
+        if (root / 'run.json').exists():
+            raise ValueError('Wall timing requires a fresh run namespace')
+    freeze(root / 'run.json', contract)
     contract_digest = digest_file(root / 'run.json')
     wait_service(args.base, args.model, 90)
     actors = {name: OpenCode(root / 'actors' / name, args.opencode, args.base, args.model,
@@ -317,11 +340,20 @@ def collect(args, root):
                                   path=(target / 'call.json').relative_to(root).as_posix())
             return result
 
-        actions = collect_case(row, gold[dataset, ident], args.actions, call, args.metric_dir)
+        timing = {}
+        if args.measure_wall:
+            name = args.actions[0]
+            selected, grading_rows, wall = timed_selection(row, name, call)
+            if any(value['cached_this_pass'] for value in receipts.values()):
+                raise ValueError(f'Timed action reused a cached model call for {ident}')
+            actions = grade_case(row, gold[dataset, ident], selected, grading_rows, args.metric_dir)
+            timing['online_wall'] = {'action': name, 'seconds': wall}
+        else:
+            actions = collect_case(row, gold[dataset, ident], args.actions, call, args.metric_dir)
         for action in actions.values():
             action['cost'] = action_cost([receipts[name] for name in action['calls']])
         return {'dataset': dataset, 'id': ident, 'report': row['report'],
-                'actions': actions, 'calls': receipts}
+                'actions': actions, 'calls': receipts, **timing}
 
     finqa.executor()  # The native executor publishes its module during first import.
     started = time.monotonic()
@@ -361,6 +393,8 @@ def main():
     parser.add_argument('--verify-output', type=int, default=1024)
     parser.add_argument('--probe-output', type=int, default=256)
     parser.add_argument('--temperature', type=float, default=.6)
+    parser.add_argument('--measure-wall', action='store_true',
+                        help='Time one selected action per question with fresh serial calls, before grading')
     args = parser.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_.-]*', args.namespace):
         parser.error('namespace must be a single directory name')
@@ -369,6 +403,8 @@ def main():
     if args.workers < 1 or not all(0 < n < args.context for n in
                                   (args.solve_output, args.verify_output, args.probe_output)):
         parser.error('workers and output limits must be positive; outputs must fit context')
+    if args.measure_wall and (args.workers != 1 or len(args.actions) != 1 or args.actions[0] == 'car_probe'):
+        parser.error('--measure-wall requires one answer-returning action and one worker')
     args.opencode = args.opencode.resolve()
     import fcntl  # The collector runs beside the local model services on GB10.
     root = args.run_dir.resolve() / args.namespace
