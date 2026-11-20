@@ -175,7 +175,7 @@ def public_execution(row, parsed):
     raise ValueError(f"unknown dataset {row['dataset']}")
 
 
-def finqa_ratio_rule(row, parsed, execution):
+def finqa_ratio_rule(row, parsed, execution, *, preserve_literal_ratio=False):
     """Propose the same public percentage-contract edit tested on pilot receipts."""
     if row['dataset'] != 'finqa' or not execution or execution['status'] != 'executed':
         return None
@@ -188,6 +188,12 @@ def finqa_ratio_rule(row, parsed, execution):
     arguments = {steps[-1].arg1, steps[-1].arg2}
     if f'#{len(steps) - 2}' not in arguments or not arguments & {'100', '100.0', 'const_100'}:
         return None
+    if preserve_literal_ratio and len(steps) == 2:
+        from grounding import _value
+
+        operands = [_value(token) for token in (steps[0].arg1, steps[0].arg2)]
+        if all(value is not None and not value[1] for value in operands):
+            return None
     return {**parsed, 'program': executor.render_program(steps[:-1])}
 
 

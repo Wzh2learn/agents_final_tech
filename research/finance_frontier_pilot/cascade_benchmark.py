@@ -20,6 +20,7 @@ from scoring import _canonical
 
 REVISION = '9da6cf7da39c42148eae0178635e9211e5b67742'
 ARMS = ('oda-8b', 'qwen-27b', 'deepseek')
+NO_DETECTED_OVERLAP = 'no_pilot_or_reserved_context_detected'
 
 
 def upstream(source):
@@ -168,14 +169,17 @@ def replay_independent(path, run_digest, example, gold, outcome, managed_model, 
     from table_scope_replay import public_contract
 
     projected, submission, _, _ = public_contract(
-        example, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
+        example, reply, stopped=bool(reply) and receipt['finish'] == ['stop'],
+        preserve_literal_ratio=representation == 'literal_ratio_guarded')
     compiled = score(projected, submission, gold=gold, metric_dir=metric_dir)
     return {**native, 'submission': submission, 'strict': compiled['strict'],
             'executable': bool(compiled['executable'])}, projected
 
 
 def read_pool(panel, dataset, paths, *, representation='raw', metric_dir=None, campus_rows=None):
-    if representation == 'compiled' and campus_rows is None:
+    if representation not in ('raw', 'compiled', 'literal_ratio_guarded'):
+        raise ValueError(f'Unknown representation: {representation}')
+    if representation != 'raw' and campus_rows is None:
         raise ValueError('Compiled representation requires a frozen campus ledger')
     audit = campus_rows is not None
     if audit:
@@ -393,6 +397,47 @@ def summarize(decisions):
     return result
 
 
+def literal_ratio_sensitivity(evaluation, guarded, policies, exposure):
+    """Regrade fixed selections under a terminal-value change with identical calls."""
+    questions, answers, _, charges, _, profiles = evaluation
+    other_questions, other_answers, other_strict, other_charges, _, other_profiles = guarded
+    if questions != other_questions or charges != other_charges or profiles != other_profiles:
+        raise ValueError('Literal-ratio sensitivity requires unchanged questions, calls and profiles')
+    indices = {ident: i for i, (ident, _) in enumerate(questions)}
+    for before, after in zip(answers, other_answers, strict=True):
+        if any(left[0][1] != right[0][1] for left, right in zip(before, after, strict=True)):
+            raise ValueError('Literal-ratio sensitivity must preserve executability')
+
+    effects = {}
+    for name, policy in policies.items():
+        paired = []
+        for item in policy['items']:
+            ident = item['id']
+            index = indices[ident]
+            arm = ARMS.index(item['selected'])
+            free = arm == 0 and 'oda-8b-free' in item['queried']
+            before = item['strict']
+            after = before if free else int(other_strict[index, arm])
+            changed = not free and answers[index][arm][1] != other_answers[index][arm][1]
+            if before != after and not changed:
+                raise ValueError('A sensitivity score changed without a terminal-value change')
+            paired.append((ident, before, after, changed))
+        groups = {'all': paired}
+        independent = [item for item in paired if exposure[item[0]] == NO_DETECTED_OVERLAP]
+        if independent:
+            groups['no_detected_overlap'] = independent
+        effects[name] = {
+            group: {'n': len(rows), 'baseline_correct': sum(before for _, before, _, _ in rows),
+                    'guarded_correct': sum(after for _, _, after, _ in rows),
+                    'gains': sum(after > before for _, before, after, _ in rows),
+                    'harms': sum(after < before for _, before, after, _ in rows),
+                    'changed_values': sum(changed for _, _, _, changed in rows)}
+            for group, rows in groups.items()
+        }
+    return {'rule': 'Keep the final ×100 when a compiled FinQA percent program is two steps and divides two bare literals.',
+            'policies': effects}
+
+
 def compare(args):
     representation = getattr(args, 'representation', 'raw')
     metric_dir = getattr(args, 'metric_dir', None)
@@ -410,8 +455,8 @@ def compare(args):
         raise ValueError('Compiled representation requires a frozen campus ledger')
 
     qlib, clib, cascade, strategy = upstream(args.upstream)
-    def load(part, runs):
-        return read_pool(args.panels / part, args.dataset, runs, representation=representation,
+    def load(part, runs, selected_representation=representation):
+        return read_pool(args.panels / part, args.dataset, runs, representation=selected_representation,
                          metric_dir=metric_dir, campus_rows=campus_rows)
 
     fit = load('fit', args.fit)
@@ -466,6 +511,10 @@ def compare(args):
     if representation == 'compiled':
         local_fallbacks = read_oda_fallbacks(args.panels / 'eval', args.dataset, args.eval[0], metric_dir)
         policies['contract_8b_free_qwen_deepseek'] = record(contract_cascade(evaluation, local_fallbacks))
+    fixed_sensitivity = None
+    if representation == 'compiled' and args.dataset == 'finqa':
+        guarded = load('eval', args.eval, 'literal_ratio_guarded')
+        fixed_sensitivity = literal_ratio_sensitivity(evaluation, guarded, policies, exposure)
     for key, target, fixed_start, router, prediction_state in fitted_routes:
         np.random.set_state(prediction_state)
         result = record(realized(router, evaluation, 0 if fixed_start else None))
@@ -477,6 +526,8 @@ def compare(args):
                         'Ordered cascade begins with 8B and visits subsequent models consecutively.',
               'latency': 'Per-question sum of selected call receipts. Online routing latency is unmeasured.',
               'policies': policies}
+    if fixed_sensitivity is not None:
+        report['literal_ratio_sensitivity'] = fixed_sensitivity
     if campus_rows is not None:
         report['representation'] = representation
         report['campus_ledger_sha256'] = sha256(ledger).hexdigest()

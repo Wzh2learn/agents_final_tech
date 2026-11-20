@@ -173,6 +173,22 @@ def test_ratio_prompt_control_is_one_dsl_call_with_only_the_declared_convention(
         paired_prompt(dict(report, dataset='tatqa'), 'finqa_ratio_prompt')
 
 
+def test_literal_ratio_sensitivity_only_preserves_two_bare_operands(pilot, report):
+    from scoring import public_execution
+    from table_scope_replay import public_contract
+
+    row = dict(report, question='What percentage of the total?')
+    reply = 'Final program: divide(2, 8), multiply(#0, const_100)'
+    _, original, stage, _ = public_contract(row, reply, stopped=True)
+    _, guarded, _, _ = public_contract(row, reply, stopped=True, preserve_literal_ratio=True)
+    assert stage == 'finqa_ratio'
+    assert public_execution(row, original)['terminal_execution_answer'] == .25
+    assert public_execution(row, guarded)['terminal_execution_answer'] == 25.
+    constant = reply.replace('divide(2, 8)', 'divide(const_1, 8)')
+    assert public_contract(row, constant, stopped=True) == public_contract(
+        row, constant, stopped=True, preserve_literal_ratio=True)
+
+
 @pytest.fixture
 def paired_runs(tmp_path, pilot, report):
     from benchmark_actions import action_cost, digest_file

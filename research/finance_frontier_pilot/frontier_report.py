@@ -237,6 +237,39 @@ def paired_evaluation(policies, public, strata):
             'by_stratum': by_stratum}
 
 
+def literal_ratio_sensitivity(compiled, policies, strata):
+    """Validate fixed-call target scoring changes against the headline baselines."""
+    sensitivity = compiled.get('literal_ratio_sensitivity')
+    if sensitivity is None:
+        return None
+    if (compiled['dataset'] != 'finqa' or not isinstance(sensitivity, dict)
+            or not isinstance(sensitivity.get('rule'), str) or not sensitivity['rule'].strip()
+            or not isinstance(sensitivity.get('policies'), dict) or not sensitivity['policies']):
+        raise ValueError('literal ratio sensitivity requires a FinQA rule and fixed policies')
+    fields = ('n', 'baseline_correct', 'guarded_correct', 'gains', 'harms', 'changed_values')
+    for name, scopes in sensitivity['policies'].items():
+        qualified = f'cascade/compiled/{name}'
+        if (qualified not in policies or policies[qualified][1]['target_mean_tokens'] is not None or not isinstance(scopes, dict)
+                or 'all' not in scopes or set(scopes) - {'all', 'no_detected_overlap'}):
+            raise ValueError(f'{name}: literal ratio sensitivity requires a fixed policy and valid strata')
+        for group in ('all', 'no_detected_overlap'):
+            if group not in scopes:
+                continue
+            counts = scopes[group]
+            if (group not in strata or not isinstance(counts, dict)
+                    or any(type(counts.get(key)) is not int for key in fields)):
+                raise ValueError(f'{name}/{group}: invalid literal ratio sensitivity counts or stratum')
+            n, baseline, guarded, gains, harms, changed = (counts[key] for key in fields)
+            expected = strata[group]['policies'][qualified]
+            if (n != expected['n'] or baseline != expected['correct']
+                    or guarded != baseline + gains - harms or not 0 <= gains <= n - baseline
+                    or not 0 <= harms <= baseline or not gains + harms <= changed <= n):
+                raise ValueError(f'{name}/{group}: literal ratio sensitivity counts differ from matched outcomes')
+            if group != 'all' and any(counts[key] > scopes['all'][key] for key in fields):
+                raise ValueError(f'{name}/{group}: literal ratio sensitivity exceeds full-cohort counts')
+    return {**sensitivity, 'scope': 'Fixed recorded selections and charges. Separate scoring sensitivity.'}
+
+
 def build_report(args):
     public_path = args.panel / 'public.jsonl'
     rows = [row for row in load_lines(public_path) if row['dataset'] == args.dataset]
@@ -302,7 +335,7 @@ def build_report(args):
         collection = source / 'collection.json'
         if collection.is_file():
             acquisition[name] = {key: read(collection)[key], 'scope': scope}
-    return {'dataset': args.dataset, 'n': len(public), 'panel': panel, 'oda': provenance,
+    report = {'dataset': args.dataset, 'n': len(public), 'panel': panel, 'oda': provenance,
             'input_sha256': {name: digest_file(path) for name, path in (
                 ('car', args.car_run / 'outcomes.jsonl'), ('budgetverify_gbm', args.budgetverify_gbm),
                 ('budgetverify_tabfm', args.budgetverify_tabfm), ('cascade_raw', args.cascade_raw),
@@ -314,6 +347,9 @@ def build_report(args):
             'timing': {'serial_call_seconds': 'Sum of recorded elapsed durations for selected calls on each question.',
                        'online_policy_wall_seconds': None, 'acquisition_wall': acquisition},
             'strata': result}
+    if (sensitivity := literal_ratio_sensitivity(compiled, policies, result)) is not None:
+        report['literal_ratio_sensitivity'] = sensitivity
+    return report
 
 
 def render_table(report):

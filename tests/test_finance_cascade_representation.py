@@ -227,6 +227,28 @@ def test_contract_cascade_checks_public_output_before_using_teacher(runs):
     assert summarize(choices)['executable'] == 3
 
 
+def test_literal_ratio_sensitivity_regrades_only_the_selected_compiled_arm(runs):
+    import numpy as np
+    from cascade_benchmark import NO_DETECTED_OVERLAP, literal_ratio_sensitivity
+
+    questions = [('managed', ()), ('free', ())]
+    charges = [[1, 2, 3], [3, 2, 1]]
+    answers = [[((1, 0), None), ((1, 1), .25), ((1, 1), 3)],
+               [((1, 0), None), ((1, 1), .25), ((1, 1), 3)]]
+    original = questions, answers, np.zeros((2, 3)), charges, None, []
+    guarded_answers = [[((1, 0), None), ((1, 1), 25.), ((1, 1), 3)] for _ in questions]
+    guarded = questions, guarded_answers, np.array([[0, 1, 0], [0, 1, 0]]), charges, None, []
+    selection = {'fixed': {'items': [{'id': 'managed', 'strict': 0, 'selected': 'qwen-27b',
+                                      'queried': ['oda-8b', 'qwen-27b']},
+                                     {'id': 'free', 'strict': 1, 'selected': 'oda-8b',
+                                      'queried': ['oda-8b', 'oda-8b-free']}]}}
+    exposure = {'managed': NO_DETECTED_OVERLAP, 'free': 'pilot_question'}
+    result = literal_ratio_sensitivity(original, guarded, selection, exposure)['policies']['fixed']
+    assert result['all'] == {'n': 2, 'baseline_correct': 1, 'guarded_correct': 2,
+                             'gains': 1, 'harms': 0, 'changed_values': 1}
+    assert result['no_detected_overlap']['n'] == 1 and result['no_detected_overlap']['gains'] == 1
+
+
 def test_campus_wall_time_is_recorded_only_for_a_fresh_path(runs, monkeypatch, tmp_path):
     import school_benchmark as school
     from run_pilot import load_lines, write_json

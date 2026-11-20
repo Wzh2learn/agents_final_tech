@@ -176,3 +176,29 @@ def test_paired_intervals_resample_report_clusters_and_retain_harms(matched_runs
                                     'paired_cluster_percentile_95_pp': [0.0, 50.0]}
     assert paired['no_detected_overlap']['car']['paired_cluster_percentile_95_pp'] == [-100.0, -100.0]
     assert 'paired_cluster_percentile_95_pp' not in paired['all']['descriptive']
+
+
+def test_ratio_sensitivity_is_separate_from_matched_frontiers(matched_runs):
+    from frontier_report import CONTRACT_CASCADE, build_report
+
+    path = matched_runs.cascade_compiled
+    compiled = json.loads(path.read_text(encoding='utf-8'))
+    before = build_report(matched_runs)
+    assert 'literal_ratio_sensitivity' not in before
+    full = dict(n=2, baseline_correct=2, guarded_correct=1, gains=0, harms=1, changed_values=1)
+    subgroup = dict(full, n=1, baseline_correct=1, guarded_correct=0)
+    compiled['literal_ratio_sensitivity'] = {
+        'rule': 'guard explicit percent literals',
+        'policies': {CONTRACT_CASCADE: {'no_detected_overlap': subgroup, 'all': full}},
+    }
+    path.write_text(json.dumps(compiled), encoding='utf-8')
+    report = build_report(matched_runs)
+    measured = report['literal_ratio_sensitivity']['policies'][CONTRACT_CASCADE]
+    assert measured == {'all': full, 'no_detected_overlap': subgroup}
+    assert report['strata'] == before['strata']
+    assert report['paired_strict_evaluation'] == before['paired_strict_evaluation']
+
+    subgroup.update(n=2, baseline_correct=2, guarded_correct=1)
+    path.write_text(json.dumps(compiled), encoding='utf-8')
+    with pytest.raises(ValueError, match='counts differ from matched outcomes'):
+        build_report(matched_runs)

@@ -223,11 +223,12 @@ def representation(row, reply, *, stopped):
     return row, original, 'original', []
 
 
-def public_contract(row, reply, *, stopped):
+def public_contract(row, reply, *, stopped, preserve_literal_ratio=False):
     """Select an executable submission using the public report and receipt only."""
     projected, candidate, stage, cells = representation(row, reply, stopped=stopped)
     if row['dataset'] == 'finqa':
-        revised = finqa_ratio_rule(projected, candidate, public_execution(projected, candidate))
+        revised = finqa_ratio_rule(projected, candidate, public_execution(projected, candidate),
+                                   preserve_literal_ratio=preserve_literal_ratio)
         if revised is not None and public_execution(projected, revised)['status'] == 'executed':
             decision = 'finqa_ratio' if stage == 'original' else f'{stage}_finqa_ratio'
             return projected, revised, decision, cells
