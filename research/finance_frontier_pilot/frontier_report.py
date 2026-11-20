@@ -1,4 +1,4 @@
-"""Aggregate matched official outcomes without rerunning a scorer or a policy selector."""
+"""Aggregate matched benchmark outcomes, with optional first-answer receipt verification."""
 
 import argparse
 from hashlib import sha256
@@ -426,6 +426,73 @@ def literal_ratio_sensitivity(compiled, policies, strata):
     return {**sensitivity, 'scope': 'Fixed recorded selections and charges. Separate scoring sensitivity.'}
 
 
+def build_direct_report(args):
+    """Verify and summarize the matched first replies before secondary actions finish."""
+    from benchmark_actions import read_panel
+    from cascade_benchmark import managed_direct_wall, replay_independent
+    from school_benchmark import campus
+
+    rows, gold, panel = read_panel(args.panel, args.dataset)
+    public = {row['id']: row['report'] for row in rows}
+    ledger = read(args.campus_ledger)
+    provider_models = (None, campus.QWEN_MODEL, campus.MODEL)
+    policies, inputs, wall = {}, {}, {}
+    for arm, run, provider in zip(MODELS, args.direct_runs, provider_models, strict=True):
+        contract_path = run / 'run.json'
+        contract = read(contract_path)
+        model = provider or 'oda-fin-rl-8b'
+        if (contract['schema'] != 'finance-benchmark-actions-v1' or contract['panel'] != panel
+                or contract['model'] != model or contract['dataset'] not in (None, args.dataset)
+                or 'independent' not in contract['actions']
+                or (provider is not None and contract['endpoint'] != campus.BASE_URL)):
+            raise ValueError(f'{arm}: unexpected first-answer collection contract')
+        early = run / 'direct_outcomes.jsonl'
+        source = early if provider is None and early.is_file() else run / 'outcomes.jsonl'
+        records = load_lines(source)
+        native = matched(records, public, arm, args.dataset)
+        if any(native[ident]['report'] != report for ident, report in public.items()):
+            raise ValueError(f'{arm}: native report identifiers differ from the panel')
+        run_digest = digest_file(contract_path)
+        inputs[arm] = {'run.json': run_digest, source.name: digest_file(source)}
+        if provider:
+            wall[arm] = managed_direct_wall(records, args.dataset, public)
+        for representation in ('raw', 'compiled'):
+            outcomes = {}
+            for row in rows:
+                ident = row['id']
+                measured, _ = replay_independent(run, run_digest, row, gold[args.dataset, ident], native[ident],
+                                                  provider, ledger, args.metric_dir, representation)
+                item = outcome(measured['strict'], measured['cost'], executable=measured['executable'])
+                if provider is None and representation == 'compiled' and item != selected_action(
+                        native[ident], 'contract_compile'):
+                    raise ValueError(f'{arm}: stored compiler result differs from its first reply for {ident}')
+                outcomes[ident] = item
+            policies[f'cascade/{representation}/always_{arm}'] = outcomes, {'family': 'Fixed baseline'}
+
+    scopes = {'all': list(public), 'common_complete_usage': [
+        ident for ident in public if all(not items[ident].unknown_usage_calls for items, _ in policies.values())]}
+    exposure_path = args.panel / 'exposure.json'
+    if exposure_path.is_file():
+        exposure = matched(read(exposure_path), public, 'exposure', args.dataset)
+        independent = [ident for ident in public if exposure[ident]['exposure'] == INDEPENDENT_EXPOSURE]
+        if independent:
+            scopes['no_detected_overlap'] = independent
+    strata = {}
+    for name, ids in scopes.items():
+        points = {key: summarize([items[ident] for ident in ids]) for key, (items, _) in policies.items()} if ids else {}
+        strata[name] = {'n': len(ids), 'policies': points,
+                        'serial_call_time_frontier': frontier(points, 'mean_serial_call_seconds')}
+    cost = strata['common_complete_usage']
+    cost.update(excluded_n=len(public) - cost['n'], token_frontier=frontier(cost['policies'], 'total_tokens'))
+    return {'scope': 'Single-model direct arms only. Secondary actions and routed comparisons use the full report.',
+            'dataset': args.dataset, 'n': len(public), 'panel': panel, 'first_answer_inputs': inputs,
+            'campus_ledger_sha256': digest_file(args.campus_ledger), 'strata': strata,
+            'policy_metadata': {name: info for name, (_, info) in policies.items()},
+            'paired_compiler_effect': paired_compiler_effect(policies, public, scopes),
+            'timing': {'native_managed_direct_wall': wall,
+                       'serial_calls': 'Recorded original one-call durations. End-to-end timing coverage is separate.'}}
+
+
 def build_report(args):
     public_path = args.panel / 'public.jsonl'
     rows = [row for row in load_lines(public_path) if row['dataset'] == args.dataset]
@@ -559,15 +626,29 @@ def render_table(report):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dataset', choices=('finqa', 'tatqa'), required=True)
-    for name in ('panel', 'oda-run', 'car-run', 'budgetverify-gbm', 'budgetverify-tabfm',
-                 'cascade-raw', 'cascade-compiled', 'output'):
+    primary_inputs = ('oda-run', 'car-run', 'budgetverify-gbm', 'budgetverify-tabfm', 'cascade-raw', 'cascade-compiled')
+    for name in ('panel', 'output'):
         parser.add_argument(f'--{name}', type=Path, required=True)
+    for name in primary_inputs:
+        parser.add_argument(f'--{name}', type=Path)
+    parser.add_argument('--direct-runs', nargs=3, type=Path, metavar=('ODA', 'QWEN', 'DEEPSEEK'),
+                        help='Publish the first-answer comparison independently of secondary baselines')
+    parser.add_argument('--campus-ledger', type=Path, help='Frozen authoritative campus ledger for direct arms')
+    parser.add_argument('--metric-dir', type=Path, help='Pinned TAT-QA scorer for direct receipt replay')
     parser.add_argument('--table', type=Path, help='Optional TSV with full-panel points')
     args = parser.parse_args()
     if args.output.exists() or (args.table is not None and
                                 (args.table.exists() or args.table.resolve() == args.output.resolve())):
         parser.error('Use fresh and distinct output files')
-    report = build_report(args)
+    if args.direct_runs:
+        if args.campus_ledger is None or (args.dataset == 'tatqa' and args.metric_dir is None):
+            parser.error('Direct arms require --campus-ledger and the official metric for TAT-QA')
+        report = build_direct_report(args)
+    else:
+        missing = [name for name in primary_inputs if getattr(args, name.replace('-', '_')) is None]
+        if missing:
+            parser.error('Full report requires ' + ', '.join(f'--{name}' for name in missing))
+        report = build_report(args)
     write_json(args.output, report)
     if args.table is not None:
         args.table.write_text(render_table(report), encoding='utf-8')
