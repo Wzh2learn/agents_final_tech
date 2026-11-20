@@ -157,6 +157,8 @@ GB10 用新入口复算前 80 道 FinQA TRAIN 拟合题。护栏使 ODA 直跑�
 
 同一批 96 题上的两轴配对区间显示，完整级联相对 DeepSeek 起步为 +1.04 pp [−6.25, 9.38]，每题多花 3,465 tokens [2,589, 4,394]。相对 8B 直接接管准确率差为 0 pp [−6.25, 6.25]，每题多花 354 tokens [−69, 800]。拟合证据支持继续保留 DeepSeek 起步作为强成本对照。见 GB10 `oda_finqa96_paired_frontier_uncertainty_v1.json`。
 
+复用 192 道 TRAIN 拟合题的首答和回退回执检验联合指标。FinQA 的完整级联与 8B 直接接管严格答对均为 65/96，严格正确且可执行为 51 对 65，差 −14.6 pp，准确率与调用时间的两轴联合区间中，准确率差区间为 [−22.9, −7.3] pp。TAT-QA 对应严格分 80 对 81，严格正确且可执行为 74 对 81，差 −7.3 pp [−13.5, −2.1]。这 14、6 个正确但不可执行的数值答复来自自由回答回退。正式对比沿用预定策略及两项指标。见 GB10 `train_full_fit_pair_effect_v1.json` 的 `two_metrics_tradeoff_replay`。
+
 纳入四种固定接管顺序后，96 题的 token 和串行调用时间点估计前沿都由三条纯校内路径构成。DeepSeek 直跑、DeepSeek 未执行时转 Qwen、Qwen 未执行时转 DeepSeek 分别为 59、64、66 题，费用为 191,204、226,836、345,781 tokens。完整级联为 65 题、559,434 tokens。更新的同题作图数据见 GB10 `oda_finqa96_frontier_plot_input_train_v2.json`。
 
 复算两数据集各 96 道拟合题的绑定首答。固定 DeepSeek 优先，只增减前置 8B，FinQA 严格分从 64 到 65，TAT-QA 从 80 到 81。完整计费配对分别净增 258,318 tokens（96 题）和 185,911 tokens（95 题），单题净省费用的分别为 5、1 题。即使在 8B 已执行并避免校内调用的分组，8B 总费用仍比省下的费用分别多 100,962、96,291 tokens。Qwen 优先时，前置 8B 分别少对 1、2 题，净增 179,673、96,539 tokens（96、94 个完整计费配对）。TAT-QA 的同回复编译使 ODA 由 61 到 70、Qwen 为 77 到 77、DeepSeek 由 78 到 80，三臂均无错改。复算使用原有调用，详见 GB10 `train_full_fit_pair_effect_v1.json`。正式全量汇总沿用这两项拆分。
