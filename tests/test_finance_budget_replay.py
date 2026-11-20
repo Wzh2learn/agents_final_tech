@@ -7,7 +7,7 @@ import pytest
 
 
 @pytest.fixture
-def frozen_high(tmp_path, monkeypatch):
+def frozen_high(tmp_path, monkeypatch, request):
     pilot = Path(__file__).resolve().parents[1] / 'research' / 'finance_frontier_pilot'
     monkeypatch.syspath_prepend(str(pilot))
     from benchmark_actions import action_cost, collect_case, digest_file
@@ -20,6 +20,10 @@ def frozen_high(tmp_path, monkeypatch):
              'pre_text': [], 'post_text': [], 'table': [['Label', '2023', '2024'], ['Revenue', '11', '7']]}
             for ident in ('grounded', 'ungrounded')]
     gold = {row['id']: {'exe_ans': 18} for row in rows}
+    ratio = getattr(request, 'param', False)
+    if ratio:
+        rows[0]['question'] = 'What percentage of the first value is the second value?'
+        gold['grounded']['exe_ans'] = round(7 / 11, 5)
 
     def write_lines(path, data):
         path.write_bytes(''.join(json.dumps(entry) + '\n' for entry in data).encode())
@@ -41,6 +45,9 @@ def frozen_high(tmp_path, monkeypatch):
         replies = {'low': 'Final program: add(11, 8)', 'mid': 'KEEP',
                    'high_solve': 'Final program: add(11, 7)' if valid else 'Final program: add(10, 8)',
                    'high_compare': '<answer>USE_NEW</answer>'}
+        if ratio and valid:
+            replies.update(low='Final program: divide(7, 11), multiply(#0, const_100)',
+                           high_solve='Final program: divide(7, 11)')
 
         def record(name, actor, prompt):
             relative = Path('calls/finqa') / sha256(ident.encode()).hexdigest()[:24] / name
@@ -103,6 +110,33 @@ def test_decoding_refuses_unbound_comparison(frozen_high):
     prompt.write_bytes(prompt.read_bytes() + b'changed')
     with pytest.raises(ValueError, match='recorded prompt or request differs'):
         read_split(panel, run, 'finqa', decode_verifier_answer=True)
+
+
+@pytest.mark.parametrize('frozen_high', [True], indirect=True)
+def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen_high):
+    from budget_policy import evaluate_policies, read_split, replay_compiler_control
+
+    panel, run = frozen_high
+    path = run / 'outcomes.jsonl'
+    frozen = path.read_bytes()
+    evaluation = read_split(panel, run, 'finqa', decode_verifier_answer=True, compile_winners=True)
+    exposure = {'grounded': 'matched', 'ungrounded': 'other'}
+    report = evaluate_policies({'method': 'fixture'}, [], evaluation, exposure)
+    report.update(dataset='finqa', inputs={'eval': evaluation['provenance']},
+                  verifier_replay={'eval': evaluation['verifier_replay']})
+
+    control = replay_compiler_control(report, evaluation, 'finqa', exposure)
+    low = control['routes']['fixed_low']['all']
+    mid = control['routes']['fixed_mid']['all']
+    high = control['routes']['fixed_high']['all']
+    assert [tier['before'] for tier in (low, mid, high)] == [0, 0, 1]
+    assert [tier['correct'] for tier in (low, mid, high)] == [1, 1, 1]
+    assert [tier['strict_and_executable'] for tier in (low, mid, high)] == [1, 1, 1]
+    assert [tier['calls'] for tier in (low, mid, high)] == [2, 4, 6]
+    assert [tier['recovered'] for tier in (low, mid, high)] == [1, 1, 0]
+    assert high['known_tokens'] == 100 and high['total_tokens'] is None
+    assert control['routes']['fixed_high']['other']['correct'] == 0
+    assert path.read_bytes() == frozen
 
 
 def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_path):

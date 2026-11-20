@@ -90,9 +90,9 @@ def index_rows(rows, dataset, label):
     return indexed
 
 
-def replay_high(run, row, gold, run_digest, actions, receipts, metric_dir):
-    """Choose High from the same bound receipts with the final-answer decoder enabled."""
-    from benchmark_actions import collect_case
+def replay_actions(run, row, gold, run_digest, actions, receipts, metric_dir, *, compile_winners=False):
+    """Replay the original decisions and optionally compile their selected replies."""
+    from benchmark_actions import collect_case, deliver
     from diagnose import read_replay_call
 
     replayed_calls = {}
@@ -103,21 +103,42 @@ def replay_high(run, row, gold, run_digest, actions, receipts, metric_dir):
             replayed_calls[name] = (actor, prompt, receipt)
         expected_actor, expected_prompt, receipt = replayed_calls[name]
         if (actor, prompt) != (expected_actor, expected_prompt):
-            raise ValueError(f'{run}: High decoder changed a recorded request for {row["id"]}')
+            raise ValueError(f'{run}: verifier replay changed a recorded request for {row["id"]}')
         return receipt
 
-    original = collect_case(row, gold, ['high'], call, metric_dir)
+    tiers = ['mid', 'high'] if compile_winners else ['high']
+    original = collect_case(row, gold, tiers, call, metric_dir)
     for tier, candidate in original.items():
         cost = action_cost([replayed_calls[name][2] for name in candidate['calls']])
         if actions[tier] != {**candidate, 'cost': cost}:
             raise ValueError(f'{run}: original {tier} result or cost differs for {row["id"]}')
-    corrected = collect_case(row, gold, ['high'], call, metric_dir, decode_verifier_answer=True)['high']
-    if corrected['calls'] != original['high']['calls']:
+    corrected = collect_case(row, gold, tiers, call, metric_dir, decode_verifier_answer=True)
+    if corrected['high']['calls'] != original['high']['calls']:
         raise ValueError(f'{run}: High decoder changed the charged calls for {row["id"]}')
-    return corrected
+    if not compile_winners:
+        return corrected['high'], None
+
+    from scoring import score
+    from table_scope_replay import public_contract
+
+    winners = ('low', 'mid' if corrected['mid']['decision'] in {'revise', 'reformat'} else 'low',
+               'high_solve' if corrected['high']['decision'] == 'use_new' else 'low')
+    compiled = {}
+    for name in dict.fromkeys(winners):
+        receipt = replayed_calls[name][2]
+        reply = deliver(receipt)
+        projected, submission, _, _ = public_contract(row, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
+        scored = score(projected, submission, metric_dir=metric_dir, gold=gold)
+        compiled[name] = (bool(scored['strict']), bool(scored['executable']))
+    saved_low = actions.get('contract_compile')
+    if saved_low is not None and compiled['low'] != (saved_low['strict'], saved_low['executable']):
+        raise ValueError(f'{run}: compiled Low differs from the collected compiler action for {row["id"]}')
+    return corrected['high'], [compiled[name] for name in winners]
 
 
-def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=None):
+def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=None, compile_winners=False):
+    if compile_winners and not decode_verifier_answer:
+        raise ValueError('The common compiler requires replay of the decoded verifier')
     public_path = panel / 'public.jsonl'
     reference_path = panel / 'references.jsonl'
     contract_path = run / 'run.json'
@@ -145,7 +166,7 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
         raise ValueError(f'{run}: action receipts must cover eligible panel IDs and reports exactly once')
     if any(set(row) != {'dataset', 'id', 'report', *PUBLIC_FIELDS} for row in public.values()):
         raise ValueError(f'{panel}: invalid public-only schema')
-    design, correct, executable, costs = [], [], [], []
+    design, correct, executable, costs, compiled = [], [], [], [], []
     feature_seconds = 0.0
     required_calls = (['low'], ['low', 'mid'], ['low', 'high_solve', 'high_compare'])
     for ident, row in public.items():
@@ -170,7 +191,10 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
             raise ValueError(f'{run}: invalid tier execution flag for {ident}')
         if decode_verifier_answer:
             original = actions['high']
-            adjusted = replay_high(run, row, gold[dataset, ident], run_digest, actions, receipts, metric_dir)
+            adjusted, scores = replay_actions(run, row, gold[dataset, ident], run_digest, actions, receipts, metric_dir,
+                                               compile_winners=compile_winners)
+            if compile_winners:
+                compiled.append(scores)
             before, after = original['strict'], adjusted['strict']
             labels[-1] = int(after)
             execution_flags[-1] = adjusted['executable']
@@ -190,6 +214,8 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
              'tokens': np.array([[cost['total_tokens'] for cost in row] for row in costs], dtype=float)}
     if decode_verifier_answer:
         split['verifier_replay'] = {'decoder': 'exact_keep_or_use_new_final_answer_v1', **decoder_stats}
+    if compile_winners:
+        split['compiled_scores'] = np.array(compiled, dtype=bool)
     return split
 
 
@@ -337,24 +363,76 @@ def evaluate(fit, calibration, evaluation, exposure, checkpoint):
     return evaluate_policies(summary, policies, evaluation, exposure)
 
 
+def replay_compiler_control(report, evaluation, dataset, exposure):
+    """Apply the shared compiler after fixed BudgetVerify decisions, with no new calls."""
+    ids = evaluation['ids']
+    if (report['dataset'] != dataset or report['inputs']['eval'] != evaluation['provenance']
+            or report['eval_ids'] != ids or report['verifier_replay']['eval'] != evaluation['verifier_replay']):
+        raise ValueError('The decoded BudgetVerify report must match the replayed receipts and order')
+    for tier_index, tier in enumerate(TIERS):
+        if report['eval_strict_by_tier'][tier] != evaluation['correct'][:, tier_index].tolist():
+            raise ValueError(f'{tier}: saved strict scores differ from the bound replies')
+
+    groups = {'all': np.arange(len(ids))}
+    for group in sorted(set(exposure.values())):
+        groups[group] = np.array([i for i, ident in enumerate(ids) if exposure.get(ident) == group])
+    routes = {f'fixed_{tier}': point for tier, point in report['fixed'].items()}
+    routes.update({f'lambda_{point["lambda"]:g}': point['eval'] for point in report['policies']
+                   if point['calibration_frontier']})
+    results = {}
+    for name, point in routes.items():
+        selected = np.array([TIERS.index(tier) for tier in point['tiers_in_eval_order']])
+        if selected.shape != (len(ids),) or route_stats(evaluation, selected, groups['all']) != point['all']:
+            raise ValueError(f'{name}: selection or costs differ from the recorded raw route')
+        result = {}
+        for group, indices in groups.items():
+            chosen = selected[indices]
+            before = evaluation['correct'][indices, chosen].astype(bool)
+            strict, executable = evaluation['compiled_scores'][indices, chosen].T
+            costs = route_stats(evaluation, selected, indices)
+            result[group] = {
+                **{key: costs[key] for key in ('n', 'calls', 'known_tokens', 'unknown_usage_calls', 'total_tokens',
+                                               'summed_call_seconds')},
+                'before': int(before.sum()), 'correct': int(strict.sum()), 'executable': int(executable.sum()),
+                'strict_and_executable': int((strict & executable).sum()),
+                'recovered': int((strict & ~before).sum()), 'harmed': int((before & ~strict).sum()),
+            }
+        results[name] = result
+    return {'dataset': dataset, 'method': report['method'], 'input_eval': evaluation['provenance'],
+            'compiler': 'shared_public_contract_v1', 'additional_model_calls': 0, 'routes': results}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--panel', type=Path, required=True)
     for name in SPLITS:
-        parser.add_argument(f'--{name}-run', type=Path, required=True)
+        parser.add_argument(f'--{name}-run', type=Path, required=name == 'eval')
     parser.add_argument('--dataset', choices=('finqa', 'tatqa'), required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--decode-verifier-answer', action='store_true',
                         help='Replay High with exact KEEP/USE_NEW from the final answer')
     parser.add_argument('--metric-dir', type=Path, help='Official TAT-QA metric checkout for verifier replay')
     parser.add_argument('--tabfm-checkpoint', type=Path, help='Local TabFM checkpoint with classification subdir')
+    parser.add_argument('--compile-route-report', type=Path,
+                        help='Replay the public compiler after the actions in a saved decoded BudgetVerify report')
     args = parser.parse_args()
     if args.tabfm_checkpoint is not None and not args.tabfm_checkpoint.exists():
         parser.error('TabFM checkpoint must already exist locally')
     if args.output.exists():
         parser.error('Use a new results file')
-    if args.decode_verifier_answer and args.dataset == 'tatqa' and args.metric_dir is None:
+    if (args.decode_verifier_answer or args.compile_route_report) and args.dataset == 'tatqa' and args.metric_dir is None:
         parser.error('TAT-QA verifier replay requires --metric-dir')
+    if args.compile_route_report:
+        evaluation = read_split(args.panel / 'eval', args.eval_run, args.dataset, decode_verifier_answer=True,
+                                metric_dir=args.metric_dir, compile_winners=True)
+        exposure = exposure_labels(args.panel / 'eval/exposure.json', args.dataset, evaluation['ids'])
+        report = json.loads(args.compile_route_report.read_text(encoding='utf-8'))
+        result = replay_compiler_control(report, evaluation, args.dataset, exposure)
+        result['route_report_sha256'] = digest_file(args.compile_route_report)
+        write_json(args.output, result)
+        return
+    if args.fit_run is None or args.calibration_run is None:
+        parser.error('Fitting requires --fit-run and --calibration-run')
 
     def read_part(part):
         return read_split(args.panel / part, getattr(args, f'{part}_run'), args.dataset,
