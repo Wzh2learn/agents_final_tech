@@ -54,7 +54,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 单变量对照用 `nested_compile` 检验模型能否省去手写步骤引用。固定题面、运算符、尺度和生成设置，模型写一棵嵌套算式，编译器按操作数顺序转为平铺 DSL，走同一公开规则和官方评分。在 FinQA 的 96 个官方 TRAIN 拟合来源上，`oda_nested_fit_finqa_v1` 与 `oda_fit_v1` 的 `contract_compile` 和 `low` 逐题配对。嵌套臂在同一 ODA 服务上用 2 个 worker，原拟合用 8 个。两批并发采集的墙时保留为运行记录。
 
-同一面板收齐后，以 `diagnose.py --root <panel/fit> --compare-nested <平铺结果> <嵌套结果> --dataset finqa` 核对冻结配置、题号、提示和原始回复，复算原生分、报告簇配对区间与逐请求用量。首批平铺与嵌套分别遇到 6 次与 1 次 OpenCode SQLite 初始化错误，均无模型事件。之后的并发批在启动前串行初始化会话库。同一 ODA 服务上的 `oda_startup_repair_v1` 正补跑平铺 5 题和嵌套 1 题，共 21 次选定调用。平铺复用相同提示的自由答和独立重解，重做受首答影响的动作。原回执保留，已实付的旧派生请求单列为采集开销。待实际收齐后发布合并结果，再进入对照拟合。
+同一面板收齐后，以 `diagnose.py --root <panel/fit> --compare-nested <平铺结果> <嵌套结果> --dataset finqa` 核对冻结配置、题号、提示和原始回复，复算原生分、报告簇配对区间与逐请求用量。首批平铺与嵌套分别遇到 6 次与 1 次 OpenCode SQLite 初始化错误，均无模型事件。之后的并发批在启动前串行初始化会话库。同一 ODA 服务上的 `oda_startup_repair_v1` 正补跑平铺 5 题和嵌套 1 题，共 21 次选定调用。平铺复用相同提示的自由答和独立重解，重做受首答影响的动作。私有目录的 `publish_reconciled.py --check-records` 已复算两臂的首批替换行。原回执保留，已实付的旧派生请求单列。收齐后在 `reconciled_fit_v1` 发布合并结果，再进入对照拟合。
 
 采集器的 `free`、`dsl_fallback` 和 `compiled_fallback` 分别记录直接自由回答、原始 DSL 未执行后回退、编译仍未执行后回退。两条回退共用同一份首答和同一份所需自由回答，逐策略只计入其经路由选择的调用。GB10 用 400 个已完成配对验证全量模式与各自独立运行模式的分数、调用选择和计费一致，见 `matched_fallback_action_replay.json`。
 
@@ -92,6 +92,8 @@ DeepSeek 的首次正式交接沿用了两个合成请求之后建立的批次�
 对校内 Qwen 的全部 96 个 FinQA 拟合来源做同调用复算。原答 27/96，公开编译后 59/96，救回 34、错改 2，报告簇配对区间为 [22.9, 43.8] pp。两臂共用原有 96 次请求、316,947 tokens，可执行均为 84/96。已载入回复后的 GB10 CPU 编译逐题中位 0.084 ms。41 题触发比例规则，两个错改的官方参考程序也以乘 100 结尾。复算证据为 GB10 `campus_qwen_finqa96_compile_replay.json`，这些题用于拟合和诊断。
 
 Qwen 的两数据集共 192 道拟合题已完成。TAT-QA 的全部 96 个来源，原答与公开编译均为 77/96，可执行均为 85/96。两臂共用 96 次请求、已知 231,894 tokens，另 1 次用量未知。整批按原始回执与统一评分复算，见 GB10 `campus_qwen_fit192_compile_replay.json`。
+
+两校内模型共同的前 48 个 FinQA 拟合来源上，Qwen 从 12 到 27/48，DeepSeek 从 13 到 26/48。两者各错改 2 题，且是同两题。编译后共答对 22 题，仅 Qwen 答对 5、仅 DeepSeek 答对 4。逐模型复用请求，已知用量分别为 156,280、88,496 tokens，逐请求时长之和分别为 1,145.7、481.9 s。保留单模型直跑和预定顺序级联，以正式成本曲线比较。复算见 GB10 `campus_finqa48_compiler_cross_model_replay.json`。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
