@@ -24,10 +24,11 @@ from run_pilot import (
     PUBLIC_FIELDS, OpenCode, load_lines, local_endpoint, paired_prompt,
     wait_service, write_json,
 )
-from scoring import finqa, parse_dsl, public_execution, score
+from scoring import finqa, parse_dsl, parse_free, public_execution, score
 
 
-ACTIONS = ('low', 'mid', 'high', 'independent', 'car_probe', 'contract_compile')
+ACTIONS = ('low', 'mid', 'high', 'independent', 'car_probe', 'contract_compile',
+           'free', 'dsl_fallback', 'compiled_fallback')
 FAMILIES = {
     'Omission': 'A requested value, derivation, or part of the question is missing.',
     'Binding': 'A value is tied to the wrong entity, period, concept, unit, or scope.',
@@ -158,12 +159,12 @@ def collect_case(row, gold, actions, call, metric_dir):
     """Select unscored programs and only then attach strict outcome labels."""
     outputs = {}
     grading_rows = {}
-    if set(actions) - {'independent'}:
+    if set(actions) - {'independent', 'free'}:
         receipt = call('low', 'solve', paired_prompt(row, 'dsl'))
         draft = deliver(receipt)
         first = parse_dsl(draft)
         outputs['low'] = {'decision': 'first', 'submission': first, 'calls': ['low']}
-        if 'contract_compile' in actions:
+        if 'contract_compile' in actions or 'compiled_fallback' in actions:
             from table_scope_replay import public_contract
 
             projected, compiled, stage, cells = public_contract(
@@ -199,6 +200,23 @@ def collect_case(row, gold, actions, call, metric_dir):
             reply = deliver(call('independent', 'solve', paired_prompt(row, 'dsl')))
             outputs['independent'] = {'submission': parse_dsl(reply), 'decision': 'independent',
                                       'calls': ['independent']}
+    fallback = {}
+    for name, base in (('dsl_fallback', 'low'), ('compiled_fallback', 'contract_compile')):
+        if name in actions:
+            public = grading_rows.get(base, row)
+            fallback[name] = (base, public_execution(public, outputs[base]['submission'])['status'] != 'executed')
+    if 'free' in actions or any(needed for _, needed in fallback.values()):
+        reply = deliver(call('free', 'solve', paired_prompt(row, 'free')))
+        free = {'decision': 'direct_free', 'submission': parse_free(reply), 'calls': ['free']}
+        if 'free' in actions:
+            outputs['free'] = free
+    for name, (base, needed) in fallback.items():
+        if needed:
+            outputs[name] = {**free, 'decision': 'free_on_nonexecution', 'calls': ['low', 'free']}
+        else:
+            outputs[name] = dict(outputs[base])
+            if base in grading_rows:
+                grading_rows[name] = grading_rows[base]
     for name, action in outputs.items():
         if 'submission' in action:
             scored = score(grading_rows.get(name, row), action['submission'], metric_dir=metric_dir, gold=gold)
