@@ -156,6 +156,8 @@ ODA 正式评测先采齐两数据集 1,865 题的首答，同次调用给出原
 
 48 道独立 FinQA 多步校准题的 ODA 首答已收齐，按冻结请求与原始回执复算，编译后由 6 提升到 16/48，救回 12、错改 2，报告簇配对增量为 20.8 pp [6.3, 35.4]，沿用 182,253 tokens。同题校内 Qwen 为 9→19、155,622 tokens，DeepSeek 为 12→24、92,536 tokens。此处只核对首答阶段，ODA 校准的其余动作及 CAR 冻结继续采集。见 GB10 `oda_cal_finqa_direct_compiler_preflight_v1.json`。
 
+在 48 道独立 TAT-QA TRAIN 校准题上，复用各模型的首答回执。编译前后 ODA 为 29→32、校内 Qwen 为 41→41、DeepSeek 为 40→42，三组均无错改。ODA 增量为 6.25 pp，表簇配对 95% 区间为 [0, 14.58] pp。三组分别记录 152,812、131,722 和 70,580 个已知 tokens，DeepSeek 另有一次用量未知。ODA 有 8 次首答达到输出上限。该对照核对首答编译效果，各级联按冻结条件等所需回执齐全后复算。见 GB10 `oda_cal_tatqa_direct_compiler_preflight_v1.json`。
+
 同一批 48 道 FinQA 校准题的 15 条必需自由答也已齐。主编译级联严格分 23、严格正确且可执行 17，共 252,893 tokens。DeepSeek→Qwen 为 25、25，共 105,120 tokens。主级联相对它的可执行正确率差为 −16.7 pp，准确率与用量两轴配对区间分别为 [−31.3, −4.2] pp 和每题多 [1,897, 4,444] tokens。跳过自由答的 ODA→DeepSeek→Qwen 得 23 个可执行正确，仍耗 220,994 tokens。所有路径均绑定已有回执，零新调用。GB10 见 `oda_cal_finqa_fixed_cascade_preflight_v1.json`。冻结的全量主对比与在线计时仍照常推进。
 
 拟合集事后检查发现，两模型共同错改的两题都是两个裸数字相除再乘 100 的两步程序。对已触发比例规则的程序，按这一形状保留末步，在两个 96 题拟合集上均从 59 提到 61/96。固定同一条件在独立校准组复算，Qwen 从 19 提到 20/48，DeepSeek 从 24 提到 25/48，两个模型均保住同一题且无新增错改。校准只涉及一道独立题。见 GB10 `campus_finqa48_calibration_literal_divide_veto.json`，主比较继续使用原冻结编译器。
