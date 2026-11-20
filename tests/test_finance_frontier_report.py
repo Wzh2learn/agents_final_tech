@@ -84,7 +84,9 @@ def matched_runs(tmp_path, monkeypatch):
             items = [outcome(strict, oda_points[ident]['actions'][tier]['cost'], executable=flag)
                      for ident, strict, flag in zip(order, stricts, executed[tier], strict=True)]
             fixed[tier] = {'all': summarize(items), 'tiers_in_eval_order': [tier] * len(ids)}
-        write(path, {'dataset': 'finqa', 'method': method, 'inputs': {'eval': provenance},
+        inputs = {split: {name: sha256(f'{split}/{name}'.encode()).hexdigest() for name in provenance}
+                  for split in ('fit', 'calibration')}
+        write(path, {'dataset': 'finqa', 'method': method, 'inputs': {**inputs, 'eval': provenance},
                      'eval_ids': order, 'eval_strict_by_tier': labels, 'eval_executable_by_tier': executed, 'fixed': fixed,
                      'verifier_replay': {'eval': {}}, 'policies': [
                          {'lambda': .1, 'calibration_frontier': True, 'config': {'constant': 'high'}, 'eval': fixed['high'],
@@ -137,6 +139,8 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     strata = report['strata']
     full = strata['all']
     shared = strata['common_complete_usage']
+    assert set(report['budgetverify_inputs']) == {'fit', 'calibration', 'eval'}
+    assert report['budgetverify_inputs']['eval'] == report['oda']
     chain = 'cascade/compiled/contract_8b_free_qwen_deepseek'
     measured = full['policies'][chain]
     assert (full['n'], measured['correct'], measured['known_tokens']) == (2, 2, 60)
@@ -180,6 +184,18 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert deepseek['tokens']['interval_95'] is None
     assert deepseek['serial_call_seconds']['n'] == 2
     assert deepseek['serial_call_seconds']['strict_delta_pp'] == 100
+
+
+@pytest.mark.parametrize('split', ['fit', 'calibration'])
+def test_matched_report_rejects_budgetverify_source_mismatch(matched_runs, split):
+    from frontier_report import build_report
+
+    path = matched_runs.budgetverify_tabfm
+    report = json.loads(path.read_text(encoding='utf-8'))
+    report['inputs'][split]['outcomes.jsonl'] = sha256(b'another training receipt').hexdigest()
+    path.write_text(json.dumps(report), encoding='utf-8')
+    with pytest.raises(ValueError, match='identical fit, calibration and eval receipts'):
+        build_report(matched_runs)
 
 
 def test_matched_report_rejects_duplicate_ids(matched_runs):

@@ -205,6 +205,20 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
     return policies
 
 
+def shared_budgetverify_inputs(gbm, tabfm):
+    inputs = gbm['inputs']
+    if (set(inputs) != {'fit', 'calibration', 'eval'}
+            or any(set(split) != {'run.json', 'outcomes.jsonl'} for split in inputs.values())
+            or tabfm['inputs'] != inputs):
+        raise ValueError('BudgetVerify GBM and TabFM require identical fit, calibration and eval receipts')
+    replay_fields = ('run_profile', 'eval_ids', 'verifier_replay', 'eval_strict_by_tier')
+    flag_key = 'eval_executable_by_tier'
+    if (any(gbm.get(field) != tabfm.get(field) for field in replay_fields)
+            or (flag_key in gbm and flag_key in tabfm and gbm[flag_key] != tabfm[flag_key])):
+        raise ValueError('BudgetVerify GBM and TabFM require the same tier outcomes and verifier decoding')
+    return inputs
+
+
 def cascade_items(report, oda_policies, ids):
     representation = report['representation']
     input_rows = {name: matched(point['items'], ids, name) for name, point in report['policies'].items()}
@@ -366,10 +380,11 @@ def build_report(args):
                     for action in ODA_METHODS}
     policies = {f'oda/{action}': (items, {'family': 'Fixed ODA action'}) for action, items in oda_policies.items()}
     policies['car'] = car_items(args.car_run, oda, public, args.dataset, panel, provenance['outcomes.jsonl'])
-    for tag, path, method in (('gbm', args.budgetverify_gbm, 'GBM'),
-                              ('tabfm', args.budgetverify_tabfm, 'TabFM-1.0.0-PyTorch')):
+    gbm, tabfm = read(args.budgetverify_gbm), read(args.budgetverify_tabfm)
+    budget_inputs = shared_budgetverify_inputs(gbm, tabfm)
+    for tag, record, method in (('gbm', gbm, 'GBM'), ('tabfm', tabfm, 'TabFM-1.0.0-PyTorch')):
         policies.update({f'budgetverify/{tag}/{name}': value for name, value in
-                         budget_items(read(path), oda, public, args.dataset, provenance, method).items()})
+                         budget_items(record, oda, public, args.dataset, provenance, method).items()})
 
     raw, compiled = read(args.cascade_raw), read(args.cascade_compiled)
     if (raw['representation'] != 'raw' or compiled['representation'] != 'compiled'
@@ -424,7 +439,7 @@ def build_report(args):
                 ('car', args.car_run / 'outcomes.jsonl'), ('budgetverify_gbm', args.budgetverify_gbm),
                 ('budgetverify_tabfm', args.budgetverify_tabfm), ('cascade_raw', args.cascade_raw),
                 ('cascade_compiled', args.cascade_compiled))},
-            'policy_metadata': {name: info for name, (_, info) in policies.items()},
+            'budgetverify_inputs': budget_inputs, 'policy_metadata': {name: info for name, (_, info) in policies.items()},
             'paired_strict_evaluation': paired_evaluation(policies, public, strata),
             'paired_tradeoff_evaluation': paired_tradeoff_report(policies, public, strata),
             'token_cost': 'The common complete-usage stratum retains questions with complete usage for every '
