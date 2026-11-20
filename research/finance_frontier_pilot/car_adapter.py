@@ -406,6 +406,8 @@ def collect(args):
             return evaluate_row(row, entry, gold[row_key(row)], args, call, planner)
 
         begin = time.monotonic()
+        if args.workers > 1:
+            actor.initialize_session_store()
         tmp = root / 'outcomes.jsonl.tmp'
         with ThreadPoolExecutor(max_workers=args.workers) as pool, tmp.open('w', encoding='utf-8') as out:
             attempts = correct = recovered = damaged = known_tokens = unknown_usage = 0

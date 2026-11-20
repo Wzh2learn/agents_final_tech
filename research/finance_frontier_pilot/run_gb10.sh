@@ -10,6 +10,11 @@ python=$HOME/wzh/venvs/docling_probe/bin/python
 guard_pid=$2
 old_restore=$3
 benchmark=${4:-}
+benchmark_split=${5:-fit}
+case $benchmark_split in
+    fit|calibration|eval) ;;
+    *) echo 'Expected benchmark split fit, calibration or eval.' >&2; exit 2 ;;
+esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
 image=sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f
@@ -27,8 +32,12 @@ tr '\0' '\n' <"/proc/$guard_pid/cmdline" | grep -Fxq "$old_restore"
 if [[ -n $benchmark ]]; then
     work=$(cd "$benchmark" && pwd)
     [[ $work == "$HOME/wzh/research_evidence/finance_frontier_benchmark_"* ]]
-    test -s "$work/panel/fit/public.jsonl"
-    test -s "$work/panel/fit/references.jsonl"
+    test -s "$work/panel/$benchmark_split/public.jsonl"
+    test -s "$work/panel/$benchmark_split/references.jsonl"
+    if [[ -e $work/oda_${benchmark_split}_v1/outcomes.jsonl ]]; then
+        echo 'Existing finalized outcomes are inputs to downstream baselines. Preserve them before any explicit repair.' >&2
+        exit 1
+    fi
     if [[ ! -s $root/summary.json || ! -s $root/outcomes.json ]]; then
         echo 'Wait for the full teacher probe to finish before launching the benchmark.' >&2
         exit 1
@@ -138,7 +147,7 @@ PY
     PYTHONPATH="$repo/research/finance_frontier_pilot:$PYTHONPATH" "$python" -c \
         'from run_pilot import wait_service; wait_service("http://127.0.0.1:18157/v1", "oda-fin-rl-8b", 300)'
     "$python" -u "$repo/research/finance_frontier_pilot/benchmark_actions.py" \
-        --panel "$work/panel/fit" --run-dir "$work" --namespace oda_fit_v1 \
+        --panel "$work/panel/$benchmark_split" --run-dir "$work" --namespace "oda_${benchmark_split}_v1" \
         --base http://127.0.0.1:18157/v1 --model oda-fin-rl-8b \
         --checkpoint 948c22ea48f9bf93e5747f4211657fcad9cb0295 \
         --serving-profile "$work/oda_serving_profile.json" --metric-dir "$metric_dir" \
