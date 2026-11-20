@@ -68,7 +68,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 - `budget_policy.py` 按每个成本权重从三个实测动作生成路由监督。GBM 默认使用，GB10 已有的 TabFM 权重可用于后续同面板对标。拟合集训练、校准集选参，评测逐题计入整个所选档的成本。
 - `car_adapter.py` 用首答和五类诊断拟合错答风险，分别估计有界修复的恢复与错改，再用校准集冻结修订门槛。本任务使用官方数值正确性、DSL 检查与公开证据位置，保留适配名。
 - `cascade_benchmark.py` 调用已固定原版 `CascadeRouter`，使用公开程序执行、证据定位与相互分歧作为质量特征。GB10 隔离依赖目录使用作者发布的 NumPy、SciPy、scikit-learn 版本。与固定 8B 起步的逐级调用分开报。上述适配已做合成流程验证，实际推理、拟合及计分另行执行。
-- `school_benchmark.py` 通过既有校内网关记录 DeepSeek 的独立解答，明确区分本地模型版本与托管 API 配置。GB10 用实际 OpenCode 和合成响应验证请求校验、计费及断点复用。实际校内调用待路线锁定。重放报告的时延为逐题调用时长之和，正式墙时比较另计路由与服务开销。
+- `school_benchmark.py` 通过既有校内网关记录 `deepseek-v4-flash` 和 `qwen3.8-27b` 的独立解答。已用账号目录核对两个模型 ID，并用实际 OpenCode 和合成响应验证共享账本、逐次模型身份及断点复用。GB10 的 `finance_frontier_benchmark_20261120_v2/managed_profiles/` 保存两个独立运行配置，均使用 16,384 上下文和 4,096 输出的实验设置。校内推理待路线锁定。重放报告的时延为逐题调用时长之和，正式墙时比较另计路由与服务开销。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
@@ -76,6 +76,6 @@ ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照
 
 - CAR 使用 Qwen3-8B BF16、官方模板和 32,768 上下文，关闭 Qwen 思考。GB10 已有通过静态验收的 `~/wzh/models/hf/Qwen3-8B`，固定版本 `b968826d`。复测分别记录 CAR 的百分比归一口径及各臂统一的严格执行分。[CAR 实验配置与评分](https://arxiv.org/html/2611.05166v1#A5.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218)
 - BudgetVerify 对标补 Qwen3.5-9B 原版 `c2022362`，在同一权重上比较首答、局部复查和独立重解。论文公开了模型家族，未给出量化精度或权重版本。[BudgetVerify 实验](https://arxiv.org/html/2609.33052v1#S4.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3.5-9B/tree/c202236235762e1c871ad0ccb60c8ee5ba337b9a)
-- 当前 220 题教师批次使用本地 Qwen3.8-27B FP8。后续完整版本对照改用校内托管 Qwen3.8-27B，先核对账号模型 ID 和服务配置，再做同题、同提示及同预算的配对验证。部署精度按校内网关可核实的信息登记。[FP8 模型卡](https://huggingface.co/Qwen/Qwen3.8-27B-FP8) · [北邮 LLM 网关](https://llm-gw.bupt.edu.cn/)
+- 当前 220 题教师批次使用本地 Qwen3.8-27B FP8。后续对照使用账号可调用的校内托管 `qwen3.8-27b`，配对固定题目、提示及生成预算。网关目录提供模型 ID，权重精度记为托管未知。[FP8 模型卡](https://huggingface.co/Qwen/Qwen3.8-27B-FP8) · [北邮 LLM 网关](https://llm-gw.bupt.edu.cn/)
 
-2026-11-20，9B 已通过下载验收。已停止本地 27B BF16 下载，现有部分文件留在原目录。校内的模型列表请求返回 401，待认证后验证托管版本和计费。
+2026-11-20，9B 已通过下载验收。本地 27B BF16 下载已停止，部分文件留在原目录。该轮校内目录查询未发送推理请求。

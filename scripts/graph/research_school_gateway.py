@@ -21,6 +21,8 @@ from urllib.parse import urlsplit
 
 BASE_URL = "https://myai.bupt.edu.cn/llm-gw/v1"
 MODEL = "deepseek-v4-flash"
+QWEN_MODEL = "qwen3.8-27b"
+ADMITTED_MODELS = (MODEL, QWEN_MODEL)
 REQUEST_TOKEN_CEILING = 262_144  # Full advertised 256K input-plus-output ceiling.
 
 
@@ -72,7 +74,9 @@ class BatchBudget:
         os.chmod(temp, 0o600)
         os.replace(temp, self.path)
 
-    def reserve(self, body):
+    def reserve(self, body, *, model_id=MODEL):
+        if model_id not in ADMITTED_MODELS:
+            raise ValueError("unapproved model")
         with self.lock:
             if self.pending is not None:
                 raise RuntimeError("single-concurrency batch already has an active request")
@@ -80,7 +84,7 @@ class BatchBudget:
             used = sum(r.get("usage", {}).get("total_tokens", REQUEST_TOKEN_CEILING) for r in charged)
             if len(charged) >= self.posts or used + REQUEST_TOKEN_CEILING > self.tokens:
                 raise RuntimeError("batch hard cap: cannot reserve the complete request ceiling")
-            row = dict(index=len(self.rows) + 1, state="reserved", model=MODEL,
+            row = dict(index=len(self.rows) + 1, state="reserved", model=model_id,
                        request_sha256=hashlib.sha256(body).hexdigest(), request_bytes=len(body),
                        reserved_tokens=REQUEST_TOKEN_CEILING, started_unix=time.time())
             self.rows.append(row)
@@ -118,24 +122,27 @@ class BatchBudget:
 class SchoolGateway:
     """TLS transport; the only credential-bearing data is the outgoing header."""
 
-    def __init__(self, api_key, budget, *, output_ceiling=8192):
+    def __init__(self, api_key, budget, *, output_ceiling=8192, model_id=MODEL):
         if not api_key or any(c in api_key for c in "\r\n"):
             raise ValueError("missing or invalid credential")
         if type(output_ceiling) is not int or output_ceiling not in (8192,16384,32768,65536):
             raise ValueError("output ceiling must be explicitly admitted for this batch")
+        if model_id not in ADMITTED_MODELS:
+            raise ValueError("unapproved model")
         self._api_key, self.budget = api_key, budget
         self.output_ceiling = output_ceiling
+        self.model_id = model_id
 
     def open(self, body, *, timeout=60, send_lock=None, admit=None):
         value = json.loads(body)
-        if value.get("model") != MODEL:
+        if value.get("model") != self.model_id:
             raise ValueError("unapproved model")
         forbidden = {"thinking", "reasoning_effort", "chat_template_kwargs", "max_completion_tokens"}
         if forbidden.intersection(value):
             raise ValueError("unsupported provider fields")
         if type(value.get("max_tokens")) is not int or not 1 <= value["max_tokens"] <= self.output_ceiling:
             raise ValueError("explicit output cap required")
-        index = self.budget.reserve(body)
+        index = self.budget.reserve(body, model_id=self.model_id)
         parsed = urlsplit(BASE_URL)
         connection = None
         sending = False
@@ -167,8 +174,8 @@ class SchoolGateway:
 class SchoolBackend:
     """Use the existing owned OpenCode lifecycle with a distinct external model."""
 
-    def __init__(self, api_key, budget, core):
-        self.gateway = SchoolGateway(api_key, budget)
+    def __init__(self, api_key, budget, core, *, model_id=MODEL):
+        self.gateway = SchoolGateway(api_key, budget, model_id=model_id)
         self.core = core
 
     def verify(self, profile):
@@ -178,9 +185,9 @@ class SchoolBackend:
         output = profile.get("output") if isinstance(profile, dict) else None
         if (type(output) is not int or output not in (4096, 8192)
                 or profile != dict(provider="bupt_chat_v1", base_url=BASE_URL,
-                                   model_id=MODEL, context=262144, output=output)):
+                                   model_id=self.gateway.model_id, context=262144, output=output)):
             raise ValueError("school backend profile differs from the admitted configuration")
-        return dict(kind="external_chat_gateway", base_url=BASE_URL, model_id=MODEL,
+        return dict(kind="external_chat_gateway", base_url=BASE_URL, model_id=self.gateway.model_id,
                     weights_precision="provider_managed_unknown", verification="configuration_only",
                     context_limit=262144, output_limit=output)
 
@@ -202,7 +209,7 @@ class SchoolBackend:
                     client.settimeout(max(.001, self.deadline - time.monotonic()))
                     value = h.actor.receive_http(client, self.caps['combined_wire_bytes'])
                     value, contract = core.prepare_tool_contract(value)
-                    if value.get('model') != MODEL:
+                    if value.get('model') != gateway.model_id:
                         raise ValueError("incoming model does not match school backend")
                     value.pop('max_completion_tokens', None)
                     value.update(max_tokens=profile['output'], stream=True, stream_options=dict(include_usage=True))

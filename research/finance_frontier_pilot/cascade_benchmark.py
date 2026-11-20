@@ -152,6 +152,8 @@ def read_pool(panel, dataset, paths):
         profile = {key: contract[key] for key in ('model', 'serve_sha256', 'opencode_sha256',
                                                   'seed', 'context', 'output', 'temperature')}
         profile.update(checkpoint=checkpoint, api_profile_sha256=managed_api)
+        if 'weights_precision' in contract:
+            profile['weights_precision'] = contract['weights_precision']
         profiles.append(profile)
     questions = [(ident, public_features(example)) for ident, example in public.items()]
     answers = [[action_features(example, arm[ident]['submission']) for arm in received]

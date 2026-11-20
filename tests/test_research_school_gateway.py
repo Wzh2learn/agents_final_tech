@@ -38,6 +38,38 @@ class GatewayTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     backend.verify({**valid, **change})
 
+    def test_verified_qwen_keeps_model_identity_and_shares_the_existing_budget(self):
+        from unittest.mock import Mock
+
+        with tempfile.TemporaryDirectory() as root:
+            budget = gateway.BatchBudget(root, posts=2)
+            try:
+                qwen = gateway.SchoolBackend('configured', budget, object(), model_id=gateway.QWEN_MODEL)
+                deepseek = gateway.SchoolBackend('configured', budget, object())
+                profile = dict(provider='bupt_chat_v1', base_url=gateway.BASE_URL,
+                               model_id=gateway.QWEN_MODEL, context=262144, output=4096)
+                self.assertEqual(qwen.verify(profile)['weights_precision'], 'provider_managed_unknown')
+                with self.assertRaises(ValueError):
+                    deepseek.verify(profile)
+                wire = Mock()
+                transport = Mock()
+                transport.wrap_socket.return_value = wire
+                body = lambda model: json.dumps(dict(model=model, max_tokens=4096)).encode()
+                with patch.object(gateway.socket, 'create_connection', return_value=wire) as connect, patch.object(
+                        gateway.ssl, 'create_default_context', return_value=transport):
+                    with self.assertRaises(ValueError):
+                        qwen.gateway.open(body(gateway.MODEL))
+                    connect.assert_not_called()
+                    self.assertEqual(budget.rows, [])
+                    for backend in (qwen, deepseek):
+                        backend.gateway.open(body(backend.gateway.model_id))
+                        budget.finish(body=response(), status=200)
+                    with self.assertRaisesRegex(RuntimeError, 'hard cap'):
+                        qwen.gateway.open(body(gateway.QWEN_MODEL))
+                self.assertEqual([row['model'] for row in budget.rows], [gateway.QWEN_MODEL, gateway.MODEL])
+            finally:
+                budget.close()
+
     def test_external_backend_cannot_enter_existing_target_cohort(self):
         here = _path.parents[2] / 'research/agent_frontier_portfolio_20261029'
         sys.path.insert(0, str(here))

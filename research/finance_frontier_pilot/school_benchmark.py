@@ -1,4 +1,4 @@
-"""Collect the managed DeepSeek independent arm through the campus budget gateway."""
+"""Collect independent answers from an admitted campus model."""
 
 import argparse
 from contextlib import contextmanager
@@ -36,8 +36,9 @@ def read_profile(path, expected_digest):
         raise ValueError('managed API profile digest mismatch')
     profile = json.loads(path.read_text(encoding='utf-8'))
     gateway = {key: profile[key] for key in ('provider', 'base_url', 'model_id', 'context', 'output')}
-    validated = dict(provider='bupt_chat_v1', base_url=campus.BASE_URL, model_id=campus.MODEL, context=262144)
-    if (gateway != dict(validated, output=gateway['output']) or gateway['output'] not in (4096, 8192)
+    validated = dict(provider='bupt_chat_v1', base_url=campus.BASE_URL, model_id=gateway['model_id'], context=262144)
+    if (gateway['model_id'] not in campus.ADMITTED_MODELS or gateway != dict(validated, output=gateway['output'])
+            or type(gateway['output']) is not int or gateway['output'] not in (4096, 8192)
             or set(profile) != {*gateway, 'opencode_context', 'temperature'}
             or type(profile['opencode_context']) is not int
             or not gateway['output'] < profile['opencode_context'] <= gateway['context']
@@ -47,8 +48,8 @@ def read_profile(path, expected_digest):
     return profile, gateway
 
 
-def payload_for_prompt(value, prompt, temperature):
-    if not isinstance(value, dict) or value.get('model') != campus.MODEL:
+def payload_for_prompt(value, prompt, temperature, *, model_id=campus.MODEL):
+    if not isinstance(value, dict) or value.get('model') != model_id:
         raise ValueError('unexpected source model')
     if value.get('tools') or value.get('tool_choice') not in (None, 'none'):
         raise ValueError('independent arm accepts final-only requests')
@@ -72,7 +73,7 @@ def payload_for_prompt(value, prompt, temperature):
         raise ValueError('OpenCode payload does not match the frozen source prompt')
     # Use only the external API fields needed by the matched independent arm.
     # The managed service does not expose a verified weight revision or deterministic seed.
-    payload = {'model': campus.MODEL, 'messages': messages, 'temperature': temperature}
+    payload = {'model': model_id, 'messages': messages, 'temperature': temperature}
     return payload, {'version': 'finance_frontier_final_only_v1', 'tools_present': False}
 
 
@@ -84,9 +85,9 @@ def source_relay(root, key, budget, gateway, prompt, temperature):
 
     transport = SimpleNamespace(
         Relay=core.Relay, sha=core.sha,
-        prepare_tool_contract=lambda value: payload_for_prompt(value, prompt, temperature),
+        prepare_tool_contract=lambda value: payload_for_prompt(value, prompt, temperature, model_id=gateway['model_id']),
     )
-    backend = campus.SchoolBackend(key, budget, transport)
+    backend = campus.SchoolBackend(key, budget, transport, model_id=gateway['model_id'])
     backend.verify(gateway)
     root.mkdir()
     relay = backend.make_relay(root, gateway, SimpleNamespace(actor=actor, agg=agg),
@@ -121,8 +122,10 @@ def measured_usage(usage):
                 cache_write=prompt_details.get('cache_write_tokens'), steps=1)
 
 
-def bind_provider_result(target, run_digest, row, collected):
+def bind_provider_result(target, run_digest, row, collected, *, model_id=campus.MODEL):
     path = target / 'provider_receipt.json'
+    if row is not None and row['model'] != model_id:
+        raise ValueError('authoritative ledger row has a different model')
     result = dict(collected)
     result['opencode_usage'] = collected['usage']
     result['usage'] = (measured_usage(row['usage']) if row and row['state'] == 'complete' else None)
@@ -137,7 +140,7 @@ def bind_provider_result(target, run_digest, row, collected):
     return result
 
 
-def replay_case(target, run_digest, rows, actor_prompt):
+def replay_case(target, run_digest, rows, actor_prompt, *, model_id=campus.MODEL):
     path = target / 'provider_receipt.json'
     saved = json.loads(path.read_text(encoding='utf-8'))
     raw_path = target / 'call.json'
@@ -151,7 +154,8 @@ def replay_case(target, run_digest, rows, actor_prompt):
     row = result['provider']
     if row is not None and (not 1 <= row['index'] <= len(rows) or rows[row['index'] - 1] != row):
         raise ValueError('cached campus action has no matching authoritative ledger row')
-    return bind_provider_result(target, run_digest, row, json.loads(raw_path.read_text(encoding='utf-8')))
+    return bind_provider_result(target, run_digest, row, json.loads(raw_path.read_text(encoding='utf-8')),
+                                model_id=model_id)
 
 
 def collect(args, root, ledger_root):
@@ -161,14 +165,17 @@ def collect(args, root, ledger_root):
             raise ValueError('TAT-QA requires the official metric directory')
         _metric_type(args.metric_dir)
     profile, gateway = read_profile(args.api_profile, args.api_profile_sha256)
-    freeze(root / 'run.json', {
+    contract = {
         'schema': 'finance-benchmark-actions-v1', 'namespace': args.namespace, 'panel': panel,
-        'dataset': args.dataset, 'actions': [ACTION], 'model': campus.MODEL,
+        'dataset': args.dataset, 'actions': [ACTION], 'model': gateway['model_id'],
         'api_profile_sha256': args.api_profile_sha256, 'endpoint': campus.BASE_URL,
         'serve_sha256': args.api_profile_sha256, 'opencode_sha256': digest_file(args.opencode),
         'seed': 17, 'provider_seed': None, 'context': profile['opencode_context'],
         'output': {'solve': gateway['output']}, 'temperature': profile['temperature'],
-    })
+    }
+    if gateway['model_id'] != campus.MODEL:
+        contract['weights_precision'] = 'provider_managed_unknown'
+    freeze(root / 'run.json', contract)
     run_digest = digest_file(root / 'run.json')
     budget = campus.BatchBudget(ledger_root)
     try:
@@ -213,17 +220,18 @@ def collect_rows(args, root, public, gold, run_digest, key, budget, profile, gat
                 if (name, role) != (ACTION, 'solve'):
                     raise ValueError('unexpected campus action')
                 if cached:
-                    return replay_case(target, run_digest, budget.rows, prompt)
+                    return replay_case(target, run_digest, budget.rows, prompt, model_id=gateway['model_id'])
                 target.mkdir(mode=0o700, parents=True)
                 before = len(budget.rows)
                 with source_relay(target / 'relay', key, budget, gateway, prompt, profile['temperature']) as base:
-                    actor = OpenCode(target / 'solve', args.opencode, base, campus.MODEL,
+                    actor = OpenCode(target / 'solve', args.opencode, base, gateway['model_id'],
                                      gateway['output'], profile['opencode_context'], profile['temperature'])
                     result = recorded_call(actor, prompt, target, run_digest)
                 provider = budget.rows[before:]
                 if len(provider) > 1 or budget.pending is not None:
                     raise RuntimeError('one-source campus request limit violated')
-                return bind_provider_result(target, run_digest, provider[0] if provider else None, result)
+                return bind_provider_result(target, run_digest, provider[0] if provider else None, result,
+                                            model_id=gateway['model_id'])
 
             receipt = {}
 
