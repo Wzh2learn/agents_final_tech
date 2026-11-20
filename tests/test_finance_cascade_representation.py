@@ -117,3 +117,25 @@ def test_compiler_refuses_wrong_role_or_unreconciled_receipt(runs):
     row_path.write_bytes((json.dumps(row) + '\n').encode())
     with pytest.raises(ValueError, match='recorded native result or solve cost differs'):
         read_pool(panel, 'finqa', paths, representation='compiled', campus_rows=ledger)
+
+
+def test_nonexecution_route_stops_at_first_executable_and_charges_only_queried_arms(runs):
+    from cascade_benchmark import ARMS, NonexecutionCascade, realized
+
+    def answer(executable):
+        return ((1, executable), None)
+
+    questions = [(ident, ()) for ident in ('exec_but_wrong', 'rescue', 'all_fail')]
+    answers = [[answer(valid) for valid in row] for row in ((1, 1, 1), (0, 1, 1), (0, 0, 0))]
+    correct = {(i, j): int((i, j) in ((0, 1), (0, 2), (1, 1))) for i in range(3) for j in range(3)}
+    charges = [[dict(known_tokens=10 * (arm + 1), unknown_usage_calls=0, summed_call_seconds=1.)
+                for arm in range(3)] for _ in questions]
+    pool = questions, answers, correct, charges, None, None
+    forward = realized(NonexecutionCascade((0, 1, 2)), pool)
+    assert [row['selected'] for row in forward] == list(ARMS)
+    assert [row['strict'] for row in forward] == [0, 1, 0]
+    assert [row['known_tokens'] for row in forward] == [10, 30, 60]
+
+    reverse = realized(NonexecutionCascade((2, 1)), pool)
+    assert [row['selected'] for row in reverse] == [ARMS[2], ARMS[2], ARMS[1]]
+    assert [row['known_tokens'] for row in reverse] == [30, 30, 50]

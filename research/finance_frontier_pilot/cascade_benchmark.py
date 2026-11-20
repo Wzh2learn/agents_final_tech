@@ -285,6 +285,29 @@ def realized(router, pool, initial=None):
     return decisions
 
 
+class NonexecutionCascade:
+    """Advance along a fixed order until a program executes or models run out."""
+
+    def __init__(self, order):
+        self.order = tuple(order)
+
+    def executable_answer(self, state):
+        return next((index for index in self.order
+                     if state[index] is not None and state[index][0][1]), None)
+
+    def predict(self, _questions, seen):
+        return [None if self.executable_answer(state) is not None
+                else next((ARMS[index] for index in self.order if state[index] is None), None)
+                for state in seen]
+
+    def select_answer(self, _questions, seen):
+        selected = []
+        for state in seen:
+            index = self.executable_answer(state)
+            selected.append(ARMS[self.order[-1] if index is None else index])
+        return selected
+
+
 def summarize(decisions):
     usage = sum(row['unknown_usage_calls'] for row in decisions)
     known = sum(row['known_tokens'] for row in decisions)
@@ -342,6 +365,10 @@ def compare(args):
         return {'all': summarize(decisions), 'exposure': strata, 'items': decisions}
 
     policies = {f'always_{arm}': record(realized(None, evaluation, idx)) for idx, arm in enumerate(ARMS)}
+    if campus_rows is not None:
+        for name, order in (('nonexecution_8b_qwen_deepseek', (0, 1, 2)),
+                            ('nonexecution_deepseek_qwen', (2, 1))):
+            policies[name] = record(realized(NonexecutionCascade(order), evaluation))
     for budget in args.budgets:
         target = float(budget * np.mean(ct[:, 0]))
         for fixed_start in (False, True):
