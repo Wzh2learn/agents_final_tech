@@ -124,6 +124,23 @@ def test_compiler_refuses_wrong_role_or_unreconciled_receipt(runs):
         read_pool(panel, 'finqa', paths, representation='compiled', campus_rows=ledger)
 
 
+def test_managed_direct_wall_uses_only_measured_fresh_rows(runs):
+    from cascade_benchmark import managed_direct_wall
+
+    rows = [{'dataset': 'finqa', 'id': 'historical'},
+            {'dataset': 'finqa', 'id': 'timed', 'online_wall': {'action': 'independent', 'seconds': 5.25},
+             'calls': {'independent': {'elapsed_seconds': 5, 'cached_this_pass': False}}}]
+    expected = managed_direct_wall(rows, 'finqa', ['historical', 'timed'])
+    assert expected['panel_n'] == 2 and expected['measured_n'] == 1
+    assert expected['wall_seconds'] == {'mean': 5.25, 'median': 5.25, 'p90': 5.25}
+    assert expected['paired_mean_wall_minus_call_seconds'] == .25
+    assert managed_direct_wall(rows[:1], 'finqa', ['historical']) == {
+        'panel_n': 1, 'measured_n': 0, 'wall_seconds': None}
+    rows[1]['calls']['independent']['cached_this_pass'] = True
+    with pytest.raises(ValueError, match='Invalid fresh managed direct wall'):
+        managed_direct_wall(rows, 'finqa', ['historical', 'timed'])
+
+
 def test_nonexecution_route_stops_at_first_executable_and_charges_only_queried_arms(runs):
     from cascade_benchmark import ARMS, NonexecutionCascade, prepend_tradeoff, realized
 

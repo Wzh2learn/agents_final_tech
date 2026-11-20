@@ -484,6 +484,33 @@ def literal_ratio_sensitivity(evaluation, guarded, policies, exposure):
             'policies': effects}
 
 
+def managed_direct_wall(rows, dataset, ids):
+    """Summarize measured single-model selection wall on the original campus requests."""
+    selected = [row for row in rows if row['dataset'] == dataset]
+    if len(selected) != len(ids) or {row['id'] for row in selected} != set(ids):
+        raise ValueError('Managed direct timing records differ from the matched evaluation questions')
+    timing_pairs = []
+    for row in selected:
+        timing = row.get('online_wall')
+        if timing is None:
+            continue
+        call = row['calls']['independent']
+        elapsed = call['elapsed_seconds']
+        wall = timing['seconds']
+        if (timing['action'] != 'independent' or call.get('cached_this_pass') is not False
+                or not np.isfinite([elapsed, wall]).all() or not 0 <= elapsed <= wall + 1e-8):
+            raise ValueError('Invalid fresh managed direct wall timing')
+        timing_pairs.append((wall, elapsed))
+    summary = {'panel_n': len(selected), 'measured_n': len(timing_pairs), 'wall_seconds': None}
+    if timing_pairs:
+        wall, calls = np.asarray(timing_pairs, dtype=float).T
+        summary.update(wall_seconds={'mean': float(wall.mean()), 'median': float(np.median(wall)),
+                                     'p90': float(np.percentile(wall, 90))},
+                       paired_mean_call_seconds=float(calls.mean()),
+                       paired_mean_wall_minus_call_seconds=float((wall - calls).mean()))
+    return summary
+
+
 def compare(args):
     representation = getattr(args, 'representation', 'raw')
     metric_dir = getattr(args, 'metric_dir', None)
@@ -594,6 +621,12 @@ def compare(args):
             for part, runs, pool in (('fit', args.fit, fit), ('calibration', args.calibration, calibration),
                                      ('eval', args.eval, evaluation))
         }
+        if args.eval:
+            ids = [ident for ident, _ in evaluation[0]]
+            report['managed_direct_wall'] = {
+                arm: managed_direct_wall(load_lines(run / 'outcomes.jsonl'), args.dataset, ids)
+                for arm, run in zip(ARMS[1:], args.eval[1:], strict=True)
+            }
     return report
 
 

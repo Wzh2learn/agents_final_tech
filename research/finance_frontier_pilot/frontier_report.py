@@ -441,6 +441,7 @@ def build_report(args):
     raw, compiled = read(args.cascade_raw), read(args.cascade_compiled)
     if (raw['representation'] != 'raw' or compiled['representation'] != 'compiled'
             or raw['dataset'] != args.dataset or compiled['dataset'] != args.dataset
+            or raw.get('managed_direct_wall') != compiled.get('managed_direct_wall')
             or any(raw[key] != compiled[key] for key in ('profiles', 'author_revision', 'campus_ledger_sha256',
                                                          'matched_input_sha256'))):
         raise ValueError('Cascade raw/compiled runs differ in inputs, profiles or gateway ledger')
@@ -500,7 +501,10 @@ def build_report(args):
             'execution': 'Executable counts require known execution flags. Joint counts require known flags '
                          'for every strict match. The supplementary frontier uses shared complete usage and flags.',
             'timing': {'serial_call_seconds': 'Sum of recorded elapsed durations for selected calls on each question.',
-                       'online_policy_wall_seconds': None, 'acquisition_wall': acquisition},
+                       'online_policy_wall_seconds': None, 'acquisition_wall': acquisition,
+                       'native_managed_direct_wall': raw.get('managed_direct_wall'),
+                       'native_managed_timing_scope': 'Original, fresh single-model requests through native selection. '
+                                                      'The replayed policies have separate timing evidence.'},
             'strata': result}
     if (sensitivity := literal_ratio_sensitivity(compiled, policies, result)) is not None:
         report['literal_ratio_sensitivity'] = sensitivity
