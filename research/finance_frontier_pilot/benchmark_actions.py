@@ -13,6 +13,7 @@ supplies inputs for CAR calibration, without fitting a gate or performing repair
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from functools import partial
 import hashlib
 import json
 from pathlib import Path
@@ -29,6 +30,7 @@ from scoring import _reply_text, finqa, parse_dsl, parse_free, public_execution,
 
 ACTIONS = ('low', 'mid', 'high', 'independent', 'car_probe', 'contract_compile',
            'free', 'dsl_fallback', 'compiled_fallback', 'nested_compile', 'finqa_ratio_prompt')
+DIRECT_ACTIONS = ('low', 'contract_compile', 'independent')
 FAMILIES = {
     'Omission': 'A requested value, derivation, or part of the question is missing.',
     'Binding': 'A value is tied to the wrong entity, period, concept, unit, or scope.',
@@ -330,8 +332,14 @@ def collect(args, root):
     wait_service(args.base, args.model, 90)
     actors = {name: OpenCode(root / 'actors' / name, args.opencode, args.base, args.model,
                              output, args.context, args.temperature) for name, output in outputs.items()}
+    prioritize_direct = getattr(args, 'prioritize_direct', False)
+    direct_path = root / 'direct_outcomes.jsonl'
+    saved_direct = load_lines(direct_path) if prioritize_direct and direct_path.is_file() else None
+    if saved_direct is not None and len(saved_direct) != len(rows):
+        raise ValueError('Published direct outcomes must cover the full panel')
+    fresh_direct = set()
 
-    def case(row):
+    def case(row, actions, *, direct=False):
         dataset, ident = row['dataset'], row['id']
         case_id = hashlib.sha256(ident.encode('utf-8')).hexdigest()[:24]
         directory = root / 'calls' / dataset / case_id
@@ -339,11 +347,19 @@ def collect(args, root):
 
         def call(name, actor, prompt):
             target = directory / name
-            cached = (target / 'call.json').is_file()
+            path = target / 'call.json'
+            cached = path.is_file()
+            if prioritize_direct and name == 'low' and not cached and (not direct or saved_direct is not None):
+                raise ValueError(f'Published direct outcomes require the original low receipt for {ident}')
             result = recorded_call(actors[actor], prompt, target, contract_digest)
             receipts[name] = {field: result[field] for field in ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors')}
-            receipts[name].update(cached_this_pass=cached,
-                                  path=(target / 'call.json').relative_to(root).as_posix())
+            acquired_in_prepass = not direct and name == 'low' and (dataset, ident) in fresh_direct
+            receipts[name].update(cached_this_pass=cached and not acquired_in_prepass,
+                                  path=path.relative_to(root).as_posix())
+            if direct and cached:
+                from diagnose import read_replay_call
+
+                read_replay_call(root, row, name, actor, prompt, contract_digest, receipts[name])
             return result
 
         timing = {}
@@ -355,7 +371,7 @@ def collect(args, root):
             actions = grade_case(row, gold[dataset, ident], selected, grading_rows, args.metric_dir)
             timing['online_wall'] = {'action': name, 'seconds': wall}
         else:
-            actions = collect_case(row, gold[dataset, ident], args.actions, call, args.metric_dir)
+            actions = collect_case(row, gold[dataset, ident], actions, call, args.metric_dir)
         for action in actions.values():
             action['cost'] = action_cost([receipts[name] for name in action['calls']])
         return {'dataset': dataset, 'id': ident, 'report': row['report'],
@@ -366,15 +382,33 @@ def collect(args, root):
     if args.workers > 1:
         for actor in actors.values():
             actor.initialize_session_store()
-    temporary = root / 'outcomes.jsonl.tmp'
-    new_calls = 0
-    with ThreadPoolExecutor(max_workers=args.workers) as pool, temporary.open('w', encoding='utf-8') as stream:
-        for index, result in enumerate(pool.map(case, rows), 1):
-            new_calls += sum(not call['cached_this_pass'] for call in result['calls'].values())
-            stream.write(json.dumps(result, ensure_ascii=False, allow_nan=False) + '\n')
-            if index % 10 == 0 or index == len(rows):
-                print(f'{args.namespace} {index}/{len(rows)}', flush=True)
-    temporary.replace(root / 'outcomes.jsonl')
+    def collect_pass(actions, path, *, direct=False):
+        temporary = path.with_suffix('.jsonl.tmp')
+        new_calls = 0
+        with ThreadPoolExecutor(max_workers=args.workers) as pool, temporary.open('w', encoding='utf-8') as stream:
+            for index, result in enumerate(pool.map(partial(case, actions=actions, direct=direct), rows), 1):
+                new_calls += sum(not call['cached_this_pass'] for call in result['calls'].values())
+                if direct and saved_direct is not None:
+                    expected = saved_direct[index - 1]
+                    result['calls']['low']['cached_this_pass'] = expected['calls']['low']['cached_this_pass']
+                    if result != expected:
+                        raise ValueError(f'Published direct outcome differs from original receipts for {result["id"]}')
+                else:
+                    stream.write(json.dumps(result, ensure_ascii=False, allow_nan=False) + '\n')
+                    if direct and not result['calls']['low']['cached_this_pass']:
+                        fresh_direct.add((result['dataset'], result['id']))
+                if index % 10 == 0 or index == len(rows):
+                    stage = ' direct' if direct else ''
+                    print(f'{args.namespace}{stage} {index}/{len(rows)}', flush=True)
+        if direct and saved_direct is not None:
+            temporary.unlink()
+        else:
+            temporary.replace(path)
+        return new_calls
+
+    if prioritize_direct:
+        collect_pass(DIRECT_ACTIONS, direct_path, direct=True)
+    new_calls = collect_pass(args.actions, root / 'outcomes.jsonl')
     write_json(root / 'collection.json', {'rows': len(rows), 'new_calls_this_pass': new_calls,
                                          'collection_wall_seconds_this_pass': time.monotonic() - started})
 
@@ -401,6 +435,8 @@ def main():
     parser.add_argument('--temperature', type=float, default=.6)
     parser.add_argument('--measure-wall', action='store_true',
                         help='Time one selected action per question with fresh serial calls, before grading')
+    parser.add_argument('--prioritize-direct', action='store_true',
+                        help='Publish the full direct-answer panel before collecting the remaining actions')
     args = parser.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_.-]*', args.namespace):
         parser.error('namespace must be a single directory name')
@@ -411,6 +447,8 @@ def main():
         parser.error('workers and output limits must be positive; outputs must fit context')
     if args.measure_wall and (args.workers != 1 or len(args.actions) != 1 or args.actions[0] == 'car_probe'):
         parser.error('--measure-wall requires one answer-returning action and one worker')
+    if args.prioritize_direct and not set(DIRECT_ACTIONS) < set(args.actions):
+        parser.error('--prioritize-direct requires low, contract_compile, independent, and additional actions')
     args.opencode = args.opencode.resolve()
     import fcntl  # The collector runs beside the local model services on GB10.
     root = args.run_dir.resolve() / args.namespace

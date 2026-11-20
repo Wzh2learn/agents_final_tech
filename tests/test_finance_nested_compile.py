@@ -155,6 +155,89 @@ def test_fresh_timing_measures_the_conditional_calls_before_gold_grading(pilot, 
     assert scored['compiled_fallback']['strict'] and not scored['compiled_fallback']['executable']
 
 
+def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot, report, monkeypatch, tmp_path):
+    import benchmark_actions as benchmark
+    from run_pilot import load_lines, usage_from, write_json
+
+    panel = tmp_path / 'panel'
+    panel.mkdir()
+    rows = [dict(report, id=ident) for ident in ('cached', 'fresh')]
+    (panel / 'public.jsonl').write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+    (panel / 'references.jsonl').write_text(''.join(
+        json.dumps({'dataset': 'finqa', 'id': row['id'], 'gold': {'exe_ans': 3}}) + '\n' for row in rows
+    ), encoding='utf-8')
+    profile = tmp_path / 'serving.json'
+    write_json(profile, {'model': 'oda', 'checkpoint': 'fixture'})
+    args = SimpleNamespace(panel=panel, dataset=None, metric_dir=None, serving_profile=profile, model='oda',
+                           checkpoint='fixture', base='http://localhost:1/v1', namespace='eval', opencode=profile,
+                           actions=['low', 'contract_compile', 'independent', 'mid'], measure_wall=False,
+                           solve_output=4096, verify_output=4096, probe_output=4096, context=16384, temperature=.6,
+                           workers=1, prioritize_direct=True)
+    root = tmp_path / 'eval'
+    root.mkdir()
+    direct = root / 'direct_outcomes.jsonl'
+    issued = []
+
+    class Actor:
+        def __init__(self, root, *_):
+            self.root = root
+
+        def call(self, prompt, target):
+            path = target / 'call.json'
+            if path.is_file():
+                return json.loads(path.read_bytes())
+            if target.name == 'mid':
+                assert direct.is_file() and len(load_lines(direct)) == len(rows)
+            issued.append(target.name)
+            text = 'Final program: add(1, 2)' if target.name == 'low' else 'Final answer: KEEP'
+            events = [{'type': 'text', 'part': {'text': text}},
+                      {'type': 'step_finish', 'part': {'reason': 'stop', 'tokens': {'total': 7}}}]
+            (target / 'prompt.txt').write_bytes((prompt + '\n').encode())
+            (target / 'raw.jsonl').write_text(''.join(json.dumps(event) + '\n' for event in events), encoding='utf-8')
+            receipt = {'text': text, 'finish': ['stop'], 'errors': [], 'usage': usage_from(events),
+                       'exit_code': 0, 'elapsed_seconds': 2}
+            write_json(path, receipt)
+            return receipt
+
+    monkeypatch.setattr(benchmark, 'OpenCode', Actor)
+    monkeypatch.setattr(benchmark, 'wait_service', lambda *_: None)
+    original_collect = benchmark.recorded_call
+
+    def interrupt(actor, prompt, target, digest):
+        if issued:
+            raise RuntimeError('Interrupted before the second low receipt')
+        return original_collect(actor, prompt, target, digest)
+
+    monkeypatch.setattr(benchmark, 'recorded_call', interrupt)
+    with pytest.raises(RuntimeError, match='Interrupted'):
+        benchmark.collect(args, root)
+    assert issued == ['low'] and not direct.exists()
+
+    monkeypatch.setattr(benchmark, 'recorded_call', original_collect)
+    benchmark.collect(args, root)
+    assert issued == ['low', 'low', 'mid', 'mid']
+    published = direct.read_bytes()
+    direct_rows = load_lines(direct)
+    final_rows = load_lines(root / 'outcomes.jsonl')
+    assert json.loads((root / 'collection.json').read_bytes())['new_calls_this_pass'] == 3
+    assert json.loads((root / 'run.json').read_bytes())['actions'] == sorted(args.actions)
+    for direct_row, final_row, cached in zip(direct_rows, final_rows, (True, False), strict=True):
+        assert set(direct_row['actions']) == set(benchmark.DIRECT_ACTIONS) and list(direct_row['calls']) == ['low']
+        assert set(final_row['actions']) == set(args.actions)
+        assert {key: final_row['actions'][key] for key in benchmark.DIRECT_ACTIONS} == direct_row['actions']
+        assert final_row['calls']['low'] == direct_row['calls']['low']
+        assert final_row['calls']['low']['cached_this_pass'] is cached
+
+    benchmark.collect(args, root)
+    assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
+    assert json.loads((root / 'collection.json').read_bytes())['new_calls_this_pass'] == 0
+    raw = (root / direct_rows[0]['calls']['low']['path']).with_name('raw.jsonl')
+    raw.write_text('', encoding='utf-8')
+    with pytest.raises(ValueError, match='raw events, call receipt or recorded usage disagree'):
+        benchmark.collect(args, root)
+    assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
+
+
 def test_ratio_prompt_control_is_one_dsl_call_with_only_the_declared_convention(pilot, report):
     collect_case, paired_prompt, _ = pilot
     old, old_report = paired_prompt(report, 'dsl').split('\n\n', 1)

@@ -276,13 +276,18 @@ PY
         exit 0
     fi
     if [[ ! -e $work/oda_${benchmark_split}_v1/outcomes.jsonl ]]; then
+        schedule=()
+        if [[ $benchmark_split == eval ]]; then
+            schedule=(--prioritize-direct)
+        fi
         "$python" -u "$repo/research/finance_frontier_pilot/benchmark_actions.py" \
             --panel "$work/panel/$benchmark_split" --run-dir "$work" --namespace "oda_${benchmark_split}_v1" \
             --base http://127.0.0.1:18157/v1 --model oda-fin-rl-8b \
             --checkpoint 948c22ea48f9bf93e5747f4211657fcad9cb0295 \
             --serving-profile "$work/oda_serving_profile.json" --metric-dir "$metric_dir" \
             --actions low free dsl_fallback contract_compile compiled_fallback mid high independent car_probe \
-            --workers 8 --context 16384 --solve-output 4096 --verify-output 4096 --probe-output 4096 --temperature .6
+            --workers 8 --context 16384 --solve-output 4096 --verify-output 4096 --probe-output 4096 --temperature .6 \
+            "${schedule[@]}"
     fi
     if [[ $run_car == 1 ]]; then
         car_run
