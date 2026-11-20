@@ -1,3 +1,4 @@
+from collections import Counter
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -55,6 +56,61 @@ def test_train_order_seed_balances_six_permutations(timing, question):
     assert len({order for _, order in cases}) == 6
 
 
+def test_matched_block_balances_positions_and_keeps_shard_order(timing, question):
+    rows = [dict(question, id=str(index)) for index in range(14)]
+    policies = timing.MATCHED_POLICIES
+    all_cases = timing.frozen_cases(rows, len(rows), policies)
+    for position in range(len(policies)):
+        assert {order[position] for _, order in all_cases[:len(policies)]} == set(policies)
+    adjacent = Counter(pair for _, sequence in all_cases for pair in zip(sequence, sequence[1:]))
+    assert len(adjacent) == len(policies) * (len(policies) - 1)
+    assert set(adjacent.values()) == {2}
+    assert timing.frozen_cases(rows, 7, policies, offset=7) == all_cases[7:]
+
+
+def test_direct_compiled_uses_only_the_named_model(timing, question):
+    calls = []
+
+    def call(name, role, prompt):
+        calls.append((name, role))
+        return call_receipt('Final program: add(1, 2)')
+
+    selected, _ = timing.select_policy(question, 'qwen-direct', call)
+    assert calls == [(timing.MANAGED[0], 'solve')]
+    assert selected['selected_model'] == timing.MANAGED[0]
+    assert selected['calls'] == [timing.MANAGED[0]]
+
+
+def test_comparator_time_includes_probe_and_repair_roles(timing, question, monkeypatch, tmp_path):
+    clock = [0.0]
+    dispatched = []
+
+    def local(actor, prompt, target, run_digest):
+        dispatched.append(actor)
+        clock[0] += 2
+        return call_receipt('Final program: add(1, 2)', elapsed=1)
+
+    def selector(row, call):
+        for role in ('solve', 'probe', 'repair'):
+            call(role, role, 'fixture prompt')
+        return {'submission': {'arm': 'dsl', 'program': 'add(1, 2)', 'scale': '', 'answer': None,
+                               'parse_mode': 'declared'}, 'calls': ['solve', 'probe', 'repair']}, row
+
+    monkeypatch.setattr(timing, 'recorded_call', local)
+    monkeypatch.setattr(timing, 'monotonic', lambda: clock[0])
+    selectors = {'car': selector}
+    roles = {role: role for role in ('solve', 'probe', 'repair')}
+    args = SimpleNamespace(metric_dir=None)
+    budget = SimpleNamespace(rows=[])
+    timing.collect_cases(args, tmp_path, [(question, ('car',))], {('finqa', question['id']): {'exe_ans': 3}},
+                         roles, {}, budget, 'fixture', 'digest', selectors)
+
+    assert dispatched == ['solve', 'probe', 'repair']
+    summary = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
+    car = summary['complete_pair_policies']['car']
+    assert (car['mean_wall_seconds'], car['cost']['summed_call_seconds'], car['strict_and_executable']) == (6, 3, 1)
+
+
 def test_wall_counts_fresh_routes_and_excludes_grading(timing, question, monkeypatch, tmp_path):
     qwen, deepseek = timing.MANAGED
     clock = [0.0]
@@ -87,7 +143,7 @@ def test_wall_counts_fresh_routes_and_excludes_grading(timing, question, monkeyp
     monkeypatch.setattr(timing, 'grade_case', grade)
     profiles = {model: ({}, {'model_id': model}) for model in (qwen, deepseek)}
     timing.collect_cases(args, tmp_path, [(question, timing.POLICIES)],
-                         {('finqa', question['id']): {'exe_ans': 3}}, None,
+                         {('finqa', question['id']): {'exe_ans': 3}}, {'solve': None},
                          profiles, budget, 'fixture', 'digest')
     outcome = json.loads((tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8'))
     assert outcome['complete_pair']
@@ -100,6 +156,8 @@ def test_wall_counts_fresh_routes_and_excludes_grading(timing, question, monkeyp
     assert summary['complete_pair_policies']['ds-first']['median_wall_seconds'] == 5
     assert summary['complete_pair_policies']['ds-first']['p90_wall_seconds'] == 5
     assert summary['all_attempt_cost']['known_tokens'] == 64
+    assert summary['strict_wall_frontier'] == ['contract', 'oda-local']
+    assert summary['strict_and_executable_wall_frontier'] == ['contract', 'oda-local']
 
 
 def test_budget_stop_preserves_costs_and_excludes_incomplete_pair(timing, question, monkeypatch, tmp_path):
@@ -110,7 +168,7 @@ def test_budget_stop_preserves_costs_and_excludes_incomplete_pair(timing, questi
     monkeypatch.setattr(timing.school, 'has_gateway_capacity', lambda _: False)
 
     timing.collect_cases(args, tmp_path, [(question, timing.POLICIES)],
-                         {('finqa', question['id']): {'exe_ans': 3}}, None,
+                         {('finqa', question['id']): {'exe_ans': 3}}, {'solve': None},
                          profiles, budget, 'fixture', 'digest')
     outcome = json.loads((tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8'))
     assert not outcome['complete_pair']

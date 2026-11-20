@@ -309,6 +309,18 @@ def freeze_gate(policy, results):
             'prior_hits': before_right, 'trials': len(results)}}
 
 
+def plan_repair(row, draft, judgments, stage, planner):
+    if stage == 'fit':
+        assignment = hashlib.sha256(f'car-check-v1|{row["dataset"]}|{row["report"]}'.encode()).digest()
+        check = tuple(CHECKS)[int.from_bytes(assignment[:4], 'big') % len(CHECKS)]
+        return check, None, None, [], True
+    miss = planner.predict(row, draft, judgments)
+    check, gain, hypotheses = planner.check(row['question'], miss)
+    threshold = planner.policy.get('gate', {}).get('threshold')
+    gate = stage == 'calibration' or (threshold is not None and miss >= threshold and gain > 0)
+    return check, miss, gain, hypotheses, gate
+
+
 def source_rows(args, stage):
     rows, gold, panel = read_panel(args.panel_root / stage, args.dataset)
     source = args.drafts / 'run.json'
@@ -348,17 +360,7 @@ def source_rows(args, stage):
 def evaluate_row(row, entry, gold, args, call, planner):
     low = entry['actions']['low']
     draft, judgments = low['submission'], entry['actions']['car_probe']['judgments']
-    miss = gain = None
-    hypotheses = []
-    if args.stage == 'fit':
-        assignment = hashlib.sha256(f'car-check-v1|{row["dataset"]}|{row["report"]}'.encode()).digest()
-        check = tuple(CHECKS)[int.from_bytes(assignment[:4], 'big') % len(CHECKS)]
-        gate = True
-    else:
-        miss = planner.predict(row, draft, judgments)
-        check, gain, hypotheses = planner.check(row['question'], miss)
-        threshold = planner.policy.get('gate', {}).get('threshold')
-        gate = args.stage == 'calibration' or (threshold is not None and miss >= threshold and gain > 0)
+    check, miss, gain, hypotheses, gate = plan_repair(row, draft, judgments, args.stage, planner)
     receipts = [entry['calls'][name] for name in ('low', 'car_probe')]
     candidate, status, receipt_path = draft, 'gate_closed', None
     if gate:

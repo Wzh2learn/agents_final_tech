@@ -1,4 +1,4 @@
-"""Measure three fixed policies with fresh, interleaved calls on a bounded TRAIN panel."""
+"""Measure fresh, interleaved policy wall time with official grading outside the timer."""
 
 import argparse
 from hashlib import sha256
@@ -13,6 +13,7 @@ import sys
 from time import monotonic
 
 from benchmark_actions import action_cost, deliver, digest_file, freeze, grade_case, read_panel, recorded_call, select_case
+from frontier_report import frontier
 from run_pilot import OpenCode, local_endpoint, paired_prompt, wait_service, write_json
 from scoring import _metric_type, public_execution
 import school_benchmark as school
@@ -24,6 +25,8 @@ MANAGED = (school.campus.QWEN_MODEL, school.campus.MODEL)
 ODA = 'oda-fin-rl-8b'
 ODA_CHECKPOINT = '948c22ea48f9bf93e5747f4211657fcad9cb0295'
 ORDER_SEED = 20261120
+DIRECT_MODELS = dict(zip(('oda-direct', 'qwen-direct', 'deepseek-direct'), (ODA, *MANAGED), strict=True))
+MATCHED_POLICIES = ('contract', 'car', 'budgetverify', 'author-cascade', *DIRECT_MODELS)
 
 
 class TimingBudgetExhausted(Exception):
@@ -32,6 +35,15 @@ class TimingBudgetExhausted(Exception):
 
 def select_policy(row, policy, call):
     """Select only from the public report and newly requested model replies."""
+    if policy in DIRECT_MODELS:
+        model = DIRECT_MODELS[policy]
+        name = 'low' if model == ODA else model
+        receipt = call(name, 'solve', paired_prompt(row, 'dsl'))
+        reply = deliver(receipt)
+        projected, submission, decision, cells = public_contract(
+            row, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
+        return {'submission': submission, 'decision': decision, 'source_cells': cells, 'calls': [name],
+                'selected_model': model, 'selected_stage': f'compiled_{model}'}, projected
     if policy not in POLICIES:
         raise ValueError(f'unknown timed policy {policy}')
     calls = []
@@ -58,13 +70,26 @@ def select_policy(row, policy, call):
             'selected_stage': f'compiled_{model}', 'selected_model': model}, projected
 
 
-def frozen_cases(rows, count):
-    if not 1 <= count <= len(rows):
-        raise ValueError('timing size must be within the selected official TRAIN split')
+def frozen_cases(rows, count, policies=POLICIES, offset=0):
+    if not 0 <= offset < len(rows) or not 1 <= count <= len(rows) - offset:
+        raise ValueError('timing offset and size must be within the selected panel')
     key = lambda row: sha256(f'{ORDER_SEED}|{row["dataset"]}|{row["id"]}'.encode()).hexdigest()
-    orders = list(permutations(POLICIES))
-    Random(ORDER_SEED).shuffle(orders)
-    return [(row, orders[i % len(orders)]) for i, row in enumerate(sorted(rows, key=key)[:count])]
+    rng = Random(ORDER_SEED)
+    if len(policies) == 3:
+        orders = list(permutations(policies))
+        rng.shuffle(orders)
+    else:
+        order = list(policies)
+        rng.shuffle(order)
+        n = len(order)
+        positions = [0]
+        for i in range(1, n):
+            positions.append((i + 1) // 2 if i % 2 else n - i // 2)
+        orders = [tuple(order[(position + shift) % n] for position in positions) for shift in range(n)]
+        if n % 2:
+            orders.extend([tuple(reversed(sequence)) for sequence in orders])
+    sample = sorted(rows, key=key)[offset:offset + count]
+    return [(row, orders[(offset + i) % len(orders)]) for i, row in enumerate(sample)]
 
 
 def summed_cost(costs):
@@ -75,12 +100,13 @@ def summed_cost(costs):
             'summed_call_seconds': sum(item['summed_call_seconds'] for item in costs)}
 
 
-def collect_cases(args, root, cases, gold, actor, profiles, budget, key, run_digest):
+def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None):
     completed = 0
     started = monotonic()
     start_index = len(budget.rows)
     stopped = False
-    pair_records = {name: [] for name in POLICIES}
+    paired_policies = tuple(selectors) if selectors is not None else POLICIES
+    pair_records = {name: [] for name in paired_policies}
     all_costs = []
     with (root / 'outcomes.jsonl').open('x', encoding='utf-8') as stream:
         for row, order in cases:
@@ -91,8 +117,8 @@ def collect_cases(args, root, cases, gold, actor, profiles, budget, key, run_dig
 
                 def call(name, role, prompt):
                     target = root / 'calls' / ident / policy / name
-                    if role != 'solve' or target.exists() or name in receipts:
-                        raise ValueError('live timing expects independent fresh solve calls')
+                    if role not in actors or (name in profiles and role != 'solve') or target.exists() or name in receipts:
+                        raise ValueError('live timing expects independent fresh calls to a configured role')
                     if name in profiles:
                         if not school.has_gateway_capacity(budget):
                             raise TimingBudgetExhausted
@@ -101,7 +127,7 @@ def collect_cases(args, root, cases, gold, actor, profiles, budget, key, run_dig
                                                            key=key, budget=budget, profile=profile, gateway=gateway)
                         receipt_path = target / 'provider_receipt.json'
                     else:
-                        result = recorded_call(actor, prompt, target, run_digest)
+                        result = recorded_call(actors[role], prompt, target, run_digest)
                         receipt_path = target / 'call.json'
                     fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
                     receipts[name] = {**{item: result[item] for item in fields if item in result},
@@ -110,9 +136,11 @@ def collect_cases(args, root, cases, gold, actor, profiles, budget, key, run_dig
 
                 begin = monotonic()
                 try:
-                    selected, projection = select_policy(row, policy, call)
+                    selected, projection = (select_policy(row, policy, call) if selectors is None
+                                            else selectors[policy](row, call))
                     if selected['calls'] != list(receipts):
                         raise ValueError('selected call order and metered calls disagree')
+                    public_execution(projection, selected['submission'])
                 except TimingBudgetExhausted:
                     cost = action_cost(list(receipts.values()))
                     measured[policy] = {'status': 'incomplete_budget', 'wall_seconds': monotonic() - begin,
@@ -141,6 +169,10 @@ def collect_cases(args, root, cases, gold, actor, profiles, budget, key, run_dig
         durations = [record['wall_seconds'] for record in records]
         p90 = quantiles(durations, n=10, method='inclusive')[-1] if len(durations) > 1 else next(iter(durations), None)
         policies[name] = {'n': len(records), 'correct': sum(record['result']['strict'] for record in records),
+                          'strict_and_executable': sum(record['result']['strict'] and record['result']['executable']
+                                                       for record in records),
+                          'summed_wall_seconds': sum(durations),
+                          'mean_wall_seconds': sum(durations) / len(durations) if durations else None,
                           'median_wall_seconds': median(durations) if durations else None, 'p90_wall_seconds': p90,
                           'cost': summed_cost([record['cost'] for record in records])}
     posts, tokens = school.charged(budget.rows[start_index:])
@@ -149,6 +181,8 @@ def collect_cases(args, root, cases, gold, actor, profiles, budget, key, run_dig
         'stop_reason': 'gateway_budget' if stopped else None,
         'campus_posts': posts, 'campus_debit_including_unknown': tokens,
         'complete_pair_policies': policies, 'all_attempt_cost': summed_cost(all_costs),
+        'strict_wall_frontier': frontier(policies, 'mean_wall_seconds'),
+        'strict_and_executable_wall_frontier': frontier(policies, 'mean_wall_seconds', 'strict_and_executable'),
         'collection_wall_seconds': monotonic() - started,
     })
 
@@ -157,8 +191,6 @@ def run(args, benchmark, ledger_root):
     benchmark_panel = benchmark / 'panel' / args.stage
     if args.dataset == 'tatqa':
         _metric_type(args.metric_dir)
-    public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
-    cases = frozen_cases(public, args.cases)
     serve_path = args.serving_profile or benchmark / 'oda_serving_profile.json'
     serve = json.loads(serve_path.read_text(encoding='utf-8'))
     if serve['model'] != ODA or serve['checkpoint'] != ODA_CHECKPOINT:
@@ -184,16 +216,35 @@ def run(args, benchmark, ledger_root):
         budget.tokens = min(school.PROJECT_CAP - args.prior_charged_tokens, opening_tokens + args.token_cap)
         if not school.has_gateway_capacity(budget):
             raise ValueError('no shared gateway capacity for timing')
+        selectors, baseline_metadata = None, {}
+        roles = ('solve',)
+        if args.compare_baselines:
+            from live_author_cascade import load_author_cascade
+            from live_local_baselines import load_local_baselines
+
+            local, local_metadata = load_local_baselines(args, benchmark, serve_path)
+            author, author_metadata = load_author_cascade(args, benchmark, serve_path, ledger_root / 'gateway_ledger.json')
+            selector_by_name = {**local, 'author-cascade': author}
+            for name in ('contract', *DIRECT_MODELS):
+                selector_by_name[name] = lambda row, call, policy=name: select_policy(row, policy, call)
+            selectors = {name: selector_by_name[name] for name in MATCHED_POLICIES}
+            baseline_metadata = {**local_metadata, 'author-cascade': author_metadata,
+                                 'direct_reference': 'One compiled response from the indicated model.'}
+            roles = ('solve', 'verify', 'probe', 'repair')
+        public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
+        cases = frozen_cases(public, args.cases, tuple(selectors) if selectors else POLICIES, args.offset)
         root = benchmark / args.namespace
         root.mkdir(exist_ok=False, mode=0o700)
         contract = root / 'run.json'
         freeze(contract, {
-            'schema': 'finance-live-policy-timing-v1', 'namespace': args.namespace, 'stage': args.stage,
+            'schema': 'finance-live-policy-timing-v2' if selectors else 'finance-live-policy-timing-v1',
+            'namespace': args.namespace, 'stage': args.stage, 'case_offset': args.offset,
             'dataset': args.dataset, 'panel': panel_digest,
             'case_order': [{'id': row['id'], 'policy_order': order} for row, order in cases],
             'order_seed': ORDER_SEED, 'opencode_sha256': digest_file(args.opencode), 'seed': 17,
             'oda': {'endpoint': args.base, 'model': ODA, 'checkpoint': serve['checkpoint'],
                     'serve_sha256': digest_file(serve_path), 'context': 16384, 'output': 4096, 'temperature': .6},
+            'local_role_outputs': {role: 4096 for role in roles}, 'baseline_policies': baseline_metadata,
             'managed': {name: {'profile_sha256': provider_digest[name], **profile}
                         for name, (profile, _) in providers.items()},
             'gateway_batch': {'posts_before': opening_posts, 'tokens_before': opening_tokens,
@@ -201,10 +252,11 @@ def run(args, benchmark, ledger_root):
             'measurement': 'Fresh serial request construction, model/relay and public execution with policy '
                            'cost accounting. Official grading follows timing. Receipt reuse disabled.',
         })
-        actor = OpenCode(root / 'actors' / 'solve', args.opencode, args.base, ODA, 4096, 16384, .6)
-        actor.initialize_session_store()
+        actors = {role: OpenCode(root / 'actors' / role, args.opencode, args.base, ODA, 4096, 16384, .6) for role in roles}
+        for actor in actors.values():
+            actor.initialize_session_store()
         wait_service(args.base, ODA, 90)
-        collect_cases(args, root, cases, gold, actor, providers, budget, key, digest_file(contract))
+        collect_cases(args, root, cases, gold, actors, providers, budget, key, digest_file(contract), selectors)
     finally:
         budget.close()
 
@@ -213,9 +265,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--benchmark', type=Path, required=True)
     parser.add_argument('--namespace', required=True)
-    parser.add_argument('--stage', choices=('fit', 'calibration'), required=True)
+    parser.add_argument('--stage', choices=('fit', 'calibration', 'eval'), required=True)
     parser.add_argument('--dataset', choices=('finqa', 'tatqa'), required=True)
     parser.add_argument('--cases', type=int, required=True)
+    parser.add_argument('--offset', type=int, default=0)
     parser.add_argument('--max-posts', type=int, required=True)
     parser.add_argument('--token-cap', type=int, required=True)
     parser.add_argument('--prior-charged-tokens', type=int, default=school.RECORDED_PRIOR_CHARGE)
@@ -224,6 +277,9 @@ def main():
     parser.add_argument('--qwen-api-profile', type=Path)
     parser.add_argument('--deepseek-api-profile', type=Path)
     parser.add_argument('--metric-dir', type=Path)
+    parser.add_argument('--compare-baselines', action='store_true')
+    parser.add_argument('--upstream', type=Path)
+    parser.add_argument('--tabfm-checkpoint', type=Path)
     parser.add_argument('--opencode', type=Path, default=Path.home() / '.opencode/bin/opencode')
     args = parser.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_.-]*', args.namespace):
@@ -232,6 +288,10 @@ def main():
             or not school.RECORDED_PRIOR_CHARGE <= args.prior_charged_tokens < school.PROJECT_CAP
             or (args.dataset == 'tatqa' and args.metric_dir is None)):
         parser.error('require explicit positive gateway caps and the official TAT-QA metric directory when used')
+    if args.compare_baselines != (args.stage == 'eval'):
+        parser.error('the matched baseline batch requires the official eval panel and frozen training policies')
+    if args.compare_baselines and (args.upstream is None or not args.upstream.is_dir()):
+        parser.error('the matched baseline batch requires the pinned author Cascade checkout')
     private = (Path.home() / 'wzh/research_evidence').resolve()
     benchmark = args.benchmark.resolve()
     if (sys.platform != 'linux' or not benchmark.is_relative_to(private)
