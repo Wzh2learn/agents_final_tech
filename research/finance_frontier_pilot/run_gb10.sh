@@ -80,7 +80,7 @@ if [[ -n $benchmark ]]; then
             test -s "$work/oda_fit_v1/outcomes.jsonl"
             test -s "$work/oda_nested_fit_finqa_v1/outcomes.jsonl"
             (cd "$work" && PYTHONPATH="$repo/research/finance_frontier_pilot:$PYTHONPATH" \
-                "$car_python" -u "$work/oda_startup_repair_v1/publish_reconciled.py")
+                "$car_python" -u "$work/oda_startup_repair_v1/publish_reconciled.py" "$work" --metric-dir "$metric_dir")
         fi
         test -s "$car_fit_drafts/run.json"
         test -s "$car_fit_drafts/outcomes.jsonl"
@@ -164,7 +164,14 @@ restore () {
         echo 'Previous 27B guard is still present. Check the guard before another restore.' >&2
         return 1
     fi
-    (cd "$repo" && nohup setsid "$repo/venv/bin/python" -u -B "$work/restore_teacher/restore.py" \
+    # A restored service can outlive this stage and must release its inherited entry locks.
+    (cd "$repo" && nohup setsid "$repo/venv/bin/python" -B -c '
+import os
+import sys
+
+os.closerange(3, os.sysconf("SC_OPEN_MAX"))
+os.execv(sys.executable, [sys.executable, "-u", "-B", sys.argv[1]])
+' "$work/restore_teacher/restore.py" \
         >"$work/restore_teacher/supervisor.log" 2>&1 9>&- </dev/null &)
 }
 exec 9<> "$HOME/wzh/.gpu_lock"
