@@ -7,24 +7,28 @@ SEED = 20261119
 TAIL = .0125  # Two axes, two tails per axis, overall alpha .05.
 
 
-def contrast(proposed, comparator, ids, reports, cost_name, cost_delta, draws, excluded):
+def contrast(proposed, comparator, ids, reports, cost_name, cost_delta, draws, excluded, require_execution):
+    metric = 'strict_and_executable_delta_pp' if require_execution else 'strict_delta_pp'
     groups = {}
     for ident in sorted(ids):
         first, second = proposed[ident], comparator[ident]
         group = groups.setdefault(reports[ident], [0, 0, 0.])
         group[0] += 1
-        group[1] += int(first.strict) - int(second.strict)
+        if require_execution:
+            group[1] += int(first.strict and first.executable) - int(second.strict and second.executable)
+        else:
+            group[1] += int(first.strict) - int(second.strict)
         group[2] += cost_delta(first, second)
 
     result = {'n': len(ids), 'excluded_n': excluded, 'report_clusters': len(groups),
-              'strict_delta_pp': None, cost_name: None, 'interval_95': None,
+              metric: None, cost_name: None, 'interval_95': None,
               'dominance': 'undetermined'}
     if not groups:
         return result
 
     totals = np.asarray([groups[report] for report in sorted(groups)], dtype=float)
     counts, strict, cost = totals.sum(axis=0)
-    result.update(strict_delta_pp=float(100 * strict / counts), **{cost_name: float(cost / counts)})
+    result.update({metric: float(100 * strict / counts), cost_name: float(cost / counts)})
     if len(groups) < 2:
         return result
 
@@ -38,7 +42,7 @@ def contrast(proposed, comparator, ids, reports, cost_name, cost_delta, draws, e
         samples[begin:end, 1] = cost / counts
 
     strict_interval, cost_interval = np.quantile(samples, [TAIL, 1 - TAIL], axis=0).T.tolist()
-    result['interval_95'] = {'strict_delta_pp': strict_interval, cost_name: cost_interval}
+    result['interval_95'] = {metric: strict_interval, cost_name: cost_interval}
     low_accuracy, high_accuracy = strict_interval
     low_cost, high_cost = cost_interval
     if low_accuracy >= 0 and high_cost <= 0 and (low_accuracy > 0 or high_cost < 0):
@@ -48,23 +52,27 @@ def contrast(proposed, comparator, ids, reports, cost_name, cost_delta, draws, e
     return result
 
 
-def paired_tradeoff(proposed, comparator, ids, reports, draws=10000):
+def paired_tradeoff(proposed, comparator, ids, reports, draws=10000, *, require_execution=False):
     """Estimate proposed minus comparator with paired report resampling.
 
-    Token effects use pairwise-complete records. Recorded serial-call seconds
-    use all paired records and do not measure fresh online wall time.
+    The joint success metric uses pairs with both execution flags known.
+    Token effects additionally require complete usage. Recorded serial-call
+    seconds do not measure fresh online wall time.
     """
     ids = tuple(ids)
     unique = set(ids)
     if draws < 1 or len(unique) != len(ids) or any(unique - rows.keys() for rows in (proposed, comparator, reports)):
         raise ValueError('Expected positive draws and unique matched question and report IDs')
-    complete = [ident for ident in ids
+    observed = [ident for ident in ids if not require_execution
+                or (proposed[ident].executable is not None and comparator[ident].executable is not None)]
+    complete = [ident for ident in observed
                 if not (proposed[ident].unknown_usage_calls or comparator[ident].unknown_usage_calls)]
     tokens = contrast(proposed, comparator, complete, reports, 'mean_token_delta',
                       lambda first, second: first.known_tokens - second.known_tokens,
-                      draws, len(ids) - len(complete))
-    seconds = contrast(proposed, comparator, ids, reports, 'mean_serial_call_seconds_delta',
-                       lambda first, second: first.serial_seconds - second.serial_seconds, draws, 0)
+                      draws, len(ids) - len(complete), require_execution)
+    seconds = contrast(proposed, comparator, observed, reports, 'mean_serial_call_seconds_delta',
+                       lambda first, second: first.serial_seconds - second.serial_seconds,
+                       draws, len(ids) - len(observed), require_execution)
     return {
         'tokens': tokens, 'serial_call_seconds': seconds, 'draws': draws, 'seed': SEED,
         'interval_method': 'Paired report-cluster percentile bootstrap, Bonferroni rectangle within each contrast. '

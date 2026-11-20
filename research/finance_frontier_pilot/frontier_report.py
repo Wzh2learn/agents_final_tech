@@ -22,6 +22,7 @@ FLAGSHIP = f'cascade/compiled/{CONTRACT_CASCADE}'
 INTERVAL_ANCHORS = ('cascade/compiled/nonexecution_8b_qwen_deepseek',
                     'cascade/compiled/nonexecution_deepseek_qwen', 'oda/compiled_fallback', 'car')
 TRADEOFF_BASELINES = (*INTERVAL_ANCHORS, 'cascade/compiled/cascade_routing_1.5',
+                      'cascade/raw/cascade_routing_1.5',
                       'cascade/compiled/nonexecution_qwen_deepseek', 'cascade/compiled/nonexecution_8b_deepseek_qwen',
                       *(f'cascade/compiled/always_{model}' for model in MODELS))
 BOOTSTRAP_DRAWS = 10000
@@ -359,23 +360,35 @@ def paired_compiler_effect(policies, public, strata):
 
 def paired_tradeoff_report(policies, public, strata):
     """Report paired uncertainty at named operating points independent of eval accuracy."""
-    budget_points = [name for name, (_, metadata) in policies.items()
-                     if name.startswith('budgetverify/tabfm/') and metadata.get('calibration_operating_point_2x')]
-    if len(budget_points) > 1:
-        raise ValueError('Expected one deployment operating point for BudgetVerify TabFM')
-    compiled_budget_points = [name.replace('budgetverify/', 'budgetverify_compiled/', 1) for name in budget_points]
-    expected = (*TRADEOFF_BASELINES, *budget_points, *(name for name in compiled_budget_points if name in policies))
-    names = [name for name in expected if name in policies]
-    missing = [name for name in expected if name not in policies]
-    if not budget_points:
-        missing.append('budgetverify/tabfm/calibration_operating_point_2x')
+    names = [name for name in TRADEOFF_BASELINES if name in policies]
+    missing = [name for name in TRADEOFF_BASELINES if name not in policies]
+    for classifier in ('tabfm', 'gbm'):
+        prefix = f'budgetverify/{classifier}/'
+        budget_points = [name for name, (_, metadata) in policies.items()
+                         if name.startswith(prefix) and metadata.get('calibration_operating_point_2x')]
+        if len(budget_points) > 1:
+            raise ValueError(f'Expected one deployment operating point for BudgetVerify {classifier}')
+        if not budget_points:
+            missing.append(f'{prefix}calibration_operating_point_2x')
+            continue
+        point = budget_points[0]
+        names.append(point)
+        compiled = point.replace('budgetverify/', 'budgetverify_compiled/', 1)
+        if compiled in policies:
+            names.append(compiled)
     proposed = policies[FLAGSHIP][0]
     by_stratum = {}
+    executable_by_stratum = {}
     for group in ('all', 'no_detected_overlap'):
         if group in strata:
             by_stratum[group] = {name: paired_tradeoff(proposed, policies[name][0], strata[group], public,
                                                         draws=BOOTSTRAP_DRAWS) for name in names}
+            executable_by_stratum[group] = {
+                name: paired_tradeoff(proposed, policies[name][0], strata[group], public,
+                                      draws=BOOTSTRAP_DRAWS, require_execution=True) for name in names}
     return {'proposed': FLAGSHIP, 'anchors': names, 'unavailable_anchors': missing, 'by_stratum': by_stratum,
+            'strict_and_executable_by_stratum': executable_by_stratum,
+            'execution_scope': 'The joint success metric retains only pairs with both execution flags known.',
             'token_scope': 'Same questions with complete token usage in both policies for each contrast.',
             'time_scope': 'Sum of recorded calls per question. Fresh online timing is supplementary.'}
 

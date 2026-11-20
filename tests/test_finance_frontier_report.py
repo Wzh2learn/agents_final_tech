@@ -113,6 +113,7 @@ def matched_runs(tmp_path, monkeypatch):
             policies[f'always_{model}'] = reported([
                 {'id': ident, 'selected': model, 'queried': [model],
                  'strict': model == 'qwen-27b', 'executable': True, **action_cost([call(40, 3)])} for ident in ids])
+        policies['cascade_routing_1.5'] = {**policies['always_qwen-27b'], 'target_mean_tokens': 15}
         if representation == 'compiled':
             policies[CONTRACT_CASCADE] = reported([
                 single[0], {'id': 'unknown', 'selected': 'qwen-27b',
@@ -126,7 +127,6 @@ def matched_runs(tmp_path, monkeypatch):
             policies['nonexecution_deepseek_qwen'] = policies['always_deepseek']
             policies['nonexecution_qwen_deepseek'] = policies['always_qwen-27b']
             policies['nonexecution_8b_deepseek_qwen'] = policies['nonexecution_8b_qwen_deepseek']
-            policies['cascade_routing_1.5'] = {**policies['always_qwen-27b'], 'target_mean_tokens': 15}
         write(path, {'dataset': 'finqa', 'representation': representation, 'policies': policies,
                      'profiles': [], 'author_revision': 'pinned',
                      'campus_ledger_sha256': 'shared', 'matched_input_sha256': {'eval': 'matched'}})
@@ -187,7 +187,10 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert tradeoff['proposed'] == chain and tradeoff['unavailable_anchors'] == []
     assert 'budgetverify/tabfm/lambda_0.1' in tradeoff['anchors']
     assert 'budgetverify/tabfm/lambda_0.3' not in tradeoff['anchors']
+    assert 'budgetverify/gbm/lambda_0.1' in tradeoff['anchors']
+    assert 'budgetverify/gbm/lambda_0.3' not in tradeoff['anchors']
     assert 'cascade/compiled/cascade_routing_1.5' in tradeoff['anchors']
+    assert 'cascade/raw/cascade_routing_1.5' in tradeoff['anchors']
     assert 'cascade/compiled/nonexecution_qwen_deepseek' in tradeoff['anchors']
     assert 'cascade/compiled/nonexecution_8b_deepseek_qwen' in tradeoff['anchors']
     deepseek = tradeoff['by_stratum']['all']['cascade/compiled/always_deepseek']
@@ -195,6 +198,8 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert deepseek['tokens']['interval_95'] is None
     assert deepseek['serial_call_seconds']['n'] == 2
     assert deepseek['serial_call_seconds']['strict_delta_pp'] == 100
+    executable = tradeoff['strict_and_executable_by_stratum']['all']['cascade/compiled/always_deepseek']
+    assert executable['serial_call_seconds']['strict_and_executable_delta_pp'] == 100
 
 
 @pytest.mark.parametrize('split', ['fit', 'calibration'])
@@ -228,6 +233,7 @@ def test_shared_budgetverify_compiler_updates_answers_without_changing_routes_or
         assert stats[native][key] == stats[compiled][key]
     assert stats[compiled]['strict_and_executable'] == 2
     assert compiled in report['paired_tradeoff_evaluation']['anchors']
+    assert 'budgetverify_compiled/gbm/lambda_0.1' in report['paired_tradeoff_evaluation']['anchors']
     assert 'budgetverify_compiled/tabfm/lambda_0.3' not in report['paired_tradeoff_evaluation']['anchors']
     assert compiled in report['paired_strict_evaluation']['by_stratum']['all']
 
@@ -268,6 +274,28 @@ def test_paired_intervals_resample_report_clusters_and_retain_harms(matched_runs
                                     'paired_cluster_percentile_95_pp': [0.0, 50.0]}
     assert paired['no_detected_overlap']['car']['paired_cluster_percentile_95_pp'] == [-100.0, -100.0]
     assert 'paired_cluster_percentile_95_pp' not in paired['all']['descriptive']
+
+
+def test_paired_executable_tradeoff_distinguishes_free_answers_and_unknown_flags(matched_runs):
+    from frontier_report import Outcome
+    from paired_tradeoff import paired_tradeoff
+
+    reports = {'free': 'report-a', 'executed': 'report-b', 'unknown': 'report-c'}
+    proposed = {
+        'free': Outcome(1, 5, 0, 1, 1.0, False),
+        'executed': Outcome(1, 0, 1, 1, 1.0, True),
+        'unknown': Outcome(1, 5, 0, 1, 1.0, None),
+    }
+    comparator = dict.fromkeys(reports, Outcome(1, 10, 0, 1, 2.0, True))
+    strict = paired_tradeoff(proposed, comparator, reports, reports, draws=300)
+    joint = paired_tradeoff(proposed, comparator, reports, reports, draws=300, require_execution=True)
+    assert strict['serial_call_seconds']['strict_delta_pp'] == 0
+    seconds = joint['serial_call_seconds']
+    assert (seconds['n'], seconds['excluded_n'], seconds['strict_and_executable_delta_pp']) == (2, 1, -50)
+    assert seconds['interval_95']['strict_and_executable_delta_pp'] == [-100, 0]
+    tokens = joint['tokens']
+    assert (tokens['n'], tokens['excluded_n'], tokens['strict_and_executable_delta_pp']) == (1, 2, -100)
+    assert tokens['mean_token_delta'] == -5
 
 
 def test_ratio_sensitivity_is_separate_from_matched_frontiers(matched_runs):
