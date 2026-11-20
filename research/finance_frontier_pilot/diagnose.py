@@ -105,6 +105,43 @@ def recovery_panel(examples, signals):
     }
 
 
+def representation_fallback(root, public, outcomes):
+    """Replay two public failure gates with each requested generation charged."""
+    indexed = {(row['dataset'], row['id']): row for row in outcomes}
+    paired = defaultdict(Counter)
+    policies = defaultdict(lambda: defaultdict(Counter))
+    for idx, example in enumerate(public):
+        dataset = example['dataset']
+        row = indexed[dataset, example['id']]
+        free, dsl = row['free'], row['dsl']
+        path = root / 'calls' / dataset / f'{idx:03d}'
+        missing_free = free['normalized_answer'] is None
+        failed_dsl = not dsl['executable']
+        paired[dataset][f'free_{int(free["strict"])}_dsl_{int(dsl["strict"])}'] += 1
+        usage = {arm: read(path / arm / 'call.json')['usage'] for arm in ('free', 'dsl')}
+        for key, result, arms in (
+            ('free', free, ('free',)),
+            ('dsl', dsl, ('dsl',)),
+            ('free_then_dsl_on_missing', dsl if missing_free else free,
+             ('free', 'dsl') if missing_free else ('free',)),
+            ('dsl_then_free_on_nonexecution', free if failed_dsl else dsl,
+             ('dsl', 'free') if failed_dsl else ('dsl',)),
+        ):
+            counts = policies[dataset][key]
+            counts['strict_correct'] += int(result['strict'])
+            for arm in arms:
+                tokens = usage[arm]
+                counts['calls'] += 1
+                counts['unknown_usage'] += tokens is None
+                if tokens is not None:
+                    counts['known_tokens'] += tokens.get('total') or tokens['input'] + tokens['output']
+    return {
+        'scope': 'Post-hoc replay of completed paired calls. No online cascade timing is estimated.',
+        'datasets': {dataset: {'n': sum(counts.values()), 'paired_correctness': dict(counts),
+                               'policies': policies[dataset]} for dataset, counts in paired.items()},
+    }
+
+
 def teacher_recovery_sensitivity(root, public, outcomes):
     """Keep failed teacher attempts in the end-to-end panel, then condition on delivery."""
     indexed = {(row['dataset'], row['id']): row for row in outcomes}
@@ -200,6 +237,7 @@ def main():
         outcomes = read(args.root / 'outcomes.json')
         result['contrasts'] = contrasts(public, outcomes, result['cluster_bootstrap_draws'])
         result['teacher_recovery_sensitivity'] = teacher_recovery_sensitivity(args.root, public, outcomes)
+        result['representation_fallback'] = representation_fallback(args.root, public, outcomes)
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
 
 
