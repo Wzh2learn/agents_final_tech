@@ -326,7 +326,8 @@ def paired_evaluation(policies, public, strata):
 
 def paired_compiler_effect(policies, public, strata):
     """Compare the same first replies with and without public compilation."""
-    by_stratum = {group: {} for group in ('all', 'no_detected_overlap') if group in strata}
+    by_stratum = {group: {} for group in ('all', 'no_detected_overlap', 'reference_depth/single', 'reference_depth/multi')
+                  if group in strata}
     columns = (('compiled', 'strict'), ('raw', 'strict'))
     for model in MODELS:
         raw, _ = policies[f'cascade/raw/always_{model}']
@@ -451,6 +452,15 @@ def build_report(args):
                          cascade_items(report, oda_policies, public).items()})
 
     strata = {'all': list(public)}
+    if args.dataset == 'finqa':
+        references = matched(load_lines(args.panel / 'references.jsonl'), public, 'FinQA references', args.dataset)
+        programs = {ident: row['gold'].get('program') for ident, row in references.items()}
+        if any(program is not None for program in programs.values()):
+            if any(not isinstance(program, str) or '(' not in program for program in programs.values()):
+                raise ValueError('FinQA depth stratification requires a reference program for each question')
+            for ident, program in programs.items():
+                depth = 'single' if program.count('(') == 1 else 'multi'
+                strata.setdefault(f'reference_depth/{depth}', []).append(ident)
     exposure_path = args.panel / 'exposure.json'
     if exposure_path.is_file():
         exposure = matched(read(exposure_path), public, 'exposure', args.dataset)
@@ -500,6 +510,7 @@ def build_report(args):
                           'included policy. Known sums with missing usage are lower bounds.',
             'execution': 'Executable counts require known execution flags. Joint counts require known flags '
                          'for every strict match. The supplementary frontier uses shared complete usage and flags.',
+            'reference_depth_scope': 'FinQA reference-program step count, used only after decisions are recorded.',
             'timing': {'serial_call_seconds': 'Sum of recorded elapsed durations for selected calls on each question.',
                        'online_policy_wall_seconds': None, 'acquisition_wall': acquisition,
                        'native_managed_direct_wall': raw.get('managed_direct_wall'),

@@ -29,7 +29,8 @@ def matched_runs(tmp_path, monkeypatch):
 
     public = [{'dataset': 'finqa', 'id': ident, 'report': ident} for ident in ids]
     lines(panel / 'public.jsonl', public)
-    lines(panel / 'references.jsonl', [dict(row, gold={}) for row in public])
+    lines(panel / 'references.jsonl', [dict(row, gold={'program': program}) for row, program in zip(
+        public, ('add(1, 2)', 'add(1, 2), multiply(#0, 2)'), strict=True)])
     write(panel / 'exposure.json', [
         {'dataset': 'finqa', 'id': 'known', 'exposure': 'pilot_question'},
         {'dataset': 'finqa', 'id': 'unknown', 'exposure': 'no_pilot_or_reserved_context_detected'},
@@ -164,6 +165,10 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
         assert (effect['n'], effect['raw_correct'], effect['compiled_correct'], effect['gains']) == (2, 0, 1, 1)
         assert effect['paired_cluster_percentile_95_pp'] == [0, 100]
         assert compiler['qwen-27b'][metric]['losses'] == 0
+    assert strata['reference_depth/single']['n'] == strata['reference_depth/multi']['n'] == 1
+    by_depth = report['paired_compiler_effect']['by_stratum']
+    assert by_depth['reference_depth/single']['oda-8b']['strict']['gains'] == 1
+    assert by_depth['reference_depth/multi']['oda-8b']['strict']['gains'] == 0
     free = full['policies']['oda/free']
     assert (free['correct'], free['executable'], free['strict_and_executable']) == (1, 0, 0)
     assert full['policies']['budgetverify/gbm/fixed_high']['executable'] == 2
