@@ -9,7 +9,9 @@ from statistics import median, quantiles
 from typing import NamedTuple
 
 from benchmark_actions import action_cost, digest_file
+from budget_policy import calibration_operating_point
 from diagnose import paired_effect
+from paired_tradeoff import paired_tradeoff
 from run_pilot import load_lines, write_json
 
 
@@ -19,6 +21,8 @@ CONTRACT_CASCADE = 'contract_8b_free_qwen_deepseek'
 FLAGSHIP = f'cascade/compiled/{CONTRACT_CASCADE}'
 INTERVAL_ANCHORS = ('cascade/compiled/nonexecution_8b_qwen_deepseek',
                     'cascade/compiled/nonexecution_deepseek_qwen', 'oda/compiled_fallback', 'car')
+TRADEOFF_BASELINES = (*INTERVAL_ANCHORS, 'cascade/compiled/cascade_routing_1.5',
+                      *(f'cascade/compiled/always_{model}' for model in MODELS))
 BOOTSTRAP_DRAWS = 10000
 ODA_METHODS = ('low', 'free', 'dsl_fallback', 'contract_compile', 'compiled_fallback')
 INDEPENDENT_EXPOSURE = 'no_pilot_or_reserved_context_detected'
@@ -181,6 +185,10 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
 
     policies = {}
     candidates = [(f'fixed_{tier}', record, {}) for tier, record in report['fixed'].items()]
+    deploy_name = None
+    if all('calibration' in point for point in report['policies']):
+        deploy = calibration_operating_point(report['policies'])
+        deploy_name = 'fixed_low' if deploy is None else f'lambda_{deploy["lambda"]:g}'
     for point in report['policies']:
         if point['calibration_frontier']:
             candidates.append((f'lambda_{point["lambda"]:g}', point['eval'],
@@ -191,6 +199,7 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
         check_summary(record['all'], summarize(list(items.values())))
         policies[name] = (items, {'family': 'BudgetVerify adaptation', 'classifier': report['method'],
                                   'verifier_replay': 'verifier_replay' in report,
+                                  'calibration_operating_point_2x': name == deploy_name,
                                   'batch_prediction_seconds': record.get('prediction_batch_seconds'), **details})
     return policies
 
@@ -280,6 +289,28 @@ def paired_evaluation(policies, public, strata):
                           'cluster': 'FinQA report or TAT-QA table context as recorded by the panel.',
                           'interval': 'Pointwise paired cluster percentile 95% interval in percentage points.'},
             'by_stratum': by_stratum}
+
+
+def paired_tradeoff_report(policies, public, strata):
+    """Report paired uncertainty at named operating points independent of eval accuracy."""
+    budget_points = [name for name, (_, metadata) in policies.items()
+                     if name.startswith('budgetverify/tabfm/') and metadata.get('calibration_operating_point_2x')]
+    if len(budget_points) > 1:
+        raise ValueError('Expected one deployment operating point for BudgetVerify TabFM')
+    expected = (*TRADEOFF_BASELINES, *budget_points)
+    names = [name for name in expected if name in policies]
+    missing = [name for name in expected if name not in policies]
+    if not budget_points:
+        missing.append('budgetverify/tabfm/calibration_operating_point_2x')
+    proposed = policies[FLAGSHIP][0]
+    by_stratum = {}
+    for group in ('all', 'no_detected_overlap'):
+        if group in strata:
+            by_stratum[group] = {name: paired_tradeoff(proposed, policies[name][0], strata[group], public,
+                                                        draws=BOOTSTRAP_DRAWS) for name in names}
+    return {'proposed': FLAGSHIP, 'anchors': names, 'unavailable_anchors': missing, 'by_stratum': by_stratum,
+            'token_scope': 'Same questions with complete token usage in both policies for each contrast.',
+            'time_scope': 'Sum of recorded calls per question. Fresh online timing is supplementary.'}
 
 
 def literal_ratio_sensitivity(compiled, policies, strata):
@@ -394,6 +425,7 @@ def build_report(args):
                 ('cascade_compiled', args.cascade_compiled))},
             'policy_metadata': {name: info for name, (_, info) in policies.items()},
             'paired_strict_evaluation': paired_evaluation(policies, public, strata),
+            'paired_tradeoff_evaluation': paired_tradeoff_report(policies, public, strata),
             'token_cost': 'The common complete-usage stratum retains questions with complete usage for every '
                           'included policy. Known sums with missing usage are lower bounds.',
             'execution': 'Executable counts require known execution flags. Joint counts require known flags '

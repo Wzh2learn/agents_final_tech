@@ -26,6 +26,7 @@ from scoring import OPERATION
 
 TIERS = ('low', 'mid', 'high')
 SPLITS = ('fit', 'calibration', 'eval')
+DEPLOYMENT_COST_MULTIPLE = 2
 LAMBDAS = (0, .001, .002, .003, .005, .0075, .01, .015, .02, .025, .03, .04, .05,
            .06, .08, .10, .125, .15, .20, .25, .30, .40, .50, .65, .80, 1.0)
 GBM_GRID = ({'max_depth': 1, 'n_estimators': 50}, {'max_depth': 2, 'n_estimators': 50},
@@ -327,6 +328,15 @@ def fit_policies(fit, calibration, checkpoint):
         'mean_fit_low_tokens': mean_low_cost,
     }
     return summary, policies
+
+
+def calibration_operating_point(points):
+    """Select the same calibration-budget point for replay and live deployment."""
+    feasible = [point for point in points
+                if point['calibration_frontier'] and point['calibration']['normalized_token_cost'] is not None
+                and point['calibration']['normalized_token_cost'] <= DEPLOYMENT_COST_MULTIPLE]
+    return max(feasible, key=lambda point: (point['calibration']['accuracy'],
+                                           -point['calibration']['total_tokens'], -point['lambda']), default=None)
 
 
 def evaluate_policies(summary, policies, evaluation, exposure):

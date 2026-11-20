@@ -12,7 +12,7 @@ from scoring import parse_dsl
 MODEL = 'oda-fin-rl-8b'
 CHECKPOINT = '948c22ea48f9bf93e5747f4211657fcad9cb0295'
 OUTPUT = 4096
-LOW_COST_MULTIPLE = 2
+LOW_COST_MULTIPLE = budget_policy.DEPLOYMENT_COST_MULTIPLE
 
 
 def select_car(row, call, planner):
@@ -56,12 +56,9 @@ def select_budgetverify(row, call, predict, feature_names):
 
 
 def budgetverify_point(policies, calibration):
-    feasible = [(predict, point) for predict, point in policies
-                if point['calibration_frontier'] and point['calibration']['normalized_token_cost'] is not None
-                and point['calibration']['normalized_token_cost'] <= LOW_COST_MULTIPLE]
-    if feasible:
-        return max(feasible, key=lambda item: (item[1]['calibration']['accuracy'],
-                                               -item[1]['calibration']['total_tokens'], -item[1]['lambda']))
+    chosen = budget_policy.calibration_operating_point([point for _, point in policies])
+    if chosen is not None:
+        return next((predict, point) for predict, point in policies if point is chosen)
     indices = np.flatnonzero(np.isfinite(calibration['tokens']).all(axis=1))
     routes = np.zeros(len(calibration['ids']), dtype=int)
     return (lambda values: np.zeros(len(values), dtype=int),

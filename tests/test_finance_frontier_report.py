@@ -87,8 +87,11 @@ def matched_runs(tmp_path, monkeypatch):
         write(path, {'dataset': 'finqa', 'method': method, 'inputs': {'eval': provenance},
                      'eval_ids': order, 'eval_strict_by_tier': labels, 'eval_executable_by_tier': executed, 'fixed': fixed,
                      'verifier_replay': {'eval': {}}, 'policies': [
-                         {'lambda': .1, 'calibration_frontier': True, 'config': {'constant': 'high'}, 'eval': fixed['high']},
-                         {'lambda': .2, 'calibration_frontier': False},
+                         {'lambda': .1, 'calibration_frontier': True, 'config': {'constant': 'high'}, 'eval': fixed['high'],
+                          'calibration': {'normalized_token_cost': 1.8, 'accuracy': .6, 'total_tokens': 180}},
+                         {'lambda': .2, 'calibration_frontier': False, 'calibration': {}},
+                         {'lambda': .3, 'calibration_frontier': True, 'config': {'constant': 'mid'}, 'eval': fixed['mid'],
+                          'calibration': {'normalized_token_cost': 2.2, 'accuracy': .9, 'total_tokens': 220}},
                      ]})
 
     def reported(items):
@@ -118,6 +121,7 @@ def matched_runs(tmp_path, monkeypatch):
                             'strict': 1, 'executable': True, **action_cost([call(10, 1), call(40, 3)])},
             ])
             policies['nonexecution_deepseek_qwen'] = policies['always_deepseek']
+            policies['cascade_routing_1.5'] = {**policies['always_qwen-27b'], 'target_mean_tokens': 15}
         write(path, {'dataset': 'finqa', 'representation': representation, 'policies': policies,
                      'profiles': [], 'author_revision': 'pinned',
                      'campus_ledger_sha256': 'shared', 'matched_input_sha256': {'eval': 'matched'}})
@@ -162,6 +166,16 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert contrast['paired_cluster_percentile_95_pp'] == [100.0, 100.0]
     assert paired['by_stratum']['no_detected_overlap']['oda/compiled_fallback']['net_pp'] == 100
     assert 'paired_cluster_percentile_95_pp' not in paired['by_stratum']['all']['oda/low']
+    tradeoff = report['paired_tradeoff_evaluation']
+    assert tradeoff['proposed'] == chain and tradeoff['unavailable_anchors'] == []
+    assert 'budgetverify/tabfm/lambda_0.1' in tradeoff['anchors']
+    assert 'budgetverify/tabfm/lambda_0.3' not in tradeoff['anchors']
+    assert 'cascade/compiled/cascade_routing_1.5' in tradeoff['anchors']
+    deepseek = tradeoff['by_stratum']['all']['cascade/compiled/always_deepseek']
+    assert deepseek['tokens']['n'] == deepseek['tokens']['excluded_n'] == 1
+    assert deepseek['tokens']['interval_95'] is None
+    assert deepseek['serial_call_seconds']['n'] == 2
+    assert deepseek['serial_call_seconds']['strict_delta_pp'] == 100
 
 
 def test_matched_report_rejects_duplicate_ids(matched_runs):
