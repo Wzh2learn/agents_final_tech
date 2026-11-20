@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -224,3 +225,49 @@ def test_contract_cascade_checks_public_output_before_using_teacher(runs):
     assert choices[-1]['queried'] == [ARMS[0], 'oda-8b-free', *ARMS[1:]]
     assert summarize(choices)['tokens'] is None
     assert summarize(choices)['executable'] == 3
+
+
+def test_campus_wall_time_is_recorded_only_for_a_fresh_path(runs, monkeypatch, tmp_path):
+    import school_benchmark as school
+    from run_pilot import load_lines, write_json
+
+    panel, _, _ = runs
+    rows = load_lines(panel / 'public.jsonl')
+    gold = {('finqa', 'question'): {'exe_ans': 5}}
+    root = tmp_path / 'wall'
+    root.mkdir()
+    model = school.campus.QWEN_MODEL
+    budget = SimpleNamespace(rows=[], pending=None, posts=2, tokens=10**6)
+    profile = {'temperature': .6, 'opencode_context': 16384}
+    gateway = {'model_id': model, 'output': 4096}
+
+    @contextmanager
+    def relay(_path, _key, _budget, _gateway, _prompt, _temperature):
+        yield 'http://127.0.0.1:12345/v1'
+
+    class Actor:
+        def __init__(self, actor_root, *_configuration):
+            self.root = actor_root
+
+        def call(self, prompt, target):
+            budget.rows.append({'index': 1, 'state': 'complete', 'model': model, 'http_status': 200,
+                                'usage': {'prompt_tokens': 5, 'completion_tokens': 7, 'total_tokens': 12}})
+            (target / 'prompt.txt').write_text(prompt + '\n', encoding='utf-8')
+            result = {'text': 'Final program: add(2, 3)', 'finish': ['stop'], 'exit_code': 0,
+                      'errors': [], 'elapsed_seconds': 0., 'usage': None}
+            write_json(target / 'call.json', result)
+            return result
+
+    monkeypatch.setattr(school, 'source_relay', relay)
+    monkeypatch.setattr(school, 'OpenCode', Actor)
+    args = SimpleNamespace(metric_dir=None, opencode=None, batch='test')
+    school.collect_rows(args, root, rows, gold, 'test contract', 'fixture', budget, profile, gateway)
+    [fresh] = load_lines(root / 'outcomes.jsonl')
+    assert fresh['online_wall']['action'] == school.ACTION
+    assert fresh['online_wall']['seconds'] >= 0
+    assert fresh['actions'][school.ACTION]['strict'] and len(budget.rows) == 1
+
+    school.collect_rows(args, root, rows, gold, 'test contract', None, budget, profile, gateway)
+    [cached] = load_lines(root / 'outcomes.jsonl')
+    assert 'online_wall' not in cached and len(budget.rows) == 1
+    assert cached['actions'] == fresh['actions']
