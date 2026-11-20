@@ -269,6 +269,7 @@ def collect(args, root):
         return {'dataset': dataset, 'id': ident, 'report': row['report'],
                 'actions': actions, 'calls': receipts}
 
+    finqa.executor()  # The native executor publishes its module during first import.
     started = time.monotonic()
     temporary = root / 'outcomes.jsonl.tmp'
     new_calls = 0

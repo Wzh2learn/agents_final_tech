@@ -175,6 +175,22 @@ def public_execution(row, parsed):
     raise ValueError(f"unknown dataset {row['dataset']}")
 
 
+def finqa_ratio_rule(row, parsed, execution):
+    """Propose the same public percentage-contract edit tested on pilot receipts."""
+    if row['dataset'] != 'finqa' or not execution or execution['status'] != 'executed':
+        return None
+    if not re.search(r'\bpercent(?:age)?\b|%', row['question'], re.I):
+        return None
+    executor = finqa.executor()
+    steps = executor.parse_program(parsed['program'])
+    if len(steps) < 2 or (steps[-2].op, steps[-1].op) != ('divide', 'multiply'):
+        return None
+    arguments = {steps[-1].arg1, steps[-1].arg2}
+    if f'#{len(steps) - 2}' not in arguments or not arguments & {'100', '100.0', 'const_100'}:
+        return None
+    return {**parsed, 'program': executor.render_program(steps[:-1])}
+
+
 @lru_cache(maxsize=1)
 def _metric_type(metric_dir):
     return tatqa.official_metric_type(metric_dir)

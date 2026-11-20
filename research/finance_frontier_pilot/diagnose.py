@@ -142,6 +142,53 @@ def representation_fallback(root, public, outcomes):
     }
 
 
+def finqa_teacher_ratio_replay(root, public, outcomes):
+    from run_pilot import load_lines
+    from scoring import finqa_ratio_rule, score
+
+    indexed = {(row['dataset'], row['id']): row for row in outcomes}
+    gold = {row['id']: row['gold'] for row in load_lines(root / 'panel/references.jsonl')
+            if row['dataset'] == 'finqa'}
+    first, teacher = Counter(), defaultdict(Counter)
+    remaining = []
+    signals = ('initial_nonexecution', 'reverse_risk', 'representation_disagreement', 'legacy_risk', 'legacy_value')
+
+    def amended(example, original):
+        submission = finqa_ratio_rule(example, original, original['execution'])
+        if submission is None:
+            return original['strict'], False
+        return score(example, submission, gold=gold[example['id']])['strict'], True
+
+    for idx, example in enumerate(public):
+        if example['dataset'] != 'finqa':
+            continue
+        row = indexed['finqa', example['id']]
+        original = row['dsl']
+        local, applied = amended(example, original)
+        first.update({'n': 1, 'strict': original['strict'], 'factor_normalized': original['norm'],
+                      'rule': local, 'rule_applied': applied, 'recovered': local and not original['strict'],
+                      'harmed': original['strict'] and not local})
+        if row.get('teacher') is None:
+            continue
+        call = read(root / 'calls/finqa' / f'{idx:03d}' / 'teacher/call.json')
+        delivered = bool(call['text'].strip()) and not (call['exit_code'] or call['errors'])
+        corrected, rule = amended(example, row['teacher']) if delivered else (False, False)
+        subset = 'local_rule_recovered' if local else 'remaining_after_local_rule'
+        if not local:
+            scores = {signal: row.get(signal) for signal in signals}
+            scores['initial_nonexecution'] = int(not original['executable'])
+            remaining.append({'scores': scores, 'recovered': corrected})
+        for scope in ('all_first_pass_errors', subset):
+            teacher[scope].update({'attempted': 1, 'delivered': delivered,
+                                   'strict': delivered and row['teacher']['strict'],
+                                   'factor_normalized': delivered and row['teacher']['norm'],
+                                   'rule': corrected, 'rule_applied': rule})
+    return {'scope': 'Post-hoc same-rule replay, with teacher called only on original strict misses.',
+            'local': first, 'teacher': teacher, 'remaining_after_local_rule': first['n'] - first['rule'],
+            'remaining_without_teacher': first['n'] - first['rule'] - teacher['remaining_after_local_rule']['attempted'],
+            'remaining_recovery_auc_after_teacher_rule': recovery_panel(remaining, signals)}
+
+
 def teacher_recovery_sensitivity(root, public, outcomes):
     """Keep failed teacher attempts in the end-to-end panel, then condition on delivery."""
     indexed = {(row['dataset'], row['id']): row for row in outcomes}
@@ -238,6 +285,7 @@ def main():
         result['contrasts'] = contrasts(public, outcomes, result['cluster_bootstrap_draws'])
         result['teacher_recovery_sensitivity'] = teacher_recovery_sensitivity(args.root, public, outcomes)
         result['representation_fallback'] = representation_fallback(args.root, public, outcomes)
+        result['finqa_teacher_ratio_replay'] = finqa_teacher_ratio_replay(args.root, public, outcomes)
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
 
 
