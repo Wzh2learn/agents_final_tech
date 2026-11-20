@@ -100,6 +100,41 @@ def test_rejects_invalid_or_ambiguous_declarations(pilot, report, reply):
     assert cells == []
 
 
+def test_car_envelope_replay_preserves_five_explicit_judgments(pilot):
+    from benchmark_actions import FAMILIES, parse_car
+
+    plain = '\n'.join(f'{family}: {"yes" if family == "Binding" else "no"}, rationale: {family} reason'
+                      for family in FAMILIES)
+    compact = plain.replace('rationale: ', '').splitlines()
+    swapped = '\n'.join([compact[1], compact[0], *compact[2:]])
+    wrapped = f'<answer>\n{swapped}\n</answer>'
+    assert parse_car(wrapped) is None
+    assert parse_car(wrapped, unwrap_answer=True) == parse_car(plain)
+    assert parse_car(wrapped.replace('Binding:', 'Omission:'), unwrap_answer=True) is None
+    assert parse_car(wrapped.replace('Binding reason', 'rationale:'), unwrap_answer=True) is None
+    assert parse_car(wrapped.removesuffix('</answer>'), unwrap_answer=True) is None
+
+
+def test_high_envelope_replay_keeps_public_guards_and_call_plan(pilot, report):
+    collect_case, _, _ = pilot
+    replies = {'low': 'Final program: add(3, const_0)',
+               'high_solve': 'Final program: add(2, const_0)',
+               'high_compare': '<answer>USE_NEW</answer>'}
+
+    def call(action, _actor, _prompt):
+        return {'text': replies[action], 'exit_code': 0, 'errors': [], 'finish': ['stop']}
+
+    old = collect_case(report, {'exe_ans': 2}, ['high'], call, None)['high']
+    corrected = collect_case(report, {'exe_ans': 2}, ['high'], call, None,
+                             decode_verifier_answer=True)['high']
+    assert not old['strict'] and old['decision'] == 'keep'
+    assert corrected['strict'] and corrected['decision'] == 'use_new'
+    assert old['calls'] == corrected['calls'] == ['low', 'high_solve', 'high_compare']
+    replies['high_solve'] = 'Final program: add(9, const_0)'
+    assert collect_case(report, {'exe_ans': 9}, ['high'], call, None,
+                        decode_verifier_answer=True)['high']['decision'] == 'keep'
+
+
 @pytest.fixture
 def paired_runs(tmp_path, pilot, report):
     from benchmark_actions import action_cost, digest_file

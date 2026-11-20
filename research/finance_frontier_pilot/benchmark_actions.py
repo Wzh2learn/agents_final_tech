@@ -24,7 +24,7 @@ from run_pilot import (
     PUBLIC_FIELDS, OpenCode, load_lines, local_endpoint, paired_prompt,
     wait_service, write_json,
 )
-from scoring import finqa, parse_dsl, parse_free, public_execution, score
+from scoring import _reply_text, finqa, parse_dsl, parse_free, public_execution, score
 
 
 ACTIONS = ('low', 'mid', 'high', 'independent', 'car_probe', 'contract_compile',
@@ -142,20 +142,31 @@ def car_prompt(row, draft):
     )
 
 
-def parse_car(reply):
-    lines = [line.strip() for line in reply.strip().splitlines() if line.strip()]
+def parse_car(reply, *, unwrap_answer=False):
+    """Read the recorded five judgments, optionally tolerating explicit output framing."""
+    text = _reply_text(reply) if unwrap_answer else reply
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
     if len(lines) != len(FAMILIES):
         return None
+    labels = {family.casefold(): family for family in FAMILIES}
     judgments = {}
     for family, line in zip(FAMILIES, lines, strict=True):
-        match = re.fullmatch(rf'{family}:\s*(yes|no)\s*,\s*rationale:\s*(\S.*)', line, flags=re.I)
+        if unwrap_answer:
+            family = labels.get(line.partition(':')[0].casefold())
+            if family is None or family in judgments:
+                return None
+        prefix = '' if unwrap_answer else r'rationale:\s*'
+        match = re.fullmatch(rf'{family}:\s*(yes|no)\s*,\s*{prefix}(\S.*)', line, flags=re.I)
         if match is None:
             return None
-        judgments[family] = {'suspect': match[1].casefold() == 'yes', 'rationale': match[2]}
-    return judgments
+        rationale = re.sub(r'^rationale:\s*', '', match[2], flags=re.I) if unwrap_answer else match[2]
+        if not rationale:
+            return None
+        judgments[family] = {'suspect': match[1].casefold() == 'yes', 'rationale': rationale}
+    return {family: judgments[family] for family in FAMILIES}
 
 
-def collect_case(row, gold, actions, call, metric_dir):
+def collect_case(row, gold, actions, call, metric_dir, *, decode_verifier_answer=False):
     """Select unscored programs and only then attach strict outcome labels."""
     outputs = {}
     grading_rows = {}
@@ -183,7 +194,8 @@ def collect_case(row, gold, actions, call, metric_dir):
                       'work out the operations from the question.\n' + paired_prompt(row, 'dsl'))
             solved = parse_dsl(deliver(call('high_solve', 'solve', prompt)))
             evidence = {'initial': observable(row, first), 'independent': observable(row, solved)}
-            judgment = deliver(call('high_compare', 'verify', compare_prompt(row, first, solved, evidence))).strip()
+            comparison = deliver(call('high_compare', 'verify', compare_prompt(row, first, solved, evidence)))
+            judgment = (_reply_text(comparison) if decode_verifier_answer else comparison).strip()
             independent = evidence['independent']
             grounded = all(item['match_count'] and not item['conflicts'] for item in independent['bindings'])
             use_new = judgment == 'USE_NEW' and independent['execution']['status'] == 'executed' and grounded

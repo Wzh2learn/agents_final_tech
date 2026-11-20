@@ -54,7 +54,9 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 单变量对照用 `nested_compile` 检验模型能否省去手写步骤引用。固定题面、运算符、尺度和生成设置，模型写一棵嵌套算式，编译器按操作数顺序转为平铺 DSL，走同一公开规则和官方评分。在 FinQA 的 96 个官方 TRAIN 拟合来源上，`oda_nested_fit_finqa_v1` 与 `oda_fit_v1` 的 `contract_compile` 和 `low` 逐题配对。嵌套臂在同一 ODA 服务上用 2 个 worker，原拟合用 8 个。两批并发采集的墙时保留为运行记录。
 
-同一面板收齐后，以 `diagnose.py --root <panel/fit> --compare-nested <平铺结果> <嵌套结果> --dataset finqa` 核对冻结配置、题号、提示和原始回复，复算原生分、报告簇配对区间与逐请求用量。首批平铺与嵌套分别遇到 6 次与 1 次 OpenCode SQLite 初始化错误，均无模型事件。之后的并发批在启动前串行初始化会话库。同一 ODA 服务上的 `oda_startup_repair_v1` 正补跑平铺 5 题和嵌套 1 题，共 21 次选定调用。平铺复用相同提示的自由答和独立重解，重做受首答影响的动作。私有目录的 `publish_reconciled.py --check-records` 已复算两臂的首批替换行。原回执保留，已实付的旧派生请求单列。收齐后在 `reconciled_fit_v1` 发布合并结果，再进入对照拟合。
+同一面板收齐后，以 `diagnose.py --root <panel/fit> --compare-nested <平铺结果> <嵌套结果> --dataset finqa` 核对冻结配置、题号、提示和原始回复，复算原生分、报告簇配对区间与逐请求用量。首批平铺与嵌套分别遇到 6 次与 1 次 OpenCode SQLite 初始化错误，均无模型事件。之后的并发批在启动前串行初始化会话库。`oda_startup_repair_v1` 已完成平铺 5 题及嵌套 1 题的 21 次定向调用，补跑共 68,642 tokens。`publish_reconciled.py --check-records` 已核验全部替换行。原回执保留，已实付的旧派生请求共 46,199 已知 tokens，单列为实验开销。收齐后在 `reconciled_fit_v1` 发布合并结果，再进入对照拟合。
+
+固定前 32 个 FinQA TRAIN 拟合来源的 ODA 同回执复算中，平铺首答为 7/32，公开编译为 13/32，编译加自由答回退为 17/32，分别耗用 132,788、132,788、164,711 tokens。嵌套编译为 7/32、126,185 tokens。Mid 复查和原 High 决策均为 7/32。读取 High 的显式 `<answer>` 判定后，原有执行和来源准入下救回 3 题、错改 0 题，得 10/32；再用同一公开编译器得 17/32，High 各次复算均为 354,318 tokens。CAR 的 32 次诊断中，22 次可从原文复原五项明确判定，另外 10 次达到输出上限时仍无完整诊断。复算见 GB10 `oda_finqa32_answer_decoder_replay.json`。这一前缀用于诊断格式失分和成本，正式比较等待冻结全量。
 
 采集器的 `free`、`dsl_fallback` 和 `compiled_fallback` 分别记录直接自由回答、原始 DSL 未执行后回退、编译仍未执行后回退。两条回退共用同一份首答和同一份所需自由回答，逐策略只计入其经路由选择的调用。GB10 用 400 个已完成配对验证全量模式与各自独立运行模式的分数、调用选择和计费一致，见 `matched_fallback_action_replay.json`。
 
@@ -85,7 +87,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 `run_gb10.sh` 复用已实测的 ODA 服务与研究 GPU 租约。给定全量对标目录后，第五项参数可选 `fit`、`calibration` 或 `eval`，每个面板以独立空间 `oda_<split>_v1` 使用同一权重和生成配置。已启动两数据集各 96 个拟合来源的 `oda_fit_v1`，校准排在原拟合、嵌套和定向补跑齐全后。首答和复核均设 4,096 输出上限，成本按真实请求计。结束后释放 ODA 并恢复原 27B。CAR 修订采集从各阶段对应的首答和五类检查回执出发，并发前先初始化其 OpenCode 会话库。
 
 - `budget_policy.py` 按每个成本权重从三个实测动作生成路由监督。保留 GBM，并用 BudgetVerify 原文表现最强的 TabFM 分支做同面板对标。GB10 的隔离依赖目录 `~/wzh/external_research_sources/finance_frontier/budgetverify-tabfm-deps-v1` 固定 TabFM 1.0.1，复用现有 1.0.0 PyTorch 分类权重完成了 CPU 三分类试跑。权重载入 54.1 s，3 个合成输入预测 1.58 s，峰值常驻内存约 12.8 GiB，见 `budgetverify_tabfm_cpu_smoke.json`。正式对标以拟合集构造监督、校准集选参，计入整个所选档的模型成本并单报路由时长。[BudgetVerify 分类器比较](https://arxiv.org/html/2609.33052v1#S4.SS2.SSS2) · [TabFM 1.0.1](https://github.com/google-research/tabfm/releases/tag/v1.0.1)
-- `car_adapter.py` 用首答和五类诊断拟合错答风险，分别估计有界修复的恢复与错改，再用校准集冻结修订门槛。本任务使用官方数值正确性、DSL 检查与公开证据位置，保留适配名。
+- `car_adapter.py` 用首答和五类诊断拟合错答风险，分别估计有界修复的恢复与错改，再用校准集冻结修订门槛。重读原请求和计费回执可恢复五类显式判定，运行结果记录恢复数和缺失数。BudgetVerify 可用 `--decode-verifier-answer` 复算 High 的最终判定，沿用原有请求、成本和准入规则。本任务使用官方数值正确性、DSL 检查与公开证据位置，保留适配名。
 - `cascade_benchmark.py` 调用已固定原版 `CascadeRouter`，使用公开程序执行、证据定位与相互分歧作为质量特征。GB10 隔离依赖目录使用作者发布的 NumPy、SciPy、scikit-learn 版本。与固定 8B 起步的逐级调用分开报。对照用同一组已完成回执和同一只读校园账本快照，分别指定 `--representation raw` 和 `--representation compiled`。两次运行校验同一提示、计费、预算及面板，分别拟合同一作者路由。TAT-QA 用投影表执行，公开定位继续读取原表。已验证打分和计费入口，完整级联仍需全部拟合、校准和正式评测回执。
 - `school_benchmark.py` 通过既有校内网关记录 `deepseek-v4-flash` 和 `qwen3.8-27b` 的独立解答。GB10 的 `finance_frontier_benchmark_20261120_v2/managed_profiles/` 保存两个独立运行配置，均使用 16,384 上下文和 4,096 输出的实验设置。两者在同一道合成算术题上各发 1 次请求，HTTP 200、模型标签一致且执行答案正确，分别计 899 与 525 tokens。路线锁定后已启动相同 192 题拟合集的校内采集，每模型最多 192 次 POST、3M tokens。校准已排入同一计费队列，在两模型拟合回执齐全后，使用相同设置采集两数据集各 48 个新来源，每模型最多 96 次 POST、2M tokens。本批期初扣款为 60,404,610。重放时延为逐题调用时长之和，正式墙时比较另计路由与服务开销。
 
@@ -93,7 +95,7 @@ DeepSeek 的首次正式交接沿用了两个合成请求之后建立的批次�
 
 对校内 Qwen 的全部 96 个 FinQA 拟合来源做同调用复算。原答 27/96，公开编译后 59/96，救回 34、错改 2，报告簇配对区间为 [22.9, 43.8] pp。两臂共用原有 96 次请求、316,947 tokens，可执行均为 84/96。已载入回复后的 GB10 CPU 编译逐题中位 0.084 ms。41 题触发比例规则，两个错改的官方参考程序也以乘 100 结尾。复算证据为 GB10 `campus_qwen_finqa96_compile_replay.json`，这些题用于拟合和诊断。
 
-两校内模型的 192 道拟合题均已完成，校准已开始。TAT-QA 的全部 96 个来源，Qwen 原答与公开编译均为 77/96，DeepSeek 从 78 到 80/96，新增的两次命中来自回复格式修复。各模型已知用量分别为 231,894 与 124,072 tokens，各有 1 次未知。复算见 GB10 `campus_tatqa96_compiler_cross_model_replay.json`。
+两校内模型的 192 道拟合题均已完成。Qwen 的 96 道独立校准题已完成，DeepSeek 的校准正在执行。TAT-QA 的全部 96 个拟合来源，Qwen 原答与公开编译均为 77/96，DeepSeek 从 78 到 80/96，新增的两次命中来自回复格式修复。各模型已知用量分别为 231,894 与 124,072 tokens，各有 1 次未知。复算见 GB10 `campus_tatqa96_compiler_cross_model_replay.json`。
 
 两校内模型共同的 96 个 FinQA 拟合来源上，Qwen 从 27 到 59/96，DeepSeek 从 28 到 59/96。两者错改的是同 2 题。编译后共同答对 51 题，各自独有 8 题。逐模型复用原请求，完整计费分别为 316,947、191,204 tokens，逐请求时长之和分别为 2,269.0、1,047.0 s。保留单模型直跑和预定顺序级联，以正式成本曲线比较。复算见 GB10 `campus_finqa96_compiler_cross_model_replay.json`。
 

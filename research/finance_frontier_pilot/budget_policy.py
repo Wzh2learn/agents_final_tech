@@ -15,7 +15,6 @@ import re
 from time import perf_counter
 
 import numpy as np
-from sklearn.ensemble import GradientBoostingClassifier
 
 from benchmark_actions import action_cost, digest_file, observable
 from benchmark_panels import identity_keys
@@ -91,7 +90,34 @@ def index_rows(rows, dataset, label):
     return indexed
 
 
-def read_split(panel, run, dataset):
+def replay_high(run, row, gold, run_digest, actions, receipts, metric_dir):
+    """Choose High from the same bound receipts with the final-answer decoder enabled."""
+    from benchmark_actions import collect_case
+    from diagnose import read_replay_call
+
+    replayed_calls = {}
+
+    def call(name, actor, prompt):
+        if name not in replayed_calls:
+            receipt = read_replay_call(run, row, name, actor, prompt, run_digest, receipts[name])
+            replayed_calls[name] = (actor, prompt, receipt)
+        expected_actor, expected_prompt, receipt = replayed_calls[name]
+        if (actor, prompt) != (expected_actor, expected_prompt):
+            raise ValueError(f'{run}: High decoder changed a recorded request for {row["id"]}')
+        return receipt
+
+    original = collect_case(row, gold, ['high'], call, metric_dir)
+    for tier, candidate in original.items():
+        cost = action_cost([replayed_calls[name][2] for name in candidate['calls']])
+        if actions[tier] != {**candidate, 'cost': cost}:
+            raise ValueError(f'{run}: original {tier} result or cost differs for {row["id"]}')
+    corrected = collect_case(row, gold, ['high'], call, metric_dir, decode_verifier_answer=True)['high']
+    if corrected['calls'] != original['high']['calls']:
+        raise ValueError(f'{run}: High decoder changed the charged calls for {row["id"]}')
+    return corrected
+
+
+def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=None):
     public_path = panel / 'public.jsonl'
     reference_path = panel / 'references.jsonl'
     contract_path = run / 'run.json'
@@ -102,7 +128,18 @@ def read_split(panel, run, dataset):
         raise ValueError(f'{run}: expected a matching three-tier action run')
     if contract['panel'] != {p.name: digest_file(p) for p in (public_path, reference_path)}:
         raise ValueError(f'{run}: action run and panel bytes disagree')
-    public = index_rows(load_lines(public_path), dataset, str(panel))
+    if decode_verifier_answer:
+        from benchmark_actions import read_panel
+
+        if dataset == 'tatqa' and metric_dir is None:
+            raise ValueError('TAT-QA verifier replay requires the official metric directory')
+        rows, gold, _ = read_panel(panel, dataset)
+        public = {row['id']: row for row in rows}
+        run_digest = digest_file(contract_path)
+        decoder_stats = Counter(questions=0, comparison_changed=0, selection_changed=0,
+                                old_high_correct=0, new_high_correct=0, recovered=0, harmed=0)
+    else:
+        public = index_rows(load_lines(public_path), dataset, str(panel))
     outcomes = index_rows(load_lines(outcomes_path), dataset, str(run))
     if public.keys() != outcomes.keys() or any(outcomes[k]['report'] != r['report'] for k, r in public.items()):
         raise ValueError(f'{run}: action receipts must cover eligible panel IDs and reports exactly once')
@@ -117,7 +154,6 @@ def read_split(panel, run, dataset):
         started = perf_counter()
         design.append(features(row, actions['low']['submission']))
         feature_seconds += perf_counter() - started
-        correct.append([int(actions[tier]['strict']) for tier in TIERS])
         tier_costs = []
         for tier, names in zip(TIERS, required_calls):
             recorded = actions[tier]
@@ -128,14 +164,28 @@ def read_split(panel, run, dataset):
                 raise ValueError(f'{run}: invalid {tier} cost for {ident}')
             tier_costs.append(cost)
         costs.append(tier_costs)
+        labels = [int(actions[tier]['strict']) for tier in TIERS]
+        if decode_verifier_answer:
+            original = actions['high']
+            adjusted = replay_high(run, row, gold[dataset, ident], run_digest, actions, receipts, metric_dir)
+            before, after = original['strict'], adjusted['strict']
+            labels[-1] = int(after)
+            decoder_stats.update(questions=1, comparison_changed=original['comparison'] != adjusted['comparison'],
+                                 selection_changed=original['decision'] != adjusted['decision'],
+                                 old_high_correct=before, new_high_correct=after,
+                                 recovered=after and not before, harmed=before and not after)
+        correct.append(labels)
     profile = {key: value for key, value in contract.items()
                if key not in ('namespace', 'panel', 'dataset', 'actions')}
-    return {'ids': list(public), 'source_keys': {key for row in public.values() for key in identity_keys(row)},
-            'provenance': {p.name: digest_file(p) for p in (contract_path, outcomes_path)},
-            'profile': profile, 'features': np.array([list(row.values()) for row in design], dtype=float),
-            'feature_names': list(design[0]), 'feature_seconds': feature_seconds,
-            'correct': np.array(correct), 'costs': costs,
-            'tokens': np.array([[cost['total_tokens'] for cost in row] for row in costs], dtype=float)}
+    split = {'ids': list(public), 'source_keys': {key for row in public.values() for key in identity_keys(row)},
+             'provenance': {p.name: digest_file(p) for p in (contract_path, outcomes_path)},
+             'profile': profile, 'features': np.array([list(row.values()) for row in design], dtype=float),
+             'feature_names': list(design[0]), 'feature_seconds': feature_seconds,
+             'correct': np.array(correct), 'costs': costs,
+             'tokens': np.array([[cost['total_tokens'] for cost in row] for row in costs], dtype=float)}
+    if decode_verifier_answer:
+        split['verifier_replay'] = {'decoder': 'exact_keep_or_use_new_final_answer_v1', **decoder_stats}
+    return split
 
 
 def exposure_labels(path, dataset, eval_ids):
@@ -176,6 +226,8 @@ def route_stats(split, routes, indices):
 
 def predict_factory(checkpoint):
     if checkpoint is None:
+        from sklearn.ensemble import GradientBoostingClassifier
+
         return 'GBM', GBM_GRID, lambda config: GradientBoostingClassifier(
             **config, min_samples_leaf=3, random_state=17)
 
@@ -266,14 +318,20 @@ def main():
         parser.add_argument(f'--{name}-run', type=Path, required=True)
     parser.add_argument('--dataset', choices=('finqa', 'tatqa'), required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--decode-verifier-answer', action='store_true',
+                        help='Replay High with exact KEEP/USE_NEW from the final answer')
+    parser.add_argument('--metric-dir', type=Path, help='Official TAT-QA metric checkout for verifier replay')
     parser.add_argument('--tabfm-checkpoint', type=Path, help='Local TabFM checkpoint with classification subdir')
     args = parser.parse_args()
     if args.tabfm_checkpoint is not None and not args.tabfm_checkpoint.exists():
         parser.error('TabFM checkpoint must already exist locally')
     if args.output.exists():
         parser.error('Use a new results file')
-    fit, cal, evaluation = splits = [read_split(args.panel / part, getattr(args, f'{part}_run'), args.dataset)
-                                      for part in SPLITS]
+    if args.decode_verifier_answer and args.dataset == 'tatqa' and args.metric_dir is None:
+        parser.error('TAT-QA verifier replay requires --metric-dir')
+    fit, cal, evaluation = splits = [read_split(
+        args.panel / part, getattr(args, f'{part}_run'), args.dataset,
+        decode_verifier_answer=args.decode_verifier_answer, metric_dir=args.metric_dir) for part in SPLITS]
     seen = set()
     for split in splits:
         if split['profile'] != fit['profile'] or split['feature_names'] != fit['feature_names']:
@@ -292,6 +350,8 @@ def main():
                               'timing': 'Replayed model-call sums, feature time, and batched router time reported separately.',
                               'features': 'Question, context and Low DSL only. No confidence or explicit evidence fields.',
                               'tabfm_checkpoint': str(args.tabfm_checkpoint) if args.tabfm_checkpoint else None})
+    if args.decode_verifier_answer:
+        result['verifier_replay'] = {name: split['verifier_replay'] for name, split in zip(SPLITS, splits)}
     write_json(args.output, result)
 
 

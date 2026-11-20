@@ -22,11 +22,13 @@ import re
 import time
 
 from benchmark_actions import (
-    FAMILIES, OpenCode, action_cost, deliver, digest_file, freeze, load_lines,
-    local_endpoint, read_panel, recorded_call, wait_service, write_json,
+    FAMILIES, OpenCode, action_cost, car_prompt, deliver, digest_file, freeze, load_lines,
+    local_endpoint, parse_car, read_panel, recorded_call, wait_service, write_json,
 )
+from diagnose import read_replay_call
 from grounding import YEAR, UNIT, ground
-from scoring import SCALE_FACTORS, _metric_type, finqa, public_execution, score
+from run_pilot import paired_prompt
+from scoring import SCALE_FACTORS, _metric_type, _reply_text, finqa, parse_dsl, public_execution, score
 
 
 CHECKS = {
@@ -144,7 +146,7 @@ def repair_prompt(row, draft, check, hypotheses, blocks, pointer):
 
 def accept_patch(row, draft, reply, check, blocks, pointer):
     try:
-        payload = json.loads(reply)
+        payload = json.loads(_reply_text(reply))
     except ValueError:
         return draft, 'invalid_json'
     if not isinstance(payload, dict) or set(payload) != {'edits'} or not isinstance(payload['edits'], list):
@@ -309,17 +311,38 @@ def freeze_gate(policy, results):
 
 def source_rows(args, stage):
     rows, gold, panel = read_panel(args.panel_root / stage, args.dataset)
-    contract = read(args.drafts / 'run.json')
+    source = args.drafts / 'run.json'
+    contract = read(source)
     if contract['panel'] != panel or contract['dataset'] not in (None, args.dataset):
         raise ValueError('Draft collection disagrees with the selected panel')
     outcomes = [r for r in load_lines(args.drafts / 'outcomes.jsonl') if r['dataset'] == args.dataset]
     entries = strict_join(rows, outcomes)
-    for _, entry in entries:
+    run_digest = digest_file(source)
+    coverage = {'decoder': 'explicit_five_family_final_answer_v1', 'questions': len(entries),
+                'saved_valid': 0, 'recovered_by_replay': 0, 'missing': 0}
+    for row, entry in entries:
         choices = entry['actions']
         if (choices['low']['calls'] != ['low'] or choices['car_probe']['calls'] != ['low', 'car_probe']
                 or not {'low', 'car_probe'} <= entry['calls'].keys()):
             raise ValueError('CAR requires a shared low draft and its charged five-family probe')
-    return entries, gold, {k: contract[k] for k in PROFILE_KEYS}, panel
+        probe = choices['car_probe']
+        if probe['judgments'] is not None:
+            coverage['saved_valid'] += 1
+            continue
+        calls = entry['calls']
+        low = read_replay_call(args.drafts, row, 'low', 'solve', paired_prompt(row, 'dsl'), run_digest, calls['low'])
+        draft = deliver(low)
+        if parse_dsl(draft) != choices['low']['submission']:
+            raise ValueError(f'{row["id"]}: retained CAR draft differs from its solve receipt')
+        receipt = read_replay_call(args.drafts, row, 'car_probe', 'probe', car_prompt(row, draft),
+                                   run_digest, calls['car_probe'])
+        judgments = parse_car(deliver(receipt), unwrap_answer=True)
+        if judgments is None:
+            coverage['missing'] += 1
+        else:
+            probe['judgments'] = judgments
+            coverage['recovered_by_replay'] += 1
+    return entries, gold, {k: contract[k] for k in PROFILE_KEYS}, panel, coverage
 
 
 def evaluate_row(row, entry, gold, args, call, planner):
@@ -357,7 +380,7 @@ def evaluate_row(row, entry, gold, args, call, planner):
 
 
 def collect(args):
-    entries, gold, profile, panel = source_rows(args, args.stage)
+    entries, gold, profile, panel, coverage = source_rows(args, args.stage)
     finqa.executor()  # The shared loader publishes its module before definitions finish.
     if args.dataset == 'tatqa':
         if args.metric_dir is None:
@@ -390,7 +413,8 @@ def collect(args):
         freeze(contract, {'schema': 'finance-car-collection-v1', 'panel': panel, 'stage': args.stage,
                           'dataset': args.dataset, 'profile': profile, 'repair_output': args.repair_output,
                           'policy': digest_file(args.policy) if policy else None,
-                          'draft_collection': digest_file(args.drafts / 'outcomes.jsonl')})
+                          'draft_collection': digest_file(args.drafts / 'outcomes.jsonl'),
+                          'probe_decoding': coverage})
         actor = OpenCode(root / 'repair', args.opencode, args.base, profile['model'], args.repair_output,
                          profile['context'], profile['temperature'])
         wait_service(args.base, profile['model'], 90)
@@ -425,6 +449,7 @@ def collect(args):
                     print(f'CAR {args.stage} {i}/{len(entries)}', flush=True)
         tmp.replace(root / 'outcomes.jsonl')
         write_json(root / 'collection.json', {'questions': len(entries), 'correct': correct, 'probe_calls': len(entries),
+                                              'probe_decoding': coverage,
                                               'repair_calls': attempts, 'recovered': recovered, 'damaged': damaged,
                                               'known_tokens': known_tokens, 'charged_call_seconds': charged_seconds,
                                               'total_tokens': known_tokens if not unknown_usage else None,
