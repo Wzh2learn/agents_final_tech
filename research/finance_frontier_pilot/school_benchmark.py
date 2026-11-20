@@ -116,6 +116,11 @@ def charged(rows):
                 for row in rows if row['state'] != 'not_sent'))
 
 
+def has_gateway_capacity(budget):
+    posts, tokens = charged(budget.rows)
+    return posts < budget.posts and tokens + campus.REQUEST_TOKEN_CEILING <= budget.tokens
+
+
 def measured_usage(usage):
     details = usage.get('completion_tokens_details') or {}
     prompt_details = usage.get('prompt_tokens_details') or {}
@@ -158,6 +163,28 @@ def replay_case(target, run_digest, rows, actor_prompt, *, model_id=campus.MODEL
         raise ValueError('cached campus action has no matching authoritative ledger row')
     return bind_provider_result(target, run_digest, row, json.loads(raw_path.read_text(encoding='utf-8')),
                                 model_id=model_id)
+
+
+def fresh_managed_call(target, opencode, run_digest, prompt, *, key, budget, profile, gateway):
+    """Execute exactly one uncached campus solve and bind its authoritative meter."""
+    if target.exists():
+        raise RuntimeError(f'incomplete campus action requires ledger reconciliation: {target}')
+    if not has_gateway_capacity(budget):
+        raise RuntimeError('campus call would exceed the reserved request or token budget')
+    if not key:
+        raise ValueError('BUPT_API_KEY must be available in the authorized process environment')
+
+    target.mkdir(mode=0o700, parents=True)
+    before = len(budget.rows)
+    with source_relay(target / 'relay', key, budget, gateway, prompt, profile['temperature']) as base:
+        actor = OpenCode(target / 'solve', opencode, base, gateway['model_id'],
+                         gateway['output'], profile['opencode_context'], profile['temperature'])
+        result = recorded_call(actor, prompt, target, run_digest)
+    provider = budget.rows[before:]
+    if len(provider) > 1 or budget.pending is not None:
+        raise RuntimeError('one-source campus request limit violated')
+    return bind_provider_result(target, run_digest, provider[0] if provider else None, result,
+                                model_id=gateway['model_id'])
 
 
 def collect(args, root, ledger_root):
@@ -212,28 +239,16 @@ def collect_rows(args, root, public, gold, run_digest, key, budget, profile, gat
             if not cached:
                 if target.exists():
                     raise RuntimeError(f'incomplete campus action requires ledger reconciliation: {target}')
-                posts, tokens = charged(budget.rows)
-                if posts >= budget.posts or tokens + campus.REQUEST_TOKEN_CEILING > budget.tokens:
+                if not has_gateway_capacity(budget):
                     break
-                if not key:
-                    raise ValueError('BUPT_API_KEY must be available in the authorized process environment')
 
             def call(name, role, prompt):
                 if (name, role) != (ACTION, 'solve'):
                     raise ValueError('unexpected campus action')
                 if cached:
                     return replay_case(target, run_digest, budget.rows, prompt, model_id=gateway['model_id'])
-                target.mkdir(mode=0o700, parents=True)
-                before = len(budget.rows)
-                with source_relay(target / 'relay', key, budget, gateway, prompt, profile['temperature']) as base:
-                    actor = OpenCode(target / 'solve', args.opencode, base, gateway['model_id'],
-                                     gateway['output'], profile['opencode_context'], profile['temperature'])
-                    result = recorded_call(actor, prompt, target, run_digest)
-                provider = budget.rows[before:]
-                if len(provider) > 1 or budget.pending is not None:
-                    raise RuntimeError('one-source campus request limit violated')
-                return bind_provider_result(target, run_digest, provider[0] if provider else None, result,
-                                            model_id=gateway['model_id'])
+                return fresh_managed_call(target, args.opencode, run_digest, prompt, key=key, budget=budget,
+                                          profile=profile, gateway=gateway)
 
             receipt = {}
 
