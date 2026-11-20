@@ -84,8 +84,10 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 - `budget_policy.py` 按每个成本权重从三个实测动作生成路由监督。GBM 默认使用，GB10 已有的 TabFM 权重可用于后续同面板对标。拟合集训练、校准集选参，评测逐题计入整个所选档的成本。
 - `car_adapter.py` 用首答和五类诊断拟合错答风险，分别估计有界修复的恢复与错改，再用校准集冻结修订门槛。本任务使用官方数值正确性、DSL 检查与公开证据位置，保留适配名。
-- `cascade_benchmark.py` 调用已固定原版 `CascadeRouter`，使用公开程序执行、证据定位与相互分歧作为质量特征。GB10 隔离依赖目录使用作者发布的 NumPy、SciPy、scikit-learn 版本。与固定 8B 起步的逐级调用分开报。上述适配已做合成流程验证，实际推理、拟合及计分另行执行。
+- `cascade_benchmark.py` 调用已固定原版 `CascadeRouter`，使用公开程序执行、证据定位与相互分歧作为质量特征。GB10 隔离依赖目录使用作者发布的 NumPy、SciPy、scikit-learn 版本。与固定 8B 起步的逐级调用分开报。对照用同一组已完成回执和同一只读校园账本快照，分别指定 `--representation raw` 和 `--representation compiled`。两次运行校验同一提示、计费、预算及面板，分别拟合同一作者路由。TAT-QA 用投影表执行，公开定位继续读取原表。已验证打分和计费入口，完整级联仍需全部拟合、校准和正式评测回执。
 - `school_benchmark.py` 通过既有校内网关记录 `deepseek-v4-flash` 和 `qwen3.8-27b` 的独立解答。GB10 的 `finance_frontier_benchmark_20261120_v2/managed_profiles/` 保存两个独立运行配置，均使用 16,384 上下文和 4,096 输出的实验设置。两者在同一道合成算术题上各发 1 次请求，HTTP 200、模型标签一致且执行答案正确，分别计 899 与 525 tokens。路线锁定后已启动相同 192 题拟合集的校内采集。Qwen 已收到首批正式回执，DeepSeek 排在同一计费队列。每模型最多 192 次 POST、3M tokens，本批期初扣款为 60,404,610。重放时延为逐题调用时长之和，正式墙时比较另计路由与服务开销。
+
+对校内 Qwen 的全部 96 个 FinQA 拟合来源做同调用复算。原答 27/96，公开编译后 59/96，救回 34、错改 2，报告簇配对区间为 [22.9, 43.8] pp。两臂共用原有 96 次请求、316,947 tokens，可执行均为 84/96。已载入回复后的 GB10 CPU 编译逐题中位 0.084 ms。41 题触发比例规则，两个错改的官方参考程序也以乘 100 结尾。复算证据为 GB10 `campus_qwen_finqa96_compile_replay.json`，这些题用于拟合和诊断。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 

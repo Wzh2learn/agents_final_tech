@@ -121,8 +121,8 @@ def compare_prompt(row, initial, candidate, evidence):
     )
 
 
-def observable(row, candidate):
-    trace = public_execution(row, candidate)
+def observable(row, candidate, *, execution_row=None):
+    trace = public_execution(row if execution_row is None else execution_row, candidate)
     bindings = ground(row, candidate['program']) if trace['status'] == 'executed' else []
     return {'execution': trace, 'bindings': [
         {'operand_id': item['operand_id'], 'value': item['token'],

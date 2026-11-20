@@ -2,6 +2,7 @@
 
 import argparse
 from collections import Counter
+from hashlib import sha256
 from importlib import import_module
 from itertools import product
 import json
@@ -11,9 +12,6 @@ import sys
 from types import ModuleType
 
 import numpy as np
-from sklearn.linear_model import LogisticRegression, Ridge
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
 
 from benchmark_actions import digest_file, observable
 from run_pilot import load_lines, write_json
@@ -46,8 +44,8 @@ def public_features(example):
             sum(len(paragraph) for field in ('pre_text', 'post_text') for paragraph in example[field]))
 
 
-def action_features(example, submission):
-    result = observable(example, submission)
+def action_features(example, submission, *, execution_row=None):
+    result = observable(example, submission, execution_row=execution_row)
     execution = result['execution']
     valid = execution['status'] == 'executed'
     bindings = result['bindings']
@@ -66,6 +64,10 @@ def features(question, answers):
 
 
 def fit_estimators(qmodule, cmodule, questions, answers, labels, tokens):
+    from sklearn.linear_model import LogisticRegression, Ridge
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import StandardScaler
+
     visible = [[answer if available else None for answer, available in zip(row, mask, strict=True)]
                for row in answers for mask in product((False, True), repeat=len(ARMS))]
     repeated = [question for question in questions for _ in range(2 ** len(ARMS))]
@@ -124,31 +126,111 @@ def fit_estimators(qmodule, cmodule, questions, answers, labels, tokens):
     return quality, Cost()
 
 
-def read_pool(panel, dataset, paths):
-    public = {row['id']: row for row in load_lines(panel / 'public.jsonl') if row['dataset'] == dataset}
-    if not public:
-        raise ValueError(f'empty {dataset} panel at {panel}')
-    files = ('public.jsonl', 'references.jsonl')
-    expected = {name: digest_file(panel / name) for name in files}
+def replay_independent(path, run_digest, example, gold, outcome, managed_model, campus_rows, metric_dir,
+                       representation):
+    """Check the collected native result and select its raw or publicly compiled submission."""
+    from benchmark_actions import action_cost, deliver
+    from diagnose import read_replay_call
+    from run_pilot import paired_prompt
+    from scoring import parse_dsl, score
+
+    native = outcome['actions']['independent']
+    allowed = (['independent'],) if managed_model else (['independent'], ['low'])
+    if native['calls'] not in allowed:
+        raise ValueError(f'{path}: expected one native solve receipt for {example["id"]}')
+    name = native['calls'][0]
+    metadata = outcome['calls'][name]
+    prompt = paired_prompt(example, 'dsl')
+    if managed_model:
+        from school_benchmark import replay_case
+
+        slug = sha256(example['id'].encode('utf-8')).hexdigest()[:24]
+        relative = Path('calls') / example['dataset'] / slug / name
+        if metadata['path'] != (relative / 'provider_receipt.json').as_posix():
+            raise ValueError(f'{path}: campus receipt location differs for {example["id"]}')
+        receipt = replay_case(path / relative, run_digest, campus_rows, prompt, model_id=managed_model)
+        fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
+        if any(receipt[key] != metadata[key] for key in fields):
+            raise ValueError(f'{path}: campus receipt metadata differs for {example["id"]}')
+    else:
+        receipt = read_replay_call(path, example, name, 'solve', prompt, run_digest, metadata)
+
+    reply = deliver(receipt)
+    raw = parse_dsl(reply)
+    raw_score = score(example, raw, gold=gold, metric_dir=metric_dir)
+    if (raw != native['submission'] or raw_score['strict'] != native['strict']
+            or bool(raw_score['executable']) != native['executable']
+            or action_cost([receipt]) != native['cost']):
+        raise ValueError(f'{path}: recorded native result or solve cost differs for {example["id"]}')
+    if representation == 'raw':
+        return native, example
+
+    from table_scope_replay import public_contract
+
+    projected, submission, _, _ = public_contract(
+        example, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
+    compiled = score(projected, submission, gold=gold, metric_dir=metric_dir)
+    return {**native, 'submission': submission, 'strict': compiled['strict'],
+            'executable': bool(compiled['executable'])}, projected
+
+
+def read_pool(panel, dataset, paths, *, representation='raw', metric_dir=None, campus_rows=None):
+    if representation == 'compiled' and campus_rows is None:
+        raise ValueError('Compiled representation requires a frozen campus ledger')
+    audit = campus_rows is not None
+    if audit:
+        from benchmark_actions import read_panel
+        from school_benchmark import campus
+
+        rows, gold, expected = read_panel(panel, dataset)
+        public = {row['id']: row for row in rows}
+        managed_models = (None, campus.QWEN_MODEL, campus.MODEL)
+        if len(paths) != len(managed_models):
+            raise ValueError('Expected ODA, campus Qwen and campus DeepSeek runs in that order')
+    else:
+        public = {row['id']: row for row in load_lines(panel / 'public.jsonl') if row['dataset'] == dataset}
+        if not public:
+            raise ValueError(f'empty {dataset} panel at {panel}')
+        files = ('public.jsonl', 'references.jsonl')
+        expected = {name: digest_file(panel / name) for name in files}
     received = []
     profiles = []
-    for path in paths:
-        contract = json.loads((path / 'run.json').read_text(encoding='utf-8'))
+    for index, path in enumerate(paths):
+        contract_path = path / 'run.json'
+        contract = json.loads(contract_path.read_text(encoding='utf-8'))
         if contract['panel'] != expected or contract['dataset'] not in {None, dataset}:
             raise ValueError(f'collector did not use this panel: {path}')
         rows = [row for row in load_lines(path / 'outcomes.jsonl') if row['dataset'] == dataset]
-        indexed = {row['id']: row['actions']['independent'] for row in rows}
+        indexed = {row['id']: row for row in rows}
         if set(indexed) != set(public) or len(indexed) != len(rows):
             raise ValueError(f'independent solves do not cover the full selected panel: {path}')
-        received.append(indexed)
         checkpoint = contract.get('checkpoint')
         managed_api = contract.get('api_profile_sha256')
         if bool(checkpoint) == bool(managed_api):
             raise ValueError(f'need one checkpoint or managed API identity: {path}')
+        if audit:
+            model = managed_models[index]
+            if (contract['schema'] != 'finance-benchmark-actions-v1' or 'independent' not in contract['actions']
+                    or bool(managed_api) != bool(model)
+                    or (model and (contract['model'] != model or contract['endpoint'] != campus.BASE_URL))
+                    or (model is None and contract['model'] != 'oda-fin-rl-8b')):
+                raise ValueError(f'{path}: run identity differs from its {ARMS[index]} role')
+            if any(outcome['report'] != public[ident]['report'] for ident, outcome in indexed.items()):
+                raise ValueError(f'{path}: native solve report differs from the frozen panel')
         if managed_api and not any(row['calls']['independent']['provider_posts']
                                    and not row['calls']['independent']['exit_code']
                                    and not row['calls']['independent']['errors'] for row in rows):
             raise ValueError(f'managed arm delivered no provider responses: {path}')
+        if audit:
+            run_digest = digest_file(contract_path)
+            received.append({
+                ident: replay_independent(path, run_digest, example, gold[dataset, ident], indexed[ident],
+                                          model, campus_rows, metric_dir, representation)
+                for ident, example in public.items()
+            })
+        else:
+            received.append({ident: (outcome['actions']['independent'], public[ident])
+                             for ident, outcome in indexed.items()})
         profile = {key: contract[key] for key in ('model', 'serve_sha256', 'opencode_sha256',
                                                   'seed', 'context', 'output', 'temperature')}
         profile.update(checkpoint=checkpoint, api_profile_sha256=managed_api)
@@ -156,10 +238,11 @@ def read_pool(panel, dataset, paths):
             profile['weights_precision'] = contract['weights_precision']
         profiles.append(profile)
     questions = [(ident, public_features(example)) for ident, example in public.items()]
-    answers = [[action_features(example, arm[ident]['submission']) for arm in received]
+    answers = [[action_features(example, action['submission'], execution_row=projected)
+                for action, projected in (arm[ident] for arm in received)]
                for ident, example in public.items()]
-    quality = np.asarray([[arm[ident]['strict'] for arm in received] for ident in public], dtype=int)
-    charges = [[arm[ident]['cost'] for arm in received] for ident in public]
+    quality = np.asarray([[arm[ident][0]['strict'] for arm in received] for ident in public], dtype=int)
+    charges = [[arm[ident][0]['cost'] for arm in received] for ident in public]
     tokens = np.asarray([[item['total_tokens'] for item in row] for row in charges], dtype=float)
     return questions, answers, quality, charges, tokens, profiles
 
@@ -213,10 +296,27 @@ def summarize(decisions):
 
 
 def compare(args):
+    representation = getattr(args, 'representation', 'raw')
+    metric_dir = getattr(args, 'metric_dir', None)
+    ledger_path = getattr(args, 'campus_ledger', None)
+    campus_rows = None
+    if ledger_path is not None:
+        ledger = ledger_path.read_bytes()
+        campus_rows = json.loads(ledger)
+        if not isinstance(campus_rows, list) or any(row['index'] != index
+                                                   for index, row in enumerate(campus_rows, 1)):
+            raise ValueError('expected the frozen campus ledger in provider index order')
+        if args.dataset == 'tatqa' and metric_dir is None:
+            raise ValueError('TAT-QA receipt replay requires the official metric directory')
+    elif representation == 'compiled':
+        raise ValueError('Compiled representation requires a frozen campus ledger')
+
     qlib, clib, cascade, strategy = upstream(args.upstream)
-    fit, calibration, evaluation = [read_pool(args.panels / part, args.dataset, runs)
-                                    for part, runs in (('fit', args.fit), ('calibration', args.calibration),
-                                                        ('eval', args.eval))]
+    splits = (('fit', args.fit), ('calibration', args.calibration), ('eval', args.eval))
+    fit, calibration, evaluation = [read_pool(args.panels / part, args.dataset, runs,
+                                             representation=representation, metric_dir=metric_dir,
+                                             campus_rows=campus_rows)
+                                    for part, runs in splits]
     if fit[-1] != calibration[-1] or fit[-1] != evaluation[-1]:
         raise ValueError('model serving contracts differ between splits')
     if len({item['checkpoint'] or item['api_profile_sha256'] for item in fit[-1]}) != len(ARMS):
@@ -224,6 +324,8 @@ def compare(args):
     triples = [{q[0] for q in pool[0]} for pool in (fit, calibration, evaluation)]
     if any(left & right for idx, left in enumerate(triples) for right in triples[idx + 1:]):
         raise ValueError('fit, calibration and evaluation IDs must be disjoint')
+    if campus_rows is not None:
+        np.random.seed(17)
     quality, cost = fit_estimators(qlib, clib, fit[0], fit[1], fit[2], fit[4])
     keep = np.isfinite(calibration[4]).all(axis=1)
     if np.count_nonzero(keep) < 2:
@@ -252,12 +354,22 @@ def compare(args):
             result = record(realized(router, evaluation, 0 if fixed_start else None))
             result.update(target_mean_tokens=target, lambdas=router.get_lambdas(), tie_mix=float(router.gamma))
             policies[key] = result
-    return {'dataset': args.dataset, 'author_revision': REVISION, 'profiles': fit[-1],
-            'fit_n': len(fit[0]), 'calibration_n': len(cq), 'calibration_excluded_unknown': int(sum(~keep)),
-            'policy': 'Author CascadeRouter and ConstantStrategy with public execution features. '
-                      'Ordered cascade begins with 8B and visits subsequent models consecutively.',
-            'latency': 'Per-question sum of selected call receipts. Online routing latency is unmeasured.',
-            'policies': policies}
+    report = {'dataset': args.dataset, 'author_revision': REVISION, 'profiles': fit[-1],
+              'fit_n': len(fit[0]), 'calibration_n': len(cq), 'calibration_excluded_unknown': int(sum(~keep)),
+              'policy': 'Author CascadeRouter and ConstantStrategy with public execution features. '
+                        'Ordered cascade begins with 8B and visits subsequent models consecutively.',
+              'latency': 'Per-question sum of selected call receipts. Online routing latency is unmeasured.',
+              'policies': policies}
+    if campus_rows is not None:
+        report['representation'] = representation
+        report['campus_ledger_sha256'] = sha256(ledger).hexdigest()
+        report['matched_input_sha256'] = {
+            part: sha256(json.dumps({'questions': pool[0], 'charges': pool[3],
+                                     'runs': [digest_file(run / 'outcomes.jsonl') for run in runs]},
+                                    sort_keys=True, allow_nan=False).encode('utf-8')).hexdigest()
+            for (part, runs), pool in zip(splits, (fit, calibration, evaluation), strict=True)
+        }
+    return report
 
 
 def main():
@@ -265,6 +377,9 @@ def main():
     parser.add_argument('--upstream', type=Path, required=True)
     parser.add_argument('--panels', type=Path, required=True)
     parser.add_argument('--dataset', choices=('finqa', 'tatqa'), required=True)
+    parser.add_argument('--representation', choices=('raw', 'compiled'), default='raw')
+    parser.add_argument('--metric-dir', type=Path, help='Official TAT-QA metric checkout for receipt replay')
+    parser.add_argument('--campus-ledger', type=Path, help='Immutable gateway ledger snapshot for matched receipt replay')
     for partition in ('fit', 'calibration', 'eval'):
         parser.add_argument(f'--{partition}', type=Path, nargs=len(ARMS), required=True,
                             metavar=('ODA_8B', 'QWEN_27B', 'DEEPSEEK'))
@@ -273,6 +388,10 @@ def main():
     args = parser.parse_args()
     if args.output.exists() or any(not np.isfinite(budget) or budget <= 1 for budget in args.budgets):
         parser.error('require a fresh report path and finite budget multipliers above 1')
+    if args.representation == 'compiled' and args.campus_ledger is None:
+        parser.error('--representation compiled requires --campus-ledger')
+    if args.campus_ledger is not None and args.dataset == 'tatqa' and args.metric_dir is None:
+        parser.error('TAT-QA receipt replay requires --metric-dir')
     write_json(args.output, compare(args))
 
 
