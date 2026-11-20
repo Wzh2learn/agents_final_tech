@@ -21,15 +21,30 @@ FINAL_FREE = (
     'line in this format: Final answer: <number> [percent, thousand, million or billion '
     'if reported with that scale]. Give the actual requested unit. Do not emit a program.'
 )
-FINAL_DSL = (
+PROGRAM_HEAD = (
     'Give a complete executable numeric program. End with a plain line Final program: '
-    'followed by comma-separated op(arg1, arg2) steps. Allowed operators are add, '
+)
+PROGRAM_OPERATORS = (
+    'Allowed operators are add, '
     'subtract, multiply, divide, exp, greater, table_sum, table_average, table_max, '
-    'table_min. Use #0 for the output of the first step, #1 for the second and so on. '
+    'table_min. '
+)
+PROGRAM_END = 'For a literal-only result use add(value, const_0). End with no Markdown fence.'
+FINAL_DSL = (
+    PROGRAM_HEAD + 'followed by comma-separated op(arg1, arg2) steps. '
+    + PROGRAM_OPERATORS + 'Use #0 for the output of the first step, #1 for the second and so on. '
     'Use a literal from the report, a constant such as const_100, or a prior-step '
     'reference as an argument. For table operators use the exact row label and none. '
     'Do not nest calls. Format example: subtract(10, 4), divide(#0, const_100). '
-    'For a literal-only result use add(value, const_0). End with no Markdown fence.'
+    + PROGRAM_END
+)
+FINAL_NESTED = (
+    PROGRAM_HEAD + 'followed by one nested op(arg1, arg2) expression. '
+    + PROGRAM_OPERATORS
+    + 'Use a literal from the report, a constant such as const_100, or an inner call '
+    'as an argument. For table operators use the exact row label and none. '
+    'Do not use step references. Format example: divide(subtract(10, 4), const_100). '
+    + PROGRAM_END
 )
 
 
@@ -50,7 +65,7 @@ def paired_prompt(row, arm):
         if row['dataset'] == 'finqa':
             instructions += ' For comparison questions the final answer may be yes or no.'
     else:
-        instructions = FINAL_DSL
+        instructions = FINAL_NESTED if arm == 'nested' else FINAL_DSL
         if row['dataset'] == 'tatqa':
             instructions += (' After the program add one line Scale: <none|thousand|million|'
                              'billion|percent>. Scale must describe the number produced by execution. '

@@ -234,6 +234,83 @@ def public_contract(row, reply, *, stopped):
     return projected, candidate, stage, cells
 
 
+def lower_nested_program(expression: str) -> str:
+    """Lower explicit operands in their original order to native prior-step references."""
+    # Bound recursive parsing even when a malformed expression fails to produce a step.
+    if len(expression) > 8192 or expression.count('(') > 128:
+        raise ValueError('nested_program_too_long')
+    steps = []
+
+    def lower(call, *, root=False):
+        op, args = call
+        table_op = op.startswith('table_')
+        if table_op:
+            if len(args) < 2 or any(isinstance(arg, tuple) for arg in args):
+                raise ValueError('invalid_table_arguments')
+        elif len(args) != 2:
+            raise ValueError('native_arithmetic_requires_two_operands')
+        tokens = []
+        for arg in args:
+            if isinstance(arg, tuple):
+                tokens.append(lower(arg))
+            elif not arg or (not table_op and arg.startswith('#')):
+                raise ValueError('invalid_nested_operand')
+            else:
+                tokens.append(f'"{arg}"' if any(char in arg for char in '(),') else arg)
+        flat = f'{op}({", ".join(tokens)})'
+        if op == 'table_value' and not root:
+            # Leave explicit cell accesses to the shared table-scope compiler.
+            return flat
+        steps.append(flat)
+        return f'#{len(steps) - 1}'
+
+    lower(parse_call(expression), root=True)
+    return ', '.join(steps)
+
+
+def nested_contract(row: dict, reply: str, *, stopped: bool) -> tuple:
+    """Compile one nested declaration and apply the same public rules as flat DSL."""
+    text = _reply_text(reply)
+    if stopped:
+        text = INLINE_LABEL.sub(lambda match: match[0] if match[0].startswith('"') else '\n', text)
+    lines = [line for raw in text.splitlines() if (line := _plain(raw))]
+    parsed = parse_dsl(text)
+    expression = parsed['program']
+    has_declaration = any(PROGRAM_LABEL.match(line) for line in lines)
+    scales = [line for line in lines if SCALE_PREFIX.match(line)]
+    json_reply = _last_object(text) if parsed['parse_mode'] == 'json' else None
+    decoder = json.JSONDecoder()
+    json_program_count = 0
+    for lead in re.finditer(r'(?m)^[ \t]*\{', text):
+        try:
+            obj, _ = decoder.raw_decode(text, lead.end() - 1)
+        except json.JSONDecodeError:
+            continue
+        json_program_count += isinstance(obj.get('program'), str)
+    mixed_programs = json_program_count > 1 or (json_program_count and json_reply is None)
+    mixed_scale = (
+        json_reply is not None and 'scale' in json_reply and len(scales) == 1
+        and (label := SCALE_LABEL.fullmatch(scales[0]))
+        and _scale(label[1]) != parsed['scale']
+    )
+    if expression is None and not has_declaration:
+        body = [line for line in lines if not SCALE_PREFIX.match(line)]
+        expression = body[-1] if body else None
+    if (expression is None or parsed['scale'] is None or mixed_programs or mixed_scale
+            or re.search(r'</?answer\b', text, re.I)):
+        return row, parse_dsl(''), 'nested_rejected', []
+    try:
+        lowered = lower_nested_program(expression)
+    except ValueError:
+        return row, parse_dsl(''), 'nested_rejected', []
+    if json_reply is not None:
+        rewritten = '\n'.join([*scales, json.dumps({**json_reply, 'program': lowered}, ensure_ascii=False)])
+    else:
+        rewritten = '\n'.join([f'Final program: {lowered}', *scales])
+    projected, candidate, stage, cells = public_contract(row, rewritten, stopped=stopped)
+    return projected, candidate, f'nested_{stage}', cells
+
+
 def replay(root, metric_dir):
     surface = replay_surface(root, metric_dir)
     started = process_time()

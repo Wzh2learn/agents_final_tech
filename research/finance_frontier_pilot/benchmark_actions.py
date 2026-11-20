@@ -28,7 +28,7 @@ from scoring import finqa, parse_dsl, parse_free, public_execution, score
 
 
 ACTIONS = ('low', 'mid', 'high', 'independent', 'car_probe', 'contract_compile',
-           'free', 'dsl_fallback', 'compiled_fallback')
+           'free', 'dsl_fallback', 'compiled_fallback', 'nested_compile')
 FAMILIES = {
     'Omission': 'A requested value, derivation, or part of the question is missing.',
     'Binding': 'A value is tied to the wrong entity, period, concept, unit, or scope.',
@@ -159,7 +159,7 @@ def collect_case(row, gold, actions, call, metric_dir):
     """Select unscored programs and only then attach strict outcome labels."""
     outputs = {}
     grading_rows = {}
-    if set(actions) - {'independent', 'free'}:
+    if set(actions) - {'independent', 'free', 'nested_compile'}:
         receipt = call('low', 'solve', paired_prompt(row, 'dsl'))
         draft = deliver(receipt)
         first = parse_dsl(draft)
@@ -200,6 +200,18 @@ def collect_case(row, gold, actions, call, metric_dir):
             reply = deliver(call('independent', 'solve', paired_prompt(row, 'dsl')))
             outputs['independent'] = {'submission': parse_dsl(reply), 'decision': 'independent',
                                       'calls': ['independent']}
+    if 'nested_compile' in actions:
+        from table_scope_replay import nested_contract
+
+        receipt = call('nested_compile', 'solve', paired_prompt(row, 'nested'))
+        reply = deliver(receipt)
+        projected, candidate, stage, cells = nested_contract(
+            row, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
+        grading_rows['nested_compile'] = projected
+        outputs['nested_compile'] = {'decision': stage, 'submission': candidate,
+                                     'calls': ['nested_compile'], 'source_cells': cells}
+        if cells:
+            outputs['nested_compile']['table_projection'] = projected['table']
     fallback = {}
     for name, base in (('dsl_fallback', 'low'), ('compiled_fallback', 'contract_compile')):
         if name in actions:
