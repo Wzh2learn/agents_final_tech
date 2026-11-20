@@ -10,6 +10,7 @@ import argparse
 from collections import Counter
 from importlib.metadata import version
 import json
+from math import isclose
 from pathlib import Path
 import re
 from time import perf_counter
@@ -382,7 +383,12 @@ def replay_compiler_control(report, evaluation, dataset, exposure):
     results = {}
     for name, point in routes.items():
         selected = np.array([TIERS.index(tier) for tier in point['tiers_in_eval_order']])
-        if selected.shape != (len(ids),) or route_stats(evaluation, selected, groups['all']) != point['all']:
+        if selected.shape != (len(ids),):
+            raise ValueError(f'{name}: expected one selected tier per question')
+        expected, measured = dict(point['all']), route_stats(evaluation, selected, groups['all'])
+        expected_seconds = expected.pop('summed_call_seconds')
+        measured_seconds = measured.pop('summed_call_seconds')
+        if measured != expected or not isclose(measured_seconds, expected_seconds, abs_tol=1e-8):
             raise ValueError(f'{name}: selection or costs differ from the recorded raw route')
         result = {}
         for group, indices in groups.items():

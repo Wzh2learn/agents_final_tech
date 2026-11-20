@@ -113,13 +113,27 @@ def test_decoding_refuses_unbound_comparison(frozen_high):
 
 
 @pytest.mark.parametrize('frozen_high', [True], indirect=True)
-def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen_high):
+def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen_high, monkeypatch):
     from budget_policy import evaluate_policies, read_split, replay_compiler_control
+    import table_scope_replay
 
     panel, run = frozen_high
     path = run / 'outcomes.jsonl'
     frozen = path.read_bytes()
+    seen = []
+    compile_reply = table_scope_replay.public_contract
+
+    def observed_compile(row, reply, **options):
+        seen.append((row['id'], reply))
+        return compile_reply(row, reply, **options)
+
+    monkeypatch.setattr(table_scope_replay, 'public_contract', observed_compile)
     evaluation = read_split(panel, run, 'finqa', decode_verifier_answer=True, compile_winners=True)
+    assert seen == [
+        ('grounded', 'Final program: divide(7, 11), multiply(#0, const_100)'),
+        ('grounded', 'Final program: divide(7, 11)'),
+        ('ungrounded', 'Final program: add(11, 8)'),
+    ]
     exposure = {'grounded': 'matched', 'ungrounded': 'other'}
     report = evaluate_policies({'method': 'fixture'}, [], evaluation, exposure)
     report.update(dataset='finqa', inputs={'eval': evaluation['provenance']},
@@ -136,6 +150,9 @@ def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen
     assert [tier['recovered'] for tier in (low, mid, high)] == [1, 1, 0]
     assert high['known_tokens'] == 100 and high['total_tokens'] is None
     assert control['routes']['fixed_high']['other']['correct'] == 0
+    report['fixed']['high']['all']['known_tokens'] += 1
+    with pytest.raises(ValueError, match='costs differ'):
+        replay_compiler_control(report, evaluation, 'finqa', exposure)
     assert path.read_bytes() == frozen
 
 

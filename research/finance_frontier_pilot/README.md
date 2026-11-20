@@ -64,7 +64,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 同 96 题也已完成对 BudgetVerify 三个固定档的同编译器复算。未追加编译时，Low、Mid、解包后的 High 为 17、17、24/96；对各档已经选中的回复应用同一公开编译器后为 44、44、54/96。三个编译后档位的正确答案均可执行，各自沿用 404,948、735,615、1,085,725 tokens。这是固定动作结果，另有正式路由拟合与校准。见 GB10 `oda_finqa96_budget_tiers_matched_compiler.json`。
 
-`budget_policy.py --compile-route-report` 接受已完成的 BudgetVerify 原始路由报告，逐题核对分档、回执与调用计费，再给选中的原始回复使用同一公开编译器。固定档和校准选出的路由分别给出原生分、可执行分及救回与错改，另存为补充报告。教师及本地模型请求增量均为零。
+`budget_policy.py --compile-route-report` 接受已完成的 BudgetVerify 原始路由报告，逐题核对分档、回执与调用计费，再给选中的原始回复使用同一公开编译器。固定档和校准选出的路由分别给出原生分、可执行分及救回与错改，另存为补充报告。已用上段 96 题绑定回执复验固定三档，分数和调用费用逐档一致，记录为 GB10 `oda_finqa96_budget_compiler_control_verified_v1.json`。教师及本地模型请求增量均为零。
 
 采集器的 `free`、`dsl_fallback` 和 `compiled_fallback` 分别记录直接自由回答、原始 DSL 未执行后回退、编译仍未执行后回退。两条回退共用同一份首答和同一份所需自由回答，逐策略只计入其经路由选择的调用。GB10 用 400 个已完成配对验证全量模式与各自独立运行模式的分数、调用选择和计费一致，见 `matched_fallback_action_replay.json`。
 
