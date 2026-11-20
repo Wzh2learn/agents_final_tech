@@ -148,6 +148,8 @@ ODA 正式评测先采齐两数据集 1,865 题的首答，同次调用给出原
 
 独立校准复算中，DeepSeek 起步的未执行回退将 FinQA 从 24 提到 25/48，接管 4 次、共 105,120 tokens；扩大到显式冲突触发多调用 7 次并错改 1 题。Qwen 起步的同一回退将 TAT-QA 从 41 提到 45/48，接管 6 次、共 148,997 tokens，继续扩大触发未增加成功数。两处未执行回退无错改。所有方向与已知用量见 GB10 `campus_{finqa,tatqa}48_calibration_grounded_handoff_replay.json`。保留两个起步方向进入正式评测。
 
+用相同校内回复测剩余接管空间。独立校准的 FinQA 中，DeepSeek 有 20 道已执行错题，Qwen 仅能救回其中 1 道。若在全部 44 道 DeepSeek 已执行题上也调用 Qwen，要多计 143,038 tokens；即使用参考答案从这两份既有回复中挑选，正确数上限也只是 25→26/48。TAT-QA 对应 4 道已执行错题可救回 2 道，全部 46 道已执行题的附加用量为 121,886 tokens，上限为 43→45/48。拟合及反向顺序的对应结果见 GB10 `campus_train_after_execution_headroom_v1.json`。
+
 在同一校准回执上分解编译器。FinQA 上 Qwen 的原始、仅格式与表范围编译、再加比例约定三档为 9、9、19/48；DeepSeek 为 12、13、24/48。全编译分别救回 12 与 14 题，两个模型均错改同样两题。两模型的 TAT-QA 三档分别为 41、41、41/48 和 40、42、42/48。每一模型的三档共用同一份调用回执。见 GB10 `campus_{finqa,tatqa}48_calibration_compile_components.json`。
 
 48 道独立 FinQA 多步校准题的 ODA 首答已收齐，按冻结请求与原始回执复算，编译后由 6 提升到 16/48，救回 12、错改 2，报告簇配对增量为 20.8 pp [6.3, 35.4]，沿用 182,253 tokens。同题校内 Qwen 为 9→19、155,622 tokens，DeepSeek 为 12→24、92,536 tokens。此处只核对首答阶段，ODA 校准的其余动作及 CAR 冻结继续采集。见 GB10 `oda_cal_finqa_direct_compiler_preflight_v1.json`。
