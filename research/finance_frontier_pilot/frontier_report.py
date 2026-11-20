@@ -306,6 +306,38 @@ def paired_evaluation(policies, public, strata):
             'by_stratum': by_stratum}
 
 
+def paired_compiler_effect(policies, public, strata):
+    """Compare the same first replies with and without public compilation."""
+    by_stratum = {group: {} for group in ('all', 'no_detected_overlap') if group in strata}
+    columns = (('compiled', 'strict'), ('raw', 'strict'))
+    for model in MODELS:
+        raw, _ = policies[f'cascade/raw/always_{model}']
+        compiled, _ = policies[f'cascade/compiled/always_{model}']
+        if any(raw[ident]._replace(strict=0, executable=None) != compiled[ident]._replace(strict=0, executable=None)
+               for ident in public):
+            raise ValueError(f'{model}: the same-call compiler comparison has different recorded charges')
+        for group, models in by_stratum.items():
+            ids = strata[group]
+            metrics = {}
+            for name in ('strict', 'strict_and_executable'):
+                observable = ids if name == 'strict' else [ident for ident in ids
+                                                           if raw[ident].executable is not None
+                                                           and compiled[ident].executable is not None]
+                examples = [(public[ident], {
+                    arm: {'strict': bool(rows[ident].strict and (name == 'strict' or rows[ident].executable))}
+                    for arm, rows in (('raw', raw), ('compiled', compiled))
+                }) for ident in observable]
+                metrics[name] = {'n': 0} if not examples else {
+                    **paired_effect(examples, columns, BOOTSTRAP_DRAWS),
+                    'raw_correct': sum(outcomes['raw']['strict'] for _, outcomes in examples),
+                    'compiled_correct': sum(outcomes['compiled']['strict'] for _, outcomes in examples),
+                }
+            models[model] = metrics
+    return {'scope': 'Raw versus compiled on the same direct model calls. The joint metric uses pairs with both '
+                     'execution flags known. Intervals resample reports or table contexts within each contrast.',
+            'by_stratum': by_stratum}
+
+
 def paired_tradeoff_report(policies, public, strata):
     """Report paired uncertainty at named operating points independent of eval accuracy."""
     budget_points = [name for name, (_, metadata) in policies.items()
@@ -441,6 +473,7 @@ def build_report(args):
                 ('cascade_compiled', args.cascade_compiled))},
             'budgetverify_inputs': budget_inputs, 'policy_metadata': {name: info for name, (_, info) in policies.items()},
             'paired_strict_evaluation': paired_evaluation(policies, public, strata),
+            'paired_compiler_effect': paired_compiler_effect(policies, public, strata),
             'paired_tradeoff_evaluation': paired_tradeoff_report(policies, public, strata),
             'token_cost': 'The common complete-usage stratum retains questions with complete usage for every '
                           'included policy. Known sums with missing usage are lower bounds.',

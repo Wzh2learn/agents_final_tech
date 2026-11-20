@@ -158,6 +158,12 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert report['timing']['acquisition_wall']['oda']['collection_wall_seconds_this_pass'] == 58
     assert f'{chain}\t2\t2\t1.000000\tunknown\t60\t1' in render_table(report)
     assert measured['executable'] == measured['strict_and_executable'] == 2
+    compiler = report['paired_compiler_effect']['by_stratum']['all']
+    for metric in ('strict', 'strict_and_executable'):
+        effect = compiler['oda-8b'][metric]
+        assert (effect['n'], effect['raw_correct'], effect['compiled_correct'], effect['gains']) == (2, 0, 1, 1)
+        assert effect['paired_cluster_percentile_95_pp'] == [0, 100]
+        assert compiler['qwen-27b'][metric]['losses'] == 0
     free = full['policies']['oda/free']
     assert (free['correct'], free['executable'], free['strict_and_executable']) == (1, 0, 0)
     assert full['policies']['budgetverify/gbm/fixed_high']['executable'] == 2
@@ -206,6 +212,16 @@ def test_matched_report_rejects_duplicate_ids(matched_runs):
     path.write_text(first + '\n' + first + '\n', encoding='utf-8')
     with pytest.raises(ValueError, match='ODA: expected exactly one row'):
         build_report(matched_runs)
+
+
+def test_compiler_effect_requires_same_model_call(matched_runs):
+    from frontier_report import Outcome, paired_compiler_effect
+
+    raw = ({'use': Outcome(0, 50, 0, 1, 1, False)}, {})
+    compiled = ({'use': Outcome(1, 51, 0, 1, 1, True)}, {})
+    with pytest.raises(ValueError, match='same-call compiler comparison has different recorded charges'):
+        paired_compiler_effect({'cascade/raw/always_oda-8b': raw, 'cascade/compiled/always_oda-8b': compiled},
+                               {'use': 'report'}, {'all': ['use']})
 
 
 def test_paired_intervals_resample_report_clusters_and_retain_harms(matched_runs):
