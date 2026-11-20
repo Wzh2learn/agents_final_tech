@@ -30,6 +30,7 @@ class Outcome(NamedTuple):
     unknown_usage_calls: int
     calls: int
     serial_seconds: float
+    executable: bool | None = None
 
 
 def read(path):
@@ -45,7 +46,20 @@ def matched(rows, ids, label, dataset=None):
     return index
 
 
-def outcome(strict, cost):
+def execution_flag(value):
+    if value is not None and (type(value) not in (bool, int) or value not in (0, 1)):
+        raise ValueError('execution flag must be binary or unknown')
+    return None if value is None else bool(value)
+
+
+def matched_execution(value, source, label):
+    value = execution_flag(value)
+    if value is not None and source is not None and value != source:
+        raise ValueError(f'{label}: execution flag differs from its matched source')
+    return source if value is None else value
+
+
+def outcome(strict, cost, *, executable=None):
     known, unknown, calls = (cost[key] for key in ('known_tokens', 'unknown_usage_calls', 'calls'))
     seconds = cost['summed_call_seconds']
     if (type(strict) not in (bool, int) or strict not in (0, 1)
@@ -53,7 +67,7 @@ def outcome(strict, cost):
             or not 0 <= unknown <= calls or not isfinite(seconds) or seconds < 0
             or ('total_tokens' in cost and cost['total_tokens'] != (None if unknown else known))):
         raise ValueError('invalid matched correctness, usage or call duration')
-    return Outcome(int(strict), known, unknown, calls, seconds)
+    return Outcome(int(strict), known, unknown, calls, seconds, execution_flag(executable))
 
 
 def selected_action(row, action):
@@ -64,15 +78,23 @@ def selected_action(row, action):
     cost = action_cost([row['calls'][name] for name in calls])
     if cost != saved['cost']:
         raise ValueError(f'{row["id"]}: recorded {action} cost differs from its receipts')
-    return outcome(saved['strict'], cost)
+    executable = execution_flag(saved.get('executable'))
+    if executable and (action == 'free' or (action in ('dsl_fallback', 'compiled_fallback') and 'free' in calls)):
+        raise ValueError(f'{row["id"]}: free numeric output cannot be an executed program')
+    return outcome(saved['strict'], cost, executable=executable)
 
 
 def summarize(rows):
     correct = sum(row.strict for row in rows)
     known = sum(row.known_tokens for row in rows)
     unknown = sum(row.unknown_usage_calls for row in rows)
+    execution_unknown = sum(row.executable is None for row in rows)
+    joint_unknown = sum(row.strict and row.executable is None for row in rows)
     serial = [row.serial_seconds for row in rows]
     return {'n': len(rows), 'correct': correct, 'accuracy': correct / len(rows),
+            'executable': None if execution_unknown else sum(row.executable is True for row in rows),
+            'strict_and_executable': None if joint_unknown else sum(row.strict and row.executable is True for row in rows),
+            'execution_known_n': len(rows) - execution_unknown, 'execution_unknown_n': execution_unknown,
             'calls': sum(row.calls for row in rows), 'total_tokens': None if unknown else known,
             'known_tokens': known, 'known_tokens_are_lower_bound': bool(unknown),
             'unknown_usage_calls': unknown,
@@ -88,6 +110,8 @@ def check_summary(source, measured, *, cascade=False):
     if (source[correctness] != measured['correct'] or source[tokens] != measured['total_tokens']
             or any(source[key] != measured[key] for key in ('n', 'known_tokens', 'unknown_usage_calls'))
             or not isclose(source[seconds], measured[seconds], abs_tol=1e-8)
+            or any(source[key] != measured[key] for key in ('executable', 'strict_and_executable')
+                   if source.get(key) is not None)
             or (not cascade and source['calls'] != measured['calls'])):
         raise ValueError('reported policy summary differs from its matched items')
 
@@ -115,7 +139,10 @@ def car_items(root, oda, ids, dataset, panel, oda_digest):
         cost = action_cost(calls)
         if cost != row['cost']:
             raise ValueError(f'{ident}: CAR cost differs from its receipts')
-        results[ident] = outcome(row['strict'], cost)
+        retained = not row['attempted_repair'] or row.get('repaired') is False
+        execution_source = execution_flag(draft['actions']['low'].get('executable')) if retained else None
+        execution = matched_execution(row.get('executable'), execution_source, f'CAR/{ident}')
+        results[ident] = outcome(row['strict'], cost, executable=execution)
     return results, {'family': 'CAR adaptation', 'policy_sha256': contract['policy'],
                      'probe_decoding': contract.get('probe_decoding')}
 
@@ -127,6 +154,8 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
         raise ValueError(f'{expected_method}: report, panel or ODA run differs')
     tiers = {tier: {ident: selected_action(oda[ident], tier) for ident in order} for tier in TIERS}
     labels = report.get('eval_strict_by_tier')
+    execution_flags = report.get('eval_executable_by_tier')
+    replayed = 'verifier_replay' in report
     if labels is None and 'verifier_replay' in report:
         raise ValueError('decoder-enabled reports must publish matched per-item High correctness')
     if labels is not None:
@@ -139,6 +168,16 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
                         or (strict != original.strict and (tier != 'high' or 'verifier_replay' not in report))):
                     raise ValueError(f'{ident}: invalid or unmatched BudgetVerify {tier} label')
                 tiers[tier][ident] = original._replace(strict=int(strict))
+    if execution_flags is not None and (set(execution_flags) != set(TIERS)
+                                        or any(len(values) != len(order) for values in execution_flags.values())):
+        raise ValueError('BudgetVerify requires one execution flag per eval question and tier')
+    for tier in TIERS:
+        flags = execution_flags[tier] if execution_flags is not None else [None] * len(order)
+        for ident, flag in zip(order, flags, strict=True):
+            item = tiers[tier][ident]
+            source = None if replayed and tier == 'high' else item.executable
+            execution = matched_execution(flag, source, f'BudgetVerify/{tier}/{ident}')
+            tiers[tier][ident] = item._replace(executable=execution)
 
     policies = {}
     candidates = [(f'fixed_{tier}', record, {}) for tier, record in report['fixed'].items()]
@@ -164,10 +203,15 @@ def cascade_items(report, oda_policies, ids):
         rows = input_rows[f'always_{model}']
         if any(row['selected'] != model or row['queried'] != [model] for row in rows.values()):
             raise ValueError(f'{model}: non-direct receipt for a single-model baseline')
-        direct[model] = {ident: outcome(row['strict'], {**row, 'calls': 1}) for ident, row in rows.items()}
+        direct[model] = {ident: outcome(row['strict'], {**row, 'calls': 1}, executable=row.get('executable'))
+                         for ident, row in rows.items()}
     local = 'low' if representation == 'raw' else 'contract_compile'
-    if direct['oda-8b'] != oda_policies[local]:
-        raise ValueError(f'Cascade {representation}: ODA decisions differ from matched ODA actions')
+    for ident, item in direct['oda-8b'].items():
+        matched_oda = oda_policies[local][ident]
+        if item._replace(executable=None) != matched_oda._replace(executable=None):
+            raise ValueError(f'Cascade {representation}: ODA decisions differ from matched ODA actions')
+        execution = matched_execution(item.executable, matched_oda.executable, f'Cascade/{representation}/ODA/{ident}')
+        direct['oda-8b'][ident] = item._replace(executable=execution)
     direct['oda-8b-free'] = oda_policies['free']
     policies = {}
     for name, rows in input_rows.items():
@@ -181,7 +225,8 @@ def cascade_items(report, oda_policies, ids):
             source = (oda_policies['compiled_fallback'] if name == CONTRACT_CASCADE and row['selected'] == 'oda-8b'
                       else direct[row['selected']])
             receipts = [direct[model][ident] for model in queried]
-            measured = outcome(row['strict'], {**row, 'calls': len(queried)})
+            execution = matched_execution(row.get('executable'), source[ident].executable, f'{name}/{ident}')
+            measured = outcome(row['strict'], {**row, 'calls': len(queried)}, executable=execution)
             if (measured.strict != source[ident].strict
                     or measured.known_tokens != sum(item.known_tokens for item in receipts)
                     or measured.unknown_usage_calls != sum(item.unknown_usage_calls for item in receipts)
@@ -197,11 +242,11 @@ def cascade_items(report, oda_policies, ids):
     return policies
 
 
-def frontier(points, cost):
+def frontier(points, cost, success='correct'):
     complete = {name: row for name, row in points.items() if row[cost] is not None}
     return sorted(name for name, row in complete.items() if not any(
-        other[cost] <= row[cost] and other['correct'] >= row['correct']
-        and (other[cost] < row[cost] or other['correct'] > row['correct'])
+        other[cost] <= row[cost] and other[success] >= row[success]
+        and (other[cost] < row[cost] or other[success] > row[success])
         for other in complete.values()))
 
 
@@ -318,6 +363,9 @@ def build_report(args):
     complete = [ident for ident in public
                 if all(not items[ident].unknown_usage_calls for items, _ in policies.values())]
     strata['common_complete_usage'] = complete
+    executable_complete = [ident for ident in complete
+                           if all(items[ident].executable is not None for items, _ in policies.values())]
+    strata['common_complete_usage_and_execution'] = executable_complete
     result = {}
     for group, ids in strata.items():
         points = ({name: summarize([items[ident] for ident in ids]) for name, (items, _) in policies.items()}
@@ -327,6 +375,10 @@ def build_report(args):
     result['common_complete_usage'].update(
         excluded_n=len(public) - len(complete),
         token_frontier=frontier(result['common_complete_usage']['policies'], 'total_tokens'))
+    execution_group = result['common_complete_usage_and_execution']
+    execution_group.update(excluded_n=len(public) - len(executable_complete),
+                           executable_correct_token_frontier=frontier(
+                               execution_group['policies'], 'total_tokens', 'strict_and_executable'))
     acquisition = {}
     for name, source, key, scope in (
         ('oda', args.oda_run, 'collection_wall_seconds_this_pass', 'Collector pass over its requested actions and rows.'),
@@ -344,6 +396,8 @@ def build_report(args):
             'paired_strict_evaluation': paired_evaluation(policies, public, strata),
             'token_cost': 'The common complete-usage stratum retains questions with complete usage for every '
                           'included policy. Known sums with missing usage are lower bounds.',
+            'execution': 'Executable counts require known execution flags. Joint counts require known flags '
+                         'for every strict match. The supplementary frontier uses shared complete usage and flags.',
             'timing': {'serial_call_seconds': 'Sum of recorded elapsed durations for selected calls on each question.',
                        'online_policy_wall_seconds': None, 'acquisition_wall': acquisition},
             'strata': result}
@@ -355,16 +409,19 @@ def build_report(args):
 def render_table(report):
     rows = ['policy\tn\tstrict\taccuracy\ttotal_tokens\tknown_tokens\tunknown_usage_calls\t'
             'mean_serial_call_seconds\tcommon_complete_n\tcommon_complete_tokens\t'
-            'common_complete_accuracy\tcommon_complete_token_frontier']
+            'common_complete_accuracy\tcommon_complete_token_frontier\texecutable\tstrict_and_executable\t'
+            'execution_known_n\texecution_unknown_n']
     full = report['strata']['all']
     shared = report['strata']['common_complete_usage']
     for name, row in sorted(full['policies'].items()):
         tokens = 'unknown' if row['total_tokens'] is None else str(row['total_tokens'])
         pair = shared['policies'].get(name)
         pair_stats = f'{pair["total_tokens"]}\t{pair["accuracy"]:.6f}' if pair is not None else 'n/a\tn/a'
+        flags = '\t'.join('unknown' if row[key] is None else str(row[key])
+                          for key in ('executable', 'strict_and_executable', 'execution_known_n', 'execution_unknown_n'))
         rows.append(f'{name}\t{row["n"]}\t{row["correct"]}\t{row["accuracy"]:.6f}\t{tokens}\t{row["known_tokens"]}'
                     f'\t{row["unknown_usage_calls"]}\t{row["mean_serial_call_seconds"]:.3f}'
-                    f'\t{shared["n"]}\t{pair_stats}\t{int(name in shared["token_frontier"])}')
+                    f'\t{shared["n"]}\t{pair_stats}\t{int(name in shared["token_frontier"])}\t{flags}')
     return '\n'.join(rows) + '\n'
 
 

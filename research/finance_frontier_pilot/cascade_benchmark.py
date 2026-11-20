@@ -350,6 +350,7 @@ def realized(router, pool, initial=None):
         called = [model for model, answer in enumerate(state) if answer is not None]
         spent = [charge[idx][model] for model in called]
         decisions.append({'id': question[0], 'strict': int(quality[idx, best]),
+                          'executable': bool(answers[idx][best][0][1]),
                           'selected': ARMS[best], 'queried': [ARMS[model] for model in called],
                           'known_tokens': sum(item['known_tokens'] for item in spent),
                           'unknown_usage_calls': sum(item['unknown_usage_calls'] for item in spent),
@@ -393,6 +394,8 @@ def summarize(decisions):
               'p90_serial_call_seconds': float(np.percentile(serial, 90))}
     if all('executable' in row for row in decisions):
         result['executable'] = sum(row['executable'] for row in decisions)
+        result['strict_and_executable'] = sum(row['strict'] and row['executable'] for row in decisions)
+    if all('selected_stage' in row for row in decisions):
         result['selected_stage'] = dict(Counter(row['selected_stage'] for row in decisions))
     return result
 

@@ -49,7 +49,8 @@ def matched_runs(tmp_path, monkeypatch):
         selected = {'low': ['low'], 'free': ['free'], 'dsl_fallback': ['low', 'free'],
                     'contract_compile': ['low'], 'compiled_fallback': ['low'] if known else ['low', 'free'],
                     'mid': ['low', 'mid'], 'high': ['low', 'high_solve', 'high_compare']}
-        actions = {name: {'strict': known and name in ('contract_compile', 'compiled_fallback'),
+        actions = {name: {'strict': known and name in ('free', 'dsl_fallback', 'contract_compile', 'compiled_fallback'),
+                          'executable': known and 'free' not in used,
                           'calls': used, 'cost': action_cost([calls[key] for key in used])}
                    for name, used in selected.items()}
         oda_points[row['id']] = dict(row, actions=actions, calls=calls)
@@ -70,47 +71,51 @@ def matched_runs(tmp_path, monkeypatch):
             write(path, charged[-1])
         repairs.append({k: row[k] for k in ('dataset', 'id', 'report')} |
                        {'draft_correct': False, 'attempted_repair': relative is not None,
-                        'repair_receipt': relative, 'strict': relative is not None, 'cost': action_cost(charged)})
+                        'repair_receipt': relative, 'strict': relative is not None, 'executable': relative is not None,
+                        'cost': action_cost(charged)})
     lines(car / 'outcomes.jsonl', repairs)
 
     for path, method in ((args.budgetverify_gbm, 'GBM'), (args.budgetverify_tabfm, 'TabFM-1.0.0-PyTorch')):
         order = list(reversed(ids))
         labels = {'low': [0, 0], 'mid': [0, 0], 'high': [0, 1]}
+        executed = {'low': [False, True], 'mid': [False, True], 'high': [True, True]}
         fixed = {}
         for tier, stricts in labels.items():
-            items = [outcome(strict, oda_points[ident]['actions'][tier]['cost'])
-                     for ident, strict in zip(order, stricts, strict=True)]
+            items = [outcome(strict, oda_points[ident]['actions'][tier]['cost'], executable=flag)
+                     for ident, strict, flag in zip(order, stricts, executed[tier], strict=True)]
             fixed[tier] = {'all': summarize(items), 'tiers_in_eval_order': [tier] * len(ids)}
         write(path, {'dataset': 'finqa', 'method': method, 'inputs': {'eval': provenance},
-                     'eval_ids': order, 'eval_strict_by_tier': labels, 'fixed': fixed,
+                     'eval_ids': order, 'eval_strict_by_tier': labels, 'eval_executable_by_tier': executed, 'fixed': fixed,
                      'verifier_replay': {'eval': {}}, 'policies': [
                          {'lambda': .1, 'calibration_frontier': True, 'config': {'constant': 'high'}, 'eval': fixed['high']},
                          {'lambda': .2, 'calibration_frontier': False},
                      ]})
 
     def reported(items):
-        stats = summarize([outcome(row['strict'], {**row, 'calls': len(row['queried'])}) for row in items])
+        stats = summarize([outcome(row['strict'], {**row, 'calls': len(row['queried'])},
+                                   executable=row.get('executable')) for row in items])
         return {'items': items, 'all': {**stats, 'strict': stats['correct'], 'tokens': stats['total_tokens']}}
 
     for representation, path in (('raw', args.cascade_raw), ('compiled', args.cascade_compiled)):
         arm = 'low' if representation == 'raw' else 'contract_compile'
         single = [{'id': ident, 'selected': 'oda-8b', 'queried': ['oda-8b'],
+                   'executable': row['actions'][arm]['executable'],
                    'strict': row['actions'][arm]['strict'], **row['actions'][arm]['cost']}
                   for ident, row in oda_points.items()]
         policies = {'always_oda-8b': reported(single)}
         for model in ('qwen-27b', 'deepseek'):
             policies[f'always_{model}'] = reported([
                 {'id': ident, 'selected': model, 'queried': [model],
-                 'strict': model == 'qwen-27b', **action_cost([call(40, 3)])} for ident in ids])
+                 'strict': model == 'qwen-27b', 'executable': True, **action_cost([call(40, 3)])} for ident in ids])
         if representation == 'compiled':
             policies[CONTRACT_CASCADE] = reported([
                 single[0], {'id': 'unknown', 'selected': 'qwen-27b',
-                            'queried': ['oda-8b', 'oda-8b-free', 'qwen-27b'], 'strict': 1,
+                            'queried': ['oda-8b', 'oda-8b-free', 'qwen-27b'], 'strict': 1, 'executable': True,
                             **action_cost([call(10, 1), call(None, 2), call(40, 3)])},
             ])
             policies['nonexecution_8b_qwen_deepseek'] = reported([
                 single[0], {'id': 'unknown', 'selected': 'qwen-27b', 'queried': ['oda-8b', 'qwen-27b'],
-                            'strict': 1, **action_cost([call(10, 1), call(40, 3)])},
+                            'strict': 1, 'executable': True, **action_cost([call(10, 1), call(40, 3)])},
             ])
             policies['nonexecution_deepseek_qwen'] = policies['always_deepseek']
         write(path, {'dataset': 'finqa', 'representation': representation, 'policies': policies,
@@ -135,13 +140,22 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert shared['policies'][chain]['total_tokens'] == 10
     assert not shared['policies'][chain]['known_tokens_are_lower_bound']
     assert all(point['unknown_usage_calls'] == 0 and point['n'] == 1 for point in shared['policies'].values())
-    assert 'oda/low' not in shared['token_frontier'] and 'oda/contract_compile' in shared['token_frontier']
+    assert 'oda/low' not in shared['token_frontier'] and 'oda/free' in shared['token_frontier']
     assert 'budgetverify/gbm/lambda_0.2' not in full['policies']
     assert strata['detected_overlap']['policies']['budgetverify/gbm/lambda_0.1']['correct'] == 1
     assert strata['no_detected_overlap']['n'] == 1
     assert report['timing']['online_policy_wall_seconds'] is None
     assert report['timing']['acquisition_wall']['oda']['collection_wall_seconds_this_pass'] == 58
     assert f'{chain}\t2\t2\t1.000000\tunknown\t60\t1' in render_table(report)
+    assert measured['executable'] == measured['strict_and_executable'] == 2
+    free = full['policies']['oda/free']
+    assert (free['correct'], free['executable'], free['strict_and_executable']) == (1, 0, 0)
+    assert full['policies']['budgetverify/gbm/fixed_high']['executable'] == 2
+    executable = strata['common_complete_usage_and_execution']
+    assert (executable['n'], executable['excluded_n']) == (1, 1)
+    assert 'oda/contract_compile' in executable['executable_correct_token_frontier']
+    assert render_table(report).splitlines()[0].endswith(
+        'executable\tstrict_and_executable\texecution_known_n\texecution_unknown_n')
     paired = report['paired_strict_evaluation']
     contrast = paired['by_stratum']['all']['cascade/compiled/nonexecution_deepseek_qwen']
     assert paired['flagship'] == chain and contrast['gains'] == 2
@@ -201,4 +215,48 @@ def test_ratio_sensitivity_is_separate_from_matched_frontiers(matched_runs):
     subgroup.update(n=2, baseline_correct=2, guarded_correct=1)
     path.write_text(json.dumps(compiled), encoding='utf-8')
     with pytest.raises(ValueError, match='counts differ from matched outcomes'):
+        build_report(matched_runs)
+
+
+def test_missing_legacy_execution_flags_stay_unknown(matched_runs):
+    from frontier_report import build_report
+
+    budget_path = matched_runs.budgetverify_gbm
+    budget = json.loads(budget_path.read_text(encoding='utf-8'))
+    budget.pop('eval_executable_by_tier')
+    records = [*budget['fixed'].values(), budget['policies'][0]['eval']]
+    for record in records:
+        for key in ('executable', 'strict_and_executable'):
+            record['all'].pop(key)
+    budget_path.write_text(json.dumps(budget), encoding='utf-8')
+
+    cascade_path = matched_runs.cascade_raw
+    cascade = json.loads(cascade_path.read_text(encoding='utf-8'))
+    for policy in cascade['policies'].values():
+        for key in ('executable', 'strict_and_executable'):
+            policy['all'].pop(key)
+        for item in policy['items']:
+            item.pop('executable')
+    cascade_path.write_text(json.dumps(cascade), encoding='utf-8')
+
+    report = build_report(matched_runs)
+    full = report['strata']['all']['policies']
+    high = full['budgetverify/gbm/fixed_high']
+    assert high['correct'] == 1 and high['executable'] is None and high['strict_and_executable'] is None
+    assert high['execution_unknown_n'] == 2
+    assert full['budgetverify/gbm/fixed_low']['executable'] == 1
+    assert full['cascade/raw/always_oda-8b']['executable'] == 1
+    assert full['cascade/raw/always_qwen-27b']['executable'] is None
+    assert report['strata']['common_complete_usage']['n'] == 1
+    assert report['strata']['common_complete_usage_and_execution']['n'] == 0
+
+
+def test_rejects_cascade_flag_that_disagrees_with_selected_program(matched_runs):
+    from frontier_report import CONTRACT_CASCADE, build_report
+
+    path = matched_runs.cascade_compiled
+    report = json.loads(path.read_text(encoding='utf-8'))
+    report['policies'][CONTRACT_CASCADE]['items'][0]['executable'] = False
+    path.write_text(json.dumps(report), encoding='utf-8')
+    with pytest.raises(ValueError, match='execution flag differs from its matched source'):
         build_report(matched_runs)

@@ -145,7 +145,7 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
         raise ValueError(f'{run}: action receipts must cover eligible panel IDs and reports exactly once')
     if any(set(row) != {'dataset', 'id', 'report', *PUBLIC_FIELDS} for row in public.values()):
         raise ValueError(f'{panel}: invalid public-only schema')
-    design, correct, costs = [], [], []
+    design, correct, executable, costs = [], [], [], []
     feature_seconds = 0.0
     required_calls = (['low'], ['low', 'mid'], ['low', 'high_solve', 'high_compare'])
     for ident, row in public.items():
@@ -165,23 +165,28 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
             tier_costs.append(cost)
         costs.append(tier_costs)
         labels = [int(actions[tier]['strict']) for tier in TIERS]
+        execution_flags = [actions[tier].get('executable') for tier in TIERS]
+        if any(flag is not None and type(flag) is not bool for flag in execution_flags):
+            raise ValueError(f'{run}: invalid tier execution flag for {ident}')
         if decode_verifier_answer:
             original = actions['high']
             adjusted = replay_high(run, row, gold[dataset, ident], run_digest, actions, receipts, metric_dir)
             before, after = original['strict'], adjusted['strict']
             labels[-1] = int(after)
+            execution_flags[-1] = adjusted['executable']
             decoder_stats.update(questions=1, comparison_changed=original['comparison'] != adjusted['comparison'],
                                  selection_changed=original['decision'] != adjusted['decision'],
                                  old_high_correct=before, new_high_correct=after,
                                  recovered=after and not before, harmed=before and not after)
         correct.append(labels)
+        executable.append(execution_flags)
     profile = {key: value for key, value in contract.items()
                if key not in ('namespace', 'panel', 'dataset', 'actions')}
     split = {'ids': list(public), 'source_keys': {key for row in public.values() for key in identity_keys(row)},
              'provenance': {p.name: digest_file(p) for p in (contract_path, outcomes_path)},
              'profile': profile, 'features': np.array([list(row.values()) for row in design], dtype=float),
              'feature_names': list(design[0]), 'feature_seconds': feature_seconds,
-             'correct': np.array(correct), 'costs': costs,
+             'correct': np.array(correct), 'executable': np.array(executable), 'costs': costs,
              'tokens': np.array([[cost['total_tokens'] for cost in row] for row in costs], dtype=float)}
     if decode_verifier_answer:
         split['verifier_replay'] = {'decoder': 'exact_keep_or_use_new_final_answer_v1', **decoder_stats}
@@ -314,10 +319,13 @@ def evaluate_policies(summary, policies, evaluation, exposure):
         chosen = predict(evaluation['features']).astype(int)
         measured = {'prediction_batch_seconds': perf_counter() - started, **eval_route(chosen)}
         scored.append({**point, 'eval': measured})
+    execution = evaluation.get('executable')
     return {
         **summary, 'eval_ids': evaluation['ids'],
         'eval_strict_by_tier': {tier: evaluation['correct'][:, index].tolist()
                                 for index, tier in enumerate(TIERS)},
+        'eval_executable_by_tier': {tier: execution[:, index].tolist() for index, tier in enumerate(TIERS)}
+        if execution is not None else None,
         'eval_feature_seconds': evaluation['feature_seconds'],
         'fixed': {tier: eval_route(np.full(len(eval_indices), route)) for route, tier in enumerate(TIERS)},
         'policies': scored,
