@@ -357,7 +357,7 @@ def evaluate_policies(summary, policies, evaluation, exposure):
         measured = {'prediction_batch_seconds': perf_counter() - started, **eval_route(chosen)}
         scored.append({**point, 'eval': measured})
     execution = evaluation.get('executable')
-    return {
+    report = {
         **summary, 'eval_ids': evaluation['ids'],
         'eval_strict_by_tier': {tier: evaluation['correct'][:, index].tolist()
                                 for index, tier in enumerate(TIERS)},
@@ -367,6 +367,14 @@ def evaluate_policies(summary, policies, evaluation, exposure):
         'fixed': {tier: eval_route(np.full(len(eval_indices), route)) for route, tier in enumerate(TIERS)},
         'policies': scored,
     }
+    if 'compiled_scores' in evaluation:
+        scores = evaluation['compiled_scores']
+        if scores.shape != (len(eval_indices), len(TIERS), 2):
+            raise ValueError('Expected compiled correctness and execution flags for each question and tier')
+        report['eval_public_compiler_by_tier'] = {tier: {'strict': scores[:, i, 0].tolist(),
+                                                        'executable': scores[:, i, 1].tolist()}
+                                                  for i, tier in enumerate(TIERS)}
+    return report
 
 
 def evaluate(fit, calibration, evaluation, exposure, checkpoint):
@@ -452,7 +460,8 @@ def main():
 
     def read_part(part):
         return read_split(args.panel / part, getattr(args, f'{part}_run'), args.dataset,
-                          decode_verifier_answer=args.decode_verifier_answer, metric_dir=args.metric_dir)
+                          decode_verifier_answer=args.decode_verifier_answer, metric_dir=args.metric_dir,
+                          compile_winners=part == 'eval' and args.decode_verifier_answer)
 
     fit, cal = read_part('fit'), read_part('calibration')
     seen = set(fit['source_keys'])

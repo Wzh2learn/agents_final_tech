@@ -204,6 +204,29 @@ def test_matched_report_rejects_budgetverify_source_mismatch(matched_runs, split
         build_report(matched_runs)
 
 
+def test_shared_budgetverify_compiler_updates_answers_without_changing_routes_or_cost(matched_runs):
+    from frontier_report import build_report
+
+    flags = {'low': {'strict': [False, True], 'executable': [False, True]},
+             'mid': {'strict': [False, True], 'executable': [False, True]},
+             'high': {'strict': [True, True], 'executable': [True, True]}}
+    for path in (matched_runs.budgetverify_gbm, matched_runs.budgetverify_tabfm):
+        record = json.loads(path.read_text(encoding='utf-8'))
+        record['eval_public_compiler_by_tier'] = flags
+        path.write_text(json.dumps(record), encoding='utf-8')
+    report = build_report(matched_runs)
+    stats = report['strata']['all']['policies']
+    native = 'budgetverify/tabfm/lambda_0.1'
+    compiled = 'budgetverify_compiled/tabfm/lambda_0.1'
+    assert (stats[native]['correct'], stats[compiled]['correct']) == (1, 2)
+    for key in ('calls', 'total_tokens', 'known_tokens', 'mean_serial_call_seconds'):
+        assert stats[native][key] == stats[compiled][key]
+    assert stats[compiled]['strict_and_executable'] == 2
+    assert compiled in report['paired_tradeoff_evaluation']['anchors']
+    assert 'budgetverify_compiled/tabfm/lambda_0.3' not in report['paired_tradeoff_evaluation']['anchors']
+    assert compiled in report['paired_strict_evaluation']['by_stratum']['all']
+
+
 def test_matched_report_rejects_duplicate_ids(matched_runs):
     from frontier_report import build_report
 

@@ -184,7 +184,22 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
             execution = matched_execution(flag, source, f'BudgetVerify/{tier}/{ident}')
             tiers[tier][ident] = item._replace(executable=execution)
 
+    compiled = report.get('eval_public_compiler_by_tier')
+    compiled_tiers = {}
+    if compiled is not None:
+        if not replayed or set(compiled) != set(TIERS):
+            raise ValueError('The shared compiler requires decoded results for all BudgetVerify tiers')
+        for tier, flags in compiled.items():
+            if (set(flags) != {'strict', 'executable'} or any(len(column) != len(order) for column in flags.values())
+                    or any(type(value) is not bool for column in flags.values() for value in column)):
+                raise ValueError(f'BudgetVerify shared compiler: malformed {tier} flags')
+            compiled_tiers[tier] = {
+                ident: tiers[tier][ident]._replace(strict=int(strict), executable=executable)
+                for ident, strict, executable in zip(order, flags['strict'], flags['executable'], strict=True)
+            }
+
     policies = {}
+    compiled_policies = {}
     candidates = [(f'fixed_{tier}', record, {}) for tier, record in report['fixed'].items()]
     deploy_name = None
     if all('calibration' in point for point in report['policies']):
@@ -198,11 +213,14 @@ def budget_items(report, oda, ids, dataset, provenance, expected_method):
         actions = record['tiers_in_eval_order']
         items = {ident: tiers[action][ident] for ident, action in zip(order, actions, strict=True)}
         check_summary(record['all'], summarize(list(items.values())))
-        policies[name] = (items, {'family': 'BudgetVerify adaptation', 'classifier': report['method'],
-                                  'verifier_replay': 'verifier_replay' in report,
-                                  'calibration_operating_point_2x': name == deploy_name,
-                                  'batch_prediction_seconds': record.get('prediction_batch_seconds'), **details})
-    return policies
+        metadata = {'family': 'BudgetVerify adaptation', 'classifier': report['method'],
+                    'verifier_replay': replayed, 'calibration_operating_point_2x': name == deploy_name,
+                    'batch_prediction_seconds': record.get('prediction_batch_seconds'), **details}
+        policies[name] = items, metadata
+        if compiled_tiers:
+            compiled_items = {ident: compiled_tiers[tier][ident] for ident, tier in zip(order, actions, strict=True)}
+            compiled_policies[name] = compiled_items, {**metadata, 'public_compiler': 'shared_public_contract_v1'}
+    return policies, compiled_policies
 
 
 def shared_budgetverify_inputs(gbm, tabfm):
@@ -211,7 +229,7 @@ def shared_budgetverify_inputs(gbm, tabfm):
             or any(set(split) != {'run.json', 'outcomes.jsonl'} for split in inputs.values())
             or tabfm['inputs'] != inputs):
         raise ValueError('BudgetVerify GBM and TabFM require identical fit, calibration and eval receipts')
-    replay_fields = ('run_profile', 'eval_ids', 'verifier_replay', 'eval_strict_by_tier')
+    replay_fields = ('run_profile', 'eval_ids', 'verifier_replay', 'eval_strict_by_tier', 'eval_public_compiler_by_tier')
     flag_key = 'eval_executable_by_tier'
     if (any(gbm.get(field) != tabfm.get(field) for field in replay_fields)
             or (flag_key in gbm and flag_key in tabfm and gbm[flag_key] != tabfm[flag_key])):
@@ -344,7 +362,8 @@ def paired_tradeoff_report(policies, public, strata):
                      if name.startswith('budgetverify/tabfm/') and metadata.get('calibration_operating_point_2x')]
     if len(budget_points) > 1:
         raise ValueError('Expected one deployment operating point for BudgetVerify TabFM')
-    expected = (*TRADEOFF_BASELINES, *budget_points)
+    compiled_budget_points = [name.replace('budgetverify/', 'budgetverify_compiled/', 1) for name in budget_points]
+    expected = (*TRADEOFF_BASELINES, *budget_points, *(name for name in compiled_budget_points if name in policies))
     names = [name for name in expected if name in policies]
     missing = [name for name in expected if name not in policies]
     if not budget_points:
@@ -415,8 +434,9 @@ def build_report(args):
     gbm, tabfm = read(args.budgetverify_gbm), read(args.budgetverify_tabfm)
     budget_inputs = shared_budgetverify_inputs(gbm, tabfm)
     for tag, record, method in (('gbm', gbm, 'GBM'), ('tabfm', tabfm, 'TabFM-1.0.0-PyTorch')):
-        policies.update({f'budgetverify/{tag}/{name}': value for name, value in
-                         budget_items(record, oda, public, args.dataset, provenance, method).items()})
+        native, compiled_budget = budget_items(record, oda, public, args.dataset, provenance, method)
+        policies.update({f'budgetverify/{tag}/{name}': value for name, value in native.items()})
+        policies.update({f'budgetverify_compiled/{tag}/{name}': value for name, value in compiled_budget.items()})
 
     raw, compiled = read(args.cascade_raw), read(args.cascade_compiled)
     if (raw['representation'] != 'raw' or compiled['representation'] != 'compiled'

@@ -172,12 +172,15 @@ def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_
     def read_split(panel, run, dataset, **options):
         split = panel.name
         events.append(split)
+        assert options['decode_verifier_answer'] and options['compile_winners'] == (split == 'eval')
         if split == 'eval':
             assert events == ['fit', 'calibration', *['fit_policy'] * len(budget.LAMBDAS), 'frontier', 'eval']
+        compiled = {'compiled_scores': np.array([[[True, True], [True, True], [False, True]]])}
         return {'ids': [split], 'source_keys': {('id', split)}, 'provenance': {'source': split},
                 'profile': {'model': 'fixture'}, 'features': np.array([[1.0]]), 'feature_names': ['fixture'],
                 'feature_seconds': 0, 'correct': np.array([[int(split != 'eval'), 1, 1]]),
-                'executable': np.array([[False, True, True]]),
+                'executable': np.array([[False, True, True]]), 'verifier_replay': {},
+                **(compiled if split == 'eval' else {}),
                 'costs': costs, 'tokens': np.array([[20.0, 40.0, 60.0]])}
 
     def checked_fit(*args):
@@ -197,7 +200,7 @@ def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_
     monkeypatch.setattr(sys, 'argv',
                         ['budget_policy', '--panel', str(tmp_path), '--fit-run', 'fit-run',
                          '--calibration-run', 'cal-run', '--eval-run', 'eval-run', '--dataset', 'finqa',
-                         '--output', str(output)])
+                         '--decode-verifier-answer', '--output', str(output)])
 
     budget.main()
     report = json.loads(output.read_text(encoding='utf-8'))
@@ -206,3 +209,7 @@ def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_
     assert report['fixed']['mid']['all']['correct'] == 1
     assert report['eval_strict_by_tier'] == {'low': [0], 'mid': [1], 'high': [1]}
     assert report['eval_executable_by_tier'] == {'low': [False], 'mid': [True], 'high': [True]}
+    assert report['eval_public_compiler_by_tier'] == {
+        'low': {'strict': [True], 'executable': [True]}, 'mid': {'strict': [True], 'executable': [True]},
+        'high': {'strict': [False], 'executable': [True]},
+    }

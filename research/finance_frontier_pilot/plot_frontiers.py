@@ -15,6 +15,7 @@ from matplotlib.ticker import FuncFormatter, MaxNLocator, PercentFormatter
 
 DATASETS = {'finqa': 'FinQA', 'tatqa': 'TAT-QA'}
 CONTRACT = 'cascade/compiled/contract_8b_free_qwen_deepseek'
+COMPILED_BUDGETVERIFY = 'BudgetVerify + compiler'
 FIXED_ANCHORS = {
     'cascade/compiled/always_deepseek': ('DeepSeek direct', -13),
     'cascade/compiled/nonexecution_deepseek_qwen': ('DeepSeek → Qwen', 11),
@@ -26,6 +27,7 @@ STYLES = {
     'CAR': ('D', '#0072B2', 40),
     'BudgetVerify / TabFM': ('^', '#88549C', 41),
     'BudgetVerify / GBM': ('s', '#B67500', 38),
+    COMPILED_BUDGETVERIFY: ('X', '#BD447F', 56),
     'Author Cascade': ('P', '#00815F', 44),
     'Fixed / single model': ('o', '#747C87', 25),
 }
@@ -38,6 +40,8 @@ def family(name, metadata):
         return 'CAR'
     if name.startswith('budgetverify/') and '/lambda_' in name:
         return 'BudgetVerify / TabFM' if '/tabfm/' in name else 'BudgetVerify / GBM'
+    if name.startswith(('budgetverify_compiled/gbm/', 'budgetverify_compiled/tabfm/')):
+        return COMPILED_BUDGETVERIFY
     if metadata.get('family') == 'Cascade Routing adaptation':
         return 'Author Cascade'
     return 'Fixed / single model'
