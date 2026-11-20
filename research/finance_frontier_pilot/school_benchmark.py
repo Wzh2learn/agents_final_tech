@@ -14,7 +14,9 @@ import threading
 import time
 from types import SimpleNamespace
 
-from benchmark_actions import action_cost, collect_case, digest_file, freeze, read_panel, recorded_call
+from benchmark_actions import (
+    action_cost, collect_case, digest_file, freeze, grade_case, read_panel, recorded_call, timed_selection,
+)
 from run_pilot import OpenCode, write_json
 from scoring import _metric_type
 
@@ -243,10 +245,18 @@ def collect_rows(args, root, public, gold, run_digest, key, budget, profile, gat
                                cached_this_pass=cached)
                 return result
 
-            actions = collect_case(row, gold[row['dataset'], row['id']], [ACTION], capture, args.metric_dir)
+            reference = gold[row['dataset'], row['id']]
+            online_wall = None
+            if cached:
+                actions = collect_case(row, reference, [ACTION], capture, args.metric_dir)
+            else:
+                selected, projections, online_wall = timed_selection(row, ACTION, capture)
+                actions = grade_case(row, reference, selected, projections, args.metric_dir)
             actions[ACTION]['cost'] = action_cost([receipt])
             outcome = {'dataset': row['dataset'], 'id': row['id'], 'report': row['report'],
                        'actions': actions, 'calls': {ACTION: receipt}}
+            if online_wall is not None:
+                outcome['online_wall'] = {'action': ACTION, 'seconds': online_wall}
             stream.write(json.dumps(outcome, ensure_ascii=False, allow_nan=False) + '\n')
             completed += 1
             attempted += receipt['provider_posts']

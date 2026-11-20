@@ -108,6 +108,11 @@ def matched_runs(tmp_path, monkeypatch):
                             'queried': ['oda-8b', 'oda-8b-free', 'qwen-27b'], 'strict': 1,
                             **action_cost([call(10, 1), call(None, 2), call(40, 3)])},
             ])
+            policies['nonexecution_8b_qwen_deepseek'] = reported([
+                single[0], {'id': 'unknown', 'selected': 'qwen-27b', 'queried': ['oda-8b', 'qwen-27b'],
+                            'strict': 1, **action_cost([call(10, 1), call(40, 3)])},
+            ])
+            policies['nonexecution_deepseek_qwen'] = policies['always_deepseek']
         write(path, {'dataset': 'finqa', 'representation': representation, 'policies': policies,
                      'profiles': [], 'author_revision': 'pinned',
                      'campus_ledger_sha256': 'shared', 'matched_input_sha256': {'eval': 'matched'}})
@@ -137,6 +142,12 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     assert report['timing']['online_policy_wall_seconds'] is None
     assert report['timing']['acquisition_wall']['oda']['collection_wall_seconds_this_pass'] == 58
     assert f'{chain}\t2\t2\t1.000000\tunknown\t60\t1' in render_table(report)
+    paired = report['paired_strict_evaluation']
+    contrast = paired['by_stratum']['all']['cascade/compiled/nonexecution_deepseek_qwen']
+    assert paired['flagship'] == chain and contrast['gains'] == 2
+    assert contrast['paired_cluster_percentile_95_pp'] == [100.0, 100.0]
+    assert paired['by_stratum']['no_detected_overlap']['oda/compiled_fallback']['net_pp'] == 100
+    assert 'paired_cluster_percentile_95_pp' not in paired['by_stratum']['all']['oda/low']
 
 
 def test_matched_report_rejects_duplicate_ids(matched_runs):
@@ -147,3 +158,21 @@ def test_matched_report_rejects_duplicate_ids(matched_runs):
     path.write_text(first + '\n' + first + '\n', encoding='utf-8')
     with pytest.raises(ValueError, match='ODA: expected exactly one row'):
         build_report(matched_runs)
+
+
+def test_paired_intervals_resample_report_clusters_and_retain_harms(matched_runs):
+    from frontier_report import FLAGSHIP, INTERVAL_ANCHORS, Outcome, paired_evaluation
+
+    reports = {'a': 'first', 'b': 'first', 'c': 'second', 'd': 'second'}
+
+    def policy(correctness):
+        return ({ident: Outcome(strict, 23, 0, 1, 1.0)
+                 for ident, strict in zip(reports, correctness, strict=True)}, {})
+
+    main, comparator = policy([1, 0, 1, 0]), policy([0, 1, 0, 0])
+    policies = {FLAGSHIP: main, **dict.fromkeys(INTERVAL_ANCHORS, comparator), 'descriptive': comparator}
+    paired = paired_evaluation(policies, reports, {'all': list(reports), 'no_detected_overlap': ['b']})['by_stratum']
+    assert paired['all']['car'] == {'n': 4, 'clusters': 2, 'gains': 2, 'harms': 1, 'net_pp': 25,
+                                    'paired_cluster_percentile_95_pp': [0.0, 50.0]}
+    assert paired['no_detected_overlap']['car']['paired_cluster_percentile_95_pp'] == [-100.0, -100.0]
+    assert 'paired_cluster_percentile_95_pp' not in paired['all']['descriptive']

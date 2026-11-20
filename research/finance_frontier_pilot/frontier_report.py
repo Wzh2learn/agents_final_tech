@@ -9,12 +9,17 @@ from statistics import median, quantiles
 from typing import NamedTuple
 
 from benchmark_actions import action_cost, digest_file
+from diagnose import paired_effect
 from run_pilot import load_lines, write_json
 
 
 TIERS = ('low', 'mid', 'high')
 MODELS = ('oda-8b', 'qwen-27b', 'deepseek')
 CONTRACT_CASCADE = 'contract_8b_free_qwen_deepseek'
+FLAGSHIP = f'cascade/compiled/{CONTRACT_CASCADE}'
+INTERVAL_ANCHORS = ('cascade/compiled/nonexecution_8b_qwen_deepseek',
+                    'cascade/compiled/nonexecution_deepseek_qwen', 'oda/compiled_fallback', 'car')
+BOOTSTRAP_DRAWS = 10000
 ODA_METHODS = ('low', 'free', 'dsl_fallback', 'contract_compile', 'compiled_fallback')
 INDEPENDENT_EXPOSURE = 'no_pilot_or_reserved_context_detected'
 
@@ -200,6 +205,38 @@ def frontier(points, cost):
         for other in complete.values()))
 
 
+def paired_evaluation(policies, public, strata):
+    missing = {FLAGSHIP, *INTERVAL_ANCHORS} - policies.keys()
+    if missing:
+        raise ValueError(f'Missing paired comparison anchors: {sorted(missing)}')
+    proposed = policies[FLAGSHIP][0]
+    by_stratum = {}
+    for group in ('all', 'no_detected_overlap'):
+        if group not in strata:
+            continue
+        ids = strata[group]
+        clusters = len({public[ident] for ident in ids})
+        comparisons = {}
+        for name, (baseline, _) in policies.items():
+            if name == FLAGSHIP:
+                continue
+            differences = [proposed[ident].strict - baseline[ident].strict for ident in ids]
+            contrast = {'n': len(ids), 'clusters': clusters, 'gains': differences.count(1),
+                        'harms': differences.count(-1), 'net_pp': 100 * sum(differences) / len(ids)}
+            if name in INTERVAL_ANCHORS:
+                examples = [(public[ident], {'flagship': {'strict': proposed[ident].strict},
+                                              'comparator': {'strict': baseline[ident].strict}}) for ident in ids]
+                bootstrap = paired_effect(examples, (('flagship', 'strict'), ('comparator', 'strict')), BOOTSTRAP_DRAWS)
+                contrast['paired_cluster_percentile_95_pp'] = bootstrap['paired_cluster_percentile_95_pp']
+            comparisons[name] = contrast
+        by_stratum[group] = comparisons
+    return {'flagship': FLAGSHIP, 'interval_anchors': list(INTERVAL_ANCHORS),
+            'bootstrap': {'draws': BOOTSTRAP_DRAWS, 'seed': 20261119,
+                          'cluster': 'FinQA report or TAT-QA table context as recorded by the panel.',
+                          'interval': 'Pointwise paired cluster percentile 95% interval in percentage points.'},
+            'by_stratum': by_stratum}
+
+
 def build_report(args):
     public_path = args.panel / 'public.jsonl'
     rows = [row for row in load_lines(public_path) if row['dataset'] == args.dataset]
@@ -271,6 +308,7 @@ def build_report(args):
                 ('budgetverify_tabfm', args.budgetverify_tabfm), ('cascade_raw', args.cascade_raw),
                 ('cascade_compiled', args.cascade_compiled))},
             'policy_metadata': {name: info for name, (_, info) in policies.items()},
+            'paired_strict_evaluation': paired_evaluation(policies, public, strata),
             'token_cost': 'The common complete-usage stratum retains questions with complete usage for every '
                           'included policy. Known sums with missing usage are lower bounds.',
             'timing': {'serial_call_seconds': 'Sum of recorded elapsed durations for selected calls on each question.',
