@@ -11,10 +11,10 @@ from time import process_time
 
 from run_pilot import load_lines
 from scoring import (
-    OPERATION, PROGRAM_LABEL, SCALE_LABEL, SCALE_PREFIX, _plain, _reply_text, _scale,
-    finqa, score,
+    OPERATION, PROGRAM_LABEL, SCALE_LABEL, SCALE_PREFIX, _last_object, _plain, _reply_text, _scale,
+    finqa, finqa_ratio_rule, parse_dsl, public_execution, score,
 )
-from surface_replay import INLINE_LABEL, replay as replay_surface
+from surface_replay import INLINE_LABEL, decode_surface, replay as replay_surface
 
 
 CALL = re.compile(r'([A-Za-z_][A-Za-z_0-9]*)\((.*)\)')
@@ -197,6 +197,41 @@ def compile_table_scope(public, reply):
     return ({**public, 'table': projected},
             {'arm': 'dsl', 'answer': None, 'scale': scale, 'program': ', '.join(program),
              'parse_mode': 'exact_table_scope'}, provenance)
+
+
+def representation(row, reply, *, stopped):
+    original = parse_dsl(reply)
+    if stopped and public_execution(row, original)['status'] != 'executed':
+        if row['dataset'] == 'finqa':
+            # Its prompt has no scale slot. Preserve any existing declaration.
+            reply = _reply_text(reply)
+            marked = INLINE_LABEL.sub(lambda match: match[0] if match[0].startswith('"') else '\n', reply)
+            labels = any(SCALE_PREFIX.match(_plain(line.strip().rstrip(','))) for line in marked.splitlines())
+            json_scale = any('scale' in (_last_object(fragment) or {}) for fragment in [reply, *reply.splitlines()])
+            if not labels and not json_scale:
+                reply += '\nScale: none'
+        repaired = decode_surface(reply)
+        if repaired is not None and public_execution(row, repaired)['status'] == 'executed':
+            return row, repaired, 'surface', []
+        try:
+            projected, compiled, cells = compile_table_scope(row, reply)
+        except ValueError:
+            pass
+        else:
+            if public_execution(projected, compiled)['status'] == 'executed':
+                return projected, compiled, 'table_scope', cells
+    return row, original, 'original', []
+
+
+def public_contract(row, reply, *, stopped):
+    """Select an executable submission using the public report and receipt only."""
+    projected, candidate, stage, cells = representation(row, reply, stopped=stopped)
+    if row['dataset'] == 'finqa':
+        revised = finqa_ratio_rule(projected, candidate, public_execution(projected, candidate))
+        if revised is not None and public_execution(projected, revised)['status'] == 'executed':
+            decision = 'finqa_ratio' if stage == 'original' else f'{stage}_finqa_ratio'
+            return projected, revised, decision, cells
+    return projected, candidate, stage, cells
 
 
 def replay(root, metric_dir):
