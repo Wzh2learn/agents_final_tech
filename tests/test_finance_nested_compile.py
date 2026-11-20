@@ -155,6 +155,24 @@ def test_fresh_timing_measures_the_conditional_calls_before_gold_grading(pilot, 
     assert scored['compiled_fallback']['strict'] and not scored['compiled_fallback']['executable']
 
 
+def test_ratio_prompt_control_is_one_dsl_call_with_only_the_declared_convention(pilot, report):
+    collect_case, paired_prompt, _ = pilot
+    old, old_report = paired_prompt(report, 'dsl').split('\n\n', 1)
+    calls = []
+
+    def call(action, actor, prompt):
+        instructions, public = prompt.split('\n\n', 1)
+        assert public == old_report and instructions.startswith(old)
+        assert '25% should execute to 0.25' in instructions[len(old):]
+        calls.append((action, actor))
+        return {'text': 'Final program: divide(1, 4)', 'exit_code': 0, 'errors': [], 'finish': ['stop']}
+
+    action = collect_case(report, {'exe_ans': .25}, ['finqa_ratio_prompt'], call, None)['finqa_ratio_prompt']
+    assert calls == [('finqa_ratio_prompt', 'solve')] and action['strict'] and action['executable']
+    with pytest.raises(ValueError, match='specific to FinQA'):
+        paired_prompt(dict(report, dataset='tatqa'), 'finqa_ratio_prompt')
+
+
 @pytest.fixture
 def paired_runs(tmp_path, pilot, report):
     from benchmark_actions import action_cost, digest_file

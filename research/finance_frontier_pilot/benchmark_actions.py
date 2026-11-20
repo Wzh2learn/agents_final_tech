@@ -28,7 +28,7 @@ from scoring import _reply_text, finqa, parse_dsl, parse_free, public_execution,
 
 
 ACTIONS = ('low', 'mid', 'high', 'independent', 'car_probe', 'contract_compile',
-           'free', 'dsl_fallback', 'compiled_fallback', 'nested_compile')
+           'free', 'dsl_fallback', 'compiled_fallback', 'nested_compile', 'finqa_ratio_prompt')
 FAMILIES = {
     'Omission': 'A requested value, derivation, or part of the question is missing.',
     'Binding': 'A value is tied to the wrong entity, period, concept, unit, or scope.',
@@ -170,7 +170,7 @@ def select_case(row, actions, call, *, decode_verifier_answer=False):
     """Choose outputs using public evidence and model replies only."""
     outputs = {}
     grading_rows = {}
-    if set(actions) - {'independent', 'free', 'nested_compile'}:
+    if set(actions) - {'independent', 'free', 'nested_compile', 'finqa_ratio_prompt'}:
         receipt = call('low', 'solve', paired_prompt(row, 'dsl'))
         draft = deliver(receipt)
         first = parse_dsl(draft)
@@ -212,6 +212,10 @@ def select_case(row, actions, call, *, decode_verifier_answer=False):
             reply = deliver(call('independent', 'solve', paired_prompt(row, 'dsl')))
             outputs['independent'] = {'submission': parse_dsl(reply), 'decision': 'independent',
                                       'calls': ['independent']}
+    if 'finqa_ratio_prompt' in actions:
+        receipt = call('finqa_ratio_prompt', 'solve', paired_prompt(row, 'finqa_ratio_prompt'))
+        outputs['finqa_ratio_prompt'] = {'submission': parse_dsl(deliver(receipt)),
+                                        'decision': 'ratio_instructions', 'calls': ['finqa_ratio_prompt']}
     if 'nested_compile' in actions:
         from table_scope_replay import nested_contract
 
@@ -298,6 +302,8 @@ def read_panel(directory, dataset):
 
 def collect(args, root):
     rows, gold, panel = read_panel(args.panel, args.dataset)
+    if 'finqa_ratio_prompt' in args.actions and any(row['dataset'] != 'finqa' for row in rows):
+        raise ValueError('The ratio prompt action requires a FinQA-only panel')
     if any(row['dataset'] == 'tatqa' for row in rows):
         if args.metric_dir is None:
             raise ValueError('TAT-QA requires the official metric directory')

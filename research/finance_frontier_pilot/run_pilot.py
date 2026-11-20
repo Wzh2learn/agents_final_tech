@@ -66,6 +66,12 @@ def paired_prompt(row, arm):
             instructions += ' For comparison questions the final answer may be yes or no.'
     else:
         instructions = FINAL_NESTED if arm == 'nested' else FINAL_DSL
+        if arm == 'finqa_ratio_prompt':
+            if row['dataset'] != 'finqa':
+                raise ValueError('The decimal ratio instruction is specific to FinQA')
+            instructions += (' Express percentages as decimal ratios in the executed result. '
+                             'For example, a result of 25% should execute to 0.25. '
+                             'Leave percentage presentation to the renderer.')
         if row['dataset'] == 'tatqa':
             instructions += (' After the program add one line Scale: <none|thousand|million|'
                              'billion|percent>. Scale must describe the number produced by execution. '

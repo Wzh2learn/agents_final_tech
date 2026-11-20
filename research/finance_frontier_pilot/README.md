@@ -108,6 +108,10 @@ DeepSeek 的首次正式交接沿用了两个合成请求之后建立的批次�
 
 独立校准复算中，DeepSeek 起步的未执行回退将 FinQA 从 24 提到 25/48，接管 4 次、共 105,120 tokens；扩大到显式冲突触发多调用 7 次并错改 1 题。Qwen 起步的同一回退将 TAT-QA 从 41 提到 45/48，接管 6 次、共 148,997 tokens，继续扩大触发未增加成功数。两处未执行回退无错改。所有方向与已知用量见 GB10 `campus_{finqa,tatqa}48_calibration_grounded_handoff_replay.json`。保留两个起步方向进入正式评测。
 
+在同一校准回执上分解编译器。FinQA 上 Qwen 的原始、仅格式与表范围编译、再加比例约定三档为 9、9、19/48；DeepSeek 为 12、13、24/48。全编译分别救回 12 与 14 题，两个模型均错改同样两题。两模型的 TAT-QA 三档分别为 41、41、41/48 和 40、42、42/48。每一模型的三档共用同一份调用回执。见 GB10 `campus_{finqa,tatqa}48_calibration_compile_components.json`。
+
+原 FinQA DSL 提示给出语法，百分比终值约定由编译器执行。`finqa_ratio_prompt` 只在原提示追加显式小数比例约定，仍以原生执行器评分。预先用题目公开措辞和固定哈希，从已有前 64 道 TRAIN 拟合题中选 16 道显式百分比题。逐题对比原提示原答、原提示编译答和新提示原答，衡量显式提示能替代多少后置编译。正式面板原运行保持固定协议。
+
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
 ### 对标权重与推理精度

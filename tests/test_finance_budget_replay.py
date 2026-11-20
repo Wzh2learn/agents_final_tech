@@ -152,3 +152,4 @@ def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_
     assert all(policy['calibration_frontier'] for policy in report['policies'])
     assert all(policy['eval']['all']['correct'] == 0 for policy in report['policies'])
     assert report['fixed']['mid']['all']['correct'] == 1
+    assert report['eval_strict_by_tier'] == {'low': [0], 'mid': [1], 'high': [1]}

@@ -316,6 +316,8 @@ def evaluate_policies(summary, policies, evaluation, exposure):
         scored.append({**point, 'eval': measured})
     return {
         **summary, 'eval_ids': evaluation['ids'],
+        'eval_strict_by_tier': {tier: evaluation['correct'][:, index].tolist()
+                                for index, tier in enumerate(TIERS)},
         'eval_feature_seconds': evaluation['feature_seconds'],
         'fixed': {tier: eval_route(np.full(len(eval_indices), route)) for route, tier in enumerate(TIERS)},
         'policies': scored,
