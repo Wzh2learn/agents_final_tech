@@ -205,15 +205,18 @@ restore () {
         echo 'Previous 27B guard is still present. Check the guard before another restore.' >&2
         return 1
     fi
-    # A restored service can outlive this stage and must release its inherited entry locks.
-    (cd "$repo" && nohup setsid "$repo/venv/bin/python" -B -c '
+    # Replace the background shell so it cannot hold an entry lock while its child serves.
+    (
+        cd "$repo"
+        exec nohup setsid "$repo/venv/bin/python" -B -c '
 import os
 import sys
 
 os.closerange(3, os.sysconf("SC_OPEN_MAX"))
 os.execv(sys.executable, [sys.executable, "-u", "-B", sys.argv[1]])
 ' "$work/restore_teacher/restore.py" \
-        >"$work/restore_teacher/supervisor.log" 2>&1 9>&- </dev/null &)
+            >"$work/restore_teacher/supervisor.log" 2>&1 9>&- </dev/null
+    ) &
 }
 exec 9<> "$HOME/wzh/.gpu_lock"
 trap restore EXIT
