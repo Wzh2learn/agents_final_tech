@@ -82,12 +82,14 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 `run_gb10.sh` 复用已实测的 ODA 服务与研究 GPU 租约。给定全量对标目录后，第五项参数可选 `fit`、`calibration` 或 `eval`，每个面板以独立空间 `oda_<split>_v1` 使用同一权重和生成配置。探针收齐后已在 GB10 启动两数据集各 96 个拟合来源的 `oda_fit_v1`。首答和复核均设 4,096 输出上限，成本按真实请求计。结束后释放 ODA 并恢复原 27B。CAR 修订采集从各阶段对应的首答和五类检查回执出发，并发前先初始化其 OpenCode 会话库。
 
-- `budget_policy.py` 按每个成本权重从三个实测动作生成路由监督。GBM 默认使用，GB10 已有的 TabFM 权重可用于后续同面板对标。拟合集训练、校准集选参，评测逐题计入整个所选档的成本。
+- `budget_policy.py` 按每个成本权重从三个实测动作生成路由监督。保留 GBM，并用 BudgetVerify 原文表现最强的 TabFM 分支做同面板对标。GB10 的隔离依赖目录 `~/wzh/external_research_sources/finance_frontier/budgetverify-tabfm-deps-v1` 固定 TabFM 1.0.1，复用现有 1.0.0 PyTorch 分类权重完成了 CPU 三分类试跑。权重载入 54.1 s，3 个合成输入预测 1.58 s，峰值常驻内存约 12.8 GiB，见 `budgetverify_tabfm_cpu_smoke.json`。正式对标以拟合集构造监督、校准集选参，计入整个所选档的模型成本并单报路由时长。[BudgetVerify 分类器比较](https://arxiv.org/html/2609.33052v1#S4.SS2.SSS2) · [TabFM 1.0.1](https://github.com/google-research/tabfm/releases/tag/v1.0.1)
 - `car_adapter.py` 用首答和五类诊断拟合错答风险，分别估计有界修复的恢复与错改，再用校准集冻结修订门槛。本任务使用官方数值正确性、DSL 检查与公开证据位置，保留适配名。
 - `cascade_benchmark.py` 调用已固定原版 `CascadeRouter`，使用公开程序执行、证据定位与相互分歧作为质量特征。GB10 隔离依赖目录使用作者发布的 NumPy、SciPy、scikit-learn 版本。与固定 8B 起步的逐级调用分开报。对照用同一组已完成回执和同一只读校园账本快照，分别指定 `--representation raw` 和 `--representation compiled`。两次运行校验同一提示、计费、预算及面板，分别拟合同一作者路由。TAT-QA 用投影表执行，公开定位继续读取原表。已验证打分和计费入口，完整级联仍需全部拟合、校准和正式评测回执。
 - `school_benchmark.py` 通过既有校内网关记录 `deepseek-v4-flash` 和 `qwen3.8-27b` 的独立解答。GB10 的 `finance_frontier_benchmark_20261120_v2/managed_profiles/` 保存两个独立运行配置，均使用 16,384 上下文和 4,096 输出的实验设置。两者在同一道合成算术题上各发 1 次请求，HTTP 200、模型标签一致且执行答案正确，分别计 899 与 525 tokens。路线锁定后已启动相同 192 题拟合集的校内采集，每模型最多 192 次 POST、3M tokens。校准已排入同一计费队列，在两模型拟合回执齐全后，使用相同设置采集两数据集各 48 个新来源，每模型最多 96 次 POST、2M tokens。本批期初扣款为 60,404,610。重放时延为逐题调用时长之和，正式墙时比较另计路由与服务开销。
 
 对校内 Qwen 的全部 96 个 FinQA 拟合来源做同调用复算。原答 27/96，公开编译后 59/96，救回 34、错改 2，报告簇配对区间为 [22.9, 43.8] pp。两臂共用原有 96 次请求、316,947 tokens，可执行均为 84/96。已载入回复后的 GB10 CPU 编译逐题中位 0.084 ms。41 题触发比例规则，两个错改的官方参考程序也以乘 100 结尾。复算证据为 GB10 `campus_qwen_finqa96_compile_replay.json`，这些题用于拟合和诊断。
+
+校内 Qwen 的 TAT-QA 拟合前 48 个固定来源，原答与公开编译均为 38/48，可执行均为 41/48。该批回复没有触发编译转换。两臂共用 48 次请求、已知 121,158 tokens，另 1 次未知用量。复算见 GB10 `campus_qwen_tatqa48_compile_replay.json`。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
