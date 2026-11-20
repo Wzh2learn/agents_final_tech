@@ -54,7 +54,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 单变量对照用 `nested_compile` 检验模型能否省去手写步骤引用。固定题面、运算符、尺度和生成设置，模型写一棵嵌套算式，编译器按操作数顺序转为平铺 DSL，走同一公开规则和官方评分。在 FinQA 的 96 个官方 TRAIN 拟合来源上，`oda_nested_fit_finqa_v1` 与 `oda_fit_v1` 的 `contract_compile` 和 `low` 逐题配对。嵌套臂在同一 ODA 服务上用 2 个 worker，原拟合用 8 个。两批并发采集的墙时保留为运行记录。
 
-同一面板收齐后，以 `diagnose.py --root <panel/fit> --compare-nested <oda_fit_v1> <oda_nested_fit_finqa_v1> --dataset finqa` 核对冻结配置、题号、提示和原始回复，复算原生分、报告簇配对区间与逐请求用量。首批平铺与嵌套分别遇到 6 次与 1 次 OpenCode SQLite 初始化错误，均无模型事件。之后的并发批在启动前串行初始化每个 actor 的会话库。现有批次保留原始回执，待采集结束后只补跑受影响的动作及其依赖。
+同一面板收齐后，以 `diagnose.py --root <panel/fit> --compare-nested <平铺结果> <嵌套结果> --dataset finqa` 核对冻结配置、题号、提示和原始回复，复算原生分、报告簇配对区间与逐请求用量。首批平铺与嵌套分别遇到 6 次与 1 次 OpenCode SQLite 初始化错误，均无模型事件。之后的并发批在启动前串行初始化会话库。同一 ODA 服务上的 `oda_startup_repair_v1` 正补跑平铺 5 题和嵌套 1 题，共 21 次选定调用。平铺复用相同提示的自由答和独立重解，重做受首答影响的动作。原回执保留，已实付的旧派生请求单列为采集开销。待实际收齐后发布合并结果，再进入对照拟合。
 
 采集器的 `free`、`dsl_fallback` 和 `compiled_fallback` 分别记录直接自由回答、原始 DSL 未执行后回退、编译仍未执行后回退。两条回退共用同一份首答和同一份所需自由回答，逐策略只计入其经路由选择的调用。GB10 用 400 个已完成配对验证全量模式与各自独立运行模式的分数、调用选择和计费一致，见 `matched_fallback_action_replay.json`。
 
@@ -80,7 +80,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 `benchmark_actions.py` 复用 OpenCode 和官方评分器。它采集固定三档动作、同提示独立解答与 CAR 的逐题五类诊断。High 档的盲解和比较分开计费。缓存要求同一面板、权重、推理配置和确切提示。CAR 后续修订、各策略拟合及完整评测还需实测。
 
-`run_gb10.sh` 复用已实测的 ODA 服务与研究 GPU 租约。给定全量对标目录后，第五项参数可选 `fit`、`calibration` 或 `eval`，每个面板以独立空间 `oda_<split>_v1` 使用同一权重和生成配置。探针收齐后已在 GB10 启动两数据集各 96 个拟合来源的 `oda_fit_v1`。首答和复核均设 4,096 输出上限，成本按真实请求计。结束后释放 ODA 并恢复原 27B。CAR 修订采集从各阶段对应的首答和五类检查回执出发，并发前先初始化其 OpenCode 会话库。
+`run_gb10.sh` 复用已实测的 ODA 服务与研究 GPU 租约。给定全量对标目录后，第五项参数可选 `fit`、`calibration` 或 `eval`，每个面板以独立空间 `oda_<split>_v1` 使用同一权重和生成配置。已启动两数据集各 96 个拟合来源的 `oda_fit_v1`，校准排在原拟合、嵌套和定向补跑齐全后。首答和复核均设 4,096 输出上限，成本按真实请求计。结束后释放 ODA 并恢复原 27B。CAR 修订采集从各阶段对应的首答和五类检查回执出发，并发前先初始化其 OpenCode 会话库。
 
 - `budget_policy.py` 按每个成本权重从三个实测动作生成路由监督。保留 GBM，并用 BudgetVerify 原文表现最强的 TabFM 分支做同面板对标。GB10 的隔离依赖目录 `~/wzh/external_research_sources/finance_frontier/budgetverify-tabfm-deps-v1` 固定 TabFM 1.0.1，复用现有 1.0.0 PyTorch 分类权重完成了 CPU 三分类试跑。权重载入 54.1 s，3 个合成输入预测 1.58 s，峰值常驻内存约 12.8 GiB，见 `budgetverify_tabfm_cpu_smoke.json`。正式对标以拟合集构造监督、校准集选参，计入整个所选档的模型成本并单报路由时长。[BudgetVerify 分类器比较](https://arxiv.org/html/2609.33052v1#S4.SS2.SSS2) · [TabFM 1.0.1](https://github.com/google-research/tabfm/releases/tag/v1.0.1)
 - `car_adapter.py` 用首答和五类诊断拟合错答风险，分别估计有界修复的恢复与错改，再用校准集冻结修订门槛。本任务使用官方数值正确性、DSL 检查与公开证据位置，保留适配名。
@@ -89,7 +89,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 对校内 Qwen 的全部 96 个 FinQA 拟合来源做同调用复算。原答 27/96，公开编译后 59/96，救回 34、错改 2，报告簇配对区间为 [22.9, 43.8] pp。两臂共用原有 96 次请求、316,947 tokens，可执行均为 84/96。已载入回复后的 GB10 CPU 编译逐题中位 0.084 ms。41 题触发比例规则，两个错改的官方参考程序也以乘 100 结尾。复算证据为 GB10 `campus_qwen_finqa96_compile_replay.json`，这些题用于拟合和诊断。
 
-校内 Qwen 的 TAT-QA 拟合前 48 个固定来源，原答与公开编译均为 38/48，可执行均为 41/48。该批回复没有触发编译转换。两臂共用 48 次请求、已知 121,158 tokens，另 1 次未知用量。复算见 GB10 `campus_qwen_tatqa48_compile_replay.json`。
+Qwen 的两数据集共 192 道拟合题已完成。TAT-QA 的全部 96 个来源，原答与公开编译均为 77/96，可执行均为 85/96。两臂共用 96 次请求、已知 231,894 tokens，另 1 次用量未知。整批按原始回执与统一评分复算，见 GB10 `campus_qwen_fit192_compile_replay.json`。
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
