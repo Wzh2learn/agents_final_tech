@@ -1,6 +1,7 @@
 from hashlib import sha256
 import json
 from pathlib import Path
+import sys
 
 import pytest
 
@@ -102,3 +103,52 @@ def test_decoding_refuses_unbound_comparison(frozen_high):
     prompt.write_bytes(prompt.read_bytes() + b'changed')
     with pytest.raises(ValueError, match='recorded prompt or request differs'):
         read_split(panel, run, 'finqa', decode_verifier_answer=True)
+
+
+def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_path):
+    import numpy as np
+
+    pilot = Path(__file__).resolve().parents[1] / 'research' / 'finance_frontier_pilot'
+    monkeypatch.syspath_prepend(str(pilot))
+    import budget_policy as budget
+
+    events = []
+    fit_on_training = budget.fit_on_training
+    pareto_indices = budget.pareto_indices
+    costs = [[{'calls': count, 'known_tokens': 20 * count, 'unknown_usage_calls': 0,
+               'total_tokens': 20 * count, 'summed_call_seconds': .5 * count} for count in (1, 2, 3)]]
+
+    def read_split(panel, run, dataset, **options):
+        split = panel.name
+        events.append(split)
+        if split == 'eval':
+            assert events == ['fit', 'calibration', *['fit_policy'] * len(budget.LAMBDAS), 'frontier', 'eval']
+        return {'ids': [split], 'source_keys': {('id', split)}, 'provenance': {'source': split},
+                'profile': {'model': 'fixture'}, 'features': np.array([[1.0]]), 'feature_names': ['fixture'],
+                'feature_seconds': 0, 'correct': np.array([[int(split != 'eval'), 1, 1]]),
+                'costs': costs, 'tokens': np.array([[20.0, 40.0, 60.0]])}
+
+    def checked_fit(*args):
+        events.append('fit_policy')
+        return fit_on_training(*args)
+
+    def checked_frontier(points):
+        events.append('frontier')
+        return pareto_indices(points)
+
+    output = tmp_path / 'report.json'
+    monkeypatch.setattr(budget, 'read_split', read_split)
+    monkeypatch.setattr(budget, 'fit_on_training', checked_fit)
+    monkeypatch.setattr(budget, 'pareto_indices', checked_frontier)
+    monkeypatch.setattr(budget, 'predict_factory', lambda _: ('constant fixture', (), None))
+    monkeypatch.setattr(budget, 'version', lambda _: 'fixture')
+    monkeypatch.setattr(sys, 'argv',
+                        ['budget_policy', '--panel', str(tmp_path), '--fit-run', 'fit-run',
+                         '--calibration-run', 'cal-run', '--eval-run', 'eval-run', '--dataset', 'finqa',
+                         '--output', str(output)])
+
+    budget.main()
+    report = json.loads(output.read_text(encoding='utf-8'))
+    assert all(policy['calibration_frontier'] for policy in report['policies'])
+    assert all(policy['eval']['all']['correct'] == 0 for policy in report['policies'])
+    assert report['fixed']['mid']['all']['correct'] == 1

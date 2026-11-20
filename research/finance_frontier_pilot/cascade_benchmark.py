@@ -247,6 +247,74 @@ def read_pool(panel, dataset, paths, *, representation='raw', metric_dir=None, c
     return questions, answers, quality, charges, tokens, profiles
 
 
+def read_oda_fallbacks(panel, dataset, run, metric_dir):
+    """Replay the compiled 8B draft and the locally chosen free answer at recorded cost."""
+    from benchmark_actions import action_cost, collect_case, read_panel
+    from diagnose import read_replay_call
+
+    rows, gold, identity = read_panel(panel, dataset)
+    run_path = run / 'run.json'
+    profile = json.loads(run_path.read_text(encoding='utf-8'))
+    if (profile['panel'] != identity or profile['model'] != 'oda-fin-rl-8b'
+            or 'compiled_fallback' not in profile['actions']):
+        raise ValueError(f'{run}: expected matched ODA compiled-fallback receipts')
+    run_digest = digest_file(run_path)
+    records = [item for item in load_lines(run / 'outcomes.jsonl') if item['dataset'] == dataset]
+    by_id = {item['id']: item for item in records}
+    if len(by_id) != len(records) or by_id.keys() != {row['id'] for row in rows}:
+        raise ValueError(f'{run}: compiled fallback outcomes differ from the panel')
+
+    fallbacks = {}
+    for row in rows:
+        item = by_id[row['id']]
+        calls = {}
+
+        def call(name, actor, prompt):
+            calls[name] = read_replay_call(run, row, name, actor, prompt, run_digest, item['calls'][name])
+            return calls[name]
+
+        actions = collect_case(row, gold[dataset, row['id']], ['compiled_fallback'], call, metric_dir)
+        for name in ('contract_compile', 'compiled_fallback'):
+            result = actions[name]
+            cost = action_cost([calls[key] for key in result['calls']])
+            if item['actions'][name] != {**result, 'cost': cost}:
+                raise ValueError(f'{run}: {name} output or charge differs for {row["id"]}')
+        fallbacks[row['id']] = item['actions']['compiled_fallback']
+    return fallbacks
+
+
+def contract_cascade(pool, local):
+    """Retain an executable draft or numeric free answer, then try the compiled managed arms."""
+    questions, answers, quality, charges, _, _ = pool
+    decisions = []
+    for index, (ident, _) in enumerate(questions):
+        draft = local[ident]
+        route = ['oda-8b']
+        stage = 'compiled_oda' if draft['executable'] else 'free_oda'
+        selected = ARMS[0]
+        correct = draft['strict']
+        executable = draft['executable']
+        costs = [draft['cost']]
+        if len(draft['calls']) == 2:
+            route.append('oda-8b-free')
+        if not executable and type(draft['submission']['answer']) not in (int, float):
+            for arm in (1, 2):
+                selected = ARMS[arm]
+                route.append(selected)
+                costs.append(charges[index][arm])
+                stage = f'compiled_{selected}'
+                correct = quality[index, arm]
+                executable = bool(answers[index][arm][0][1])
+                if executable:
+                    break
+        decisions.append({'id': ident, 'strict': int(correct), 'selected': selected, 'queried': route,
+                          'selected_stage': stage, 'executable': executable,
+                          'known_tokens': sum(cost['known_tokens'] for cost in costs),
+                          'unknown_usage_calls': sum(cost['unknown_usage_calls'] for cost in costs),
+                          'summed_call_seconds': sum(cost['summed_call_seconds'] for cost in costs)})
+    return decisions
+
+
 def realized(router, pool, initial=None):
     questions, answers, quality, charge, _, _ = pool
     seen = [[None] * len(ARMS) for _ in questions]
@@ -311,11 +379,18 @@ class NonexecutionCascade:
 def summarize(decisions):
     usage = sum(row['unknown_usage_calls'] for row in decisions)
     known = sum(row['known_tokens'] for row in decisions)
-    return {'n': len(decisions), 'strict': sum(row['strict'] for row in decisions),
-            'selected': dict(Counter(row['selected'] for row in decisions)),
-            'queries': dict(Counter(arm for row in decisions for arm in row['queried'])),
-            'tokens': known if not usage else None, 'known_tokens': known, 'unknown_usage_calls': usage,
-            'mean_serial_call_seconds': np.mean([row['summed_call_seconds'] for row in decisions])}
+    serial = np.asarray([row['summed_call_seconds'] for row in decisions])
+    result = {'n': len(decisions), 'strict': sum(row['strict'] for row in decisions),
+              'selected': dict(Counter(row['selected'] for row in decisions)),
+              'queries': dict(Counter(arm for row in decisions for arm in row['queried'])),
+              'tokens': known if not usage else None, 'known_tokens': known, 'unknown_usage_calls': usage,
+              'mean_serial_call_seconds': float(serial.mean()),
+              'median_serial_call_seconds': float(np.median(serial)),
+              'p90_serial_call_seconds': float(np.percentile(serial, 90))}
+    if all('executable' in row for row in decisions):
+        result['executable'] = sum(row['executable'] for row in decisions)
+        result['selected_stage'] = dict(Counter(row['selected_stage'] for row in decisions))
+    return result
 
 
 def compare(args):
@@ -335,17 +410,19 @@ def compare(args):
         raise ValueError('Compiled representation requires a frozen campus ledger')
 
     qlib, clib, cascade, strategy = upstream(args.upstream)
-    splits = (('fit', args.fit), ('calibration', args.calibration), ('eval', args.eval))
-    fit, calibration, evaluation = [read_pool(args.panels / part, args.dataset, runs,
-                                             representation=representation, metric_dir=metric_dir,
-                                             campus_rows=campus_rows)
-                                    for part, runs in splits]
-    if fit[-1] != calibration[-1] or fit[-1] != evaluation[-1]:
+    def load(part, runs):
+        return read_pool(args.panels / part, args.dataset, runs, representation=representation,
+                         metric_dir=metric_dir, campus_rows=campus_rows)
+
+    fit = load('fit', args.fit)
+    calibration = load('calibration', args.calibration)
+    if fit[-1] != calibration[-1]:
         raise ValueError('model serving contracts differ between splits')
     if len({item['checkpoint'] or item['api_profile_sha256'] for item in fit[-1]}) != len(ARMS):
         raise ValueError('distinct model identities required for the three roles')
-    triples = [{q[0] for q in pool[0]} for pool in (fit, calibration, evaluation)]
-    if any(left & right for idx, left in enumerate(triples) for right in triples[idx + 1:]):
+    fit_ids = {q[0] for q in fit[0]}
+    cal_ids = {q[0] for q in calibration[0]}
+    if fit_ids & cal_ids:
         raise ValueError('fit, calibration and evaluation IDs must be disjoint')
     if campus_rows is not None:
         np.random.seed(17)
@@ -355,6 +432,23 @@ def compare(args):
         raise ValueError('calibration requires at least two all-model known-usage tasks')
     cq, ca = [[row for row, ok in zip(group, keep, strict=True) if ok] for group in calibration[:2]]
     cy, ct = calibration[2][keep], calibration[4][keep]
+    fitted_routes = []
+    for budget in args.budgets:
+        target = float(budget * np.mean(ct[:, 0]))
+        for fixed_start in (False, True):
+            np.random.seed(17)
+            router = cascade.CascadeRouter(quality, cost, list(ARMS), target,
+                                           strategies=[strategy.ConstantStrategy(1, n_iterations=16)],
+                                           force_order=True, cascade=fixed_start)
+            router.fit(cq, ca, cy, ct)
+            key = ('ordered_cascade' if fixed_start else 'cascade_routing') + f'_{budget:g}'
+            fitted_routes.append((key, target, fixed_start, router, np.random.get_state()))
+
+    evaluation = load('eval', args.eval)
+    if fit[-1] != evaluation[-1]:
+        raise ValueError('model serving contracts differ between splits')
+    if (fit_ids | cal_ids) & {q[0] for q in evaluation[0]}:
+        raise ValueError('fit, calibration and evaluation IDs must be disjoint')
     exposure_path = args.panels / 'eval/exposure.json'
     exposure = {row['id']: row['exposure'] for row in json.loads(exposure_path.read_text(encoding='utf-8'))
                 if row['dataset'] == args.dataset}
@@ -369,18 +463,14 @@ def compare(args):
         for name, order in (('nonexecution_8b_qwen_deepseek', (0, 1, 2)),
                             ('nonexecution_deepseek_qwen', (2, 1))):
             policies[name] = record(realized(NonexecutionCascade(order), evaluation))
-    for budget in args.budgets:
-        target = float(budget * np.mean(ct[:, 0]))
-        for fixed_start in (False, True):
-            np.random.seed(17)
-            router = cascade.CascadeRouter(quality, cost, list(ARMS), target,
-                                           strategies=[strategy.ConstantStrategy(1, n_iterations=16)],
-                                           force_order=True, cascade=fixed_start)
-            router.fit(cq, ca, cy, ct)
-            key = ('ordered_cascade' if fixed_start else 'cascade_routing') + f'_{budget:g}'
-            result = record(realized(router, evaluation, 0 if fixed_start else None))
-            result.update(target_mean_tokens=target, lambdas=router.get_lambdas(), tie_mix=float(router.gamma))
-            policies[key] = result
+    if representation == 'compiled':
+        local_fallbacks = read_oda_fallbacks(args.panels / 'eval', args.dataset, args.eval[0], metric_dir)
+        policies['contract_8b_free_qwen_deepseek'] = record(contract_cascade(evaluation, local_fallbacks))
+    for key, target, fixed_start, router, prediction_state in fitted_routes:
+        np.random.set_state(prediction_state)
+        result = record(realized(router, evaluation, 0 if fixed_start else None))
+        result.update(target_mean_tokens=target, lambdas=router.get_lambdas(), tie_mix=float(router.gamma))
+        policies[key] = result
     report = {'dataset': args.dataset, 'author_revision': REVISION, 'profiles': fit[-1],
               'fit_n': len(fit[0]), 'calibration_n': len(cq), 'calibration_excluded_unknown': int(sum(~keep)),
               'policy': 'Author CascadeRouter and ConstantStrategy with public execution features. '
@@ -394,7 +484,8 @@ def compare(args):
             part: sha256(json.dumps({'questions': pool[0], 'charges': pool[3],
                                      'runs': [digest_file(run / 'outcomes.jsonl') for run in runs]},
                                     sort_keys=True, allow_nan=False).encode('utf-8')).hexdigest()
-            for (part, runs), pool in zip(splits, (fit, calibration, evaluation), strict=True)
+            for part, runs, pool in (('fit', args.fit, fit), ('calibration', args.calibration, calibration),
+                                     ('eval', args.eval, evaluation))
         }
     return report
 

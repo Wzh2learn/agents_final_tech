@@ -267,7 +267,8 @@ def pareto_indices(points):
             if not any(c <= cost and a >= accuracy and (c < cost or a > accuracy) for c, a in points)]
 
 
-def evaluate(fit, calibration, evaluation, exposure, checkpoint):
+def fit_policies(fit, calibration, checkpoint):
+    """Fit every policy and select the calibration frontier before evaluation."""
     masks = [np.isfinite(split['tokens']).all(axis=1) for split in (fit, calibration)]
     if not all(mask.any() for mask in masks):
         raise ValueError('Fit and calibration require some complete three-tier token costs')
@@ -283,9 +284,21 @@ def evaluate(fit, calibration, evaluation, exposure, checkpoint):
         cal_routes[cal_idx] = predict(calibration['features'][cal_idx]).astype(int)
         policies.append((predict, {'lambda': penalty, 'config': config, 'fit_oracle_labels': counts,
                                    'calibration': route_stats(calibration, cal_routes, cal_idx)}))
-    frontier = pareto_indices([(point['calibration']['total_tokens'], point['calibration']['accuracy'])
-                               for _, point in policies])
+    frontier = set(pareto_indices([(point['calibration']['total_tokens'], point['calibration']['accuracy'])
+                                   for _, point in policies]))
+    for index, (_, point) in enumerate(policies):
+        point['calibration_frontier'] = index in frontier
+    summary = {
+        'method': name, 'feature_names': fit['feature_names'],
+        'fit_rows': len(masks[0]), 'complete_fit_rows': int(masks[0].sum()),
+        'calibration_rows': len(masks[1]), 'complete_calibration_rows': int(masks[1].sum()),
+        'mean_fit_low_tokens': mean_low_cost,
+    }
+    return summary, policies
 
+
+def evaluate_policies(summary, policies, evaluation, exposure):
+    """Apply previously calibrated policies without refitting or reselecting."""
     eval_indices = np.arange(len(evaluation['ids']))
     groups = {group: np.array([i for i, ident in enumerate(evaluation['ids']) if exposure.get(ident) == group])
               for group in sorted(set(exposure.values()))}
@@ -295,20 +308,23 @@ def evaluate(fit, calibration, evaluation, exposure, checkpoint):
                 'by_exposure': {name: route_stats(evaluation, routes, group) for name, group in groups.items()},
                 'tiers_in_eval_order': [TIERS[route] for route in routes]}
 
-    for index, (predict, point) in enumerate(policies):
-        point['calibration_frontier'] = index in frontier
+    scored = []
+    for predict, point in policies:
         started = perf_counter()
         chosen = predict(evaluation['features']).astype(int)
-        point['eval'] = {'prediction_batch_seconds': perf_counter() - started, **eval_route(chosen)}
+        measured = {'prediction_batch_seconds': perf_counter() - started, **eval_route(chosen)}
+        scored.append({**point, 'eval': measured})
     return {
-        'method': name, 'feature_names': fit['feature_names'],
-        'fit_rows': len(masks[0]), 'complete_fit_rows': int(masks[0].sum()),
-        'calibration_rows': len(masks[1]), 'complete_calibration_rows': int(masks[1].sum()),
-        'mean_fit_low_tokens': mean_low_cost, 'eval_ids': evaluation['ids'],
+        **summary, 'eval_ids': evaluation['ids'],
         'eval_feature_seconds': evaluation['feature_seconds'],
         'fixed': {tier: eval_route(np.full(len(eval_indices), route)) for route, tier in enumerate(TIERS)},
-        'policies': [point for _, point in policies],
+        'policies': scored,
     }
+
+
+def evaluate(fit, calibration, evaluation, exposure, checkpoint):
+    summary, policies = fit_policies(fit, calibration, checkpoint)
+    return evaluate_policies(summary, policies, evaluation, exposure)
 
 
 def main():
@@ -329,18 +345,28 @@ def main():
         parser.error('Use a new results file')
     if args.decode_verifier_answer and args.dataset == 'tatqa' and args.metric_dir is None:
         parser.error('TAT-QA verifier replay requires --metric-dir')
-    fit, cal, evaluation = splits = [read_split(
-        args.panel / part, getattr(args, f'{part}_run'), args.dataset,
-        decode_verifier_answer=args.decode_verifier_answer, metric_dir=args.metric_dir) for part in SPLITS]
-    seen = set()
-    for split in splits:
+
+    def read_part(part):
+        return read_split(args.panel / part, getattr(args, f'{part}_run'), args.dataset,
+                          decode_verifier_answer=args.decode_verifier_answer, metric_dir=args.metric_dir)
+
+    fit, cal = read_part('fit'), read_part('calibration')
+    seen = set(fit['source_keys'])
+
+    def check_split(split):
         if split['profile'] != fit['profile'] or split['feature_names'] != fit['feature_names']:
             raise ValueError('All splits must use the same checkpoint, serving, and features')
         if seen & split['source_keys']:
             raise ValueError('Question, report, filing, or table overlaps across splits')
         seen.update(split['source_keys'])
+
+    check_split(cal)
+    summary, policies = fit_policies(fit, cal, args.tabfm_checkpoint)
+    evaluation = read_part('eval')
+    check_split(evaluation)
+    splits = fit, cal, evaluation
     exposure = exposure_labels(args.panel / 'eval/exposure.json', args.dataset, evaluation['ids'])
-    result = evaluate(fit, cal, evaluation, exposure, args.tabfm_checkpoint)
+    result = evaluate_policies(summary, policies, evaluation, exposure)
     result.update(dataset=args.dataset, run_profile=fit['profile'],
                   inputs={name: split['provenance'] for name, split in zip(SPLITS, splits)},
                   classifier_package_version=version('tabfm' if args.tabfm_checkpoint else 'scikit-learn'),

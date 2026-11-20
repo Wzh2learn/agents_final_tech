@@ -1,6 +1,7 @@
 from hashlib import sha256
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -35,7 +36,7 @@ def runs(tmp_path, monkeypatch):
         run = tmp_path / model
         run.mkdir()
         paths.append(run)
-        actions = ['independent'] if i else ['low', 'independent']
+        actions = ['independent'] if i else ['low', 'independent', 'compiled_fallback']
         run_path = run / 'run.json'
         identity = {'api_profile_sha256': model, 'endpoint': campus.BASE_URL} if i else {'checkpoint': 'local'}
         write_json(run_path, {
@@ -85,7 +86,7 @@ def runs(tmp_path, monkeypatch):
 
 
 def test_compiler_changes_labels_and_projected_execution_with_identical_costs(runs):
-    from cascade_benchmark import read_pool
+    from cascade_benchmark import read_oda_fallbacks, read_pool
 
     panel, paths, ledger = runs
     raw = read_pool(panel, 'finqa', paths)
@@ -99,6 +100,9 @@ def test_compiler_changes_labels_and_projected_execution_with_identical_costs(ru
     assert compiled[4].tolist() == [[14, 42, 42]]
     ode, number = compiled[1][0][0]
     assert number == 35 and ode[:5] == (1, 1, 2, 1, 0)
+    fallback = read_oda_fallbacks(panel, 'finqa', paths[0], None)['question']
+    assert fallback['strict'] and fallback['executable'] and fallback['calls'] == ['low']
+    assert fallback['cost'] == compiled[3][0][0]
 
 
 def test_compiler_refuses_wrong_role_or_unreconciled_receipt(runs):
@@ -139,3 +143,84 @@ def test_nonexecution_route_stops_at_first_executable_and_charges_only_queried_a
     reverse = realized(NonexecutionCascade((2, 1)), pool)
     assert [row['selected'] for row in reverse] == [ARMS[2], ARMS[2], ARMS[1]]
     assert [row['known_tokens'] for row in reverse] == [30, 30, 50]
+
+
+def test_author_routes_are_all_fitted_before_opening_evaluation(runs, monkeypatch):
+    import numpy as np
+    import cascade_benchmark as benchmark
+
+    root = runs[0].parent
+    events = []
+    profiles = [{'checkpoint': arm, 'api_profile_sha256': None} for arm in benchmark.ARMS]
+    receipt = dict(known_tokens=10, unknown_usage_calls=0, summed_call_seconds=1.)
+    submissions = [[((1, 1), None)] * len(benchmark.ARMS) for _ in range(2)]
+    labels = np.ones((2, len(benchmark.ARMS)), dtype=int)
+
+    def split(path, _dataset, _runs, **_options):
+        events.append(path.name)
+        questions = [(f'{path.name}_{i}', ()) for i in range(2)]
+        return questions, submissions, labels, [[receipt] * 3] * 2, labels * 10, profiles
+
+    class Router:
+        gamma = 0.
+
+        def __init__(self, *_args, **_options):
+            pass
+
+        def fit(self, questions, *_args):
+            assert all(ident.startswith('calibration_') for ident, _ in questions)
+            events.append('route_fitted')
+            np.random.random()
+
+        def predict(self, _questions, seen):
+            return [benchmark.ARMS[0] if state[0] is None else None for state in seen]
+
+        def select_answer(self, _questions, seen):
+            return [benchmark.ARMS[0]] * len(seen)
+
+        def get_lambdas(self):
+            return [0.]
+
+    def estimators(*args):
+        assert all(ident.startswith('fit_') for ident, _ in args[2])
+        events.append('estimators_fitted')
+        return None, None
+
+    (root / 'eval').mkdir()
+    (root / 'eval/exposure.json').write_text(json.dumps([
+        {'dataset': 'finqa', 'id': f'eval_{i}', 'exposure': 'independent'} for i in range(2)
+    ]), encoding='utf-8')
+    monkeypatch.setattr(benchmark, 'read_pool', split)
+    monkeypatch.setattr(benchmark, 'fit_estimators', estimators)
+    monkeypatch.setattr(benchmark, 'upstream', lambda _path: (
+        None, None, SimpleNamespace(CascadeRouter=Router), SimpleNamespace(ConstantStrategy=lambda *_a, **_k: None)))
+    report = benchmark.compare(SimpleNamespace(panels=root, dataset='finqa', upstream=root,
+                                               fit=[], calibration=[], eval=[], budgets=(1.25, 2.)))
+    assert events == ['fit', 'calibration', 'estimators_fitted', *['route_fitted'] * 4, 'eval']
+    assert report['policies']['cascade_routing_1.25']['all']['strict'] == 2
+
+
+def test_contract_cascade_checks_public_output_before_using_teacher(runs):
+    from cascade_benchmark import ARMS, contract_cascade, summarize
+
+    def cost(tokens, unknown=0):
+        return dict(known_tokens=tokens, unknown_usage_calls=unknown, summed_call_seconds=tokens / 10.)
+
+    def local(executable, value, correct):
+        return dict(executable=executable, submission={'answer': value}, strict=correct,
+                    calls=['low'] if executable else ['low', 'free'], cost=cost(10 if executable else 19))
+
+    fallbacks = {'local': local(True, None, False), 'free': local(False, 0, False),
+                 'qwen': local(False, None, False), 'deepseek': local(False, None, False)}
+    questions = [(ident, ()) for ident in fallbacks]
+    answers = [[((1, 0), None), ((1, i != 3), None), ((1, 1), None)] for i in range(4)]
+    labels = {(i, arm): int(arm != 0) for i in range(4) for arm in range(len(ARMS))}
+    charges = [[cost(10), cost(20), cost(25, 1)] for _ in questions]
+    choices = contract_cascade((questions, answers, labels, charges, None, None), fallbacks)
+    assert [row['selected_stage'] for row in choices] == ['compiled_oda', 'free_oda', 'compiled_qwen-27b',
+                                                          'compiled_deepseek']
+    assert [row['strict'] for row in choices] == [0, 0, 1, 1]
+    assert [row['known_tokens'] for row in choices] == [10, 19, 39, 64]
+    assert choices[-1]['queried'] == [ARMS[0], 'oda-8b-free', *ARMS[1:]]
+    assert summarize(choices)['tokens'] is None
+    assert summarize(choices)['executable'] == 3
