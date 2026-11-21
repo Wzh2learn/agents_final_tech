@@ -213,3 +213,49 @@ def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_
         'low': {'strict': [True], 'executable': [True]}, 'mid': {'strict': [True], 'executable': [True]},
         'high': {'strict': [False], 'executable': [True]},
     }
+
+
+def test_repeated_oracle_labels_reuse_fits_and_select_each_lambda(monkeypatch):
+    import numpy as np
+
+    pilot = Path(__file__).resolve().parents[1] / 'research' / 'finance_frontier_pilot'
+    monkeypatch.syspath_prepend(str(pilot))
+    import budget_policy as budget
+
+    fits, predictions = [], []
+
+    class Classifier:
+        def __init__(self, tier):
+            self.tier = tier
+
+        def fit(self, features, labels):
+            fits.append((self.tier, tuple(labels)))
+
+        def predict(self, features):
+            predictions.append((self.tier, tuple(features[:, 0])))
+            return np.full(len(features), self.tier)
+
+    monkeypatch.setattr(budget, 'LAMBDAS', (0.25, 0.375, 0.5))
+    monkeypatch.setattr(budget, 'predict_factory', lambda _: (
+        'fixture', ({'tier': 0}, {'tier': 1}), lambda config: Classifier(**config)))
+    fit = {'features': np.array([[1.0], [2.0]]), 'feature_names': ['fixture'],
+           'correct': np.array([[1, 1, 1], [0, 1, 0]]), 'tokens': np.array([[10, 20, 40]] * 2)}
+
+    def split(ids, features, correct):
+        costs = [{'calls': tier, 'known_tokens': tokens, 'total_tokens': tokens,
+                  'unknown_usage_calls': 0, 'summed_call_seconds': float(tier)}
+                 for tier, tokens in enumerate((10, 30, 40), 1)]
+        return {'ids': ids, 'features': np.asarray(features).reshape(-1, 1), 'feature_seconds': 0.0,
+                'correct': np.asarray(correct), 'tokens': np.array([[10, 30, 40]] * len(ids)),
+                'costs': [costs] * len(ids)}
+
+    calibration = split(['calibration'], [3.0], [[0, 1, 0]])
+    summary, policies = budget.fit_policies(fit, calibration, checkpoint=None)
+    assert fits == [(0, (0, 1)), (1, (0, 1))]
+    assert [point['config'] for _, point in policies] == [{'tier': 1}, {'tier': 1}, {'tier': 0}]
+    assert predictions == [(0, (3.0,)), (1, (3.0,))]
+
+    evaluation = split(['held-out-a', 'held-out-b'], [4.0, 5.0], [[0, 1, 0], [1, 0, 0]])
+    report = budget.evaluate_policies(summary, policies, evaluation, exposure={})
+    assert [point['eval']['tiers_in_eval_order'] for point in report['policies']] == [
+        ['mid', 'mid'], ['mid', 'mid'], ['low', 'low']]

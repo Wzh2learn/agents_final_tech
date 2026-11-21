@@ -271,28 +271,40 @@ def predict_factory(checkpoint):
         model=model, random_state=17, **config)
 
 
-def fit_on_training(fit, calibration, penalty, mean_low_cost, configure, candidates):
+def fit_candidates(features, labels, configure, candidates):
+    if np.all(labels == labels[0]):
+        label = int(labels[0])
+        yield (lambda values: np.full(len(values), label)), {'constant': TIERS[label]}
+        return
+    for config in candidates:
+        classifier = configure(config)
+        classifier.fit(features, labels)
+        yield classifier.predict, config
+
+
+def fit_on_training(fit, calibration, penalty, mean_low_cost, configure, candidates, fitted_by_label):
+    """Recompute the utility for this penalty using the seeded fits for the same targets."""
     usable_fit = np.isfinite(fit['tokens']).all(axis=1)
     usable_cal = np.isfinite(calibration['tokens']).all(axis=1)
     labels = oracle_labels(fit['correct'][usable_fit], fit['tokens'][usable_fit], penalty, mean_low_cost)
     counts = dict(Counter(TIERS[label] for label in labels))
-    if len(counts) == 1:
-        label = int(labels[0])
-        return lambda values: np.full(len(values), label), {'constant': TIERS[label]}, counts
+    label_key = labels.tobytes()
+    if label_key not in fitted_by_label:
+        indices = np.flatnonzero(usable_cal)
+        fitted = []
+        for predict, config in fit_candidates(fit['features'][usable_fit], labels, configure, candidates):
+            predicted = predict(calibration['features'][usable_cal]).astype(int)
+            realized_cost = float(calibration['tokens'][indices, predicted].mean())
+            realized_correct = float(calibration['correct'][indices, predicted].mean())
+            fitted.append((predict, config, predicted, realized_cost, realized_correct))
+        fitted_by_label[label_key] = fitted
 
-    indices = np.flatnonzero(usable_cal)
-    best = None
-    for config in candidates:
-        clf = configure(config)
-        clf.fit(fit['features'][usable_fit], labels)
-        predicted = clf.predict(calibration['features'][usable_cal]).astype(int)
-        realized_cost = float(calibration['tokens'][indices, predicted].mean())
-        realized_correct = float(calibration['correct'][indices, predicted].mean())
-        utility = realized_correct - penalty * realized_cost / mean_low_cost
-        key = (utility, -realized_cost)
-        if best is None or key > best[0]:
-            best = key, clf, config
-    return best[1].predict, best[2], counts
+    def utility(candidate):
+        _, _, _, cost, correct = candidate
+        return correct - penalty * cost / mean_low_cost, -cost
+
+    predict, config, predicted, _, _ = max(fitted_by_label[label_key], key=utility)
+    return predict, config, counts, predicted
 
 
 def pareto_indices(points):
@@ -310,11 +322,13 @@ def fit_policies(fit, calibration, checkpoint):
         raise ValueError('Mean Low token cost on fit must be positive')
     name, candidates, configure = predict_factory(checkpoint)
     cal_idx = np.flatnonzero(masks[1])
+    fitted_by_label = {}
     policies = []
     for penalty in LAMBDAS:
-        predict, config, counts = fit_on_training(fit, calibration, penalty, mean_low_cost, configure, candidates)
+        predict, config, counts, predicted = fit_on_training(
+            fit, calibration, penalty, mean_low_cost, configure, candidates, fitted_by_label)
         cal_routes = np.zeros(len(calibration['ids']), dtype=int)
-        cal_routes[cal_idx] = predict(calibration['features'][cal_idx]).astype(int)
+        cal_routes[cal_idx] = predicted
         policies.append((predict, {'lambda': penalty, 'config': config, 'fit_oracle_labels': counts,
                                    'calibration': route_stats(calibration, cal_routes, cal_idx)}))
     frontier = set(pareto_indices([(point['calibration']['total_tokens'], point['calibration']['accuracy'])
@@ -351,10 +365,16 @@ def evaluate_policies(summary, policies, evaluation, exposure):
                 'tiers_in_eval_order': [TIERS[route] for route in routes]}
 
     scored = []
+    # Equivalent settings report the duration of their one measured predictor batch.
+    predictions = {}
     for predict, point in policies:
-        started = perf_counter()
-        chosen = predict(evaluation['features']).astype(int)
-        measured = {'prediction_batch_seconds': perf_counter() - started, **eval_route(chosen)}
+        key = id(predict)
+        if key not in predictions:
+            started = perf_counter()
+            chosen = predict(evaluation['features']).astype(int)
+            predictions[key] = chosen, perf_counter() - started
+        chosen, seconds = predictions[key]
+        measured = {'prediction_batch_seconds': seconds, **eval_route(chosen)}
         scored.append({**point, 'eval': measured})
     execution = evaluation.get('executable')
     report = {
