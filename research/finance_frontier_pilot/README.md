@@ -112,7 +112,7 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 - 核验后的两套 96 题拟合集均能复算 BudgetVerify 三档，全部题有完整三档计费。解包现有 High 复核回复的显式判定后，FinQA 由 17 到 24，TAT-QA 由 61 到 69，无新增错改。给三个档位最终选中的程序应用同一编译器后，FinQA 三档为 44、44、54，TAT-QA 为 70、70、73。GBM 和 TabFM 均用拟合集内的 64/32 划分完成一次 CPU 拟合、预测检查，作者 Cascade 的三个估计器也在两套完整拟合集上核对了有限且随题变化的质量和成本输出。正式校准另行进行。同一批 CAR 诊断明确交付五项判断的分别为 60/96、71/96，未交付完整判断的 61 次中有 58 次到达输出上限。GB10 证据见 `train_gbm_car_fitted_input_preflight_v1.json`、`train_tabfm_fitted_input_preflight_v1.json`、`train_budgetverify_shared_compiler_preflight_v1.json` 和 `train_car_probe_delivery_preflight_v1.json`。
 - `cascade_benchmark.py` 调用已固定原版 `CascadeRouter`，使用公开程序执行、证据定位与相互分歧作为质量特征。GB10 隔离依赖目录使用作者发布的 NumPy、SciPy、scikit-learn 版本。对照用同一组已完成回执和同一只读校园账本快照，分别指定 `--representation raw` 和 `--representation compiled`。Cascade Routing 与 BudgetVerify 在评测数据加载前完成拟合、预算校准和策略选择。TAT-QA 用投影表执行，公开定位继续读取原表。
 - 已用正式九策略入口在每个数据集的 96 道拟合题和 48 道校准题上预检作者路由。FinQA 的 1.5 倍校准预算为 5,695.41 tokens/题，48 道校准题首步选择 Qwen 42 道、ODA 6 道。TAT-QA 有 47 道校准题计费完整，预算为 4,764.10 tokens/题，48 道题的公开首步为 Qwen 25、DeepSeek 13、ODA 10。两组均零模型调用。见 GB10 `train_author_cascade_live_preflight_v1.json`。
-- BudgetVerify 的 26 个 λ 在两套数据上各产生 5 组有序拟合标签。相同标签的固定种子候选共用一次拟合及校准预测，各 λ 仍单独按原公式选配置和确定前沿。同一预测器的正式评测也共用一次预测批次，其耗时在对应 λ 下引用该次实测。GB10 的 GBM 同数据复算逐项核对了全部 26 个校准结果、配额下选点和校准路线。
+- BudgetVerify 的 26 个 λ 在两套数据上各产生 5 组有序拟合标签。相同标签的固定种子候选共用一次拟合及校准预测，各 λ 仍单独按原公式选配置和确定前沿。同一预测器的正式评测也共用一次预测批次，其耗时在对应 λ 下引用该次实测。GB10 的 GBM 同数据复算逐项核对了全部 26 个校准结果、配额下选点和校准路线。实际预检中，FinQA 的 GBM 和 TabFM 均选 48 道 Low，得 6/48。TAT-QA 的 47 道计费完整校准题上，GBM 选 1 道 High，得 29/47，费用为 Low 的 1.026 倍。TabFM 选 3 道 High，得 30/47，费用为 1.112 倍。两套 TabFM CPU 预检分别用时约 152 和 149 秒。见 GB10 `train_local_baselines_live_cached_preflight_v1.json`。
 - 编译级联保留可执行的 8B 程序。程序仍未执行时，尝试 8B 自由回答；仅未得到最终数值时尝试校内 27B、DeepSeek 的编译程序。只计选中路径上的请求，单报最终程序可执行数和自由答覆盖。固定前 32 道 FinQA 拟合题上，本地回退为 17/32、164,711 tokens，编译级联为 19/32、176,460 tokens，校内 27B 接管 3 次并救回 2 题，无错改。省略自由答、在未执行时直接按 8B、27B、DeepSeek 接管的对照得 20/32、169,926 tokens。DeepSeek 起步的未执行回退得 19/32、65,190 tokens。复算见 GB10 `oda_finqa32_contract_three_model_replay.json`。全量比较保留上述对照。
 - 对拟合集第 33 至 64 题独立复算，编译级联为 20/32、171,430 tokens，直接转校内模型为 18/32、160,106 tokens。合并前 64 题，编译级联 39/64 对直接接管 38/64，区间为 [−4.7, 7.8] pp。DeepSeek 起步为 37/64、133,502 tokens，低于编译级联的 347,890 tokens。三条路径均保留至独立校准，复算见 GB10 `oda_finqa64_contract_three_model_replay.json`。
 - 级联成本复算报告实付 tokens、未知用量与逐题串行调用耗时的中位数及 p90。并发采集的总墙时单列。`benchmark_actions.py --measure-wall` 在新命名空间仅执行一个预先选定的动作，单 worker 记录从请求构造到公开执行的墙时，官方评分在计时之外。该入口适用 ODA 固定动作，包含校内接管的完整策略需另测。
@@ -140,7 +140,7 @@ DeepSeek 的首次正式交接沿用了两个合成请求之后建立的批次�
 
 ODA 正式评测先采齐两数据集 1,865 题的首答，同次调用给出原始与编译结果，写入 `direct_outcomes.jsonl`。随后按原定动作收齐复查、重解、自由答和 CAR 探针，复用同一命名空间下的首答回执。首答阶段沿用冻结题目、提示、服务、输出上限与 8 个 worker。全量联合比较仍读取全部动作收齐后的 `outcomes.jsonl`。
 
-三模型全量首答齐全后，由独立 CPU 队列调用 `frontier_report.py --direct-runs ODA QWEN DEEPSEEK`，逐题绑定原始回执、官方分与账本，先发布各数据集的直跑 JSON 和 TSV。每种模型同时列原答和编译答案，以及共同计费样本的准确率与成本。该报告提前交付直跑对照，CAR、BudgetVerify、Cascade 和端到端配对计时仍进入后续正式比较。
+三模型全量首答齐全后，由独立 CPU 队列调用 `frontier_report.py --direct-runs ODA QWEN DEEPSEEK`，逐题绑定原始回执、官方分与账本，先发布各数据集的直跑 JSON 和 TSV。FinQA 1,147 条首答完整落盘后，独立队列按同一评分器提前发布 FinQA 直跑结果，校验冻结题序与回执。每种模型同时列原答和编译答案，以及共同计费样本的准确率与成本。CAR、BudgetVerify、Cascade 和端到端配对计时仍进入后续正式比较。
 
 在上述完整 DeepSeek 直跑回执上逐题复算，FinQA 原答、仅格式与表范围编译、再加比例终值规则分别为 390、415、766/1,147。加比例规则救回 362、错改 11。最终相对原答净增 32.78 pp，报告簇 95% 区间为 [29.56, 36.04]，未检出重叠的 440 题上净增 31.36 pp。TAT-QA 三档为 583、598、598/718，无错改。两套共记录 3,229,829 已知 tokens，9 次用量未知，编译复用原调用。该批完整保留调用耗时，启动时尚无 `online_wall` 字段。端到端同条件计时另行采集。GB10 证据见 `official_deepseek_direct_compiler_v1.json`。
 
