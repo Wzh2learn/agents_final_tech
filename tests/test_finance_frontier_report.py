@@ -175,8 +175,12 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
     executable = strata['common_complete_usage_and_execution']
     assert (executable['n'], executable['excluded_n']) == (1, 1)
     assert 'oda/contract_compile' in executable['executable_correct_token_frontier']
-    assert render_table(report).splitlines()[0].endswith(
-        'executable\tstrict_and_executable\texecution_known_n\texecution_unknown_n')
+    header, *policy_rows = (line.split('\t') for line in render_table(report).splitlines())
+    assert header[12:16] == ['executable', 'strict_and_executable', 'execution_known_n', 'execution_unknown_n']
+    table = {row[0]: dict(zip(header, row, strict=True)) for row in policy_rows}
+    assert table[chain]['common_complete_execution_n'] == '2'
+    assert table[chain]['common_complete_execution_correct'] == '2'
+    assert table[chain]['common_complete_usage_and_execution_n'] == '1'
     paired = report['paired_strict_evaluation']
     contrast = paired['by_stratum']['all']['cascade/compiled/nonexecution_deepseek_qwen']
     assert paired['flagship'] == chain and contrast['gains'] == 2
@@ -355,6 +359,27 @@ def test_missing_legacy_execution_flags_stay_unknown(matched_runs):
     assert full['cascade/raw/always_qwen-27b']['executable'] is None
     assert report['strata']['common_complete_usage']['n'] == 1
     assert report['strata']['common_complete_usage_and_execution']['n'] == 0
+    assert not report['strata']['common_complete_execution']['executable_correct_serial_call_time_frontier']
+
+
+def test_executable_time_frontier_keeps_unknown_usage_on_the_shared_cohort(matched_runs):
+    from frontier_report import Outcome, matched_frontiers
+
+    ids = ['complete', 'unknown_usage', 'unknown_execution']
+    policies = {
+        'numeric_only': ({ident: Outcome(1, 5, 0, 1, 1.0, False) for ident in ids}, {}),
+        'program': ({'complete': Outcome(1, 10, 0, 1, 2.0, True),
+                     'unknown_usage': Outcome(1, 0, 1, 1, 2.0, True),
+                     'unknown_execution': Outcome(1, 10, 0, 1, 2.0, None)}, {}),
+    }
+    cohorts, result = matched_frontiers(policies, {'all': ids})
+    assert result['all']['serial_call_time_frontier'] == ['numeric_only']
+    assert cohorts['common_complete_execution'] == ['complete', 'unknown_usage']
+    assert cohorts['common_complete_usage_and_execution'] == ['complete']
+    time = result['common_complete_execution']
+    assert time['n'] == 2 and time['excluded_n'] == 1
+    assert time['policies']['program']['strict_and_executable'] == 2
+    assert time['executable_correct_serial_call_time_frontier'] == ['numeric_only', 'program']
 
 
 def test_rejects_cascade_flag_that_disagrees_with_selected_program(matched_runs):

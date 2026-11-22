@@ -1,4 +1,4 @@
-"""Render the matched strict-accuracy frontiers from saved report JSON."""
+"""Render matched accuracy and executable-accuracy frontiers from saved reports."""
 
 import argparse
 import json
@@ -41,6 +41,12 @@ ONLINE_POLICIES = {'contract', 'car', 'budgetverify', 'author-cascade', 'oda-dir
 ONLINE_METRICS = {
     'correct': ('strict_wall_frontier', 'Strict accuracy'),
     'strict_and_executable': ('strict_and_executable_wall_frontier', 'Strict & executable rate'),
+}
+EXECUTABLE_FRONTIERS = {
+    True: ('common_complete_usage_and_execution', 'executable_correct_token_frontier',
+           'complete usage and execution'),
+    False: ('common_complete_execution', 'executable_correct_serial_call_time_frontier',
+            'complete execution'),
 }
 
 
@@ -105,7 +111,7 @@ def load_online(path):
     return {'dataset': dataset, 'policy_metadata': {'budgetverify': budgetverify}, 'strata': strata}
 
 
-def plot_axis(axis, report, *, tokens=False, online_score=None):
+def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False):
     if online_score is not None:
         scope, cost_field, frontier_field = online_score, 'mean_wall_seconds', ONLINE_METRICS[online_score][0]
         x_label = 'Mean measured online wall time / question (s)'
@@ -118,6 +124,8 @@ def plot_axis(axis, report, *, tokens=False, online_score=None):
         scope, cost_field, frontier_field = 'all', 'mean_serial_call_seconds', 'serial_call_time_frontier'
         x_label = 'Mean recorded serial call time / question (s)'
         cohort = 'all matched'
+    if executable:
+        scope, frontier_field, cohort = EXECUTABLE_FRONTIERS[tokens]
     group = report['strata'][scope]
     n = group['n']
     points = {}
@@ -127,9 +135,11 @@ def plot_axis(axis, report, *, tokens=False, online_score=None):
         if cost is None:
             missing += 1
             continue
-        accuracy = point['accuracy']
-        if n < 1 or point['n'] != n or not isfinite(cost) or cost < 0 or not 0 <= accuracy <= 1:
+        score = point['strict_and_executable'] if executable else point['accuracy']
+        if (n < 1 or point['n'] != n or not isfinite(cost) or cost < 0
+                or (executable and type(score) is not int) or not 0 <= score <= (n if executable else 1)):
             raise ValueError(f'{report["dataset"]}/{scope}: invalid matched point for {name}')
+        accuracy = score / n if executable else score
         points[name] = (cost / n if tokens else cost, accuracy)
     if not points:
         raise ValueError(f'{report["dataset"]}/{scope}: no usable policy points')
@@ -179,7 +189,7 @@ def plot_axis(axis, report, *, tokens=False, online_score=None):
     return present
 
 
-def render(reports, output, label, *, online=False):
+def render(reports, output, label, *, online=False, executable=False):
     matplotlib.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 8.5,
                                 'axes.edgecolor': '#6A7581', 'axes.labelcolor': '#182632',
                                 'xtick.color': '#45535F', 'ytick.color': '#45535F', 'pdf.fonttype': 42})
@@ -197,9 +207,9 @@ def render(reports, output, label, *, online=False):
                     axis.set_xlabel('')
     else:
         for report, (token_axis, time_axis) in zip(reports, axes, strict=True):
-            present.update(plot_axis(token_axis, report, tokens=True))
-            present.update(plot_axis(time_axis, report))
-            token_axis.set_ylabel('Strict accuracy')
+            present.update(plot_axis(token_axis, report, tokens=True, executable=executable))
+            present.update(plot_axis(time_axis, report, executable=executable))
+            token_axis.set_ylabel('Strict & executable rate' if executable else 'Strict accuracy')
     figure.suptitle(label, x=.08, ha='left', y=.97, fontsize=12, fontweight='bold')
     legend = [Line2D([], [], marker=marker, color=color, markersize=7 if marker == '*' else 5,
                      linestyle='none', label=kind)
@@ -236,7 +246,15 @@ def main():
         datasets = {report.get('dataset') for report in reports}
         if not datasets <= DATASETS.keys() or len(datasets) != len(reports):
             parser.error('Reports must identify distinct FinQA or TAT-QA datasets')
-        render(reports, args.output, label if args.label is None else args.label, online=bool(args.online_timing))
+        label = label if args.label is None else args.label
+        render(reports, args.output, label, online=bool(args.online_timing))
+        if args.input:
+            executable_reports = [report for report in reports
+                                  if all(report['strata'].get(scope, {}).get('n', 0) > 0
+                                         for scope, _, _ in EXECUTABLE_FRONTIERS.values())]
+            if executable_reports:
+                output = args.output.with_name(f'{args.output.name}_executable')
+                render(executable_reports, output, f'{label} (strict and executable)', executable=True)
     except (ValueError, OSError) as error:
         parser.error(str(error))
 

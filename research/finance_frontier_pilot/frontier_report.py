@@ -293,6 +293,35 @@ def frontier(points, cost, success='correct'):
         for other in complete.values()))
 
 
+def matched_frontiers(policies, strata):
+    ids = strata['all']
+    known_usage = [ident for ident in ids
+                   if all(not items[ident].unknown_usage_calls for items, _ in policies.values())]
+    known_execution = [ident for ident in ids
+                       if all(items[ident].executable is not None for items, _ in policies.values())]
+    usage_ids = set(known_usage)
+    known_both = [ident for ident in known_execution if ident in usage_ids]
+    strata = {**strata, 'common_complete_usage': known_usage, 'common_complete_execution': known_execution,
+              'common_complete_usage_and_execution': known_both}
+    result = {}
+    for name, cohort in strata.items():
+        points = ({policy: summarize([items[ident] for ident in cohort])
+                   for policy, (items, _) in policies.items()} if cohort else {})
+        result[name] = {'n': len(cohort), 'policies': points,
+                        'serial_call_time_frontier': frontier(points, 'mean_serial_call_seconds')}
+    for group, cost, metric, field in (
+        ('common_complete_usage', 'total_tokens', 'correct', 'token_frontier'),
+        ('common_complete_execution', 'mean_serial_call_seconds', 'strict_and_executable',
+         'executable_correct_serial_call_time_frontier'),
+        ('common_complete_usage_and_execution', 'total_tokens', 'strict_and_executable',
+         'executable_correct_token_frontier'),
+    ):
+        record = result[group]
+        record['excluded_n'] = len(ids) - record['n']
+        record[field] = frontier(record['policies'], cost, metric)
+    return strata, result
+
+
 def paired_evaluation(policies, public, strata):
     missing = {FLAGSHIP, *INTERVAL_ANCHORS} - policies.keys()
     if missing:
@@ -469,21 +498,14 @@ def build_direct_report(args):
                 outcomes[ident] = item
             policies[f'cascade/{representation}/always_{arm}'] = outcomes, {'family': 'Fixed baseline'}
 
-    scopes = {'all': list(public), 'common_complete_usage': [
-        ident for ident in public if all(not items[ident].unknown_usage_calls for items, _ in policies.values())]}
+    scopes = {'all': list(public)}
     exposure_path = args.panel / 'exposure.json'
     if exposure_path.is_file():
         exposure = matched(read(exposure_path), public, 'exposure', args.dataset)
         independent = [ident for ident in public if exposure[ident]['exposure'] == INDEPENDENT_EXPOSURE]
         if independent:
             scopes['no_detected_overlap'] = independent
-    strata = {}
-    for name, ids in scopes.items():
-        points = {key: summarize([items[ident] for ident in ids]) for key, (items, _) in policies.items()} if ids else {}
-        strata[name] = {'n': len(ids), 'policies': points,
-                        'serial_call_time_frontier': frontier(points, 'mean_serial_call_seconds')}
-    cost = strata['common_complete_usage']
-    cost.update(excluded_n=len(public) - cost['n'], token_frontier=frontier(cost['policies'], 'total_tokens'))
+    scopes, strata = matched_frontiers(policies, scopes)
     return {'scope': 'Single-model direct arms only. Secondary actions and routed comparisons use the full report.',
             'dataset': args.dataset, 'n': len(public), 'panel': panel, 'first_answer_inputs': inputs,
             'campus_ledger_sha256': digest_file(args.campus_ledger), 'strata': strata,
@@ -550,25 +572,7 @@ def build_report(args):
             strata['no_detected_overlap'] = independent
             if exposed := [ident for ident in public if exposure[ident]['exposure'] != INDEPENDENT_EXPOSURE]:
                 strata['detected_overlap'] = exposed
-    complete = [ident for ident in public
-                if all(not items[ident].unknown_usage_calls for items, _ in policies.values())]
-    strata['common_complete_usage'] = complete
-    executable_complete = [ident for ident in complete
-                           if all(items[ident].executable is not None for items, _ in policies.values())]
-    strata['common_complete_usage_and_execution'] = executable_complete
-    result = {}
-    for group, ids in strata.items():
-        points = ({name: summarize([items[ident] for ident in ids]) for name, (items, _) in policies.items()}
-                  if ids else {})
-        result[group] = {'n': len(ids), 'policies': points,
-                         'serial_call_time_frontier': frontier(points, 'mean_serial_call_seconds')}
-    result['common_complete_usage'].update(
-        excluded_n=len(public) - len(complete),
-        token_frontier=frontier(result['common_complete_usage']['policies'], 'total_tokens'))
-    execution_group = result['common_complete_usage_and_execution']
-    execution_group.update(excluded_n=len(public) - len(executable_complete),
-                           executable_correct_token_frontier=frontier(
-                               execution_group['policies'], 'total_tokens', 'strict_and_executable'))
+    strata, result = matched_frontiers(policies, strata)
     acquisition = {}
     for name, source, key, scope in (
         ('oda', args.oda_run, 'collection_wall_seconds_this_pass', 'Collector pass over its requested actions and rows.'),
@@ -589,7 +593,8 @@ def build_report(args):
             'token_cost': 'The common complete-usage stratum retains questions with complete usage for every '
                           'included policy. Known sums with missing usage are lower bounds.',
             'execution': 'Executable counts require known execution flags. Joint counts require known flags '
-                         'for every strict match. The supplementary frontier uses shared complete usage and flags.',
+                         'for every strict match. Joint frontiers use shared known flags. The joint token '
+                         'frontier also requires complete usage.',
             'reference_depth_scope': 'FinQA reference-program step count, used only after decisions are recorded.',
             'timing': {'serial_call_seconds': 'Sum of recorded elapsed durations for selected calls on each question.',
                        'online_policy_wall_seconds': None, 'acquisition_wall': acquisition,
@@ -605,21 +610,35 @@ def build_report(args):
 
 
 def render_table(report):
-    rows = ['policy\tn\tstrict\taccuracy\ttotal_tokens\tknown_tokens\tunknown_usage_calls\t'
-            'mean_serial_call_seconds\tcommon_complete_n\tcommon_complete_tokens\t'
-            'common_complete_accuracy\tcommon_complete_token_frontier\texecutable\tstrict_and_executable\t'
-            'execution_known_n\texecution_unknown_n']
-    full = report['strata']['all']
-    shared = report['strata']['common_complete_usage']
+    header = ('policy\tn\tstrict\taccuracy\ttotal_tokens\tknown_tokens\tunknown_usage_calls\t'
+              'mean_serial_call_seconds\tcommon_complete_n\tcommon_complete_tokens\t'
+              'common_complete_accuracy\tcommon_complete_token_frontier\texecutable\tstrict_and_executable\t'
+              'execution_known_n\texecution_unknown_n')
+    strata = report['strata']
+    joint_axes = (
+        ('common_complete_execution', 'mean_serial_call_seconds', 'executable_correct_serial_call_time_frontier', '.3f'),
+        ('common_complete_usage_and_execution', 'total_tokens', 'executable_correct_token_frontier', 'd'),
+    ) if 'common_complete_execution' in strata else ()
+    for group, cost, _, _ in joint_axes:
+        header += f'\t{group}_n\t{group}_correct\t{group}_{cost}\t{group}_frontier'
+    rows = [header]
+    full = strata['all']
+    shared = strata['common_complete_usage']
     for name, row in sorted(full['policies'].items()):
         tokens = 'unknown' if row['total_tokens'] is None else str(row['total_tokens'])
         pair = shared['policies'].get(name)
         pair_stats = f'{pair["total_tokens"]}\t{pair["accuracy"]:.6f}' if pair is not None else 'n/a\tn/a'
         flags = '\t'.join('unknown' if row[key] is None else str(row[key])
                           for key in ('executable', 'strict_and_executable', 'execution_known_n', 'execution_unknown_n'))
-        rows.append(f'{name}\t{row["n"]}\t{row["correct"]}\t{row["accuracy"]:.6f}\t{tokens}\t{row["known_tokens"]}'
-                    f'\t{row["unknown_usage_calls"]}\t{row["mean_serial_call_seconds"]:.3f}'
-                    f'\t{shared["n"]}\t{pair_stats}\t{int(name in shared["token_frontier"])}\t{flags}')
+        line = (f'{name}\t{row["n"]}\t{row["correct"]}\t{row["accuracy"]:.6f}\t{tokens}\t{row["known_tokens"]}'
+                f'\t{row["unknown_usage_calls"]}\t{row["mean_serial_call_seconds"]:.3f}'
+                f'\t{shared["n"]}\t{pair_stats}\t{int(name in shared["token_frontier"])}\t{flags}')
+        for group, cost, frontier_field, precision in joint_axes:
+            cohort = strata[group]
+            point = cohort['policies'].get(name)
+            metrics = f'{point["strict_and_executable"]}\t{point[cost]:{precision}}' if point is not None else 'n/a\tn/a'
+            line += f'\t{cohort["n"]}\t{metrics}\t{int(name in cohort[frontier_field])}'
+        rows.append(line)
     return '\n'.join(rows) + '\n'
 
 
