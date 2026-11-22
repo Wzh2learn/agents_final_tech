@@ -2,7 +2,9 @@
 
 更新: 2026-11-15。Docker/PG、27B及OpenCode为本次恢复实测；其他服务、CLI配置和质量数字仍是注明日期的历史基线。当前任务与授权以Goal、用户指令及STATE为准。
 
-## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.112.19.179, ARM64）
+## 系统拓扑（GB10 开发机，ARM64）
+
+GB10 的默认 SSH 入口 `ssh jinrong-dev` 走 Tailscale，2026-11-22 已在 Windows 本机通过严格主机校验及免交互登录。现役脚本继续使用此别名。本机也可用 `ssh gb10`，连接端须加入有权访问 GB10 的 Tailscale 网络。校园网备用入口为 `ssh jinrong-dev-campus`，校园网地址变动时只更新备用别名。
 
 | 端口 | 服务 | 说明 |
 |---|---|---|
