@@ -226,6 +226,11 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     for filename in corrupt_files:
         (corrupt_mid / filename).touch()
 
+    empty_binding = root / 'calls' / 'finqa' / sha256(b'fresh').hexdigest()[:24] / 'mid'
+    empty_binding.mkdir(parents=True)
+    (empty_binding / 'prompt.txt').touch()
+    (empty_binding / 'request.json').touch()
+
     monkeypatch.setattr(benchmark, 'recorded_call', original_collect)
     benchmark.collect(args, root)
     assert issued == ['low', 'low', 'mid', 'mid']
@@ -238,6 +243,15 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     interrupted = json.loads((prior / 'interruption.json').read_bytes())
     assert interrupted['status'] == 'terminal_receipt_corrupt' and interrupted['usage'] is None
     assert not final_rows[0]['calls']['mid']['cached_this_pass']
+    archived, = (empty_binding.parent / 'interrupted' / 'mid').iterdir()
+    assert (archived / 'prompt.txt').read_bytes() == (archived / 'request.json').read_bytes() == b''
+    interrupted = json.loads((archived / 'interruption.json').read_bytes())
+    assert interrupted['status'] == 'bound_inputs_empty' and interrupted['usage'] is None
+    rebound_prompt = (empty_binding / 'prompt.txt').read_text(encoding='utf-8').removesuffix('\n')
+    rebound = json.loads((empty_binding / 'request.json').read_bytes())
+    assert rebound['prompt_sha256'] == sha256(rebound_prompt.encode('utf-8')).hexdigest()
+    assert rebound_prompt == benchmark.mid_prompt(rows[1], draft, benchmark.public_execution(rows[1], benchmark.parse_dsl(draft)))
+    assert not final_rows[1]['calls']['mid']['cached_this_pass']
     assert json.loads((root / 'run.json').read_bytes())['actions'] == sorted(args.actions)
     for direct_row, final_row, cached in zip(direct_rows, final_rows, (True, False), strict=True):
         assert set(direct_row['actions']) == set(benchmark.DIRECT_ACTIONS) and list(direct_row['calls']) == ['low']
@@ -268,10 +282,20 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
 
     raw.write_bytes(original_raw)
+    low_receipt = low.read_bytes()
     low.write_bytes(b'')
     with pytest.raises(CorruptCallReceipt, match='Corrupt finalized OpenCode receipt'):
         benchmark.collect(args, root)
     assert low.read_bytes() == b'' and not (low.parent / 'interrupted').exists()
+    assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
+
+    low.write_bytes(low_receipt)
+    low.with_name('prompt.txt').write_bytes(b'')
+    low.with_name('request.json').write_bytes(b'')
+    with pytest.raises(ValueError, match='Cached prompt differs'):
+        benchmark.collect(args, root)
+    assert low.read_bytes() == low_receipt and not (low.parent.parent / 'interrupted' / 'low').exists()
+    assert low.with_name('prompt.txt').read_bytes() == low.with_name('request.json').read_bytes() == b''
     assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
 
 
@@ -288,6 +312,21 @@ def opencode_output(text, tokens):
         {'type': 'text', 'part': {'text': text}},
         {'type': 'step_finish', 'part': {'reason': 'stop', 'tokens': {'total': tokens}}},
     ))
+
+
+@pytest.mark.parametrize('protected_file', ['prompt.txt', 'call.json'])
+def test_empty_binding_recovery_refuses_nonempty_evidence(receipt_actor, protected_file, tmp_path):
+    from benchmark_actions import recorded_call
+
+    destination = tmp_path / 'call'
+    destination.mkdir()
+    (destination / 'prompt.txt').touch()
+    (destination / 'request.json').touch()
+    protected = destination / protected_file
+    protected.write_bytes(b'other')
+    with pytest.raises(ValueError, match='Cached prompt differs'):
+        recorded_call(receipt_actor, 'question', destination, 'digest', retry_corrupt_secondary=True)
+    assert protected.read_bytes() == b'other' and not (tmp_path / 'interrupted').exists()
 
 
 def test_recover_terminal_opencode_receipt_before_rename(receipt_actor, monkeypatch, tmp_path):

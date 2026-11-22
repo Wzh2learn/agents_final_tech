@@ -19,6 +19,7 @@ import json
 from pathlib import Path
 import re
 import time
+from uuid import uuid4
 
 from grounding import ground
 from run_pilot import (
@@ -57,11 +58,30 @@ def deliver(call):
     return call['text'] if not call['exit_code'] and not call['errors'] else ''
 
 
+def archive_empty_binding(target, request, prompt_file):
+    """Record an interrupted attempt before replacing completely lost inputs."""
+    if not all(path.is_file() and not path.is_symlink() and path.stat().st_size == 0
+               for path in (request, prompt_file)):
+        return
+    if {path.name for path in target.iterdir()} - {'request.json', 'prompt.txt', 'interruption.json', 'interruption.tmp'}:
+        return
+    archive = target.parent / 'interrupted' / target.name / uuid4().hex
+    archive.parent.mkdir(parents=True, exist_ok=True)
+    write_json(target / 'interruption.json', {
+        'status': 'bound_inputs_empty', 'exit_code': None, 'elapsed_seconds': None,
+        'usage': None, 'observed_usage': None,
+    })
+    target.rename(archive)
+    target.mkdir()
+
+
 def recorded_call(actor, prompt, target, contract_digest, *, retry_corrupt_secondary=False):
     target.mkdir(parents=True, exist_ok=True)
     key = {'prompt_sha256': hashlib.sha256(prompt.encode('utf-8')).hexdigest(),
            'run_contract': contract_digest, 'actor': actor.root.name}
     receipt, request, prompt_file = (target / name for name in ('call.json', 'request.json', 'prompt.txt'))
+    if retry_corrupt_secondary:
+        archive_empty_binding(target, request, prompt_file)
     if receipt.exists() or prompt_file.exists():
         if not request.is_file() or not prompt_file.is_file():
             raise ValueError(f'Unbound cached prompt or receipt at {target}')
